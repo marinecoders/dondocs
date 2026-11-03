@@ -1,3 +1,4 @@
+import { ActingCheckbox } from './SigningCapacityField';
 import { EditorGuidance } from './EditorGuidance';
 import { useState } from 'react';
 import { Building2, BookOpen, Shield } from 'lucide-react';
@@ -244,6 +245,8 @@ export function MOASection() {
                     placeholder="e.g., Commanding General"
                   />
                 </div>
+                <ActingCheckbox id="seniorActing" checked={formData.seniorActing}
+                  onCheckedChange={(checked) => setField('seniorActing', checked)} />
               </div>
             </div>
           </AccordionContent>
@@ -393,6 +396,8 @@ export function MOASection() {
                     placeholder="e.g., Commanding Officer"
                   />
                 </div>
+                <ActingCheckbox id="juniorActing" checked={formData.juniorActing}
+                  onCheckedChange={(checked) => setField('juniorActing', checked)} />
               </div>
             </div>
           </AccordionContent>

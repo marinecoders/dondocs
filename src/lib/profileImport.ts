@@ -7,6 +7,7 @@ const profileSchema = z.object({
   ssic: z.string(), from: z.string(), sigFirst: z.string(), sigMiddle: z.string(),
   sigLast: z.string(), sigRank: z.string(), sigTitle: z.string(),
   officeCode: z.string().optional(), byDirection: z.boolean().optional(),
+  acting: z.boolean().optional(), actingTitle: z.string().optional(),
   byDirectionAuthority: z.string().optional(), cuiControlledBy: z.string().optional(),
   pocEmail: z.string().optional(), signatureType: z.enum(['none', 'image', 'digital']).optional(),
   signatureImage: z.object({ name: z.string(), size: z.number().nonnegative(), data: z.string() }).optional(),

@@ -3,6 +3,8 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { canAppendEndorsement } from '@/lib/appendedEndorsement';
+import { SigningCapacityField } from './SigningCapacityField';
+import { supportsActingSignature } from '@/lib/signingAuthority';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Button } from '@/components/ui/button';
 import { IconTip } from '@/components/ui/icon-tip';
@@ -67,7 +69,7 @@ const SIGNATURE_STYLES = [
 ] as const;
 
 export function SignatureSection({ config }: SignatureSectionProps) {
-  const { formData, setField, documentMode } = useDocumentStore();
+  const { formData, setField, setFormData, documentMode } = useDocumentStore();
   const docType = useDocumentStore((s) => s.docType);
   const validationVisible = useUIStore((s) => s.validationVisible);
   const isDualSignature = config.signature === 'dual';
@@ -230,7 +232,8 @@ export function SignatureSection({ config }: SignatureSectionProps) {
                 <li><strong>Typed Only:</strong> Name, rank, and title printed below signature line</li>
                 <li><strong>Upload Image:</strong> Overlay a scanned signature above the typed block</li>
                 <li><strong>Digital Field:</strong> Creates an empty field for CAC/PIV signing in Adobe</li>
-                <li><strong>By Direction:</strong> Sign on behalf of a senior authority</li>
+                <li><strong>By Direction:</strong> Sign under delegated authority</li>
+                <li><strong>Acting:</strong> Sign as an authorized temporary replacement</li>
               </ul>
             </HelpTip>
           </span>
@@ -455,36 +458,11 @@ export function SignatureSection({ config }: SignatureSectionProps) {
             </div>
             </div>
 
-            {/* By Direction */}
-            <div className="space-y-3">
-              <div className="flex items-center space-x-2">
-                <Checkbox
-                  id="byDirection"
-                  checked={formData.byDirection || false}
-                  onCheckedChange={(checked) => setField('byDirection', !!checked)}
-                />
-                <Label htmlFor="byDirection" className="font-normal">
-                  By direction
-                </Label>
-              </div>
-
-              {formData.byDirection && (
-                <div className="space-y-2 ml-6">
-                  <Label htmlFor="byDirectionAuthority">Authority (optional)</Label>
-                  <Input
-                    id="byDirectionAuthority"
-                    value={formData.byDirectionAuthority || ''}
-                    onChange={(e) => setField('byDirectionAuthority', e.target.value)}
-                    placeholder="Leave blank for a plain “By direction”"
-                  />
-                  <p className="text-xs text-muted-foreground">
-                    Per SECNAV M-5216.5 Ch 7, the signature block reads “By direction.”
-                    Name an authority only when the correspondence affects pay and
-                    allowances — it then prints “By direction of the Commanding Officer.”
-                  </p>
-                </div>
-              )}
-            </div>
+            {!isDualSignature && <SigningCapacityField
+              value={formData} onChange={setFormData}
+              allowActing={supportsActingSignature(docType)}
+              showActingTitle={config.showSignatureRankTitle === false}
+            />}
 
             {/* Appointment acknowledgement — the appointee's half, same sheet */}
             {canAppendEndorsement(docType) && (

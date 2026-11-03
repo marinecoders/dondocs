@@ -689,7 +689,7 @@ const POWER_FEATURES: PowerFeature[] = [
     steps: [
       'Open Signature Block and fill name, rank/title, and office code.',
       'Choose a style: Typed only, Upload image, or Digital field.',
-      'Optionally check "By direction" and set the authority.',
+      'Choose Regular, By direction, or Acting as the signing capacity. Use Acting only for an authorized temporary replacement.',
     ],
     tour: [
       {

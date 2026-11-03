@@ -14,6 +14,7 @@
  * - \newline for line breaks within a paragraph
  */
 
+import { jointSignatories, signatureAuthorityLine, signaturePosition, supportsActingSignature } from '@/lib/signingAuthority';
 import type { DocumentData, Reference, Enclosure, Paragraph, CopyTo, Distribution, DocTypeConfig } from '@/types/document';
 import { composeSenderSymbol } from './senderSymbol';
 import { latexLineBreaks } from './escaper';
@@ -771,17 +772,8 @@ ${body}\\vspace{48pt}
 `;
 }
 
-/** "By direction" line per SECNAV M-5216.5 Ch 7 ¶14b(4)-(5): the bare form is
- *  the norm. The "of the <activity head>" long form is reserved for
- *  correspondence affecting pay and allowances, so it appears only when an
- *  authority is actually named — never as a default. */
-function buildByDirectionLine(authority: string | undefined): string {
-  const named = (authority || '').trim();
-  return named ? `By direction of ${escapeTabular(named)}` : 'By direction';
-}
-
 /** Single signature block positioned in right half using tabularX */
-function buildSignature(data: Partial<DocumentData>, config: DocTypeConfig): string {
+function buildSignature(data: Partial<DocumentData>, config: DocTypeConfig, docType: string): string {
   const sigStyle = config.signature;
   let name: string;
   if (sigStyle === 'abbrev') {
@@ -796,11 +788,11 @@ function buildSignature(data: Partial<DocumentData>, config: DocTypeConfig): str
   // Show rank/title unless config says name-only (e.g., standard_letter, plain_paper_memorandum)
   if (config.showSignatureRankTitle !== false) {
     if (data.sigRank) sigRows.push(escapeTabular(data.sigRank));
-    if (data.sigTitle) sigRows.push(escapeTabular(data.sigTitle));
   }
-  if (data.byDirection) {
-    sigRows.push(buildByDirectionLine(data.byDirectionAuthority));
-  }
+  const title = signaturePosition({ ...data, acting: data.acting && supportsActingSignature(docType) }, config);
+  if (title) sigRows.push(escapeTabular(title));
+  const authority = signatureAuthorityLine(data, supportsActingSignature(docType));
+  if (authority) sigRows.push(escapeTabular(authority));
 
   const rows = sigRows.map(r => ` & ${r} \\\\`).join('\n');
 
@@ -826,9 +818,8 @@ function buildBusinessSignature(data: Partial<DocumentData>): string {
   sigRows.push(escapeTabular(name));
   if (data.sigRank) sigRows.push(escapeTabular(data.sigRank));
   if (data.sigTitle) sigRows.push(escapeTabular(data.sigTitle));
-  if (data.byDirection) {
-    sigRows.push(buildByDirectionLine(data.byDirectionAuthority));
-  }
+  const authority = signatureAuthorityLine(data);
+  if (authority) sigRows.push(escapeTabular(authority));
 
   // Use tabularX{XcX} for centering (pandoc ignores \begin{center})
   const sig = `\\vspace{24pt}
@@ -873,11 +864,11 @@ function buildDualSignature(data: Partial<DocumentData>, variant: 'moa' | 'joint
     seniorRank = data.seniorSigRank || '';
     seniorTitle = data.seniorSigTitle || '';
   } else {
-    // Joint letter and joint memo share the same fields
-    juniorName = data.jointJuniorSigName?.toUpperCase() || '';
-    juniorTitle = data.jointJuniorSigTitle || '';
-    seniorName = data.jointSeniorSigName?.toUpperCase() || '';
-    seniorTitle = data.jointSeniorSigTitle || '';
+    const signers = jointSignatories(data, variant === 'joint_memo');
+    juniorName = signers.juniorName.toUpperCase();
+    juniorTitle = signers.juniorTitle;
+    seniorName = signers.seniorName.toUpperCase();
+    seniorTitle = signers.seniorTitle;
   }
 
   // MOA/MOU: overscored signatures (rule above name)
@@ -899,6 +890,10 @@ function buildDualSignature(data: Partial<DocumentData>, variant: 'moa' | 'joint
     }
     if (juniorTitle || seniorTitle) {
       rows.push(`\\centering ${escapeTabular(juniorTitle)} & \\centering ${escapeTabular(seniorTitle)} \\\\`);
+    }
+
+    if (data.juniorActing || data.seniorActing) {
+      rows.push(`\\centering ${data.juniorActing ? 'Acting' : ''} & \\centering ${data.seniorActing ? 'Acting' : ''} \\\\`);
     }
 
     return `\\vspace{48pt}
@@ -932,6 +927,10 @@ ${trimLastRow(rows)}
     const jLine = juniorTitleLines[i] || '';
     const sLine = seniorTitleLines[i] || '';
     rows.push(`${escapeTabular(jLine)} & ${escapeTabular(sLine)} \\\\`);
+  }
+
+  if (data.juniorActing || data.seniorActing) {
+    rows.push(`${data.juniorActing ? 'Acting' : ''} & ${data.seniorActing ? 'Acting' : ''} \\\\`);
   }
 
   // Use p{3in}@{\hfill}p{3in} to match PDF template (joint_letter.tex \printSignature)
@@ -1305,7 +1304,7 @@ function buildStandardLayout(store: DocumentStore, config: DocTypeConfig): strin
     enclosureStartNumber(store.docType, store.formData.startingEnclosureNumber)
   );
   content += buildBody(store.paragraphs, config, bodyFont(store.formData), bodySizePt(store.formData));
-  content += buildSignature(data, config);
+  content += buildSignature(data, config, store.docType);
   // Between the signature and Distribution/Copy to — Ch 9 Figure 9-1 puts the
   // "Copy to:" block last on the sheet, below the endorsement.
   content += buildAppendedEndorsement(store);
@@ -1386,7 +1385,7 @@ function buildMemoLayout(store: DocumentStore, config: DocTypeConfig): string {
   );
   content += buildBody(store.paragraphs, config, bodyFont(store.formData), bodySizePt(store.formData));
   if (config.hasDecisionBlock) content += buildDecisionBlock();
-  content += buildSignature(data, config);
+  content += buildSignature(data, config, store.docType);
   content += buildDistribution(store.distributions);
   content += buildCopyTo(store.copyTos);
 
@@ -1547,7 +1546,7 @@ function buildStandardMemorandumLayout(store: DocumentStore, config: DocTypeConf
   content += buildBody(store.paragraphs, config, bodyFont(store.formData), bodySizePt(store.formData));
 
   // Signature block (executive style: right half, no close)
-  content += buildSignature(data, config);
+  content += buildSignature(data, config, store.docType);
 
   return content;
 }
@@ -1601,7 +1600,7 @@ function buildActionMemorandumLayout(store: DocumentStore, config: DocTypeConfig
   }
 
   // Signature block (executive style: right half, no close)
-  content += buildSignature(data, config);
+  content += buildSignature(data, config, store.docType);
 
   // Prepared by
   if (data.preparedBy?.trim()) {

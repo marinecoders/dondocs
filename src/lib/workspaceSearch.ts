@@ -89,7 +89,7 @@ export function sessionSearchFields(session: SerializedSession): SearchField[] {
     if (typeof value !== 'string') continue;
     const section = /^(class|cui|customClassification|derivedFrom|declassifyOn|pocEmail)/i.test(key) ? 'classification'
       : /^(department|unit|seal|letterhead|inReplyTo)/.test(key) ? (labels.has('sl4-cover') ? 'sl4-cover' : labels.has('sl3-cover') ? 'sl3-cover' : labels.has('cover') ? 'cover' : 'letterhead')
-        : /^(sig|byDirection|officeCode|complimentaryClose|endorsement(Sig|Body|From|To|Date|Serial))/.test(key) ? (labels.has('signature') ? 'signature' : heading)
+        : /^(sig|acting|seniorActing|juniorActing|byDirection|officeCode|complimentaryClose|endorsement(Sig|Body|From|To|Date|Serial))/.test(key) ? (labels.has('signature') ? 'signature' : heading)
           : /^(basicLetter|endorsementOrdinal)/.test(key) ? 'basic'
             : /^(font|page|starting|docType)/.test(key) ? 'type'
               : key === 'body' ? 'body' : heading;

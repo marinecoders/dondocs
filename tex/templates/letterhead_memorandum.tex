@@ -127,6 +127,8 @@
         \fi
         % Required: Name only (abbreviated format preferred)
         \ifNotEmptyElse{\SignatoryAbbrev}{\SignatoryAbbrev\\}{\ifNotEmpty{\SignatoryName}{\MakeUppercase{\SignatoryName}\\}}%
+        % Optional title when acting for an official who signs by title
+        \optionalLine{\ActingTitle}%
         % Optional: By direction authority line
         \optionalField{\ByDirection}%
     \end{minipage}

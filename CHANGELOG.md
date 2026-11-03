@@ -5,6 +5,14 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.217] — 2026-11-03
+
+### Added
+- Acting signing capacity for naval correspondence, with an optional replacement title and independent controls for joint signers in PDF and Word exports.
+
+### Fixed
+- Export the signer names and titles shown in the joint memorandum editor, including legacy sessions and cleared fields.
+
 ## [1.2.216] — 2026-11-02
 
 ### Fixed
