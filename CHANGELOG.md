@@ -5,6 +5,15 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.216] — 2026-11-02
+
+### Fixed
+- Preserve preview zoom percentages and fit modes when switching documents or forms, reopening the preview, and reloading.
+- Keep preview settings usable during the session when browser storage is blocked or full.
+
+### Added
+- Browser regression coverage for preview zoom across document/form switches, reopening, and reloads.
+
 ## [1.2.215] — 2026-11-02
 
 ### Fixed

@@ -100,9 +100,13 @@ function isDebugEnabled(): boolean {
     if (p === '1' || p === '2' || p === 'true') return true;
   }
   // 2. localStorage (persistent opt-in)
-  if (typeof localStorage !== 'undefined') {
-    const stored = localStorage.getItem('DONDOCS_DEBUG');
-    if (stored === '1' || stored === '2' || stored === 'true') return true;
+  try {
+    if (typeof localStorage !== 'undefined') {
+      const stored = localStorage.getItem('DONDOCS_DEBUG');
+      if (stored === '1' || stored === '2' || stored === 'true') return true;
+    }
+  } catch {
+    // Blocked site data must not prevent the app from starting.
   }
   // 3. Dev mode default
   if (import.meta.env.DEV) return true;

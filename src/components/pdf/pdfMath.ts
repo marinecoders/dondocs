@@ -17,6 +17,9 @@ export interface PageLayout {
 /** US Letter width/height — the right placeholder aspect for this app. */
 export const DEFAULT_PAGE_ASPECT = 8.5 / 11;
 
+/** Preserve fit behavior or a fixed scale independently of the current PDF. */
+export type ZoomMode = { kind: 'fit-width' } | { kind: 'fit-page' } | { kind: 'manual'; scale: number };
+
 /** Discrete zoom stops; fit-width snaps into these when the user steps. */
 export const ZOOM_STEPS = [0.5, 0.67, 0.8, 0.9, 1.0, 1.1, 1.25, 1.5, 1.75, 2.0, 2.5, 3.0] as const;
 

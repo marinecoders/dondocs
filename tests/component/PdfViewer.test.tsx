@@ -1,5 +1,5 @@
 // @vitest-environment happy-dom
-import { describe, it, expect, vi, beforeAll } from 'vitest';
+import { describe, it, expect, vi, beforeAll, beforeEach } from 'vitest';
 import { render, screen, waitFor, fireEvent } from '@testing-library/react';
 
 // react-pdf stub: Document invokes onLoadSuccess asynchronously with a doc
@@ -61,6 +61,10 @@ function renderViewer(url: string) {
   );
 }
 
+beforeEach(() => {
+  useUIStore.setState(useUIStore.getInitialState());
+});
+
 beforeAll(() => {
   // happy-dom lacks ResizeObserver; the zoom hook degrades to its initial width.
   globalThis.ResizeObserver = class {
@@ -120,6 +124,33 @@ it.each(['portrait', 'wide'])('keeps the last %s page when fitting shrinks and c
 });
 
 describe('PdfViewer', () => {
+  it.each(['manual', 'fit-page', 'fit-width'] as const)(
+    'preserves %s zoom when switching to a form after the viewer unmounts',
+    async (mode) => {
+      const first = renderViewer('blob:test/document');
+      await waitFor(() => expect(screen.getByText('of 2')).toBeTruthy());
+      if (mode === 'manual') {
+        // Walk up from happy-dom's small fit width to the user's 110% example.
+        for (let i = 0; i < 6; i++) fireEvent.click(screen.getByLabelText('Zoom in'));
+        expect(screen.getByLabelText('Zoom 110 percent — reset to fit width')).toBeTruthy();
+      } else {
+        fireEvent.click(screen.getByLabelText(mode === 'fit-page' ? 'Fit page' : 'Fit width'));
+      }
+      const expectedWidth = first.container.querySelector('[data-testid="page:1"]')!.getAttribute('data-width');
+      first.unmount(); // No preview URL while the next document/form is generated.
+
+      const second = renderViewer('blob:test/form');
+      await waitFor(() => expect(screen.getByText('of 2')).toBeTruthy());
+      if (mode === 'manual') {
+        expect(screen.getByLabelText('Zoom 110 percent — reset to fit width')).toBeTruthy();
+      } else {
+        expect(screen.getByLabelText(mode === 'fit-page' ? 'Fit page' : 'Fit width'))
+          .toHaveAttribute('aria-pressed', 'true');
+      }
+      await waitFor(() => expect(second.container.querySelector('[data-testid="page:1"]'))
+        .toHaveAttribute('data-width', expectedWidth));
+    }
+  );
   it('restores a document page and retains its independent editor position', async () => {
     useUIStore.getState().setEditorLayout('scroll');
     useUIStore.getState().rememberPosition('draft-page-test', 480, 'body');

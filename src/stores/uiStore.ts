@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import { safeLocalStorage } from '@/lib/compressedStorage';
 import type { StorageHealth } from '@/lib/documentsDb';
+import type { ZoomMode } from '@/components/pdf/pdfMath';
 import { resolveTheme, type Theme } from '@/lib/appearance';
 
 export type EditorLayout = 'focused' | 'scroll';
@@ -68,6 +69,9 @@ interface UIState {
   togglePreview: () => void;
   setPreviewVisible: (visible: boolean) => void;
   setPreviewWidth: (width: number) => void;
+  /** Shared by document/form previews, including across viewer remounts. */
+  pdfZoomMode: ZoomMode;
+  setPdfZoomMode: (mode: ZoomMode | ((previous: ZoomMode) => ZoomMode)) => void;
   /** PDF viewer thumbnail rail (only offered on 2+ page documents). */
   pdfThumbnailsOpen: boolean;
   setPdfThumbnailsOpen: (open: boolean) => void;
@@ -226,6 +230,10 @@ export const useUIStore = create<UIState>()(
         : { previewVisible: !state.previewVisible }),
       setPreviewVisible: (visible) => set({ previewVisible: visible }),
       setPreviewWidth: (width) => set({ previewWidth: Math.max(20, Math.min(80, width)) }),
+      pdfZoomMode: { kind: 'fit-width' },
+      setPdfZoomMode: (mode) => set((state) => ({
+        pdfZoomMode: typeof mode === 'function' ? mode(state.pdfZoomMode) : mode,
+      })),
       pdfThumbnailsOpen: false,
       setPdfThumbnailsOpen: (open) => set({ pdfThumbnailsOpen: open }),
 
@@ -391,6 +399,7 @@ export const useUIStore = create<UIState>()(
         editorLayout: state.editorLayout,
         previewVisible: state.previewVisible,
         previewWidth: state.previewWidth,
+        pdfZoomMode: state.pdfZoomMode,
         pdfThumbnailsOpen: state.pdfThumbnailsOpen,
         fullQualityPreview: state.fullQualityPreview,
         sidebarCollapsed: state.sidebarCollapsed,
