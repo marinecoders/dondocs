@@ -5,6 +5,11 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.222] — 2026-11-04
+
+### Fixed
+- Two fill-in blanks on one line, such as `Signature: ______  Date: ______`, keep every underscore and no longer underline the label between them.
+
 ## [1.2.221] — 2026-11-04
 
 ### Fixed
