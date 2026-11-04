@@ -105,16 +105,25 @@ async function isCurrent() {
   }
 }
 
-/** Fetch with retries + backoff so a transient unpkg blip doesn't fail an
- *  otherwise-green build (or the docker-release build). Each attempt gets its
- *  own timeout — an AbortSignal can't be reused once it has fired. */
-async function fetchWithRetry(url, attempts = 3, timeoutMs = 120_000) {
+/** Read and validate the entire asset within each retry. A CDN can return
+ *  HTTP 200 with a truncated body, or the stream can fail after the headers.
+ *  Each attempt gets its own timeout, including the response-body read. */
+export async function fetchWasmWithRetry(url, attempts = 3, timeoutMs = 120_000) {
   let lastErr;
   for (let i = 1; i <= attempts; i++) {
     try {
       const res = await fetch(url, { signal: AbortSignal.timeout(timeoutMs) });
-      if (res.ok && res.body) return res;
-      lastErr = new Error(`HTTP ${res.status} ${res.statusText}`);
+      if (!res.ok || !res.body) throw new Error(`HTTP ${res.status} ${res.statusText}`);
+      const bytes = Buffer.from(await res.arrayBuffer());
+      if (bytes.byteLength < WASM.minBytes) {
+        throw new Error(
+          `got ${bytes.byteLength} bytes (< ${WASM.minBytes}); likely a CDN error body, not the asset`
+        );
+      }
+      if (!WASM.magic.every((b, i) => bytes[i] === b)) {
+        throw new Error('magic-byte check failed; refusing to ship a corrupt asset');
+      }
+      return bytes;
     } catch (err) {
       lastErr = err instanceof Error ? err : new Error(String(err));
     }
@@ -135,17 +144,7 @@ async function vendorPandocWasm() {
 
   mkdirSync(PANDOC_DIR, { recursive: true });
   console.log(`[vendor] ${WASM.name}: downloading ${WASM.url} ...`);
-  const res = await fetchWithRetry(WASM.url);
-  const bytes = Buffer.from(await res.arrayBuffer());
-
-  if (bytes.byteLength < WASM.minBytes) {
-    throw new Error(
-      `[vendor] ${WASM.name}: got ${bytes.byteLength} bytes (< ${WASM.minBytes}); likely a CDN error body, not the asset`
-    );
-  }
-  if (!WASM.magic.every((b, i) => bytes[i] === b)) {
-    throw new Error(`[vendor] ${WASM.name}: magic-byte check failed; refusing to ship a corrupt asset`);
-  }
+  const bytes = await fetchWasmWithRetry(WASM.url);
   const sha256 = createHash('sha256').update(bytes).digest('hex');
 
   // Write each part directly. writeFile loops on short writes internally
