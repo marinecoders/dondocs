@@ -6,8 +6,13 @@ it('preserves literal text that resembles a line-break sentinel', () => {
 });
 
 it('converts blank lines and protects a bracket at the start of the next line', () => {
-  expect(latexLineBreaks('\nfirst\n\n[second]\n')).toBe('first\\\\[\\baselineskip]\n[second]');
+  expect(latexLineBreaks('\nfirst\n\n[second]\n')).toBe('first\\\\[\\baselineskip]\n{}[second]');
   expect(latexLineBreaks('first\n[second]')).toBe('first\\\\\n{}[second]');
+});
+
+it.each([' ', '  ', '\t', ' \t '])('protects a bracket after a line break and %j', (space) => {
+  expect(latexLineBreaks(`first\n${space}[second]`)).toBe(`first\\\\\n${space}{}[second]`);
+  expect(latexLineBreaks(`first\n\n${space}[second]`)).toBe(`first\\\\[\\baselineskip]\n${space}{}[second]`);
 });
 
 it('normalizes Windows line endings before trimming paragraph edges', () => {

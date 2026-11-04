@@ -365,10 +365,11 @@ export function latexLineBreaks(text: string): string {
     // vertical-space argument, so the user's bracket is swallowed and the
     // compile dies on "Missing number, treated as zero". The default body
     // placeholder starts with `[`, so pressing Enter above it was enough.
-    // `{}` ends the optional-argument scan. The `\\[\baselineskip]` emitted
-    // just above keeps its argument — its bracket is on the same line as its
-    // `\\`, so this pattern cannot match it.
-    .replace(/\\\\\n\[/g, '\\\\\n{}[');
+    // `{}` ends the optional-argument scan. TeX skips spaces during that scan,
+    // and pandoc reads the bracket as an argument and deletes the text, even
+    // after a blank line. The `[` inside the emitted `\\[\baselineskip]` is on
+    // the same line as its `\\`, so this pattern cannot match it.
+    .replace(/(\\\\(?:\[\\baselineskip\])?\n[ \t]*)\[/g, '$1{}[');
 }
 
 /**

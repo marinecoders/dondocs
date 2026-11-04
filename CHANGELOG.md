@@ -5,6 +5,11 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.220] — 2026-11-04
+
+### Fixed
+- A line break followed by spaces and a `[` no longer stops the PDF from compiling, and Word no longer deletes the bracketed text. Word lost that text after a blank line too.
+
 ## [1.2.219] — 2026-11-04
 
 ### Fixed

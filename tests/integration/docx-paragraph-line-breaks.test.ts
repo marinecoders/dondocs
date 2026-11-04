@@ -52,6 +52,11 @@ describe.skipIf(!pandocAvailable)('Word export — line breaks inside a paragrap
     expect(paras.find(p => p.includes('above'))).toMatch(/^1\.\s+above⏎\s*⏎below$/);
   }, 120_000);
 
+  it.each(['\n', '\n ', '\n  ', '\n\t', '\n\n', '\n\n  '])('keeps a bracket after %j', async (gap) => {
+    const paras = await wordParagraphs([{ text: `above${gap}[bracket] below`, level: 0 }]);
+    expect(paras.find(p => p.includes('above'))).toContain('[bracket] below');
+  }, 120_000);
+
   it('drops breaks at the start, so a sub-paragraph label stays with its text', async () => {
     const paras = await wordParagraphs([
       { text: 'Parent.', level: 0 },
