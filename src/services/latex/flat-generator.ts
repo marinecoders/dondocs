@@ -17,7 +17,7 @@
 import { jointSignatories, signatureAuthorityLine, signaturePosition, supportsActingSignature } from '@/lib/signingAuthority';
 import type { DocumentData, Reference, Enclosure, Paragraph, CopyTo, Distribution, DocTypeConfig } from '@/types/document';
 import { composeSenderSymbol } from './senderSymbol';
-import { latexLineBreaks } from './escaper';
+import { keepTypedSpaces, latexLineBreaks } from './escaper';
 import { DOC_TYPE_CONFIG } from '@/types/document';
 import { LAYOUT, TEXT_WIDTH_IN } from '@/services/docx/layout-config';
 import { composeBasicLetterId, enclosureStartNumber, pageStartNumber } from '@/lib/endorsement';
@@ -171,7 +171,8 @@ function processText(text: string): string {
     result = result.replace(key, `\\fcolorbox{orange}{yellow!30}{\\textsf{\\small ${escapedName}}}`);
   }
 
-  return result;
+  // A non-breaking space, then an ordinary one a line can still wrap at.
+  return keepTypedSpaces(result, '~ ');
 }
 
 function capitalizeWord(word: string | undefined): string {
@@ -728,7 +729,7 @@ function buildAppendedEndorsement(store: DocumentStore): string {
   // the main body does — without it pandoc consumed the digit and the DOCX
   // rendered a bare "." where the PDF showed "1.".
   const body = ack.paragraphs
-    .map((text, i) => `\\noindent ${i === Math.max(0, ack.paragraphs.length - 2) ? `\\dondocsacktail{${ack.ordinal}}` : ''}\\mbox{${i + 1}.}~~${escapeFlat(text)}\n\n`)
+    .map((text, i) => `\\noindent ${i === Math.max(0, ack.paragraphs.length - 2) ? `\\dondocsacktail{${ack.ordinal}}` : ''}\\mbox{${i + 1}.}~~${keepTypedSpaces(escapeFlat(text), '~ ')}\n\n`)
     .join('');
 
   const signer = ack.signer;

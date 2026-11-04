@@ -997,6 +997,9 @@ export function applyIndentMarkers(xml: string): string {
       const before = xml.substring(0, hit.tStart);
       const pStart = before.lastIndexOf('<w:p>');
       if (pStart === -1) continue;
+      // Markers only ever open a paragraph. Further in, the same character is the
+      // author's: two spaces typed after bold or a variable start their own run.
+      if (/<w:t[\s>]/.test(before.substring(pStart))) continue;
       const hasPPr = before.lastIndexOf('<w:p><w:pPr>') === pStart;
 
       // Drop the markers themselves — they are instructions, not text.

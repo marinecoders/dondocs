@@ -12,7 +12,7 @@ import { publicationReferences, FOOTNOTE_REFERENCE_TOKEN, type PublicationRefere
 import { iTypeDestructionNotice } from '@/lib/iTypeClassification';
 import { publicationReferenceText } from './publicationReferenceText';
 import { publicationNavigation, navigationTex } from './publicationNavigation';
-import { escapeLatex, escapeLatexUrl, processBodyText, formatSubjectForLatex, formatAddressForLatex } from './escaper';
+import { escapeLatex, escapeLatexUrl, keepTypedSpaces, processBodyText, formatSubjectForLatex, formatAddressForLatex } from './escaper';
 import { composeSenderSymbol } from './senderSymbol';
 import { tableSpec } from '@/data/techpub/tables';
 import { publicationTypeName } from '@/data/techpub/publicationTypes';
@@ -112,6 +112,8 @@ export function generateDocumentTex(store: DocumentStore): string {
 \\setDocumentType{${store.docType}}
 \\setFontSize{${data.fontSize || '12pt'}}
 \\setFontFamily{${data.fontFamily || 'times'}}
+% Correspondence prints the spaces its author typed; TeX adds none after a sentence.
+${isTechnicalPublication(store.docType) ? '\\nonfrenchspacing' : '\\frenchspacing'}
 \\setPageNumberStyle{${resolvePageNumbering(store.docType, store.documentMode, data.pageNumbering)}}
 ${(() => {
   // Gated to endorsement types like the reference/enclosure continuations —
@@ -462,7 +464,7 @@ export function generateSignatoryTex(store: DocumentStore): string {
       // also keeps two lines when a long final paragraph crosses a page.
       const keepNext = i === ack.paragraphs.length - 2 ? '\\nopagebreak[4]' : '';
       const gap = i < ack.paragraphs.length - 1 ? `${keepNext}\\vspace{12pt}` : '';
-      return `\\noindent ${i + 1}.~~${escapeLatex(text)}\\par${gap}`;
+      return `\\noindent ${i + 1}.~~${keepTypedSpaces(escapeLatex(text))}\\par${gap}`;
     }).join('');
     return `\\addAppendedEndorsement
     {${escapeLatex(ack.ordinal)}}

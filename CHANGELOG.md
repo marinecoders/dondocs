@@ -5,6 +5,15 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.219] — 2026-11-04
+
+### Fixed
+- Typed spaces between words now print in correspondence body text and endorsements, in both PDF and Word. One space prints as one and two as two; a longer run prints as two. Typing extra spaces after a sentence used to have no effect on the page.
+- Correspondence no longer adds its own space after a sentence, in compliant or custom mode. That extra space was narrow in Times New Roman, a full space in Courier New, and also landed after abbreviations such as `Mr.`. A sentence typed with one space now prints with one.
+- Spaces that straddle the edge of bold, italic or underline now count as one run, as do tabs and non-breaking spaces, so PDF and Word print the same gap.
+- In Word, two spaces right after bold, italic, underline or a variable no longer move the whole paragraph to the right. The non-breaking space in the gap was being read as an indent marker.
+- A blank batch value no longer leaves a double gap between the words around it, and pressing Space right after an `@` menu insert no longer adds a second space.
+
 ## [1.2.218] — 2026-11-03
 
 ### Added

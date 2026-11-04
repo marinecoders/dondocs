@@ -372,6 +372,25 @@ export function latexLineBreaks(text: string): string {
 }
 
 /**
+ * Keep the spaces an author typed between words, up to two; a longer run prints
+ * as two. TeX and pandoc each collapse a run to one, so every export writes the
+ * pair in a form it will keep. Leading and trailing spaces are left alone.
+ *
+ * A tab or Unicode space counts as a space. A run can also straddle the edge of
+ * bold, italic or underline: turning bold off after `Purpose. ` and pressing
+ * Space stores `**Purpose. ** Next`. Those spaces move outside the mark first, so
+ * both sides count as one run and PDF and Word agree on it.
+ */
+export function keepTypedSpaces(latex: string, twoSpaces = '\\ \\ '): string {
+  return latex
+    .replace(/([\t\p{Z}]+)(\}+)/gu, '$2$1')
+    .replace(/((?:\\(?:textbf|textit|uline)\{)+)([\t\p{Z}]+)/gu, '$2$1')
+    // A mark that held only spaces is empty now, and would split the run.
+    .replace(/(?:\\(?:textbf|textit|uline)\{)+\}+/g, '')
+    .replace(/(?<=\S)[\t\p{Z}]{2,}(?=\S)/gu, twoSpaces);
+}
+
+/**
  * Escape LaTeX and convert rich text markers
  */
 export function processBodyText(text: string): string {
@@ -480,5 +499,5 @@ export function processBodyText(text: string): string {
     result = result.replace(key, `\\fcolorbox{orange}{yellow!30}{\\textsf{\\small ${escapedName}}}`);
   }
 
-  return result;
+  return keepTypedSpaces(result);
 }
