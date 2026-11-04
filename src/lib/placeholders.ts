@@ -31,6 +31,7 @@ import type { Navmc11811Data, NavmcForm10274Data } from '@/stores/formStore';
 export type PlaceholderValues = Record<string, string>;
 
 const PLACEHOLDER_RE = /\{\{([A-Za-z0-9_]+)\}\}/g;
+const PLACEHOLDER_AND_SPACE_RE = new RegExp(`${PLACEHOLDER_RE.source}( ?)`, 'g');
 
 /**
  * Detect all unique placeholder names used in `text`.
@@ -55,11 +56,16 @@ export function detectPlaceholders(text: string): string[] {
  * Case-insensitive — `{{name}}` looks up `NAME`. If the key isn't in
  * `values`, the original `{{name}}` is left in place so the generator's
  * placeholder-highlight can still flag it.
+ *
+ * A blank value starting a word takes the space after it too. Typed spaces print,
+ * so `John {{MI}} Smith` with no middle initial would otherwise show a double gap.
  */
 export function replacePlaceholders(text: string, values: PlaceholderValues): string {
-  return text.replace(PLACEHOLDER_RE, (match, key: string) => {
+  return text.replace(PLACEHOLDER_AND_SPACE_RE, (match, key: string, space: string, offset: number) => {
     const upper = key.toUpperCase();
-    return Object.prototype.hasOwnProperty.call(values, upper) ? values[upper] : match;
+    if (!Object.prototype.hasOwnProperty.call(values, upper)) return match;
+    const startsWord = offset === 0 || /\s/.test(text[offset - 1]);
+    return values[upper] === '' && startsWord ? '' : values[upper] + space;
   });
 }
 

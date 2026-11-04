@@ -135,6 +135,22 @@ describe('replacePlaceholders', () => {
     );
   });
 
+  it.each([
+    ['between words', 'John {{MI}} Smith', 'John Smith'],
+    ['at the start', '{{MI}} Smith', 'Smith'],
+    ['after a line break', 'John\n{{MI}} Smith', 'John\nSmith'],
+    ['two in a row', 'John {{MI}} {{MI}} Smith', 'John Smith'],
+    ['with two spaces typed after it', 'John {{MI}}  Smith', 'John  Smith'],
+    ['against a word', 'John{{MI}} Smith', 'John Smith'],
+    ['before punctuation', 'John {{MI}}, Smith', 'John , Smith'],
+  ])('a blank value takes one space with it: %s', (_name, text, expected) => {
+    expect(replacePlaceholders(text, { MI: '' })).toBe(expected);
+  });
+
+  it('keeps the space after a filled value', () => {
+    expect(replacePlaceholders('John {{MI}} Smith', { MI: 'Q' })).toBe('John Q Smith');
+  });
+
   it('does not mangle text outside placeholders', () => {
     // Hand-curated edge cases in the surrounding text — the SUT must
     // touch only `{{...}}` regions.

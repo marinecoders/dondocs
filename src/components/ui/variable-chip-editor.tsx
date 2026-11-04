@@ -14,6 +14,8 @@ import {
   isVariableSuggestionOpen,
   markVariableSuggestionClosed,
   markVariableSuggestionOpen,
+  rememberMenuSpace,
+  takeMenuSpace,
 } from './variable-suggestion-state';
 import { useDocumentStore } from '@/stores/documentStore';
 
@@ -496,10 +498,12 @@ const VariableExtension = VariableNode.extend({
               { type: 'variable', attrs: { name: referenceName(kind, id, note), label: props.label } },
               { type: 'text', text: ' ' },
             ]).run();
+            rememberMenuSpace(editor.state);
             return;
           }
           if (props.insertText) {
             editor.chain().focus().deleteRange(range).insertContent(`${props.insertText} `).run();
+            rememberMenuSpace(editor.state);
             return;
           }
 
@@ -779,9 +783,9 @@ export function VariableChipEditor({
         // `whitespace-pre-wrap` overrides Tailwind's `prose` default
         // (white-space: normal) so multiple spaces typed by the user —
         // both via the Space key and via the Tab handler below — render
-        // literally instead of collapsing to a single space. The PDF
-        // generator already preserves them; this just keeps the editor
-        // visually faithful to what gets generated.
+        // literally instead of collapsing to a single space, including
+        // the literal indents used in form fields. Correspondence exports
+        // print up to two spaces between words; a longer run prints as two.
         class: blockMode
           ? 'caret-primary focus:outline-none whitespace-pre-wrap text-sm leading-relaxed'
           : 'prose prose-sm dark:prose-invert max-w-none caret-primary focus:outline-none px-3 py-2 whitespace-pre-wrap',
@@ -814,6 +818,7 @@ export function VariableChipEditor({
         return true;
       },
       handleKeyDown(view, event) {
+        if (event.key === ' ' && takeMenuSpace(view.state)) return true;
         const bh = blockHandlersRef.current;
         if (bh.blockMode) {
           if (event.key === 'Escape') {

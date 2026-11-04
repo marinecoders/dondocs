@@ -35,6 +35,13 @@ describe('complete batch output', () => {
     });
     expect(source.formData.additionalEndorsements?.[0].endorsementBody).toBe('Approved for {{NAME}}.');
   });
+  it.each((['compliant', 'custom'] as const).flatMap((documentMode) =>
+    (['standard_letter', 'tm_ietm_front_matter'] as const).map((docType) => ({ documentMode, docType }))
+  ))('preserves $documentMode mode for $docType batch output', async ({ documentMode, docType }) => {
+    const source = { ...base(), documentMode, docType };
+    const document = await prepareBatchCorrespondence(source, {});
+    expect(document.documentMode).toBe(documentMode);
+  });
   it('resolves the frozen source files and assembles basic letter, document and enclosure', async () => {
     const bytes = await pdf();
     const ref = await persistAttachment({ name: 'attachment.pdf', size: bytes.byteLength, type: 'application/pdf' }, bytes.buffer as ArrayBuffer);

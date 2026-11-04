@@ -75,6 +75,20 @@ describe('applyIndentMarkers', () => {
     expect(applyIndentMarkers(plain)).toBe(plain);
   });
 
+  it('leaves a typed gap alone when it opens a later run of the paragraph', () => {
+    // `**Bold.**  Next` puts the pair at the head of the second run. Reading that
+    // as a marker moved the whole paragraph right and took the gap with it.
+    const doc = `<w:p><w:pPr><w:pStyle w:val="BodyText"/></w:pPr><w:r><w:rPr><w:b/></w:rPr><w:t>Bold.</w:t></w:r><w:r><w:t xml:space="preserve">${NBSP} Next.</w:t></w:r></w:p>`;
+    expect(applyIndentMarkers(doc)).toBe(doc);
+  });
+
+  it('still reads markers in the paragraph after one with a typed gap', () => {
+    const gap = `<w:p><w:r><w:t>Bold.</w:t></w:r><w:r><w:t xml:space="preserve">${NBSP} Next.</w:t></w:r></w:p>`;
+    const out = applyIndentMarkers(gap + para(NBSP.repeat(3)));
+    expect(out).toContain(gap);
+    expect(out).toContain('<w:ind w:left="720"/>');
+  });
+
   it('ignores the marker characters when they are not at the head of the text', () => {
     // `~~` between a label and its text is itself a pair of non-breaking
     // spaces, so a whole-paragraph search would report an indent on every
