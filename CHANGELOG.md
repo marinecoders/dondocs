@@ -5,6 +5,11 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.221] — 2026-11-04
+
+### Fixed
+- A control character pasted into a document, such as a vertical tab from Word, no longer stops the PDF from compiling. Vertical tabs and form feeds now print as a word gap in PDF and Word, and other control characters are dropped.
+
 ## [1.2.220] — 2026-11-04
 
 ### Fixed

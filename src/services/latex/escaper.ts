@@ -81,8 +81,9 @@ function applyLatexSymbolFallback(text: string): string {
   // Unicode separators (NBSP U+00A0, thin/figure spaces, line/para seps —
   // ubiquitous in Word/Outlook paste) become a regular space rather than
   // being deleted: deleting them silently fused words ("ref (a)\u{00A0}para 4"
-  // -> "ref (a)para 4").
-  out = out.replace(/[\p{Zs}\p{Zl}\p{Zp}]/gu, ' ');
+  // -> "ref (a)para 4"). A vertical tab or form feed separates words the same
+  // way; Word uses the vertical tab for a soft line break.
+  out = out.replace(/[\p{Zs}\p{Zl}\p{Zp}\v\f]/gu, ' ');
   // Fail-safe: drop any remaining character the offline font set cannot
   // render, so a stray glyph can never fatal the compile. Kept: ASCII, and
   // the Latin ranges the bundled fonts + the kernel's UTF-8 handling cover —
@@ -92,7 +93,9 @@ function applyLatexSymbolFallback(text: string): string {
   // pdfTeX throws "Unicode character ... not set up for use with LaTeX"
   // (a fatal, no-PDF error), so the earlier letters-are-safe premise was
   // wrong for non-Latin scripts. Stripping them keeps the compile alive.
-  out = out.replace(/[^\p{ASCII}\u00C0-\u024F\u1E00-\u1EFF\p{M}]/gu, '');
+  // Control characters are ASCII but just as fatal, so they go too, apart from
+  // the tab and line endings TeX reads as whitespace.
+  out = out.replace(/[^\p{ASCII}\u00C0-\u024F\u1E00-\u1EFF\p{M}]|(?![\t\n\r])\p{Cc}/gu, '');
   return out;
 }
 
