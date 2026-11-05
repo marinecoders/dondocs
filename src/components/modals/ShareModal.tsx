@@ -25,8 +25,8 @@ import {
   buildShareUrl,
   parseShareUrl,
 } from '@/lib/shareCrypto';
-import { getSerializedSessionForShare, loadSharedSession, type SerializedSession } from '@/stores/documentStore';
-import { useDocumentsStore } from '@/stores/documentsStore';
+import { getSerializedSessionForShare, type SerializedSession } from '@/stores/documentStore';
+import { openSessionAsNew } from '@/stores/documentsStore';
 import { parseSharedSession } from '@/lib/sharedSession';
 import { detectPII, getPIITypeLabel, type PIIDetectionResult } from '@/services/pii/detector';
 
@@ -137,9 +137,7 @@ export function ShareModal({
 
   const openReceived = () => {
     if (!received) return;
-    useDocumentsStore.getState().syncCurrent();
-    loadSharedSession(received);
-    useDocumentsStore.getState().openLoadedAsNew();
+    openSessionAsNew(received);
     onImportComplete?.();
     onOpenChange(false);
   };
