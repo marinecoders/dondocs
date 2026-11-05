@@ -138,7 +138,8 @@ function convertRichText(text: string): string {
   // [^_]+? (not .+?) — see escaper.ts and variable-chip-editor.tsx for
   // the matching change. Prevents `__________` fill-in-the-blank runs
   // from being partially consumed into `\uline{_}` markup. Issue #14.
-  result = result.replace(/__([^_]+?)__/g, '\\uline{$1}');
+  // A run of 3+ is a fill-in blank. Take it whole, so its last two can't open a marker.
+  result = result.replace(/_{3,}|__([^_]+?)__/g, (run, inner) => inner ? `\\uline{${inner}}` : run);
 
   // Enclosure references: "Enclosure (1)", "enclosure (1)", "Encl (1)" → \enclref{1}
   result = result.replace(/[Ee]nclosure\s*\((\d+)\)/g, '\\enclref{$1}');

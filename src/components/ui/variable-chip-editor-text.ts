@@ -76,7 +76,8 @@ export function lineToHtml(line: string, deps: VariableLookupDeps = {}): string 
 
   html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
   html = html.replace(/(?<!\*)\*([^*]+)\*(?!\*)/g, '<em>$1</em>');
-  html = html.replace(/__([^_]+?)__/g, '<u>$1</u>');
+  // A run of 3+ is a fill-in blank. Take it whole, so its last two can't open a marker.
+  html = html.replace(/_{3,}|__([^_]+?)__/g, (run, inner) => inner ? `<u>${inner}</u>` : run);
 
   // Legacy LaTeX formatting for backward compatibility with content
   // saved before the markdown-marker switchover.

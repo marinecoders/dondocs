@@ -309,7 +309,8 @@ export function convertRichTextToLatex(text: string): string {
   // partially consumed as `\uline{_}` and produce a corrupted PDF.
   // See variable-chip-editor.tsx for the matching editor-side fix and
   // issue #14 for full context.
-  result = result.replace(/__([^_]+?)__/g, '\\uline{$1}');
+  // A run of 3+ is a fill-in blank. Take it whole, so its last two can't open a marker.
+  result = result.replace(/_{3,}|__([^_]+?)__/g, (run, inner) => inner ? `\\uline{${inner}}` : run);
 
   // Enclosure references: "Enclosure (1)", "enclosure (1)", "Encl (1)", "encl (1)"
   // These get converted to \enclref{1} which creates clickable hyperlinks when enabled
