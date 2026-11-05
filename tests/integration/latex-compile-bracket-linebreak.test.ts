@@ -58,6 +58,15 @@ describe.skipIf(!toolchain)('line break before a bracketed line', () => {
       .toContain('[Bracketed second line.]');
   }, 180_000);
 
+  it.each(['\n ', '\n  ', '\n\t', '\n\n  '])('keeps the bracket after %j', async (gap) => {
+    const store = buildBaseline('naval_letter');
+    store.paragraphs = [{ text: `First line.${gap}[Bracketed second line.]`, level: 0 }];
+
+    const result = await compileFixture(store);
+    expect(result.ok, formatFailure('bracket-after-spaces', result)).toBe(true);
+    expect(await pdfText(result.pdfBytes!)).toContain('[Bracketed second line.]');
+  }, 180_000);
+
   it('keeps the deliberate blank-line spacing intact', async () => {
     // The guard must not disturb `\\[\baselineskip]`, which is emitted for a
     // pasted blank line and legitimately carries an optional argument.
