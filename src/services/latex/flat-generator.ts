@@ -65,6 +65,11 @@ const LATEX_ESCAPES: Readonly<Record<string, string>> = {
   '^': '\\textasciicircum{}',
   '{': '\\{',
   '}': '\\}',
+  // A word gap, as in the PDF. Pandoc would delete these and fuse the words.
+  '\v': ' ',
+  '\f': ' ',
+  // Pandoc removes the other control characters, but not this one.
+  '\x7f': '',
 };
 
 /**
@@ -84,6 +89,9 @@ const BODY_ESCAPES: Readonly<Record<string, string>> = {
   '^': '\\textasciicircum{}',
   '{': '\\{',
   '}': '\\}',
+  '\v': ' ',
+  '\f': ' ',
+  '\x7f': '',
 };
 
 /**
