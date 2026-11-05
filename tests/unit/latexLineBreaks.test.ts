@@ -1,5 +1,5 @@
 import { expect, it } from 'vitest';
-import { latexLineBreaks } from '@/services/latex/escaper';
+import { latexLineBreaks, processBodyText } from '@/services/latex/escaper';
 
 it('preserves literal text that resembles a line-break sentinel', () => {
   expect(latexLineBreaks('ZZZBLANKLINEZZZ\nnext')).toBe('ZZZBLANKLINEZZZ\\\\\nnext');
@@ -17,4 +17,13 @@ it.each([' ', '  ', '\t', ' \t '])('protects a bracket after a line break and %j
 
 it('normalizes Windows line endings before trimming paragraph edges', () => {
   expect(latexLineBreaks('\r\nfirst\r\nsecond\r\n')).toBe(latexLineBreaks('\nfirst\nsecond\n'));
+});
+
+it.each(['', ' ', '  ', '\t'])('protects an asterisk after a line break and %j', (space) => {
+  expect(latexLineBreaks(`first\n${space}* second`)).toBe(`first\\\\\n${space}{}* second`);
+});
+
+it('still reads bold and italic markers after a line break', () => {
+  expect(processBodyText('first\n*second*')).toContain('\\textit{second}');
+  expect(processBodyText('first\n**second**')).toContain('\\textbf{second}');
 });
