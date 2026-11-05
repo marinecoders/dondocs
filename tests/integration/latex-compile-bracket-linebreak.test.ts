@@ -80,3 +80,14 @@ describe.skipIf(!toolchain)('line break before a bracketed line', () => {
     expect(text).toContain('Below the gap.');
   }, 180_000);
 });
+
+describe.skipIf(!toolchain)('line break before an asterisk', () => {
+  it.each(['\n', '\n  ', '\n\n'])('keeps the asterisk after %j', async (gap) => {
+    const store = buildBaseline('naval_letter');
+    store.paragraphs = [{ text: `First line.${gap}* Second line.`, level: 0 }];
+
+    const result = await compileFixture(store);
+    expect(result.ok, formatFailure('asterisk-after-break', result)).toBe(true);
+    expect(await pdfText(result.pdfBytes!)).toContain('* Second line.');
+  }, 180_000);
+});

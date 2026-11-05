@@ -5,6 +5,11 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.223] — 2026-11-04
+
+### Fixed
+- A `*` at the start of a line after a line break no longer disappears from the PDF.
+
 ## [1.2.222] — 2026-11-04
 
 ### Fixed

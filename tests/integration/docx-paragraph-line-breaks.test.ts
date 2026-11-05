@@ -64,4 +64,9 @@ describe.skipIf(!pandocAvailable)('Word export — line breaks inside a paragrap
     ]);
     expect(paras.find(p => p.includes('Sub-paragraph'))).toMatch(/^a\.\s+Sub-paragraph text\.$/);
   }, 120_000);
+
+  it.each(['\n', '\n  ', '\n\n'])('keeps an asterisk after %j', async (gap) => {
+    const paras = await wordParagraphs([{ text: `above${gap}* below`, level: 0 }]);
+    expect(paras.find(p => p.includes('above'))).toContain('* below');
+  }, 120_000);
 });

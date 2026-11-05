@@ -365,6 +365,9 @@ export function latexLineBreaks(text: string): string {
     .replace(/\r\n?/g, '\n')
     .replace(/^\n+|\n+$/g, '')
     .replace(/\n+/g, run => run.length > 1 ? '\\\\[\\baselineskip]\n' : '\\\\\n')
+    // A `*` opening the next line is read as `\\*`, so it disappears with no
+    // error. `{}` ends that scan.
+    .replace(/\\\\\n([ \t]*)\*/g, '\\\\\n$1{}*')
     // A line break whose next line opens with `[` is read as `\\`'s optional
     // vertical-space argument, so the user's bracket is swallowed and the
     // compile dies on "Missing number, treated as zero". The default body
