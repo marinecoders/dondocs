@@ -15,6 +15,7 @@ import {
   loadSharedSession,
   isApplyingSession,
   replaceSessionState,
+  resetDocumentHistory,
   clearSavedSession,
   type SerializedSession,
   type DocumentState,
@@ -1018,6 +1019,7 @@ export const useDocumentsStore = create<DocumentsState>((set, get) => ({
   openLoadedAsNew: () => {
     const id = newId();
     set({ currentId: id });
+    resetDocumentHistory();
     persistCurrentId(id);
     get().markBaseline();
     get().saveCurrent(); // force the loaded draft into Recents as its own entry

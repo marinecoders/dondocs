@@ -21,6 +21,7 @@ import {
   getSerializedSessionForShare,
   loadSharedSession,
 } from '@/stores/documentStore';
+import { openSessionAsNew } from '@/stores/documentsStore';
 
 vi.mock('@/lib/shareCrypto', () => ({
   encryptSharePayload: vi.fn(),
@@ -28,7 +29,7 @@ vi.mock('@/lib/shareCrypto', () => ({
   buildShareUrl: vi.fn((p: string) => `https://dondocs.app/#s=${p}`),
   parseShareUrl: vi.fn((s: string) => (s.includes('#s=') ? s.split('#s=')[1] : null)),
 }));
-vi.mock('@/stores/documentsStore', () => ({ useDocumentsStore: { getState: () => ({ syncCurrent: vi.fn(), openLoadedAsNew: vi.fn() }) } }));
+vi.mock('@/stores/documentsStore', () => ({ openSessionAsNew: vi.fn() }));
 vi.mock('@/stores/documentStore', () => ({
   getSerializedSessionForShare: vi.fn(() => ({ docType: 'naval_letter', formData: {}, paragraphs: [], copyTos: [], references: [] })),
   loadSharedSession: vi.fn(),
@@ -118,7 +119,8 @@ describe('ShareModal — import mode', () => {
     expect(decryptSharePayload).toHaveBeenCalledWith('PAYLOAD', 'hunter2');
     expect(loadSharedSession).not.toHaveBeenCalled();
     await user.click(screen.getByRole('button', { name: 'Open as new document' }));
-    expect(loadSharedSession).toHaveBeenCalledWith({ ...session, endItems: [], publicationTables: {} });
+    expect(openSessionAsNew).toHaveBeenCalledWith({ ...session, endItems: [], publicationTables: {} });
+    expect(loadSharedSession).not.toHaveBeenCalled();
     expect(onImportComplete).toHaveBeenCalledTimes(1);
     expect(onOpenChange).toHaveBeenCalledWith(false);
   });

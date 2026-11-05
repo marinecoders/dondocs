@@ -5,6 +5,14 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.2.224] — 2026-11-05
+
+### Fixed
+
+- Start fresh Undo/Redo history when opening an imported document so earlier
+  drafts cannot overwrite it. Shared links use the same import-as-new action
+  to preserve the current draft.
+
 ## [1.2.223] — 2026-11-04
 
 ### Fixed

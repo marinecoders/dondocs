@@ -1027,7 +1027,9 @@ export function getSavedSession(): SerializedSession | null {
 // Suppress category-transition autosaves while replacing a whole session.
 let applyingSession = false;
 export const isApplyingSession = () => applyingSession;
-function resetDocumentHistory(): void {
+export function resetDocumentHistory(): void {
+  if (saveTimeout) clearTimeout(saveTimeout);
+  saveTimeout = null;
   useHistoryStore.getState().clearHistory();
   useHistoryStore.getState().saveSnapshot(useDocumentStore.getState().getSnapshot());
 }
