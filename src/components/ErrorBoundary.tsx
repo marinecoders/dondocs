@@ -1,8 +1,9 @@
 import { Component, type ErrorInfo, type ReactNode } from 'react';
 import { debug } from '@/lib/debug';
 import { STORAGE_KEYS } from '@/lib/constants';
+import { useDocumentsStore } from '@/stores/documentsStore';
 import { getSavedSession } from '@/stores/documentStore';
-import { idbGetCurrentId, idbDeleteDocument, idbDeleteSnapshots, idbSetCurrentId } from '@/lib/documentsDb';
+import { idbGetCurrentId, idbDeleteDocumentIfUnchanged, idbClearCurrentIdIfUnchanged, type StoredDocument } from '@/lib/documentsDb';
 
 interface ErrorBoundaryProps {
   children: ReactNode;
@@ -119,32 +120,32 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
   /** First click arms the inline confirmation strip; the strip's button calls
    *  performResetAndReload. No window.confirm — a native dialog follows the OS
    *  theme rather than the app's and can't be styled. */
+  private resetDocument: StoredDocument | null = null;
+  private resetId: string | null = null;
+
   handleResetAndReload = (): void => {
+    const { currentId, docs, trash } = useDocumentsStore.getState();
+    this.resetId = currentId;
+    const entry = currentId ? docs[currentId] ?? trash[currentId] : undefined;
+    this.resetDocument = entry ? structuredClone({ id: currentId!, ...entry }) : null;
     this.setState({ confirmingReset: true });
   };
 
   handleCancelReset = (): void => {
+    this.resetDocument = null;
+    this.resetId = null;
     this.setState({ confirmingReset: false });
   };
 
   performResetAndReload = async (): Promise<void> => {
     try {
-      // init() resumes from the IndexedDB registry before reading these
-      // localStorage keys, so clearing localStorage alone left the crashing doc to
-      // reload in a loop. Drop the current IndexedDB record and its pointer too so
-      // init() falls through to a blank document; keep clearing localStorage for
-      // the legacy paths.
       localStorage.removeItem(STORAGE_KEYS.DOCUMENT_SESSION);
       localStorage.removeItem(STORAGE_KEYS.DOCUMENT);
-      const currentId = await idbGetCurrentId();
-      if (currentId) {
-        await idbDeleteDocument(currentId);
-        // Its version-history snapshots go with it — otherwise up to 10 full
-        // copies of the erased document linger in IndexedDB with no UI that
-        // can ever list or remove them.
-        await idbDeleteSnapshots(currentId);
-      }
-      await idbSetCurrentId(null);
+      if (this.resetDocument) await idbDeleteDocumentIfUnchanged(this.resetDocument);
+      // When initialization failed before ownership existed, clear only the
+      // resume hint. Never infer a document to erase from a shared pointer.
+      const currentId = this.resetId ?? await idbGetCurrentId();
+      if (currentId) await idbClearCurrentIdIfUnchanged(currentId);
     } catch (err) {
       debug.error('Boundary', 'Failed to clear session before reload', err);
     }
