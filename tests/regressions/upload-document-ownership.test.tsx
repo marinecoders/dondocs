@@ -105,3 +105,10 @@ it('ignores a pending enclosure upload after leaving its document', async () => 
   await act(async () => { pending.resolve(new Uint8Array([1]).buffer); await pending.promise; });
   expect(useDocumentStore.getState().enclosures).toEqual([{ title: 'B row' }]);
 });
+it('keeps a signature installed by another editor action during conversion', async () => {
+  const pending = deferred<string>(); vi.mocked(loadSignatureAsPngBase64).mockReturnValueOnce(pending.promise);
+  mountSignature(); uploadSignature('pending.png');
+  act(() => useDocumentStore.getState().setField('signatureImage', { name: 'Profile', size: 1, data: 'PROFILE' }));
+  await act(async () => { pending.resolve('STALE'); await pending.promise; });
+  expect(useDocumentStore.getState().formData.signatureImage?.data).toBe('PROFILE');
+});

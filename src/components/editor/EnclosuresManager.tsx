@@ -244,7 +244,7 @@ export function EnclosuresManager() {
       if (!isCurrentDocumentTask(task)) return;
       await withAttachmentStaging(async () => {
         if (!isCurrentDocumentTask(task)) return;
-        const fileRef = await persistAttachment({ name: file.name, size: file.size, type: file.type }, data);
+        const fileRef = await persistAttachment({ name: file.name, size: file.size, type: file.type }, data, { requireDurable: true });
         if (!isCurrentDocumentTask(task)) return;
         const currentIndex = useDocumentStore.getState().enclosures.indexOf(original);
         if (currentIndex < 0) return;
@@ -297,7 +297,7 @@ export function EnclosuresManager() {
       if (!isCurrentDocumentTask(task)) return;
       await withAttachmentStaging(async () => {
         if (!isCurrentDocumentTask(task)) return;
-        const fileRef = await persistAttachment({ name: file.name, size: file.size, type: file.type }, data);
+        const fileRef = await persistAttachment({ name: file.name, size: file.size, type: file.type }, data, { requireDurable: true });
         if (isCurrentDocumentTask(task)) addEnclosure(title, { name: file.name, size: file.size, data }, fileRef);
       });
     } catch (error) {

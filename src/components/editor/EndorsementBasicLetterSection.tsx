@@ -147,17 +147,24 @@ export function EndorsementBasicLetterSection() {
   // backup — and only the fileRef is serialized.
   const handleBasicLetterFile = useCallback(
     async (file: File) => {
+      const original = useDocumentStore.getState();
       const task = beginDocumentTask('basic-letter-file');
+      const ownsFile = () => {
+        const current = useDocumentStore.getState();
+        return isCurrentDocumentTask(task) && current.docType === original.docType
+          && current.formData.basicLetterFileRef === original.formData.basicLetterFileRef
+          && current.formData.basicLetterFile === original.formData.basicLetterFile;
+      };
       try {
         const data = await file.arrayBuffer();
-        if (!isCurrentDocumentTask(task)) return;
+        if (!ownsFile()) return;
         const check = await validateBasicLetter(data);
-        if (!isCurrentDocumentTask(task)) return;
+        if (!ownsFile()) return;
         if (!check.ok) { setUploadError(check.error); return; }
         await withAttachmentStaging(async () => {
-          if (!isCurrentDocumentTask(task)) return;
-          const fileRef = await persistAttachment({ name: file.name, size: file.size, type: file.type }, data);
-          if (!isCurrentDocumentTask(task)) return;
+          if (!ownsFile()) return;
+          const fileRef = await persistAttachment({ name: file.name, size: file.size, type: file.type }, data, { requireDurable: true });
+          if (!ownsFile()) return;
           setUploadError(null);
           setField('basicLetterFile', { name: file.name, size: file.size, data });
           setField('basicLetterFileRef', fileRef);
@@ -168,7 +175,7 @@ export function EndorsementBasicLetterSection() {
           }
         });
       } catch (error) {
-        if (isCurrentDocumentTask(task)) setUploadError(error instanceof Error ? error.message : 'Could not read this PDF.');
+        if (ownsFile()) setUploadError(error instanceof Error ? error.message : 'Could not read this PDF.');
       }
     },
     [setField]

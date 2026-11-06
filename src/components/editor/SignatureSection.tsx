@@ -128,12 +128,17 @@ export function SignatureSection({ config }: SignatureSectionProps) {
       return;
     }
 
+    const original = useDocumentStore.getState().formData;
     const task = beginDocumentTask('signature-image');
+    const ownsSignature = () => {
+      const current = useDocumentStore.getState().formData;
+      return isCurrentDocumentTask(task) && current.signatureImage === original.signatureImage && current.signatureType === original.signatureType;
+    };
     let base64: string;
     try {
       base64 = await loadSignatureAsPngBase64(file);
     } catch (err) {
-      if (!isCurrentDocumentTask(task)) return;
+      if (!ownsSignature()) return;
       showAppAlert({
         title: "Couldn't read that image",
         message: err instanceof Error ? err.message : 'Please try a different file.',
@@ -141,7 +146,7 @@ export function SignatureSection({ config }: SignatureSectionProps) {
       return;
     }
 
-    if (!isCurrentDocumentTask(task)) return;
+    if (!ownsSignature()) return;
     const signatureImage: SignatureImage = {
       name: file.name,
       size: file.size,
