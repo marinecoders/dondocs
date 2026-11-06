@@ -32,3 +32,12 @@ it('keeps a legacy imported enclosure in memory without adding a false durable r
   expect(useDocumentStore.getState().enclosures[0].file).toBe(file);
   expect(useDocumentStore.getState().enclosures[0].fileRef).toBeUndefined();
 });
+it('records the committed byte length even if caller metadata is stale', async () => {
+  const ref = await persistAttachment({ name: 'size.pdf', size: 99, type: '' }, new Uint8Array([1]).buffer);
+  expect(ref.size).toBe(1);
+  expect(await readAttachment(ref.id)).toMatchObject({ status: 'found', attachment: { size: 1 } });
+});
+it('rejects malformed persisted records instead of calling them complete assets', async () => {
+  await db.idbPutAttachment({ id: 'bad-record', name: 'bad', size: 99, type: '', data: new ArrayBuffer(1) });
+  expect(await readAttachment('bad-record')).toMatchObject({ status: 'failed', error: expect.any(Error) });
+});

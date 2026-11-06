@@ -78,9 +78,9 @@ export function attachmentSweepCheckpoint(): number | null {
 }
 
 /** Return a durable reference only after the operation-owned bytes commit. */
-export async function persistAttachment(meta: AttachmentMeta, data: ArrayBuffer, _options: { requireDurable?: true } = {}): Promise<FileRef> {
+export async function persistAttachment(meta: AttachmentMeta, data: ArrayBuffer): Promise<FileRef> {
   const id = newAttachmentId();
-  const rec: StoredAttachment = { id, name: meta.name, type: meta.type, size: meta.size, data: data.slice(0) };
+  const rec: StoredAttachment = { id, name: meta.name, type: meta.type, size: data.byteLength, data: data.slice(0) };
   if (!await idbPutAttachment(rec)) throw new Error(`Could not save ${rec.name}. Check browser storage and try again.`);
   return { id, name: rec.name, size: rec.size, type: rec.type };
 }

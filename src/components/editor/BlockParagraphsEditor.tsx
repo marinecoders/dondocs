@@ -385,7 +385,7 @@ const BlockRow = memo(function BlockRow({
                         await withAttachmentStaging(async () => {
                           const { bytes, type, width, height } = await prepareFigureUpload(file);
                           if (!isCurrentDocumentTask(task)) return;
-                          const fileRef = await persistAttachment({ name: file.name, size: bytes.byteLength, type }, bytes, { requireDurable: true });
+                          const fileRef = await persistAttachment({ name: file.name, size: bytes.byteLength, type }, bytes);
                           if (!isCurrentDocumentTask(task)) return;
                           const currentIndex = useDocumentStore.getState().paragraphs.findIndex(paragraph =>
                             paragraph === original || (!!original.figure && paragraph.figure === original.figure));

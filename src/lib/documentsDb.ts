@@ -562,7 +562,12 @@ export async function idbReadAttachment(id: string): Promise<AttachmentReadResul
   if (!hasIndexedDb) return { status: 'unavailable' };
   try {
     const attachment = await run<StoredAttachment | undefined>(ATTACHMENTS_STORE, 'readonly', store => store.get(id));
-    return attachment ? { status: 'found', attachment } : { status: 'missing' };
+    if (!attachment) return { status: 'missing' };
+    if (attachment.id !== id || typeof attachment.name !== 'string' || typeof attachment.type !== 'string'
+      || !(attachment.data instanceof ArrayBuffer) || attachment.size !== attachment.data.byteLength) {
+      return { status: 'failed', error: new Error(`Invalid attachment record: ${id}`) };
+    }
+    return { status: 'found', attachment };
   } catch (error) { return { status: 'failed', error }; }
 }
 
