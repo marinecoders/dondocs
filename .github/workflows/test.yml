@@ -70,7 +70,9 @@ jobs:
       # install them rather than letting it opt out.
       - name: pdf toolchain
         if: matrix.task == 'scripts'
-        run: sudo apt-get update -qq && sudo apt-get install -y -qq qpdf poppler-utils
+        run: |
+          bash scripts/ci-use-ubuntu-archive.sh
+          sudo apt-get update -qq && sudo apt-get install -y -qq qpdf poppler-utils
 
       - name: run task
         run: |
@@ -287,8 +289,7 @@ jobs:
         # page counts off a compiled PDF and skip themselves when those
         # binaries are absent — so without this they passed by not running.
         run: |
-          # The Azure mirror can exhaust this job's budget during downloads.
-          sudo sed -i 's|azure.archive.ubuntu.com|archive.ubuntu.com|g' /etc/apt/apt-mirrors.txt
+          bash scripts/ci-use-ubuntu-archive.sh
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends \
             texlive-xetex \
@@ -404,6 +405,7 @@ jobs:
           node-version: '22'
           cache: npm
       - run: npm ci
+      - run: bash scripts/ci-use-ubuntu-archive.sh
       - run: npx playwright install --with-deps ${{ matrix.browsers }}
       - run: npm run build
       - name: verify install and downloads
@@ -429,6 +431,7 @@ jobs:
           node-version: '22'
           cache: npm
       - run: npm ci
+      - run: bash scripts/ci-use-ubuntu-archive.sh
       - run: npx playwright install --with-deps chromium firefox webkit
       - run: npm run build
       - uses: actions/checkout@v7
