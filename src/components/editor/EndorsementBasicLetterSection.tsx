@@ -1,9 +1,10 @@
+import { beginDocumentTask, isCurrentDocumentTask } from '@/lib/documentTask';
 import { useCallback, useMemo, useState } from 'react';
 import { FileStack, Search, Upload, X } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
-import { persistAttachment } from '@/lib/attachments';
+import { withAttachmentStaging, persistAttachment } from '@/lib/attachments';
 import { validateBasicLetter } from '@/services/pdf/assembleEndorsement';
 import { formatFileSize } from '@/lib/utils';
 import {
@@ -146,40 +147,42 @@ export function EndorsementBasicLetterSection() {
   // backup — and only the fileRef is serialized.
   const handleBasicLetterFile = useCallback(
     async (file: File) => {
-      const data = await file.arrayBuffer();
-      // Validate before storing anything: a corrupt or encrypted PDF rejected
-      // here gets feedback next to the control, instead of persisting bad bytes
-      // that the preview silently skips and only the export reports.
-      const check = await validateBasicLetter(data);
-      if (!check.ok) {
-        setUploadError(check.error);
-        return;
-      }
-      setUploadError(null);
-      const fileRef = await persistAttachment(
-        { name: file.name, size: file.size, type: file.type },
-        data
-      );
-      setField('basicLetterFile', { name: file.name, size: file.size, data });
-      setField('basicLetterFileRef', fileRef);
-      // The endorsement continues the letter's page sequence (Ch 9, Fig 9-2:
-      // "Number each page of your endorsement and continue the sequence of
-      // numbers from ... the basic letter"). The page count is in hand, so
-      // default "First page number" from it — but never clobber a value the
-      // user already set. Numbering must also actually print for the
-      // continuation to exist, so a 'none' style steps up to 'simple'.
-      const fd = useDocumentStore.getState().formData;
-      if (!fd.startingPageNumber || fd.startingPageNumber <= 1) {
-        setField('startingPageNumber', check.pageCount + 1);
-        if (!fd.pageNumbering || fd.pageNumbering === 'none') {
-          setField('pageNumbering', 'simple');
-        }
+      const original = useDocumentStore.getState();
+      const task = beginDocumentTask('basic-letter-file');
+      const ownsFile = () => {
+        const current = useDocumentStore.getState();
+        return isCurrentDocumentTask(task) && current.docType === original.docType
+          && current.formData.basicLetterFileRef === original.formData.basicLetterFileRef
+          && current.formData.basicLetterFile === original.formData.basicLetterFile;
+      };
+      try {
+        const data = await file.arrayBuffer();
+        if (!ownsFile()) return;
+        const check = await validateBasicLetter(data);
+        if (!ownsFile()) return;
+        if (!check.ok) { setUploadError(check.error); return; }
+        await withAttachmentStaging(async () => {
+          if (!ownsFile()) return;
+          const fileRef = await persistAttachment({ name: file.name, size: file.size, type: file.type }, data, { requireDurable: true });
+          if (!ownsFile()) return;
+          setUploadError(null);
+          setField('basicLetterFile', { name: file.name, size: file.size, data });
+          setField('basicLetterFileRef', fileRef);
+          const fd = useDocumentStore.getState().formData;
+          if (!fd.startingPageNumber || fd.startingPageNumber <= 1) {
+            setField('startingPageNumber', check.pageCount + 1);
+            if (!fd.pageNumbering || fd.pageNumbering === 'none') setField('pageNumbering', 'simple');
+          }
+        });
+      } catch (error) {
+        if (ownsFile()) setUploadError(error instanceof Error ? error.message : 'Could not read this PDF.');
       }
     },
     [setField]
   );
 
   const removeBasicLetterFile = useCallback(() => {
+    beginDocumentTask('basic-letter-file');
     setField('basicLetterFile', undefined);
     setField('basicLetterFileRef', undefined);
     setUploadError(null);
