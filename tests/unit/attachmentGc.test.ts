@@ -87,7 +87,7 @@ describe('sweepOrphanedAttachments', () => {
       expect(await sweepOrphanedAttachments()).toBeNull();
       expect(await idbGetAttachment('second-operation')).not.toBeNull();
     } finally { releaseFirst(); releaseSecond(); await Promise.all([first, second]); }
-    expect(await sweepOrphanedAttachments()).toBe(1);
+    expect(await sweepOrphanedAttachments()).toBeNull();
   });
 
   it('discards an old mark set when staging starts and finishes during attachment reads', async () => {
@@ -103,7 +103,7 @@ describe('sweepOrphanedAttachments', () => {
     expect(await sweep).toBeNull();
     expect(await idbGetAttachment('staged-after-mark')).not.toBeNull();
     spy.mockRestore();
-    expect(await sweepOrphanedAttachments()).toBe(1);
+    expect(await sweepOrphanedAttachments()).toBeNull();
   });
 
   it('keeps both persisted and in-memory references for the same document', async () => {
@@ -129,16 +129,16 @@ describe('sweepOrphanedAttachments', () => {
     expect(await idbGetAttachment('history-only')).toBeTruthy();
   });
 
-  it('deletes an unreferenced blob and keeps a referenced one', async () => {
+  it('defers deletion when an apparent orphan could still be owned by another tab', async () => {
     await idbPutDocument(doc('d1', 'att_keep'));
     await idbPutAttachment(att('att_keep'));
     await idbPutAttachment(att('att_orphan')); // no document points at this
 
     const deleted = await sweepOrphanedAttachments();
 
-    expect(deleted).toBe(1);
+    expect(deleted).toBeNull();
     expect(await idbGetAttachment('att_keep')).toBeTruthy();
-    expect(await idbGetAttachment('att_orphan')).toBeNull();
+    expect(await idbGetAttachment('att_orphan')).toBeTruthy();
   });
 
   it('KEEPS a blob referenced only by a version-history snapshot (undo must survive)', async () => {
