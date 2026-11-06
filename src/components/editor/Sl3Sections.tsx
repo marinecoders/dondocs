@@ -790,12 +790,13 @@ export function Sl3IllustrationsSection({ publication = 'sl3' }: { publication?:
                         size: buffer.byteLength,
                       },
                       buffer,
+                      { requireDurable: true },
                     );
                     const current = useDocumentStore.getState();
                     const index = current.paragraphs.findIndex(
                       (entry) => entry.referenceId === p.referenceId,
                     );
-                    if (current.docType !== publication || !isCurrentDocumentTask(task) || index < 0 || current.paragraphs[index].figure?.fileRef?.id !== sourceFileId) return;
+                    if (current.docType !== publication || !isCurrentDocumentTask(task) || index < 0 || current.paragraphs[index].figure !== p.figure || current.paragraphs[index].figure?.fileRef?.id !== sourceFileId) return;
                     current.updateParagraph(index, {
                         figure: {
                           ...current.paragraphs[index].figure,
