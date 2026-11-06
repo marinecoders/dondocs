@@ -1,12 +1,13 @@
 import 'fake-indexeddb/auto';
 import { afterEach, beforeEach, expect, it, vi } from 'vitest';
-import { getSavedSession, useDocumentStore, resumeSessionSaves } from '@/stores/documentStore';
-import { changeDocumentHistory, captureDocumentScope, flushDocumentWrites, useDocumentsStore } from '@/stores/documentsStore';
+import { getSavedSession, getSerializedSession, rehydrateEnclosureFiles, mutateSessionAssets, useDocumentStore, resumeSessionSaves } from '@/stores/documentStore';
+import { changeDocumentHistory, captureDocumentScope, flushDocumentWrites, openSessionAsNew, useDocumentsStore } from '@/stores/documentsStore';
 import { useHistoryStore } from '@/stores/historyStore';
 import { useFormStore } from '@/stores/formStore';
 import { fixtureInstance } from '../_helpers/formFixture';
 import { importForm, editForm } from '@/services/forms/documents';
 import { idbGetAllDocuments } from '@/lib/documentsDb';
+import { persistAttachment } from '@/lib/attachments';
 
 beforeEach(() => {
   vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout', 'Date'] });
@@ -142,4 +143,52 @@ it('keeps an ordinary in-document type change undoable within one owner', async 
   await vi.advanceTimersByTimeAsync(500);
   expect(changeDocumentHistory('undo', scope)).toBe('applied');
   expect(useDocumentStore.getState().docType).toBe(previous);
+});
+
+it.each(['enclosure', 'basic-letter'] as const)('preserves Redo after hydrating a saved %s', async kind => {
+  const ref = await persistAttachment({ name: 'attached.pdf', size: 1, type: 'application/pdf' }, new Uint8Array([1]).buffer);
+  const session = { ...getSerializedSession(), formData: { subject: 'Before', ...(kind === 'basic-letter' ? { basicLetterFileRef: ref } : {}) },
+    enclosures: kind === 'enclosure' ? [{ title: 'Attachment', fileRef: ref }] : [],
+  };
+  openSessionAsNew(session);
+  await rehydrateEnclosureFiles();
+  useDocumentStore.getState().setField('subject', 'After');
+  await vi.advanceTimersByTimeAsync(500);
+  const scope = captureDocumentScope();
+  expect(changeDocumentHistory('undo', scope)).toBe('applied');
+  expect(useDocumentStore.getState().formData.subject).toBe('Before');
+  await vi.advanceTimersByTimeAsync(500);
+  expect(changeDocumentHistory('redo', scope)).toBe('applied');
+  expect(useDocumentStore.getState().formData.subject).toBe('After');
+});
+
+it('preserves Redo when a transient upload receives its durable handle', async () => {
+  const file = { name: 'attached.pdf', size: 1, data: new Uint8Array([1]).buffer };
+  useDocumentStore.setState({ enclosures: [{ title: 'Attachment', file }] });
+  await vi.advanceTimersByTimeAsync(500);
+  useDocumentStore.getState().setField('subject', 'After');
+  await vi.advanceTimersByTimeAsync(500);
+  const scope = captureDocumentScope();
+  expect(changeDocumentHistory('undo', scope)).toBe('applied');
+  const ref = await persistAttachment({ name: file.name, size: file.size, type: 'application/pdf' }, file.data);
+  mutateSessionAssets(() => useDocumentStore.getState().updateEnclosure(0, { fileRef: ref }));
+  expect(changeDocumentHistory('redo', scope)).toBe('applied');
+  expect(useDocumentStore.getState().formData.subject).toBe('After');
+});
+
+it.each(['enclosure', 'basic-letter'] as const)('keeps same-name, same-size transient %s replacements undoable', async kind => {
+  const file = (value: number) => ({ name: 'same.pdf', size: 1, data: new Uint8Array([value]).buffer });
+  const first = file(1); const second = file(2);
+  const apply = (upload: typeof first) => {
+    if (kind === 'enclosure') useDocumentStore.setState({ enclosures: [{ title: 'Attachment', file: upload }] });
+    else useDocumentStore.getState().setField('basicLetterFile', upload);
+  };
+  apply(first);
+  await vi.advanceTimersByTimeAsync(500);
+  apply(second);
+  const scope = captureDocumentScope();
+  expect(changeDocumentHistory('undo', scope)).toBe('applied');
+  expect(kind === 'enclosure' ? useDocumentStore.getState().enclosures[0].file!.data : useDocumentStore.getState().formData.basicLetterFile!.data).toBe(first.data);
+  expect(changeDocumentHistory('redo', scope)).toBe('applied');
+  expect(kind === 'enclosure' ? useDocumentStore.getState().enclosures[0].file!.data : useDocumentStore.getState().formData.basicLetterFile!.data).toBe(second.data);
 });
