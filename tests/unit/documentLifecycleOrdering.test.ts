@@ -4,6 +4,7 @@ import { waitFor } from '@testing-library/react';
 import * as db from '@/lib/documentsDb';
 import { flushDocumentWrites, importLibrary, useDocumentsStore } from '@/stores/documentsStore';
 import { useDocumentStore } from '@/stores/documentStore';
+vi.mock('@/lib/attachmentGc', () => ({ sweepOrphanedAttachments: vi.fn(async () => 0) }));
 function deferred() { let resolve!: () => void; const promise = new Promise<void>(done => { resolve = done; }); return { promise, resolve }; }
 async function savedDocument() {
   useDocumentsStore.setState({ docs: {}, trash: {}, currentId: null, baseline: null, hydrated: true });
@@ -67,10 +68,12 @@ it('preserves a pending edit when a library refresh has the same timestamp', asy
     return originalWrite(before, after);
   });
   const importing = importLibrary(JSON.stringify({ kind: 'dondocs-library', version: 1, docs: [] }));
-  await waitFor(() => expect(read).toHaveBeenCalledTimes(2));
-  useDocumentStore.getState().setField('subject', 'Pending edit'); useDocumentsStore.getState().saveCurrent();
-  expect(write).toHaveBeenCalledOnce(); readGate.resolve(); await importing;
-  expect(useDocumentsStore.getState().docs[id].session.formData.subject).toBe('Pending edit');
-  writeGate.resolve(); await flushDocumentWrites();
+  try {
+    await waitFor(() => expect(read).toHaveBeenCalledTimes(2));
+    useDocumentStore.getState().setField('subject', 'Pending edit'); useDocumentsStore.getState().saveCurrent();
+    expect(write).toHaveBeenCalledOnce(); readGate.resolve(); await importing;
+    expect(useDocumentsStore.getState().docs[id].session.formData.subject).toBe('Pending edit');
+  } finally { readGate.resolve(); writeGate.resolve(); await importing; }
+  await flushDocumentWrites();
   expect((await originalRead())!.find(record => record.id === id)!.session.formData.subject).toBe('Pending edit');
 });

@@ -230,6 +230,28 @@ export async function idbGetCurrentId(): Promise<string | null> {
   }
 }
 
+/** A recovery in one tab must not clear another tab's newer resume choice. */
+export async function idbClearCurrentIdIfUnchanged(expected: string): Promise<boolean> {
+  if (!hasIndexedDb) return false;
+  try {
+    const db = await openDb();
+    return await new Promise<boolean>((resolve, reject) => {
+      const transaction = db.transaction(APP_STORE, 'readwrite');
+      const store = transaction.objectStore(APP_STORE);
+      const request = store.get('currentId');
+      let cleared = false;
+      request.onsuccess = () => {
+        if (request.result?.value !== expected) return;
+        store.delete('currentId');
+        cleared = true;
+      };
+      transaction.oncomplete = () => resolve(cleared);
+      transaction.onabort = () => reject(transaction.error ?? new Error('Resume reset aborted'));
+      transaction.onerror = () => reject(transaction.error ?? new Error('Resume reset failed'));
+    });
+  } catch { return false; }
+}
+
 export async function idbSetCurrentId(id: string | null): Promise<boolean> {
   if (!hasIndexedDb) return false;
   try {
