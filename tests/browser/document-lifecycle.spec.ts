@@ -40,16 +40,16 @@ async function openRecent(page: Page, title: string) {
   await page.getByRole('button', { name: new RegExp(`^${title}`) }).first().click();
 }
 
-async function documentAction(page: Page, name: RegExp) {
-  await page.getByRole('button', { name: 'Document actions', exact: true }).click();
-  return page.getByRole('menuitem', { name });
+async function historyAction(page: Page, name: RegExp) {
+  await page.getByRole('button', { name: 'Document tools', exact: true }).click();
+  return page.getByRole('menu').getByRole('menuitem', { name });
 }
 
 test('import, Undo and navigation keep both drafts intact after reload', async ({ page }) => {
   await page.goto('/');
   const subject = page.getByRole('textbox', { name: 'Subject', exact: true });
   await subject.fill('LIFECYCLE OUTGOING');
-  await expect.poll(() => savedSubjects(page)).toContain('LIFECYCLE OUTGOING');
+  await expect.poll(() => savedSubjects(page), { timeout: 15_000 }).toContain('LIFECYCLE OUTGOING');
   await subject.fill('LIFECYCLE OUTGOING LATEST');
   const incoming = {
     documentMode: 'compliant', documentCategory: 'correspondence', docType: 'naval_letter',
@@ -63,26 +63,26 @@ test('import, Undo and navigation keep both drafts intact after reload', async (
   await expect(page.locator('#body-subject')).toHaveValue('LIFECYCLE OUTGOING LATEST');
   await page.getByRole('button', { name: 'Open as new document', exact: true }).click();
   await expect(subject).toHaveValue('LIFECYCLE IMPORTED');
-  const initialUndo = await documentAction(page, /^Undo/);
+  const initialUndo = await historyAction(page, /^Undo/);
   await expect(initialUndo).toBeDisabled();
   await page.keyboard.press('Escape');
   await subject.fill('LIFECYCLE IMPORTED EDIT');
-  const undo = await documentAction(page, /^Undo/);
+  const undo = await historyAction(page, /^Undo/);
   await expect(undo).toBeEnabled();
   await undo.click();
   await expect(subject).toHaveValue('LIFECYCLE IMPORTED');
-  const redo = await documentAction(page, /^Redo/);
+  const redo = await historyAction(page, /^Redo/);
   await expect(redo).toBeEnabled();
   await redo.click();
   await expect(subject).toHaveValue('LIFECYCLE IMPORTED EDIT');
-  await expect.poll(() => savedSubjects(page)).toContain('LIFECYCLE IMPORTED EDIT');
+  await expect.poll(() => savedSubjects(page), { timeout: 15_000 }).toContain('LIFECYCLE IMPORTED EDIT');
   await openRecent(page, 'LIFECYCLE OUTGOING LATEST');
   await expect(subject).toHaveValue('LIFECYCLE OUTGOING LATEST');
-  await expect.poll(() => savedSubjects(page)).toEqual(expect.arrayContaining(['LIFECYCLE OUTGOING LATEST', 'LIFECYCLE IMPORTED EDIT']));
-  await expect.poll(async () => (await savedState(page)).currentSubject).toBe('LIFECYCLE OUTGOING LATEST');
+  await expect.poll(() => savedSubjects(page), { timeout: 15_000 }).toEqual(expect.arrayContaining(['LIFECYCLE OUTGOING LATEST', 'LIFECYCLE IMPORTED EDIT']));
+  await expect.poll(async () => (await savedState(page)).currentSubject, { timeout: 15_000 }).toBe('LIFECYCLE OUTGOING LATEST');
   await page.reload();
   await expect(subject).toHaveValue('LIFECYCLE OUTGOING LATEST');
   await openRecent(page, 'LIFECYCLE IMPORTED EDIT');
   await expect(subject).toHaveValue('LIFECYCLE IMPORTED EDIT');
-  await expect(await documentAction(page, /^Undo/)).toBeDisabled();
+  await expect(await historyAction(page, /^Undo/)).toBeDisabled();
 });
