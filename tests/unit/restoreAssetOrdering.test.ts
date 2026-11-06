@@ -68,3 +68,7 @@ it.each(['__proto__', 'constructor'])('rejects reserved document identity %s bef
   await expect(restoreBackup(JSON.stringify({ kind: 'dondocs-backup', documents: [document(id)], attachments: [file] }))).rejects.toThrow('Invalid document');
   expect(await db.idbGetAttachment(file.id)).toBeNull();
 });
+it('rejects an unsupported backup version before staging or publishing resources', async () => {
+  await expect(restoreBackup(JSON.stringify({ kind: 'dondocs-backup', version: 999, documents: [document('future')], attachments: [file] }))).rejects.toThrow('Unsupported backup version');
+  expect(await db.idbGetAttachment(file.id)).toBeNull(); expect(await db.idbGetAllDocuments()).toEqual([]);
+});

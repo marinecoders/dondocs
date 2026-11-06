@@ -196,6 +196,9 @@ export function classifyBackup(json: string): { kind: string; parsed: Record<str
   if (kind !== BACKUP_KIND && kind !== LIBRARY_KIND) {
     throw new Error('Not a DonDocs backup file');
   }
+  const version = (parsed as { version?: unknown }).version;
+  if (version !== undefined && (typeof version !== 'number' || !Number.isSafeInteger(version)
+    || version < 1 || version > (kind === BACKUP_KIND ? BACKUP_VERSION : 1))) throw new Error('Unsupported backup version');
   return { kind: kind as string, parsed: parsed as Record<string, unknown> };
 }
 
