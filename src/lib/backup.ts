@@ -290,6 +290,10 @@ async function runRestore(json: string, canReplaceForms: () => boolean): Promise
   if (parsed.attachments !== undefined && !Array.isArray(parsed.attachments)) throw new Error('Invalid attachments');
   for (const a of (parsed.attachments ?? []) as BackupAttachment[]) {
     if (!a || typeof a.id !== 'string' || !a.id || typeof a.data !== 'string' || decoded.has(a.id)) throw new Error('Invalid or duplicate attachment');
+    if ((a.name !== undefined && typeof a.name !== 'string')
+      || (a.type !== undefined && typeof a.type !== 'string')) {
+      throw new Error(`Attachment ${a.id} has invalid metadata`);
+    }
     const bytes = base64ToUint8Array(a.data);
     if (typeof a.size !== 'number' || a.size !== bytes.byteLength) throw new Error(`Attachment ${a.id} has an invalid size`);
     decoded.set(a.id, bytes.buffer as ArrayBuffer);

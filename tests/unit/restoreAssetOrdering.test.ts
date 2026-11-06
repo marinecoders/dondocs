@@ -44,6 +44,21 @@ it('validates duplicate identities before writing staged resources', async () =>
   await expect(restoreBackup(JSON.stringify({ kind: 'dondocs-backup', documents: [document('duplicate'), document('duplicate')], attachments: [file] }))).rejects.toThrow('Duplicate');
   expect(await db.idbGetAttachment(file.id)).toBeNull();
 });
+it.each([
+  ['name', 42],
+  ['type', { invalid: true }],
+] as const)('rejects invalid attachment %s before staging or publishing', async (field, value) => {
+  const write = vi.spyOn(db, 'idbPutAttachment');
+  const backup = {
+    kind: 'dondocs-backup',
+    documents: [document('invalid-attachment')],
+    attachments: [{ ...file, [field]: value }],
+  };
+
+  await expect(restoreBackup(JSON.stringify(backup))).rejects.toThrow('invalid metadata');
+  expect(write).not.toHaveBeenCalled();
+  expect(await db.idbGetAllDocuments()).toEqual([]);
+});
 it('does not replace another document form buffer after navigation during staging', async () => {
   const { useFormStore } = await import('@/stores/formStore');
   const { flushDocumentWrites } = await import('@/stores/documentsStore');
