@@ -1,4 +1,4 @@
-import { serializeDocumentSnapshot } from '@/lib/documentSerialization';
+import { projectSharedSession, serializeDocumentSnapshot } from '@/lib/documentSerialization';
 import { manualFrontMatterSchema } from '@/data/techpub/manualFrontMatter';
 import { sl4Schema } from '@/data/techpub/sl4';
 import { sl3Schema } from '@/data/techpub/sl3';
@@ -1025,18 +1025,7 @@ export function restoreSession(): boolean {
  * Excludes file data and signature images.
  */
 export function getSerializedSessionForShare(): SerializedSession {
-  const session = getSerializedSession();
-  // Local attachment handles have no meaning on a recipient's device. Never
-  // resolve a remote handle against that device's unrelated attachment store.
-  session.formData = { ...session.formData, signatureImage: undefined, basicLetterFileRef: undefined };
-  session.paragraphs = session.paragraphs.map((p) => ({ ...p, ...(p.figure ? { figure: { ...p.figure, fileRef: undefined } } : {}) }));
-  session.enclosures = session.enclosures.map(({ fileRef: _ref, ...enclosure }) => enclosure);
-  if (session.forms) {
-    for (const form of [session.forms.navmc10274, session.forms.navmc11811]) {
-      if (form) form.signatureBlocks = form.signatureBlocks.map(({ image: _image, ...block }) => block);
-    }
-  }
-  return session;
+  return projectSharedSession(getSerializedSession());
 }
 
 export function getSerializedSession(): SerializedSession {
@@ -1052,7 +1041,7 @@ export function serializeSession(state: DocumentState): SerializedSession {
   return serializeDocumentSnapshot({
     ...state,
     forms: state.documentCategory === 'forms' && !state.genericForm ? serializeForm(state.formType) : undefined,
-  });
+  }, Date.now());
 }
 
 /**

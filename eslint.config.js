@@ -76,6 +76,19 @@ export default defineConfig([
     },
   },
   {
+    files: ['src/lib/{capturedDocument,documentFieldPolicies,documentFields,documentSerialization}.ts'],
+    rules: {
+      'no-restricted-imports': ['error', { patterns: [{
+        regex: '^(?:@/stores(?:/|$)|(?:\\.\\.?/)+(?:.*/)?stores(?:/|$))',
+        allowTypeImports: true,
+        message: 'Pass document data through an adapter instead of importing a live store.',
+      }] }],
+      'no-restricted-globals': ['error', 'window', 'document', 'localStorage', 'sessionStorage', 'indexedDB', 'navigator', 'fetch'],
+      'no-restricted-properties': ['error', { object: 'Date', property: 'now', message: 'Pass the captured timestamp through the adapter.' }],
+      'no-restricted-syntax': ['error', { selector: 'ImportExpression', message: 'Pure document models receive dependencies through their callers.' }],
+    },
+  },
+  {
     // Migrated opening and history routes use the workspace commands.
     files: [
       'src/App.tsx',
