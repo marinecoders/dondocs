@@ -153,6 +153,12 @@ export function collectAttachmentIds(docs: unknown[]): string[] {
   return [...ids];
 }
 
+/** A legacy attachment flag cannot stand in for bytes in a complete backup. */
+function hasUnresolvedEnclosure(entry: unknown): boolean {
+  const session = (entry as { session?: { enclosures?: Array<{ hasFile?: boolean; fileRef?: { id?: string } }> } })?.session;
+  return Array.isArray(session?.enclosures) && session.enclosures.some(enclosure => enclosure.hasFile && !enclosure.fileRef?.id);
+}
+
 /**
  * Non-destructive merge of two version-history rings for one document: union by
  * timestamp (the capture instant is the identity), newest-first, capped at
@@ -224,7 +230,9 @@ export async function buildBackup(): Promise<string> {
     if (ring.length) snapshots[id] = ring;
   }
 
-  const ids = collectAttachmentIds([...docs, ...Object.values(snapshots).flat(), ...Object.values(captured.userTemplates)]);
+  const entries = [...docs, ...Object.values(snapshots).flat(), ...Object.values(captured.userTemplates)];
+  if (entries.some(hasUnresolvedEnclosure)) throw new Error('An enclosure file is missing its saved reference. The backup was not created.');
+  const ids = collectAttachmentIds(entries);
   return withAttachmentResources(ids, async resources => {
     const attachments = ids.map(id => {
       const record = copyAttachment(resources, id);

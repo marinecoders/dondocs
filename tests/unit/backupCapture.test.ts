@@ -1,5 +1,6 @@
 import 'fake-indexeddb/auto';
 import { afterEach, expect, it, vi } from 'vitest';
+import { getSerializedSession } from '@/stores/documentStore';
 import { buildBackup } from '@/lib/backup';
 import * as db from '@/lib/documentsDb';
 import { useDocumentsStore } from '@/stores/documentsStore';
@@ -23,4 +24,11 @@ it('captures account data before asynchronous history reads', async () => {
   expect(bundle.forms.navmc11811.remarksText).toBe('BEFORE');
   expect(bundle.snippets[0].text).toBe('BEFORE');
   expect(bundle.documents[0].session.formData.subject).toBe('Captured');
+});
+
+it('refuses a complete backup when a legacy enclosure claims bytes without a reference', async () => {
+  const session = { ...getSerializedSession(), enclosures: [{ title: 'Missing legacy file', hasFile: true }] };
+  useDocumentsStore.setState({ currentId: null, hydrated: true, docs: { legacy: { meta: { id: 'legacy', title: 'Legacy', docType: session.docType, updatedAt: 1 }, session } } });
+  useUIStore.setState({ storageHealth: 'ok' });
+  await expect(buildBackup()).rejects.toThrow('enclosure file is missing');
 });
