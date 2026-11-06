@@ -8,7 +8,7 @@ import type { ManualFrontMatter } from '@/data/techpub/manualFrontMatter';
 import type { Sl3Data, Sl3Component } from '@/data/techpub/sl3';
 import type { Sl4Data, Sl4Part, Sl4Row } from '@/data/techpub/sl4';
 
-export type FieldRule = 'text' | 'label' | 'control' | 'value' | 'identity' | 'binary' | 'asset' | 'form'
+export type FieldRule = 'text' | 'document-date' | 'label' | 'control' | 'value' | 'identity' | 'binary' | 'asset' | 'form'
   | { readonly fields: FieldPolicies }
   | { readonly items: FieldRule }
   | { readonly entries: FieldRule }
@@ -53,13 +53,13 @@ const part = {
 const heading = { kind: 'control', id: 'identity', text: 'text', majorCombination: 'value', portionMarking: 'control' } satisfies PoliciesFor<Extract<Sl4Row, { kind: 'heading' }>>;
 const blank = { kind: 'control', id: 'identity' } satisfies PoliciesFor<Extract<Sl4Row, { kind: 'blank' }>>;
 const sl4 = {
-  sourceManual: 'text', standaloneRationale: 'text', cutoffDate: 'text', contextPortion: 'control',
+  sourceManual: 'text', standaloneRationale: 'text', cutoffDate: 'document-date', contextPortion: 'control',
   definitions: array(object(definition)), artwork: array(object(artwork)),
   rowsPerSheet: 'value', indexRowsPerPanel: 'value', endItemFigureId: 'identity',
   circuitIndex: object({ mode: 'control', reason: 'text' } satisfies PoliciesFor<Sl4Data['circuitIndex']>),
   cages: array(object({ id: 'identity', code: 'text', name: 'text', address: 'text', portionMarking: 'control' } satisfies PoliciesFor<Sl4Data['cages'][number]>)),
   notes: array(object(note)),
-  revisions: array(object({ id: 'identity', revision: 'text', date: 'text', description: 'text', enteredBy: 'text', portionMarking: 'control' } satisfies PoliciesFor<Sl4Data['revisions'][number]>)),
+  revisions: array(object({ id: 'identity', revision: 'text', date: 'document-date', description: 'text', enteredBy: 'text', portionMarking: 'control' } satisfies PoliciesFor<Sl4Data['revisions'][number]>)),
   rows: array({ variants: { part, heading, blank } satisfies Record<Sl4Row['kind'], FieldPolicies> }),
 } satisfies PoliciesFor<Sl4Data>;
 const manual = {
@@ -72,31 +72,31 @@ const manual = {
 const endorsement = {
   id: 'identity', endorsementFrom: 'text', endorsementTo: 'text', endorsementBody: 'text',
   endorsementSigFirst: 'text', endorsementSigMiddle: 'text', endorsementSigLast: 'text',
-  endorsementSerial: 'text', endorsementDate: 'text',
+  endorsementSerial: 'text', endorsementDate: 'document-date',
 } satisfies PoliciesFor<AdditionalEndorsement>;
 
 /** Every editable field needs a deliberate text, structure, or exclusion policy. */
 export const DOCUMENT_DATA_FIELD_POLICIES = {
-  manualFrontMatter: object(manual), publicationSigningDate: 'text', publicationClosedDates: 'text',
+  manualFrontMatter: object(manual), publicationSigningDate: 'document-date', publicationClosedDates: 'document-date',
   docType: 'control', fontSize: 'control', fontFamily: 'control', pageNumbering: 'control',
   startingPageNumber: 'value', startingReferenceLetter: 'control', startingEnclosureNumber: 'value',
   department: 'control', unitLine1: 'text', unitLine2: 'text', unitAddress: 'text', sealType: 'control', letterheadColor: 'control',
-  ssic: 'text', serial: 'text', date: 'text', from: 'text', to: 'text', via: 'text', subject: 'text',
+  ssic: 'text', serial: 'text', date: 'document-date', from: 'text', to: 'text', via: 'text', subject: 'text',
   nomenclature: 'text', sl3: object(sl3), sl4: object(sl4), publicationType: 'control', controllingOffice: 'text',
-  miUrgency: 'control', miCompletionDate: 'text', shortTitle: 'text', pcn: 'text', supersedure: 'text', exportRestricted: 'value',
+  miUrgency: 'control', miCompletionDate: 'document-date', shortTitle: 'text', pcn: 'text', supersedure: 'text', exportRestricted: 'value',
   endorsementOrdinal: 'text', basicLetterId: 'text', basicLetterFile: 'asset', basicLetterFileRef: 'asset',
   sigFirst: 'text', sigMiddle: 'text', sigLast: 'text', sigRank: 'text', sigTitle: 'text', officeCode: 'text',
   byDirection: 'value', byDirectionAuthority: 'text', acting: 'value', actingTitle: 'text', seniorActing: 'value', juniorActing: 'value',
   signatureImage: 'asset', signatureType: 'control', appendEndorsement: 'value', additionalEndorsements: array(object(endorsement)),
   endorsementFrom: 'text', endorsementTo: 'text', endorsementBody: 'text', endorsementSigFirst: 'text',
-  endorsementSigMiddle: 'text', endorsementSigLast: 'text', endorsementSerial: 'text', endorsementDate: 'text',
+  endorsementSigMiddle: 'text', endorsementSigLast: 'text', endorsementSerial: 'text', endorsementDate: 'document-date',
   classLevel: 'control', customClassification: 'text', classifiedBy: 'text', classificationBasis: 'control',
-  derivedFrom: 'text', declassifyOn: 'text', classReason: 'text', classifiedPocEmail: 'text',
-  cuiControlledBy: 'text', cuiCategory: 'text', cuiDissemination: 'text', cuiDistStatement: 'control', distReason: 'text', distDate: 'text', pocEmail: 'text',
-  seniorCommandName: 'text', seniorSSIC: 'text', seniorSerial: 'text', seniorDate: 'text', seniorSigName: 'text', seniorSigRank: 'text', seniorSigTitle: 'text',
-  juniorCommandName: 'text', juniorSSIC: 'text', juniorSerial: 'text', juniorDate: 'text', juniorSigName: 'text', juniorSigRank: 'text', juniorSigTitle: 'text', moaSubject: 'text',
+  derivedFrom: 'text', declassifyOn: 'document-date', classReason: 'text', classifiedPocEmail: 'text',
+  cuiControlledBy: 'text', cuiCategory: 'text', cuiDissemination: 'text', cuiDistStatement: 'control', distReason: 'text', distDate: 'document-date', pocEmail: 'text',
+  seniorCommandName: 'text', seniorSSIC: 'text', seniorSerial: 'text', seniorDate: 'document-date', seniorSigName: 'text', seniorSigRank: 'text', seniorSigTitle: 'text',
+  juniorCommandName: 'text', juniorSSIC: 'text', juniorSerial: 'text', juniorDate: 'document-date', juniorSigName: 'text', juniorSigRank: 'text', juniorSigTitle: 'text', moaSubject: 'text',
   jointSeniorName: 'text', jointSeniorZip: 'text', jointSeniorCode: 'text', jointSeniorFrom: 'text', jointSeniorSigName: 'text', jointSeniorSigTitle: 'text',
-  jointJuniorName: 'text', jointJuniorZip: 'text', jointJuniorCode: 'text', jointJuniorSSIC: 'text', jointJuniorSerial: 'text', jointJuniorDate: 'text',
+  jointJuniorName: 'text', jointJuniorZip: 'text', jointJuniorCode: 'text', jointJuniorSSIC: 'text', jointJuniorSerial: 'text', jointJuniorDate: 'document-date',
   jointJuniorSigName: 'text', jointJuniorSigTitle: 'text', jointJuniorFrom: 'text', jointCommonLocation: 'text', jointTo: 'text', jointSubject: 'text',
   jointMemoSeniorFrom: 'text', jointMemoSeniorSigName: 'text', jointMemoSeniorSigTitle: 'text', jointMemoJuniorFrom: 'text', jointMemoJuniorSigName: 'text', jointMemoJuniorSigTitle: 'text',
   body: 'text', inReplyTo: 'value', inReplyToText: 'text', includeHyperlinks: 'value', showSubjectOnContinuation: 'value',
@@ -106,13 +106,13 @@ export const DOCUMENT_DATA_FIELD_POLICIES = {
 
 const signature = { name: 'text', statement: 'text', style: 'control', image: 'binary' } satisfies PoliciesFor<FormSignatureBlock>;
 export const NAVMC_10274_FIELD_POLICIES = {
-  actionNo: 'text', ssicFileNo: 'text', date: 'text', from: 'text', via: 'text', orgStation: 'text', to: 'text',
+  actionNo: 'text', ssicFileNo: 'text', date: 'document-date', from: 'text', via: 'text', orgStation: 'text', to: 'text',
   natureOfAction: 'text', copyTo: 'text', references: 'text', enclosures: 'text', supplementalInfo: 'text',
   proposedAction: 'text', signatureBlocks: array(object(signature)),
 } satisfies PoliciesFor<NavmcForm10274Data>;
 export const NAVMC_11811_FIELD_POLICIES = {
   lastName: 'text', firstName: 'text', middleName: 'text', edipi: 'text', remarksText: 'text',
-  remarksTextRight: 'text', entryDate: 'text', box11: 'text', signatureBlocks: array(object(signature)),
+  remarksTextRight: 'text', entryDate: 'document-date', box11: 'text', signatureBlocks: array(object(signature)),
 } satisfies PoliciesFor<Navmc11811Data>;
 const forms = {
   navmc10274: object(NAVMC_10274_FIELD_POLICIES), navmc11811: object(NAVMC_11811_FIELD_POLICIES), includeCoverPage: 'value',

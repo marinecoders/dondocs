@@ -261,12 +261,18 @@ interface DocumentStore {
 // The full PII battery on a single free-text field. Shared so every scannable
 // field — not just the body — gets the same coverage that the share/export
 // payload assumes was applied.
-function scanText(text: string | undefined, fieldName: string): PIIFinding[] {
+function scanText(field: DocumentTextField): PIIFinding[] {
+  const { text, label: fieldName } = field;
   if (typeof text !== 'string' || !text.trim()) return [];
+  // A plain value in an explicitly classified document-date field is not a
+  // birth date. Free text, configured answers, and annotations still get the
+  // full scan; date fields are never exempt from other PII patterns.
+  const documentDate = field.datePurpose === 'document'
+    && /^\s*(?:\d{4}[/-]\d{2}[/-]\d{2}|\d{2}[/-]\d{2}[/-]\d{4})\s*$/.test(text);
   return [
     ...findMatches(text, SSN_PATTERNS, 'SSN', fieldName),
     ...findMatches(text, [EDIPI_PATTERN], 'EDIPI', fieldName),
-    ...findMatches(text, DOB_PATTERNS, 'DOB', fieldName),
+    ...(documentDate ? [] : findMatches(text, DOB_PATTERNS, 'DOB', fieldName)),
     ...findMatches(text, PHONE_PATTERNS, 'PHONE', fieldName),
     ...findMedicalKeywords(text, fieldName),
     ...findEmails(text, fieldName),
@@ -305,7 +311,7 @@ export function detectCapturedPII(captured: CapturedDocument, projection: 'outpu
 }
 
 function inspectFields(fields: readonly DocumentTextField[]): PIIDetectionResult {
-  const findings = fields.flatMap(field => scanText(field.text, field.label));
+  const findings = fields.flatMap(scanText);
 
   // Remove duplicates (same value in same field)
   const uniqueFindings = findings.filter((finding, index, self) =>

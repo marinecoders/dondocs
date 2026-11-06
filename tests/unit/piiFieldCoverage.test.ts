@@ -16,6 +16,21 @@ function session(patch: Partial<DocumentSnapshot> = {}) {
 it('inspects inactive party fields retained in the serialized draft', () => {
   expect(detectPII(session({ formData: { seniorCommandName: 'SSN 123-45-6789' } })).summary.ssn).toBeGreaterThan(0);
 });
+it('does not label an ordinary publication signing date as a date of birth', () => {
+  const publication = session({ docType: 'tm_ietm_front_matter', formData: { publicationSigningDate: '2026-10-30' } });
+  expect(detectPII(publication).found).toBe(false);
+  expect(detectSharedSessionPII(publication).found).toBe(false);
+});
+it('keeps scanning free-text and configured-form dates for possible birth dates', () => {
+  expect(detectPII(session({ paragraphs: [{ text: 'DOB: 2001-02-03', level: 0 }] })).summary.dob).toBe(1);
+  const form = fixtureInstance();
+  form.rows.roster = [{ id: 'person', answers: { date: '2001-02-03' } }];
+  expect(detectSharedSessionPII(session({ documentCategory: 'forms', formType: 'fixture', genericForm: form })).summary.dob).toBe(1);
+});
+it('still scans annotations and other sensitive values in document-date fields', () => {
+  const data = session({ formData: { date: 'DOB: 2001-02-03; SSN 123-45-6789' } });
+  expect(detectPII(data).summary).toMatchObject({ dob: 1, ssn: 1 });
+});
 it('inspects paragraph footnotes and nested table cells', () => {
   expect(detectPII(session({ paragraphs: [{ text: '', level: 0, tableFootnotes: [{ id: 'footnote', text: 'SSN 123-45-6789' }] }] })).summary.ssn).toBeGreaterThan(0);
   expect(detectPII(session({ publicationTables: { parts: [{ values: { notes: 'SSN 123-45-6789' } }] } })).summary.ssn).toBeGreaterThan(0);
