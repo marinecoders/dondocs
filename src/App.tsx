@@ -76,8 +76,7 @@ import { useBatchStore } from '@/stores/batchStore';
 import { useFormCatalog } from '@/services/formCatalog';
 import { diagnosticText } from '@/services/forms/model';
 import { renderForm } from '@/services/forms/render';
-import { useHistoryStore } from '@/stores/historyStore';
-import { useDocumentsStore, applySelectedProfile, correspondenceFilename, openSessionAsNew } from '@/stores/documentsStore';
+import { useDocumentsStore, applySelectedProfile, correspondenceFilename, openSessionAsNew, changeDocumentHistory, captureDocumentScope } from '@/stores/documentsStore';
 import { useBackupStore } from '@/stores/backupStore';
 import { useEditorOutlineStore } from '@/stores/editorOutlineStore';
 import { useEditorSections } from '@/components/layout/editorSections';
@@ -209,15 +208,12 @@ function App() {
   const publicationTables = useDocumentStore((s) => s.publicationTables);
   const documentCategory = useDocumentStore((s) => s.documentCategory);
   const formType = useDocumentStore((s) => s.formType);
-  const applySnapshot = useDocumentStore((s) => s.applySnapshot);
   // Individual selectors so App re-renders only when one of these slices changes.
   const navmc10274 = useFormStore((s) => s.navmc10274);
   const navmc11811 = useFormStore((s) => s.navmc11811);
   const includeCoverPage = useFormStore((s) => s.includeCoverPage);
   const genericForm = useDocumentStore(s => s.genericForm);
   // Individual selectors across the remaining stores too.
-  const undo = useHistoryStore((s) => s.undo);
-  const redo = useHistoryStore((s) => s.redo);
   const addLogDirect = useLogStore((s) => s.addLogDirect);
   const { isReady, compile, waitForReady, error: engineError } = useLatexEngine();
   const { showUpdatePrompt, confirmUpdate, dismissUpdatePrompt } = useServiceWorker();
@@ -1631,20 +1627,14 @@ ${texFiles['body.tex'] || '% No body content'}
       // Ctrl/Cmd + Z - Undo (only when not in input fields)
       if (isMod && e.key === 'z' && !e.shiftKey && !isInInput) {
         e.preventDefault();
-        const snapshot = undo();
-        if (snapshot) {
-          applySnapshot(snapshot);
-        }
+        changeDocumentHistory('undo', captureDocumentScope());
         return;
       }
 
       // Ctrl/Cmd + Y or Ctrl/Cmd + Shift + Z - Redo (only when not in input fields)
       if (isMod && (e.key === 'y' || (e.key === 'z' && e.shiftKey)) && !isInInput) {
         e.preventDefault();
-        const snapshot = redo();
-        if (snapshot) {
-          applySnapshot(snapshot);
-        }
+        changeDocumentHistory('redo', captureDocumentScope());
         return;
       }
     };
@@ -1660,9 +1650,6 @@ ${texFiles['body.tex'] || '% No body content'}
     setReferenceLibraryOpen,
     setFindReplaceOpen,
     togglePreview,
-    undo,
-    redo,
-    applySnapshot,
   ]);
 
   // Keep the latest download triggers in the module-level holder so the

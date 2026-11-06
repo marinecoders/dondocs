@@ -1,3 +1,4 @@
+import { useDocumentsStore } from '@/stores/documentsStore';
 /**
  * Regression (audit critical #6): the ErrorBoundary's recovery operated on
  * the wrong localStorage key. Its UI says "auto-saved draft", but it
@@ -24,7 +25,8 @@ describe('ErrorBoundary recovery key (critical #6)', () => {
 
   it('the auto-saved session lands under DOCUMENT_SESSION, not DOCUMENT', () => {
     vi.useFakeTimers();
-    useDocumentStore.setState({ formData: { subject: 'RECOVERY MARKER' } as never });
+    useDocumentsStore.getState().newDocument();
+    useDocumentStore.getState().setField('subject', 'RECOVERY MARKER');
     vi.advanceTimersByTime(3000); // past the 2s autosave debounce
     vi.useRealTimers();
 

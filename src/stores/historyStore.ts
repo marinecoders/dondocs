@@ -1,3 +1,4 @@
+import type { DocumentScope } from './documentsStore';
 import type { FormInstance } from '@/services/forms/model';
 import { create } from 'zustand';
 import type { FormSession } from './formStore';
@@ -21,21 +22,31 @@ export interface DocumentSnapshot {
   publicationTables: Record<string, PublicationTableRow[]>;
 }
 
+export interface HistoryEntry extends DocumentSnapshot {
+  readonly owner: DocumentScope | null;
+}
+
+function sameOwner(a: DocumentScope | null, b: DocumentScope | null): boolean {
+  return a === b || !!a && !!b && a.documentId === b.documentId && a.epoch === b.epoch;
+}
+
 interface HistoryState {
+  owner: DocumentScope | null;
+  bindOwner: (owner: DocumentScope | null) => void;
   // History stacks
-  past: DocumentSnapshot[];
-  future: DocumentSnapshot[];
+  past: HistoryEntry[];
+  future: HistoryEntry[];
 
   // Current snapshot for comparison
-  currentSnapshot: DocumentSnapshot | null;
+  currentSnapshot: HistoryEntry | null;
 
   // Max history size
   maxHistorySize: number;
 
   // Actions
-  saveSnapshot: (snapshot: DocumentSnapshot) => void;
-  undo: () => DocumentSnapshot | null;
-  redo: () => DocumentSnapshot | null;
+  saveSnapshot: (snapshot: DocumentSnapshot, owner?: DocumentScope | null) => void;
+  undo: (owner?: DocumentScope | null) => HistoryEntry | null;
+  redo: (owner?: DocumentScope | null) => HistoryEntry | null;
   canUndo: () => boolean;
   canRedo: () => boolean;
   clearHistory: () => void;
@@ -50,8 +61,9 @@ function snapshotsEqual(a: DocumentSnapshot | null, b: DocumentSnapshot | null):
 }
 
 // Create a clean copy of the snapshot (without non-serializable data)
-function cloneSnapshot(snapshot: DocumentSnapshot): DocumentSnapshot {
+function cloneSnapshot(snapshot: DocumentSnapshot, owner: DocumentScope | null): HistoryEntry {
   return {
+    owner,
     genericForm: snapshot.genericForm ? structuredClone(snapshot.genericForm) : undefined,
     documentMode: snapshot.documentMode,
     documentCategory: snapshot.documentCategory,
@@ -73,14 +85,17 @@ function cloneSnapshot(snapshot: DocumentSnapshot): DocumentSnapshot {
 }
 
 export const useHistoryStore = create<HistoryState>((set, get) => ({
+  owner: null,
+  bindOwner: (owner) => set({ owner, past: [], future: [], currentSnapshot: null }),
   past: [],
   future: [],
   currentSnapshot: null,
   maxHistorySize: 50,
 
-  saveSnapshot: (snapshot) => {
+  saveSnapshot: (snapshot, owner = get().owner) => {
     const state = get();
-    const clonedSnapshot = cloneSnapshot(snapshot);
+    if (!sameOwner(owner, state.owner)) return;
+    const clonedSnapshot = cloneSnapshot(snapshot, owner);
 
     // Don't save if identical to current
     if (snapshotsEqual(clonedSnapshot, state.currentSnapshot)) {
@@ -107,9 +122,11 @@ export const useHistoryStore = create<HistoryState>((set, get) => ({
     }
   },
 
-  undo: () => {
+  undo: (owner = get().owner) => {
     const state = get();
-    if (state.past.length === 0) return null;
+    if (!sameOwner(owner, state.owner) || state.past.length === 0
+      || !sameOwner(state.past.at(-1)!.owner, owner)
+      || state.currentSnapshot && !sameOwner(state.currentSnapshot.owner, owner)) return null;
 
     const newPast = [...state.past];
     const previousSnapshot = newPast.pop()!;
@@ -128,9 +145,11 @@ export const useHistoryStore = create<HistoryState>((set, get) => ({
     return previousSnapshot;
   },
 
-  redo: () => {
+  redo: (owner = get().owner) => {
     const state = get();
-    if (state.future.length === 0) return null;
+    if (!sameOwner(owner, state.owner) || state.future.length === 0
+      || !sameOwner(state.future[0].owner, owner)
+      || state.currentSnapshot && !sameOwner(state.currentSnapshot.owner, owner)) return null;
 
     const newFuture = [...state.future];
     const nextSnapshot = newFuture.shift()!;
