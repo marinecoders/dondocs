@@ -16,18 +16,10 @@ export function GenericFormSection({ formType }: { formType: string }) {
   const { config: definition, error: loadError, retry } = useFormResource(formType);
   const instance = useDocumentStore(s => s.genericForm);
   const currentId = useDocumentsStore(s => s.currentId);
-  const [error, setError] = useState('');
-  useEffect(() => {
-    if (!definition || instance?.definition.formId === formType) return;
-    try {
-      const hasSavedCopy = Object.values(useDocumentsStore.getState().docs).some(entry => entry.session.genericForm?.definition.formId === formType);
-      startForm(definition, !hasSavedCopy);
-    } catch (e) { queueMicrotask(() => setError(String(e))); }
-  }, [definition, formType, instance]);
   if (!definition || !instance || instance.definition.formId !== formType) {
-    return error || loadError ? <div role="alert" className="space-y-3 text-sm">
-      <p>{error || loadError}</p>
-      <Button variant="outline" onClick={() => { setError(''); retry(); }}>Retry form</Button>
+    return loadError ? <div role="alert" className="space-y-3 text-sm">
+      <p>{loadError}</p>
+      <Button variant="outline" onClick={retry}>Retry form</Button>
     </div> : <p role="status" className="text-sm text-muted-foreground">Loading form…</p>;
   }
   return <FormInstanceEditor key={currentId} instance={instance} currentId={currentId} />;

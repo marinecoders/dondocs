@@ -6,7 +6,7 @@ import type { SerializedSession } from './documentStore';
 /**
  * User-saved document templates. A template is a captured SerializedSession (the
  * same payload a share link / Recents entry carries), so loading one restores
- * the full document via loadSharedSession. Persisted to compressed localStorage
+ * the full document through the workspace owner. Persisted to compressed localStorage
  * like profiles; enclosure files are not part of the session and aren't saved.
  */
 export interface UserTemplate {

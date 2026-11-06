@@ -5,14 +5,17 @@ import { create } from 'zustand';
 import { compressedParse } from '@/lib/compressedStorage';
 import { DOC_TYPE_LABELS, formTypeLabel, type FormType, type DocumentCategory } from '@/types/document';
 import { waitForStorage, DocumentWrites, WRITE_JOURNAL_KEY, type PendingDocumentWrite } from '@/lib/documentWrites';
-import { parseFormInstance } from '@/services/forms/model';
+import { parseFormInstance, migrateLegacyAnswers, type FormInstance } from '@/services/forms/model';
 import { lastWriteFailed } from '@/lib/compressedStorage';
 import {
   useDocumentStore,
   getSerializedSession,
   serializeSession,
   getSavedSession,
-  loadSharedSession,
+  prepareSessionState,
+  installSessionState,
+  createBlankSession,
+  rehydrateEnclosureFiles,
   isApplyingSession,
   observeSessionReplacement,
   isApplyingAssets,
@@ -41,11 +44,14 @@ import {
   idbSetMigratedIds,
   type StoredDocument,
 } from '@/lib/documentsDb';
-import { useFormStore, loadFormSession, serializeForm, FORMS_PERSIST_KEY } from './formStore';
+import { useFormStore, serializeForm, FORMS_PERSIST_KEY } from './formStore';
 import { scheduleBackup } from './backupStore';
 import { debug } from '@/lib/debug';
 import { TIMING } from '@/lib/constants';
-import { useHistoryStore } from './historyStore';
+import { useHistoryStore, type DocumentSnapshot } from './historyStore';
+import { persistAttachment } from '@/lib/attachments';
+import type { ReviewedDraft } from '@/lib/draftFile';
+import { configForFormType } from '@/services/formRegistry';
 
 /**
  * Multi-document registry behind the Recents list. Each document is a
@@ -96,6 +102,7 @@ export interface DocumentTarget {
 const issuedTargets = new WeakSet<DocumentTarget>();
 let editSequence = 0;
 let restoreRequest = 0;
+let openingRequest = 0;
 
 export function captureDocumentScope(): DocumentScope | null {
   const { currentId, activationEpoch } = useDocumentsStore.getState();
@@ -126,6 +133,185 @@ export function isCurrentDocumentTarget(target: DocumentTarget | null): target i
 
 function activation(currentId: string | null) {
   return { currentId, activationEpoch: useDocumentsStore.getState().activationEpoch + 1 };
+}
+
+const preparedBrand = Symbol('PreparedDocument');
+export interface PreparedDocument { readonly [preparedBrand]: true }
+const preparedDocuments = new WeakMap<PreparedDocument, DocumentSnapshot>();
+
+function ownPreparedState(state: DocumentSnapshot): PreparedDocument {
+  const prepared = Object.freeze<PreparedDocument>({ [preparedBrand]: true });
+  preparedDocuments.set(prepared, state);
+  return prepared;
+}
+
+export function prepareDocument(value: unknown): PreparedDocument {
+  return ownPreparedState(prepareSessionState(value));
+}
+
+interface InstallOptions {
+  id?: string;
+  save?: boolean;
+  resume?: boolean;
+  preserveOutgoing?: boolean;
+  profileSignature?: boolean;
+}
+
+/** Install only fully prepared input; all live state agrees before observers resume. */
+function installDocument(prepared: PreparedDocument, options: InstallOptions = {}): TransitionOutcome {
+  const incoming = preparedDocuments.get(prepared);
+  if (!incoming) return 'invalid';
+  openingRequest++;
+  if (options.preserveOutgoing !== false) useDocumentsStore.getState().syncCurrent();
+  const previous = useDocumentsStore.getState();
+  const document = useDocumentStore.getState().getSnapshot();
+  const forms = useFormStore.getState();
+  const history = useHistoryStore.getState();
+  const ui = useUIStore.getState();
+  const id = options.id ?? newId();
+  let failed = false;
+  replaceSessionState(() => {
+    try {
+      useDocumentsStore.setState(activation(id));
+      installSessionState(structuredClone(incoming));
+      if (options.profileSignature && incoming.documentCategory !== 'forms') applyProfileSignature();
+      useDocumentsStore.setState({ baseline: getSerializedSession() });
+    } catch (error) {
+      failed = true;
+      debug.error('Documents', 'Document installation cancelled', error);
+      useDocumentsStore.setState({ ...activation(previous.currentId), baseline: previous.baseline });
+      try { useFormStore.setState(forms); } catch { /* The in-memory rollback precedes persistence. */ }
+      const { forms: _forms, ...content } = document;
+      useDocumentStore.setState(content);
+    }
+  });
+  if (failed) {
+    useHistoryStore.getState().restoreHistory(history, captureDocumentScope());
+    useUIStore.setState({ saveStatus: ui.saveStatus, lastSavedAt: ui.lastSavedAt, saveWarning: ui.saveWarning });
+    return 'invalid';
+  }
+  if (options.resume !== false) persistCurrentId(id);
+  if (options.save !== false) useDocumentsStore.getState().saveCurrent();
+  else {
+    const entry = useDocumentsStore.getState().docs[id];
+    useUIStore.getState().setLastSavedAt(entry?.meta.updatedAt ?? null);
+    if (writes.has(id)) useUIStore.getState().setSaveStatus(writes.failure(id) ? 'error' : 'saving');
+  }
+  useUIStore.getState().setValidationVisible(false);
+  void hydrateDocumentAssets(captureDocumentScope());
+  return 'applied';
+}
+
+export function openPreparedDocument(prepared: PreparedDocument, target: DocumentTarget | null): TransitionOutcome {
+  if (target ? !isCurrentDocumentTarget(target) : useDocumentsStore.getState().currentId !== null) return 'stale';
+  return installDocument(prepared);
+}
+
+export function replaceCurrentDocument(prepared: PreparedDocument, target: DocumentTarget | null): TransitionOutcome {
+  if (!isCurrentDocumentTarget(target)) return 'stale';
+  return installDocument(prepared, { id: target.scope.documentId });
+}
+
+export async function hydrateDocumentAssets(scope: DocumentScope | null = captureDocumentScope()): Promise<void> {
+  if (!isCurrentDocumentScope(scope)) return;
+  await rehydrateEnclosureFiles(() => isCurrentDocumentScope(scope));
+}
+
+/** Stage operation-owned files before changing the editor or library identity. */
+export async function openReviewedDocument(reviewed: ReviewedDraft, target: DocumentTarget | null): Promise<TransitionOutcome> {
+  if (!isCurrentDocumentTarget(target)) return 'stale';
+  const request = ++openingRequest;
+  const current = () => request === openingRequest && isCurrentDocumentTarget(target);
+  let owned: ReviewedDraft;
+  let state: DocumentSnapshot;
+  try { owned = structuredClone(reviewed); state = prepareSessionState(owned.session); }
+  catch { return 'invalid'; }
+  for (const [index, file] of owned.figures.entries()) {
+    if (!file) continue;
+    const figure = state.paragraphs[index]?.figure;
+    if (!figure) return 'invalid';
+    figure.fileRef = await persistAttachment({ name: file.name, size: file.size, type: figure.type ?? 'image/png' }, file.data);
+    if (!current()) return 'stale';
+  }
+  if (owned.basicLetter) {
+    const file = owned.basicLetter;
+    state.formData.basicLetterFileRef = await persistAttachment({ name: file.name, size: file.size, type: 'application/pdf' }, file.data);
+    if (!current()) return 'stale';
+    state.formData.basicLetterFile = file;
+  }
+  for (const [index, file] of owned.files.entries()) {
+    if (!file) continue;
+    const enclosure = state.enclosures[index];
+    if (!enclosure) return 'invalid';
+    const ref = await persistAttachment({ name: file.name, size: file.size, type: 'application/pdf' }, file.data);
+    if (!current()) return 'stale';
+    state.enclosures[index] = { ...enclosure, file, fileRef: ref };
+  }
+  return openPreparedDocument(ownPreparedState(state), target);
+}
+
+export function restoreSavedDocument(): TransitionOutcome {
+  const session = getSavedSession();
+  return session ? openSessionAsNew(session) : 'unchanged';
+}
+
+function createCorrespondenceSession(docType = 'naval_letter'): SerializedSession {
+  const session = createBlankSession(undefined, docType);
+  const { selectedProfile, profiles } = useProfileStore.getState();
+  if (selectedProfile && profiles[selectedProfile]) session.formData = { ...session.formData, ...profileFormPatch(profiles[selectedProfile]) };
+  return session;
+}
+
+export function newCorrespondenceDocument(docType = 'naval_letter'): TransitionOutcome {
+  let prepared: PreparedDocument;
+  try { prepared = prepareDocument(createCorrespondenceSession(docType)); }
+  catch { return 'invalid'; }
+  return installDocument(prepared, { save: false });
+}
+
+function prepareBlankDocument(formType?: FormType): PreparedDocument {
+  return prepareDocument(formType ? createBlankSession(formType) : createCorrespondenceSession());
+}
+
+export function openFormInstance(instance: FormInstance): TransitionOutcome {
+  return openSessionAsNew({ ...createBlankSession(), documentCategory: 'forms', formType: instance.definition.formId,
+    genericForm: instance, formData: {}, references: [], enclosures: [], paragraphs: [], copyTos: [], distributions: [],
+  });
+}
+
+export function resetCurrentDocument(): TransitionOutcome {
+  const scope = captureDocumentScope();
+  if (!isCurrentDocumentScope(scope)) return 'stale';
+  const document = useDocumentStore.getState();
+  if (document.documentCategory !== 'forms') return replaceCurrentDocument(prepareDocument(createBlankSession()), captureDocumentTarget());
+  recordDocumentHistory(scope);
+  if (document.genericForm) useDocumentStore.setState({ genericForm: { ...document.genericForm, answers: {}, rows: {}, answerRevision: document.genericForm.answerRevision + 1 } });
+  else {
+    const forms = useFormStore.getState();
+    if (document.formType === 'navmc_118_11') forms.resetNavmc11811();
+    else forms.resetNavmc10274();
+  }
+  recordDocumentHistory(scope);
+  return 'applied';
+}
+
+async function openGenericDocument(formType: string): Promise<void> {
+  const target = captureDocumentTarget();
+  const request = ++openingRequest;
+  const legacy = useFormStore.getState();
+  const migrate = !Object.values(useDocumentsStore.getState().docs).some(entry => entry.session.genericForm?.definition.formId === formType);
+  const values = structuredClone(legacy.configFormValues[formType] ?? {});
+  const rows = structuredClone(legacy.configFormRows[formType] ?? {});
+  try {
+    const definition = await configForFormType(formType);
+    if (request !== openingRequest || !isCurrentDocumentTarget(target)) return;
+    if (!definition) throw new Error('This form is unavailable. Reconnect and select it again.');
+    if (definition.formId !== formType) throw new Error('The form definition does not match the selected form.');
+    const data = migrate ? migrateLegacyAnswers(definition, values, rows) : { answers: {}, rows: {} };
+    openFormInstance({ definition, ...data, answerRevision: 0 });
+  } catch (error) {
+    if (request === openingRequest && isCurrentDocumentTarget(target)) showAppAlert({ title: 'Form could not be opened', message: error instanceof Error ? error.message : 'Select the form again to retry.' });
+  }
 }
 
 interface DocumentsState {
@@ -185,11 +371,7 @@ interface DocumentsState {
   duplicateDocument: (id: string) => void;
   /** Replace only the requested activation after its safety copy commits. */
   restoreSnapshot: (session: SerializedSession, target: DocumentTarget | null) => Promise<TransitionOutcome>;
-  /**
-   * Register the document currently in the live store as a new Recents entry
-   * (used by Header's Load progress). Flush the open document first, then call
-   * this so the loaded draft opens as its own entry instead of overwriting it.
-   */
+  /** Detach live content into a new entry for recovery adapters. */
   openLoadedAsNew: () => void;
 }
 
@@ -669,13 +851,13 @@ export async function openRecoveredCopies(): Promise<void> {
 }
 
 // Shared hydration promise so concurrent init() calls read the registry once.
-let hydratePromise: Promise<void> | null = null;
+let hydratePromise: Promise<string | null> | null = null;
 let initPromise: Promise<boolean> | null = null;
 function ensureHydrated(
   set: (partial: Partial<DocumentsState>) => void,
   get: () => DocumentsState
-): Promise<void> {
-  if (get().hydrated) return Promise.resolve();
+): Promise<string | null> {
+  if (get().hydrated) return Promise.resolve(get().currentId);
   if (!hydratePromise) {
     hydratePromise = (async () => {
       await migrateLegacyRegistry();
@@ -707,7 +889,8 @@ function ensureHydrated(
           loaded[r.id] = { meta: r.meta, session: r.session };
         }
       }
-      set({ ...partitionDocuments(loaded), ...activation(cid), hydrated: true });
+      set({ ...partitionDocuments(loaded), hydrated: true });
+      return cid;
     })();
     // If hydration rejects, drop the cached promise so a later init() can retry
     // rather than being wedged on a permanently-rejected promise for the page
@@ -745,52 +928,21 @@ function beginPending(entries: DocumentEntry[], set: (partial: Partial<Documents
   purgeTimer = setTimeout(() => { set({ pendingDelete: null }); purgeTimer = null; }, 6000);
 }
 
-function tryLoadSavedSession(session: SerializedSession): boolean {
-  try {
-    loadSharedSession(session);
-    return true;
-  } catch (error) {
-    debug.warn('Documents', 'Could not load saved document', error);
-    showAppAlert({
-      title: 'Saved document could not be opened',
-      message: 'The saved copy remains in your library. Download workspace backup to keep a recovery copy, then try opening it with the latest version of DonDocs.',
-    });
-    return false;
+function tryPrepareSavedSession(session: SerializedSession): PreparedDocument | null {
+  try { return prepareDocument(session); }
+  catch (error) {
+    debug.warn('Documents', 'Could not prepare saved document', error);
+    showAppAlert({ title: 'Saved document could not be opened', message: 'The saved copy remains in your library. Download a workspace backup to keep a recovery copy, then try opening it with the latest version of DonDocs.' });
+    return null;
   }
 }
 
-// Shared "the open doc was deleted" fallback: reopen the newest remaining doc,
-// else seed a fresh blank. `remaining` is the docs map after the deletion.
-function reopenAfterRemoval(
-  remaining: Record<string, DocumentEntry>,
-  set: (partial: Partial<DocumentsState>) => void,
-  markBaseline: () => void
-): void {
-  // The deleted doc may still sit in the localStorage session blob; clear it so
-  // a crash recovery can't hand back a document the user just deleted.
+function reopenAfterRemoval(remaining: Record<string, DocumentEntry>): void {
   clearSavedSession();
   const newest = Object.values(remaining).sort((a, b) => b.meta.updatedAt - a.meta.updatedAt)[0];
-  replaceSessionState(() => {
-    if (newest && tryLoadSavedSession(newest.session)) {
-      set({ ...activation(newest.meta.id), baseline: newest.session });
-      persistCurrentId(newest.meta.id);
-      applyProfileSignature();
-      useUIStore.getState().setLastSavedAt(newest.meta.updatedAt);
-    } else {
-      const fresh = newId();
-      set({ ...activation(fresh) });
-      persistCurrentId(fresh);
-      const ds = useDocumentStore.getState();
-      replaceSessionState(() => {
-        ds.setDocumentCategory('correspondence');
-        ds.resetForm();
-        applySelectedProfile();
-      });
-      markBaseline();
-      useUIStore.getState().setLastSavedAt(null);
-    }
-    useUIStore.getState().setValidationVisible(false);
-  });
+  const prepared = newest ? tryPrepareSavedSession(newest.session) : null;
+  if (newest && prepared) installDocument(prepared, { id: newest.meta.id, save: false, preserveOutgoing: false, profileSignature: true });
+  else installDocument(prepareBlankDocument(), { save: false, preserveOutgoing: false });
 }
 
 // Version-history snapshots: throttle autosave snapshots to one per document per
@@ -812,73 +964,31 @@ function maybeSnapshot(docId: string, session: SerializedSession, force = false)
 // of the store so init() can run it under a cross-tab Web Lock.
 function initAfterHydration(
   set: (partial: Partial<DocumentsState>) => void,
-  get: () => DocumentsState
+  get: () => DocumentsState,
+  currentId: string | null,
 ): boolean {
-  const { currentId, docs } = get();
-
-  // Returning user: the registry knows the open document; load it to resume.
-  // The IndexedDB registry entry is authoritative — we deliberately do NOT fall
-  // back to the id-less localStorage session blob here: it may hold a DIFFERENT
-  // document (e.g. after a switchTo whose debounced blob-rewrite hadn't fired),
-  // so preferring it could graft another draft's content onto this one.
+  const { docs } = get();
   if (currentId && docs[currentId]) {
     let session = docs[currentId].session;
-    // Canonicalize the stored unitAddress to match what loadSharedSession
-    // applies; otherwise a legacy entry re-sorts to the top on first reload.
     if (session.formData?.unitAddress) {
-      const canon = canonicalizeUnitAddress(session.formData.unitAddress);
-      if (canon !== session.formData.unitAddress) {
-        session = { ...session, formData: { ...session.formData, unitAddress: canon } };
+      const address = canonicalizeUnitAddress(session.formData.unitAddress);
+      if (address !== session.formData.unitAddress) {
+        session = { ...session, formData: { ...session.formData, unitAddress: address } };
         const entry = { ...docs[currentId], session };
         set({ docs: { ...docs, [currentId]: entry } });
         persistEntry(entry, docs[currentId]);
       }
     }
-    if (!tryLoadSavedSession(session)) {
-      // Never attach a blank editor to the saved record that failed to load.
-      set({ ...activation(newId()), baseline: null });
-      return false;
+    const prepared = tryPrepareSavedSession(session);
+    if (prepared && installDocument(prepared, { id: currentId, save: false, profileSignature: true }) === 'applied') return true;
+  } else {
+    const legacy = getSavedSession();
+    if (legacy && (legacy.documentCategory !== 'forms' || legacy.genericForm) && isMeaningful(legacy)) {
+      const prepared = tryPrepareSavedSession(legacy);
+      if (prepared && installDocument(prepared) === 'applied') return true;
     }
-    applyProfileSignature();
-    set({ baseline: session });
-    useUIStore.getState().setValidationVisible(false);
-    useUIStore.getState().setLastSavedAt(docs[currentId].meta.updatedAt);
-    debug.log('Documents', 'Resumed current document', { id: currentId });
-    return true;
   }
-
-  // First load after this feature shipped: fold the legacy single session into
-  // the registry so prior work isn't lost.
-  const legacy = getSavedSession();
-  if (legacy && (legacy.documentCategory !== 'forms' || legacy.genericForm) && isMeaningful(legacy)) {
-    if (legacy.formData?.unitAddress) {
-      legacy.formData = {
-        ...legacy.formData,
-        unitAddress: canonicalizeUnitAddress(legacy.formData.unitAddress),
-      };
-    }
-    const id = newId();
-    const entry = { meta: metaFor(id, legacy), session: legacy };
-    set({ ...activation(id), docs: { ...docs, [id]: entry } });
-    persistEntry(entry);
-    persistCurrentId(id);
-    if (!tryLoadSavedSession(legacy)) {
-      set({ ...activation(newId()), baseline: null });
-      return false;
-    }
-    applyProfileSignature();
-    set({ baseline: legacy });
-    debug.log('Documents', 'Migrated legacy session as first document', { id });
-    return true;
-  }
-
-  // Brand-new (or forms-only) start: give the live document an id. The caller
-  // sets its baseline after applying the profile; it enters Recents on first
-  // edit. Don't persist this id yet — a visitor who types nothing would
-  // otherwise leave a resume pointer aimed at a document that was never saved.
-  // syncCurrent/saveCurrent persist it the moment the doc gains real content.
-  const id = newId();
-  set({ ...activation(id), baseline: null });
+  installDocument(prepareBlankDocument(), { save: false, resume: false });
   return false;
 }
 
@@ -896,7 +1006,6 @@ export const useDocumentsStore = create<DocumentsState>((set, get) => ({
   markBaseline: () => {
     const session = getSerializedSession();
     set({ baseline: session });
-    resetScopedHistory();
   },
 
   init: () => {
@@ -907,10 +1016,11 @@ export const useDocumentsStore = create<DocumentsState>((set, get) => ({
     // then hydrates a registry the winner already migrated and resumes normally.
     // Without locks support, behavior is unchanged (single-tab is unaffected).
     const run = async (): Promise<boolean> => {
-      await ensureHydrated(set, get);
-      let resumed = false;
-      replaceSessionState(() => { resumed = initAfterHydration(set, get); });
-      return resumed;
+      const epoch = get().activationEpoch;
+      const sequence = editSequence;
+      const currentId = await ensureHydrated(set, get);
+      if (get().activationEpoch !== epoch || editSequence !== sequence) return true;
+      return initAfterHydration(set, get, currentId);
     };
     initPromise = (typeof navigator !== 'undefined' && navigator.locks?.request
       ? navigator.locks.request('dondocs-init', run)
@@ -988,22 +1098,12 @@ export const useDocumentsStore = create<DocumentsState>((set, get) => ({
   },
 
   newDocument: (formType) => {
-    get().syncCurrent(); // preserve the document being left
-    const id = newId();
-    const ds = useDocumentStore.getState();
-    replaceSessionState(() => {
-      set({ ...activation(id) });
-      persistCurrentId(id);
-      ds.resetForm();
-      ds.setDocumentCategory(formType ? 'forms' : 'correspondence');
-      if (formType) {
-        ds.setFormType(formType);
-        if (formType === 'navmc_10274' || formType === 'navmc_118_11') loadFormSession(formType);
-      } else applySelectedProfile();
-    });
-    get().markBaseline();
-    useUIStore.getState().setLastSavedAt(null); // brand-new doc isn't saved yet
-    debug.log('Documents', 'New document', { id });
+    if (formType && formType !== 'navmc_10274' && formType !== 'navmc_118_11') {
+      void openGenericDocument(formType);
+      return;
+    }
+    if (!formType) newCorrespondenceDocument();
+    else installDocument(prepareBlankDocument(formType), { save: false });
   },
 
   selectKind: (category, formType) => {
@@ -1019,30 +1119,7 @@ export const useDocumentsStore = create<DocumentsState>((set, get) => ({
     else get().newDocument(category === 'forms' ? formType ?? 'navmc_10274' : undefined);
   },
 
-  switchTo: (id) => {
-    const entry = get().docs[id];
-    if (!entry) return;
-    const current = useDocumentStore.getState();
-    if (id === get().currentId
-      && current.documentCategory === (entry.session.documentCategory ?? 'correspondence')
-      && current.formType === entry.session.formType
-      && Boolean(current.genericForm) === Boolean(entry.session.genericForm)) return;
-    get().syncCurrent(); // preserve the document being left
-    let loaded = false;
-    replaceSessionState(() => {
-      loaded = tryLoadSavedSession(entry.session);
-      if (!loaded) return;
-      set({ ...activation(id), baseline: entry.session });
-      persistCurrentId(id);
-      applyProfileSignature();
-    });
-    if (!loaded) return;
-    useUIStore.getState().setValidationVisible(false);
-    // Point the "Saved" indicator at THIS doc's last save, not the one we left.
-    useUIStore.getState().setLastSavedAt(entry.meta.updatedAt);
-    if (writes.has(id)) useUIStore.getState().setSaveStatus(writes.failure(id) ? 'error' : 'saving');
-    debug.log('Documents', 'Switched document', { id });
-  },
+  switchTo: (id) => { openExistingDocument(id); },
 
   remove: (id) => {
     if (id === get().currentId) get().syncCurrent();
@@ -1054,7 +1131,7 @@ export const useDocumentsStore = create<DocumentsState>((set, get) => ({
     // A current-but-unsaved starter has no record to move to Trash.
     if (entry) beginPending([entry], set);
     if (id !== currentId) return;
-    reopenAfterRemoval(next, set, get().markBaseline);
+    reopenAfterRemoval(next);
   },
 
   removeMany: (ids) => {
@@ -1066,7 +1143,7 @@ export const useDocumentsStore = create<DocumentsState>((set, get) => ({
     for (const id of ids) delete next[id];
     set({ docs: next });
     beginPending(entries, set);
-    if (currentId != null && ids.includes(currentId)) reopenAfterRemoval(next, set, get().markBaseline);
+    if (currentId != null && ids.includes(currentId)) reopenAfterRemoval(next);
   },
 
   togglePin: (id) => {
@@ -1080,13 +1157,11 @@ export const useDocumentsStore = create<DocumentsState>((set, get) => ({
   },
 
   openLoadedAsNew: () => {
-    const id = newId();
-    replaceSessionState(() => set({ ...activation(id) }));
-    persistCurrentId(id);
-    get().markBaseline();
-    get().saveCurrent(); // force the loaded draft into Recents as its own entry
-    useUIStore.getState().setValidationVisible(false);
-    debug.log('Documents', 'Opened loaded draft as new document', { id });
+    const state = prepareSessionState(getSerializedSession());
+    const live = useDocumentStore.getState();
+    state.enclosures = structuredClone(live.enclosures);
+    state.formData = structuredClone(live.formData);
+    installDocument(ownPreparedState(state), { preserveOutgoing: false });
   },
 
   restoreDeleted: () => {
@@ -1160,15 +1235,9 @@ export const useDocumentsStore = create<DocumentsState>((set, get) => ({
   restoreSnapshot: async (session, target) => {
     if (!isCurrentDocumentTarget(target)) return 'stale';
     const request = ++restoreRequest;
-    let incoming: SerializedSession;
-    try {
-      incoming = structuredClone(session);
-      if (incoming.genericForm) {
-        const form = parseFormInstance(incoming.genericForm);
-        if (incoming.documentCategory !== 'forms' || incoming.formType !== form.definition.formId) return 'invalid';
-        incoming.genericForm = form;
-      }
-    } catch { return 'invalid'; }
+    let incoming: PreparedDocument;
+    try { incoming = prepareDocument(session); }
+    catch { return 'invalid'; }
     const current = () => isCurrentDocumentTarget(target) && request === restoreRequest;
     // Keep the safety copy even if its operation becomes stale while writing.
     let ok: boolean;
@@ -1176,10 +1245,7 @@ export const useDocumentsStore = create<DocumentsState>((set, get) => ({
     catch { ok = false; }
     if (!current()) return 'stale';
     if (!ok) return 'safety-copy-failed';
-    loadSharedSession(incoming);
-    get().markBaseline();
-    get().saveCurrent();
-    return 'applied';
+    return replaceCurrentDocument(incoming, target);
   },
 }));
 
@@ -1216,7 +1282,7 @@ export function changeDocumentHistory(direction: 'undo' | 'redo', scope: Documen
   recordDocumentHistory(scope);
   const snapshot = useHistoryStore.getState()[direction](scope);
   if (!snapshot) return 'unchanged';
-  useDocumentStore.getState().applySnapshot(snapshot);
+  useDocumentStore.getState().applySnapshot(snapshot, () => isCurrentDocumentScope(scope));
   return 'applied';
 }
 
@@ -1372,7 +1438,7 @@ export function reconcileDocuments(records: StoredDocument[], permanentlyDeleted
     useDocumentsStore.getState().openLoadedAsNew();
     showAppAlert({ title: 'Edits kept in a new draft', message: 'This document was deleted in another tab. Your newer edits were kept as a separate draft.' });
   } else {
-    reopenAfterRemoval(partitioned.docs, useDocumentsStore.setState, useDocumentsStore.getState().markBaseline);
+    reopenAfterRemoval(partitioned.docs);
   }
 }
 
@@ -1418,11 +1484,23 @@ export async function exportLibrary(): Promise<string> {
 }
 
 /** External sessions must not inherit the open document's library ID. */
-export function openSessionAsNew(session: SerializedSession): void {
-  const documents = useDocumentsStore.getState();
-  documents.syncCurrent();
-  loadSharedSession(session);
-  documents.openLoadedAsNew();
+export function openSessionAsNew(session: unknown): TransitionOutcome {
+  let prepared: PreparedDocument;
+  try { prepared = prepareDocument(session); }
+  catch { return 'invalid'; }
+  return openPreparedDocument(prepared, captureDocumentTarget());
+}
+
+export function openExistingDocument(id: string): TransitionOutcome {
+  const registry = useDocumentsStore.getState();
+  const entry = registry.docs[id];
+  if (!entry) return 'invalid';
+  const current = useDocumentStore.getState();
+  if (id === registry.currentId && current.documentCategory === (entry.session.documentCategory ?? 'correspondence')
+    && current.formType === entry.session.formType && Boolean(current.genericForm) === Boolean(entry.session.genericForm)) return 'unchanged';
+  const prepared = tryPrepareSavedSession(entry.session);
+  if (!prepared) return 'invalid';
+  return installDocument(prepared, { id, save: false, profileSignature: true });
 }
 
 /** Merge a library backup into IndexedDB and refresh the in-memory registry.

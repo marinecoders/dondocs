@@ -36,8 +36,8 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useUIStore } from '@/stores/uiStore';
-import { loadSharedSession, useDocumentStore } from '@/stores/documentStore';
-import { useDocumentsStore } from '@/stores/documentsStore';
+import { useDocumentStore } from '@/stores/documentStore';
+import { openSessionAsNew } from '@/stores/documentsStore';
 import { exampleSession } from '@/lib/exampleSession';
 import { useTourStore } from '@/stores/tourStore';
 import { useOnboardingStore } from '@/stores/onboardingStore';
@@ -373,9 +373,7 @@ function ExamplesTab({ onClose }: { onClose: () => void }) {
   const handleLoadExample = () => {
     if (!selectedExample) return;
 
-    useDocumentsStore.getState().syncCurrent();
-    loadSharedSession(exampleSession(selectedExample));
-    useDocumentsStore.getState().openLoadedAsNew();
+    if (openSessionAsNew(exampleSession(selectedExample)) !== 'applied') return;
     useUIStore.getState().setValidationVisible(false);
 
     // Close modal

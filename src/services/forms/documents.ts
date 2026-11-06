@@ -1,7 +1,6 @@
 import { useDocumentStore } from '@/stores/documentStore';
-import { useDocumentsStore, captureDocumentScope, isCurrentDocumentScope, recordDocumentHistory } from '@/stores/documentsStore';
+import { useDocumentsStore, openFormInstance, captureDocumentScope, isCurrentDocumentScope, recordDocumentHistory } from '@/stores/documentsStore';
 import { useFormStore } from '@/stores/formStore';
-import { useHistoryStore } from '@/stores/historyStore';
 import { migrateLegacyAnswers, parseFormInstance, validateAnswers, type FormDefinition, type FormInstance } from './model';
 
 export function startForm(definition: FormDefinition, migrate = true): void {
@@ -13,11 +12,7 @@ export function startForm(definition: FormDefinition, migrate = true): void {
     .sort(([, a], [, b]) => b.meta.updatedAt - a.meta.updatedAt)[0];
   if (migrate && previous) { documents.switchTo(previous[0]); return; }
   const data = migrate ? migrateLegacyAnswers(definition, legacy.configFormValues[definition.formId] ?? {}, legacy.configFormRows[definition.formId] ?? {}) : { answers: {}, rows: {} };
-  useDocumentStore.setState({ documentCategory: 'forms', formType: definition.formId, formData: {}, references: [], enclosures: [], paragraphs: [], copyTos: [], distributions: [], endItems: [], publicationTables: {}, genericForm: { definition, ...data, answerRevision: 0 } });
-  documents.openLoadedAsNew();
-  documents.saveCurrent();
-  useHistoryStore.getState().clearHistory();
-  useHistoryStore.getState().saveSnapshot(useDocumentStore.getState().getSnapshot());
+  openFormInstance({ definition, ...data, answerRevision: 0 });
   // Legacy buffers remain as a recovery copy after migration.
 }
 
@@ -36,13 +31,7 @@ export function editForm(update: (draft: Pick<FormInstance, 'answers' | 'rows'>)
 
 export function importForm(value: unknown): void {
   const instance = parseFormInstance(value);
-  const documents = useDocumentsStore.getState();
-  documents.syncCurrent();
-  useDocumentStore.setState({ documentCategory: 'forms', formType: instance.definition.formId, formData: {}, references: [], enclosures: [], paragraphs: [], copyTos: [], distributions: [], endItems: [], publicationTables: {}, genericForm: instance });
-  documents.openLoadedAsNew();
-  documents.saveCurrent();
-  useHistoryStore.getState().clearHistory();
-  useHistoryStore.getState().saveSnapshot(useDocumentStore.getState().getSnapshot());
+  openFormInstance(instance);
 }
 
 export interface FormMigration {

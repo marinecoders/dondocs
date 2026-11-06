@@ -113,7 +113,7 @@ export function ImportLetterModal() {
   const doImport = useCallback(
     (result: ParsedImport, docType: string) => {
       try {
-        applyParsedLetter(result.parsed, docType, result.classification);
+        if (applyParsedLetter(result.parsed, docType, result.classification) !== 'applied') throw new Error('The prepared letter could not be installed');
         onOpenChange(false);
       } catch (err) {
         debug.error('Import', 'Failed to apply the parsed letter to the editor', err);

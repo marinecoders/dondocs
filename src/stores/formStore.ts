@@ -156,14 +156,18 @@ export function serializeForm(formType: string): FormSession {
   });
 }
 
-export function loadFormSession(formType: string, forms?: FormSession): void {
-  useFormStore.setState(formType === 'navmc_118_11' ? {
-    navmc11811: structuredClone({ ...EMPTY_NAVMC_11811, ...forms?.navmc11811 }),
+export function prepareFormSession(formType: string, forms?: FormSession): FormSession {
+  return structuredClone(formType === 'navmc_118_11' ? {
+    navmc11811: normalizeNavmc11811(forms?.navmc11811 ?? {}),
     includeCoverPage: forms?.includeCoverPage ?? false,
   } : {
-    navmc10274: structuredClone({ ...EMPTY_NAVMC_10274, ...forms?.navmc10274 }),
+    navmc10274: normalizeNavmc10274(forms?.navmc10274 ?? {}),
     includeCoverPage: forms?.includeCoverPage ?? false,
   });
+}
+
+export function loadFormSession(formType: string, forms?: FormSession): void {
+  useFormStore.setState(prepareFormSession(formType, forms));
 }
 
 // Empty defaults for "Clear All" functionality
