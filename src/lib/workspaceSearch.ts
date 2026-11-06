@@ -1,17 +1,9 @@
-import type { Answer, AnswerField } from '@/services/forms/model';
 import type { SerializedSession } from '@/stores/documentStore';
 import { DOC_TYPE_CONFIG, DOC_TYPE_LABELS, formTypeLabel } from '@/types/document';
 import { getEditorSections, getFormSections } from './editorSections';
-import { canAppendEndorsement } from './appendedEndorsement';
+import { documentTextFields, type DocumentTextField, type FieldPath } from './documentFields';
 
-function formatAnswer(value: Answer | undefined, field: AnswerField): string {
-  if (value === undefined) return '';
-  if (typeof value === 'boolean') return value ? 'Yes' : 'No';
-  const label = (answer: string) => field.options?.find(option => option.id === answer)?.label ?? answer;
-  return Array.isArray(value) ? value.map(label).join(', ') : label(value);
-}
-
-export interface SearchField { text: string; sectionId: string; label: string }
+export interface SearchField { readonly text: string; readonly sectionId: string; readonly label: string }
 
 // Match the letterhead choices while keeping familiar abbreviations searchable.
 const departmentLabels: Record<string, string> = {
@@ -28,103 +20,125 @@ function formatCorrespondenceField(key: string, value: string): string {
   return value;
 }
 
-/** Search user-visible text, never image bytes, file handles or internal IDs. */
-function strings(value: unknown): string[] {
-  if (typeof value === 'string') return [value];
-  if (Array.isArray(value)) return value.flatMap(strings);
-  if (!value || typeof value !== 'object') return [];
-  return Object.entries(value).flatMap(([key, v]) =>
-    /^(id|image|signatureImage|file|fileRef|basicLetterFile|basicLetterFileRef|dataUrl|data|style|type)$/i.test(key) ? [] : strings(v));
+function builtinSection(formType: string, key: string): string {
+  if (key === 'signatureBlocks') return 'signatures';
+  if (formType === 'navmc_118_11') return /^(lastName|firstName|middleName|edipi|box11)$/.test(key) ? 'marine' : 'content';
+  if (/^(actionNo|ssicFileNo|date)$/.test(key)) return 'header';
+  if (/^(from|via|orgStation|to)$/.test(key)) return 'addressing';
+  return /^(copyTo|references|enclosures)$/.test(key) ? 'references' : 'content';
 }
 
-export function sessionSearchFields(session: SerializedSession): SearchField[] {
-  if (session.documentCategory === 'forms' && session.genericForm) {
-    const { definition, answers, rows } = session.genericForm;
-    return [
-      { text: definition.label, sectionId: definition.sections[0]?.id ?? Object.keys(definition.rowGroups)[0], label: 'Form' },
-      ...definition.sections.flatMap(section => section.fields.map(key => ({
-        text: `${definition.fields[key].label}: ${formatAnswer(answers[key], definition.fields[key])}`, sectionId: section.id, label: section.title,
-      }))),
-      ...Object.entries(definition.rowGroups).flatMap(([key, group]) => (rows[key] ?? []).flatMap(row => Object.entries(group.columns).map(([field, config]) => ({
-        text: `${config.label}: ${formatAnswer(row.answers[field], config)}`, sectionId: key, label: group.title,
-      })))),
-    ];
+function manualSection(path: FieldPath): string | undefined {
+  if (path[0] !== 'formData') return;
+  const key = String(path[1]);
+  if (key === 'manualFrontMatter') {
+    const nested = String(path[2]);
+    if (nested === 'endItems') return 'manual-items';
+    if (['contentContact', 'authorityReference', 'authorityBasis'].includes(nested)) return 'manual-authentication';
+    if (['rightsAssessment', 'dfarClause', 'supplementNotice', 'volumeNotice', 'copyrightCredit', 'governmentRights'].includes(nested)) return 'manual-notices';
+    return 'manual-publication';
   }
-  const form = session.documentCategory === 'forms';
-  const config = DOC_TYPE_CONFIG[session.docType] ?? DOC_TYPE_CONFIG.naval_letter;
-  const sections = form ? getFormSections(session.formType ?? 'navmc_10274') : getEditorSections(config, session.docType);
-  const labels = new Map([['type', 'Document type'], ...sections.map((s) => [s.id, s.label] as [string, string])]);
+  if (/^(class|cui|customClassification|derivedFrom|declassifyOn|pocEmail|distReason|distDate|supersedure)/.test(key)) return 'manual-notices';
+  if (/^(unit|sig|controllingOffice)/.test(key)) return 'manual-authentication';
+  return 'manual-publication';
+}
+
+function correspondenceSection(session: SerializedSession, path: FieldPath, labels: ReadonlyMap<string, string>): string | undefined {
+  if (session.docType === 'tm_ietm_front_matter') return manualSection(path);
+  const root = String(path[0]);
+  if (root === 'formData') {
+    const key = String(path[1]);
+    if (key === 'sl3') {
+      const nested = String(path[2]);
+      if (['components', 'orientation', 'rowsPerSheet', 'showFigureReference', 'showModel'].includes(nested)) return 'sl3-inventory';
+      if (['artwork', 'endItemFigureId', 'illustrationsPerPage'].includes(nested)) return 'sl3-figures';
+      return 'sl3-details';
+    }
+    if (key === 'sl4') {
+      const nested = String(path[2]);
+      if (nested === 'cages') return 'sl4-cages';
+      if (nested === 'rows' || nested === 'rowsPerSheet') return 'sl4-parts';
+      if (nested === 'artwork' || nested === 'endItemFigureId') return 'sl4-figures';
+      if (nested === 'circuitIndex' || nested === 'indexRowsPerPanel') return 'sl4-indexes';
+      if (nested === 'revisions') return 'sl4-revisions';
+      return 'sl4-preface';
+    }
+    const heading = ['moa', 'joint', 'joint_memo', 'executive', 'addressing', 'cover', 'sl3-cover', 'sl4-cover'].find(id => labels.has(id));
+    if (/^(class|cui|customClassification|derivedFrom|declassifyOn|pocEmail)/i.test(key)) return 'classification';
+    if (/^(department|unit|seal|letterhead|inReplyTo)/.test(key)) return ['sl4-cover', 'sl3-cover', 'cover', 'letterhead'].find(id => labels.has(id));
+    if (key === 'additionalEndorsements' || /^(sig|acting|seniorActing|juniorActing|byDirection|officeCode|complimentaryClose|endorsement(Sig|Body|From|To|Date|Serial))/.test(key)) return labels.has('signature') ? 'signature' : heading;
+    if (/^(basicLetter|endorsementOrdinal)/.test(key)) return 'basic';
+    if (/^(font|page|starting|docType)/.test(key)) return 'type';
+    return key === 'body' ? 'body' : heading;
+  }
+  if (root === 'endItems') return session.docType === 'sl3' ? 'sl3-cover' : session.docType === 'sl4' ? 'sl4-cover' : 'cover';
+  if (root === 'paragraphs') return session.docType === 'sl3' ? 'sl3-figures' : session.docType === 'sl4' ? 'sl4-figures' : 'body';
+  return ({ publicationTables: 'tables', references: 'references', enclosures: 'enclosures', copyTos: 'copyto', distributions: 'distribution' } as Record<string, string>)[root];
+}
+
+function configuredField(session: SerializedSession, field: DocumentTextField, answered: ReadonlySet<string>): SearchField | undefined {
+  const form = session.genericForm!;
+  const path = field.path;
+  const firstSection = form.definition.sections[0]?.id ?? Object.keys(form.definition.rowGroups)[0] ?? 'type';
+  if (path[1] === 'definition' && path[2] === 'label') return { text: field.text, sectionId: firstSection, label: 'Form' };
+  const key = path[1] === 'answers' ? path[2] : path[1] === 'definition' && path[2] === 'fields' ? path[3] : undefined;
+  if (typeof key === 'string') {
+    if (path[1] === 'definition' && answered.has(JSON.stringify(['answers', key]))) return;
+    const section = form.definition.sections.find(section => section.fields.includes(key));
+    if (!section) return;
+    const text = path[1] === 'answers' ? `${form.definition.fields[key].label}: ${field.text}` : `${field.text}:`;
+    return { text, sectionId: section.id, label: section.title };
+  }
+  const groupId = path[1] === 'rows' ? path[2] : path[1] === 'definition' && path[2] === 'rowGroups' ? path[3] : undefined;
+  if (typeof groupId !== 'string' || !Object.hasOwn(form.definition.rowGroups, groupId)) return;
+  if (path[1] === 'definition' && path[4] === 'columns'
+    && answered.has(JSON.stringify(['rows', groupId, path[5]]))) return;
+  const group = form.definition.rowGroups[groupId];
+  const column = path[1] === 'rows' ? path[5] : undefined;
+  const text = typeof column === 'string' ? `${group.columns[column].label}: ${field.text}` : field.text;
+  return { text, sectionId: groupId, label: group.title };
+}
+
+/** One text inventory, with UI-specific labels and destinations applied afterward. */
+export function sessionSearchFields(session: SerializedSession): SearchField[] {
+  if (!session || typeof session !== 'object' || typeof session.docType !== 'string') return [];
+  let inventory: readonly DocumentTextField[];
+  try { inventory = documentTextFields(session, 'search'); }
+  catch { return []; } // Unsupported records retain their library title and recovery actions.
   const fields: SearchField[] = [];
-  const add = (sectionId: string, value: unknown) => {
-    const label = labels.get(sectionId);
-    if (!label) return; // Do not index hidden fields left over from another type.
-    for (const raw of strings(value)) {
-      const text = raw.replace(/\s+/g, ' ').trim();
-      if (text && !text.startsWith('data:image/')) fields.push({ text, sectionId, label });
+  const add = (text: string, sectionId: string | undefined, label: string | undefined) => {
+    const normalized = text.replace(/\s+/g, ' ').trim();
+    if (normalized && sectionId && label && !normalized.startsWith('data:image/')) {
+      fields.push(Object.freeze({ text: normalized, sectionId, label }));
     }
   };
-  add('type', form ? formTypeLabel(session.formType, session.genericForm?.definition.label) : DOC_TYPE_LABELS[session.docType]);
-  if (form) {
-    const data = session.formType === 'navmc_118_11' ? session.forms?.navmc11811 : session.forms?.navmc10274;
-    for (const [key, value] of Object.entries(data ?? {})) {
-      const section = key === 'signatureBlocks' ? 'signatures'
-        : session.formType === 'navmc_118_11'
-          ? /^(lastName|firstName|middleName|edipi|box11)$/.test(key) ? 'marine' : 'content'
-          : /^(actionNo|ssicFileNo|date)$/.test(key) ? 'header'
-            : /^(from|via|orgStation|to)$/.test(key) ? 'addressing'
-              : /^(copyTo|references|enclosures)$/.test(key) ? 'references' : 'content';
-      add(section, value);
+  if (session.documentCategory === 'forms' && session.genericForm) {
+    const answered = new Set(inventory.flatMap(field => {
+      if (field.path[0] !== 'genericForm') return [];
+      if (field.path[1] === 'answers') return [JSON.stringify(['answers', field.path[2]])];
+      if (field.path[1] === 'rows') return [JSON.stringify(['rows', field.path[2], field.path[5]])];
+      return [];
+    }));
+    for (const field of inventory) {
+      if (field.path[0] !== 'genericForm') continue;
+      const item = configuredField(session, field, answered);
+      if (item) add(item.text, item.sectionId, item.label);
     }
     return fields;
   }
-  if (session.docType === 'tm_ietm_front_matter') {
-    const d = session.formData, m = d.manualFrontMatter;
-    add('manual-publication', [d.shortTitle, d.pcn, d.subject, d.nomenclature, d.date, d.publicationSigningDate, m?.subtype, m?.maintenanceLevel, m?.subtitle, m?.volume, m?.volumes, m?.shortTitleApproval]);
-    add('manual-items', m?.endItems);
-    add('manual-notices', [d.classLevel, d.cuiDistStatement, d.distReason, d.distDate, d.cuiControlledBy, d.cuiCategory, d.cuiDissemination, d.pocEmail, d.supersedure, m?.supplementNotice, m?.volumeNotice, m?.copyrightCredit, m?.governmentRights]);
-    add('manual-authentication', [d.unitLine1, d.unitLine2, d.unitAddress, d.sigFirst, d.sigMiddle, d.sigLast, d.sigTitle, d.controllingOffice, m?.contentContact, m?.authorityReference]);
-    return fields;
+  const form = session.documentCategory === 'forms';
+  const selectedFormType = session.formType ?? 'navmc_10274';
+  const config = Object.hasOwn(DOC_TYPE_CONFIG, session.docType) ? DOC_TYPE_CONFIG[session.docType] : DOC_TYPE_CONFIG.naval_letter;
+  const sections = form ? getFormSections(selectedFormType) : getEditorSections(config, session.docType);
+  const labels = new Map([['type', 'Document type'], ...sections.map(section => [section.id, section.label] as [string, string])]);
+  add(form ? formTypeLabel(selectedFormType) : DOC_TYPE_LABELS[session.docType] ?? session.docType, 'type', labels.get('type'));
+  for (const field of inventory) {
+    if (['docType', 'formType', 'documentMode', 'documentCategory'].includes(String(field.path[0]))) continue;
+    const sectionId = form ? field.path[0] === 'forms' ? builtinSection(selectedFormType, String(field.path[2])) : undefined
+      : correspondenceSection(session, field.path, labels);
+    const text = field.path[0] === 'formData' && field.path.length === 2 ? formatCorrespondenceField(String(field.path[1]), field.text) : field.text;
+    add(text, sectionId, sectionId ? labels.get(sectionId) : undefined);
   }
-  const heading = ['moa', 'joint', 'joint_memo', 'executive', 'addressing', 'cover', 'sl3-cover', 'sl4-cover'].find((id) => labels.has(id))!;
-  for (const [key, value] of Object.entries(session.formData ?? {})) {
-    if (typeof value !== 'string') continue;
-    const section = /^(class|cui|customClassification|derivedFrom|declassifyOn|pocEmail)/i.test(key) ? 'classification'
-      : /^(department|unit|seal|letterhead|inReplyTo)/.test(key) ? (labels.has('sl4-cover') ? 'sl4-cover' : labels.has('sl3-cover') ? 'sl3-cover' : labels.has('cover') ? 'cover' : 'letterhead')
-        : /^(sig|acting|seniorActing|juniorActing|byDirection|officeCode|complimentaryClose|endorsement(Sig|Body|From|To|Date|Serial))/.test(key) ? (labels.has('signature') ? 'signature' : heading)
-          : /^(basicLetter|endorsementOrdinal)/.test(key) ? 'basic'
-            : /^(font|page|starting|docType)/.test(key) ? 'type'
-              : key === 'body' ? 'body' : heading;
-    add(section, formatCorrespondenceField(key, value));
-  }
-  if (session.docType === 'sl4') {
-    add('sl4-cover', session.endItems);
-    add('sl4-preface', [session.formData.sl4?.sourceManual, session.formData.sl4?.standaloneRationale, session.formData.sl4?.cutoffDate, session.formData.sl4?.notes, session.formData.sl4?.definitions]);
-    add('sl4-cages', session.formData.sl4?.cages);
-    add('sl4-parts', session.formData.sl4?.rows);
-    add('sl4-figures', session.paragraphs.filter((p) => p.figure));
-    add('sl4-indexes', session.formData.sl4?.circuitIndex);
-    add('sl4-revisions', session.formData.sl4?.revisions);
-  }
-  if (canAppendEndorsement(session.docType)) add('signature', session.formData.additionalEndorsements);
-  if (session.docType === 'sl3') {
-    add('sl3-cover', session.endItems);
-    add('sl3-details', session.formData.sl3?.technicalData);
-    add('sl3-details', session.formData.sl3?.sourceManual);
-    add('sl3-details', session.formData.sl3?.configurationReference);
-    add('sl3-details', session.formData.sl3?.notes);
-    add('sl3-details', session.formData.sl3?.definitions);
-    add('sl3-figures', session.formData.sl3?.artwork);
-    add('sl3-details', session.formData.sl3?.sequencingNote);
-    add('sl3-inventory', session.formData.sl3?.components);
-    add('sl3-figures', session.paragraphs.filter((p) => p.figure));
-  }
-  add('body', session.paragraphs);
-  add('cover', session.endItems);
-  add('tables', session.publicationTables);
-  add('references', session.references);
-  add('enclosures', session.enclosures);
-  add('copyto', session.copyTos);
-  add('distribution', session.distributions);
   return fields;
 }
 
