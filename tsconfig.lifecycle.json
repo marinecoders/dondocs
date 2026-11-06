@@ -6,7 +6,8 @@
   "include": [
     "tests/types/documentLifecycle.ts",
     "src/types/build-constants.d.ts",
-    "tests/types/capturedDocument.ts"
+    "tests/types/capturedDocument.ts",
+    "tests/types/documentFields.ts"
   ],
   "exclude": []
 }
