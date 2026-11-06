@@ -54,3 +54,16 @@ it('rejects copied capabilities and mismatched form definitions', () => {
   const snapshot = useDocumentStore.getState().getSnapshot();
   expect(() => captureDocumentRevision(captured.source, { ...snapshot, documentCategory: 'forms', formType: 'wrong', genericForm: fixtureInstance() })).toThrow('does not match');
 });
+it('keeps projected content and source identity stable after navigation', () => {
+  useDocumentStore.getState().setField('subject', 'DOCUMENT A');
+  useDocumentStore.setState({ paragraphs: [{ text: 'ORIGINAL', level: 0 }] });
+  const captured = captureCurrentDocumentRevision(), originalId = captured.source.documentId;
+  const projected = copyCapturedSession(captured); projected.paragraphs[0].text = 'Consumer change';
+  const originalText = copyCapturedDocument(captured).document.paragraphs[0].text;
+  useDocumentsStore.getState().newDocument(); useDocumentStore.getState().setField('subject', 'DOCUMENT B');
+  expect(copyCapturedSession(captured).formData.subject).toBe('DOCUMENT A');
+  expect(copyCapturedSession(captured).paragraphs[0].text).toBe(originalText);
+  expect(captured.source.documentId).toBe(originalId);
+  expect(captured.source.documentId).not.toBe(useDocumentsStore.getState().currentId);
+  expect(copyCapturedSession(captured).timestamp).toBe(captured.source.capturedAt);
+});
