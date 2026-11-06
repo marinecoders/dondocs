@@ -73,6 +73,13 @@ describe('the published schema', () => {
 });
 
 describe('classification levels', () => {
+  it('explains distribution statement letters and preserves a selection', () => {
+    const cui = letterSchema.shape.classification.unwrap().shape.cui.unwrap();
+    expect(cui.shape.distStatement.description).toContain('A, B, C, D, E or F');
+    const request = letterSchema.parse({ ...base, classification: { level: 'cui', cui: { distStatement: 'F' } } });
+    expect(toStore(request, {}).formData.cuiDistStatement).toBe('F');
+  });
+
   // generator.ts refuses a level it does not recognise, rendering no marking at
   // all, so the published enum is what keeps a caller inside the set.
   const RENDERABLE = ['unclassified', 'cui', 'confidential', 'secret', 'top_secret', 'top_secret_sci'];

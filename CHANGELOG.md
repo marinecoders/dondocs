@@ -5,6 +5,14 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.3.1] — 2026-11-06
+
+### Fixed
+
+- CUI correspondence prints the full distribution statement in PDF and Word,
+  with the PDF statement on its own paragraph above references and enclosures.
+- Document the distribution statement values accepted by the companion.
+
 ## [1.3.0] — 2026-11-05
 
 ### Changed

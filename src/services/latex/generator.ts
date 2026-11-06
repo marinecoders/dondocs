@@ -17,6 +17,7 @@ import { composeSenderSymbol } from './senderSymbol';
 import { tableSpec } from '@/data/techpub/tables';
 import { publicationTypeName } from '@/data/techpub/publicationTypes';
 import { composeDistributionStatement } from '@/data/techpub/distributionStatements';
+import { documentDistributionStatement } from './distributionStatement';
 import { formatPublicationDate } from '@/lib/publicationDate';
 import { withTimeCompliance } from '@/lib/timeCompliance';
 import { figureFile } from '@/lib/figures';
@@ -1246,7 +1247,7 @@ export function generateClassificationTex(store: DocumentStore): string {
 \\setCUIControlledBy{${escapeLatex(data.cuiControlledBy)}}
 \\setCUICategory{${escapeLatex(data.cuiCategory)}}
 \\setCUIDissemination{${escapeLatex(data.cuiDissemination)}}
-\\setCUIDistStatement{${escapeLatex(data.cuiDistStatement)}}
+\\setCUIDistStatement{${escapeLatex(isTechnicalPublication(store.docType) ? data.cuiDistStatement : documentDistributionStatement(data))}}
 \\setPOC{${escapeLatex(validatedPocEmail(data.pocEmail))}}
 `;
   }
