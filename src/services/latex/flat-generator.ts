@@ -29,6 +29,7 @@ import {
 import { splitAddressForLetterhead } from '@/lib/unitAddress';
 import { formatViaLines } from '@/lib/viaLines';
 import { deriveOverallClassLevel } from '@/lib/overallClassification';
+import { documentDistributionStatement } from './distributionStatement';
 
 interface DocumentStore {
   docType: string;
@@ -1020,7 +1021,8 @@ function buildCUIBlock(data: Partial<DocumentData>): string {
   if (data.cuiControlledBy) block += `Controlled by: ${escapeFlat(data.cuiControlledBy)}\n\n`;
   if (data.cuiCategory) block += `CUI Category: ${escapeFlat(data.cuiCategory)}\n\n`;
   if (data.cuiDissemination) block += `Limited Dissemination Control: ${escapeFlat(data.cuiDissemination)}\n\n`;
-  if (data.cuiDistStatement) block += `Distribution Statement: ${escapeFlat(data.cuiDistStatement)}\n\n`;
+  const statement = documentDistributionStatement(data);
+  if (statement) block += `${escapeFlat(statement)}\n\n`;
   if (data.pocEmail) block += `POC: ${escapeFlat(data.pocEmail)}\n\n`;
   return block;
 }

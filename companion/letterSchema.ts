@@ -72,7 +72,8 @@ const classification = z.object({
   declassifyOn: z.string().optional(), reason: z.string().optional(),
   cui: z.object({
     category: z.string().optional(), controlledBy: z.string().optional(),
-    dissemination: z.string().optional(), distStatement: z.string().optional(),
+    dissemination: z.string().optional(),
+    distStatement: z.string().optional().describe('Distribution statement letter A, B, C, D, E or F; expanded to the full DoDI 5230.24 wording in PDF and Word. Omit for none. Full statement text is also accepted and printed as supplied.'),
   }).strict().optional().describe('The CUI designation block. Only read when level is cui.'),
 }).strict();
 

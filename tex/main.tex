@@ -472,6 +472,14 @@
 \newcommand{\setCUIDissemination}[1]{\renewcommand{\CUIDissemination}{#1}}
 \newcommand{\setCUIDistStatement}[1]{\renewcommand{\CUIDistStatement}{#1}}
 
+% Correspondence statements are complete paragraphs, separate from Ref/Encl.
+\newcommand{\printCUIDistStatement}{%
+    \ifdefempty{\CUIDistStatement}{}{%
+        \par\vspace{12pt}%
+        \noindent\CUIDistStatement\par%
+    }%
+}
+
 
 %-----------------------------------------------------------------------------
 % Classified Field Setters

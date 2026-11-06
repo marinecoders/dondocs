@@ -489,6 +489,14 @@ const LATEX_TEMPLATES = {
 \\newcommand{\\setCUIDissemination}[1]{\\renewcommand{\\CUIDissemination}{#1}}
 \\newcommand{\\setCUIDistStatement}[1]{\\renewcommand{\\CUIDistStatement}{#1}}
 
+% Correspondence statements are complete paragraphs, separate from Ref/Encl.
+\\newcommand{\\printCUIDistStatement}{%
+    \\ifdefempty{\\CUIDistStatement}{}{%
+        \\par\\vspace{12pt}%
+        \\noindent\\CUIDistStatement\\par%
+    }%
+}
+
 
 %-----------------------------------------------------------------------------
 % Classified Field Setters
@@ -1835,8 +1843,7 @@ const LATEX_TEMPLATES = {
         CUI Category: \\CUICategory\\\\
         Limited Dissemination Control: \\CUIDissemination\\\\
         \\printPOCLine%
-        \\par\\vspace{12pt}%
-        \\noindent\\CUIDistStatement
+        \\printCUIDistStatement%
     \\fi
 }
 
@@ -1983,7 +1990,7 @@ const LATEX_TEMPLATES = {
     \\ifCUIEnabled
         \\par\\vspace{12pt}%
         \\noindent \\textbf{CUI//\\CUICategory}%
-        \\par\\noindent \\CUIDistStatement
+        \\printCUIDistStatement%
     \\fi
 }
 
@@ -2194,8 +2201,7 @@ const LATEX_TEMPLATES = {
         CUI Category: \\CUICategory\\\\
         Limited Dissemination Control: \\CUIDissemination\\\\
         \\printPOCLine%
-        \\par\\vspace{12pt}%
-        \\noindent\\CUIDistStatement
+        \\printCUIDistStatement%
     \\fi
     %
     % Classified block
@@ -2350,7 +2356,7 @@ const LATEX_TEMPLATES = {
     \\ifCUIEnabled
         \\par\\vspace{12pt}%
         \\noindent \\textbf{CUI//\\CUICategory}%
-        \\par\\noindent \\CUIDistStatement
+        \\printCUIDistStatement%
     \\fi
 }
 
@@ -2508,8 +2514,7 @@ const LATEX_TEMPLATES = {
         CUI Category: \\CUICategory\\\\
         Limited Dissemination Control: \\CUIDissemination\\\\
         \\printPOCLine%
-        \\par\\vspace{12pt}%
-        \\noindent\\CUIDistStatement
+        \\printCUIDistStatement%
     \\fi
     %
     % Classified block
@@ -3213,8 +3218,7 @@ const LATEX_TEMPLATES = {
         CUI Category: \\CUICategory\\\\
         Limited Dissemination Control: \\CUIDissemination\\\\
         \\printPOCLine%
-        \\par\\vspace{12pt}%
-        \\noindent\\CUIDistStatement
+        \\printCUIDistStatement%
     \\fi
 }
 
@@ -3403,8 +3407,7 @@ const LATEX_TEMPLATES = {
         CUI Category: \\CUICategory\\\\
         Limited Dissemination Control: \\CUIDissemination\\\\
         \\printPOCLine%
-        \\par\\vspace{12pt}%
-        \\noindent\\CUIDistStatement
+        \\printCUIDistStatement%
     \\fi
     %
     % Classified block
@@ -3600,8 +3603,7 @@ const LATEX_TEMPLATES = {
         CUI Category: \\CUICategory\\\\
         Limited Dissemination Control: \\CUIDissemination\\\\
         \\printPOCLine%
-        \\par\\vspace{12pt}%
-        \\noindent\\CUIDistStatement
+        \\printCUIDistStatement%
     \\fi
     %
     % Classified block
@@ -3758,8 +3760,7 @@ const LATEX_TEMPLATES = {
         CUI Category: \\CUICategory\\\\
         Limited Dissemination Control: \\CUIDissemination\\\\
         \\printPOCLine%
-        \\par\\vspace{12pt}%
-        \\noindent\\CUIDistStatement
+        \\printCUIDistStatement%
     \\fi
     %
     % Classified block
@@ -3909,8 +3910,7 @@ const LATEX_TEMPLATES = {
         CUI Category: \\CUICategory\\\\
         Limited Dissemination Control: \\CUIDissemination\\\\
         \\printPOCLine%
-        \\par\\vspace{12pt}%
-        \\noindent\\CUIDistStatement
+        \\printCUIDistStatement%
     \\fi
     %
     % Classified block
@@ -4039,8 +4039,7 @@ const LATEX_TEMPLATES = {
         CUI Category: \\CUICategory\\\\
         Limited Dissemination Control: \\CUIDissemination\\\\
         \\printPOCLine%
-        \\par\\vspace{12pt}%
-        \\noindent\\CUIDistStatement
+        \\printCUIDistStatement%
     \\fi
     %
     % Classified block
@@ -4212,8 +4211,7 @@ const LATEX_TEMPLATES = {
         CUI Category: \\CUICategory\\\\
         Limited Dissemination Control: \\CUIDissemination\\\\
         \\printPOCLine%
-        \\par\\vspace{12pt}%
-        \\noindent\\CUIDistStatement
+        \\printCUIDistStatement%
     \\fi
     %
     % Classified block
@@ -4385,8 +4383,7 @@ const LATEX_TEMPLATES = {
         CUI Category: \\CUICategory\\\\
         Limited Dissemination Control: \\CUIDissemination\\\\
         \\printPOCLine%
-        \\par\\vspace{12pt}%
-        \\noindent\\CUIDistStatement
+        \\printCUIDistStatement%
     \\fi
     %
     % Classified block
@@ -4565,8 +4562,7 @@ const LATEX_TEMPLATES = {
         CUI Category: \\CUICategory\\\\
         Limited Dissemination Control: \\CUIDissemination\\\\
         \\printPOCLine%
-        \\par\\vspace{12pt}%
-        \\noindent\\CUIDistStatement
+        \\printCUIDistStatement%
     \\fi
     %
     % Classified block
@@ -4739,8 +4735,7 @@ const LATEX_TEMPLATES = {
         CUI Category: \\CUICategory\\\\
         Limited Dissemination Control: \\CUIDissemination\\\\
         \\printPOCLine%
-        \\par\\vspace{12pt}
-        \\noindent\\CUIDistStatement
+        \\printCUIDistStatement%
     \\fi
     %
     % Classified block
@@ -4919,8 +4914,7 @@ const LATEX_TEMPLATES = {
         CUI Category: \\CUICategory\\\\
         Limited Dissemination Control: \\CUIDissemination\\\\
         \\printPOCLine%
-        \\par\\vspace{12pt}%
-        \\noindent\\CUIDistStatement
+        \\printCUIDistStatement%
     \\fi
     %
     % Classified block
@@ -5078,8 +5072,7 @@ const LATEX_TEMPLATES = {
         CUI Category: \\CUICategory\\\\
         Limited Dissemination Control: \\CUIDissemination\\\\
         \\printPOCLine%
-        \\par\\vspace{12pt}%
-        \\noindent\\CUIDistStatement
+        \\printCUIDistStatement%
     \\fi
     %
     % Classified block
@@ -5265,8 +5258,7 @@ const LATEX_TEMPLATES = {
         CUI Category: \\CUICategory\\\\
         Limited Dissemination Control: \\CUIDissemination\\\\
         \\printPOCLine%
-        \\par\\vspace{12pt}%
-        \\noindent\\CUIDistStatement
+        \\printCUIDistStatement%
     \\fi
     %
     % Classified block
@@ -5481,8 +5473,7 @@ const LATEX_TEMPLATES = {
         CUI Category: \\CUICategory\\\\
         Limited Dissemination Control: \\CUIDissemination\\\\
         \\printPOCLine%
-        \\par\\vspace{12pt}
-        \\noindent\\CUIDistStatement
+        \\printCUIDistStatement%
     \\fi
     %
     % Classified block
@@ -5655,8 +5646,7 @@ const LATEX_TEMPLATES = {
         CUI Category: \\CUICategory\\\\
         Limited Dissemination Control: \\CUIDissemination\\\\
         \\printPOCLine%
-        \\par\\vspace{12pt}%
-        \\noindent\\CUIDistStatement
+        \\printCUIDistStatement%
     \\fi
 }
 
