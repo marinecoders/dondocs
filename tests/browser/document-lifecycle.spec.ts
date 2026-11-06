@@ -58,7 +58,9 @@ test('import, Undo and navigation keep both drafts intact after reload', async (
   };
   await page.getByLabel('Import draft file').setInputFiles({ name: 'lifecycle.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(incoming)) });
   await expect(page.getByRole('dialog', { name: 'Review draft' })).toBeVisible();
-  await expect(page.getByRole('textbox', { name: 'Subject', exact: true, includeHidden: true })).toHaveValue('LIFECYCLE OUTGOING LATEST');
+  // The review dialog hides both bound editor inputs from the accessibility tree.
+  await expect(page.locator('#subject')).toHaveValue('LIFECYCLE OUTGOING LATEST');
+  await expect(page.locator('#body-subject')).toHaveValue('LIFECYCLE OUTGOING LATEST');
   await page.getByRole('button', { name: 'Open as new document', exact: true }).click();
   await expect(subject).toHaveValue('LIFECYCLE IMPORTED');
   const initialUndo = await documentAction(page, /^Undo/);
