@@ -198,3 +198,40 @@ describe('backupStore permission state machine', () => {
     expect(handle.writes.length).toBeGreaterThanOrEqual(2);
   });
 });
+
+it('serializes overlapping writes and does not acknowledge a file before close', async () => {
+  const handle = makeHandle(); const store = await loadStore(vi.fn(async () => handle)); await store.getState().setupBackup();
+  const before = store.getState().lastBackupAt;
+  let finish!: () => void; let entered!: () => void; const writing = new Promise<void>(done => { entered = done; });
+  const create = vi.fn(async () => ({ write: async (value: string) => { handle.writes.push(value); }, close: async () => { entered(); await new Promise<void>(done => { finish = done; }); } }));
+  handle.createWritable = create;
+  const first = store.getState().writeNow(); await writing;
+  const second = store.getState().writeNow(); await Promise.resolve();
+  expect(create).toHaveBeenCalledOnce(); expect(store.getState().lastBackupAt).toBe(before);
+  handle.createWritable = async () => ({ write: async value => { handle.writes.push(value); }, close: async () => {} });
+  finish(); await Promise.all([first, second]); expect(handle.writes).toHaveLength(3);
+});
+it('abandons a pending backup after the destination is disabled', async () => {
+  const handle = makeHandle(); const store = await loadStore(vi.fn(async () => handle)); await store.getState().setupBackup();
+  let finish!: (json: string) => void; let entered!: () => void; const preparing = new Promise<void>(done => { entered = done; });
+  buildBackup.mockImplementationOnce(() => { entered(); return new Promise(resolve => { finish = resolve; }); });
+  const saving = store.getState().writeNow(); await preparing; await store.getState().disable();
+  finish('{}'); await saving;
+  expect(handle.writes).toHaveLength(1); expect(store.getState().status).toBe('off'); expect(store.getState().lastBackupAt).toBeNull();
+});
+it('does not let an old disable completion hide a newly connected destination', async () => {
+  const first = makeHandle('granted', 'first.json'), second = makeHandle('granted', 'second.json');
+  const picker = vi.fn().mockResolvedValueOnce(first).mockResolvedValueOnce(second);
+  const store = await loadStore(picker); await store.getState().setupBackup();
+  let finish!: () => void; clearHandle.mockImplementationOnce(() => new Promise<void>(done => { finish = done; }));
+  const disabling = store.getState().disable();
+  await store.getState().setupBackup(); finish(); await disabling;
+  expect(store.getState()).toMatchObject({ status: 'connected', fileName: 'second.json' });
+});
+it('aborts a failed file stream and permits a later retry', async () => {
+  const handle = makeHandle(); const store = await loadStore(vi.fn(async () => handle)); await store.getState().setupBackup();
+  const original = handle.createWritable, abort = vi.fn(async () => {});
+  handle.createWritable = async () => ({ write: async () => { throw new Error('Disk full'); }, close: async () => {}, abort });
+  await store.getState().writeNow(); expect(abort).toHaveBeenCalledOnce(); expect(store.getState().status).toBe('error');
+  handle.createWritable = original; await store.getState().writeNow(); expect(store.getState().status).toBe('connected');
+});
