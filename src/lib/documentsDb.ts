@@ -178,6 +178,36 @@ export async function idbRecoverDocument(before: StoredDocument, after: StoredDo
   return await idbWriteDocument(before, after, [], true) === 'committed';
 }
 
+export type DocumentDeleteOutcome = 'deleted' | 'already-deleted' | 'conflict' | 'failed';
+
+/** Delete the reviewed revision and its history in the same transaction. */
+export async function idbDeleteDocumentIfUnchanged(expected: StoredDocument): Promise<DocumentDeleteOutcome> {
+  if (!hasIndexedDb || expected.meta.id !== expected.id) return 'failed';
+  const owned = structuredClone(expected);
+  try {
+    const db = await openDb();
+    return await new Promise<DocumentDeleteOutcome>((resolve, reject) => {
+      const transaction = db.transaction([DOCS_STORE, APP_STORE], 'readwrite');
+      const store = transaction.objectStore(DOCS_STORE);
+      const request = store.get(owned.id);
+      let outcome: DocumentDeleteOutcome = 'conflict';
+      request.onsuccess = () => {
+        const current = request.result as StoredDocument | undefined;
+        if (current && JSON.stringify(current) !== JSON.stringify(owned)) return;
+        if (current) store.delete(owned.id);
+        transaction.objectStore(APP_STORE).delete(`snap:${owned.id}`);
+        outcome = current ? 'deleted' : 'already-deleted';
+      };
+      transaction.oncomplete = () => resolve(outcome);
+      transaction.onabort = () => reject(transaction.error ?? new Error('Document deletion aborted'));
+      transaction.onerror = () => reject(transaction.error ?? new Error('Document deletion failed'));
+    });
+  } catch (error) {
+    debug.error('DocumentsDb', 'conditional delete failed', error);
+    return 'failed';
+  }
+}
+
 export async function idbDeleteDocument(id: string): Promise<boolean> {
   if (!hasIndexedDb) return false;
   try {

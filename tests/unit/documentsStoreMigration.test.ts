@@ -13,7 +13,7 @@ import { compressedStringify } from '@/lib/compressedStorage';
 // imports from '@/lib/documentsDb' is provided so the module resolves; only the
 // three the migration drives are configured per test.
 const idbGetAllDocuments = vi.fn();
-const idbPutDocument = vi.fn();
+const idbWriteDocument = vi.fn();
 const idbSetCurrentId = vi.fn();
 const idbDeleteDocument = vi.fn();
 const idbGetCurrentId = vi.fn();
@@ -21,11 +21,10 @@ const idbGetMigratedIds = vi.fn();
 const idbSetMigratedIds = vi.fn();
 
 vi.mock('@/lib/documentsDb', () => ({
-  idbWriteDocument: vi.fn(),
   idbGetAllDocuments: (...args: unknown[]) => idbGetAllDocuments(...args),
-  idbPutDocument: (...args: unknown[]) => idbPutDocument(...args),
+  idbWriteDocument: (...args: unknown[]) => idbWriteDocument(...args),
   idbSetCurrentId: (...args: unknown[]) => idbSetCurrentId(...args),
-  idbDeleteDocument: (...args: unknown[]) => idbDeleteDocument(...args),
+  idbDeleteDocumentIfUnchanged: (...args: unknown[]) => idbDeleteDocument(...args),
   idbGetCurrentId: (...args: unknown[]) => idbGetCurrentId(...args),
   idbGetMigratedIds: (...args: unknown[]) => idbGetMigratedIds(...args),
   idbSetMigratedIds: (...args: unknown[]) => idbSetMigratedIds(...args),
@@ -77,7 +76,7 @@ beforeEach(() => {
   localStorage.clear();
   // Sensible defaults; individual tests override as needed.
   idbGetAllDocuments.mockResolvedValue([]);
-  idbPutDocument.mockResolvedValue(true);
+  idbWriteDocument.mockResolvedValue('committed');
   idbSetCurrentId.mockResolvedValue(true);
   idbGetCurrentId.mockResolvedValue(null);
   idbGetMigratedIds.mockResolvedValue([]);
@@ -98,8 +97,8 @@ describe('migrateLegacyRegistry — delete source only after all writes confirme
     // Blob dropped — migration confirmed durable.
     expect(localStorage.getItem(LEGACY_KEY)).toBeNull();
     // One put per document in the registry.
-    expect(idbPutDocument).toHaveBeenCalledTimes(2);
-    const putIds = idbPutDocument.mock.calls.map(([doc]) => (doc as { id: string }).id).sort();
+    expect(idbWriteDocument).toHaveBeenCalledTimes(2);
+    const putIds = idbWriteDocument.mock.calls.map(([, doc]) => (doc as { id: string }).id).sort();
     expect(putIds).toEqual(['d1', 'd2']);
     expect(idbSetCurrentId).toHaveBeenCalledWith('d1');
   });
@@ -107,18 +106,18 @@ describe('migrateLegacyRegistry — delete source only after all writes confirme
   it('retains the legacy blob when any document put fails (no data loss)', async () => {
     seedLegacyBlob();
     // First put succeeds, second resolves false (write not confirmed durable).
-    idbPutDocument.mockResolvedValueOnce(true).mockResolvedValueOnce(false);
+    idbWriteDocument.mockResolvedValueOnce('committed').mockResolvedValueOnce('failed');
 
     await migrateLegacyRegistry();
 
     // Blob MUST survive so the next load retries rather than losing the copy.
     expect(localStorage.getItem(LEGACY_KEY)).not.toBeNull();
-    expect(idbPutDocument).toHaveBeenCalledTimes(2);
+    expect(idbWriteDocument).toHaveBeenCalledTimes(2);
   });
 
   it('retains the legacy blob when the currentId write fails (no data loss)', async () => {
     seedLegacyBlob();
-    idbPutDocument.mockResolvedValue(true);
+    idbWriteDocument.mockResolvedValue('committed');
     idbSetCurrentId.mockResolvedValue(false);
 
     await migrateLegacyRegistry();
@@ -134,8 +133,8 @@ describe('migrateLegacyRegistry — delete source only after all writes confirme
 
     await migrateLegacyRegistry();
 
-    expect(idbPutDocument).toHaveBeenCalledTimes(1);
-    expect((idbPutDocument.mock.calls[0][0] as { id: string }).id).toBe('d2');
+    expect(idbWriteDocument).toHaveBeenCalledTimes(1);
+    expect((idbWriteDocument.mock.calls[0][1] as { id: string }).id).toBe('d2');
     expect(localStorage.getItem(LEGACY_KEY)).toBeNull(); // all records durable now
     expect(idbSetMigratedIds).toHaveBeenCalledWith([]); // ledger cleared with the blob
   });
@@ -149,13 +148,13 @@ describe('migrateLegacyRegistry — delete source only after all writes confirme
 
     await migrateLegacyRegistry();
 
-    expect(idbPutDocument).toHaveBeenCalledTimes(1);
-    expect((idbPutDocument.mock.calls[0][0] as { id: string }).id).toBe('d2');
+    expect(idbWriteDocument).toHaveBeenCalledTimes(1);
+    expect((idbWriteDocument.mock.calls[0][1] as { id: string }).id).toBe('d2');
   });
 
   it('persists the ledger on a partial failure so the next retry is exact', async () => {
     seedLegacyBlob();
-    idbPutDocument.mockResolvedValueOnce(true).mockResolvedValueOnce(false);
+    idbWriteDocument.mockResolvedValueOnce('committed').mockResolvedValueOnce('failed');
 
     await migrateLegacyRegistry();
 
@@ -174,4 +173,11 @@ describe('migrateLegacyRegistry — delete source only after all writes confirme
 
     expect(idbSetCurrentId).not.toHaveBeenCalled();
   });
+});
+it('keeps a record created by another tab after the initial migration read', async () => {
+  seedLegacyBlob();
+  idbWriteDocument.mockResolvedValueOnce('conflict').mockResolvedValueOnce('committed');
+  await migrateLegacyRegistry();
+  expect(idbWriteDocument.mock.calls.every(([before]) => before === null)).toBe(true);
+  expect(localStorage.getItem(LEGACY_KEY)).toBeNull();
 });
