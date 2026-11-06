@@ -171,8 +171,8 @@ export function Header({
   const docType = useDocumentStore((s) => s.docType);
   const pdfOnly = !!DOC_TYPE_CONFIG[docType]?.pdfOnly;
 
-  const handleSaveProgress = useCallback(() => {
-    if (saveCheckpoint()) flashSaveStatus('Checkpoint saved in this browser');
+  const handleSaveProgress = useCallback(async () => {
+    if (await saveCheckpoint()) flashSaveStatus('Checkpoint saved in this browser');
   }, [flashSaveStatus]);
 
   const handleLoadProgress = useCallback(() => {

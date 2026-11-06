@@ -1,6 +1,6 @@
 import 'fake-indexeddb/auto';
 import { expect, it } from 'vitest';
-import { useDocumentsStore } from '@/stores/documentsStore';
+import { flushDocumentWrites, useDocumentsStore } from '@/stores/documentsStore';
 import { useDocumentStore, getSerializedSessionForShare } from '@/stores/documentStore';
 import { useUIStore } from '@/stores/uiStore';
 import { idbPutDocument } from '@/lib/documentsDb';
@@ -12,8 +12,20 @@ it('restores the committed status when an edit is reverted before autosave', asy
   useDocumentsStore.setState({ currentId: meta.id, docs: { status: { meta, session } }, baseline: session, hydrated: true });
   useDocumentStore.getState().setFormData({ subject: 'Temporary edit' });
   useDocumentStore.getState().setFormData({ subject: 'Saved' });
+  expect(useUIStore.getState().saveStatus).toBe('saving');
+  await flushDocumentWrites();
   expect(useUIStore.getState().saveStatus).toBe('saved');
   useDocumentsStore.getState().syncCurrent();
   expect(useUIStore.getState().saveStatus).toBe('saved');
-  expect(useUIStore.getState().lastSavedAt).toBe(42);
+  expect(useUIStore.getState().lastSavedAt).toBeGreaterThan(42);
+});
+
+it('does not treat an uncommitted registry record as a saved document', async () => {
+  const session = getSerializedSessionForShare();
+  const meta = { id: 'memory-only-status', title: 'Not on disk', docType: session.docType, updatedAt: 99 };
+  useDocumentsStore.setState({ currentId: meta.id, docs: { [meta.id]: { meta, session } }, baseline: session, hydrated: true });
+  useDocumentsStore.getState().syncCurrent();
+  expect(useUIStore.getState().saveStatus).toBe('saving');
+  await expect(flushDocumentWrites()).rejects.toThrow();
+  expect(useUIStore.getState().saveStatus).toBe('error');
 });
