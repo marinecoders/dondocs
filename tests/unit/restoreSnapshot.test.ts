@@ -12,7 +12,7 @@ vi.mock('@/lib/documentsDb', async (importOriginal) => {
   };
 });
 
-import { useDocumentsStore } from '@/stores/documentsStore';
+import { captureDocumentTarget, useDocumentsStore } from '@/stores/documentsStore';
 import { useDocumentStore, type SerializedSession } from '@/stores/documentStore';
 
 const snapshotSession = {
@@ -32,7 +32,7 @@ describe('restoreSnapshot — reversibility is a precondition, not a hope', () =
     useDocumentsStore.setState({ currentId: 'doc-1', hydrated: true });
     useDocumentStore.getState().setField('subject', 'CURRENT DRAFT');
 
-    await expect(useDocumentsStore.getState().restoreSnapshot(snapshotSession)).resolves.toBe(false);
+    await expect(useDocumentsStore.getState().restoreSnapshot(snapshotSession, captureDocumentTarget())).resolves.toBe('safety-copy-failed');
     // The live editor must be untouched — the restore was refused, not half-applied.
     expect(useDocumentStore.getState().formData.subject).toBe('CURRENT DRAFT');
   });
@@ -41,7 +41,7 @@ describe('restoreSnapshot — reversibility is a precondition, not a hope', () =
     addSnapshotMock.mockResolvedValue(true);
     useDocumentsStore.setState({ currentId: 'doc-1', hydrated: true });
 
-    await expect(useDocumentsStore.getState().restoreSnapshot(snapshotSession)).resolves.toBe(true);
+    await expect(useDocumentsStore.getState().restoreSnapshot(snapshotSession, captureDocumentTarget())).resolves.toBe('applied');
     expect(useDocumentStore.getState().formData.subject).toBe('THE OLD VERSION');
     // The safety copy was requested for the current doc before the overwrite.
     expect(addSnapshotMock).toHaveBeenCalledWith('doc-1', expect.objectContaining({ session: expect.anything() }));
