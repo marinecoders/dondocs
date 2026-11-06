@@ -665,14 +665,22 @@ export async function commitCurrentDocument() {
   const scope = captureDocumentScope();
   if (!scope) throw new Error('There is no open document to save.');
   useDocumentsStore.getState().saveCurrent();
-  await flushDocumentWrites();
-  if (!isCurrentDocumentScope(scope)) return null;
-  const entry = useDocumentsStore.getState().docs[scope.documentId];
-  const receipt = writes.latestReceipt(scope.documentId);
-  if (!entry || !receipt || !writes.matches(receipt, storedEntry(entry)) || !sameContent(entry.session, getSerializedSession())) {
-    throw new Error('The current revision has not been saved. Retry Save or export a draft file.');
+  for (;;) {
+    if (!isCurrentDocumentScope(scope)) return null;
+    useDocumentsStore.getState().syncCurrent();
+    if (!await writes.flush(scope.documentId)) throw new Error('This document could not be saved. Retry Save or export a draft file.');
+    if (!isCurrentDocumentScope(scope)) return null;
+    const state = useDocumentsStore.getState();
+    const entry = state.docs[scope.documentId];
+    const receipt = writes.latestReceipt(scope.documentId);
+    const live = getSerializedSession();
+    if (entry && receipt && writes.matches(receipt, storedEntry(entry)) && sameContent(entry.session, live)) return receipt;
+    if (!entry || state.baseline && sameContent(state.baseline, live)) {
+      throw new Error('The current revision has not been saved. Retry Save or export a draft file.');
+    }
+    // Include edits made during this document's transaction without waiting on
+    // failed or stalled transactions belonging to a different document.
   }
-  return receipt;
 }
 
 function persistEntry(entry: DocumentEntry, before?: DocumentEntry): void {

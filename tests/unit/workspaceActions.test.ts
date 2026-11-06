@@ -16,7 +16,7 @@ beforeEach(() => {
   useDocumentsStore.getState().newDocument();
   useDocumentStore.getState().setField('subject', 'Checkpoint draft');
 });
-afterEach(async () => { await flushDocumentWrites().catch(() => {}); vi.restoreAllMocks(); });
+afterEach(async () => { vi.restoreAllMocks(); await flushDocumentWrites(); });
 
 it.each([false, true])('toggles the visible preview surface (mobile=%s) without changing the other preference', (mobile) => {
   useUIStore.setState({ isMobile: mobile });
@@ -31,13 +31,14 @@ it.each([false, true])('toggles the visible preview surface (mobile=%s) without 
 it.each(['correspondence', 'forms'] as const)('saves a reusable manual checkpoint and flushes the %s draft', async (documentCategory) => {
   useDocumentStore.setState({ documentCategory, formType: 'navmc_118_11' });
   useFormStore.getState().setNavmc11811Field('remarksText', 'Checkpoint remarks');
-  const save = vi.spyOn(useDocumentsStore.getState(), 'saveCurrent');
   expect(await saveCheckpoint()).toBe(true);
   const saved = JSON.parse(localStorage.getItem(STORAGE_KEYS.DOCUMENT)!);
   expect(saved.documentCategory).toBe(documentCategory);
   if (documentCategory === 'correspondence') expect(saved.formData.subject).toBe('Checkpoint draft');
   if (documentCategory === 'forms') expect(saved.forms.navmc11811.remarksText).toBe('Checkpoint remarks');
-  expect(save).toHaveBeenCalledOnce();
+  const id = useDocumentsStore.getState().currentId;
+  const committed = (await db.idbGetAllDocuments())!.find(record => record.id === id);
+  expect(committed?.session.documentCategory).toBe(documentCategory);
 });
 
 it('keeps the previous checkpoint and live draft when storage rejects the new one', async () => {
@@ -54,10 +55,11 @@ it('does not acknowledge a checkpoint while its durable write is pending', async
   vi.spyOn(db, 'idbWriteDocument').mockImplementationOnce(() => new Promise(resolve => { finish = resolve; }));
   let settled = false;
   const saving = saveCheckpoint().then(result => { settled = true; return result; });
-  await Promise.resolve();
-  expect(settled).toBe(false);
-  expect(useUIStore.getState().saveStatus).toBe('saving');
-  finish('committed');
+  try {
+    await Promise.resolve();
+    expect(settled).toBe(false);
+    expect(useUIStore.getState().saveStatus).toBe('saving');
+  } finally { finish('committed'); }
   expect(await saving).toBe(true);
   expect(useUIStore.getState().saveStatus).toBe('saved');
 });
@@ -76,4 +78,17 @@ it('does not report completion for a different document after navigation', async
   finish('committed');
   expect(await saving).toBe(false);
   expect(useUIStore.getState().saveStatus).not.toBe('saved');
+});
+
+it('saves the current document even when a different document has a write conflict', async () => {
+  const other = useDocumentsStore.getState().currentId!;
+  const original = db.idbWriteDocument;
+  const write = vi.spyOn(db, 'idbWriteDocument').mockImplementation((before, after) => after.id === other ? Promise.resolve('conflict') : original(before, after));
+  useDocumentsStore.getState().saveCurrent();
+  await Promise.resolve(); await Promise.resolve();
+  useDocumentsStore.getState().newDocument();
+  useDocumentStore.getState().setField('subject', 'Independent save');
+  expect(await saveCheckpoint()).toBe(true);
+  expect(useUIStore.getState().saveStatus).toBe('saved');
+  write.mockRestore();
 });
