@@ -2,7 +2,7 @@ import type { DocumentScope } from './documentsStore';
 import type { FormInstance } from '@/services/forms/model';
 import { create } from 'zustand';
 import type { FormSession } from './formStore';
-import type { Reference, Enclosure, Paragraph, CopyTo, Distribution, DocumentData, DocumentMode, DocumentCategory, FormType, EndItem, PublicationTableRow } from '@/types/document';
+import type { Reference, Enclosure, FileRef, Paragraph, CopyTo, Distribution, DocumentData, DocumentMode, DocumentCategory, FormType, EndItem, PublicationTableRow } from '@/types/document';
 
 // Snapshot of document state (only the data parts, not actions)
 export interface DocumentSnapshot {
@@ -52,12 +52,30 @@ interface HistoryState {
   clearHistory: () => void;
 }
 
-// Deep equality check for snapshots (excluding non-serializable data like ArrayBuffer)
+function sameAttachment(file: Enclosure['file'], ref: FileRef | undefined, otherFile: Enclosure['file'], otherRef: FileRef | undefined): boolean {
+  // A durable handle owns its bytes; hydration may materialize another buffer
+  // for the same handle without changing the document.
+  if (ref && otherRef) return JSON.stringify(ref) === JSON.stringify(otherRef);
+  // Persisting a transient upload adds a handle to the very same file. Until
+  // then buffer identity keeps same-name, same-size replacement uploads distinct.
+  if (file && otherFile) return file.data === otherFile.data && file.name === otherFile.name && file.size === otherFile.size;
+  return !file && !otherFile && !ref && !otherRef;
+}
+
+// Compare user content, independently of when persisted bytes are hydrated.
 function snapshotsEqual(a: DocumentSnapshot | null, b: DocumentSnapshot | null): boolean {
   if (a === null || b === null) return a === b;
-
-  if (a.enclosures.some((e, i) => e.file?.data !== b.enclosures[i]?.file?.data)) return false;
-  return JSON.stringify(a) === JSON.stringify(b);
+  if (a.enclosures.length !== b.enclosures.length || a.enclosures.some((enclosure, index) => {
+    const other = b.enclosures[index];
+    return !sameAttachment(enclosure.file, enclosure.fileRef, other.file, other.fileRef);
+  })) return false;
+  if (!sameAttachment(a.formData.basicLetterFile, a.formData.basicLetterFileRef, b.formData.basicLetterFile, b.formData.basicLetterFileRef)) return false;
+  const content = (snapshot: DocumentSnapshot) => ({
+    ...snapshot,
+    formData: { ...snapshot.formData, basicLetterFile: undefined, basicLetterFileRef: undefined },
+    enclosures: snapshot.enclosures.map(({ file: _file, fileRef: _ref, ...enclosure }) => enclosure),
+  });
+  return JSON.stringify(content(a)) === JSON.stringify(content(b));
 }
 
 // Create a clean copy of the snapshot (without non-serializable data)
