@@ -2,7 +2,7 @@ import 'fake-indexeddb/auto';
 import { afterEach, beforeEach, expect, it, vi } from 'vitest';
 import { getSerializedSession, rehydrateEnclosureFiles, persistUnsavedEnclosures, useDocumentStore } from '@/stores/documentStore';
 import { captureDocumentScope, captureDocumentTarget, isCurrentDocumentScope, flushDocumentWrites, openSessionAsNew, openExistingDocument, openReviewedDocument, openFormInstance, newCorrespondenceDocument, prepareDocument, openPreparedDocument, useDocumentsStore } from '@/stores/documentsStore';
-import { loadAttachment, persistAttachment } from '@/lib/attachments';
+import { attachmentSweepCheckpoint, loadAttachment, persistAttachment } from '@/lib/attachments';
 import { useHistoryStore } from '@/stores/historyStore';
 import { useFormStore } from '@/stores/formStore';
 import { useProfileStore } from '@/stores/profileStore';
@@ -409,10 +409,10 @@ it.each(['install', 'cancel', 'fail'] as const)('protects staged files until imp
   if (outcome === 'fail') await expect(opening).rejects.toThrow('Attachment write failed');
   else expect(await opening).toBe(outcome === 'install' ? 'applied' : 'stale');
   await flushDocumentWrites();
-  expect(await sweepOrphanedAttachments()).not.toBeNull();
+  expect(attachmentSweepCheckpoint()).not.toBeNull();
+  await sweepOrphanedAttachments();
   for (const ref of refs) {
-    if (outcome === 'install') expect(await actual.loadAttachment(ref.id)).not.toBeNull();
-    else expect(await actual.loadAttachment(ref.id)).toBeNull();
+    expect(await actual.loadAttachment(ref.id)).not.toBeNull();
   }
 });
 
@@ -429,5 +429,6 @@ it('keeps the reviewed draft and current activation intact when attachment stora
     expect(useDocumentStore.getState().enclosures).toEqual([]);
     expect(reviewed.files[0]).toBe(file);
   } finally { write.mockRestore(); }
-  expect(await sweepOrphanedAttachments()).not.toBeNull();
+  expect(attachmentSweepCheckpoint()).not.toBeNull();
+  await sweepOrphanedAttachments();
 });

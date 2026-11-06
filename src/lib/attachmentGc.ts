@@ -1,46 +1,13 @@
 /**
- * Enclosure attachment garbage collection.
- *
- * Enclosure file bytes are written to the IndexedDB `attachments` store on
- * attach (see {@link file://./attachments.ts}) but nothing ever removed them:
- * deleting a document, replacing an enclosure's file, or removing an enclosure
- * all strand the old blob. On an offline PWA where storage quota is the whole
- * ballgame — we warn the user when it runs low — leaked blobs are a real defect.
- *
- * This is a mark-and-sweep collector, not eager per-operation deletion, because
- * eager deletion can't cope with the app's realities: document deletes are
- * 6s-undoable, and an in-session enclosure edit doesn't rewrite the persisted
- * document until the next debounced save. A periodic reachability sweep is
- * robust to every orphaning path, including a crash mid-operation.
- *
- * THE MARK SET is the union of every `fileRef.id` reachable from:
- *   (a) every persisted document's session enclosures,
- *   (b) every persisted document's version-history snapshot ring — snapshots
- *       serialize the full session, so a blob referenced only by undo-history
- *       must survive (missing this corrupts "restore an earlier version"),
- *   (c) the live in-memory session — a just-attached blob whose document save
- *       is still debounced is referenced here and nowhere on disk yet,
- *   (d) documents staged for an undoable delete — an undo re-persists them, so
- *       their blobs must not be reaped inside the 6s window.
- *   (e) in-session Undo/Redo snapshots, including edits not yet captured by the
- *       less frequent durable version-history ring.
- *
- * SAFETY — the sweep aborts and deletes NOTHING when it can't fully build the
- * mark set: `idbGetAllDocuments()` returning null means the read FAILED (as
- * opposed to an empty registry), and treating a failed read as "no documents
- * reference anything" would wipe every live blob. Same rule for the attachment
- * read. This mirrors the established read-failure-≠-empty invariant across the
- * storage layer. It also skips entirely while a backup restore is in flight
- * (restore writes documents before their blobs; the guard is belt-and-suspenders
- * on top of that ordering).
- *
- * All local browser operations — no network, air-gap safe.
+ * Inventory persisted, live, history, and operation roots before considering
+ * attachment collection. Older tabs do not participate in the staging lock,
+ * so an apparent orphan is not proof that its bytes can be deleted safely.
+ * Reclamation stays deferred until cross-tab ownership can be established.
  */
 import {
   idbGetAllDocuments,
   idbGetSnapshots,
   idbGetAllAttachments,
-  idbDeleteAttachment,
 } from '@/lib/documentsDb';
 import { useBatchStore } from '@/stores/batchStore';
 import type { SerializedSession } from '@/stores/documentStore';
@@ -91,8 +58,7 @@ function collectSessionRefs(session: Pick<SerializedSession, 'formData' | 'enclo
  *     blob a backup is about to embed — exactly the corruption we must avoid.
  *   - Another tab's save reaches IndexedDB before this tab's in-memory registry
  *     hears about it. Reading only memory would reap that doc's blobs.
- * The union is a superset of both, so no live, backed-up, or cross-tab blob is
- * ever a sweep target.
+ * This union includes known roots; it cannot discover another tab's unsaved history.
  */
 export async function collectLiveAttachmentIds(): Promise<Set<string> | null> {
   const persisted = await idbGetAllDocuments();
@@ -141,8 +107,8 @@ export async function collectLiveAttachmentIds(): Promise<Set<string> | null> {
 let sweeping = false;
 
 /**
- * Reclaim every attachment blob not in the live set. Returns the number
- * deleted, or null when the sweep could not finish (already running, restore
+ * Inspect attachment reachability. Returns zero when every blob is rooted,
+ * or null when the sweep could not finish (already running, restore
  * or staging in flight, an unreadable store, or an invalidated mark set).
  */
 export async function sweepOrphanedAttachments(): Promise<number | null> {
@@ -164,14 +130,15 @@ export async function sweepOrphanedAttachments(): Promise<number | null> {
         return null;
       }
       const orphans = all.filter((a) => !live.has(a.id));
-      for (const orphan of orphans) {
-        if (attachmentSweepCheckpoint() !== checkpoint) return null;
-        await idbDeleteAttachment(orphan.id);
+      if (attachmentSweepCheckpoint() !== checkpoint) return null;
+      // Web Locks coordinate new staging callers, but cannot prove that an
+      // older tab has released its in-memory document or history references.
+      // Keep candidates until collection has a compatible cross-tab protocol.
+      if (orphans.length) {
+        debug.log('AttachmentGc', 'deferred: cross-tab ownership is not established');
+        return null;
       }
-      if (orphans.length > 0) {
-        debug.log('AttachmentGc', `reclaimed ${orphans.length} orphaned attachment(s)`);
-      }
-      return orphans.length;
+      return 0;
     });
   } catch (err) {
     debug.error('AttachmentGc', 'sweep failed', err);
