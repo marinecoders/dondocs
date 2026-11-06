@@ -1,10 +1,11 @@
+import { beginDocumentTask, isCurrentDocumentTask } from '@/lib/documentTask';
+import { prepareFigureUpload } from '@/lib/prepareFigureUpload';
 import { InputWithVariables } from '@/components/ui/variable-autocomplete';
 import { Label } from '@/components/ui/label';
 import { useUIStore } from '@/stores/uiStore';
 import { getEditorSections } from '@/lib/editorSections';
 import { unfilled } from '@/lib/requiredField';
 import { PUBLICATION_SECTIONS, publicationSection, type PublicationSection } from '@/data/techpub/sections';
-import { validateFigureAsset } from '@/services/latex/figureAssets';
 import { memo, useCallback, useMemo, useState } from 'react';
 import {
   DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors, type DragEndEvent, } from '@dnd-kit/core';
@@ -35,7 +36,7 @@ import { useDocumentStore } from '@/stores/documentStore';
 import { I_TYPE_TABLES, tableSpec } from '@/data/techpub/tables';
 import { useSnippetsStore } from '@/stores/snippetsStore';
 import { showAppAlert } from '@/stores/alertStore';
-import { persistAttachment } from '@/lib/attachments';
+import { withAttachmentStaging, persistAttachment } from '@/lib/attachments';
 import { DOC_TYPE_CONFIG, type PortionMarking, type CalloutKind, type Paragraph } from '@/types/document';
 import { calculateLabels, canIndentAt } from '@/lib/paragraphUtils';
 import { cn } from '@/lib/utils';
@@ -375,30 +376,25 @@ const BlockRow = memo(function BlockRow({
                     onChange={async (e) => {
                       const file = e.target.files?.[0];
                       if (!file) return;
+                      const original = useDocumentStore.getState().paragraphs[index];
+                      if (!original) return;
+                      const task = beginDocumentTask(original.figure ?? original);
+                      e.currentTarget.value = '';
                       setFigureError('');
                       try {
-                        const extension = file.type === 'application/pdf' ? 'pdf' : file.type === 'image/jpeg' ? 'jpg' : 'png';
-                        await validateFigureAsset(new Uint8Array(await file.arrayBuffer()), `figure.${extension}`);
+                        await withAttachmentStaging(async () => {
+                          const { bytes, type, width, height } = await prepareFigureUpload(file);
+                          if (!isCurrentDocumentTask(task)) return;
+                          const fileRef = await persistAttachment({ name: file.name, size: bytes.byteLength, type }, bytes);
+                          if (!isCurrentDocumentTask(task)) return;
+                          const currentIndex = useDocumentStore.getState().paragraphs.findIndex(paragraph =>
+                            paragraph === original || (!!original.figure && paragraph.figure === original.figure));
+                          if (currentIndex < 0) return;
+                          updateParagraph(currentIndex, { figure: { ...original.figure, fileRef, name: file.name, type, width, height } });
+                        });
                       } catch (error) {
-                        setFigureError(error instanceof Error ? error.message : 'Cannot read this figure.');
-                        e.target.value = '';
-                        return;
+                        if (isCurrentDocumentTask(task)) setFigureError(error instanceof Error ? error.message : 'Cannot read this figure.');
                       }
-                      // A photo is decoded with its EXIF orientation applied and
-                      // re-encoded: pdfTeX ignores the orientation tag, so a portrait
-                      // phone photo would print on its side, and the re-encoding drops
-                      // the camera and location tags with it. The pixel size decides
-                      // whether the print will look soft. A PDF is kept as it is.
-                      const bitmap = await createImageBitmap(file, { imageOrientation: 'from-image' }).catch(() => null);
-                      let bytes: ArrayBuffer = await file.arrayBuffer();
-                      if (bitmap && file.type === 'image/jpeg' && typeof OffscreenCanvas !== 'undefined') {
-                        const canvas = new OffscreenCanvas(bitmap.width, bitmap.height);
-                        canvas.getContext('2d')?.drawImage(bitmap, 0, 0);
-                        bytes = await (await canvas.convertToBlob({ type: 'image/jpeg', quality: 0.92 })).arrayBuffer();
-                      }
-                      const fileRef = await persistAttachment({ name: file.name, size: bytes.byteLength, type: file.type }, bytes);
-                      updateParagraph(index, { figure: { fileRef, name: file.name, type: file.type, width: bitmap?.width, height: bitmap?.height } });
-                      bitmap?.close();
                     }}
                   />
                 </label>

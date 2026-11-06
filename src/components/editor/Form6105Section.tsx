@@ -1,3 +1,4 @@
+import { captureDocumentTarget, isCurrentDocumentTarget } from '@/stores/documentsStore';
 import { useState } from 'react';
 import { Trash2 } from 'lucide-react';
 import { BookOpen, Building2, Library } from 'lucide-react';
@@ -72,16 +73,17 @@ export function Form6105Section() {
   });
   const signatureBlocks = navmc10274.signatureBlocks;
   const setSignatureBlock = (index: number, patch: Partial<FormSignatureBlock>) => {
-    setNavmc10274Field(
-      'signatureBlocks',
-      signatureBlocks.map((b, i) => (i === index ? { ...b, ...patch } : b))
-    );
+    const current = useFormStore.getState().navmc10274.signatureBlocks;
+    const targetIndex = current.indexOf(signatureBlocks[index]);
+    if (targetIndex < 0) return;
+    setNavmc10274Field('signatureBlocks', current.map((block, i) => i === targetIndex ? { ...block, ...patch } : block));
   };
   // Deleting a filled block loses a statement, a typed name, and possibly an
   // uploaded signature image — and deleting block 1 silently promotes the next
   // block to originator. Confirm first, same rule as References/Enclosures:
   // an empty block still removes in a single click.
   const removeSignatureBlock = async (index: number) => {
+    const target = captureDocumentTarget();
     const b = signatureBlocks[index];
     const hasContent =
       (b?.statement ?? '').trim() !== '' || (b?.name ?? '').trim() !== '' || !!b?.image;
@@ -98,6 +100,7 @@ export function Form6105Section() {
       });
       if (!confirmed) return;
     }
+    if (!isCurrentDocumentTarget(target)) return;
     setNavmc10274Field(
       'signatureBlocks',
       signatureBlocks.filter((_, i) => i !== index)

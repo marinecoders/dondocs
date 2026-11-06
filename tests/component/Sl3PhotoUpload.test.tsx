@@ -4,11 +4,13 @@ import { Sl3IllustrationsSection } from '@/components/editor/Sl3Sections';
 import { prepareFigureUpload } from '@/lib/prepareFigureUpload';
 import { persistAttachment } from '@/lib/attachments';
 import { useDocumentStore } from '@/stores/documentStore';
+import { useDocumentsStore } from '@/stores/documentsStore';
 import { sl3Fixture } from '../_helpers/sl3Fixture';
 
 vi.mock('@/lib/prepareFigureUpload', () => ({ prepareFigureUpload: vi.fn() }));
-vi.mock('@/lib/attachments', () => ({ persistAttachment: vi.fn(), loadAttachment: vi.fn().mockResolvedValue(null), newAttachmentId: () => 'new-id' }));
+vi.mock('@/lib/attachments', async original => ({ ...await original<typeof import('@/lib/attachments')>(), persistAttachment: vi.fn(), loadAttachment: vi.fn().mockResolvedValue(null), newAttachmentId: () => 'new-id' }));
 beforeEach(() => {
+  useDocumentsStore.setState({ currentId: 'sl3-photo-owner' });
   useDocumentStore.getState().resetForm();
   useDocumentStore.setState(sl3Fixture());
   useDocumentStore.setState({ paragraphs: [{ referenceId: 'photo', level: 0, text: 'Training adapter', figure: { portionMarking: 'U' } }] });
