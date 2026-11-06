@@ -4,11 +4,13 @@ import { Sl3IllustrationsSection } from '@/components/editor/Sl3Sections';
 import { prepareFigureUpload } from '@/lib/prepareFigureUpload';
 import { persistAttachment } from '@/lib/attachments';
 import { useDocumentStore } from '@/stores/documentStore';
+import { useDocumentsStore } from '@/stores/documentsStore';
 import { sl3Fixture } from '../_helpers/sl3Fixture';
 
 vi.mock('@/lib/prepareFigureUpload', () => ({ prepareFigureUpload: vi.fn() }));
-vi.mock('@/lib/attachments', () => ({ persistAttachment: vi.fn(), loadAttachment: vi.fn().mockResolvedValue(null), newAttachmentId: () => 'new-id' }));
+vi.mock('@/lib/attachments', async original => ({ ...await original<typeof import('@/lib/attachments')>(), persistAttachment: vi.fn(), loadAttachment: vi.fn().mockResolvedValue(null), newAttachmentId: () => 'new-id' }));
 beforeEach(() => {
+  useDocumentsStore.setState({ currentId: 'sl3-photo-owner' });
   useDocumentStore.getState().resetForm();
   useDocumentStore.setState(sl3Fixture());
   useDocumentStore.setState({ paragraphs: [{ referenceId: 'photo', level: 0, text: 'Training adapter', figure: { portionMarking: 'U' } }] });
@@ -25,7 +27,7 @@ it('persists prepared pixels and dimensions, preserves the marking and resets le
   const file = new File(['raw'], 'phone.jpg', { type: 'image/jpeg' });
   fireEvent.change(screen.getByLabelText('Choose illustration for Illustration 1 (unassigned)'), { target: { files: [file] } });
   await waitFor(() => expect(useDocumentStore.getState().paragraphs[0].figure?.fileRef?.id).toBe('normalized'));
-  expect(persistAttachment).toHaveBeenCalledWith({ name: 'phone.jpg', size: 3, type: 'image/jpeg' }, bytes);
+  expect(persistAttachment).toHaveBeenCalledWith({ name: 'phone.jpg', size: 3, type: 'image/jpeg' }, bytes, { requireDurable: true });
   expect(useDocumentStore.getState().paragraphs[0].figure).toMatchObject({ width: 900, height: 1600, portionMarking: 'U' });
   expect(useDocumentStore.getState().formData.sl3!.artwork).toEqual([]);
   expect(screen.getByLabelText('Illustration 1 (unassigned) lettering review')).toHaveValue('');

@@ -1,4 +1,5 @@
-import { useCallback, useRef } from 'react';
+import { beginDocumentTask, isCurrentDocumentTask } from '@/lib/documentTask';
+import { useCallback, useLayoutEffect, useRef } from 'react';
 import { Type, PenLine, Shield, X } from 'lucide-react';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
@@ -25,6 +26,11 @@ export function SignatureStylePicker({
   onChange: (patch: Partial<FormSignatureBlock>) => void;
 }) {
   const fileRef = useRef<HTMLInputElement>(null);
+  const latestBlock = useRef<FormSignatureBlock | null>(block);
+  useLayoutEffect(() => {
+    latestBlock.current = block;
+    return () => { latestBlock.current = null; };
+  }, [block]);
   const style: SignatureStyle = block.style ?? 'typed';
 
   const handleUpload = useCallback(
@@ -41,22 +47,24 @@ export function SignatureStylePicker({
         });
         return;
       }
+      const task = beginDocumentTask(block);
       try {
         const image = await loadSignatureAsPngBase64(file);
-        onChange({ style: 'image', image });
+        if (isCurrentDocumentTask(task) && latestBlock.current === block) onChange({ style: 'image', image });
       } catch (err) {
+        if (!isCurrentDocumentTask(task) || latestBlock.current !== block) return;
         showAppAlert({
           title: "Couldn't read that image",
           message: err instanceof Error ? err.message : 'Please try a different file.',
         });
       }
     },
-    [onChange]
+    [onChange, block]
   );
 
   return (
     <div className="space-y-2">
-      <Tabs value={style} onValueChange={(v) => onChange({ style: v as SignatureStyle })}>
+      <Tabs value={style} onValueChange={(v) => { beginDocumentTask(block); onChange({ style: v as SignatureStyle }); }}>
         <TabsList className="grid w-full grid-cols-3">
           <TabsTrigger value="typed" aria-label={`Signature block ${index + 1}: typed name only`}>
             <Type className="mr-1.5 h-3.5 w-3.5" /> Typed
@@ -74,6 +82,7 @@ export function SignatureStylePicker({
         <div className="flex items-center gap-2">
           <input
             ref={fileRef}
+            aria-label={`Upload signature for block ${index + 1}`}
             type="file"
             accept="image/*"
             className="hidden"
@@ -98,7 +107,7 @@ export function SignatureStylePicker({
                 variant="ghost"
                 size="icon"
                 aria-label="Remove signature image"
-                onClick={() => onChange({ image: undefined })}
+                onClick={() => { beginDocumentTask(block); onChange({ image: undefined }); }}
               >
                 <X className="h-4 w-4" />
               </Button>
