@@ -193,9 +193,7 @@ function installDocument(prepared: PreparedDocument, options: InstallOptions = {
   if (options.resume !== false) persistCurrentId(id);
   if (options.save !== false) useDocumentsStore.getState().saveCurrent();
   else {
-    const entry = useDocumentsStore.getState().docs[id];
-    useUIStore.getState().setLastSavedAt(entry?.meta.updatedAt ?? null);
-    if (writes.has(id)) useUIStore.getState().setSaveStatus(writes.failure(id) ? 'error' : 'saving');
+    updateSaveStatus(id);
   }
   useUIStore.getState().setValidationVisible(false);
   void hydrateDocumentAssets(captureDocumentScope());
@@ -630,14 +628,7 @@ function broadcastDocs(msg: { type: 'put' | 'delete'; id: string }): void {
 
 const storedEntry = (entry: DocumentEntry): StoredDocument => ({ id: entry.meta.id, ...entry });
 const writes = new DocumentWrites((before, after) => idbWriteDocument(before, after), (id, committed) => {
-  const state = useDocumentsStore.getState();
-  if (state.currentId === id) {
-    const ui = useUIStore.getState();
-    if (writes.failure(id)) ui.setSaveStatus('error');
-    else if (writes.has(id) && !writes.recoveryAvailable()) useUIStore.setState({ saveStatus: 'error', saveWarning: 'Reload recovery is unavailable. Keep this tab open until Saved appears.' });
-    else if (writes.has(id)) ui.setSaveStatus('saving');
-    else if (committed && sameContent(committed.session, getSerializedSession())) ui.markSaved();
-  }
+  updateSaveStatus(id);
   if (writes.failure(id) === 'conflict' || writes.failure(id) === 'missing-document') {
     const after = writes.latest().find(record => record.id === id);
     if (after) retainRecoveryCopy(after);
@@ -647,6 +638,50 @@ const writes = new DocumentWrites((before, after) => idbWriteDocument(before, af
     scheduleBackup();
   }
 });
+
+/** A memory registry entry alone cannot acknowledge a durable save. */
+function updateSaveStatus(id: string): void {
+  const state = useDocumentsStore.getState();
+  if (state.currentId !== id) return;
+  const ui = useUIStore.getState();
+  const entry = state.docs[id];
+  if (writes.failure(id)) { ui.setSaveStatus('error'); return; }
+  if (!entry) { useUIStore.setState({ lastSavedAt: null }); ui.setSaveStatus('idle'); return; }
+  if (!sameContent(entry.session, getSerializedSession())) { ui.setSaveStatus('pending'); return; }
+  if (writes.has(id)) {
+    if (!writes.recoveryAvailable()) useUIStore.setState({ saveStatus: 'error', saveWarning: 'Reload recovery is unavailable. Keep this tab open until Saved appears.' });
+    else ui.setSaveStatus('saving');
+    return;
+  }
+  const receipt = writes.latestReceipt(id);
+  if (receipt && writes.matches(receipt, storedEntry(entry))) { ui.acknowledgeSave(receipt); return; }
+  // Verify a loaded record through the same conditional transaction. It may
+  // have changed in another tab since the registry was read.
+  persistEntry(entry, entry);
+}
+
+/** Shared manual-save completion for all editor types and entry points. */
+export async function commitCurrentDocument() {
+  const scope = captureDocumentScope();
+  if (!scope) throw new Error('There is no open document to save.');
+  useDocumentsStore.getState().saveCurrent();
+  for (;;) {
+    if (!isCurrentDocumentScope(scope)) return null;
+    useDocumentsStore.getState().syncCurrent();
+    if (!await writes.flush(scope.documentId)) throw new Error('This document could not be saved. Retry Save or export a draft file.');
+    if (!isCurrentDocumentScope(scope)) return null;
+    const state = useDocumentsStore.getState();
+    const entry = state.docs[scope.documentId];
+    const receipt = writes.latestReceipt(scope.documentId);
+    const live = getSerializedSession();
+    if (entry && receipt && writes.matches(receipt, storedEntry(entry)) && sameContent(entry.session, live)) return receipt;
+    if (!entry || state.baseline && sameContent(state.baseline, live)) {
+      throw new Error('The current revision has not been saved. Retry Save or export a draft file.');
+    }
+    // Include edits made during this document's transaction without waiting on
+    // failed or stalled transactions belonging to a different document.
+  }
+}
 
 function persistEntry(entry: DocumentEntry, before?: DocumentEntry): void {
   writes.enqueue(before ? storedEntry(before) : null, storedEntry(entry));
@@ -1059,7 +1094,7 @@ export const useDocumentsStore = create<DocumentsState>((set, get) => ({
     } else if (sameContent(prev.session, session)) {
       // Retry failed content even when the editor has not changed.
       if (writes.failure(currentId)) writes.retry(currentId);
-      else if (!source && !writes.has(currentId)) useUIStore.getState().setLastSavedAt(prev.meta.updatedAt);
+      else if (!source) updateSaveStatus(currentId);
       return;
     } else if (baseline && sameContent(baseline, session)) {
       // The live document matches what THIS tab last loaded/persisted — the
@@ -1088,7 +1123,8 @@ export const useDocumentsStore = create<DocumentsState>((set, get) => ({
     // Force-add when absent, but skip a no-op Save so it doesn't re-sort.
     const prev = docs[currentId];
     if (prev && sameContent(prev.session, session)) {
-      writes.retry(currentId);
+      if (writes.has(currentId)) writes.retry(currentId);
+      else updateSaveStatus(currentId);
       void maybeSnapshot(currentId, session, true);
       return;
     }
@@ -1359,7 +1395,7 @@ function scheduleEditorWork(captureHistory = true): void {
     const changed = entry ? !sameContent(reference, live) : hasContentDrift(reference, live);
     const ui = useUIStore.getState();
     if (changed) ui.setSaveStatus('pending');
-    else if (ui.saveStatus === 'pending' && !writes.has(scope.documentId)) ui.setLastSavedAt(entry?.meta.updatedAt ?? null);
+    else if (ui.saveStatus === 'pending') updateSaveStatus(scope.documentId);
   }
   const generation = ++syncGeneration;
   if (syncTimer) clearTimeout(syncTimer);
