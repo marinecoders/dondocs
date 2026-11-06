@@ -11,6 +11,7 @@ import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { RestoreSessionModal } from '@/components/modals/RestoreSessionModal';
 import * as store from '@/stores/documentStore';
+import { restoreSavedDocument } from '@/stores/documentsStore';
 import { getDeviceInfo } from '@/utils/device';
 import { SW_AUTO_RESTORE_KEY } from '@/hooks/useServiceWorker';
 
@@ -19,10 +20,10 @@ vi.mock('@/stores/documentStore', () => ({
   suspendSessionSaves: vi.fn(),
   resumeSessionSaves: vi.fn(),
   getSavedSession: vi.fn(),
-  restoreSession: vi.fn(),
   clearSavedSession: vi.fn(),
   getSessionAge: vi.fn(() => '2 hours ago'),
 }));
+vi.mock('@/stores/documentsStore', () => ({ restoreSavedDocument: vi.fn(() => 'applied') }));
 vi.mock('@/utils/device', () => ({
   getDeviceInfo: vi.fn(() => ({ isInAppBrowser: false })),
 }));
@@ -78,7 +79,7 @@ describe('RestoreSessionModal', () => {
     await screen.findByText('Restore Previous Session?');
     await user.click(screen.getByRole('button', { name: /restore session/i }));
 
-    expect(store.restoreSession).toHaveBeenCalledTimes(1);
+    expect(restoreSavedDocument).toHaveBeenCalledTimes(1);
     expect(store.resumeSessionSaves).toHaveBeenCalledTimes(1);
     await waitFor(() =>
       expect(screen.queryByText('Restore Previous Session?')).not.toBeInTheDocument()
@@ -96,7 +97,7 @@ describe('RestoreSessionModal', () => {
 
     expect(store.clearSavedSession).toHaveBeenCalledTimes(1);
     expect(store.resumeSessionSaves).toHaveBeenCalledTimes(1);
-    expect(store.restoreSession).not.toHaveBeenCalled();
+    expect(restoreSavedDocument).not.toHaveBeenCalled();
   });
 
   it('does not prompt inside an in-app browser', () => {
@@ -116,9 +117,45 @@ describe('RestoreSessionModal', () => {
 
     render(<RestoreSessionModal />);
 
-    expect(store.restoreSession).toHaveBeenCalledTimes(1);
+    expect(restoreSavedDocument).toHaveBeenCalledTimes(1);
+    expect(store.resumeSessionSaves).toHaveBeenCalledTimes(1);
     expect(screen.queryByText('Restore Previous Session?')).not.toBeInTheDocument();
     // The one-shot flag is consumed so it can't re-fire next mount.
     expect(localStorage.getItem(SW_AUTO_RESTORE_KEY)).toBeNull();
   });
+});
+
+it('keeps the recovery checkpoint and prompt suspended when restoration fails', async () => {
+  vi.mocked(store.hasSavedSession).mockReturnValue(true);
+  vi.mocked(store.getSavedSession).mockReturnValue(SESSION as ReturnType<typeof store.getSavedSession>);
+  vi.mocked(restoreSavedDocument).mockReturnValueOnce('invalid');
+  localStorage.setItem('dondocs-document-session', 'retained checkpoint');
+  render(<RestoreSessionModal />);
+  await userEvent.click(await screen.findByRole('button', { name: 'Restore session' }));
+  expect(await screen.findByRole('alert')).toHaveTextContent('Your recovery copy has not changed');
+  expect(store.resumeSessionSaves).not.toHaveBeenCalled();
+  expect(store.clearSavedSession).not.toHaveBeenCalled();
+  expect(localStorage.getItem('dondocs-document-session')).toBe('retained checkpoint');
+  vi.mocked(restoreSavedDocument).mockReturnValueOnce('applied');
+  await userEvent.click(screen.getByRole('button', { name: 'Restore session' }));
+  expect(store.resumeSessionSaves).toHaveBeenCalledTimes(1);
+  await waitFor(() => expect(screen.queryByRole('dialog')).not.toBeInTheDocument());
+});
+
+it('keeps a failed automatic recovery available for manual retry', async () => {
+  vi.mocked(store.hasSavedSession).mockReturnValue(true);
+  vi.mocked(store.getSavedSession).mockReturnValue(SESSION as ReturnType<typeof store.getSavedSession>);
+  vi.mocked(restoreSavedDocument).mockReturnValueOnce('invalid');
+  localStorage.setItem(SW_AUTO_RESTORE_KEY, 'true');
+  localStorage.setItem('dondocs-document-session', 'automatic checkpoint');
+  render(<RestoreSessionModal />);
+  expect(await screen.findByRole('alert')).toHaveTextContent('Your recovery copy has not changed');
+  expect(store.suspendSessionSaves).toHaveBeenCalledTimes(1);
+  expect(store.resumeSessionSaves).not.toHaveBeenCalled();
+  expect(localStorage.getItem(SW_AUTO_RESTORE_KEY)).toBe('true');
+  expect(localStorage.getItem('dondocs-document-session')).toBe('automatic checkpoint');
+  vi.mocked(restoreSavedDocument).mockReturnValueOnce('applied');
+  await userEvent.click(screen.getByRole('button', { name: 'Restore session' }));
+  expect(localStorage.getItem(SW_AUTO_RESTORE_KEY)).toBeNull();
+  expect(store.resumeSessionSaves).toHaveBeenCalledTimes(1);
 });

@@ -12,8 +12,8 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { useUIStore } from '@/stores/uiStore';
-import { getSerializedSessionForShare, loadSharedSession } from '@/stores/documentStore';
-import { useDocumentsStore, profileFormPatch } from '@/stores/documentsStore';
+import { getSerializedSessionForShare } from '@/stores/documentStore';
+import { profileFormPatch, openSessionAsNew } from '@/stores/documentsStore';
 import { useUserTemplatesStore } from '@/stores/userTemplatesStore';
 import { showAppAlert } from '@/stores/alertStore';
 import { useProfileStore } from '@/stores/profileStore';
@@ -68,9 +68,7 @@ export function TemplateLoaderModal() {
   const handleLoadTemplate = () => {
     if (!selectedTemplate) return;
 
-    useDocumentsStore.getState().syncCurrent();
-    loadSharedSession(selectedSession!);
-    useDocumentsStore.getState().openLoadedAsNew();
+    if (openSessionAsNew(selectedSession!) !== 'applied') return;
     useUIStore.getState().setValidationVisible(false);
     handleClose();
   };
@@ -80,9 +78,7 @@ export function TemplateLoaderModal() {
   const loadUserTemplate = () => {
     const t = selectedUserId ? userTemplates[selectedUserId] : null;
     if (!t) return;
-    useDocumentsStore.getState().syncCurrent();
-    loadSharedSession(t.session);
-    useDocumentsStore.getState().openLoadedAsNew();
+    if (openSessionAsNew(t.session) !== 'applied') return;
     useUIStore.getState().setValidationVisible(false);
     handleClose();
   };
