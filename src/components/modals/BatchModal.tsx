@@ -1,4 +1,4 @@
-import { DOC_TYPE_LABELS, formTypeLabel } from '@/types/document';
+import { DOC_TYPE_LABELS, FORM_TYPE_LABELS, formTypeLabel } from '@/types/document';
 import { publicationExportErrors } from '@/lib/publicationPreflight';
 import { loadFigureFiles } from '@/services/latex/figureAssets';
 import { loadAttachment } from '@/lib/attachments';
@@ -275,10 +275,12 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
   }, [documentCategory, formType, batchModalOpen, navmc10274Templates, navmc11811Template]);
 
   const isFormsMode = documentCategory === 'forms';
+  const isBuiltinForm = Object.hasOwn(FORM_TYPE_LABELS, formType);
 
   const detectedPlaceholders = useMemo(() => {
     if (source) return savedPlaceholders;
     if (!batchModalOpen) return [];
+    if (isFormsMode && !isBuiltinForm) return [];
     const forms = liveDocument.formType === 'navmc_118_11'
       ? { includeCoverPage: liveForms.includeCoverPage, navmc11811: liveForms.navmc11811 }
       : { includeCoverPage: liveForms.includeCoverPage, navmc10274: liveForms.navmc10274 };
@@ -287,7 +289,7 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
       forms: liveDocument.documentCategory === 'forms' && !liveDocument.genericForm ? forms : undefined,
     }, 0);
     return detectSessionPlaceholders(snapshot);
-  }, [liveDocument, liveForms, batchModalOpen, source, savedPlaceholders]);
+  }, [liveDocument, liveForms, batchModalOpen, source, savedPlaceholders, isFormsMode, isBuiltinForm]);
 
   const addRow = useCallback(() => {
     setRows((prev) => [
@@ -682,7 +684,7 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
     return 'Tip: Add a variable to your Subject line like "PROMOTION OF {{NAME}} TO {{RANK}}"';
   }, [isFormsMode, formType]);
 
-  if (isFormsMode && formType !== 'navmc_10274' && formType !== 'navmc_118_11' && !source) {
+  if (isFormsMode && !isBuiltinForm && !source) {
     return <Dialog open={batchModalOpen} onOpenChange={setBatchModalOpen}>
       <DialogContent>
         <DialogHeader>

@@ -6,6 +6,7 @@ import { useUIStore } from '@/stores/uiStore';
 import { useBatchStore } from '@/stores/batchStore';
 import { useDocumentsStore } from '@/stores/documentsStore';
 import { getSerializedSession, useDocumentStore } from '@/stores/documentStore';
+import { fixtureInstance } from '../_helpers/formFixture';
 
 beforeEach(() => {
   useDocumentsStore.getState().newDocument();
@@ -43,6 +44,15 @@ it('retains interrupted row errors, retry and pending-row resume', () => {
 it('keeps variable insertion available while setting up a new batch', () => {
   open();
   expect(screen.getByText('Add a variable')).toBeVisible();
+});
+
+it('shows the unsupported batch view without interpreting a configured form definition', () => {
+  const form = fixtureInstance();
+  Object.assign(form.definition, { schemaVersion: 999 });
+  useDocumentStore.setState({ documentCategory: 'forms', formType: 'fixture', genericForm: form });
+  open();
+  expect(screen.getByText(/For this library form, download an individual PDF/)).toBeVisible();
+  expect(screen.getByRole('button', { name: 'Back to form' })).toBeVisible();
 });
 
 it('discovers heading and distribution variables and updates when only distribution changes', () => {
