@@ -287,6 +287,8 @@ jobs:
         # page counts off a compiled PDF and skip themselves when those
         # binaries are absent — so without this they passed by not running.
         run: |
+          # The Azure mirror can exhaust this job's budget during downloads.
+          sudo sed -i 's|azure.archive.ubuntu.com|archive.ubuntu.com|g' /etc/apt/apt-mirrors.txt
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends \
             texlive-xetex \
