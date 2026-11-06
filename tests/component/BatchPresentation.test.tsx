@@ -1,6 +1,6 @@
 import 'fake-indexeddb/auto';
 import { beforeEach, expect, it, vi } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { act, render, screen } from '@testing-library/react';
 import { BatchModal } from '@/components/modals/BatchModal';
 import { useUIStore } from '@/stores/uiStore';
 import { useBatchStore } from '@/stores/batchStore';
@@ -43,4 +43,17 @@ it('retains interrupted row errors, retry and pending-row resume', () => {
 it('keeps variable insertion available while setting up a new batch', () => {
   open();
   expect(screen.getByText('Add a variable')).toBeVisible();
+});
+
+it('discovers heading and distribution variables and updates when only distribution changes', () => {
+  useDocumentStore.setState({
+    paragraphs: [{ text: 'Body', header: '{{HEADING}}', level: 0 }],
+    distributions: [{ text: '{{DIST}}' }],
+  });
+  open();
+  expect(screen.getByRole('textbox', { name: 'Row 1: HEADING' })).toBeVisible();
+  expect(screen.getByRole('textbox', { name: 'Row 1: DIST' })).toBeVisible();
+  act(() => useDocumentStore.setState({ distributions: [{ text: '{{NEXT}}' }] }));
+  expect(screen.getByRole('textbox', { name: 'Row 1: NEXT' })).toBeVisible();
+  expect(screen.queryByRole('textbox', { name: 'Row 1: DIST' })).not.toBeInTheDocument();
 });

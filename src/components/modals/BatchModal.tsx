@@ -1,10 +1,9 @@
-import { MANUAL_DOC_TYPE } from '@/data/techpub/manualFrontMatter';
 import { DOC_TYPE_LABELS, formTypeLabel } from '@/types/document';
 import { publicationExportErrors } from '@/lib/publicationPreflight';
 import { loadFigureFiles } from '@/services/latex/figureAssets';
 import { loadAttachment } from '@/lib/attachments';
 import { prepareBatchCorrespondence } from '@/lib/batchDocument';
-import { endorsementTexts } from '@/lib/appendedEndorsement';
+import { serializeDocumentSnapshot } from '@/lib/documentSerialization';
 import { finishCorrespondencePdf } from '@/services/pdf/finishCorrespondencePdf';
 import { memo, useState, useCallback, useMemo, useEffect, useRef } from 'react';
 import { Plus, Trash2, Download, AlertCircle, FileText, Variable, CheckCircle, XCircle, Copy, Lightbulb, Eye, Loader2, Settings, ArrowRight } from 'lucide-react';
@@ -41,7 +40,7 @@ import { generateNavmc11811Pdf, loadNavmc11811Template } from '@/services/pdf/na
 import { debug } from '@/lib/debug';
 import { BATCH_PLACEHOLDERS, NAVMC_10274_PLACEHOLDERS, NAVMC_118_11_PLACEHOLDERS } from '@/lib/constants';
 import {
-  detectPlaceholders,
+  detectSessionPlaceholders,
   applyPlaceholdersToNavmc10274,
   applyPlaceholdersToNavmc11811,
   type PlaceholderValues,
@@ -197,36 +196,16 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
   const recoveryError = useBatchStore((s) => s.recoveryError);
   const stopRequested = useBatchStore((s) => s.stopRequested);
 
-  // Individual selectors. The useMemo for `detectedPlaceholders` below is the
-  // ONLY render-phase read of store data in this component, so we subscribe
-  // just to the slices it actually uses. All other reads are inside
-  // useCallback bodies (placeholder replacement at PDF-generation time,
-  // variable insertion on click) and pull fresh state via getState(). That
-  // keeps callback identity stable, which in turn keeps BatchModalRow's memo
-  // effective — otherwise every documentStore keystroke would churn
-  // `handlePreview` (passed as a prop), defeating the row memo.
-  const liveformData = useDocumentStore((s) => s.formData);
-  const formData = source?.formData ?? liveformData;
-  const liveparagraphs = useDocumentStore((s) => s.paragraphs);
-  const paragraphs = source?.paragraphs ?? liveparagraphs;
-  const livereferences = useDocumentStore((s) => s.references);
-  const references = source?.references ?? livereferences;
-  const liveenclosures = useDocumentStore((s) => s.enclosures);
-  const enclosures = source?.enclosures ?? liveenclosures;
-  const livecopyTos = useDocumentStore((s) => s.copyTos);
-  const copyTos = source?.copyTos ?? livecopyTos;
-  const livedocumentCategory = useDocumentStore((s) => s.documentCategory);
-  const documentCategory = source?.documentCategory ?? livedocumentCategory;
-  const liveformType = useDocumentStore((s) => s.formType);
-  const formType = source?.formType ?? liveformType;
-  const setDocField = useDocumentStore((s) => s.setField);
-  const addParagraph = useDocumentStore((s) => s.addParagraph);
-  const livenavmc10274 = useFormStore((s) => s.navmc10274);
-  const navmc10274 = source?.forms?.navmc10274 ?? livenavmc10274;
-  const livenavmc11811 = useFormStore((s) => s.navmc11811);
-  const navmc11811 = source?.forms?.navmc11811 ?? livenavmc11811;
-  const setNavmc10274Field = useFormStore((s) => s.setNavmc10274Field);
-  const setNavmc11811Field = useFormStore((s) => s.setNavmc11811Field);
+  // Read the complete active data for discovery; generation callbacks keep
+  // stable command references and use the saved job source once it exists.
+  const liveDocument = useDocumentStore();
+  const liveForms = useFormStore();
+  const documentCategory = source?.documentCategory ?? liveDocument.documentCategory;
+  const formType = source?.formType ?? liveDocument.formType;
+  const setDocField = liveDocument.setField;
+  const addParagraph = liveDocument.addParagraph;
+  const setNavmc10274Field = liveForms.setNavmc10274Field;
+  const setNavmc11811Field = liveForms.setNavmc11811Field;
 
   const rows = useBatchStore((s) => s.rows);
   const setRows = useBatchStore((s) => s.setRows);
@@ -297,77 +276,18 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
 
   const isFormsMode = documentCategory === 'forms';
 
-  // Detect all placeholders from current document (correspondence) or form (forms mode)
   const detectedPlaceholders = useMemo(() => {
     if (source) return savedPlaceholders;
-    const allText: string[] = [];
-
-    if (isFormsMode) {
-      // Forms mode: scan form fields for placeholders
-      if (formType === 'navmc_10274') {
-        const data = navmc10274;
-        if (data.actionNo) allText.push(data.actionNo);
-        if (data.ssicFileNo) allText.push(data.ssicFileNo);
-        if (data.date) allText.push(data.date);
-        if (data.from) allText.push(data.from);
-        if (data.via) allText.push(data.via);
-        if (data.orgStation) allText.push(data.orgStation);
-        if (data.to) allText.push(data.to);
-        if (data.natureOfAction) allText.push(data.natureOfAction);
-        if (data.copyTo) allText.push(data.copyTo);
-        if (data.references) allText.push(data.references);
-        if (data.enclosures) allText.push(data.enclosures);
-        if (data.supplementalInfo) allText.push(data.supplementalInfo);
-        if (data.proposedAction) allText.push(data.proposedAction);
-        // Signature blocks: variables may appear in a statement or a name
-        // (e.g. an acknowledgement addressed to each Marine in the batch).
-        for (const block of data.signatureBlocks ?? []) {
-          if (block.statement) allText.push(block.statement);
-          if (block.name) allText.push(block.name);
-        }
-      } else if (formType === 'navmc_118_11') {
-        const data = navmc11811;
-        if (data.lastName) allText.push(data.lastName);
-        if (data.firstName) allText.push(data.firstName);
-        if (data.middleName) allText.push(data.middleName);
-        if (data.edipi) allText.push(data.edipi);
-        if (data.remarksText) allText.push(data.remarksText);
-        if (data.remarksTextRight) allText.push(data.remarksTextRight);
-        if (data.entryDate) allText.push(data.entryDate);
-        if (data.box11) allText.push(data.box11);
-      }
-    } else {
-      // Correspondence mode: scan document store fields (from granular selectors above)
-
-      // Form fields
-      if (formData.to) allText.push(formData.to);
-      if (formData.from) allText.push(formData.from);
-      if (formData.via) allText.push(formData.via);
-      if (formData.subject) allText.push(formData.subject);
-      if (formData.serial) allText.push(formData.serial);
-      if (formData.appendEndorsement) allText.push(...endorsementTexts(formData));
-
-      if ((source ?? getSerializedSession()).docType === MANUAL_DOC_TYPE) {
-        for (const [key, value] of Object.entries(formData)) if (typeof value === 'string' && !['to', 'from', 'via', 'subject', 'serial'].includes(key)) allText.push(value);
-        if (formData.manualFrontMatter) allText.push(JSON.stringify(formData.manualFrontMatter));
-      }
-
-      // Paragraphs
-      paragraphs.forEach((p) => allText.push(p.text));
-
-      // References
-      references.forEach((r) => allText.push(r.title));
-
-      // Enclosures
-      enclosures.forEach((e) => allText.push(e.title));
-
-      // Copy-tos
-      copyTos.forEach((c) => allText.push(c.text));
-    }
-
-    const allPlaceholders = allText.flatMap((text) => detectPlaceholders(text));
-    return [...new Set(allPlaceholders)];
-  }, [formData, paragraphs, references, enclosures, copyTos, navmc10274, navmc11811, isFormsMode, formType, source, savedPlaceholders]);
+    if (!batchModalOpen) return [];
+    const forms = liveDocument.formType === 'navmc_118_11'
+      ? { includeCoverPage: liveForms.includeCoverPage, navmc11811: liveForms.navmc11811 }
+      : { includeCoverPage: liveForms.includeCoverPage, navmc10274: liveForms.navmc10274 };
+    const snapshot = serializeDocumentSnapshot({
+      ...liveDocument,
+      forms: liveDocument.documentCategory === 'forms' && !liveDocument.genericForm ? forms : undefined,
+    }, 0);
+    return detectSessionPlaceholders(snapshot);
+  }, [liveDocument, liveForms, batchModalOpen, source, savedPlaceholders]);
 
   const addRow = useCallback(() => {
     setRows((prev) => [
