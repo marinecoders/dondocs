@@ -831,14 +831,18 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
     if (!owns()) return;
     if (snapshot.documentCategory === 'forms' && !snapshot.genericForm) loadFormSession(snapshot.formType!, snapshot.forms);
     set((state) => {
-    // Re-graft live enclosure file bytes. History snapshots omit `file` (too
-    // large to keep 50 copies of), so a wholesale replace would destroy attached
-    // PDFs on every undo/redo. Match same-index-same-title first, then any unused
-    // same-title enclosure.
+    // A durable handle identifies the bytes. Never borrow a same-title file
+    // from a different revision; missing bytes are hydrated after installation.
+    // Legacy snapshots without handles retain the title-based fallback.
     const used = new Set<number>();
     const enclosures = snapshot.enclosures.map((e, i) => {
       if (e.file) return e;
       const cur = state.enclosures;
+      const ref = e.fileRef;
+      if (ref) {
+        const file = cur.find(enclosure => enclosure.fileRef?.id === ref.id && enclosure.file)?.file;
+        return file ? { ...e, file: { name: ref.name, size: ref.size || file.data.byteLength, data: file.data } } : e;
+      }
       const match =
         cur[i]?.title === e.title && cur[i]?.file && !used.has(i)
           ? i

@@ -7,7 +7,8 @@ import { useFormStore } from '@/stores/formStore';
 import { fixtureInstance } from '../_helpers/formFixture';
 import { importForm, editForm } from '@/services/forms/documents';
 import { idbGetAllDocuments } from '@/lib/documentsDb';
-import { persistAttachment } from '@/lib/attachments';
+import { loadAttachment, persistAttachment } from '@/lib/attachments';
+import { sweepOrphanedAttachments } from '@/lib/attachmentGc';
 
 beforeEach(() => {
   vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout', 'Date'] });
@@ -192,4 +193,43 @@ it.each(['enclosure', 'basic-letter'] as const)('keeps same-name, same-size tran
   expect(kind === 'enclosure' ? useDocumentStore.getState().enclosures[0].file!.data : useDocumentStore.getState().formData.basicLetterFile!.data).toBe(first.data);
   expect(changeDocumentHistory('redo', scope)).toBe('applied');
   expect(kind === 'enclosure' ? useDocumentStore.getState().enclosures[0].file!.data : useDocumentStore.getState().formData.basicLetterFile!.data).toBe(second.data);
+});
+
+it('restores the older enclosure bytes instead of reusing a same-title replacement', async () => {
+  const oldBytes = new Uint8Array([1]).buffer; const newBytes = new Uint8Array([2]).buffer;
+  const meta = { name: 'same.pdf', size: 1, type: 'application/pdf' };
+  const oldRef = await persistAttachment(meta, oldBytes); const newRef = await persistAttachment(meta, newBytes);
+  openSessionAsNew({ ...getSerializedSession(), enclosures: [{ title: 'Same attachment', fileRef: oldRef }] });
+  await rehydrateEnclosureFiles();
+  useDocumentStore.getState().updateEnclosure(0, { fileRef: newRef, file: { name: meta.name, size: 1, data: newBytes } });
+  await vi.advanceTimersByTimeAsync(500);
+  const scope = captureDocumentScope();
+  expect(changeDocumentHistory('undo', scope)).toBe('applied');
+  await rehydrateEnclosureFiles();
+  const restored = useDocumentStore.getState().enclosures[0];
+  expect(restored.fileRef!.id).toBe(oldRef.id);
+  expect(new Uint8Array(restored.file!.data)[0]).toBe(1);
+  expect(changeDocumentHistory('redo', scope)).toBe('applied');
+  expect(new Uint8Array(useDocumentStore.getState().enclosures[0].file!.data)[0]).toBe(2);
+});
+
+it.each(['past', 'future'] as const)('keeps attachment blobs reachable from only the %s Undo stack', async stack => {
+  useDocumentStore.getState().setField('subject', 'History assets');
+  useDocumentsStore.getState().saveCurrent();
+  const bytes = new Uint8Array([7]).buffer;
+  const ref = await persistAttachment({ name: 'undo-only.pdf', size: 1, type: 'application/pdf' }, bytes);
+  useDocumentStore.getState().addEnclosure('Undo only', { name: ref.name, size: 1, data: bytes }, ref);
+  await vi.advanceTimersByTimeAsync(500);
+  if (stack === 'past') {
+    useDocumentStore.getState().removeEnclosure(0);
+    await vi.advanceTimersByTimeAsync(500);
+  } else expect(changeDocumentHistory('undo', captureDocumentScope())).toBe('applied');
+  useDocumentsStore.getState().saveCurrent();
+  await flushDocumentWrites();
+  await sweepOrphanedAttachments();
+  expect(await loadAttachment(ref.id)).not.toBeNull();
+  expect(changeDocumentHistory(stack === 'past' ? 'undo' : 'redo', captureDocumentScope())).toBe('applied');
+  expect(useDocumentStore.getState().enclosures[0].fileRef!.id).toBe(ref.id);
+  await flushDocumentWrites();
+  expect(await loadAttachment(ref.id)).not.toBeNull();
 });
