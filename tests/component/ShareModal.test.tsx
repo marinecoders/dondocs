@@ -9,7 +9,7 @@
  * password rather than throwing).
  */
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { act, fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { ShareModal } from '@/components/modals/ShareModal';
 import {
@@ -57,6 +57,59 @@ function stubClipboard() {
 }
 
 describe('ShareModal — share mode', () => {
+  it('invalidates the generated link when its password changes', async () => {
+    const user = userEvent.setup();
+    stubClipboard();
+    vi.mocked(encryptSharePayload).mockResolvedValue('FIRST');
+    render(<ShareModal open mode="share" onOpenChange={vi.fn()} />);
+    const password = screen.getByLabelText('Password for this link');
+    await user.type(password, 'first-password');
+    await user.click(screen.getByRole('button', { name: /generate link/i }));
+    expect(screen.getByRole('textbox', { name: 'Share link (copied to clipboard)' })).toBeVisible();
+    await user.type(password, '-changed');
+    expect(screen.queryByRole('textbox', { name: /Share link/ })).not.toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Generate link' })).toBeEnabled();
+  });
+
+  it('keeps clipboard delivery owned until a manual copy finishes', async () => {
+    const user = userEvent.setup();
+    const writeText = stubClipboard();
+    vi.mocked(encryptSharePayload).mockResolvedValue('FIRST');
+    render(<ShareModal open mode="share" onOpenChange={vi.fn()} />);
+    const password = screen.getByLabelText('Password for this link');
+    await user.type(password, 'test-password');
+    await user.click(screen.getByRole('button', { name: /generate link/i }));
+    let finish!: () => void;
+    writeText.mockImplementationOnce(() => new Promise<void>(resolve => { finish = resolve; }));
+    await user.click(screen.getByRole('button', { name: 'Copy again' }));
+    try {
+      expect(password).toBeDisabled();
+      expect(screen.getByRole('button', { name: 'Copy again' })).toBeDisabled();
+    } finally {
+      await act(async () => { finish(); });
+    }
+    expect(password).toBeEnabled();
+  });
+
+  it('does not let an earlier copy timer clear a later copy acknowledgment', async () => {
+    vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] });
+    try {
+      stubClipboard();
+      vi.mocked(encryptSharePayload).mockResolvedValueOnce('FIRST').mockResolvedValueOnce('SECOND');
+      render(<ShareModal open mode="share" onOpenChange={vi.fn()} />);
+      const password = screen.getByLabelText('Password for this link');
+      fireEvent.change(password, { target: { value: 'first-password' } });
+      await act(async () => { fireEvent.click(screen.getByRole('button', { name: /generate link/i })); });
+      act(() => { vi.advanceTimersByTime(1500); });
+      fireEvent.change(password, { target: { value: 'changed-password' } });
+      await act(async () => { fireEvent.click(screen.getByRole('button', { name: /Generate link|Link copied/ })); });
+      act(() => { vi.advanceTimersByTime(1001); });
+      expect(screen.getByRole('textbox', { name: 'Share link (copied to clipboard)' })).toHaveValue('https://dondocs.app/#s=SECOND');
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+
   it('blocks encryption and reports an inspection error for an unsupported form snapshot', async () => {
     const user = userEvent.setup();
     const form = fixtureInstance();
