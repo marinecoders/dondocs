@@ -46,15 +46,45 @@ export interface AttachmentMeta {
   type: string;
 }
 
+let stagingCount = 0;
+let stagingGeneration = 0;
+const ATTACHMENT_LOCK = 'dondocs-attachment-lifetime';
+
+/** Keep operation-owned blobs alive until they are installed or abandoned. */
+export async function withAttachmentStaging<T>(operation: () => Promise<T>): Promise<T> {
+  stagingCount++;
+  stagingGeneration++;
+  try {
+    if (typeof navigator !== 'undefined' && navigator.locks?.request) {
+      return await navigator.locks.request(ATTACHMENT_LOCK, { mode: 'shared' }, operation);
+    }
+    return await operation();
+  } finally { stagingCount--; }
+}
+
+/** An exclusive sweep cannot race staging in another tab on the same origin. */
+export async function withAttachmentSweep<T>(operation: () => Promise<T>): Promise<T | null> {
+  if (typeof navigator !== 'undefined' && navigator.locks?.request) {
+    return navigator.locks.request(ATTACHMENT_LOCK, { mode: 'exclusive', ifAvailable: true }, lock => lock ? operation() : null);
+  }
+  return operation();
+}
+
+/** A sweep's mark set expires even if staging starts and finishes during a read. */
+export function attachmentSweepCheckpoint(): number | null {
+  return stagingCount ? null : stagingGeneration;
+}
+
 /**
  * Store `data` under a fresh id and return the reference to persist in the
- * enclosure. On a failed write it still returns a ref (so the in-memory file
- * keeps working this session) — the enclosure just won't survive a reload.
+ * enclosure. Legacy callers can retain an in-memory file on a failed write;
+ * staged imports require a durable copy before replacing the current draft.
  */
-export async function persistAttachment(meta: AttachmentMeta, data: ArrayBuffer): Promise<FileRef> {
+export async function persistAttachment(meta: AttachmentMeta, data: ArrayBuffer, options: { requireDurable?: boolean } = {}): Promise<FileRef> {
   const id = newAttachmentId();
   const rec: StoredAttachment = { id, name: meta.name, type: meta.type, size: meta.size, data };
-  await idbPutAttachment(rec);
+  const stored = await idbPutAttachment(rec);
+  if (!stored && options.requireDurable) throw new Error(`Could not save ${meta.name}. Check browser storage and try opening the draft again.`);
   return { id, name: meta.name, size: meta.size, type: meta.type };
 }
 

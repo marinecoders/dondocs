@@ -49,7 +49,7 @@ import { scheduleBackup } from './backupStore';
 import { debug } from '@/lib/debug';
 import { TIMING } from '@/lib/constants';
 import { useHistoryStore, type DocumentSnapshot } from './historyStore';
-import { persistAttachment } from '@/lib/attachments';
+import { persistAttachment, withAttachmentStaging } from '@/lib/attachments';
 import type { ReviewedDraft } from '@/lib/draftFile';
 import { configForFormType } from '@/services/formRegistry';
 
@@ -226,28 +226,31 @@ export async function openReviewedDocument(reviewed: ReviewedDraft, target: Docu
   let state: DocumentSnapshot;
   try { owned = structuredClone(reviewed); state = prepareSessionState(owned.session); }
   catch { return 'invalid'; }
-  for (const [index, file] of owned.figures.entries()) {
-    if (!file) continue;
-    const figure = state.paragraphs[index]?.figure;
-    if (!figure) return 'invalid';
-    figure.fileRef = await persistAttachment({ name: file.name, size: file.size, type: figure.type ?? 'image/png' }, file.data);
+  return withAttachmentStaging(async () => {
     if (!current()) return 'stale';
-  }
-  if (owned.basicLetter) {
-    const file = owned.basicLetter;
-    state.formData.basicLetterFileRef = await persistAttachment({ name: file.name, size: file.size, type: 'application/pdf' }, file.data);
-    if (!current()) return 'stale';
-    state.formData.basicLetterFile = file;
-  }
-  for (const [index, file] of owned.files.entries()) {
-    if (!file) continue;
-    const enclosure = state.enclosures[index];
-    if (!enclosure) return 'invalid';
-    const ref = await persistAttachment({ name: file.name, size: file.size, type: 'application/pdf' }, file.data);
-    if (!current()) return 'stale';
-    state.enclosures[index] = { ...enclosure, file, fileRef: ref };
-  }
-  return openPreparedDocument(ownPreparedState(state), target);
+    for (const [index, file] of owned.figures.entries()) {
+      if (!file) continue;
+      const figure = state.paragraphs[index]?.figure;
+      if (!figure) return 'invalid';
+      figure.fileRef = await persistAttachment({ name: file.name, size: file.size, type: figure.type ?? 'image/png' }, file.data, { requireDurable: true });
+      if (!current()) return 'stale';
+    }
+    if (owned.basicLetter) {
+      const file = owned.basicLetter;
+      state.formData.basicLetterFileRef = await persistAttachment({ name: file.name, size: file.size, type: 'application/pdf' }, file.data, { requireDurable: true });
+      if (!current()) return 'stale';
+      state.formData.basicLetterFile = file;
+    }
+    for (const [index, file] of owned.files.entries()) {
+      if (!file) continue;
+      const enclosure = state.enclosures[index];
+      if (!enclosure) return 'invalid';
+      const ref = await persistAttachment({ name: file.name, size: file.size, type: 'application/pdf' }, file.data, { requireDurable: true });
+      if (!current()) return 'stale';
+      state.enclosures[index] = { ...enclosure, file, fileRef: ref };
+    }
+    return openPreparedDocument(ownPreparedState(state), target);
+  });
 }
 
 export function restoreSavedDocument(): TransitionOutcome {
@@ -1107,6 +1110,8 @@ export const useDocumentsStore = create<DocumentsState>((set, get) => ({
   },
 
   selectKind: (category, formType) => {
+    // Re-selecting the active view still supersedes an older asynchronous open.
+    openingRequest++;
     const current = useDocumentStore.getState();
     if (current.documentCategory === category && (category !== 'forms' || !formType || current.formType === formType)) return;
     get().syncCurrent();
@@ -1495,6 +1500,7 @@ export function openExistingDocument(id: string): TransitionOutcome {
   const registry = useDocumentsStore.getState();
   const entry = registry.docs[id];
   if (!entry) return 'invalid';
+  openingRequest++;
   const current = useDocumentStore.getState();
   if (id === registry.currentId && current.documentCategory === (entry.session.documentCategory ?? 'correspondence')
     && current.formType === entry.session.formType && Boolean(current.genericForm) === Boolean(entry.session.genericForm)) return 'unchanged';

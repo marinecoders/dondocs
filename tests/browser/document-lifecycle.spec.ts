@@ -1,4 +1,5 @@
 import { test, expect, type Page } from '@playwright/test';
+import { PDFDocument } from 'pdf-lib';
 
 test.use({ serviceWorkers: 'block' });
 test.setTimeout(120_000);
@@ -85,4 +86,29 @@ test('import, Undo and navigation keep both drafts intact after reload', async (
   await openRecent(page, 'LIFECYCLE IMPORTED EDIT');
   await expect(subject).toHaveValue('LIFECYCLE IMPORTED EDIT');
   await expect(await historyAction(page, /^Undo/)).toBeDisabled();
+});
+
+test('Redo survives attachment hydration after reopening an imported draft', async ({ page }) => {
+  const pdf = await PDFDocument.create(); pdf.addPage();
+  const bytes = await pdf.save();
+  const incoming = {
+    documentMode: 'compliant', documentCategory: 'correspondence', docType: 'naval_letter',
+    formType: 'navmc_10274', formData: { subject: 'ATTACHMENT HISTORY' },
+    paragraphs: [{ text: 'Imported body', level: 0 }], references: [], copyTos: [], distributions: [],
+    enclosures: [{ title: 'Attachment', file: { name: 'attachment.pdf', size: bytes.byteLength, data: Buffer.from(bytes).toString('base64') } }],
+  };
+  await page.goto('/');
+  await page.getByLabel('Import draft file').setInputFiles({ name: 'attachment.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(incoming)) });
+  await page.getByRole('button', { name: 'Open as new document', exact: true }).click();
+  await expect.poll(async () => (await savedState(page)).currentSubject).toBe('ATTACHMENT HISTORY');
+  await page.reload();
+  const subject = page.getByRole('textbox', { name: 'Subject', exact: true });
+  await expect(subject).toHaveValue('ATTACHMENT HISTORY');
+  await subject.fill('ATTACHMENT HISTORY EDIT');
+  const undo = await historyAction(page, /^Undo/);
+  await expect(undo).toBeEnabled(); await undo.click();
+  await expect(subject).toHaveValue('ATTACHMENT HISTORY');
+  const redo = await historyAction(page, /^Redo/);
+  await expect(redo).toBeEnabled(); await redo.click();
+  await expect(subject).toHaveValue('ATTACHMENT HISTORY EDIT');
 });

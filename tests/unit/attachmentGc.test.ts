@@ -20,6 +20,7 @@ import * as backup from '@/lib/backup';
 import { useDocumentStore } from '@/stores/documentStore';
 import { useDocumentsStore } from '@/stores/documentsStore';
 import { sweepOrphanedAttachments, collectLiveAttachmentIds } from '@/lib/attachmentGc';
+import { withAttachmentStaging } from '@/lib/attachments';
 
 // A stored document whose single enclosure points at attachment `refId` (or none).
 const doc = (id: string, refId?: string): StoredDocument =>
@@ -65,6 +66,46 @@ beforeEach(async () => {
 });
 
 describe('sweepOrphanedAttachments', () => {
+  it('skips reclamation while another tab owns the attachment lifetime lock', async () => {
+    const request = vi.fn(async (_name: string, _options: LockOptions, callback: (lock: Lock | null) => unknown) => callback(null));
+    vi.stubGlobal('navigator', { locks: { request } });
+    try {
+      await idbPutAttachment(att('other-tab-staging'));
+      expect(await sweepOrphanedAttachments()).toBeNull();
+      expect(await idbGetAttachment('other-tab-staging')).not.toBeNull();
+      expect(request).toHaveBeenCalledWith('dondocs-attachment-lifetime', { mode: 'exclusive', ifAvailable: true }, expect.any(Function));
+    } finally { vi.unstubAllGlobals(); }
+  });
+
+  it('keeps overlapping staging operations protected until both have finished', async () => {
+    let releaseFirst!: () => void; let releaseSecond!: () => void;
+    const first = withAttachmentStaging(() => new Promise<void>(done => { releaseFirst = done; }));
+    const second = withAttachmentStaging(() => new Promise<void>(done => { releaseSecond = done; }));
+    try {
+      releaseFirst(); await first;
+      await idbPutAttachment(att('second-operation'));
+      expect(await sweepOrphanedAttachments()).toBeNull();
+      expect(await idbGetAttachment('second-operation')).not.toBeNull();
+    } finally { releaseFirst(); releaseSecond(); await Promise.all([first, second]); }
+    expect(await sweepOrphanedAttachments()).toBe(1);
+  });
+
+  it('discards an old mark set when staging starts and finishes during attachment reads', async () => {
+    let resolve!: (records: StoredAttachment[]) => void;
+    const read = new Promise<StoredAttachment[]>(done => { resolve = done; });
+    let reading!: () => void;
+    const entered = new Promise<void>(done => { reading = done; });
+    const spy = vi.spyOn(documentsDb, 'idbGetAllAttachments').mockImplementationOnce(() => { reading(); return read; });
+    const sweep = sweepOrphanedAttachments();
+    await entered;
+    await withAttachmentStaging(async () => { await idbPutAttachment(att('staged-after-mark')); });
+    resolve([att('staged-after-mark')]);
+    expect(await sweep).toBeNull();
+    expect(await idbGetAttachment('staged-after-mark')).not.toBeNull();
+    spy.mockRestore();
+    expect(await sweepOrphanedAttachments()).toBe(1);
+  });
+
   it('keeps both persisted and in-memory references for the same document', async () => {
     await idbPutDocument(doc('same', 'persisted'));
     const memory = doc('same', 'memory');

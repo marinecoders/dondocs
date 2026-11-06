@@ -12,6 +12,7 @@ import { WRITE_JOURNAL_KEY } from '@/lib/documentWrites';
 import * as documentsDb from '@/lib/documentsDb';
 import { fixtureInstance, fixtureDefinition } from '../_helpers/formFixture';
 import type { FileRef } from '@/types/document';
+import { sweepOrphanedAttachments } from '@/lib/attachmentGc';
 
 vi.mock('@/lib/attachments', async original => { const actual = await original<typeof import('@/lib/attachments')>(); return { ...actual, loadAttachment: vi.fn(), persistAttachment: vi.fn(actual.persistAttachment) }; });
 const load = vi.mocked(loadAttachment);
@@ -320,6 +321,25 @@ it('keeps the latest generic-form opening request when preparation finishes out 
   } finally { resolve.mockRestore(); }
 });
 
+it.each(['kind', 'document'] as const)('cancels a pending form open when navigation returns to the current %s', async navigation => {
+  const definition = fixtureDefinition();
+  const pending = deferred<typeof definition | null>();
+  const resolve = vi.spyOn(formRegistry, 'configForFormType').mockReturnValueOnce(pending.promise);
+  const documents = useDocumentsStore.getState();
+  const id = documents.currentId!;
+  documents.saveCurrent();
+  try {
+    documents.newDocument(definition.formId);
+    if (navigation === 'kind') documents.selectKind('correspondence');
+    else documents.switchTo(id);
+    pending.resolve(definition);
+    await pending.promise;
+    expect(useDocumentsStore.getState().currentId).toBe(id);
+    expect(useDocumentStore.getState().documentCategory).toBe('correspondence');
+    expect(useDocumentStore.getState().genericForm).toBeUndefined();
+  } finally { resolve.mockRestore(); }
+});
+
 it('seeds a new correspondence shortcut after its intended document type is installed', () => {
   const outgoing = useDocumentsStore.getState().currentId!;
   expect(newCorrespondenceDocument('mfr')).toBe('applied');
@@ -363,4 +383,51 @@ it('owns file metadata before asynchronous hydration reads', async () => {
   pending.resolve(new Uint8Array([1]).buffer);
   await hydration;
   expect(useDocumentStore.getState().enclosures[0].file!.name).toBe('captured.pdf');
+});
+
+it.each(['install', 'cancel', 'fail'] as const)('protects staged files until import %s finishes', async outcome => {
+  const actual = await vi.importActual<typeof import('@/lib/attachments')>('@/lib/attachments');
+  const entered = deferred<void>(); const release = deferred<void>();
+  const refs: FileRef[] = [];
+  vi.mocked(persistAttachment)
+    .mockImplementationOnce(async (...args) => {
+      const ref = await actual.persistAttachment(...args); refs.push(ref); return ref;
+    })
+    .mockImplementationOnce(async (...args) => {
+      entered.resolve(); await release.promise;
+      if (outcome === 'fail') throw new Error('Attachment write failed');
+      const ref = await actual.persistAttachment(...args); refs.push(ref); return ref;
+    });
+  const file = (value: number) => ({ name: `${value}.pdf`, size: 1, data: new Uint8Array([value]).buffer });
+  const opening = openReviewedDocument({ session: { ...getSerializedSession(), enclosures: [{ title: 'First' }, { title: 'Second' }] }, files: [file(1), file(2)], figures: [] }, captureDocumentTarget());
+  await entered.promise;
+  try {
+    expect(await sweepOrphanedAttachments()).toBeNull();
+    expect(await actual.loadAttachment(refs[0].id)).not.toBeNull();
+    if (outcome === 'cancel') useDocumentStore.getState().setField('subject', 'Newer edit');
+  } finally { release.resolve(); }
+  if (outcome === 'fail') await expect(opening).rejects.toThrow('Attachment write failed');
+  else expect(await opening).toBe(outcome === 'install' ? 'applied' : 'stale');
+  await flushDocumentWrites();
+  expect(await sweepOrphanedAttachments()).not.toBeNull();
+  for (const ref of refs) {
+    if (outcome === 'install') expect(await actual.loadAttachment(ref.id)).not.toBeNull();
+    else expect(await actual.loadAttachment(ref.id)).toBeNull();
+  }
+});
+
+it('keeps the reviewed draft and current activation intact when attachment storage refuses a write', async () => {
+  const id = useDocumentsStore.getState().currentId;
+  const scope = captureDocumentScope();
+  const file = { name: 'quota.pdf', size: 1, data: new Uint8Array([7]).buffer };
+  const reviewed = { session: { ...getSerializedSession(), enclosures: [{ title: 'Upload' }] }, files: [file], figures: [] };
+  const write = vi.spyOn(documentsDb, 'idbPutAttachment').mockResolvedValueOnce(false);
+  try {
+    await expect(openReviewedDocument(reviewed, captureDocumentTarget())).rejects.toThrow('Could not save quota.pdf');
+    expect(useDocumentsStore.getState().currentId).toBe(id);
+    expect(isCurrentDocumentScope(scope)).toBe(true);
+    expect(useDocumentStore.getState().enclosures).toEqual([]);
+    expect(reviewed.files[0]).toBe(file);
+  } finally { write.mockRestore(); }
+  expect(await sweepOrphanedAttachments()).not.toBeNull();
 });

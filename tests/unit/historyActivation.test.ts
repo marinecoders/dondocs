@@ -1,7 +1,7 @@
 import 'fake-indexeddb/auto';
 import { afterEach, beforeEach, expect, it, vi } from 'vitest';
 import { getSavedSession, getSerializedSession, rehydrateEnclosureFiles, mutateSessionAssets, useDocumentStore, resumeSessionSaves } from '@/stores/documentStore';
-import { changeDocumentHistory, captureDocumentScope, flushDocumentWrites, openSessionAsNew, useDocumentsStore } from '@/stores/documentsStore';
+import { changeDocumentHistory, captureDocumentScope, flushDocumentWrites, isCurrentDocumentScope, openSessionAsNew, useDocumentsStore } from '@/stores/documentsStore';
 import { useHistoryStore } from '@/stores/historyStore';
 import { useFormStore } from '@/stores/formStore';
 import { fixtureInstance } from '../_helpers/formFixture';
@@ -151,7 +151,8 @@ it.each(['enclosure', 'basic-letter'] as const)('preserves Redo after hydrating 
     enclosures: kind === 'enclosure' ? [{ title: 'Attachment', fileRef: ref }] : [],
   };
   openSessionAsNew(session);
-  await rehydrateEnclosureFiles();
+  const openingScope = captureDocumentScope();
+  await rehydrateEnclosureFiles(() => isCurrentDocumentScope(openingScope));
   useDocumentStore.getState().setField('subject', 'After');
   await vi.advanceTimersByTimeAsync(500);
   const scope = captureDocumentScope();

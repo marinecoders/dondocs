@@ -46,6 +46,7 @@ import { useDocumentStore } from '@/stores/documentStore';
 import { getPendingDeleteSessions, useDocumentsStore } from '@/stores/documentsStore';
 import { isRestoreInProgress } from '@/lib/backup';
 import { debug } from '@/lib/debug';
+import { attachmentSweepCheckpoint, withAttachmentSweep } from '@/lib/attachments';
 
 /** Every enclosure and figure `fileRef.id` plus the basic-letter ref in one session. */
 function collectSessionRefs(session: SerializedSession | undefined, into: Set<string>): void {
@@ -140,24 +141,31 @@ let sweeping = false;
 export async function sweepOrphanedAttachments(): Promise<number | null> {
   if (sweeping) return null; // serialize concurrent triggers (startup + a purge)
   if (isRestoreInProgress()) return null; // never race a restore's doc→blob write order
+  const checkpoint = attachmentSweepCheckpoint();
+  if (checkpoint === null) return null;
   sweeping = true;
   try {
-    const live = await collectLiveAttachmentIds();
-    if (live === null) {
-      debug.log('AttachmentGc', 'skipped: registry unreadable');
-      return null;
-    }
-    const all = await idbGetAllAttachments();
-    if (all === null) {
-      debug.log('AttachmentGc', 'skipped: attachments unreadable');
-      return null;
-    }
-    const orphans = all.filter((a) => !live.has(a.id));
-    for (const orphan of orphans) await idbDeleteAttachment(orphan.id);
-    if (orphans.length > 0) {
-      debug.log('AttachmentGc', `reclaimed ${orphans.length} orphaned attachment(s)`);
-    }
-    return orphans.length;
+    return await withAttachmentSweep(async () => {
+      const live = await collectLiveAttachmentIds();
+      if (live === null) {
+        debug.log('AttachmentGc', 'skipped: registry unreadable');
+        return null;
+      }
+      const all = await idbGetAllAttachments();
+      if (all === null) {
+        debug.log('AttachmentGc', 'skipped: attachments unreadable');
+        return null;
+      }
+      const orphans = all.filter((a) => !live.has(a.id));
+      for (const orphan of orphans) {
+        if (attachmentSweepCheckpoint() !== checkpoint) return null;
+        await idbDeleteAttachment(orphan.id);
+      }
+      if (orphans.length > 0) {
+        debug.log('AttachmentGc', `reclaimed ${orphans.length} orphaned attachment(s)`);
+      }
+      return orphans.length;
+    });
   } catch (err) {
     debug.error('AttachmentGc', 'sweep failed', err);
     return null;
