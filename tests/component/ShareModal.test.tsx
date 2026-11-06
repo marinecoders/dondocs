@@ -20,8 +20,10 @@ import {
 import {
   getSerializedSessionForShare,
   loadSharedSession,
+  type SerializedSession,
 } from '@/stores/documentStore';
 import { openSessionAsNew } from '@/stores/documentsStore';
+import { fixtureInstance } from '../_helpers/formFixture';
 
 vi.mock('@/lib/shareCrypto', () => ({
   encryptSharePayload: vi.fn(),
@@ -40,6 +42,10 @@ vi.mock('@/stores/documentStore', () => ({
 
 beforeEach(() => {
   vi.clearAllMocks();
+  vi.mocked(getSerializedSessionForShare).mockImplementation(() => ({
+    documentMode: 'compliant', documentCategory: 'correspondence', docType: 'naval_letter', formType: 'navmc_10274',
+    formData: {}, paragraphs: [], copyTos: [], references: [], enclosures: [], distributions: [], timestamp: 0,
+  }));
 });
 
 // userEvent.setup() installs its own clipboard stub, so any spy must be
@@ -51,6 +57,43 @@ function stubClipboard() {
 }
 
 describe('ShareModal — share mode', () => {
+  it('blocks encryption and reports an inspection error for an unsupported form snapshot', async () => {
+    const user = userEvent.setup();
+    const form = fixtureInstance();
+    Object.assign(form.definition, { schemaVersion: 999 });
+    vi.mocked(getSerializedSessionForShare).mockReturnValueOnce({
+      documentMode: 'compliant', documentCategory: 'forms', docType: 'naval_letter', formType: 'fixture', genericForm: form,
+      formData: {}, paragraphs: [], copyTos: [], references: [], enclosures: [], distributions: [], timestamp: 0,
+    });
+    render(<ShareModal open mode="share" onOpenChange={vi.fn()} />);
+    await user.type(screen.getByLabelText('Password for this link'), 'test-password');
+    await user.click(screen.getByRole('button', { name: /generate link/i }));
+    expect(screen.getByRole('alert')).toHaveTextContent('Could not inspect this draft');
+    expect(encryptSharePayload).not.toHaveBeenCalled();
+    expect(screen.queryByRole('button', { name: 'Share anyway' })).not.toBeInTheDocument();
+  });
+
+  it('reviews hidden serialized fields and shares the reviewed snapshot after the editor changes', async () => {
+    const user = userEvent.setup();
+    stubClipboard();
+    const snapshot: SerializedSession = {
+      documentMode: 'compliant', documentCategory: 'correspondence', docType: 'naval_letter', formType: 'navmc_10274',
+      formData: { seniorCommandName: 'SSN 123-45-6789' }, paragraphs: [], copyTos: [], references: [], enclosures: [], distributions: [], timestamp: 0,
+    };
+    vi.mocked(getSerializedSessionForShare).mockReturnValueOnce(structuredClone(snapshot));
+    vi.mocked(encryptSharePayload).mockResolvedValue('REVIEWED');
+    render(<ShareModal open mode="share" onOpenChange={vi.fn()} />);
+    await user.type(screen.getByLabelText('Password for this link'), 'test-password');
+    await user.click(screen.getByRole('button', { name: /generate link/i }));
+
+    expect(encryptSharePayload).not.toHaveBeenCalled();
+    expect(screen.getByRole('button', { name: 'Share anyway' })).toBeVisible();
+    // The editor now returns a different document, while the modal owns this snapshot.
+    await user.click(screen.getByRole('button', { name: 'Share anyway' }));
+    expect(encryptSharePayload).toHaveBeenCalledWith(snapshot, 'test-password');
+    expect(getSerializedSessionForShare).toHaveBeenCalledTimes(1);
+  });
+
   it('encrypts the session, builds a link, and copies it to the clipboard', async () => {
     const user = userEvent.setup();
     const writeText = stubClipboard();

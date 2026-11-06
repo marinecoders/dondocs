@@ -28,7 +28,7 @@ import {
 import { getSerializedSessionForShare, type SerializedSession } from '@/stores/documentStore';
 import { openSessionAsNew } from '@/stores/documentsStore';
 import { parseSharedSession } from '@/lib/sharedSession';
-import { detectPII, getPIITypeLabel, type PIIDetectionResult } from '@/services/pii/detector';
+import { detectSharedSessionPII, getPIITypeLabel, type PIIDetectionResult } from '@/services/pii/detector';
 
 export type ShareModalMode = 'share' | 'import';
 
@@ -97,14 +97,20 @@ export function ShareModal({
 
   const handleGenerateLink = useCallback(() => {
     setError(null);
+    setPiiFindings(null);
     if (!password.trim()) {
       setError('Please set a password');
       return;
     }
     // Scan before the document can leave the device; warn once, then let the
     // user decide (the payload is still password-encrypted either way).
-    const session = snapshot!;
-    const pii = detectPII(session.forms ? { formData: {}, paragraphs: [{ text: JSON.stringify(session.forms) }], copyTos: [], references: [] } : session);
+    let pii: PIIDetectionResult;
+    try {
+      pii = detectSharedSessionPII(snapshot!);
+    } catch {
+      setError('Could not inspect this draft. Close sharing and review the document before trying again.');
+      return;
+    }
     if (pii.found) {
       setPiiFindings(pii);
       return;
@@ -275,6 +281,7 @@ export function ShareModal({
                     {[...new Set(piiFindings.findings.map((f) => getPIITypeLabel(f.type)))].join(', ')}). The link is
                     password-encrypted, but it still leaves your device — share it only if you mean to.
                   </p>
+                  <p className="mt-1 text-muted-foreground">Checks text and form values. Images and attached PDFs are not inspected.</p>
                   <div className="mt-2 flex gap-2">
                     <Button size="sm" variant="destructive" onClick={() => void doGenerate()} disabled={working}>
                       Share anyway
