@@ -1552,19 +1552,12 @@ export function openExistingDocument(id: string): TransitionOutcome {
   return installDocument(prepared, { id, save: false, profileSignature: true });
 }
 
-/** Merge a library backup into IndexedDB and refresh the in-memory registry.
- *  Conflict-aware: when the backup and the current library hold the same doc id,
- *  the newer (higher updatedAt) copy wins, so restoring an old backup can't
- *  silently clobber work you've done since. Returns how many were imported and
- *  how many were skipped as older. Throws on a malformed file. */
-export async function importLibrary(json: string): Promise<{ imported: number; skipped: number; issues?: string[] }> {
-  const parsed = JSON.parse(json) as { docs?: unknown };
-  const records = parsed?.docs;
+/** Validate all identities and payloads before publishing restore resources. */
+export function validateLibraryDocuments(records: unknown): asserts records is unknown[] {
   if (!Array.isArray(records)) throw new Error('Not a DonDocs library file');
-
   const ids = new Set<string>();
   for (const record of records) {
-    if (!record?.meta || typeof record.meta.id !== 'string' || !record.meta.id
+    if (!record?.meta || typeof record.meta.id !== 'string' || !record.meta.id || Object.hasOwn(Object.prototype, record.meta.id)
       || (record.id !== undefined && record.id !== record.meta.id)
       || !record.session || typeof record.session !== 'object' || Array.isArray(record.session)
       || !Number.isFinite(record.meta.updatedAt ?? 0)) throw new Error('Invalid document in backup');
@@ -1575,6 +1568,17 @@ export async function importLibrary(json: string): Promise<{ imported: number; s
       if (record.session.documentCategory !== 'forms' || record.session.formType !== form.definition.formId) throw new Error('Form type does not match the saved definition');
     }
   }
+}
+
+/** Merge a library backup into IndexedDB and refresh the in-memory registry.
+ *  Conflict-aware: when the backup and the current library hold the same doc id,
+ *  the newer (higher updatedAt) copy wins, so restoring an old backup can't
+ *  silently clobber work you've done since. Returns how many were imported and
+ *  how many were skipped as older. Throws on a malformed file. */
+export async function importLibrary(json: string): Promise<{ imported: number; skipped: number; issues?: string[] }> {
+  const parsed = JSON.parse(json) as { docs?: unknown };
+  const records = parsed?.docs;
+  validateLibraryDocuments(records);
 
   const live = useDocumentsStore.getState();
   if (live.hydrated && live.baseline) live.syncCurrent();
