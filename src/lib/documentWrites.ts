@@ -158,11 +158,12 @@ export class DocumentWrites {
     this.persistJournal();
   }
 
-  async flush(): Promise<boolean> {
-    for (const id of this.pending.keys()) this.retry(id);
-    try { await waitForStorage(Promise.all([...this.running.values()])); }
+  async flush(id?: string): Promise<boolean> {
+    for (const documentId of id === undefined ? this.pending.keys() : [id]) this.retry(documentId);
+    const running = id === undefined ? [...this.running.values()] : [this.running.get(id)];
+    try { await waitForStorage(Promise.all(running)); }
     catch { return false; }
-    return this.pending.size === 0;
+    return id === undefined ? this.pending.size === 0 : !this.pending.has(id);
   }
 
   private persistJournal(): void {

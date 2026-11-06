@@ -153,3 +153,12 @@ it('retains revision identity across a failed write and successful retry', async
   expect(await queue.flush()).toBe(true);
   expect(queue.latestReceipt('a')?.revision).toBe(revision);
 });
+it('flushes one document independently of an unrelated failed revision', async () => {
+  const queue = new DocumentWrites(vi.fn(async (_before, after) => after.id === 'a' ? 'committed' : 'conflict'));
+  queue.enqueue(null, doc('saved', 'a')); queue.enqueue(null, doc('conflicted', 'b'));
+  expect(await queue.flush('a')).toBe(true);
+  expect(queue.latestReceipt('a')).toBeDefined();
+  expect(queue.latestReceipt('b')).toBeUndefined();
+  expect(queue.failure('b')).toBe('conflict');
+  expect(await queue.flush()).toBe(false);
+});
