@@ -156,8 +156,9 @@ export function collectAttachmentIds(docs: unknown[]): string[] {
 
 /** A legacy attachment flag cannot stand in for bytes in a complete backup. */
 function hasUnresolvedEnclosure(entry: unknown): boolean {
-  const session = (entry as { session?: { enclosures?: Array<{ hasFile?: boolean; fileRef?: { id?: string } }> } })?.session;
-  return Array.isArray(session?.enclosures) && session.enclosures.some(enclosure => enclosure.hasFile && !enclosure.fileRef?.id);
+  const session = (entry as { session?: { enclosures?: Array<{ hasFile?: boolean; fileRef?: { id?: unknown } }> } })?.session;
+  return Array.isArray(session?.enclosures) && session.enclosures.some(enclosure =>
+    (enclosure.hasFile || enclosure.fileRef) && (typeof enclosure.fileRef?.id !== 'string' || !enclosure.fileRef.id));
 }
 
 /**
@@ -347,7 +348,10 @@ async function runRestore(json: string, canReplaceForms: () => boolean): Promise
       issues.push(result.status === 'missing' ? `Attachment ${id} is missing from the backup and local storage` : `Attachment ${id} could not be read (${result.status})`);
     }
   }
-  const complete = (entry: unknown) => collectAttachmentIds([entry]).every(id => available.has(id));
+  if ([...(incomingDocuments as unknown[]), ...Object.values(incomingHistory).flat(), ...Object.values(incomingTemplates)].some(hasUnresolvedEnclosure)) {
+    issues.push('An enclosure file is missing from this backup; its dependent record was not restored');
+  }
+  const complete = (entry: unknown) => !hasUnresolvedEnclosure(entry) && collectAttachmentIds([entry]).every(id => available.has(id));
   const readyDocuments = (incomingDocuments as unknown[]).filter(complete);
   const documents = await importLibrary(JSON.stringify({ docs: readyDocuments }));
   documents.skipped += (incomingDocuments as unknown[]).length - readyDocuments.length;

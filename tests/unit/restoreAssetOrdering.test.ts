@@ -72,3 +72,11 @@ it('rejects an unsupported backup version before staging or publishing resources
   await expect(restoreBackup(JSON.stringify({ kind: 'dondocs-backup', version: 999, documents: [document('future')], attachments: [file] }))).rejects.toThrow('Unsupported backup version');
   expect(await db.idbGetAttachment(file.id)).toBeNull(); expect(await db.idbGetAllDocuments()).toEqual([]);
 });
+it('reports and skips legacy attached-file flags with no recoverable asset identity', async () => {
+  const legacy = document('legacy-attachment', false);
+  legacy.session.enclosures = [{ title: 'Missing', hasFile: true }] as unknown as typeof legacy.session.enclosures;
+  const result = await restoreBackup(JSON.stringify({ kind: 'dondocs-library', version: 1, docs: [legacy] }));
+  expect(result.documents).toMatchObject({ imported: 0, skipped: 1 });
+  expect(result.issues).toContain('An enclosure file is missing from this backup; its dependent record was not restored');
+  expect(await db.idbGetAllDocuments()).toEqual([]);
+});
