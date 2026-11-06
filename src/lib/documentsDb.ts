@@ -564,10 +564,10 @@ export async function idbReadAttachment(id: string): Promise<AttachmentReadResul
     const attachment = await run<StoredAttachment | undefined>(ATTACHMENTS_STORE, 'readonly', store => store.get(id));
     if (!attachment) return { status: 'missing' };
     if (attachment.id !== id || typeof attachment.name !== 'string' || typeof attachment.type !== 'string'
-      || !(attachment.data instanceof ArrayBuffer) || attachment.size !== attachment.data.byteLength) {
+      || !(attachment.data instanceof ArrayBuffer)) {
       return { status: 'failed', error: new Error(`Invalid attachment record: ${id}`) };
     }
-    return { status: 'found', attachment };
+    return { status: 'found', attachment: { ...attachment, size: attachment.data.byteLength } };
   } catch (error) { return { status: 'failed', error }; }
 }
 

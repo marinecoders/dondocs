@@ -38,6 +38,11 @@ it('records the committed byte length even if caller metadata is stale', async (
   expect(await readAttachment(ref.id)).toMatchObject({ status: 'found', attachment: { size: 1 } });
 });
 it('rejects malformed persisted records instead of calling them complete assets', async () => {
-  await db.idbPutAttachment({ id: 'bad-record', name: 'bad', size: 99, type: '', data: new ArrayBuffer(1) });
+  await db.idbPutAttachment({ id: 'bad-record', name: 'bad', size: 99, type: '', data: 'invalid' as unknown as ArrayBuffer });
   expect(await readAttachment('bad-record')).toMatchObject({ status: 'failed', error: expect.any(Error) });
+});
+
+it('recovers valid legacy bytes when their recorded size is stale', async () => {
+  await db.idbPutAttachment({ id: 'legacy-size', name: 'legacy', size: 99, type: '', data: new Uint8Array([8]).buffer });
+  expect(await readAttachment('legacy-size')).toMatchObject({ status: 'found', attachment: { size: 1 } });
 });
