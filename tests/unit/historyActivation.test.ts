@@ -200,12 +200,12 @@ it('restores the older enclosure bytes instead of reusing a same-title replaceme
   const meta = { name: 'same.pdf', size: 1, type: 'application/pdf' };
   const oldRef = await persistAttachment(meta, oldBytes); const newRef = await persistAttachment(meta, newBytes);
   openSessionAsNew({ ...getSerializedSession(), enclosures: [{ title: 'Same attachment', fileRef: oldRef }] });
-  await rehydrateEnclosureFiles();
+  const scope = captureDocumentScope();
+  await rehydrateEnclosureFiles(() => isCurrentDocumentScope(scope));
   useDocumentStore.getState().updateEnclosure(0, { fileRef: newRef, file: { name: meta.name, size: 1, data: newBytes } });
   await vi.advanceTimersByTimeAsync(500);
-  const scope = captureDocumentScope();
   expect(changeDocumentHistory('undo', scope)).toBe('applied');
-  await rehydrateEnclosureFiles();
+  await rehydrateEnclosureFiles(() => isCurrentDocumentScope(scope));
   const restored = useDocumentStore.getState().enclosures[0];
   expect(restored.fileRef!.id).toBe(oldRef.id);
   expect(new Uint8Array(restored.file!.data)[0]).toBe(1);

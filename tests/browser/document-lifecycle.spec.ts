@@ -112,3 +112,27 @@ test('Redo survives attachment hydration after reopening an imported draft', asy
   await expect(redo).toBeEnabled(); await redo.click();
   await expect(subject).toHaveValue('ATTACHMENT HISTORY EDIT');
 });
+
+test('a reset built-in form keeps its signature defaults through Undo and Redo', async ({ page }) => {
+  const incoming = {
+    documentMode: 'compliant', documentCategory: 'forms', docType: 'naval_letter', formType: 'navmc_10274',
+    formData: {}, paragraphs: [], references: [], enclosures: [], copyTos: [], distributions: [],
+    forms: { navmc10274: { natureOfAction: 'Before reset', signatureBlocks: [] }, includeCoverPage: false },
+  };
+  await page.goto('/');
+  await page.getByLabel('Import draft file').setInputFiles({ name: 'form.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(incoming)) });
+  await page.getByRole('button', { name: 'Open as new document', exact: true }).click();
+  await page.getByRole('button', { name: 'Document actions', exact: true }).click();
+  await page.getByRole('menuitem', { name: 'Reset form to sample values…', exact: true }).click();
+  await page.getByRole('button', { name: 'Reset to sample values', exact: true }).click();
+  const subject = page.getByRole('textbox', { name: '8. Nature of Action/Subject', exact: true });
+  const sample = await subject.inputValue();
+  expect(sample).not.toBe('Before reset');
+  await subject.fill('FORM HISTORY EDIT');
+  const undo = await historyAction(page, /^Undo/);
+  await expect(undo).toBeEnabled(); await undo.click();
+  await expect(subject).toHaveValue(sample);
+  const redo = await historyAction(page, /^Redo/);
+  await expect(redo).toBeEnabled(); await redo.click();
+  await expect(subject).toHaveValue('FORM HISTORY EDIT');
+});

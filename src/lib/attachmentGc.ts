@@ -22,6 +22,8 @@
  *       is still debounced is referenced here and nowhere on disk yet,
  *   (d) documents staged for an undoable delete — an undo re-persists them, so
  *       their blobs must not be reaped inside the 6s window.
+ *   (e) in-session Undo/Redo snapshots, including edits not yet captured by the
+ *       less frequent durable version-history ring.
  *
  * SAFETY — the sweep aborts and deletes NOTHING when it can't fully build the
  * mark set: `idbGetAllDocuments()` returning null means the read FAILED (as
@@ -140,9 +142,8 @@ let sweeping = false;
 
 /**
  * Reclaim every attachment blob not in the live set. Returns the number
- * deleted, or null when the sweep was skipped/aborted (already running, restore
- * in flight, or an unreadable store) — in every null case the store is left
- * exactly as found.
+ * deleted, or null when the sweep could not finish (already running, restore
+ * or staging in flight, an unreadable store, or an invalidated mark set).
  */
 export async function sweepOrphanedAttachments(): Promise<number | null> {
   if (sweeping) return null; // serialize concurrent triggers (startup + a purge)

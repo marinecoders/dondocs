@@ -148,7 +148,9 @@ export interface FormSession {
 
 export function serializeForm(formType: string): FormSession {
   const state = useFormStore.getState();
-  return structuredClone({
+  // Snapshot the same normalized shape that loading will install. Adding a
+  // default signature style during Undo must not look like a new user edit.
+  return prepareFormSession(formType, {
     ...(formType === 'navmc_118_11'
       ? { navmc11811: state.navmc11811 }
       : { navmc10274: state.navmc10274 }),
