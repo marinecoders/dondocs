@@ -111,3 +111,45 @@ it('does not resurrect a deleted document when a late write completes', async ()
   expect(changed).not.toHaveBeenCalled();
   expect(queue.latest()).toEqual([]);
 });
+it('owns queued snapshots and acknowledges only the revision actually committed', async () => {
+  let finish!: (outcome: DocumentWriteOutcome) => void;
+  const write = vi.fn(() => new Promise<DocumentWriteOutcome>(resolve => { finish = resolve; }));
+  const queue = new DocumentWrites(write);
+  const original = doc('owned'); const expected = structuredClone(original);
+  const revision = queue.enqueue(null, original);
+  original.meta.title = 'mutated';
+  expect(write).toHaveBeenCalledWith(null, expected);
+  expect(queue.latestReceipt('a')).toBeUndefined();
+  finish('committed'); await queue.flush();
+  const receipt = queue.latestReceipt('a')!;
+  expect(queue.status(revision)).toEqual({ status: 'committed', receipt });
+  expect(receipt.revision).toBe(revision);
+  expect(queue.matches(receipt, expected)).toBe(true);
+  expect(queue.matches(receipt, original)).toBe(false);
+  expect(queue.matches({ ...receipt }, expected)).toBe(false);
+  expect(queue.status({ ...revision })).toBeNull();
+  expect(Object.isFrozen(receipt)).toBe(true);
+});
+it('identifies coalesced, cancelled, and failed revisions without issuing false receipts', async () => {
+  let finish!: (outcome: DocumentWriteOutcome) => void;
+  const queue = new DocumentWrites(() => new Promise<DocumentWriteOutcome>(resolve => { finish = resolve; }));
+  const first = queue.enqueue(null, doc('first'));
+  const skipped = queue.enqueue(null, doc('skipped'));
+  const last = queue.enqueue(null, doc('last'));
+  expect(queue.enqueue(null, doc('last'))).toBe(last);
+  expect(queue.status(skipped)).toEqual({ status: 'superseded' });
+  finish('conflict'); await queue.flush();
+  expect(queue.status(first)).toEqual({ status: 'conflict' });
+  expect(queue.latestReceipt('a')).toBeUndefined();
+  queue.cancel('a');
+  expect(queue.status(first)).toEqual({ status: 'cancelled' });
+  expect(queue.status(last)).toEqual({ status: 'cancelled' });
+});
+it('retains revision identity across a failed write and successful retry', async () => {
+  const queue = new DocumentWrites(vi.fn().mockResolvedValueOnce('failed').mockResolvedValueOnce('already-committed'));
+  const revision = queue.enqueue(null, doc('retry'));
+  expect(await queue.flush()).toBe(false);
+  expect(queue.status(revision)).toEqual({ status: 'failed' });
+  expect(await queue.flush()).toBe(true);
+  expect(queue.latestReceipt('a')?.revision).toBe(revision);
+});
