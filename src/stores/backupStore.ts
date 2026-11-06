@@ -51,7 +51,8 @@ export function backupAction(status: BackupStatus, fileMissing: boolean): Backup
 }
 
 const isSupported =
-  typeof window !== 'undefined' && typeof (window as unknown as { showSaveFilePicker?: unknown }).showSaveFilePicker === 'function';
+  typeof window !== 'undefined' && typeof (window as unknown as { showSaveFilePicker?: unknown }).showSaveFilePicker === 'function'
+  && typeof navigator !== 'undefined' && typeof navigator.locks?.request === 'function';
 
 type PermState = 'granted' | 'denied' | 'prompt';
 type PermCapableHandle = FileSystemFileHandle & {
@@ -106,8 +107,11 @@ export async function isFileMissing(handle: FileSystemFileHandle | null): Promis
 
 async function writeToHandle(handle: FileSystemFileHandle, json: string): Promise<void> {
   const writable = await handle.createWritable();
-  await writable.write(json);
-  await writable.close();
+  try { await writable.write(json); await writable.close(); }
+  catch (error) {
+    try { await writable.abort?.(); } catch { /* Preserve the original write error. */ }
+    throw error;
+  }
 }
 
 /** Stable id so the browser reopens the folder the user chose last time, even
@@ -147,6 +151,9 @@ export async function pickFile(
 
 // The live handle lives outside the store (not serializable UI state).
 let handleRef: FileSystemFileHandle | null = null;
+let handleGeneration = 0;
+// One mirror owns file writes, including handles that alias the same file.
+let pendingWrite: Promise<void> = Promise.resolve();
 
 interface BackupState {
   status: BackupStatus;
@@ -176,22 +183,27 @@ export const useBackupStore = create<BackupState>((set, get) => ({
 
   init: async () => {
     if (!isSupported) return;
+    const generation = ++handleGeneration;
     const handle = await idbGetBackupHandle();
-    if (!handle) return;
+    if (!handle || generation !== handleGeneration) return;
     handleRef = handle;
     const perm = await queryPerm(handle);
+    if (generation !== handleGeneration) return;
     set({ fileName: handle.name, status: perm === 'granted' ? 'connected' : 'needs-permission' });
   },
 
   setupBackup: async () => {
     if (!isSupported) return;
+    const generation = ++handleGeneration;
     try {
       const picker = (window as unknown as {
         showSaveFilePicker: (o: unknown) => Promise<FileSystemFileHandle>;
       }).showSaveFilePicker;
       const handle = await pickFile(picker, handleRef);
+      if (generation !== handleGeneration) return;
       handleRef = handle;
       await idbSetBackupHandle(handle);
+      if (generation !== handleGeneration) return;
       set({ fileName: handle.name, status: 'connected', fileMissing: false });
       await get().writeNow();
     } catch (err) {
@@ -201,9 +213,12 @@ export const useBackupStore = create<BackupState>((set, get) => ({
   },
 
   reconnect: async () => {
-    if (!handleRef) return;
+    const handle = handleRef;
+    if (!handle) return;
+    const generation = handleGeneration;
     try {
-      const perm = await requestPerm(handleRef);
+      const perm = await requestPerm(handle);
+      if (generation !== handleGeneration || handleRef !== handle) return;
       if (perm === 'granted') {
         set({ status: 'connected' });
         await get().writeNow();
@@ -214,44 +229,49 @@ export const useBackupStore = create<BackupState>((set, get) => ({
   },
 
   disable: async () => {
+    const generation = ++handleGeneration;
+    if (backupTimer) clearTimeout(backupTimer);
     handleRef = null;
     await idbClearBackupHandle();
+    if (generation !== handleGeneration) return;
     set({ status: isSupported ? 'off' : 'unsupported', fileName: null, lastBackupAt: null, fileMissing: false });
   },
 
-  writeNow: async () => {
+  writeNow: () => {
     const status = get().status;
-    // 'error' stays writable so the next save retries and can self-heal.
-    if ((status !== 'connected' && status !== 'error') || !handleRef) return;
-    try {
-      const perm = await queryPerm(handleRef);
-      if (perm !== 'granted') {
-        set({ status: 'needs-permission' });
-        return;
+    const handle = handleRef;
+    const generation = handleGeneration;
+    if ((status !== 'connected' && status !== 'error') || !handle) return Promise.resolve();
+    const current = () => generation === handleGeneration && handleRef === handle;
+    const operation = pendingWrite.then(() => navigator.locks.request('dondocs-backup-mirror', { mode: 'exclusive' }, async () => {
+      if (!current()) return;
+      try {
+        const perm = await queryPerm(handle);
+        if (!current()) return;
+        if (perm !== 'granted') { set({ status: 'needs-permission' }); return; }
+        const json = await buildBackupJson();
+        if (!current()) return;
+        if (json === null) { set({ status: 'error', fileMissing: false }); return; }
+        await writeToHandle(handle, json);
+        if (!current()) return;
+        set({ lastBackupAt: Date.now(), status: 'connected', fileMissing: false });
+        useOnboardingStore.getState().markComplete('first_backup');
+      } catch (error) {
+        if (!current()) return;
+        const name = (error as Error)?.name;
+        if (name === 'NotAllowedError' || name === 'SecurityError') set({ status: 'needs-permission', fileMissing: false });
+        else {
+          const fileMissing = await isFileMissing(handle);
+          if (current()) set({ status: 'error', fileMissing });
+        }
+        debug.error('Backup', 'write failed', error);
       }
-      const json = await buildBackupJson();
-      if (json === null) {
-        // Account read failed — keep the existing backup file intact and do NOT
-        // advance lastBackupAt; claiming success here would be a lie.
-        set({ status: 'error', fileMissing: false });
-        return;
-      }
-      await writeToHandle(handleRef, json);
-      set({ lastBackupAt: Date.now(), status: 'connected', fileMissing: false });
-      // A committed mirror write is a real backup → credit the checklist row.
-      useOnboardingStore.getState().markComplete('first_backup');
-    } catch (err) {
-      // Permission revoked mid-write reads as NotAllowedError. Anything else
-      // stopped the mirror too, but the way out depends on something the error
-      // does not say, so the file is asked directly rather than guessed at.
-      const name = (err as Error)?.name;
-      if (name === 'NotAllowedError' || name === 'SecurityError') {
-        set({ status: 'needs-permission', fileMissing: false });
-      } else {
-        set({ status: 'error', fileMissing: await isFileMissing(handleRef) });
-      }
-      debug.error('Backup', 'write failed', err);
-    }
+    })).catch(error => {
+      if (current()) set({ status: 'error', fileMissing: false });
+      debug.error('Backup', 'could not acquire mirror ownership', error);
+    });
+    pendingWrite = operation.catch(() => {});
+    return operation;
   },
 }));
 
