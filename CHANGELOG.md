@@ -5,6 +5,19 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.3.0] — 2026-11-05
+
+### Changed
+
+- Promote the current correspondence, publications, and forms workspace to
+  the 1.3 release line, including correspondence PDF, DOCX, and LaTeX exports
+  and the packaged local companion.
+
+### Fixed
+
+- Includes the imported-document Undo/Redo isolation fix from 1.2.224, keeping
+  the previous draft's history out of newly opened documents.
+
 ## [1.2.224] — 2026-11-05
 
 ### Fixed

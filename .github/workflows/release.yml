@@ -1,10 +1,9 @@
 name: release
 
-# Auto-create a GitHub release when package.json's version is bumped on main.
-# Every PR bumps the version + adds a CHANGELOG entry, so the squash-merge push
-# is the release trigger. Idempotent (skips if the release already exists), so
-# re-runs and pushes that don't change the version are safe. The published
-# release then triggers docker-release.yml.
+# Prepare a GitHub release when package.json's version is bumped on main.
+# Keep 1.3.0 as a draft until a maintainer publishes it; that publication
+# triggers docker-release.yml. Other versions retain automatic publication.
+# Re-runs skip releases that already exist.
 #
 # Uses the built-in GITHUB_TOKEN with `contents: write` — which, unlike a PAT
 # or OAuth token, can tag even commits that touch .github/workflows, so this
@@ -62,6 +61,10 @@ jobs:
           if [ ! -s notes.md ]; then
             printf 'Release %s\n' "$tag" > notes.md
           fi
-          gh release create "$tag" --target "${{ github.sha }}" --title "$tag" --notes-file notes.md \
+          release_flags=()
+          if [ "${{ steps.v.outputs.version }}" = "1.3.0" ]; then
+            release_flags+=(--draft)
+          fi
+          gh release create "$tag" --target "${{ github.sha }}" --title "$tag" --notes-file notes.md "${release_flags[@]}" \
             "dist-mcpb/dondocs-${{ steps.v.outputs.version }}.mcpb" \
             "dist-mcpb/dondocs-${{ steps.v.outputs.version }}.mcpb.sha256"
