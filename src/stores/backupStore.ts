@@ -51,7 +51,8 @@ export function backupAction(status: BackupStatus, fileMissing: boolean): Backup
 }
 
 const isSupported =
-  typeof window !== 'undefined' && typeof (window as unknown as { showSaveFilePicker?: unknown }).showSaveFilePicker === 'function';
+  typeof window !== 'undefined' && typeof (window as unknown as { showSaveFilePicker?: unknown }).showSaveFilePicker === 'function'
+  && typeof navigator !== 'undefined' && typeof navigator.locks?.request === 'function';
 
 type PermState = 'granted' | 'denied' | 'prompt';
 type PermCapableHandle = FileSystemFileHandle & {
@@ -242,7 +243,7 @@ export const useBackupStore = create<BackupState>((set, get) => ({
     const generation = handleGeneration;
     if ((status !== 'connected' && status !== 'error') || !handle) return Promise.resolve();
     const current = () => generation === handleGeneration && handleRef === handle;
-    const operation = pendingWrite.then(async () => {
+    const operation = pendingWrite.then(() => navigator.locks.request('dondocs-backup-mirror', { mode: 'exclusive' }, async () => {
       if (!current()) return;
       try {
         const perm = await queryPerm(handle);
@@ -265,6 +266,9 @@ export const useBackupStore = create<BackupState>((set, get) => ({
         }
         debug.error('Backup', 'write failed', error);
       }
+    })).catch(error => {
+      if (current()) set({ status: 'error', fileMissing: false });
+      debug.error('Backup', 'could not acquire mirror ownership', error);
     });
     pendingWrite = operation.catch(() => {});
     return operation;
