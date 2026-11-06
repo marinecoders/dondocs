@@ -91,7 +91,9 @@ function active(source: DocumentFieldSource, path: FieldPath, projection: FieldP
   if (executiveFields.has(key)) return config.uiMode === 'executive';
   if (key === 'salutation' || key === 'complimentaryClose') return config.uiMode === 'business';
   if (key === 'endorsementOrdinal' || key.startsWith('basicLetter')) return source.docType.endsWith('_endorsement');
-  if (key.startsWith('endorsement') || key === 'additionalEndorsements') return canAppendEndorsement(source.docType) && source.formData.appendEndorsement === true;
+  if (key.startsWith('endorsement') || key === 'additionalEndorsements') {
+    return canAppendEndorsement(source.docType) && (projection === 'search' || source.formData.appendEndorsement === true);
+  }
   return true;
 }
 
@@ -104,8 +106,7 @@ export function documentTextFields(source: DocumentFieldSource, projection: Fiel
     if (!active(source, path, projection)) return;
     if (projection === 'substitution' && role !== 'text') return;
     if ((projection === 'search' || projection === 'output') && role !== 'text') {
-      const visibleChoice = projection === 'search' && (path.length === 1 && ['docType', 'formType'].includes(String(path[0]))
-        || path[0] === 'formData' && ['department', 'sealType'].includes(String(path[1])));
+      const visibleChoice = projection === 'search' && role === 'control' && !['style', 'type'].includes(String(path[path.length - 1]));
       if (!visibleChoice && !(projection === 'search' && role === 'asset-name')) return;
     }
     fields.push(Object.freeze({ path: Object.freeze([...path]), text: value, label, role, ...(datePurpose ? { datePurpose } : {}) }));
@@ -149,7 +150,8 @@ export function documentTextFields(source: DocumentFieldSource, projection: Fiel
     if ((projection === 'search' || projection === 'output') && field.options) {
       const selected = Array.isArray(value) ? value : [value];
       selected.forEach((answer, index) => {
-        const label = field.options?.find(option => option.id === answer)?.label;
+        const label = field.options?.find(option => option.id === answer)?.label
+          ?? (projection === 'search' && typeof answer === 'string' ? answer : undefined);
         if (label) emit(label, Array.isArray(value) ? [...path, index] : path, 'text', displayLabel);
       });
     } else walk(value, Array.isArray(value) ? { items: 'control' } : 'control', path);
