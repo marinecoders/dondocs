@@ -5,6 +5,14 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.3.2] — 2026-11-06
+
+### Fixed
+
+- Correct the README's security claims: remove the NIST 800-171 badge and the
+  untested SIPR/JWICS and NMCI statements, and disclose the public site's page
+  timing analytics. Update the offline steps and the template count.
+
 ## [1.3.1] — 2026-11-06
 
 ### Fixed
