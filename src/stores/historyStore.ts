@@ -1,7 +1,8 @@
+import type { DocumentScope } from './documentsStore';
 import type { FormInstance } from '@/services/forms/model';
 import { create } from 'zustand';
 import type { FormSession } from './formStore';
-import type { Reference, Enclosure, Paragraph, CopyTo, Distribution, DocumentData, DocumentMode, DocumentCategory, FormType, EndItem, PublicationTableRow } from '@/types/document';
+import type { Reference, Enclosure, FileRef, Paragraph, CopyTo, Distribution, DocumentData, DocumentMode, DocumentCategory, FormType, EndItem, PublicationTableRow } from '@/types/document';
 
 // Snapshot of document state (only the data parts, not actions)
 export interface DocumentSnapshot {
@@ -21,37 +22,66 @@ export interface DocumentSnapshot {
   publicationTables: Record<string, PublicationTableRow[]>;
 }
 
+export interface HistoryEntry extends DocumentSnapshot {
+  readonly owner: DocumentScope | null;
+}
+
+function sameOwner(a: DocumentScope | null, b: DocumentScope | null): boolean {
+  return a === b || !!a && !!b && a.documentId === b.documentId && a.epoch === b.epoch;
+}
+
 interface HistoryState {
+  owner: DocumentScope | null;
+  bindOwner: (owner: DocumentScope | null) => void;
   // History stacks
-  past: DocumentSnapshot[];
-  future: DocumentSnapshot[];
+  past: HistoryEntry[];
+  future: HistoryEntry[];
 
   // Current snapshot for comparison
-  currentSnapshot: DocumentSnapshot | null;
+  currentSnapshot: HistoryEntry | null;
 
   // Max history size
   maxHistorySize: number;
 
   // Actions
-  saveSnapshot: (snapshot: DocumentSnapshot) => void;
-  undo: () => DocumentSnapshot | null;
-  redo: () => DocumentSnapshot | null;
+  saveSnapshot: (snapshot: DocumentSnapshot, owner?: DocumentScope | null) => void;
+  undo: (owner?: DocumentScope | null) => HistoryEntry | null;
+  redo: (owner?: DocumentScope | null) => HistoryEntry | null;
   canUndo: () => boolean;
   canRedo: () => boolean;
   clearHistory: () => void;
 }
 
-// Deep equality check for snapshots (excluding non-serializable data like ArrayBuffer)
+function sameAttachment(file: Enclosure['file'], ref: FileRef | undefined, otherFile: Enclosure['file'], otherRef: FileRef | undefined): boolean {
+  // A durable handle owns its bytes; hydration may materialize another buffer
+  // for the same handle without changing the document.
+  if (ref && otherRef) return JSON.stringify(ref) === JSON.stringify(otherRef);
+  // Persisting a transient upload adds a handle to the very same file. Until
+  // then buffer identity keeps same-name, same-size replacement uploads distinct.
+  if (file && otherFile) return file.data === otherFile.data && file.name === otherFile.name && file.size === otherFile.size;
+  return !file && !otherFile && !ref && !otherRef;
+}
+
+// Compare user content, independently of when persisted bytes are hydrated.
 function snapshotsEqual(a: DocumentSnapshot | null, b: DocumentSnapshot | null): boolean {
   if (a === null || b === null) return a === b;
-
-  if (a.enclosures.some((e, i) => e.file?.data !== b.enclosures[i]?.file?.data)) return false;
-  return JSON.stringify(a) === JSON.stringify(b);
+  if (a.enclosures.length !== b.enclosures.length || a.enclosures.some((enclosure, index) => {
+    const other = b.enclosures[index];
+    return !sameAttachment(enclosure.file, enclosure.fileRef, other.file, other.fileRef);
+  })) return false;
+  if (!sameAttachment(a.formData.basicLetterFile, a.formData.basicLetterFileRef, b.formData.basicLetterFile, b.formData.basicLetterFileRef)) return false;
+  const content = (snapshot: DocumentSnapshot) => ({
+    ...snapshot,
+    formData: { ...snapshot.formData, basicLetterFile: undefined, basicLetterFileRef: undefined },
+    enclosures: snapshot.enclosures.map(({ file: _file, fileRef: _ref, ...enclosure }) => enclosure),
+  });
+  return JSON.stringify(content(a)) === JSON.stringify(content(b));
 }
 
 // Create a clean copy of the snapshot (without non-serializable data)
-function cloneSnapshot(snapshot: DocumentSnapshot): DocumentSnapshot {
+function cloneSnapshot(snapshot: DocumentSnapshot, owner: DocumentScope | null): HistoryEntry {
   return {
+    owner,
     genericForm: snapshot.genericForm ? structuredClone(snapshot.genericForm) : undefined,
     documentMode: snapshot.documentMode,
     documentCategory: snapshot.documentCategory,
@@ -73,14 +103,17 @@ function cloneSnapshot(snapshot: DocumentSnapshot): DocumentSnapshot {
 }
 
 export const useHistoryStore = create<HistoryState>((set, get) => ({
+  owner: null,
+  bindOwner: (owner) => set({ owner, past: [], future: [], currentSnapshot: null }),
   past: [],
   future: [],
   currentSnapshot: null,
   maxHistorySize: 50,
 
-  saveSnapshot: (snapshot) => {
+  saveSnapshot: (snapshot, owner = get().owner) => {
     const state = get();
-    const clonedSnapshot = cloneSnapshot(snapshot);
+    if (!sameOwner(owner, state.owner)) return;
+    const clonedSnapshot = cloneSnapshot(snapshot, owner);
 
     // Don't save if identical to current
     if (snapshotsEqual(clonedSnapshot, state.currentSnapshot)) {
@@ -107,9 +140,11 @@ export const useHistoryStore = create<HistoryState>((set, get) => ({
     }
   },
 
-  undo: () => {
+  undo: (owner = get().owner) => {
     const state = get();
-    if (state.past.length === 0) return null;
+    if (!sameOwner(owner, state.owner) || state.past.length === 0
+      || !sameOwner(state.past.at(-1)!.owner, owner)
+      || state.currentSnapshot && !sameOwner(state.currentSnapshot.owner, owner)) return null;
 
     const newPast = [...state.past];
     const previousSnapshot = newPast.pop()!;
@@ -128,9 +163,11 @@ export const useHistoryStore = create<HistoryState>((set, get) => ({
     return previousSnapshot;
   },
 
-  redo: () => {
+  redo: (owner = get().owner) => {
     const state = get();
-    if (state.future.length === 0) return null;
+    if (!sameOwner(owner, state.owner) || state.future.length === 0
+      || !sameOwner(state.future[0].owner, owner)
+      || state.currentSnapshot && !sameOwner(state.currentSnapshot.owner, owner)) return null;
 
     const newFuture = [...state.future];
     const nextSnapshot = newFuture.shift()!;

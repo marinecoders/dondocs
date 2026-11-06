@@ -15,6 +15,7 @@ beforeEach(() => {
   vi.clearAllMocks();
   useUIStore.setState({ validationVisible: false });
   useDocumentsStore.setState({ docs: {}, currentId: null, baseline: null, hydrated: true });
+  useDocumentsStore.getState().newDocument();
   useDocumentStore.setState({ documentCategory: 'forms', formType: 'fixture', genericForm: fixtureInstance() });
   useHistoryStore.getState().clearHistory();
 });

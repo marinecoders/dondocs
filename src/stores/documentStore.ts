@@ -14,12 +14,12 @@ import { useHistoryStore } from './historyStore';
 import type { DocumentSnapshot } from './historyStore';
 import { useUIStore } from './uiStore';
 import { debug } from '@/lib/debug';
-import { TIMING, STORAGE_KEYS} from '@/lib/constants';
+import { STORAGE_KEYS} from '@/lib/constants';
 import { compressedParse, compressedStringify } from '@/lib/compressedStorage';
 import { referenceStartIndex } from '@/lib/endorsement';
 import { canonicalizeUnitAddress } from '@/lib/unitAddress';
 import { normalizeLevels, migratePortionMarkings } from '@/lib/paragraphUtils';
-import { serializeForm, loadFormSession, useFormStore, type FormSession } from './formStore';
+import { serializeForm, loadFormSession, type FormSession } from './formStore';
 
 // Session persistence keys
 const SESSION_STORAGE_KEY = STORAGE_KEYS.DOCUMENT_SESSION;
@@ -827,14 +827,18 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
   applySnapshot: (snapshot) => {
     if (snapshot.documentCategory === 'forms' && !snapshot.genericForm) loadFormSession(snapshot.formType!, snapshot.forms);
     set((state) => {
-    // Re-graft live enclosure file bytes. History snapshots omit `file` (too
-    // large to keep 50 copies of), so a wholesale replace would destroy attached
-    // PDFs on every undo/redo. Match same-index-same-title first, then any unused
-    // same-title enclosure.
+    // A durable handle identifies the bytes. Never borrow a same-title file
+    // from a different revision; missing bytes are hydrated after installation.
+    // Legacy snapshots without handles retain the title-based fallback.
     const used = new Set<number>();
     const enclosures = snapshot.enclosures.map((e, i) => {
       if (e.file) return e;
       const cur = state.enclosures;
+      const ref = e.fileRef;
+      if (ref) {
+        const file = cur.find(enclosure => enclosure.fileRef?.id === ref.id && enclosure.file)?.file;
+        return file ? { ...e, file: { name: ref.name, size: ref.size || file.data.byteLength, data: file.data } } : e;
+      }
       const match =
         cur[i]?.title === e.title && cur[i]?.file && !used.has(i)
           ? i
@@ -885,81 +889,17 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
   },
 }));
 
-// Subscribe to document changes and save snapshots
-// Debounce to avoid saving on every keystroke
-let saveTimeout: ReturnType<typeof setTimeout> | null = null;
-let sessionSaveTimeout: ReturnType<typeof setTimeout> | null = null;
-
-// While the session-restore prompt is on screen, mount-time store writes would
-// autosave over the session the user is about to restore. restoreSession()
-// re-reads localStorage at click time, so saves are suspended until they decide.
+// Recovery remains suspended while the startup prompt is awaiting a decision.
 let sessionSavesSuspended = false;
-export function suspendSessionSaves(): void {
-  sessionSavesSuspended = true;
-}
-export function resumeSessionSaves(): void {
-  sessionSavesSuspended = false;
-}
-
-useDocumentStore.subscribe((state: DocumentState) => {
-  // Debounce snapshot saving
-  if (saveTimeout) {
-    clearTimeout(saveTimeout);
-  }
-
-  saveTimeout = setTimeout(() => {
-    try {
-      const snapshot = useDocumentStore.getState().getSnapshot();
-      useHistoryStore.getState().saveSnapshot(snapshot);
-      debug.log('Store', 'Snapshot saved to history');
-    } catch (err) {
-      debug.error('Store', 'Failed to save snapshot to history', err);
-    }
-  }, TIMING.HISTORY_SNAPSHOT_DEBOUNCE);
-
-  // Also persist to localStorage for session restore (debounced more). Skipped
-  // while suspended; see suspendSessionSaves for the race this prevents.
-  if (sessionSaveTimeout) {
-    clearTimeout(sessionSaveTimeout);
-  }
-
-  if (!sessionSavesSuspended) {
-    sessionSaveTimeout = setTimeout(() => {
-      if (!sessionSavesSuspended) saveSessionToStorage(state);
-    }, 2000); // 2 second debounce for localStorage
-  }
-});
-
-// Flush the pending debounced session save when the page is hidden or unloaded so
-// the last edits aren't lost. localStorage.setItem is synchronous, so it commits
-// before teardown. No-op if the debounce already fired.
-function flushSessionSave(): void {
-  if (sessionSaveTimeout && !sessionSavesSuspended) {
-    clearTimeout(sessionSaveTimeout);
-    sessionSaveTimeout = null;
-    saveSessionToStorage(useDocumentStore.getState());
-  }
-}
-if (typeof document !== 'undefined') {
-  document.addEventListener('visibilitychange', () => {
-    if (document.visibilityState === 'hidden') flushSessionSave();
-  });
-  window.addEventListener('pagehide', flushSessionSave);
-}
-
-useFormStore.subscribe(() => {
-  if (useDocumentStore.getState().documentCategory !== 'forms') return;
-  if (saveTimeout) clearTimeout(saveTimeout);
-  saveTimeout = setTimeout(() => {
-    useHistoryStore.getState().saveSnapshot(useDocumentStore.getState().getSnapshot());
-  }, TIMING.HISTORY_SNAPSHOT_DEBOUNCE);
-});
+export const areSessionSavesSuspended = () => sessionSavesSuspended;
+export function suspendSessionSaves(): void { sessionSavesSuspended = true; }
+export function resumeSessionSaves(): void { sessionSavesSuspended = false; }
 
 /**
  * Saves the current document state to localStorage for session restore.
  * Excludes non-serializable data like file ArrayBuffers.
  */
-function saveSessionToStorage(state: DocumentState): void {
+export function saveSessionToStorage(state: DocumentState): void {
   try {
     // Create serializable session (excluding file data)
     const session = serializeSession(state);
@@ -1034,30 +974,31 @@ export function mutateSessionAssets(update: () => void): void {
   applyingAssets = true;
   try { update(); } finally { applyingAssets = previous; }
 }
-const replacementListeners = new Set<() => void>();
+const replacementListeners = new Set<(phase: 'before' | 'after') => void>();
 /** The workspace observes replacements without a reverse store dependency. */
-export function observeSessionReplacement(listener: () => void): () => void {
+export function observeSessionReplacement(listener: (phase: 'before' | 'after') => void): () => void {
   replacementListeners.add(listener);
   return () => { replacementListeners.delete(listener); };
 }
 export const isApplyingSession = () => applyingSession;
 export function resetDocumentHistory(): void {
-  if (saveTimeout) clearTimeout(saveTimeout);
-  saveTimeout = null;
+  if (applyingSession) return;
+  if (replacementListeners.size) {
+    for (const listener of replacementListeners) listener('after');
+    return;
+  }
   useHistoryStore.getState().clearHistory();
   useHistoryStore.getState().saveSnapshot(useDocumentStore.getState().getSnapshot());
 }
 
 export function replaceSessionState(update: () => void): void {
   const wasApplying = applyingSession;
-  if (!wasApplying) for (const listener of replacementListeners) listener();
   applyingSession = true;
-  try { update(); } finally { applyingSession = wasApplying; }
+  try {
+    if (!wasApplying) for (const listener of replacementListeners) listener('before');
+    update();
+  } finally { applyingSession = wasApplying; }
   if (!wasApplying) resetDocumentHistory();
-}
-
-function applySessionState(state: Partial<DocumentState>): void {
-  replaceSessionState(() => useDocumentStore.setState(state));
 }
 
 function parseSessionForm(session: SerializedSession): FormInstance {
@@ -1152,35 +1093,37 @@ export function serializeSession(state: DocumentState): SerializedSession {
  * Enclosure file data is not included in shares; titles and metadata are restored.
  */
 export function loadSharedSession(session: SerializedSession): void {
-  useHistoryStore.getState().clearHistory();
-  if (session.documentCategory === 'forms' && !session.genericForm) loadFormSession(session.formType, session.forms);
+  const genericForm = session.genericForm ? parseSessionForm(session) : undefined;
   // Canonicalize unitAddress on read (see restoreSession for rationale).
   const sharedFormData = session.formData?.unitAddress
     ? { ...session.formData, unitAddress: canonicalizeUnitAddress(session.formData.unitAddress) }
     : (session.formData ?? {});
 
-  applySessionState({
-    documentMode: session.documentMode,
-    documentCategory: session.documentCategory ?? 'correspondence',
-    docType: session.docType,
-    formType: session.formType ?? 'navmc_10274',
-    formData: publicationFont(session.docType, session.documentMode, sharedFormData),
-    references: session.references ?? [],
-    endItems: session.endItems ?? [],
-    publicationTables: session.publicationTables ?? {},
-    genericForm: session.genericForm ? parseSessionForm(session) : undefined,
-    enclosures: (session.enclosures ?? []).map(enc => ({
-      title: enc.title,
-      pageStyle: enc.pageStyle,
-      hasCoverPage: enc.hasCoverPage,
-      coverPageDescription: enc.coverPageDescription,
-      fileRef: enc.fileRef,
-      // Bytes are streamed back in asynchronously below (rehydrateEnclosureFiles).
-      file: undefined,
-    })),
-    paragraphs: migratePortionMarkings(session.paragraphs ?? []),
-    copyTos: session.copyTos ?? [],
-    distributions: session.distributions ?? [],
+  replaceSessionState(() => {
+    if (session.documentCategory === 'forms' && !genericForm) loadFormSession(session.formType, session.forms);
+    useDocumentStore.setState({
+      documentMode: session.documentMode,
+      documentCategory: session.documentCategory ?? 'correspondence',
+      docType: session.docType,
+      formType: session.formType ?? 'navmc_10274',
+      formData: publicationFont(session.docType, session.documentMode, sharedFormData),
+      references: session.references ?? [],
+      endItems: session.endItems ?? [],
+      publicationTables: session.publicationTables ?? {},
+      genericForm,
+      enclosures: (session.enclosures ?? []).map(enc => ({
+        title: enc.title,
+        pageStyle: enc.pageStyle,
+        hasCoverPage: enc.hasCoverPage,
+        coverPageDescription: enc.coverPageDescription,
+        fileRef: enc.fileRef,
+        // Bytes are streamed back in asynchronously below (rehydrateEnclosureFiles).
+        file: undefined,
+      })),
+      paragraphs: migratePortionMarkings(session.paragraphs ?? []),
+      copyTos: session.copyTos ?? [],
+      distributions: session.distributions ?? [],
+    });
   });
   void rehydrateEnclosureFiles();
   debug.log('Store', 'Shared session applied');

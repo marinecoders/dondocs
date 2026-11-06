@@ -35,7 +35,7 @@ import { useUIStore } from '@/stores/uiStore';
 import { useDocumentStore, loadSharedSession, persistUnsavedEnclosures } from '@/stores/documentStore';
 import { useFormStore } from '@/stores/formStore';
 import { detectPlaceholders } from '@/lib/placeholders';
-import { useDocumentsStore, openRecoveredCopies } from '@/stores/documentsStore';
+import { useDocumentsStore, openRecoveredCopies, changeDocumentHistory, captureDocumentScope } from '@/stores/documentsStore';
 import { editForm } from '@/services/forms/documents';
 import { useHistoryStore } from '@/stores/historyStore';
 import { triggerDownload } from '@/lib/encoding';
@@ -104,11 +104,8 @@ export function Header({
   // full document via useDocumentStore.getState() at call time, so Header
   // doesn't re-render per keystroke.
   const resetForm = useDocumentStore((s) => s.resetForm);
-  const applySnapshot = useDocumentStore((s) => s.applySnapshot);
   const clearFieldsExceptLetterhead = useDocumentStore((s) => s.clearFieldsExceptLetterhead);
 
-  const undo = useHistoryStore((s) => s.undo);
-  const redo = useHistoryStore((s) => s.redo);
   // Select the derived booleans, not the stable getter functions, so the
   // Undo/Redo enabled state updates when past/future change.
   const canUndo = useHistoryStore((s) => s.past.length > 0);
@@ -228,18 +225,12 @@ export function Header({
   }, [clearFieldsExceptLetterhead]);
 
   const handleUndo = useCallback(() => {
-    const snapshot = undo();
-    if (snapshot) {
-      applySnapshot(snapshot);
-    }
-  }, [undo, applySnapshot]);
+    changeDocumentHistory('undo', captureDocumentScope());
+  }, []);
 
   const handleRedo = useCallback(() => {
-    const snapshot = redo();
-    if (snapshot) {
-      applySnapshot(snapshot);
-    }
-  }, [redo, applySnapshot]);
+    changeDocumentHistory('redo', captureDocumentScope());
+  }, []);
 
   const handleExportDraft = useCallback(async () => {
     try {

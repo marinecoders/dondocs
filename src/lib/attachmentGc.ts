@@ -43,12 +43,13 @@ import {
 import { useBatchStore } from '@/stores/batchStore';
 import type { SerializedSession } from '@/stores/documentStore';
 import { useDocumentStore } from '@/stores/documentStore';
+import { useHistoryStore } from '@/stores/historyStore';
 import { getPendingDeleteSessions, useDocumentsStore } from '@/stores/documentsStore';
 import { isRestoreInProgress } from '@/lib/backup';
 import { debug } from '@/lib/debug';
 
 /** Every enclosure and figure `fileRef.id` plus the basic-letter ref in one session. */
-function collectSessionRefs(session: SerializedSession | undefined, into: Set<string>): void {
+function collectSessionRefs(session: Pick<SerializedSession, 'formData' | 'enclosures' | 'paragraphs'> | undefined, into: Set<string>): void {
   // An endorsement's basic-letter PDF is stored as an attachment; keep it
   // reachable so the GC doesn't sweep it out from under a saved endorsement.
   const blId = session?.formData?.basicLetterFileRef?.id;
@@ -119,9 +120,14 @@ export async function collectLiveAttachmentIds(): Promise<Set<string> | null> {
   // bytes before the save made them reachable.
   const liveState = useDocumentStore.getState();
   collectSessionRefs(
-    { enclosures: liveState.enclosures, formData: liveState.formData, paragraphs: liveState.paragraphs } as SerializedSession,
+    { enclosures: liveState.enclosures, formData: liveState.formData, paragraphs: liveState.paragraphs },
     live
   );
+
+  // In-session Undo/Redo is finer-grained than the durable version ring. A
+  // recently replaced attachment may be owned only by one of these snapshots.
+  const history = useHistoryStore.getState();
+  for (const snapshot of [...history.past, history.currentSnapshot, ...history.future]) collectSessionRefs(snapshot ?? undefined, live);
 
   // (d) documents staged for an undoable delete — an undo re-persists them.
   for (const session of getPendingDeleteSessions()) collectSessionRefs(session, live);
