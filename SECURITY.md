@@ -21,7 +21,7 @@ The latest release only. DonDocs auto-updates in the browser and there are no lo
 - Cross-site scripting, or any path from imported/shared content to code execution
 - Flaws in the share-link encryption (`src/lib/shareCrypto.ts`)
 - Bypasses of the URL allowlist (`src/lib/url-safety.ts`) that make an unsafe scheme clickable in an export
-- Ways a document's content leaks off the machine — the app makes no network calls at runtime, so any is a bug
+- Ways a document's content leaks off the machine — the app sends document content nowhere, so any leak is a bug
 - Failures in the PII/PHI pre-export scan that let a flagged value through silently
 - Dependency vulnerabilities that are actually reachable from shipped code
 
@@ -43,5 +43,5 @@ The latest release only. DonDocs auto-updates in the browser and there are no lo
 - CodeQL static analysis on every push and pull request
 - `npm audit --audit-level=high` in CI, with no exceptions carried
 - `eslint-plugin-security` in the lint pass
-- A postbuild guard (`scripts/check-no-cdn.mjs`) that fails the build if any CDN reference reaches `dist/` — the app must load nothing from a third party at runtime
+- A postbuild guard (`scripts/check-no-cdn.mjs`) that fails the build if any CDN reference reaches `dist/` — the app must load nothing from a third party at runtime. The exception is outside the build: dondocs.marines.dev runs Cloudflare Web Analytics, added at the CDN edge, which reports page-load timing and no document content. Self-hosted builds don't have it
 - A CycloneDX SBOM of production dependencies generated on every CI run (`npm run sbom`), retained as a build artifact
