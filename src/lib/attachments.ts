@@ -22,6 +22,8 @@ import type { FileRef } from '@/types/document';
 import {
   idbPutAttachment,
   idbGetAttachment,
+  idbReadAttachment,
+  type AttachmentReadResult,
   idbGetAllAttachments,
   type StoredAttachment,
 } from '@/lib/documentsDb';
@@ -75,17 +77,17 @@ export function attachmentSweepCheckpoint(): number | null {
   return stagingCount ? null : stagingGeneration;
 }
 
-/**
- * Store `data` under a fresh id and return the reference to persist in the
- * enclosure. Legacy callers can retain an in-memory file on a failed write;
- * staged imports require a durable copy before replacing the current draft.
- */
-export async function persistAttachment(meta: AttachmentMeta, data: ArrayBuffer, options: { requireDurable?: boolean } = {}): Promise<FileRef> {
+/** Return a durable reference only after the operation-owned bytes commit. */
+export async function persistAttachment(meta: AttachmentMeta, data: ArrayBuffer): Promise<FileRef> {
   const id = newAttachmentId();
-  const rec: StoredAttachment = { id, name: meta.name, type: meta.type, size: meta.size, data };
-  const stored = await idbPutAttachment(rec);
-  if (!stored && options.requireDurable) throw new Error(`Could not save ${meta.name}. Check browser storage and try opening the draft again.`);
-  return { id, name: meta.name, size: meta.size, type: meta.type };
+  const rec: StoredAttachment = { id, name: meta.name, type: meta.type, size: data.byteLength, data: data.slice(0) };
+  if (!await idbPutAttachment(rec)) throw new Error(`Could not save ${rec.name}. Check browser storage and try again.`);
+  return { id, name: rec.name, size: rec.size, type: rec.type };
+}
+
+/** Strict readers preserve the distinction between absence and failed storage. */
+export function readAttachment(id: string): Promise<AttachmentReadResult> {
+  return idbReadAttachment(id);
 }
 
 /** Load an attachment's bytes by id; null if missing or unreadable. */

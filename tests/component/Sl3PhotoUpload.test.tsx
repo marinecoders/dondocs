@@ -27,7 +27,7 @@ it('persists prepared pixels and dimensions, preserves the marking and resets le
   const file = new File(['raw'], 'phone.jpg', { type: 'image/jpeg' });
   fireEvent.change(screen.getByLabelText('Choose illustration for Illustration 1 (unassigned)'), { target: { files: [file] } });
   await waitFor(() => expect(useDocumentStore.getState().paragraphs[0].figure?.fileRef?.id).toBe('normalized'));
-  expect(persistAttachment).toHaveBeenCalledWith({ name: 'phone.jpg', size: 3, type: 'image/jpeg' }, bytes, { requireDurable: true });
+  expect(persistAttachment).toHaveBeenCalledWith({ name: 'phone.jpg', size: 3, type: 'image/jpeg' }, bytes);
   expect(useDocumentStore.getState().paragraphs[0].figure).toMatchObject({ width: 900, height: 1600, portionMarking: 'U' });
   expect(useDocumentStore.getState().formData.sl3!.artwork).toEqual([]);
   expect(screen.getByLabelText('Illustration 1 (unassigned) lettering review')).toHaveValue('');
