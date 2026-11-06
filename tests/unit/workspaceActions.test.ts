@@ -16,7 +16,7 @@ beforeEach(() => {
   useDocumentsStore.getState().newDocument();
   useDocumentStore.getState().setField('subject', 'Checkpoint draft');
 });
-afterEach(async () => { vi.restoreAllMocks(); await flushDocumentWrites(); });
+afterEach(async () => { vi.unstubAllGlobals(); vi.restoreAllMocks(); await flushDocumentWrites(); });
 
 it.each([false, true])('toggles the visible preview surface (mobile=%s) without changing the other preference', (mobile) => {
   useUIStore.setState({ isMobile: mobile });
@@ -43,7 +43,11 @@ it.each(['correspondence', 'forms'] as const)('saves a reusable manual checkpoin
 
 it('keeps the previous checkpoint and live draft when storage rejects the new one', async () => {
   localStorage.setItem(STORAGE_KEYS.DOCUMENT, 'previous checkpoint');
-  vi.spyOn(localStorage, 'setItem').mockImplementation(() => { throw new Error('Quota'); });
+  const storage = localStorage;
+  vi.stubGlobal('localStorage', {
+    getItem: storage.getItem.bind(storage), removeItem: storage.removeItem.bind(storage),
+    setItem: () => { throw new Error('Quota'); },
+  });
   expect(await saveCheckpoint()).toBe(false);
   expect(localStorage.getItem(STORAGE_KEYS.DOCUMENT)).toBe('previous checkpoint');
   expect(useDocumentStore.getState().formData.subject).toBe('Checkpoint draft');
