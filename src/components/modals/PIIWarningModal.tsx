@@ -15,6 +15,7 @@ import { getPIITypeLabel, getPIITypeSeverity } from '@/services/pii/detector';
 
 interface PIIWarningModalProps {
   detectionResult: PIIDetectionResult | null;
+  exportName?: string;
   onCancel: () => void;
   onProceed: () => void;
 }
@@ -119,7 +120,7 @@ function SummaryBadge({ count, label, severity }: { count: number; label: string
   );
 }
 
-export function PIIWarningModal({ detectionResult, onCancel, onProceed }: PIIWarningModalProps) {
+export function PIIWarningModal({ detectionResult, exportName, onCancel, onProceed }: PIIWarningModalProps) {
   // Individual selectors — modal only re-renders on its own flag changing.
   const piiWarningOpen = useUIStore((s) => s.piiWarningOpen);
   const setPiiWarningOpen = useUIStore((s) => s.setPiiWarningOpen);
@@ -173,7 +174,7 @@ export function PIIWarningModal({ detectionResult, onCancel, onProceed }: PIIWar
                 {totalHighSeverity > 0 ? 'Sensitive Data Detected!' : 'Potential PII/PHI Detected'}
               </DialogTitle>
               <DialogDescription className="mt-1 text-sm text-inherit">
-                {findings.length} potential issue{findings.length !== 1 ? 's' : ''} found in your document
+                {findings.length} potential issue{findings.length !== 1 ? 's' : ''} found in {exportName || 'your document'}
               </DialogDescription>
             </div>
           </div>

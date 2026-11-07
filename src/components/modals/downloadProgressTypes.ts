@@ -17,6 +17,8 @@ import type { DocxProgressPhase } from '@/services/docx/pandoc-converter';
  * the modal dismissible so the user can close it and retry.
  */
 export type DownloadProgressPhase =
+  | { kind: 'tex-preparing' }
+  | { kind: 'cancelling' }
   // DOCX phases (mapped 1:1 from DocxProgressPhase)
   | { kind: 'docx-preparing' }
   | { kind: 'docx-fetching-engine'; loaded: number; total: number }
@@ -38,7 +40,7 @@ export type DownloadProgressPhase =
   // the fields that make sense for that failure mode.
   | {
       kind: 'error';
-      target: 'pdf' | 'docx';
+      target: 'pdf' | 'docx' | 'tex';
       title: string;
       message: string;
       /**
