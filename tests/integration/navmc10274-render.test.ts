@@ -23,6 +23,7 @@ import { tmpdir } from 'node:os';
 import {
   type Navmc10274Data,
 } from '@/services/pdf/navmc10274Generator';
+import { useFormStore } from '@/stores/formStore';
 import { captureDocumentRevision } from '@/lib/capturedDocument';
 import { captureFormExportTemplates } from '@/lib/formExportTemplates';
 import { prepareExport, acknowledgePreparedExport } from '@/lib/preparedExport';
@@ -70,7 +71,7 @@ async function generate(data: Navmc10274Data) {
   ]);
   const captured = captureDocumentRevision({ documentId: 'navmc-fixture', epoch: 1, editSequence: 1, capturedAt: 1 }, {
     documentMode: 'compliant', documentCategory: 'forms', docType: 'standard_letter', formType: 'navmc_10274',
-    forms: { includeCoverPage: false, navmc10274: data }, formData: {}, paragraphs: [], references: [], enclosures: [], copyTos: [], distributions: [], endItems: [], publicationTables: {},
+    forms: { includeCoverPage: false, navmc10274: { ...useFormStore.getInitialState().navmc10274, ...data, signatureBlocks: (data.signatureBlocks ?? []).map(block => ({ ...block, statement: block.statement ?? '', name: block.name ?? '' })) } }, formData: {}, paragraphs: [], references: [], enclosures: [], copyTos: [], distributions: [], endItems: [], publicationTables: {},
   });
   const prepared = prepareExport({ id: 'navmc-fixture', captured, target: 'pdf', filename: 'fixture.pdf',
     policy: resolveExportDeploymentPolicy({ hostname: 'example.test', environment: null, runtime: { status: 'absent' } }),
