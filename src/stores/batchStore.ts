@@ -75,7 +75,7 @@ export async function runBatchJob(options: {
     if (store.getState().stopRequested) break;
     store.getState().setRows((all) => all.map((r) => r.id === row.id ? { ...r, status: 'generating', error: undefined } : r));
     let pdf: Uint8Array;
-    try { pdf = await generate(row.values, { batchId, rowId: row.id, filename, capturedAt: Date.now(), source: structuredClone(jobSource) }); }
+    try { pdf = await generate(row.values, { batchId, rowId: row.id, filename, capturedAt: jobSource.timestamp, source: structuredClone(jobSource) }); }
     catch (e) {
       store.getState().setRows((all) => all.map((r) => r.id === row.id ? { ...r, status: 'error', error: e instanceof Error ? e.message : 'Generation failed' } : r));
       continue;

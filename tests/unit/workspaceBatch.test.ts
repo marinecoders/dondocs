@@ -34,7 +34,7 @@ it('retries only failures and never repeats successful rows', async () => {
   await runBatchJob(options);
   const retry = vi.fn(async () => new Uint8Array([2]));
   await runBatchJob({ ...options, retryFailed: true, generate: retry });
-  expect(retry).toHaveBeenCalledExactlyOnceWith({ NAME: 'Row 2' }, expect.objectContaining({ rowId: '2', filename: 'Row_2.pdf' }));
+  expect(retry).toHaveBeenCalledExactlyOnceWith({ NAME: 'Row 2' }, expect.objectContaining({ rowId: '2', filename: 'Row_2.pdf', capturedAt: Date.UTC(2020, 0, 1) }));
   expect(useBatchStore.getState().rows.every((r) => r.status === 'success')).toBe(true);
 });
 
@@ -58,11 +58,13 @@ it('freezes queued row values, filenames and source before the first row awaits'
       return contexts.length === 1 ? new Promise<Uint8Array>(resolve => { finish = resolve; }) : Promise.resolve(new Uint8Array([2]));
     }),
   };
+  options.source.timestamp = Date.UTC(2020, 0, 1);
   const pending = runBatchJob(options);
+  options.source.timestamp = Date.UTC(2090, 0, 1);
   useBatchStore.getState().rows[1].values.NAME = 'Mutated';
   useBatchStore.getState().source!.formData.subject = 'Mutated';
   options.placeholders[0] = 'OTHER';
   finish(new Uint8Array([1]));await pending;
   expect(options.generate.mock.calls[1][0]).toEqual({ NAME: 'Row 2' });
-  expect(options.generate.mock.calls[1][1]).toMatchObject({ rowId: '2', filename: 'Row_2.pdf' });
+  expect(options.generate.mock.calls[1][1]).toMatchObject({ rowId: '2', filename: 'Row_2.pdf', capturedAt: Date.UTC(2020, 0, 1) });
 });
