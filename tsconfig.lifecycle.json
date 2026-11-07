@@ -12,7 +12,8 @@
     "tests/types/privacyInspection.ts",
     "tests/types/workspaceSearch.ts",
     "tests/types/exportPolicy.ts",
-    "tests/types/preparedExport.ts"
+    "tests/types/preparedExport.ts",
+    "tests/types/exportExecution.ts"
   ],
   "exclude": []
 }
