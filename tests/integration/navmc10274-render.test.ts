@@ -21,9 +21,13 @@ import { readFile, writeFile, mkdtemp } from 'node:fs/promises';
 import { join } from 'node:path';
 import { tmpdir } from 'node:os';
 import {
-  generateNavmc10274Pdf,
   type Navmc10274Data,
 } from '@/services/pdf/navmc10274Generator';
+import { captureDocumentRevision } from '@/lib/capturedDocument';
+import { captureFormExportTemplates } from '@/lib/formExportTemplates';
+import { prepareExport, acknowledgePreparedExport } from '@/lib/preparedExport';
+import { resolveExportDeploymentPolicy } from '@/lib/exportDeploymentPolicy';
+import { renderPreparedBuiltinForm } from '@/services/exports/builtinForms';
 import { hasPdfToolchain, describeToolchainRequirement } from '../_helpers/pdfToolchain';
 
 const toolchain = hasPdfToolchain;
@@ -64,9 +68,18 @@ async function generate(data: Navmc10274Data) {
     readFile(join(TEMPLATE_DIR, 'page2.pdf')),
     readFile(join(TEMPLATE_DIR, 'page3.pdf')),
   ]);
-  const bytes = await generateNavmc10274Pdf(data, page1, page2, page3, {
-    includeCoverPage: false,
+  const captured = captureDocumentRevision({ documentId: 'navmc-fixture', epoch: 1, editSequence: 1, capturedAt: 1 }, {
+    documentMode: 'compliant', documentCategory: 'forms', docType: 'standard_letter', formType: 'navmc_10274',
+    forms: { includeCoverPage: false, navmc10274: data }, formData: {}, paragraphs: [], references: [], enclosures: [], copyTos: [], distributions: [], endItems: [], publicationTables: {},
   });
+  const prepared = prepareExport({ id: 'navmc-fixture', captured, target: 'pdf', filename: 'fixture.pdf',
+    policy: resolveExportDeploymentPolicy({ hostname: 'example.test', environment: null, runtime: { status: 'absent' } }),
+    formTemplates: captureFormExportTemplates('builtin-form', 'navmc_10274', { page1, page2, page3 }),
+  });
+  if ('issues' in prepared) throw new Error(prepared.issues.join('\n'));
+  const ready = prepared.status === 'ready' ? prepared.job : acknowledgePreparedExport(prepared.job);
+  const output = await renderPreparedBuiltinForm(ready, new AbortController().signal);
+  const bytes = new Uint8Array(await output.blob.arrayBuffer());
   const dir = await mkdtemp(join(tmpdir(), 'dondocs-aa-'));
   const pdfPath = join(dir, 'out.pdf');
   await writeFile(pdfPath, bytes);

@@ -700,9 +700,11 @@ export async function loadNavmc10274Templates(): Promise<{
 }> {
   const baseUrl = '/templates/NAVMC10274 - Administrative Action';
   const [page1, page2, page3] = await Promise.all([
-    fetch(`${baseUrl}/page1.pdf`).then(r => r.arrayBuffer()),
-    fetch(`${baseUrl}/page2.pdf`).then(r => r.arrayBuffer()),
-    fetch(`${baseUrl}/page3.pdf`).then(r => r.arrayBuffer()),
+    ...['page1.pdf', 'page2.pdf', 'page3.pdf'].map(async file => {
+      const response = await fetch(`${baseUrl}/${file}`);
+      if (!response.ok) throw new Error(`Failed to load NAVMC 10274 template: ${file}`);
+      return response.arrayBuffer();
+    }),
   ]);
 
   return { page1, page2, page3 };

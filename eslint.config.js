@@ -85,7 +85,7 @@ export default defineConfig([
     },
   },
   {
-    files: ['src/lib/{capturedDocument,exportController,exportExecution,preparedExport,exportDeploymentPolicy,documentCapabilities,documentFieldPolicies,documentFields,documentSerialization,placeholders,workspaceSearch}.ts', 'src/services/pii/detector.ts', 'src/services/exports/correspondence.ts'],
+    files: ['src/lib/{capturedDocument,formExportTemplates,exportController,exportExecution,preparedExport,exportDeploymentPolicy,documentCapabilities,documentFieldPolicies,documentFields,documentSerialization,placeholders,workspaceSearch}.ts', 'src/services/pii/detector.ts', 'src/services/exports/{correspondence,builtinForms}.ts'],
     rules: {
       'no-restricted-imports': ['error', { patterns: [{
         regex: '^(?:@/stores(?:/|$)|(?:\\.\\.?/)+(?:.*/)?stores(?:/|$))',
