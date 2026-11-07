@@ -68,3 +68,20 @@ it('keeps a failed policy read distinct and retries it against the captured requ
   expect(app.controller.getState()).toMatchObject({ phase: 'review', job: { source: original.captured.source } });
   app.controller.cancel();
 });
+it('cancels a queued execution before its handle is assigned', async () => {
+  const app = setup();app.controller.request(intent());
+  await vi.waitFor(() => expect(app.controller.getState().phase).toBe('review'));
+  const review = app.controller.getState();if (review.phase !== 'review') throw new Error('Review missing');
+  const unsubscribe = app.controller.subscribe(() => {
+    const state = app.controller.getState();
+    if (state.phase === 'executing' && state.execution.status === 'queued') app.controller.cancel();
+  });
+  app.controller.confirm(review.job, review.stage);
+  await Promise.resolve();await Promise.resolve();
+  expect(app.controller.getState()).toEqual({ phase: 'idle' });
+  expect(app.render).not.toHaveBeenCalled();
+  expect(app.deliver).not.toHaveBeenCalled();
+  expect(app.release).toHaveBeenCalledTimes(2);
+  const unlock = app.gate.acquire();expect(unlock).not.toBeNull();unlock?.();
+  unsubscribe();
+});

@@ -88,6 +88,7 @@ export function createExportController(ports: ExportControllerPorts) {
         if (current === operation && (execution.status === 'queued' || execution.status === 'running')) publish({ phase: 'executing', job: approved.job, execution });
       },
     });
+    if (current !== operation) operation.execution.cancel();
     void operation.execution.result.then(outcome => {
       releaseGate(operation);operation.execution = undefined;
       if (current !== operation) return;
