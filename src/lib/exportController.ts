@@ -106,7 +106,7 @@ export function createExportController(ports: ExportControllerPorts) {
       publish({ phase: 'preparing', target: operation.intent.target });
       const policy = await resolvePolicy(retry);
       if (current !== operation) { releaseDelivery(operation);return; }
-      const formTemplates = await captureResources?.(operation.intent.captured);
+      const formTemplates = policy.status === 'ready' ? await captureResources?.(operation.intent.captured) : undefined;
       if (current !== operation) { releaseDelivery(operation);return; }
       const result = prepareExport({ ...operation.intent, policy, formTemplates });
       if ('issues' in result) { fail(operation, result.issues.join('\n'), policy.status !== 'ready');return; }
