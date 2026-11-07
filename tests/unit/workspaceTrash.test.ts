@@ -1,8 +1,10 @@
 import 'fake-indexeddb/auto';
-import { expect, it } from 'vitest';
+import { afterEach, expect, it, vi } from 'vitest';
 import { useDocumentsStore, exportLibrary } from '@/stores/documentsStore';
 import { useDocumentStore } from '@/stores/documentStore';
 import { idbGetAllDocuments, idbGetSnapshots } from '@/lib/documentsDb';
+
+afterEach(() => vi.dynamicImportSettled());
 
 it('keeps complete deleted work and history across hydration, backup and restore', async () => {
   await useDocumentsStore.getState().init();
