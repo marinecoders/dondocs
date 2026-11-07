@@ -34,7 +34,7 @@ it('retries only failures and never repeats successful rows', async () => {
   await runBatchJob(options);
   const retry = vi.fn(async () => new Uint8Array([2]));
   await runBatchJob({ ...options, retryFailed: true, generate: retry });
-  expect(retry).toHaveBeenCalledExactlyOnceWith({ NAME: 'Row 2' }, expect.objectContaining({ rowId: '2', filename: 'Row_2.pdf', capturedAt: Date.UTC(2020, 0, 1) }));
+  expect(retry).toHaveBeenCalledExactlyOnceWith({ NAME: 'Row 2' }, expect.objectContaining({ rowId: '2', filename: 'Row_2.pdf', capturedAt: options.source.timestamp }));
   expect(useBatchStore.getState().rows.every((r) => r.status === 'success')).toBe(true);
 });
 
