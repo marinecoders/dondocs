@@ -34,6 +34,7 @@ export async function renderPreparedCorrespondence(ready: ReadyExportJob, ports:
   const captured = copyPreparedDocument(ready);
   if (captured.kind !== 'correspondence') throw new Error('This renderer accepts correspondence jobs.');
   const document = captured.document;
+  const referenceDate = new Date(ready.job.source.capturedAt);
   const { target, texMode } = ready.job;
   const marking = preparedExportMarking(ready);
   const resolvedLevel = document.formData.classLevel ?? 'unclassified';
@@ -55,7 +56,7 @@ export async function renderPreparedCorrespondence(ready: ReadyExportJob, ports:
   if (target === 'tex') {
     const text = texMode === 'flat' ? generateFlatLatex(document, resolvedLevel)
       : `% DonDocs configuration fragments. Templates and binary assets are transferred separately.\n% Captured: ${new Date(ready.job.source.capturedAt).toISOString()}\n\n`
-        + Object.entries(generateAllLatexFiles(document, resolvedLevel).texFiles).map(([name, contents]) => `% ===== ${name} =====\n${contents}`).join('\n');
+        + Object.entries(generateAllLatexFiles(document, resolvedLevel, referenceDate).texFiles).map(([name, contents]) => `% ===== ${name} =====\n${contents}`).join('\n');
     return createExportArtifact(ready, new Blob([text], { type: 'text/plain' }));
   }
   const ids = new Set<string>();
@@ -76,7 +77,7 @@ export async function renderPreparedCorrespondence(ready: ReadyExportJob, ports:
         enclosure.file = { name: record.name, size: record.data.byteLength, data: record.data };
       } else if ((enclosure as { hasFile?: boolean }).hasFile && !enclosure.file) throw new Error(`Reattach enclosure “${enclosure.title}” before export.`);
     }
-    const generated = generateAllLatexFiles(document, resolvedLevel);
+    const generated = generateAllLatexFiles(document, resolvedLevel, referenceDate);
     const files: Record<string, string | Uint8Array> = { ...generated.texFiles };
     if (generated.signatureImage) files['attachments/signature.png'] = generated.signatureImage;
     await loadFigureFiles(files, generated.figures, async id => read(id).data);
@@ -87,7 +88,7 @@ export async function renderPreparedCorrespondence(ready: ReadyExportJob, ports:
     checkCancellation(signal);
     if (!pdf) throw new Error('The PDF engine produced no document.');
     onProgress?.('pdf-merging-enclosures');
-    const finished = await finishCorrespondencePdf(pdf, document.docType, document.formData, generated, document.paragraphs, { marking });
+    const finished = await finishCorrespondencePdf(pdf, document.docType, document.formData, generated, document.paragraphs, { marking, referenceDate });
     checkCancellation(signal);
     onProgress?.('pdf-saving');
     return createExportArtifact(ready, new Blob([new Uint8Array(finished.pdfBytes)], { type: 'application/pdf' }), finished.errors.map(error => ({ message: error.error, asset: error.title })));

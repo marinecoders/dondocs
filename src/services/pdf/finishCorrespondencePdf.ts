@@ -121,13 +121,13 @@ export function getDualSignatoryConfig(formData: Partial<DocumentData>, uiMode: 
 }
 
 /** The same assembly sequence is used by single downloads and batch results. */
-export async function finishCorrespondencePdf(pdf: Uint8Array, docType: string, formData: Partial<DocumentData>, generated: GeneratedFiles, paragraphs: Paragraph[] = [], resolved?: { marking: ClassificationInfo | undefined }): Promise<{ pdfBytes: Uint8Array; errors: EnclosureError[] }> {
+export async function finishCorrespondencePdf(pdf: Uint8Array, docType: string, formData: Partial<DocumentData>, generated: GeneratedFiles, paragraphs: Paragraph[] = [], resolved?: { marking: ClassificationInfo | undefined; referenceDate?: Date }): Promise<{ pdfBytes: Uint8Array; errors: EnclosureError[] }> {
   const assembled = await assembleBasicLetter(pdf, docType, formData);
   let pdfBytes = assembled.pdfBytes;
   const errors = assembled.error ? [basicLetterError(assembled.error)] : [];
   let lastBasicPageIndex: number | undefined;
   if (generated.enclosures.length || (generated.includeHyperlinks && generated.referenceUrls.length)) {
-    const merged = await mergeEnclosures(pdfBytes, generated.enclosures, resolved ? resolved.marking : publicationMarking(formData, paragraphs), generated.includeHyperlinks, generated.referenceUrls, { enclosureLabel: DOC_TYPE_CONFIG[docType]?.enclosureLabel, ...(DOC_TYPE_CONFIG[docType]?.enclosureLabel === 'footer' ? { header: { line1: formData.shortTitle || '', line2: formatPublicationDate(formData.date || '') } } : {}) });
+    const merged = await mergeEnclosures(pdfBytes, generated.enclosures, resolved ? resolved.marking : publicationMarking(formData, paragraphs), generated.includeHyperlinks, generated.referenceUrls, { enclosureLabel: DOC_TYPE_CONFIG[docType]?.enclosureLabel, ...(DOC_TYPE_CONFIG[docType]?.enclosureLabel === 'footer' ? { header: { line1: formData.shortTitle || '', line2: formatPublicationDate(formData.date || '', resolved?.referenceDate) } } : {}) });
     pdfBytes = merged.pdfBytes;
     lastBasicPageIndex = merged.basicPageCount !== undefined ? merged.basicPageCount - 1 : undefined;
     if (merged.hasErrors) errors.push(...merged.errors);

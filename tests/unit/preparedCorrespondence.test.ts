@@ -1,16 +1,17 @@
+import { sl3Fixture } from '../_helpers/sl3Fixture';
 import { expect, it, vi } from 'vitest';
 import { PDFDocument } from 'pdf-lib';
 import { renderPreparedCorrespondence, type CorrespondenceRendererPorts, type ExportAssets } from '@/services/exports/correspondence';
 import { captureDocumentRevision } from '@/lib/capturedDocument';
-import { prepareExport, acknowledgePreparedExport, type ExportTarget, type ReadyExportJob } from '@/lib/preparedExport';
+import { prepareExport, acknowledgePreparedExport, copyPreparedDocument, type ExportTarget, type ReadyExportJob } from '@/lib/preparedExport';
 import { resolveExportDeploymentPolicy } from '@/lib/exportDeploymentPolicy';
 import { CLASSIFICATION_LEVELS } from '@/lib/overallClassification';
 import { useDocumentStore } from '@/stores/documentStore';
 import type { DocumentSnapshot } from '@/stores/historyStore';
 
-function ready(target: ExportTarget, patch: Partial<DocumentSnapshot> = {}): ReadyExportJob {
+function ready(target: ExportTarget, patch: Partial<DocumentSnapshot> = {}, capturedAt = 1): ReadyExportJob {
   const base = useDocumentStore.getState().getSnapshot();
-  const captured = captureDocumentRevision({ documentId: 'render', epoch: 1, editSequence: 1, capturedAt: 1 }, { ...base, ...patch, formData: { ...base.formData, ...patch.formData } });
+  const captured = captureDocumentRevision({ documentId: 'render', epoch: 1, editSequence: 1, capturedAt }, { ...base, ...patch, formData: { ...base.formData, ...patch.formData } });
   const policy = resolveExportDeploymentPolicy({ hostname: 'example.test', environment: { maxLevel: 'top_secret_sci', allowedLevels: [...CLASSIFICATION_LEVELS] }, runtime: { status: 'absent' } });
   const result = prepareExport({ captured, policy, target, id: 'render', filename: `source.${target}` });
   if (result.status === 'ready') return result.job;
@@ -55,4 +56,38 @@ it('keeps resources borrowed until a cancelled compiler settles', async () => {
   finish(main);
   await expect(rendering).rejects.toThrow('cancelled');
   expect(active).toBe(false);
+});
+
+
+it('renders the same prepared publication dates after the wall clock changes', async () => {
+  vi.useFakeTimers({ toFake: ['Date'] });
+  const capturedAt = Date.UTC(2026, 9, 1);
+  try {
+    vi.setSystemTime(capturedAt);
+    const source = sl3Fixture(1);
+    const job = ready('tex', { ...source, documentMode: 'compliant', documentCategory: 'correspondence' }, capturedAt);
+    const adapters = ports(await pdf());
+    const first = await renderPreparedCorrespondence(job, adapters, new AbortController().signal);
+    vi.setSystemTime(Date.UTC(2090, 0, 1));
+    const retried = await renderPreparedCorrespondence(job, adapters, new AbortController().signal);
+    expect(await retried.blob.text()).toBe(await first.blob.text());
+    expect(await retried.blob.text()).toContain('30 OCTOBER 2026');
+  } finally { vi.useRealTimers(); }
+});
+
+
+it('excludes retained publication figures from an ordinary letter export', async () => {
+  const job = ready('pdf', { docType: 'standard_letter', formData: { classLevel: 'unclassified' }, paragraphs: [{
+    text: 'Ordinary paragraph after a format switch', level: 0,
+    figure: { name: 'Previous publication image', type: 'image/png', portionMarking: 'S', fileRef: { id: 'missing-inactive-figure', name: 'old.png', type: 'image/png', size: 1 } },
+  }] });
+  const adapters = ports(await pdf());
+  adapters.assets = { withAssets: async (ids, operation) => {
+    if (ids.length) throw new Error('The retained publication image is unavailable.');
+    return operation(() => { throw new Error('Unexpected asset read'); });
+  } };
+  const artifact = await renderPreparedCorrespondence(job, adapters, new AbortController().signal);
+  expect((await PDFDocument.load(await artifact.blob.arrayBuffer())).getPageCount()).toBe(1);
+  expect(copyPreparedDocument(job).document.formData.classLevel).toBe('unclassified');
+  expect(adapters.compile).toHaveBeenCalledWith(expect.objectContaining({ 'body.tex': expect.stringContaining('Ordinary paragraph after a format switch') }));
 });
