@@ -3,9 +3,9 @@ import { afterEach, beforeEach, expect, it, vi } from 'vitest';
 import { act, cleanup, fireEvent, render, screen } from '@testing-library/react';
 import type { ReadyExportJob } from '@/lib/preparedExport';
 
-const mocks = vi.hoisted(() => ({ render: vi.fn(), deliver: vi.fn(async () => true), release: vi.fn() }));
+const mocks = vi.hoisted(() => ({ engineReady: true, render: vi.fn(), deliver: vi.fn(async () => true), release: vi.fn() }));
 vi.mock('@/hooks', () => ({
-  useLatexEngine: () => ({ isReady: true, compile: async () => null, waitForReady: async () => true, error: null }),
+  useLatexEngine: () => ({ isReady: mocks.engineReady, compile: async () => null, waitForReady: async () => true, error: null }),
   useServiceWorker: () => ({ showUpdatePrompt: false, confirmUpdate() {}, dismissUpdatePrompt() {} }),
   useInstallPrompt() {}, promptInstall() {},
 }));
@@ -29,6 +29,7 @@ import { copyPreparedDocument } from '@/lib/preparedExport';
 import { createExportArtifact } from '@/lib/exportExecution';
 
 beforeEach(() => {
+  mocks.engineReady = true;
   mocks.render.mockReset().mockImplementation(async (ready: ReadyExportJob) => createExportArtifact(ready, new Blob(['pdf'])));
   mocks.deliver.mockReset().mockResolvedValue(true);mocks.release.mockClear();
   vi.spyOn(useDocumentsStore.getState(), 'init').mockResolvedValue(true);
@@ -66,4 +67,18 @@ it('retries the approved job instead of recapturing the current editor', async (
   fireEvent.click(retry);
   await vi.waitFor(() => expect(mocks.deliver).toHaveBeenCalledTimes(1));
   expect(mocks.render.mock.calls[1][0]).toBe(mocks.render.mock.calls[0][0]);
+});
+
+
+it('offers startup Retry promptly and retains the original captured export', async () => {
+  mocks.engineReady = false;
+  await act(async () => { render(<App />); });
+  fireEvent.click(screen.getByText('Export captured PDF'));
+  fireEvent.click(await screen.findByRole('button', { name: /download anyway/i }));
+  const error = await screen.findByRole('dialog', { name: 'Engine still starting up' });
+  expect(error).toBeVisible();expect(mocks.render).not.toHaveBeenCalled();
+  await act(async () => { mocks.engineReady = true;useDocumentStore.getState().setField('subject', 'DIFFERENT'); });
+  fireEvent.click(screen.getByRole('button', { name: 'Retry' }));
+  await vi.waitFor(() => expect(mocks.deliver).toHaveBeenCalledTimes(1));
+  expect(copyPreparedDocument(mocks.render.mock.calls[0][0]).document.formData.subject).toBe('ORIGINAL');
 });
