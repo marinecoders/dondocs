@@ -40,7 +40,7 @@ import { useUIStore } from '@/stores/uiStore';
 import { showAppAlert } from '@/stores/alertStore';
 import { useProfileStore } from '@/stores/profileStore';
 import { useDocumentStore, getSerializedSession } from '@/stores/documentStore';
-import { useDocumentsStore, profileFormPatch } from '@/stores/documentsStore';
+import { useDocumentsStore, profileFormPatch, captureDocumentTarget } from '@/stores/documentsStore';
 import { SessionChanges } from '@/components/SessionChanges';
 import type { Profile, SignatureImage } from '@/types/document';
 import type { UnitInfo } from '@/data/unitDirectory';
@@ -192,6 +192,7 @@ export function ProfileModal() {
   const [saving, setSaving] = useState(false);
   const isCorrespondence = useDocumentStore((s) => s.documentCategory === 'correspondence');
   const currentSession = getSerializedSession();
+  const proposedTarget = captureDocumentTarget();
   const proposedSession = { ...currentSession, formData: { ...currentSession.formData, ...profileFormPatch(formState) } };
 
   const handleSave = async () => {
@@ -211,8 +212,8 @@ export function ProfileModal() {
     setSaving(true);
     try {
       if (applyToDocument && isCorrespondence) {
-        const ok = await useDocumentsStore.getState().restoreSnapshot(proposedSession);
-        if (!ok) throw new Error('Could not save a recovery version. Your document has not changed.');
+        const ok = await useDocumentsStore.getState().restoreSnapshot(proposedSession, proposedTarget);
+        if (ok !== 'applied' && ok !== 'unchanged') throw new Error(ok === 'stale' ? 'The document changed. Review the profile before applying it again.' : 'Could not save a recovery version. Your document has not changed.');
       }
       if (isEditing && editName) {
         updateProfile(editName, formState);

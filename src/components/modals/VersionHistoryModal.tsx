@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { useUIStore } from '@/stores/uiStore';
 import { SessionChanges } from '@/components/SessionChanges';
 import { getSerializedSession } from '@/stores/documentStore';
-import { useDocumentsStore, deriveTitle } from '@/stores/documentsStore';
+import { useDocumentsStore, deriveTitle, captureDocumentTarget } from '@/stores/documentsStore';
 import { idbReadSnapshots, type DocSnapshot } from '@/lib/documentsDb';
 
 function fmt(ts: number): string {
@@ -31,6 +31,9 @@ function DocumentHistory({ docId }: { docId: string }) {
   const versionSelectId = useId();
   const comparisonRef = useRef<HTMLDivElement>(null);
   const [currentSession] = useState(getSerializedSession);
+  const [target] = useState(captureDocumentTarget);
+  const active = useRef(true);
+  useEffect(() => { active.current = true; return () => { active.current = false; }; }, []);
   const [readState, setReadState] = useState<'loading' | 'ready' | 'error'>('loading');
   const [readAttempt, setReadAttempt] = useState(0);
 
@@ -62,13 +65,17 @@ function DocumentHistory({ docId }: { docId: string }) {
     setRestoring(true);
     setRestoreError(null);
     try {
-      const ok = await restoreSnapshot(selected.session);
-      if (ok) setDocId(null);
+      const outcome = await restoreSnapshot(selected.session, target);
+      if (!active.current || useUIStore.getState().historyDocId !== docId) return;
+      if (outcome === 'applied' || outcome === 'unchanged') setDocId(null);
+      else if (outcome === 'stale') setRestoreError('Restore cancelled because the document changed. Reopen History to try again.');
+      else if (outcome === 'invalid') setRestoreError('This saved version could not be opened. Your current draft has not changed.');
       else setRestoreError("Couldn't save a safety copy of the current draft, so nothing was restored. Try again — or copy any unsaved work first.");
     } catch {
+      if (!active.current || useUIStore.getState().historyDocId !== docId) return;
       setRestoreError('Couldn’t finish restoring this version. Check your current document before trying again.');
     } finally {
-      setRestoring(false);
+      if (active.current) setRestoring(false);
     }
   }
 

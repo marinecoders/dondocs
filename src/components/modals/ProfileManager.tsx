@@ -10,7 +10,7 @@ import { useDocumentStore, getSerializedSession, type SerializedSession } from '
 import { useUIStore } from '@/stores/uiStore';
 import { showAppAlert, showAppConfirm } from '@/stores/alertStore';
 import { debug } from '@/lib/debug';
-import { profileFormPatch, useDocumentsStore } from '@/stores/documentsStore';
+import { profileFormPatch, useDocumentsStore, captureDocumentTarget, type DocumentTarget } from '@/stores/documentsStore';
 import { readFileAsText, triggerDownload } from '@/lib/encoding';
 import { parseProfileImport } from '@/lib/profileImport';
 
@@ -24,7 +24,7 @@ function ProfileManagerContent() {
   const { profiles, selectedProfile, selectProfile, deleteProfile, importProfiles } = useProfileStore();
   const editing = useUIStore((s) => s.profileModalOpen);
   const isCorrespondence = useDocumentStore((s) => s.documentCategory === 'correspondence');
-  const [pending, setPending] = useState<{ name: string; before: SerializedSession; after: SerializedSession } | null>(null);
+  const [pending, setPending] = useState<{ name: string; before: SerializedSession; after: SerializedSession; target: DocumentTarget | null } | null>(null);
   const [applying, setApplying] = useState(false);
   const [applyError, setApplyError] = useState('');
   const [query, setQuery] = useState('');
@@ -42,14 +42,14 @@ function ProfileManagerContent() {
     const profile = profiles[name];
     if (!profile) return;
     const before = getSerializedSession();
-    setPending({ name, before, after: { ...before, formData: { ...before.formData, ...profileFormPatch(profile) } } });
+    setPending({ name, before, target: captureDocumentTarget(), after: { ...before, formData: { ...before.formData, ...profileFormPatch(profile) } } });
   };
   const applyProfile = async () => {
     if (!pending) return;
     setApplying(true);
     try {
-      const restored = await useDocumentsStore.getState().restoreSnapshot(pending.after);
-      if (!restored) { setApplyError('Could not save a recovery version. Your document has not changed.'); return; }
+      const restored = await useDocumentsStore.getState().restoreSnapshot(pending.after, pending.target);
+      if (restored !== 'applied' && restored !== 'unchanged') { setApplyError(restored === 'stale' ? 'The document changed. Review the profile before applying it again.' : 'Could not save a recovery version. Your document has not changed.'); return; }
       selectProfile(pending.name);
       setPending(null);
       setStatus(`Applied ${pending.name}.`);
