@@ -1,4 +1,4 @@
-import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';
+import { PDFDocument, StandardFonts, rgb, pushGraphicsState, popGraphicsState, concatTransformationMatrix } from 'pdf-lib';
 import { calculateTextPosition } from './extractFormFields';
 import { wrapTextForForm } from './textWrap';
 import {
@@ -125,6 +125,22 @@ export async function renderFormPdf(
   ) => {
     if (field.type === 'signature') return;
     const box = { ...field.box, top: field.box.top - yOffset };
+
+    if (field.rotation === 270) {
+      // Lay out the value in a horizontal local box, then turn it clockwise
+      // into the vertical slot. Bounds checks continue to use the page box.
+      page.pushOperators(pushGraphicsState(), concatTransformationMatrix(0, -1, 1, 0, box.left, box.top));
+      try {
+        drawField(page, key, {
+          ...field,
+          rotation: undefined,
+          box: { left: 0, top: box.width, width: box.height, height: box.width },
+        }, value, fnt);
+      } finally {
+        page.pushOperators(popGraphicsState());
+      }
+      return;
+    }
 
     if (field.type === 'checkbox' || field.type === 'radio') {
       // A checked box or selected radio option gets a centered mark; both

@@ -1648,332 +1648,305 @@
       "label": "comments",
       "page": 2,
       "box": {
-        "left": 216.3,
-        "top": 756.3,
-        "width": 10.2,
-        "height": 116.5
-      },
-      "multiline": true
+        "left": 639.8,
+        "top": 395.7,
+        "width": 116.5,
+        "height": 10.2
+      }
     },
     "comments61": {
       "type": "text",
       "label": "comments",
       "page": 2,
       "box": {
-        "left": 268.3,
-        "top": 756.3,
-        "width": 10.2,
-        "height": 116.5
-      },
-      "multiline": true
+        "left": 639.8,
+        "top": 343.7,
+        "width": 116.5,
+        "height": 10.2
+      }
     },
     "comments62": {
       "type": "text",
       "label": "comments",
       "page": 2,
       "box": {
-        "left": 413.3,
-        "top": 756.3,
-        "width": 10.2,
-        "height": 116.5
-      },
-      "multiline": true
+        "left": 639.8,
+        "top": 198.7,
+        "width": 116.5,
+        "height": 10.2
+      }
     },
     "comments63": {
       "type": "text",
       "label": "comments",
       "page": 2,
       "box": {
-        "left": 242.3,
-        "top": 756.1,
-        "width": 10.2,
-        "height": 116.5
-      },
-      "multiline": true
+        "left": 639.6,
+        "top": 369.7,
+        "width": 116.5,
+        "height": 10.2
+      }
     },
     "comments64": {
       "type": "text",
       "label": "comments",
       "page": 2,
       "box": {
-        "left": 112.5,
-        "top": 756.0,
-        "width": 10.2,
-        "height": 116.5
-      },
-      "multiline": true
+        "left": 639.5,
+        "top": 499.5,
+        "width": 116.5,
+        "height": 10.2
+      }
     },
     "comments65": {
       "type": "text",
       "label": "comments",
       "page": 2,
       "box": {
-        "left": 165.2,
-        "top": 756.0,
-        "width": 10.2,
-        "height": 116.5
-      },
-      "multiline": true
+        "left": 639.5,
+        "top": 446.8,
+        "width": 116.5,
+        "height": 10.2
+      }
     },
     "comments66": {
       "type": "text",
       "label": "comments",
       "page": 2,
       "box": {
-        "left": 191.0,
-        "top": 756.0,
-        "width": 10.2,
-        "height": 116.5
-      },
-      "multiline": true
+        "left": 639.5,
+        "top": 421.0,
+        "width": 116.5,
+        "height": 10.2
+      }
     },
     "comments67": {
       "type": "text",
       "label": "comments",
       "page": 2,
       "box": {
-        "left": 203.5,
-        "top": 756.0,
-        "width": 10.2,
-        "height": 116.5
-      },
-      "multiline": true
+        "left": 639.5,
+        "top": 408.5,
+        "width": 116.5,
+        "height": 10.2
+      }
     },
     "comments68": {
       "type": "text",
       "label": "comments",
       "page": 2,
       "box": {
-        "left": 256.3,
-        "top": 756.0,
-        "width": 10.2,
-        "height": 116.5
-      },
-      "multiline": true
+        "left": 639.5,
+        "top": 355.7,
+        "width": 116.5,
+        "height": 10.2
+      }
     },
     "comments69": {
       "type": "text",
       "label": "comments",
       "page": 2,
       "box": {
-        "left": 320.8,
-        "top": 756.0,
-        "width": 10.2,
-        "height": 116.5
-      },
-      "multiline": true
+        "left": 639.5,
+        "top": 291.2,
+        "width": 116.5,
+        "height": 10.2
+      }
     },
     "comments70": {
       "type": "text",
       "label": "comments",
       "page": 2,
       "box": {
-        "left": 373.5,
-        "top": 756.0,
-        "width": 10.2,
-        "height": 116.5
-      },
-      "multiline": true
+        "left": 639.5,
+        "top": 238.5,
+        "width": 116.5,
+        "height": 10.2
+      }
     },
     "comments71": {
       "type": "text",
       "label": "comments",
       "page": 2,
       "box": {
-        "left": 400.0,
-        "top": 756.0,
-        "width": 10.2,
-        "height": 116.5
-      },
-      "multiline": true
+        "left": 639.5,
+        "top": 212.0,
+        "width": 116.5,
+        "height": 10.2
+      }
     },
     "comments72": {
       "type": "text",
       "label": "comments",
       "page": 2,
       "box": {
-        "left": 87.2,
-        "top": 755.8,
-        "width": 10.2,
-        "height": 116.5
-      },
-      "multiline": true
+        "left": 639.3,
+        "top": 524.8,
+        "width": 116.5,
+        "height": 10.2
+      }
     },
     "comments73": {
       "type": "text",
       "label": "comments",
       "page": 2,
       "box": {
-        "left": 137.7,
-        "top": 755.8,
-        "width": 10.2,
-        "height": 116.5
-      },
-      "multiline": true
+        "left": 639.3,
+        "top": 474.3,
+        "width": 116.5,
+        "height": 10.2
+      }
     },
     "comments74": {
       "type": "text",
       "label": "comments",
       "page": 2,
       "box": {
-        "left": 151.0,
-        "top": 755.8,
-        "width": 10.2,
-        "height": 116.5
-      },
-      "multiline": true
+        "left": 639.3,
+        "top": 461.0,
+        "width": 116.5,
+        "height": 10.2
+      }
     },
     "comments75": {
       "type": "text",
       "label": "comments",
       "page": 2,
       "box": {
-        "left": 178.3,
-        "top": 755.8,
-        "width": 10.2,
-        "height": 116.5
-      },
-      "multiline": true
+        "left": 639.3,
+        "top": 433.7,
+        "width": 116.5,
+        "height": 10.2
+      }
     },
     "comments76": {
       "type": "text",
       "label": "comments",
       "page": 2,
       "box": {
-        "left": 229.5,
-        "top": 755.8,
-        "width": 10.2,
-        "height": 116.5
-      },
-      "multiline": true
+        "left": 639.3,
+        "top": 382.5,
+        "width": 116.5,
+        "height": 10.2
+      }
     },
     "comments77": {
       "type": "text",
       "label": "comments",
       "page": 2,
       "box": {
-        "left": 348.2,
-        "top": 755.8,
-        "width": 10.2,
-        "height": 116.5
-      },
-      "multiline": true
+        "left": 639.3,
+        "top": 263.8,
+        "width": 116.5,
+        "height": 10.2
+      }
     },
     "comments78": {
       "type": "text",
       "label": "comments",
       "page": 2,
       "box": {
-        "left": 99.7,
-        "top": 755.7,
-        "width": 10.2,
-        "height": 116.5
-      },
-      "multiline": true
+        "left": 639.2,
+        "top": 512.3,
+        "width": 116.5,
+        "height": 10.2
+      }
     },
     "comments79": {
       "type": "text",
       "label": "comments",
       "page": 2,
       "box": {
-        "left": 294.8,
-        "top": 755.7,
-        "width": 10.2,
-        "height": 116.5
-      },
-      "multiline": true
+        "left": 639.2,
+        "top": 317.2,
+        "width": 116.5,
+        "height": 10.2
+      }
     },
     "comments80": {
       "type": "text",
       "label": "comments",
       "page": 2,
       "box": {
-        "left": 308.0,
-        "top": 755.7,
-        "width": 10.2,
-        "height": 116.5
-      },
-      "multiline": true
+        "left": 639.2,
+        "top": 304.0,
+        "width": 116.5,
+        "height": 10.2
+      }
     },
     "comments81": {
       "type": "text",
       "label": "comments",
       "page": 2,
       "box": {
-        "left": 361.5,
-        "top": 755.7,
-        "width": 10.2,
-        "height": 116.5
-      },
-      "multiline": true
+        "left": 639.2,
+        "top": 250.5,
+        "width": 116.5,
+        "height": 10.2
+      }
     },
     "comments82": {
       "type": "text",
       "label": "comments",
       "page": 2,
       "box": {
-        "left": 386.6,
-        "top": 755.7,
-        "width": 10.2,
-        "height": 116.5
-      },
-      "multiline": true
+        "left": 639.2,
+        "top": 225.4,
+        "width": 116.5,
+        "height": 10.2
+      }
     },
     "comments83": {
       "type": "text",
       "label": "comments",
       "page": 2,
       "box": {
-        "left": 74.5,
-        "top": 755.5,
-        "width": 10.2,
-        "height": 116.5
-      },
-      "multiline": true
+        "left": 639.0,
+        "top": 537.5,
+        "width": 116.5,
+        "height": 10.2
+      }
     },
     "comments84": {
       "type": "text",
       "label": "comments",
       "page": 2,
       "box": {
-        "left": 125.0,
-        "top": 755.5,
-        "width": 10.2,
-        "height": 116.5
-      },
-      "multiline": true
+        "left": 639.0,
+        "top": 487.0,
+        "width": 116.5,
+        "height": 10.2
+      }
     },
     "comments85": {
       "type": "text",
       "label": "comments",
       "page": 2,
       "box": {
-        "left": 281.3,
-        "top": 755.5,
-        "width": 10.2,
-        "height": 116.5
-      },
-      "multiline": true
+        "left": 639.0,
+        "top": 330.7,
+        "width": 116.5,
+        "height": 10.2
+      }
     },
     "comments86": {
       "type": "text",
       "label": "comments",
       "page": 2,
       "box": {
-        "left": 334.8,
-        "top": 755.5,
-        "width": 10.2,
-        "height": 116.5
-      },
-      "multiline": true
+        "left": 639.0,
+        "top": 277.2,
+        "width": 116.5,
+        "height": 10.2
+      }
     },
     "f67": {
       "type": "checkbox",
       "label": "f67",
       "page": 2,
       "box": {
-        "left": 398.7,
-        "top": 635.4,
+        "left": 623.4,
+        "top": 213.3,
         "width": 12.0,
         "height": 12.0
       }
@@ -1983,8 +1956,8 @@
       "label": "f50",
       "page": 2,
       "box": {
-        "left": 98.5,
-        "top": 635.2,
+        "left": 623.2,
+        "top": 513.5,
         "width": 12.0,
         "height": 12.0
       }
@@ -1994,8 +1967,8 @@
       "label": "f64",
       "page": 2,
       "box": {
-        "left": 320.2,
-        "top": 635.2,
+        "left": 623.2,
+        "top": 291.8,
         "width": 12.0,
         "height": 12.0
       }
@@ -2005,8 +1978,8 @@
       "label": "f65",
       "page": 2,
       "box": {
-        "left": 346.4,
-        "top": 635.2,
+        "left": 623.2,
+        "top": 265.6,
         "width": 12.0,
         "height": 12.0
       }
@@ -2016,8 +1989,8 @@
       "label": "f68",
       "page": 2,
       "box": {
-        "left": 412.2,
-        "top": 635.2,
+        "left": 623.2,
+        "top": 199.8,
         "width": 12.0,
         "height": 12.0
       }
@@ -2027,8 +2000,8 @@
       "label": "f51",
       "page": 2,
       "box": {
-        "left": 111.2,
-        "top": 635.0,
+        "left": 623.0,
+        "top": 500.8,
         "width": 12.0,
         "height": 12.0
       }
@@ -2038,8 +2011,8 @@
       "label": "f52",
       "page": 2,
       "box": {
-        "left": 124.0,
-        "top": 635.0,
+        "left": 623.0,
+        "top": 488.0,
         "width": 12.0,
         "height": 12.0
       }
@@ -2049,8 +2022,8 @@
       "label": "f53",
       "page": 2,
       "box": {
-        "left": 136.7,
-        "top": 635.0,
+        "left": 623.0,
+        "top": 475.3,
         "width": 12.0,
         "height": 12.0
       }
@@ -2060,8 +2033,8 @@
       "label": "f57",
       "page": 2,
       "box": {
-        "left": 202.5,
-        "top": 635.0,
+        "left": 623.0,
+        "top": 409.5,
         "width": 12.0,
         "height": 12.0
       }
@@ -2071,8 +2044,8 @@
       "label": "f58",
       "page": 2,
       "box": {
-        "left": 215.2,
-        "top": 635.0,
+        "left": 623.0,
+        "top": 396.8,
         "width": 12.0,
         "height": 12.0
       }
@@ -2082,8 +2055,8 @@
       "label": "f59",
       "page": 2,
       "box": {
-        "left": 241.5,
-        "top": 635.0,
+        "left": 623.0,
+        "top": 370.5,
         "width": 12.0,
         "height": 12.0
       }
@@ -2093,8 +2066,8 @@
       "label": "f65",
       "page": 2,
       "box": {
-        "left": 359.9,
-        "top": 635.0,
+        "left": 623.0,
+        "top": 252.1,
         "width": 12.0,
         "height": 12.0
       }
@@ -2104,8 +2077,8 @@
       "label": "f66",
       "page": 2,
       "box": {
-        "left": 372.7,
-        "top": 635.0,
+        "left": 623.0,
+        "top": 239.3,
         "width": 12.0,
         "height": 12.0
       }
@@ -2115,8 +2088,8 @@
       "label": "f54",
       "page": 2,
       "box": {
-        "left": 150.2,
-        "top": 634.7,
+        "left": 622.7,
+        "top": 461.8,
         "width": 12.0,
         "height": 12.0
       }
@@ -2126,8 +2099,8 @@
       "label": "f60",
       "page": 2,
       "box": {
-        "left": 254.2,
-        "top": 634.7,
+        "left": 622.7,
+        "top": 357.8,
         "width": 12.0,
         "height": 12.0
       }
@@ -2137,8 +2110,8 @@
       "label": "f61",
       "page": 2,
       "box": {
-        "left": 267.7,
-        "top": 634.7,
+        "left": 622.7,
+        "top": 344.3,
         "width": 12.0,
         "height": 12.0
       }
@@ -2148,8 +2121,8 @@
       "label": "f62",
       "page": 2,
       "box": {
-        "left": 280.5,
-        "top": 634.7,
+        "left": 622.7,
+        "top": 331.5,
         "width": 12.0,
         "height": 12.0
       }
@@ -2159,8 +2132,8 @@
       "label": "f63",
       "page": 2,
       "box": {
-        "left": 293.2,
-        "top": 634.7,
+        "left": 622.7,
+        "top": 318.8,
         "width": 12.0,
         "height": 12.0
       }
@@ -2170,8 +2143,8 @@
       "label": "f49",
       "page": 2,
       "box": {
-        "left": 85.7,
-        "top": 634.4,
+        "left": 622.4,
+        "top": 526.3,
         "width": 12.0,
         "height": 12.0
       }
@@ -2181,8 +2154,8 @@
       "label": "f55",
       "page": 2,
       "box": {
-        "left": 177.0,
-        "top": 634.4,
+        "left": 622.4,
+        "top": 435.0,
         "width": 12.0,
         "height": 12.0
       }
@@ -2192,8 +2165,8 @@
       "label": "f56",
       "page": 2,
       "box": {
-        "left": 190.4,
-        "top": 634.4,
+        "left": 622.4,
+        "top": 421.6,
         "width": 12.0,
         "height": 12.0
       }
@@ -2203,8 +2176,8 @@
       "label": "BackStrokeBodyPosition",
       "page": 2,
       "box": {
-        "left": 73.7,
-        "top": 507.2,
+        "left": 495.2,
+        "top": 538.3,
         "width": 12.0,
         "height": 12.0
       }
@@ -2214,8 +2187,8 @@
       "label": "BackStrokeArmAction",
       "page": 2,
       "box": {
-        "left": 164.1,
-        "top": 506.8,
+        "left": 494.8,
+        "top": 447.9,
         "width": 12.0,
         "height": 12.0
       }
@@ -2225,8 +2198,8 @@
       "label": "BackStrokeLegAction",
       "page": 2,
       "box": {
-        "left": 229.0,
-        "top": 506.8,
+        "left": 494.8,
+        "top": 383.0,
         "width": 12.0,
         "height": 12.0
       }
@@ -2236,8 +2209,8 @@
       "label": "BackStrokeBreathing",
       "page": 2,
       "box": {
-        "left": 307.7,
-        "top": 506.8,
+        "left": 494.8,
+        "top": 304.3,
         "width": 12.0,
         "height": 12.0
       }
@@ -2247,8 +2220,8 @@
       "label": "BackStrokeCoordination",
       "page": 2,
       "box": {
-        "left": 334.4,
-        "top": 506.8,
+        "left": 494.8,
+        "top": 277.6,
         "width": 12.0,
         "height": 12.0
       }
@@ -2258,8 +2231,8 @@
       "label": "SmoothStrokeSmooth",
       "page": 2,
       "box": {
-        "left": 385.7,
-        "top": 506.8,
+        "left": 494.8,
+        "top": 226.3,
         "width": 12.0,
         "height": 12.0
       }
@@ -2269,156 +2242,143 @@
       "label": "comments",
       "page": 2,
       "box": {
-        "left": 216.0,
-        "top": 490.0,
-        "width": 10.2,
-        "height": 116.5
-      },
-      "multiline": true
+        "left": 373.5,
+        "top": 396.0,
+        "width": 116.5,
+        "height": 10.2
+      }
     },
     "comments88": {
       "type": "text",
       "label": "comments",
       "page": 2,
       "box": {
-        "left": 268.0,
-        "top": 490.0,
-        "width": 10.2,
-        "height": 116.5
-      },
-      "multiline": true
+        "left": 373.5,
+        "top": 344.0,
+        "width": 116.5,
+        "height": 10.2
+      }
     },
     "comments89": {
       "type": "text",
       "label": "comments",
       "page": 2,
       "box": {
-        "left": 426.5,
-        "top": 490.0,
-        "width": 10.2,
-        "height": 116.5
-      },
-      "multiline": true
+        "left": 373.5,
+        "top": 185.5,
+        "width": 116.5,
+        "height": 10.2
+      }
     },
     "comments90": {
       "type": "text",
       "label": "comments",
       "page": 2,
       "box": {
-        "left": 478.5,
-        "top": 490.0,
-        "width": 10.2,
-        "height": 116.5
-      },
-      "multiline": true
+        "left": 373.5,
+        "top": 133.5,
+        "width": 116.5,
+        "height": 10.2
+      }
     },
     "comments91": {
       "type": "text",
       "label": "comments",
       "page": 2,
       "box": {
-        "left": 112.2,
-        "top": 489.8,
-        "width": 10.2,
-        "height": 116.5
-      },
-      "multiline": true
+        "left": 373.3,
+        "top": 499.8,
+        "width": 116.5,
+        "height": 10.2
+      }
     },
     "comments92": {
       "type": "text",
       "label": "comments",
       "page": 2,
       "box": {
-        "left": 190.7,
-        "top": 489.8,
-        "width": 10.2,
-        "height": 116.5
-      },
-      "multiline": true
+        "left": 373.3,
+        "top": 421.3,
+        "width": 116.5,
+        "height": 10.2
+      }
     },
     "comments93": {
       "type": "text",
       "label": "comments",
       "page": 2,
       "box": {
-        "left": 203.2,
-        "top": 489.8,
-        "width": 10.2,
-        "height": 116.5
-      },
-      "multiline": true
+        "left": 373.3,
+        "top": 408.8,
+        "width": 116.5,
+        "height": 10.2
+      }
     },
     "comments94": {
       "type": "text",
       "label": "comments",
       "page": 2,
       "box": {
-        "left": 242.0,
-        "top": 489.8,
-        "width": 10.2,
-        "height": 116.5
-      },
-      "multiline": true
+        "left": 373.3,
+        "top": 370.0,
+        "width": 116.5,
+        "height": 10.2
+      }
     },
     "comments95": {
       "type": "text",
       "label": "comments",
       "page": 2,
       "box": {
-        "left": 256.0,
-        "top": 489.8,
-        "width": 10.2,
-        "height": 116.5
-      },
-      "multiline": true
+        "left": 373.3,
+        "top": 356.0,
+        "width": 116.5,
+        "height": 10.2
+      }
     },
     "comments96": {
       "type": "text",
       "label": "comments",
       "page": 2,
       "box": {
-        "left": 399.8,
-        "top": 489.8,
-        "width": 10.2,
-        "height": 116.5
-      },
-      "multiline": true
+        "left": 373.3,
+        "top": 212.2,
+        "width": 116.5,
+        "height": 10.2
+      }
     },
     "comments97": {
       "type": "text",
       "label": "comments",
       "page": 2,
       "box": {
-        "left": 452.5,
-        "top": 489.8,
-        "width": 10.2,
-        "height": 116.5
-      },
-      "multiline": true
+        "left": 373.3,
+        "top": 159.5,
+        "width": 116.5,
+        "height": 10.2
+      }
     },
     "comments98": {
       "type": "text",
       "label": "comments",
       "page": 2,
       "box": {
-        "left": 491.7,
-        "top": 489.8,
-        "width": 10.2,
-        "height": 116.5
-      },
-      "multiline": true
+        "left": 373.3,
+        "top": 120.3,
+        "width": 116.5,
+        "height": 10.2
+      }
     },
     "comments99": {
       "type": "text",
       "label": "comments",
       "page": 2,
       "box": {
-        "left": 320.5,
-        "top": 489.7,
-        "width": 10.2,
-        "height": 116.5
-      },
-      "multiline": true
+        "left": 373.2,
+        "top": 291.5,
+        "width": 116.5,
+        "height": 10.2
+      }
     },
     "comments100": {
       "type": "text",
@@ -2426,259 +2386,238 @@
       "page": 2,
       "box": {
         "left": 373.2,
-        "top": 489.7,
-        "width": 10.2,
-        "height": 116.5
-      },
-      "multiline": true
+        "top": 238.8,
+        "width": 116.5,
+        "height": 10.2
+      }
     },
     "comments101": {
       "type": "text",
       "label": "comments",
       "page": 2,
       "box": {
-        "left": 413.0,
-        "top": 489.7,
-        "width": 10.2,
-        "height": 116.5
-      },
-      "multiline": true
+        "left": 373.2,
+        "top": 199.0,
+        "width": 116.5,
+        "height": 10.2
+      }
     },
     "comments102": {
       "type": "text",
       "label": "comments",
       "page": 2,
       "box": {
-        "left": 465.7,
-        "top": 489.7,
-        "width": 10.2,
-        "height": 116.5
-      },
-      "multiline": true
+        "left": 373.2,
+        "top": 146.3,
+        "width": 116.5,
+        "height": 10.2
+      }
     },
     "comments103": {
       "type": "text",
       "label": "comments",
       "page": 2,
       "box": {
-        "left": 137.5,
-        "top": 489.6,
-        "width": 10.2,
-        "height": 116.5
-      },
-      "multiline": true
+        "left": 373.1,
+        "top": 474.5,
+        "width": 116.5,
+        "height": 10.2
+      }
     },
     "comments104": {
       "type": "text",
       "label": "comments",
       "page": 2,
       "box": {
-        "left": 229.2,
-        "top": 489.6,
-        "width": 10.2,
-        "height": 116.5
-      },
-      "multiline": true
+        "left": 373.1,
+        "top": 382.8,
+        "width": 116.5,
+        "height": 10.2
+      }
     },
     "comments105": {
       "type": "text",
       "label": "comments",
       "page": 2,
       "box": {
-        "left": 86.9,
-        "top": 489.5,
-        "width": 10.2,
-        "height": 116.5
-      },
-      "multiline": true
+        "left": 373.0,
+        "top": 525.1,
+        "width": 116.5,
+        "height": 10.2
+      }
     },
     "comments106": {
       "type": "text",
       "label": "comments",
       "page": 2,
       "box": {
-        "left": 99.5,
-        "top": 489.5,
-        "width": 10.2,
-        "height": 116.5
-      },
-      "multiline": true
+        "left": 373.0,
+        "top": 512.5,
+        "width": 116.5,
+        "height": 10.2
+      }
     },
     "comments107": {
       "type": "text",
       "label": "comments",
       "page": 2,
       "box": {
-        "left": 150.7,
-        "top": 489.5,
-        "width": 10.2,
-        "height": 116.5
-      },
-      "multiline": true
+        "left": 373.0,
+        "top": 461.3,
+        "width": 116.5,
+        "height": 10.2
+      }
     },
     "comments108": {
       "type": "text",
       "label": "comments",
       "page": 2,
       "box": {
-        "left": 178.0,
-        "top": 489.5,
-        "width": 10.2,
-        "height": 116.5
-      },
-      "multiline": true
+        "left": 373.0,
+        "top": 434.0,
+        "width": 116.5,
+        "height": 10.2
+      }
     },
     "comments109": {
       "type": "text",
       "label": "comments",
       "page": 2,
       "box": {
-        "left": 294.5,
-        "top": 489.5,
-        "width": 10.2,
-        "height": 116.5
-      },
-      "multiline": true
+        "left": 373.0,
+        "top": 317.5,
+        "width": 116.5,
+        "height": 10.2
+      }
     },
     "comments110": {
       "type": "text",
       "label": "comments",
       "page": 2,
       "box": {
-        "left": 307.7,
-        "top": 489.5,
-        "width": 10.2,
-        "height": 116.5
-      },
-      "multiline": true
+        "left": 373.0,
+        "top": 304.3,
+        "width": 116.5,
+        "height": 10.2
+      }
     },
     "comments111": {
       "type": "text",
       "label": "comments",
       "page": 2,
       "box": {
-        "left": 348.0,
-        "top": 489.5,
-        "width": 10.2,
-        "height": 116.5
-      },
-      "multiline": true
+        "left": 373.0,
+        "top": 264.0,
+        "width": 116.5,
+        "height": 10.2
+      }
     },
     "comments112": {
       "type": "text",
       "label": "comments",
       "page": 2,
       "box": {
-        "left": 361.2,
-        "top": 489.5,
-        "width": 10.2,
-        "height": 116.5
-      },
-      "multiline": true
+        "left": 373.0,
+        "top": 250.8,
+        "width": 116.5,
+        "height": 10.2
+      }
     },
     "comments113": {
       "type": "text",
       "label": "comments",
       "page": 2,
       "box": {
-        "left": 386.3,
-        "top": 489.5,
-        "width": 10.2,
-        "height": 116.5
-      },
-      "multiline": true
+        "left": 373.0,
+        "top": 225.7,
+        "width": 116.5,
+        "height": 10.2
+      }
     },
     "comments114": {
       "type": "text",
       "label": "comments",
       "page": 2,
       "box": {
-        "left": 439.7,
-        "top": 489.5,
-        "width": 10.2,
-        "height": 116.5
-      },
-      "multiline": true
+        "left": 373.0,
+        "top": 172.3,
+        "width": 116.5,
+        "height": 10.2
+      }
     },
     "comments115": {
       "type": "text",
       "label": "comments",
       "page": 2,
       "box": {
-        "left": 74.2,
-        "top": 489.3,
-        "width": 10.2,
-        "height": 116.5
-      },
-      "multiline": true
+        "left": 372.8,
+        "top": 537.8,
+        "width": 116.5,
+        "height": 10.2
+      }
     },
     "comments116": {
       "type": "text",
       "label": "comments",
       "page": 2,
       "box": {
-        "left": 124.7,
-        "top": 489.3,
-        "width": 10.2,
-        "height": 116.5
-      },
-      "multiline": true
+        "left": 372.8,
+        "top": 487.3,
+        "width": 116.5,
+        "height": 10.2
+      }
     },
     "comments117": {
       "type": "text",
       "label": "comments",
       "page": 2,
       "box": {
-        "left": 334.5,
-        "top": 489.3,
-        "width": 10.2,
-        "height": 116.5
-      },
-      "multiline": true
+        "left": 372.8,
+        "top": 277.5,
+        "width": 116.5,
+        "height": 10.2
+      }
     },
     "comments118": {
       "type": "text",
       "label": "comments",
       "page": 2,
       "box": {
-        "left": 504.7,
-        "top": 489.3,
-        "width": 10.2,
-        "height": 116.5
-      },
-      "multiline": true
+        "left": 372.8,
+        "top": 107.3,
+        "width": 116.5,
+        "height": 10.2
+      }
     },
     "comments119": {
       "type": "text",
       "label": "comments",
       "page": 2,
       "box": {
-        "left": 281.0,
-        "top": 489.2,
-        "width": 10.2,
-        "height": 116.5
-      },
-      "multiline": true
+        "left": 372.7,
+        "top": 331.0,
+        "width": 116.5,
+        "height": 10.2
+      }
     },
     "comments120": {
       "type": "text",
       "label": "comments",
       "page": 2,
       "box": {
-        "left": 164.9,
-        "top": 489.0,
-        "width": 10.2,
-        "height": 116.5
-      },
-      "multiline": true
+        "left": 372.5,
+        "top": 447.1,
+        "width": 116.5,
+        "height": 10.2
+      }
     },
     "r27": {
       "type": "checkbox",
       "label": "r27",
       "page": 2,
       "box": {
-        "left": 490.7,
-        "top": 369.7,
+        "left": 357.7,
+        "top": 121.3,
         "width": 12.0,
         "height": 12.0
       }
@@ -2688,8 +2627,8 @@
       "label": "r28",
       "page": 2,
       "box": {
-        "left": 504.2,
-        "top": 369.7,
+        "left": 357.7,
+        "top": 107.8,
         "width": 12.0,
         "height": 12.0
       }
@@ -2699,8 +2638,8 @@
       "label": "r18",
       "page": 2,
       "box": {
-        "left": 320.1,
-        "top": 369.4,
+        "left": 357.4,
+        "top": 291.9,
         "width": 12.0,
         "height": 12.0
       }
@@ -2710,8 +2649,8 @@
       "label": "r19",
       "page": 2,
       "box": {
-        "left": 333.7,
-        "top": 369.4,
+        "left": 357.4,
+        "top": 278.3,
         "width": 12.0,
         "height": 12.0
       }
@@ -2721,8 +2660,8 @@
       "label": "r20",
       "page": 2,
       "box": {
-        "left": 346.4,
-        "top": 369.4,
+        "left": 357.4,
+        "top": 265.6,
         "width": 12.0,
         "height": 12.0
       }
@@ -2732,8 +2671,8 @@
       "label": "r24",
       "page": 2,
       "box": {
-        "left": 412.1,
-        "top": 369.4,
+        "left": 357.4,
+        "top": 199.9,
         "width": 12.0,
         "height": 12.0
       }
@@ -2743,8 +2682,8 @@
       "label": "r25",
       "page": 2,
       "box": {
-        "left": 439.1,
-        "top": 369.4,
+        "left": 357.4,
+        "top": 172.9,
         "width": 12.0,
         "height": 12.0
       }
@@ -2754,8 +2693,8 @@
       "label": "r26",
       "page": 2,
       "box": {
-        "left": 451.9,
-        "top": 369.4,
+        "left": 357.4,
+        "top": 160.1,
         "width": 12.0,
         "height": 12.0
       }
@@ -2765,8 +2704,8 @@
       "label": "r2",
       "page": 2,
       "box": {
-        "left": 98.4,
-        "top": 369.2,
+        "left": 357.2,
+        "top": 513.6,
         "width": 12.0,
         "height": 12.0
       }
@@ -2776,8 +2715,8 @@
       "label": "r3",
       "page": 2,
       "box": {
-        "left": 111.2,
-        "top": 369.2,
+        "left": 357.2,
+        "top": 500.8,
         "width": 12.0,
         "height": 12.0
       }
@@ -2787,8 +2726,8 @@
       "label": "r4",
       "page": 2,
       "box": {
-        "left": 124.0,
-        "top": 369.2,
+        "left": 357.2,
+        "top": 488.0,
         "width": 12.0,
         "height": 12.0
       }
@@ -2798,8 +2737,8 @@
       "label": "r5",
       "page": 2,
       "box": {
-        "left": 136.7,
-        "top": 369.2,
+        "left": 357.2,
+        "top": 475.3,
         "width": 12.0,
         "height": 12.0
       }
@@ -2809,8 +2748,8 @@
       "label": "f10",
       "page": 2,
       "box": {
-        "left": 202.4,
-        "top": 369.2,
+        "left": 357.2,
+        "top": 409.6,
         "width": 12.0,
         "height": 12.0
       }
@@ -2820,8 +2759,8 @@
       "label": "r11",
       "page": 2,
       "box": {
-        "left": 215.2,
-        "top": 369.2,
+        "left": 357.2,
+        "top": 396.8,
         "width": 12.0,
         "height": 12.0
       }
@@ -2831,8 +2770,8 @@
       "label": "r12",
       "page": 2,
       "box": {
-        "left": 228.7,
-        "top": 369.2,
+        "left": 357.2,
+        "top": 383.3,
         "width": 12.0,
         "height": 12.0
       }
@@ -2842,8 +2781,8 @@
       "label": "r13",
       "page": 2,
       "box": {
-        "left": 241.4,
-        "top": 369.2,
+        "left": 357.2,
+        "top": 370.6,
         "width": 12.0,
         "height": 12.0
       }
@@ -2853,8 +2792,8 @@
       "label": "r21",
       "page": 2,
       "box": {
-        "left": 359.9,
-        "top": 369.2,
+        "left": 357.2,
+        "top": 252.1,
         "width": 12.0,
         "height": 12.0
       }
@@ -2864,8 +2803,8 @@
       "label": "r22",
       "page": 2,
       "box": {
-        "left": 372.6,
-        "top": 369.2,
+        "left": 357.2,
+        "top": 239.4,
         "width": 12.0,
         "height": 12.0
       }
@@ -2875,8 +2814,8 @@
       "label": "r26",
       "page": 2,
       "box": {
-        "left": 464.6,
-        "top": 369.2,
+        "left": 357.2,
+        "top": 147.4,
         "width": 12.0,
         "height": 12.0
       }
@@ -2886,8 +2825,8 @@
       "label": "r6",
       "page": 2,
       "box": {
-        "left": 163.7,
-        "top": 368.9,
+        "left": 356.9,
+        "top": 448.3,
         "width": 12.0,
         "height": 12.0
       }
@@ -2897,8 +2836,8 @@
       "label": "r14",
       "page": 2,
       "box": {
-        "left": 254.2,
-        "top": 368.9,
+        "left": 356.9,
+        "top": 357.8,
         "width": 12.0,
         "height": 12.0
       }
@@ -2908,8 +2847,8 @@
       "label": "r15",
       "page": 2,
       "box": {
-        "left": 267.6,
-        "top": 368.9,
+        "left": 356.9,
+        "top": 344.4,
         "width": 12.0,
         "height": 12.0
       }
@@ -2919,8 +2858,8 @@
       "label": "r16",
       "page": 2,
       "box": {
-        "left": 293.2,
-        "top": 368.9,
+        "left": 356.9,
+        "top": 318.8,
         "width": 12.0,
         "height": 12.0
       }
@@ -2930,8 +2869,8 @@
       "label": "r23",
       "page": 2,
       "box": {
-        "left": 385.2,
-        "top": 368.9,
+        "left": 356.9,
+        "top": 226.8,
         "width": 12.0,
         "height": 12.0
       }
@@ -2941,8 +2880,8 @@
       "label": "r1",
       "page": 2,
       "box": {
-        "left": 85.7,
-        "top": 368.7,
+        "left": 356.7,
+        "top": 526.3,
         "width": 12.0,
         "height": 12.0
       }
@@ -2952,8 +2891,8 @@
       "label": "r7",
       "page": 2,
       "box": {
-        "left": 176.9,
-        "top": 368.7,
+        "left": 356.7,
+        "top": 435.1,
         "width": 12.0,
         "height": 12.0
       }
@@ -2963,8 +2902,8 @@
       "label": "f9",
       "page": 2,
       "box": {
-        "left": 190.4,
-        "top": 368.7,
+        "left": 356.7,
+        "top": 421.6,
         "width": 12.0,
         "height": 12.0
       }
@@ -2974,8 +2913,8 @@
       "label": "r17",
       "page": 2,
       "box": {
-        "left": 306.7,
-        "top": 368.7,
+        "left": 356.7,
+        "top": 305.3,
         "width": 12.0,
         "height": 12.0
       }
@@ -2985,416 +2924,382 @@
       "label": "comments",
       "page": 2,
       "box": {
-        "left": 112.2,
-        "top": 352.7,
-        "width": 10.2,
-        "height": 116.5
-      },
-      "multiline": true
+        "left": 236.2,
+        "top": 499.8,
+        "width": 116.5,
+        "height": 10.2
+      }
     },
     "comments122": {
       "type": "text",
       "label": "comments",
       "page": 2,
       "box": {
-        "left": 203.3,
-        "top": 352.7,
-        "width": 10.2,
-        "height": 116.5
-      },
-      "multiline": true
+        "left": 236.2,
+        "top": 408.7,
+        "width": 116.5,
+        "height": 10.2
+      }
     },
     "comments123": {
       "type": "text",
       "label": "comments",
       "page": 2,
       "box": {
-        "left": 320.5,
-        "top": 352.7,
-        "width": 10.2,
-        "height": 116.5
-      },
-      "multiline": true
+        "left": 236.2,
+        "top": 291.5,
+        "width": 116.5,
+        "height": 10.2
+      }
     },
     "comments124": {
       "type": "text",
       "label": "comments",
       "page": 2,
       "box": {
-        "left": 373.2,
-        "top": 352.7,
-        "width": 10.2,
-        "height": 116.5
-      },
-      "multiline": true
+        "left": 236.2,
+        "top": 238.8,
+        "width": 116.5,
+        "height": 10.2
+      }
     },
     "comments125": {
       "type": "text",
       "label": "comments",
       "page": 2,
       "box": {
-        "left": 399.8,
-        "top": 352.7,
-        "width": 10.2,
-        "height": 116.5
-      },
-      "multiline": true
+        "left": 236.2,
+        "top": 212.2,
+        "width": 116.5,
+        "height": 10.2
+      }
     },
     "comments126": {
       "type": "text",
       "label": "comments",
       "page": 2,
       "box": {
-        "left": 413.0,
-        "top": 352.7,
-        "width": 10.2,
-        "height": 116.5
-      },
-      "multiline": true
+        "left": 236.2,
+        "top": 199.0,
+        "width": 116.5,
+        "height": 10.2
+      }
     },
     "comments127": {
       "type": "text",
       "label": "comments",
       "page": 2,
       "box": {
-        "left": 465.8,
-        "top": 352.7,
-        "width": 10.2,
-        "height": 116.5
-      },
-      "multiline": true
+        "left": 236.2,
+        "top": 146.2,
+        "width": 116.5,
+        "height": 10.2
+      }
     },
     "comments128": {
       "type": "text",
       "label": "comments",
       "page": 2,
       "box": {
-        "left": 491.7,
-        "top": 352.7,
-        "width": 10.2,
-        "height": 116.5
-      },
-      "multiline": true
+        "left": 236.2,
+        "top": 120.3,
+        "width": 116.5,
+        "height": 10.2
+      }
     },
     "comments129": {
       "type": "text",
       "label": "comments",
       "page": 2,
       "box": {
-        "left": 87.0,
-        "top": 352.5,
-        "width": 10.2,
-        "height": 116.5
-      },
-      "multiline": true
+        "left": 236.0,
+        "top": 525.0,
+        "width": 116.5,
+        "height": 10.2
+      }
     },
     "comments130": {
       "type": "text",
       "label": "comments",
       "page": 2,
       "box": {
-        "left": 137.5,
-        "top": 352.5,
-        "width": 10.2,
-        "height": 116.5
-      },
-      "multiline": true
+        "left": 236.0,
+        "top": 474.5,
+        "width": 116.5,
+        "height": 10.2
+      }
     },
     "comments131": {
       "type": "text",
       "label": "comments",
       "page": 2,
       "box": {
-        "left": 150.7,
-        "top": 352.5,
-        "width": 10.2,
-        "height": 116.5
-      },
-      "multiline": true
+        "left": 236.0,
+        "top": 461.3,
+        "width": 116.5,
+        "height": 10.2
+      }
     },
     "comments132": {
       "type": "text",
       "label": "comments",
       "page": 2,
       "box": {
-        "left": 229.3,
-        "top": 352.5,
-        "width": 10.2,
-        "height": 116.5
-      },
-      "multiline": true
+        "left": 236.0,
+        "top": 382.7,
+        "width": 116.5,
+        "height": 10.2
+      }
     },
     "comments133": {
       "type": "text",
       "label": "comments",
       "page": 2,
       "box": {
-        "left": 348.0,
-        "top": 352.5,
-        "width": 10.2,
-        "height": 116.5
-      },
-      "multiline": true
+        "left": 236.0,
+        "top": 264.0,
+        "width": 116.5,
+        "height": 10.2
+      }
     },
     "comments134": {
       "type": "text",
       "label": "comments",
       "page": 2,
       "box": {
-        "left": 439.8,
-        "top": 352.5,
-        "width": 10.2,
-        "height": 116.5
-      },
-      "multiline": true
+        "left": 236.0,
+        "top": 172.2,
+        "width": 116.5,
+        "height": 10.2
+      }
     },
     "comments135": {
       "type": "text",
       "label": "comments",
       "page": 2,
       "box": {
-        "left": 99.5,
-        "top": 352.4,
-        "width": 10.2,
-        "height": 116.5
-      },
-      "multiline": true
+        "left": 235.9,
+        "top": 512.5,
+        "width": 116.5,
+        "height": 10.2
+      }
     },
     "comments136": {
       "type": "text",
       "label": "comments",
       "page": 2,
       "box": {
-        "left": 294.5,
-        "top": 352.4,
-        "width": 10.2,
-        "height": 116.5
-      },
-      "multiline": true
+        "left": 235.9,
+        "top": 317.5,
+        "width": 116.5,
+        "height": 10.2
+      }
     },
     "comments137": {
       "type": "text",
       "label": "comments",
       "page": 2,
       "box": {
-        "left": 307.8,
-        "top": 352.4,
-        "width": 10.2,
-        "height": 116.5
-      },
-      "multiline": true
+        "left": 235.9,
+        "top": 304.2,
+        "width": 116.5,
+        "height": 10.2
+      }
     },
     "comments138": {
       "type": "text",
       "label": "comments",
       "page": 2,
       "box": {
-        "left": 361.2,
-        "top": 352.4,
-        "width": 10.2,
-        "height": 116.5
-      },
-      "multiline": true
+        "left": 235.9,
+        "top": 250.8,
+        "width": 116.5,
+        "height": 10.2
+      }
     },
     "comments139": {
       "type": "text",
       "label": "comments",
       "page": 2,
       "box": {
-        "left": 386.3,
-        "top": 352.4,
-        "width": 10.2,
-        "height": 116.5
-      },
-      "multiline": true
+        "left": 235.9,
+        "top": 225.7,
+        "width": 116.5,
+        "height": 10.2
+      }
     },
     "comments140": {
       "type": "text",
       "label": "comments",
       "page": 2,
       "box": {
-        "left": 74.2,
-        "top": 352.2,
-        "width": 10.2,
-        "height": 116.5
-      },
-      "multiline": true
+        "left": 235.7,
+        "top": 537.8,
+        "width": 116.5,
+        "height": 10.2
+      }
     },
     "comments141": {
       "type": "text",
       "label": "comments",
       "page": 2,
       "box": {
-        "left": 124.8,
-        "top": 352.2,
-        "width": 10.2,
-        "height": 116.5
-      },
-      "multiline": true
+        "left": 235.7,
+        "top": 487.2,
+        "width": 116.5,
+        "height": 10.2
+      }
     },
     "comments142": {
       "type": "text",
       "label": "comments",
       "page": 2,
       "box": {
-        "left": 281.1,
-        "top": 352.2,
-        "width": 10.2,
-        "height": 116.5
-      },
-      "multiline": true
+        "left": 235.7,
+        "top": 330.9,
+        "width": 116.5,
+        "height": 10.2
+      }
     },
     "comments143": {
       "type": "text",
       "label": "comments",
       "page": 2,
       "box": {
-        "left": 334.5,
-        "top": 352.2,
-        "width": 10.2,
-        "height": 116.5
-      },
-      "multiline": true
+        "left": 235.7,
+        "top": 277.5,
+        "width": 116.5,
+        "height": 10.2
+      }
     },
     "comments144": {
       "type": "text",
       "label": "comments",
       "page": 2,
       "box": {
-        "left": 504.8,
-        "top": 352.2,
-        "width": 10.2,
-        "height": 116.5
-      },
-      "multiline": true
+        "left": 235.7,
+        "top": 107.2,
+        "width": 116.5,
+        "height": 10.2
+      }
     },
     "comments145": {
       "type": "text",
       "label": "comments",
       "page": 2,
       "box": {
-        "left": 164.9,
-        "top": 352.0,
-        "width": 10.2,
-        "height": 116.5
-      },
-      "multiline": true
+        "left": 235.5,
+        "top": 447.1,
+        "width": 116.5,
+        "height": 10.2
+      }
     },
     "comments146": {
       "type": "text",
       "label": "comments",
       "page": 2,
       "box": {
-        "left": 178.0,
-        "top": 351.8,
-        "width": 10.2,
-        "height": 115.8
-      },
-      "multiline": true
+        "left": 236.0,
+        "top": 434.0,
+        "width": 115.8,
+        "height": 10.2
+      }
     },
     "comments147": {
       "type": "text",
       "label": "comments",
       "page": 2,
       "box": {
-        "left": 190.8,
-        "top": 351.8,
-        "width": 10.2,
-        "height": 115.5
-      },
-      "multiline": true
+        "left": 236.3,
+        "top": 421.2,
+        "width": 115.5,
+        "height": 10.2
+      }
     },
     "comments148": {
       "type": "text",
       "label": "comments",
       "page": 2,
       "box": {
-        "left": 242.0,
-        "top": 351.8,
-        "width": 10.2,
-        "height": 115.5
-      },
-      "multiline": true
+        "left": 236.3,
+        "top": 370.0,
+        "width": 115.5,
+        "height": 10.2
+      }
     },
     "comments149": {
       "type": "text",
       "label": "comments",
       "page": 2,
       "box": {
-        "left": 256.0,
-        "top": 351.8,
-        "width": 10.2,
-        "height": 115.5
-      },
-      "multiline": true
+        "left": 236.3,
+        "top": 356.0,
+        "width": 115.5,
+        "height": 10.2
+      }
     },
     "comments150": {
       "type": "text",
       "label": "comments",
       "page": 2,
       "box": {
-        "left": 426.5,
-        "top": 351.8,
-        "width": 10.2,
-        "height": 115.3
-      },
-      "multiline": true
+        "left": 236.5,
+        "top": 185.5,
+        "width": 115.3,
+        "height": 10.2
+      }
     },
     "comments151": {
       "type": "text",
       "label": "comments",
       "page": 2,
       "box": {
-        "left": 452.5,
-        "top": 351.8,
-        "width": 10.2,
-        "height": 115.5
-      },
-      "multiline": true
+        "left": 236.3,
+        "top": 159.5,
+        "width": 115.5,
+        "height": 10.2
+      }
     },
     "comments152": {
       "type": "text",
       "label": "comments",
       "page": 2,
       "box": {
-        "left": 478.5,
-        "top": 351.8,
-        "width": 10.2,
-        "height": 115.3
-      },
-      "multiline": true
+        "left": 236.5,
+        "top": 133.5,
+        "width": 115.3,
+        "height": 10.2
+      }
     },
     "comments153": {
       "type": "text",
       "label": "comments",
       "page": 2,
       "box": {
-        "left": 216.0,
-        "top": 351.4,
-        "width": 10.2,
-        "height": 114.9
-      },
-      "multiline": true
+        "left": 236.5,
+        "top": 396.0,
+        "width": 114.9,
+        "height": 10.2
+      }
     },
     "comments154": {
       "type": "text",
       "label": "comments",
       "page": 2,
       "box": {
-        "left": 268.0,
-        "top": 351.4,
-        "width": 10.2,
-        "height": 114.9
-      },
-      "multiline": true
+        "left": 236.5,
+        "top": 344.0,
+        "width": 114.9,
+        "height": 10.2
+      }
     },
     "l27": {
       "type": "checkbox",
       "label": "l27",
       "page": 2,
       "box": {
-        "left": 491.0,
-        "top": 233.9,
+        "left": 221.9,
+        "top": 121.0,
         "width": 12.0,
         "height": 12.0
       }
@@ -3404,8 +3309,8 @@
       "label": "l28",
       "page": 2,
       "box": {
-        "left": 504.5,
-        "top": 233.9,
+        "left": 221.9,
+        "top": 107.5,
         "width": 12.0,
         "height": 12.0
       }
@@ -3415,8 +3320,8 @@
       "label": "l17",
       "page": 2,
       "box": {
-        "left": 320.4,
-        "top": 233.7,
+        "left": 221.7,
+        "top": 291.6,
         "width": 12.0,
         "height": 12.0
       }
@@ -3426,8 +3331,8 @@
       "label": "l18",
       "page": 2,
       "box": {
-        "left": 334.0,
-        "top": 233.7,
+        "left": 221.7,
+        "top": 278.0,
         "width": 12.0,
         "height": 12.0
       }
@@ -3437,8 +3342,8 @@
       "label": "l19",
       "page": 2,
       "box": {
-        "left": 346.7,
-        "top": 233.7,
+        "left": 221.7,
+        "top": 265.3,
         "width": 12.0,
         "height": 12.0
       }
@@ -3448,8 +3353,8 @@
       "label": "l23",
       "page": 2,
       "box": {
-        "left": 412.4,
-        "top": 233.7,
+        "left": 221.7,
+        "top": 199.6,
         "width": 12.0,
         "height": 12.0
       }
@@ -3459,8 +3364,8 @@
       "label": "l24",
       "page": 2,
       "box": {
-        "left": 439.4,
-        "top": 233.7,
+        "left": 221.7,
+        "top": 172.6,
         "width": 12.0,
         "height": 12.0
       }
@@ -3470,8 +3375,8 @@
       "label": "l25",
       "page": 2,
       "box": {
-        "left": 452.2,
-        "top": 233.7,
+        "left": 221.7,
+        "top": 159.8,
         "width": 12.0,
         "height": 12.0
       }
@@ -3481,8 +3386,8 @@
       "label": "l3",
       "page": 2,
       "box": {
-        "left": 111.5,
-        "top": 233.5,
+        "left": 221.5,
+        "top": 500.5,
         "width": 12.0,
         "height": 12.0
       }
@@ -3492,8 +3397,8 @@
       "label": "l4",
       "page": 2,
       "box": {
-        "left": 124.3,
-        "top": 233.5,
+        "left": 221.5,
+        "top": 487.7,
         "width": 12.0,
         "height": 12.0
       }
@@ -3503,8 +3408,8 @@
       "label": "l5",
       "page": 2,
       "box": {
-        "left": 137.0,
-        "top": 233.5,
+        "left": 221.5,
+        "top": 475.0,
         "width": 12.0,
         "height": 12.0
       }
@@ -3514,8 +3419,8 @@
       "label": "l9",
       "page": 2,
       "box": {
-        "left": 202.7,
-        "top": 233.5,
+        "left": 221.5,
+        "top": 409.3,
         "width": 12.0,
         "height": 12.0
       }
@@ -3525,8 +3430,8 @@
       "label": "l10",
       "page": 2,
       "box": {
-        "left": 215.5,
-        "top": 233.5,
+        "left": 221.5,
+        "top": 396.5,
         "width": 12.0,
         "height": 12.0
       }
@@ -3536,8 +3441,8 @@
       "label": "l11",
       "page": 2,
       "box": {
-        "left": 229.0,
-        "top": 233.5,
+        "left": 221.5,
+        "top": 383.0,
         "width": 12.0,
         "height": 12.0
       }
@@ -3547,8 +3452,8 @@
       "label": "l12",
       "page": 2,
       "box": {
-        "left": 241.7,
-        "top": 233.5,
+        "left": 221.5,
+        "top": 370.3,
         "width": 12.0,
         "height": 12.0
       }
@@ -3558,8 +3463,8 @@
       "label": "l20",
       "page": 2,
       "box": {
-        "left": 360.2,
-        "top": 233.5,
+        "left": 221.5,
+        "top": 251.8,
         "width": 12.0,
         "height": 12.0
       }
@@ -3569,8 +3474,8 @@
       "label": "l21",
       "page": 2,
       "box": {
-        "left": 372.9,
-        "top": 233.5,
+        "left": 221.5,
+        "top": 239.1,
         "width": 12.0,
         "height": 12.0
       }
@@ -3580,8 +3485,8 @@
       "label": "l26",
       "page": 2,
       "box": {
-        "left": 464.9,
-        "top": 233.5,
+        "left": 221.5,
+        "top": 147.1,
         "width": 12.0,
         "height": 12.0
       }
@@ -3591,8 +3496,8 @@
       "label": "l1",
       "page": 2,
       "box": {
-        "left": 98.6,
-        "top": 233.3,
+        "left": 221.3,
+        "top": 513.4,
         "width": 12.0,
         "height": 12.0
       }
@@ -3602,8 +3507,8 @@
       "label": "l6",
       "page": 2,
       "box": {
-        "left": 164.0,
-        "top": 233.2,
+        "left": 221.2,
+        "top": 448.0,
         "width": 12.0,
         "height": 12.0
       }
@@ -3613,8 +3518,8 @@
       "label": "l13",
       "page": 2,
       "box": {
-        "left": 254.5,
-        "top": 233.2,
+        "left": 221.2,
+        "top": 357.5,
         "width": 12.0,
         "height": 12.0
       }
@@ -3624,8 +3529,8 @@
       "label": "l14",
       "page": 2,
       "box": {
-        "left": 267.9,
-        "top": 233.2,
+        "left": 221.2,
+        "top": 344.1,
         "width": 12.0,
         "height": 12.0
       }
@@ -3635,8 +3540,8 @@
       "label": "l15",
       "page": 2,
       "box": {
-        "left": 293.5,
-        "top": 233.2,
+        "left": 221.2,
+        "top": 318.5,
         "width": 12.0,
         "height": 12.0
       }
@@ -3646,8 +3551,8 @@
       "label": "l22",
       "page": 2,
       "box": {
-        "left": 385.5,
-        "top": 233.2,
+        "left": 221.2,
+        "top": 226.5,
         "width": 12.0,
         "height": 12.0
       }
@@ -3657,8 +3562,8 @@
       "label": "l16",
       "page": 2,
       "box": {
-        "left": 307.0,
-        "top": 233.0,
+        "left": 221.0,
+        "top": 305.0,
         "width": 12.0,
         "height": 12.0
       }
@@ -3668,8 +3573,8 @@
       "label": "l1",
       "page": 2,
       "box": {
-        "left": 86.0,
-        "top": 232.9,
+        "left": 220.9,
+        "top": 526.0,
         "width": 12.0,
         "height": 12.0
       }
@@ -3679,8 +3584,8 @@
       "label": "l7",
       "page": 2,
       "box": {
-        "left": 177.2,
-        "top": 232.9,
+        "left": 220.9,
+        "top": 434.8,
         "width": 12.0,
         "height": 12.0
       }
@@ -3690,8 +3595,8 @@
       "label": "l8",
       "page": 2,
       "box": {
-        "left": 190.7,
-        "top": 232.9,
+        "left": 220.9,
+        "top": 421.3,
         "width": 12.0,
         "height": 12.0
       }
@@ -3701,8 +3606,8 @@
       "label": "SideStrokeArmAction",
       "page": 2,
       "box": {
-        "left": 151.0,
-        "top": 83.4,
+        "left": 71.4,
+        "top": 461.0,
         "width": 12.0,
         "height": 12.0
       }
@@ -3712,8 +3617,8 @@
       "label": "SideStrokeLegAction",
       "page": 2,
       "box": {
-        "left": 281.1,
-        "top": 83.1,
+        "left": 71.1,
+        "top": 330.9,
         "width": 12.0,
         "height": 12.0
       }
@@ -3723,8 +3628,8 @@
       "label": "SideStrokeCoordination",
       "page": 2,
       "box": {
-        "left": 426.2,
-        "top": 83.1,
+        "left": 71.1,
+        "top": 185.8,
         "width": 12.0,
         "height": 12.0
       }
@@ -3734,8 +3639,8 @@
       "label": "SideStrokeSmooth",
       "page": 2,
       "box": {
-        "left": 478.0,
-        "top": 83.1,
+        "left": 71.1,
+        "top": 134.0,
         "width": 12.0,
         "height": 12.0
       }
@@ -3745,8 +3650,8 @@
       "label": "SideStrokeBreathing",
       "page": 2,
       "box": {
-        "left": 399.7,
-        "top": 82.8,
+        "left": 70.8,
+        "top": 212.3,
         "width": 12.0,
         "height": 12.0
       }
@@ -3756,8 +3661,8 @@
       "label": "SideStrokeBodyPosition",
       "page": 2,
       "box": {
-        "left": 73.2,
-        "top": 82.7,
+        "left": 70.7,
+        "top": 538.8,
         "width": 12.0,
         "height": 12.0
       }

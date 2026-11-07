@@ -560,11 +560,12 @@
       "label": "INCIDENT",
       "page": 1,
       "box": {
-        "left": 668.6,
-        "top": 750.5,
-        "width": 126.6,
-        "height": 9.9
-      }
+        "left": 583.0,
+        "top": 679.7,
+        "width": 9.9,
+        "height": 126.6
+      },
+      "rotation": 270
     },
     "radio": {
       "type": "radio",
@@ -1882,11 +1883,12 @@
       "label": "Force No Force # of Premises Entered INCIDENT",
       "page": 2,
       "box": {
-        "left": 668.6,
-        "top": 750.5,
-        "width": 126.6,
-        "height": 9.9
-      }
+        "left": 583.0,
+        "top": 679.7,
+        "width": 9.9,
+        "height": 126.6
+      },
+      "rotation": 270
     },
     "radio38": {
       "type": "radio",
@@ -3771,11 +3773,12 @@
       "label": "INCIDENT",
       "page": 3,
       "box": {
-        "left": 668.6,
-        "top": 750.5,
-        "width": 126.6,
-        "height": 9.9
-      }
+        "left": 583.0,
+        "top": 679.7,
+        "width": 9.9,
+        "height": 126.6
+      },
+      "rotation": 270
     },
     "indivi": {
       "type": "checkbox",
@@ -6100,11 +6103,12 @@
       "label": "INCIDENT",
       "page": 4,
       "box": {
-        "left": 668.6,
-        "top": 750.5,
-        "width": 126.6,
-        "height": 9.9
-      }
+        "left": 583.0,
+        "top": 679.7,
+        "width": 9.9,
+        "height": 126.6
+      },
+      "rotation": 270
     },
     "radio159": {
       "type": "radio",

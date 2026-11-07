@@ -9,20 +9,23 @@
     "DRAFT \u2014 harvested by scripts/harvest-fields.py; review the overlay PNGs,",
     "rename keys to semantic names, then promote to boxes.json.",
     "Coordinates are in PDF points (72 points = 1 inch)",
-    "Origin is at bottom-left of page; top is the Y of the box's TOP edge"
+    "Origin is at bottom-left of page; top is the Y of the box's TOP edge",
+    "Geometry repair: the four incidentNumber margin widgets belong beside the printed vertical INCIDENT NUMBER rule on each page, not beyond the right edge.",
+    "Use page-space boxes left=583, top=679.7, width=9.9, height=126.6 and rotation=270. Preserve the separate horizontal incidentNumber2 header field on page 1."
   ],
   "pages": {
     "page1": {
       "incidentNumber": {
-        "left": 668.6,
-        "top": 750.5,
-        "width": 126.6,
-        "height": 9.9,
+        "left": 583.0,
+        "top": 679.7,
+        "width": 9.9,
+        "height": 126.6,
         "type": "text",
         "description": "INCIDENT",
         "options": null,
         "group": null,
-        "required": false
+        "required": false,
+        "rotation": 270
       },
       "radio": {
         "left": 490.4,
@@ -1709,15 +1712,16 @@
         "required": false
       },
       "incidentNumber3": {
-        "left": 668.6,
-        "top": 750.5,
-        "width": 126.6,
-        "height": 9.9,
+        "left": 583.0,
+        "top": 679.7,
+        "width": 9.9,
+        "height": 126.6,
         "type": "text",
         "description": "Force No Force # of Premises Entered INCIDENT",
         "options": null,
         "group": null,
-        "required": false
+        "required": false,
+        "rotation": 270
       },
       "radio38": {
         "left": 480.5,
@@ -4117,15 +4121,16 @@
     },
     "page3": {
       "incidentNumber4": {
-        "left": 668.6,
-        "top": 750.5,
-        "width": 126.6,
-        "height": 9.9,
+        "left": 583.0,
+        "top": 679.7,
+        "width": 9.9,
+        "height": 126.6,
         "type": "text",
         "description": "INCIDENT",
         "options": null,
         "group": null,
-        "required": false
+        "required": false,
+        "rotation": 270
       },
       "indivi": {
         "left": 37.8,
@@ -7479,15 +7484,16 @@
     },
     "page4": {
       "incidentNumber5": {
-        "left": 668.6,
-        "top": 750.5,
-        "width": 126.6,
-        "height": 9.9,
+        "left": 583.0,
+        "top": 679.7,
+        "width": 9.9,
+        "height": 126.6,
         "type": "text",
         "description": "INCIDENT",
         "options": null,
         "group": null,
-        "required": false
+        "required": false,
+        "rotation": 270
       },
       "radio159": {
         "left": 62.2,
