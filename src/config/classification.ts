@@ -39,7 +39,7 @@ async function loadRuntimePolicy(retry: boolean): Promise<void> {
   runtime = { status: 'loading' };
   loading = (async () => {
     try {
-      const response = await fetch('/classification.config.json');
+      const response = await fetch('/classification.config.json?deployment-policy=runtime', { cache: 'no-cache' });
       if (response.status === 404) runtime = { status: 'absent' };
       else if (!response.ok) runtime = { status: 'failed' };
       else {

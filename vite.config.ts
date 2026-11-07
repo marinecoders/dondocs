@@ -345,6 +345,19 @@ export default defineConfig({
         // Cache TeX Live files for offline use
         runtimeCaching: [
           {
+            // The query bypasses the precache route so a runtime policy update
+            // is observed without rebuilding. Offline installs retain the
+            // explicit build policy until a runtime response has been cached.
+            urlPattern: ({ url }) => url.pathname === '/classification.config.json' && url.searchParams.get('deployment-policy') === 'runtime',
+            handler: 'NetworkFirst',
+            options: {
+              cacheName: 'deployment-policy-v1',
+              fetchOptions: { cache: 'no-cache' },
+              cacheableResponse: { statuses: [200, 404] },
+              precacheFallback: { fallbackURL: '/classification.config.json' },
+            },
+          },
+          {
             // Engine core files at lib/ root (latex-templates.js,
             // swiftlatexpdftex.js/.wasm, pdf.worker*.mjs) — no longer
             // precached (SW-1), so cache on first use for offline reuse.

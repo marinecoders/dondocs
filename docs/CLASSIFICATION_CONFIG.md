@@ -100,7 +100,7 @@ Replace the default `null` in `public/classification.config.json` with an overri
 **Allow all levels (IC deployment):**
 ```json
 {
-  "maxLevel": "top_secret",
+  "maxLevel": "top_secret_sci",
   "allowedLevels": ["unclassified", "cui", "confidential", "secret", "top_secret", "top_secret_sci"],
   "overrideMessage": "Intelligence Community deployment - All classification levels are allowed."
 }
@@ -192,7 +192,7 @@ For a self-hosted deployment on `secure.example.mil`:
 
 1. **Create config file:**
    ```bash
-   cp public/classification.config.json.example public/classification.config.json
+   printf 'null\n' > public/classification.config.json
    ```
 
 2. **Edit the config:**
