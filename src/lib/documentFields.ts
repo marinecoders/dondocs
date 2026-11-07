@@ -66,7 +66,7 @@ function active(source: DocumentFieldSource, path: FieldPath, projection: FieldP
     if (root === 'docType' || root === 'formType' || root === 'documentCategory') return true;
     if (source.genericForm) return root === 'genericForm';
     if (root !== 'forms') return false;
-    return path.length < 2 || path[1] === (source.formType === 'navmc_118_11' ? 'navmc11811' : 'navmc10274');
+    return path.length < 2 || path[1] === 'includeCoverPage' || path[1] === (source.formType === 'navmc_118_11' ? 'navmc11811' : 'navmc10274');
   }
   if (root === 'forms' || root === 'genericForm') return false;
   const config = owns(DOC_TYPE_CONFIG, source.docType) ? DOC_TYPE_CONFIG[source.docType] : undefined;
@@ -265,4 +265,36 @@ export function mapCapturedText(captured: CapturedDocument, transform: (field: D
   const owned = copyCapturedDocument(captured).document;
   replaceText(owned, documentTextFields(owned, 'substitution'), transform);
   return captureDocumentRevision(captured.source, owned);
+}
+
+/** Own an output model selected by the same policy used for field inspection.
+ * Unknown legacy fields remain in the captured draft, outside render inputs.
+ */
+export function projectCapturedOutput(captured: CapturedDocument): CapturedDocument {
+  const owned = copyCapturedDocument(captured).document;
+  const project = (value: unknown, rule: FieldRule, path: FieldPath): unknown => {
+    if (value === undefined || path.length > 0 && !active(owned, path, 'output')) return undefined;
+    if (value === null || typeof rule === 'string') return value;
+    if ('items' in rule) {
+      if (!Array.isArray(value)) throw new Error('Invalid output array.');
+      return value.map((child, index) => project(child, rule.items, [...path, index])).filter(child => child !== undefined);
+    }
+    const data = record(value);
+    if (!data) throw new Error('Invalid output object.');
+    if ('entries' in rule) return Object.fromEntries(Object.entries(data).map(([key, child]) => [key, project(child, rule.entries, [...path, key])]));
+    const policies = 'fields' in rule ? rule.fields : typeof data.kind === 'string' && owns(rule.variants, data.kind) ? rule.variants[data.kind] : undefined;
+    if (!policies) throw new Error('Invalid output variant.');
+    return Object.fromEntries(Object.entries(data).flatMap(([key, child]) => {
+      if (!owns(policies, key)) return [];
+      const selected = project(child, policies[key], [...path, key]);
+      return selected === undefined ? [] : [[key, selected]];
+    }));
+  };
+  const selected = project(owned, { fields: DOCUMENT_FIELD_POLICIES }, []) as Partial<typeof owned>;
+  return captureDocumentRevision(captured.source, {
+    ...selected, docType: owned.docType, documentMode: owned.documentMode, documentCategory: owned.documentCategory, formType: owned.formType,
+    formData: selected.formData ?? {}, references: selected.references ?? [], enclosures: selected.enclosures ?? [],
+    paragraphs: selected.paragraphs ?? [], copyTos: selected.copyTos ?? [], distributions: selected.distributions ?? [],
+    endItems: selected.endItems ?? [], publicationTables: selected.publicationTables ?? {},
+  });
 }
