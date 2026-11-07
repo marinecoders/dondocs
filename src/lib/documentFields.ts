@@ -276,6 +276,15 @@ export function projectCapturedOutput(captured: CapturedDocument): CapturedDocum
   const owned = copyCapturedDocument(captured).document;
   const project = (value: unknown, rule: FieldRule, path: FieldPath): unknown => {
     if (value === undefined || path.length > 0 && !active(owned, path, 'output')) return undefined;
+    if (rule === 'form') {
+      const form = parseFormInstance(value);
+      const selectAnswers = (answers: FormInstance['answers'], fields: Record<string, AnswerField>) => Object.fromEntries(Object.entries(answers).filter(([key]) => owns(fields, key)));
+      return { ...form, answers: selectAnswers(form.answers, form.definition.fields),
+        rows: Object.fromEntries(Object.entries(form.rows).filter(([group]) => owns(form.definition.rowGroups, group)).map(([group, rows]) => [group,
+          rows.map(row => ({ ...row, answers: selectAnswers(row.answers, form.definition.rowGroups[group].columns) })),
+        ])),
+      };
+    }
     if (value === null || typeof rule === 'string') return value;
     if ('items' in rule) {
       if (!Array.isArray(value)) throw new Error('Invalid output array.');
