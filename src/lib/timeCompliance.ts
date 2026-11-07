@@ -8,8 +8,8 @@ export interface TimeComplianceFinding {
   message: string;
 }
 
-export function publicationDate(date: string): Date {
-  return parse(date.trim(), 'd MMM yy', new Date());
+export function publicationDate(date: string, referenceDate = new Date()): Date {
+  return parse(date.trim(), 'd MMM yy', referenceDate);
 }
 
 /** MIL-DTL-28999D 3.3.2.4: completion must precede the calendar-year anniversary. */

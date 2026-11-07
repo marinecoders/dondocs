@@ -11,7 +11,7 @@ export function sl3ExportErrors(store: {
   formData: Partial<DocumentData>;
   paragraphs: Paragraph[];
   endItems?: EndItem[];
-}): string[] {
+}, referenceDate = new Date()): string[] {
   if (store.docType !== 'sl3') return [];
   const d = store.formData;
   const parsed = sl3Schema.safeParse(d.sl3 ?? {});
@@ -20,7 +20,7 @@ export function sl3ExportErrors(store: {
       'The SL-3 inventory data is invalid. Restore a valid draft before export.',
     ];
   const data = parsed.data;
-  const errors = stockPublicationErrors(store, 'sl3', sl3Portions(data));
+  const errors = stockPublicationErrors(store, 'sl3', sl3Portions(data), referenceDate);
   if (unfilled(data.technicalData))
     errors.push('Enter the end item technical data.');
   if (unfilled(data.sourceManual))
