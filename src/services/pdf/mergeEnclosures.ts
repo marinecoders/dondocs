@@ -66,9 +66,6 @@ const PAGE_WIDTH = 612;
 const PAGE_HEIGHT = 792;
 const MARGIN = 72; // 1 inch margins
 
-// Track which page each enclosure starts on (enclosure number -> page index)
-const enclosurePageMap: Map<number, number> = new Map();
-
 /**
  * Represents a found text position in the PDF
  */
@@ -98,7 +95,7 @@ interface ReferencePosition {
 /**
  * Records that an enclosure starts on a given page index.
  */
-function recordEnclosurePage(enclosureNumber: number, pageIndex: number): void {
+function recordEnclosurePage(enclosurePageMap: Map<number, number>, enclosureNumber: number, pageIndex: number): void {
   // Only record the first page for each enclosure
   if (!enclosurePageMap.has(enclosureNumber)) {
     enclosurePageMap.set(enclosureNumber, pageIndex);
@@ -479,7 +476,7 @@ function parseContentStreamForEnclosures(bytes: Uint8Array, pageIdx: number): Te
  * Creates link annotations at the specified text positions.
  * These annotations will link to the corresponding enclosure pages.
  */
-function createLinkAnnotations(pdfDoc: PDFDocument, positions: TextPosition[]): void {
+function createLinkAnnotations(pdfDoc: PDFDocument, positions: TextPosition[], enclosurePageMap: ReadonlyMap<number, number>): void {
   if (positions.length === 0 || enclosurePageMap.size === 0) {
     debug.log('Hyperlinks', 'No positions or enclosure pages to link');
     return;
@@ -572,7 +569,7 @@ function createLinkAnnotations(pdfDoc: PDFDocument, positions: TextPosition[]): 
  * by JavaScript. We need to manually create the named destinations that
  * the \hyperlink commands expect to find.
  */
-function createNamedDestinations(pdfDoc: PDFDocument): void {
+function createNamedDestinations(pdfDoc: PDFDocument, enclosurePageMap: ReadonlyMap<number, number>): void {
   if (enclosurePageMap.size === 0) {
     debug.log('Hyperlinks', 'No enclosures to create destinations for');
     return;
@@ -1128,6 +1125,7 @@ export async function mergeEnclosures(
   referenceUrls: ReferenceUrlData[] = [],
   options: MergeOptions = {}
 ): Promise<MergeResult> {
+  const enclosurePageMap = new Map<number, number>();
   const labelStyle: EnclosureLabelStyle = options.enclosureLabel ?? 'corner';
   debug.log('MergeEnclosures', 'Called with', enclosures.length, 'enclosures, hyperlinks:', includeHyperlinks, 'references:', referenceUrls.length);
 
@@ -1137,9 +1135,6 @@ export async function mergeEnclosures(
   if (enclosures.length === 0 && (!includeHyperlinks || referenceUrls.length === 0)) {
     return { pdfBytes: mainPdfBytes, errors: [], hasErrors: false };
   }
-
-  // Clear enclosure page map for fresh run
-  enclosurePageMap.clear();
 
   // Load the main document
   const mainPdf = await PDFDocument.load(mainPdfBytes);
@@ -1158,7 +1153,7 @@ export async function mergeEnclosures(
       }
       // Add optional cover/placeholder page before the enclosure content
       if (enclosure.hasCoverPage) {
-        addCoverPage(mainPdf, enclosure, helveticaBold, helvetica, classification, labelStyle, options.header);
+        addCoverPage(mainPdf, enclosurePageMap, enclosure, helveticaBold, helvetica, classification, labelStyle, options.header);
       }
 
       if (enclosure.data) {
@@ -1174,13 +1169,13 @@ export async function mergeEnclosures(
             error: validationError ?? 'Unknown validation error'
           });
           // Create an error placeholder page
-          addPlaceholderPage(mainPdf, enclosure, helveticaBold, helvetica, true, classification, validationError ?? 'Unknown validation error', labelStyle, options.header);
+          addPlaceholderPage(mainPdf, enclosurePageMap, enclosure, helveticaBold, helvetica, true, classification, validationError ?? 'Unknown validation error', labelStyle, options.header);
           continue;
         }
 
         // PDF enclosure — pass the already-loaded PDFDocument so we don't
         // re-parse the same bytes.
-        const result = await addPdfEnclosure(mainPdf, enclosure, enclosurePdf, helveticaBold, helvetica, classification, labelStyle, options.header);
+        const result = await addPdfEnclosure(mainPdf, enclosurePageMap, enclosure, enclosurePdf, helveticaBold, helvetica, classification, labelStyle, options.header);
         if (result.error) {
           errors.push(result.error);
         }
@@ -1197,7 +1192,7 @@ export async function mergeEnclosures(
       });
       // Create an error placeholder page only if there was supposed to be PDF content
       if (enclosure.data) {
-        addPlaceholderPage(mainPdf, enclosure, helveticaBold, helvetica, true, classification, errorMessage, labelStyle, options.header);
+        addPlaceholderPage(mainPdf, enclosurePageMap, enclosure, helveticaBold, helvetica, true, classification, errorMessage, labelStyle, options.header);
       }
     }
   }
@@ -1214,13 +1209,13 @@ export async function mergeEnclosures(
   // We create these destinations pointing to the first page of each enclosure
   if (includeHyperlinks && enclosurePageMap.size > 0) {
     debug.log('MergeEnclosures', 'Creating named destinations for hyperlinks...');
-    createNamedDestinations(mainPdf);
+    createNamedDestinations(mainPdf, enclosurePageMap);
 
     // Also create link annotations as a fallback for viewers that don't support named destinations
     // (This finds blue digit text and creates clickable regions)
     debug.log('MergeEnclosures', 'Creating link annotations as fallback...');
     const positions = findEnclosureReferences(mainPdf, mainPageCount);
-    createLinkAnnotations(mainPdf, positions);
+    createLinkAnnotations(mainPdf, positions, enclosurePageMap);
   }
 
   // Create URI link annotations for reference hyperlinks
@@ -1231,9 +1226,6 @@ export async function mergeEnclosures(
     const refPositions = findReferenceLinks(mainPdf, mainPageCount, referenceUrls);
     createUriLinkAnnotations(mainPdf, refPositions);
   }
-
-  // Clear for next use
-  enclosurePageMap.clear();
 
   const pdfBytes = await mainPdf.save();
 
@@ -1262,6 +1254,7 @@ interface AddEnclosureResult {
  */
 async function addPdfEnclosure(
   mainPdf: PDFDocument,
+  enclosurePageMap: Map<number, number>,
   enclosure: EnclosureData,
   enclosurePdf: PDFDocument,
   helveticaBold: Awaited<ReturnType<typeof mainPdf.embedFont>>,
@@ -1320,7 +1313,7 @@ async function addPdfEnclosure(
 
       // Record first page for hyperlink navigation
       if (pagesAdded === 0 && !enclosure.hasCoverPage) {
-        recordEnclosurePage(enclosure.number, mainPdf.getPageCount() - 1);
+        recordEnclosurePage(enclosurePageMap, enclosure.number, mainPdf.getPageCount() - 1);
       }
 
       if (classification?.marking) {
@@ -1416,7 +1409,7 @@ async function addPdfEnclosure(
   // If all pages failed, create a placeholder page
   if (pagesAdded === 0 && pagesFailed > 0) {
     const errorMessage = failedPageErrors.join('; ');
-    addPlaceholderPage(mainPdf, enclosure, helveticaBold, helvetica, true, classification, errorMessage, labelStyle, header);
+    addPlaceholderPage(mainPdf, enclosurePageMap, enclosure, helveticaBold, helvetica, true, classification, errorMessage, labelStyle, header);
 
     return {
       pagesAdded: 0,
@@ -1519,6 +1512,7 @@ function calculatePageLayout(
  */
 function addPlaceholderPage(
   mainPdf: PDFDocument,
+  enclosurePageMap: Map<number, number>,
   enclosure: EnclosureData,
   helveticaBold: Awaited<ReturnType<typeof mainPdf.embedFont>>,
   helvetica: Awaited<ReturnType<typeof mainPdf.embedFont>>,
@@ -1531,7 +1525,7 @@ function addPlaceholderPage(
   const page = mainPdf.addPage([PAGE_WIDTH, PAGE_HEIGHT]);
 
   // Record page for hyperlink navigation
-  recordEnclosurePage(enclosure.number, mainPdf.getPageCount() - 1);
+  recordEnclosurePage(enclosurePageMap, enclosure.number, mainPdf.getPageCount() - 1);
 
   // Add classification marking at top
   if (classification?.marking) {
@@ -1634,6 +1628,7 @@ function addPlaceholderPage(
  */
 function addCoverPage(
   mainPdf: PDFDocument,
+  enclosurePageMap: Map<number, number>,
   enclosure: EnclosureData,
   helveticaBold: Awaited<ReturnType<typeof mainPdf.embedFont>>,
   helvetica: Awaited<ReturnType<typeof mainPdf.embedFont>>,
@@ -1644,7 +1639,7 @@ function addCoverPage(
   const page = mainPdf.addPage([PAGE_WIDTH, PAGE_HEIGHT]);
 
   // Record cover page as the hyperlink target for this enclosure
-  recordEnclosurePage(enclosure.number, mainPdf.getPageCount() - 1);
+  recordEnclosurePage(enclosurePageMap, enclosure.number, mainPdf.getPageCount() - 1);
 
   // Add classification marking at top
   if (classification?.marking) {

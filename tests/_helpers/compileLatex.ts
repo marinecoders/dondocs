@@ -158,6 +158,10 @@ function runPdflatex(cwd: string, mainFile: string): Promise<{
  */
 export async function compileFixture(store: TestStore, extraFiles: Record<string, Uint8Array> = {}): Promise<CompileResult> {
   const { texFiles } = generateAllLatexFiles(store);
+  return compileGeneratedFixture(texFiles, extraFiles, store.docType);
+}
+
+export async function compileGeneratedFixture(texFiles: Record<string, string>, extraFiles: Record<string, Uint8Array> = {}, docType = 'naval_letter'): Promise<CompileResult> {
   const templates = await loadTemplates();
 
   const workDir = await mkdtemp(join(tmpdir(), 'dondocs-compile-'));
@@ -209,7 +213,7 @@ export async function compileFixture(store: TestStore, extraFiles: Record<string
   // override them.
 
   let { exitCode, log } = await runPdflatex(workDir, 'main.tex');
-  if (exitCode === 0 && ['sl3', 'sl4'].includes(store.docType)) {
+  if (exitCode === 0 && ['sl3', 'sl4'].includes(docType)) {
     ({ exitCode, log } = await runPdflatex(workDir, 'main.tex'));
   }
   const ok = exitCode === 0;
