@@ -68,7 +68,7 @@ steps:
 
 ## Method 2: Config File (Runtime)
 
-Create a `classification.config.json` file in the `public/` directory:
+Replace the default `null` in `public/classification.config.json` with an override:
 
 ```json
 {
@@ -100,7 +100,7 @@ Create a `classification.config.json` file in the `public/` directory:
 **Allow all levels (IC deployment):**
 ```json
 {
-  "maxLevel": "top_secret",
+  "maxLevel": "top_secret_sci",
   "allowedLevels": ["unclassified", "cui", "confidential", "secret", "top_secret", "top_secret_sci"],
   "overrideMessage": "Intelligence Community deployment - All classification levels are allowed."
 }
@@ -136,11 +136,22 @@ Configuration is checked in this order:
 2. **Config file** (`public/classification.config.json`)
    - Loaded at runtime
    - Can be updated without rebuilding
-   - Only used if environment variables are not set
+   - Used when no environment override matches the current hostname
 
 3. **Domain detection** (default)
    - Automatic detection based on current domain
    - Used if no overrides are configured
+
+Overrides apply to an exact `overrideDomain` hostname. Set `includeSubdomains: true`
+in the JSON file, or `VITE_CLASSIFICATION_INCLUDE_SUBDOMAINS=true` at build time,
+to include its subdomains. Hostnames are normalized for case and a trailing dot;
+substring matches and URLs are rejected. Matching environment overrides precede
+matching runtime overrides, then domain defaults apply.
+
+The shipped `null` file explicitly selects domain defaults and is precached for
+offline use. Missing files (404) also select defaults. Failed or malformed policy
+loads produce an export error until successfully retried. These settings configure
+this client; they do not establish deployment accreditation.
 
 ## Security Considerations
 
@@ -181,7 +192,7 @@ For a self-hosted deployment on `secure.example.mil`:
 
 1. **Create config file:**
    ```bash
-   cp public/classification.config.json.example public/classification.config.json
+   printf 'null\n' > public/classification.config.json
    ```
 
 2. **Edit the config:**
