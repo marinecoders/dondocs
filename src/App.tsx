@@ -228,7 +228,7 @@ function App() {
   // failed; drives the modal and the Header's "Generating…" menu state.
   const [downloadProgress, setDownloadProgress] = useState<DownloadProgressPhase | null>(null);
   const [exportGate] = useState(createExportGate);
-  const preparedExports = usePreparedExports({ gate: exportGate, compile, waitForReady, setProgress: setDownloadProgress });
+  const preparedExports = usePreparedExports({ isReady, gate: exportGate, compile, waitForReady, setProgress: setDownloadProgress });
   const { request: requestExport, retry: retryExport } = preparedExports;
   const compileTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const formCompileTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);

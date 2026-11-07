@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState, useSyncExternalStore, type Dispatch, type SetStateAction } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, useSyncExternalStore, type Dispatch, type SetStateAction } from 'react';
 import { createExportController, type ExportGate } from '@/lib/exportController';
 import { copyExportReview, type ExportTarget } from '@/lib/preparedExport';
 import { captureCurrentDocumentRevision } from '@/stores/captureDocument';
@@ -12,7 +12,10 @@ import { useUIStore } from '@/stores/uiStore';
 import { useOnboardingStore } from '@/stores/onboardingStore';
 import { docxPhaseToDownloadPhase, type DownloadProgressPhase } from '@/components/modals/downloadProgressTypes';
 
+const ENGINE_STARTING = 'The LaTeX engine is still starting. Retry this export when it is ready.';
+
 interface PreparedExportOptions {
+  isReady: boolean;
   gate: ExportGate;
   compile(files: Record<string, string | Uint8Array>): Promise<Uint8Array | null>;
   waitForReady(timeoutMs?: number): Promise<boolean>;
@@ -20,7 +23,9 @@ interface PreparedExportOptions {
 }
 
 /** React owns presentation. The controller owns the request and approval. */
-export function usePreparedExports({ gate, compile, waitForReady, setProgress }: PreparedExportOptions) {
+export function usePreparedExports({ isReady, gate, compile, waitForReady, setProgress }: PreparedExportOptions) {
+  const engineReady = useRef(isReady);
+  useLayoutEffect(() => { engineReady.current = isReady; }, [isReady]);
   const [owner] = useState(() => {
     let viewActive = true;
     let timer: ReturnType<typeof setTimeout> | undefined;
@@ -32,7 +37,8 @@ export function usePreparedExports({ gate, compile, waitForReady, setProgress }:
         let active = true;
         const progress = (phase: DownloadProgressPhase) => { if (viewActive && active && !signal.aborted) setProgress(phase); };
         try {
-          if (ready.job.target === 'pdf' && !await waitForReady(30_000)) throw new Error('The LaTeX engine is still starting. Retry this export when it is ready.');
+          if (ready.job.target === 'pdf' && !engineReady.current) throw new Error(ENGINE_STARTING);
+          if (ready.job.target === 'pdf' && !await waitForReady(30_000)) throw new Error(ENGINE_STARTING);
           const render = () => renderPreparedCorrespondence(ready, {
             compile, convertDocx: convertLatexToDocx,
             onProgress: kind => progress({ kind }),
@@ -53,7 +59,7 @@ export function usePreparedExports({ gate, compile, waitForReady, setProgress }:
         useUIStore.getState().setStructureWarningOpen(state.phase === 'review' && state.stage === 'structure');
         if (state.phase === 'preparing') setProgress({ kind: state.target === 'docx' ? 'docx-preparing' : state.target === 'tex' ? 'tex-preparing' : 'pdf-preparing' });
         else if (state.phase === 'review' || state.phase === 'idle') setProgress(null);
-        else if (state.phase === 'error') setProgress({ kind: 'error', target: state.target, title: 'Export failed', message: state.message, retryable: state.retryable, reportable: true });
+        else if (state.phase === 'error') setProgress({ kind: 'error', target: state.target, title: state.message === ENGINE_STARTING ? 'Engine still starting up' : `${state.target.toUpperCase()} download failed`, message: state.message, retryable: state.retryable, reportable: true });
         else if (state.phase === 'executing') {
           if ((state.execution.status === 'queued' || state.execution.status === 'running') && state.execution.cancellationRequested) setProgress({ kind: 'cancelling' });
           else if (state.execution.status === 'queued') setProgress({ kind: state.job.target === 'docx' ? 'docx-preparing' : state.job.target === 'tex' ? 'tex-preparing' : 'pdf-preparing' });
