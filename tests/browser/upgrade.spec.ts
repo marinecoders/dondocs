@@ -11,7 +11,8 @@ let server: Server;
 let origin: string;
 let root: string;
 let workerRevision = '';
-test.beforeEach(() => { workerRevision = ''; });
+let runtimePolicy: string | undefined;
+test.beforeEach(() => { workerRevision = '';runtimePolicy = undefined; });
 const oldBuild = process.env.UPGRADE_OLD_BUILD;
 const newBuild = resolve('dist');
 const mime: Record<string, string> = { '.html': 'text/html', '.js': 'text/javascript', '.mjs': 'text/javascript', '.css': 'text/css', '.json': 'application/json', '.svg': 'image/svg+xml', '.wasm': 'application/wasm', '.pdf': 'application/pdf' };
@@ -22,6 +23,7 @@ test.beforeAll(async () => {
     try {
       const pathname = decodeURIComponent(new URL(req.url!, 'http://localhost').pathname);
       if (pathname === '/holding.html') { res.writeHead(200, { 'Content-Type': 'text/html' }).end('<!doctype html><title>Worker control</title>'); return; }
+      if (pathname === '/classification.config.json' && runtimePolicy !== undefined) { res.writeHead(200, { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' }).end(runtimePolicy);return; }
       const file = resolve(root, `.${pathname === '/' ? '/index.html' : pathname}`);
       if (!file.startsWith(root + sep)) { res.writeHead(403).end(); return; }
       const bytes = await readFile(file);
@@ -385,4 +387,25 @@ test('waits for slow storage initialization before accepting edits', async ({ pa
   await expect(async () => expect(JSON.stringify((await readSaved(page)).documents)).toContain('EDIT AFTER INITIALIZATION')).toPass({ timeout: 15_000 });
   await page.reload();
   await expect(page.locator('#subject:visible, #body-subject:visible')).toHaveValue('EDIT AFTER INITIALIZATION');
+});
+
+
+test('runtime deployment policy refreshes without a rebuild and remains available offline', async ({ page, context }) => {
+  root = newBuild;
+  runtimePolicy = 'null';
+  await page.goto(`${origin}/holding.html`);
+  await page.evaluate(async () => {
+    await navigator.serviceWorker.register('/sw.js');
+    await navigator.serviceWorker.ready;
+  });
+  await page.reload();
+  await expect.poll(() => page.evaluate(() => !!navigator.serviceWorker.controller)).toBe(true);
+  const readPolicy = () => page.evaluate(async () => (await fetch('/classification.config.json?deployment-policy=runtime', { cache: 'no-cache' })).json());
+  expect(await readPolicy()).toBeNull();
+  const updated = { maxLevel: 'secret', allowedLevels: ['unclassified', 'secret'] };
+  runtimePolicy = JSON.stringify(updated);
+  expect(await readPolicy()).toEqual(updated);
+  await context.setOffline(true);
+  try { expect(await readPolicy()).toEqual(updated); }
+  finally { await context.setOffline(false); }
 });
