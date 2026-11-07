@@ -7,10 +7,11 @@ export const isTechnicalPublication = (docType: string): boolean =>
   docType === 'i_type' || docType === 'sl3' || docType === 'sl4' || docType === 'tm_ietm_front_matter';
 export function publicationExportErrors(
   store: Parameters<typeof iTypeExportErrors>[0],
+  referenceDate = new Date(),
 ): string[] {
-  if (store.docType === 'tm_ietm_front_matter') return manualFrontMatterErrors(store);
-  if (store.docType === 'sl4') return sl4ExportErrors(store);
+  if (store.docType === 'tm_ietm_front_matter') return manualFrontMatterErrors(store, referenceDate);
+  if (store.docType === 'sl4') return sl4ExportErrors(store, referenceDate);
   return store.docType === 'sl3'
-    ? sl3ExportErrors(store)
-    : iTypeExportErrors(store);
+    ? sl3ExportErrors(store, referenceDate)
+    : iTypeExportErrors(store, referenceDate);
 }

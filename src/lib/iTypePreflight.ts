@@ -23,7 +23,7 @@ interface Publication {
 }
 
 /** Export checks for incomplete or contradictory data; these do not confer release approval. */
-export function iTypeExportErrors(store: Publication): string[] {
+export function iTypeExportErrors(store: Publication, referenceDate = new Date()): string[] {
   if (store.docType !== 'i_type') return [];
   const d = store.formData;
   const errors: string[] = [];
@@ -32,9 +32,9 @@ export function iTypeExportErrors(store: Publication): string[] {
     if (!String(d[key as keyof DocumentData] ?? '').trim()) errors.push(`${label} is required.`);
   }
   errors.push(...validateIdentifiers({ pcn: d.pcn, shortTitle: d.shortTitle, publicationType: d.publicationType, endItems: store.endItems ?? [], majorItems: store.publicationTables?.majorItems ?? [] }).map((f) => f.message));
-  if (!isValid(publicationDate(d.date ?? ''))) errors.push('Enter a valid publication date.');
+  if (!isValid(publicationDate(d.date ?? '', referenceDate))) errors.push('Enter a valid publication date.');
   if (!d.publicationSigningDate?.trim()) errors.push('Enter the planned or actual signing date.');
-  errors.push(...validatePublicationDate(d.date ?? '', d.publicationSigningDate, d.publicationClosedDates).map((f) => f.message));
+  errors.push(...validatePublicationDate(d.date ?? '', d.publicationSigningDate, d.publicationClosedDates, referenceDate).map((f) => f.message));
   errors.push(...validateMajorItemsOrder(store.publicationTables?.majorItems ?? []).map((f) => f.message));
   for (const [key, rows] of Object.entries(store.publicationTables ?? {})) {
     if (!rows.some(hasPublicationTableContent)) continue;
@@ -69,7 +69,7 @@ export function iTypeExportErrors(store: Publication): string[] {
   if ((d.publicationType ?? 'MI') !== 'MI' && (d.miCompletionDate || store.paragraphs.some((p) => /^time compliance period\.?$/i.test(p.header ?? '')))) {
     errors.push('Only an MI may specify a Time Compliance Period. Remove the inherited period and completion date.');
   }
-  errors.push(...validateTimeCompliance(d.miUrgency ?? 'normal', d.miCompletionDate, publicationDate(d.date ?? '')).map((f) => f.message));
+  errors.push(...validateTimeCompliance(d.miUrgency ?? 'normal', d.miCompletionDate, publicationDate(d.date ?? '', referenceDate)).map((f) => f.message));
   errors.push(...validateFigures(store.paragraphs).filter((f) => /has no/.test(f.message)).map((f) => f.message));
   errors.push(...validateProcedureSteps(store.paragraphs).map((f) => f.message));
   errors.push(...validateCalloutOrder(store.paragraphs).map((f) => f.message));

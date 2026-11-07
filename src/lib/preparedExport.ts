@@ -112,7 +112,7 @@ export function prepareExport(input: {
       if (level === 'custom' && classificationRank(portionLevel)! > classificationRank(selectedLevel)!) notices.push('Review the custom banner against the higher portion markings.');
       snapshot.formData.classLevel = level;
       marking = publicationMarking(snapshot.formData, portions);
-      const issues = publicationExportErrors(snapshot);
+      const issues = publicationExportErrors(snapshot, new Date(output.source.capturedAt));
       if (issues.length) return Object.freeze({ status: 'error', issues: Object.freeze(issues) });
       output = captureDocumentRevision(output.source, snapshot);
     }

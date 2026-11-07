@@ -10,7 +10,7 @@ export interface ManualFinding { section: 'manual-publication' | 'manual-items' 
 export interface ManualStore { docType: string; formData: Partial<DocumentData> }
 
 /** Check author inputs; rendered measurements are checked separately by the PDF renderer. */
-export function manualFrontMatterFindings(store: ManualStore): ManualFinding[] {
+export function manualFrontMatterFindings(store: ManualStore, referenceDate = new Date()): ManualFinding[] {
   if (store.docType !== MANUAL_DOC_TYPE) return [];
   const d = store.formData;
   const findings: ManualFinding[] = [];
@@ -40,10 +40,10 @@ export function manualFrontMatterFindings(store: ManualStore): ManualFinding[] {
     if (!/^(?:\d{4,5}|\d{5}[A-HJ-NP-Z])(?:-(?:10|20|30|40|50|12|13|14|15|23|24|25|34|35|45)(?:&P|P)?(?:\/[1-9]\d*)?[A-HJ-NPRT-Y]?)?$/.test(number))
       add('manual-publication', 'Review the assigned short title: use an ID/FSC/SSIC basic number and valid maintenance, parts, sequence and edition designators, or select a reviewed sponsor-assigned number.', ["shortTitle"]);
   }
-  if (!isValid(publicationDate(d.date ?? ''))) add('manual-publication', 'Enter a valid publication date.', ["date"]);
+  if (!isValid(publicationDate(d.date ?? '', referenceDate))) add('manual-publication', 'Enter a valid publication date.', ["date"]);
   if (!d.publicationSigningDate || !/^\d{4}-\d{2}-\d{2}$/.test(d.publicationSigningDate) || !isValid(parseISO(d.publicationSigningDate)))
     add('manual-publication', 'Enter a valid signing date.', ["publicationSigningDate"]);
-  for (const f of validatePublicationDate(d.date ?? '', d.publicationSigningDate, d.publicationClosedDates)) add('manual-publication', f.message, [f.message.includes('closure') ? 'publicationClosedDates' : f.message === 'Enter a valid signing date.' ? 'publicationSigningDate' : 'date']);
+  for (const f of validatePublicationDate(d.date ?? '', d.publicationSigningDate, d.publicationClosedDates, referenceDate)) add('manual-publication', f.message, [f.message.includes('closure') ? 'publicationClosedDates' : f.message === 'Enter a valid signing date.' ? 'publicationSigningDate' : 'date']);
   if (m.volume || m.volumes) {
     if (!/^[1-9]\d*$/.test(m.volume) || !/^[1-9]\d*$/.test(m.volumes) || Number(m.volume) > Number(m.volumes))
       add('manual-publication', 'Enter a volume number and total volumes, with the volume within that total.', ["volume", "volumes"]);
@@ -115,4 +115,4 @@ export function manualFrontMatterFindings(store: ManualStore): ManualFinding[] {
   return findings;
 }
 
-export const manualFrontMatterErrors = (store: ManualStore): string[] => [...new Set(manualFrontMatterFindings(store).map((f) => f.message))];
+export const manualFrontMatterErrors = (store: ManualStore, referenceDate = new Date()): string[] => [...new Set(manualFrontMatterFindings(store, referenceDate).map((f) => f.message))];
