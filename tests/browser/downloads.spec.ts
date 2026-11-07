@@ -62,6 +62,30 @@ async function preparePdfExport(page: Page) {
   return () => chooseExport(page, 'Download PDF');
 }
 
+async function expectPdfExport(page: Page, projectName: string, exportPdf: () => Promise<void>, filename: RegExp, expectedText: string[] = []) {
+  if (projectName === 'mobile-chrome-ios') {
+    const pending = page.waitForEvent('popup');
+    await exportPdf();
+    const popup = await pending;
+    try {
+      const frame = popup.locator('iframe');
+      await expect(frame).toHaveAttribute('src', /^data:application\/pdf;base64,/, { timeout: 30_000 });
+      await expectPdf(Buffer.from((await frame.getAttribute('src'))!.split(',')[1], 'base64'), expectedText);
+      const saving = popup.waitForEvent('download');
+      await popup.getByRole('link', { name: 'Download PDF', exact: true }).click();
+      const download = await saving;
+      expect(download.suggestedFilename()).toMatch(filename);
+      await expectPdf(await downloadBytes(download), expectedText);
+    } finally { await popup.close(); }
+  } else {
+    const pending = page.waitForEvent('download');
+    await exportPdf();
+    const download = await pending;
+    expect(download.suggestedFilename()).toMatch(filename);
+    await expectPdf(await downloadBytes(download), expectedText);
+  }
+}
+
 async function expectWord(download: Download) {
   expect(download.suggestedFilename()).toMatch(/browser-export-verification\.docx$/);
   const zip = await JSZip.loadAsync(await downloadBytes(download), { checkCRC32: true });
@@ -107,41 +131,17 @@ test('PDF export delivers a readable file containing the latest editor content',
   // Wait for real SwiftLaTeX output and exercise the mobile preview's download
   // control on phones/tablets, or the header's Download PDF menu on desktop.
   const exportPdf = await preparePdfExport(page);
-  if (testInfo.project.name === 'mobile-chrome-ios') {
-    // The iOS path prepares a tab during the click and embeds the PDF there.
-    // Validate both the preview bytes and a real download from its save link.
-    const pending = page.waitForEvent('popup');
-    await exportPdf();
-    const popup = await pending;
-    const frame = popup.locator('iframe');
-    await expect(frame).toHaveAttribute('src', /^data:application\/pdf;base64,/, { timeout: 30_000 });
-    await expectPdf(Buffer.from((await frame.getAttribute('src'))!.split(',')[1], 'base64'), [SUBJECT, BODY]);
-    const saving = popup.waitForEvent('download');
-    await popup.getByRole('link', { name: 'Download PDF', exact: true }).click();
-    const download = await saving;
-    expect(download.suggestedFilename()).toMatch(/browser-export-verification\.pdf$/);
-    await expectPdf(await downloadBytes(download), [SUBJECT, BODY]);
-    await popup.close();
-  } else {
-    const pending = page.waitForEvent('download');
-    await exportPdf();
-    const download = await pending;
-    expect(download.suggestedFilename()).toMatch(/browser-export-verification\.pdf$/);
-    await expectPdf(await downloadBytes(download), [SUBJECT, BODY]);
-  }
+  await expectPdfExport(page, testInfo.project.name, exportPdf, /browser-export-verification\.pdf$/, [SUBJECT, BODY]);
   await expect(page.getByRole('dialog')).toHaveCount(0, { timeout: 10_000 });
   await expect(page.getByRole('textbox', { name: 'Subject', exact: true })).toHaveValue(SUBJECT);
 });
 
-test('built-in form downloads a readable PDF and hides inapplicable Word exports', async ({ page }) => {
+test('built-in form downloads a readable PDF and hides inapplicable Word exports', async ({ page }, testInfo) => {
   await start(page);
   await page.getByRole('button', { name: 'Forms', exact: true }).click();
   const exportPdf = await preparePdfExport(page);
-  const pending = page.waitForEvent('download');
-  await exportPdf();
-  const download = await pending;
-  expect(download.suggestedFilename()).toMatch(/^NAVMC-10274-.*\.pdf$/);
-  await expectPdf(await downloadBytes(download));
+  await expectPdfExport(page, testInfo.project.name, exportPdf, /^NAVMC-10274-.*\.pdf$/);
+  await expect(page.getByRole('dialog')).toHaveCount(0, { timeout: 10_000 });
   await page.getByRole('button', { name: 'Download', exact: true }).click();
   await expect(page.getByRole('menuitem', { name: 'Download Word (.docx)', exact: true })).toHaveCount(0);
   await expect(page.getByRole('menuitem', { name: 'Download LaTeX', exact: true })).toHaveCount(0);

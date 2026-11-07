@@ -1,7 +1,8 @@
+import { copyFormExportTemplates, type FormExportTemplates } from './formExportTemplates';
 import { captureDocumentRevision, copyCapturedDocument, type CapturedDocument, type CapturedSource } from './capturedDocument';
 import { capturedCapabilities } from './documentCapabilities';
 import { mapCapturedText, projectCapturedOutput } from './documentFields';
-import { replacePlaceholders, type PlaceholderValues } from './placeholders';
+import { buildNavmc11811DefaultValues, replacePlaceholders, type PlaceholderValues } from './placeholders';
 import { assertExportDeploymentPolicy, type ExportDeploymentPolicy, type PolicyResolution } from './exportDeploymentPolicy';
 import { classificationRank, deriveOverallClassLevel } from './overallClassification';
 import { detectClassification } from './detectClassification';
@@ -39,6 +40,7 @@ interface PreparedContent {
   policy: ExportDeploymentPolicy;
   marking: ClassificationInfo | undefined;
   review: ExportReview;
+  formTemplates?: FormExportTemplates;
 }
 const prepared = new WeakMap<PreparedExportJob, PreparedContent>();
 const authorized = new WeakSet<ReadyExportJob>();
@@ -68,6 +70,12 @@ export function copyPreparedDocument(job: ReadyExportJob) {
   assertReadyExport(job);
   return copyCapturedDocument(content(job.job).captured);
 }
+export function copyPreparedFormTemplates(job: ReadyExportJob) {
+  assertReadyExport(job);
+  const templates = content(job.job).formTemplates;
+  if (!templates) throw new Error('This job has no captured form templates.');
+  return copyFormExportTemplates(templates);
+}
 export function preparedExportMarking(job: ReadyExportJob): ClassificationInfo | undefined {
   assertReadyExport(job);
   return structuredClone(content(job.job).marking);
@@ -82,6 +90,7 @@ export function prepareExport(input: {
   readonly filename: string;
   readonly policy: PolicyResolution;
   readonly placeholders?: PlaceholderValues;
+  readonly formTemplates?: FormExportTemplates;
 }): ExportPreparation {
   const error = (message: string): ExportPreparation => Object.freeze({ status: 'error', issues: Object.freeze([message]) });
   if (input.policy.status !== 'ready') return Object.freeze({ status: input.policy.status, issues: Object.freeze([input.policy.message]) });
@@ -91,7 +100,14 @@ export function prepareExport(input: {
     if (!input.id.trim() || !input.filename.trim() || /[\\/]/.test(input.filename) || [...input.filename].some(char => char.charCodeAt(0) < 32)) return error('Choose a valid export identity and filename.');
     const capability = capturedCapabilities(input.captured, { operation: 'export', target: input.target });
     if (capability.status !== 'supported' && capability.status !== 'partial') return error(capability.message);
-    const values = { ...input.placeholders };
+    const original = copyCapturedDocument(input.captured);
+    if (original.kind === 'builtin-form') {
+      if (!input.formTemplates || input.formTemplates.kind !== original.kind || input.formTemplates.formType !== original.document.formType) return error('Capture the selected form templates before export.');
+      copyFormExportTemplates(input.formTemplates);
+    }
+    const defaults = original.kind === 'builtin-form' && original.document.formType === 'navmc_118_11'
+      ? buildNavmc11811DefaultValues(original.document.forms.navmc11811!) : {};
+    const values = { ...defaults, ...input.placeholders };
     const substituted = mapCapturedText(input.captured, field => replacePlaceholders(field.text, values));
     let output = projectCapturedOutput(substituted);
     const snapshot = copyCapturedDocument(output).document;
@@ -124,7 +140,7 @@ export function prepareExport(input: {
     const privacy = detectCapturedPII(output, 'output');
     const structure = output.kind === 'correspondence' && !['sl3', 'sl4'].includes(snapshot.docType) ? validateParagraphStructure(snapshot.paragraphs) : [];
     const job: PreparedExportJob = Object.freeze({ [preparedBrand]: true as const, id: input.id, source: output.source, kind: output.kind, target: input.target, ...(input.target === 'tex' ? { texMode: input.texMode ?? 'configuration' } : {}), filename: input.filename, policyIdentity: input.policy.policy.identity });
-    prepared.set(job, { captured: output, policy: input.policy.policy, marking, review: { privacy, structure, notices, markingReview } });
+    prepared.set(job, { captured: output, policy: input.policy.policy, marking, formTemplates: input.formTemplates, review: { privacy, structure, notices, markingReview } });
     return privacy.found || structure.length || markingReview
       ? Object.freeze({ status: 'needs-review', job })
       : Object.freeze({ status: 'ready', job: acknowledgePreparedExport(job) });

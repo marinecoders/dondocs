@@ -1,3 +1,4 @@
+import type { FormExportTemplates } from './formExportTemplates';
 import type { CapturedDocument } from './capturedDocument';
 import type { PolicyResolution } from './exportDeploymentPolicy';
 import { acknowledgePreparedExport, copyExportReview, prepareExport, type ExportTarget, type PreparedExportJob, type ReadyExportJob } from './preparedExport';
@@ -24,8 +25,8 @@ export function createExportGate(): ExportGate {
   let owner: object | undefined;
   return Object.freeze({ acquire: () => {
     if (owner) return null;
-    const token = {};owner = token;
-    return () => { if (owner === token) owner = undefined; };
+    const reservation = {};owner = reservation;
+    return () => { if (owner === reservation) owner = undefined; };
   } });
 }
 export interface ExportDeliveryLease {
@@ -35,6 +36,7 @@ export interface ExportDeliveryLease {
 export interface ExportControllerPorts {
   readonly gate: ExportGate;
   resolvePolicy(retry: boolean): Promise<PolicyResolution>;
+  captureResources?(captured: CapturedDocument): Promise<FormExportTemplates | undefined>;
   openDelivery(target: ExportTarget): ExportDeliveryLease;
   render(job: ReadyExportJob, signal: AbortSignal): Promise<ExportArtifact>;
   onState?(state: ExportControllerState): void;
@@ -54,7 +56,7 @@ interface Operation {
  * displayed job and review stage, so an old callback cannot approve new work.
  */
 export function createExportController(ports: ExportControllerPorts) {
-  const { gate, resolvePolicy, openDelivery, render, onState, onCleanupIssue } = ports;
+  const { gate, resolvePolicy, captureResources, openDelivery, render, onState, onCleanupIssue } = ports;
   let current: Operation | undefined;
   let state: ExportControllerState = Object.freeze({ phase: 'idle' });
   const listeners = new Set<() => void>();
@@ -104,7 +106,9 @@ export function createExportController(ports: ExportControllerPorts) {
       publish({ phase: 'preparing', target: operation.intent.target });
       const policy = await resolvePolicy(retry);
       if (current !== operation) { releaseDelivery(operation);return; }
-      const result = prepareExport({ ...operation.intent, policy });
+      const formTemplates = policy.status === 'ready' ? await captureResources?.(operation.intent.captured) : undefined;
+      if (current !== operation) { releaseDelivery(operation);return; }
+      const result = prepareExport({ ...operation.intent, policy, formTemplates });
       if ('issues' in result) { fail(operation, result.issues.join('\n'), policy.status !== 'ready');return; }
       if (result.status === 'ready') { operation.approved = result.job;run(operation);return; }
       releaseDelivery(operation);
