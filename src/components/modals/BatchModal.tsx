@@ -33,8 +33,6 @@ import { deriveTitle } from '@/stores/documentsStore';
 import { showAppConfirm } from '@/stores/alertStore';
 import { useDocumentStore, getSerializedSession } from '@/stores/documentStore';
 import { useFormStore } from '@/stores/formStore';
-import { loadNavmc10274Templates } from '@/services/pdf/navmc10274Generator';
-import { loadNavmc11811Template } from '@/services/pdf/navmc11811Generator';
 import { debug } from '@/lib/debug';
 import { BATCH_PLACEHOLDERS, NAVMC_10274_PLACEHOLDERS, NAVMC_118_11_PLACEHOLDERS } from '@/lib/constants';
 import {
@@ -230,43 +228,6 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
   const [addStatus, setAddStatus] = useState<string | null>(null);
   const addStatusTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // Form templates (loaded on demand when in forms mode)
-  const [navmc10274Templates, setNavmc10274Templates] = useState<{
-    page1: ArrayBuffer;
-    page2: ArrayBuffer;
-    page3: ArrayBuffer;
-  } | null>(null);
-  const [navmc11811Template, setNavmc11811Template] = useState<ArrayBuffer | null>(null);
-  const [_templatesLoading, setTemplatesLoading] = useState(false);
-
-  // Load form templates when in forms mode.
-  // setTemplatesLoading(true) is the FIRST line of the async loadTemplates()
-  // body (rather than running synchronously in the effect) so React doesn't
-  // see a synchronous setState during effect run — avoids the
-  // set-state-in-effect cascading-render hit while preserving the same
-  // user-visible loading-flag flicker.
-  useEffect(() => {
-    if (documentCategory !== 'forms' || !batchModalOpen) return;
-
-    const loadTemplates = async () => {
-      setTemplatesLoading(true);
-      try {
-        if (formType === 'navmc_10274' && !navmc10274Templates) {
-          const templates = await loadNavmc10274Templates();
-          setNavmc10274Templates(templates);
-        } else if (formType === 'navmc_118_11' && !navmc11811Template) {
-          const template = await loadNavmc11811Template();
-          setNavmc11811Template(template);
-        }
-      } catch (err) {
-        debug.error('Batch', 'Failed to load form templates', err);
-      } finally {
-        setTemplatesLoading(false);
-      }
-    };
-    loadTemplates();
-  }, [documentCategory, formType, batchModalOpen, navmc10274Templates, navmc11811Template]);
-
   const isFormsMode = documentCategory === 'forms';
   const isBuiltinForm = Object.hasOwn(FORM_TYPE_LABELS, formType);
 
@@ -320,17 +281,8 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
     return new Uint8Array(await outcome.artifact.blob.arrayBuffer());
   }, [compile, waitForReady]);
 
-  // Check if we're ready to generate (depends on mode)
-  const isReadyToGenerate = useMemo(() => {
-    if (isFormsMode) {
-      // Forms mode: check if templates are loaded
-      if (formType === 'navmc_10274') return !!navmc10274Templates;
-      if (formType === 'navmc_118_11') return !!navmc11811Template;
-      return false;
-    }
-    // Correspondence mode: check if LaTeX engine is ready
-    return isEngineReady;
-  }, [isFormsMode, formType, navmc10274Templates, navmc11811Template, isEngineReady]);
+  // Templates are acquired by the row owner, where failures have a retry path.
+  const isReadyToGenerate = isFormsMode ? isBuiltinForm : isEngineReady;
 
   // Preview a single row
   const handlePreview = useCallback(async (row: BatchRow) => {

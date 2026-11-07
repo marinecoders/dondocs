@@ -1,3 +1,4 @@
+import { useFormStore } from '@/stores/formStore';
 import 'fake-indexeddb/auto';
 import { beforeEach, expect, it, vi } from 'vitest';
 import { act, render, screen } from '@testing-library/react';
@@ -66,4 +67,16 @@ it('discovers heading and distribution variables and updates when only distribut
   act(() => useDocumentStore.setState({ distributions: [{ text: '{{NEXT}}' }] }));
   expect(screen.getByRole('textbox', { name: 'Row 1: NEXT' })).toBeVisible();
   expect(screen.queryByRole('textbox', { name: 'Row 1: DIST' })).not.toBeInTheDocument();
+});
+
+
+it('lets a built-in form attempt acquire its templates without a separate preload gate', async () => {
+  useDocumentStore.setState({ documentCategory: 'forms', formType: 'navmc_10274', genericForm: undefined });
+  useFormStore.setState({ navmc10274: { ...useFormStore.getInitialState().navmc10274, natureOfAction: '{{NAME}}' } });
+  const fetch = vi.fn(async () => { throw new Error('Template offline'); });vi.stubGlobal('fetch', fetch);
+  try {
+    render(<BatchModal compile={vi.fn()} isEngineReady={false} waitForReady={vi.fn()} />);
+    expect(screen.getByRole('button', { name: 'Preview row 1' })).toBeEnabled();
+    expect(fetch).not.toHaveBeenCalled();
+  } finally { vi.unstubAllGlobals(); }
 });
