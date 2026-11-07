@@ -1217,14 +1217,14 @@ export function generateBodyTex(store: DocumentStore): string {
   return parts.join('');
 }
 
-export function generateClassificationTex(store: DocumentStore): string {
+export function generateClassificationTex(store: DocumentStore, resolvedLevel?: string): string {
   const data = store.formData;
 
   // Banner reflects the HIGHEST portion marking, not just the document
   // level (SECNAV M-5216.5 / DoDM 5200.01 Vol 2). A CUI document with an
   // (S) paragraph must render a SECRET banner. `custom` passes through
   // unchanged (unrankable free text).
-  const overallLevel = deriveOverallClassLevel(data.classLevel, store.paragraphs);
+  const overallLevel = resolvedLevel ?? deriveOverallClassLevel(data.classLevel, store.paragraphs);
 
   if (overallLevel === 'unclassified') {
     return '% Unclassified - no classification markings\n';
@@ -1325,7 +1325,7 @@ export interface GeneratedFiles {
   figures: { file: string; ref: FileRef }[];
 }
 
-export function generateAllLatexFiles(store: DocumentStore): GeneratedFiles {
+export function generateAllLatexFiles(store: DocumentStore, resolvedLevel?: string): GeneratedFiles {
   if (store.docType === 'tm_ietm_front_matter') store = {
     ...store, endItems: (store.formData.manualFrontMatter ?? emptyManualFrontMatter()).endItems,
     paragraphs: [], enclosures: [], references: [], copyTos: [], distributions: [],
@@ -1347,7 +1347,7 @@ export function generateAllLatexFiles(store: DocumentStore): GeneratedFiles {
     'copyto-config.tex': generateCopyToTex(store),
     'distribution-config.tex': generateDistributionTex(store),
     'body.tex': generateBodyTex(store),
-    'classification.tex': generateClassificationTex(store),
+    'classification.tex': generateClassificationTex(store, resolvedLevel),
   };
 
   // Collect ALL enclosures for JavaScript handling (maintains correct order).

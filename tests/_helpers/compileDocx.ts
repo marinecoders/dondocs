@@ -98,6 +98,10 @@ function runPandoc(
 
 export async function compileDocxFixture(store: TestStore): Promise<DocxCompileResult> {
   const tex = generateFlatLatex(store);
+  return compileGeneratedDocxFixture(tex, store.formData);
+}
+
+export async function compileGeneratedDocxFixture(tex: string, data: { fontFamily?: string; fontSize?: string } = {}): Promise<DocxCompileResult> {
 
   const workDir = await mkdtemp(join(tmpdir(), 'dondocs-docx-'));
   const inputFile = join(workDir, 'flat.tex');
@@ -109,10 +113,10 @@ export async function compileDocxFixture(store: TestStore): Promise<DocxCompileR
   // table-width pass, plus the font size it scales \baselineskip spacing by.
   const metadata: Record<string, string> = {
     ...layoutToMetadata(LAYOUT, {
-      family: store.formData.fontFamily,
-      sizePt: parseInt(String(store.formData.fontSize || '12pt'), 10) || 12,
+      family: data.fontFamily,
+      sizePt: parseInt(String(data.fontSize || '12pt'), 10) || 12,
     }),
-    'font-size-pt': String(parseInt(store.formData.fontSize || '12pt', 10) || 12),
+    'font-size-pt': String(parseInt(data.fontSize || '12pt', 10) || 12),
   };
 
   const { exitCode, log } = await runPandoc(workDir, 'flat.tex', 'out.docx', metadata);
