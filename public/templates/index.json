@@ -1633,8 +1633,7 @@
         "page3.pdf",
         "page4.pdf",
         "page5.pdf",
-        "page6.pdf",
-        "page7.pdf"
+        "page6.pdf"
       ],
       "pageLabels": [
         "Page 1",
@@ -1642,8 +1641,7 @@
         "Page 3",
         "Page 4",
         "Page 5",
-        "Page 6",
-        "Page 7"
+        "Page 6"
       ],
       "config": true,
       "fieldLanding": 39

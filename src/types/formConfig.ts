@@ -23,6 +23,8 @@ export interface FormFieldConfig {
   /** 1-based index into `pages`. */
   page: number;
   box: FormFieldBox;
+  /** Clockwise text in a vertical printed slot; box stays in page coordinates. */
+  rotation?: 270;
   /** Wrap text across lines inside the box instead of a single line. */
   multiline?: boolean;
   /** Options for a `choice` dropdown (harvested from the PDF's /Opt list). */
@@ -103,6 +105,9 @@ export function assertFormConfig(data: unknown, source: string): FormConfig {
   if (cfg.sections === undefined) cfg.sections = [];
   else if (!Array.isArray(cfg.sections)) fail('sections is not an array');
   for (const [key, f] of Object.entries(cfg.fields)) {
+    if (f.rotation !== undefined && f.rotation !== 270) {
+      fail(`field "${key}" has an unsupported rotation`);
+    }
     if (!f.box || [f.box.left, f.box.top, f.box.width, f.box.height].some((n) => typeof n !== 'number')) {
       fail(`field "${key}" has a malformed box`);
     }
@@ -127,6 +132,9 @@ export function assertFormConfig(data: unknown, source: string): FormConfig {
     if (g.editor && g.editor !== 'grid' && g.editor !== 'cards') fail(`row group "${gkey}" has unknown editor "${g.editor}"`);
     if (!g.columns || Object.keys(g.columns).length === 0) fail(`row group "${gkey}" has no columns`);
     for (const [ckey, c] of Object.entries(g.columns)) {
+      if (c.rotation !== undefined && c.rotation !== 270) {
+        fail(`row group "${gkey}" column "${ckey}" has an unsupported rotation`);
+      }
       if (!c.box || [c.box.left, c.box.top, c.box.width, c.box.height].some((n) => typeof n !== 'number')) {
         fail(`row group "${gkey}" column "${ckey}" has a malformed box`);
       }
