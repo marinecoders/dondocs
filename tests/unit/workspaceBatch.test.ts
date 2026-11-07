@@ -34,7 +34,7 @@ it('retries only failures and never repeats successful rows', async () => {
   await runBatchJob(options);
   const retry = vi.fn(async () => new Uint8Array([2]));
   await runBatchJob({ ...options, retryFailed: true, generate: retry });
-  expect(retry).toHaveBeenCalledExactlyOnceWith({ NAME: 'Row 2' });
+  expect(retry).toHaveBeenCalledExactlyOnceWith({ NAME: 'Row 2' }, expect.objectContaining({ rowId: '2', filename: 'Row_2.pdf' }));
   expect(useBatchStore.getState().rows.every((r) => r.status === 'success')).toBe(true);
 });
 
@@ -47,4 +47,22 @@ it('requires explicit retry for the uncertain row after reload', () => {
   expect(recovered.status).toBe('interrupted');
   expect(recovered.rows?.map((r) => r.status)).toEqual(['success', 'error', 'pending']);
   expect(recovered.rows?.[1].error).toContain('Check your downloads');
+});
+
+it('freezes queued row values, filenames and source before the first row awaits', async () => {
+  let finish!: (pdf: Uint8Array) => void;
+  const contexts: unknown[] = [];
+  const options = { source: getSerializedSession(), title: 'Original', placeholders: ['NAME'], download: vi.fn(),
+    generate: vi.fn((_values: Record<string, string>, context: unknown) => {
+      contexts.push(context);
+      return contexts.length === 1 ? new Promise<Uint8Array>(resolve => { finish = resolve; }) : Promise.resolve(new Uint8Array([2]));
+    }),
+  };
+  const pending = runBatchJob(options);
+  useBatchStore.getState().rows[1].values.NAME = 'Mutated';
+  useBatchStore.getState().source!.formData.subject = 'Mutated';
+  options.placeholders[0] = 'OTHER';
+  finish(new Uint8Array([1]));await pending;
+  expect(options.generate.mock.calls[1][0]).toEqual({ NAME: 'Row 2' });
+  expect(options.generate.mock.calls[1][1]).toMatchObject({ rowId: '2', filename: 'Row_2.pdf' });
 });
