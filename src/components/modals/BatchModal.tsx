@@ -1,10 +1,9 @@
 import { DOC_TYPE_LABELS, FORM_TYPE_LABELS, formTypeLabel } from '@/types/document';
-import { publicationExportErrors } from '@/lib/publicationPreflight';
-import { loadFigureFiles } from '@/services/latex/figureAssets';
-import { loadAttachment } from '@/lib/attachments';
-import { prepareBatchCorrespondence } from '@/lib/batchDocument';
+import { prepareBatchRow, renderPreparedBatchRow, BatchRowNeedsReview, type BatchRowContext } from '@/services/exports/batchRows';
+import { getExportDeploymentPolicy } from '@/config/classification';
+import { captureExportFormTemplates } from '@/services/exports/formTemplates';
+import { executePreparedExport } from '@/lib/exportExecution';
 import { serializeDocumentSnapshot } from '@/lib/documentSerialization';
-import { finishCorrespondencePdf } from '@/services/pdf/finishCorrespondencePdf';
 import { memo, useState, useCallback, useMemo, useEffect, useRef } from 'react';
 import { Plus, Trash2, Download, AlertCircle, FileText, Variable, CheckCircle, XCircle, Copy, Lightbulb, Eye, Loader2, Settings, ArrowRight } from 'lucide-react';
 import {
@@ -28,21 +27,16 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { useUIStore } from '@/stores/uiStore';
-import { useBatchStore, runBatchJob, type BatchRow } from '@/stores/batchStore';
+import { useBatchStore, runBatchJob, batchRowFilename, type BatchRow } from '@/stores/batchStore';
 import { getBatchOutput } from '@/lib/documentsDb';
 import { deriveTitle } from '@/stores/documentsStore';
 import { showAppConfirm } from '@/stores/alertStore';
 import { useDocumentStore, getSerializedSession } from '@/stores/documentStore';
-import { useFormStore, type NavmcForm10274Data, type Navmc11811Data } from '@/stores/formStore';
-import { generateAllLatexFiles } from '@/services/latex/generator';
-import { generateNavmc10274Pdf, loadNavmc10274Templates } from '@/services/pdf/navmc10274Generator';
-import { generateNavmc11811Pdf, loadNavmc11811Template } from '@/services/pdf/navmc11811Generator';
+import { useFormStore } from '@/stores/formStore';
 import { debug } from '@/lib/debug';
 import { BATCH_PLACEHOLDERS, NAVMC_10274_PLACEHOLDERS, NAVMC_118_11_PLACEHOLDERS } from '@/lib/constants';
 import {
   detectSessionPlaceholders,
-  applyPlaceholdersToNavmc10274,
-  applyPlaceholdersToNavmc11811,
   type PlaceholderValues,
 } from '@/lib/placeholders';
 
@@ -82,9 +76,6 @@ interface BatchModalProps {
   isEngineReady: boolean;
   waitForReady: (timeoutMs?: number) => Promise<boolean>;
 }
-
-// Max retries for ENGINE_RESET_NEEDED
-const MAX_RETRIES = 2;
 
 // Sentinel for the column-mapping "skip this column" choice. Radix Select v2
 // throws on <SelectItem value=""> (empty string is reserved for clearing),
@@ -237,43 +228,6 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
   const [addStatus, setAddStatus] = useState<string | null>(null);
   const addStatusTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // Form templates (loaded on demand when in forms mode)
-  const [navmc10274Templates, setNavmc10274Templates] = useState<{
-    page1: ArrayBuffer;
-    page2: ArrayBuffer;
-    page3: ArrayBuffer;
-  } | null>(null);
-  const [navmc11811Template, setNavmc11811Template] = useState<ArrayBuffer | null>(null);
-  const [_templatesLoading, setTemplatesLoading] = useState(false);
-
-  // Load form templates when in forms mode.
-  // setTemplatesLoading(true) is the FIRST line of the async loadTemplates()
-  // body (rather than running synchronously in the effect) so React doesn't
-  // see a synchronous setState during effect run — avoids the
-  // set-state-in-effect cascading-render hit while preserving the same
-  // user-visible loading-flag flicker.
-  useEffect(() => {
-    if (documentCategory !== 'forms' || !batchModalOpen) return;
-
-    const loadTemplates = async () => {
-      setTemplatesLoading(true);
-      try {
-        if (formType === 'navmc_10274' && !navmc10274Templates) {
-          const templates = await loadNavmc10274Templates();
-          setNavmc10274Templates(templates);
-        } else if (formType === 'navmc_118_11' && !navmc11811Template) {
-          const template = await loadNavmc11811Template();
-          setNavmc11811Template(template);
-        }
-      } catch (err) {
-        debug.error('Batch', 'Failed to load form templates', err);
-      } finally {
-        setTemplatesLoading(false);
-      }
-    };
-    loadTemplates();
-  }, [documentCategory, formType, batchModalOpen, navmc10274Templates, navmc11811Template]);
-
   const isFormsMode = documentCategory === 'forms';
   const isBuiltinForm = Object.hasOwn(FORM_TYPE_LABELS, formType);
 
@@ -312,105 +266,23 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
     );
   }, [setRows]);
 
-  // Create modified store with placeholder replacements (for correspondence).
-  //
-  // Reads via getState() so this callback has stable identity across renders
-  // — otherwise every keystroke in a form field would change documentStore,
-  // which would change createModifiedStore, which would change
-  // generatePdfForRow, which would change handlePreview, which is a prop of
-  // BatchModalRow and would defeat its memo.
-  const createModifiedStore = useCallback((values: PlaceholderValue) =>
-    prepareBatchCorrespondence(useBatchStore.getState().source ?? getSerializedSession(), values), []);
+  const generatePdfForRow = useCallback(async (values: PlaceholderValue, context: BatchRowContext): Promise<Uint8Array> => {
+    const prepared = await prepareBatchRow(values, context, {
+      resolvePolicy: () => getExportDeploymentPolicy(), captureResources: captureExportFormTemplates,
+    });
+    if ('issues' in prepared) throw new Error(prepared.issues.join('\n'));
+    if (prepared.status === 'needs-review') throw new BatchRowNeedsReview(prepared.job);
+    const execution = executePreparedExport(prepared.job, {
+      render: (ready, signal) => renderPreparedBatchRow(ready, { compile, waitForReady, convertDocx: async () => { throw new Error('Batch output is PDF only.'); } }, signal),
+      deliver: async () => {},
+    });
+    const outcome = await execution.result;
+    if (outcome.status !== 'succeeded') throw new Error(outcome.status === 'failed' ? outcome.message : 'Row cancelled.');
+    return new Uint8Array(await outcome.artifact.blob.arrayBuffer());
+  }, [compile, waitForReady]);
 
-  // Create modified NAVMC form data with placeholder replacements.
-  // Same getState() pattern as createModifiedStore — keeps identity stable.
-  // Substitution itself is delegated to the shared `applyPlaceholdersTo*`
-  // helpers in @/lib/placeholders so the batch and normal-download paths
-  // can't drift apart (issue #13 was caused by exactly that drift).
-  const createModifiedNavmc10274 = useCallback((values: PlaceholderValue): NavmcForm10274Data => {
-    return applyPlaceholdersToNavmc10274(useBatchStore.getState().source?.forms?.navmc10274 ?? useFormStore.getState().navmc10274, values);
-  }, []);
-
-  const createModifiedNavmc11811 = useCallback((values: PlaceholderValue): Navmc11811Data => {
-    return applyPlaceholdersToNavmc11811(useBatchStore.getState().source?.forms?.navmc11811 ?? useFormStore.getState().navmc11811, values);
-  }, []);
-
-  // Generate PDF for a single row with retry logic for ENGINE_RESET_NEEDED.
-  // Retry is implemented as an in-function loop rather than recursion so the
-  // useCallback doesn't need to refer to itself before initialization (which
-  // tripped react-hooks/immutability and required a Temporal-Dead-Zone-safe
-  // pattern that's only obvious at runtime, not to the React Compiler).
-  const generatePdfForRow = useCallback(async (values: PlaceholderValue): Promise<Uint8Array> => {
-    // Forms mode: use pdf-lib form generators
-    if (isFormsMode) {
-      if (formType === 'navmc_10274') {
-        if (!navmc10274Templates) {
-          throw new Error('NAVMC 10274 templates not loaded');
-        }
-        const modifiedData = createModifiedNavmc10274(values);
-        return generateNavmc10274Pdf(
-          modifiedData,
-          navmc10274Templates.page1,
-          navmc10274Templates.page2,
-          navmc10274Templates.page3,
-          { includeCoverPage: (useBatchStore.getState().source ?? getSerializedSession()).forms?.includeCoverPage ?? false }
-        );
-      } else if (formType === 'navmc_118_11') {
-        if (!navmc11811Template) {
-          throw new Error('NAVMC 118(11) template not loaded');
-        }
-        const modifiedData = createModifiedNavmc11811(values);
-        return generateNavmc11811Pdf(modifiedData, navmc11811Template);
-      }
-      throw new Error(`Unknown form type: ${formType}`);
-    }
-
-    // Correspondence mode: use LaTeX compilation, retrying on ENGINE_RESET_NEEDED
-    const modifiedStore = await createModifiedStore(values);
-    const errors = publicationExportErrors(modifiedStore);
-    if (errors.length) throw new Error(errors.join('\n'));
-    const generated = generateAllLatexFiles(modifiedStore);
-    const files: Record<string, string | Uint8Array> = { ...generated.texFiles };
-    if (generated.signatureImage) files['attachments/signature.png'] = generated.signatureImage;
-    await loadFigureFiles(files, generated.figures, loadAttachment);
-
-    for (let retryCount = 0; retryCount <= MAX_RETRIES; retryCount++) {
-      try {
-        const pdf = await compile(files);
-        if (!pdf) {
-          throw new Error('PDF compilation failed');
-        }
-        const finished = await finishCorrespondencePdf(pdf, modifiedStore.docType, modifiedStore.formData, generated, modifiedStore.paragraphs);
-        if (finished.errors.length) throw new Error(finished.errors.map((error) => `${error.title}: ${error.error}`).join('; '));
-        return finished.pdfBytes;
-      } catch (err) {
-        if (err instanceof Error && err.message === 'ENGINE_RESET_NEEDED' && retryCount < MAX_RETRIES) {
-          debug.log('Batch', `Engine reset detected, waiting for ready and retrying (attempt ${retryCount + 1}/${MAX_RETRIES})...`);
-          const ready = await waitForReady(5000);
-          if (ready) {
-            continue;
-          }
-          throw new Error('Engine failed to recover after reset', { cause: err });
-        }
-        throw err;
-      }
-    }
-    // Unreachable: the loop either returns a pdf or throws within the catch.
-    // Present so TypeScript doesn't complain about a Promise<Uint8Array | undefined>.
-    throw new Error('Engine failed to recover after reset (max retries exceeded)');
-  }, [createModifiedStore, createModifiedNavmc10274, createModifiedNavmc11811, compile, waitForReady, isFormsMode, formType, navmc10274Templates, navmc11811Template]);
-
-  // Check if we're ready to generate (depends on mode)
-  const isReadyToGenerate = useMemo(() => {
-    if (isFormsMode) {
-      // Forms mode: check if templates are loaded
-      if (formType === 'navmc_10274') return !!navmc10274Templates;
-      if (formType === 'navmc_118_11') return !!navmc11811Template;
-      return false;
-    }
-    // Correspondence mode: check if LaTeX engine is ready
-    return isEngineReady;
-  }, [isFormsMode, formType, navmc10274Templates, navmc11811Template, isEngineReady]);
+  // Templates are acquired by the row owner, where failures have a retry path.
+  const isReadyToGenerate = isFormsMode ? isBuiltinForm : isEngineReady;
 
   // Preview a single row
   const handlePreview = useCallback(async (row: BatchRow) => {
@@ -419,7 +291,7 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
     setPreviewingRow(row.id);
     setPreviewError(null);
     try {
-      const pdf = row.outputId ? await getBatchOutput(row.outputId) : await generatePdfForRow(row.values);
+      const pdf = row.outputId ? await getBatchOutput(row.outputId) : await generatePdfForRow(row.values, { source: structuredClone(useBatchStore.getState().source ?? getSerializedSession()), batchId: `preview-${row.id}`, rowId: row.id, filename: batchRowFilename(row, detectedPlaceholders), capturedAt: Date.now() });
       if (!pdf) throw new Error('The saved result is unavailable. Keep your downloaded copy.');
       const blob = new Blob([new Uint8Array(pdf)], { type: 'application/pdf' });
       const url = URL.createObjectURL(blob);
@@ -437,7 +309,7 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
     } finally {
       setPreviewingRow(null);
     }
-  }, [isReadyToGenerate, generatePdfForRow, previewUrl]);
+  }, [isReadyToGenerate, generatePdfForRow, previewUrl, detectedPlaceholders]);
 
   // Close preview
   const closePreview = useCallback(() => {

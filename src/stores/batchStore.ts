@@ -1,3 +1,4 @@
+import type { BatchRowContext } from '@/services/exports/batchRows';
 import { create } from 'zustand';
 import { newAttachmentId } from '@/lib/attachments';
 import { persist, createJSONStorage } from 'zustand/middleware';
@@ -55,33 +56,43 @@ export const useBatchStore = create<BatchState>()(persist((set, get) => ({
 /** A job owns a frozen source. Closing its view never cancels this loop. */
 export async function runBatchJob(options: {
   source: SerializedSession; title: string; placeholders: string[]; retryFailed?: boolean;
-  generate: (values: Record<string, string>) => Promise<Uint8Array>;
+  generate: (values: Record<string, string>, context: BatchRowContext) => Promise<Uint8Array>;
   download: (bytes: Uint8Array, filename: string) => void;
 }): Promise<void> {
   const store = useBatchStore;
+  const { generate, download } = options;
   if (store.getState().status === 'running') return;
-  const rows = store.getState().rows.filter((r) => options.retryFailed ? r.status === 'error' : !r.status || r.status === 'pending');
+  const rows = store.getState().rows.filter((r) => options.retryFailed ? r.status === 'error' : !r.status || r.status === 'pending').map(row => structuredClone(row));
   if (!rows.length) return;
   store.setState({ source: store.getState().source ?? structuredClone(options.source), title: store.getState().source ? store.getState().title : options.title,
     placeholders: store.getState().source ? store.getState().placeholders : options.placeholders, status: 'running', stopRequested: false });
-  for (const row of rows) {
+  const jobSource = structuredClone(store.getState().source!);
+  const jobPlaceholders = [...store.getState().placeholders];
+  const batchId = newAttachmentId();
+  for (const selected of rows) {
+    const row = structuredClone(selected);
+    const filename = batchRowFilename(row, jobPlaceholders);
     if (store.getState().stopRequested) break;
     store.getState().setRows((all) => all.map((r) => r.id === row.id ? { ...r, status: 'generating', error: undefined } : r));
     let pdf: Uint8Array;
-    try { pdf = await options.generate(row.values); }
+    try { pdf = await generate(row.values, { batchId, rowId: row.id, filename, capturedAt: jobSource.timestamp, source: structuredClone(jobSource) }); }
     catch (e) {
       store.getState().setRows((all) => all.map((r) => r.id === row.id ? { ...r, status: 'error', error: e instanceof Error ? e.message : 'Generation failed' } : r));
       continue;
     }
-    const filename = `${(row.values[store.getState().placeholders[0]] || `document_${row.id}`).replace(/[^a-zA-Z0-9_-]/g, '_').slice(0, 50)}.pdf`;
     const outputId = newAttachmentId();
     const retained = await putBatchOutput(outputId, pdf);
     store.getState().setRows((all) => all.map((r) => r.id === row.id ? { ...r, status: 'success', filename, outputId: retained ? outputId : undefined } : r));
     if (!retained) store.setState({ recoveryError: 'Generated files could not be retained in this browser. Keep the downloaded copies.' });
-    try { options.download(pdf, filename); }
+    try { download(pdf, filename); }
     catch { store.setState({ recoveryError: 'A download was blocked. Use the completed results to download it again.' }); }
   }
   const unfinished = store.getState().rows.some((r) => !r.status || r.status === 'pending' || r.status === 'error');
   store.setState({ status: unfinished ? 'paused' : 'complete', stopRequested: false });
   if (lastWriteFailed(BATCH_KEY)) store.setState({ recoveryError: 'This job could not be saved. Keep this tab open; reload recovery is unavailable.' });
+}
+
+
+export function batchRowFilename(row: Pick<BatchRow, 'id' | 'values'>, placeholders: readonly string[]) {
+  return `${(row.values[placeholders[0]] || `document_${row.id}`).replace(/[^a-zA-Z0-9_-]/g, '_').slice(0, 50)}.pdf`;
 }
