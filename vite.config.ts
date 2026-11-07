@@ -322,6 +322,7 @@ export default defineConfig({
         // users stuck on old versions). Hashed JS/CSS bundles are still
         // precached so offline + subsequent loads stay fast.
         globPatterns: [
+          'classification.config.json',
           '**/*.{js,css,ico,png,svg,woff,woff2}',
           '{LICENSE,THIRD_PARTY_LICENSES,LICENSING,SOURCE}.txt',
         ],

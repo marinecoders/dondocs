@@ -100,7 +100,7 @@ describe('getDomainClassificationRestriction — policy table', () => {
     });
 
     it('apex domain: bare ic.gov still works (equality fallback covers no-subdomain case)', () => {
-      expect(getDomainClassificationRestriction('ic.gov').maxLevel).toBe('top_secret');
+      expect(getDomainClassificationRestriction('ic.gov').maxLevel).toBe('top_secret_sci');
     });
 
     it('apex domain: bare smil.mil still works', () => {
@@ -109,7 +109,7 @@ describe('getDomainClassificationRestriction — policy table', () => {
 
     it('legitimate IC subdomains still work after the fix', () => {
       for (const host of ['cia.ic.gov', 'nsa.ic.gov', 'foo.bar.ic.gov']) {
-        expect(getDomainClassificationRestriction(host).maxLevel).toBe('top_secret');
+        expect(getDomainClassificationRestriction(host).maxLevel).toBe('top_secret_sci');
       }
     });
   });

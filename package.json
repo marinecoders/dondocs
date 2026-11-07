@@ -1,11 +1,11 @@
 {
   "name": "dondocs",
   "private": true,
-  "version": "1.3.18",
+  "version": "1.3.19",
   "description": "Browser-based SECNAV M-5216.5 naval correspondence and forms generator.",
   "type": "module",
   "scripts": {
-    "predev": "node scripts/vendor-assets.mjs --allow-offline && node scripts/generate-icons.mjs",
+    "predev": "node scripts/default-classification-config.mjs && node scripts/vendor-assets.mjs --allow-offline && node scripts/generate-icons.mjs",
     "dev": "vite",
     "companion": "vite-node companion/server.ts",
     "companion:mcp": "vite-node companion/mcp.ts",
@@ -13,7 +13,7 @@
     "build:mcpb": "node scripts/build-mcpb.mjs",
     "vendor-assets": "node scripts/vendor-assets.mjs",
     "generate-icons": "node scripts/generate-icons.mjs",
-    "prebuild": "node scripts/vendor-assets.mjs && node scripts/generate-icons.mjs",
+    "prebuild": "node scripts/default-classification-config.mjs && node scripts/vendor-assets.mjs && node scripts/generate-icons.mjs",
     "build": "tsc -b && vite build",
     "postbuild": "node scripts/check-no-cdn.mjs",
     "lint": "eslint .",

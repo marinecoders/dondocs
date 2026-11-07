@@ -85,7 +85,7 @@ export default defineConfig([
     },
   },
   {
-    files: ['src/lib/{capturedDocument,documentCapabilities,documentFieldPolicies,documentFields,documentSerialization,placeholders,workspaceSearch}.ts', 'src/services/pii/detector.ts'],
+    files: ['src/lib/{capturedDocument,exportDeploymentPolicy,documentCapabilities,documentFieldPolicies,documentFields,documentSerialization,placeholders,workspaceSearch}.ts', 'src/services/pii/detector.ts'],
     rules: {
       'no-restricted-imports': ['error', { patterns: [{
         regex: '^(?:@/stores(?:/|$)|(?:\\.\\.?/)+(?:.*/)?stores(?:/|$))',
