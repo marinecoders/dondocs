@@ -42,7 +42,7 @@ import { useUIStore } from '@/stores/uiStore';
 function renderPanel(props: Partial<React.ComponentProps<typeof PreviewPanel>>) {
   return render(
     <TooltipProvider>
-      <PreviewPanel pdfUrl={null} isCompiling={false} error={null} {...props} />
+      <PreviewPanel onDownloadPdf={() => {}} pdfUrl={null} isCompiling={false} error={null} {...props} />
     </TooltipProvider>
   );
 }
