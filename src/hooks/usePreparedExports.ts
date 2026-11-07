@@ -82,7 +82,7 @@ export function usePreparedExports({ gate, compile, waitForReady, setProgress }:
       const session = copyCapturedSession(captured);
       const filename = correspondenceFilename(target, session);
       const id = [...crypto.getRandomValues(new Uint32Array(4))].map(part => part.toString(16)).join('-');
-      return controller.request({ id, captured, target, texMode, filename: target === 'tex' && texMode === 'flat' ? filename.replace(/\.tex$/, '-flat.tex') : filename });
+      return controller.request({ id, captured, target, texMode, filename: target === 'tex' && texMode === 'flat' ? 'correspondence-flat.tex' : filename });
     } catch (error) {
       setProgress({ kind: 'error', target, title: 'Export could not be captured', message: error instanceof Error ? error.message : String(error), retryable: false });
       return false;
