@@ -1,3 +1,4 @@
+import { renderPreparedConfiguredForm } from '@/services/exports/configuredForms';
 import { captureExportFormTemplates } from '@/services/exports/formTemplates';
 import { renderPreparedBuiltinForm } from '@/services/exports/builtinForms';
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, useSyncExternalStore, type Dispatch, type SetStateAction } from 'react';
@@ -40,6 +41,7 @@ export function usePreparedExports({ isReady, gate, compile, waitForReady, setPr
         let active = true;
         const progress = (phase: DownloadProgressPhase) => { if (viewActive && active && !signal.aborted) setProgress(phase); };
         try {
+          if (ready.job.kind === 'configured-form') return await renderPreparedConfiguredForm(ready, signal);
           if (ready.job.kind === 'builtin-form') return await renderPreparedBuiltinForm(ready, signal);
           if (ready.job.target === 'pdf' && !engineReady.current) throw new Error(ENGINE_STARTING);
           if (ready.job.target === 'pdf' && !await waitForReady(30_000)) throw new Error(ENGINE_STARTING);
@@ -95,7 +97,7 @@ export function usePreparedExports({ isReady, gate, compile, waitForReady, setPr
         ? session.formType === 'navmc_10274'
           ? `NAVMC-10274-${safe(session.forms?.navmc10274?.date || 'form')}.pdf`
           : `NAVMC-118-11-${safe(session.forms?.navmc11811?.lastName || 'Marine')}-${safe(session.forms?.navmc11811?.entryDate || 'entry')}.pdf`
-        : correspondenceFilename(target, session);
+        : captured.kind === 'configured-form' ? `${safe(session.genericForm!.definition.formId)}-form.pdf` : correspondenceFilename(target, session);
       const id = [...crypto.getRandomValues(new Uint32Array(4))].map(part => part.toString(16)).join('-');
       return controller.request({ id, captured, target, texMode, filename: target === 'tex' && texMode === 'flat' ? 'correspondence-flat.tex' : filename });
     } catch (error) {
