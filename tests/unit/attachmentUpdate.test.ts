@@ -26,3 +26,15 @@ it('waits for an in-flight attachment transaction without issuing a duplicate wr
   finish(true); await writing; await flushing;
   expect(flushed).toBe(true); expect(idbPutAttachment).toHaveBeenCalledOnce();
 });
+
+it('rejects an undurable staged attachment without blocking updates for the unchanged draft', async () => {
+  vi.mocked(idbPutAttachment).mockClear().mockResolvedValue(false);
+  await expect(persistAttachment(
+    { name: 'rejected.pdf', size: 1, type: 'application/pdf' },
+    new Uint8Array([1]).buffer,
+    { requireDurable: true },
+  )).rejects.toThrow('Could not save rejected.pdf');
+
+  await expect(flushAttachmentWrites()).resolves.toBeUndefined();
+  expect(idbPutAttachment).toHaveBeenCalledOnce();
+});

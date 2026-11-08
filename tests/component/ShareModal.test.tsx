@@ -29,7 +29,7 @@ vi.mock('@/lib/shareCrypto', () => ({
   buildShareUrl: vi.fn((p: string) => `https://dondocs.app/#s=${p}`),
   parseShareUrl: vi.fn((s: string) => (s.includes('#s=') ? s.split('#s=')[1] : null)),
 }));
-vi.mock('@/stores/documentsStore', () => ({ openSessionAsNew: vi.fn() }));
+vi.mock('@/stores/documentsStore', () => ({ openSessionAsNew: vi.fn(() => 'applied') }));
 vi.mock('@/stores/documentStore', () => ({
   getSerializedSessionForShare: vi.fn(() => ({ docType: 'naval_letter', formData: {}, paragraphs: [], copyTos: [], references: [] })),
   loadSharedSession: vi.fn(),

@@ -1,3 +1,4 @@
+import { createBlankSession, referenceLetterAt } from '@/stores/documentStore';
 import { readFileAsArrayBuffer, arrayBufferToUint8Array } from '@/lib/encoding';
 import { extractPdfText } from '@/lib/pdfText';
 import { parseNavalLetter, type ParsedLetter } from '@/lib/parseNavalLetter';
@@ -5,8 +6,7 @@ import { detectDocumentType, type DocTypeDetection } from '@/lib/detectDocumentT
 import { detectClassification, type ClassificationDetection } from '@/lib/detectClassification';
 import { convertDocxToPlainText, extractDocxMarkingText } from '@/services/docx/pandoc-converter';
 import { detectImportFormat } from '@/lib/importFormat';
-import { useDocumentStore, persistUnsavedEnclosures } from '@/stores/documentStore';
-import { useDocumentsStore } from '@/stores/documentsStore';
+import { openSessionAsNew, type TransitionOutcome } from '@/stores/documentsStore';
 import type { DocumentData } from '@/types/document';
 
 export { isDocxFile, isLegacyDocFile, detectImportFormat, type ImportFormat } from '@/lib/importFormat';
@@ -71,36 +71,13 @@ export function hasParsedContent(p: ParsedLetter): boolean {
   );
 }
 
-/**
- * Load a parsed letter into the editor as a NEW document (the current one is
- * synced first, never clobbered). Mirrors the draft-import sequence in
- * Header.tsx: set the document type, then the scalar fields, then the arrays,
- * then open the result as its own recents entry. Only fields the parser filled
- * are written — everything else stays at the fresh-letter default.
- *
- * `docType` is the type the drafter confirmed in the review step (defaulting to
- * the importer's detection); every importable type lives in the correspondence
- * category, and `setDocType` derives the per-type layout config from it.
- *
- * `classification`, when the source was marked, pre-sets the banner level and
- * any derivative-classification authority block; per-paragraph portion markings
- * ride in on the parsed paragraphs. The drafter still owns the Classification
- * section after import (and the domain restriction applies there as usual).
- */
+/** Prepare a parsed letter from fresh defaults, then open it under one new identity. */
 export function applyParsedLetter(
   parsed: ParsedLetter,
   docType = 'naval_letter',
   classification?: ClassificationDetection
-): void {
-  const docs = useDocumentsStore.getState();
-  const ds = useDocumentStore.getState();
-
-  // Preserve the document being left before we overwrite the live editor state.
-  docs.syncCurrent();
-
-  ds.setDocumentMode('compliant');
-  ds.setDocumentCategory('correspondence');
-  ds.setDocType(docType);
+): TransitionOutcome {
+  const session = createBlankSession(undefined, docType);
 
   const formData: Partial<DocumentData> = {};
   if (parsed.ssic) formData.ssic = parsed.ssic;
@@ -124,11 +101,9 @@ export function applyParsedLetter(
     if (classification.declassifyOn) formData.declassifyOn = classification.declassifyOn;
     if (classification.classReason) formData.classReason = classification.classReason;
   }
-  ds.setFormData(formData);
-
-  ds.loadTemplate({
-    // `letter` is re-assigned by the store from array position.
-    references: parsed.references.map((title) => ({ letter: '', title })),
+  session.formData = { ...session.formData, ...formData };
+  Object.assign(session, {
+    references: parsed.references.map((title, index) => ({ letter: referenceLetterAt(index), title })),
     enclosures: parsed.enclosures.map((title) => ({ title })),
     paragraphs: parsed.paragraphs.map((p) => ({
       text: p.text,
@@ -138,6 +113,5 @@ export function applyParsedLetter(
     copyTos: parsed.copyTos.map((text) => ({ text })),
   });
 
-  docs.openLoadedAsNew();
-  void persistUnsavedEnclosures();
+  return openSessionAsNew(session);
 }

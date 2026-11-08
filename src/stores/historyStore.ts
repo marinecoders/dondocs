@@ -33,6 +33,7 @@ function sameOwner(a: DocumentScope | null, b: DocumentScope | null): boolean {
 interface HistoryState {
   owner: DocumentScope | null;
   bindOwner: (owner: DocumentScope | null) => void;
+  restoreHistory: (history: Pick<HistoryState, 'past' | 'future' | 'currentSnapshot'>, owner: DocumentScope | null) => void;
   // History stacks
   past: HistoryEntry[];
   future: HistoryEntry[];
@@ -106,6 +107,12 @@ function cloneSnapshot(snapshot: DocumentSnapshot, owner: DocumentScope | null):
 export const useHistoryStore = create<HistoryState>((set, get) => ({
   owner: null,
   bindOwner: (owner) => set({ owner, past: [], future: [], currentSnapshot: null }),
+  restoreHistory: (history, owner) => set({
+    owner,
+    past: history.past.map(snapshot => cloneSnapshot(snapshot, owner)),
+    future: history.future.map(snapshot => cloneSnapshot(snapshot, owner)),
+    currentSnapshot: history.currentSnapshot ? cloneSnapshot(history.currentSnapshot, owner) : null,
+  }),
   past: [],
   future: [],
   currentSnapshot: null,
@@ -228,3 +235,7 @@ export const useHistoryStore = create<HistoryState>((set, get) => ({
     currentSnapshot: null,
   }),
 }));
+
+/** Read-only availability for controls; mutations belong to the workspace owner. */
+export function useCanUndo(): boolean { return useHistoryStore(state => state.past.length > 0); }
+export function useCanRedo(): boolean { return useHistoryStore(state => state.future.length > 0); }

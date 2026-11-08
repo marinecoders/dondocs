@@ -33,15 +33,14 @@ import {
 } from '@/components/ui/alert-dialog';
 import { showAppAlert } from '@/stores/alertStore';
 import { useUIStore } from '@/stores/uiStore';
-import { useDocumentStore, loadSharedSession, persistUnsavedEnclosures } from '@/stores/documentStore';
+import { useDocumentStore } from '@/stores/documentStore';
 import { useFormStore } from '@/stores/formStore';
 import { detectPlaceholders } from '@/lib/placeholders';
-import { useDocumentsStore, openRecoveredCopies, changeDocumentHistory, captureDocumentScope } from '@/stores/documentsStore';
+import { useDocumentsStore, openRecoveredCopies, changeDocumentHistory, captureDocumentScope, captureDocumentTarget, openReviewedDocument, resetCurrentDocument } from '@/stores/documentsStore';
 import { editForm } from '@/services/forms/documents';
-import { useHistoryStore } from '@/stores/historyStore';
+import { useCanUndo, useCanRedo } from '@/stores/historyStore';
 import { triggerDownload } from '@/lib/encoding';
 import { buildDraftFile, parseDraftFile, type ReviewedDraft } from '@/lib/draftFile';
-import { persistAttachment } from '@/lib/attachments';
 import { SessionPreview } from '@/components/SessionPreview';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/dialog';
 import { STORAGE_KEYS } from '@/lib/constants';
@@ -106,13 +105,12 @@ export function Header({
   // Actions only, no document-state subscription. The handlers below read the
   // full document via useDocumentStore.getState() at call time, so Header
   // doesn't re-render per keystroke.
-  const resetForm = useDocumentStore((s) => s.resetForm);
   const clearFieldsExceptLetterhead = useDocumentStore((s) => s.clearFieldsExceptLetterhead);
 
   // Select the derived booleans, not the stable getter functions, so the
   // Undo/Redo enabled state updates when past/future change.
-  const canUndo = useHistoryStore((s) => s.past.length > 0);
-  const canRedo = useHistoryStore((s) => s.future.length > 0);
+  const canUndo = useCanUndo();
+  const canRedo = useCanRedo();
   const [reviewedDraft, setReviewedDraft] = useState<ReviewedDraft | null>(null);
   const [openingDraft, setOpeningDraft] = useState(false);
   const [draftError, setDraftError] = useState('');
@@ -196,20 +194,10 @@ export function Header({
   }, []);
 
   const handleReset = useCallback(() => {
-    const { documentCategory, formType } = useDocumentStore.getState();
-    if (documentCategory === 'forms' && useDocumentStore.getState().genericForm) {
-      editForm(draft => { draft.answers = {}; draft.rows = {}; });
-      setShowResetDialog(false);
-      setShowClearFieldsDialog(false);
-      return;
-    }
-    if (documentCategory === 'forms') {
-      const forms = useFormStore.getState();
-      if (formType === 'navmc_118_11') forms.resetNavmc11811();
-      else forms.resetNavmc10274();
-    } else resetForm();
+    resetCurrentDocument();
     setShowResetDialog(false);
-  }, [resetForm]);
+    setShowClearFieldsDialog(false);
+  }, []);
 
   const handleClearFields = useCallback(() => {
     const { documentCategory, formType } = useDocumentStore.getState();
@@ -260,27 +248,17 @@ export function Header({
   const openReviewedDraft = async () => {
     if (!reviewedDraft) return;
     setOpeningDraft(true);
+    const target = captureDocumentTarget();
     try {
-      const session = structuredClone(reviewedDraft.session);
-      for (const [index, file] of reviewedDraft.figures.entries()) {
-        if (file) {
-          const figure = session.paragraphs[index].figure!;
-          figure.fileRef = await persistAttachment({ name: file.name, size: file.size, type: figure.type ?? 'image/png' }, file.data);
-        }
+      const outcome = await openReviewedDocument(reviewedDraft, target);
+      if (outcome === 'stale') {
+        setDraftError('The document changed while this draft was opening. Review it and choose Open again.');
+        return;
       }
-      if (reviewedDraft.basicLetter) {
-        const file = reviewedDraft.basicLetter;
-        session.formData.basicLetterFileRef = await persistAttachment({ name: file.name, size: file.size, type: 'application/pdf' }, file.data);
+      if (outcome !== 'applied') {
+        setDraftError('Could not open this draft. Your current document has not changed.');
+        return;
       }
-      useDocumentsStore.getState().syncCurrent();
-      loadSharedSession(session);
-      useDocumentStore.setState((state) => ({
-        formData: reviewedDraft.basicLetter ? { ...state.formData, basicLetterFile: reviewedDraft.basicLetter } : state.formData,
-        enclosures: state.enclosures.map((enclosure, i) => ({ ...enclosure, file: reviewedDraft.files[i] ?? enclosure.file })),
-      }));
-      useDocumentsStore.getState().openLoadedAsNew();
-      await persistUnsavedEnclosures();
-      useDocumentsStore.getState().syncCurrent();
       setReviewedDraft(null);
       flashSaveStatus('Imported!');
     } catch {

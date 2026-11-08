@@ -48,18 +48,52 @@ export interface AttachmentMeta {
 const pending = new Set<Promise<unknown>>();
 const failed = new Map<string, StoredAttachment>();
 
+let stagingCount = 0;
+let stagingGeneration = 0;
+const ATTACHMENT_LOCK = 'dondocs-attachment-lifetime';
+
+/** Keep operation-owned blobs alive until they are installed or abandoned. */
+export async function withAttachmentStaging<T>(operation: () => Promise<T>): Promise<T> {
+  stagingCount++;
+  stagingGeneration++;
+  try {
+    if (typeof navigator !== 'undefined' && navigator.locks?.request) {
+      return await navigator.locks.request(ATTACHMENT_LOCK, { mode: 'shared' }, operation);
+    }
+    return await operation();
+  } finally { stagingCount--; }
+}
+
+/** An exclusive sweep cannot race staging in another tab on the same origin. */
+export async function withAttachmentSweep<T>(operation: () => Promise<T>): Promise<T | null> {
+  if (typeof navigator !== 'undefined' && navigator.locks?.request) {
+    return navigator.locks.request(ATTACHMENT_LOCK, { mode: 'exclusive', ifAvailable: true }, lock => lock ? operation() : null);
+  }
+  return operation();
+}
+
+/** A sweep's mark set expires even if staging starts and finishes during a read. */
+export function attachmentSweepCheckpoint(): number | null {
+  return stagingCount ? null : stagingGeneration;
+}
+
 /**
  * Store `data` under a fresh id and return the reference to persist in the
- * enclosure. Failed writes retain the bytes for this session; the update
- * barrier retries them before allowing navigation.
+ * enclosure. Failed legacy writes retain bytes for the update barrier; staged
+ * imports require a durable copy before replacing the current draft.
  */
-export async function persistAttachment(meta: AttachmentMeta, data: ArrayBuffer): Promise<FileRef> {
+export async function persistAttachment(meta: AttachmentMeta, data: ArrayBuffer, options: { requireDurable?: boolean } = {}): Promise<FileRef> {
   const id = newAttachmentId();
   const rec: StoredAttachment = { id, name: meta.name, type: meta.type, size: meta.size, data };
   const write = idbPutAttachment(rec);
   pending.add(write);
-  try { if (!await write) failed.set(id, rec); }
-  finally { pending.delete(write); }
+  try {
+    if (!await write) {
+      // A rejected staged import never owns a live reference to these bytes.
+      if (options.requireDurable) throw new Error(`Could not save ${meta.name}. Check browser storage and try opening the draft again.`);
+      failed.set(id, rec);
+    }
+  } finally { pending.delete(write); }
   return { id, name: meta.name, size: meta.size, type: meta.type };
 }
 
