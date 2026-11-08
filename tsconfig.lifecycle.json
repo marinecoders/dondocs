@@ -3,6 +3,10 @@
   "compilerOptions": {
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.lifecycle.tsbuildinfo"
   },
-  "include": ["tests/types/documentLifecycle.ts", "src/types/build-constants.d.ts"],
+  "include": [
+    "tests/types/documentLifecycle.ts",
+    "src/types/build-constants.d.ts",
+    "tests/types/capturedDocument.ts"
+  ],
   "exclude": []
 }

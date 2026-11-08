@@ -1,3 +1,4 @@
+import { serializeDocumentSnapshot } from '@/lib/documentSerialization';
 import { manualFrontMatterSchema } from '@/data/techpub/manualFrontMatter';
 import { sl4Schema } from '@/data/techpub/sl4';
 import { sl3Schema } from '@/data/techpub/sl3';
@@ -1076,42 +1077,10 @@ export function getSerializedSession(): SerializedSession {
  * preserve a correspondence document the instant the user flips to the Forms tab.
  */
 export function serializeSession(state: DocumentState): SerializedSession {
-  if (state.documentCategory === 'forms') {
-    return {
-      documentMode: state.documentMode, documentCategory: 'forms',
-      docType: state.docType, formType: state.formType,
-      ...(state.genericForm ? { genericForm: state.genericForm } : { forms: serializeForm(state.formType) }), formData: {}, references: [],
-      enclosures: [], paragraphs: [], copyTos: [], distributions: [], timestamp: Date.now(),
-    };
-  }
-  return {
-    documentMode: state.documentMode,
-    documentCategory: state.documentCategory,
-    docType: state.docType,
-    formType: state.formType,
-    endItems: state.endItems,
-    publicationTables: state.publicationTables,
-      genericForm: state.genericForm,
-    formData: {
-      ...state.formData,
-      // Bytes live in the attachments store; keep only basicLetterFileRef so the
-      // serialized session stays light and JSON-safe (rehydrated on load).
-      basicLetterFile: undefined,
-    },
-    references: state.references,
-    enclosures: state.enclosures.map(enc => ({
-      title: enc.title,
-      pageStyle: enc.pageStyle,
-      hasCoverPage: enc.hasCoverPage,
-      coverPageDescription: enc.coverPageDescription,
-      hasFile: !!enc.file,
-      fileRef: enc.fileRef,
-    })),
-    paragraphs: state.paragraphs,
-    copyTos: state.copyTos,
-    distributions: state.distributions,
-    timestamp: Date.now(),
-  };
+  return serializeDocumentSnapshot({
+    ...state,
+    forms: state.documentCategory === 'forms' && !state.genericForm ? serializeForm(state.formType) : undefined,
+  });
 }
 
 /** Build a blank document without changing the active workspace. */

@@ -1,4 +1,5 @@
-import { getSerializedSession } from '@/stores/documentStore';
+import { copyCapturedSession } from './capturedDocument';
+import { captureCurrentDocumentRevision } from '@/stores/captureDocument';
 import { captureDocumentScope, isCurrentDocumentScope, commitCurrentDocument } from '@/stores/documentsStore';
 import { showAppAlert } from '@/stores/alertStore';
 import { STORAGE_KEYS } from '@/lib/constants';
@@ -7,7 +8,8 @@ import { STORAGE_KEYS } from '@/lib/constants';
 export async function saveCheckpoint(): Promise<boolean> {
   const scope = captureDocumentScope();
   try {
-    localStorage.setItem(STORAGE_KEYS.DOCUMENT, JSON.stringify(getSerializedSession()));
+    const captured = captureCurrentDocumentRevision();
+    localStorage.setItem(STORAGE_KEYS.DOCUMENT, JSON.stringify(copyCapturedSession(captured)));
     return !!await commitCurrentDocument();
   } catch {
     if (scope && !isCurrentDocumentScope(scope)) return false;
