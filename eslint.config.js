@@ -76,7 +76,7 @@ export default defineConfig([
     },
   },
   {
-    files: ['src/lib/{capturedDocument,documentFieldPolicies,documentFields,documentSerialization}.ts'],
+    files: ['src/lib/{capturedDocument,documentCapabilities,documentFieldPolicies,documentFields,documentSerialization}.ts'],
     rules: {
       'no-restricted-imports': ['error', { patterns: [{
         regex: '^(?:@/stores(?:/|$)|(?:\\.\\.?/)+(?:.*/)?stores(?:/|$))',
