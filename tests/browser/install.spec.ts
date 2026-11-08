@@ -83,7 +83,7 @@ test('Help install opens usable browser-specific instructions without a native p
     await expect(dialog).toContainText('install icon');
   }
   // Verify the real Radix focus trap and close control, not only store flags.
-  await expect.poll(() => dialog.evaluate(element => element.contains(document.activeElement))).toBe(true);
+  await expect(dialog.getByRole('button', { name: 'Close', exact: true })).toBeFocused({ timeout: 15_000 });
   await dialog.getByRole('button', { name: 'Close', exact: true }).click();
   await expect(dialog).toBeHidden();
   await expect(page.getByRole('button', { name: 'Install app', exact: true })).toBeFocused();

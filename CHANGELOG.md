@@ -5,6 +5,12 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.3.9] — 2026-11-08
+
+### Fixed
+
+- Keep version restores bound to the document session and reviewed revision while preserving a committed safety copy.
+
 ## [1.3.8] — 2026-11-07
 
 ### Changed

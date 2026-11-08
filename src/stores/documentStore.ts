@@ -1026,6 +1026,20 @@ export function getSavedSession(): SerializedSession | null {
 
 // Suppress category-transition autosaves while replacing a whole session.
 let applyingSession = false;
+let applyingAssets = false;
+export const isApplyingAssets = () => applyingAssets;
+/** Hydration changes bytes and handles without becoming a user edit. */
+export function mutateSessionAssets(update: () => void): void {
+  const previous = applyingAssets;
+  applyingAssets = true;
+  try { update(); } finally { applyingAssets = previous; }
+}
+const replacementListeners = new Set<() => void>();
+/** The workspace observes replacements without a reverse store dependency. */
+export function observeSessionReplacement(listener: () => void): () => void {
+  replacementListeners.add(listener);
+  return () => { replacementListeners.delete(listener); };
+}
 export const isApplyingSession = () => applyingSession;
 export function resetDocumentHistory(): void {
   if (saveTimeout) clearTimeout(saveTimeout);
@@ -1036,6 +1050,7 @@ export function resetDocumentHistory(): void {
 
 export function replaceSessionState(update: () => void): void {
   const wasApplying = applyingSession;
+  if (!wasApplying) for (const listener of replacementListeners) listener();
   applyingSession = true;
   try { update(); } finally { applyingSession = wasApplying; }
   if (!wasApplying) resetDocumentHistory();
@@ -1201,12 +1216,12 @@ export async function rehydrateEnclosureFiles(): Promise<void> {
       // but never serializes. Same guard the enclosure path uses.
       const current = useDocumentStore.getState().formData;
       if (data && !current.basicLetterFile && current.basicLetterFileRef?.id === blRef.id) {
-        useDocumentStore.setState((state) => ({
+        mutateSessionAssets(() => useDocumentStore.setState((state) => ({
           formData: {
             ...state.formData,
             basicLetterFile: { name: blRef.name, size: blRef.size || data.byteLength, data },
           },
-        }));
+        })));
       }
     } catch (err) {
       debug.error('Store', 'Failed to rehydrate basic-letter file', err);
@@ -1237,13 +1252,13 @@ export async function rehydrateEnclosureFiles(): Promise<void> {
   );
   if (loaded.size === 0) return;
 
-  useDocumentStore.setState((state) => ({
+  mutateSessionAssets(() => useDocumentStore.setState((state) => ({
     enclosures: state.enclosures.map((e) => {
       if (e.file || !e.fileRef) return e; // don't overwrite live edits
       const got = loaded.get(e.fileRef.id);
       return got ? { ...e, file: got } : e;
     }),
-  }));
+  })));
   debug.log('Store', 'Enclosure files rehydrated', { count: loaded.size });
 }
 
@@ -1268,14 +1283,14 @@ export async function persistUnsavedEnclosures(): Promise<void> {
         { name: e.file.name, size: e.file.size, type: '' },
         e.file.data
       );
-      useDocumentStore.setState((state) => {
+      mutateSessionAssets(() => useDocumentStore.setState((state) => {
         const cur = state.enclosures[index];
         // Only stamp the ref if this slot still holds the same, still-unref'd file.
         if (!cur?.file || cur.fileRef || cur.file !== e.file) return {};
         const enclosures = state.enclosures.slice();
         enclosures[index] = { ...cur, fileRef: ref };
         return { enclosures };
-      });
+      }));
     } catch (err) {
       debug.error('Store', 'Failed to persist imported enclosure', err);
     }

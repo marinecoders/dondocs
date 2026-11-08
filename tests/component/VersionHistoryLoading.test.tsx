@@ -63,7 +63,7 @@ it('ignores a late response for another document', async () => {
 
 it('preserves the safety-copy failure message and keeps history open', async () => {
   read.mockResolvedValueOnce([snapshot()]);
-  const restore = vi.spyOn(useDocumentsStore.getState(), 'restoreSnapshot').mockResolvedValueOnce(false);
+  const restore = vi.spyOn(useDocumentsStore.getState(), 'restoreSnapshot').mockResolvedValueOnce('safety-copy-failed');
   useDocumentsStore.setState({ currentId: 'first' });
   try {
     render(<VersionHistoryModal />);
@@ -102,14 +102,14 @@ it('selects and compares versions without saving or restoring them', async () =>
 it('only restores the selected version and closes after successful restoration', async () => {
   const saved = snapshot();
   read.mockResolvedValueOnce([saved]);
-  const restore = vi.spyOn(useDocumentsStore.getState(), 'restoreSnapshot').mockResolvedValueOnce(true);
+  const restore = vi.spyOn(useDocumentsStore.getState(), 'restoreSnapshot').mockResolvedValueOnce('applied');
   useDocumentsStore.setState({ currentId: 'first' });
   try {
     render(<VersionHistoryModal />);
     await userEvent.click(await screen.findByRole('button', { name: /Compare version/ }));
     expect(restore).not.toHaveBeenCalled();
     await userEvent.click(screen.getByRole('button', { name: 'Restore selected version' }));
-    expect(restore).toHaveBeenCalledExactlyOnceWith(saved.session);
+    expect(restore).toHaveBeenCalledExactlyOnceWith(saved.session, expect.objectContaining({ scope: expect.objectContaining({ documentId: 'first' }) }));
     expect(useUIStore.getState().historyDocId).toBeNull();
   } finally { restore.mockRestore(); }
 });
@@ -136,5 +136,37 @@ it('recovers controls after an unexpected restore rejection', async () => {
     expect(await screen.findByRole('alert')).toHaveTextContent('Couldn’t finish restoring');
     expect(screen.getByRole('button', { name: 'Restore selected version' })).toBeEnabled();
     expect(useUIStore.getState().historyDocId).toBe('first');
+  } finally { restore.mockRestore(); }
+});
+
+it('describes a stale restore as cancellation and leaves History open', async () => {
+  read.mockResolvedValueOnce([snapshot()]);
+  const restore = vi.spyOn(useDocumentsStore.getState(), 'restoreSnapshot').mockResolvedValueOnce('stale');
+  useDocumentsStore.setState({ currentId: 'first' });
+  try {
+    render(<VersionHistoryModal />);
+    await userEvent.click(await screen.findByRole('button', { name: /Compare version/ }));
+    await userEvent.click(screen.getByRole('button', { name: 'Restore selected version' }));
+    expect(await screen.findByRole('alert')).toHaveTextContent('Restore cancelled because the document changed');
+    expect(useUIStore.getState().historyDocId).toBe('first');
+  } finally { restore.mockRestore(); }
+});
+
+it('does not let an old restore completion close a reopened dialog', async () => {
+  let finish!: (outcome: 'applied') => void;
+  const pending = new Promise<'applied'>(resolve => { finish = resolve; });
+  read.mockResolvedValue([snapshot()]);
+  const restore = vi.spyOn(useDocumentsStore.getState(), 'restoreSnapshot').mockReturnValueOnce(pending);
+  useDocumentsStore.setState({ currentId: 'first' });
+  try {
+    render(<VersionHistoryModal />);
+    await userEvent.click(await screen.findByRole('button', { name: /Compare version/ }));
+    await userEvent.click(screen.getByRole('button', { name: 'Restore selected version' }));
+    act(() => useUIStore.setState({ historyDocId: null }));
+    act(() => useUIStore.setState({ historyDocId: 'first' }));
+    await screen.findByRole('button', { name: /Compare version/ });
+    await act(async () => finish('applied'));
+    expect(useUIStore.getState().historyDocId).toBe('first');
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument();
   } finally { restore.mockRestore(); }
 });
