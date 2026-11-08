@@ -1,3 +1,4 @@
+import { captureDocumentTarget, isCurrentDocumentTarget } from '@/stores/documentsStore';
 import { useState } from 'react';
 import { StockPublicationGroup as Group } from './StockPublicationGroup';
 import { showAppConfirm } from '@/stores/alertStore';
@@ -7,7 +8,6 @@ import { MANUAL_TYPES, emptyManualFrontMatter, ISSUING_ENTITIES, ISSUING_ADDRESS
 import { reasonsFor } from '@/data/techpub/distributionStatements';
 import { manualFrontMatterFindings, type ManualFinding } from '@/lib/manualFrontMatterValidation';
 import { lastWorkingDay } from '@/lib/publicationDate';
-import { useDocumentsStore } from '@/stores/documentsStore';
 import { useDocumentStore } from '@/stores/documentStore';
 import { useEditorOutlineStore } from '@/stores/editorOutlineStore';
 import { Input } from '@/components/ui/input';
@@ -127,10 +127,10 @@ export function ManualFrontMatterSection({ section }: { section: ManualFinding['
           <Button variant="ghost" size="icon" aria-label={`Move end item ${index + 1} down`} disabled={index === m.endItems.length - 1} onClick={() => move(index, 1)}><ArrowDown className="size-4" /></Button>
           <Button variant="ghost" size="icon" aria-label={`Remove end item ${index + 1}`} onClick={async () => {
             const snapshot = JSON.stringify(m.endItems);
-            const documentId = useDocumentsStore.getState().currentId;
+            const target = captureDocumentTarget();
             if ([item.nsn, item.tamcn, item.id, item.model].some(value => value.trim()) && !await showAppConfirm({ title: `Remove end item ${index + 1}?`, message: 'The end item will be removed from this publication.', confirmLabel: 'Remove end item', destructive: true })) return;
             const current = useDocumentStore.getState();
-            if (useDocumentsStore.getState().currentId !== documentId || current.docType !== 'tm_ietm_front_matter' || JSON.stringify(current.formData.manualFrontMatter?.endItems) !== snapshot) return;
+            if (!isCurrentDocumentTarget(target) || current.docType !== 'tm_ietm_front_matter' || JSON.stringify(current.formData.manualFrontMatter?.endItems) !== snapshot) return;
             current.setField('manualFrontMatter', { ...current.formData.manualFrontMatter!, endItems: m.endItems.filter(row => row.rowId !== item.rowId) });
           }}><Trash2 className="size-4" /></Button>
         </div></div>

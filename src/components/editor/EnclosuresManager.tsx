@@ -1,3 +1,4 @@
+import { captureDocumentTarget, isCurrentDocumentTarget } from '@/stores/documentsStore';
 import { beginDocumentTask, isCurrentDocumentTask } from '@/lib/documentTask';
 import { useCallback, useState } from 'react';
 import { runFileImport } from '@/lib/fileImports';
@@ -262,6 +263,8 @@ export function EnclosuresManager() {
   // attached PDF (the latter is real uploaded data). A blank row still deletes
   // in one click.
   const handleRemoveEnclosure = useCallback(async (index: number, encl: Enclosure) => {
+    const target = captureDocumentTarget();
+    const resource = enclosureResource(encl);
     const hasContent = (encl.title ?? '').trim() !== '' || !!encl.file;
     if (hasContent) {
       const confirmed = await showAppConfirm({
@@ -274,11 +277,17 @@ export function EnclosuresManager() {
       });
       if (!confirmed) return;
     }
-    removeEnclosure(index);
+    if (!isCurrentDocumentTarget(target)) return;
+    const currentIndex = useDocumentStore.getState().enclosures.findIndex(enclosure => enclosureResource(enclosure) === resource);
+    if (currentIndex < 0) return;
+    beginDocumentTask(resource);
+    removeEnclosure(currentIndex);
   }, [removeEnclosure]);
 
   // Detaching a PDF discards the uploaded bytes — always confirm.
   const handleRemoveFile = useCallback(async (index: number, encl: Enclosure) => {
+    const target = captureDocumentTarget();
+    const resource = enclosureResource(encl);
     if (encl.file) {
       const confirmed = await showAppConfirm({
         title: 'Remove attached PDF?',
@@ -288,7 +297,11 @@ export function EnclosuresManager() {
       });
       if (!confirmed) return;
     }
-    updateEnclosure(index, { file: undefined, fileRef: undefined });
+    if (!isCurrentDocumentTarget(target)) return;
+    const currentIndex = useDocumentStore.getState().enclosures.findIndex(enclosure => enclosureResource(enclosure) === resource);
+    if (currentIndex < 0) return;
+    beginDocumentTask(resource);
+    updateEnclosure(currentIndex, { file: undefined, fileRef: undefined });
   }, [updateEnclosure]);
 
   const handleUploadNewEnclosure = useCallback((file: File) => runFileImport(async () => {

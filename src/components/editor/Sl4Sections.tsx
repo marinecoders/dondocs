@@ -1,3 +1,4 @@
+import { captureDocumentTarget, isCurrentDocumentTarget } from '@/stores/documentsStore';
 import { useId, useState, type ReactNode } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -6,7 +7,6 @@ import { DatePicker } from '@/components/ui/date-picker';
 import { Label } from '@/components/ui/label';
 import { useEditorOutlineStore } from '@/stores/editorOutlineStore';
 import { useDocumentStore } from '@/stores/documentStore';
-import { useDocumentsStore } from '@/stores/documentsStore';
 import { showAppConfirm } from '@/stores/alertStore';
 import { newAttachmentId } from '@/lib/attachments';
 import { buildSl4Indexes } from '@/lib/sl4References';
@@ -198,13 +198,14 @@ export function Sl4PartsSection() {
         {message?.rowId === row.id && <p role="alert" className="text-sm text-destructive">{message.text}</p>}
         <div className="flex flex-wrap gap-2">{([-1, 1] as const).map((direction) => <Button key={direction} variant="outline" disabled={moveSl4Group(data, row.id, direction) === data.rows} aria-label={`Move ${label} ${direction < 0 ? 'up' : 'down'}`} onClick={() => applyRows(moveSl4Group(data, row.id, direction))}>{direction < 0 ? 'Move up' : 'Move down'}</Button>)}
           <Button variant="ghost" onClick={async () => {
-            const documentId = useDocumentsStore.getState().currentId;
+            const target = captureDocumentTarget();
             if (!await showAppConfirm({ title: `Remove ${label}?`, message: 'This removes its component group and clears references to the removed items. Remaining item numbers update, and illustrations require another lettering review.', confirmLabel: 'Remove group', destructive: true })) return;
             const current = useDocumentStore.getState();
-            if (current.docType !== 'sl4' || useDocumentsStore.getState().currentId !== documentId) return;
+            if (current.docType !== 'sl4') return;
             const latest = current.formData.sl4;
             if (!latest) return;
             if (latest !== data) { setMessage({ rowId: row.id, text: 'This draft changed while the confirmation was open. Review the current parts and try again.' }); return; }
+            if (!isCurrentDocumentTarget(target)) return;
             const rows = deleteSl4Group(latest, row.id);
             if (rows !== latest.rows) current.setField('sl4', { ...latest, rows, artwork: [] });
             setMessage(null);

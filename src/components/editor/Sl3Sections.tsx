@@ -1,3 +1,4 @@
+import { beginDocumentTask, isCurrentDocumentTask } from '@/lib/documentTask';
 import { emptySl4 } from '@/data/techpub/sl4';
 import { runFileImport } from '@/lib/fileImports';
 import { sl4ExportErrors, sl4ErrorSection } from '@/lib/sl4Preflight';
@@ -6,9 +7,8 @@ import { Plus, Trash2, ArrowUp, ArrowDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { useDocumentsStore } from '@/stores/documentsStore';
 import { useDocumentStore } from '@/stores/documentStore';
-import { persistAttachment, newAttachmentId } from '@/lib/attachments';
+import { persistAttachment, newAttachmentId, withAttachmentStaging } from '@/lib/attachments';
 import { prepareFigureUpload } from '@/lib/prepareFigureUpload';
 import { Sl3FigurePreview } from './Sl3FigurePreview';
 import {
@@ -778,49 +778,58 @@ export function Sl3IllustrationsSection({ publication = 'sl3' }: { publication?:
                 const file = e.target.files?.[0];
                 if (!file) return;
                 await runFileImport(async () => {
-                  const documentId = useDocumentsStore.getState().currentId;
+                  e.currentTarget.value = '';
+                  const task = beginDocumentTask(p.figure ?? p);
                   const sourceFileId = p.figure?.fileRef?.id;
-                  try {
-                    const { bytes: buffer, type, width, height } = await prepareFigureUpload(file);
-                    const fileRef = await persistAttachment(
-                      {
-                        name: file.name,
-                        type,
-                        size: buffer.byteLength,
-                      },
-                      buffer,
-                    );
+                  const findTarget = () => {
                     const current = useDocumentStore.getState();
-                    const index = current.paragraphs.findIndex(
-                      (entry) => entry.referenceId === p.referenceId,
-                    );
-                    if (current.docType !== publication || useDocumentsStore.getState().currentId !== documentId || index < 0 || current.paragraphs[index].figure?.fileRef?.id !== sourceFileId) return;
-                    current.updateParagraph(index, {
-                      figure: {
-                        ...current.paragraphs[index].figure,
-                        fileRef,
-                        name: file.name,
-                        type,
-                        width,
-                        height,
-                      },
-                    });
-                    if (current.formData[publication])
-                      current.setField(publication, {
-                        ...current.formData[publication]!,
-                        artwork: (current.formData[publication]!.artwork ?? []).filter(
-                          (a) => a.figureId !== p.referenceId,
-                        ),
+                    const index = current.paragraphs.findIndex(entry => entry.referenceId === p.referenceId);
+                    if (current.docType !== publication || !isCurrentDocumentTask(task) || index < 0 || current.paragraphs[index].figure !== p.figure || current.paragraphs[index].figure?.fileRef?.id !== sourceFileId) return null;
+                    return { current, index };
+                  };
+                  try {
+                    await withAttachmentStaging(async () => {
+                      if (!findTarget()) return;
+                      const { bytes: buffer, type, width, height } = await prepareFigureUpload(file);
+                      if (!findTarget()) return;
+                      const fileRef = await persistAttachment(
+                        {
+                          name: file.name,
+                          type,
+                          size: buffer.byteLength,
+                        },
+                        buffer,
+                        { requireDurable: true },
+                      );
+                      const target = findTarget();
+                      if (!target) return;
+                      const { current, index } = target;
+                      current.updateParagraph(index, {
+                        figure: {
+                          ...current.paragraphs[index].figure,
+                          fileRef,
+                          name: file.name,
+                          type,
+                          width,
+                          height,
+                        },
                       });
-                    setError('');
+                      if (current.formData[publication])
+                        current.setField(publication, {
+                          ...current.formData[publication]!,
+                          artwork: (current.formData[publication]!.artwork ?? []).filter(
+                            (a) => a.figureId !== p.referenceId,
+                          ),
+                        });
+                      setError('');
+                    });
                   } catch (cause) {
+                    if (!findTarget()) return;
                     setError(
                       cause instanceof Error
                         ? cause.message
                         : 'Could not attach illustration.',
                     );
-                  } finally {
-                    e.target.value = '';
                   }
                 });
               }}

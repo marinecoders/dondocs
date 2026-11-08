@@ -1,3 +1,4 @@
+import { captureDocumentTarget, isCurrentDocumentTarget } from '@/stores/documentsStore';
 import { memo } from 'react';
 import {
   DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors, type DragEndEvent, } from '@dnd-kit/core';
@@ -71,6 +72,7 @@ const SortableReference = memo(function SortableReference({
   // to make and awkward to undo. Confirm first, but only when the row actually
   // holds something; discarding a blank row should stay a single click.
   const handleRemove = async () => {
+    const target = captureDocumentTarget();
     const hasContent = (reference.title ?? '').trim() !== '' || trimmedUrl !== '';
     if (hasContent) {
       const confirmed = await showAppConfirm({
@@ -81,7 +83,7 @@ const SortableReference = memo(function SortableReference({
       });
       if (!confirmed) return;
     }
-    removeReference(index);
+    if (isCurrentDocumentTarget(target)) removeReference(index);
   };
 
   return (
