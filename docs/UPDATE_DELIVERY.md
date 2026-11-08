@@ -60,3 +60,17 @@ their resource URLs. Cache collection retains identified live/offered releases a
 the two most recently prepared releases; any unresponsive client prevents cleanup.
 Worker takeover also requires every existing client to identify the supported
 protocol. Legacy `SKIP_WAITING` messages cannot override that check.
+
+## Accepting and reopening
+
+An accepted update pauses new workspace interaction, checks active generation,
+downloads, batch work, and backup transfers, then commits document writes and
+retries retained attachment writes. Missing attachment bytes or unavailable form
+pages stop the update. Readiness and the saved document are checked again before
+the one navigation. Failures leave the editor available for retry.
+
+The selected release, document, section, and view live in that tab's session
+storage. Initialization restores them before exposing the workspace, rather than
+relying on the shared current-document key. The point is cleared after successful
+initialization. If the application fails to initialize, the HTML guard can retry
+the compatible previous release once. It never unregisters workers or clears data.

@@ -73,3 +73,46 @@ test('does not advertise an incomplete release and retries after the origin reco
   server.faults.clear(); await page.evaluate(() => window.dispatchEvent(new Event('focus')));
   await expect(page.getByRole('button', { name: 'Update Available', exact: true })).toBeVisible({ timeout: 120000 });
 });
+
+test('restores the accepting tab’s last edit when another tab has a different document open', async ({ page, context }) => {
+  await start(page);
+  const other = await context.newPage(); await other.goto(server.origin);
+  await other.getByRole('button', { name: 'New document', exact: true }).click();
+  await other.getByRole('menuitem', { name: 'New correspondence', exact: true }).click();
+  await other.locator('#subject:visible, #body-subject:visible').fill('OTHER DOCUMENT');
+  await expect(other.locator('[title^="Saved "]')).toBeVisible();
+  root = resolve(second!);
+  await page.bringToFront(); await page.evaluate(() => window.dispatchEvent(new Event('focus')));
+  const update = page.getByRole('button', { name: 'Update Available', exact: true });
+  await expect(update).toBeVisible({ timeout: 120000 });
+  await page.locator('#subject:visible, #body-subject:visible').fill('LAST EDIT BEFORE ACCEPTANCE');
+  const otherOrigin = await other.evaluate(() => performance.timeOrigin);
+  await update.click(); await page.getByRole('button', { name: 'Update Now', exact: true }).click();
+  await expect(page.locator('meta[name="dondocs-release"]')).toHaveAttribute('content', secondId);
+  await expect(page.locator('#subject:visible, #body-subject:visible')).toHaveValue('LAST EDIT BEFORE ACCEPTANCE');
+  expect(await other.evaluate(() => performance.timeOrigin)).toBe(otherOrigin);
+  await expect(other.locator('#subject:visible, #body-subject:visible')).toHaveValue('OTHER DOCUMENT');
+  await expect.poll(() => page.evaluate(() => sessionStorage.getItem('dondocs-update-restore'))).toBeNull();
+});
+
+test('keeps the page and edit intact when a document write fails during acceptance', async ({ page }) => {
+  await start(page); root = resolve(second!);
+  await page.evaluate(() => window.dispatchEvent(new Event('focus')));
+  const update = page.getByRole('button', { name: 'Update Available', exact: true });
+  await expect(update).toBeVisible({ timeout: 120000 });
+  await page.evaluate(() => {
+    const original = IDBObjectStore.prototype.put;
+    IDBObjectStore.prototype.put = function (...args) {
+      if (this.name === 'documents') throw new DOMException('Test storage failure', 'QuotaExceededError');
+      return original.apply(this, args);
+    };
+  });
+  await page.locator('#subject:visible, #body-subject:visible').fill('KEEP THE UNSAVED EDIT');
+  const original = await page.evaluate(() => performance.timeOrigin);
+  await update.click(); await page.getByRole('button', { name: 'Update Now', exact: true }).click();
+  await expect(page.getByRole('alertdialog', { name: 'Update paused' })).toBeVisible();
+  expect(await page.evaluate(() => performance.timeOrigin)).toBe(original);
+  await expect(page.locator('#subject:visible, #body-subject:visible')).toHaveValue('KEEP THE UNSAVED EDIT');
+  expect(await page.evaluate(() => sessionStorage.getItem('dondocs-update-restore'))).toBeNull();
+  expect(await page.locator('.workspace-shell').getAttribute('inert')).toBeNull();
+});

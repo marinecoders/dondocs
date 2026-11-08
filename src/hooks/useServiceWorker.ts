@@ -159,6 +159,7 @@ function useLegacyServiceWorker() {
     confirmUpdate,
     dismissUpdatePrompt,
     offlineReady,
+    updating: false,
   };
 }
 

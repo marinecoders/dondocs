@@ -1,4 +1,5 @@
 import { emptySl4 } from '@/data/techpub/sl4';
+import { runFileImport } from '@/lib/fileImports';
 import { sl4ExportErrors, sl4ErrorSection } from '@/lib/sl4Preflight';
 import { useState } from 'react';
 import { Plus, Trash2, ArrowUp, ArrowDown } from 'lucide-react';
@@ -776,24 +777,25 @@ export function Sl3IllustrationsSection({ publication = 'sl3' }: { publication?:
               onChange={async (e) => {
                 const file = e.target.files?.[0];
                 if (!file) return;
-                const documentId = useDocumentsStore.getState().currentId;
-                const sourceFileId = p.figure?.fileRef?.id;
-                try {
-                  const { bytes: buffer, type, width, height } = await prepareFigureUpload(file);
-                  const fileRef = await persistAttachment(
-                    {
-                      name: file.name,
-                      type,
-                      size: buffer.byteLength,
-                    },
-                    buffer,
-                  );
-                  const current = useDocumentStore.getState();
-                  const index = current.paragraphs.findIndex(
-                    (entry) => entry.referenceId === p.referenceId,
-                  );
-                  if (current.docType !== publication || useDocumentsStore.getState().currentId !== documentId || index < 0 || current.paragraphs[index].figure?.fileRef?.id !== sourceFileId) return;
-                  current.updateParagraph(index, {
+                await runFileImport(async () => {
+                  const documentId = useDocumentsStore.getState().currentId;
+                  const sourceFileId = p.figure?.fileRef?.id;
+                  try {
+                    const { bytes: buffer, type, width, height } = await prepareFigureUpload(file);
+                    const fileRef = await persistAttachment(
+                      {
+                        name: file.name,
+                        type,
+                        size: buffer.byteLength,
+                      },
+                      buffer,
+                    );
+                    const current = useDocumentStore.getState();
+                    const index = current.paragraphs.findIndex(
+                      (entry) => entry.referenceId === p.referenceId,
+                    );
+                    if (current.docType !== publication || useDocumentsStore.getState().currentId !== documentId || index < 0 || current.paragraphs[index].figure?.fileRef?.id !== sourceFileId) return;
+                    current.updateParagraph(index, {
                       figure: {
                         ...current.paragraphs[index].figure,
                         fileRef,
@@ -803,23 +805,24 @@ export function Sl3IllustrationsSection({ publication = 'sl3' }: { publication?:
                         height,
                       },
                     });
-                  if (current.formData[publication])
-                    current.setField(publication, {
-                      ...current.formData[publication]!,
-                      artwork: (current.formData[publication]!.artwork ?? []).filter(
-                        (a) => a.figureId !== p.referenceId,
-                      ),
-                    });
-                  setError('');
-                } catch (cause) {
-                  setError(
-                    cause instanceof Error
-                      ? cause.message
-                      : 'Could not attach illustration.',
-                  );
-                } finally {
-                  e.target.value = '';
-                }
+                    if (current.formData[publication])
+                      current.setField(publication, {
+                        ...current.formData[publication]!,
+                        artwork: (current.formData[publication]!.artwork ?? []).filter(
+                          (a) => a.figureId !== p.referenceId,
+                        ),
+                      });
+                    setError('');
+                  } catch (cause) {
+                    setError(
+                      cause instanceof Error
+                        ? cause.message
+                        : 'Could not attach illustration.',
+                    );
+                  } finally {
+                    e.target.value = '';
+                  }
+                });
               }}
             />
           </label>

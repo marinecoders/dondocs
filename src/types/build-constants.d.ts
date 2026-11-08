@@ -15,3 +15,4 @@ declare const __BUILD_TIME__: string;
 declare const __LATEX_TEMPLATES_REVISION__: string;
 declare const __RUNTIME_BASE__: string;
 declare const __RELEASE_ID__: string;
+interface Window { __DD_WORKSPACE_READY__?: boolean }

@@ -7,7 +7,7 @@ import { useUIStore, type DensityMode } from '@/stores/uiStore';
 import { backupAction, useBackupStore } from '@/stores/backupStore';
 import { downloadWorkspaceBackup } from '@/lib/backupDownload';
 import { MAX_BACKUP_BYTES } from '@/lib/backupValidation';
-import { restoreBackup, summarizeRestore } from '@/lib/backup';
+import { restoreBackupFile, summarizeRestore } from '@/lib/backup';
 
 function BackupPreferences() {
   const backup = useBackupStore();
@@ -29,7 +29,7 @@ function BackupPreferences() {
     event.target.value = '';
     if (file) void run(async () => {
       if (file.size > MAX_BACKUP_BYTES) throw new Error('The import limit is 100 MB. Keep the backup file; nothing was changed.');
-      const result = await restoreBackup(await file.text());
+      const result = await restoreBackupFile(file);
       const summary = summarizeRestore(result);
       if (result.issues?.length || result.documents.issues?.length) setError(summary);
       else setMessage(summary);

@@ -147,6 +147,8 @@ export async function pickFile(
 
 // The live handle lives outside the store (not serializable UI state).
 let handleRef: FileSystemFileHandle | null = null;
+let backupWrites = 0;
+export function isBackupWriteInProgress(): boolean { return backupWrites > 0; }
 
 interface BackupState {
   status: BackupStatus;
@@ -223,6 +225,7 @@ export const useBackupStore = create<BackupState>((set, get) => ({
     const status = get().status;
     // 'error' stays writable so the next save retries and can self-heal.
     if ((status !== 'connected' && status !== 'error') || !handleRef) return;
+    backupWrites++;
     try {
       const perm = await queryPerm(handleRef);
       if (perm !== 'granted') {
@@ -251,7 +254,7 @@ export const useBackupStore = create<BackupState>((set, get) => ({
         set({ status: 'error', fileMissing: await isFileMissing(handleRef) });
       }
       debug.error('Backup', 'write failed', err);
-    }
+    } finally { backupWrites--; }
   },
 }));
 

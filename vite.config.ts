@@ -69,7 +69,8 @@ function versionMetaPlugin(): Plugin {
         `<meta name="dondocs-build-time" content="${BUILD_TIME}" />`,
         ...(RELEASE_BUILD ? [`<meta name="dondocs-release" content="${RELEASE_ID}" />`] : []),
       ].join('\n    ');
-      const shell = RELEASE_BUILD ? html.replace(/<script id="boot-watchdog">[\s\S]*?<\/script>/, '') : html;
+      const shell = RELEASE_BUILD ? html.replace(/<script id="boot-watchdog">[\s\S]*?<\/script>/,
+        `<script id="release-recovery">${fs.readFileSync(path.resolve(__dirname, 'scripts/release-recovery.js'), 'utf8')}</script>`) : html;
       return shell.replace('</head>', `    ${metaTags}\n  </head>`);
     },
     generateBundle() {

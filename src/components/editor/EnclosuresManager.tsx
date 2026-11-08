@@ -1,4 +1,5 @@
 import { useCallback, useState } from 'react';
+import { runFileImport } from '@/lib/fileImports';
 import {
   DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors, type DragEndEvent, } from '@dnd-kit/core';
 import {
@@ -234,7 +235,7 @@ export function EnclosuresManager() {
     }
   };
 
-  const handleAttachFile = useCallback(async (index: number, file: File) => {
+  const handleAttachFile = useCallback((index: number, file: File) => runFileImport(async () => {
     const data = await file.arrayBuffer();
     // Persist the bytes so the enclosure survives a reload and rides along in a
     // backup; keep the in-memory copy for immediate export either way.
@@ -247,7 +248,7 @@ export function EnclosuresManager() {
       },
       fileRef,
     });
-  }, [updateEnclosure]);
+  }), [updateEnclosure]);
 
   // Confirm before dropping an enclosure that holds anything — a title or an
   // attached PDF (the latter is real uploaded data). A blank row still deletes
@@ -282,7 +283,7 @@ export function EnclosuresManager() {
     updateEnclosure(index, { file: undefined, fileRef: undefined });
   }, [updateEnclosure]);
 
-  const handleUploadNewEnclosure = useCallback(async (file: File) => {
+  const handleUploadNewEnclosure = useCallback((file: File) => runFileImport(async () => {
     // Extract filename without extension for the title
     const title = file.name.replace(/\.pdf$/i, '');
     const data = await file.arrayBuffer();
@@ -292,7 +293,7 @@ export function EnclosuresManager() {
       size: file.size,
       data,
     }, fileRef);
-  }, [addEnclosure]);
+  }), [addEnclosure]);
 
   // Drag and drop state
   const [isDraggingOver, setIsDraggingOver] = useState(false);

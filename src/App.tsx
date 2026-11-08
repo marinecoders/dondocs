@@ -12,6 +12,7 @@ import { ReadinessMeter } from '@/components/layout/ReadinessMeter';
 import { FormPanel } from '@/components/layout/FormPanel';
 import { EditorSidebar } from '@/components/layout/EditorSidebar';
 import { UpdateAvailableButton } from '@/components/layout/UpdateAvailableButton';
+import { registerUpdateGuard, restoreUpdateCheckpoint, finishUpdateRestore } from '@/lib/updateCheckpoint';
 import { MobileRecents } from '@/components/layout/MobileRecents';
 import { SettingsModal } from '@/components/modals/SettingsModal';
 import { HelpModal } from '@/components/modals/HelpModal';
@@ -221,7 +222,7 @@ function App() {
   const redo = useHistoryStore((s) => s.redo);
   const addLogDirect = useLogStore((s) => s.addLogDirect);
   const { isReady, compile, waitForReady, error: engineError } = useLatexEngine();
-  const { updateAvailable, promptUpdate, showUpdatePrompt, confirmUpdate, dismissUpdatePrompt } = useServiceWorker();
+  const { updateAvailable, promptUpdate, showUpdatePrompt, confirmUpdate, dismissUpdatePrompt, updating } = useServiceWorker();
   // Capture beforeinstallprompt / appinstalled + seed standalone detection.
   useInstallPrompt();
   const isInstalled = useInstallStore((s) => s.isInstalled);
@@ -395,6 +396,14 @@ function App() {
       .getState()
       .init()
       .then((resumed) => {
+        if (__RELEASE_ID__) {
+          try { if (restoreUpdateCheckpoint()) return; }
+          catch (error) {
+            useDocumentsStore.getState().newDocument();
+            showAppAlert({ title: 'Document could not be reopened', message: error instanceof Error ? error.message : String(error) });
+            return;
+          }
+        }
         if (applyHandoff()) return;
         if (resumed) return;
         seedFreshStart();
@@ -640,7 +649,7 @@ function App() {
 
   // Debounced compilation on document changes
   useEffect(() => {
-    if (!workspaceReady || !isReady || batchRunning || documentCategory === 'forms') return;
+    if (!workspaceReady || !isReady || batchRunning || updating || documentCategory === 'forms') return;
 
     if (compileTimeoutRef.current) {
       clearTimeout(compileTimeoutRef.current);
@@ -670,6 +679,7 @@ function App() {
     currentDocId,
     documentCategory,
     batchRunning,
+    updating,
     docType,
     documentMode,
     formData,
@@ -702,6 +712,13 @@ function App() {
   const [renderedForm, setRenderedForm] = useState<{ type: string; data: unknown; cover: boolean } | null>(null);
   const activeFormData = genericForm ?? (formType === 'navmc_10274' ? navmc10274 : navmc11811);
   const formIsCompiling = !formError && (renderedForm?.type !== formType || renderedForm?.data !== activeFormData || renderedForm?.cover !== includeCoverPage);
+  useEffect(() => registerUpdateGuard(() => {
+    if (!workspaceReady || isCompiling || documentCategory === 'forms' && formIsCompiling
+      || downloadProgress && !['success', 'error'].includes(downloadProgress.kind)) {
+      throw new Error('Finish document generation or download before updating.');
+    }
+  }), [workspaceReady, isCompiling, documentCategory, formIsCompiling, downloadProgress]);
+  useEffect(() => { if (workspaceReady && __RELEASE_ID__) finishUpdateRestore(); }, [workspaceReady]);
 
   // Load form templates when entering forms mode
   useEffect(() => {
@@ -1550,6 +1567,7 @@ ${texFiles['body.tex'] || '% No body content'}
     const handleKeyDown = (e: KeyboardEvent) => {
       if (!workspaceReady) return;
       const isMod = e.ctrlKey || e.metaKey;
+      if (updating) { if (isMod) e.preventDefault(); return; }
       const target = e.target as HTMLElement;
       const isInInput = target.tagName === 'INPUT' || target.tagName === 'TEXTAREA';
 
@@ -1655,6 +1673,7 @@ ${texFiles['body.tex'] || '% No body content'}
   }, [
     closeAllModals,
     workspaceReady,
+    updating,
     handleDownloadPdf,
     currentPreviewUrl,
     setTemplateLoaderOpen,
@@ -1973,7 +1992,8 @@ ${texFiles['body.tex'] || '% No body content'}
         Safari / Chrome Android browser chrome, which pushed the bottom FABs
         and preview toolbar under it — with a 100vh fallback for pre-dvh
         engines. */}
-    <div data-page-scroll={pageScroll || undefined} className="workspace-shell flex flex-col h-screen-dvh bg-background relative overflow-hidden">
+    {updating && <p role="status" className="fixed left-1/2 top-4 z-[200] -translate-x-1/2 rounded-md border border-border bg-background px-4 py-2 text-sm shadow">Preparing update…</p>}
+    <div inert={updating || undefined} aria-busy={updating || undefined} data-page-scroll={pageScroll || undefined} className="workspace-shell flex flex-col h-screen-dvh bg-background relative overflow-hidden">
       {/* Skip link for keyboard navigation - WCAG 2.4.1 */}
       <a
         href="#main-content"

@@ -1,4 +1,5 @@
 import { useCallback, useMemo, useState } from 'react';
+import { runFileImport } from '@/lib/fileImports';
 import { FileStack, Search, Upload, X } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -145,7 +146,7 @@ export function EndorsementBasicLetterSection() {
   // Bytes go to the attachments store — survive a reload, ride along in a
   // backup — and only the fileRef is serialized.
   const handleBasicLetterFile = useCallback(
-    async (file: File) => {
+    (file: File) => runFileImport(async () => {
       const data = await file.arrayBuffer();
       // Validate before storing anything: a corrupt or encrypted PDF rejected
       // here gets feedback next to the control, instead of persisting bad bytes
@@ -175,7 +176,7 @@ export function EndorsementBasicLetterSection() {
           setField('pageNumbering', 'simple');
         }
       }
-    },
+    }),
     [setField]
   );
 
