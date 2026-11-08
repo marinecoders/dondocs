@@ -1,3 +1,4 @@
+import { copyAttachment, withAttachmentResources } from './attachmentResources';
 /**
  * Full-account backup: one downloadable file that captures EVERYTHING a user
  * has, not just their documents.
@@ -152,6 +153,12 @@ export function collectAttachmentIds(docs: unknown[]): string[] {
   return [...ids];
 }
 
+/** A legacy attachment flag cannot stand in for bytes in a complete backup. */
+function hasUnresolvedEnclosure(entry: unknown): boolean {
+  const session = (entry as { session?: { enclosures?: Array<{ hasFile?: boolean; fileRef?: { id?: string } }> } })?.session;
+  return Array.isArray(session?.enclosures) && session.enclosures.some(enclosure => enclosure.hasFile && !enclosure.fileRef?.id);
+}
+
 /**
  * Non-destructive merge of two version-history rings for one document: union by
  * timestamp (the capture instant is the identity), newest-first, capped at
@@ -203,8 +210,26 @@ export async function buildBackup(): Promise<string> {
   try { return await serializeBackup(); } finally { backupExports--; }
 }
 async function serializeBackup(): Promise<string> {
-  // Reuse the document exporter — it throws if the registry is unreadable, so
-  // a broken DB can't produce a half-empty backup that looks complete.
+  const profile = useProfileStore.getState();
+  const form = useFormStore.getState();
+  const captured = structuredClone<Omit<BackupBundle, 'documents' | 'snapshots' | 'attachments'>>({
+    kind: BACKUP_KIND,
+    version: BACKUP_VERSION,
+    exportedAt: Date.now(),
+    profiles: { profiles: profile.profiles, selectedProfile: profile.selectedProfile },
+    forms: { navmc10274: form.navmc10274, navmc11811: form.navmc11811, includeCoverPage: form.includeCoverPage, configFormValues: form.configFormValues, configFormRows: form.configFormRows },
+    snippets: useSnippetsStore.getState().snippets,
+    userTemplates: useUserTemplatesStore.getState().templates,
+    routingOverrides: useRoutingStore.getState().overrides,
+  });
+  // Templates saved through sharing intentionally omit local file references.
+  // Their legacy hasFile marker describes the source, not a missing asset.
+  for (const template of Object.values(captured.userTemplates)) {
+    if (Array.isArray(template.session.enclosures)) {
+      template.session.enclosures = template.session.enclosures.map(enclosure =>
+        enclosure.fileRef ? enclosure : { ...enclosure, hasFile: false });
+    }
+  }
   const libraryJson = await exportLibrary();
   const { docs } = JSON.parse(libraryJson) as { docs: unknown[] };
 
@@ -219,41 +244,17 @@ async function serializeBackup(): Promise<string> {
     if (ring.length) snapshots[id] = ring;
   }
 
-  // Enclosure file bytes: pull exactly the blobs referenced by the backed-up
-  // documents AND by their snapshots (a snapshot can reference an attachment the
-  // current doc no longer does — that blob is kept alive by the GC and must ride
-  // along so the restored history can rehydrate its file). DocSnapshot has the
-  // same `.session.enclosures` shape collectAttachmentIds reads.
-  const snapshotEntries = Object.values(snapshots).flat();
-  const attachments: BackupAttachment[] = [];
-  for (const id of collectAttachmentIds([...docs, ...snapshotEntries])) {
-    const rec = await idbGetAttachment(id);
-    if (!rec) throw new Error(`Attachment ${id} could not be read. The backup was not created.`);
-    attachments.push({
-      id: rec.id,
-      name: rec.name,
-      type: rec.type,
-      size: rec.size,
-      data: uint8ArrayToBase64(arrayBufferToUint8Array(rec.data)),
+  const entries = [...docs, ...Object.values(snapshots).flat(), ...Object.values(captured.userTemplates)];
+  if (entries.some(hasUnresolvedEnclosure)) throw new Error('An enclosure file is missing its saved reference. The backup was not created.');
+  const ids = collectAttachmentIds(entries);
+  return withAttachmentResources(ids, async resources => {
+    const attachments = ids.map(id => {
+      const record = copyAttachment(resources, id);
+      return { ...record, data: uint8ArrayToBase64(arrayBufferToUint8Array(record.data)) };
     });
-  }
-
-  const profile = useProfileStore.getState();
-  const form = useFormStore.getState();
-  const bundle: BackupBundle = {
-    kind: BACKUP_KIND,
-    version: BACKUP_VERSION,
-    exportedAt: Date.now(),
-    documents: docs,
-    profiles: { profiles: profile.profiles, selectedProfile: profile.selectedProfile },
-    forms: { navmc10274: form.navmc10274, navmc11811: form.navmc11811, includeCoverPage: form.includeCoverPage, configFormValues: form.configFormValues, configFormRows: form.configFormRows },
-    snippets: useSnippetsStore.getState().snippets,
-    userTemplates: useUserTemplatesStore.getState().templates,
-    attachments,
-    snapshots,
-    routingOverrides: useRoutingStore.getState().overrides,
-  };
-  return JSON.stringify(bundle);
+    const bundle: BackupBundle = { ...captured, documents: docs, snapshots, attachments };
+    return JSON.stringify(bundle);
+  });
 }
 
 // Set for the duration of a restore so the attachment GC sweep stands down.
