@@ -1,0 +1,7 @@
+name = "dondocs"
+compatibility_date = "2025-04-01"
+
+[assets]
+directory = "./release-site"
+not_found_handling = "none"
+html_handling = "none"

@@ -14,7 +14,7 @@ header @wasm Content-Type application/wasm
 
 # TeX/LaTeX files in lib/texlive - correct MIME type and CORS
 @tex_lib {
-    path /lib/texlive/*
+    path_regexp tex_files ^/(lib/texlive/|runtimes/[^/]+/(lib/texlive/|tex/))
 }
 header @tex_lib {
     Content-Type text/plain
@@ -34,11 +34,16 @@ header @tex_internal {
 # Static assets - serve directly (no SPA fallback)
 # These paths should return 200 if file exists, 404 if not (no fallback to index.html)
 @static {
-    path /lib/* /tex/* /assets/* /attachments/* *.js *.css *.wasm *.json *.svg *.png *.ico
+    path /lib/* /tex/* /assets/* /releases/* /runtimes/* /templates/* /attachments/* *.js *.css *.wasm *.json *.svg *.png *.ico
 }
 handle @static {
     try_files {path}
 }
+
+@control path / /index.html /sw.js /registerSW.js /manifest.webmanifest /release.json
+header @control Cache-Control "no-cache, must-revalidate"
+@immutable path_regexp immutable_assets ^/(assets/|releases/|runtimes/|templates/.+/revisions/)
+header @immutable Cache-Control "public, max-age=31536000, immutable"
 
 # Enable CORS for all assets (needed for service worker)
 header {

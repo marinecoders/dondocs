@@ -1,0 +1,5 @@
+FROM caddy:2-alpine
+LABEL org.opencontainers.image.licenses="AGPL-3.0-only"
+COPY release-site /usr/share/caddy
+COPY Caddyfile /etc/caddy/Caddyfile
+EXPOSE 80

@@ -31,6 +31,19 @@
   Cache-Control: no-cache, must-revalidate
 /manifest.webmanifest
   Cache-Control: no-cache, must-revalidate
+/release.json
+  Cache-Control: no-cache, must-revalidate
+
+/releases/*
+  Cache-Control: public, max-age=31536000, immutable
+/runtimes/*
+  Cache-Control: public, max-age=31536000, immutable
+/templates/:form/revisions/*
+  Cache-Control: public, max-age=31536000, immutable
+/runtimes/:runtime/lib/texlive/*
+  Content-Type: text/plain
+/runtimes/:runtime/tex/*
+  Content-Type: text/plain
 
 # Hashed build assets are content-addressed (their name changes when they
 # change), so they're safe to cache forever — this is a load-time win, not a

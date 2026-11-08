@@ -66,3 +66,7 @@ node_modules
 
 # npm cache (include this for offline builds, exclude for online builds)
 # npm-cache
+
+# Preserve the complete prepared artifact for Dockerfile.release.
+!release-site/
+!release-site/**
