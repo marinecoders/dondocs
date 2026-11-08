@@ -5,6 +5,12 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.3.27] — 2026-11-08
+
+### Changed
+
+- Index workspace text through shared field policies.
+
 ## [1.3.26] — 2026-11-08
 
 ### Fixed
