@@ -1,3 +1,4 @@
+import { readAttachment, withAttachmentStaging } from './attachments';
 import { copyAttachment, withAttachmentResources } from './attachmentResources';
 /**
  * Full-account backup: one downloadable file that captures EVERYTHING a user
@@ -18,14 +19,14 @@ import { copyAttachment, withAttachmentResources } from './attachmentResources';
 import { lastWriteFailed } from '@/lib/compressedStorage';
 import { validateBackup, validateBackupSession, MAX_BACKUP_BYTES } from './backupValidation';
 import type { Profile } from '@/types/document';
-import { exportLibrary, importLibrary } from '@/stores/documentsStore';
+import { captureDocumentTarget, isCurrentDocumentTarget, useDocumentsStore, exportLibrary, importLibrary, validateLibraryDocuments } from '@/stores/documentsStore';
+import { useDocumentStore } from '@/stores/documentStore';
 import { useProfileStore } from '@/stores/profileStore';
 import { useFormStore, FORMS_PERSIST_KEY, normalizeNavmc10274, normalizeNavmc11811 } from '@/stores/formStore';
 import { useSnippetsStore, type Snippet } from '@/stores/snippetsStore';
 import { useUserTemplatesStore, type UserTemplate } from '@/stores/userTemplatesStore';
 import { useRoutingStore, sanitizeOverrides } from '@/stores/routingStore';
 import {
-  idbGetAttachment,
   idbPutAttachment,
   idbGetSnapshots,
   idbSetSnapshots,
@@ -155,8 +156,28 @@ export function collectAttachmentIds(docs: unknown[]): string[] {
 
 /** A legacy attachment flag cannot stand in for bytes in a complete backup. */
 function hasUnresolvedEnclosure(entry: unknown): boolean {
-  const session = (entry as { session?: { enclosures?: Array<{ hasFile?: boolean; fileRef?: { id?: string } }> } })?.session;
-  return Array.isArray(session?.enclosures) && session.enclosures.some(enclosure => enclosure.hasFile && !enclosure.fileRef?.id);
+  const session = (entry as { session?: { enclosures?: Array<{ hasFile?: boolean; fileRef?: { id?: unknown } }> } })?.session;
+  return Array.isArray(session?.enclosures) && session.enclosures.some(enclosure =>
+    (enclosure.hasFile || enclosure.fileRef) && (typeof enclosure.fileRef?.id !== 'string' || !enclosure.fileRef.id));
+}
+
+function sameAttachmentBytes(left: ArrayBuffer, right: ArrayBuffer): boolean {
+  if (left.byteLength !== right.byteLength) return false;
+  const leftBytes = new Uint8Array(left), rightBytes = new Uint8Array(right);
+  for (let index = 0; index < leftBytes.length; index++) {
+    if (leftBytes[index] !== rightBytes[index]) return false;
+  }
+  return true;
+}
+
+/** Shared templates retain their text while deliberately omitting local files. */
+function normalizeTemplateEnclosures(templates: Record<string, UserTemplate>): void {
+  for (const template of Object.values(templates)) {
+    if (Array.isArray(template.session.enclosures)) {
+      template.session.enclosures = template.session.enclosures.map(enclosure =>
+        enclosure.fileRef ? enclosure : { ...enclosure, hasFile: false });
+    }
+  }
 }
 
 /**
@@ -195,6 +216,9 @@ export function classifyBackup(json: string): { kind: string; parsed: Record<str
   if (kind !== BACKUP_KIND && kind !== LIBRARY_KIND) {
     throw new Error('Not a DonDocs backup file');
   }
+  const version = (parsed as { version?: unknown }).version;
+  if (version !== undefined && (typeof version !== 'number' || !Number.isSafeInteger(version)
+    || version < 1 || version > (kind === BACKUP_KIND ? BACKUP_VERSION : 1))) throw new Error('Unsupported backup version');
   return { kind: kind as string, parsed: parsed as Record<string, unknown> };
 }
 
@@ -222,14 +246,7 @@ async function serializeBackup(): Promise<string> {
     userTemplates: useUserTemplatesStore.getState().templates,
     routingOverrides: useRoutingStore.getState().overrides,
   });
-  // Templates saved through sharing intentionally omit local file references.
-  // Their legacy hasFile marker describes the source, not a missing asset.
-  for (const template of Object.values(captured.userTemplates)) {
-    if (Array.isArray(template.session.enclosures)) {
-      template.session.enclosures = template.session.enclosures.map(enclosure =>
-        enclosure.fileRef ? enclosure : { ...enclosure, hasFile: false });
-    }
-  }
+  normalizeTemplateEnclosures(captured.userTemplates);
   const libraryJson = await exportLibrary();
   const { docs } = JSON.parse(libraryJson) as { docs: unknown[] };
 
@@ -258,14 +275,21 @@ async function serializeBackup(): Promise<string> {
 }
 
 // Set for the duration of a restore so the attachment GC sweep stands down.
-// A restore writes documents BEFORE their blobs (below), so at every instant a
-// written blob already has a referencing doc and would survive a sweep anyway —
-// this flag is belt-and-suspenders against any future reordering of the steps.
+// Restore stages bytes before publishing their dependent records. Collection
+// remains suspended until all independent sections have reported their outcome.
 let restoresInProgress = 0;
 
 /** True while {@link restoreBackup} is running. Read by the attachment GC. */
 export function isRestoreInProgress(): boolean {
   return restoresInProgress > 0;
+}
+
+function captureFormReplacement(): () => boolean {
+  const target = captureDocumentTarget();
+  const documentBefore = useDocumentStore.getState();
+  const formsBefore = useFormStore.getState();
+  return () => target ? isCurrentDocumentTarget(target)
+    : useDocumentsStore.getState().currentId === null && useDocumentStore.getState() === documentBefore && useFormStore.getState() === formsBefore;
 }
 
 /**
@@ -275,41 +299,49 @@ export function isRestoreInProgress(): boolean {
  * bring back the backed-up form fields).
  */
 export async function restoreBackup(json: string): Promise<RestoreResult> {
+  return restoreWithTarget(json, captureFormReplacement());
+}
+
+async function restoreWithTarget(json: string, canReplaceForms: () => boolean): Promise<RestoreResult> {
   restoresInProgress++;
   try {
-    return await runRestore(json);
+    return await withAttachmentStaging(() => runRestore(json, canReplaceForms));
   } finally {
     restoresInProgress--;
   }
 }
 
 export async function restoreBackupFile(file: Blob): Promise<RestoreResult> {
+  const canReplaceForms = captureFormReplacement();
   restoresInProgress++;
-  try { return await restoreBackup(await file.text()); } finally { restoresInProgress--; }
+  try { return await restoreWithTarget(await file.text(), canReplaceForms); } finally { restoresInProgress--; }
 }
 
-async function runRestore(json: string): Promise<RestoreResult> {
+async function runRestore(json: string, canReplaceForms: () => boolean): Promise<RestoreResult> {
   const { kind, parsed } = classifyBackup(json);
 
-  // Legacy docs-only file → delegate to the conflict-aware document merge.
-  if (kind === LIBRARY_KIND) {
-    const documents = await importLibrary(json);
-    return { documents, profilesAdded: 0, snippetsAdded: 0, templatesAdded: 0, formsRestored: false, attachmentsAdded: 0, snapshotDocs: 0, routingRulesAdded: 0 };
-  }
-
+  if (kind === LIBRARY_KIND) parsed.documents = parsed.docs;
   validateBackup(parsed);
+  validateLibraryDocuments(kind === LIBRARY_KIND ? parsed.docs : parsed.documents ?? []);
+  const incomingTemplates = (parsed.userTemplates ?? {}) as Record<string, UserTemplate>;
+  normalizeTemplateEnclosures(incomingTemplates);
 
   // Decode every attachment before changing any local state.
   const decoded = new Map<string, ArrayBuffer>();
   if (parsed.attachments !== undefined && !Array.isArray(parsed.attachments)) throw new Error('Invalid attachments');
   for (const a of (parsed.attachments ?? []) as BackupAttachment[]) {
     if (!a || typeof a.id !== 'string' || !a.id || typeof a.data !== 'string' || decoded.has(a.id)) throw new Error('Invalid or duplicate attachment');
+    if ((a.name !== undefined && typeof a.name !== 'string')
+      || (a.type !== undefined && typeof a.type !== 'string')) {
+      throw new Error(`Attachment ${a.id} has invalid metadata`);
+    }
     const bytes = base64ToUint8Array(a.data);
     if (typeof a.size !== 'number' || a.size !== bytes.byteLength) throw new Error(`Attachment ${a.id} has an invalid size`);
     decoded.set(a.id, bytes.buffer as ArrayBuffer);
   }
   if (parsed.snapshots !== undefined && (!parsed.snapshots || typeof parsed.snapshots !== 'object' || Array.isArray(parsed.snapshots))) throw new Error('Invalid history');
-  for (const ring of Object.values(parsed.snapshots ?? {})) {
+  for (const [docId, ring] of Object.entries(parsed.snapshots ?? {})) {
+    if (!docId || Object.hasOwn(Object.prototype, docId)) throw new Error('Invalid history document identity');
     if (!Array.isArray(ring)) throw new Error('Invalid history ring');
     for (const snapshot of ring) {
       if (!snapshot?.session || !Number.isFinite(snapshot.ts)) throw new Error('Invalid history entry');
@@ -328,11 +360,46 @@ async function runRestore(json: string): Promise<RestoreResult> {
     }
   };
 
-  // Documents: importLibrary expects `{ docs }`; the v2 bundle stores them under
-  // `documents`. Reuse its newer-wins merge + safety guards.
-  const documents = Array.isArray(parsed.documents)
-    ? await importLibrary(JSON.stringify({ docs: parsed.documents }))
-    : { imported: 0, skipped: 0 };
+  const unavailable = new Set<string>();
+  const available = new Set<string>();
+  let attachmentsAdded = 0;
+  for (const attachment of (parsed.attachments ?? []) as BackupAttachment[]) {
+    const existing = await readAttachment(attachment.id);
+    if (existing.status === 'found') {
+      if (sameAttachmentBytes(existing.attachment.data, decoded.get(attachment.id)!)) available.add(attachment.id);
+      else { unavailable.add(attachment.id); issues.push(`Attachment ${attachment.id} differs from the local copy; kept local bytes`); }
+      continue;
+    }
+    if (existing.status !== 'missing') {
+      unavailable.add(attachment.id); issues.push(`Attachment ${attachment.id} could not be read (${existing.status})`); continue;
+    }
+    const record: StoredAttachment = { id: attachment.id, name: attachment.name ?? '', type: attachment.type ?? '', size: attachment.size, data: decoded.get(attachment.id)! };
+    if (await idbPutAttachment(record, true)) { attachmentsAdded++; available.add(attachment.id); }
+    else {
+      // A concurrent restore may have committed the same immutable asset.
+      const retried = await readAttachment(attachment.id);
+      if (retried.status === 'found' && sameAttachmentBytes(retried.attachment.data, decoded.get(attachment.id)!)) available.add(attachment.id);
+      else { unavailable.add(attachment.id); issues.push(`Attachment ${attachment.id} could not be saved`); }
+    }
+  }
+  const incomingDocuments = parsed.documents ?? [];
+  const incomingHistory = (parsed.snapshots ?? {}) as Record<string, DocSnapshot[]>;
+  for (const id of collectAttachmentIds([...(incomingDocuments as unknown[]), ...Object.values(incomingHistory).flat(), ...Object.values(incomingTemplates)])) {
+    if (available.has(id) || unavailable.has(id)) continue;
+    const result = await readAttachment(id);
+    if (result.status === 'found') available.add(id);
+    else {
+      unavailable.add(id);
+      issues.push(result.status === 'missing' ? `Attachment ${id} is missing from the backup and local storage` : `Attachment ${id} could not be read (${result.status})`);
+    }
+  }
+  if ([...(incomingDocuments as unknown[]), ...Object.values(incomingHistory).flat(), ...Object.values(incomingTemplates)].some(hasUnresolvedEnclosure)) {
+    issues.push('An enclosure file is missing from this backup; its dependent record was not restored');
+  }
+  const complete = (entry: unknown) => !hasUnresolvedEnclosure(entry) && collectAttachmentIds([entry]).every(id => available.has(id));
+  const readyDocuments = (incomingDocuments as unknown[]).filter(complete);
+  const documents = await importLibrary(JSON.stringify({ docs: readyDocuments }));
+  documents.skipped += (incomingDocuments as unknown[]).length - readyDocuments.length;
 
   // Profiles (+ signatures): non-destructive merge; adopt a selectedProfile only
   // if we currently have none.
@@ -366,7 +433,8 @@ async function runRestore(json: string): Promise<RestoreResult> {
   let templatesAdded = 0;
   if (!persistCategory('Templates', () => {
     useUserTemplatesStore.setState((s) => {
-      const { merged, added } = mergeRecord(s.templates, parsed.userTemplates as Record<string, UserTemplate> | undefined);
+      const readyTemplates = Object.fromEntries(Object.entries(incomingTemplates).filter(([, entry]) => complete(entry)));
+      const { merged, added } = mergeRecord(s.templates, readyTemplates);
       templatesAdded = added;
       return { templates: merged };
     });
@@ -400,7 +468,8 @@ async function runRestore(json: string): Promise<RestoreResult> {
   let formsRestored = false;
   const forms = parsed.forms as BackupBundle['forms'] | undefined;
   if (forms && (forms.navmc10274 || forms.navmc11811 || forms.configFormValues || forms.configFormRows || typeof forms.includeCoverPage === 'boolean')) {
-    formsRestored = persistCategory('Form fields', () => {
+    if (!canReplaceForms()) issues.push('Form fields were not replaced because the open document changed during restore');
+    else formsRestored = persistCategory('Form fields', () => {
       useFormStore.setState((s) => ({
         navmc10274: forms.navmc10274 ? normalizeNavmc10274(forms.navmc10274 as Partial<typeof s.navmc10274>) : s.navmc10274,
         navmc11811: forms.navmc11811 ? normalizeNavmc11811(forms.navmc11811 as Partial<typeof s.navmc11811>) : s.navmc11811,
@@ -409,30 +478,6 @@ async function runRestore(json: string): Promise<RestoreResult> {
         configFormRows: mergeRecord(s.configFormRows, forms.configFormRows as typeof s.configFormRows).merged,
       }));
     }, FORMS_PERSIST_KEY);
-  }
-
-  // Enclosure attachments: content is immutable per id, so add any the local DB
-  // doesn't already have and leave existing ones untouched (idempotent re-import).
-  let attachmentsAdded = 0;
-  const backupAttachments = parsed.attachments;
-  if (Array.isArray(backupAttachments)) {
-    for (const a of backupAttachments as BackupAttachment[]) {
-      if (!a || typeof a.id !== 'string' || typeof a.data !== 'string') continue;
-      const existing = await idbGetAttachment(a.id);
-      if (existing) {
-        if (uint8ArrayToBase64(arrayBufferToUint8Array(existing.data)) !== a.data) issues.push(`Attachment ${a.id} differs from the local copy; kept local bytes`);
-        continue;
-      }
-      const rec: StoredAttachment = {
-        id: a.id,
-        name: typeof a.name === 'string' ? a.name : '',
-        type: typeof a.type === 'string' ? a.type : '',
-        size: typeof a.size === 'number' ? a.size : 0,
-        data: decoded.get(a.id)!,
-      };
-      if (await idbPutAttachment(rec, true)) attachmentsAdded++;
-      else issues.push(`Attachment ${a.id} could not be saved`);
-    }
   }
 
   // Version history: merge each backed-up ring into any local ring for that doc
@@ -444,17 +489,14 @@ async function runRestore(json: string): Promise<RestoreResult> {
   if (backupSnapshots && typeof backupSnapshots === 'object') {
     for (const [docId, snaps] of Object.entries(backupSnapshots as Record<string, unknown>)) {
       if (!Array.isArray(snaps)) continue;
-      if (snaps.length) {
-        if (await idbSetSnapshots(docId, snaps as DocSnapshot[], true)) snapshotDocs++;
+      const readySnapshots = (snaps as DocSnapshot[]).filter(complete);
+      if (readySnapshots.length) {
+        if (await idbSetSnapshots(docId, readySnapshots, true)) snapshotDocs++;
         else issues.push(`History for ${docId} could not be saved`);
       }
     }
   }
 
-  const history = Object.values((parsed.snapshots ?? {}) as Record<string, DocSnapshot[]>).flat();
-  for (const id of collectAttachmentIds([...(Array.isArray(parsed.documents) ? parsed.documents : []), ...history])) {
-    if (!await idbGetAttachment(id) && !issues.some(issue => issue.startsWith(`Attachment ${id} `))) issues.push(`Attachment ${id} is missing from the backup and local storage`);
-  }
   issues.push(...(documents.issues ?? []));
   return { documents, profilesAdded, snippetsAdded, templatesAdded, formsRestored, attachmentsAdded, snapshotDocs, routingRulesAdded, ...(issues.length ? { issues } : {}) };
 }
