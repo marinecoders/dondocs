@@ -5,6 +5,12 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.3.8] — 2026-11-07
+
+### Changed
+
+- Qualify managed application updates and gate production publishing.
+
 ## [1.3.7] — 2026-11-07
 
 ### Changed

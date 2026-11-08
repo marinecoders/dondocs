@@ -10,7 +10,7 @@ import { flushAttachmentWrites, loadAttachment } from '@/lib/attachments';
 import { waitForStorage } from '@/lib/documentWrites';
 import { isFileImportInProgress } from '@/lib/fileImports';
 import { loadPackagePage } from '@/services/forms/packages';
-import { readUpdateRestore, writeUpdateRestore, clearUpdateRestore, type UpdateRestorePoint } from './updateRestore';
+import { readUpdateRestore, writeUpdateRestore, clearUpdateRestore, FAILED_RELEASE_KEY, type UpdateRestorePoint } from './updateRestore';
 
 let guard = () => {};
 const editorScroller = () => document.querySelector<HTMLElement>('.workspace-shell[data-page-scroll]')
@@ -71,6 +71,12 @@ export function restoreUpdateCheckpoint(currentRelease = __RELEASE_ID__): boolea
 }
 export function finishUpdateRestore(): void {
   const point = readUpdateRestore();
+  let failedRelease: string | null = null;
+  try {
+    if (point?.retried) sessionStorage.setItem(FAILED_RELEASE_KEY, point.target);
+    else if (point) sessionStorage.removeItem(FAILED_RELEASE_KEY);
+    failedRelease = sessionStorage.getItem(FAILED_RELEASE_KEY);
+  } catch { /* A blocked session store must not prevent opening the workspace. */ }
   if (point && (!point.documentId || useDocumentsStore.getState().currentId === point.documentId)) {
     requestAnimationFrame(() => requestAnimationFrame(() => {
       const editor = editorScroller();
@@ -79,7 +85,7 @@ export function finishUpdateRestore(): void {
     }));
   }
   window.__DD_WORKSPACE_READY__ = true;
-  if (/^\/releases\/[^/]+\/index.html$/.test(location.pathname)) {
+  if (!failedRelease && /^\/releases\/[^/]+\/index.html$/.test(location.pathname)) {
     const url = new URL(location.href); url.searchParams.delete('appRelease');
     history.replaceState(null, '', '/' + url.search + url.hash);
   }

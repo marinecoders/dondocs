@@ -1,7 +1,10 @@
 name = "dondocs"
+main = "scripts/serve-release.ts"
 compatibility_date = "2025-04-01"
 
 [assets]
 directory = "./release-site"
+binding = "ASSETS"
+run_worker_first = ["/"]
 not_found_handling = "none"
 html_handling = "none"

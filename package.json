@@ -1,7 +1,7 @@
 {
   "name": "dondocs",
   "private": true,
-  "version": "1.3.7",
+  "version": "1.3.8",
   "description": "Browser-based SECNAV M-5216.5 naval correspondence and forms generator.",
   "type": "module",
   "scripts": {
@@ -17,6 +17,10 @@
     "build": "tsc -b && vite build",
     "postbuild": "node scripts/package-release.mjs && node scripts/check-no-cdn.mjs",
     "release:prepare": "vite-node --config vitest.config.ts scripts/prepare-release.ts",
+    "release:check": "vite-node --config vitest.config.ts scripts/check-release-qualification.ts",
+    "release:capture-legacy": "vite-node --config vitest.config.ts scripts/capture-legacy.ts",
+    "release:verify-live": "vite-node --config vitest.config.ts scripts/verify-live-release.ts",
+    "test:release-builds": "node scripts/build-release-fixtures.mjs",
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "vitest run",
