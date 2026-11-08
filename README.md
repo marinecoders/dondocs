@@ -3,11 +3,10 @@
 [![AGPL v3 License](https://img.shields.io/badge/License-AGPL_v3-blue.svg)](LICENSE)
 [![SECNAV M-5216.5](https://img.shields.io/badge/SECNAV-M--5216.5-blue)](https://www.secnav.navy.mil/doni/SECNAV%20Manuals1/5216.5%20DON%20Correspondence%20Manual.pdf)
 [![MCO 5216.20B](https://img.shields.io/badge/MCO-5216.20B-red)](https://www.marines.mil/News/Publications/MCPEL/Electronic-Library-Display/Article/899678/mco-521620/)
-[![NIST 800-171](https://img.shields.io/badge/NIST-800--171-green)](https://csrc.nist.gov/publications/detail/sp/800-171/rev-2/final)
 
 **DonDocs** is a browser-based naval correspondence and form generator that produces publication-quality documents compliant with **SECNAV M-5216.5** (Department of the Navy Correspondence Manual) and **MCO 5216.20B** (Marine Corps Supplement).
 
-**All processing happens locally in your browser - no data is ever sent to any server.**
+**Documents are processed locally in your browser; the app does not automatically upload document content.** See [Security and Privacy](#security-and-privacy) for what the public site does load.
 
 ## Table of Contents
 
@@ -69,7 +68,7 @@ DonDocs uses a WebAssembly LaTeX compiler to produce publication-quality PDFs th
 - **Version History** - Per-document snapshots (captured as you edit and on each Save) with one-click restore; restoring snapshots the current state first so it's reversible
 - **Library Backup** - Export every saved document to a single JSON file and restore it later; restore keeps whichever copy is newer. On Chromium desktop, a synced backup file auto-mirrors the library to a file you choose after every save
 - **Profiles System** - Save and reuse unit information and signature images
-- **Template Library** - 11 auditor-approved letter templates, plus save any document as your own reusable template
+- **Template Library** - 19 ready-made letter and technical publication templates, plus save any document as your own reusable template
 - **Clause Library** - Save and insert reusable body paragraphs, seeded with common SECNAV boilerplate
 - **Endorsement Inheritance** - Base an endorsement on a saved letter: composes the basic-letter reference line and carries the subject, references, and enclosures forward
 - **Clear Fields** - Reset all content while preserving letterhead for quick new document creation
@@ -152,7 +151,7 @@ Generate multiple personalized documents from a single template using the **Inse
 
 All 20 types are selectable in the document type dropdown with full SECNAV M-5216.5 compliance.
 
-### Pre-Built Templates (11)
+### Pre-Built Templates (19)
 | Template | Category |
 |----------|----------|
 | PFT Waiver | Personnel |
@@ -161,11 +160,19 @@ All 20 types are selectable in the document type dropdown with full SECNAV M-521
 | Letter of Appreciation | Awards |
 | Command Interest | Leadership |
 | Appointment: Collateral Duty | Administrative |
+| Appointment Acknowledgement | Administrative |
 | Appointment: Board Member | Administrative |
 | Appointment: Safety Officer | Administrative |
 | Report of Findings | Investigations |
 | Appointment: Investigating Officer | Investigations |
 | Letter of Instruction | Operations |
+| TM/IETM Cover and Signature Pages | Technical Publications |
+| Modification Instruction | Technical Publications |
+| Supply Instruction | Technical Publications |
+| Technical Instruction | Technical Publications |
+| Lubrication Instruction | Technical Publications |
+| SL-3 Components List | Technical Publications |
+| SL-4 Repair Parts List | Technical Publications |
 
 ---
 
@@ -642,37 +649,34 @@ After pandoc produces the DOCX, `pandoc-converter.ts` opens it with JSZip and fi
 
 ---
 
-## NIST 800-171 Compliance
+## Security and Privacy
 
-DonDocs is designed for information security:
+- **Local Processing** - Document content is processed and stored in your browser without automatic uploads. You choose what to share, export, or include in a support report
+- **Analytics on the public site** - dondocs.marines.dev runs Cloudflare Web Analytics, added at the CDN edge, to collect performance and usage metadata such as page paths, referrers, and browser information. It does not read editor fields. See [Cloudflare's data collection documentation](https://developers.cloudflare.com/speed/observatory/rum-beacon/). The app's own code and unmodified self-hosted builds contain no analytics
+- **Self-Hosting** - Build the included `Dockerfile` to serve application assets from your own network. The optional Endpoint check sends requests to the address you enter; opening external links or support reports also contacts those sites
+- **Offline Use** - Cache the application and the document or form resources you need before disconnecting; see the setup steps below. Offline use depends on the browser retaining its cached files
+- **CUI and Classification Markings** - Formatting only, not a security control. The levels offered depend on the domain; see [docs/CLASSIFICATION_CONFIG.md](docs/CLASSIFICATION_CONFIG.md)
 
-- **Local Processing** - All data stays in your browser
-- **No Server Communication** - Documents never leave your device
-- **No Telemetry** - No tracking or analytics
-- **Air-Gap Compatible** - Works on isolated networks (SIPR/JWICS)
-- **CUI Support** - Proper marking for Controlled Unclassified Information
-- **PWA Offline Mode** - Install as an app; TeX Live packages cached locally for offline use
-
-**Note:** Users are responsible for handling classified information according to their organization's security policies.
+**Authorization:** DonDocs has no Authority to Operate and has not been assessed against NIST SP 800-171. It has not been tested on SIPR or JWICS. Use an environment and workflow your organization has approved. See [SECURITY.md](SECURITY.md).
 
 ---
 
 ## FAQ
 
 **Q: Does this work on NMCI computers?**
-A: Yes. It's a standard webpage that works in any modern browser. No installation required.
+A: Not verified yet. It's a standard webpage with nothing to install, so it should load in a current browser, but it has not been tested on NMCI.
 
 **Q: Can I install this as an app?**
-A: Yes. DonDocs is a Progressive Web App (PWA). Click "Install" in your browser or use "Add to Home Screen" on mobile. Once installed, it works offline.
+A: Yes. DonDocs is a Progressive Web App (PWA). Click "Install" in your browser or use "Add to Home Screen" on mobile. Complete the offline setup below before relying on it without a connection.
 
 **Q: Does it work offline?**
-A: Yes. After the first visit, the app caches all necessary files including the TeX Live packages. You can generate documents without an internet connection.
+A: Yes, after setup. While online, let the app finish loading, reload once, and successfully export each document or built-in form type you need. Export to Word once if you need offline Word output. For each library form, choose **Save for offline use** and wait for **Available offline**. Disconnect and verify the exports you need before relying on offline use. Repeat setup after clearing browser storage or restoring on another device; browsers can evict cached files.
 
 **Q: Can I use this for classified correspondence?**
 A: The tool formats documents but does not provide security controls for classified data. Use appropriate systems for classified information.
 
 **Q: Is my data saved anywhere?**
-A: Everything runs in your browser; nothing is transmitted to any server. Documents autosave to your browser's IndexedDB and appear in the Recents sidebar across visits. Because browsers can evict local storage, you can export the whole library to a JSON backup file (or, on Chromium desktop, keep a backup file auto-synced after every save). See [docs/STORAGE.md](docs/STORAGE.md) for the full design.
+A: Documents are processed locally without automatic uploads. Documents autosave to your browser's IndexedDB and appear in the Recents sidebar across visits. Because browsers can evict local storage, you can export the whole library to a JSON backup file (or, on Chromium desktop, keep a backup file auto-synced after every save). See [docs/STORAGE.md](docs/STORAGE.md) for the full design.
 
 **Q: Why LaTeX instead of jsPDF?**
 A: LaTeX produces publication-quality output with proper kerning, ligatures, and typography that matches official military publications.

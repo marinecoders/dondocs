@@ -12,7 +12,7 @@ Expect an acknowledgement within a week. This is maintained on personal time, so
 
 ## Supported versions
 
-The latest release only. DonDocs auto-updates in the browser and there are no long-lived branches, so fixes land on `main` and ship as the next version.
+The latest release only. DonDocs offers browser updates for you to accept; fixes land on `main` and ship as the next version. Accept the update to receive those fixes.
 
 ## Scope
 
@@ -21,7 +21,7 @@ The latest release only. DonDocs auto-updates in the browser and there are no lo
 - Cross-site scripting, or any path from imported/shared content to code execution
 - Flaws in the share-link encryption (`src/lib/shareCrypto.ts`)
 - Bypasses of the URL allowlist (`src/lib/url-safety.ts`) that make an unsafe scheme clickable in an export
-- Ways a document's content leaks off the machine — the app makes no network calls at runtime, so any is a bug
+- Unintended transmission of document content — the app does not automatically upload editor content
 - Failures in the PII/PHI pre-export scan that let a flagged value through silently
 - Dependency vulnerabilities that are actually reachable from shipped code
 
@@ -43,5 +43,5 @@ The latest release only. DonDocs auto-updates in the browser and there are no lo
 - CodeQL static analysis on every push and pull request
 - `npm audit --audit-level=high` in CI, with no exceptions carried
 - `eslint-plugin-security` in the lint pass
-- A postbuild guard (`scripts/check-no-cdn.mjs`) that fails the build if any CDN reference reaches `dist/` — the app must load nothing from a third party at runtime
+- A postbuild guard (`scripts/check-no-cdn.mjs`) that rejects references to known public asset CDNs in `dist/`. Application assets are served locally; the guard is a denylist, not proof that no external requests can occur. The optional Endpoint check and external links contact user-selected sites. Separately, dondocs.marines.dev runs Cloudflare Web Analytics, added at the CDN edge, which collects performance and usage metadata, not editor fields. See [Cloudflare's data collection documentation](https://developers.cloudflare.com/speed/observatory/rum-beacon/). Unmodified self-hosted builds do not include that analytics script
 - A CycloneDX SBOM of production dependencies generated on every CI run (`npm run sbom`), retained as a build artifact
