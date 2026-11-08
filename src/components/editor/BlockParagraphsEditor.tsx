@@ -391,7 +391,7 @@ const BlockRow = memo(function BlockRow({
                             if (!ownsFigure()) return;
                             const { bytes, type, width, height } = await prepareFigureUpload(file);
                             if (!ownsFigure()) return;
-                            const fileRef = await persistAttachment({ name: file.name, size: bytes.byteLength, type }, bytes, { requireDurable: true });
+                            const fileRef = await persistAttachment({ name: file.name, size: bytes.byteLength, type }, bytes);
                             const targetIndex = currentIndex();
                             if (!isCurrentDocumentTask(task) || targetIndex < 0) return;
                             updateParagraph(targetIndex, { figure: { ...original.figure, fileRef, name: file.name, type, width, height } });

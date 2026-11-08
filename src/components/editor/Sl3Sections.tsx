@@ -799,7 +799,6 @@ export function Sl3IllustrationsSection({ publication = 'sl3' }: { publication?:
                           size: buffer.byteLength,
                         },
                         buffer,
-                        { requireDurable: true },
                       );
                       const target = findTarget();
                       if (!target) return;

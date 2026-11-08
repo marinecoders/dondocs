@@ -241,12 +241,12 @@ export async function openReviewedDocument(reviewed: ReviewedDraft, target: Docu
       if (!file) continue;
       const figure = state.paragraphs[index]?.figure;
       if (!figure) return 'invalid';
-      figure.fileRef = await persistAttachment({ name: file.name, size: file.size, type: figure.type ?? 'image/png' }, file.data, { requireDurable: true });
+      figure.fileRef = await persistAttachment({ name: file.name, size: file.size, type: figure.type ?? 'image/png' }, file.data);
       if (!current()) return 'stale';
     }
     if (owned.basicLetter) {
       const file = owned.basicLetter;
-      state.formData.basicLetterFileRef = await persistAttachment({ name: file.name, size: file.size, type: 'application/pdf' }, file.data, { requireDurable: true });
+      state.formData.basicLetterFileRef = await persistAttachment({ name: file.name, size: file.size, type: 'application/pdf' }, file.data);
       if (!current()) return 'stale';
       state.formData.basicLetterFile = file;
     }
@@ -254,7 +254,7 @@ export async function openReviewedDocument(reviewed: ReviewedDraft, target: Docu
       if (!file) continue;
       const enclosure = state.enclosures[index];
       if (!enclosure) return 'invalid';
-      const ref = await persistAttachment({ name: file.name, size: file.size, type: 'application/pdf' }, file.data, { requireDurable: true });
+      const ref = await persistAttachment({ name: file.name, size: file.size, type: 'application/pdf' }, file.data);
       if (!current()) return 'stale';
       state.enclosures[index] = { ...enclosure, file, fileRef: ref };
     }

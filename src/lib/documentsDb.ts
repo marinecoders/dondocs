@@ -552,15 +552,30 @@ export async function idbPutAttachment(rec: StoredAttachment, onlyAbsent = false
   }
 }
 
-export async function idbGetAttachment(id: string): Promise<StoredAttachment | null> {
-  if (!hasIndexedDb) return null;
+export type AttachmentReadResult =
+  | { readonly status: 'found'; readonly attachment: StoredAttachment }
+  | { readonly status: 'missing' }
+  | { readonly status: 'unavailable' }
+  | { readonly status: 'failed'; readonly error: unknown };
+
+export async function idbReadAttachment(id: string): Promise<AttachmentReadResult> {
+  if (!hasIndexedDb) return { status: 'unavailable' };
   try {
-    const rec = await run<StoredAttachment | undefined>(ATTACHMENTS_STORE, 'readonly', (s) => s.get(id));
-    return rec ?? null;
-  } catch (err) {
-    debug.error('DocumentsDb', 'getAttachment failed', err);
-    return null;
-  }
+    const attachment = await run<StoredAttachment | undefined>(ATTACHMENTS_STORE, 'readonly', store => store.get(id));
+    if (!attachment) return { status: 'missing' };
+    if (attachment.id !== id || typeof attachment.name !== 'string' || typeof attachment.type !== 'string'
+      || !(attachment.data instanceof ArrayBuffer)) {
+      return { status: 'failed', error: new Error(`Invalid attachment record: ${id}`) };
+    }
+    return { status: 'found', attachment: { ...attachment, size: attachment.data.byteLength } };
+  } catch (error) { return { status: 'failed', error }; }
+}
+
+/** Compatibility reader; callers requiring completeness use idbReadAttachment. */
+export async function idbGetAttachment(id: string): Promise<StoredAttachment | null> {
+  const result = await idbReadAttachment(id);
+  if (result.status === 'failed') debug.error('DocumentsDb', 'getAttachment failed', result.error);
+  return result.status === 'found' ? result.attachment : null;
 }
 
 // Returns [] for a genuinely empty store and null when the read FAILED — a
