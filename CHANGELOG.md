@@ -5,6 +5,12 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.3.4] — 2026-11-07
+
+### Changed
+
+- Package opt-in releases with immutable application resources, shared engine runtimes, and verified resource manifests.
+
 ## [1.3.3] — 2026-11-07
 
 ### Changed

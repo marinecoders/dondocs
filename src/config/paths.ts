@@ -138,6 +138,7 @@
  */
 
 // Base path from Vite (handles deployment path prefixes)
+import { RUNTIME_BASE } from '@/lib/releasePaths';
 export const BASE_PATH = import.meta.env.BASE_URL || '/';
 
 // Remove trailing slash for path joining
@@ -156,7 +157,7 @@ export const LIB_PATHS = {
   texlivePackages: '/lib/texlive-packages.js',
 
   // Texlive endpoint for fetching packages
-  texliveEndpoint: `${basePathClean}/lib/texlive/`,
+  texliveEndpoint: `${RUNTIME_BASE}lib/texlive/`,
 } as const;
 
 /**

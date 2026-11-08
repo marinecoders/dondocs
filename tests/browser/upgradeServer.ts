@@ -1,15 +1,10 @@
 import { createServer } from 'node:http';
 import { readFile } from 'node:fs/promises';
-import { resolve, extname, sep } from 'node:path';
+import { resolve, sep } from 'node:path';
 import { createHash } from 'node:crypto';
+import { assetType } from '../../scripts/release-artifact.mjs';
 
 interface Fault { status?: number; body?: string; contentType?: string; delayMs?: number }
-const mime: Record<string, string> = {
-  '.html': 'text/html', '.js': 'text/javascript', '.mjs': 'text/javascript',
-  '.css': 'text/css', '.json': 'application/json', '.webmanifest': 'application/manifest+json',
-  '.svg': 'image/svg+xml', '.wasm': 'application/wasm', '.pdf': 'application/pdf',
-  '.png': 'image/png', '.woff': 'font/woff', '.woff2': 'font/woff2', '.txt': 'text/plain',
-};
 
 /** Same-origin deployments with origin headers, retained immutable files, and explicit faults. */
 export async function startUpgradeServer(options: { root: () => string; workerRevision?: () => string }) {
@@ -41,7 +36,7 @@ export async function startUpgradeServer(options: { root: () => string; workerRe
       const status = fault?.status ?? (req.headers['if-none-match'] === etag ? 304 : 200);
       requests.push({ path: pathname, status });
       res.writeHead(status, {
-        'Content-Type': fault?.contentType ?? mime[extname(relative)] ?? 'text/plain',
+        'Content-Type': fault?.contentType ?? assetType(relative.replace(/^\/(?:releases|runtimes)\/[^/]+\//, '').replace(/^\//, '')),
         'Cache-Control': immutable ? 'public, max-age=31536000, immutable' : 'no-cache, must-revalidate',
         ETag: etag,
       }).end(status === 304 ? undefined : bytes);

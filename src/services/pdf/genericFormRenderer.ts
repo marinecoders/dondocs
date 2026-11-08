@@ -1,4 +1,5 @@
 import type { FormDiagnostic } from '@/services/forms/model';
+import { formAssetUrl } from '@/lib/releasePaths';
 import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';
 import { calculateTextPosition } from './extractFormFields';
 import { wrapTextForForm } from './textWrap';
@@ -73,7 +74,7 @@ function hardWrap(
 export type PageLoader = (directory: string, page: string) => Promise<Uint8Array>;
 
 const fetchPage: PageLoader = async (directory, page) => {
-  const res = await fetch(`/templates/${directory}/${page}`);
+  const res = await fetch(formAssetUrl(directory, page));
   if (!res.ok) throw new Error(`Failed to load template page ${directory}/${page}: ${res.status}`);
   return new Uint8Array(await res.arrayBuffer());
 };
@@ -84,7 +85,7 @@ const configCache = new Map<string, FormConfig>();
 export async function loadFormConfig(directory: string): Promise<FormConfig> {
   const cached = configCache.get(directory);
   if (cached) return cached;
-  const res = await fetch(`/templates/${directory}/form.json`);
+  const res = await fetch(formAssetUrl(directory, 'form.json'));
   if (!res.ok) throw new Error(`Failed to load form config ${directory}: ${res.status}`);
   const cfg = assertFormConfig(await res.json(), directory);
   configCache.set(directory, cfg);

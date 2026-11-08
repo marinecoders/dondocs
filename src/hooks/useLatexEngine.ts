@@ -4,6 +4,7 @@ import { base64ToUint8Array } from '@/lib/encoding';
 import { LATEX } from '@/lib/constants';
 import { compileDocument, prepareEngine, LatexCompileError } from '@/services/latex/renderDocument';
 import { htmlResponseIndex } from '@/services/latex/logDiagnostics';
+import { RUNTIME_BASE } from '@/lib/releasePaths';
 
 // Import the engine class - we'll load these as global scripts
 declare global {
@@ -38,7 +39,7 @@ interface LatexEngineState {
 }
 
 // Get base path from Vite (handles /dondocs/ in production)
-const BASE_PATH = import.meta.env.BASE_URL || '/';
+const BASE_PATH = RUNTIME_BASE;
 
 // Helper to dynamically load a script
 function loadScript(src: string): Promise<void> {
@@ -150,7 +151,7 @@ export function useLatexEngine() {
       await Promise.all(
         LATEX.SEAL_FILES.map(async (sealFile) => {
           try {
-            const response = await fetch(`${BASE_PATH}attachments/${sealFile}`);
+            const response = await fetch(`${import.meta.env.BASE_URL}attachments/${sealFile}`);
             if (response.ok) {
               seals[sealFile] = new Uint8Array(await response.arrayBuffer());
               debug.log('Engine', `Loaded seal: ${sealFile}`);

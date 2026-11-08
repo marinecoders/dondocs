@@ -1,4 +1,5 @@
 import { FormCatalogStatus } from '@/components/editor/FormCatalogStatus';
+import { formAssetUrl } from '@/lib/releasePaths';
 import { useMemo, useState } from 'react';
 import { BadgeCheck, Search, Star } from 'lucide-react';
 import {
@@ -126,7 +127,7 @@ export function FormCatalogModal({
                     stalls inside the dialog's scroll container. */}
                 {f.directory && (
                   <img
-                    src={`/templates/${f.directory.split('/').map(encodeURIComponent).join('/')}/thumb.png`}
+                    src={formAssetUrl(f.directory, 'thumb.png')}
                     alt=""
                     className="mb-2 h-28 w-full rounded border border-border/60 bg-white object-contain object-top"
                     onError={(e) => {

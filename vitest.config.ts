@@ -30,6 +30,8 @@ export default defineConfig({
     __GIT_SHA__: JSON.stringify('test'),
     __BUILD_TIME__: JSON.stringify('1970-01-01T00:00:00Z'),
     __LATEX_TEMPLATES_REVISION__: JSON.stringify('test'),
+    __RUNTIME_BASE__: JSON.stringify(''),
+    __RELEASE_ID__: JSON.stringify(''),
   },
   resolve: {
     alias: {

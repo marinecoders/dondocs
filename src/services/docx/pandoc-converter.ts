@@ -14,8 +14,9 @@
 import JSZip from 'jszip';
 import { LAYOUT, layoutToMetadata } from './layout-config';
 import { debug } from '@/lib/debug';
+import { RUNTIME_BASE } from '@/lib/releasePaths';
 
-const BASE_PATH = import.meta.env.BASE_URL || '/';
+const BASE_PATH = RUNTIME_BASE;
 
 interface PandocModule {
   convert: (
