@@ -1,0 +1,124 @@
+name: publish managed application release
+on:
+  workflow_dispatch:
+    inputs:
+      bootstrap:
+        type: boolean
+        default: false
+        description: Capture the current legacy production site for the first managed deployment
+      previous_run:
+        type: string
+        required: false
+        description: Recover history from this publication run instead of the last successful run
+permissions:
+  contents: read
+concurrency:
+  group: managed-production-publication
+  cancel-in-progress: false
+jobs:
+  eligibility:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Require qualified source and production configuration
+        env:
+          ENABLED: ${{ vars.DONDOCS_RELEASE_UPDATES }}
+          DONDOCS_PRODUCTION_URL: ${{ vars.DONDOCS_PRODUCTION_URL }}
+        run: |
+          test "$GITHUB_REF" = refs/heads/main
+          test "$ENABLED" = 1
+          test -n "$DONDOCS_PRODUCTION_URL"
+          npm run release:check
+  qualification:
+    needs: eligibility
+    uses: ./.github/workflows/qualify-release.yml
+  publish:
+    needs: qualification
+    runs-on: ubuntu-latest
+    environment: production
+    permissions:
+      contents: read
+      actions: read
+      packages: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+      DONDOCS_PRODUCTION_URL: ${{ vars.DONDOCS_PRODUCTION_URL }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Build the artifact once
+        run: npm run build
+        env:
+          DONDOCS_RELEASE_BUILD: 1
+          DONDOCS_RELEASE_ID: release-${{ github.run_id }}-${{ github.run_attempt }}
+      - name: Recover and verify the previous deployment
+        env:
+          BOOTSTRAP: ${{ inputs.bootstrap }}
+          PREVIOUS_RUN: ${{ inputs.previous_run }}
+        run: |
+          bootstrap_mode=0
+          if [ "$BOOTSTRAP" = true ]; then
+            bootstrap_mode=1
+            npm run release:capture-legacy -- "$DONDOCS_PRODUCTION_URL" .release-previous
+          else
+            previous_run="$PREVIOUS_RUN"
+            if [ -z "$previous_run" ]; then
+              previous_run=$(gh run list --workflow publish-release.yml --branch main --status success --limit 1 --json databaseId --jq '.[0].databaseId // empty')
+            fi
+            [[ "$previous_run" =~ ^[0-9]+$ ]] || { echo 'Previous deployment archive required'; exit 1; }
+            gh run download "$previous_run" --name deployed-site --dir .release-previous
+            npm run release:verify-live -- "$DONDOCS_PRODUCTION_URL" .release-previous --identity-only
+          fi
+          DONDOCS_BOOTSTRAP="$bootstrap_mode" npm run release:prepare -- dist release-site .release-previous
+      - name: Preserve recovery history before publishing
+        uses: actions/upload-artifact@v7
+        with:
+          name: deployed-site
+          path: release-site/
+          include-hidden-files: true
+          retention-days: 90
+      - uses: cloudflare/wrangler-action@v3
+        with:
+          wranglerVersion: "4.99.0"
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: deploy --config wrangler.release.toml
+      - run: npm run release:verify-live -- "$DONDOCS_PRODUCTION_URL"
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Identify the prepared container
+        id: image
+        run: |
+          echo "release_id=$(node -p 'JSON.parse(require("fs").readFileSync("release-site/release.json", "utf8")).id')" >> "$GITHUB_OUTPUT"
+          echo "version=$(node -p 'require("./package.json").version')" >> "$GITHUB_OUTPUT"
+          echo "image=ghcr.io/${GITHUB_REPOSITORY,,}" >> "$GITHUB_OUTPUT"
+      - uses: docker/metadata-action@v5
+        id: meta
+        with:
+          images: ${{ steps.image.outputs.image }}
+          tags: |
+            type=raw,value=${{ steps.image.outputs.release_id }}
+            type=semver,pattern={{version}},value=${{ steps.image.outputs.version }}
+            type=semver,pattern={{major}}.{{minor}},value=${{ steps.image.outputs.version }}
+            type=semver,pattern={{major}},value=${{ steps.image.outputs.version }}
+            type=raw,value=latest
+      - name: Publish the same prepared bytes as a container
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./Dockerfile.release
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}

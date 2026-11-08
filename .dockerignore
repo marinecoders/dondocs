@@ -68,5 +68,9 @@ node_modules
 # npm-cache
 
 # Preserve the complete prepared artifact for Dockerfile.release.
+.release-fixtures/
+.release-previous/
+.release-legacy/
+.wrangler/
 !release-site/
 !release-site/**

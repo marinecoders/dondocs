@@ -1,0 +1,70 @@
+name: qualify application updates
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_call:
+permissions:
+  contents: read
+concurrency:
+  group: qualify-updates-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  qualify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium firefox webkit
+      - run: npm run test:release-builds
+      - uses: actions/checkout@v7
+        with:
+          ref: a6bab99c2eb394bd677a00312bc595e82f4e0a2a
+          path: .release-legacy
+      - name: Build the deployed legacy baseline
+        working-directory: .release-legacy
+        run: npm ci && npm run build
+      - name: Verify release transitions
+        run: npm run test:releases
+        env:
+          RELEASE_BUILD_A: ${{ github.workspace }}/.release-fixtures/a
+          RELEASE_BUILD_B: ${{ github.workspace }}/.release-fixtures/b
+          RELEASE_BUILD_C: ${{ github.workspace }}/.release-fixtures/c
+          RELEASE_BUILD_BROKEN: ${{ github.workspace }}/.release-fixtures/broken
+          RELEASE_BUILD_LEGACY: ${{ github.workspace }}/.release-legacy/dist
+      - name: Verify the prepared container's hosting contract
+        run: |
+          DONDOCS_BOOTSTRAP=1 npm run release:prepare -- .release-fixtures/b release-site .release-legacy/dist
+          docker build -f Dockerfile.release -t dondocs-release-check .
+          container=$(docker run -d --rm -p 127.0.0.1:8788:80 dondocs-release-check)
+          trap 'docker stop "$container"' EXIT
+          for attempt in {1..30}; do
+            if curl --fail --silent http://127.0.0.1:8788/release.json > /dev/null; then break; fi
+            sleep 1
+          done
+          npm run release:verify-live -- http://127.0.0.1:8788
+      - name: Verify Workers routing and headers locally
+        env:
+          WRANGLER_SEND_METRICS: "false"
+        run: |
+          npx --yes wrangler@4.99.0 dev --config wrangler.release.toml --port 8789 --local > /tmp/release-wrangler.log 2>&1 &
+          server=$!
+          trap 'kill "$server" || true' EXIT
+          for attempt in {1..60}; do
+            if curl --fail --silent http://127.0.0.1:8789/ > /dev/null; then break; fi
+            sleep 1
+          done
+          npm run release:verify-live -- http://127.0.0.1:8789 || { cat /tmp/release-wrangler.log; exit 1; }
+      - uses: actions/upload-artifact@v7
+        if: failure()
+        with:
+          name: release-qualification-failure
+          path: |
+            playwright-report/
+            test-results/
+          retention-days: 14

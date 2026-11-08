@@ -10,7 +10,7 @@ export default defineConfig([
   // dist = build output; public/lib = vendored/generated runtime bundles
   // (pdf.js worker, swiftlatex, texlive, wasi shim, generated latex-templates)
   // — third-party/minified, not hand-maintained source.
-  globalIgnores(['dist', 'release-site', 'dist-companion', 'dist-mcpb', 'public/lib/**', 'playwright-report/**', 'test-results/**']),
+  globalIgnores(['dist', 'release-site', '.release-fixtures', '.release-previous', '.release-legacy', '.wrangler', 'dist-companion', 'dist-mcpb', 'public/lib/**', 'playwright-report/**', 'test-results/**']),
   // Security linting across app + Node build scripts. The value here is the
   // low-noise sink rules that DON'T currently fire but guard future code:
   // eval-with-expression, child-process, non-literal-require,

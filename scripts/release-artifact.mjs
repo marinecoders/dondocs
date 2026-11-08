@@ -43,7 +43,11 @@ export async function packageRelease(root, info) {
     const source = join(root, file), target = join(root, decodeURIComponent(url.slice(1)));
     const bytes = await readFile(source);
     manifest.assets.push({ url, size: bytes.length, sha256: createHash('sha256').update(bytes).digest('hex'), type: assetType(file), group });
-    if (source !== target) { await mkdir(dirname(target), { recursive: true }); await rename(source, target); }
+    if (source !== target) {
+      await mkdir(dirname(target), { recursive: true });
+      if (/^(?:icon.svg|apple-touch-icon.png|pwa-[^/]+\.png)$/.test(file)) await copyFile(source, target);
+      else await rename(source, target);
+    }
   }
   const json = JSON.stringify(manifest);
   await writeFile(join(root, `releases/${info.id}/release.json`), json);

@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { releaseManifest, type ReleaseManifest } from '@/lib/releases';
 import { activeReleaseWorker, requestReleaseWorker } from '@/lib/releaseClient';
 import { prepareUpdateCheckpoint, verifyUpdateCheckpoint } from '@/lib/updateCheckpoint';
-import { readUpdateRestore, clearUpdateRestore } from '@/lib/updateRestore';
+import { readUpdateRestore, clearUpdateRestore, FAILED_RELEASE_KEY } from '@/lib/updateRestore';
 import { showAppAlert } from '@/stores/alertStore';
 
 export function useReleaseUpdates() {
@@ -34,7 +34,7 @@ export function useReleaseUpdates() {
         if (!disposed) setOfflineReady(true);
         const reply = await requestReleaseWorker<{ manifest: unknown }>(active, { type: 'CHECK_RELEASE' });
         const manifest = releaseManifest.parse(reply.manifest);
-        if (!disposed) setAvailable(manifest.id === __RELEASE_ID__ ? null : manifest);
+        if (!disposed) setAvailable(manifest.id === __RELEASE_ID__ || manifest.id === sessionStorage.getItem(FAILED_RELEASE_KEY) ? null : manifest);
         active.postMessage({ type: 'COLLECT_RELEASES' });
       } catch { /* Background failures leave the current release and editing alone. */ }
       finally { checking = false; if (requested && !disposed) { requested = false; void check(); } }

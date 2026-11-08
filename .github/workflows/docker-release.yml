@@ -10,6 +10,7 @@ env:
 
 jobs:
   build-and-push:
+    if: vars.DONDOCS_RELEASE_UPDATES != '1'
     runs-on: ubuntu-latest
     permissions:
       contents: read

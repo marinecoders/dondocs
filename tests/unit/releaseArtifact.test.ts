@@ -15,6 +15,7 @@ it('pins complete resources, shares unchanged runtimes, and preserves saved form
   for (const [file, body] of Object.entries({
     'index.html': '<script src="/releases/first/assets/app.js"></script>',
     'assets/app.js': 'import("./lazy.js")', 'assets/lazy.js': 'export default 1',
+    'pwa-192x192.png': 'icon bytes', 'icon.svg': '<svg/>',
     'lib/pandoc/dondocs.lua': '-- support', 'lib/engine.wasm': 'wasm',
     'templates/sample/revisions/abc/page1.pdf': 'pdf',
     'templates/Legacy Form/page1.pdf': 'legacy pdf',
@@ -32,6 +33,8 @@ it('pins complete resources, shares unchanged runtimes, and preserves saved form
   expect(manifest.assets.find(asset => asset.url.endsWith('/dondocs.lua'))?.url).toBe(`/runtimes/${runtime}/lib/pandoc/dondocs.lua`);
   expect(manifest.assets.find(asset => asset.group === 'form')?.url).toBe('/templates/sample/revisions/abc/page1.pdf');
   expect(await readFile(join(root, 'index.html'), 'utf8')).toBe('new shell');
+  expect(await readFile(join(root, 'pwa-192x192.png'), 'utf8')).toBe('icon bytes');
+  expect(await readFile(join(root, 'releases/first/pwa-192x192.png'), 'utf8')).toBe('icon bytes');
   expect(releaseManifest.safeParse({ ...manifest, assets: [...manifest.assets, manifest.assets[0]] }).success).toBe(false);
   expect(releaseManifest.safeParse({ ...manifest, entry: '/index.html' }).success).toBe(false);
   expect(releaseManifest.safeParse({ ...manifest, assets: [{ ...manifest.assets[0], url: '//other.invalid/steal' }] }).success).toBe(false);

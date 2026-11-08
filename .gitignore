@@ -130,3 +130,7 @@ public/templates/**/review-fill-*.pdf
 playwright-report/
 test-results/
 release-site/
+.release-fixtures/
+.release-previous/
+.release-legacy/
+.wrangler/

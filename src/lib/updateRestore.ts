@@ -1,6 +1,7 @@
 import { z } from 'zod';
 import { releaseId } from './releases';
 export const UPDATE_RESTORE_KEY = 'dondocs-update-restore';
+export const FAILED_RELEASE_KEY = 'dondocs-failed-release';
 const restorePoint = z.object({
   schema: z.literal(1), dataFormat: z.literal(1), target: releaseId, previous: releaseId,
   documentId: z.string().nullable(), formType: z.string().optional(), section: z.string().nullable(),
