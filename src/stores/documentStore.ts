@@ -316,6 +316,24 @@ function documentTypeState(state: Pick<DocumentState, 'documentMode' | 'formData
     };
 }
 
+const enclosureResources = new WeakMap<Enclosure, object>();
+const hydratedFiles = new WeakMap<NonNullable<Enclosure['file']>, FileRef>();
+
+/** Identify bytes materialized from this exact saved handle. */
+export function isHydratedFile(file: Enclosure['file'], reference: FileRef | undefined): boolean {
+  return !!file && !!reference && hydratedFiles.get(file) === reference;
+}
+
+/** A row keeps its upload target across title and layout edits, but not file replacement. */
+export function enclosureResource(enclosure: Enclosure): object {
+  let resource = enclosureResources.get(enclosure);
+  if (!resource) {
+    resource = {};
+    enclosureResources.set(enclosure, resource);
+  }
+  return resource;
+}
+
 export const useDocumentStore = create<DocumentState>((set, get) => ({
   documentMode: 'compliant',
   documentCategory: 'correspondence',
@@ -527,7 +545,14 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
   })),
 
   updateEnclosure: (index, updates) => set((state) => ({
-    enclosures: state.enclosures.map((enc, i) => (i === index ? { ...enc, ...updates } : enc)),
+    enclosures: state.enclosures.map((enc, i) => {
+      if (i !== index) return enc;
+      const updated = { ...enc, ...updates };
+      if (isApplyingAssets() || (!('file' in updates) && !('fileRef' in updates))) {
+        enclosureResources.set(updated, enclosureResource(enc));
+      }
+      return updated;
+    }),
   })),
 
   removeEnclosure: (index) => set((state) => ({
@@ -1170,14 +1195,16 @@ export async function rehydrateEnclosureFiles(owns: () => boolean): Promise<void
   const basicLetter = basicReference ? { ...basicReference } : undefined;
   const enclosures = original.enclosures.filter(enclosure => enclosure.fileRef && !enclosure.file)
     .map(enclosure => ({ reference: enclosure.fileRef!, ...enclosure.fileRef! }));
-  if (basicLetter && !original.formData.basicLetterFile) {
+  if (basicReference && basicLetter && !original.formData.basicLetterFile) {
     try {
       const data = await loadAttachment(basicLetter.id);
       if (!owns()) return;
       const current = useDocumentStore.getState().formData;
       if (data && !current.basicLetterFile && current.basicLetterFileRef === basicReference && current.basicLetterFileRef?.id === basicLetter.id) {
+        const file = { name: basicLetter.name, size: basicLetter.size || data.byteLength, data };
+        hydratedFiles.set(file, basicReference);
         mutateSessionAssets(() => useDocumentStore.setState(state => ({ formData: {
-          ...state.formData, basicLetterFile: { name: basicLetter.name, size: basicLetter.size || data.byteLength, data },
+          ...state.formData, basicLetterFile: file,
         } })));
       }
     } catch (error) { debug.error('Store', 'Failed to rehydrate basic-letter file', error); }
@@ -1195,7 +1222,10 @@ export async function rehydrateEnclosureFiles(owns: () => boolean): Promise<void
       const original = enclosures.find(candidate => candidate.reference === enclosure.fileRef && candidate.id === enclosure.fileRef?.id);
       if (!original) return enclosure;
       const data = loaded.get(original.id);
-      return data ? { ...enclosure, file: { name: original.name, size: original.size || data.byteLength, data } } : enclosure;
+      if (!data) return enclosure;
+      const hydrated = { ...enclosure, file: { name: original.name, size: original.size || data.byteLength, data } };
+      enclosureResources.set(hydrated, enclosureResource(enclosure));
+      return hydrated;
     }),
   })));
 }
@@ -1211,7 +1241,12 @@ export async function persistUnsavedEnclosures(owns: () => boolean): Promise<voi
       const ref = await persistAttachment({ name: item.name, size: item.size, type: '' }, item.data);
       if (!owns()) return;
       mutateSessionAssets(() => useDocumentStore.setState(state => ({
-        enclosures: state.enclosures.map(enclosure => enclosure.file === item.file && enclosure.file.name === item.name && enclosure.file.size === item.size && enclosure.file.data === item.data && !enclosure.fileRef ? { ...enclosure, fileRef: ref } : enclosure),
+        enclosures: state.enclosures.map(enclosure => {
+          if (enclosure.file !== item.file || enclosure.file.name !== item.name || enclosure.file.size !== item.size || enclosure.file.data !== item.data || enclosure.fileRef) return enclosure;
+          const stored = { ...enclosure, fileRef: ref };
+          enclosureResources.set(stored, enclosureResource(enclosure));
+          return stored;
+        }),
       })));
     } catch (error) { debug.error('Store', 'Failed to persist imported enclosure', error); }
   }
