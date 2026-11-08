@@ -1,3 +1,4 @@
+import type { DocumentWriteReceipt } from '@/lib/documentWrites';
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import { safeLocalStorage } from '@/lib/compressedStorage';
@@ -184,11 +185,8 @@ interface UIState {
   // "Couldn't save" instead of always claiming "Saved".
   saveWarning: string | null;
   saveStatus: 'idle' | 'pending' | 'saving' | 'saved' | 'error';
-  markSaved: () => void;
-  setSaveStatus: (s: 'idle' | 'pending' | 'saving' | 'saved' | 'error') => void;
-  // Point the indicator at a specific time (a switched-in doc's last save) or
-  // null (a brand-new, never-saved doc) so "Saved · …" reflects THIS document.
-  setLastSavedAt: (ts: number | null) => void;
+  acknowledgeSave: (receipt: DocumentWriteReceipt) => void;
+  setSaveStatus: (s: 'idle' | 'pending' | 'saving' | 'error') => void;
 
   // Drives the section rail's error dots; nothing flags until the first export
   // attempt.
@@ -338,9 +336,8 @@ export const useUIStore = create<UIState>()(
       lastSavedAt: null,
       saveWarning: null,
       saveStatus: 'idle',
-      markSaved: () => set({ lastSavedAt: Date.now(), saveStatus: 'saved', saveWarning: null }),
+      acknowledgeSave: (receipt) => set({ lastSavedAt: receipt.committedAt, saveStatus: 'saved', saveWarning: null }),
       setSaveStatus: (s) => set({ saveStatus: s, saveWarning: null }),
-      setLastSavedAt: (ts) => set({ lastSavedAt: ts, saveStatus: ts == null ? 'idle' : 'saved' }),
 
       // Validation visibility
       validationVisible: false,

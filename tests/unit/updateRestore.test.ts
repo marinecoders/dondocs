@@ -2,7 +2,8 @@ import 'fake-indexeddb/auto';
 import { afterEach, expect, it, vi } from 'vitest';
 import { readUpdateRestore, writeUpdateRestore, clearUpdateRestore, type UpdateRestorePoint } from '@/lib/updateRestore';
 import { restoreUpdateCheckpoint, prepareUpdateCheckpoint, registerUpdateGuard } from '@/lib/updateCheckpoint';
-import { useDocumentsStore } from '@/stores/documentsStore';
+import { flushDocumentWrites, useDocumentsStore } from '@/stores/documentsStore';
+import { idbPutDocument } from '@/lib/documentsDb';
 import { getSerializedSession, useDocumentStore } from '@/stores/documentStore';
 import { useBatchStore } from '@/stores/batchStore';
 import * as attachments from '@/lib/attachments';
@@ -11,13 +12,16 @@ const point: UpdateRestorePoint = { schema: 1, dataFormat: 1, target: 'new', pre
   section: null, view: { editorLayout: 'focused', previewVisible: false, sidebarCollapsed: false, sidebarOutlineVisible: false }, scroll: 0 };
 afterEach(() => { vi.useRealTimers(); vi.restoreAllMocks(); vi.unstubAllGlobals(); clearUpdateRestore(); useBatchStore.setState({ status: 'idle' }); });
 
-it('restores this tab’s document instead of the shared current document and keeps the point until boot completes', () => {
-  useDocumentsStore.setState({ docs: { original: { meta: { id: 'original', title: 'Original', docType: 'naval_letter', updatedAt: 1 }, session: getSerializedSession() } }, currentId: 'other', hydrated: true });
+it('restores this tab’s document instead of the shared current document and keeps the point until boot completes', async () => {
+  const entry = { meta: { id: 'original', title: 'Original', docType: 'naval_letter', updatedAt: 1 }, session: getSerializedSession() };
+  await idbPutDocument({ id: entry.meta.id, ...entry });
+  useDocumentsStore.setState({ docs: { original: entry }, currentId: 'other', hydrated: true });
   writeUpdateRestore(point);
   expect(restoreUpdateCheckpoint('new')).toBe(true);
   expect(useDocumentsStore.getState().currentId).toBe('original');
   expect(readUpdateRestore()?.documentId).toBe('original');
   expect(() => restoreUpdateCheckpoint('unexpected')).toThrow('selected update release');
+  await flushDocumentWrites();
 });
 
 it('pauses before checkpointing an active job or a failed operation guard', async () => {
