@@ -5,6 +5,12 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.3.6] — 2026-11-07
+
+### Changed
+
+- Stage verified releases in the background and apply accepted updates per tab without activation-triggered reloads.
+
 ## [1.3.5] — 2026-11-07
 
 ### Changed

@@ -44,3 +44,19 @@ Caddy and Cloudflare revalidate control files and cache immutable paths for a ye
 Missing immutable files must return 404 rather than application HTML. Rollback
 selects retained, compatible application files; it never clears document storage,
 downgrades IndexedDB, or removes form revisions.
+
+## Worker and tab behavior
+
+The opt-in worker has a stable `/sw.js` URL. Application deployments change the
+release manifest, rather than relying on worker activation to reload pages. The
+worker verifies sizes, MIME types, and content hashes before committing readiness.
+Cached bytes are keyed by content hash and shared across immutable resource URLs.
+Unused Word WASM is fetched on demand; the shell and PDF runtime are prepared.
+Once Word is used, subsequent releases prepare its complete runtime as well,
+including when its hashes change or usage came from a legacy Workbox cache.
+
+Only the accepting tab navigates to the selected release's HTML. Other tabs keep
+their resource URLs. Cache collection retains identified live/offered releases and
+the two most recently prepared releases; any unresponsive client prevents cleanup.
+Worker takeover also requires every existing client to identify the supported
+protocol. Legacy `SKIP_WAITING` messages cannot override that check.

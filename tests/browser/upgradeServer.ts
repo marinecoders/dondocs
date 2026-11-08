@@ -21,7 +21,7 @@ export async function startUpgradeServer(options: { root: () => string; workerRe
       const fault = faults.get(pathname);
       if (fault?.delayMs) await new Promise(done => setTimeout(done, fault.delayMs));
       const relative = pathname === '/' ? '/index.html' : pathname;
-      const immutable = /^\/(?:assets\/|releases\/|templates\/.*\/revisions\/)/.test(pathname);
+      const immutable = /^\/(?:assets\/|releases\/|runtimes\/|templates\/.*\/revisions\/)/.test(pathname);
       let bytes: Buffer | undefined;
       for (const root of [resolve(options.root()), ...(immutable ? retained : [])]) {
         const file = resolve(root, `.${relative}`);

@@ -266,6 +266,8 @@ export default defineConfig({
     },
     VitePWA({
       ...(RELEASE_BUILD ? { base: '/', scope: '/' } : {}),
+      ...(RELEASE_BUILD ? { strategies: 'injectManifest', srcDir: 'src', filename: 'sw.ts', injectRegister: false,
+        injectManifest: { injectionPoint: undefined, rollupFormat: 'iife' } } as const : {}),
       registerType: 'prompt',
       // SW-1: do NOT precache lib/**/* — that injected the entire engine tree
       // (TeX packages, fonts, pandoc.wasm; ~36 MB deployed) into the precache
