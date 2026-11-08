@@ -2,6 +2,7 @@ import { sl4Schema } from '@/data/techpub/sl4';
 import { additionalEndorsementsSchema } from './endorsementValidation';
 import { sl3Schema } from '@/data/techpub/sl3';
 import { parseFormInstance } from '@/services/forms/model';
+import { manualFrontMatterSchema } from '@/data/techpub/manualFrontMatter';
 
 export const MAX_BACKUP_BYTES = 100 * 1024 * 1024;
 const MAX_ITEMS = 100_000;
@@ -13,6 +14,12 @@ function object(value: unknown, label: string): RecordValue {
 function strings(value: RecordValue, keys: string[], label: string) {
   for (const key of keys) if (value[key] !== undefined && typeof value[key] !== 'string') throw new Error(`Invalid ${label}.${key}`);
 }
+
+function validateAttachmentReference(value: unknown): void {
+  const reference = object(value, 'attachment reference');
+  if (typeof reference.id !== 'string' || !reference.id) throw new Error('Invalid attachment reference');
+}
+
 export function validateBackupSession(value: unknown) {
   const data = object(value, 'session');
   for (const key of ['formData', 'publicationTables']) if (data[key] !== undefined) object(data[key], key);
@@ -21,6 +28,19 @@ export function validateBackupSession(value: unknown) {
   if (formData?.additionalEndorsements !== undefined) additionalEndorsementsSchema.parse(formData.additionalEndorsements);
   if (formData?.sl3 !== undefined) sl3Schema.parse(formData.sl3);
   if (formData?.sl4 !== undefined) sl4Schema.parse(formData.sl4);
+  if (formData?.manualFrontMatter !== undefined) manualFrontMatterSchema.parse(formData.manualFrontMatter);
+  if (formData?.basicLetterFileRef !== undefined) validateAttachmentReference(formData.basicLetterFileRef);
+  for (const entry of (data.enclosures ?? []) as unknown[]) {
+    const enclosure = object(entry, 'enclosure');
+    if (enclosure.fileRef !== undefined) validateAttachmentReference(enclosure.fileRef);
+  }
+  for (const entry of (data.paragraphs ?? []) as unknown[]) {
+    const paragraph = object(entry, 'paragraph');
+    if (paragraph.figure !== undefined) {
+      const figure = object(paragraph.figure, 'figure');
+      if (figure.fileRef !== undefined) validateAttachmentReference(figure.fileRef);
+    }
+  }
   if (data.genericForm) {
     const form = parseFormInstance(data.genericForm);
     if (data.documentCategory !== 'forms' || data.formType !== form.definition.formId) throw new Error('Form type does not match the saved definition');
