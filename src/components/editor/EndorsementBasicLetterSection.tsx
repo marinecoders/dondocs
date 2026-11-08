@@ -165,7 +165,7 @@ export function EndorsementBasicLetterSection() {
         if (!check.ok) { setUploadError(check.error); return; }
         await withAttachmentStaging(async () => {
           if (!ownsFile()) return;
-          const fileRef = await persistAttachment({ name: file.name, size: file.size, type: file.type }, data, { requireDurable: true });
+          const fileRef = await persistAttachment({ name: file.name, size: file.size, type: file.type }, data);
           if (!ownsFile()) return;
           setUploadError(null);
           setField('basicLetterFile', { name: file.name, size: file.size, data });

@@ -120,15 +120,11 @@ describe('legacy-migration ledger — empty set deletes the key', () => {
 describe('persistAttachment — graceful when the durable write fails', () => {
   afterEach(() => vi.restoreAllMocks());
 
-  it('still returns a usable FileRef so the in-memory session keeps working', async () => {
-    // A failed IDB write (quota, blocked) must not lose the just-attached file
-    // this session — persistAttachment returns the ref regardless; it just won't
-    // survive a reload.
+  it('rejects the durable handle while retaining the caller-owned bytes', async () => {
     vi.spyOn(documentsDb, 'idbPutAttachment').mockResolvedValue(false);
-    const ref = await persistAttachment({ name: 'f.pdf', size: 3, type: 'application/pdf' }, new Uint8Array([1, 2, 3]).buffer);
-    expect(ref.id).toMatch(/^att_/);
-    expect(ref.name).toBe('f.pdf');
-    expect(ref.size).toBe(3);
+    const data = new Uint8Array([1, 2, 3]).buffer;
+    await expect(persistAttachment({ name: 'f.pdf', size: 3, type: 'application/pdf' }, data)).rejects.toThrow('Could not save f.pdf');
+    expect([...new Uint8Array(data)]).toEqual([1, 2, 3]);
   });
 });
 
