@@ -8,11 +8,12 @@ import { showAppAlert } from '@/stores/alertStore';
 
 import { useEffect, useState, useCallback, useRef } from 'react';
 import { useRegisterSW } from 'virtual:pwa-register/react';
+import { useReleaseUpdates } from './useReleaseUpdates';
 
 // Key to signal auto-restore after update reload
 export const SW_AUTO_RESTORE_KEY = 'dondocs-sw-auto-restore';
 
-export function useServiceWorker() {
+function useLegacyServiceWorker() {
   const [showUpdatePrompt, setShowUpdatePrompt] = useState(false);
   // Periodic update-check interval, cancelled on unmount so dev HMR and tests
   // don't leak a 60s timer calling registration.update() against a dead component.
@@ -160,3 +161,5 @@ export function useServiceWorker() {
     offlineReady,
   };
 }
+
+export const useServiceWorker = __RELEASE_ID__ ? useReleaseUpdates : useLegacyServiceWorker;
