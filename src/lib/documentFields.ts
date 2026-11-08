@@ -14,6 +14,7 @@ export interface DocumentTextField {
   readonly text: string;
   readonly label: string;
   readonly role: 'text' | 'control' | 'asset-name' | 'unknown';
+  readonly datePurpose?: 'document';
 }
 /** A data port, with no editor actions or persistence methods. */
 export type DocumentFieldSource = Pick<DocumentSnapshot, 'docType' | 'formData'>
@@ -99,7 +100,7 @@ export function documentTextFields(source: DocumentFieldSource, projection: Fiel
   const fields: DocumentTextField[] = [];
   const transfer = projection === 'draft' || projection === 'share' || projection === 'backup';
   const ancestors = new WeakSet<object>();
-  const emit = (value: string, path: FieldPath, role: DocumentTextField['role'], label = fieldLabel(path)) => {
+  const emit = (value: string, path: FieldPath, role: DocumentTextField['role'], label = fieldLabel(path), datePurpose?: 'document') => {
     if (!active(source, path, projection)) return;
     if (projection === 'substitution' && role !== 'text') return;
     if ((projection === 'search' || projection === 'output') && role !== 'text') {
@@ -107,7 +108,7 @@ export function documentTextFields(source: DocumentFieldSource, projection: Fiel
         || path[0] === 'formData' && ['department', 'sealType'].includes(String(path[1])));
       if (!visibleChoice && !(projection === 'search' && role === 'asset-name')) return;
     }
-    fields.push(Object.freeze({ path: Object.freeze([...path]), text: value, label, role }));
+    fields.push(Object.freeze({ path: Object.freeze([...path]), text: value, label, role, ...(datePurpose ? { datePurpose } : {}) }));
   };
   const enter = (value: object, path: FieldPath, visit: () => void) => {
     if (path.length > 50 || ancestors.has(value)) throw new Error('Document fields contain a cycle or exceed the supported depth');
@@ -186,8 +187,8 @@ export function documentTextFields(source: DocumentFieldSource, projection: Fiel
   };
   const walk = (value: unknown, rule: FieldRule, path: FieldPath): void => {
     if (value === undefined || value === null || !active(source, path, projection)) return;
-    if (rule === 'text' || rule === 'control') {
-      if (typeof value === 'string') emit(value, path, rule);
+    if (rule === 'text' || rule === 'control' || rule === 'document-date') {
+      if (typeof value === 'string') emit(value, path, rule === 'document-date' ? 'text' : rule, undefined, rule === 'document-date' ? 'document' : undefined);
       else if (transfer) unknown(value, path);
       return;
     }

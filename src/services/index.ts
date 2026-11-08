@@ -44,6 +44,8 @@ export {
 // PII detection
 export {
   detectPII,
+  detectCapturedPII,
+  detectSharedSessionPII,
   getPIITypeLabel,
   getPIITypeSeverity,
   type PIIType,

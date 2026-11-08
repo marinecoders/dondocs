@@ -21,6 +21,14 @@ const texts = (fields: ReturnType<typeof documentTextFields>) => fields.map(fiel
 const replace = (field: { text: string }) => field.text.replaceAll('{{VALUE}}', 'RESOLVED');
 
 describe('document text ownership and projections', () => {
+  it('keeps document dates editable and searchable while carrying their date purpose', () => {
+    const data = copyCapturedSession(captureDocumentRevision(source, snapshot({ formData: { date: '{{VALUE}}' } })));
+    const field = documentTextFields(data, 'substitution').find(field => field.path.at(-1) === 'date');
+    expect(field).toMatchObject({ text: '{{VALUE}}', role: 'text', datePurpose: 'document' });
+    const mapped = mapSessionText(data, replace);
+    expect(texts(documentTextFields(mapped, 'search'))).toContain('RESOLVED');
+    expect(data.formData.date).toBe('{{VALUE}}');
+  });
   it('reads headings, endorsements, distributions, nested tables, and stable dictionary paths', () => {
     const captured = captureDocumentRevision(source, snapshot({
       formData: { appendEndorsement: true, additionalEndorsements: [{ id: 'row-id', endorsementBody: '{{VALUE}} endorsement' }] },

@@ -8,7 +8,8 @@
     "src/types/build-constants.d.ts",
     "tests/types/capturedDocument.ts",
     "tests/types/documentFields.ts",
-    "tests/types/documentCapabilities.ts"
+    "tests/types/documentCapabilities.ts",
+    "tests/types/privacyInspection.ts"
   ],
   "exclude": []
 }

@@ -2,6 +2,12 @@
  * PII/PHI Detection Service for DONDOCS
  * Detects potentially sensitive information before PDF generation
  */
+import { capturedTextFields, documentTextFields, type DocumentTextField } from '@/lib/documentFields';
+import type { CapturedDocument } from '@/lib/capturedDocument';
+import type { SerializedSession } from '@/stores/documentStore';
+import type { FormSession } from '@/stores/formStore';
+import type { FormInstance } from '@/services/forms/model';
+import type { DocumentCategory, DocumentMode, EndItem, Enclosure, FormType, Paragraph, PublicationTableRow, Reference } from '@/types/document';
 
 export type PIIType = 'SSN' | 'EDIPI' | 'DOB' | 'PHONE' | 'MEDICAL_KEYWORD' | 'EMAIL_ADDRESS';
 
@@ -237,130 +243,76 @@ function findEmails(text: string, field: string): PIIFinding[] {
 
 interface DocumentStore {
   docType?: string;
+  documentCategory?: DocumentCategory;
+  documentMode?: DocumentMode;
+  formType?: FormType;
+  forms?: FormSession;
+  genericForm?: FormInstance;
   formData: Record<string, unknown>;
-  paragraphs: Array<{ text: string; header?: string }>;
+  paragraphs: Array<Pick<Paragraph, 'text'> & Partial<Omit<Paragraph, 'text'>>>;
   copyTos: Array<{ text: string }>;
-  references: Array<{ title: string; url?: string }>;
+  references: Array<Pick<Reference, 'title'> & Partial<Omit<Reference, 'title'>>>;
   distributions?: Array<{ text: string }>;
-  enclosures?: Array<{ title?: string; coverPageDescription?: string }>;
+  enclosures?: Array<Partial<Enclosure>>;
+  endItems?: EndItem[];
+  publicationTables?: Record<string, PublicationTableRow[]>;
 }
 
 // The full PII battery on a single free-text field. Shared so every scannable
 // field — not just the body — gets the same coverage that the share/export
 // payload assumes was applied.
-function scanText(text: string | undefined, fieldName: string): PIIFinding[] {
+function scanText(field: DocumentTextField): PIIFinding[] {
+  const { text, label: fieldName } = field;
   if (typeof text !== 'string' || !text.trim()) return [];
+  // Plain dates in a document-date field include lists of office closures.
+  // Free text, configured answers, and annotations still get the full scan;
+  // date fields are never exempt from other PII patterns.
+  const dateValues = field.datePurpose === 'document' ? text.split(/[\s,;]+/).filter(Boolean) : [];
+  const documentDate = dateValues.length > 0
+    && dateValues.every(value => /^(?:\d{4}[/-]\d{2}[/-]\d{2}|\d{2}[/-]\d{2}[/-]\d{4})$/.test(value));
   return [
     ...findMatches(text, SSN_PATTERNS, 'SSN', fieldName),
     ...findMatches(text, [EDIPI_PATTERN], 'EDIPI', fieldName),
-    ...findMatches(text, DOB_PATTERNS, 'DOB', fieldName),
+    ...(documentDate ? [] : findMatches(text, DOB_PATTERNS, 'DOB', fieldName)),
     ...findMatches(text, PHONE_PATTERNS, 'PHONE', fieldName),
     ...findMedicalKeywords(text, fieldName),
     ...findEmails(text, fieldName),
   ];
 }
 
+/** Compatibility data port for existing export callers; preparation will select their output projection. */
 export function detectPII(documentStore: DocumentStore): PIIDetectionResult {
-  const findings: PIIFinding[] = [];
+  const fields = documentTextFields({
+    docType: documentStore.docType ?? 'naval_letter',
+    documentCategory: documentStore.documentCategory ?? 'correspondence',
+    documentMode: documentStore.documentMode ?? 'compliant',
+    formType: documentStore.formType ?? 'navmc_10274',
+    formData: documentStore.formData,
+    paragraphs: documentStore.paragraphs.map(paragraph => ({ ...paragraph, level: paragraph.level ?? 0 })),
+    references: documentStore.references.map(reference => ({ ...reference, letter: reference.letter ?? '' })),
+    enclosures: documentStore.enclosures?.map(enclosure => ({ ...enclosure, title: enclosure.title ?? '' })),
+    copyTos: documentStore.copyTos,
+    distributions: documentStore.distributions,
+    endItems: documentStore.endItems,
+    publicationTables: documentStore.publicationTables,
+    forms: documentStore.forms,
+    genericForm: documentStore.genericForm,
+  }, 'draft');
+  return inspectFields(fields);
+}
 
-  // Scan form data fields
-  const formFieldsToScan = [
-    'from',
-    'to',
-    'subject',
-    'sigFirst',
-    'sigMiddle',
-    'sigLast',
-    'sigRank',
-    'sigTitle',
-    'unitLine1',
-    'unitLine2',
-    'unitAddress',
-  ];
+/** Inspect the exact serialized share payload, including its inactive fields. */
+export function detectSharedSessionPII(session: SerializedSession): PIIDetectionResult {
+  return inspectFields(documentTextFields(session, 'share'));
+}
 
-  for (const fieldName of formFieldsToScan) {
-    const value = documentStore.formData[fieldName];
-    if (typeof value === 'string' && value.trim()) {
-      findings.push(...findMatches(value, SSN_PATTERNS, 'SSN', `Form: ${fieldName}`));
-      findings.push(...findMatches(value, [EDIPI_PATTERN], 'EDIPI', `Form: ${fieldName}`));
-      findings.push(...findMatches(value, DOB_PATTERNS, 'DOB', `Form: ${fieldName}`));
-      findings.push(...findMatches(value, PHONE_PATTERNS, 'PHONE', `Form: ${fieldName}`));
-      findings.push(...findMedicalKeywords(value, `Form: ${fieldName}`));
-    }
-  }
+/** Preparation inspects an issued revision rather than rereading a live store. */
+export function detectCapturedPII(captured: CapturedDocument, projection: 'output' | 'share' = 'output'): PIIDetectionResult {
+  return inspectFields(capturedTextFields(captured, projection));
+}
 
-  // Endorsements travel with saved/shared letters, including hidden blocks.
-  const endorsementFields = [
-    'endorsementFrom', 'endorsementTo', 'endorsementBody', 'endorsementSigFirst',
-    'endorsementSigMiddle', 'endorsementSigLast', 'endorsementSerial', 'endorsementDate',
-  ];
-  const endorsements = [documentStore.formData, ...(Array.isArray(documentStore.formData.additionalEndorsements)
-    ? documentStore.formData.additionalEndorsements : [])];
-  endorsements.forEach((entry: unknown, index) => {
-    if (!entry || typeof entry !== 'object') return;
-    for (const field of endorsementFields) {
-      const value = (entry as Record<string, unknown>)[field];
-      if (typeof value === 'string') findings.push(...scanText(value, `Endorsement ${index + 1}: ${field}`));
-    }
-  });
-
-  // Scan email fields specifically
-  const emailFields = ['pocEmail', 'classifiedPocEmail'];
-  for (const fieldName of emailFields) {
-    const value = documentStore.formData[fieldName];
-    if (typeof value === 'string' && value.trim()) {
-      findings.push(...findEmails(value, `Form: ${fieldName}`));
-    }
-  }
-
-  if (documentStore.docType === 'tm_ietm_front_matter') {
-    const scan = (value: unknown, path: string) => {
-      if (typeof value === 'string') findings.push(...scanText(value, path));
-      else if (Array.isArray(value)) value.forEach((v, i) => scan(v, `${path} ${i + 1}`));
-      else if (value && typeof value === 'object') for (const [key, v] of Object.entries(value)) if (!['rowId', 'subtype', 'service', 'dfarClause'].includes(key)) scan(v, `${path}: ${key}`);
-    };
-    scan(documentStore.formData.manualFrontMatter, 'Manual front matter');
-    for (const key of ['shortTitle', 'nomenclature', 'supersedure', 'controllingOffice', 'cuiControlledBy', 'cuiCategory', 'cuiDissemination']) scan(documentStore.formData[key], key);
-  }
-
-  // Scan paragraphs (document body - highest risk area), including their headings.
-  documentStore.paragraphs.forEach((para, index) => {
-    findings.push(...scanText(para.text, `Paragraph ${index + 1}`));
-    findings.push(...scanText(para.header, `Paragraph ${index + 1} heading`));
-  });
-
-  // Scan copy-to recipients
-  documentStore.copyTos.forEach((copyTo, index) => {
-    if (copyTo.text && copyTo.text.trim()) {
-      const fieldName = `Copy To ${index + 1}`;
-      findings.push(...findMatches(copyTo.text, SSN_PATTERNS, 'SSN', fieldName));
-      findings.push(...findMatches(copyTo.text, [EDIPI_PATTERN], 'EDIPI', fieldName));
-      findings.push(...findEmails(copyTo.text, fieldName));
-    }
-  });
-
-  // Scan references
-  documentStore.references.forEach((ref, index) => {
-    const fieldName = `Reference ${index + 1}`;
-    if (ref.title && ref.title.trim()) {
-      findings.push(...findMatches(ref.title, SSN_PATTERNS, 'SSN', fieldName));
-    }
-    if (ref.url && ref.url.trim()) {
-      // URLs might contain PII in query parameters
-      findings.push(...findMatches(ref.url, SSN_PATTERNS, 'SSN', `${fieldName} URL`));
-    }
-  });
-
-  // Scan distribution lines and enclosure titles/cover descriptions — all three
-  // ride along in the share/export payload (serializeSession), so the pre-share
-  // warning must scan them too or it gives false assurance.
-  (documentStore.distributions ?? []).forEach((dist, index) => {
-    findings.push(...scanText(dist.text, `Distribution ${index + 1}`));
-  });
-  (documentStore.enclosures ?? []).forEach((enc, index) => {
-    findings.push(...scanText(enc.title, `Enclosure ${index + 1}`));
-    findings.push(...scanText(enc.coverPageDescription, `Enclosure ${index + 1} cover page`));
-  });
+function inspectFields(fields: readonly DocumentTextField[]): PIIDetectionResult {
+  const findings = fields.flatMap(scanText);
 
   // Remove duplicates (same value in same field)
   const uniqueFindings = findings.filter((finding, index, self) =>

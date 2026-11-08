@@ -6,6 +6,15 @@ import security from 'eslint-plugin-security'
 import tseslint from 'typescript-eslint'
 import { defineConfig, globalIgnores } from 'eslint/config'
 
+const workspaceImports = { paths: [
+  { name: '@/stores/documentStore', importNames: ['loadSharedSession', 'replaceSessionState', 'resetDocumentHistory', 'installSessionState', 'prepareSessionState', 'restoreSession', 'rehydrateEnclosureFiles', 'persistUnsavedEnclosures'], message: 'Use the document lifecycle commands.' },
+  { name: '@/stores/historyStore', importNames: ['useHistoryStore'], message: 'Use history commands and read-only availability hooks.' },
+  { name: '@/stores', importNames: ['useHistoryStore'], message: 'Use history commands and read-only availability hooks.' },
+], patterns: [
+  { regex: '^(?:\\.\\.?/)+(?:.*/)?documentStore$', importNames: ['loadSharedSession', 'replaceSessionState', 'resetDocumentHistory', 'installSessionState', 'prepareSessionState', 'restoreSession', 'rehydrateEnclosureFiles', 'persistUnsavedEnclosures'], message: 'Use the document lifecycle commands.' },
+  { regex: '^(?:\\.\\.?/)+(?:.*/)?historyStore$', importNames: ['useHistoryStore'], message: 'Use history commands and read-only availability hooks.' },
+] }
+
 export default defineConfig([
   // dist = build output; public/lib = vendored/generated runtime bundles
   // (pdf.js worker, swiftlatex, texlive, wasi shim, generated latex-templates)
@@ -76,7 +85,7 @@ export default defineConfig([
     },
   },
   {
-    files: ['src/lib/{capturedDocument,documentCapabilities,documentFieldPolicies,documentFields,documentSerialization}.ts'],
+    files: ['src/lib/{capturedDocument,documentCapabilities,documentFieldPolicies,documentFields,documentSerialization}.ts', 'src/services/pii/detector.ts'],
     rules: {
       'no-restricted-imports': ['error', { patterns: [{
         regex: '^(?:@/stores(?:/|$)|(?:\\.\\.?/)+(?:.*/)?stores(?:/|$))',
@@ -97,19 +106,25 @@ export default defineConfig([
       'src/components/modals/{TemplateLoaderModal,DocumentGuideModal,ShareModal,RestoreSessionModal,ImportLetterModal}.tsx',
     ],
     rules: {
-      'no-restricted-imports': ['error', { paths: [
-        { name: '@/stores/documentStore', importNames: ['loadSharedSession', 'replaceSessionState', 'resetDocumentHistory', 'installSessionState', 'prepareSessionState', 'restoreSession', 'rehydrateEnclosureFiles', 'persistUnsavedEnclosures'], message: 'Use the document lifecycle commands.' },
-        { name: '@/stores/historyStore', importNames: ['useHistoryStore'], message: 'Use history commands and read-only availability hooks.' },
-        { name: '@/stores', importNames: ['useHistoryStore'], message: 'Use history commands and read-only availability hooks.' },
-      ], patterns: [
-        { regex: '^(?:\\.\\.?/)+(?:.*/)?documentStore$', importNames: ['loadSharedSession', 'replaceSessionState', 'resetDocumentHistory', 'installSessionState', 'prepareSessionState', 'restoreSession', 'rehydrateEnclosureFiles', 'persistUnsavedEnclosures'], message: 'Use the document lifecycle commands.' },
-        { regex: '^(?:\\.\\.?/)+(?:.*/)?historyStore$', importNames: ['useHistoryStore'], message: 'Use history commands and read-only availability hooks.' },
-      ] }],
+      'no-restricted-imports': ['error', workspaceImports],
       'no-restricted-syntax': ['error',
         { selector: "CallExpression[callee.object.name=/^useDocuments?Store$/][callee.property.name='setState']", message: 'Use the document lifecycle commands.' },
         { selector: "MemberExpression[property.name=/^(applySnapshot|loadTemplate|resetForm|openLoadedAsNew|markBaseline)$/]", message: 'Use the document lifecycle commands.' },
         { selector: "AssignmentExpression[left.property.name=/^(currentId|activationEpoch)$/]", message: 'Identity belongs to the document lifecycle owner.' },
       ],
+    },
+  },
+  {
+    files: ['src/components/modals/ShareModal.tsx'],
+    rules: {
+      'no-restricted-imports': ['error', {
+        ...workspaceImports,
+        patterns: [...workspaceImports.patterns, {
+          group: ['@/services/pii/detector', '@/services', '**/services/pii/detector', '**/services'],
+          importNames: ['detectPII'],
+          message: 'Inspect the captured shared payload with detectSharedSessionPII.',
+        }],
+      }],
     },
   },
   {
