@@ -6,7 +6,7 @@ import { SessionPreview } from '@/components/SessionPreview';
  * Import: paste share link, enter password, decrypt and load document.
  */
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import { Link2, Copy, Check, Loader2, AlertTriangle } from 'lucide-react';
 import {
   Dialog,
@@ -28,7 +28,7 @@ import {
 import { getSerializedSessionForShare, type SerializedSession } from '@/stores/documentStore';
 import { openSessionAsNew } from '@/stores/documentsStore';
 import { parseSharedSession } from '@/lib/sharedSession';
-import { detectPII, getPIITypeLabel, type PIIDetectionResult } from '@/services/pii/detector';
+import { detectSharedSessionPII, getPIITypeLabel, type PIIDetectionResult } from '@/services/pii/detector';
 
 export type ShareModalMode = 'share' | 'import';
 
@@ -56,27 +56,52 @@ export function ShareModal({
   const [copied, setCopied] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [working, setWorking] = useState(false);
+  const copyTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   // Non-null when a pre-share PII scan found something; the user confirms or backs out.
   const [piiFindings, setPiiFindings] = useState<PIIDetectionResult | null>(null);
 
   const payloadFromInput = initialPayload ?? (mode === 'import' ? parseShareUrl(pasteLink) : null);
 
+  const clearCopyTimer = useCallback(() => {
+    if (copyTimer.current !== null) clearTimeout(copyTimer.current);
+    copyTimer.current = null;
+  }, []);
+  useEffect(() => clearCopyTimer, [clearCopyTimer]);
+
+  const changePassword = useCallback((value: string) => {
+    clearCopyTimer();
+    setPassword(value);
+    setShareLink('');
+    setCopied(false);
+    setPiiFindings(null);
+    setError(null);
+  }, [clearCopyTimer]);
+
   const copyLink = useCallback(async (url: string) => {
+    clearCopyTimer();
     setError(null);
     setCopied(false);
     try {
       await navigator.clipboard.writeText(url);
       setCopied(true);
-      setTimeout(() => setCopied(false), 2500);
+      copyTimer.current = setTimeout(() => { copyTimer.current = null; setCopied(false); }, 2500);
     } catch {
       setError('Could not copy the link. Select and copy the share link manually.');
     }
-  }, []);
+  }, [clearCopyTimer]);
+
+  const handleCopyAgain = useCallback(async () => {
+    if (working || !shareLink) return;
+    setWorking(true);
+    try { await copyLink(shareLink); }
+    finally { setWorking(false); }
+  }, [working, shareLink, copyLink]);
 
   // The actual encrypt → build → copy, run only once any PII has been
   // acknowledged. A share link leaves the device, so it goes through the same
   // PII conscience-check the PDF/DOCX exports do.
   const doGenerate = useCallback(async () => {
+    if (working) return;
     setPiiFindings(null);
     setWorking(true);
     try {
@@ -93,26 +118,34 @@ export function ShareModal({
     } finally {
       setWorking(false);
     }
-  }, [password, snapshot, copyLink]);
+  }, [password, snapshot, copyLink, working]);
 
   const handleGenerateLink = useCallback(() => {
+    if (working) return;
     setError(null);
+    setPiiFindings(null);
     if (!password.trim()) {
       setError('Please set a password');
       return;
     }
     // Scan before the document can leave the device; warn once, then let the
     // user decide (the payload is still password-encrypted either way).
-    const session = snapshot!;
-    const pii = detectPII(session.forms ? { formData: {}, paragraphs: [{ text: JSON.stringify(session.forms) }], copyTos: [], references: [] } : session);
+    let pii: PIIDetectionResult;
+    try {
+      pii = detectSharedSessionPII(snapshot!);
+    } catch {
+      setError('Could not inspect this draft. Close sharing and review the document before trying again.');
+      return;
+    }
     if (pii.found) {
       setPiiFindings(pii);
       return;
     }
     void doGenerate();
-  }, [password, doGenerate, snapshot]);
+  }, [password, doGenerate, snapshot, working]);
 
   const handleImport = useCallback(async () => {
+    if (working) return;
     setError(null);
     const payload = payloadFromInput;
     if (!payload) {
@@ -133,7 +166,7 @@ export function ShareModal({
     } finally {
       setWorking(false);
     }
-  }, [payloadFromInput, password]);
+  }, [payloadFromInput, password, working]);
 
   const openReceived = () => {
     if (!received) return;
@@ -146,6 +179,7 @@ export function ShareModal({
     (next: boolean) => {
       if (working) return;
       if (!next) {
+        clearCopyTimer();
         setPassword('');
         setShareLink('');
         setPasteLink('');
@@ -154,7 +188,7 @@ export function ShareModal({
       }
       onOpenChange(next);
     },
-    [onOpenChange, working]
+    [onOpenChange, working, clearCopyTimer]
   );
 
   const isImport = mode === 'import';
@@ -200,6 +234,7 @@ export function ShareModal({
                 type="url"
                 placeholder="Paste the share link here"
                 value={pasteLink}
+                disabled={working}
                 onChange={(e) => setPasteLink(e.target.value)}
                 className="font-mono text-sm"
               />
@@ -220,7 +255,7 @@ export function ShareModal({
               type="password"
               placeholder={isImport ? 'Enter password' : 'Set a password'}
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={(e) => changePassword(e.target.value)}
               onKeyDown={(e) => {
                 if (e.key === 'Enter') {
                   if (isImport) handleImport();
@@ -245,7 +280,8 @@ export function ShareModal({
                 <Button
                   variant="outline"
                   size="icon"
-                  onClick={() => void copyLink(shareLink)}
+                  onClick={() => void handleCopyAgain()}
+                  disabled={working}
                   aria-label="Copy again"
                 >
                   {copied ? (
@@ -275,6 +311,7 @@ export function ShareModal({
                     {[...new Set(piiFindings.findings.map((f) => getPIITypeLabel(f.type)))].join(', ')}). The link is
                     password-encrypted, but it still leaves your device — share it only if you mean to.
                   </p>
+                  <p className="mt-1 text-muted-foreground">Checks text and form values. Images and attached PDFs are not inspected.</p>
                   <div className="mt-2 flex gap-2">
                     <Button size="sm" variant="destructive" onClick={() => void doGenerate()} disabled={working}>
                       Share anyway
@@ -291,7 +328,7 @@ export function ShareModal({
 
         </div>
         <DialogFooter className="shrink-0">
-          <Button variant="outline" onClick={() => handleOpenChange(false)}>
+          <Button variant="outline" onClick={() => handleOpenChange(false)} disabled={working}>
             Cancel
           </Button>
           {isImport ? (
@@ -317,7 +354,7 @@ export function ShareModal({
               {working ? (
                 <>
                   <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                  Generating…
+                  Working…
                 </>
               ) : copied ? (
                 <>

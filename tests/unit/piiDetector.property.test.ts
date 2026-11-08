@@ -98,10 +98,7 @@ describe('detectPII — pattern detection', () => {
   });
 
   it('detects an email address (in pocEmail field or paragraph body)', () => {
-    // The detector only scans email patterns in: pocEmail/classifiedPocEmail
-    // form fields, paragraph bodies, and copyTo text — NOT in `subject` or
-    // similar metadata fields. Catching email in subject would false-
-    // positive on legitimate "Re: foo@bar" thread subjects.
+    // Each selected text field receives the same pattern inspection.
     const store = emptyStore();
     store.formData.pocEmail = 'john@example.com';
     const out = detectPII(store);
