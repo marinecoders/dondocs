@@ -1,7 +1,7 @@
 import { WORKSPACE_DESTINATIONS } from './workspaceNavigation';
 import { matchesSearch } from '@/lib/workspaceSearch';
 import { formErrorSections } from '@/services/forms/model';
-import { useMemo, useState, useRef, useEffect } from 'react';
+import { useMemo, useState, useRef, useEffect, type ReactNode } from 'react';
 import { PanelLeft, Plus, FolderOpen, Search, ListFilter, Trash2, MoreHorizontal, Copy, Pencil, Undo2, History, Pin, PinOff, ArrowDownAZ, Clock, CheckSquare, Check, X } from 'lucide-react';
 import {
   DropdownMenu,
@@ -80,7 +80,7 @@ function buildGroups(metas: DocumentMeta[], sort: RecentsSort): { label: string;
  * Desktop document library, with an optional section outline above Recents.
  * Workspace utilities remain anchored below the scrolling document list.
  */
-export function EditorSidebar() {
+export function EditorSidebar({ updateAction }: { updateAction?: ReactNode }) {
   const isMobile = useUIStore((s) => s.isMobile);
   const collapsed = useUIStore((s) => s.sidebarCollapsed);
   const sidebarWidth = useUIStore((s) => s.sidebarWidth);
@@ -263,6 +263,7 @@ export function EditorSidebar() {
     {collapsed && <nav aria-label="Document shortcuts" style={{ width: SIDEBAR_WIDTH.collapsed }} className="workspace-collapsed-rail absolute inset-y-0 left-0 flex flex-col items-center gap-1 border-r border-border pt-[52px] pb-3 pl-px">
       {renderNewDocumentMenu(true)}
       <IconTip label="Search workspace" side="right"><button type="button" onClick={() => useUIStore.getState().setCommandPaletteOpen(true)} className="inline-flex h-9 w-8 items-center justify-center rounded-md text-muted-foreground hover:bg-sidebar-accent focus-visible:outline-2 focus-visible:outline-ring"><Search aria-hidden="true" className="h-4 w-4" /></button></IconTip>
+      {updateAction && <div className="mt-auto shrink-0 pt-2">{updateAction}</div>}
     </nav>}
     <nav
       ref={navRef}
@@ -325,6 +326,7 @@ export function EditorSidebar() {
       </>}
       {/* Document library: controls stay above the scrolling list. */}
       <div className="@container flex min-h-0 flex-1 flex-col pt-2">
+        <div className="flex min-h-0 flex-1 flex-col overflow-hidden">
         {/* Keep sorting and selection reachable when text size increases. */}
         <div className="flex flex-wrap items-center justify-between gap-2 px-3 pb-1.5">
           <span className="shrink-0 text-xs font-medium text-muted-foreground">
@@ -614,8 +616,12 @@ export function EditorSidebar() {
             ))
           )}
         </div>
+        </div>
+        {/* Reserve space outside the scroll area without moving the footer. */}
+        {updateAction && <div aria-hidden="true" className="h-8 shrink-0" />}
       </div>
-      <div className="shrink-0 px-3 pb-3 pt-4 space-y-0.5">
+      <div className="relative shrink-0 px-3 pb-3 pt-4 space-y-0.5">
+        {updateAction && <div className="absolute bottom-full left-3 translate-y-6 pb-2">{updateAction}</div>}
         {WORKSPACE_DESTINATIONS.map(({ label, icon: Icon, run }) => <button key={label} data-tour={label === 'Settings' ? 'settings' : undefined} type="button" onClick={(event) => { event.currentTarget.focus(); run(); }} className="flex min-h-9 w-full items-center gap-2.5 rounded-md px-3 text-[13px] hover:bg-sidebar-accent focus-visible:outline-2 focus-visible:outline-ring"><Icon className="h-4 w-4" />{label}</button>)}
         <p className="px-3 pt-3 text-[11px] text-muted-foreground">Local workspace</p>
       </div>

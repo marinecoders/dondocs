@@ -11,6 +11,7 @@ import { BetaBanner } from '@/components/BetaBanner';
 import { ReadinessMeter } from '@/components/layout/ReadinessMeter';
 import { FormPanel } from '@/components/layout/FormPanel';
 import { EditorSidebar } from '@/components/layout/EditorSidebar';
+import { UpdateAvailableButton } from '@/components/layout/UpdateAvailableButton';
 import { MobileRecents } from '@/components/layout/MobileRecents';
 import { SettingsModal } from '@/components/modals/SettingsModal';
 import { HelpModal } from '@/components/modals/HelpModal';
@@ -220,7 +221,7 @@ function App() {
   const redo = useHistoryStore((s) => s.redo);
   const addLogDirect = useLogStore((s) => s.addLogDirect);
   const { isReady, compile, waitForReady, error: engineError } = useLatexEngine();
-  const { showUpdatePrompt, confirmUpdate, dismissUpdatePrompt } = useServiceWorker();
+  const { updateAvailable, promptUpdate, showUpdatePrompt, confirmUpdate, dismissUpdatePrompt } = useServiceWorker();
   // Capture beforeinstallprompt / appinstalled + seed standalone detection.
   useInstallPrompt();
   const isInstalled = useInstallStore((s) => s.isInstalled);
@@ -1983,7 +1984,7 @@ ${texFiles['body.tex'] || '% No body content'}
 
       <BetaBanner />
       <div className="workspace-body flex flex-1 min-h-0 overflow-hidden">
-        <EditorSidebar />
+        <EditorSidebar updateAction={updateAvailable ? <UpdateAvailableButton onClick={promptUpdate} /> : undefined} />
         <div className="workspace-column flex flex-1 min-w-0 flex-col overflow-hidden">
           <StorageNotice placement="header" />
           <ConnectivityModal />
@@ -2001,9 +2002,10 @@ ${texFiles['body.tex'] || '% No body content'}
               isDocxGenerating={downloadProgress !== null && downloadProgress.kind.startsWith('docx-')}
               isPdfGenerating={downloadProgress !== null && downloadProgress.kind.startsWith('pdf-')}
               isFormsMode={documentCategory === 'forms'}
+              updateAvailable={updateAvailable}
             />
 
-            <MobileRecents />
+            <MobileRecents onUpdate={updateAvailable ? promptUpdate : undefined} />
             <VersionHistoryModal />
             <TrashModal />
             <SettingsModal />

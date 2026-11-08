@@ -5,6 +5,15 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.3.2] — 2026-11-07
+
+### Changed
+
+- Show an optional Update Available button above the desktop workspace tools,
+  with an indicator and update action in the mobile workspace menu.
+- Open update confirmation only when requested, replacing automatic prompts
+  and automatic acceptance during the first five seconds of a visit.
+
 ## [1.3.1] — 2026-11-06
 
 ### Fixed

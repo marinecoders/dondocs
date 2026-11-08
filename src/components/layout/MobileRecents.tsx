@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react';
 import { WORKSPACE_DESTINATIONS } from './workspaceNavigation';
-import { Plus, Trash2, Undo2, Pin, PinOff, Search, FileDown, MoreHorizontal, Pencil, Copy, History } from 'lucide-react';
+import { Plus, Trash2, Undo2, Pin, PinOff, Search, FileDown, Download, MoreHorizontal, Pencil, Copy, History } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { useUIStore } from '@/stores/uiStore';
@@ -21,7 +21,7 @@ function relTime(ts: number): string {
  * Mobile workspace library, opened from the document header in place of the
  * desktop sidebar. Includes workspace tools and document recovery actions.
  */
-export function MobileRecents() {
+export function MobileRecents({ onUpdate }: { onUpdate?: () => void }) {
   const isMobile = useUIStore((s) => s.isMobile);
   const open = useUIStore((s) => s.mobileDocsOpen);
   const setOpen = useUIStore((s) => s.setMobileDocsOpen);
@@ -89,6 +89,19 @@ export function MobileRecents() {
             </DropdownMenu>
           </DialogHeader>
 
+          {onUpdate && (
+            <div className="border-b border-border px-3 py-2">
+              <button
+                type="button"
+                aria-haspopup="dialog"
+                onClick={() => openTool(onUpdate)}
+                className="flex min-h-11 w-full items-center gap-2 rounded-md px-2 text-sm text-info outline-none hover:bg-muted focus-visible:outline-2 focus-visible:outline-ring"
+              >
+                <Download className="size-4 shrink-0" aria-hidden="true" />
+                Update Available
+              </button>
+            </div>
+          )}
           <div className="flex flex-wrap gap-1 border-b border-border px-3 py-2">
             {[
               { label: 'Search', icon: Search, run: () => useUIStore.getState().setCommandPaletteOpen(true) },

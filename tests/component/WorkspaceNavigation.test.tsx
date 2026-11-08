@@ -33,6 +33,18 @@ const destinations = [
   ['Help', { helpOpen: true }],
 ] as const;
 
+it('closes the mobile workspace before handing off to update confirmation', async () => {
+  useUIStore.setState({ isMobile: true, mobileDocsOpen: true });
+  const onUpdate = vi.fn(() => {
+    expect(screen.queryByRole('dialog', { name: 'Documents' })).not.toBeInTheDocument();
+  });
+  render(<TooltipProvider><MobileRecents onUpdate={onUpdate} /></TooltipProvider>);
+  expect(onUpdate).not.toHaveBeenCalled();
+  await userEvent.click(screen.getByRole('button', { name: 'Update Available' }));
+  await waitFor(() => expect(onUpdate).toHaveBeenCalledOnce());
+  expect(useUIStore.getState().mobileDocsOpen).toBe(false);
+});
+
 it('closes the tutorial Documents menu on Back, Next, and Exit so it cannot cover the next target', async () => {
   const user = userEvent.setup();
   useUIStore.setState({ isMobile: true, mobileDocsOpen: false });
