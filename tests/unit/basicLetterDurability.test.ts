@@ -66,7 +66,7 @@ describe('serialize → rehydrate round-trip', () => {
     }));
     expect(useDocumentStore.getState().formData.basicLetterFile).toBeUndefined();
 
-    await rehydrateEnclosureFiles();
+    await rehydrateEnclosureFiles(() => true);
 
     const file = useDocumentStore.getState().formData.basicLetterFile;
     expect(file).toBeDefined();

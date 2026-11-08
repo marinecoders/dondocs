@@ -22,6 +22,8 @@
  *       is still debounced is referenced here and nowhere on disk yet,
  *   (d) documents staged for an undoable delete — an undo re-persists them, so
  *       their blobs must not be reaped inside the 6s window.
+ *   (e) in-session Undo/Redo snapshots, including edits not yet captured by the
+ *       less frequent durable version-history ring.
  *
  * SAFETY — the sweep aborts and deletes NOTHING when it can't fully build the
  * mark set: `idbGetAllDocuments()` returning null means the read FAILED (as
@@ -47,6 +49,7 @@ import { useHistoryStore } from '@/stores/historyStore';
 import { getPendingDeleteSessions, useDocumentsStore } from '@/stores/documentsStore';
 import { isRestoreInProgress } from '@/lib/backup';
 import { debug } from '@/lib/debug';
+import { attachmentSweepCheckpoint, withAttachmentSweep } from '@/lib/attachments';
 
 /** Every enclosure and figure `fileRef.id` plus the basic-letter ref in one session. */
 function collectSessionRefs(session: Pick<SerializedSession, 'formData' | 'enclosures' | 'paragraphs'> | undefined, into: Set<string>): void {
@@ -139,31 +142,37 @@ let sweeping = false;
 
 /**
  * Reclaim every attachment blob not in the live set. Returns the number
- * deleted, or null when the sweep was skipped/aborted (already running, restore
- * in flight, or an unreadable store) — in every null case the store is left
- * exactly as found.
+ * deleted, or null when the sweep could not finish (already running, restore
+ * or staging in flight, an unreadable store, or an invalidated mark set).
  */
 export async function sweepOrphanedAttachments(): Promise<number | null> {
   if (sweeping) return null; // serialize concurrent triggers (startup + a purge)
   if (isRestoreInProgress()) return null; // never race a restore's doc→blob write order
+  const checkpoint = attachmentSweepCheckpoint();
+  if (checkpoint === null) return null;
   sweeping = true;
   try {
-    const live = await collectLiveAttachmentIds();
-    if (live === null) {
-      debug.log('AttachmentGc', 'skipped: registry unreadable');
-      return null;
-    }
-    const all = await idbGetAllAttachments();
-    if (all === null) {
-      debug.log('AttachmentGc', 'skipped: attachments unreadable');
-      return null;
-    }
-    const orphans = all.filter((a) => !live.has(a.id));
-    for (const orphan of orphans) await idbDeleteAttachment(orphan.id);
-    if (orphans.length > 0) {
-      debug.log('AttachmentGc', `reclaimed ${orphans.length} orphaned attachment(s)`);
-    }
-    return orphans.length;
+    return await withAttachmentSweep(async () => {
+      const live = await collectLiveAttachmentIds();
+      if (live === null) {
+        debug.log('AttachmentGc', 'skipped: registry unreadable');
+        return null;
+      }
+      const all = await idbGetAllAttachments();
+      if (all === null) {
+        debug.log('AttachmentGc', 'skipped: attachments unreadable');
+        return null;
+      }
+      const orphans = all.filter((a) => !live.has(a.id));
+      for (const orphan of orphans) {
+        if (attachmentSweepCheckpoint() !== checkpoint) return null;
+        await idbDeleteAttachment(orphan.id);
+      }
+      if (orphans.length > 0) {
+        debug.log('AttachmentGc', `reclaimed ${orphans.length} orphaned attachment(s)`);
+      }
+      return orphans.length;
+    });
   } catch (err) {
     debug.error('AttachmentGc', 'sweep failed', err);
     return null;

@@ -8,7 +8,7 @@ import { DOC_TYPE_LABELS } from '@/types/document';
 
 const signature = z.object({ name: z.string(), statement: z.string(), style: z.enum(['typed', 'image', 'digital']).optional() });
 const form = z.record(z.string(), z.union([z.string(), z.array(signature)]));
-const schema = z.object({
+export const sessionSchema = z.object({
   documentMode: z.enum(['compliant', 'custom']),
   documentCategory: z.enum(['correspondence', 'forms']).default('correspondence'),
   docType: z.string().refine((v) => Object.hasOwn(DOC_TYPE_LABELS, v)),
@@ -32,7 +32,7 @@ const schema = z.object({
 
 /** Validate before touching the recipient's current document. */
 export function parseSharedSession(value: unknown): SerializedSession {
-  const result = schema.safeParse(value);
+  const result = sessionSchema.safeParse(value);
   if (!result.success) throw new Error('This link does not contain a supported DonDocs document.');
   const s = result.data;
   if (s.formData.additionalEndorsements !== undefined) s.formData.additionalEndorsements = additionalEndorsementsSchema.parse(s.formData.additionalEndorsements);

@@ -1,9 +1,14 @@
 import 'fake-indexeddb/auto';
 import { afterEach, beforeEach, expect, it, vi } from 'vitest';
 import { getSerializedSession, mutateSessionAssets, persistUnsavedEnclosures, rehydrateEnclosureFiles, useDocumentStore } from '@/stores/documentStore';
-import { captureDocumentScope, changeDocumentHistory, flushDocumentWrites, useDocumentsStore } from '@/stores/documentsStore';
+import { captureDocumentScope, isCurrentDocumentScope, changeDocumentHistory, flushDocumentWrites, useDocumentsStore } from '@/stores/documentsStore';
 import { useHistoryStore } from '@/stores/historyStore';
 import { persistAttachment } from '@/lib/attachments';
+
+function ownsCurrentDocument() {
+  const owner = captureDocumentScope();
+  return () => isCurrentDocumentScope(owner);
+}
 
 beforeEach(() => {
   vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout', 'Date'] });
@@ -22,7 +27,7 @@ it('retains an imported enclosure handle when Undo returns to its pre-persistenc
   // Opening a draft creates its initial history entry before inline files are persisted.
   useDocumentsStore.getState().openLoadedAsNew();
   const id = useDocumentsStore.getState().currentId!;
-  await persistUnsavedEnclosures();
+  await persistUnsavedEnclosures(ownsCurrentDocument());
   const ref = useDocumentStore.getState().enclosures[0].fileRef!;
   expect(ref).toBeDefined();
   useDocumentStore.getState().setField('subject', 'First edit');
@@ -32,7 +37,7 @@ it('retains an imported enclosure handle when Undo returns to its pre-persistenc
   useDocumentsStore.getState().saveCurrent();
   useDocumentsStore.getState().newDocument();
   useDocumentsStore.getState().switchTo(id);
-  await rehydrateEnclosureFiles();
+  await rehydrateEnclosureFiles(ownsCurrentDocument());
   expect(useDocumentStore.getState().enclosures[0].file?.data).toEqual(file.data);
   expect(getSerializedSession().enclosures[0].fileRef).toEqual(ref);
 });
@@ -74,7 +79,7 @@ it('does not promote a same-name replacement handle onto different bytes', async
   const second = file(2);
   useDocumentStore.setState({ enclosures: [{ title: 'Attachment', file: second }] });
   await vi.advanceTimersByTimeAsync(500);
-  await persistUnsavedEnclosures();
+  await persistUnsavedEnclosures(ownsCurrentDocument());
   const ref = useDocumentStore.getState().enclosures[0].fileRef;
   expect(changeDocumentHistory('undo', captureDocumentScope())).toBe('applied');
   expect(useDocumentStore.getState().enclosures[0].file?.data).toBe(first.data);

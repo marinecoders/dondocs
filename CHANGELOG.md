@@ -5,6 +5,12 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.3.11] — 2026-11-08
+
+### Changed
+
+- Centralize document opening and session replacement.
+
 ## [1.3.10] — 2026-11-08
 
 ### Changed

@@ -72,13 +72,13 @@ import { BackupNotice } from '@/components/BackupNotice';
 import { InstallNotice } from '@/components/InstallNotice';
 import { probeStorageHealth, requestPersistentStorage } from '@/lib/documentsDb';
 import { useUIStore } from '@/stores/uiStore';
-import { useDocumentStore, rehydrateEnclosureFiles, type SerializedSession } from '@/stores/documentStore';
+import { useDocumentStore, type SerializedSession } from '@/stores/documentStore';
 import { useFormStore } from '@/stores/formStore';
 import { useBatchStore } from '@/stores/batchStore';
 import { useFormCatalog } from '@/services/formCatalog';
 import { diagnosticText } from '@/services/forms/model';
 import { renderForm } from '@/services/forms/render';
-import { useDocumentsStore, applySelectedProfile, correspondenceFilename, openSessionAsNew, changeDocumentHistory, captureDocumentScope } from '@/stores/documentsStore';
+import { useDocumentsStore, correspondenceFilename, openSessionAsNew, changeDocumentHistory, captureDocumentScope, hydrateDocumentAssets, newCorrespondenceDocument } from '@/stores/documentsStore';
 import { useBackupStore } from '@/stores/backupStore';
 import { useEditorOutlineStore } from '@/stores/editorOutlineStore';
 import { useEditorSections } from '@/components/layout/editorSections';
@@ -368,16 +368,8 @@ function App() {
 
   // Bootstrap the document registry on initial load.
   useEffect(() => {
-    // init() resumes the last open document, or returns false for a fresh start.
-    // On a fresh start, seed the profile letterhead then baseline, so applying
-    // the profile counts as part of the starting state and the document enters
-    // Recents only once the user changes it. Don't re-apply over restored content.
+    // The owner prepares a resumed or profile-seeded document before readiness.
     let cancelled = false;
-    const seedFreshStart = () => {
-      if (cancelled) return;
-      applySelectedProfile();
-      useDocumentsStore.getState().markBaseline();
-    };
     // A letter handed over in the URL outranks both a resumed document and a
     // freshly seeded one: the person followed a link to this exact letter.
     // It goes last, once hydration has stopped writing to the store.
@@ -402,7 +394,6 @@ function App() {
         }
         if (applyHandoff()) return;
         if (resumed) return;
-        seedFreshStart();
         if (!cancelled && !arrivedByLinkRef.current) showWelcomeOnFirstVisit();
       })
       // Hydration shouldn't reject (storage failures are caught internally), but
@@ -410,7 +401,7 @@ function App() {
       // unhandled rejection that leaves the editor unseeded.
       .catch(() => {
         if (applyHandoff()) return;
-        seedFreshStart();
+        if (!cancelled) useDocumentsStore.getState().newDocument();
       })
       // Probe how durable storage is only AFTER hydration/migration settles, so a
       // returning user's just-migrated docs are already in IndexedDB and the
@@ -508,7 +499,7 @@ function App() {
       // If the document was just restored, its enclosure bytes may still be
       // streaming back from the attachments store; make sure they're present
       // before the pipeline reads file.data (no-op once already hydrated).
-      await rehydrateEnclosureFiles();
+      await hydrateDocumentAssets();
       if (previewDocumentId !== useDocumentsStore.getState().currentId || gen !== previewGenRef.current) return;
       // Read the full store via getState() at compile time; the debounce dep
       // array already handles when to re-compile, so the state here is current.
@@ -818,7 +809,7 @@ function App() {
   ): Promise<boolean> => {
     // Ensure any just-restored enclosure bytes are back before the export
     // pipeline reads file.data (no-op once already hydrated).
-    await rehydrateEnclosureFiles();
+    await hydrateDocumentAssets();
     // Snapshot fresh state at download time via getState().
     const currentStore = useDocumentStore.getState();
     const errors = publicationExportErrors(currentStore);
@@ -1764,28 +1755,19 @@ ${texFiles['body.tex'] || '% No body content'}
           id: 'new-naval-letter',
           label: 'New Naval Letter',
           icon: FileText,
-          onRun: () => {
-            useDocumentsStore.getState().newDocument();
-            useDocumentStore.getState().setDocType('naval_letter');
-          },
+          onRun: () => newCorrespondenceDocument('naval_letter'),
         },
         {
           id: 'new-mfr',
           label: 'New Memorandum for the Record',
           icon: FileText,
-          onRun: () => {
-            useDocumentsStore.getState().newDocument();
-            useDocumentStore.getState().setDocType('mfr');
-          },
+          onRun: () => newCorrespondenceDocument('mfr'),
         },
         {
           id: 'new-moa',
           label: 'New Memorandum of Agreement',
           icon: FileText,
-          onRun: () => {
-            useDocumentsStore.getState().newDocument();
-            useDocumentStore.getState().setDocType('moa');
-          },
+          onRun: () => newCorrespondenceDocument('moa'),
         },
       ],
     });

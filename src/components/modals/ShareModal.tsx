@@ -137,7 +137,7 @@ export function ShareModal({
 
   const openReceived = () => {
     if (!received) return;
-    openSessionAsNew(received);
+    if (openSessionAsNew(received) !== 'applied') { setError('Could not open this document. Your current draft has not changed.'); return; }
     onImportComplete?.();
     onOpenChange(false);
   };

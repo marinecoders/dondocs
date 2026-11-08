@@ -76,6 +76,30 @@ export default defineConfig([
     },
   },
   {
+    // Migrated opening and history routes use the workspace commands.
+    files: [
+      'src/App.tsx',
+      'src/components/layout/Header.tsx',
+      'src/components/editor/GenericFormSection.tsx',
+      'src/components/modals/{TemplateLoaderModal,DocumentGuideModal,ShareModal,RestoreSessionModal,ImportLetterModal}.tsx',
+    ],
+    rules: {
+      'no-restricted-imports': ['error', { paths: [
+        { name: '@/stores/documentStore', importNames: ['loadSharedSession', 'replaceSessionState', 'resetDocumentHistory', 'installSessionState', 'prepareSessionState', 'restoreSession', 'rehydrateEnclosureFiles', 'persistUnsavedEnclosures'], message: 'Use the document lifecycle commands.' },
+        { name: '@/stores/historyStore', importNames: ['useHistoryStore'], message: 'Use history commands and read-only availability hooks.' },
+        { name: '@/stores', importNames: ['useHistoryStore'], message: 'Use history commands and read-only availability hooks.' },
+      ], patterns: [
+        { regex: '^(?:\\.\\.?/)+(?:.*/)?documentStore$', importNames: ['loadSharedSession', 'replaceSessionState', 'resetDocumentHistory', 'installSessionState', 'prepareSessionState', 'restoreSession', 'rehydrateEnclosureFiles', 'persistUnsavedEnclosures'], message: 'Use the document lifecycle commands.' },
+        { regex: '^(?:\\.\\.?/)+(?:.*/)?historyStore$', importNames: ['useHistoryStore'], message: 'Use history commands and read-only availability hooks.' },
+      ] }],
+      'no-restricted-syntax': ['error',
+        { selector: "CallExpression[callee.object.name=/^useDocuments?Store$/][callee.property.name='setState']", message: 'Use the document lifecycle commands.' },
+        { selector: "MemberExpression[property.name=/^(applySnapshot|loadTemplate|resetForm|openLoadedAsNew|markBaseline)$/]", message: 'Use the document lifecycle commands.' },
+        { selector: "AssignmentExpression[left.property.name=/^(currentId|activationEpoch)$/]", message: 'Identity belongs to the document lifecycle owner.' },
+      ],
+    },
+  },
+  {
     // `react-refresh/only-export-components` is a Fast Refresh (dev HMR) hint,
     // not a correctness rule. These files intentionally export a component
     // alongside non-component values, and splitting them would fight the

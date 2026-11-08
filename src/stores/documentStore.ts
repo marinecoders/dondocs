@@ -1,9 +1,10 @@
 import { manualFrontMatterSchema } from '@/data/techpub/manualFrontMatter';
 import { sl4Schema } from '@/data/techpub/sl4';
 import { sl3Schema } from '@/data/techpub/sl3';
-import { parseFormInstance, type FormInstance } from '@/services/forms/model';
+import { type FormInstance } from '@/services/forms/model';
 import { withoutTableFootnote } from '@/lib/tableFootnotes';
 import { create } from 'zustand';
+import { parseSavedSession } from '@/lib/savedSession';
 import { format, parse, isValid } from 'date-fns';
 import type { Reference, Enclosure, FileRef, Paragraph, CopyTo, Distribution, DocumentData, DocumentMode, DocumentCategory, FormType,
   EndItem, PublicationTableRow,
@@ -19,7 +20,7 @@ import { compressedParse, compressedStringify } from '@/lib/compressedStorage';
 import { referenceStartIndex } from '@/lib/endorsement';
 import { canonicalizeUnitAddress } from '@/lib/unitAddress';
 import { normalizeLevels, migratePortionMarkings } from '@/lib/paragraphUtils';
-import { serializeForm, loadFormSession, type FormSession } from './formStore';
+import { serializeForm, loadFormSession, prepareFormSession, type FormSession } from './formStore';
 
 // Session persistence keys
 const SESSION_STORAGE_KEY = STORAGE_KEYS.DOCUMENT_SESSION;
@@ -178,22 +179,22 @@ export interface DocumentState {
   }) => void;
 
   // History (Undo/Redo)
-  applySnapshot: (snapshot: DocumentSnapshot) => void;
+  applySnapshot: (snapshot: DocumentSnapshot, owns?: () => boolean) => void;
   getSnapshot: () => DocumentSnapshot;
 }
 
 // `offset` shifts the sequence so an endorsement can continue the basic
 // letter's lettering (Ch 9 ¶3) — it is 0 for every non-endorsement.
-const letterAt = (index: number): string => {
+export const referenceLetterAt = (index: number): string => {
   const alphabet = 'abcdefghijklmnopqrstuvwxyz';
   return alphabet[index] || `a${index - 26}`;
 };
 
 const getNextReferenceLetter = (refs: Reference[], offset = 0): string =>
-  letterAt(refs.length + offset);
+  referenceLetterAt(refs.length + offset);
 
 const reLetterReferences = (refs: Reference[], offset = 0): Reference[] =>
-  refs.map((ref, index) => ({ ...ref, letter: letterAt(index + offset) }));
+  refs.map((ref, index) => ({ ...ref, letter: referenceLetterAt(index + offset) }));
 
 // Example form data for first-time visitors (one-time mode / no profile selected)
 const EXAMPLE_FORM_DATA: Partial<DocumentData> = {
@@ -269,6 +270,52 @@ function publicationFont(docType: string, mode: DocumentMode, data: Partial<Docu
     ? { ...data, fontFamily: 'times', fontSize: ['sl3', 'sl4'].includes(docType) ? '10pt' : '12pt' } : data;
 }
 
+function documentTypeState(state: Pick<DocumentState, 'documentMode' | 'formData' | 'references'>, type: string) {
+    const config = DOC_TYPE_CONFIG[type] || DOC_TYPE_CONFIG.naval_letter;
+    // In compliant mode, always apply the regulation fonts and date format
+    if (state.documentMode === 'compliant') {
+      // Convert date to the appropriate format for this document type
+      const newDateFormat = config.compliance.dateFormat;
+      const convertedDate = state.formData.date
+        ? convertDateFormat(state.formData.date, newDateFormat)
+        : formatMilitaryDate(new Date());
+      // Font size: keep current if within allowed range, otherwise snap to default
+      const allowedSizes = config.regulations.fontSizeOptions || [config.regulations.fontSize];
+      const currentSize = state.formData.fontSize || '12pt';
+      const newFontSize = allowedSizes.includes(currentSize) ? currentSize : config.regulations.fontSize;
+      // Font family: enforce if required (Ch 12 exec docs), otherwise keep user's choice
+      const newFontFamily = config.regulations.fontFamilyRequired
+        ? config.regulations.fontFamily
+        : (state.formData.fontFamily || config.regulations.fontFamily);
+
+      return {
+        docType: type,
+        formData: {
+          ...state.formData,
+          docType: type,
+          ...(type === 'tm_ietm_front_matter' ? { signatureType: 'digital' as const } : {}),
+          fontSize: newFontSize,
+          fontFamily: newFontFamily,
+          date: convertedDate,
+        },
+        // Only endorsements continue a sequence, so switching type re-letters:
+        // leaving one resets to (a), entering one applies the saved start.
+        references: reLetterReferences(
+          state.references,
+          referenceStartIndex(type, state.formData.startingReferenceLetter)
+        ),
+      };
+    }
+    return {
+      docType: type,
+      formData: publicationFont(type, state.documentMode, { ...state.formData, docType: type }),
+      references: reLetterReferences(
+        state.references,
+        referenceStartIndex(type, state.formData.startingReferenceLetter)
+      ),
+    };
+}
+
 export const useDocumentStore = create<DocumentState>((set, get) => ({
   documentMode: 'compliant',
   documentCategory: 'correspondence',
@@ -330,51 +377,7 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
 
   setDocType: (type) => {
     useUIStore.getState().setValidationVisible(false);
-    set((state) => {
-    const config = DOC_TYPE_CONFIG[type] || DOC_TYPE_CONFIG.naval_letter;
-    // In compliant mode, always apply the regulation fonts and date format
-    if (state.documentMode === 'compliant') {
-      // Convert date to the appropriate format for this document type
-      const newDateFormat = config.compliance.dateFormat;
-      const convertedDate = state.formData.date
-        ? convertDateFormat(state.formData.date, newDateFormat)
-        : formatMilitaryDate(new Date());
-      // Font size: keep current if within allowed range, otherwise snap to default
-      const allowedSizes = config.regulations.fontSizeOptions || [config.regulations.fontSize];
-      const currentSize = state.formData.fontSize || '12pt';
-      const newFontSize = allowedSizes.includes(currentSize) ? currentSize : config.regulations.fontSize;
-      // Font family: enforce if required (Ch 12 exec docs), otherwise keep user's choice
-      const newFontFamily = config.regulations.fontFamilyRequired
-        ? config.regulations.fontFamily
-        : (state.formData.fontFamily || config.regulations.fontFamily);
-
-      return {
-        docType: type,
-        formData: {
-          ...state.formData,
-          docType: type,
-          ...(type === 'tm_ietm_front_matter' ? { signatureType: 'digital' as const } : {}),
-          fontSize: newFontSize,
-          fontFamily: newFontFamily,
-          date: convertedDate,
-        },
-        // Only endorsements continue a sequence, so switching type re-letters:
-        // leaving one resets to (a), entering one applies the saved start.
-        references: reLetterReferences(
-          state.references,
-          referenceStartIndex(type, state.formData.startingReferenceLetter)
-        ),
-      };
-    }
-    return {
-      docType: type,
-      formData: publicationFont(type, state.documentMode, { ...state.formData, docType: type }),
-      references: reLetterReferences(
-        state.references,
-        referenceStartIndex(type, state.formData.startingReferenceLetter)
-      ),
-    };
-    });
+    set((state) => documentTypeState(state, type));
   },
 
   setField: (key, value) => set((state) => {
@@ -824,7 +827,8 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
   },
 
   // History (Undo/Redo)
-  applySnapshot: (snapshot) => {
+  applySnapshot: (snapshot, owns = () => true) => {
+    if (!owns()) return;
     if (snapshot.documentCategory === 'forms' && !snapshot.genericForm) loadFormSession(snapshot.formType!, snapshot.forms);
     set((state) => {
     // A durable handle identifies the bytes. Never borrow a same-title file
@@ -865,7 +869,7 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
       genericForm: snapshot.genericForm,
     };
     });
-    void rehydrateEnclosureFiles();
+    void rehydrateEnclosureFiles(owns);
   },
 
   getSnapshot: (): DocumentSnapshot => {
@@ -1004,12 +1008,6 @@ export function replaceSessionState(update: () => void): void {
   }
 }
 
-function parseSessionForm(session: SerializedSession): FormInstance {
-  const instance = parseFormInstance(session.genericForm);
-  if (session.documentCategory !== 'forms' || session.formType !== instance.definition.formId) throw new Error('Form does not match the saved document');
-  return instance;
-}
-
 export function restoreSession(): boolean {
   try {
     const session = getSavedSession();
@@ -1091,48 +1089,64 @@ export function serializeSession(state: DocumentState): SerializedSession {
   };
 }
 
-/**
- * Applies a shared-session payload (e.g. from a decrypted share link) to the document store.
- * Enclosure file data is not included in shares; titles and metadata are restored.
- */
-export function loadSharedSession(session: SerializedSession): void {
-  const genericForm = session.genericForm ? parseSessionForm(session) : undefined;
-  // Canonicalize unitAddress on read (see restoreSession for rationale).
-  const sharedFormData = session.formData?.unitAddress
+/** Build a blank document without changing the active workspace. */
+export function createBlankSession(formType?: FormType, docType = 'naval_letter'): SerializedSession {
+  const category = formType ? 'forms' : 'correspondence';
+  const configured = documentTypeState({ documentMode: 'compliant', formData: structuredClone(DEFAULT_FORM_DATA), references: structuredClone(DEFAULT_REFERENCES) }, docType);
+  return {
+    documentMode: 'compliant', documentCategory: category, docType,
+    formType: formType ?? 'navmc_10274',
+    formData: category === 'forms' ? {} : configured.formData,
+    references: category === 'forms' ? [] : configured.references,
+    enclosures: category === 'forms' ? [] : structuredClone(DEFAULT_ENCLOSURES),
+    paragraphs: category === 'forms' ? [] : structuredClone(DEFAULT_PARAGRAPHS),
+    copyTos: category === 'forms' ? [] : [{ text: 'G-3/5' }, { text: 'G-4' }, { text: 'Regimental S-3' }],
+    distributions: [], endItems: [], publicationTables: {}, timestamp: Date.now(),
+    ...(category === 'forms' ? { forms: prepareFormSession(formType!) } : {}),
+  };
+}
+
+export function prepareSessionState(value: unknown): DocumentSnapshot {
+  const session = parseSavedSession(value);
+  const fields = new Map(Object.entries(session.formData));
+  for (const [key, fallback] of Object.entries(DEFAULT_FORM_DATA)) {
+    const supplied = fields.get(key);
+    if (supplied !== undefined && ['string', 'number', 'boolean'].includes(typeof fallback) && typeof supplied !== typeof fallback) {
+      throw new Error(`Invalid saved field: ${key}`);
+    }
+  }
+  const formData = session.formData.unitAddress
     ? { ...session.formData, unitAddress: canonicalizeUnitAddress(session.formData.unitAddress) }
-    : (session.formData ?? {});
-
-  // Normalize before invalidating the current activation or changing either store.
-  const nextState = {
+    : session.formData;
+  return {
     documentMode: session.documentMode,
-    documentCategory: session.documentCategory ?? 'correspondence',
+    documentCategory: session.documentCategory,
     docType: session.docType,
-    formType: session.formType ?? 'navmc_10274',
-    formData: publicationFont(session.docType, session.documentMode, sharedFormData),
-    references: session.references ?? [],
-    endItems: session.endItems ?? [],
-    publicationTables: session.publicationTables ?? {},
-    genericForm,
-    enclosures: (session.enclosures ?? []).map(enc => ({
-      title: enc.title,
-      pageStyle: enc.pageStyle,
-      hasCoverPage: enc.hasCoverPage,
-      coverPageDescription: enc.coverPageDescription,
-      fileRef: enc.fileRef,
-      // Bytes are streamed back in asynchronously below (rehydrateEnclosureFiles).
-      file: undefined,
-    })),
-    paragraphs: migratePortionMarkings(session.paragraphs ?? []),
-    copyTos: session.copyTos ?? [],
-    distributions: session.distributions ?? [],
-  } satisfies Partial<DocumentState>;
+    formType: session.formType,
+    formData: publicationFont(session.docType, session.documentMode, formData),
+    references: session.references,
+    endItems: session.endItems ?? [], publicationTables: session.publicationTables ?? {},
+    genericForm: session.genericForm,
+    ...(session.documentCategory === 'forms' && !session.genericForm ? { forms: prepareFormSession(session.formType, session.forms) } : {}),
+    enclosures: session.enclosures.map(({ hasFile: _hasFile, ...enclosure }) => enclosure),
+    paragraphs: migratePortionMarkings(session.paragraphs),
+    copyTos: session.copyTos, distributions: session.distributions,
+  };
+}
 
-  replaceSessionState(() => {
-    if (session.documentCategory === 'forms' && !genericForm) loadFormSession(session.formType, session.forms);
-    useDocumentStore.setState(nextState);
-  });
-  void rehydrateEnclosureFiles();
-  debug.log('Store', 'Shared session applied');
+/** Internal adapter: callers prepare before entering the replacement boundary. */
+export function installSessionState(snapshot: DocumentSnapshot): void {
+  const { forms, ...document } = snapshot;
+  if (snapshot.documentCategory === 'forms' && !snapshot.genericForm) loadFormSession(snapshot.formType!, forms);
+  useDocumentStore.setState(document);
+}
+
+/** Internal compatibility adapter. Workspace routes use the owner. */
+export function loadSharedSession(session: SerializedSession, owns: () => boolean = () => true): void {
+  const prepared = prepareSessionState(session);
+  if (!owns()) return;
+  replaceSessionState(() => installSessionState(prepared));
+  void rehydrateEnclosureFiles(owns);
 }
 
 /**
@@ -1149,100 +1163,57 @@ export function loadSharedSession(session: SerializedSession): void {
  * Returns once every referenced blob has been resolved, so callers that must
  * export (which reads `file.data`) can await a complete document.
  */
-export async function rehydrateEnclosureFiles(): Promise<void> {
-  // The endorsement's basic-letter PDF is stored the same way as an enclosure
-  // file (bytes in the attachments store, only the ref serialized), so reload it
-  // here too. Done first, before the enclosure early-return, so a basic letter
-  // is rehydrated even on an endorsement that has no enclosures.
-  const blRef = useDocumentStore.getState().formData.basicLetterFileRef;
-  if (blRef && !useDocumentStore.getState().formData.basicLetterFile) {
+export async function rehydrateEnclosureFiles(owns: () => boolean): Promise<void> {
+  if (!owns()) return;
+  const original = useDocumentStore.getState();
+  const basicReference = original.formData.basicLetterFileRef;
+  const basicLetter = basicReference ? { ...basicReference } : undefined;
+  const enclosures = original.enclosures.filter(enclosure => enclosure.fileRef && !enclosure.file)
+    .map(enclosure => ({ reference: enclosure.fileRef!, ...enclosure.fileRef! }));
+  if (basicLetter && !original.formData.basicLetterFile) {
     try {
-      const data = await loadAttachment(blRef.id);
-      // Re-check the ref IDENTITY after the await, not just absence of bytes:
-      // if the user removed the letter (or switched documents) while the load
-      // was in flight, both fields are cleared — grafting bytes back would
-      // resurrect a removed letter with no ref, which assembles into exports
-      // but never serializes. Same guard the enclosure path uses.
+      const data = await loadAttachment(basicLetter.id);
+      if (!owns()) return;
       const current = useDocumentStore.getState().formData;
-      if (data && !current.basicLetterFile && current.basicLetterFileRef?.id === blRef.id) {
-        mutateSessionAssets(() => useDocumentStore.setState((state) => ({
-          formData: {
-            ...state.formData,
-            basicLetterFile: { name: blRef.name, size: blRef.size || data.byteLength, data },
-          },
-        })));
+      if (data && !current.basicLetterFile && current.basicLetterFileRef === basicReference && current.basicLetterFileRef?.id === basicLetter.id) {
+        mutateSessionAssets(() => useDocumentStore.setState(state => ({ formData: {
+          ...state.formData, basicLetterFile: { name: basicLetter.name, size: basicLetter.size || data.byteLength, data },
+        } })));
       }
-    } catch (err) {
-      debug.error('Store', 'Failed to rehydrate basic-letter file', err);
-    }
+    } catch (error) { debug.error('Store', 'Failed to rehydrate basic-letter file', error); }
   }
-
-  const pending = useDocumentStore
-    .getState()
-    .enclosures.filter((e) => e.fileRef && !e.file)
-    .map((e) => e.fileRef!.id);
-  if (pending.length === 0) return;
-
-  const wanted = new Set(pending);
-  const loaded = new Map<string, { name: string; size: number; data: ArrayBuffer }>();
-  await Promise.all(
-    [...wanted].map(async (id) => {
-      try {
-        const data = await loadAttachment(id);
-        if (data) {
-          // Prefer the ref's own name/size (survives even if two enclosures share bytes).
-          const ref = useDocumentStore.getState().enclosures.find((e) => e.fileRef?.id === id)?.fileRef;
-          loaded.set(id, { name: ref?.name ?? '', size: ref?.size ?? data.byteLength, data });
-        }
-      } catch (err) {
-        debug.error('Store', 'Failed to rehydrate enclosure file', err);
-      }
-    })
-  );
-  if (loaded.size === 0) return;
-
-  mutateSessionAssets(() => useDocumentStore.setState((state) => ({
-    enclosures: state.enclosures.map((e) => {
-      if (e.file || !e.fileRef) return e; // don't overwrite live edits
-      const got = loaded.get(e.fileRef.id);
-      return got ? { ...e, file: got } : e;
+  if (!owns()) return;
+  const loaded = new Map<string, ArrayBuffer>();
+  await Promise.all([...new Set(enclosures.map(enclosure => enclosure.id))].map(async id => {
+    try { const data = await loadAttachment(id); if (data) loaded.set(id, data); }
+    catch (error) { debug.error('Store', 'Failed to rehydrate enclosure file', error); }
+  }));
+  if (!owns() || !loaded.size) return;
+  mutateSessionAssets(() => useDocumentStore.setState(state => ({
+    enclosures: state.enclosures.map(enclosure => {
+      if (enclosure.file || !enclosure.fileRef) return enclosure;
+      const original = enclosures.find(candidate => candidate.reference === enclosure.fileRef && candidate.id === enclosure.fileRef?.id);
+      if (!original) return enclosure;
+      const data = loaded.get(original.id);
+      return data ? { ...enclosure, file: { name: original.name, size: original.size || data.byteLength, data } } : enclosure;
     }),
   })));
-  debug.log('Store', 'Enclosure files rehydrated', { count: loaded.size });
 }
 
-/**
- * Persists any enclosure that carries live bytes but no durable `fileRef` — the
- * case for a draft imported from JSON, whose file bytes arrived inline. Gives
- * each a `fileRef` so it survives a reload and rides along in a full backup,
- * matching the persist-on-attach path. Matched by array index against the live
- * state at write time so an intervening edit is never clobbered.
- */
-export async function persistUnsavedEnclosures(): Promise<void> {
-  const snapshot = useDocumentStore.getState().enclosures;
-  const work = snapshot
-    .map((e, index) => ({ e, index }))
-    .filter(({ e }) => e.file && !e.fileRef);
-  if (work.length === 0) return;
-
-  for (const { e, index } of work) {
-    if (!e.file) continue;
+/** Persist only files captured by this activation; completed blob writes may outlive it. */
+export async function persistUnsavedEnclosures(owns: () => boolean): Promise<void> {
+  if (!owns()) return;
+  const work = useDocumentStore.getState().enclosures.filter(enclosure => enclosure.file && !enclosure.fileRef)
+    .map(enclosure => ({ file: enclosure.file!, name: enclosure.file!.name, size: enclosure.file!.size, data: enclosure.file!.data }));
+  for (const item of work) {
+    if (!owns()) return;
     try {
-      const ref = await persistAttachment(
-        { name: e.file.name, size: e.file.size, type: '' },
-        e.file.data
-      );
-      mutateSessionAssets(() => useDocumentStore.setState((state) => {
-        const cur = state.enclosures[index];
-        // Only stamp the ref if this slot still holds the same, still-unref'd file.
-        if (!cur?.file || cur.fileRef || cur.file !== e.file) return {};
-        const enclosures = state.enclosures.slice();
-        enclosures[index] = { ...cur, fileRef: ref };
-        return { enclosures };
-      }));
-    } catch (err) {
-      debug.error('Store', 'Failed to persist imported enclosure', err);
-    }
+      const ref = await persistAttachment({ name: item.name, size: item.size, type: '' }, item.data);
+      if (!owns()) return;
+      mutateSessionAssets(() => useDocumentStore.setState(state => ({
+        enclosures: state.enclosures.map(enclosure => enclosure.file === item.file && enclosure.file.name === item.name && enclosure.file.size === item.size && enclosure.file.data === item.data && !enclosure.fileRef ? { ...enclosure, fileRef: ref } : enclosure),
+      })));
+    } catch (error) { debug.error('Store', 'Failed to persist imported enclosure', error); }
   }
 }
 

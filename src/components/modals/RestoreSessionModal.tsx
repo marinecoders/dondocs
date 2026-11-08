@@ -1,3 +1,4 @@
+import { restoreSavedDocument } from '@/stores/documentsStore';
 /**
  * Restore Session Modal
  *
@@ -21,7 +22,6 @@ import {
   suspendSessionSaves,
   resumeSessionSaves,
   getSavedSession,
-  restoreSession,
   clearSavedSession,
   getSessionAge,
 } from '@/stores/documentStore';
@@ -30,10 +30,16 @@ import { SW_AUTO_RESTORE_KEY } from '@/hooks/useServiceWorker';
 
 // Storage key to prevent showing modal in same session
 const RESTORE_SHOWN_KEY = 'dondocs-restore-shown-session';
+const RESTORE_FAILURE = 'Could not open the saved draft. Keep this tab open and try again. Your recovery copy has not changed.';
+function restoreRecovery(): boolean {
+  try { return restoreSavedDocument() === 'applied'; }
+  catch { return false; }
+}
 
 export function RestoreSessionModal() {
   const [open, setOpen] = useState(false);
   const [sessionAge, setSessionAge] = useState('');
+  const [restoreError, setRestoreError] = useState('');
   const [sessionPreview, setSessionPreview] = useState<{
     subject?: string;
     paragraphCount: number;
@@ -52,10 +58,17 @@ export function RestoreSessionModal() {
     const autoRestore = localStorage.getItem(SW_AUTO_RESTORE_KEY);
     if (autoRestore && hasSavedSession()) {
       console.log('[RestoreSession] Auto-restoring after app update');
-      localStorage.removeItem(SW_AUTO_RESTORE_KEY);
-      restoreSession();
-      // Mark as shown so we don't prompt again
-      sessionStorage.setItem(RESTORE_SHOWN_KEY, 'true');
+      if (restoreRecovery()) {
+        resumeSessionSaves();
+        localStorage.removeItem(SW_AUTO_RESTORE_KEY);
+        sessionStorage.setItem(RESTORE_SHOWN_KEY, 'true');
+        return;
+      }
+      suspendSessionSaves();
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setSessionAge(getSessionAge());
+      setRestoreError(RESTORE_FAILURE);
+      setOpen(true);
       return;
     }
     // Clean up the flag if no session to restore
@@ -76,10 +89,6 @@ export function RestoreSessionModal() {
     if (hasSavedSession()) {
       const session = getSavedSession();
       if (session) {
-        // The rule flags the first setState in the effect; subsequent
-        // ones in the same body are covered implicitly. All three
-        // setStates are part of the same one-time mount-time seed work.
-        // eslint-disable-next-line react-hooks/set-state-in-effect
         setSessionAge(getSessionAge());
         setSessionPreview({
           subject: session.formData?.subject,
@@ -98,13 +107,16 @@ export function RestoreSessionModal() {
   }, []);
 
   const handleRestore = () => {
-    restoreSession();
+    if (!restoreRecovery()) { setRestoreError(RESTORE_FAILURE); return; }
+    localStorage.removeItem(SW_AUTO_RESTORE_KEY);
+    setRestoreError('');
     resumeSessionSaves();
     setOpen(false);
   };
 
   const handleStartFresh = () => {
     clearSavedSession();
+    localStorage.removeItem(SW_AUTO_RESTORE_KEY);
     resumeSessionSaves();
     setOpen(false);
   };
@@ -132,6 +144,7 @@ export function RestoreSessionModal() {
         </DialogHeader>
 
         <div className="flex flex-col gap-4 overflow-y-auto flex-1 min-h-0">
+          {restoreError && <p role="alert" className="text-sm text-destructive">{restoreError}</p>}
           {sessionPreview && (
             <div className="bg-muted/50 border rounded-lg p-4 space-y-2 min-w-0">
               <div className="flex items-center gap-2 text-sm min-w-0">
@@ -151,8 +164,7 @@ export function RestoreSessionModal() {
           )}
 
           <div className="text-xs text-muted-foreground bg-yellow-50 dark:bg-yellow-950/30 border border-yellow-200 dark:border-yellow-800 rounded-md p-3 break-words">
-            <strong>Note:</strong> PDF enclosure files and signature images are not preserved
-            and will need to be re-attached.
+            Files stored only in memory may need to be re-attached.
           </div>
         </div>
 
