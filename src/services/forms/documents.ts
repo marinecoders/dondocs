@@ -1,5 +1,5 @@
 import { useDocumentStore } from '@/stores/documentStore';
-import { useDocumentsStore } from '@/stores/documentsStore';
+import { useDocumentsStore, captureDocumentScope, isCurrentDocumentScope, recordDocumentHistory } from '@/stores/documentsStore';
 import { useFormStore } from '@/stores/formStore';
 import { useHistoryStore } from '@/stores/historyStore';
 import { migrateLegacyAnswers, parseFormInstance, validateAnswers, type FormDefinition, type FormInstance } from './model';
@@ -24,13 +24,14 @@ export function startForm(definition: FormDefinition, migrate = true): void {
 export function editForm(update: (draft: Pick<FormInstance, 'answers' | 'rows'>) => void): void {
   const state = useDocumentStore.getState();
   if (!state.genericForm) return;
-  const history = useHistoryStore.getState();
-  history.saveSnapshot(state.getSnapshot());
+  const scope = captureDocumentScope();
+  recordDocumentHistory(scope);
   const draft = structuredClone({ answers: state.genericForm.answers, rows: state.genericForm.rows });
   update(draft);
+  if (!isCurrentDocumentScope(scope)) return;
   const next = { ...state.genericForm, ...draft, answerRevision: state.genericForm.answerRevision + 1 };
   useDocumentStore.setState({ genericForm: next });
-  history.saveSnapshot(useDocumentStore.getState().getSnapshot());
+  recordDocumentHistory(scope);
 }
 
 export function importForm(value: unknown): void {
