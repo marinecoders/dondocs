@@ -18,7 +18,8 @@ import { STORAGE_KEYS } from '@/lib/constants';
 
 // Control what the boundary believes is in the auto-saved session.
 const getSavedSession = vi.fn();
-vi.mock('@/stores/documentStore', () => ({
+vi.mock('@/stores/documentStore', async original => ({
+  ...await original<typeof import('@/stores/documentStore')>(),
   getSavedSession: () => getSavedSession(),
 }));
 

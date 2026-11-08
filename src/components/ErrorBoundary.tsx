@@ -1,8 +1,9 @@
 import { Component, type ErrorInfo, type ReactNode } from 'react';
 import { debug } from '@/lib/debug';
 import { STORAGE_KEYS } from '@/lib/constants';
+import { captureDocumentTarget, detachDocumentForRecovery, useDocumentsStore, type DocumentTarget } from '@/stores/documentsStore';
 import { getSavedSession } from '@/stores/documentStore';
-import { idbGetCurrentId, idbDeleteDocument, idbDeleteSnapshots, idbSetCurrentId } from '@/lib/documentsDb';
+import { idbGetCurrentId, idbDeleteDocumentIfUnchanged, idbClearCurrentIdIfUnchanged, type StoredDocument } from '@/lib/documentsDb';
 
 interface ErrorBoundaryProps {
   children: ReactNode;
@@ -20,6 +21,8 @@ interface ErrorBoundaryState {
   /** "Reset and reload" asks for confirmation inline (no native confirm(), which
    *  follows the OS theme, not the app's, and reads as a foreign white popup). */
   confirmingReset: boolean;
+  resetting: boolean;
+  resetError: string | null;
 }
 
 /** The app's dark class on <html> is the single source of truth for the active
@@ -55,6 +58,8 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
     detailsOpen: false,
     copyStatus: 'idle',
     confirmingReset: false,
+    resetting: false,
+    resetError: null,
   };
   // Pending copy-status reset timer, cleared on unmount or a superseding click to
   // avoid a setState-on-unmounted warning.
@@ -119,32 +124,47 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
   /** First click arms the inline confirmation strip; the strip's button calls
    *  performResetAndReload. No window.confirm — a native dialog follows the OS
    *  theme rather than the app's and can't be styled. */
+  private resetDocument: StoredDocument | null = null;
+  private resetId: Promise<string | null> | null = null;
+  private resetTarget: DocumentTarget | null = null;
+  private resetInProgress = false;
+
   handleResetAndReload = (): void => {
-    this.setState({ confirmingReset: true });
+    if (this.resetInProgress) return;
+    const { currentId, docs, trash } = useDocumentsStore.getState();
+    this.resetId = currentId ? Promise.resolve(currentId) : idbGetCurrentId();
+    const entry = currentId ? docs[currentId] ?? trash[currentId] : undefined;
+    this.resetDocument = entry ? structuredClone({ id: currentId!, ...entry }) : null;
+    this.resetTarget = captureDocumentTarget();
+    this.setState({ confirmingReset: true, resetError: null });
   };
 
   handleCancelReset = (): void => {
-    this.setState({ confirmingReset: false });
+    if (this.resetInProgress) return;
+    this.resetDocument = null;
+    this.resetId = null;
+    this.resetTarget = null;
+    this.setState({ confirmingReset: false, resetError: null });
   };
 
   performResetAndReload = async (): Promise<void> => {
+    if (this.resetInProgress) return;
+    const reviewedDocument = this.resetDocument;
+    const reviewedId = this.resetId;
     try {
-      // init() resumes from the IndexedDB registry before reading these
-      // localStorage keys, so clearing localStorage alone left the crashing doc to
-      // reload in a loop. Drop the current IndexedDB record and its pointer too so
-      // init() falls through to a blank document; keep clearing localStorage for
-      // the legacy paths.
+      if (!detachDocumentForRecovery(this.resetTarget)) {
+        this.setState({ resetError: 'The document changed while confirmation was open. Cancel and try again.' });
+        return;
+      }
+      this.resetInProgress = true;
+      this.setState({ resetting: true, resetError: null });
       localStorage.removeItem(STORAGE_KEYS.DOCUMENT_SESSION);
       localStorage.removeItem(STORAGE_KEYS.DOCUMENT);
-      const currentId = await idbGetCurrentId();
-      if (currentId) {
-        await idbDeleteDocument(currentId);
-        // Its version-history snapshots go with it — otherwise up to 10 full
-        // copies of the erased document linger in IndexedDB with no UI that
-        // can ever list or remove them.
-        await idbDeleteSnapshots(currentId);
-      }
-      await idbSetCurrentId(null);
+      if (reviewedDocument) await idbDeleteDocumentIfUnchanged(reviewedDocument);
+      // When initialization failed before ownership existed, clear only the
+      // resume hint. Never infer a document to erase from a shared pointer.
+      const currentId = await reviewedId;
+      if (currentId) await idbClearCurrentIdIfUnchanged(currentId);
     } catch (err) {
       debug.error('Boundary', 'Failed to clear session before reload', err);
     }
@@ -156,7 +176,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
   };
 
   render(): ReactNode {
-    const { error, errorInfo, detailsOpen, copyStatus, confirmingReset } = this.state;
+    const { error, errorInfo, detailsOpen, copyStatus, confirmingReset, resetting, resetError } = this.state;
 
     if (!error) {
       return this.props.children;
@@ -322,6 +342,7 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
             <button
               type="button"
               onClick={this.handleResetAndReload}
+              disabled={resetting}
               style={dangerButtonStyle}
               aria-label="Erase saved draft and reload"
             >
@@ -344,17 +365,17 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
               }}
             >
               <span style={{ flex: '1 1 220px' }}>
-                This erases your auto-saved draft and reloads. Copy it first if you
-                want to keep it.
+                {resetError ?? 'This erases your auto-saved draft and reloads. Copy it first if you want to keep it.'}
               </span>
               <button
                 type="button"
                 onClick={this.performResetAndReload}
+                disabled={resetting || !!resetError}
                 style={{ ...buttonStyle, backgroundColor: c.danger, borderColor: c.danger, color: dark ? '#0f172a' : '#ffffff' }}
               >
                 Erase and reload
               </button>
-              <button type="button" onClick={this.handleCancelReset} style={buttonStyle}>
+              <button type="button" onClick={this.handleCancelReset} disabled={resetting} style={buttonStyle}>
                 Cancel
               </button>
             </div>
