@@ -1,3 +1,4 @@
+import { beginDocumentTask, isCurrentDocumentTask } from '@/lib/documentTask';
 import { useCallback, useState } from 'react';
 import { runFileImport } from '@/lib/fileImports';
 import {
@@ -28,8 +29,8 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion';
 import { HelpTip } from '@/components/ui/help-tip';
-import { useDocumentStore } from '@/stores/documentStore';
-import { persistAttachment } from '@/lib/attachments';
+import { enclosureResource, useDocumentStore } from '@/stores/documentStore';
+import { withAttachmentStaging, persistAttachment } from '@/lib/attachments';
 import { formatFileSize } from '@/lib/utils';
 import type { Enclosure, EnclosurePageStyle } from '@/types/document';
 import { DOC_TYPE_CONFIG } from '@/types/document';
@@ -236,18 +237,25 @@ export function EnclosuresManager() {
   };
 
   const handleAttachFile = useCallback((index: number, file: File) => runFileImport(async () => {
-    const data = await file.arrayBuffer();
-    // Persist the bytes so the enclosure survives a reload and rides along in a
-    // backup; keep the in-memory copy for immediate export either way.
-    const fileRef = await persistAttachment({ name: file.name, size: file.size, type: file.type }, data);
-    updateEnclosure(index, {
-      file: {
-        name: file.name,
-        size: file.size,
-        data,
-      },
-      fileRef,
-    });
+    const original = useDocumentStore.getState().enclosures[index];
+    if (!original) return;
+    const resource = enclosureResource(original);
+    const task = beginDocumentTask(resource);
+    const currentIndex = () => useDocumentStore.getState().enclosures.findIndex(enclosure => enclosureResource(enclosure) === resource);
+    const ownsEnclosure = () => isCurrentDocumentTask(task) && currentIndex() >= 0;
+    try {
+      const data = await file.arrayBuffer();
+      if (!ownsEnclosure()) return;
+      await withAttachmentStaging(async () => {
+        if (!ownsEnclosure()) return;
+        const fileRef = await persistAttachment({ name: file.name, size: file.size, type: file.type }, data, { requireDurable: true });
+        if (!ownsEnclosure()) return;
+        updateEnclosure(currentIndex(), { file: { name: file.name, size: file.size, data }, fileRef });
+      });
+    } catch (error) {
+      if (!ownsEnclosure()) return;
+      showAppAlert({ title: 'Could not attach PDF', message: error instanceof Error ? error.message : 'Try the file again.' });
+    }
   }), [updateEnclosure]);
 
   // Confirm before dropping an enclosure that holds anything — a title or an
@@ -284,15 +292,20 @@ export function EnclosuresManager() {
   }, [updateEnclosure]);
 
   const handleUploadNewEnclosure = useCallback((file: File) => runFileImport(async () => {
-    // Extract filename without extension for the title
-    const title = file.name.replace(/\.pdf$/i, '');
-    const data = await file.arrayBuffer();
-    const fileRef = await persistAttachment({ name: file.name, size: file.size, type: file.type }, data);
-    addEnclosure(title, {
-      name: file.name,
-      size: file.size,
-      data,
-    }, fileRef);
+    const task = beginDocumentTask({});
+    try {
+      const title = file.name.replace(/\.pdf$/i, '');
+      const data = await file.arrayBuffer();
+      if (!isCurrentDocumentTask(task)) return;
+      await withAttachmentStaging(async () => {
+        if (!isCurrentDocumentTask(task)) return;
+        const fileRef = await persistAttachment({ name: file.name, size: file.size, type: file.type }, data, { requireDurable: true });
+        if (isCurrentDocumentTask(task)) addEnclosure(title, { name: file.name, size: file.size, data }, fileRef);
+      });
+    } catch (error) {
+      if (!isCurrentDocumentTask(task)) return;
+      showAppAlert({ title: 'Could not attach PDF', message: error instanceof Error ? error.message : 'Try the file again.' });
+    }
   }), [addEnclosure]);
 
   // Drag and drop state

@@ -1,3 +1,5 @@
+import { beginDocumentTask, isCurrentDocumentTask } from '@/lib/documentTask';
+import { runFileImport } from '@/lib/fileImports';
 import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -113,7 +115,7 @@ export function SignatureSection({ config }: SignatureSectionProps) {
   }, [formData.officeCode]);
 
   // Handle signature image upload
-  const handleSignatureUpload = useCallback(async (file: File) => {
+  const handleSignatureUpload = useCallback((file: File) => runFileImport(async () => {
     if (!isImageFile(file)) {
       showAppAlert({ title: 'Image files only', message: rejectedFilesMessage([file], 'image') });
       return;
@@ -127,10 +129,17 @@ export function SignatureSection({ config }: SignatureSectionProps) {
       return;
     }
 
+    const original = useDocumentStore.getState().formData;
+    const task = beginDocumentTask('signature-image');
+    const ownsSignature = () => {
+      const current = useDocumentStore.getState().formData;
+      return isCurrentDocumentTask(task) && current.signatureImage === original.signatureImage && current.signatureType === original.signatureType;
+    };
     let base64: string;
     try {
       base64 = await loadSignatureAsPngBase64(file);
     } catch (err) {
+      if (!ownsSignature()) return;
       showAppAlert({
         title: "Couldn't read that image",
         message: err instanceof Error ? err.message : 'Please try a different file.',
@@ -138,6 +147,7 @@ export function SignatureSection({ config }: SignatureSectionProps) {
       return;
     }
 
+    if (!ownsSignature()) return;
     const signatureImage: SignatureImage = {
       name: file.name,
       size: file.size,
@@ -145,7 +155,7 @@ export function SignatureSection({ config }: SignatureSectionProps) {
     };
 
     setField('signatureImage', signatureImage);
-  }, [setField]);
+  }), [setField]);
 
   // Handle file input change
   const handleFileChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
@@ -186,6 +196,7 @@ export function SignatureSection({ config }: SignatureSectionProps) {
 
   // Remove signature image
   const handleRemoveSignature = useCallback(() => {
+    beginDocumentTask('signature-image');
     setField('signatureImage', undefined);
   }, [setField]);
 
@@ -196,6 +207,7 @@ export function SignatureSection({ config }: SignatureSectionProps) {
   const styleRadioRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
   const selectSignatureStyle = useCallback((value: SignatureType) => {
+    beginDocumentTask('signature-image');
     setField('signatureType', value);
     if (value !== 'image' && formData.signatureImage) {
       setField('signatureImage', undefined);
