@@ -5,6 +5,12 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.3.13] — 2026-11-08
+
+### Fixed
+
+- Bind delayed editor actions to their targets.
+
 ## [1.3.12] — 2026-11-08
 
 ### Fixed

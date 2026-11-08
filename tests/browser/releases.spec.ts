@@ -244,9 +244,14 @@ test('does not advertise an incomplete release and retries after the origin reco
 test('restores the accepting tab’s last edit when another tab has a different document open', async ({ page, context }) => {
   await start(page);
   const other = await context.newPage(); await other.goto(server.origin);
-  await other.getByRole('button', { name: 'New document', exact: true }).click();
+  const newDocument = other.getByRole('button', { name: 'New document', exact: true });
+  await newDocument.click();
   await other.getByRole('menuitem', { name: 'New correspondence', exact: true }).click();
-  await other.locator('#subject:visible, #body-subject:visible').fill('OTHER DOCUMENT');
+  // Let the closing menu finish restoring focus before typing into the editor.
+  await expect(newDocument).toBeFocused({ timeout: 15000 });
+  const otherSubject = other.locator('#subject:visible, #body-subject:visible');
+  await otherSubject.fill('OTHER DOCUMENT');
+  await expect(otherSubject).toHaveValue('OTHER DOCUMENT');
   await expect(other.locator('[title^="Saved "]')).toBeVisible({ timeout: 15000 });
   root = resolve(second!);
   await page.bringToFront(); await page.evaluate(() => window.dispatchEvent(new Event('focus')));

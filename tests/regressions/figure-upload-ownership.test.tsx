@@ -1,0 +1,58 @@
+import 'fake-indexeddb/auto';
+import { afterEach, beforeEach, expect, it, vi } from 'vitest';
+import { act, fireEvent, render, screen } from '@testing-library/react';
+import { BlockParagraphsEditor } from '@/components/editor/BlockParagraphsEditor';
+import { Sl3IllustrationsSection } from '@/components/editor/Sl3Sections';
+import { TooltipProvider } from '@/components/ui/tooltip';
+import { prepareFigureUpload } from '@/lib/prepareFigureUpload';
+import { isFileImportInProgress } from '@/lib/fileImports';
+import { useDocumentStore } from '@/stores/documentStore';
+import { flushDocumentWrites, useDocumentsStore } from '@/stores/documentsStore';
+import * as db from '@/lib/documentsDb';
+import { sl3Fixture } from '../_helpers/sl3Fixture';
+vi.mock('@/lib/prepareFigureUpload', () => ({ prepareFigureUpload: vi.fn() }));
+const prepared = { bytes: new ArrayBuffer(1), type: 'image/png', width: 1, height: 1 };
+beforeEach(() => {
+  useDocumentsStore.setState({ docs: {}, trash: {}, currentId: null, baseline: null, hydrated: true });
+  useDocumentsStore.getState().newDocument();
+  vi.mocked(prepareFigureUpload).mockReset();
+});
+afterEach(async () => { vi.restoreAllMocks(); await flushDocumentWrites(); });
+it('keeps the previous figure when replacement bytes cannot be saved', async () => {
+  vi.mocked(prepareFigureUpload).mockResolvedValueOnce(prepared);
+  vi.spyOn(db, 'idbPutAttachment').mockResolvedValueOnce(false);
+  useDocumentStore.setState({ paragraphs: [{ text: 'Original', level: 0, figure: { name: 'Original' } }] });
+  render(<TooltipProvider><BlockParagraphsEditor /></TooltipProvider>);
+  await act(async () => fireEvent.change(screen.getByLabelText(/^Image for figure/), { target: { files: [new File(['x'], 'replace.png')] } }));
+  expect(useDocumentStore.getState().paragraphs[0].figure).toEqual({ name: 'Original' });
+  expect(screen.getByRole('alert')).toHaveTextContent('Could not save replace.png');
+});
+it('does not attach an illustration to a replacement figure with the same reference ID', async () => {
+  vi.spyOn(db, 'idbPutAttachment').mockResolvedValueOnce(true);
+  let finish!: (value: typeof prepared) => void;
+  vi.mocked(prepareFigureUpload).mockReturnValueOnce(new Promise(resolve => { finish = resolve; }));
+  useDocumentStore.setState(sl3Fixture());
+  useDocumentStore.setState({ paragraphs: [{ referenceId: 'photo', level: 0, text: 'Original', figure: { portionMarking: 'U' } }] });
+  render(<Sl3IllustrationsSection />);
+  fireEvent.change(screen.getByLabelText(/^Choose illustration for/), { target: { files: [new File(['x'], 'replace.png')] } });
+  act(() => useDocumentStore.getState().updateParagraph(0, { figure: { portionMarking: 'CUI', name: 'Replacement' } }));
+  await act(async () => { finish(prepared); });
+  expect(useDocumentStore.getState().paragraphs[0].figure).toEqual({ portionMarking: 'CUI', name: 'Replacement' });
+});
+
+it.each(['remove', 'replace'] as const)('does not show a stale illustration error after its target is changed by %s', async action => {
+  let fail!: (error: Error) => void;
+  const pending = new Promise<Awaited<ReturnType<typeof prepareFigureUpload>>>((_, reject) => { fail = reject; });
+  vi.mocked(prepareFigureUpload).mockReturnValueOnce(pending);
+  useDocumentStore.setState(sl3Fixture());
+  useDocumentStore.setState({ paragraphs: [{ referenceId: 'photo', level: 0, text: 'Original', figure: { portionMarking: 'U' } }] });
+  render(<Sl3IllustrationsSection />);
+  fireEvent.change(screen.getByLabelText(/^Choose illustration for/), { target: { files: [new File(['x'], 'replace.png')] } });
+  act(() => {
+    if (action === 'remove') useDocumentStore.getState().removeParagraph(0);
+    else useDocumentStore.getState().updateParagraph(0, { figure: { name: 'Replacement', portionMarking: 'CUI' } });
+  });
+  await act(async () => { fail(new Error('STALE ILLUSTRATION ERROR')); await pending.catch(() => {}); });
+  expect(screen.queryByText('STALE ILLUSTRATION ERROR')).not.toBeInTheDocument();
+  expect(isFileImportInProgress()).toBe(false);
+});

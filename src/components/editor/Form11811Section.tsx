@@ -1,3 +1,4 @@
+import { captureDocumentTarget, isCurrentDocumentTarget } from '@/stores/documentsStore';
 import { useEffect, useState } from 'react';
 import { Trash2, AlertTriangle } from 'lucide-react';
 import { Label } from '@/components/ui/label';
@@ -60,11 +61,12 @@ export function Form11811Section() {
     return p ? abbreviatedSignatoryName(p.sigFirst, p.sigMiddle, p.sigLast) : '';
   });
   const signatureBlocks = navmc11811.signatureBlocks;
-  const setSignatureBlock = (index: number, patch: Partial<FormSignatureBlock>) =>
-    setNavmc11811Field(
-      'signatureBlocks',
-      signatureBlocks.map((b, i) => (i === index ? { ...b, ...patch } : b))
-    );
+  const setSignatureBlock = (index: number, patch: Partial<FormSignatureBlock>) => {
+    const current = useFormStore.getState().navmc11811.signatureBlocks;
+    const targetIndex = current.indexOf(signatureBlocks[index]);
+    if (targetIndex < 0) return;
+    setNavmc11811Field('signatureBlocks', current.map((block, i) => i === targetIndex ? { ...block, ...patch } : block));
+  };
   // The counseled Marine's name in the same abbreviated form, derived from the
   // Marine Identification fields this form already collects — so the
   // acknowledgement preset arrives pre-filled instead of asking the user to
@@ -78,6 +80,7 @@ export function Form11811Section() {
   // uploaded signature image. Confirm first, same rule as References /
   // Enclosures: an empty block still removes in a single click.
   const removeSignatureBlock = async (index: number) => {
+    const target = captureDocumentTarget();
     const b = signatureBlocks[index];
     const hasContent =
       (b?.statement ?? '').trim() !== '' || (b?.name ?? '').trim() !== '' || !!b?.image;
@@ -90,6 +93,7 @@ export function Form11811Section() {
       });
       if (!confirmed) return;
     }
+    if (!isCurrentDocumentTarget(target)) return;
     setNavmc11811Field('signatureBlocks', signatureBlocks.filter((_, i) => i !== index));
   };
   // Move focus into a block's first input after it's added, so a preset pick
