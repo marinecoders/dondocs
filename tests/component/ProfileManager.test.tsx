@@ -14,12 +14,14 @@ import { parseProfileImport } from '@/lib/profileImport';
 
 vi.mock('@/stores/alertStore', () => ({ showAppAlert: vi.fn(), showAppConfirm: vi.fn() }));
 vi.mock('@/lib/encoding', async (importOriginal) => ({ ...await importOriginal<object>(), readFileAsText: vi.fn(), triggerDownload: vi.fn() }));
+const originalRestore = useDocumentsStore.getState().restoreSnapshot;
 const alpha = { unitLine1: 'ALPHA', unitLine2: '', unitAddress: '', ssic: '1000', from: 'Alpha sender', sigFirst: '', sigMiddle: '', sigLast: '', sigRank: '', sigTitle: '' };
 const beta = { ...alpha, unitLine1: 'BRAVO', from: 'Bravo sender' };
 function mount() { render(<TooltipProvider><ProfileManager /><ProfileModal /></TooltipProvider>); }
 
 beforeEach(() => {
   vi.clearAllMocks();
+  useDocumentsStore.setState({ restoreSnapshot: originalRestore });
   useUIStore.setState({ profileManagerOpen: true, profileModalOpen: false, profileEditName: null });
   useProfileStore.setState({ profiles: { Alpha: alpha, Bravo: beta }, selectedProfile: 'Alpha' });
   useDocumentStore.getState().resetForm();
@@ -60,7 +62,8 @@ it('rejects a duplicate name rather than overwriting saved details', async () =>
 });
 
 it('reviews before applying, preserves document text, and requires a recovery version', async () => {
-  const restore = vi.spyOn(useDocumentsStore.getState(), 'restoreSnapshot').mockResolvedValue(false);
+  const restore = vi.spyOn(useDocumentsStore.getState(), 'restoreSnapshot').mockResolvedValue('safety-copy-failed');
+  useDocumentsStore.setState({ currentId: 'profile-draft' });
   const before = getSerializedSession();
   mount();
   fireEvent.click(screen.getByRole('button', { name: 'Apply Bravo' }));
@@ -72,10 +75,10 @@ it('reviews before applying, preserves document text, and requires a recovery ve
   await screen.findByRole('alert');
   expect(screen.getByRole('alert')).toHaveTextContent('Your document has not changed');
   expect(useProfileStore.getState().selectedProfile).toBe('Alpha');
-  restore.mockResolvedValue(true);
+  restore.mockResolvedValue('applied');
   fireEvent.click(screen.getByRole('button', { name: 'Apply profile' }));
   await waitFor(() => expect(useProfileStore.getState().selectedProfile).toBe('Bravo'));
-  expect(restore).toHaveBeenLastCalledWith(expect.objectContaining({ paragraphs: before.paragraphs, formData: expect.objectContaining({ from: 'Bravo sender' }) }));
+  expect(restore).toHaveBeenLastCalledWith(expect.objectContaining({ paragraphs: before.paragraphs, formData: expect.objectContaining({ from: 'Bravo sender' }) }), expect.any(Object));
   expect(screen.getByRole('status')).toHaveTextContent('Applied Bravo');
 });
 
@@ -136,5 +139,28 @@ it('asks before discarding an edited profile and keeps the default', async () =>
   expect(useUIStore.getState().profileModalOpen).toBe(true);
   fireEvent.click(screen.getByRole('button', { name: 'Continue Editing' }));
   expect(screen.getByDisplayValue('Unsaved')).toBeVisible();
+  expect(useProfileStore.getState().selectedProfile).toBe('Alpha');
+});
+
+it('does not apply a reviewed profile proposal to another document', async () => {
+  useDocumentsStore.setState({ currentId: 'original-draft' });
+  mount();
+  fireEvent.click(screen.getByRole('button', { name: 'Apply Bravo' }));
+  act(() => useDocumentsStore.getState().newDocument());
+  const next = getSerializedSession();
+  fireEvent.click(screen.getByRole('button', { name: 'Apply profile' }));
+  expect(await screen.findByRole('alert')).toHaveTextContent('The document changed');
+  expect(useDocumentStore.getState().formData).toEqual(next.formData);
+  expect(useProfileStore.getState().selectedProfile).toBe('Alpha');
+});
+
+it('retains edits made while a profile proposal is being reviewed', async () => {
+  useDocumentsStore.setState({ currentId: 'review-draft' });
+  mount();
+  fireEvent.click(screen.getByRole('button', { name: 'Apply Bravo' }));
+  act(() => useDocumentStore.getState().setField('subject', 'Edited during review'));
+  fireEvent.click(screen.getByRole('button', { name: 'Apply profile' }));
+  expect(await screen.findByRole('alert')).toHaveTextContent('The document changed');
+  expect(useDocumentStore.getState().formData.subject).toBe('Edited during review');
   expect(useProfileStore.getState().selectedProfile).toBe('Alpha');
 });

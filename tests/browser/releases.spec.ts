@@ -37,9 +37,12 @@ async function ready(page: Page, id: string) {
 async function start(page: Page) {
   await page.addInitScript(() => localStorage.setItem('dondocs-welcome-shown', '3.0'));
   await page.goto(server.origin);
-  await page.locator('#subject:visible, #body-subject:visible').fill('RELEASE CHECKPOINT');
-  await expect(page.locator('[title^="Saved "]')).toBeVisible({ timeout: 15000 });
   await ready(page, firstId);
+  await expect(page.getByText('Compilation complete', { exact: true })).toBeAttached({ timeout: 60000 });
+  const subject = page.locator('#subject:visible, #body-subject:visible');
+  await subject.fill('RELEASE CHECKPOINT');
+  await expect(subject).toHaveValue('RELEASE CHECKPOINT');
+  await expect(page.locator('[title^="Saved "]')).toBeVisible({ timeout: 15000 });
 }
 
 async function workerRequest(page: Page, message: object, waiting = false) {

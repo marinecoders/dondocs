@@ -14,6 +14,8 @@ import {
   getSavedSession,
   loadSharedSession,
   isApplyingSession,
+  observeSessionReplacement,
+  isApplyingAssets,
   replaceSessionState,
   resetDocumentHistory,
   clearSavedSession,
@@ -74,6 +76,55 @@ export interface DocumentEntry {
   session: SerializedSession;
 }
 
+const scopeBrand = Symbol('DocumentScope');
+export interface DocumentScope {
+  readonly documentId: string;
+  readonly epoch: number;
+  readonly [scopeBrand]: true;
+}
+export type TransitionOutcome = 'applied' | 'unchanged' | 'stale' | 'invalid' | 'safety-copy-failed';
+const issuedScopes = new WeakSet<DocumentScope>();
+const targetBrand = Symbol('DocumentTarget');
+export interface DocumentTarget {
+  readonly scope: DocumentScope;
+  readonly editSequence: number;
+  readonly [targetBrand]: true;
+}
+const issuedTargets = new WeakSet<DocumentTarget>();
+let editSequence = 0;
+let restoreRequest = 0;
+
+export function captureDocumentScope(): DocumentScope | null {
+  const { currentId, activationEpoch } = useDocumentsStore.getState();
+  if (!currentId) return null;
+  const scope: DocumentScope = Object.freeze<DocumentScope>({ documentId: currentId, epoch: activationEpoch, [scopeBrand]: true });
+  issuedScopes.add(scope);
+  return scope;
+}
+
+export function isCurrentDocumentScope(scope: DocumentScope | null): scope is DocumentScope {
+  const state = useDocumentsStore.getState();
+  return !!scope && issuedScopes.has(scope) && scope.documentId === state.currentId
+    && scope.epoch === state.activationEpoch && !state.trash[scope.documentId];
+}
+
+/** Bind a destructive proposal to the content the user reviewed. */
+export function captureDocumentTarget(): DocumentTarget | null {
+  const scope = captureDocumentScope();
+  if (!scope) return null;
+  const target = Object.freeze<DocumentTarget>({ scope, editSequence, [targetBrand]: true });
+  issuedTargets.add(target);
+  return target;
+}
+
+export function isCurrentDocumentTarget(target: DocumentTarget | null): target is DocumentTarget {
+  return !!target && issuedTargets.has(target) && isCurrentDocumentScope(target.scope) && target.editSequence === editSequence;
+}
+
+function activation(currentId: string | null) {
+  return { currentId, activationEpoch: useDocumentsStore.getState().activationEpoch + 1 };
+}
+
 interface DocumentsState {
   docs: Record<string, DocumentEntry>;
   /** Last viewed drafts for category navigation in this workspace session. */
@@ -82,6 +133,7 @@ interface DocumentsState {
   restoreFromTrash: (id: string) => void;
   permanentlyDelete: (id: string) => Promise<boolean>;
   currentId: string | null;
+  activationEpoch: number;
   /** True once the registry has been read out of IndexedDB. */
   hydrated: boolean;
   recoveryCount: number;
@@ -128,11 +180,8 @@ interface DocumentsState {
   renameDocument: (id: string, name: string) => void;
   /** Clone a document into a new Recents entry titled "Copy of …". */
   duplicateDocument: (id: string) => void;
-  /** Replace the live editor with a version-history snapshot. Awaits a safety
-   *  snapshot of the current state first — that commit is what makes the
-   *  restore reversible — and resolves false (restoring nothing) if the safety
-   *  copy could not be written. */
-  restoreSnapshot: (session: SerializedSession) => Promise<boolean>;
+  /** Replace only the requested activation after its safety copy commits. */
+  restoreSnapshot: (session: SerializedSession, target: DocumentTarget | null) => Promise<TransitionOutcome>;
   /**
    * Register the document currently in the live store as a new Recents entry
    * (used by Header's Load progress). Flush the open document first, then call
@@ -655,7 +704,7 @@ function ensureHydrated(
           loaded[r.id] = { meta: r.meta, session: r.session };
         }
       }
-      set({ ...partitionDocuments(loaded), currentId: cid, hydrated: true });
+      set({ ...partitionDocuments(loaded), ...activation(cid), hydrated: true });
     })();
     // If hydration rejects, drop the cached promise so a later init() can retry
     // rather than being wedged on a permanently-rejected promise for the page
@@ -719,13 +768,13 @@ function reopenAfterRemoval(
   clearSavedSession();
   const newest = Object.values(remaining).sort((a, b) => b.meta.updatedAt - a.meta.updatedAt)[0];
   if (newest && tryLoadSavedSession(newest.session)) {
-    set({ currentId: newest.meta.id, baseline: newest.session });
+    set({ ...activation(newest.meta.id), baseline: newest.session });
     persistCurrentId(newest.meta.id);
     applyProfileSignature();
     useUIStore.getState().setLastSavedAt(newest.meta.updatedAt);
   } else {
     const fresh = newId();
-    set({ currentId: fresh });
+    set({ ...activation(fresh) });
     persistCurrentId(fresh);
     const ds = useDocumentStore.getState();
     replaceSessionState(() => {
@@ -782,7 +831,7 @@ function initAfterHydration(
     }
     if (!tryLoadSavedSession(session)) {
       // Never attach a blank editor to the saved record that failed to load.
-      set({ currentId: newId(), baseline: null });
+      set({ ...activation(newId()), baseline: null });
       return false;
     }
     applyProfileSignature();
@@ -805,11 +854,11 @@ function initAfterHydration(
     }
     const id = newId();
     const entry = { meta: metaFor(id, legacy), session: legacy };
-    set({ currentId: id, docs: { ...docs, [id]: entry } });
+    set({ ...activation(id), docs: { ...docs, [id]: entry } });
     persistEntry(entry);
     persistCurrentId(id);
     if (!tryLoadSavedSession(legacy)) {
-      set({ currentId: newId(), baseline: null });
+      set({ ...activation(newId()), baseline: null });
       return false;
     }
     applyProfileSignature();
@@ -824,7 +873,7 @@ function initAfterHydration(
   // otherwise leave a resume pointer aimed at a document that was never saved.
   // syncCurrent/saveCurrent persist it the moment the doc gains real content.
   const id = newId();
-  set({ currentId: id, baseline: null });
+  set({ ...activation(id), baseline: null });
   return false;
 }
 
@@ -833,6 +882,7 @@ export const useDocumentsStore = create<DocumentsState>((set, get) => ({
   lastKindIds: {},
   trash: {},
   currentId: null,
+  activationEpoch: 0,
   hydrated: false,
   recoveryCount: 0,
   baseline: null,
@@ -932,7 +982,7 @@ export const useDocumentsStore = create<DocumentsState>((set, get) => ({
   newDocument: (formType) => {
     get().syncCurrent(); // preserve the document being left
     const id = newId();
-    set({ currentId: id });
+    set({ ...activation(id) });
     persistCurrentId(id);
     const ds = useDocumentStore.getState();
     replaceSessionState(() => {
@@ -971,7 +1021,7 @@ export const useDocumentsStore = create<DocumentsState>((set, get) => ({
       && Boolean(current.genericForm) === Boolean(entry.session.genericForm)) return;
     get().syncCurrent(); // preserve the document being left
     if (!tryLoadSavedSession(entry.session)) return;
-    set({ currentId: id, baseline: entry.session });
+    set({ ...activation(id), baseline: entry.session });
     persistCurrentId(id);
     applyProfileSignature();
     useUIStore.getState().setValidationVisible(false);
@@ -1018,7 +1068,7 @@ export const useDocumentsStore = create<DocumentsState>((set, get) => ({
 
   openLoadedAsNew: () => {
     const id = newId();
-    set({ currentId: id });
+    set({ ...activation(id) });
     resetDocumentHistory();
     persistCurrentId(id);
     get().markBaseline();
@@ -1095,23 +1145,36 @@ export const useDocumentsStore = create<DocumentsState>((set, get) => ({
     debug.log('Documents', 'Duplicated document', { from: id, to: copyId });
   },
 
-  restoreSnapshot: async (session) => {
-    const { currentId } = get();
-    // The safety snapshot is what makes a restore reversible (the modal says
-    // so), so it must COMMIT before anything is overwritten. Fire-and-forget
-    // here used to race saveCurrent's forced checkpoint below and lose the
-    // safety copy — silently destroying the pre-restore draft. If it can't be
-    // written, restore nothing and let the caller say so.
-    if (currentId) {
-      const ok = await maybeSnapshot(currentId, getSerializedSession(), true);
-      if (!ok || get().currentId !== currentId) return false;
-    }
-    loadSharedSession(session);
+  restoreSnapshot: async (session, target) => {
+    if (!isCurrentDocumentTarget(target)) return 'stale';
+    const request = ++restoreRequest;
+    let incoming: SerializedSession;
+    try {
+      incoming = structuredClone(session);
+      if (incoming.genericForm) {
+        const form = parseFormInstance(incoming.genericForm);
+        if (incoming.documentCategory !== 'forms' || incoming.formType !== form.definition.formId) return 'invalid';
+        incoming.genericForm = form;
+      }
+    } catch { return 'invalid'; }
+    const current = () => isCurrentDocumentTarget(target) && request === restoreRequest;
+    // Keep the safety copy even if its operation becomes stale while writing.
+    let ok: boolean;
+    try { ok = await maybeSnapshot(target.scope.documentId, getSerializedSession(), true); }
+    catch { ok = false; }
+    if (!current()) return 'stale';
+    if (!ok) return 'safety-copy-failed';
+    loadSharedSession(incoming);
     get().markBaseline();
-    get().saveCurrent(); // persist the restored content as the current version
-    return true;
+    get().saveCurrent();
+    return 'applied';
   },
 }));
+
+function advanceActivation(): void {
+  useDocumentsStore.setState(state => ({ activationEpoch: state.activationEpoch + 1 }));
+}
+observeSessionReplacement(advanceActivation);
 
 // Snapshot the live document into the registry shortly after edits settle.
 // Subscribing here (rather than documentStore calling us) keeps the dependency
@@ -1135,17 +1198,24 @@ const scheduleSync = () => {
 };
 useDocumentStore.subscribe((state, prev) => {
   if (isApplyingSession()) return;
+  if (!isApplyingAssets() && (!sameContent(serializeSession(state), serializeSession(prev))
+    || state.formData.basicLetterFile !== prev.formData.basicLetterFile
+    || state.enclosures.some((enclosure, index) => enclosure.file !== prev.enclosures[index]?.file))) editSequence++;
   if (prev.documentCategory !== state.documentCategory || prev.formType !== state.formType) {
     useDocumentsStore.getState().syncCurrent(prev);
     // Direct legacy callers may switch kind without using workspace navigation.
     // Detach from the previous record before editing the next kind.
     const id = newId();
-    useDocumentsStore.setState({ currentId: id, baseline: serializeSession(state) });
+    useDocumentsStore.setState({ ...activation(id), baseline: serializeSession(state) });
   }
   scheduleSync();
 });
-useFormStore.subscribe(() => {
-  if (useDocumentStore.getState().documentCategory === 'forms') scheduleSync();
+useFormStore.subscribe((state, previous) => {
+  const document = useDocumentStore.getState();
+  if (isApplyingSession() || document.documentCategory !== 'forms' || document.genericForm) return;
+  if (state.includeCoverPage !== previous.includeCoverPage
+    || (document.formType === 'navmc_118_11' ? state.navmc11811 !== previous.navmc11811 : state.navmc10274 !== previous.navmc10274)) editSequence++;
+  scheduleSync();
 });
 
 // Flush the pending registry sync when the page is hidden so the last edits
