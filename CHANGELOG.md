@@ -5,6 +5,12 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.3.18] — 2026-11-08
+
+### Fixed
+
+- Retain attachment bytes for owned operations.
+
 ## [1.3.17] — 2026-11-08
 
 ### Fixed
