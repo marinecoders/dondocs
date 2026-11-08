@@ -5,6 +5,12 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.3.3] — 2026-11-07
+
+### Changed
+
+- Exercise browser upgrades with origin cache headers, retained immutable assets, and explicit deployment faults.
+
 ## [1.3.2] — 2026-11-07
 
 ### Changed

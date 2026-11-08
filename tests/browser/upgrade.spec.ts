@@ -1,40 +1,27 @@
 import { test, expect, type Page } from '@playwright/test';
-import { createServer, type Server } from 'node:http';
 import { readFile } from 'node:fs/promises';
-import { resolve, extname, sep } from 'node:path';
+import { resolve } from 'node:path';
 import { createHash } from 'node:crypto';
 import { getDocument } from 'pdfjs-dist/legacy/build/pdf.mjs';
+import { startUpgradeServer } from './upgradeServer';
 
 // Two real production builds share an origin, storage, and service-worker scope.
 // No application modules or mocked service workers are injected into the page.
-let server: Server;
+let server: Awaited<ReturnType<typeof startUpgradeServer>>;
 let origin: string;
 let root: string;
 let workerRevision = '';
 test.beforeEach(() => { workerRevision = ''; });
 const oldBuild = process.env.UPGRADE_OLD_BUILD;
 const newBuild = resolve('dist');
-const mime: Record<string, string> = { '.html': 'text/html', '.js': 'text/javascript', '.mjs': 'text/javascript', '.css': 'text/css', '.json': 'application/json', '.svg': 'image/svg+xml', '.wasm': 'application/wasm', '.pdf': 'application/pdf' };
 
 test.beforeAll(async () => {
   if (!oldBuild) throw new Error('Set UPGRADE_OLD_BUILD to a production build of the release being upgraded');
-  server = createServer(async (req, res) => {
-    try {
-      const pathname = decodeURIComponent(new URL(req.url!, 'http://localhost').pathname);
-      if (pathname === '/holding.html') { res.writeHead(200, { 'Content-Type': 'text/html' }).end('<!doctype html><title>Worker control</title>'); return; }
-      const file = resolve(root, `.${pathname === '/' ? '/index.html' : pathname}`);
-      if (!file.startsWith(root + sep)) { res.writeHead(403).end(); return; }
-      const bytes = await readFile(file);
-      res.writeHead(200, { 'Content-Type': mime[extname(file)] ?? 'application/octet-stream', 'Cache-Control': 'no-store' });
-      res.end(pathname === '/sw.js' ? Buffer.concat([bytes, Buffer.from(`\n// upgrade-test-${workerRevision}\n`)]) : bytes);
-    } catch { res.writeHead(404).end(); }
-  });
-  await new Promise<void>(done => server.listen(0, '127.0.0.1', done));
-  const address = server.address();
-  if (!address || typeof address === 'string') throw new Error('No test server address');
-  origin = `http://127.0.0.1:${address.port}`;
+  server = await startUpgradeServer({ root: () => root, workerRevision: () => workerRevision });
+  server.retain(oldBuild);
+  origin = server.origin;
 });
-test.afterAll(async () => { await new Promise<void>(done => server.close(() => done())); });
+test.afterAll(async () => { await server.close(); });
 
 async function readSaved(page: Page) {
   return page.evaluate(async () => {
