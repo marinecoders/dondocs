@@ -14,6 +14,7 @@ import { buildBackup, restoreBackup } from '@/lib/backup';
 import { persistAttachment, loadAttachment } from '@/lib/attachments';
 import {
   idbGetAllDocuments,
+  idbPutDocument,
   idbDeleteDocument,
   idbGetAllAttachments,
   idbDeleteAttachment,
@@ -48,7 +49,7 @@ const session = (over: Partial<SerializedSession> = {}): SerializedSession => ({
   ...over,
 });
 
-function openDocumentFixture(id: string): void {
+async function openDocumentFixture(id: string): Promise<void> {
   const entry = useDocumentsStore.getState().docs[id];
   loadSharedSession(entry.session);
   const liveSession = getSerializedSession();
@@ -56,6 +57,7 @@ function openDocumentFixture(id: string): void {
     baseline: liveSession,
     docs: { ...state.docs, [id]: { ...entry, session: liveSession } },
   }));
+  await idbPutDocument({ id, meta: entry.meta, session: liveSession });
 }
 
 // A distinctive base64 "signature image" — the exact field silently lost before
@@ -132,7 +134,7 @@ describe('full-account backup round-trip (saves EVERYTHING)', () => {
     });
 
     // Match a real open editor: backup flushes pending edits before exporting.
-    openDocumentFixture('doc-1');
+    await openDocumentFixture('doc-1');
 
     // ── Build the backup, then confirm the bundle actually carries each store ──
     const json = await buildBackup();
@@ -228,7 +230,7 @@ describe('full-account backup round-trip (saves EVERYTHING)', () => {
         },
       },
     });
-    openDocumentFixture('doc-h');
+    await openDocumentFixture('doc-h');
     // Two version-history entries; the older one referenced snapRef's file.
     await idbAddSnapshot('doc-h', { ts: 100, session: session({ formData: { subject: 'EARLIER DRAFT' } }) });
     await idbAddSnapshot('doc-h', {

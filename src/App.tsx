@@ -1609,7 +1609,7 @@ ${texFiles['body.tex'] || '% No body content'}
       // Ctrl/Cmd + S shares the same manual checkpoint as Document actions.
       if (isMod && e.key === 's') {
         e.preventDefault();
-        saveCheckpoint();
+        void saveCheckpoint();
         return;
       }
 
@@ -1794,7 +1794,7 @@ ${texFiles['body.tex'] || '% No body content'}
           label: 'Save checkpoint',
           icon: Save,
           kbd: formatShortcut('mod S'),
-          onRun: () => { saveCheckpoint(); },
+          onRun: () => { void saveCheckpoint(); },
         },
         {
           id: 'batch-generate',

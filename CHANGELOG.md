@@ -5,6 +5,12 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.3.15] — 2026-11-08
+
+### Fixed
+
+- Acknowledge saves only after their revision commits.
+
 ## [1.3.14] — 2026-11-08
 
 ### Changed

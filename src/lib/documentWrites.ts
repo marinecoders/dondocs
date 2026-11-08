@@ -70,6 +70,11 @@ export class DocumentWrites {
   }
 
   has(id: string): boolean { return this.pending.has(id); }
+  /** Verification of an unchanged record does not create edits to recover. */
+  hasChanges(id: string): boolean {
+    const pending = this.pending.get(id);
+    return !!pending && pending.versions.some(document => JSON.stringify(document) !== JSON.stringify(pending.before));
+  }
   failure(id: string): DocumentWriteOutcome | undefined { return this.failures.get(id); }
 
   latest(): StoredDocument[] { return [...this.pending.values()].map(item => structuredClone(item.versions.at(-1)!)); }
@@ -160,15 +165,25 @@ export class DocumentWrites {
 
   async flush(id?: string): Promise<boolean> {
     for (const documentId of id === undefined ? this.pending.keys() : [id]) this.retry(documentId);
-    const running = id === undefined ? [...this.running.values()] : [this.running.get(id)];
-    try { await waitForStorage(Promise.all(running)); }
+    const settle = async (): Promise<boolean> => {
+      for (;;) {
+        // Keep cancelled writers for serialization, but wait only for revisions
+        // still owned by the queue, including successors of a cancelled writer.
+        const ids = id === undefined ? [...this.pending.keys()] : this.pending.has(id) ? [id] : [];
+        if (!ids.length) return true;
+        await Promise.all(ids.map(documentId => this.running.get(documentId)));
+        const remaining = id === undefined ? [...this.pending.keys()] : this.pending.has(id) ? [id] : [];
+        if (remaining.some(documentId => this.failures.has(documentId))) return false;
+      }
+    };
+    try { return await waitForStorage(settle()); }
     catch { return false; }
-    return id === undefined ? this.pending.size === 0 : !this.pending.has(id);
   }
 
   private persistJournal(): void {
     try {
-      if (this.pending.size) sessionStorage.setItem(WRITE_JOURNAL_KEY, JSON.stringify([...this.pending.values()]));
+      const edits = [...this.pending.entries()].filter(([id]) => this.hasChanges(id)).map(([, pending]) => pending);
+      if (edits.length) sessionStorage.setItem(WRITE_JOURNAL_KEY, JSON.stringify(edits));
       else sessionStorage.removeItem(WRITE_JOURNAL_KEY);
       this.journalAvailable = true;
     } catch {

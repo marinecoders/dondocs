@@ -162,3 +162,58 @@ it('flushes one document independently of an unrelated failed revision', async (
   expect(queue.failure('b')).toBe('conflict');
   expect(await queue.flush()).toBe(false);
 });
+
+it('journals edits while excluding verification-only transactions from reload recovery', async () => {
+  const complete: Array<(outcome: DocumentWriteOutcome) => void> = [];
+  const queue = new DocumentWrites(() => new Promise(resolve => { complete.push(resolve); }));
+  const original = doc('existing');
+  queue.enqueue(original, original);
+  expect(queue.has('a')).toBe(true);
+  expect(queue.hasChanges('a')).toBe(false);
+  expect(sessionStorage.getItem(WRITE_JOURNAL_KEY)).toBeNull();
+  queue.enqueue(original, doc('local edit'));
+  expect(queue.hasChanges('a')).toBe(true);
+  expect(sessionStorage.getItem(WRITE_JOURNAL_KEY)).toContain('local edit');
+  complete[0]('already-committed');
+  await Promise.resolve();
+  complete[1]('committed');
+  expect(await queue.flush()).toBe(true);
+  expect(queue.hasChanges('a')).toBe(false);
+});
+
+it('retains an in-flight edit even when the newest queued snapshot reverts it', async () => {
+  let finish!: (outcome: DocumentWriteOutcome) => void;
+  const queue = new DocumentWrites(() => new Promise(resolve => { finish = resolve; }));
+  const original = doc('existing');
+  queue.enqueue(original, doc('in flight edit'));
+  queue.enqueue(original, original);
+  expect(queue.hasChanges('a')).toBe(true);
+  expect(sessionStorage.getItem(WRITE_JOURNAL_KEY)).toContain('in flight edit');
+  queue.cancel('a');
+  finish('committed');
+  expect(await queue.flush()).toBe(true);
+});
+
+it('releases a cancelled verification without overlapping a later write to the same document', async () => {
+  const complete: Array<(outcome: DocumentWriteOutcome) => void> = [];
+  const write = vi.fn()
+    .mockImplementation(() => new Promise<DocumentWriteOutcome>(resolve => { complete.push(resolve); }));
+  const queue = new DocumentWrites(write);
+  const original = doc('existing');
+  queue.enqueue(original, original);
+  queue.cancel('a');
+  expect(await queue.flush()).toBe(true);
+  expect(await queue.flush('a')).toBe(true);
+  queue.enqueue(original, doc('later edit'));
+  expect(write).toHaveBeenCalledTimes(1);
+  let settled = false;
+  const flushing = queue.flush().then(result => { settled = true; return result; });
+  complete[0]('already-committed');
+  // Hand the next revision to the same writer while flush is already waiting.
+  await new Promise<void>(resolve => setImmediate(resolve));
+  expect(write).toHaveBeenCalledTimes(2);
+  try { expect(settled).toBe(false); }
+  finally { complete[1]('committed'); }
+  expect(await flushing).toBe(true);
+  expect(queue.latestReceipt('a')).toBeDefined();
+});
