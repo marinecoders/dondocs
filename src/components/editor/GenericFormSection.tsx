@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { runFileImport } from '@/lib/fileImports';
 import { useFormResource } from '@/services/formRegistry';
 import { useDocumentStore } from '@/stores/documentStore';
 import { useDocumentsStore } from '@/stores/documentsStore';
@@ -60,7 +61,7 @@ function FormInstanceEditor({ instance, currentId }: { instance: FormInstance; c
   };
   const issues = validateAnswers(definition, instance.answers, instance.rows, validationVisible);
 
-  const applyRevision = async (file: File) => {
+  const applyRevision = (file: File) => runFileImport(async () => {
     setError('');
     try {
       const update = JSON.parse(await file.text());
@@ -75,7 +76,7 @@ function FormInstanceEditor({ instance, currentId }: { instance: FormInstance; c
       if (!stillCurrent()) throw new Error('The form changed before the update was applied. Select the update again.');
       importForm(next);
     } catch (error) { reportError(error); }
-  };
+  });
 
   const saveOffline = async () => {
     setError('');

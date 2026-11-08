@@ -45,23 +45,38 @@ export interface AttachmentMeta {
   size: number;
   type: string;
 }
+const pending = new Set<Promise<unknown>>();
+const failed = new Map<string, StoredAttachment>();
 
 /**
  * Store `data` under a fresh id and return the reference to persist in the
- * enclosure. On a failed write it still returns a ref (so the in-memory file
- * keeps working this session) — the enclosure just won't survive a reload.
+ * enclosure. Failed writes retain the bytes for this session; the update
+ * barrier retries them before allowing navigation.
  */
 export async function persistAttachment(meta: AttachmentMeta, data: ArrayBuffer): Promise<FileRef> {
   const id = newAttachmentId();
   const rec: StoredAttachment = { id, name: meta.name, type: meta.type, size: meta.size, data };
-  await idbPutAttachment(rec);
+  const write = idbPutAttachment(rec);
+  pending.add(write);
+  try { if (!await write) failed.set(id, rec); }
+  finally { pending.delete(write); }
   return { id, name: meta.name, size: meta.size, type: meta.type };
 }
 
 /** Load an attachment's bytes by id; null if missing or unreadable. */
 export async function loadAttachment(id: string): Promise<ArrayBuffer | null> {
+  if (failed.has(id)) return failed.get(id)!.data;
   const rec = await idbGetAttachment(id);
   return rec?.data ?? null;
+}
+
+/** Retry retained attachment bytes and wait for in-flight transactions before navigation. */
+export async function flushAttachmentWrites(): Promise<void> {
+  await Promise.all([...pending]);
+  for (const [id, record] of failed) {
+    if (!await idbPutAttachment(record)) throw new Error('An attachment could not be saved. Keep this tab open and retry updating.');
+    failed.delete(id);
+  }
 }
 
 /** All stored attachments; null when the read failed (distinct from empty). */

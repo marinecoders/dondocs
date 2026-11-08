@@ -196,7 +196,13 @@ export function classifyBackup(json: string): { kind: string; parsed: Record<str
 // ---------------------------------------------------------------------------
 
 /** Serialize the entire account to a single JSON backup string. */
+let backupExports = 0;
+export function isBackupExportInProgress(): boolean { return backupExports > 0; }
 export async function buildBackup(): Promise<string> {
+  backupExports++;
+  try { return await serializeBackup(); } finally { backupExports--; }
+}
+async function serializeBackup(): Promise<string> {
   // Reuse the document exporter — it throws if the registry is unreadable, so
   // a broken DB can't produce a half-empty backup that looks complete.
   const libraryJson = await exportLibrary();
@@ -274,6 +280,11 @@ export async function restoreBackup(json: string): Promise<RestoreResult> {
   } finally {
     restoresInProgress--;
   }
+}
+
+export async function restoreBackupFile(file: Blob): Promise<RestoreResult> {
+  restoresInProgress++;
+  try { return await restoreBackup(await file.text()); } finally { restoresInProgress--; }
 }
 
 async function runRestore(json: string): Promise<RestoreResult> {

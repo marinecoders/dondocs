@@ -56,7 +56,13 @@ export function parseDraftFile(value: unknown, localHandles = false): ReviewedDr
 }
 
 /** A portable copy of only the active document, including binary attachments. */
+let draftExports = 0;
+export function isDraftExportInProgress(): boolean { return draftExports > 0; }
 export async function buildDraftFile(): Promise<unknown> {
+  draftExports++;
+  try { return await serializeDraft(); } finally { draftExports--; }
+}
+async function serializeDraft(): Promise<unknown> {
   const session = getSerializedSession();
   const live = useDocumentStore.getState();
   const pack = async (file?: Enclosure['file'], fileRef?: FileRef): Promise<InlineFile | undefined> => {

@@ -125,7 +125,7 @@ self.addEventListener('fetch', event => {
   if (event.request.mode === 'navigate' && (['/', '/index.html'].includes(url.pathname) || /^\/releases\/[^/]+\/index.html$/.test(url.pathname))) {
     event.respondWith((async () => {
       try {
-        const id = url.searchParams.get('appRelease') || url.pathname.match(/^\/releases\/([^/]+)\/index.html$/)?.[1];
+        const id = url.pathname.match(/^\/releases\/([^/]+)\/index.html$/)?.[1] || url.searchParams.get('appRelease');
         let manifest: ReleaseManifest;
         if (id) { manifest = await readManifest(releaseId.parse(id)); await prepare(manifest); }
         else {

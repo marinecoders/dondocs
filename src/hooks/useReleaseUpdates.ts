@@ -1,7 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { releaseManifest, type ReleaseManifest } from '@/lib/releases';
 import { activeReleaseWorker, requestReleaseWorker } from '@/lib/releaseClient';
-import { flushDocumentWrites } from '@/stores/documentsStore';
+import { prepareUpdateCheckpoint, verifyUpdateCheckpoint } from '@/lib/updateCheckpoint';
+import { readUpdateRestore, clearUpdateRestore } from '@/lib/updateRestore';
 import { showAppAlert } from '@/stores/alertStore';
 
 export function useReleaseUpdates() {
@@ -11,13 +12,14 @@ export function useReleaseUpdates() {
   const offered = useRef<ReleaseManifest | null>(null);
   const worker = useRef<ServiceWorker | null>(null);
   const updating = useRef(false);
+  const [isUpdating, setIsUpdating] = useState(false);
 
   useEffect(() => {
     if (!('serviceWorker' in navigator)) return;
     let disposed = false, checking = false, requested = false;
     let registration: ServiceWorkerRegistration | undefined;
     const identify = (event: MessageEvent) => {
-      if (event.data?.type === 'DD_CLIENT_PROTOCOL') event.ports[0]?.postMessage({ protocol: 1, releases: [...new Set([__RELEASE_ID__, offered.current?.id].filter(Boolean))] });
+      if (event.data?.type === 'DD_CLIENT_PROTOCOL') event.ports[0]?.postMessage({ protocol: 1, releases: [...new Set([__RELEASE_ID__, offered.current?.id, readUpdateRestore()?.previous].filter(Boolean))] });
     };
     navigator.serviceWorker.addEventListener('message', identify);
     const check = async () => {
@@ -61,13 +63,19 @@ export function useReleaseUpdates() {
   const confirmUpdate = useCallback(() => {
     const target = offered.current, active = worker.current;
     if (!target || !active || updating.current) return;
-    updating.current = true; setShowUpdatePrompt(false);
+    updating.current = true; setIsUpdating(true); setShowUpdatePrompt(false);
     void (async () => {
-      await flushDocumentWrites();
+      const point = await prepareUpdateCheckpoint(target.id, __RELEASE_ID__);
+      await requestReleaseWorker(active, { type: 'PREPARE_RELEASE', id: target.id });
       const result = await requestReleaseWorker<{ ready: boolean }>(active, { type: 'IS_RELEASE_READY', id: target.id });
       if (!result.ready) throw new Error('The update is no longer ready. Reconnect and retry.');
+      await verifyUpdateCheckpoint(point);
       window.location.assign(target.entry + window.location.search + window.location.hash);
-    })().catch(error => { updating.current = false; showAppAlert({ title: 'Update paused', message: error instanceof Error ? error.message : String(error) }); });
+    })().catch(error => {
+      updating.current = false; setIsUpdating(false);
+      try { clearUpdateRestore(); } catch { /* A failed checkpoint never causes navigation. */ }
+      showAppAlert({ title: 'Update paused', message: error instanceof Error ? error.message : String(error) });
+    });
   }, []);
-  return { updateAvailable: available !== null, promptUpdate, showUpdatePrompt, confirmUpdate, dismissUpdatePrompt, offlineReady };
+  return { updateAvailable: available !== null, promptUpdate, showUpdatePrompt, confirmUpdate, dismissUpdatePrompt, offlineReady, updating: isUpdating };
 }

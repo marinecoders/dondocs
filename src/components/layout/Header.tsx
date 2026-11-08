@@ -1,4 +1,5 @@
 import { saveCheckpoint } from '@/lib/saveCheckpoint';
+import { runFileImport } from '@/lib/fileImports';
 import { DraftIdentity } from './DraftIdentity';
 import { DocumentNavigation } from './DocumentNavigation';
 import { DocumentTypeSelector } from '@/components/editor/DocumentTypeSelector';
@@ -258,7 +259,7 @@ export function Header({
     event.target.value = '';
     if (!file) return;
     try {
-      setReviewedDraft(parseDraftFile(JSON.parse(await file.text())));
+      await runFileImport(async () => setReviewedDraft(parseDraftFile(JSON.parse(await file.text()))));
       setDraftError('');
     } catch {
       showAppAlert({ title: 'Could not import draft', message: 'This file is not a valid DonDocs draft. Choose a JSON draft exported by DonDocs. Nothing was changed.' });
