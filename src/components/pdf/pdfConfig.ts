@@ -1,4 +1,5 @@
 import { pdfjs } from 'react-pdf';
+import { RUNTIME_BASE } from '@/lib/releasePaths';
 
 /**
  * Single source of pdf.js configuration for every preview surface (desktop
@@ -12,7 +13,7 @@ import { pdfjs } from 'react-pdf';
  * serve returning users a stale worker against a newer API — the classic
  * "worker version does not match the API" failure.
  */
-pdfjs.GlobalWorkerOptions.workerSrc = `${import.meta.env.BASE_URL}lib/pdf.worker.min.mjs?v=${pdfjs.version}`;
+pdfjs.GlobalWorkerOptions.workerSrc = `${RUNTIME_BASE}lib/pdf.worker.min.mjs?v=${pdfjs.version}`;
 
 /**
  * CVE-2024-4367 hardening: pdf.js's optional eval-based font glyph renderer

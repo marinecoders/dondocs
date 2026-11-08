@@ -39,7 +39,7 @@ export function useFormCatalogStatus() {
 
 export function loadConfigFormEntries(): Promise<ConfigFormEntry[]> {
   if (!entriesPromise) publish({ ...catalogState, status: 'loading' });
-  entriesPromise ??= fetch('/templates/index.json')
+  entriesPromise ??= fetch(`${import.meta.env.BASE_URL}templates/index.json`)
     .then((res) => {
       if (!res.ok) throw new Error(`templates index: ${res.status}`);
       return res.json();

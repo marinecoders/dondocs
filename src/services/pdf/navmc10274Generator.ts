@@ -698,7 +698,7 @@ export async function loadNavmc10274Templates(): Promise<{
   page2: ArrayBuffer;
   page3: ArrayBuffer;
 }> {
-  const baseUrl = '/templates/NAVMC10274 - Administrative Action';
+  const baseUrl = `${import.meta.env.BASE_URL}templates/NAVMC10274 - Administrative Action`;
   const [page1, page2, page3] = await Promise.all([
     fetch(`${baseUrl}/page1.pdf`).then(r => r.arrayBuffer()),
     fetch(`${baseUrl}/page2.pdf`).then(r => r.arrayBuffer()),

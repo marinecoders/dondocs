@@ -1,4 +1,5 @@
 import { idbFormDefinitions } from '@/lib/documentsDb';
+import { formAssetUrl } from '@/lib/releasePaths';
 import { PDFDocument } from 'pdf-lib';
 import { adaptLegacyForm, compileFormDefinition, type FormDefinition } from './model';
 import type { FormConfig } from '@/types/formConfig';
@@ -19,7 +20,7 @@ export async function digest(bytes: Uint8Array): Promise<string> {
   return Array.from(new Uint8Array(hash), b => b.toString(16).padStart(2, '0')).join('');
 }
 const keyFor = (hash: string) => `/__form_assets/${hash}.pdf`;
-const urlFor = (directory: string, file: string) => `/templates/${directory.split('/').map(encodeURIComponent).join('/')}/${encodeURIComponent(file)}`;
+const urlFor = formAssetUrl;
 
 async function pageDimensionsMatch(bytes: Uint8Array, page: FormDefinition['pages'][number]): Promise<boolean> {
   const pdf = await PDFDocument.load(bytes);

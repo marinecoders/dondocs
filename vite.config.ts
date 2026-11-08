@@ -5,7 +5,8 @@ import { VitePWA } from 'vite-plugin-pwa'
 import path from 'path'
 import fs from 'fs'
 import { execSync } from 'child_process'
-import { createHash } from 'node:crypto'
+import { createHash, randomUUID } from 'node:crypto'
+import { runtimeRevision } from './scripts/release-artifact.mjs'
 import type { Plugin } from 'vite'
 import { LICENSE_BANNER, licenseNotices } from './scripts/license-notices.ts'
 
@@ -29,6 +30,10 @@ const GIT_SHA = (() => {
   }
 })();
 const BUILD_TIME = new Date().toISOString();
+const RELEASE_BUILD = process.env.DONDOCS_RELEASE_BUILD === '1';
+const RELEASE_ID = RELEASE_BUILD ? process.env.DONDOCS_RELEASE_ID || randomUUID().replaceAll('-', '') : '';
+if (RELEASE_BUILD && !/^[a-z0-9][a-z0-9-]{0,63}$/.test(RELEASE_ID)) throw new Error('Invalid release identity');
+const RUNTIME_REVISION = RELEASE_BUILD ? await runtimeRevision(path.resolve(__dirname, 'public')) : '';
 // A template change must also change its CacheFirst URL, including for clients
 // still controlled by an older service worker. `rev` is deliberately distinct
 // from `v`, which older precache routes ignore.
@@ -62,8 +67,15 @@ function versionMetaPlugin(): Plugin {
         `<meta name="dondocs-version" content="${APP_VERSION}" />`,
         `<meta name="dondocs-sha" content="${GIT_SHA}" />`,
         `<meta name="dondocs-build-time" content="${BUILD_TIME}" />`,
+        ...(RELEASE_BUILD ? [`<meta name="dondocs-release" content="${RELEASE_ID}" />`] : []),
       ].join('\n    ');
-      return html.replace('</head>', `    ${metaTags}\n  </head>`);
+      const shell = RELEASE_BUILD ? html.replace(/<script id="boot-watchdog">[\s\S]*?<\/script>/, '') : html;
+      return shell.replace('</head>', `    ${metaTags}\n  </head>`);
+    },
+    generateBundle() {
+      if (RELEASE_BUILD) this.emitFile({ type: 'asset', fileName: '.release-build.json', source: JSON.stringify({
+        id: RELEASE_ID, runtime: RUNTIME_REVISION, version: APP_VERSION, createdAt: BUILD_TIME,
+      }) });
     },
   };
 }
@@ -222,6 +234,8 @@ export default defineConfig({
     __GIT_SHA__: JSON.stringify(GIT_SHA),
     __BUILD_TIME__: JSON.stringify(BUILD_TIME),
     __LATEX_TEMPLATES_REVISION__: JSON.stringify(LATEX_TEMPLATES_REVISION),
+    __RUNTIME_BASE__: JSON.stringify(RELEASE_BUILD ? `/runtimes/${RUNTIME_REVISION}/` : ''),
+    __RELEASE_ID__: JSON.stringify(RELEASE_ID),
   },
   plugins: [
     react(),
@@ -251,6 +265,7 @@ export default defineConfig({
       },
     },
     VitePWA({
+      ...(RELEASE_BUILD ? { base: '/', scope: '/' } : {}),
       registerType: 'prompt',
       // SW-1: do NOT precache lib/**/* — that injected the entire engine tree
       // (TeX packages, fonts, pandoc.wasm; ~36 MB deployed) into the precache
@@ -518,7 +533,7 @@ export default defineConfig({
       },
     }),
   ],
-  base: '/',
+  base: RELEASE_BUILD ? `/releases/${RELEASE_ID}/` : '/',
   server: {
     // Allow ngrok and other tunnel services
     host: true,
