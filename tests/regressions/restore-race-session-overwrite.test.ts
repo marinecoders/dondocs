@@ -1,3 +1,4 @@
+import { useDocumentsStore } from '@/stores/documentsStore';
 /**
  * Regression (audit C-10): mount-time store writes (profile letterhead
  * sync, defaults) triggered the 2s-debounced session autosave, which
@@ -18,6 +19,7 @@ const KEY = 'dondocs-document-session';
 
 describe('restore race: session saves suspended while prompt pending (C-10)', () => {
   beforeEach(() => {
+    useDocumentsStore.getState().newDocument();
     localStorage.clear();
     resumeSessionSaves();
     vi.useFakeTimers();

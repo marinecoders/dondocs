@@ -16,8 +16,9 @@ import {
   isApplyingSession,
   observeSessionReplacement,
   isApplyingAssets,
+  areSessionSavesSuspended,
+  saveSessionToStorage,
   replaceSessionState,
-  resetDocumentHistory,
   clearSavedSession,
   type SerializedSession,
   type DocumentState,
@@ -43,6 +44,8 @@ import {
 import { useFormStore, loadFormSession, serializeForm, FORMS_PERSIST_KEY } from './formStore';
 import { scheduleBackup } from './backupStore';
 import { debug } from '@/lib/debug';
+import { TIMING } from '@/lib/constants';
+import { useHistoryStore } from './historyStore';
 
 /**
  * Multi-document registry behind the Recents list. Each document is a
@@ -767,25 +770,27 @@ function reopenAfterRemoval(
   // a crash recovery can't hand back a document the user just deleted.
   clearSavedSession();
   const newest = Object.values(remaining).sort((a, b) => b.meta.updatedAt - a.meta.updatedAt)[0];
-  if (newest && tryLoadSavedSession(newest.session)) {
-    set({ ...activation(newest.meta.id), baseline: newest.session });
-    persistCurrentId(newest.meta.id);
-    applyProfileSignature();
-    useUIStore.getState().setLastSavedAt(newest.meta.updatedAt);
-  } else {
-    const fresh = newId();
-    set({ ...activation(fresh) });
-    persistCurrentId(fresh);
-    const ds = useDocumentStore.getState();
-    replaceSessionState(() => {
-      ds.setDocumentCategory('correspondence');
-      ds.resetForm();
-      applySelectedProfile();
-    });
-    markBaseline();
-    useUIStore.getState().setLastSavedAt(null);
-  }
-  useUIStore.getState().setValidationVisible(false);
+  replaceSessionState(() => {
+    if (newest && tryLoadSavedSession(newest.session)) {
+      set({ ...activation(newest.meta.id), baseline: newest.session });
+      persistCurrentId(newest.meta.id);
+      applyProfileSignature();
+      useUIStore.getState().setLastSavedAt(newest.meta.updatedAt);
+    } else {
+      const fresh = newId();
+      set({ ...activation(fresh) });
+      persistCurrentId(fresh);
+      const ds = useDocumentStore.getState();
+      replaceSessionState(() => {
+        ds.setDocumentCategory('correspondence');
+        ds.resetForm();
+        applySelectedProfile();
+      });
+      markBaseline();
+      useUIStore.getState().setLastSavedAt(null);
+    }
+    useUIStore.getState().setValidationVisible(false);
+  });
 }
 
 // Version-history snapshots: throttle autosave snapshots to one per document per
@@ -891,6 +896,7 @@ export const useDocumentsStore = create<DocumentsState>((set, get) => ({
   markBaseline: () => {
     const session = getSerializedSession();
     set({ baseline: session });
+    resetScopedHistory();
   },
 
   init: () => {
@@ -902,7 +908,9 @@ export const useDocumentsStore = create<DocumentsState>((set, get) => ({
     // Without locks support, behavior is unchanged (single-tab is unaffected).
     const run = async (): Promise<boolean> => {
       await ensureHydrated(set, get);
-      return initAfterHydration(set, get);
+      let resumed = false;
+      replaceSessionState(() => { resumed = initAfterHydration(set, get); });
+      return resumed;
     };
     initPromise = (typeof navigator !== 'undefined' && navigator.locks?.request
       ? navigator.locks.request('dondocs-init', run)
@@ -982,16 +990,16 @@ export const useDocumentsStore = create<DocumentsState>((set, get) => ({
   newDocument: (formType) => {
     get().syncCurrent(); // preserve the document being left
     const id = newId();
-    set({ ...activation(id) });
-    persistCurrentId(id);
     const ds = useDocumentStore.getState();
     replaceSessionState(() => {
-    ds.resetForm();
-    ds.setDocumentCategory(formType ? 'forms' : 'correspondence');
-    if (formType) {
-      ds.setFormType(formType);
-      if (formType === 'navmc_10274' || formType === 'navmc_118_11') loadFormSession(formType);
-    } else applySelectedProfile();
+      set({ ...activation(id) });
+      persistCurrentId(id);
+      ds.resetForm();
+      ds.setDocumentCategory(formType ? 'forms' : 'correspondence');
+      if (formType) {
+        ds.setFormType(formType);
+        if (formType === 'navmc_10274' || formType === 'navmc_118_11') loadFormSession(formType);
+      } else applySelectedProfile();
     });
     get().markBaseline();
     useUIStore.getState().setLastSavedAt(null); // brand-new doc isn't saved yet
@@ -1020,10 +1028,15 @@ export const useDocumentsStore = create<DocumentsState>((set, get) => ({
       && current.formType === entry.session.formType
       && Boolean(current.genericForm) === Boolean(entry.session.genericForm)) return;
     get().syncCurrent(); // preserve the document being left
-    if (!tryLoadSavedSession(entry.session)) return;
-    set({ ...activation(id), baseline: entry.session });
-    persistCurrentId(id);
-    applyProfileSignature();
+    let loaded = false;
+    replaceSessionState(() => {
+      loaded = tryLoadSavedSession(entry.session);
+      if (!loaded) return;
+      set({ ...activation(id), baseline: entry.session });
+      persistCurrentId(id);
+      applyProfileSignature();
+    });
+    if (!loaded) return;
     useUIStore.getState().setValidationVisible(false);
     // Point the "Saved" indicator at THIS doc's last save, not the one we left.
     useUIStore.getState().setLastSavedAt(entry.meta.updatedAt);
@@ -1068,8 +1081,7 @@ export const useDocumentsStore = create<DocumentsState>((set, get) => ({
 
   openLoadedAsNew: () => {
     const id = newId();
-    set({ ...activation(id) });
-    resetDocumentHistory();
+    replaceSessionState(() => set({ ...activation(id) }));
     persistCurrentId(id);
     get().markBaseline();
     get().saveCurrent(); // force the loaded draft into Recents as its own entry
@@ -1172,30 +1184,122 @@ export const useDocumentsStore = create<DocumentsState>((set, get) => ({
 }));
 
 function advanceActivation(): void {
+  cancelPendingEditorWork();
   useDocumentsStore.setState(state => ({ activationEpoch: state.activationEpoch + 1 }));
 }
-observeSessionReplacement(advanceActivation);
+observeSessionReplacement(phase => {
+  if (phase === 'before') advanceActivation();
+  else {
+    resetScopedHistory();
+    scheduleRecovery();
+  }
+});
 
-// Snapshot the live document into the registry shortly after edits settle.
-// Subscribing here (rather than documentStore calling us) keeps the dependency
-// one-directional. loadSharedSession/resetForm also fire this, but sameContent()
-// makes those a no-op.
+/** Record and apply history through the active workspace owner. */
+export function recordDocumentHistory(scope: DocumentScope | null): boolean {
+  if (!isCurrentDocumentScope(scope)) return false;
+  const history = useHistoryStore.getState();
+  if (!history.owner || history.owner.documentId !== scope.documentId || history.owner.epoch !== scope.epoch) return false;
+  history.saveSnapshot(useDocumentStore.getState().getSnapshot(), scope);
+  return true;
+}
+
+export function changeDocumentHistory(direction: 'undo' | 'redo', scope: DocumentScope | null): TransitionOutcome {
+  if (!isCurrentDocumentScope(scope)) return 'stale';
+  const history = useHistoryStore.getState();
+  if (!history.owner || history.owner.documentId !== scope.documentId || history.owner.epoch !== scope.epoch) return 'stale';
+  const selected = direction === 'undo' ? history.past.at(-1) : history.future[0];
+  for (const entry of [history.currentSnapshot, selected]) {
+    if (entry && (!entry.owner || entry.owner.documentId !== scope.documentId || entry.owner.epoch !== scope.epoch)) return 'stale';
+  }
+  // Include the last keystroke even when its debounced capture has not fired.
+  recordDocumentHistory(scope);
+  const snapshot = useHistoryStore.getState()[direction](scope);
+  if (!snapshot) return 'unchanged';
+  useDocumentStore.getState().applySnapshot(snapshot);
+  return 'applied';
+}
+
+let historyTimer: ReturnType<typeof setTimeout> | null = null;
 let syncTimer: ReturnType<typeof setTimeout> | null = null;
-const scheduleSync = () => {
+let recoveryTimer: ReturnType<typeof setTimeout> | null = null;
+let pendingRecovery: DocumentScope | null = null;
+let historyGeneration = 0;
+let syncGeneration = 0;
+let recoveryGeneration = 0;
+
+function cancelPendingEditorWork(): void {
+  historyGeneration++;
+  syncGeneration++;
+  recoveryGeneration++;
+  if (historyTimer) clearTimeout(historyTimer);
+  if (syncTimer) clearTimeout(syncTimer);
+  if (recoveryTimer) clearTimeout(recoveryTimer);
+  historyTimer = syncTimer = recoveryTimer = null;
+  pendingRecovery = null;
+}
+
+function resetScopedHistory(): void {
+  historyGeneration++;
+  if (historyTimer) clearTimeout(historyTimer);
+  historyTimer = null;
+  const scope = captureDocumentScope();
+  const history = useHistoryStore.getState();
+  history.bindOwner(scope);
+  history.saveSnapshot(useDocumentStore.getState().getSnapshot(), scope);
+}
+
+function scheduleRecovery(): void {
+  const generation = ++recoveryGeneration;
+  if (recoveryTimer) clearTimeout(recoveryTimer);
+  recoveryTimer = null;
+  pendingRecovery = null;
+  if (areSessionSavesSuspended()) return;
+  const scope = captureDocumentScope();
+  if (!scope) return;
+  pendingRecovery = scope;
+  recoveryTimer = setTimeout(() => {
+    if (generation !== recoveryGeneration || !isCurrentDocumentScope(scope)) return;
+    recoveryTimer = null;
+    pendingRecovery = null;
+    if (isCurrentDocumentScope(scope) && !areSessionSavesSuspended()) saveSessionToStorage(useDocumentStore.getState());
+  }, 2000);
+}
+
+function scheduleEditorWork(captureHistory = true): void {
   if (isApplyingSession()) return;
+  const scope = captureDocumentScope();
+  if (!scope) return;
+  if (!captureHistory) useHistoryStore.getState().updateAttachmentHandles(useDocumentStore.getState().getSnapshot(), scope);
+  if (captureHistory) {
+    const generation = ++historyGeneration;
+    if (historyTimer) clearTimeout(historyTimer);
+    historyTimer = setTimeout(() => {
+      if (generation !== historyGeneration || !isCurrentDocumentScope(scope)) return;
+      historyTimer = null;
+      recordDocumentHistory(scope);
+    }, TIMING.HISTORY_SNAPSHOT_DEBOUNCE);
+  }
+  scheduleRecovery();
   const registry = useDocumentsStore.getState();
-  const entry = registry.currentId ? registry.docs[registry.currentId] : undefined;
+  const entry = registry.docs[scope.documentId];
   const reference = entry?.session ?? registry.baseline;
   if (registry.hydrated && reference) {
     const live = getSerializedSession();
     const changed = entry ? !sameContent(reference, live) : hasContentDrift(reference, live);
     const ui = useUIStore.getState();
     if (changed) ui.setSaveStatus('pending');
-    else if (ui.saveStatus === 'pending' && !writes.has(registry.currentId!)) ui.setLastSavedAt(entry?.meta.updatedAt ?? null);
+    else if (ui.saveStatus === 'pending' && !writes.has(scope.documentId)) ui.setLastSavedAt(entry?.meta.updatedAt ?? null);
   }
+  const generation = ++syncGeneration;
   if (syncTimer) clearTimeout(syncTimer);
-  syncTimer = setTimeout(() => useDocumentsStore.getState().syncCurrent(), 1500);
-};
+  syncTimer = setTimeout(() => {
+    if (generation !== syncGeneration || !isCurrentDocumentScope(scope)) return;
+    syncTimer = null;
+    useDocumentsStore.getState().syncCurrent();
+  }, 1500);
+}
+
 useDocumentStore.subscribe((state, prev) => {
   if (isApplyingSession()) return;
   if (!isApplyingAssets() && (!sameContent(serializeSession(state), serializeSession(prev))
@@ -1203,37 +1307,34 @@ useDocumentStore.subscribe((state, prev) => {
     || state.enclosures.some((enclosure, index) => enclosure.file !== prev.enclosures[index]?.file))) editSequence++;
   if (prev.documentCategory !== state.documentCategory || prev.formType !== state.formType) {
     useDocumentsStore.getState().syncCurrent(prev);
-    // Direct legacy callers may switch kind without using workspace navigation.
-    // Detach from the previous record before editing the next kind.
-    const id = newId();
-    useDocumentsStore.setState({ ...activation(id), baseline: serializeSession(state) });
+    // Compatibility for direct category setters until their callers migrate.
+    replaceSessionState(() => useDocumentsStore.setState({ ...activation(newId()), baseline: serializeSession(state) }));
   }
-  scheduleSync();
+  scheduleEditorWork(!isApplyingAssets());
 });
 useFormStore.subscribe((state, previous) => {
   const document = useDocumentStore.getState();
   if (isApplyingSession() || document.documentCategory !== 'forms' || document.genericForm) return;
   if (state.includeCoverPage !== previous.includeCoverPage
     || (document.formType === 'navmc_118_11' ? state.navmc11811 !== previous.navmc11811 : state.navmc10274 !== previous.navmc10274)) editSequence++;
-  scheduleSync();
+  scheduleEditorWork();
 });
 
-// Flush the pending registry sync when the page is hidden so the last edits
-// reach IndexedDB before the user leaves. visibilitychange keeps the page alive
-// so the async IDB transaction can commit; pagehide may abort it mid-flight.
+function flushOnLeave(): void {
+  if (isApplyingSession()) return;
+  const scope = captureDocumentScope();
+  if (!isCurrentDocumentScope(scope)) return;
+  syncGeneration++;
+  recoveryGeneration++;
+  if (syncTimer) clearTimeout(syncTimer);
+  syncTimer = null;
+  useDocumentsStore.getState().syncCurrent();
+  if (recoveryTimer) clearTimeout(recoveryTimer);
+  recoveryTimer = null;
+  if (isCurrentDocumentScope(pendingRecovery) && !areSessionSavesSuspended()) saveSessionToStorage(useDocumentStore.getState());
+  pendingRecovery = null;
+}
 if (typeof document !== 'undefined') {
-  const flushOnLeave = () => {
-    if (syncTimer) {
-      clearTimeout(syncTimer);
-      syncTimer = null;
-    }
-    useDocumentsStore.getState().syncCurrent();
-  };
-  // visibilitychange keeps the page alive so the async IDB txn can commit; it's
-  // the primary flush. pagehide is the backstop for hard closes / navigations
-  // the former can miss (it fires when visibilitychange may not), so the last
-  // ~1.5s of edits still reach Recents. syncCurrent() is idempotent (sameContent
-  // makes the second call a no-op), so firing both is safe.
   document.addEventListener('visibilitychange', () => {
     if (document.visibilityState === 'hidden') flushOnLeave();
   });
