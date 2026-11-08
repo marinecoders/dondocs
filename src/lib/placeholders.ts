@@ -19,7 +19,9 @@
  * `{{...}}` so users can see what's still unfilled.
  */
 
-import type { Navmc11811Data, NavmcForm10274Data } from '@/stores/formStore';
+import type { FormSession, Navmc11811Data, NavmcForm10274Data } from '@/stores/formStore';
+import type { SerializedSession } from '@/stores/documentStore';
+import { documentTextFields, mapSessionText } from './documentFields';
 
 /**
  * Map from placeholder name (uppercased, no braces) to its value.
@@ -121,50 +123,38 @@ export function applyPlaceholdersToNavmc11811(
   data: Navmc11811Data,
   values: PlaceholderValues
 ): Navmc11811Data {
-  return {
-    lastName: replacePlaceholders(data.lastName, values),
-    firstName: replacePlaceholders(data.firstName, values),
-    middleName: replacePlaceholders(data.middleName, values),
-    edipi: replacePlaceholders(data.edipi, values),
-    remarksText: replacePlaceholders(data.remarksText, values),
-    remarksTextRight: replacePlaceholders(data.remarksTextRight ?? '', values),
-    entryDate: replacePlaceholders(data.entryDate, values),
-    box11: replacePlaceholders(data.box11, values),
-    signatureBlocks: (data.signatureBlocks ?? []).map((block) => ({
-      ...block, // preserve style and image
-      statement: replacePlaceholders(block.statement, values),
-      name: replacePlaceholders(block.name, values),
-    })),
-  };
+  return substituteForm('navmc_118_11', {
+    includeCoverPage: false,
+    navmc11811: { ...data, remarksTextRight: data.remarksTextRight ?? '', signatureBlocks: data.signatureBlocks ?? [] },
+  }, values).navmc11811!;
 }
 
 /**
  * Apply placeholder substitution to every text field of an NavmcForm10274Data.
- * Mirrors the BatchModal-internal helper so both the batch and normal
- * paths share the same primitive.
+ * Uses the same editable-text policy as document and batch substitution.
  */
 export function applyPlaceholdersToNavmc10274(
   data: NavmcForm10274Data,
   values: PlaceholderValues
 ): NavmcForm10274Data {
-  return {
-    actionNo: replacePlaceholders(data.actionNo, values),
-    ssicFileNo: replacePlaceholders(data.ssicFileNo, values),
-    date: replacePlaceholders(data.date, values),
-    from: replacePlaceholders(data.from, values),
-    via: replacePlaceholders(data.via, values),
-    orgStation: replacePlaceholders(data.orgStation, values),
-    to: replacePlaceholders(data.to, values),
-    natureOfAction: replacePlaceholders(data.natureOfAction, values),
-    copyTo: replacePlaceholders(data.copyTo, values),
-    references: replacePlaceholders(data.references, values),
-    enclosures: replacePlaceholders(data.enclosures, values),
-    supplementalInfo: replacePlaceholders(data.supplementalInfo, values),
-    proposedAction: replacePlaceholders(data.proposedAction, values),
-    signatureBlocks: (data.signatureBlocks ?? []).map((block) => ({
-      ...block, // preserve `digital` and any future per-block flags
-      statement: replacePlaceholders(block.statement, values),
-      name: replacePlaceholders(block.name, values),
-    })),
-  };
+  return substituteForm('navmc_10274', {
+    includeCoverPage: false,
+    navmc10274: { ...data, signatureBlocks: data.signatureBlocks ?? [] },
+  }, values).navmc10274!;
+}
+
+/** Detection and replacement share the same editable-text policy. */
+export function detectSessionPlaceholders(session: SerializedSession): string[] {
+  return [...new Set(documentTextFields(session, 'substitution').flatMap(field => detectPlaceholders(field.text)))];
+}
+
+export function applyPlaceholdersToSession(session: SerializedSession, values: PlaceholderValues): SerializedSession {
+  return mapSessionText(session, field => replacePlaceholders(field.text, values));
+}
+
+function substituteForm(formType: 'navmc_10274' | 'navmc_118_11', forms: FormSession, values: PlaceholderValues): FormSession {
+  return applyPlaceholdersToSession({
+    documentMode: 'compliant', documentCategory: 'forms', docType: 'naval_letter', formType,
+    formData: {}, paragraphs: [], references: [], enclosures: [], copyTos: [], distributions: [], timestamp: 0, forms,
+  }, values).forms!;
 }

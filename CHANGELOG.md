@@ -5,6 +5,14 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.3.26] — 2026-11-08
+
+### Fixed
+
+- Share placeholder detection and substitution traversal.
+- Preserve form template errors until retry and ignore loads from a previous document.
+  Retry failed template requests once with a bounded timeout.
+
 ## [1.3.25] — 2026-11-08
 
 ### Fixed

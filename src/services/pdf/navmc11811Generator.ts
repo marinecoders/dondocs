@@ -1,3 +1,4 @@
+import { loadTemplatePage } from './loadTemplatePage';
 import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';
 import { wrapTextForForm } from './textWrap';
 
@@ -470,9 +471,5 @@ export async function computeNavmc11811Fit(data: Navmc11811Data): Promise<Navmc1
  * Load the NAVMC 118(11) template from the public folder
  */
 export async function loadNavmc11811Template(): Promise<ArrayBuffer> {
-  const response = await fetch(`${import.meta.env.BASE_URL}templates/NAVMC11811 - Administrative Remarks/page1.pdf`);
-  if (!response.ok) {
-    throw new Error('Failed to load NAVMC 118(11) template');
-  }
-  return response.arrayBuffer();
+  return loadTemplatePage(`${import.meta.env.BASE_URL}templates/NAVMC11811 - Administrative Remarks/page1.pdf`);
 }

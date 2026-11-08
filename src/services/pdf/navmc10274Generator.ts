@@ -1,3 +1,4 @@
+import { loadTemplatePage } from './loadTemplatePage';
 import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';
 import { wrapTextForForm } from './textWrap';
 
@@ -700,9 +701,9 @@ export async function loadNavmc10274Templates(): Promise<{
 }> {
   const baseUrl = `${import.meta.env.BASE_URL}templates/NAVMC10274 - Administrative Action`;
   const [page1, page2, page3] = await Promise.all([
-    fetch(`${baseUrl}/page1.pdf`).then(r => r.arrayBuffer()),
-    fetch(`${baseUrl}/page2.pdf`).then(r => r.arrayBuffer()),
-    fetch(`${baseUrl}/page3.pdf`).then(r => r.arrayBuffer()),
+    loadTemplatePage(`${baseUrl}/page1.pdf`),
+    loadTemplatePage(`${baseUrl}/page2.pdf`),
+    loadTemplatePage(`${baseUrl}/page3.pdf`),
   ]);
 
   return { page1, page2, page3 };

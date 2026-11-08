@@ -78,7 +78,7 @@ import { useBatchStore } from '@/stores/batchStore';
 import { useFormCatalog } from '@/services/formCatalog';
 import { diagnosticText } from '@/services/forms/model';
 import { renderForm } from '@/services/forms/render';
-import { useDocumentsStore, correspondenceFilename, openSessionAsNew, changeDocumentHistory, captureDocumentScope, hydrateDocumentAssets, newCorrespondenceDocument } from '@/stores/documentsStore';
+import { useDocumentsStore, correspondenceFilename, openSessionAsNew, changeDocumentHistory, captureDocumentScope, isCurrentDocumentScope, hydrateDocumentAssets, newCorrespondenceDocument } from '@/stores/documentsStore';
 import { useBackupStore } from '@/stores/backupStore';
 import { useEditorOutlineStore } from '@/stores/editorOutlineStore';
 import { useEditorSections } from '@/components/layout/editorSections';
@@ -200,6 +200,7 @@ function App() {
   const docType = useDocumentStore((s) => s.docType);
   const documentMode = useDocumentStore((s) => s.documentMode);
   const currentDocId = useDocumentsStore((s) => s.currentId);
+  const activationEpoch = useDocumentsStore((s) => s.activationEpoch);
   const formData = useDocumentStore((s) => s.formData);
   const references = useDocumentStore((s) => s.references);
   const enclosures = useDocumentStore((s) => s.enclosures);
@@ -707,23 +708,27 @@ function App() {
   }), [workspaceReady, isCompiling, documentCategory, formIsCompiling, downloadProgress]);
   useEffect(() => { if (workspaceReady && __RELEASE_ID__) finishUpdateRestore(); }, [workspaceReady]);
 
-  // Load form templates when entering forms mode
+  // Template results belong to the document activation that requested them.
   useEffect(() => {
-    if (documentCategory === 'forms') {
-      // Load NAVMC 10274 templates (3 pages)
-      if (formType === 'navmc_10274' && !navmc10274Templates) {
-        loadNavmc10274Templates()
-          .then(setNavmc10274Templates)
-          .catch(() => setFormError('Could not load the NAVMC 10274 template. Check your connection, then refresh the preview.'));
-      }
-      // Load NAVMC 118(11) template (1 page)
-      if (formType === 'navmc_118_11' && !navmc11811Template) {
-        loadNavmc11811Template()
-          .then(setNavmc11811Template)
-          .catch(() => setFormError('Could not load the NAVMC 118 (11) template. Check your connection, then refresh the preview.'));
-      }
+    if (!workspaceReady || documentCategory !== 'forms') return;
+    const scope = captureDocumentScope();
+    if (!scope || scope.documentId !== currentDocId || scope.epoch !== activationEpoch) return;
+    let cancelled = false;
+    const owns = () => !cancelled && isCurrentDocumentScope(scope)
+      && useDocumentStore.getState().documentCategory === 'forms'
+      && useDocumentStore.getState().formType === formType;
+    if (formType === 'navmc_10274' && !navmc10274Templates) {
+      void loadNavmc10274Templates()
+        .then(templates => { if (owns()) setNavmc10274Templates(templates); })
+        .catch(() => { if (owns()) setFormError('Could not load the NAVMC 10274 template. Check your connection, then refresh the preview.'); });
     }
-  }, [documentCategory, formType, navmc10274Templates, navmc11811Template, formRefresh]);
+    if (formType === 'navmc_118_11' && !navmc11811Template) {
+      void loadNavmc11811Template()
+        .then(template => { if (owns()) setNavmc11811Template(template); })
+        .catch(() => { if (owns()) setFormError('Could not load the NAVMC 118 (11) template. Check your connection, then refresh the preview.'); });
+    }
+    return () => { cancelled = true; };
+  }, [workspaceReady, currentDocId, activationEpoch, documentCategory, formType, navmc10274Templates, navmc11811Template, formRefresh]);
 
   // Generate form preview based on selected form type
   useEffect(() => {
@@ -733,6 +738,11 @@ function App() {
     if (formCompileTimeoutRef.current) {
       clearTimeout(formCompileTimeoutRef.current);
     }
+
+    // A pending or failed template load cannot start a preview. Keep its error
+    // until another owned load or a real generation attempt can replace it.
+    if (formType === 'navmc_10274' && !navmc10274Templates
+      || formType === 'navmc_118_11' && !navmc11811Template) return;
 
     formCompileTimeoutRef.current = setTimeout(async () => {
       try {
@@ -1986,7 +1996,7 @@ ${texFiles['body.tex'] || '% No body content'}
               onDownloadTex={handleDownloadTex}
               onDownloadDocx={handleDownloadDocx}
               onDownloadFlatTex={handleDownloadFlatTex}
-              onRefreshPreview={documentCategory === 'forms' ? () => setFormRefresh((n) => n + 1) : compilePdf}
+              onRefreshPreview={documentCategory === 'forms' ? () => { setFormError(null); setFormRefresh((n) => n + 1); } : compilePdf}
               isCompiling={previewBusy}
               isDocxGenerating={downloadProgress !== null && downloadProgress.kind.startsWith('docx-')}
               isPdfGenerating={downloadProgress !== null && downloadProgress.kind.startsWith('pdf-')}
