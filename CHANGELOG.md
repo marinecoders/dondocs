@@ -5,6 +5,12 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.3.16] — 2026-11-08
+
+### Fixed
+
+- Guard document lifecycle transactions against stale revisions.
+
 ## [1.3.15] — 2026-11-08
 
 ### Fixed

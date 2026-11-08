@@ -33,11 +33,9 @@ import { migratePortionMarkings } from '@/lib/paragraphUtils';
 import type { Profile } from '@/types/document';
 import {
   idbGetAllDocuments,
-  idbPutDocument,
   idbWriteDocument,
-  idbDeleteDocument,
+  idbDeleteDocumentIfUnchanged,
   idbAddSnapshot,
-  idbDeleteSnapshots,
   idbGetCurrentId,
   idbSetCurrentId,
   idbGetMigratedIds,
@@ -129,6 +127,15 @@ export function captureDocumentTarget(): DocumentTarget | null {
 
 export function isCurrentDocumentTarget(target: DocumentTarget | null): target is DocumentTarget {
   return !!target && issuedTargets.has(target) && isCurrentDocumentScope(target.scope) && target.editSequence === editSequence;
+}
+
+/** Stop this reviewed editor from saving itself again during crash recovery. */
+export function detachDocumentForRecovery(target: DocumentTarget | null): boolean {
+  if (target ? !isCurrentDocumentTarget(target) : useDocumentsStore.getState().currentId !== null) return false;
+  cancelPendingEditorWork();
+  useDocumentsStore.setState({ ...activation(null), baseline: null });
+  if (target) writes.cancel(target.scope.documentId);
+  return true;
 }
 
 function activation(currentId: string | null) {
@@ -770,7 +777,9 @@ export async function migrateLegacyRegistry(): Promise<void> {
     for (const [id, entry] of Object.entries(state.docs ?? {})) {
       if (!entry?.meta || !entry?.session) continue;
       if (inIdb.has(id) || ledger.has(id)) continue;
-      if (await idbPutDocument({ id, meta: entry.meta, session: entry.session })) {
+      const outcome = await idbWriteDocument(null, { id, meta: entry.meta, session: entry.session });
+      // A concurrent creator owns its existing record, as on the initial read.
+      if (outcome === 'committed' || outcome === 'already-committed' || outcome === 'conflict') {
         ledger.add(id);
       } else {
         allWritten = false;
@@ -818,7 +827,8 @@ async function migrateLegacyForms(): Promise<void> {
         documentCategory: 'forms' as const, formType, forms: serializeForm(formType),
         formData: {}, references: [], enclosures: [], paragraphs: [], copyTos: [], distributions: [],
       };
-      if (records.some((r) => r.id === id) || await idbPutDocument({ id, meta: metaFor(id, session), session })) {
+      const outcome = records.some(r => r.id === id) ? 'already-committed' : await idbWriteDocument(null, { id, meta: metaFor(id, session), session });
+      if (outcome === 'committed' || outcome === 'already-committed' || outcome === 'conflict') {
         ledger.add(id);
         if (lastSession?.documentCategory === 'forms' && lastSession.formType === formType) await idbSetCurrentId(id);
       } else complete = false;
@@ -946,8 +956,8 @@ function ensureHydrated(
         const paragraphs = migratePortionMarkings(r.session.paragraphs ?? []);
         if (paragraphs !== r.session.paragraphs) {
           const session = { ...r.session, paragraphs };
-          loaded[r.id] = { meta: r.meta, session };
-          void idbPutDocument({ id: r.id, meta: r.meta, session });
+          const outcome = await idbWriteDocument(r, { ...r, session });
+          loaded[r.id] = { meta: r.meta, session: outcome === 'committed' || outcome === 'already-committed' ? session : r.session };
         } else {
           loaded[r.id] = { meta: r.meta, session: r.session };
         }
@@ -974,6 +984,7 @@ function partitionDocuments(entries: Record<string, DocumentEntry>) {
 
 // The short Undo notification expires; the document and history do not.
 let purgeTimer: ReturnType<typeof setTimeout> | null = null;
+const deletingDocuments = new Set<string>();
 export function getPendingDeleteSessions(): SerializedSession[] {
   return Object.values(useDocumentsStore.getState().trash).map((e) => e.session);
 }
@@ -1237,6 +1248,7 @@ export const useDocumentsStore = create<DocumentsState>((set, get) => ({
   },
 
   restoreFromTrash: (id) => {
+    if (deletingDocuments.has(id)) return;
     const entry = get().trash[id];
     if (!entry) return;
     const { deletedAt: _deletedAt, ...meta } = entry.meta;
@@ -1248,18 +1260,24 @@ export const useDocumentsStore = create<DocumentsState>((set, get) => ({
   },
 
   permanentlyDelete: async (id) => {
-    if (!get().trash[id]) return false;
-    if (!await writes.flush()) return false;
-    if (!await idbDeleteDocument(id)) return false;
-    writes.cancel(id);
-    await idbDeleteSnapshots(id);
-    const trash = { ...get().trash };
-    delete trash[id];
-    set({ trash });
-    broadcastDocs({ type: 'delete', id });
-    scheduleBackup();
-    void import('@/lib/attachmentGc').then((m) => void m.sweepOrphanedAttachments());
-    return true;
+    const entry = get().trash[id];
+    if (!entry || deletingDocuments.has(id)) return false;
+    const expected = structuredClone(storedEntry(entry));
+    const matches = (current: DocumentEntry | undefined) => !!current && JSON.stringify(storedEntry(current)) === JSON.stringify(expected);
+    deletingDocuments.add(id);
+    try {
+      if (!await writes.flush() || !matches(get().trash[id])) return false;
+      const outcome = await idbDeleteDocumentIfUnchanged(expected);
+      if (outcome !== 'deleted' && outcome !== 'already-deleted') return false;
+      writes.cancel(id);
+      const trash = { ...get().trash };
+      if (matches(trash[id])) delete trash[id];
+      set({ trash });
+      broadcastDocs({ type: 'delete', id });
+      scheduleBackup();
+      void import('@/lib/attachmentGc').then((m) => void m.sweepOrphanedAttachments());
+      return true;
+    } finally { deletingDocuments.delete(id); }
   },
 
   renameDocument: (id, name) => {
@@ -1487,12 +1505,14 @@ if (typeof BroadcastChannel !== 'undefined') {
 }
 
 /** Follow deletion from another tab without resurrecting its old identity. */
-export function reconcileDocuments(records: StoredDocument[], permanentlyDeletedId?: string): void {
+export function reconcileDocuments(records: StoredDocument[], permanentlyDeletedId?: string, importedIds?: ReadonlySet<string>): void {
   const loaded: Record<string, DocumentEntry> = {};
   for (const record of records) loaded[record.id] = { meta: record.meta, session: record.session };
   const { currentId, docs, baseline } = useDocumentsStore.getState();
   const removed = !!currentId && (!!loaded[currentId]?.meta.deletedAt || permanentlyDeletedId === currentId && !loaded[currentId]);
-  if (currentId && docs[currentId] && !removed) loaded[currentId] = docs[currentId];
+  // A restore committed by this tab must become available when the document is
+  // reopened. Pending local edits still take precedence in the queue below.
+  if (currentId && docs[currentId] && !removed && !importedIds?.has(currentId)) loaded[currentId] = docs[currentId];
   // Keep queued edits (including Trash mutations) based on their original
   // committed record. A broadcast must not rebase them onto another tab's edit.
   for (const record of writes.latest()) {
@@ -1626,7 +1646,7 @@ export async function importLibrary(json: string): Promise<{ imported: number; s
     }
     const before = committed.get(r.meta.id) ?? null;
     const after = { id: r.meta.id, meta: r.meta, session: r.session };
-    if (writes.hasChanges(r.meta.id) || (before && before.meta.updatedAt === r.meta.updatedAt && JSON.stringify(before) !== JSON.stringify(after))) {
+    if (deletingDocuments.has(r.meta.id) || writes.hasChanges(r.meta.id) || (before && before.meta.updatedAt === r.meta.updatedAt && JSON.stringify(before) !== JSON.stringify(after))) {
       skipped++;
       issues.push(`Document ${r.meta.id} conflicts with local edits; kept local copy`);
       continue;
@@ -1647,17 +1667,15 @@ export async function importLibrary(json: string): Promise<{ imported: number; s
   // If that read fails, fold the just-imported records into the in-memory list
   // instead of blanking it — the puts above are already durable.
   const all = await idbGetAllDocuments();
-  const loaded: Record<string, DocumentEntry> = {};
-  if (all !== null) {
-    for (const r of all) loaded[r.id] = { meta: r.meta, session: r.session };
-    for (const entry of Object.values(useDocumentsStore.getState().docs)) {
-      if (!loaded[entry.meta.id] || entry.meta.updatedAt > loaded[entry.meta.id].meta.updatedAt) loaded[entry.meta.id] = entry;
+  if (all !== null) reconcileDocuments(all, undefined, new Set(applied.map(entry => entry.meta.id)));
+  else {
+    const state = useDocumentsStore.getState();
+    const loaded = { ...state.trash, ...state.docs };
+    for (const entry of applied) {
+      if (!writes.hasChanges(entry.meta.id)) loaded[entry.meta.id] = entry;
     }
-  } else {
-    Object.assign(loaded, useDocumentsStore.getState().docs, useDocumentsStore.getState().trash);
-    for (const e of applied) loaded[e.meta.id] = e;
+    useDocumentsStore.setState(partitionDocuments(loaded));
   }
-  useDocumentsStore.setState(partitionDocuments(loaded));
   const currentId = useDocumentsStore.getState().currentId;
   if (currentId) updateSaveStatus(currentId);
   return { imported, skipped, ...(issues.length ? { issues } : {}) };
