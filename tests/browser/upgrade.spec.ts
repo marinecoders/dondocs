@@ -328,10 +328,23 @@ test('an uncontrolled first-install tab reloads after accepting an update', asyn
   const controlled = await context.newPage();
   await controlled.goto(`${origin}/holding.html`);
   expect(await controlled.evaluate(() => Boolean(navigator.serviceWorker.controller))).toBe(true);
-  // The application deliberately prompts only after the first five seconds.
-  await page.waitForTimeout(5100);
+  const sidebar = page.getByRole('navigation', { name: 'Documents', exact: true });
+  const profiles = sidebar.getByRole('button', { name: 'Profiles', exact: true });
+  const beforeProfiles = await profiles.boundingBox();
   workerRevision = 'next';
   await page.evaluate(async () => { const registration = await navigator.serviceWorker.ready; await registration.update(); });
+  const update = page.getByRole('button', { name: 'Update Available', exact: true });
+  await expect(update).toBeVisible();
+  expect(await profiles.boundingBox()).toEqual(beforeProfiles);
+  const listBounds = await sidebar.locator('.overflow-y-auto').last().boundingBox();
+  const updateBounds = await update.boundingBox();
+  if (!listBounds || !updateBounds) throw new Error('Missing update control or document list');
+  expect(listBounds.y + listBounds.height).toBeLessThanOrEqual(updateBounds.y);
+  const beforeUpdate = await page.evaluate(() => performance.timeOrigin);
+  await page.waitForTimeout(6000);
+  expect(await page.evaluate(() => performance.timeOrigin)).toBe(beforeUpdate);
+  await expect(page.getByRole('dialog', { name: 'Update Available', exact: true })).toHaveCount(0);
+  await update.click();
   await page.getByRole('button', { name: 'Update Now', exact: true }).click();
   await expect(async () => {
     const status = await page.evaluate(async () => {

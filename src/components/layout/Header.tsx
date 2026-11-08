@@ -59,6 +59,7 @@ interface HeaderProps {
   /** True while a PDF download is in flight; disables the menu item. */
   isPdfGenerating?: boolean;
   isFormsMode?: boolean;  // Forms mode hides LaTeX options
+  updateAvailable?: boolean;
 }
 
 const STORAGE_KEY = STORAGE_KEYS.DOCUMENT;
@@ -86,6 +87,7 @@ export function Header({
   isDocxGenerating = false,
   isPdfGenerating = false,
   isFormsMode = false,
+  updateAvailable = false,
 }: HeaderProps) {
   // One selector per field so Zustand only re-renders on that field's change,
   // not on every store update (this header is ~40 buttons + dropdowns). Setters
@@ -307,14 +309,23 @@ export function Header({
     <header className="workspace-header shrink-0 border-b border-border bg-background">
       <input type="file" aria-label="Import draft file" ref={fileInputRef} onChange={handleImportDraft} accept=".json" className="hidden" />
       <div className="flex min-w-0 items-center gap-2 border-b border-border px-3 sm:px-5 py-2 sm:min-h-16">
-        {isMobile ? <HeaderTip label="Open workspace">
-          <Button variant="ghost" className="workspace-sidebar-toggle shrink-0 gap-0 overflow-hidden"
+        {isMobile ? <HeaderTip label={updateAvailable ? 'Open workspace · Update Available' : 'Open workspace'}>
+          <Button variant="ghost" className="workspace-sidebar-toggle relative shrink-0 gap-0 overflow-hidden"
             data-tour="workspace-menu" aria-label="Open workspace" aria-expanded={mobileDocsOpen}
+            aria-describedby={updateAvailable ? 'mobile-update-status' : undefined}
             aria-haspopup="dialog" onClick={(event) => {
               event.currentTarget.focus();
               useUIStore.getState().setMobileDocsOpen(true);
             }}
-          ><PanelLeft aria-hidden="true" className="h-4 w-4 shrink-0" /></Button>
+          >
+            <PanelLeft aria-hidden="true" className="h-4 w-4 shrink-0" />
+            {updateAvailable && (
+              <>
+                <span aria-hidden="true" className="pointer-events-none absolute right-1.5 top-1.5 size-1.5 rounded-full bg-info" />
+                <span id="mobile-update-status" className="sr-only">Update Available in workspace menu</span>
+              </>
+            )}
+          </Button>
         </HeaderTip> : null}
         <DraftIdentity />
         <Button variant="ghost" size="sm" className="hidden sm:inline-flex h-8 px-3.5" onClick={() => setShareModal('share')}>Share</Button>
