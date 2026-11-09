@@ -5,6 +5,14 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.3.28] — 2026-11-08
+
+### Changed
+
+- Resolve deployment marking settings through validated, immutable policies with exact hostname scopes.
+- Retain runtime policy updates and release defaults offline; preserve the editable root policy in release builds.
+- Describe the current editor fallback and export integration limits accurately.
+
 ## [1.3.27] — 2026-11-08
 
 ### Changed

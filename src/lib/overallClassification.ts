@@ -24,6 +24,11 @@ const LEVEL_RANK: Record<string, number> = {
   top_secret_sci: 5,
 };
 
+export const CLASSIFICATION_LEVELS: readonly ClassificationLevel[] = Object.freeze(Object.keys(LEVEL_RANK) as ClassificationLevel[]);
+export function classificationRank(level: string): number | undefined {
+  return Object.hasOwn(LEVEL_RANK, level) ? LEVEL_RANK[level] : undefined;
+}
+
 /** Portion mark → the document-level classification it implies.
  *  FOUO maps to CUI (FOUO was retired into the CUI program, DoDI 5200.48). */
 const PORTION_TO_LEVEL: Record<PortionMarking, ClassificationLevel> = {
@@ -45,7 +50,7 @@ export function deriveOverallClassLevel(
   paragraphs: Array<Pick<Paragraph, 'portionMarking' | 'figure'>>
 ): string {
   const docLevel = classLevel || 'unclassified';
-  if (docLevel === 'custom' || !(docLevel in LEVEL_RANK)) return docLevel;
+  if (docLevel === 'custom' || !Object.hasOwn(LEVEL_RANK, docLevel)) return docLevel;
 
   let maxRank = LEVEL_RANK[docLevel];
   let maxLevel = docLevel;

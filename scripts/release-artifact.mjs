@@ -45,7 +45,7 @@ export async function packageRelease(root, info) {
     manifest.assets.push({ url, size: bytes.length, sha256: createHash('sha256').update(bytes).digest('hex'), type: assetType(file), group });
     if (source !== target) {
       await mkdir(dirname(target), { recursive: true });
-      if (/^(?:icon.svg|apple-touch-icon.png|pwa-[^/]+\.png)$/.test(file)) await copyFile(source, target);
+      if (/^(?:classification.config.json|icon.svg|apple-touch-icon.png|pwa-[^/]+\.png)$/.test(file)) await copyFile(source, target);
       else await rename(source, target);
     }
   }

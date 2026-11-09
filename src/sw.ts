@@ -7,6 +7,8 @@ const FILES = 'dondocs-release-files-v1', META = 'dondocs-release-meta-v1';
 const stateKey = (id: string) => `/__dd_release/${id}`;
 const CURRENT = '/__dd_current';
 const WORD_USED = '/__dd_word_used';
+const POLICY_CACHE = 'deployment-policy-v1';
+const POLICY_KEY = '/classification.config.json?deployment-policy=runtime';
 interface ReadyRelease { manifest: ReleaseManifest; required: string[]; preparedAt: number }
 const assets = new Map<string, ReleaseAsset>();
 let loaded: Promise<void> | undefined;
@@ -122,6 +124,27 @@ self.addEventListener('activate', event => { event.waitUntil((async () => {
 self.addEventListener('fetch', event => {
   const url = new URL(event.request.url);
   if (url.origin !== self.location.origin || event.request.method !== 'GET') return;
+  if (url.pathname === '/classification.config.json' && url.searchParams.get('deployment-policy') === 'runtime') {
+    event.respondWith((async () => {
+      const cache = await caches.open(POLICY_CACHE);
+      try {
+        const response = await fetch(event.request, { cache: 'no-cache', signal: AbortSignal.timeout(15000) });
+        if (response.status === 200 || response.status === 404) {
+          try { await cache.put(POLICY_KEY, response.clone()); } catch { /* Storage failure must not hide the current network policy. */ }
+        }
+        return response;
+      } catch {
+        const cached = await cache.match(POLICY_KEY);
+        if (cached) return cached;
+        const id = releaseId.parse(url.searchParams.get('appRelease'));
+        await loadAssets();
+        const asset = assets.get(`/releases/${id}/classification.config.json`);
+        if (!asset) throw new Error('Deployment policy is unavailable offline.');
+        return cacheAsset(asset, await caches.open(FILES));
+      }
+    })());
+    return;
+  }
   if (event.request.mode === 'navigate' && (['/', '/index.html'].includes(url.pathname) || /^\/releases\/[^/]+\/index.html$/.test(url.pathname))) {
     event.respondWith((async () => {
       try {
