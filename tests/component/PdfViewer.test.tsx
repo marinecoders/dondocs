@@ -457,3 +457,10 @@ it('renders wider inventory paper and preserves its page across portrait/wide sw
     width.mockRestore();
   }
 });
+
+it('does not offer a download that bypasses the document export owner', async () => {
+  render(<TooltipProvider><PdfViewer pdfUrl="blob:read-only" /></TooltipProvider>);
+  await waitFor(() => expect(screen.getByText('of 2')).toBeTruthy());
+  expect(screen.queryByLabelText('Download PDF')).toBeNull();
+  expect(screen.queryByLabelText('Download preview PDF')).toBeNull();
+});
