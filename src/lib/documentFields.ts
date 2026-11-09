@@ -73,7 +73,7 @@ function active(source: DocumentFieldSource, path: FieldPath, projection: FieldP
   if (!config) throw new Error(`Unknown document type: ${source.docType}`);
   const technical = technicalTypes.has(source.docType);
   if (root === 'paragraphs' && path[2] === 'figure' && projection !== 'search') return technical;
-  if (root === 'endItems') return technical;
+  if (root === 'endItems') return technical && source.docType !== 'tm_ietm_front_matter';
   if (root === 'publicationTables') return source.docType === 'i_type';
   if (root === 'paragraphs' && ['sl3', 'sl4'].includes(source.docType) && typeof path[1] === 'number') {
     return Boolean(source.paragraphs?.[path[1]]?.figure);

@@ -3,7 +3,7 @@ import { captureDocumentRevision, copyCapturedDocument } from '@/lib/capturedDoc
 import { resolveExportDeploymentPolicy } from '@/lib/exportDeploymentPolicy';
 import { CLASSIFICATION_LEVELS } from '@/lib/overallClassification';
 import { prepareExport, acknowledgePreparedExport, copyPreparedDocument, copyExportReview, preparedExportMarking, assertReadyExport } from '@/lib/preparedExport';
-import { projectCapturedOutput } from '@/lib/documentFields';
+import { capturedTextFields, projectCapturedOutput } from '@/lib/documentFields';
 import type { DocumentSnapshot } from '@/stores/historyStore';
 import { useFormStore } from '@/stores/formStore';
 import { manualPacket } from '../_helpers/manualPacket';
@@ -108,4 +108,23 @@ it('retains configuration export for manuals and flat export for ordinary corres
   expect(flat.status).toBe('ready');
   if (flat.status !== 'ready') throw new Error('Expected flat export');
   expect(copyExportReview(flat.job.job).notices).toEqual([]);
+});
+
+it('reviews actual manual items while retaining replaced item data only in the draft', () => {
+  const data = snapshot({ ...manualPacket(), endItems: [{ nsn: '', tamcn: '', id: 'SSN 123-45-6789', model: '' }] });
+  const input = request(data);
+  const result = prepareExport(input);
+  expect(result.status).toBe('ready');
+  if (result.status !== 'ready') throw new Error('Inactive manual items must not require review');
+  const output = copyPreparedDocument(result.job).document;
+  expect(output.endItems).toEqual([]);
+  expect(output.formData.manualFrontMatter?.endItems[0].id).toBe('TEST-001');
+  expect(copyCapturedDocument(input.captured).document.endItems).toHaveLength(1);
+  expect(capturedTextFields(input.captured, 'search').some(field => field.path[0] === 'endItems')).toBe(false);
+  expect(capturedTextFields(input.captured, 'share').some(field => field.path[0] === 'endItems')).toBe(true);
+  data.formData.manualFrontMatter!.endItems[0].model = 'SSN 123-45-6789';
+  const actual = prepareExport(request(data));
+  expect(actual.status).toBe('needs-review');
+  if (actual.status !== 'needs-review') throw new Error('Actual manual item privacy must be reviewed');
+  expect(copyExportReview(actual.job).privacy.findings).toEqual(expect.arrayContaining([expect.objectContaining({ type: 'SSN', value: '123-45-6789' })]));
 });
