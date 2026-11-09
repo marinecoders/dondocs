@@ -973,6 +973,20 @@ function applyLetterheadStyling(xml: string, colorHex: string): string {
  * harness deliberately does not run the JSZip post-pass, so without this the
  * conversion has no coverage at all.
  */
+export function applyMemoAddressIndents(xml: string): string {
+  return xml.replace(/<w:p(?:\s[^>]*)?>[\s\S]*?<\/w:p>/g, paragraph => {
+    const marker = paragraph.match(/w:name="DonDocsMemoIndent([HB])(\d+)"/);
+    if (!marker) return paragraph;
+    const twips = Math.min(9360, Number(marker[2]));
+    const indent = `<w:ind w:left="${twips}"${marker[1] === 'H' ? ` w:hanging="${twips}"` : ''}/>`;
+    if (paragraph.includes('<w:pPr>')) {
+      return paragraph.replace(/<w:pPr>([\s\S]*?)<\/w:pPr>/, (_, properties: string) =>
+        `<w:pPr>${properties.replace(/<w:ind\b[^>]*\/>/g, '')}${indent}</w:pPr>`);
+    }
+    return paragraph.replace(/(<w:p(?:\s[^>]*)?>)(?:<w:pPr\s*\/>)?/, `$1<w:pPr>${indent}</w:pPr>`);
+  });
+}
+
 export function applyIndentMarkers(xml: string): string {
   const kinds: { char: string; ind: (t: number) => string; per?: number }[] = [
     { char: '\u00A0', ind: (t: number) => `<w:ind w:left="${t}"/>` },
@@ -1273,6 +1287,7 @@ export async function postProcessDocx(
   // a different character so this pass can tell them apart.
   debug.verbose('DOCX', 'Step 6a: Converting indent markers to w:ind');
   xml = applyIndentMarkers(xml);
+  xml = applyMemoAddressIndents(xml);
 
   // Keep the first acknowledgement together when it fits, including its header.
   // Additional endorsements keep their last two body paragraphs with the signer.

@@ -195,12 +195,12 @@ end
 local function apply_table(tbl)
   local ncols = #tbl.colspecs
   local new_colspecs = {}
-  local reference_caption = nil
+  local executive_caption = nil
   for _, body in ipairs(tbl.bodies) do
     for _, row in ipairs(body.body) do
       if #row.cells == 2 then
         local label = pandoc.utils.stringify(row.cells[1].contents)
-        if label == "Reference:" or label == "Reference(s):" then reference_caption = label end
+        if label == "Reference:" or label == "Reference(s):" or label == "SUBJECT:" or label == "FOR:" or label == "FROM:" then executive_caption = label end
       end
     end
   end
@@ -217,8 +217,8 @@ local function apply_table(tbl)
     local align1 = tbl.colspecs[1][1]
     local align2 = tbl.colspecs[2][1]
 
-    if reference_caption then
-      local width = reference_caption == "Reference(s):" and L.refs_caption or L.ref_caption
+    if executive_caption then
+      local width = executive_caption == "Reference(s):" and L.refs_caption or L.ref_caption
       new_colspecs = {{align1, width}, {align2, 1 - width}}
     elseif is_letterhead_table(tbl) then
       -- 2-col letterhead with seal images (dual seal layout)
@@ -413,10 +413,18 @@ end
 -- With +raw_tex, inline commands like \mbox{1.} become RawInline elements.
 -- We extract the text content and return it as a plain Str inline.
 
+local memo_bookmark_id = 210000
 local function handle_raw_inline(el)
   if el.format ~= "latex" then return nil end
 
   local text = el.text
+
+  local memo_twips, memo_block = text:match("^\\dondocsmemoindent%{(%d+)%}%{([01])%}$")
+  if memo_twips then
+    memo_bookmark_id = memo_bookmark_id + 1
+    local name = "DonDocsMemoIndent" .. (memo_block == "1" and "B" or "H") .. memo_twips
+    return pandoc.RawInline("openxml", '<w:bookmarkStart w:id="' .. memo_bookmark_id .. '" w:name="' .. name .. '"/><w:bookmarkEnd w:id="' .. memo_bookmark_id .. '"/>')
+  end
 
   if text:match("^\\dondocsaddressbreak%{%}$") then
     return pandoc.LineBreak()

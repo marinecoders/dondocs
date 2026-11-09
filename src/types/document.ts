@@ -390,6 +390,7 @@ export interface DocTypeConfig {
   fromTo: boolean;
   via: boolean;
   memoHeader: boolean;
+  headquartersMemo?: boolean;
   signature: 'abbrev' | 'full' | 'dual';
   uiMode: 'standard' | 'moa' | 'joint' | 'joint_memo' | 'memo' | 'business' | 'executive';
   // Optional flags for special document types
@@ -557,10 +558,10 @@ export const DOC_TYPE_CONFIG: Record<string, DocTypeConfig> = {
     compliance: DEFAULT_COMPLIANCE,
   },
   executive_memorandum: {
-    letterhead: false, ssic: false, fromTo: true, via: false, memoHeader: true, signature: 'full', uiMode: 'memo',
-    signatureSpacing: '36pt', memoTitle: 'MEMORANDUM',
-    regulations: { fontSize: '12pt', fontSizeOptions: ['10pt', '11pt', '12pt'], fontFamily: 'times', ref: 'Ch 12' },
-    compliance: DEFAULT_COMPLIANCE,
+    letterhead: false, ssic: false, fromTo: false, via: false, memoHeader: false, signature: 'full', uiMode: 'executive', headquartersMemo: true,
+    topSpacing: '1in',
+    regulations: { fontSize: '12pt', fontFamily: 'times', fontFamilyRequired: true, ref: 'Ch 12 ¶2' },
+    compliance: { ...EXECUTIVE_COMPLIANCE, allowReferences: true },
   },
   moa: {
     letterhead: true, ssic: true, fromTo: false, via: false, memoHeader: false, signature: 'dual', uiMode: 'moa',
@@ -595,6 +596,7 @@ export const DOC_TYPE_CONFIG: Record<string, DocTypeConfig> = {
     compliance: BUSINESS_COMPLIANCE,
   },
   standard_memorandum: {
+    headquartersMemo: true,
     letterhead: false, ssic: false, fromTo: false, via: false, memoHeader: false, signature: 'full', uiMode: 'executive',
     topSpacing: '1in', // Achieves 2" top margin (1" geometry + 1" extra) per Ch 12 ¶2b
     regulations: { fontSize: '12pt', fontFamily: 'times', fontFamilyRequired: true, ref: 'Ch 12 ¶2' },
