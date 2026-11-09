@@ -17,7 +17,7 @@ const configured = (definition = loadedDefinition()): CapabilitySubject => ({
 
 it.each(['compliant', 'custom'] as const)('supports correspondence PDF, DOCX, preview, and batch in %s mode', documentMode => {
   for (const request of [pdf, word, { operation: 'preview', target: 'pdf' }, { operation: 'batch', target: 'pdf' }] as const) {
-    expect(resolveCapabilities({ ...letter, documentMode }, request)).toEqual({ status: 'supported' });
+    expect(resolveCapabilities({ ...letter, documentMode }, request)).toMatchObject(request.target === 'docx' ? { status: 'partial', reason: 'word-pdf-features' } : { status: 'supported' });
   }
 });
 it.each(['sl3', 'sl4', 'i_type', 'tm_ietm_front_matter'])('uses the existing PDF-only configuration for %s', docType => {
@@ -68,7 +68,7 @@ it('resolves an owned capture and makes the resulting decision immutable', () =>
     documentMode: 'compliant', docType: 'business_letter', formData: {}, paragraphs: [], references: [], enclosures: [], copyTos: [], distributions: [], endItems: [], publicationTables: {},
   });
   const result = capturedCapabilities(captured, word);
-  expect(result.status).toBe('supported');
+  expect(result.status).toBe('partial');
   expect(() => Object.assign(result, { status: 'unsupported' })).toThrow();
   expect(() => capturedCapabilities({ ...captured }, pdf)).toThrow('not issued');
 });

@@ -66,7 +66,7 @@ const LONG_TO =
 describe('blank line before Subj:', () => {
   describeToolchainRequirement('address-block-subject-gap');
 
-  for (const docType of ['naval_letter', 'standard_letter', 'mfr'] as const) {
+  for (const docType of ['naval_letter', 'standard_letter'] as const) {
     it.skipIf(!hasPdfToolchain)(`${docType}: keeps the gap when the To: line wraps`, async () => {
       const short = await gapBeforeSubject(docType, 'Commanding General, II MEF');
       const long = await gapBeforeSubject(docType, LONG_TO);

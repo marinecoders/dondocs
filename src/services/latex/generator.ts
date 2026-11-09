@@ -1,3 +1,4 @@
+import { documentOutputConfig } from '@/lib/documentOutputConfig';
 import { jointSignatories, signatureAuthorityLine, signaturePosition, supportsActingSignature } from '@/lib/signingAuthority';
 import { resolvePageNumbering } from '@/lib/pageNumbering';
 import { generateSl4Body } from './sl4Generator';
@@ -22,7 +23,6 @@ import { formatPublicationDate } from '@/lib/publicationDate';
 import { withTimeCompliance } from '@/lib/timeCompliance';
 import { figureFile } from '@/lib/figures';
 import type { DocumentData, Reference, Enclosure, Paragraph, CopyTo, Distribution, EndItem, PublicationTableRow, CalloutKind, FileRef } from '@/types/document';
-import { DOC_TYPE_CONFIG } from '@/types/document';
 import { base64ToUint8Array } from '@/lib/encoding';
 import { composeBasicLetterId, enclosureStartNumber, pageStartNumber } from '@/lib/endorsement';
 import { calculateLabels } from './paragraphLabels';
@@ -101,7 +101,7 @@ function validatedPocEmail(raw: string | undefined | null): string {
 export function generateDocumentTex(store: DocumentStore, referenceDate = new Date()): string {
   const data = store.formData;
   // config will be used for document-type specific variations
-  const config = DOC_TYPE_CONFIG[store.docType] || DOC_TYPE_CONFIG.naval_letter;
+  const config = documentOutputConfig(store.docType, store.documentMode);
   const isMOAMode = config.uiMode === 'moa';
   const isJointMode = config.uiMode === 'joint' || config.uiMode === 'joint_memo';
   const isExecutiveMode = config.uiMode === 'executive';
@@ -141,8 +141,8 @@ ${(() => {
   const isBusinessLetter = config.uiMode === 'business';
 
   // Joint letter and joint memo share the same joint* fields
-  const fromLine = isJointMode ? data.jointSeniorFrom : data.from;
-  const toLine = isJointMode ? data.jointTo : data.to;
+  const fromLine = store.docType === 'mfr' ? '' : isJointMode ? data.jointSeniorFrom : data.from;
+  const toLine = store.docType === 'mfr' ? '' : isJointMode ? data.jointTo : data.to;
   // Subject line casing per SECNAV M-5216.5:
   //   Executive types (Ch 12 ¶2l): Title Case (NOT ALL CAPS)
   //   This applies to all executive uiMode types AND executive_correspondence
@@ -418,7 +418,7 @@ function capitalizeWord(word: string | undefined): string {
 export function generateSignatoryTex(store: DocumentStore): string {
   const data = store.formData;
   const signatureText = (value?: string) => store.docType === 'tm_ietm_front_matter' ? manualPlainText(value ?? '') : escapeLatex(value);
-  const config = DOC_TYPE_CONFIG[store.docType] || DOC_TYPE_CONFIG.naval_letter;
+  const config = documentOutputConfig(store.docType, store.documentMode);
 
   // Check if this is a dual-signature document (MOA/MOU)
   if (config.uiMode === 'moa') {
@@ -1001,7 +1001,7 @@ export function generateBodyTex(store: DocumentStore): string {
   const ancestors = ancestorLabelsPerParagraph(labels, store.paragraphs.map((p) => p.level));
   const bodyFont: LabelFont = (store.formData.fontFamily || 'times') === 'courier' ? 'courier' : 'times';
   const bodySizePt = parseFloat(store.formData.fontSize || '12pt') || 12;
-  const config = DOC_TYPE_CONFIG[store.docType] || DOC_TYPE_CONFIG.naval_letter;
+  const config = documentOutputConfig(store.docType, store.documentMode);
 
   // Business letters (Ch 11 ¶6, "Do not number main paragraphs") and executive
   // correspondence (Ch 12 ¶3.2c(2), "Do not number the paragraphs") don't
@@ -1009,7 +1009,7 @@ export function generateBodyTex(store: DocumentStore): string {
   // DOC_TYPE_CONFIG.
   const useNumberedParagraphs = config.compliance.numberedParagraphs;
   // Business letters and executive correspondence use 0.5" first-line indent instead of numbers
-  const isBusinessLetter = config.uiMode === 'business';
+  const isBusinessLetter = config.uiMode === 'business' && !useNumberedParagraphs;
 
   // Build the body via array-push-then-join. The previous `latex += ...`
   // pattern inside the paragraph loop is O(n²) under naive implementations
@@ -1327,6 +1327,8 @@ export interface GeneratedFiles {
 }
 
 export function generateAllLatexFiles(store: DocumentStore, resolvedLevel?: string, referenceDate = new Date()): GeneratedFiles {
+  const config = documentOutputConfig(store.docType, store.documentMode);
+  store = { ...store, references: config.compliance.allowReferences ? store.references : [], enclosures: config.compliance.allowEnclosures ? store.enclosures : [] };
   if (store.docType === 'tm_ietm_front_matter') store = {
     ...store, endItems: (store.formData.manualFrontMatter ?? emptyManualFrontMatter()).endItems,
     paragraphs: [], enclosures: [], references: [], copyTos: [], distributions: [],

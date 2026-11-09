@@ -1012,6 +1012,7 @@ function App() {
         ...(!capabilityAvailable(outputCapabilities.word) ? [] : [{
           id: 'download-docx',
           label: 'Download Word (.docx)',
+          hint: outputCapabilities.word.status === 'partial' ? outputCapabilities.word.message : undefined,
           icon: Download,
           onRun: () => commandDownloadTriggers.docx(),
         }]),

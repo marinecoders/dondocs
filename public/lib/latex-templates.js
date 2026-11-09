@@ -1962,6 +1962,9 @@ const LATEX_TEMPLATES = {
 \\newcommand{\\printAddressBlock}{%
     % Inside address block - spacing AFTER each element avoids stacking
     % with the 12pt from \\printDateAndTitle
+    \\ifNotEmptyElse{\\BusinessRecipientAddress}{%
+        \\noindent \\BusinessRecipientAddress\\par\\vspace{12pt}%
+    }{%
     \\ifNotEmpty{\\ToLine}{%
         \\noindent
         \\optionalLine{\\ToLine}%
@@ -1969,6 +1972,7 @@ const LATEX_TEMPLATES = {
         \\optionalLine{\\ToLineThree}%
         \\optionalLine{\\ToLineFour}%
         \\par\\vspace{12pt}%
+    }%
     }%
     %
     % Attention line (optional) - SECNAV Ch 11, Para 11-5
@@ -3997,7 +4001,7 @@ const LATEX_TEMPLATES = {
 %   - MCO 5216.20B w/Admin CH-4 (Marine Corps Supplement)
 %
 % Spacing per SECNAV M-5216.5:
-%   - From/To: Single-spaced, NO blank lines between them
+%   - Figure 10-1 uses a subject-only heading; no From/To block.
 %   - One blank line before Subj, Ref, Encl, and body paragraph 1
 %
 %=============================================================================
@@ -4013,21 +4017,17 @@ const LATEX_TEMPLATES = {
     \\begin{center}
         MEMORANDUM FOR THE RECORD
     \\end{center}
-    \\par\\vspace{12pt}% One blank line between title and From/To block
+    \\par\\vspace{12pt}% One blank line between title and subject
 }
 
 
 %=============================================================================
-%                    FROM / TO / SUBJ BLOCK (MFR Style)
+%                    SUBJECT BLOCK (MFR Style)
 %=============================================================================
 
 \\newcommand{\\printAddressBlock}{%
     \\noindent
     \\begin{tabular}[t]{@{}l@{}p{5.75in}@{}}%
-        From:\\hspace{2\\fontdimen2\\font} & \\FromLine\\ifdefempty{\\FromLineTwo}{}{\\tabularnewline & \\FromLineTwo}\\ifdefempty{\\FromLineThree}{}{\\tabularnewline & \\FromLineThree}\\ifdefempty{\\FromLineFour}{}{\\tabularnewline & \\FromLineFour}%
-        \\ifdefempty{\\ToLine}{}{\\tabularnewline To:\\hspace{6\\fontdimen2\\font} & \\ToLine\\ifdefempty{\\ToLineTwo}{}{\\tabularnewline & \\ToLineTwo}\\ifdefempty{\\ToLineThree}{}{\\tabularnewline & \\ToLineThree}\\ifdefempty{\\ToLineFour}{}{\\tabularnewline & \\ToLineFour}}%
-        % \\noalign, not \\\\[12pt]: the optional space is swallowed when the row above wraps
-        \\tabularnewline\\noalign{\\vskip 12pt}%
         Subj:\\hspace{3\\fontdimen2\\font} & \\SubjectLine%
     \\end{tabular}%
     %

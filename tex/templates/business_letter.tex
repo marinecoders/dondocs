@@ -45,6 +45,9 @@
 \newcommand{\printAddressBlock}{%
     % Inside address block - spacing AFTER each element avoids stacking
     % with the 12pt from \printDateAndTitle
+    \ifNotEmptyElse{\BusinessRecipientAddress}{%
+        \noindent \BusinessRecipientAddress\par\vspace{12pt}%
+    }{%
     \ifNotEmpty{\ToLine}{%
         \noindent
         \optionalLine{\ToLine}%
@@ -52,6 +55,7 @@
         \optionalLine{\ToLineThree}%
         \optionalLine{\ToLineFour}%
         \par\vspace{12pt}%
+    }%
     }%
     %
     % Attention line (optional) - SECNAV Ch 11, Para 11-5

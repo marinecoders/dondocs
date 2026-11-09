@@ -16,7 +16,8 @@ it('offers supported letter formats and explains the configuration-fragment limi
   await menu();
   expect(screen.getByRole('menuitem', { name: 'Download Word (.docx)' })).toBeEnabled();
   expect(screen.getByRole('menuitem', { name: 'Download Flat LaTeX (Pandoc)' })).toBeEnabled();
-  expect(screen.getByRole('note')).toHaveTextContent('configuration fragments');
+  expect(screen.getAllByRole('note').some(note => note.textContent?.includes('configuration fragments'))).toBe(true);
+  expect(screen.getAllByRole('note').some(note => note.textContent?.includes('omitted from Word'))).toBe(true);
 });
 it('offers publication configuration fragments while withholding unsupported Word and flat output', async () => {
   useDocumentStore.setState({ docType: 'sl3' });await menu();

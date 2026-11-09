@@ -71,6 +71,8 @@ function active(source: DocumentFieldSource, path: FieldPath, projection: FieldP
   if (root === 'forms' || root === 'genericForm') return false;
   const config = owns(DOC_TYPE_CONFIG, source.docType) ? DOC_TYPE_CONFIG[source.docType] : undefined;
   if (!config) throw new Error(`Unknown document type: ${source.docType}`);
+  if (source.documentMode !== 'custom' && root === 'references' && !config.compliance.allowReferences) return false;
+  if (source.documentMode !== 'custom' && root === 'enclosures' && !config.compliance.allowEnclosures) return false;
   const technical = technicalTypes.has(source.docType);
   if (root === 'paragraphs' && path[2] === 'figure' && projection !== 'search') return technical;
   if (root === 'endItems') return technical && source.docType !== 'tm_ietm_front_matter';
@@ -82,6 +84,7 @@ function active(source: DocumentFieldSource, path: FieldPath, projection: FieldP
   if (source.docType === 'tm_ietm_front_matter' && ['paragraphs', 'references', 'enclosures', 'copyTos', 'distributions'].includes(String(root))) return false;
   if (root !== 'formData' || typeof path[1] !== 'string') return true;
   const key = path[1];
+  if (source.docType === 'mfr' && ['from', 'to', 'via'].includes(key)) return false;
   if (key === 'manualFrontMatter') return source.docType === 'tm_ietm_front_matter';
   if (key === 'sl3' || key === 'sl4') return source.docType === key;
   if (key === 'body' && projection !== 'search') return false;
