@@ -1,3 +1,4 @@
+import { resolveParagraphLayout } from './paragraphLayout';
 import { documentOutputConfig } from '@/lib/documentOutputConfig';
 /**
  * Flat LaTeX Generator for Pandoc DOCX Conversion
@@ -22,7 +23,7 @@ import { keepTypedSpaces, latexLineBreaks } from './escaper';
 import { LAYOUT, TEXT_WIDTH_IN } from '@/services/docx/layout-config';
 import { composeBasicLetterId, enclosureStartNumber, pageStartNumber } from '@/lib/endorsement';
 import { paragraphMark, delimitParagraphMark, isUnderlinedLevel } from './paragraphLabel';
-import { subparagraphIndentIn, ancestorLabelsPerParagraph, type LabelFont } from './subparagraphIndent';
+import { ancestorLabelsPerParagraph, type LabelFont } from './subparagraphIndent';
 import {
   resolveAppendedEndorsements,
 } from '@/lib/appendedEndorsement';
@@ -668,12 +669,8 @@ function buildBody(paragraphs: Paragraph[], config: DocTypeConfig, font: LabelFo
     const label = useNumbered ? labels[i] : '';
     const headerText = para.header?.trim();
     const portionPrefix = para.portionMarking ? `(${para.portionMarking}) ` : '';
-    // One blank line before every paragraph, at every level. ¶13 draws no
-    // distinction — "each paragraph OR SUBPARAGRAPH begins on the second line
-    // below the previous paragraph or subparagraph" — and Figure 7-8 prints a
-    // hard return between every pair, including (1)/(2). Subparagraphs used to
-    // get 6pt, half a line, which is what a reviewer in the field marked up.
-    const spacing = '\\vspace{12pt}';
+    const layout = resolveParagraphLayout(para.level, ancestors[i], config, font, fontSizePt);
+    const spacing = `\\vspace{${layout.spaceBeforePt}pt}`;
 
     let paraText = '';
 
@@ -691,42 +688,11 @@ function buildBody(paragraphs: Paragraph[], config: DocTypeConfig, font: LabelFo
     // Body text with rich text processing
     paraText += processText(para.text);
 
-    // Calculate indentation based on level and document type
-    // \dondocsindent → w:ind w:left (full paragraph indent)
-    // \dondocsfirstindent → w:ind w:firstLine (first-line only, like \parindent)
-    const isBusiness = config.uiMode === 'business' && !useNumbered;
-    const indentIn = isBusiness
-      ? (para.level + 1) * 0.5   // Business: 0.5in per level, starting at 0.5in
-      // Standard: align this subparagraph's label under its parent's text, per
-      // Figure 7-8 — the step is the parent's label plus its gap, not a
-      // constant. See subparagraphIndent.ts; generator.ts computes the same
-      // number for the PDF so the two exports agree.
-      : subparagraphIndentIn(ancestors[i], font, fontSizePt);
-    // Standard correspondence indents the subparagraph's FIRST LINE only.
-    // SECNAV M-5216.5 Ch 7 ¶13: "When using a subparagraph, the first line is
-    // always indented the appropriate number of spaces depending on the level
-    // of subparagraphing. All other lines of a subparagraph continue at the
-    // left margin. Do not indent the continuation lines of a subparagraph."
-    // Figure 7-8 shows the same shape. This was \dondocsindent (w:ind w:left),
-    // which indents every line of the paragraph including the wrapped ones.
-    // Business letters keep the block indent — Ch 11 has no such rule.
-    const indentMacro = isBusiness ? 'dondocsindent' : 'dondocsfirstindent';
-    const indentCmd = indentIn > 0 ? `\\${indentMacro}{${indentIn.toFixed(2)}in}` : '';
-
-    if (isBusiness) {
-      // Business letter: first-line indent for level 0, full indent for deeper levels
-      const bizIndentCmd = para.level === 0
-        ? `\\dondocsfirstindent{0.50in}`
-        : indentCmd;
-      bodyParts.push(`${spacing}\n${bizIndentCmd}${paraText}\n\n`);
-    } else if (label) {
-      // getParagraphLabel already carries the \mbox that hides the marker from
-      // pandoc's list detection, so the label goes in as-is.
-      bodyParts.push(`${spacing}\n${indentCmd}${label}~~${paraText}\n\n`);
-    } else {
-      // No label (unnumbered paragraphs, e.g. endorsements)
-      bodyParts.push(`${spacing}\n${indentCmd}${paraText}\n\n`);
-    }
+    const blockIndent = layout.continuationIndentIn;
+    const indent = blockIndent || layout.firstLineIndentIn;
+    const macro = blockIndent ? 'dondocsindent' : 'dondocsfirstindent';
+    const indentCmd = indent > 0 ? `\\${macro}{${indent.toFixed(2)}in}` : '';
+    bodyParts.push(`${spacing}\n${indentCmd}${label ? `${label}~~` : ''}${paraText}\n\n`);
   }
 
   return bodyParts.join('');
