@@ -144,6 +144,23 @@ describe.skipIf(!hasPdfToolchain)('I-Type rendered acceptance', () => {
     expect(text.includes('will not manually add')).toBe(type === 'MI');
   }, 60_000);
 
+  it('prints the formatted contact text accepted by administrative validation', async () => {
+    const s = baseline();
+    Object.assign(s.formData, { publicationType: 'TI', shortTitle: 'TI 12345A-26/1' });
+    s.paragraphs = [
+      { level: 0, header: 'Purpose', text: 'Inspect the bracket.' },
+      { level: 0, header: 'Administrative Instructions', text: '' },
+      { level: 1, header: 'Point of Contact', text: '**For concerns/issues with the content/procedures in this Technical Instruction (TI) contact** __Operating Forces Support Desk__, 703.555.0100.' },
+      { level: 1, header: 'Notice of Discrepancies', text: DISCREPANCY_NOTICE.replace('NAVMC 10772', '*NAVMC 10772*') },
+    ];
+    expect(iTypeExportErrors(s)).toEqual([]);
+    const text = pages(await production(s), 'accepted-formatted-contact').join(' ').replace(/\s+/g, ' ');
+    expect(text).toContain('For concerns/issues with the content/procedures in this Technical Instruction (TI) contact Operating Forces Support Desk, 703.555.0100.');
+    expect(text).toContain('NAVMC 10772');
+    expect(text).not.toContain('will not manually add');
+    expect(text).not.toMatch(/\*\*|__|\*NAVMC/);
+  }, 60_000);
+
   it('resolves internal paragraph, table and footnote links after assembly', async () => {
     const s = baseline();
     const id = 'ABCDEF0123456789ABCDEF0123456789';
