@@ -55,7 +55,10 @@ for (const viewport of [{ width: 1440, height: 1000 }, { width: 320, height: 568
       await page.goto('/');
       // WebKit can clear :active while the pointer is held. Measure layout
       // independently of the button's cosmetic press scale.
-      await page.addStyleTag({ content: 'button[aria-label="Document tools"] { scale: 1 !important; }' });
+      await page.addStyleTag({ content: `
+        button[aria-label="Document tools"] { scale: 1 !important; }
+        [role="menu"] { animation: none !important; transition: none !important; }
+      ` });
       const tools = page.getByRole('button', { name: 'Document tools', exact: true, includeHidden: true });
       await expect(tools).toBeVisible();
       await page.evaluate(() => document.fonts.ready);
@@ -88,6 +91,9 @@ for (const viewport of [{ width: 1440, height: 1000 }, { width: 320, height: 568
       const menu = page.getByRole('menu');
       await expect(menu).toBeVisible();
       await page.clock.runFor(50);
+      // Floating UI initially mounts offscreen before it positions the portal.
+      // Compare settled geometry across the feedback timeout, not its entry frame.
+      await expect(menu).toBeInViewport({ ratio: 1 });
       const menuBefore = await menu.boundingBox();
       expect(menuBefore).not.toBeNull();
       // Hold the pointer over the trigger through the real feedback timeout.
