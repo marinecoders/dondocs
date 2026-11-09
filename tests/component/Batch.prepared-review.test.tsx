@@ -2,8 +2,6 @@ import 'fake-indexeddb/auto';
 import { beforeEach, afterEach, expect, it, vi } from 'vitest';
 import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { BatchModal } from '@/components/modals/BatchModal';
-import { AppAlertDialog } from '@/components/AppAlertDialog';
-import { useAlertStore } from '@/stores/alertStore';
 import { useUIStore } from '@/stores/uiStore';
 import { useBatchStore } from '@/stores/batchStore';
 import { useDocumentsStore } from '@/stores/documentsStore';
@@ -17,7 +15,6 @@ beforeEach(async () => {
   compile.mockClear();
   useDocumentsStore.getState().newDocument();
   useUIStore.setState({ batchModalOpen: true });
-  useAlertStore.setState({ open: false, current: null, queue: [] });
   useDocumentStore.setState({ documentMode: 'custom', documentCategory: 'correspondence', docType: 'standard_letter', formData: { subject: '{{NAME}}', classLevel: 'unclassified' }, paragraphs: [{ text: '{{BODY}}', level: 0 }], references: [], enclosures: [], copyTos: [], distributions: [] });
   useBatchStore.setState({ source: null, title: '', placeholders: [], rows: [{ id: 'one', values: { NAME: 'Recipient', BODY: 'SSN 123-45-6789' }, status: 'pending' }], status: 'idle', recoveryError: '', stopRequested: false });
   fetchMock = vi.fn().mockResolvedValue({ ok: true, status: 200, json: async () => config });
@@ -28,13 +25,14 @@ beforeEach(async () => {
   await getExportDeploymentPolicy(undefined, true);
 });
 afterEach(() => { vi.restoreAllMocks(); vi.unstubAllGlobals(); });
-const open = () => render(<><BatchModal compile={compile} isEngineReady={true} waitForReady={vi.fn().mockResolvedValue(true)} /><AppAlertDialog /></>);
+const panel = <BatchModal compile={compile} isEngineReady={true} waitForReady={vi.fn().mockResolvedValue(true)} />;
+const open = () => render(panel);
 it('reviews substituted PII before compiling, then exports the exact approved row after live and row edits', async () => {
   open();
   fireEvent.click(screen.getByRole('button', { name: 'Generate 1 PDF' }));
   await screen.findByRole('button', { name: 'Continue with this row' });
-  expect(screen.getByRole('alertdialog')).toHaveTextContent('Social Security Number');
-  expect(screen.getByRole('alertdialog')).not.toHaveTextContent('123-45-6789');
+  expect(screen.getByRole('dialog', { name: 'Review batch row' })).toHaveTextContent('Social Security Number');
+  expect(screen.getByRole('dialog', { name: 'Review batch row' })).not.toHaveTextContent('123-45-6789');
   expect(compile).not.toHaveBeenCalled();
   act(() => {
     useDocumentStore.setState({ paragraphs: [{ text: 'Changed live draft', level: 0 }] });
@@ -54,17 +52,19 @@ it('declining a row review stops the queue and leaves following rows pending', a
   open();
   fireEvent.click(screen.getByRole('button', { name: 'Generate 2 PDFs' }));
   await screen.findByRole('button', { name: 'Continue with this row' });
-  fireEvent.click(screen.getByRole('button', { name: 'Cancel' }));
+  fireEvent.click(screen.getByRole('button', { name: 'Cancel row and pause batch' }));
   await waitFor(() => expect(useBatchStore.getState().status).toBe('paused'));
   expect(useBatchStore.getState().rows.map(row => row.status)).toEqual(['error', 'pending']);
   expect(compile).not.toHaveBeenCalled();
 });
-it('retains the exact review operation when BatchModal unmounts', async () => {
+it('retains the exact review operation across BatchModal remounts', async () => {
   const view = open();
   fireEvent.click(screen.getByRole('button', { name: 'Generate 1 PDF' }));
   await screen.findByRole('button', { name: 'Continue with this row' });
-  view.rerender(<AppAlertDialog />);
-  fireEvent.click(screen.getByRole('button', { name: 'Continue with this row' }));
+  view.rerender(<></>);
+  expect(useBatchStore.getState().review?.job.filename).toBe('Recipient.pdf');
+  view.rerender(panel);
+  fireEvent.click(await screen.findByRole('button', { name: 'Continue with this row' }));
   await waitFor(() => expect(useBatchStore.getState().status).toBe('complete'));
   expect(compile).toHaveBeenCalledTimes(1);
 });
@@ -72,7 +72,7 @@ it('preview also reviews PII and cancelling it preserves batch stop state', asyn
   open();
   fireEvent.click(screen.getByRole('button', { name: 'Preview row 1' }));
   await screen.findByRole('button', { name: 'Continue with this row' });
-  fireEvent.click(screen.getByRole('button', { name: 'Cancel' }));
+  fireEvent.click(screen.getByRole('button', { name: 'Cancel preview' }));
   await screen.findByText('Preview failed: Row cancelled. Review it again before retrying.');
   expect(useBatchStore.getState().stopRequested).toBe(false);
   expect(compile).not.toHaveBeenCalled();

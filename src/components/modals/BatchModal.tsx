@@ -1,10 +1,10 @@
+import { downloadPdfBlob, preOpenWindowForIOS } from '@/utils/downloadPdf';
 import { DOC_TYPE_LABELS, FORM_TYPE_LABELS, formTypeLabel } from '@/types/document';
-import { prepareBatchRow, renderPreparedBatchRow, type BatchRowContext } from '@/services/exports/batchRows';
+import { renderPreparedBatchRow, type BatchRowContext } from '@/services/exports/batchRows';
 import { getExportDeploymentPolicy } from '@/config/classification';
 import { captureExportFormTemplates } from '@/services/exports/formTemplates';
-import { acknowledgePreparedExport, copyExportReview, type ReadyExportJob } from '@/lib/preparedExport';
-import { getPIITypeLabel } from '@/services/pii/detector';
-import { executePreparedExport } from '@/lib/exportExecution';
+import { runPreparedBatchRow } from '@/services/exports/batchExecution';
+import { BatchExportReviewModal } from './BatchExportReviewModal';
 import { serializeDocumentSnapshot } from '@/lib/documentSerialization';
 import { memo, useState, useCallback, useMemo, useEffect, useRef } from 'react';
 import { Plus, Trash2, Download, AlertCircle, FileText, Variable, CheckCircle, XCircle, Copy, Lightbulb, Eye, Loader2, Settings, ArrowRight } from 'lucide-react';
@@ -94,7 +94,9 @@ interface BatchModalRowProps {
   idx: number;
   detectedPlaceholders: string[];
   isGenerating: boolean;
+  isLocked: boolean;
   isPreviewing: boolean;
+  isPreviewBusy: boolean;
   isReadyToGenerate: boolean;
   canRemove: boolean;
   updateRowValue: (rowId: string, placeholder: string, value: string) => void;
@@ -116,7 +118,9 @@ const BatchModalRow = memo(function BatchModalRow({
   idx,
   detectedPlaceholders,
   isGenerating,
+  isLocked,
   isPreviewing,
+  isPreviewBusy,
   isReadyToGenerate,
   canRemove,
   updateRowValue,
@@ -141,7 +145,7 @@ const BatchModalRow = memo(function BatchModalRow({
             onChange={(e) => updateRowValue(row.id, placeholder, e.target.value)}
             placeholder={placeholder.substring(0, 8)}
             className="h-7 w-24 text-xs"
-            disabled={isGenerating || row.status === 'success'}
+            disabled={isGenerating || isLocked || row.status === 'success'}
           />
         </td>
       ))}
@@ -152,7 +156,7 @@ const BatchModalRow = memo(function BatchModalRow({
             size="icon"
             className="h-7 w-7"
             onClick={() => handlePreview(row)}
-            disabled={!isReadyToGenerate || isGenerating || isPreviewing}
+            disabled={!isReadyToGenerate || isGenerating || isPreviewBusy}
             title="Preview document"
             aria-label={`Preview row ${idx + 1}`}
           >
@@ -168,7 +172,7 @@ const BatchModalRow = memo(function BatchModalRow({
             className="h-7 w-7 text-destructive"
             aria-label={`Remove row ${idx + 1}`}
             onClick={() => removeRow(row.id)}
-            disabled={!canRemove || isGenerating || row.status === 'success'}
+            disabled={!canRemove || isGenerating || isLocked || row.status === 'success'}
           >
             <Trash2 className="h-4 w-4" />
           </Button>
@@ -187,6 +191,9 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
   const jobTitle = useBatchStore((s) => s.title);
   const savedPlaceholders = useBatchStore((s) => s.placeholders);
   const recoveryError = useBatchStore((s) => s.recoveryError);
+  const rowCanCancel = useBatchStore((s) => s.rowCanCancel);
+  const rowActive = useBatchStore((s) => s.rowActive);
+  const exportReview = useBatchStore((s) => s.review);
   const stopRequested = useBatchStore((s) => s.stopRequested);
 
   // Read the complete active data for discovery; generation callbacks keep
@@ -209,9 +216,20 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
     total: rows.length,
     errors: rows.flatMap((r, i) => r.error ? [{ index: i + 1, error: r.error }] : []),
   } : null;
+  const previewRequest = useRef(0);
+  const previewPending = useRef(false);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [previewingRow, setPreviewingRow] = useState<string | null>(null);
   const [previewError, setPreviewError] = useState<string | null>(null);
+
+  useEffect(() => () => { ++previewRequest.current; }, []);
+  useEffect(() => () => { if (previewUrl) setTimeout(() => URL.revokeObjectURL(previewUrl), 5000); }, [previewUrl]);
+
+  const closePanel = useCallback(() => {
+    ++previewRequest.current;
+    if (useBatchStore.getState().rowActive && useBatchStore.getState().status !== 'running') useBatchStore.getState().cancelCurrent();
+    setPreviewUrl(null);setPreviewError(null);setBatchModalOpen(false);
+  }, [setBatchModalOpen]);
 
   // Column mapping state
   const [columnHeaders, setColumnHeaders] = useState<string[]>([]);
@@ -269,31 +287,16 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
   }, [setRows]);
 
   const generatePdfForRow = useCallback(async (values: PlaceholderValue, context: BatchRowContext): Promise<Uint8Array> => {
-    const prepared = await prepareBatchRow(values, context, {
-      resolvePolicy: () => getExportDeploymentPolicy(undefined, context.retryPolicy ?? false), captureResources: captureExportFormTemplates,
-    });
-    if ('issues' in prepared) throw new Error(prepared.issues.join('\n'));
-    let ready: ReadyExportJob;
-    if (prepared.status === 'needs-review') {
-      const job = prepared.job;
-      const review = copyExportReview(job);
-      const message = [job.filename, ...review.notices, ...review.structure.map(finding => finding.message),
-        ...(review.privacy.found ? ['Potential personal or sensitive data appears in this row. Confirm that this file is appropriate for its recipient.',
-          ...review.privacy.findings.map(finding => `${getPIITypeLabel(finding.type)} · ${finding.field}`)] : []),
-      ].join('\n\n');
-      if (!await showAppConfirm({ title: 'Review batch row', message, confirmLabel: 'Continue with this row' })) {
-        if (!context.preview) useBatchStore.getState().stop();
-        throw new Error('Row cancelled. Review it again before retrying.');
-      }
-      ready = acknowledgePreparedExport(job);
-    } else ready = prepared.job;
-    const execution = executePreparedExport(ready, {
+    const deliver = context.deliver;
+    return runPreparedBatchRow(values, context, {
+      resolvePolicy: retry => getExportDeploymentPolicy(undefined, retry || context.retryPolicy === true), captureResources: captureExportFormTemplates,
       render: (ready, signal) => renderPreparedBatchRow(ready, { compile, waitForReady, convertDocx: async () => { throw new Error('Batch output is PDF only.'); } }, signal),
-      deliver: async () => {},
+      retainForRetry: !!deliver,
+      deliver: deliver ? async artifact => { await deliver(new Uint8Array(await artifact.blob.arrayBuffer())); } : undefined,
+      onActiveChange: rowActive => useBatchStore.setState({ rowActive }),
+      onCancelableChange: rowCanCancel => useBatchStore.setState({ rowCanCancel }),
+      onReview: review => useBatchStore.setState({ review }),
     });
-    const outcome = await execution.result;
-    if (outcome.status !== 'succeeded') throw new Error(outcome.status === 'failed' ? outcome.message : 'Row cancelled.');
-    return new Uint8Array(await outcome.artifact.blob.arrayBuffer());
   }, [compile, waitForReady]);
 
   // Templates are acquired by the row owner, where failures have a retry path.
@@ -301,47 +304,42 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
 
   // Preview a single row
   const handlePreview = useCallback(async (row: BatchRow) => {
-    if (!isReadyToGenerate) return;
+    if (!isReadyToGenerate || previewPending.current || useBatchStore.getState().rowActive || useBatchStore.getState().status === 'running') return;
 
+    previewPending.current = true;
+    const generation = ++previewRequest.current;
+    const rowValues = JSON.stringify(row.values);
     setPreviewingRow(row.id);
     setPreviewError(null);
     try {
-      const pdf = row.outputId ? await getBatchOutput(row.outputId) : await generatePdfForRow(row.values, { source: structuredClone(useBatchStore.getState().source ?? getSerializedSession()), batchId: `preview-${row.id}`, preview: true, retryPolicy: true, rowId: row.id, filename: batchRowFilename(row, detectedPlaceholders), capturedAt: Date.now() });
+      const pdf = row.outputId ? await getBatchOutput(row.outputId) : await generatePdfForRow(row.values, { source: structuredClone(useBatchStore.getState().source ?? getSerializedSession()), batchId: `preview-${row.id}-${Date.now()}`, preview: true, retryPolicy: true, rowId: row.id, filename: batchRowFilename(row, detectedPlaceholders), capturedAt: Date.now() });
       if (!pdf) throw new Error('The saved result is unavailable. Keep your downloaded copy.');
+      if (generation !== previewRequest.current || !useUIStore.getState().batchModalOpen || JSON.stringify(useBatchStore.getState().rows.find(candidate => candidate.id === row.id)?.values) !== rowValues) return;
       const blob = new Blob([new Uint8Array(pdf)], { type: 'application/pdf' });
       const url = URL.createObjectURL(blob);
-
-      // Clean up old preview URL
-      if (previewUrl) {
-        URL.revokeObjectURL(previewUrl);
-      }
 
       setPreviewUrl(url);
     } catch (err) {
       const errorMsg = err instanceof Error ? err.message : 'Unknown error';
       debug.error('Batch', 'Preview failed', err);
-      setPreviewError(`Preview failed: ${errorMsg}`);
+      if (generation === previewRequest.current) setPreviewError(`Preview failed: ${errorMsg}`);
     } finally {
+      previewPending.current = false;
       setPreviewingRow(null);
     }
-  }, [isReadyToGenerate, generatePdfForRow, previewUrl, detectedPlaceholders]);
+  }, [isReadyToGenerate, generatePdfForRow, detectedPlaceholders]);
 
   // Close preview
   const closePreview = useCallback(() => {
-    if (previewUrl) {
-      URL.revokeObjectURL(previewUrl);
-    }
+    ++previewRequest.current;
     setPreviewUrl(null);
-  }, [previewUrl]);
+  }, []);
 
-  const downloadResult = (pdf: Uint8Array, filename: string) => {
-    const url = URL.createObjectURL(new Blob([new Uint8Array(pdf)], { type: 'application/pdf' }));
-    const link = document.createElement('a');
-    link.href = url; link.download = filename; link.click();
-    setTimeout(() => URL.revokeObjectURL(url), 30_000);
+  const downloadResult = async (pdf: Uint8Array, filename: string) => {
+    if (!await downloadPdfBlob(new Blob([new Uint8Array(pdf)], { type: 'application/pdf' }), filename)) throw new Error('The PDF could not be delivered. Use its saved result to try again.');
   };
   const handleGenerateBatch = (retryFailed = false) => {
-    if (!isReadyToGenerate || isGenerating) return;
+    if (!isReadyToGenerate || isGenerating || previewPending.current || useBatchStore.getState().rowActive) return;
     const session = source ?? getSerializedSession();
     void runBatchJob({ source: session, title: deriveTitle(session), placeholders: detectedPlaceholders,
       retryFailed, generate: generatePdfForRow, download: downloadResult });
@@ -571,8 +569,8 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
     return 'Tip: Add a variable to your Subject line like "PROMOTION OF {{NAME}} TO {{RANK}}"';
   }, [isFormsMode, formType]);
 
-  if (isFormsMode && !isBuiltinForm && !source) {
-    return <Dialog open={batchModalOpen} onOpenChange={setBatchModalOpen}>
+  if (isFormsMode && !isBuiltinForm && !source && !exportReview) {
+    return <Dialog open={batchModalOpen && !exportReview} onOpenChange={open => { if (open) setBatchModalOpen(true);else closePanel(); }}>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Batch generation</DialogTitle>
@@ -586,7 +584,7 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
   return (
     <>
       {isGenerating && !batchModalOpen && <button type="button" className="fixed bottom-6 right-4 z-50 rounded-md border border-border bg-card px-4 py-3 text-sm shadow-lg" onClick={() => setBatchModalOpen(true)}>Batch running · {lastResults?.succeeded ?? 0}/{rows.length} generated</button>}
-      <Dialog open={batchModalOpen} onOpenChange={setBatchModalOpen}>
+      <Dialog open={batchModalOpen && !exportReview} onOpenChange={open => { if (open) setBatchModalOpen(true);else closePanel(); }}>
         <DialogContent className="sm:max-w-3xl max-h-[85dvh] flex flex-col p-0 gap-0 overflow-hidden">
           <DialogHeader className="bg-card px-4 sm:px-6 py-4 pr-14 sm:pr-14 border-b border-border/50 shrink-0">
             <DialogTitle className="flex flex-wrap items-center gap-2">
@@ -881,7 +879,9 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
                                 idx={idx}
                                 detectedPlaceholders={detectedPlaceholders}
                                 isGenerating={isGenerating}
+                                isLocked={!!source}
                                 isPreviewing={previewingRow === row.id}
+                                isPreviewBusy={rowActive || !!previewingRow}
                                 isReadyToGenerate={isReadyToGenerate}
                                 canRemove={rows.length > 1}
                                 updateRowValue={updateRowValue}
@@ -932,25 +932,33 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
             {rows.some((r) => r.outputId) && <p className="font-medium">Generated files</p>}
             {rows.some((r) => r.outputId) && <div className="flex max-h-32 overflow-y-auto flex-wrap gap-2">
               {rows.filter((r) => r.outputId).map((r) => <Button key={r.id} size="sm" variant="outline" onClick={async () => {
-                const data = await getBatchOutput(r.outputId!);
-                if (data) downloadResult(data, r.filename!);
-                else useBatchStore.setState({ recoveryError: 'This result is no longer available in browser storage.' });
+                const prepared = preOpenWindowForIOS();
+                let transferred = false;
+                try {
+                  const data = await getBatchOutput(r.outputId!);
+                  if (!data) throw new Error('This result is no longer available in browser storage.');
+                  transferred = await downloadPdfBlob(new Blob([new Uint8Array(data)], { type: 'application/pdf' }), r.filename!, prepared);
+                  if (!transferred) throw new Error('This result could not be downloaded. Try again.');
+                } catch (error) {
+                  useBatchStore.setState({ recoveryError: error instanceof Error ? error.message : 'This result could not be downloaded.' });
+                } finally { if (!transferred && prepared && !prepared.closed) prepared.close(); }
               }}>Download {r.filename}</Button>)}
             </div>}
           </div>
           <DialogFooter className="bg-card px-6 py-4 border-t border-border/50 shrink-0">
-            <Button variant="outline" onClick={() => setBatchModalOpen(false)}>
+            <Button variant="outline" onClick={closePanel}>
               Close panel
             </Button>
+            {isGenerating && <Button variant="outline" disabled={!rowCanCancel} onClick={() => useBatchStore.getState().cancelCurrent()}>Cancel current row</Button>}
             {isGenerating && <Button variant="outline" disabled={stopRequested} onClick={() => useBatchStore.getState().stop()}>{stopRequested ? 'Stopping after this file…' : 'Stop after current file'}</Button>}
-            {!isGenerating && rows.some((r) => r.status === 'error') && <Button variant="outline" disabled={!isReadyToGenerate} onClick={() => handleGenerateBatch(true)}>Retry failed rows</Button>}
+            {!isGenerating && rows.some((r) => r.status === 'error') && <Button variant="outline" disabled={!isReadyToGenerate || rowActive || !!previewingRow} onClick={() => handleGenerateBatch(true)}>Retry failed rows</Button>}
             {!isGenerating && source && <Button variant="ghost" onClick={async () => {
               if (await showAppConfirm({ title: 'Start a new batch?', message: 'The current job and saved results will be cleared. Download any files you need first.', confirmLabel: 'Start new batch' })) useBatchStore.getState().reset();
             }}>New batch</Button>}
             {(!source || isGenerating || rows.some((r) => !r.status || r.status === 'pending')) && <Button
               data-tour="batch-generate"
               onClick={() => handleGenerateBatch()}
-              disabled={hasNoPlaceholders || isGenerating || !rows.some((r) => !r.status || r.status === 'pending') || !isReadyToGenerate}
+              disabled={hasNoPlaceholders || isGenerating || rowActive || !!previewingRow || !rows.some((r) => !r.status || r.status === 'pending') || !isReadyToGenerate}
               className="tracking-wide"
             >
               {isGenerating ? (
@@ -968,6 +976,9 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
           </DialogFooter>
         </DialogContent>
       </Dialog>
+      <BatchExportReviewModal review={exportReview} cancelLabel={isGenerating ? undefined : 'Cancel preview'}
+        onConfirm={() => { if (exportReview) useBatchStore.getState().confirmReview(exportReview.job, exportReview.stage); }}
+        onCancel={() => useBatchStore.getState().cancelCurrent()} />
 
       {/* Preview Dialog */}
       <Dialog open={!!previewUrl} onOpenChange={(open) => !open && closePreview()}>

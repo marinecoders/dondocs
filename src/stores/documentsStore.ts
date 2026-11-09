@@ -1275,7 +1275,9 @@ export const useDocumentsStore = create<DocumentsState>((set, get) => ({
       set({ trash });
       broadcastDocs({ type: 'delete', id });
       scheduleBackup();
-      void import('@/lib/attachmentGc').then((m) => void m.sweepOrphanedAttachments());
+      void import('@/lib/attachmentGc')
+        .then(m => m.sweepOrphanedAttachments())
+        .catch(error => debug.warn('Documents', 'Attachment cleanup could not finish after document deletion', error));
       return true;
     } finally { deletingDocuments.delete(id); }
   },
