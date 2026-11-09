@@ -1,8 +1,6 @@
-import { resolvePageNumbering } from '@/lib/pageNumbering';
 import { saveCheckpoint } from '@/lib/saveCheckpoint';
 import { usePageScrollLayout } from '@/hooks/usePageScrollLayout';
 import { applyTheme, THEMES } from '@/lib/appearance';
-import { publicationExportErrors, isTechnicalPublication } from '@/lib/publicationPreflight';
 import { loadFigureFiles } from '@/services/latex/figureAssets';
 import { publicationMarking } from '@/lib/publicationMarking';
 import { useEffect, useCallback, useMemo, useState, useRef, lazy, Suspense } from 'react';
@@ -45,11 +43,10 @@ import { TourOverlay } from '@/components/tour/TourOverlay';
 import { ActivationChecklist } from '@/components/onboarding/ActivationChecklist';
 import { useOnboardingStore } from '@/stores/onboardingStore';
 import { PIIWarningModal } from '@/components/modals/PIIWarningModal';
+import { usePreparedExports } from '@/hooks/usePreparedExports';
+import { createExportGate } from '@/lib/exportController';
+import { ExportMarkingReviewModal } from '@/components/modals/ExportMarkingReviewModal';
 import { ParagraphStructureModal } from '@/components/modals/ParagraphStructureModal';
-import {
-  validateParagraphStructure,
-  type ParagraphStructureFinding,
-} from '@/lib/paragraphStructureValidation';
 import { LogViewerModal } from '@/components/modals/LogViewerModal';
 import { EnclosureErrorModal } from '@/components/modals/EnclosureErrorModal';
 import { ShareModal } from '@/components/modals/ShareModal';
@@ -57,10 +54,7 @@ import { UpdatePromptModal } from '@/components/modals/UpdatePromptModal';
 import { InstallAppModal } from '@/components/modals/InstallAppModal';
 import { DownloadProgressModal } from '@/components/modals/DownloadProgressModal';
 import { CompileErrorModal } from '@/components/modals/CompileErrorModal';
-import {
-  docxPhaseToDownloadPhase,
-  type DownloadProgressPhase,
-} from '@/components/modals/downloadProgressTypes';
+import { type DownloadProgressPhase } from '@/components/modals/downloadProgressTypes';
 import { parseShareUrl } from '@/lib/shareCrypto';
 import { decodeHandoff, parseHandoffUrl } from '@/lib/localHandoff';
 import { showAppAlert } from '@/stores/alertStore';
@@ -78,7 +72,7 @@ import { useBatchStore } from '@/stores/batchStore';
 import { useFormCatalog } from '@/services/formCatalog';
 import { diagnosticText } from '@/services/forms/model';
 import { renderForm } from '@/services/forms/render';
-import { useDocumentsStore, correspondenceFilename, openSessionAsNew, changeDocumentHistory, captureDocumentScope, isCurrentDocumentScope, hydrateDocumentAssets, newCorrespondenceDocument } from '@/stores/documentsStore';
+import { useDocumentsStore, openSessionAsNew, changeDocumentHistory, captureDocumentScope, isCurrentDocumentScope, hydrateDocumentAssets, newCorrespondenceDocument } from '@/stores/documentsStore';
 import { useBackupStore } from '@/stores/backupStore';
 import { useEditorOutlineStore } from '@/stores/editorOutlineStore';
 import { useEditorSections } from '@/components/layout/editorSections';
@@ -120,20 +114,15 @@ import { usePandocIdlePrefetch } from '@/hooks/usePandocIdlePrefetch';
 import { generateAllLatexFiles, type GeneratedFiles } from '@/services/latex/generator';
 import { formatPublicationDate } from '@/lib/publicationDate';
 import { loadAttachment } from '@/lib/attachments';
-import { generateFlatLatex } from '@/services/latex/flat-generator';
-import { convertLatexToDocx } from '@/services/docx/pandoc-converter';
-import { pageStartNumber } from '@/lib/endorsement';
 import { generateNavmc10274Pdf, loadNavmc10274Templates } from '@/services/pdf/navmc10274Generator';
 import { generateNavmc11811Pdf, loadNavmc11811Template } from '@/services/pdf/navmc11811Generator';
 import { applyPlaceholdersToNavmc11811, buildNavmc11811DefaultValues } from '@/lib/placeholders';
 import { mergeEnclosures } from '@/services/pdf/mergeEnclosures';
 import type { EnclosureError } from '@/services/pdf/mergeEnclosures';
 import { shouldAssembleBasicLetter } from '@/services/pdf/assembleEndorsement';
-import { assembleBasicLetter, basicLetterError, getSignatoryConfig, getDualSignatoryConfig, finishCorrespondencePdf } from '@/services/pdf/finishCorrespondencePdf';
+import { assembleBasicLetter, getSignatoryConfig, getDualSignatoryConfig } from '@/services/pdf/finishCorrespondencePdf';
 import { addSignatureField, addDualSignatureFields } from '@/services/pdf/addSignatureField';
 import { DOC_TYPE_CONFIG, DOC_TYPE_LABELS, formTypeLabel } from '@/types/document';
-import { detectPII, type PIIDetectionResult } from '@/services/pii/detector';
-import { downloadPdfBlob, preOpenWindowForIOS } from '@/utils/downloadPdf';
 import { prefersMobileLayout, readLayoutEnvironment } from '@/utils/device/layout';
 
 // Helper to get classification marking for enclosures
@@ -181,7 +170,6 @@ function App() {
   const setPreviewWidth = useUIStore((s) => s.setPreviewWidth);
   const setFindReplaceOpen = useUIStore((s) => s.setFindReplaceOpen);
   const piiWarningOpen = useUIStore((s) => s.piiWarningOpen);
-  const setPiiWarningOpen = useUIStore((s) => s.setPiiWarningOpen);
   const setTemplateLoaderOpen = useUIStore((s) => s.setTemplateLoaderOpen);
   const setReferenceLibraryOpen = useUIStore((s) => s.setReferenceLibraryOpen);
   const setShareModal = useUIStore((s) => s.setShareModal);
@@ -242,16 +230,9 @@ function App() {
   // Download progress (PDF + DOCX). Non-null means a download is in flight or
   // failed; drives the modal and the Header's "Generating…" menu state.
   const [downloadProgress, setDownloadProgress] = useState<DownloadProgressPhase | null>(null);
-  // On a successful export, flash a brief "Downloaded — nothing left your device"
-  // beat before dismissing the progress modal, so the app narrates the ending it
-  // used to drop. The functional guard avoids clearing a fresh download the user
-  // kicked off during the beat.
-  const finishDownload = useCallback(() => {
-    setDownloadProgress({ kind: 'success' });
-    window.setTimeout(() => {
-      setDownloadProgress((p) => (p?.kind === 'success' ? null : p));
-    }, 1800);
-  }, []);
+  const [exportGate] = useState(createExportGate);
+  const preparedExports = usePreparedExports({ isReady, gate: exportGate, compile, waitForReady, setProgress: setDownloadProgress });
+  const { request: requestExport, retry: retryExport } = preparedExports;
   const compileTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const formCompileTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const isResettingRef = useRef(false);
@@ -269,16 +250,6 @@ function App() {
     else clearTimeout(idleEnhanceRef.current);
     idleEnhanceRef.current = null;
   }, []);
-
-  // PII detection state
-  const [piiDetectionResult, setPiiDetectionResult] = useState<PIIDetectionResult | null>(null);
-  // Ch 7 ¶13/¶13d findings parked for the pre-export review, plus which export
-  // asked for it. `structureAckRef` is a one-shot token: "Download anyway" sets
-  // it, the re-entered handler consumes it, so the next export is checked again.
-  const [structureFindings, setStructureFindings] = useState<ParagraphStructureFinding[] | null>(null);
-  const pendingStructureExportRef = useRef<'pdf' | 'docx' | null>(null);
-  const structureAckRef = useRef(false);
-  const pendingDownloadRef = useRef<GeneratedFiles | null>(null);
 
   // Enclosure error state
   const [enclosureErrors, setEnclosureErrors] = useState<EnclosureError[]>([]);
@@ -808,436 +779,10 @@ function App() {
     };
   }, [currentDocId, documentCategory, formType, navmc10274, navmc11811, genericForm, navmc10274Templates, navmc11811Template, includeCoverPage, formRefresh]);
 
-  // Track if download is in progress to prevent double downloads
-  const downloadInProgressRef = useRef(false);
-
-  // Core download function, also called on retry. onProgress is optional so
-  // batch/programmatic callers can skip the modal wiring.
-  const executeDownload = useCallback(async (
-    preOpenedWindow?: Window | null,
-    onProgress?: (phase: DownloadProgressPhase) => void,
-  ): Promise<boolean> => {
-    // Ensure any just-restored enclosure bytes are back before the export
-    // pipeline reads file.data (no-op once already hydrated).
-    await hydrateDocumentAssets();
-    // Snapshot fresh state at download time via getState().
-    const currentStore = useDocumentStore.getState();
-    const errors = publicationExportErrors(currentStore);
-    if (errors.length) throw new Error(errors.join('\n'));
-    const generated = generateAllLatexFiles(currentStore);
-    const { texFiles, signatureImage, figures } = generated;
-
-    // Build files object including signature image if present
-    const files: Record<string, string | Uint8Array> = { ...texFiles };
-    if (signatureImage) {
-      files['attachments/signature.png'] = signatureImage;
-    }
-    await addFigureFiles(files, figures);
-
-    onProgress?.({ kind: 'pdf-compiling' });
-    let pdfBytes = await compile(files);
-
-    if (pdfBytes) {
-      onProgress?.({ kind: 'pdf-merging-enclosures' });
-      const finished = await finishCorrespondencePdf(pdfBytes, currentStore.docType, currentStore.formData, generated, currentStore.paragraphs);
-      pdfBytes = finished.pdfBytes;
-      if (isTechnicalPublication(currentStore.docType) && finished.errors.length) throw new Error(finished.errors.map((e) => e.error).join('\n'));
-      if (finished.errors.length) {
-        setEnclosureErrors(finished.errors);
-        setShowEnclosureErrors(true);
-      }
-
-      onProgress?.({ kind: 'pdf-saving' });
-      const blob = new Blob([new Uint8Array(pdfBytes)], { type: 'application/pdf' });
-      const downloaded = await downloadPdfBlob(blob, correspondenceFilename('pdf'), preOpenedWindow);
-      // First real PDF checks off "Build your first document" (idempotent).
-      if (downloaded) useOnboardingStore.getState().markComplete('first_document');
-      return downloaded;
-    }
-    return false;
-  }, [compile]);
-
-  const handleDownloadPdfInternal = useCallback(async () => {
-    // Prevent multiple simultaneous downloads
-    if (downloadInProgressRef.current) {
-      console.log('Download already in progress, skipping');
-      return;
-    }
-    downloadInProgressRef.current = true;
-
-    // Pre-open window for iOS BEFORE any async work (must be synchronous from user gesture)
-    const preOpenedWindow = preOpenWindowForIOS();
-
-    // Show the modal immediately; the compile step alone can take seconds.
-    setDownloadProgress({ kind: 'pdf-preparing' });
-    setIsCompiling(true);
-    setCompileError(null);
-    try {
-      const success = await executeDownload(preOpenedWindow, setDownloadProgress);
-      if (!success) {
-        if (preOpenedWindow) preOpenedWindow.close();
-        // No exception but no PDF either; worth reporting.
-        addLogDirect('error', 'PDF download failed: no output produced');
-        setDownloadProgress({
-          kind: 'error',
-          target: 'pdf',
-          title: 'PDF download failed',
-          message:
-            'No PDF was produced. Check the preview panel for compile errors and try again.',
-          retryable: true,
-          reportable: true,
-        });
-        return;
-      }
-      // Success: hide the modal.
-      finishDownload();
-    } catch (err) {
-      console.error('Download error:', err);
-      const errorMessage = err instanceof Error ? err.message : 'Download failed';
-      // SwiftLaTeX attaches the full compile log to the thrown error as
-      // .compileLog; surface it in the error UI and the log store.
-      const compileLog = (err as Error & { compileLog?: string })?.compileLog;
-
-      // Mirror compilePdf's logging pattern so the LogViewer shows the
-      // full context even if the user closes the error modal.
-      addLogDirect('error', `PDF download failed: ${errorMessage}`);
-      if (compileLog) addLogDirect('error', compileLog);
-
-      // If engine reset was needed, wait for it and retry once. Keep the
-      // modal visible on the preparing phase while we wait.
-      if (errorMessage === 'ENGINE_RESET_NEEDED') {
-        console.log('Engine reset needed, waiting for engine to be ready...');
-        setDownloadProgress({ kind: 'pdf-preparing' });
-        try {
-          const ready = await waitForReady(10000); // 10 second timeout
-          if (ready) {
-            console.log('Engine ready, retrying download...');
-            const success = await executeDownload(preOpenedWindow, setDownloadProgress);
-            if (!success) {
-              if (preOpenedWindow) preOpenedWindow.close();
-              // Engine reset succeeded but the retry produced nothing; worth reporting.
-              setDownloadProgress({
-                kind: 'error',
-                target: 'pdf',
-                title: 'PDF download failed',
-                message: 'PDF generation failed after an engine retry — no output was produced.',
-                retryable: true,
-                reportable: true,
-              });
-            } else {
-              finishDownload();
-            }
-          } else {
-            if (preOpenedWindow) preOpenedWindow.close();
-            // Engine didn't come back in time; offer a manual retry.
-            setDownloadProgress({
-              kind: 'error',
-              target: 'pdf',
-              title: 'Engine failed to recover',
-              message:
-                'The LaTeX engine didn\u2019t restart in time. Give it a moment and try again.',
-              retryable: true,
-              reportable: false,
-            });
-          }
-        } catch (retryErr) {
-          console.error('Retry failed:', retryErr);
-          const retryMsg = retryErr instanceof Error ? retryErr.message : 'Download failed';
-          const retryLog = (retryErr as Error & { compileLog?: string })?.compileLog;
-          addLogDirect('error', `PDF retry failed: ${retryMsg}`);
-          if (retryLog) addLogDirect('error', retryLog);
-          if (preOpenedWindow) preOpenedWindow.close();
-          setDownloadProgress({
-            kind: 'error',
-            target: 'pdf',
-            title: 'PDF download failed',
-            message: `Download failed after retry: ${retryMsg}`,
-            compileLog: retryLog,
-            retryable: true,
-            reportable: true,
-          });
-        }
-        return;
-      }
-
-      if (preOpenedWindow) preOpenedWindow.close();
-      setDownloadProgress({
-        kind: 'error',
-        target: 'pdf',
-        title: 'PDF download failed',
-        message: errorMessage,
-        compileLog,
-        retryable: true,
-        reportable: true,
-      });
-    } finally {
-      setIsCompiling(false);
-      downloadInProgressRef.current = false;
-    }
-  }, [executeDownload, waitForReady, addLogDirect, finishDownload]);
-
-  // DOCX download helpers (must be before handleProceedWithPII)
-  const pendingDocxRef = useRef<boolean>(false);
-
-  const executeDocxDownload = useCallback(async () => {
-    const currentStore = useDocumentStore.getState();
-    const latexContent = generateFlatLatex(currentStore);
-    // Show the progress modal immediately; the first run can sit in
-    // docx-preparing for several seconds before the WASM fetch on slow
-    // connections. On error, leave downloadProgress set: the caller flips the
-    // modal into an error phase, avoiding a hidden-then-shown flash.
-    setDownloadProgress({ kind: 'docx-preparing' });
-    const blob = await convertLatexToDocx(
-      latexContent,
-      {
-        sealType: currentStore.formData.sealType,
-        letterheadColor: currentStore.formData.letterheadColor,
-        fontFamily: currentStore.formData.fontFamily,
-        fontSize: currentStore.formData.fontSize,
-        classLevel: currentStore.formData.classLevel,
-        customClassification: currentStore.formData.customClassification,
-        showSubjectOnContinuation: currentStore.formData.showSubjectOnContinuation,
-        docType: currentStore.docType,
-        pageNumbering: resolvePageNumbering(currentStore.docType, currentStore.documentMode, currentStore.formData.pageNumbering),
-        startingPageNumber: pageStartNumber(
-          currentStore.docType,
-          currentStore.formData.startingPageNumber,
-        ),
-      },
-      (phase) => setDownloadProgress(docxPhaseToDownloadPhase(phase)),
-    );
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = correspondenceFilename('docx');
-    a.click();
-    setTimeout(() => URL.revokeObjectURL(url), 1000);
-    // Success: clear the modal.
-    finishDownload();
-  }, [finishDownload]);
-
-  // Core PII download function - can be called for retry
-  const executePIIDownload = useCallback(async (
-    preOpenedWindow?: Window | null,
-    onProgress?: (phase: DownloadProgressPhase) => void,
-  ): Promise<boolean> => {
-    if (!pendingDownloadRef.current) return false;
-
-    const currentStore = useDocumentStore.getState();
-    const errors = publicationExportErrors(currentStore);
-    if (errors.length) throw new Error(errors.join('\n'));
-    const { texFiles, enclosures, includeHyperlinks, signatureImage, referenceUrls, figures } = generateAllLatexFiles(currentStore);
-
-    const files: Record<string, string | Uint8Array> = { ...texFiles };
-    if (signatureImage) {
-      files['attachments/signature.png'] = signatureImage;
-    }
-    await addFigureFiles(files, figures);
-
-    onProgress?.({ kind: 'pdf-compiling' });
-    let pdfBytes = await compile(files);
-
-    if (pdfBytes) {
-      // Assemble the basic letter ahead of the endorsement (see the primary
-      // download path above); surface a bad upload rather than dropping it.
-      const assembled = await assembleBasicLetter(pdfBytes, currentStore.docType, currentStore.formData);
-      pdfBytes = assembled.pdfBytes;
-      // Same accumulate-then-set as the primary download path: the enclosure
-      // merge's errors must not overwrite the basic-letter entry.
-      const exportErrors: EnclosureError[] = assembled.error
-        ? [basicLetterError(assembled.error)]
-        : [];
-      let lastBasicPageIndex: number | undefined;
-      if (enclosures.length > 0 || (includeHyperlinks && referenceUrls.length > 0)) {
-        onProgress?.({ kind: 'pdf-merging-enclosures' });
-        const classification = publicationMarking(currentStore.formData, currentStore.paragraphs);
-        const mergeResult = await mergeEnclosures(pdfBytes, enclosures, classification, includeHyperlinks, referenceUrls, mergeOptionsFor(currentStore));
-        pdfBytes = mergeResult.pdfBytes;
-        lastBasicPageIndex = mergeResult.basicPageCount !== undefined ? mergeResult.basicPageCount - 1 : undefined;
-        if (mergeResult.hasErrors) exportErrors.push(...mergeResult.errors);
-      }
-      if (isTechnicalPublication(currentStore.docType) && exportErrors.length) throw new Error(exportErrors.map((e) => e.error).join('\n'));
-      // Track export errors for user notification (PII download context)
-      if (exportErrors.length > 0) {
-        setEnclosureErrors(exportErrors);
-        setShowEnclosureErrors(true);
-      }
-
-      // Add digital signature field if requested
-      if (currentStore.formData.signatureType === 'digital') {
-        onProgress?.({ kind: 'pdf-signing' });
-        const config = DOC_TYPE_CONFIG[currentStore.docType];
-        const isDualSignature = config?.uiMode === 'moa' || config?.compliance?.dualSignature;
-        if (isDualSignature) {
-          const sigConfig = getDualSignatoryConfig(currentStore.formData, config?.uiMode);
-          pdfBytes = await addDualSignatureFields(new Uint8Array(pdfBytes), { ...sigConfig, lastBasicPageIndex });
-        } else {
-          const sigConfig = getSignatoryConfig(currentStore.formData);
-          pdfBytes = await addSignatureField(new Uint8Array(pdfBytes), { ...sigConfig, lastBasicPageIndex });
-        }
-      }
-
-      onProgress?.({ kind: 'pdf-saving' });
-      const blob = new Blob([new Uint8Array(pdfBytes)], { type: 'application/pdf' });
-      const downloaded = await downloadPdfBlob(blob, correspondenceFilename('pdf'), preOpenedWindow);
-      // First real PDF checks off "Build your first document" (idempotent).
-      if (downloaded) useOnboardingStore.getState().markComplete('first_document');
-      return downloaded;
-    }
-    return false;
-  }, [compile]);
-
-  // Handle proceeding with download after PII warning is acknowledged
-  const handleProceedWithPII = useCallback(async () => {
-    // Check if this was a DOCX download
-    if (pendingDocxRef.current) {
-      pendingDocxRef.current = false;
-      setPiiDetectionResult(null);
-      try {
-        await executeDocxDownload();
-      } catch (err) {
-        console.error('DOCX generation error:', err);
-        const msg = err instanceof Error ? err.message : 'An unexpected error occurred while generating the DOCX.';
-        addLogDirect('error', `DOCX download failed: ${msg}`);
-        setDownloadProgress({
-          kind: 'error',
-          target: 'docx',
-          title: 'DOCX download failed',
-          message: msg,
-          retryable: true,
-          reportable: true,
-        });
-      }
-      return;
-    }
-
-    if (!pendingDownloadRef.current) return;
-
-    // Prevent clicks while download is in progress
-    if (downloadInProgressRef.current) {
-      console.log('Download already in progress, ignoring PII proceed');
-      return;
-    }
-    downloadInProgressRef.current = true;
-
-    // Pre-open window for iOS BEFORE any async work (must be synchronous from user gesture)
-    const preOpenedWindow = preOpenWindowForIOS();
-
-    setDownloadProgress({ kind: 'pdf-preparing' });
-    setIsCompiling(true);
-    setCompileError(null);
-
-    try {
-      const success = await executePIIDownload(preOpenedWindow, setDownloadProgress);
-      if (!success) {
-        if (preOpenedWindow) preOpenedWindow.close();
-        addLogDirect('error', 'PDF download failed: no output produced');
-        setDownloadProgress({
-          kind: 'error',
-          target: 'pdf',
-          title: 'PDF download failed',
-          message:
-            'No PDF was produced. Check the preview panel for compile errors and try again.',
-          retryable: true,
-          reportable: true,
-        });
-        return;
-      }
-      finishDownload();
-    } catch (err) {
-      console.error('Download error:', err);
-      const errorMessage = err instanceof Error ? err.message : 'Download failed';
-      const compileLog = (err as Error & { compileLog?: string })?.compileLog;
-
-      addLogDirect('error', `PDF download failed: ${errorMessage}`);
-      if (compileLog) addLogDirect('error', compileLog);
-
-      // If engine reset was needed, wait for it and retry once
-      if (errorMessage === 'ENGINE_RESET_NEEDED') {
-        console.log('Engine reset needed for PII download, waiting for engine to be ready...');
-        setDownloadProgress({ kind: 'pdf-preparing' });
-        try {
-          const ready = await waitForReady(10000);
-          if (ready) {
-            console.log('Engine ready, retrying PII download...');
-            const success = await executePIIDownload(preOpenedWindow, setDownloadProgress);
-            if (!success) {
-              if (preOpenedWindow) preOpenedWindow.close();
-              setDownloadProgress({
-                kind: 'error',
-                target: 'pdf',
-                title: 'PDF download failed',
-                message: 'PDF generation failed after an engine retry — no output was produced.',
-                retryable: true,
-                reportable: true,
-              });
-            } else {
-              finishDownload();
-            }
-          } else {
-            if (preOpenedWindow) preOpenedWindow.close();
-            setDownloadProgress({
-              kind: 'error',
-              target: 'pdf',
-              title: 'Engine failed to recover',
-              message:
-                'The LaTeX engine didn\u2019t restart in time. Give it a moment and try again.',
-              retryable: true,
-              reportable: false,
-            });
-          }
-        } catch (retryErr) {
-          console.error('PII download retry failed:', retryErr);
-          const retryMsg = retryErr instanceof Error ? retryErr.message : 'Download failed';
-          const retryLog = (retryErr as Error & { compileLog?: string })?.compileLog;
-          addLogDirect('error', `PDF retry failed: ${retryMsg}`);
-          if (retryLog) addLogDirect('error', retryLog);
-          if (preOpenedWindow) preOpenedWindow.close();
-          setDownloadProgress({
-            kind: 'error',
-            target: 'pdf',
-            title: 'PDF download failed',
-            message: `Download failed after retry: ${retryMsg}`,
-            compileLog: retryLog,
-            retryable: true,
-            reportable: true,
-          });
-        }
-        return;
-      }
-
-      if (preOpenedWindow) preOpenedWindow.close();
-      setDownloadProgress({
-        kind: 'error',
-        target: 'pdf',
-        title: 'PDF download failed',
-        message: errorMessage,
-        compileLog,
-        retryable: true,
-        reportable: true,
-      });
-    } finally {
-      setIsCompiling(false);
-      downloadInProgressRef.current = false;
-      pendingDownloadRef.current = null;
-      setPiiDetectionResult(null);
-    }
-  }, [executePIIDownload, executeDocxDownload, waitForReady, addLogDirect, finishDownload]);
-
-  // Handle canceling download after PII warning
-  const handleCancelPIIDownload = useCallback(() => {
-    pendingDownloadRef.current = null;
-    pendingDocxRef.current = false;
-    setPiiDetectionResult(null);
-  }, []);
-
   // Form-specific PDF download handler
   const handleDownloadFormPdf = useCallback(async () => {
-    if (downloadInProgressRef.current) {
-      console.log('Download already in progress, ignoring click');
-      return;
-    }
-    downloadInProgressRef.current = true;
+    const release = exportGate.acquire();
+    if (!release) return;
 
     try {
       let pdfBytes: Uint8Array | null = null;
@@ -1307,253 +852,24 @@ function App() {
         reportable: true,
       });
     } finally {
-      downloadInProgressRef.current = false;
+      release();
     }
-  }, [formType, navmc10274, navmc11811, includeCoverPage, navmc10274Templates, navmc11811Template, genericForm]);
+  }, [formType, navmc10274, navmc11811, includeCoverPage, navmc10274Templates, navmc11811Template, genericForm, exportGate]);
 
   const handleDownloadPdf = useCallback(() => {
-    // Reveal validation now, so the section rail's error dots appear on Generate.
     useUIStore.getState().setValidationVisible(true);
-    // Handle forms mode separately
-    if (documentCategory === 'forms') {
-      handleDownloadFormPdf();
-      return;
-    }
-
-    // Correspondence mode - check engine ready
-    if (!isReady) {
-      // Surface the problem in the download modal (same place all other
-      // download errors live) with a Retry button. The engine typically
-      // finishes initializing within a few seconds of page load, so one
-      // retry click is usually all the user needs.
-      setDownloadProgress({
-        kind: 'error',
-        target: 'pdf',
-        title: 'Engine still starting up',
-        message:
-          'The LaTeX engine is still initializing. Give it a couple seconds and try again.',
-        retryable: true,
-        // Not a bug worth reporting; a normal transient state.
-        reportable: false,
-      });
-      return;
-    }
-
-    // Prevent clicks while download is in progress (including during retry)
-    if (downloadInProgressRef.current) {
-      console.log('Download already in progress, ignoring click');
-      return;
-    }
-
-    const publicationErrors = publicationExportErrors(useDocumentStore.getState());
-    if (publicationErrors.length) {
-      setDownloadProgress({ kind: 'error', target: 'pdf', title: 'Complete the publication before export',
-        message: publicationErrors.join('\n'), retryable: false, reportable: false });
-      return;
-    }
-
-    console.log('Manual download click');
-
-    // Ch 7 ¶13/¶13d review, ahead of the PII check so the privacy warning stays
-    // the last thing seen before the file is written. Never blocks — the modal's
-    // "Download anyway" re-enters here with the ack token set.
-    if (structureAckRef.current) {
-      structureAckRef.current = false;
-    } else {
-      const structure = ['sl3', 'sl4'].includes(useDocumentStore.getState().docType) ? [] : validateParagraphStructure(useDocumentStore.getState().paragraphs);
-      if (structure.length > 0) {
-        pendingStructureExportRef.current = 'pdf';
-        setStructureFindings(structure);
-        useUIStore.getState().setStructureWarningOpen(true);
-        return;
-      }
-    }
-
-    // Check for PII before downloading
-    const currentStore = useDocumentStore.getState();
-    const piiResult = detectPII(currentStore);
-    if (piiResult.found) {
-      // Store the generated files for later use
-      const { texFiles, enclosures, includeHyperlinks, signatureImage, referenceUrls, figures } = generateAllLatexFiles(currentStore);
-      pendingDownloadRef.current = { texFiles, enclosures, includeHyperlinks, signatureImage, referenceUrls, figures };
-      setPiiDetectionResult(piiResult);
-      setPiiWarningOpen(true);
-      return;
-    }
-
-    // No PII found, proceed with download
-    handleDownloadPdfInternal();
-  }, [documentCategory, isReady, handleDownloadPdfInternal, handleDownloadFormPdf, setPiiWarningOpen]);
-
-  const handleDownloadTex = useCallback(() => {
-    const { texFiles } = generateAllLatexFiles(useDocumentStore.getState());
-
-    // Combine all generated tex files into one downloadable file
-    // The files are: document.tex, letterhead.tex, signatory.tex, flags.tex,
-    // references.tex, reference-urls.tex, encl-config.tex, copyto-config.tex,
-    // body.tex, classification.tex
-    const combinedTex = `%=============================================================================
-% DONDOCS CORRESPONDENCE EXPORT
-% Generated: ${new Date().toISOString()}
-%
-% This file contains all the configuration for your document.
-% The main.tex template (not included) uses \\input{} to load these files.
-% To compile: Use the dondocs web app or a LaTeX distribution with
-% the main.tex template.
-%=============================================================================
-
-%-----------------------------------------------------------------------------
-% LETTERHEAD CONFIGURATION (letterhead.tex)
-%-----------------------------------------------------------------------------
-${texFiles['letterhead.tex'] || '% No letterhead configuration'}
-
-%-----------------------------------------------------------------------------
-% DOCUMENT CONFIGURATION (document.tex)
-%-----------------------------------------------------------------------------
-${texFiles['document.tex'] || '% No document configuration'}
-
-%-----------------------------------------------------------------------------
-% CLASSIFICATION (classification.tex)
-%-----------------------------------------------------------------------------
-${texFiles['classification.tex'] || '% No classification'}
-
-%-----------------------------------------------------------------------------
-% SIGNATORY CONFIGURATION (signatory.tex)
-%-----------------------------------------------------------------------------
-${texFiles['signatory.tex'] || '% No signatory configuration'}
-
-%-----------------------------------------------------------------------------
-% FLAGS (flags.tex)
-%-----------------------------------------------------------------------------
-${texFiles['flags.tex'] || '% No flags'}
-
-%-----------------------------------------------------------------------------
-% REFERENCES (references.tex)
-%-----------------------------------------------------------------------------
-${texFiles['references.tex'] || '% No references'}
-
-%-----------------------------------------------------------------------------
-% REFERENCE URLs (reference-urls.tex)
-%-----------------------------------------------------------------------------
-${texFiles['reference-urls.tex'] || '% No reference URLs'}
-
-%-----------------------------------------------------------------------------
-% ENCLOSURES (encl-config.tex)
-%-----------------------------------------------------------------------------
-${texFiles['encl-config.tex'] || '% No enclosures'}
-
-%-----------------------------------------------------------------------------
-% COPY TO / DISTRIBUTION (copyto-config.tex)
-%-----------------------------------------------------------------------------
-${texFiles['copyto-config.tex'] || '% No copy-to recipients'}
-
-%-----------------------------------------------------------------------------
-% DOCUMENT BODY (body.tex)
-%-----------------------------------------------------------------------------
-${texFiles['body.tex'] || '% No body content'}
-`;
-
-    const blob = new Blob([combinedTex], { type: 'text/plain' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = correspondenceFilename('tex');
-    a.click();
-    URL.revokeObjectURL(url);
-  }, []);
-
-  const handleDownloadFlatTex = useCallback(() => {
-    const flatTex = generateFlatLatex(useDocumentStore.getState());
-    const blob = new Blob([flatTex], { type: 'text/plain' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'correspondence-flat.tex';
-    a.click();
-    URL.revokeObjectURL(url);
-  }, []);
-
-  const handleDownloadDocx = useCallback(async () => {
-    // Publication types are delivered as PDF; the menu hides DOCX for them
-    // and the shortcut and palette land here.
-    const activeDocument = useDocumentStore.getState();
-    if (activeDocument.documentCategory === 'forms' || DOC_TYPE_CONFIG[activeDocument.docType]?.pdfOnly) return;
+    if (useDocumentStore.getState().documentCategory === 'forms') void handleDownloadFormPdf();
+    else requestExport('pdf');
+  }, [handleDownloadFormPdf, requestExport]);
+  const handleDownloadTex = useCallback(() => { requestExport('tex', 'configuration'); }, [requestExport]);
+  const handleDownloadFlatTex = useCallback(() => { requestExport('tex', 'flat'); }, [requestExport]);
+  const handleDownloadDocx = useCallback(() => {
+    const active = useDocumentStore.getState();
+    if (active.documentCategory === 'forms' || DOC_TYPE_CONFIG[active.docType]?.pdfOnly) return;
     useUIStore.getState().setValidationVisible(true);
-    // Ch 7 ¶13/¶13d review, ahead of the PII check so the privacy warning stays
-    // the last thing seen before the file is written. Never blocks — the modal's
-    // "Download anyway" re-enters here with the ack token set.
-    if (structureAckRef.current) {
-      structureAckRef.current = false;
-    } else {
-      const structure = ['sl3', 'sl4'].includes(useDocumentStore.getState().docType) ? [] : validateParagraphStructure(useDocumentStore.getState().paragraphs);
-      if (structure.length > 0) {
-        pendingStructureExportRef.current = 'docx';
-        setStructureFindings(structure);
-        useUIStore.getState().setStructureWarningOpen(true);
-        return;
-      }
-    }
-
-    // Check for PII before downloading
-    const piiResult = detectPII(useDocumentStore.getState());
-    if (piiResult.found) {
-      pendingDocxRef.current = true;
-      setPiiDetectionResult(piiResult);
-      setPiiWarningOpen(true);
-      return;
-    }
-
-    try {
-      await executeDocxDownload();
-    } catch (err) {
-      console.error('DOCX generation error:', err);
-      const msg = err instanceof Error ? err.message : 'An unexpected error occurred while generating the DOCX.';
-      addLogDirect('error', `DOCX download failed: ${msg}`);
-      setDownloadProgress({
-        kind: 'error',
-        target: 'docx',
-        title: 'DOCX download failed',
-        message: msg,
-        retryable: true,
-        reportable: true,
-      });
-    }
-  }, [executeDocxDownload, setPiiWarningOpen, addLogDirect]);
-
-  // Pre-export structure review outcomes. Defined after both download handlers
-  // because "Download anyway" re-enters whichever one was interrupted.
-  const handleProceedWithStructure = useCallback(() => {
-    const kind = pendingStructureExportRef.current;
-    pendingStructureExportRef.current = null;
-    setStructureFindings(null);
-    structureAckRef.current = true;
-    if (kind === 'pdf') handleDownloadPdf();
-    else if (kind === 'docx') void handleDownloadDocx();
-  }, [handleDownloadPdf, handleDownloadDocx]);
-
-  const handleCancelStructureReview = useCallback(() => {
-    // Drop the parked export; the drafter went back to the paragraphs. The ack
-    // token stays false so the next attempt is checked again.
-    pendingStructureExportRef.current = null;
-    setStructureFindings(null);
-  }, []);
-
-  /**
-   * Re-run the last failed download. The error phase carries the target
-   * (pdf | docx), so dispatch to the matching entry point; those handle PII
-   * re-check, engine-ready check, and progress reset.
-   */
-  const handleRetryDownload = useCallback(() => {
-    if (!downloadProgress || downloadProgress.kind !== 'error') return;
-    const target = downloadProgress.target;
-    // Clear the error immediately so the retry can set a fresh phase.
-    setDownloadProgress(null);
-    if (target === 'pdf') {
-      handleDownloadPdf();
-    } else {
-      handleDownloadDocx();
-    }
-  }, [downloadProgress, handleDownloadPdf, handleDownloadDocx]);
+    requestExport('docx');
+  }, [requestExport]);
+  const handleRetryDownload = useCallback(() => { retryExport(); }, [retryExport]);
 
   const currentPreviewUrl = documentCategory === 'forms'
     ? (formPdfDocumentId === currentDocId ? formPdfUrl : null)
@@ -2088,14 +1404,23 @@ ${texFiles['body.tex'] || '% No body content'}
       <TourOverlay />
       <ActivationChecklist />
       <PIIWarningModal
-        detectionResult={piiDetectionResult}
-        onCancel={handleCancelPIIDownload}
-        onProceed={handleProceedWithPII}
+        exportName={preparedExports.state.phase === 'review' ? preparedExports.state.job.filename : undefined}
+        detectionResult={preparedExports.state.phase === 'review' && preparedExports.state.stage === 'privacy' ? preparedExports.review?.privacy ?? null : null}
+        onProceed={preparedExports.confirm}
+        onCancel={preparedExports.cancelReview}
       />
       <ParagraphStructureModal
-        findings={structureFindings}
-        onCancel={handleCancelStructureReview}
-        onProceed={handleProceedWithStructure}
+        exportName={preparedExports.state.phase === 'review' ? preparedExports.state.job.filename : undefined}
+        findings={preparedExports.state.phase === 'review' && preparedExports.state.stage === 'structure' ? preparedExports.review?.structure ?? null : null}
+        onProceed={preparedExports.confirm}
+        onCancel={preparedExports.cancelReview}
+      />
+      <ExportMarkingReviewModal
+        open={preparedExports.state.phase === 'review' && preparedExports.state.stage === 'marking'}
+        filename={preparedExports.state.phase === 'review' ? preparedExports.state.job.filename : ''}
+        notices={preparedExports.review?.notices ?? []}
+        onProceed={preparedExports.confirm}
+        onCancel={preparedExports.cancelReview}
       />
       <LogViewerModal />
       <EnclosureErrorModal
@@ -2135,6 +1460,7 @@ ${texFiles['body.tex'] || '% No body content'}
         phase={downloadProgress}
         onClose={() => setDownloadProgress(null)}
         onRetry={handleRetryDownload}
+        onCancel={preparedExports.canCancel ? () => { preparedExports.cancel(); } : undefined}
       />
       <CompileErrorModal
         open={compileErrorModalOpen}

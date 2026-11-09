@@ -32,6 +32,7 @@ export interface ExportReview {
   privacy: PIIDetectionResult;
   structure: ParagraphStructureFinding[];
   notices: string[];
+  markingReview: boolean;
 }
 interface PreparedContent {
   captured: CapturedDocument;
@@ -99,6 +100,7 @@ export function prepareExport(input: {
     let output = projectCapturedOutput(substituted);
     const snapshot = copyCapturedDocument(output).document;
     const notices: string[] = capability.status === 'partial' && input.texMode !== 'flat' ? [capability.message] : [];
+    let markingReview = false;
     let marking: ClassificationInfo | undefined;
     if (output.kind === 'correspondence') {
       const portions = [...snapshot.paragraphs,
@@ -112,10 +114,16 @@ export function prepareExport(input: {
       const portionLevel = deriveOverallClassLevel('unclassified', portions) as ClassificationLevel;
       const customMarking = level === 'custom' ? detectClassification(customText!) : undefined;
       const selectedLevel = customMarking?.classLevel ?? level as ClassificationLevel;
-      if (customMarking && classificationBannerLevel(customText!) === null) notices.push('Review the custom banner: its classification could not be determined automatically.');
+      if (customMarking && classificationBannerLevel(customText!) === null) {
+        notices.push('Review the custom banner: its classification could not be determined automatically.');
+        markingReview = true;
+      }
       const effectiveLevel = classificationRank(portionLevel)! > classificationRank(selectedLevel)! ? portionLevel : selectedLevel;
       if (!input.policy.policy.allowedLevels.includes(effectiveLevel)) return error(`The prepared ${effectiveLevel.replaceAll('_', ' ').toUpperCase()} marking is outside this deployment's configured levels.`);
-      if (level === 'custom' && classificationRank(portionLevel)! > classificationRank(selectedLevel)!) notices.push('Review the custom banner against the higher portion markings.');
+      if (level === 'custom' && classificationRank(portionLevel)! > classificationRank(selectedLevel)!) {
+        notices.push('Review the custom banner against the higher portion markings.');
+        markingReview = true;
+      }
       snapshot.formData.classLevel = level;
       marking = publicationMarking(snapshot.formData, portions);
       const issues = publicationExportErrors(snapshot, new Date(output.source.capturedAt));
@@ -125,8 +133,8 @@ export function prepareExport(input: {
     const privacy = detectCapturedPII(output, 'output');
     const structure = output.kind === 'correspondence' && !['sl3', 'sl4'].includes(snapshot.docType) ? validateParagraphStructure(snapshot.paragraphs) : [];
     const job: PreparedExportJob = Object.freeze({ [preparedBrand]: true as const, id: input.id, source: output.source, kind: output.kind, target: input.target, ...(input.target === 'tex' ? { texMode: input.texMode ?? 'configuration' } : {}), filename: input.filename, policyIdentity: input.policy.policy.identity });
-    prepared.set(job, { captured: output, policy: input.policy.policy, marking, review: { privacy, structure, notices } });
-    return privacy.found || structure.length || notices.some(notice => notice.startsWith('Review the custom'))
+    prepared.set(job, { captured: output, policy: input.policy.policy, marking, review: { privacy, structure, notices, markingReview } });
+    return privacy.found || structure.length || markingReview
       ? Object.freeze({ status: 'needs-review', job })
       : Object.freeze({ status: 'ready', job: acknowledgePreparedExport(job) });
   } catch (cause) { return error(cause instanceof Error ? cause.message : 'The document could not be prepared.'); }

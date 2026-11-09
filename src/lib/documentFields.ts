@@ -87,6 +87,7 @@ function active(source: DocumentFieldSource, path: FieldPath, projection: FieldP
   if (key === 'body' && projection !== 'search') return false;
   if (publicationFields.has(key)) return technical;
   if (letterheadFields.has(key)) return config.letterhead || technical;
+  if (key === 'seniorActing' || key === 'juniorActing') return ['moa', 'joint', 'joint_memo'].includes(config.uiMode);
   if (/^(senior|junior)/.test(key) || key === 'moaSubject') return config.uiMode === 'moa';
   if (key.startsWith('jointMemo')) return config.uiMode === 'joint_memo';
   if (key.startsWith('joint')) return config.uiMode === 'joint' || config.uiMode === 'joint_memo';

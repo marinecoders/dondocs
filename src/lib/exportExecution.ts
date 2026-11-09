@@ -1,3 +1,5 @@
+import { exportErrorMessage, exportCompileLog } from './exportDiagnostics';
+import { notifyObserver } from './observers';
 import { assertReadyExport, type PreparedExportJob, type ReadyExportJob } from './preparedExport';
 
 export interface ExportArtifactIssue { readonly message: string; readonly asset?: string }
@@ -24,7 +26,7 @@ function assertArtifact(artifact: ExportArtifact, job: ReadyExportJob): void {
 
 export type ExportOutcome =
   | { readonly status: 'succeeded'; readonly artifact: ExportArtifact; readonly cleanupIssues: readonly string[] }
-  | { readonly status: 'failed'; readonly message: string; readonly cleanupIssues: readonly string[] }
+  | { readonly status: 'failed'; readonly message: string; readonly compileLog?: string; readonly cleanupIssues: readonly string[] }
   | { readonly status: 'cancelled'; readonly cleanupIssues: readonly string[] };
 export type ExportExecutionState =
   | { readonly status: 'queued'; readonly cancellationRequested: boolean }
@@ -43,10 +45,6 @@ export interface ExportExecutionPorts {
   release?(artifact: ExportArtifact | undefined): Promise<void> | void;
   onState?(state: ExportExecutionState): void | Promise<void>;
 }
-function message(error: unknown): string {
-  try { return String(error instanceof Error ? error.message : error); }
-  catch { return 'The export failed.'; }
-}
 
 /** Keep the engine's existing serialization. Cancellation waits for its worker
  * before releasing resources or resolving waiters, and suppresses delivery.
@@ -58,7 +56,7 @@ export function executePreparedExport(job: ReadyExportJob, ports: ExportExecutio
   let state: ExportExecutionState = Object.freeze({ status: 'queued', cancellationRequested: false });
   const publish = (next: ExportExecutionState) => {
     state = Object.freeze(next);
-    try { void Promise.resolve(onState?.(state)).catch(() => {}); } catch { /* Observers do not own execution. */ }
+    notifyObserver(onState, state);
   };
   publish(state);
   const result = Promise.resolve().then(async (): Promise<ExportOutcome> => {
@@ -83,9 +81,11 @@ export function executePreparedExport(job: ReadyExportJob, ports: ExportExecutio
         }
       }
     } catch (error) {
-      outcome = abort.signal.aborted ? { status: 'cancelled', cleanupIssues } : { status: 'failed', message: message(error), cleanupIssues };
+      const compileLog = exportCompileLog(error);
+      const diagnostics = compileLog === undefined ? {} : { compileLog };
+      outcome = abort.signal.aborted ? { status: 'cancelled', cleanupIssues } : { status: 'failed', message: exportErrorMessage(error), ...diagnostics, cleanupIssues };
     } finally {
-      try { await release?.(artifact); } catch (error) { cleanupIssues.push(message(error)); }
+      try { await release?.(artifact); } catch (error) { cleanupIssues.push(exportErrorMessage(error)); }
     }
     if (abort.signal.aborted && outcome.status !== 'succeeded') outcome = { status: 'cancelled', cleanupIssues };
     Object.freeze(cleanupIssues);

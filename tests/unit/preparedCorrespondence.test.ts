@@ -142,3 +142,27 @@ it('does not issue an artifact when final PDF progress cancels rendering', async
   await expect(renderPreparedCorrespondence(ready('pdf'), adapters, abort.signal)).rejects.toThrow('cancelled');
   expect(adapters.compile).toHaveBeenCalledTimes(1);
 });
+
+it.each(['joint_letter', 'joint_memorandum'])('preserves both Acting designations in prepared %s PDF and DOCX output', async docType => {
+  const patch = { docType, formData: {
+    seniorActing: true, juniorActing: true,
+    jointSeniorSigName: 'Senior Signer', jointJuniorSigName: 'Junior Signer',
+    jointMemoSeniorSigName: 'Senior Signer', jointMemoJuniorSigName: 'Junior Signer',
+    seniorCommandName: 'Retained MOA command', juniorSigName: 'Retained MOA signer',
+  } };
+  const adapters = ports(await pdf());
+  const pdfJob = ready('pdf', patch);
+  await renderPreparedCorrespondence(pdfJob, adapters, new AbortController().signal);
+  expect(adapters.compile).toHaveBeenCalledWith(expect.objectContaining({
+    'signatory.tex': expect.stringContaining('\\setByDirection{Acting}'),
+  }));
+  expect(adapters.compile).toHaveBeenCalledWith(expect.objectContaining({
+    'signatory.tex': expect.stringContaining('\\renewcommand{\\JuniorByDirection}{Acting}'),
+  }));
+  const output = copyPreparedDocument(pdfJob).document.formData;
+  expect(output.seniorCommandName).toBeUndefined();
+  expect(output.juniorSigName).toBeUndefined();
+
+  await renderPreparedCorrespondence(ready('docx', patch), adapters, new AbortController().signal);
+  expect(adapters.convertDocx).toHaveBeenCalledWith(expect.stringContaining('Acting & Acting'), expect.any(Object), undefined);
+});

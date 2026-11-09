@@ -11,7 +11,7 @@ let server: Awaited<ReturnType<typeof startUpgradeServer>>;
 let origin: string;
 let root: string;
 let workerRevision = '';
-test.beforeEach(() => { workerRevision = ''; });
+test.beforeEach(() => { workerRevision = '';server?.faults.clear(); });
 const oldBuild = process.env.UPGRADE_OLD_BUILD;
 const newBuild = resolve('dist');
 
@@ -385,4 +385,25 @@ test('waits for slow storage initialization before accepting edits', async ({ pa
   await expect(async () => expect(JSON.stringify((await readSaved(page)).documents)).toContain('EDIT AFTER INITIALIZATION')).toPass({ timeout: 15_000 });
   await page.reload();
   await expect(page.locator('#subject:visible, #body-subject:visible')).toHaveValue('EDIT AFTER INITIALIZATION');
+});
+
+
+test('runtime deployment policy refreshes without a rebuild and remains available offline', async ({ page, context }) => {
+  root = newBuild;
+  server.faults.set('/classification.config.json', { status: 200, body: 'null', contentType: 'application/json' });
+  await page.goto(`${origin}/holding.html`);
+  await page.evaluate(async () => {
+    await navigator.serviceWorker.register('/sw.js');
+    await navigator.serviceWorker.ready;
+  });
+  await page.reload();
+  await expect.poll(() => page.evaluate(() => !!navigator.serviceWorker.controller)).toBe(true);
+  const readPolicy = () => page.evaluate(async () => (await fetch('/classification.config.json?deployment-policy=runtime', { cache: 'no-cache' })).json());
+  expect(await readPolicy()).toBeNull();
+  const updated = { maxLevel: 'secret', allowedLevels: ['unclassified', 'secret'] };
+  server.faults.set('/classification.config.json', { status: 200, body: JSON.stringify(updated), contentType: 'application/json' });
+  expect(await readPolicy()).toEqual(updated);
+  await context.setOffline(true);
+  try { expect(await readPolicy()).toEqual(updated); }
+  finally { await context.setOffline(false); }
 });

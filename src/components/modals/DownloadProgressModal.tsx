@@ -53,6 +53,7 @@ interface DownloadProgressModalProps {
    * current error and re-run the original download operation.
    */
   onRetry?: () => void;
+  onCancel?: () => void;
 }
 
 /**
@@ -60,7 +61,7 @@ interface DownloadProgressModalProps {
  * content (logs, URL hash/share payload) is deliberately NOT embedded —
  * the user pastes a reviewed log via "Copy logs". See lib/bugReport.ts.
  */
-function buildIssueUrl(args: { target: 'pdf' | 'docx'; title: string; message: string }): string {
+function buildIssueUrl(args: { target: 'pdf' | 'docx' | 'tex'; title: string; message: string }): string {
   const body = [
     BUG_REPORT_PRIVACY_NOTICE,
     '',
@@ -101,6 +102,8 @@ interface PhaseCopy {
 
 function phaseCopy(phase: DownloadProgressPhase): PhaseCopy {
   switch (phase.kind) {
+    case 'tex-preparing': return { title: 'Preparing LaTeX…', description: 'Preparing the captured document configuration.' };
+    case 'cancelling': return { title: 'Stopping export…', description: 'Waiting for the current render to finish.' };
     // --- DOCX ---
     case 'docx-preparing':
       return {
@@ -204,7 +207,7 @@ function phaseIcon(phase: DownloadProgressPhase) {
   }
 }
 
-export function DownloadProgressModal({ phase, onClose, onRetry }: DownloadProgressModalProps) {
+export function DownloadProgressModal({ phase, onClose, onRetry, onCancel }: DownloadProgressModalProps) {
   const open = phase !== null;
   const isError = phase?.kind === 'error';
   const isSuccess = phase?.kind === 'success';
@@ -317,6 +320,10 @@ export function DownloadProgressModal({ phase, onClose, onRetry }: DownloadProgr
               Please keep this tab open. The app will be available again as soon
               as this finishes.
             </p>
+          )}
+
+          {!isError && onCancel && phase?.kind !== 'success' && (
+            <DialogFooter><Button variant="outline" onClick={onCancel}>Cancel export</Button></DialogFooter>
           )}
 
           {isError && phase.kind === 'error' && (
