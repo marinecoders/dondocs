@@ -5,6 +5,12 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.3.36] — 2026-11-08
+
+### Changed
+
+- Prepare batch rows through the shared export pipeline.
+
 ## [1.3.35] — 2026-11-08
 
 ### Fixed

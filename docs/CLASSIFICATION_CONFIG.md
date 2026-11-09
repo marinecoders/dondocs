@@ -152,10 +152,11 @@ The shipped `null` file explicitly selects domain defaults and is precached for
 offline use. Missing files (404) also select defaults. Failed or malformed policy
 loads return an error from the typed policy resolver until an explicit retry succeeds.
 The editor compatibility adapter falls back to domain settings on these errors.
-Individual correspondence PDF, Word, and TeX downloads and all individual form
-PDF downloads require a ready policy; a policy-loading failure offers Retry for
-the same captured document. Batch generation still uses its existing export path
-without this typed policy gate. These client settings do not establish
+Individual correspondence PDF, Word, and TeX downloads, individual form PDF
+downloads, and batch rows require a ready policy. A policy-loading failure offers
+Retry for the same captured individual document or an explicit retry of failed
+batch rows. Each batch row reviews its substituted output before export when
+privacy, structure, or marking checks require confirmation. These client settings do not establish
 deployment accreditation.
 
 ## Security Considerations
