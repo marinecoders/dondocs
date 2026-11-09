@@ -100,6 +100,11 @@ function active(source: DocumentFieldSource, path: FieldPath, projection: FieldP
   return true;
 }
 
+/** UI hints use the same active-field decision without copying document assets. */
+export function isOutputFieldActive(source: DocumentFieldSource, path: FieldPath): boolean {
+  return active(source, path, 'output');
+}
+
 /** Inspect only this supplied revision. Returned paths and values cannot alias its objects. */
 export function documentTextFields(source: DocumentFieldSource, projection: FieldProjection): readonly DocumentTextField[] {
   const fields: DocumentTextField[] = [];

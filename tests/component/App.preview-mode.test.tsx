@@ -33,10 +33,11 @@ vi.mock('@/services/pdf/navmc10274Generator', () => ({ loadNavmc10274Templates: 
 vi.mock('@/services/pdf/navmc11811Generator', () => ({ loadNavmc11811Template: load11811, generateNavmc11811Pdf: generate11811 }));
 
 import App from '@/App';
-import { useDocumentStore } from '@/stores/documentStore';
-import { useDocumentsStore } from '@/stores/documentsStore';
+import { useDocumentStore, mutateSessionAssets } from '@/stores/documentStore';
+import { useDocumentsStore, captureDocumentTarget, isCurrentDocumentTarget } from '@/stores/documentsStore';
 import { useFormStore } from '@/stores/formStore';
 import { useUIStore } from '@/stores/uiStore';
+import * as updateCheckpoint from '@/lib/updateCheckpoint';
 
 beforeEach(() => {
   vi.useFakeTimers();
@@ -189,4 +190,103 @@ it.each(['navmc_10274', 'navmc_118_11'] as const)('discards %s template failures
 
   expect(screen.getByTestId('preview-state')).not.toHaveTextContent('Could not load the NAVMC');
   expect(screen.getByTestId('preview-state')).toHaveAttribute('data-compiling', 'true');
+});
+
+it('excludes inactive publication figures and markings from a letter preview', async () => {
+  useDocumentStore.setState({ formData: { subject: 'Active letter', classLevel: 'unclassified' }, paragraphs: [{ level: 0, text: 'Visible body', figure: { fileRef: { id: 'missing-inactive', name: 'old.png', type: 'image/png', size: 3 }, portionMarking: 'S' } }] });
+  await act(async () => { render(<App />); });
+  await act(async () => { await vi.advanceTimersByTimeAsync(1600); });
+  expect(compile).toHaveBeenCalledTimes(1);
+  const files = compile.mock.calls[0][0];
+  expect(files['body.tex']).toContain('Visible body');
+  expect(files['classification.tex']).not.toContain('SECRET');
+  expect(Object.keys(files).some(name => name.includes('figure'))).toBe(false);
+});
+
+it('owns captured built-in form values and cached template bytes during preview rendering', async () => {
+  const templates = { page1: new Uint8Array([2]).buffer, page2: new Uint8Array([3]).buffer, page3: new Uint8Array([4]).buffer };
+  load10274.mockResolvedValue(templates);
+  useDocumentsStore.getState().newDocument('navmc_10274');
+  useFormStore.getState().setNavmc10274Field('from', 'CAPTURED SOURCE');
+  generate10274.mockImplementationOnce(async (data, page1, page2, page3) => {
+    expect(data.from).toBe('CAPTURED SOURCE');
+    data.from = 'RENDERER MUTATION';
+    new Uint8Array(page1)[0] = 9;
+    new Uint8Array(page2)[0] = 9;
+    new Uint8Array(page3)[0] = 9;
+    return new Uint8Array([1]);
+  });
+  await act(async () => { render(<App />); });
+  await act(async () => { await vi.advanceTimersByTimeAsync(600); });
+  expect(generate10274).toHaveBeenCalledTimes(1);
+  expect(useFormStore.getState().navmc10274.from).toBe('CAPTURED SOURCE');
+  expect([new Uint8Array(templates.page1)[0], new Uint8Array(templates.page2)[0], new Uint8Array(templates.page3)[0]]).toEqual([2,3,4]);
+  expect(screen.getByTestId('preview-state')).toHaveAttribute('data-compiling', 'false');
+});
+
+it('drops a built-in form generation result edited before React effects flush', async () => {
+  let finish!: (data: Uint8Array) => void;
+  generate11811.mockImplementationOnce(() => new Promise(resolve => { finish = resolve; }));
+  useDocumentsStore.getState().newDocument('navmc_118_11');
+  const urls = vi.spyOn(URL, 'createObjectURL'); urls.mockClear();
+  await act(async () => { render(<App />); });
+  await act(async () => { await vi.advanceTimersByTimeAsync(600); });
+  expect(generate11811).toHaveBeenCalledTimes(1);
+  await act(async () => {
+    useFormStore.getState().setNavmc11811Field('lastName', 'LATEST');
+    finish(new Uint8Array([1]));
+    for(let i=0;i<10;i++) await Promise.resolve();
+  });
+  expect(urls).not.toHaveBeenCalled();
+  await act(async () => { await vi.advanceTimersByTimeAsync(600); });
+  expect(generate11811).toHaveBeenCalledTimes(2);
+  expect(generate11811.mock.calls[1][0].lastName).toBe('LATEST');
+  expect(urls).toHaveBeenCalledTimes(1);
+  expect(screen.getByTestId('preview-state')).toHaveAttribute('data-compiling', 'false');
+});
+
+
+it('keeps explicit form refresh busy and blocks updates until its owned render finishes', async () => {
+  const guards = vi.spyOn(updateCheckpoint, 'registerUpdateGuard');
+  useDocumentsStore.getState().newDocument('navmc_118_11');
+  await act(async () => { render(<App />); });
+  await act(async () => { await vi.advanceTimersByTimeAsync(600); });
+  expect(screen.getByTestId('preview-state')).toHaveAttribute('data-compiling', 'false');
+  let finish!: (bytes: Uint8Array) => void;
+  generate11811.mockImplementationOnce(() => new Promise(resolve => { finish = resolve; }));
+  await act(async () => { fireEvent.click(screen.getByRole('button', { name: 'Refresh preview' })); });
+  expect(screen.getByTestId('preview-state')).toHaveAttribute('data-compiling', 'true');
+  expect(() => guards.mock.calls.at(-1)![0]()).toThrow('Finish document generation');
+  await act(async () => { await vi.advanceTimersByTimeAsync(600); });
+  expect(generate11811).toHaveBeenCalledTimes(2);
+  expect(screen.getByTestId('preview-state')).toHaveAttribute('data-compiling', 'true');
+  expect(() => guards.mock.calls.at(-1)![0]()).toThrow('Finish document generation');
+  await act(async () => { finish(new Uint8Array([2])); });
+  expect(screen.getByTestId('preview-state')).toHaveAttribute('data-compiling', 'false');
+  expect(() => guards.mock.calls.at(-1)![0]()).not.toThrow();
+});
+
+it('regenerates after passive form asset hydration and returns to idle without invalidating the editor target', async () => {
+  const guards = vi.spyOn(updateCheckpoint, 'registerUpdateGuard');
+  useDocumentsStore.getState().newDocument('navmc_10274');
+  await act(async () => { render(<App />); });
+  await act(async () => { await vi.advanceTimersByTimeAsync(600); });
+  expect(screen.getByTestId('preview-state')).toHaveAttribute('data-compiling', 'false');
+  const target = captureDocumentTarget();
+  let finish!: (bytes: Uint8Array) => void;
+  generate10274.mockImplementationOnce(() => new Promise(resolve => { finish = resolve; }));
+  await act(async () => {
+    mutateSessionAssets(() => useFormStore.setState(state => ({ navmc10274: { ...state.navmc10274,
+      signatureBlocks: [{ name: 'SIGNER', statement: '', style: 'image', image: 'data:image/png;base64,AQID' }] } })));
+  });
+  expect(isCurrentDocumentTarget(target)).toBe(true);
+  await act(async () => { await vi.advanceTimersByTimeAsync(600); });
+  expect(screen.getByTestId('preview-state')).toHaveAttribute('data-compiling', 'true');
+  expect(generate10274).toHaveBeenCalledTimes(2);
+  expect(generate10274.mock.calls[1][0].signatureBlocks[0].image).toBe('data:image/png;base64,AQID');
+  expect(() => guards.mock.calls.at(-1)![0]()).toThrow('Finish document generation');
+  await act(async () => { finish(new Uint8Array([2])); });
+  expect(isCurrentDocumentTarget(target)).toBe(true);
+  expect(screen.getByTestId('preview-state')).toHaveAttribute('data-compiling', 'false');
+  expect(() => guards.mock.calls.at(-1)![0]()).not.toThrow();
 });

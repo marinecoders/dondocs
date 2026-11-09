@@ -1,8 +1,9 @@
+import { projectRenderedDocument, correspondencePortions } from './renderedDocument';
 import { validateAnswers, diagnosticText } from '@/services/forms/model';
 import { copyFormExportTemplates, type FormExportTemplates } from './formExportTemplates';
 import { captureDocumentRevision, copyCapturedDocument, type CapturedDocument, type CapturedSource } from './capturedDocument';
 import { capturedCapabilities } from './documentCapabilities';
-import { mapCapturedText, projectCapturedOutput } from './documentFields';
+import { mapCapturedText } from './documentFields';
 import { buildNavmc11811DefaultValues, replacePlaceholders, type PlaceholderValues } from './placeholders';
 import { assertExportDeploymentPolicy, type ExportDeploymentPolicy, type PolicyResolution } from './exportDeploymentPolicy';
 import { classificationRank, deriveOverallClassLevel } from './overallClassification';
@@ -11,8 +12,6 @@ import { publicationMarking } from './publicationMarking';
 import { publicationExportErrors } from './publicationPreflight';
 import { validateParagraphStructure, type ParagraphStructureFinding } from './paragraphStructureValidation';
 import { detectCapturedPII, type PIIDetectionResult } from '@/services/pii/detector';
-import { sl3Portions } from '@/data/techpub/sl3';
-import { sl4Portions } from '@/data/techpub/sl4';
 import type { ClassificationInfo } from '@/services/pdf/mergeEnclosures';
 import type { ClassificationLevel } from './domainClassification';
 
@@ -112,16 +111,13 @@ export function prepareExport(input: {
       ? buildNavmc11811DefaultValues(original.document.forms.navmc11811!) : {};
     const values = { ...defaults, ...input.placeholders };
     const substituted = mapCapturedText(input.captured, field => replacePlaceholders(field.text, values));
-    let output = projectCapturedOutput(substituted);
+    let output = projectRenderedDocument(substituted);
     const snapshot = copyCapturedDocument(output).document;
     const notices: string[] = capability.status === 'partial' && input.texMode !== 'flat' ? [capability.message] : [];
     let markingReview = false;
     let marking: ClassificationInfo | undefined;
     if (output.kind === 'correspondence') {
-      const portions = [...snapshot.paragraphs,
-        ...(snapshot.docType === 'sl3' && snapshot.formData.sl3 ? sl3Portions(snapshot.formData.sl3) : []),
-        ...(snapshot.docType === 'sl4' && snapshot.formData.sl4 ? sl4Portions(snapshot.formData.sl4, snapshot.paragraphs) : []),
-      ];
+      const portions = correspondencePortions(snapshot);
       const level = deriveOverallClassLevel(snapshot.formData.classLevel, portions);
       if (level !== 'custom' && classificationRank(level) === undefined) return error('The document has an unknown classification level.');
       const customText = snapshot.formData.customClassification?.trim();

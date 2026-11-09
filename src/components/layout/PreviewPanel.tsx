@@ -1,3 +1,4 @@
+import { isOutputFieldActive } from '@/lib/documentFields';
 import { lazy, Suspense, useEffect } from 'react';
 import { Loader2, AlertCircle, Eye, Paperclip } from 'lucide-react';
 import { useUIStore } from '@/stores/uiStore';
@@ -27,7 +28,7 @@ export function PreviewPanel({ pdfUrl, isCompiling, isWarmingUp = false, preview
   const previewVisible = useUIStore((s) => s.previewVisible);
   const isMobile = useUIStore((s) => s.isMobile);
   const fullQualityPreview = useUIStore((s) => s.fullQualityPreview);
-  const enclosureCount = useDocumentStore((s) => s.enclosures.length);
+  const enclosureCount = useDocumentStore((s) => isOutputFieldActive(s, ['enclosures']) ? s.enclosures.length : 0);
   // The empty state told every user to fill in "the Subject and body", which a
   // form does not have.
   const isFormsMode = useDocumentStore((s) => s.documentCategory) === 'forms';
