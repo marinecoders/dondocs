@@ -4,6 +4,9 @@ import { getEditorSections } from '@/lib/editorSections';
 import { DOC_TYPE_CONFIG } from '@/types/document';
 import { useFormStore } from '@/stores/formStore';
 import type { SerializedSession } from '@/stores/documentStore';
+import { sl3Schema } from '@/data/techpub/sl3';
+import { fixtureInstance } from '../_helpers/formFixture';
+import { emptyManualFrontMatter } from '@/data/techpub/manualFrontMatter';
 
 const session = (patch: Partial<SerializedSession> = {}): SerializedSession => ({
   documentMode: 'compliant', documentCategory: 'correspondence', docType: 'naval_letter', formType: 'navmc_10274',
@@ -11,6 +14,57 @@ const session = (patch: Partial<SerializedSession> = {}): SerializedSession => (
 });
 
 describe('workspace full-text search', () => {
+  it('indexes a printed end-item identifier', () => {
+    const publication = sessionSearchFields(session({ docType: 'i_type', endItems: [{ nsn: '', tamcn: '', id: 'PRINTED-2716', model: '' }] }));
+    expect(findSearchMatch(publication, 'PRINTED-2716')?.field.sectionId).toBe('cover');
+  });
+  it('excludes structural parent identities while retaining the component text', () => {
+    const sl3 = sl3Schema.parse({ components: [{ id: 'row', category: 'ssri', parentId: 'private-parent-identity', nomenclature: 'Receiver' }] });
+    const inventory = sessionSearchFields(session({ docType: 'sl3', formData: { sl3 } }));
+    expect(findSearchMatch(inventory, 'private-parent-identity')).toBeUndefined();
+    expect(findSearchMatch(inventory, 'Receiver')?.field.sectionId).toBe('sl3-inventory');
+  });
+  it('includes structured publication references', () => {
+    const sl3 = sl3Schema.parse({ fieldingPlanReference: 'Orchid fielding plan' });
+    expect(findSearchMatch(sessionSearchFields(session({ docType: 'sl3', formData: { sl3 } })), 'Orchid')?.field.sectionId).toBe('sl3-details');
+  });
+  it('includes empty configured row-group labels', () => {
+    const form = fixtureInstance();
+    const fields = sessionSearchFields(session({ documentCategory: 'forms', formType: 'fixture', genericForm: form }));
+    expect(findSearchMatch(fields, 'Roster')?.field.sectionId).toBe('roster');
+  });
+  it('preserves classification choices, configured answer labels, and destinations', () => {
+    expect(findSearchMatch(sessionSearchFields(session({ formData: { classLevel: 'cui' } })), 'cui')?.field.sectionId).toBe('classification');
+    const form = fixtureInstance();
+    form.answers.a = false;
+    const fields = sessionSearchFields(session({ documentCategory: 'forms', formType: 'fixture', genericForm: form }));
+    expect(findSearchMatch(fields, 'Decision Yes')?.field.sectionId).toBe('decision');
+    expect(fields.some(field => field.text === 'A: No')).toBe(true);
+    expect(fields.filter(field => /^Name(?::|$)/.test(field.text))).toHaveLength(1);
+  });
+  it('retains an obsolete choice value for recovery without indexing definition IDs', () => {
+    const form = fixtureInstance();
+    form.answers.decision = 'obsolete-choice';
+    form.definition.definitionRevision = 'private-definition-revision';
+    const fields = sessionSearchFields(session({ documentCategory: 'forms', formType: 'fixture', genericForm: form }));
+    expect(findSearchMatch(fields, 'obsolete-choice')?.field.sectionId).toBe('decision');
+    expect(findSearchMatch(fields, 'private-definition-revision')).toBeUndefined();
+  });
+  it('keeps malformed entries from breaking other search results', () => {
+    const form = fixtureInstance();
+    Object.assign(form.definition, { schemaVersion: 999 });
+    expect(sessionSearchFields(session({ documentCategory: 'forms', formType: 'fixture', genericForm: form }))).toEqual([]);
+    expect(sessionSearchFields({} as SerializedSession)).toEqual([]);
+    expect(findSearchMatch(sessionSearchFields(session({ formData: { subject: 'Recoverable healthy entry' } })), 'healthy')?.field.sectionId).toBe('addressing');
+  });
+  it('returns detached, immutable search records', () => {
+    const source = session({ formData: { subject: 'CAPTURED SUBJECT' } });
+    const fields = sessionSearchFields(source);
+    source.formData.subject = 'LATER SUBJECT';
+    expect(findSearchMatch(fields, 'CAPTURED')?.field.text).toBe('CAPTURED SUBJECT');
+    expect(() => Object.assign(fields[0], { sectionId: 'elsewhere' })).toThrow();
+  });
+
   it('finds additional endorsement content in the signature section without indexing row IDs', () => {
     const fields = sessionSearchFields(session({ formData: { additionalEndorsements: [
       { id: 'private-row-id', endorsementBody: 'Approved for amphibious training.', endorsementSigLast: 'REVIEWER' },
@@ -70,4 +124,29 @@ describe('workspace full-text search', () => {
     expect(findSearchMatch(fields, 'issuing')?.field.sectionId).toBe('cover');
     expect(findSearchMatch(fields, 'receiver')?.field.sectionId).toBe('cover');
   });
+});
+
+it('keeps inherited letter-only fields out of manual search results', () => {
+  const fields = sessionSearchFields(session({ docType: 'tm_ietm_front_matter', formData: {
+    from: 'HIDDEN_FROM', to: 'HIDDEN_TO', ssic: 'HIDDEN_SSIC', body: 'HIDDEN_BODY',
+    sigRank: 'HIDDEN_RANK', shortTitle: 'VISIBLE_MANUAL', publicationClosedDates: '2026-11-11, 2026-11-26',
+  } }));
+  for (const hidden of ['HIDDEN_FROM', 'HIDDEN_TO', 'HIDDEN_SSIC', 'HIDDEN_BODY', 'HIDDEN_RANK']) {
+    expect(findSearchMatch(fields, hidden)).toBeUndefined();
+  }
+  expect(findSearchMatch(fields, 'VISIBLE_MANUAL')?.field.sectionId).toBe('manual-publication');
+  expect(findSearchMatch(fields, '2026-11-26')?.field.sectionId).toBe('manual-publication');
+});
+it.each([
+  ['UNITED STATES NAVY', 'service'],
+  ['252.227-7013', 'dfarClause'],
+] as const)('routes the manual %s control to authentication', (query, key) => {
+  const manual = emptyManualFrontMatter();
+  Object.assign(manual, { [key]: query });
+  const fields = sessionSearchFields(session({ docType: 'tm_ietm_front_matter', formData: { manualFrontMatter: manual } }));
+  expect(findSearchMatch(fields, query)?.field.sectionId).toBe('manual-authentication');
+});
+it('routes SL-3 inventory layout to its publication details control', () => {
+  const sl3 = sl3Schema.parse({ orientation: 'landscape' });
+  expect(findSearchMatch(sessionSearchFields(session({ docType: 'sl3', formData: { sl3 } })), 'landscape')?.field.sectionId).toBe('sl3-cover');
 });
