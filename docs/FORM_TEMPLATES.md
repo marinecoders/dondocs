@@ -245,3 +245,24 @@ Understanding PDF coordinates is essential for accurate form filling:
     |                |
 (0, 0) ---------- (612, 0)    ← Bottom of page
 ```
+
+## Geometry gate
+
+Run `npm run test:form-geometry` before publishing template changes. It checks
+published `form.json` definitions against the actual single-page PDF assets,
+including every repeated-row placement and irregular row override. A box uses
+bottom-left coordinates: its vertical range is `top - height` through `top`.
+Positive dimensions alone do not prove that a field fits on its page.
+
+Template assets must be flattened to unrotated, zero-origin full pages before
+publication. Cropped or rotated sources must go through normalization first;
+the renderer refuses an incompatible coordinate space rather than silently
+placing an answer in the wrong location. Definition dimensions must match the
+actual asset. Geometry is checked even when a field has no answer.
+
+CI rejects new failures and stale entries in `data/form-geometry-baseline.json`.
+Its empty inventory describes the current published source tree, which contains
+only the two built-in NAVMC template sets and no generic `form.json` files. It is
+not a geometry certification of the separate, unmerged form-library corpus.
+Passing bounds checks also does not prove alignment with printed labels; retain
+rendered placement review when publishing a form.

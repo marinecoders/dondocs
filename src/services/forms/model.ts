@@ -13,6 +13,7 @@ const field = z.object({
 }).strict();
 const placement = z.object({
   fieldId: id, optionId: z.string().min(1).optional(), page: z.number().int().positive(), box,
+  rotation: z.literal(270).optional(),
   appearance: z.enum(['text', 'mark']), overflow: z.enum(['error', 'shrink']).default('shrink'),
   dateFormat: z.enum(['iso', 'mdy', 'dmy']).optional(),
 }).strict();
@@ -242,7 +243,7 @@ export function adaptLegacyForm(config: FormConfig, sizes?: Array<{ width: numbe
       fields[fieldId].options!.push({ id: f.sourceId ?? key, label: f.label || key, legacyKey: key });
       if (f.required) fields[fieldId].requiredAt = 'export';
     } else fields[fieldId] = { ...convert(f), legacyKeys: [key] };
-    placements.push({ fieldId, optionId: f.type === 'radio' && f.group ? f.sourceId ?? key : undefined, page: f.page, box: f.box, appearance: f.type === 'radio' || f.type === 'checkbox' ? 'mark' : 'text', overflow: 'shrink' });
+    placements.push({ fieldId, optionId: f.type === 'radio' && f.group ? f.sourceId ?? key : undefined, page: f.page, box: f.box, rotation: f.rotation, appearance: f.type === 'radio' || f.type === 'checkbox' ? 'mark' : 'text', overflow: 'shrink' });
   }
   const listed = new Set<string>();
   const sections = c.sections.map((s, i) => ({ id: `section_${i}`, title: s.title, editor: s.editor, fields: s.fields.map(k => keys.get(k)!).filter(k => { if (listed.has(k)) return false; listed.add(k); return true; }) }));
@@ -251,7 +252,7 @@ export function adaptLegacyForm(config: FormConfig, sizes?: Array<{ width: numbe
   const rowGroups: FormDefinition['rowGroups'] = {};
   for (const [key, g] of Object.entries(c.rowGroups ?? {})) rowGroups[key] = {
     title: g.title, editor: g.editor, legacyKeys: [key], columns: Object.fromEntries(Object.entries(g.columns).map(([k, f]) => [k, { ...convert(f), legacyKeys: [k] }])),
-    rows: Array.from({ length: g.count }, (_, i) => Object.entries(g.columns).map(([fieldId, f]) => ({ fieldId, page: g.page, box: g.placements?.[i]?.[fieldId] ?? { ...f.box, top: f.box.top - g.rowStride * i }, appearance: f.type === 'checkbox' || f.type === 'radio' ? 'mark' : 'text', overflow: 'shrink' }))),
+    rows: Array.from({ length: g.count }, (_, i) => Object.entries(g.columns).map(([fieldId, f]) => ({ fieldId, page: g.page, box: g.placements?.[i]?.[fieldId] ?? { ...f.box, top: f.box.top - g.rowStride * i }, rotation: f.rotation, appearance: f.type === 'checkbox' || f.type === 'radio' ? 'mark' : 'text', overflow: 'shrink' }))),
   };
   return compileFormDefinition({ schemaVersion: 2, formId: c.id, label: c.label, directory: c.directory, definitionRevision: 'legacy', templateRevision: 'legacy', pages: c.pages.map((file, i) => ({ file, ...(sizes?.[i] ?? { width: 612, height: 792 }) })), fields, placements, sections, rowGroups });
 }

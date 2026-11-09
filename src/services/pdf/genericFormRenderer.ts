@@ -1,6 +1,7 @@
+import { templatePageGeometry, assertFormGeometry } from '@/services/forms/geometry';
 import type { FormDiagnostic } from '@/services/forms/model';
 import { formAssetUrl } from '@/lib/releasePaths';
-import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';
+import { PDFDocument, StandardFonts, rgb, pushGraphicsState, popGraphicsState, concatTransformationMatrix } from 'pdf-lib';
 import { calculateTextPosition } from './extractFormFields';
 import { wrapTextForForm } from './textWrap';
 import {
@@ -106,6 +107,10 @@ export async function renderFormPdf(
   diagnostics: FormDiagnostic[] = [],
   overflow: Record<string, 'error' | 'shrink'> = {},
 ): Promise<Uint8Array> {
+  config = assertFormConfig(structuredClone(config), 'render');
+  values = structuredClone(values);
+  rows = structuredClone(rows);
+  overflow = { ...overflow };
   const doc = await PDFDocument.create();
   const font = await doc.embedFont(StandardFonts.Helvetica);
   type Page = ReturnType<typeof doc.addPage>;
@@ -115,9 +120,13 @@ export async function renderFormPdf(
   for (const pageFile of config.pages) {
     const bytes = await loadPage(config.directory, pageFile);
     const src = await PDFDocument.load(bytes);
+    if (src.getPageCount() !== 1) throw new Error('Each template asset must contain exactly one page.');
+    templatePageGeometry(src.getPage(0));
     const [copied] = await doc.copyPages(src, [0]);
     pages.push(doc.addPage(copied));
   }
+
+  assertFormGeometry(config, pages.map(templatePageGeometry));
 
   const drawField = (
     page: Page,
@@ -129,6 +138,21 @@ export async function renderFormPdf(
   ) => {
     if (field.type === 'signature') return;
     const box = { ...field.box, top: field.box.top - yOffset };
+
+    if (field.rotation === 270) {
+      // Lay out the value horizontally, then turn it into the page-space box.
+      page.pushOperators(pushGraphicsState(), concatTransformationMatrix(0, -1, 1, 0, box.left, box.top));
+      try {
+        drawField(page, key, {
+          ...field,
+          rotation: undefined,
+          box: { left: 0, top: box.width, width: box.height, height: box.width },
+        }, value, fnt);
+      } finally {
+        page.pushOperators(popGraphicsState());
+      }
+      return;
+    }
     const issue = (code: string, message: string) => diagnostics.push({ path: key, code, message, severity: 'error' });
 
     if (field.type === 'checkbox' || field.type === 'radio') {
@@ -228,7 +252,8 @@ export async function renderFormPdf(
       for (const [ckey, col] of Object.entries(group.columns)) {
         const value = row[ckey];
         if (value === undefined || value === '' || value === false) continue;
-        drawField(page, `${gkey}.${i}.${ckey}`, col, value, font, i * group.rowStride);
+        const box = group.placements?.[i]?.[ckey];
+        drawField(page, `${gkey}.${i}.${ckey}`, box ? { ...col, box } : col, value, font, box ? 0 : i * group.rowStride);
       }
     });
   }

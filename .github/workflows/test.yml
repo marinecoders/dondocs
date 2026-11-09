@@ -96,7 +96,8 @@ jobs:
             # Most of them load harvest-fields.py, which exits at import without
             # pypdf, so the deps step above is required — a bare runner would
             # fail on the import, not the assertions.
-            scripts)   for t in scripts/test-*.py; do echo "== $t"; python3 "$t" || exit 1; done ;;
+            scripts)   for t in scripts/test-*.py; do echo "== $t"; python3 "$t" || exit 1; done
+                       npm run test:form-geometry ;;
           esac
 
   coverage:
