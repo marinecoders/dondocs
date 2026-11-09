@@ -68,3 +68,41 @@ it('freezes queued row values, filenames and source before the first row awaits'
   expect(options.generate.mock.calls[1][0]).toEqual({ NAME: 'Row 2' });
   expect(options.generate.mock.calls[1][1]).toMatchObject({ rowId: '2', filename: 'Row_2.pdf', capturedAt: Date.UTC(2020, 0, 1) });
 });
+
+it('never restores a review capability from persisted batch state', () => {
+  const recovered = recoverBatch({ status: 'running', review: { rowId: 'old' } as never, rowCanCancel: true, rowActive: true });
+  expect(recovered.review).toBeNull();expect(recovered.rowCanCancel).toBe(false);expect(recovered.rowActive).toBe(false);
+});
+
+it('lets prepared execution own delivery without downloading a row twice', async () => {
+  const download = vi.fn();
+  await runBatchJob({ source: getSerializedSession(), title: 'Prepared rows', placeholders: ['NAME'], download,
+    generate: async (_values, context) => {
+      const bytes = new Uint8Array([1, 2]);await context.deliver!(bytes);return bytes;
+    },
+  });
+  expect(download).toHaveBeenCalledTimes(3);
+  expect(useBatchStore.getState().rows.every(row => row.status === 'success')).toBe(true);
+});
+
+it('retains a generated result when browser delivery throws', async () => {
+  await runBatchJob({ source: getSerializedSession(), title: 'Prepared rows', placeholders: ['NAME'],
+    download: () => { throw new Error('Download blocked'); },
+    generate: async (_values, context) => {
+      const bytes = new Uint8Array([1, 2]);await context.deliver!(bytes);return bytes;
+    },
+  });
+  const row = useBatchStore.getState().rows[0];
+  expect(row.status).toBe('error');expect(await getBatchOutput(row.outputId!)).toEqual(new Uint8Array([1, 2]));
+  expect(useBatchStore.getState().recoveryError).toContain('blocked');
+});
+
+it('expires a failed row delivery capability before continuing the job', async () => {
+  let stale!: (bytes: Uint8Array) => Promise<void>;
+  const download = vi.fn();
+  await runBatchJob({ source: getSerializedSession(), title: 'Failed rows', placeholders: ['NAME'], download,
+    generate: async (_values, context) => { stale = context.deliver!;throw new Error('Worker failed'); },
+  });
+  await expect(stale(new Uint8Array([1]))).rejects.toThrow('no longer available');
+  expect(download).not.toHaveBeenCalled();expect(useBatchStore.getState().rows.every(row => row.status === 'error')).toBe(true);
+});

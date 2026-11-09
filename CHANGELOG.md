@@ -5,6 +5,12 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.3.37] — 2026-11-08
+
+### Fixed
+
+- Bind batch review and recovery to prepared rows.
+
 ## [1.3.36] — 2026-11-08
 
 ### Changed

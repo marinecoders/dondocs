@@ -15,23 +15,27 @@ export interface BatchRowContext {
   readonly source: SerializedSession;
   readonly retryPolicy?: boolean;
   readonly preview?: boolean;
+  readonly deliver?: (bytes: Uint8Array) => Promise<void>;
 }
-/** The caller's row and source are copied before policy or template I/O. */
-export async function prepareBatchRow(values: Readonly<Record<string, string>>, context: BatchRowContext, ports: {
-  resolvePolicy(): Promise<PolicyResolution>;
-  captureResources(captured: CapturedDocument): Promise<FormExportTemplates | undefined>;
-}) {
+/** Capture the row before any asynchronous dependency is consulted. */
+export function captureBatchRowIntent(values: Readonly<Record<string, string>>, context: BatchRowContext) {
   const { batchId, rowId, filename, capturedAt } = context;
   const source = structuredClone(context.source);
   const captured = captureDocumentRevision({ documentId: batchId, epoch: 0, editSequence: 0, capturedAt }, {
     ...source, endItems: source.endItems ?? [], publicationTables: source.publicationTables ?? {},
   });
-  const placeholders = { ...values };
   const capability = capturedCapabilities(captured, { operation: 'batch', target: 'pdf' });
-  if (capability.status !== 'supported') return { status: 'error' as const, issues: [capability.message] };
+  if (capability.status !== 'supported') throw new Error(capability.message);
+  return Object.freeze({ id: `${batchId}:${rowId}`, captured, target: 'pdf' as const, filename, placeholders: Object.freeze({ ...values }) });
+}
+export async function prepareBatchRow(values: Readonly<Record<string, string>>, context: BatchRowContext, ports: {
+  resolvePolicy(): Promise<PolicyResolution>;
+  captureResources(captured: CapturedDocument): Promise<FormExportTemplates | undefined>;
+}) {
+  const intent = captureBatchRowIntent(values, context);
   const policy = await ports.resolvePolicy();
-  const formTemplates = policy.status === 'ready' ? await ports.captureResources(captured) : undefined;
-  return prepareExport({ id: `${batchId}:${rowId}`, captured, target: 'pdf', filename, policy, formTemplates, placeholders });
+  const formTemplates = policy.status === 'ready' ? await ports.captureResources(intent.captured) : undefined;
+  return prepareExport({ ...intent, policy, formTemplates });
 }
 
 /** Recovery renders the same approved row; it never repeats substitution or review. */
