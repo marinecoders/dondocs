@@ -5,6 +5,13 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.3.41] — 2026-11-09
+
+### Fixed
+
+- Render live previews from captured output.
+- Keep form refreshes busy and block updates until rendering finishes.
+
 ## [1.3.40] — 2026-11-09
 
 ### Changed
