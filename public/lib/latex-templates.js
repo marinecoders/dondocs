@@ -1039,6 +1039,14 @@ const LATEX_TEMPLATES = {
 \\HasDigitalSigFieldfalse
 \\newcommand{\\setDigitalSignatureField}{\\HasDigitalSigFieldtrue}
 
+% Explicit role locations survive wrapped or repeated signatory names.
+\\newcommand{\\dondocsSignatureAnchor}[1]{%
+    \\ifHasDigitalSigField
+        \\leavevmode\\hypertarget{dondocs.signature.#1}{}%
+        \\pdfannot width 0pt height 0pt depth 0pt {/Subtype /Link /Border [0 0 0] /NM (dondocs.signature.#1)}%
+    \\fi
+}
+
 % Command to render digital signature field placeholder
 % Creates an invisible marker for pdf-lib to detect position
 % The actual AcroForm signature field is added by pdf-lib post-processing
@@ -3442,7 +3450,7 @@ const LATEX_TEMPLATES = {
         % Junior command signature (LEFT) - signs FIRST
         \\begin{minipage}[t]{2.5in}
             \\raggedright
-            \\MakeUppercase{\\JuniorSignatoryName}\\par
+            \\dondocsSignatureAnchor{junior}\\MakeUppercase{\\JuniorSignatoryName}\\par
             \\JuniorSignatoryTitle\\par
             \\JuniorByDirection
         \\end{minipage}
@@ -3450,7 +3458,7 @@ const LATEX_TEMPLATES = {
         % Senior command signature (RIGHT) - signs LAST
         \\begin{minipage}[t]{2.5in}
             \\raggedright
-            \\ifdefempty{\\SignatoryAbbrev}{\\MakeUppercase{\\SignatoryName}}{\\SignatoryAbbrev}\\par
+            \\dondocsSignatureAnchor{senior}\\ifdefempty{\\SignatoryAbbrev}{\\MakeUppercase{\\SignatoryName}}{\\SignatoryAbbrev}\\par
             \\SignatoryTitle\\par
             \\ByDirection
         \\end{minipage}
@@ -3638,7 +3646,7 @@ const LATEX_TEMPLATES = {
         % Junior command signature (LEFT) - signs FIRST
         \\begin{minipage}[t]{2.5in}
             \\raggedright
-            \\MakeUppercase{\\JuniorSignatoryName}\\par
+            \\dondocsSignatureAnchor{junior}\\MakeUppercase{\\JuniorSignatoryName}\\par
             \\JuniorSignatoryTitle\\par
             \\JuniorByDirection
         \\end{minipage}
@@ -3646,7 +3654,7 @@ const LATEX_TEMPLATES = {
         % Senior command signature (RIGHT) - signs LAST
         \\begin{minipage}[t]{2.5in}
             \\raggedright
-            \\ifdefempty{\\SignatoryAbbrev}{\\MakeUppercase{\\SignatoryName}}{\\SignatoryAbbrev}\\par
+            \\dondocsSignatureAnchor{senior}\\ifdefempty{\\SignatoryAbbrev}{\\MakeUppercase{\\SignatoryName}}{\\SignatoryAbbrev}\\par
             \\SignatoryTitle\\par
             \\ByDirection
         \\end{minipage}
@@ -4132,7 +4140,7 @@ const LATEX_TEMPLATES = {
 % Key Rules:
 %   - Paper: Senior command's letterhead (or plain bond with typed titles)
 %   - Both commands include: SSIC, Serial number, Date
-%   - Layout: Side by side — senior command on LEFT
+%   - ID blocks: Side by side
 %   - Title block: Centered, second line below date
 %   - Signatures: Senior on RIGHT, Junior on LEFT (with overscoring)
 %   - Senior signs AFTER junior
@@ -4162,6 +4170,9 @@ const LATEX_TEMPLATES = {
 % Title block centered below
 
 \\newcommand{\\printDateAndTitle}{%
+    % The left ID block must clear the seal, which ends 1.5in from the top.
+    % The shared letterhead spacing only clears its centered text.
+    \\vspace*{24pt}%
     % Dual ID symbols - side by side
     \\noindent
     \\begin{tabular}[t]{@{}p{3in}@{\\hfill}p{3in}@{}}
@@ -4235,14 +4246,15 @@ const LATEX_TEMPLATES = {
 % Use overscoring (line above the name)
 
 \\newcommand{\\printSignature}{%
-    \\par\\vspace{48pt}%
+    % Keep preceding body text on the signature page (Ch 7 paragraph 13).
+    \\par\\nopagebreak[4]\\vspace{48pt}\\nopagebreak[4]%
     \\noindent
     \\begin{tabular}[t]{@{}p{3in}@{\\hfill}p{3in}@{}}
         % Junior command signature (LEFT) - signs FIRST
         \\begin{minipage}[t]{2.5in}
             \\centering
             \\rule{2in}{0.4pt}\\par
-            \\MakeUppercase{\\JuniorSignatoryName}\\par
+            \\dondocsSignatureAnchor{junior}\\MakeUppercase{\\JuniorSignatoryName}\\par
             \\JuniorSignatoryRank\\par
             \\JuniorSignatoryTitle\\par
             \\JuniorByDirection
@@ -4252,7 +4264,7 @@ const LATEX_TEMPLATES = {
         \\begin{minipage}[t]{2.5in}
             \\centering
             \\rule{2in}{0.4pt}\\par
-            \\ifdefempty{\\SignatoryAbbrev}{\\MakeUppercase{\\SignatoryName}}{\\SignatoryAbbrev}\\par
+            \\dondocsSignatureAnchor{senior}\\ifdefempty{\\SignatoryAbbrev}{\\MakeUppercase{\\SignatoryName}}{\\SignatoryAbbrev}\\par
             \\SignatoryRank\\par
             \\SignatoryTitle\\par
             \\ByDirection
@@ -4334,6 +4346,9 @@ const LATEX_TEMPLATES = {
 % Title block centered below
 
 \\newcommand{\\printDateAndTitle}{%
+    % The left ID block must clear the seal, which ends 1.5in from the top.
+    % The shared letterhead spacing only clears its centered text.
+    \\vspace*{24pt}%
     % Dual ID symbols - side by side
     \\noindent
     \\begin{tabular}[t]{@{}p{3in}@{\\hfill}p{3in}@{}}
@@ -4407,14 +4422,15 @@ const LATEX_TEMPLATES = {
 % Use overscoring (line above the name)
 
 \\newcommand{\\printSignature}{%
-    \\par\\vspace{48pt}%
+    % Keep preceding body text on the signature page (Ch 7 paragraph 13).
+    \\par\\nopagebreak[4]\\vspace{48pt}\\nopagebreak[4]%
     \\noindent
     \\begin{tabular}[t]{@{}p{3in}@{\\hfill}p{3in}@{}}
         % Junior command signature (LEFT) - signs FIRST
         \\begin{minipage}[t]{2.5in}
             \\centering
             \\rule{2in}{0.4pt}\\par
-            \\MakeUppercase{\\JuniorSignatoryName}\\par
+            \\dondocsSignatureAnchor{junior}\\MakeUppercase{\\JuniorSignatoryName}\\par
             \\JuniorSignatoryRank\\par
             \\JuniorSignatoryTitle\\par
             \\JuniorByDirection
@@ -4424,7 +4440,7 @@ const LATEX_TEMPLATES = {
         \\begin{minipage}[t]{2.5in}
             \\centering
             \\rule{2in}{0.4pt}\\par
-            \\ifdefempty{\\SignatoryAbbrev}{\\MakeUppercase{\\SignatoryName}}{\\SignatoryAbbrev}\\par
+            \\dondocsSignatureAnchor{senior}\\ifdefempty{\\SignatoryAbbrev}{\\MakeUppercase{\\SignatoryName}}{\\SignatoryAbbrev}\\par
             \\SignatoryRank\\par
             \\SignatoryTitle\\par
             \\ByDirection

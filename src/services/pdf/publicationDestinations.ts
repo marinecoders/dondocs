@@ -1,7 +1,7 @@
 import { PDFArray, PDFHexString, PDFDict, PDFDocument, PDFName, PDFNumber, PDFString } from 'pdf-lib';
 
-/** SwiftLaTeX writes named destinations at page 1. Resolve publication anchors
- * from their page annotations before signing or appending enclosures. */
+/** Resolve template anchors from page annotations before signing or merging.
+ * SwiftLaTeX does not reliably preserve the destinations on their actual pages. */
 export async function resolvePublicationDestinations(bytes: Uint8Array, manualFrontMatter = false): Promise<Uint8Array> {
   const pdf = await PDFDocument.load(bytes);
   const anchors = new Map<string, PDFArray>();
@@ -12,7 +12,9 @@ export async function resolvePublicationDestinations(bytes: Uint8Array, manualFr
       const annotation = annotations.lookup(i);
       if (!(annotation instanceof PDFDict)) continue;
       const name = annotation.lookup(PDFName.of('NM'));
-      if (!(name instanceof PDFString) || !/^(?:itype|sl3|sl4|manual)\./.test(name.decodeText())) continue;
+      if (!(name instanceof PDFString)) continue;
+      const id = name.decodeText();
+      if (!/^(?:itype|sl3|sl4|manual)\./.test(id) && !/^dondocs\.signature\.(?:junior|senior)$/.test(id)) continue;
       const rect = annotation.lookup(PDFName.of('Rect'), PDFArray);
       const x = rect.lookup(0, PDFNumber).asNumber();
       const y = rect.lookup(3, PDFNumber).asNumber();

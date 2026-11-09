@@ -53,7 +53,7 @@ export const DOCUMENT_TYPE_GUIDES: DocumentTypeGuide[] = [
       'Resource requests',
       'Status reports',
     ],
-    reference: 'SECNAV M-5216.5, Chapter 2',
+    reference: 'SECNAV M-5216.5, Chapter 7',
   },
   {
     id: 'standard_letter',
@@ -78,7 +78,7 @@ export const DOCUMENT_TYPE_GUIDES: DocumentTypeGuide[] = [
       'Draft letters for review',
       'Routine administrative matters',
     ],
-    reference: 'SECNAV M-5216.5, Chapter 2',
+    reference: 'SECNAV M-5216.5, Chapter 7',
   },
   {
     id: 'business_letter',
@@ -132,7 +132,7 @@ export const DOCUMENT_TYPE_GUIDES: DocumentTypeGuide[] = [
       'Administrative announcements',
       'Coordinated data calls',
     ],
-    reference: 'SECNAV M-5216.5, Chapter 2',
+    reference: 'SECNAV M-5216.5, Chapter 8',
   },
   {
     id: 'joint_letter',
@@ -158,7 +158,7 @@ export const DOCUMENT_TYPE_GUIDES: DocumentTypeGuide[] = [
       'Coordinated operational guidance',
       'Shared facility usage',
     ],
-    reference: 'SECNAV M-5216.5, Chapter 2',
+    reference: 'SECNAV M-5216.5, Chapter 7',
   },
 
   // ENDORSEMENTS
@@ -185,7 +185,7 @@ export const DOCUMENT_TYPE_GUIDES: DocumentTypeGuide[] = [
       'Brief recommendation with 1-2 supporting points',
       'Routine administrative endorsements',
     ],
-    reference: 'SECNAV M-5216.5, Chapter 7',
+    reference: 'SECNAV M-5216.5, Chapter 9',
   },
   {
     id: 'new_page_endorsement',
@@ -211,7 +211,7 @@ export const DOCUMENT_TYPE_GUIDES: DocumentTypeGuide[] = [
       'Endorsements adding significant information',
       'Flag-level endorsements',
     ],
-    reference: 'SECNAV M-5216.5, Chapter 7',
+    reference: 'SECNAV M-5216.5, Chapter 9',
   },
 
   // MEMORANDA
@@ -266,7 +266,7 @@ export const DOCUMENT_TYPE_GUIDES: DocumentTypeGuide[] = [
       'Internal notifications',
       'Tasking memos',
     ],
-    reference: 'SECNAV M-5216.5, Chapter 10',
+    reference: 'MCO 5216.20B, enclosure (1), Memorandum For guidance',
   },
   {
     id: 'plain_paper_memorandum',
@@ -291,7 +291,7 @@ export const DOCUMENT_TYPE_GUIDES: DocumentTypeGuide[] = [
       'Working group outputs',
       'Informal information sharing',
     ],
-    reference: 'SECNAV M-5216.5, Chapter 12',
+    reference: 'SECNAV M-5216.5, Chapter 10',
   },
   {
     id: 'letterhead_memorandum',
@@ -316,7 +316,7 @@ export const DOCUMENT_TYPE_GUIDES: DocumentTypeGuide[] = [
       'Policy memoranda',
       'Command notifications',
     ],
-    reference: 'SECNAV M-5216.5, Chapter 12',
+    reference: 'SECNAV M-5216.5, Chapter 10',
   },
   {
     id: 'decision_memorandum',
@@ -344,7 +344,7 @@ export const DOCUMENT_TYPE_GUIDES: DocumentTypeGuide[] = [
       'Organizational structure decisions',
       'Event planning options',
     ],
-    reference: 'SECNAV M-5216.5, Chapter 12',
+    reference: 'SECNAV M-5216.5, Chapter 10',
   },
   {
     id: 'executive_memorandum',
@@ -394,7 +394,7 @@ export const DOCUMENT_TYPE_GUIDES: DocumentTypeGuide[] = [
       'Combined action proposals',
       'Inter-agency coordination',
     ],
-    reference: 'SECNAV M-5216.5, Chapter 12',
+    reference: 'SECNAV M-5216.5, Chapter 7',
   },
 
   // AGREEMENTS
@@ -402,7 +402,7 @@ export const DOCUMENT_TYPE_GUIDES: DocumentTypeGuide[] = [
     id: 'moa',
     name: 'Memorandum of Agreement (MOA)',
     category: 'Agreements',
-    summary: 'A formal agreement between two or more parties that documents specific terms, responsibilities, and often resource commitments. More binding than an MOU.',
+    summary: 'Documents mutual agreements between activities on facts, procedures, responsibilities, coordination, or commitments. Confirm the required title and terms with the agreeing activities.',
     whenToUse: [
       'Agreements with specific resource commitments',
       'Formal partnerships with defined obligations',
@@ -416,7 +416,7 @@ export const DOCUMENT_TYPE_GUIDES: DocumentTypeGuide[] = [
       'Defined responsibilities for each party',
       'Usually has duration and termination clauses',
       'Dual signature blocks',
-      'More formal and binding than MOU',
+      'Senior official signs last',
     ],
     commonExamples: [
       'Training support agreements',
@@ -425,25 +425,25 @@ export const DOCUMENT_TYPE_GUIDES: DocumentTypeGuide[] = [
       'Reimbursable support arrangements',
       'Host-tenant agreements',
     ],
-    reference: 'SECNAV M-5216.5, Chapter 12',
+    reference: 'SECNAV M-5216.5, Chapter 10',
   },
   {
     id: 'mou',
     name: 'Memorandum of Understanding (MOU)',
     category: 'Agreements',
-    summary: 'Documents a mutual understanding between parties about their relationship, roles, or coordination. Less formal than an MOA, typically without specific resource commitments.',
+    summary: 'Documents mutual understandings between activities on facts, procedures, coordination, or commitments. Uses the same correspondence format as an MOA.',
     whenToUse: [
       'Establishing working relationships',
       'Defining roles and responsibilities',
       'Framework agreements for future cooperation',
       'When flexibility is more important than specificity',
-      'Initial agreements before detailed MOA',
+      'Recording present or future coordination or commitments',
     ],
     keyFeatures: [
       'Outlines mutual understanding',
       'Defines general roles and responsibilities',
-      'Usually does not commit specific resources',
-      'More flexible than MOA',
+      'Can document present or future commitments',
+      'Same correspondence format as MOA',
       'Dual signature blocks',
       'Framework for cooperation',
     ],
@@ -454,7 +454,7 @@ export const DOCUMENT_TYPE_GUIDES: DocumentTypeGuide[] = [
       'Cooperative relationship definitions',
       'Preliminary agreements',
     ],
-    reference: 'SECNAV M-5216.5, Chapter 12',
+    reference: 'SECNAV M-5216.5, Chapter 10',
   },
 
   // EXECUTIVE
@@ -538,7 +538,7 @@ export const DOCUMENT_TYPE_GUIDES: DocumentTypeGuide[] = [
       'NJP documentation',
       'Command administrative decisions',
     ],
-    reference: 'MCO P1070.12K',
+    reference: 'MCO 5216.19A',
   },
   {
     id: 'navmc_118_11',
@@ -588,7 +588,7 @@ export const DOCUMENT_TYPE_GUIDES: DocumentTypeGuide[] = [
       'A kit retrofit across a family of trailers',
       'A lubrication schedule change for a vehicle',
     ],
-    reference: 'MIL-STD-38784C; MARCORSYSCOM I-Type template',
+    reference: 'MCO 5215.17D; MIL-STD-38784C; MARCORSYSCOM I-Type template',
   },
 ];
 

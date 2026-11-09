@@ -1,5 +1,8 @@
+import { resolvePublicationDestinations } from './publicationDestinations';
 import { publicationMarking } from '@/lib/publicationMarking';
 import { formatPublicationDate } from '@/lib/publicationDate';
+import { jointSignatories } from '@/lib/signingAuthority';
+import { abbreviatedFullSignatoryName } from '@/lib/signatoryName';
 import { DOC_TYPE_CONFIG, type DocumentData, type Paragraph } from '@/types/document';
 import type { GeneratedFiles } from '@/services/latex/generator';
 import { mergeEnclosures, type ClassificationInfo, type EnclosureError } from './mergeEnclosures';
@@ -95,23 +98,12 @@ export function getDualSignatoryConfig(formData: Partial<DocumentData>, uiMode: 
   let seniorName: string | undefined;
 
   if (uiMode === 'moa') {
-    // MOA/MOU: Junior uses full name uppercased, Senior uses "F. LASTNAME",
-    // matching how the LaTeX generator renders them.
-    juniorName = formData.juniorSigName?.toUpperCase()?.trim() || undefined;
-
-    // Senior signatory in MOA/MOU uses abbreviated form: "F. LASTNAME"
-    // e.g., "David Foster" -> "D. FOSTER"
-    const seniorFullName = formData.seniorSigName?.trim() || '';
-    if (seniorFullName) {
-      const parts = seniorFullName.split(' ');
-      const firstName = parts[0] || '';
-      const lastName = parts[parts.length - 1]?.toUpperCase() || '';
-      seniorName = firstName ? `${firstName[0].toUpperCase()}. ${lastName}` : lastName;
-    }
+    juniorName = abbreviatedFullSignatoryName(formData.juniorSigName) || undefined;
+    seniorName = abbreviatedFullSignatoryName(formData.seniorSigName) || undefined;
   } else if (uiMode === 'joint' || uiMode === 'joint_memo') {
-    // Joint letter and joint memo share the same fields (both uppercased)
-    juniorName = formData.jointJuniorSigName?.toUpperCase()?.trim() || undefined;
-    seniorName = formData.jointSeniorSigName?.toUpperCase()?.trim() || undefined;
+    const signers = jointSignatories(formData, uiMode === 'joint_memo');
+    juniorName = signers.juniorName.toUpperCase().trim() || undefined;
+    seniorName = signers.seniorName.toUpperCase().trim() || undefined;
   }
 
   return {
@@ -122,7 +114,10 @@ export function getDualSignatoryConfig(formData: Partial<DocumentData>, uiMode: 
 
 /** The same assembly sequence is used by single downloads and batch results. */
 export async function finishCorrespondencePdf(pdf: Uint8Array, docType: string, formData: Partial<DocumentData>, generated: GeneratedFiles, paragraphs: Paragraph[] = [], resolved?: { marking: ClassificationInfo | undefined; referenceDate?: Date }): Promise<{ pdfBytes: Uint8Array; errors: EnclosureError[] }> {
-  const assembled = await assembleBasicLetter(pdf, docType, formData);
+  const config = DOC_TYPE_CONFIG[docType];
+  const dualSignature = config?.uiMode === 'moa' || config?.compliance?.dualSignature;
+  const positioned = formData.signatureType === 'digital' && dualSignature ? await resolvePublicationDestinations(pdf) : pdf;
+  const assembled = await assembleBasicLetter(positioned, docType, formData);
   let pdfBytes = assembled.pdfBytes;
   const errors = assembled.error ? [basicLetterError(assembled.error)] : [];
   let lastBasicPageIndex: number | undefined;
@@ -133,9 +128,8 @@ export async function finishCorrespondencePdf(pdf: Uint8Array, docType: string, 
     if (merged.hasErrors) errors.push(...merged.errors);
   }
   if (formData.signatureType === 'digital') {
-    const config = DOC_TYPE_CONFIG[docType];
-    pdfBytes = config?.uiMode === 'moa' || config?.compliance?.dualSignature
-      ? await addDualSignatureFields(pdfBytes, { ...getDualSignatoryConfig(formData, config?.uiMode), lastBasicPageIndex })
+    pdfBytes = dualSignature
+      ? await addDualSignatureFields(pdfBytes, { ...getDualSignatoryConfig(formData, config?.uiMode), lastBasicPageIndex, requireTemplateAnchors: true })
       : await addSignatureField(pdfBytes, { ...getSignatoryConfig(formData), lastBasicPageIndex });
   }
   return { pdfBytes, errors };

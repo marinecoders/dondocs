@@ -76,9 +76,9 @@ describe.skipIf(!hasPdfToolchain)('previously hollow doc types carry their conte
     expect(text).toContain('COMMANDANT OF THE MARINE CORPS');
     expect(text).toContain('CHIEF OF NAVAL OPERATIONS');
     expect(text).toContain('Subj: AGREEMENT ON JOINT OPERATIONS');
-    // Agreements reduce a full name to initial and surname.
-    expect(text).toMatch(/D\. SMITH/);
-    expect(text).toMatch(/M\. JONES/);
+    // Agreements preserve given-name initials and the surname.
+    expect(text).toMatch(/D\. R\. SMITH/);
+    expect(text).toMatch(/M\. K\. JONES/);
     expect(text).toContain('General');
     expect(text).toContain('Admiral');
     expect(text).not.toContain('[SENIOR COMMAND]');

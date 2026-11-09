@@ -1022,6 +1022,14 @@
 \HasDigitalSigFieldfalse
 \newcommand{\setDigitalSignatureField}{\HasDigitalSigFieldtrue}
 
+% Explicit role locations survive wrapped or repeated signatory names.
+\newcommand{\dondocsSignatureAnchor}[1]{%
+    \ifHasDigitalSigField
+        \leavevmode\hypertarget{dondocs.signature.#1}{}%
+        \pdfannot width 0pt height 0pt depth 0pt {/Subtype /Link /Border [0 0 0] /NM (dondocs.signature.#1)}%
+    \fi
+}
+
 % Command to render digital signature field placeholder
 % Creates an invisible marker for pdf-lib to detect position
 % The actual AcroForm signature field is added by pdf-lib post-processing

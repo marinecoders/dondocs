@@ -1,3 +1,4 @@
+import { abbreviatedFullSignatoryName } from '@/lib/signatoryName';
 import { resolveParagraphLayout } from './paragraphLayout';
 import { documentOutputConfig } from '@/lib/documentOutputConfig';
 import { jointSignatories, signatureAuthorityLine, signaturePosition, supportsActingSignature } from '@/lib/signingAuthority';
@@ -27,6 +28,7 @@ import type { DocumentData, Reference, Enclosure, Paragraph, CopyTo, Distributio
 import { base64ToUint8Array } from '@/lib/encoding';
 import { composeBasicLetterId, enclosureStartNumber, pageStartNumber } from '@/lib/endorsement';
 import { calculateLabels } from './paragraphLabels';
+import { agreementParagraphs, emptyAgreementRow } from './agreementLayout';
 import { ancestorLabelsPerParagraph, type LabelFont } from './subparagraphIndent';
 import { safeUrl } from '@/lib/url-safety';
 import { splitAddressForLetterhead } from '@/lib/unitAddress';
@@ -530,24 +532,12 @@ function generateMOASignatoryTex(store: DocumentStore): string {
     signatureConfigTex = '\\setDigitalSignatureField';
   }
 
-  // Senior signatory name formatting (same as standard signatory).
-  // Split once and read first/last word safely (see #20). When the input
-  // has a single word or is empty, `first` === `last` === that word (or
-  // empty string), which is the same behavior the old `?.split(...)[0]` /
-  // `?.slice(-1)[0] || ''` chain produced but without the repeated splits
-  // or the implicit-undefined pitfalls.
   const seniorFullName = data.seniorSigName || '';
   const seniorParts = seniorFullName.split(' ').filter(Boolean);
   const seniorFirstName = capitalizeWord(seniorParts[0]);
   const seniorLastName = (seniorParts[seniorParts.length - 1] || '').toUpperCase();
-  const seniorAbbrev = seniorFirstName ? `${seniorFirstName[0]}. ${seniorLastName}` : seniorLastName;
-
-  // Junior signatory name formatting (abbreviated like senior: "R. CHIOFALO")
-  const juniorFullName = data.juniorSigName || '';
-  const juniorParts = juniorFullName.split(' ').filter(Boolean);
-  const juniorFirstName = capitalizeWord(juniorParts[0]);
-  const juniorLastName = (juniorParts[juniorParts.length - 1] || '').toUpperCase();
-  const juniorAbbrev = juniorFirstName ? `${juniorFirstName[0]}. ${juniorLastName}` : juniorLastName;
+  const seniorAbbrev = abbreviatedFullSignatoryName(seniorFullName);
+  const juniorAbbrev = abbreviatedFullSignatoryName(data.juniorSigName);
 
   // Use EXISTING commands only - Senior uses document-level fields + standard signatory
   // Junior uses Junior-prefixed fields (which already exist)
@@ -993,6 +983,10 @@ export function generateBodyTex(store: DocumentStore): string {
   if (store.docType === 'i_type' && (store.formData.publicationType ?? 'MI') === 'MI') {
     store = { ...store, paragraphs: withTimeCompliance(store.paragraphs, store.formData.miUrgency ?? 'normal', store.formData.miCompletionDate) };
   }
+  const config = documentOutputConfig(store.docType, store.documentMode);
+  if (config.uiMode === 'moa') {
+    store = { ...store, paragraphs: agreementParagraphs(store.paragraphs) };
+  }
   const crossReferences = publicationReferences(store.paragraphs, store.publicationTables);
   const bodyText = store.docType === 'i_type' ? (text: string) => publicationReferenceText(text, crossReferences) : processBodyText;
   const navigation = store.docType === 'i_type' ? publicationNavigation(store.paragraphs, store.publicationTables, toTitleCase) : new Map();
@@ -1002,7 +996,6 @@ export function generateBodyTex(store: DocumentStore): string {
   const ancestors = ancestorLabelsPerParagraph(labels, store.paragraphs.map((p) => p.level));
   const bodyFont: LabelFont = (store.formData.fontFamily || 'times') === 'courier' ? 'courier' : 'times';
   const bodySizePt = parseFloat(store.formData.fontSize || '12pt') || 12;
-  const config = documentOutputConfig(store.docType, store.documentMode);
 
   // Business letters (Ch 11 ¶6, "Do not number main paragraphs") and executive
   // correspondence (Ch 12 ¶3.2c(2), "Do not number the paragraphs") don't
@@ -1037,8 +1030,15 @@ export function generateBodyTex(store: DocumentStore): string {
   // The position and attachment identity must match generateAllLatexFiles.
   let figureFileIndex = 0;
   let appendixLetter = '';
+  // A one-line closing still needs preceding body text on the signature page
+  // (Ch 7 ¶13). Connect the final written paragraphs after removing empty
+  // closing rows; the template attaches signatures and widow protection keeps lines.
+  const agreementTailStart = config.uiMode === 'moa'
+    ? store.paragraphs.flatMap((para, i) => emptyAgreementRow(para) ? [] : [i]).slice(-2)[0]
+    : undefined;
   for (let i = 0; i < store.paragraphs.length; i++) {
     const para = store.paragraphs[i];
+    if (agreementTailStart !== undefined && i > agreementTailStart) parts.push('\\nopagebreak[4]\n');
     const label = useNumberedParagraphs ? labels[i] : '';
     const layout = resolveParagraphLayout(para.level, ancestors[i], config, bodyFont, bodySizePt);
     const spacing = `\\vspace{${layout.spaceBeforePt}pt}`;

@@ -46,6 +46,9 @@
 % Title block centered below
 
 \newcommand{\printDateAndTitle}{%
+    % The left ID block must clear the seal, which ends 1.5in from the top.
+    % The shared letterhead spacing only clears its centered text.
+    \vspace*{24pt}%
     % Dual ID symbols - side by side
     \noindent
     \begin{tabular}[t]{@{}p{3in}@{\hfill}p{3in}@{}}
@@ -119,14 +122,15 @@
 % Use overscoring (line above the name)
 
 \newcommand{\printSignature}{%
-    \par\vspace{48pt}%
+    % Keep preceding body text on the signature page (Ch 7 paragraph 13).
+    \par\nopagebreak[4]\vspace{48pt}\nopagebreak[4]%
     \noindent
     \begin{tabular}[t]{@{}p{3in}@{\hfill}p{3in}@{}}
         % Junior command signature (LEFT) - signs FIRST
         \begin{minipage}[t]{2.5in}
             \centering
             \rule{2in}{0.4pt}\par
-            \MakeUppercase{\JuniorSignatoryName}\par
+            \dondocsSignatureAnchor{junior}\MakeUppercase{\JuniorSignatoryName}\par
             \JuniorSignatoryRank\par
             \JuniorSignatoryTitle\par
             \JuniorByDirection
@@ -136,7 +140,7 @@
         \begin{minipage}[t]{2.5in}
             \centering
             \rule{2in}{0.4pt}\par
-            \ifdefempty{\SignatoryAbbrev}{\MakeUppercase{\SignatoryName}}{\SignatoryAbbrev}\par
+            \dondocsSignatureAnchor{senior}\ifdefempty{\SignatoryAbbrev}{\MakeUppercase{\SignatoryName}}{\SignatoryAbbrev}\par
             \SignatoryRank\par
             \SignatoryTitle\par
             \ByDirection

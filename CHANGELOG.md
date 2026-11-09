@@ -5,6 +5,18 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.3.48] — 2026-11-09
+
+### Fixed
+
+- Keep agreement identification blocks below the seal and preserve signers' middle initials in PDF and Word exports.
+- Match digital signature fields to the selected agreement and joint memorandum signers.
+- Keep agreement PDF signatures with closing body text without moving them below the printable page.
+- Correct document guide and finder references and agreement guidance.
+
+- Bind dual digital signature fields to explicit template locations, including identical and wrapped names.
+- Keep agreement closing paragraph numbers consistent in PDF and Word, and retain common family-name particles, suffixes, and compact initials in signatory names.
+
 ## [1.3.47] — 2026-11-09
 
 ### Fixed
