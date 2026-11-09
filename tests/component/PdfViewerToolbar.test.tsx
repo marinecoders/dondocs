@@ -138,4 +138,12 @@ describe('PdfViewerToolbar trailing actions', () => {
     expect(screen.queryByRole('menuitem', { name: /fullscreen/i })).not.toBeInTheDocument();
     expect(screen.getByRole('menuitem', { name: 'Download PDF' })).toBeInTheDocument();
   });
+
+  it('omits download from the toolbar and overflow menu without an export handler', async () => {
+    setup({ onDownload: undefined });
+    expect(screen.queryByRole('button', { name: 'Download PDF' })).not.toBeInTheDocument();
+    await openOverflowMenu();
+    expect(screen.queryByRole('menuitem', { name: 'Download PDF' })).not.toBeInTheDocument();
+    expect(screen.getByRole('menuitem', { name: 'Open in browser tab' })).toBeInTheDocument();
+  });
 });

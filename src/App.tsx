@@ -1,3 +1,4 @@
+import type { DocumentSnapshot } from '@/stores/historyStore';
 import { saveCheckpoint } from '@/lib/saveCheckpoint';
 import { usePageScrollLayout } from '@/hooks/usePageScrollLayout';
 import { applyTheme, THEMES } from '@/lib/appearance';
@@ -71,7 +72,7 @@ import { useBatchStore } from '@/stores/batchStore';
 import { useFormCatalog } from '@/services/formCatalog';
 import { diagnosticText } from '@/services/forms/model';
 import { renderForm } from '@/services/forms/render';
-import { useDocumentsStore, openSessionAsNew, changeDocumentHistory, captureDocumentScope, isCurrentDocumentScope, hydrateDocumentAssets, newCorrespondenceDocument } from '@/stores/documentsStore';
+import { useDocumentsStore, captureDocumentTarget, isCurrentDocumentTarget, openSessionAsNew, changeDocumentHistory, captureDocumentScope, isCurrentDocumentScope, hydrateDocumentAssets, newCorrespondenceDocument } from '@/stores/documentsStore';
 import { useBackupStore } from '@/stores/backupStore';
 import { useEditorOutlineStore } from '@/stores/editorOutlineStore';
 import { useEditorSections } from '@/components/layout/editorSections';
@@ -140,7 +141,7 @@ async function addFigureFiles(files: Record<string, string | Uint8Array>, figure
 }
 
 // I-Type attachments carry first-page identification and outer-edge numbers.
-function mergeOptionsFor(store: ReturnType<typeof useDocumentStore.getState>) {
+function mergeOptionsFor(store: DocumentSnapshot) {
   const enclosureLabel = DOC_TYPE_CONFIG[store.docType]?.enclosureLabel;
   return enclosureLabel === 'footer'
     ? { enclosureLabel, header: { line1: store.formData.shortTitle || '', line2: formatPublicationDate(store.formData.date || '') } }
@@ -215,7 +216,7 @@ function App() {
   const [formPdfUrl, setFormPdfUrl] = useState<string | null>(null);
   const [pdfDocumentId, setPdfDocumentId] = useState<string | null>(null);
   const [formPdfDocumentId, setFormPdfDocumentId] = useState<string | null>(null);
-  const [renderedCorrespondence, setRenderedCorrespondence] = useState<ReturnType<typeof useDocumentStore.getState> | null>(null);
+  const [renderedCorrespondence, setRenderedCorrespondence] = useState<DocumentSnapshot | null>(null);
   const [isCompiling, setIsCompiling] = useState(false);
   const [compileError, setCompileError] = useState<string | null>(null);
   // Full compile-failure log from SwiftLaTeX. Drives the compile-error modal,
@@ -418,7 +419,7 @@ function App() {
   // the resting preview equals the download. Regenerates from the passed store so
   // it's safe to run detached (at idle). Returns the enhanced bytes.
   const enhancePreviewPdf = useCallback(
-    async (pdfBytes: Uint8Array, currentStore: ReturnType<typeof useDocumentStore.getState>): Promise<Uint8Array> => {
+    async (pdfBytes: Uint8Array, currentStore: DocumentSnapshot): Promise<Uint8Array> => {
       const { enclosures: generatedEnclosures, includeHyperlinks, referenceUrls } = generateAllLatexFiles(currentStore);
       // Assemble the basic letter ahead of the endorsement first, so the
       // preview shows the real artifact and the enclosure merge below runs on
@@ -453,7 +454,9 @@ function App() {
     if (useBatchStore.getState().status === 'running') return;
     if (!isReady) return;
     if (useDocumentStore.getState().documentCategory === 'forms') return;
-    const previewDocumentId = useDocumentsStore.getState().currentId;
+    const target = captureDocumentTarget();
+    if (!target) return;
+    const previewDocumentId = target.scope.documentId;
     // Invalidate any pending idle upgrade and stamp this compile so a late idle
     // pass from a previous edit can't swap in a stale PDF.
     cancelIdleEnhance();
@@ -470,11 +473,11 @@ function App() {
       // If the document was just restored, its enclosure bytes may still be
       // streaming back from the attachments store; make sure they're present
       // before the pipeline reads file.data (no-op once already hydrated).
-      await hydrateDocumentAssets();
-      if (previewDocumentId !== useDocumentsStore.getState().currentId || gen !== previewGenRef.current) return;
+      await hydrateDocumentAssets(target.scope);
+      if (!isCurrentDocumentTarget(target) || gen !== previewGenRef.current) return;
       // Read the full store via getState() at compile time; the debounce dep
       // array already handles when to re-compile, so the state here is current.
-      const currentStore = useDocumentStore.getState();
+      const currentStore = useDocumentStore.getState().getSnapshot();
       const { texFiles, enclosures: generatedEnclosures, includeHyperlinks, signatureImage, referenceUrls, figures } = generateAllLatexFiles(currentStore);
 
       // Build files object including signature image if present
@@ -504,7 +507,7 @@ function App() {
         if (fullQualityPreview && hasEnhancements) {
           pdfBytes = await enhancePreviewPdf(pdfBytes, currentStore);
         }
-        if (previewDocumentId !== useDocumentsStore.getState().currentId || gen !== previewGenRef.current) return;
+        if (!isCurrentDocumentTarget(target) || gen !== previewGenRef.current) return;
 
         // Revoke the old URL on a delay: the viewer double-buffers document
         // swaps, so an in-flight load of the outgoing URL may still be reading
@@ -535,10 +538,10 @@ function App() {
         if (!fullQualityPreview && hasEnhancements) {
           const runIdleEnhance = () => {
             idleEnhanceRef.current = null;
-            if (gen !== previewGenRef.current) return; // a newer compile superseded us
+            if (!isCurrentDocumentTarget(target) || gen !== previewGenRef.current) return; // a newer compile superseded us
             void enhancePreviewPdf(basePdfBytes, currentStore)
               .then((enhanced) => {
-                if (gen !== previewGenRef.current) return; // went stale during the async work
+                if (!isCurrentDocumentTarget(target) || gen !== previewGenRef.current) return; // went stale during the async work
                 const enhancedUrl = URL.createObjectURL(
                   new Blob([new Uint8Array(enhanced)], { type: 'application/pdf' })
                 );
@@ -563,7 +566,7 @@ function App() {
       // Clear reset flag on success
       isResettingRef.current = false;
     } catch (err) {
-      if (previewDocumentId !== useDocumentsStore.getState().currentId || gen !== previewGenRef.current) return;
+      if (!isCurrentDocumentTarget(target) || gen !== previewGenRef.current) return;
       console.error('Compilation error:', err);
       const errorMessage = err instanceof Error ? err.message : 'Compilation failed';
       // Get compile log directly from error if available (for immediate access)
@@ -635,6 +638,7 @@ function App() {
     isReady,
     workspaceReady,
     currentDocId,
+    activationEpoch,
     documentCategory,
     batchRunning,
     updating,
@@ -704,6 +708,8 @@ function App() {
   useEffect(() => {
     if (documentCategory !== 'forms') return;
     let cancelled = false;
+    const target = captureDocumentTarget();
+    if (!target || target.scope.documentId !== currentDocId) return;
 
     if (formCompileTimeoutRef.current) {
       clearTimeout(formCompileTimeoutRef.current);
@@ -748,7 +754,7 @@ function App() {
           }
         }
 
-        if (cancelled) return;
+        if (cancelled || !isCurrentDocumentTarget(target)) return;
         if (pdfBytes) {
           setFormError(previewIssue);
           setRenderedForm({ type: formType, data: genericForm ?? (formType === 'navmc_10274' ? navmc10274 : navmc11811), cover: includeCoverPage });
@@ -766,7 +772,7 @@ function App() {
           });
         }
       } catch (err) {
-        if (!cancelled) setFormError(err instanceof Error ? err.message : 'Form preview failed. Refresh the preview to try again.');
+        if (!cancelled && isCurrentDocumentTarget(target)) setFormError(err instanceof Error ? err.message : 'Form preview failed. Refresh the preview to try again.');
       }
     }, 500); // Faster debounce for forms since no LaTeX compilation
 
@@ -776,7 +782,7 @@ function App() {
         clearTimeout(formCompileTimeoutRef.current);
       }
     };
-  }, [currentDocId, documentCategory, formType, navmc10274, navmc11811, genericForm, navmc10274Templates, navmc11811Template, includeCoverPage, formRefresh]);
+  }, [currentDocId, activationEpoch, documentCategory, formType, navmc10274, navmc11811, genericForm, navmc10274Templates, navmc11811Template, includeCoverPage, formRefresh]);
 
   const handleDownloadPdf = useCallback(() => {
     useUIStore.getState().setValidationVisible(true);
@@ -1194,7 +1200,7 @@ function App() {
     </main>;
   }
 
-  const correspondenceChanged = renderedCorrespondence?.docType !== docType || renderedCorrespondence?.formData !== formData
+  const correspondenceChanged = renderedCorrespondence?.docType !== docType || renderedCorrespondence?.documentMode !== documentMode || renderedCorrespondence?.endItems !== endItems || renderedCorrespondence?.publicationTables !== publicationTables || renderedCorrespondence?.formData !== formData
     || renderedCorrespondence?.paragraphs !== paragraphs || renderedCorrespondence?.references !== references
     || renderedCorrespondence?.enclosures !== enclosures || renderedCorrespondence?.copyTos !== copyTos
     || renderedCorrespondence?.distributions !== distributions || pdfDocumentId !== currentDocId;

@@ -19,7 +19,7 @@ interface PreviewPanelProps {
   previewEnhanced?: boolean;
   error: string | null;
   documentId?: string;
-  onDownloadPdf?: () => void;
+  onDownloadPdf: () => void;
 }
 
 export function PreviewPanel({ pdfUrl, isCompiling, isWarmingUp = false, previewEnhanced = false, error, documentId, onDownloadPdf }: PreviewPanelProps) {

@@ -140,17 +140,6 @@ export default function PdfViewer({ pdfUrl, className, showFullscreen = true, do
     window.open(pdfUrl, '_blank', 'noopener');
   }, [pdfUrl]);
 
-  const downloadPdf = useCallback(() => {
-    // pdfUrl is a same-origin blob URL, so a plain download anchor is enough on
-    // desktop (the mobile modal has its own iOS-aware path).
-    const a = document.createElement('a');
-    a.href = pdfUrl;
-    a.download = 'correspondence.pdf';
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-  }, [pdfUrl]);
-
   const goToPage = useCallback(
     (delta: 1 | -1) => {
       activeLayerRef.current?.scrollToPage(pageInView - 1 + delta, !reducedMotion);
@@ -287,8 +276,8 @@ export default function PdfViewer({ pdfUrl, className, showFullscreen = true, do
         onZoomFitWidth={zoomFitWidth}
         onZoomFitPage={zoomFitPage}
         onOpenInTab={openInTab}
-        onDownload={onDownloadPdf ?? downloadPdf}
-        downloadLabel={onDownloadPdf ? 'Download PDF' : 'Download preview PDF'}
+        onDownload={onDownloadPdf}
+        downloadLabel="Download PDF"
         fullscreen={showFullscreen && fullscreen.available ? fullscreen : null}
       />
       <div className="flex min-h-0 flex-1">

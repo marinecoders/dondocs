@@ -3,7 +3,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { act, cleanup, fireEvent, render, screen } from '@testing-library/react';
 
 const { compile, load10274, load11811, generate10274, generate11811 } = vi.hoisted(() => ({
-  compile: vi.fn<(files: Record<string, string | Uint8Array>) => Promise<null>>().mockResolvedValue(null),
+  compile: vi.fn<(files: Record<string, string | Uint8Array>) => Promise<Uint8Array | null>>().mockResolvedValue(null),
   load10274: vi.fn(), load11811: vi.fn(), generate10274: vi.fn(), generate11811: vi.fn(),
 }));
 
@@ -27,7 +27,7 @@ vi.mock('@/components/layout/Header', () => ({
 vi.mock('@/components/modals/WelcomeModal', () => ({ WelcomeModal: () => null }));
 vi.mock('@/components/layout/PreviewPanel', () => ({
   PreviewPanel: ({ pdfUrl, isCompiling, error }: { pdfUrl: string | null; isCompiling: boolean; error: string | null }) =>
-    <output aria-label="Form preview state">{error ?? (pdfUrl ? 'Ready' : isCompiling ? 'Generating' : 'Idle')}</output>,
+    <output aria-label="Form preview state" data-testid="preview-state" data-compiling={isCompiling}>{error ?? (pdfUrl ? 'Ready' : isCompiling ? 'Generating' : 'Idle')}</output>,
 }));
 vi.mock('@/services/pdf/navmc10274Generator', () => ({ loadNavmc10274Templates: load10274, generateNavmc10274Pdf: generate10274 }));
 vi.mock('@/services/pdf/navmc11811Generator', () => ({ loadNavmc11811Template: load11811, generateNavmc11811Pdf: generate11811 }));
@@ -35,11 +35,12 @@ vi.mock('@/services/pdf/navmc11811Generator', () => ({ loadNavmc11811Template: l
 import App from '@/App';
 import { useDocumentStore } from '@/stores/documentStore';
 import { useDocumentsStore } from '@/stores/documentsStore';
+import { useFormStore } from '@/stores/formStore';
 import { useUIStore } from '@/stores/uiStore';
 
 beforeEach(() => {
   vi.useFakeTimers();
-  compile.mockClear();
+  compile.mockReset().mockResolvedValue(null);
   load10274.mockReset().mockResolvedValue({ page1: new ArrayBuffer(1), page2: new ArrayBuffer(1), page3: new ArrayBuffer(1) });
   load11811.mockReset().mockResolvedValue(new ArrayBuffer(1));
   generate10274.mockReset().mockResolvedValue(new Uint8Array([1]));
@@ -74,7 +75,7 @@ describe('preview recompilation on format-mode changes', () => {
     await act(async () => { render(<App />); });
     await act(async () => { await vi.advanceTimersByTimeAsync(3000); });
     expect(compile).toHaveBeenCalled();
-    compile.mockClear();
+    compile.mockReset().mockResolvedValue(null);
 
     const fields = useDocumentStore.getState().formData;
     act(() => { useDocumentStore.getState().setDocumentMode('custom'); });
@@ -84,7 +85,7 @@ describe('preview recompilation on format-mode changes', () => {
     expect(compile).toHaveBeenCalledTimes(1);
     expect(compile.mock.calls[0][0]['document.tex']).toContain('\\setPageNumberStyle{none}');
 
-    compile.mockClear();
+    compile.mockReset().mockResolvedValue(null);
     act(() => { useDocumentStore.getState().setDocumentMode('compliant'); });
     await act(async () => { await vi.advanceTimersByTimeAsync(1600); });
     expect(compile).toHaveBeenCalledTimes(1);
@@ -121,4 +122,71 @@ describe('form template loading recovery', () => {
     await act(async () => { rejectOld(new Error('Old template request failed')); });
     expect(preview).toHaveTextContent('Ready');
   });
+});
+
+it('discards a worker result when the document is edited before React flushes the next effect', async () => {
+  let finish!: (pdf: Uint8Array) => void;
+  compile.mockImplementationOnce(() => new Promise(resolve => { finish = resolve; }));
+  const urls = vi.spyOn(URL, 'createObjectURL');urls.mockClear();
+  await act(async () => { render(<App />); });
+  await act(async () => { await vi.advanceTimersByTimeAsync(1600); });
+  expect(compile).toHaveBeenCalledTimes(1);
+  await act(async () => {
+    useDocumentStore.getState().setField('subject', 'NEW REVISION');
+    finish(new Uint8Array([1, 2, 3]));
+    for (let i = 0; i < 10; i++) await Promise.resolve();
+  });
+  expect(urls).not.toHaveBeenCalled();
+});
+
+it('discards output from a previous activation of the same document ID', async () => {
+  let finish!: (pdf: Uint8Array) => void;
+  compile.mockImplementationOnce(() => new Promise(resolve => { finish = resolve; }));
+  const urls = vi.spyOn(URL, 'createObjectURL');urls.mockClear();
+  await act(async () => { render(<App />); });
+  await act(async () => { await vi.advanceTimersByTimeAsync(1600); });
+  expect(compile).toHaveBeenCalledTimes(1);
+  await act(async () => {
+    useDocumentsStore.setState(state => ({ activationEpoch: state.activationEpoch + 1 }));
+    finish(new Uint8Array([1, 2, 3]));
+    for (let i = 0; i < 10; i++) await Promise.resolve();
+  });
+  expect(urls).not.toHaveBeenCalled();
+});
+
+it.each(['navmc_10274', 'navmc_118_11'] as const)('reports %s template failures after editing the active form', async (formType) => {
+  let fail!: (error: Error) => void;
+  const loader = formType === 'navmc_10274' ? load10274 : load11811;
+  loader.mockImplementationOnce(() => new Promise((_, reject) => { fail = reject; }));
+  useDocumentsStore.getState().newDocument(formType);
+  await act(async () => { render(<App />); });
+  expect(loader).toHaveBeenCalledTimes(1);
+
+  act(() => {
+    if (formType === 'navmc_10274') useFormStore.getState().setNavmc10274Field('from', 'EDITED WHILE LOADING');
+    else useFormStore.getState().setNavmc11811Field('lastName', 'EDITED WHILE LOADING');
+  });
+  await act(async () => { await vi.advanceTimersByTimeAsync(600); });
+  await act(async () => { fail(new Error('Template unavailable')); });
+
+  expect(screen.getByTestId('preview-state')).toHaveTextContent('Could not load the NAVMC');
+  expect(screen.getByTestId('preview-state')).toHaveAttribute('data-compiling', 'false');
+  expect(loader).toHaveBeenCalledTimes(1);
+});
+
+it.each(['navmc_10274', 'navmc_118_11'] as const)('discards %s template failures from a previous document activation', async (formType) => {
+  let fail!: (error: Error) => void;
+  const loader = formType === 'navmc_10274' ? load10274 : load11811;
+  loader.mockImplementationOnce(() => new Promise((_, reject) => { fail = reject; }));
+  useDocumentsStore.getState().newDocument(formType);
+  await act(async () => { render(<App />); });
+
+  await act(async () => {
+    useDocumentsStore.setState(state => ({ activationEpoch: state.activationEpoch + 1 }));
+    fail(new Error('Previous activation failed'));
+    for (let i = 0; i < 10; i++) await Promise.resolve();
+  });
+
+  expect(screen.getByTestId('preview-state')).not.toHaveTextContent('Could not load the NAVMC');
+  expect(screen.getByTestId('preview-state')).toHaveAttribute('data-compiling', 'true');
 });
