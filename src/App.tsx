@@ -788,32 +788,9 @@ function App() {
       let pdfBytes: Uint8Array | null = null;
       let filename = 'form.pdf';
 
-      if (formType === 'navmc_10274' && navmc10274Templates) {
-        pdfBytes = await generateNavmc10274Pdf(
-          navmc10274,
-          navmc10274Templates.page1,
-          navmc10274Templates.page2,
-          navmc10274Templates.page3,
-          { includeCoverPage }
-        );
-        filename = `NAVMC-10274-${navmc10274.date || 'form'}.pdf`;
-      } else if (formType === 'navmc_118_11' && navmc11811Template) {
-        // Same self-referential placeholder resolution as the live-preview
-        // path above (compile useEffect). Without this, normal download
-        // renders `{{NAME}}` etc. as literal yellow-highlighted text.
-        const values = buildNavmc11811DefaultValues(navmc11811);
-        const resolved = applyPlaceholdersToNavmc11811(navmc11811, values);
-        pdfBytes = await generateNavmc11811Pdf(
-          resolved,
-          navmc11811Template
-        );
-        const lastName = navmc11811.lastName || 'Marine';
-        filename = `NAVMC-118-11-${lastName}-${navmc11811.entryDate || 'entry'}.pdf`;
-      } else {
-        if (genericForm?.definition.formId === formType) {
-          pdfBytes = (await renderForm(genericForm, 'export')).bytes;
-          filename = `${genericForm.definition.formId}-form.pdf`;
-        }
+      if (genericForm?.definition.formId === formType) {
+        pdfBytes = (await renderForm(genericForm, 'export')).bytes;
+        filename = `${genericForm.definition.formId}-form.pdf`;
       }
 
       if (pdfBytes) {
@@ -854,11 +831,11 @@ function App() {
     } finally {
       release();
     }
-  }, [formType, navmc10274, navmc11811, includeCoverPage, navmc10274Templates, navmc11811Template, genericForm, exportGate]);
+  }, [formType, genericForm, exportGate]);
 
   const handleDownloadPdf = useCallback(() => {
     useUIStore.getState().setValidationVisible(true);
-    if (useDocumentStore.getState().documentCategory === 'forms') void handleDownloadFormPdf();
+    if (useDocumentStore.getState().documentCategory === 'forms' && useDocumentStore.getState().genericForm) void handleDownloadFormPdf();
     else requestExport('pdf');
   }, [handleDownloadFormPdf, requestExport]);
   const handleDownloadTex = useCallback(() => { requestExport('tex', 'configuration'); }, [requestExport]);

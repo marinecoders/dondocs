@@ -15,7 +15,7 @@ function intent(id = 'original', structure = false): ExportIntent {
 function setup() {
   const deliver = vi.fn<(artifact: ExportArtifact) => Promise<boolean>>(async () => true);const release = vi.fn();const gate = createExportGate();
   const render = vi.fn<(ready: ReadyExportJob, signal: AbortSignal) => Promise<ExportArtifact>>(async ready => createExportArtifact(ready, new Blob([copyPreparedDocument(ready).document.formData.subject ?? ''])));
-  const ports = { gate, resolvePolicy: vi.fn(async () => policy), openDelivery: vi.fn(() => ({ deliver, release })), render };
+  const ports = { gate, captureResources: vi.fn(async () => undefined), resolvePolicy: vi.fn(async () => policy), openDelivery: vi.fn(() => ({ deliver, release })), render };
   return { ...ports, deliver, release, controller: createExportController(ports) };
 }
 it('reviews and retries the same captured document, filename, and policy', async () => {
@@ -62,6 +62,7 @@ it('keeps a failed policy read distinct and retries it against the captured requ
   app.resolvePolicy.mockResolvedValueOnce({ status: 'error', message: 'Policy offline' });
   app.controller.request(original);
   await vi.waitFor(() => expect(app.controller.getState().phase).toBe('error'));
+  expect(app.captureResources).not.toHaveBeenCalled();
   app.controller.retry();
   await vi.waitFor(() => expect(app.controller.getState().phase).toBe('review'));
   expect(app.resolvePolicy).toHaveBeenLastCalledWith(true);

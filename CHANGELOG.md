@@ -5,6 +5,13 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.3.33] — 2026-11-08
+
+### Changed
+
+- Prepare built-in NAVMC form exports with captured template bytes and resolved values before privacy review.
+- Validate required template pages and preserve every owned template key; retry the same reviewed data and templates.
+
 ## [1.3.32] — 2026-11-08
 
 ### Fixed
