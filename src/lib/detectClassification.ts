@@ -87,6 +87,11 @@ function bannerLevelOf(line: string): { level: ClassificationLevel; label: strin
   return null;
 }
 
+/** Recognize one complete banner without inferring a level from prose or authority fields. */
+export function classificationBannerLevel(text: string): ClassificationLevel | null {
+  return bannerLevelOf(text.trim())?.level ?? null;
+}
+
 export function detectClassification(rawText: string): ClassificationDetection {
   const lines = rawText.replace(/\r\n?/g, '\n').split('\n');
 

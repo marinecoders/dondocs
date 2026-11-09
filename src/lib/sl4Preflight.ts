@@ -5,14 +5,14 @@ import { validateFigures } from './figures';
 import { SL4_ABBREVIATIONS } from '@/data/techpub/sl4Definitions';
 import { parse, isValid, format } from 'date-fns';
 
-export function sl4ExportErrors(store: StockPublicationStore): string[] {
+export function sl4ExportErrors(store: StockPublicationStore, referenceDate = new Date()): string[] {
   if (store.docType !== 'sl4') return [];
   const parsed = sl4Schema.safeParse(store.formData.sl4 ?? {});
   if (!parsed.success) return ['The SL-4 parts data is invalid. Restore a valid draft before export.'];
   const data = parsed.data;
   const figures = store.paragraphs.filter((p) => p.figure);
-  const errors = stockPublicationErrors({ ...store, paragraphs: figures }, 'sl4', sl4Portions(data, figures));
-  const publicationDate = parse(store.formData.date ?? '', 'd MMM yy', new Date());
+  const errors = stockPublicationErrors({ ...store, paragraphs: figures }, 'sl4', sl4Portions(data, figures), referenceDate);
+  const publicationDate = parse(store.formData.date ?? '', 'd MMM yy', referenceDate);
   if (isValid(publicationDate) && data.cutoffDate > format(publicationDate, 'yyyy-MM-dd')) errors.push('Publication cut-off date cannot follow the effective publication date.');
   for (const finding of sl4ContentFindings(data, { figureIds: figures.map((p) => p.referenceId ?? '') }))
     if (isSl4BlockingFinding(finding))

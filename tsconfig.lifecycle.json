@@ -11,7 +11,8 @@
     "tests/types/documentCapabilities.ts",
     "tests/types/privacyInspection.ts",
     "tests/types/workspaceSearch.ts",
-    "tests/types/exportPolicy.ts"
+    "tests/types/exportPolicy.ts",
+    "tests/types/preparedExport.ts"
   ],
   "exclude": []
 }
