@@ -16,6 +16,8 @@ import { documentOutputConfig } from '@/lib/documentOutputConfig';
  * - \newline for line breaks within a paragraph
  */
 
+import { abbreviatedFullSignatoryName } from '@/lib/signatoryName';
+import { agreementParagraphs } from './agreementLayout';
 import { jointSignatories, signatureAuthorityLine, signaturePosition, supportsActingSignature } from '@/lib/signingAuthority';
 import type { DocumentData, Reference, Enclosure, Paragraph, CopyTo, Distribution, DocTypeConfig } from '@/types/document';
 import { composeSenderSymbol } from './senderSymbol';
@@ -849,15 +851,11 @@ function buildDualSignature(data: Partial<DocumentData>, variant: 'moa' | 'joint
   let seniorRank = '';
 
   if (variant === 'moa') {
-    const junFirst = capitalizeWord(data.juniorSigName?.split(' ')[0]);
-    const junLast = data.juniorSigName?.split(' ').slice(-1)[0]?.toUpperCase() || '';
-    juniorName = junFirst ? `${junFirst[0]}. ${junLast}` : junLast;
+    juniorName = abbreviatedFullSignatoryName(data.juniorSigName);
     juniorRank = data.juniorSigRank || '';
     juniorTitle = data.juniorSigTitle || '';
 
-    const senFirst = capitalizeWord(data.seniorSigName?.split(' ')[0]);
-    const senLast = data.seniorSigName?.split(' ').slice(-1)[0]?.toUpperCase() || '';
-    seniorName = senFirst ? `${senFirst[0]}. ${senLast}` : senLast;
+    seniorName = abbreviatedFullSignatoryName(data.seniorSigName);
     seniorRank = data.seniorSigRank || '';
     seniorTitle = data.seniorSigTitle || '';
   } else {
@@ -1413,7 +1411,7 @@ Subj:\\hspace{3\\fontdimen2\\font} & ${maybeUnderline(escapeTabularWrapped(data.
     store.enclosures,
     enclosureStartNumber(store.docType, store.formData.startingEnclosureNumber)
   );
-  content += buildBody(store.paragraphs, config, bodyFont(store.formData), bodySizePt(store.formData));
+  content += buildBody(agreementParagraphs(store.paragraphs), config, bodyFont(store.formData), bodySizePt(store.formData));
   content += buildDualSignature(data, 'moa');
   content += buildDistribution(store.distributions);
   content += buildCopyTo(store.copyTos);

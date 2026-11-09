@@ -55,7 +55,7 @@ export const QUESTIONS: Record<string, Question> = {
   formType: {
     id: 'formType',
     question: 'What does the form need to do?',
-    help: 'Marine Corps service-record items (MCO P1070.12K).',
+    help: 'Page 11 entries (MCO P1070.12K) and administrative actions (MCO 5216.19A).',
     options: [
       { label: 'Make a service-record entry — counseling, 6105 notice, or commendation', value: 'page11', help: "Goes on the Marine's Page 11 (NAVMC 118(11))." },
       { label: 'Process an administrative action — separation, NJP, or admin decision', value: 'adminAction', help: 'Uses the Administrative Action form (NAVMC 10274).' },
@@ -97,7 +97,7 @@ export const QUESTIONS: Record<string, Question> = {
   resources: {
     id: 'resources',
     question: 'Does this agreement commit specific resources?',
-    help: 'Money, people, equipment, or measurable deliverables — vs. just defining roles.',
+    help: 'Money, people, equipment, or measurable deliverables. Both formats can document commitments; confirm which format your activity requires.',
     options: [
       { label: 'Yes — it commits funding, personnel, or deliverables', value: 'yes', help: 'e.g., "we will fund $50k" or "we will provide 3 instructors."' },
       { label: 'No — it defines roles or a framework for cooperation', value: 'no', help: 'e.g., "we agree to coordinate scheduling" — no money or people committed.' },
@@ -191,10 +191,10 @@ export function getRecommendations(answers: Record<string, string>): FinderResul
     if (formType === 'page11') {
       add('navmc_118_11', 'high', 'Per MCO P1070.12K: Page 11 (NAVMC 118(11)) service-record entry for counseling, 6105 notices, and commendations');
     } else if (formType === 'adminAction') {
-      add('navmc_10274', 'high', 'Per MCO P1070.12K: Administrative Action form (NAVMC 10274) for separations, NJP, and command admin decisions');
+      add('navmc_10274', 'high', 'Per MCO 5216.19A: Administrative Action form (NAVMC 10274) for separations, NJP, and command admin decisions');
     } else {
       add('navmc_118_11', 'high', 'Per MCO P1070.12K: use a Page 11 (NAVMC 118(11)) to record counseling or an event in the service record');
-      add('navmc_10274', 'medium', 'Per MCO P1070.12K: use the Administrative Action form (NAVMC 10274) for a separation, NJP, or formal admin decision');
+      add('navmc_10274', 'medium', 'Per MCO 5216.19A: use the Administrative Action form (NAVMC 10274) for a separation, NJP, or formal admin decision');
     }
     return top3();
   }
@@ -221,7 +221,7 @@ export function getRecommendations(answers: Record<string, string>): FinderResul
     return top3();
   }
   if (category === 'techpub') {
-    add('i_type', 'high', 'Per MIL-STD-38784C: an I-Type instruction (MI/SI/TI/LI) directs a modification, supply, technical, or lubrication action on fielded equipment');
+    add('i_type', 'high', 'Per MCO 5215.17D: an I-Type instruction (MI/SI/TI/LI) directs a modification, supply, technical, or lubrication action on fielded equipment');
     return top3();
   }
 
@@ -229,10 +229,10 @@ export function getRecommendations(answers: Record<string, string>): FinderResul
   // (a joint letter is not an endorsement).
   if (purpose === 'response') {
     if (formality === 'informal' || routing === 'internal') {
-      add('same_page_endorsement', 'high', 'Per Ch 7: Brief endorsement added below the basic letter when space permits');
+      add('same_page_endorsement', 'high', 'Per Ch 9: Brief endorsement added below the basic letter when space permits');
       add('new_page_endorsement', 'medium', 'Use a new-page endorsement if it is lengthy or the basic letter page is full');
     } else {
-      add('new_page_endorsement', 'high', 'Per Ch 7: New-page endorsement on its own letterhead for formal or detailed responses');
+      add('new_page_endorsement', 'high', 'Per Ch 9: New-page endorsement on its own letterhead for formal or detailed responses');
       add('same_page_endorsement', 'medium', 'Alternative if the endorsement is brief and fits on the original letter');
     }
     return top3();
@@ -244,22 +244,23 @@ export function getRecommendations(answers: Record<string, string>): FinderResul
     return top3();
   }
 
-  // R4 — Agreements. Resources-driven (MOA = commitments, MOU = framework).
+  // R4 — Agreements. Resources narrow the examples, not the permitted uses:
+  // Ch 10 para 10-2.6 permits commitments in either format.
   // Joint co-signature surfaces joint variants without overriding MOA/MOU.
   if (purpose === 'agreement') {
     if (res === 'yes') {
-      add('moa', 'high', 'Per Ch 12: MOA when the agreement commits specific funding, personnel, or measurable deliverables');
-      add('mou', 'medium', 'Use an MOU instead if it only frames roles and cooperation without committing resources');
+      add('moa', 'high', 'Per Ch 10, para 10-2.6: MOA records mutual agreements on responsibilities, coordination, or commitments');
+      add('mou', 'medium', 'An MOU can also document commitments; confirm which title the agreeing activities require');
     } else if (res === 'no') {
-      add('mou', 'high', 'Per Ch 12: MOU to define roles, responsibilities, and a framework for cooperation without committing resources');
-      add('moa', 'medium', 'Upgrade to an MOA if you later commit specific funding, personnel, or deliverables');
+      add('mou', 'high', 'Per Ch 10, para 10-2.6: MOU records mutual understandings on roles, procedures, coordination, or commitments');
+      add('moa', 'medium', 'An MOA can also document the agreed roles and coordination; confirm your activity\'s required title');
     } else {
-      add('mou', 'high', 'Per Ch 12: Start with an MOU for the working framework — it is the lower-commitment option');
-      add('moa', 'medium', 'Choose an MOA if the agreement will commit specific resources or funding');
+      add('mou', 'high', 'Per Ch 10, para 10-2.6: MOU uses the same format as an MOA; confirm which title your activity requires');
+      add('moa', 'medium', 'An MOA is also available for the same coordination or commitments');
     }
     if (joint) {
-      add('joint_letter', 'medium', 'Per Ch 2: Joint letter when two commands co-sign the agreement to speak with one voice');
-      add('joint_memorandum', 'medium', 'Per Ch 12: Joint memorandum when two staffs present a single coordinated position internally');
+      add('joint_letter', 'medium', 'Per Ch 7: Joint letter when two commands co-sign the agreement to speak with one voice');
+      add('joint_memorandum', 'medium', 'Per Ch 7: Joint memorandum when two staffs present a single coordinated position internally');
     }
     return top3();
   }
@@ -270,10 +271,10 @@ export function getRecommendations(answers: Record<string, string>): FinderResul
   // asked when recipient==='military', so joint implies military here.
   if (joint && recipient === 'military') {
     if (routing === 'via' || routing === 'direct') {
-      add('joint_letter', 'high', 'Per Ch 2: Joint letter when two commands co-sign correspondence that leaves the command to speak with one voice');
+      add('joint_letter', 'high', 'Per Ch 7: Joint letter when two commands co-sign correspondence that leaves the command to speak with one voice');
       add('joint_memorandum', 'medium', 'Use a joint memorandum if this stays an internal coordinated staff position rather than outgoing correspondence');
     } else {
-      add('joint_memorandum', 'high', 'Per Ch 12: Joint memorandum when two staffs co-sign an internal coordinated position');
+      add('joint_memorandum', 'high', 'Per Ch 7: Joint memorandum when two staffs co-sign an internal coordinated position');
       add('joint_letter', 'medium', 'Use a joint letter if it instead leaves the command as official outgoing correspondence');
     }
     return top3();
@@ -281,7 +282,7 @@ export function getRecommendations(answers: Record<string, string>): FinderResul
 
   // R6 — Decision memos.
   if (purpose === 'decision') {
-    add('decision_memorandum', 'high', 'Per Ch 12: Decision memo presents options with pros/cons and a staff recommendation');
+    add('decision_memorandum', 'high', 'Per Ch 10: Decision memo presents options with pros/cons and a staff recommendation');
     if (formality === 'executive') {
       add('executive_memorandum', 'medium', 'Alternative at flag/general-officer level using an executive-summary format');
     } else {
@@ -292,7 +293,7 @@ export function getRecommendations(answers: Record<string, string>): FinderResul
 
   // R7 — Multiple addressees (single-signer).
   if (recipient === 'multiple') {
-    add('multiple_address_letter', 'high', 'Per Ch 2: Multiple-address letter for identical content sent to several commands at once');
+    add('multiple_address_letter', 'high', 'Per Ch 8: Multiple-address letter for identical content sent to several commands at once');
     add('naval_letter', 'medium', 'Alternative: a naval letter with the recipients in a distribution / Copy To list');
     return top3();
   }
@@ -326,13 +327,13 @@ export function getRecommendations(answers: Record<string, string>): FinderResul
   // leads when it may be forwarded externally.
   if (routing === 'internal') {
     if (formality === 'informal') {
-      add('plain_paper_memorandum', 'high', 'Per Ch 12: Plain-paper memo for routine internal working-level communication');
+      add('plain_paper_memorandum', 'high', 'Per Ch 10: Plain-paper memo for routine internal working-level communication');
       add('standard_letter', 'medium', 'Alternative: a plain-paper standard letter for an internal draft or review copy');
     } else if (purpose === 'inform' || purpose === 'request') {
-      add('mf', 'high', 'Per Ch 10: "Memorandum For" addressed to a specific person/office for internal staff action');
+      add('mf', 'high', 'Per MCO 5216.20B: "Memorandum For" addressed to a specific person/office for internal staff action');
       add('letterhead_memorandum', 'medium', 'Use a letterhead memo if it may be forwarded externally or needs an SSIC');
     } else {
-      add('letterhead_memorandum', 'high', 'Per Ch 12: Letterhead memo for formal internal communications that may be forwarded');
+      add('letterhead_memorandum', 'high', 'Per Ch 10: Letterhead memo for formal internal communications that may be forwarded');
       add('mf', 'medium', 'Alternative: "Memorandum For" format addressed to a specific person/office');
     }
     return top3();
@@ -340,7 +341,7 @@ export function getRecommendations(answers: Record<string, string>): FinderResul
 
   // R11 — Chain-of-command routing (via).
   if (routing === 'via') {
-    add('naval_letter', 'high', 'Per Ch 2: Naval letter with a Via line for correspondence routed through the chain of command');
+    add('naval_letter', 'high', 'Per Ch 7: Naval letter with a Via line for correspondence routed through the chain of command');
     if (formality === 'informal') {
       add('standard_letter', 'medium', 'Alternative: a standard letter (same format, no letterhead) for a draft or when letterhead is unavailable');
     }
@@ -349,9 +350,9 @@ export function getRecommendations(answers: Record<string, string>): FinderResul
 
   // R12 — Default (direct routing).
   if (formality === 'formal') {
-    add('naval_letter', 'high', 'Per Ch 2: Naval letter is the standard format for official Department of the Navy correspondence');
+    add('naval_letter', 'high', 'Per Ch 7: Naval letter is the standard format for official Department of the Navy correspondence');
   } else {
-    add('naval_letter', 'high', 'Per Ch 2: Naval letter is appropriate for most official military correspondence');
+    add('naval_letter', 'high', 'Per Ch 7: Naval letter is appropriate for most official military correspondence');
     add('standard_letter', 'medium', 'Alternative: a standard letter (same format) when letterhead is not required or available');
   }
   return top3();
@@ -363,8 +364,8 @@ export const DOC_DIFFERENTIATORS: Record<string, string> = {
   standard_memorandum: 'General HqDON / OSD correspondence',
   action_memorandum: 'Requests headquarters action or approval',
   information_memorandum: 'Headquarters awareness without requested action',
-  moa: 'Commits specific resources or funding',
-  mou: 'Frames roles & cooperation, no resources',
+  moa: 'Documents a mutual agreement between activities',
+  mou: 'Documents a mutual understanding between activities',
   same_page_endorsement: 'Brief — fits on the basic letter',
   new_page_endorsement: 'Longer — its own letterhead page',
   joint_letter: 'Leaves the command as outgoing correspondence',

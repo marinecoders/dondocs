@@ -158,7 +158,7 @@
         % Junior command signature (LEFT) - signs FIRST
         \begin{minipage}[t]{2.5in}
             \raggedright
-            \MakeUppercase{\JuniorSignatoryName}\par
+            \dondocsSignatureAnchor{junior}\MakeUppercase{\JuniorSignatoryName}\par
             \JuniorSignatoryTitle\par
             \JuniorByDirection
         \end{minipage}
@@ -166,7 +166,7 @@
         % Senior command signature (RIGHT) - signs LAST
         \begin{minipage}[t]{2.5in}
             \raggedright
-            \ifdefempty{\SignatoryAbbrev}{\MakeUppercase{\SignatoryName}}{\SignatoryAbbrev}\par
+            \dondocsSignatureAnchor{senior}\ifdefempty{\SignatoryAbbrev}{\MakeUppercase{\SignatoryName}}{\SignatoryAbbrev}\par
             \SignatoryTitle\par
             \ByDirection
         \end{minipage}

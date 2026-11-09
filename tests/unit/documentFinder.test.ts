@@ -18,6 +18,9 @@ import { describe, it, expect } from 'vitest';
 import {
   getNextQuestion,
   getRecommendations,
+  splitReason,
+  DOC_DIFFERENTIATORS,
+  QUESTIONS,
 } from '@/components/modals/documentFinderLogic';
 import { DOC_TYPE_LABELS, FORM_TYPE_LABELS } from '@/types/document';
 import { DOCUMENT_TYPE_GUIDES } from '@/data/documentGuide';
@@ -49,6 +52,19 @@ const recommendedIds = new Set(everyResult.map((r) => r.docType));
 const highIds = new Set(
   everyResult.filter((r) => r.confidence === 'high').map((r) => r.docType)
 );
+
+const AUTHORITIES: Record<string, string> = {
+  naval_letter: 'Ch 7', standard_letter: 'Ch 7', business_letter: 'Ch 11',
+  multiple_address_letter: 'Ch 8', joint_letter: 'Ch 7', joint_memorandum: 'Ch 7',
+  same_page_endorsement: 'Ch 9', new_page_endorsement: 'Ch 9',
+  mfr: 'Ch 10', mf: 'MCO 5216.20B',
+  plain_paper_memorandum: 'Ch 10', letterhead_memorandum: 'Ch 10', decision_memorandum: 'Ch 10',
+  moa: 'Ch 10, para 10-2.6', mou: 'Ch 10, para 10-2.6',
+  executive_memorandum: 'Ch 12', executive_correspondence: 'Ch 12',
+  standard_memorandum: 'Ch 12', action_memorandum: 'Ch 12', information_memorandum: 'Ch 12',
+  navmc_118_11: 'MCO P1070.12K', navmc_10274: 'MCO 5216.19A',
+  sl3: 'MCO 5215.17D', sl4: 'MCO 5215.17D', tm_ietm_front_matter: 'MCO 5215.17D', i_type: 'MCO 5215.17D',
+};
 
 describe('document finder — coverage', () => {
   it('enumerates a non-trivial answer space', () => {
@@ -99,12 +115,43 @@ describe('document finder — result invariants', () => {
     }
   });
 
-  it('every best-match reason cites a SECNAV chapter, MCO, or MIL-STD', () => {
-    // High-confidence picks must justify themselves with doctrine; the medium
-    // "alternative" reasons are phrased as guidance ("Use X instead if …").
-    for (const r of everyResult.filter((x) => x.confidence === 'high')) {
-      expect(r.reason).toMatch(/^Per (Ch \d+|MCO P1070\.12K|MCO 5215\.17D|MIL-STD-38784C):/);
+  it('every cited recommendation names the authority for that document type', () => {
+    expect(Object.keys(AUTHORITIES).sort()).toEqual([...ALL_IDS].sort());
+    for (const r of everyResult) {
+      const { cite } = splitReason(r.reason);
+      if (r.confidence === 'high' || cite !== null) {
+        expect(cite, `${r.docType}: ${r.reason}`).toBe(AUTHORITIES[r.docType]);
+      }
     }
+  });
+
+  it.each(['yes', 'no', 'unsure'])('the agreement resources=%s path cites paragraph 10-2.6', (resources) => {
+    const results = getRecommendations({ category: 'correspondence', purpose: 'agreement', resources });
+    expect(splitReason(results[0].reason).cite).toBe('Ch 10, para 10-2.6');
+  });
+
+  it('the format guide agrees with the finder authorities', () => {
+    for (const guide of DOCUMENT_TYPE_GUIDES) {
+      const authority = AUTHORITIES[guide.id];
+      const prefix = authority.startsWith('Ch ')
+        ? `SECNAV M-5216.5, Chapter ${authority.slice(3).split(',')[0]}`
+        : authority;
+      expect(guide.reference, guide.id).toContain(prefix);
+    }
+  });
+
+  it('does not attribute a resource or legal-binding distinction to Chapter 10', () => {
+    const agreementText = [
+      QUESTIONS.resources.help,
+      DOC_DIFFERENTIATORS.moa, DOC_DIFFERENTIATORS.mou,
+      ...['yes', 'no', 'unsure'].flatMap((resources) => getRecommendations({
+        category: 'correspondence', purpose: 'agreement', resources,
+      }).map((result) => result.reason)),
+      ...DOCUMENT_TYPE_GUIDES.filter((guide) => ['moa', 'mou'].includes(guide.id))
+        .flatMap((guide) => [guide.summary, ...guide.keyFeatures]),
+    ].join(' ');
+    expect(agreementText).not.toMatch(/more binding|more formal and binding|lower-commitment|without committing resources|no resources|less formal than an MOA|does not commit specific resources/i);
+    expect(QUESTIONS.resources.help).toContain('Both formats can document commitments');
   });
 });
 

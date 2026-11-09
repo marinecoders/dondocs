@@ -22,6 +22,8 @@ export interface SignatureFieldConfig {
  * Dual signature field configuration
  */
 export interface DualSignatureFieldConfig extends SignatureFieldConfig {
+  /** Current templates must provide both role slots; never guess if absent. */
+  requireTemplateAnchors?: boolean;
   /** Junior signatory name to search for */
   juniorSignatoryName?: string;
   /** Senior signatory name to search for */
@@ -331,12 +333,15 @@ function calculateFallbackPosition(
   return { x, y };
 }
 
-/** Use the rendered I-Type signature slot instead of searching for a name. */
-function publicationSignaturePosition(pdfDoc: PDFDocument, lastPageIndex: number) {
+/** Template-owned signature slots take priority over ambiguous printed names. */
+function templateSignaturePosition(pdfDoc: PDFDocument, lastPageIndex: number, role: 'single' | 'junior' | 'senior') {
+  const destinationName = role === 'single' ? 'itype.signature' : `dondocs.signature.${role}`;
+  const label = role === 'single' ? 'I-Type' : role;
+  const documentKind = role === 'single' ? 'publication' : 'basic document';
   const names = pdfDoc.catalog.lookup(PDFName.of('Names'));
   const destinations = names instanceof PDFDict ? names.lookup(PDFName.of('Dests')) : undefined;
   let signature: PDFArray | undefined;
-  let isPublication = false;
+  let required = false;
   const visit = (node: PDFDict) => {
     const entries = node.lookup(PDFName.of('Names'));
     if (entries instanceof PDFArray) {
@@ -344,8 +349,8 @@ function publicationSignaturePosition(pdfDoc: PDFDocument, lastPageIndex: number
         const key = entries.lookup(i);
         if (!(key instanceof PDFString || key instanceof PDFHexString)) continue;
         const name = key.decodeText();
-        if (name === 'itype.authentication') isPublication = true;
-        if (name === 'itype.signature') signature = entries.lookup(i + 1, PDFArray);
+        if (role === 'single' ? name === 'itype.authentication' : /^dondocs\.signature\.(?:junior|senior)$/.test(name)) required = true;
+        if (name === destinationName) signature = entries.lookup(i + 1, PDFArray);
       }
     }
     const children = node.lookup(PDFName.of('Kids'));
@@ -355,12 +360,12 @@ function publicationSignaturePosition(pdfDoc: PDFDocument, lastPageIndex: number
   };
   if (destinations instanceof PDFDict) visit(destinations);
   if (!signature) {
-    if (isPublication) throw new Error('The I-Type signature location is missing. Regenerate the PDF before signing.');
+    if (required) throw new Error(`The ${label} signature location is missing. Regenerate the PDF before signing.`);
     return null;
   }
   const pageRef = signature.get(0).toString();
   const pageIndex = pdfDoc.getPages().findIndex((page) => page.ref.toString() === pageRef);
-  if (pageIndex < 0 || pageIndex > lastPageIndex) throw new Error('The I-Type signature location is outside the publication.');
+  if (pageIndex < 0 || pageIndex > lastPageIndex) throw new Error(`The ${label} signature location is outside the ${documentKind}.`);
   return {
     pageIndex,
     x: signature.lookup(2, PDFNumber).asNumber() + SIGNATURE_FIELD_X_OFFSET,
@@ -372,7 +377,8 @@ function findSignatoryPosition(
   pdfDoc: PDFDocument,
   signatoryName: string | undefined,
   signatureType: 'single' | 'junior' | 'senior' = 'single',
-  lastBasicPageIndex?: number
+  lastBasicPageIndex?: number,
+  requireTemplateAnchor = false
 ): { pageIndex: number; x: number; y: number } {
   const pages = pdfDoc.getPages();
   // Clamp to the basic document's page range so the CAC field never lands
@@ -384,9 +390,9 @@ function findSignatoryPosition(
   );
   const lastPage = pages[lastPageIndex];
 
-  // I-Type authentication precedes the body; repeated names are not signature locations.
-  const publicationPosition = publicationSignaturePosition(pdfDoc, lastPageIndex);
-  if (publicationPosition) return publicationPosition;
+  const templatePosition = templateSignaturePosition(pdfDoc, lastPageIndex, signatureType);
+  if (templatePosition) return templatePosition;
+  if (requireTemplateAnchor) throw new Error(`The ${signatureType} signature location is missing. Regenerate the PDF before signing.`);
 
   // Try text-based search if signatory name provided
   if (signatoryName?.trim()) {
@@ -535,8 +541,8 @@ export async function addDualSignatureFields(
   } = config;
 
   // Find positions
-  const juniorPosition = findSignatoryPosition(pdfDoc, juniorSignatoryName, 'junior', config.lastBasicPageIndex);
-  const seniorPosition = findSignatoryPosition(pdfDoc, seniorSignatoryName, 'senior', config.lastBasicPageIndex);
+  const juniorPosition = findSignatoryPosition(pdfDoc, juniorSignatoryName, 'junior', config.lastBasicPageIndex, config.requireTemplateAnchors);
+  const seniorPosition = findSignatoryPosition(pdfDoc, seniorSignatoryName, 'senior', config.lastBasicPageIndex, config.requireTemplateAnchors);
 
   // Align both signatures to the same Y coordinate (use the average)
   // This ensures both signature fields appear at the same height
