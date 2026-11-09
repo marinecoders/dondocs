@@ -46,6 +46,65 @@ async function historyAction(page: Page, name: RegExp) {
   return page.getByRole('menu').getByRole('menuitem', { name });
 }
 
+for (const viewport of [{ width: 1440, height: 1000 }, { width: 320, height: 568 }, { width: 568, height: 320 }]) {
+  test.describe(`Import feedback at ${viewport.width}x${viewport.height}`, () => {
+    test.use({ viewport });
+
+    test('keeps controls and an open tools menu fixed when import feedback appears and expires', async ({ page }) => {
+      await page.clock.install({ time: new Date('2026-01-01T00:00:00Z') });
+      await page.goto('/');
+      // WebKit can clear :active while the pointer is held. Measure layout
+      // independently of the button's cosmetic press scale.
+      await page.addStyleTag({ content: 'button[aria-label="Document tools"] { scale: 1 !important; }' });
+      const tools = page.getByRole('button', { name: 'Document tools', exact: true, includeHidden: true });
+      await expect(tools).toBeVisible();
+      await page.evaluate(() => document.fonts.ready);
+      await page.getByRole('textbox', { name: 'Subject', exact: true }).fill('FEEDBACK OUTGOING');
+      await expect.poll(async () => (await savedState(page)).currentSubject, { timeout: 15_000 }).toBe('FEEDBACK OUTGOING');
+      await page.locator('.workspace-shell').evaluate(shell => { shell.scrollTop = 0; });
+      await page.clock.pauseAt(new Date('2026-01-01T01:00:00Z'));
+      const controls = [tools, ...['Document actions', 'Download'].map(name => page.getByRole('button', { name, exact: true, includeHidden: true }))];
+      const controlBounds = () => Promise.all(controls.map(control => control.boundingBox()));
+      const before = await controlBounds();
+      expect(before.every(Boolean)).toBe(true);
+
+      const incoming = {
+        documentMode: 'compliant', documentCategory: 'correspondence', docType: 'naval_letter',
+        formType: 'navmc_10274', formData: { subject: 'IMPORT FEEDBACK' },
+        paragraphs: [{ text: 'Imported body', level: 0 }], references: [], enclosures: [], copyTos: [], distributions: [],
+      };
+      await page.getByLabel('Import draft file').setInputFiles({ name: 'feedback.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(incoming)) });
+      await page.getByRole('button', { name: 'Open as new document', exact: true }).click();
+      const status = page.getByRole('status', { includeHidden: true }).filter({ hasText: 'Imported!' });
+      await expect(status).toBeVisible();
+      await expect(status).toBeInViewport({ ratio: 1 });
+      await page.clock.runFor(250);
+      await expect(page.getByRole('dialog', { name: 'Review draft', includeHidden: true })).toHaveCount(0);
+      expect(await controlBounds()).toEqual(before);
+
+      const box = (await tools.boundingBox())!;
+      await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
+      await page.mouse.down();
+      const menu = page.getByRole('menu');
+      await expect(menu).toBeVisible();
+      await page.clock.runFor(50);
+      const menuBefore = await menu.boundingBox();
+      expect(menuBefore).not.toBeNull();
+      // Hold the pointer over the trigger through the real feedback timeout.
+      // A header shift would move the first menuitem underneath that pointer.
+      await page.clock.fastForward(2_001);
+      await expect(status).toHaveCount(0);
+      expect(await controlBounds()).toEqual(before);
+      expect(await menu.boundingBox()).toEqual(menuBefore);
+      await page.mouse.up();
+      await expect.poll(controlBounds).toEqual(before);
+      await expect(menu.getByRole('menuitem', { name: /^Undo/ })).toBeDisabled();
+      await expect(page.getByRole('dialog', { name: 'Document formatting' })).toHaveCount(0);
+      await page.keyboard.press('Escape');
+    });
+  });
+}
+
 test('import, Undo and navigation keep both drafts intact after reload', async ({ page }) => {
   await page.goto('/');
   const subject = page.getByRole('textbox', { name: 'Subject', exact: true });
