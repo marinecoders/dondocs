@@ -5,6 +5,13 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.3.32] — 2026-11-08
+
+### Fixed
+
+- Bind correspondence export review, marking decisions, delivery, and retry to the captured revision.
+- Settle engine and policy failures safely, isolate observer errors, and retain export gate ownership through cleanup.
+
 ## [1.3.31] — 2026-11-08
 
 ### Changed

@@ -81,6 +81,7 @@ it.each(['TOP SECRET (DRAFT)', 'TS//SCI', 'SECRET - DRAFT', 'LIMITED DISTRIBUTIO
   expect(result.status).toBe('needs-review');
   if (result.status !== 'needs-review') throw new Error('Expected explicit marking review');
   expect(copyExportReview(result.job).notices).toContain('Review the custom banner: its classification could not be determined automatically.');
+  expect(copyExportReview(result.job).markingReview).toBe(true);
   expect(preparedExportMarking(acknowledgePreparedExport(result.job))).toEqual({ level: 'custom', marking: customClassification });
 });
 

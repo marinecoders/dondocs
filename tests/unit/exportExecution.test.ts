@@ -127,3 +127,12 @@ it.each(['render', 'release'] as const)('settles every waiter when %s rejects wi
   if (stage === 'render') expect(first).toMatchObject({ message: 'The export failed.' });
   else expect(first.cleanupIssues).toEqual(['The export failed.']);
 });
+
+it('settles a renderer failure even when its compiler diagnostics getter throws', async () => {
+  const error = Object.defineProperty(new Error('Engine failed'), 'compileLog', { get() { throw new Error('Diagnostics unavailable'); } });
+  const adapters = ports(); adapters.render = async () => { throw error; };
+  const execution = executePreparedExport(job(), adapters);
+  expect(await execution.result).toMatchObject({ status: 'failed', message: 'Engine failed' });
+  expect(execution.getState().status).toBe('failed');
+  expect(adapters.release).toHaveBeenCalledTimes(1);
+});

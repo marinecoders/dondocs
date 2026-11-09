@@ -12,6 +12,7 @@ import type { ParagraphStructureFinding } from '@/lib/paragraphStructureValidati
 
 interface ParagraphStructureModalProps {
   findings: ParagraphStructureFinding[] | null;
+  exportName?: string;
   onCancel: () => void;
   onProceed: () => void;
 }
@@ -32,6 +33,7 @@ interface ParagraphStructureModalProps {
  */
 export function ParagraphStructureModal({
   findings,
+  exportName,
   onCancel,
   onProceed,
 }: ParagraphStructureModalProps) {
@@ -61,7 +63,7 @@ export function ParagraphStructureModal({
             <div>
               <DialogTitle>Check paragraph structure</DialogTitle>
               <DialogDescription className="mt-1 text-sm text-inherit">
-                {findings.length} thing{findings.length === 1 ? '' : 's'} to look at before you send this
+                {findings.length} thing{findings.length === 1 ? '' : 's'} to look at before exporting {exportName || 'this document'}
               </DialogDescription>
             </div>
           </div>
