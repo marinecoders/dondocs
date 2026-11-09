@@ -38,3 +38,11 @@ and direct font-size paths share the same routine. Word auto line spacing is
 240ths of a line, so single spacing stays 240 at every selected size; font
 size remains in the run font properties. Compact paragraphs containing the
 seal inherit single spacing instead of a fraction of their image height.
+
+## Subject and heading capitalization
+
+PDF and Word share one title-case helper that preserves acronyms, mixed-case
+names such as eCASS, identifiers and whitespace. All-capital input is retained
+for author review rather than lowercased automatically. Future normalization
+must use the same helper; export does not rewrite the saved draft. This avoids
+the destructive whole-string lowercasing found in the unmerged audit work.
