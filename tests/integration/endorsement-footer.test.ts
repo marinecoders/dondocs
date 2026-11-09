@@ -7,7 +7,7 @@ describe('native endorsement footer geometry', () => {
   it.each([1, 2, 3].flatMap(lines => [2, 10].map(start => [lines, start] as const)))('%i-line subject starting at %i preserves opening/later baselines', async (lines, start) => {
     const result = await compileFixture(endorsementFooterFixture(lines, start));
     expect(result.ok, result.logTail).toBe(true);
-    const pdf = await getDocument({ data: result.pdfBytes!, useSystemFonts: false }).promise;
+    const pdf = await getDocument({ data: Uint8Array.from(result.pdfBytes!), useSystemFonts: false }).promise;
     try {
       for (let i = 1; i <= pdf.numPages; i++) {
         const content = await (await pdf.getPage(i)).getTextContent();
