@@ -264,3 +264,25 @@ the draft-import UI and verifies that the previous letter stays unchanged.
 
 These tests use isolated browser-storage fixtures. They do not inspect real
 users' data or certify a running old service worker against the new build.
+
+## Document signature assets
+
+New signature uploads are committed to the IndexedDB attachments store before
+being installed in a document. Correspondence saves and undo entries keep the
+signature metadata and its `fileRef`; NAVMC signature blocks keep `imageRef`.
+Image bytes are materialized for preview and rendering. Full backups include the
+referenced assets, and portable draft files embed the resolved image bytes.
+Share links omit signature images and device-local references.
+
+Legacy inline images remain readable. A correspondence image is migrated only
+after its asset write succeeds; failure retains the original inline value.
+Profile defaults are copied when creating a new document or explicitly applying a
+profile. Reopening a saved document never borrows a signature from the current
+profile. If an older record omitted its signature, review and apply the appropriate
+profile or reattach the image; its original signer cannot be inferred safely.
+Legacy NAVMC inline images remain readable and new uploads use references.
+
+Older app versions cannot reliably preserve signature references when saving.
+Before downgrading or using an older tab, export a full backup or a portable draft
+with the newer app. A code rollback does not downgrade stored documents. Keep the
+original backup until signature images have been checked after a restore.

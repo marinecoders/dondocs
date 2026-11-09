@@ -1,3 +1,4 @@
+import { resolveSignature } from './signatureAssets';
 import { readAttachment, withAttachmentStaging } from './attachments';
 import { copyAttachment, withAttachmentResources } from './attachmentResources';
 /**
@@ -131,7 +132,10 @@ export function mergeById<T extends { id: string }>(
 export function collectAttachmentIds(docs: unknown[]): string[] {
   const ids = new Set<string>();
   for (const doc of docs) {
-    const session = (doc as { session?: { enclosures?: unknown; paragraphs?: unknown; formData?: { basicLetterFileRef?: { id?: unknown } } } })?.session;
+    const session = (doc as { session?: { enclosures?: unknown; paragraphs?: unknown; forms?: Record<string, { signatureBlocks?: Array<{ imageRef?: { id?: unknown } }> }>; formData?: { signatureImage?: { fileRef?: { id?: unknown } }; basicLetterFileRef?: { id?: unknown } } } })?.session;
+    for (const form of Object.values(session?.forms ?? {})) {
+      for (const block of form?.signatureBlocks ?? []) if (typeof block.imageRef?.id === 'string') ids.add(block.imageRef.id);
+    }
     const enclosures = session?.enclosures;
     if (Array.isArray(enclosures)) {
       for (const enc of enclosures) {
@@ -148,6 +152,8 @@ export function collectAttachmentIds(docs: unknown[]): string[] {
       }
     }
     // An endorsement's basic-letter PDF is an attachment too — embed its bytes.
+    const signatureId = session?.formData?.signatureImage?.fileRef?.id;
+    if (typeof signatureId === 'string' && signatureId) ids.add(signatureId);
     const blId = session?.formData?.basicLetterFileRef?.id;
     if (typeof blId === 'string' && blId) ids.add(blId);
   }
@@ -249,6 +255,10 @@ async function serializeBackup(): Promise<string> {
   normalizeTemplateEnclosures(captured.userTemplates);
   const libraryJson = await exportLibrary();
   const { docs } = JSON.parse(libraryJson) as { docs: unknown[] };
+  for (const profile of Object.values(captured.profiles.profiles)) {
+    const image = await resolveSignature(profile.signatureImage);
+    if (image) { const { fileRef: _ref, ...inline } = image; profile.signatureImage = inline; }
+  }
 
   // Per-document version history: pull each backed-up doc's snapshot ring so a
   // restore on a fresh machine brings back "restore an earlier version", not
@@ -261,7 +271,7 @@ async function serializeBackup(): Promise<string> {
     if (ring.length) snapshots[id] = ring;
   }
 
-  const entries = [...docs, ...Object.values(snapshots).flat(), ...Object.values(captured.userTemplates)];
+  const entries = [{ session: { forms: captured.forms } }, ...docs, ...Object.values(snapshots).flat(), ...Object.values(captured.userTemplates)];
   if (entries.some(hasUnresolvedEnclosure)) throw new Error('An enclosure file is missing its saved reference. The backup was not created.');
   const ids = collectAttachmentIds(entries);
   return withAttachmentResources(ids, async resources => {
@@ -384,7 +394,9 @@ async function runRestore(json: string, canReplaceForms: () => boolean): Promise
   }
   const incomingDocuments = parsed.documents ?? [];
   const incomingHistory = (parsed.snapshots ?? {}) as Record<string, DocSnapshot[]>;
-  for (const id of collectAttachmentIds([...(incomingDocuments as unknown[]), ...Object.values(incomingHistory).flat(), ...Object.values(incomingTemplates)])) {
+  const backupProfiles = (parsed.profiles as BackupBundle['profiles'] | undefined)?.profiles;
+  const profileEntry = (profile: Profile) => ({ session: { formData: { signatureImage: profile.signatureImage } } });
+  for (const id of collectAttachmentIds([{ session: { forms: parsed.forms } }, ...(incomingDocuments as unknown[]), ...Object.values(incomingHistory).flat(), ...Object.values(incomingTemplates), ...Object.values(backupProfiles ?? {}).map(profileEntry)])) {
     if (available.has(id) || unavailable.has(id)) continue;
     const result = await readAttachment(id);
     if (result.status === 'found') available.add(id);
@@ -404,16 +416,16 @@ async function runRestore(json: string, canReplaceForms: () => boolean): Promise
   // Profiles (+ signatures): non-destructive merge; adopt a selectedProfile only
   // if we currently have none.
   let profilesAdded = 0;
-  const backupProfiles = (parsed.profiles as BackupBundle['profiles'] | undefined)?.profiles;
   if (backupProfiles) {
     if (!persistCategory('Profiles', () => {
       useProfileStore.setState((s) => {
-        const { merged, added } = mergeRecord(s.profiles, backupProfiles);
+        const readyProfiles = Object.fromEntries(Object.entries(backupProfiles).filter(([, profile]) => complete(profileEntry(profile))));
+        const { merged, added } = mergeRecord(s.profiles, readyProfiles);
         profilesAdded = added;
         const backupSelected = (parsed.profiles as BackupBundle['profiles']).selectedProfile;
         return {
           profiles: merged,
-          selectedProfile: s.selectedProfile ?? (typeof backupSelected === 'string' ? backupSelected : null),
+          selectedProfile: s.selectedProfile ?? (typeof backupSelected === 'string' && Object.hasOwn(merged, backupSelected) ? backupSelected : null),
         };
       });
     })) profilesAdded = 0;
@@ -468,7 +480,8 @@ async function runRestore(json: string, canReplaceForms: () => boolean): Promise
   let formsRestored = false;
   const forms = parsed.forms as BackupBundle['forms'] | undefined;
   if (forms && (forms.navmc10274 || forms.navmc11811 || forms.configFormValues || forms.configFormRows || typeof forms.includeCoverPage === 'boolean')) {
-    if (!canReplaceForms()) issues.push('Form fields were not replaced because the open document changed during restore');
+    if (!complete({ session: { forms } })) issues.push('Form fields were not replaced because a signature asset is unavailable');
+    else if (!canReplaceForms()) issues.push('Form fields were not replaced because the open document changed during restore');
     else formsRestored = persistCategory('Form fields', () => {
       useFormStore.setState((s) => ({
         navmc10274: forms.navmc10274 ? normalizeNavmc10274(forms.navmc10274 as Partial<typeof s.navmc10274>) : s.navmc10274,

@@ -1,4 +1,5 @@
 import { loadTemplatePage } from './loadTemplatePage';
+import { resolveFormSignatures } from '@/lib/signatureAssets';
 import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';
 import { wrapTextForForm } from './textWrap';
 
@@ -122,7 +123,7 @@ export interface Navmc10274Data {
   // below text"); counseling actions commonly add the counseled Marine's
   // acknowledgement and sometimes a witness — an optional statement renders as
   // a paragraph above each block's signing space.
-  signatureBlocks?: Array<{ statement?: string; name?: string; style?: SignatureStyle; image?: string }>;
+  signatureBlocks?: Array<{ statement?: string; name?: string; style?: SignatureStyle; image?: string; imageRef?: import('@/types/document').FileRef }>;
 }
 
 import { calculateTextPosition, type BoxBoundary } from './extractFormFields';
@@ -239,7 +240,7 @@ export interface SignatureFieldPlacement {
 export function composeBlockTwelveLines(parts: {
   supplementalInfo: string[];
   proposedAction: string[];
-  signatureBlocks: Array<{ statement: string[]; name: string; style?: SignatureStyle; image?: string }>;
+  signatureBlocks: Array<{ statement: string[]; name: string; style?: SignatureStyle; image?: string; imageRef?: import('@/types/document').FileRef }>;
 }): ComposedBlockTwelve {
   const lines: string[] = [...parts.supplementalInfo];
   if (parts.proposedAction.length > 0) {
@@ -493,6 +494,7 @@ export async function generateNavmc10274Pdf(
   page3Bytes: ArrayBuffer | Uint8Array,
   options: Navmc10274Options = {}
 ): Promise<Uint8Array> {
+  data = await resolveFormSignatures(data);
   const { includeCoverPage = false } = options;
 
   // Create a new document

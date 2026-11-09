@@ -16,6 +16,7 @@
 export type SignatureStyle = 'typed' | 'image' | 'digital';
 
 export interface FormSignatureBlock {
+  imageRef?: import('./document').FileRef;
   /** Typed name printed on the signing line (initials + SURNAME). */
   name: string;
   /** Optional statement printed above the signing space ("Acknowledged:"). */

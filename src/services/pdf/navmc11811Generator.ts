@@ -1,4 +1,5 @@
 import { loadTemplatePage } from './loadTemplatePage';
+import { resolveFormSignatures } from '@/lib/signatureAssets';
 import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';
 import { wrapTextForForm } from './textWrap';
 
@@ -308,6 +309,7 @@ export async function generateNavmc11811Pdf(
   data: Navmc11811Data,
   templatePdfBytes: ArrayBuffer | Uint8Array
 ): Promise<Uint8Array> {
+  data = await resolveFormSignatures(data);
   // Load the template PDF
   const pdfDoc = await PDFDocument.load(templatePdfBytes);
   const page = pdfDoc.getPage(0);

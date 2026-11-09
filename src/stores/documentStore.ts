@@ -1,3 +1,5 @@
+import { persistSignature, resolveSignature } from '@/lib/signatureAssets';
+import { withAttachmentStaging } from '@/lib/attachments';
 import { projectSharedSession, serializeDocumentSnapshot } from '@/lib/documentSerialization';
 import { manualFrontMatterSchema } from '@/data/techpub/manualFrontMatter';
 import { sl4Schema } from '@/data/techpub/sl4';
@@ -1149,6 +1151,18 @@ export function loadSharedSession(session: SerializedSession, owns: () => boolea
 export async function rehydrateEnclosureFiles(owns: () => boolean): Promise<void> {
   if (!owns()) return;
   const original = useDocumentStore.getState();
+  const signature = original.formData.signatureImage;
+  if (signature) {
+    try {
+      await withAttachmentStaging(async () => {
+        const resolved = signature.fileRef ? await resolveSignature(signature) : await persistSignature(signature);
+        if (owns() && resolved && useDocumentStore.getState().formData.signatureImage === signature) {
+          mutateSessionAssets(() => useDocumentStore.setState(state => ({ formData: { ...state.formData, signatureImage: resolved } })));
+        }
+      });
+    } catch (error) { debug.warn('Store', 'Signature image remains available for recovery', error); }
+  }
+  if (!owns()) return;
   const basicReference = original.formData.basicLetterFileRef;
   const basicLetter = basicReference ? { ...basicReference } : undefined;
   const enclosures = original.enclosures.filter(enclosure => enclosure.fileRef && !enclosure.file)

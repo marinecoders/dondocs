@@ -42,7 +42,7 @@ it('keeps only the latest form signature conversion', async () => {
   const onChange = vi.fn(); render(<SignatureStylePicker block={block} index={0} onChange={onChange} />);
   upload(); upload();
   await act(async () => { newer.resolve('NEW'); await newer.promise; older.resolve('OLD'); await older.promise; });
-  expect(onChange.mock.calls).toEqual([[{ style: 'image', image: 'NEW' }]]);
+  expect(onChange.mock.calls).toEqual([[{ style: 'image', image: 'NEW', imageRef: { id: 'figure-blob', name: 'figure.png', size: 1, type: 'image/png' } }]]);
 });
 it('does not overwrite edits to the signer while decoding its image', async () => {
   const pending = deferred<string>(); vi.mocked(loadSignatureAsPngBase64).mockReturnValueOnce(pending.promise);
@@ -115,7 +115,7 @@ it('blocks application updates through a form signature upload', async () => {
   await act(async () => { reading.resolve(new Uint8Array([1]).buffer); await reading.promise; });
   expect(blockedDuringRead).toBe(true);
   expect(isFileImportInProgress()).toBe(false);
-  expect(onChange).toHaveBeenCalledWith({ style: 'image', image: 'AQ==' });
+  expect(onChange).toHaveBeenCalledWith({ style: 'image', image: 'AQ==', imageRef: { id: 'figure-blob', name: 'figure.png', size: 1, type: 'image/png' } });
 });
 
 it('removes a confirmed enclosure when its saved bytes hydrate while confirmation is open', async () => {

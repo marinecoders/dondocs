@@ -20,6 +20,47 @@ function validateAttachmentReference(value: unknown): void {
   if (typeof reference.id !== 'string' || !reference.id) throw new Error('Invalid attachment reference');
 }
 
+function validateSignatureReference(value: unknown): void {
+  const ref = object(value, 'signature reference');
+  if (typeof ref.id !== 'string' || !ref.id || typeof ref.name !== 'string' || typeof ref.type !== 'string'
+    || typeof ref.size !== 'number' || !Number.isFinite(ref.size) || ref.size < 0) throw new Error('Invalid signature reference');
+}
+function validateSignatureImage(value: unknown): void {
+  const image = object(value, 'signature image');
+  if (typeof image.data !== 'string' || typeof image.name !== 'string' || typeof image.size !== 'number'
+    || !Number.isFinite(image.size) || image.size < 0) throw new Error('Invalid signature image');
+  if (image.fileRef !== undefined) validateSignatureReference(image.fileRef);
+}
+function validateForms(value: unknown): void {
+  const forms = object(value, 'forms');
+  if (forms.includeCoverPage !== undefined && typeof forms.includeCoverPage !== 'boolean') throw new Error('Invalid cover page setting');
+  for (const key of ['navmc10274', 'navmc11811']) {
+    if (forms[key] === undefined || forms[key] === null) continue;
+    const form = object(forms[key], key);
+    for (const [field, value] of Object.entries(form)) {
+      if (field === 'signatureBlocks') {
+        if (!Array.isArray(value)) throw new Error('Invalid signature blocks');
+        for (const entry of value) {
+          const block = object(entry, 'signature block');
+          strings(block, ['name', 'statement', 'style', 'image'], 'signature block');
+          if (block.imageRef !== undefined) validateSignatureReference(block.imageRef);
+          if (block.digital !== undefined && typeof block.digital !== 'boolean') throw new Error('Invalid legacy signature');
+        }
+      } else if (typeof value !== 'string') throw new Error(`Invalid ${key}.${field}`);
+    }
+  }
+  const values = (value: unknown) => {
+    for (const answer of Object.values(object(value, 'form answers'))) if (typeof answer !== 'string' && typeof answer !== 'boolean') throw new Error('Invalid form answer');
+  };
+  if (forms.configFormValues !== undefined) for (const value of Object.values(object(forms.configFormValues, 'form values'))) values(value);
+  if (forms.configFormRows !== undefined) for (const form of Object.values(object(forms.configFormRows, 'form rows'))) {
+    for (const rows of Object.values(object(form, 'row groups'))) {
+      if (!Array.isArray(rows)) throw new Error('Invalid rows');
+      rows.forEach(values);
+    }
+  }
+}
+
 export function validateBackupSession(value: unknown) {
   const data = object(value, 'session');
   for (const key of ['formData', 'publicationTables']) if (data[key] !== undefined) object(data[key], key);
@@ -29,6 +70,8 @@ export function validateBackupSession(value: unknown) {
   if (formData?.sl3 !== undefined) sl3Schema.parse(formData.sl3);
   if (formData?.sl4 !== undefined) sl4Schema.parse(formData.sl4);
   if (formData?.manualFrontMatter !== undefined) manualFrontMatterSchema.parse(formData.manualFrontMatter);
+  if (formData?.signatureImage !== undefined) validateSignatureImage(formData.signatureImage);
+  if (data.forms !== undefined) validateForms(data.forms);
   if (formData?.basicLetterFileRef !== undefined) validateAttachmentReference(formData.basicLetterFileRef);
   for (const entry of (data.enclosures ?? []) as unknown[]) {
     const enclosure = object(entry, 'enclosure');
@@ -73,8 +116,7 @@ export function validateBackup(data: RecordValue): void {
       if (profile.acting !== undefined && typeof profile.acting !== 'boolean') throw new Error('Invalid profile.acting');
       if (profile.byDirection !== undefined && typeof profile.byDirection !== 'boolean') throw new Error('Invalid profile.byDirection');
       if (profile.signatureImage !== undefined && profile.signatureImage !== null) {
-        const image = object(profile.signatureImage, 'signature image');
-        if (typeof image.data !== 'string' || typeof image.name !== 'string' || typeof image.size !== 'number' || !Number.isFinite(image.size)) throw new Error('Invalid signature image');
+        validateSignatureImage(profile.signatureImage);
       }
     }
   }
@@ -92,32 +134,5 @@ export function validateBackup(data: RecordValue): void {
   if (data.routingOverrides !== undefined) {
     for (const value of Object.values(object(data.routingOverrides, 'routing overrides'))) if (typeof value !== 'string') throw new Error('Invalid routing override');
   }
-  if (data.forms !== undefined) {
-    const forms = object(data.forms, 'forms');
-    if (forms.includeCoverPage !== undefined && typeof forms.includeCoverPage !== 'boolean') throw new Error('Invalid cover page setting');
-    for (const key of ['navmc10274', 'navmc11811']) {
-      if (forms[key] === undefined || forms[key] === null) continue;
-      const form = object(forms[key], key);
-      for (const [field, value] of Object.entries(form)) {
-        if (field === 'signatureBlocks') {
-          if (!Array.isArray(value)) throw new Error('Invalid signature blocks');
-          for (const entry of value) {
-            const block = object(entry, 'signature block');
-            strings(block, ['name', 'statement', 'style', 'image'], 'signature block');
-            if (block.digital !== undefined && typeof block.digital !== 'boolean') throw new Error('Invalid legacy signature');
-          }
-        } else if (typeof value !== 'string') throw new Error(`Invalid ${key}.${field}`);
-      }
-    }
-    const values = (value: unknown) => {
-      for (const answer of Object.values(object(value, 'form answers'))) if (typeof answer !== 'string' && typeof answer !== 'boolean') throw new Error('Invalid form answer');
-    };
-    if (forms.configFormValues !== undefined) for (const value of Object.values(object(forms.configFormValues, 'form values'))) values(value);
-    if (forms.configFormRows !== undefined) for (const form of Object.values(object(forms.configFormRows, 'form rows'))) {
-      for (const rows of Object.values(object(form, 'row groups'))) {
-        if (!Array.isArray(rows)) throw new Error('Invalid rows');
-        rows.forEach(values);
-      }
-    }
-  }
+  if (data.forms !== undefined) validateForms(data.forms);
 }

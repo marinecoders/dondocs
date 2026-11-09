@@ -19,7 +19,7 @@ const object = (fields: FieldPolicies): FieldRule => ({ fields });
 const array = (items: FieldRule): FieldRule => ({ items });
 const dictionary = (entries: FieldRule): FieldRule => ({ entries });
 export const ASSET_FIELD_POLICIES = {
-  id: 'identity', name: 'label', size: 'value', type: 'control', data: 'binary',
+  id: 'identity', name: 'label', size: 'value', type: 'control', data: 'binary', fileRef: 'asset',
 } satisfies PoliciesFor<FileRef & SignatureImage>;
 
 const endItem = { nsn: 'text', tamcn: 'text', id: 'text', model: 'text' } satisfies PoliciesFor<EndItem>;
@@ -104,7 +104,7 @@ export const DOCUMENT_DATA_FIELD_POLICIES = {
   memorandumFor: 'text', attnLine: 'text', throughLine: 'text', coordination: 'text', preparedBy: 'text',
 } satisfies PoliciesFor<DocumentData>;
 
-const signature = { name: 'text', statement: 'text', style: 'control', image: 'binary' } satisfies PoliciesFor<FormSignatureBlock>;
+const signature = { name: 'text', statement: 'text', style: 'control', image: 'binary', imageRef: 'asset' } satisfies PoliciesFor<FormSignatureBlock>;
 export const NAVMC_10274_FIELD_POLICIES = {
   actionNo: 'text', ssicFileNo: 'text', date: 'document-date', from: 'text', via: 'text', orgStation: 'text', to: 'text',
   natureOfAction: 'text', copyTo: 'text', references: 'text', enclosures: 'text', supplementalInfo: 'text',
