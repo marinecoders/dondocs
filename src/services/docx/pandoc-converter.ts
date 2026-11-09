@@ -1293,11 +1293,14 @@ export async function postProcessDocx(
   // Additional endorsements keep their last two body paragraphs with the signer.
   // Word can split an oversized group; widow control retains two text lines.
   let endorsementTail = false;
+  let closingTail = false;
   xml = xml.replace(/<w:p(?:\s[^>]*)?>[\s\S]*?<\/w:p>/g, (paragraph) => {
+    if (paragraph.includes('w:name="DonDocsClosingTail"')) closingTail = true;
+    if (paragraph.includes('w:name="DonDocsSignatureEnd"')) closingTail = false;
     if (paragraph.includes('w:name="DonDocsAckStartFIRST')) endorsementTail = true;
     if (paragraph.includes('w:name="DonDocsAckTail')) endorsementTail = true;
     if (paragraph.includes('w:name="DonDocsAckSignature')) endorsementTail = false;
-    if (!endorsementTail) return paragraph;
+    if (!endorsementTail && !closingTail) return paragraph;
     const properties = '<w:keepNext/><w:widowControl/>';
     return paragraph.includes('<w:pPr>')
       ? paragraph.replace(/<w:pPr>(<w:pStyle\b[^>]*\/>)?/, (_, style = '') => `<w:pPr>${style}${properties}`)

@@ -320,6 +320,10 @@ local function handle_raw_block(el)
 
   local text = el.text
 
+  if text:match("^\\dondocssignatureend%s*$") then
+    return pandoc.RawBlock("openxml", '<w:p><w:pPr><w:spacing w:before="0" w:after="0" w:line="1" w:lineRule="exact"/></w:pPr><w:bookmarkStart w:id="110001" w:name="DonDocsSignatureEnd"/><w:bookmarkEnd w:id="110001"/></w:p>')
+  end
+
   if text:match("^\\dondocsackstart%s*$") then
     return pandoc.RawBlock("openxml", '<w:p><w:pPr><w:spacing w:before="0" w:after="0" w:line="1" w:lineRule="exact"/></w:pPr><w:bookmarkStart w:id="100001" w:name="DonDocsAckStartFIRST"/><w:bookmarkEnd w:id="100001"/></w:p>')
   end
@@ -424,6 +428,10 @@ local function handle_raw_inline(el)
     memo_bookmark_id = memo_bookmark_id + 1
     local name = "DonDocsMemoIndent" .. (memo_block == "1" and "B" or "H") .. memo_twips
     return pandoc.RawInline("openxml", '<w:bookmarkStart w:id="' .. memo_bookmark_id .. '" w:name="' .. name .. '"/><w:bookmarkEnd w:id="' .. memo_bookmark_id .. '"/>')
+  end
+
+  if text:match("^\\dondocsclosingtail%{%}$") then
+    return pandoc.RawInline("openxml", '<w:bookmarkStart w:id="110000" w:name="DonDocsClosingTail"/><w:bookmarkEnd w:id="110000"/>')
   end
 
   if text:match("^\\dondocsaddressbreak%{%}$") then

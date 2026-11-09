@@ -332,6 +332,10 @@ const LATEX_TEMPLATES = {
 
 \\newcommand{\\DocumentType}{}
 \\newcommand{\\setDocumentType}[1]{\\renewcommand{\\DocumentType}{#1}}
+\\newif\\ifClosingKeep
+\\ClosingKeepfalse
+\\newcommand{\\enableClosingKeep}{\\ClosingKeeptrue}
+\\newsavebox{\\dondocsClosingBox}
 
 % Technical publication cover. Empty for correspondence, which has no cover
 % page; document.tex only sets these for an I-Type.
@@ -1781,7 +1785,15 @@ const LATEX_TEMPLATES = {
 % SIGNATURE BLOCK
 %=============================================================================
 
-\\printSignature
+\\ifClosingKeep
+    \\setbox\\dondocsClosingBox=\\vbox{\\hsize=\\textwidth\\printSignature\\par}%
+    \\ifdim\\dimexpr\\ht\\dondocsClosingBox+\\dp\\dondocsClosingBox\\relax>\\textheight
+        \\PackageError{dondocs}{Signature block exceeds page height}{Shorten the signature block.}%
+    \\fi
+    \\par\\nopagebreak[4]\\box\\dondocsClosingBox
+\\else
+    \\printSignature
+\\fi
 
 
 %=============================================================================
