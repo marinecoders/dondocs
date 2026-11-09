@@ -417,7 +417,8 @@ export function Header({
 
 
       </div>
-      {saveStatus && <div role="status" className="border-b border-border px-4 sm:px-5 py-2 text-xs text-foreground">{saveStatus}</div>}
+      {/* Feedback must not move a menu or its trigger while a pointer is down. */}
+      {saveStatus && <div role="status" aria-atomic="true" className="pointer-events-none fixed bottom-[max(1rem,env(safe-area-inset-bottom))] left-1/2 z-50 w-max max-w-[calc(100vw-2rem)] -translate-x-1/2 rounded-md border border-border bg-background px-4 py-2 text-center text-xs text-foreground shadow-elevated">{saveStatus}</div>}
       <div className="flex min-w-0 flex-wrap items-center gap-1 px-4 sm:px-5 py-2 text-xs">
         <DocumentNavigation />
         <Button variant="ghost" size="sm" className="ml-auto h-10 sm:h-8 px-2" onClick={openHistory} disabled={!currentId}><History className="h-3.5 w-3.5" />History</Button>

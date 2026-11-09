@@ -5,6 +5,12 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.3.49] — 2026-11-09
+
+### Fixed
+
+- Keep transient draft import, export, and checkpoint feedback from moving document controls or selecting the wrong menu action.
+
 ## [1.3.48] — 2026-11-09
 
 ### Fixed
