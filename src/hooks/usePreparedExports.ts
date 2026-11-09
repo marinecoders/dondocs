@@ -1,4 +1,6 @@
 import { exportErrorMessage } from '@/lib/exportDiagnostics';
+import { captureExportFormTemplates } from '@/services/exports/formTemplates';
+import { renderPreparedBuiltinForm } from '@/services/exports/builtinForms';
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState, useSyncExternalStore, type Dispatch, type SetStateAction } from 'react';
 import { createExportController, type ExportGate } from '@/lib/exportController';
 import { copyExportReview, type ExportTarget } from '@/lib/preparedExport';
@@ -33,11 +35,13 @@ export function usePreparedExports({ isReady, gate, compile, waitForReady, setPr
     const owner = createExportController({
       gate,
       resolvePolicy: retry => getExportDeploymentPolicy(undefined, retry),
+      captureResources: captureExportFormTemplates,
       openDelivery: openBrowserExportDelivery,
       render: async (ready, signal) => {
         let active = true;
         const progress = (phase: DownloadProgressPhase) => { if (viewActive && active && !signal.aborted) setProgress(phase); };
         try {
+          if (ready.job.kind === 'builtin-form') return await renderPreparedBuiltinForm(ready, signal);
           if (ready.job.target === 'pdf' && !engineReady.current) throw new Error(ENGINE_STARTING);
           if (ready.job.target === 'pdf' && !await waitForReady(30_000)) throw new Error(ENGINE_STARTING);
           const render = () => renderPreparedCorrespondence(ready, {
@@ -87,7 +91,12 @@ export function usePreparedExports({ isReady, gate, compile, waitForReady, setPr
     try {
       const captured = captureCurrentDocumentRevision();
       const session = copyCapturedSession(captured);
-      const filename = correspondenceFilename(target, session);
+      const safe = (value: string) => value.replace(/[^a-zA-Z0-9_-]/g, '_').slice(0, 80);
+      const filename = captured.kind === 'builtin-form'
+        ? session.formType === 'navmc_10274'
+          ? `NAVMC-10274-${safe(session.forms?.navmc10274?.date || 'form')}.pdf`
+          : `NAVMC-118-11-${safe(session.forms?.navmc11811?.lastName || 'Marine')}-${safe(session.forms?.navmc11811?.entryDate || 'entry')}.pdf`
+        : correspondenceFilename(target, session);
       const id = [...crypto.getRandomValues(new Uint32Array(4))].map(part => part.toString(16)).join('-');
       return controller.request({ id, captured, target, texMode, filename: target === 'tex' && texMode === 'flat' ? 'correspondence-flat.tex' : filename });
     } catch (error) {
