@@ -215,7 +215,7 @@ export function formatSubjectForLatex(subject: string | undefined | null): strin
  * Uses same wrapping logic as subject but for address fields
  */
 export function formatAddressForLatex(address: string | undefined | null, maxLength: number = 57): string {
-  const lines = wrapSubjectLine(address, maxLength);
+  const lines = wrapAddressLines(address, maxLength);
   if (lines.length === 0) return '';
 
   // Escape each line for LaTeX special characters
@@ -225,6 +225,13 @@ export function formatAddressForLatex(address: string | undefined | null, maxLen
 
   // Join with \newline for line breaks within tabular p{} column
   return escapedLines.join('\\newline ');
+}
+
+/** Preserve recipient boundaries before wrapping within each typed row. */
+export function wrapAddressLines(address: string | undefined | null, maxLength = 57): string[] {
+  if (!address?.trim()) return [];
+  return address.trim().split(/\r\n?|\n/).flatMap(line =>
+    line.trim() ? wrapSubjectLine(line.trim(), maxLength) : ['']);
 }
 
 /**

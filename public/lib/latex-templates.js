@@ -613,6 +613,8 @@ const LATEX_TEMPLATES = {
 \\newcommand{\\ViaLineTwo}{}
 \\newcommand{\\ViaLineThree}{}
 \\newcommand{\\ViaLineFour}{}
+\\newcommand{\\ViaRows}{}
+\\newcommand{\\setViaRows}[1]{\\ViaEnabledtrue\\renewcommand{\\ViaRows}{#1}}
 
 \\newcommand{\\setVia}[4]{%
     \\ViaEnabledtrue
@@ -620,6 +622,10 @@ const LATEX_TEMPLATES = {
     \\renewcommand{\\ViaLineTwo}{#2}%
     \\renewcommand{\\ViaLineThree}{#3}%
     \\renewcommand{\\ViaLineFour}{#4}%
+    \\setViaRows{\\tabularnewline Via:\\hspace{5\\fontdimen2\\font} & #1%
+        \\ifstrempty{#2}{}{\\tabularnewline & #2}%
+        \\ifstrempty{#3}{}{\\tabularnewline & #3}%
+        \\ifstrempty{#4}{}{\\tabularnewline & #4}}%
 }
 
 
@@ -2189,13 +2195,7 @@ const LATEX_TEMPLATES = {
 \\newcommand{\\printAddressBlock}{%
     \\noindent
     % Build Via rows into a macro before the tabular (safe for SwiftLaTeX)
-    \\def\\@viarows{}%
-    \\ifViaEnabled
-        \\def\\@viarows{\\tabularnewline Via:\\hspace{5\\fontdimen2\\font} & \\ViaLineOne}%
-        \\ifdefempty{\\ViaLineTwo}{}{\\appto\\@viarows{\\tabularnewline & \\ViaLineTwo}}%
-        \\ifdefempty{\\ViaLineThree}{}{\\appto\\@viarows{\\tabularnewline & \\ViaLineThree}}%
-        \\ifdefempty{\\ViaLineFour}{}{\\appto\\@viarows{\\tabularnewline & \\ViaLineFour}}%
-    \\fi
+    \\def\\@viarows{\\ViaRows}%
     \\begin{tabular}[t]{@{}l@{}p{5.75in}@{}}%
         From:\\hspace{2\\fontdimen2\\font} & \\FromLine\\ifdefempty{\\FromLineTwo}{}{\\tabularnewline & \\FromLineTwo}\\ifdefempty{\\FromLineThree}{}{\\tabularnewline & \\FromLineThree}\\ifdefempty{\\FromLineFour}{}{\\tabularnewline & \\FromLineFour}\\tabularnewline
         To:\\hspace{6\\fontdimen2\\font} & \\ToLine\\ifdefempty{\\ToLineTwo}{}{\\tabularnewline & \\ToLineTwo}\\ifdefempty{\\ToLineThree}{}{\\tabularnewline & \\ToLineThree}\\ifdefempty{\\ToLineFour}{}{\\tabularnewline & \\ToLineFour}%
@@ -2502,13 +2502,7 @@ const LATEX_TEMPLATES = {
 \\newcommand{\\printAddressBlock}{%
     \\noindent
     % Build Via rows into a macro before the tabular (safe for SwiftLaTeX)
-    \\def\\@viarows{}%
-    \\ifViaEnabled
-        \\def\\@viarows{\\tabularnewline Via:\\hspace{5\\fontdimen2\\font} & \\ViaLineOne}%
-        \\ifdefempty{\\ViaLineTwo}{}{\\appto\\@viarows{\\tabularnewline & \\ViaLineTwo}}%
-        \\ifdefempty{\\ViaLineThree}{}{\\appto\\@viarows{\\tabularnewline & \\ViaLineThree}}%
-        \\ifdefempty{\\ViaLineFour}{}{\\appto\\@viarows{\\tabularnewline & \\ViaLineFour}}%
-    \\fi
+    \\def\\@viarows{\\ViaRows}%
     \\begin{tabular}[t]{@{}l@{}p{5.75in}@{}}%
         From:\\hspace{2\\fontdimen2\\font} & \\FromLine\\ifdefempty{\\FromLineTwo}{}{\\tabularnewline & \\FromLineTwo}\\ifdefempty{\\FromLineThree}{}{\\tabularnewline & \\FromLineThree}\\ifdefempty{\\FromLineFour}{}{\\tabularnewline & \\FromLineFour}\\tabularnewline
         To:\\hspace{6\\fontdimen2\\font} & \\ToLine\\ifdefempty{\\ToLineTwo}{}{\\tabularnewline & \\ToLineTwo}\\ifdefempty{\\ToLineThree}{}{\\tabularnewline & \\ToLineThree}\\ifdefempty{\\ToLineFour}{}{\\tabularnewline & \\ToLineFour}%
@@ -3394,13 +3388,7 @@ const LATEX_TEMPLATES = {
 \\newcommand{\\printAddressBlock}{%
     \\noindent
     % Build Via rows into a macro before the tabular (safe for SwiftLaTeX)
-    \\def\\@viarows{}%
-    \\ifViaEnabled
-        \\def\\@viarows{\\tabularnewline Via:\\hspace{5\\fontdimen2\\font} & \\ViaLineOne}%
-        \\ifdefempty{\\ViaLineTwo}{}{\\appto\\@viarows{\\tabularnewline & \\ViaLineTwo}}%
-        \\ifdefempty{\\ViaLineThree}{}{\\appto\\@viarows{\\tabularnewline & \\ViaLineThree}}%
-        \\ifdefempty{\\ViaLineFour}{}{\\appto\\@viarows{\\tabularnewline & \\ViaLineFour}}%
-    \\fi
+    \\def\\@viarows{\\ViaRows}%
     \\begin{tabular}[t]{@{}l@{}p{5.75in}@{}}%
         From:\\hspace{2\\fontdimen2\\font} & \\SeniorFromLine\\tabularnewline
               & \\JuniorFromLine\\tabularnewline
@@ -3590,13 +3578,7 @@ const LATEX_TEMPLATES = {
 \\newcommand{\\printAddressBlock}{%
     \\noindent
     % Build Via rows into a macro before the tabular (safe for SwiftLaTeX)
-    \\def\\@viarows{}%
-    \\ifViaEnabled
-        \\def\\@viarows{\\tabularnewline Via:\\hspace{5\\fontdimen2\\font} & \\ViaLineOne}%
-        \\ifdefempty{\\ViaLineTwo}{}{\\appto\\@viarows{\\tabularnewline & \\ViaLineTwo}}%
-        \\ifdefempty{\\ViaLineThree}{}{\\appto\\@viarows{\\tabularnewline & \\ViaLineThree}}%
-        \\ifdefempty{\\ViaLineFour}{}{\\appto\\@viarows{\\tabularnewline & \\ViaLineFour}}%
-    \\fi
+    \\def\\@viarows{\\ViaRows}%
     \\begin{tabular}[t]{@{}l@{}p{5.75in}@{}}%
         From:\\hspace{2\\fontdimen2\\font} & \\SeniorFromLine\\tabularnewline
               & \\JuniorFromLine\\tabularnewline
@@ -3748,13 +3730,7 @@ const LATEX_TEMPLATES = {
 \\newcommand{\\printAddressBlock}{%
     \\noindent
     % Build Via rows into a macro before the tabular (safe for SwiftLaTeX)
-    \\def\\@viarows{}%
-    \\ifViaEnabled
-        \\def\\@viarows{\\tabularnewline Via:\\hspace{5\\fontdimen2\\font} & \\ViaLineOne}%
-        \\ifdefempty{\\ViaLineTwo}{}{\\appto\\@viarows{\\tabularnewline & \\ViaLineTwo}}%
-        \\ifdefempty{\\ViaLineThree}{}{\\appto\\@viarows{\\tabularnewline & \\ViaLineThree}}%
-        \\ifdefempty{\\ViaLineFour}{}{\\appto\\@viarows{\\tabularnewline & \\ViaLineFour}}%
-    \\fi
+    \\def\\@viarows{\\ViaRows}%
     \\begin{tabular}[t]{@{}l@{}p{5.75in}@{}}%
         From:\\hspace{2\\fontdimen2\\font} & \\FromLine\\ifdefempty{\\FromLineTwo}{}{\\tabularnewline & \\FromLineTwo}\\ifdefempty{\\FromLineThree}{}{\\tabularnewline & \\FromLineThree}\\ifdefempty{\\FromLineFour}{}{\\tabularnewline & \\FromLineFour}\\tabularnewline
         To:\\hspace{6\\fontdimen2\\font} & \\ToLine\\ifdefempty{\\ToLineTwo}{}{\\tabularnewline & \\ToLineTwo}\\ifdefempty{\\ToLineThree}{}{\\tabularnewline & \\ToLineThree}\\ifdefempty{\\ToLineFour}{}{\\tabularnewline & \\ToLineFour}%
@@ -4552,13 +4528,7 @@ const LATEX_TEMPLATES = {
 \\newcommand{\\printAddressBlock}{%
     \\noindent
     % Build Via rows into a macro before the tabular (safe for SwiftLaTeX)
-    \\def\\@viarows{}%
-    \\ifViaEnabled
-        \\def\\@viarows{\\tabularnewline Via:\\hspace{5\\fontdimen2\\font} & \\ViaLineOne}%
-        \\ifdefempty{\\ViaLineTwo}{}{\\appto\\@viarows{\\tabularnewline & \\ViaLineTwo}}%
-        \\ifdefempty{\\ViaLineThree}{}{\\appto\\@viarows{\\tabularnewline & \\ViaLineThree}}%
-        \\ifdefempty{\\ViaLineFour}{}{\\appto\\@viarows{\\tabularnewline & \\ViaLineFour}}%
-    \\fi
+    \\def\\@viarows{\\ViaRows}%
     \\begin{tabular}[t]{@{}l@{}p{5.75in}@{}}%
         From:\\hspace{2\\fontdimen2\\font} & \\FromLine\\ifdefempty{\\FromLineTwo}{}{\\tabularnewline & \\FromLineTwo}\\ifdefempty{\\FromLineThree}{}{\\tabularnewline & \\FromLineThree}\\ifdefempty{\\FromLineFour}{}{\\tabularnewline & \\FromLineFour}\\tabularnewline
         % To: line - may be omitted for Method 2
@@ -4727,13 +4697,7 @@ const LATEX_TEMPLATES = {
     \\applyDocumentFontSize
     \\noindent
     % Build Via rows into a macro before the tabular
-    \\def\\@viarows{}%
-    \\ifViaEnabled
-        \\def\\@viarows{\\tabularnewline Via:\\hspace{5\\fontdimen2\\font} & \\ViaLineOne}%
-        \\ifdefempty{\\ViaLineTwo}{}{\\appto\\@viarows{\\tabularnewline & \\ViaLineTwo}}%
-        \\ifdefempty{\\ViaLineThree}{}{\\appto\\@viarows{\\tabularnewline & \\ViaLineThree}}%
-        \\ifdefempty{\\ViaLineFour}{}{\\appto\\@viarows{\\tabularnewline & \\ViaLineFour}}%
-    \\fi
+    \\def\\@viarows{\\ViaRows}%
     \\begin{tabular}[t]{@{}l@{}p{5.75in}@{}}%
         From:\\hspace{2\\fontdimen2\\font} & \\FromLine\\ifdefempty{\\FromLineTwo}{}{\\tabularnewline & \\FromLineTwo}\\ifdefempty{\\FromLineThree}{}{\\tabularnewline & \\FromLineThree}\\ifdefempty{\\FromLineFour}{}{\\tabularnewline & \\FromLineFour}\\tabularnewline%
         To:\\hspace{6\\fontdimen2\\font} & \\ToLine\\ifdefempty{\\ToLineTwo}{}{\\tabularnewline & \\ToLineTwo}\\ifdefempty{\\ToLineThree}{}{\\tabularnewline & \\ToLineThree}\\ifdefempty{\\ToLineFour}{}{\\tabularnewline & \\ToLineFour}%
@@ -4906,13 +4870,7 @@ const LATEX_TEMPLATES = {
 \\newcommand{\\printAddressBlock}{%
     \\noindent
     % Build Via rows into a macro before the tabular (safe for SwiftLaTeX)
-    \\def\\@viarows{}%
-    \\ifViaEnabled
-        \\def\\@viarows{\\tabularnewline Via:\\hspace{5\\fontdimen2\\font} & \\ViaLineOne}%
-        \\ifdefempty{\\ViaLineTwo}{}{\\appto\\@viarows{\\tabularnewline & \\ViaLineTwo}}%
-        \\ifdefempty{\\ViaLineThree}{}{\\appto\\@viarows{\\tabularnewline & \\ViaLineThree}}%
-        \\ifdefempty{\\ViaLineFour}{}{\\appto\\@viarows{\\tabularnewline & \\ViaLineFour}}%
-    \\fi
+    \\def\\@viarows{\\ViaRows}%
     \\begin{tabular}[t]{@{}l@{}p{5.75in}@{}}
         From:\\hspace{2\\fontdimen2\\font} & \\FromLine\\ifdefempty{\\FromLineTwo}{}{\\tabularnewline & \\FromLineTwo}\\ifdefempty{\\FromLineThree}{}{\\tabularnewline & \\FromLineThree}\\ifdefempty{\\FromLineFour}{}{\\tabularnewline & \\FromLineFour}\\tabularnewline
         To:\\hspace{6\\fontdimen2\\font} & \\ToLine\\ifdefempty{\\ToLineTwo}{}{\\tabularnewline & \\ToLineTwo}\\ifdefempty{\\ToLineThree}{}{\\tabularnewline & \\ToLineThree}\\ifdefempty{\\ToLineFour}{}{\\tabularnewline & \\ToLineFour}%
@@ -5064,13 +5022,7 @@ const LATEX_TEMPLATES = {
 \\newcommand{\\printAddressBlock}{%
     \\noindent
     % Build Via rows into a macro before the tabular (safe for SwiftLaTeX)
-    \\def\\@viarows{}%
-    \\ifViaEnabled
-        \\def\\@viarows{\\tabularnewline Via:\\hspace{5\\fontdimen2\\font} & \\ViaLineOne}%
-        \\ifdefempty{\\ViaLineTwo}{}{\\appto\\@viarows{\\tabularnewline & \\ViaLineTwo}}%
-        \\ifdefempty{\\ViaLineThree}{}{\\appto\\@viarows{\\tabularnewline & \\ViaLineThree}}%
-        \\ifdefempty{\\ViaLineFour}{}{\\appto\\@viarows{\\tabularnewline & \\ViaLineFour}}%
-    \\fi
+    \\def\\@viarows{\\ViaRows}%
     \\begin{tabular}[t]{@{}l@{}p{5.75in}@{}}%
         From:\\hspace{2\\fontdimen2\\font} & \\FromLine\\ifdefempty{\\FromLineTwo}{}{\\tabularnewline & \\FromLineTwo}\\ifdefempty{\\FromLineThree}{}{\\tabularnewline & \\FromLineThree}\\ifdefempty{\\FromLineFour}{}{\\tabularnewline & \\FromLineFour}\\tabularnewline
         To:\\hspace{6\\fontdimen2\\font} & \\ToLine\\ifdefempty{\\ToLineTwo}{}{\\tabularnewline & \\ToLineTwo}\\ifdefempty{\\ToLineThree}{}{\\tabularnewline & \\ToLineThree}\\ifdefempty{\\ToLineFour}{}{\\tabularnewline & \\ToLineFour}%
@@ -5248,13 +5200,7 @@ const LATEX_TEMPLATES = {
 \\newcommand{\\printAddressBlock}{%
     \\noindent
     % Build Via rows into a macro before the tabular (safe for SwiftLaTeX)
-    \\def\\@viarows{}%
-    \\ifViaEnabled
-        \\def\\@viarows{\\tabularnewline Via:\\hspace{5\\fontdimen2\\font} & \\ViaLineOne}%
-        \\ifdefempty{\\ViaLineTwo}{}{\\appto\\@viarows{\\tabularnewline & \\ViaLineTwo}}%
-        \\ifdefempty{\\ViaLineThree}{}{\\appto\\@viarows{\\tabularnewline & \\ViaLineThree}}%
-        \\ifdefempty{\\ViaLineFour}{}{\\appto\\@viarows{\\tabularnewline & \\ViaLineFour}}%
-    \\fi
+    \\def\\@viarows{\\ViaRows}%
     \\def\\@subjrow{}%
     \\ifEndorsementSubjectEnabled
         \\def\\@subjrow{\\tabularnewline[12pt] Subj:\\hspace{3\\fontdimen2\\font} & \\SubjectLine}%
@@ -5465,13 +5411,7 @@ const LATEX_TEMPLATES = {
     \\applyDocumentFontSize
     \\noindent
     % Build Via rows into a macro before the tabular
-    \\def\\@viarows{}%
-    \\ifViaEnabled
-        \\def\\@viarows{\\tabularnewline Via:\\hspace{5\\fontdimen2\\font} & \\ViaLineOne}%
-        \\ifdefempty{\\ViaLineTwo}{}{\\appto\\@viarows{\\tabularnewline & \\ViaLineTwo}}%
-        \\ifdefempty{\\ViaLineThree}{}{\\appto\\@viarows{\\tabularnewline & \\ViaLineThree}}%
-        \\ifdefempty{\\ViaLineFour}{}{\\appto\\@viarows{\\tabularnewline & \\ViaLineFour}}%
-    \\fi
+    \\def\\@viarows{\\ViaRows}%
     \\begin{tabular}[t]{@{}l@{}p{5.75in}@{}}%
         From:\\hspace{2\\fontdimen2\\font} & \\FromLine\\ifdefempty{\\FromLineTwo}{}{\\tabularnewline & \\FromLineTwo}\\ifdefempty{\\FromLineThree}{}{\\tabularnewline & \\FromLineThree}\\ifdefempty{\\FromLineFour}{}{\\tabularnewline & \\FromLineFour}\\tabularnewline%
         To:\\hspace{6\\fontdimen2\\font} & \\ToLine\\ifdefempty{\\ToLineTwo}{}{\\tabularnewline & \\ToLineTwo}\\ifdefempty{\\ToLineThree}{}{\\tabularnewline & \\ToLineThree}\\ifdefempty{\\ToLineFour}{}{\\tabularnewline & \\ToLineFour}%

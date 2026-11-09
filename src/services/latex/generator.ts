@@ -200,18 +200,9 @@ ${isBusinessLetter ? `% Business letter: format recipient address as block with 
     {}{}{}{}`}
 
 ${data.via?.trim() ? (() => {
-  // formatViaLines numbers the addressees when more than one remains
-  // (Ch 9 ¶2) — shared with flat-generator.ts so PDF and DOCX agree. The
-  // templates render \ViaLineOne..Four verbatim, so numbering here fixes
-  // every template at once. Pad to 4 lines so indices 0..3 are always
-  // defined; empty strings are rendered as empty LaTeX groups.
-  const viaLines = formatViaLines(data.via);
-  const [l0 = '', l1 = '', l2 = '', l3 = ''] = viaLines;
-  return `\\setVia
-    {${escapeLatex(l0)}}
-    {${escapeLatex(l1)}}
-    {${escapeLatex(l2)}}
-    {${escapeLatex(l3)}}`;
+  const rows = formatViaLines(data.via).map((line, i) =>
+    `\\tabularnewline ${i === 0 ? 'Via:\\hspace{5\\fontdimen2\\font}' : ''} & ${formatAddressForLatex(line)}`);
+  return `\\setViaRows{${rows.join('\n')}}`;
 })() : '% No Via'}
 
 \\setSubject{${subjectLine}}

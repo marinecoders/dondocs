@@ -402,6 +402,10 @@ local function handle_raw_inline(el)
 
   local text = el.text
 
+  if text:match("^\\dondocsaddressbreak%{%}$") then
+    return pandoc.LineBreak()
+  end
+
   local tail = text:match("^\\dondocsacktail%{(%u+)%}$")
   local signature = text:match("^\\dondocsacksignature%{(%u+)%}$")
   if tail or signature then

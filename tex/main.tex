@@ -596,6 +596,8 @@
 \newcommand{\ViaLineTwo}{}
 \newcommand{\ViaLineThree}{}
 \newcommand{\ViaLineFour}{}
+\newcommand{\ViaRows}{}
+\newcommand{\setViaRows}[1]{\ViaEnabledtrue\renewcommand{\ViaRows}{#1}}
 
 \newcommand{\setVia}[4]{%
     \ViaEnabledtrue
@@ -603,6 +605,10 @@
     \renewcommand{\ViaLineTwo}{#2}%
     \renewcommand{\ViaLineThree}{#3}%
     \renewcommand{\ViaLineFour}{#4}%
+    \setViaRows{\tabularnewline Via:\hspace{5\fontdimen2\font} & #1%
+        \ifstrempty{#2}{}{\tabularnewline & #2}%
+        \ifstrempty{#3}{}{\tabularnewline & #3}%
+        \ifstrempty{#4}{}{\tabularnewline & #4}}%
 }
 
 
