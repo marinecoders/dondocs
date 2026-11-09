@@ -3,8 +3,8 @@ import { parse, parseISO, isValid, format, lastDayOfMonth, subDays, getDay } fro
 const STORED = 'd MMM yy';
 const iso = (d: Date) => format(d, 'yyyy-MM-dd');
 
-export function formatPublicationDate(date: string): string {
-  const d = parse(date.trim(), STORED, new Date());
+export function formatPublicationDate(date: string, referenceDate = new Date()): string {
+  const d = parse(date.trim(), STORED, referenceDate);
   return isValid(d) ? format(d, 'd MMMM yyyy') : date;
 }
 
@@ -38,9 +38,9 @@ export function lastWorkingDay(d: Date, closedDates: string[] = []): Date {
   return last;
 }
 
-export function validatePublicationDate(date: string, signingDate?: string, closedDates = ''): { severity: 'warning'; message: string }[] {
+export function validatePublicationDate(date: string, signingDate?: string, closedDates = '', referenceDate = new Date()): { severity: 'warning'; message: string }[] {
   const error = (message: string) => [{ severity: 'warning' as const, message }];
-  const d = parse(date.trim(), STORED, new Date());
+  const d = parse(date.trim(), STORED, referenceDate);
   if (!isValid(d)) return [];
   const closures = closedDates.split(/[\s,;]+/).filter(Boolean);
   const validISO = (value: string) => /^\d{4}-\d{2}-\d{2}$/.test(value) && isValid(parseISO(value));

@@ -16,7 +16,7 @@ export interface StockPublicationStore {
 }
 
 /** Common stock-list metadata, marking, date and authentication requirements. */
-export function stockPublicationErrors(store: StockPublicationStore, kind: 'sl3' | 'sl4', portions: Paragraph[]): string[] {
+export function stockPublicationErrors(store: StockPublicationStore, kind: 'sl3' | 'sl4', portions: Paragraph[], referenceDate = new Date()): string[] {
   const errors: string[] = [];
   const d = store.formData;
   for (const [key, label] of Object.entries({
@@ -63,7 +63,7 @@ export function stockPublicationErrors(store: StockPublicationStore, kind: 'sl3'
       allowTamcnBase: true,
     }).map((f) => f.message),
   );
-  if (!isValid(parse(d.date?.trim() ?? '', 'd MMM yy', new Date())))
+  if (!isValid(parse(d.date?.trim() ?? '', 'd MMM yy', referenceDate)))
     errors.push('Enter a valid publication date.');
   if (
     d.cuiDistStatement &&
@@ -78,6 +78,7 @@ export function stockPublicationErrors(store: StockPublicationStore, kind: 'sl3'
       d.date ?? '',
       d.publicationSigningDate,
       d.publicationClosedDates,
+      referenceDate,
     ).map((f) => f.message),
   );
   if (!d.publicationSigningDate)

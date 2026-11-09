@@ -5,6 +5,14 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.3.29] — 2026-11-08
+
+### Changed
+
+- Prepare immutable export jobs from one captured revision, with placeholder substitution and output-only review.
+- Require explicit review for custom banners that cannot be ranked and exclude retained correspondence lists from SL-4 output.
+- Reject unsupported flat publication exports before issuing a job.
+
 ## [1.3.28] — 2026-11-08
 
 ### Changed
