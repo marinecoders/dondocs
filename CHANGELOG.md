@@ -5,6 +5,12 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.3.44] — 2026-11-09
+
+### Changed
+
+- Share paragraph layout rules between renderers.
+
 ## [1.3.43] — 2026-11-09
 
 ### Fixed

@@ -83,7 +83,7 @@ export const GAP_SPACES = 2;
  * exactly where that ancestor's text — and so this paragraph's label — begins.
  */
 export function subparagraphIndentIn(
-  ancestorLabels: string[],
+  ancestorLabels: readonly string[],
   font: LabelFont,
   fontSizePt: number,
 ): number {
