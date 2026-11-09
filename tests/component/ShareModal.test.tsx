@@ -143,7 +143,7 @@ describe('ShareModal — share mode', () => {
     expect(screen.getByRole('button', { name: 'Share anyway' })).toBeVisible();
     // The editor now returns a different document, while the modal owns this snapshot.
     await user.click(screen.getByRole('button', { name: 'Share anyway' }));
-    expect(encryptSharePayload).toHaveBeenCalledWith(snapshot, 'test-password');
+    expect(encryptSharePayload).toHaveBeenCalledWith(expect.objectContaining({ ...snapshot, kind: 'dondocs-share', version: 1, documentKind: 'correspondence', formData: expect.objectContaining(snapshot.formData) }), 'test-password');
     expect(getSerializedSessionForShare).toHaveBeenCalledTimes(1);
   });
 
@@ -157,7 +157,7 @@ describe('ShareModal — share mode', () => {
     await user.type(screen.getByLabelText('Password for this link'), 'hunter2');
     await user.click(screen.getByRole('button', { name: /generate link/i }));
 
-    expect(encryptSharePayload).toHaveBeenCalledWith(vi.mocked(getSerializedSessionForShare).mock.results[0].value, 'hunter2');
+    expect(encryptSharePayload).toHaveBeenCalledWith(expect.objectContaining({ ...vi.mocked(getSerializedSessionForShare).mock.results[0].value, kind: 'dondocs-share', version: 1, documentKind: 'correspondence', formData: expect.any(Object) }), 'hunter2');
     expect(buildShareUrl).toHaveBeenCalledWith('ENCRYPTED');
     expect(writeText).toHaveBeenCalledWith('https://dondocs.app/#s=ENCRYPTED');
     expect(getSerializedSessionForShare).toHaveBeenCalledTimes(1);

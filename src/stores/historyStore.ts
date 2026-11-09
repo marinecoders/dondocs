@@ -1,4 +1,4 @@
-import { storedSignature } from '@/lib/signatureProjection';
+import { storedSignature, signatureForComparison, formSignaturesForComparison } from '@/lib/signatureProjection';
 import type { DocumentScope } from './documentsStore';
 import type { FormInstance } from '@/services/forms/model';
 import { create } from 'zustand';
@@ -76,7 +76,11 @@ function snapshotsEqual(a: DocumentSnapshot | null, b: DocumentSnapshot | null):
   if (!sameAttachment(a.formData.basicLetterFile, a.formData.basicLetterFileRef, b.formData.basicLetterFile, b.formData.basicLetterFileRef)) return false;
   const content = (snapshot: DocumentSnapshot) => ({
     ...snapshot,
-    formData: { ...snapshot.formData, signatureImage: storedSignature(snapshot.formData.signatureImage), basicLetterFile: undefined, basicLetterFileRef: undefined },
+    formData: { ...snapshot.formData, signatureImage: signatureForComparison(snapshot.formData.signatureImage), basicLetterFile: undefined, basicLetterFileRef: undefined },
+    forms: snapshot.forms && { ...snapshot.forms,
+      ...(snapshot.forms.navmc10274 ? { navmc10274: formSignaturesForComparison(snapshot.forms.navmc10274) } : {}),
+      ...(snapshot.forms.navmc11811 ? { navmc11811: formSignaturesForComparison(snapshot.forms.navmc11811) } : {}),
+    },
     enclosures: snapshot.enclosures.map(({ file: _file, fileRef: _ref, ...enclosure }) => enclosure),
   });
   return JSON.stringify(content(a)) === JSON.stringify(content(b));

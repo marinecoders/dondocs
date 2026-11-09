@@ -5,6 +5,17 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.3.39] — 2026-11-09
+
+### Added
+
+- Version shared document payloads.
+
+### Fixed
+
+- Preserve signature images when supported older tabs save documents.
+- Bound optional signature repairs and retain checkpoint timestamp order.
+
 ## [1.3.38] — 2026-11-09
 
 ### Fixed

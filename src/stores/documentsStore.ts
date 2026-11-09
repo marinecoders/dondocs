@@ -1,4 +1,7 @@
 import { showAppAlert } from '@/stores/alertStore';
+import { materializeSignatureFallbacks, needsSignatureFallbacks } from '@/lib/signatureCompatibility';
+import { signatureForComparison, formSignaturesForComparison } from '@/lib/signatureProjection';
+import { materializeStoredSignatureFallbacks } from './signatureCompatibility';
 import { sessionSearchFields } from '@/lib/workspaceSearch';
 import { ENDORSEMENT_TEXT_FIELDS, endorsementTexts, hasEndorsementContent } from '@/lib/appendedEndorsement';
 import { create } from 'zustand';
@@ -36,6 +39,8 @@ import {
   idbWriteDocument,
   idbDeleteDocumentIfUnchanged,
   idbAddSnapshot,
+  idbReadSnapshots,
+  idbEnrichSnapshots,
   idbGetCurrentId,
   idbSetCurrentId,
   idbGetMigratedIds,
@@ -544,6 +549,11 @@ export function sameContent(a: SerializedSession, b: SerializedSession): boolean
   if ((a.documentCategory === 'forms' || b.documentCategory === 'forms') && (a.genericForm || b.genericForm)) return a.documentCategory === b.documentCategory && a.formType === b.formType && canonical(a.genericForm) === canonical(b.genericForm);
   const strip = ({ timestamp: _t, enclosures, ...rest }: SerializedSession) => ({
     ...rest,
+    formData: { ...rest.formData, signatureImage: signatureForComparison(rest.formData?.signatureImage) },
+    forms: rest.forms && { ...rest.forms,
+      ...(rest.forms.navmc10274 ? { navmc10274: formSignaturesForComparison(rest.forms.navmc10274) } : {}),
+      ...(rest.forms.navmc11811 ? { navmc11811: formSignaturesForComparison(rest.forms.navmc11811) } : {}),
+    },
     enclosures: (enclosures ?? []).map(({ hasFile: _h, ...e }) => e),
   });
   return canonical(strip(a)) === canonical(strip(b));
@@ -642,6 +652,12 @@ function broadcastDocs(msg: { type: 'put' | 'delete'; id: string }): void {
 
 const storedEntry = (entry: DocumentEntry): StoredDocument => ({ id: entry.meta.id, ...entry });
 const writes = new DocumentWrites((before, after) => idbWriteDocument(before, after), (id, committed) => {
+  if (committed) useDocumentsStore.setState(state => {
+    const key = state.docs[id] ? 'docs' : state.trash[id] ? 'trash' : null;
+    const entry = key && state[key][id];
+    if (!key || !entry || JSON.stringify(entry.meta) !== JSON.stringify(committed.meta) || !sameContent(entry.session, committed.session)) return {};
+    return { [key]: { ...state[key], [id]: { meta: committed.meta, session: committed.session } } };
+  });
   updateSaveStatus(id);
   if (writes.failure(id) === 'conflict' || writes.failure(id) === 'missing-document') {
     if (writes.hasChanges(id)) {
@@ -657,7 +673,42 @@ const writes = new DocumentWrites((before, after) => idbWriteDocument(before, af
     broadcastDocs({ type: 'put', id });
     scheduleBackup();
   }
-});
+}, record => needsSignatureFallbacks(record.session)
+  ? materializeSignatureFallbacks(record.session).then(session => ({ ...record, session })) : undefined);
+
+/** Explicit same-meta repair keeps subsequent CAS expectations and receipts exact. */
+async function materializeRegistrySignatures(records: StoredDocument[]): Promise<StoredDocument[]> {
+  let conflict = false;
+  const ready = await Promise.all(records.map(async record => {
+    if (!needsSignatureFallbacks(record.session) || writes.has(record.id)) return record;
+    try {
+      return await waitForStorage((async () => {
+        const session = await materializeSignatureFallbacks(record.session);
+        if (JSON.stringify(session) === JSON.stringify(record.session) || writes.has(record.id)) return record;
+        const after = { ...record, session };
+        const outcome = await idbWriteDocument(record, after);
+        if (outcome === 'committed' || outcome === 'already-committed') return after;
+        conflict = true;return record;
+      })());
+    } catch { return record; }
+  }));
+  if (!conflict) return ready;
+  try { return await waitForStorage(idbGetAllDocuments()) ?? ready; }
+  catch { return ready; }
+}
+
+async function materializeHistorySignatures(id: string): Promise<void> {
+  let active = true;
+  try {
+    await waitForStorage((async () => {
+      const before = await idbReadSnapshots(id);
+      if (!active) return;
+      const after = await Promise.all(before.map(async snapshot => ({ ...snapshot, session: await materializeSignatureFallbacks(snapshot.session) })));
+      if (active && JSON.stringify(before) !== JSON.stringify(after)) await idbEnrichSnapshots(id, before, after);
+    })());
+  } catch { /* A failed history read must not hide an independent library record. */ }
+  finally { active = false; }
+}
 
 /** A memory registry entry alone cannot acknowledge a durable save. */
 function updateSaveStatus(id: string): void {
@@ -769,7 +820,8 @@ export async function migrateLegacyRegistry(): Promise<void> {
     for (const [id, entry] of Object.entries(state.docs ?? {})) {
       if (!entry?.meta || !entry?.session) continue;
       if (inIdb.has(id) || ledger.has(id)) continue;
-      const outcome = await idbWriteDocument(null, { id, meta: entry.meta, session: entry.session });
+      const session = await materializeSignatureFallbacks(entry.session);
+      const outcome = await idbWriteDocument(null, { id, meta: entry.meta, session });
       // A concurrent creator owns its existing record, as on the initial read.
       if (outcome === 'committed' || outcome === 'already-committed' || outcome === 'conflict') {
         ledger.add(id);
@@ -858,12 +910,13 @@ async function recoverInterruptedSave(): Promise<void> {
       if (!after?.id || after.meta?.id !== after.id || !after.session
         || item.versions.some(v => v.id !== after.id)
         || (item.before && item.before.id !== after.id)) throw new Error('Invalid recovery record');
-      const result = await idbWriteDocument(item.before, after, item.versions, true);
+      const prepared = { ...after, session: await materializeSignatureFallbacks(after.session) };
+      const result = await idbWriteDocument(item.before, prepared, item.versions, true);
 
       if (result === 'committed') broadcastDocs({ type: 'put', id: after.id });
       if (result === 'conflict' || result === 'missing-document' || result === 'failed') {
-        if (!recoveryCopies.some(copy => JSON.stringify(copy.after) === JSON.stringify(after))) {
-          recoveryCopies.push({ copyId: newId(), after });
+        if (!recoveryCopies.some(copy => JSON.stringify(copy.after) === JSON.stringify(prepared))) {
+          recoveryCopies.push({ copyId: newId(), after: prepared });
         }
       }
     }
@@ -890,7 +943,7 @@ export async function openRecoveredCopies(): Promise<void> {
   const firstCopyId = recoveryCopies[0]?.copyId;
   for (const copy of recoveryCopies) {
     const meta = { ...copy.after.meta, id: copy.copyId, title: `Recovered: ${copy.after.meta.title}`, name: `Recovered: ${copy.after.meta.title}` };
-    const record = { ...copy.after, id: copy.copyId, meta };
+    const record = { ...copy.after, id: copy.copyId, meta, session: await materializeSignatureFallbacks(copy.after.session) };
     const outcome = await idbWriteDocument(null, record);
     if (outcome !== 'committed' && outcome !== 'already-committed') throw new Error('Recovery copies could not be saved. The originals remain available for retry.');
     useDocumentsStore.setState(state => ({ docs: { ...state.docs, [record.id]: { meta, session: record.session } } }));
@@ -928,7 +981,8 @@ function ensureHydrated(
       await migrateLegacyRegistry();
       await migrateLegacyForms();
       await recoverInterruptedSave();
-      const [records, cid] = await Promise.all([idbGetAllDocuments(), idbGetCurrentId()]);
+      const [stored, cid] = await Promise.all([idbGetAllDocuments(), idbGetCurrentId()]);
+      const records = stored && await materializeRegistrySignatures(stored);
       if (records === null) {
         // The registry exists but can't be read. Never proceed as if the library
         // were empty — init would fold the legacy blob into a duplicate document
@@ -939,6 +993,7 @@ function ensureHydrated(
         throw new Error('Document registry unreadable');
       }
       const loaded: Record<string, DocumentEntry> = {};
+      await Promise.all(records.map(record => materializeHistorySignatures(record.id)));
       for (const r of records) {
         // Fold a legacy FOUO portion marking to CUI in the PERSISTED registry, not
         // just the live store when the doc is later opened. Otherwise stored stays
@@ -1018,11 +1073,12 @@ const lastSnap: Record<string, number> = {};
 // Resolves true when the snapshot committed (or was throttle-skipped); callers
 // that only checkpoint opportunistically `void` it, while restoreSnapshot awaits
 // it — the safety copy is what makes a restore reversible.
-function maybeSnapshot(docId: string, session: SerializedSession, force = false): Promise<boolean> {
+async function maybeSnapshot(docId: string, session: SerializedSession, force = false): Promise<boolean> {
   const now = Date.now();
   if (!force && now - (lastSnap[docId] ?? 0) < SNAPSHOT_INTERVAL) return Promise.resolve(true);
   lastSnap[docId] = now;
-  return idbAddSnapshot(docId, { ts: now, session });
+  const captured = needsSignatureFallbacks(session) ? await materializeSignatureFallbacks(session) : structuredClone(session);
+  return idbAddSnapshot(docId, { ts: now, session: captured });
 }
 
 // The post-hydration half of init(): resume the current document, or fold the
@@ -1084,6 +1140,7 @@ export const useDocumentsStore = create<DocumentsState>((set, get) => ({
     const run = async (): Promise<boolean> => {
       const epoch = get().activationEpoch;
       const sequence = editSequence;
+      await materializeStoredSignatureFallbacks();
       const currentId = await ensureHydrated(set, get);
       if (get().activationEpoch !== epoch || editSequence !== sequence) return true;
       return initAfterHydration(set, get, currentId);
@@ -1313,10 +1370,17 @@ export const useDocumentsStore = create<DocumentsState>((set, get) => ({
   restoreSnapshot: async (session, target) => {
     if (!isCurrentDocumentTarget(target)) return 'stale';
     const request = ++restoreRequest;
-    let incoming: PreparedDocument;
-    try { incoming = prepareDocument(session); }
-    catch { return 'invalid'; }
     const current = () => isCurrentDocumentTarget(target) && request === restoreRequest;
+    let incoming: PreparedDocument;
+    try {
+      incoming = prepareDocument(session);
+      if (needsSignatureFallbacks(session)) {
+        const materialized = await materializeSignatureFallbacks(session);
+        if (!current()) return 'stale';
+        incoming = prepareDocument(materialized);
+      }
+    }
+    catch { return 'invalid'; }
     // Keep the safety copy even if its operation becomes stale while writing.
     let ok: boolean;
     try { ok = await maybeSnapshot(target.scope.documentId, getSerializedSession(), true); }
@@ -1465,8 +1529,10 @@ useFormStore.subscribe((state, previous) => {
   const document = useDocumentStore.getState();
   if (isApplyingSession() || document.documentCategory !== 'forms' || document.genericForm) return;
   if (state.includeCoverPage !== previous.includeCoverPage
-    || (document.formType === 'navmc_118_11' ? state.navmc11811 !== previous.navmc11811 : state.navmc10274 !== previous.navmc10274)) editSequence++;
-  scheduleEditorWork();
+    || (document.formType === 'navmc_118_11' ? state.navmc11811 !== previous.navmc11811 : state.navmc10274 !== previous.navmc10274)) {
+    if (!isApplyingAssets()) editSequence++;
+  }
+  scheduleEditorWork(!isApplyingAssets());
 });
 
 function flushOnLeave(): void {
@@ -1497,7 +1563,7 @@ if (typeof document !== 'undefined') {
 if (typeof BroadcastChannel !== 'undefined') {
   docsChannel = new BroadcastChannel('dondocs-docs');
   docsChannel.onmessage = (event: MessageEvent<{ type?: string; id?: string }>) => {
-    void idbGetAllDocuments().then((records) => {
+    void idbGetAllDocuments().then(async records => records && await materializeRegistrySignatures(records)).then((records) => {
       if (records !== null) reconcileDocuments(records, event.data?.type === 'delete' ? event.data.id : undefined);
     });
   };
@@ -1567,7 +1633,9 @@ export async function exportLibrary(): Promise<string> {
   for (const copy of recoveryCopies) {
     if (!records.some(record => record.id === copy.copyId)) records.push({ ...copy.after, id: copy.copyId, meta: { ...copy.after.meta, id: copy.copyId, title: `Recovered: ${copy.after.meta.title}` } });
   }
-  return JSON.stringify({ kind: 'dondocs-library', version: 1, docs: records });
+  const captured = structuredClone(records);
+  const compatible = await Promise.all(captured.map(async record => ({ ...record, session: await materializeSignatureFallbacks(record.session) })));
+  return JSON.stringify({ kind: 'dondocs-library', version: 1, docs: compatible });
 }
 
 /** External sessions must not inherit the open document's library ID. */
@@ -1648,7 +1716,8 @@ export async function importLibrary(json: string): Promise<{ imported: number; s
       continue;
     }
     const before = committed.get(r.meta.id) ?? null;
-    const after = { id: r.meta.id, meta: r.meta, session: r.session };
+    const session = await materializeSignatureFallbacks(r.session);
+    const after = { id: r.meta.id, meta: r.meta, session };
     if (deletingDocuments.has(r.meta.id) || writes.hasChanges(r.meta.id) || (before && before.meta.updatedAt === r.meta.updatedAt && JSON.stringify(before) !== JSON.stringify(after))) {
       skipped++;
       issues.push(`Document ${r.meta.id} conflicts with local edits; kept local copy`);
@@ -1659,7 +1728,7 @@ export async function importLibrary(json: string): Promise<{ imported: number; s
     const outcome = await idbWriteDocument(before, after);
     if (outcome === 'committed' || outcome === 'already-committed') {
       imported++;
-      applied.push({ meta: r.meta, session: r.session });
+      applied.push({ meta: r.meta, session });
       broadcastDocs({ type: 'put', id: r.meta.id });
     } else {
       skipped++;

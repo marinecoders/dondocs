@@ -269,8 +269,9 @@ users' data or certify a running old service worker against the new build.
 
 New signature uploads are committed to the IndexedDB attachments store before
 being installed in a document. Correspondence saves and undo entries keep the
-signature metadata and its `fileRef`; NAVMC signature blocks keep `imageRef`.
-Image bytes are materialized for preview and rendering. Full backups include the
+signature metadata, inline image bytes, and its `fileRef`; NAVMC signature blocks
+keep both `image` and `imageRef`. Inline fallbacks let supported older tabs preserve
+the image when their reader does not recognize the reference. Full backups include the
 referenced assets, and portable draft files embed the resolved image bytes.
 Share links omit signature images and device-local references.
 
@@ -282,7 +283,23 @@ profile. If an older record omitted its signature, review and apply the appropri
 profile or reattach the image; its original signer cannot be inferred safely.
 Legacy NAVMC inline images remain readable and new uploads use references.
 
-Older app versions cannot reliably preserve signature references when saving.
-Before downgrading or using an older tab, export a full backup or a portable draft
-with the newer app. A code rollback does not downgrade stored documents. Keep the
-original backup until signature images have been checked after a restore.
+Reference-only records from earlier builds receive inline fallbacks when their
+assets can be read. This includes library records, checkpoints, profiles, built-in
+form buffers, templates, and batch sources. Saves prepare an owned payload before
+committing it, so the acknowledged receipt matches the stored representation.
+Unreadable or missing assets retain their references for recovery; missing image
+bytes cannot be reconstructed. A code rollback does not downgrade stored documents.
+
+## Shared document format
+
+New links use an additive `dondocs-share` envelope with `version: 1` and a
+`documentKind` discriminator for correspondence, built-in forms, or configured
+forms. The established document fields remain at the top level so earlier
+clients with the corresponding document reader can still read them. New readers
+also accept unversioned legacy links and reject unknown envelope versions or a
+kind that does not match the contents before opening a new document.
+
+Links include form answers and repeated rows, but omit binary images and local
+asset handles. Configured forms require access to their PDF templates. Very old
+clients that lack the form reader must be updated to open those forms. A link is
+a snapshot; subsequent sender edits do not change the recipient's document.

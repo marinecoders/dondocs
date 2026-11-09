@@ -1,4 +1,5 @@
 import { confirmBatchExport, cancelBatchExport, clearBatchExports, isBatchExportActive, type BatchExportReview } from '@/services/exports/batchExecution';
+import { materializeSignatureFallbacks, needsSignatureFallbacks } from '@/lib/signatureCompatibility';
 import type { PreparedExportJob } from '@/lib/preparedExport';
 import type { ExportReviewStage } from '@/lib/exportController';
 import type { BatchRowContext } from '@/services/exports/batchRows';
@@ -79,8 +80,11 @@ export async function runBatchJob(options: {
   const batchId = store.getState().source && store.getState().jobId ? store.getState().jobId! : newAttachmentId();
   store.setState({ jobId: batchId, review: null, source: store.getState().source ?? structuredClone(options.source), title: store.getState().source ? store.getState().title : options.title,
     placeholders: store.getState().source ? store.getState().placeholders : options.placeholders, status: 'running', stopRequested: false });
-  const jobSource = structuredClone(store.getState().source!);
   const jobPlaceholders = [...store.getState().placeholders];
+  const originalSource = store.getState().source!;
+  const capturedSource = structuredClone(originalSource);
+  const jobSource = needsSignatureFallbacks(capturedSource) ? await materializeSignatureFallbacks(capturedSource) : capturedSource;
+  if (store.getState().source === originalSource && store.getState().jobId === batchId) store.setState({ source: jobSource });
   for (const selected of rows) {
     const row = structuredClone(selected);
     const filename = row.filename ?? batchRowFilename(row, jobPlaceholders);

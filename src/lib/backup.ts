@@ -1,4 +1,5 @@
 import { resolveSignature } from './signatureAssets';
+import { materializeSignatureFallbacks, materializeSignatureFallback, materializeFormSignatureFallbacks } from './signatureCompatibility';
 import { readAttachment, withAttachmentStaging } from './attachments';
 import { copyAttachment, withAttachmentResources } from './attachmentResources';
 /**
@@ -242,7 +243,9 @@ export async function buildBackup(): Promise<string> {
 async function serializeBackup(): Promise<string> {
   const profile = useProfileStore.getState();
   const form = useFormStore.getState();
-  const captured = structuredClone<Omit<BackupBundle, 'documents' | 'snapshots' | 'attachments'>>({
+  const captured = structuredClone<Omit<BackupBundle, 'documents' | 'snapshots' | 'attachments' | 'forms'> & {
+    forms: Pick<typeof form, 'navmc10274' | 'navmc11811' | 'includeCoverPage' | 'configFormValues' | 'configFormRows'>;
+  }>({
     kind: BACKUP_KIND,
     version: BACKUP_VERSION,
     exportedAt: Date.now(),
@@ -268,8 +271,11 @@ async function serializeBackup(): Promise<string> {
     const id = (doc as { id?: unknown })?.id;
     if (typeof id !== 'string') continue;
     const ring = await idbGetSnapshots(id, true);
-    if (ring.length) snapshots[id] = ring;
+    if (ring.length) snapshots[id] = await Promise.all(ring.map(async snapshot => ({ ...snapshot, session: await materializeSignatureFallbacks(snapshot.session) })));
   }
+  for (const template of Object.values(captured.userTemplates)) template.session = await materializeSignatureFallbacks(template.session);
+  captured.forms.navmc10274 = await materializeFormSignatureFallbacks(normalizeNavmc10274(captured.forms.navmc10274));
+  captured.forms.navmc11811 = await materializeFormSignatureFallbacks(normalizeNavmc11811(captured.forms.navmc11811));
 
   const entries = [{ session: { forms: captured.forms } }, ...docs, ...Object.values(snapshots).flat(), ...Object.values(captured.userTemplates)];
   if (entries.some(hasUnresolvedEnclosure)) throw new Error('An enclosure file is missing its saved reference. The backup was not created.');
@@ -417,9 +423,11 @@ async function runRestore(json: string, canReplaceForms: () => boolean): Promise
   // if we currently have none.
   let profilesAdded = 0;
   if (backupProfiles) {
+    const readyProfiles = Object.fromEntries(await Promise.all(Object.entries(backupProfiles)
+      .filter(([, profile]) => complete(profileEntry(profile)))
+      .map(async ([name, profile]) => [name, { ...profile, signatureImage: await materializeSignatureFallback(profile.signatureImage) }] as const)));
     if (!persistCategory('Profiles', () => {
       useProfileStore.setState((s) => {
-        const readyProfiles = Object.fromEntries(Object.entries(backupProfiles).filter(([, profile]) => complete(profileEntry(profile))));
         const { merged, added } = mergeRecord(s.profiles, readyProfiles);
         profilesAdded = added;
         const backupSelected = (parsed.profiles as BackupBundle['profiles']).selectedProfile;
@@ -443,9 +451,11 @@ async function runRestore(json: string, canReplaceForms: () => boolean): Promise
 
   // User templates: add by id.
   let templatesAdded = 0;
+  const readyTemplates = Object.fromEntries(await Promise.all(Object.entries(incomingTemplates)
+    .filter(([, entry]) => complete(entry))
+    .map(async ([id, entry]) => [id, { ...entry, session: await materializeSignatureFallbacks(entry.session) }] as const)));
   if (!persistCategory('Templates', () => {
     useUserTemplatesStore.setState((s) => {
-      const readyTemplates = Object.fromEntries(Object.entries(incomingTemplates).filter(([, entry]) => complete(entry)));
       const { merged, added } = mergeRecord(s.templates, readyTemplates);
       templatesAdded = added;
       return { templates: merged };
@@ -478,7 +488,11 @@ async function runRestore(json: string, canReplaceForms: () => boolean): Promise
   // local) — a restore must never clobber a config form the user has in
   // progress but the bundle lacks, per this module's contract.
   let formsRestored = false;
-  const forms = parsed.forms as BackupBundle['forms'] | undefined;
+  const incomingForms = parsed.forms as BackupBundle['forms'] | undefined;
+  const forms = incomingForms && { ...incomingForms,
+    ...(incomingForms.navmc10274 ? { navmc10274: await materializeFormSignatureFallbacks(normalizeNavmc10274(incomingForms.navmc10274)) } : {}),
+    ...(incomingForms.navmc11811 ? { navmc11811: await materializeFormSignatureFallbacks(normalizeNavmc11811(incomingForms.navmc11811)) } : {}),
+  };
   if (forms && (forms.navmc10274 || forms.navmc11811 || forms.configFormValues || forms.configFormRows || typeof forms.includeCoverPage === 'boolean')) {
     if (!complete({ session: { forms } })) issues.push('Form fields were not replaced because a signature asset is unavailable');
     else if (!canReplaceForms()) issues.push('Form fields were not replaced because the open document changed during restore');
@@ -502,7 +516,7 @@ async function runRestore(json: string, canReplaceForms: () => boolean): Promise
   if (backupSnapshots && typeof backupSnapshots === 'object') {
     for (const [docId, snaps] of Object.entries(backupSnapshots as Record<string, unknown>)) {
       if (!Array.isArray(snaps)) continue;
-      const readySnapshots = (snaps as DocSnapshot[]).filter(complete);
+      const readySnapshots = await Promise.all((snaps as DocSnapshot[]).filter(complete).map(async snapshot => ({ ...snapshot, session: await materializeSignatureFallbacks(snapshot.session) })));
       if (readySnapshots.length) {
         if (await idbSetSnapshots(docId, readySnapshots, true)) snapshotDocs++;
         else issues.push(`History for ${docId} could not be saved`);
