@@ -6,7 +6,7 @@ This document explains how to override the default domain-based classification r
 
 The application uses domain-based classification restrictions by default:
 - `.smil.mil` or `.smil` domains: up to SECRET
-- `.ic.gov` domains: up to TOP SECRET
+- `.ic.gov` domains: up to TOP SECRET/SCI
 - `.mil` or `.gov` domains: up to CONFIDENTIAL or CUI
 - Other domains: UNCLASSIFIED only
 
@@ -38,7 +38,7 @@ npm run build
 ### Example: Docker Build
 
 ```dockerfile
-FROM node:18-alpine AS builder
+FROM node:22-alpine AS builder
 WORKDIR /app
 COPY package*.json ./
 RUN npm ci
@@ -68,7 +68,7 @@ steps:
 
 ## Method 2: Config File (Runtime)
 
-Create a `classification.config.json` file in the `public/` directory:
+Replace the default `null` in `public/classification.config.json` with an override:
 
 ```json
 {
@@ -85,7 +85,7 @@ Create a `classification.config.json` file in the `public/` directory:
   - Valid values: `unclassified`, `cui`, `confidential`, `secret`, `top_secret`, `top_secret_sci`
   
 - `allowedLevels` (required): Array of allowed classification levels
-  - Must include all levels from `unclassified` up to `maxLevel`
+  - Must include `unclassified` and `maxLevel`; all entries must be valid levels at or below `maxLevel`
   - Example: If `maxLevel` is `secret`, include: `["unclassified", "cui", "confidential", "secret"]`
 
 - `overrideDomain` (optional): Domain to match for this configuration
@@ -93,14 +93,14 @@ Create a `classification.config.json` file in the `public/` directory:
   - If set, only applies when the current domain matches
 
 - `overrideMessage` (optional): Custom message to display to users
-  - If not set, uses default domain-based messages
+  - If not set, uses a generic deployment settings message
 
 ### Example Config Files
 
 **Allow all levels (IC deployment):**
 ```json
 {
-  "maxLevel": "top_secret",
+  "maxLevel": "top_secret_sci",
   "allowedLevels": ["unclassified", "cui", "confidential", "secret", "top_secret", "top_secret_sci"],
   "overrideMessage": "Intelligence Community deployment - All classification levels are allowed."
 }
@@ -136,11 +136,25 @@ Configuration is checked in this order:
 2. **Config file** (`public/classification.config.json`)
    - Loaded at runtime
    - Can be updated without rebuilding
-   - Only used if environment variables are not set
+   - Used when no environment override matches the current hostname
 
 3. **Domain detection** (default)
    - Automatic detection based on current domain
    - Used if no overrides are configured
+
+Overrides apply to an exact `overrideDomain` hostname. Set `includeSubdomains: true`
+in the JSON file, or `VITE_CLASSIFICATION_INCLUDE_SUBDOMAINS=true` at build time,
+to include its subdomains. Hostnames are normalized for case and a trailing dot;
+substring matches and URLs are rejected. Matching environment overrides precede
+matching runtime overrides, then domain defaults apply.
+
+The shipped `null` file explicitly selects domain defaults and is precached for
+offline use. Missing files (404) also select defaults. Failed or malformed policy
+loads return an error from the typed policy resolver until an explicit retry succeeds.
+The editor compatibility adapter currently falls back to domain settings on these
+errors; export entry points do not yet enforce the typed policy result or offer a
+policy retry action. These settings configure this client; they do not establish
+deployment accreditation.
 
 ## Security Considerations
 
@@ -159,7 +173,7 @@ Configuration is checked in this order:
 ### Config file not loading
 
 - Ensure the file is named exactly `classification.config.json`
-- Place it in the `public/` directory (not `src/`)
+- Before building, place it in the `public/` directory (not `src/`); after deployment, update the root `/classification.config.json` file and reload the app
 - Check browser console for fetch errors
 - Verify the JSON is valid
 
@@ -171,7 +185,7 @@ Configuration is checked in this order:
 
 ### Domain override not working
 
-- Verify `overrideDomain` matches the actual domain (case-sensitive)
+- Verify `overrideDomain` matches the normalized hostname (case-insensitive, with an optional trailing dot)
 - Check that the domain includes subdomain if specified
 - Ensure no environment variables are overriding the config file
 
@@ -181,7 +195,7 @@ For a self-hosted deployment on `secure.example.mil`:
 
 1. **Create config file:**
    ```bash
-   cp public/classification.config.json.example public/classification.config.json
+   printf 'null\n' > public/classification.config.json
    ```
 
 2. **Edit the config:**
