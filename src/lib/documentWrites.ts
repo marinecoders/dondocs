@@ -46,6 +46,7 @@ export class DocumentWrites {
   private states = new WeakMap<DocumentWriteRevision, DocumentRevisionStatus>();
   private receipts = new WeakMap<DocumentWriteReceipt, string>();
   private committed = new Map<string, DocumentWriteReceipt>();
+  private sourcePayloads = new WeakMap<StoredDocument, string>();
 
   /** Only tokens issued by this queue can identify a revision or acknowledge it. */
   status(revision: DocumentWriteRevision): DocumentRevisionStatus | null {
@@ -64,16 +65,19 @@ export class DocumentWrites {
 
   private write: typeof idbWriteDocument;
   private changed: (id: string, saved?: StoredDocument, receipt?: DocumentWriteReceipt) => void;
-  constructor(write = idbWriteDocument, changed: (id: string, saved?: StoredDocument, receipt?: DocumentWriteReceipt) => void = () => {}) {
+  private prepare?: (document: StoredDocument) => Promise<StoredDocument> | undefined;
+  constructor(write = idbWriteDocument, changed: (id: string, saved?: StoredDocument, receipt?: DocumentWriteReceipt) => void = () => {}, prepare?: (document: StoredDocument) => Promise<StoredDocument> | undefined) {
     this.write = write;
     this.changed = changed;
+    this.prepare = prepare;
   }
 
   has(id: string): boolean { return this.pending.has(id); }
   /** Verification of an unchanged record does not create edits to recover. */
   hasChanges(id: string): boolean {
     const pending = this.pending.get(id);
-    return !!pending && pending.versions.some(document => JSON.stringify(document) !== JSON.stringify(pending.before));
+    const source = (document: StoredDocument | null) => document && this.sourcePayloads.get(document) || JSON.stringify(document);
+    return !!pending && pending.versions.some(document => source(document) !== source(pending.before));
   }
   failure(id: string): DocumentWriteOutcome | undefined { return this.failures.get(id); }
 
@@ -91,6 +95,7 @@ export class DocumentWrites {
     } else {
       revision = Object.freeze({ [revisionBrand]: true as const, documentId: owned.id, sequence: ++this.sequence });
       this.revisions.set(owned, revision);
+      this.sourcePayloads.set(owned, JSON.stringify(owned));
       this.setStatus(owned, { status: 'pending' });
       if (pending) {
         // Preserve the transaction in progress and the newest queued edit.
@@ -129,7 +134,17 @@ export class DocumentWrites {
         this.setStatus(next, { status: 'failed' });
         this.changed(id);
       }, STORAGE_WAIT_MS);
-      try { outcome = await this.write(pending.before, next); }
+      try {
+        const preparation = this.prepare?.(structuredClone(next));
+        if (preparation) {
+          const prepared = await preparation;
+          if (this.pending.get(id) !== pending) return;
+          if (prepared.id !== next.id || JSON.stringify(prepared.meta) !== JSON.stringify(next.meta)) throw new Error('Write preparation changed document identity.');
+          next.session = structuredClone(prepared.session);
+          this.persistJournal();
+        }
+        outcome = await this.write(pending.before, next);
+      }
       catch { outcome = 'failed'; }
       finally { clearTimeout(watchdog); }
       // Deletion cancels queued edits. Its database delete follows the in-flight transaction.

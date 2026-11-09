@@ -9,11 +9,11 @@ import { parseSavedSession } from '@/lib/savedSession';
 import { collectAttachmentIds } from '@/lib/backup';
 import * as attachments from '@/lib/attachments';
 
-it('persists a signature once, strips committed bytes from saved content and resolves the same image', async () => {
+it('persists a signature once, retains inline compatibility bytes in saved content and resolves the same image', async () => {
   const image = await persistSignature({ name: 'signature.png', size: 3, data: 'YWJj' });
   const document = prepareSessionState(createBlankSession());document.formData.signatureImage = image;
   const session = serializeDocumentSnapshot(document, 1);
-  expect(session.formData.signatureImage).toEqual({ ...image, data: '' });
+  expect(session.formData.signatureImage).toEqual(image);
   expect(parseSavedSession(session).formData.signatureImage?.fileRef).toEqual(image.fileRef);
   expect(await resolveSignature(session.formData.signatureImage)).toEqual(image);
   expect(await persistSignature(image)).toEqual(image);
@@ -39,10 +39,10 @@ it('keeps NAVMC signature references in saved forms and materializes independent
   const saved = serializeDocumentSnapshot(prepareSessionState(session), 1);
   const decoded = parseSavedSession(saved);
   const form = decoded.forms!.navmc11811!;
-  expect(form.signatureBlocks[0].image).toBeUndefined();
+  expect(form.signatureBlocks[0].image).toBe('YWJj');
   expect(form.signatureBlocks[0].imageRef).toEqual(owned.fileRef);
   expect((await resolveFormSignatures(form)).signatureBlocks[0].image).toBe('YWJj');
-  expect(storedFormSignatures({ signatureBlocks: [block] }).signatureBlocks[0].image).toBeUndefined();
+  expect(storedFormSignatures({ signatureBlocks: [block] }).signatureBlocks[0].image).toBe('YWJj');
   expect(collectAttachmentIds([{ session: saved }])).toContain(owned.fileRef!.id);
 });
 it('does not insert a selected profile signature when reopening a saved document', async () => {

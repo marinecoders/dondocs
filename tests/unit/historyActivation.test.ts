@@ -102,7 +102,7 @@ it('preserves Redo when a legacy signature receives its durable handle', async (
   const ref = useDocumentStore.getState().formData.signatureImage?.fileRef;
   expect(ref).toBeDefined();
   const history = useHistoryStore.getState();
-  expect(history.currentSnapshot!.formData.signatureImage).toEqual({ name: 'legacy.png', size: 3, data: '', fileRef: ref });
+  expect(history.currentSnapshot!.formData.signatureImage).toEqual({ name: 'legacy.png', size: 3, data: 'YWJj', fileRef: ref });
   expect(history.future[0].formData.signatureImage?.fileRef).toEqual(ref);
   expect(changeDocumentHistory('redo', scope)).toBe('applied');
   expect(useDocumentStore.getState().formData.subject).toBe('After');

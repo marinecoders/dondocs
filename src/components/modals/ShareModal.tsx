@@ -27,7 +27,7 @@ import {
 } from '@/lib/shareCrypto';
 import { getSerializedSessionForShare, type SerializedSession } from '@/stores/documentStore';
 import { openSessionAsNew } from '@/stores/documentsStore';
-import { parseSharedSession } from '@/lib/sharedSession';
+import { parseSharedSession, createSharedPayload } from '@/lib/sharedSession';
 import { detectSharedSessionPII, getPIITypeLabel, type PIIDetectionResult } from '@/services/pii/detector';
 
 export type ShareModalMode = 'share' | 'import';
@@ -106,7 +106,7 @@ export function ShareModal({
     setWorking(true);
     try {
       const session = snapshot!;
-      const encrypted = await encryptSharePayload(session, password);
+      const encrypted = await encryptSharePayload(createSharedPayload(session), password);
       const url = buildShareUrl(encrypted);
       setShareLink(url);
       // The link is generated and shown regardless — isolate the clipboard write so

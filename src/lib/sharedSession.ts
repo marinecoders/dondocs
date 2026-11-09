@@ -4,10 +4,12 @@ import { sl3Schema } from '@/data/techpub/sl3';
 import { z } from 'zod';
 import { parseFormInstance } from '@/services/forms/model';
 import type { SerializedSession } from '@/stores/documentStore';
+import { projectSharedSession } from './documentSerialization';
 import { DOC_TYPE_LABELS } from '@/types/document';
 
 const signature = z.object({ name: z.string(), statement: z.string(), style: z.enum(['typed', 'image', 'digital']).optional() });
-const form = z.record(z.string(), z.union([z.string(), z.array(signature)]));
+const form = z.record(z.string(), z.union([z.string(), z.array(signature)]))
+  .refine(fields => Object.entries(fields).every(([key, value]) => key === 'signatureBlocks' ? Array.isArray(value) : typeof value === 'string'), 'Invalid built-in form fields');
 export const sessionSchema = z.object({
   documentMode: z.enum(['compliant', 'custom']),
   documentCategory: z.enum(['correspondence', 'forms']).default('correspondence'),
@@ -30,9 +32,23 @@ export const sessionSchema = z.object({
   timestamp: z.number().default(0),
 });
 
+export type SharedDocumentKind = 'correspondence' | 'builtin-form' | 'configured-form';
+const envelope = z.object({ kind: z.literal('dondocs-share'), version: z.literal(1), documentKind: z.enum(['correspondence', 'builtin-form', 'configured-form']) });
+function documentKind(session: SerializedSession): SharedDocumentKind {
+  return session.documentCategory === 'forms' ? (session.genericForm ? 'configured-form' : 'builtin-form') : 'correspondence';
+}
+
+/** Additive envelope keeps the established document fields readable by earlier clients. */
+export function createSharedPayload(session: SerializedSession): SerializedSession & { kind: 'dondocs-share'; version: 1; documentKind: SharedDocumentKind } {
+  const owned = projectSharedSession(parseSharedSession(session));
+  return { ...owned, kind: 'dondocs-share', version: 1, documentKind: documentKind(owned) };
+}
+
 /** Validate before touching the recipient's current document. */
 export function parseSharedSession(value: unknown): SerializedSession {
-  const result = sessionSchema.safeParse(value);
+  const metadata = value && typeof value === 'object' && ('kind' in value || 'documentKind' in value) ? envelope.safeParse(value) : undefined;
+  if (metadata && !metadata.success) throw new Error('This share format is unsupported. Update DonDocs and ask the sender to create a compatible link.');
+  const result = sessionSchema.safeParse(structuredClone(value));
   if (!result.success) throw new Error('This link does not contain a supported DonDocs document.');
   const s = result.data;
   if (s.formData.additionalEndorsements !== undefined) s.formData.additionalEndorsements = additionalEndorsementsSchema.parse(s.formData.additionalEndorsements);
@@ -54,5 +70,7 @@ export function parseSharedSession(value: unknown): SerializedSession {
     if (s.formType === 'navmc_10274') delete s.forms.navmc11811;
     else delete s.forms.navmc10274;
   }
-  return s as SerializedSession;
+  if (metadata?.success && metadata.data.documentKind !== documentKind(s as SerializedSession)) throw new Error('The shared document kind does not match its contents.');
+  if (s.documentCategory === 'forms' && !s.genericForm && !['navmc_10274', 'navmc_118_11'].includes(s.formType)) throw new Error('Unsupported shared form type.');
+  return projectSharedSession(s as SerializedSession);
 }

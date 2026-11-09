@@ -465,7 +465,7 @@ export async function idbAddSnapshot(docId: string, snap: DocSnapshot): Promise<
       const getReq = store.get(`snap:${docId}`);
       getReq.onsuccess = () => {
         const existing = (getReq.result as { value?: DocSnapshot[] } | undefined)?.value ?? [];
-        store.put({ key: `snap:${docId}`, value: [snap, ...existing].slice(0, MAX_SNAPSHOTS) });
+        store.put({ key: `snap:${docId}`, value: [snap, ...existing].sort((a, b) => b.ts - a.ts).slice(0, MAX_SNAPSHOTS) });
       };
       t.oncomplete = () => resolve();
       t.onabort = () => reject(t.error ?? new Error('IndexedDB transaction aborted'));
@@ -513,6 +513,36 @@ export async function idbSetSnapshots(docId: string, snaps: DocSnapshot[], merge
     debug.error('DocumentsDb', 'setSnapshots failed', err);
     return false;
   }
+}
+
+/** Enrich only unchanged entries; a concurrent edit/delete must remain authoritative. */
+export async function idbEnrichSnapshots(docId: string, before: DocSnapshot[], after: DocSnapshot[]): Promise<boolean> {
+  if (!hasIndexedDb || before.length !== after.length || before.some((snapshot, index) => snapshot.ts !== after[index].ts)) return false;
+  const expected = structuredClone(before);
+  const prepared = structuredClone(after);
+  try {
+    const db = await openDb();
+    await new Promise<void>((resolve, reject) => {
+      const tx = db.transaction(APP_STORE, 'readwrite');
+      const store = tx.objectStore(APP_STORE);
+      const key = `snap:${docId}`;
+      const request = store.get(key);
+      request.onsuccess = () => {
+        const current: DocSnapshot[] = request.result?.value ?? [];
+        let changed = false;
+        const value = current.map(snapshot => {
+          const index = expected.findIndex(entry => JSON.stringify(entry) === JSON.stringify(snapshot));
+          if (index < 0 || JSON.stringify(snapshot) === JSON.stringify(prepared[index])) return snapshot;
+          changed = true;return prepared[index];
+        });
+        if (changed) store.put({ key, value });
+      };
+      tx.oncomplete = () => resolve();
+      tx.onabort = () => reject(tx.error ?? new Error('History enrichment aborted'));
+      tx.onerror = () => reject(tx.error ?? new Error('History enrichment failed'));
+    });
+    return true;
+  } catch (error) { debug.warn('DocumentsDb', 'History enrichment could not finish', error);return false; }
 }
 
 export async function idbDeleteSnapshots(docId: string): Promise<void> {

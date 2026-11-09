@@ -53,7 +53,7 @@ export function projectSharedSession(session: SerializedSession): SerializedSess
   }));
   owned.enclosures = owned.enclosures.map(({ fileRef: _ref, ...enclosure }) => enclosure);
   for (const form of [owned.forms?.navmc10274, owned.forms?.navmc11811]) {
-    if (form) form.signatureBlocks = form.signatureBlocks.map(({ image: _image, imageRef: _ref, ...block }) => block);
+    if (form && Array.isArray(form.signatureBlocks)) form.signatureBlocks = form.signatureBlocks.map(({ image: _image, imageRef: _ref, ...block }) => block);
   }
   return owned;
 }
