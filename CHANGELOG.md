@@ -5,6 +5,17 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.3.40] — 2026-11-09
+
+### Changed
+
+- Share capabilities between controls and export validation.
+
+### Fixed
+
+- Apply sharing checks to captured documents and command-palette actions.
+- Reject unsupported flat LaTeX requests before loading export resources.
+
 ## [1.3.39] — 2026-11-09
 
 ### Added

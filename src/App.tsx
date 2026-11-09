@@ -1,3 +1,5 @@
+import { documentCapabilities, capabilityAvailable } from '@/lib/documentCapabilities';
+import { useOutputCapabilities } from '@/hooks/useOutputCapabilities';
 import type { DocumentSnapshot } from '@/stores/historyStore';
 import { saveCheckpoint } from '@/lib/saveCheckpoint';
 import { usePageScrollLayout } from '@/hooks/usePageScrollLayout';
@@ -792,7 +794,7 @@ function App() {
   const handleDownloadFlatTex = useCallback(() => { requestExport('tex', 'flat'); }, [requestExport]);
   const handleDownloadDocx = useCallback(() => {
     const active = useDocumentStore.getState();
-    if (active.documentCategory === 'forms' || DOC_TYPE_CONFIG[active.docType]?.pdfOnly) return;
+    if (!capabilityAvailable(documentCapabilities(active, { operation: 'export', target: 'docx' }))) return;
     useUIStore.getState().setValidationVisible(true);
     requestExport('docx');
   }, [requestExport]);
@@ -940,6 +942,8 @@ function App() {
   }, [currentDocId]);
   const allDocs = useDocumentsStore((s) => s.docs);
   const userTemplates = useUserTemplatesStore((s) => s.templates);
+  const outputCapabilities = useOutputCapabilities();
+
   const commandGroups = useMemo<CommandGroup[]>(() => {
     const groups: CommandGroup[] = [];
 
@@ -1028,15 +1032,15 @@ function App() {
     groups.push({
       label: 'Actions',
       items: [
-        {
+        ...(capabilityAvailable(outputCapabilities.pdf) ? [{
           id: 'download-pdf',
           label: 'Download PDF',
           icon: Download,
           kbd: formatShortcut('mod D'),
           onRun: () => commandDownloadTriggers.pdf(),
-        },
+        }] : []),
         // Publication types are delivered as PDF (see DocTypeConfig.pdfOnly).
-        ...(documentCategory === 'forms' || DOC_TYPE_CONFIG[docType]?.pdfOnly ? [] : [{
+        ...(!capabilityAvailable(outputCapabilities.word) ? [] : [{
           id: 'download-docx',
           label: 'Download Word (.docx)',
           icon: Download,
@@ -1049,12 +1053,12 @@ function App() {
           kbd: formatShortcut('mod S'),
           onRun: () => { void saveCheckpoint(); },
         },
-        {
+        ...(capabilityAvailable(outputCapabilities.batch) ? [{
           id: 'batch-generate',
           label: 'Batch generate…',
           icon: Layers,
           onRun: () => useUIStore.getState().setBatchModalOpen(true),
-        },
+        }] : []),
         {
           id: 'document-guide',
           label: 'Document type guide',
@@ -1074,12 +1078,12 @@ function App() {
           kbd: formatShortcut('mod H'),
           onRun: () => useUIStore.getState().setFindReplaceOpen(true),
         },
-        {
+        ...(capabilityAvailable(outputCapabilities.share) ? [{
           id: 'share-link',
           label: 'Create share link…',
           icon: Link2,
           onRun: () => useUIStore.getState().setShareModal('share'),
-        },
+        }] : []),
         {
           id: 'import-link',
           label: 'Open a share link…',
@@ -1182,7 +1186,7 @@ function App() {
         onRun: () => { if (currentDocId) useEditorOutlineStore.getState().requestJump(currentDocId, 'enclosures'); },
       });
     }
-    insertItems.push({
+    if (capabilityAvailable(outputCapabilities.batch)) insertItems.push({
       id: 'insert-batch-variable',
       label: 'Insert batch variable…',
       icon: Braces,
@@ -1191,7 +1195,7 @@ function App() {
     groups.push({ label: 'Insert', items: insertItems });
 
     return groups;
-  }, [outlineSections, allDocs, currentDocId, isInstalled, userTemplates, docType, documentCategory, isMobile, mobilePreviewOpen, previewVisible, formCatalog]);
+  }, [outputCapabilities, outlineSections, allDocs, currentDocId, isInstalled, userTemplates, documentCategory, isMobile, mobilePreviewOpen, previewVisible, formCatalog]);
 
   if (!workspaceReady) {
     return <main className="flex h-screen-dvh flex-col items-center justify-center gap-3 bg-background text-foreground">

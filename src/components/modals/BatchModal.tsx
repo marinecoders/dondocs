@@ -1,3 +1,4 @@
+import { documentCapabilities, capabilityAvailable } from '@/lib/documentCapabilities';
 import { downloadPdfBlob, preOpenWindowForIOS } from '@/utils/downloadPdf';
 import { DOC_TYPE_LABELS, FORM_TYPE_LABELS, formTypeLabel } from '@/types/document';
 import { renderPreparedBatchRow, type BatchRowContext } from '@/services/exports/batchRows';
@@ -300,7 +301,8 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
   }, [compile, waitForReady]);
 
   // Templates are acquired by the row owner, where failures have a retry path.
-  const isReadyToGenerate = isFormsMode ? isBuiltinForm : isEngineReady;
+  const batchCapability = documentCapabilities(source ?? liveDocument, { operation: 'batch', target: 'pdf' });
+  const isReadyToGenerate = capabilityAvailable(batchCapability) === true && (isFormsMode || isEngineReady);
 
   // Preview a single row
   const handlePreview = useCallback(async (row: BatchRow) => {
@@ -569,12 +571,12 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
     return 'Tip: Add a variable to your Subject line like "PROMOTION OF {{NAME}} TO {{RANK}}"';
   }, [isFormsMode, formType]);
 
-  if (isFormsMode && !isBuiltinForm && !source && !exportReview) {
+  if (!capabilityAvailable(batchCapability) && !source && !exportReview) {
     return <Dialog open={batchModalOpen && !exportReview} onOpenChange={open => { if (open) setBatchModalOpen(true);else closePanel(); }}>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Batch generation</DialogTitle>
-          <DialogDescription>Batch generation supports correspondence, NAVMC 10274, and NAVMC 118 (11). For this library form, download an individual PDF or create a new copy from Form options.</DialogDescription>
+          <DialogDescription>{batchCapability.status === 'supported' ? '' : batchCapability.message} For this library form, download an individual PDF or create a new copy from Form options.</DialogDescription>
         </DialogHeader>
         <Button onClick={() => setBatchModalOpen(false)}>Back to form</Button>
       </DialogContent>

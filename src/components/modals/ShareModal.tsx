@@ -1,3 +1,4 @@
+import { documentCapabilities } from '@/lib/documentCapabilities';
 import { SessionPreview } from '@/components/SessionPreview';
 /**
  * Share Modal
@@ -97,11 +98,20 @@ export function ShareModal({
     finally { setWorking(false); }
   }, [working, shareLink, copyLink]);
 
+  const canShareSnapshot = useCallback(() => {
+    if (!snapshot) return false;
+    const capability = documentCapabilities(snapshot, { operation: 'share', target: 'link' });
+    switch (capability.status) {
+      case 'supported': case 'partial': return true;
+      default: setError(capability.message);return false;
+    }
+  }, [snapshot]);
+
   // The actual encrypt → build → copy, run only once any PII has been
   // acknowledged. A share link leaves the device, so it goes through the same
   // PII conscience-check the PDF/DOCX exports do.
   const doGenerate = useCallback(async () => {
-    if (working) return;
+    if (working || !canShareSnapshot()) return;
     setPiiFindings(null);
     setWorking(true);
     try {
@@ -118,7 +128,7 @@ export function ShareModal({
     } finally {
       setWorking(false);
     }
-  }, [password, snapshot, copyLink, working]);
+  }, [password, snapshot, copyLink, working, canShareSnapshot]);
 
   const handleGenerateLink = useCallback(() => {
     if (working) return;
@@ -128,6 +138,7 @@ export function ShareModal({
       setError('Please set a password');
       return;
     }
+    if (!canShareSnapshot()) return;
     // Scan before the document can leave the device; warn once, then let the
     // user decide (the payload is still password-encrypted either way).
     let pii: PIIDetectionResult;
@@ -142,7 +153,7 @@ export function ShareModal({
       return;
     }
     void doGenerate();
-  }, [password, doGenerate, snapshot, working]);
+  }, [password, doGenerate, snapshot, working, canShareSnapshot]);
 
   const handleImport = useCallback(async () => {
     if (working) return;

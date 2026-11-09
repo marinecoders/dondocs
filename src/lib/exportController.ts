@@ -110,7 +110,7 @@ export function createExportController(ports: ExportControllerPorts) {
       const policy = await resolvePolicy(retry);
       if (current !== operation) { releaseDelivery(operation);return; }
       if (policy.status === 'ready') {
-        const capability = capturedCapabilities(operation.intent.captured, { operation: 'export', target: operation.intent.target });
+        const capability = capturedCapabilities(operation.intent.captured, { operation: 'export', target: operation.intent.target, texMode: operation.intent.texMode });
         if (capability.status !== 'supported' && capability.status !== 'partial') {
           fail(operation, capability.message, false);return;
         }
