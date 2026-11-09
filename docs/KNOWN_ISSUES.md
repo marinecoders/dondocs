@@ -1,73 +1,39 @@
-# Known Issues
+# Known output limits
 
-## Resolved
+See the [capability matrix](CAPABILITIES.md) for current format availability and
+[audit status](AUDIT_STATUS.md) for the original findings and regression evidence.
 
-### Memorandum For (mf): No Addressee Field in the Editor
+## Word output
 
-**Resolved:** July 2026 (1.2.3)
+- Uploaded signature and figure images are omitted. Insert them in Word after downloading, or use PDF.
+- PDF signing fields are not emitted into Word. Use Word's signing workflow separately.
+- Reference titles are retained; the reference URL annotation control applies to PDF.
+- Uploaded enclosure PDF pages are not appended to Word. Transfer those files separately.
+- Word and PDF use different layout engines, so pagination and placement can differ.
 
-The generators emit the `MEMORANDUM FOR [addressee]` line only when `data.to`
-is set, but no editor field wrote `to` for the `mf` doc type (`fromTo: false`,
-no recipient-address block) — so the defining line of every Memorandum For
-rendered blank. Fixed with a dedicated required "Memorandum For" field (with
-unit lookup) in the addressing section; the section-completeness rule now
-requires it, and an integration test compiles a real `mf` document and asserts
-the addressee appears in the output text.
+These are current implementation limits, not a claim that Word cannot support
+these features in a future implementation.
 
-**Files:** `src/components/editor/AddressingSection.tsx`, `src/components/layout/editorSections.tsx`, `tests/integration/mf-addressee.test.ts`
+## Resolved or reverified behavior
 
-### SwiftLaTeX Dollar Sign (`$`) Rendering
+- Page-number position, custom starting number, continuation subject, and classification headers/footers are handled by Word post-processing. See `tests/integration/docx-page-furniture.test.ts`.
+- Copy-to and distribution lists use breakable paragraphs. Native PDF tests verify short and 110-recipient lists, every recipient's start/end marker, page bounds, and absence of an overfull vertical box. Word tests verify separate paragraphs with no keep-together/table wrapper. See `tests/integration/recipient-list-pagination.test.ts`.
+- Numbered paragraph continuation, spacing, and deep-label underlining have native PDF and Word regressions. Both generators use `paragraphLayout.ts` for the shared rules.
+- Memorandum For has an addressee editor and native compile coverage in `tests/integration/mf-addressee.test.ts`.
+- SwiftLaTeX dollar signs use an OT1-compatible escape rather than relying on unavailable TS1 fonts. See `src/services/latex/escaper.ts`.
 
-**Resolved:** February 2026
+## Form inventory and stored assets
 
-SwiftLaTeX lacks TS1 encoding fonts, so `\$` fails with a missing `tcrm1200` TFM error. Fixed by using `{\char36}` (OT1 position 36 in Computer Modern). The escape chain uses placeholder tokens (`ZZZDOLLARZZZ`, etc.) so that `{`/`}` escaping doesn't re-escape the braces introduced by the replacement.
+The geometry gate checks definitions present in `public/templates` and reports
+its inventory count. The current stack has the two built-in NAVMC template sets
+but no published configurable `form.json` definitions. Three audited data defects
+in the separate form-library branch must be repaired and validated there; a
+zero-definition gate run does not certify that unmerged corpus.
 
-**Files:** `src/services/latex/escaper.ts`, `src/services/latex/flat-generator.ts`
-
-### DOCX Classification Header/Footer Markings
-
-**Resolved:** February 2026
-
-Pandoc ignores `\fancyhead`/`\fancyfoot` LaTeX commands, so classification markings didn't appear in DOCX output. Fixed by post-processing the DOCX with JSZip to inject `word/header1.xml` and `word/footer1.xml` with centered bold marking text, wired via `[Content_Types].xml`, `document.xml.rels`, and `sectPr` references.
-
-**Files:** `src/services/docx/pandoc-converter.ts`, `src/App.tsx`
-
----
-
-## Open
-
-### DOCX: Page Numbering Position Not Controllable
-
-Pandoc ignores `\fancyfoot[R]{\thepage}`, so page number position is determined by `reference.docx`. Suppressing page numbers (`\pagenumbering{gobble}`) works, but position (right/center/left) and custom start page (`\setcounter{page}{N}`) cannot be controlled.
-
-**Potential fix:** Post-process `word/footer1.xml` to position the page number field code.
-
-**Files:** `src/services/latex/flat-generator.ts`, `public/lib/pandoc/dondocs.lua`
-
----
-
-## Open (By Design)
-
-These are inherent limitations of the LaTeX-to-DOCX pipeline via pandoc and cannot be fixed without significant architectural changes.
-
-### DOCX: Signature Images
-
-Pandoc cannot reliably position `\includegraphics` within signature table cells. Users must manually insert signature images after downloading.
-
-### DOCX: Digital Signature Fields
-
-PDF AcroForm signature fields have no DOCX equivalent via pandoc. Users should sign using Word's built-in digital signature feature (File > Info > Protect Document > Add a Digital Signature).
-
-### DOCX: Reference URL Hyperlinks
-
-`\href` inside `tabular` environments is unreliable in pandoc's DOCX writer. Users can manually add hyperlinks to reference titles after downloading.
-
-### DOCX: Enclosure File Merging
-
-PDF-to-PDF merging is straightforward, but appending PDF pages to a DOCX is not possible in-browser. Users must attach enclosure files separately.
-
-### PDF: Copy-To / Distribution Page-Breaking
-
-SwiftLaTeX does not include `longtable.sty`, so Copy-To and Distribution lists use `tabular` which cannot break across pages. For typical military correspondence, these lists are short enough to fit on one page. If a list exceeds one page, content will overflow off the bottom.
-
-**Potential fix:** Preload `longtable.sty` into SwiftLaTeX, or implement a manual page-break splitting approach in the generator.
+New document signatures retain durable attachment references and inline image
+fallbacks. Supported older readers can preserve the inline image even if they
+do not recognize its reference. Reference-only records receive a fallback when
+the asset can be read; missing image bytes cannot be reconstructed. Read the
+[signature compatibility boundary](STORAGE.md#document-signature-assets) before
+using an older tab or rolling back. Configured forms also need access to their exact PDF template
+revision; a JSON backup does not embed those template PDFs.

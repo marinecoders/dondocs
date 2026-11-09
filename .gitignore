@@ -134,3 +134,6 @@ release-site/
 .release-previous/
 .release-legacy/
 .wrangler/
+
+# Standalone TeX example build
+.tex-build/

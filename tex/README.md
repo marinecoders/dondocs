@@ -4,6 +4,23 @@
 
 ---
 
+## Building the checked-in example
+
+From the repository root, with Python 3 and TeX Live installed:
+
+```sh
+make pdf
+# Open .tex-build/main.pdf
+```
+
+The build stages `tex/main.tex`, the format modules, example configuration/body files, and seal assets into `.tex-build/`, then runs native `pdflatex` twice with shell escape disabled. Install the packages used by `tex/main.tex` through your TeX distribution (a full TeX Live installation includes them). `make build` and `make watch` additionally require `latexmk`; edits require restaging the example by rerunning the target. `TEX_BUILD_DIR=/path/to/build` selects another output directory. Sources under `tex/` are not modified. `make clean` removes auxiliary files; `make distclean` also removes the generated PDF.
+
+This builds the checked-in example, not the active browser document. Browser TeX downloads contain configuration fragments and require the template project and referenced assets. The app's PDF pipeline adds features such as merged enclosures, reference annotations, and PDF signing fields after compilation; the native example does not perform that assembly. AcroTeX is not required for the app's signing fields.
+
+The reference notes below describe formatting requirements; they are not a guarantee that every rule is enforced by the editor. See [capabilities](../docs/CAPABILITIES.md) and [audit status](../docs/AUDIT_STATUS.md) for tested behavior and limits.
+
+---
+
 ## Font Requirements
 
 | Document Category | Font Size | Font Type | Source |
@@ -65,7 +82,7 @@ Per Ch 7 ¶13:
     The continuation line returns to the left margin, not indented.
 ```
 
-**Implementation:** The LaTeX template uses `itemindent` to push the first line (with label) right while keeping `leftmargin` at the continuation position. This ensures continuation lines automatically return to the label position per SECNAV requirements.
+**Implementation:** Both renderers resolve indentation and paragraph spacing through `src/services/latex/paragraphLayout.ts`. Numbered correspondence indents the first line for its level and returns continuation lines to the left margin; deeper labels retain their underline. Native PDF and Word regression tests check the resulting layout.
 
 ### Page Break Rules
 Per Ch 7 ¶13:

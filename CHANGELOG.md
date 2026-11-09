@@ -5,6 +5,13 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.3.46] — 2026-11-09
+
+### Changed
+
+- Reconcile supported formats, storage and backup behavior, and build instructions with the reviewed implementation. Generate capability documentation from validated examples and check it for drift in CI.
+- Stage and compile the standalone TeX example outside its source directory; disable shell escape for native targets and sequence parallel rebuild cleanup before compilation.
+
 ## [1.3.45] — 2026-11-09
 
 ### Changed

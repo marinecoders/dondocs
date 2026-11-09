@@ -4,9 +4,9 @@
 [![SECNAV M-5216.5](https://img.shields.io/badge/SECNAV-M--5216.5-blue)](https://www.secnav.navy.mil/doni/SECNAV%20Manuals1/5216.5%20DON%20Correspondence%20Manual.pdf)
 [![MCO 5216.20B](https://img.shields.io/badge/MCO-5216.20B-red)](https://www.marines.mil/News/Publications/MCPEL/Electronic-Library-Display/Article/899678/mco-521620/)
 
-**DonDocs** is a browser-based naval correspondence and form generator that produces publication-quality documents compliant with **SECNAV M-5216.5** (Department of the Navy Correspondence Manual) and **MCO 5216.20B** (Marine Corps Supplement).
+**DonDocs** is a browser-based naval correspondence and form generator that provides formats based on **SECNAV M-5216.5** (Department of the Navy Correspondence Manual) and **MCO 5216.20B** (Marine Corps Supplement).
 
-**Documents are processed locally in your browser; the app does not automatically upload document content.** See [Security and Privacy](#security-and-privacy) for what the public site does load.
+**Document editing and browser exports run locally.** The app loads assets from its deployment; sharing a link or downloading a file is an explicit transfer. See [Security and Privacy](#security-and-privacy).
 
 ## Table of Contents
 
@@ -44,29 +44,29 @@
 
 ## Features
 
-DonDocs uses a WebAssembly LaTeX compiler to produce publication-quality PDFs that match official military typesetting — pixel-perfect spacing, kerning, and margins per SECNAV specifications. Everything runs locally in the browser; nothing is ever sent to a server.
+DonDocs uses a WebAssembly LaTeX compiler for browser PDF generation and Pandoc for Word exports. Supported formats and limitations are listed in the [generated capability matrix](docs/CAPABILITIES.md).
 
 ### Export Formats
 - **PDF** — full-featured with enclosures, signatures, and classification markings
-- **DOCX** — editable Microsoft Word output with matching layout
-- **LaTeX** — source files for advanced customization
+- **DOCX** — editable Microsoft Word output; pagination and supported features differ from PDF
+- **LaTeX** — configuration fragments for the repository templates, or flat Pandoc input; normal downloads are not a complete standalone project
 
 ### Core Functionality
 - **Real-time PDF Preview** - See your document as you type (1.5s debounce)
-- **Block Paragraph Editor** - Body paragraphs as keyboard-driven blocks: Enter splits, Backspace merges, Tab/Shift+Tab indent within SECNAV nesting rules, drag to reorder (sub-paragraphs move with their parent), inline bold/italic/underline, per-paragraph portion markings, and an `@` menu for variables and cross-references
-- **Command Palette** - `Ctrl+K` / `Cmd+K` searches every action and open document
-- **20 Document Types** - All selectable from the document type dropdown with full SECNAV M-5216.5 compliance
+- **Block Paragraph Editor** - Body paragraphs as keyboard-driven blocks: Enter adds an empty paragraph, Backspace merges, Tab/Shift+Tab indent within SECNAV nesting rules, drag to reorder (sub-paragraphs move with their parent), inline bold/italic/underline, per-paragraph portion markings, and an `@` menu for variables and cross-references
+- **Command Palette** - `Ctrl+K` / `Cmd+K` searches available commands and saved documents
+- **Document Formats** - Letters, memoranda, agreements, and technical publications; see the [capability matrix](docs/CAPABILITIES.md) for every configured format
 - **Dynamic UI Sections** - Form panels adapt per document type: sections gray out with "Not used by this document type" indicators when inapplicable, and specialized panels appear for dual-command formats (MOA/MOU, Joint, Executive)
-- **SECNAV M-5216.5 Compliant** - Automatic formatting per Navy/Marine Corps regulations
-- **PDF/DOCX Parity** - Both export formats produce matching layouts with identical SECNAV-standard spacing
+- **Manual-Based Formatting** - Configured formats based on Navy/Marine Corps correspondence guidance
+- **Shared Layout Rules** - PDF and Word share paragraph layout rules. Separate rendering engines can produce different pagination; Word omits uploaded images, merged PDF pages, PDF signing fields, and reference link annotations
 - **PWA/Offline Mode** - Install as an app and work offline with cached TeX Live packages
-- **Compliant vs Custom Modes** - Strict regulation mode or customizable fonts and formatting (see [Compliance Mode](#compliance-mode) for details)
+- **Compliant vs Custom Modes** - Format restrictions or customizable fonts and formatting (see [Compliance Mode](#compliance-mode) for details)
 - **Full Quality Preview** - Optional toggle to include enclosures, hyperlinks, and signatures in the live preview (Settings > Preview)
 
 ### Document Management
 - **Multi-Document Workspace** - Every document you write is autosaved to a Recents list (sidebar): switch, search full-text, pin, rename, duplicate, and delete with undo. Work survives reloads and browser restarts — see [Storage Architecture](docs/STORAGE.md)
 - **Version History** - Per-document snapshots (captured as you edit and on each Save) with one-click restore; restoring snapshots the current state first so it's reversible
-- **Library Backup** - Export every saved document to a single JSON file and restore it later; restore keeps whichever copy is newer. On Chromium desktop, a synced backup file auto-mirrors the library to a file you choose after every save
+- **Library Backup** - Export every saved document to a single JSON file and restore it later; saved documents use a newer-wins merge. Explicit full restore replaces included live NAVMC buffers. On Chromium desktop, registry saves schedule a full-account backup to a file you choose; active form drafts participate through their registry saves; profile changes and dormant legacy buffers alone do not independently schedule a write. See [restore and backup scope](docs/STORAGE.md#backups)
 - **Profiles System** - Save and reuse unit information and signature images
 - **Template Library** - 19 ready-made letter and technical publication templates, plus save any document as your own reusable template
 - **Clause Library** - Save and insert reusable body paragraphs, seeded with common SECNAV boilerplate
@@ -76,8 +76,8 @@ DonDocs uses a WebAssembly LaTeX compiler to produce publication-quality PDFs th
 - **Unit Directory** - 3,140 units searchable by name, abbreviation, MCC, or location; insert directly into letterhead or To/Via lines
 - **Office Codes** - 74 standard military position codes for signature blocks
 - **SSIC Lookup** - 2,240 codes searchable by number or description
-- **Batch Generation** - Generate multiple documents with 28 built-in placeholders and Insert Variable button
-- **Find & Replace** - Search and replace text across your document, including paragraph headings
+- **Batch Generation** - Generate multiple documents using custom variables, with examples in the Insert Variable picker
+- **Find & Replace** - Search correspondence body paragraphs/headings and the subject/from/to/via fields, or text in the active built-in NAVMC form; other correspondence fields and configured forms are outside this search scope
 - **Undo/Redo** - 50-level history with keyboard shortcuts
 - **Document Statistics** - Real-time word count, character count, paragraph count
 
@@ -113,16 +113,7 @@ DonDocs uses a WebAssembly LaTeX compiler to produce publication-quality PDFs th
 ### Batch Generation
 Generate multiple personalized documents from a single template using the **Insert Variable** button or `{{PLACEHOLDER}}` syntax.
 
-**28 Built-in Placeholders across 6 categories:**
-
-| Category | Placeholders |
-|----------|-------------|
-| **Subject** | NAME, LAST_NAME, FIRST_NAME, MI, RANK, RANK_NAME, EDIPI, MOS, BILLET |
-| **2nd Person** | NAME_2, RANK_2, RANK_NAME_2, BILLET_2 |
-| **3rd Person** | NAME_3, RANK_3, RANK_NAME_3, BILLET_3 |
-| **Dates** | DATE, EVENT_DATE, START_DATE, END_DATE, TIME |
-| **Contact** | EMAIL, PHONE, ADDRESS, UNIT, LOCATION |
-| **Document** | SERIAL, CASE_NUM, AMOUNT, REASON, AWARD, COURSE, CHARGE |
+The correspondence picker provides `NAME` and `DATE` examples. Add your own `{{VARIABLE_NAME}}` fields; names use letters, numbers, and underscores. Built-in NAVMC forms have additional field-specific examples. Variables must occur in supported text fields; imported column names should match them.
 
 **Use Cases for S-1/Admin:**
 - Awards packages (NAME, RANK, AWARD, REASON)
@@ -133,13 +124,13 @@ Generate multiple personalized documents from a single template using the **Inse
 
 **Preview Support:** Placeholders display as highlighted yellow boxes in the PDF preview so you can see where variables will be inserted.
 
-**Excel/CSV Import:** Upload a spreadsheet with columns matching placeholder names to generate documents for each row.
+**Spreadsheet input:** Paste rows copied from Excel or another spreadsheet into the batch data table, with columns matching the variables.
 
 ---
 
 ## Document Types
 
-### 20 Format Definitions
+### Format Definitions
 
 | Category | Types |
 |----------|-------|
@@ -149,7 +140,7 @@ Generate multiple personalized documents from a single template using the **Inse
 | Agreements | MOA, MOU |
 | Executive | Executive Correspondence, Standard Memorandum, Action Memorandum, Information Memorandum |
 
-All 20 types are selectable in the document type dropdown with full SECNAV M-5216.5 compliance.
+The table above groups correspondence formats. The [generated capability matrix](docs/CAPABILITIES.md) also includes technical publications and built-in forms, with PDF-only and partial operations identified. Format availability does not certify a document for signature.
 
 ### Pre-Built Templates (19)
 | Template | Category |
@@ -181,32 +172,17 @@ All 20 types are selectable in the document type dropdown with full SECNAV M-521
 DonDocs offers two modes for each document type:
 
 ### Compliant Mode (Default)
-Enforces strict SECNAV M-5216.5 formatting rules. Certain features are locked or restricted based on the document type to ensure regulation compliance.
+Applies the selected format's configured restrictions, such as numbered paragraphs and formal reference/enclosure sections. Review the completed output against the applicable manual and local requirements.
 
 ### Custom Mode
-Unlocks all features for non-official use, drafting, or situations where deviation from regulations is acceptable. Custom mode allows:
-- Any font size (10pt, 11pt, 12pt, 14pt)
-- Any font family (Times, Courier)
+Lifts selected formatting restrictions for drafting and local variations. Export format limits still apply. Custom mode allows:
+- Font sizes offered by the editor (10pt, 11pt, 12pt, 14pt)
+- Font families offered by the editor (Times, Courier)
 - Flexible formatting options
 
 ### Compliance Restrictions by Document Type
 
-| Document Type | Numbered Paragraphs | References Section | Enclosures Section | Salutation | Complimentary Close | Date Format |
-|---------------|:-------------------:|:------------------:|:------------------:|:----------:|:-------------------:|:-----------:|
-| **Naval Letter** | Yes | Yes | Yes | No | No | Military (4 Jan 26) |
-| **Standard Letter** | Yes | Yes | Yes | No | No | Military |
-| **Business Letter** | No | No* | No* | Required | Required | Spelled (January 4, 2026) |
-| **Multiple Address Letter** | Yes | Yes | Yes | No | No | Military |
-| **Joint Letter** | Yes | Yes | Yes | No | No | Military |
-| **Endorsements** | No | Yes | Yes | No | No | Military |
-| **All Memoranda** | Yes | Yes | Yes | No | No | Military |
-| **MOA/MOU** | Yes | Yes | Yes | No | No | Military |
-| **Executive Correspondence** | Yes | Yes | Yes | No | No | Military |
-| **Standard Memorandum** | No | No | No | No | No | Spelled |
-| **Action Memorandum** | No | No | No | No | No | Spelled |
-| **Information Memorandum** | No | No | No | No | No | Spelled |
-
-*Business Letters: References and enclosures must be mentioned in the body text rather than in formal sections (per SECNAV M-5216.5 Ch 11).
+See [correspondence content controls](docs/CAPABILITIES.md#correspondence-content-controls) for the generated, per-format compliant/custom matrix. It is derived from the same configuration as the editor and renderers.
 
 ### What Each Restriction Means
 
@@ -294,8 +270,8 @@ PDF output includes empty signature fields compatible with:
 
 ### Editor Panel (Left)
 - **Profile Bar** - Quick profile selector with unit lookup
-- **Mode Toggle** - Switch between Compliant (strict SECNAV) and Custom (flexible) modes (see [Compliance Mode](#compliance-mode))
-- **Document Type** - Select from 20 document types; the entire form dynamically reconfigures per selection. **Clear Fields** resets content while preserving letterhead
+- **Mode Toggle** - Switch between Compliant (configured restrictions) and Custom (flexible) modes (see [Compliance Mode](#compliance-mode))
+- **Document Type** - Select a document format; the entire form dynamically reconfigures per selection. **Clear Fields** resets content while preserving letterhead
 - **Letterhead** - Unit name, address, seal type; shows "Not used" indicator for types without letterhead (e.g., MFR, Plain Paper)
 - **Addressing** - From, To, Via, Subject, SSIC, Serial, Date — fields auto-show/hide per doc type (e.g., business letters show recipient address block instead of From/To, executive formats skip SSIC)
 - **Dual-Command Sections** - MOA/MOU show Junior/Senior SSIC and signature fields; Joint Letter/Memo show dual From/To/Via
@@ -341,7 +317,6 @@ PDF output includes empty signature fields compatible with:
 | `Ctrl+H` / `Cmd+H` | Find & Replace |
 | `Ctrl+E` / `Cmd+E` | Toggle Preview |
 | `Ctrl+Shift+T` | Open Templates |
-| `Ctrl+Shift+R` | Open Reference Library |
 | `Ctrl+Z` / `Cmd+Z` | Undo |
 | `Ctrl+Y` / `Cmd+Y` | Redo |
 | `Escape` | Close Modals |
@@ -409,12 +384,12 @@ Contract, configuration and client setup: **[docs/COMPANION.md](docs/COMPANION.m
 ## Development
 
 ### Prerequisites
-- Node.js 18+
-- npm or yarn
+- Node.js 22+
+- npm (use the checked-in lockfile)
 
 ### Installation
 ```bash
-npm install
+npm ci
 ```
 
 ### Development Server
@@ -427,23 +402,25 @@ npm run dev
 npm run build
 ```
 
+The Makefile offers the same web commands without pulling, stashing, or changing Git branches. Run `make help` for targets. To compile the checked-in standalone TeX example, install Python 3 and TeX Live, then run `make pdf`; output is `.tex-build/main.pdf`. See [the native build instructions](tex/README.md#building-the-checked-in-example).
+
 ### Project Structure
 
 See [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md#project-structure) for the full directory layout and key file index.
 
 ### Document Generation Pipelines
 
-DonDocs has **two independent generation pipelines** — one for PDF, one for DOCX — that share the same Zustand store but produce output through completely different LaTeX dialects and different runtime engines.
+DonDocs has **two independent generation pipelines** — one for PDF, one for DOCX — that consume captured document data through different LaTeX dialects and runtime engines. Export preparation captures an owned revision, applies policy/content checks, and passes that model to the selected renderer.
 
 | Output | Generator | Engine | Why separate |
 |---|---|---|---|
-| **PDF** | [`generator.ts`](src/services/latex/generator.ts) — multiple `.tex` files with custom macros and `\input{}` chains | SwiftLaTeX (WebAssembly LaTeX compiler) | SwiftLaTeX accepts our full LaTeX feature set; produces pixel-perfect typography |
+| **PDF** | [`generator.ts`](src/services/latex/generator.ts) — multiple `.tex` files with custom macros and `\input{}` chains | SwiftLaTeX (WebAssembly LaTeX compiler) | SwiftLaTeX accepts our full LaTeX feature set; uses the PDF layout templates |
 | **DOCX** | [`flat-generator.ts`](src/services/latex/flat-generator.ts) — single self-contained `.tex` using only pandoc-compatible LaTeX | Pandoc WASM + Lua filter + JSZip post-processing | Pandoc's reader rejects custom macros and `\input{}`; needs a flat dialect |
 
 Both pipelines:
-- Read from the same `documentStore` (Zustand)
+- Consume an owned capture of the document data, with shared output projection
 - Run entirely in-browser, no server calls
-- Produce equivalent SECNAV-compliant output, just in different formats
+- Share content projection and paragraph layout rules, with the format limits in [CAPABILITIES.md](docs/CAPABILITIES.md)
 
 The detailed walk-throughs below cover each pipeline end-to-end. **If you're working on PDF output, see [LaTeX Generation Flow](#latex-generation-flow). If you're working on DOCX output, see [DOCX Generation Flow](#docx-generation-flow).**
 
@@ -524,7 +501,7 @@ There are two types of templates:
 **Format Templates** (LaTeX) - Define document layouts:
 - `public/lib/latex-templates.js` contains all LaTeX templates as a JavaScript object
 - `tex/main.tex` - Main document structure, package imports, base commands
-- `tex/templates/*.tex` - Document format templates (20 types: naval_letter, mfr, etc.)
+- `tex/templates/*.tex` - Document format templates (naval_letter, mfr, technical publications, etc.)
 - Each format defines:
   - `\printDateAndTitle` - How date/SSIC block is formatted
   - `\printAddressBlock` - How From/To/Via/Subject appears
@@ -556,7 +533,7 @@ There are two types of templates:
 | `src/App.tsx` | Main app component, debounced preview (1.5s LaTeX, 500ms forms) |
 | `src/services/latex/generator.ts` | Generates `.tex` files from store data |
 | `src/services/latex/escaper.ts` | Escapes special LaTeX characters, wraps text |
-| `public/lib/latex-templates.js` | All LaTeX templates (main + 20 document types) |
+| `public/lib/latex-templates.js` | All bundled LaTeX templates |
 | `src/hooks/useLatexEngine.ts` | Manages SwiftLaTeX WebAssembly engine |
 | `src/services/pdf/mergeEnclosures.ts` | Merges enclosures, adds hyperlinks and markings |
 | `src/services/pdf/addSignatureField.ts` | Adds CAC/PIV digital signature fields |
@@ -599,9 +576,9 @@ DOCX export uses a completely separate pipeline from the PDF path. Instead of th
 ```
 
 **1. Zustand Store → Flat Generator**
-- `src/services/latex/flat-generator.ts` reads the same store data as the PDF generator
+- `src/services/latex/flat-generator.ts` receives the captured model used by export preparation
 - Produces a single self-contained `.tex` file with no `\input{}` calls or custom macros
-- Reference URLs are sanitized via [`safeUrl()`](src/lib/url-safety.ts) before being embedded in `\href{}` annotations — same chokepoint the PDF path uses
+- Reference titles are included; reference URL annotations require PDF and are not emitted by the Word generator
 - Uses only pandoc-compatible LaTeX constructs:
   - `tabularx` for centered/right-aligned layouts (pandoc ignores `\begin{center}`)
   - `\mbox{}` to protect numbered labels from pandoc's list detection
@@ -657,14 +634,18 @@ After pandoc produces the DOCX, `pandoc-converter.ts` opens it with JSZip and fi
 - **Offline Use** - Cache the application and the document or form resources you need before disconnecting; see the setup steps below. Offline use depends on the browser retaining its cached files
 - **CUI and Classification Markings** - Formatting only, not a security control. The levels offered depend on the domain; see [docs/CLASSIFICATION_CONFIG.md](docs/CLASSIFICATION_CONFIG.md)
 
-**Authorization:** DonDocs has no Authority to Operate and has not been assessed against NIST SP 800-171. It has not been tested on SIPR or JWICS. Use an environment and workflow your organization has approved. See [SECURITY.md](SECURITY.md).
+Classification controls format markings. They do not authorize a system to process classified information or establish NIST compliance. Available levels depend on the [deployment policy](docs/CLASSIFICATION_CONFIG.md). Use an environment approved by your organization.
+
+DonDocs has no Authority to Operate and has not been assessed against NIST SP 800-171. It has not been tested on SIPR or JWICS. See [SECURITY.md](SECURITY.md).
+
+Share links contain encrypted document text and form values. Sending a link transfers that content; attachment files and signature images require a separate transfer. Backups and downloaded drafts also contain user data. See [storage and backup behavior](docs/STORAGE.md).
 
 ---
 
 ## FAQ
 
 **Q: Does this work on NMCI computers?**
-A: Not verified yet. It's a standard webpage with nothing to install, so it should load in a current browser, but it has not been tested on NMCI.
+A: It is a web app, but compatibility with a specific managed NMCI deployment is not verified by this repository's browser tests.
 
 **Q: Can I install this as an app?**
 A: Yes. DonDocs is a Progressive Web App (PWA). Click "Install" in your browser or use "Add to Home Screen" on mobile. Complete the offline setup below before relying on it without a connection.
@@ -676,7 +657,7 @@ A: Yes, after setup. While online, let the app finish loading, reload once, and 
 A: The tool formats documents but does not provide security controls for classified data. Use appropriate systems for classified information.
 
 **Q: Is my data saved anywhere?**
-A: Documents are processed locally without automatic uploads. Documents autosave to your browser's IndexedDB and appear in the Recents sidebar across visits. Because browsers can evict local storage, you can export the whole library to a JSON backup file (or, on Chromium desktop, keep a backup file auto-synced after every save). See [docs/STORAGE.md](docs/STORAGE.md) for the full design.
+A: Saved document content is stored in your browser; see [Security and Privacy](#security-and-privacy) for network and transfer scope. Documents autosave to your browser's IndexedDB and appear in the Recents sidebar across visits. Because browsers can evict local storage, you can export the whole library to a JSON backup file (or, on Chromium desktop, keep a backup file auto-synced after every save). See [docs/STORAGE.md](docs/STORAGE.md) for the full design.
 
 **Q: Why LaTeX instead of jsPDF?**
 A: LaTeX produces publication-quality output with proper kerning, ligatures, and typography that matches official military publications.
@@ -720,3 +701,5 @@ See [CONTRIBUTING.md](docs/CONTRIBUTING.md) for detailed guidelines.
 ---
 
 *Built for Marines, by Marines. Semper Fidelis.*
+
+Audit finding status and regression evidence: [docs/AUDIT_STATUS.md](docs/AUDIT_STATUS.md).

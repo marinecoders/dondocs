@@ -47,8 +47,8 @@ contributions retain permissions previously granted; see [licensing](LICENSING.m
 
 ### Prerequisites
 
-- Node.js 18 or higher
-- npm or yarn
+- Node.js 22 or higher
+- npm (checked-in lockfile)
 - Git
 - Basic knowledge of React, TypeScript, and LaTeX (for template work)
 
@@ -72,7 +72,7 @@ contributions retain permissions previously granted; see [licensing](LICENSING.m
 ### Install Dependencies
 
 ```bash
-npm install
+npm ci
 ```
 
 ### Start Development Server
@@ -523,3 +523,9 @@ Thank you for contributing to DonDocs!
 ---
 
 *Semper Fidelis*
+
+## Capability documentation and native builds
+
+After changing supported operations or format controls, run `npm run docs:capabilities` and commit the generated `docs/CAPABILITIES.md`. CI runs `npm run docs:capabilities -- --check`. Form geometry has a separate `npm run test:form-geometry` gate; its reported inventory count matters.
+
+Use `make help` for web and native targets. `make pdf` builds the checked-in example in `.tex-build/`; [tex/README.md](../tex/README.md#building-the-checked-in-example) lists prerequisites and limits. `make dev` starts the development server without Git mutations.
