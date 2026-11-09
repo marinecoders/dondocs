@@ -1,7 +1,7 @@
 {
   "name": "dondocs",
   "private": true,
-  "version": "1.3.45",
+  "version": "1.3.46",
   "description": "Browser-based SECNAV M-5216.5 naval correspondence and forms generator.",
   "type": "module",
   "scripts": {
@@ -40,7 +40,8 @@
     "test:install": "npm run test:browser -- install.spec.ts",
     "test:downloads": "npm run test:browser -- downloads.spec.ts",
     "test:lifecycle-types": "tsc -p tsconfig.lifecycle.json",
-    "test:form-geometry": "vite-node --config vitest.config.ts scripts/check-form-geometry.mts"
+    "test:form-geometry": "vite-node --config vitest.config.ts scripts/check-form-geometry.mts",
+    "docs:capabilities": "vite-node --config vitest.config.ts scripts/generate-capabilities.mts"
   },
   "overrides": {
     "serialize-javascript": "^7.0.5",

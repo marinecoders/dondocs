@@ -1,264 +1,46 @@
-#=============================================================================
-# USMC CORRESPONDENCE TEMPLATE - Makefile
-#=============================================================================
+# Browser development and the standalone example under tex/.
+.DEFAULT_GOAL := help
+TEX_BUILD_DIR ?= .tex-build
+LATEX ?= pdflatex
+LATEXMK ?= latexmk
 
-# Main document name (without .tex extension)
-MAIN = main
-
-# LaTeX compiler
-LATEX = pdflatex
-LATEXMK = latexmk
-
-# TeX Live package manager
-TLMGR = sudo tlmgr
-
-#-----------------------------------------------------------------------------
-# Default target
-#-----------------------------------------------------------------------------
-.PHONY: all
+.PHONY: all prepare-tex pdf quick build watch clean distclean view rebuild
+.PHONY: dev dev-quick local run web-build web-install lint preview web-clean help
 all: pdf
-
-#-----------------------------------------------------------------------------
-# Install required LaTeX packages
-#-----------------------------------------------------------------------------
-.PHONY: install
-install:
-	@echo "Installing required LaTeX packages..."
-	$(TLMGR) update --self
-	$(TLMGR) install \
-		enumitem \
-		fancyhdr \
-		geometry \
-		hyperref \
-		lastpage \
-		parskip \
-		pdfpages \
-		setspace \
-		textpos \
-		xcolor \
-		graphics \
-		tools
-	@echo "Done! All packages installed."
-	@echo ""
-	@echo "NOTE: For digital signature fields, install AcroTeX manually:"
-	@echo "      https://www.math.uakron.edu/~dpstory/acrotex.html"
-
-#-----------------------------------------------------------------------------
-# Info about digital signatures
-#-----------------------------------------------------------------------------
-.PHONY: install-signatures
-install-signatures:
-	@echo "AcroTeX (eforms) is NOT available via tlmgr."
-	@echo ""
-	@echo "To enable embedded PDF signature fields:"
-	@echo "  1. Download from: https://www.math.uakron.edu/~dpstory/acrotex.html"
-	@echo "  2. Follow installation instructions"
-	@echo "  3. Uncomment 'eforms' in main.tex"
-	@echo ""
-	@echo "Alternative: Use Adobe Acrobat to add signature field after compiling."
-
-#-----------------------------------------------------------------------------
-# Compile PDF (single pass - fast but may have stale references)
-#-----------------------------------------------------------------------------
-.PHONY: quick
-quick:
-	$(LATEX) $(MAIN).tex
-
-#-----------------------------------------------------------------------------
-# Compile PDF (two passes - correct page numbers)
-#-----------------------------------------------------------------------------
-.PHONY: pdf
-pdf:
-	$(LATEX) $(MAIN).tex
-	$(LATEX) $(MAIN).tex
-	@echo "Build complete: $(MAIN).pdf"
-
-#-----------------------------------------------------------------------------
-# Compile PDF using latexmk (handles all passes automatically)
-#-----------------------------------------------------------------------------
-.PHONY: build
-build:
-	$(LATEXMK) -pdf $(MAIN).tex
-	@echo "Build complete: $(MAIN).pdf"
-
-#-----------------------------------------------------------------------------
-# Watch for changes and recompile (continuous mode)
-#-----------------------------------------------------------------------------
-.PHONY: watch
-watch:
-	$(LATEXMK) -pdf -pvc $(MAIN).tex
-
-#-----------------------------------------------------------------------------
-# Clean auxiliary files (keep PDF)
-#-----------------------------------------------------------------------------
-.PHONY: clean
+prepare-tex:
+	python3 scripts/prepare-tex-example.py --output "$(TEX_BUILD_DIR)"
+quick: prepare-tex
+	cd "$(TEX_BUILD_DIR)" && $(LATEX) -interaction=nonstopmode -halt-on-error -no-shell-escape main.tex
+pdf: quick
+	cd "$(TEX_BUILD_DIR)" && $(LATEX) -interaction=nonstopmode -halt-on-error -no-shell-escape main.tex
+build: prepare-tex
+	cd "$(TEX_BUILD_DIR)" && $(LATEXMK) -pdf -pdflatex="$(LATEX) %O -no-shell-escape %S" main.tex
+watch: prepare-tex
+	cd "$(TEX_BUILD_DIR)" && $(LATEXMK) -pdf -pdflatex="$(LATEX) %O -no-shell-escape %S" -pvc main.tex
 clean:
-	@echo "Cleaning auxiliary files..."
-	rm -f $(MAIN).aux $(MAIN).log $(MAIN).out $(MAIN).toc
-	rm -f $(MAIN).fdb_latexmk $(MAIN).fls $(MAIN).synctex.gz
-	rm -f $(MAIN).bbl $(MAIN).blg $(MAIN).nav $(MAIN).snm
-	rm -f config/*.aux
-	@echo "Clean complete."
-
-#-----------------------------------------------------------------------------
-# Clean everything including PDF
-#-----------------------------------------------------------------------------
-.PHONY: distclean
+	rm -f "$(TEX_BUILD_DIR)"/*.aux "$(TEX_BUILD_DIR)"/*.log "$(TEX_BUILD_DIR)"/*.out "$(TEX_BUILD_DIR)"/*.toc "$(TEX_BUILD_DIR)"/*.fls "$(TEX_BUILD_DIR)"/*.fdb_latexmk "$(TEX_BUILD_DIR)"/*.synctex.gz
 distclean: clean
-	@echo "Removing PDF..."
-	rm -f $(MAIN).pdf
-	@echo "Distclean complete."
-
-#-----------------------------------------------------------------------------
-# View the PDF (macOS)
-#-----------------------------------------------------------------------------
-.PHONY: view
+	rm -f "$(TEX_BUILD_DIR)/main.pdf"
 view:
-	open $(MAIN).pdf
+	open "$(TEX_BUILD_DIR)/main.pdf"
+rebuild: clean
+	$(MAKE) pdf
 
-#-----------------------------------------------------------------------------
-# Full rebuild (clean + build)
-#-----------------------------------------------------------------------------
-.PHONY: rebuild
-rebuild: clean pdf
-
-#=============================================================================
-# WEB APPLICATION (React)
-#=============================================================================
-
-#-----------------------------------------------------------------------------
-# Start development server (default: http://localhost:5173)
-# Pulls latest, builds, then starts dev server
-#-----------------------------------------------------------------------------
-.PHONY: dev
-dev:
-	@echo "Pulling latest changes..."
-	@if git diff --quiet && git diff --cached --quiet; then \
-		git pull; \
-	else \
-		echo "Local changes detected, stashing before pull..."; \
-		git stash push -m "auto-stash before make dev"; \
-		if git pull; then \
-			echo "Pull successful, restoring stashed changes..."; \
-			git stash pop || echo "Note: Could not restore stash (may have conflicts)"; \
-		else \
-			echo "Pull failed, restoring stashed changes..."; \
-			git stash pop; \
-			exit 1; \
-		fi; \
-	fi
-	@echo "Building web application..."
-	$(MAKE) web-build
-	@echo "Starting development server..."
+dev dev-quick local run:
 	npm run dev
-
-#-----------------------------------------------------------------------------
-# Quick dev - just start dev server without pull/build
-#-----------------------------------------------------------------------------
-.PHONY: dev-quick
-dev-quick: web-install
-	@echo "Starting development server..."
-	npm run dev
-
-#-----------------------------------------------------------------------------
-# Local run - fastest option, just starts dev server (no install/pull/build)
-# Use this for rapid local development when dependencies are already installed
-#-----------------------------------------------------------------------------
-.PHONY: local
-local:
-	@echo "Starting local dev server..."
-	npm run dev
-
-.PHONY: run
-run: local
-
-#-----------------------------------------------------------------------------
-# Build web app for production
-#-----------------------------------------------------------------------------
-.PHONY: web-build
-web-build: web-install
-	@echo "Building web application..."
-	npm run build
-	@echo "Build complete! Output in dist/"
-
-#-----------------------------------------------------------------------------
-# Install web dependencies
-#-----------------------------------------------------------------------------
-.PHONY: web-install
 web-install:
-	@echo "Installing web dependencies..."
-	npm install
-	@echo "Dependencies installed."
-
-#-----------------------------------------------------------------------------
-# Run linter
-#-----------------------------------------------------------------------------
-.PHONY: lint
-lint: web-install
+	npm ci
+web-build:
+	npm run build
+lint:
 	npm run lint
-
-#-----------------------------------------------------------------------------
-# Preview production build locally
-#-----------------------------------------------------------------------------
-.PHONY: preview
-preview: web-build
+preview:
 	npm run preview
-
-#-----------------------------------------------------------------------------
-# Expose dev server via ngrok (for mobile/external testing)
-# Usage: make ngrok
-#        make ngrok NGROK_DOMAIN=your-domain.ngrok-free.dev
-#-----------------------------------------------------------------------------
-.PHONY: ngrok
-ngrok:
-	@echo "Starting ngrok tunnel to localhost:5173..."
-	@echo "Make sure 'make dev' is running in another terminal!"
-ifdef NGROK_DOMAIN
-	ngrok http --url=$(NGROK_DOMAIN) 5173
-else
-	ngrok http 5173
-endif
-
-#-----------------------------------------------------------------------------
-# Clean web build artifacts
-#-----------------------------------------------------------------------------
-.PHONY: web-clean
 web-clean:
-	@echo "Cleaning web build artifacts..."
 	rm -rf dist
-	@echo "Web clean complete."
-
-#-----------------------------------------------------------------------------
-# Help
-#-----------------------------------------------------------------------------
-.PHONY: help
 help:
-	@echo "Naval Correspondence Generator - Makefile"
-	@echo ""
-	@echo "Usage: make [target]"
-	@echo ""
-	@echo "LaTeX Targets:"
-	@echo "  install            Install all required LaTeX packages"
-	@echo "  install-signatures Install only AcroTeX (for digital signatures)"
-	@echo "  pdf                Compile PDF (2 passes, correct page numbers)"
-	@echo "  quick              Compile PDF (1 pass, fast)"
-	@echo "  build              Compile using latexmk (auto-detects passes)"
-	@echo "  watch              Watch for changes and auto-recompile"
-	@echo "  view               Open the PDF (macOS)"
-	@echo "  clean              Remove auxiliary files (keep PDF)"
-	@echo "  distclean          Remove all generated files including PDF"
-	@echo "  rebuild            Clean and rebuild"
-	@echo ""
-	@echo "Web Targets:"
-	@echo "  local / run        Start dev server only (fastest, for local dev)"
-	@echo "  dev                Pull, build, then start dev server"
-	@echo "  dev-quick          Start dev server without pull/build"
-	@echo "  web-build          Build for production"
-	@echo "  web-install        Install npm dependencies"
-	@echo "  lint               Run ESLint"
-	@echo "  preview            Preview production build"
-	@echo "  ngrok              Expose dev server via ngrok tunnel"
-	@echo "  web-clean          Remove web build artifacts"
-	@echo ""
-	@echo "  help               Show this help message"
-
+	@echo "Install web dependencies: make web-install (Node.js 22+)"
+	@echo "Web: dev / local / run, web-build, lint, preview, web-clean"
+	@echo "TeX example: pdf (two passes), quick, build (latexmk), watch, view (macOS)"
+	@echo "TeX output: $(TEX_BUILD_DIR)/main.pdf; clean / distclean / rebuild"
+	@echo "Requires Python 3 and a TeX Live installation; see tex/README.md."

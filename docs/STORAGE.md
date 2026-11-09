@@ -1,7 +1,7 @@
 # Storage Architecture
 
-DonDocs has no server. Every document a user writes lives in their browser, so
-the storage layer carries the durability guarantees a backend would normally
+Browser documents live in local storage; there is no remote document registry. The local companion is a separate optional service. The
+storage layer carries the durability guarantees a backend would normally
 provide. This document describes where data lives, how it gets there, and what
 happens when writes fail.
 
@@ -18,7 +18,7 @@ existing records untouched.
 |-------|----------|
 | `documents` (keyPath `id`) | One record per document: `{ id, meta, session }`. `meta` is the Recents row (title, docType, updatedAt, pinned, user-set name); `session` is the full serialized document. |
 | `app` (key/value) | `currentId` (resume pointer), `backupFileHandle` (the synced-backup `FileSystemFileHandle` — handles are structured-cloneable), `legacyMigratedIds` (migration ledger), and `snap:<docId>` — per-document version-history snapshots, capped at the 10 most recent. |
-| `attachments` (keyPath `id`) | Enclosure file bytes: `{ id, name, type, size, data }` (`data` is the raw `ArrayBuffer`). A serialized enclosure keeps only a `fileRef` (id + name/size/type) into this store, so the blob loads once and never bloats a document record. Bytes are written on attach (`src/lib/attachments.ts`) and streamed back into the live document by `rehydrateEnclosureFiles`. Ids are random (not content-addressed): `crypto.subtle` needs a secure origin an air-gapped `http://` deployment may lack, so there is no cross-enclosure dedup and no GC yet — a removed enclosure leaves its blob behind until the store is cleared. |
+| `attachments` (keyPath `id`) | Enclosure and signature image bytes: `{ id, name, type, size, data }` (`data` is the raw `ArrayBuffer`). A serialized enclosure keeps only a `fileRef` (id + name/size/type) into this store, so the blob loads once and never bloats a document record. Bytes are written on attach (`src/lib/attachments.ts`) and streamed back into the live document by `rehydrateEnclosureFiles`. Ids are random (not content-addressed): `crypto.subtle` needs a secure origin an air-gapped `http://` deployment may lack, so there is no cross-enclosure dedup. Reachability inventory marks references from saved and live documents, history, snapshots, form buffers, profiles, and staged writes. Automatic deletion is deferred: older tabs can still own unsaved references that this tab cannot discover. A candidate orphan is retained, and unreadable roots abort the inventory. |
 
 Two contracts in `documentsDb.ts` matter more than the rest:
 
@@ -45,7 +45,7 @@ persistence for the rest of the page lifetime.
 |-----|-----------|---------|
 | `dondocs-document-session` | 2s-debounced autosave, flushed on `pagehide` | Crash backstop for the live document. Used by the first-load legacy migration and the forms-view resume hint. Deliberately **not** consulted on normal resume — it carries no document id, so after a document switch it can briefly describe a different document than `currentId`. |
 | `dondocs_profiles`, `dondocs_user_templates`, `dondocs_snippets` | Zustand persist via `compressedLocalStorage` | Gzip-compressed. **Rethrows on quota** so the calling action can warn the user; every save path is wrapped in try/catch with a "storage is full" message. |
-| `dondocs_ui`, `dondocs-onboarding`, `dondocs-forms` | Zustand persist via `safeLocalStorage` | **Swallows** write errors so a preference write can never crash boot — but records each write outcome per key (`lastWriteFailed`), which the forms "Saved" indicator checks before claiming success. |
+| `dondocs_ui`, `dondocs-onboarding`, `dondocs-forms` | Zustand persist via `safeLocalStorage` | **Swallows** write errors so a preference write can never crash boot — but records each write outcome per key (`lastWriteFailed`), available to storage feedback. Document Save acknowledgement requires an IndexedDB commit receipt, including for built-in forms. |
 
 The two adapters have opposite quota philosophies on purpose: user-created
 content (profiles, templates, clauses) must fail loudly; preferences must
@@ -72,10 +72,11 @@ Wait for **Saved** before closing a tab and keep an external backup.
 ## The write path
 
 ```
-keystroke → documentStore (in-memory)
+keystroke → correspondence or active form editor (in-memory)
   ├─ 1.5s debounce → documentsStore.syncCurrent()
   │     content diff vs baseline → persistEntry()
-  │        → idbPutDocument   (result drives Saving… / Saved / Couldn't save)
+  │        → conditional document write + owned commit receipt
+  │        → Saving… / Saved / Couldn't save for that exact revision
   │        → BroadcastChannel (cross-tab Recents sync)
   │        → scheduleBackup() (1.5s debounce → synced backup file)
   │     throttled version-history snapshot (one per 3 min; Save forces one)
@@ -86,17 +87,13 @@ visibilitychange / pagehide → synchronous recovery copy + asynchronous registr
 
 Invariants the write path maintains:
 
-- **`syncCurrent` is the only registry writer for the current document.**
+- **The document workspace owns writes.** Autosave (`syncCurrent`) and explicit Save enqueue owned revisions through `DocumentWrites`. A transaction compares the expected stored record before committing; only its matching receipt can acknowledge Saved.
 - **Opening a document you don't touch must not churn it.** Promotion into
   Recents requires content drift from the document's baseline; a no-op sync is
   skipped; hydration-time normalization (see migrations) never bumps
   `updatedAt`.
-- **A blank document never enters Recents.** Placeholder subjects and empty
-  bodies don't count as content.
-- **The save indicator reflects a real write result**, not optimism. The one
-  exception: when IndexedDB doesn't exist at all (blocked storage / some
-  private modes), the in-memory document *is* the document, StorageNotice
-  already says so, and the indicator marks saved rather than error.
+- **Automatic promotion requires content drift.** An untouched starter stays out of Recents. Explicit Save can add a new draft even before it has meaningful content.
+- **The save indicator reflects a committed revision**, not an in-memory record. Failed or conflicting writes remain failures until a real retry commits. If IndexedDB is unavailable, keep an external draft/backup; memory-only work is not acknowledged as a durable save.
 
 ## Resume
 
@@ -111,7 +108,7 @@ into their own new id.
 
 ## Migrations
 
-Both migrations run in place, on the user's machine, with no server to lean on.
+Migrations run locally and retain legacy sources until the corresponding records are durable.
 
 **Legacy registry → IndexedDB** (`migrateLegacyRegistry`): the old
 compressed-localStorage registry blob (`dondocs_documents`) is folded into
@@ -130,8 +127,7 @@ Recents re-sort), and every load path into the live editor
 
 **Form library**: no database version or existing storage key changes. Generic
 forms add an optional `genericForm` to document sessions, including the pinned
-definition, answers, and rows. Existing letters and the NAVMC 10274 / 118(11)
-drafts keep their storage formats. Object key order does not count as an edit.
+definition, answers, and rows. Existing letters retain their session shape. Built-in NAVMC drafts also use document identities in Recents; legacy buffers are migrated into saved records without discarding the old persisted values. Active form edits are captured in their owning document session. Object key order does not count as an edit.
 A generic session can also be recovered from the localStorage backstop when
 there is no matching registry document. An unreadable saved definition stays
 in the library and backup; a failed open must never attach subsequent edits to
@@ -172,10 +168,9 @@ Rolling back the app has the same limitation. Export a backup before rollback.
   **its own baseline** (the state it last loaded or wrote). An idle tab whose
   registry entry moved ahead via another tab's save has nothing of its own to
   contribute, so its `pagehide` flush is a no-op instead of a stale overwrite.
-  Two tabs genuinely editing the same document remain last-writer-wins.
+  A stale conditional write reports a conflict instead of silently replacing the other tab's record. The pending revision is retained for recovery; concurrent edits are not automatically merged.
 - `currentId` is origin-wide, so two tabs *can* have the same document open.
-  The guard above prevents the idle-tab clobber; concurrent editing in both
-  tabs is not otherwise reconciled.
+  The conditional-write guard prevents stale overwrites; a recovery copy preserves conflicting work for review.
 
 ## Backups
 
@@ -203,8 +198,7 @@ that omit it leave the local option unchanged.
 `FileSystemFileHandle` persists in IndexedDB and survives restarts. Every
 registry save mirrors the **full-account bundle** — the same `dondocs-backup`
 `buildBackup()` produces for the manual download, including enclosure bytes —
-to that file (1.5s debounce), so a restore from it brings back everything, not
-just documents. (Each write re-serializes the account; with large enclosures
+to that file (1.5s debounce), so a restore can recover the included stores and referenced assets. Active NAVMC and configured-form drafts autosave through the registry, so those saves also schedule the mirror. Changes confined to profiles, preferences, or dormant legacy buffers do not independently trigger a write; use a manual backup after those edits if no registry save occurs. (Each write re-serializes the account; with large enclosures
 that base64 pass runs on every debounced save — acceptable off the critical
 path, and a future optimization could diff attachments.) Browsers require a
 fresh user gesture to re-grant write access after a restart — surfaced as
@@ -234,9 +228,9 @@ written, nothing is restored and the modal says so.
 | Level | Meaning |
 |-------|---------|
 | `ok` | Persistent storage granted (or nothing at risk yet). |
-| `evictable` | IndexedDB works but the browser may clear it under pressure (WebKit's ~7-day cap). Shown once the user has documents to lose. |
-| `unreadable` | The database opens but records can't be read. The user's documents exist on disk but this session can't see them — reloading usually fixes it. Hydration rejects rather than showing a blank Recents, and backups refuse to run. |
-| `unavailable` | IndexedDB can't be opened at all. The app stays usable; nothing persists between visits. |
+| `evictable` | IndexedDB works but browser retention policies can still clear local data. Shown once the user has documents to lose. |
+| `unreadable` | The database opens but records cannot be read. Hydration reports the failure rather than treating it as an empty library, and backups refuse to run on incomplete reads. |
+| `unavailable` | IndexedDB cannot be opened. Editing may continue in memory, but durable document Save is not acknowledged; export an external copy before leaving. |
 
 The design rule behind all of it: **a durability claim in the UI must trace
 back to a confirmed write, and a failure must be distinguishable from an empty
