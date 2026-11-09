@@ -32,6 +32,18 @@ The latest release only. DonDocs offers browser updates for you to accept; fixes
 - Findings against a fork or a modified build.
 - Missing hardening headers on a deployment you control.
 
+The PII/PHI text-pattern scan covers PDF (including forms), Word, both LaTeX
+downloads, and share-link generation. Each batch row is reviewed against its
+saved source, saved row values (including unused keys retained with the row),
+and resolved text, including recovered and retried rows. Discarded spreadsheet
+columns are not retained or scanned. Saved batch downloads receive a fresh text
+review; missing or unreadable source text requires explicit confirmation before
+download and is never replaced with the current editor for screening.
+The scan does not inspect attached PDF or image contents. A valid 10-digit value
+in Page 11's dedicated EDIPI field is expected and exempt; IDs in free text,
+including NAVMC 10274's From field, still receive a warning. Acknowledging the
+warning permits the export; this is guidance, not enforcement.
+
 ## What this project does not promise
 
 - **It is not accredited for classified processing.** It has no Authority to Operate and is not under the Risk Management Framework. The classification and CUI markings it prints are formatting, not a security control. You own how the resulting document is handled.

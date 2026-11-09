@@ -264,6 +264,10 @@ interface DocumentStore {
 function scanText(field: DocumentTextField): PIIFinding[] {
   const { text, label: fieldName } = field;
   if (typeof text !== 'string' || !text.trim()) return [];
+  // A valid ID is expected only in Page 11's dedicated EDIPI field. Skip
+  // its overlapping phone match too; every free-text use still gets scanned.
+  if (field.path.length === 3 && field.path[0] === 'forms'
+    && field.path[1] === 'navmc11811' && field.path[2] === 'edipi' && /^\d{10}$/.test(text)) return [];
   // Plain dates in a document-date field include lists of office closures.
   // Free text, configured answers, and annotations still get the full scan;
   // date fields are never exempt from other PII patterns.
@@ -312,7 +316,18 @@ export function detectCapturedPII(captured: CapturedDocument, projection: 'outpu
 }
 
 function inspectFields(fields: readonly DocumentTextField[]): PIIDetectionResult {
-  const findings = fields.flatMap(scanText);
+  return summarizeFindings(fields.flatMap(scanText));
+}
+
+export function detectTextPII(fields: readonly { field: string; value: string }[]): PIIDetectionResult {
+  return inspectFields(fields.map(({ field, value }, index) => ({ path: ['batchValues', index], text: value, label: field, role: 'text' })));
+}
+
+export function mergePIIResults(results: readonly PIIDetectionResult[]): PIIDetectionResult {
+  return summarizeFindings(results.flatMap(result => result.findings));
+}
+
+function summarizeFindings(findings: PIIFinding[]): PIIDetectionResult {
 
   // Remove duplicates (same value in same field)
   const uniqueFindings = findings.filter((finding, index, self) =>

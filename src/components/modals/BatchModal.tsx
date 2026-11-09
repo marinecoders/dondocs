@@ -1,11 +1,13 @@
 import { documentCapabilities, capabilityAvailable } from '@/lib/documentCapabilities';
 import { downloadPdfBlob, preOpenWindowForIOS } from '@/utils/downloadPdf';
 import { DOC_TYPE_LABELS, FORM_TYPE_LABELS, formTypeLabel } from '@/types/document';
-import { renderPreparedBatchRow, type BatchRowContext } from '@/services/exports/batchRows';
+import { captureBatchRowIntent, renderPreparedBatchRow, type BatchRowContext } from '@/services/exports/batchRows';
 import { getExportDeploymentPolicy } from '@/config/classification';
 import { captureExportFormTemplates } from '@/services/exports/formTemplates';
 import { runPreparedBatchRow } from '@/services/exports/batchExecution';
 import { BatchExportReviewModal } from './BatchExportReviewModal';
+import { detectBatchPII } from '@/services/pii/batchScan';
+import { getPIITypeLabel, type PIIDetectionResult } from '@/services/pii/detector';
 import { serializeDocumentSnapshot } from '@/lib/documentSerialization';
 import { memo, useState, useCallback, useMemo, useEffect, useRef } from 'react';
 import { Plus, Trash2, Download, AlertCircle, FileText, Variable, CheckCircle, XCircle, Copy, Lightbulb, Eye, Loader2, Settings, ArrowRight } from 'lucide-react';
@@ -222,6 +224,9 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [previewingRow, setPreviewingRow] = useState<string | null>(null);
   const [previewError, setPreviewError] = useState<string | null>(null);
+  const [savedDownloadReview, setSavedDownloadReview] = useState<{
+    filename: string; findings: PIIDetectionResult | null; download(): Promise<void>;
+  } | null>(null);
 
   useEffect(() => () => { ++previewRequest.current; }, []);
   useEffect(() => () => { if (previewUrl) setTimeout(() => URL.revokeObjectURL(previewUrl), 5000); }, [previewUrl]);
@@ -229,8 +234,8 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
   const closePanel = useCallback(() => {
     ++previewRequest.current;
     if (useBatchStore.getState().rowActive && useBatchStore.getState().status !== 'running') useBatchStore.getState().cancelCurrent();
-    setPreviewUrl(null);setPreviewError(null);setBatchModalOpen(false);
-  }, [setBatchModalOpen]);
+    setPreviewUrl(null);setPreviewError(null);setSavedDownloadReview(null);setBatchModalOpen(false);
+  }, [setBatchModalOpen, setSavedDownloadReview]);
 
   // Column mapping state
   const [columnHeaders, setColumnHeaders] = useState<string[]>([]);
@@ -345,6 +350,44 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
     const session = source ?? getSerializedSession();
     void runBatchJob({ source: session, title: deriveTitle(session), placeholders: detectedPlaceholders,
       retryFailed, generate: generatePdfForRow, download: downloadResult });
+  };
+
+  const handleDownloadResult = (row: BatchRow) => {
+    // Capture the saved result identity and scan its frozen source/row before
+    // reading bytes. Approval never rereads whichever batch is currently open.
+    const saved = structuredClone(row);
+    const batch = useBatchStore.getState();
+    const session = batch.source;
+    const download = async () => {
+      const prepared = preOpenWindowForIOS();
+      let transferred = false;
+      try {
+        const data = await getBatchOutput(saved.outputId!);
+        if (!data) throw new Error('This result is no longer available in browser storage.');
+        transferred = await downloadPdfBlob(new Blob([new Uint8Array(data)], { type: 'application/pdf' }), saved.filename!, prepared);
+        if (!transferred) throw new Error('This result could not be downloaded. Try again.');
+      } catch (error) {
+        if (useBatchStore.getState().rows.some(row => row.id === saved.id && row.outputId === saved.outputId)) {
+          useBatchStore.setState({ recoveryError: error instanceof Error ? error.message : 'This result could not be downloaded.' });
+        }
+      } finally { if (!transferred && prepared && !prepared.closed) prepared.close(); }
+    };
+    if (!session) {
+      setSavedDownloadReview({ filename: saved.filename!, findings: null, download });
+      return;
+    }
+    try {
+      const intent = captureBatchRowIntent(saved.values, {
+        source: session, batchId: batch.jobId ?? 'saved-result', rowId: saved.id,
+        filename: saved.filename!, capturedAt: session.timestamp,
+      });
+      const findings = detectBatchPII(intent.captured, intent.placeholders);
+      if (findings.found) setSavedDownloadReview({ filename: saved.filename!, findings, download });
+      else void download();
+    } catch (error) {
+      debug.error('Batch', 'Saved result text review failed', error);
+      setSavedDownloadReview({ filename: saved.filename!, findings: null, download });
+    }
   };
 
   // Detect if a row looks like headers (all non-numeric, reasonable length)
@@ -933,18 +976,7 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
             {recoveryError && <p role="alert" className="text-destructive">{recoveryError}</p>}
             {rows.some((r) => r.outputId) && <p className="font-medium">Generated files</p>}
             {rows.some((r) => r.outputId) && <div className="flex max-h-32 overflow-y-auto flex-wrap gap-2">
-              {rows.filter((r) => r.outputId).map((r) => <Button key={r.id} size="sm" variant="outline" onClick={async () => {
-                const prepared = preOpenWindowForIOS();
-                let transferred = false;
-                try {
-                  const data = await getBatchOutput(r.outputId!);
-                  if (!data) throw new Error('This result is no longer available in browser storage.');
-                  transferred = await downloadPdfBlob(new Blob([new Uint8Array(data)], { type: 'application/pdf' }), r.filename!, prepared);
-                  if (!transferred) throw new Error('This result could not be downloaded. Try again.');
-                } catch (error) {
-                  useBatchStore.setState({ recoveryError: error instanceof Error ? error.message : 'This result could not be downloaded.' });
-                } finally { if (!transferred && prepared && !prepared.closed) prepared.close(); }
-              }}>Download {r.filename}</Button>)}
+              {rows.filter((r) => r.outputId).map((r) => <Button key={r.id} size="sm" variant="outline" onClick={() => handleDownloadResult(r)}>Download {r.filename}</Button>)}
             </div>}
           </div>
           <DialogFooter className="bg-card px-6 py-4 border-t border-border/50 shrink-0">
@@ -981,6 +1013,24 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
       <BatchExportReviewModal review={exportReview} cancelLabel={isGenerating ? undefined : 'Cancel preview'}
         onConfirm={() => { if (exportReview) useBatchStore.getState().confirmReview(exportReview.job, exportReview.stage); }}
         onCancel={() => useBatchStore.getState().cancelCurrent()} />
+
+      <Dialog open={!!savedDownloadReview} onOpenChange={open => { if (!open) setSavedDownloadReview(null); }}>
+        <DialogContent className="max-h-[80dvh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>Review saved result</DialogTitle>
+            <DialogDescription>{savedDownloadReview?.filename}</DialogDescription>
+          </DialogHeader>
+          <p>{savedDownloadReview?.findings ? 'Potential personal or sensitive data appears in this saved result. Confirm that this file is appropriate for its recipient.' : 'The source text for this saved result is unavailable or could not be inspected. Check the file before sharing.'}</p>
+          <ul className="space-y-2">{savedDownloadReview?.findings?.findings.map((finding, index) => <li key={index}>{getPIITypeLabel(finding.type)} · {finding.field}</li>)}</ul>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setSavedDownloadReview(null)}>Cancel download</Button>
+            <Button onClick={() => {
+              const reviewed = savedDownloadReview;setSavedDownloadReview(null);
+              if (reviewed) void reviewed.download();
+            }}>{savedDownloadReview?.findings ? 'Download reviewed result' : 'Download without text review'}</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
 
       {/* Preview Dialog */}
       <Dialog open={!!previewUrl} onOpenChange={(open) => !open && closePreview()}>
