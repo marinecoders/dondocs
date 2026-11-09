@@ -1,3 +1,4 @@
+import { validateAnswers, diagnosticText } from '@/services/forms/model';
 import { copyFormExportTemplates, type FormExportTemplates } from './formExportTemplates';
 import { captureDocumentRevision, copyCapturedDocument, type CapturedDocument, type CapturedSource } from './capturedDocument';
 import { capturedCapabilities } from './documentCapabilities';
@@ -105,9 +106,11 @@ export function prepareExport(input: {
       return error('This publication supports LaTeX configuration fragments, but not flat LaTeX.');
     }
     const original = copyCapturedDocument(input.captured);
-    if (original.kind === 'builtin-form') {
+    if (original.kind !== 'correspondence') {
       if (!input.formTemplates || input.formTemplates.kind !== original.kind || input.formTemplates.formType !== original.document.formType) return error('Capture the selected form templates before export.');
-      copyFormExportTemplates(input.formTemplates);
+      const pages = copyFormExportTemplates(input.formTemplates);
+      if (original.kind === 'configured-form' && (input.formTemplates.definitionIdentity !== JSON.stringify(original.document.genericForm.definition)
+        || original.document.genericForm.definition.pages.some(page => !Object.hasOwn(pages, page.file)))) return error('Captured templates do not match the selected form definition.');
     }
     const defaults = original.kind === 'builtin-form' && original.document.formType === 'navmc_118_11'
       ? buildNavmc11811DefaultValues(original.document.forms.navmc11811!) : {};
@@ -145,6 +148,13 @@ export function prepareExport(input: {
       const issues = publicationExportErrors(snapshot, new Date(output.source.capturedAt));
       if (issues.length) return Object.freeze({ status: 'error', issues: Object.freeze(issues) });
       output = captureDocumentRevision(output.source, snapshot);
+    }
+    if (output.kind === 'configured-form') {
+      const form = copyCapturedDocument(output);
+      if (form.kind !== 'configured-form') throw new Error('Configured form projection lost its definition.');
+      const issues = validateAnswers(form.document.genericForm.definition, form.document.genericForm.answers, form.document.genericForm.rows)
+        .filter(issue => issue.severity === 'error').map(issue => diagnosticText(form.document.genericForm.definition, issue));
+      if (issues.length) return Object.freeze({ status: 'error', issues: Object.freeze(issues) });
     }
     const privacy = detectCapturedPII(output, 'output');
     const structure = output.kind === 'correspondence' && !['sl3', 'sl4'].includes(snapshot.docType) ? validateParagraphStructure(snapshot.paragraphs) : [];

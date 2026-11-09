@@ -62,3 +62,13 @@ it('repairs a corrupt cached page from the verified network copy', async () => {
   d.pages[0].width = 500;
   expect(await packageAvailableOffline(d)).toBe(false);
 });
+
+it('does not lend its retained template bytes to a renderer', async () => {
+  vi.stubGlobal('crypto', webcrypto);
+  const page = await fixturePage();const d = fixtureDefinition();d.pages[0].sha256 = page.sha256;
+  vi.stubGlobal('fetch', vi.fn(async () => new Response(new Uint8Array(page.bytes))));
+  const first = await loadPackagePage(d, 'page1.pdf');first.fill(0);
+  const second = await loadPackagePage(d, 'page1.pdf');
+  expect(second).toEqual(page.bytes);second.fill(1);
+  expect(await loadPackagePage(d, 'page1.pdf')).toEqual(page.bytes);
+});

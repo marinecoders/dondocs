@@ -5,6 +5,12 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.3.34] — 2026-11-08
+
+### Changed
+
+- Capture configured form exports before review.
+
 ## [1.3.33] — 2026-11-08
 
 ### Changed

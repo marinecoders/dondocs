@@ -38,6 +38,6 @@ it.each(['page1', 'page2', 'page3'])('rejects an incomplete NAVMC 10274 bundle b
 });
 it('retains own template keys that also exist on Object.prototype', () => {
   const pages = Object.fromEntries([['__proto__', new Uint8Array([1, 2, 3])]]);
-  const captured = captureFormExportTemplates('configured-form', 'fixture', pages);
+  const captured = captureFormExportTemplates('configured-form', 'fixture', pages, 'fixture-definition');
   expect(copyFormExportTemplates(captured).__proto__).toEqual(new Uint8Array([1, 2, 3]));
 });

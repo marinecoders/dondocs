@@ -41,7 +41,6 @@ import { DocumentGuideModal } from '@/components/modals/DocumentGuideModal';
 import { WelcomeModal, showWelcomeOnFirstVisit } from '@/components/modals/WelcomeModal';
 import { TourOverlay } from '@/components/tour/TourOverlay';
 import { ActivationChecklist } from '@/components/onboarding/ActivationChecklist';
-import { useOnboardingStore } from '@/stores/onboardingStore';
 import { PIIWarningModal } from '@/components/modals/PIIWarningModal';
 import { usePreparedExports } from '@/hooks/usePreparedExports';
 import { createExportGate } from '@/lib/exportController';
@@ -779,65 +778,10 @@ function App() {
     };
   }, [currentDocId, documentCategory, formType, navmc10274, navmc11811, genericForm, navmc10274Templates, navmc11811Template, includeCoverPage, formRefresh]);
 
-  // Form-specific PDF download handler
-  const handleDownloadFormPdf = useCallback(async () => {
-    const release = exportGate.acquire();
-    if (!release) return;
-
-    try {
-      let pdfBytes: Uint8Array | null = null;
-      let filename = 'form.pdf';
-
-      if (genericForm?.definition.formId === formType) {
-        pdfBytes = (await renderForm(genericForm, 'export')).bytes;
-        filename = `${genericForm.definition.formId}-form.pdf`;
-      }
-
-      if (pdfBytes) {
-        const blob = new Blob([new Uint8Array(pdfBytes)], { type: 'application/pdf' });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = filename;
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(url);
-        // Exporting a form PDF also completes the checklist's first-document step.
-        useOnboardingStore.getState().markComplete('first_document');
-      } else {
-        console.error('No PDF generated - missing templates or unsupported form type');
-        setDownloadProgress({
-          kind: 'error',
-          target: 'pdf',
-          title: 'Nothing to download',
-          message:
-            'This form produced no PDF. Its template pages or form.json may be missing — reload, and tell us which form if it keeps happening.',
-        });
-      }
-    } catch (err) {
-      // Until now this only reached the console: the button did nothing, said
-      // nothing, and left the user to guess. Config-driven forms make that far
-      // easier to hit than the two built-ins ever did — a form.json that fails
-      // its shape check, or a template page that 404s, lands here.
-      console.error('Form PDF download error:', err);
-      setDownloadProgress({
-        kind: 'error',
-        target: 'pdf',
-        title: 'Form PDF download failed',
-        message: err instanceof Error ? err.message : String(err),
-        reportable: true,
-      });
-    } finally {
-      release();
-    }
-  }, [formType, genericForm, exportGate]);
-
   const handleDownloadPdf = useCallback(() => {
     useUIStore.getState().setValidationVisible(true);
-    if (useDocumentStore.getState().documentCategory === 'forms' && useDocumentStore.getState().genericForm) void handleDownloadFormPdf();
-    else requestExport('pdf');
-  }, [handleDownloadFormPdf, requestExport]);
+    requestExport('pdf');
+  }, [requestExport]);
   const handleDownloadTex = useCallback(() => { requestExport('tex', 'configuration'); }, [requestExport]);
   const handleDownloadFlatTex = useCallback(() => { requestExport('tex', 'flat'); }, [requestExport]);
   const handleDownloadDocx = useCallback(() => {
