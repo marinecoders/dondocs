@@ -24,6 +24,7 @@ const statements = {
   E: 'DISTRIBUTION STATEMENT E: Distribution authorized to DoD Components only.',
   F: 'DISTRIBUTION STATEMENT F: Further distribution only as directed or higher DoD authority.',
 };
+const bodyText = 'Fictional training correspondence.';
 
 function input(docType: string, statement = 'F', level = 'cui'): LetterInput {
   return {
@@ -31,25 +32,33 @@ function input(docType: string, statement = 'F', level = 'cui'): LetterInput {
     classification: { level, cui: { controlledBy: 'Test Command', category: 'CTI', distStatement: statement } },
     references: [{ title: 'Reference verification' }],
     enclosures: [{ title: 'Enclosure verification' }],
-    paragraphs: [{ text: 'Fictional training correspondence.' }],
+    paragraphs: [{ text: bodyText }],
   };
 }
 
 async function verifyStatement(request: LetterInput, expected: string) {
   const { boxes } = await pdfTextLayout(await renderPdf(request));
   const start = boxes.findIndex(b => b.text.includes('DISTRIBUTION STATEMENT'));
-  const ref = boxes.findIndex(b => b.text.includes('Ref:'));
+  const body = boxes.findIndex(b => b.text.includes(bodyText));
+  // Compliant business/executive formats omit formal references. In those
+  // formats the body is the next block after the statement instead.
+  const next = boxes.findIndex(b => b.text.includes('Ref:') || b.text.includes(bodyText));
   expect(start, 'the PDF must label the statement').toBeGreaterThanOrEqual(0);
-  expect(ref, 'the reference must follow the statement').toBeGreaterThan(start);
-  const statement = boxes.slice(start, ref);
+  expect(body, 'the body must follow the statement').toBeGreaterThan(start);
+  expect(next, 'the next document block must follow the statement').toBeGreaterThan(start);
+  const statement = boxes.slice(start, next);
   expect(statement.map(b => b.text).join(' ').replace(/\s+/g, ' ')).toBe(expected);
   expect(boxes.filter(b => b.text.includes('DISTRIBUTION STATEMENT'))).toHaveLength(1);
+  const previous = boxes[start - 1];
+  expect(previous, 'the statement must follow the CUI designation block').toBeDefined();
+  expect(previous.page).toBe(statement[0].page);
+  expect(previous.bottom - statement[0].top, 'the statement must start its own paragraph').toBeGreaterThan(6);
   for (const line of statement) {
-    expect(line.page).toBe(boxes[ref].page);
+    expect(line.page).toBe(boxes[next].page);
     expect(line.left).toBeGreaterThanOrEqual(71);
     expect(line.right).toBeLessThanOrEqual(541);
-    // Ending the paragraph must put Ref below every line, with a blank line.
-    expect(line.bottom - boxes[ref].top).toBeGreaterThan(6);
+    // Ending the paragraph must put the next block below every line, with a blank line.
+    expect(line.bottom - boxes[next].top).toBeGreaterThan(6);
   }
   // Word consumes the flat generator. Its statement must match the PDF text.
   expect(generateFlatLatex(toStore(request, {}))).toContain(expected);

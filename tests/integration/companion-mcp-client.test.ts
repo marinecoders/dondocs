@@ -109,8 +109,7 @@ describe('a protocol client', () => {
     // classification was missing here while the HTTP door honoured it.
     expect(props).toEqual(expect.arrayContaining(['docType', 'subject', 'paragraphs', 'unit', 'classification']));
     expect(schema.required).toContain('docType');
-    // Every letter and memorandum layout prints From:, the MFR included; a
-    // request that omits it gets an empty label, so the description says so.
+    // Addressed letters and memorandums expose their applicable address fields.
     for (const field of ['from', 'to']) {
       expect((schema.properties![field] as { description: string }).description, field).toMatch(/memorand/i);
     }

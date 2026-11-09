@@ -1,3 +1,4 @@
+import { documentOutputConfig } from '@/lib/documentOutputConfig';
 /**
  * Flat LaTeX Generator for Pandoc DOCX Conversion
  *
@@ -18,7 +19,6 @@ import { jointSignatories, signatureAuthorityLine, signaturePosition, supportsAc
 import type { DocumentData, Reference, Enclosure, Paragraph, CopyTo, Distribution, DocTypeConfig } from '@/types/document';
 import { composeSenderSymbol } from './senderSymbol';
 import { keepTypedSpaces, latexLineBreaks } from './escaper';
-import { DOC_TYPE_CONFIG } from '@/types/document';
 import { LAYOUT, TEXT_WIDTH_IN } from '@/services/docx/layout-config';
 import { composeBasicLetterId, enclosureStartNumber, pageStartNumber } from '@/lib/endorsement';
 import { paragraphMark, delimitParagraphMark, isUnderlinedLevel } from './paragraphLabel';
@@ -628,6 +628,12 @@ ${trimLastRow(rows)}
 `;
 }
 
+/** Apply the same formal-list controls in every layout that can enable them. */
+function buildFormalLists(store: DocumentStore, config: DocTypeConfig): string {
+  return (config.compliance.allowReferences ? buildReferences(store.references) : '')
+    + (config.compliance.allowEnclosures ? buildEnclosures(store.enclosures, enclosureStartNumber(store.docType, store.formData.startingEnclosureNumber)) : '');
+}
+
 /** Body paragraphs using \mbox{} to protect labels from pandoc list detection.
  *
  * Indentation per SECNAV M-5216.5 Ch 7 ¶13:
@@ -688,7 +694,7 @@ function buildBody(paragraphs: Paragraph[], config: DocTypeConfig, font: LabelFo
     // Calculate indentation based on level and document type
     // \dondocsindent → w:ind w:left (full paragraph indent)
     // \dondocsfirstindent → w:ind w:firstLine (first-line only, like \parindent)
-    const isBusiness = config.uiMode === 'business';
+    const isBusiness = config.uiMode === 'business' && !useNumbered;
     const indentIn = isBusiness
       ? (para.level + 1) * 0.5   // Business: 0.5in per level, starting at 0.5in
       // Standard: align this subparagraph's label under its parent's text, per
@@ -1380,6 +1386,7 @@ function buildBusinessLayout(store: DocumentStore, config: DocTypeConfig): strin
     content += `${config.subjectPrefix}${escapeFlat(subjectText)}\n\n`;
   }
 
+  content += buildFormalLists(store, config);
   content += buildBody(store.paragraphs, config, bodyFont(store.formData), bodySizePt(store.formData));
   content += buildBusinessSignature(data);
   content += buildDistribution(store.distributions);
@@ -1568,6 +1575,8 @@ function buildStandardMemorandumLayout(store: DocumentStore, config: DocTypeConf
     content += `\\noindent\n\\begin{tabular}{@{}l@{\\hspace{1em}}p{5.5in}@{}}\nSUBJECT: & ${maybeUnderline(escapeTabularWrapped(toTitleCase(data.subject)), data.underlineSubject)}\n\\end{tabular}\n\n`;
   }
 
+  content += buildFormalLists(store, config);
+
   // Body paragraphs
   content += buildBody(store.paragraphs, config, bodyFont(store.formData), bodySizePt(store.formData));
 
@@ -1616,6 +1625,8 @@ function buildActionMemorandumLayout(store: DocumentStore, config: DocTypeConfig
   if (rows.length > 0) {
     content += `\\noindent\n\\begin{tabular}{@{}l@{\\hspace{1em}}p{5.5in}@{}}\n${trimLastRow(rows)}\n\\end{tabular}\n\n`;
   }
+
+  content += buildFormalLists(store, config);
 
   // Body paragraphs
   content += buildBody(store.paragraphs, config, bodyFont(store.formData), bodySizePt(store.formData));
@@ -1673,6 +1684,8 @@ function buildInfoMemorandumLayout(store: DocumentStore, config: DocTypeConfig):
     content += `\\noindent\n\\begin{tabular}{@{}l@{\\hspace{1em}}p{5.5in}@{}}\n${trimLastRow(rows)}\n\\end{tabular}\n\n`;
   }
 
+  content += buildFormalLists(store, config);
+
   // Body paragraphs
   content += buildBody(store.paragraphs, config, bodyFont(store.formData), bodySizePt(store.formData));
 
@@ -1700,7 +1713,7 @@ function buildInfoMemorandumLayout(store: DocumentStore, config: DocTypeConfig):
 export function generateFlatLatex(store: DocumentStore, resolvedLevel?: string): string {
   if (store.docType === 'tm_ietm_front_matter') throw new Error('TM/IETM front matter supports PDF only.');
   const data = store.formData;
-  const config = DOC_TYPE_CONFIG[store.docType] || DOC_TYPE_CONFIG.naval_letter;
+  const config = documentOutputConfig(store.docType, store.documentMode);
 
   let tex = '';
 

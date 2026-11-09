@@ -21,7 +21,7 @@ export type CapabilitySubject = { readonly documentMode: DocumentMode } & (
 export type CapabilityReason =
   | 'invalid-request' | 'invalid-subject' | 'invalid-mode' | 'unknown-document-type' | 'unknown-form-type'
   | 'definition-not-loaded' | 'definition-load-failed' | 'invalid-definition' | 'definition-mismatch'
-  | 'pdf-only' | 'configured-form-batch' | 'tex-configuration-only' | 'share-separate-assets';
+  | 'pdf-only' | 'word-pdf-features' | 'configured-form-batch' | 'tex-configuration-only' | 'share-separate-assets';
 
 export type CapabilityResult =
   | { readonly status: 'supported' }
@@ -57,6 +57,7 @@ export function resolveCapabilities(subject: CapabilitySubject, request: Capabil
         ? 'This publication supports LaTeX configuration fragments, but not flat LaTeX.'
         : 'This publication exports to PDF.');
     }
+    if (request.target === 'docx') return result('partial', 'word-pdf-features', 'Uploaded images, merged PDF pages, and PDF signing fields are omitted from Word output. Reference link annotations require PDF.');
     if (request.target === 'tex' && !(request.operation === 'export' && request.texMode === 'flat')) {
       return result('partial', 'tex-configuration-only', 'Exports LaTeX configuration fragments; a standalone project also needs templates and assets.');
     }

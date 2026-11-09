@@ -338,6 +338,7 @@ export function Header({
                     )}
                     {isDocxGenerating ? 'Generating Word…' : 'Download Word (.docx)'}
                   </DropdownMenuItem>
+                  {output.word.status === 'partial' && <div role="note" className="max-w-64 px-2 py-1 text-xs text-muted-foreground">{output.word.message}</div>}
                 </>
               )}
               {capabilityAvailable(output.configuration) && <>
