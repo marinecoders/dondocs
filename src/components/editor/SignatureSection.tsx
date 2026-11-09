@@ -1,3 +1,5 @@
+import { persistSignature } from '@/lib/signatureAssets';
+import { withAttachmentStaging } from '@/lib/attachments';
 import { beginDocumentTask, isCurrentDocumentTask } from '@/lib/documentTask';
 import { runFileImport } from '@/lib/fileImports';
 import { useState, useEffect, useCallback, useMemo, useRef } from 'react';
@@ -120,7 +122,7 @@ export function SignatureSection({ config }: SignatureSectionProps) {
       showAppAlert({ title: 'Image files only', message: rejectedFilesMessage([file], 'image') });
       return;
     }
-    // Signatures are stored base64 in localStorage; cap the size so they can't fill it.
+    // Bound upload size before decoding and storing the owned asset.
     if (file.size > FILE_LIMITS.MAX_SIGNATURE_SIZE_MB * 1024 * 1024) {
       showAppAlert({
         title: 'Image too large',
@@ -154,8 +156,15 @@ export function SignatureSection({ config }: SignatureSectionProps) {
       data: base64,
     };
 
-    setField('signatureImage', signatureImage);
-  }), [setField]);
+    try {
+      await withAttachmentStaging(async () => {
+        const owned = await persistSignature(signatureImage);
+        if (ownsSignature()) useDocumentStore.getState().setFormData({ signatureImage: owned });
+      });
+    } catch (error) {
+      if (ownsSignature()) showAppAlert({ title: 'Signature could not be saved', message: error instanceof Error ? error.message : 'Check browser storage and retry.' });
+    }
+  }), []);
 
   // Handle file input change
   const handleFileChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
@@ -197,8 +206,8 @@ export function SignatureSection({ config }: SignatureSectionProps) {
   // Remove signature image
   const handleRemoveSignature = useCallback(() => {
     beginDocumentTask('signature-image');
-    setField('signatureImage', undefined);
-  }, [setField]);
+    useDocumentStore.getState().setFormData({ signatureImage: undefined });
+  }, []);
 
   // Signature-style radio group: select a style and drop any uploaded image
   // when leaving the "image" option (its bytes are meaningless for typed or
@@ -210,7 +219,7 @@ export function SignatureSection({ config }: SignatureSectionProps) {
     beginDocumentTask('signature-image');
     setField('signatureType', value);
     if (value !== 'image' && formData.signatureImage) {
-      setField('signatureImage', undefined);
+      useDocumentStore.getState().setFormData({ signatureImage: undefined });
     }
   }, [setField, formData.signatureImage]);
 

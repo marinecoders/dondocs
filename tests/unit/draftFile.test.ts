@@ -49,3 +49,20 @@ describe('portable draft review', () => {
     expect(getSerializedSession().formData).toEqual(before.formData);
   });
 });
+
+it.each([
+  ['navmc_10274', 'typed'], ['navmc_10274', 'digital'],
+  ['navmc_118_11', 'typed'], ['navmc_118_11', 'digital'],
+] as const)('retains the temporarily inactive image in a portable %s draft using %s signatures', async (formType, style) => {
+  const fileRef = await persistAttachment({ name: 'retained.png', size: 1, type: 'image/png' }, new Uint8Array([1]).buffer);
+  useDocumentStore.setState({ documentCategory: 'forms', formType });
+  const blocks = [{ name: 'Signer', statement: '', style, image: 'AQ==', imageRef: fileRef }];
+  if (formType === 'navmc_10274') useFormStore.getState().setNavmc10274Field('signatureBlocks', blocks);
+  else useFormStore.getState().setNavmc11811Field('signatureBlocks', blocks);
+  const exported = JSON.parse(JSON.stringify(await buildDraftFile()));
+  const session = parseDraftFile(exported).session;
+  const restored = (formType === 'navmc_10274' ? session.forms?.navmc10274 : session.forms?.navmc11811)?.signatureBlocks[0];
+  expect(restored).toMatchObject({ style, image: 'AQ==' });
+  expect(restored?.imageRef).toBeUndefined();
+  expect(JSON.stringify(exported)).not.toContain(fileRef.id);
+});

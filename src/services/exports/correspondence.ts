@@ -1,3 +1,4 @@
+import { resolveSignature } from '@/lib/signatureAssets';
 import { copyPreparedDocument, preparedExportMarking, type ReadyExportJob } from '@/lib/preparedExport';
 import { createExportArtifact, type ExportArtifact } from '@/lib/exportExecution';
 import { withAttachmentResources, copyAttachment } from '@/lib/attachmentResources';
@@ -38,6 +39,7 @@ export async function renderPreparedCorrespondence(ready: ReadyExportJob, ports:
   const captured = copyPreparedDocument(ready);
   if (captured.kind !== 'correspondence') throw new Error('This renderer accepts correspondence jobs.');
   const document = captured.document;
+  if (document.formData.signatureType === 'image') document.formData.signatureImage = await resolveSignature(document.formData.signatureImage);
   const referenceDate = new Date(ready.job.source.capturedAt);
   const { target, texMode } = ready.job;
   const marking = preparedExportMarking(ready);

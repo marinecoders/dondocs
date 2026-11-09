@@ -1,3 +1,4 @@
+import { useProfileStore } from '@/stores/profileStore';
 /**
  * Inventory persisted, live, history, and operation roots before considering
  * attachment collection. Older tabs do not participate in the staging lock,
@@ -9,6 +10,7 @@ import {
   idbGetSnapshots,
   idbGetAllAttachments,
 } from '@/lib/documentsDb';
+import { useFormStore } from '@/stores/formStore';
 import { useBatchStore } from '@/stores/batchStore';
 import type { SerializedSession } from '@/stores/documentStore';
 import { useDocumentStore } from '@/stores/documentStore';
@@ -19,9 +21,14 @@ import { debug } from '@/lib/debug';
 import { attachmentSweepCheckpoint, withAttachmentSweep } from '@/lib/attachments';
 
 /** Every enclosure and figure `fileRef.id` plus the basic-letter ref in one session. */
-function collectSessionRefs(session: Pick<SerializedSession, 'formData' | 'enclosures' | 'paragraphs'> | undefined, into: Set<string>): void {
+function collectSessionRefs(session: Pick<SerializedSession, 'formData' | 'enclosures' | 'paragraphs' | 'forms'> | undefined, into: Set<string>): void {
   // An endorsement's basic-letter PDF is stored as an attachment; keep it
   // reachable so the GC doesn't sweep it out from under a saved endorsement.
+  for (const form of [session?.forms?.navmc10274, session?.forms?.navmc11811]) {
+    for (const block of form?.signatureBlocks ?? []) if (block.imageRef?.id) into.add(block.imageRef.id);
+  }
+  const signatureId = session?.formData?.signatureImage?.fileRef?.id;
+  if (typeof signatureId === 'string' && signatureId) into.add(signatureId);
   const blId = session?.formData?.basicLetterFileRef?.id;
   if (typeof blId === 'string' && blId) into.add(blId);
 
@@ -65,6 +72,12 @@ export async function collectLiveAttachmentIds(): Promise<Set<string> | null> {
   if (persisted === null) return null; // read failure — refuse to sweep on partial knowledge
 
   const live = new Set<string>();
+  for (const profile of Object.values(useProfileStore.getState().profiles)) {
+    const id = profile.signatureImage?.fileRef?.id;
+    if (id) live.add(id);
+  }
+  const forms = useFormStore.getState();
+  collectSessionRefs({ formData: {}, enclosures: [], paragraphs: [], forms: { navmc10274: forms.navmc10274, navmc11811: forms.navmc11811, includeCoverPage: forms.includeCoverPage } }, live);
   const batchSource = useBatchStore.getState().source;
   if (batchSource) collectSessionRefs(batchSource, live);
 

@@ -3,6 +3,7 @@ import { beforeEach, expect, it, vi } from 'vitest';
 import { importLibrary, useDocumentsStore } from '@/stores/documentsStore';
 import { buildBackup, restoreBackup, summarizeRestore } from '@/lib/backup';
 import * as db from '@/lib/documentsDb';
+import { useProfileStore } from '@/stores/profileStore';
 import { useUIStore } from '@/stores/uiStore';
 import type { SerializedSession } from '@/stores/documentStore';
 const record = (id: string, updatedAt = 1) => ({ id, meta: { id, title: id, updatedAt, createdAt: 1, docType: 'naval_letter' as const }, session: { formData: { subject: id }, enclosures: [] } as unknown as SerializedSession });
@@ -118,4 +119,42 @@ it('restores an older backup with only the cover-page preference', async () => {
   const result = await restoreBackup(JSON.stringify({ kind: 'dondocs-backup', forms: { includeCoverPage: false } }));
   expect(result.formsRestored).toBe(true);
   expect(useFormStore.getState().includeCoverPage).toBe(false);
+});
+
+it.each(['correspondence', 'navmc', 'history', 'template', 'profile', 'forms'] as const)(
+  'rejects malformed %s signature references before writing assets or documents', async location => {
+    const invalid = { id: 42, name: 'invalid.png', type: 'image/png', size: 1 };
+    const image = { name: 'invalid.png', size: 1, data: '', fileRef: invalid };
+    const block = { name: 'Signer', statement: '', style: 'image', imageRef: invalid };
+    const session: Record<string, unknown> = { ...record('invalid').session, formData: { signatureImage: image } };
+    const backup: Record<string, unknown> = { kind: 'dondocs-backup', documents: [record('untouched')],
+      attachments: [{ id: `unwritten-${location}`, name: 'asset.png', type: 'image/png', size: 1, data: 'AQ==' }],
+    };
+    if (location === 'navmc') {
+      Object.assign(session, { documentCategory: 'forms', formType: 'navmc_118_11', formData: {}, forms: { navmc11811: { signatureBlocks: [block] } } });
+    }
+    if (location === 'history') backup.snapshots = { invalid: [{ ts: 1, session }] };
+    else if (location === 'template') backup.userTemplates = { invalid: { id: 'invalid', name: 'Invalid', docType: 'naval_letter', createdAt: 1, session } };
+    else if (location === 'profile') backup.profiles = { profiles: { Invalid: { signatureImage: image } }, selectedProfile: null };
+    else if (location === 'forms') backup.forms = { navmc11811: { signatureBlocks: [block] } };
+    else backup.documents = [{ ...record('invalid'), session }];
+    const write = vi.spyOn(db, 'idbPutAttachment');
+    await expect(restoreBackup(JSON.stringify(backup))).rejects.toThrow('signature');
+    expect(write).not.toHaveBeenCalled();
+    expect(await db.idbGetAllDocuments()).toEqual([]);
+  },
+);
+
+it.each([false, true])('restores a referenced profile only when its signature asset is available (%s)', async available => {
+  useProfileStore.setState({ profiles: {}, selectedProfile: null });
+  const fileRef = { id: `profile-signature-${available}`, name: 'signature.png', size: 1, type: 'image/png' };
+  const result = await restoreBackup(JSON.stringify({ kind: 'dondocs-backup', profiles: {
+    selectedProfile: 'Saved', profiles: { Saved: { signatureImage: { name: fileRef.name, size: 1, data: '', fileRef } } },
+  }, attachments: available ? [{ ...fileRef, data: 'AQ==' }] : [] }));
+  expect(result.profilesAdded).toBe(available ? 1 : 0);
+  expect(useProfileStore.getState().selectedProfile).toBe(available ? 'Saved' : null);
+  if (!available) expect(result.issues?.some(issue => issue.includes(fileRef.id))).toBe(true);
+  const bundle = JSON.parse(await buildBackup());
+  if (available) expect(bundle.profiles.profiles.Saved.signatureImage).toEqual({ name: fileRef.name, size: 1, data: 'AQ==' });
+  else expect(bundle.profiles.profiles.Saved).toBeUndefined();
 });

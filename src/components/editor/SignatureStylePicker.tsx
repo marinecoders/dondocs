@@ -1,6 +1,8 @@
+import { persistSignature, resolveSignature } from '@/lib/signatureAssets';
+import { withAttachmentStaging } from '@/lib/attachments';
 import { beginDocumentTask, isCurrentDocumentTask } from '@/lib/documentTask';
 import { runFileImport } from '@/lib/fileImports';
-import { useCallback, useLayoutEffect, useRef } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Type, PenLine, Shield, X } from 'lucide-react';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
@@ -33,6 +35,15 @@ export function SignatureStylePicker({
     return () => { latestBlock.current = null; };
   }, [block]);
   const style: SignatureStyle = block.style ?? 'typed';
+  const [preview, setPreview] = useState<{ block: FormSignatureBlock; data: string }>();
+  useEffect(() => {
+    let active = true;
+    if (!block.image && block.imageRef) void resolveSignature({ name: block.imageRef.name, size: block.imageRef.size, data: '', fileRef: block.imageRef }).then(image => {
+      if (active && image) setPreview({ block, data: image.data });
+    }).catch(() => { /* The upload control remains available for recovery. */ });
+    return () => { active = false; };
+  }, [block]);
+  const imageData = block.image || (preview?.block === block ? preview.data : undefined);
 
   const handleUpload = useCallback(
     (file: File) => runFileImport(async () => {
@@ -51,7 +62,11 @@ export function SignatureStylePicker({
       const task = beginDocumentTask(block);
       try {
         const image = await loadSignatureAsPngBase64(file);
-        if (isCurrentDocumentTask(task) && latestBlock.current === block) onChange({ style: 'image', image });
+        if (!isCurrentDocumentTask(task) || latestBlock.current !== block) return;
+        await withAttachmentStaging(async () => {
+          const owned = await persistSignature({ name: file.name, size: file.size, data: image });
+          if (isCurrentDocumentTask(task) && latestBlock.current === block) onChange({ style: 'image', image, imageRef: owned.fileRef });
+        });
       } catch (err) {
         if (!isCurrentDocumentTask(task) || latestBlock.current !== block) return;
         showAppAlert({
@@ -93,10 +108,10 @@ export function SignatureStylePicker({
               e.target.value = '';
             }}
           />
-          {block.image ? (
+          {imageData ? (
             <>
               <img
-                src={`data:image/png;base64,${block.image}`}
+                src={`data:image/png;base64,${imageData}`}
                 alt="Signature preview"
                 className="h-8 max-w-[9rem] rounded border border-border bg-white object-contain p-0.5"
               />
@@ -108,7 +123,7 @@ export function SignatureStylePicker({
                 variant="ghost"
                 size="icon"
                 aria-label="Remove signature image"
-                onClick={() => { beginDocumentTask(block); onChange({ image: undefined }); }}
+                onClick={() => { beginDocumentTask(block); onChange({ image: undefined, imageRef: undefined }); }}
               >
                 <X className="h-4 w-4" />
               </Button>

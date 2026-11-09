@@ -1,3 +1,4 @@
+import { storedSignature } from '@/lib/signatureProjection';
 import type { DocumentScope } from './documentsStore';
 import type { FormInstance } from '@/services/forms/model';
 import { create } from 'zustand';
@@ -45,6 +46,7 @@ interface HistoryState {
   maxHistorySize: number;
 
   // Actions
+  updateSignatureHandles: (snapshot: DocumentSnapshot, owner?: DocumentScope | null) => void;
   updateAttachmentHandles: (snapshot: DocumentSnapshot, owner?: DocumentScope | null) => void;
   saveSnapshot: (snapshot: DocumentSnapshot, owner?: DocumentScope | null) => void;
   undo: (owner?: DocumentScope | null) => HistoryEntry | null;
@@ -74,7 +76,7 @@ function snapshotsEqual(a: DocumentSnapshot | null, b: DocumentSnapshot | null):
   if (!sameAttachment(a.formData.basicLetterFile, a.formData.basicLetterFileRef, b.formData.basicLetterFile, b.formData.basicLetterFileRef)) return false;
   const content = (snapshot: DocumentSnapshot) => ({
     ...snapshot,
-    formData: { ...snapshot.formData, basicLetterFile: undefined, basicLetterFileRef: undefined },
+    formData: { ...snapshot.formData, signatureImage: storedSignature(snapshot.formData.signatureImage), basicLetterFile: undefined, basicLetterFileRef: undefined },
     enclosures: snapshot.enclosures.map(({ file: _file, fileRef: _ref, ...enclosure }) => enclosure),
   });
   return JSON.stringify(content(a)) === JSON.stringify(content(b));
@@ -90,7 +92,7 @@ function cloneSnapshot(snapshot: DocumentSnapshot, owner: DocumentScope | null):
     formType: snapshot.formType,
     forms: snapshot.forms ? structuredClone(snapshot.forms) : undefined,
     docType: snapshot.docType,
-    formData: { ...snapshot.formData, ...(snapshot.formData.manualFrontMatter ? { manualFrontMatter: structuredClone(snapshot.formData.manualFrontMatter) } : {}), ...(snapshot.formData.sl4 ? { sl4: structuredClone(snapshot.formData.sl4) } : {}), ...(snapshot.formData.sl3 ? { sl3: structuredClone(snapshot.formData.sl3) } : {}) },
+    formData: { ...snapshot.formData, signatureImage: storedSignature(snapshot.formData.signatureImage), ...(snapshot.formData.manualFrontMatter ? { manualFrontMatter: structuredClone(snapshot.formData.manualFrontMatter) } : {}), ...(snapshot.formData.sl4 ? { sl4: structuredClone(snapshot.formData.sl4) } : {}), ...(snapshot.formData.sl3 ? { sl3: structuredClone(snapshot.formData.sl3) } : {}) },
     references: snapshot.references.map(r => ({ ...r })),
     // Immutable file buffers can be shared by reference across undo states.
     enclosures: snapshot.enclosures.map(e => ({ ...e })),
@@ -149,8 +151,28 @@ export const useHistoryStore = create<HistoryState>((set, get) => ({
       || future.some((entry, index) => entry !== state.future[index])) set({ past, future, currentSnapshot });
   },
 
+  updateSignatureHandles: (snapshot, owner = get().owner) => {
+    const state = get();
+    const signature = snapshot.formData.signatureImage;
+    if (!sameOwner(owner, state.owner) || !signature?.fileRef || !signature.data) return;
+    const update = (entry: HistoryEntry): HistoryEntry => {
+      const previous = entry.formData.signatureImage;
+      if (!sameOwner(entry.owner, owner) || !previous || previous.fileRef
+        || previous.name !== signature.name || previous.size !== signature.size || previous.data !== signature.data) return entry;
+      return { ...entry, formData: { ...entry.formData, signatureImage: storedSignature(signature) } };
+    };
+    // Migrating inline bytes adds storage ownership, not a user edit. Preserve
+    // that handle in every matching revision without clearing the Redo stack.
+    const past = state.past.map(update);
+    const future = state.future.map(update);
+    const currentSnapshot = state.currentSnapshot && update(state.currentSnapshot);
+    if (currentSnapshot !== state.currentSnapshot || past.some((entry, index) => entry !== state.past[index])
+      || future.some((entry, index) => entry !== state.future[index])) set({ past, future, currentSnapshot });
+  },
+
   saveSnapshot: (snapshot, owner = get().owner) => {
     get().updateAttachmentHandles(snapshot, owner);
+    get().updateSignatureHandles(snapshot, owner);
     const state = get();
     if (!sameOwner(owner, state.owner)) return;
     const clonedSnapshot = cloneSnapshot(snapshot, owner);

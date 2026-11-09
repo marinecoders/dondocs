@@ -1,3 +1,4 @@
+import { storedFormSignatures } from '@/lib/signatureProjection';
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import { safeLocalStorage } from '@/lib/compressedStorage';
@@ -419,8 +420,8 @@ export const useFormStore = create<FormStore>()(
       // Persist only the field data so NAVMC form work survives reload (forms
       // aren't in the IndexedDB registry; this is their durable slot).
       partialize: (s) => ({
-        navmc10274: s.navmc10274,
-        navmc11811: s.navmc11811,
+        navmc10274: storedFormSignatures(s.navmc10274),
+        navmc11811: storedFormSignatures(s.navmc11811),
         configFormValues: s.configFormValues,
         configFormRows: s.configFormRows,
         favoriteForms: s.favoriteForms,

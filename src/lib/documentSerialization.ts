@@ -1,3 +1,4 @@
+import { storedSignature, storedFormSignatures } from './signatureProjection';
 import type { DocumentSnapshot } from '@/stores/historyStore';
 import type { SerializedSession } from '@/stores/documentStore';
 
@@ -7,7 +8,7 @@ export function serializeDocumentSnapshot(snapshot: DocumentSnapshot, timestamp:
     return {
       documentMode: snapshot.documentMode, documentCategory: 'forms',
       docType: snapshot.docType, formType: snapshot.formType ?? 'navmc_10274',
-      ...(snapshot.genericForm ? { genericForm: snapshot.genericForm } : { forms: snapshot.forms }), formData: {}, references: [],
+      ...(snapshot.genericForm ? { genericForm: snapshot.genericForm } : { forms: snapshot.forms ? { ...snapshot.forms, ...(snapshot.forms.navmc10274 ? { navmc10274: storedFormSignatures(snapshot.forms.navmc10274) } : {}), ...(snapshot.forms.navmc11811 ? { navmc11811: storedFormSignatures(snapshot.forms.navmc11811) } : {}) } : undefined }), formData: {}, references: [],
       enclosures: [], paragraphs: [], copyTos: [], distributions: [], timestamp,
     };
   }
@@ -24,6 +25,7 @@ export function serializeDocumentSnapshot(snapshot: DocumentSnapshot, timestamp:
       // Bytes live in the attachments store; keep only basicLetterFileRef so the
       // serialized session stays light and JSON-safe (rehydrated on load).
       basicLetterFile: undefined,
+      signatureImage: storedSignature(snapshot.formData.signatureImage),
     },
     references: snapshot.references,
     enclosures: snapshot.enclosures.map(enc => ({
@@ -51,7 +53,7 @@ export function projectSharedSession(session: SerializedSession): SerializedSess
   }));
   owned.enclosures = owned.enclosures.map(({ fileRef: _ref, ...enclosure }) => enclosure);
   for (const form of [owned.forms?.navmc10274, owned.forms?.navmc11811]) {
-    if (form) form.signatureBlocks = form.signatureBlocks.map(({ image: _image, ...block }) => block);
+    if (form) form.signatureBlocks = form.signatureBlocks.map(({ image: _image, imageRef: _ref, ...block }) => block);
   }
   return owned;
 }

@@ -126,7 +126,8 @@ export interface Distribution {
 export interface SignatureImage {
   name: string;
   size: number;
-  data: string; // base64 encoded for localStorage compatibility
+  data: string; // Materialized PNG bytes; persisted assets keep this empty.
+  fileRef?: FileRef;
 }
 
 // Signature type: 'none' = just typed name, 'image' = uploaded signature image, 'digital' = empty field for CAC/digital signing

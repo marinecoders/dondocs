@@ -1,3 +1,4 @@
+import { resolveSignature, resolveFormSignatures } from './signatureAssets';
 import { z } from 'zod';
 import { parseFormInstance } from '@/services/forms/model';
 import { getSerializedSession, useDocumentStore, type SerializedSession } from '@/stores/documentStore';
@@ -35,11 +36,21 @@ export function parseDraftFile(value: unknown, localHandles = false): ReviewedDr
   }
   const raw = shape.parse(value);
   const session = parseSharedSession(value);
-  if (raw.formData.signatureImage) session.formData.signatureImage = image.parse(raw.formData.signatureImage);
+  if (raw.formData.signatureImage) {
+    session.formData.signatureImage = image.parse(raw.formData.signatureImage);
+    if (localHandles) {
+      const saved = z.object({ fileRef: ref.optional() }).parse(raw.formData.signatureImage);
+      if (saved.fileRef) session.formData.signatureImage.fileRef = saved.fileRef;
+    }
+  }
   if (session.forms) {
     const key = session.formType === 'navmc_118_11' ? 'navmc11811' : 'navmc10274';
     const original = raw.forms?.[key]?.signatureBlocks;
-    if (Array.isArray(original)) session.forms[key]!.signatureBlocks = original.map((block) => z.object({ name: z.string(), statement: z.string(), style: z.enum(['typed', 'image', 'digital']).default('typed'), image: z.string().optional() }).parse(block));
+    if (Array.isArray(original)) session.forms[key]!.signatureBlocks = original.map((block) => {
+      const decoded = z.object({ name: z.string(), statement: z.string(), style: z.enum(['typed', 'image', 'digital']).default('typed'), image: z.string().optional(), imageRef: ref.optional() }).parse(block);
+      if (!localHandles) delete decoded.imageRef;
+      return decoded;
+    });
   }
   const files = raw.enclosures.map((enclosure, index) => {
     if (localHandles && enclosure.fileRef) session.enclosures[index].fileRef = enclosure.fileRef;
@@ -70,12 +81,21 @@ async function serializeDraft(): Promise<unknown> {
     if (!data && fileRef) throw new Error(`Could not read ${fileRef.name}. Reattach it before exporting this draft.`);
     return data ? { name: file?.name ?? fileRef!.name, size: data.byteLength, data: uint8ArrayToBase64(arrayBufferToUint8Array(data)) } : undefined;
   };
-  if (session.documentCategory === 'forms') return { version: '1.1', ...session };
+  if (session.documentCategory === 'forms') {
+    for (const form of [session.forms?.navmc10274, session.forms?.navmc11811]) {
+      if (!form) continue;
+      const resolved = await resolveFormSignatures(form, 'transfer');
+      form.signatureBlocks = resolved.signatureBlocks.map(({ imageRef: _ref, ...block }) => block);
+    }
+    return { version: '1.1', ...session };
+  }
   const enclosures = await Promise.all(session.enclosures.map(async (enclosure, index) => {
     const { fileRef, ...text } = enclosure;
     return { ...text, file: await pack(live.enclosures[index]?.file, fileRef) };
   }));
   const { basicLetterFileRef, ...formData } = session.formData;
+  const signature = await resolveSignature(formData.signatureImage);
+  if (signature) { const { fileRef: _ref, ...image } = signature; formData.signatureImage = image; }
   const paragraphs = await Promise.all(session.paragraphs.map(async (paragraph) => {
     if (!paragraph.figure) return paragraph;
     const { fileRef, ...figure } = paragraph.figure;

@@ -91,6 +91,42 @@ it('captures a pending edit before Undo and preserves Redo', () => {
   expect(useDocumentStore.getState().formData.subject).toBe('First edit');
 });
 
+it('preserves Redo when a legacy signature receives its durable handle', async () => {
+  useDocumentStore.getState().setFormData({ signatureType: 'image', signatureImage: { name: 'legacy.png', size: 3, data: 'YWJj' } });
+  await vi.advanceTimersByTimeAsync(500);
+  useDocumentStore.getState().setField('subject', 'After');
+  await vi.advanceTimersByTimeAsync(500);
+  const scope = captureDocumentScope();
+  expect(changeDocumentHistory('undo', scope)).toBe('applied');
+  await rehydrateEnclosureFiles(() => isCurrentDocumentScope(scope));
+  const ref = useDocumentStore.getState().formData.signatureImage?.fileRef;
+  expect(ref).toBeDefined();
+  const history = useHistoryStore.getState();
+  expect(history.currentSnapshot!.formData.signatureImage).toEqual({ name: 'legacy.png', size: 3, data: '', fileRef: ref });
+  expect(history.future[0].formData.signatureImage?.fileRef).toEqual(ref);
+  expect(changeDocumentHistory('redo', scope)).toBe('applied');
+  expect(useDocumentStore.getState().formData.subject).toBe('After');
+});
+
+it('keeps same-name legacy signature replacements distinct during history migration', async () => {
+  const scope = captureDocumentScope();
+  const apply = (data: string) => useDocumentStore.getState().setFormData({ signatureType: 'image', signatureImage: { name: 'same.png', size: 3, data } });
+  apply('YWJj');
+  await vi.advanceTimersByTimeAsync(500);
+  apply('ZGVm');
+  await vi.advanceTimersByTimeAsync(500);
+  expect(changeDocumentHistory('undo', scope)).toBe('applied');
+  await rehydrateEnclosureFiles(() => isCurrentDocumentScope(scope));
+  expect(useDocumentStore.getState().formData.signatureImage?.data).toBe('YWJj');
+  expect(useHistoryStore.getState().future[0].formData.signatureImage).toEqual({ name: 'same.png', size: 3, data: 'ZGVm' });
+  expect(changeDocumentHistory('redo', scope)).toBe('applied');
+  await rehydrateEnclosureFiles(() => isCurrentDocumentScope(scope));
+  expect(useDocumentStore.getState().formData.signatureImage?.data).toBe('ZGVm');
+  expect(changeDocumentHistory('undo', scope)).toBe('applied');
+  await rehydrateEnclosureFiles(() => isCurrentDocumentScope(scope));
+  expect(useDocumentStore.getState().formData.signatureImage?.data).toBe('YWJj');
+});
+
 it('rejects a foreign history entry without changing the stacks', async () => {
   useDocumentStore.getState().setField('subject', 'A');
   await vi.advanceTimersByTimeAsync(500);

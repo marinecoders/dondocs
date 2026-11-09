@@ -161,7 +161,6 @@ interface InstallOptions {
   save?: boolean;
   resume?: boolean;
   preserveOutgoing?: boolean;
-  profileSignature?: boolean;
 }
 
 /** Install only fully prepared input; all live state agrees before observers resume. */
@@ -181,8 +180,8 @@ function installDocument(prepared: PreparedDocument, options: InstallOptions = {
     try {
       useDocumentsStore.setState(activation(id));
       installSessionState(structuredClone(incoming));
-      if (options.profileSignature && incoming.documentCategory !== 'forms') applyProfileSignature();
-      useDocumentsStore.setState({ baseline: getSerializedSession() });
+      const baseline = getSerializedSession();
+      useDocumentsStore.setState({ baseline });
     } catch (error) {
       failed = true;
       debug.error('Documents', 'Document installation cancelled', error);
@@ -550,15 +549,6 @@ export function sameContent(a: SerializedSession, b: SerializedSession): boolean
   return canonical(strip(a)) === canonical(strip(b));
 }
 
-// The signature image is a profile-level asset excluded from the serialized
-// session (large base64 PNG), so re-seed it from the active profile after loading
-// any document; otherwise the document renders and exports with no signature.
-function applyProfileSignature(): void {
-  const { selectedProfile, profiles } = useProfileStore.getState();
-  const sig = selectedProfile ? profiles[selectedProfile]?.signatureImage : undefined;
-  if (sig && useDocumentStore.getState().formData.signatureImage === undefined) useDocumentStore.getState().setFormData({ signatureImage: sig });
-}
-
 /**
  * Seed the live document with the selected profile's letterhead, signatory, and
  * signature. Applied to a freshly-reset blank so "New document" starts from the
@@ -599,7 +589,9 @@ export function profileFormPatch(profile: Profile) {
           actingTitle: profile.actingTitle || '',
           byDirection: !profile.acting && profile.byDirection,
           byDirectionAuthority: profile.byDirectionAuthority,
-          signatureImage: profile.signatureImage,
+          signatureImage: profile.signatureImage ? (profile.signatureImage.data
+            ? { name: profile.signatureImage.name, size: profile.signatureImage.size, data: profile.signatureImage.data }
+            : structuredClone(profile.signatureImage)) : undefined,
         }
       : {}),
   };
@@ -1015,7 +1007,7 @@ function reopenAfterRemoval(remaining: Record<string, DocumentEntry>): void {
   clearSavedSession();
   const newest = Object.values(remaining).sort((a, b) => b.meta.updatedAt - a.meta.updatedAt)[0];
   const prepared = newest ? tryPrepareSavedSession(newest.session) : null;
-  if (newest && prepared) installDocument(prepared, { id: newest.meta.id, save: false, preserveOutgoing: false, profileSignature: true });
+  if (newest && prepared) installDocument(prepared, { id: newest.meta.id, save: false, preserveOutgoing: false });
   else installDocument(prepareBlankDocument(), { save: false, preserveOutgoing: false });
 }
 
@@ -1054,7 +1046,7 @@ function initAfterHydration(
       }
     }
     const prepared = tryPrepareSavedSession(session);
-    if (prepared && installDocument(prepared, { id: currentId, save: false, profileSignature: true }) === 'applied') return true;
+    if (prepared && installDocument(prepared, { id: currentId, save: false }) === 'applied') return true;
   } else {
     const legacy = getSavedSession();
     if (legacy && (legacy.documentCategory !== 'forms' || legacy.genericForm) && isMeaningful(legacy)) {
@@ -1422,7 +1414,12 @@ function scheduleEditorWork(captureHistory = true): void {
   if (isApplyingSession()) return;
   const scope = captureDocumentScope();
   if (!scope) return;
-  if (!captureHistory) useHistoryStore.getState().updateAttachmentHandles(useDocumentStore.getState().getSnapshot(), scope);
+  if (!captureHistory) {
+    const snapshot = useDocumentStore.getState().getSnapshot();
+    const history = useHistoryStore.getState();
+    history.updateAttachmentHandles(snapshot, scope);
+    history.updateSignatureHandles(snapshot, scope);
+  }
   if (captureHistory) {
     const generation = ++historyGeneration;
     if (historyTimer) clearTimeout(historyTimer);
@@ -1591,7 +1588,7 @@ export function openExistingDocument(id: string): TransitionOutcome {
     && current.formType === entry.session.formType && Boolean(current.genericForm) === Boolean(entry.session.genericForm)) return 'unchanged';
   const prepared = tryPrepareSavedSession(entry.session);
   if (!prepared) return 'invalid';
-  return installDocument(prepared, { id, save: false, profileSignature: true });
+  return installDocument(prepared, { id, save: false });
 }
 
 /** Validate document identities and basic payload structure before staging resources. */

@@ -8,7 +8,7 @@ import { parseFormInstance } from '@/services/forms/model';
 import type { SerializedSession } from '@/stores/documentStore';
 
 const fileRef = z.object({ id: z.string(), name: z.string(), size: z.number(), type: z.string() });
-const signature = z.object({ name: z.string(), statement: z.string(), style: z.enum(['typed', 'image', 'digital']).optional(), image: z.string().optional(), digital: z.boolean().optional() });
+const signature = z.object({ name: z.string(), statement: z.string(), style: z.enum(['typed', 'image', 'digital']).optional(), image: z.string().optional(), imageRef: fileRef.optional(), digital: z.boolean().optional() });
 const form = z.record(z.string(), z.union([z.string(), z.array(signature)]))
   .refine(fields => Object.entries(fields).every(([key, value]) => key === 'signatureBlocks' ? Array.isArray(value) : typeof value === 'string'), 'Invalid built-in form field');
 const schema = sessionSchema.extend({
@@ -31,7 +31,7 @@ export function parseSavedSession(value: unknown): SerializedSession {
   if (session.formData.sl3 !== undefined) session.formData.sl3 = sl3Schema.parse(session.formData.sl3);
   if (session.formData.sl4 !== undefined) session.formData.sl4 = sl4Schema.parse(session.formData.sl4);
   if (session.formData.manualFrontMatter !== undefined) session.formData.manualFrontMatter = manualFrontMatterSchema.parse(session.formData.manualFrontMatter);
-  if (session.formData.signatureImage !== undefined) session.formData.signatureImage = z.object({ name: z.string(), size: z.number(), data: z.string() }).parse(session.formData.signatureImage);
+  if (session.formData.signatureImage !== undefined) session.formData.signatureImage = z.object({ name: z.string(), size: z.number(), data: z.string(), fileRef: fileRef.optional() }).parse(session.formData.signatureImage);
   if (session.formData.basicLetterFile !== undefined) session.formData.basicLetterFile = z.object({ name: z.string(), size: z.number(), data: z.instanceof(ArrayBuffer) }).parse(session.formData.basicLetterFile);
   if (session.formData.basicLetterFileRef !== undefined) session.formData.basicLetterFileRef = fileRef.parse(session.formData.basicLetterFileRef);
   if (session.genericForm) {

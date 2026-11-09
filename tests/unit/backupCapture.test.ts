@@ -1,6 +1,8 @@
 import 'fake-indexeddb/auto';
 import { afterEach, expect, it, vi } from 'vitest';
 import { getSerializedSession, getSerializedSessionForShare, useDocumentStore } from '@/stores/documentStore';
+import * as attachments from '@/lib/attachments';
+import { useProfileStore } from '@/stores/profileStore';
 import { buildBackup } from '@/lib/backup';
 import * as db from '@/lib/documentsDb';
 import { useDocumentsStore } from '@/stores/documentsStore';
@@ -66,4 +68,28 @@ it('retains attachment bytes for a template with a durable file reference', asyn
   const bundle = JSON.parse(await buildBackup());
   expect(bundle.userTemplates[id].session.enclosures[0]).toMatchObject({ hasFile: true, fileRef });
   expect(bundle.attachments).toEqual([{ ...fileRef, data: 'AQID' }]);
+});
+
+it('captures the form buffer and library before awaiting profile signature bytes', async () => {
+  useDocumentsStore.setState({ currentId: null, hydrated: true, docs: {}, trash: {}, baseline: null });
+  useProfileStore.setState({ profiles: {}, selectedProfile: null });
+  useUIStore.setState({ storageHealth: 'ok' });
+  useDocumentsStore.getState().newDocument('navmc_118_11');
+  useFormStore.getState().setNavmc11811Field('remarksText', 'BEFORE');
+  const id = useDocumentsStore.getState().currentId;
+  const reference = { id: 'captured-profile-signature', name: 'saved.png', type: 'image/png', size: 1 };
+  const seed = Object.values(useProfileStore.getInitialState().profiles)[0];
+  if (!seed) throw new Error('Missing profile fixture');
+  useProfileStore.setState({ profiles: { Saved: { ...seed, signatureImage: { name: 'saved.png', size: 1, data: '', fileRef: reference } } } });
+  let finish!: (result: Awaited<ReturnType<typeof attachments.readAttachment>>) => void;
+  const stored = new Promise<Awaited<ReturnType<typeof attachments.readAttachment>>>(resolve => { finish = resolve; });
+  vi.spyOn(attachments, 'readAttachment').mockReturnValueOnce(stored);
+  const saving = buildBackup();
+  useFormStore.getState().setNavmc11811Field('remarksText', 'AFTER');
+  finish({ status: 'found', attachment: { ...reference, data: new Uint8Array([1]).buffer } });
+  const bundle = JSON.parse(await saving);
+  expect(bundle.forms.navmc11811.remarksText).toBe('BEFORE');
+  expect(bundle.documents.find((document: { id: string }) => document.id === id).session.forms.navmc11811.remarksText).toBe('BEFORE');
+  expect(bundle.profiles.profiles.Saved.signatureImage).toMatchObject({ data: 'AQ==' });
+  expect(bundle.profiles.profiles.Saved.signatureImage.fileRef).toBeUndefined();
 });
