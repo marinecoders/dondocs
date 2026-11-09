@@ -30,3 +30,11 @@ lines, preserving validated URLs and the hyperlink toggle in both PDF engines.
 Word reference captions keep their standard minimum widths and grow with the
 selected font's metrics, including Courier in Custom mode. Final-PDF link
 rectangles and converted Word column geometry have regression coverage.
+
+## Type size and Word single spacing
+
+The PDF engine honors 11-point type as well as 10 and 12 points. The default
+and direct font-size paths share the same routine. Word auto line spacing is
+240ths of a line, so single spacing stays 240 at every selected size; font
+size remains in the run font properties. Compact paragraphs containing the
+seal inherit single spacing instead of a fraction of their image height.

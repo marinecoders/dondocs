@@ -287,11 +287,7 @@ const LATEX_TEMPLATES = {
     \\fontfamily{\\familydefault}\\selectfont
     % Apply font size by redefining \\normalsize
     % This ensures the size persists in tabular environments and after groups
-    \\ifthenelse{\\equal{\\FontSize}{10pt}}{%
-        \\renewcommand{\\normalsize}{\\fontsize{10pt}{12pt}\\selectfont}%
-    }{%
-        \\renewcommand{\\normalsize}{\\fontsize{12pt}{14.4pt}\\selectfont}%
-    }%
+    \\renewcommand{\\normalsize}{\\applyDocumentFontSize}%
     \\normalsize
 }
 
@@ -300,7 +296,11 @@ const LATEX_TEMPLATES = {
     \\ifthenelse{\\equal{\\FontSize}{10pt}}{%
         \\fontsize{10pt}{12pt}\\selectfont%
     }{%
-        \\fontsize{12pt}{14.4pt}\\selectfont%
+        \\ifthenelse{\\equal{\\FontSize}{11pt}}{%
+            \\fontsize{11pt}{13.2pt}\\selectfont%
+        }{%
+            \\fontsize{12pt}{14.4pt}\\selectfont%
+        }%
     }%
 }
 
