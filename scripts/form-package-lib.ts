@@ -1,3 +1,4 @@
+import { templatePageGeometry } from '../src/services/forms/geometry';
 import { measurePlacements } from './form-quality';
 import { createHash } from 'node:crypto';
 import { readFileSync, writeFileSync, mkdirSync, existsSync, renameSync, cpSync, realpathSync } from 'node:fs';
@@ -58,7 +59,7 @@ export async function preparePackage(root: string, folder: string): Promise<Form
     const bytes = readFileSync(join(dir, file));
     const pdf = await PDFDocument.load(bytes);
     if (pdf.getPageCount() !== 1) throw new Error(`${file} must contain one page`);
-    return { file, sha256: hash(bytes), width: pdf.getPage(0).getWidth(), height: pdf.getPage(0).getHeight() };
+    return { file, sha256: hash(bytes), ...templatePageGeometry(pdf.getPage(0)) };
   }));
   let d = draft.schemaVersion === 2 ? compileFormDefinition(draft) : stableFields(adaptLegacyForm(draft, pages));
   d = { ...d, directory: folder, pages, templateRevision: hash(JSON.stringify(pages)), definitionRevision: 'candidate' };

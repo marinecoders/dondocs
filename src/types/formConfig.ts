@@ -25,6 +25,8 @@ export interface FormFieldConfig {
   /** 1-based index into `pages`. */
   page: number;
   box: FormFieldBox;
+  /** Clockwise text in a vertical printed slot; box stays in page coordinates. */
+  rotation?: 270;
   /** Wrap text across lines inside the box instead of a single line. */
   multiline?: boolean;
   /** Options for a `choice` dropdown (harvested from the PDF's /Opt list). */
@@ -107,6 +109,7 @@ export function assertFormConfig(data: unknown, source: string): FormConfig {
   if (cfg.sections === undefined) cfg.sections = [];
   else if (!Array.isArray(cfg.sections)) fail('sections is not an array');
   for (const [key, f] of Object.entries(cfg.fields)) {
+    if (f.rotation !== undefined && f.rotation !== 270) fail(`field "${key}" has an unsupported rotation`);
     if (!['text', 'checkbox', 'radio', 'date', 'choice', 'signature'].includes(f.type)) fail(`field ${key} has an unknown type`);
     if (f.box?.width <= 0 || f.box?.height <= 0) fail(`field ${key} has a nonpositive box`);
     if (!f.box || [f.box.left, f.box.top, f.box.width, f.box.height].some((n) => typeof n !== 'number' || !Number.isFinite(n))) {
@@ -125,14 +128,15 @@ export function assertFormConfig(data: unknown, source: string): FormConfig {
     }
   }
   for (const [gkey, g] of Object.entries(cfg.rowGroups ?? {})) {
-    if (!Number.isInteger(g.count) || g.count < 1) fail(`row group "${gkey}" has no count`);
-    if (typeof g.rowStride !== 'number' || g.rowStride <= 0) fail(`row group "${gkey}" has no rowStride`);
+    if (!Number.isSafeInteger(g.count) || g.count < 1 || g.count > 10000) fail(`row group "${gkey}" has no count`);
+    if (typeof g.rowStride !== 'number' || !Number.isFinite(g.rowStride) || g.rowStride <= 0) fail(`row group "${gkey}" has no rowStride`);
     if (!Number.isInteger(g.page) || g.page < 1 || g.page > cfg.pages.length) {
       fail(`row group "${gkey}" page ${g.page} is outside 1..${cfg.pages.length}`);
     }
     if (g.editor && g.editor !== 'grid' && g.editor !== 'cards') fail(`row group "${gkey}" has unknown editor "${g.editor}"`);
     if (!g.columns || Object.keys(g.columns).length === 0) fail(`row group "${gkey}" has no columns`);
     for (const [ckey, c] of Object.entries(g.columns)) {
+      if (c.rotation !== undefined && c.rotation !== 270) fail(`row group "${gkey}" column "${ckey}" has an unsupported rotation`);
       if (!c.box || [c.box.left, c.box.top, c.box.width, c.box.height].some((n) => typeof n !== 'number' || !Number.isFinite(n))) {
         fail(`row group "${gkey}" column "${ckey}" has a malformed box`);
       }

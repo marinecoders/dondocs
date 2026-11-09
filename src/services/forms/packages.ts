@@ -1,3 +1,4 @@
+import { templatePageGeometry } from './geometry';
 import { idbFormDefinitions } from '@/lib/documentsDb';
 import { formAssetUrl } from '@/lib/releasePaths';
 import { PDFDocument } from 'pdf-lib';
@@ -24,7 +25,9 @@ const urlFor = formAssetUrl;
 
 async function pageDimensionsMatch(bytes: Uint8Array, page: FormDefinition['pages'][number]): Promise<boolean> {
   const pdf = await PDFDocument.load(bytes);
-  return pdf.getPageCount() === 1 && Math.abs(pdf.getPage(0).getWidth() - page.width) <= 0.1 && Math.abs(pdf.getPage(0).getHeight() - page.height) <= 0.1;
+  if (pdf.getPageCount() !== 1) return false;
+  const actual = templatePageGeometry(pdf.getPage(0));
+  return Math.abs(actual.width - page.width) <= 0.1 && Math.abs(actual.height - page.height) <= 0.1;
 }
 
 export async function loadPackagePage(d: FormDefinition, file: string, requireOffline = false): Promise<Uint8Array> {
@@ -87,7 +90,7 @@ export async function loadDefinition(directory: string): Promise<FormDefinition>
     const bytes = new Uint8Array(await res.arrayBuffer());
     const pdf = await PDFDocument.load(bytes);
     if (pdf.getPageCount() !== 1) throw new Error('Template assets must contain one page');
-    return { file, width: pdf.getPage(0).getWidth(), height: pdf.getPage(0).getHeight(), sha256: await digest(bytes) };
+    return { file, ...templatePageGeometry(pdf.getPage(0)), sha256: await digest(bytes) };
   }));
   const d = adaptLegacyForm(legacy, pages);
   d.pages = pages;

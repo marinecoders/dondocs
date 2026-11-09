@@ -14,7 +14,7 @@ export async function renderForm(instance: FormInstance, mode: 'preview' | 'expo
   let placementIndex = 0;
   const add = (p: Placement, field: AnswerField, answer: Answer | undefined, path: string) => {
     const key = `p${placementIndex++}`;
-    config.fields[key] = { type: p.appearance === 'mark' ? 'checkbox' : field.kind === 'signature' ? 'signature' : 'text', label: field.label, page: p.page, box: p.box, multiline: field.multiline };
+    config.fields[key] = { type: p.appearance === 'mark' ? 'checkbox' : field.kind === 'signature' ? 'signature' : 'text', label: field.label, page: p.page, box: p.box, rotation: p.rotation, multiline: field.multiline };
     paths[key] = path;
     overflow[key] = p.overflow;
     if (answer === undefined || (typeof answer === 'string' && !answer.trim()) || (Array.isArray(answer) && !answer.length)) return;

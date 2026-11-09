@@ -5,6 +5,13 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.3.43] — 2026-11-09
+
+### Fixed
+
+- Validate form geometry against source pages.
+- Keep overflow validation bound to the captured render request.
+
 ## [1.3.42] — 2026-11-09
 
 ### Fixed
