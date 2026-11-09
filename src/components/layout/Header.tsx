@@ -33,9 +33,9 @@ import {
 } from '@/components/ui/alert-dialog';
 import { showAppAlert } from '@/stores/alertStore';
 import { useUIStore } from '@/stores/uiStore';
-import { useDocumentStore } from '@/stores/documentStore';
+import { useDocumentStore, getSerializedSession } from '@/stores/documentStore';
 import { useFormStore } from '@/stores/formStore';
-import { detectPlaceholders } from '@/lib/placeholders';
+import { detectSessionPlaceholders } from '@/lib/placeholders';
 import { useDocumentsStore, openRecoveredCopies, changeDocumentHistory, captureDocumentScope, captureDocumentTarget, openReviewedDocument, resetCurrentDocument } from '@/stores/documentsStore';
 import { editForm } from '@/services/forms/documents';
 import { useCanUndo, useCanRedo } from '@/stores/historyStore';
@@ -45,7 +45,8 @@ import { SessionPreview } from '@/components/SessionPreview';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/dialog';
 import { STORAGE_KEYS } from '@/lib/constants';
 import { useTourStore } from '@/stores/tourStore';
-import { DOC_TYPE_CONFIG } from '@/types/document';
+import { capabilityAvailable, documentCapabilities } from '@/lib/documentCapabilities';
+import { useOutputCapabilities } from '@/hooks/useOutputCapabilities';
 
 interface HeaderProps {
   onDownloadPdf?: () => void;
@@ -149,17 +150,8 @@ export function Header({
   // Does the document contain any {{VARIABLE}} placeholders? Reads via
   // getState() at click time, so the callback has no store dependencies.
   const hasVariables = useCallback(() => {
-    const { documentCategory, formType, formData, paragraphs } = useDocumentStore.getState();
-    if (documentCategory === 'forms' && useDocumentStore.getState().genericForm) return false;
-    if (documentCategory === 'forms') {
-      const forms = useFormStore.getState();
-      const active = formType === 'navmc_118_11' ? forms.navmc11811 : forms.navmc10274;
-      return Object.values(active).some((value) => typeof value === 'string' && detectPlaceholders(value).length > 0)
-        || active.signatureBlocks.some((block) => detectPlaceholders(`${block.name} ${block.statement}`).length > 0);
-    }
-    return [formData.subject, formData.from, formData.to, formData.via,
-      ...paragraphs.flatMap((paragraph) => [paragraph.text, paragraph.header ?? ''])]
-      .some((value) => detectPlaceholders(value ?? '').length > 0);
+    const current = useDocumentStore.getState();
+    return capabilityAvailable(documentCapabilities(current, { operation: 'batch', target: 'pdf' })) && detectSessionPlaceholders(getSerializedSession()).length > 0;
   }, []);
 
   // Handle download PDF - redirect to batch mode if variables detected
@@ -171,8 +163,7 @@ export function Header({
     }
   }, [hasVariables, setBatchModalOpen, onDownloadPdf]);
 
-  const docType = useDocumentStore((s) => s.docType);
-  const pdfOnly = !!DOC_TYPE_CONFIG[docType]?.pdfOnly;
+  const output = useOutputCapabilities();
 
   const handleSaveProgress = useCallback(async () => {
     if (await saveCheckpoint()) flashSaveStatus('Checkpoint saved in this browser');
@@ -298,7 +289,7 @@ export function Header({
           </Button>
         </HeaderTip> : null}
         <DraftIdentity />
-        <Button variant="ghost" size="sm" className="hidden sm:inline-flex h-8 px-3.5" onClick={() => setShareModal('share')}>Share</Button>
+        <Button variant="ghost" size="sm" className="hidden sm:inline-flex h-8 px-3.5" disabled={!capabilityAvailable(output.share)} title={output.share.status === 'supported' ? undefined : output.share.message} onClick={() => setShareModal('share')}>Share</Button>
         <Button variant="ghost" size="sm"
           className="h-10 sm:h-8 px-2 sm:px-3.5 sm:has-[>svg]:px-3.5 border border-transparent data-[active=true]:border-primary/20 data-[active=true]:bg-primary/10 data-[active=true]:text-primary data-[active=true]:hover:bg-primary/15"
           aria-label="Preview" aria-pressed={isMobile ? undefined : previewOpen}
@@ -317,7 +308,8 @@ export function Header({
             <DropdownMenuContent align="end">
               <DropdownMenuItem
                 onClick={handleDownloadPdf}
-                disabled={isPdfGenerating}
+                disabled={isPdfGenerating || !capabilityAvailable(output.pdf)}
+                title={output.pdf.status === 'supported' ? undefined : output.pdf.message}
                 // Block re-entry while the PDF pipeline runs; the modal doesn't
                 // stop a second click on the dropdown item.
               >
@@ -331,9 +323,7 @@ export function Header({
                   <DropdownMenuShortcut>{formatShortcut('mod D')}</DropdownMenuShortcut>
                 )}
               </DropdownMenuItem>
-              {/* LaTeX and DOCX only available for correspondence; publication
-                  types are delivered as PDF and offer no DOCX at all. */}
-              {!isFormsMode && !pdfOnly && (
+              {capabilityAvailable(output.word) && (
                 <>
                   <DropdownMenuItem
                     onClick={onDownloadDocx}
@@ -348,19 +338,18 @@ export function Header({
                     )}
                     {isDocxGenerating ? 'Generating Word…' : 'Download Word (.docx)'}
                   </DropdownMenuItem>
-                  {/* Code exports are a secondary tier: separated + muted with a
-                      Braces glyph so they read below the document exports. */}
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={onDownloadTex} className="text-muted-foreground">
-                    <Braces className="h-4 w-4 mr-2" />
-                    Download LaTeX
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={onDownloadFlatTex} className="text-muted-foreground">
-                    <Braces className="h-4 w-4 mr-2" />
-                    Download Flat LaTeX (Pandoc)
-                  </DropdownMenuItem>
                 </>
               )}
+              {capabilityAvailable(output.configuration) && <>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={onDownloadTex} className="text-muted-foreground">
+                  <Braces className="h-4 w-4 mr-2" />Download LaTeX
+                </DropdownMenuItem>
+                {output.configuration.status === 'partial' && <div role="note" className="max-w-64 px-2 py-1 text-xs text-muted-foreground">{output.configuration.message}</div>}
+              </>}
+              {capabilityAvailable(output.flat) && <DropdownMenuItem onClick={onDownloadFlatTex} className="text-muted-foreground">
+                <Braces className="h-4 w-4 mr-2" />Download Flat LaTeX (Pandoc)
+              </DropdownMenuItem>}
             </DropdownMenuContent>
           </DropdownMenu>
 
@@ -391,7 +380,7 @@ export function Header({
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuLabel className="text-xs text-muted-foreground font-normal">Share</DropdownMenuLabel>
-              <DropdownMenuItem className="sm:hidden" onClick={() => setShareModal('share')}>
+              <DropdownMenuItem className="sm:hidden" disabled={!capabilityAvailable(output.share)} title={output.share.status === 'supported' ? undefined : output.share.message} onClick={() => setShareModal('share')}>
                 <Link2 className="h-4 w-4 mr-2" />
                 Create share link…
               </DropdownMenuItem>
@@ -431,7 +420,7 @@ export function Header({
       <div className="flex min-w-0 flex-wrap items-center gap-1 px-4 sm:px-5 py-2 text-xs">
         <DocumentNavigation />
         <Button variant="ghost" size="sm" className="ml-auto h-10 sm:h-8 px-2" onClick={openHistory} disabled={!currentId}><History className="h-3.5 w-3.5" />History</Button>
-        <Button disabled={isGenericForm} title={isGenericForm ? "Batch generation supports correspondence and the two built-in NAVMC forms." : undefined} data-tour="batch" variant="ghost" size="sm" className="h-10 sm:h-8 px-2" onClick={() => setBatchModalOpen(true)}><Layers className="h-3.5 w-3.5" />Batch</Button>
+        <Button disabled={!capabilityAvailable(output.batch)} title={output.batch.status === 'supported' ? undefined : output.batch.message} data-tour="batch" variant="ghost" size="sm" className="h-10 sm:h-8 px-2" onClick={() => setBatchModalOpen(true)}><Layers className="h-3.5 w-3.5" />Batch</Button>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="sm" aria-label="Document tools" data-tour="tools" className="h-10 sm:h-8 px-2">
@@ -444,7 +433,7 @@ export function Header({
               <DropdownMenuItem onClick={handleRedo} disabled={!canRedo}><Redo2 className="h-4 w-4" />Redo<DropdownMenuShortcut>{formatShortcut(REDO_SHORTCUT)}</DropdownMenuShortcut></DropdownMenuItem>
               <DropdownMenuItem onClick={() => setFindReplaceOpen(true)}><Search className="h-4 w-4" />Find and replace<DropdownMenuShortcut>{formatShortcut('mod H')}</DropdownMenuShortcut></DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={onRefreshPreview} disabled={isCompiling}>
+              <DropdownMenuItem onClick={onRefreshPreview} disabled={isCompiling || !capabilityAvailable(output.preview)} title={output.preview.status === 'supported' ? undefined : output.preview.message}>
                 <RefreshCw className={`h-4 w-4 ${isCompiling ? 'animate-spin' : ''}`} />Refresh preview
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => setDocumentGuideOpen(true)}><Compass className="h-4 w-4" />Document type guide</DropdownMenuItem>

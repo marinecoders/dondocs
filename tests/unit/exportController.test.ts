@@ -150,3 +150,21 @@ it('rejects an invalid captured definition before loading templates or offering 
   expect(app.release).toHaveBeenCalledTimes(1);
   const release = app.gate.acquire(); expect(release).not.toBeNull(); release?.();
 });
+
+it('rejects unsupported flat publication output before resource loading and does not offer Retry', async () => {
+  const app = setup();
+  const original = intent('publication');
+  const captured = captureDocumentRevision(original.captured.source, {
+    ...copyCapturedSession(original.captured), docType: 'sl3', endItems: [], publicationTables: {},
+  });
+  app.controller.request({ ...original, captured, target: 'tex', texMode: 'flat', filename: 'publication.tex' });
+  await vi.waitFor(() => expect(app.controller.getState()).toMatchObject({
+    phase: 'error', message: expect.stringContaining('flat LaTeX'), retryable: false,
+  }));
+  expect(app.captureResources).not.toHaveBeenCalled();
+  expect(app.render).not.toHaveBeenCalled();
+  expect(app.deliver).not.toHaveBeenCalled();
+  expect(app.controller.retry()).toBe(false);
+  expect(app.release).toHaveBeenCalledTimes(1);
+  const release = app.gate.acquire();expect(release).not.toBeNull();release?.();
+});

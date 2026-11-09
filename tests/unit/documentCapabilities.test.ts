@@ -97,3 +97,9 @@ it('rejects captured form definitions that the default page loader cannot render
   });
   expect(capturedCapabilities(captured, pdf)).toMatchObject({ status: 'invalid-data', reason: 'invalid-definition' });
 });
+
+it('distinguishes configuration fragments from flat TeX and applies PDF-only limits to flat output', () => {
+  expect(resolveCapabilities(letter, { operation: 'export', target: 'tex', texMode: 'flat' })).toEqual({ status: 'supported' });
+  expect(resolveCapabilities({ ...letter, docType: 'sl3' }, { operation: 'export', target: 'tex', texMode: 'flat' })).toMatchObject({ status: 'unsupported', reason: 'pdf-only' });
+  expect(resolveCapabilities({ ...letter, docType: 'sl3' }, { operation: 'export', target: 'tex', texMode: 'configuration' })).toMatchObject({ status: 'partial', reason: 'tex-configuration-only' });
+});

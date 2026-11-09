@@ -110,7 +110,7 @@ describe('ShareModal — share mode', () => {
     }
   });
 
-  it('blocks encryption and reports an inspection error for an unsupported form snapshot', async () => {
+  it('blocks encryption and reports a capability error for an unsupported form snapshot', async () => {
     const user = userEvent.setup();
     const form = fixtureInstance();
     Object.assign(form.definition, { schemaVersion: 999 });
@@ -121,7 +121,7 @@ describe('ShareModal — share mode', () => {
     render(<ShareModal open mode="share" onOpenChange={vi.fn()} />);
     await user.type(screen.getByLabelText('Password for this link'), 'test-password');
     await user.click(screen.getByRole('button', { name: /generate link/i }));
-    expect(screen.getByRole('alert')).toHaveTextContent('Could not inspect this draft');
+    expect(screen.getByRole('alert')).toHaveTextContent('invalid or uses an unsupported version');
     expect(encryptSharePayload).not.toHaveBeenCalled();
     expect(screen.queryByRole('button', { name: 'Share anyway' })).not.toBeInTheDocument();
   });

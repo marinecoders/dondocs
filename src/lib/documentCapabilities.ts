@@ -1,9 +1,10 @@
+import type { DocumentSnapshot } from '@/stores/historyStore';
 import { DOC_TYPE_CONFIG, FORM_TYPE_LABELS, type DocumentMode } from '@/types/document';
 import { compileFormDefinition } from '@/services/forms/model';
 import { copyCapturedSession, type CapturedDocument } from './capturedDocument';
 
 export type CapabilityRequest =
-  | { readonly operation: 'export'; readonly target: 'pdf' | 'docx' | 'tex' }
+  | { readonly operation: 'export'; readonly target: 'pdf' | 'docx' | 'tex'; readonly texMode?: 'configuration' | 'flat' }
   | { readonly operation: 'preview' | 'batch'; readonly target: 'pdf' }
   | { readonly operation: 'share'; readonly target: 'link' };
 
@@ -33,7 +34,7 @@ function result(status: Exclude<CapabilityResult['status'], 'supported'>, reason
 function validRequest(request: CapabilityRequest): boolean {
   if (!request || typeof request !== 'object') return false;
   switch (request.operation) {
-    case 'export': return ['pdf', 'docx', 'tex'].includes(request.target);
+    case 'export': return ['pdf', 'docx', 'tex'].includes(request.target) && (request.texMode === undefined || request.target === 'tex' && ['configuration', 'flat'].includes(request.texMode));
     case 'preview': case 'batch': return request.target === 'pdf';
     case 'share': return request.target === 'link';
     default: return false;
@@ -51,10 +52,12 @@ export function resolveCapabilities(subject: CapabilitySubject, request: Capabil
     if (typeof subject.docType !== 'string' || !Object.hasOwn(DOC_TYPE_CONFIG, subject.docType)) {
       return result('invalid-data', 'unknown-document-type', 'Choose a supported document type.');
     }
-    if (request.target === 'docx' && DOC_TYPE_CONFIG[subject.docType].pdfOnly) {
-      return result('unsupported', 'pdf-only', 'This publication exports to PDF.');
+    if ((request.target === 'docx' || request.target === 'tex' && request.operation === 'export' && request.texMode === 'flat') && DOC_TYPE_CONFIG[subject.docType].pdfOnly) {
+      return result('unsupported', 'pdf-only', request.target === 'tex'
+        ? 'This publication supports LaTeX configuration fragments, but not flat LaTeX.'
+        : 'This publication exports to PDF.');
     }
-    if (request.target === 'tex') {
+    if (request.target === 'tex' && !(request.operation === 'export' && request.texMode === 'flat')) {
       return result('partial', 'tex-configuration-only', 'Exports LaTeX configuration fragments; a standalone project also needs templates and assets.');
     }
   } else if (subject.kind === 'builtin-form' || subject.kind === 'configured-form') {
@@ -111,4 +114,15 @@ export function capturedCapabilities(captured: CapturedDocument, request: Capabi
       definition: { status: 'loaded', definition: session.genericForm?.definition },
     }, request);
   }
+}
+
+/** Resolve only the selected document; no catalog fetch or editor-store dependency. */
+export function documentCapabilities(document: Pick<DocumentSnapshot, 'documentMode' | 'docType' | 'documentCategory' | 'formType'> & { genericForm?: { readonly definition: unknown } }, request: CapabilityRequest): CapabilityResult {
+  if (document.documentCategory !== 'forms') return resolveCapabilities({ kind: 'correspondence', documentMode: document.documentMode, docType: document.docType }, request);
+  const formType = document.formType ?? 'navmc_10274';
+  if (Object.hasOwn(FORM_TYPE_LABELS, formType)) return resolveCapabilities({ kind: 'builtin-form', documentMode: document.documentMode, formType }, request);
+  return resolveCapabilities({ kind: 'configured-form', documentMode: document.documentMode, formType, definition: document.genericForm ? { status: 'loaded', definition: document.genericForm.definition } : { status: 'not-loaded' } }, request);
+}
+export function capabilityAvailable(capability: CapabilityResult): boolean {
+  return capability.status === 'supported' || capability.status === 'partial';
 }

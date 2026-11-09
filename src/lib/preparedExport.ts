@@ -99,12 +99,8 @@ export function prepareExport(input: {
     assertExportDeploymentPolicy(input.policy.policy);
     if (input.texMode !== undefined && (input.target !== 'tex' || !['configuration', 'flat'].includes(input.texMode))) return error('Invalid TeX export mode.');
     if (!input.id.trim() || !input.filename.trim() || /[\\/]/.test(input.filename) || [...input.filename].some(char => char.charCodeAt(0) < 32)) return error('Choose a valid export identity and filename.');
-    const capability = capturedCapabilities(input.captured, { operation: 'export', target: input.target });
+    const capability = capturedCapabilities(input.captured, { operation: 'export', target: input.target, texMode: input.texMode });
     if (capability.status !== 'supported' && capability.status !== 'partial') return error(capability.message);
-    if (input.target === 'tex' && input.texMode === 'flat'
-      && capturedCapabilities(input.captured, { operation: 'export', target: 'docx' }).status !== 'supported') {
-      return error('This publication supports LaTeX configuration fragments, but not flat LaTeX.');
-    }
     const original = copyCapturedDocument(input.captured);
     if (original.kind !== 'correspondence') {
       if (!input.formTemplates || input.formTemplates.kind !== original.kind || input.formTemplates.formType !== original.document.formType) return error('Capture the selected form templates before export.');
