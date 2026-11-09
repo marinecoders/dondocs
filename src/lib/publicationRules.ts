@@ -131,7 +131,7 @@ function hasContactDetails(candidates: string[]): boolean {
     })) return true;
     // Digits inside a malformed mailbox or a URL are not a phone number.
     const phones = tokens.map((token) => token.includes('@') ? '' : token).join('').replace(/https?:\/\/\S+/gi, '')
-      .match(/(?<![\w@.+])\+?\d[\d ().-]*\d(?![\w@]|\.\d)/g) ?? [];
+      .match(/(?<![\w@.+/?=&%#])\+?\d[\d ().-]*\d(?![\w@]|\.[a-z0-9])/gi) ?? [];
     return phones.some((phone) => {
       const digits = phone.replace(/\D/g, '').length;
       return digits >= 7 && digits <= 15;

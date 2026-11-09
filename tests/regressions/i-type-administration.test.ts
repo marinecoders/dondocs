@@ -70,7 +70,7 @@ describe('pasted I-Type administrative instructions', () => {
     expect(findings(`For questions or concerns with the content or procedures in this Technical Instruction (TI) contact ${contact}. ${DISCREPANCY_NOTICE}`)).toEqual([]);
   });
 
-  it.each(['office@example..mil', 'office@-example.mil', 'office@example-.mil', 'office..team@example.mil', 'office@example.mil__', 'team12345678@invalid', 'https://example.mil/12345678', '1234567890123456'])('rejects a malformed or missing contact: %s', (contact) => {
+  it.each(['office@example..mil', 'office@-example.mil', 'office@example-.mil', 'office..team@example.mil', 'office@example.mil__', 'team12345678@invalid', 'https://example.mil/12345678', 'example.mil/12345678', 'example.mil?id=12345678', '12345678.example.mil', '1234567890123456'])('rejects a malformed or missing contact: %s', (contact) => {
     expect(findings(`For questions or concerns with the content or procedures in this Technical Instruction (TI) contact ${contact}. ${DISCREPANCY_NOTICE}`)).toContain('Administrative Instructions needs a contact phone number or section mailbox email.');
   });
 
