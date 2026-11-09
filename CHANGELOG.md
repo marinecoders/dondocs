@@ -5,6 +5,13 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.3.45] — 2026-11-09
+
+### Changed
+
+- Verify long recipient lists paginate in PDF and Word.
+- Check complete Word entries and their paragraph structure, and reject PDF text collisions.
+
 ## [1.3.44] — 2026-11-09
 
 ### Changed
