@@ -331,10 +331,10 @@ ${colorDef}
 `;
 }
 
-function buildClassificationHeaders(data: Partial<DocumentData>, paragraphs: Paragraph[]): string {
+function buildClassificationHeaders(data: Partial<DocumentData>, paragraphs: Paragraph[], resolvedLevel?: string): string {
   // Banner = max(document level, highest portion mark) — same chokepoint as
   // the PDF path (SECNAV M-5216.5 / DoDM 5200.01 Vol 2).
-  const classLevel = deriveOverallClassLevel(data.classLevel, paragraphs);
+  const classLevel = resolvedLevel ?? deriveOverallClassLevel(data.classLevel, paragraphs);
   if (!classLevel || classLevel === 'unclassified') return '';
 
   let marking: string;
@@ -1697,7 +1697,7 @@ function buildInfoMemorandumLayout(store: DocumentStore, config: DocTypeConfig):
  * Generate a flat, self-contained LaTeX document using only standard LaTeX
  * constructs that pandoc can convert to DOCX.
  */
-export function generateFlatLatex(store: DocumentStore): string {
+export function generateFlatLatex(store: DocumentStore, resolvedLevel?: string): string {
   if (store.docType === 'tm_ietm_front_matter') throw new Error('TM/IETM front matter supports PDF only.');
   const data = store.formData;
   const config = DOC_TYPE_CONFIG[store.docType] || DOC_TYPE_CONFIG.naval_letter;
@@ -1705,7 +1705,7 @@ export function generateFlatLatex(store: DocumentStore): string {
   let tex = '';
 
   tex += buildPreamble(data);
-  tex += buildClassificationHeaders(data, store.paragraphs);
+  tex += buildClassificationHeaders(data, store.paragraphs, resolvedLevel);
   tex += buildPageNumbering(store.docType, data);
   tex += '\n\\begin{document}\n\n';
 

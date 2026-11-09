@@ -42,11 +42,11 @@ export function manualLinkedText(text: string): string {
   return result + manualPlainText(text.slice(cursor));
 }
 
-export function generateManualFrontMatterData(data: Partial<DocumentData>): string {
+export function generateManualFrontMatterData(data: Partial<DocumentData>, referenceDate = new Date()): string {
   const m = data.manualFrontMatter ?? emptyManualFrontMatter();
   const [coverType, authenticationType] = manualType(m.subtype);
   const hasTechnicalHeading = coverType.includes('TECHNICAL MANUAL');
-  const issued = publicationDate(data.date ?? '');
+  const issued = publicationDate(data.date ?? '', referenceDate);
   const volume = m.volume || m.volumes ? `VOLUME ${m.volume} OF ${m.volumes}` : '';
   const isoDate = (value = '') => isValid(parseISO(value)) ? format(parseISO(value), 'd MMMM yyyy') : value;
   const statement = (MANUAL_DISTRIBUTION[data.cuiDistStatement as keyof typeof MANUAL_DISTRIBUTION] ?? '')
