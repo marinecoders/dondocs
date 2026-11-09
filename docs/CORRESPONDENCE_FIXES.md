@@ -66,3 +66,11 @@ page. Word keep rules extend through the spacing and signature table, ending
 before copy/distribution blocks. Blank trailing input rows do not determine
 which prose forms the tail. Action/info memos and technical publications retain
 their separate signing behavior (Chapter 7 paragraph 13; Chapter 11 Figure 11-2).
+
+## Opening endorsement footer
+
+The opening page's footer compensates for the same measured continuation-header
+reserve that its body gives back. Its baseline stays half an inch from the paper
+edge as subject height changes, and the supplied page sequence is retained
+(Chapter 9 Figure 9-2; Chapter 7 paragraph 17). Later-page and HQ footer policies
+are unchanged. Tests cover one-, two-, and three-line subjects starting at 2 or 10.
