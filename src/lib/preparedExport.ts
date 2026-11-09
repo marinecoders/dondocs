@@ -11,7 +11,8 @@ import { classificationBannerLevel, detectClassification } from './detectClassif
 import { publicationMarking } from './publicationMarking';
 import { publicationExportErrors } from './publicationPreflight';
 import { validateParagraphStructure, type ParagraphStructureFinding } from './paragraphStructureValidation';
-import { detectCapturedPII, type PIIDetectionResult } from '@/services/pii/detector';
+import { detectCapturedPII, mergePIIResults, type PIIDetectionResult } from '@/services/pii/detector';
+import { detectBatchPII } from '@/services/pii/batchScan';
 import type { ClassificationInfo } from '@/services/pdf/mergeEnclosures';
 import type { ClassificationLevel } from './domainClassification';
 
@@ -148,7 +149,9 @@ export function prepareExport(input: {
         .filter(issue => issue.severity === 'error').map(issue => diagnosticText(form.document.genericForm.definition, issue));
       if (issues.length) return Object.freeze({ status: 'error', issues: Object.freeze(issues) });
     }
-    const privacy = detectCapturedPII(output, 'output');
+    const privacy = mergePIIResults([detectCapturedPII(output, 'output'),
+      ...(input.placeholders ? [detectBatchPII(input.captured, input.placeholders)] : []),
+    ]);
     const structure = output.kind === 'correspondence' && !['sl3', 'sl4'].includes(snapshot.docType) ? validateParagraphStructure(snapshot.paragraphs) : [];
     const job: PreparedExportJob = Object.freeze({ [preparedBrand]: true as const, id: input.id, source: output.source, kind: output.kind, target: input.target, ...(input.target === 'tex' ? { texMode: input.texMode ?? 'configuration' } : {}), filename: input.filename, policyIdentity: input.policy.policy.identity });
     prepared.set(job, { captured: output, policy: input.policy.policy, marking, formTemplates: input.formTemplates, review: { privacy, structure, notices, markingReview } });

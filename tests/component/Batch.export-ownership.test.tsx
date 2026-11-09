@@ -9,13 +9,15 @@ vi.mock('@/config/classification', async () => {
 });
 vi.mock('@/services/exports/batchRows', async original => ({ ...await original<typeof import('@/services/exports/batchRows')>(), renderPreparedBatchRow: mocks.render }));
 import { BatchModal } from '@/components/modals/BatchModal';
-import { useBatchStore, runBatchJob } from '@/stores/batchStore';
+import { useBatchStore, runBatchJob, recoverBatch } from '@/stores/batchStore';
 import { useUIStore } from '@/stores/uiStore';
 import { useDocumentStore, getSerializedSession } from '@/stores/documentStore';
 import { useDocumentsStore } from '@/stores/documentsStore';
 import { createExportArtifact } from '@/lib/exportExecution';
 import { copyPreparedDocument } from '@/lib/preparedExport';
 import { clearBatchExports } from '@/services/exports/batchExecution';
+import * as documentsDb from '@/lib/documentsDb';
+import * as downloads from '@/utils/downloadPdf';
 
 beforeEach(() => {
   expect(clearBatchExports()).toBe(true);
@@ -120,4 +122,82 @@ it('keeps remounted preview worker ownership and untouched rows', async () => {
     await act(async () => { finish(createExportArtifact(mocks.render.mock.calls[0][0], new Blob(['pdf']))); });
     await vi.waitFor(() => expect(clearBatchExports()).toBe(true));
   }
+});
+
+it.each(['pending', 'error'] as const)('reviews unused values in recovered %s rows before rendering', async status => {
+  useDocumentStore.setState({ paragraphs: [{ text: 'Training {{NAME}}', level: 0 }] });
+  const source = getSerializedSession();
+  useBatchStore.setState({ source, jobId: 'recovered', status: 'interrupted', placeholders: ['NAME'], rows: [
+    { id: 'one', values: { NAME: 'Sample', UNUSED: 'SSN 123-45-6789' }, status },
+  ] });
+  useDocumentStore.setState({ paragraphs: [{ text: 'Different live editor', level: 0 }] });
+  open();fireEvent.click(screen.getByRole('button', { name: status === 'error' ? 'Retry failed rows' : 'Resume remaining' }));
+  await screen.findByRole('dialog', { name: 'Review batch row' });
+  expect(screen.getByText(/UNUSED/)).toBeVisible();
+  expect(mocks.render).not.toHaveBeenCalled();
+  fireEvent.click(screen.getByRole('button', { name: 'Cancel row and pause batch' }));
+  await vi.waitFor(() => expect(useBatchStore.getState().status).toBe('paused'));
+});
+
+it('reviews saved results before reading bytes and keeps approval bound to the captured result', async () => {
+  const read = vi.spyOn(documentsDb, 'getBatchOutput').mockResolvedValue(new Uint8Array([1]));
+  const download = vi.spyOn(downloads, 'downloadPdfBlob').mockResolvedValue(true);
+  useBatchStore.setState({ source: getSerializedSession(), status: 'complete', placeholders: ['ID'], rows: [
+    { id: 'one', values: { ID: '123-45-6789' }, status: 'success', outputId: 'saved-one', filename: 'original.pdf' },
+  ] });
+  open();fireEvent.click(screen.getByRole('button', { name: 'Download original.pdf' }));
+  await screen.findByRole('dialog', { name: 'Review saved result' });
+  expect(read).not.toHaveBeenCalled();expect(download).not.toHaveBeenCalled();
+  fireEvent.click(screen.getByRole('button', { name: 'Cancel download' }));
+  expect(read).not.toHaveBeenCalled();
+  fireEvent.click(screen.getByRole('button', { name: 'Download original.pdf' }));
+  act(() => { useBatchStore.setState({ source: null, rows: [{ id: 'two', values: {}, outputId: 'different', filename: 'different.pdf' }] }); });
+  fireEvent.click(screen.getByRole('button', { name: 'Download reviewed result' }));
+  await vi.waitFor(() => expect(download).toHaveBeenCalledTimes(1));
+  expect(read).toHaveBeenCalledWith('saved-one');
+  expect(download.mock.calls[0][1]).toBe('original.pdf');
+});
+
+it('downloads a clean saved result directly and reports missing result bytes', async () => {
+  const read = vi.spyOn(documentsDb, 'getBatchOutput').mockResolvedValue(null);
+  const download = vi.spyOn(downloads, 'downloadPdfBlob').mockResolvedValue(true);
+  useDocumentStore.setState({ paragraphs: [{ text: 'Training {{NAME}}', level: 0 }] });
+  useBatchStore.setState({ source: getSerializedSession(), status: 'complete', placeholders: ['NAME'], rows: [
+    { id: 'one', values: { NAME: 'Sample' }, status: 'success', outputId: 'saved-one', filename: 'clean.pdf' },
+  ] });
+  open();fireEvent.click(screen.getByRole('button', { name: 'Download clean.pdf' }));
+  await vi.waitFor(() => expect(read).toHaveBeenCalledWith('saved-one'));
+  expect(download).not.toHaveBeenCalled();
+  expect(screen.queryByRole('dialog', { name: 'Review saved result' })).not.toBeInTheDocument();
+  expect(useBatchStore.getState().recoveryError).toContain('no longer available');
+});
+
+it('requires explicit confirmation for a recovered result without source text', async () => {
+  const read = vi.spyOn(documentsDb, 'getBatchOutput').mockResolvedValue(new Uint8Array([1]));
+  const download = vi.spyOn(downloads, 'downloadPdfBlob').mockResolvedValue(true);
+  useDocumentStore.setState({ paragraphs: [{ text: 'Clean current editor', level: 0 }] });
+  useBatchStore.setState({ ...recoverBatch({ status: 'complete', rows: [
+    { id: 'one', values: { NAME: 'Sample' }, status: 'success', outputId: 'source-less', filename: 'saved.pdf' },
+  ] }), source: null });
+  open();fireEvent.click(screen.getByRole('button', { name: 'Download saved.pdf' }));
+  await screen.findByRole('dialog', { name: 'Review saved result' });
+  expect(read).not.toHaveBeenCalled();expect(download).not.toHaveBeenCalled();
+  expect(screen.getByText(/source text.*unavailable|source text.*could not be inspected/i)).toBeVisible();
+  fireEvent.click(screen.getByRole('button', { name: 'Download without text review' }));
+  await vi.waitFor(() => expect(download).toHaveBeenCalledOnce());
+  expect(read).toHaveBeenCalledWith('source-less');
+});
+
+it('keeps a failed saved download from changing a new batch after reset', async () => {
+  let finish!: (value: Uint8Array | null) => void;
+  const read = vi.spyOn(documentsDb, 'getBatchOutput').mockImplementation(() => new Promise(resolve => { finish = resolve; }));
+  useBatchStore.setState({ source: getSerializedSession(), status: 'complete', rows: [
+    { id: 'old', values: { ID: '123-45-6789' }, status: 'success', outputId: 'old-output', filename: 'old.pdf' },
+  ] });
+  open();fireEvent.click(screen.getByRole('button', { name: 'Download old.pdf' }));
+  fireEvent.click(await screen.findByRole('button', { name: 'Download reviewed result' }));
+  expect(read).toHaveBeenCalledWith('old-output');
+  act(() => useBatchStore.getState().reset());
+  await act(async () => { finish(null); });
+  expect(useBatchStore.getState().recoveryError).toBe('');
 });

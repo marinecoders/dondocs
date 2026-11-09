@@ -5,6 +5,14 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.3.47] — 2026-11-09
+
+### Fixed
+
+- Keep valid Page 11 EDIPI values out of sensitive-text warnings while retaining warnings for the same IDs in free text.
+- Review saved batch values and recovered/retried rows through the prepared export pipeline; match dedicated Page 11 IDs using the same substitution rules as rendering.
+- Bind saved batch downloads to a reviewed result before reading or delivering its PDF bytes; request explicit confirmation when source text cannot be inspected and keep late download errors out of a replacement batch.
+
 ## [1.3.46] — 2026-11-09
 
 ### Changed

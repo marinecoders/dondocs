@@ -3,7 +3,7 @@ import { afterEach, beforeEach, expect, it, vi } from 'vitest';
 import { act, cleanup, fireEvent, render, screen } from '@testing-library/react';
 import type { ReadyExportJob } from '@/lib/preparedExport';
 
-const mocks = vi.hoisted(() => ({ engineReady: true, render: vi.fn(), renderConfigured: vi.fn(), loadPage: vi.fn(), deliver: vi.fn(async () => true), release: vi.fn() }));
+const mocks = vi.hoisted(() => ({ engineReady: true, render: vi.fn(), renderConfigured: vi.fn(), renderForm: vi.fn(), loadPage: vi.fn(), deliver: vi.fn(async () => true), release: vi.fn() }));
 vi.mock('@/hooks', () => ({
   useLatexEngine: () => ({ isReady: mocks.engineReady, compile: async () => null, waitForReady: async () => true, error: null }),
   useServiceWorker: () => ({ showUpdatePrompt: false, confirmUpdate() {}, dismissUpdatePrompt() {} }),
@@ -17,11 +17,26 @@ vi.mock('@/services/exports/configuredForms', () => ({ renderPreparedConfiguredF
 vi.mock('@/services/forms/packages', () => ({ loadPackagePage: mocks.loadPage }));
 vi.mock('@/services/forms/render', () => ({ renderForm: async () => ({ bytes: new Uint8Array([1]), diagnostics: [] }) }));
 vi.mock('@/services/exports/correspondence', () => ({ renderPreparedCorrespondence: mocks.render }));
+vi.mock('@/services/exports/builtinForms', () => ({ renderPreparedBuiltinForm: mocks.renderForm }));
+vi.mock('@/services/exports/formTemplates', async original => {
+  const actual = await original<typeof import('@/services/exports/formTemplates')>();
+  const { captureFormExportTemplates } = await import('@/lib/formExportTemplates');
+  const { copyCapturedDocument } = await import('@/lib/capturedDocument');
+  return { captureExportFormTemplates: async (captured: Parameters<typeof copyCapturedDocument>[0]) => {
+    const content = copyCapturedDocument(captured);
+    return content.kind === 'builtin-form'
+      ? captureFormExportTemplates('builtin-form', content.document.formType, { page1: new Uint8Array([1]), page2: new Uint8Array([2]), page3: new Uint8Array([3]) }) : actual.captureExportFormTemplates(captured);
+  } };
+});
 vi.mock('@/utils/exportDelivery', () => ({ openBrowserExportDelivery: () => ({ deliver: mocks.deliver, release: mocks.release }) }));
 vi.mock('@/services/formCatalog', () => { const catalog: never[] = [];return { useFormCatalog: () => catalog }; });
 vi.mock('@/hooks/usePandocIdlePrefetch', () => ({ usePandocIdlePrefetch() {} }));
 vi.mock('@/components/layout/FormPanel', () => ({ FormPanel: () => null }));
-vi.mock('@/components/layout/Header', () => ({ Header: ({ onDownloadPdf }: { onDownloadPdf(): void }) => <button onClick={onDownloadPdf}>Export captured PDF</button> }));
+vi.mock('@/components/layout/Header', () => ({ Header: ({ onDownloadPdf, onDownloadTex, onDownloadFlatTex }: Record<string, () => void>) => <>
+  <button onClick={onDownloadPdf}>Export captured PDF</button>
+  <button onClick={onDownloadTex}>Export captured TeX</button>
+  <button onClick={onDownloadFlatTex}>Export captured flat TeX</button>
+</> }));
 vi.mock('@/components/modals/WelcomeModal', () => ({ WelcomeModal: () => null }));
 vi.mock('@/components/layout/PreviewPanel', () => ({ PreviewPanel: () => null }));
 
@@ -31,12 +46,14 @@ import { useDocumentsStore } from '@/stores/documentsStore';
 import { fixtureInstance, fixturePage } from '../_helpers/formFixture';
 import { copyPreparedDocument, copyPreparedFormTemplates } from '@/lib/preparedExport';
 import { createExportArtifact } from '@/lib/exportExecution';
+import { useFormStore } from '@/stores/formStore';
 
 beforeEach(() => {
   mocks.engineReady = true;
   mocks.render.mockReset().mockImplementation(async (ready: ReadyExportJob) => createExportArtifact(ready, new Blob(['pdf'])));
   mocks.renderConfigured.mockReset().mockImplementation(async (ready: ReadyExportJob) => createExportArtifact(ready, new Blob(['form'])));
   mocks.loadPage.mockReset();
+  mocks.renderForm.mockReset().mockImplementation(async (ready: ReadyExportJob) => createExportArtifact(ready, new Blob(['pdf'])));
   mocks.deliver.mockReset().mockResolvedValue(true);mocks.release.mockClear();
   vi.spyOn(useDocumentsStore.getState(), 'init').mockResolvedValue(true);
   globalThis.ResizeObserver = class { observe() {} unobserve() {} disconnect() {} } as never;
@@ -134,4 +151,41 @@ it('reviews and retries the captured configured form without waiting for the LaT
   expect(copyPreparedFormTemplates(ready)['page1.pdf']).toEqual(retained);
   expect(mocks.loadPage).toHaveBeenCalledTimes(1);
   expect(mocks.render).not.toHaveBeenCalled();
+});
+
+it.each(['TeX', 'flat TeX'])('reviews actual %s download requests before rendering and delivery', async mode => {
+  await act(async () => { render(<App />); });
+  fireEvent.click(screen.getByRole('button', { name: `Export captured ${mode}` }));
+  fireEvent.click(await screen.findByRole('button', { name: 'Cancel' }));
+  expect(mocks.render).not.toHaveBeenCalled();expect(mocks.deliver).not.toHaveBeenCalled();
+  fireEvent.click(screen.getByRole('button', { name: `Export captured ${mode}` }));
+  fireEvent.click(await screen.findByRole('button', { name: 'Download Anyway' }));
+  await vi.waitFor(() => expect(mocks.deliver).toHaveBeenCalledOnce());
+  expect(mocks.render.mock.calls[0][0].job).toMatchObject({ target: 'tex', texMode: mode === 'TeX' ? 'configuration' : 'flat' });
+});
+
+it('exports an ordinary dedicated Page 11 EDIPI through App without a privacy warning', async () => {
+  useDocumentStore.setState({ documentCategory: 'forms', formType: 'navmc_118_11' });
+  useFormStore.setState({ navmc11811: { ...useFormStore.getInitialState().navmc11811, edipi: '1436758291', remarksText: '', signatureBlocks: [] } });
+  await act(async () => { render(<App />); });
+  fireEvent.click(screen.getByRole('button', { name: 'Export captured PDF' }));
+  await vi.waitFor(() => expect(mocks.renderForm, screen.queryAllByRole('dialog').map(dialog => dialog.textContent).join('\n')).toHaveBeenCalledOnce());
+  await vi.waitFor(() => expect(mocks.deliver).toHaveBeenCalledOnce());
+  expect(screen.queryByRole('button', { name: 'Download Anyway' })).not.toBeInTheDocument();
+  expect(copyPreparedDocument(mocks.renderForm.mock.calls[0][0]).document.forms?.navmc11811?.edipi).toBe('1436758291');
+});
+
+it.each(['navmc_10274', 'navmc_118_11'] as const)('reviews %s free-text IDs through App before rendering', async formType => {
+  useDocumentStore.setState({ documentCategory: 'forms', formType });
+  useFormStore.setState({
+    navmc10274: { ...useFormStore.getInitialState().navmc10274, from: 'Sample 1436758291/0311' },
+    navmc11811: { ...useFormStore.getInitialState().navmc11811, edipi: '1436758291', remarksTextRight: 'ID {{EDIPI}}' },
+  });
+  await act(async () => { render(<App />); });
+  fireEvent.click(screen.getByRole('button', { name: 'Export captured PDF' }));
+  const proceed = await screen.findByRole('button', { name: 'Download Anyway' });
+  expect(mocks.renderForm).not.toHaveBeenCalled();expect(mocks.deliver).not.toHaveBeenCalled();
+  fireEvent.click(proceed);
+  await vi.waitFor(() => expect(mocks.renderForm).toHaveBeenCalledOnce());
+  await vi.waitFor(() => expect(mocks.deliver).toHaveBeenCalledOnce());
 });
