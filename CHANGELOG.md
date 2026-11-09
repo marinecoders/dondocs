@@ -5,6 +5,14 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.3.30] — 2026-11-08
+
+### Changed
+
+- Own export execution and cancellation through issued artifacts and explicit delivery handoff.
+- Keep cancellation idempotent, suppress cancelled rendering, and settle results despite observer or cleanup errors.
+- Review manual end items from the rendered source while preserving retained draft data.
+
 ## [1.3.29] — 2026-11-08
 
 ### Changed
