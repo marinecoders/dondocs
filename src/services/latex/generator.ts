@@ -207,6 +207,7 @@ ${data.via?.trim() ? (() => {
 })() : '% No Via'}
 
 \\setSubject{${subjectLine}}
+${['standard_memorandum', 'executive_memorandum'].includes(store.docType) ? `\\setReferenceLabel{${store.references.length > 1 ? 'Reference(s)' : 'Reference'}:\\hspace{1em}}` : ''}
 ${data.showSubjectOnContinuation ? `\\setContinuationSubject{${subjectLine}}` : '% Continuation subject disabled'}
 
 \\setBusinessSalutation{${escapeLatex((data.salutation || 'Dear Sir or Madam:').trim())}}
@@ -656,6 +657,9 @@ export function generateReferencesTex(store: DocumentStore): string {
 %=============================================================================
 
 ${store.references.map((r, i) => {
+    if (store.references.length === 1 && ['standard_memorandum', 'executive_memorandum'].includes(store.docType)) {
+      return `\\dondocsEntry{}{${escapeLatex(r.title)}}`;
+    }
     const cmd = i === store.references.length - 1 ? '\\lastrefitem' : '\\refitem';
     return `${cmd}{${escapeLatex(r.letter)}}{${escapeLatex(r.title)}}`;
   }).join('\n')}

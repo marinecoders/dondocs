@@ -585,16 +585,18 @@ const ENTRY_HANG = '\\dondocshangindent{0.28in}';
 
 /** References using tabular for proper hanging-indent alignment.
  * Colon spacing per SECNAV Ch 7 ¶10c: Ref=4sp */
-function buildReferences(references: Reference[]): string {
+function buildReferences(references: Reference[], headquarters = false): string {
   if (references.length === 0) return '';
 
   const rows: string[] = [];
+  const caption = headquarters ? (references.length > 1 ? 'Reference(s):' : 'Reference:') : 'Ref:';
   for (let i = 0; i < references.length; i++) {
     const ref = references[i];
+    const label = headquarters && references.length === 1 ? '' : `(${escapeTabular(ref.letter)})~~`;
     if (i === 0) {
-      rows.push(`Ref:\\hspace{4\\fontdimen2\\font} & ${ENTRY_HANG}(${escapeTabular(ref.letter)})~~${escapeTabular(ref.title)} \\\\`);
+      rows.push(`${caption}\\hspace{4\\fontdimen2\\font} & ${label ? ENTRY_HANG : ''}${label}${escapeTabular(ref.title)} \\\\`);
     } else {
-      rows.push(` & ${ENTRY_HANG}(${escapeTabular(ref.letter)})~~${escapeTabular(ref.title)} \\\\`);
+      rows.push(` & ${ENTRY_HANG}${label}${escapeTabular(ref.title)} \\\\`);
     }
   }
 
@@ -638,7 +640,7 @@ ${trimLastRow(rows)}
 
 /** Apply the same formal-list controls in every layout that can enable them. */
 function buildFormalLists(store: DocumentStore, config: DocTypeConfig): string {
-  return (config.compliance.allowReferences ? buildReferences(store.references) : '')
+  return (config.compliance.allowReferences ? buildReferences(store.references, ['standard_memorandum', 'executive_memorandum'].includes(store.docType)) : '')
     + (config.compliance.allowEnclosures ? buildEnclosures(store.enclosures, enclosureStartNumber(store.docType, store.formData.startingEnclosureNumber)) : '');
 }
 

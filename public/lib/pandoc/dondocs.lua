@@ -191,6 +191,15 @@ end
 local function apply_table(tbl)
   local ncols = #tbl.colspecs
   local new_colspecs = {}
+  local reference_caption = nil
+  for _, body in ipairs(tbl.bodies) do
+    for _, row in ipairs(body.body) do
+      if #row.cells == 2 then
+        local label = pandoc.utils.stringify(row.cells[1].contents)
+        if label == "Reference:" or label == "Reference(s):" then reference_caption = label end
+      end
+    end
+  end
 
   if ncols == 3 and is_letterhead_table(tbl) then
     -- 3-col letterhead: seal | centered org text | right spacer
@@ -204,7 +213,10 @@ local function apply_table(tbl)
     local align1 = tbl.colspecs[1][1]
     local align2 = tbl.colspecs[2][1]
 
-    if is_letterhead_table(tbl) then
+    if reference_caption then
+      local width = reference_caption == "Reference(s):" and 80 or 65
+      new_colspecs = {{align1, width / 468}, {align2, (468 - width) / 468}}
+    elseif is_letterhead_table(tbl) then
       -- 2-col letterhead with seal images (dual seal layout)
       new_colspecs = {
         {align1, L.dual_left},

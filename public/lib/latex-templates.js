@@ -1251,13 +1251,26 @@ const LATEX_TEMPLATES = {
 % two-character designator, which covers (a)-(z) and (1)-(99); a wider one just
 % pushes its own title right without disturbing its neighbours.
 \\newlength{\\dondocsEntryHang}
+\\newlength{\\dondocsListLabelWidth}
+\\newcommand{\\dondocsListCaption}{}
+\\newcommand{\\dondocsBeginList}[1]{%
+    \\par\\vspace{12pt}\\begingroup
+    \\settowidth{\\dondocsListLabelWidth}{#1}%
+    \\advance\\leftskip by \\dondocsListLabelWidth
+    \\renewcommand{\\dondocsListCaption}{#1}%
+}
+\\newcommand{\\dondocsEndList}{\\par\\endgroup}
 \\settowidth{\\dondocsEntryHang}{(00)~~}
 \\newcommand{\\dondocsEntry}[2]{%
     \\settowidth{\\dondocsEntryHang}{#1}%
-    \\addtolength{\\dondocsEntryHang}{2\\fontdimen2\\font}%
+    \\ifstrempty{#1}{}{\\addtolength{\\dondocsEntryHang}{2\\fontdimen2\\font}}%
     \\hangindent\\dondocsEntryHang\\hangafter=1
-    \\noindent #1~~#2\\par
+    \\noindent\\llap{\\dondocsListCaption}\\let\\dondocsListCaption\\empty
+    \\ifstrempty{#1}{}{#1~~}#2\\par
 }
+
+\\newcommand{\\ReferenceLabel}{Ref:\\hspace{4\\fontdimen2\\font}}
+\\newcommand{\\setReferenceLabel}[1]{\\renewcommand{\\ReferenceLabel}{#1}}
 
 \\makeatletter
 \\newcommand{\\refitem}[2]{%
@@ -1299,20 +1312,9 @@ const LATEX_TEMPLATES = {
 % Only print if hasrefs flag is set (by flags.tex)
 \\newcommand{\\printReferences}{%
     \\ifhasrefs
-        \\vspace{12pt}
-        \\noindent
-        \\begin{tabular}{@{}l@{}p{5.9in}@{}}
-            Ref:\\ifthenelse{\\equal{\\FontFamily}{times}}{\\hspace{4.2\\fontdimen2\\font}}{\\hspace{4\\fontdimen2\\font}} & \\begin{minipage}[t]{5.9in}
-                       % A tabular p-column runs \\@arrayparboxrestore, which
-                       % undoes the document's global \\raggedright — so this
-                       % block would justify, stretching its interword spaces.
-                       % ¶7-2.1 forbids justified text, and the stretch also
-                       % puts the first line's text somewhere \\settowidth
-                       % cannot predict, breaking the runover alignment below.
-                       \\raggedright
-                       \\input{references}
-                   \\end{minipage}
-        \\end{tabular}%
+        \\dondocsBeginList{\\ReferenceLabel}%
+        \\input{references}%
+        \\dondocsEndList
     \\fi
 }
 
@@ -1352,11 +1354,7 @@ const LATEX_TEMPLATES = {
 \\makeatletter
 \\newcommand{\\printEnclosureList}{%
     \\ifnum\\value{enclmax}>0
-        \\vspace{12pt}
-        \\noindent
-        \\begin{tabular}{@{}l@{}p{5.85in}@{}}
-            Encl:\\hspace{3\\fontdimen2\\font} & \\begin{minipage}[t]{5.85in}
-                       \\raggedright
+        \\dondocsBeginList{Encl:\\hspace{3\\fontdimen2\\font}}%
                        \\newcounter{encllistcount}%
                        \\setcounter{encllistcount}{0}%
                        \\loop\\ifnum\\value{encllistcount}<\\value{enclmax}%
@@ -1371,8 +1369,7 @@ const LATEX_TEMPLATES = {
                                \\fi
                            }%
                        \\repeat
-                   \\end{minipage}
-        \\end{tabular}%
+        \\dondocsEndList
     \\fi
 }
 \\makeatother
