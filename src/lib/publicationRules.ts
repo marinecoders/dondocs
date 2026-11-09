@@ -1,6 +1,6 @@
 import { REFERENCE_TOKEN } from './publicationReferences';
 import { validateSkillEntries } from './publicationSkills';
-import { PUBLICATION_SECTIONS, publicationSection, sectionTitle, DISCREPANCY_NOTICE, MI_REPORTING, type PublicationSection } from '@/data/techpub/sections';
+import { PUBLICATION_SECTIONS, publicationSection, sectionTitle, DISCREPANCY_NOTICE, MI_REPORTING, pointOfContactLead, type PublicationSection } from '@/data/techpub/sections';
 import type { Paragraph, PublicationTableRow } from '@/types/document';
 import { findUndefinedAcronyms } from '@/lib/acronyms';
 
@@ -116,6 +116,15 @@ const SECTION_ORDER: PublicationSection[][] = [
   ['tooling', 'specialTools', 'jigsFixtures'], ['specialInstructions'], ['supply'], ['skill'], ['procedures'],
 ];
 
+function hasContactDetails(text: string): boolean {
+  // Do not stop at periods in titles, initials or mailboxes. The mandatory
+  // NAVMC notice's mailbox cannot stand in for the publication's own contact.
+  const contacts = text.split(/\bcontact\s+/i).slice(1)
+    .map((part) => part.split(/\b(?:Discrepancies or suggested changes|Operating Forces)\b/i)[0]);
+  return contacts.some((contact) => /[\w.+-]+@[\w.-]+\.[a-z]{2,}\b/i.test(contact)
+    || (contact.match(/\+?[\d(][\d ()-]{5,}\d/g) ?? []).some((phone) => phone.replace(/\D/g, '').length >= 7));
+}
+
 export function validatePublicationStructure(paragraphs: Paragraph[], type = 'MI'): RuleFinding[] {
   const appendix = paragraphs.findIndex((p) => p.appendix);
   const body = appendix < 0 ? paragraphs : paragraphs.slice(0, appendix);
@@ -135,7 +144,7 @@ export function validatePublicationStructure(paragraphs: Paragraph[], type = 'MI
   }
   if (publicationSection(primary[0] ?? {}) !== 'purpose') findings.push(warn('The instruction must begin with the Purpose paragraph.'));
   const admin = primary.find((p) => publicationSection(p) === 'administration');
-  if (!admin) findings.push(warn('Administrative Instructions is required.'));
+  if (!admin) findings.push(warn('Administrative Instructions is required by MIL-DTL-28999D §3.3.2.2. Add this section after Purpose with the point of contact and NAVMC 10772 notice, plus reporting instructions for an MI.'));
   let previous = -1;
   for (const p of primary) {
     const key = publicationSection(p);
@@ -165,12 +174,15 @@ export function validatePublicationStructure(paragraphs: Paragraph[], type = 'MI
     const next = body.findIndex((p, i) => i > start && p.level === 0 && !p.callout && !p.figure);
     const text = body.slice(start, next < 0 ? body.length : next).map((p) => p.text).join(' ');
     const normalize = (value: string) => value.replace(/[“”]/g, '"').replace(/\s+/g, ' ').trim();
-    if (!normalize(text).includes(normalize(DISCREPANCY_NOTICE))) findings.push(warn('Include the prescribed NAVMC 10772 notice in Administrative Instructions.'));
+    if (!normalize(text).includes(normalize(DISCREPANCY_NOTICE))) findings.push(warn('Include the prescribed NAVMC 10772 notice in Administrative Instructions (MIL-DTL-28999D §3.3.2.2.2). The contact paragraph alone does not include this notice.'));
     if (type === 'MI' && !normalize(text).includes(normalize(MI_REPORTING))) findings.push(warn('Include the prescribed MI reporting instructions in Administrative Instructions.'));
     if (type !== 'MI' && text.includes(MI_REPORTING)) findings.push(warn('Remove the MI reporting instructions from this publication type.'));
-    const typeName = ({ MI: 'Modification', TI: 'Technical', SI: 'Supply', LI: 'Lubrication' } as Record<string, string>)[type];
-    if (!normalize(text).toLowerCase().includes(`for questions or concerns with the content or procedures in this ${typeName} instruction (${type}) contact`.toLowerCase())) findings.push(warn('Use the prescribed point-of-contact sentence for this instruction type.'));
-    if (!/contact\s+[^.]*([\w.+-]+@[\w.-]+\.[a-z]{2,}|\+?[\d(][\d ()-]{6,})/i.test(text)) findings.push(warn('Administrative Instructions needs a contact phone number or section mailbox email.'));
+    // Figure 1 uses slash wording for the same contact statement in §3.3.2.2.1.
+    const contactWording = normalize(text)
+      .replace(/\bfor concerns\s*\/\s*issues\b/gi, 'For questions or concerns')
+      .replace(/\bcontent\s*\/\s*procedures\b/gi, 'content or procedures');
+    if (!contactWording.toLowerCase().includes(pointOfContactLead(type).toLowerCase())) findings.push(warn(`Use the prescribed point-of-contact sentence (MIL-DTL-28999D §3.3.2.2.1): “${pointOfContactLead(type)}” followed by a phone number or section mailbox email.`));
+    if (!hasContactDetails(normalize(text))) findings.push(warn('Administrative Instructions needs a contact phone number or section mailbox email.'));
   }
   return findings;
 }

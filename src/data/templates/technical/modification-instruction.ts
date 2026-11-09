@@ -1,4 +1,4 @@
-import { DISCREPANCY_NOTICE, MI_REPORTING, publicationSection } from '@/data/techpub/sections';
+import { DISCREPANCY_NOTICE, MI_REPORTING, pointOfContactLead, publicationSection } from '@/data/techpub/sections';
 import type { LetterTemplate } from '../types';
 
 export const modificationInstruction: LetterTemplate = {
@@ -20,7 +20,7 @@ export const modificationInstruction: LetterTemplate = {
       text: '',
       level: 0,
     },
-    { header: 'Point of Contact', text: 'For questions or concerns with the content or procedures in this Modification Instruction (MI) contact [PHONE OR SECTION MAILBOX EMAIL].', level: 1 },
+    { header: 'Point of Contact', text: `${pointOfContactLead('MI')} [PHONE OR SECTION MAILBOX EMAIL].`, level: 1 },
     { header: 'Notice of Discrepancies', text: DISCREPANCY_NOTICE, level: 1 },
     { header: 'Reporting Instructions', text: MI_REPORTING, level: 1 },
     {

@@ -1,4 +1,5 @@
 import type { Paragraph } from '@/types/document';
+import { publicationTypeName } from './publicationTypes';
 
 export const PUBLICATION_SECTIONS = {
   purpose: 'Purpose',
@@ -33,6 +34,8 @@ export function publicationSection(p: Pick<Paragraph, 'publicationSection' | 'he
     .find((key) => sectionTitle(PUBLICATION_SECTIONS[key]) === sectionTitle(p.header));
 }
 
-// MIL-DTL-28999D §§3.3.2.2.2–3.3.2.2.3. Review contact details before release.
+// MIL-DTL-28999D §§3.3.2.2.1–3.3.2.2.3. Review contact details before release.
+export const pointOfContactLead = (type = 'MI'): string =>
+  `For questions or concerns with the content or procedures in this ${publicationTypeName(type)} (${type}) contact`;
 export const DISCREPANCY_NOTICE = 'Discrepancies or suggested changes for this publication may be reported by submitting a NAVMC 10772. For instructions on how to submit a NAVMC 10772, go to https://mceits.usmc.mil/sites/pubs/default.aspx and click on “NAVMC 10772 Submittal.” Questions or concerns regarding the NAVMC 10772 program should be reported via email to SMB.LOG.Tech.Pubs.fct@usmc.mil. A response will be provided to you.';
 export const MI_REPORTING = 'Operating Forces (GCSS-MC users) will not manually add Modification Instructions (MI) into GCSS-MC Installed Base. Utilize manual reporting methods for tracking until loaded into GCSS-MC.';
