@@ -98,7 +98,7 @@ function validatedPocEmail(raw: string | undefined | null): string {
   return '';
 }
 
-export function generateDocumentTex(store: DocumentStore): string {
+export function generateDocumentTex(store: DocumentStore, referenceDate = new Date()): string {
   const data = store.formData;
   // config will be used for document-type specific variations
   const config = DOC_TYPE_CONFIG[store.docType] || DOC_TYPE_CONFIG.naval_letter;
@@ -133,7 +133,7 @@ ${(() => {
   const serial = isMOAMode ? data.seniorSerial : data.serial;
   const docDate = isMOAMode ? data.seniorDate : data.date;
   // A publication prints its date in full ("30 April 2025"); a letter as stored.
-  const printedDate = isTechnicalPublication(store.docType) ? formatPublicationDate(docDate || '') : docDate;
+  const printedDate = isTechnicalPublication(store.docType) ? formatPublicationDate(docDate || '', referenceDate) : docDate;
   const publicationDate = ['sl3', 'sl4', 'tm_ietm_front_matter'].includes(store.docType) ? printedDate?.toUpperCase() : printedDate;
 
   // For business letters and executive correspondence, set BusinessDate,
@@ -316,9 +316,9 @@ ${data.showSubjectOnContinuation ? `\\setContinuationSubject{${subjectLine}}` : 
     // The cover header carries the anticipated month and year of signature
     // ("JULY 2026"), not the day-level correspondence date the rest of the
     // document uses. Derived from the same date so the two cannot disagree.
-    const signed = parseDate(data.date || '', 'd MMM yy', new Date());
+    const signed = parseDate(data.date || '', 'd MMM yy', referenceDate);
     const coverDate = isValidDate(signed) ? formatDate(signed, 'MMMM yyyy').toUpperCase() : '';
-    tex += `\\setCoverDate{${escapeLatex(['sl3', 'sl4', 'tm_ietm_front_matter'].includes(store.docType) ? formatPublicationDate(data.date || '').toUpperCase() : coverDate)}}\n`;
+    tex += `\\setCoverDate{${escapeLatex(['sl3', 'sl4', 'tm_ietm_front_matter'].includes(store.docType) ? formatPublicationDate(data.date || '', referenceDate).toUpperCase() : coverDate)}}\n`;
     tex += `\\setShortTitle{${escapeLatex(data.shortTitle || '')}}\n`;
     tex += `\\setPCN{${escapeLatex(data.pcn || '')}}\n`;
     tex += `\\setSupersedure{${escapeLatex(data.supersedure || '')}}\n`;
@@ -344,7 +344,7 @@ ${data.showSubjectOnContinuation ? `\\setContinuationSubject{${subjectLine}}` : 
     tex += `\\def\\ITypeDestructionNotice{${noticeText(destruction, 'DESTRUCTION NOTICE:')}}\n`;
     // The distribution statement prints in full on the cover: letter, text,
     // the reason and date of determination, and the office requests go to.
-    const determined = parseDate(data.distDate || '', 'yyyy-MM-dd', new Date());
+    const determined = parseDate(data.distDate || '', 'yyyy-MM-dd', referenceDate);
     const dist = composeDistributionStatement(data.cuiDistStatement || '', {
       reason: data.distReason,
       date: isValidDate(determined) ? formatDate(determined, 'd MMMM yyyy') : '',
@@ -363,7 +363,7 @@ ${data.showSubjectOnContinuation ? `\\setContinuationSubject{${subjectLine}}` : 
     }
   }
 
-  if (store.docType === 'tm_ietm_front_matter') tex += generateManualFrontMatterData(data);
+  if (store.docType === 'tm_ietm_front_matter') tex += generateManualFrontMatterData(data, referenceDate);
   return tex;
 }
 
@@ -1218,14 +1218,14 @@ export function generateBodyTex(store: DocumentStore): string {
   return parts.join('');
 }
 
-export function generateClassificationTex(store: DocumentStore): string {
+export function generateClassificationTex(store: DocumentStore, resolvedLevel?: string): string {
   const data = store.formData;
 
   // Banner reflects the HIGHEST portion marking, not just the document
   // level (SECNAV M-5216.5 / DoDM 5200.01 Vol 2). A CUI document with an
   // (S) paragraph must render a SECRET banner. `custom` passes through
   // unchanged (unrankable free text).
-  const overallLevel = deriveOverallClassLevel(data.classLevel, store.paragraphs);
+  const overallLevel = resolvedLevel ?? deriveOverallClassLevel(data.classLevel, store.paragraphs);
 
   if (overallLevel === 'unclassified') {
     return '% Unclassified - no classification markings\n';
@@ -1326,7 +1326,7 @@ export interface GeneratedFiles {
   figures: { file: string; ref: FileRef }[];
 }
 
-export function generateAllLatexFiles(store: DocumentStore): GeneratedFiles {
+export function generateAllLatexFiles(store: DocumentStore, resolvedLevel?: string, referenceDate = new Date()): GeneratedFiles {
   if (store.docType === 'tm_ietm_front_matter') store = {
     ...store, endItems: (store.formData.manualFrontMatter ?? emptyManualFrontMatter()).endItems,
     paragraphs: [], enclosures: [], references: [], copyTos: [], distributions: [],
@@ -1338,7 +1338,7 @@ export function generateAllLatexFiles(store: DocumentStore): GeneratedFiles {
   if (store.docType === 'sl3' && store.formData.sl3) store = { ...store, paragraphs: [...store.paragraphs, ...sl3Portions(store.formData.sl3)] };
   // Files are written to root level to match \input{} paths in latex-templates.js
   const texFiles: Record<string, string> = {
-    'document.tex': generateDocumentTex(store),
+    'document.tex': generateDocumentTex(store, referenceDate),
     'letterhead.tex': generateLetterheadTex(store),
     'signatory.tex': generateSignatoryTex(store),
     'flags.tex': generateFlagsTex(store),
@@ -1348,7 +1348,7 @@ export function generateAllLatexFiles(store: DocumentStore): GeneratedFiles {
     'copyto-config.tex': generateCopyToTex(store),
     'distribution-config.tex': generateDistributionTex(store),
     'body.tex': generateBodyTex(store),
-    'classification.tex': generateClassificationTex(store),
+    'classification.tex': generateClassificationTex(store, resolvedLevel),
   };
 
   // Collect ALL enclosures for JavaScript handling (maintains correct order).

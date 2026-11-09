@@ -5,6 +5,14 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.3.31] — 2026-11-08
+
+### Changed
+
+- Render correspondence from captured export jobs with owned assets, marking decisions, and per-operation enclosure links.
+- Isolate progress observer errors, stop cancelled work before engine entry, and keep manual cover dates bound to the captured revision.
+- Run the four WebKit browser projects in two jobs so full verification fits the existing job timeout.
+
 ## [1.3.30] — 2026-11-08
 
 ### Changed

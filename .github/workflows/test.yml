@@ -397,7 +397,10 @@ jobs:
             projects: --project=firefox
           - group: webkit
             browsers: webkit
-            projects: --project=webkit --project=mobile-safari --project=ipad-safari --project=mobile-chrome-ios
+            projects: --project=webkit --project=ipad-safari
+          - group: webkit-mobile
+            browsers: webkit
+            projects: --project=mobile-safari --project=mobile-chrome-ios
     steps:
       - uses: actions/checkout@v7
       - uses: actions/setup-node@v6
