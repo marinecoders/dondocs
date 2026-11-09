@@ -349,8 +349,8 @@ export const DOCUMENT_TYPE_GUIDES: DocumentTypeGuide[] = [
   {
     id: 'executive_memorandum',
     name: 'Executive Memorandum',
-    category: 'Memoranda',
-    summary: 'A memorandum for senior executives or flag officers, typically more polished and concise, focusing on strategic-level information.',
+    category: 'Executive',
+    summary: 'An alias of the Chapter 12 standard headquarters memorandum, using the same addressing and paragraph rules.',
     whenToUse: [
       'Communication to flag/general officers',
       'Strategic-level information sharing',
@@ -358,10 +358,10 @@ export const DOCUMENT_TYPE_GUIDES: DocumentTypeGuide[] = [
       'High-visibility matters',
     ],
     keyFeatures: [
-      'Concise and executive-focused',
-      'Full signature block',
-      'Professional tone',
-      'Strategic perspective',
+      'MEMORANDUM FOR with optional ATTN and THROUGH',
+      'Unnumbered main paragraphs and identified subparagraphs',
+      'Full name and organizational title',
+      'Same format as Standard Memorandum (HqDON)',
     ],
     commonExamples: [
       'Status updates to senior leadership',
@@ -369,7 +369,7 @@ export const DOCUMENT_TYPE_GUIDES: DocumentTypeGuide[] = [
       'High-level briefing documents',
       'Executive information papers',
     ],
-    reference: 'SECNAV M-5216.5, Chapter 12',
+    reference: 'SECNAV M-5216.5, Chapter 12, §12-4 ¶2',
   },
   {
     id: 'joint_memorandum',

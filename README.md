@@ -136,9 +136,9 @@ The correspondence picker provides `NAME` and `DATE` examples. Add your own `{{V
 |----------|-------|
 | Letters | Naval Letter, Standard Letter, Business Letter, Multiple Address Letter, Joint Letter |
 | Endorsements | Same-Page Endorsement, New-Page Endorsement |
-| Memoranda | MFR, Memorandum For, Plain Paper, Letterhead, Decision, Executive, Joint Memorandum |
+| Memoranda | MFR, Memorandum For, Plain Paper, Letterhead, Decision, Joint Memorandum |
 | Agreements | MOA, MOU |
-| Executive | Executive Correspondence, Standard Memorandum, Action Memorandum, Information Memorandum |
+| Executive | Executive Correspondence, Standard Memorandum (including Executive Memorandum alias), Action Memorandum, Information Memorandum |
 
 The table above groups correspondence formats. The [generated capability matrix](docs/CAPABILITIES.md) also includes technical publications and built-in forms, with PDF-only and partial operations identified. Format availability does not certify a document for signature.
 
