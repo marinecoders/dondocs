@@ -12,7 +12,7 @@ function remember(hash: string, bytes: Uint8Array) {
   let size = bytes.byteLength;
   for (const value of memory.values()) size += value.byteLength;
   if (size > 20 * 1024 * 1024) memory.clear();
-  memory.set(hash, bytes);
+  memory.set(hash, new Uint8Array(bytes));
 }
 export async function digest(bytes: Uint8Array): Promise<string> {
   if (!globalThis.crypto?.subtle) throw new Error('Template verification requires HTTPS or localhost');
@@ -34,7 +34,7 @@ export async function loadPackagePage(d: FormDefinition, file: string, requireOf
   const hit = memory.get(hash);
   if (hit && !requireOffline) {
     if (!await pageDimensionsMatch(hit, page)) throw new Error(`Template dimensions mismatch: ${file}`);
-    return hit;
+    return new Uint8Array(hit);
   }
   let cache: Cache | null = null;
   let stored: Response | undefined;

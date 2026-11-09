@@ -1,3 +1,4 @@
+import { capturedCapabilities } from './documentCapabilities';
 import { exportErrorMessage } from './exportDiagnostics';
 import { notifyObserver } from './observers';
 import type { FormExportTemplates } from './formExportTemplates';
@@ -108,6 +109,12 @@ export function createExportController(ports: ExportControllerPorts) {
       publish({ phase: 'preparing', target: operation.intent.target });
       const policy = await resolvePolicy(retry);
       if (current !== operation) { releaseDelivery(operation);return; }
+      if (policy.status === 'ready') {
+        const capability = capturedCapabilities(operation.intent.captured, { operation: 'export', target: operation.intent.target });
+        if (capability.status !== 'supported' && capability.status !== 'partial') {
+          fail(operation, capability.message, false);return;
+        }
+      }
       const formTemplates = policy.status === 'ready' ? await captureResources?.(operation.intent.captured) : undefined;
       if (current !== operation) { releaseDelivery(operation);return; }
       const result = prepareExport({ ...operation.intent, policy, formTemplates });

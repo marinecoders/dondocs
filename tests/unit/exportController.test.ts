@@ -1,8 +1,10 @@
 import { expect, it, vi } from 'vitest';
-import { captureDocumentRevision } from '@/lib/capturedDocument';
+import { captureDocumentRevision, copyCapturedSession } from '@/lib/capturedDocument';
 import { copyPreparedDocument, type ReadyExportJob } from '@/lib/preparedExport';
 import { createExportArtifact, type ExportArtifact } from '@/lib/exportExecution';
 import { createExportController, createExportGate, type ExportIntent } from '@/lib/exportController';
+import { fixtureInstance } from '../_helpers/formFixture';
+import { captureExportFormTemplates } from '@/services/exports/formTemplates';
 import { resolveExportDeploymentPolicy } from '@/lib/exportDeploymentPolicy';
 
 const policy = resolveExportDeploymentPolicy({ hostname: 'example.test', environment: null, runtime: { status: 'absent' } });
@@ -126,4 +128,25 @@ it('releases the export gate after renderer diagnostics cannot be read', async (
     expect(app.controller.getState()).toMatchObject({ phase: 'error', message: 'Engine failed', retryable: true });
     expect(unhandled).toEqual([]); const release = app.gate.acquire(); expect(release).not.toBeNull(); release?.();
   } finally { process.off('unhandledRejection', record); }
+});
+
+it('rejects an invalid captured definition before loading templates or offering Retry', async () => {
+  const app = setup();
+  const captureResources = vi.fn(captureExportFormTemplates);
+  const controller = createExportController({ ...app, captureResources });
+  const original = intent();
+  const form = fixtureInstance();
+  const captured = captureDocumentRevision(original.captured.source, {
+    ...copyCapturedSession(original.captured), endItems: [], publicationTables: {}, documentCategory: 'forms', formType: 'fixture', genericForm: form,
+  });
+  controller.request({ ...original, captured });
+  await vi.waitFor(() => expect(controller.getState()).toMatchObject({
+    phase: 'error', message: expect.stringContaining('checksums'), retryable: false,
+  }));
+  expect(captureResources).not.toHaveBeenCalled();
+  expect(controller.retry()).toBe(false);
+  expect(app.render).not.toHaveBeenCalled();
+  expect(app.deliver).not.toHaveBeenCalled();
+  expect(app.release).toHaveBeenCalledTimes(1);
+  const release = app.gate.acquire(); expect(release).not.toBeNull(); release?.();
 });
