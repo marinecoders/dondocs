@@ -89,7 +89,10 @@ export class LatexCompileError extends Error {
 
   constructor(status: number, log: string) {
     const needsReset = log.includes('Fatal format file error');
-    super(needsReset ? 'ENGINE_RESET_NEEDED' : `LaTeX compilation failed (status ${status})`);
+    super(needsReset ? 'ENGINE_RESET_NEEDED'
+      : log.includes('Address block is too tall')
+        ? 'The address and Via routing block does not fit on the opening page. Shorten the address or routing text before exporting.'
+        : `LaTeX compilation failed (status ${status})`);
     this.name = 'LatexCompileError';
     this.status = status;
     this.log = log;

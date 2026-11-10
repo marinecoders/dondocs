@@ -21,7 +21,7 @@ import { agreementParagraphs } from './agreementLayout';
 import { jointSignatories, signatureAuthorityLine, signaturePosition, supportsActingSignature } from '@/lib/signingAuthority';
 import type { DocumentData, Reference, Enclosure, Paragraph, CopyTo, Distribution, DocTypeConfig } from '@/types/document';
 import { composeSenderSymbol } from './senderSymbol';
-import { keepTypedSpaces, latexLineBreaks } from './escaper';
+import { keepTypedSpaces, latexLineBreaks, wrapAddressLines } from './escaper';
 import { LAYOUT, TEXT_WIDTH_IN } from '@/services/docx/layout-config';
 import { composeBasicLetterId, enclosureStartNumber, pageStartNumber } from '@/lib/endorsement';
 import { paragraphMark, delimitParagraphMark, isUnderlinedLevel } from './paragraphLabel';
@@ -318,6 +318,7 @@ function buildPreamble(data: Partial<DocumentData>): string {
 % Keep Word layout markers inert when this intermediate file is compiled as TeX.
 % Deferring definitions preserves them for pandoc's raw-command Lua filter.
 \\AtBeginDocument{%
+\\providecommand{\\dondocsaddressbreak}{\\newline}%
 \\providecommand{\\dondocsackstart}{}%
 \\providecommand{\\dondocsacktail}[1]{}%
 \\providecommand{\\dondocsacksignature}[1]{}%
@@ -499,6 +500,10 @@ function escapeTabularWrapped(str: string | undefined | null, maxLength: number 
   return wrapped.map(l => escapeTabular(l)).join(' \\newline\n');
 }
 
+function escapeAddressWrapped(value: string | undefined | null): string {
+  return wrapAddressLines(value).map(line => escapeTabular(line)).join('\\dondocsaddressbreak{}');
+}
+
 /** Conditionally wrap subject text in \\uline{} based on the underlineSubject flag. */
 function maybeUnderline(text: string, underline: boolean | undefined): string {
   return underline ? `\\uline{${text}}` : text;
@@ -520,8 +525,8 @@ function buildAddressBlock(data: Partial<DocumentData>, config: DocTypeConfig): 
   const rows: string[] = [];
 
   if (config.fromTo) {
-    if (data.from) rows.push(`From:\\hspace{2\\fontdimen2\\font} & ${escapeTabularWrapped(data.from)} \\\\`);
-    if (data.to) rows.push(`To:\\hspace{6\\fontdimen2\\font} & ${escapeTabularWrapped(data.to)} \\\\`);
+    if (data.from) rows.push(`From:\\hspace{2\\fontdimen2\\font} & ${escapeAddressWrapped(data.from)} \\\\`);
+    if (data.to) rows.push(`To:\\hspace{6\\fontdimen2\\font} & ${escapeAddressWrapped(data.to)} \\\\`);
   }
 
   if (config.via && data.via?.trim()) {
@@ -530,9 +535,9 @@ function buildAddressBlock(data: Partial<DocumentData>, config: DocTypeConfig): 
     const viaLines = formatViaLines(data.via);
     for (let i = 0; i < viaLines.length; i++) {
       if (i === 0) {
-        rows.push(`Via:\\hspace{5\\fontdimen2\\font} & ${escapeTabularWrapped(viaLines[i])} \\\\`);
+        rows.push(`Via:\\hspace{5\\fontdimen2\\font} & ${escapeAddressWrapped(viaLines[i])} \\\\`);
       } else {
-        rows.push(` & ${escapeTabularWrapped(viaLines[i])} \\\\`);
+        rows.push(` & ${escapeAddressWrapped(viaLines[i])} \\\\`);
       }
     }
   }

@@ -29,9 +29,10 @@ const pandocAvailable =
   spawnSync('pandoc', ['--version'], { encoding: 'utf-8' }).status === 0;
 const toolchain = hasPdfToolchain && pandocAvailable;
 
-async function renderBoth(via: string): Promise<{ pdf: string; docx: string }> {
+async function renderBoth(via: string, to?: string): Promise<{ pdf: string; docx: string; html: string }> {
   const store = buildBaseline('new_page_endorsement');
   store.formData = { ...store.formData, via };
+  if (to) store.formData.to = to;
   // No references or enclosures: their labels ("(a)", "(1)") would collide
   // with the only "(N)" these assertions are about — the via numbers.
   store.references = [];
@@ -55,11 +56,34 @@ async function renderBoth(via: string): Promise<{ pdf: string; docx: string }> {
   });
   expect(docx.trim().length).toBeGreaterThan(0);
 
-  return { pdf, docx };
+  const { value: html } = await mammoth.convertToHtml({ buffer: Buffer.from(docxResult.docxBytes!) });
+  return { pdf, docx, html };
 }
 
 describe('via addressee numbering — rendered PDF and DOCX', () => {
   describeToolchainRequirement('via-numbering-render');
+
+  it.each([10, 14])('rejects %i wrapped routes that cannot fit on the opening page', async count => {
+    const store = buildBaseline('naval_letter');
+    store.formData.via = Array.from({ length: count }, (_, i) =>
+      `ROUTE${i + 1} Commanding General, Example Regional Headquarters, Training Coordination, Readiness and Operational Planning Directorate, Headquarters Support Division`).join('\n');
+    const result = await compileFixture(store);
+    expect(result.ok, result.logTail).toBe(false);
+    expect(result.logTail).toContain('Address block is too tall');
+  }, 60_000);
+
+  it.each([6, 10])('retains all %i routes in both outputs', async count => {
+    const { pdf, docx } = await renderBoth(Array.from({ length: count }, (_, i) => `ROUTE${i + 1} Command`).join('\n'));
+    for (const text of [pdf, docx]) {
+      for (let i = 1; i <= count; i++) expect(text).toMatch(new RegExp(`\\(${i}\\)\\s+ROUTE${i}\\b`));
+    }
+  }, 90_000);
+
+  it('preserves explicit address rows in PDF and Word', async () => {
+    const { pdf, html } = await renderBoth('', 'ALPHAUNIT Training Battalion\r\nBRAVOUNIT Training Battalion');
+    expect(pdf).toMatch(/ALPHAUNIT Training Battalion\s*\nBRAVOUNIT Training Battalion/);
+    expect(html).toMatch(/ALPHAUNIT Training Battalion<br\s*\/>BRAVOUNIT Training Battalion/);
+  }, 90_000);
 
   it.skipIf(!toolchain)('numbers two remaining via addressees (1), (2) in both outputs', async () => {
     const { pdf, docx } = await renderBoth(

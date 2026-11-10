@@ -75,13 +75,7 @@
 \newcommand{\printAddressBlock}{%
     \noindent
     % Build Via rows into a macro before the tabular (safe for SwiftLaTeX)
-    \def\@viarows{}%
-    \ifViaEnabled
-        \def\@viarows{\tabularnewline Via:\hspace{5\fontdimen2\font} & \ViaLineOne}%
-        \ifdefempty{\ViaLineTwo}{}{\appto\@viarows{\tabularnewline & \ViaLineTwo}}%
-        \ifdefempty{\ViaLineThree}{}{\appto\@viarows{\tabularnewline & \ViaLineThree}}%
-        \ifdefempty{\ViaLineFour}{}{\appto\@viarows{\tabularnewline & \ViaLineFour}}%
-    \fi
+    \def\@viarows{\ViaRows}%
     \def\@subjrow{}%
     \ifEndorsementSubjectEnabled
         \def\@subjrow{\tabularnewline[12pt] Subj:\hspace{3\fontdimen2\font} & \SubjectLine}%
