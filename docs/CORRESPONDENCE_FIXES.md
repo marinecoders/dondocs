@@ -56,3 +56,13 @@ fixed first-line spacer. Word carries the measured indent in a bookmark
 and applies real paragraph indentation during post-processing. Main body
 paragraphs remain unnumbered; nested paragraphs retain their identifiers
 (Chapter 12 paragraphs 2e–f and 2i–j).
+
+## Signature pages
+
+Correspondence formats with bottom signatures link the final two written
+paragraphs and keep the complete close/signature block intact. Existing widow
+control permits long prose to split while retaining two lines on the closing
+page. Word keep rules extend through the spacing and signature table, ending
+before copy/distribution blocks. Blank trailing input rows do not determine
+which prose forms the tail. Action/info memos and technical publications retain
+their separate signing behavior (Chapter 7 paragraph 13; Chapter 11 Figure 11-2).

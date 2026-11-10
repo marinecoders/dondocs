@@ -1,4 +1,5 @@
 import { toTitleCase } from '@/lib/titleCase';
+import { closingTailStart, hasBottomSignature } from '@/lib/correspondenceClosing';
 import { abbreviatedFullSignatoryName } from '@/lib/signatoryName';
 import { resolveParagraphLayout, paragraphHasLabel } from './paragraphLayout';
 import { documentOutputConfig } from '@/lib/documentOutputConfig';
@@ -29,7 +30,7 @@ import type { DocumentData, Reference, Enclosure, Paragraph, CopyTo, Distributio
 import { base64ToUint8Array } from '@/lib/encoding';
 import { composeBasicLetterId, enclosureStartNumber, pageStartNumber } from '@/lib/endorsement';
 import { calculateLabels } from './paragraphLabels';
-import { agreementParagraphs, emptyAgreementRow } from './agreementLayout';
+import { agreementParagraphs } from './agreementLayout';
 import { ancestorLabelsPerParagraph, type LabelFont } from './subparagraphIndent';
 import { safeUrl } from '@/lib/url-safety';
 import { splitAddressForLetterhead } from '@/lib/unitAddress';
@@ -115,6 +116,7 @@ export function generateDocumentTex(store: DocumentStore, referenceDate = new Da
 %=============================================================================
 
 \\setDocumentType{${store.docType}}
+${hasBottomSignature(store.docType) ? '\\enableClosingKeep' : ''}
 \\setFontSize{${data.fontSize || '12pt'}}
 \\setFontFamily{${data.fontFamily || 'times'}}
 ${config.fromTo && !isTechnicalPublication(store.docType) ? '\\enableAddressFitCheck' : '% No opening address table'}
@@ -998,12 +1000,10 @@ export function generateBodyTex(store: DocumentStore): string {
   // A one-line closing still needs preceding body text on the signature page
   // (Ch 7 ¶13). Connect the final written paragraphs after removing empty
   // closing rows; the template attaches signatures and widow protection keeps lines.
-  const agreementTailStart = config.uiMode === 'moa'
-    ? store.paragraphs.flatMap((para, i) => emptyAgreementRow(para) ? [] : [i]).slice(-2)[0]
-    : undefined;
+  const tailStart = closingTailStart(store.docType, store.paragraphs);
   for (let i = 0; i < store.paragraphs.length; i++) {
     const para = store.paragraphs[i];
-    if (agreementTailStart !== undefined && i > agreementTailStart) parts.push('\\nopagebreak[4]\n');
+    if (tailStart !== undefined && i > tailStart) parts.push('\\nopagebreak[4]\n');
     const label = paragraphHasLabel(para.level, config) ? labels[i] : '';
     const layout = resolveParagraphLayout(para.level, ancestors[i], config, bodyFont, bodySizePt);
     const spacing = `\\vspace{${layout.spaceBeforePt}pt}`;

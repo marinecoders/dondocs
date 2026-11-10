@@ -1,4 +1,5 @@
 import { toTitleCase } from '@/lib/titleCase';
+import { closingTailStart, hasBottomSignature } from '@/lib/correspondenceClosing';
 import { resolveParagraphLayout, paragraphHasLabel } from './paragraphLayout';
 import { documentOutputConfig } from '@/lib/documentOutputConfig';
 /**
@@ -301,6 +302,8 @@ function buildPreamble(data: Partial<DocumentData>): string {
 \\AtBeginDocument{%
 \\providecommand{\\dondocsaddressbreak}{\\newline}%
 \\providecommand{\\dondocsmemoindent}[2]{}%
+\\providecommand{\\dondocsclosingtail}{}%
+\\providecommand{\\dondocssignatureend}{}%
 \\providecommand{\\dondocsackstart}{}%
 \\providecommand{\\dondocsacktail}[1]{}%
 \\providecommand{\\dondocsacksignature}[1]{}%
@@ -644,7 +647,7 @@ function bodySizePt(data: Partial<DocumentData> | undefined): number {
   return parseFloat(data?.fontSize || '12pt') || 12;
 }
 
-function buildBody(paragraphs: Paragraph[], config: DocTypeConfig, font: LabelFont, fontSizePt: number): string {
+function buildBody(paragraphs: Paragraph[], config: DocTypeConfig, font: LabelFont, fontSizePt: number, docType: string): string {
   if (paragraphs.length === 0) return '';
 
   const labels = calculateLabels(paragraphs);
@@ -653,6 +656,7 @@ function buildBody(paragraphs: Paragraph[], config: DocTypeConfig, font: LabelFo
   // the one that grows unbounded — within a single paragraph the
   // accumulator stays small so we leave that alone).
   const bodyParts: string[] = [];
+  const tailStart = closingTailStart(docType, paragraphs);
 
   for (let i = 0; i < paragraphs.length; i++) {
     const para = paragraphs[i];
@@ -682,7 +686,7 @@ function buildBody(paragraphs: Paragraph[], config: DocTypeConfig, font: LabelFo
     const indent = blockIndent || layout.firstLineIndentIn;
     const macro = blockIndent ? 'dondocsindent' : 'dondocsfirstindent';
     const indentCmd = indent > 0 ? `\\${macro}{${indent.toFixed(2)}in}` : '';
-    bodyParts.push(`${spacing}\n${indentCmd}${label ? `${label}~~` : ''}${paraText}\n\n`);
+    bodyParts.push(`${spacing}\n${indentCmd}${i === tailStart ? '\\dondocsclosingtail{}' : ''}${label ? `${label}~~` : ''}${paraText}\n\n`);
   }
 
   return bodyParts.join('');
@@ -757,6 +761,10 @@ ${body}\\dondocsacksignaturespace
 
 `;
   }).join('\n');
+}
+
+function closingEnd(docType: string): string {
+  return hasBottomSignature(docType) ? '\\dondocssignatureend\n\n' : '';
 }
 
 /** Single signature block positioned in right half using tabularX */
@@ -1287,8 +1295,8 @@ function buildStandardLayout(store: DocumentStore, config: DocTypeConfig): strin
     store.enclosures,
     enclosureStartNumber(store.docType, store.formData.startingEnclosureNumber)
   );
-  content += buildBody(store.paragraphs, config, bodyFont(store.formData), bodySizePt(store.formData));
-  content += buildSignature(data, config, store.docType);
+  content += buildBody(store.paragraphs, config, bodyFont(store.formData), bodySizePt(store.formData), store.docType);
+  content += buildSignature(data, config, store.docType) + closingEnd(store.docType);
   // Between the signature and Distribution/Copy to — Ch 9 Figure 9-1 puts the
   // "Copy to:" block last on the sheet, below the endorsement.
   content += buildAppendedEndorsement(store);
@@ -1339,8 +1347,8 @@ function buildBusinessLayout(store: DocumentStore, config: DocTypeConfig): strin
   }
 
   content += buildFormalLists(store, config);
-  content += buildBody(store.paragraphs, config, bodyFont(store.formData), bodySizePt(store.formData));
-  content += buildBusinessSignature(data);
+  content += buildBody(store.paragraphs, config, bodyFont(store.formData), bodySizePt(store.formData), store.docType);
+  content += buildBusinessSignature(data) + closingEnd(store.docType);
   content += buildDistribution(store.distributions);
   content += buildCopyTo(store.copyTos);
 
@@ -1368,9 +1376,9 @@ function buildMemoLayout(store: DocumentStore, config: DocTypeConfig): string {
     store.enclosures,
     enclosureStartNumber(store.docType, store.formData.startingEnclosureNumber)
   );
-  content += buildBody(store.paragraphs, config, bodyFont(store.formData), bodySizePt(store.formData));
+  content += buildBody(store.paragraphs, config, bodyFont(store.formData), bodySizePt(store.formData), store.docType);
   if (config.hasDecisionBlock) content += buildDecisionBlock();
-  content += buildSignature(data, config, store.docType);
+  content += buildSignature(data, config, store.docType) + closingEnd(store.docType);
   content += buildDistribution(store.distributions);
   content += buildCopyTo(store.copyTos);
 
@@ -1399,8 +1407,8 @@ Subj:\\hspace{3\\fontdimen2\\font} & ${maybeUnderline(escapeTabularWrapped(data.
     store.enclosures,
     enclosureStartNumber(store.docType, store.formData.startingEnclosureNumber)
   );
-  content += buildBody(agreementParagraphs(store.paragraphs), config, bodyFont(store.formData), bodySizePt(store.formData));
-  content += buildDualSignature(data, 'moa');
+  content += buildBody(agreementParagraphs(store.paragraphs), config, bodyFont(store.formData), bodySizePt(store.formData), store.docType);
+  content += buildDualSignature(data, 'moa') + closingEnd(store.docType);
   content += buildDistribution(store.distributions);
   content += buildCopyTo(store.copyTos);
 
@@ -1422,8 +1430,8 @@ function buildJointLayout(store: DocumentStore, config: DocTypeConfig): string {
     store.enclosures,
     enclosureStartNumber(store.docType, store.formData.startingEnclosureNumber)
   );
-  content += buildBody(store.paragraphs, config, bodyFont(store.formData), bodySizePt(store.formData));
-  content += buildDualSignature(data, 'joint');
+  content += buildBody(store.paragraphs, config, bodyFont(store.formData), bodySizePt(store.formData), store.docType);
+  content += buildDualSignature(data, 'joint') + closingEnd(store.docType);
   content += buildDistribution(store.distributions);
   content += buildCopyTo(store.copyTos);
 
@@ -1473,8 +1481,8 @@ ${trimLastRow(rows)}
     store.enclosures,
     enclosureStartNumber(store.docType, store.formData.startingEnclosureNumber)
   );
-  content += buildBody(store.paragraphs, config, bodyFont(store.formData), bodySizePt(store.formData));
-  content += buildDualSignature(data, 'joint_memo');
+  content += buildBody(store.paragraphs, config, bodyFont(store.formData), bodySizePt(store.formData), store.docType);
+  content += buildDualSignature(data, 'joint_memo') + closingEnd(store.docType);
   content += buildDistribution(store.distributions);
   content += buildCopyTo(store.copyTos);
 
@@ -1526,10 +1534,12 @@ function buildStandardMemorandumLayout(store: DocumentStore, config: DocTypeConf
   content += buildFormalLists(store, config);
 
   // Body paragraphs
-  content += buildBody(store.paragraphs, config, bodyFont(store.formData), bodySizePt(store.formData));
+  content += buildBody(store.paragraphs, config, bodyFont(store.formData), bodySizePt(store.formData), store.docType);
 
   // Signature block (executive style: right half, no close)
-  content += buildSignature(data, config, store.docType);
+  content += buildSignature(data, config, store.docType) + closingEnd(store.docType);
+  content += buildCopyTo(store.copyTos);
+  content += buildDistribution(store.distributions);
 
   return content;
 }
@@ -1577,7 +1587,7 @@ function buildActionMemorandumLayout(store: DocumentStore, config: DocTypeConfig
   content += buildFormalLists(store, config);
 
   // Body paragraphs
-  content += buildBody(store.paragraphs, config, bodyFont(store.formData), bodySizePt(store.formData));
+  content += buildBody(store.paragraphs, config, bodyFont(store.formData), bodySizePt(store.formData), store.docType);
 
   // Coordination section
   if (data.coordination?.trim()) {
@@ -1585,7 +1595,7 @@ function buildActionMemorandumLayout(store: DocumentStore, config: DocTypeConfig
   }
 
   // Signature block (executive style: right half, no close)
-  content += buildSignature(data, config, store.docType);
+  content += buildSignature(data, config, store.docType) + closingEnd(store.docType);
 
   // Prepared by
   if (data.preparedBy?.trim()) {
@@ -1635,7 +1645,7 @@ function buildInfoMemorandumLayout(store: DocumentStore, config: DocTypeConfig):
   content += buildFormalLists(store, config);
 
   // Body paragraphs
-  content += buildBody(store.paragraphs, config, bodyFont(store.formData), bodySizePt(store.formData));
+  content += buildBody(store.paragraphs, config, bodyFont(store.formData), bodySizePt(store.formData), store.docType);
 
   // Coordination section
   if (data.coordination?.trim()) {
