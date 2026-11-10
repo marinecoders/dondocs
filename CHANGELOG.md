@@ -5,6 +5,12 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.3.50] — 2026-11-09
+
+### Changed
+
+- Stabilize import-feedback geometry checks across desktop and mobile viewport sizes.
+
 ## [1.3.49] — 2026-11-09
 
 ### Fixed
