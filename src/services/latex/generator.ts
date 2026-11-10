@@ -722,7 +722,9 @@ ${store.enclosures
 }
 
 export function generateCopyToTex(store: DocumentStore): string {
-  if (store.copyTos.length === 0) {
+  // A format switch retains letter recipients in state for switching back.
+  // I-Type publications carry their own authentication/distribution pages.
+  if (store.docType === 'i_type' || store.copyTos.length === 0) {
     return '% No copy-to recipients\n';
   }
 
@@ -747,7 +749,7 @@ ${rows.join('\n')}
 }
 
 export function generateDistributionTex(store: DocumentStore): string {
-  if (!store.distributions || store.distributions.length === 0) {
+  if (store.docType === 'i_type' || !store.distributions || store.distributions.length === 0) {
     return '% No distribution recipients\n';
   }
 
