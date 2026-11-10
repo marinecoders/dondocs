@@ -45,7 +45,11 @@ async function expectBaseline(page: Page) {
 async function start(page: Page) {
   await page.addInitScript(() => localStorage.setItem('dondocs-welcome-shown', '3.0'));
   await page.goto(origin);
-  await page.locator('#subject:visible, #body-subject:visible').fill('UPGRADE BASELINE');
+  const subject = page.locator('#subject:visible, #body-subject:visible');
+  await subject.click();
+  await expect(subject).toBeFocused();
+  await subject.fill('UPGRADE BASELINE');
+  await expectBaseline(page);
   await expect(async () => expect(JSON.stringify((await readSaved(page)).documents)).toContain('UPGRADE BASELINE')).toPass({ timeout: 15_000 });
   // Add a deterministic attachment to the old release's saved document.
   await page.evaluate(async () => {
@@ -104,39 +108,42 @@ test('old release upgrades with two tabs, committed edits, attachment bytes, and
   await expect(other.locator('#subject:visible, #body-subject:visible')).toHaveValue('EDIT JUST BEFORE UPGRADE');
   await expect(async () => expect((await readSaved(other)).attachments).toEqual(before.attachments)).toPass({ timeout: 15_000 });
   // Claim the newest build before going offline, then prove stored work opens.
+  const beforeActivation = await documentIdentity(page);
   await expect(async () => {
     await page.evaluate(async () => {
       const registration = await navigator.serviceWorker.ready;
-      const worker = registration.installing ?? registration.waiting ?? registration.active;
-      if (!worker) throw new Error('Updated service worker is unavailable');
-      await new Promise<void>((resolve, reject) => {
-        const check = () => {
-          if (worker.state === 'installed') worker.postMessage({ type: 'SKIP_WAITING' });
-          if (worker.state === 'activated') { worker.removeEventListener('statechange', check); resolve(); }
-          if (worker.state === 'redundant') { worker.removeEventListener('statechange', check); reject(new Error('Updated service worker failed to activate')); }
-        };
-        worker.addEventListener('statechange', check);
-        check();
-      });
+      const worker = registration.waiting ?? registration.installing;
+      if (worker?.state === 'installed') worker.postMessage({ type: 'SKIP_WAITING' });
     });
+    // Let controllerchange finish the application's reload; a competing manual
+    // reload can interrupt it. Each poll returns even during navigation.
+    expect(await documentIdentity(page)).not.toBe(beforeActivation);
   }).toPass({ timeout: 15_000 });
-  await reloadDuringUpdate(page);
+  await expect(page.locator('#subject:visible, #body-subject:visible')).toHaveValue('EDIT JUST BEFORE UPGRADE', { timeout: 15_000 });
   const html = await readFile(resolve(newBuild, 'index.html'), 'utf8');
   const newScript = html.match(/type="module"[^>]*src="([^"]+)"/)?.[1];
   expect(newScript).toBeTruthy();
   await expect(page.locator('script[type="module"]')).toHaveAttribute('src', newScript!);
   // Workbox writes the navigation response asynchronously. Go offline only
   // after activation and the online navigation have cached the current shell.
-  await expect.poll(() => page.evaluate(async script => {
-    const registration = await navigator.serviceWorker.ready;
-    if (navigator.serviceWorker.controller !== registration.active || registration.installing || registration.waiting) return false;
-    for (const name of await caches.keys()) {
-      if (!name.startsWith('dondocs-app-shell-')) continue;
-      const response = await (await caches.open(name)).match(location.origin + '/');
-      if (response && (await response.text()).includes(script)) return true;
-    }
-    return false;
-  }, newScript!), { timeout: 15_000 }).toBe(true);
+  await expect(async () => {
+    const state = await page.evaluate(async script => {
+      const registration = await navigator.serviceWorker.ready;
+      const state = {
+        controlled: navigator.serviceWorker.controller === registration.active,
+        installing: registration.installing?.state ?? null,
+        waiting: registration.waiting?.state ?? null,
+        cachedShell: false,
+      };
+      for (const name of await caches.keys()) {
+        if (!name.startsWith('dondocs-app-shell-')) continue;
+        const response = await (await caches.open(name)).match(location.origin + '/');
+        if (response && (await response.text()).includes(script)) state.cachedShell = true;
+      }
+      return state;
+    }, newScript!);
+    expect(state).toEqual({ controlled: true, installing: null, waiting: null, cachedShell: true });
+  }).toPass({ timeout: 15_000 });
   await context.setOffline(true);
   await reloadDuringUpdate(page);
   await expect(page.locator('#subject:visible, #body-subject:visible')).toHaveValue('EDIT JUST BEFORE UPGRADE');
