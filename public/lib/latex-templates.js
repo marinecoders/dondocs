@@ -4868,7 +4868,9 @@ const LATEX_TEMPLATES = {
 \\fancypagestyle{firstpage}{%
     \\fancyhf{}%
     \\fancyhead[C]{\\placeClassificationMarkings}%
-    \\fancyfoot[C]{\\smartPageNumber}%
+    % Page one's body gives back the measured continuation-header reserve.
+    % Its footer must give back the same amount to stay at the paper margin.
+    \\fancyfoot[C]{\\raisebox{\\dondocsContExtra}[0pt][0pt]{\\smartPageNumber}}%
     \\renewcommand{\\headrulewidth}{0pt}%
     \\renewcommand{\\footrulewidth}{0pt}%
 }
