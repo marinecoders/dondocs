@@ -5,6 +5,12 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.3.51] — 2026-11-09
+
+### Fixed
+
+- Preserve complete Via routing and explicit address rows in PDF and Word exports.
+
 ## [1.3.50] — 2026-11-09
 
 ### Changed
