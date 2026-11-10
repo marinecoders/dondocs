@@ -28,7 +28,7 @@ describe('native correspondence list pagination', () => {
     } finally { await pdf.destroy(); }
   }, 60_000);
 
-  it.each([12, 14])('keeps Courier %ipt reference captions inside their Word columns', async size => {
+  it.each([11, 12])('keeps Courier %ipt reference captions inside their Word columns', async size => {
     for (const count of [1, 2]) {
       const store = buildBaseline('standard_memorandum');
       store.documentMode = 'custom';
@@ -40,6 +40,8 @@ describe('native correspondence list pagination', () => {
       const final = await postProcessDocx(new Blob([Uint8Array.from(result.docxBytes!)]), { docType: store.docType, ...store.formData });
       const zip = await JSZip.loadAsync(await final.arrayBuffer());
       const xml = await zip.file('word/document.xml')!.async('string');
+      const styles = await zip.file('word/styles.xml')!.async('string');
+      expect(styles.match(/<w:docDefaults>[^]*?<\/w:docDefaults>/)?.[0]).toContain(`<w:sz w:val="${size * 2}"/>`);
       const caption = count === 1 ? 'Reference:' : 'Reference(s):';
       const table = [...xml.matchAll(/<w:tbl>[^]*?<\/w:tbl>/g)].map(m => m[0]).find(t => t.includes(caption));
       expect(table).toBeDefined();
