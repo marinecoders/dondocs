@@ -187,7 +187,10 @@ test('Redo survives attachment hydration after reopening an imported draft', asy
   await page.reload();
   const subject = page.getByRole('textbox', { name: 'Subject', exact: true });
   await expect(subject).toHaveValue('ATTACHMENT HISTORY');
+  await subject.click();
+  await expect(subject).toBeFocused();
   await subject.fill('ATTACHMENT HISTORY EDIT');
+  await expect(subject).toHaveValue('ATTACHMENT HISTORY EDIT');
   const undo = await historyAction(page, /^Undo/);
   await expect(undo).toBeEnabled(); await undo.click();
   await expect(subject).toHaveValue('ATTACHMENT HISTORY');
