@@ -1334,7 +1334,8 @@ export async function postProcessDocx(
     let stylesXml = await stylesFile.async('string');
     const fontName = getDocxFontName(fontFamily);
     const sizeHp = getFontSizeHalfPoints(fontSize);
-    const lineSpacing = sizeHp * 10; // half-points × 10 = twips (24 × 10 = 240)
+    // Auto spacing uses 240ths of a line, independently of the font's size.
+    const lineSpacing = 240;
 
     const newDocDefaults = '<w:docDefaults>'
       + '<w:rPrDefault><w:rPr>'
@@ -1356,19 +1357,16 @@ export async function postProcessDocx(
     );
 
     // --- 8. Update BodyText and Compact styles' line spacing ---
-    debug.verbose('DOCX', `Step 8: Updating style line spacing (${lineSpacing} twips)`);
-    // These styles have hardcoded w:line="240" (12pt single spacing) which
-    // overrides docDefaults. When the user selects 10pt or 11pt, we need to
-    // update these to match, otherwise line spacing stays at 12pt regardless.
-    // We extract each style block first, then replace w:line within it.
+    debug.verbose('DOCX', 'Step 8: Applying single-line style spacing');
     for (const styleId of ['BodyText', 'Compact']) {
       const styleRegex = new RegExp(
         `(<w:style[^>]*w:styleId="${styleId}"[^>]*>)([\\s\\S]*?)(</w:style>)`
       );
       stylesXml = stylesXml.replace(styleRegex, (_m, open, body, close) => {
         const updatedBody = body.replace(
-          /w:line="\d+"/,
-          `w:line="${lineSpacing}"`
+          /<w:spacing\b[^>]*\/>/,
+          (spacing: string) => spacing.replace(/\s+w:line(?:Rule)?="[^"]*"/g, '')
+            .replace('/>', ` w:line="${lineSpacing}" w:lineRule="auto"/>`)
         );
         return open + updatedBody + close;
       });
