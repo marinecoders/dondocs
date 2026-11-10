@@ -5,6 +5,12 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.3.54] — 2026-11-10
+
+### Fixed
+
+- Honor selected 10-, 11-, and 12-point PDF type sizes and keep Word paragraphs single-spaced.
+
 ## [1.3.53] — 2026-11-10
 
 ### Fixed
