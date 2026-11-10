@@ -20,6 +20,7 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
+      - run: bash scripts/ci-use-ubuntu-archive.sh
       - run: npx playwright install --with-deps chromium firefox webkit
       - run: npm run test:release-builds
       - uses: actions/checkout@v7

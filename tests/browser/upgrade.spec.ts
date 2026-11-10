@@ -1,4 +1,5 @@
 import { test, expect, type Page } from '@playwright/test';
+import { documentIdentity } from './documentIdentity';
 import { readFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { createHash } from 'node:crypto';
@@ -35,10 +36,20 @@ async function readSaved(page: Page) {
   });
 }
 
+async function expectBaseline(page: Page) {
+  // Concurrent tabs also start preview workers; allow the editor to mount
+  // before testing edits and conflicts against the restored document.
+  await expect(page.locator('#subject:visible, #body-subject:visible')).toHaveValue('UPGRADE BASELINE', { timeout: 15_000 });
+}
+
 async function start(page: Page) {
   await page.addInitScript(() => localStorage.setItem('dondocs-welcome-shown', '3.0'));
   await page.goto(origin);
-  await page.locator('#subject:visible, #body-subject:visible').fill('UPGRADE BASELINE');
+  const subject = page.locator('#subject:visible, #body-subject:visible');
+  await subject.click();
+  await expect(subject).toBeFocused();
+  await subject.fill('UPGRADE BASELINE');
+  await expectBaseline(page);
   await expect(async () => expect(JSON.stringify((await readSaved(page)).documents)).toContain('UPGRADE BASELINE')).toPass({ timeout: 15_000 });
   // Add a deterministic attachment to the old release's saved document.
   await page.evaluate(async () => {
@@ -58,22 +69,22 @@ async function start(page: Page) {
     await navigator.serviceWorker.ready;
   });
   await page.reload();
-  await expect(page.locator('#subject:visible, #body-subject:visible')).toHaveValue('UPGRADE BASELINE');
+  await expectBaseline(page);
 }
 
 async function reloadDuringUpdate(page: Page) {
   // The worker can supersede a Playwright navigation request. Trigger a real
   // reload, then require a new document rather than that request's completion.
-  let previousDocument = 0;
+  let previousDocument = '';
   await expect(async () => {
-    previousDocument = await page.evaluate(() => performance.timeOrigin);
+    previousDocument = await documentIdentity(page);
   }).toPass({ timeout: 15_000 });
   try { await page.evaluate(() => window.location.reload()); }
   catch (error) {
     if (!(error instanceof Error) || !/Execution context was destroyed/.test(error.message)) throw error;
   }
   await expect(async () => {
-    expect(await page.evaluate(() => performance.timeOrigin)).not.toBe(previousDocument);
+    expect(await documentIdentity(page)).not.toBe(previousDocument);
   }).toPass({ timeout: 15_000 });
   await expect(page.locator('#subject:visible, #body-subject:visible')).toBeVisible({ timeout: 15_000 });
 }
@@ -83,7 +94,7 @@ test('old release upgrades with two tabs, committed edits, attachment bytes, and
   await start(page);
   const other = await context.newPage();
   await other.goto(origin);
-  await expect(other.locator('#subject:visible, #body-subject:visible')).toHaveValue('UPGRADE BASELINE');
+  await expectBaseline(other);
   const before = await readSaved(page);
   root = newBuild;
   await page.locator('#subject:visible, #body-subject:visible').fill('EDIT JUST BEFORE UPGRADE');
@@ -97,12 +108,42 @@ test('old release upgrades with two tabs, committed edits, attachment bytes, and
   await expect(other.locator('#subject:visible, #body-subject:visible')).toHaveValue('EDIT JUST BEFORE UPGRADE');
   await expect(async () => expect((await readSaved(other)).attachments).toEqual(before.attachments)).toPass({ timeout: 15_000 });
   // Claim the newest build before going offline, then prove stored work opens.
-  await expect(async () => { await page.evaluate(async () => { const r = await navigator.serviceWorker.ready; r.waiting?.postMessage({ type: 'SKIP_WAITING' }); }); }).toPass({ timeout: 15_000 });
-  await reloadDuringUpdate(page);
+  const beforeActivation = await documentIdentity(page);
+  await expect(async () => {
+    await page.evaluate(async () => {
+      const registration = await navigator.serviceWorker.ready;
+      const worker = registration.waiting ?? registration.installing;
+      if (worker?.state === 'installed') worker.postMessage({ type: 'SKIP_WAITING' });
+    });
+    // Let controllerchange finish the application's reload; a competing manual
+    // reload can interrupt it. Each poll returns even during navigation.
+    expect(await documentIdentity(page)).not.toBe(beforeActivation);
+  }).toPass({ timeout: 15_000 });
+  await expect(page.locator('#subject:visible, #body-subject:visible')).toHaveValue('EDIT JUST BEFORE UPGRADE', { timeout: 15_000 });
   const html = await readFile(resolve(newBuild, 'index.html'), 'utf8');
   const newScript = html.match(/type="module"[^>]*src="([^"]+)"/)?.[1];
   expect(newScript).toBeTruthy();
   await expect(page.locator('script[type="module"]')).toHaveAttribute('src', newScript!);
+  // Workbox writes the navigation response asynchronously. Go offline only
+  // after activation and the online navigation have cached the current shell.
+  await expect(async () => {
+    const state = await page.evaluate(async script => {
+      const registration = await navigator.serviceWorker.ready;
+      const state = {
+        controlled: navigator.serviceWorker.controller === registration.active,
+        installing: registration.installing?.state ?? null,
+        waiting: registration.waiting?.state ?? null,
+        cachedShell: false,
+      };
+      for (const name of await caches.keys()) {
+        if (!name.startsWith('dondocs-app-shell-')) continue;
+        const response = await (await caches.open(name)).match(location.origin + '/');
+        if (response && (await response.text()).includes(script)) state.cachedShell = true;
+      }
+      return state;
+    }, newScript!);
+    expect(state).toEqual({ controlled: true, installing: null, waiting: null, cachedShell: true });
+  }).toPass({ timeout: 15_000 });
   await context.setOffline(true);
   await reloadDuringUpdate(page);
   await expect(page.locator('#subject:visible, #body-subject:visible')).toHaveValue('EDIT JUST BEFORE UPGRADE');
@@ -273,10 +314,10 @@ test('three tabs preserve repeated conflicts and include each copy in a backup',
   await start(page);
   const other = await context.newPage();
   await other.goto(origin);
-  await expect(other.locator('#subject:visible, #body-subject:visible')).toHaveValue('UPGRADE BASELINE');
+  await expectBaseline(other);
   const third = await context.newPage();
   await third.goto(origin);
-  await expect(third.locator('#subject:visible, #body-subject:visible')).toHaveValue('UPGRADE BASELINE');
+  await expectBaseline(third);
   await page.locator('#subject:visible, #body-subject:visible').fill('FIRST TAB EDIT');
   await expect(async () => expect(JSON.stringify((await readSaved(page)).documents)).toContain('FIRST TAB EDIT')).toPass({ timeout: 15_000 });
   await other.locator('#subject:visible, #body-subject:visible').fill('SECOND TAB EDIT');
@@ -327,9 +368,9 @@ test('an uncontrolled first-install tab reloads after accepting an update', asyn
   const updateBounds = await update.boundingBox();
   if (!listBounds || !updateBounds) throw new Error('Missing update control or document list');
   expect(listBounds.y + listBounds.height).toBeLessThanOrEqual(updateBounds.y);
-  const beforeUpdate = await page.evaluate(() => performance.timeOrigin);
+  const beforeUpdate = await documentIdentity(page);
   await page.waitForTimeout(6000);
-  expect(await page.evaluate(() => performance.timeOrigin)).toBe(beforeUpdate);
+  expect(await documentIdentity(page)).toBe(beforeUpdate);
   await expect(page.getByRole('dialog', { name: 'Update Available', exact: true })).toHaveCount(0);
   await update.click();
   await page.getByRole('button', { name: 'Update Now', exact: true }).click();

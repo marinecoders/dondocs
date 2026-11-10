@@ -1,11 +1,29 @@
 import { test, expect, type Page } from '@playwright/test';
 import { PDFDocument } from 'pdf-lib';
+import { documentIdentity } from './documentIdentity';
 
 test.use({ serviceWorkers: 'block' });
 test.setTimeout(120_000);
 
 test.beforeEach(async ({ page }) => {
   await page.addInitScript(() => localStorage.setItem('browser-test-visitor', 'returning'));
+});
+
+test('document identity ignores clock jitter and history changes but detects a real reload', async ({ page }) => {
+  await page.route('https://document-identity.test/**', route => route.fulfill({
+    contentType: 'text/html', body: '<!doctype html><title>Document identity</title>',
+  }));
+  await page.goto('https://document-identity.test/');
+  await page.evaluate(() => {
+    let origin = performance.timeOrigin;
+    Object.defineProperty(performance, 'timeOrigin', { get: () => origin++ });
+  });
+  const original = await documentIdentity(page);
+  expect(await documentIdentity(page)).toBe(original);
+  await page.evaluate(() => history.replaceState(null, '', '#same-document'));
+  expect(await documentIdentity(page)).toBe(original);
+  await page.reload();
+  expect(await documentIdentity(page)).not.toBe(original);
 });
 
 async function savedState(page: Page) {
@@ -169,7 +187,10 @@ test('Redo survives attachment hydration after reopening an imported draft', asy
   await page.reload();
   const subject = page.getByRole('textbox', { name: 'Subject', exact: true });
   await expect(subject).toHaveValue('ATTACHMENT HISTORY');
+  await subject.click();
+  await expect(subject).toBeFocused();
   await subject.fill('ATTACHMENT HISTORY EDIT');
+  await expect(subject).toHaveValue('ATTACHMENT HISTORY EDIT');
   const undo = await historyAction(page, /^Undo/);
   await expect(undo).toBeEnabled(); await undo.click();
   await expect(subject).toHaveValue('ATTACHMENT HISTORY');
@@ -187,13 +208,19 @@ test('a reset built-in form keeps its signature defaults through Undo and Redo',
   await page.goto('/');
   await page.getByLabel('Import draft file').setInputFiles({ name: 'form.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(incoming)) });
   await page.getByRole('button', { name: 'Open as new document', exact: true }).click();
+  await expect(page.getByRole('dialog', { name: 'Review draft', exact: true, includeHidden: true })).toHaveCount(0);
+  const subject = page.getByRole('textbox', { name: '8. Nature of Action/Subject', exact: true });
+  await expect(subject).toHaveValue('Before reset');
   await page.getByRole('button', { name: 'Document actions', exact: true }).click();
   await page.getByRole('menuitem', { name: 'Reset form to sample values…', exact: true }).click();
   await page.getByRole('button', { name: 'Reset to sample values', exact: true }).click();
-  const subject = page.getByRole('textbox', { name: '8. Nature of Action/Subject', exact: true });
+  // Wait for dialog focus restoration before WebKit inserts the next edit.
+  await expect(page.getByRole('alertdialog', { name: 'Reset form to sample values?', exact: true, includeHidden: true })).toHaveCount(0);
   const sample = await subject.inputValue();
+  expect(sample).not.toBe('');
   expect(sample).not.toBe('Before reset');
   await subject.fill('FORM HISTORY EDIT');
+  await expect(subject).toHaveValue('FORM HISTORY EDIT');
   const undo = await historyAction(page, /^Undo/);
   await expect(undo).toBeEnabled(); await undo.click();
   await expect(subject).toHaveValue(sample);

@@ -124,6 +124,7 @@ jobs:
 
       - name: install xelatex + pandoc
         run: |
+          bash scripts/ci-use-ubuntu-archive.sh
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends \
             texlive-xetex texlive-latex-extra texlive-fonts-recommended pandoc
@@ -190,6 +191,7 @@ jobs:
 
       - name: install pandoc (no TeX Live needed for DOCX path)
         run: |
+          bash scripts/ci-use-ubuntu-archive.sh
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends pandoc
 
