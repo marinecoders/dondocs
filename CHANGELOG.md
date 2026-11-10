@@ -11,6 +11,7 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 - Preserve single headquarters reference links in PDF and fit Word reference captions to the selected font.
 - Paginate long reference and enclosure lists and support headquarters reference captions.
+- Resolve existing PDF link coordinates safely when preserving reference links.
 
 ## [1.3.52] — 2026-11-10
 

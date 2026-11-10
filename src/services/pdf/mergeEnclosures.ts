@@ -1036,7 +1036,9 @@ function createUriLinkAnnotations(pdfDoc: PDFDocument, positions: ReferencePosit
       if (!(action instanceof PDFDict) || !(rect instanceof PDFArray)) return false;
       const uri = action.lookup(PDFName.of('URI'));
       if (!(uri instanceof PDFString || uri instanceof PDFHexString) || uri.decodeText() !== pos.url) return false;
-      const bounds = rect.asArray().map(value => (value as PDFNumber).asNumber());
+      const coordinates = rect.asArray().map(value => pdfDoc.context.lookup(value));
+      if (coordinates.length !== 4 || !coordinates.every(value => value instanceof PDFNumber)) return false;
+      const bounds = coordinates.map(value => value.asNumber());
       return bounds[0] < rectURX && bounds[2] > rectLLX && bounds[1] < rectURY && bounds[3] > rectLLY;
     });
     if (alreadyLinked) continue;
