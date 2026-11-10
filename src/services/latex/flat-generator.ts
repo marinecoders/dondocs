@@ -1,3 +1,4 @@
+import { toTitleCase } from '@/lib/titleCase';
 import { resolveParagraphLayout } from './paragraphLayout';
 import { documentOutputConfig } from '@/lib/documentOutputConfig';
 /**
@@ -210,27 +211,7 @@ function underlineWords(text: string): string {
   return `\\uline{${text}}`;
 }
 
-/** A word the author typed entirely in capitals, i.e. an acronym rather than
- * an ordinary word. Single letters are excluded so "A" stays a minor word. */
-function isAcronym(word: string): boolean {
-  return word.length >= 2 && word === word.toUpperCase() && word !== word.toLowerCase();
-}
 
-/** Title Case that raises a word's first letter but never lowers the rest.
- * MCO 5216.20B Ch 13 ¶5b keeps acronyms in capitals; see the fuller note on
- * the twin of this function in generator.ts, which serves the PDF path. */
-function toTitleCase(str: string): string {
-  const lowercaseWords = ['a', 'an', 'and', 'as', 'at', 'but', 'by', 'for', 'in', 'nor', 'of', 'on', 'or', 'so', 'the', 'to', 'up', 'yet'];
-  return str.split(' ').map((word, index) => {
-    const lower = word.toLowerCase();
-    if (index === 0 || !lowercaseWords.includes(lower)) {
-      return word.charAt(0).toUpperCase() + word.slice(1);
-    }
-    // A minor word gets lowercased, unless the author typed it in capitals —
-    // AT (Anti-Terrorism), SO (Special Operations) and OR all spell one.
-    return isAcronym(word) ? word : lower;
-  }).join(' ');
-}
 
 function abbreviateName(first: string | undefined, middle: string | undefined, last: string | undefined): string {
   const parts: string[] = [];

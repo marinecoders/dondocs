@@ -5,6 +5,12 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.3.55] — 2026-11-10
+
+### Fixed
+
+- Preserve acronyms, mixed-case identifiers, and typed spacing when formatting subjects and headings.
+
 ## [1.3.54] — 2026-11-10
 
 ### Fixed
