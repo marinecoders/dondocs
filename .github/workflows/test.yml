@@ -268,10 +268,10 @@ jobs:
     # (xelatex dominates; pandoc + pdf-parse + mammoth are ~50× faster).
     name: compile matrix (LaTeX + DOCX)
     runs-on: ubuntu-latest
-    # Actual run time is ~5 min (xelatex dominates, ~3s × 380 fixtures
-    # / 4-way pool). 15 min budget catches a stuck job without letting
-    # it burn 25 min of runner time.
-    timeout-minutes: 15
+    # The full matrix takes about 8 minutes. A slow but progressing archive
+    # download can add 12 minutes, so budget for both setup and verification.
+    # APT still has bounded transport retries and read timeouts.
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v7
 

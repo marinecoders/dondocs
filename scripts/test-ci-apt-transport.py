@@ -1,6 +1,7 @@
 """Exercise CI's actual APT setup against isolated source-file fixtures."""
 import os
 from pathlib import Path
+import shutil
 import subprocess
 import tempfile
 import unittest
@@ -62,10 +63,22 @@ class AptTransportTests(unittest.TestCase):
         path = self.write("apt-mirrors.txt", "https://archive.ubuntu.com/ubuntu priority:1\n")
         self.assertEqual(self.configure().returncode, 0)
         first = path.read_bytes()
-        config = self.root / "apt.conf.d/80-dondocs-ci-transport"
+        config = self.root / "apt.conf.d/zzzz-dondocs-ci-transport"
         self.assertEqual(config.read_text(), 'Acquire::Retries "2";\nAcquire::http::Timeout "20";\nAcquire::https::Timeout "20";\n')
         self.assertEqual(self.configure().returncode, 0)
         self.assertEqual(path.read_bytes(), first)
+
+    @unittest.skipUnless(shutil.which("apt-config"), "requires APT (runs in Linux CI)")
+    def test_effective_limits_override_later_runner_configuration(self):
+        settings = 'Acquire::Retries "10";\nAcquire::http::Timeout "600";\nAcquire::https::Timeout "600";\n'
+        self.write("apt.conf.d/99-runner-network", settings)
+        self.write("apt.conf.d/zz-retries", settings)
+        main = self.write("apt.conf", f'Dir::Etc "{self.root}";\nDir::Etc::parts "apt.conf.d";\nDir::Etc::main "missing.conf";\n')
+        result = self.configure()
+        self.assertEqual(result.returncode, 0, result.stderr)
+        effective = subprocess.run(["apt-config", "dump"], env={**self.env, "APT_CONFIG": str(main)}, capture_output=True, text=True, check=True).stdout
+        for key, value in (("Retries", 2), ("http::Timeout", 20), ("https::Timeout", 20)):
+            self.assertIn(f'Acquire::{key} "{value}";', effective)
 
     def test_missing_apt_directory_fails_before_writing(self):
         missing = Path(self.temp.name) / "missing"

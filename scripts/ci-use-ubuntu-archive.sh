@@ -30,8 +30,14 @@ for path in files:
         path.write_text(updated)
         changed += 1
 
-config = root / "apt.conf.d/80-dondocs-ci-transport"
+# Runner configuration can sort after numeric prefixes. APT applies the last
+# setting for each key, so keep our transport limits after the runner's files.
+config = root / "apt.conf.d/zzzz-dondocs-ci-transport"
 config.parent.mkdir(exist_ok=True)
 config.write_text('Acquire::Retries "2";\nAcquire::http::Timeout "20";\nAcquire::https::Timeout "20";\n')
 print(f"Configured Ubuntu HTTPS transport in {changed} APT source files; retries and timeouts are bounded.")
 PY
+
+if [[ $# -eq 0 ]]; then
+  apt-config dump Acquire::Retries Acquire::http::Timeout Acquire::https::Timeout
+fi
