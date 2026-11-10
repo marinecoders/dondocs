@@ -42,7 +42,7 @@ async function verifyStatement(request: LetterInput, expected: string) {
   const body = boxes.findIndex(b => b.text.includes(bodyText));
   // Compliant business/executive formats omit formal references. In those
   // formats the body is the next block after the statement instead.
-  const next = boxes.findIndex(b => b.text.includes('Ref:') || b.text.includes(bodyText));
+  const next = boxes.findIndex(b => /Ref:|Reference(?:\(s\))?:/.test(b.text) || b.text.includes(bodyText));
   expect(start, 'the PDF must label the statement').toBeGreaterThanOrEqual(0);
   expect(body, 'the body must follow the statement').toBeGreaterThan(start);
   expect(next, 'the next document block must follow the statement').toBeGreaterThan(start);

@@ -64,7 +64,7 @@ Each cell lists **numbered paragraphs / formal references / formal enclosures**.
 | Joint Memorandum | yes / yes / yes | yes / yes / yes |
 | Memorandum For | yes / yes / yes | yes / yes / yes |
 | Executive Correspondence | no / no / no | yes / yes / yes |
-| Standard Memorandum (HqDON) | no / no / no | yes / yes / yes |
+| Standard Memorandum (HqDON) | no / yes / no | yes / yes / yes |
 | Action Memorandum | no / no / no | yes / yes / yes |
 | Information Memorandum | no / no / no | yes / yes / yes |
 | SL-3 Components List | yes / yes / yes | yes / yes / yes |

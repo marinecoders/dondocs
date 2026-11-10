@@ -63,6 +63,15 @@ export function addressLabelFraction(fontFamily?: string, fontSizePt = 12): numb
   return (perPt * fontSizePt + LABEL_SLACK_PT) / 72 / TEXT_WIDTH_IN;
 }
 
+/** Keep the caption and its gap on one line, including monospaced custom text. */
+export function referenceCaptionFraction(plural: boolean, fontFamily = 'times', fontSizePt = 12): number {
+  const caption = plural ? 'Reference(s):' : 'Reference:';
+  // Times caption widths in em; Courier uses 0.6em for every character.
+  const captionEm = fontFamily === 'courier' ? caption.length * 0.6 : plural ? 5.386 : 4.331;
+  const gapEm = fontFamily === 'courier' ? 1.2 : 0.5;
+  return Math.max(plural ? 80 : 65, (captionEm + gapEm) * fontSizePt + LABEL_SLACK_PT) / (72 * TEXT_WIDTH_IN);
+}
+
 export const LAYOUT: LayoutProportions = {
   letterhead: {
     sealCol: SEAL_COL_IN / TEXT_WIDTH_IN,
@@ -111,6 +120,8 @@ export function layoutToMetadata(
     'ssic-right': layout.ssic.rightCol.toFixed(3),
     'addr-label': addrLabel.toFixed(3),
     'addr-content': (1 - addrLabel).toFixed(3),
+    'ref-caption': referenceCaptionFraction(false, font?.family, font?.sizePt).toFixed(3),
+    'refs-caption': referenceCaptionFraction(true, font?.family, font?.sizePt).toFixed(3),
     'copyto-label': layout.copyTo.labelCol.toFixed(3),
     'copyto-content': layout.copyTo.contentCol.toFixed(3),
     'sig-left': layout.signature.leftCol.toFixed(3),

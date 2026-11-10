@@ -598,7 +598,7 @@ export const DOC_TYPE_CONFIG: Record<string, DocTypeConfig> = {
     letterhead: false, ssic: false, fromTo: false, via: false, memoHeader: false, signature: 'full', uiMode: 'executive',
     topSpacing: '1in', // Achieves 2" top margin (1" geometry + 1" extra) per Ch 12 ¶2b
     regulations: { fontSize: '12pt', fontFamily: 'times', fontFamilyRequired: true, ref: 'Ch 12 ¶2' },
-    compliance: EXECUTIVE_COMPLIANCE,
+    compliance: { ...EXECUTIVE_COMPLIANCE, allowReferences: true },
   },
   action_memorandum: {
     letterhead: false, ssic: false, fromTo: false, via: false, memoHeader: false, signature: 'full', uiMode: 'executive',

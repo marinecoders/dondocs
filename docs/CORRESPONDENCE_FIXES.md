@@ -15,3 +15,18 @@ silently lose recipients or move the complete address block onto a later page.
 Regression coverage includes the packaged PDF engine, native PDF and Word
 conversion, route counts through ten, LF/CRLF address input, and rejection of
 oversized wrapped routing blocks in both PDF engines.
+
+## Reference and enclosure pagination
+
+Lists use flowing hanging-indent entries so long lists and individual titles
+can continue across pages. Captions remain aligned with the first entry;
+numbering and links survive. Headquarters memorandums permit references when
+needed and use Reference/Reference(s) captions, with no letter for a single
+reference (SECNAV Chapter 12 paragraph 2m). Page-bound checks exercise long
+lists and an individual entry longer than a page in the packaged engine.
+
+Single headquarters reference titles carry PDF URI annotations across wrapped
+lines, preserving validated URLs and the hyperlink toggle in both PDF engines.
+Word reference captions keep their standard minimum widths and grow with the
+selected font's metrics, including Courier in Custom mode. Final-PDF link
+rectangles and converted Word column geometry have regression coverage.

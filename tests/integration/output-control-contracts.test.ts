@@ -54,7 +54,8 @@ describe('output control contracts', () => {
             expect(text).toContain('CUSTOM ENCLOSURE');
             expect(text).toMatch(/1\.\s*Numbered body/);
           } else {
-            expect(text).not.toContain('CUSTOM REFERENCE');
+            if (docType === 'standard_memorandum') expect(text).toContain('CUSTOM REFERENCE');
+            else expect(text).not.toContain('CUSTOM REFERENCE');
             expect(text).not.toContain('CUSTOM ENCLOSURE');
             expect(text).not.toMatch(/1\.\s*Numbered body/);
           }
