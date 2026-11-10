@@ -1,6 +1,6 @@
 import { validatePublicationReferences, referenceFreeText } from './publicationReferences';
 import { iTypeClassificationErrors } from './iTypeClassification';
-import { validatePublicationTableRows, hasPublicationTableContent } from './publicationTableValidation';
+import { validatePublicationTableRows, validatePublicationTableAttachments, hasPublicationTableContent } from './publicationTableValidation';
 import { validatePublicationDate } from './publicationDate';
 import { validateMajorItemsOrder } from './majorItemsOrder';
 import { tableSpec } from '@/data/techpub/tables';
@@ -36,6 +36,7 @@ export function iTypeExportErrors(store: Publication, referenceDate = new Date()
   if (!d.publicationSigningDate?.trim()) errors.push('Enter the planned or actual signing date.');
   errors.push(...validatePublicationDate(d.date ?? '', d.publicationSigningDate, d.publicationClosedDates, referenceDate).map((f) => f.message));
   errors.push(...validateMajorItemsOrder(store.publicationTables?.majorItems ?? []).map((f) => f.message));
+  errors.push(...validatePublicationTableAttachments(store.paragraphs, store.publicationTables));
   for (const [key, rows] of Object.entries(store.publicationTables ?? {})) {
     if (!rows.some(hasPublicationTableContent)) continue;
     const spec = tableSpec(key);

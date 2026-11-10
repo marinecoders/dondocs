@@ -1,11 +1,47 @@
-import type { PublicationTableRow } from '@/types/document';
+import type { Paragraph, PublicationTableRow } from '@/types/document';
 import { REFERENCE_TOKEN } from './publicationReferences';
 import { tableSpec } from '@/data/techpub/tables';
+import { publicationSection } from '@/data/techpub/sections';
 
 const MATERIEL = ['materielRequired', 'materielDiscarded', 'materielRetained', 'materielBulk'];
 
 export const hasPublicationTableContent = (row: PublicationTableRow): boolean =>
   Object.values(row.values).some((value) => !!value.trim()) || !!row.identificationException?.trim() || !!row.openPurchase;
+
+/** MIL-DTL-28999D §§3.3.2.7–3.3.2.10: item sections use their prescribed tables. */
+export function validatePublicationTableAttachments(
+  paragraphs: Paragraph[], tables: Record<string, PublicationTableRow[]> = {},
+): string[] {
+  const errors: string[] = [];
+  let inAppendix = false;
+  paragraphs.forEach((paragraph, index) => {
+    if (paragraph.appendix) inAppendix = true;
+    if (inAppendix || paragraph.callout || paragraph.figure || paragraph.procedure) return;
+    const section = publicationSection(paragraph);
+    const spec = section ? tableSpec(section) : undefined;
+    if (!spec) return;
+    const rows = tables[spec.key] ?? [];
+    const next = paragraphs.findIndex((p, i) => i > index && (p.appendix || (!p.callout && !p.figure && !p.procedure && (p.level <= paragraph.level || publicationSection(p)))));
+    const sectionParagraphs = paragraphs.slice(index, next < 0 ? paragraphs.length : next);
+    const hasProse = sectionParagraphs.some((p) => {
+      if (p.callout || p.figure || p.procedure) return false;
+      const text = p.text.replace(/\*\*|__|\*/g, '').trim();
+      return !!text && !/^(?:none|n\/a|not applicable)\.?$/i.test(text);
+    });
+    // An omitted/empty section or an explicit non-applicability statement
+    // does not invent a requirement for items that the instruction omits.
+    const hasRows = rows.some(hasPublicationTableContent);
+    const hasAttachedRows = (tables[paragraph.tableKey ?? ''] ?? []).some(hasPublicationTableContent);
+    if (!hasProse && !hasRows && !hasAttachedRows) return;
+    const prefix = `Paragraph ${index + 1} (${spec.name}):`;
+    if (paragraph.tableKey !== spec.key) {
+      errors.push(`${prefix} attach the ${spec.name} table using + table in Paragraphs, then enter item rows in Tables.`);
+    } else if (!rows.some((row) => hasPublicationTableContent(row) && !/^(consisting of|includes):?$/i.test((row.values.description ?? '').trim()))) {
+      errors.push(`${prefix} add at least one item row in Tables, or remove the section or enter None if it does not apply.`);
+    }
+  });
+  return errors;
+}
 
 export function validatePublicationTableRows(key: string, rows: PublicationTableRow[], identifierMode?: 'stock' | 'software'): string[] {
   const errors: string[] = [];

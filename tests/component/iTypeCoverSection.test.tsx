@@ -78,6 +78,24 @@ describe('publication checks', () => {
     } finally { useDocumentStore.setState(original); }
   });
 
+  it('guides a prose-only item section through attachment and row entry', () => {
+    const original = useDocumentStore.getState();
+    const text = 'The support bracket is affected.';
+    try {
+      useDocumentStore.setState({ docType: 'i_type', paragraphs: [{ level: 0, header: 'Major Items Affected', text }], publicationTables: {} });
+      render(<ITypeCoverSection />);
+      expect(screen.getByText(/Paragraph 1 \(Major Items Affected\): attach/)).toBeTruthy();
+      act(() => {
+        useDocumentStore.getState().updateParagraph(0, { tableKey: 'majorItems' });
+        useDocumentStore.getState().addTableRow('majorItems');
+      });
+      expect(screen.getByText(/Paragraph 1 \(Major Items Affected\): add at least one item row/)).toBeTruthy();
+      act(() => useDocumentStore.getState().updateTableRow('majorItems', 0, { description: 'SUPPORT BRACKET', nsn: '1005-01-566-1100', tamcn: 'A02557G', id: '12345A' }));
+      expect(screen.queryByText(/Paragraph 1 \(Major Items Affected\):/)).toBeNull();
+      expect(useDocumentStore.getState().paragraphs[0].text).toBe(text);
+    } finally { useDocumentStore.setState(original); }
+  });
+
   it('asks an URGENT instruction for a completion date, and says so until it has one', () => {
     useDocumentStore.setState({ formData: { ...useDocumentStore.getState().formData, miUrgency: 'urgent', miCompletionDate: '' } });
     render(<ITypeCoverSection />);

@@ -35,7 +35,7 @@ export function PublicationTablesSection() {
       <>
       <h3 className="editor-section-heading">Tables</h3>
       <p className="text-xs text-muted-foreground">
-        No tables. They appear here as the paragraphs that carry them are added.
+        No tables are attached. In Paragraphs, use + table on the paragraph that introduces a table, then add its rows here.
       </p>
       </>
     );

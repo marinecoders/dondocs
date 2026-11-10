@@ -5,6 +5,12 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.3.61] — 2026-11-10
+
+### Fixed
+
+- Require populated body tables for included I-Type item sections.
+
 ## [1.3.60] — 2026-11-10
 
 ### Fixed
