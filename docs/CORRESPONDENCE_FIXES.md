@@ -46,3 +46,13 @@ names such as eCASS, identifiers and whitespace. All-capital input is retained
 for author review rather than lowercased automatically. Future normalization
 must use the same helper; export does not rewrite the saved draft. This avoids
 the destructive whole-string lowercasing found in the unmerged audit work.
+
+## Headquarters memorandum layout
+
+Standard and executive memorandum identifiers use the same Chapter 12
+template. Address continuation lines and the complete ATTN block align at
+the addressee title's third character, using font metrics rather than a
+fixed first-line spacer. Word carries the measured indent in a bookmark
+and applies real paragraph indentation during post-processing. Main body
+paragraphs remain unnumbered; nested paragraphs retain their identifiers
+(Chapter 12 paragraphs 2e–f and 2i–j).

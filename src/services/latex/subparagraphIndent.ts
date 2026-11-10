@@ -33,6 +33,9 @@ export type LabelFont = 'times' | 'courier';
  * Times New Roman / Courier New follow closely enough for a first-line indent.
  */
 const TIMES: Record<string, number> = {
+  A: 722, B: 667, C: 667, D: 722, E: 611, F: 556, G: 722, H: 722, I: 333,
+  J: 389, K: 722, L: 611, M: 889, N: 722, O: 722, P: 556, Q: 722, R: 667,
+  S: 556, T: 611, U: 722, V: 722, W: 944, X: 722, Y: 722, Z: 611,
   ' ': 250, '.': 250, '(': 333, ')': 333,
   '0': 500, '1': 500, '2': 500, '3': 500, '4': 500,
   '5': 500, '6': 500, '7': 500, '8': 500, '9': 500,
@@ -68,6 +71,12 @@ export function labelWidthMilliEm(label: string, font: LabelFont): number {
   let total = 0;
   for (const ch of visibleLabel(label)) total += charWidth(ch, font);
   return total;
+}
+
+/** Chapter 12: address runovers/ATTN begin beneath the title's third character. */
+export function headquartersAddressIndentIn(addressee: string, font: LabelFont, size: number): number {
+  const prefix = 'MEMORANDUM FOR ' + Array.from(addressee.trim()).slice(0, 2).join('');
+  return labelWidthMilliEm(prefix, font) * size / 72_000;
 }
 
 /** Spaces printed between a label and the text it introduces. Figure 7-8 shows

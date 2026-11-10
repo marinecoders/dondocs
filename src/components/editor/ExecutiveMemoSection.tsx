@@ -35,7 +35,7 @@ export function ExecutiveMemoSection() {
 
   const isActionMemo = docType === 'action_memorandum';
   const isInfoMemo = docType === 'information_memorandum';
-  const isStandardMemo = docType === 'standard_memorandum';
+  const isStandardMemo = docType === 'standard_memorandum' || docType === 'executive_memorandum';
 
   // Descriptive labels and guidance per Ch 12 section
   const memoTypeLabel = isActionMemo

@@ -66,6 +66,7 @@ export function getEditorSections(config: DocTypeConfig, docType: string): Edito
       // Information memos sign on the FROM line, not with a signature block,
       // so they get no Signature section. Standard and action memos keep it.
       const base = [{ id: 'executive', label: 'Heading', icon: Send }, classification, body, copyto, distribution];
+      if (config.headquartersMemo) return [...base, references, signature];
       return docType === 'information_memorandum' ? base : [...base, signature];
     }
     default: {

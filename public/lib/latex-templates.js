@@ -393,6 +393,12 @@ const LATEX_TEMPLATES = {
 % Standard Memorandum + Action Memorandum
 \\newcommand{\\MemorandumForAddressee}{}
 \\newcommand{\\setMemorandumForAddressee}[1]{\\renewcommand{\\MemorandumForAddressee}{#1}}
+\\newcommand{\\MemoAddressLead}{}
+\\newcommand{\\MemoAttention}{}
+\\newcommand{\\MemoThrough}{}
+\\newcommand{\\setMemoAddressLead}[1]{\\renewcommand{\\MemoAddressLead}{#1}}
+\\newcommand{\\setMemoAttention}[1]{\\renewcommand{\\MemoAttention}{#1}}
+\\newcommand{\\setMemoThrough}[1]{\\renewcommand{\\MemoThrough}{#1}}
 
 % Action Memorandum
 \\newcommand{\\ActionFrom}{}
@@ -2495,155 +2501,8 @@ const LATEX_TEMPLATES = {
 }
 `,
   'tex/templates/executive_memorandum.tex': `
-%=============================================================================
-%
-%                     EXECUTIVE MEMORANDUM FORMAT MODULE
-%
-%=============================================================================
-%
-% References:
-%   - SECNAV M-5216.5 (DON Correspondence Manual), Chapter 12
-%
-% What It's For:
-%   Executive-level memorandum format — plain-paper memo style
-%   with full signature block (name, rank, title).
-%
-% Requirements:
-%   - Paper: White bond (NO letterhead)
-%   - Font: Times New Roman, 12-point
-%   - Date: 6th line from top, flush RIGHT margin
-%   - Signature: Full — name, rank, title
-%
-%=============================================================================
-
-
-%=============================================================================
-%                          DATE AND MEMO TITLE
-%=============================================================================
-% Date on line 6, right margin
-% "MEMORANDUM" at left margin
-
-\\newcommand{\\printDateAndTitle}{%
-    \\vspace*{1in}%  % Date on line 6 per SECNAV Ch 12
-    \\hfill \\DocumentDate\\par
-    \\vspace{12pt}%
-    \\noindent MEMORANDUM
-    \\par\\vspace{12pt}%
-}
-
-
-%=============================================================================
-%              FROM / TO / VIA / SUBJ BLOCK
-%=============================================================================
-
-\\makeatletter
-\\newcommand{\\printAddressBlock}{%
-    \\noindent
-    % Build Via rows into a macro before the tabular (safe for SwiftLaTeX)
-    \\def\\@viarows{\\ViaRows}%
-    \\begin{tabular}[t]{@{}l@{}p{5.75in}@{}}%
-        From:\\hspace{2\\fontdimen2\\font} & \\FromLine\\ifdefempty{\\FromLineTwo}{}{\\tabularnewline & \\FromLineTwo}\\ifdefempty{\\FromLineThree}{}{\\tabularnewline & \\FromLineThree}\\ifdefempty{\\FromLineFour}{}{\\tabularnewline & \\FromLineFour}\\tabularnewline
-        To:\\hspace{6\\fontdimen2\\font} & \\ToLine\\ifdefempty{\\ToLineTwo}{}{\\tabularnewline & \\ToLineTwo}\\ifdefempty{\\ToLineThree}{}{\\tabularnewline & \\ToLineThree}\\ifdefempty{\\ToLineFour}{}{\\tabularnewline & \\ToLineFour}%
-        \\@viarows
-        % \\noalign, not \\\\[12pt]: the optional space is swallowed when the row above wraps
-        \\tabularnewline\\noalign{\\vskip 12pt}%
-        Subj:\\hspace{3\\fontdimen2\\font} & \\SubjectLine%
-    \\end{tabular}%
-    %
-    % CUI block
-    \\ifCUIEnabled
-        \\par\\vspace{12pt}%
-        \\noindent
-        Controlled by: \\CUIControlledBy\\\\
-        CUI Category: \\CUICategory\\\\
-        Limited Dissemination Control: \\CUIDissemination\\\\
-        \\printPOCLine%
-        \\printCUIDistStatement%
-    \\fi
-    %
-    % Classified block
-    \\ifClassifiedEnabled
-        \\par\\vspace{12pt}%
-        \\noindent
-        Classified by: \\ClassifiedBy\\\\
-        Derived from: \\DerivedFrom\\\\
-        Reason: \\ClassificationReason\\\\
-        Declassify on: \\DeclassifyOn\\\\
-        \\printPOCLine
-    \\fi
-}
-\\makeatother
-
-
-%=============================================================================
-%                  SIGNATURE BLOCK (Executive Memo Style)
-%=============================================================================
-% Full signature: Name, Rank, Title
-% Per SECNAV Ch 12
-
-\\newcommand{\\printSignature}{%
-    \\par\\vspace{48pt}%
-    \\hspace{3.25in}%
-    \\begin{minipage}{3in}
-        \\raggedright
-        % Digital signature field (empty box for CAC signing)
-        \\ifHasDigitalSigField
-            \\DigitalSignatureBox
-        \\else
-            % Optional: Signature image
-            \\ifNotEmpty{\\SignatureImage}{%
-            \\IfFileExists{attachments/\\SignatureImage}{%
-                \\includegraphics[width=1.5in,height=0.5in,keepaspectratio]{attachments/\\SignatureImage}\\\\
-                \\vspace{6pt}%
-            }{}%
-            }%
-        \\fi
-        % Required: Name (use abbreviated if available, else full name uppercased)
-        \\ifNotEmptyElse{\\SignatoryAbbrev}{\\SignatoryAbbrev\\\\}{\\ifNotEmpty{\\SignatoryName}{\\MakeUppercase{\\SignatoryName}\\\\}}%
-        % Optional: Rank
-        \\optionalLine{\\SignatoryRank}%
-        % Optional: Title
-        \\optionalLine{\\SignatoryTitle}%
-        % Optional: By direction authority line
-        \\optionalField{\\ByDirection}%
-    \\end{minipage}
-}
-
-
-%=============================================================================
-%                         LETTERHEAD OVERRIDE
-%=============================================================================
-% Executive memorandum does NOT use letterhead
-
-\\renewcommand{\\printLetterhead}{}
-
-
-%=============================================================================
-%                              PAGE STYLE
-%=============================================================================
-% First page: Do NOT number
-% Second+ pages: Centered, 1/2" from bottom
-
-\\fancypagestyle{firstpage}{%
-    \\fancyhf{}%
-    \\fancyhead[C]{\\placeClassificationMarkings}%
-    \\fancyfoot[C]{\\smartPageNumber}%  % No page number on first page
-    \\renewcommand{\\headrulewidth}{0pt}%
-    \\renewcommand{\\footrulewidth}{0pt}%
-}
-
-% Executive formats label it SUBJECT:. Set at load, before the height
-% of the repeated line is measured.
-\\setContinuationLabel{SUBJECT:}
-
-\\fancypagestyle{documentpage}{%
-    \\fancyhf{}%
-    \\fancyhead[C]{\\placeClassificationMarkings}%
-    \\fancyhead[L]{\\printContinuationSubject}%
-    \\fancyfoot[C]{\\smartPageNumber}%
-    \\renewcommand{\\headrulewidth}{0pt}%
-    \\renewcommand{\\footrulewidth}{0pt}%
-}
+% Executive memorandum is the Chapter 12 standard memorandum alias.
+\\input{standard_memorandum}
 `,
   'tex/templates/i_type.tex': `
 %=============================================================================
@@ -5607,6 +5466,7 @@ const LATEX_TEMPLATES = {
 %                    DATE AND MEMO TITLE
 %=============================================================================
 % Date at right, "MEMORANDUM FOR" double space below
+\\newlength{\\MemoAddressIndent}
 
 \\newcommand{\\printDateAndTitle}{%
     \\vspace*{1in}%  % 2" top margin (1" from geometry + 1" here)
@@ -5616,7 +5476,11 @@ const LATEX_TEMPLATES = {
         \\noindent MEMORANDUM FOR: SEE DISTRIBUTION\\par
         \\vspace{12pt}%
     \\else
-        \\noindent MEMORANDUM FOR \\MemorandumForAddressee\\par
+        \\settowidth{\\MemoAddressIndent}{MEMORANDUM FOR \\MemoAddressLead}%
+        \\noindent\\hangindent=\\MemoAddressIndent\\hangafter=1 MEMORANDUM FOR \\MemorandumForAddressee\\par
+        \\ifdefempty{\\MemoAttention}{}{%
+            {\\leftskip=\\MemoAddressIndent\\noindent(ATTN: \\MemoAttention)\\par}%
+        }%
         \\vspace{12pt}%
     \\fi
 }
@@ -5627,6 +5491,7 @@ const LATEX_TEMPLATES = {
 %=============================================================================
 
 \\newcommand{\\printAddressBlock}{%
+    \\ifdefempty{\\MemoThrough}{}{\\noindent THROUGH: \\MemoThrough\\par\\vspace{12pt}}%
     \\noindent
     \\begin{tabular}[t]{@{}l@{\\hspace{1em}}p{5.5in}@{}}
         SUBJECT: & \\SubjectLine%
@@ -5669,7 +5534,7 @@ const LATEX_TEMPLATES = {
             }%
         \\fi
         % Required: Name (use abbreviated if available, else full name uppercased)
-        \\ifNotEmptyElse{\\SignatoryAbbrev}{\\SignatoryAbbrev\\\\}{\\ifNotEmpty{\\SignatoryName}{\\MakeUppercase{\\SignatoryName}\\\\}}%
+        \\ifNotEmptyElse{\\SignatoryName}{\\SignatoryName\\\\}{\\optionalLine{\\SignatoryAbbrev}}%
         % Optional: Title
         \\optionalLine{\\SignatoryTitle}%
         % Optional: By direction authority line

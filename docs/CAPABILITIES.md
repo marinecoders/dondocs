@@ -58,7 +58,7 @@ Each cell lists **numbered paragraphs / formal references / formal enclosures**.
 | Plain Paper Memorandum | yes / yes / yes | yes / yes / yes |
 | Letterhead Memorandum | yes / yes / yes | yes / yes / yes |
 | Decision Memorandum | yes / yes / yes | yes / yes / yes |
-| Executive Memorandum | yes / yes / yes | yes / yes / yes |
+| Executive Memorandum | no / yes / no | yes / yes / yes |
 | Memorandum of Agreement (MOA) | yes / yes / yes | yes / yes / yes |
 | Memorandum of Understanding (MOU) | yes / yes / yes | yes / yes / yes |
 | Joint Memorandum | yes / yes / yes | yes / yes / yes |

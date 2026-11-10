@@ -5,6 +5,12 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [1.3.56] — 2026-11-10
+
+### Fixed
+
+- Align headquarters memorandum addressing, subparagraphs, and editor fields in PDF and Word.
+
 ## [1.3.55] — 2026-11-10
 
 ### Fixed

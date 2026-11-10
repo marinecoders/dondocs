@@ -55,6 +55,7 @@
 %                    DATE AND MEMO TITLE
 %=============================================================================
 % Date at right, "MEMORANDUM FOR" double space below
+\newlength{\MemoAddressIndent}
 
 \newcommand{\printDateAndTitle}{%
     \vspace*{1in}%  % 2" top margin (1" from geometry + 1" here)
@@ -64,7 +65,11 @@
         \noindent MEMORANDUM FOR: SEE DISTRIBUTION\par
         \vspace{12pt}%
     \else
-        \noindent MEMORANDUM FOR \MemorandumForAddressee\par
+        \settowidth{\MemoAddressIndent}{MEMORANDUM FOR \MemoAddressLead}%
+        \noindent\hangindent=\MemoAddressIndent\hangafter=1 MEMORANDUM FOR \MemorandumForAddressee\par
+        \ifdefempty{\MemoAttention}{}{%
+            {\leftskip=\MemoAddressIndent\noindent(ATTN: \MemoAttention)\par}%
+        }%
         \vspace{12pt}%
     \fi
 }
@@ -75,6 +80,7 @@
 %=============================================================================
 
 \newcommand{\printAddressBlock}{%
+    \ifdefempty{\MemoThrough}{}{\noindent THROUGH: \MemoThrough\par\vspace{12pt}}%
     \noindent
     \begin{tabular}[t]{@{}l@{\hspace{1em}}p{5.5in}@{}}
         SUBJECT: & \SubjectLine%
@@ -117,7 +123,7 @@
             }%
         \fi
         % Required: Name (use abbreviated if available, else full name uppercased)
-        \ifNotEmptyElse{\SignatoryAbbrev}{\SignatoryAbbrev\\}{\ifNotEmpty{\SignatoryName}{\MakeUppercase{\SignatoryName}\\}}%
+        \ifNotEmptyElse{\SignatoryName}{\SignatoryName\\}{\optionalLine{\SignatoryAbbrev}}%
         % Optional: Title
         \optionalLine{\SignatoryTitle}%
         % Optional: By direction authority line

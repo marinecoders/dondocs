@@ -1,5 +1,5 @@
 import { toTitleCase } from '@/lib/titleCase';
-import { resolveParagraphLayout } from './paragraphLayout';
+import { resolveParagraphLayout, paragraphHasLabel } from './paragraphLayout';
 import { documentOutputConfig } from '@/lib/documentOutputConfig';
 /**
  * Flat LaTeX Generator for Pandoc DOCX Conversion
@@ -26,7 +26,7 @@ import { keepTypedSpaces, latexLineBreaks, wrapAddressLines } from './escaper';
 import { LAYOUT, TEXT_WIDTH_IN } from '@/services/docx/layout-config';
 import { composeBasicLetterId, enclosureStartNumber, pageStartNumber } from '@/lib/endorsement';
 import { paragraphMark, delimitParagraphMark, isUnderlinedLevel } from './paragraphLabel';
-import { ancestorLabelsPerParagraph, type LabelFont } from './subparagraphIndent';
+import { ancestorLabelsPerParagraph, headquartersAddressIndentIn, type LabelFont } from './subparagraphIndent';
 import {
   resolveAppendedEndorsements,
 } from '@/lib/appendedEndorsement';
@@ -300,6 +300,7 @@ function buildPreamble(data: Partial<DocumentData>): string {
 % Deferring definitions preserves them for pandoc's raw-command Lua filter.
 \\AtBeginDocument{%
 \\providecommand{\\dondocsaddressbreak}{\\newline}%
+\\providecommand{\\dondocsmemoindent}[2]{}%
 \\providecommand{\\dondocsackstart}{}%
 \\providecommand{\\dondocsacktail}[1]{}%
 \\providecommand{\\dondocsacksignature}[1]{}%
@@ -648,7 +649,6 @@ function buildBody(paragraphs: Paragraph[], config: DocTypeConfig, font: LabelFo
 
   const labels = calculateLabels(paragraphs);
   const ancestors = ancestorLabelsPerParagraph(labels, paragraphs.map((p) => p.level));
-  const useNumbered = config.compliance.numberedParagraphs;
   // Push-then-join across paragraphs (the cross-paragraph accumulator is
   // the one that grows unbounded — within a single paragraph the
   // accumulator stays small so we leave that alone).
@@ -656,7 +656,7 @@ function buildBody(paragraphs: Paragraph[], config: DocTypeConfig, font: LabelFo
 
   for (let i = 0; i < paragraphs.length; i++) {
     const para = paragraphs[i];
-    const label = useNumbered ? labels[i] : '';
+    const label = paragraphHasLabel(para.level, config) ? labels[i] : '';
     const headerText = para.header?.trim();
     const portionPrefix = para.portionMarking ? `(${para.portionMarking}) ` : '';
     const layout = resolveParagraphLayout(para.level, ancestors[i], config, font, fontSizePt);
@@ -773,7 +773,7 @@ function buildSignature(data: Partial<DocumentData>, config: DocTypeConfig, docT
   sigRows.push(escapeTabular(name));
 
   // Show rank/title unless config says name-only (e.g., standard_letter, plain_paper_memorandum)
-  if (config.showSignatureRankTitle !== false) {
+  if (config.showSignatureRankTitle !== false && !config.headquartersMemo) {
     if (data.sigRank) sigRows.push(escapeTabular(data.sigRank));
   }
   const title = signaturePosition({ ...data, acting: data.acting && supportsActingSignature(docType) }, config);
@@ -1501,13 +1501,14 @@ function buildStandardMemorandumLayout(store: DocumentStore, config: DocTypeConf
   content += '\\vspace{12pt}\n';
 
   // MEMORANDUM FOR addressee
+  const addressTwips = Math.round(headquartersAddressIndentIn(data.memorandumFor ?? '', bodyFont(data), bodySizePt(data)) * 1440);
   if (data.memorandumFor) {
-    content += `\\noindent MEMORANDUM FOR ${escapeFlat(data.memorandumFor)}\n\n`;
+    content += `\\noindent\\dondocsmemoindent{${addressTwips}}{0}MEMORANDUM FOR ${escapeAddressWrapped(data.memorandumFor)}\n\n`;
   }
 
   // Optional ATTN: line
   if (data.attnLine?.trim()) {
-    content += `\\noindent ATTN: ${escapeFlat(data.attnLine)}\n\n`;
+    content += `\\noindent\\dondocsmemoindent{${addressTwips}}{1}(ATTN: ${escapeAddressWrapped(data.attnLine)})\n\n`;
   }
 
   // Optional THROUGH: line (ALL CAPS per Ch 12 ¶2k)
@@ -1516,11 +1517,6 @@ function buildStandardMemorandumLayout(store: DocumentStore, config: DocTypeConf
   }
 
   content += '\\vspace{12pt}\n';
-
-  // FROM: line (optional for standard memo)
-  if (data.from?.trim()) {
-    content += `\\noindent\n\\begin{tabular}{@{}l@{\\hspace{1em}}p{5.5in}@{}}\nFROM: & ${escapeTabularWrapped(data.from)}\n\\end{tabular}\n\n`;
-  }
 
   // SUBJECT: in Title Case (NOT ALL CAPS per Ch 12 ¶2l)
   if (data.subject) {

@@ -1,6 +1,6 @@
 import { toTitleCase } from '@/lib/titleCase';
 import { abbreviatedFullSignatoryName } from '@/lib/signatoryName';
-import { resolveParagraphLayout } from './paragraphLayout';
+import { resolveParagraphLayout, paragraphHasLabel } from './paragraphLayout';
 import { documentOutputConfig } from '@/lib/documentOutputConfig';
 import { jointSignatories, signatureAuthorityLine, signaturePosition, supportsActingSignature } from '@/lib/signingAuthority';
 import { resolvePageNumbering } from '@/lib/pageNumbering';
@@ -227,8 +227,13 @@ ${data.showSubjectOnContinuation ? `\\setContinuationSubject{${subjectLine}}` : 
   // Each template defines its own commands — set the ones it expects
   if (isExecutiveMode) {
     // Standard memo + Action memo: \setMemorandumForAddressee
-    if (store.docType === 'standard_memorandum' || store.docType === 'action_memorandum') {
-      tex += `\\setMemorandumForAddressee{${escapeLatex(data.memorandumFor)}}\n`;
+    if (config.headquartersMemo || store.docType === 'action_memorandum') {
+      tex += `\\setMemorandumForAddressee{${config.headquartersMemo ? formatAddressForLatex(data.memorandumFor) : escapeLatex(data.memorandumFor)}}\n`;
+      if (config.headquartersMemo) {
+        tex += `\\setMemoAddressLead{${escapeLatex(Array.from(data.memorandumFor?.trim() ?? '').slice(0, 2).join(''))}}\n`;
+        tex += `\\setMemoAttention{${formatAddressForLatex(data.attnLine)}}\n`;
+        tex += `\\setMemoThrough{${formatAddressForLatex(data.throughLine?.toUpperCase())}}\n`;
+      }
     }
 
     // Action memo: \setActionFrom (FROM line in address block)
@@ -999,7 +1004,7 @@ export function generateBodyTex(store: DocumentStore): string {
   for (let i = 0; i < store.paragraphs.length; i++) {
     const para = store.paragraphs[i];
     if (agreementTailStart !== undefined && i > agreementTailStart) parts.push('\\nopagebreak[4]\n');
-    const label = useNumberedParagraphs ? labels[i] : '';
+    const label = paragraphHasLabel(para.level, config) ? labels[i] : '';
     const layout = resolveParagraphLayout(para.level, ancestors[i], config, bodyFont, bodySizePt);
     const spacing = `\\vspace{${layout.spaceBeforePt}pt}`;
     const headerText = para.header?.trim();
@@ -1109,7 +1114,7 @@ export function generateBodyTex(store: DocumentStore): string {
     if (para.level === 0) {
       // Level 0: Main paragraph with optional underlined header
       // Per SECNAV M-5216.5 Ch 7 ¶13d: "Underline any heading and capitalize its key words"
-      if (isBusinessLetter) {
+      if (isBusinessLetter || (config.headquartersMemo && !useNumberedParagraphs)) {
         // Business letter: 0.5" first-line indent, no numbers
         if (headerText) {
           parts.push(`${spacing}\n\\noindent\\hspace{${layout.firstLineIndentIn}in}${underlineWords(escapeLatex(formattedHeader))}${headingDot}~~${portionPrefix}${bodyText(para.text)}\n\n`);
