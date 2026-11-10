@@ -658,7 +658,8 @@ export function generateReferencesTex(store: DocumentStore): string {
 
 ${store.references.map((r, i) => {
     if (store.references.length === 1 && ['standard_memorandum', 'executive_memorandum'].includes(store.docType)) {
-      return `\\dondocsEntry{}{${escapeLatex(r.title)}}`;
+      const uriHex = Array.from(new TextEncoder().encode(safeUrl(r.url) || ''), byte => byte.toString(16).padStart(2, '0')).join('');
+      return `\\singlerefitem{${escapeLatex(r.title)}}{${uriHex}}`;
     }
     const cmd = i === store.references.length - 1 ? '\\lastrefitem' : '\\refitem';
     return `${cmd}{${escapeLatex(r.letter)}}{${escapeLatex(r.title)}}`;

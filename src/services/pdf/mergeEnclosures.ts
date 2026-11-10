@@ -1026,6 +1026,21 @@ function createUriLinkAnnotations(pdfDoc: PDFDocument, positions: ReferencePosit
     const rectURX = pos.x + pos.width + padding * 2;
     const rectURY = pos.y + pos.height + padding;
 
+    // Keep the template's exact URI rectangles when the engine emitted them.
+    // The text fallback is deliberately wider and must not cover those links.
+    const alreadyLinked = page.node.Annots()?.asArray().some(ref => {
+      const annotation = pdfDoc.context.lookup(ref);
+      if (!(annotation instanceof PDFDict)) return false;
+      const action = annotation.lookup(PDFName.of('A'));
+      const rect = annotation.lookup(PDFName.of('Rect'));
+      if (!(action instanceof PDFDict) || !(rect instanceof PDFArray)) return false;
+      const uri = action.lookup(PDFName.of('URI'));
+      if (!(uri instanceof PDFString || uri instanceof PDFHexString) || uri.decodeText() !== pos.url) return false;
+      const bounds = rect.asArray().map(value => (value as PDFNumber).asNumber());
+      return bounds[0] < rectURX && bounds[2] > rectLLX && bounds[1] < rectURY && bounds[3] > rectLLY;
+    });
+    if (alreadyLinked) continue;
+
     debug.log('Hyperlinks', `Creating URI rect for '${pos.letter}': [${rectLLX.toFixed(1)}, ${rectLLY.toFixed(1)}, ${rectURX.toFixed(1)}, ${rectURY.toFixed(1)}] (${(rectURX - rectLLX).toFixed(1)} x ${(rectURY - rectLLY).toFixed(1)} points)`);
 
     const rect = pdfDoc.context.obj([

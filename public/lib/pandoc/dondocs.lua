@@ -31,6 +31,8 @@ local L = {
   ssic_right = 0.250,
   addr_label = 0.077,
   addr_content = 0.923,
+  ref_caption = 65 / 468,
+  refs_caption = 80 / 468,
   copyto_label = 0.102,
   copyto_content = 0.898,
   sig_left   = 0.500,
@@ -61,6 +63,8 @@ local function read_meta(meta)
   L.ssic_right   = mnum(meta, "ssic-right",    L.ssic_right)
   L.addr_label   = mnum(meta, "addr-label",    L.addr_label)
   L.addr_content = mnum(meta, "addr-content",  L.addr_content)
+  L.ref_caption = mnum(meta, "ref-caption", L.ref_caption)
+  L.refs_caption = mnum(meta, "refs-caption", L.refs_caption)
   L.copyto_label   = mnum(meta, "copyto-label",    L.copyto_label)
   L.copyto_content = mnum(meta, "copyto-content",  L.copyto_content)
   L.sig_left     = mnum(meta, "sig-left",      L.sig_left)
@@ -214,8 +218,8 @@ local function apply_table(tbl)
     local align2 = tbl.colspecs[2][1]
 
     if reference_caption then
-      local width = reference_caption == "Reference(s):" and 80 or 65
-      new_colspecs = {{align1, width / 468}, {align2, (468 - width) / 468}}
+      local width = reference_caption == "Reference(s):" and L.refs_caption or L.ref_caption
+      new_colspecs = {{align1, width}, {align2, 1 - width}}
     elseif is_letterhead_table(tbl) then
       -- 2-col letterhead with seal images (dual seal layout)
       new_colspecs = {

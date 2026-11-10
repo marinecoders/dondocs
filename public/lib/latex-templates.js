@@ -1273,6 +1273,22 @@ const LATEX_TEMPLATES = {
 \\newcommand{\\setReferenceLabel}[1]{\\renewcommand{\\ReferenceLabel}{#1}}
 
 \\makeatletter
+% The bundled hyperref shim emits HTML specials. Use pdfTeX's URI action here
+% so an unlettered title stays clickable, including each wrapped line.
+% The generator supplies the validated URI as UTF-8 hex, avoiding TeX's URL
+% expansion and PDF string escaping (underscores, query strings, and fragments).
+\\newcommand{\\singlerefitem}[2]{%
+    \\ifhyperlinks
+        \\ifstrempty{#2}{\\dondocsEntry{}{#1}}{%
+            \\dondocsEntry{}{\\leavevmode
+                \\pdfstartlink attr{/Border [0 0 0]} user{%
+                    /Subtype /Link /A << /S /URI /URI <#2> >>}%
+                \\textcolor{blue}{#1}\\pdfendlink}%
+        }%
+    \\else
+        \\dondocsEntry{}{#1}%
+    \\fi
+}
 \\newcommand{\\refitem}[2]{%
     \\ifhyperlinks
         \\@ifundefined{ref@url@#1}{%

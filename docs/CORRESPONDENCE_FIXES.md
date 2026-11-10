@@ -24,3 +24,9 @@ numbering and links survive. Headquarters memorandums permit references when
 needed and use Reference/Reference(s) captions, with no letter for a single
 reference (SECNAV Chapter 12 paragraph 2m). Page-bound checks exercise long
 lists and an individual entry longer than a page in the packaged engine.
+
+Single headquarters reference titles carry PDF URI annotations across wrapped
+lines, preserving validated URLs and the hyperlink toggle in both PDF engines.
+Word reference captions keep their standard minimum widths and grow with the
+selected font's metrics, including Courier in Custom mode. Final-PDF link
+rectangles and converted Word column geometry have regression coverage.
