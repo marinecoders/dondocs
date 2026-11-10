@@ -1790,7 +1790,9 @@ const LATEX_TEMPLATES = {
     \\ifdim\\dimexpr\\ht\\dondocsClosingBox+\\dp\\dondocsClosingBox\\relax>\\textheight
         \\PackageError{dondocs}{Signature block exceeds page height}{Shorten the signature block.}%
     \\fi
-    \\par\\nopagebreak[4]\\box\\dondocsClosingBox
+    % The signature already includes its spacing above the name. Suppress
+    % the extra interline glue TeX would insert before this vertical box.
+    \\par\\nopagebreak[4]\\nointerlineskip\\box\\dondocsClosingBox
 \\else
     \\printSignature
 \\fi
