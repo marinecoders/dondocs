@@ -205,13 +205,19 @@ test('a reset built-in form keeps its signature defaults through Undo and Redo',
   await page.goto('/');
   await page.getByLabel('Import draft file').setInputFiles({ name: 'form.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(incoming)) });
   await page.getByRole('button', { name: 'Open as new document', exact: true }).click();
+  await expect(page.getByRole('dialog', { name: 'Review draft', exact: true, includeHidden: true })).toHaveCount(0);
+  const subject = page.getByRole('textbox', { name: '8. Nature of Action/Subject', exact: true });
+  await expect(subject).toHaveValue('Before reset');
   await page.getByRole('button', { name: 'Document actions', exact: true }).click();
   await page.getByRole('menuitem', { name: 'Reset form to sample values…', exact: true }).click();
   await page.getByRole('button', { name: 'Reset to sample values', exact: true }).click();
-  const subject = page.getByRole('textbox', { name: '8. Nature of Action/Subject', exact: true });
+  // Wait for dialog focus restoration before WebKit inserts the next edit.
+  await expect(page.getByRole('alertdialog', { name: 'Reset form to sample values?', exact: true, includeHidden: true })).toHaveCount(0);
   const sample = await subject.inputValue();
+  expect(sample).not.toBe('');
   expect(sample).not.toBe('Before reset');
   await subject.fill('FORM HISTORY EDIT');
+  await expect(subject).toHaveValue('FORM HISTORY EDIT');
   const undo = await historyAction(page, /^Undo/);
   await expect(undo).toBeEnabled(); await undo.click();
   await expect(subject).toHaveValue(sample);
