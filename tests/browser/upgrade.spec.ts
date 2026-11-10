@@ -1,4 +1,5 @@
 import { test, expect, type Page } from '@playwright/test';
+import { documentIdentity } from './documentIdentity';
 import { readFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { createHash } from 'node:crypto';
@@ -64,16 +65,16 @@ async function start(page: Page) {
 async function reloadDuringUpdate(page: Page) {
   // The worker can supersede a Playwright navigation request. Trigger a real
   // reload, then require a new document rather than that request's completion.
-  let previousDocument = 0;
+  let previousDocument = '';
   await expect(async () => {
-    previousDocument = await page.evaluate(() => performance.timeOrigin);
+    previousDocument = await documentIdentity(page);
   }).toPass({ timeout: 15_000 });
   try { await page.evaluate(() => window.location.reload()); }
   catch (error) {
     if (!(error instanceof Error) || !/Execution context was destroyed/.test(error.message)) throw error;
   }
   await expect(async () => {
-    expect(await page.evaluate(() => performance.timeOrigin)).not.toBe(previousDocument);
+    expect(await documentIdentity(page)).not.toBe(previousDocument);
   }).toPass({ timeout: 15_000 });
   await expect(page.locator('#subject:visible, #body-subject:visible')).toBeVisible({ timeout: 15_000 });
 }
@@ -327,9 +328,9 @@ test('an uncontrolled first-install tab reloads after accepting an update', asyn
   const updateBounds = await update.boundingBox();
   if (!listBounds || !updateBounds) throw new Error('Missing update control or document list');
   expect(listBounds.y + listBounds.height).toBeLessThanOrEqual(updateBounds.y);
-  const beforeUpdate = await page.evaluate(() => performance.timeOrigin);
+  const beforeUpdate = await documentIdentity(page);
   await page.waitForTimeout(6000);
-  expect(await page.evaluate(() => performance.timeOrigin)).toBe(beforeUpdate);
+  expect(await documentIdentity(page)).toBe(beforeUpdate);
   await expect(page.getByRole('dialog', { name: 'Update Available', exact: true })).toHaveCount(0);
   await update.click();
   await page.getByRole('button', { name: 'Update Now', exact: true }).click();

@@ -1,4 +1,5 @@
 import { test, expect, type Page } from '@playwright/test';
+import { documentIdentity } from './documentIdentity';
 import { readFile, mkdtemp, rm } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { tmpdir } from 'node:os';
@@ -102,7 +103,7 @@ test('refuses acceptance if staged files were evicted and cannot be fetched agai
   await page.evaluate(() => window.dispatchEvent(new Event('focus')));
   const update = page.getByRole('button', { name: 'Update Available', exact: true });
   await expect(update).toBeVisible({ timeout: 120000 });
-  const original = await page.evaluate(() => performance.timeOrigin);
+  const original = await documentIdentity(page);
   await page.evaluate(() => caches.delete('dondocs-release-files-v1'));
   const manifest = releaseManifest.parse(JSON.parse(await readFile(resolve(second!, 'release.json'), 'utf8')));
   const missing = manifest.assets.find(asset => asset.group === 'shell' && asset.url.endsWith('.js'))!;
@@ -111,7 +112,7 @@ test('refuses acceptance if staged files were evicted and cannot be fetched agai
   await context.setOffline(true);
   await update.click(); await page.getByRole('button', { name: 'Update Now', exact: true }).click();
   await expect(page.getByRole('alertdialog', { name: 'Update paused' })).toBeVisible({ timeout: 30000 });
-  expect(await page.evaluate(() => performance.timeOrigin)).toBe(original);
+  expect(await documentIdentity(page)).toBe(original);
   await expect(page.locator('#subject:visible, #body-subject:visible')).toHaveValue('RELEASE CHECKPOINT');
 });
 
@@ -141,7 +142,7 @@ test('preserves an unresponsive client’s caches across a transport-worker repl
   try {
     const page = context.pages()[0];
     await start(page);
-    const original = await page.evaluate(() => performance.timeOrigin);
+    const original = await documentIdentity(page);
     const previousWorker = await page.evaluateHandle(async () => (await navigator.serviceWorker.getRegistration())!.active);
     const manifest = releaseManifest.parse(JSON.parse(await readFile(resolve(first!, 'release.json'), 'utf8')));
     for (const asset of manifest.assets) server.faults.set(asset.url, { status: 503 });
@@ -155,7 +156,7 @@ test('preserves an unresponsive client’s caches across a transport-worker repl
         return active !== previous && active?.state === 'activated';
       }, previousWorker);
     }, { timeout: 20000 }).toBe(true);
-    expect(await page.evaluate(() => performance.timeOrigin)).toBe(original);
+    expect(await documentIdentity(page)).toBe(original);
     const restarted = await workerRequest(page, { type: 'IS_RELEASE_READY', id: firstId });
     expect(restarted).toMatchObject({ ready: true });
     // Restore the origin before staging later releases, which may need shared lazy runtimes.
@@ -182,7 +183,7 @@ test('keeps a legacy editor intact until legacy tabs close, ignoring SKIP_WAITIN
   await page.reload(); // Establish a genuinely legacy-controlled editor before deployment.
   await expect(page.locator('#subject:visible, #body-subject:visible')).toHaveValue('LEGACY EDITOR');
   await expect.poll(() => page.evaluate(() => !!navigator.serviceWorker.controller)).toBe(true);
-  const original = await page.evaluate(() => performance.timeOrigin);
+  const original = await documentIdentity(page);
   root = resolve(first!);
   await page.evaluate(async () => (await navigator.serviceWorker.getRegistration())!.update());
   await expect.poll(() => page.evaluate(async () => (await navigator.serviceWorker.getRegistration())?.waiting?.state)).toBe('installed');
@@ -190,7 +191,7 @@ test('keeps a legacy editor intact until legacy tabs close, ignoring SKIP_WAITIN
   const modern = await context.newPage(); await modern.goto(`${server.origin}/releases/${firstId}/index.html`);
   await expect(modern.locator('meta[name="dondocs-release"]')).toHaveAttribute('content', firstId);
   expect((await workerRequest(modern, { type: 'ACTIVATE_WORKER' }, true)).error).toContain('Legacy or inactive tabs');
-  expect(await page.evaluate(() => performance.timeOrigin)).toBe(original);
+  expect(await documentIdentity(page)).toBe(original);
   await expect(page.locator('#subject:visible, #body-subject:visible')).toHaveValue('LEGACY EDITOR');
   await page.close();
   await modern.evaluate(() => window.dispatchEvent(new Event('focus')));
@@ -207,7 +208,7 @@ test('updates only the accepting tab and reopens the staged release offline', as
   const other = await context.newPage(); await other.goto(server.origin);
   await expect(other.locator('#subject:visible, #body-subject:visible')).toHaveValue('RELEASE CHECKPOINT');
   await expect(other.getByText('Compilation complete', { exact: true })).toBeAttached({ timeout: 60000 });
-  const original = await page.evaluate(() => performance.timeOrigin);
+  const original = await documentIdentity(page);
   root = resolve(second!);
   await other.bringToFront(); await other.evaluate(() => window.dispatchEvent(new Event('focus')));
   const update = other.getByRole('button', { name: 'Update Available', exact: true });
@@ -216,7 +217,7 @@ test('updates only the accepting tab and reopens the staged release offline', as
   await update.click(); await other.getByRole('button', { name: 'Update Now', exact: true }).click();
   await expect(other.locator('meta[name="dondocs-release"]')).toHaveAttribute('content', secondId);
   expect(await attachmentBytes(other)).toEqual(bytes);
-  expect(await page.evaluate(() => performance.timeOrigin)).toBe(original);
+  expect(await documentIdentity(page)).toBe(original);
   await expect(page.locator('meta[name="dondocs-release"]')).toHaveAttribute('content', firstId);
   await page.locator('#subject:visible, #body-subject:visible').fill('STILL EDITING THE ORIGINAL');
   await context.setOffline(true);
@@ -232,11 +233,11 @@ test('does not advertise an incomplete release and retries after the origin reco
   const missing = next.assets.find(asset => asset.group === 'shell' && asset.url.endsWith('.js'));
   if (!missing) throw new Error('Missing shell script fixture');
   server.faults.set(missing.url, { status: 503 }); root = resolve(second!);
-  const original = await page.evaluate(() => performance.timeOrigin);
+  const original = await documentIdentity(page);
   await page.evaluate(() => window.dispatchEvent(new Event('focus')));
   await expect.poll(() => server.requests.some(request => request.path === missing.url && request.status === 503)).toBe(true);
   await expect(page.getByRole('button', { name: 'Update Available', exact: true })).toHaveCount(0);
-  expect(await page.evaluate(() => performance.timeOrigin)).toBe(original);
+  expect(await documentIdentity(page)).toBe(original);
   server.faults.clear(); await page.evaluate(() => window.dispatchEvent(new Event('focus')));
   await expect(page.getByRole('button', { name: 'Update Available', exact: true })).toBeVisible({ timeout: 120000 });
 });
@@ -258,11 +259,11 @@ test('restores the accepting tab’s last edit when another tab has a different 
   const update = page.getByRole('button', { name: 'Update Available', exact: true });
   await expect(update).toBeVisible({ timeout: 120000 });
   await page.locator('#subject:visible, #body-subject:visible').fill('LAST EDIT BEFORE ACCEPTANCE');
-  const otherOrigin = await other.evaluate(() => performance.timeOrigin);
+  const otherDocumentId = await documentIdentity(other);
   await update.click(); await page.getByRole('button', { name: 'Update Now', exact: true }).click();
   await expect(page.locator('meta[name="dondocs-release"]')).toHaveAttribute('content', secondId);
   await expect(page.locator('#subject:visible, #body-subject:visible')).toHaveValue('LAST EDIT BEFORE ACCEPTANCE');
-  expect(await other.evaluate(() => performance.timeOrigin)).toBe(otherOrigin);
+  expect(await documentIdentity(other)).toBe(otherDocumentId);
   await expect(other.locator('#subject:visible, #body-subject:visible')).toHaveValue('OTHER DOCUMENT');
   await expect.poll(() => page.evaluate(() => sessionStorage.getItem('dondocs-update-restore'))).toBeNull();
 });
@@ -280,10 +281,10 @@ test('keeps the page and edit intact when a document write fails during acceptan
     };
   });
   await page.locator('#subject:visible, #body-subject:visible').fill('KEEP THE UNSAVED EDIT');
-  const original = await page.evaluate(() => performance.timeOrigin);
+  const original = await documentIdentity(page);
   await update.click(); await page.getByRole('button', { name: 'Update Now', exact: true }).click();
   await expect(page.getByRole('alertdialog', { name: 'Update paused' })).toBeVisible();
-  expect(await page.evaluate(() => performance.timeOrigin)).toBe(original);
+  expect(await documentIdentity(page)).toBe(original);
   await expect(page.locator('#subject:visible, #body-subject:visible')).toHaveValue('KEEP THE UNSAVED EDIT');
   expect(await page.evaluate(() => sessionStorage.getItem('dondocs-update-restore'))).toBeNull();
   expect(await page.locator('.workspace-shell').getAttribute('inert')).toBeNull();
@@ -317,10 +318,10 @@ test('pauses an update during a PDF read and accepts it after the attachment is 
   });
   const pdf = await PDFDocument.create(); pdf.addPage();
   await page.getByLabel('Upload enclosure PDFs', { exact: true }).setInputFiles({ name: 'update-proof.pdf', mimeType: 'application/pdf', buffer: Buffer.from(await pdf.save()) });
-  const original = await page.evaluate(() => performance.timeOrigin);
+  const original = await documentIdentity(page);
   await update.click(); await page.getByRole('button', { name: 'Update Now', exact: true }).click();
   await expect(page.getByRole('alertdialog', { name: 'Update paused' })).toBeVisible();
-  expect(await page.evaluate(() => performance.timeOrigin)).toBe(original);
+  expect(await documentIdentity(page)).toBe(original);
   await page.getByRole('button', { name: 'OK', exact: true }).click();
   await page.evaluate(() => (window as unknown as { finishFileRead(): void }).finishFileRead());
   await expect(page.getByText('update-proof.pdf', { exact: true }).first()).toBeVisible();

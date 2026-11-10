@@ -1,11 +1,29 @@
 import { test, expect, type Page } from '@playwright/test';
 import { PDFDocument } from 'pdf-lib';
+import { documentIdentity } from './documentIdentity';
 
 test.use({ serviceWorkers: 'block' });
 test.setTimeout(120_000);
 
 test.beforeEach(async ({ page }) => {
   await page.addInitScript(() => localStorage.setItem('browser-test-visitor', 'returning'));
+});
+
+test('document identity ignores clock jitter and history changes but detects a real reload', async ({ page }) => {
+  await page.route('https://document-identity.test/**', route => route.fulfill({
+    contentType: 'text/html', body: '<!doctype html><title>Document identity</title>',
+  }));
+  await page.goto('https://document-identity.test/');
+  await page.evaluate(() => {
+    let origin = performance.timeOrigin;
+    Object.defineProperty(performance, 'timeOrigin', { get: () => origin++ });
+  });
+  const original = await documentIdentity(page);
+  expect(await documentIdentity(page)).toBe(original);
+  await page.evaluate(() => history.replaceState(null, '', '#same-document'));
+  expect(await documentIdentity(page)).toBe(original);
+  await page.reload();
+  expect(await documentIdentity(page)).not.toBe(original);
 });
 
 async function savedState(page: Page) {
