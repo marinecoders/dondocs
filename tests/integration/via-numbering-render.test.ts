@@ -63,6 +63,15 @@ async function renderBoth(via: string, to?: string): Promise<{ pdf: string; docx
 describe('via addressee numbering — rendered PDF and DOCX', () => {
   describeToolchainRequirement('via-numbering-render');
 
+  it.each([10, 14])('rejects %i wrapped routes that cannot fit on the opening page', async count => {
+    const store = buildBaseline('naval_letter');
+    store.formData.via = Array.from({ length: count }, (_, i) =>
+      `ROUTE${i + 1} Commanding General, Example Regional Headquarters, Training Coordination, Readiness and Operational Planning Directorate, Headquarters Support Division`).join('\n');
+    const result = await compileFixture(store);
+    expect(result.ok, result.logTail).toBe(false);
+    expect(result.logTail).toContain('Address block is too tall');
+  }, 60_000);
+
   it.each([6, 10])('retains all %i routes in both outputs', async count => {
     const { pdf, docx } = await renderBoth(Array.from({ length: count }, (_, i) => `ROUTE${i + 1} Command`).join('\n'));
     for (const text of [pdf, docx]) {

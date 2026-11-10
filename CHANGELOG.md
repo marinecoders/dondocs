@@ -10,6 +10,7 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 ### Fixed
 
 - Preserve complete Via routing and explicit address rows in PDF and Word exports.
+- Stop PDF export when the opening address and routing block cannot fit on its page.
 
 ## [1.3.50] — 2026-11-09
 

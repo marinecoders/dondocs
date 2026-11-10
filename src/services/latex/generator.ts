@@ -116,6 +116,7 @@ export function generateDocumentTex(store: DocumentStore, referenceDate = new Da
 \\setDocumentType{${store.docType}}
 \\setFontSize{${data.fontSize || '12pt'}}
 \\setFontFamily{${data.fontFamily || 'times'}}
+${config.fromTo && !isTechnicalPublication(store.docType) ? '\\enableAddressFitCheck' : '% No opening address table'}
 % Correspondence prints the spaces its author typed; TeX adds none after a sentence.
 ${isTechnicalPublication(store.docType) ? '\\nonfrenchspacing' : '\\frenchspacing'}
 \\setPageNumberStyle{${resolvePageNumbering(store.docType, store.documentMode, data.pageNumbering)}}

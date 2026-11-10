@@ -44,6 +44,15 @@ describe('correspondence address rows', () => {
     expect(alpha.top - bravo.top).toBeGreaterThan(10);
   }, 60_000);
 
+  it.each([10, 14])('rejects %i wrapped Via rows that cannot fit on the opening page', async count => {
+    const store = buildBaseline('naval_letter');
+    store.formData.via = Array.from({ length: count }, (_, i) =>
+      `ROUTE${i + 1} Commanding General, Example Regional Headquarters, Training Coordination, Readiness and Operational Planning Directorate, Headquarters Support Division`).join('\n');
+    const { texFiles } = generateAllLatexFiles(store);
+    const error = await compileDocument(engine, texFiles).then(() => null, error => error);
+    expect(error?.message).toContain('does not fit on the opening page');
+  }, 60_000);
+
   it('preserves LF/CRLF rows and wraps within each row', () => {
     expect(wrapAddressLines('Alpha Battalion\r\n\r\nBravo Battalion')).toEqual(['Alpha Battalion', '', 'Bravo Battalion']);
     expect(wrapAddressLines('Alpha Battalion\nBravo Battalion', 10)).toEqual(['Alpha', 'Battalion', 'Bravo', 'Battalion']);

@@ -599,6 +599,30 @@
 \newcommand{\ViaRows}{}
 \newcommand{\setViaRows}[1]{\ViaEnabledtrue\renewcommand{\ViaRows}{#1}}
 
+% Address tables cannot split across pages. Reject an opening block that would
+% move off page one or lose rows below the page, rather than export a partial list.
+\newif\ifAddressFitCheck
+\AddressFitCheckfalse
+\newcommand{\enableAddressFitCheck}{\AddressFitChecktrue}
+\newcommand{\checkAddressBlockFits}{%
+    \ifAddressFitCheck
+        \par
+        \begingroup
+        \setbox0=\vbox{\hsize=\textwidth\printAddressBlock\par}%
+        \dimen0=\pagegoal
+        \ifdim\dimen0>\textheight \dimen0=\textheight\fi
+        \advance\dimen0 by -\pagetotal
+        \dimen2=\ht0
+        \advance\dimen2 by \dp0
+        \advance\dimen2 by \baselineskip
+        \ifdim\dimen2>\dimen0
+            \PackageError{dondocs}{Address block is too tall}%
+                {Shorten the address or Via routing text before exporting.}%
+        \fi
+        \endgroup
+    \fi
+}
+
 \newcommand{\setVia}[4]{%
     \ViaEnabledtrue
     \renewcommand{\ViaLineOne}{#1}%
@@ -1704,6 +1728,7 @@
 % Ensure font size is applied before address blocks
 \applyDocumentFontSize
 \printDateAndTitle
+\checkAddressBlockFits
 \printAddressBlock
 \printReferences
 \printEnclosureList

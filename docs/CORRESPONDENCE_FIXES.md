@@ -8,5 +8,10 @@ explicit address rows and wrap within each row. The PDF Via list no longer
 stops after four recipients. The legacy four-argument TeX setter remains
 available for existing standalone sources.
 
+An opening address table that cannot fit below the letterhead and date stops
+PDF export with an instruction to shorten the address or routing text. It cannot
+silently lose recipients or move the complete address block onto a later page.
+
 Regression coverage includes the packaged PDF engine, native PDF and Word
-conversion, route counts through ten, and LF/CRLF address input.
+conversion, route counts through ten, LF/CRLF address input, and rejection of
+oversized wrapped routing blocks in both PDF engines.
