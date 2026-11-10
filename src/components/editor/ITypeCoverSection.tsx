@@ -26,6 +26,7 @@ import { validateAppendixTitles } from '@/lib/appendixTitles';
 import { validateNomenclature, validateLongTitle } from '@/lib/publicationTitle';
 import { validateNsnConsistency } from '@/lib/nsnConsistency';
 import { PUBLICATION_TYPES, type PublicationTypeCode } from '@/data/techpub/publicationTypes';
+import { DISCREPANCY_NOTICE, MI_REPORTING, pointOfContactLead } from '@/data/techpub/sections';
 
 /**
  * Cover page of a technical publication: what the equipment is called, and the
@@ -134,6 +135,16 @@ export function ITypeCoverSection() {
           </SelectContent>
         </Select>
       </div>
+
+      <details className="space-y-2 text-sm">
+        <summary className="cursor-pointer font-medium">Required Administrative Instructions text</summary>
+        <div className="space-y-3 break-words pt-2">
+          <p className="text-muted-foreground">MIL-DTL-28999D §3.3.2.2 requires this section for all four instruction types. In Paragraphs, add Administrative Instructions after Purpose. Use separate subparagraphs for Point of Contact and Notice of Discrepancies; an MI also needs Reporting Instructions. Replace the bracketed contact prompt below with your phone number or section mailbox email.</p>
+          <p>{pointOfContactLead(publicationType)} [PHONE OR SECTION MAILBOX EMAIL].</p>
+          <p>{DISCREPANCY_NOTICE}</p>
+          {publicationType === 'MI' && <p>{MI_REPORTING}</p>}
+        </div>
+      </details>
 
       <div className="space-y-2">
         <Label htmlFor="subject">

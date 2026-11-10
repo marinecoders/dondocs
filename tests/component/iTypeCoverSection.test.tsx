@@ -1,6 +1,6 @@
 // @vitest-environment happy-dom
 import { describe, it, expect, beforeEach } from 'vitest';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, within, act } from '@testing-library/react';
 import { ITypeCoverSection } from '@/components/editor/ITypeCoverSection';
 import { useDocumentStore } from '@/stores/documentStore';
 
@@ -38,6 +38,46 @@ describe('ITypeCoverSection', () => {
 });
 
 describe('publication checks', () => {
+  it('keeps both reported warnings visible until the supplied required text is used', () => {
+    const original = useDocumentStore.getState();
+    try {
+      useDocumentStore.setState({
+        formData: { ...original.formData, publicationType: 'TI' },
+        paragraphs: [
+          { level: 0, header: 'Purpose', text: 'Inspect the equipment.' },
+          { level: 0, header: 'Administrative Instructions', text: 'For concerns/issues with the content/procedures contact Equipment Specialist or designated Program Office representative John Doe, jdoe@usmc.mil, 123-456-7890. (Paragraph may be removed if not needed.)' },
+        ],
+      });
+      render(<ITypeCoverSection />);
+      expect(screen.getByText(/^Include the prescribed NAVMC 10772 notice/)).toBeTruthy();
+      expect(screen.getByText(/^Use the prescribed point-of-contact sentence/)).toBeTruthy();
+      const help = screen.getByText('Required Administrative Instructions text').closest('details')!;
+      const contact = within(help).getByText(/^For questions or concerns/).textContent!.replace('[PHONE OR SECTION MAILBOX EMAIL]', 'jdoe@usmc.mil');
+      const notice = within(help).getByText(/^Discrepancies or suggested changes/).textContent!;
+      act(() => useDocumentStore.getState().updateParagraph(1, { text: `${contact} ${notice}` }));
+      expect(screen.queryByText(/^Include the prescribed NAVMC 10772 notice/)).toBeNull();
+      expect(screen.queryByText(/^Use the prescribed point-of-contact sentence/)).toBeNull();
+    } finally { useDocumentStore.setState(original); }
+  });
+
+  it('shows the required text for the selected subtype without changing the document', () => {
+    const original = useDocumentStore.getState();
+    try {
+      useDocumentStore.setState({ formData: { ...original.formData, publicationType: 'MI' } });
+      render(<ITypeCoverSection />);
+      const help = screen.getByText('Required Administrative Instructions text').closest('details')!;
+      expect(within(help).getByText(/MIL-DTL-28999D §3.3.2.2 requires this section for all four instruction types/)).toBeTruthy();
+      expect(within(help).getByText(/^Operating Forces/)).toBeTruthy();
+      for (const [code, name] of [['TI', 'Technical'], ['SI', 'Supply'], ['LI', 'Lubrication']] as const) {
+        act(() => useDocumentStore.getState().setField('publicationType', code));
+        expect(within(help).getByText(`For questions or concerns with the content or procedures in this ${name} Instruction (${code}) contact [PHONE OR SECTION MAILBOX EMAIL].`)).toBeTruthy();
+        expect(within(help).getByText(/^Discrepancies or suggested changes/)).toBeTruthy();
+        expect(within(help).queryByText(/^Operating Forces/)).toBeNull();
+      }
+      expect(useDocumentStore.getState().paragraphs).toEqual(original.paragraphs);
+    } finally { useDocumentStore.setState(original); }
+  });
+
   it('asks an URGENT instruction for a completion date, and says so until it has one', () => {
     useDocumentStore.setState({ formData: { ...useDocumentStore.getState().formData, miUrgency: 'urgent', miCompletionDate: '' } });
     render(<ITypeCoverSection />);
