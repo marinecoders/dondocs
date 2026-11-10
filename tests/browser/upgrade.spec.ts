@@ -36,6 +36,12 @@ async function readSaved(page: Page) {
   });
 }
 
+async function expectBaseline(page: Page) {
+  // Concurrent tabs also start preview workers; allow the editor to mount
+  // before testing edits and conflicts against the restored document.
+  await expect(page.locator('#subject:visible, #body-subject:visible')).toHaveValue('UPGRADE BASELINE', { timeout: 15_000 });
+}
+
 async function start(page: Page) {
   await page.addInitScript(() => localStorage.setItem('dondocs-welcome-shown', '3.0'));
   await page.goto(origin);
@@ -59,7 +65,7 @@ async function start(page: Page) {
     await navigator.serviceWorker.ready;
   });
   await page.reload();
-  await expect(page.locator('#subject:visible, #body-subject:visible')).toHaveValue('UPGRADE BASELINE');
+  await expectBaseline(page);
 }
 
 async function reloadDuringUpdate(page: Page) {
@@ -84,7 +90,7 @@ test('old release upgrades with two tabs, committed edits, attachment bytes, and
   await start(page);
   const other = await context.newPage();
   await other.goto(origin);
-  await expect(other.locator('#subject:visible, #body-subject:visible')).toHaveValue('UPGRADE BASELINE');
+  await expectBaseline(other);
   const before = await readSaved(page);
   root = newBuild;
   await page.locator('#subject:visible, #body-subject:visible').fill('EDIT JUST BEFORE UPGRADE');
@@ -301,10 +307,10 @@ test('three tabs preserve repeated conflicts and include each copy in a backup',
   await start(page);
   const other = await context.newPage();
   await other.goto(origin);
-  await expect(other.locator('#subject:visible, #body-subject:visible')).toHaveValue('UPGRADE BASELINE');
+  await expectBaseline(other);
   const third = await context.newPage();
   await third.goto(origin);
-  await expect(third.locator('#subject:visible, #body-subject:visible')).toHaveValue('UPGRADE BASELINE');
+  await expectBaseline(third);
   await page.locator('#subject:visible, #body-subject:visible').fill('FIRST TAB EDIT');
   await expect(async () => expect(JSON.stringify((await readSaved(page)).documents)).toContain('FIRST TAB EDIT')).toPass({ timeout: 15_000 });
   await other.locator('#subject:visible, #body-subject:visible').fill('SECOND TAB EDIT');
