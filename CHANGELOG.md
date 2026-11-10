@@ -5,12 +5,13 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
-## [1.3.52] — 2026-11-09
+## [1.3.52] — 2026-11-10
 
 ### Fixed
 
 - Use HTTPS Ubuntu sources with bounded download retries and timeouts in CI.
 - Detect browser document reloads without relying on exact clock timestamps.
+- Stabilize concurrent-tab and history checks and allow time for native toolchain setup.
 
 ## [1.3.51] — 2026-11-09
 
