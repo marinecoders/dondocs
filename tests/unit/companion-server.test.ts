@@ -177,6 +177,14 @@ describe('malformed input is 400, never 500', () => {
     const { status, json } = await post('{"docType":');
     expect(status).toBe(400);
     expect(json.ok).toBe(false);
+    expect(json.errors).toEqual(['invalid JSON']);
+  });
+
+  it.each([null, [], false, 42, 'not an object'])('rejects a non-object JSON body: %j', async (body) => {
+    const { status, json } = await post(JSON.stringify(body));
+    expect(status).toBe(400);
+    expect(json).toEqual({ ok: false, v: 1, errors: ['request must be a JSON object'] });
+    expect((await fetch(`${base}/health`)).status).toBe(200);
   });
 
   it('rejects a body past the cap without reading it all into memory', async () => {

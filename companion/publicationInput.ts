@@ -79,6 +79,17 @@ export function publicationInputErrors(input: LetterInput): string[] {
     if (ids.has(file.id)) errors.push(`Duplicate attachment ID: ${file.id}.`);
     ids.add(file.id);
   }
+  for (const paragraph of input.paragraphs ?? []) {
+    if (paragraph.figure && !ids.has(paragraph.figure.fileId)) {
+      errors.push(`Attachment "${paragraph.figure.fileId}" is missing.`);
+    }
+  }
+  for (const enclosure of input.enclosures ?? []) {
+    if (!enclosure.fileId) continue;
+    const file = input.attachments?.find((entry) => entry.id === enclosure.fileId);
+    if (!file) errors.push(`Attachment "${enclosure.fileId}" is missing.`);
+    else if (file.mimeType !== 'application/pdf') errors.push(`Enclosure "${enclosure.title}" requires a PDF attachment.`);
+  }
   const size = (input.attachments ?? []).reduce((sum, file) => sum + file.dataBase64.length, 0);
   if (size > 12_000_000) errors.push('Combined attachments exceed the 12 MB base64 limit.');
   return errors;

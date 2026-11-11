@@ -104,7 +104,10 @@ export function validateLetter(body: Partial<LetterInput>, defaults: CompanionDe
       problems.push('Classification and manual distribution statements must agree.');
     if (!problems.length) {
       try { problems.push(...manualFrontMatterErrors(toStore(body as LetterInput, defaults))); }
-      catch (error) { problems.push(error instanceof Error ? error.message : String(error)); }
+      catch (error) {
+        console.error('  manual front-matter validation failed:', error);
+        problems.push('Could not validate manual front matter. Check the companion logs for details.');
+      }
     }
     return problems;
   }
@@ -120,8 +123,12 @@ export function validateLetter(body: Partial<LetterInput>, defaults: CompanionDe
     if (!problems.length) {
       try {
         const input = body as LetterInput;
-        problems.push(...publicationInputErrors(input), ...publicationExportErrors(toStore(input, defaults)));
-      } catch (error) { problems.push(error instanceof Error ? error.message : String(error)); }
+        problems.push(...publicationInputErrors(input));
+        if (!problems.length) problems.push(...publicationExportErrors(toStore(input, defaults)));
+      } catch (error) {
+        console.error('  publication validation failed:', error);
+        problems.push('Could not validate publication metadata. Check the companion logs for details.');
+      }
     }
   } else if (body.publication || body.attachments?.length || (Array.isArray(body.enclosures) && body.enclosures.some((e) => e?.fileId))
     || (Array.isArray(body.paragraphs) && body.paragraphs.some((p) => p?.figure || p?.tableKey || p?.publicationSection || p?.callout || p?.procedure || p?.appendix))) {

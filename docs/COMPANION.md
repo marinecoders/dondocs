@@ -152,6 +152,8 @@ For unit matches, pass the returned `unit` object into the render request. Searc
 
 Requests have a **16,000,000-byte** body limit. Unknown fields, invalid content, invalid output paths and oversized bodies return HTTP 400. Render failures return 500; a render deadline returns 504. Error responses contain `ok: false`, `v` and an `errors` array. Route lookup failures return 404.
 
+HTTP responses use fixed messages for caught exceptions. Internal diagnostics, including unexpected rendering, unit lookup and publication-validation failures, are logged to the companion's stderr. Input validation still names fields and missing attachments so callers can correct their requests.
+
 With `out` omitted, the server chooses a subject-based filename and adds a numeric suffix if needed. Supplying `out` replaces an existing file at that name inside the output root. Save the returned `out` value when you intend to revise that file.
 
 ## Document types
