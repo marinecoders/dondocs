@@ -9,7 +9,7 @@ existing implementation, documented below.
 
 Use the official [DoD forms catalog](https://forms.documentservices.dla.mil) or
 [Navy Forms Online](https://www.mynavyhr.navy.mil/References/Forms/). Install the
-Node dependencies (`npm ci`), Python `pypdf` and `Pillow`, and `qpdf`/Poppler.
+Node dependencies (`npm ci`), Python `pypdf` and `Pillow`, and `qpdf`/Poppler. The optional legacy `extract-pdf-boxes.py` tool additionally imports `pdfplumber`.
 
 The acquisition command defaults to a dry run. Add `--yes` to fetch, flatten,
 harvest and prepare candidates. It does not publish them.
@@ -163,22 +163,22 @@ The `scripts/extract-pdf-boxes.py` script can auto-detect boxes, but works best 
 
 ```bash
 # Basic usage - auto-detect boxes
-python scripts/extract-pdf-boxes.py template.pdf
+python3 scripts/extract-pdf-boxes.py template.pdf
 
 # Save annotated image showing detected boxes
-python scripts/extract-pdf-boxes.py template.pdf --save-image
+python3 scripts/extract-pdf-boxes.py template.pdf --save-image
 
 # Adjust detection sensitivity
-python scripts/extract-pdf-boxes.py template.pdf --min-size 5 --max-size 300
+python3 scripts/extract-pdf-boxes.py template.pdf --min-size 5 --max-size 300
 
 # Interactive mode for manual box definition
-python scripts/extract-pdf-boxes.py template.pdf --interactive
+python3 scripts/extract-pdf-boxes.py template.pdf --interactive
 
 # Save detected boxes as JSON config for manual editing
-python scripts/extract-pdf-boxes.py template.pdf --save-config
+python3 scripts/extract-pdf-boxes.py template.pdf --save-config
 
 # Load boxes from a JSON config file
-python scripts/extract-pdf-boxes.py --config public/templates/NAVMC118.boxes.json
+python3 scripts/extract-pdf-boxes.py --config "public/templates/NAVMC11811 - Administrative Remarks/boxes.json"
 ```
 
 **Output includes:**
@@ -217,16 +217,18 @@ For forms where auto-detection doesn't work well (forms drawn with lines instead
 ```
 
 **Existing configs:**
-- `public/templates/NAVMC118.boxes.json` - NAVMC 118(11) Administrative Remarks
-- `public/templates/NAVMC10274.boxes.json` - NAVMC 10274 Administrative Action
+- `public/templates/NAVMC11811 - Administrative Remarks/boxes.json` - NAVMC 118(11) Administrative Remarks
+- `public/templates/NAVMC10274 - Administrative Action/boxes.json` - NAVMC 10274 Administrative Action
 
 **Maintaining the two existing built-in forms:**
-1. Run auto-detection: `python scripts/extract-pdf-boxes.py template.pdf --save-config`
+1. Run auto-detection: `python3 scripts/extract-pdf-boxes.py template.pdf --save-config`
 2. Edit the generated `template.boxes.json` to fix field names and coordinates
-3. Verify with: `python scripts/extract-pdf-boxes.py --config template.boxes.json`
+3. Verify with: `python3 scripts/extract-pdf-boxes.py --config template.boxes.json`
 4. Copy the TypeScript output into your generator file
 
 ---
+
+The developer box editor loads pdf.js and its worker from cdnjs. It needs network access unless you stage and point it to local copies. This optional developer tool is outside the built application's no-CDN guard. Install `pdfplumber` for the legacy extractor (`python3 -m pip install pdfplumber`).
 
 ## PDF Coordinate System
 
@@ -266,3 +268,7 @@ only the two built-in NAVMC template sets and no generic `form.json` files. It i
 not a geometry certification of the separate, unmerged form-library corpus.
 Passing bounds checks also does not prove alignment with printed labels; retain
 rendered placement review when publishing a form.
+
+## Placement rotation
+
+The v2 definition supports optional `rotation: 270` on ordinary and repeated-row text placements. This rotates a placement's text, not the template page. Page/source normalization is a separate import step. Regenerate the [schema](form-definition.schema.json) after model changes; `npm run docs:check` detects schema drift.

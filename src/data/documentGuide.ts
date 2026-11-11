@@ -177,7 +177,7 @@ export const DOCUMENT_TYPE_GUIDES: DocumentTypeGuide[] = [
     keyFeatures: [
       'Added directly below the basic letter',
       'No separate letterhead',
-      'Continues paragraph numbering from basic letter',
+      'Numbers endorsement paragraphs independently of the basic letter',
       'Brief and concise',
     ],
     commonExamples: [

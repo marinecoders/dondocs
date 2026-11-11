@@ -1,91 +1,211 @@
 # The DonDocs companion
 
-A loopback HTTP endpoint that renders naval correspondence from JSON. It exists
-so an agent on the same machine — anything that can make an HTTP request — can
-produce a real, format-correct PDF or DOCX without a browser.
+The companion creates documents locally through HTTP or MCP. It uses the application's document generators and packaged PDF engine; Word conversion uses system Pandoc. Correspondence supports PDF and Word. Technical publications support PDF only.
 
-```bash
+Choose HTTP for scripts and clients that can send requests, or MCP for a host that launches local tool servers. Examples below use fictional training content.
+
+## Start the HTTP server
+
+From a source checkout, use the [development toolchain](CONTRIBUTING.md#local-setup):
+
+```sh
+npm ci
+npm run vendor-assets
 npm run companion
 ```
 
+The server listens on `http://127.0.0.1:7712` and writes final files under your home directory's `Documents/DonDocs` folder by default. It binds to loopback, not a network interface. The calling client must run on the same machine or have access to that loopback address; in a container, loopback belongs to the container.
+
+Check the running service before rendering:
+
+```sh
+curl --fail-with-body http://127.0.0.1:7712/health
 ```
-DonDocs companion on http://127.0.0.1:7712  (loopback only, v1)
-  writing under /Users/you/Documents/DonDocs
-```
 
-It renders through the **same generator the app uses**. `src/services/latex/`
-holds the document logic behind a `LatexEngine` port; the browser satisfies that
-port with SwiftLaTeX's WASM worker and the companion satisfies it with a Node
-worker thread. There is no second implementation of the letter rules to drift.
+Send a document:
 
-## Why loopback, specifically
-
-This is the architectural point rather than a default. A `127.0.0.1` request
-never meets the site proxy, the DoD CA bundle, or SSPI — the three things that
-make .mil networking painful. Binding anything routable would give that up, so
-the server binds `127.0.0.1` explicitly and never `0.0.0.0`.
-
-## The contract
-
-`GET /` or `GET /health` returns capabilities: contract version, supported
-formats and docTypes, the output root, the configured defaults, and which pandoc
-will convert DOCX. Probe this first — it tells a client everything it needs
-without sending a letter.
-
-`POST /generate` renders one document.
-
-```bash
-curl -X POST http://127.0.0.1:7712/generate -H 'content-type: application/json' -d '{
+```sh
+curl --fail-with-body http://127.0.0.1:7712/generate \
+  -H 'content-type: application/json' -d '{
   "docType": "naval_letter",
   "format": "pdf",
-  "subject": "REQUEST FOR ADDITIONAL RANGE TIME",
-  "from": "Commanding Officer, 1st Battalion, 6th Marines",
-  "to": "Commanding General, II MEF",
-  "paragraphs": [{ "text": "Request approval for additional range time in FY26." }]
+  "subject": "TRAINING EXAMPLE",
+  "from": "Training Unit",
+  "to": "Training Coordinator",
+  "paragraphs": [{ "text": "This is a fictional example for local testing." }]
 }'
 ```
 
-```json
-{ "ok": true, "v": 1, "files": [{ "format": "pdf", "path": "/Users/you/Documents/DonDocs/request-for-additional-range-time.pdf", "out": "request-for-additional-range-time.pdf", "bytes": 253832 }] }
+A successful response has `ok: true`, contract version `v`, and a `files` array containing the output's `format`, local `path`, filename `out` and byte count. HTTP returns file metadata, not PDF/Word bytes. Open the reported path or use the client's file-presentation tool.
+
+Install `pandoc` on PATH for Word output. `/health` reports its version, the browser-vendored version and whether they match. Different versions can produce different Word output. PDF does not require system Pandoc or a native TeX installation.
+
+## Using it from an MCP client
+
+### Install a bundle
+
+Download `dondocs-<version>.mcpb` and its checksum from [releases](https://github.com/marinecoders/dondocs/releases). Install it in a client that supports MCP bundles, then review its Output folder, Machine defaults file and Web editor address settings. See the [bundle guide](../companion/mcpb/README.md).
+
+Host support and permission prompts vary. The bundle includes the PDF resources; Word still requires system Pandoc.
+
+### Register a built server
+
+Build from the checkout:
+
+```sh
+npm ci
+npm run build:companion
 ```
 
-**It answers with a path, never the document.** Agent harnesses clip tool output,
-often to a few thousand characters, and that one-paragraph letter is 248 KB —
-roughly 338,000 characters as base64. A path is sixty and opens a real file.
+Register the built entry with the MCP client:
 
-**Status carries the outcome.** A caller derives success from the HTTP status, so
-a bad request is a 4xx and never a 200 with an error inside it. `400` means the
-request was wrong and the errors array says how — all of them at once, so one
-round-trip is enough to fix it. `500` means rendering genuinely failed.
+```json
+{
+  "mcpServers": {
+    "dondocs": {
+      "command": "node",
+      "args": ["/absolute/path/to/dondocs/dist-companion/companion/mcp.mjs"],
+      "env": { "DONDOCS_OUT_ROOT": "/absolute/path/to/output" }
+    }
+  }
+}
+```
 
-Requests are capped at 1 MB, and `out` is resolved inside the output root and
-refused if it escapes. `out` is chosen by a model composing JSON, so
-`../../../../etc/passwd` is a realistic input rather than a hypothetical one.
-A file already at `out` is replaced; the MCP tool says so with
-`destructiveHint`. With `out` omitted the name is a slug of the subject, and
-a name already taken gets the next number (`subject-2.pdf`), so a repeated
-subject never writes over an earlier letter. A write that fails is reported
-as `could not write <path>`, not as a render failure.
+Replace both paths with actual locations. Keep the full `dist-companion/` directory with its render assets. The built server targets Node 20 or later and does not require `node_modules`. Source/build tooling has the separate Node requirement in the contributor guide.
+
+The built HTTP entry is `dist-companion/companion/server.mjs`. To package an MCP bundle after building, run `npm run build:mcpb`; it writes to `dist-mcpb/`.
+
+### Register a source checkout
+
+For development, install dependencies and stage vendor assets as in the HTTP setup, then register:
+
+```json
+{
+  "mcpServers": {
+    "dondocs": {
+      "command": "node",
+      "args": [
+        "/absolute/path/to/dondocs/node_modules/vite-node/dist/cli.mjs",
+        "--root", "/absolute/path/to/dondocs",
+        "/absolute/path/to/dondocs/companion/mcp.ts"
+      ],
+      "env": { "DONDOCS_OUT_ROOT": "/absolute/path/to/output" }
+    }
+  }
+}
+```
+
+The explicit `--root` makes module resolution independent of the client's working directory. Configure the registration in your host's MCP settings. The host starts the stdio process; you do not also need the HTTP server.
+
+Stdout is reserved for MCP messages. Launch the entry directly as above, or use `npm --prefix /absolute/path/to/dondocs run --silent companion:mcp`. Keep diagnostics on stderr.
+
+## Configuration
+
+Set these variables on the server process or in the MCP registration's `env`:
+
+| Variable | Purpose / default |
+|---|---|
+| `DONDOCS_PORT` | HTTP listener port; `7712`. |
+| `DONDOCS_OUT_ROOT` | Final output directory; `Documents/DonDocs` under the user's home directory. |
+| `DONDOCS_CONFIG` | Defaults file; `~/.dondocs/companion.config.json`. |
+| `DONDOCS_RENDER_TIMEOUT_MS` | Positive finite render deadline in milliseconds; `45000`. Invalid values fall back to the default with a diagnostic. |
+| `DONDOCS_APP_URL` | Optional HTTP(S) editor address for MCP browser handoff. Unset in a source launch; the bundle defaults to `https://dondocs.marines.dev`. Clear the bundle setting to disable handoff. |
+
+Final documents stay inside the output root. Machine defaults use their configured file, and rendering/conversion also uses system temporary directories. Output paths escaping the root or traversing a symlink are refused. Resolve host placeholders such as `${DOCUMENTS}` before passing a path; an unresolved output-root placeholder falls back to the default with a diagnostic.
+
+### Machine defaults
+
+Set unit, signer, SSIC and originator defaults once, then omit those fields from later requests. Over MCP, ask to set up DonDocs defaults or call `dondocs_save_defaults`. Its patch merges supplied values; `null` clears a value. Saving through that tool updates the running MCP server immediately.
+
+You can also edit the defaults file directly:
+
+```json
+{
+  "unit": {
+    "name": "TRAINING UNIT",
+    "line2": "EXAMPLE ORGANIZATION",
+    "address": "100 SAMPLE ROAD, EXAMPLE CITY VA 00000",
+    "department": "dod",
+    "seal": "dod"
+  },
+  "signature": { "first": "A", "middle": "B", "last": "SMITH", "rank": "Training Officer", "title": "Training Coordinator" },
+  "ssic": "5216",
+  "originatorCode": "S-6"
+}
+```
+
+Restart each running server after editing the file directly. A missing file uses built-in defaults. An unreadable file, invalid JSON or unsupported fields stop startup with a diagnostic naming the path or field.
+
+Request fields take precedence over saved defaults. With neither, the built-in letterhead is used and the signer is left blank. `originatorCode` maps to the app's `officeCode`. HTTP health reports the loaded unit/signer; MCP exposes the complete loaded defaults and file path through `dondocs://defaults`.
+
+## HTTP API
+
+| Route | Result |
+|---|---|
+| `GET /` or `GET /health` | Contract version, formats by document type, accepted fields, output root, loaded unit/signer and Pandoc status. |
+| `POST /generate` | Validate and render one request; return local file metadata. |
+| `GET /units?query=...&limit=20` | Unit matches and source/date metadata. Query is required, 1–200 trimmed characters; limit is an integer from 1–50, default 20. |
+| `GET /templates` | Template IDs, names, categories and descriptions. |
+| `GET /templates/{id}` | Complete registered template. Unknown IDs return 404. |
+
+For unit matches, pass the returned `unit` object into the render request. Search uses recorded names, abbreviations, MCCs and locations. MCCs are not necessarily unique. Narrow truncated or ambiguous results; an empty result is not a reason to invent an address. Restart after changing the template registry.
+
+Requests have a **16,000,000-byte** body limit. Unknown fields, invalid content, invalid output paths and oversized bodies return HTTP 400. Render failures return 500; a render deadline returns 504. Error responses contain `ok: false`, `v` and an `errors` array. Route lookup failures return 404.
+
+With `out` omitted, the server chooses a subject-based filename and adds a numeric suffix if needed. Supplying `out` replaces an existing file at that name inside the output root. Save the returned `out` value when you intend to revise that file.
 
 ## Document types
 
-`docType` accepts every type the app defines — the enum in the tool schema and
-`docTypes` in `GET /health` are both derived from the app's registry, so the
-list here is illustrative rather than authoritative:
+Use `docTypes` and `formatsByDocType` from `GET /health` for the running server's supported inputs. The families below cover correspondence and technical
+publications; built-in and configured forms use the browser's form workflow.
 
 | Family | Types | Extra fields |
 |---|---|---|
 | Letters | `naval_letter`, `standard_letter`, `multiple_address_letter` | none |
 | Business | `business_letter`, `executive_correspondence` | `salutation`, `complimentaryClose` |
 | Memoranda | `mfr`, `mf`, `plain_paper_memorandum`, `letterhead_memorandum`, `decision_memorandum`, `executive_memorandum` | none |
-| Executive | `standard_memorandum` (alias `memorandum`), `action_memorandum`, `information_memorandum` | standard memo: `attnLine`, `throughLine` (DOCX only); info memo: `coordination`, `preparedBy` (action memo too, DOCX only) |
+| Executive | `standard_memorandum` (alias `memorandum`), `action_memorandum`, `information_memorandum` | standard memo: `attnLine`, `throughLine`; info/action memo: `coordination`, `preparedBy` (supported PDF and DOCX layouts) |
 | Endorsements | `same_page_endorsement`, `new_page_endorsement` | `endorsement: { ordinal, basicLetterId }` |
 | Two-party | `joint_letter`, `joint_memorandum`, `moa`, `mou` | `parties: { senior, junior }` |
+| I-Type / stock lists | `i_type`, `sl3`, `sl4` | `publication`, structured paragraphs/tables, optional `attachments`; PDF only |
+| Manual front matter | `tm_ietm_front_matter` | `manualFrontMatter`; PDF only, no correspondence body |
 
-The plain `from`, `to`, `subject` and `date` fields work for every type; the
-companion routes them to whatever the type reads. The date defaults to the
-format the type's chapter prescribes — `8 Aug 26` for a naval letter,
-`August 8, 2026` for business and executive correspondence — when omitted.
+Correspondence fields print only where the selected format uses them; retained
+`from`/`to` values do not become an MFR addressing block. Correspondence dates
+default to the selected format's date style. Technical publications require
+explicit dates and their structured metadata rather than only these fields.
+Use `formatsByDocType` from health for actual PDF/DOCX availability.
+
+### Technical-publication requests
+
+Use the [publication workflow and validated examples](TECHNICAL_PUBLICATIONS.md).
+`i_type`, `sl3` and `sl4` take a `publication` object with `type`, `shortTitle`,
+`pcn`, `nomenclature`, `controllingOffice`, `signingDate`, `distribution` and
+applicable `endItems`, `tables`, `sl3` or `sl4` content. `subject` is the long
+title, `date` is the effective publication date (`d MMM yy`), and `signingDate`
+is ISO `YYYY-MM-DD`. Supply the issuing `unit` and authorized `signature`, or
+valid machine defaults. Neither a number's syntax nor validation assigns it.
+
+Publication paragraphs support `publicationSection`, `tableKey`, identifier
+mode/footnotes, `referenceId`, `figure`, `callout`, `procedure` and `appendix`.
+Use the fixed section/table keys from the source schema. Included I-Type item
+sections need their populated matching tables, attached exactly once; text
+alone is insufficient. SL-3/SL-4 use their structured lists, not arbitrary body
+paragraphs standing in for inventory/parts data.
+
+`tm_ietm_front_matter` instead takes `manualFrontMatter` with subtype, equipment,
+notices/rights, authority basis and publication/authentication metadata. It
+rejects body paragraphs, references, enclosures and I-Type attachments/tables.
+It produces front matter, not a complete technical or interactive manual.
+
+For I-Type/SL-3/SL-4, `attachments` accepts at most **32** entries with unique
+`id`, `name`, `mimeType` and `dataBase64`. Allowed MIME types are PNG, JPEG and
+PDF. Use standard base64 without a data-URL prefix, local path or remote URL;
+each encoded string is capped at **8,000,000 characters** and the total JSON
+request still has the 16,000,000-byte HTTP cap. Figures reference `fileId` and
+require a single-page PDF or supported image. Publication enclosures can refer
+to an attachment by `fileId`. Referenced bytes must actually decode/render;
+schema acceptance alone is not a successful PDF export.
 
 Two-party documents take both sides under `parties`. Each party carries the
 command name, an optional identifying block (`from`, `code`, `zip`, `ssic`,
@@ -111,396 +231,60 @@ Endorsements take the ordinal and the letter being endorsed under
 `endorsement`, and are refused without it: a bare ENDORSEMENT heading is not a
 document.
 
-Classification is `classification.level`, or `classification.custom` for a
-banner outside the list, printed as given; not both. A paragraph may carry a
-`portionMarking` (U, CUI, FOUO, C, S, TS), printed before its text, and the
-banner rises to the highest mark in the document.
+Set `classification.level`, or use `classification.custom` for a banner
+outside the list, printed as given; not both. A paragraph may carry a
+`portionMarking` (`U`, `CUI`, `FOUO`, `C`, `S`, `TS`), printed in parentheses
+before its text. For listed options, the renderer derives the banner from the
+document selection and the highest-ranked paragraph or figure mark. Custom
+banners remain unchanged.
 
-## Machine defaults
+These are application values, not six official classification levels. `FOUO`
+is accepted for legacy compatibility and ranks as `cui` in the renderer; this
+does not determine whether legacy information qualifies as CUI. The existing
+`top_secret_sci` value prints `TOP SECRET//SCI` without identifying specific
+SCI controls. See [marking terminology](CLASSIFICATION_CONFIG.md#marking-terminology)
+for the official distinctions and governing sources.
 
-A unit is a property of the box, not of the request. Settle yours once and
-an agent stops restating it on every call; until then every letter starts
-with a unit lookup and the signer has to be given again.
+## MCP tools and file presentation
 
-The short way is to ask: "set up my DonDocs defaults". `dondocs_save_defaults`
-takes the unit object from a `dondocs_unit_lookup` match, asks the person
-directly for the signature block where the client can show a form, and
-writes the file below. It merges over what is there, so one field can be
-changed on its own, and `null` clears one. A value that would not load is
-refused and nothing is written, since a config the companion cannot parse
-stops it at its next start.
+| Tool | Use |
+|---|---|
+| `dondocs_letter` | Render the same document fields accepted by HTTP. Returns file metadata and instructions for presenting the result. |
+| `dondocs_unit_lookup` | Find unit matches, with the same query/limit rules as HTTP. |
+| `dondocs_template_list` | List available starters. |
+| `dondocs_template_get` | Read a starter by ID. Fill its fields and replace prompts before rendering. |
+| `dondocs_save_defaults` | Save or clear machine defaults. Supported clients can request signer details through a form. |
 
-The file itself is `~/.dondocs/companion.config.json`, written indented and
-meant to be readable:
+Use a known template ID directly, or list templates when you need to find one. Collect the required values, then render. For revisions, reuse the returned `out` name.
 
-```json
-{
-  "unit": {
-    "name": "MARINE INNOVATION UNIT",
-    "line2": "TRAINING AND EDUCATION COMMAND",
-    "address": "PSC BOX 20004, QUANTICO VA 22134-5001",
-    "department": "usmc",
-    "seal": "dow"
-  },
-  "signature": { "first": "A", "middle": "B", "last": "SMITH", "rank": "Major", "title": "Officer in Charge" },
-  "ssic": "5216",
-  "originatorCode": "S-6"
-}
-```
+Resources include `dondocs://defaults` and `dondocs://templates/{id}`. The `draft_letter` prompt helps prepare a render request. Unit lookup can offer a picker when the client supports elicitation; otherwise it returns matches for the caller to review.
 
-`originatorCode` is the app's `officeCode`, printed on the sender-symbol line
-with the serial on the types that carry an SSIC.
+Built distributions include a document card for hosts supporting MCP Apps. It previews PDFs, offers download controls and can show Edit in browser. Other hosts may need a file-presentation tool or access to the returned path. Choose an output folder those tools can read. Source runs do not include the built card.
 
-A missing file is normal, not an error — built-in fallbacks keep a fresh install
-rendering. A file that exists but is not this shape (a wrong type, a key the
-request could not set either) stops the companion at startup with the path and
-the field named, the same as a file that is not JSON. Precedence is
-**request > config > fallback** at every field, so a caller can override the
-unit for one letter without editing anything. The unit line under the
-department heading is `name` (or `line1`, the app's name for the same line);
-with neither, only the heading prints.
+The card reads rendered files through `dondocs://files/{out}`. That resource is limited to files written by this server session; it does not expose arbitrary files in the output root. File links, structured results and card controls depend on the client's protocol and capabilities.
 
-`GET /health` reports the loaded `unit` and `signature`; over MCP the same
-values, plus `ssic`, `originatorCode` and the config path, are the
-`dondocs://defaults` resource. Both show the snapshot taken at startup, so an
-edit to the file shows after a restart.
+### Browser handoff
 
-Override the location with `DONDOCS_CONFIG`, the port with `DONDOCS_PORT`, and
-the output root with `DONDOCS_OUT_ROOT`. A root that still holds a host
-placeholder such as `${DOCUMENTS}/DonDocs` is ignored with a note on stderr
-and the default used.
+`DONDOCS_APP_URL` selects the destination editor. The handoff puts a document snapshot in the URL fragment; it is not password-encrypted. Browser fragments are not sent in the HTTP request, but the link can appear in browser history. Check the destination and handling requirements before opening it.
 
-`DONDOCS_RENDER_TIMEOUT_MS` bounds a render — 45s, covering both formats and
-both transports. A value that is not a positive number is ignored with a note
-on stderr. The number is set against the caller's patience rather than
-ours: agent HTTP tools commonly allow about a minute per call, so a companion
-that waited as long would expire at the same moment and hand the model an opaque
-transport timeout instead of a message naming what was slow.
-Measured renders are 0.87s (PDF) and 0.49s (DOCX), so reaching 45s means
-something is wedged. A timeout answers `504`.
+Handoff is offered only for eligible UNCLASSIFIED/CUI content. Custom banners, higher markings and requests with attachment files are refused. Binary assets are not carried by the URL. Clearing the editor-address setting disables the link. The bundle's default destination is the hosted DonDocs site, not a local editor.
 
-## Using it from an agent that speaks HTTP
+## Troubleshooting
 
-Any agent that can make an HTTP request can use the companion — no SDK, no
-client library. Point its HTTP tool at `http://127.0.0.1:7712/generate` with the
-JSON above.
+| Problem | Check |
+|---|---|
+| Connection refused | Start the HTTP server and check `/health`. An MCP stdio registration does not start the HTTP listener. Check whether the client runs in a container or on another machine. |
+| Port already in use | Stop the other listener or choose another `DONDOCS_PORT`. Update the client's address to match. |
+| MCP disconnects at startup | Read the host's stderr log. Check the Node version, absolute entry path, source `--root`, and defaults-file syntax. |
+| Word export fails | Confirm system Pandoc is on the server process's PATH. Check `/health`; GUI hosts may inherit a different PATH from your terminal. |
+| Output cannot be written | Check the output directory's permissions and the requested `out` path. Output cannot escape the root or traverse symlinks. |
+| Render times out | Check the document and server diagnostics. The default deadline is 45 seconds; set a positive finite `DONDOCS_RENDER_TIMEOUT_MS` before restarting if needed. |
+| Defaults look stale | Restart after editing the file directly. MCP changes saved through `dondocs_save_defaults` apply immediately to that MCP server; separate processes keep their own loaded state. |
+| Card is absent or unchanged | Confirm the host supports MCP Apps and is running a built distribution. Restart the host if it has retained an older card. |
+| Edit in browser is missing | Check the editor-address setting, host link-opening support and handoff eligibility. |
 
-It works without special handling because loopback addresses are normally exempt
-from proxy configuration, and because the response is a path rather than a
-document, so it survives whatever output limit the harness applies.
+## Security and license
 
-If the harness allows custom tools, one wrapping that request beats a raw HTTP
-call — the model gets a described schema instead of being told the URL and
-payload shape every time. Where it does not, the raw call is fine.
+Use trusted local clients and synthetic data for testing. A loopback listener is local to the machine, not a claim that every local caller is trusted. Follow [SECURITY.md](../SECURITY.md) for reporting and data handling.
 
-## Browsing templates over HTTP
-
-For unit addresses, use `GET /units?query=Marine%20Innovation%20Unit%20Newburgh&limit=20`.
-`query` is required (1–200 characters after trimming); `limit` defaults to 20
-and must be an integer from 1 to 50, matching the MCP lookup limits.
-The response is `{ ok: true, v: 1, source, lastUpdated, total, truncated, matches }`.
-Each match contains `mcc` and a `unit` object that can be passed to `/generate`.
-No matches returns HTTP 200 with an empty `matches` array. Invalid inputs return
-HTTP 400 with `{ ok: false, v: 1, errors: [...] }`.
-This route uses the same `lookupUnits()` implementation as `dondocs_unit_lookup`.
-
-`GET /templates` returns `{ ok: true, v: 1, templates: [...] }`, where each
-entry contains a registered template's `id`, `name`, `category`, and `description`.
-`GET /templates/{id}` returns `{ ok: true, v: 1, template: {...} }` with the full template.
-These read-only routes use the same registry as the application and MCP tools.
-Unknown IDs return HTTP 404 with an `errors` array.
-
-From PowerShell, with the companion running:
-
-```powershell
-Invoke-RestMethod -Uri 'http://127.0.0.1:7712/templates'
-
-Invoke-RestMethod -Uri 'http://127.0.0.1:7712/templates/report-findings' |
-    ConvertTo-Json -Depth 10
-```
-
-Restart the companion after adding or changing registered templates.
-
-## Using it from an MCP client
-
-There is a second front door for clients that speak MCP rather than HTTP —
-Claude Desktop and the MCP-aware editors:
-
-```bash
-npm run companion:mcp
-```
-
-You do not normally run that yourself. An MCP client launches the process over
-stdio when it needs it and shuts it down after, which is the one real advantage
-over the HTTP endpoint: nothing to leave running, and no confusing connection
-error when someone forgets. The other is that the input schema is published, so
-the model reads the real field names instead of guessing them.
-
-There are three ways to install it, in order of least setup.
-
-**The bundle.** Each release carries `dondocs-<version>.mcpb`, the built
-server packed as an MCP Bundle, with its SHA-256 beside it. A client that
-takes bundles (the desktop apps for macOS and Windows do) installs it when you
-open the file and runs it with the Node it ships, so nothing else is
-installed. It is on as soon as it is installed: letters go to
-`Documents/DonDocs` until the Output folder setting says otherwise. (The
-desktop app leaves an extension off after install while any of its settings
-is marked required, default or no default, so none of ours is.) PDF needs
-nothing more; DOCX needs `pandoc` on PATH. To build it yourself: `npm run build:companion && npm run build:mcpb`
-writes `dist-mcpb/dondocs-<version>.mcpb`.
-
-**The built file.** `npm run build:companion` writes `dist-companion/`: the
-two entries bundled with everything they import, beside the render assets.
-Register the MCP entry with any client that runs a command:
-
-```json
-{
-  "mcpServers": {
-    "dondocs": {
-      "command": "node",
-      "args": ["/absolute/path/to/dondocs/dist-companion/companion/mcp.mjs"],
-      "env": { "DONDOCS_OUT_ROOT": "/Users/you/Documents/DonDocs" }
-    }
-  }
-}
-```
-
-The file needs only Node 20 or later; `node_modules` is not consulted.
-`dist-companion/companion/server.mjs` is the HTTP door built the same way.
-The package also declares the entry as the `dondocs-mcp` bin, for `npm link`.
-
-**From source**, for development. This runs the TypeScript entry through
-vite-node from a checkout in which `npm install` has been run:
-
-```json
-{
-  "mcpServers": {
-    "dondocs": {
-      "command": "node",
-      "args": [
-        "/absolute/path/to/dondocs/node_modules/vite-node/dist/cli.mjs",
-        "--root", "/absolute/path/to/dondocs",
-        "/absolute/path/to/dondocs/companion/mcp.ts"
-      ],
-      "env": { "DONDOCS_OUT_ROOT": "/Users/you/Documents/DonDocs" }
-    }
-  }
-}
-```
-
-`--root` is required: a client launches the server from its own working
-directory, and without it module resolution fails. The equivalent through npm
-is `npm --prefix /absolute/path/to/dondocs run --silent companion:mcp`; see the
-note on stdout below for why `--silent` matters.
-
-Where the client keeps its registration differs: the desktop app reads
-`~/Library/Application Support/Claude/claude_desktop_config.json` on macOS;
-check your client's own docs.
-
-A config file that is not JSON, or not the documented shape, stops the server
-before it answers `initialize`. A client shows that as a disconnect with
-nothing on the protocol; the reason is on stderr, which most clients keep in
-their MCP log.
-
-`dondocs_template_list` takes no arguments and returns a JSON array containing
-every bundled letter template's `id`, `name`, `category`, and `description`.
-Call `dondocs_template_get` with `{"id":"report-findings"}` to retrieve the full
-template, including its document type, subject, paragraphs, and any references
-and SSIC. Both tools are read-only. The IDs are an enum on `dondocs_template_get`
-and are named in the instructions, so a model whose user asked for a PFT waiver
-calls the get and skips the list; an unknown ID returns a tool error naming the
-valid ones.
-
-The agent chooses a matching template, works with the user to fill bracketed
-placeholders and correspondence details, then passes completed letter fields to
-`dondocs_letter` (excluding template metadata). If multiple templates fit, ask
-the user to choose; if none fit, explain that no matching template is available.
-Both tools use `LETTER_TEMPLATES` in `src/data/templates/index.ts`, just like the
-application. Register new templates there and restart the MCP server to expose
-them; no MCP tool changes are needed.
-
-`dondocs_letter` takes the same fields as `/generate`
-and returns the path it wrote, then on a second line the host tool that puts
-the file in the chat and the `out` that replaces that file. A filename outside
-the output root comes back as a tool error the model can read and retry, not a
-protocol failure.
-
-`dondocs_unit_lookup` searches the bundled address directory without giving the
-agent filesystem access. Call it with `{"query":"Marine Innovation Unit"}` (name, abbreviation,
-MCC, or location). It returns `matches`, `total`, `truncated`, and directory
-source/date metadata. Results default to 20; optional `limit` accepts 1–50.
-Each match contains an MCC and a `unit` object ready for `dondocs_letter`.
-
-For example, `MIU` or `Marine Innovation Unit` returns seven locations. Ask
-which location the user means, then narrow with `{"query":"MIU Newburgh"}`. Pass that match's `unit` object
-unchanged in the letter request. No additional lookup or identifier is needed.
-MCC values are searchable but are not always unique. When results are truncated,
-narrow the query; when no units match, ask for another name, MCC, or location.
-An unambiguous result can be used immediately. Search uses only values recorded
-in the directory; there is no alias expansion. If an acronym is not recorded,
-search its full name or ask the user what it stands for.
-
-### Round trips
-
-The server's share of a letter is small: the process starts in 0.2 s, a lookup
-takes 14 ms and a PDF render 0.3 to 0.4 s. A letter through the desktop app
-still took six minutes of wall clock in testing: each tool call is a model
-turn, a host may ask the person to allow each tool the first time, and the rest
-is the conversation. So the server is arranged for the fewest calls:
-
-- With a defaults file there is nothing to look up, and the instructions say
-  to omit `unit`.
-- The template IDs are an enum on `dondocs_template_get` and are named in the
-  instructions, so `dondocs_template_list` is for when the user's wording does
-  not point to one.
-- The render tool's description, the instructions and the result say to render
-  once the facts are in hand and to revise by rendering again with `out` set to
-  the name the result reports, rather than drafting in chat and then sending
-  the same text as a call.
-- The built server carries a card of its own (below), so a host that
-  renders MCP Apps shows the letter in place of the text with no further
-  call. Any other host shows a tool result's text and nothing else: the
-  desktop app does not render the `resource_link`, and an embedded document
-  it forwards to the model as an image, which the API refuses. There the
-  card is the app's own `present_files` tool, which takes the path and reads
-  the file through the Filesystem extension, and the result asks for that
-  call outright, saying to load the tool first; asked for it "if available",
-  or to share the file if a tool of its own could, the model sometimes gave
-  the path instead. That card needs a file the extension may read, so choose
-  the output folder accordingly.
-
-From the user's own words that is one DonDocs call; from a template, two.
-
-### Beyond tools
-
-The server also sends instructions and publishes resources, a prompt,
-completions, structured results, and a page for hosts that render one. A
-client that only calls tools is unaffected.
-
-- **Instructions.** `initialize` carries a paragraph on how the tools fit
-  together: look the unit up or rely on the defaults, start from one of the
-  named templates or not, render once the facts are in hand, present the
-  file, revise with `out`. Hosts pass it to the model as context.
-- **Machine defaults.** `dondocs://defaults` is what the config file sets for
-  a render that omits `unit`, `signature`, `ssic` or `originatorCode`, plus
-  the path of that file. A null unit or SSIC falls back to the built-in
-  letterhead and SSIC 5216; a null signature or originator code prints
-  nothing.
-- **Structured results.** Every tool declares an `outputSchema` and returns the
-  same data as `structuredContent` beside its text block. `dondocs_letter`
-  returns `{ format, path, out, bytes }`, `out` being the name that replaces
-  the file when passed back; the lookup returns its matches, each with a
-  `unit` that is a subset of what `dondocs_letter` accepts.
-- **A link to the file.** `dondocs_letter` also returns a `resource_link` to
-  the written file (`file://` URI, MIME type, size) to clients on protocol
-  revision 2025-06-18 or later, where the block exists; older clients get the
-  text block alone. The desktop app does not render it; the card below does
-  that job there.
-- **The letter as a card.** `dondocs_letter` carries `_meta.ui.resourceUri`
-  naming `ui://dondocs/letter.<hash>.html` (the hash is the page's own, so
-  a changed page is a new name to a host that keeps pages by URI), a page
-  (MIME
-  `text/html;profile=mcp-app`) a host that renders MCP Apps shows in place
-  of the text: the subject, format, size and page count, the pages of a PDF
-  drawn by pdf.js one at a time behind a pager (arrow keys work too), and a
-  Download button that hands the bytes to the host's own save dialog. One
-  page at a time keeps the card the same height whatever the host does with
-  later size reports, and a page is scaled to fit the height the host
-  allows when it says. Where the host offers fullscreen, an expand button
-  opens the pages in a scroll of their own (twenty at most, a longer file
-  saying so), the pager following the scroll; the host's own close returns
-  to the card, on the page last read. The
-  desktop app gives fullscreen a fixed height, which the page fills, and
-  reports a bottom safe-area inset for the composer, which the scroll
-  clears. Nothing
-  in the card waits on an animation frame: a browser withholds those from a
-  card that is not on screen, which would leave a switch half-done. The page reads the file back through
-  `dondocs://files/{out}`, a blob resource of a file this server wrote in
-  this session and nothing else in the root, so nothing of the document
-  enters the model's context and the root, which a person may point at a
-  broad folder, is not opened to reads. The page is
-  built into `dist-companion/companion/app/letter.html` beside the entry and
-  loads nothing from the network; a source run has no page and says so on
-  stderr, and its results ask for the host's file tool instead. A host that
-  renders pages announces it at `initialize` (`extensions` carrying
-  `io.modelcontextprotocol/ui`); the render result's second line tells such
-  a host the card is there, and any other how to show the file. After it
-  draws, the card writes one line to the console the host keeps (the
-  desktop app's `claude.ai-web.log`): its build time, the page count, and
-  what the host told it. The desktop app keeps the page it read for as long
-  as it runs, through server restarts and reinstalls, so after an update
-  quit and reopen the app before expecting a changed card.
-- **Edit in the browser.** A rendered letter carries a link that opens it
-  in the web editor with every field populated, for the one thing a PDF is
-  a poor place to fix. The card shows an Edit in browser button beside
-  Download, naming the destination in its tooltip; the host confirms that
-  destination before opening it, as it does for any local server, and the
-  button appears only where the host says it opens links. The letter travels in the URL's fragment as
-  base64url(DEFLATE(session)), which no browser sends to a server, and the
-  editor strips it from the address bar as soon as it has loaded it. The
-  link is a resource, `dondocs://handoff/{out}`, read by the card and not
-  by the model. `DONDOCS_APP_URL` says where the editor is, defaulting in
-  the bundle to `https://dondocs.marines.dev`; clear it and no link is
-  offered. Nothing above CUI is handed over: a classified letter has no
-  business in a browser's history, so it gets no link at all.
-- **Templates as resources.** The bundled templates are listed under
-  `dondocs://templates/{id}`, titled by name. Reading one returns the same JSON
-  as `dondocs_template_get`; the `id` completes.
-- **A `draft_letter` prompt.** Optional `docType` and `template`, both with
-  completion. Returns the instructions to draft and render that letter; with a
-  template, the prompt embeds it as a resource.
-- **A unit picker.** When a lookup matches several units and the client has
-  declared form elicitation, `dondocs_unit_lookup` asks the user which one and
-  returns only that match. Declining, or a client without forms, gets the
-  list. Truncated results are not offered as a picker; narrow the query. The
-  choices are a titled `oneOf` on 2025-11-25 and later, `enum` with
-  `enumNames` before that; on 2026-07-28 the question travels in band and the
-  client's capabilities are read from each request.
-
-Nothing is logged over the protocol; diagnostics go to stderr.
-
-### What a caller cannot do
-
-The caller is a model assembling JSON, so the request is treated as hostile.
-Every field that reaches the `.tex` is escaped, a reference `letter` must be
-one or two lowercase letters, and there is no pass-through for unnamed
-generator fields (`formData` used to be one, and could overwrite the
-classification banner). Output goes only inside the root: `..`, absolute
-paths elsewhere, the root itself, and paths through a symlink are refused
-before anything renders. A render that overruns `DONDOCS_RENDER_TIMEOUT_MS` is
-cancelled and its engine disposed.
-
-**stdout belongs to the protocol.** Anything printed there that is not a JSON-RPC
-message corrupts the session and the client drops the connection. Two things in
-this repo used to do exactly that — the vite texlive banner and the engine
-worker's own logging — and both now go to stderr. If you add logging anywhere
-the companion can reach, use `console.error`.
-`tests/integration/companion-mcp.test.ts` parses every stdout line and fails on
-anything that is not a protocol message.
-
-That is why the registration above runs the entry point directly. `npm run`
-announces the script on **stdout**, so a registration through npm needs
-`--silent` or every session opens with two non-protocol lines. Clients tried
-here skipped them and connected, but that is their leniency rather than the
-contract.
-
-## DOCX is converted by a different pandoc
-
-The app vendors a pandoc 3.9 WASM build; the companion spawns whatever pandoc is
-on `PATH`, so output can differ from a browser export in ways this code cannot
-see. `GET /health` reports both versions and flags a mismatch.
-
-Not a new compromise: `tests/_helpers/compileDocx.ts` spawns system pandoc too,
-because `pandoc-converter.ts` is browser-bound (window.location, fetch, Blob,
-dynamic URL import) and will not import into Node. Closing the gap means porting
-it behind a port the way `LatexEngine` was — its own project.
-
-If pandoc is absent, `GET /health` says so and DOCX requests fail cleanly. PDF is
-unaffected.
-
-## License
-
-The DonDocs companion is licensed under GNU AGPL version 3 only
-(`AGPL-3.0-only`); see [LICENSE](../LICENSE). Built distributions include the
-license texts and `SOURCE.txt`. The letter card offers License and source
-information directly. Third-party components retain their own licenses.
+The companion uses GNU AGPL version 3 only (`AGPL-3.0-only`). Built distributions include license texts and `SOURCE.txt`; third-party components retain their own terms. See [licensing and distribution](LICENSING.md).

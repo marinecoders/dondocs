@@ -1,0 +1,48 @@
+{
+  "docType": "i_type",
+  "subject": "TRAINING EXAMPLE: SUPPORT BRACKET INSPECTION",
+  "date": "30 Oct 26",
+  "unit": {
+    "name": "EXAMPLE PROGRAM OFFICE",
+    "address": "100 Example Road, Example City VA 00000"
+  },
+  "signature": {
+    "first": "A.",
+    "last": "EXAMPLE",
+    "title": "Program Manager"
+  },
+  "publication": {
+    "type": "MI",
+    "shortTitle": "MI 12345A-26/1",
+    "pcn": "184 123456 00",
+    "nomenclature": "SUPPORT EQUIPMENT",
+    "controllingOffice": "Program Office",
+    "signingDate": "2026-10-15",
+    "distribution": {
+      "statement": "A"
+    },
+    "endItems": [
+      {
+        "nsn": "0000-00-000-0000",
+        "tamcn": "A02557G",
+        "id": "12345A",
+        "model": "SUPPORT BRACKET"
+      }
+    ]
+  },
+  "paragraphs": [
+    {
+      "level": 0,
+      "publicationSection": "purpose",
+      "header": "Purpose",
+      "text": "Inspect the support bracket."
+    },
+    {
+      "level": 0,
+      "publicationSection": "administration",
+      "header": "Administrative Instructions",
+      "text": "For questions or concerns with the content or procedures in this Modification Instruction (MI) contact office@example.mil. Discrepancies or suggested changes for this publication may be reported by submitting a NAVMC 10772. For instructions on how to submit a NAVMC 10772, go to https://mceits.usmc.mil/sites/pubs/default.aspx and click on “NAVMC 10772 Submittal.” Questions or concerns regarding the NAVMC 10772 program should be reported via email to SMB.LOG.Tech.Pubs.fct@usmc.mil. A response will be provided to you. Operating Forces (GCSS-MC users) will not manually add Modification Instructions (MI) into GCSS-MC Installed Base. Utilize manual reporting methods for tracking until loaded into GCSS-MC."
+    }
+  ],
+  "format": "pdf"
+}

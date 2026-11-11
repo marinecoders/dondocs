@@ -1,34 +1,10 @@
 name: cartesian
 
-# The cartesian compile harness — every combination of every dimension
-# on every doc type, end-to-end through xelatex / pandoc.
-#
-# Strictly NOT a per-PR check. Two trigger modes:
-#
-#   1. Manual `workflow_dispatch` — pick a doc type, range, and path,
-#      and run a single shard up to ~5h50m wall (under GitHub Actions'
-#      6-hour-per-job cap). Useful for: "Does this change break
-#      naval_letter at 3-way+ flag interactions?" or for chasing a
-#      specific bug across a range of offsets.
-#
-#   2. Nightly `schedule` — runs a rotating ~50K-fixture DOCX-only
-#      slice of the full cartesian. DOCX is ~50× faster than xelatex,
-#      so a slice of this size finishes in ~30-40 min. Over time, the
-#      rotation covers the full 17.7M-fixture space without any
-#      single run breaking the bank.
-#
-# Cost reality check before clicking "Run workflow":
-#
-#   Single doc type, LaTeX path:
-#     ~884K fixtures × 3s / 4 vCPU ≈ 184 wall-hours
-#     ⇒ Fit it in one run by setting --limit (e.g. 8000 ≈ 100 min)
-#
-#   Single doc type, DOCX path (~50× faster):
-#     ~884K fixtures × 0.05s / 4 vCPU ≈ 3 wall-hours ✓ fits whole
-#
-#   Full cartesian (all 20 doc types):
-#     LaTeX: ~9.7 days even on 64 vCPU. Don't.
-#     DOCX:  ~62 hours / 4 vCPU. Possible across many runs.
+# Optional streamed pdflatex/Pandoc checks; never a per-PR gate.
+# Manual dispatch selects bounded ranges. Nightly runs a DOCX slice using
+# day-of-year offsets, which reset annually and do not cover the full current
+# matrix. See tests/cartesian/README.md and generated docs/PROJECT_INVENTORY.md
+# for bounds, current counts and the schedule's coverage limit.
 
 on:
   workflow_dispatch:
@@ -122,7 +98,7 @@ jobs:
           node-version: '22'
           cache: 'npm'
 
-      - name: install xelatex + pandoc
+      - name: install native TeX + pandoc
         run: |
           bash scripts/ci-use-ubuntu-archive.sh
           sudo apt-get update
@@ -199,11 +175,8 @@ jobs:
 
       - name: compute today's slice
         id: slice
-        # Rotate through the 17.7M fixture space at ~50K/night. 17.7M
-        # / 50K = 354 nights to cover the whole space (about 1 year),
-        # then we wrap. Modular arithmetic on day-of-year keeps the
-        # slice deterministic per-date so reruns of the same night are
-        # the same slice.
+        # Same date gives the same 50K slice. Day-of-year resets annually;
+        # later offsets in the current larger matrix need manual ranges.
         run: |
           DAY=$(date -u +%j)        # 001..366
           SLICE_SIZE=50000

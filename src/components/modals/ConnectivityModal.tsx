@@ -43,7 +43,7 @@ export function ConnectivityModal() {
             Endpoint check
           </DialogTitle>
           <DialogDescription>
-            Sends one request from this browser and reports what came back. Nothing is saved.
+            Checks the address from this browser and may retry its origin without headers. The browser may also send a CORS preflight. Nothing is saved.
           </DialogDescription>
         </DialogHeader>
 

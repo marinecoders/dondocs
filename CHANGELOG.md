@@ -5,6 +5,14 @@ versions follow [Semantic Versioning](https://semver.org/).
 
 Releases before 1.2.0 predate this file and are recorded only as git tags.
 
+## [Unreleased]
+
+### Changed
+
+- Replace public audit records with maintained output guidance and update the private security reporting process.
+- Refresh user, contributor, publication and deployment guides; align in-app help, public descriptions and companion setup copy with current output/backup behavior.
+- Regenerate the form schema and add documentation/schema/example drift checks plus a generated project inventory.
+
 ## [1.3.61] — 2026-11-10
 
 ### Fixed

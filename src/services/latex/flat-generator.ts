@@ -14,7 +14,7 @@ import { documentOutputConfig } from '@/lib/documentOutputConfig';
  * - tabular for address/ref/encl blocks with proper column alignment
  * - \mbox{label} to protect numbered labels from pandoc's list detection
  * - Blank lines between paragraphs (pandoc ignores \\[Xpt])
- * - \vspace{Xpt} for vertical spacing (12pt/6pt/24pt/48pt)
+ * - Shared 12pt paragraph/subparagraph gaps; preserve format-specific spacing
  * - \newline for line breaks within a paragraph
  */
 

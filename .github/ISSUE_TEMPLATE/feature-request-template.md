@@ -1,35 +1,41 @@
 ---
 name: Feature request (New template)
-about: Request a new document template (e.g., new letter type, form, or memo) for the generator
+about: Request a document format, form or starter template
 title: '[Feature - Template] '
-labels: enhancement, template
+labels: enhancement
 assignees: ''
 ---
 
-> **This repository is public.** Do not include names, EDIPIs, unit rosters,
-> CUI, or any other personal information — in the text below, in screenshots, or
-> in attachments. Redact it, or reproduce the problem with made-up sample
-> content; an invented example works just as well for nearly every report.
+> **This repository is public.** Use synthetic examples. Keep real document contents,
+> personal information, credentials, private keys, CUI and classified information
+> out of text, attachments and logs. Check URLs before posting.
+>
+> Report vulnerabilities through [private security reporting](https://github.com/marinecoders/dondocs/security/advisories/new).
+> Keep exploit details private and follow [SECURITY.md](https://github.com/marinecoders/dondocs/blob/main/SECURITY.md).
 
-## Template name / type
+## Document or template
 
-What kind of document should this template produce? (e.g., "Award - NAM", "Personnel - TAD Request", "Memorandum for Record - Meeting")
+- **Service or organization:** whose requirements apply.
+- **Document name or type:** include a form number and revision, if applicable.
+- **Intended use:** describe the workflow using a fictional scenario.
+- **Required output:** PDF, Word, TeX or another format.
 
-## Reference or source
+## Governing source
 
-- **Regulation / manual:** (e.g., SECNAV M-5216.5, MCO 5216.20B, local SOP)
-- **Sample or spec:** Link or description of an official sample, form number (e.g., NAVMC 10274), or authoritative layout.
+Identify the publication or form, edition/date and relevant paragraph or page.
+Link only to publicly releasable sources. Use synthetic examples for sample
+content; do not upload actual correspondence or internal reference material.
 
-## Key fields or structure
+## Required content and layout
 
-List the main data fields, sections, or structure the template should include (e.g., "From/To/Subj, Body, signature block, enclosures").
+Describe the fields, sections, signatures, attachments and layout rules needed.
+Explain whether an existing format or starter template could cover the request.
 
-## Compliance notes
+## Example
 
-Any specific formatting or wording requirements (margins, fonts, required paragraphs, official letterhead, etc.).
+Include a small synthetic example or mockup if useful. Keep real personnel,
+unit and operational details out of the example.
 
-## Additional context
-
-Screenshots of a redacted sample, links to forms or instructions, or other details
-that would help implement this template. Check any sample for names and unit
-information before you upload it.
+Discuss new document formats with maintainers before implementation. Follow
+[CONTRIBUTING](https://github.com/marinecoders/dondocs/blob/main/docs/CONTRIBUTING.md) for contribution approval and submission
+requirements.

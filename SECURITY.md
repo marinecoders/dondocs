@@ -1,59 +1,53 @@
-# Security Policy
+# Security policy
 
-## Reporting a vulnerability
+## Report a vulnerability
 
-Report privately through GitHub's **[Private Vulnerability Reporting](https://github.com/marinecoders/dondocs/security/advisories/new)** — not a public issue, and not a pull request.
+Use [GitHub private vulnerability reporting](https://github.com/marinecoders/dondocs/security/advisories/new) to contact the maintainers. Use the private advisory for evidence, questions and follow-up.
 
-Include what you found, how to reproduce it, and what an attacker gets out of it. A proof of concept helps.
+Include:
 
-**Do not include CUI, PII, or real document content in a report.** A redacted reproduction is always enough.
+- The affected release or commit, browser or companion version, and deployment type.
+- Steps to reproduce the issue using synthetic data. Include a small proof of concept when possible.
+- What happened and the access or information an attacker could gain.
+- Any workaround you have tested.
 
-Expect an acknowledgement within a week. This is maintained on personal time, so fixes ship when they ship — but you'll be told where things stand rather than left guessing.
+Keep exploit details out of public issues, pull requests and discussions. Do not submit credentials, private keys, personal information, CUI, classified information or real document contents. Use synthetic examples.
 
-## Supported versions
+Test only systems and data you own or have permission to assess. Do not access other people's documents, disrupt public deployments or run destructive tests.
 
-The latest release only. DonDocs offers browser updates for you to accept; fixes land on `main` and ship as the next version. Accept the update to receive those fixes.
+## Response and disclosure
 
-## Scope
+We aim to acknowledge reports within seven calendar days. If you have not received a reply, follow up in the same private report.
 
-**In scope**
+Maintainers will investigate, assess impact and share the next step in the private advisory. Fix timing depends on severity and the work required. We may ask you to verify a proposed fix.
 
-- Cross-site scripting, or any path from imported/shared content to code execution
-- Flaws in the share-link encryption (`src/lib/shareCrypto.ts`)
-- Bypasses of the URL allowlist (`src/lib/url-safety.ts`) that make an unsafe scheme clickable in an export
-- Unintended transmission of document content — the app does not automatically upload editor content
-- Failures in the PII/PHI pre-export scan that let a flagged value through silently
-- Dependency vulnerabilities that are actually reachable from shipped code
+For confirmed vulnerabilities, we will coordinate disclosure with the reporter. Advisories will identify affected versions, fixes and required user action. We will ask before naming a reporter. Please coordinate publication of exploit details so users have time to update.
 
-**Out of scope**
+## Supported versions and scope
 
-- The classification domain gate (`src/lib/domainClassification.ts`). It reads the hostname to narrow the level list — it is client-side, trivially bypassable, and documented as guidance rather than enforcement. It is not a security control.
-- Anything requiring an already-compromised browser, malicious extension, or physical access to an unlocked machine.
-- Findings against a fork or a modified build.
-- Missing hardening headers on a deployment you control.
+Security fixes target the latest released version. Include older-version findings when the issue also affects current code. Browser users must accept an available update to receive client-side fixes; self-hosted operators and companion users must update their own installations.
 
-The PII/PHI text-pattern scan covers PDF (including forms), Word, both LaTeX
-downloads, and share-link generation. Each batch row is reviewed against its
-saved source, saved row values (including unused keys retained with the row),
-and resolved text, including recovered and retried rows. Discarded spreadsheet
-columns are not retained or scanned. Saved batch downloads receive a fresh text
-review; missing or unreadable source text requires explicit confirmation before
-download and is never replaced with the current editor for screening.
-The scan does not inspect attached PDF or image contents. A valid 10-digit value
-in Page 11's dedicated EDIPI field is expected and exempt; IDs in free text,
-including NAVMC 10274's From field, still receive a warning. Acknowledging the
-warning permits the export; this is guidance, not enforcement.
+Report issues affecting the web app, companion, distributed bundles or project-operated deployment, including:
 
-## What this project does not promise
+- Code execution through imported, shared or rendered content.
+- Share-link encryption, unexpected disclosure or unintended transmission of document contents.
+- Companion request validation, output-path confinement or unintended file access.
+- Unsafe links in generated files, export-review bypasses or exploitable dependencies in shipped code.
 
-- **It is not accredited for classified processing.** It has no Authority to Operate and is not under the Risk Management Framework. The classification and CUI markings it prints are formatting, not a security control. You own how the resulting document is handled.
-- **It is not official.** Not USMC, DON, or DoD software. Verify every document against the governing instruction before you sign it.
-- **Documents you create are records** under 44 U.S.C. § 3301 when used for official business. Routing them per your command's records policy is yours, not the app's.
+Include the attack path for dependency findings. Report deployment-specific problems to the operator as well; report underlying DonDocs defects here.
 
-## How the code is checked
+## Document handling
 
-- CodeQL static analysis on every push and pull request
-- `npm audit --audit-level=high` in CI, with no exceptions carried
-- `eslint-plugin-security` in the lint pass
-- A postbuild guard (`scripts/check-no-cdn.mjs`) that rejects references to known public asset CDNs in `dist/`. Application assets are served locally; the guard is a denylist, not proof that no external requests can occur. The optional Endpoint check and external links contact user-selected sites. Separately, dondocs.marines.dev runs Cloudflare Web Analytics, added at the CDN edge, which collects performance and usage metadata, not editor fields. See [Cloudflare's data collection documentation](https://developers.cloudflare.com/speed/observatory/rum-beacon/). Unmodified self-hosted builds do not include that analytics script
-- A CycloneDX SBOM of production dependencies generated on every CI run (`npm run sbom`), retained as a build artifact
+Editing and browser exports run locally; editor contents are not automatically uploaded. Assets load from the deployment. Endpoint checks and external links contact their selected destinations. The companion is a separate local service.
+
+The public site uses Cloudflare Web Analytics at the CDN edge. Unmodified self-hosted builds do not include that script. See [Cloudflare's data collection documentation](https://developers.cloudflare.com/speed/observatory/rum-beacon/) for its scope.
+
+Share snapshots are password-encrypted, with no server-side revocation or password recovery. Draft files and backups are unencrypted JSON, can include referenced assets, and bypass the rendered-output text review. See the [user guide](docs/USER_GUIDE.md) and [backup rules](docs/STORAGE.md#backups).
+
+The pre-export text review checks supported text in PDF, Word, TeX, share and batch operations. It does not inspect attached PDF or image contents, and a user can acknowledge a warning and continue. Page 11's dedicated EDIPI field intentionally accepts a valid 10-digit value; free-text IDs are still checked. This review assists the user and is not a data-loss-prevention control.
+
+DonDocs is community software, not an official USMC, DON or DoD system. It has no Authority to Operate for classified processing. Classification selectors and printed markings do not enforce access controls or authorize a deployment to process sensitive information. Follow your organization's handling and records requirements.
+
+## Security checks
+
+CI runs dependency audits, security lint rules and SBOM generation. GitHub runs CodeQL separately. Builds check for known public asset-CDN references. Deployment operators remain responsible for their own security assessment.

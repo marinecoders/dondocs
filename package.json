@@ -41,7 +41,9 @@
     "test:downloads": "npm run test:browser -- downloads.spec.ts",
     "test:lifecycle-types": "tsc -p tsconfig.lifecycle.json",
     "test:form-geometry": "vite-node --config vitest.config.ts scripts/check-form-geometry.mts",
-    "docs:capabilities": "vite-node --config vitest.config.ts scripts/generate-capabilities.mts"
+    "docs:capabilities": "vite-node --config vitest.config.ts scripts/generate-capabilities.mts",
+    "docs:inventory": "vite-node --config vitest.config.ts scripts/generate-doc-inventory.mts",
+    "docs:check": "npm run docs:capabilities -- --check && npm run docs:inventory -- --check && vite-node --config vitest.config.ts scripts/check-documentation.mts"
   },
   "overrides": {
     "serialize-javascript": "^7.0.5",

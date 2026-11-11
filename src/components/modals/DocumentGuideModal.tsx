@@ -505,7 +505,6 @@ const openProfileModal = () => {
   if (!useUIStore.getState().profileModalOpen) useUIStore.getState().openProfileEditor(null);
 };
 const openShareModal = () => useUIStore.getState().setShareModal('share');
-const closeShareModal = () => useUIStore.getState().setShareModal(null);
 const openTemplateLoader = () => {
   useUIStore.getState().setMobileDocsOpen(false);
   useUIStore.getState().setTemplateLoaderOpen(true);
@@ -538,7 +537,7 @@ const POWER_FEATURES: PowerFeature[] = [
     body: 'Produce one finished document per row from a single template: award citations, promotion letters, or anything repeated across people.',
     steps: [
       'Open Batch from the toolbar.',
-      'Drop a {{NAME}} placeholder (any label) into a field.',
+      'Add a {{NAME}} placeholder in a supported text field using the field picker.',
       'Paste tab-separated rows straight from a spreadsheet.',
       'Map columns to placeholders, then review each row.',
       'Generate the set: one PDF per row.',
@@ -559,7 +558,7 @@ const POWER_FEATURES: PowerFeature[] = [
       {
         target: '[data-tour="batch-commonvars"]',
         title: 'Or copy a common one',
-        body: 'Not sure what to use? These common variables copy with one click. Paste one into any field.',
+        body: 'Copy a common variable, then paste it into a supported text field. Check the field picker and batch help for field-specific limits.',
         action: openBatch,
       },
       {
@@ -655,7 +654,7 @@ const POWER_FEATURES: PowerFeature[] = [
     steps: [
       'Open the Enclosures section and click Add enclosure.',
       'Title it, and optionally attach a PDF (drag and drop works).',
-      'Attached PDFs merge into the export, in order, after the letter.',
+      'Attached PDFs merge into the PDF export, in order, after the letter.',
     ],
     tour: [
       {
@@ -673,7 +672,7 @@ const POWER_FEATURES: PowerFeature[] = [
       {
         target: '[data-tour="enclosure-attach"]',
         title: 'Attach a PDF',
-        body: 'Optionally attach a PDF (drag and drop works). It merges into the final export, after the letter.',
+        body: 'Optionally attach a PDF (drag and drop works). It merges into the final PDF, after the letter; Word does not merge PDF pages.',
         action: () => expandSection('enclosures'),
       },
     ],
@@ -714,21 +713,15 @@ const POWER_FEATURES: PowerFeature[] = [
     key: 'share',
     icon: Link2,
     title: 'Encrypted share link',
-    where: 'Document actions → Create share link',
+    where: 'Share button; on mobile, Document actions → Create share link',
     body: 'Send a document as a password-protected link. Nothing is stored on a server; the recipient needs both the link and the password you set.',
     steps: [
-      'Open Document actions → Create share link and set a password.',
-      'Generate the link. It copies to your clipboard.',
+      'Choose Share in the desktop header, or Document actions → Create share link on mobile, and set a password.',
+      'Generate the link. If automatic copying is unavailable, copy the displayed link manually.',
       'Send the link and password separately to the recipient.',
       'They open it with Document actions → Open from share link.',
     ],
     tour: [
-      {
-        target: '[data-tour="save"]',
-        title: 'Share starts here',
-        body: 'Open Document actions, then Create share link, to send a password-protected copy.',
-        action: closeShareModal,
-      },
       {
         target: '[data-tour="share-password"]',
         title: 'Set a password',
@@ -738,7 +731,7 @@ const POWER_FEATURES: PowerFeature[] = [
       {
         target: '[data-tour="share-generate"]',
         title: 'Generate the link',
-        body: 'Creates a link that copies to your clipboard. Send the link and the password separately; the recipient opens it with Document actions → Open from share link.',
+        body: 'Creates a link and tries to copy it. If copying fails, copy the displayed link manually. Send the password separately; the recipient uses Document actions → Open from share link.',
         action: openShareModal,
       },
     ],
@@ -775,12 +768,12 @@ const POWER_FEATURES: PowerFeature[] = [
     icon: FolderSync,
     title: 'Download workspace backup',
     where: 'Settings → Backup & restore',
-    body: 'One file with your entire workspace — documents, profiles, signatures, snippets, templates, form fields, and enclosure attachments. Restore it on any machine; the download is created locally.',
+    body: 'A local, unencrypted JSON file with documents, Trash, history, profiles, signatures, snippets, user templates, included form fields and referenced attachments. Batch jobs/results, UI preferences and blank form PDFs are excluded.',
     steps: [
       'Open Settings → Backup & restore to download the backup file.',
       'Keep it somewhere safe — a shared drive, USB stick, or synced folder.',
-      'On a new machine, use Settings → Backup & restore → Restore from backup to bring it all back.',
-      'On desktop Chrome or Edge, Set up auto-backup keeps a file current after every save.',
+      'Use Restore from backup after reviewing its rules: newer saved documents win, but included live NAVMC buffers are replaced. Reconnect library forms for their blank PDFs.',
+      'On desktop Chrome or Edge, Set up auto-backup mirrors registry saves; use a manual backup after profile-only or preference-only edits.',
     ],
     tour: [
       {
@@ -792,19 +785,19 @@ const POWER_FEATURES: PowerFeature[] = [
       {
         target: '[data-tour="backup-export"]',
         title: 'Download workspace backup',
-        body: 'Downloads one file with your whole workspace — documents, profiles, signatures, snippets, templates, form fields, and enclosure attachments. Keep it on a shared drive, USB stick, or synced folder.',
+        body: 'Downloads unencrypted JSON with saved documents, Trash, history and included workspace data/assets. Batch jobs/results, UI preferences and blank form PDFs are excluded. Store it appropriately for its contents.',
         action: openBackupSettings,
       },
       {
         target: '[data-tour="backup-restore"]',
         title: 'Restore anywhere',
-        body: 'Merges a backup file back in — on this machine or a brand-new one — without overwriting anything newer.',
+        body: 'Saved documents keep newer local versions. Included live NAVMC buffers are replaced, and incoming routing overrides win matching keys. Review restore results and reconnect library-form PDFs on another device.',
         action: openBackupSettings,
       },
       {
         target: '[data-tour="backup-auto"]',
         title: 'Automatic file backups',
-        body: 'Desktop Chrome and Edge can keep a backup file current after every save. If this browser reports that automatic backup is unavailable, use Download workspace backup instead.',
+        body: 'Desktop Chrome and Edge can mirror registry saves to a backup file. Other store changes alone do not trigger a write. Reconnect permission when prompted, or use Download workspace backup.',
         action: openBackupSettings,
       },
     ],

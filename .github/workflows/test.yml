@@ -32,17 +32,14 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # Node 22 is the current Active LTS (supported through April 2027)
-        # and what Cloudflare Pages runs by default. The codebase ships to
-        # browsers, not Node, so the only Node-specific surface is the
-        # build / test tooling. Single version is enough.
+        # Node 22 is the pinned CI toolchain. The companion also ships as a
+        # Node runtime; its standalone minimum is separate from source tooling.
         task: [unit, typecheck, lint, scripts]
-        # Lint is now a gate: the baseline is clean (0 errors). The
-        # `eslint-plugin-security` follow-up is still open. Bundle-size
-        # and `npm audit` gates already exist (see the `build` and
+        # Lint is a gate; security rules are configured in eslint.config.js.
+        # Bundle-size and `npm audit` gates exist (see the `build` and
         # `audit` jobs below). CodeQL is not in this repo at all — it runs
-        # from GitHub's default setup (Settings > Code security), weekly and
-        # on every PR, so there's no workflow file here to read.
+        # from GitHub's default setup (Settings > Code security). Inspect that
+        # live configuration for its triggers; no workflow file here defines them.
     steps:
       - uses: actions/checkout@v7
 
@@ -98,7 +95,7 @@ jobs:
             # fail on the import, not the assertions.
             scripts)   for t in scripts/test-*.py; do echo "== $t"; python3 "$t" || exit 1; done
                        npm run test:form-geometry
-                       npm run docs:capabilities -- --check ;;
+                       npm run docs:check ;;
           esac
 
   coverage:
@@ -253,19 +250,9 @@ jobs:
           fi
 
   compile-matrix:
-    # End-to-end LaTeX + DOCX compile harness. Three test files run
-    # under `tests/integration/`:
-    #   - latex-compile.test.ts    : 380 pairwise fixtures × xelatex
-    #   - docx-compile.test.ts     : 380 pairwise fixtures × pandoc
-    #   - differential.test.ts     : 10 curated fixtures, asserts
-    #                                 user-supplied subject text
-    #                                 appears in BOTH extracted PDF
-    #                                 and DOCX outputs (catches path
-    #                                 divergence — exactly the kind of
-    #                                 bug PR #67 had with subject
-    #                                 underline).
-    # Total ≈ 770 tests. Wall time ~5 min on Ubuntu's 4-vCPU runner
-    # (xelatex dominates; pandoc + pdf-parse + mammoth are ~50× faster).
+    # Runs all integration files, including native pdflatex/Pandoc pairwise
+    # checks and dedicated layout, publication, form and companion contracts.
+    # Current builder totals live in generated docs/PROJECT_INVENTORY.md.
     name: compile matrix (LaTeX + DOCX)
     runs-on: ubuntu-latest
     # The full matrix takes about 8 minutes. A slow but progressing archive
@@ -280,8 +267,8 @@ jobs:
           node-version: '22'
           cache: 'npm'
 
-      - name: install xelatex + pandoc + poppler
-        # texlive-xetex pulls in the engine + ulem + hyperref + the
+      - name: install native TeX + pandoc + poppler
+        # TeX Live packages include pdflatex plus ulem, hyperref and the
         # font packages (txfonts, txfontsb) we use. tabularx + enumitem
         # come from texlive-latex-extra. pandoc ships standalone (3.x
         # in current Ubuntu). ~120MB total install.

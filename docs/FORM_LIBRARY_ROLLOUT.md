@@ -1,5 +1,7 @@
 # Form library rollout and recovery
 
+The procedures below apply to current rollout/recovery work. Original acceptance observations were recorded in `bd54d5c7` on 17 October 2026; the separately dated live rehearsal identifies its own old/candidate baseline. Repeat checks for the actual previous and candidate builds before a new deployment. See [managed update delivery](UPDATE_DELIVERY.md) for its separate qualification gate.
+
 ## Before deployment
 
 Run unit tests, integration tests, Python script tests, lint, typecheck, and the production build. The browser upgrade job builds the PR's base commit and proposed commit separately, serves both at one origin, and uses real Chromium, Firefox, and WebKit storage and service workers. It checks two tabs, saved attachment bytes, offline reopening, immediate reload in the new build, failed-write recovery, three-tab conflict recovery, and restoring an older backup after another tab saves newer work.
@@ -15,15 +17,15 @@ UPGRADE_OLD_BUILD=/absolute/path/to/previous/dist npm run test:upgrade
 
 The previous build must be a production build, not a development server. Test data is synthetic. Failure screenshots and traces are CI artifacts; do not run the suite against a user's browser profile.
 
-## First upgrade from the old release
+## First upgrade from a build without recovery journaling
 
 Ask users to save, wait for completion, and download a full backup before updating. Refresh their other DonDocs tabs before editing generic forms. Browser storage belongs to the origin: deployment must retain the same scheme, hostname, and port.
 
-The old release can lose an edit when reloaded before its asynchronous database write commits. This was reproduced in the automated upgrade rehearsal. The new write journal and update barrier protect the new release; they cannot change JavaScript already running in an old tab. The old-to-new test therefore verifies committed edits. Separate tests verify pending-edit and failed-write recovery in the new release.
+The historical automated rehearsal reproduced an edit lost by a legacy build when reload preceded its asynchronous database commit. The write journal and update barrier protect builds containing those guards; they cannot change JavaScript already running in an older tab. Rehearsals from a legacy build therefore verify its committed edits separately from pending-edit and failed-write recovery in the candidate.
 
 ## After deployment
 
-Check that saved letters, built-in form buffers, attachments, and pinned generic form definitions reopen. Failed saves must remain visibly unsaved. Conflicts should offer **Save → Open recovered copies**; they must not replace another tab's saved document. Keep the original backup until the user has checked restored documents and attachment files. A partial restore lists failures and can be retried.
+Check that saved letters, built-in form buffers, attachments, and pinned generic form definitions reopen. Failed saves must remain visibly unsaved. Review conflicting edits through **Document actions → Open recovered copies**; they must not replace another tab's saved document. Keep the original backup until the user has checked restored documents and attachment files. A partial restore lists failures and can be retried.
 
 No new official generic form should be published solely because automated placement checks pass. Source suitability and a human review of the mapping remain required. The current official pilot refusals remain unresolved.
 

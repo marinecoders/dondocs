@@ -10,8 +10,9 @@
  * So the probe asks twice. The real request first; if it throws, a second
  * request to the same origin in `no-cors` mode. That one is sent but not
  * readable, which is the point: it resolves whenever the host answered. A
- * resolved fallback after a failed primary means the request left and came
- * back, and the browser withheld it. A failed fallback means nothing answered.
+ * resolved fallback shows that the origin answered a separate request. It does
+ * not prove why the original path failed. A failed fallback leaves delivery
+ * unknown; fetch rejection cannot establish that the request never arrived.
  */
 
 /** What the browser can still see about a request it refused to hand over. */
@@ -144,13 +145,13 @@ export const VERDICT_COPY: Record<ProbeVerdict, { title: string; detail: string 
       'The request completed and the browser was allowed to read the response. Any status counts here, including 401 or 403 — those come from the endpoint, so it answered.',
   },
   'cors-blocked': {
-    title: 'Reachable, response withheld',
+    title: 'Origin check completed; requested response unavailable',
     detail:
-      'The request reached the host and came back, but the browser refused to hand it over because the endpoint did not permit this origin. Nothing in this app can change that; the endpoint has to send the permission.',
+      'The original request failed, but a separate headerless request to its origin completed. CORS is one possible cause; the original path or request may fail for another reason. Check the endpoint response and server logs.',
   },
   unreachable: {
     title: 'No answer',
     detail:
-      'Nothing came back at all, so the request never got there. Name resolution, a proxy, or the certificate chain, rather than anything about permissions.',
+      'The browser could not read a response. This does not prove that the request was never delivered. Check network access, name resolution, proxy, certificate and endpoint/CORS behavior.',
   },
 };

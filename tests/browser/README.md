@@ -1,44 +1,48 @@
 # Browser tests
 
-The install and download suites run production builds. The upgrade suite keeps
-its separate two-build harness.
+Playwright checks production builds through three separate runners:
 
-| Project | Browser |
-| --- | --- |
+| Command | Test files | Build inputs |
+|---|---|---|
+| `npm run test:browser` | Install, downloads, settings navigation, preview zoom and document lifecycle | Current normal build in `dist/`. |
+| `npm run test:upgrade` | `upgrade.spec.ts` | Previous normal build through `UPGRADE_OLD_BUILD`, plus current `dist/`. |
+| `npm run test:releases` | `releases.spec.ts` | Managed A/B/C/broken artifacts and the pinned legacy build; see [update delivery](../../docs/UPDATE_DELIVERY.md#qualify-and-enable-publishing). |
+
+The configs are [playwright.browser.config.ts](../../playwright.browser.config.ts), [playwright.config.ts](../../playwright.config.ts) and [playwright.releases.config.ts](../../playwright.releases.config.ts), respectively. These suites run separately from Vitest.
+
+## Normal browser checks
+
+| Suite | Checks |
+|---|---|
+| `install.spec.ts` | Install actions, fallback instructions, focus, dismissal, synthetic install events, installed-state visibility, manifest/icons and service-worker activation. |
+| `downloads.spec.ts` | PDF text and filenames, DOCX ZIP integrity and document XML, both TeX formats, draft JSON, PDF startup recovery, Word resource retries, endorsement/page-number output and the iOS Chrome PDF-tab save link. |
+| `settings-navigation.spec.ts` | Backup controls and focus in Settings at desktop, narrow and landscape sizes; Help, search and tour entry points. |
+| `preview-zoom.spec.ts` | Manual zoom, Fit page and Fit width through document/form switches, preview reopening and reload. |
+| `document-lifecycle.spec.ts` | Reload detection, import-feedback layout, import/Undo/Redo persistence and built-in-form signature defaults. |
+
+Install tests allow service workers. The other four suites block them so cached responses do not hide routed network fixtures. Upgrade and managed-release tests exercise real service-worker transitions separately. Some cases are platform-specific and skip on other projects; inspect the executed and skipped results.
+
+## Browser projects
+
+The normal browser runner defines nine projects:
+
+| Project | Runtime/profile |
+|---|---|
 | `chromium` | Playwright Chromium |
-| `chrome` | Installed Google Chrome |
-| `msedge` | Installed Microsoft Edge |
+| `chrome` | Installed Google Chrome channel |
+| `msedge` | Installed Microsoft Edge channel |
 | `firefox` | Playwright Firefox |
-| `webkit` | WebKit with a desktop Safari profile |
+| `webkit` | Playwright WebKit with a desktop Safari profile |
 | `mobile-chrome` | Chromium with Pixel 7 emulation |
 | `mobile-safari` | WebKit with iPhone 13 emulation |
-| `ipad-safari` | WebKit with iPad touch/viewport and a desktop Mac user agent |
-| `mobile-chrome-ios` | WebKit with an iPhone profile and Chrome iOS user agent |
+| `ipad-safari` | WebKit with iPad touch/viewport settings and a desktop Mac user agent |
+| `mobile-chrome-ios` | WebKit with an iPhone profile and a Chrome iOS user agent |
 
-## Coverage
+The upgrade and managed-release runners each use three projects: `chromium`, `firefox` and `webkit`.
 
-- Install controls in Help, search, the banner, and Getting started; fallback
-  instructions, focus, snoozing, prompt outcomes, and installed-state visibility.
-- Production manifest, PNG icons, and service-worker activation.
-- Correspondence and NAVMC 10274 PDF downloads, PDF text, and filenames.
-- Word downloads through Pandoc WASM, DOCX checksums, and document XML content.
-- Both LaTeX formats and draft JSON, including current subject/body and filenames.
-- PDF startup recovery and Word retries after template or engine download failure.
-- The iOS Chrome PDF tab and its save link.
+## Run locally
 
-Download tests block service workers so network-failure fixtures reach the app.
-Install tests leave them enabled. PDF delivery unit tests cover bytes, filenames,
-URL cleanup, FileReader errors, and blocked or unavailable popup tabs. Existing
-upgrade tests cover backup/restore with attachment bytes; the compile matrix
-covers document formats and layouts.
-
-The upgrade suite also retains a legacy template bundle missing TM/IETM in the
-real service-worker cache, then requires the new build to download a readable
-TM/IETM PDF online and after an offline reload.
-It also verifies that the content-versioned template URL works on first offline
-use without warming the runtime cache.
-
-## Run
+From the repository root, follow the [source prerequisites](../../docs/CONTRIBUTING.md#local-setup), then run:
 
 ```sh
 npm ci
@@ -47,25 +51,29 @@ npm run build
 npm run test:browser -- --project=chromium --project=firefox --project=webkit
 ```
 
-With Chrome and Edge installed, `npm run test:browser` runs all nine projects.
-Use `test:install` or `test:downloads` to select one suite. Device profiles can be
-selected with `--project=mobile-chrome`, `--project=mobile-safari`,
-`--project=ipad-safari`, or `--project=mobile-chrome-ios`.
+The normal runner starts a dedicated preview at `http://127.0.0.1:4173` and fails if the port is occupied. It uses the existing `dist/`; rebuild after application changes. Chrome and Edge projects require those browser channels to be installed. `npm run test:browser` selects all nine projects.
 
-The runner starts a dedicated preview on `127.0.0.1:4173` and fails if that port
-is occupied. Rebuild after application changes. CI runs all projects, fails on
-flaky retries, and retains failure reports, screenshots, and traces.
+Select a suite or project as needed:
 
-`npm run test:upgrade` requires `UPGRADE_OLD_BUILD` pointing to the previous
-production build. It runs only `upgrade.spec.ts`.
+```sh
+npm run test:install -- --project=chromium
+npm run test:downloads -- --project=mobile-chrome-ios
+npm run test:browser -- settings-navigation.spec.ts --project=webkit
+npm run test:browser -- --list
+```
 
-## Device checks
+For a normal-build upgrade rehearsal, build the previous revision in a separate checkout and the candidate in the current checkout:
 
-Native installation events and standalone signals are simulated. WebKit and
-device emulation do not test actual Safari, OS installation, or system dialogs.
-Before releasing changes, check native install, installed launch, and offline
-reopen on desktop Chrome/Edge, macOS Safari, iPhone/iPad, and Android Chrome.
-Check the PDF save/share flow and blocked popups on real mobile devices.
+```sh
+UPGRADE_OLD_BUILD=/absolute/path/to/previous/dist npm run test:upgrade -- --project=chromium
+```
 
-References: [Playwright browsers](https://playwright.dev/docs/browsers) and
-[Chrome iOS installation](https://support.google.com/chrome/answer/9658361?co=GENIE.Platform%3DiOS&hl=en).
+This runner starts its own server and retains the previous assets under the same test origin. It checks saved edits, attachments, multiple tabs, backup/restore, storage initialization, template-cache transitions and runtime deployment-policy loading. It does not use the preview on port 4173. Managed-release prerequisites and commands are in the [update-delivery runbook](../../docs/UPDATE_DELIVERY.md).
+
+## CI and device checks
+
+The [test workflow](../../.github/workflows/test.yml) builds the current app and runs all nine normal projects in four groups. These runs allow one retry but fail on flaky results. The separate upgrade job runs on pull requests and builds the PR base as the previous version. [Managed-release qualification](../../.github/workflows/qualify-release.yml) has its own fixtures and hosting checks. Failure jobs retain reports, screenshots and traces under the configured artifact retention periods.
+
+Install events and standalone signals are simulated where needed. Device profiles emulate browser parameters; they do not run actual iOS Chrome, Safari installation dialogs or OS save/share flows. Verify affected native install, installed launch, offline reopening and PDF save/share behavior on real target devices. Managed rollout also requires the real-iPhone and production-host checks in the runbook.
+
+References: [Playwright browsers](https://playwright.dev/docs/browsers) and [device emulation](https://playwright.dev/docs/emulation).

@@ -189,6 +189,10 @@
             ],
             "additionalProperties": false
           },
+          "rotation": {
+            "type": "number",
+            "const": 270
+          },
           "appearance": {
             "type": "string",
             "enum": [
@@ -417,6 +421,10 @@
                       "height"
                     ],
                     "additionalProperties": false
+                  },
+                  "rotation": {
+                    "type": "number",
+                    "const": 270
                   },
                   "appearance": {
                     "type": "string",

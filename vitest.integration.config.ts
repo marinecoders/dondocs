@@ -15,13 +15,13 @@ const pkg = JSON.parse(
  * settings (alias, define, environment) to keep this config independent.
  *
  * Why a separate config:
- *   - Each test spawns `xelatex` or `pandoc` and waits 1-3 seconds — too
+ *   - Each test spawns `pdflatex` or `pandoc` and waits 1-3 seconds — too
  *     slow for the default suite.
- *   - Higher per-test timeout (60s) for cold xelatex starts.
+ *   - Higher per-test timeout (60s) for cold pdflatex starts.
  *   - Coverage is meaningless here (we're testing external binaries).
  *
  * Run with: `npm run test:integration` (locally) or via the
- * `compile-matrix` job in CI (which installs xelatex + pandoc first).
+ * `compile-matrix` job in CI (which installs pdflatex + pandoc first).
  */
 export default defineConfig({
   define: {

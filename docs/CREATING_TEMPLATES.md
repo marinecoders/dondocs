@@ -2,6 +2,10 @@
 
 This guide explains how to add new content templates to DonDocs.
 
+Follow [CONTRIBUTING](CONTRIBUTING.md) for contribution approval and submission
+requirements. Use synthetic content and verify governing references before
+proposing a template.
+
 ---
 
 ## Overview
@@ -13,7 +17,7 @@ DonDocs uses TypeScript template files to define pre-filled document content. Wh
 1. You create a TypeScript file defining the template content
 2. The template specifies which document format to use (naval letter, MFR, etc.)
 3. When a user selects your template, it fills the form with your predefined content
-4. The LaTeX backend handles all formatting automatically
+4. The existing renderers apply the selected format; review the finished output
 
 ---
 
@@ -24,7 +28,7 @@ Templates are located in `src/data/templates/` organized by category:
 ```
 src/data/templates/
 ├── types.ts                    # TypeScript interfaces
-├── index.ts                    # Exports all templates (11 total)
+├── index.ts                    # Exports the current template registry
 ├── awards/                     # Award templates (NAM, LOA)
 │   ├── index.ts
 │   └── award-nam.ts, award-loa.ts
@@ -32,9 +36,10 @@ src/data/templates/
 │   ├── index.ts
 │   └── pft-waiver.ts, humanitarian-transfer.ts
 ├── leadership/                 # Command Interest letter
-├── administrative/             # Appointment letters (3 templates)
+├── administrative/             # Appointment letters and acknowledgement
 ├── investigations/             # Report of Findings, IO Appointment
-└── operations/                 # Letter of Instruction
+├── operations/                 # Letter of Instruction
+└── technical/                  # I-Type, SL-3 and SL-4; TM/IETM starter is inline in index.ts
 ```
 
 ---
@@ -74,7 +79,7 @@ Add your template to the category's `index.ts`:
 ```typescript
 // src/data/templates/awards/index.ts
 export { awardNam } from './award-nam';
-export { meritoriousMast } from './meritorious-mast';
+export { awardLoa } from './award-loa';
 export { myNewTemplate } from './my-new-template';  // Add this
 ```
 
@@ -86,7 +91,7 @@ Add your template to `src/data/templates/index.ts`:
 // Import section - add to the appropriate category
 import {
   awardNam,
-  meritoriousMast,
+  awardLoa,
   myNewTemplate,  // Add this
 } from './awards';
 
@@ -94,7 +99,7 @@ import {
 export const LETTER_TEMPLATES: LetterTemplate[] = [
   // Awards
   awardNam,
-  meritoriousMast,
+  awardLoa,
   myNewTemplate,  // Add this
   // ...
 ];
@@ -122,10 +127,12 @@ export const LETTER_TEMPLATES: LetterTemplate[] = [
 |-------|------|-------------|
 | `ssic` | string | Default SSIC code |
 | `references` | array | Pre-filled references |
+| `publicationType` | `MI`, `TI`, `SI`, `LI` | I-Type family selected by an `i_type` template |
+| `manualFrontMatter` | `ManualFrontMatter` | Structured subtype/equipment/notices/authentication defaults for TM/IETM front matter |
 
 ### Document Types
 
-The `docType` field determines the document format. All 20 types are available in the document type selector.
+The `docType` field determines the document format. Use the [generated capability matrix](CAPABILITIES.md) for configured formats and supported outputs. Technical publications are PDF-only; built-in/configured forms use their own authoring pipeline.
 
 | docType | Description |
 |---------|-------------|
@@ -149,6 +156,10 @@ The `docType` field determines the document format. All 20 types are available i
 | `standard_memorandum` | Standard Memorandum (HqDON) |
 | `action_memorandum` | Action Memorandum |
 | `information_memorandum` | Information Memorandum |
+| `i_type` | MI/TI/SI/LI instruction (`publicationType` selects family) |
+| `sl3` | Structured components-list extract |
+| `sl4` | Structured repair-parts list |
+| `tm_ietm_front_matter` | Cover/authentication packet (`manualFrontMatter`) |
 
 ---
 
@@ -181,7 +192,11 @@ paragraphs: [
 
 ### Using Placeholders
 
-Use brackets to indicate fields the user should fill in:
+Use brackets to indicate fields the user should fill in. These prompts are not batch variables: only supported `{{VARIABLE_NAME}}` fields are substituted during batch generation. Publication export rejects unresolved prompts.
+
+`TemplateParagraph` also supports `publicationSection`, `header` and `tableKey`. Follow the [technical-publication guide](TECHNICAL_PUBLICATIONS.md) for section/table requirements; these fields do not by themselves populate publication identifiers or table rows.
+
+For example:
 
 ```typescript
 paragraphs: [
@@ -285,7 +300,7 @@ The template picker UI will automatically show the new category as a filter badg
 ## Testing Your Template
 
 1. Start the dev server: `npm run dev`
-2. Open the template picker (Templates button)
+2. Open Templates from the workspace sidebar
 3. Find your template in the appropriate category
 4. Select it and verify:
    - Correct document type is selected
@@ -316,8 +331,9 @@ Creating new document *formats* requires LaTeX knowledge and is a more advanced 
 1. Check if an existing format can be adapted
 2. Review the existing LaTeX templates in `tex/templates/`
 3. See `public/lib/latex-templates.js` for how formats are loaded
-4. **Read the [LaTeX Spacing Standards](./CONTRIBUTING.md#latex-spacing-standards)** -- all spacing must use `\vspace{Xpt}` with the standard values (12pt, 6pt, 24pt, 48pt). Do not use `\\[Xpt]`, `\medskip`, `\baselineskip`, or other alternatives.
-5. Open an issue to discuss the new format before implementing
+4. Read the [shared paragraph-spacing rules](CONTRIBUTING.md#latex-spacing-standards): ordinary paragraphs and subparagraphs have the same 12 pt gap; preserve deliberate format-specific exceptions.
+5. Add the format/configuration, content projection, capability policy, validation, applicable renderers and companion mapping; update guide/examples and focused tests.
+6. Run `node build-templates.mjs` after TeX edits, regenerate capability/inventory docs and run the [required checks](CONTRIBUTING.md#testing). Discuss a new format with maintainers before implementation.
 
 Most contributors will only need to create content templates as described in this guide.
 

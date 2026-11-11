@@ -1,216 +1,136 @@
-# Classification Configuration
+# Classification marking configuration
 
-This document explains how to override the default domain-based classification restrictions for custom deployments.
+These settings control which marking options the browser offers and validates for exports. They are public client-side configuration. A hostname, selector or printed banner does not authorize a system to process classified information or CUI. See [SECURITY.md](../SECURITY.md) for the project's security scope.
 
-## Overview
+The configuration does not determine the classification of entered text or attachments, control who can access the application, or prevent someone from entering information above the configured marking options. Selecting UNCLASSIFIED does not declassify information.
 
-The application uses domain-based classification restrictions by default:
-- `.smil.mil` or `.smil` domains: up to SECRET
-- `.ic.gov` domains: up to TOP SECRET/SCI
-- `.mil` or `.gov` domains: up to CONFIDENTIAL or CUI
-- Other domains: UNCLASSIFIED only
+Deployment owners must obtain the required system authorization and configure their deployments for the approved use. Authorized authors must apply the governing classification or CUI guidance and review the finished document's markings before distribution. Do not enter CUI or classified information into a deployment without your organization's approval for that use.
 
-You can override these restrictions using either:
-1. **Environment variables** (build-time configuration)
-2. **Config file** (runtime configuration)
+## Marking terminology
 
-## Method 1: Environment Variables (Build-Time)
+The three U.S. national security classification levels are **CONFIDENTIAL, SECRET and TOP SECRET**. UNCLASSIFIED is a status; CUI identifies unclassified information requiring safeguarding or dissemination controls. Neither is an additional classification level. See [Executive Order 13526, section 1.2](https://www.archives.gov/isoo/policy-documents/cnsi-eo.html) and the [NARA CUI program](https://www.archives.gov/cui).
 
-Set these environment variables when building the application:
+Basic markings, before any applicable additional controls, are:
 
-```bash
-# Maximum allowed classification level
-export VITE_CLASSIFICATION_MAX_LEVEL=secret
+| Information | Banner text | Portion mark |
+|---|---|---|
+| Unclassified, without CUI | `UNCLASSIFIED`, when required by the document's marking rules | `(U)` |
+| Controlled unclassified information, under DoD rules | `CUI` | `(CUI)` |
+| Confidential | `CONFIDENTIAL` | `(C)` |
+| Secret | `SECRET` | `(S)` |
+| Top Secret | `TOP SECRET` | `(TS)` |
 
-# Comma-separated list of allowed levels
-export VITE_CLASSIFICATION_ALLOWED_LEVELS=unclassified,cui,confidential,secret
+The classified portion abbreviations come from [32 CFR 2001.21](https://www.archives.gov/isoo/policy-documents/isoo-implementing-directive.html). A complete classified document also needs the applicable classification authority and declassification information. Derivatively classified documents identify their source guidance in a `Derived From` entry. See [NARA's classification authority block guidance](https://www.archives.gov/files/isoo/training/classification-authority-block.pdf). A banner alone is insufficient.
 
-# Optional: Override domain detection
-export VITE_CLASSIFICATION_OVERRIDE_DOMAIN=example.mil
+For unclassified DoD CUI documents, use `CUI` in the header and footer, plus a designation indicator block. Do not substitute `U//CUI`, `CONTROLLED`, or a category such as `CUI//OPSEC`. DoD places categories and applicable dissemination controls in the designation block. Portion markings are optional on unclassified CUI documents; if used, apply them throughout, including subjects, titles and graphics, except the designation block. See the [DCSA DoD CUI Marking Guide](https://www.dcsa.mil/Portals/128/Documents/CTP/CUI/DoD%20CUI%20Marking%20Guide%20DEC%202024.pdf). These are DoD rules; other agencies may implement the government-wide CUI program differently.
 
-# Optional: Custom restriction message
-export VITE_CLASSIFICATION_OVERRIDE_MESSAGE="Custom deployment - Classification up to SECRET is allowed."
+Mark the first page or cover `CUI` at the top and bottom. Interior pages without CUI may be marked `UNCLASSIFIED`; retaining `CUI` throughout is also permitted. See the [DoD banner-line guidance](https://www.dodcui.mil/Training/Banner-Line/).
 
-# Build the application
-npm run build
-```
+For a classified document containing CUI portions, retain the highest classification in the overall banner; do not add `CUI` to that banner. Apply the CUI portion marks and other required indicators separately. See [DoDI 5200.48, paragraph 3.4.c](https://www.dodcui.mil/Portals/109/Documents/Policy%20Docs/DoDI%205200.48%20CUI.pdf).
 
-### Example: Docker Build
+SCI adds access controls to classified information; it is not a level above TOP SECRET. The banner must identify the applicable SCI control systems and any required compartments or dissemination controls. A generic `SCI` suffix does not identify those controls. See [CDSE marking syntax](https://www.cdse.edu/Portals/124/Documents/jobaids/information/MarkingSyntax.pdf) and the [IC marking examples](https://www.cdse.edu/Portals/124/Documents/jobaids/information/IC-Markings-System-Register.pdf). Use the governing classification guidance to determine the markings; do not infer them from a hostname or invent default compartments.
 
-```dockerfile
-FROM node:22-alpine AS builder
-WORKDIR /app
-COPY package*.json ./
-RUN npm ci
-COPY . .
+FOUO is a legacy marking, not a classification level or an automatic CUI designation. Do not use it as a default for new documents. Assess the information against current CUI requirements when reusing it. See [DCSA CUI training](https://www.dcsa.mil/Portals/128/Documents/CTP/CUI/DCSA%20CUI%20Training%20Template%20Version%203.pdf).
 
-# Set classification restrictions
-ENV VITE_CLASSIFICATION_MAX_LEVEL=secret
-ENV VITE_CLASSIFICATION_ALLOWED_LEVELS=unclassified,cui,confidential,secret
-ENV VITE_CLASSIFICATION_OVERRIDE_MESSAGE="Secure deployment - Classification up to SECRET is allowed."
+## Cloud impact levels and processing authorization
 
-RUN npm run build
-```
+In the DoD cloud framework, **Impact Level 6 (IL6) accommodates classified information up to and including SECRET**. CONFIDENTIAL and SECRET fall within that range; TOP SECRET does not. IL6 describes cloud security requirements. The document's classification marking remains `CONFIDENTIAL` or `SECRET`. See [DISA's DISN Connection Process Guide](https://dl.dod.cyber.mil/wp-content/uploads/connect/pdf/unclass-DISN_CPG.pdf).
 
-### Example: CI/CD Pipeline
+An IL6 cloud offering does not by itself authorize every application, endpoint or user to process classified information. The deployed system and its use must have the appropriate authorization. DonDocs configuration controls marking options; it does not issue or verify that authorization.
 
-```yaml
-# GitHub Actions example
-env:
-  VITE_CLASSIFICATION_MAX_LEVEL: secret
-  VITE_CLASSIFICATION_ALLOWED_LEVELS: unclassified,cui,confidential,secret
-  VITE_CLASSIFICATION_OVERRIDE_MESSAGE: "Production deployment - Classification up to SECRET is allowed."
+## Default marking options
 
-steps:
-  - name: Build
-    run: npm run build
-```
+Without a matching override, the browser application uses the current hostname. This table describes the existing fallback behavior:
 
-## Method 2: Config File (Runtime)
+| Hostname | Available application options |
+|---|---|
+| `smil.mil`, `smil`, and their subdomains | UNCLASSIFIED, CUI, CONFIDENTIAL, SECRET |
+| `ic.gov` and its subdomains | All six application options, including the existing `top_secret_sci` option |
+| Other hosts ending in `.mil` or `.gov` | UNCLASSIFIED, CUI, CONFIDENTIAL |
+| Other hosts, including localhost | UNCLASSIFIED |
 
-Replace the default `null` in `public/classification.config.json` with an override:
+A `.mil`, `.gov`, `smil.mil` or `ic.gov` hostname does not establish the system's authorization to process classified information. In particular, **CONFIDENTIAL is classified**, even though the current fallback offers it on ordinary `.mil` and `.gov` hosts.
 
-```json
-{
-  "maxLevel": "secret",
-  "allowedLevels": ["unclassified", "cui", "confidential", "secret"],
-  "overrideDomain": "example.mil",
-  "overrideMessage": "Custom deployment - Classification up to SECRET is allowed."
-}
-```
+Configure each deployment explicitly for its authorized use rather than relying on hostname defaults. For a public, unclassified-only deployment, set `maxLevel` to `unclassified` and `allowedLevels` to `["unclassified"]`. Add CUI or classified marking options only where the deployed system is authorized to process the corresponding information. The application currently retains the hostname fallbacks shown above when no matching override is configured.
 
-### Config File Structure
+The configuration identifiers, in application order, are `unclassified`, `cui`, `confidential`, `secret`, `top_secret` and `top_secret_sci`. The `level` field names and ordering are part of the application's data model, not six official classification levels or a determination of what a network may handle.
 
-- `maxLevel` (required): Maximum allowed classification level
-  - Valid values: `unclassified`, `cui`, `confidential`, `secret`, `top_secret`, `top_secret_sci`
-  
-- `allowedLevels` (required): Array of allowed classification levels
-  - Must include `unclassified` and `maxLevel`; all entries must be valid levels at or below `maxLevel`
-  - Example: If `maxLevel` is `secret`, include: `["unclassified", "cui", "confidential", "secret"]`
+The existing `top_secret_sci` option displays and exports `TOP SECRET//SCI`. It does not collect or validate the specific SCI controls described above. Configuration selects available options; it does not establish that an export has every required marking.
 
-- `overrideDomain` (optional): Domain to match for this configuration
-  - If not set, the configuration applies to all domains
-  - If set, only applies when the current domain matches
+This deployment policy applies to browser exports. The separately run [companion](COMPANION.md) does not load the site's runtime policy file.
 
-- `overrideMessage` (optional): Custom message to display to users
-  - If not set, uses a generic deployment settings message
+## Runtime configuration
 
-### Example Config Files
+Place an override in `public/classification.config.json` before building, or update `/classification.config.json` on the deployed site. This example offers CUI markings for a deployment authorized to process CUI:
 
-**Allow all levels (IC deployment):**
-```json
-{
-  "maxLevel": "top_secret_sci",
-  "allowedLevels": ["unclassified", "cui", "confidential", "secret", "top_secret", "top_secret_sci"],
-  "overrideMessage": "Intelligence Community deployment - All classification levels are allowed."
-}
-```
-
-**Restrict to CUI only:**
 ```json
 {
   "maxLevel": "cui",
   "allowedLevels": ["unclassified", "cui"],
-  "overrideMessage": "Limited deployment - Only UNCLASSIFIED and CUI are allowed."
+  "overrideDomain": "docs.example.test",
+  "includeSubdomains": false,
+  "overrideMessage": "This deployment offers UNCLASSIFIED and CUI marking options."
 }
 ```
 
-**Domain-specific override:**
-```json
-{
-  "maxLevel": "secret",
-  "allowedLevels": ["unclassified", "cui", "confidential", "secret"],
-  "overrideDomain": "secure.example.mil",
-  "overrideMessage": "Secure domain - Classification up to SECRET is allowed."
-}
+Replace `docs.example.test` with the deployment's hostname. Omit `overrideDomain` to apply the configuration on every host serving that file.
+
+| Field | Rule |
+|---|---|
+| `maxLevel` | Required. One of the six application identifiers. |
+| `allowedLevels` | Required, nonempty list. Include `unclassified` and `maxLevel`; every entry must be at or below the maximum in application order. Intermediate options may be omitted. |
+| `overrideDomain` | Optional hostname. Exact matching by default. Do not supply a URL, port, path or wildcard. |
+| `includeSubdomains` | Optional boolean, default `false`. Setting it to `true` requires `overrideDomain`. |
+| `overrideMessage` | Optional text shown to the user. Describe the available markings without implying processing authorization. |
+
+Hostnames are normalized for case and a trailing dot. With `includeSubdomains: true`, `docs.example.test` matches that host and its subdomains, but not `otherdocs.example.test`.
+
+The normal build stages a `null` config when none is present. A `null` response or HTTP 404 selects hostname defaults. Invalid JSON or field values produce a policy error. A request that cannot load from the network or an offline fallback also produces an error.
+
+## Build-time configuration
+
+Set the variables before `npm run build`:
+
+```sh
+export VITE_CLASSIFICATION_MAX_LEVEL=cui
+export VITE_CLASSIFICATION_ALLOWED_LEVELS=unclassified,cui
+export VITE_CLASSIFICATION_OVERRIDE_MESSAGE="This deployment offers UNCLASSIFIED and CUI marking options."
+npm run build
 ```
 
-## Priority Order
+Optional scope variables are `VITE_CLASSIFICATION_OVERRIDE_DOMAIN` and `VITE_CLASSIFICATION_INCLUDE_SUBDOMAINS=true` or `false`. They use the same hostname rules as the runtime fields.
 
-Configuration is checked in this order:
+Supply a valid `VITE_CLASSIFICATION_MAX_LEVEL` whenever using a build-time override. If `VITE_CLASSIFICATION_ALLOWED_LEVELS` is omitted, the build setting includes every option from `unclassified` through the maximum in application order. Supplying only a message or hostname does not create a complete configuration.
 
-1. **Environment variables** (highest priority)
-   - Applied at build time
-   - Cannot be changed without rebuilding
+Vite embeds these values in the client bundle. Change them in the build environment, including the Docker builder stage, then rebuild. Setting them on an already-built static server does not change its JavaScript. Keep credentials and secrets out of both configuration methods.
 
-2. **Config file** (`public/classification.config.json`)
-   - Loaded at runtime
-   - Can be updated without rebuilding
-   - Used when no environment override matches the current hostname
+## Precedence and loading
 
-3. **Domain detection** (default)
-   - Automatic detection based on current domain
-   - Used if no overrides are configured
+The resolver checks:
 
-Overrides apply to an exact `overrideDomain` hostname. Set `includeSubdomains: true`
-in the JSON file, or `VITE_CLASSIFICATION_INCLUDE_SUBDOMAINS=true` at build time,
-to include its subdomains. Hostnames are normalized for case and a trailing dot;
-substring matches and URLs are rejected. Matching environment overrides precede
-matching runtime overrides, then domain defaults apply.
+1. A valid build-time override matching the hostname.
+2. A valid runtime override matching the hostname.
+3. Hostname defaults.
 
-The shipped `null` file explicitly selects domain defaults and is precached for
-offline use. Missing files (404) also select defaults. Failed or malformed policy
-loads return an error from the typed policy resolver until an explicit retry succeeds.
-The editor compatibility adapter falls back to domain settings on these errors.
-Individual correspondence PDF, Word, and TeX downloads, individual form PDF
-downloads, and batch rows require a ready policy. A policy-loading failure offers
-Retry for the same captured individual document or an explicit retry of failed
-batch rows. Each batch row reviews its substituted output before export when
-privacy, structure, or marking checks require confirmation. These client settings do not establish
-deployment accreditation.
+A valid override scoped to a different hostname is skipped. Invalid build-time configuration produces an error even if its hostname would not match. The same validation-before-scope rule applies to the runtime file when no build-time override takes precedence. A runtime file must load successfully or explicitly select defaults before exports can use the runtime/default path.
 
-## Security Considerations
+The runtime request uses `/classification.config.json?deployment-policy=runtime`, with an additional `appRelease` parameter in release builds, to bypass the normal precache route. The service worker checks the network first and retains a policy response for offline use, with the packaged policy as an offline fallback.
 
-⚠️ **Important Security Notes:**
+An open tab retains its loaded policy; it does not poll for changes. After changing the deployed file, reload while connected and verify the options and a sample export. An explicit export retry also requests the runtime file again when a build-time override is not taking precedence. Runtime changes require no application rebuild in that case; disconnected clients cannot receive a new policy immediately.
 
-1. **Environment variables** are embedded in the build and visible in the client-side code. They provide build-time configuration but are not secure for sensitive settings.
+Individual correspondence PDF, Word and TeX downloads, individual form PDFs and batch rows require a ready export policy. A loading failure pauses the export and offers retry. The editor's compatibility adapter can still display hostname defaults after an error, so a visible option alone does not establish that export policy loaded successfully.
 
-2. **Config files** are publicly accessible and can be viewed by anyone. Do not use them for security enforcement.
+## Verify a deployment
 
-3. **Domain-based restrictions** are client-side only and can be bypassed. They are intended for **user guidance and compliance**, not security enforcement.
+Use synthetic, unclassified test content:
 
-4. For actual security enforcement, implement server-side validation and access controls.
+1. Confirm the deployment's approved use and the permitted marking options with the responsible security authority.
+2. Check the served config response and its JSON syntax.
+3. Verify the actual hostname against any override scope.
+4. Confirm which build-time values were used to produce the deployed bundle.
+5. Reload, inspect the marking options, and export a sample document. Review its banners, portion marks and required designation or authority blocks.
+6. Exercise the required offline behavior before disconnecting.
 
-## Troubleshooting
+For a missing option, check precedence and hostname matching first. For a paused export, check the config request, JSON fields and deployment headers, then use Retry. Changing the runtime file will not override a matching build-time policy.
 
-### Config file not loading
-
-- Ensure the file is named exactly `classification.config.json`
-- Before building, place it in the `public/` directory (not `src/`); after deployment, update the root `/classification.config.json` file and reload the app
-- Check browser console for fetch errors
-- Verify the JSON is valid
-
-### Environment variables not working
-
-- Ensure variables are prefixed with `VITE_`
-- Rebuild the application after setting variables
-- Check that variables are set before the build command runs
-
-### Domain override not working
-
-- Verify `overrideDomain` matches the normalized hostname (case-insensitive, with an optional trailing dot)
-- Check that the domain includes subdomain if specified
-- Ensure no environment variables are overriding the config file
-
-## Example: Self-Hosted Deployment
-
-For a self-hosted deployment on `secure.example.mil`:
-
-1. **Create config file:**
-   ```bash
-   printf 'null\n' > public/classification.config.json
-   ```
-
-2. **Edit the config:**
-   ```json
-   {
-     "maxLevel": "secret",
-     "allowedLevels": ["unclassified", "cui", "confidential", "secret"],
-     "overrideDomain": "secure.example.mil",
-     "overrideMessage": "Secure deployment - Classification up to SECRET is allowed."
-   }
-   ```
-
-3. **Deploy** (the config file will be served with the application)
-
-The configuration will be automatically loaded when users access the application.
+Implementation: `src/config/classification.ts` and `src/lib/exportDeploymentPolicy.ts`. Tests cover precedence, hostname matching, malformed settings, loading and retries. Hosting and asset preparation are covered in [deployment](DEPLOYMENT.md).

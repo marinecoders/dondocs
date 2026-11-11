@@ -1,6 +1,6 @@
 # Form model and review boundaries
 
-PR #264 uses a shared editor and PDF overlay renderer for static forms. The v2
+The form-library implementation uses a shared editor and PDF overlay renderer for static forms. The v2
 model separates an answer from the places where it prints, and separates a
 published form revision from each saved document. NAVMC 10274 and NAVMC 118(11)
 retain their existing editors and renderers.
@@ -109,7 +109,7 @@ integration tests independently assert known printed regions. Python tests compa
 extracted geometry with rendered ink, including rotated and mixed-size pages.
 Publication tests cover review invalidation, immutable revisions and retirement.
 
-The final product audit also covers cleared formatted dates, multiline answers
+Regression tests cover cleared formatted dates, multiline answers
 with CRLF and tabs, minimum font size, corrupt-cache recovery, keyboard form
 selection, required-field descriptions and delayed editor actions. Answer edits
 retain the pinned definition object, avoiding repeated template checks while
@@ -124,83 +124,22 @@ validate their destinations. Built-in templates, nested revision folders and
 source-folder symlinks cannot be overwritten through these commands. Flattening
 can still target an explicit external staging directory.
 
-Local verification passed 2,794 unit/component tests. The previous audit passed the coverage threshold,
-PDF integration tests, all Python script suites, lint, typecheck and the
-production build. A browser check used synthetic data on an isolated local
-origin to verify keyboard selection, draft import, offline package storage,
-PDF download and reload. Extracted PDF text retained both paragraphs and left
-the cleared date blank. These checks do not replace official-form review.
-The live upgrade rehearsal below supplements the serializer compatibility tests.
+## Adding form packages
 
-Repository-wide findings are separate from this form contract: CodeQL alert
-[#75](https://github.com/marinecoders/dondocs/security/code-scanning/75) is an
-existing companion HTTP error-response finding on main. The production
-dependency audit reports no vulnerabilities; the existing development-only
-`mammoth → argparse → sprintf-js` advisory remains outside the shipped app.
-
-No additional official generic form ships in this PR. Before adding catalog
+Before adding catalog
 entries, pilot a checklist/radio form, a fixed roster and a multipage form through
 source review, publication, editing, reload and export. Dynamic continuation pages,
 electronic signing, embedded scoring rules and a companion/MCP form API remain
 separate capabilities. They should use this contract with explicit validation,
 rather than interpreting unsupported source behavior as a successful import.
 
-## Official-source pilot results (16 October 2026)
+## Verification
 
-Pilot imports used fresh downloads from the official DON registry in an isolated
-workspace. No candidate was published to the production catalog. These are
-acceptance failures, not completed end-to-end form qualifications:
+Review each source before preparing a package. Scripted forms, unsupported XFA
+layouts and Adobe placeholder pages require a suitable static source or explicit
+support for their behavior. Removing scripts does not establish that the
+remaining fields represent the complete form.
 
-| Pilot | Official source | Result |
-| --- | --- | --- |
-| Checklist: NAVMC 11580 | [Registry 9073](https://dso.dla.mil/DONNavyForms-RequestService/api/forms/9073/file) | Two pages flatten, but harvesting refuses document JavaScript. The source rendering also contains overlapping privacy/instruction text. |
-| Roster: NAVMC 11780 | [Registry 8258](https://dso.dla.mil/DONNavyForms-RequestService/api/forms/8258/file) | Two pages flatten, but harvesting refuses scripted/unsupported XFA subforms. |
-| Multipage: NAVMC 10561 | [Registry 6994](https://dso.dla.mil/DONNavyForms-RequestService/api/forms/6994/file) | Two landscape pages flatten, but harvesting refuses scripted/unsupported XFA subforms. |
-| Additional check: NAVMC 11799 | [Registry 12401](https://dso.dla.mil/DONNavyForms-RequestService/api/forms/12401/file) | Flattening refuses the Adobe “Please wait” placeholder before creating a candidate. |
-
-The refusal gates were retained. Completing these pilots requires a static
-source that renders correctly and a reviewed manual definition, or separately
-specified support for the source behavior. Removing scripts and treating the
-remaining widgets as a complete form would not establish semantic correctness.
-The CLI now reports unsupported XFA as a concise refusal instead of a traceback.
-
-Source SHA-256 values (to distinguish later registry revisions):
-
-- `9073`: `022aaa2e0be1408775a62f1af6f9714cd21508afafba896148d928837d3601e4`
-- `8258`: `054ba208032f2e567dba857865d3baebade84123e3cf730789a0d91241833db3`
-- `6994`: `acfc337e6e0d879b0e266d03e7129864730aa72359a73eab9b410ca3bb77d38c`
-- `12401`: `edc719dd3d0c3ea796588cca0f89fc9a01b903ab49e7fcba0012b170136ea690`
-
-
-## Live upgrade rehearsal (16 October 2026)
-
-Two tabs on an isolated local origin started from the production build of main
-at `7993269f`. Synthetic data included a saved letter, a PDF enclosure, a serial
-with leading zeroes, a NAVMC 10274 draft and its Privacy Act cover-page option.
-One tab dismissed the update and continued editing before the other accepted it.
-Downloaded backups before and after activation contained identical saved
-letter records and attachment bytes. The NAVMC answers and cover-page choice
-also survived. Restoring the older backup retained the newer saved letter.
-
-The rehearsal found two issues:
-
-- The tab that first installed the service worker could remain on the old build
-  after accepting an update. The hook now observes the waiting worker completing activation as well as
-  controller changes, and reloads only once. Already-running main
-  code cannot receive this fix until refreshed; users must refresh older tabs
-  before editing new generic forms.
-- An edit immediately followed by reload could lose the pending registry save.
-  A tab-local recovery record now identifies the document and its prior stored
-  state. Recovery compares and writes within one IndexedDB transaction. Tests
-  cover successful recovery, newer records, deleted records and mismatched IDs.
-
-The recovery copy is best effort when session storage is available. It is not
-an external backup, a concurrent-edit merge, or protection against a process
-crash that never emits a page lifecycle event. Existing IndexedDB records and
-schema remain unchanged.
-
-A fresh-origin browser retest confirmed that Update Now moved the first-install
-tab from bundle `main-BwBn2uFW.js` to `main-BZud1eyz.js` without a manual reload,
-retaining the draft and serial `000073`. A separate immediate-reload test kept
-the last subject edit and serial `000042` after hydration. These used synthetic
-data and did not read or alter real user storage.
+Follow the [source review and publication checks](FORM_TEMPLATES.md#review-and-publish)
+and [upgrade and recovery procedures](FORM_LIBRARY_ROLLOUT.md) before deployment.
+Use synthetic data for render, restore and browser-upgrade tests.

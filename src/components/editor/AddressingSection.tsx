@@ -316,9 +316,7 @@ export function AddressingSection({ config }: AddressingSectionProps) {
 
             {/* Memorandum For (mf): the addressee is embedded in the title line
                 ("MEMORANDUM FOR [addressee]"), so this doc type has no From/To
-                block — but the generators still read the addressee from `to`.
-                Without this field the defining line of the document rendered
-                blank (docs/KNOWN_ISSUES.md, now resolved). */}
+                block. The generators read the title's addressee from `to`. */}
             {docType === 'mf' && (
               <div className="space-y-2">
                 <Label htmlFor="to">
