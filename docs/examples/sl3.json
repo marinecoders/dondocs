@@ -1,0 +1,79 @@
+{
+  "docType": "sl3",
+  "format": "pdf",
+  "subject": "COMPONENTS LIST FOR TRAINING TOOL KIT",
+  "date": "30 Oct 26",
+  "pocEmail": "example@example.com",
+  "unit": {
+    "name": "EXAMPLE COMMAND",
+    "address": "PSC BOX 20123, CAMP LEJEUNE, NC 28542-0123"
+  },
+  "signature": {
+    "first": "Jane",
+    "last": "Example",
+    "title": "Program Manager"
+  },
+  "publication": {
+    "type": "SL3",
+    "shortTitle": "SL-3-12345A",
+    "pcn": "123 123450 00",
+    "nomenclature": "TOOL KIT, TRAINING",
+    "controllingOffice": "Example Program Office",
+    "signingDate": "2026-10-30",
+    "distribution": {
+      "statement": "A"
+    },
+    "endItems": [
+      {
+        "nsn": "5120-01-542-7445",
+        "tamcn": "A12345G",
+        "id": "12345A",
+        "model": "TRAINING"
+      }
+    ],
+    "sl3": {
+      "orientation": "portrait",
+      "rowsPerSheet": 16,
+      "illustrationsPerPage": 4,
+      "technicalData": "Training tool kit. Weight: 5 pounds. For demonstration only.",
+      "sourceManual": "TM 12345A-10 (synthetic training manual)",
+      "configurationReference": "",
+      "fieldingPlanReference": "",
+      "technicalPortion": "U",
+      "sequencingNote": "",
+      "sequencingPortion": "U",
+      "showFigureReference": false,
+      "showModel": false,
+      "endItemFigureId": "",
+      "definitions": [],
+      "artwork": [],
+      "notes": [],
+      "components": [
+        {
+          "id": "component-0",
+          "portionMarking": "U",
+          "category": "ssri",
+          "parentId": "",
+          "nomenclature": "COMPONENT, Training 001",
+          "description": "",
+          "nsn": "5120-01-542-7445",
+          "tamcn": "",
+          "idNumber": "",
+          "partNumber": "",
+          "cage": "",
+          "unit": "EA",
+          "unitOfIssue": "EA",
+          "primaryTamcn": "",
+          "configurationRatio": "",
+          "quantity": "1",
+          "model": "",
+          "figureReference": "",
+          "figureId": "",
+          "noteIds": [],
+          "serialized": false
+        }
+      ]
+    }
+  },
+  "paragraphs": []
+}

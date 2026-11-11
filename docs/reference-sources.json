@@ -1,0 +1,52 @@
+{
+  "references": [
+    {
+      "file": "references/5216.5  CH-1.pdf",
+      "title": "Department of the Navy Correspondence Manual",
+      "edition": "SECNAV M-5216.5, June 2015; Change 1, 16 May 2018",
+      "pages": 159,
+      "sourceUrl": "https://www.secnav.navy.mil/doni/SECNAV%20Manuals1/5216.5%20%20CH-1.pdf",
+      "acquiredAt": null,
+      "inspectedAt": "2026-11-10",
+      "sha256": "7be9f75d12956bb08a7777a21e3e8447a9c61e37a214075822870df9c3340ad6",
+      "featureScope": "Correspondence layouts and native TeX reference",
+      "status": "Authority site access was limited; currentness requires manual verification."
+    },
+    {
+      "file": "references/MCO 5215.17D.pdf",
+      "title": "Marine Corps Technical Publication Management",
+      "edition": "26 October 2016",
+      "pages": 24,
+      "sourceUrl": "https://www.marines.mil/Portals/1/Publications/MCO%205215.17D.pdf",
+      "acquiredAt": null,
+      "inspectedAt": "2026-11-10",
+      "sha256": "d46d5110ca86b23ec38572e71c74902bd2d709045ded0818fd7319f64ef66730",
+      "featureScope": "Technical-publication management/source basis",
+      "status": "Cover identified; currentness requires manual verification."
+    },
+    {
+      "file": "references/MCO P1070.12K W CH 1.pdf",
+      "title": "Individual Records Administration Manual",
+      "edition": "Basic order 14 July 2000, with Change 1",
+      "pages": 259,
+      "sourceUrl": "https://www.marines.mil/Portals/1/Publications/MCO%20P1070.12K%20W%20CH%201.pdf",
+      "acquiredAt": null,
+      "inspectedAt": "2026-11-10",
+      "sha256": "27401da7d514817348554bf4088c521bb9b59a3bf2662c858731641d842ddfbe",
+      "featureScope": "NAVMC 118(11) context",
+      "status": "Cover identified; catalog access was partial; currentness requires manual verification."
+    },
+    {
+      "file": "references/MIL-STD-38784C.pdf",
+      "title": "General Style and Format Requirements for Technical Manuals",
+      "edition": "Revision C, 4 September 2024",
+      "pages": 136,
+      "sourceUrl": "https://quicksearch.dla.mil/qsDocDetails.aspx?ident_number=116799",
+      "acquiredAt": null,
+      "inspectedAt": "2026-11-10",
+      "sha256": "c54fc8ffce23b36adbd5df402aa3f39a5b1ba0078cdb8229ea84d32ea844fd26",
+      "featureScope": "Technical-manual style/source basis",
+      "status": "DLA ASSIST record directly checked 10 November 2026: active revision C, 136 pages."
+    }
+  ]
+}

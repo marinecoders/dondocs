@@ -9,7 +9,7 @@
  *
  *   node scripts/extract-iram-abbreviations.mjs
  *
- * Reads docs/"MCO P1070.12K W CH 1.pdf" via pdftotext and writes
+ * Reads docs/references/"MCO P1070.12K W CH 1.pdf" via pdftotext and writes
  * src/data/abbreviations/iram.generated.json. Review the diff before committing.
  */
 import { execFileSync } from 'node:child_process';
@@ -18,7 +18,7 @@ import { fileURLToPath } from 'node:url';
 import { dirname, resolve } from 'node:path';
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
-const PDF = resolve(ROOT, 'docs/MCO P1070.12K W CH 1.pdf');
+const PDF = resolve(ROOT, 'docs/references/MCO P1070.12K W CH 1.pdf');
 const OUT = resolve(ROOT, 'src/data/abbreviations/iram.generated.json');
 
 if (!existsSync(PDF)) {

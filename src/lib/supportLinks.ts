@@ -6,7 +6,7 @@ const GITHUB_NEW_ISSUE_URL = 'https://github.com/marinecoders/dondocs/issues/new
 /**
  * Build a prefilled "New issue" URL for the Help-menu bug report button.
  * The app's general bug-report entry point. Includes only environment (user agent, sanitized URL, timestamp). The download-error modal
- * has its own builder that also carries the full compile log and a target.
+ * has its own builder and asks the user to review logs before sharing them.
  */
 export function buildBugReportUrl(): string {
 

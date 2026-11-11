@@ -1,8 +1,8 @@
 /**
  * Streaming CLI runner for the full LaTeX/DOCX compile cartesian.
  *
- * Why not vitest: the cartesian is 17.7M rows. Vitest enumerates every
- * `describe.each` row up-front, allocating ~100 bytes/test name = ~1.7GB
+ * Why not vitest: the cartesian is millions of rows. Vitest enumerates every
+ * `describe.each` row up-front, allocating ~100 bytes/test name = substantial memory
  * just for names before any test runs. It also reports per-test progress
  * which would be unreadable. So we drive it with a plain Node script that:
  *
@@ -14,12 +14,12 @@
  *
  * Usage (run via `npm run test:cartesian -- <args>`):
  *
- *   --doc-type=naval_letter        only one doc type (~884K fixtures)
+ *   --doc-type=naval_letter        only one doc type (see generated inventory for fixture counts)
  *   --start=0 --end=1000           offset slice within the chosen scope
  *   --shard=N/M                    1-of-M shard, M-shard split
  *   --limit=N                      stop after N fixtures (debug)
  *   --parallel=N                   concurrency (default: 4 — max useful on
- *                                  most machines for xelatex; pandoc-only
+ *                                  most machines for pdflatex; pandoc-only
  *                                  benefits from higher)
  *   --path=latex|docx|both         which compile path (default: latex)
  *   --bail                         stop on first failure (default: continue)
@@ -33,13 +33,13 @@
  *   # Tiny smoke (1000 fixtures of naval_letter, ~50 min on 4-way local)
  *   npm run test:cartesian -- --doc-type=naval_letter --limit=1000
  *
- *   # Full naval_letter cartesian (884K fixtures, ~7-8 days on 4-way)
+ *   # Full naval_letter cartesian (large unbounded run; measure a slice first)
  *   npm run test:cartesian -- --doc-type=naval_letter
  *
  *   # 1-of-256 shard of full cartesian (~70K fixtures)
  *   npm run test:cartesian -- --shard=1/256
  *
- *   # Full cartesian (17.7M fixtures, ~1.7 years on 4-way; only feasible
+ *   # Full cartesian (millions of fixtures; only feasible
  *   # against a massive cloud-distributed shard scheme)
  *   npm run test:cartesian
  */
@@ -127,7 +127,7 @@ function resolveRange(args: Args): { start: number; end: number; total: number }
 interface Outcome {
   name: string;
   ok: boolean;
-  /** xelatex / pandoc exit code, -1 if spawn failed. */
+  /** pdflatex / pandoc exit code, -1 if spawn failed. */
   exitCode: number | null;
   /** First parsed `! ...` LaTeX error (or pandoc log first line). */
   errorSummary?: string;
@@ -140,7 +140,7 @@ interface Outcome {
 // assertions (latex-compile.test.ts uses `> 1000` for PDF, docx-compile
 // .test.ts uses `> 2000` for DOCX). These guards catch the rare path
 // where the engine exits 0 + the file is on disk but the content is
-// degenerate (truncated PDF header, empty DOCX zip, etc.). xelatex
+// degenerate (truncated PDF header, empty DOCX zip, etc.). pdflatex
 // almost never produces such output, but the same harness now matches
 // the integration suite's strictness for free.
 const MIN_PDF_BYTES = 1000;
@@ -166,7 +166,7 @@ async function compileOne(
       return {
         ok: false,
         exitCode: r.exitCode,
-        errorSummary: `xelatex exit 0 but PDF is suspiciously small (${pdfSize} bytes ≤ ${MIN_PDF_BYTES})`,
+        errorSummary: `pdflatex exit 0 but PDF is suspiciously small (${pdfSize} bytes ≤ ${MIN_PDF_BYTES})`,
         workDir: r.workDir,
       };
     }

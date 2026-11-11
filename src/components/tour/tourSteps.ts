@@ -61,7 +61,7 @@ export const TOUR_STEPS: TourStep[] = [
   {
     target: '[data-tour="doctype"]',
     title: 'Pick the format',
-    body: 'Each document type is set up to match its governing instruction, so the layout is correct from the first keystroke.',
+    body: 'Each document type applies its configured layout. Review the supported features and completed output against its governing instruction before signing.',
   },
   {
     target: '[data-tour="templates"]',
@@ -78,13 +78,13 @@ export const TOUR_STEPS: TourStep[] = [
   {
     target: '[data-tour="save"]',
     title: 'Save your work',
-    body: 'Your draft autosaves in this browser; use Document actions to save a checkpoint, export a draft file, or create a password-protected share snapshot. A share link excludes attachments.',
+    body: 'Your draft autosaves in this browser. Use Document actions for checkpoints and unencrypted draft JSON. Choose Share on desktop, or Create share link in Document actions on mobile, for an encrypted snapshot without attachments.',
   },
   {
     target: SETTINGS_TARGET,
     title: 'Download workspace backup',
     action: revealSettingsNavigation,
-    body: 'Open Settings in the sidebar, or open the workspace and choose Settings on mobile. Scroll to Backup & restore to download your entire workspace or restore a backup. On desktop Chrome or Edge, auto-backup can keep a file current after every save.',
+    body: 'Open Settings → Backup & restore for an unencrypted backup of included workspace data. Batch jobs/results and blank form PDFs are excluded. Restore keeps newer saved documents but replaces included live NAVMC buffers. Desktop Chrome/Edge can mirror registry saves to a file.',
   },
   {
     target: SETTINGS_TARGET,

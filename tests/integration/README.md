@@ -1,163 +1,69 @@
 # Integration tests
 
-End-to-end compile matrix for the LaTeX → PDF and LaTeX → DOCX paths.
-Runs `xelatex` and `pandoc` on every meaningful fixture from
-`tests/_helpers/compileMatrix.ts` and asserts each produces valid output.
+[All suites](../README.md) · [Generated fixture inventory](../../docs/PROJECT_INVENTORY.md)
 
-## Why this exists
-
-Two gaps the rest of the suite can't close:
-
-**1. "The generated LaTeX is valid"** — unit / property / fuzz tests
-under `tests/unit/`, `tests/fuzz/`, and `tests/regressions/` assert
-on the **string** that `generator.ts` produces. They never ask the
-engine whether that string actually compiles. Most "compiles in dev,
-breaks in prod" bugs hide in this gap:
-
-- Mismatched braces from a bad escape combination
-- Undefined macros (e.g. the `\setCUI` bug this PR caught and fixed)
-- Math-mode-from-text crashes (escaper let a `$` through)
-- Package interactions that compile in isolation but fail together
-- Unbalanced `\if` / `\fi` (e.g. the business_letter signature-block
-  bug this PR caught)
-
-The pairwise compile matrix (`latex-compile.test.ts` +
-`docx-compile.test.ts`) closes this gap.
-
-**2. "Both export paths agree on content"** — the PDF and DOCX
-paths use entirely separate generators (`generator.ts` for the
-SwiftLaTeX template, `flat-generator.ts` for the pandoc-friendly
-flat LaTeX). They can drift: PDF emits a field, DOCX silently drops
-it. Compile-pass on both doesn't catch this.
-
-The differential test (`differential.test.ts`) closes this gap by
-extracting plain text from each output and asserting the user's
-input survives in BOTH.
+The separate integration suite compiles real PDF/Word output, measures layout/content and drives the local companion over HTTP/MCP. The pairwise matrix is one part of the suite; publication, form, storage/output-policy and companion tests also have focused files here.
 
 ## Running locally
 
-```bash
-# All integration tests (770 tests: 760 pairwise + 10 differential).
-# Wall time ~5 min on a 4-way pool.
+```sh
 npm run test:integration
-
-# Single doc type (covers all ~19 pairwise rows for that doc type, both paths)
-npx vitest run --config vitest.integration.config.ts -t "naval_letter"
-
-# Single fixture by name
-npx vitest run --config vitest.integration.config.ts -t "naval_letter:pw#000a"
-
-# Differential test only (~7 s, 10 fixtures)
-npx vitest run --config vitest.integration.config.ts tests/integration/differential.test.ts
+# Narrow to files when testing a specific contract:
+npm run test:integration -- tests/integration/subparagraph-spacing.test.ts tests/integration/docx-subparagraph-spacing.test.ts
+# A document-type or exact pairwise fixture name (four-digit hexadecimal suffix):
+npx vitest run --config vitest.integration.config.ts -t 'naval_letter:pw#000a'
+# Differential content checks:
+npm run test:integration -- tests/integration/differential.test.ts
 ```
+
+Runtime depends on the selected files, fixtures, toolchain and parallelism; old whole-suite timing/count estimates are not a current budget. Both `npm test` and `npm run test:watch` exclude this directory.
 
 ## Prerequisites
 
-| Tool | Required by | Install |
-|------|-------------|---------|
-| `xelatex` | `latex-compile.test.ts` | macOS: MacTeX or BasicTeX. Linux: `apt install texlive-xetex texlive-latex-extra texlive-fonts-recommended` |
-| `pandoc` | `docx-compile.test.ts` | macOS: `brew install pandoc`. Linux: `apt install pandoc` |
+| Tool | Used for | Example installation |
+|---|---|---|
+| `pdflatex` and required TeX packages/fonts | Native PDF compile and layout checks | MacTeX/TeX Live; Linux: `texlive-latex-base texlive-latex-extra texlive-fonts-recommended` (consult CI for additional packages). |
+| `pandoc` | Native Word conversion | macOS: `brew install pandoc`; Linux: `apt install pandoc`. |
+| Poppler `pdftotext` and `pdfinfo` | Rendered text, coordinates and page counts | macOS: `brew install poppler`; Linux: `apt install poppler-utils`. |
+| npm dependencies / staged assets | Companion, packaged-engine and JS output readers | `npm ci`; normal build/vendor staging as required by the selected test. |
 
-If a binary is missing, the corresponding tests skip with a console
-warning rather than failing — so a fresh checkout doesn't false-fail.
+Toolchain probes differ by file. Some mark affected cases skipped locally; dedicated requirements/CI setup ensure required tools are present. Inspect the actual skip summary. A skipped case is not proof that rendering passed. System Pandoc can differ from the browser's vendored WASM version.
 
 ## The compile matrix
 
-| File | What it does | Fixtures | Wall time |
-|------|--------------|---------:|----------:|
-| `latex-compile.test.ts` | Compiles each pairwise fixture with xelatex; asserts PDF > 1000 bytes | 380 | ~3-4 min |
-| `docx-compile.test.ts` | Compiles each pairwise fixture with pandoc; asserts DOCX > 2000 bytes | 380 | ~30 s |
-| `differential.test.ts` | For 10 curated fixtures, compiles BOTH paths, extracts text via `pdf-parse` + `mammoth`, asserts a distinctive token appears in BOTH outputs (catches one-path-drops-content bugs) | 10 | ~7 s |
+| File | Contract |
+|---|---|
+| `latex-compile.test.ts` | `pairwiseMatrix()` through native `pdflatex`; valid, nonempty PDF. |
+| `docx-compile.test.ts` | The same builder through system Pandoc; valid, nonempty DOCX. |
+| `differential.test.ts` | Curated PDF/Word pairs; extracted input tokens survive both paths. |
 
-## The companion
+The [generated inventory](../../docs/PROJECT_INVENTORY.md#compile-fixture-builders) gives exact current format, pairwise, smoke and Cartesian counts. The generic builder currently omits SL-4 and TM/IETM; their dedicated files cover their structured profiles. Internal generator coverage does not advertise a Word UI/API for PDF-only publication families. See [product capabilities](../../docs/CAPABILITIES.md).
 
-These drive `companion/` as a client would, and need `pdftotext` (poppler)
-where they read a page back.
-
-| File | What it does |
-|------|--------------|
-| `companion-surface-matrix.test.ts` | Every advertised docType in both formats renders a real file |
-| `companion-doc-type-content.test.ts` | The types that once rendered hollow carry their content (pdftotext) |
-| `companion-docx.test.ts` | The pandoc path: timeouts, scratch cleanup, error reporting |
-| `companion-agent-contract.test.ts` | The HTTP door's request contract |
-| `companion-mcp.test.ts` | Raw JSON-RPC over stdio: handshake, stdout hygiene, the documented launch form |
-| `companion-mcp-client.test.ts` | The published client SDK: tools, resources, prompts, completions, structured results |
-| `companion-mcp-revisions.test.ts` | Each protocol revision gets answers in its own vocabulary |
-| `companion-mcp-elicit.test.ts` | The unit picker with clients that can and cannot show a form |
-| `companion-mcp-defaults.test.ts` | The config file, the defaults resource, and a render that uses them |
-
-## Architecture
-
-```
-compileLatex.ts   ──▶  generateAllLatexFiles(store) ──▶ xelatex ──▶ PDF
-compileDocx.ts    ──▶  generateFlatLatex(store)     ──▶ pandoc  ──▶ DOCX
-compileMatrix.ts  ──▶  pairwise covering array of 18 dimensions per
-                        doc type (~19 rows × 20 doc types = ~380
-                        fixtures × 2 paths = ~760 tests)
-differential.test ──▶  compile both paths + extract text + assert
-                        token-survives-in-both (10 curated fixtures)
+```text
+compileLatex.ts  → captured TestStore → generated TeX → pdflatex → PDF
+compileDocx.ts   → captured TestStore → flat TeX      → pandoc   → DOCX
+compileMatrix.ts → baselines / pairwise dimensions / streamed Cartesian offsets
 ```
 
-## When to use which test
+## Engine choice
 
-- **Adding a new generator-output assertion** → unit/property test under `tests/unit/`. Fast. No toolchain needed.
-- **Catching "compiles fine but emits wrong content"** → strengthen the unit/property test on the generator output string.
-- **Catching "the generated string isn't valid LaTeX"** → covered automatically by the pairwise compile matrix; no test addition needed unless you've added a new dimension to the matrix.
-- **Catching "PDF and DOCX paths drift apart in content"** → add a fixture to `differential.test.ts`.
-- **Visual / layout drift** (e.g. a margin moved 3pt, a banner color regressed) → NOT covered here; would need a visual-regression layer with golden PNG diffs (out of scope for this harness).
+Production correspondence/publication PDF uses the SwiftLaTeX **pdfTeX** WASM build. Native `pdflatex` shares its font/input model more closely than XeTeX; production is not a XeTeX fork. Native compilation still does not reproduce every packaged-engine behavior, so existing WASM/companion/browser tests remain useful.
 
-### Why pairwise (and not full cartesian)?
+On failure, preserve the printed `/tmp/dondocs-compile-*` or `/tmp/dondocs-docx-*` directory and inspect its generated files/log. To reproduce native PDF:
 
-Full cartesian product of the dimensions we care about (classLevel × 6,
-fontSize × 3, fontFamily × 2, pageNumbering × 3, letterheadColor × 2,
-signatureType × 2, plus 12 boolean flags) is roughly 5,000+ rows per
-doc type × 20 = **100,000+ compiles** — multi-hour even on a 16-way
-pool. Empirically, the vast majority of compile regressions are 1-
-or 2-flag interactions, and pairwise (Tatsumi/IPOG-style covering
-arrays) hits every (dim_a=val_x, dim_b=val_y) pair with ~36 rows
-per doc type. Strict superset of "every flag toggled individually"
-(the older smoke matrix), at ~3× the size.
-
-The IPOG implementation lives in `tests/_helpers/combinatorial.ts`
-and is unit-tested at `combinatorial.test.ts`. `smokeMatrix()` is
-still exported from `compileMatrix.ts` if a fast (~260-fixture)
-sanity run is wanted locally — invoke it manually by importing.
-
-Each test runs in an isolated temp directory under `/tmp/dondocs-compile-*`
-or `/tmp/dondocs-docx-*`. On failure the directory is preserved (CI
-uploads them as artifacts under `failing-compile-artifacts`) so devs can:
-
-```bash
+```sh
 cd /tmp/dondocs-compile-AbCdEf
-xelatex -interaction=nonstopmode main.tex
-# inspect main.log, document.tex, etc.
+pdflatex -interaction=nonstopmode -halt-on-error main.tex
 ```
 
-## Why xelatex (not pdflatex)?
+CI retains failed compile directories as artifacts. Check logs for sensitive content before posting them publicly.
 
-SwiftLaTeX in production is a XeTeX fork, so `xelatex` locally is the
-closest available engine. A bug that compiles in xelatex but fails in
-SwiftLaTeX would still be a SwiftLaTeX quirk worth knowing about — but
-the inverse (compiles in SwiftLaTeX, fails in xelatex) is what we mostly
-catch here. The `\setCUI` bug that landed this harness is exactly that
-shape: SwiftLaTeX silently swallowed the unknown control sequence;
-xelatex's strict mode flagged it.
+## Adding coverage
 
-## Adding a new fixture
+- Change a pairwise dimension/baseline in `tests/_helpers/compileMatrix.ts` when adding a supported flag/format; integration compile files consume `pairwiseMatrix()`.
+- Add a focused regression for a specific failing combination, or a curated fixture in `differential.test.ts` when content disappears in one path.
+- Adding only to `smokeMatrix()` does **not** add an integration test. That builder is available for explicit local use, not consumed by the pairwise suites.
+- Layout checks already measure baselines, margins, wrapping, page furniture and labels in dedicated tests. Use a rendered assertion for the affected behavior; compile success alone does not establish visual correctness.
+- Regenerate `npm run docs:inventory` after builder changes. The full [Cartesian harness](../cartesian/README.md) is separate and far larger than a PR check.
 
-Most regressions in this repo come from a previously-untested
-combination of flags. To add coverage:
-
-1. Identify the (docType, flagSet) combination
-2. Edit `tests/_helpers/compileMatrix.ts` and add to `smokeMatrix()`
-3. `npm run test:integration -- -t "newFixtureName"`
-4. If it fails, the harness shows the parsed `! ...` LaTeX errors and
-   the work-dir path
-
-## Why a separate vitest config?
-
-These tests spawn child processes and take 1-2 seconds each. Running
-260 of them on every save (the default `npm test` watch loop) would
-make TDD untenable. The base `vitest.config.ts` excludes
-`tests/integration/**`; this config (`vitest.integration.config.ts`)
-explicitly includes only that directory.
+For companion coverage, see `companion-*.test.ts`: request/transport parity, PDF/Word behavior, publication preflight, tool/resources, host protocol revisions, defaults, output confinement, timeouts and stdout hygiene. Consult each file for its specific prerequisites.

@@ -17,7 +17,7 @@ The build stages `tex/main.tex`, the format modules, example configuration/body 
 
 This builds the checked-in example, not the active browser document. Browser TeX downloads contain configuration fragments and require the template project and referenced assets. The app's PDF pipeline adds features such as merged enclosures, reference annotations, and PDF signing fields after compilation; the native example does not perform that assembly. AcroTeX is not required for the app's signing fields.
 
-The reference notes below describe formatting requirements; they are not a guarantee that every rule is enforced by the editor. See [capabilities](../docs/CAPABILITIES.md) and [audit status](../docs/AUDIT_STATUS.md) for tested behavior and limits.
+The reference notes below describe formatting requirements; they are not a guarantee that every rule is enforced by the editor. See [capabilities](../docs/CAPABILITIES.md) and [output limits](../docs/OUTPUT_LIMITS.md) for tested behavior and limits.
 
 ---
 
@@ -79,7 +79,7 @@ Per Ch 7 ¶13:
 **Example (correct):**
 ```
     a. This is a subparagraph that continues to the next line.
-    The continuation line returns to the left margin, not indented.
+The continuation line returns to the left margin, not indented.
 ```
 
 **Implementation:** Both renderers resolve indentation and paragraph spacing through `src/services/latex/paragraphLayout.ts`. Numbered correspondence indents the first line for its level and returns continuation lines to the left margin; deeper labels retain their underline. Native PDF and Word regression tests check the resulting layout.
@@ -138,7 +138,9 @@ Per Appendix C ¶4h:
 
 ---
 
-## Universal Requirements (All Documents)
+## Correspondence Defaults and Format Exceptions
+
+These are correspondence defaults. Apply the selected format's documented exceptions (including HQ margins/page furniture); technical publications have separate source profiles. See [capabilities](../docs/CAPABILITIES.md) and [publication guidance](../docs/TECHNICAL_PUBLICATIONS.md).
 
 | Element | Requirement | Status | Source |
 |---------|-------------|--------|--------|
@@ -348,7 +350,7 @@ Ser Code 13/271
 Ser N00J/S20
 ```
 Format: `Ser [originator code]/[classification initial][serial number]`
-- Classification initials: FOUO, C (Confidential), S (Secret), TS (Top Secret)
+- Classified serial examples use C (Confidential), S (Secret) or TS (Top Secret). Older source examples using FOUO are historical; FOUO is not a current CUI instruction.
 
 ### Serial Number Rules
 Per Ch 7 ¶3a(2)(b):
@@ -630,14 +632,14 @@ Per Ch 7 ¶13c:
 |----------|---------------|---------|------------|---------------------|-----------------|--------|
 | Naval Letter | YES | YES | NO | NO | Abbreviated name only | Ch 7 |
 | Business Letter | **NO** (indent 0.5") | NO | YES (+ colon) | YES ("Sincerely,") | Full name, rank, title | Ch 11 |
-| Endorsement | NO* | YES | NO | NO | Abbreviated name | Ch 9 |
+| Endorsement | YES (own sequence) | YES | NO | NO | Abbreviated name | Ch 9 |
 | MOA/MOU | YES | NO | NO | NO | Overscored full name | Ch 10 ¶6 |
 | Joint Letter | YES | YES | NO | NO | Dual signatures, senior RIGHT | Ch 7, Fig 7-4 |
-| Exec Standard Memo | YES (bullets OK) | YES | NO | NO | Varies by signer | Ch 12 ¶2 |
+| Exec Standard Memo | Main paragraphs unnumbered; nested paragraphs labeled | YES | NO | NO | Varies by signer | Ch 12 ¶2 |
 | Action Memo | Bullets | YES | NO | NO | None (for principals) | Ch 12 ¶3 |
 | Info Memo | Bullets | YES (signed) | NO | NO | None (sign FROM line) | Ch 12 ¶4 |
 
-*Endorsements continue the basic letter's paragraph sequence
+Endorsement numbering is independent of the basic letter. The table summarizes correspondence; see the [generated controls](../docs/CAPABILITIES.md#correspondence-content-controls) for implemented compliant/custom behavior. HQ and technical-publication profiles have distinct margins, page furniture and other exceptions.
 
 ---
 
@@ -821,10 +823,11 @@ Per DoDM 5200.01 Vol 2-4 (referenced in Ch 7 ¶4-5):
 - Classification Authority Block (CAB): First page, includes "Derived from:" and "Declassify on:" — *Ch 7 ¶4, Figure 7-5*
 - Serial number: Must include classification initial (e.g., Ser N00/S20) — *Ch 7 ¶3c*
 
-**If CUI/FOUO:**
-- Mark "FOR OFFICIAL USE ONLY" at bottom of pages containing FOUO — *Ch 7 ¶5a, Figure 7-7*
-- Portion markings "(FOUO)" before FOUO text — *Ch 7 ¶5b*
-- Alternative: "UNCLASSIFIED//FOR OFFICIAL USE ONLY" or "UNCLASSIFIED//FOUO" — *Ch 7 ¶5a*
+**Current application CUI behavior:**
+- Use CUI controls, designation information and supported portion markings; legacy FOUO portions normalize to CUI on load.
+- Review [classification configuration](../docs/CLASSIFICATION_CONFIG.md), [security scope](../SECURITY.md) and the applicable current authority before release.
+
+**Historical source note:** CH-1 Chapter 7 ¶5 / Figure 7-7 contains FOUO banner/portion examples. Those identify historical source content, not instructions to mark new CUI as FOUO. See [reference editions](../docs/REFERENCES.md).
 
 **Unclassified letter with classified enclosure:**
 Per Ch 7 ¶4, Figure 7-6:

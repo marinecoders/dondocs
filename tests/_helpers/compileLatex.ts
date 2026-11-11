@@ -2,12 +2,12 @@
  * End-to-end LaTeX compile harness for the integration test suite.
  *
  * The unit / property / fuzz tests assert on the *string* that
- * `generateAllLatexFiles` produces. They never ask `xelatex` whether
+ * `generateAllLatexFiles` produces. They never ask `pdflatex` whether
  * that string is actually valid LaTeX. Most "compiles in dev, breaks in
  * prod" bugs hide in that gap (mismatched braces, undefined macros,
  * package-not-loaded, math-mode-from-text crashes).
  *
- * This module spawns a real `xelatex` process per fixture, captures
+ * This module spawns a real `pdflatex` process per fixture, captures
  * the log, and reports either success (with PDF bytes) or a parsed
  * error trace. The intent is that `tests/integration/latex-compile.test.ts`
  * runs a fixture matrix through this and asserts every combination
@@ -23,9 +23,8 @@
  *
  * Templates: read directly from `tex/main.tex` and `tex/templates/*.tex`
  * — these are the canonical source. The `public/lib/latex-templates.js`
- * bundle is built from them by `build-templates.sh`. Testing against
- * source means a stale bundle doesn't mask a real bug; a separate test
- * could verify the bundle is in sync if that becomes a concern.
+ * bundle is built from them by `node build-templates.mjs`. Testing against
+ * source means a stale bundle doesn't mask a real bug; CI separately verifies that the generated bundle is in sync.
  */
 import { spawn } from 'node:child_process';
 import { mkdtemp, mkdir, writeFile, readFile, readdir, copyFile } from 'node:fs/promises';
@@ -56,7 +55,7 @@ export interface CompileResult {
   exitCode: number | null;
   /** Parsed `! ...` LaTeX errors with 3 lines of context each. */
   errors: string[];
-  /** Last 60 lines of the xelatex log, for debugging when no `!` line is found. */
+  /** Last 60 lines of the pdflatex log, for debugging when no `!` line is found. */
   logTail: string;
   /** PDF bytes on success. */
   pdfBytes?: Uint8Array;
@@ -95,7 +94,7 @@ async function loadTemplates(): Promise<Record<string, string>> {
 }
 
 /**
- * Parse `xelatex`'s log for actual error markers. xelatex prints lines
+ * Parse `pdflatex`'s log for actual error markers. pdflatex prints lines
  * starting with `! ` for any LaTeX error (undefined control sequence,
  * missing `}`, etc.). Capture each error plus the next 3 lines — that's
  * usually the offending input line and the file it came from.
@@ -117,7 +116,7 @@ function tail(log: string, n: number): string {
 }
 
 /**
- * Run `xelatex` in `cwd` on `mainFile`. Resolves with the result —
+ * Run `pdflatex` in `cwd` on `mainFile`. Resolves with the result —
  * never rejects, even on timeout. The caller decides what counts as
  * a failure based on `exitCode`.
  */
@@ -154,7 +153,7 @@ function runPdflatex(cwd: string, mainFile: string): Promise<{
 /**
  * Compile a fixture with pdflatex. Single-pass — we don't need
  * `\pageref{LastPage}` resolution for compile-error detection. If a
- * future test wants accurate page counts, run xelatex twice.
+ * future test wants accurate page counts, run pdflatex twice.
  */
 export async function compileFixture(store: TestStore, extraFiles: Record<string, Uint8Array> = {}): Promise<CompileResult> {
   const { texFiles } = generateAllLatexFiles(store);
@@ -198,10 +197,10 @@ export async function compileGeneratedFixture(texFiles: Record<string, string>, 
   }
 
   // SwiftLaTeX-compat shim is a runtime stub for browser-only macros;
-  // on regular xelatex it's a no-op file. Provide an empty package.
+  // on regular pdflatex it's a no-op file. Provide an empty package.
   await writeFile(
     join(workDir, 'swiftlatex-compat.sty'),
-    '\\ProvidesPackage{swiftlatex-compat}[2024 stub for local xelatex]\n'
+    '\\ProvidesPackage{swiftlatex-compat}[2024 stub for local pdflatex]\n'
   );
 
   // Provide a stub flags.tex if the generator produced one that
@@ -225,7 +224,7 @@ export async function compileGeneratedFixture(texFiles: Record<string, string>, 
     try {
       pdfBytes = await readFile(join(workDir, 'main.pdf'));
     } catch {
-      // xelatex returned 0 but no PDF — treat as failure.
+      // pdflatex returned 0 but no PDF — treat as failure.
       return { ok: false, exitCode, errors, logTail, workDir };
     }
   }
@@ -244,7 +243,7 @@ export function formatFailure(name: string, result: CompileResult): string {
     : `No "!" error markers in log. Last 60 lines:\n${result.logTail}`;
   return [
     `Fixture: ${name}`,
-    `xelatex exit: ${result.exitCode}`,
+    `pdflatex exit: ${result.exitCode}`,
     `Work dir:    ${result.workDir}`,
     '',
     errSection,

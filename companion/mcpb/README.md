@@ -1,36 +1,24 @@
 # DonDocs for MCP
 
-This bundle is the DonDocs companion: an MCP server that renders SECNAV
-M-5216.5 naval correspondence to PDF or DOCX. Install it in a client that
-takes `.mcpb` bundles by opening the file. It is on straight away, writing
-letters to `Documents/DonDocs` until you change the Output folder setting,
-and the assistant gains the `dondocs_letter`, `dondocs_unit_lookup`,
-`dondocs_template_list` and `dondocs_template_get` tools, the bundled
-templates as resources, and a `draft_letter` prompt.
+Install the `.mcpb` file in a client that accepts MCP bundles. The companion renders supported naval correspondence to PDF/Word and technical publications to PDF. PDF rendering uses bundled resources; Word additionally requires `pandoc` on PATH. Source/build tooling has separate requirements from the bundle's declared Node runtime.
 
-PDF output needs nothing else. DOCX output needs `pandoc` on PATH.
+The assistant receives these tools:
 
-Machine defaults (your unit, signer, SSIC, originator code) are worth
-settling first: without them every letter starts with a unit lookup and the
-signer has to be given again. Ask for it in the chat, "set up my DonDocs
-defaults", and answer the questions; the file is written for you. "Machine
-defaults file" says where it goes, and `docs/COMPANION.md` in the repository
-gives its shape for anyone who would rather write it by hand.
+- `dondocs_letter`: render a supported document to a local file.
+- `dondocs_unit_lookup`: search the bundled unit directory.
+- `dondocs_template_list` / `dondocs_template_get`: find and read content templates.
+- `dondocs_save_defaults`: save unit/signer/SSIC/originator defaults after collecting the necessary values.
 
-A finished letter appears in the chat as a card: its pages, the size, a
-Download button, an expand button that opens the whole letter fullscreen,
-and an Edit in browser button that opens it in the DonDocs web editor
-with every field filled in, for anything easier typed than dictated. Set "Web editor
-address" to your own deployment, or clear it to drop that button; letters
-above CUI are never handed over. The file is also kept in the output
-folder. After
-updating the extension, quit and reopen the app: it keeps the card it has
-already read for as long as it runs.
+Templates/defaults are also available as resources, with the `draft_letter` prompt. Ask to set up DonDocs defaults before drafting, or provide the needed values for each request. The [companion guide](https://github.com/marinecoders/dondocs/blob/main/docs/COMPANION.md) describes the schemas, formats and validation; [publication examples](https://github.com/marinecoders/dondocs/blob/main/docs/TECHNICAL_PUBLICATIONS.md) cover the PDF-only families.
 
-Source and issues: https://github.com/marinecoders/dondocs
+## Files and host support
+
+Final documents go to the configured **Output folder** (normally `Documents/DonDocs`). Choose a folder the host's file tools may read. Machine defaults are written separately, normally to `~/.dondocs/companion.config.json` or the selected **Machine defaults file**. Rendering also uses system temporary directories; the output folder is not the only location the process writes.
+
+A host supporting MCP Apps can display the companion's document card with preview/download controls. Other hosts may show a text result or file link and need their own file-presentation tool. Card rendering, file access and permission prompts depend on the client; installing the bundle does not guarantee all of them.
+
+**Web editor address** controls the optional Edit in browser handoff. It opens the configured deployment with a supported text snapshot; files/signature images are not transferred through that link, and unsupported or above-CUI content is not offered as a handoff. Review output/transfer scope before using it. After updating a bundle, restart the host if it retains the old card resource.
 
 ## License and source
 
-DonDocs is licensed under GNU AGPL version 3 only (`AGPL-3.0-only`). See the
-bundled `LICENSE.txt`, `THIRD_PARTY_LICENSES.txt`, and
-`LICENSING.txt`. `SOURCE.txt` identifies the source for this build.
+DonDocs is GNU AGPL version 3 only (`AGPL-3.0-only`). See bundled `LICENSE.txt`, `THIRD_PARTY_LICENSES.txt`, `LICENSING.txt` and `SOURCE.txt`. [Source and issues](https://github.com/marinecoders/dondocs).

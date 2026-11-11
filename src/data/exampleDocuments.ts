@@ -82,7 +82,6 @@ export const EXAMPLE_DOCUMENTS: ExampleDocument[] = [
     ],
     copyTos: [],
   },
-  // Standard Letter example temporarily removed - see KNOWN_ISSUES.md
   {
     id: 'multiple-address-letter-example',
     name: 'Multiple Address Letter',

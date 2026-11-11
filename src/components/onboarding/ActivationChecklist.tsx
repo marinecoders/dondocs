@@ -110,7 +110,7 @@ export function ActivationChecklist() {
     },
     {
       title: 'Back up your work',
-      sub: 'One file with everything — restore it on any machine',
+      sub: 'Save included workspace data as unencrypted JSON; batch results and blank form PDFs need separate copies',
       done: backupDone,
       // Opens the guide's backup feature card ("Walk me through it" from there
       // spotlights the real controls); completing this row requires an actual

@@ -39,7 +39,7 @@ preview:
 web-clean:
 	rm -rf dist
 help:
-	@echo "Install web dependencies: make web-install (Node.js 22+)"
+	@echo "Install web dependencies: make web-install (Node.js 22.13+ on the Node 22 line)"
 	@echo "Web: dev / local / run, web-build, lint, preview, web-clean"
 	@echo "TeX example: pdf (two passes), quick, build (latexmk), watch, view (macOS)"
 	@echo "TeX output: $(TEX_BUILD_DIR)/main.pdf; clean / distclean / rebuild"

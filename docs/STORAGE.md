@@ -1,9 +1,9 @@
 # Storage Architecture
 
-Browser documents live in local storage; there is no remote document registry. The local companion is a separate optional service. The
-storage layer carries the durability guarantees a backend would normally
-provide. This document describes where data lives, how it gets there, and what
-happens when writes fail.
+Browser documents live in IndexedDB; smaller stores and recovery buffers use
+localStorage and sessionStorage. There is no remote document registry. The
+local companion is a separate optional service. This document describes where
+data lives, when a save is acknowledged, and what happens when writes fail.
 
 ## Where data lives
 
@@ -17,7 +17,7 @@ existing records untouched.
 | Store | Contents |
 |-------|----------|
 | `documents` (keyPath `id`) | One record per document: `{ id, meta, session }`. `meta` is the Recents row (title, docType, updatedAt, pinned, user-set name); `session` is the full serialized document. |
-| `app` (key/value) | `currentId` (resume pointer), `backupFileHandle` (the synced-backup `FileSystemFileHandle` — handles are structured-cloneable), `legacyMigratedIds` (migration ledger), and `snap:<docId>` — per-document version-history snapshots, capped at the 10 most recent. |
+| `app` (key/value) | `currentId` (resume pointer), `backupFileHandle` (the synced-backup `FileSystemFileHandle` — handles are structured-cloneable), `legacyMigratedIds` (migration ledger), `batch:<id>` (generated batch output bytes), and `snap:<docId>` — per-document version-history snapshots, capped at the 10 most recent. |
 | `attachments` (keyPath `id`) | Enclosure and signature image bytes: `{ id, name, type, size, data }` (`data` is the raw `ArrayBuffer`). A serialized enclosure keeps only a `fileRef` (id + name/size/type) into this store, so the blob loads once and never bloats a document record. Bytes are written on attach (`src/lib/attachments.ts`) and streamed back into the live document by `rehydrateEnclosureFiles`. Ids are random (not content-addressed): `crypto.subtle` needs a secure origin an air-gapped `http://` deployment may lack, so there is no cross-enclosure dedup. Reachability inventory marks references from saved and live documents, history, snapshots, form buffers, profiles, and staged writes. Automatic deletion is deferred: older tabs can still own unsaved references that this tab cannot discover. A candidate orphan is retained, and unreadable roots abort the inventory. |
 
 Two contracts in `documentsDb.ts` matter more than the rest:
@@ -45,6 +45,7 @@ persistence for the rest of the page lifetime.
 |-----|-----------|---------|
 | `dondocs-document-session` | 2s-debounced autosave, flushed on `pagehide` | Crash backstop for the live document. Used by the first-load legacy migration and the forms-view resume hint. Deliberately **not** consulted on normal resume — it carries no document id, so after a document switch it can briefly describe a different document than `currentId`. |
 | `dondocs_profiles`, `dondocs_user_templates`, `dondocs_snippets` | Zustand persist via `compressedLocalStorage` | Gzip-compressed. **Rethrows on quota** so the calling action can warn the user; every save path is wrapped in try/catch with a "storage is full" message. |
+| `dondocs-batch-job` | Batch job persistence | Frozen source/row values, status and output references for reload recovery; output bytes live under `batch:<id>` in IndexedDB. Excluded from workspace backups. |
 | `dondocs_ui`, `dondocs-onboarding`, `dondocs-forms` | Zustand persist via `safeLocalStorage` | **Swallows** write errors so a preference write can never crash boot — but records each write outcome per key (`lastWriteFailed`), available to storage feedback. Document Save acknowledgement requires an IndexedDB commit receipt, including for built-in forms. |
 
 The two adapters have opposite quota philosophies on purpose: user-created
@@ -177,40 +178,65 @@ Rolling back the app has the same limitation. Export a backup before rollback.
 Backup export flushes pending edits from an initialized live document into the
 registry before serializing it; it does not wait for the autosave debounce.
 
-**Manual** (`Back up everything`, `src/lib/backup.ts`): a full-account JSON
-download (kind `dondocs-backup`) covering every store, not just documents —
-the in-memory registry, profiles + signatures, saved snippets, user templates,
-the live NAVMC form fields, and the enclosure file bytes those documents
-reference (base64-embedded, pulled from the `attachments` store). Restore is
-non-destructive: documents merge per record with newer `updatedAt` winning;
-profiles/snippets/templates add only missing entries (local always wins a
-collision); attachments add only ids not already present. A legacy docs-only
-`dondocs-library` file still restores. Pending document edits are flushed before
-the conflict comparison, and newer in-memory copies survive a failed disk write.
-Full backup restore intentionally replaces the two live NAVMC buffers when
-present; their fields do not have per-draft timestamps. This differs from the
-document library's newer-wins merge and does not happen during an app update.
-Older NAVMC drafts and backups receive the same signature-field normalization
-as local saves. New backups also retain the cover-page option; older backups
-that omit it leave the local option unchanged.
+**Manual** (**Settings → Backup & restore → Download workspace backup**,
+`src/lib/backup.ts`): an **unencrypted JSON** bundle (kind `dondocs-backup`).
+Draft/backup downloads do not run the rendered-output pre-export PII/PHI review.
+Base64 assets and compressed browser stores are not encryption.
+
+| Included data | Restore policy |
+|---|---|
+| Saved document registry, including Trash and pinned form definitions/answers | Per-record merge; newer local `updatedAt` wins. Pending edits are flushed before comparing. |
+| Profiles/signatures, snippets and user templates | Add missing entries; local entries win collisions. |
+| Referenced enclosure/signature assets | Embedded base64; add IDs missing locally. |
+| Per-document history | Merge validated snapshot rings, retaining the bounded history. |
+| Live NAVMC buffers and included legacy form values/options | Apply included buffers/values. The two live NAVMC buffers are intentionally replaced; they have no per-draft timestamps. Older omitted options leave local values unchanged. |
+| Unit routing overrides | Included incoming values win matching keys; local-only rules remain. |
+
+Excluded: **batch jobs and generated results**, UI/onboarding preferences,
+synced-backup file handles/permissions, and cached blank form PDFs. Download
+batch files separately. Configured-form backups preserve editable instances but
+need the exact blank PDF package for offline export; reconnect and **Save for
+offline use** after restoring on another device. A legacy docs-only
+`dondocs-library` file still restores.
+
+Restore reports section/persistence failures and can be partial; retain the file,
+review the result and retry failures. Newer in-memory document copies survive a
+failed disk write. A newer-wins document merge is not a universal promise that
+nothing in the workspace will be replaced. Full restore is separate from an app
+update, which does not intentionally replace live NAVMC buffers.
 
 **Synced backup file** (Chromium desktop): the user picks a file once; the
 `FileSystemFileHandle` persists in IndexedDB and survives restarts. Every
-registry save mirrors the **full-account bundle** — the same `dondocs-backup`
+registry save mirrors the **included-data bundle** — the same `dondocs-backup`
 `buildBackup()` produces for the manual download, including enclosure bytes —
 to that file (1.5s debounce), so a restore can recover the included stores and referenced assets. Active NAVMC and configured-form drafts autosave through the registry, so those saves also schedule the mirror. Changes confined to profiles, preferences, or dormant legacy buffers do not independently trigger a write; use a manual backup after those edits if no registry save occurs. (Each write re-serializes the account; with large enclosures
 that base64 pass runs on every debounced save — acceptable off the critical
 path, and a future optimization could diff attachments.) Browsers require a
 fresh user gesture to re-grant write access after a restart — surfaced as
-"Reconnect auto-backup" in the Documents menu.
+"Reconnect auto-backup" in Settings → Backup & restore.
 
 Backup failure semantics:
 
 - A failed account read **skips the write** — an incomplete/empty bundle is
   never mirrored over a good backup file, and "last backed up" is not advanced.
-- A failed file write flips the status to `error`, shown in the Documents menu
+- A failed file write flips the status to `error`, shown in Settings → Backup & restore
   with a retry; later saves keep retrying, and a success self-heals back to
   `connected`. Permission loss shows `needs-permission` instead.
+
+## Trash and batch retention
+
+Trash retains the full document entry (`deletedAt`) and its history until the
+user restores or permanently deletes it, or browser storage is lost. There is
+no automatic age-based purge. Permanent deletion removes the record and its
+snapshot ring; attachment collection is conservative and separately managed,
+so this is not a secure-erasure guarantee. Backups include Trash.
+
+Batch persistence is separate: `dondocs-batch-job` retains its frozen source,
+rows and progress, and IndexedDB `app` entries `batch:<id>` hold results. Closing
+the panel does not stop generation. Reload recovery can resume remaining work
+from its source; it never substitutes the current editor. Starting **New batch**
+clears the previous job/results. Neither job metadata nor output bytes are in
+workspace backups. See the [batch walkthrough](USER_GUIDE.md#batch-generation).
 
 ## Version history
 
@@ -297,3 +323,5 @@ Links include form answers and repeated rows, but omit binary images and local
 asset handles. Configured forms require access to their PDF templates. Very old
 clients that lack the form reader must be updated to open those forms. A link is
 a snapshot; subsequent sender edits do not change the recipient's document.
+
+Share links have no server-side revocation or password-recovery service. In contrast to encrypted share payloads, portable draft and workspace-backup JSON is unencrypted; store and transfer those files according to their contents.

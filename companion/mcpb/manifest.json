@@ -3,8 +3,8 @@
   "name": "dondocs",
   "display_name": "DonDocs",
   "version": "0.0.0",
-  "description": "Render SECNAV M-5216.5 naval correspondence to PDF or DOCX from a chat: every letter, memorandum, endorsement and agreement type, with a unit directory and letter templates.",
-  "long_description": "DonDocs renders naval correspondence the way the manual prescribes: letterhead, seal, paragraph numbering, signature block, classification banners. The assistant supplies the content; the bundle writes a PDF or DOCX into the folder you choose. It runs entirely on this machine and reaches no network. DOCX output needs pandoc on PATH; PDF needs nothing else.",
+  "description": "Render supported naval correspondence to PDF or Word, and technical publications to PDF, using local resources.",
+  "long_description": "DonDocs provides configured correspondence, I-Type, SL-3, SL-4 and TM/IETM front-matter layouts. The assistant supplies reviewed content and the companion writes final files to the selected output folder. Machine defaults and temporary render files use separate locations. PDF rendering uses bundled resources; Word needs pandoc on PATH. Cards and file presentation depend on the host. The optional browser handoff opens the configured web editor.",
   "author": {
     "name": "Marine Coders",
     "url": "https://github.com/marinecoders"
@@ -43,7 +43,7 @@
     "output_dir": {
       "type": "directory",
       "title": "Output folder",
-      "description": "Where rendered letters are written; nothing is written anywhere else. Pick a folder your file tools may read, so the assistant can show a letter in the chat.",
+      "description": "Where final rendered files are written. Machine defaults use their configured file, and rendering also uses system temporary directories. Pick a folder your file tools may read so the assistant can show the document.",
       "required": false,
       "default": "${DOCUMENTS}/DonDocs"
     },
@@ -64,7 +64,7 @@
   "tools": [
     {
       "name": "dondocs_letter",
-      "description": "Render a letter, memorandum, endorsement or agreement to PDF or DOCX"
+      "description": "Render supported correspondence to PDF/Word, or technical publications to PDF"
     },
     {
       "name": "dondocs_unit_lookup",

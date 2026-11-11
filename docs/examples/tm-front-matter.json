@@ -1,0 +1,51 @@
+{
+  "docType": "tm_ietm_front_matter",
+  "format": "pdf",
+  "subject": "PORTABLE TEST EQUIPMENT",
+  "date": "30 Oct 26",
+  "manualFrontMatter": {
+    "subtype": "tm",
+    "service": "UNITED STATES MARINE CORPS",
+    "maintenanceLevel": "",
+    "subtitle": "",
+    "shortTitleBasis": "marine_corps",
+    "shortTitleApproval": "",
+    "authorityBasis": "pm_or_above",
+    "authorityReference": "",
+    "rightsAssessment": "not_required",
+    "volume": "",
+    "volumes": "",
+    "volumeNotice": "",
+    "supplementNotice": "",
+    "copyrightCredit": "",
+    "governmentRights": "",
+    "contentContact": "Test Program Office, sample@example.usmc.mil.",
+    "dfarClause": "none",
+    "endItems": [
+      {
+        "rowId": "example-row-1",
+        "nsn": "",
+        "tamcn": "",
+        "id": "TEST-001",
+        "model": "MODEL-1"
+      }
+    ],
+    "shortTitle": "TM 00000A-10/1",
+    "pcn": "00000000000",
+    "nomenclature": "CONTROLLER, Portable Test",
+    "signingDate": "2026-10-30",
+    "controllingOffice": "Test Program Office",
+    "distribution": {
+      "statement": "A"
+    }
+  },
+  "unit": {
+    "name": "TEST PROGRAM OFFICE",
+    "address": "123 Example Road\nQuantico, VA 22134"
+  },
+  "signature": {
+    "first": "A.",
+    "last": "SAMPLE",
+    "title": "Program Manager"
+  }
+}

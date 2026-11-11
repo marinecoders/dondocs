@@ -281,7 +281,7 @@ export default defineConfig({
       manifest: {
         name: 'DonDocs - Naval Correspondence & Form Generator',
         short_name: 'DonDocs',
-        description: 'Free SECNAV M-5216.5 correspondence & form generator for Navy/USMC. 20 document types — naval letters, memoranda, endorsements, NAVMC forms. PDF/DOCX export, 100% browser-based, works offline.',
+        description: 'Create naval correspondence, technical-publication PDFs and service forms with local browser processing. See supported outputs and offline setup requirements in the documentation.',
         // Matches index.html's light theme-color meta (the manifest can't be
         // media-queried, so it carries the light value; the metas handle dark).
         theme_color: '#f1f6fa',
@@ -389,7 +389,7 @@ export default defineConfig({
           {
             // Form template pages + thumbnails: far too many to precache once a
             // catalog is imported. StaleWhileRevalidate — NOT CacheFirst — so a viewed form
-            // still opens instantly offline (the air-gap promise for SIPR/JWICS),
+            // can reopen with cached assets after setup; this does not qualify a classified network,
             // yet a re-harvest that rewrites page*.pdf under the SAME filename
             // propagates on the next online load. CacheFirst here would pin the
             // old PDF bytes for 90 days while the box overlay (.json, SWR below)

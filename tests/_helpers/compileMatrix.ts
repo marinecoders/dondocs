@@ -1,23 +1,8 @@
 /**
- * Fixture matrix for the LaTeX/DOCX compile integration tests.
- *
- * Strategy:
- *   - One realistic baseline `TestStore` per doc type, with the fields
- *     that doc type actually uses (joint letters need joint-prefixed
- *     fields, MOAs need senior- and junior-prefixed fields, executive
- *     memos need memorandumFor, etc.)
- *   - For each doc type, emit:
- *       1. baseline (everything default, minimal valid input)
- *       2. one fixture per binary flag toggled true
- *       3. one "everything-on" fixture
- *   - The cartesian product of every flag would explode; pairwise is
- *     overkill for a compile-error scan. The "each-flag-toggled +
- *     everything-on" approach catches every flag's interaction with
- *     the doc type's structural rendering, which is where most compile
- *     bugs hide.
- *
- * If a future regression turns out to live in a 2-way interaction we
- * can graduate to pairwise via `tests/_helpers/combinatorial.ts`.
+ * Native compile fixture builders: a baseline per matrix format, a covering
+ * pairwise matrix, an optional single-flag smoke matrix and a streamed full
+ * Cartesian product. The integration suites consume pairwiseMatrix().
+ * docs/PROJECT_INVENTORY.md derives current counts from these builders.
  */
 import type { TestStore } from './compileLatex';
 import type {
@@ -31,9 +16,9 @@ import type {
 import { pairwise } from './combinatorial';
 
 /**
- * All correspondence doc types. Forms (NAVMC 10274, 118-11) are
- * deliberately excluded — they go through pdf-lib overlay, not the
- * LaTeX pipeline, and have separate test coverage.
+ * Matrix formats, including I-Type and SL-3. SL-4 and TM front matter have
+ * dedicated structured-publication tests. Forms use separate PDF overlay
+ * renderers/tests and are not part of this LaTeX fixture list.
  */
 export const ALL_DOC_TYPES = [
   'naval_letter',
@@ -395,7 +380,7 @@ export function applyFlags(base: TestStore, flags: FlagOverrides): TestStore {
  * The smoke matrix: baseline + each-flag-toggled + everything-on, per doc type.
  *
  * Per-type fixture count: 1 (baseline) + N (toggled flags) + 1 (everything) = ~13.
- * Across 20 doc types ≈ 260 fixtures.
+ * See docs/PROJECT_INVENTORY.md for the generated current totals.
  *
  * Currently NOT used by the integration suite — `pairwiseMatrix()`
  * subsumes it. Retained for situations where a faster local sanity
@@ -479,31 +464,9 @@ export function smokeMatrix(): Fixture[] {
  * Pairwise matrix — every 2-way interaction of flag values is covered
  * AT LEAST ONCE, per doc type.
  *
- * Why pairwise instead of full cartesian: 18 dimensions × ~2-6 values
- * each = ~5,000+ combinations per doc type × 20 doc types = 100,000+
- * compiles. That's a multi-hour run even on a 16-way pool. Pairwise
- * (Tatsumi/IPOG style covering arrays) compresses each docType's
- * combos to ~30-50 rows while still hitting every (dim_a=val_x,
- * dim_b=val_y) pair. Empirically, the vast majority of compile
- * regressions are 1- or 2-flag interactions; pairwise catches all of
- * those by construction.
- *
- * What's covered for each docType:
- *
- *   classLevel        × 6 values (unclassified, cui, confidential,
- *                                 secret, top_secret, top_secret_sci)
- *   fontSize          × 3       (10pt, 11pt, 12pt)
- *   fontFamily        × 2       (times, courier)
- *   pageNumbering     × 3       (none, simple, xofy)
- *   letterheadColor   × 2       (blue, black)
- *   signatureType     × 2       (none, digital)
- *   12 boolean flags  × 2       each (false, true)
- *
- *   = ~36 covering rows per docType (varies by greedy IPOG result)
- *   × 20 doc types ≈ 700 fixtures
- *   × 2 paths (LaTeX + DOCX) ≈ 1400 tests
- *
- * Wall time ≈ 12-15 min on a 4-way pool. Within the CI budget.
+ * Pairwise covers interactions between dimensions without enumerating the full
+ * product. The covering array includes each pair of values for the dimensions
+ * below. Regenerate docs/PROJECT_INVENTORY.md after changing the builder.
  */
 export function pairwiseMatrix(): Fixture[] {
   const dims = {
@@ -586,21 +549,10 @@ export function pairwiseMatrix(): Fixture[] {
 
 // ----- Full cartesian (every combination of every dimension) -----
 //
-// Per-doc-type cartesian size: 884,736
-//   classLevel × fontSize × fontFamily × pageNumbering × letterheadColor × signatureType × 2^12
-//      6     ×    3     ×     2     ×       3      ×       2        ×      2        ×  4096
-//
-// Total across 20 doc types: 17,694,720 fixtures × 2 paths (xelatex + pandoc) = 35.4M tests.
-//
-// At ~3s per xelatex compile that's 614 days SERIAL or ~9.7 days on a 64-vCPU
-// machine. Not feasible as a vitest matrix (vitest can't enumerate millions
-// of describe.each rows without OOMing). Exposed as a generator so a
-// dedicated CLI runner can stream through it lazily — see
-// `tests/cartesian/run.ts`.
-//
-// Each row's name encodes the docType + a 7-digit hex offset
-// (`naval_letter:cart#0000000` … `naval_letter:cart#00d7ffff`) so any single
-// failure is reproducible by re-running with --doc-type=X --start=N --end=N+1.
+// Counts are computed below and published by npm run docs:inventory.
+// A CLI streams rows rather than allocating millions of test cases up front.
+// Names use a seven-digit hexadecimal offset so a failure can be selected with
+// --doc-type=X --start=N --end=N+1. See tests/cartesian/README.md.
 
 const CART_DIMS = {
   classLevel: ['unclassified', 'cui', 'confidential', 'secret', 'top_secret', 'top_secret_sci'] as const,
@@ -685,7 +637,7 @@ function flagsFromOffset(offset: number): FlagOverrides {
  *   docTypeIndex * CARTESIAN_PER_DOCTYPE + offsetWithinDocType
  *
  * The hex name format `<docType>:cart#<7-digit-hex>` encodes the
- * offsetWithinDocType (0..CARTESIAN_PER_DOCTYPE-1, max = 0xd7fff = 884,735).
+ * offsetWithinDocType (0..CARTESIAN_PER_DOCTYPE-1).
  */
 export function* cartesianGenerator(
   docType?: DocType,

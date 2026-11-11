@@ -1,0 +1,211 @@
+{
+  "docType": "sl4",
+  "format": "pdf",
+  "subject": "REPAIR PARTS LIST FOR TRAINING CONTROL BOX",
+  "date": "30 Oct 26",
+  "pocEmail": "example@example.com",
+  "unit": {
+    "name": "EXAMPLE COMMAND",
+    "address": "PSC BOX 20123, CAMP LEJEUNE, NC 28542-0123"
+  },
+  "signature": {
+    "first": "Jane",
+    "last": "Example",
+    "title": "Program Manager"
+  },
+  "publication": {
+    "type": "SL4",
+    "shortTitle": "SL-4-12345A",
+    "pcn": "123 123450 00",
+    "nomenclature": "CONTROL BOX, TRAINING",
+    "controllingOffice": "Example Program Office",
+    "signingDate": "2026-10-30",
+    "distribution": {
+      "statement": "A"
+    },
+    "endItems": [
+      {
+        "nsn": "5120-01-542-7445",
+        "tamcn": "A12345G",
+        "id": "12345A",
+        "model": "TRAINING"
+      }
+    ],
+    "sl4": {
+      "sourceManual": "Fictional maintenance manual for a training control box",
+      "standaloneRationale": "Training example: the maintenance manual has no repair parts listing.",
+      "cutoffDate": "2026-10-30",
+      "contextPortion": "U",
+      "definitions": [],
+      "artwork": [
+        {
+          "figureId": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+          "lettering": "none",
+          "labels": []
+        }
+      ],
+      "rowsPerSheet": 18,
+      "indexRowsPerPanel": 55,
+      "endItemFigureId": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+      "circuitIndex": {
+        "mode": "include",
+        "reason": ""
+      },
+      "cages": [
+        {
+          "id": "training-entity",
+          "code": "ZZ999",
+          "name": "Fictional Training Equipment",
+          "address": "Fictional example only",
+          "portionMarking": "U"
+        }
+      ],
+      "notes": [
+        {
+          "id": "training-note",
+          "text": "Fictional parts, identifiers and quantities are for software demonstrations only.",
+          "portionMarking": "U"
+        }
+      ],
+      "revisions": [],
+      "rows": [
+        {
+          "kind": "heading",
+          "id": "control-heading",
+          "text": "TRAINING CONTROL BOX",
+          "portionMarking": "U"
+        },
+        {
+          "kind": "part",
+          "id": "kit",
+          "portionMarking": "U",
+          "parentId": "",
+          "nomenclature": "KIT, Training control box",
+          "description": "",
+          "smr": "",
+          "nsn": "",
+          "cage": "ZZ999",
+          "partNumber": "TRAIN-KIT",
+          "mandatoryReplacement": false,
+          "economicReplacement": false,
+          "unit": "EA",
+          "quantityPerApplication": "1",
+          "quantityPerEquipment": "1",
+          "isKit": true,
+          "figureId": "",
+          "circuitSymbols": []
+        },
+        {
+          "kind": "part",
+          "id": "board",
+          "portionMarking": "U",
+          "parentId": "kit",
+          "nomenclature": "BOARD, Training circuit",
+          "description": "",
+          "smr": "",
+          "nsn": "",
+          "cage": "ZZ999",
+          "partNumber": "TRAIN-BOARD",
+          "mandatoryReplacement": false,
+          "economicReplacement": false,
+          "unit": "EA",
+          "quantityPerApplication": "1",
+          "quantityPerEquipment": "1",
+          "isKit": false,
+          "figureId": "",
+          "circuitSymbols": [
+            "A1"
+          ]
+        },
+        {
+          "kind": "part",
+          "id": "screw",
+          "portionMarking": "U",
+          "parentId": "kit",
+          "nomenclature": "SCREW, Training fastener",
+          "description": "",
+          "smr": "",
+          "nsn": "5305-00-000-0001",
+          "cage": "ZZ999",
+          "partNumber": "TRAIN-SCREW",
+          "mandatoryReplacement": true,
+          "economicReplacement": false,
+          "unit": "EA",
+          "quantityPerApplication": "2",
+          "quantityPerEquipment": "4",
+          "isKit": false,
+          "figureId": "",
+          "circuitSymbols": []
+        },
+        {
+          "kind": "part",
+          "id": "resistor",
+          "portionMarking": "U",
+          "parentId": "",
+          "nomenclature": "RESISTOR, Training load",
+          "description": "",
+          "smr": "",
+          "nsn": "5905-00-000-0001",
+          "cage": "ZZ999",
+          "partNumber": "TRAIN-RES",
+          "mandatoryReplacement": false,
+          "economicReplacement": true,
+          "unit": "EA",
+          "quantityPerApplication": "1",
+          "quantityPerEquipment": "2",
+          "isKit": false,
+          "figureId": "",
+          "circuitSymbols": [
+            "R1"
+          ]
+        },
+        {
+          "kind": "part",
+          "id": "resistor-repeat",
+          "portionMarking": "U",
+          "parentId": "",
+          "nomenclature": "RESISTOR, Training load",
+          "description": "",
+          "smr": "",
+          "nsn": "5905-00-000-0001",
+          "cage": "ZZ999",
+          "partNumber": "TRAIN-RES",
+          "mandatoryReplacement": false,
+          "economicReplacement": false,
+          "unit": "EA",
+          "quantityPerApplication": "1",
+          "quantityPerEquipment": "",
+          "isKit": false,
+          "relationship": {
+            "kind": "same_as",
+            "itemIds": [
+              "resistor"
+            ]
+          },
+          "figureId": "",
+          "circuitSymbols": [
+            "R2"
+          ]
+        }
+      ]
+    }
+  },
+  "paragraphs": [
+    {
+      "referenceId": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+      "text": "Control Box, Training",
+      "figure": {
+        "fileId": "drawing",
+        "portionMarking": "U"
+      }
+    }
+  ],
+  "attachments": [
+    {
+      "id": "drawing",
+      "name": "training-box.pdf",
+      "mimeType": "application/pdf",
+      "dataBase64": "JVBERi0xLjcKJYGBgYEKCjUgMCBvYmoKPDwKL0ZpbHRlciAvRmxhdGVEZWNvZGUKL0xlbmd0aCA4NAo+PgpzdHJlYW0KeJwr5DJQAMEgdy4jhXKu6FggO4XLECxmqGBsAELJuXABEInJBVEg0tDCQCGHy9gAmQWiM7iCuQK5ChFWGWJaZW4AQsRbZQAy2MgImYWwCgABoyhSCmVuZHN0cmVhbQplbmRvYmoKCjYgMCBvYmoKPDwKL0ZpbHRlciAvRmxhdGVEZWNvZGUKL1R5cGUgL09ialN0bQovTiA0Ci9GaXJzdCAyMAovTGVuZ3RoIDMwMgo+PgpzdHJlYW0KeJzVUk1PwzAMvedX+AinuGmadmiaNPrBAU1MYwcE4hDaaBpCDepSafx77GYMcUCcUfWU2H4vTuqXAIICrSGFvAANWapgPhdy+/HuQK7tzh2EvN13B3iiKsIGnoUs/dgHSMRiIb65pQ32ze9EFEHC5C/GevDd2LoB5k3dNIg5IhpNMIiqorUkzAiKYqqpgvaEXJ9AuTxFTJdUayJMHjVcn7jZSV/TSlzDnCpydRHjc1/uVccz1F/3mS2EXPmussHBRXWlUJkkSVCpVGXm8ZJ+x+Bs8P/3cdP9977/9YU/5szj5SEPjj0wTVlu3MGPQ0tjZ17jqUIbksmHu5dX157D+hhu7gP3iQnOrVy3t9f+SA5D+lJDjtTIPlv2vQ/svMlzfaCOHGUnH5L4E7uCossKZW5kc3RyZWFtCmVuZG9iagoKNyAwIG9iago8PAovU2l6ZSA4Ci9Sb290IDIgMCBSCi9JbmZvIDMgMCBSCi9GaWx0ZXIgL0ZsYXRlRGVjb2RlCi9UeXBlIC9YUmVmCi9MZW5ndGggMzcKL1cgWyAxIDIgMiBdCi9JbmRleCBbIDAgOCBdCj4+CnN0cmVhbQp4nBXEsQ0AIAgAsIKJsyd5MD+idCi602aKKacVDqF+eXlTqQMmCmVuZHN0cmVhbQplbmRvYmoKCnN0YXJ0eHJlZgo1NzYKJSVFT0Y="
+    }
+  ]
+}

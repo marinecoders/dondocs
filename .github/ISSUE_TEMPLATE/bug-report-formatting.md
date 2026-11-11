@@ -1,43 +1,48 @@
 ---
 name: Bug report (Formatting)
-about: Report a PDF/document formatting issue – layout, spacing, fonts, or SECNAV/regulatory compliance
+about: Report document layout, spacing, font or marking behavior that differs from the governing requirements
 title: '[Bug - Formatting] '
-labels: bug, formatting
+labels: bug
 assignees: ''
 ---
 
-> **This repository is public.** Do not include names, EDIPIs, unit rosters,
-> CUI, or any other personal information — in the text below, in screenshots, or
-> in attachments. Redact it, or reproduce the problem with made-up sample
-> content; an invented example works just as well for nearly every report.
-
-## Describe the formatting issue
-
-A clear description of what is wrong with the output (e.g., wrong margins, broken spacing, incorrect font, non-compliant layout).
+> **This repository is public.** Use synthetic examples. Keep real document contents,
+> personal information, credentials, private keys, CUI and classified information
+> out of text, attachments and logs. Check URLs before posting.
+>
+> Report vulnerabilities through [private security reporting](https://github.com/marinecoders/dondocs/security/advisories/new).
+> Keep exploit details private and follow [SECURITY.md](https://github.com/marinecoders/dondocs/blob/main/SECURITY.md).
 
 ## Where it appears
 
-- **Template / document type:** (e.g., Leave Request, Meritorious Mast, custom template)
-- **Section or element:** (e.g., signature block, enclosure list, letterhead)
+- **Service or organization:** whose document requirements apply.
+- **Document type or template:**
+- **Output:** preview, PDF, Word or TeX; note which outputs differ.
+- **Section or element:** for example, address block, paragraph, signature or enclosure list.
 
-## Expected vs actual
+## Expected and actual output
 
-**Expected (per SECNAV M-5216.5 / MCO 5216.20B or other ref):**  
-Describe or cite how it should look.
+Describe the expected layout and what the app produces.
 
-**Actual:**  
-Describe or show how it currently looks.
+If a governing source specifies the result, identify its title or number,
+edition/date and paragraph or page. Link only to publicly releasable sources.
 
-## Sample or screenshot
+For marking-related reports, see the [classification guide](https://github.com/marinecoders/dondocs/blob/main/docs/CLASSIFICATION_CONFIG.md).
+A selector or printed marking does not authorize processing sensitive information.
+Reproduce the behavior with synthetic, unclassified content.
 
-If possible, attach a redacted PDF snippet or screenshot of the problem area.
-Check it for names and unit information before you upload it.
+## Steps and sample
+
+List the steps and settings needed to reproduce the difference. Include a small
+synthetic example, screenshot or output excerpt if useful. Do not attach drafts,
+backups or share links containing real document data.
 
 ## Environment
 
-- **Browser:** (e.g., Chrome 120, Safari 17)
-- **OS:** (e.g., Windows 11, macOS 14)
+- **Deployment:** public site, self-hosted or local development; omit internal hostnames.
+- **Interface:** browser tab, installed app or companion (HTTP or MCP).
+- **App version and build:** from About DonDocs; for companion reports, include its version or commit.
+- **Browser and version:** if applicable.
+- **Operating system and version:**
 
-## Additional context
-
-Relevant references (manual paragraph, template name, LaTeX/TeX if known) or steps to reproduce the formatting issue.
+See [CONTRIBUTING](https://github.com/marinecoders/dondocs/blob/main/docs/CONTRIBUTING.md) for format-review and submission guidance.
