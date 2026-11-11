@@ -55,14 +55,17 @@ async function readBody(req: IncomingMessage): Promise<string> {
  * it does not name is refused here as it is there; the content rules live in
  * validateLetter so both doors enforce the identical set.
  */
-export function validate(body: GenerateRequest, defaults: CompanionDefaults = {}): string[] {
+export function validate(body: unknown, defaults: CompanionDefaults = {}): string[] {
+  if (body === null || typeof body !== 'object' || Array.isArray(body)) {
+    return ['request must be a JSON object'];
+  }
   const problems: string[] = [];
-  if (body.v !== undefined && body.v !== CONTRACT) {
-    problems.push(`unsupported contract version ${body.v}; this companion speaks v${CONTRACT}`);
+  const { v, ...letter } = body as Record<string, unknown>;
+  if (v !== undefined && v !== CONTRACT) {
+    problems.push(`unsupported contract version ${v}; this companion speaks v${CONTRACT}`);
   }
   // `v` is this door's own field, not part of the letter. The content rules
   // run on what the schema accepted, the order the MCP door uses.
-  const { v: _v, ...letter } = body;
   const parsed = letterSchema.safeParse(letter);
   if (!parsed.success) {
     return [...problems, ...parsed.error.issues.map((i) => `${i.path.join('.') || 'request'}: ${i.message}`)];
@@ -80,7 +83,18 @@ export function validate(body: GenerateRequest, defaults: CompanionDefaults = {}
  * sandbox is the security boundary worth testing hardest.
  */
 export function createHandler(defaults: CompanionDefaults, root: string = ROOT): RequestListener {
-  return (req, res) => { void handleRequest(req, res, defaults, root); };
+  return (req, res) => {
+    void handleRequest(req, res, defaults, root).catch((err) => {
+      console.error('  request failed:', err);
+      if (res.headersSent) { res.destroy(); return; }
+      sendJson(res, 500, { ok: false, v: CONTRACT, errors: ['Request failed. Check the companion logs for details.'] });
+    });
+  };
+}
+
+function sendJson(res: ServerResponse, status: number, payload: unknown): void {
+  res.writeHead(status, { 'content-type': 'application/json' });
+  res.end(JSON.stringify(payload));
 }
 
 async function handleRequest(
@@ -89,10 +103,7 @@ async function handleRequest(
   defaults: CompanionDefaults,
   root: string,
 ): Promise<void> {
-  const json = (status: number, payload: unknown) => {
-    res.writeHead(status, { 'content-type': 'application/json' });
-    res.end(JSON.stringify(payload));
-  };
+  const json = (status: number, payload: unknown) => sendJson(res, status, payload);
 
   const pathname = (req.url ?? '/').split('?')[0];
   if (req.method === 'GET' && pathname === '/units') {
@@ -106,7 +117,8 @@ async function handleRequest(
     try {
       return json(200, { ok: true, v: CONTRACT, ...await lookupUnits(query, limit) });
     } catch (err) {
-      return json(500, { ok: false, v: CONTRACT, errors: [err instanceof Error ? err.message : String(err)] });
+      console.error('  unit lookup failed:', err);
+      return json(500, { ok: false, v: CONTRACT, errors: ['Unit lookup failed. Check the companion logs for details.'] });
     }
   }
   if (req.method === 'GET' && pathname === '/templates') {
@@ -172,11 +184,11 @@ async function handleRequest(
     // socket is not reused.
     if (err instanceof BodyTooLargeError) {
       res.setHeader('Connection', 'close');
-      json(400, { ok: false, v: CONTRACT, errors: [err.message] });
+      json(400, { ok: false, v: CONTRACT, errors: [`request body exceeds ${MAX_BODY} bytes`] });
       req.destroy();
       return;
     }
-    return json(400, { ok: false, v: CONTRACT, errors: [err instanceof Error ? err.message : 'invalid JSON'] });
+    return json(400, { ok: false, v: CONTRACT, errors: ['invalid JSON'] });
   }
 
   // Answer 4xx on a bad request. Agent HTTP tools generally derive success from
@@ -194,11 +206,16 @@ async function handleRequest(
     return json(200, { ok: true, v: CONTRACT, files: [file] });
   } catch (err) {
     // A path that escapes the root is the caller's mistake, not ours.
-    if (err instanceof OutsideSandboxError) { return json(400, { ok: false, v: CONTRACT, errors: [err.message] }); }
+    if (err instanceof OutsideSandboxError) {
+      return json(400, { ok: false, v: CONTRACT, errors: ['refusing to write outside the output root; choose a filename inside the output root'] });
+    }
     // 504 rather than 500: the request was fine, the render did not finish.
-    if (err instanceof RenderTimeoutError) { return json(504, { ok: false, v: CONTRACT, errors: [err.message] }); }
-    const message = err instanceof Error ? err.message : String(err);
-    console.error(`  render failed: ${message}`);
-    return json(500, { ok: false, v: CONTRACT, errors: [message] });
+    if (err instanceof RenderTimeoutError) {
+      return json(504, { ok: false, v: CONTRACT, errors: ['render did not finish before the deadline and was abandoned'] });
+    }
+    // Error messages can contain worker stacks, filesystem paths or TeX input.
+    // Keep diagnostics on stderr and send only a fixed message over HTTP.
+    console.error('  render failed:', err);
+    return json(500, { ok: false, v: CONTRACT, errors: ['Render failed. Check the companion logs for details.'] });
   }
 }
