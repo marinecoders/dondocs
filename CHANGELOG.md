@@ -11,7 +11,7 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ### Fixed
 
-- Keep companion HTTP error diagnostics in local logs while preserving actionable request-validation messages and error status codes.
+- Keep companion HTTP error diagnostics in local logs, validate contract versions safely, and distinguish invalid requests from internal validation failures.
 
 ### Changed
 
