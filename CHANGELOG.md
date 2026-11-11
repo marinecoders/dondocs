@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.62] — 2026-11-10
+
+### Fixed
+
+- Keep companion HTTP error diagnostics in local logs while preserving actionable request-validation messages and error status codes.
+
 ### Changed
 
 - Replace public audit records with maintained output guidance and update the private security reporting process.
