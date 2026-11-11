@@ -27,7 +27,7 @@ export const PORTION_MARKINGS = ['U', 'CUI', 'FOUO', 'C', 'S', 'TS'] as const;
 /** The types whose heading is the ordinal and the letter being endorsed. */
 export const ENDORSEMENT_TYPES = ['same_page_endorsement', 'new_page_endorsement'];
 
-/** Everything wrong with a request, so one round-trip is enough to fix it. */
+/** Return input problems; unexpected validation failures throw a sanitized error. */
 export function validateLetter(body: Partial<LetterInput>, defaults: CompanionDefaults = {}): string[] {
   const problems: string[] = [];
 
@@ -106,7 +106,7 @@ export function validateLetter(body: Partial<LetterInput>, defaults: CompanionDe
       try { problems.push(...manualFrontMatterErrors(toStore(body as LetterInput, defaults))); }
       catch (error) {
         console.error('  manual front-matter validation failed:', error);
-        problems.push('Could not validate manual front matter. Check the companion logs for details.');
+        throw new Error('Could not validate manual front matter. Check the companion logs for details.', { cause: error });
       }
     }
     return problems;
@@ -127,7 +127,7 @@ export function validateLetter(body: Partial<LetterInput>, defaults: CompanionDe
         if (!problems.length) problems.push(...publicationExportErrors(toStore(input, defaults)));
       } catch (error) {
         console.error('  publication validation failed:', error);
-        problems.push('Could not validate publication metadata. Check the companion logs for details.');
+        throw new Error('Could not validate publication metadata. Check the companion logs for details.', { cause: error });
       }
     }
   } else if (body.publication || body.attachments?.length || (Array.isArray(body.enclosures) && body.enclosures.some((e) => e?.fileId))

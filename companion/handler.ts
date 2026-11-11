@@ -62,7 +62,9 @@ export function validate(body: unknown, defaults: CompanionDefaults = {}): strin
   const problems: string[] = [];
   const { v, ...letter } = body as Record<string, unknown>;
   if (v !== undefined && v !== CONTRACT) {
-    problems.push(`unsupported contract version ${v}; this companion speaks v${CONTRACT}`);
+    // JSON objects can shadow toString; never coerce an unvalidated value.
+    const supplied = typeof v === 'number' ? ` ${v}` : '';
+    problems.push(`unsupported contract version${supplied}; this companion speaks v${CONTRACT}`);
   }
   // `v` is this door's own field, not part of the letter. The content rules
   // run on what the schema accepted, the order the MCP door uses.

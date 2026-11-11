@@ -96,16 +96,27 @@ describe('HTTP error diagnostics stay in companion logs', () => {
   it.each([
     ['publication', companionPublication],
     ['manual front matter', manualRequest],
-  ] as const)('hides caught %s validation diagnostics', async (_kind, input) => {
+  ] as const)('returns a sanitized 500 for unexpected %s validation failures', async (_kind, input) => {
     const failure = new Error(PRIVATE_DETAIL);
     vi.mocked(toStore).mockImplementationOnce(() => { throw failure; });
     const response = await post(input());
-    expect(response.status).toBe(400);
+    expect(response.status).toBe(500);
     const body = await response.json();
     expect(body).toMatchObject({ ok: false, v: 1, errors: [expect.stringContaining('Check the companion logs')] });
     expect(JSON.stringify(body)).not.toContain(PRIVATE_DETAIL);
     expect(stderr).toHaveBeenCalledWith(expect.stringContaining('validation failed:'), failure);
     expect(renderToFile).not.toHaveBeenCalled();
+  });
+
+  it.each([null, true, '1', [], {}, { toString: null }, [{ toString: null }]].map((v) => ({ v })))('rejects a malformed contract version without coercing it: $v', async ({ v }) => {
+    const response = await post({ ...VALID, v });
+    expect(response.status).toBe(400);
+    expect(await response.json()).toEqual({
+      ok: false, v: 1, errors: ['unsupported contract version; this companion speaks v1'],
+    });
+    expect(stderr).not.toHaveBeenCalled();
+    expect(renderToFile).not.toHaveBeenCalled();
+    expect((await fetch(`${base}/health`)).status).toBe(200);
   });
 
   it('keeps sandbox refusals actionable without echoing exception details', async () => {
