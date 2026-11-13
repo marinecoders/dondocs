@@ -5,6 +5,7 @@
 import { capturedTextFields, documentTextFields, type DocumentTextField } from '@/lib/documentFields';
 import type { CapturedDocument } from '@/lib/capturedDocument';
 import type { SerializedSession } from '@/stores/documentStore';
+import type { ReviewComments } from '@/lib/reviewComments';
 import type { FormSession } from '@/stores/formStore';
 import type { FormInstance } from '@/services/forms/model';
 import type { DocumentCategory, DocumentMode, EndItem, Enclosure, FormType, Paragraph, PublicationTableRow, Reference } from '@/types/document';
@@ -242,6 +243,7 @@ function findEmails(text: string, field: string): PIIFinding[] {
 }
 
 interface DocumentStore {
+  reviewComments?: ReviewComments;
   docType?: string;
   documentCategory?: DocumentCategory;
   documentMode?: DocumentMode;
@@ -292,6 +294,7 @@ export function detectPII(documentStore: DocumentStore): PIIDetectionResult {
     documentMode: documentStore.documentMode ?? 'compliant',
     formType: documentStore.formType ?? 'navmc_10274',
     formData: documentStore.formData,
+    reviewComments: documentStore.reviewComments,
     paragraphs: documentStore.paragraphs.map(paragraph => ({ ...paragraph, level: paragraph.level ?? 0 })),
     references: documentStore.references.map(reference => ({ ...reference, letter: reference.letter ?? '' })),
     enclosures: documentStore.enclosures?.map(enclosure => ({ ...enclosure, title: enclosure.title ?? '' })),
