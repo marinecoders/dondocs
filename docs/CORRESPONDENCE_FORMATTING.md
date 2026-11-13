@@ -18,7 +18,7 @@ Dragging or removing a reference also opens a preview. Apply updates the list an
 
 Ranges, quoted citations, unknown labels and affected citations outside supported fields require manual correction before a change can be applied. Bare `(a)` markers are not rewritten: the preview requires confirmation that these are not shorthand reference citations. A cited source cannot be removed until its citation is removed or replaced. Changing an endorsement's starting letter or switching document types also preserves supported citation targets, and stops with an explanation when a safe relabel cannot be made.
 
-PDF reference links require a valid URL and the hyperlink option. Word retains reference titles; the reference-link annotation control applies to PDF. Word caption-column widths account for the selected font and size.
+Word reference titles link to their saved URLs when valid. Missing or unsafe URLs leave plain titles. PDF reference links require the separate hyperlink option; that checkbox does not disable Word links. Word caption-column widths account for the selected font and size.
 
 Attached enclosure PDFs are appended to PDF output. Word output retains supported enclosure-list text and requires those files to be transferred separately. See [output limits](OUTPUT_LIMITS.md).
 

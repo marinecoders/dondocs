@@ -35,6 +35,7 @@ import { splitAddressForLetterhead } from '@/lib/unitAddress';
 import { formatViaLines } from '@/lib/viaLines';
 import { deriveOverallClassLevel } from '@/lib/overallClassification';
 import { documentDistributionStatement } from './distributionStatement';
+import { safeUrl } from '@/lib/url-safety';
 
 interface DocumentStore {
   docType: string;
@@ -578,10 +579,16 @@ function buildReferences(references: Reference[], headquarters = false): string 
   for (let i = 0; i < references.length; i++) {
     const ref = references[i];
     const label = headquarters && references.length === 1 ? '' : `(${escapeTabular(ref.letter)})~~`;
+    const url = safeUrl(ref.url);
+    // Pandoc's href reader consumes character escapes directly. Text macros
+    // used by the PDF URL escaper would become part of the Word link target.
+    const title = url
+      ? `\\href{${url.replace(/\\/g, '%5C').replace(/[%#&{}$^~_]/g, character => `\\${character}`)}}{${escapeTabular(ref.title)}}`
+      : escapeTabular(ref.title);
     if (i === 0) {
-      rows.push(`${caption}\\hspace{4\\fontdimen2\\font} & ${label ? ENTRY_HANG : ''}${label}${escapeTabular(ref.title)} \\\\`);
+      rows.push(`${caption}\\hspace{4\\fontdimen2\\font} & ${label ? ENTRY_HANG : ''}${label}${title} \\\\`);
     } else {
-      rows.push(` & ${ENTRY_HANG}${label}${escapeTabular(ref.title)} \\\\`);
+      rows.push(` & ${ENTRY_HANG}${label}${title} \\\\`);
     }
   }
 
