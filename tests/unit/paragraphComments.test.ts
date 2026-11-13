@@ -12,6 +12,7 @@ import { buildDraftFile, parseDraftFile } from '@/lib/draftFile';
 import { documentTextFields } from '@/lib/documentFields';
 import { validateBackupSession } from '@/lib/backupValidation';
 import { applyReferenceChange, reviewReferenceChange } from '@/lib/applyReferenceChange';
+import { detectPII, detectSharedSessionPII, detectTextPII } from '@/services/pii/detector';
 
 beforeEach(() => {
   useDocumentsStore.setState({ docs: {}, trash: {}, currentId: null, hydrated: true, baseline: null });
@@ -170,6 +171,22 @@ describe('paragraph review persistence and compatibility', () => {
     const payload = createSharedPayload(session);
     expect(payload.version).toBe(1);
     expect(payload.reviewComments).toBeUndefined();
+  });
+
+  it('scans retained paragraph context, reviewer names and messages after the node is deleted', () => {
+    const state = useDocumentStore.getState();
+    state.updateParagraph(1, { text: 'SSN 123-45-6789', portionMarking: 'S', figure: { portionMarking: 'TS' } });
+    expect(applyCommentMutation(reviewCommentMutation({ kind: 'add', paragraphId: state.paragraphs[1].id!, author: 'reviewer@example.com', text: 'Call 555-234-5678.' }))).toBe('applied');
+    state.removeParagraph(1);
+    const session = getSerializedSession();
+    for (const inspect of [detectPII, detectSharedSessionPII]) {
+      expect(inspect(session).summary).toMatchObject({ ssn: 1, emailAddresses: 1, phone: 1 });
+    }
+    for (const projection of ['draft', 'share', 'backup'] as const) {
+      const fields = documentTextFields(session, projection).filter(field => field.path[0] === 'reviewComments');
+      expect(detectTextPII(fields.map(field => ({ field: field.label, value: field.text }))).summary).toMatchObject({ ssn: 1, emailAddresses: 1, phone: 1 });
+      expect(fields.map(field => field.text).join(' ')).toContain('(S)\nFigure marking: (TS)');
+    }
   });
 
   it('keeps comment text and captured context in transfer scans, outside clean output and substitution', () => {
