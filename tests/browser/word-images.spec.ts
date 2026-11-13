@@ -24,7 +24,11 @@ test('custom business figures and signature images survive reload and embed in W
   await page.getByRole('menuitemradio', { name: /Figure — an image/ }).click();
   await page.getByLabel('Image for figure 2', { exact: true }).setInputFiles({ name: 'figure.png', mimeType: 'image/png', buffer: images.figure });
   await expect(page.getByText('figure.png', { exact: true }).first()).toBeVisible();
-  await page.getByRole('tab', { name: 'Compliant', exact: true }).click();
+  await page.getByRole('button', { name: 'Document tools', exact: true }).click();
+  await page.getByRole('menuitem', { name: 'Formatting…', exact: true }).click();
+  const formatting = page.getByRole('dialog', { name: 'Document formatting', exact: true });
+  await formatting.getByRole('tab', { name: 'Compliant', exact: true }).click();
+  await formatting.getByRole('button', { name: 'Done', exact: true }).click();
   await expect(page.getByText('figure.png', { exact: true }).first()).toBeVisible();
   await page.screenshot({ path: testInfo.outputPath('business-figure-editor.png') });
   // Let the normal debounced workspace save complete before a fresh page.
