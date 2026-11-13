@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { MessageSquare } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -20,9 +20,9 @@ export function DocumentComments() {
   const documentId = useDocumentsStore(state => state.currentId);
   const epoch = useDocumentsStore(state => state.activationEpoch);
   const [open, setOpen] = useState(false);
-  if (!supportsReviewComments({ documentCategory: category, docType, formData: {} })) return null;
+  if (!documentId || !supportsReviewComments({ documentCategory: category, docType, formData: {} })) return null;
   const count = comments?.threads.filter(thread => !thread.resolved).length ?? 0;
-  return <div className="border-b border-border/40 px-4 py-2">
+  return <div className="shrink-0 border-b border-border/40 px-4 py-2">
     <Button type="button" variant="outline" size="sm" onClick={() => setOpen(true)}><MessageSquare className="h-4 w-4" />Comments{count ? ` (${count})` : ''}</Button>
     {open && <CommentsDialog key={`${documentId}:${epoch}`} onClose={() => setOpen(false)} />}
   </div>;
@@ -30,9 +30,7 @@ export function DocumentComments() {
 
 function CommentsDialog({ onClose }: { onClose: () => void }) {
   const state = useDocumentStore();
-  const documentId = useDocumentsStore(current => current.currentId);
-  const epoch = useDocumentsStore(current => current.activationEpoch);
-  const viewTarget = useMemo(() => captureDocumentTarget(), [state, documentId, epoch]);
+  const viewTarget = captureDocumentTarget();
   const [showResolved, setShowResolved] = useState(false);
   const [editor, setEditor] = useState<Editor>({ kind: 'add' });
   const [editorKey, setEditorKey] = useState(0);
@@ -53,7 +51,7 @@ function CommentsDialog({ onClose }: { onClose: () => void }) {
     <DialogContent className="sm:max-w-2xl">
       <DialogHeader>
         <DialogTitle>Document comments</DialogTitle>
-        <DialogDescription>Discuss this draft or a specific field. Comments travel with draft files and shared copies; they do not print in clean PDF or Word exports. Reviewer names are self-entered labels.</DialogDescription>
+        <DialogDescription>Comments travel with drafts and shared copies. Clean PDF and Word exports omit them. Reviewer names are self-entered.</DialogDescription>
       </DialogHeader>
       <p ref={result} role="status" tabIndex={-1} className={feedback ? 'text-sm text-muted-foreground' : 'sr-only'}>{feedback}</p>
       <CommentEditor key={editorKey} editor={editor} onCancel={() => startEditor({ kind: 'add' })} onSave={(mutation, target) => {
@@ -82,7 +80,10 @@ function CommentEditor({ editor, onCancel, onSave }: {
   const [author, setAuthor] = useState('');
   const [text, setText] = useState(editor.kind === 'edit' ? editor.text : '');
   const stale = !!text && !isCurrentDocumentTarget(target);
-  return <form className="space-y-3 rounded-md border border-border p-3" onSubmit={event => {
+  const selectedField = field === 'document' ? undefined : fields.find(item => item.field === field);
+  const unavailableField = field !== 'document' && !selectedField;
+  const longContext = !!selectedField && selectedField.value.length > COMMENT_LIMITS.context;
+  return <form className="min-w-0 space-y-3 rounded-md border border-border p-3" onSubmit={event => {
     event.preventDefault();
     const mutation: CommentMutation = editor.kind === 'add' ? { kind: 'add', ...(field === 'document' ? {} : { field }), author, text }
       : editor.kind === 'reply' ? { kind: 'reply', threadId: editor.threadId, author, text }
@@ -98,13 +99,17 @@ function CommentEditor({ editor, onCancel, onSave }: {
       <Label htmlFor="comment-target">Comment on</Label>
       <select id="comment-target" className="h-9 w-full rounded-md border border-input bg-background px-2 text-sm" value={field} onChange={event => setField(event.target.value)}>
         <option value="document">Whole document</option>
+        {unavailableField && <option value={field} disabled>Unavailable field: {field}</option>}
         {fields.map(item => <option key={item.field} value={item.field}>{item.label}</option>)}
       </select>
+      {selectedField && <div className="text-xs text-muted-foreground"><p>Current field value</p><p className="max-h-24 overflow-y-auto whitespace-pre-wrap break-words">{selectedField.value || '(Empty)'}</p></div>}
+      {unavailableField && <p className="text-sm text-destructive">Choose an available field or the whole document.</p>}
+      {longContext && <p className="text-sm text-destructive">This field is too long to capture in a comment. Choose the whole document instead.</p>}
     </div>}
     {editor.kind !== 'edit' && <div className="space-y-1"><Label htmlFor="comment-author">Reviewer name</Label><Input id="comment-author" value={author} maxLength={COMMENT_LIMITS.author} onChange={event => setAuthor(event.target.value)} autoComplete="off" /></div>}
     <div className="space-y-1"><Label htmlFor="comment-text">{editor.kind === 'reply' ? 'Reply' : 'Comment'}</Label><Textarea id="comment-text" autoFocus={editor.kind !== 'add'} value={text} maxLength={COMMENT_LIMITS.text} onChange={event => { if (!text) setTarget(captureDocumentTarget());setText(event.target.value); }} className="min-h-24" /></div>
     <div className="flex flex-wrap gap-2">
-      <Button type="submit" size="sm" disabled={stale || !text.trim() || editor.kind !== 'edit' && !author.trim()}>{editor.kind === 'edit' ? 'Save comment' : editor.kind === 'reply' ? 'Post reply' : 'Post comment'}</Button>
+      <Button type="submit" size="sm" disabled={stale || editor.kind === 'add' && (unavailableField || longContext) || !text.trim() || editor.kind !== 'edit' && !author.trim()}>{editor.kind === 'edit' ? 'Save comment' : editor.kind === 'reply' ? 'Post reply' : 'Post comment'}</Button>
       {editor.kind !== 'add' && <Button type="button" size="sm" variant="outline" onClick={onCancel}>Cancel edit</Button>}
     </div>
   </form>;
@@ -115,7 +120,7 @@ function CommentThreadView({ thread, run, startEditor }: {
 }) {
   const state = useDocumentStore();
   const anchor = describeCommentAnchor(state, thread.anchor);
-  return <article className="space-y-3 rounded-md border border-border p-3" aria-label={`Comment on ${anchor.label}`}>
+  return <article className="min-w-0 space-y-3 rounded-md border border-border p-3" aria-label={`Comment on ${anchor.label}`}>
     <h3 className="text-sm font-medium">{anchor.label}</h3>
     {anchor.status !== 'current' && <p className="text-sm text-amber-700 dark:text-amber-400">{anchor.status === 'changed' ? 'This field or document format changed after the comment was added.' : 'This field is unavailable in the current document.'}</p>}
     {anchor.context !== undefined && <details className="text-xs text-muted-foreground"><summary>Field context</summary><dl className="mt-2 space-y-2 break-words">

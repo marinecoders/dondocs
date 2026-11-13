@@ -44,7 +44,7 @@ function documentKind(session: SerializedSession): SharedDocumentKind {
   return session.documentCategory === 'forms' ? (session.genericForm ? 'configured-form' : 'builtin-form') : 'correspondence';
 }
 
-/** Additive envelope keeps the established document fields readable by earlier clients. */
+/** Ordinary shares retain v1; comment-bearing copies require a review-aware reader. */
 export function createSharedPayload(session: SerializedSession): SerializedSession & { kind: 'dondocs-share'; version: 1 | 2; documentKind: SharedDocumentKind } {
   const owned = projectSharedSession(parseSharedSession(session));
   return { ...owned, kind: 'dondocs-share', version: hasReviewComments(owned) ? 2 : 1, documentKind: documentKind(owned) };
@@ -57,6 +57,9 @@ export function parseSharedSession(value: unknown): SerializedSession {
   const result = sessionSchema.safeParse(structuredClone(value));
   if (!result.success) throw new Error('This link does not contain a supported DonDocs document.');
   const s = result.data;
+  if (hasReviewComments(s) && metadata?.success && metadata.data.version === 1) {
+    throw new Error('Comments require a version 2 review-aware share. Ask the sender to create a current copy.');
+  }
   if (s.formData.additionalEndorsements !== undefined) s.formData.additionalEndorsements = additionalEndorsementsSchema.parse(s.formData.additionalEndorsements);
   if (s.formData.sl3 !== undefined) s.formData.sl3 = sl3Schema.parse(s.formData.sl3);
   if (s.formData.sl4 !== undefined) s.formData.sl4 = sl4Schema.parse(s.formData.sl4);

@@ -26,3 +26,7 @@ do not recognize its reference. Reference-only records receive a fallback when
 the asset can be read; missing image bytes cannot be reconstructed. Read the
 [signature compatibility boundary](STORAGE.md#document-signature-assets) before
 using an older tab or rolling back.
+
+## Review comments
+
+Native correspondence comments travel in supported draft, share, and backup formats. They are excluded from clean PDF/DOCX output and are not emitted as Microsoft Word review annotations. Forms, technical publications, proposed edits, review-return merging, and authenticated approvals are not part of the document/field comment release. See [comment reader compatibility](STORAGE.md#review-comment-reader-compatibility).

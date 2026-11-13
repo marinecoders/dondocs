@@ -40,6 +40,7 @@ import {
 import { uint8ArrayToBase64, base64ToUint8Array, arrayBufferToUint8Array } from '@/lib/encoding';
 
 export const BACKUP_KIND = 'dondocs-backup';
+// v6 protects comment-bearing copies from older readers. No-comment exports retain v5.
 // v5 adds `routingOverrides` (unit AA-form routing). v4 added `snapshots`
 // (per-document version history). v3 added `attachments`. Restore branches on
 // `kind` and on field PRESENCE, not version, so an older bundle (missing any of

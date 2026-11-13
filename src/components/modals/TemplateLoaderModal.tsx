@@ -158,7 +158,7 @@ export function TemplateLoaderModal() {
             </Button>
           ) : (
             <div className="space-y-2">
-              <p className="text-xs text-muted-foreground">Saved templates keep text and typed names. Attached files and signature images are excluded.</p>
+              <p className="text-xs text-muted-foreground">Saved templates keep text and typed names. Attached files, signature images and review comments are excluded.</p>
               <div className="flex flex-wrap items-center gap-2">
               <Input
                 aria-label="Template name"

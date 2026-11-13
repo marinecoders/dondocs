@@ -81,6 +81,7 @@ describe('document and field comments', () => {
     expect(parseSavedSession(session).reviewComments).toEqual(session.reviewComments);
     const shared = createSharedPayload(session);
     expect(shared.version).toBe(2);
+    expect(() => parseSharedSession({ ...shared, version: 1 })).toThrow('Comments require');
     expect(parseSharedSession(shared).reviewComments).toEqual(session.reviewComments);
     expect(() => parseSharedSession({ ...shared, reviewComments: { version: 2, threads: [] } })).toThrow();
     const malformed = structuredClone(shared);
