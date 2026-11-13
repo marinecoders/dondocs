@@ -119,6 +119,7 @@ const forms = {
   navmc10274: object(NAVMC_10274_FIELD_POLICIES), navmc11811: object(NAVMC_11811_FIELD_POLICIES), includeCoverPage: 'value',
 } satisfies PoliciesFor<FormSession>;
 const paragraph = {
+  id: 'identity',
   referenceId: 'identity', tableFootnotes: array(object({ id: 'identity', text: 'text' } satisfies PoliciesFor<NonNullable<Paragraph['tableFootnotes']>[number]>)), publicationSection: 'control',
   text: 'text', level: 'value', header: 'text', tableKey: 'identity', tableIdentifierMode: 'control', callout: 'control',
   procedure: 'value', appendix: 'value', figure: object({ fileRef: 'asset', name: 'label', type: 'control', width: 'value', height: 'value', portionMarking: 'control' } satisfies PoliciesFor<NonNullable<Paragraph['figure']>>),
