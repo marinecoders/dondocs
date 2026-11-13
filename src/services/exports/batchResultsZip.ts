@@ -29,21 +29,27 @@ export function inspectSavedBatchResult(row: BatchRow, source: SerializedSession
 }
 
 function archiveFilename(filename: string): string {
-  // Retained filenames are normally generated basenames. Keep recovered data
-  // from introducing directories or traversal paths into an archive.
-  return filename.split(/[\\/]/).pop() || 'document.pdf';
+  const basename = filename.split(/[\\/]/).pop() || '';
+  // Browser downloads sanitize device names such as CON.pdf on Windows; ZIP
+  // extraction does not. Also keep recovered names portable and at the root.
+  const portable = Array.from(basename, character => character.charCodeAt(0) < 32 || '<>:"|?*'.includes(character) ? '_' : character)
+    .join('').replace(/[. ]+$/, '') || 'document.pdf';
+  return /^(?:con|prn|aux|nul|com[1-9]|lpt[1-9])(?:\.|$)/i.test(portable) ? `_${portable}` : portable;
 }
 
 /** Call only after reviewing the captured rows. Never regenerates a document. */
-export async function createBatchResultsZip(rows: readonly BatchRow[]): Promise<BatchResultsZip> {
+export async function createBatchResultsZip(rows: readonly BatchRow[], signal?: AbortSignal): Promise<BatchResultsZip> {
+  signal?.throwIfAborted();
   const zip = new JSZip();
   const files: ZipResultRow[] = [];
   const omitted: ZipOmission[] = [];
   // Reserve original names so a duplicate cannot displace an existing "(2)" file.
   const reserved = new Set(rows.flatMap(row => row.outputId && row.filename ? [archiveFilename(row.filename).toLowerCase()] : []));
+  const unchanged = new Set(rows.flatMap(row => row.outputId && row.filename && archiveFilename(row.filename) === row.filename ? [row.filename.toLowerCase()] : []));
   const used = new Set<string>();
 
   for (const [position, row] of rows.entries()) {
+    signal?.throwIfAborted();
     const result = { index: position + 1, filename: row.filename };
     if (!row.outputId || !row.filename) {
       const reason = row.status === 'error' ? `Failed: ${row.error || 'Generation failed.'}`
@@ -56,6 +62,7 @@ export async function createBatchResultsZip(rows: readonly BatchRow[]): Promise<
     let bytes: Uint8Array | null;
     try { bytes = await getBatchOutput(row.outputId); }
     catch { bytes = null; }
+    signal?.throwIfAborted();
     if (!bytes?.byteLength) {
       omitted.push({ ...result, reason: 'The saved PDF is missing or could not be read from browser storage.' });
       continue;
@@ -66,7 +73,7 @@ export async function createBatchResultsZip(rows: readonly BatchRow[]): Promise<
     const extensionStart = original.lastIndexOf('.');
     const stem = extensionStart > 0 ? original.slice(0, extensionStart) : original;
     const extension = extensionStart > 0 ? original.slice(extensionStart) : '';
-    if (used.has(filename.toLowerCase())) {
+    if (used.has(filename.toLowerCase()) || (original !== row.filename && unchanged.has(filename.toLowerCase()))) {
       let suffix = 2;
       do { filename = `${stem} (${suffix++})${extension}`; }
       while (reserved.has(filename.toLowerCase()) || used.has(filename.toLowerCase()));
@@ -76,6 +83,8 @@ export async function createBatchResultsZip(rows: readonly BatchRow[]): Promise<
     files.push({ ...result, filename });
   }
 
-  const blob = files.length ? new Blob([new Uint8Array(await zip.generateAsync({ type: 'uint8array' }))], { type: 'application/zip' }) : null;
+  signal?.throwIfAborted();
+  const blob = files.length ? await zip.generateAsync({ type: 'blob' }) : null;
+  signal?.throwIfAborted();
   return { blob, files, omitted };
 }

@@ -245,6 +245,7 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
     filename: string; findings: PIIDetectionResult | null; download(): Promise<void>;
   } | null>(null);
   const zipRequest = useRef(0);
+  const zipController = useRef<AbortController | null>(null);
   const zipPending = useRef(false);
   const [isPreparingZip, setIsPreparingZip] = useState(false);
   const [zipReport, setZipReport] = useState<(Omit<BatchResultsZip, 'blob'> & { error?: string }) | null>(null);
@@ -252,15 +253,25 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
     rows: Array<{ index: number; filename: string; findings: PIIDetectionResult | null }>;
     download(): Promise<void>;
   } | null>(null);
-  const cancelZipDownload = useCallback(() => {
+  const abortZipDownload = useCallback(() => {
     ++zipRequest.current;
+    zipController.current?.abort();
+    zipController.current = null;
     zipPending.current = false;
+  }, []);
+  const cancelZipDownload = useCallback(() => {
+    abortZipDownload();
     setIsPreparingZip(false);
     setZipReview(null);
-  }, []);
+  }, [abortZipDownload]);
 
   useEffect(() => () => { ++previewRequest.current; }, []);
-  useEffect(() => () => { ++zipRequest.current; }, []);
+  useEffect(() => {
+    const unsubscribe = useUIStore.subscribe((state, previous) => {
+      if (previous.batchModalOpen && !state.batchModalOpen) cancelZipDownload();
+    });
+    return () => { unsubscribe();abortZipDownload(); };
+  }, [abortZipDownload, cancelZipDownload]);
   useEffect(() => () => { if (previewUrl) setTimeout(() => URL.revokeObjectURL(previewUrl), 5000); }, [previewUrl]);
 
   // Column mapping state
@@ -432,6 +443,8 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
     const savedRows = batch.rows;
     const snapshot = structuredClone({ rows: batch.rows, source: batch.source, jobId: batch.jobId });
     const request = ++zipRequest.current;
+    const controller = new AbortController();
+    zipController.current = controller;
     zipPending.current = true;
     setIsPreparingZip(true);
     setZipReport(null);
@@ -442,7 +455,7 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
       setZipReview(null);
       let report: Omit<BatchResultsZip, 'blob'> = { files: [], omitted: [] };
       try {
-        const result = await createBatchResultsZip(snapshot.rows);
+        const result = await createBatchResultsZip(snapshot.rows, controller.signal);
         if (request !== zipRequest.current || !useUIStore.getState().batchModalOpen) return;
         report = { files: result.files, omitted: result.omitted };
         if (!result.blob) throw new Error('No saved PDFs are available. No ZIP was downloaded.');
@@ -453,7 +466,7 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
           setZipReport({ ...report, error: error instanceof Error ? error.message : 'The ZIP could not be downloaded. Try again.' });
         }
       } finally {
-        if (request === zipRequest.current) { zipPending.current = false;setIsPreparingZip(false); }
+        if (request === zipRequest.current) { zipController.current = null;zipPending.current = false;setIsPreparingZip(false); }
       }
     };
     const reviews = snapshot.rows.flatMap((row, index) => {

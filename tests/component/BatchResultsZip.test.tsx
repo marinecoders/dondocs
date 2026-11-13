@@ -97,20 +97,46 @@ it('reports an unavailable archive without triggering an empty download', async 
   expect(screen.getByRole('button', { name: 'Download ZIP' })).toBeEnabled();
 });
 
-it('prevents repeated ZIP attempts and cancels delivery when the panel closes', async () => {
+it.each(['close button', 'external close', 'unmount'] as const)('stops loading more results after %s and allows a fresh attempt', async mode => {
   let finish!: (data: Uint8Array | null) => void;
-  const read = vi.spyOn(documentsDb, 'getBatchOutput').mockImplementation(() => new Promise(resolve => { finish = resolve; }));
+  const read = vi.spyOn(documentsDb, 'getBatchOutput').mockResolvedValue(new Uint8Array([2]))
+    .mockImplementationOnce(() => new Promise(resolve => { finish = resolve; }));
+  const prepare = vi.spyOn(zipExports, 'createBatchResultsZip');
   const download = vi.spyOn(encoding, 'triggerDownload').mockImplementation(() => {});
-  useBatchStore.getState().setRows(rows => rows.slice(0, 1));
-  open();clickZip();
+  const view = open();clickZip();
   await waitFor(() => expect(read).toHaveBeenCalledOnce());
+  const cancelled = expect(prepare.mock.results[0].value).rejects.toMatchObject({ name: 'AbortError' });
   expect(screen.getByRole('button', { name: 'Preparing ZIP…' })).toBeDisabled();
   fireEvent.click(screen.getByRole('button', { name: 'Preparing ZIP…' }));
-  fireEvent.click(screen.getByRole('button', { name: 'Close panel' }));
-  await act(async () => { finish(new Uint8Array([1])); });
-  await waitFor(() => expect(download).not.toHaveBeenCalled());
-  act(() => useUIStore.setState({ batchModalOpen: true }));
+  if (mode === 'close button') fireEvent.click(screen.getByRole('button', { name: 'Close panel' }));
+  else if (mode === 'external close') act(() => useUIStore.setState({ batchModalOpen: false }));
+  else view.unmount();
+  if (mode === 'unmount') open();
+  else act(() => useUIStore.setState({ batchModalOpen: true }));
+  await act(async () => { finish(new Uint8Array([1]));await cancelled; });
+  expect(read).toHaveBeenCalledTimes(1);
+  expect(download).not.toHaveBeenCalled();
   expect(screen.getByRole('button', { name: 'Download ZIP' })).toBeEnabled();
+  clickZip();
+  await waitFor(() => expect(download).toHaveBeenCalledOnce());
+});
+
+it('keeps sensitive findings visible when another result cannot be inspected', async () => {
+  const inspect = zipExports.inspectSavedBatchResult;
+  vi.spyOn(zipExports, 'inspectSavedBatchResult').mockImplementationOnce(inspect)
+    .mockImplementationOnce(() => { throw new Error('Inspection unavailable'); });
+  useBatchStore.getState().setRows(rows => rows.map((row, index) => index ? row : { ...row, values: { ...row.values, UNUSED: 'SSN 123-45-6789' } }));
+  const read = vi.spyOn(documentsDb, 'getBatchOutput').mockResolvedValue(new Uint8Array([1]));
+  const download = vi.spyOn(encoding, 'triggerDownload').mockImplementation(() => {});
+  open();clickZip();
+  const review = screen.getByRole('dialog', { name: 'Review ZIP download' });
+  expect(review).toHaveTextContent('Social Security Number');
+  expect(review).toHaveTextContent('source text for this saved result is unavailable');
+  expect(review).not.toHaveTextContent('123-45-6789');
+  expect(read).not.toHaveBeenCalled();
+  fireEvent.click(screen.getByRole('button', { name: 'Download ZIP without text review' }));
+  await waitFor(() => expect(download).toHaveBeenCalledOnce());
+  expect(read).toHaveBeenCalledTimes(2);
 });
 
 it('disables ZIP downloads while generation runs or no saved result has metadata', () => {
