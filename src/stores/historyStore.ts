@@ -1,3 +1,4 @@
+import type { ReviewComments } from '@/lib/reviewComments';
 import { storedSignature, signatureForComparison, formSignaturesForComparison } from '@/lib/signatureProjection';
 import type { DocumentScope } from './documentsStore';
 import type { FormInstance } from '@/services/forms/model';
@@ -14,6 +15,7 @@ export interface DocumentSnapshot {
   forms?: FormSession;
   docType: string;
   formData: Partial<DocumentData>;
+  reviewComments?: ReviewComments;
   references: Reference[];
   enclosures: Enclosure[];
   paragraphs: Paragraph[];
@@ -97,6 +99,7 @@ function cloneSnapshot(snapshot: DocumentSnapshot, owner: DocumentScope | null):
     forms: snapshot.forms ? structuredClone(snapshot.forms) : undefined,
     docType: snapshot.docType,
     formData: { ...snapshot.formData, signatureImage: storedSignature(snapshot.formData.signatureImage), ...(snapshot.formData.manualFrontMatter ? { manualFrontMatter: structuredClone(snapshot.formData.manualFrontMatter) } : {}), ...(snapshot.formData.sl4 ? { sl4: structuredClone(snapshot.formData.sl4) } : {}), ...(snapshot.formData.sl3 ? { sl3: structuredClone(snapshot.formData.sl3) } : {}) },
+    ...(snapshot.reviewComments ? { reviewComments: structuredClone(snapshot.reviewComments) } : {}),
     references: snapshot.references.map(r => ({ ...r })),
     // Immutable file buffers can be shared by reference across undo states.
     enclosures: snapshot.enclosures.map(e => ({ ...e })),

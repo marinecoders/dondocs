@@ -1,3 +1,4 @@
+import type { ReviewComments, CommentThread, CommentMessage, CommentAnchor } from './reviewComments';
 import type { DocumentSnapshot } from '@/stores/historyStore';
 import type { SerializedSession } from '@/stores/documentStore';
 import type { FormSession, Navmc11811Data, NavmcForm10274Data } from '@/stores/formStore';
@@ -131,7 +132,13 @@ const tableRow = {
   values: dictionary('text'), level: 'value', identificationException: 'text',
   openPurchase: object({ manufacturer: 'text', address: 'text' } satisfies PoliciesFor<NonNullable<PublicationTableRow['openPurchase']>>),
 } satisfies PoliciesFor<PublicationTableRow>;
+const commentMessage = { id: 'identity', author: 'text', text: 'text', createdAt: 'value', editedAt: 'value' } satisfies PoliciesFor<CommentMessage>;
+const documentAnchor = { kind: 'control' } satisfies PoliciesFor<Extract<CommentAnchor, { kind: 'document' }>>;
+const fieldAnchor = { kind: 'control', field: 'control', context: 'text', docType: 'control' } satisfies PoliciesFor<Extract<CommentAnchor, { kind: 'field' }>>;
+const commentThread = { id: 'identity', anchor: { variants: { document: documentAnchor, field: fieldAnchor } }, messages: array(object(commentMessage)), resolved: 'value' } satisfies PoliciesFor<CommentThread>;
+const reviewComments = { version: 'value', threads: array(object(commentThread)) } satisfies PoliciesFor<ReviewComments>;
 export const DOCUMENT_FIELD_POLICIES = {
+  reviewComments: object(reviewComments),
   genericForm: 'form', documentMode: 'control', documentCategory: 'control', formType: 'control', forms: object(forms), timestamp: 'value',
   docType: 'control', formData: object(DOCUMENT_DATA_FIELD_POLICIES),
   references: array(object(reference)), enclosures: array(object(enclosure)), paragraphs: array(object(paragraph)),

@@ -76,7 +76,7 @@ export function canReviewReferenceOrder(source: ReferenceSource): boolean {
 function citationFields(source: ReferenceSource): readonly DocumentTextField[] {
   // Reference titles and URLs identify external sources, not citations to this
   // letter's list. Unknown legacy fields are inspected but never transformed.
-  return documentTextFields(source, 'draft').filter(field => field.path[0] !== 'references'
+  return documentTextFields(source, 'draft').filter(field => field.path[0] !== 'references' && field.path[0] !== 'reviewComments'
     && (field.role === 'text' || field.role === 'unknown')).map(field =>
       field.path[0] === 'formData' && field.path[1] === 'via' ? { ...field, label: 'Via' } : field);
 }

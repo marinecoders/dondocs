@@ -1,3 +1,4 @@
+import { hasReviewComments, reviewCommentsSchema } from '@/lib/reviewComments';
 import { showAppAlert } from '@/stores/alertStore';
 import { materializeSignatureFallbacks, needsSignatureFallbacks } from '@/lib/signatureCompatibility';
 import { signatureForComparison, formSignaturesForComparison } from '@/lib/signatureProjection';
@@ -1635,7 +1636,7 @@ export async function exportLibrary(): Promise<string> {
   }
   const captured = structuredClone(records);
   const compatible = await Promise.all(captured.map(async record => ({ ...record, session: await materializeSignatureFallbacks(record.session) })));
-  return JSON.stringify({ kind: 'dondocs-library', version: 1, docs: compatible });
+  return JSON.stringify({ kind: 'dondocs-library', version: compatible.some(record => hasReviewComments(record.session)) ? 2 : 1, docs: compatible });
 }
 
 /** External sessions must not inherit the open document's library ID. */
@@ -1670,6 +1671,7 @@ export function validateLibraryDocuments(records: unknown): asserts records is u
       || !Number.isFinite(record.meta.updatedAt ?? 0)) throw new Error('Invalid document in backup');
     if (ids.has(record.meta.id)) throw new Error(`Duplicate document ID: ${record.meta.id}`);
     ids.add(record.meta.id);
+    if (record.session.reviewComments !== undefined) reviewCommentsSchema.parse(record.session.reviewComments);
     if (record?.session?.genericForm) {
       const form = parseFormInstance(record.session.genericForm);
       if (record.session.documentCategory !== 'forms' || record.session.formType !== form.definition.formId) throw new Error('Form type does not match the saved definition');

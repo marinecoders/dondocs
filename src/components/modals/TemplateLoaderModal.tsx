@@ -78,7 +78,7 @@ export function TemplateLoaderModal() {
   const loadUserTemplate = () => {
     const t = selectedUserId ? userTemplates[selectedUserId] : null;
     if (!t) return;
-    if (openSessionAsNew(t.session) !== 'applied') return;
+    if (openSessionAsNew({ ...t.session, reviewComments: undefined }) !== 'applied') return;
     useUIStore.getState().setValidationVisible(false);
     handleClose();
   };

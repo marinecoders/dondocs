@@ -2,6 +2,7 @@ import { sl4Schema } from '@/data/techpub/sl4';
 import { additionalEndorsementsSchema } from './endorsementValidation';
 import { sl3Schema } from '@/data/techpub/sl3';
 import { z } from 'zod';
+import { reviewCommentsSchema, hasReviewComments } from './reviewComments';
 import { parseFormInstance } from '@/services/forms/model';
 import type { SerializedSession } from '@/stores/documentStore';
 import { projectSharedSession } from './documentSerialization';
@@ -11,6 +12,7 @@ const signature = z.object({ name: z.string(), statement: z.string(), style: z.e
 const form = z.record(z.string(), z.union([z.string(), z.array(signature)]))
   .refine(fields => Object.entries(fields).every(([key, value]) => key === 'signatureBlocks' ? Array.isArray(value) : typeof value === 'string'), 'Invalid built-in form fields');
 export const sessionSchema = z.object({
+  reviewComments: reviewCommentsSchema.optional(),
   documentMode: z.enum(['compliant', 'custom']),
   documentCategory: z.enum(['correspondence', 'forms']).default('correspondence'),
   docType: z.string().refine((v) => Object.hasOwn(DOC_TYPE_LABELS, v)),
@@ -33,15 +35,19 @@ export const sessionSchema = z.object({
 });
 
 export type SharedDocumentKind = 'correspondence' | 'builtin-form' | 'configured-form';
-const envelope = z.object({ kind: z.literal('dondocs-share'), version: z.literal(1), documentKind: z.enum(['correspondence', 'builtin-form', 'configured-form']) });
+const sharedKind = z.enum(['correspondence', 'builtin-form', 'configured-form']);
+const envelope = z.discriminatedUnion('kind', [
+  z.object({ kind: z.literal('dondocs-share'), version: z.union([z.literal(1), z.literal(2)]), documentKind: sharedKind }),
+  z.object({ kind: z.literal('dondocs-draft'), version: z.literal(2), documentKind: sharedKind }),
+]);
 function documentKind(session: SerializedSession): SharedDocumentKind {
   return session.documentCategory === 'forms' ? (session.genericForm ? 'configured-form' : 'builtin-form') : 'correspondence';
 }
 
 /** Additive envelope keeps the established document fields readable by earlier clients. */
-export function createSharedPayload(session: SerializedSession): SerializedSession & { kind: 'dondocs-share'; version: 1; documentKind: SharedDocumentKind } {
+export function createSharedPayload(session: SerializedSession): SerializedSession & { kind: 'dondocs-share'; version: 1 | 2; documentKind: SharedDocumentKind } {
   const owned = projectSharedSession(parseSharedSession(session));
-  return { ...owned, kind: 'dondocs-share', version: 1, documentKind: documentKind(owned) };
+  return { ...owned, kind: 'dondocs-share', version: hasReviewComments(owned) ? 2 : 1, documentKind: documentKind(owned) };
 }
 
 /** Validate before touching the recipient's current document. */
@@ -73,4 +79,9 @@ export function parseSharedSession(value: unknown): SerializedSession {
   if (metadata?.success && metadata.data.documentKind !== documentKind(s as SerializedSession)) throw new Error('The shared document kind does not match its contents.');
   if (s.documentCategory === 'forms' && !s.genericForm && !['navmc_10274', 'navmc_118_11'].includes(s.formType)) throw new Error('Unsupported shared form type.');
   return projectSharedSession(s as SerializedSession);
+}
+
+/** Older readers reject comment-bearing drafts instead of silently removing review data. */
+export function draftEnvelope(session: SerializedSession) {
+  return hasReviewComments(session) ? { kind: 'dondocs-draft' as const, version: 2 as const, documentKind: documentKind(session) } : { version: '1.1' };
 }

@@ -1,3 +1,4 @@
+import { reviewCommentsSchema } from './reviewComments';
 import { sl4Schema } from '@/data/techpub/sl4';
 import { additionalEndorsementsSchema } from './endorsementValidation';
 import { sl3Schema } from '@/data/techpub/sl3';
@@ -63,6 +64,7 @@ function validateForms(value: unknown): void {
 
 export function validateBackupSession(value: unknown) {
   const data = object(value, 'session');
+  if (data.reviewComments !== undefined) reviewCommentsSchema.parse(data.reviewComments);
   for (const key of ['formData', 'publicationTables']) if (data[key] !== undefined) object(data[key], key);
   for (const key of ['enclosures', 'paragraphs', 'references', 'endItems', 'copyTos', 'distributions']) if (data[key] !== undefined && !Array.isArray(data[key])) throw new Error(`Invalid session.${key}`);
   const formData = data.formData as RecordValue | undefined;

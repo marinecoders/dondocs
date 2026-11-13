@@ -60,6 +60,7 @@ function fieldLabel(path: FieldPath): string {
 
 /** Select document-kind fields; format-specific output support remains a separate contract. */
 function active(source: DocumentFieldSource, path: FieldPath, projection: FieldProjection): boolean {
+  if (path[0] === 'reviewComments') return ['draft', 'share', 'backup', 'search'].includes(projection);
   if (projection === 'draft' || projection === 'share' || projection === 'backup') return true;
   const root = path[0];
   if (source.documentCategory === 'forms') {
