@@ -66,11 +66,12 @@ Desktop Chrome/Edge can mirror backups to a file you choose. Registry saves trig
 ## Batch generation
 
 1. Open **Batch** from the toolbar. Add variables through its field picker, or insert `{{NAME}}` into a supported text field. Follow the displayed field limits; not every editor field supports substitution.
-2. Paste tab-separated rows from a spreadsheet, map the columns and review row values. Discard columns you do not need before generation.
-3. Generate PDFs. The saved job freezes its source document and retained row values; later edits to the editor do not change that job.
-4. Closing the panel leaves work running. **Stop after current file** waits for that row; **Cancel current row** cancels the active row where available.
-5. Reopen Batch to review saved results, **Resume remaining**, or retry applicable failed rows. Reload recovery uses the saved source/rows rather than the current editor.
-6. Download needed results before **New batch**, which clears the old job/results. Workspace backups do not contain them.
+2. Choose **Upload Excel roster (.xlsx)** or paste tab-separated rows from a spreadsheet. Excel upload reads only the first worksheet on your device. Preview it, set the **Header row** using the worksheet's row number (or select **No header row**), then choose **Map roster rows**. Rows above the selected header and empty rows are excluded.
+3. Map columns to variables and skip columns you do not need. Each variable can use only one column. Apply the mapping, then review and edit the rows. **Roster checks** flag ambiguous text dates, missing variable values and numeric identifiers that may have lost leading zeros. Excel date cells become `YYYY-MM-DD`; ambiguous text dates stay as entered. Text identifiers and displayed zero-padding are preserved. Lost zeros or rounded digits cannot be recovered automatically. Formula cells use their last saved results, so recalculate and save in Excel first. Uploads support `.xlsx` files up to 10 MB, 5,000 worksheet rows, 100 columns and 100,000 populated cells.
+4. Generate PDFs. The saved job freezes its source document and retained row values; later edits to the editor do not change that job.
+5. Closing the panel leaves work running. **Stop after current file** waits for that row; **Cancel current row** cancels the active row where available.
+6. Reopen Batch to review saved results, **Resume remaining**, or retry applicable failed rows. Reload recovery uses the saved source/rows rather than the current editor.
+7. Download needed results before **New batch**, which clears the old job/results. Workspace backups do not contain them.
 
 Each row's supported source/resolved text and retained values are reviewed. Saved downloads get a fresh review; if source text is missing/unreadable, the UI asks for explicit confirmation. Review attached content yourself: the text scan does not inspect PDF/image bytes. Configured-form batch generation is unavailable; consult the [capability matrix](CAPABILITIES.md) for all formats.
 

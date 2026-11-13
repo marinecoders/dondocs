@@ -4,7 +4,7 @@ Playwright checks production builds through three separate runners:
 
 | Command | Test files | Build inputs |
 |---|---|---|
-| `npm run test:browser` | Install, downloads, settings navigation, preview zoom and document lifecycle | Current normal build in `dist/`. |
+| `npm run test:browser` | Install, downloads, settings navigation, preview zoom, document lifecycle and Excel rosters | Current normal build in `dist/`. |
 | `npm run test:upgrade` | `upgrade.spec.ts` | Previous normal build through `UPGRADE_OLD_BUILD`, plus current `dist/`. |
 | `npm run test:releases` | `releases.spec.ts` | Managed A/B/C/broken artifacts and the pinned legacy build; see [update delivery](../../docs/UPDATE_DELIVERY.md#qualify-and-enable-publishing). |
 
@@ -19,8 +19,9 @@ The configs are [playwright.browser.config.ts](../../playwright.browser.config.t
 | `settings-navigation.spec.ts` | Backup controls and focus in Settings at desktop, narrow and landscape sizes; Help, search and tour entry points. |
 | `preview-zoom.spec.ts` | Manual zoom, Fit page and Fit width through document/form switches, preview reopening and reload. |
 | `document-lifecycle.spec.ts` | Reload detection, import-feedback layout, import/Undo/Redo persistence and built-in-form signature defaults. |
+| `excel-roster.spec.ts` | Real Excel upload, first-worksheet preview, header selection, automatic mapping, date/identifier/missing-value warnings, row corrections and modal overflow. |
 
-Install tests allow service workers. The other four suites block them so cached responses do not hide routed network fixtures. Upgrade and managed-release tests exercise real service-worker transitions separately. Some cases are platform-specific and skip on other projects; inspect the executed and skipped results.
+Install tests allow service workers. The other suites block them so cached responses do not hide routed network fixtures. Upgrade and managed-release tests exercise real service-worker transitions separately. Some cases are platform-specific and skip on other projects; inspect the executed and skipped results.
 
 ## Browser projects
 

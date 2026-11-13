@@ -24,6 +24,8 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
+import { ExcelRosterUpload } from './ExcelRosterUpload';
+import { autoMapRosterColumns, mappedRosterRows, rosterHeaders, rosterDataRows, rosterRowWarnings, type RosterSelection, type RosterWarning } from '@/lib/excelRoster';
 import {
   Select,
   SelectContent,
@@ -92,6 +94,17 @@ function copyToClipboard(text: string) {
   navigator.clipboard.writeText(text);
 }
 
+function RosterChecks({ warnings, id }: { warnings: RosterWarning[]; id?: string }) {
+  return <div id={id} className="space-y-2 rounded-lg border border-warning/40 bg-warning/5 p-3 text-sm" role="status">
+    <p className="font-medium">Roster checks ({warnings.length})</p>
+    <p className="text-xs text-muted-foreground">Review flagged values before generation. Edit values in the rows below. Missing leading zeros cannot be recovered automatically.</p>
+    <ul className="list-disc pl-4 space-y-1 text-xs max-h-40 overflow-auto">
+      {warnings.slice(0, 20).map((warning, i) => <li key={i}>{warning.message}</li>)}
+    </ul>
+    {warnings.length > 20 && <p className="text-xs text-muted-foreground">Showing the first 20 checks. Remaining checks appear as earlier values are corrected.</p>}
+  </div>;
+}
+
 interface BatchModalRowProps {
   row: BatchRow;
   idx: number;
@@ -130,6 +143,7 @@ const BatchModalRow = memo(function BatchModalRow({
   removeRow,
   handlePreview,
 }: BatchModalRowProps) {
+  const warnings = rosterRowWarnings(row, detectedPlaceholders);
   return (
     <tr className={`border-t ${row.status === 'error' ? 'bg-destructive/10' : row.status === 'success' ? 'bg-success/10' : ''}`}>
       <td className="px-2 py-1 text-muted-foreground">
@@ -144,10 +158,12 @@ const BatchModalRow = memo(function BatchModalRow({
         <td key={placeholder} className="px-1 py-1">
           <Input
             aria-label={`Row ${idx + 1}: ${placeholder}`}
+            aria-describedby={warnings.some(w => w.placeholder === placeholder) ? 'batch-roster-checks' : undefined}
+            title={warnings.filter(w => w.placeholder === placeholder).map(w => w.message).join('\n') || undefined}
             value={row.values[placeholder] || ''}
             onChange={(e) => updateRowValue(row.id, placeholder, e.target.value)}
             placeholder={placeholder.substring(0, 8)}
-            className="h-7 w-24 text-xs"
+            className={`h-7 w-36 text-xs ${warnings.some(w => w.placeholder === placeholder) ? 'border-warning' : ''}`}
             disabled={isGenerating || isLocked || row.status === 'success'}
           />
         </td>
@@ -242,6 +258,9 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
   const [columnMappings, setColumnMappings] = useState<Record<number, string>>({});
   const [showColumnMapping, setShowColumnMapping] = useState(false);
   const [rawPastedData, setRawPastedData] = useState<string[][]>([]);
+  const [mappingRoster, setMappingRoster] = useState<RosterSelection | null>(null);
+  const [rosterUploadKey, setRosterUploadKey] = useState(0);
+  const [rosterPending, setRosterPending] = useState(false);
 
   // Variable insertion state
   const [selectedVariable, setSelectedVariable] = useState<string>('');
@@ -286,7 +305,7 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
     setRows((prev) =>
       prev.map((row) =>
         row.id === rowId
-          ? { ...row, values: { ...row.values, [placeholder]: value } }
+          ? { ...row, values: { ...row.values, [placeholder]: value }, rosterWarnings: row.rosterWarnings?.filter(warning => warning.placeholder !== placeholder) }
           : row
       )
     );
@@ -346,7 +365,7 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
     if (!await downloadPdfBlob(new Blob([new Uint8Array(pdf)], { type: 'application/pdf' }), filename)) throw new Error('The PDF could not be delivered. Use its saved result to try again.');
   };
   const handleGenerateBatch = (retryFailed = false) => {
-    if (!isReadyToGenerate || isGenerating || previewPending.current || useBatchStore.getState().rowActive) return;
+    if (!isReadyToGenerate || isGenerating || previewPending.current || useBatchStore.getState().rowActive || showColumnMapping || rosterPending) return;
     const session = source ?? getSerializedSession();
     void runBatchJob({ source: session, title: deriveTitle(session), placeholders: detectedPlaceholders,
       retryFailed, generate: generatePdfForRow, download: downloadResult });
@@ -413,14 +432,31 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
     }));
   }, []);
 
+  const handleRosterMapping = (selection: RosterSelection) => {
+    if (useBatchStore.getState().source || useBatchStore.getState().status === 'running') return;
+    const headers = rosterHeaders(selection);
+    setMappingRoster(selection);
+    setColumnHeaders(headers);
+    setRawPastedData([headers, ...rosterDataRows(selection).map(row => row.cells.map(cell => cell.value))]);
+    setColumnMappings(autoMapRosterColumns(headers, detectedPlaceholders));
+    setShowColumnMapping(true);
+  };
+  const mappedTargets = Object.values(columnMappings).filter(Boolean);
+  const duplicateMapping = new Set(mappedTargets).size !== mappedTargets.length;
+  const mappedRoster = useMemo(() => mappingRoster ? mappedRosterRows(mappingRoster, columnMappings, detectedPlaceholders) : [], [mappingRoster, columnMappings, detectedPlaceholders]);
+  const mappingWarnings = mappedRoster.flatMap(row => rosterRowWarnings({ ...row, rosterWarnings: row.warnings }, detectedPlaceholders));
+  const rowWarnings = rows.flatMap(row => rosterRowWarnings(row, detectedPlaceholders));
+
   // Apply the current column mappings to create rows
   const applyColumnMappings = useCallback(() => {
-    if (rawPastedData.length === 0) return;
+    if (rawPastedData.length === 0 || duplicateMapping || !Object.values(columnMappings).some(Boolean) || useBatchStore.getState().source) return;
 
     // Skip header row if we detected headers
     const dataRows = columnHeaders.length > 0 ? rawPastedData.slice(1) : rawPastedData;
 
-    const newRows: BatchRow[] = dataRows.map((columns, idx) => {
+    const newRows: BatchRow[] = mappingRoster ? mappedRoster.map(row => ({
+      id: crypto.randomUUID(), values: row.values, status: 'pending', worksheetRow: row.worksheetRow, rosterWarnings: row.warnings,
+    })) : dataRows.map((columns, idx) => {
       const values: PlaceholderValue = {};
 
       Object.entries(columnMappings).forEach(([colIdxStr, placeholder]) => {
@@ -439,7 +475,11 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
       setRows(newRows);
     }
     setShowColumnMapping(false);
-  }, [rawPastedData, columnHeaders, columnMappings, setRows]);
+    setMappingRoster(null);
+    setRawPastedData([]);
+    setRosterPending(false);
+    setRosterUploadKey(key => key + 1);
+  }, [rawPastedData, columnHeaders, columnMappings, setRows, mappingRoster, mappedRoster, duplicateMapping, setShowColumnMapping, setMappingRoster, setRawPastedData, setRosterUploadKey, setRosterPending]);
 
   const handlePasteData = useCallback((e: React.ClipboardEvent<HTMLTextAreaElement>) => {
     e.preventDefault();
@@ -447,6 +487,10 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
     const lines = pastedText.split('\n').filter((line) => line.trim());
 
     if (lines.length === 0) return;
+    setMappingRoster(null);
+    setShowColumnMapping(false);
+    setRosterPending(false);
+    setRosterUploadKey(key => key + 1);
 
     // Parse all lines into columns
     const allData = lines.map((line) => line.split('\t'));
@@ -461,18 +505,7 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
       setColumnHeaders(firstRow.map((h) => h.trim()));
 
       // Auto-map columns by matching header names to placeholders
-      const autoMappings: Record<number, string> = {};
-      firstRow.forEach((header, idx) => {
-        const normalizedHeader = header.trim().toUpperCase().replace(/\s+/g, '_');
-        // Try to find a matching placeholder
-        const matchedPlaceholder = detectedPlaceholders.find(
-          (p) => p === normalizedHeader || p.includes(normalizedHeader) || normalizedHeader.includes(p)
-        );
-        if (matchedPlaceholder) {
-          autoMappings[idx] = matchedPlaceholder;
-        }
-      });
-      setColumnMappings(autoMappings);
+      setColumnMappings(autoMapRosterColumns(firstRow, detectedPlaceholders));
       setShowColumnMapping(true);
     } else {
       // No headers detected, auto-map columns to placeholders in order
@@ -493,7 +526,7 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
         setRows(newRows);
       }
     }
-  }, [detectedPlaceholders, looksLikeHeaders, setRows]);
+  }, [detectedPlaceholders, looksLikeHeaders, setRows, setMappingRoster, setShowColumnMapping, setRosterUploadKey, setRawPastedData, setColumnHeaders, setColumnMappings, setRosterPending]);
 
   // Handle adding a variable to the document.
   // Reads live state via getState() at click time (not stale render-time snapshot),
@@ -828,6 +861,10 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
                     </div>
                   </div>
 
+                  {!source && <ExcelRosterUpload key={rosterUploadKey} disabled={isGenerating} onMap={handleRosterMapping} onPendingChange={setRosterPending} onReset={() => {
+                    setMappingRoster(null);setShowColumnMapping(false);setRawPastedData([]);
+                  }} />}
+
                   {!source && <div className="space-y-2">
                     <Label>Paste Data (Tab-separated)</Label>
                     <Textarea
@@ -853,12 +890,12 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
                         </span>
                       </div>
                       <p className="text-xs text-muted-foreground">
-                        Headers detected in your pasted data. Map each column to a variable:
+                        Map each column to a variable. Skip columns you do not need.
                       </p>
                       <div className="grid gap-2">
                         {columnHeaders.map((header, idx) => (
                           <div key={idx} className="flex items-center gap-2">
-                            <span className="text-sm font-mono bg-muted px-2 py-1 rounded min-w-[100px] truncate">
+                            <span className="text-sm font-mono bg-muted px-2 py-1 rounded w-32 shrink-0 truncate" title={header}>
                               {header || `Column ${idx + 1}`}
                             </span>
                             <ArrowRight className="h-4 w-4 text-muted-foreground shrink-0" />
@@ -866,7 +903,7 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
                               value={columnMappings[idx] || SKIP_COLUMN}
                               onValueChange={(v) => updateColumnMapping(idx, v === SKIP_COLUMN ? '' : v)}
                             >
-                              <SelectTrigger className="h-8 flex-1">
+                              <SelectTrigger className="h-8 flex-1 min-w-0" aria-label={`Map column ${idx + 1}: ${header}`}>
                                 <SelectValue placeholder="Select variable…" />
                               </SelectTrigger>
                               <SelectContent>
@@ -879,8 +916,10 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
                           </div>
                         ))}
                       </div>
+                      {duplicateMapping && <p role="alert" className="text-sm text-destructive">Each variable can use only one column. Skip or remap duplicate assignments.</p>}
+                      {mappingWarnings.length > 0 && <RosterChecks warnings={mappingWarnings} />}
                       <div className="flex gap-2 pt-2">
-                        <Button size="sm" onClick={applyColumnMappings}>
+                        <Button size="sm" onClick={applyColumnMappings} disabled={duplicateMapping || mappedTargets.length === 0}>
                           Apply Mapping
                         </Button>
                         <Button
@@ -893,6 +932,8 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
                       </div>
                     </div>
                   )}
+
+                  {rowWarnings.length > 0 && <RosterChecks id="batch-roster-checks" warnings={rowWarnings} />}
 
                   <div className="space-y-2">
                     <div className="flex items-center justify-between sticky top-0 bg-background z-10 py-1">
@@ -987,12 +1028,15 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
             {isGenerating && <Button variant="outline" disabled={stopRequested} onClick={() => useBatchStore.getState().stop()}>{stopRequested ? 'Stopping after this file…' : 'Stop after current file'}</Button>}
             {!isGenerating && rows.some((r) => r.status === 'error') && <Button variant="outline" disabled={!isReadyToGenerate || rowActive || !!previewingRow} onClick={() => handleGenerateBatch(true)}>Retry failed rows</Button>}
             {!isGenerating && source && <Button variant="ghost" onClick={async () => {
-              if (await showAppConfirm({ title: 'Start a new batch?', message: 'The current job and saved results will be cleared. Download any files you need first.', confirmLabel: 'Start new batch' })) useBatchStore.getState().reset();
+              if (await showAppConfirm({ title: 'Start a new batch?', message: 'The current job and saved results will be cleared. Download any files you need first.', confirmLabel: 'Start new batch' })) {
+                useBatchStore.getState().reset();
+                setMappingRoster(null);setShowColumnMapping(false);setRawPastedData([]);setRosterPending(false);setRosterUploadKey(key => key + 1);
+              }
             }}>New batch</Button>}
             {(!source || isGenerating || rows.some((r) => !r.status || r.status === 'pending')) && <Button
               data-tour="batch-generate"
               onClick={() => handleGenerateBatch()}
-              disabled={hasNoPlaceholders || isGenerating || rowActive || !!previewingRow || !rows.some((r) => !r.status || r.status === 'pending') || !isReadyToGenerate}
+              disabled={hasNoPlaceholders || isGenerating || rowActive || !!previewingRow || showColumnMapping || rosterPending || !rows.some((r) => !r.status || r.status === 'pending') || !isReadyToGenerate}
               className="tracking-wide"
             >
               {isGenerating ? (

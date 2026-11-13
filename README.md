@@ -34,7 +34,7 @@ The [capability matrix](docs/CAPABILITIES.md) lists available operations for eac
 - Preview PDFs while you work, with zoom, page navigation and fullscreen viewing.
 - Reuse unit and signer profiles, document templates and text snippets.
 - Look up units, SSICs, office codes and references without leaving the editor.
-- Generate a batch of PDFs from a template and spreadsheet rows.
+- Generate a batch of PDFs from a template and an uploaded Excel roster or pasted spreadsheet rows. Preview the first worksheet, choose its headers, map variables and review data warnings before generation.
 - Add enclosures and PDF signature fields in supported formats. Sign the downloaded PDF in your signing application.
 
 Use `Ctrl/Cmd+K` to find commands. **Help → Keyboard shortcuts** lists the other shortcuts. The [user guide](docs/USER_GUIDE.md) covers the editing and export workflows.
