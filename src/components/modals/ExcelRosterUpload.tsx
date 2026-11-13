@@ -42,7 +42,7 @@ export function ExcelRosterUpload({ disabled, onMap, onReset, onPendingChange }:
           }
         } finally { if (id === request.current) setLoading(false); }
       }} />
-      <p className="text-xs text-muted-foreground">Reads the first worksheet on this device. Up to 10 MB, 5,000 worksheet rows, 100 columns and 100,000 cells.</p>
+      <p className="text-xs text-muted-foreground">Reads the first worksheet on this device. Up to 10 MB (50 MB expanded), 5,000 worksheet rows, 100 columns and 100,000 cells.</p>
     </div>
     {loading && <p role="status" className="flex items-center gap-2 text-sm"><Loader2 className="h-4 w-4 animate-spin" />Reading workbook…</p>}
     {error && <p role="alert" className="text-sm text-destructive">{error}</p>}
@@ -51,9 +51,9 @@ export function ExcelRosterUpload({ disabled, onMap, onReset, onPendingChange }:
       <div className="flex flex-wrap items-center gap-3">
         <Label htmlFor="excel-roster-header">Header row</Label>
         <Input id="excel-roster-header" type="number" min={1} max={5000} value={Number.isFinite(headerRow) ? headerRow : ''}
-          className="w-24" disabled={disabled || noHeader} onChange={event => setHeaderRow(event.target.valueAsNumber)} />
+          className="w-24" disabled={disabled || noHeader} onChange={event => { onReset();setHeaderRow(event.target.valueAsNumber); }} />
         <div className="flex items-center gap-2">
-          <Checkbox id="excel-roster-no-header" checked={noHeader} disabled={disabled} onCheckedChange={checked => setNoHeader(checked === true)} />
+          <Checkbox id="excel-roster-no-header" checked={noHeader} disabled={disabled} onCheckedChange={checked => { onReset();setNoHeader(checked === true); }} />
           <Label htmlFor="excel-roster-no-header">No header row</Label>
         </div>
       </div>

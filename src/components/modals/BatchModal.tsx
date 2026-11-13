@@ -247,12 +247,6 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
   useEffect(() => () => { ++previewRequest.current; }, []);
   useEffect(() => () => { if (previewUrl) setTimeout(() => URL.revokeObjectURL(previewUrl), 5000); }, [previewUrl]);
 
-  const closePanel = useCallback(() => {
-    ++previewRequest.current;
-    if (useBatchStore.getState().rowActive && useBatchStore.getState().status !== 'running') useBatchStore.getState().cancelCurrent();
-    setPreviewUrl(null);setPreviewError(null);setSavedDownloadReview(null);setBatchModalOpen(false);
-  }, [setBatchModalOpen, setSavedDownloadReview]);
-
   // Column mapping state
   const [columnHeaders, setColumnHeaders] = useState<string[]>([]);
   const [columnMappings, setColumnMappings] = useState<Record<number, string>>({});
@@ -261,6 +255,15 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
   const [mappingRoster, setMappingRoster] = useState<RosterSelection | null>(null);
   const [rosterUploadKey, setRosterUploadKey] = useState(0);
   const [rosterPending, setRosterPending] = useState(false);
+
+  const closePanel = useCallback(() => {
+    ++previewRequest.current;
+    if (useBatchStore.getState().rowActive && useBatchStore.getState().status !== 'running') useBatchStore.getState().cancelCurrent();
+    // Dialog content unmounts on close. Discard the transient import with it,
+    // keeping the already-applied batch rows and any running job intact.
+    setMappingRoster(null);setColumnHeaders([]);setColumnMappings({});setShowColumnMapping(false);setRawPastedData([]);setRosterPending(false);
+    setPreviewUrl(null);setPreviewError(null);setSavedDownloadReview(null);setBatchModalOpen(false);
+  }, [setBatchModalOpen, setSavedDownloadReview, setMappingRoster, setColumnHeaders, setColumnMappings, setShowColumnMapping, setRawPastedData, setRosterPending]);
 
   // Variable insertion state
   const [selectedVariable, setSelectedVariable] = useState<string>('');
@@ -330,7 +333,7 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
 
   // Preview a single row
   const handlePreview = useCallback(async (row: BatchRow) => {
-    if (!isReadyToGenerate || previewPending.current || useBatchStore.getState().rowActive || useBatchStore.getState().status === 'running') return;
+    if (!isReadyToGenerate || rosterPending || showColumnMapping || previewPending.current || useBatchStore.getState().rowActive || useBatchStore.getState().status === 'running') return;
 
     previewPending.current = true;
     const generation = ++previewRequest.current;
@@ -353,7 +356,7 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
       previewPending.current = false;
       setPreviewingRow(null);
     }
-  }, [isReadyToGenerate, generatePdfForRow, detectedPlaceholders]);
+  }, [isReadyToGenerate, generatePdfForRow, detectedPlaceholders, rosterPending, showColumnMapping]);
 
   // Close preview
   const closePreview = useCallback(() => {
@@ -967,7 +970,7 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
                                 isGenerating={isGenerating}
                                 isLocked={!!source}
                                 isPreviewing={previewingRow === row.id}
-                                isPreviewBusy={rowActive || !!previewingRow}
+                                isPreviewBusy={rowActive || !!previewingRow || rosterPending || showColumnMapping}
                                 isReadyToGenerate={isReadyToGenerate}
                                 canRemove={rows.length > 1}
                                 updateRowValue={updateRowValue}

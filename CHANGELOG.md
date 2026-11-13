@@ -13,6 +13,7 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 - Upload an `.xlsx` roster directly in Batch. Preview the first worksheet, identify its header row (or choose no headers), map columns to document variables, and review editable rows through the existing generation workflow.
 - Flag ambiguous text dates, missing variable values, numeric identifiers that may have lost leading zeros, long numbers that Excel may have rounded, and saved formula results or cell errors. Preserve text identifiers and displayed zero-padding, and normalize Excel dates to `YYYY-MM-DD` without timezone conversion.
+- Bound decompressed workbook contents and validate actual worksheet coordinates before parsing. Preserve complete General-format numbers, flag identifiers converted to dates, and discard stale import state when the panel closes or its header selection changes.
 
 ## [1.3.62] — 2026-11-10
 

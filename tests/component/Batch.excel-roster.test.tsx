@@ -1,6 +1,6 @@
 import 'fake-indexeddb/auto';
 import { beforeEach, afterEach, expect, it, vi } from 'vitest';
-import { fireEvent, render, screen, waitFor, within } from '@testing-library/react';
+import { act, fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { BatchModal } from '@/components/modals/BatchModal';
 import { useUIStore } from '@/stores/uiStore';
@@ -9,6 +9,7 @@ import { useDocumentsStore } from '@/stores/documentsStore';
 import { useDocumentStore } from '@/stores/documentStore';
 import { getExportDeploymentPolicy } from '@/config/classification';
 import { rosterFile } from '../_helpers/excelRosterFixture';
+import * as rosterReader from '@/lib/excelRoster';
 
 const compile = vi.fn().mockResolvedValue(new Uint8Array([37, 80, 68, 70]));
 const open = () => render(<BatchModal compile={compile} isEngineReady={true} waitForReady={vi.fn().mockResolvedValue(true)} />);
@@ -111,6 +112,49 @@ it('can cancel an unapplied roster without replacing the current batch rows', as
   expect(screen.queryByRole('table', { name: 'First worksheet preview' })).not.toBeInTheDocument();
   expect(screen.getByRole('button', { name: 'Generate 1 PDF' })).toBeEnabled();
   expect(useBatchStore.getState().rows).toEqual([{ id: 'one', values: {}, status: 'pending' }]);
+});
+
+it('clears an unapplied import when closing and reopening the panel', async () => {
+  open();upload(rosterFile([['NAME'], ['Recipient A']]));
+  await screen.findByRole('button', { name: 'Map 1 roster row' });
+  expect(screen.getByRole('button', { name: 'Preview row 1' })).toBeDisabled();
+  fireEvent.click(screen.getByRole('button', { name: 'Close panel' }));
+  act(() => useUIStore.setState({ batchModalOpen: true }));
+  expect(screen.queryByRole('table', { name: 'First worksheet preview' })).not.toBeInTheDocument();
+  expect(screen.getByRole('button', { name: 'Generate 1 PDF' })).toBeEnabled();
+  expect(useBatchStore.getState().rows).toEqual([{ id: 'one', values: {}, status: 'pending' }]);
+});
+
+it('invalidates old mappings when the selected header or no-header setting changes', async () => {
+  open();upload(rosterFile([['NAME'], ['Recipient A'], ['Recipient B']]));
+  await screen.findByRole('button', { name: 'Map 2 roster rows' });
+  fireEvent.click(screen.getByRole('button', { name: 'Map 2 roster rows' }));
+  expect(screen.getByRole('button', { name: 'Apply Mapping' })).toBeEnabled();
+  fireEvent.change(screen.getByLabelText('Header row'), { target: { value: '2' } });
+  expect(screen.queryByRole('button', { name: 'Apply Mapping' })).not.toBeInTheDocument();
+  fireEvent.click(screen.getByRole('button', { name: 'Map 1 roster row' }));
+  expect(screen.getByRole('combobox', { name: 'Map column 1: Recipient A' })).toBeVisible();
+  fireEvent.click(screen.getByLabelText('No header row'));
+  expect(screen.queryByRole('button', { name: 'Apply Mapping' })).not.toBeInTheDocument();
+  expect(screen.getByRole('button', { name: 'Generate 1 PDF' })).toBeDisabled();
+});
+
+it.each(['close', 'paste'])('ignores a late file read after %s discards the import', async action => {
+  let finish!: (roster: rosterReader.ExcelRoster) => void;
+  vi.spyOn(rosterReader, 'readExcelRoster').mockImplementation(() => new Promise(resolve => { finish = resolve; }));
+  open();upload(new File(['pending'], 'pending.xlsx'));
+  expect(screen.getByText('Reading workbook…')).toBeVisible();
+  if (action === 'close') {
+    fireEvent.click(screen.getByRole('button', { name: 'Close panel' }));
+    act(() => useUIStore.setState({ batchModalOpen: true }));
+  } else {
+    fireEvent.paste(screen.getByPlaceholderText(/Paste tab-separated data here/), { clipboardData: { getData: () => 'NAME\nPasted recipient' } });
+    fireEvent.click(screen.getByRole('button', { name: 'Apply Mapping' }));
+  }
+  await act(async () => finish({ sheetName: 'Discarded worksheet', columnCount: 1, rows: [{ number: 1, cells: [{ value: 'NAME' }] }, { number: 2, cells: [{ value: 'Late recipient' }] }] }));
+  expect(screen.queryByText(/Discarded worksheet/)).not.toBeInTheDocument();
+  expect(screen.getByRole('button', { name: 'Generate 1 PDF' })).toBeEnabled();
+  expect(useBatchStore.getState().rows[0].values.NAME).toBe(action === 'paste' ? 'Pasted recipient' : undefined);
 });
 
 it('retains only mapped warning metadata with the batch rows when the panel remounts', async () => {

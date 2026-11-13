@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { utils } from 'xlsx';
+import JSZip from 'jszip';
 import { readExcelRoster, rosterHeaders, rosterDataRows, autoMapRosterColumns, mappedRosterRows, rosterRowWarnings, ROSTER_LIMITS } from '@/lib/excelRoster';
 import { rosterFile } from '../_helpers/excelRosterFixture';
 
@@ -64,6 +65,83 @@ describe('Excel roster import', () => {
 
   it('does not guess substring matches or duplicate headers', () => {
     expect(autoMapRosterColumns(['Name', 'Name', 'Start Date', '', 'Last Name'], ['NAME', 'START_DATE'])).toEqual({ 2: 'START_DATE' });
+  });
+
+  it('preserves complete General-format numbers instead of rounded display text', async () => {
+    const roster = await readExcelRoster(rosterFile([['ACCOUNT', 'AMOUNT'], [123456789012, 1.23456789012345]]));
+    expect(roster.rows[1].cells.map(cell => cell.value)).toEqual(['123456789012', '1.23456789012345']);
+  });
+
+  it('flags camel-case identifiers and two-digit years without hiding formula warnings', async () => {
+    const sheet = utils.aoa_to_sheet([['employeeId', 'DATE'], [42, '31/12/26']]);
+    sheet.B2.f = '"31/12/26"';
+    const roster = await readExcelRoster(rosterFile([], { sheet }));
+    const [row] = mappedRosterRows({ roster, headerRow: 1 }, { 0: 'NAME', 1: 'DATE' }, ['NAME', 'DATE']);
+    const messages = rosterRowWarnings({ ...row, rosterWarnings: row.warnings }, ['NAME', 'DATE']).map(warning => warning.message).join('\n');
+    expect(messages).toContain('leading zeros');
+    expect(messages).toContain('last saved result');
+    expect(messages).toContain('Ambiguous date');
+  });
+
+  it('flags identifiers that Excel has converted to dates', async () => {
+    const sheet = utils.aoa_to_sheet([['CODE', 'EVENT_DATE'], [45000, 45000]]);
+    sheet.A2.z = 'm/d/yy';sheet.B2.z = 'm/d/yy';
+    const roster = await readExcelRoster(rosterFile([], { sheet }));
+    const [row] = mappedRosterRows({ roster, headerRow: 1 }, { 0: 'CODE', 1: 'EVENT_DATE' }, ['CODE', 'EVENT_DATE']);
+    expect(row.warnings).toEqual([{ placeholder: 'CODE', value: '2023-03-15', message: expect.stringMatching(/original identifier may have changed/) }]);
+  });
+
+  it('checks actual row/cell bounds even when worksheet dimensions are incorrect', async () => {
+    for (const address of ['A5001', 'A6000', 'CW2']) {
+      const sheet = { A1: { t: 's' as const, v: 'NAME' }, [address]: { t: 's' as const, v: 'Outside limit' }, '!ref': `A1:${address}` };
+      const zip = await JSZip.loadAsync(await rosterFile([], { sheet }).arrayBuffer());
+      zip.file('xl/worksheets/sheet1.xml', (await zip.file('xl/worksheets/sheet1.xml')!.async('string')).replace(/<dimension[^>]*\/>/, '<dimension ref="A1"/>'));
+      const file = new File([await zip.generateAsync({ type: 'arraybuffer' })], 'wrong-dimensions.xlsx');
+      await expect(readExcelRoster(file)).rejects.toThrow(/exceeds 5,000 rows or 100 columns/);
+    }
+  });
+
+  it('ignores inflated dimensions when the actual worksheet fits the roster limits', async () => {
+    const zip = await JSZip.loadAsync(await rosterFile([['NAME'], ['Recipient A']]).arrayBuffer());
+    zip.file('xl/worksheets/sheet1.xml', (await zip.file('xl/worksheets/sheet1.xml')!.async('string')).replace(/<dimension[^>]*\/>/, '<dimension ref="A1:XFD1048576"/>'));
+    const roster = await readExcelRoster(new File([await zip.generateAsync({ type: 'arraybuffer' })], 'stale-dimensions.xlsx'));
+    expect(roster.rows.map(row => row.cells[0].value)).toEqual(['NAME', 'Recipient A']);
+  });
+
+  it('checks the first worksheet relationship rather than assuming sheet1 is first', async () => {
+    const zip = await JSZip.loadAsync(await rosterFile([['Ignored']], { secondSheet: [['NAME'], ['Recipient A']] }).arrayBuffer());
+    const workbook = await zip.file('xl/workbook.xml')!.async('string');
+    zip.file('xl/workbook.xml', workbook.replace(/(<sheet name="Roster"[^>]*\/>)\s*(<sheet name="Ignored"[^>]*\/>)/, '$2$1'));
+    // The later worksheet can exceed roster limits when it is not selected.
+    zip.file('xl/worksheets/sheet1.xml', (await zip.file('xl/worksheets/sheet1.xml')!.async('string')).replace('r="A1"', 'r="A9000"'));
+    const roster = await readExcelRoster(new File([await zip.generateAsync({ type: 'arraybuffer' })], 'reordered.xlsx'));
+    expect(roster.sheetName).toBe('Ignored');
+    expect(roster.rows.map(row => row.cells[0].value)).toEqual(['NAME', 'Recipient A']);
+  });
+
+  it('rejects a different ZIP-based format renamed as .xlsx', async () => {
+    const zip = new JSZip().file('content.xml', '<document/>');
+    await expect(readExcelRoster(new File([await zip.generateAsync({ type: 'arraybuffer' })], 'renamed.xlsx'))).rejects.toThrow(/not an Excel .xlsx workbook/);
+  });
+
+  it('bounds actual ZIP expansion before parsing the workbook', async () => {
+    const zip = await JSZip.loadAsync(await rosterFile([['NAME'], ['Recipient A']]).arrayBuffer());
+    zip.file('xl/media/oversized.txt', 'x'.repeat(64 * 1024));
+    const bytes = await zip.generateAsync({ type: 'arraybuffer', compression: 'DEFLATE' });
+    expect(bytes.byteLength).toBeLessThan(32 * 1024);
+    const originalLimit = ROSTER_LIMITS.expandedBytes;
+    ROSTER_LIMITS.expandedBytes = 32 * 1024;
+    try {
+      await expect(readExcelRoster(new File([bytes], 'expanded.xlsx'))).rejects.toThrow(/when expanded/);
+    } finally { ROSTER_LIMITS.expandedBytes = originalLimit; }
+  });
+
+  it('enforces the cell limit before materializing worksheet cells', async () => {
+    const originalLimit = ROSTER_LIMITS.cells;
+    ROSTER_LIMITS.cells = 2;
+    try {
+      await expect(readExcelRoster(rosterFile([['NAME'], ['Recipient A'], ['Recipient B']]))).rejects.toThrow(/exceeds 100,000 cells/);
+    } finally { ROSTER_LIMITS.cells = originalLimit; }
   });
 
   it('rejects an empty first worksheet even if another worksheet has data', async () => {
