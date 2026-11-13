@@ -14,6 +14,7 @@ import { useUIStore } from '@/stores/uiStore';
 import { useEditorOutlineStore } from '@/stores/editorOutlineStore';
 import { useTourStore } from '@/stores/tourStore';
 import { EditorSectionContext } from './EditorSectionContext';
+import { DocumentComments } from '@/components/editor/DocumentComments';
 import { FormattingCheck } from '@/components/editor/FormattingCheck';
 import { MechanicalCorrections } from '@/components/editor/MechanicalCorrections';
 
@@ -153,6 +154,7 @@ function FocusedEditor({ documentId }: { documentId: string | null }) {
 
   return <div data-editor-kind={isFormsMode ? 'forms' : 'correspondence'} className="workspace-editor flex h-full min-w-0 flex-col overflow-hidden bg-background">
     <WorkspaceBar activeSection={active} />
+    {!isFormsMode && <DocumentComments />}
     <div ref={scrollWrapRef} className="workspace-editor-scroll flex-1 min-h-0 overflow-hidden">
       <ScrollArea className="h-full">
         <div className="workspace-fields mx-auto w-full max-w-[760px] px-4 sm:px-5 pt-4 pb-12">

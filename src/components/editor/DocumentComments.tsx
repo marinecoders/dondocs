@@ -1,0 +1,139 @@
+import { useMemo, useRef, useState } from 'react';
+import { MessageSquare } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { useDocumentStore } from '@/stores/documentStore';
+import { captureDocumentTarget, isCurrentDocumentTarget, useDocumentsStore, type DocumentTarget } from '@/stores/documentsStore';
+import { COMMENT_LIMITS, type CommentThread } from '@/lib/reviewComments';
+import { availableCommentFields, describeCommentAnchor, supportsReviewComments } from '@/lib/reviewCommentTargets';
+import { applyCommentMutation, reviewCommentMutation, type CommentMutation } from '@/lib/reviewCommentActions';
+
+type Editor = { kind: 'add' } | { kind: 'reply'; threadId: string } | { kind: 'edit'; threadId: string; messageId: string; text: string };
+
+export function DocumentComments() {
+  const category = useDocumentStore(state => state.documentCategory);
+  const docType = useDocumentStore(state => state.docType);
+  const comments = useDocumentStore(state => state.reviewComments);
+  const documentId = useDocumentsStore(state => state.currentId);
+  const epoch = useDocumentsStore(state => state.activationEpoch);
+  const [open, setOpen] = useState(false);
+  if (!supportsReviewComments({ documentCategory: category, docType, formData: {} })) return null;
+  const count = comments?.threads.filter(thread => !thread.resolved).length ?? 0;
+  return <div className="border-b border-border/40 px-4 py-2">
+    <Button type="button" variant="outline" size="sm" onClick={() => setOpen(true)}><MessageSquare className="h-4 w-4" />Comments{count ? ` (${count})` : ''}</Button>
+    {open && <CommentsDialog key={`${documentId}:${epoch}`} onClose={() => setOpen(false)} />}
+  </div>;
+}
+
+function CommentsDialog({ onClose }: { onClose: () => void }) {
+  const state = useDocumentStore();
+  const documentId = useDocumentsStore(current => current.currentId);
+  const epoch = useDocumentsStore(current => current.activationEpoch);
+  const viewTarget = useMemo(() => captureDocumentTarget(), [state, documentId, epoch]);
+  const [showResolved, setShowResolved] = useState(false);
+  const [editor, setEditor] = useState<Editor>({ kind: 'add' });
+  const [editorKey, setEditorKey] = useState(0);
+  const [feedback, setFeedback] = useState('');
+  const result = useRef<HTMLParagraphElement>(null);
+  const threads = state.reviewComments?.threads ?? [];
+  const startEditor = (next: Editor) => { setEditor(next);setEditorKey(value => value + 1);setFeedback(''); };
+  const run = (mutation: CommentMutation, target: DocumentTarget | null): boolean => {
+    const outcome = applyCommentMutation(reviewCommentMutation(mutation, target));
+    setFeedback(outcome === 'applied' ? 'Comment changes saved. Use Undo to restore the previous state.'
+      : outcome === 'stale' ? 'The draft changed. Review the current target before saving your comment.'
+        : 'The comment could not be saved. Check the author, text limits, and target.');
+    if (outcome === 'applied') requestAnimationFrame(() => result.current?.focus({ preventScroll: true }));
+    return outcome === 'applied';
+  };
+  const visible = threads.filter(thread => thread.resolved === showResolved);
+  return <Dialog open onOpenChange={open => { if (!open) onClose(); }}>
+    <DialogContent className="sm:max-w-2xl">
+      <DialogHeader>
+        <DialogTitle>Document comments</DialogTitle>
+        <DialogDescription>Discuss this draft or a specific field. Comments travel with draft files and shared copies; they do not print in clean PDF or Word exports. Reviewer names are self-entered labels.</DialogDescription>
+      </DialogHeader>
+      <p ref={result} role="status" tabIndex={-1} className={feedback ? 'text-sm text-muted-foreground' : 'sr-only'}>{feedback}</p>
+      <CommentEditor key={editorKey} editor={editor} onCancel={() => startEditor({ kind: 'add' })} onSave={(mutation, target) => {
+        const saved = run(mutation, target);
+        if (saved) { setEditor({ kind: 'add' });setEditorKey(value => value + 1); }
+        return saved;
+      }} />
+      <div className="flex flex-wrap gap-2" aria-label="Comment status">
+        <Button type="button" size="sm" variant={!showResolved ? 'secondary' : 'outline'} aria-pressed={!showResolved} onClick={() => setShowResolved(false)}>Open ({threads.filter(thread => !thread.resolved).length})</Button>
+        <Button type="button" size="sm" variant={showResolved ? 'secondary' : 'outline'} aria-pressed={showResolved} onClick={() => setShowResolved(true)}>Resolved ({threads.filter(thread => thread.resolved).length})</Button>
+      </div>
+      {visible.length === 0 && <p className="text-sm text-muted-foreground">No {showResolved ? 'resolved' : 'open'} comments.</p>}
+      {visible.map(thread => <CommentThreadView key={thread.id} thread={thread} run={mutation => run(mutation, viewTarget)} startEditor={startEditor} />)}
+      <Button type="button" variant="outline" onClick={onClose}>Close comments</Button>
+    </DialogContent>
+  </Dialog>;
+}
+
+function CommentEditor({ editor, onCancel, onSave }: {
+  editor: Editor; onCancel: () => void; onSave: (mutation: CommentMutation, target: DocumentTarget | null) => boolean;
+}) {
+  const state = useDocumentStore();
+  const fields = availableCommentFields(state);
+  const [target, setTarget] = useState(captureDocumentTarget);
+  const [field, setField] = useState('document');
+  const [author, setAuthor] = useState('');
+  const [text, setText] = useState(editor.kind === 'edit' ? editor.text : '');
+  const stale = !!text && !isCurrentDocumentTarget(target);
+  return <form className="space-y-3 rounded-md border border-border p-3" onSubmit={event => {
+    event.preventDefault();
+    const mutation: CommentMutation = editor.kind === 'add' ? { kind: 'add', ...(field === 'document' ? {} : { field }), author, text }
+      : editor.kind === 'reply' ? { kind: 'reply', threadId: editor.threadId, author, text }
+        : { kind: 'edit', threadId: editor.threadId, messageId: editor.messageId, text };
+    onSave(mutation, target);
+  }}>
+    <h3 className="text-sm font-medium">{editor.kind === 'add' ? 'Add a comment' : editor.kind === 'reply' ? 'Reply to comment' : 'Edit comment'}</h3>
+    {stale && <div role="alert" className="space-y-2 text-sm">
+      <p>The draft changed while this form was open. Your comment text is still here.</p>
+      <Button type="button" size="sm" variant="outline" onClick={() => setTarget(captureDocumentTarget())}>Use current draft</Button>
+    </div>}
+    {editor.kind === 'add' && <div className="space-y-1">
+      <Label htmlFor="comment-target">Comment on</Label>
+      <select id="comment-target" className="h-9 w-full rounded-md border border-input bg-background px-2 text-sm" value={field} onChange={event => setField(event.target.value)}>
+        <option value="document">Whole document</option>
+        {fields.map(item => <option key={item.field} value={item.field}>{item.label}</option>)}
+      </select>
+    </div>}
+    {editor.kind !== 'edit' && <div className="space-y-1"><Label htmlFor="comment-author">Reviewer name</Label><Input id="comment-author" value={author} maxLength={COMMENT_LIMITS.author} onChange={event => setAuthor(event.target.value)} autoComplete="off" /></div>}
+    <div className="space-y-1"><Label htmlFor="comment-text">{editor.kind === 'reply' ? 'Reply' : 'Comment'}</Label><Textarea id="comment-text" autoFocus={editor.kind !== 'add'} value={text} maxLength={COMMENT_LIMITS.text} onChange={event => { if (!text) setTarget(captureDocumentTarget());setText(event.target.value); }} className="min-h-24" /></div>
+    <div className="flex flex-wrap gap-2">
+      <Button type="submit" size="sm" disabled={stale || !text.trim() || editor.kind !== 'edit' && !author.trim()}>{editor.kind === 'edit' ? 'Save comment' : editor.kind === 'reply' ? 'Post reply' : 'Post comment'}</Button>
+      {editor.kind !== 'add' && <Button type="button" size="sm" variant="outline" onClick={onCancel}>Cancel edit</Button>}
+    </div>
+  </form>;
+}
+
+function CommentThreadView({ thread, run, startEditor }: {
+  thread: CommentThread; run: (mutation: CommentMutation) => boolean; startEditor: (editor: Editor) => void;
+}) {
+  const state = useDocumentStore();
+  const anchor = describeCommentAnchor(state, thread.anchor);
+  return <article className="space-y-3 rounded-md border border-border p-3" aria-label={`Comment on ${anchor.label}`}>
+    <h3 className="text-sm font-medium">{anchor.label}</h3>
+    {anchor.status !== 'current' && <p className="text-sm text-amber-700 dark:text-amber-400">{anchor.status === 'changed' ? 'This field or document format changed after the comment was added.' : 'This field is unavailable in the current document.'}</p>}
+    {anchor.context !== undefined && <details className="text-xs text-muted-foreground"><summary>Field context</summary><dl className="mt-2 space-y-2 break-words">
+      <div><dt>When commented</dt><dd className="whitespace-pre-wrap">{anchor.context || '(Empty)'}</dd></div>
+      {anchor.current !== undefined && <div><dt>Current value</dt><dd className="whitespace-pre-wrap">{anchor.current || '(Empty)'}</dd></div>}
+    </dl></details>}
+    {thread.messages.map((message, index) => <div key={message.id} className="space-y-1 border-t border-border/50 pt-2 text-sm">
+      <p className="font-medium break-words">{message.author} <span className="font-normal text-xs text-muted-foreground">{new Date(message.createdAt).toLocaleString()}{message.editedAt ? ' (edited)' : ''}</span></p>
+      <p className="whitespace-pre-wrap break-words">{message.text}</p>
+      <div className="flex flex-wrap gap-2">
+        <Button type="button" size="sm" variant="ghost" aria-label={`Edit ${index === 0 ? 'comment' : 'reply'} by ${message.author}`} onClick={() => startEditor({ kind: 'edit', threadId: thread.id, messageId: message.id, text: message.text })}>Edit</Button>
+        {index > 0 && <Button type="button" size="sm" variant="ghost" aria-label={`Delete reply by ${message.author}`} onClick={() => run({ kind: 'delete-reply', threadId: thread.id, messageId: message.id })}>Delete reply</Button>}
+      </div>
+    </div>)}
+    <div className="flex flex-wrap gap-2">
+      <Button type="button" size="sm" variant="outline" onClick={() => startEditor({ kind: 'reply', threadId: thread.id })}>Reply</Button>
+      <Button type="button" size="sm" variant="outline" onClick={() => run({ kind: 'resolve', threadId: thread.id, resolved: !thread.resolved })}>{thread.resolved ? 'Reopen' : 'Resolve'}</Button>
+      <Button type="button" size="sm" variant="ghost" className="text-destructive" onClick={() => run({ kind: 'delete', threadId: thread.id })}>Delete thread</Button>
+    </div>
+  </article>;
+}
