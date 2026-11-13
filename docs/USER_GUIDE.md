@@ -11,6 +11,8 @@
 
 On mobile, open the workspace menu for sidebar destinations. Editor **One section** / **Full document** changes the view of the same draft.
 
+Single-signer correspondence shows **formatting suggestions** above the relevant section for saved/imported date formats and extra spaces around a single dotted signature initial. Compare **Current** and **Proposed**, then choose **Apply fix** to change that field only. One **Undo** (`Ctrl/Cmd+Z`) restores the previous value. Unclear or invalid dates have no Apply button; resolve them in the Date field or calendar. Forms, dual-signer documents and publication metadata keep their existing tools.
+
 ## Profiles and reusable templates
 
 Fill in letterhead/sender details, then open **Profiles** in the sidebar (workspace menu on mobile) and choose **New profile**. Name it, review the unit/address and signer fields, and save. Use **Apply** to review changes to the current correspondence draft, or **Edit** to change saved defaults. A profile does not retroactively rewrite previously saved documents.

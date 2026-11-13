@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.63] — 2026-11-12
+
+### Added
+
+- Preview and apply individual date-format and signature-initial spacing fixes in single-signer correspondence. Each fix has its own Undo step; unclear dates remain for manual review.
+
 ## [1.3.62] — 2026-11-10
 
 ### Fixed
