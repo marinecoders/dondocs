@@ -14,6 +14,7 @@ import { useUIStore } from '@/stores/uiStore';
 import { useEditorOutlineStore } from '@/stores/editorOutlineStore';
 import { useTourStore } from '@/stores/tourStore';
 import { EditorSectionContext } from './EditorSectionContext';
+import { FormattingCheck } from '@/components/editor/FormattingCheck';
 
 export function FormPanel() {
   const documentId = useDocumentsStore((s) => s.currentId);
@@ -160,7 +161,10 @@ function FocusedEditor({ documentId }: { documentId: string | null }) {
                 {formType === 'navmc_10274' && <Form6105Section />}
                 {formType === 'navmc_118_11' && <Form11811Section />}
                 {formType !== 'navmc_10274' && formType !== 'navmc_118_11' && <GenericFormSection key={formType} formType={formType} />}
-              </> : sections.map((s) => <SectionShell key={s.id} id={s.id} fieldSurface={s.id !== 'body'}>{renderEditorSection(s.id, config)}</SectionShell>)}
+              </> : sections.map((s) => <SectionShell key={s.id} id={s.id} fieldSurface={s.id !== 'body'}>
+                <FormattingCheck section={s.id} />
+                {renderEditorSection(s.id, config)}
+              </SectionShell>)}
             </AccordionStaticProvider>
           </EditorSectionContext.Provider>
         </div>
