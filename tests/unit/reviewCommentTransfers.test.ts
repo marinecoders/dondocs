@@ -69,7 +69,7 @@ describe('comment-bearing transfer boundaries', () => {
   });
   it.each(['documents', 'history'] as const)('rejects unsupported review schema in backup %s before replacing the active document', async location => {
     const before = useDocumentStore.getState().getSnapshot();
-    const session = { ...getSerializedSession(), reviewComments: { version: 2, threads: [] } };
+    const session = { ...getSerializedSession(), reviewComments: { version: 3, threads: [] } };
     const data = location === 'documents'
       ? { documents: [{ id: 'incoming', meta: { id: 'incoming', updatedAt: 1 }, session }] }
       : { snapshots: { incoming: [{ ts: 1, session }] } };

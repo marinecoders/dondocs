@@ -14,7 +14,7 @@ export function paragraphCommentIds(comments: ReviewComments | undefined): strin
 }
 
 /** New content never borrows the identity of a template or duplicated node. */
-export function freshParagraphs<T extends ParagraphIdentitySource>(paragraphs: readonly T[]): Array<T & { id: string }> {
+export function freshParagraphs<T extends ParagraphIdentitySource>(paragraphs: readonly T[]): Array<Omit<T, 'id'> & { id: string }> {
   return paragraphs.map(paragraph => ({ ...paragraph, id: newParagraphId() }));
 }
 
@@ -31,7 +31,7 @@ export function validateParagraphIds(paragraphs: readonly unknown[]): void {
 }
 
 function migrationFingerprint(paragraph: ParagraphIdentitySource): string {
-  const content = JSON.stringify(Object.fromEntries(Object.entries(paragraph).filter(([key]) => key !== 'id').sort(([a], [b]) => a.localeCompare(b))));
+  const content = JSON.stringify(Object.fromEntries(Object.entries(paragraph).filter(([key]) => key !== 'id').sort(([a], [b]) => a < b ? -1 : a > b ? 1 : 0)));
   const hashes = [0x811c9dc5, 0x9e3779b9, 0x85ebca6b, 0xc2b2ae35];
   for (let index = 0; index < content.length; index++) {
     const code = content.charCodeAt(index);
@@ -45,7 +45,7 @@ function migrationFingerprint(paragraph: ParagraphIdentitySource): string {
  * an ID is retained through all edits; text and position never resolve anchors.
  * IDs reserved by detached comments cannot be assigned to a newly migrated node.
  */
-export function ensureParagraphIds<T extends ParagraphIdentitySource>(paragraphs: readonly T[], reservedIds: readonly string[] = []): Array<T & { id: string }> {
+export function ensureParagraphIds<T extends ParagraphIdentitySource>(paragraphs: readonly T[], reservedIds: readonly string[] = []): Array<Omit<T, 'id'> & { id: string }> {
   validateParagraphIds(paragraphs);
   const used = new Set([...reservedIds, ...paragraphs.flatMap(paragraph => paragraph.id ? [paragraph.id] : [])]);
   return paragraphs.map((paragraph, index) => {

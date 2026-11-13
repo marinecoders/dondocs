@@ -28,6 +28,7 @@ const schema = sessionSchema.extend({
 /** Saved drafts retain local handles and images. Shared links use a separate reader. */
 export function parseSavedSession(value: unknown): SerializedSession {
   const session = schema.parse(structuredClone(value));
+  if (!session.reviewComments?.threads.length) delete session.reviewComments;
   session.paragraphs = ensureParagraphIds(session.paragraphs, paragraphCommentIds(session.reviewComments));
   if (session.formData.additionalEndorsements !== undefined) session.formData.additionalEndorsements = additionalEndorsementsSchema.parse(session.formData.additionalEndorsements);
   if (session.formData.sl3 !== undefined) session.formData.sl3 = sl3Schema.parse(session.formData.sl3);

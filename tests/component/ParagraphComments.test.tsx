@@ -43,7 +43,7 @@ describe('paragraph comment entry and context', () => {
       useDocumentStore.getState().addParagraph('Second paragraph 😀', 0, 0);
     });
     const thread = screen.getByRole('article', { name: 'Comment on Deleted or unavailable paragraph' });
-    expect(thread).toHaveTextContent('attached to its original identity');
+    expect(thread).toHaveTextContent('earlier context is kept');
     expect(thread).toHaveTextContent('Second paragraph 😀');
     expect(screen.queryByRole('button', { name: 'Go to paragraph' })).toBeNull();
   });

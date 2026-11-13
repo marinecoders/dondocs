@@ -47,6 +47,14 @@ describe('paragraph comment targets', () => {
     expect(useDocumentStore.getState().reviewComments?.threads[0]).toEqual(thread);
   });
 
+  it('does not reuse the deleted last paragraph when the remaining blank row is filled again', () => {
+    useDocumentStore.setState({ paragraphs: freshParagraphs([{ text: 'Only paragraph', level: 0 }]) });
+    const thread = add(0);
+    useDocumentStore.getState().clearParagraphs();
+    useDocumentStore.getState().updateParagraph(0, { text: 'Only paragraph' });
+    expect(describeCommentAnchor(useDocumentStore.getState(), thread.anchor).status).toBe('unavailable');
+  });
+
   it('retains the receiver identity during split and merge, and Undo recovers deleted anchors', () => {
     const first = add(0);
     const second = add(1);
@@ -85,6 +93,17 @@ describe('paragraph comment targets', () => {
     expect(captureCommentAnchor({ ...state, paragraphs: [state.paragraphs[0], state.paragraphs[0]] }, undefined, id)).toBeNull();
     state.updateParagraph(0, { text: 'x'.repeat(20_001) });
     expect(availableCommentParagraphs(useDocumentStore.getState()).some(item => item.paragraphId === id)).toBe(false);
+  });
+
+  it('retains explicit paragraph and figure markings when the target is removed', () => {
+    const state = useDocumentStore.getState();
+    state.updateParagraph(0, { header: 'Purpose', text: 'Marked caption.', portionMarking: 'S', figure: { portionMarking: 'TS' } });
+    const anchor = captureCommentAnchor(useDocumentStore.getState(), undefined, state.paragraphs[0].id!)!;
+    expect(anchor).toMatchObject({ context: '(S)\nFigure marking: (TS)\nPurpose\n\nMarked caption.' });
+    state.updateParagraph(0, { portionMarking: 'U' });
+    expect(describeCommentAnchor(useDocumentStore.getState(), anchor).status).toBe('changed');
+    state.removeParagraph(0);
+    expect(describeCommentAnchor(useDocumentStore.getState(), anchor)).toMatchObject({ status: 'unavailable', context: '(S)\nFigure marking: (TS)\nPurpose\n\nMarked caption.' });
   });
 
   it('rejects stale, missing and forged actions without changing paragraphs or comments', () => {
@@ -143,6 +162,14 @@ describe('paragraph review persistence and compatibility', () => {
     const session = getSerializedSession();
     session.paragraphs[1] = { ...session.paragraphs[1], id: session.paragraphs[0].id };
     expect(() => validateBackupSession(session)).toThrow('duplicated');
+  });
+
+  it('does not send an unnecessary new review model in a comment-free legacy share', () => {
+    const session = { ...getSerializedSession(), reviewComments: { version: 2 as const, threads: [] } };
+    expect(parseSavedSession(session).reviewComments).toBeUndefined();
+    const payload = createSharedPayload(session);
+    expect(payload.version).toBe(1);
+    expect(payload.reviewComments).toBeUndefined();
   });
 
   it('keeps comment text and captured context in transfer scans, outside clean output and substitution', () => {

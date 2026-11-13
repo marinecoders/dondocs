@@ -24,7 +24,12 @@ export function availableCommentFields(source: DocumentFieldSource): readonly { 
     .map(item => ({ field: String(item.path[1]), label: commentFieldLabel(String(item.path[1])), value: item.text }));
 }
 export function paragraphCommentContext(paragraph: Paragraph): string {
-  return paragraph.header ? `${paragraph.header}\n\n${paragraph.text}` : paragraph.text;
+  const text = paragraph.header ? `${paragraph.header}\n\n${paragraph.text}` : paragraph.text;
+  const markings = [
+    ...(paragraph.portionMarking ? [`(${paragraph.portionMarking})`] : []),
+    ...(paragraph.figure?.portionMarking ? [`Figure marking: (${paragraph.figure.portionMarking})`] : []),
+  ];
+  return [...markings, text].join('\n');
 }
 
 export function availableCommentParagraphs(source: DocumentFieldSource): readonly { paragraphId: string; label: string; value: string }[] {

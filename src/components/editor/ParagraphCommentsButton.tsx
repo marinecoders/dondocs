@@ -22,7 +22,7 @@ export function ParagraphCommentsButton({ paragraphId, index }: { paragraphId: s
   const count = comments?.threads.filter(thread => !thread.resolved && thread.anchor.kind === 'paragraph' && thread.anchor.paragraphId === paragraphId).length ?? 0;
   return <>
     <Button type="button" variant="ghost" size="sm" className="h-6 gap-1 px-1 text-xs" disabled={!available}
-      title={!available ? 'Paragraph comments support up to 20,000 characters of context.' : undefined}
+      title={!available ? 'Paragraph comments support up to 20,000 characters. Use a whole-document comment for longer paragraphs.' : undefined}
       aria-label={`Comment on paragraph ${index + 1}`} onClick={() => setOwner(captureDocumentScope())}>
       <MessageSquare className="h-3.5 w-3.5" />Comment{count ? ` (${count})` : ''}
     </Button>

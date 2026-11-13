@@ -26,6 +26,7 @@ async function checkPdf(bytes: Uint8Array) {
     const text = pages.join(' ').replace(/\s+/g, ' ');
     expect(text).toContain(BODY);
     expect(text).not.toContain('REVIEW_ONLY_NOTE_42');
+    expect(text).not.toContain('fixture-second');
   } finally { await pdf.destroy(); }
 }
 
@@ -66,8 +67,10 @@ test('paragraph feedback follows identity through move, deletion, Undo, reload a
   await page.waitForTimeout(750);
   await page.locator('[data-paragraph-id="fixture-second"]').getByRole('button', { name: 'Delete paragraph', exact: true }).click();
   await openComments(page);
-  await expect(modal.getByRole('article', { name: 'Comment on Deleted or unavailable paragraph', exact: true })).toContainText(NOTE);
+  const detached = modal.getByRole('article', { name: 'Comment on Deleted or unavailable paragraph', exact: true });
+  await expect(detached).toContainText(NOTE);
   await expect(modal.getByRole('button', { name: 'Go to paragraph', exact: true })).toHaveCount(0);
+  await detached.scrollIntoViewIfNeeded();
   await page.screenshot({ path: testInfo.outputPath('paragraph-detached.png') });
   await closeComments(page);
   await page.getByRole('button', { name: 'Document tools', exact: true }).click();
@@ -78,7 +81,8 @@ test('paragraph feedback follows identity through move, deletion, Undo, reload a
   await openComments(page);
   const thread = modal.getByRole('article', { name: 'Comment on Paragraph 2', exact: true });
   await expect(thread).toContainText(NOTE);
-  await expect(thread).toContainText('This paragraph changed');
+  await expect(thread).toContainText('text or markings changed');
+  await thread.scrollIntoViewIfNeeded();
   await page.screenshot({ path: testInfo.outputPath('paragraph-comments.png') });
   await closeComments(page);
   await page.getByRole('button', { name: 'Document actions', exact: true }).click();

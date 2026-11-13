@@ -330,6 +330,10 @@ Share links have no server-side revocation or password-recovery service. In cont
 
 Document and field comments use the optional `reviewComments` model, version 1. Comment-bearing shares require the `dondocs-share` envelope version 2; comment-bearing draft files use `dondocs-draft` version 2. Older envelope readers reject those copies instead of opening an incomplete review. Drafts and shares without comments retain their existing versions.
 
+Paragraph comments require review model version 2 and DonDocs 1.3.72 or later. Current readers accept both model versions, but version 1 cannot contain paragraph anchors. The share/draft envelopes and backup version stay the same as other comment-bearing copies; unsupported nested review models are rejected before changing the current draft.
+
+Native `Paragraph.id` values identify actual editing nodes independently of publication cross-reference labels. Missing legacy IDs migrate at ingestion and are saved without changing library timestamps. Existing IDs survive edits, moves and history; genuinely new, split, duplicated and template-created nodes receive fresh IDs. Detached comment target IDs are reserved during migration. A comment is never recovered by matching paragraph text or its former position. Paragraph IDs are hidden metadata, excluded from clean output and text substitution.
+
 Workspace backups containing comments in documents, trash, version history, or captured templates use backup version 6; other backups remain version 5. Comment-bearing library exports use library version 2. Current readers accept supported older formats and validate review schemas before restoring records or assets. An unsupported review version is an error, not a request to discard notes.
 
 These comment formats require DonDocs 1.3.71 or later. Earlier tabs and code rollbacks can still drop unknown fields when reading an on-device session; changing the new code cannot repair an older reader. Keep a current-version workspace backup before using an older build. Portable draft and backup JSON remains unencrypted; encrypted sharing protects the payload with the supplied password.

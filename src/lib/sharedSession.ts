@@ -58,6 +58,7 @@ export function parseSharedSession(value: unknown): SerializedSession {
   const result = sessionSchema.safeParse(structuredClone(value));
   if (!result.success) throw new Error('This link does not contain a supported DonDocs document.');
   const s = result.data;
+  if (!s.reviewComments?.threads.length) delete s.reviewComments;
   if (hasReviewComments(s) && metadata?.success && metadata.data.version === 1) {
     throw new Error('Comments require a version 2 review-aware share. Ask the sender to create a current copy.');
   }
