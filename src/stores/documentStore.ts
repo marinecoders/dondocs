@@ -21,9 +21,14 @@ import { debug } from '@/lib/debug';
 import { STORAGE_KEYS} from '@/lib/constants';
 import { compressedParse, compressedStringify } from '@/lib/compressedStorage';
 import { referenceStartIndex } from '@/lib/endorsement';
+import { referenceLetterAt, reLetterReferences } from '@/lib/referenceLetters';
+import { planReferenceChange, type ReferenceChange } from '@/lib/referenceCitations';
+import { showAppAlert } from './alertStore';
 import { canonicalizeUnitAddress } from '@/lib/unitAddress';
 import { normalizeLevels, migratePortionMarkings } from '@/lib/paragraphUtils';
 import { serializeForm, loadFormSession, prepareFormSession, type FormSession } from './formStore';
+
+export { referenceLetterAt } from '@/lib/referenceLetters';
 
 // Session persistence keys
 const SESSION_STORAGE_KEY = STORAGE_KEYS.DOCUMENT_SESSION;
@@ -188,16 +193,16 @@ export interface DocumentState {
 
 // `offset` shifts the sequence so an endorsement can continue the basic
 // letter's lettering (Ch 9 ¶3) — it is 0 for every non-endorsement.
-export const referenceLetterAt = (index: number): string => {
-  const alphabet = 'abcdefghijklmnopqrstuvwxyz';
-  return alphabet[index] || `a${index - 26}`;
-};
-
 const getNextReferenceLetter = (refs: Reference[], offset = 0): string =>
   referenceLetterAt(refs.length + offset);
 
-const reLetterReferences = (refs: Reference[], offset = 0): Reference[] =>
-  refs.map((ref, index) => ({ ...ref, letter: referenceLetterAt(index + offset) }));
+function safeReferencePatch(plan: ReferenceChange): Partial<DocumentState> | null {
+  if (plan.blockers.length || plan.advisories.length) {
+    showAppAlert({ title: 'Review reference citations', message: [...plan.blockers, ...plan.advisories].join('\n\n') });
+    return null;
+  }
+  return plan.patch;
+}
 
 // Example form data for first-time visitors (one-time mode / no profile selected)
 const EXAMPLE_FORM_DATA: Partial<DocumentData> = {
@@ -398,7 +403,13 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
 
   setDocType: (type) => {
     useUIStore.getState().setValidationVisible(false);
-    set((state) => documentTypeState(state, type));
+    set((state) => {
+      const patch = safeReferencePatch(planReferenceChange(state, state.references.map((_, index) => index),
+        referenceStartIndex(type, state.formData.startingReferenceLetter)));
+      if (!patch) return state;
+      const next = documentTypeState(state, type);
+      return { ...next, ...patch, formData: { ...next.formData, ...(patch.formData ? { via: patch.formData.via } : {}) } };
+    });
   },
 
   setField: (key, value) => set((state) => {
@@ -414,13 +425,9 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
     // The start letter shifts every reference after it, so re-letter in the
     // same commit — otherwise the rows keep the previous sequence on screen.
     if (key === 'startingReferenceLetter') {
-      return {
-        formData,
-        references: reLetterReferences(
-          state.references,
-          referenceStartIndex(state.docType, formData.startingReferenceLetter)
-        ),
-      };
+      const patch = safeReferencePatch(planReferenceChange(state, state.references.map((_, index) => index),
+        referenceStartIndex(state.docType, formData.startingReferenceLetter)));
+      return patch ? { ...patch, formData: { ...formData, ...(patch.formData ? { via: patch.formData.via } : {}) } } : state;
     }
     if (state.docType === 'tm_ietm_front_matter') {
       formData.fontFamily = 'times';
@@ -430,9 +437,16 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
     return { formData };
   }),
 
-  setFormData: (data) => set((state) => ({
-    formData: publicationFont(state.docType, state.documentMode, { ...state.formData, ...data }),
-  })),
+  setFormData: (data) => set((state) => {
+    const formData = publicationFont(state.docType, state.documentMode, { ...state.formData, ...data });
+    if (data.startingReferenceLetter !== undefined) {
+      const candidate = { ...state, formData: { ...formData, startingReferenceLetter: state.formData.startingReferenceLetter } };
+      const patch = safeReferencePatch(planReferenceChange(candidate, state.references.map((_, index) => index),
+        referenceStartIndex(state.docType, formData.startingReferenceLetter)));
+      return patch ? { ...patch, formData: { ...formData, ...(patch.formData ? { via: patch.formData.via } : {}) } } : state;
+    }
+    return { formData };
+  }),
 
   resetForm: () => {
     useUIStore.getState().setValidationVisible(false);
@@ -523,23 +537,17 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
     references: state.references.map((ref, i) => (i === index ? { ...ref, ...updates } : ref)),
   })),
 
-  removeReference: (index) => set((state) => ({
-    references: reLetterReferences(
-      state.references.filter((_, i) => i !== index),
-      referenceStartIndex(state.docType, state.formData.startingReferenceLetter)
-    ),
-  })),
+  removeReference: (index) => set((state) => {
+    if (!Number.isInteger(index) || index < 0 || index >= state.references.length) return state;
+    return safeReferencePatch(planReferenceChange(state, state.references.map((_, i) => i).filter(i => i !== index))) ?? state;
+  }),
 
   reorderReferences: (fromIndex, toIndex) => set((state) => {
-    const newRefs = [...state.references];
-    const [moved] = newRefs.splice(fromIndex, 1);
-    newRefs.splice(toIndex, 0, moved);
-    return {
-      references: reLetterReferences(
-        newRefs,
-        referenceStartIndex(state.docType, state.formData.startingReferenceLetter)
-      ),
-    };
+    if (![fromIndex, toIndex].every(index => Number.isInteger(index) && index >= 0 && index < state.references.length)) return state;
+    const order = state.references.map((_, index) => index);
+    const [moved] = order.splice(fromIndex, 1);
+    order.splice(toIndex, 0, moved);
+    return safeReferencePatch(planReferenceChange(state, order)) ?? state;
   }),
 
   // Enclosures
@@ -703,7 +711,7 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
 
   clearReferences: () => {
     debug.log('Store', 'Clearing all references');
-    set({ references: [] });
+    set(state => safeReferencePatch(planReferenceChange(state, [])) ?? state);
   },
 
   clearEnclosures: () => {

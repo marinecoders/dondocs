@@ -7,6 +7,17 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.67] — 2026-11-13
+
+### Added
+
+- Review reference order by first appearance in the body, with a preview of the list and explicit citation updates. Apply the changes together with one Undo step; uncited sources remain available for review.
+
+### Fixed
+
+- Preserve explicit citation targets when references are reordered, removed, or relettered for endorsements. Block cited deletions, ambiguous clauses, quoted citations and unsupported fields; require review of bare letter markers before applying a proposed reorder.
+- Reject reference previews after typing, resetting, or switching documents.
+
 ## [1.3.66] — 2026-11-13
 
 ### Added

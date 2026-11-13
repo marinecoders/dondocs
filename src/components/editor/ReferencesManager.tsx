@@ -1,5 +1,8 @@
-import { captureDocumentTarget, isCurrentDocumentTarget } from '@/stores/documentsStore';
-import { memo } from 'react';
+import { captureDocumentScope, isCurrentDocumentScope, type DocumentScope } from '@/stores/documentsStore';
+import { reviewReferenceChange, type ReviewedReferenceChange } from '@/lib/applyReferenceChange';
+import { canReviewReferenceOrder } from '@/lib/referenceCitations';
+import { ReferenceChangePreview } from './ReferenceChangePreview';
+import { memo, useCallback, useState } from 'react';
 import {
   DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors, type DragEndEvent, } from '@dnd-kit/core';
 import {
@@ -20,7 +23,6 @@ import {
 import { HelpTip } from '@/components/ui/help-tip';
 import { useDocumentStore } from '@/stores/documentStore';
 import { useUIStore } from '@/stores/uiStore';
-import { showAppConfirm } from '@/stores/alertStore';
 import type { Reference } from '@/types/document';
 import { DOC_TYPE_CONFIG } from '@/types/document';
 import { safeUrl } from '@/lib/url-safety';
@@ -29,6 +31,7 @@ import { ALL_REFERENCES } from '@/data/references';
 interface SortableReferenceProps {
   reference: Reference;
   index: number;
+  onRemove: (index: number) => void;
 }
 
 // Memoized so typing in reference N doesn't force a re-render of references
@@ -37,9 +40,9 @@ interface SortableReferenceProps {
 const SortableReference = memo(function SortableReference({
   reference,
   index,
+  onRemove,
 }: SortableReferenceProps) {
   const updateReference = useDocumentStore((s) => s.updateReference);
-  const removeReference = useDocumentStore((s) => s.removeReference);
 
   const {
     attributes,
@@ -68,23 +71,6 @@ const SortableReference = memo(function SortableReference({
   const urlInvalid = trimmedUrl !== '' && safeUrl(trimmedUrl) === null;
   const urlWarningId = `ref-${index}-url-warning`;
 
-  // Removing a reference re-letters every reference after it — an easy misclick
-  // to make and awkward to undo. Confirm first, but only when the row actually
-  // holds something; discarding a blank row should stay a single click.
-  const handleRemove = async () => {
-    const target = captureDocumentTarget();
-    const hasContent = (reference.title ?? '').trim() !== '' || trimmedUrl !== '';
-    if (hasContent) {
-      const confirmed = await showAppConfirm({
-        title: 'Remove reference?',
-        message: `Reference (${reference.letter}) will be removed and the remaining references re-lettered.`,
-        confirmLabel: 'Remove',
-        destructive: true,
-      });
-      if (!confirmed) return;
-    }
-    if (isCurrentDocumentTarget(target)) removeReference(index);
-  };
 
   return (
     <div
@@ -154,7 +140,7 @@ const SortableReference = memo(function SortableReference({
         <Button
           variant="ghost"
           size="icon"
-          onClick={handleRemove}
+          onClick={() => onRemove(index)}
           aria-label={`Remove reference ${index + 1}`}
           className="text-destructive hover:bg-destructive/10 hover:text-destructive"
         >
@@ -175,7 +161,15 @@ export function ReferencesManager() {
   const formData = useDocumentStore((s) => s.formData);
   const setField = useDocumentStore((s) => s.setField);
   const addReference = useDocumentStore((s) => s.addReference);
-  const reorderReferences = useDocumentStore((s) => s.reorderReferences);
+  const [proposal, setProposal] = useState<ReviewedReferenceChange | null>(null);
+  const [feedback, setFeedback] = useState<DocumentScope | null>(null);
+  const review = useCallback((order?: readonly number[]) => {
+    setFeedback(null);
+    setProposal(reviewReferenceChange(order));
+  }, []);
+  const reviewRemoval = useCallback((removed: number) => {
+    review(useDocumentStore.getState().references.map((_, index) => index).filter(index => index !== removed));
+  }, [review]);
   const setReferenceLibraryOpen = useUIStore((s) => s.setReferenceLibraryOpen);
 
   // Get compliance settings
@@ -195,7 +189,10 @@ export function ReferencesManager() {
     if (over && active.id !== over.id) {
       const oldIndex = parseInt(String(active.id).replace('ref-', ''));
       const newIndex = parseInt(String(over.id).replace('ref-', ''));
-      reorderReferences(oldIndex, newIndex);
+      const order = references.map((_, index) => index);
+      const [moved] = order.splice(oldIndex, 1);
+      order.splice(newIndex, 0, moved);
+      review(order);
     }
   };
 
@@ -220,7 +217,7 @@ export function ReferencesManager() {
                 Cite directives, orders, or prior correspondence that authorize or relate to this document. References appear as lettered items — (a), (b), (c) — before the body.
               </p>
               <ul className="text-xs mt-2 space-y-1 list-disc list-inside">
-                <li><strong>Drag to reorder:</strong> References auto-letter based on position</li>
+                <li><strong>Drag to reorder:</strong> Preview new letters and citation updates before applying</li>
                 <li><strong>URLs:</strong> Add a link to make the reference clickable in PDF</li>
                 <li><strong>Library:</strong> Browse {ALL_REFERENCES.length} common military references to insert</li>
               </ul>
@@ -243,6 +240,11 @@ export function ReferencesManager() {
               </div>
             )}
 
+            {proposal && <ReferenceChangePreview proposal={proposal} onClose={() => setProposal(null)} onApplied={() => {
+              setProposal(null);
+              setFeedback(captureDocumentScope());
+            }} />}
+            {feedback && isCurrentDocumentScope(feedback) && <p role="status" className="mb-3 text-sm text-muted-foreground">Reference changes applied. Use Undo to restore the previous revision.</p>}
             <div className={referencesNotAllowed ? 'opacity-50 pointer-events-none select-none' : ''}>
               <DndContext
                 sensors={sensors}
@@ -258,6 +260,7 @@ export function ReferencesManager() {
                       key={`ref-${index}`}
                       reference={ref}
                       index={index}
+                      onRemove={reviewRemoval}
                     />
                   ))}
                 </SortableContext>
@@ -270,6 +273,8 @@ export function ReferencesManager() {
               )}
 
               <div className="flex flex-wrap gap-2 mt-2">
+                {references.length > 1 && canReviewReferenceOrder(useDocumentStore.getState()) && <Button
+                  variant="outline" size="sm" onClick={() => review()}>Review first-citation order</Button>}
                 <Button
                   data-tour="reference-add"
                   variant="outline"
