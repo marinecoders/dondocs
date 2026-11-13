@@ -9,6 +9,7 @@ import { persist, createJSONStorage } from 'zustand/middleware';
 import { safeLocalStorage, lastWriteFailed } from '@/lib/compressedStorage';
 import type { SerializedSession } from './documentStore';
 import { putBatchOutput, deleteBatchOutput } from '@/lib/documentsDb';
+import type { RosterWarning } from '@/lib/excelRoster';
 
 export interface BatchRow {
   id: string;
@@ -17,6 +18,8 @@ export interface BatchRow {
   error?: string;
   outputId?: string;
   filename?: string;
+  worksheetRow?: number;
+  rosterWarnings?: RosterWarning[];
 }
 interface BatchState {
   rows: BatchRow[];
