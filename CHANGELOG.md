@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.66] — 2026-11-13
+
+### Added
+
+- Download saved batch PDFs as one ZIP, with portable filenames, numbered duplicates and a report of failed, unfinished or missing results. ZIP downloads preserve the saved-result content review checks.
+
 ## [1.3.65] — 2026-11-13
 
 ### Added
