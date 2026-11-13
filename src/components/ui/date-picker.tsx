@@ -1,6 +1,7 @@
 import * as React from "react"
 import { format, parse, isValid } from "date-fns"
 import { CalendarIcon } from "lucide-react"
+import { normalizeDate, type DateFormatType } from "@/lib/dateFormatting"
 
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
@@ -20,55 +21,18 @@ const MILITARY_DATE_FORMAT = "d MMM yy"
 // Per SECNAV M-5216.5 Ch 11 - Business letters use spelled format
 const SPELLED_DATE_FORMAT = "MMMM d, yyyy"
 
-export type DateFormatType = 'military' | 'spelled' | 'iso'
+export type { DateFormatType } from "@/lib/dateFormatting"
 
-// Try to parse various date formats and return a Date object
-function parseFlexibleDate(dateString: string): Date | null {
-  if (!dateString || !dateString.trim()) return null
-
-  const trimmed = dateString.trim()
-
-  // Do not let native Date parsing roll an invalid ISO day into the next month.
-  if (/^\d{4}-\d{2}-\d{2}$/.test(trimmed)) {
-    const parsed = parse(trimmed, 'yyyy-MM-dd', new Date())
-    return isValid(parsed) ? parsed : null
-  }
-
-  // Common formats to try
-  const formats = [
-    "d MMM yy",         // 15 Dec 24 (SECNAV standard)
-    "dd MMM yy",        // 15 Dec 24
-    "d MMM yyyy",       // 1 Jan 2025
-    "dd MMM yyyy",      // 01 Jan 2025
-    "d MMMM yyyy",      // 1 January 2025
-    "dd MMMM yyyy",     // 01 January 2025
-    "MMMM d, yyyy",     // January 1, 2025
-    "MMM d, yyyy",      // Jan 1, 2025
-    "MM/dd/yyyy",       // 01/01/2025
-    "M/d/yyyy",         // 1/1/2025
-    "yyyy-MM-dd",       // 2025-01-01
-    "d/M/yyyy",         // 1/1/2025 (day first)
-    "dd/MM/yyyy",       // 01/01/2025 (day first)
-  ]
-
-  for (const fmt of formats) {
-    try {
-      const parsed = parse(trimmed, fmt, new Date())
-      if (isValid(parsed) && parsed.getFullYear() > 1900 && parsed.getFullYear() < 2100) {
-        return parsed
-      }
-    } catch {
-      // Continue to next format
-    }
-  }
-
-  // Try native Date parsing as last resort
-  const nativeDate = new Date(trimmed)
-  if (isValid(nativeDate) && nativeDate.getFullYear() > 1900 && nativeDate.getFullYear() < 2100) {
-    return nativeDate
-  }
-
-  return null
+function parseCalendarDate(value: string, style: DateFormatType): Date | null {
+  // Keep an explicit four-digit year in the calendar even for a military field.
+  // ISO metadata fields retain their existing short military-year shortcut.
+  // Spelled correspondence dates require an explicit four-digit year.
+  const normalized = normalizeDate(value, 'iso') ?? normalizeDate(value, style === 'iso' ? 'military' : style)
+  if (normalized === null) return null
+  const pattern = /^\d{4}-/.test(normalized) ? 'yyyy-MM-dd'
+    : style === 'spelled' ? SPELLED_DATE_FORMAT : MILITARY_DATE_FORMAT
+  const parsed = parse(normalized, pattern, new Date())
+  return isValid(parsed) ? parsed : null
 }
 
 // Format a Date to the specified format
@@ -111,13 +75,13 @@ export function DatePicker({
 
   // Parse current value to Date for calendar
   const selectedDate = React.useMemo(() => {
-    return parseFlexibleDate(value || "")
-  }, [value])
+    return parseCalendarDate(value || "", dateFormat)
+  }, [value, dateFormat])
 
   // Sync input value with prop value.
   // Controlled-input-with-local-buffer pattern. Local `inputValue` lets the
   // user type partial dates ("5/" while typing "5/12/26") without immediately
-  // running them through parseFlexibleDate; we re-sync to the prop whenever
+  // normalizing them; we re-sync to the prop whenever
   // the canonical `value` changes externally (calendar click, programmatic).
   React.useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
@@ -131,15 +95,19 @@ export function DatePicker({
 
   // Handle input blur - try to parse and format
   const handleInputBlur = () => {
+    // Focusing an imported value must not silently apply its displayed fix,
+    // invalidate an Apply click, or create a second history edit on blur.
+    if (inputValue === (value || "")) return
     if (!inputValue.trim()) {
+      setInputValue("")
       onChange?.("")
       return
     }
 
-    const parsed = parseFlexibleDate(inputValue)
-    if (parsed) {
+    const parsed = dateFormat === 'iso' ? parseCalendarDate(inputValue, dateFormat) : null
+    const formatted = normalizeDate(inputValue, dateFormat) ?? (parsed ? formatDate(parsed, dateFormat) : null)
+    if (formatted !== null) {
       // Format to the appropriate date format
-      const formatted = formatDate(parsed, dateFormat)
       setInputValue(formatted)
       onChange?.(formatted)
     } else {

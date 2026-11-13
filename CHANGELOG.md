@@ -7,6 +7,16 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.64] — 2026-11-13
+
+### Added
+
+- Preview and apply individual date-format and signature-initial spacing fixes in single-signer correspondence. Each fix has its own Undo step; unclear dates remain for manual review.
+
+### Fixed
+
+- Keep ambiguous and invalid date entries unchanged on blur, preserve unedited saved dates, and retain keyboard focus after applying a formatting suggestion.
+
 ## [1.3.63] — 2026-11-12
 
 ### Added
