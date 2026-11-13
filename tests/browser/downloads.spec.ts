@@ -1,6 +1,7 @@
 import { test, expect, type Page, type Download } from '@playwright/test';
 import { readFile } from 'node:fs/promises';
 import JSZip from 'jszip';
+import { PDFDocument } from 'pdf-lib';
 import { getDocument } from 'pdfjs-dist/legacy/build/pdf.mjs';
 
 test.use({ serviceWorkers: 'block' });
@@ -94,6 +95,59 @@ async function expectWord(download: Download) {
   expect(xml).toContain(SUBJECT);
   expect(xml).toContain(BODY);
 }
+
+test('batch ZIP downloads retain duplicate PDFs and identify omitted results', async ({ page }, testInfo) => {
+  await page.goto('/');
+  await expect(page.getByRole('button', { name: 'Batch', exact: true })).toBeEnabled();
+  const pdf = await PDFDocument.create();
+  pdf.addPage().drawText('Fictional batch ZIP sample');
+  const bytes = Array.from(await pdf.save());
+  await page.evaluate(async data => {
+    const db = await new Promise<IDBDatabase>((resolve, reject) => {
+      const request = indexedDB.open('dondocs', 2);
+      request.onsuccess = () => resolve(request.result);
+      request.onerror = () => reject(request.error);
+    });
+    try {
+      await new Promise<void>((resolve, reject) => {
+        const transaction = db.transaction('app', 'readwrite');
+        for (const id of ['zip-one', 'zip-two']) transaction.objectStore('app').put({ key: `batch:${id}`, value: new Uint8Array(data) });
+        transaction.oncomplete = () => resolve();
+        transaction.onerror = () => reject(transaction.error);
+        transaction.onabort = () => reject(transaction.error);
+      });
+    } finally { db.close(); }
+    localStorage.setItem('dondocs-batch-job', JSON.stringify({ version: 0, state: {
+      source: null, jobId: 'zip-browser-test', status: 'complete', title: 'Fictional batch', placeholders: [], recoveryError: '', rows: [
+        { id: 'one', values: {}, status: 'success', outputId: 'zip-one', filename: 'Sample.pdf' },
+        { id: 'two', values: {}, status: 'success', outputId: 'zip-two', filename: 'Sample.pdf' },
+        { id: 'failed', values: {}, status: 'error', error: 'Sample generation failure' },
+        { id: 'missing', values: {}, status: 'success', outputId: 'zip-missing', filename: 'missing.pdf' },
+      ],
+    } }));
+  }, bytes);
+  await page.reload();
+  await page.getByRole('button', { name: 'Batch', exact: true }).click();
+  await page.getByRole('button', { name: 'Download ZIP', exact: true }).click();
+  const review = page.getByRole('dialog', { name: 'Review ZIP download' });
+  await expect(review).toContainText('source text for this saved result is unavailable');
+  const pending = page.waitForEvent('download');
+  await review.getByRole('button', { name: 'Download ZIP without text review' }).click();
+  const download = await pending;
+  expect(download.suggestedFilename()).toBe('dondocs-batch-results.zip');
+  const zip = await JSZip.loadAsync(await downloadBytes(download), { checkCRC32: true });
+  expect(Object.keys(zip.files)).toEqual(['Sample.pdf', 'Sample (2).pdf']);
+  for (const filename of ['Sample.pdf', 'Sample (2).pdf']) {
+    await expectPdf(await zip.file(filename)!.async('uint8array'), ['Fictional batch ZIP sample']);
+  }
+  await expect(page.getByText('ZIP ready: 2 PDFs included; 2 rows omitted.')).toBeVisible();
+  await expect(page.getByText('Row #3: Failed: Sample generation failure')).toBeVisible();
+  const missingResult = page.getByText(/Row #4.*missing.pdf.*missing or could not be read/);
+  await missingResult.scrollIntoViewIfNeeded();
+  await expect(missingResult).toBeInViewport();
+  await expect(page.getByRole('button', { name: 'Close panel', exact: true })).toBeInViewport();
+  await page.screenshot({ path: testInfo.outputPath('batch-results-zip.png'), fullPage: true });
+});
 
 test('LaTeX exports contain the latest subject and paragraph with useful filenames', async ({ page }) => {
   await start(page);

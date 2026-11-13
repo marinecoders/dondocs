@@ -1,12 +1,13 @@
 import { documentCapabilities, capabilityAvailable } from '@/lib/documentCapabilities';
 import { downloadPdfBlob, preOpenWindowForIOS } from '@/utils/downloadPdf';
 import { DOC_TYPE_LABELS, FORM_TYPE_LABELS, formTypeLabel } from '@/types/document';
-import { captureBatchRowIntent, renderPreparedBatchRow, type BatchRowContext } from '@/services/exports/batchRows';
+import { renderPreparedBatchRow, type BatchRowContext } from '@/services/exports/batchRows';
 import { getExportDeploymentPolicy } from '@/config/classification';
 import { captureExportFormTemplates } from '@/services/exports/formTemplates';
 import { runPreparedBatchRow } from '@/services/exports/batchExecution';
 import { BatchExportReviewModal } from './BatchExportReviewModal';
-import { detectBatchPII } from '@/services/pii/batchScan';
+import { createBatchResultsZip, inspectSavedBatchResult, type BatchResultsZip } from '@/services/exports/batchResultsZip';
+import { triggerDownload } from '@/lib/encoding';
 import { getPIITypeLabel, type PIIDetectionResult } from '@/services/pii/detector';
 import { serializeDocumentSnapshot } from '@/lib/documentSerialization';
 import { memo, useState, useCallback, useMemo, useEffect, useRef } from 'react';
@@ -243,8 +244,23 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
   const [savedDownloadReview, setSavedDownloadReview] = useState<{
     filename: string; findings: PIIDetectionResult | null; download(): Promise<void>;
   } | null>(null);
+  const zipRequest = useRef(0);
+  const zipPending = useRef(false);
+  const [isPreparingZip, setIsPreparingZip] = useState(false);
+  const [zipReport, setZipReport] = useState<(Omit<BatchResultsZip, 'blob'> & { error?: string }) | null>(null);
+  const [zipReview, setZipReview] = useState<{
+    rows: Array<{ index: number; filename: string; findings: PIIDetectionResult | null }>;
+    download(): Promise<void>;
+  } | null>(null);
+  const cancelZipDownload = useCallback(() => {
+    ++zipRequest.current;
+    zipPending.current = false;
+    setIsPreparingZip(false);
+    setZipReview(null);
+  }, []);
 
   useEffect(() => () => { ++previewRequest.current; }, []);
+  useEffect(() => () => { ++zipRequest.current; }, []);
   useEffect(() => () => { if (previewUrl) setTimeout(() => URL.revokeObjectURL(previewUrl), 5000); }, [previewUrl]);
 
   // Column mapping state
@@ -258,12 +274,13 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
 
   const closePanel = useCallback(() => {
     ++previewRequest.current;
+    cancelZipDownload();
     if (useBatchStore.getState().rowActive && useBatchStore.getState().status !== 'running') useBatchStore.getState().cancelCurrent();
     // Dialog content unmounts on close. Discard the transient import with it,
     // keeping the already-applied batch rows and any running job intact.
     setMappingRoster(null);setColumnHeaders([]);setColumnMappings({});setShowColumnMapping(false);setRawPastedData([]);setRosterPending(false);
     setPreviewUrl(null);setPreviewError(null);setSavedDownloadReview(null);setBatchModalOpen(false);
-  }, [setBatchModalOpen, setSavedDownloadReview, setMappingRoster, setColumnHeaders, setColumnMappings, setShowColumnMapping, setRawPastedData, setRosterPending]);
+  }, [setBatchModalOpen, setSavedDownloadReview, cancelZipDownload, setMappingRoster, setColumnHeaders, setColumnMappings, setShowColumnMapping, setRawPastedData, setRosterPending]);
 
   // Variable insertion state
   const [selectedVariable, setSelectedVariable] = useState<string>('');
@@ -399,17 +416,57 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
       return;
     }
     try {
-      const intent = captureBatchRowIntent(saved.values, {
-        source: session, batchId: batch.jobId ?? 'saved-result', rowId: saved.id,
-        filename: saved.filename!, capturedAt: session.timestamp,
-      });
-      const findings = detectBatchPII(intent.captured, intent.placeholders);
+      const findings = inspectSavedBatchResult(saved, session, batch.jobId ?? 'saved-result');
       if (findings.found) setSavedDownloadReview({ filename: saved.filename!, findings, download });
       else void download();
     } catch (error) {
       debug.error('Batch', 'Saved result text review failed', error);
       setSavedDownloadReview({ filename: saved.filename!, findings: null, download });
     }
+  };
+
+  const handleDownloadZip = () => {
+    const batch = useBatchStore.getState();
+    if (zipPending.current || batch.status === 'running' || batch.rowActive) return;
+    // The review and archive share one snapshot, even if the live editor changes.
+    const savedRows = batch.rows;
+    const snapshot = structuredClone({ rows: batch.rows, source: batch.source, jobId: batch.jobId });
+    const request = ++zipRequest.current;
+    zipPending.current = true;
+    setIsPreparingZip(true);
+    setZipReport(null);
+    let downloadStarted = false;
+    const download = async () => {
+      if (request !== zipRequest.current || downloadStarted) return;
+      downloadStarted = true;
+      setZipReview(null);
+      let report: Omit<BatchResultsZip, 'blob'> = { files: [], omitted: [] };
+      try {
+        const result = await createBatchResultsZip(snapshot.rows);
+        if (request !== zipRequest.current || !useUIStore.getState().batchModalOpen) return;
+        report = { files: result.files, omitted: result.omitted };
+        if (!result.blob) throw new Error('No saved PDFs are available. No ZIP was downloaded.');
+        triggerDownload(result.blob, 'dondocs-batch-results.zip');
+        if (useBatchStore.getState().rows === savedRows) setZipReport(report);
+      } catch (error) {
+        if (request === zipRequest.current && useBatchStore.getState().rows === savedRows) {
+          setZipReport({ ...report, error: error instanceof Error ? error.message : 'The ZIP could not be downloaded. Try again.' });
+        }
+      } finally {
+        if (request === zipRequest.current) { zipPending.current = false;setIsPreparingZip(false); }
+      }
+    };
+    const reviews = snapshot.rows.flatMap((row, index) => {
+      if (!row.outputId || !row.filename) return [];
+      let findings: PIIDetectionResult | null = null;
+      if (snapshot.source) {
+        try { findings = inspectSavedBatchResult(row, snapshot.source, snapshot.jobId ?? 'saved-results-zip'); }
+        catch (error) { debug.error('Batch', 'ZIP result text review failed', error); }
+      }
+      return !findings || findings.found ? [{ index: index + 1, filename: row.filename, findings }] : [];
+    });
+    if (reviews.length) setZipReview({ rows: reviews, download });
+    else void download();
   };
 
   // Detect if a row looks like headers (all non-numeric, reasonable length)
@@ -1013,14 +1070,32 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
             </div>
           </div>
 
-          <div className="border-t border-border px-6 py-3 text-sm space-y-2" aria-live="polite">
+          <div className="min-h-0 max-h-[45dvh] overflow-y-auto border-t border-border px-6 py-3 text-sm space-y-2" aria-live="polite">
             <p>Jobs and results are stored in this browser and are excluded from workspace backups. Download files you need to keep.</p>
             {isGenerating && <p>Closing this panel keeps the job running. Keep this tab open.</p>}
             {jobStatus === 'interrupted' && <p>Recovered after interruption. Completed rows are kept; review the interrupted row before retrying it.</p>}
             {recoveryError && <p role="alert" className="text-destructive">{recoveryError}</p>}
+            {(source || rows.some(row => row.outputId || row.status === 'success')) && <div className="space-y-2">
+              <Button size="sm" variant="outline" onClick={handleDownloadZip}
+                disabled={isPreparingZip || isGenerating || rowActive || !rows.some(row => row.outputId && row.filename)}>
+                {isPreparingZip ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Download className="mr-2 h-4 w-4" />}
+                {isPreparingZip ? 'Preparing ZIP…' : 'Download ZIP'}
+              </Button>
+              <p>Includes available saved PDFs. Duplicate filenames receive a numbered suffix. Missing PDFs and skipped rows are reported after preparation.</p>
+              {!zipReport && rows.filter(row => row.status === 'success' && (!row.outputId || !row.filename)).map(row => (
+                <p key={row.id} className="text-destructive">Row #{rows.indexOf(row) + 1}{row.filename ? ` (${row.filename})` : ''}: The PDF or its filename was not retained in this browser.</p>
+              ))}
+              {zipReport && <div role="status" className="space-y-1">
+                {zipReport.error ? <p role="alert" className="text-destructive">{zipReport.error}</p>
+                  : <p>ZIP ready: {zipReport.files.length} PDF{zipReport.files.length === 1 ? '' : 's'} included; {zipReport.omitted.length} row{zipReport.omitted.length === 1 ? '' : 's'} omitted.</p>}
+                {zipReport.omitted.length > 0 && <ul className="max-h-32 overflow-y-auto">
+                  {zipReport.omitted.map(row => <li key={row.index}>Row #{row.index}{row.filename ? ` (${row.filename})` : ''}: {row.reason}</li>)}
+                </ul>}
+              </div>}
+            </div>}
             {rows.some((r) => r.outputId) && <p className="font-medium">Generated files</p>}
             {rows.some((r) => r.outputId) && <div className="flex max-h-32 overflow-y-auto flex-wrap gap-2">
-              {rows.filter((r) => r.outputId).map((r) => <Button key={r.id} size="sm" variant="outline" onClick={() => handleDownloadResult(r)}>Download {r.filename}</Button>)}
+              {rows.filter((r) => r.outputId).map((r) => <Button key={r.id} size="sm" variant="outline" disabled={isPreparingZip} onClick={() => handleDownloadResult(r)}>Download {r.filename}</Button>)}
             </div>}
           </div>
           <DialogFooter className="bg-card px-6 py-4 border-t border-border/50 shrink-0">
@@ -1029,17 +1104,18 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
             </Button>
             {isGenerating && <Button variant="outline" disabled={!rowCanCancel} onClick={() => useBatchStore.getState().cancelCurrent()}>Cancel current row</Button>}
             {isGenerating && <Button variant="outline" disabled={stopRequested} onClick={() => useBatchStore.getState().stop()}>{stopRequested ? 'Stopping after this file…' : 'Stop after current file'}</Button>}
-            {!isGenerating && rows.some((r) => r.status === 'error') && <Button variant="outline" disabled={!isReadyToGenerate || rowActive || !!previewingRow} onClick={() => handleGenerateBatch(true)}>Retry failed rows</Button>}
-            {!isGenerating && source && <Button variant="ghost" onClick={async () => {
+            {!isGenerating && rows.some((r) => r.status === 'error') && <Button variant="outline" disabled={!isReadyToGenerate || rowActive || !!previewingRow || isPreparingZip} onClick={() => handleGenerateBatch(true)}>Retry failed rows</Button>}
+            {!isGenerating && source && <Button variant="ghost" disabled={isPreparingZip} onClick={async () => {
               if (await showAppConfirm({ title: 'Start a new batch?', message: 'The current job and saved results will be cleared. Download any files you need first.', confirmLabel: 'Start new batch' })) {
                 useBatchStore.getState().reset();
+                setZipReport(null);
                 setMappingRoster(null);setShowColumnMapping(false);setRawPastedData([]);setRosterPending(false);setRosterUploadKey(key => key + 1);
               }
             }}>New batch</Button>}
             {(!source || isGenerating || rows.some((r) => !r.status || r.status === 'pending')) && <Button
               data-tour="batch-generate"
               onClick={() => handleGenerateBatch()}
-              disabled={hasNoPlaceholders || isGenerating || rowActive || !!previewingRow || showColumnMapping || rosterPending || !rows.some((r) => !r.status || r.status === 'pending') || !isReadyToGenerate}
+              disabled={hasNoPlaceholders || isGenerating || rowActive || !!previewingRow || showColumnMapping || rosterPending || isPreparingZip || !rows.some((r) => !r.status || r.status === 'pending') || !isReadyToGenerate}
               className="tracking-wide"
             >
               {isGenerating ? (
@@ -1075,6 +1151,24 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
               const reviewed = savedDownloadReview;setSavedDownloadReview(null);
               if (reviewed) void reviewed.download();
             }}>{savedDownloadReview?.findings ? 'Download reviewed result' : 'Download without text review'}</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={!!zipReview} onOpenChange={open => { if (!open) cancelZipDownload(); }}>
+        <DialogContent className="max-h-[80dvh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>Review ZIP download</DialogTitle>
+            <DialogDescription>Review these saved results before including them in the ZIP.</DialogDescription>
+          </DialogHeader>
+          <ul className="space-y-4">{zipReview?.rows.map(row => <li key={row.index} className="space-y-1">
+            <p className="font-medium">Row #{row.index}: {row.filename}</p>
+            <p>{row.findings ? 'Potential personal or sensitive data appears in this saved result. Confirm that this file is appropriate for its recipient.' : 'The source text for this saved result is unavailable or could not be inspected. Check the file before sharing.'}</p>
+            <ul>{row.findings?.findings.map((finding, index) => <li key={index}>{getPIITypeLabel(finding.type)} · {finding.field}</li>)}</ul>
+          </li>)}</ul>
+          <DialogFooter>
+            <Button variant="outline" onClick={cancelZipDownload}>Cancel download</Button>
+            <Button onClick={() => { if (zipReview) void zipReview.download(); }}>{zipReview?.rows.some(row => !row.findings) ? 'Download ZIP without text review' : 'Download reviewed ZIP'}</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
