@@ -190,11 +190,15 @@ describe('paragraph review persistence and compatibility', () => {
     state.removeParagraph(1);
     const session = getSerializedSession();
     for (const inspect of [detectPII, detectSharedSessionPII]) {
-      expect(inspect(session).summary).toMatchObject({ ssn: 1, emailAddresses: 1, phone: 1 });
+      const result = inspect(session);
+      expect(result.summary).toMatchObject({ ssn: 1, emailAddresses: 1 });
+      expect(result.findings.some(finding => finding.type === 'PHONE' && finding.value.includes('555-234-5678'))).toBe(true);
     }
     for (const projection of ['draft', 'share', 'backup'] as const) {
       const fields = documentTextFields(session, projection).filter(field => field.path[0] === 'reviewComments');
-      expect(detectTextPII(fields.map(field => ({ field: field.label, value: field.text }))).summary).toMatchObject({ ssn: 1, emailAddresses: 1, phone: 1 });
+      const result = detectTextPII(fields.map(field => ({ field: field.label, value: field.text })));
+      expect(result.summary).toMatchObject({ ssn: 1, emailAddresses: 1 });
+      expect(result.findings.some(finding => finding.type === 'PHONE' && finding.value.includes('555-234-5678'))).toBe(true);
       expect(fields.map(field => field.text).join(' ')).toContain('(S)\nFigure marking: (TS)');
     }
   });

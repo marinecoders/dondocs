@@ -7,6 +7,13 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.72] — 2026-11-13
+
+### Added
+
+- Add comments directly to a paragraph and return to its editor from the discussion. Feedback follows the same paragraph through edits, insertions and moves; deleted or absorbed paragraphs retain their earlier context without attaching feedback to replacement text. Undo restores the original target.
+- Preserve paragraph discussions in saved drafts, shared copies, workspace backups and history, while clean PDF and Word output omit discussions and hidden paragraph identities. Retained context includes headings, text and explicit paragraph or figure portion markings.
+
 ## [1.3.71] — 2026-11-13
 
 ### Added
