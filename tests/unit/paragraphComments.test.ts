@@ -165,6 +165,14 @@ describe('paragraph review persistence and compatibility', () => {
     expect(() => validateBackupSession(session)).toThrow('duplicated');
   });
 
+  it('returns to the field-compatible model after the last paragraph discussion is deleted', () => {
+    const paragraph = add();
+    expect(applyCommentMutation(reviewCommentMutation({ kind: 'add', field: 'subject', author: 'Chief', text: 'Check the subject.' }))).toBe('applied');
+    expect(applyCommentMutation(reviewCommentMutation({ kind: 'delete', threadId: paragraph.id }))).toBe('applied');
+    expect(useDocumentStore.getState().reviewComments?.version).toBe(1);
+    expect(useDocumentStore.getState().reviewComments?.threads[0].anchor.kind).toBe('field');
+  });
+
   it('does not send an unnecessary new review model in a comment-free legacy share', () => {
     const session = { ...getSerializedSession(), reviewComments: { version: 2 as const, threads: [] } };
     expect(parseSavedSession(session).reviewComments).toBeUndefined();

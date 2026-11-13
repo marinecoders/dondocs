@@ -30,7 +30,6 @@ export function applyCommentMutation(request: ReviewedCommentMutation): 'applied
   if (mutation.kind === 'add') {
     const anchor = captureCommentAnchor(state, mutation.field, mutation.paragraphId);
     if (!anchor) return 'invalid';
-    if (anchor.kind === 'paragraph') next.version = 2;
     next.threads.push({ id: crypto.randomUUID(), anchor, messages: [newMessage(mutation.author, mutation.text)], resolved: false });
   } else {
     const thread = next.threads.find(item => item.id === mutation.threadId);
@@ -46,6 +45,7 @@ export function applyCommentMutation(request: ReviewedCommentMutation): 'applied
       else thread.messages[index] = { ...thread.messages[index], text: mutation.text, editedAt: new Date().toISOString() };
     }
   }
+  next.version = next.threads.some(thread => thread.anchor.kind === 'paragraph') ? 2 : 1;
   const parsed = reviewCommentsSchema.safeParse(next);
   if (!parsed.success) return 'invalid';
   if (JSON.stringify(parsed.data) === JSON.stringify(state.reviewComments)) return 'invalid';
