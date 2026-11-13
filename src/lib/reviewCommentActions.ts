@@ -4,7 +4,7 @@ import { captureCommentAnchor, supportsReviewComments } from './reviewCommentTar
 import { reviewCommentsSchema, type CommentMessage, type ReviewComments } from './reviewComments';
 
 export type CommentMutation =
-  | { kind: 'add'; field?: string; author: string; text: string }
+  | { kind: 'add'; field?: string; paragraphId?: string; author: string; text: string }
   | { kind: 'reply'; threadId: string; author: string; text: string }
   | { kind: 'edit'; threadId: string; messageId: string; text: string }
   | { kind: 'delete-reply'; threadId: string; messageId: string }
@@ -28,8 +28,9 @@ export function applyCommentMutation(request: ReviewedCommentMutation): 'applied
   const next: ReviewComments = structuredClone(state.reviewComments ?? { version: 1, threads: [] });
   const newMessage = (author: string, text: string): CommentMessage => ({ id: crypto.randomUUID(), author, text, createdAt: new Date().toISOString() });
   if (mutation.kind === 'add') {
-    const anchor = captureCommentAnchor(state, mutation.field);
+    const anchor = captureCommentAnchor(state, mutation.field, mutation.paragraphId);
     if (!anchor) return 'invalid';
+    if (anchor.kind === 'paragraph') next.version = 2;
     next.threads.push({ id: crypto.randomUUID(), anchor, messages: [newMessage(mutation.author, mutation.text)], resolved: false });
   } else {
     const thread = next.threads.find(item => item.id === mutation.threadId);

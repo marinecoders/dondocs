@@ -34,6 +34,7 @@ import { useUIStore } from './uiStore';
 import { useProfileStore } from './profileStore';
 import { canonicalizeUnitAddress } from '@/lib/unitAddress';
 import { migratePortionMarkings } from '@/lib/paragraphUtils';
+import { ensureParagraphIds, paragraphCommentIds } from '@/lib/paragraphIdentity';
 import type { Profile } from '@/types/document';
 import {
   idbGetAllDocuments,
@@ -1001,8 +1002,16 @@ function ensureHydrated(
         // FOUO while loadSharedSession migrates the live copy to CUI, and the first
         // syncCurrent sees a diff and re-saves + re-sorts an untouched doc. Reuse
         // the same meta (no updatedAt bump) so it never re-sorts Recents.
-        const paragraphs = migratePortionMarkings(r.session.paragraphs ?? []);
-        if (paragraphs !== r.session.paragraphs) {
+        const currentParagraphs = r.session.paragraphs ?? [];
+        let paragraphs: typeof currentParagraphs;
+        try { paragraphs = ensureParagraphIds(migratePortionMarkings(currentParagraphs), paragraphCommentIds(r.session.reviewComments)); }
+        catch {
+          // Keep a damaged record available for recovery; opening it will fail
+          // validation without preventing healthy library documents from loading.
+          loaded[r.id] = { meta: r.meta, session: r.session };
+          continue;
+        }
+        if (paragraphs.some((paragraph, index) => paragraph !== currentParagraphs[index])) {
           const session = { ...r.session, paragraphs };
           const outcome = await idbWriteDocument(r, { ...r, session });
           loaded[r.id] = { meta: r.meta, session: outcome === 'committed' || outcome === 'already-committed' ? session : r.session };

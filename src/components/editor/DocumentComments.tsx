@@ -8,7 +8,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 import { useDocumentStore } from '@/stores/documentStore';
 import { captureDocumentTarget, isCurrentDocumentTarget, useDocumentsStore, type DocumentTarget } from '@/stores/documentsStore';
 import { COMMENT_LIMITS, type CommentThread } from '@/lib/reviewComments';
-import { availableCommentFields, describeCommentAnchor, supportsReviewComments } from '@/lib/reviewCommentTargets';
+import { availableCommentFields, availableCommentParagraphs, describeCommentAnchor, supportsReviewComments } from '@/lib/reviewCommentTargets';
 import { applyCommentMutation, reviewCommentMutation, type CommentMutation } from '@/lib/reviewCommentActions';
 
 type Editor = { kind: 'add' } | { kind: 'reply'; threadId: string } | { kind: 'edit'; threadId: string; messageId: string; text: string };
@@ -28,7 +28,7 @@ export function DocumentComments() {
   </div>;
 }
 
-function CommentsDialog({ onClose }: { onClose: () => void }) {
+export function CommentsDialog({ onClose, initialParagraphId }: { onClose: () => void; initialParagraphId?: string }) {
   const state = useDocumentStore();
   const viewTarget = captureDocumentTarget();
   const [showResolved, setShowResolved] = useState(false);
@@ -54,7 +54,7 @@ function CommentsDialog({ onClose }: { onClose: () => void }) {
         <DialogDescription>Comments travel with drafts and shared copies. Clean PDF and Word exports omit them. Reviewer names are self-entered.</DialogDescription>
       </DialogHeader>
       <p ref={result} role="status" tabIndex={-1} className={feedback ? 'text-sm text-muted-foreground' : 'sr-only'}>{feedback}</p>
-      <CommentEditor key={editorKey} editor={editor} onCancel={() => startEditor({ kind: 'add' })} onSave={(mutation, target) => {
+      <CommentEditor key={editorKey} editor={editor} initialParagraphId={initialParagraphId} onCancel={() => startEditor({ kind: 'add' })} onSave={(mutation, target) => {
         const saved = run(mutation, target);
         if (saved) { setEditor({ kind: 'add' });setEditorKey(value => value + 1); }
         return saved;
@@ -64,28 +64,31 @@ function CommentsDialog({ onClose }: { onClose: () => void }) {
         <Button type="button" size="sm" variant={showResolved ? 'secondary' : 'outline'} aria-pressed={showResolved} onClick={() => setShowResolved(true)}>Resolved ({threads.filter(thread => thread.resolved).length})</Button>
       </div>
       {visible.length === 0 && <p className="text-sm text-muted-foreground">No {showResolved ? 'resolved' : 'open'} comments.</p>}
-      {visible.map(thread => <CommentThreadView key={thread.id} thread={thread} run={mutation => run(mutation, viewTarget)} startEditor={startEditor} />)}
+      {visible.map(thread => <CommentThreadView key={thread.id} thread={thread} run={mutation => run(mutation, viewTarget)} startEditor={startEditor} onClose={onClose} />)}
       <Button type="button" variant="outline" onClick={onClose}>Close comments</Button>
     </DialogContent>
   </Dialog>;
 }
 
-function CommentEditor({ editor, onCancel, onSave }: {
-  editor: Editor; onCancel: () => void; onSave: (mutation: CommentMutation, target: DocumentTarget | null) => boolean;
+function CommentEditor({ editor, initialParagraphId, onCancel, onSave }: {
+  editor: Editor; initialParagraphId?: string; onCancel: () => void; onSave: (mutation: CommentMutation, target: DocumentTarget | null) => boolean;
 }) {
   const state = useDocumentStore();
   const fields = availableCommentFields(state);
+  const paragraphs = availableCommentParagraphs(state);
   const [target, setTarget] = useState(captureDocumentTarget);
-  const [field, setField] = useState('document');
+  const [field, setField] = useState(initialParagraphId ? `paragraph:${initialParagraphId}` : 'document');
   const [author, setAuthor] = useState('');
   const [text, setText] = useState(editor.kind === 'edit' ? editor.text : '');
   const stale = !!text && !isCurrentDocumentTarget(target);
-  const selectedField = field === 'document' ? undefined : fields.find(item => item.field === field);
-  const unavailableField = field !== 'document' && !selectedField;
+  const paragraphId = field.startsWith('paragraph:') ? field.slice('paragraph:'.length) : undefined;
+  const selectedField = field === 'document' || paragraphId !== undefined ? undefined : fields.find(item => item.field === field);
+  const unavailableField = field !== 'document' && paragraphId === undefined && !selectedField;
   const longContext = !!selectedField && selectedField.value.length > COMMENT_LIMITS.context;
+  const unavailable = paragraphId !== undefined && !paragraphs.some(paragraph => paragraph.paragraphId === paragraphId);
   return <form className="min-w-0 space-y-3 rounded-md border border-border p-3" onSubmit={event => {
     event.preventDefault();
-    const mutation: CommentMutation = editor.kind === 'add' ? { kind: 'add', ...(field === 'document' ? {} : { field }), author, text }
+    const mutation: CommentMutation = editor.kind === 'add' ? { kind: 'add', ...(field === 'document' ? {} : paragraphId ? { paragraphId } : { field }), author, text }
       : editor.kind === 'reply' ? { kind: 'reply', threadId: editor.threadId, author, text }
         : { kind: 'edit', threadId: editor.threadId, messageId: editor.messageId, text };
     onSave(mutation, target);
@@ -101,29 +104,45 @@ function CommentEditor({ editor, onCancel, onSave }: {
         <option value="document">Whole document</option>
         {unavailableField && <option value={field} disabled>Unavailable field: {field}</option>}
         {fields.map(item => <option key={item.field} value={item.field}>{item.label}</option>)}
+        {paragraphs.map(item => <option key={item.paragraphId} value={`paragraph:${item.paragraphId}`}>{item.label}</option>)}
+        {unavailable && <option value={field} disabled>Unavailable paragraph</option>}
       </select>
       {selectedField && <div className="text-xs text-muted-foreground"><p>Current field value</p><p className="max-h-24 overflow-y-auto whitespace-pre-wrap break-words">{selectedField.value || '(Empty)'}</p></div>}
       {unavailableField && <p className="text-sm text-destructive">Choose an available field or the whole document.</p>}
       {longContext && <p className="text-sm text-destructive">This field is too long to capture in a comment. Choose the whole document instead.</p>}
+      {unavailable && <p role="alert" className="text-sm text-destructive">This paragraph is unavailable or exceeds the supported comment context limit. Your text is preserved; choose another target to continue.</p>}
+      {paragraphId && !unavailable && <div className="max-h-36 overflow-auto text-xs text-muted-foreground"><p className="font-medium">Current paragraph</p><p className="whitespace-pre-wrap break-words">{paragraphs.find(paragraph => paragraph.paragraphId === paragraphId)?.value || '(Empty)'}</p></div>}
     </div>}
     {editor.kind !== 'edit' && <div className="space-y-1"><Label htmlFor="comment-author">Reviewer name</Label><Input id="comment-author" value={author} maxLength={COMMENT_LIMITS.author} onChange={event => setAuthor(event.target.value)} autoComplete="off" /></div>}
     <div className="space-y-1"><Label htmlFor="comment-text">{editor.kind === 'reply' ? 'Reply' : 'Comment'}</Label><Textarea id="comment-text" autoFocus={editor.kind !== 'add'} value={text} maxLength={COMMENT_LIMITS.text} onChange={event => { if (!text) setTarget(captureDocumentTarget());setText(event.target.value); }} className="min-h-24" /></div>
     <div className="flex flex-wrap gap-2">
-      <Button type="submit" size="sm" disabled={stale || editor.kind === 'add' && (unavailableField || longContext) || !text.trim() || editor.kind !== 'edit' && !author.trim() || editor.kind === 'edit' && text === editor.text}>{editor.kind === 'edit' ? 'Save comment' : editor.kind === 'reply' ? 'Post reply' : 'Post comment'}</Button>
+      <Button type="submit" size="sm" disabled={stale || editor.kind === 'add' && (unavailableField || longContext || unavailable) || !text.trim() || editor.kind !== 'edit' && !author.trim() || editor.kind === 'edit' && text === editor.text}>{editor.kind === 'edit' ? 'Save comment' : editor.kind === 'reply' ? 'Post reply' : 'Post comment'}</Button>
       {editor.kind !== 'add' && <Button type="button" size="sm" variant="outline" onClick={onCancel}>Cancel edit</Button>}
     </div>
   </form>;
 }
 
-function CommentThreadView({ thread, run, startEditor }: {
-  thread: CommentThread; run: (mutation: CommentMutation) => boolean; startEditor: (editor: Editor) => void;
+function CommentThreadView({ thread, run, startEditor, onClose }: {
+  thread: CommentThread; run: (mutation: CommentMutation) => boolean; startEditor: (editor: Editor) => void; onClose: () => void;
 }) {
   const state = useDocumentStore();
   const anchor = describeCommentAnchor(state, thread.anchor);
   return <article className="min-w-0 space-y-3 rounded-md border border-border p-3" aria-label={`Comment on ${anchor.label}`}>
     <h3 className="text-sm font-medium">{anchor.label}</h3>
-    {anchor.status !== 'current' && <p className="text-sm text-amber-700 dark:text-amber-400">{anchor.status === 'changed' ? 'This field or document format changed after the comment was added.' : 'This field is unavailable in the current document.'}</p>}
-    {anchor.context !== undefined && <details className="text-xs text-muted-foreground"><summary>Field context</summary><dl className="mt-2 space-y-2 break-words">
+    {thread.anchor.kind === 'paragraph' && anchor.status !== 'unavailable' && <Button type="button" size="sm" variant="outline" onClick={() => {
+      const paragraphId = thread.anchor.kind === 'paragraph' ? thread.anchor.paragraphId : undefined;
+      const scope = captureDocumentTarget();
+      onClose();
+      requestAnimationFrame(() => {
+        if (!isCurrentDocumentTarget(scope)) return;
+        const row = [...document.querySelectorAll<HTMLElement>('[data-paragraph-id]')].find(element => element.dataset.paragraphId === paragraphId);
+        row?.querySelector<HTMLElement>('[role="textbox"]')?.focus();
+      });
+    }}>Go to paragraph</Button>}
+    {anchor.status !== 'current' && <p className="text-sm text-amber-700 dark:text-amber-400">{thread.anchor.kind === 'paragraph'
+      ? anchor.status === 'changed' ? 'This paragraph changed after the comment was added.' : 'This paragraph was deleted or is unavailable. The comment remains attached to its original identity.'
+      : anchor.status === 'changed' ? 'This field or document format changed after the comment was added.' : 'This field is unavailable in the current document.'}</p>}
+    {anchor.context !== undefined && <details className="text-xs text-muted-foreground"><summary>{thread.anchor.kind === 'paragraph' ? 'Paragraph context' : 'Field context'}</summary><dl className="mt-2 space-y-2 break-words">
       <div><dt>When commented</dt><dd className="whitespace-pre-wrap">{anchor.context || '(Empty)'}</dd></div>
       {anchor.current !== undefined && <div><dt>Current value</dt><dd className="whitespace-pre-wrap">{anchor.current || '(Empty)'}</dd></div>}
     </dl></details>}

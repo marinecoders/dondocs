@@ -8,6 +8,7 @@ import { idbGetAllDocuments, idbPutDocument, idbSetCurrentId } from '@/lib/docum
 import { buildBackup, restoreBackup } from '@/lib/backup';
 import { editForm, startForm } from '@/services/forms/documents';
 import { fixtureDefinition } from '../_helpers/formFixture';
+import { ensureParagraphIds } from '@/lib/paragraphIdentity';
 
 // Existing main saves have no genericForm member. Keep this fixture independent
 // of the new serializer so the upgrade test cannot silently adopt a new format.
@@ -32,8 +33,9 @@ it('preserves main-format letters and NAVMC drafts through upgrade, form use, an
   await useFormStore.persist.rehydrate();
   expect(await useDocumentsStore.getState().init()).toBe(true);
   useDocumentsStore.getState().syncCurrent();
-  expect(useDocumentsStore.getState().docs[meta.id]).toEqual({ meta, session: oldLetter });
-  expect(useDocumentStore.getState().paragraphs).toEqual(oldLetter.paragraphs);
+  const upgradedLetter = { ...oldLetter, paragraphs: ensureParagraphIds(oldLetter.paragraphs) };
+  expect(useDocumentsStore.getState().docs[meta.id]).toEqual({ meta, session: upgradedLetter });
+  expect(useDocumentStore.getState().paragraphs).toEqual(upgradedLetter.paragraphs);
   expect(useFormStore.getState()).toMatchObject({
     navmc10274: { actionNo: '0007', supplementalInfo: 'Existing AA draft' },
     navmc11811: { edipi: '0012345678', remarksText: 'Existing Page 11 draft' },
@@ -45,7 +47,7 @@ it('preserves main-format letters and NAVMC drafts through upgrade, form use, an
   editForm(form => { form.answers.name = 'NEW FORM'; });
   const backup = JSON.parse(await buildBackup());
   expect(backup.documents.find((d: { id: string }) => d.id === formId).session.genericForm.answers.name).toBe('NEW FORM');
-  expect(backup.documents.find((d: { id: string }) => d.id === meta.id)).toEqual({ id: meta.id, meta, session: oldLetter });
+  expect(backup.documents.find((d: { id: string }) => d.id === meta.id)).toEqual({ id: meta.id, meta, session: upgradedLetter });
   expect(backup.forms.navmc10274.supplementalInfo).toBe('Existing AA draft');
   expect(backup.forms.navmc11811.edipi).toBe('0012345678');
   expect(backup.forms.includeCoverPage).toBe(true);

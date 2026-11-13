@@ -7,7 +7,7 @@ import { parseFormInstance } from '@/services/forms/model';
 import type { SerializedSession } from '@/stores/documentStore';
 import { projectSharedSession } from './documentSerialization';
 import { DOC_TYPE_LABELS } from '@/types/document';
-import { ensureParagraphIds, paragraphIdSchema } from './paragraphIdentity';
+import { ensureParagraphIds, paragraphCommentIds, paragraphIdSchema } from './paragraphIdentity';
 
 const signature = z.object({ name: z.string(), statement: z.string(), style: z.enum(['typed', 'image', 'digital']).optional() });
 const form = z.record(z.string(), z.union([z.string(), z.array(signature)]))
@@ -61,7 +61,7 @@ export function parseSharedSession(value: unknown): SerializedSession {
   if (hasReviewComments(s) && metadata?.success && metadata.data.version === 1) {
     throw new Error('Comments require a version 2 review-aware share. Ask the sender to create a current copy.');
   }
-  s.paragraphs = ensureParagraphIds(s.paragraphs);
+  s.paragraphs = ensureParagraphIds(s.paragraphs, paragraphCommentIds(s.reviewComments));
   if (s.formData.additionalEndorsements !== undefined) s.formData.additionalEndorsements = additionalEndorsementsSchema.parse(s.formData.additionalEndorsements);
   if (s.formData.sl3 !== undefined) s.formData.sl3 = sl3Schema.parse(s.formData.sl3);
   if (s.formData.sl4 !== undefined) s.formData.sl4 = sl4Schema.parse(s.formData.sl4);

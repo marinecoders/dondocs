@@ -27,7 +27,7 @@ import { planReferenceChange, type ReferenceChange } from '@/lib/referenceCitati
 import { showAppAlert } from './alertStore';
 import { canonicalizeUnitAddress } from '@/lib/unitAddress';
 import { normalizeLevels, migratePortionMarkings } from '@/lib/paragraphUtils';
-import { ensureParagraphIds, freshParagraphs, newParagraphId } from '@/lib/paragraphIdentity';
+import { ensureParagraphIds, freshParagraphs, newParagraphId, paragraphCommentIds } from '@/lib/paragraphIdentity';
 import { serializeForm, loadFormSession, prepareFormSession, type FormSession } from './formStore';
 
 export { referenceLetterAt } from '@/lib/referenceLetters';
@@ -903,7 +903,7 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
       reviewComments: snapshot.reviewComments ? structuredClone(snapshot.reviewComments) : undefined,
       references: snapshot.references,
       enclosures,
-      paragraphs: ensureParagraphIds(snapshot.paragraphs),
+      paragraphs: ensureParagraphIds(snapshot.paragraphs, paragraphCommentIds(snapshot.reviewComments)),
       copyTos: snapshot.copyTos,
       distributions: snapshot.distributions || [],
       endItems: snapshot.endItems ?? [],

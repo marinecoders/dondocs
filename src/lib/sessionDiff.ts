@@ -54,6 +54,7 @@ export function diffSessions(before: SerializedSession, after: SerializedSession
     if (JSON.stringify(a) === JSON.stringify(b)) return;
     const key = path.at(-1);
     if (key === 'timestamp' || key === 'hasFile') return;
+    if (path[0] === 'paragraphs' && path.length === 3 && key === 'id') return;
     if (key === 'signatureImage' || key === 'image') {
       changes.push({ field: path.map(label).join(' › '), before: a ? 'Image attached' : 'No image', after: b ? (a ? 'Different image attached' : 'Image attached') : 'No image' });
       return;

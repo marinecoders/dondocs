@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { paragraphIdSchema } from './paragraphIdentity';
 
 export const COMMENT_LIMITS = { threads: 100, messages: 50, author: 100, text: 10_000, context: 20_000, totalCharacters: 200_000 } as const;
 const identifier = z.string().uuid();
@@ -6,6 +7,8 @@ const context = z.string().max(COMMENT_LIMITS.context);
 export const commentAnchorSchema = z.discriminatedUnion('kind', [
   z.object({ kind: z.literal('document') }).strict(),
   z.object({ kind: z.literal('field'), field: z.string().regex(/^[a-z][A-Za-z0-9]*$/).max(100),
+    context, docType: z.string().min(1).max(100) }).strict(),
+  z.object({ kind: z.literal('paragraph'), paragraphId: paragraphIdSchema,
     context, docType: z.string().min(1).max(100) }).strict(),
 ]);
 export type CommentAnchor = z.infer<typeof commentAnchorSchema>;
@@ -20,7 +23,7 @@ export const commentThreadSchema = z.object({
   resolved: z.boolean(),
 }).strict();
 export type CommentThread = z.infer<typeof commentThreadSchema>;
-export const reviewCommentsSchema = z.object({ version: z.literal(1), threads: z.array(commentThreadSchema).max(COMMENT_LIMITS.threads) })
+export const reviewCommentsSchema = z.object({ version: z.union([z.literal(1), z.literal(2)]), threads: z.array(commentThreadSchema).max(COMMENT_LIMITS.threads) })
   .strict().superRefine((value, ctx) => {
     const ids = new Set<string>();
     let characters = 0;
@@ -29,7 +32,8 @@ export const reviewCommentsSchema = z.object({ version: z.literal(1), threads: z
         if (ids.has(id)) ctx.addIssue({ code: 'custom', message: 'Comment IDs must be unique.' });
         ids.add(id);
       }
-      if (thread.anchor.kind === 'field') characters += thread.anchor.context.length;
+      if (thread.anchor.kind !== 'document') characters += thread.anchor.context.length;
+      if (thread.anchor.kind === 'paragraph' && value.version === 1) ctx.addIssue({ code: 'custom', message: 'Paragraph comments require review format version 2.' });
       for (const message of thread.messages) characters += message.author.length + message.text.length;
     }
     if (characters > COMMENT_LIMITS.totalCharacters) ctx.addIssue({ code: 'custom', message: 'The comments exceed the supported text limit.' });

@@ -113,7 +113,9 @@ it.each(['correspondence', 'navmc_10274', 'navmc_118_11'] as const)('opens guide
   const example = EXAMPLE_DOCUMENTS[0];
   expect(useDocumentStore.getState().documentCategory).toBe('correspondence');
   expect(useDocumentStore.getState().formData.subject).toBe(example.formData.subject);
-  expect(useDocumentStore.getState().paragraphs).toEqual(example.paragraphs);
+  expect(useDocumentStore.getState().paragraphs.map(({ id: _id, ...paragraph }) => paragraph)).toEqual(example.paragraphs);
+  expect(new Set(useDocumentStore.getState().paragraphs.map(paragraph => paragraph.id)).size).toBe(example.paragraphs.length);
+  expect(useDocumentStore.getState().paragraphs.every(paragraph => !!paragraph.id)).toBe(true);
   expect(useDocumentStore.getState().references).toEqual(example.references);
   expect(useDocumentStore.getState().distributions).toEqual([]);
   expect(useUIStore.getState().documentGuideOpen).toBe(false);

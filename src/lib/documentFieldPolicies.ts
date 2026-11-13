@@ -136,7 +136,8 @@ const tableRow = {
 const commentMessage = { id: 'identity', author: 'text', text: 'text', createdAt: 'value', editedAt: 'value' } satisfies PoliciesFor<CommentMessage>;
 const documentAnchor = { kind: 'control' } satisfies PoliciesFor<Extract<CommentAnchor, { kind: 'document' }>>;
 const fieldAnchor = { kind: 'control', field: 'control', context: 'text', docType: 'control' } satisfies PoliciesFor<Extract<CommentAnchor, { kind: 'field' }>>;
-const commentThread = { id: 'identity', anchor: { variants: { document: documentAnchor, field: fieldAnchor } }, messages: array(object(commentMessage)), resolved: 'value' } satisfies PoliciesFor<CommentThread>;
+const paragraphAnchor = { kind: 'control', paragraphId: 'identity', context: 'text', docType: 'control' } satisfies PoliciesFor<Extract<CommentAnchor, { kind: 'paragraph' }>>;
+const commentThread = { id: 'identity', anchor: { variants: { document: documentAnchor, field: fieldAnchor, paragraph: paragraphAnchor } }, messages: array(object(commentMessage)), resolved: 'value' } satisfies PoliciesFor<CommentThread>;
 const reviewComments = { version: 'value', threads: array(object(commentThread)) } satisfies PoliciesFor<ReviewComments>;
 export const DOCUMENT_FIELD_POLICIES = {
   reviewComments: object(reviewComments),
