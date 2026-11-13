@@ -21,6 +21,9 @@ test('custom business figures and signature images survive reload and embed in W
   await page.getByLabel('Import draft file').setInputFiles({ name: 'business-images.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(draft)) });
   await page.getByRole('button', { name: 'Open as new document', exact: true }).click();
   await page.getByRole('button', { name: 'Block kind: paragraph. Change', exact: true }).last().click();
+  expect(await page.getByRole('menu').evaluate(menu => {
+    const bounds = menu.getBoundingClientRect(); return bounds.left >= 0 && bounds.right <= window.innerWidth;
+  })).toBe(true);
   await page.getByRole('menuitemradio', { name: /Figure — an image/ }).click();
   await page.getByLabel('Image for figure 2', { exact: true }).setInputFiles({ name: 'figure.png', mimeType: 'image/png', buffer: images.figure });
   await expect(page.getByText('figure.png', { exact: true }).first()).toBeVisible();

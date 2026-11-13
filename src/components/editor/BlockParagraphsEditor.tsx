@@ -323,7 +323,7 @@ const BlockRow = memo(function BlockRow({
                   {BLOCK_KINDS.find((k) => k.value === blockKind(callout, procedure, appendix, figure))?.short}
                 </button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="start" className="min-w-48">
+              <DropdownMenuContent align="start" className="min-w-48 max-w-[calc(100vw-2rem)]">
                 <DropdownMenuRadioGroup
                   value={blockKind(callout, procedure, appendix, figure)}
                   onValueChange={(v) => updateParagraph(index, setBlockKind(v as BlockKind))}
@@ -331,7 +331,7 @@ const BlockRow = memo(function BlockRow({
                   {BLOCK_KINDS.filter(k => showBlockKind || k.value === 'paragraph' || k.value === 'figure').map((k) => (
                     <DropdownMenuRadioItem key={k.value} value={k.value} className="gap-2">
                       <span className="w-16 shrink-0 font-serif font-semibold">{k.short}</span>
-                      <span className="text-muted-foreground">{k.name}</span>
+                      <span className="min-w-0 whitespace-normal text-muted-foreground">{k.name}</span>
                     </DropdownMenuRadioItem>
                   ))}
                 </DropdownMenuRadioGroup>
