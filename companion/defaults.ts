@@ -4,7 +4,7 @@
  * unit on every call.
  *
  * The file is parsed against the request's own `unit` and `signature`
- * shapes, so a config cannot set anything a request cannot, and a typo is
+ * shapes except request-scoped image IDs, so a config cannot set anything a request cannot, and a typo is
  * named at startup instead of being dropped at render time.
  */
 import { mkdir, readFile, rename, rm, writeFile } from 'node:fs/promises';

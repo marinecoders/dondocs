@@ -11,6 +11,8 @@ See the [capability matrix](CAPABILITIES.md) for current format availability.
 - Uploaded enclosure PDF pages are not appended to Word. Transfer those files separately.
 - Word and PDF use different layout engines, so pagination and placement can differ.
 
+Flat TeX downloads contain text and graphic references, not the image bytes. Supply the selected signature as `signature.png` and business figures as `figure-1.png`, `figure-2.jpg`, and so on beside the downloaded file. PDF rendering uses its own attachment paths; copying a PDF rendering directory alone does not assemble a complete flat-TeX project.
+
 ## Form templates and stored assets
 
 Configured forms require a reviewed, published definition and its exact PDF

@@ -17,6 +17,7 @@ import { publicationInputErrors } from './publicationInput';
 import { attachmentSchema } from './publicationSchema';
 import { TEMPLATE_FOR, toStore, type CompanionDefaults, type LetterInput } from './letterInput';
 import { DOC_TYPE_CONFIG } from '../src/types/document';
+import { businessFigureFile } from '../src/lib/figures';
 
 export const DOC_TYPES = [...Object.keys(DOC_TYPE_CONFIG), ...Object.keys(TEMPLATE_FOR)];
 export const FORMATS = ['pdf', 'docx'];
@@ -150,6 +151,14 @@ export function validateLetter(body: Partial<LetterInput>, defaults: CompanionDe
     if (!file) problems.push(`Signature attachment "${body.signature.imageFileId}" is missing.`);
     else if (file.mimeType !== 'image/png') problems.push('Signature images require a PNG attachment.');
     if (DOC_TYPE_CONFIG[body.docType ?? '']?.signature === 'dual' || body.docType === 'information_memorandum' || isTechnicalPublication(body.docType ?? '')) problems.push('Signature images require supported single-signer correspondence.');
+  }
+  if (body.docType === 'business_letter' && body.format !== 'docx') {
+    for (const [index, paragraph] of (body.paragraphs ?? []).entries()) {
+      if (!paragraph.figure) continue;
+      const file = body.attachments?.find(file => file.id === paragraph.figure!.fileId);
+      try { businessFigureFile(index + 1, file?.mimeType, file?.name, paragraph.figure.fileId); }
+      catch (error) { problems.push(error instanceof Error ? error.message : 'Use a shorter figure attachment ID.'); }
+    }
   }
   return problems;
 }

@@ -25,7 +25,7 @@ import { composeDistributionStatement } from '@/data/techpub/distributionStateme
 import { documentDistributionStatement } from './distributionStatement';
 import { formatPublicationDate } from '@/lib/publicationDate';
 import { withTimeCompliance } from '@/lib/timeCompliance';
-import { figureFile } from '@/lib/figures';
+import { businessFigureFile, figureFile } from '@/lib/figures';
 import type { DocumentData, Reference, Enclosure, Paragraph, CopyTo, Distribution, EndItem, PublicationTableRow, CalloutKind, FileRef } from '@/types/document';
 import { base64ToUint8Array } from '@/lib/encoding';
 import { composeBasicLetterId, enclosureStartNumber, pageStartNumber } from '@/lib/endorsement';
@@ -1018,7 +1018,7 @@ export function generateBodyTex(store: DocumentStore): string {
     // A figure: the image, then its numbered title beneath. The framed
     // fallback stands in until the image is loaded, as the seal's does.
     if (para.figure && (store.docType === 'i_type' || store.docType === 'business_letter')) {
-      const file = figureFile(++figureFileIndex, para.figure.type, para.figure.name, para.figure.fileRef?.id);
+      const file = (store.docType === 'business_letter' ? businessFigureFile : figureFile)(++figureFileIndex, para.figure.type, para.figure.name, para.figure.fileRef?.id);
       const number = ++printedFigureNumber;
       const label = appendixLetter ? `${appendixLetter}-${number}` : String(number);
       // A figure title carries no period at the end (MIL-STD-38784C 4.7.9.1).
@@ -1334,7 +1334,7 @@ export function generateAllLatexFiles(store: DocumentStore, resolvedLevel?: stri
     for (const p of store.paragraphs) {
       if (!p.figure) continue;
       figureFileIndex++;
-      if (p.figure.fileRef) figures.push({ file: figureFile(figureFileIndex, p.figure.type, p.figure.name, p.figure.fileRef.id), ref: p.figure.fileRef });
+      if (p.figure.fileRef) figures.push({ file: (store.docType === 'business_letter' ? businessFigureFile : figureFile)(figureFileIndex, p.figure.type, p.figure.name, p.figure.fileRef.id), ref: p.figure.fileRef });
     }
   }
   return { texFiles, enclosures, includeHyperlinks: !!store.formData.includeHyperlinks, signatureImage, referenceUrls, figures };

@@ -11,6 +11,7 @@ import { captureDocumentRevision, copyCapturedDocument } from '@/lib/capturedDoc
 import { validateLetter } from '../../companion/validateLetter';
 import { toStore } from '../../companion/letterInput';
 import { configSchema } from '../../companion/defaults';
+import { businessFigureFile, figureFile } from '@/lib/figures';
 import { docxImageFixture } from '../_helpers/docxImageFixture';
 
 const ref = (id: string, type = 'image/png') => ({ id, name: `${id}.png`, type, size: 1 });
@@ -20,6 +21,13 @@ function source(): DocxImageSource {
 }
 
 describe('Word image preparation', () => {
+  it('keeps flat-TeX image names explicit and plain-text-only exports unchanged', () => {
+    const store = { ...useDocumentStore.getState().getSnapshot(), docType: 'business_letter', formData: { signatureType: 'none' as const }, paragraphs: [{ text: 'Plain letter', level: 0 }] };
+    const tex = generateFlatLatex(store);
+    expect(tex).toContain('Plain letter');
+    expect(tex).not.toContain('{signature.png}');
+    expect(tex).not.toContain('{figure-');
+  });
   it('loads captured assets and uses actual dimensions without external paths', async () => {
     const images = await docxImageFixture();
     const model = source();
@@ -59,6 +67,12 @@ describe('Word image preparation', () => {
       const capture = captureDocumentRevision({ documentId: 'images', epoch: 1, editSequence: 1, capturedAt: 1 }, snapshot);
       expect(copyCapturedDocument(projectCapturedOutput(capture)).document.paragraphs[0].figure?.fileRef?.id).toBe('figure');
     }
+  });
+
+  it('rejects JPEG bytes mislabeled as PNG rather than trusting dimensions or MIME metadata', async () => {
+    const images = await docxImageFixture();
+    const model = source(); model.formData = {};
+    await expect(prepareDocxImages(model, async () => images.jpeg)).rejects.toThrow('Figure 1');
   });
 
   it('escapes imported graphic markings as text in Word and PDF', async () => {
@@ -103,6 +117,17 @@ describe('Word image preparation', () => {
 });
 
 describe('companion image inputs', () => {
+  it('keeps business PDF names bounded and distinct while leaving ordinary cache names unchanged', () => {
+    const normal = 'a'.repeat(32);
+    expect(businessFigureFile(1, 'image/png', 'image.png', normal)).toBe(figureFile(1, 'image/png', 'image.png', normal));
+    const first = businessFigureFile(1, 'image/png', 'image.png', '../' + 'a'.repeat(97));
+    const second = businessFigureFile(1, 'image/png', 'image.png', '../' + 'b'.repeat(97));
+    expect(first).not.toBe(second);
+    expect(first.length).toBeLessThanOrEqual(240);
+    expect(first).toMatch(/^attachments\/figure-1-x[a-z2-7]+\.png$/);
+    expect(() => businessFigureFile(1, 'image/png', 'image.png', '界'.repeat(100))).toThrow('shorter');
+    expect(() => businessFigureFile(1, 'image/png', 'image.png', '\ud800'.repeat(100))).toThrow('Unicode');
+  });
   it('does not accept request-scoped image attachment IDs as machine defaults', () => {
     expect(configSchema.safeParse({ signature: { last: 'Example', imageFileId: 'request-only' } }).success).toBe(false);
   });
