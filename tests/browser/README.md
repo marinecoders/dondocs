@@ -18,7 +18,7 @@ The configs are [playwright.browser.config.ts](../../playwright.browser.config.t
 | `downloads.spec.ts` | PDF text and filenames, DOCX ZIP integrity and document XML, both TeX formats, draft JSON, PDF startup recovery, Word resource retries, endorsement/page-number output and the iOS Chrome PDF-tab save link. |
 | `settings-navigation.spec.ts` | Backup controls and focus in Settings at desktop, narrow and landscape sizes; Help, search and tour entry points. |
 | `preview-zoom.spec.ts` | Manual zoom, Fit page and Fit width through document/form switches, preview reopening and reload. |
-| `document-lifecycle.spec.ts` | Reload detection, import-feedback layout, import/Undo/Redo persistence and built-in-form signature defaults. |
+| `document-lifecycle.spec.ts` | Reload detection, pasted-letter review/correction in all themes, import-feedback layout, import/Undo/Redo persistence and built-in-form signature defaults. |
 | `excel-roster.spec.ts` | Real Excel upload, first-worksheet preview, header selection, automatic mapping, date/identifier/missing-value warnings, row corrections and modal overflow. |
 
 Install tests allow service workers. The other suites block them so cached responses do not hide routed network fixtures. Upgrade and managed-release tests exercise real service-worker transitions separately. Some cases are platform-specific and skip on other projects; inspect the executed and skipped results.

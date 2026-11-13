@@ -391,7 +391,7 @@ export function Header({
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuLabel className="text-xs text-muted-foreground font-normal">Import & export drafts</DropdownMenuLabel>
-              <DropdownMenuItem onClick={() => setImportLetterModalOpen(true)}><FileUp className="h-4 w-4 mr-2" />Import letter from PDF or Word…</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setImportLetterModalOpen(true)}><FileUp className="h-4 w-4 mr-2" />Import letter…</DropdownMenuItem>
               <DropdownMenuItem onClick={handleExportDraft}>
                 <FileDown className="h-4 w-4 mr-2" />
                 Export draft (.json)

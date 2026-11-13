@@ -64,6 +64,80 @@ async function historyAction(page: Page, name: RegExp) {
   return page.getByRole('menu').getByRole('menuitem', { name });
 }
 
+for (const theme of ['light', 'dark', 'classic']) {
+  test(`pasted letter text (${theme}) is reviewed, corrected and opened as a separate editable draft`, async ({ page }, testInfo) => {
+    await page.addInitScript((appearance) => {
+      localStorage.setItem('dondocs_ui', JSON.stringify({ version: 1, state: { theme: appearance } }));
+    }, theme);
+    const text = [
+      '5216', 'Ser 1000/001', '12 Nov 26',
+      'From: Example sender', 'To: Example recipient', 'Subj: PASTED SAMPLE LETTER',
+      'Ref: (a) Sample reference', 'Encl: (1) Sample enclosure', '',
+      '1. First sample paragraph.', '   a. Sample subparagraph.', '2. Second sample paragraph.',
+      '', 'A. B. EXAMPLE',
+    ].join('\n');
+    await page.goto('/');
+    const subject = page.getByRole('textbox', { name: 'Subject', exact: true });
+    await subject.fill('ORIGINAL SAMPLE DRAFT');
+    await expect.poll(() => savedSubjects(page), { timeout: 15_000 }).toContain('ORIGINAL SAMPLE DRAFT');
+    await page.getByRole('button', { name: 'Document actions', exact: true }).click();
+    await page.getByRole('menuitem', { name: 'Import letter…', exact: true }).click();
+    const dialog = page.getByRole('dialog', { name: 'Import a letter', exact: true });
+    await dialog.getByRole('button', { name: 'Paste letter text', exact: true }).click();
+    const input = dialog.getByRole('textbox', { name: 'Paste letter text', exact: true });
+    await expect(input).toBeFocused();
+    await expect(dialog.getByRole('button', { name: 'Read letter' })).toBeDisabled();
+    // fill supplies plain text, just as a normal textarea paste does, without a clipboard permission.
+    await input.fill(text);
+    await expect(input).toHaveValue(text);
+    await input.scrollIntoViewIfNeeded();
+    await expect(input).toBeInViewport({ ratio: 1 });
+    expect(await dialog.evaluate(element => element.scrollWidth > element.clientWidth)).toBe(false);
+    await page.screenshot({ path: testInfo.outputPath('paste-letter-text.png') });
+
+    // Escape discards the cancelled draft. Reopening starts a separate import session.
+    await page.keyboard.press('Escape');
+    await expect(dialog).toBeHidden();
+    await page.getByRole('button', { name: 'Document actions', exact: true }).click();
+    await page.getByRole('menuitem', { name: 'Import letter…', exact: true }).click();
+    await dialog.getByRole('button', { name: 'Paste letter text', exact: true }).click();
+    await expect(input).toHaveValue('');
+    const unnumbered = 'From: Example sender\nTo: Example recipient\nSubj: SAMPLE LETTER\n\nThis body has no paragraph numbers.';
+    await input.fill(unnumbered);
+    await dialog.getByRole('button', { name: 'Read letter' }).click();
+    await expect(dialog.getByRole('alert')).toContainText('No body paragraphs were recognized.');
+    await dialog.getByRole('button', { name: 'Edit pasted text' }).click();
+    await expect(input).toHaveValue(unnumbered);
+    await input.fill(text);
+    await dialog.getByRole('button', { name: 'Read letter' }).click();
+    await expect(dialog.getByRole('alert')).toHaveCount(0);
+    for (const value of ['Example sender', 'Example recipient', 'PASTED SAMPLE LETTER', '5216', '1000/001', '12 Nov 26', 'A. B. EXAMPLE']) {
+      await expect(dialog.getByText(value, { exact: true })).toBeVisible();
+    }
+    await expect(dialog.getByText('Paragraphs', { exact: true }).locator('..')).toHaveText('Paragraphs3');
+    await expect(page.locator('#subject')).toHaveValue('ORIGINAL SAMPLE DRAFT');
+    await dialog.getByRole('button', { name: 'Edit pasted text' }).click();
+    await expect(input).toHaveValue(text);
+    await input.fill(text.replace('PASTED SAMPLE LETTER', 'CORRECTED SAMPLE LETTER'));
+    await dialog.getByRole('button', { name: 'Read letter' }).click();
+    await expect(dialog.getByText('CORRECTED SAMPLE LETTER', { exact: true })).toBeVisible();
+    await page.screenshot({ path: testInfo.outputPath('paste-letter-review.png') });
+    await dialog.getByRole('button', { name: 'Import into editor' }).click();
+    await expect(dialog).toBeHidden();
+    await expect(subject).toHaveValue('CORRECTED SAMPLE LETTER');
+    await expect.poll(() => savedSubjects(page), { timeout: 15_000 })
+      .toEqual(expect.arrayContaining(['ORIGINAL SAMPLE DRAFT', 'CORRECTED SAMPLE LETTER']));
+    await expect(await historyAction(page, /^Undo/)).toBeDisabled();
+    await page.keyboard.press('Escape');
+    await subject.fill('EDITED SAMPLE LETTER');
+    await expect.poll(async () => (await savedState(page)).currentSubject, { timeout: 15_000 }).toBe('EDITED SAMPLE LETTER');
+    await page.reload();
+    await expect(subject).toHaveValue('EDITED SAMPLE LETTER');
+    await openRecent(page, 'ORIGINAL SAMPLE DRAFT');
+    await expect(subject).toHaveValue('ORIGINAL SAMPLE DRAFT');
+  });
+}
+
 for (const viewport of [{ width: 1440, height: 1000 }, { width: 320, height: 568 }, { width: 568, height: 320 }]) {
   test.describe(`Import feedback at ${viewport.width}x${viewport.height}`, () => {
     test.use({ viewport });
