@@ -11,7 +11,7 @@ import type { DocumentData } from '@/types/document';
 
 export { isDocxFile, isLegacyDocFile, detectImportFormat, type ImportFormat } from '@/lib/importFormat';
 
-/** A parsed file plus the importer's guesses at document type and classification. */
+/** A parsed letter plus the importer's guesses at document type and classification. */
 export interface ParsedImport {
   parsed: ParsedLetter;
   detection: DocTypeDetection;
@@ -52,10 +52,15 @@ async function extractLetterText(file: File): Promise<{ body: string; markings: 
  */
 export async function parseLetterFile(file: File): Promise<ParsedImport> {
   const { body, markings } = await extractLetterText(file);
+  return parseLetterText(body, markings);
+}
+
+/** Parse pasted or extracted text through the same letter-import pipeline. */
+export function parseLetterText(text: string, markings = ''): ParsedImport {
   return {
-    parsed: parseNavalLetter(body),
-    detection: detectDocumentType(body),
-    classification: detectClassification(markings ? `${markings}\n${body}` : body),
+    parsed: parseNavalLetter(text),
+    detection: detectDocumentType(text),
+    classification: detectClassification(markings ? `${markings}\n${text}` : text),
   };
 }
 

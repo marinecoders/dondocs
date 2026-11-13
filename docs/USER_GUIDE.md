@@ -27,7 +27,9 @@ Open a draft's **History** to inspect/compare or restore a prior snapshot. The r
 
 Use **Document actions → Export draft (.json)** for an editable portable copy, and the corresponding import action to open one. Draft JSON is **unencrypted**, can embed resolved assets, and does not run the pre-export PII/PHI review used by rendered downloads. Inspect it before transferring it.
 
-**Import letter from PDF or Word** extracts a proposed draft. Review its fields and document type before accepting it; extraction is not a guarantee that layout, signatures or all source content have been reproduced. Keep the source document for comparison. Imports preserve the previous open document rather than intentionally replacing its saved identity.
+**Document actions → Import letter** accepts a PDF or Word file, or choose **Paste letter text**, paste the full letter, and select **Read letter**. Review the recognized fields and document type, then select **Import into editor** to open a new editable document. **Edit pasted text** returns to your text for corrections before importing. Imports preserve the previous open document.
+
+Pasted text does not preserve fonts, images or page layout. Pasting directly into the body editor still creates paragraph blocks rather than importing the whole letter's fields. If no body paragraphs are recognized, review warns you to check the source text and paragraph numbers before importing. Keep the source for comparison: recognition is best effort, and you can correct fields in the editor.
 
 ## Password-protected sharing
 

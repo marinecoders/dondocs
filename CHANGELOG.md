@@ -7,6 +7,17 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.63] — 2026-11-12
+
+### Added
+
+- Import a complete letter from pasted text through **Import letter → Paste letter text**, using the existing field recognition, review and new-document flow.
+- Warn during import review when no body paragraphs were recognized.
+
+### Fixed
+
+- Discard cancelled import drafts and prevent a delayed file read from replacing a reopened import.
+
 ## [1.3.62] — 2026-11-10
 
 ### Fixed
