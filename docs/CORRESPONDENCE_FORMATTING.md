@@ -22,6 +22,14 @@ Word reference titles link to their saved URLs when valid. Missing or unsafe URL
 
 Attached enclosure PDFs are appended to PDF output. Word output retains supported enclosure-list text and requires those files to be transferred separately. See [output limits](OUTPUT_LIMITS.md).
 
+## Reviewed formatting corrections
+
+In **Body**, choose the date audience before selecting **Review body date formatting**. Military body dates use a full month and four-digit year, such as **5 November 2026**; civilian body dates use **November 5, 2026** (SECNAV M-5216.5, Ch 2 ¶16). The choice is not inferred from an addressee or the header date. Quoted text, code, links and placeholders remain unchanged. Numeric dates are not rewritten, and short years or invalid named dates require manual review.
+
+In **References**, **Review NOTAL formatting** formats an existing terminal marker such as `( notal )` as `(NOTAL)` (Ch 7 ¶10b). This does not assign NOTAL status or change the source URL, letter, order, or body citations.
+
+Each preview identifies the affected occurrence and shows Current and Proposed text. Select the corrections to apply together; one Undo restores the previous revision. Editing or switching drafts invalidates the preview. These tools cover ordinary single-signer correspondence; forms, technical publications and dual-signature formats remain outside this correction scope.
+
 ## Type size and spacing
 
 Correspondence rendering supports the offered 10-, 11- and 12-point sizes. Use the sizes permitted by the selected format. Technical publications have separate [format profiles](TECHNICAL_PUBLICATIONS.md).
