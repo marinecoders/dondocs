@@ -10,6 +10,7 @@ import { publicationExportErrors, isTechnicalPublication } from '../src/lib/publ
 import { loadFigureFiles } from '../src/services/latex/figureAssets';
 import { assemblePublicationPdf } from './publicationPdf';
 import { attachment } from './publicationInput';
+import { inspectRasterImage } from '../src/services/docx/imageAssets';
 import { generateAllLatexFiles } from '@/services/latex/generator';
 import { prepareEngine, compileDocument, LatexCompileError } from '@/services/latex/renderDocument';
 import { createNodeEngine, loadAssets } from './nodeEngine';
@@ -50,7 +51,14 @@ export async function renderPdf(
     const files: Record<string, string | Uint8Array> = { ...generated.texFiles };
     if (generated.signatureImage) files['attachments/signature.png'] = generated.signatureImage;
     if (isTechnicalPublication(input.docType) || input.docType === 'business_letter') {
-      await loadFigureFiles(files, generated.figures, async (id) => Buffer.from(attachment(input, id).dataBase64, 'base64'));
+      await loadFigureFiles(files, generated.figures, async id => {
+        const bytes = Buffer.from(attachment(input, id).dataBase64, 'base64');
+        if (input.docType === 'business_letter') {
+          const figure = generated.figures.find(figure => figure.ref.id === id)!;
+          await inspectRasterImage(bytes, figure.file.endsWith('.jpg') ? 'image/jpeg' : 'image/png');
+        }
+        return bytes;
+      });
     }
     const pdf = await compileDocument(engine, files);
     return isTechnicalPublication(input.docType) ? await assemblePublicationPdf(pdf, generated, store) : pdf;

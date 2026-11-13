@@ -1,5 +1,7 @@
 import { beginDocumentTask, isCurrentDocumentTask } from '@/lib/documentTask';
 import { prepareFigureUpload } from '@/lib/prepareFigureUpload';
+import { inspectRasterImage } from '@/services/docx/imageAssets';
+import { figureExtension } from '@/lib/figures';
 import { InputWithVariables } from '@/components/ui/variable-autocomplete';
 import { runFileImport } from '@/lib/fileImports';
 import { Label } from '@/components/ui/label';
@@ -392,6 +394,13 @@ const BlockRow = memo(function BlockRow({
                         try {
                           await withAttachmentStaging(async () => {
                             if (!ownsFigure()) return;
+                            if (businessFigure) {
+                              if (file.size > 10 * 1024 * 1024) throw new Error('Business-letter images must be smaller than 10 MB.');
+                              const extension = figureExtension(file.type, file.name);
+                              if (extension === 'pdf') throw new Error('Business-letter figures use PNG or JPEG images.');
+                              await inspectRasterImage(new Uint8Array(await file.arrayBuffer()), extension === 'jpg' ? 'image/jpeg' : 'image/png');
+                              if (!ownsFigure()) return;
+                            }
                             const { bytes, type, width, height } = await prepareFigureUpload(file);
                             if (businessFigure && type === 'application/pdf') throw new Error('Business-letter figures use PNG or JPEG images. Attach PDF pages as enclosures instead.');
                             if (!ownsFigure()) return;

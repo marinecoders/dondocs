@@ -1023,7 +1023,7 @@ export function generateBodyTex(store: DocumentStore): string {
       const label = appendixLetter ? `${appendixLetter}-${number}` : String(number);
       // A figure title carries no period at the end (MIL-STD-38784C 4.7.9.1).
       const graphicMark = para.figure.portionMarking ?? para.portionMarking;
-      const title = portionPrefix + bodyText(para.text.trim().replace(/\.$/, ''));
+      const title = (para.portionMarking ? `(${escapeLatex(para.portionMarking)}) ` : '') + bodyText(para.text.trim().replace(/\.$/, ''));
       parts.push(
         `\\par\\vspace{12pt}\n\\begin{center}\n${navigationTex(navigation.get(`itype.figure.${i}`))}${graphicMark ? `(${escapeLatex(graphicMark)})\\\\*` : ""}` +
           `\\IfFileExists{${file}}{\\includegraphics[width=\\textwidth,height=5in,keepaspectratio]{${file}}}` +

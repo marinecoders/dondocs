@@ -11,19 +11,67 @@ export interface DocxImageSource {
 export type DocxMedia = Readonly<Record<string, Uint8Array>>;
 /** A conversion owns a fresh input filesystem, so the ordinal is sufficient
  * and keeps opaque attachment IDs out of native filenames. */
-export const docxFigureFile = (number: number, type?: string, name?: string) => `figure-${number}.${figureExtension(type, name)}`;
+export function docxFigureFile(number: number, type?: string, name?: string) {
+  if (type && !['image/png', 'image/jpeg', 'application/pdf'].includes(type)) throw new Error('Figures require PNG or JPEG images.');
+  return `figure-${number}.${figureExtension(type, name)}`;
+}
 const MAX_IMAGE_BYTES = 10 * 1024 * 1024;
 const MAX_IMAGE_PIXELS = 40_000_000;
+const pngCrcTable = Array.from({ length: 256 }, (_, index) => {
+  let crc = index;
+  for (let bit = 0; bit < 8; bit++) crc = (crc & 1) ? 0xedb88320 ^ (crc >>> 1) : crc >>> 1;
+  return crc >>> 0;
+});
+function pngCrc(bytes: Uint8Array, from: number, to: number) {
+  let crc = 0xffffffff;
+  for (let i = from; i < to; i++) crc = pngCrcTable[(crc ^ bytes[i]) & 255] ^ (crc >>> 8);
+  return (crc ^ 0xffffffff) >>> 0;
+}
 
 function pngDimensions(bytes: Uint8Array) {
-  if (bytes.length < 24 || bytes[0] !== 137 || String.fromCharCode(...bytes.slice(1, 4)) !== 'PNG') throw new Error('The image is not a valid PNG.');
+  const signature = [137, 80, 78, 71, 13, 10, 26, 10];
+  if (bytes.length < 33 || signature.some((value, index) => bytes[index] !== value)) throw new Error('The image is not a valid PNG.');
   const view = new DataView(bytes.buffer, bytes.byteOffset, bytes.byteLength);
+  let offset = 8, header = false, data = false, ended = false;
+  while (offset + 12 <= bytes.length) {
+    const size = view.getUint32(offset);
+    const type = String.fromCharCode(...bytes.slice(offset + 4, offset + 8));
+    if (size > bytes.length - offset - 12 || !/^[A-Za-z]{4}$/.test(type)) throw new Error('The PNG contains a malformed chunk.');
+    if (!header && (type !== 'IHDR' || size !== 13)) throw new Error('The PNG must begin with one IHDR chunk.');
+    if (['acTL', 'fcTL', 'fdAT'].includes(type)) throw new Error('Animated PNG images are not supported. Choose a static PNG.');
+    if (pngCrc(bytes, offset + 4, offset + 8 + size) !== view.getUint32(offset + 8 + size)) throw new Error('The PNG contains a corrupt chunk checksum.');
+    if (type === 'IHDR') {
+      if (header || size !== 13) throw new Error('The PNG contains a duplicate or malformed IHDR chunk.');
+      header = true;
+      const depth = bytes[offset + 16], color = bytes[offset + 17];
+      const depths: Record<number, readonly number[]> = { 0: [1, 2, 4, 8, 16], 2: [8, 16], 3: [1, 2, 4, 8], 4: [8, 16], 6: [8, 16] };
+      if (!depths[color]?.includes(depth) || bytes[offset + 18] !== 0 || bytes[offset + 19] !== 0 || bytes[offset + 20] > 1) throw new Error('The PNG image header is invalid.');
+    }
+    if (type === 'IDAT') data = true;
+    offset += size + 12;
+    if (type === 'IEND') {
+      if (size !== 0 || !data || offset !== bytes.length) throw new Error('The PNG image ending is invalid.');
+      ended = true; break;
+    }
+  }
+  if (!ended) throw new Error('The PNG is truncated or missing image data.');
   const width = view.getUint32(16), height = view.getUint32(20);
-  if (!width || !height || width * height > MAX_IMAGE_PIXELS) throw new Error('The image exceeds the 40 megapixel Word limit.');
+  if (!width || !height || width * height > MAX_IMAGE_PIXELS) throw new Error('The image exceeds the 40 megapixel limit.');
   return { width, height };
 }
 function boundedImage(bytes: Uint8Array) {
-  if (!bytes.byteLength || bytes.byteLength > MAX_IMAGE_BYTES) throw new Error('Word images must be smaller than 10 MB.');
+  if (!bytes.byteLength || bytes.byteLength > MAX_IMAGE_BYTES) throw new Error('Images must be smaller than 10 MB.');
+}
+
+/** Inspect business-letter raster inputs before browser/PDF decoders allocate
+ * image buffers. PNG structure is checked before its declared size is used. */
+export async function inspectRasterImage(bytes: Uint8Array, type: 'image/png' | 'image/jpeg') {
+  boundedImage(bytes);
+  if (type === 'image/png') pngDimensions(bytes);
+  const pdf = await PDFDocument.create();
+  const image = type === 'image/jpeg' ? await pdf.embedJpg(bytes) : await pdf.embedPng(bytes);
+  if (image.width * image.height > MAX_IMAGE_PIXELS) throw new Error('The image exceeds the 40 megapixel limit.');
+  return { width: image.width, height: image.height };
 }
 
 export function imageExtent(width: number, height: number, maxWidth: number, maxHeight: number) {
@@ -58,7 +106,7 @@ export async function prepareDocxImages(source: DocxImageSource, read: (id: stri
     if (!image?.data) throw new Error('The signature image is missing. Reattach it before exporting Word.');
     const bytes = base64ToUint8Array(image.data.replace(/^data:image\/png;base64,/, ''));
     signatureExtent(image.data);
-    try { await (await PDFDocument.create()).embedPng(bytes); }
+    try { await inspectRasterImage(bytes, 'image/png'); }
     catch { throw new Error('The signature image cannot be read. Reattach a valid PNG before exporting Word.'); }
     files['signature.png'] = bytes;
   }
@@ -75,15 +123,9 @@ export async function prepareDocxImages(source: DocxImageSource, read: (id: stri
     try { bytes = new Uint8Array(await read(figure.fileRef.id)); }
     catch { throw new Error(`Figure ${number} could not be read. Reattach it before exporting Word.`); }
     try {
-      boundedImage(bytes);
-      if (!/\.jpg$/.test(file)) pngDimensions(bytes);
-    } catch (error) { throw new Error(`Figure ${number}: ${error instanceof Error ? error.message : 'The image cannot be read.'}`); }
-    try {
-      const pdf = await PDFDocument.create();
-      const image = /\.jpg$/.test(file) ? await pdf.embedJpg(bytes) : await pdf.embedPng(bytes);
-      if (image.width * image.height > MAX_IMAGE_PIXELS) throw new Error('Image exceeds the 40 megapixel Word limit.');
-      paragraph.figure = { ...figure, width: image.width, height: image.height };
-    } catch { throw new Error(`Figure ${number} cannot be read. Choose a valid PNG or JPEG before exporting Word.`); }
+      const dimensions = await inspectRasterImage(bytes, /\.jpg$/.test(file) ? 'image/jpeg' : 'image/png');
+      paragraph.figure = { ...figure, ...dimensions };
+    } catch (error) { throw new Error(`Figure ${number}: ${error instanceof Error ? error.message : 'Choose a valid PNG or JPEG before exporting Word.'}`, { cause: error }); }
     files[file] = bytes;
   }
   return files;

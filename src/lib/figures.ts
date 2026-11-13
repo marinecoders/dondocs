@@ -15,6 +15,7 @@ export const figureFile = (n: number, mime?: string, name?: string, id?: string)
  * native filename after hex expansion. Keep ordinary cache identities intact
  * and encode longer IDs reversibly, without truncation or digest collisions. */
 export function businessFigureFile(n: number, mime?: string, name?: string, id?: string): string {
+  if (mime && !['image/png', 'image/jpeg', 'application/pdf'].includes(mime)) throw new Error('Business-letter figures require PNG or JPEG images.');
   if (id !== undefined) {
     try { encodeURIComponent(id); } catch { throw new Error('Business-letter PDF figure IDs must contain valid Unicode.'); }
   }

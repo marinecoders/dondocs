@@ -10,7 +10,7 @@ import { finishCorrespondencePdf } from '@/services/pdf/finishCorrespondencePdf'
 import type { DocxConversionOptions, DocxProgressCallback } from '@/services/docx/pandoc-converter';
 import { resolvePageNumbering } from '@/lib/pageNumbering';
 import { pageStartNumber } from '@/lib/endorsement';
-import { prepareDocxImages } from '@/services/docx/imageAssets';
+import { inspectRasterImage, prepareDocxImages } from '@/services/docx/imageAssets';
 
 export interface ExportAssets {
   withAssets<T>(ids: readonly string[], operation: (read: (id: string) => StoredAttachment) => Promise<T>): Promise<T>;
@@ -98,7 +98,14 @@ export async function renderPreparedCorrespondence(ready: ReadyExportJob, ports:
     const generated = generateAllLatexFiles(document, resolvedLevel, referenceDate);
     const files: Record<string, string | Uint8Array> = { ...generated.texFiles };
     if (generated.signatureImage) files['attachments/signature.png'] = generated.signatureImage;
-    await loadFigureFiles(files, generated.figures, async id => read(id).data);
+    await loadFigureFiles(files, generated.figures, async id => {
+      const bytes = new Uint8Array(read(id).data);
+      if (document.docType === 'business_letter') {
+        const figure = generated.figures.find(figure => figure.ref.id === id)!;
+        await inspectRasterImage(bytes, figure.file.endsWith('.jpg') ? 'image/jpeg' : 'image/png');
+      }
+      return bytes;
+    });
     checkCancellation(signal);
     reportProgress('pdf-compiling');
     const pdf = await compile(files);

@@ -1,6 +1,6 @@
 import 'fake-indexeddb/auto';
 import { describe, expect, it } from 'vitest';
-import { prepareDocxImages, signatureExtent, type DocxImageSource } from '@/services/docx/imageAssets';
+import { inspectRasterImage, prepareDocxImages, signatureExtent, type DocxImageSource } from '@/services/docx/imageAssets';
 import { generateFlatLatex } from '@/services/latex/flat-generator';
 import { generateAllLatexFiles } from '@/services/latex/generator';
 import { useDocumentStore } from '@/stores/documentStore';
@@ -75,15 +75,35 @@ describe('Word image preparation', () => {
     await expect(prepareDocxImages(model, async () => images.jpeg)).rejects.toThrow('Figure 1');
   });
 
-  it('escapes imported graphic markings as text in Word and PDF', async () => {
+  it.each(['graphic', 'paragraph'] as const)('escapes imported %s markings as text in Word and PDF', async target => {
     const images = await docxImageFixture();
     const model = source(); model.formData = {};
-    model.paragraphs[0].figure!.portionMarking = '\\input{private-file}' as never;
+    if (target === 'graphic') model.paragraphs[0].figure!.portionMarking = '\\input{private-file}' as never;
+    else model.paragraphs[0].portionMarking = '\\input{private-file}' as never;
     await prepareDocxImages(model, async () => images.figure);
     const store = { ...useDocumentStore.getState().getSnapshot(), ...model, documentMode: 'custom' as const };
     expect(generateFlatLatex(store)).not.toContain('\\input{private-file}');
     expect(generateAllLatexFiles(store).texFiles['body.tex']).not.toContain('\\input{private-file}');
     expect(generateFlatLatex(store)).toContain('private-file');
+  });
+
+  it('rejects duplicate PNG image headers before decoding even when both use benign dimensions', async () => {
+    const { signature } = await docxImageFixture();
+    const duplicate = Buffer.concat([signature.subarray(0, 33), signature.subarray(8, 33), signature.subarray(33)]);
+    expect(() => signatureExtent(duplicate.toString('base64'))).toThrow('duplicate');
+    await expect(inspectRasterImage(duplicate, 'image/png')).rejects.toThrow('duplicate');
+  });
+
+  it('rejects animated, truncated, corrupt-checksum and invalid-signature PNG inputs', async () => {
+    const { figure } = await docxImageFixture();
+    const animation = Buffer.alloc(20); animation.writeUInt32BE(8); animation.write('acTL', 4); animation.writeUInt32BE(1, 8);
+    const animated = Buffer.concat([figure.subarray(0, 33), animation, figure.subarray(33)]);
+    await expect(inspectRasterImage(animated, 'image/png')).rejects.toThrow('Animated');
+    await expect(inspectRasterImage(figure.subarray(0, figure.length - 5), 'image/png')).rejects.toThrow('PNG');
+    const badCrc = Buffer.from(figure); badCrc[badCrc.length - 1] ^= 1;
+    await expect(inspectRasterImage(badCrc, 'image/png')).rejects.toThrow('checksum');
+    const badSignature = Buffer.from(figure); badSignature[4] = 0;
+    await expect(inspectRasterImage(badSignature, 'image/png')).rejects.toThrow('valid PNG');
   });
 
   it('rejects missing and unsupported signature images', async () => {
