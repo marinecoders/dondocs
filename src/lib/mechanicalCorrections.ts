@@ -1,7 +1,7 @@
 import { DOC_TYPE_CONFIG, type DocumentCategory, type DocumentMode, type Paragraph, type Reference } from '@/types/document';
-import { normalizeDate } from './dateFormatting';
+import { normalizeBodyDate, type BodyDateAudience } from './bodyDateFormatting';
 
-export type BodyDateAudience = 'military' | 'civilian';
+export type { BodyDateAudience } from './bodyDateFormatting';
 export type MechanicalSection = 'body' | 'references';
 export type MechanicalRule = 'body-date-standard' | 'body-date-civilian' | 'reference-notal-marker';
 export interface MechanicalSource {
@@ -38,9 +38,9 @@ function protectedRanges(text: string): readonly [number, number][] {
   const ranges: [number, number][] = [];
   // An unclosed literal is also left alone. Date recognition never edits source
   // quotations, code, URLs, placeholders, or a Markdown quote line.
-  const literals = /"[^"]*(?:"|$)|“[^”]*(?:”|$)|‘[^’]*(?:’|$)|`[^`]*(?:`|$)|(?:https?:\/\/|mailto:)\S+|\{\{[\s\S]*?(?:\}\}|$)|\[\[[\s\S]*?(?:\]\]|$)|\[[^\]]*(?:\]|$)|(?:^|\n)\s*>[^\n]*/gi;
+  const literals = /"[^"]*(?:"|$)|“[^”]*(?:”|$)|‘(?:[^’]|’(?=[\p{L}\p{M}\p{N}_]))*(?:’|$)|`[^`]*(?:`|$)|(?:https?:\/\/|mailto:)\S+|\{\{[\s\S]*?(?:\}\}|$)|\[\[[\s\S]*?(?:\]\]|$)|\[[^\]]*(?:\]|$)|(?:^|\n)\s*>[^\n]*/giu;
   for (const match of text.matchAll(literals)) ranges.push([match.index, match.index + match[0].length]);
-  for (const match of text.matchAll(/(?:^|[\s(])'[^']*(?:'|$)/g)) ranges.push([match.index, match.index + match[0].length]);
+  for (const match of text.matchAll(/(?<![\p{L}\p{M}\p{N}_])'(?:[^']|'(?=[\p{L}\p{M}\p{N}_]))*(?:'|$)/gu)) ranges.push([match.index, match.index + match[0].length]);
   return ranges;
 }
 
@@ -72,9 +72,7 @@ export function mechanicalFindings(source: MechanicalSource, section: Mechanical
         if (ranges.some(([from, to]) => start < to && end > from)) continue;
         dateNumber++;
         const before = match[0];
-        const civilian = normalizeDate(before, 'spelled');
-        const parts = civilian && /^([A-Za-z]+) (\d{1,2}), (\d{4})$/.exec(civilian);
-        const after = parts ? (audience === 'military' ? `${parts[2]} ${parts[1]} ${parts[3]}` : civilian) : undefined;
+        const after = normalizeBodyDate(before, audience) ?? undefined;
         if (after === before) continue;
         findings.push(finding(ruleId, { kind: 'paragraph-text', index, start, end }, `Paragraph ${index + 1}, date ${dateNumber}`, before,
           after || undefined, paragraph.text, after

@@ -18,6 +18,7 @@ describe('reviewed body date rules', () => {
   it.each([
     ['05 Nov 2026', '5 November 2026'], ['November 5, 2026', '5 November 2026'],
     ['29 FEB 2024', '29 February 2024'], ['1\tjan\t2026', '1 January 2026'],
+    ['10 Nov 1775', '10 November 1775'], ['1 Jan 1900', '1 January 1900'], ['5 Nov 2100', '5 November 2100'],
   ])('retains the known calendar date while formatting %j for military body text', (before, after) => {
     const state = source(`Due ${before}.`);
     const [item] = mechanicalFindings(state, 'body', 'military');
@@ -34,7 +35,7 @@ describe('reviewed body date rules', () => {
     expect(new Set(findings.map(item => item.id)).size).toBe(2);
     expect(findings.map(item => text.slice(item.target.start, item.target.end))).toEqual(['05 Nov 2026', '05 Nov 2026']);
   });
-  it.each(['5 Nov 26', 'November 5, 26', '31 April 2026', '29 Feb 2026', '5 Nov 1900', '5 Nov 2100'])('leaves unclear or invalid %j advisory', text => {
+  it.each(['5 Nov 26', 'November 5, 26', '31 April 2026', '29 Feb 2026', '1 Jan 0000', '29 Feb 1900', '29 Feb 2100'])('leaves unclear or invalid %j advisory', text => {
     const [item] = mechanicalFindings(source(text), 'body', 'civilian');
     expect(item.before).toBe(text);
     expect(item).not.toHaveProperty('after');

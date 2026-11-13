@@ -24,7 +24,7 @@ Attached enclosure PDFs are appended to PDF output. Word output retains supporte
 
 ## Reviewed formatting corrections
 
-In **Body**, choose the date audience before selecting **Review body date formatting**. Military body dates use a full month and four-digit year, such as **5 November 2026**; civilian body dates use **November 5, 2026** (SECNAV M-5216.5, Ch 2 ¶16). The choice is not inferred from an addressee or the header date. Quoted text, code, links and placeholders remain unchanged. Numeric dates are not rewritten, and short years or invalid named dates require manual review.
+In **Body**, choose the date audience before selecting **Review body date formatting**. Military body dates use a full month and four-digit year, such as **5 November 2026**; civilian body dates use **November 5, 2026** (SECNAV M-5216.5, Ch 2 ¶16). Known historical years, such as **10 November 1775**, retain their exact year. The choice is not inferred from an addressee or the header date. Quoted text, code, links and placeholders remain unchanged. Numeric dates are not rewritten, and short years or invalid named dates require manual review.
 
 In **References**, **Review NOTAL formatting** formats an existing terminal marker such as `( notal )` as `(NOTAL)` (Ch 7 ¶10b). This does not assign NOTAL status or change the source URL, letter, order, or body citations.
 
