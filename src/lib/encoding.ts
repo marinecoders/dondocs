@@ -176,21 +176,23 @@ export function triggerDownload(
   mimeType: string = 'application/octet-stream'
 ): void {
   const blob = data instanceof Blob ? data : new Blob([new Uint8Array(data)], { type: mimeType });
-  const url = URL.createObjectURL(blob);
-
   const link = document.createElement('a');
-  link.href = url;
-  link.download = filename;
-  link.style.display = 'none';
-
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-
-  // Revoke after a short delay to ensure download starts
-  setTimeout(() => {
-    URL.revokeObjectURL(url);
-  }, 100);
+  const url = URL.createObjectURL(blob);
+  let handedOff = false;
+  try {
+    link.href = url;
+    link.download = filename;
+    link.style.display = 'none';
+    document.body.appendChild(link);
+    link.click();
+    handedOff = true;
+  } finally {
+    link.remove();
+    // Match other export deliveries: successful URLs belong to the browser
+    // briefly; failed handoffs must release their potentially large blobs now.
+    if (handedOff) setTimeout(() => URL.revokeObjectURL(url), 10_000);
+    else URL.revokeObjectURL(url);
+  }
 
   debug.log('Encoding', `Download triggered: ${filename}`);
 }
