@@ -76,7 +76,8 @@ export async function checkRosterArchive(bytes: Uint8Array, limits: ArchiveLimit
   let cells = 0;
   // Inspect actual row/cell coordinates, including rows a limited SheetJS
   // read would skip. A forged or stale <dimension> must not truncate data.
-  for (const tag of xml.matchAll(/<(?:[\w.-]+:)?(row|c)(?=[\s/>])[^>]*>/g)) {
+  // Nested '<' ends a candidate tag so malformed XML cannot cause rescans.
+  for (const tag of xml.matchAll(/<(?:[\w.-]+:)?(row|c)(?=[\s/>])[^<>]*>/g)) {
     const reference = /(?:^|\s)r\s*=\s*["']([^"']*)["']/.exec(tag[0])?.[1];
     if (tag[1] === 'row') {
       rowNumber = reference === undefined ? rowNumber + 1 : Number(reference);
