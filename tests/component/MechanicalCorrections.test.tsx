@@ -6,6 +6,7 @@ import { applyMechanicalCorrections, reviewMechanicalCorrections } from '@/lib/a
 import { resumeSessionSaves, useDocumentStore } from '@/stores/documentStore';
 import { captureDocumentScope, changeDocumentHistory, flushDocumentWrites, resetCurrentDocument, useDocumentsStore } from '@/stores/documentsStore';
 import { useHistoryStore } from '@/stores/historyStore';
+import { freshParagraphs } from '@/lib/paragraphIdentity';
 
 beforeEach(() => {
   vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout', 'Date'] });
@@ -13,7 +14,7 @@ beforeEach(() => {
   useDocumentsStore.setState({ docs: {}, trash: {}, currentId: null, hydrated: true, baseline: null });
   useDocumentsStore.getState().newDocument();
   useDocumentStore.setState({ docType: 'naval_letter', documentCategory: 'correspondence', documentMode: 'compliant',
-    paragraphs: [{ text: 'Due 05 Nov 2026; return 06 Dec 2026.', level: 0 }, { text: 'Training 1 Jan 2026.', level: 1 }],
+    paragraphs: freshParagraphs([{ text: 'Due 05 Nov 2026; return 06 Dec 2026.', level: 0 }, { text: 'Training 1 Jan 2026.', level: 1 }]),
     references: [{ letter: 'a', title: 'Alpha ( notal )', url: 'https://example.com/a' }, { letter: 'b', title: 'Bravo (notal)', url: 'https://example.com/b' }] });
 });
 afterEach(async () => { await flushDocumentWrites();vi.clearAllTimers();vi.useRealTimers(); });
@@ -36,12 +37,16 @@ describe('mechanical correction preview and transactions', () => {
   it('publishes all selected spans atomically, handles length shifts, and uses one Undo/Redo', async () => {
     const proposal = reviewMechanicalCorrections('body', 'military');
     const before = useDocumentStore.getState().getSnapshot();
+    const paragraphIds = before.paragraphs.map(paragraph => paragraph.id);
+    expect(paragraphIds.every(Boolean)).toBe(true);
+    expect(new Set(paragraphIds).size).toBe(2);
     const observed: string[][] = [];
     const unsubscribe = useDocumentStore.subscribe(state => observed.push(state.paragraphs.map(p => p.text)));
     expect(applyMechanicalCorrections(proposal, ids(proposal), 'military')).toBe(true);
     unsubscribe();
     expect(observed).toEqual([['Due 5 November 2026; return 6 December 2026.', 'Training 1 January 2026.']]);
     const after = useDocumentStore.getState().getSnapshot();
+    expect(after.paragraphs.map(paragraph => paragraph.id)).toEqual(paragraphIds);
     await act(() => vi.advanceTimersByTimeAsync(500));
     expect(changeDocumentHistory('undo', captureDocumentScope())).toBe('applied');
     expect(useDocumentStore.getState().getSnapshot()).toEqual(before);
