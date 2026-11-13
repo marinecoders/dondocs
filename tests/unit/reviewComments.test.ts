@@ -55,6 +55,14 @@ describe('document and field comments', () => {
     expect(changeDocumentHistory('redo', scope)).toBe('applied');
     expect(useDocumentStore.getState().getSnapshot()).toEqual(after);
   });
+  it('does not create an edited timestamp or history step for unchanged text', () => {
+    const thread = add();
+    const before = useDocumentStore.getState().getSnapshot();
+    expect(mutate({ kind: 'edit', threadId: thread.id, messageId: thread.messages[0].id, text: thread.messages[0].text })).toBe('invalid');
+    expect(useDocumentStore.getState().getSnapshot()).toEqual(before);
+    expect(changeDocumentHistory('undo', captureDocumentScope())).toBe('applied');
+    expect(useDocumentStore.getState().reviewComments).toBeUndefined();
+  });
   it.each(['typing', 'switch', 'reset'] as const)('rejects pending comments after %s', action => {
     const request = reviewCommentMutation({ kind: 'add', author: 'Chief', text: 'Old draft' });
     if (action === 'typing') useDocumentStore.getState().setField('subject', 'Changed');

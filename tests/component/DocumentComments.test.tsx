@@ -42,6 +42,7 @@ describe('native document comments', () => {
     fireEvent.click(screen.getByRole('button', { name: 'Post reply' }));
     expect(screen.getByRole('article')).toHaveTextContent('Corrected.');
     fireEvent.click(screen.getByRole('button', { name: 'Edit reply by Drafter' }));
+    expect(screen.getByRole('button', { name: 'Save comment' })).toBeDisabled();
     fireEvent.change(screen.getByLabelText('Comment', { exact: true }), { target: { value: 'Corrected today.' } });
     fireEvent.click(screen.getByRole('button', { name: 'Save comment' }));
     expect(screen.getByRole('article')).toHaveTextContent('Corrected today.');

@@ -31,6 +31,9 @@ test('comments survive editing, reload and draft transfer while clean Word and P
   await comments.getByLabel('Comment', { exact: true }).fill(NOTE);
   await comments.getByRole('button', { name: 'Post comment', exact: true }).click();
   await expect(comments.getByRole('article', { name: 'Comment on Subject', exact: true })).toContainText(NOTE);
+  await comments.getByRole('button', { name: 'Edit comment by Chief', exact: true }).click();
+  await expect(comments.getByRole('button', { name: 'Save comment', exact: true })).toBeDisabled();
+  await comments.getByRole('button', { name: 'Cancel edit', exact: true }).click();
   await comments.getByRole('button', { name: 'Close comments', exact: true }).click();
   await page.getByRole('textbox', { name: 'Subject', exact: true }).fill('LATER SUBJECT');
   comments = await openComments(page);

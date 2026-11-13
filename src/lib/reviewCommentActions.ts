@@ -40,6 +40,7 @@ export function applyCommentMutation(request: ReviewedCommentMutation): 'applied
     else {
       const index = thread.messages.findIndex(message => message.id === mutation.messageId);
       if (index < 0 || mutation.kind === 'delete-reply' && index === 0) return 'invalid';
+      if (mutation.kind === 'edit' && thread.messages[index].text === mutation.text) return 'invalid';
       if (mutation.kind === 'delete-reply') thread.messages.splice(index, 1);
       else thread.messages[index] = { ...thread.messages[index], text: mutation.text, editedAt: new Date().toISOString() };
     }

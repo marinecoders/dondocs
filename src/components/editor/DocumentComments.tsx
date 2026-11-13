@@ -109,7 +109,7 @@ function CommentEditor({ editor, onCancel, onSave }: {
     {editor.kind !== 'edit' && <div className="space-y-1"><Label htmlFor="comment-author">Reviewer name</Label><Input id="comment-author" value={author} maxLength={COMMENT_LIMITS.author} onChange={event => setAuthor(event.target.value)} autoComplete="off" /></div>}
     <div className="space-y-1"><Label htmlFor="comment-text">{editor.kind === 'reply' ? 'Reply' : 'Comment'}</Label><Textarea id="comment-text" autoFocus={editor.kind !== 'add'} value={text} maxLength={COMMENT_LIMITS.text} onChange={event => { if (!text) setTarget(captureDocumentTarget());setText(event.target.value); }} className="min-h-24" /></div>
     <div className="flex flex-wrap gap-2">
-      <Button type="submit" size="sm" disabled={stale || editor.kind === 'add' && (unavailableField || longContext) || !text.trim() || editor.kind !== 'edit' && !author.trim()}>{editor.kind === 'edit' ? 'Save comment' : editor.kind === 'reply' ? 'Post reply' : 'Post comment'}</Button>
+      <Button type="submit" size="sm" disabled={stale || editor.kind === 'add' && (unavailableField || longContext) || !text.trim() || editor.kind !== 'edit' && !author.trim() || editor.kind === 'edit' && text === editor.text}>{editor.kind === 'edit' ? 'Save comment' : editor.kind === 'reply' ? 'Post reply' : 'Post comment'}</Button>
       {editor.kind !== 'add' && <Button type="button" size="sm" variant="outline" onClick={onCancel}>Cancel edit</Button>}
     </div>
   </form>;
