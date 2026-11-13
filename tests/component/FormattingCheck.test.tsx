@@ -5,7 +5,7 @@ import { FormattingCheck } from '@/components/editor/FormattingCheck';
 import { applyFormattingFix } from '@/lib/applyFormattingFix';
 import { formattingFindings } from '@/lib/formattingFindings';
 import { resumeSessionSaves, useDocumentStore } from '@/stores/documentStore';
-import { captureDocumentScope, changeDocumentHistory, flushDocumentWrites, useDocumentsStore } from '@/stores/documentsStore';
+import { captureDocumentScope, changeDocumentHistory, flushDocumentWrites, resetCurrentDocument, useDocumentsStore } from '@/stores/documentsStore';
 import { useHistoryStore } from '@/stores/historyStore';
 
 beforeEach(() => {
@@ -47,6 +47,27 @@ describe('formatting fix preview, targeting and history', () => {
     expect(useDocumentStore.getState().formData.date).toBe('12 Nov 26');
   });
 
+  it('keeps keyboard focus at the result after the Apply button disappears', () => {
+    render(<FormattingCheck section="addressing" />);
+    const button = screen.getByRole('button', { name: 'Apply date formatting fix' });
+    button.focus();
+    fireEvent.click(button);
+    expect(screen.getByRole('status')).toHaveFocus();
+  });
+
+  it('does not carry success feedback into a replacement activation of the same draft', () => {
+    render(<FormattingCheck section="addressing" />);
+    fireEvent.click(screen.getByRole('button', { name: 'Apply date formatting fix' }));
+    expect(screen.getByRole('status')).toHaveTextContent('formatting applied');
+    const id = useDocumentsStore.getState().currentId;
+    act(() => {
+      expect(resetCurrentDocument()).toBe('applied');
+      useDocumentStore.getState().setField('date', '12 Nov 26');
+    });
+    expect(useDocumentsStore.getState().currentId).toBe(id);
+    expect(screen.queryByRole('status')).toBeNull();
+  });
+
   it('gives rapid adjacent fixes separate immediate Undo steps and preserves later typing', () => {
     render(<FormattingCheck section="signature" />);
     const scope = captureDocumentScope();
@@ -81,6 +102,28 @@ describe('formatting fix preview, targeting and history', () => {
     expect(applyFormattingFix(finding, 'addressing', scope)).toBe(false);
     expect(useDocumentStore.getState().formData.date).toBe('2026-12-13');
     expect(useHistoryStore.getState()).toBe(history);
+  });
+
+  it('rejects a proposal when a document type change requires a different date style', () => {
+    const scope = captureDocumentScope();
+    const finding = formattingFindings(useDocumentStore.getState(), 'addressing')[0];
+    useDocumentStore.getState().setDocType('business_letter');
+    const before = useDocumentStore.getState().getSnapshot();
+    const history = useHistoryStore.getState();
+    expect(applyFormattingFix(finding, 'addressing', scope)).toBe(false);
+    expect(useDocumentStore.getState().getSnapshot()).toEqual(before);
+    expect(useHistoryStore.getState()).toBe(history);
+  });
+
+  it('does not create a second edit when Apply is invoked twice for the same proposal', () => {
+    const scope = captureDocumentScope();
+    const finding = formattingFindings(useDocumentStore.getState(), 'addressing')[0];
+    expect(applyFormattingFix(finding, 'addressing', scope)).toBe(true);
+    const history = useHistoryStore.getState();
+    expect(applyFormattingFix(finding, 'addressing', scope)).toBe(false);
+    expect(useHistoryStore.getState()).toBe(history);
+    expect(changeDocumentHistory('undo', scope)).toBe('applied');
+    expect(useDocumentStore.getState().formData.date).toBe(finding.before);
   });
 
   it('rejects a proposal retained across a document switch even when the value matches', () => {

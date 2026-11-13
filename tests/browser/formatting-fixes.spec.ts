@@ -20,12 +20,19 @@ for (const theme of ['light', 'dark', 'classic']) {
     const addressing = page.locator('#sec-addressing');
     const signature = page.locator('#sec-signature');
     const applyDate = addressing.getByRole('button', { name: 'Apply date formatting fix' });
+    const dateInput = page.locator('#date');
+    // Inspecting an imported date must not silently apply the proposal on blur.
+    await dateInput.focus();
+    await dateInput.press('Tab');
+    await expect(dateInput).toHaveValue('2026-11-12');
     await applyDate.scrollIntoViewIfNeeded();
     await expect(addressing.getByText('“2026-11-12”')).toBeVisible();
     await expect(addressing.getByText('“12 Nov 26”')).toBeVisible();
     await page.screenshot({ path: testInfo.outputPath(`date-${theme}.png`) });
-    await applyDate.click();
-    await expect(page.locator('#date')).toHaveValue('12 Nov 26');
+    await applyDate.focus();
+    await page.keyboard.press('Enter');
+    await expect(addressing.getByRole('status').filter({ hasText: 'Date formatting applied.' })).toBeFocused();
+    await expect(dateInput).toHaveValue('12 Nov 26');
     await expect(page.locator('#sigFirst')).toHaveValue(' J . ');
 
     const undo = async () => {
@@ -33,7 +40,7 @@ for (const theme of ['light', 'dark', 'classic']) {
       await page.getByRole('menuitem', { name: /^Undo/ }).click();
     };
     await undo();
-    await expect(page.locator('#date')).toHaveValue('2026-11-12');
+    await expect(dateInput).toHaveValue('2026-11-12');
     await expect(applyDate).toBeVisible();
 
     await signature.getByRole('button', { name: 'Apply first name initial formatting fix' }).click();
@@ -53,6 +60,15 @@ for (const theme of ['light', 'dark', 'classic']) {
     await page.getByRole('button', { name: 'Open as new document', exact: true }).click();
     await expect(addressing.getByText('Date: review date')).toBeVisible();
     await expect(applyDate).toHaveCount(0);
-    await expect(page.locator('#date')).toHaveValue('03/04/2026');
+    await dateInput.focus();
+    await dateInput.press('Tab');
+    await expect(dateInput).toHaveValue('03/04/2026');
+    await expect(addressing.getByText('Date: review date')).toBeVisible();
+
+    await dateInput.fill('31 Apr 2026');
+    await dateInput.press('Tab');
+    await expect(dateInput).toHaveValue('31 Apr 2026');
+    await expect(addressing.getByText('Date: review date')).toBeVisible();
+    await expect(applyDate).toHaveCount(0);
   });
 }

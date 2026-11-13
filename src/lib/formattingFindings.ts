@@ -1,6 +1,6 @@
 import { DOC_TYPE_CONFIG, type DocumentData, type DocumentCategory, type DocumentMode } from '@/types/document';
+import { normalizeDate } from './dateFormatting';
 
-const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 const PUBLICATIONS = new Set(['i_type', 'sl3', 'sl4', 'tm_ietm_front_matter']);
 
 export interface FormattingInput {
@@ -19,48 +19,6 @@ export interface FormattingFinding {
   message: string;
 }
 
-/** No native Date fallback, locale guessing, day rollover or inferred century. */
-function formattedDate(value: string, style: 'military' | 'spelled'): string | null {
-  if (/[\r\n]/.test(value)) return null;
-  const text = value.trim();
-  let day: number;
-  let month: number;
-  let year: string;
-  const iso = /^(\d{4})-(\d{2})-(\d{2})$/.exec(text);
-  const dayFirst = /^(\d{1,2})[ \t]+([a-z]+)[ \t]+(\d{4}|\d{2})$/i.exec(text);
-  const monthFirst = /^([a-z]+)[ \t]+(\d{1,2}),[ \t]+(\d{4})$/i.exec(text);
-  const numeric = /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/.exec(text);
-  if (iso) {
-    [, year] = iso;
-    month = Number(iso[2]) - 1;
-    day = Number(iso[3]);
-  } else if (dayFirst || monthFirst) {
-    const match = (dayFirst ?? monthFirst)!;
-    day = Number(match[dayFirst ? 1 : 2]);
-    const name = match[dayFirst ? 2 : 1].toLowerCase();
-    month = MONTHS.findIndex(m => m.toLowerCase() === name || m.slice(0, 3).toLowerCase() === name);
-    year = match[3];
-    // A two-digit year can retain its century-free military representation,
-    // but converting it to a spelled four-digit year would require a guess.
-    if (year.length === 2 && style === 'spelled') return null;
-  } else if (numeric) {
-    const first = Number(numeric[1]);
-    const second = Number(numeric[2]);
-    if (first !== second && first <= 12 && second <= 12) return null;
-    day = first > 12 ? first : second;
-    month = (first > 12 ? second : first) - 1;
-    year = numeric[3];
-  } else return null;
-
-  const fullYear = year.length === 2 ? 2000 + Number(year) : Number(year);
-  const date = new Date(Date.UTC(fullYear, month, day));
-  if (fullYear <= 1900 || fullYear >= 2100 || month < 0 || month > 11
-    || date.getUTCFullYear() !== fullYear || date.getUTCMonth() !== month || date.getUTCDate() !== day) return null;
-  return style === 'military'
-    ? `${day} ${MONTHS[month].slice(0, 3)} ${year.slice(-2)}`
-    : `${MONTHS[month]} ${day}, ${year}`;
-}
-
 /** Advisory, field-scoped additions to the existing correspondence checks.
  * DatePicker already formats edits on blur; these also reach saved/imported
  * values without requiring a field edit. Initial fixes only remove spaces from
@@ -77,7 +35,7 @@ export function formattingFindings(input: FormattingInput, section: string): For
     if (before.trim() && !/[{}[\]]/.test(before)) {
       const style = config.uiMode === 'executive' || input.documentMode === 'compliant'
         ? config.compliance.dateFormat : 'military';
-      const after = formattedDate(before, style);
+      const after = normalizeDate(before, style);
       if (after !== before) findings.push({
         field: 'date', label: 'Date', before, ...(after === null ? {} : { after }),
         message: after === null
