@@ -40,6 +40,8 @@ A successful response has `ok: true`, contract version `v`, and a `files` array 
 
 Install `pandoc` on PATH for Word output. `/health` reports its version, the browser-vendored version and whether they match. Different versions can produce different Word output. PDF does not require system Pandoc or a native TeX installation.
 
+Single-signer correspondence can supply `signature.imageFileId`, referencing a PNG entry in the request's `attachments` array. The image is embedded in PDF and Word as a visual handwritten signature, not a certificate signature. Image attachment IDs are request-specific and are not accepted in machine signature defaults. Business-letter paragraphs can use `figure.fileId` to reference a PNG or JPEG attachment; their text becomes the numbered caption. Other correspondence figure families and publication Word output remain unsupported. Missing, unreadable or unused attachments are reported, and Word images are limited to 10 MB and 40 megapixels each.
+
 ## Using it from an MCP client
 
 ### Install a bundle

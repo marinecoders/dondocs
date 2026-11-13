@@ -462,6 +462,8 @@ function perfectLetterheadCentering(xml: string, textWidthTwips: number): Letter
  * was already at the edge of readable; eight would not be.
  */
 export interface DocxConversionOptions {
+  /** Captured PNG/JPEG bytes, addressed only by generated attachment paths. */
+  mediaFiles?: import('./imageAssets').DocxMedia;
   docType?: string;
   sealType?: string;
   letterheadColor?: string;
@@ -1594,6 +1596,13 @@ export async function convertLatexToDocx(
     'reference.docx': referenceDocxBlob!,
     'dondocs.lua': luaFilterBlob!,
   };
+
+  // WASI inputs are flat files, just like the seal; nested Map keys are not directories.
+  for (const [path, bytes] of Object.entries(docOptions.mediaFiles ?? {})) {
+    if (!/^(?:signature\.png|figure-[A-Za-z0-9-]+\.(?:png|jpg))$/.test(path)) throw new Error('Invalid Word image attachment path.');
+    if (!bytes.byteLength) throw new Error(`Word image ${path} is empty.`);
+    files[path] = new Blob([new Uint8Array(bytes)], { type: path.endsWith('.jpg') ? 'image/jpeg' : 'image/png' });
+  }
 
   // Add seal image so pandoc can resolve \includegraphics{attachments/...}
   debug.verbose('DOCX', `Fetching seal image: seal=${sealType}, color=${letterheadColor}`);

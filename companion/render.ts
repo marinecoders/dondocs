@@ -48,7 +48,8 @@ export async function renderPdf(
     prepareEngine(engine, await loadAssets());
     const generated = generateAllLatexFiles(store);
     const files: Record<string, string | Uint8Array> = { ...generated.texFiles };
-    if (isTechnicalPublication(input.docType)) {
+    if (generated.signatureImage) files['attachments/signature.png'] = generated.signatureImage;
+    if (isTechnicalPublication(input.docType) || input.docType === 'business_letter') {
       await loadFigureFiles(files, generated.figures, async (id) => Buffer.from(attachment(input, id).dataBase64, 'base64'));
     }
     const pdf = await compileDocument(engine, files);

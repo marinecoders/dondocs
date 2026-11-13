@@ -25,7 +25,7 @@
  * rewrites styling XML, not the text content these tests extract.
  */
 import { spawn } from 'node:child_process';
-import { mkdtemp, writeFile, readFile } from 'node:fs/promises';
+import { mkdtemp, writeFile, readFile, mkdir } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { delimiter, dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -101,13 +101,17 @@ export async function compileDocxFixture(store: TestStore): Promise<DocxCompileR
   return compileGeneratedDocxFixture(tex, store.formData);
 }
 
-export async function compileGeneratedDocxFixture(tex: string, data: { fontFamily?: string; fontSize?: string } = {}): Promise<DocxCompileResult> {
+export async function compileGeneratedDocxFixture(tex: string, data: { fontFamily?: string; fontSize?: string } = {}, media: Readonly<Record<string, Uint8Array>> = {}): Promise<DocxCompileResult> {
 
   const workDir = await mkdtemp(join(tmpdir(), 'dondocs-docx-'));
   const inputFile = join(workDir, 'flat.tex');
   const outputFile = join(workDir, 'out.docx');
 
   await writeFile(inputFile, tex);
+  if (Object.keys(media).length) {
+    await mkdir(join(workDir, 'attachments'));
+    for (const [name, bytes] of Object.entries(media)) await writeFile(join(workDir, name), bytes);
+  }
 
   // Same metadata production builds: layout proportions for the Lua filter's
   // table-width pass, plus the font size it scales \baselineskip spacing by.

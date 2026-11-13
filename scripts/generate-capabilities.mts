@@ -59,7 +59,7 @@ addRow('Configured form (valid definition loaded)', {
   } },
 });
 lines.push('', '## Partial operations and readiness', '',
-  '- Word omits uploaded signature/figure images, merged PDF pages, and PDF signing fields. Reference link annotations require PDF. Word and PDF use separate layout engines; pagination can differ.',
+  '- Word embeds PNG signature images in supported single-signer correspondence and PNG/JPEG figures in business letters. Publication Word output remains unsupported. Merged PDF pages and PDF signing fields require PDF output. Word and PDF use separate layout engines; pagination can differ.',
   '- Normal TeX downloads contain configuration fragments, including distribution and copy-to content. They need templates and assets to form a standalone project. Flat TeX is the Pandoc input dialect.',
   '- Share links transfer a draft snapshot, including retained fields that may not appear in the current rendered format. They omit attachment bytes and signature images. Configured forms also require the selected PDF template. Review the [sharing workflow](USER_GUIDE.md#password-protected-sharing) before transfer.',
   '- Configured forms must load a valid, matching definition with a SHA-256 checksum for every template page before preview, PDF export, or sharing. Missing or failed definition loads report not-ready; invalid definitions report invalid-data. Configured-form batch export is unavailable.',

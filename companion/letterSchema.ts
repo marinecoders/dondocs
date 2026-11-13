@@ -37,6 +37,7 @@ export const unit = z.object({
 }).strict();
 
 export const signature = z.object({
+  imageFileId: z.string().min(1).max(100).optional().describe('ID of a PNG signature image in attachments. Visual signature only; not a certificate signature.'),
   first: z.string().optional(), middle: z.string().optional(), last: z.string().optional(),
   rank: z.string().optional(), title: z.string().optional(),
   byDirection: z.boolean().optional(),

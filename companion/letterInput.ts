@@ -15,7 +15,7 @@ import { isTechnicalPublication } from '../src/lib/publicationPreflight';
 import type * as z from 'zod';
 import type { letterSchema, paragraph } from './letterSchema';
 import type { Paragraph } from '../src/types/document';
-import { publicationFields, publicationParagraphs, publicationEnclosures } from './publicationInput';
+import { publicationFields, publicationParagraphs, publicationEnclosures, attachment } from './publicationInput';
 import { manualFrontMatterFields } from './manualFrontMatterInput';
 import { format } from 'date-fns';
 import { canonicalizeUnitAddress } from '../src/lib/unitAddress';
@@ -163,6 +163,7 @@ export function toStore(input: LetterInput, defaults: CompanionDefaults = {}): G
   // fallback: the heading already says UNITED STATES MARINE CORPS.
   const unitLine = input.unit?.name ?? input.unit?.line1 ?? defaults.unit?.name ?? defaults.unit?.line1 ?? '';
   const sig = { ...defaults.signature, ...input.signature };
+  const signatureFile = input.signature?.imageFileId ? attachment(input, input.signature.imageFileId) : undefined;
   const docType = templateFor(input.docType);
   // The senior party's identifying block outranks the plain fields: joint
   // documents read the senior column from data.ssic/serial/date (generator.ts
@@ -215,6 +216,7 @@ export function toStore(input: LetterInput, defaults: CompanionDefaults = {}): G
       seniorDate: date,
 
       sigFirst: sig.first ?? '',
+      ...(signatureFile ? { signatureType: 'image' as const, signatureImage: { name: signatureFile.name, size: Buffer.byteLength(signatureFile.dataBase64, 'base64'), data: signatureFile.dataBase64 } } : {}),
       sigMiddle: sig.middle ?? '',
       sigLast: sig.last ?? '',
       sigRank: sig.rank ?? '',
@@ -268,7 +270,7 @@ export function toStore(input: LetterInput, defaults: CompanionDefaults = {}): G
       ...manualFrontMatterFields(input),
     },
 
-    paragraphs: input.docType === 'tm_ietm_front_matter' ? [] : isTechnicalPublication(input.docType) ? publicationParagraphs(input) :
+    paragraphs: input.docType === 'tm_ietm_front_matter' ? [] : isTechnicalPublication(input.docType) || input.docType === 'business_letter' ? publicationParagraphs(input) :
       (input.paragraphs?.length ? input.paragraphs : [{ text: '', level: 0 }])
         .map((p) => ({ ...p, level: p.level ?? 0 })) as Paragraph[],
     endItems: input.publication?.endItems ?? [],

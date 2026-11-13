@@ -1017,7 +1017,7 @@ export function generateBodyTex(store: DocumentStore): string {
 
     // A figure: the image, then its numbered title beneath. The framed
     // fallback stands in until the image is loaded, as the seal's does.
-    if (para.figure && store.docType === 'i_type') {
+    if (para.figure && (store.docType === 'i_type' || store.docType === 'business_letter')) {
       const file = figureFile(++figureFileIndex, para.figure.type, para.figure.name, para.figure.fileRef?.id);
       const number = ++printedFigureNumber;
       const label = appendixLetter ? `${appendixLetter}-${number}` : String(number);
@@ -1025,7 +1025,7 @@ export function generateBodyTex(store: DocumentStore): string {
       const graphicMark = para.figure.portionMarking ?? para.portionMarking;
       const title = portionPrefix + bodyText(para.text.trim().replace(/\.$/, ''));
       parts.push(
-        `\\par\\vspace{12pt}\n\\begin{center}\n${navigationTex(navigation.get(`itype.figure.${i}`))}${graphicMark ? `(${graphicMark})\\\\*` : ""}` +
+        `\\par\\vspace{12pt}\n\\begin{center}\n${navigationTex(navigation.get(`itype.figure.${i}`))}${graphicMark ? `(${escapeLatex(graphicMark)})\\\\*` : ""}` +
           `\\IfFileExists{${file}}{\\includegraphics[width=\\textwidth,height=5in,keepaspectratio]{${file}}}` +
           `{\\framebox[3in][c]{\\parbox[c][1.5in][c]{2.8in}{\\centering\\scriptsize Figure ${label}\\\\(add image)}}}\\\\*[6pt]\n` +
           `\\textbf{Figure ${label}.\\hspace{2\\fontdimen2\\font}${title}}\n\\end{center}\n\\vspace{12pt}\n\n`
@@ -1268,6 +1268,15 @@ export interface GeneratedFiles {
 }
 
 export function generateAllLatexFiles(store: DocumentStore, resolvedLevel?: string, referenceDate = new Date()): GeneratedFiles {
+  if (store.docType === 'business_letter') {
+    let number = 0;
+    for (const paragraph of store.paragraphs) {
+      if (!paragraph.figure) continue;
+      number++;
+      if (!paragraph.figure.fileRef) throw new Error(`Figure ${number} has no image. Choose a PNG or JPEG before exporting.`);
+      if (/\.pdf$/i.test(figureFile(number, paragraph.figure.type, paragraph.figure.name))) throw new Error(`Figure ${number} is a PDF. Choose a PNG or JPEG for business-letter figures.`);
+    }
+  }
   const config = documentOutputConfig(store.docType, store.documentMode);
   store = { ...store, references: config.compliance.allowReferences ? store.references : [], enclosures: config.compliance.allowEnclosures ? store.enclosures : [] };
   if (store.docType === 'tm_ietm_front_matter') store = {
@@ -1320,7 +1329,7 @@ export function generateAllLatexFiles(store: DocumentStore, resolvedLevel?: stri
     .map((r) => ({ letter: r.letter, url: r.url! }));
 
   const figures: GeneratedFiles['figures'] = [];
-  if (isTechnicalPublication(store.docType)) {
+  if (isTechnicalPublication(store.docType) || store.docType === 'business_letter') {
     let figureFileIndex = 0;
     for (const p of store.paragraphs) {
       if (!p.figure) continue;

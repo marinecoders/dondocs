@@ -102,6 +102,7 @@ interface BlockRowProps {
   autoFocus: boolean;
   showPortionMarking: boolean;
   showBlockKind: boolean;
+  allowBusinessFigure: boolean;
   callout: CalloutKind | undefined;
   procedure: boolean | undefined;
   appendix: boolean | undefined;
@@ -127,6 +128,7 @@ const BlockRow = memo(function BlockRow({
   autoFocus,
   showPortionMarking,
   showBlockKind,
+  allowBusinessFigure,
   callout,
   procedure,
   appendix,
@@ -137,6 +139,7 @@ const BlockRow = memo(function BlockRow({
   requestFocus,
 }: BlockRowProps) {
   const updateParagraph = useDocumentStore((s) => s.updateParagraph);
+  const businessFigure = useDocumentStore(s => s.docType === 'business_letter');
   const section = useDocumentStore((s) => publicationSection(s.paragraphs[index] ?? {}));
   const footnotes = useDocumentStore((s) => s.paragraphs[index]?.tableFootnotes);
   const removeParagraph = useDocumentStore((s) => s.removeParagraph);
@@ -306,13 +309,13 @@ const BlockRow = memo(function BlockRow({
           />
         )}
         <div className="flex items-baseline gap-1">
-          {showBlockKind && (
+          {(showBlockKind || allowBusinessFigure) && (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <button
                   type="button"
                   aria-label={`Block kind: ${blockKind(callout, procedure, appendix, figure)}. Change`}
-                  title="A technical publication paragraph can be a safety callout, a procedural step, or the start of an appendix"
+                  title={showBlockKind ? 'Choose the technical publication block kind' : 'Choose a paragraph or an image with a caption'}
                   className="shrink-0 rounded-sm px-1 font-serif text-serif-body font-semibold text-muted-foreground outline-none transition-colors hover:bg-accent/50 focus-visible:ring-[3px] focus-visible:ring-ring/50"
                 >
                   {BLOCK_KINDS.find((k) => k.value === blockKind(callout, procedure, appendix, figure))?.short}
@@ -323,7 +326,7 @@ const BlockRow = memo(function BlockRow({
                   value={blockKind(callout, procedure, appendix, figure)}
                   onValueChange={(v) => updateParagraph(index, setBlockKind(v as BlockKind))}
                 >
-                  {BLOCK_KINDS.map((k) => (
+                  {BLOCK_KINDS.filter(k => showBlockKind || k.value === 'paragraph' || k.value === 'figure').map((k) => (
                     <DropdownMenuRadioItem key={k.value} value={k.value} className="gap-2">
                       <span className="w-16 shrink-0 font-serif font-semibold">{k.short}</span>
                       <span className="text-muted-foreground">{k.name}</span>
@@ -371,7 +374,7 @@ const BlockRow = memo(function BlockRow({
                   <span>{figure.fileRef ? 'Replace image' : 'Choose image'}</span>
                   <input
                     type="file"
-                    accept="image/png,image/jpeg,application/pdf"
+                    accept={businessFigure ? 'image/png,image/jpeg' : 'image/png,image/jpeg,application/pdf'}
                     aria-label={`Image for figure ${label || index + 1}`}
                     className="sr-only"
                     onChange={async (e) => {
@@ -390,6 +393,7 @@ const BlockRow = memo(function BlockRow({
                           await withAttachmentStaging(async () => {
                             if (!ownsFigure()) return;
                             const { bytes, type, width, height } = await prepareFigureUpload(file);
+                            if (businessFigure && type === 'application/pdf') throw new Error('Business-letter figures use PNG or JPEG images. Attach PDF pages as enclosures instead.');
                             if (!ownsFigure()) return;
                             const fileRef = await persistAttachment({ name: file.name, size: bytes.byteLength, type }, bytes);
                             const targetIndex = currentIndex();
@@ -599,6 +603,7 @@ export function BlockParagraphsEditor() {
   const showPortionMarking = !!classLevel && classLevel !== 'unclassified';
   // Only a technical publication has callouts and steps.
   const showBlockKind = docType === 'i_type';
+  const allowBusinessFigure = docType === 'business_letter' && documentMode === 'custom';
   const config = DOC_TYPE_CONFIG[docType] || DOC_TYPE_CONFIG.naval_letter;
   // Only hide this shortcut when a visible heading edits the same subject field.
   const subjectInHeading = getEditorSections(config, docType).some((section) =>
@@ -673,6 +678,7 @@ export function BlockParagraphsEditor() {
               autoFocus={focusIndex === i}
               showPortionMarking={showPortionMarking}
               showBlockKind={showBlockKind}
+              allowBusinessFigure={allowBusinessFigure}
               callout={p.callout}
               procedure={p.procedure}
               appendix={p.appendix}

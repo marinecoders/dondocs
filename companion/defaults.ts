@@ -20,7 +20,8 @@ export const CONFIG_PATH = process.env.DONDOCS_CONFIG || join(homedir(), '.dondo
 
 export const configSchema = z.object({
   unit: unit.optional(),
-  signature: signature.optional(),
+  // Attachment IDs belong to one request, never to machine-wide defaults.
+  signature: signature.omit({ imageFileId: true }).optional(),
   ssic: z.string().optional(),
   originatorCode: z.string().optional(),
 }).strict();

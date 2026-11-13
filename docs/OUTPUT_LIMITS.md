@@ -4,7 +4,8 @@ See the [capability matrix](CAPABILITIES.md) for current format availability.
 
 ## Word output
 
-- Uploaded signature and figure images are omitted. Insert them in Word after downloading, or use PDF.
+- PNG signature images are embedded in supported single-signer correspondence. These are visual images, not certificate signatures. Dual-signer documents and information memoranda do not support uploaded Word signature images.
+- Custom business letters can add PNG/JPEG figures through the paragraph block menu. Their images and captions are retained in PDF and Word, including after a mode switch. Word images are limited to 10 MB and 40 megapixels each. Missing or unreadable images stop Word export; PDF figure attachments require conversion to PNG/JPEG for Word. Publication Word output remains unsupported.
 - PDF signing fields are not emitted into Word. Use Word's signing workflow separately.
 - Reference titles with valid URLs are clickable in Word. The hyperlink checkbox controls PDF links separately.
 - Uploaded enclosure PDF pages are not appended to Word. Transfer those files separately.
