@@ -13,6 +13,8 @@ import { documentTextFields } from '@/lib/documentFields';
 import { validateBackupSession } from '@/lib/backupValidation';
 import { applyReferenceChange, reviewReferenceChange } from '@/lib/applyReferenceChange';
 import { detectPII, detectSharedSessionPII, detectTextPII } from '@/services/pii/detector';
+import { diffSessions } from '@/lib/sessionDiff';
+import { emptySl3, newSl3Component } from '@/data/techpub/sl3';
 
 beforeEach(() => {
   useDocumentsStore.setState({ docs: {}, trash: {}, currentId: null, hydrated: true, baseline: null });
@@ -208,5 +210,44 @@ describe('paragraph review persistence and compatibility', () => {
       expect(documentTextFields(state, projection).some(field => field.path[0] === 'reviewComments')).toBe(false);
       expect(documentTextFields(state, projection).some(field => field.path[0] === 'paragraphs' && field.path[2] === 'id')).toBe(false);
     }
+  });
+});
+
+describe('paragraph review change summaries', () => {
+  it('hides only opaque paragraph identity changes from document comparisons', () => {
+    const before = getSerializedSession();
+    const after = structuredClone(before);
+    after.paragraphs = freshParagraphs(after.paragraphs);
+    expect(diffSessions(before, after)).toEqual([]);
+    before.formData.sl3 = { ...emptySl3(), components: [newSl3Component('component-original')] };
+    after.formData.sl3 = { ...before.formData.sl3, components: [newSl3Component('component-changed')] };
+    expect(diffSessions(before, after).some(change => change.field.endsWith('Components › 1 › Id'))).toBe(true);
+  });
+
+  it('describes a moved paragraph target without exposing its identity', () => {
+    const thread = add();
+    const before = getSerializedSession();
+    useDocumentStore.getState().reorderParagraphs(1, 0);
+    const changes = diffSessions(before, getSerializedSession());
+    expect(changes).toHaveLength(1);
+    expect(changes[0]).toMatchObject({ field: 'Review comments' });
+    expect(changes[0].before).toContain('Paragraph 2');
+    expect(changes[0].after).toContain('Paragraph 1');
+    expect(JSON.stringify(changes)).not.toContain(thread.id);
+    if (thread.anchor.kind === 'paragraph') expect(JSON.stringify(changes)).not.toContain(thread.anchor.paragraphId);
+  });
+
+  it('shows changed and detached targets while preserving real paragraph edits', () => {
+    add();
+    const before = getSerializedSession();
+    useDocumentStore.getState().updateParagraph(1, { text: 'Revised body.' });
+    const changed = getSerializedSession();
+    const changes = diffSessions(before, changed);
+    expect(changes.some(change => change.field.includes('Text') && change.after === 'Revised body.')).toBe(true);
+    expect(changes.find(change => change.field === 'Review comments')?.after).toContain('target changed');
+    useDocumentStore.getState().removeParagraph(1);
+    const detached = diffSessions(changed, getSerializedSession());
+    expect(detached.find(change => change.field === 'Review comments')?.after).toContain('target unavailable');
+    expect(detached.some(change => change.field.endsWith(' › Id'))).toBe(false);
   });
 });
