@@ -25,10 +25,10 @@ export function scanReferenceCitations(text: string): CitationScan {
   const citations: Citation[] = [];
   const issues: string[] = [];
   const protectedSpans: Array<[number, number]> = [];
-  for (const match of text.matchAll(/"[^"\n]*"|“[^”]*”|‘[^’]*’|`[^`]*`|(?:https?:\/\/|mailto:)\S+|(?:^|\n)\s*>[^\n]*/g)) {
+  for (const match of text.matchAll(/"[^"]*(?:"|$)|“[^”]*(?:”|$)|‘[^’]*(?:’|$)|`[^`]*(?:`|$)|(?:https?:\/\/|mailto:)\S+|(?:^|\n)\s*>[^\n]*/gi)) {
     protectedSpans.push([match.index, match.index + match[0].length]);
   }
-  for (const match of text.matchAll(/(?:^|[\s(])'[^'\n]*'/g)) protectedSpans.push([match.index, match.index + match[0].length]);
+  for (const match of text.matchAll(/(?:^|[\s(])'[^']*(?:'|$)/g)) protectedSpans.push([match.index, match.index + match[0].length]);
   const prefix = /\b(?:references?|refs?\.?)\s*(?=\(|[a-z])/gi;
   for (const match of text.matchAll(prefix)) {
     let cursor = match.index + match[0].length;
@@ -131,7 +131,11 @@ export function planReferenceChange(source: ReferenceSource, order: readonly num
         if (scan.citations.some(citation => citation.start === start)) continue;
         const before = field.text.slice(0, marker.index);
         if (/(?:paragraphs?|paras?\.?|subparagraphs?|sections?|enclosures?|portions?)\s*$/i.test(before)) continue;
-        if (/(?:https?:\/\/|mailto:)\S*$/.test(before)) continue;
+        if (/(?:https?:\/\/|mailto:)\S*$/i.test(before)) continue;
+        const label = marker[1].toLowerCase();
+        if (inherited(label, oldOffset) && references.some(ref => ref.letter === label)) {
+          blockers.push(`${field.label}: bare (${marker[1]}) may cite an inherited reference that would overlap the new local sequence. Identify its target before changing reference letters.`);
+        }
         if (oldLabels.includes(marker[1].toLowerCase()) || /^(?:[a-z]{1,2}|a\d+)$/i.test(marker[1]) && !inherited(marker[1].toLowerCase(), oldOffset)) {
           advisories.push(`${field.label}: bare (${marker[1]}) is not rewritten. Check whether it cites a reference. If it does, write an explicit reference (${marker[1]}) citation and review again.`);
         }

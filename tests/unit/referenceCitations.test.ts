@@ -132,3 +132,12 @@ it('keeps combined bulk incoming fields while remapping them in the old referenc
   expect(useDocumentStore.getState().formData).toMatchObject({ startingReferenceLetter: 'g', via: 'New Office w/ref (g)', subject: 'New subject' });
   expect(useDocumentStore.getState().paragraphs[0].text).toBe('Use reference (h).');
 });
+
+
+it('blocks a type switch that would collide with a bare inherited citation', () => {
+  useDocumentStore.setState({ ...source('Follow (a), then reference (g).'), docType: 'same_page_endorsement',
+    formData: { startingReferenceLetter: 'g' }, references: [{ letter: 'g', title: 'Local' }], copyTos: [], distributions: [] });
+  const before = useDocumentStore.getState().getSnapshot();
+  useDocumentStore.getState().setDocType('naval_letter');
+  expect(useDocumentStore.getState().getSnapshot()).toEqual(before);
+});

@@ -35,9 +35,14 @@ test('reviews reference order, preserves targets through Undo, reload and PDF ex
   await expect(page.getByRole('textbox', { name: 'Paragraph 1', exact: true })).toHaveText('Follow reference (b), then reference (a).');
   await expect(page.getByLabel('Reference (a) title', { exact: true })).toHaveValue('Alpha directive');
   const drag = page.getByRole('button', { name: 'Drag to reorder reference 2', exact: true });
+  await drag.scrollIntoViewIfNeeded();
   await drag.focus();
   await page.keyboard.press('Space');
+  await expect(drag).toHaveAttribute('aria-pressed', 'true');
+  // The keyboard sensor installs its document listener after activation.
+  await page.evaluate(() => new Promise<void>(resolve => requestAnimationFrame(() => requestAnimationFrame(() => resolve()))));
   await page.keyboard.press('ArrowUp');
+  await expect(page.getByRole('status').filter({ hasText: /moved/ })).toContainText('droppable area ref-0');
   await page.keyboard.press('Space');
   await expect(preview).toBeVisible();
   await preview.getByRole('button', { name: 'Apply changes', exact: true }).click();

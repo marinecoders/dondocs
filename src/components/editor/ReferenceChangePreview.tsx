@@ -36,7 +36,7 @@ export function ReferenceChangePreview({ proposal, onClose, onApplied }: {
         </div>
       </div>}
       {plan.notes.map(note => <p key={note} className="text-sm text-muted-foreground">{note}</p>)}
-      {!plan.changed && !plan.blockers.length && <p className="text-sm">The references already follow their first appearances in the body.</p>}
+      {!plan.changed && !plan.blockers.length && <p className="text-sm">No reference-order change is proposed.</p>}
       <div className="grid gap-4 sm:grid-cols-2 text-sm">
         <div><p className="font-medium mb-2">Current references</p><ul className="space-y-1">{proposal.beforeReferences.map((ref, index) => <li key={index} className="break-words">({ref.letter}) {ref.title || 'Untitled reference'}</li>)}</ul></div>
         <div><p className="font-medium mb-2">Proposed references</p><ul className="space-y-1">{plan.references.map((ref, index) => <li key={index} className="break-words">({ref.letter}) {ref.title || 'Untitled reference'}</li>)}</ul>{!plan.references.length && <p>No references</p>}</div>
