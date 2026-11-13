@@ -72,10 +72,35 @@ test('reviews reference order, preserves targets through Undo, reload and PDF ex
       await page.getByRole('menuitem', { name: /^Download PDF(?:\s|$)/ }).click();
     };
   }
-  const downloading = page.waitForEvent('download');
-  await exportPdf();
-  const download = await downloading;
-  const pdf = await getDocument({ data: new Uint8Array(await readFile((await download.path())!)), useSystemFonts: false }).promise;
+  let pdfBytes: Uint8Array;
+  if (testInfo.project.name === 'mobile-chrome-ios') {
+    // iOS Chrome opens the PDF handoff page before offering a saved download.
+    const opening = page.waitForEvent('popup');
+    await exportPdf();
+    const popup = await opening;
+    try {
+      const frame = popup.locator('iframe');
+      await expect(frame).toHaveAttribute('src', /^data:application\/pdf;base64,/, { timeout: 30_000 });
+      const handoffBytes = Buffer.from((await frame.getAttribute('src'))!.split(',')[1], 'base64');
+      await expectReferenceTargets(handoffBytes);
+      const saving = popup.waitForEvent('download');
+      await popup.getByRole('link', { name: 'Download PDF', exact: true }).click();
+      const download = await saving;
+      expect(await download.failure()).toBeNull();
+      pdfBytes = await readFile((await download.path())!);
+    } finally { await popup.close(); }
+  } else {
+    const downloading = page.waitForEvent('download');
+    await exportPdf();
+    const download = await downloading;
+    expect(await download.failure()).toBeNull();
+    pdfBytes = await readFile((await download.path())!);
+  }
+  await expectReferenceTargets(pdfBytes);
+});
+
+async function expectReferenceTargets(bytes: Uint8Array) {
+  const pdf = await getDocument({ data: new Uint8Array(bytes), useSystemFonts: false }).promise;
   try {
     const pages: string[] = [];
     for (let index = 1; index <= pdf.numPages; index++) {
@@ -84,7 +109,9 @@ test('reviews reference order, preserves targets through Undo, reload and PDF ex
     }
     const text = pages.join(' ').replace(/\s+/g, ' ');
     expect(text).toContain('Follow reference (a), then reference (b). Keep this later edit.');
+    expect(text).toContain('Bravo directive');
+    expect(text).toContain('Alpha directive');
     expect(text.indexOf('Bravo directive')).toBeLessThan(text.indexOf('Alpha directive'));
     expect(text).toContain('Office w/ref (a)');
   } finally { await pdf.destroy(); }
-});
+}
