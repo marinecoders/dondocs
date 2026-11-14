@@ -72,7 +72,9 @@ Before **Restore from backup**, review the per-section policy:
 | Routing overrides | Included incoming values win matching keys; local-only entries remain. |
 | History and other included form data | Restored under the detailed [backup contract](STORAGE.md#backups); review any partial-restore issues. |
 
-Batch jobs/results, UI preferences, backup file handles and cached blank form PDFs are excluded. Download batch files separately. After restoring configured forms on another device, reconnect, open each form and choose **Save for offline use** for the pinned template revision.
+Batch jobs/results, UI preferences and backup file handles are excluded. Download batch files separately. Current backups include the exact blank PDF pages needed by saved configured forms and their history. Restore verifies and saves those pages before installing workspace records, so a fresh offline browser can reopen the captured forms. Older backups may need a connection and **Save for offline use** to retrieve the pinned template revision.
+
+**Export draft (.json)** also includes a configured form's exact definition, answers and blank pages. Import opens a new document after verifying the complete resource inventory and durable template storage. A missing, corrupt or unsupported page prevents the import and preserves current work. Transfers allow at most 256 resource files, 25 MiB per file and 75 MiB of decoded template bytes; workspace backups retain their existing 100 MB JSON import limit. These files are unencrypted; use encrypted sharing when a password-protected handoff is needed.
 
 Desktop Chrome/Edge can mirror backups to a file you choose. Registry saves trigger a debounced write; edits confined to profiles/preferences or dormant legacy buffers do not independently update that file. Use a manual backup after those edits. Reconnect permission after browser restart when prompted. A backup error must be resolved before assuming the external copy is current.
 

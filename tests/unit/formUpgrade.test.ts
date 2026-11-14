@@ -1,5 +1,6 @@
 import 'fake-indexeddb/auto';
-import { expect, it } from 'vitest';
+import { afterEach, expect, it, vi } from 'vitest';
+import { webcrypto } from 'node:crypto';
 import { waitFor } from '@testing-library/react';
 import { useDocumentStore, type SerializedSession } from '@/stores/documentStore';
 import { useDocumentsStore } from '@/stores/documentsStore';
@@ -7,7 +8,8 @@ import { FORMS_PERSIST_KEY, useFormStore } from '@/stores/formStore';
 import { idbGetAllDocuments, idbPutDocument, idbSetCurrentId } from '@/lib/documentsDb';
 import { buildBackup, restoreBackup } from '@/lib/backup';
 import { editForm, startForm } from '@/services/forms/documents';
-import { fixtureDefinition } from '../_helpers/formFixture';
+import { fixtureDefinition, fixturePage } from '../_helpers/formFixture';
+import { formCache } from '../_helpers/formCache';
 import { ensureParagraphIds } from '@/lib/paragraphIdentity';
 
 // Existing main saves have no genericForm member. Keep this fixture independent
@@ -20,6 +22,7 @@ const oldLetter: SerializedSession = {
   references: [{ letter: 'a', title: 'Existing reference' }],
   enclosures: [], copyTos: [], distributions: [], endItems: [], publicationTables: {}, timestamp: 123,
 };
+afterEach(() => vi.unstubAllGlobals());
 
 it('preserves main-format letters and NAVMC drafts through upgrade, form use, and backup', async () => {
   const meta = { id: 'old-letter', title: 'My letter', name: 'My letter', pinned: true, docType: 'naval_letter', updatedAt: 123 };
@@ -42,7 +45,10 @@ it('preserves main-format letters and NAVMC drafts through upgrade, form use, an
     includeCoverPage: true, configFormValues: {}, configFormRows: {},
   });
 
-  startForm(fixtureDefinition(), false);
+  const page = await fixturePage(), definition = fixtureDefinition();definition.pages[0].sha256 = page.sha256;
+  vi.stubGlobal('crypto', webcrypto);formCache();
+  vi.stubGlobal('fetch', vi.fn(async () => new Response(new Uint8Array(page.bytes))));
+  startForm(definition, false);
   const formId = useDocumentsStore.getState().currentId!;
   editForm(form => { form.answers.name = 'NEW FORM'; });
   const backup = JSON.parse(await buildBackup());

@@ -1,5 +1,6 @@
 import 'fake-indexeddb/auto';
-import { beforeEach, expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, expect, it, vi } from 'vitest';
+import { webcrypto } from 'node:crypto';
 import { getSerializedSessionForShare, loadSharedSession, useDocumentStore } from '@/stores/documentStore';
 import { restoreBuiltInFormView, openSessionAsNew, useDocumentsStore } from '@/stores/documentsStore';
 import { useFormStore } from '@/stores/formStore';
@@ -7,18 +8,25 @@ import { buildBackup, restoreBackup } from '@/lib/backup';
 import { editForm, startForm } from '@/services/forms/documents';
 import { idbPutDocument } from '@/lib/documentsDb';
 import * as documentsDb from '@/lib/documentsDb';
-import { fixtureDefinition } from '../_helpers/formFixture';
+import { fixtureDefinition, fixturePage } from '../_helpers/formFixture';
+import { formCache } from '../_helpers/formCache';
+let templateHash: string;
+function definition() { const result = fixtureDefinition();result.pages[0].sha256 = templateHash;return result; }
 
-beforeEach(() => {
+beforeEach(async () => {
   vi.restoreAllMocks();
+  vi.stubGlobal('crypto', webcrypto);formCache();
+  const page = await fixturePage();templateHash = page.sha256;
+  vi.stubGlobal('fetch', vi.fn(async () => new Response(new Uint8Array(page.bytes))));
   useDocumentsStore.setState({ docs: {}, currentId: null, baseline: null, hydrated: true });
   useDocumentStore.getState().resetForm();
   useDocumentStore.setState({ documentCategory: 'correspondence', formType: 'navmc_10274' });
 });
+afterEach(() => vi.unstubAllGlobals());
 
 it('does not let a stale built-in session hint displace a resumed generic document', () => {
   const stale = { ...getSerializedSessionForShare(), documentCategory: 'forms' as const };
-  startForm(fixtureDefinition(), false);
+  startForm(definition(), false);
   editForm(form => { form.answers.name = 'SAVED GENERIC'; });
   useDocumentsStore.getState().saveCurrent();
   restoreBuiltInFormView(stale);
@@ -27,7 +35,7 @@ it('does not let a stale built-in session hint displace a resumed generic docume
 });
 
 it('preserves a generic form when returning to correspondence through a built-in form', () => {
-  startForm(fixtureDefinition(), false);
+  startForm(definition(), false);
   const formId = useDocumentsStore.getState().currentId!;
   editForm(form => { form.answers.name = 'KEEP FORM'; });
   useDocumentStore.getState().setFormType('navmc_10274');
