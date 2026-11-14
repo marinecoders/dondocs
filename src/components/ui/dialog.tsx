@@ -6,6 +6,7 @@ import { XIcon } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 import { useTourStore } from "@/stores/tourStore"
+import { preserveOutsideFocus } from "@/components/ui/dialog-focus"
 
 function Dialog({
   modal = true,
@@ -100,6 +101,7 @@ function DialogContent({
             return
           }
           if (event.defaultPrevented) return
+          if (preserveOutsideFocus(event)) return
           const target = returnFocus.current?.isConnected ? returnFocus.current : returnMenuTrigger.current
           const nextDialog = document.querySelector('[data-slot="dialog-content"][data-state="open"]')
           if (nextDialog && target && !nextDialog.contains(target)) {
