@@ -127,3 +127,24 @@ it.each(["signature filename", "legacy image text"])("rejects portion markings i
   await waitFor(() => expect(screen.getByRole("alert")).toHaveTextContent("outside this deployment"));
   expect(encryptSharePayload).not.toHaveBeenCalled();
 });
+
+it("requires privacy approval for retained legacy image-like text before encrypting native assets", async () => {
+  vi.stubGlobal("crypto", webcrypto);
+  const policy = resolveExportDeploymentPolicy({ hostname: "example.test", runtime: { status: "absent" }, environment: null });
+  vi.spyOn(classificationConfig, "getExportDeploymentPolicy").mockResolvedValue(policy);
+  useDocumentsStore.getState().newDocument();
+  const legacy = { image: "data:image/not-an-asset\r\nSSN 123-45-6789" };
+  const data = "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQIHWP4z8DwHwAFgAI/ScLbtAAAAABJRU5ErkJggg==";
+  useDocumentStore.setState(state => ({ formData: { ...state.formData, legacy,
+    signatureImage: { name: "signature.png", size: Buffer.from(data, "base64").length, data },
+  } }));
+  render(<ShareModal open mode="share" onOpenChange={() => {}} />);
+  const user = await generate();
+  expect(screen.getByRole("button", { name: "Share anyway" })).toBeVisible();
+  expect(encryptSharePayload).not.toHaveBeenCalled();
+  await user.click(screen.getByRole("button", { name: "Share anyway" }));
+  await waitFor(() => expect(encryptSharePayload).toHaveBeenCalledExactlyOnceWith(
+    expect.objectContaining({ version: 4, draft: expect.objectContaining({ formData: expect.objectContaining({ legacy }) }) }),
+    "password",
+  ));
+});

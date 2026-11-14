@@ -20,6 +20,7 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 - Open image-bearing built-in form shares with their form identity, while retaining exact native-text handling only for supported correspondence.
 - Review retained built-in form text against deployment handling levels before encrypting an asset-inclusive copy.
 - Check retained field text and attachment filenames for portion markings before sharing; report-only projections cannot omit transferred handling text.
+- Review personal information in retained legacy fields even when their text resembles an image data URL.
 - Reject resource bindings outside the selected document family and inconsistent figure filenames. Open complete copies in an empty receiving workspace while preserving activation ownership through delayed commits.
 - Keep background preview failures from interrupting shared import or a hidden preview, and discard error dialogs from an earlier document activation.
 
