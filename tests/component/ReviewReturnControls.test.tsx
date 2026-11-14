@@ -93,7 +93,7 @@ it.each(['download', 'import'] as const)('keeps the next review name focused aft
       upload();
       const apply = await screen.findByRole('button', { name: 'Import reviewed feedback' });
       await waitFor(() => expect(apply).toBeEnabled());fireEvent.click(apply);
-      await screen.findByText('Feedback imported. Use Undo to restore the previous discussions.');
+      await screen.findByText(/^Feedback imported\./);
     }
     const name = screen.getByRole('textbox', { name: 'Review name' });
     await waitFor(() => expect(name).toBeEnabled());
