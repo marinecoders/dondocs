@@ -11,6 +11,7 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import { WordPackageDownload } from "./WordPackageDownload";
 import { SessionChanges } from "./SessionChanges";
 import {
   createActionPackage,
@@ -880,6 +881,7 @@ function PackageDialog({
                   </>
                 )}
               </div>
+              <WordPackageDownload key={`${record.id}:${revision.id}`} record={record} revisionId={revision.id} ports={ports} />
               {prepared && (
                 <section className="space-y-3 rounded border p-3">
                   <h3 className="font-medium">
