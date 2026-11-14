@@ -301,7 +301,8 @@ async function serializeBackup(): Promise<string> {
     validateReviewSuggestionState(round, record.state);
     const saved = receiptCapture.documents.find(document => document.id === record.documentId);
     const captured = (docs as StoredDocument[]).find(document => document.id === record.documentId);
-    if (!!saved !== !!captured || saved && !sameReviewStoredValue(saved, captured)) throw new Error('Suggested edits changed while preparing this backup. Save and retry.');
+    const portableSaved = saved && JSON.parse(JSON.stringify({ ...saved, session: await materializeSignatureFallbacks(saved.session) }));
+    if (!!saved !== !!captured || saved && !sameReviewStoredValue(portableSaved, captured)) throw new Error('Suggested edits changed while preparing this backup. Save and retry.');
   }
   if (reviewSuggestionWrites.some(receipt => !reviewSuggestions.some(record => record.documentId === receipt.documentId
     && record.state.roundId === receipt.roundId && record.state.baselineDigest === receipt.baselineDigest))) throw new Error('A suggestion receipt has no intact saved review history.');
