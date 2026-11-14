@@ -41,7 +41,7 @@ function reportFields(value: unknown, rule?: FieldRule): unknown {
     return { form: form.definition.label, definitionRevision: form.definition.definitionRevision,
       templateRevision: form.definition.templateRevision,
       answers: answers(form.answers, form.definition.fields),
-      rows: Object.fromEntries(Object.entries(form.rows).map(([key, rows]) => [form.definition.rowGroups[key]?.title ?? key,
+      rows: Object.fromEntries(Object.entries(form.rows).map(([key, rows], index) => [`Group ${index + 1}: ${form.definition.rowGroups[key]?.title ?? 'Unrecognized group'}`,
         rows.map(row => answers(row.answers, form.definition.rowGroups[key]?.columns ?? {}))])),
     };
   }
