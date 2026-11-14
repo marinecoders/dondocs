@@ -19,6 +19,9 @@ async function downloadWord(page: Page, dialog: Locator, path: string) {
   await word.getByRole('button', { name: 'Review Word package', exact: true }).click();
   await expect(word.getByRole('checkbox')).toBeVisible();
   await word.getByRole('checkbox').check();
+  expect(await word.evaluate(element => element.scrollWidth <= element.clientWidth)).toBe(true);
+  await word.getByRole('button', { name: 'Download reviewed Word package', exact: true }).scrollIntoViewIfNeeded();
+  await page.screenshot({ path: path.replace(/\.zip$/, '-review.png'), scale: 'css' });
   const saving = page.waitForEvent('download');
   await word.getByRole('button', { name: 'Download reviewed Word package', exact: true }).click();
   const file = await saving;expect(await file.failure()).toBeNull();await file.saveAs(path);
@@ -70,6 +73,12 @@ for (const theme of ['light', 'dark', 'classic']) {
     await page.getByRole('menuitem', { name: 'Move to Trash', exact: true }).click();
     const documents = page.getByRole('dialog', { name: 'Documents', exact: true });
     if (await documents.isVisible()) await documents.getByRole('button', { name: 'Close', exact: true }).click();
+    if (isMobile) await page.getByRole('button', { name: 'Open workspace', exact: true }).click();
+    await page.getByRole('button', { name: 'Trash', exact: true }).click();
+    const trash = page.getByRole('dialog', { name: 'Trash', exact: true });
+    await trash.getByRole('listitem').filter({ hasText: 'NEWER LIVE SOURCE' }).getByRole('button', { name: 'Delete permanently', exact: true }).click();
+    await page.getByRole('alertdialog', { name: 'Permanently delete this document?', exact: true }).getByRole('button', { name: 'Delete permanently', exact: true }).click();
+    await trash.getByRole('button', { name: 'Close', exact: true }).click();
     await page.reload();dialog = await packages(page, packageName);
     await expect(dialog).toContainText('unavailable; preserved copy retained');
     const zip = await downloadWord(page, dialog, info.outputPath(`word-package-${theme}.zip`));
@@ -97,7 +106,7 @@ for (const theme of ['light', 'dark', 'classic']) {
     const saving = page.waitForEvent('download');
     await dialog.getByRole('button', { name: 'Download reviewed editable package', exact: true }).click();
     const portable = await saving, portablePath = info.outputPath(`native-${theme}.json`);await portable.saveAs(portablePath);
-    const fresh = await browser.newContext({ viewport: page.viewportSize(), isMobile, serviceWorkers: 'block' });
+    const fresh = await browser.newContext({ viewport: page.viewportSize(), userAgent: await page.evaluate(() => navigator.userAgent), isMobile, hasTouch: !!info.project.use.hasTouch, serviceWorkers: 'block' });
     try {
       await fresh.addInitScript(value => { localStorage.setItem('browser-test-visitor', 'returning');localStorage.setItem('dondocs_ui', JSON.stringify({ state: { theme: value, editorLayout: 'scroll' }, version: 1 })); }, theme);
       const recipient = await fresh.newPage();await recipient.goto('/');
@@ -113,3 +122,32 @@ for (const theme of ['light', 'dark', 'classic']) {
     } finally { await fresh.close(); }
   });
 }
+
+test('Word delivery blocks disallowed original PDF text and displays original PDF privacy findings', async ({ page }) => {
+  await page.addInitScript(() => { localStorage.setItem('browser-test-visitor', 'returning'); });
+  await page.goto('/');
+  const baseline = buildBaseline('business_letter');
+  const draft = { ...baseline, documentMode: 'custom', documentCategory: 'correspondence', formData: { ...baseline.formData, subject: 'WORD ORIGINAL REVIEW' }, paragraphs: [{ text: 'Synthetic captured correspondence.', level: 0 }], references: [], enclosures: [] };
+  await page.getByLabel('Import draft file').setInputFiles({ name: 'review-source.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(draft)) });
+  await page.getByRole('button', { name: 'Open as new document', exact: true }).click();
+  const dialog = await packages(page);
+  await dialog.getByLabel('Package name', { exact: true }).fill('Original content review');await dialog.getByRole('button', { name: 'Create package', exact: true }).click();
+  await dialog.getByRole('button', { name: 'Capture current document', exact: true }).click();
+  await expect(dialog.getByRole('heading', { name: '1. WORD ORIGINAL REVIEW', exact: true })).toBeVisible();
+  await dialog.getByLabel('New member role', { exact: true }).selectOption('supporting-document');
+  async function addOriginal(text: string) {
+    const pdf = await PDFDocument.create();pdf.addPage().drawText(text);
+    await dialog.getByLabel('Add original PDF', { exact: true }).setInputFiles({ name: 'support.pdf', mimeType: 'application/pdf', buffer: Buffer.from(await pdf.save()) });
+    await expect(dialog.getByRole('heading', { name: '2. support.pdf', exact: true })).toBeVisible();
+  }
+  await addOriginal('SECRET');
+  const word = dialog.getByRole('region', { name: 'Word package delivery', exact: true });
+  await word.getByRole('button', { name: 'Review Word package', exact: true }).click();
+  await expect(word.getByRole('alert')).toContainText('outside this deployment');expect(await word.getByRole('checkbox').count()).toBe(0);
+  await dialog.getByRole('listitem').filter({ hasText: '2. support.pdf' }).getByRole('button', { name: 'Remove', exact: true }).click();
+  await expect(dialog.getByRole('heading', { name: '2. support.pdf', exact: true })).toHaveCount(0);
+  await addOriginal('SSN 123-45-6789');
+  await word.getByRole('button', { name: 'Review Word package', exact: true }).click();
+  await expect(word).toContainText('123-45-6789');await expect(word.getByRole('checkbox')).toBeVisible();
+  await expect(word).toContainText('Text-layer inspection cannot read text inside scanned images');
+});
