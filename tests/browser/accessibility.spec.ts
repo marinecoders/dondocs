@@ -107,11 +107,37 @@ for (const theme of ['light', 'dark', 'classic']) {
       await containedFocus(page, compileError);
       await scan(page, info, 'oversized-field-preview-error');
       await page.screenshot({ path: info.outputPath('oversized-field-preview-error.png') });
+      await page.context().grantPermissions(['clipboard-read', 'clipboard-write']);
+      await keyboardOpen(compileError.getByRole('button', { name: 'Copy log', exact: true }));
+      await expect(compileError.getByRole('button', { name: 'Copied', exact: true })).toBeVisible();
+      expect(await page.evaluate(() => navigator.clipboard.readText())).toContain('Address block is too tall');
+      await scan(page, info, 'preview-log-copied');
       await page.keyboard.press('Escape');
       await expect(compileError).toBeHidden();
       await expect(subject).toBeFocused();
+      await keyboardOpen(page.getByRole('button', { name: 'Download', exact: true }));
+      await page.getByRole('menuitem', { name: /^Download PDF(?:\s|$)/ }).press('Enter');
+      const exportError = page.getByRole('dialog', { name: 'PDF download failed', exact: true });
+      await expect(exportError.getByRole('alert')).toContainText('Compilation failed');
+      const exportLog = exportError.getByRole('region', { name: 'Error log output', exact: true });
+      await expect(exportLog).toContainText('Address block is too tall');
+      await exportLog.focus();
+      await expect(exportLog).toBeFocused();
+      await exportLog.press('End');
+      await expect.poll(() => exportLog.evaluate(element => element.scrollTop)).toBeGreaterThan(0);
+      await containedFocus(page, exportError);
+      await scan(page, info, 'export-compilation-error');
+      await keyboardOpen(exportError.getByRole('button', { name: 'Copy logs', exact: true }));
+      await expect(exportError.getByRole('button', { name: 'Copied', exact: true })).toBeVisible();
+      expect(await page.evaluate(() => navigator.clipboard.readText())).toContain('Address block is too tall');
+      await scan(page, info, 'export-log-copied');
+      await page.screenshot({ path: info.outputPath('export-compilation-error.png') });
+      await page.keyboard.press('Escape');
+      await expect(exportError).toBeHidden();
+      await expect(page.getByRole('button', { name: 'Download', exact: true })).toBeFocused();
       await keyboardOpen(commentsButton);
       const comments = page.getByRole('dialog', { name: 'Document comments', exact: true });
+      await expect(comments.getByRole('group', { name: 'Comment status', exact: true })).toBeVisible();
       const post = comments.getByRole('button', { name: 'Post comment', exact: true });
       await comments.getByLabel('Comment on', { exact: true }).selectOption('subject');
       await comments.getByRole('textbox', { name: 'Reviewer name', exact: true }).fill('Example reviewer');
@@ -197,6 +223,55 @@ for (const theme of ['light', 'dark', 'classic']) {
       await page.keyboard.press('Escape');
       await expect(failure).toBeHidden();
       await expect(page.getByRole('button', { name: 'Download', exact: true })).toBeFocused();
+    });
+
+    test('signature tabs keep both panel relationships and keyboard selection', async ({ page }, info) => {
+      await keyboardOpen(page.getByRole('button', { name: /^Correspondence type:/ }));
+      await page.getByRole('option', { name: 'Business Letter', exact: true }).press('Enter');
+      for (const [first, second] of [['Military', 'Civilian / Other'], ['Standard', 'Custom']]) {
+        const initial = page.getByRole('tab', { name: first, exact: true });
+        const alternate = page.getByRole('tab', { name: second, exact: true });
+        for (const tab of [initial, alternate]) {
+          const panelId = await tab.getAttribute('aria-controls');
+          expect(panelId).toBeTruthy();
+          expect(await page.evaluate(id => {
+            const panel = document.getElementById(id!);
+            return panel ? { role: panel.getAttribute('role'), label: panel.getAttribute('aria-labelledby') } : null;
+          }, panelId)).toEqual({ role: 'tabpanel', label: await tab.getAttribute('id') });
+        }
+        await initial.focus();
+        await expect(initial).toHaveAttribute('aria-selected', 'true');
+        for (const [key, selected] of [['End', alternate], ['Home', initial], ['ArrowRight', alternate], ['ArrowRight', initial], ['ArrowLeft', alternate]] as const) {
+          await page.keyboard.press(key);
+          await expect(selected).toBeFocused();
+          await expect(selected).toHaveAttribute('aria-selected', 'true');
+        }
+        const inactiveId = await initial.getAttribute('aria-controls');
+        expect(await page.evaluate(id => {
+          const panel = document.getElementById(id!);
+          return panel ? { hidden: panel.hidden, display: getComputedStyle(panel).display } : null;
+        }, inactiveId)).toEqual({ hidden: true, display: 'none' });
+        const panel = page.getByRole('tabpanel', { name: second, exact: true });
+        await expect(panel).toBeVisible();
+        await alternate.press('Tab');
+        await expect(panel).toBeFocused();
+        await expect(panel).not.toHaveCSS('box-shadow', 'none');
+        await page.keyboard.press('Tab');
+        const input = panel.getByRole('textbox', { name: first === 'Military' ? 'Rank / Title' : 'Office Code', exact: true });
+        await expect(input).toBeFocused();
+        await input.fill('Example custom value');
+        await input.fill('');
+        await expect(alternate).toHaveAttribute('aria-selected', 'true');
+        await expect(input).toBeEditable();
+        const customValue = first === 'Military' ? 'Capt, USMC adviser' : 'CO adviser';
+        await input.pressSequentially(customValue);
+        await expect(alternate).toHaveAttribute('aria-selected', 'true');
+        await expect(input).toHaveValue(customValue);
+        await page.keyboard.press('Shift+Tab');
+        await expect(panel).toBeFocused();
+      }
+      await scan(page, info, 'signature-tab-panels');
+      await page.screenshot({ path: info.outputPath('signature-tab-panels.png') });
     });
 
     test('import exposes names, errors and keyboard focus through review', async ({ page }, info) => {

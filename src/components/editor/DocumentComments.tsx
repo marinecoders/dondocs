@@ -72,7 +72,7 @@ export function CommentsDialog({ onClose, initialParagraphId }: { onClose: () =>
         if (saved) { setEditor({ kind: 'add' });setEditorKey(value => value + 1); }
         return saved;
       }} />
-      <div className="flex flex-wrap gap-2" aria-label="Comment status">
+      <div role="group" className="flex flex-wrap gap-2" aria-label="Comment status">
         <Button type="button" size="sm" variant={!showResolved ? 'secondary' : 'outline'} aria-pressed={!showResolved} onClick={() => setShowResolved(false)}>Open ({threads.filter(thread => !thread.resolved).length})</Button>
         <Button type="button" size="sm" variant={showResolved ? 'secondary' : 'outline'} aria-pressed={showResolved} onClick={() => setShowResolved(true)}>Resolved ({threads.filter(thread => thread.resolved).length})</Button>
       </div>
