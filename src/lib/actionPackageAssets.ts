@@ -1,6 +1,8 @@
 import { supportsReviewComments } from './reviewCommentTargets';
 import { validatePackageDraft } from './actionPackageDraft';
-import { validatePackageMemberTemplates } from './actionPackageTemplates';
+import { formTemplateAttachmentId } from './formTemplateAssets';
+import { retainPortableFormTemplates } from '@/services/forms/portableTemplates';
+import { retainPackageMemberTemplates, validatePackageMemberTemplates } from './actionPackageTemplates';
 import { PDFDocument } from 'pdf-lib';
 import type { CapturedDocument } from './capturedDocument';
 import { copyCapturedDocument } from './capturedDocument';
@@ -34,6 +36,7 @@ export async function readPackageMemberDraft(member: NativePackageMember) {
 /** Reuse native draft staging without installing or mutating the active editor. */
 export async function preparePackageMember(member: NativePackageMember) {
   const { reviewed } = await readPackageMemberDraft(member);
+  await retainPackageMemberTemplates(member, readPackageAsset);
   const prepared = await prepareReviewedDocument(reviewed, () => true, supportsReviewComments(reviewed.session));
   if (!prepared) throw new Error(`Could not stage ${member.label}.`);
   return { prepared, snapshot: copyPreparedDocument(prepared) };
@@ -44,12 +47,21 @@ export async function capturePackageMember(captured: CapturedDocument, label: st
     for (const enclosure of snapshot.enclosures) if ((enclosure as { hasFile?: boolean }).hasFile && !enclosure.file && !enclosure.fileRef) throw new Error(`The attached enclosure ${enclosure.title} is missing.`);
     const draft = await buildDraftFileFromSnapshot(snapshot, captured.source.capturedAt);
     // Templates have one package-owned copy rather than nested draft/resource copies.
-    if (draft && typeof draft === 'object') { delete (draft as Record<string, unknown>).portableFormTemplates;delete (draft as Record<string, unknown>).portableResources; }
+    if (draft && typeof draft === 'object') { delete (draft as Record<string, unknown>).portableFormTemplates;delete (draft as Record<string, unknown>).portableResources;
+      if ('kind' in draft && draft.kind === 'dondocs-draft' && 'version' in draft && draft.version === 3) draft.version = 2;
+    }
     const reviewed = await validatePackageDraft(draft);
     const templates = await captureExportFormTemplates(captured);
     const retained: Record<string, PackageAsset> = {};
-    if (templates) for (const [file, bytes] of Object.entries(copyFormExportTemplates(templates))) {
-      retained[file] = await retainPackageAsset(file.split('/').at(-1) || 'template.pdf', 'application/pdf', new Uint8Array(bytes).buffer);
+    if (templates) {
+      const pages = copyFormExportTemplates(templates);
+      const definition = reviewed.session.genericForm?.definition;
+      if (definition && !await retainPortableFormTemplates([{ definition, pages }])) throw new Error('The exact configured templates could not be retained.');
+      for (const [file, bytes] of Object.entries(pages)) {
+        const data = new Uint8Array(bytes).buffer, sha256 = await portableResourceDigest(data);
+        retained[file] = definition ? { id: formTemplateAttachmentId(sha256), name: file, type: 'application/pdf', size: data.byteLength, sha256 }
+          : await retainPackageAsset(file.split('/').at(-1) || 'template.pdf', 'application/pdf', data);
+      }
     }
     return { id: previous?.id ?? newPackageId('member'), revisionId: newPackageId('member-revision'), kind: 'native', label, role,
       required: previous?.required ?? true, source: { documentId: captured.source.documentId, capturedAt: captured.source.capturedAt, editSequence: captured.source.editSequence, local: true },

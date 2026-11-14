@@ -1,5 +1,11 @@
 import 'fake-indexeddb/auto';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { resolve } from 'node:path';
+import { readFile } from 'node:fs/promises';
+import { fixtureInstance, fixturePage } from '../_helpers/formFixture';
+import { formTemplateAttachmentId } from '@/lib/formTemplateAssets';
+import { preparePackageMember } from '@/lib/actionPackageAssets';
+import { prepareFormSession } from '@/stores/formStore';
 import { PDFDocument } from 'pdf-lib';
 import { createBlankSession } from '@/stores/documentStore';
 import { captureDocumentRevision } from '@/lib/capturedDocument';
@@ -37,7 +43,7 @@ async function fixture() {
   const record = await reviseActionPackage(empty, [member]);
   return { record, member, source };
 }
-beforeEach(async () => { vi.restoreAllMocks();await createActionPackage('Initialize database');await clearDb();useDocumentsStore.setState({ docs: {}, currentId: null, hydrated: true, baseline: null }); });
+beforeEach(async () => { vi.restoreAllMocks();vi.unstubAllGlobals();await createActionPackage('Initialize database');await clearDb();useDocumentsStore.setState({ docs: {}, currentId: null, hydrated: true, baseline: null }); });
 
 describe('retained package ownership and transactions', () => {
   it('owns captured models and bytes across source mutation, replacement, deletion, removal and reload reads', async () => {
@@ -159,5 +165,54 @@ describe('readiness and retained assembly', () => {
     await expect(assemblePackage(prepared, { compile: vi.fn(), convertDocx: vi.fn(), waitForReady: vi.fn() })).rejects.toThrow();
     vi.restoreAllMocks();expect((await listActionPackages())[0]).toEqual(record);
     const unattached = newAttachmentId();await idbPutAttachment({ id: unattached, name: 'staging residue', size: 1, type: 'application/octet-stream', data: new Uint8Array([1]).buffer });expect((await collectLiveAttachmentIds())?.has(unattached)).toBe(false);
+  });
+});
+
+
+describe('native form package revisions', () => {
+  it('preserves configured definitions and exact durable template bytes, edits and assembles after offline transfer', async () => {
+    const page = await fixturePage(), instance = fixtureInstance();instance.definition.pages[0].sha256 = page.sha256;
+    vi.stubGlobal('fetch', vi.fn(async () => new Response(new Uint8Array(page.bytes))));
+    const source = { ...snapshot(), documentCategory: 'forms' as const, formType: 'fixture', genericForm: instance };
+    const member = await capturePackageMember(captureDocumentRevision({ documentId: 'configured-source', epoch: 0, editSequence: 1, capturedAt: 100 }, source), 'Configured coordination', 'basic-letter');
+    expect(member.templates?.['page1.pdf'].id).toBe(formTemplateAttachmentId(page.sha256));
+    const record = await reviseActionPackage(await createActionPackage('Configured package'), [member]);
+    expect((await idbFormDefinitions())?.some(definition => definition.formId === 'fixture')).toBe(true);
+    expect((await collectLiveAttachmentIds())?.has(formTemplateAttachmentId(page.sha256))).toBe(true);
+    const portable = await buildPortableActionPackage(record), backup = JSON.parse(await buildBackup());
+    expect(backup.version).toBe(12);expect(backup.portableResources.entries.filter((entry: { sha256: string }) => entry.sha256 === page.sha256)).toHaveLength(1);
+    expect(backup.attachments.some((asset: { id: string }) => asset.id === formTemplateAttachmentId(page.sha256))).toBe(false);
+    await clearDb();vi.stubGlobal('fetch', vi.fn(async () => { throw new Error('offline'); }));
+    const imported = await importPortableActionPackage(portable), selected = getPackageRevision(imported).members[0];if (selected.kind !== 'native') throw new Error('Expected configured member');
+    expect((await preparePackageMember(selected)).snapshot.genericForm?.answers).toEqual(instance.answers);
+    const prepared = await preparePackageAssembly(imported, imported.currentRevisionId, policy);expect(prepared.readiness.findings.filter(finding => finding.severity === 'error')).toEqual([]);
+    const assembled = await assemblePackage(prepared, { compile: vi.fn(), convertDocx: vi.fn(), waitForReady: vi.fn() });
+    expect((await PDFDocument.load(await readPackageAsset(getPackageRevision(assembled).outputs[0].asset))).getPageCount()).toBe(1);
+    await clearDb();await restoreBackup(JSON.stringify(backup));expect((await listActionPackages())[0].revisions).toHaveLength(2);
+    expect((await preparePackageMember(member)).snapshot.genericForm?.definition.pages[0].sha256).toBe(page.sha256);
+  });
+  it('rejects a configured template with a self-consistent resource hash but a different pinned definition or geometry', async () => {
+    const page = await fixturePage(), instance = fixtureInstance();instance.definition.pages[0].sha256 = page.sha256;
+    vi.stubGlobal('fetch', vi.fn(async () => new Response(new Uint8Array(page.bytes))));
+    const source = { ...snapshot(), documentCategory: 'forms' as const, formType: 'fixture', genericForm: instance };
+    const member = await capturePackageMember(captureDocumentRevision({ documentId: 'configured-source', epoch: 0, editSequence: 1, capturedAt: 100 }, source), 'Configured', 'basic-letter');
+    const record = await reviseActionPackage(await createActionPackage('Configured package'), [member]), packet = JSON.parse(await buildPortableActionPackage(record));
+    const wrong = await pdfBytes(2), asset = packet.package.revisions[0].members[0].templates['page1.pdf'];
+    const replacement = { ...asset, size: wrong.byteLength, sha256: await portableResourceDigest(wrong) };
+    packet.package.revisions[0].members[0].templates['page1.pdf'] = replacement;
+    const decoded = await parsePortableActionPackage(await buildPortableActionPackage(record));
+    packet.portableResources = await buildPortableResources(await Promise.all([...decoded.resources].map(async ([path, resource]) => ({ path, name: resource.name, mediaType: resource.mediaType, data: path === `assets/${asset.id}` ? wrong : resource.data }))));
+    await expect(parsePortableActionPackage(JSON.stringify(packet))).rejects.toThrow(/template/);
+  });
+  it('stages and renders a built-in form without passing correspondence-only preservation flags or using the engine', async () => {
+    vi.stubGlobal('fetch', vi.fn(async (url: string) => new Response(new Uint8Array(await readFile(resolve('public', 'templates', decodeURI(url).split('templates/')[1]))))));
+    const forms = prepareFormSession('navmc_10274');forms.navmc10274 = { ...forms.navmc10274!, from: 'Training office', to: 'Training officer', natureOfAction: 'Fictional coordination action' };
+    const source = { ...snapshot(), documentCategory: 'forms' as const, formType: 'navmc_10274', forms };
+    const member = await capturePackageMember(captureDocumentRevision({ documentId: 'builtin-source', epoch: 0, editSequence: 1, capturedAt: 100 }, source), 'Built-in coordination', 'basic-letter');
+    expect((await preparePackageMember(member)).snapshot.forms?.navmc10274?.natureOfAction).toBe('Fictional coordination action');
+    const record = await reviseActionPackage(await createActionPackage('Builtin package'), [member]);
+    const prepared = await preparePackageAssembly(record, record.currentRevisionId, policy);expect(prepared.readiness.findings.filter(finding => finding.severity === 'error')).toEqual([]);
+    const ports = { compile: vi.fn(), convertDocx: vi.fn(), waitForReady: vi.fn() }, assembled = await assemblePackage(prepared, ports);
+    expect(ports.compile).not.toHaveBeenCalled();expect((await PDFDocument.load(await readPackageAsset(getPackageRevision(assembled).outputs[0].asset))).getPageCount()).toBeGreaterThan(0);
   });
 });

@@ -1,5 +1,5 @@
 import { validatePackageDraft } from './actionPackageDraft';
-import { validatePackageMemberTemplates } from './actionPackageTemplates';
+import { retainPackageMemberTemplates, validatePackageMemberTemplates } from './actionPackageTemplates';
 import { PDFDocument } from 'pdf-lib';
 import { portableResourceDigest } from './portableResources';
 import { z } from 'zod';
@@ -13,7 +13,8 @@ export const MAX_PACKAGE_FILE_BYTES = 100 * 1024 * 1024;
 const envelopeSchema = z.object({ kind: z.literal('dondocs-action-package'), version: z.literal(1), package: actionPackageSchema, portableResources: z.unknown() }).strict();
 export async function buildPortableActionPackage(record: ActionPackage, revisionId = record.currentRevisionId): Promise<string> {
   const selected = getPackageRevision(record, revisionId);
-  const owned = actionPackageSchema.parse({ ...structuredClone(record), historyScope: 'selected-revision', currentRevisionId: selected.id, revisions: [selected] });
+  const source = structuredClone(record);delete source.workingCopies;
+  const owned = actionPackageSchema.parse({ ...source, historyScope: 'selected-revision', currentRevisionId: selected.id, revisions: [selected] });
   for (const revision of owned.revisions) for (const member of revision.members) if (member.kind === 'native') await readPackageMemberDraft(member);
   for (const revision of owned.revisions) for (const member of revision.members) if (member.kind === 'native' && member.source) member.source.local = false;
   delete owned.workingCopies;
@@ -53,7 +54,7 @@ export async function importPortableActionPackage(json: string): Promise<ActionP
         await readPackageAsset(asset);
       } else if (!await idbPutAttachment({ ...asset, data }, true)) throw new Error(`Could not retain ${asset.name}. The package was not installed.`);
     }
-    for (const revision of record.revisions) for (const member of revision.members) if (member.kind === 'native') await readPackageMemberDraft(member);
+    for (const revision of record.revisions) for (const member of revision.members) if (member.kind === 'native') { await readPackageMemberDraft(member);await retainPackageMemberTemplates(member, readPackageAsset); }
     return existing ?? commitActionPackage(null, record);
   });
 }
