@@ -7,6 +7,16 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.76] — 2026-11-13
+
+### Added
+
+- Run automated accessibility scans and keyboard regressions for import, History comparison, document/field/paragraph comments and export dialogs in Light, Dark and Classic at desktop and phone sizes. A focused CI gate retains scan results and failure artifacts, with a negative fixture that must be rejected.
+
+### Fixed
+
+- Give letterhead selectors explicit labels, signature tabs associated panels and visible control text matching accessible names. Expose sidebar and readiness landmarks, announce import/comment/export feedback, and make scrollable comment context reachable with the keyboard.
+
 ## [1.3.75] — 2026-11-13
 
 ### Added
