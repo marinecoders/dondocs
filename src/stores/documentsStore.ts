@@ -896,7 +896,7 @@ export async function applyOwnedReviewSuggestions(target: DocumentTarget | null,
   catch { return 'invalid'; }
   if (!isCurrentDocumentTarget(target) || operation.documentId !== target.scope.documentId) return 'stale';
   if (operation.intent.kind === 'history' || !supportsReviewComments(useDocumentStore.getState())) return 'invalid';
-  if (hasRetainedReviewWrites()) throw new Error('Interrupted review changes need attention. Open recovered copies first.');
+  if (hasRetainedReviewWrites(target.scope.documentId)) throw new Error(REVIEW_RECOVERY_MESSAGE);
   const saved = await commitCurrentDocument();
   if (!saved || !isCurrentDocumentTarget(target)) return 'stale';
   const round = await readReviewRound(operation.round.id), link = await readReviewCopyLink(operation.documentId);

@@ -2,7 +2,7 @@ import 'fake-indexeddb/auto';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import * as db from '@/lib/documentsDb';
 import { applyOwnedReviewSuggestions, captureDocumentTarget, captureDocumentScope, changeDocumentHistory,
-  commitCurrentDocument, flushDocumentWrites, openExistingDocument, recordDocumentHistory, useDocumentsStore } from '@/stores/documentsStore';
+  commitCurrentDocument, deleteReviewRound, flushDocumentWrites, openExistingDocument, recordDocumentHistory, useDocumentsStore } from '@/stores/documentsStore';
 import { useDocumentStore } from '@/stores/documentStore';
 import { useUIStore } from '@/stores/uiStore';
 import { useHistoryStore } from '@/stores/historyStore';
@@ -103,6 +103,18 @@ describe('review suggestion owner and ordinary history integration', () => {
     release();expect(await result).toBe('committed');
     expect(useDocumentsStore.getState().currentId).toBe(other);expect(useDocumentStore.getState().formData.to).not.toBe('Proposed recipient');
     expect(useUIStore.getState().lastSavedAt).toEqual(stamp);expect((await saved()).session.formData.to).toBe('Proposed recipient');
+  });
+
+  it('removes review metadata on explicit cleanup while preserving ordinary text Undo', async () => {
+    expect(await applyOwnedReviewSuggestions(captureDocumentTarget(), acceptance())).toBe('committed');
+    expect(await deleteReviewRound(round.id, round.baselineDigest)).toBe(true);
+    expect(await db.idbReadReviewSuggestions(round.ownerDocumentId!, round.id)).toBeNull();
+    expect(changeDocumentHistory('undo', captureDocumentScope())).toBe('applied');await flushDocumentWrites();
+    expect(useDocumentStore.getState().formData.to).toBe('Original recipient');
+    expect(await db.idbReadReviewSuggestions(round.ownerDocumentId!, round.id)).toBeNull();
+    expect(changeDocumentHistory('redo', captureDocumentScope())).toBe('applied');await flushDocumentWrites();
+    expect(useDocumentStore.getState().formData.to).toBe('Proposed recipient');
+    expect(await db.idbReadReviewSuggestions(round.ownerDocumentId!, round.id)).toBeNull();
   });
 
   it('keeps normal activation-cleared Undo semantics while retaining durable decision history', async () => {
