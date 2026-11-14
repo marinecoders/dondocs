@@ -9,7 +9,13 @@
  * loading.
  */
 import { describe, it, expect } from 'vitest';
+import { readFileSync } from 'node:fs';
+import { resolve } from 'node:path';
+import { PDFDocument } from 'pdf-lib';
 import { prepareEngine, compileDocument, LatexCompileError } from '@/services/latex/renderDocument';
+import { DOC_TYPE_CONFIG } from '@/types/document';
+import { supportsCorrespondenceSignatureImage } from '@/services/docx/imageAssets';
+import { docxImageFixture } from '../_helpers/docxImageFixture';
 import type { LatexEngine, CompileResult } from '@/services/latex/latexEngine';
 
 type Call =
@@ -102,6 +108,41 @@ describe('prepareEngine', () => {
 });
 
 describe('compileDocument', () => {
+  it.each(Object.keys(DOC_TYPE_CONFIG))('matches signature-image visibility of the actual %s template', docType => {
+    const load = (name: string): string => readFileSync(resolve('tex/templates', `${name}.tex`), 'utf8')
+      .replace(/^\\input\{([^}]+)\}/gm, (_match, include: string) => load(include));
+    const template = load(docType);
+    expect(supportsCorrespondenceSignatureImage(docType)).toBe(template.includes('attachments/\\SignatureImage'));
+  });
+
+  it.each(['naval_letter', 'business_letter', 'action_memorandum'])('rejects missing and malformed drawn signatures before %s engine writes', async docType => {
+    for (const bytes of [undefined, new Uint8Array([1, 2, 3])]) {
+      const { engine, calls } = fakeEngine();
+      await expect(compileDocument(engine, { 'document.tex': `\\setDocumentType{${docType}}`,
+        'signatory.tex': '\\setSignatureImage{signature.png}', ...(bytes ? { 'attachments/signature.png': bytes } : {}) })).rejects.toThrow(/signature|PNG/i);
+      expect(calls).toEqual([]);
+    }
+  });
+
+  it.each(['information_memorandum', 'joint_letter', 'joint_memorandum', 'moa', 'mou', 'i_type', 'sl3', 'sl4', 'tm_ietm_front_matter'])('does not validate retained inactive %s signature bytes', async docType => {
+    const pdf = await PDFDocument.create();
+    pdf.addPage();
+    for (const bytes of [undefined, new Uint8Array([1, 2, 3])]) {
+      const { engine, calls } = fakeEngine({ pdf: await pdf.save() });
+      await compileDocument(engine, { 'document.tex': `\\setDocumentType{${docType}}`,
+        'signatory.tex': '\\setSignatureImage{signature.png}', ...(bytes ? { 'attachments/signature.png': bytes } : {}) });
+      expect(calls.some(call => call.op === 'compile')).toBe(true);
+    }
+  });
+
+  it('accepts a complete drawn signature PNG', async () => {
+    const { signature } = await docxImageFixture();
+    const { engine, calls } = fakeEngine();
+    await compileDocument(engine, { 'document.tex': '\\setDocumentType{business_letter}',
+      'signatory.tex': '\\setSignatureImage{signature.png}', 'attachments/signature.png': new Uint8Array(signature) });
+    expect(calls.some(call => call.op === 'compile')).toBe(true);
+  });
+
   it('writes the files, then sets main, then compiles — in that order', async () => {
     const { engine, calls } = fakeEngine();
     await compileDocument(engine, { 'document.tex': 'x' });

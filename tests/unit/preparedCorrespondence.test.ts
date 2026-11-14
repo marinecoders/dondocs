@@ -140,6 +140,16 @@ it('excludes retained publication figures from an ordinary letter export', async
   expect(adapters.compile).toHaveBeenCalledWith(expect.objectContaining({ 'body.tex': expect.stringContaining('Ordinary paragraph after a format switch') }));
 });
 
+it.each(['information_memorandum', 'joint_letter'])('does not resolve retained inactive %s signature handles for PDF', async docType => {
+  const job = ready('pdf', { docType, formData: { signatureType: 'image', signatureImage: {
+    name: 'retained.png', size: 1, data: '', fileRef: { id: 'missing-inactive-signature', name: 'retained.png', size: 1, type: 'image/png' },
+  } } });
+  const adapters = ports(await pdf());
+  const artifact = await renderPreparedCorrespondence(job, adapters, new AbortController().signal);
+  expect((await PDFDocument.load(await artifact.blob.arrayBuffer())).getPageCount()).toBe(1);
+  expect(copyPreparedDocument(job).document.formData.signatureImage?.fileRef?.id).toBe('missing-inactive-signature');
+});
+
 it('keeps prepared manual cover dates fixed when rendering after a century boundary', async () => {
   vi.useFakeTimers({ toFake: ['Date'] });
   const capturedAt = Date.UTC(2026, 9, 1);

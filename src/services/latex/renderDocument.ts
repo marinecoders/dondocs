@@ -1,5 +1,6 @@
 import { resolvePublicationDestinations } from '../pdf/publicationDestinations';
 import { validateFigureFiles } from './figureAssets';
+import { ImageInputError, inspectRasterImage, supportsCorrespondenceSignatureImage } from '../docx/imageAssets';
 /**
  * The LaTeX compile sequence, held once.
  *
@@ -122,6 +123,17 @@ async function runCompile(
   }
 
   await validateFigureFiles(files);
+
+  const docType = typeof files['document.tex'] === 'string' ? /\\setDocumentType\{([^}]+)\}/.exec(files['document.tex'])?.[1] : undefined;
+  if (docType && supportsCorrespondenceSignatureImage(docType) && typeof files['signatory.tex'] === 'string'
+    && /\\setSignatureImage\{signature\.png\}/.test(files['signatory.tex'])) {
+    const signature = files['attachments/signature.png'];
+    if (!(signature instanceof Uint8Array)) throw new ImageInputError('The signature image is missing. Reattach a valid PNG before exporting.');
+    try { await inspectRasterImage(signature, 'image/png'); }
+    catch (error) {
+      throw new ImageInputError(`Signature image: ${error instanceof ImageInputError ? error.message : 'Choose a valid PNG before exporting.'}`, { cause: error });
+    }
+  }
 
   for (const [path, content] of Object.entries(files)) {
     engine.writeMemFSFile(path, content);

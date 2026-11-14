@@ -33,6 +33,7 @@ import { calculateLabels } from './paragraphLabels';
 import { agreementParagraphs } from './agreementLayout';
 import { ancestorLabelsPerParagraph, type LabelFont } from './subparagraphIndent';
 import { safeUrl } from '@/lib/url-safety';
+import { ImageInputError, supportsCorrespondenceSignatureImage } from '@/services/docx/imageAssets';
 import { splitAddressForLetterhead } from '@/lib/unitAddress';
 import { formatViaLines } from '@/lib/viaLines';
 import { parse as parseDate, isValid as isValidDate, format as formatDate } from 'date-fns';
@@ -1319,9 +1320,11 @@ export function generateAllLatexFiles(store: DocumentStore, resolvedLevel?: stri
   }));
 
   // Convert signature image from base64 to Uint8Array if present
-  const signatureImage = store.formData.signatureImage?.data
-    ? base64ToUint8Array(store.formData.signatureImage.data)
-    : undefined;
+  let signatureImage: Uint8Array | undefined;
+  if (store.formData.signatureType === 'image' && supportsCorrespondenceSignatureImage(store.docType) && store.formData.signatureImage?.data) {
+    try { signatureImage = base64ToUint8Array(store.formData.signatureImage.data.replace(/^data:image\/png;base64,/, '')); }
+    catch (error) { throw new ImageInputError('The signature image is not valid base64. Reattach a valid PNG before exporting.', { cause: error }); }
+  }
 
   // Collect reference URLs for hyperlink creation
   const referenceUrls: ReferenceUrlData[] = store.references

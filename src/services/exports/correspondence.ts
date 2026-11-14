@@ -10,7 +10,7 @@ import { finishCorrespondencePdf } from '@/services/pdf/finishCorrespondencePdf'
 import type { DocxConversionOptions, DocxProgressCallback } from '@/services/docx/pandoc-converter';
 import { resolvePageNumbering } from '@/lib/pageNumbering';
 import { pageStartNumber } from '@/lib/endorsement';
-import { inspectRasterImage, prepareDocxImages } from '@/services/docx/imageAssets';
+import { inspectRasterImage, prepareDocxImages, supportsCorrespondenceSignatureImage } from '@/services/docx/imageAssets';
 
 export interface ExportAssets {
   withAssets<T>(ids: readonly string[], operation: (read: (id: string) => StoredAttachment) => Promise<T>): Promise<T>;
@@ -40,7 +40,7 @@ export async function renderPreparedCorrespondence(ready: ReadyExportJob, ports:
   const captured = copyPreparedDocument(ready);
   if (captured.kind !== 'correspondence') throw new Error('This renderer accepts correspondence jobs.');
   const document = captured.document;
-  if (ready.job.target !== 'docx' && document.formData.signatureType === 'image') document.formData.signatureImage = await resolveSignature(document.formData.signatureImage);
+  if (ready.job.target !== 'docx' && document.formData.signatureType === 'image' && supportsCorrespondenceSignatureImage(document.docType)) document.formData.signatureImage = await resolveSignature(document.formData.signatureImage);
   const referenceDate = new Date(ready.job.source.capturedAt);
   const { target, texMode } = ready.job;
   const marking = preparedExportMarking(ready);
