@@ -1109,14 +1109,14 @@ export async function idbReadActionPackages(): Promise<unknown[]> {
     return record.value;
   });
 }
-export async function idbCompareActionPackage(before: import('./actionPackages').ActionPackage | null, after: import('./actionPackages').ActionPackage): Promise<boolean> {
+export async function idbCompareActionPackage(before: import('./actionPackages').ActionPackage | null, after: import('./actionPackages').ActionPackage, isCurrent: () => boolean = () => true): Promise<boolean> {
   try {
     before = before && structuredClone(before);after = structuredClone(after);
     const { actionPackageSchema, validPackageTransition, packageAssets } = await import('./actionPackages');
     const { validateActionPackageResources } = await import('./actionPackageTransfer');
     const assets = new Map<string, StoredAttachment>();
     actionPackageSchema.parse(after);
-    if (!validPackageTransition(before, after)) return false;
+    if (!isCurrent() || !validPackageTransition(before, after)) return false;
     await validateActionPackageResources(after, async asset => {
       const saved = assets.get(asset.id) ?? await idbGetAttachment(asset.id);
       if (!saved) throw new Error('Required package bytes are unavailable.');
@@ -1131,7 +1131,7 @@ export async function idbCompareActionPackage(before: import('./actionPackages')
       let committed = false, remaining = checks.length + 1;
       const ready = () => {
         if (--remaining) return;
-        if (!sameReviewStoredValue(request.result?.value ?? null, before) || checks.some(check => !sameReviewStoredValue(check.request.result, check.expected))) return;
+        if (!isCurrent() || !sameReviewStoredValue(request.result?.value ?? null, before) || checks.some(check => !sameReviewStoredValue(check.request.result, check.expected))) return;
         store.put({ key: `action-package:${after.id}`, value: after });committed = true;
       };
       request.onsuccess = ready;checks.forEach(check => { check.request.onsuccess = ready; });
