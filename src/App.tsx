@@ -1,3 +1,4 @@
+import { convertLatexToDocx } from '@/services/docx/pandoc-converter';
 import { captureCurrentDocumentRevision } from '@/stores/captureDocument';
 import { copyCapturedDocument } from '@/lib/capturedDocument';
 import { projectRenderedDocument } from '@/lib/renderedDocument';
@@ -49,6 +50,7 @@ import { WelcomeModal, showWelcomeOnFirstVisit } from '@/components/modals/Welco
 import { TourOverlay } from '@/components/tour/TourOverlay';
 import { ActivationChecklist } from '@/components/onboarding/ActivationChecklist';
 import { PIIWarningModal } from '@/components/modals/PIIWarningModal';
+import { ActionPackageWorkspace } from '@/components/ActionPackageWorkspace';
 import { usePreparedExports } from '@/hooks/usePreparedExports';
 import { createExportGate } from '@/lib/exportController';
 import { ExportMarkingReviewModal } from '@/components/modals/ExportMarkingReviewModal';
@@ -1268,6 +1270,7 @@ function App() {
             </main>
             <div role="region" aria-label="Document readiness" className="workspace-reviewbar flex shrink-0 flex-wrap items-center justify-between gap-2 border-t border-border px-4 sm:px-6 py-1.5 text-xs text-muted-foreground">
               <ReadinessMeter />
+              <ActionPackageWorkspace ports={{ compile, convertDocx: convertLatexToDocx, waitForReady }} />
             </div>
           </div>
           <StorageNotice placement="footer" />

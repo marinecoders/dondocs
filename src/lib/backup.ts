@@ -1,3 +1,5 @@
+import { capturePackageBackup, validatePackageBackup, restorePackageBackup } from './actionPackageBackup';
+import { packageAssets, type ActionPackage } from './actionPackages';
 import { reviewSuggestionRecordSchema, reviewSuggestionReceiptSchema, type ReviewSuggestionRecord, type ReviewSuggestionReceipt } from './reviewSuggestionWrites';
 import { validateReviewSuggestionState } from './reviewSuggestions';
 import { reviewReturnReceiptSchema, type ReviewReturnReceipt } from './reviewReturns';
@@ -64,7 +66,7 @@ export const BACKUP_KIND = 'dondocs-backup';
 // (per-document version history). v3 added `attachments`. Restore branches on
 // `kind` and on field PRESENCE, not version, so an older bundle (missing any of
 // these fields) still restores cleanly.
-export const BACKUP_VERSION = 11;
+export const BACKUP_VERSION = 12;
 const LIBRARY_KIND = 'dondocs-library'; // legacy docs-only file
 function supportedWorkspaceVersion(version: unknown, minimum: number): boolean {
   return typeof version === 'number' && Number.isSafeInteger(version) && version >= minimum && version <= BACKUP_VERSION;
@@ -100,6 +102,7 @@ export interface BackupBundle {
   reviewSuggestionWrites?: ReviewSuggestionReceipt[];
   portableFormTemplates?: PortableFormTemplateBundle['portableFormTemplates'];
   portableResources?: PortableFormTemplateBundle['portableResources'];
+  actionPackages?: ActionPackage[];
 }
 
 export interface RestoreResult {
@@ -115,6 +118,7 @@ export interface RestoreResult {
   /** Number of unit routing overrides merged in. */
   routingRulesAdded: number;
   reviewRoundsRestored?: number;
+  actionPackagesRestored?: number;
 }
 
 // ---------------------------------------------------------------------------
@@ -352,10 +356,11 @@ async function serializeBackup(): Promise<string> {
   captured.forms.navmc10274 = await materializeFormSignatureFallbacks(normalizeNavmc10274(captured.forms.navmc10274));
   captured.forms.navmc11811 = await materializeFormSignatureFallbacks(normalizeNavmc11811(captured.forms.navmc11811));
 
+  const actionPackages = await capturePackageBackup();
   const entries = [{ session: { forms: captured.forms } }, ...docs, ...Object.values(snapshots).flat(), ...Object.values(captured.userTemplates), ...reviewRounds.map(round => round.baseline)];
   if (entries.some(hasUnresolvedEnclosure)) throw new Error('An enclosure file is missing its saved reference. The backup was not created.');
   const formTemplates = await capturePortableFormTemplates(configuredDefinitions(entries));
-  const ids = collectAttachmentIds(entries);
+  const ids = [...new Set([...collectAttachmentIds(entries), ...actionPackages.flatMap(record => packageAssets(record).map(asset => asset.id))])];
   return withAttachmentResources(ids, async resources => {
     const attachments = ids.map(id => {
       const record = copyAttachment(resources, id);
@@ -365,7 +370,7 @@ async function serializeBackup(): Promise<string> {
       || Object.values(snapshots).some(ring => ring.some(snapshot => hasReviewComments(snapshot.session)))
       || Object.values(captured.userTemplates).some(template => hasReviewComments(template.session));
     const withReviews = reviewRounds.length > 0 || reviewCopies.length > 0 || docs.some(doc => (doc as { meta: { nativeReviewText?: boolean } }).meta.nativeReviewText === true);
-    const bundle: BackupBundle = { ...captured, version: formTemplates ? 11 : reviewSuggestions.length || reviewSuggestionWrites.length ? reviewSuggestions.some(record => record.state.version === 2) ? 10 : 9 : reviewReturns.length ? 8 : withReviews ? 7 : withComments ? 6 : 5, documents: docs, snapshots, attachments,
+    const bundle: BackupBundle = { ...captured, version: actionPackages.length ? 12 : formTemplates ? 11 : reviewSuggestions.length || reviewSuggestionWrites.length ? reviewSuggestions.some(record => record.state.version === 2) ? 10 : 9 : reviewReturns.length ? 8 : withReviews ? 7 : withComments ? 6 : 5, documents: docs, snapshots, attachments, ...(actionPackages.length ? { actionPackages } : {}),
       ...formTemplates,
       ...(withReviews ? { reviewRounds, reviewCopies } : {}), ...(reviewReturns.length ? { reviewReturns } : {}),
       ...(reviewSuggestions.length || reviewSuggestionWrites.length ? { reviewSuggestions, reviewSuggestionWrites } : {}) };
@@ -475,6 +480,8 @@ async function runRestore(json: string, canReplaceForms: () => boolean): Promise
     if (typeof a.size !== 'number' || a.size !== bytes.byteLength) throw new Error(`Attachment ${a.id} has an invalid size`);
     decoded.set(a.id, bytes.buffer as ArrayBuffer);
   }
+  if (parsed.actionPackages !== undefined && (kind !== BACKUP_KIND || !supportedWorkspaceVersion(parsed.version, 12))) throw new Error('Saved packages require a version 12 workspace backup.');
+  const actionPackages = parsed.actionPackages === undefined ? [] : await validatePackageBackup(parsed.actionPackages, decoded);
   if (parsed.snapshots !== undefined && (!parsed.snapshots || typeof parsed.snapshots !== 'object' || Array.isArray(parsed.snapshots))) throw new Error('Invalid history');
   for (const [docId, ring] of Object.entries(parsed.snapshots ?? {})) {
     if (!docId || Object.hasOwn(Object.prototype, docId)) throw new Error('Invalid history document identity');
@@ -675,7 +682,13 @@ async function runRestore(json: string, canReplaceForms: () => boolean): Promise
     || !await idbRestoreReviewSuggestions(reviewSuggestions, reviewSuggestionWrites, incomingDocuments as StoredDocument[]))) {
     issues.push('Suggested edits and decisions were not restored because their review, source revision or local history differs. Keep the backup file.');
   }
+  let actionPackagesRestored: number | undefined;
+  if (actionPackages.length) {
+    try { actionPackagesRestored = await restorePackageBackup(actionPackages); }
+    catch (error) { issues.push(error instanceof Error ? error.message : 'Saved packages could not be restored. Keep the backup file.'); }
+  }
   return { documents, profilesAdded, snippetsAdded, templatesAdded, formsRestored, attachmentsAdded, snapshotDocs, routingRulesAdded,
+    ...(actionPackagesRestored !== undefined ? { actionPackagesRestored } : {}),
     ...(reviewRoundsRestored !== undefined ? { reviewRoundsRestored } : {}), ...(issues.length ? { issues } : {}) };
 }
 
@@ -686,6 +699,7 @@ export function summarizeRestore(r: RestoreResult): string {
   if (r.profilesAdded) parts.push(`${r.profilesAdded} profile${r.profilesAdded === 1 ? '' : 's'}`);
   if (r.snippetsAdded) parts.push(`${r.snippetsAdded} snippet${r.snippetsAdded === 1 ? '' : 's'}`);
   if (r.templatesAdded) parts.push(`${r.templatesAdded} template${r.templatesAdded === 1 ? '' : 's'}`);
+  if (r.actionPackagesRestored) parts.push(`${r.actionPackagesRestored} saved package${r.actionPackagesRestored === 1 ? '' : 's'}`);
   if (r.attachmentsAdded) parts.push(`${r.attachmentsAdded} attachment${r.attachmentsAdded === 1 ? '' : 's'}`);
   if (r.reviewRoundsRestored) parts.push(`${r.reviewRoundsRestored} review baseline${r.reviewRoundsRestored === 1 ? '' : 's'}`);
   if (r.snapshotDocs) parts.push('version history');

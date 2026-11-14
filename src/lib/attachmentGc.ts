@@ -1,3 +1,4 @@
+import { listActionPackages, packageAssets } from './actionPackages';
 import { useProfileStore } from '@/stores/profileStore';
 import { useUserTemplatesStore } from '@/stores/userTemplatesStore';
 /**
@@ -80,6 +81,7 @@ async function collectKnownAttachmentIds(): Promise<Set<string> | null> {
 
   const live = new Set<string>();
   try {
+    for (const record of await listActionPackages()) for (const asset of packageAssets(record)) live.add(asset.id);
     for (const round of await listReviewRounds()) collectSessionRefs(round.baseline.session, live);
   } catch {
     // A missing or unreadable pin inventory is never proof that its files are orphaned.
