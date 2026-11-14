@@ -5,7 +5,7 @@ import { useUIStore } from '@/stores/uiStore';
 const PRIVACY_DETAILS = [
   { icon: Shield, title: 'Document processing', text: 'Document generation, PDF merging, and letter imports run in your browser.' },
   { icon: Database, title: 'Storage on this device', text: 'Documents, history, and attachments use IndexedDB. Preferences, profiles, and other workspace settings also use localStorage. Clearing site data can remove your workspace; keep an external backup.' },
-  { icon: FileOutput, title: 'Exports, backups, and sharing', text: 'Downloads and backups create files you control. Password-protected share links contain an encrypted document snapshot; anyone with the link and password can open it. Sharing excludes attached files and signature images.' },
+  { icon: FileOutput, title: 'Exports, backups, and sharing', text: 'Downloads and backups create files you control. Password-protected share links contain an encrypted document snapshot; anyone with the link and password can open it. Encrypted native sharing includes required attached files and signature images, with encrypted file delivery for large copies.' },
   { icon: Globe, title: 'Network access', text: 'Loading or updating the app retrieves application assets. External help links open other sites, and the optional endpoint check contacts the address you provide. Local processing does not mean the browser makes no network requests.' },
 ];
 

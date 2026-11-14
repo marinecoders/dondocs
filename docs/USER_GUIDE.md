@@ -40,11 +40,14 @@ Pasted text does not preserve fonts, images or page layout. Pasting directly int
 ## Password-protected sharing
 
 1. On desktop choose **Share** in the header. On mobile choose **Document actions → Create share link**.
-2. Set a password, optionally choose **Link expiration**, and generate the link. Resolve any content-review warning. Expiration starts when the link is generated; the default is **No expiration**.
+2. Set a password, optionally choose **Link expiration**, and generate the copy. Resolve any content-review warning. Expiration starts when the copy is generated; the default is **No expiration**.
 3. If automatic clipboard copying fails, select/copy the displayed link manually or use its Copy control.
-4. Send the password through a separate channel. The recipient uses **Document actions → Open from share link** and enters it.
+4. Copies longer than 8,000 URL characters offer **Download encrypted share file**. Send this file instead of a truncated link. The file is available for shorter links too.
+5. Send the password through a separate channel. The recipient uses **Document actions → Open from share link**, pastes the link or selects **Encrypted share file**, and enters its password. After decryption, review and open it as a new document.
 
-The encrypted link is a snapshot, not a shared live document. Later edits do not update it. No server stores it for revocation, and there is no password-recovery service. Links omit binary attachments/signature images; configured forms also require their exact blank PDF template. Review [capabilities](CAPABILITIES.md) for formats that cannot be shared and [security scope](../SECURITY.md) before transfer.
+The encrypted copy is a snapshot, not a shared live document. Later edits do not update it. No server stores it for revocation, and there is no password-recovery service. Native copies include required enclosure/basic-letter PDFs, PNG signature images, and PNG/JPEG figures. Each attachment is checked against its recorded size, type and SHA-256 digest before import; metadata is published only after all required bytes can be retained. Current work remains in Recents. Configured forms still require their exact blank PDF template. Review [capabilities](CAPABILITIES.md) and [security scope](../SECURITY.md) before transfer.
+
+Asset-inclusive copies require an updated reader. Older readers reject their version 4 envelope rather than opening an incomplete document. File limits are 25 MB per attachment, 75 MB total attachment bytes, 256 resources and 110 MB expanded document data. Images and attached PDFs are not automatically inspected for sensitive content; inspect them yourself before sharing. Corruption, missing files, unsupported versions, expired imports and failed storage stop the operation without replacing the current draft. Unused staged attachment bytes are eligible for the normal orphan cleanup.
 
 Expiration is checked by DonDocs using the recipient’s device clock after decryption and again when opening the reviewed document. At the deadline, ask the sender for a new link. Expiring links require DonDocs 1.3.74 or later. This check cannot remove already opened copies or prevent someone with the link and password from extracting the contents. It is not server-side revocation.
 

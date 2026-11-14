@@ -96,10 +96,7 @@ export function resolveCapabilities(subject: CapabilitySubject, request: Capabil
     }
   } else return result('invalid-data', 'invalid-subject', 'Choose a supported document or form.');
 
-  if (request.operation === 'share') {
-    const template = subject.kind === 'configured-form' ? ' Configured forms also require access to the selected PDF template.' : '';
-    return result('partial', 'share-separate-assets', `Share links carry text and form values; attached files and signature images require a separate transfer.${template}`);
-  }
+  if (request.operation === 'share' && subject.kind === 'configured-form') return result('partial', 'share-separate-assets', 'Configured-form shares carry filled values and definitions but still require access to the selected PDF template.');
   return supported;
 }
 

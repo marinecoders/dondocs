@@ -1,0 +1,191 @@
+import { expect, test, type Page } from '@playwright/test';
+import { readFile } from 'node:fs/promises';
+import { PDFDocument } from 'pdf-lib';
+import { docxImageFixture } from '../_helpers/docxImageFixture';
+
+test.use({ serviceWorkers: 'block' });
+test.setTimeout(90_000);
+async function share(page: Page) {
+  await expect(page.getByRole('dialog')).toHaveCount(0);
+  await expect(page.getByRole('textbox', { name: 'Subject', exact: true })).toHaveValue('SYNTHETIC ASSET HANDOFF');
+  const desktop = page.getByRole('button', { name: 'Share', exact: true });
+  if (await desktop.isVisible()) await desktop.click();
+  else { await page.getByRole('button', { name: 'Document actions', exact: true }).click();await page.getByRole('menuitem', { name: /^Create share link/ }).click(); }
+  return page.getByRole('dialog', { name: 'Share document', exact: true });
+}
+
+for (const formType of ['navmc_10274', 'navmc_118_11']) test(`built-in ${formType} image shares open and reload as forms`, async ({ page }, info) => {
+  const images = await docxImageFixture();
+  const formKey = formType === 'navmc_10274' ? 'navmc10274' : 'navmc11811';
+  await page.addInitScript(() => localStorage.setItem('browser-test-visitor', 'returning'));
+  await page.goto('/');
+  await page.getByLabel('Import draft file').setInputFiles({ name: 'builtin-image.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify({
+    kind: 'dondocs-draft', version: 2, documentKind: 'builtin-form', documentMode: 'compliant', documentCategory: 'forms', docType: 'naval_letter', formType,
+    formData: {}, paragraphs: [], references: [], enclosures: [], copyTos: [],
+    forms: { includeCoverPage: true, [formKey]: { signatureBlocks: [{ name: 'Synthetic signer', statement: '', style: 'image', image: images.signature.toString('base64') }] } },
+  })) });
+  await page.getByRole('button', { name: 'Open as new document', exact: true }).click();
+  await expect(page.getByRole('dialog')).toHaveCount(0);
+  await expect(page.getByRole('button', { name: 'Document actions', exact: true })).toBeVisible();
+  const desktop = page.getByRole('button', { name: 'Share', exact: true });
+  if (await desktop.isVisible()) await desktop.click();
+  else { await page.getByRole('button', { name: 'Document actions', exact: true }).click();await page.getByRole('menuitem', { name: /^Create share link/ }).click(); }
+  const outgoing = page.getByRole('dialog', { name: 'Share document', exact: true });
+  await outgoing.getByLabel('Password for this link', { exact: true }).fill('synthetic-password');
+  await outgoing.getByRole('button', { name: 'Generate link', exact: true }).click();
+  const privacy = outgoing.getByRole('button', { name: 'Share anyway', exact: true });
+  if (await privacy.isVisible()) await privacy.click();
+  const pending = page.waitForEvent('download');
+  await outgoing.getByRole('button', { name: 'Download encrypted share file', exact: true }).click();
+  const path = info.outputPath(`${formType}-encrypted.json`);await (await pending).saveAs(path);
+  await outgoing.getByRole('button', { name: 'Cancel', exact: true }).click();
+  await page.getByRole('button', { name: 'Document actions', exact: true }).click();
+  await page.getByRole('menuitem', { name: 'Open from share link', exact: true }).click();
+  const incoming = page.getByRole('dialog', { name: 'Open shared document', exact: true });
+  await incoming.getByLabel('Encrypted share file', { exact: true }).setInputFiles(path);
+  await expect(incoming).toContainText(`Selected: ${formType}-encrypted.json`);
+  await incoming.getByLabel('Password', { exact: true }).fill('synthetic-password');
+  await incoming.getByRole('button', { name: 'Decrypt and review', exact: true }).click();
+  await incoming.getByRole('button', { name: 'Open as new document', exact: true }).click();
+  await expect(incoming).toBeHidden();
+  for (const reload of [false, true]) {
+    if (reload) await page.reload();
+    const restored = await exportDraft(page);
+    expect(restored.documentCategory).toBe('forms');expect(restored.formType).toBe(formType);
+    expect(restored.forms[formKey].signatureBlocks[0].image).toBe(images.signature.toString('base64'));
+  }
+});
+
+test('a fresh offline recipient opens native assets from an encrypted file without source storage', async ({ page, browser }, testInfo) => {
+  const pdf = await PDFDocument.create();pdf.addPage([612, 792]);
+  const bytes = Buffer.from(await pdf.save());
+  await page.addInitScript(() => {
+    localStorage.setItem('browser-test-visitor', 'returning');
+    localStorage.setItem('dondocs_ui', JSON.stringify({ state: { theme: 'light', editorLayout: 'scroll' }, version: 1 }));
+  });
+  await page.goto('/');
+  await page.getByLabel('Import draft file').setInputFiles({ name: 'offline-source.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify({
+    documentMode: 'compliant', documentCategory: 'correspondence', docType: 'naval_letter',
+    formData: { subject: 'SYNTHETIC ASSET HANDOFF' }, paragraphs: [{ text: 'Synthetic offline copy.', level: 0 }],
+    references: [], enclosures: [{ title: 'Offline support', hasFile: true, file: { name: 'offline.pdf', size: bytes.length, data: bytes.toString('base64') } }], copyTos: [],
+  })) });
+  await page.getByRole('button', { name: 'Open as new document', exact: true }).click();
+  const outgoing = await share(page);
+  await outgoing.getByLabel('Password for this link', { exact: true }).fill('synthetic-password');
+  await outgoing.getByRole('button', { name: 'Generate link', exact: true }).click();
+  await expect(outgoing.locator('#generated-share-link')).toBeVisible();
+  const link = await outgoing.locator('#generated-share-link').inputValue();
+  expect(link.length).toBeLessThanOrEqual(8000);
+  const pending = page.waitForEvent('download');
+  await outgoing.getByRole('button', { name: 'Download encrypted share file', exact: true }).click();
+  const filePath = testInfo.outputPath('offline-encrypted-share.json');
+  await (await pending).saveAs(filePath);
+  const recipient = await browser.newContext({ viewport: page.viewportSize()!, userAgent: await page.evaluate(() => navigator.userAgent),
+    serviceWorkers: 'block', isMobile: !!testInfo.project.use.isMobile, hasTouch: !!testInfo.project.use.hasTouch });
+  try {
+    await recipient.addInitScript(() => {
+      localStorage.setItem('browser-test-visitor', 'returning');
+      localStorage.setItem('dondocs_ui', JSON.stringify({ state: { theme: 'light', editorLayout: 'scroll', previewVisible: false }, version: 1 }));
+    });
+    const receiving = await recipient.newPage();
+    await receiving.goto(page.url().split('#')[0]);
+    await expect(receiving.getByRole('textbox', { name: 'Subject', exact: true })).toBeVisible();
+    const preview = receiving.getByRole('button', { name: 'Preview', exact: true });
+    if (await preview.getAttribute('aria-pressed') === 'true') await preview.click();
+    await receiving.getByRole('textbox', { name: 'Subject', exact: true }).fill('RECIPIENT EXISTING WORK');
+    await recipient.setOffline(true);
+    await receiving.getByRole('button', { name: 'Document actions', exact: true }).click();
+    await receiving.getByRole('menuitem', { name: 'Open from share link', exact: true }).click();
+    const incoming = receiving.getByRole('dialog', { name: 'Open shared document', exact: true });
+    await incoming.getByLabel('Encrypted share file', { exact: true }).setInputFiles(filePath);
+    await expect(incoming).toContainText('Selected: offline-encrypted-share.json');
+    await incoming.getByLabel('Password', { exact: true }).fill('synthetic-password');
+    await incoming.getByRole('button', { name: 'Decrypt and review', exact: true }).click();
+    await expect(incoming).toContainText('attachments passed their size, type and checksum checks');
+    await incoming.getByRole('button', { name: 'Open as new document', exact: true }).click();
+    await expect(incoming).toBeHidden();
+    const restored = await exportDraft(receiving);
+    expect(Buffer.from(restored.enclosures[0].file.data, 'base64').equals(bytes)).toBe(true);
+    await recipient.setOffline(false);await receiving.reload();
+    await expect(receiving.getByRole('textbox', { name: 'Subject', exact: true })).toHaveValue('SYNTHETIC ASSET HANDOFF');
+    const reopened = await exportDraft(receiving);
+    expect(reopened.enclosures[0].file.data).toBe(restored.enclosures[0].file.data);
+  } finally { await recipient.close(); }
+});
+async function exportDraft(page: Page) {
+  const saving = page.waitForEvent('download');
+  await page.getByRole('button', { name: 'Document actions', exact: true }).click();
+  await page.getByRole('menuitem', { name: 'Export draft (.json)', exact: true }).click();
+  const file = await saving;expect(await file.failure()).toBeNull();
+  return JSON.parse(await readFile((await file.path())!, 'utf8'));
+}
+for (const theme of ['light', 'dark', 'classic']) {
+  test(`encrypted native assets survive file handoff and reload in ${theme}`, async ({ page }, testInfo) => {
+    const images = await docxImageFixture();
+    const pdf = await PDFDocument.create();pdf.addPage([612, 792]);
+    const originalPdf = Buffer.from(await pdf.save());
+    let seed = 713;
+    const random = Array.from({ length: 24_000 }, () => { seed = (Math.imul(seed, 1664525) + 1013904223) >>> 0;return String.fromCharCode(97 + seed % 26); }).join('');
+    const support = Buffer.concat([originalPdf, Buffer.from(`\n%${random}\n`)]);
+    await page.addInitScript(value => {
+      localStorage.setItem('browser-test-visitor', 'returning');
+      localStorage.setItem('dondocs_ui', JSON.stringify({ state: { theme: value, editorLayout: 'scroll' }, version: 1 }));
+    }, theme);
+    await page.goto('/');
+    const draft = { documentMode: 'custom', documentCategory: 'correspondence', docType: 'business_letter',
+      formData: { subject: 'SYNTHETIC ASSET HANDOFF', to: 'Training Office', date: 'November 14, 2026', sigFirst: 'Alex', sigLast: 'Example', signatureType: 'image',
+        signatureImage: { name: 'signature.png', size: images.signature.length, data: images.signature.toString('base64') },
+        basicLetterFile: { name: 'basic.pdf', size: originalPdf.length, data: originalPdf.toString('base64') } },
+      paragraphs: [{ text: 'Synthetic body with retained attachments.', level: 0 }, { text: 'Synthetic figure', level: 0, figure: { name: 'figure.png', type: 'image/png', width: 480, height: 240, data: images.figure.toString('base64') } }],
+      references: [], enclosures: [{ title: 'Supporting PDF', hasFile: true, file: { name: 'support.pdf', size: support.length, data: support.toString('base64') } }], copyTos: [], distributions: [] };
+    await page.getByLabel('Import draft file').setInputFiles({ name: 'native-assets.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(draft)) });
+    await page.getByRole('button', { name: 'Open as new document', exact: true }).click();
+    const dialog = await share(page);
+    await dialog.getByLabel('Password for this link', { exact: true }).fill('synthetic-password');
+    await dialog.getByRole('button', { name: 'Generate link', exact: true }).click();
+    const privacy = dialog.getByRole('button', { name: 'Share anyway', exact: true });
+    if (await privacy.isVisible()) await privacy.click();
+    await expect(dialog.getByRole('button', { name: 'Cancel', exact: true })).toBeEnabled({ timeout: 30_000 });
+    await expect(dialog).toContainText('too large for a reliable link');
+    await expect(dialog.locator('#generated-share-link')).toHaveCount(0);
+    expect(await dialog.evaluate(element => element.scrollWidth <= element.clientWidth)).toBe(true);
+    const downloading = page.waitForEvent('download');
+    await dialog.getByRole('button', { name: 'Download encrypted share file', exact: true }).click();
+    const filePath = testInfo.outputPath(`asset-share-${theme}.json`);
+    await (await downloading).saveAs(filePath);
+    const encryptedText = await readFile(filePath, 'utf8');
+    expect(JSON.parse(encryptedText)).toMatchObject({ kind: 'dondocs-encrypted-share', version: 1 });
+    expect(encryptedText).not.toContain(draft.formData.subject);
+    expect(encryptedText).not.toContain(images.signature.toString('base64'));
+    await page.screenshot({ path: testInfo.outputPath(`encrypted-file-${theme}.png`) });
+    await dialog.getByRole('button', { name: 'Cancel', exact: true }).click();
+    await page.getByRole('textbox', { name: 'Subject', exact: true }).fill('NEWER LOCAL WORK');
+    await page.getByRole('button', { name: 'Document actions', exact: true }).click();
+    await page.getByRole('menuitem', { name: 'Open from share link', exact: true }).click();
+    const incoming = page.getByRole('dialog', { name: 'Open shared document', exact: true });
+    await incoming.getByLabel('Encrypted share file', { exact: true }).setInputFiles(filePath);
+    await expect(incoming).toContainText(`Selected: asset-share-${theme}.json`);
+    await incoming.getByLabel('Password', { exact: true }).fill('wrong-password');
+    await incoming.getByRole('button', { name: 'Decrypt and review', exact: true }).click();
+    await expect(incoming.getByRole('alert')).toContainText('Wrong password');
+    await expect(incoming.getByRole('button', { name: 'Open as new document', exact: true })).toHaveCount(0);
+    await incoming.getByLabel('Password', { exact: true }).fill('synthetic-password');
+    await incoming.getByRole('button', { name: 'Decrypt and review', exact: true }).click();
+    await expect(incoming).toContainText('attachments passed their size, type and checksum checks');
+    await incoming.getByRole('button', { name: 'Open as new document', exact: true }).click();
+    await expect(incoming).toBeHidden();
+    await expect(page.getByRole('textbox', { name: 'Subject', exact: true })).toHaveValue(draft.formData.subject);
+    const transferred = await exportDraft(page);
+    expect(Buffer.from(transferred.enclosures[0].file.data, 'base64').equals(support)).toBe(true);
+    expect(Buffer.from(transferred.formData.basicLetterFile.data, 'base64').equals(originalPdf)).toBe(true);
+    expect(Buffer.from(transferred.formData.signatureImage.data, 'base64').equals(images.signature)).toBe(true);
+    expect(Buffer.from(transferred.paragraphs[1].figure.data, 'base64').equals(images.figure)).toBe(true);
+    await page.reload();
+    await expect(page.getByRole('textbox', { name: 'Subject', exact: true })).toHaveValue(draft.formData.subject);
+    const reopened = await exportDraft(page);
+    expect(reopened.enclosures[0].file.data).toBe(transferred.enclosures[0].file.data);
+    expect(reopened.paragraphs[1].figure.data).toBe(transferred.paragraphs[1].figure.data);
+    expect(reopened.formData.signatureImage.data).toBe(transferred.formData.signatureImage.data);
+    expect(reopened.formData.basicLetterFile.data).toBe(transferred.formData.basicLetterFile.data);
+  });
+}

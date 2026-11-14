@@ -303,13 +303,15 @@ export async function openReviewedDocument(reviewed: ReviewedDraft, target: Docu
 }
 
 /** Publish an already committed reviewer copy without replacing the source draft. */
-export function openCommittedReviewCopy(prepared: PreparedDocument, record: StoredDocument, target: DocumentTarget | null): TransitionOutcome {
+export function openCommittedDocument(prepared: PreparedDocument, record: StoredDocument, target: DocumentTarget | null): TransitionOutcome {
   useDocumentsStore.setState(state => ({ docs: { ...state.docs, [record.id]: { meta: record.meta, session: record.session } } }));
   broadcastDocs({ type: 'put', id: record.id });
   scheduleBackup();
   if (!isCurrentDocumentTarget(target)) return 'stale';
   return installDocument(prepared, { id: record.id, save: false });
 }
+
+export const openCommittedReviewCopy = openCommittedDocument;
 
 export function restoreSavedDocument(): TransitionOutcome {
   const session = getSavedSession();
