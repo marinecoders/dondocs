@@ -1422,11 +1422,12 @@ export const useDocumentsStore = create<DocumentsState>((set, get) => ({
     let incoming: PreparedDocument;
     try {
       const meta = get().docs[target.scope.documentId]?.meta;
-      incoming = prepareDocument(session, meta?.nativeReviewText === true && supportsReviewComments(session));
+      const preserveNativeText = meta?.nativeReviewText === true && supportsReviewComments(session);
+      incoming = prepareDocument(session, preserveNativeText);
       if (needsSignatureFallbacks(session)) {
         const materialized = await materializeSignatureFallbacks(session);
         if (!current()) return 'stale';
-        incoming = prepareDocument(materialized);
+        incoming = prepareDocument(materialized, preserveNativeText);
       }
     }
     catch { return 'invalid'; }

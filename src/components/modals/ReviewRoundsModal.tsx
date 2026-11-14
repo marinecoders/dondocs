@@ -88,6 +88,7 @@ function ReviewRoundsContent({ onClose }: { onClose: () => void }) {
   function importFile(event: ChangeEvent<HTMLInputElement>) {
     const file = event.target.files?.[0];event.target.value = '';
     if (!file) return;
+    setIncoming(null);setPrepared(null);
     void run(async () => {
       if (file.size > MAX_REVIEW_COPY_BYTES) throw new Error('Review copies are limited to 100 MB.');
       let value: unknown;
