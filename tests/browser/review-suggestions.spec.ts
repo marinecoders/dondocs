@@ -67,7 +67,8 @@ for (const theme of ['light', 'dark', 'classic']) test(`round-bound replacement 
     expect(await modal.evaluate(element => element.scrollWidth <= element.clientWidth)).toBe(true);
     expect((await new AxeBuilder({ page }).include('[role="dialog"]').analyze()).violations).toEqual([]);
     await page.screenshot({ path: info.outputPath(`suggestions-${theme}.png`), scale: 'css' });
-    await page.keyboard.press('Escape');
+    await expect(modal.getByLabel('Review for suggested edits', { exact: true })).toBeEnabled();
+    await page.keyboard.press('Escape');await expect(modal).toBeHidden();
     await action(page, 'Undo');
     const undone = JSON.parse((await download(page, () => action(page, 'Export draft (.json)'))).toString('utf8'));expect(undone.formData.to).toBe('Original recipient');
     await action(page, 'Redo');
