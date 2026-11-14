@@ -47,6 +47,12 @@ it('rejects hidden, nested and unsupported restrictions and fails closed on an i
   expect(() => createSharedPayload(original.session, NOW)).toThrow('expired');
 });
 
+it('rechecks the deadline after document validation finishes', () => {
+  const original = payload();
+  vi.spyOn(Date, 'now').mockReturnValueOnce(NOW).mockReturnValue(original.expiresAt);
+  expect(() => parseSharedSession(original)).toThrow('expired');
+});
+
 it('makes expiry copies unreadable by the historical flat-session and v1/v2 envelope readers', () => {
   const original = payload();
   const historicalEnvelope = z.object({ kind: z.literal('dondocs-share'), version: z.union([z.literal(1), z.literal(2)]) });

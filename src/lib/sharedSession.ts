@@ -83,6 +83,7 @@ export function parseSharedSession(value: unknown): SerializedSession {
     if (!source || typeof source !== 'object' || ['kind', 'documentKind', 'expiresAt', 'version'].some(key => key in source)) throw new Error('This share format is unsupported.');
     const session = parseSharedSession(source);
     if (parsed.data.documentKind !== documentKind(session)) throw new Error('The shared document kind does not match its contents.');
+    validateShareExpiration(parsed.data.expiresAt);
     return session;
   }
   if (value && typeof value === 'object' && 'expiresAt' in value) throw new Error('Expiration requires a version 3 share link. Ask the sender for a new link.');
