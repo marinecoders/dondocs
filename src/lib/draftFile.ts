@@ -6,6 +6,8 @@ import { parseSharedSession, draftEnvelope } from './sharedSession';
 import { arrayBufferToUint8Array, uint8ArrayToBase64, base64ToUint8Array } from './encoding';
 import { loadAttachment } from './attachments';
 import type { Enclosure, FileRef } from '@/types/document';
+import type { DocumentSnapshot } from '@/stores/historyStore';
+import { serializeDocumentSnapshot } from './documentSerialization';
 
 const image = z.object({ name: z.string(), size: z.number(), data: z.string() });
 const ref = z.object({ id: z.string(), name: z.string(), size: z.number(), type: z.string() });
@@ -71,11 +73,20 @@ let draftExports = 0;
 export function isDraftExportInProgress(): boolean { return draftExports > 0; }
 export async function buildDraftFile(): Promise<unknown> {
   draftExports++;
-  try { return await serializeDraft(); } finally { draftExports--; }
+  try {
+    const snapshot = structuredClone(useDocumentStore.getState().getSnapshot());
+    const session = getSerializedSession();
+    return await serializeDraft(session, snapshot);
+  } finally { draftExports--; }
 }
-async function serializeDraft(): Promise<unknown> {
-  const session = getSerializedSession();
-  const live = useDocumentStore.getState();
+/** Reuse draft transfer for a pinned revision without reading the current editor. */
+export async function buildDraftFileFromSnapshot(snapshot: DocumentSnapshot, timestamp: number): Promise<unknown> {
+  const owned = structuredClone(snapshot);
+  const session = serializeDocumentSnapshot(owned, timestamp);
+  draftExports++;
+  try { return await serializeDraft(session, owned); } finally { draftExports--; }
+}
+async function serializeDraft(session: SerializedSession, live: DocumentSnapshot): Promise<unknown> {
   const pack = async (file?: Enclosure['file'], fileRef?: FileRef): Promise<InlineFile | undefined> => {
     const data = file?.data ?? (fileRef ? await loadAttachment(fileRef.id) : null);
     if (!data && fileRef) throw new Error(`Could not read ${fileRef.name}. Reattach it before exporting this draft.`);
