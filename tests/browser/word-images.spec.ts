@@ -1,12 +1,13 @@
 import { expect, test } from '@playwright/test';
 import { readFile } from 'node:fs/promises';
 import JSZip from 'jszip';
+import { PDFDocument, PDFName, PDFRawStream } from 'pdf-lib';
 import { docxImageFixture } from '../_helpers/docxImageFixture';
 
 test.use({ serviceWorkers: 'block' });
 test.setTimeout(120_000);
 
-test('custom business figures and signature images survive reload and embed in Word', async ({ page }, testInfo) => {
+test('custom business figures and signature images survive reload and embed in Word and PDF', async ({ page }, testInfo) => {
   const images = await docxImageFixture();
   await page.addInitScript(() => {
     localStorage.setItem('browser-test-visitor', 'returning');
@@ -56,4 +57,52 @@ test('custom business figures and signature images survive reload and embed in W
   expect(xml).toContain('cx="5943600" cy="2971800"');
   expect(xml).toContain('Figure 1.');
   expect(xml).not.toContain('blob:');
+
+  const showPreview = page.getByRole('button', { name: 'Preview', exact: true });
+  let exportPdf: () => Promise<void>;
+  if (await showPreview.getAttribute('aria-haspopup') === 'dialog') {
+    await showPreview.click();
+    const download = page.getByRole('dialog', { name: 'PDF preview', exact: true }).getByRole('button', { name: 'Download', exact: true });
+    await expect(download).toBeVisible({ timeout: 60_000 });
+    exportPdf = () => download.click();
+  } else {
+    if (await showPreview.getAttribute('aria-pressed') !== 'true') await showPreview.click();
+    await expect(page.locator('.workspace-preview [title="Document preview"]').first()).toBeAttached({ timeout: 60_000 });
+    exportPdf = async () => {
+      await page.getByRole('button', { name: 'Download', exact: true }).click();
+      await page.getByRole('menuitem', { name: /^Download PDF(?:\s|$)/ }).click();
+    };
+  }
+  if (testInfo.project.name === 'mobile-chrome-ios') {
+    const opening = page.waitForEvent('popup');
+    await exportPdf();
+    const popup = await opening;
+    try {
+      const frame = popup.locator('iframe');
+      await expect(frame).toHaveAttribute('src', /^data:application\/pdf;base64,/, { timeout: 30_000 });
+      await expectPdfImages(Buffer.from((await frame.getAttribute('src'))!.split(',')[1], 'base64'));
+      const saving = popup.waitForEvent('download');
+      await popup.getByRole('link', { name: 'Download PDF', exact: true }).click();
+      const download = await saving;
+      expect(await download.failure()).toBeNull();
+      await download.saveAs(testInfo.outputPath('word-images.pdf'));
+    } finally { await popup.close(); }
+  } else {
+    const savingPdf = page.waitForEvent('download');
+    await exportPdf();
+    const pdfDownload = await savingPdf;
+    expect(await pdfDownload.failure()).toBeNull();
+    await pdfDownload.saveAs(testInfo.outputPath('word-images.pdf'));
+  }
+  await expectPdfImages(await readFile(testInfo.outputPath('word-images.pdf')));
 });
+
+async function expectPdfImages(bytes: Uint8Array) {
+  const pdf = await PDFDocument.load(bytes);
+  expect(pdf.getPageCount()).toBeGreaterThan(0);
+  const dimensions = pdf.context.enumerateIndirectObjects().flatMap(([, object]) =>
+    object instanceof PDFRawStream && object.dict.get(PDFName.of('Subtype')) === PDFName.of('Image')
+      ? [`${object.dict.get(PDFName.of('Width'))}x${object.dict.get(PDFName.of('Height'))}`] : []);
+  expect(dimensions).toContain('360x90');
+  expect(dimensions).toContain('480x240');
+}

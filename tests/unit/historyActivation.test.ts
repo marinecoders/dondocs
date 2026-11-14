@@ -108,6 +108,30 @@ it('preserves Redo when a legacy signature receives its durable handle', async (
   expect(useDocumentStore.getState().formData.subject).toBe('After');
 });
 
+it.each(['inline-only', 'reference-only'] as const)('stops publishing asset changes after hydrating a %s signature', async kind => {
+  const data = 'YWJj';
+  const fileRef = kind === 'reference-only'
+    ? await persistAttachment({ name: 'signature.png', type: 'image/png', size: 3 }, new Uint8Array([97, 98, 99]).buffer)
+    : undefined;
+  useDocumentStore.getState().setFormData({ signatureType: 'image', signatureImage: {
+    name: 'signature.png', size: 3, data: fileRef ? '' : data, ...(fileRef ? { fileRef } : {}),
+  } });
+  const scope = captureDocumentScope();
+  await rehydrateEnclosureFiles(() => isCurrentDocumentScope(scope));
+  const hydrated = useDocumentStore.getState();
+  expect(hydrated.formData.signatureImage).toMatchObject({ data, fileRef: expect.objectContaining({ id: expect.any(String) }) });
+  const history = useHistoryStore.getState();
+  const updates = vi.fn();
+  const unsubscribe = useDocumentStore.subscribe(updates);
+  try {
+    await rehydrateEnclosureFiles(() => isCurrentDocumentScope(scope));
+    await rehydrateEnclosureFiles(() => isCurrentDocumentScope(scope));
+  } finally { unsubscribe(); }
+  expect(updates).not.toHaveBeenCalled();
+  expect(useDocumentStore.getState()).toBe(hydrated);
+  expect(useHistoryStore.getState()).toBe(history);
+});
+
 it('keeps same-name legacy signature replacements distinct during history migration', async () => {
   const scope = captureDocumentScope();
   const apply = (data: string) => useDocumentStore.getState().setFormData({ signatureType: 'image', signatureImage: { name: 'same.png', size: 3, data } });
