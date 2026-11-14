@@ -21,6 +21,7 @@ The configs are [playwright.browser.config.ts](../../playwright.browser.config.t
 | `preview-zoom.spec.ts` | Manual zoom, Fit page and Fit width through document/form switches, preview reopening and reload. |
 | `document-lifecycle.spec.ts` | Reload detection, pasted-letter review/correction in all themes, import-feedback layout, import/Undo/Redo persistence and built-in-form signature defaults. |
 | `excel-roster.spec.ts` | Real Excel upload, first-worksheet preview, header selection, automatic mapping, date/identifier/missing-value warnings, row corrections and modal overflow. |
+| `mechanical-review-proposals.spec.ts` | Existing formatting findings become one returned review group; checks pending import, reference-list staleness, atomic acceptance, Undo/Redo, reload/replay, privacy warnings and full-page accessibility in each theme. Retains representative clean PDF/Word output on desktop Chromium. |
 
 Install tests allow service workers. The other suites block them so cached responses do not hide routed network fixtures. Upgrade and managed-release tests exercise real service-worker transitions separately. Some cases are platform-specific and skip on other projects; inspect the executed and skipped results.
 

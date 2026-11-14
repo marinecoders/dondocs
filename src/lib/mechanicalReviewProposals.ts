@@ -3,7 +3,7 @@ import { mechanicalFindings, supportsMechanicalCorrections } from './mechanicalC
 import { formattingFindings } from './formattingFindings';
 import type { ReviewRound } from './reviewRounds';
 import { createReviewSuggestion, suggestionTargetKey, suggestionTargetValue,
-  type ReviewSuggestion, type ReviewSuggestionTarget } from './reviewSuggestions';
+  REVIEW_SUGGESTION_LIMITS, type ReviewSuggestion, type ReviewSuggestionTarget } from './reviewSuggestions';
 
 export const MAX_MECHANICAL_REVIEW_FINDINGS = 200;
 
@@ -86,7 +86,15 @@ export function createMechanicalReviewProposal(round: ReviewRound, input: {
   });
   const audience = selected.some(candidate => candidate.source === 'body')
     ? ` Body date audience: ${input.bodyAudience === 'military' ? 'military' : 'civilian'}.` : '';
-  return createReviewSuggestion(round, { author: input.author,
-    label: selected.length === 1 ? 'Formatting correction' : `Formatting corrections (${selected.length})`,
-    origin: { kind: 'mechanical', rule: 'native-formatting', context: `Computed from the existing formatting checks.${audience}` }, changes });
+  if (changes.length > REVIEW_SUGGESTION_LIMITS.changes) throw new Error('Select corrections from no more than 20 fields, paragraphs or reference titles per proposal.');
+  const label = selected.length === 1 ? 'Formatting correction' : `Formatting corrections (${selected.length})`;
+  const origin = { kind: 'mechanical' as const, rule: 'native-formatting', context: `Computed from the existing formatting checks.${audience}` };
+  let characters = input.author.trim().length + label.length + origin.rule.length + origin.context.length;
+  for (const change of changes) {
+    const expected = suggestionTargetValue(round.baseline.session, change.target)!.value;
+    if (expected.length > REVIEW_SUGGESTION_LIMITS.value || change.proposed.length > REVIEW_SUGGESTION_LIMITS.value) throw new Error('A selected value exceeds the 20,000-character review limit. Use the existing local formatting tools or start a smaller review.');
+    characters += expected.length + change.proposed.length;
+  }
+  if (characters > REVIEW_SUGGESTION_LIMITS.totalCharacters) throw new Error('The selected corrections contain too much text for one proposal. Select a smaller group.');
+  return createReviewSuggestion(round, { author: input.author, label, origin, changes });
 }

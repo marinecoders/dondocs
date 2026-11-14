@@ -88,6 +88,17 @@ describe('existing formatting findings as review proposals', () => {
     const { round } = fixture();round.baseline.session.docType = 'sl3';
     expect(mechanicalReviewCandidates(round, 'military')).toEqual([]);
   });
+
+  it('explains limits on distinct targets and complete values without truncating the proposal', () => {
+    const { round } = fixture();
+    round.baseline.session.paragraphs = Array.from({ length: 21 }, (_, index) => ({ id: `paragraph-${index}`, text: 'Due 5 Nov 2026.', level: 0 }));
+    const bodyIds = () => selectable(round).filter(candidate => candidate.source === 'body').map(candidate => candidate.id);
+    expect(() => createMechanicalReviewProposal(round, { author: 'Example', bodyAudience: 'military', selectedIds: bodyIds() })).toThrow(/no more than 20/);
+    round.baseline.session.paragraphs = [{ id: 'long', text: 'Due 5 Nov 2026; ' + 'x'.repeat(20_000), level: 0 }];
+    expect(() => createMechanicalReviewProposal(round, { author: 'Example', bodyAudience: 'military', selectedIds: bodyIds() })).toThrow(/20,000-character/);
+    round.baseline.session.paragraphs = Array.from({ length: 10 }, (_, index) => ({ id: `paragraph-${index}`, text: 'Due 5 Nov 2026; ' + 'x'.repeat(11_000), level: 0 }));
+    expect(() => createMechanicalReviewProposal(round, { author: 'Example', bodyAudience: 'military', selectedIds: bodyIds() })).toThrow(/smaller group/);
+  });
 });
 
 describe('NOTAL review targets without reference identities', () => {
