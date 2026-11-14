@@ -249,3 +249,19 @@ it('does not collect any aged page when persisted definition ownership cannot be
   vi.spyOn(db, 'idbFormDefinitions').mockResolvedValueOnce(null);
   await removeUnusedPackages([]);expect(entries.has(`/__form_assets/${hash}.pdf`)).toBe(true);
 });
+
+it('does not silently discard a supplied portable inventory from a compact configured draft', async () => {
+  const { instance } = await source();
+  const malformed = { genericForm: instance, portableFormTemplates: [], portableResources: { kind: 'dondocs-resources', version: 1, entries: [] } };
+  await expect(parsePortableDraft(malformed)).rejects.toThrow();
+  expect(parseDraftFile({ version: '2.0', genericForm: instance }).session.genericForm).toEqual(instance);
+});
+
+it.each(['(S) Retained option', '(TS) Retained option', '(CUI) Retained option'])('enforces retained portion marking %s in an unselected configured option', async label => {
+  const { instance } = await source();
+  instance.definition.fields.decision.options![1].label = label;
+  openFormInstance(instance);
+  const session = assetShareReviewSession(useDocumentStore.getState().getSnapshot(), Date.now());
+  const policy = resolveExportDeploymentPolicy({ hostname: 'example.test', runtime: { status: 'absent' }, environment: null });
+  expect(() => assertConfiguredFormSharePolicy(session, policy)).toThrow(/outside this deployment/);
+});

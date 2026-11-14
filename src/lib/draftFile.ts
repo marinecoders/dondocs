@@ -31,6 +31,7 @@ const decode = (file: InlineFile): NonNullable<Enclosure['file']> => {
 export function parseDraftFile(value: unknown, localHandles = false, requireCompleteAssets = false): ReviewedDraft {
   // Main's versioned form exporter also writes compact {genericForm} drafts.
   if (value && typeof value === 'object' && 'genericForm' in value && !('documentMode' in value) && !('kind' in value) && !('expiresAt' in value)) {
+    if ('portableFormTemplates' in value || 'portableResources' in value) throw new Error('Portable form resources require a versioned complete draft.');
     const instance = parseFormInstance(value.genericForm);
     value = { documentMode: 'compliant', documentCategory: 'forms', docType: 'naval_letter', formType: instance.definition.formId,
       genericForm: instance, formData: {}, enclosures: [], paragraphs: [], references: [], copyTos: [] };

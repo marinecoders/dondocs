@@ -17,6 +17,7 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 ### Fixed
 
 - Stop incomplete templates, failed asset writes or failed document commits from replacing current work. Keep older draft, share and backup formats readable and preserve reconciled review decisions alongside template-inclusive backups.
+- Reject portable metadata on incomplete legacy drafts, retain the newest selected file during asynchronous imports, and check portion markings in retained form definitions before sharing.
 
 ## [1.3.83] — 2026-11-14
 

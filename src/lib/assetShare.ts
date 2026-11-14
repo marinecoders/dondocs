@@ -7,7 +7,7 @@ import { createSharedPayload, parseSharedSession, validateShareExpiration, type 
 import { buildPortableResources, parsePortableResources, type PortableResourceInput, type PortableResourceManifest } from './portableResources';
 import { formTemplateResourcePaths } from '@/services/forms/portableTemplates';
 import { documentTextFields } from './documentFields';
-import { detectClassification } from './detectClassification';
+import { retainedTextClassificationLevel } from './detectClassification';
 import { assertExportDeploymentPolicy, type PolicyResolution } from './exportDeploymentPolicy';
 import { base64ToUint8Array, uint8ArrayToBase64 } from './encoding';
 
@@ -74,7 +74,7 @@ export function assertConfiguredFormSharePolicy(session: SerializedSession, poli
   if (policy.status !== 'ready') throw new Error(policy.message);
   assertExportDeploymentPolicy(policy.policy);
   for (const field of documentTextFields(session, 'share')) {
-    if (!policy.policy.allowedLevels.includes(detectClassification(field.text).classLevel)) {
+    if (!policy.policy.allowedLevels.includes(retainedTextClassificationLevel(field.text))) {
       throw new Error('This shared form includes retained markings outside this deployment’s configured levels.');
     }
   }

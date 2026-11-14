@@ -115,6 +115,8 @@ export function Header({
   const canUndo = useCanUndo();
   const canRedo = useCanRedo();
   const [reviewedDraft, setReviewedDraft] = useState<ReviewedDraft | null>(null);
+  const draftImportRequest = useRef(0);
+  const mounted = useRef(false);
   const [openingDraft, setOpeningDraft] = useState(false);
   const [draftError, setDraftError] = useState('');
   const [showResetDialog, setShowResetDialog] = useState(false);
@@ -135,7 +137,10 @@ export function Header({
     }, durationMs);
   }, []);
   useEffect(() => {
+    mounted.current = true;
     return () => {
+      mounted.current = false;
+      draftImportRequest.current++;
       if (saveStatusTimeoutRef.current) {
         clearTimeout(saveStatusTimeoutRef.current);
         saveStatusTimeoutRef.current = null;
@@ -172,6 +177,7 @@ export function Header({
   }, [flashSaveStatus]);
 
   const handleLoadProgress = useCallback(() => {
+    draftImportRequest.current++;
     try {
       const saved = localStorage.getItem(STORAGE_KEY);
       if (saved) {
@@ -230,11 +236,18 @@ export function Header({
     const file = event.target.files?.[0];
     event.target.value = '';
     if (!file) return;
+    const request = ++draftImportRequest.current;
+    const current = () => mounted.current && request === draftImportRequest.current;
+    setReviewedDraft(null);setDraftError('');
     try {
-      await runFileImport(async () => setReviewedDraft(await parsePortableDraft(JSON.parse(await file.text()))));
-      setDraftError('');
+      await runFileImport(async () => {
+        const text = await file.text();
+        if (!current()) return;
+        const reviewed = await parsePortableDraft(JSON.parse(text));
+        if (current()) setReviewedDraft(reviewed);
+      });
     } catch {
-      showAppAlert({ title: 'Could not import draft', message: 'This file is not a valid DonDocs draft. Choose a JSON draft exported by DonDocs. Nothing was changed.' });
+      if (current()) showAppAlert({ title: 'Could not import draft', message: 'This file is not a valid DonDocs draft. Choose a JSON draft exported by DonDocs. Nothing was changed.' });
     }
   }, []);
 
