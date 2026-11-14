@@ -1,7 +1,7 @@
 import 'fake-indexeddb/auto';
-import { afterEach, beforeEach, describe, expect, it } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { createBlankSession, useDocumentStore } from '@/stores/documentStore';
-import { useDocumentsStore, flushDocumentWrites, hasPendingReviewWrites, exportLibrary, openRecoveredCopies } from '@/stores/documentsStore';
+import { useDocumentsStore, commitCurrentDocument, flushDocumentWrites, hasPendingReviewWrites, exportLibrary, openRecoveredCopies } from '@/stores/documentsStore';
 import { idbAddReviewRound, idbGetAllDocuments, idbPutDocument, idbReadReviewReturn, idbSetCurrentId, type StoredDocument } from '@/lib/documentsDb';
 import { serializeDocumentWriteJournal, WRITE_JOURNAL_KEY, type PendingDocumentWrite } from '@/lib/documentWrites';
 import { REVIEW_WRITE_RECOVERY_KEY } from '@/lib/reviewReturnRecovery';
@@ -58,6 +58,27 @@ describe('workspace recovery of review-return writes', () => {
     expect((await record()).session.formData.subject).toBe('Another tab saved newer text');
     expect(await readReviewCopyLink(newId)).toBeNull();expect(await idbReadReviewReturn(operation.round.id, operation.receipt.returnId)).toBeNull();
     expect(hasPendingReviewWrites()).toBe(false);
+  });
+  it.each(['foreign', 'future'] as const)('retains %s review intent through unrelated normal writes and a fresh hydration', async kind => {
+    if (kind === 'foreign') {
+      const foreign = structuredClone(before);foreign.meta.updatedAt = 999;foreign.session.formData.subject = 'Another tab';await idbPutDocument(foreign);
+    }
+    const entries = JSON.parse(serializeDocumentWriteJournal([pending]));
+    if (kind === 'future') entries[0].version = 99;
+    sessionStorage.setItem(WRITE_JOURNAL_KEY, JSON.stringify(entries));
+    await useDocumentsStore.getState().init();
+    const retained = sessionStorage.getItem(REVIEW_WRITE_RECOVERY_KEY);
+    expect(retained).toContain(operation.receipt.returnId);
+    useDocumentsStore.getState().newDocument();useDocumentStore.getState().setField('subject', 'Unrelated draft');
+    await commitCurrentDocument();
+    expect(sessionStorage.getItem(REVIEW_WRITE_RECOVERY_KEY)).toBe(retained);
+    // A fresh module has no retained in-memory flag and must discover the durable quarantine.
+    vi.resetModules();
+    const fresh = await import('@/stores/documentsStore');
+    await fresh.useDocumentsStore.getState().init();
+    expect(sessionStorage.getItem(REVIEW_WRITE_RECOVERY_KEY)).toContain(operation.receipt.returnId);
+    expect(fresh.hasPendingReviewWrites()).toBe(true);
+    expect(await idbReadReviewReturn(operation.round.id, operation.receipt.returnId)).toBeNull();
   });
   it('keeps an unsupported review journal out of ordinary backups instead of dropping its semantics', async () => {
     const raw = JSON.parse(serializeDocumentWriteJournal([pending]));raw[0].version = 99;

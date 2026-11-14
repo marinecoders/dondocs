@@ -80,7 +80,7 @@ function safety(round: ReviewRound, payload: ReturnContents, policy: PolicyResol
 
 export async function prepareReviewReturnExport(): Promise<PreparedReviewReturnExport> {
   const captured = currentCapture();
-  if (hasPendingReviewWrites()) await flushPendingReviewWrites();
+  if (hasPendingReviewWrites(captured.target.scope.documentId)) await flushPendingReviewWrites(captured.target.scope.documentId);
   current(captured.target);
   const link = await readReviewCopyLink(captured.target.scope.documentId);
   if (!link) throw new Error('This document is not a linked reviewer copy. Open a reviewer copy before returning feedback.');
@@ -101,14 +101,14 @@ export function downloadReviewReturn(prepared: PreparedReviewReturnExport): void
   const owned = exports.get(prepared);
   if (!owned) throw new Error('Prepare this return before downloading it.');
   current(owned.target);
-  if (hasPendingReviewWrites()) throw new Error('Review changes are still saving. Prepare the return again after Save completes.');
-  triggerDownload(new TextEncoder().encode(JSON.stringify(owned.payload, null, 2)),
+  if (hasPendingReviewWrites(owned.target.scope.documentId)) throw new Error('Review changes are still saving. Prepare the return again after Save completes.');
+  triggerDownload(new TextEncoder().encode(JSON.stringify(owned.payload)),
     `dondocs-review-return-${new Date(owned.payload.createdAt).toISOString().slice(0, 10)}.json`, 'application/json');
 }
 
 export async function prepareReviewReturnImport(value: unknown): Promise<PreparedReviewReturnImport> {
   const captured = currentCapture(), payload = parseReviewReturn(value);
-  if (hasPendingReviewWrites()) await flushPendingReviewWrites();
+  if (hasPendingReviewWrites(captured.target.scope.documentId)) await flushPendingReviewWrites(captured.target.scope.documentId);
   current(captured.target);
   const round = await readReviewRound(payload.roundId);
   if (!round || round.ownerDocumentId !== captured.target.scope.documentId) throw new Error('Open the original draft that owns this review round. This return cannot be attached to another document.');

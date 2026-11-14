@@ -796,21 +796,29 @@ export async function commitCurrentDocument() {
 }
 
 let retainedReviewWriteIntent = false;
-function hasRetainedReviewWrites(): boolean {
+function hasRetainedReviewWrites(documentId?: string): boolean {
   try {
     if (typeof sessionStorage !== 'undefined' && sessionStorage.getItem(REVIEW_WRITE_RECOVERY_KEY)) retainedReviewWriteIntent = true;
   } catch { /* Ordinary exports still work when this runtime has no recovery storage. */ }
-  return retainedReviewWriteIntent;
+  if (!retainedReviewWriteIntent || !documentId) return retainedReviewWriteIntent;
+  try {
+    const raw = sessionStorage.getItem(REVIEW_WRITE_RECOVERY_KEY);
+    if (!raw) return true;
+    const records = parseDocumentWriteJournal(JSON.parse(raw));
+    return records.some(record => record.reviewReturns?.some(marker => marker.operation.round.ownerDocumentId === documentId));
+  } catch { return true; } // Unknown/newer intents cannot be safely assigned to another scope.
 }
 
-export function hasPendingReviewWrites(): boolean { return writes.hasReviewReturns() || hasRetainedReviewWrites(); }
+export function hasPendingReviewWrites(documentId?: string): boolean {
+  return (documentId ? writes.reviewReturnDocumentIds().includes(documentId) : writes.hasReviewReturns()) || hasRetainedReviewWrites(documentId);
+}
 
 /** A portable copy must not detach visible feedback from its uncommitted receipt. */
-export async function flushPendingReviewWrites(): Promise<void> {
-  if (hasRetainedReviewWrites()) throw new Error('An interrupted review return needs attention. Open recovered copies to keep its edits before exporting.');
-  while (writes.hasReviewReturns()) {
+export async function flushPendingReviewWrites(documentId?: string): Promise<void> {
+  if (hasRetainedReviewWrites(documentId)) throw new Error('An interrupted review return needs attention. Open recovered copies to keep its edits before exporting.');
+  while (documentId ? writes.reviewReturnDocumentIds().includes(documentId) : writes.hasReviewReturns()) {
     useDocumentsStore.getState().syncCurrent();
-    const owners = writes.reviewReturnDocumentIds();
+    const owners = writes.reviewReturnDocumentIds().filter(id => !documentId || id === documentId);
     if ((await Promise.all(owners.map(id => writes.flush(id)))).some(saved => !saved)) {
       throw new Error('Review feedback is not saved yet. Retry Save before exporting this copy.');
     }
@@ -828,7 +836,7 @@ export async function applyOwnedReviewReturn(target: DocumentTarget | null, comm
   } catch { return 'invalid'; }
   if (!isCurrentDocumentTarget(target) || operation.round.ownerDocumentId !== target.scope.documentId) return 'stale';
   if (!supportsReviewComments(useDocumentStore.getState())) return 'invalid';
-  if (hasRetainedReviewWrites()) throw new Error('An interrupted review return needs attention. Open recovered copies first.');
+  if (hasRetainedReviewWrites(target.scope.documentId)) throw new Error('An interrupted review return needs attention. Open recovered copies first.');
   const saved = await commitCurrentDocument();
   if (!saved || !isCurrentDocumentTarget(target)) return 'stale';
   const registry = useDocumentsStore.getState(), entry = registry.docs[target.scope.documentId];

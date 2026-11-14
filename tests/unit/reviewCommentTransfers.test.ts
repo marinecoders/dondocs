@@ -80,6 +80,7 @@ describe('comment-bearing transfer boundaries', () => {
     expect(classifyBackup(JSON.stringify({ kind: BACKUP_KIND, version: 6 })).kind).toBe(BACKUP_KIND);
     expect(classifyBackup(JSON.stringify({ kind: 'dondocs-library', version: 2 })).kind).toBe('dondocs-library');
     expect(classifyBackup(JSON.stringify({ kind: BACKUP_KIND, version: 7 })).kind).toBe(BACKUP_KIND);
-    expect(() => classifyBackup(JSON.stringify({ kind: BACKUP_KIND, version: 8 }))).toThrow();
+    expect(classifyBackup(JSON.stringify({ kind: BACKUP_KIND, version: 8 })).kind).toBe(BACKUP_KIND);
+    expect(() => classifyBackup(JSON.stringify({ kind: BACKUP_KIND, version: 9 }))).toThrow();
   });
 });

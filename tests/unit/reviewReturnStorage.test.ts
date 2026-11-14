@@ -1,7 +1,7 @@
 import 'fake-indexeddb/auto';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { createBlankSession } from '@/stores/documentStore';
-import { idbAddReviewRound, idbApplyReviewReturn, idbGetAllDocuments, idbPutDocument, idbReadReviewReturn, type StoredDocument } from '@/lib/documentsDb';
+import { idbAddReviewRound, idbApplyReviewReturn, idbGetAllDocuments, idbPutDocument, idbReadReviewReturn, idbReadReviewReturnBackup, idbRestoreReviewReturns, type StoredDocument } from '@/lib/documentsDb';
 import { type ReviewRound } from '@/lib/reviewRounds';
 import { type ReviewReturnReceipt } from '@/lib/reviewReturns';
 
@@ -74,6 +74,24 @@ describe('atomic discussion-return storage', () => {
     expect(await idbApplyReviewReturn(before, after, round, receipt)).toBe('committed');
     expect(await idbApplyReviewReturn(after, after, round, { ...receipt, returnDigest: 'c'.repeat(64) })).toBe('conflict');
     expect(await idbReadReviewReturn(round.id, receipt.returnId)).toEqual(receipt);
+  });
+  it('captures acknowledgements with the exact saved owner and restores only matching discussions', async () => {
+    expect(await idbApplyReviewReturn(before, after, round, receipt)).toBe('committed');
+    const snapshot = await idbReadReviewReturnBackup();
+    expect(snapshot.receipts).toContainEqual(receipt);expect(snapshot.documents).toContainEqual(after);
+    expect(await idbRestoreReviewReturns([receipt], [after])).toBe(true);
+    const undone = structuredClone(after);delete undone.session.reviewComments;undone.meta.updatedAt++;
+    await idbPutDocument(undone);
+    expect(await idbRestoreReviewReturns([receipt], [after])).toBe(false);
+    expect(await stored()).toEqual(undone);
+  });
+  it('does not add acknowledgements beside newer local discussions or different feedback identities', async () => {
+    await idbPutDocument(after);
+    const newer = structuredClone(after);newer.meta.updatedAt++;
+    expect(await idbRestoreReviewReturns([receipt], [newer])).toBe(false);
+    expect(await idbReadReviewReturn(round.id, receipt.returnId)).toBeNull();
+    expect(await idbRestoreReviewReturns([receipt], [after])).toBe(true);
+    expect(await idbRestoreReviewReturns([{ ...receipt, returnDigest: 'c'.repeat(64) }], [after])).toBe(false);
   });
   it('rechecks activation while the IndexedDB reads are pending', async () => {
     let checks = 0;

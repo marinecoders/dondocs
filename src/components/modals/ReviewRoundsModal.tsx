@@ -5,7 +5,8 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { getExportDeploymentPolicy } from '@/config/classification';
 import { useDocumentStore } from '@/stores/documentStore';
-import { useDocumentsStore, captureDocumentTarget } from '@/stores/documentsStore';
+import { useDocumentsStore, captureDocumentTarget, hasPendingReviewWrites, flushPendingReviewWrites } from '@/stores/documentsStore';
+import { ReviewReturnControls } from '@/components/ReviewReturnControls';
 import { supportsReviewComments } from '@/lib/reviewCommentTargets';
 import { listReviewRounds, MAX_REVIEW_COPY_BYTES, type ReviewRound } from '@/lib/reviewRounds';
 import { buildReviewCopy, downloadReviewCopy, initialReviewLabel, openReviewCopy, parseReviewCopy,
@@ -28,6 +29,9 @@ function ReviewRoundsContent({ onClose }: { onClose: () => void }) {
   const [loaded, setLoaded] = useState(false);
   const [attempt, setAttempt] = useState(0);
   const [busy, setBusy] = useState(false);
+  const [returnBusy, setReturnBusy] = useState(false);
+  const documentId = useDocumentsStore(state => state.currentId), epoch = useDocumentsStore(state => state.activationEpoch);
+  const working = busy || returnBusy;
   const [error, setError] = useState('');
   const [notice, setNotice] = useState('');
   const [prepared, setPrepared] = useState<PreparedReviewCopy | null>(null);
@@ -44,7 +48,7 @@ function ReviewRoundsContent({ onClose }: { onClose: () => void }) {
   }, [attempt]);
 
   async function run(operation: () => Promise<void>) {
-    if (busy) return;
+    if (working) return;
     setBusy(true);setError('');setNotice('');
     try { await operation(); }
     catch (cause) { if (alive.current) setError(cause instanceof Error ? cause.message : 'The review operation could not finish. Your source draft has not been replaced.'); }
@@ -78,6 +82,7 @@ function ReviewRoundsContent({ onClose }: { onClose: () => void }) {
       message: 'This removes the saved baseline and its local reviewer links. Existing editable copies and downloaded files remain. Keep a reviewer file or workspace backup if you may need this baseline again.',
       confirmLabel: 'Delete review baseline', destructive: true }) || !alive.current) return;
     await run(async () => {
+      if (hasPendingReviewWrites()) await flushPendingReviewWrites();
       if (!await idbDeleteReviewRound(round.id, round.baselineDigest)) throw new Error('The saved review could not be removed. Retry after checking browser storage.');
       scheduleBackup();
       await sweepOrphanedAttachments();
@@ -99,7 +104,7 @@ function ReviewRoundsContent({ onClose }: { onClose: () => void }) {
     });
   }
 
-  return <Dialog open onOpenChange={value => { if (!value && !busy) onClose(); }}>
+  return <Dialog open onOpenChange={value => { if (!value && !working) onClose(); }}>
     <DialogContent className="sm:max-w-3xl max-h-[85dvh] flex flex-col overflow-hidden">
       <DialogHeader className="shrink-0 pr-8 text-left">
         <DialogTitle>Review rounds</DialogTitle>
@@ -108,12 +113,12 @@ function ReviewRoundsContent({ onClose }: { onClose: () => void }) {
       <div role="region" aria-label="Review round workspace" tabIndex={0} className="min-h-0 space-y-4 overflow-y-auto p-1 focus-visible:outline-2 focus-visible:outline-ring">
         {error && <p role="alert" className="text-sm text-destructive">{error}</p>}
         {notice && <p role="status" className="text-sm">{notice}</p>}
-        {!loaded ? <div className="space-y-2"><p className="text-sm">Loading saved reviews…</p><Button variant="outline" disabled={busy} onClick={() => { setError('');setAttempt(value => value + 1); }}>Retry saved reviews</Button></div> : <>
+        {!loaded ? <div className="space-y-2"><p className="text-sm">Loading saved reviews…</p><Button variant="outline" disabled={working} onClick={() => { setError('');setAttempt(value => value + 1); }}>Retry saved reviews</Button></div> : <>
           <section className="space-y-2 rounded-md border p-3" aria-label="Start a review">
             <Label htmlFor="review-round-name">Review name</Label>
-            <Input id="review-round-name" value={label} maxLength={120} disabled={busy} onChange={event => setLabel(event.target.value)} />
+            <Input id="review-round-name" value={label} maxLength={120} disabled={working} onChange={event => setLabel(event.target.value)} />
             {!native && <p className="text-sm">Start a review from supported native correspondence. Saved reviews remain available below.</p>}
-            <Button disabled={busy || !native || !label.trim()} onClick={() => void run(start)}>Start review from current draft</Button>
+            <Button disabled={working || !native || !label.trim()} onClick={() => void run(start)}>Start review from current draft</Button>
           </section>
           <section className="space-y-2" aria-label="Saved review baselines">
             <h3 className="text-sm font-medium">Saved review baselines</h3>
@@ -124,9 +129,9 @@ function ReviewRoundsContent({ onClose }: { onClose: () => void }) {
                 ? docs[round.ownerDocumentId] ? `Source: ${docs[round.ownerDocumentId].meta.title}` : 'Source unavailable; the saved baseline is retained.'
                 : 'Received reviewer baseline; no local source ownership is assigned.'}</p>
               <div className="flex flex-wrap gap-2">
-                <Button size="sm" variant="outline" className="h-auto min-h-9 whitespace-normal text-left" disabled={busy} onClick={() => void run(() => inspect(round))}>Open baseline as new review copy</Button>
-                <Button size="sm" variant="outline" disabled={busy} onClick={() => void run(() => prepare(round))}>Prepare reviewer copy</Button>
-                <Button size="sm" variant="ghost" disabled={busy} onClick={() => void remove(round)}>Delete review baseline</Button>
+                <Button size="sm" variant="outline" className="h-auto min-h-9 whitespace-normal text-left" disabled={working} onClick={() => void run(() => inspect(round))}>Open baseline as new review copy</Button>
+                <Button size="sm" variant="outline" disabled={working} onClick={() => void run(() => prepare(round))}>Prepare reviewer copy</Button>
+                <Button size="sm" variant="ghost" disabled={working} onClick={() => void remove(round)}>Delete review baseline</Button>
               </div>
             </article>)}
           </section>
@@ -140,26 +145,27 @@ function ReviewRoundsContent({ onClose }: { onClose: () => void }) {
           {prepared.review.notices.map(message => <p key={message}>{message}</p>)}
           <p>{prepared.review.privacy.found ? `Possible sensitive information: ${[...new Set(prepared.review.privacy.findings.map(finding => getPIITypeLabel(finding.type)))].join(', ')}.`
             : 'The privacy scan found no recognized patterns. Review the contents and attachment files yourself before sending.'}</p>
-          <Button disabled={busy} onClick={() => {
+          <Button disabled={working} onClick={() => {
             try { downloadReviewCopy(prepared);setPrepared(null);setNotice('Reviewer copy sent to browser downloads.'); }
             catch (cause) { setError(cause instanceof Error ? cause.message : 'The download could not start.'); }
           }}>Download reviewer copy</Button>
-          <Button variant="ghost" disabled={busy} onClick={() => setPrepared(null)}>Cancel download</Button>
+          <Button variant="ghost" disabled={working} onClick={() => setPrepared(null)}>Cancel download</Button>
         </section>}
         <section aria-label="Open a reviewer copy" className="space-y-2 rounded-md border p-3">
           <Label htmlFor="review-copy-file">Import reviewer copy</Label>
-          <Input id="review-copy-file" type="file" accept=".json,application/json" disabled={busy} onChange={importFile} />
+          <Input id="review-copy-file" type="file" accept=".json,application/json" disabled={working} onChange={importFile} />
           {incoming && <div className="space-y-2 text-sm">
             <p className="break-words">{incoming.envelope.round.label} · {incoming.reviewed.session.paragraphs.length} paragraphs · {incoming.reviewed.files.filter(Boolean).length} attached PDFs</p>
             <p>The included baseline checksum matches. Sender identity and approval authority are not verified.</p>
-            <Button disabled={busy} onClick={() => void run(async () => {
+            <Button disabled={working} onClick={() => void run(async () => {
               const result = await openReviewCopy(incoming, captureDocumentTarget());
               if (alive.current && result === 'applied') onClose();
               else if (alive.current) setNotice('The active document changed. The retained reviewer copy is available in the library.');
             })}>Open as new review copy</Button>
-            <Button variant="ghost" disabled={busy} onClick={() => setIncoming(null)}>Cancel imported copy</Button>
+            <Button variant="ghost" disabled={working} onClick={() => setIncoming(null)}>Cancel imported copy</Button>
           </div>}
         </section>
+        <ReviewReturnControls key={`${documentId}:${epoch}`} disabled={busy} onBusyChange={setReturnBusy} />
         {busy && <p role="status" className="text-sm">Saving or checking review contents…</p>}
       </div>
     </DialogContent>
