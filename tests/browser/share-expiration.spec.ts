@@ -47,6 +47,7 @@ for (const theme of ['light', 'dark', 'classic']) {
     const expiringLink = await output.inputValue();
     await expect(dialog).toContainText('Requires an updated DonDocs reader.');
     expect(await dialog.evaluate(element => element.scrollWidth <= element.clientWidth)).toBe(true);
+    await output.scrollIntoViewIfNeeded();
     await page.screenshot({ path: testInfo.outputPath(`share-expiration-${theme}.png`) });
     await dialog.getByRole('button', { name: 'Cancel', exact: true }).click();
     await page.getByRole('textbox', { name: 'Subject', exact: true }).fill('CURRENT DRAFT PRESERVED');
