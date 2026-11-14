@@ -4,6 +4,7 @@ import { resolveExportDeploymentPolicy } from '@/lib/exportDeploymentPolicy';
 import { CLASSIFICATION_LEVELS } from '@/lib/overallClassification';
 import { getSerializedSession, type SerializedSession } from '@/stores/documentStore';
 import { fixtureInstance } from '../_helpers/formFixture';
+import { paragraphCommentContext } from '@/lib/reviewCommentTargets';
 
 const policy = resolveExportDeploymentPolicy({ hostname: 'example.test', environment: null, runtime: { status: 'absent' } });
 const allLevels = resolveExportDeploymentPolicy({ hostname: 'example.test', environment: { maxLevel: 'top_secret_sci', allowedLevels: CLASSIFICATION_LEVELS }, runtime: { status: 'absent' } });
@@ -64,6 +65,15 @@ it('preserves the exact captured pair when newer work changes the source', () =>
   expect(report.changes.find(change => change.field.endsWith('Subject'))).toMatchObject({ before: 'Saved', after: 'Captured' });
   expect(after.formData.subject).toBe('Newer work');
   expect(report.filename).toBe('change-report-2026-11-13T12-00-00-000Z.html');
+});
+
+it('blocks a retained classified figure context after both versions delete its paragraph', () => {
+  const before = getSerializedSession();const after = getSerializedSession();
+  const context = paragraphCommentContext({ text: 'Removed figure paragraph', level: 0, portionMarking: 'U', figure: { portionMarking: 'TS', name: 'removed.png', type: 'image/png', width: 10, height: 10 } });
+  comments(before, 'Review the former figure', context);comments(after, 'Review the former figure', context);
+  before.paragraphs = [];after.paragraphs = [];
+  expect(() => prepareChangeReport(capture(before, after), policy)).toThrow(/outside this deployment/);
+  expect(prepareChangeReport(capture(before, after), allLevels).marking).toBe('TOP SECRET');
 });
 
 it('compares configured form answers by readable labels, keeps user identifiers and omits record/schema metadata', () => {

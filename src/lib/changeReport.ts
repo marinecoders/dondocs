@@ -101,7 +101,7 @@ export function prepareChangeReport(capture: ReturnType<typeof captureChangeRepo
   const levels = new Set<string>(['unclassified']);
   for (const { value } of fields) {
     levels.add(detectClassification(value).classLevel);
-    for (const match of value.matchAll(/^\s*\((U|CUI|FOUO|C|S|TS)\)/gm)) {
+    for (const match of value.matchAll(/^\s*(?:Figure marking:\s*)?\((U|CUI|FOUO|C|S|TS)\)/gm)) {
       levels.add(deriveOverallClassLevel('unclassified', [{ portionMarking: match[1] as 'U' }]));
     }
   }
