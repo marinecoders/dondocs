@@ -20,6 +20,7 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 - Package operations share the existing export gate, cancel safely without late output publication and retain independently owned assets through source replacement, deletion and garbage-collection inventory.
 - Remove only unchanged, unbound working copies when cancellation crosses a pending save, and allow opening a package member with no document selected.
 - Preserve native publication PDF figures and long original filenames. Bound display labels consistently across capture and assembly, and check retained portion markings in drafts and PDF text.
+- Keep the copy suffix within the package name limit when duplicating long names, and reject original PDFs without pages before capture or assembly.
 
 ## [1.3.84] — 2026-11-14
 

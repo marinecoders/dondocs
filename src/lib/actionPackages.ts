@@ -216,16 +216,19 @@ export const actionPackageSchema = z
 export type ActionPackage = z.infer<typeof actionPackageSchema>;
 export const newPackageId = (prefix: string) =>
   `${prefix}_${crypto.randomUUID()}`;
-/** Display labels are bounded independently of the preserved original filename. */
-export function packageMemberLabel(name: string): string {
+function shortenPackageLabel(name: string, limit: number): string {
   const value = name.trim() || "Package member";
-  if (value.length <= 120) return value;
+  if (value.length <= limit) return value;
   let clipped = "";
   for (const character of value) {
-    if (clipped.length + character.length > 119) break;
+    if (clipped.length + character.length > limit - 1) break;
     clipped += character;
   }
   return `${clipped}…`;
+}
+/** Display labels are bounded independently of the preserved original filename. */
+export function packageMemberLabel(name: string): string {
+  return shortenPackageLabel(name, 120);
 }
 export function getPackageRevision(
   record: ActionPackage,
@@ -374,7 +377,7 @@ export async function archiveActionPackage(
 }
 export async function duplicateActionPackage(
   record: ActionPackage,
-  name = `${record.name} copy`,
+  name = `${shortenPackageLabel(record.name, 115)} copy`,
   signal?: AbortSignal,
 ): Promise<ActionPackage> {
   return commitActionPackage(

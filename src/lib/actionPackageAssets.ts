@@ -61,6 +61,13 @@ export async function readPackageAsset(
     );
   return data.slice(0);
 }
+/** Inspect originals without rewriting their preserved bytes or signatures. */
+export async function validatePackageOriginalPdf(data: ArrayBuffer): Promise<void> {
+  if ((await PDFDocument.load(data)).getPageCount() < 1)
+    throw new Error(
+      "An original PDF must contain at least one page. Choose a PDF with pages before adding or restoring this package.",
+    );
+}
 export async function readPackageMemberDraft(member: NativePackageMember) {
   const bytes = await readPackageAsset(member.draft);
   const draft: unknown = JSON.parse(
@@ -183,7 +190,7 @@ export async function captureOriginalPackageMember(
     throw new Error(
       "Original package members currently support PDF files. Add other editable formats through their native DonDocs draft.",
     );
-  await PDFDocument.load(file.data);
+  await validatePackageOriginalPdf(file.data);
   return {
     id: newPackageId("member"),
     revisionId: newPackageId("member-revision"),

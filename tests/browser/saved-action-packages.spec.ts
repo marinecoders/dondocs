@@ -666,3 +666,37 @@ test("publication PDF figures and long originals survive actual rendering and ed
   await writeFile(info.outputPath("publication-package.pdf"), rendered);
   await info.attach("publication-package.pdf", { body: rendered, contentType: "application/pdf" });
 });
+
+test("maximum-length package names duplicate durably and empty originals cannot become members", async ({ page, context }) => {
+  await appearance(context, "light");
+  await page.goto("/");
+  const empty = await PDFDocument.create();
+  const emptyBytes = Buffer.from(await empty.save({ addDefaultPage: false }));
+  for (const name of ["A".repeat(120), "😀".repeat(60)]) {
+    let modal = await packages(page);
+    await modal.getByLabel("Package name", { exact: true }).fill(name);
+    await modal.getByRole("button", { name: "Create package", exact: true }).click();
+    await expect(modal.getByLabel("Saved packages", { exact: true })).not.toHaveValue("");
+    await modal.getByRole("button", { name: "Duplicate", exact: true }).click();
+    const input = modal.getByLabel("Package name", { exact: true });
+    await expect(input).toHaveValue(/ copy$/);
+    const copiedName = await input.inputValue();
+    const copiedId = await modal.getByLabel("Saved packages", { exact: true }).inputValue();
+    expect(copiedName.length).toBeLessThanOrEqual(120);
+    expect(Buffer.from(copiedName).toString("utf8")).toBe(copiedName);
+    await page.reload();
+    modal = await packages(page);
+    await expect(modal.getByRole("option", { name: copiedName, exact: true })).toHaveCount(1);
+    await modal.getByLabel("Saved packages", { exact: true }).selectOption(copiedId);
+    await expect(modal.getByLabel("Package name", { exact: true })).toHaveValue(copiedName);
+    await modal.getByLabel("Add original PDF", { exact: true }).setInputFiles({ name: "empty-original.pdf", mimeType: "application/pdf", buffer: emptyBytes });
+    await expect(modal.getByRole("alert")).toContainText(/at least one page/i);
+    await expect(modal.getByRole("heading", { name: /^1\./ })).toHaveCount(0);
+    await page.reload();
+    modal = await packages(page);
+    await expect(modal.getByRole("option", { name: copiedName, exact: true })).toHaveCount(1);
+    await modal.getByLabel("Saved packages", { exact: true }).selectOption(copiedId);
+    await expect(modal.getByRole("heading", { name: /^1\./ })).toHaveCount(0);
+    await modal.getByRole("button", { name: "Close", exact: true }).click();
+  }
+});

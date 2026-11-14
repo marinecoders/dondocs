@@ -278,6 +278,18 @@ describe("retained package ownership and transactions", () => {
     const reopened = await archiveActionPackage(archived, false);
     expect(reopened.revisions).toEqual(record.revisions);
   });
+  it.each(["A".repeat(120), "😀".repeat(60), "A".repeat(115)])("duplicates a maximum-length package name without losing the copy suffix", async name => {
+    const record = await createActionPackage(name);
+    const duplicate = await duplicateActionPackage(record);
+    expect(duplicate.name.length).toBeLessThanOrEqual(120);
+    expect(duplicate.name.endsWith(" copy")).toBe(true);
+    expect(new TextDecoder().decode(new TextEncoder().encode(duplicate.name))).toBe(duplicate.name);
+    const saved = await listActionPackages();
+    expect(saved.find(item => item.id === record.id)?.name).toBe(name);
+    expect(saved.find(item => item.id === duplicate.id)?.name).toBe(duplicate.name);
+    expect(duplicate.id).not.toBe(record.id);
+    expect(duplicate.revisions).toEqual(record.revisions);
+  });
 });
 
 describe("portable package and recovery boundaries", () => {
@@ -1094,4 +1106,59 @@ it("assembles long supporting labels and preserves long original filenames", asy
   const retained = getPackageRevision(parsed.record).members[1];
   if (retained.kind !== "original") throw new Error("Expected original member");
   expect(retained.original.name).toBe(name);
+});
+
+async function zeroPageOriginalBytes() {
+  const pdf = await PDFDocument.create();
+  return new Uint8Array(await pdf.save({ addDefaultPage: false })).buffer;
+}
+
+async function zeroPageOriginalPacket() {
+  const original = await captureOriginalPackageMember({ name: "original.pdf", data: await pdfBytes() }, "basic-letter", true);
+  const record = await reviseActionPackage(await createActionPackage("Original validation"), [original]);
+  const packet = JSON.parse(await buildPortableActionPackage(record)) as Packet;
+  const member = getPackageRevision(packet.package).members[0];
+  if (member.kind !== "original") throw new Error("Expected original PDF");
+  const data = await zeroPageOriginalBytes();
+  const ref = await persistAttachment({ name: member.original.name, type: "application/pdf", size: data.byteLength }, data);
+  const asset = { ...ref, sha256: await portableResourceDigest(data) };
+  packet.package.revisions[0].members[0] = { ...member, original: asset };
+  packet.portableResources = await buildPortableResources([{ path: `assets/${asset.id}`, name: asset.name, mediaType: asset.type, data }]);
+  return { packet, data, asset };
+}
+
+it("rejects zero-page originals before capture while preserving complete original PDF bytes", async () => {
+  const { idbGetAllAttachments } = await import("@/lib/documentsDb");
+  const before = await idbGetAllAttachments();
+  await expect(captureOriginalPackageMember({ name: "empty-original.pdf", data: await zeroPageOriginalBytes() }, "basic-letter", true))
+    .rejects.toThrow(/at least one page/);
+  expect(await idbGetAllAttachments()).toEqual(before);
+  const data = await pdfBytes(2);
+  const member = await captureOriginalPackageMember({ name: "complete-original.pdf", data }, "basic-letter", true);
+  if (member.kind !== "original") throw new Error("Expected original PDF");
+  expect(await readPackageAsset(member.original)).toEqual(data);
+});
+
+it("rejects a checksummed zero-page original in a portable package before installation", async () => {
+  const { packet } = await zeroPageOriginalPacket();
+  const before = await listActionPackages();
+  await expect(parsePortableActionPackage(JSON.stringify(packet))).rejects.toThrow(/at least one page/);
+  await expect(importPortableActionPackage(JSON.stringify(packet))).rejects.toThrow(/at least one page/);
+  expect(await listActionPackages()).toEqual(before);
+});
+
+it("rejects a checksummed zero-page original during package backup validation", async () => {
+  const { packet, data, asset } = await zeroPageOriginalPacket();
+  const before = await listActionPackages();
+  await expect(validatePackageBackup([packet.package], new Map([[asset.id, data]]))).rejects.toThrow(/at least one page/);
+  expect(await listActionPackages()).toEqual(before);
+});
+
+it("reports a retained zero-page original as incomplete before assembly", async () => {
+  const { packet } = await zeroPageOriginalPacket();
+  const prepared = await preparePackageAssembly(packet.package, packet.package.currentRevisionId, policy);
+  expect(prepared.readiness.state).toBe("incomplete");
+  expect(prepared.readiness.findings).toContainEqual(expect.objectContaining({ severity: "error", message: expect.stringMatching(/at least one page/) }));
+  await expect(assemblePackage(prepared, { compile: vi.fn(), convertDocx: vi.fn(), waitForReady: async () => true }))
+    .rejects.toThrow(/Resolve package readiness findings/);
 });

@@ -21,6 +21,7 @@ import {
 import {
   readPackageAsset,
   readPackageMemberDraft,
+  validatePackageOriginalPdf,
 } from "./actionPackageAssets";
 import {
   idbGetAttachment,
@@ -217,7 +218,7 @@ export async function validateActionPackageResources(
   for (const revision of owned.revisions) {
     for (const member of revision.members) {
       if (member.kind === "original") {
-        await PDFDocument.load(await read(member.original));
+        await validatePackageOriginalPdf(await read(member.original));
         continue;
       }
       const draft: unknown = JSON.parse(

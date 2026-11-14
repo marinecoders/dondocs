@@ -20,6 +20,7 @@ import {
   readPackageAsset,
   readPackageMemberDraft,
   retainPackageAsset,
+  validatePackageOriginalPdf,
 } from "./actionPackageAssets";
 import {
   commitActionPackage,
@@ -211,7 +212,7 @@ export async function preparePackageAssembly(
     try {
       if (member.kind === "original") {
         const original = await readPackageAsset(member.original);
-        await PDFDocument.load(original);
+        await validatePackageOriginalPdf(original);
         reviews.push({
           member: member.label,
           review: await reviewPackageOriginal(original, member.label, policy),
