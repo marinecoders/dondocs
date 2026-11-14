@@ -105,7 +105,7 @@ export class DocumentWrites {
   private changed: (id: string, saved?: StoredDocument, receipt?: DocumentWriteReceipt) => void;
   private prepare?: (document: StoredDocument) => Promise<StoredDocument> | undefined;
   private writeReview: typeof idbApplyReviewReturn;
-  constructor(write = idbWriteDocument, changed: (id: string, saved?: StoredDocument, receipt?: DocumentWriteReceipt) => void = () => {}, prepare?: (document: StoredDocument) => Promise<StoredDocument> | undefined, writeReview = idbApplyReviewReturn) {
+  constructor(write = idbWriteDocument, changed: (id: string, saved?: StoredDocument, receipt?: DocumentWriteReceipt) => void = () => {}, prepare?: (document: StoredDocument) => Promise<StoredDocument> | undefined, writeReview: typeof idbApplyReviewReturn = (...args) => idbApplyReviewReturn(...args)) {
     this.write = write;
     this.changed = changed;
     this.prepare = prepare;
