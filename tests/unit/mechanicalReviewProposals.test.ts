@@ -133,6 +133,14 @@ describe('NOTAL review targets without reference identities', () => {
     expect(() => planReviewSuggestionHistory(round, accepted.session, session, accepted.state, acceptanceId, 'undo')).toThrow(/reference list/);
   });
 
+  it('rejects a sparse reference list even when its length and selected title still match', () => {
+    const { round, session, proposal, state } = referenceFixture();
+    session.references = [session.references[0]];session.references.length = 2;
+    const plan = planReviewSuggestionDecision(round, session, state, proposal.id, 'accepted');
+    expect(plan.status).toBe('stale');expect(plan.state.decisions).toEqual([]);
+    expect(plan.session.references[0].title).toBe('Alpha (notal)');
+  });
+
   it('rejects forged or arbitrary reference replacements instead of treating a title as identity', () => {
     const { round, proposal } = referenceFixture();
     const changed = structuredClone(proposal);changed.changes[0].proposed = 'Different source';
