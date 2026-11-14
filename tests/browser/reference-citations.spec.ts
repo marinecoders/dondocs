@@ -195,3 +195,48 @@ test('preserves endorsement citation targets through a format that temporarily h
     ['g', 'https://example.com/alpha'], ['h', 'https://example.com/bravo'],
   ]);
 });
+
+test('blocks unsafe publication relabeling and preserves targets through a same-label correspondence bridge', async ({ page }) => {
+  await page.addInitScript(() => {
+    localStorage.setItem('browser-test-visitor', 'returning');
+    localStorage.setItem('dondocs_ui', JSON.stringify({ state: { theme: 'light', editorLayout: 'scroll' }, version: 1 }));
+  });
+  await page.goto('/');
+  await page.getByLabel('Import draft file').setInputFiles({ name: 'publication-boundary.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify({
+    documentMode: 'compliant', documentCategory: 'correspondence', docType: 'same_page_endorsement',
+    formData: { subject: 'PUBLICATION BOUNDARY', startingReferenceLetter: 'g', via: 'Office w/ref (h)' },
+    paragraphs: [{ text: 'Use reference (h), then reference (g).', level: 0 }],
+    references: [{ letter: 'g', title: 'Alpha', url: 'https://example.com/alpha' }, { letter: 'h', title: 'Bravo', url: 'https://example.com/bravo' }],
+    enclosures: [], copyTos: [{ text: 'Office w/ref (g)' }], distributions: [{ text: 'Office w/ref (h)' }],
+  })) });
+  await page.getByRole('button', { name: 'Open as new document', exact: true }).click();
+  const picker = page.getByRole('button', { name: 'Correspondence type', exact: true });
+  await picker.click();
+  await page.getByRole('option', { name: 'I-Type Instruction (MI/SI/TI/LI)', exact: true }).click();
+  await expect(picker).toHaveText('I-Type Instruction (MI/SI/TI/LI)');
+  await picker.click();
+  await page.getByRole('option', { name: 'Same-Page Endorsement', exact: true }).click();
+  const warning = page.getByRole('alertdialog', { name: 'Review reference citations', exact: true });
+  await expect(warning).toContainText('would renumber references');
+  await expect(warning).toContainText('keeps the current reference letters');
+  await warning.getByRole('button', { name: 'OK', exact: true }).click();
+  await expect(picker).toHaveText('I-Type Instruction (MI/SI/TI/LI)');
+  await picker.click();
+  await page.getByRole('option', { name: 'Naval Letter (on letterhead)', exact: true }).click();
+  await expect(page.getByRole('textbox', { name: 'Paragraph 1', exact: true })).toHaveText('Use reference (b), then reference (a).');
+  await picker.click();
+  await page.getByRole('option', { name: 'Same-Page Endorsement', exact: true }).click();
+  await expect(page.getByRole('textbox', { name: 'Paragraph 1', exact: true })).toHaveText('Use reference (h), then reference (g).');
+  const saving = page.waitForEvent('download');
+  await page.getByRole('button', { name: 'Document actions', exact: true }).click();
+  await page.getByRole('menuitem', { name: 'Export draft (.json)', exact: true }).click();
+  const saved = JSON.parse(await readFile((await (await saving).path())!, 'utf8'));
+  expect(saved.docType).toBe('same_page_endorsement');
+  expect(saved.paragraphs[0].text).toBe('Use reference (h), then reference (g).');
+  expect(saved.formData.via).toBe('Office w/ref (h)');
+  expect(saved.copyTos[0].text).toBe('Office w/ref (g)');
+  expect(saved.distributions[0].text).toBe('Office w/ref (h)');
+  expect(saved.references.map((reference: { letter: string; url: string }) => [reference.letter, reference.url])).toEqual([
+    ['g', 'https://example.com/alpha'], ['h', 'https://example.com/bravo'],
+  ]);
+});

@@ -26,4 +26,33 @@ describe('reference identities across temporarily hidden formal lists', () => {
     expect(restored.copyTos[0].text).toBe('Office w/ref (g)');
     expect(restored.distributions[0].text).toBe('Office w/ref (h)');
   });
+
+  it.each(['i_type', 'sl3', 'sl4', 'tm_ietm_front_matter'])('blocks an unsafe relabel when leaving %s without interpreting publication prose', type => {
+    useDocumentStore.setState({ documentMode: 'compliant', documentCategory: 'correspondence', docType: 'same_page_endorsement',
+      formData: { startingReferenceLetter: 'g', via: 'Office w/ref (h)' },
+      references: [{ letter: 'g', title: 'Alpha', url: 'https://example.com/alpha' }, { letter: 'h', title: 'Bravo', url: 'https://example.com/bravo' }],
+      paragraphs: [{ header: 'Reference (g)', text: 'Use reference (h), then reference (g).', level: 0 }],
+      copyTos: [{ text: 'Office w/ref (g)' }], distributions: [{ text: 'Office w/ref (h)' }],
+    });
+    useDocumentStore.getState().setDocType(type);
+    const publication = useDocumentStore.getState().getSnapshot();
+    expect(publication.docType).toBe(type);
+    expect(publication.paragraphs[0].text).toBe('Use reference (b), then reference (a).');
+    useDocumentStore.getState().setDocType('same_page_endorsement');
+    expect(useDocumentStore.getState().getSnapshot()).toEqual(publication);
+    // A same-label transition is safe without parsing the publication's prose.
+    // Once the draft is ordinary correspondence, its citations can be reviewed.
+    useDocumentStore.getState().setDocType('naval_letter');
+    expect(useDocumentStore.getState().docType).toBe('naval_letter');
+    expect(useDocumentStore.getState().paragraphs[0].text).toBe('Use reference (b), then reference (a).');
+    useDocumentStore.getState().setDocType('same_page_endorsement');
+    const restored = useDocumentStore.getState();
+    expect(restored.paragraphs[0]).toMatchObject({ header: 'Reference (g)', text: 'Use reference (h), then reference (g).' });
+    expect(restored.formData.via).toBe('Office w/ref (h)');
+    expect(restored.copyTos[0].text).toBe('Office w/ref (g)');
+    expect(restored.distributions[0].text).toBe('Office w/ref (h)');
+    expect(restored.references.map(reference => [reference.letter, reference.url])).toEqual([
+      ['g', 'https://example.com/alpha'], ['h', 'https://example.com/bravo'],
+    ]);
+  });
 });

@@ -68,7 +68,7 @@ export function scanReferenceCitations(text: string): CitationScan {
   return { citations, issues: [...new Set(issues)] };
 }
 
-function canTrackReferenceCitations(source: ReferenceSource): boolean {
+export function canTrackReferenceCitations(source: ReferenceSource): boolean {
   return source.documentCategory === 'correspondence'
     && !['i_type', 'sl3', 'sl4', 'tm_ietm_front_matter'].includes(source.docType)
     && Object.hasOwn(DOC_TYPE_CONFIG, source.docType);
