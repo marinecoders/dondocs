@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.79] — 2026-11-13
+
+### Added
+
+- Compare shared paragraph identities across positions in History and printable change reports. Show movement and changed relative order separately from edited prose, while insertions, deletions and automatic renumbering keep unchanged paragraph text intact. Older or unrelated identities use an explicit positional fallback, and internal paragraph IDs stay out of the report.
+
 ## [1.3.78] — 2026-11-13
 
 ### Added
