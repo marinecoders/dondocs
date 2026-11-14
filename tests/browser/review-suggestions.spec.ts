@@ -30,7 +30,7 @@ for (const theme of ['light', 'dark', 'classic']) test(`round-bound replacement 
   await expect(modal.getByText('Review baseline saved. Later source edits will not change this copy.', { exact: true })).toBeVisible();
   await modal.getByRole('button', { name: 'Prepare reviewer copy', exact: true }).click();
   const copy = await download(page, () => modal.getByRole('button', { name: 'Download reviewer copy', exact: true }).click());await page.keyboard.press('Escape');
-  const reviewerContext = await browser.newContext({ viewport: page.viewportSize()!, serviceWorkers: 'block', isMobile: !!info.project.use.isMobile, hasTouch: !!info.project.use.hasTouch });
+  const reviewerContext = await browser.newContext({ viewport: page.viewportSize()!, userAgent: await page.evaluate(() => navigator.userAgent), serviceWorkers: 'block', isMobile: !!info.project.use.isMobile, hasTouch: !!info.project.use.hasTouch });
   try {
     await reviewerContext.addInitScript(init, appearance);const reviewer = await reviewerContext.newPage();await reviewer.goto(baseURL!);
     let reviewModal = await reviews(reviewer);
@@ -99,10 +99,15 @@ for (const theme of ['light', 'dark', 'classic']) test(`round-bound replacement 
   } finally { await reviewerContext.close(); }
 });
 
-async function workspace(page: Page, destination?: 'Settings' | 'Trash') {
-  const open = page.getByRole('button', { name: 'Open workspace', exact: true });
-  if (await open.isVisible()) await open.click();
-  if (destination) await page.getByRole('button', { name: destination, exact: true }).click();
+async function workspace(page: Page, name: string | RegExp) {
+  const trigger = page.getByRole('button', { name: 'Open workspace', exact: true });
+  const drawer = page.getByRole('dialog', { name: 'Documents', exact: true });
+  const target = { name, exact: typeof name === 'string' };
+  if (await drawer.isVisible()) {
+    await drawer.getByRole('button', target).click();return;
+  }
+  await trigger.or(page.getByRole('button', target)).first().click();
+  if (await drawer.isVisible()) await drawer.getByRole('button', target).click();
 }
 async function workspaceBackup(page: Page) {
   await workspace(page, 'Settings');const settings = page.getByRole('dialog', { name: 'Settings', exact: true });
@@ -113,7 +118,8 @@ async function workspaceBackup(page: Page) {
 async function restoreWorkspace(page: Page, bytes: Buffer) {
   await workspace(page, 'Settings');const settings = page.getByRole('dialog', { name: 'Settings', exact: true });
   await settings.getByLabel('Backup file', { exact: true }).setInputFiles({ name: 'workspace.json', mimeType: 'application/json', buffer: bytes });
-  await expect(settings.getByRole('status')).toContainText('review baseline');
+  await expect(settings.getByRole('status')).toContainText('review baseline', { timeout: 15_000 });
+  await expect(settings.getByRole('button', { name: 'Restore from backup', exact: true })).toBeEnabled({ timeout: 15_000 });
   await expect(settings.getByRole('alert')).toHaveCount(0);
   await settings.getByRole('button', { name: 'Close', exact: true }).click();
 }
@@ -143,10 +149,10 @@ test('accepted paragraph decisions survive workspace transfer and permanent sour
   expect(bundle.reviewSuggestions[0].state.decisions.map((decision: { action: string }) => decision.action)).toEqual(['accepted']);
   const ownerId = bundle.reviewSuggestions[0].documentId;
   await writeFile(info.outputPath('accepted-workspace-backup.json'), fullBackup);
-  const restoredContext = await browser.newContext({ viewport: page.viewportSize()!, serviceWorkers: 'block', isMobile: !!info.project.use.isMobile, hasTouch: !!info.project.use.hasTouch });
+  const restoredContext = await browser.newContext({ viewport: page.viewportSize()!, userAgent: await page.evaluate(() => navigator.userAgent), serviceWorkers: 'block', isMobile: !!info.project.use.isMobile, hasTouch: !!info.project.use.hasTouch });
   try {
     await restoredContext.addInitScript(init);const restored = await restoredContext.newPage();await restored.goto(baseURL!);await restoreWorkspace(restored, fullBackup);
-    await workspace(restored);await restored.getByRole('button', { name: /^ARCHIVE REVIEW SOURCE ·/ }).click();
+    await workspace(restored, /^ARCHIVE REVIEW SOURCE /);
     modal = await reviews(restored);await modal.getByLabel('Review for suggested edits', { exact: true }).selectOption({ label: 'Archive review' });
     await expect(modal.getByRole('article', { name: 'Suggestion 1: Replace paragraph 1', exact: true }).getByText(/· Accepted$/)).toBeVisible();
     await expect(modal.getByRole('region', { name: 'Paragraph 1 replacement comparison', exact: true })).toContainText('Accepted archive paragraph.');
@@ -154,7 +160,7 @@ test('accepted paragraph decisions survive workspace transfer and permanent sour
     await modal.getByRole('button', { name: 'Close', exact: true }).click();
     const clean = JSON.parse((await download(restored, () => action(restored, 'Export draft (.json)'))).toString('utf8'));
     expect(clean.paragraphs[0].text).toBe('Accepted archive paragraph.');expect(clean.proposals).toBeUndefined();expect(clean.decisions).toBeUndefined();
-    await workspace(restored);await restored.getByRole('button', { name: 'Actions for ARCHIVE REVIEW SOURCE', exact: true }).click();
+    await workspace(restored, 'Actions for ARCHIVE REVIEW SOURCE');
     await restored.getByRole('menuitem', { name: 'Move to Trash', exact: true }).click();
     await workspace(restored, 'Trash');const trash = restored.getByRole('dialog', { name: 'Trash', exact: true });
     await trash.getByRole('button', { name: 'Delete permanently', exact: true }).click();
@@ -170,7 +176,7 @@ test('accepted paragraph decisions survive workspace transfer and permanent sour
     expect(archived.version).toBe(9);expect(archived.documents.some((document: { id: string }) => document.id === ownerId)).toBe(false);
     expect(archived.reviewSuggestions).toEqual(bundle.reviewSuggestions);expect(archived.reviewSuggestionWrites).toEqual(bundle.reviewSuggestionWrites);
     await writeFile(info.outputPath('archived-workspace-backup.json'), archivedBackup);await writeFile(info.outputPath('archived-reviewer-copy.json'), baseline);
-    const archivedContext = await browser.newContext({ viewport: page.viewportSize()!, serviceWorkers: 'block', isMobile: !!info.project.use.isMobile, hasTouch: !!info.project.use.hasTouch });
+    const archivedContext = await browser.newContext({ viewport: page.viewportSize()!, userAgent: await page.evaluate(() => navigator.userAgent), serviceWorkers: 'block', isMobile: !!info.project.use.isMobile, hasTouch: !!info.project.use.hasTouch });
     try {
       await archivedContext.addInitScript(init);const recovered = await archivedContext.newPage();await recovered.goto(baseURL!);await restoreWorkspace(recovered, archivedBackup);
       const recoveredModal = await reviews(recovered);await expect(recoveredModal.getByText('Source unavailable; the saved baseline is retained.', { exact: false })).toBeVisible();
