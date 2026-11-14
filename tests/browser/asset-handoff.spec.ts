@@ -6,6 +6,8 @@ import { docxImageFixture } from '../_helpers/docxImageFixture';
 test.use({ serviceWorkers: 'block' });
 test.setTimeout(90_000);
 async function share(page: Page) {
+  await expect(page.getByRole('dialog')).toHaveCount(0);
+  await expect(page.getByRole('textbox', { name: 'Subject', exact: true })).toHaveValue('SYNTHETIC ASSET HANDOFF');
   const desktop = page.getByRole('button', { name: 'Share', exact: true });
   if (await desktop.isVisible()) await desktop.click();
   else { await page.getByRole('button', { name: 'Document actions', exact: true }).click();await page.getByRole('menuitem', { name: /^Create share link/ }).click(); }
