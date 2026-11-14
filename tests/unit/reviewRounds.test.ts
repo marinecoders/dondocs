@@ -2,15 +2,15 @@ import 'fake-indexeddb/auto';
 import { describe, expect, it, vi } from 'vitest';
 import { createBlankSession } from '@/stores/documentStore';
 import { canonicalReviewPayload, parseReviewRound, readReviewRound, readReviewCopyLink, reviewCopyEnvelopeSchema, reviewPayloadDigest, type ReviewRound } from '@/lib/reviewRounds';
-import { idbAddReviewRound, idbAddSnapshot, idbDeleteDocumentIfUnchanged, idbGetSnapshots, idbGetAllDocuments, idbInstallReviewCopy, idbPutDocument, type StoredDocument } from '@/lib/documentsDb';
+import { idbAddReviewRound, idbAddSnapshot, idbDeleteDocumentIfUnchanged, idbGetSnapshots, idbGetAllDocuments, idbInstallReviewCopy, idbPutDocument, idbDeleteReviewRound, idbRestoreReviewRecords, type StoredDocument } from '@/lib/documentsDb';
 
 function pin(index: number): ReviewRound {
   return { kind: 'dondocs-review-round', version: 1, id: `review_00000000-0000-4000-8000-${String(index).padStart(12, '0')}`,
     createdAt: 1, label: 'Fictional review', sourceDocumentId: `source-${index}`, ownerDocumentId: `source-${index}`,
-    baselineDigest: 'a'.repeat(64), baseline: { ts: 1, session: createBlankSession() } };
+    baselineDigest: 'a'.repeat(64), baseline: { ts: 1, session: { ...createBlankSession(), timestamp: 1 } } };
 }
 function document(id: string): StoredDocument {
-  return { id, meta: { id, title: 'Synthetic review copy', docType: 'naval_letter', updatedAt: 1 }, session: createBlankSession() };
+  return { id, meta: { id, title: 'Synthetic review copy', docType: 'naval_letter', updatedAt: 1 }, session: { ...createBlankSession(), timestamp: 1 } };
 }
 
 describe('review round pins', () => {
@@ -64,10 +64,32 @@ describe('review round pins', () => {
     expect((await readReviewRound(round.id))?.ownerDocumentId).toBe(round.sourceDocumentId);
   });
 
+  it('removes a reviewed pin and its local links while preserving the editable reviewer document', async () => {
+    const round = pin(8), copy = document('review-copy-8');
+    expect(await idbInstallReviewCopy(copy, round, { documentId: copy.id, roundId: round.id, baselineDigest: round.baselineDigest })).toBe(true);
+    expect(await idbDeleteReviewRound(round.id, 'b'.repeat(64))).toBe(false);
+    expect(await readReviewRound(round.id)).not.toBeNull();
+    expect(await idbDeleteReviewRound(round.id, round.baselineDigest)).toBe(true);
+    expect(await readReviewRound(round.id)).toBeNull();
+    expect(await readReviewCopyLink(copy.id)).toBeNull();
+    expect((await idbGetAllDocuments())?.some(entry => entry.id === copy.id)).toBe(true);
+  });
+
+  it('does not partly restore review pins when a copied document or matching pin is missing', async () => {
+    const first = pin(9), second = pin(10);
+    const link = { documentId: 'not-restored-copy', roundId: first.id, baselineDigest: first.baselineDigest };
+    expect(await idbRestoreReviewRecords([first, second], [link])).toBe(false);
+    expect(await readReviewRound(first.id)).toBeNull();
+    expect(await readReviewRound(second.id)).toBeNull();
+    expect(await idbRestoreReviewRecords([], [link])).toBe(false);
+    expect(await readReviewCopyLink(link.documentId)).toBeNull();
+  });
+
   it('rejects unsupported form baselines and portable owner metadata', () => {
     expect(() => parseReviewRound({ ...pin(6), baseline: { ts: 1, session: createBlankSession('navmc_10274') } })).toThrow();
     const round = pin(7);
     expect(reviewCopyEnvelopeSchema.safeParse({ kind: 'dondocs-review-copy', version: 1, round, draft: {} }).success).toBe(false);
+    expect(() => parseReviewRound({ ...pin(11), baseline: { ts: 1, session: { ...document('missing-asset').session, enclosures: [{ title: 'Missing file', hasFile: true }] } } })).toThrow();
   });
 
   it('binds the captured payload independently of object insertion order and notices changed bytes', async () => {

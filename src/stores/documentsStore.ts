@@ -1,4 +1,5 @@
 import { hasReviewComments, reviewCommentsSchema } from '@/lib/reviewComments';
+import { supportsReviewComments } from '@/lib/reviewCommentTargets';
 import { showAppAlert } from '@/stores/alertStore';
 import { materializeSignatureFallbacks, needsSignatureFallbacks } from '@/lib/signatureCompatibility';
 import { signatureForComparison, formSignaturesForComparison } from '@/lib/signatureProjection';
@@ -81,6 +82,8 @@ export interface DocumentMeta {
   name?: string;
   /** Pinned to the top of Recents (survives content edits — see metaFor). */
   pinned?: boolean;
+  /** Reader hint only; review/source authority lives in the separate review records. */
+  nativeReviewText?: true;
   /** In Trash until the user restores or permanently deletes this record. */
   deletedAt?: number;
 }
@@ -159,8 +162,8 @@ function ownPreparedState(state: DocumentSnapshot): PreparedDocument {
   return prepared;
 }
 
-export function prepareDocument(value: unknown): PreparedDocument {
-  return ownPreparedState(prepareSessionState(value));
+export function prepareDocument(value: unknown, preserveNativeText = false): PreparedDocument {
+  return ownPreparedState(prepareSessionState(value, preserveNativeText));
 }
 
 interface InstallOptions {
@@ -232,6 +235,48 @@ export async function hydrateDocumentAssets(scope: DocumentScope | null = captur
   await rehydrateEnclosureFiles(() => isCurrentDocumentScope(scope));
 }
 
+/** A caller owns the copy; only issued prepared documents may be inspected. */
+export function copyPreparedDocument(prepared: PreparedDocument): DocumentSnapshot {
+  const state = preparedDocuments.get(prepared);
+  if (!state) throw new Error('Invalid prepared document.');
+  return structuredClone(state);
+}
+
+/** Reuse native draft resource staging for imports and pinned review copies. */
+export async function prepareReviewedDocument(reviewed: ReviewedDraft, current: () => boolean, preserveNativeText = false): Promise<PreparedDocument | null> {
+  const owned = structuredClone(reviewed);
+  const state = prepareSessionState(owned.session, preserveNativeText);
+  return stageReviewedDocument(owned, state, current);
+}
+
+function stageReviewedDocument(owned: ReviewedDraft, state: DocumentSnapshot, current: () => boolean): Promise<PreparedDocument | null> {
+  return withAttachmentStaging(async () => {
+    if (!current()) return null;
+    for (const [index, file] of owned.figures.entries()) {
+      if (!file) continue;
+      const figure = state.paragraphs[index]?.figure;
+      if (!figure) throw new Error('Invalid reviewed document resource.');
+      figure.fileRef = await persistAttachment({ name: file.name, size: file.size, type: figure.type ?? 'image/png' }, file.data);
+      if (!current()) return null;
+    }
+    if (owned.basicLetter) {
+      const file = owned.basicLetter;
+      state.formData.basicLetterFileRef = await persistAttachment({ name: file.name, size: file.size, type: 'application/pdf' }, file.data);
+      if (!current()) return null;
+      state.formData.basicLetterFile = file;
+    }
+    for (const [index, file] of owned.files.entries()) {
+      if (!file) continue;
+      const enclosure = state.enclosures[index];
+      if (!enclosure) throw new Error('Invalid reviewed document resource.');
+      const ref = await persistAttachment({ name: file.name, size: file.size, type: 'application/pdf' }, file.data);
+      if (!current()) return null;
+      state.enclosures[index] = { ...enclosure, file, fileRef: ref };
+    }
+    return ownPreparedState(state);
+  });
+}
+
 /** Stage operation-owned files before changing the editor or library identity. */
 export async function openReviewedDocument(reviewed: ReviewedDraft, target: DocumentTarget | null): Promise<TransitionOutcome> {
   if (!isCurrentDocumentTarget(target)) return 'stale';
@@ -239,33 +284,21 @@ export async function openReviewedDocument(reviewed: ReviewedDraft, target: Docu
   const current = () => request === openingRequest && isCurrentDocumentTarget(target);
   let owned: ReviewedDraft;
   let state: DocumentSnapshot;
-  try { owned = structuredClone(reviewed); state = prepareSessionState(owned.session); }
+  try { owned = structuredClone(reviewed);state = prepareSessionState(owned.session); }
   catch { return 'invalid'; }
   return withAttachmentStaging(async () => {
-    if (!current()) return 'stale';
-    for (const [index, file] of owned.figures.entries()) {
-      if (!file) continue;
-      const figure = state.paragraphs[index]?.figure;
-      if (!figure) return 'invalid';
-      figure.fileRef = await persistAttachment({ name: file.name, size: file.size, type: figure.type ?? 'image/png' }, file.data);
-      if (!current()) return 'stale';
-    }
-    if (owned.basicLetter) {
-      const file = owned.basicLetter;
-      state.formData.basicLetterFileRef = await persistAttachment({ name: file.name, size: file.size, type: 'application/pdf' }, file.data);
-      if (!current()) return 'stale';
-      state.formData.basicLetterFile = file;
-    }
-    for (const [index, file] of owned.files.entries()) {
-      if (!file) continue;
-      const enclosure = state.enclosures[index];
-      if (!enclosure) return 'invalid';
-      const ref = await persistAttachment({ name: file.name, size: file.size, type: 'application/pdf' }, file.data);
-      if (!current()) return 'stale';
-      state.enclosures[index] = { ...enclosure, file, fileRef: ref };
-    }
-    return openPreparedDocument(ownPreparedState(state), target);
+    const prepared = await stageReviewedDocument(owned, state, current);
+    return prepared ? openPreparedDocument(prepared, target) : 'stale';
   });
+}
+
+/** Publish an already committed reviewer copy without replacing the source draft. */
+export function openCommittedReviewCopy(prepared: PreparedDocument, record: StoredDocument, target: DocumentTarget | null): TransitionOutcome {
+  useDocumentsStore.setState(state => ({ docs: { ...state.docs, [record.id]: { meta: record.meta, session: record.session } } }));
+  broadcastDocs({ type: 'put', id: record.id });
+  scheduleBackup();
+  if (!isCurrentDocumentTarget(target)) return 'stale';
+  return installDocument(prepared, { id: record.id, save: false });
 }
 
 export function restoreSavedDocument(): TransitionOutcome {
@@ -640,6 +673,7 @@ function metaFor(id: string, session: SerializedSession, prev?: DocumentMeta): D
     // Preserve the pin across content saves — metaFor rebuilds meta on every
     // sync, so without this a pinned doc would silently unpin on the next edit.
     pinned: prev?.pinned,
+    nativeReviewText: prev?.nativeReviewText,
   };
 }
 
@@ -1007,7 +1041,8 @@ function ensureHydrated(
         // the same meta (no updatedAt bump) so it never re-sorts Recents.
         const currentParagraphs = r.session.paragraphs ?? [];
         let paragraphs: typeof currentParagraphs;
-        try { paragraphs = ensureParagraphIds(migratePortionMarkings(currentParagraphs), paragraphCommentIds(r.session.reviewComments)); }
+        try { paragraphs = ensureParagraphIds(r.meta.nativeReviewText === true && supportsReviewComments(r.session)
+          ? currentParagraphs : migratePortionMarkings(currentParagraphs), paragraphCommentIds(r.session.reviewComments)); }
         catch {
           // Keep a damaged record available for recovery; opening it will fail
           // validation without preventing healthy library documents from loading.
@@ -1062,8 +1097,8 @@ function beginPending(entries: DocumentEntry[], set: (partial: Partial<Documents
   purgeTimer = setTimeout(() => { set({ pendingDelete: null }); purgeTimer = null; }, 6000);
 }
 
-function tryPrepareSavedSession(session: SerializedSession): PreparedDocument | null {
-  try { return prepareDocument(session); }
+function tryPrepareSavedSession(session: SerializedSession, preserveNativeText = false): PreparedDocument | null {
+  try { return prepareDocument(session, preserveNativeText); }
   catch (error) {
     debug.warn('Documents', 'Could not prepare saved document', error);
     showAppAlert({ title: 'Saved document could not be opened', message: 'The saved copy remains in your library. Download a workspace backup to keep a recovery copy, then try opening it with the latest version of DonDocs.' });
@@ -1074,7 +1109,7 @@ function tryPrepareSavedSession(session: SerializedSession): PreparedDocument | 
 function reopenAfterRemoval(remaining: Record<string, DocumentEntry>): void {
   clearSavedSession();
   const newest = Object.values(remaining).sort((a, b) => b.meta.updatedAt - a.meta.updatedAt)[0];
-  const prepared = newest ? tryPrepareSavedSession(newest.session) : null;
+  const prepared = newest ? tryPrepareSavedSession(newest.session, newest.meta.nativeReviewText === true && supportsReviewComments(newest.session)) : null;
   if (newest && prepared) installDocument(prepared, { id: newest.meta.id, save: false, preserveOutgoing: false });
   else installDocument(prepareBlankDocument(), { save: false, preserveOutgoing: false });
 }
@@ -1105,7 +1140,7 @@ function initAfterHydration(
   const { docs } = get();
   if (currentId && docs[currentId]) {
     let session = docs[currentId].session;
-    if (session.formData?.unitAddress) {
+    if (!(docs[currentId].meta.nativeReviewText === true && supportsReviewComments(session)) && session.formData?.unitAddress) {
       const address = canonicalizeUnitAddress(session.formData.unitAddress);
       if (address !== session.formData.unitAddress) {
         session = { ...session, formData: { ...session.formData, unitAddress: address } };
@@ -1114,7 +1149,7 @@ function initAfterHydration(
         persistEntry(entry, docs[currentId]);
       }
     }
-    const prepared = tryPrepareSavedSession(session);
+    const prepared = tryPrepareSavedSession(session, docs[currentId].meta.nativeReviewText === true && supportsReviewComments(session));
     if (prepared && installDocument(prepared, { id: currentId, save: false }) === 'applied') return true;
   } else {
     const legacy = getSavedSession();
@@ -1386,7 +1421,8 @@ export const useDocumentsStore = create<DocumentsState>((set, get) => ({
     const current = () => isCurrentDocumentTarget(target) && request === restoreRequest;
     let incoming: PreparedDocument;
     try {
-      incoming = prepareDocument(session);
+      const meta = get().docs[target.scope.documentId]?.meta;
+      incoming = prepareDocument(session, meta?.nativeReviewText === true && supportsReviewComments(session));
       if (needsSignatureFallbacks(session)) {
         const materialized = await materializeSignatureFallbacks(session);
         if (!current()) return 'stale';
@@ -1667,7 +1703,7 @@ export function openExistingDocument(id: string): TransitionOutcome {
   const current = useDocumentStore.getState();
   if (id === registry.currentId && current.documentCategory === (entry.session.documentCategory ?? 'correspondence')
     && current.formType === entry.session.formType && Boolean(current.genericForm) === Boolean(entry.session.genericForm)) return 'unchanged';
-  const prepared = tryPrepareSavedSession(entry.session);
+  const prepared = tryPrepareSavedSession(entry.session, entry.meta.nativeReviewText === true && supportsReviewComments(entry.session));
   if (!prepared) return 'invalid';
   return installDocument(prepared, { id, save: false });
 }
@@ -1683,6 +1719,7 @@ export function validateLibraryDocuments(records: unknown): asserts records is u
       || !Number.isFinite(record.meta.updatedAt ?? 0)) throw new Error('Invalid document in backup');
     if (ids.has(record.meta.id)) throw new Error(`Duplicate document ID: ${record.meta.id}`);
     ids.add(record.meta.id);
+    if (record.meta.nativeReviewText !== undefined && record.meta.nativeReviewText !== true) throw new Error('Invalid native review reader hint');
     if (record.session.reviewComments !== undefined) reviewCommentsSchema.parse(record.session.reviewComments);
     if (record?.session?.genericForm) {
       const form = parseFormInstance(record.session.genericForm);

@@ -107,6 +107,77 @@ export async function idbInstallReviewCopy(input: StoredDocument, pin: ReviewRou
   } catch { return false; }
 }
 
+/** Restore one complete review section; conflicts or missing copied documents install nothing. */
+export async function idbRestoreReviewRecords(pins: ReviewRound[], associations: ReviewCopyLink[]): Promise<boolean> {
+  if (!pins.length && !associations.length) return true;
+  try {
+    const rounds = structuredClone(pins), copies = structuredClone(associations);
+    if (new Set(rounds.map(round => round.id)).size !== rounds.length || new Set(copies.map(copy => copy.documentId)).size !== copies.length
+      || copies.some(copy => !rounds.some(round => round.id === copy.roundId && round.baselineDigest === copy.baselineDigest))) return false;
+    const db = await openDb();
+    return await new Promise<boolean>((resolve, reject) => {
+      const transaction = db.transaction([APP_STORE, DOCS_STORE], 'readwrite');
+      const app = transaction.objectStore(APP_STORE), documents = transaction.objectStore(DOCS_STORE);
+      const roundReads = rounds.map(round => app.get(reviewRoundKey(round.id)));
+      const copyReads = copies.map(copy => app.get(reviewCopyKey(copy.documentId)));
+      const documentReads = copies.map(copy => documents.get(copy.documentId));
+      const requests = [...roundReads, ...copyReads, ...documentReads];
+      let remaining = requests.length, restored = false;
+      const ready = () => {
+        if (--remaining) return;
+        if (rounds.some((round, index) => {
+          const existing = roundReads[index].result?.value as ReviewRound | undefined;
+          return existing && (existing.baselineDigest !== round.baselineDigest || existing.sourceDocumentId !== round.sourceDocumentId);
+        }) || copies.some((copy, index) => {
+          const existing = copyReads[index].result?.value as ReviewCopyLink | undefined;
+          return !documentReads[index].result || existing && (existing.roundId !== copy.roundId || existing.baselineDigest !== copy.baselineDigest);
+        })) return;
+        try {
+          rounds.forEach((round, index) => { if (!roundReads[index].result) app.put({ key: reviewRoundKey(round.id), value: round }); });
+          copies.forEach((copy, index) => { if (!copyReads[index].result) app.put({ key: reviewCopyKey(copy.documentId), value: copy }); });
+          restored = true;
+        } catch { transaction.abort(); }
+      };
+      requests.forEach(request => { request.onsuccess = ready; });
+      transaction.oncomplete = () => resolve(restored);
+      transaction.onerror = () => reject(transaction.error ?? new Error('Review recovery failed.'));
+      transaction.onabort = () => reject(transaction.error ?? new Error('Review recovery aborted.'));
+    });
+  } catch { return false; }
+}
+
+/** Release one reviewed pin and its local links together; editable documents remain. */
+export async function idbDeleteReviewRound(id: string, expectedDigest: string): Promise<boolean> {
+  try {
+    const db = await openDb();
+    return await new Promise<boolean>((resolve, reject) => {
+      const transaction = db.transaction(APP_STORE, 'readwrite'), store = transaction.objectStore(APP_STORE);
+      const pin = store.get(reviewRoundKey(id));
+      const copies = store.getAll(IDBKeyRange.bound('review-copy:', 'review-copy:\uffff'));
+      const receipts = store.getAll(IDBKeyRange.bound(`review-return:${id}:`, `review-return:${id}:\uffff`));
+      let remaining = 3, deleted = false;
+      const ready = () => {
+        if (--remaining) return;
+        if (pin.result && pin.result.value?.baselineDigest !== expectedDigest) return;
+        const savedReceipts = receipts.result as Array<{ key: string; value?: { kind?: string; version?: number } }>;
+        if (savedReceipts.some(receipt => receipt.value?.kind !== 'dondocs-review-return-receipt' || receipt.value.version !== 1)) return;
+        try {
+          store.delete(reviewRoundKey(id));
+          for (const copy of copies.result as Array<{ key: string; value: ReviewCopyLink | null }>) {
+            if (copy.value?.roundId === id) store.delete(copy.key);
+          }
+          for (const receipt of savedReceipts) store.delete(receipt.key);
+          deleted = true;
+        } catch { transaction.abort(); }
+      };
+      pin.onsuccess = ready;copies.onsuccess = ready;receipts.onsuccess = ready;
+      transaction.oncomplete = () => resolve(deleted);
+      transaction.onerror = () => reject(transaction.error ?? new Error('Review removal failed.'));
+      transaction.onabort = () => reject(transaction.error ?? new Error('Review removal aborted.'));
+    });
+  } catch { return false; }
+}
+
 export async function putBatchOutput(id: string, data: Uint8Array): Promise<boolean> {
   try { await run(APP_STORE, 'readwrite', (s) => s.put({ key: `batch:${id}`, value: data })); return true; }
   catch { return false; }

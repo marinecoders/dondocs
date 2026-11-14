@@ -84,6 +84,27 @@ Desktop Chrome/Edge can mirror backups to a file you choose. Registry saves trig
 
 Each row's supported source/resolved text and retained values are reviewed. Saved downloads, including ZIP downloads, get a fresh review; if source text is missing/unreadable, the UI asks for explicit confirmation. Review attached content yourself: the text scan does not inspect PDF/image bytes. Configured-form batch generation is unavailable; consult the [capability matrix](CAPABILITIES.md) for all formats.
 
+## Keep an exact review baseline
+
+1. Open native correspondence and choose **Document actions → Review rounds…**.
+2. Enter a review name and choose **Start review from current draft**. DonDocs saves
+   an independent baseline with its required native attachments. Later edits and
+   History cleanup do not replace it.
+3. Choose **Prepare reviewer copy**, inspect the text/privacy/marking summary and
+   attachment files, then **Download reviewer copy**. This unencrypted JSON file
+   includes the complete baseline, comments, signature images, figures and attached PDFs.
+4. On another browser, open **Review rounds… → Import reviewer copy** and choose
+   **Open as new review copy**. The original source is not replaced. A matching
+   checksum checks the file's revision; it does not verify the sender's identity.
+
+Saved baselines remain in the workspace list after their source is permanently
+deleted and can be reopened or downloaded there. Workspace backups include them.
+Use **Delete review baseline** when a pin is no longer needed; existing editable
+copies and downloaded files remain. Review checksums need HTTPS or localhost.
+Configured forms and technical-publication reviews are outside this first scope.
+These controls preserve review baselines and copies; importing feedback into a
+newer source draft and accepting proposed text changes are separate workflows.
+
 ## Export and sign
 
 Choose an available output from Download. PDF enclosure merging and digital signature fields are PDF features; Word has [documented limits](OUTPUT_LIMITS.md). A downloaded TeX fragment needs the repository templates/assets to compile as a project.

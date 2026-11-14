@@ -33,6 +33,7 @@ The companion accepts HTTP/MCP requests, validates them, maps them to renderer i
 | Publication data/preflight | `src/data/techpub/`, `src/lib/publicationPreflight.ts` and family-specific validators |
 | Form definition/packages | `src/services/forms/model.ts`, `packages.ts`, `scripts/form-package.mts` |
 | Workspace persistence | `src/stores/documentsStore.ts`, `src/lib/documentsDb.ts`, `backup.ts`; [storage contract](STORAGE.md) |
+| Pinned native reviews | `src/lib/reviewRounds.ts`, `reviewRoundActions.ts`, `src/components/modals/ReviewRoundsModal.tsx`; reuse captured snapshots, draft transfer and existing attachment roots |
 | Reusable content | `src/data/templates/`; `src/data/exampleDocuments.ts` and `public/drafts/` hold examples |
 | Reference datasets | `src/data/units.json`, `ssic.json`, `office-codes.json` and reference modules/data under `src/data/` |
 | Local companion | `companion/server.ts`, `mcp.ts`, `letterSchema.ts`, `validateLetter.ts`, `letterInput.ts` |

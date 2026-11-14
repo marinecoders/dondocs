@@ -7,12 +7,16 @@ import { idbReadReviewRound, idbReadReviewRounds, idbReadReviewCopy } from './do
 
 export const REVIEW_COPY_KIND = 'dondocs-review-copy';
 export const MAX_REVIEW_COPY_BYTES = 100 * 1024 * 1024;
-const identifier = z.string().min(1).max(200);
+const identifier = z.string().min(1).max(200).refine(value => !Object.hasOwn(Object.prototype, value), 'Invalid document identity');
 export const reviewRoundIdSchema = z.string().regex(/^review_[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/);
 export const reviewDigestSchema = z.string().regex(/^[0-9a-f]{64}$/);
 const timestamp = z.number().int().nonnegative().max(8_640_000_000_000_000);
 const session = z.unknown().transform((value, context): SerializedSession => {
   try {
+    const raw = value as { enclosures?: Array<{ hasFile?: boolean; fileRef?: unknown }>; paragraphs?: Array<{ figure?: { fileRef?: unknown } }>; formData?: { basicLetterFile?: unknown; basicLetterFileRef?: unknown } };
+    if (Array.isArray(raw?.enclosures) && raw.enclosures.some(enclosure => enclosure?.hasFile && !enclosure.fileRef)
+      || Array.isArray(raw?.paragraphs) && raw.paragraphs.some(paragraph => paragraph?.figure && !paragraph.figure.fileRef)
+      || raw?.formData?.basicLetterFile && !raw.formData.basicLetterFileRef) throw new Error('A required review asset has no retained reference.');
     const parsed = parseSavedSession(value);
     if (!supportsReviewComments(parsed)) throw new Error('Review rounds support native correspondence only.');
     return parsed;
@@ -31,7 +35,8 @@ export const reviewRoundSchema = z.object({
   // Set only by local creation or an explicit workspace backup restore. A
   // portable reviewer copy never supplies local owner authority.
   ownerDocumentId: identifier.optional(),
-}).strict();
+}).strict().refine(round => round.createdAt === round.baseline.ts && round.baseline.session.timestamp === round.baseline.ts,
+  'Review baseline timestamps do not match.');
 export type ReviewRound = z.infer<typeof reviewRoundSchema>;
 
 export const reviewCopyLinkSchema = z.object({
@@ -51,7 +56,9 @@ export const reviewCopyEnvelopeSchema = z.object({
 export type ReviewCopyEnvelope = z.infer<typeof reviewCopyEnvelopeSchema>;
 
 export function parseReviewRound(value: unknown): ReviewRound {
-  return reviewRoundSchema.parse(value);
+  const parsed = reviewRoundSchema.safeParse(value);
+  if (!parsed.success) throw new Error('A saved review baseline is invalid. Recover it from an intact workspace backup before sending it.');
+  return parsed.data;
 }
 
 /** Stable object ordering binds exactly the captured portable payload, including its bytes. */
@@ -66,7 +73,9 @@ export function canonicalReviewPayload(value: unknown): string {
     if (typeof item === 'number' && !Number.isFinite(item) || ['bigint', 'function', 'symbol'].includes(typeof item)) throw new Error('Invalid review copy content.');
     return item;
   };
-  return JSON.stringify(canonical(value));
+  const encoded = JSON.stringify(canonical(value));
+  if (typeof encoded !== 'string') throw new Error('Invalid review copy content.');
+  return encoded;
 }
 
 export async function reviewPayloadDigest(value: unknown): Promise<string> {
