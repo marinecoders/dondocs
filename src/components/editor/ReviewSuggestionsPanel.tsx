@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
+import { MechanicalReviewProposalsPanel } from './MechanicalReviewProposalsPanel';
 import type { SerializedSession } from '@/stores/documentStore';
 import type { ReviewRound } from '@/lib/reviewRounds';
 import {
@@ -66,7 +67,7 @@ export function ReviewSuggestionsPanel({ round, current, state, owner, busy, onC
   return <section aria-label="Review suggestions" className="space-y-4">
     <h3 className="font-medium">Suggested replacements</h3>
     <p className="text-sm text-muted-foreground">Proposals keep the reviewed baseline unchanged. Only its source drafter can accept or reject them. Reviewer names and local decisions are not authenticated approvals.</p>
-    <p ref={result} role="status" tabIndex={-1} className={notice ? 'text-sm' : 'sr-only'}>{notice}</p>
+    <p ref={result} role="status" aria-label="Suggestion submission status" tabIndex={-1} className={notice ? 'text-sm' : 'sr-only'}>{notice}</p>
     {error && <p role="alert" className="text-sm text-destructive">{error}</p>}
     <form onSubmit={event => void add(event)} className="space-y-2 rounded-md border p-3">
       <fieldset disabled={disabled || state.proposals.length >= REVIEW_SUGGESTION_LIMITS.proposals} className="space-y-2">
@@ -90,6 +91,7 @@ export function ReviewSuggestionsPanel({ round, current, state, owner, busy, onC
         <Button type="submit" disabled={!author.trim() || !target || proposed === target.value}>Add suggestion</Button>
       </fieldset>
     </form>
+    <MechanicalReviewProposalsPanel round={round} busy={disabled} proposalCount={state.proposals.length} onCreate={onCreate} />
     {!state.proposals.length && <p className="text-sm text-muted-foreground">No suggested replacements in this review.</p>}
     {state.proposals.map((proposal, index) => {
       const changes = inspectReviewSuggestion(round, current, proposal);
