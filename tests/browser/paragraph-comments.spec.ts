@@ -169,3 +169,65 @@ test('paragraph navigation reveals the body from another focused section', async
   await expect(paragraph).toBeVisible();
   await expect(paragraph).toBeFocused();
 });
+
+test('resolved detached feedback survives portable drafts without matching replacement text or special IDs', async ({ page }) => {
+  await page.addInitScript(() => {
+    localStorage.setItem('browser-test-visitor', 'returning');
+    localStorage.setItem('dondocs_ui', JSON.stringify({ state: { theme: 'dark', editorLayout: 'scroll' }, version: 1 }));
+  });
+  await page.goto('/');
+  const targetId = 'constructor:review.target';
+  const detachedText = 'A replacement paragraph has the former text.';
+  const notes = ['PRIVATE_LIVE_FEEDBACK', 'PRIVATE_DETACHED_FEEDBACK'];
+  const makeThread = (paragraphId: string, context: string, text: string) => ({
+    id: crypto.randomUUID(), anchor: { kind: 'paragraph', paragraphId, context, docType: 'naval_letter' }, resolved: true,
+    messages: [{ id: crypto.randomUUID(), author: 'Chief', text, createdAt: '2026-11-13T00:00:00Z' }],
+  });
+  const draft = {
+    documentMode: 'compliant', documentCategory: 'correspondence', docType: 'naval_letter',
+    formData: { subject: 'RESOLVED PARAGRAPH CHECK', from: 'Commanding Officer', to: 'Training Officer', date: '13 Nov 26', sigLast: 'DOE' },
+    paragraphs: [{ id: targetId, text: 'The current paragraph for resolved feedback.', level: 0 }],
+    references: [], enclosures: [], copyTos: [], distributions: [],
+    reviewComments: { version: 2, threads: [
+      makeThread(targetId, 'The current paragraph for resolved feedback.', notes[0]),
+      makeThread('deleted:review.target', detachedText, notes[1]),
+    ] },
+  };
+  await page.getByLabel('Import draft file').setInputFiles({ name: 'resolved-paragraphs.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(draft)) });
+  await page.getByRole('button', { name: 'Open as new document', exact: true }).click();
+  const comments = await openComments(page);
+  await comments.getByRole('button', { name: 'Resolved (2)', exact: true }).click();
+  await expect(comments.getByRole('article', { name: 'Comment on Deleted or unavailable paragraph', exact: true })).toContainText(notes[1]);
+  await comments.getByRole('button', { name: 'Go to paragraph', exact: true }).click();
+  const paragraph = page.getByRole('textbox', { name: 'Paragraph 1', exact: true });
+  await expect(paragraph).toBeFocused();
+  await paragraph.press('ControlOrMeta+A');
+  await paragraph.pressSequentially('The current paragraph changed after its resolved feedback.', { delay: 1 });
+  await expect(paragraph).toHaveText('The current paragraph changed after its resolved feedback.');
+  await page.getByRole('button', { name: 'Add paragraph', exact: true }).click();
+  await page.getByRole('textbox', { name: 'Paragraph 2', exact: true }).fill(detachedText);
+  await openComments(page);
+  await comments.getByRole('button', { name: 'Resolved (2)', exact: true }).click();
+  await expect(comments.getByRole('article', { name: 'Comment on Paragraph 1', exact: true })).toContainText('text or markings changed');
+  await expect(comments.getByRole('article', { name: 'Comment on Deleted or unavailable paragraph', exact: true })).toContainText(notes[1]);
+  await expect(comments.getByRole('button', { name: 'Go to paragraph', exact: true })).toHaveCount(1);
+  await closeComments(page);
+  await page.getByRole('button', { name: 'Document actions', exact: true }).click();
+  const exporting = page.waitForEvent('download');
+  await page.getByRole('menuitem', { name: 'Export draft (.json)', exact: true }).click();
+  const portable = await readFile((await (await exporting).path())!);
+  const serialized = JSON.parse(portable.toString('utf8'));
+  expect(serialized.reviewComments.threads.every((thread: { resolved: boolean }) => thread.resolved)).toBe(true);
+  expect(serialized.paragraphs[0].id).toBe(targetId);
+  expect(serialized.paragraphs[0].text).toBe('The current paragraph changed after its resolved feedback.');
+  expect(serialized.paragraphs[1].id).not.toBe('deleted:review.target');
+  await page.getByLabel('Import draft file').setInputFiles({ name: 'returned-resolved-paragraphs.json', mimeType: 'application/json', buffer: portable });
+  await page.getByRole('button', { name: 'Open as new document', exact: true }).click();
+  await openComments(page);
+  await comments.getByRole('button', { name: 'Resolved (2)', exact: true }).click();
+  await expect(comments.getByRole('article', { name: 'Comment on Paragraph 1', exact: true })).toContainText(notes[0]);
+  await expect(comments.getByRole('article', { name: 'Comment on Deleted or unavailable paragraph', exact: true })).toContainText(notes[1]);
+  await comments.getByRole('button', { name: 'Go to paragraph', exact: true }).click();
+  await expect(paragraph).toBeFocused();
+  await expect(paragraph).toHaveText('The current paragraph changed after its resolved feedback.');
+});
