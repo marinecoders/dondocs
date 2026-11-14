@@ -3,6 +3,7 @@ import AxeBuilder from '@axe-core/playwright';
 import { readFile } from 'node:fs/promises';
 import JSZip from 'jszip';
 import { getDocument } from 'pdfjs-dist/legacy/build/pdf.mjs';
+import { replaceParagraphText } from '../_helpers/replaceParagraphText';
 
 test.use({ serviceWorkers: 'block', actionTimeout: 15_000 });
 test.setTimeout(180_000);
@@ -90,7 +91,7 @@ for (const theme of ['light', 'dark', 'classic']) test(`existing formatting find
     expect(payload.formData).toBeUndefined();expect(payload.baseline).toBeUndefined();
 
     await page.getByRole('textbox', { name: 'Subject', exact: true }).fill('NEWER AUTHOR SUBJECT');
-    await page.getByRole('textbox', { name: 'Paragraph 2', exact: true }).fill('Newer unrelated author body.');
+    await replaceParagraphText(page.getByRole('textbox', { name: 'Paragraph 2', exact: true }), 'Newer unrelated author body.');
     await page.locator('[data-paragraph-id="unrelated"]').getByRole('button', { name: 'Move up (⌘↑)', exact: true }).click();
     await page.getByRole('textbox', { name: 'Reference (b) URL', exact: true }).fill('https://example.com/later');
     modal = await reviews(page);await modal.getByLabel('Import feedback return', { exact: true }).setInputFiles({ name: 'feedback.json', mimeType: 'application/json', buffer: returned });
@@ -109,7 +110,7 @@ for (const theme of ['light', 'dark', 'classic']) test(`existing formatting find
     await page.screenshot({ path: info.outputPath(`formatting-group-${theme}.png`), scale: 'css' });
     await page.keyboard.press('Escape');
     await page.getByRole('textbox', { name: 'Reference (b) URL', exact: true }).fill('https://example.com/b');
-    await page.getByRole('textbox', { name: 'Paragraph 2', exact: true }).fill(`${ORIGINAL_BODY} Newer overlapping sentence.`);
+    await replaceParagraphText(page.getByRole('textbox', { name: 'Paragraph 2', exact: true }), `${ORIGINAL_BODY} Newer overlapping sentence.`);
     modal = await chooseRound(page);group = modal.getByRole('article', { name: 'Suggestion 1: Formatting corrections (7)', exact: true });
     await expect(group.getByRole('button', { name: 'Accept suggestion', exact: true })).toBeDisabled();
     await expect(group).toContainText('Current draft differs; acceptance is blocked');
@@ -118,7 +119,7 @@ for (const theme of ['light', 'dark', 'classic']) test(`existing formatting find
     expect(blocked.formData.date).toBe('13 November 2026');expect(blocked.formData.sigFirst).toBe(' A . ');
     expect(blocked.references.map((item: { title: string }) => item.title)).toEqual(['Alpha (notal)', 'Bravo ( notal )']);
     expect(blocked.paragraphs[1].text).toBe(`${ORIGINAL_BODY} Newer overlapping sentence.`);
-    await page.getByRole('textbox', { name: 'Paragraph 2', exact: true }).fill(ORIGINAL_BODY);
+    await replaceParagraphText(page.getByRole('textbox', { name: 'Paragraph 2', exact: true }), ORIGINAL_BODY);
     modal = await chooseRound(page);group = modal.getByRole('article', { name: 'Suggestion 1: Formatting corrections (7)', exact: true });
     await group.getByRole('button', { name: 'Accept suggestion', exact: true }).click();await expect(group).toContainText('Accepted');
     // Accepted state is published before the owning write finishes; the modal
