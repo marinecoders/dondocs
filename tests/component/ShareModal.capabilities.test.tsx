@@ -13,6 +13,8 @@ vi.mock("@/lib/shareCrypto", () => ({
   buildShareUrl: (token: string) => `https://example.test/#s=${token}`,
   parseShareUrl: vi.fn(),
   decryptSharePayload: vi.fn(),
+  MAX_SHARE_URL_LENGTH: 8000,
+  MAX_ENCRYPTED_SHARE_LENGTH: 140 * 1024 * 1024,
 }));
 beforeEach(() => vi.clearAllMocks());
 async function generate() {

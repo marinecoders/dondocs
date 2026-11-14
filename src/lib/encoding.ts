@@ -30,11 +30,9 @@ export function base64ToUint8Array(base64: string): Uint8Array {
  */
 export function uint8ArrayToBase64(bytes: Uint8Array): string {
   try {
-    let binary = '';
-    for (let i = 0; i < bytes.length; i++) {
-      binary += String.fromCharCode(bytes[i]);
-    }
-    return btoa(binary);
+    const chunks: string[] = [];
+    for (let i = 0; i < bytes.length; i += 8192) chunks.push(String.fromCharCode(...bytes.subarray(i, i + 8192)));
+    return btoa(chunks.join(''));
   } catch (err) {
     debug.error('Encoding', 'Failed to encode to base64', err);
     throw new Error('Failed to encode bytes to base64', { cause: err });
