@@ -125,7 +125,6 @@ export function CompileErrorModal({ open, error, compileLog, onClose }: CompileE
                   size="sm"
                   className="h-7 px-2 text-xs"
                   onClick={handleCopyLog}
-                  aria-label="Copy log to clipboard"
                 >
                   {logCopied ? (
                     <>

@@ -16,6 +16,7 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 ### Fixed
 
 - Give letterhead selectors explicit labels, signature tabs associated panels and visible control text matching accessible names. Expose sidebar and readiness landmarks, announce import/comment/export feedback, and make scrollable comment context and preview error logs reachable with the keyboard.
+- Keep custom signature inputs active when clearing their value or typing a standard rank/code prefix. External profile replacements still select the matching input mode.
 
 ## [1.3.75] — 2026-11-13
 

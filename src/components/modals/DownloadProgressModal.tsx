@@ -339,7 +339,6 @@ export function DownloadProgressModal({ phase, onClose, onRetry, onCancel }: Dow
                       size="sm"
                       className="h-7 px-2 text-xs"
                       onClick={handleCopyLog}
-                      aria-label="Copy log to clipboard"
                     >
                       {logCopied ? (
                         <>
@@ -355,7 +354,9 @@ export function DownloadProgressModal({ phase, onClose, onRetry, onCancel }: Dow
                     </Button>
                   </div>
                   <pre
-                    className="max-h-48 overflow-auto rounded-md bg-muted border border-border p-2 text-xs leading-tight font-mono whitespace-pre-wrap break-all text-foreground/80"
+                    role="region"
+                    tabIndex={0}
+                    className="max-h-48 overflow-auto rounded-md bg-muted border border-border p-2 text-xs leading-tight font-mono whitespace-pre-wrap break-all text-foreground/80 focus-visible:outline-2 focus-visible:outline-ring"
                     aria-label="Error log output"
                   >
                     {phase.compileLog}

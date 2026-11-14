@@ -82,21 +82,27 @@ export function SignatureSection({ config }: SignatureSectionProps) {
   const requiresComplimentaryClose = isCompliantMode && config.compliance.requiresComplimentaryClose;
   const [useCustomRank, setUseCustomRank] = useState(false);
   const [useCustomOfficeCode, setUseCustomOfficeCode] = useState(false);
+  const localRankEdit = useRef<string | null>(null);
+  const localOfficeCodeEdit = useRef<string | null>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [officeCodeModalOpen, setOfficeCodeModalOpen] = useState(false);
 
   // Re-derive the rank-input mode when sigRank changes externally (e.g. a
   // profile load). It's bidirectional: the user can also toggle it below, so it
-  // can't be purely derived.
+  // can't be purely derived. Local edits keep the user's chosen input mode.
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
+    const localValue = localRankEdit.current;
+    localRankEdit.current = null;
+    if (localValue !== null && formData.sigRank === localValue) return;
     setUseCustomRank(!isStandardMilitaryRank(formData.sigRank || ''));
   }, [formData.sigRank]);
 
   // Same bidirectional reset pattern as useCustomRank above, applied
   // to the office-code field.
   useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
+    const localValue = localOfficeCodeEdit.current;
+    localOfficeCodeEdit.current = null;
+    if (localValue !== null && formData.officeCode === localValue) return;
     setUseCustomOfficeCode(!isStandardOfficeCode(formData.officeCode || ''));
   }, [formData.officeCode]);
 
@@ -324,6 +330,7 @@ export function SignatureSection({ config }: SignatureSectionProps) {
                   const custom = v === 'civilian';
                   if (custom !== useCustomRank) {
                     setUseCustomRank(custom);
+                    localRankEdit.current = formData.sigRank ? '' : null;
                     setField('sigRank', '');
                   }
                 }}
@@ -332,14 +339,17 @@ export function SignatureSection({ config }: SignatureSectionProps) {
                   <TabsTrigger value="military">Military</TabsTrigger>
                   <TabsTrigger value="civilian">Civilian / Other</TabsTrigger>
                 </TabsList>
-                <TabsContent value={useCustomRank ? 'civilian' : 'military'} className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                <TabsContent value={useCustomRank ? 'civilian' : 'military'} className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 focus-visible:ring-2 focus-visible:ring-ring">
                 <div className="space-y-2">
                   <Label htmlFor="sigRank">Rank / Title</Label>
                   {useCustomRank ? (
                     <Input
                       id="sigRank"
                       value={formData.sigRank || ''}
-                      onChange={(e) => setField('sigRank', e.target.value)}
+                      onChange={(e) => {
+                        localRankEdit.current = e.target.value !== formData.sigRank ? e.target.value : null;
+                        setField('sigRank', e.target.value);
+                      }}
                       placeholder="e.g., Mr., Ms., Dr., Contractor"
                     />
                   ) : (
@@ -393,6 +403,7 @@ export function SignatureSection({ config }: SignatureSectionProps) {
                   />
                 </div>
               </TabsContent>
+                <TabsContent value={useCustomRank ? 'military' : 'civilian'} />
               </Tabs>
             </div>
             )}
@@ -408,6 +419,7 @@ export function SignatureSection({ config }: SignatureSectionProps) {
                   const custom = v === 'custom';
                   if (custom !== useCustomOfficeCode) {
                     setUseCustomOfficeCode(custom);
+                    localOfficeCodeEdit.current = formData.officeCode ? '' : null;
                     setField('officeCode', '');
                   }
                 }}
@@ -416,14 +428,17 @@ export function SignatureSection({ config }: SignatureSectionProps) {
                   <TabsTrigger value="standard">Standard</TabsTrigger>
                   <TabsTrigger value="custom">Custom</TabsTrigger>
                 </TabsList>
-                <TabsContent value={useCustomOfficeCode ? 'custom' : 'standard'} className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                <TabsContent value={useCustomOfficeCode ? 'custom' : 'standard'} className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 focus-visible:ring-2 focus-visible:ring-ring">
                 <div className="space-y-2">
                   <Label htmlFor="officeCode">Office Code</Label>
                   {useCustomOfficeCode ? (
                     <Input
                       id="officeCode"
                       value={formData.officeCode || ''}
-                      onChange={(e) => setField('officeCode', e.target.value)}
+                      onChange={(e) => {
+                        localOfficeCodeEdit.current = e.target.value !== formData.officeCode ? e.target.value : null;
+                        setField('officeCode', e.target.value);
+                      }}
                       placeholder="e.g., G-3, S-1, ADMIN"
                     />
                   ) : (
@@ -476,6 +491,7 @@ export function SignatureSection({ config }: SignatureSectionProps) {
                 />
               </div>
             </TabsContent>
+                <TabsContent value={useCustomOfficeCode ? 'standard' : 'custom'} />
               </Tabs>
             </div>
 

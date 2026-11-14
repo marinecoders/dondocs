@@ -93,7 +93,10 @@ with its default rules, scanning the full current page after visible UI readines
 assertions. It does not exclude surfaces or disable rules. It checks the editor,
 file import, pasted-text validation and review, saved-version comparison,
 document/field/paragraph comments (including invalid targets, expanded context,
-reply, resolved state and paragraph navigation), and Word export progress/failure dialogs. The export fixture holds,
+reply, resolved state and paragraph navigation), both signature tab groups
+(including inactive panel relationships and keyboard focus), Word export
+progress/failure dialogs, and actual PDF compilation failures with scrollable logs
+and copied-log feedback. The export fixture holds,
 then fails the real engine request so progress and recovery can be inspected
 without a timing sleep. Keyboard checks cover opening, forward/reverse focus
 containment, Escape, return focus, disabled controls, selected state, scrollable comment context and preview error logs, and live
