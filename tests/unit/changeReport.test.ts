@@ -94,3 +94,15 @@ it('fails explicitly for unreadable discussions and unavailable policy rather th
   expect(() => prepareChangeReport(capture(before), policy)).toThrow(/cannot be read completely/);
   expect(() => prepareChangeReport(capture(), { status: 'error', message: 'Policy unavailable' })).toThrow('Policy unavailable');
 });
+
+it('retains unchanged unrankable custom source markings prominently and scans them for privacy', () => {
+  const before = getSerializedSession();before.formData.classLevel = 'custom';before.formData.customClassification = 'LIMITED <DISTRIBUTION> SSN 123-45-6789';
+  before.paragraphs = [{ text: 'Before', level: 0 }];
+  const after = structuredClone(before);after.paragraphs[0].text = 'After';
+  const report = prepareChangeReport(capture(before, after), policy);
+  expect(report.marking).toContain('MARKING REVIEW REQUIRED');
+  expect(report.customMarkings).toEqual(['LIMITED <DISTRIBUTION> SSN 123-45-6789']);
+  expect(report.privacy.findings.some(finding => finding.value === '123-45-6789')).toBe(true);
+  const html = renderChangeReport(report);
+  expect(html.indexOf('LIMITED &lt;DISTRIBUTION&gt; SSN 123-45-6789')).toBeLessThan(html.indexOf('<h1>Change report</h1>'));
+});
