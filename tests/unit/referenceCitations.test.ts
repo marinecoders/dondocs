@@ -54,6 +54,9 @@ describe('citation discovery and reference plans', () => {
     'He wrote ‘the commander’s reference (b)’.',
     "He wrote 'the commander's reference (b)'.",
     "He wrote: 'Follow reference (b).'",
+    '```javascript\nconst citation = `reference (b)`;\n```\nUse reference (a).',
+    '~~~javascript\nconst citation = reference (b);\n~~~\nUse reference (a).',
+    '``reference (b) with a ` short delimiter`` Use reference (a).',
   ])('blocks ambiguous clauses instead of applying a partial rewrite: %s', text => {
     expect(planReferenceChange(source(text), [1, 0]).blockers.length).toBeGreaterThan(0);
   });

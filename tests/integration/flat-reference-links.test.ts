@@ -18,6 +18,10 @@ describe.skipIf(!hasPdfLatex)('standalone flat LaTeX reference links', () => {
     { url: 'https://example.com/order_a?x=1&y=2#section', expected: 'https://example.com/order_a?x=1&y=2#section' },
     { url: 'https://example.com/a%20b/{section}/^/~/$/a_b?x=1&y=2#part', expected: 'https://example.com/a%20b/%7Bsection%7D/%5E/~/$/a_b?x=1&y=2#part' },
     { url: 'https://example.com/ZZZURLBACKSLASHZZZ/\\literal', expected: 'https://example.com/ZZZURLBACKSLASHZZZ/%5Cliteral' },
+    { url: 'https://example.com/naïve/漢字/😀?clé=été#章', expected: 'https://example.com/na%C3%AFve/%E6%BC%A2%E5%AD%97/%F0%9F%98%80?cl%C3%A9=%C3%A9t%C3%A9#%E7%AB%A0' },
+    { url: 'https://[2001:db8::1]/a_b?x=1&y=2#part', expected: 'https://[2001:db8::1]/a_b?x=1&y=2#part' },
+    { url: 'mailto:a_b@example.com?subject=A%20%26%20B', expected: 'mailto:a_b@example.com?subject=A%20%26%20B' },
+    { url: 'https://example.com/\ud800', expected: 'https://example.com/%EF%BF%BD' },
   ])('compiles a downloaded flat source and retains target $url', async ({ url, expected }) => {
     const store = buildBaseline('standard_memorandum');
     store.references = [{ letter: 'a', title: 'Linked source', url }, { letter: 'b', title: 'Plain source', url: 'javascript:alert(1)' }];
