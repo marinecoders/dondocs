@@ -94,7 +94,7 @@ it('keeps new replacement input when the prior submission announcement is delaye
     const first = screen.getByRole('textbox', { name: 'Proposed replacement' });
     await userEvent.clear(first);await userEvent.type(first, 'Reviewed recipient');
     await userEvent.click(screen.getByRole('button', { name: 'Add suggestion' }));
-    expect(await screen.findByRole('status', { name: 'Suggestion submission status', exact: true })).toHaveTextContent('Suggestion submitted');
+    expect(await screen.findByRole('status', { name: 'Suggestion submission status' })).toHaveTextContent('Suggestion submitted');
     await userEvent.selectOptions(screen.getByRole('combobox', { name: 'Suggestion target' }), 'paragraph:paragraph-one');
     const next = screen.getByRole('textbox', { name: 'Proposed replacement' }) as HTMLTextAreaElement;
     await userEvent.click(next);next.setSelectionRange(0, next.value.length);
@@ -115,7 +115,7 @@ it('announces repeated immediate successes once per submission and decision', as
     await userEvent.clear(replacement);await userEvent.type(replacement, 'Review replacement.');
     const submit = screen.getByRole('button', { name: 'Add suggestion' });
     await act(async () => { submit.focus();fireEvent.submit(submit.closest('form')!); });
-    expect(screen.getByRole('status', { name: 'Suggestion submission status', exact: true })).toHaveFocus();
+    expect(screen.getByRole('status', { name: 'Suggestion submission status' })).toHaveFocus();
   }
   expect(input.onCreate).toHaveBeenCalledTimes(2);view.unmount();
   for (const field of ['to', 'subject']) input.state.proposals.push(createReviewSuggestion(input.round, { author: 'Reviewer', label: field,
@@ -123,7 +123,7 @@ it('announces repeated immediate successes once per submission and decision', as
   render(<ReviewSuggestionsPanel {...input} />);
   for (const button of screen.getAllByRole('button', { name: 'Accept suggestion' })) {
     await act(async () => { button.focus();fireEvent.click(button); });
-    expect(screen.getByRole('status', { name: 'Suggestion submission status', exact: true })).toHaveFocus();
+    expect(screen.getByRole('status', { name: 'Suggestion submission status' })).toHaveFocus();
   }
   expect(input.onDecide).toHaveBeenCalledTimes(2);
 });
