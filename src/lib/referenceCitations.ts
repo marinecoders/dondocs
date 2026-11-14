@@ -3,6 +3,7 @@ import { DOC_TYPE_CONFIG } from '@/types/document';
 import { documentTextFields, type DocumentTextField, type FieldPath } from './documentFields';
 import { referenceStartIndex } from './endorsement';
 import { referenceLetterAt } from './referenceLetters';
+import { maskProtectedRanges, protectedCodeRanges } from './protectedCodeRanges';
 
 export type ReferenceSource = Pick<DocumentSnapshot,
   'documentMode' | 'documentCategory' | 'docType' | 'formData' | 'references' | 'paragraphs' | 'copyTos' | 'distributions'>;
@@ -24,11 +25,12 @@ export interface ReferenceChange {
 export function scanReferenceCitations(text: string): CitationScan {
   const citations: Citation[] = [];
   const issues: string[] = [];
-  const protectedSpans: Array<[number, number]> = [];
-  for (const match of text.matchAll(/"[^"]*(?:"|$)|“[^”]*(?:”|$)|‘(?:[^’]|’(?=[\p{L}\p{M}\p{N}_]))*(?:’|$)|`[^`]*(?:`|$)|(?:https?:\/\/|mailto:)\S+|(?:^|\n)\s*>[^\n]*/giu)) {
+  const protectedSpans = protectedCodeRanges(text);
+  const outsideCode = maskProtectedRanges(text, protectedSpans);
+  for (const match of outsideCode.matchAll(/"[^"]*(?:"|$)|“[^”]*(?:”|$)|‘(?:[^’]|’(?=[\p{L}\p{M}\p{N}_]))*(?:’|$)|(?:https?:\/\/|mailto:)\S+|(?:^|\n)\s*>[^\n]*/giu)) {
     protectedSpans.push([match.index, match.index + match[0].length]);
   }
-  for (const match of text.matchAll(/(?<![\p{L}\p{M}\p{N}_])'(?:[^']|'(?=[\p{L}\p{M}\p{N}_]))*(?:'|$)/gu)) protectedSpans.push([match.index, match.index + match[0].length]);
+  for (const match of outsideCode.matchAll(/(?<![\p{L}\p{M}\p{N}_])'(?:[^']|'(?=[\p{L}\p{M}\p{N}_]))*(?:'|$)/gu)) protectedSpans.push([match.index, match.index + match[0].length]);
   const prefix = /\b(?:references?|refs?\.?)\s*(?=\(|[a-z])/gi;
   for (const match of text.matchAll(prefix)) {
     let cursor = match.index + match[0].length;
@@ -66,10 +68,14 @@ export function scanReferenceCitations(text: string): CitationScan {
   return { citations, issues: [...new Set(issues)] };
 }
 
-export function canReviewReferenceOrder(source: ReferenceSource): boolean {
+function canTrackReferenceCitations(source: ReferenceSource): boolean {
   return source.documentCategory === 'correspondence'
     && !['i_type', 'sl3', 'sl4', 'tm_ietm_front_matter'].includes(source.docType)
-    && !!DOC_TYPE_CONFIG[source.docType]
+    && Object.hasOwn(DOC_TYPE_CONFIG, source.docType);
+}
+
+export function canReviewReferenceOrder(source: ReferenceSource): boolean {
+  return canTrackReferenceCitations(source)
     && (source.documentMode === 'custom' || DOC_TYPE_CONFIG[source.docType].compliance.allowReferences);
 }
 
@@ -121,7 +127,9 @@ export function planReferenceChange(source: ReferenceSource, order: readonly num
   const changes: { label: string; before: string; after: string }[] = [];
   const advisories: string[] = [];
   let patch: Partial<ReferenceSource> = { references };
-  if (changed && canReviewReferenceOrder(source)) {
+  // Hidden formal lists remain part of the draft. A later type/mode switch
+  // must restore the same citation targets, including endorsement offsets.
+  if (changed && canTrackReferenceCitations(source)) {
     const oldOffset = referenceStartIndex(source.docType, source.formData.startingReferenceLetter);
     for (const field of citationFields(source)) {
       const scan = scanReferenceCitations(field.text);
