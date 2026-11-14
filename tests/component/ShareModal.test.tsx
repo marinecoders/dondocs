@@ -24,6 +24,7 @@ import {
 } from '@/stores/documentStore';
 import { openSessionAsNew, hasPendingReviewWrites, flushPendingReviewWrites, isCurrentDocumentScope } from '@/stores/documentsStore';
 import { fixtureInstance } from '../_helpers/formFixture';
+import * as encoding from '@/lib/encoding';
 
 vi.mock('@/lib/shareCrypto', () => ({
   encryptSharePayload: vi.fn(),
@@ -63,6 +64,35 @@ function stubClipboard() {
 }
 
 describe('ShareModal — share mode', () => {
+  it('offers an encrypted file instead of copying an oversized link', async () => {
+    const user = userEvent.setup(), copy = stubClipboard();
+    const token = 'A'.repeat(8100);
+    vi.mocked(encryptSharePayload).mockResolvedValueOnce(token);
+    const download = vi.spyOn(encoding, 'triggerDownload').mockImplementation(() => {});
+    render(<ShareModal open mode="share" onOpenChange={() => {}} />);
+    await user.type(screen.getByLabelText('Password for this link'), 'synthetic-password');
+    await user.click(screen.getByRole('button', { name: 'Generate link' }));
+    expect(screen.getByText(/too large for a reliable link/)).toBeVisible();
+    expect(screen.queryByRole('textbox', { name: /Share link/ })).not.toBeInTheDocument();
+    expect(copy).not.toHaveBeenCalled();
+    await user.click(screen.getByRole('button', { name: 'Download encrypted share file' }));
+    const bytes = download.mock.calls[0][0] as Uint8Array;
+    expect(JSON.parse(new TextDecoder().decode(bytes))).toEqual({ kind: 'dondocs-encrypted-share', version: 1, payload: token });
+  });
+  it('does not publish a previous generation after the dialog closes and reopens', async () => {
+    const user = userEvent.setup(), copy = stubClipboard();
+    let release!: (value: string) => void;
+    vi.mocked(encryptSharePayload).mockImplementationOnce(() => new Promise(resolve => { release = resolve; }));
+    const view = render(<ShareModal open mode="share" onOpenChange={() => {}} />);
+    await user.type(screen.getByLabelText('Password for this link'), 'synthetic-password');
+    await user.click(screen.getByRole('button', { name: 'Generate link' }));
+    view.rerender(<ShareModal open={false} mode="share" onOpenChange={() => {}} />);
+    view.rerender(<ShareModal open mode="share" onOpenChange={() => {}} />);
+    await act(async () => { release('OLD'); });
+    expect(screen.getByLabelText('Password for this link')).toHaveValue('');
+    expect(screen.queryByDisplayValue('https://dondocs.app/#s=OLD')).not.toBeInTheDocument();
+    expect(copy).not.toHaveBeenCalled();
+  });
   it('keeps a blocked share capture in the dialog and retries after feedback saves', async () => {
     const user = userEvent.setup();stubClipboard();
     vi.mocked(getSerializedSessionForShare).mockImplementationOnce(() => { throw new Error('Review feedback is not saved yet.'); });
@@ -293,6 +323,43 @@ describe('ShareModal — share mode', () => {
 });
 
 describe('ShareModal — import mode', () => {
+  it('opens encrypted share files through the same decryption and review controls', async () => {
+    const user = userEvent.setup();
+    const session = { docType: 'naval_letter', documentMode: 'compliant', formData: {}, paragraphs: [], references: [], enclosures: [], copyTos: [] };
+    vi.mocked(decryptSharePayload).mockResolvedValueOnce(session);
+    render(<ShareModal open mode="import" onOpenChange={() => {}} />);
+    await user.upload(screen.getByLabelText('Encrypted share file'), new File([JSON.stringify({ kind: 'dondocs-encrypted-share', version: 1, payload: 'FILETOKEN' })], 'shared.json', { type: 'application/json' }));
+    expect(await screen.findByText('Selected: shared.json')).toBeVisible();
+    await user.type(screen.getByLabelText('Password'), 'synthetic-password');
+    await user.click(screen.getByRole('button', { name: 'Decrypt and review' }));
+    expect(decryptSharePayload).toHaveBeenCalledWith('FILETOKEN', 'synthetic-password');
+    expect(await screen.findByRole('button', { name: 'Open as new document' })).toBeVisible();
+  });
+  it('clears a previous selected file when its replacement is invalid', async () => {
+    const user = userEvent.setup();
+    render(<ShareModal open mode="import" onOpenChange={() => {}} />);
+    const input = screen.getByLabelText('Encrypted share file');
+    await user.upload(input, new File([JSON.stringify({ kind: 'dondocs-encrypted-share', version: 1, payload: 'FIRST' })], 'first.json', { type: 'application/json' }));
+    expect(await screen.findByText('Selected: first.json')).toBeVisible();
+    await user.upload(input, new File(['{"version":99}'], 'invalid.json', { type: 'application/json' }));
+    expect(await screen.findByRole('alert')).toHaveTextContent('Choose an encrypted share file');
+    expect(screen.queryByText('Selected: first.json')).not.toBeInTheDocument();
+    await user.type(screen.getByLabelText('Password'), 'synthetic-password');
+    expect(screen.getByRole('button', { name: 'Decrypt and review' })).toBeDisabled();
+  });
+  it('ignores a file read completing after the import dialog was reopened', async () => {
+    const user = userEvent.setup();
+    let release!: (value: string) => void;
+    const file = new File(['pending'], 'old.json', { type: 'application/json' });
+    Object.defineProperty(file, 'text', { value: () => new Promise<string>(resolve => { release = resolve; }) });
+    const view = render(<ShareModal open mode="import" onOpenChange={() => {}} />);
+    await user.upload(screen.getByLabelText('Encrypted share file'), file);
+    view.rerender(<ShareModal open={false} mode="import" onOpenChange={() => {}} />);
+    view.rerender(<ShareModal open mode="import" onOpenChange={() => {}} />);
+    await act(async () => { release(JSON.stringify({ kind: 'dondocs-encrypted-share', version: 1, payload: 'OLD' })); });
+    expect(screen.queryByText('Selected: old.json')).not.toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Decrypt and review' })).toBeDisabled();
+  });
   it.each(['during decryption', 'during review'])('rejects expiration %s before touching documents', async stage => {
     const user = userEvent.setup();
     const onOpenChange = vi.fn();

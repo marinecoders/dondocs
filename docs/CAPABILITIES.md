@@ -22,32 +22,32 @@ Compliant and Custom are application modes. Both have the same operation availab
 
 | Document | PDF | Word | TeX fragments | Flat TeX | Preview | Batch PDF | Share link |
 |---|---|---|---|---|---|---|---|
-| Naval Letter (on letterhead) | supported | partial | partial | supported | supported | supported | partial |
-| Standard Letter (plain paper) | supported | partial | partial | supported | supported | supported | partial |
-| Business Letter | supported | partial | partial | supported | supported | supported | partial |
-| Multiple Address Letter | supported | partial | partial | supported | supported | supported | partial |
-| Joint Letter | supported | partial | partial | supported | supported | supported | partial |
-| Same-Page Endorsement | supported | partial | partial | supported | supported | supported | partial |
-| New-Page Endorsement | supported | partial | partial | supported | supported | supported | partial |
-| Memorandum for the Record (MFR) | supported | partial | partial | supported | supported | supported | partial |
-| Plain Paper Memorandum | supported | partial | partial | supported | supported | supported | partial |
-| Letterhead Memorandum | supported | partial | partial | supported | supported | supported | partial |
-| Decision Memorandum | supported | partial | partial | supported | supported | supported | partial |
-| Executive Memorandum | supported | partial | partial | supported | supported | supported | partial |
-| Memorandum of Agreement (MOA) | supported | partial | partial | supported | supported | supported | partial |
-| Memorandum of Understanding (MOU) | supported | partial | partial | supported | supported | supported | partial |
-| Joint Memorandum | supported | partial | partial | supported | supported | supported | partial |
-| Memorandum For | supported | partial | partial | supported | supported | supported | partial |
-| Executive Correspondence | supported | partial | partial | supported | supported | supported | partial |
-| Standard Memorandum (HqDON) | supported | partial | partial | supported | supported | supported | partial |
-| Action Memorandum | supported | partial | partial | supported | supported | supported | partial |
-| Information Memorandum | supported | partial | partial | supported | supported | supported | partial |
-| SL-3 Components List | supported | unsupported | partial | unsupported | supported | supported | partial |
-| SL-4 Repair Parts List | supported | unsupported | partial | unsupported | supported | supported | partial |
-| TM/IETM Cover and Signature Pages | supported | unsupported | partial | unsupported | supported | supported | partial |
-| I-Type Instruction (MI/SI/TI/LI) | supported | unsupported | partial | unsupported | supported | supported | partial |
-| NAVMC 10274 - Administrative Action | supported | unsupported | unsupported | unsupported | supported | supported | partial |
-| NAVMC 118 (11) - Administrative Remarks (6105) | supported | unsupported | unsupported | unsupported | supported | supported | partial |
+| Naval Letter (on letterhead) | supported | partial | partial | supported | supported | supported | supported |
+| Standard Letter (plain paper) | supported | partial | partial | supported | supported | supported | supported |
+| Business Letter | supported | partial | partial | supported | supported | supported | supported |
+| Multiple Address Letter | supported | partial | partial | supported | supported | supported | supported |
+| Joint Letter | supported | partial | partial | supported | supported | supported | supported |
+| Same-Page Endorsement | supported | partial | partial | supported | supported | supported | supported |
+| New-Page Endorsement | supported | partial | partial | supported | supported | supported | supported |
+| Memorandum for the Record (MFR) | supported | partial | partial | supported | supported | supported | supported |
+| Plain Paper Memorandum | supported | partial | partial | supported | supported | supported | supported |
+| Letterhead Memorandum | supported | partial | partial | supported | supported | supported | supported |
+| Decision Memorandum | supported | partial | partial | supported | supported | supported | supported |
+| Executive Memorandum | supported | partial | partial | supported | supported | supported | supported |
+| Memorandum of Agreement (MOA) | supported | partial | partial | supported | supported | supported | supported |
+| Memorandum of Understanding (MOU) | supported | partial | partial | supported | supported | supported | supported |
+| Joint Memorandum | supported | partial | partial | supported | supported | supported | supported |
+| Memorandum For | supported | partial | partial | supported | supported | supported | supported |
+| Executive Correspondence | supported | partial | partial | supported | supported | supported | supported |
+| Standard Memorandum (HqDON) | supported | partial | partial | supported | supported | supported | supported |
+| Action Memorandum | supported | partial | partial | supported | supported | supported | supported |
+| Information Memorandum | supported | partial | partial | supported | supported | supported | supported |
+| SL-3 Components List | supported | unsupported | partial | unsupported | supported | supported | supported |
+| SL-4 Repair Parts List | supported | unsupported | partial | unsupported | supported | supported | supported |
+| TM/IETM Cover and Signature Pages | supported | unsupported | partial | unsupported | supported | supported | supported |
+| I-Type Instruction (MI/SI/TI/LI) | supported | unsupported | partial | unsupported | supported | supported | supported |
+| NAVMC 10274 - Administrative Action | supported | unsupported | unsupported | unsupported | supported | supported | supported |
+| NAVMC 118 (11) - Administrative Remarks (6105) | supported | unsupported | unsupported | unsupported | supported | supported | supported |
 | Configured form (valid definition loaded) | supported | unsupported | unsupported | unsupported | supported | unsupported | partial |
 
 ## Partial operations and readiness

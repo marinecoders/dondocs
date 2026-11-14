@@ -7,6 +7,17 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.83] — 2026-11-14
+
+### Added
+
+- Include native attached PDFs, basic-letter PDFs, PNG signatures and PNG/JPEG figures in password-encrypted handoffs. A versioned resource manifest validates exact sizes, file types and SHA-256 checksums before imported content is saved as a separate draft.
+- Download and open encrypted share files when a complete copy exceeds the reliable link-size limit. Existing links and optional expiration remain supported; missing resources, failed storage, cancellation and expired imports preserve current work.
+
+### Fixed
+
+- Bound decrypted and expanded share sizes, stop oversized compressed streams and encode large attachment data without per-byte string concatenation.
+
 ## [1.3.82] — 2026-11-14
 
 ### Added
