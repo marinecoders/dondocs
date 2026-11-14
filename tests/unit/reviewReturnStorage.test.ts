@@ -15,6 +15,7 @@ beforeEach(async () => {
     messages: [{ id: crypto.randomUUID(), author: 'Example reviewer', text: 'Returned feedback', createdAt: '2026-11-13T00:00:00Z' }] }] };
   round = { kind: 'dondocs-review-round', version: 1, id: `review_${crypto.randomUUID()}`, createdAt: 100, label: 'Review',
     sourceDocumentId: id, ownerDocumentId: id, baselineDigest: 'a'.repeat(64), baseline: { ts: 100, session: createBlankSession() } };
+  round.baseline.session.timestamp = 100;
   receipt = { kind: 'dondocs-review-return-receipt', version: 1, roundId: round.id, baselineDigest: round.baselineDigest,
     returnId: `return_${crypto.randomUUID()}`, returnDigest: 'b'.repeat(64), documentId: id, importedAt: 200 };
   expect(await idbPutDocument(before)).toBe(true);expect(await idbAddReviewRound(round)).toBe('committed');

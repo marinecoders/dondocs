@@ -811,10 +811,10 @@ export async function idbFormDefinitions(): Promise<import('@/services/forms/mod
   } catch { return null; }
 }
 
-export type ReviewReturnWriteOutcome = 'committed' | 'already-imported' | 'conflict' | 'missing-document' | 'stale' | 'failed';
+export type ReviewReturnWriteOutcome = 'committed' | 'already-committed' | 'already-imported' | 'conflict' | 'missing-document' | 'stale' | 'failed';
 
 /** Compare saved JSON and legacy inline buffers without treating different bytes as empty objects. */
-function sameReviewStoredValue(left: unknown, right: unknown): boolean {
+export function sameReviewStoredValue(left: unknown, right: unknown): boolean {
   if (Object.is(left, right)) return true;
   if (left instanceof ArrayBuffer || right instanceof ArrayBuffer || ArrayBuffer.isView(left) || ArrayBuffer.isView(right)) {
     const bytes = (value: unknown) => value instanceof ArrayBuffer ? new Uint8Array(value)
@@ -865,7 +865,9 @@ export async function idbApplyReviewReturn(
         const previous = receiptRequest.result?.value as ReviewReturnReceipt | undefined;
         if (previous) {
           if (previous.returnId === receipt.returnId && previous.returnDigest === receipt.returnDigest
-            && previous.documentId === before.id && previous.roundId === round.id && previous.baselineDigest === round.baselineDigest) outcome = 'already-imported';
+            && previous.documentId === before.id && previous.roundId === round.id && previous.baselineDigest === round.baselineDigest) {
+            outcome = sameReviewStoredValue(documentRequest.result, after) ? 'already-committed' : 'already-imported';
+          }
           return;
         }
         const current = documentRequest.result as StoredDocument | undefined;
