@@ -1,4 +1,4 @@
-import { act, render, screen } from '@testing-library/react';
+import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { expect, it, vi } from 'vitest';
 import { ReviewSuggestionsPanel } from '@/components/editor/ReviewSuggestionsPanel';
@@ -82,4 +82,67 @@ it('distinguishes a recorded Undo from later manual changes to an accepted repla
   view.rerender(<ReviewSuggestionsPanel {...input} state={undone} />);
   expect(screen.getByText(/Acceptance undone/)).toBeVisible();
   expect(screen.getByRole('button', { name: 'Accept suggestion' })).toBeEnabled();
+});
+
+it('keeps new replacement input when the prior submission announcement is delayed', async () => {
+  const frames: FrameRequestCallback[] = [];
+  const raf = vi.spyOn(window, 'requestAnimationFrame').mockImplementation(callback => { frames.push(callback);return frames.length; });
+  try {
+    const input = props();render(<ReviewSuggestionsPanel {...input} />);
+    await userEvent.type(screen.getByRole('textbox', { name: 'Reviewer name for suggestion' }), 'Example reviewer');
+    await userEvent.selectOptions(screen.getByRole('combobox', { name: 'Suggestion target' }), 'field:to');
+    const first = screen.getByRole('textbox', { name: 'Proposed replacement' });
+    await userEvent.clear(first);await userEvent.type(first, 'Reviewed recipient');
+    await userEvent.click(screen.getByRole('button', { name: 'Add suggestion' }));
+    expect(await screen.findByRole('status')).toHaveTextContent('Suggestion submitted');
+    await userEvent.selectOptions(screen.getByRole('combobox', { name: 'Suggestion target' }), 'paragraph:paragraph-one');
+    const next = screen.getByRole('textbox', { name: 'Proposed replacement' }) as HTMLTextAreaElement;
+    await userEvent.click(next);next.setSelectionRange(0, next.value.length);
+    await act(async () => { for (const callback of frames.splice(0)) callback(1); });
+    expect.soft(next).toHaveFocus();
+    await userEvent.keyboard('Next paragraph correction.');
+    expect(next).toHaveValue('Next paragraph correction.');
+  } finally { raf.mockRestore(); }
+});
+
+
+it('announces repeated immediate successes once per submission and decision', async () => {
+  const input = props();const view = render(<ReviewSuggestionsPanel {...input} />);
+  await userEvent.type(screen.getByRole('textbox', { name: 'Reviewer name for suggestion' }), 'Example reviewer');
+  for (const target of ['field:to', 'paragraph:paragraph-one']) {
+    await userEvent.selectOptions(screen.getByRole('combobox', { name: 'Suggestion target' }), target);
+    const replacement = screen.getByRole('textbox', { name: 'Proposed replacement' });
+    await userEvent.clear(replacement);await userEvent.type(replacement, 'Review replacement.');
+    const submit = screen.getByRole('button', { name: 'Add suggestion' });
+    await act(async () => { submit.focus();fireEvent.submit(submit.closest('form')!); });
+    expect(screen.getByRole('status')).toHaveFocus();
+  }
+  expect(input.onCreate).toHaveBeenCalledTimes(2);view.unmount();
+  for (const field of ['to', 'subject']) input.state.proposals.push(createReviewSuggestion(input.round, { author: 'Reviewer', label: field,
+    changes: [{ target: { kind: 'field', field, docType: 'naval_letter' }, proposed: `Reviewed ${field}` }] }));
+  render(<ReviewSuggestionsPanel {...input} />);
+  for (const button of screen.getAllByRole('button', { name: 'Accept suggestion' })) {
+    await act(async () => { button.focus();fireEvent.click(button); });
+    expect(screen.getByRole('status')).toHaveFocus();
+  }
+  expect(input.onDecide).toHaveBeenCalledTimes(2);
+});
+
+it('keeps the composer disabled until its submitted proposal finishes and does not focus after unmount', async () => {
+  const input = props();let finish!: (value: boolean) => void;
+  input.onCreate.mockImplementationOnce(() => new Promise<boolean>(resolve => { finish = resolve; }));
+  const view = render(<ReviewSuggestionsPanel {...input} />);
+  await userEvent.type(screen.getByRole('textbox', { name: 'Reviewer name for suggestion' }), 'Example reviewer');
+  await userEvent.selectOptions(screen.getByRole('combobox', { name: 'Suggestion target' }), 'field:to');
+  const replacement = screen.getByRole('textbox', { name: 'Proposed replacement' });
+  await userEvent.clear(replacement);await userEvent.type(replacement, 'Submitted replacement.');
+  await userEvent.click(screen.getByRole('button', { name: 'Add suggestion' }));
+  await waitFor(() => expect(input.onCreate).toHaveBeenCalledOnce());
+  expect(screen.getByRole('combobox', { name: 'Suggestion target' })).toBeDisabled();expect(replacement).toBeDisabled();
+  await userEvent.selectOptions(screen.getByRole('combobox', { name: 'Suggestion target' }), 'paragraph:paragraph-one');
+  await userEvent.type(replacement, 'Unsubmitted input');
+  expect(replacement).toHaveValue('Submitted replacement.');
+  view.unmount();const focus = vi.spyOn(HTMLElement.prototype, 'focus');
+  try { await act(async () => finish(true));expect(focus).not.toHaveBeenCalled(); }
+  finally { focus.mockRestore(); }
 });
