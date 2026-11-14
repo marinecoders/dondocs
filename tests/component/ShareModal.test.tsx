@@ -31,7 +31,7 @@ vi.mock('@/lib/shareCrypto', () => ({
   buildShareUrl: vi.fn((p: string) => `https://dondocs.app/#s=${p}`),
   parseShareUrl: vi.fn((s: string) => (s.includes('#s=') ? s.split('#s=')[1] : null)),
 }));
-vi.mock('@/stores/documentsStore', () => ({ openSessionAsNew: vi.fn(() => 'applied'), hasPendingReviewWrites: vi.fn(() => false), flushPendingReviewWrites: vi.fn(async () => {}) }));
+vi.mock('@/stores/documentsStore', () => ({ openSessionAsNew: vi.fn(() => 'applied'), captureDocumentScope: vi.fn(() => ({ documentId: 'example-draft', epoch: 1 })), hasPendingReviewWrites: vi.fn(() => false), flushPendingReviewWrites: vi.fn(async () => {}) }));
 vi.mock('@/stores/documentStore', () => ({
   getSerializedSessionForShare: vi.fn(() => ({ docType: 'naval_letter', formData: {}, paragraphs: [], copyTos: [], references: [] })),
   loadSharedSession: vi.fn(),
@@ -60,6 +60,28 @@ function stubClipboard() {
 }
 
 describe('ShareModal — share mode', () => {
+  it('keeps a blocked share capture in the dialog and retries after feedback saves', async () => {
+    const user = userEvent.setup();stubClipboard();
+    vi.mocked(getSerializedSessionForShare).mockImplementationOnce(() => { throw new Error('Review feedback is not saved yet.'); });
+    vi.mocked(hasPendingReviewWrites).mockReturnValue(true);
+    render(<ShareModal open mode="share" onOpenChange={() => {}} />);
+    expect(screen.getByRole('dialog')).toBeVisible();
+    expect(screen.getByRole('alert')).toHaveTextContent('Review feedback is not saved yet.');
+    await user.type(screen.getByLabelText('Password for this link'), 'password');
+    expect(screen.getByRole('button', { name: 'Generate link' })).toBeDisabled();
+    await user.click(screen.getByRole('button', { name: 'Retry preparing document' }));
+    expect(flushPendingReviewWrites).toHaveBeenCalledOnce();
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Generate link' })).toBeEnabled();
+    expect(encryptSharePayload).not.toHaveBeenCalled();
+  });
+  it('does not project the active draft when opening an import dialog', () => {
+    vi.mocked(getSerializedSessionForShare).mockImplementation(() => { throw new Error('Review feedback is not saved yet.'); });
+    render(<ShareModal open mode="import" onOpenChange={() => {}} />);
+    expect(screen.getByRole('dialog')).toBeVisible();
+    expect(getSerializedSessionForShare).not.toHaveBeenCalled();
+  });
+
   it('waits for pending review receipts before creating a portable encrypted copy', async () => {
     const user = userEvent.setup();stubClipboard();
     let finish!: () => void;

@@ -10,7 +10,7 @@ import { createBlankSession, useDocumentStore } from '@/stores/documentStore';
 import { useDocumentsStore } from '@/stores/documentsStore';
 import { detectTextPII } from '@/services/pii/detector';
 
-vi.mock('@/lib/reviewRounds', async actual => ({ ...await actual<typeof import('@/lib/reviewRounds')>(), listReviewRounds: vi.fn() }));
+vi.mock('@/lib/reviewRounds', async actual => ({ ...await actual<typeof import('@/lib/reviewRounds')>(), listReviewRounds: vi.fn(), readReviewCopyLink: vi.fn(async () => null) }));
 vi.mock('@/lib/reviewRoundActions', async actual => ({ ...await actual<typeof import('@/lib/reviewRoundActions')>(),
   initialReviewLabel: () => 'Current letter', buildReviewCopy: vi.fn(), prepareReviewCopyExport: vi.fn(), downloadReviewCopy: vi.fn() }));
 vi.mock('@/config/classification', () => ({ getExportDeploymentPolicy: vi.fn() }));

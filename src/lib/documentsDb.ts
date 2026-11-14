@@ -37,6 +37,54 @@ export async function idbReadReviewReturns(): Promise<unknown[]> {
     store.getAll(IDBKeyRange.bound('review-return:', 'review-return:\uffff')))).map(record => record.value);
 }
 
+/** Read receipts and their saved owners at one database revision for workspace backup. */
+export async function idbReadReviewReturnBackup(): Promise<{ receipts: unknown[]; documents: StoredDocument[] }> {
+  const db = await openDb();
+  return new Promise((resolve, reject) => {
+    const transaction = db.transaction([APP_STORE, DOCS_STORE], 'readonly');
+    const receipts = transaction.objectStore(APP_STORE).getAll(IDBKeyRange.bound('review-return:', 'review-return:\uffff'));
+    const documents = transaction.objectStore(DOCS_STORE).getAll();
+    transaction.oncomplete = () => resolve({ receipts: receipts.result.map(record => record.value), documents: documents.result });
+    transaction.onerror = () => reject(transaction.error ?? new Error('Review receipts could not be read.'));
+    transaction.onabort = () => reject(transaction.error ?? new Error('Review receipt capture aborted.'));
+  });
+}
+
+/** Restore acknowledgements only beside the exact saved discussion revision in this backup. */
+export async function idbRestoreReviewReturns(receipts: ReviewReturnReceipt[], expected: StoredDocument[]): Promise<boolean> {
+  if (!receipts.length) return true;
+  try {
+    const owned = structuredClone(receipts), snapshots = structuredClone(expected);
+    const db = await openDb();
+    return await new Promise<boolean>((resolve, reject) => {
+      const transaction = db.transaction([APP_STORE, DOCS_STORE], 'readwrite');
+      const app = transaction.objectStore(APP_STORE), documents = transaction.objectStore(DOCS_STORE);
+      const prior = owned.map(receipt => app.get(reviewReturnKey(receipt.roundId, receipt.returnId)));
+      const rounds = owned.map(receipt => app.get(reviewRoundKey(receipt.roundId)));
+      const owners = owned.map(receipt => documents.get(receipt.documentId));
+      const requests = [...prior, ...rounds, ...owners];let remaining = requests.length, restored = false;
+      const ready = () => {
+        if (--remaining) return;
+        if (owned.some((receipt, index) => {
+          const round = rounds[index].result?.value as ReviewRound | undefined;
+          const current = owners[index].result as StoredDocument | undefined;
+          const snapshot = snapshots.find(document => document.id === receipt.documentId);
+          return !round || round.ownerDocumentId !== receipt.documentId || round.baselineDigest !== receipt.baselineDigest
+            || !current || !snapshot || current.meta.updatedAt !== snapshot.meta.updatedAt
+            || !sameReviewStoredValue(current.session.reviewComments, snapshot.session.reviewComments)
+            || prior[index].result && !sameReviewStoredValue(prior[index].result.value, receipt);
+        })) return;
+        owned.forEach((receipt, index) => { if (!prior[index].result) app.put({ key: reviewReturnKey(receipt.roundId, receipt.returnId), value: receipt }); });
+        restored = true;
+      };
+      requests.forEach(request => { request.onsuccess = ready; });
+      transaction.oncomplete = () => resolve(restored);
+      transaction.onerror = () => reject(transaction.error ?? new Error('Review receipt recovery failed.'));
+      transaction.onabort = () => reject(transaction.error ?? new Error('Review receipt recovery aborted.'));
+    });
+  } catch { return false; }
+}
+
 /** Review pins live beside History and are not pruned with its ten-entry ring. */
 export async function idbReadReviewRound(id: string): Promise<unknown | null> {
   return (await run<{ value: unknown } | undefined>(APP_STORE, 'readonly', store => store.get(reviewRoundKey(id))))?.value ?? null;
