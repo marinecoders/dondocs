@@ -14,7 +14,7 @@ async function comments(page: Page) {
   await page.getByRole('button', { name: /^Comments(?: \(\d+\))?$/ }).click();return page.getByRole('dialog', { name: 'Document comments', exact: true });
 }
 async function download(page: Page, button: () => Promise<unknown>) {
-  const pending = page.waitForEvent('download');await button();return readFile((await (await pending).path())!);
+  const pending = page.waitForEvent('download', { timeout: 30_000 });await button();return readFile((await (await pending).path())!);
 }
 async function exported(page: Page) { return JSON.parse((await download(page, () => actions(page, 'Export draft (.json)'))).toString('utf8')); }
 for (const theme of ['light', 'dark', 'classic']) {
@@ -37,6 +37,7 @@ for (const theme of ['light', 'dark', 'classic']) {
     await modal.getByRole('button', { name: 'Start review from current draft', exact: true }).click();
     await expect(modal.getByText('Review baseline saved. Later source edits will not change this copy.', { exact: true })).toBeVisible();
     await modal.getByRole('button', { name: 'Prepare reviewer copy', exact: true }).click();
+    await expect(modal.getByRole('heading', { name: 'Check this reviewer copy before downloading', exact: true })).toBeVisible();
     const reviewerFile = await download(page, () => modal.getByRole('button', { name: 'Download reviewer copy', exact: true }).click());await page.keyboard.press('Escape');
     const reviewerContext = await browser.newContext({ viewport: page.viewportSize()!, serviceWorkers: 'block', isMobile: !!info.project.use.isMobile, hasTouch: !!info.project.use.hasTouch });
     try {
