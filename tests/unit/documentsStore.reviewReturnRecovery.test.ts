@@ -77,6 +77,7 @@ describe('workspace recovery of review-return writes', () => {
     await openRecoveredCopies();
     const retained = sessionStorage.getItem(REVIEW_WRITE_RECOVERY_KEY)!;
     expect(retained).toContain(secondId);expect(retained).not.toContain(operation.receipt.returnId);
+    await expect(exportLibrary()).rejects.toThrow(/reload this tab/);
     expect((await record()).session.formData.subject).toBe('Foreign first owner');
     vi.resetModules();const fresh = await import('@/stores/documentsStore');await fresh.useDocumentsStore.getState().init();
     expect((await record(secondId)).session.formData.subject).toBe('Second owner latest edits');
@@ -90,6 +91,7 @@ describe('workspace recovery of review-return writes', () => {
     await useDocumentsStore.getState().init();expect(useDocumentsStore.getState().recoveryCount).toBe(1);
     await openRecoveredCopies();
     expect(sessionStorage.getItem(REVIEW_WRITE_RECOVERY_KEY)).toBe(JSON.stringify(raw));expect(hasPendingReviewWrites()).toBe(true);
+    await expect(exportLibrary()).rejects.toThrow(/newer compatible version/);
     vi.resetModules();const fresh = await import('@/stores/documentsStore');await fresh.useDocumentsStore.getState().init();
     expect(sessionStorage.getItem(REVIEW_WRITE_RECOVERY_KEY)).toBe(JSON.stringify(raw));expect(fresh.hasPendingReviewWrites()).toBe(true);
     expect(await idbReadReviewReturn(operation.round.id, operation.receipt.returnId)).toBeNull();
