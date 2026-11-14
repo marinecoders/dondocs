@@ -1,11 +1,13 @@
 import 'fake-indexeddb/auto';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { createBlankSession, useDocumentStore } from '@/stores/documentStore';
-import { useDocumentsStore, commitCurrentDocument, flushDocumentWrites, hasPendingReviewWrites, exportLibrary, openRecoveredCopies } from '@/stores/documentsStore';
+import { useDocumentsStore, applyOwnedReviewSuggestions, captureDocumentTarget, commitCurrentDocument, flushDocumentWrites, hasPendingReviewWrites, exportLibrary, openRecoveredCopies } from '@/stores/documentsStore';
 import { idbAddReviewRound, idbGetAllDocuments, idbPutDocument, idbReadReviewReturn, idbSetCurrentId, type StoredDocument } from '@/lib/documentsDb';
 import { serializeDocumentWriteJournal, WRITE_JOURNAL_KEY, type PendingDocumentWrite } from '@/lib/documentWrites';
 import { REVIEW_WRITE_RECOVERY_KEY } from '@/lib/reviewReturnRecovery';
 import { readReviewCopyLink, type ReviewRound } from '@/lib/reviewRounds';
+import { createReviewSuggestion, emptyReviewSuggestionState, appendReviewSuggestions } from '@/lib/reviewSuggestions';
+import type { ReviewSuggestionWrite } from '@/lib/reviewSuggestionWrites';
 import type { ReviewReturnWrite } from '@/lib/reviewReturns';
 
 let before: StoredDocument, latest: StoredDocument, operation: ReviewReturnWrite, pending: PendingDocumentWrite;
@@ -34,6 +36,25 @@ afterEach(async () => {
 const record = async (id = before.id) => (await idbGetAllDocuments())!.find(item => item.id === id)!;
 
 describe('workspace recovery of review-return writes', () => {
+  it.each(['known foreign', 'unknown future'] as const)('scopes %s quarantined intent when proposing in another owned review', async kind => {
+    await useDocumentsStore.getState().init();
+    useDocumentsStore.getState().newDocument();useDocumentStore.getState().setField('subject', 'Unrelated reviewed draft');
+    await commitCurrentDocument();
+    const documentId = useDocumentsStore.getState().currentId!, session = structuredClone(useDocumentsStore.getState().docs[documentId].session);
+    const round: ReviewRound = { kind: 'dondocs-review-round', version: 1, id: `review_${crypto.randomUUID()}`, createdAt: session.timestamp,
+      label: 'Unrelated review', sourceDocumentId: documentId, ownerDocumentId: documentId, baselineDigest: 'c'.repeat(64), baseline: { ts: session.timestamp, session } };
+    await idbAddReviewRound(round);
+    const proposal = createReviewSuggestion(round, { author: 'Reviewer', label: 'Subject', changes: [{ target: { kind: 'field', field: 'subject', docType: 'naval_letter' }, proposed: 'Proposed subject' }] });
+    const intent: ReviewSuggestionWrite = { kind: 'suggestion-write', version: 1, id: `suggestion-write_${crypto.randomUUID()}`, documentId, createdAt: Date.now(),
+      round: { id: round.id, baselineDigest: round.baselineDigest }, before: null,
+      after: appendReviewSuggestions(round, emptyReviewSuggestionState(round), [proposal]), intent: { kind: 'propose', proposals: [proposal] } };
+    const entries = JSON.parse(serializeDocumentWriteJournal([pending]));if (kind === 'unknown future') entries[0].version = 99;
+    const retained = JSON.stringify(entries);sessionStorage.setItem(REVIEW_WRITE_RECOVERY_KEY, retained);
+    if (kind === 'known foreign') expect(await applyOwnedReviewSuggestions(captureDocumentTarget(), intent)).toBe('committed');
+    else await expect(applyOwnedReviewSuggestions(captureDocumentTarget(), intent)).rejects.toThrow(/reload this tab.*newer compatible version/);
+    expect(sessionStorage.getItem(REVIEW_WRITE_RECOVERY_KEY)).toBe(retained);
+    expect(useDocumentStore.getState().formData.subject).toBe('Unrelated reviewed draft');
+  });
   it('recovers feedback, receipt and later body edits before reopening the source', async () => {
     sessionStorage.setItem(WRITE_JOURNAL_KEY, serializeDocumentWriteJournal([pending]));
     await useDocumentsStore.getState().init();

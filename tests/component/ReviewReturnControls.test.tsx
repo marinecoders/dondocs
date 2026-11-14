@@ -13,7 +13,7 @@ vi.mock('@/lib/reviewReturnActions', () => ({ applyReviewReturn: vi.fn(), downlo
 vi.mock('@/stores/documentsStore', () => ({ useDocumentsStore: (select: (state: { currentId: string }) => unknown) => select({ currentId: 'owner' }), flushPendingReviewWrites: vi.fn() }));
 const message = { id: 'message', author: 'Example reviewer', text: 'Complete returned feedback', createdAt: '2026-11-13T00:00:00Z' };
 const comments = { version: 1 as const, threads: [{ id: 'thread', anchor: { kind: 'document' as const }, resolved: false, messages: [message] }] };
-const safety = { marking: 'UNCLASSIFIED', customMarkings: [], notices: [], privacy: detectTextPII([]) };
+const safety = { proposals: [], marking: 'UNCLASSIFIED', customMarkings: [], notices: [], privacy: detectTextPII([]) };
 const conflict = { id: 'message:thread:message', kind: 'message' as const, threadId: 'thread', messageId: 'message', baseline: message,
   current: { ...message, text: 'Newer local correction' }, returned: { ...message, text: 'Returned correction' } };
 const plan = { status: 'conflict' as const, comments, conflicts: [conflict], addedThreads: 0, changedThreads: 1, removedThreads: 0 };
