@@ -17,8 +17,16 @@ async function reviews(page: Page) {
 }
 async function workspace(page: Page, name?: string) {
   const trigger = page.getByRole('button', { name: 'Open workspace', exact: true });
-  if (page.viewportSize()!.width < 768 && !await page.getByRole('dialog', { name: 'Documents', exact: true }).isVisible()) await trigger.click();
-  if (name) await page.getByRole('button', { name, exact: true }).click();
+  const drawer = page.getByRole('dialog', { name: 'Documents', exact: true });
+  if (await drawer.isVisible()) {
+    if (name) await drawer.getByRole('button', { name, exact: true }).click();
+    return;
+  }
+  if (name) {
+    // Use whichever navigation the app renders, including tablets and reloads.
+    await trigger.or(page.getByRole('button', { name, exact: true })).first().click();
+    if (await drawer.isVisible()) await drawer.getByRole('button', { name, exact: true }).click();
+  } else if (await trigger.isVisible()) await trigger.click();
 }
 async function downloadCopy(page: Page) {
   const modal = page.getByRole('dialog', { name: 'Review rounds', exact: true });
