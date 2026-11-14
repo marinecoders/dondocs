@@ -35,7 +35,7 @@ export function ChangeReportDownload({ before, after, capturedAt, ownsDocument }
     if (!report) return;
     try {
       if (!ownsDocument()) throw new Error('The active document changed. Reopen History before downloading a report.');
-      downloadChangeReport(report);setReport(null);setDownloaded(true);
+      downloadChangeReport(report);setError(null);setReport(null);setDownloaded(true);
     } catch (cause) { setError(cause instanceof Error ? cause.message : 'The report download failed. Try again.'); }
   }
 
