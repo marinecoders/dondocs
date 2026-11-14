@@ -1,3 +1,5 @@
+import { reviewSuggestionRecordSchema, reviewSuggestionReceiptSchema, type ReviewSuggestionRecord, type ReviewSuggestionReceipt } from './reviewSuggestionWrites';
+import { validateReviewSuggestionState } from './reviewSuggestions';
 import { reviewReturnReceiptSchema, type ReviewReturnReceipt } from './reviewReturns';
 import { hasReviewComments } from './reviewComments';
 import { resolveSignature } from './signatureAssets';
@@ -40,6 +42,7 @@ import {
   idbReadReviewCopies,
   idbReadReviewReturnBackup,
   idbRestoreReviewReturns,
+  idbRestoreReviewSuggestions,
   sameReviewStoredValue,
   type StoredDocument,
   idbRestoreReviewRecords,
@@ -49,6 +52,7 @@ import {
 import { uint8ArrayToBase64, base64ToUint8Array, arrayBufferToUint8Array } from '@/lib/encoding';
 
 export const BACKUP_KIND = 'dondocs-backup';
+// v9 retains suggested replacements and their decisions outside clean drafts.
 // v8 preserves imported-return receipts with their exact saved discussions.
 // v7 retains review pins and copied-document links. Ordinary comment-bearing
 // copies remain v6, which protects them from older readers; no-comment exports retain v5.
@@ -56,7 +60,7 @@ export const BACKUP_KIND = 'dondocs-backup';
 // (per-document version history). v3 added `attachments`. Restore branches on
 // `kind` and on field PRESENCE, not version, so an older bundle (missing any of
 // these fields) still restores cleanly.
-export const BACKUP_VERSION = 8;
+export const BACKUP_VERSION = 9;
 const LIBRARY_KIND = 'dondocs-library'; // legacy docs-only file
 
 /** An enclosure blob embedded in the bundle; `data` is base64 of the raw bytes. */
@@ -85,6 +89,8 @@ export interface BackupBundle {
   reviewRounds?: ReviewRound[];
   reviewCopies?: ReviewCopyLink[];
   reviewReturns?: ReviewReturnReceipt[];
+  reviewSuggestions?: ReviewSuggestionRecord[];
+  reviewSuggestionWrites?: ReviewSuggestionReceipt[];
 }
 
 export interface RestoreResult {
@@ -287,6 +293,18 @@ async function serializeBackup(): Promise<string> {
     }
   }
   const reviewRounds = await listReviewRounds();
+  const reviewSuggestions = receiptCapture.suggestions.map(value => reviewSuggestionRecordSchema.parse(value));
+  const reviewSuggestionWrites = receiptCapture.suggestionReceipts.map(value => reviewSuggestionReceiptSchema.parse(value));
+  for (const record of reviewSuggestions) {
+    const round = reviewRounds.find(round => round.id === record.state.roundId);
+    if (!round) throw new Error('Suggested edits have no intact review baseline. The backup was not created.');
+    validateReviewSuggestionState(round, record.state);
+    const saved = receiptCapture.documents.find(document => document.id === record.documentId);
+    const captured = (docs as StoredDocument[]).find(document => document.id === record.documentId);
+    if (!!saved !== !!captured || saved && !sameReviewStoredValue(saved, captured)) throw new Error('Suggested edits changed while preparing this backup. Save and retry.');
+  }
+  if (reviewSuggestionWrites.some(receipt => !reviewSuggestions.some(record => record.documentId === receipt.documentId
+    && record.state.roundId === receipt.roundId && record.state.baselineDigest === receipt.baselineDigest))) throw new Error('A suggestion receipt has no intact saved review history.');
   if (reviewReturns.some(receipt => !reviewRounds.some(round => round.id === receipt.roundId
     && round.baselineDigest === receipt.baselineDigest && round.ownerDocumentId === receipt.documentId))) {
     throw new Error('An imported review return has no intact owning baseline. The backup was not created.');
@@ -329,8 +347,9 @@ async function serializeBackup(): Promise<string> {
       || Object.values(snapshots).some(ring => ring.some(snapshot => hasReviewComments(snapshot.session)))
       || Object.values(captured.userTemplates).some(template => hasReviewComments(template.session));
     const withReviews = reviewRounds.length > 0 || reviewCopies.length > 0 || docs.some(doc => (doc as { meta: { nativeReviewText?: boolean } }).meta.nativeReviewText === true);
-    const bundle: BackupBundle = { ...captured, version: reviewReturns.length ? BACKUP_VERSION : withReviews ? 7 : withComments ? 6 : 5, documents: docs, snapshots, attachments,
-      ...(withReviews ? { reviewRounds, reviewCopies } : {}), ...(reviewReturns.length ? { reviewReturns } : {}) };
+    const bundle: BackupBundle = { ...captured, version: reviewSuggestions.length || reviewSuggestionWrites.length ? BACKUP_VERSION : reviewReturns.length ? 8 : withReviews ? 7 : withComments ? 6 : 5, documents: docs, snapshots, attachments,
+      ...(withReviews ? { reviewRounds, reviewCopies } : {}), ...(reviewReturns.length ? { reviewReturns } : {}),
+      ...(reviewSuggestions.length || reviewSuggestionWrites.length ? { reviewSuggestions, reviewSuggestionWrites } : {}) };
     return JSON.stringify(bundle);
   });
 }
@@ -383,15 +402,15 @@ async function runRestore(json: string, canReplaceForms: () => boolean): Promise
 
   if (kind === LIBRARY_KIND) parsed.documents = parsed.docs;
   validateBackup(parsed);
-  if ((parsed.reviewRounds !== undefined || parsed.reviewCopies !== undefined) && (kind !== BACKUP_KIND || ![7, 8].includes(parsed.version as number))) {
-    throw new Error('Review records require a version 7 or 8 workspace backup.');
+  if ((parsed.reviewRounds !== undefined || parsed.reviewCopies !== undefined) && (kind !== BACKUP_KIND || ![7, 8, 9].includes(parsed.version as number))) {
+    throw new Error('Review records require a version 7, 8 or 9 workspace backup.');
   }
   if (parsed.reviewRounds !== undefined && !Array.isArray(parsed.reviewRounds)
     || parsed.reviewCopies !== undefined && !Array.isArray(parsed.reviewCopies)) throw new Error('Invalid review recovery records');
   const reviewRounds = ((parsed.reviewRounds ?? []) as unknown[]).map(parseReviewRound);
   const reviewCopies = ((parsed.reviewCopies ?? []) as unknown[]).map(value => reviewCopyLinkSchema.parse(value));
-  if (parsed.reviewReturns !== undefined && (kind !== BACKUP_KIND || parsed.version !== 8 || !Array.isArray(parsed.reviewReturns))) {
-    throw new Error('Review return receipts require a version 8 workspace backup.');
+  if (parsed.reviewReturns !== undefined && (kind !== BACKUP_KIND || ![8, 9].includes(parsed.version as number) || !Array.isArray(parsed.reviewReturns))) {
+    throw new Error('Review return receipts require a version 8 or 9 workspace backup.');
   }
   const reviewReturns = ((parsed.reviewReturns ?? []) as unknown[]).map(value => reviewReturnReceiptSchema.parse(value));
   if (new Set(reviewReturns.map(receipt => `${receipt.roundId}:${receipt.returnId}`)).size !== reviewReturns.length
@@ -399,6 +418,19 @@ async function runRestore(json: string, canReplaceForms: () => boolean): Promise
       && round.baselineDigest === receipt.baselineDigest && round.ownerDocumentId === receipt.documentId))) {
     throw new Error('Invalid or duplicate review return receipt');
   }
+  if ((parsed.reviewSuggestions !== undefined || parsed.reviewSuggestionWrites !== undefined)
+    && (kind !== BACKUP_KIND || parsed.version !== 9 || !Array.isArray(parsed.reviewSuggestions) || !Array.isArray(parsed.reviewSuggestionWrites))) throw new Error('Suggested edits require a version 9 workspace backup.');
+  const reviewSuggestions = ((parsed.reviewSuggestions ?? []) as unknown[]).map(value => reviewSuggestionRecordSchema.parse(value));
+  const reviewSuggestionWrites = ((parsed.reviewSuggestionWrites ?? []) as unknown[]).map(value => reviewSuggestionReceiptSchema.parse(value));
+  if (new Set(reviewSuggestions.map(record => `${record.documentId}:${record.state.roundId}`)).size !== reviewSuggestions.length
+    || new Set(reviewSuggestionWrites.map(receipt => receipt.writeId)).size !== reviewSuggestionWrites.length) throw new Error('Duplicate suggested edit recovery identity.');
+  for (const record of reviewSuggestions) {
+    const round = reviewRounds.find(round => round.id === record.state.roundId);
+    if (!round) throw new Error('Suggested edits have no matching review baseline.');
+    validateReviewSuggestionState(round, record.state);
+  }
+  if (reviewSuggestionWrites.some(receipt => !reviewSuggestions.some(record => record.documentId === receipt.documentId
+    && record.state.roundId === receipt.roundId && record.state.baselineDigest === receipt.baselineDigest))) throw new Error('Invalid suggested edit receipt association.');
   const reviewIds = new Set(reviewRounds.map(round => round.id));
   if (reviewIds.size !== reviewRounds.length || new Set(reviewCopies.map(copy => copy.documentId)).size !== reviewCopies.length
     || reviewCopies.some(copy => !reviewRounds.some(round => round.id === copy.roundId && round.baselineDigest === copy.baselineDigest))) {
@@ -606,6 +638,10 @@ async function runRestore(json: string, canReplaceForms: () => boolean): Promise
   if (reviewReturns.length && (reviewRoundsRestored === undefined
     || !await idbRestoreReviewReturns(reviewReturns, incomingDocuments as StoredDocument[]))) {
     issues.push('Review return receipts were not restored because their owning review or saved discussion revision differs. Keep the backup file.');
+  }
+  if ((reviewSuggestions.length || reviewSuggestionWrites.length) && (reviewRoundsRestored === undefined
+    || !await idbRestoreReviewSuggestions(reviewSuggestions, reviewSuggestionWrites, incomingDocuments as StoredDocument[]))) {
+    issues.push('Suggested edits and decisions were not restored because their review, source revision or local history differs. Keep the backup file.');
   }
   return { documents, profilesAdded, snippetsAdded, templatesAdded, formsRestored, attachmentsAdded, snapshotDocs, routingRulesAdded,
     ...(reviewRoundsRestored !== undefined ? { reviewRoundsRestored } : {}), ...(issues.length ? { issues } : {}) };

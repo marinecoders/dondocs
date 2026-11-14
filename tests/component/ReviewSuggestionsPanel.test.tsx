@@ -10,8 +10,8 @@ function props() {
   const current = getSerializedSession();current.documentCategory = 'correspondence';current.docType = 'naval_letter';
   current.formData.to = 'Original recipient';current.paragraphs = [{ id: 'paragraph-one', text: 'Original body.', level: 0 }];
   const round: ReviewRound = { kind: 'dondocs-review-round', version: 1, id: `review_${crypto.randomUUID()}`,
-    createdAt: 1, label: 'Example', sourceDocumentId: 'source', ownerDocumentId: 'source', baselineDigest: 'a'.repeat(64),
-    baseline: { ts: 1, session: structuredClone(current) } };
+    createdAt: current.timestamp, label: 'Example', sourceDocumentId: 'source', ownerDocumentId: 'source', baselineDigest: 'a'.repeat(64),
+    baseline: { ts: current.timestamp, session: structuredClone(current) } };
   return { round, current, state: emptyReviewSuggestionState(round), owner: true, busy: false,
     onCreate: vi.fn().mockResolvedValue(true), onDecide: vi.fn().mockResolvedValue(true) };
 }

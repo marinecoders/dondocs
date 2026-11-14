@@ -1,6 +1,7 @@
 import { z } from 'zod';
 import { reviewCommentsSchema, type ReviewComments } from './reviewComments';
 import { canonicalReviewPayload, reviewDigestSchema, reviewPayloadDigest, reviewRoundIdSchema } from './reviewRounds';
+import { reviewSuggestionSchema } from './reviewSuggestions';
 import { idbReadReviewReturn, idbReadReviewReturns } from './documentsDb';
 
 export const REVIEW_RETURN_KIND = 'dondocs-review-return';
@@ -9,12 +10,14 @@ export const reviewReturnIdSchema = z.string().regex(/^return_[0-9a-f]{8}-[0-9a-
 const timestamp = z.number().int().nonnegative().max(8_640_000_000_000_000);
 
 /** A return deliberately has no document body, fields, attachment handles or owner ID. */
-export const reviewReturnSchema = z.object({
+const commentReturnSchema = z.object({
   kind: z.literal(REVIEW_RETURN_KIND), version: z.literal(1),
   id: reviewReturnIdSchema, roundId: reviewRoundIdSchema, baselineDigest: reviewDigestSchema,
   createdAt: timestamp, comments: reviewCommentsSchema.optional(),
   handling: z.object({ marking: z.string().min(1).max(200), customMarkings: z.array(z.string().min(1).max(1_000)).max(100) }).strict(),
 }).strict();
+const suggestionReturnSchema = commentReturnSchema.extend({ version: z.literal(2), proposals: z.array(reviewSuggestionSchema).min(1).max(100) }).strict();
+export const reviewReturnSchema = z.discriminatedUnion('version', [commentReturnSchema, suggestionReturnSchema]);
 export type ReviewReturn = z.infer<typeof reviewReturnSchema>;
 
 export const reviewReturnReceiptSchema = z.object({
@@ -48,6 +51,12 @@ export function parseReviewReturn(value: unknown): ReviewReturn {
 export function createReviewReturn(roundId: string, baselineDigest: string, comments: ReviewComments | undefined, handling: ReviewReturn['handling']): ReviewReturn {
   return parseReviewReturn({ kind: REVIEW_RETURN_KIND, version: 1, id: `return_${crypto.randomUUID()}`,
     roundId, baselineDigest, createdAt: Date.now(), handling, ...(comments?.threads.length ? { comments } : {}) });
+}
+
+export function createSuggestionReviewReturn(roundId: string, baselineDigest: string, comments: ReviewComments | undefined,
+  proposals: z.infer<typeof reviewSuggestionSchema>[], handling: ReviewReturn['handling']): ReviewReturn {
+  return parseReviewReturn({ kind: REVIEW_RETURN_KIND, version: 2, id: `return_${crypto.randomUUID()}`,
+    roundId, baselineDigest, createdAt: Date.now(), handling, proposals, ...(comments?.threads.length ? { comments } : {}) });
 }
 
 export async function reviewReturnDigest(value: ReviewReturn): Promise<string> {

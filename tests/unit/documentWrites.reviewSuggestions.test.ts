@@ -7,7 +7,7 @@ import { createReviewSuggestion, emptyReviewSuggestionState } from '@/lib/review
 import type { ReviewRound } from '@/lib/reviewRounds';
 
 function fixture() {
-  const session = createBlankSession();session.formData.subject = 'Original';
+  const session = createBlankSession();session.timestamp = 1;session.formData.subject = 'Original';
   const document: StoredDocument = { id: 'owner', meta: { id: 'owner', title: 'Draft', docType: 'naval_letter', updatedAt: 1 }, session };
   const round: ReviewRound = { kind: 'dondocs-review-round', version: 1, id: `review_${crypto.randomUUID()}`, createdAt: 1,
     label: 'Review', sourceDocumentId: 'owner', ownerDocumentId: 'owner', baselineDigest: 'a'.repeat(64), baseline: { ts: 1, session } };

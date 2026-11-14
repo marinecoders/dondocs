@@ -10,7 +10,7 @@ import { createReviewSuggestion, emptyReviewSuggestionState, planReviewSuggestio
 import type { ReviewSuggestionWrite } from '@/lib/reviewSuggestionWrites';
 
 async function fixture() {
-  const id = crypto.randomUUID(), session = createBlankSession();session.formData.to = 'Original recipient';
+  const id = crypto.randomUUID(), session = createBlankSession();session.timestamp = 1;session.formData.to = 'Original recipient';
   const before: StoredDocument = { id, meta: { id, title: 'Draft', docType: 'naval_letter', updatedAt: 1 }, session };
   const round: ReviewRound = { kind: 'dondocs-review-round', version: 1, id: `review_${crypto.randomUUID()}`, createdAt: 1,
     label: 'Example', sourceDocumentId: id, ownerDocumentId: id, baselineDigest: 'a'.repeat(64), baseline: { ts: 1, session } };

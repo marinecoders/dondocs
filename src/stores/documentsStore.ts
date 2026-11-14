@@ -14,7 +14,7 @@ import { reviewReturnWriteSchema, type ReviewReturnWrite } from '@/lib/reviewRet
 import { supportsReviewComments } from '@/lib/reviewCommentTargets';
 import { readReviewRound, readReviewCopyLink } from '@/lib/reviewRounds';
 import { planReviewSuggestionWrite, reviewSuggestionWriteSchema, reviewSuggestionRecordSchema, type ReviewSuggestionWrite } from '@/lib/reviewSuggestionWrites';
-import { cacheReviewSuggestions, cachedReviewSuggestions, rebindReviewSuggestionHistory } from '@/lib/reviewSuggestionRuntime';
+import { cacheReviewSuggestions, cachedReviewSuggestions, rebindReviewSuggestionHistory, forgetReviewSuggestions } from '@/lib/reviewSuggestionRuntime';
 import { validateReviewSuggestionState, planReviewSuggestionHistory } from '@/lib/reviewSuggestions';
 import { serializeDocumentSnapshot } from '@/lib/documentSerialization';
 import { parseFormInstance, migrateLegacyAnswers, type FormInstance } from '@/services/forms/model';
@@ -47,6 +47,7 @@ import type { Profile } from '@/types/document';
 import {
   idbGetAllDocuments,
   idbReadReviewSuggestions,
+  idbDeleteReviewRound,
   sameReviewStoredValue,
   idbWriteDocument,
   idbDeleteDocumentIfUnchanged,
@@ -691,7 +692,7 @@ function metaFor(id: string, session: SerializedSession, prev?: DocumentMeta): D
 // Cross-tab sync channel (opened at the bottom of this module). Posting after a
 // registry write lets sibling tabs mirror it into their Recents list.
 let docsChannel: BroadcastChannel | null = null;
-function broadcastDocs(msg: { type: 'put' | 'delete'; id: string }): void {
+function broadcastDocs(msg: { type: 'put' | 'delete' | 'review-delete'; id: string }): void {
   try {
     docsChannel?.postMessage(msg);
   } catch {
@@ -814,7 +815,8 @@ function hasRetainedReviewWrites(documentId?: string): boolean {
     const raw = sessionStorage.getItem(REVIEW_WRITE_RECOVERY_KEY);
     if (!raw) return true;
     const records = parseDocumentWriteJournal(JSON.parse(raw));
-    return records.some(record => record.reviewReturns?.some(marker => marker.operation.round.ownerDocumentId === documentId));
+    return records.some(record => record.reviewReturns?.some(marker => (marker.operation.kind === 'suggestion-write'
+      ? marker.operation.documentId : marker.operation.round.ownerDocumentId) === documentId));
   } catch { return true; } // Unknown/newer intents cannot be safely assigned to another scope.
 }
 
@@ -878,9 +880,11 @@ function publishSuggestionText(before: SerializedSession, after: SerializedSessi
     paragraphsChanged = true;return { ...paragraph, text: next };
   });
   const referencesChanged = !sameReviewStoredValue(before.references, after.references);
-  if (fieldsChanged || paragraphsChanged || referencesChanged) useDocumentStore.setState({
+  const commentsChanged = !sameReviewStoredValue(before.reviewComments, after.reviewComments);
+  if (fieldsChanged || paragraphsChanged || referencesChanged || commentsChanged) useDocumentStore.setState({
     ...(fieldsChanged ? { formData } : {}), ...(paragraphsChanged ? { paragraphs } : {}),
     ...(referencesChanged ? { references: structuredClone(after.references) } : {}),
+    ...(commentsChanged ? { reviewComments: after.reviewComments && structuredClone(after.reviewComments) } : {}),
   });
 }
 
@@ -920,6 +924,15 @@ export async function applyOwnedReviewSuggestions(target: DocumentTarget | null,
   cacheReviewSuggestions(target.scope, round, operation.after);updateSaveStatus(after.id);
   await writes.flush(after.id);
   return writes.status(revision)?.status === 'committed' ? 'committed' : 'pending';
+}
+
+/** Explicit review cleanup drops only its metadata tags, keeping ordinary text Undo available. */
+export async function deleteReviewRound(roundId: string, expectedDigest: string): Promise<boolean> {
+  if (hasPendingReviewWrites()) await flushPendingReviewWrites();
+  if (!await idbDeleteReviewRound(roundId, expectedDigest)) return false;
+  forgetReviewSuggestions(roundId);useHistoryStore.getState().clearReviewRoundActions(roundId);
+  broadcastDocs({ type: 'review-delete', id: roundId });
+  return true;
 }
 
 function persistEntry(entry: DocumentEntry, before?: DocumentEntry): void {
@@ -1836,6 +1849,9 @@ if (typeof document !== 'undefined') {
 if (typeof window !== 'undefined' && typeof BroadcastChannel !== 'undefined') {
   docsChannel = new BroadcastChannel('dondocs-docs');
   docsChannel.onmessage = (event: MessageEvent<{ type?: string; id?: string }>) => {
+    if (event.data?.type === 'review-delete' && typeof event.data.id === 'string') {
+      forgetReviewSuggestions(event.data.id);useHistoryStore.getState().clearReviewRoundActions(event.data.id);return;
+    }
     void idbGetAllDocuments().then(async records => records && await materializeRegistrySignatures(records)).then((records) => {
       if (records !== null) reconcileDocuments(records, event.data?.type === 'delete' ? event.data.id : undefined);
     });

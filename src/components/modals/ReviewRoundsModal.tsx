@@ -5,7 +5,8 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { getExportDeploymentPolicy } from '@/config/classification';
 import { useDocumentStore } from '@/stores/documentStore';
-import { useDocumentsStore, captureDocumentTarget, hasPendingReviewWrites, flushPendingReviewWrites } from '@/stores/documentsStore';
+import { useDocumentsStore, captureDocumentTarget, hasPendingReviewWrites, flushPendingReviewWrites, deleteReviewRound } from '@/stores/documentsStore';
+import { ReviewSuggestionControls } from '@/components/ReviewSuggestionControls';
 import { ReviewReturnControls } from '@/components/ReviewReturnControls';
 import { supportsReviewComments } from '@/lib/reviewCommentTargets';
 import { listReviewRounds, MAX_REVIEW_COPY_BYTES, type ReviewRound } from '@/lib/reviewRounds';
@@ -13,7 +14,6 @@ import { buildReviewCopy, downloadReviewCopy, initialReviewLabel, openReviewCopy
   prepareReviewCopyExport, startReviewRound, type PreparedReviewCopy, type ReviewedReviewCopy } from '@/lib/reviewRoundActions';
 import { getPIITypeLabel } from '@/services/pii/detector';
 import { showAppConfirm } from '@/stores/alertStore';
-import { idbDeleteReviewRound } from '@/lib/documentsDb';
 import { sweepOrphanedAttachments } from '@/lib/attachmentGc';
 import { scheduleBackup } from '@/stores/backupStore';
 
@@ -30,8 +30,9 @@ function ReviewRoundsContent({ onClose }: { onClose: () => void }) {
   const [attempt, setAttempt] = useState(0);
   const [busy, setBusy] = useState(false);
   const [returnBusy, setReturnBusy] = useState(false);
+  const [suggestionBusy, setSuggestionBusy] = useState(false);
   const documentId = useDocumentsStore(state => state.currentId), epoch = useDocumentsStore(state => state.activationEpoch);
-  const working = busy || returnBusy;
+  const working = busy || returnBusy || suggestionBusy;
   const [error, setError] = useState('');
   const [notice, setNotice] = useState('');
   const [prepared, setPrepared] = useState<PreparedReviewCopy | null>(null);
@@ -79,11 +80,11 @@ function ReviewRoundsContent({ onClose }: { onClose: () => void }) {
 
   async function remove(round: ReviewRound) {
     if (!await showAppConfirm({ title: 'Delete this review baseline?',
-      message: 'This removes the saved baseline and its local reviewer links. Existing editable copies and downloaded files remain. Keep a reviewer file or workspace backup if you may need this baseline again.',
+      message: 'This removes the saved baseline, local reviewer links, suggested edits and review decision history. Existing editable copies and downloaded files remain. Keep a workspace backup if you need the review history again.',
       confirmLabel: 'Delete review baseline', destructive: true }) || !alive.current) return;
     await run(async () => {
       if (hasPendingReviewWrites()) await flushPendingReviewWrites();
-      if (!await idbDeleteReviewRound(round.id, round.baselineDigest)) throw new Error('The saved review could not be removed. Retry after checking browser storage.');
+      if (!await deleteReviewRound(round.id, round.baselineDigest)) throw new Error('The saved review could not be removed. Retry after checking browser storage.');
       scheduleBackup();
       await sweepOrphanedAttachments();
       if (alive.current) { setRounds(previous => previous.filter(pin => pin.id !== round.id));setPrepared(null);setIncoming(null);setNotice('Review baseline removed. Editable copies and downloaded files remain.'); }
@@ -165,7 +166,8 @@ function ReviewRoundsContent({ onClose }: { onClose: () => void }) {
             <Button variant="ghost" disabled={working} onClick={() => setIncoming(null)}>Cancel imported copy</Button>
           </div>}
         </section>
-        <ReviewReturnControls key={`${documentId}:${epoch}`} disabled={busy} onBusyChange={setReturnBusy} />
+        <ReviewSuggestionControls key={`suggestions:${documentId}:${epoch}`} rounds={rounds} disabled={busy || returnBusy} onBusyChange={setSuggestionBusy} />
+        <ReviewReturnControls key={`${documentId}:${epoch}`} disabled={busy || suggestionBusy} onBusyChange={setReturnBusy} />
         {busy && <p role="status" className="text-sm">Saving or checking review contents…</p>}
       </div>
     </DialogContent>
