@@ -8,8 +8,10 @@ See the [capability matrix](CAPABILITIES.md) for current format availability.
 - Custom business letters can add PNG/JPEG figures through the paragraph block menu. Their images and captions are retained in PDF and Word, including after a mode switch. Word images are limited to 10 MB and 40 megapixels each. Missing or unreadable images stop Word export; PDF figure attachments require conversion to PNG/JPEG for Word. Publication Word output remains unsupported.
 - PDF signing fields are not emitted into Word. Use Word's signing workflow separately.
 - Reference titles with valid URLs are clickable in Word. The hyperlink checkbox controls PDF links separately.
-- Uploaded enclosure PDF pages are not appended to Word. Transfer those files separately.
+- Uploaded enclosure PDF pages are not appended to Word. **Packages → Review Word package** delivers supported correspondence DOCXs with unchanged separate originals, a readable file list and SHA-256 manifest. Every listed enclosure must have its captured file; missing or corrupt content blocks complete delivery. Forms and publications retain their existing Word restrictions.
 - Word and PDF use different layout engines, so pagination and placement can differ.
+
+Word package ZIPs are limited to 512 payload files and 200 MB compressed/expanded size, with at most 25 MB per DOCX. Captured inputs also follow saved-package limits: 25 MB per original/native draft (including its embedded files), 75 MB of portable resources, 256 resources and 100 MB of serialized native input. Each Word image retains its separate 10 MB/40 megapixel limit. Labels retain Unicode in the manifest; generated archive names are bounded and safe to extract on common desktop filesystems. Individual PDF/DOCX downloads keep their existing clean output.
 
 Flat TeX downloads contain text and graphic references, not the image bytes. Supply the selected signature as `signature.png` and business figures as `figure-1.png`, `figure-2.jpg`, and so on beside the downloaded file. PDF rendering uses its own attachment paths; copying a PDF rendering directory alone does not assemble a complete flat-TeX project.
 
