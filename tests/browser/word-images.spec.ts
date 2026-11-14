@@ -7,8 +7,11 @@ import { docxImageFixture } from '../_helpers/docxImageFixture';
 test.use({ serviceWorkers: 'block' });
 test.setTimeout(120_000);
 
-test('custom business figures and signature images survive reload and embed in Word and PDF', async ({ page }, testInfo) => {
+for (const figureType of ['png', 'jpeg'] as const) {
+test(`custom business ${figureType} figures and signature images survive reload and embed in Word and PDF`, async ({ page }, testInfo) => {
   const images = await docxImageFixture();
+  const figureBytes = figureType === 'png' ? images.figure : images.jpeg;
+  const figureName = figureType === 'png' ? 'figure.png' : 'figure.jpg';
   await page.addInitScript(() => {
     localStorage.setItem('browser-test-visitor', 'returning');
     localStorage.setItem('dondocs_ui', JSON.stringify({ state: { theme: 'light', editorLayout: 'scroll' }, version: 1 }));
@@ -26,19 +29,28 @@ test('custom business figures and signature images survive reload and embed in W
     const bounds = menu.getBoundingClientRect(); return bounds.left >= 0 && bounds.right <= window.innerWidth;
   })).toBe(true);
   await page.getByRole('menuitemradio', { name: /Figure — an image/ }).click();
-  await page.getByLabel('Image for figure 2', { exact: true }).setInputFiles({ name: 'figure.png', mimeType: 'image/png', buffer: images.figure });
-  await expect(page.getByText('figure.png', { exact: true }).first()).toBeVisible();
+  await page.getByLabel('Image for figure 2', { exact: true }).setInputFiles({ name: figureName, mimeType: `image/${figureType}`, buffer: figureBytes });
+  await expect(page.getByText(figureName, { exact: true }).first()).toBeVisible();
   await page.getByRole('button', { name: 'Document tools', exact: true }).click();
   await page.getByRole('menuitem', { name: 'Formatting…', exact: true }).click();
   const formatting = page.getByRole('dialog', { name: 'Document formatting', exact: true });
   await formatting.getByRole('tab', { name: 'Compliant', exact: true }).click();
   await formatting.getByRole('button', { name: 'Done', exact: true }).click();
-  await expect(page.getByText('figure.png', { exact: true }).first()).toBeVisible();
+  await expect(page.getByText(figureName, { exact: true }).first()).toBeVisible();
   await page.screenshot({ path: testInfo.outputPath('business-figure-editor.png') });
   // Let the normal debounced workspace save complete before a fresh page.
   await page.waitForTimeout(1100);
   await page.reload();
-  await expect(page.getByText('figure.png', { exact: true }).first()).toBeVisible();
+  await expect(page.getByText(figureName, { exact: true }).first()).toBeVisible();
+  // JPEG uploads are re-encoded to apply orientation and remove camera tags.
+  // Compare Word against the persisted draft bytes, rather than the raw photo.
+  const savingDraft = page.waitForEvent('download');
+  await page.getByRole('button', { name: 'Document actions', exact: true }).click();
+  await page.getByRole('menuitem', { name: 'Export draft (.json)', exact: true }).click();
+  const savedDraft = JSON.parse(await readFile((await (await savingDraft).path())!, 'utf8'));
+  const savedFigure = Buffer.from(savedDraft.paragraphs[1].figure.data, 'base64');
+  expect(savedFigure.length).toBeGreaterThan(0);
+  if (figureType === 'png') expect(savedFigure.equals(figureBytes)).toBe(true);
   await page.getByRole('button', { name: 'Download', exact: true }).click();
   const pending = page.waitForEvent('download');
   await page.getByRole('menuitem', { name: 'Download Word (.docx)', exact: true }).click();
@@ -49,7 +61,7 @@ test('custom business figures and signature images survive reload and embed in W
   const zip = await JSZip.loadAsync(bytes);
   const media = await Promise.all(Object.values(zip.files).filter(file => file.name.startsWith('word/media/') && !file.dir).map(file => file.async('uint8array')));
   expect(media.some(bytes => Buffer.from(bytes).equals(images.signature))).toBe(true);
-  expect(media.some(bytes => Buffer.from(bytes).equals(images.figure))).toBe(true);
+  expect(media.some(bytes => Buffer.from(bytes).equals(savedFigure))).toBe(true);
   const xml = await zip.file('word/document.xml')!.async('string');
   expect(xml).toContain('descr="Handwritten signature image"');
   expect(xml).toContain('descr="Training layout"');
@@ -96,6 +108,7 @@ test('custom business figures and signature images survive reload and embed in W
   }
   await expectPdfImages(await readFile(testInfo.outputPath('word-images.pdf')));
 });
+}
 
 async function expectPdfImages(bytes: Uint8Array) {
   const pdf = await PDFDocument.load(bytes);

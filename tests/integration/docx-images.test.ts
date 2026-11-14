@@ -1,12 +1,16 @@
 import { describe, expect, it } from 'vitest';
 import { spawnSync } from 'node:child_process';
-import { mkdir, writeFile } from 'node:fs/promises';
+import { mkdir, mkdtemp, writeFile } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
 import JSZip from 'jszip';
+import sharp from 'sharp';
 import { prepareDocxImages } from '@/services/docx/imageAssets';
 import { generateAllLatexFiles } from '@/services/latex/generator';
 import { generateFlatLatex } from '@/services/latex/flat-generator';
 import { postProcessDocx } from '@/services/docx/pandoc-converter';
 import { renderDocx } from '../../companion/renderDocx';
+import { renderPdf } from '../../companion/render';
 import { toStore } from '../../companion/letterInput';
 import { docxImageFixture } from '../_helpers/docxImageFixture';
 import { compileGeneratedDocxFixture } from '../_helpers/compileDocx';
@@ -34,6 +38,31 @@ async function verify(bytes: Uint8Array, signature: Uint8Array, figure: Uint8Arr
 }
 
 describe.skipIf(!hasPandoc)('embedded Word images', () => {
+  it('rejects a header-only JPEG instead of producing a broken Word image', async () => {
+    const { jpeg } = await docxImageFixture();
+    const truncated = jpeg.subarray(0, jpeg.indexOf(Buffer.from([0xff, 0xda])));
+    await expect(renderDocx({ docType: 'business_letter', subject: 'TRUNCATED JPEG',
+      paragraphs: [{ text: 'Image', figure: { fileId: 'image' } }], attachments: [{ id: 'image', name: 'image.jpg',
+        mimeType: 'image/jpeg', dataBase64: truncated.toString('base64') }] })).rejects.toThrow(/JPEG/i);
+  });
+
+  it.skipIf(!hasPdfToolchain).each(['baseline', 'progressive', 'metadata'] as const)('renders a companion %s JPEG business figure from base64 buffers', async kind => {
+    const images = await docxImageFixture();
+    let image = sharp(images.figure);
+    if (kind === 'metadata') image = image.withMetadata();
+    const jpeg = kind === 'baseline' ? images.jpeg : await image.jpeg({ progressive: kind === 'progressive' }).toBuffer();
+    if (kind === 'baseline') expect(jpeg.length).toBeLessThan(Buffer.poolSize / 2);
+    const bytes = await renderPdf({ docType: 'business_letter', subject: 'JPEG BUSINESS FIGURE',
+      paragraphs: [{ text: 'Training layout', figure: { fileId: 'figure' } }], attachments: [{ id: 'figure', name: 'figure.jpg',
+        mimeType: 'image/jpeg', dataBase64: jpeg.toString('base64') }] });
+    const dir = await mkdtemp(join(tmpdir(), 'dondocs-companion-jpeg-'));
+    const path = join(dir, 'jpeg.pdf');
+    await writeFile(path, bytes);
+    const imageList = spawnSync('pdfimages', ['-list', path], { encoding: 'utf8' });
+    expect(imageList.status).toBe(0);
+    expect(imageList.stdout).toMatch(/\b480\s+240\b/);
+  });
+
   it.skipIf(!hasPdfToolchain)('renders a business PDF using a max-length opaque attachment ID', async () => {
     const images = await docxImageFixture();
     const id = '../' + 'f'.repeat(97);
