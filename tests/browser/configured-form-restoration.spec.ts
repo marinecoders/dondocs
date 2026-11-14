@@ -177,3 +177,26 @@ test('encrypted configured forms retain exact templates in a fresh offline brows
     expect((await draft(recipient)).portableResources).toEqual(packet.portableResources);
   } finally { await fresh.close(); }
 });
+
+test('configured form sharing rejects retained answer and definition markings before encryption', async ({ page, context }) => {
+  await appearance(context, 'light');const source = await fixture('marking');
+  await page.route('**/templates/**', route => route.request().url().endsWith('/portable-fixture/page1.pdf')
+    ? route.fulfill({ status: 200, contentType: 'application/pdf', body: source.bytes }) : route.fulfill({ status: 200, json: { templates: [] } }));
+  await page.goto('/');
+  for (const location of ['answer', 'definition']) {
+    const input = structuredClone(source.legacy);
+    if (location === 'answer') input.genericForm.answers.name = 'SECRET';else input.genericForm.definition.fields.name.label = 'SECRET';
+    await importDraft(page, input);
+    await expect(page.getByRole('textbox', { name: location === 'definition' ? 'SECRET' : 'Fictional name', exact: true })).toHaveValue(input.genericForm.answers.name);
+    const desktop = page.getByRole('button', { name: 'Share', exact: true });
+    if (await desktop.isVisible()) await desktop.click();else await actions(page, /^Create share link/);
+    const sharing = page.getByRole('dialog', { name: 'Share document', exact: true });
+    await sharing.getByLabel('Password for this link', { exact: true }).fill('synthetic-form-password');
+    await sharing.getByRole('button', { name: 'Generate link', exact: true }).click();
+    await expect(sharing.getByRole('alert')).toContainText('outside this deployment');
+    await expect(sharing.getByRole('button', { name: 'Download encrypted share file', exact: true })).toHaveCount(0);
+    await expect(sharing.locator('#generated-share-link')).toHaveCount(0);
+    await sharing.getByRole('button', { name: 'Cancel', exact: true }).click();
+    await expect(page.locator('#answer-name')).toHaveValue(input.genericForm.answers.name);
+  }
+});

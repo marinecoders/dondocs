@@ -118,3 +118,19 @@ it.each(["navmc_10274", "navmc_118_11"] as const)("rejects %s retained markings 
   await waitFor(() => expect(screen.getByRole("alert")).toHaveTextContent("outside this deployment"));
   expect(encryptSharePayload).not.toHaveBeenCalled();
 });
+
+it.each(['answer', 'definition-label', 'unselected-option', 'retained-answer'] as const)('rejects recognized form markings in %s before encryption', async location => {
+  const form = fixtureInstance(), page = await fixturePage();form.definition.pages[0].sha256 = page.sha256;
+  if (location === 'answer') form.answers.name = 'SECRET';
+  if (location === 'definition-label') form.definition.fields.name.label = 'SECRET';
+  if (location === 'unselected-option') form.definition.fields.decision.options![1].label = 'SECRET';
+  if (location === 'retained-answer') form.answers.retainedLegacyText = 'SECRET';
+  vi.stubGlobal('crypto', webcrypto);
+  vi.stubGlobal('fetch', vi.fn(async (input: RequestInfo | URL) => String(input).endsWith('/page1.pdf')
+    ? new Response(new Uint8Array(page.bytes)) : new Response('', { status: 404 })));
+  useDocumentStore.setState({ documentMode: 'compliant', documentCategory: 'forms', docType: 'naval_letter', formType: 'fixture', genericForm: form });
+  const before = useDocumentStore.getState().getSnapshot();
+  render(<ShareModal open mode="share" onOpenChange={() => {}} />);await generate();
+  expect(await screen.findByRole('alert')).toHaveTextContent('outside this deployment');
+  expect(encryptSharePayload).not.toHaveBeenCalled();expect(useDocumentStore.getState().getSnapshot()).toEqual(before);
+});
