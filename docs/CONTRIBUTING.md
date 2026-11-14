@@ -80,6 +80,8 @@ For documentation-only changes, run `npm run docs:check`. Add checks for the beh
 | Companion or bundle | Relevant HTTP/MCP tests, `npm run build:companion` and `npm run build:mcpb`. |
 | Managed delivery | Follow [UPDATE_DELIVERY.md](UPDATE_DELIVERY.md), including retained history and qualification. |
 
+Run `npm run check:ci-actions` when changing workflows or local actions. The [CI action guide](CI_ACTIONS.md) documents immutable references and the upstream review/update process.
+
 The [test guide](../tests/README.md) lists separate suites and prerequisites. Python pipeline tests run separately from Vitest. Native device checks remain necessary where required; browser emulation does not replace an installed iPhone test.
 
 Use `make pdf` to build the [checked-in TeX example](../tex/README.md#building-the-checked-in-example). This is separate from rendering the active browser document.
