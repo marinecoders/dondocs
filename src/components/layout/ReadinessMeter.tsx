@@ -97,7 +97,7 @@ export function ReadinessMeter() {
           <button
             type="button"
             onClick={() => jump(missing[0])}
-            aria-label={`Required fields: ${complete} of ${required} sections complete. Jump to the first incomplete section.`}
+            aria-label={`${label}. Required fields: ${complete} of ${required} sections complete. Jump to the first incomplete section.`}
             className="flex min-h-11 sm:min-h-8 items-center gap-1.5 rounded outline-none transition-colors hover:text-foreground focus-visible:ring-[3px] focus-visible:ring-ring/50"
           >
             {inner}

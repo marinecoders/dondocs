@@ -116,18 +116,18 @@ function CommentEditor({ editor, initialParagraphId, onCancel, onSave }: {
     </div>}
     {editor.kind === 'add' && <div className="space-y-1">
       <Label htmlFor="comment-target">Comment on</Label>
-      <select id="comment-target" className="h-9 w-full rounded-md border border-input bg-background px-2 text-sm" value={field} onChange={event => setField(event.target.value)}>
+      <select id="comment-target" aria-invalid={unavailableField || longContext || unavailable} aria-describedby={unavailableField || longContext || unavailable ? 'comment-target-error' : undefined} className="h-9 w-full rounded-md border border-input bg-background px-2 text-sm" value={field} onChange={event => setField(event.target.value)}>
         <option value="document">Whole document</option>
         {unavailableField && <option value={field} disabled>Unavailable field: {field}</option>}
         {fields.map(item => <option key={item.field} value={item.field}>{item.label}</option>)}
         {paragraphs.map(item => <option key={item.paragraphId} value={`paragraph:${item.paragraphId}`}>{item.label}</option>)}
         {unavailable && <option value={field} disabled>Unavailable paragraph</option>}
       </select>
-      {selectedField && <div className="text-xs text-muted-foreground"><p>Current field value</p><p className="max-h-24 overflow-y-auto whitespace-pre-wrap break-words">{selectedField.value || '(Empty)'}</p></div>}
-      {unavailableField && <p className="text-sm text-destructive">Choose an available field or the whole document.</p>}
-      {longContext && <p className="text-sm text-destructive">This field is too long to capture in a comment. Choose the whole document instead.</p>}
-      {unavailable && <p role="alert" className="text-sm text-destructive">This paragraph is unavailable or too long for a paragraph comment. Your text is preserved; choose another target to continue.</p>}
-      {paragraphId && !unavailable && <div className="max-h-36 overflow-auto text-xs text-muted-foreground"><p className="font-medium">Current paragraph</p><p className="whitespace-pre-wrap break-words">{paragraphs.find(paragraph => paragraph.paragraphId === paragraphId)?.value || '(Empty)'}</p></div>}
+      {selectedField && <div className="text-xs text-muted-foreground"><p>Current field value</p><p role="region" aria-label="Current field value" tabIndex={0} className="max-h-24 overflow-y-auto whitespace-pre-wrap break-words focus-visible:outline-2 focus-visible:outline-ring">{selectedField.value || '(Empty)'}</p></div>}
+      {unavailableField && <p id="comment-target-error" role="alert" className="text-sm text-destructive">Choose an available field or the whole document.</p>}
+      {longContext && <p id="comment-target-error" role="alert" className="text-sm text-destructive">This field is too long to capture in a comment. Choose the whole document instead.</p>}
+      {unavailable && <p id="comment-target-error" role="alert" className="text-sm text-destructive">This paragraph is unavailable or too long for a paragraph comment. Your text is preserved; choose another target to continue.</p>}
+      {paragraphId && !unavailable && <div role="region" aria-label="Current paragraph" tabIndex={0} className="max-h-36 overflow-auto text-xs text-muted-foreground focus-visible:outline-2 focus-visible:outline-ring"><p className="font-medium">Current paragraph</p><p className="whitespace-pre-wrap break-words">{paragraphs.find(paragraph => paragraph.paragraphId === paragraphId)?.value || '(Empty)'}</p></div>}
     </div>}
     {editor.kind !== 'edit' && <div className="space-y-1"><Label htmlFor="comment-author">Reviewer name</Label><Input id="comment-author" value={author} maxLength={COMMENT_LIMITS.author} onChange={event => setAuthor(event.target.value)} autoComplete="off" /></div>}
     <div className="space-y-1"><Label htmlFor="comment-text">{editor.kind === 'reply' ? 'Reply' : 'Comment'}</Label><Textarea id="comment-text" autoFocus={editor.kind !== 'add'} value={text} maxLength={COMMENT_LIMITS.text} onChange={event => { if (!text) setTarget(captureDocumentTarget());setText(event.target.value); }} className="min-h-24" /></div>

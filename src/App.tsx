@@ -1266,7 +1266,7 @@ function App() {
                 />
               </div>
             </main>
-            <div className="workspace-reviewbar flex shrink-0 flex-wrap items-center justify-between gap-2 border-t border-border px-4 sm:px-6 py-1.5 text-xs text-muted-foreground">
+            <div role="region" aria-label="Document readiness" className="workspace-reviewbar flex shrink-0 flex-wrap items-center justify-between gap-2 border-t border-border px-4 sm:px-6 py-1.5 text-xs text-muted-foreground">
               <ReadinessMeter />
             </div>
           </div>

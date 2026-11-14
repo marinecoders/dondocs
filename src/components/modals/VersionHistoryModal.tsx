@@ -127,12 +127,12 @@ function DocumentHistory({ docId }: { docId: string }) {
                     <li key={`${snap.ts}-${i}`}>
                       <button
                         type="button"
-                        aria-label={`Compare version ${i + 1} from ${fmt(snap.ts)}`}
                         aria-pressed={selected === snap}
                         disabled={restoring}
                         onClick={() => selectVersion(snap)}
                         className="min-h-11 w-full rounded-md border border-transparent px-3 py-2 text-left hover:bg-muted aria-pressed:border-border aria-pressed:bg-muted focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-ring disabled:opacity-50"
                       >
+                        <span className="sr-only">Compare version {i + 1} from </span>
                         <span className="block text-xs text-muted-foreground tnum">{fmt(snap.ts)}{i === 0 ? ' · latest' : ''}</span>
                         <span className="mt-1 block [overflow-wrap:anywhere] text-sm line-clamp-2" title={deriveTitle(snap.session)}>{deriveTitle(snap.session)}</span>
                       </button>

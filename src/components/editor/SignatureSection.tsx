@@ -10,7 +10,7 @@ import { supportsActingSignature } from '@/lib/signingAuthority';
 import { AppendedEndorsementsEditor } from '@/components/editor/AppendedEndorsementsEditor';
 import { Button } from '@/components/ui/button';
 import { IconTip } from '@/components/ui/icon-tip';
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import {
   Accordion, AccordionContent, AccordionItem, AccordionTrigger, } from '@/components/ui/accordion';
 import {
@@ -318,6 +318,7 @@ export function SignatureSection({ config }: SignatureSectionProps) {
               {/* Neutral segmented toggle (matches the Document Type controls;
                   keeps Download the one scarlet primary). */}
               <Tabs
+                className="gap-3"
                 value={useCustomRank ? 'civilian' : 'military'}
                 onValueChange={(v) => {
                   const custom = v === 'civilian';
@@ -331,8 +332,7 @@ export function SignatureSection({ config }: SignatureSectionProps) {
                   <TabsTrigger value="military">Military</TabsTrigger>
                   <TabsTrigger value="civilian">Civilian / Other</TabsTrigger>
                 </TabsList>
-              </Tabs>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                <TabsContent value={useCustomRank ? 'civilian' : 'military'} className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="sigRank">Rank / Title</Label>
                   {useCustomRank ? (
@@ -392,7 +392,8 @@ export function SignatureSection({ config }: SignatureSectionProps) {
                     placeholder="e.g., Operations NCO"
                   />
                 </div>
-              </div>
+              </TabsContent>
+              </Tabs>
             </div>
             )}
 
@@ -401,6 +402,7 @@ export function SignatureSection({ config }: SignatureSectionProps) {
               {/* Neutral segmented toggle (consistent with the rank + Document
                   Type controls). */}
               <Tabs
+                className="gap-3"
                 value={useCustomOfficeCode ? 'custom' : 'standard'}
                 onValueChange={(v) => {
                   const custom = v === 'custom';
@@ -414,8 +416,7 @@ export function SignatureSection({ config }: SignatureSectionProps) {
                   <TabsTrigger value="standard">Standard</TabsTrigger>
                   <TabsTrigger value="custom">Custom</TabsTrigger>
                 </TabsList>
-              </Tabs>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                <TabsContent value={useCustomOfficeCode ? 'custom' : 'standard'} className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="officeCode">Office Code</Label>
                   {useCustomOfficeCode ? (
@@ -474,7 +475,8 @@ export function SignatureSection({ config }: SignatureSectionProps) {
                   placeholder="john.doe@usmc.mil"
                 />
               </div>
-            </div>
+            </TabsContent>
+              </Tabs>
             </div>
 
             {!isDualSignature && <SigningCapacityField

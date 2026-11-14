@@ -244,7 +244,7 @@ export function EditorSidebar({ updateAction }: { updateAction?: ReactNode }) {
   if (isMobile) return null;
 
   return (
-    <>
+    <div role="region" aria-label="Workspace sidebar" className="contents">
     <div className="relative hidden shrink-0 bg-sidebar sm:flex" style={{ width: collapsed ? SIDEBAR_WIDTH.collapsed : sidebarWidth }}>
       <div hidden={collapsed} style={{ left: 52 }} className={collapsed ? "hidden" : "absolute top-2 z-30 flex h-8 items-center gap-1.5 whitespace-nowrap text-[17px] font-semibold tracking-tight"}>
         <img src={`${import.meta.env.BASE_URL}attachments/marine-coders-logo.svg`} alt="Marine Coders" className="h-7 w-7 shrink-0 object-contain brightness-0 dark:invert" />
@@ -628,6 +628,6 @@ export function EditorSidebar({ updateAction }: { updateAction?: ReactNode }) {
     </nav>
     </div>
     {!collapsed && <SidebarResizer />}
-    </>
+    </div>
   );
 }

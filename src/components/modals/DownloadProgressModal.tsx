@@ -282,7 +282,7 @@ export function DownloadProgressModal({ phase, onClose, onRetry, onCancel }: Dow
                 <Loader2 className="h-4 w-4 text-muted-foreground animate-spin flex-shrink-0 ml-auto" />
               )}
             </DialogTitle>
-            <DialogDescription className="break-words">
+            <DialogDescription key={isError ? 'error' : 'progress'} role={isError ? 'alert' : 'status'} className="break-words">
               {copy.description}
             </DialogDescription>
           </DialogHeader>

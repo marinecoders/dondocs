@@ -234,7 +234,7 @@ function ImportLetterDialog() {
         )}
 
         {phase.kind === 'parsing' && (
-          <div className="flex flex-col items-center gap-2 py-10 text-sm text-muted-foreground">
+          <div role="status" className="flex flex-col items-center gap-2 py-10 text-sm text-muted-foreground">
             <Loader2 className="h-6 w-6 animate-spin" />
             Reading the letter…
           </div>
@@ -243,7 +243,7 @@ function ImportLetterDialog() {
         {phase.kind === 'error' && (
           <div className="flex flex-col items-center gap-3 py-8 text-center">
             <AlertTriangle className="h-6 w-6 text-warning" />
-            <p className="text-sm text-muted-foreground">{phase.message}</p>
+            <p role="alert" className="text-sm text-muted-foreground">{phase.message}</p>
             <Button variant="outline" size="sm" onClick={() => setPhase({ kind: phase.source === 'text' ? 'paste' : 'idle' })}>
               {phase.source === 'text' ? 'Edit pasted text' : 'Choose a different file'}
             </Button>
