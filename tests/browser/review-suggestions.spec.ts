@@ -181,3 +181,38 @@ test('accepted paragraph decisions survive workspace transfer and permanent sour
     } finally { await archivedContext.close(); }
   } finally { await restoredContext.close(); }
 });
+
+test('retained custom labels do not bypass the recognized review marking floor', async ({ page }, info) => {
+  await page.route('**/classification.config.json?**', route => route.fulfill({ json: { maxLevel: 'secret', allowedLevels: ['unclassified', 'cui', 'confidential', 'secret'] } }));
+  await page.addInitScript(() => { localStorage.setItem('browser-test-visitor', 'returning'); });await page.goto('/');
+  const source = { documentMode: 'custom', documentCategory: 'correspondence', docType: 'naval_letter',
+    formData: { subject: 'FICTIONAL MARKING FLOOR SOURCE', from: 'Training Office', to: 'Training Officer', date: '13 Nov 26', sigLast: 'EXAMPLE', classLevel: 'custom', customClassification: 'INTERNAL HANDLING' },
+    paragraphs: [{ id: 'marking-floor-paragraph', text: 'Fictional reviewed baseline paragraph.', level: 0, portionMarking: 'S' }], references: [], enclosures: [], copyTos: [], distributions: [] };
+  await page.getByLabel('Import draft file').setInputFiles({ name: 'marking-floor-source.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(source)) });
+  await page.getByRole('button', { name: 'Open as new document', exact: true }).click();
+  let modal = await reviews(page);await modal.getByLabel('Review name', { exact: true }).fill('Marking floor review');
+  await modal.getByRole('button', { name: 'Start review from current draft', exact: true }).click();
+  await expect(modal.getByText('Review baseline saved. Later source edits will not change this copy.', { exact: true })).toBeVisible();
+  await modal.getByLabel('Review for suggested edits', { exact: true }).selectOption({ label: 'Marking floor review' });
+  await modal.getByLabel('Reviewer name for suggestion', { exact: true }).fill('Example drafter');
+  await modal.getByLabel('Suggestion target', { exact: true }).selectOption({ label: 'Subject' });
+  await modal.getByLabel('Proposed replacement', { exact: true }).fill('REVIEWED MARKING FLOOR SUBJECT');
+  await modal.getByRole('button', { name: 'Add suggestion', exact: true }).click();
+  await expect(modal.getByLabel('Review for suggested edits', { exact: true })).toBeEnabled();await modal.getByRole('button', { name: 'Close', exact: true }).click();
+  await page.getByRole('button', { name: 'Portion marking: Secret. Change', exact: true }).click();
+  await page.getByRole('menuitemradio', { name: '(U) Unclassified', exact: true }).click();
+  await page.getByRole('textbox', { name: 'Paragraph 1', exact: true }).fill('Fictional lower-marked current paragraph.');
+  modal = await reviews(page);await modal.getByLabel('Review for suggested edits', { exact: true }).selectOption({ label: 'Marking floor review' });
+  const proposal = modal.getByRole('article', { name: 'Suggestion 1: Replace subject', exact: true });
+  await proposal.getByRole('button', { name: 'Accept suggestion', exact: true }).click();
+  await expect(modal.getByRole('alert')).toContainText('marked below the reviewed content');
+  await expect(proposal.getByText(/· Pending$/)).toBeVisible();await expect(modal.getByLabel('Review for suggested edits', { exact: true })).toBeEnabled();
+  await page.screenshot({ path: info.outputPath('rejected-below-recognized-floor.png'), scale: 'css' });
+  await modal.getByRole('button', { name: 'Close', exact: true }).click();
+  const clean = JSON.parse((await download(page, () => action(page, 'Export draft (.json)'))).toString('utf8'));
+  expect(clean.formData.subject).toBe('FICTIONAL MARKING FLOOR SOURCE');expect(clean.formData.customClassification).toBe('INTERNAL HANDLING');
+  expect(clean.paragraphs[0]).toMatchObject({ text: 'Fictional lower-marked current paragraph.', portionMarking: 'U' });
+  const backup = await workspaceBackup(page), bundle = JSON.parse(backup.toString('utf8'));
+  expect(bundle.reviewSuggestions[0].state.proposals).toHaveLength(1);expect(bundle.reviewSuggestions[0].state.decisions).toEqual([]);
+  await writeFile(info.outputPath('unchanged-after-floor-rejection-backup.json'), backup);await writeFile(info.outputPath('unchanged-after-floor-rejection-draft.json'), JSON.stringify(clean, null, 2));
+});

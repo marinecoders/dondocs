@@ -77,7 +77,7 @@ export async function decideReviewSuggestion(roundId: string, proposalId: string
       ? classificationBannerLevel(context.current.formData.customClassification ?? '')
       : context.current.formData.classLevel ?? 'unclassified';
     const level = deriveOverallClassLevel(declared ?? 'unclassified', context.current.paragraphs);
-    if (!unknown.length && (classificationRank(level) ?? -1) < (classificationRank(floor) ?? 0)) {
+    if ((classificationRank(level) ?? -1) < (classificationRank(floor) ?? 0)) {
       throw new Error('The current draft is marked below the reviewed content. Update its handling marking before accepting this replacement.');
     }
     current(context.target);
