@@ -218,7 +218,7 @@ export function ReferencesManager() {
               </p>
               <ul className="text-xs mt-2 space-y-1 list-disc list-inside">
                 <li><strong>Drag to reorder:</strong> Preview new letters and citation updates before applying</li>
-                <li><strong>URLs:</strong> Add a link to make the reference clickable in PDF</li>
+                <li><strong>URLs:</strong> Link reference titles in Word and, when enabled, PDF</li>
                 <li><strong>Library:</strong> Browse {ALL_REFERENCES.length} common military references to insert</li>
               </ul>
             </HelpTip>

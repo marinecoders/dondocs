@@ -6,7 +6,7 @@ See the [capability matrix](CAPABILITIES.md) for current format availability.
 
 - Uploaded signature and figure images are omitted. Insert them in Word after downloading, or use PDF.
 - PDF signing fields are not emitted into Word. Use Word's signing workflow separately.
-- Reference titles are retained; the reference URL annotation control applies to PDF.
+- Reference titles with valid URLs are clickable in Word. The hyperlink checkbox controls PDF links separately.
 - Uploaded enclosure PDF pages are not appended to Word. Transfer those files separately.
 - Word and PDF use different layout engines, so pagination and placement can differ.
 

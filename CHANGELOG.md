@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.68] — 2026-11-13
+
+### Added
+
+- Reference titles with safe saved URLs are clickable in Word exports, including companion conversions. Reference labels, ordering and titles stay intact; missing or unsafe URLs remain plain text. The existing hyperlink checkbox continues to control PDF links separately.
+
 ## [1.3.67] — 2026-11-13
 
 ### Added
