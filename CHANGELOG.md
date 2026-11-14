@@ -15,7 +15,7 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ### Fixed
 
-- Preserve a newly focused editor control when a dialog finishes closing, preventing deferred focus restoration from interrupting typing after a draft import.
+- Preserve a newly focused editor control when a dialog or warning finishes closing, preventing deferred focus restoration from interrupting typing after a draft import or confirmation.
 
 ## [1.3.73] — 2026-11-13
 

@@ -6,6 +6,7 @@ import { XIcon } from "lucide-react"
 
 import { cn } from "@/lib/utils"
 import { useTourStore } from "@/stores/tourStore"
+import { preserveOutsideFocus } from "@/components/ui/dialog-focus"
 
 function Dialog({
   modal = true,
@@ -100,16 +101,7 @@ function DialogContent({
             return
           }
           if (event.defaultPrevented) return
-          // FocusScope closes after a deferred callback. Preserve a control
-          // the user has already chosen outside the closing dialog.
-          const active = document.activeElement
-          const closingDialog = event.currentTarget
-          if (active instanceof HTMLElement && active !== document.body && active !== document.documentElement &&
-            active.isConnected && !active.hasAttribute('data-radix-focus-guard') &&
-            closingDialog instanceof HTMLElement && !closingDialog.contains(active)) {
-            event.preventDefault()
-            return
-          }
+          if (preserveOutsideFocus(event)) return
           const target = returnFocus.current?.isConnected ? returnFocus.current : returnMenuTrigger.current
           const nextDialog = document.querySelector('[data-slot="dialog-content"][data-state="open"]')
           if (nextDialog && target && !nextDialog.contains(target)) {
