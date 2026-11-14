@@ -4,7 +4,7 @@ import base from './playwright.config';
 // Keep application browser checks independent of the two-build upgrade harness.
 export default defineConfig({
   ...base,
-  testMatch: ['install.spec.ts', 'downloads.spec.ts', 'settings-navigation.spec.ts', 'preview-zoom.spec.ts', 'document-lifecycle.spec.ts', 'formatting-fixes.spec.ts', 'excel-roster.spec.ts', 'reference-citations.spec.ts', 'word-reference-links.spec.ts', 'word-images.spec.ts', 'mechanical-corrections.spec.ts', 'document-comments.spec.ts', 'paragraph-comments.spec.ts', 'review-stack.spec.ts'],
+  testMatch: ['install.spec.ts', 'downloads.spec.ts', 'settings-navigation.spec.ts', 'preview-zoom.spec.ts', 'document-lifecycle.spec.ts', 'formatting-fixes.spec.ts', 'excel-roster.spec.ts', 'reference-citations.spec.ts', 'word-reference-links.spec.ts', 'word-images.spec.ts', 'mechanical-corrections.spec.ts', 'document-comments.spec.ts', 'paragraph-comments.spec.ts', 'review-stack.spec.ts', 'share-expiration.spec.ts'],
   timeout: 30_000,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 1 : 0,

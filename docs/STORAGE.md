@@ -326,6 +326,12 @@ a snapshot; subsequent sender edits do not change the recipient's document.
 
 Share links have no server-side revocation or password-recovery service. In contrast to encrypted share payloads, portable draft and workspace-backup JSON is unencrypted; store and transfer those files according to their contents.
 
+Optional expiration requires DonDocs 1.3.74 and the `dondocs-share` version 3 envelope: `{ kind, version, documentKind, expiresAt, session }`. The complete envelope, including the deadline, is compressed and authenticated inside the password-encrypted payload. `expiresAt` is a positive safe integer of UTC milliseconds since the Unix epoch, no greater than the JavaScript Date limit (8,640,000,000,000,000). The recipient rejects the link when `Date.now() >= expiresAt`, after decryption and again immediately before opening the reviewed copy. A missing, malformed, expired or unsupported expiration envelope is rejected before changing document stores; an invalid device clock is also rejected. The UI offers one hour, 24 hours or seven days from generation, plus the unchanged no-expiration default.
+
+Version 3 nests the document under `session` rather than leaving required document fields at the top level. Version 1/2 envelope readers reject the unsupported version; earlier flat-session readers fail required document validation instead of silently dropping the deadline. No separate `minReader` field is used. Deadlines on legacy, version 1/2 or draft envelopes are rejected by current readers. Without expiration, ordinary and comment-bearing shares keep versions 1 and 2 respectively. The nested document uses the same form, review-model and asset-projection validation as other shares.
+
+Expiration is an import check based on the recipient’s local clock. There is no trusted time server, hosted revocation, deletion of already imported copies, or protection against a password holder extracting the plaintext independently. Changing the device clock or using a modified reader can bypass this client check. Imported documents have no continuing expiration policy.
+
 ## Review comment reader compatibility
 
 Document and field comments use the optional `reviewComments` model, version 1. Comment-bearing shares require the `dondocs-share` envelope version 2; comment-bearing draft files use `dondocs-draft` version 2. Older envelope readers reject those copies instead of opening an incomplete review. Drafts and shares without comments retain their existing versions.
