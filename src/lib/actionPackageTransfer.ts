@@ -1,3 +1,4 @@
+import { validatePackageDraft } from './actionPackageDraft';
 import { validatePackageMemberTemplates } from './actionPackageTemplates';
 import { PDFDocument } from 'pdf-lib';
 import { portableResourceDigest } from './portableResources';
@@ -5,7 +6,7 @@ import { z } from 'zod';
 import { actionPackageSchema, commitActionPackage, listActionPackages, packageAssets, getPackageRevision, type ActionPackage } from './actionPackages';
 import { buildPortableResources, parsePortableResources } from './portableResources';
 import { readPackageAsset, readPackageMemberDraft } from './actionPackageAssets';
-import { idbGetAttachment, idbPutAttachment } from './documentsDb';
+import { idbGetAttachment, idbPutAttachment, sameReviewStoredValue } from './documentsDb';
 import { withAttachmentStaging } from './attachments';
 
 export const MAX_PACKAGE_FILE_BYTES = 100 * 1024 * 1024;
@@ -43,9 +44,9 @@ export async function importPortableActionPackage(json: string): Promise<ActionP
   const { record, resources } = await parsePortableActionPackage(json);
   return withAttachmentStaging(async () => {
     const existing = (await listActionPackages()).find(item => item.id === record.id);
-    const comparable = (value: ActionPackage) => { const copy = structuredClone(value);delete copy.workingCopies;for (const revision of copy.revisions) for (const member of revision.members) if (member.kind === 'native' && member.source) member.source.local = false;return JSON.stringify(copy); };
+    const comparable = (value: ActionPackage) => { const copy = structuredClone(value);delete copy.workingCopies;for (const revision of copy.revisions) for (const member of revision.members) if (member.kind === 'native' && member.source) member.source.local = false;return copy; };
     const retained = existing && { ...existing, historyScope: record.historyScope, currentRevisionId: record.currentRevisionId, sequence: record.sequence, revisions: existing.revisions.filter(revision => record.revisions.some(incoming => incoming.id === revision.id)) };
-    if (existing && comparable(retained!) !== comparable(record)) throw new Error('This package identity already exists with different revisions. Duplicate the local package before importing a different history.');
+    if (existing && !sameReviewStoredValue(comparable(retained!), comparable(record))) throw new Error('This package identity already exists with different revisions. Duplicate the local package before importing a different history.');
     for (const asset of packageAssets(record)) {
       const previous = await idbGetAttachment(asset.id), data = resources.get(`assets/${asset.id}`)!.data;
       if (previous) {
@@ -71,10 +72,9 @@ export async function validateActionPackageResources(record: ActionPackage, read
   for (const revision of owned.revisions) {
     for (const member of revision.members) {
       if (member.kind === 'original') { await PDFDocument.load(await read(member.original));continue; }
-      const { parseDraftFile } = await import('./draftFile');
       const draft: unknown = JSON.parse(new TextDecoder('utf-8', { fatal: true }).decode(await read(member.draft)));
       if (draft && typeof draft === 'object' && ('portableResources' in draft || 'portableFormTemplates' in draft)) throw new Error('Package templates must have a single explicit resource binding.');
-      const reviewed = parseDraftFile(draft, false, true);
+      const reviewed = await validatePackageDraft(draft);
       if (JSON.stringify(reviewed.session) !== JSON.stringify(member.session)) throw new Error(`The saved model for ${member.label} does not match its native draft.`);
       await validatePackageMemberTemplates(member, read);
     }

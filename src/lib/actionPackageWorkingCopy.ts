@@ -1,3 +1,4 @@
+import { supportsReviewComments } from './reviewCommentTargets';
 import { captureCurrentDocumentRevision } from '@/stores/captureDocument';
 import { captureDocumentRevision } from './capturedDocument';
 import { captureDocumentTarget, isCurrentDocumentTarget, openCommittedDocument, useDocumentsStore } from '@/stores/documentsStore';
@@ -34,7 +35,7 @@ export async function adoptPackageSource(record: ActionPackage, member: NativePa
   const source = member.source?.local && useDocumentsStore.getState().docs[member.source.documentId];
   if (!source || source.meta.deletedAt) throw new Error('The library source is unavailable. The captured package member remains usable.');
   const session = structuredClone(source.session);
-  const captured = captureDocumentRevision({ documentId: member.source!.documentId, epoch: 0, editSequence: 0, capturedAt: session.timestamp }, prepareSessionState(session, true));
+  const captured = captureDocumentRevision({ documentId: member.source!.documentId, epoch: 0, editSequence: 0, capturedAt: session.timestamp }, prepareSessionState(session, supportsReviewComments(session)));
   const updated = await capturePackageMember(captured, member.label, member.role, member);
   return reviseActionPackage(record, getPackageRevision(record).members.map(item => item.id === member.id ? updated : item));
 }
