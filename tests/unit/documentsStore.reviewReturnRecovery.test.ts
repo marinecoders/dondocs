@@ -86,6 +86,7 @@ describe('workspace recovery of review-return writes', () => {
     for (const value of [second.before!, ...second.versions]) { value.id = secondId;value.meta.id = secondId; }
     second.versions.at(-1)!.session.formData.subject = 'Second owner latest edits';
     const secondOperation = second.reviewReturns![0].operation;
+    if (secondOperation.kind !== 'comment-return') throw new Error('Expected comment return fixture');
     secondOperation.round = { ...secondOperation.round, id: `review_${crypto.randomUUID()}`, ownerDocumentId: secondId };
     secondOperation.receipt = { ...secondOperation.receipt, roundId: secondOperation.round.id, documentId: secondId, returnId: `return_${crypto.randomUUID()}` };
     if (kind === 'review') {
