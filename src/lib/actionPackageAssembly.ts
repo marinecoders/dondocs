@@ -1,4 +1,4 @@
-import { reviewPackageNative, reviewPackageText } from './actionPackageDisclosure';
+import { reviewPackageNative, reviewPackageText, reviewPackageOriginal } from './actionPackageDisclosure';
 import { APP_VERSION, GIT_SHA } from './version';
 import { PDFDocument, StandardFonts } from 'pdf-lib';
 import { captureDocumentRevision } from './capturedDocument';
@@ -6,7 +6,7 @@ import { captureFormExportTemplates } from './formExportTemplates';
 import { prepareExport, acknowledgePreparedExport, copyExportReview, type ExportReview, type ReadyExportJob } from './preparedExport';
 import type { PolicyResolution } from './exportDeploymentPolicy';
 import { preparePackageMember, readPackageAsset, readPackageMemberDraft, retainPackageAsset } from './actionPackageAssets';
-import { commitActionPackage, getPackageRevision, newPackageId, type ActionPackage, type PackageBoundary, type PackageMember } from './actionPackages';
+import { commitActionPackage, getPackageRevision, newPackageId, type ActionPackage, type PackageBoundary, type PackageMember, packageAssets } from './actionPackages';
 import { withAttachmentStaging } from './attachments';
 import { DOC_TYPE_CONFIG } from '@/types/document';
 import { getEditorSections } from './editorSections';
@@ -44,7 +44,7 @@ export async function preparePackageAssembly(record: ActionPackage, revisionId: 
   if (policy.status !== 'ready') error(policy.message);
   if (!revision.members.length) error('Add a basic letter or main document.');
   if (revision.members.filter(member => member.role === 'basic-letter').length !== 1 || revision.members[0]?.role !== 'basic-letter') error('The package must start with exactly one basic letter or main document.');
-  reviews.push({ member: 'Package name', review: reviewPackageText(owned.name, 'Package name', policy) });
+  reviews.push({ member: 'Package name and included filenames', review: reviewPackageText([owned.name, ...packageAssets({ ...owned, revisions: [revision] }).map(asset => asset.name)].join('\n'), 'Package metadata', policy) });
   let passedEndorsements = false, endorsementCount = 0;
   const basic = revision.members[0];
   const basicSession = basic?.kind === 'native' ? basic.session : null;
@@ -56,16 +56,14 @@ export async function preparePackageAssembly(record: ActionPackage, revisionId: 
       if (member.kind === 'original') {
         const original = await readPackageAsset(member.original);
         await PDFDocument.load(original);
-        let text = '';
-        try { const { extractPdfText } = await import('./pdfText');text = await extractPdfText(original.slice(0)); }
-        catch { findings.push({ memberId: member.id, severity: 'warning', message: 'Original PDF text could not be inspected automatically. Review every original page manually for markings and personal information.' }); }
-        reviews.push({ member: member.label, review: reviewPackageText(`${member.label}\n${text}`, 'Original PDF', policy) });
+        reviews.push({ member: member.label, review: await reviewPackageOriginal(original, member.label, policy) });
         if (member.role === 'endorsement') { endorsementCount++;previousSession = null; }
         inputs.push({ member, original });
         findings.push({ memberId: member.id, severity: 'warning', message: `${member.label}: review the original PDF content and signing status. The assembled derivative is unsigned.` });
         continue;
       }
-      await readPackageMemberDraft(member);
+      const { reviewed } = await readPackageMemberDraft(member);
+      for (const file of [...reviewed.files, reviewed.basicLetter]) if (file) reviews.push({ member: `${member.label}: ${file.name}`, review: await reviewPackageOriginal(file.data, file.name, policy) });
       const { snapshot } = await preparePackageMember(member);
       if (member.role === 'endorsement' && !isEndorsement(snapshot.docType)) error('The endorsement role requires an existing native endorsement document or an original PDF.', member.id);
       if (member.role === 'endorsement') {

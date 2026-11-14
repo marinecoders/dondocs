@@ -1,11 +1,6 @@
 import { PDFDocument } from 'pdf-lib';
-import type { FormDefinition } from '@/services/forms/model';
-async function validatePackagePage(definition: FormDefinition, file: string, bytes: Uint8Array) {
-  const page = definition.pages.find(page => page.file === file);
-  const pdf = await PDFDocument.load(bytes);
-  const actual = pdf.getPage(0);
-  if (!page || pdf.getPageCount() !== 1 || Math.abs(actual.getWidth() - page.width) > 0.1 || Math.abs(actual.getHeight() - page.height) > 0.1) throw new Error('The form template geometry does not match its saved definition.');
-}
+import { validatePackagePage } from '@/services/forms/packages';
+import { retainPortableFormTemplates } from '@/services/forms/portableTemplates';
 import type { NativePackageMember, PackageAsset } from './actionPackages';
 
 /** Built-in templates are pinned to the existing shipped renderer geometry. */
@@ -29,4 +24,12 @@ export async function validatePackageMemberTemplates(member: NativePackageMember
     if (definition) await validatePackagePage(definition, file, bytes);
     else if ((await PDFDocument.load(bytes)).getPageCount() !== 1) throw new Error('A built-in form template must contain its exact single page.');
   }
+}
+
+export async function retainPackageMemberTemplates(member: NativePackageMember, read: (asset: PackageAsset) => Promise<ArrayBuffer>): Promise<void> {
+  const definition = member.session.genericForm?.definition;
+  if (!definition) return;
+  const pages: Record<string, Uint8Array> = {};
+  for (const [file, asset] of Object.entries(member.templates ?? {})) pages[file] = new Uint8Array(await read(asset));
+  if (!await retainPortableFormTemplates([{ definition, pages }])) throw new Error(`The exact templates for ${member.label} could not be retained.`);
 }

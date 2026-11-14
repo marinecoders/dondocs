@@ -1,5 +1,6 @@
 import { capturePackageBackup, validatePackageBackup, restorePackageBackup } from './actionPackageBackup';
-import { packageAssets, type ActionPackage } from './actionPackages';
+import { formTemplateAttachmentId } from './formTemplateAssets';
+import { packageAssets, packageDefinitions, actionPackageSchema, type ActionPackage } from './actionPackages';
 import { reviewSuggestionRecordSchema, reviewSuggestionReceiptSchema, type ReviewSuggestionRecord, type ReviewSuggestionReceipt } from './reviewSuggestionWrites';
 import { validateReviewSuggestionState } from './reviewSuggestions';
 import { reviewReturnReceiptSchema, type ReviewReturnReceipt } from './reviewReturns';
@@ -359,8 +360,9 @@ async function serializeBackup(): Promise<string> {
   const actionPackages = await capturePackageBackup();
   const entries = [{ session: { forms: captured.forms } }, ...docs, ...Object.values(snapshots).flat(), ...Object.values(captured.userTemplates), ...reviewRounds.map(round => round.baseline)];
   if (entries.some(hasUnresolvedEnclosure)) throw new Error('An enclosure file is missing its saved reference. The backup was not created.');
-  const formTemplates = await capturePortableFormTemplates(configuredDefinitions(entries));
-  const ids = [...new Set([...collectAttachmentIds(entries), ...actionPackages.flatMap(record => packageAssets(record).map(asset => asset.id))])];
+  const formTemplates = await capturePortableFormTemplates([...configuredDefinitions(entries), ...packageDefinitions(actionPackages)]);
+  const sharedTemplateIds = new Set((formTemplates?.portableResources.entries ?? []).map(entry => formTemplateAttachmentId(entry.sha256)));
+  const ids = [...new Set([...collectAttachmentIds(entries), ...actionPackages.flatMap(record => packageAssets(record).map(asset => asset.id))])].filter(id => !sharedTemplateIds.has(id));
   return withAttachmentResources(ids, async resources => {
     const attachments = ids.map(id => {
       const record = copyAttachment(resources, id);
@@ -375,7 +377,7 @@ async function serializeBackup(): Promise<string> {
       ...(withReviews ? { reviewRounds, reviewCopies } : {}), ...(reviewReturns.length ? { reviewReturns } : {}),
       ...(reviewSuggestions.length || reviewSuggestionWrites.length ? { reviewSuggestions, reviewSuggestionWrites } : {}) };
     const json = JSON.stringify(bundle);
-    if (formTemplates && new TextEncoder().encode(json).byteLength > MAX_BACKUP_BYTES) throw new Error('This complete workspace backup exceeds the 100 MB JSON import limit. Export separate draft copies before transferring it.');
+    if ((formTemplates || actionPackages.length) && new TextEncoder().encode(json).byteLength > MAX_BACKUP_BYTES) throw new Error('This complete workspace backup exceeds the 100 MB JSON import limit. Export separate draft copies before transferring it.');
     return json;
   });
 }
@@ -481,7 +483,8 @@ async function runRestore(json: string, canReplaceForms: () => boolean): Promise
     decoded.set(a.id, bytes.buffer as ArrayBuffer);
   }
   if (parsed.actionPackages !== undefined && (kind !== BACKUP_KIND || !supportedWorkspaceVersion(parsed.version, 12))) throw new Error('Saved packages require a version 12 workspace backup.');
-  const actionPackages = parsed.actionPackages === undefined ? [] : await validatePackageBackup(parsed.actionPackages, decoded);
+  if (parsed.actionPackages !== undefined && !Array.isArray(parsed.actionPackages)) throw new Error('Invalid package recovery inventory.');
+  const packageRecords = ((parsed.actionPackages ?? []) as unknown[]).map(value => actionPackageSchema.parse(value));
   if (parsed.snapshots !== undefined && (!parsed.snapshots || typeof parsed.snapshots !== 'object' || Array.isArray(parsed.snapshots))) throw new Error('Invalid history');
   for (const [docId, ring] of Object.entries(parsed.snapshots ?? {})) {
     if (!docId || Object.hasOwn(Object.prototype, docId)) throw new Error('Invalid history document identity');
@@ -491,14 +494,17 @@ async function runRestore(json: string, canReplaceForms: () => boolean): Promise
       validateBackupSession(snapshot.session);
     }
   }
-  const formDefinitions = configuredDefinitions([...(parsed.documents ?? []) as unknown[],
+  const formDefinitions = [...packageDefinitions(packageRecords), ...configuredDefinitions([...(parsed.documents ?? []) as unknown[],
     ...Object.values((parsed.snapshots ?? {}) as Record<string, unknown[]>).flat(),
-    ...Object.values(incomingTemplates), ...reviewRounds.map(round => round.baseline)]);
+    ...Object.values(incomingTemplates), ...reviewRounds.map(round => round.baseline)])];
   const hasFormTemplates = parsed.portableFormTemplates !== undefined || parsed.portableResources !== undefined;
   if (hasFormTemplates && (kind !== BACKUP_KIND || !supportedWorkspaceVersion(parsed.version, 11))
     || supportedWorkspaceVersion(parsed.version, 11) && formDefinitions.length > 0 && !hasFormTemplates) throw new Error('Portable form templates require a complete version 11 workspace backup.');
   const formTemplates = hasFormTemplates
     ? await validatePortableFormTemplates(formDefinitions, parsed.portableFormTemplates, parsed.portableResources) : [];
+  const packageDecoded = new Map(decoded);
+  for (const form of formTemplates) for (const page of form.definition.pages) packageDecoded.set(formTemplateAttachmentId(page.sha256!), new Uint8Array(form.pages[page.file]).buffer);
+  const actionPackages = await validatePackageBackup(packageRecords, packageDecoded);
   // Verified page staging precedes every document, profile, answer and history write.
   if (!await retainPortableFormTemplates(formTemplates)) throw new Error('Portable form templates could not be retained. Nothing was restored.');
   const issues: string[] = [];

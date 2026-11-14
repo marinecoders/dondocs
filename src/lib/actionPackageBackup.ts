@@ -1,4 +1,5 @@
 import { actionPackageSchema, commitActionPackage, listActionPackages, packageAssets, type ActionPackage } from './actionPackages';
+import { retainPackageMemberTemplates } from './actionPackageTemplates';
 import { readPackageAsset } from './actionPackageAssets';
 import { validateActionPackageResources } from './actionPackageTransfer';
 
@@ -33,6 +34,7 @@ export async function restorePackageBackup(records: ActionPackage[]): Promise<nu
     for (const asset of packageAssets(record)) await readPackageAsset(asset);
   }
   let restored = 0;
+  for (const record of records) for (const revision of record.revisions) for (const member of revision.members) if (member.kind === 'native') await retainPackageMemberTemplates(member, readPackageAsset);
   for (const record of records) if (!existing.some(local => local.id === record.id)) { await commitActionPackage(null, record);restored++; }
   return restored;
 }

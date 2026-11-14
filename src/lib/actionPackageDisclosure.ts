@@ -17,3 +17,14 @@ export function reviewPackageText(text: string, label: string, policy: PolicyRes
   if (!policy.policy.allowedLevels.includes(marking)) throw new Error(`${label} includes markings outside this deployment's configured levels.`);
   return { privacy: detectTextPII([{ field: label, value: text }]), notices: [], structure: [], markingReview: false };
 }
+
+/** Inspect already captured PDF bytes without re-reading a source or local handle. */
+export async function reviewPackageOriginal(bytes: ArrayBuffer, label: string, policy: PolicyResolution): Promise<ExportReview> {
+  let text = '', inspected = true;
+  try { const { extractPdfText } = await import('./pdfText');text = await extractPdfText(bytes.slice(0)); }
+  catch { inspected = false; }
+  const review = reviewPackageText(`${label}\n${text}`, label, policy);
+  review.notices.push(!inspected ? 'PDF text could not be inspected automatically. Review every original page manually for markings and personal information.'
+    : !text.trim() ? 'This PDF has no readable text layer. Review every original page manually for markings and personal information.' : 'Text-layer inspection cannot read text inside scanned images. Review the original PDF pages.');
+  return review;
+}
