@@ -7,6 +7,13 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.69] — 2026-11-13
+
+### Added
+
+- Embed PNG signature images in supported single-signer Word documents and PNG/JPEG figures with captions in custom business letters. Captured media travels inside DOCX files; missing or unreadable images stop export.
+- Support request-scoped PNG signature attachments and business-letter figure attachments through the companion. Existing publication Word restrictions remain in place.
+
 ## [1.3.68] — 2026-11-13
 
 ### Added

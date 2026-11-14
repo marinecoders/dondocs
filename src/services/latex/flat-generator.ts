@@ -36,6 +36,7 @@ import { formatViaLines } from '@/lib/viaLines';
 import { deriveOverallClassLevel } from '@/lib/overallClassification';
 import { documentDistributionStatement } from './distributionStatement';
 import { safeUrl } from '@/lib/url-safety';
+import { docxFigureFile, imageExtent, signatureExtent } from '@/services/docx/imageAssets';
 
 interface DocumentStore {
   docType: string;
@@ -675,9 +676,23 @@ function buildBody(paragraphs: Paragraph[], config: DocTypeConfig, font: LabelFo
   // accumulator stays small so we leave that alone).
   const bodyParts: string[] = [];
   const tailStart = closingTailStart(docType, paragraphs);
+  let figureNumber = 0;
 
   for (let i = 0; i < paragraphs.length; i++) {
     const para = paragraphs[i];
+    if (para.figure) {
+      if (docType !== 'business_letter') throw new Error('Word figures are supported in business letters. This document family does not support Word figures yet.');
+      const number = ++figureNumber;
+      if (!para.figure.fileRef) throw new Error(`Figure ${number} has no image. Choose a PNG or JPEG before exporting Word.`);
+      const path = docxFigureFile(number, para.figure.type, para.figure.name);
+      if (/\.pdf$/i.test(path)) throw new Error(`Figure ${number} is a PDF. Choose a PNG or JPEG for Word export.`);
+      const extent = imageExtent(para.figure.width ?? 0, para.figure.height ?? 0, 6.5, 5);
+      const mark = para.figure.portionMarking ?? para.portionMarking;
+      const graphic = `\\includegraphics[width=${extent.width.toFixed(4)}in,height=${extent.height.toFixed(4)}in,alt={${escapeFlat(para.text || `Figure ${number}`)}}]{${path}}`;
+      const title = `${para.portionMarking ? `(${para.portionMarking}) ` : ''}${para.text}`;
+      bodyParts.push(`\\vspace{12pt}\n\\begin{tabularx}{\\textwidth}{@{}c@{}}\n${mark ? `(${escapeTabular(mark)})\\newline ` : ''}${graphic}\\newline\\textbf{Figure ${number}. ${processText(title)}} \\\\\n\\end{tabularx}\n\n`);
+      continue;
+    }
     const label = paragraphHasLabel(para.level, config) ? labels[i] : '';
     const headerText = para.header?.trim();
     const portionPrefix = para.portionMarking ? `(${para.portionMarking}) ` : '';
@@ -785,6 +800,12 @@ function closingEnd(docType: string): string {
   return hasBottomSignature(docType) ? '\\dondocssignatureend\n\n' : '';
 }
 
+function signatureGraphic(data: Partial<DocumentData>): string {
+  if (!data.signatureImage?.data) throw new Error('The signature image is missing. Reattach it before exporting Word.');
+  const extent = signatureExtent(data.signatureImage.data);
+  return `\\includegraphics[width=${extent.width.toFixed(4)}in,height=${extent.height.toFixed(4)}in,alt={Handwritten signature image}]{signature.png}`;
+}
+
 /** Single signature block positioned in right half using tabularX */
 function buildSignature(data: Partial<DocumentData>, config: DocTypeConfig, docType: string): string {
   const sigStyle = config.signature;
@@ -796,6 +817,7 @@ function buildSignature(data: Partial<DocumentData>, config: DocTypeConfig, docT
   }
 
   const sigRows: string[] = [];
+  if (data.signatureType === 'image') sigRows.push(signatureGraphic(data));
   sigRows.push(escapeTabular(name));
 
   // Show rank/title unless config says name-only (e.g., standard_letter, plain_paper_memorandum)
@@ -828,6 +850,7 @@ function buildBusinessSignature(data: Partial<DocumentData>): string {
 
   // Build centered signature rows
   const sigRows: string[] = [];
+  if (data.signatureType === 'image') sigRows.push(signatureGraphic(data));
   sigRows.push(escapeTabular(name));
   if (data.sigRank) sigRows.push(escapeTabular(data.sigRank));
   if (data.sigTitle) sigRows.push(escapeTabular(data.sigTitle));

@@ -10,6 +10,7 @@ import { finishCorrespondencePdf } from '@/services/pdf/finishCorrespondencePdf'
 import type { DocxConversionOptions, DocxProgressCallback } from '@/services/docx/pandoc-converter';
 import { resolvePageNumbering } from '@/lib/pageNumbering';
 import { pageStartNumber } from '@/lib/endorsement';
+import { inspectRasterImage, prepareDocxImages, supportsCorrespondenceSignatureImage } from '@/services/docx/imageAssets';
 
 export interface ExportAssets {
   withAssets<T>(ids: readonly string[], operation: (read: (id: string) => StoredAttachment) => Promise<T>): Promise<T>;
@@ -39,7 +40,7 @@ export async function renderPreparedCorrespondence(ready: ReadyExportJob, ports:
   const captured = copyPreparedDocument(ready);
   if (captured.kind !== 'correspondence') throw new Error('This renderer accepts correspondence jobs.');
   const document = captured.document;
-  if (document.formData.signatureType === 'image') document.formData.signatureImage = await resolveSignature(document.formData.signatureImage);
+  if (ready.job.target !== 'docx' && document.formData.signatureType === 'image' && supportsCorrespondenceSignatureImage(document.docType)) document.formData.signatureImage = await resolveSignature(document.formData.signatureImage);
   const referenceDate = new Date(ready.job.source.capturedAt);
   const { target, texMode } = ready.job;
   const marking = preparedExportMarking(ready);
@@ -53,15 +54,22 @@ export async function renderPreparedCorrespondence(ready: ReadyExportJob, ports:
   if (target === 'docx') {
     reportProgress('docx-preparing');
     const data = document.formData;
-    const blob = await convertDocx(generateFlatLatex(document, resolvedLevel), {
-      docType: document.docType, sealType: data.sealType, letterheadColor: data.letterheadColor,
-      fontFamily: data.fontFamily, fontSize: data.fontSize, classLevel: resolvedLevel, customClassification: data.customClassification,
-      showSubjectOnContinuation: data.showSubjectOnContinuation,
-      pageNumbering: resolvePageNumbering(document.docType, document.documentMode, data.pageNumbering),
-      startingPageNumber: pageStartNumber(document.docType, data.startingPageNumber),
-    }, onDocxProgress ? phase => observeProgress(onDocxProgress, phase) : undefined);
-    checkCancellation(signal);
-    return createExportArtifact(ready, blob);
+    const figureIds = document.paragraphs.flatMap(paragraph => paragraph.figure?.fileRef ? [paragraph.figure.fileRef.id] : []);
+    if (data.signatureType === 'image' && !data.signatureImage?.data && data.signatureImage?.fileRef) figureIds.push(data.signatureImage.fileRef.id);
+    return (ports.assets ?? storedExportAssets).withAssets(figureIds, async read => {
+      const mediaFiles = await prepareDocxImages(document, async id => read(id).data);
+      checkCancellation(signal);
+      const blob = await convertDocx(generateFlatLatex(document, resolvedLevel), {
+        mediaFiles,
+        docType: document.docType, sealType: data.sealType, letterheadColor: data.letterheadColor,
+        fontFamily: data.fontFamily, fontSize: data.fontSize, classLevel: resolvedLevel, customClassification: data.customClassification,
+        showSubjectOnContinuation: data.showSubjectOnContinuation,
+        pageNumbering: resolvePageNumbering(document.docType, document.documentMode, data.pageNumbering),
+        startingPageNumber: pageStartNumber(document.docType, data.startingPageNumber),
+      }, onDocxProgress ? phase => observeProgress(onDocxProgress, phase) : undefined);
+      checkCancellation(signal);
+      return createExportArtifact(ready, blob);
+    });
   }
   if (target === 'tex') {
     const text = texMode === 'flat' ? generateFlatLatex(document, resolvedLevel, 'tex')
@@ -90,7 +98,14 @@ export async function renderPreparedCorrespondence(ready: ReadyExportJob, ports:
     const generated = generateAllLatexFiles(document, resolvedLevel, referenceDate);
     const files: Record<string, string | Uint8Array> = { ...generated.texFiles };
     if (generated.signatureImage) files['attachments/signature.png'] = generated.signatureImage;
-    await loadFigureFiles(files, generated.figures, async id => read(id).data);
+    await loadFigureFiles(files, generated.figures, async id => {
+      const bytes = new Uint8Array(read(id).data);
+      if (document.docType === 'business_letter') {
+        const figure = generated.figures.find(figure => figure.ref.id === id)!;
+        await inspectRasterImage(bytes, figure.file.endsWith('.jpg') ? 'image/jpeg' : 'image/png');
+      }
+      return bytes;
+    });
     checkCancellation(signal);
     reportProgress('pdf-compiling');
     const pdf = await compile(files);

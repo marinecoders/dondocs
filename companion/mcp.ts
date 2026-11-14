@@ -154,7 +154,7 @@ const handle = serveStdio(() => {
       + 'Omit signature to have the user asked for it directly where the client can; pass null to any field to clear it.',
     inputSchema: z.object({
       unit: unit.nullable().optional().describe('The letterhead unit, as dondocs_unit_lookup returns it.'),
-      signature: signature.nullable().optional().describe('The signature block. Omit to ask the user.'),
+      signature: signature.omit({ imageFileId: true }).nullable().optional().describe('The signature block. Omit to ask the user.'),
       ssic: z.string().nullable().optional(),
       originatorCode: z.string().nullable().optional(),
     }).strict(),

@@ -1,6 +1,7 @@
 // @vitest-environment node
 import { afterAll, afterEach, beforeAll, beforeEach, describe, expect, it, vi } from 'vitest';
 import { createServer, type Server } from 'node:http';
+import { PDFDocument } from 'pdf-lib';
 import { createHandler } from '../../companion/handler';
 import { renderToFile } from '../../companion/renderToFile';
 import { systemPandocVersion } from '../../companion/renderDocx';
@@ -60,6 +61,21 @@ async function post(body: unknown) {
 }
 
 describe('HTTP error diagnostics stay in companion logs', () => {
+  it.each(['pdf', 'docx'] as const)('rejects PDF business-letter figures before %s rendering', async format => {
+    const pdf = await PDFDocument.create();
+    pdf.addPage();
+    const response = await post({
+      docType: 'business_letter', subject: 'IMAGE TYPE CHECK', format,
+      paragraphs: [{ text: 'Drawing', figure: { fileId: 'drawing' } }],
+      attachments: [{ id: 'drawing', name: 'drawing.pdf', mimeType: 'application/pdf',
+        dataBase64: Buffer.from(await pdf.save()).toString('base64') }],
+    });
+    expect(response.status).toBe(400);
+    expect((await response.json()).errors).toContain('Figure 1: business-letter figures require a PNG or JPEG attachment.');
+    expect(renderToFile).not.toHaveBeenCalled();
+    expect(stderr).not.toHaveBeenCalled();
+  });
+
   it.each(failures)('hides render diagnostics from a thrown %s', async (_kind, failure) => {
     vi.mocked(renderToFile).mockRejectedValueOnce(failure);
     const response = await post(VALID);

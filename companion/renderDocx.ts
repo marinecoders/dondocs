@@ -28,6 +28,8 @@ import { generateFlatLatex } from '@/services/latex/flat-generator';
 import { toStore, type CompanionDefaults, type LetterInput } from './letterInput';
 import { RENDER_TIMEOUT_MS } from './limits';
 import { LIB } from './assets';
+import { prepareDocxImages } from '@/services/docx/imageAssets';
+import { attachment } from './publicationInput';
 
 
 /** The pandoc the app vendors, for comparison against whatever is on PATH. */
@@ -56,10 +58,15 @@ export async function systemPandocVersion(): Promise<string | null> {
 const PANDOC_TIMEOUT_MS = RENDER_TIMEOUT_MS;
 
 export async function renderDocx(input: LetterInput, defaults: CompanionDefaults = {}): Promise<Uint8Array> {
-  const tex = generateFlatLatex(toStore(input, defaults) as never);
+  const store = toStore(input, defaults);
+  const media = await prepareDocxImages(store, async id => Buffer.from(attachment(input, id).dataBase64, 'base64'));
+  const tex = generateFlatLatex(store as never);
   const dir = await mkdtemp(join(tmpdir(), 'dondocs-companion-'));
 
   try {
+    if (Object.keys(media).length) {
+      for (const [path, bytes] of Object.entries(media)) await writeFile(join(dir, path), bytes);
+    }
     await writeFile(join(dir, 'in.tex'), tex, 'utf-8');
 
     await new Promise<void>((resolve, reject) => {

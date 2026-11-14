@@ -74,7 +74,7 @@ function active(source: DocumentFieldSource, path: FieldPath, projection: FieldP
   if (source.documentMode !== 'custom' && root === 'references' && !config.compliance.allowReferences) return false;
   if (source.documentMode !== 'custom' && root === 'enclosures' && !config.compliance.allowEnclosures) return false;
   const technical = technicalTypes.has(source.docType);
-  if (root === 'paragraphs' && path[2] === 'figure' && projection !== 'search') return technical;
+  if (root === 'paragraphs' && path[2] === 'figure' && projection !== 'search') return technical || source.docType === 'business_letter';
   if (root === 'endItems') return technical && source.docType !== 'tm_ietm_front_matter';
   if (root === 'publicationTables') return source.docType === 'i_type';
   if (root === 'paragraphs' && ['sl3', 'sl4'].includes(source.docType) && typeof path[1] === 'number') {

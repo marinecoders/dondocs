@@ -40,7 +40,11 @@ Standard and executive memorandum layouts align address continuation lines and t
 
 Correspondence formats with bottom signatures use keep-together and widow controls to help keep the final written paragraphs with the close and signature block. Blank trailing input rows do not select the closing paragraphs. Long groups may split to fit the page; review the resulting page breaks.
 
-Word keep rules end before copy/distribution blocks. Action/information memoranda and technical publications use their own signing layouts. PDF signing fields and uploaded signature images have the [documented Word limitations](OUTPUT_LIMITS.md#word-output).
+Word keep rules end before copy/distribution blocks. Action/information memoranda and technical publications use their own signing layouts. Supported single-signer correspondence embeds an uploaded PNG signature image above the typed name in Word, preserving its aspect ratio within 1.5 by 0.5 inches. This is a visual signature image; PDF signing fields and other signing layouts have the [documented Word limitations](OUTPUT_LIMITS.md#word-output).
+
+## Business-letter figures
+
+In a Custom business letter, choose **Figure** from a paragraph's block menu, enter its caption and upload a PNG or JPEG. PDF and Word retain the image, graphic portion marking and numbered caption. Existing figures remain part of the letter when switching modes. Word fits each image within 6.5 by 5 inches while preserving its aspect ratio and embeds the bytes and caption as alternative text. Missing or unreadable images stop Word export rather than producing an incomplete file. Other publication figures retain their existing PDF-only output boundary.
 
 ## Endorsement continuation
 

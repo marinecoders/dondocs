@@ -9,6 +9,7 @@ import { resolveExportDeploymentPolicy } from '@/lib/exportDeploymentPolicy';
 import { CLASSIFICATION_LEVELS } from '@/lib/overallClassification';
 import { useDocumentStore } from '@/stores/documentStore';
 import type { DocumentSnapshot } from '@/stores/historyStore';
+import { docxImageFixture } from '../_helpers/docxImageFixture';
 
 function ready(target: ExportTarget, patch: Partial<DocumentSnapshot> = {}, capturedAt = 1): ReadyExportJob {
   const base = useDocumentStore.getState().getSnapshot();
@@ -24,6 +25,52 @@ const noAssets: ExportAssets = { withAssets: async (_ids, operation) => operatio
 function ports(bytes: Uint8Array): CorrespondenceRendererPorts {
   return { compile: vi.fn(async () => bytes), convertDocx: vi.fn(async () => new Blob(['DOCX'])), assets: noAssets };
 }
+
+it('uses captured business image identities and holds media resources until conversion finishes', async () => {
+  const images = await docxImageFixture();
+  const imageRef = (id: string) => ({ id, name: `${id}.png`, size: 1, type: 'image/png' });
+  const captured = ready('docx', { docType: 'business_letter', documentMode: 'custom',
+    formData: { signatureType: 'image', signatureImage: { name: 'signature.png', size: images.signature.length, data: '', fileRef: imageRef('signature') } },
+    paragraphs: [{ text: 'Captured figure', level: 0, figure: { name: 'figure.png', type: 'image/png', fileRef: imageRef('figure') } }] });
+  let active = false;
+  const adapters = ports(await pdf());
+  adapters.assets = { withAssets: async (ids, operation) => {
+    expect(ids).toEqual(['figure', 'signature']);
+    active = true;
+    try { return await operation(id => {
+      expect(active).toBe(true);
+      const data = id === 'figure' ? images.figure : images.signature;
+      return { id, name: `${id}.png`, size: data.length, type: 'image/png', data: new Uint8Array(data).buffer };
+    }); } finally { active = false; }
+  } };
+  adapters.convertDocx = vi.fn(async (latex, options) => {
+    expect(active).toBe(true);
+    expect(latex).toContain('Captured figure');
+    expect(latex).not.toContain('Later live document');
+    expect(options.mediaFiles?.['signature.png']).toEqual(new Uint8Array(images.signature));
+    expect(Object.values(options.mediaFiles ?? {})).toHaveLength(2);
+    await Promise.resolve();
+    expect(active).toBe(true);
+    return new Blob(['DOCX']);
+  });
+  useDocumentStore.getState().updateParagraph(0, { text: 'Later live document', figure: undefined });
+  await renderPreparedCorrespondence(captured, adapters, new AbortController().signal);
+  expect(active).toBe(false);
+});
+
+it('releases Word image resources and never converts after cancellation during asset acquisition', async () => {
+  const captured = ready('docx', { docType: 'business_letter', formData: { signatureType: 'none' }, paragraphs: [] });
+  const abort = new AbortController();
+  const adapters = ports(await pdf());
+  let released = false;
+  adapters.assets = { withAssets: async (_ids, operation) => {
+    try { abort.abort(); return await operation(() => { throw new Error('Unexpected asset'); }); }
+    finally { released = true; }
+  } };
+  await expect(renderPreparedCorrespondence(captured, adapters, abort.signal)).rejects.toThrow('cancelled');
+  expect(adapters.convertDocx).not.toHaveBeenCalled();
+  expect(released).toBe(true);
+});
 it('keeps captured enclosure bytes instead of replacing them with later storage contents', async () => {
   const own = await pdf(2);const later = await pdf(1);const main = await pdf();
   const captured = ready('pdf', { enclosures: [{ title: 'Owned enclosure', file: { name: 'owned.pdf', size: own.byteLength, data: new Uint8Array(own).buffer }, fileRef: { id: 'attachment', name: 'owned.pdf', size: own.byteLength, type: 'application/pdf' } }] });
@@ -91,6 +138,16 @@ it('excludes retained publication figures from an ordinary letter export', async
   expect((await PDFDocument.load(await artifact.blob.arrayBuffer())).getPageCount()).toBe(1);
   expect(copyPreparedDocument(job).document.formData.classLevel).toBe('unclassified');
   expect(adapters.compile).toHaveBeenCalledWith(expect.objectContaining({ 'body.tex': expect.stringContaining('Ordinary paragraph after a format switch') }));
+});
+
+it.each(['information_memorandum', 'joint_letter'])('does not resolve retained inactive %s signature handles for PDF', async docType => {
+  const job = ready('pdf', { docType, formData: { signatureType: 'image', signatureImage: {
+    name: 'retained.png', size: 1, data: '', fileRef: { id: 'missing-inactive-signature', name: 'retained.png', size: 1, type: 'image/png' },
+  } } });
+  const adapters = ports(await pdf());
+  const artifact = await renderPreparedCorrespondence(job, adapters, new AbortController().signal);
+  expect((await PDFDocument.load(await artifact.blob.arrayBuffer())).getPageCount()).toBe(1);
+  expect(copyPreparedDocument(job).document.formData.signatureImage?.fileRef?.id).toBe('missing-inactive-signature');
 });
 
 it('keeps prepared manual cover dates fixed when rendering after a century boundary', async () => {

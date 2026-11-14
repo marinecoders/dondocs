@@ -14,8 +14,10 @@ import { manualFrontMatterInputSchema } from './manualFrontMatterInput';
  */
 import { publicationExportErrors, isTechnicalPublication } from '../src/lib/publicationPreflight';
 import { publicationInputErrors } from './publicationInput';
+import { attachmentSchema } from './publicationSchema';
 import { TEMPLATE_FOR, toStore, type CompanionDefaults, type LetterInput } from './letterInput';
 import { DOC_TYPE_CONFIG } from '../src/types/document';
+import { businessFigureFile } from '../src/lib/figures';
 
 export const DOC_TYPES = [...Object.keys(DOC_TYPE_CONFIG), ...Object.keys(TEMPLATE_FOR)];
 export const FORMATS = ['pdf', 'docx'];
@@ -44,13 +46,15 @@ export function validateLetter(body: Partial<LetterInput>, defaults: CompanionDe
   const arrays: Array<[string, unknown]> = [
     ['paragraphs', body.paragraphs], ['references', body.references],
     ['enclosures', body.enclosures], ['copyTo', body.copyTo],
-    ['distribution', body.distribution], ['via', body.via],
+    ['distribution', body.distribution], ['via', body.via], ['attachments', body.attachments],
   ];
   for (const [name, value] of arrays) {
     if (value !== undefined && !Array.isArray(value)) {
       problems.push(`${name} must be an array, got ${typeof value}`);
     }
   }
+  if (problems.some(problem => problem.includes(' must be an array'))) return problems;
+  for (const file of body.attachments ?? []) if (!attachmentSchema.safeParse(file).success) problems.push('Attachments require bounded PNG, JPEG or PDF metadata and valid base64 bytes.');
   if (Array.isArray(body.paragraphs)) {
     body.paragraphs.forEach((para, i) => {
       if (typeof para?.text !== 'string') { problems.push(`paragraphs[${i}].text must be a string`); }
@@ -92,6 +96,7 @@ export function validateLetter(body: Partial<LetterInput>, defaults: CompanionDe
   if (!body.paragraphs?.length && !body.subject) {
     problems.push('nothing to render: supply at least a subject or one paragraph');
   }
+  if (problems.length) return problems;
 
   if (body.docType === MANUAL_DOC_TYPE) {
     if (body.format === 'docx') problems.push('TM/IETM front matter supports PDF only.');
@@ -130,9 +135,37 @@ export function validateLetter(body: Partial<LetterInput>, defaults: CompanionDe
         throw new Error('Could not validate publication metadata. Check the companion logs for details.', { cause: error });
       }
     }
-  } else if (body.publication || body.attachments?.length || (Array.isArray(body.enclosures) && body.enclosures.some((e) => e?.fileId))
-    || (Array.isArray(body.paragraphs) && body.paragraphs.some((p) => p?.figure || p?.tableKey || p?.publicationSection || p?.callout || p?.procedure || p?.appendix))) {
+  } else if (body.publication || (Array.isArray(body.enclosures) && body.enclosures.some((e) => e?.fileId))
+    || (Array.isArray(body.paragraphs) && body.paragraphs.some((p) => (p?.figure && body.docType !== 'business_letter') || p?.tableKey || p?.publicationSection || p?.callout || p?.procedure || p?.appendix))) {
     problems.push('Publication fields and attachments require docType i_type, sl3 or sl4.');
+  }
+  if (!isTechnicalPublication(body.docType ?? '')) {
+    const input = body as LetterInput;
+    problems.push(...publicationInputErrors(input));
+    const used = new Set((body.paragraphs ?? []).flatMap(p => p.figure ? [p.figure.fileId] : []));
+    if (body.signature?.imageFileId) used.add(body.signature.imageFileId);
+    for (const file of body.attachments ?? []) if (!used.has(file.id)) problems.push(`Attachment "${file.id}" is not used by a signature or business-letter figure.`);
+  }
+  if (body.signature?.imageFileId) {
+    const file = body.attachments?.find(file => file.id === body.signature!.imageFileId);
+    if (!file) problems.push(`Signature attachment "${body.signature.imageFileId}" is missing.`);
+    else if (file.mimeType !== 'image/png') problems.push('Signature images require a PNG attachment.');
+    if (DOC_TYPE_CONFIG[body.docType ?? '']?.signature === 'dual' || body.docType === 'information_memorandum' || isTechnicalPublication(body.docType ?? '')) problems.push('Signature images require supported single-signer correspondence.');
+  }
+  if (body.docType === 'business_letter') {
+    let number = 0;
+    for (const paragraph of body.paragraphs ?? []) {
+      if (!paragraph.figure) continue;
+      number++;
+      const file = body.attachments?.find(file => file.id === paragraph.figure!.fileId);
+      if (file && !['image/png', 'image/jpeg'].includes(file.mimeType)) {
+        problems.push(`Figure ${number}: business-letter figures require a PNG or JPEG attachment.`);
+      }
+      if (body.format !== 'docx') {
+        try { businessFigureFile(number, file?.mimeType, file?.name, paragraph.figure.fileId); }
+        catch (error) { problems.push(error instanceof Error ? error.message : 'Use a shorter figure attachment ID.'); }
+      }
+    }
   }
   return problems;
 }

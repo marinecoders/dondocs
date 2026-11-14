@@ -25,7 +25,7 @@ import { composeDistributionStatement } from '@/data/techpub/distributionStateme
 import { documentDistributionStatement } from './distributionStatement';
 import { formatPublicationDate } from '@/lib/publicationDate';
 import { withTimeCompliance } from '@/lib/timeCompliance';
-import { figureFile } from '@/lib/figures';
+import { businessFigureFile, figureFile } from '@/lib/figures';
 import type { DocumentData, Reference, Enclosure, Paragraph, CopyTo, Distribution, EndItem, PublicationTableRow, CalloutKind, FileRef } from '@/types/document';
 import { base64ToUint8Array } from '@/lib/encoding';
 import { composeBasicLetterId, enclosureStartNumber, pageStartNumber } from '@/lib/endorsement';
@@ -33,6 +33,7 @@ import { calculateLabels } from './paragraphLabels';
 import { agreementParagraphs } from './agreementLayout';
 import { ancestorLabelsPerParagraph, type LabelFont } from './subparagraphIndent';
 import { safeUrl } from '@/lib/url-safety';
+import { ImageInputError, supportsCorrespondenceSignatureImage } from '@/services/docx/imageAssets';
 import { splitAddressForLetterhead } from '@/lib/unitAddress';
 import { formatViaLines } from '@/lib/viaLines';
 import { parse as parseDate, isValid as isValidDate, format as formatDate } from 'date-fns';
@@ -1017,15 +1018,15 @@ export function generateBodyTex(store: DocumentStore): string {
 
     // A figure: the image, then its numbered title beneath. The framed
     // fallback stands in until the image is loaded, as the seal's does.
-    if (para.figure && store.docType === 'i_type') {
-      const file = figureFile(++figureFileIndex, para.figure.type, para.figure.name, para.figure.fileRef?.id);
+    if (para.figure && (store.docType === 'i_type' || store.docType === 'business_letter')) {
+      const file = (store.docType === 'business_letter' ? businessFigureFile : figureFile)(++figureFileIndex, para.figure.type, para.figure.name, para.figure.fileRef?.id);
       const number = ++printedFigureNumber;
       const label = appendixLetter ? `${appendixLetter}-${number}` : String(number);
       // A figure title carries no period at the end (MIL-STD-38784C 4.7.9.1).
       const graphicMark = para.figure.portionMarking ?? para.portionMarking;
-      const title = portionPrefix + bodyText(para.text.trim().replace(/\.$/, ''));
+      const title = (para.portionMarking ? `(${escapeLatex(para.portionMarking)}) ` : '') + bodyText(para.text.trim().replace(/\.$/, ''));
       parts.push(
-        `\\par\\vspace{12pt}\n\\begin{center}\n${navigationTex(navigation.get(`itype.figure.${i}`))}${graphicMark ? `(${graphicMark})\\\\*` : ""}` +
+        `\\par\\vspace{12pt}\n\\begin{center}\n${navigationTex(navigation.get(`itype.figure.${i}`))}${graphicMark ? `(${escapeLatex(graphicMark)})\\\\*` : ""}` +
           `\\IfFileExists{${file}}{\\includegraphics[width=\\textwidth,height=5in,keepaspectratio]{${file}}}` +
           `{\\framebox[3in][c]{\\parbox[c][1.5in][c]{2.8in}{\\centering\\scriptsize Figure ${label}\\\\(add image)}}}\\\\*[6pt]\n` +
           `\\textbf{Figure ${label}.\\hspace{2\\fontdimen2\\font}${title}}\n\\end{center}\n\\vspace{12pt}\n\n`
@@ -1268,6 +1269,15 @@ export interface GeneratedFiles {
 }
 
 export function generateAllLatexFiles(store: DocumentStore, resolvedLevel?: string, referenceDate = new Date()): GeneratedFiles {
+  if (store.docType === 'business_letter') {
+    let number = 0;
+    for (const paragraph of store.paragraphs) {
+      if (!paragraph.figure) continue;
+      number++;
+      if (!paragraph.figure.fileRef) throw new Error(`Figure ${number} has no image. Choose a PNG or JPEG before exporting.`);
+      if (/\.pdf$/i.test(figureFile(number, paragraph.figure.type, paragraph.figure.name))) throw new Error(`Figure ${number} is a PDF. Choose a PNG or JPEG for business-letter figures.`);
+    }
+  }
   const config = documentOutputConfig(store.docType, store.documentMode);
   store = { ...store, references: config.compliance.allowReferences ? store.references : [], enclosures: config.compliance.allowEnclosures ? store.enclosures : [] };
   if (store.docType === 'tm_ietm_front_matter') store = {
@@ -1310,9 +1320,11 @@ export function generateAllLatexFiles(store: DocumentStore, resolvedLevel?: stri
   }));
 
   // Convert signature image from base64 to Uint8Array if present
-  const signatureImage = store.formData.signatureImage?.data
-    ? base64ToUint8Array(store.formData.signatureImage.data)
-    : undefined;
+  let signatureImage: Uint8Array | undefined;
+  if (store.formData.signatureType === 'image' && supportsCorrespondenceSignatureImage(store.docType) && store.formData.signatureImage?.data) {
+    try { signatureImage = base64ToUint8Array(store.formData.signatureImage.data.replace(/^data:image\/png;base64,/, '')); }
+    catch (error) { throw new ImageInputError('The signature image is not valid base64. Reattach a valid PNG before exporting.', { cause: error }); }
+  }
 
   // Collect reference URLs for hyperlink creation
   const referenceUrls: ReferenceUrlData[] = store.references
@@ -1320,12 +1332,12 @@ export function generateAllLatexFiles(store: DocumentStore, resolvedLevel?: stri
     .map((r) => ({ letter: r.letter, url: r.url! }));
 
   const figures: GeneratedFiles['figures'] = [];
-  if (isTechnicalPublication(store.docType)) {
+  if (isTechnicalPublication(store.docType) || store.docType === 'business_letter') {
     let figureFileIndex = 0;
     for (const p of store.paragraphs) {
       if (!p.figure) continue;
       figureFileIndex++;
-      if (p.figure.fileRef) figures.push({ file: figureFile(figureFileIndex, p.figure.type, p.figure.name, p.figure.fileRef.id), ref: p.figure.fileRef });
+      if (p.figure.fileRef) figures.push({ file: (store.docType === 'business_letter' ? businessFigureFile : figureFile)(figureFileIndex, p.figure.type, p.figure.name, p.figure.fileRef.id), ref: p.figure.fileRef });
     }
   }
   return { texFiles, enclosures, includeHyperlinks: !!store.formData.includeHyperlinks, signatureImage, referenceUrls, figures };

@@ -11,6 +11,29 @@ export const figureExtension = (mime: string | undefined, name: string | undefin
 export const figureFile = (n: number, mime?: string, name?: string, id?: string): string =>
   `attachments/figure-${n}${id ? '-' + Array.from(id).map((c) => c.codePointAt(0)!.toString(16).padStart(6, '0')).join('') : ''}.${figureExtension(mime, name)}`;
 
+/** Business letters also accept request attachment IDs, which can exceed a
+ * native filename after hex expansion. Keep ordinary cache identities intact
+ * and encode longer IDs reversibly, without truncation or digest collisions. */
+export function businessFigureFile(n: number, mime?: string, name?: string, id?: string): string {
+  if (mime && !['image/png', 'image/jpeg', 'application/pdf'].includes(mime)) throw new Error('Business-letter figures require PNG or JPEG images.');
+  if (id !== undefined) {
+    try { encodeURIComponent(id); } catch { throw new Error('Business-letter PDF figure IDs must contain valid Unicode.'); }
+  }
+  const existing = figureFile(n, mime, name, id);
+  if (existing.length <= 240) return existing;
+  const alphabet = 'abcdefghijklmnopqrstuvwxyz234567';
+  let value = 0, bits = 0, encoded = '';
+  for (const byte of new TextEncoder().encode(id)) {
+    value = (value << 8) | byte; bits += 8;
+    while (bits >= 5) { bits -= 5; encoded += alphabet[(value >>> bits) & 31]; }
+    value &= (1 << bits) - 1;
+  }
+  if (bits) encoded += alphabet[(value << (5 - bits)) & 31];
+  const path = `attachments/figure-${n}-x${encoded}.${figureExtension(mime, name)}`;
+  if (path.length > 240) throw new Error('Use a shorter business-letter PDF figure attachment ID.');
+  return path;
+}
+
 /** A figure prints at text width, or narrower when its height would pass 5in. */
 const PRINT_WIDTH_IN = 6.5;
 const PRINT_HEIGHT_IN = 5;
