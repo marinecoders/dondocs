@@ -17,7 +17,9 @@ import { idbFormDefinitions, idbGetAllDocuments, idbSetSnapshots, idbPutDocument
 import * as db from '@/lib/documentsDb';
 import { collectLiveAttachmentIds } from '@/lib/attachmentGc';
 import { formTemplateAttachmentId } from '@/lib/formTemplateAssets';
-import { buildAssetSharePayload, parseSharedDocument, hasShareAssets } from '@/lib/assetShare';
+import { buildAssetSharePayload, parseSharedDocument, hasShareAssets, assetShareReviewSession, assertConfiguredFormSharePolicy } from '@/lib/assetShare';
+import { resolveExportDeploymentPolicy } from '@/lib/exportDeploymentPolicy';
+import { detectSharedSessionPII } from '@/services/pii/detector';
 import { openSharedDocument } from '@/lib/sharedDocumentActions';
 import { encryptSharePayload, decryptSharePayload } from '@/lib/shareCrypto';
 
@@ -224,6 +226,21 @@ it.each(['missing-binding', 'nested-resources', 'mismatched-definition'] as cons
   if (mutation === 'mismatched-definition') (envelope.draft.genericForm as { definition: { label: string } }).definition.label = 'Unrelated same-ID form';
   const before = useDocumentStore.getState().getSnapshot();
   await expect(parseSharedDocument(envelope)).rejects.toThrow();expect(useDocumentStore.getState().getSnapshot()).toEqual(before);
+});
+
+it('reviews all transferred form text, including unused definition labels and page filenames', async () => {
+  const { instance } = await source();instance.definition.pages[0].file = '123-45-6789.pdf';
+  openFormInstance(instance);
+  const snapshot = useDocumentStore.getState().getSnapshot();
+  const session = assetShareReviewSession(snapshot, Date.now());
+  expect(detectSharedSessionPII(session).findings).toContainEqual(expect.objectContaining({ type: 'SSN', value: '123-45-6789' }));
+  const policy = resolveExportDeploymentPolicy({ hostname: 'example.test', runtime: { status: 'absent' }, environment: null });
+  expect(() => assertConfiguredFormSharePolicy(session, policy)).not.toThrow();
+  session.genericForm!.definition.fields.decision.options![1].label = 'SECRET';
+  expect(() => assertConfiguredFormSharePolicy(session, policy)).toThrow(/outside this deployment/);
+  const allowed = resolveExportDeploymentPolicy({ hostname: 'smil.mil', runtime: { status: 'absent' }, environment: null });
+  expect(() => assertConfiguredFormSharePolicy(session, allowed)).not.toThrow();
+  expect(snapshot.genericForm?.definition.fields.decision.options![1].label).toBe('No');
 });
 
 it('does not collect any aged page when persisted definition ownership cannot be read', async () => {
