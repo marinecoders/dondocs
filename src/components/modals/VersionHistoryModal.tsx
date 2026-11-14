@@ -4,8 +4,9 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '
 import { Button } from '@/components/ui/button';
 import { useUIStore } from '@/stores/uiStore';
 import { SessionChanges } from '@/components/SessionChanges';
+import { ChangeReportDownload } from '@/components/ChangeReportDownload';
 import { getSerializedSession } from '@/stores/documentStore';
-import { useDocumentsStore, deriveTitle, captureDocumentTarget } from '@/stores/documentsStore';
+import { useDocumentsStore, deriveTitle, captureDocumentTarget, isCurrentDocumentScope } from '@/stores/documentsStore';
 import { idbReadSnapshots, type DocSnapshot } from '@/lib/documentsDb';
 
 function fmt(ts: number): string {
@@ -30,7 +31,8 @@ function DocumentHistory({ docId }: { docId: string }) {
   const [restoreError, setRestoreError] = useState<string | null>(null);
   const versionSelectId = useId();
   const comparisonRef = useRef<HTMLDivElement>(null);
-  const [currentSession] = useState(getSerializedSession);
+  const [currentSession] = useState(() => structuredClone(getSerializedSession()));
+  const [capturedAt] = useState(() => new Date().toISOString());
   const [target] = useState(captureDocumentTarget);
   const active = useRef(true);
   useEffect(() => { active.current = true; return () => { active.current = false; }; }, []);
@@ -143,6 +145,11 @@ function DocumentHistory({ docId }: { docId: string }) {
           <div ref={comparisonRef} role="region" aria-label="Version comparison" tabIndex={0} className="min-h-0 min-w-0 flex-1 overflow-y-auto border-t pt-4 pr-1 focus-visible:outline-2 focus-visible:outline-ring md:border-t-0 md:border-l md:pt-0 md:pl-5">
             {selected ? <div className="space-y-4">
               <h2 className="hidden text-sm font-medium md:block">Changes from {fmt(selected.ts)}</h2>
+              <ChangeReportDownload key={snaps.indexOf(selected)}
+                before={{ label: `Saved version ${snaps.indexOf(selected) + 1} (${fmt(selected.ts)})`, title: deriveTitle(selected.session), session: selected.session }}
+                after={{ label: `Current draft when History opened (${fmt(new Date(capturedAt).getTime())})`, title: deriveTitle(currentSession), session: currentSession }}
+                capturedAt={capturedAt}
+                ownsDocument={() => !!target && target.scope.documentId === docId && isCurrentDocumentScope(target.scope)} />
               <SessionChanges before={currentSession} after={selected.session} highlightText />
             </div> : <p className="py-6 text-sm text-muted-foreground">Select a saved version to inspect its changes. Your current document stays unchanged until you restore.</p>}
           </div>
