@@ -63,10 +63,16 @@ describe('interrupted review return recovery', () => {
     await expect(recoverReviewReturnWrite({ before, versions: [first, imported], reviewReturns: [{ index: 1, operation: bad }] })).rejects.toThrow();
     expect(await saved()).toEqual(before);expect(await receipt()).toBeNull();
   });
+  it('rejects a later comment fence that carries a body edit before committing an earlier valid fence', async () => {
+    const second = structuredClone(operation);second.receipt.returnId = `return_${crypto.randomUUID()}`;
+    await expect(recoverReviewReturnWrite({ before, versions: [imported, latest], reviewReturns: [{ index: 0, operation }, { index: 1, operation: second }] })).rejects.toThrow(/unrelated document changes/);
+    expect(await saved()).toEqual(before);expect(await receipt()).toBeNull();expect(await idbReadReviewReturn(second.round.id, second.receipt.returnId)).toBeNull();
+  });
   it('fails closed before any write when a later baseline is unavailable', async () => {
     const otherId = `review_${crypto.randomUUID()}`;
     const other = { ...operation, round: { ...operation.round, id: otherId }, receipt: { ...operation.receipt, roundId: otherId } };
-    await expect(recoverReviewReturnWrite({ before, versions: [imported, latest], reviewReturns: [{ index: 0, operation }, { index: 1, operation: other }] })).rejects.toThrow(/baseline/);
+    const second = structuredClone(imported);second.meta.updatedAt++;
+    await expect(recoverReviewReturnWrite({ before, versions: [imported, second], reviewReturns: [{ index: 0, operation }, { index: 1, operation: other }] })).rejects.toThrow(/baseline/);
     expect(await saved()).toEqual(before);expect(await receipt()).toBeNull();
   });
 });

@@ -877,6 +877,15 @@ export function sameReviewStoredValue(left: unknown, right: unknown): boolean {
     && sameReviewStoredValue((left as Record<string, unknown>)[key], (right as Record<string, unknown>)[key]));
 }
 
+/** A comment-return fence cannot carry body, attachment or other metadata changes. */
+export function isCommentOnlyReviewReturnChange(before: StoredDocument, after: StoredDocument): boolean {
+  const withoutComments = (record: StoredDocument) => {
+    const copy = structuredClone(record);delete copy.session.reviewComments;
+    delete (copy.meta as Partial<DocumentMeta>).updatedAt;return copy;
+  };
+  return sameReviewStoredValue(withoutComments(before), withoutComments(after));
+}
+
 /** The discussion update and deduplication receipt either both commit or neither does. */
 export async function idbApplyReviewReturn(
   inputBefore: StoredDocument,
@@ -892,13 +901,7 @@ export async function idbApplyReviewReturn(
     if (before.id !== after.id || before.meta.id !== before.id || after.meta.id !== before.id
       || round.ownerDocumentId !== before.id || receipt.documentId !== before.id
       || round.id !== receipt.roundId || round.baselineDigest !== receipt.baselineDigest) return 'conflict';
-    const withoutComments = (record: StoredDocument) => {
-      const copy = structuredClone(record);
-      delete copy.session.reviewComments;
-      delete (copy.meta as Partial<DocumentMeta>).updatedAt;
-      return copy;
-    };
-    if (!sameReviewStoredValue(withoutComments(before), withoutComments(after))) return 'conflict';
+    if (!isCommentOnlyReviewReturnChange(before, after)) return 'conflict';
     const db = await openDb();
     return await new Promise<ReviewReturnWriteOutcome>((resolve, reject) => {
       const transaction = db.transaction([DOCS_STORE, APP_STORE], 'readwrite');

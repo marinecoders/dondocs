@@ -27,7 +27,7 @@ import {
   parseShareUrl,
 } from '@/lib/shareCrypto';
 import { getSerializedSessionForShare, type SerializedSession } from '@/stores/documentStore';
-import { openSessionAsNew, captureDocumentScope, hasPendingReviewWrites, flushPendingReviewWrites } from '@/stores/documentsStore';
+import { openSessionAsNew, captureDocumentScope, isCurrentDocumentScope, hasPendingReviewWrites, flushPendingReviewWrites } from '@/stores/documentsStore';
 import { parseSharedSession, createSharedPayload, validateShareExpiration } from '@/lib/sharedSession';
 import { detectSharedSessionPII, getPIITypeLabel, type PIIDetectionResult } from '@/services/pii/detector';
 
@@ -259,7 +259,9 @@ export function ShareModal({
           <Button type="button" variant="outline" disabled={working} onClick={() => void (async () => {
             setWorking(true);setError(null);
             try {
+              if (!ownerScope || !isCurrentDocumentScope(ownerScope)) throw new Error('The active draft changed. Close Share and reopen it for the document you want to send.');
               if (hasPendingReviewWrites(reviewOwnerId)) await flushPendingReviewWrites(reviewOwnerId);
+              if (!isCurrentDocumentScope(ownerScope)) throw new Error('The active draft changed. Close Share and reopen it for the document you want to send.');
               setCapture({ snapshot: getSerializedSessionForShare(), error: null });
             } catch (cause) { setCapture({ snapshot: null, error: cause instanceof Error ? cause.message : 'This draft could not be prepared. Retry Save first.' }); }
             finally { setWorking(false); }

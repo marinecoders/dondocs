@@ -41,6 +41,7 @@ import { ensureParagraphIds, paragraphCommentIds } from '@/lib/paragraphIdentity
 import type { Profile } from '@/types/document';
 import {
   idbGetAllDocuments,
+  sameReviewStoredValue,
   idbWriteDocument,
   idbDeleteDocumentIfUnchanged,
   idbAddSnapshot,
@@ -1004,7 +1005,7 @@ async function recoverInterruptedSave(): Promise<void> {
       ...JSON.parse(sessionStorage.getItem(REVIEW_WRITE_RECOVERY_KEY) ?? '[]'),
       ...JSON.parse(sessionStorage.getItem(WRITE_JOURNAL_KEY) ?? '[]'),
     ]);
-    reviewRecovery = pending.filter(item => item.reviewReturns?.length);
+    reviewRecovery = pending.some(item => item.reviewReturns?.length) ? pending : [];
     if (reviewRecovery.length) retainedReviewWriteIntent = true;
     // Read recovery records written by the previous release too.
     const legacy = sessionStorage.getItem('dondocs-interrupted-save');
@@ -1067,11 +1068,24 @@ async function recoverInterruptedSave(): Promise<void> {
   if (recoveryCopies.length) showAppAlert({ title: 'Recovered edits need your review', message: 'A saved document changed or was deleted while edits were pending. Use Document actions → Open recovered copies to keep those edits as separate documents.' });
 }
 
+function sameRecoveryRevision(left: StoredDocument, right: StoredDocument | undefined): boolean {
+  if (!right) return false;
+  const comparable = (record: StoredDocument) => ({ ...record, session: { ...record.session,
+    formData: { ...record.session.formData, signatureImage: signatureForComparison(record.session.formData.signatureImage) },
+    forms: record.session.forms && { ...record.session.forms,
+      ...(record.session.forms.navmc10274 ? { navmc10274: formSignaturesForComparison(record.session.forms.navmc10274) } : {}),
+      ...(record.session.forms.navmc11811 ? { navmc11811: formSignaturesForComparison(record.session.forms.navmc11811) } : {}),
+    },
+  } });
+  return sameReviewStoredValue(comparable(left), comparable(right));
+}
+
 export async function openRecoveredCopies(): Promise<void> {
   useDocumentsStore.getState().syncCurrent();
   await writes.flush();
-  const firstCopyId = recoveryCopies[0]?.copyId;
-  for (const copy of recoveryCopies) {
+  const attemptedCopies = structuredClone(recoveryCopies);
+  const firstCopyId = attemptedCopies[0]?.copyId;
+  for (const copy of attemptedCopies) {
     const meta = { ...copy.after.meta, id: copy.copyId, title: `Recovered: ${copy.after.meta.title}`, name: `Recovered: ${copy.after.meta.title}` };
     const record = { ...copy.after, id: copy.copyId, meta, session: await materializeSignatureFallbacks(copy.after.session) };
     const outcome = await idbWriteDocument(null, record);
@@ -1084,7 +1098,7 @@ export async function openRecoveredCopies(): Promise<void> {
   const persisted = new Map(originals.map(record => [record.id, record]));
   useDocumentsStore.setState(state => {
     const docs = { ...state.docs };
-    for (const copy of recoveryCopies) {
+    for (const copy of attemptedCopies) {
       if (writes.failure(copy.after.id) === 'conflict' || writes.failure(copy.after.id) === 'missing-document') writes.cancel(copy.after.id);
       const original = persisted.get(copy.after.id);
       if (original) docs[original.id] = { meta: original.meta, session: original.session };
@@ -1094,21 +1108,26 @@ export async function openRecoveredCopies(): Promise<void> {
   });
   if (firstCopyId) useDocumentsStore.getState().switchTo(firstCopyId);
   if (firstCopyId && !writes.hasReviewReturns()) {
-    const copied = new Set(recoveryCopies.map(copy => copy.after.id));
-    // Keeping a new unbound draft cancels the failed original return intent; it
-    // does not create a receipt or claim that the original source was updated.
-    try {
-      const pending = parseDocumentWriteJournal(JSON.parse(sessionStorage.getItem(WRITE_JOURNAL_KEY) ?? '[]'))
-        .filter(item => !item.reviewReturns?.length || !copied.has(item.versions[0].id));
-      if (pending.length) sessionStorage.setItem(WRITE_JOURNAL_KEY, serializeDocumentWriteJournal(pending));
-      else sessionStorage.removeItem(WRITE_JOURNAL_KEY);
-      sessionStorage.removeItem(REVIEW_WRITE_RECOVERY_KEY);
-      retainedReviewWriteIntent = false;
-    } catch { /* Unsupported intent stays available for a compatible reader. */ }
+    // Only the exact latest edits actually saved as unbound copies release intent.
+    // Each journal is independent: an unknown or later owner's record stays raw.
+    for (const key of [WRITE_JOURNAL_KEY, REVIEW_WRITE_RECOVERY_KEY]) {
+      try {
+        const raw = sessionStorage.getItem(key);
+        if (!raw) continue;
+        const pending = parseDocumentWriteJournal(JSON.parse(raw)).filter(item => !attemptedCopies.some(copy =>
+          copy.after.id === item.versions[0].id && sameRecoveryRevision(copy.after, item.versions.at(-1))));
+        if (pending.length) sessionStorage.setItem(key, serializeDocumentWriteJournal(pending));
+        else sessionStorage.removeItem(key);
+      } catch { /* Unknown, newer or undurable intent remains available for a compatible reader. */ }
+    }
+    try { retainedReviewWriteIntent = sessionStorage.getItem(REVIEW_WRITE_RECOVERY_KEY) !== null; }
+    catch { retainedReviewWriteIntent = true; }
   }
-  sessionStorage.removeItem(RECOVERY_KEY);
-  recoveryCopies = [];
-  useDocumentsStore.setState({ recoveryCount: 0 });
+  recoveryCopies = recoveryCopies.filter(copy => !attemptedCopies.some(saved => saved.copyId === copy.copyId
+    && sameRecoveryRevision(saved.after, copy.after)));
+  if (recoveryCopies.length) sessionStorage.setItem(RECOVERY_KEY, JSON.stringify(recoveryCopies));
+  else sessionStorage.removeItem(RECOVERY_KEY);
+  useDocumentsStore.setState({ recoveryCount: recoveryCopies.length });
 }
 
 // Shared hydration promise so concurrent init() calls read the registry once.
@@ -1714,7 +1733,7 @@ if (typeof document !== 'undefined') {
 // list so it can't go stale (and a delete in one tab disappears in the other).
 // Only the document LIST is synced — never the live editor — so the tab you're
 // actively typing in is never clobbered.
-if (typeof BroadcastChannel !== 'undefined') {
+if (typeof window !== 'undefined' && typeof BroadcastChannel !== 'undefined') {
   docsChannel = new BroadcastChannel('dondocs-docs');
   docsChannel.onmessage = (event: MessageEvent<{ type?: string; id?: string }>) => {
     void idbGetAllDocuments().then(async records => records && await materializeRegistrySignatures(records)).then((records) => {

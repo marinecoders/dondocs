@@ -59,6 +59,41 @@ describe('workspace recovery of review-return writes', () => {
     expect(await readReviewCopyLink(newId)).toBeNull();expect(await idbReadReviewReturn(operation.round.id, operation.receipt.returnId)).toBeNull();
     expect(hasPendingReviewWrites()).toBe(false);
   });
+  it.each(['review', 'ordinary'] as const)('keeps a later %s owner’s unprocessed edits after opening the first conflicting recovered copy', async kind => {
+    const foreign = structuredClone(before);foreign.meta.updatedAt = 999;foreign.session.formData.subject = 'Foreign first owner';await idbPutDocument(foreign);
+    const second = structuredClone(pending), secondId = crypto.randomUUID();
+    for (const value of [second.before!, ...second.versions]) { value.id = secondId;value.meta.id = secondId; }
+    second.versions.at(-1)!.session.formData.subject = 'Second owner latest edits';
+    const secondOperation = second.reviewReturns![0].operation;
+    secondOperation.round = { ...secondOperation.round, id: `review_${crypto.randomUUID()}`, ownerDocumentId: secondId };
+    secondOperation.receipt = { ...secondOperation.receipt, roundId: secondOperation.round.id, documentId: secondId, returnId: `return_${crypto.randomUUID()}` };
+    if (kind === 'review') {
+      await idbAddReviewRound({ kind: 'dondocs-review-round', version: 1, id: secondOperation.round.id, createdAt: 100, label: 'Second owner review',
+        sourceDocumentId: secondId, ownerDocumentId: secondId, baselineDigest: secondOperation.round.baselineDigest, baseline: { ts: 100, session: second.before!.session } });
+    } else { delete second.reviewReturns;for (const value of second.versions) delete value.session.reviewComments; }
+    await idbPutDocument(second.before!);
+    sessionStorage.setItem(WRITE_JOURNAL_KEY, serializeDocumentWriteJournal([pending, second]));
+    await useDocumentsStore.getState().init();expect(useDocumentsStore.getState().recoveryCount).toBe(1);
+    await openRecoveredCopies();
+    const retained = sessionStorage.getItem(REVIEW_WRITE_RECOVERY_KEY)!;
+    expect(retained).toContain(secondId);expect(retained).not.toContain(operation.receipt.returnId);
+    expect((await record()).session.formData.subject).toBe('Foreign first owner');
+    vi.resetModules();const fresh = await import('@/stores/documentsStore');await fresh.useDocumentsStore.getState().init();
+    expect((await record(secondId)).session.formData.subject).toBe('Second owner latest edits');
+    if (kind === 'review') expect(await idbReadReviewReturn(secondOperation.round.id, secondOperation.receipt.returnId)).toEqual(secondOperation.receipt);
+    expect(await idbReadReviewReturn(operation.round.id, operation.receipt.returnId)).toBeNull();
+  });
+  it('keeps an unknown future intent when an existing ordinary recovery copy is opened', async () => {
+    const raw = JSON.parse(serializeDocumentWriteJournal([pending]));raw[0].version = 99;
+    sessionStorage.setItem(REVIEW_WRITE_RECOVERY_KEY, JSON.stringify(raw));
+    sessionStorage.setItem('dondocs-recovery-copies', JSON.stringify([{ copyId: crypto.randomUUID(), after: latest }]));
+    await useDocumentsStore.getState().init();expect(useDocumentsStore.getState().recoveryCount).toBe(1);
+    await openRecoveredCopies();
+    expect(sessionStorage.getItem(REVIEW_WRITE_RECOVERY_KEY)).toBe(JSON.stringify(raw));expect(hasPendingReviewWrites()).toBe(true);
+    vi.resetModules();const fresh = await import('@/stores/documentsStore');await fresh.useDocumentsStore.getState().init();
+    expect(sessionStorage.getItem(REVIEW_WRITE_RECOVERY_KEY)).toBe(JSON.stringify(raw));expect(fresh.hasPendingReviewWrites()).toBe(true);
+    expect(await idbReadReviewReturn(operation.round.id, operation.receipt.returnId)).toBeNull();
+  });
   it.each(['foreign', 'future'] as const)('retains %s review intent through unrelated normal writes and a fresh hydration', async kind => {
     if (kind === 'foreign') {
       const foreign = structuredClone(before);foreign.meta.updatedAt = 999;foreign.session.formData.subject = 'Another tab';await idbPutDocument(foreign);
