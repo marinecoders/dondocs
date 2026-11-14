@@ -3,7 +3,7 @@ import { beforeEach, describe, expect, it } from 'vitest';
 import { createBlankSession } from '@/stores/documentStore';
 import { idbAddReviewRound, idbApplyReviewReturn, idbGetAllDocuments, idbPutDocument, idbReadReviewReturn, type StoredDocument } from '@/lib/documentsDb';
 import { recoverReviewReturnWrite } from '@/lib/reviewReturnRecovery';
-import type { PendingDocumentWrite } from '@/lib/documentWrites';
+import { parseDocumentWriteJournal, serializeDocumentWriteJournal, type PendingDocumentWrite } from '@/lib/documentWrites';
 import type { ReviewRound } from '@/lib/reviewRounds';
 import type { ReviewReturnWrite } from '@/lib/reviewReturns';
 
@@ -74,5 +74,39 @@ describe('interrupted review return recovery', () => {
     const second = structuredClone(imported);second.meta.updatedAt++;
     await expect(recoverReviewReturnWrite({ before, versions: [imported, second], reviewReturns: [{ index: 0, operation }, { index: 1, operation: other }] })).rejects.toThrow(/baseline/);
     expect(await saved()).toEqual(before);expect(await receipt()).toBeNull();
+  });
+  it.each([
+    { title: { text: 'Invalid title' } },
+    { name: ['Invalid name'] },
+    { updatedAt: 'later' },
+    { updatedAt: Infinity },
+    { updatedAt: NaN },
+    { pinned: 'yes' },
+    { nativeReviewText: false },
+    { deletedAt: -1 },
+  ])('rejects malformed later document metadata before saving feedback: %j', async invalid => {
+    Object.assign(latest.meta, invalid);
+    await expect(recoverReviewReturnWrite(pending())).rejects.toThrow(/metadata/);
+    expect(await saved()).toEqual(before);expect(await receipt()).toBeNull();
+  });
+  it('rejects malformed before metadata without modifying the saved document or writing a receipt', async () => {
+    const invalid = pending();invalid.before = structuredClone(before);
+    Object.assign(invalid.before.meta, { title: { text: 'Invalid title' } });
+    await expect(recoverReviewReturnWrite(invalid)).rejects.toThrow(/metadata/);
+    expect(await saved()).toEqual(before);expect(await receipt()).toBeNull();
+  });
+  it('retains unknown metadata fields without changing the captured revisions', async () => {
+    for (const record of [before, imported, latest]) Object.assign(record.meta, { futureHint: { value: 'retained' } });
+    await idbPutDocument(before);
+    expect(await recoverReviewReturnWrite(pending())).toBe('committed');
+    expect(await saved()).toEqual(latest);expect(await receipt()).toEqual(operation.receipt);
+  });
+  it('recovers a serialized journal when optional saved properties have undefined values', async () => {
+    for (const record of [before, imported, latest]) record.session.formData.signatureImage = undefined;
+    await idbPutDocument(before);
+    const serialized = parseDocumentWriteJournal(JSON.parse(serializeDocumentWriteJournal([pending()])))[0];
+    expect(await recoverReviewReturnWrite(serialized)).toBe('committed');
+    expect((await saved())?.session.formData.subject).toBe('Later author text');
+    expect(await receipt()).toEqual(operation.receipt);
   });
 });

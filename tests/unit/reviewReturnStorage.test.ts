@@ -1,7 +1,7 @@
 import 'fake-indexeddb/auto';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { createBlankSession } from '@/stores/documentStore';
-import { idbAddReviewRound, idbApplyReviewReturn, idbGetAllDocuments, idbPutDocument, idbReadReviewReturn, idbReadReviewReturnBackup, idbRestoreReviewReturns, type StoredDocument } from '@/lib/documentsDb';
+import { idbAddReviewRound, idbApplyReviewReturn, idbGetAllDocuments, idbPutDocument, idbReadReviewReturn, idbReadReviewReturnBackup, idbRestoreReviewReturns, sameReviewStoredValue, type StoredDocument } from '@/lib/documentsDb';
 import { type ReviewRound } from '@/lib/reviewRounds';
 import { type ReviewReturnReceipt } from '@/lib/reviewReturns';
 
@@ -23,6 +23,13 @@ beforeEach(async () => {
 const stored = async () => (await idbGetAllDocuments())!.find(record => record.id === before.id);
 
 describe('atomic discussion-return storage', () => {
+  it('matches omitted optional JSON properties without collapsing nulls, array slots or bytes', () => {
+    expect(sameReviewStoredValue({ nested: { optional: undefined } }, { nested: {} })).toBe(true);
+    expect(sameReviewStoredValue({ optional: null }, {})).toBe(false);
+    expect(sameReviewStoredValue([undefined], Array(1))).toBe(false);
+    expect(sameReviewStoredValue([undefined], [null])).toBe(false);
+    expect(sameReviewStoredValue(new Uint8Array([1]).buffer, new Uint8Array([2]).buffer)).toBe(false);
+  });
   it('commits only discussion changes and its receipt together', async () => {
     expect(await idbApplyReviewReturn(before, after, round, receipt)).toBe('committed');
     expect(await stored()).toEqual(after);expect(await idbReadReviewReturn(round.id, receipt.returnId)).toEqual(receipt);
