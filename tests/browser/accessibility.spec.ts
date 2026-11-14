@@ -95,23 +95,21 @@ for (const theme of ['light', 'dark', 'classic']) {
 
       const commentsButton = page.getByRole('button', { name: /^Comments(?: \(\d+\))?$/ });
       await subject.fill('Synthetic long field '.repeat(1_001));
-      if (info.project.name === 'desktop') {
-        // The context-limit fixture also exceeds the printable address block.
-        const compileError = page.getByRole('dialog', { name: 'Preview compile failed', exact: true });
-        await expect(compileError).toBeVisible({ timeout: 60_000 });
-        const compileLog = compileError.getByRole('region', { name: 'Compile error log', exact: true });
-        await expect(compileLog).toContainText('Address block is too tall');
-        await compileLog.focus();
-        await expect(compileLog).toBeFocused();
-        await compileLog.press('End');
-        await expect.poll(() => compileLog.evaluate(element => element.scrollTop)).toBeGreaterThan(0);
-        await containedFocus(page, compileError);
-        await scan(page, info, 'oversized-field-preview-error');
-        await page.screenshot({ path: info.outputPath('oversized-field-preview-error.png') });
-        await page.keyboard.press('Escape');
-        await expect(compileError).toBeHidden();
-        await expect(subject).toBeFocused();
-      }
+      // Every viewport auto-compiles this fixture, even with the phone preview closed.
+      const compileError = page.getByRole('dialog', { name: 'Preview compile failed', exact: true });
+      await expect(compileError).toBeVisible({ timeout: 60_000 });
+      const compileLog = compileError.getByRole('region', { name: 'Compile error log', exact: true });
+      await expect(compileLog).toContainText('Address block is too tall');
+      await compileLog.focus();
+      await expect(compileLog).toBeFocused();
+      await compileLog.press('End');
+      await expect.poll(() => compileLog.evaluate(element => element.scrollTop)).toBeGreaterThan(0);
+      await containedFocus(page, compileError);
+      await scan(page, info, 'oversized-field-preview-error');
+      await page.screenshot({ path: info.outputPath('oversized-field-preview-error.png') });
+      await page.keyboard.press('Escape');
+      await expect(compileError).toBeHidden();
+      await expect(subject).toBeFocused();
       await keyboardOpen(commentsButton);
       const comments = page.getByRole('dialog', { name: 'Document comments', exact: true });
       const post = comments.getByRole('button', { name: 'Post comment', exact: true });
