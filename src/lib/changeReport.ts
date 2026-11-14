@@ -1,6 +1,6 @@
 import type { SerializedSession } from '@/stores/documentStore';
 import { DOCUMENT_FIELD_POLICIES, type FieldRule } from './documentFieldPolicies';
-import { diffSessions, type SessionChange } from './sessionDiff';
+import { compareSessions, type SessionChange } from './sessionDiff';
 import { reviewCommentsSchema } from './reviewComments';
 import { describeCommentAnchor } from './reviewCommentTargets';
 import { parseFormInstance, type AnswerField, type Answer } from '@/services/forms/model';
@@ -84,6 +84,8 @@ function discussions(session: SerializedSession): ReportDiscussion[] {
 function reportSession(session: SerializedSession): SerializedSession {
   const projected = reportFields(session, { fields: DOCUMENT_FIELD_POLICIES }) as SerializedSession;
   if (session.genericForm) projected.formType = parseFormInstance(session.genericForm).definition.label;
+  // IDs align the sanitized paragraphs privately; the diff never emits them.
+  if (Array.isArray(projected.paragraphs)) projected.paragraphs = projected.paragraphs.map((paragraph, index) => ({ ...paragraph, id: session.paragraphs[index]?.id }));
   return projected;
 }
 
@@ -105,11 +107,12 @@ export function prepareChangeReport(capture: ReturnType<typeof captureChangeRepo
   if (policy.status !== 'ready') throw new Error(policy.message);
   assertExportDeploymentPolicy(policy.policy);
   const { before, after, capturedAt } = capture;
+  const comparison = compareSessions(reportSession(before.session), reportSession(after.session));
   const report = {
     customMarkings: [] as string[],
     before: { label: before.label, title: before.title, discussions: discussions(before.session) },
     after: { label: after.label, title: after.title, discussions: discussions(after.session) },
-    changes: diffSessions(reportSession(before.session), reportSession(after.session)),
+    changes: comparison.changes,
   };
   const notices: string[] = [];
   const levels = new Set<string>(['unclassified']);
@@ -149,20 +152,23 @@ export function prepareChangeReport(capture: ReturnType<typeof captureChangeRepo
   const recognized = CLASSIFICATION_LABELS[[...levels].sort((a, b) => classificationRank(b)! - classificationRank(a)!)[0] as ClassificationLevel];
   const marking = notices.length ? `MARKING REVIEW REQUIRED (highest recognized marking: ${recognized})` : recognized;
   const stamp = new Date(capturedAt).toISOString().replace(/[:.]/g, '-');
-  return { ...report, capturedAt, filename: `change-report-${stamp}.html`, privacy: detectTextPII(fields), notices: [...new Set(notices)], marking };
+  return { ...report, capturedAt, filename: `change-report-${stamp}.html`, privacy: detectTextPII(fields), notices: [...new Set([...comparison.notices, ...notices])], marking };
 }
 
 const escape = (text: string) => text.replace(/[&<>"']/g, character => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[character]!);
 const text = (value: string) => `<pre>${escape(value || '(Empty)')}</pre>`;
 
 export function renderChangeReport(report: ChangeReport): string {
+  const summary = report.changes.some(change => change.kind)
+    ? `${report.changes.length} comparison ${report.changes.length === 1 ? 'item' : 'items'}.`
+    : `${report.changes.length} changed fields.`;
   const discussion = (version: ChangeReport['before']) => `<section><h2>Discussions — ${escape(version.label)}</h2>${version.discussions.length ? version.discussions.map((thread, index) => `<article><h3>Thread ${index + 1}: ${escape(thread.target)}</h3><p>${escape(thread.status)}</p>${thread.context === undefined ? '' : `<h4>When commented (retained context)</h4>${text(thread.context)}`}${thread.current === undefined ? '' : `<h4>Target in this version</h4>${text(thread.current)}`}${thread.messages.map((message, i) => `<h4>${i ? 'Reply' : 'Comment'} by ${escape(message.author)}</h4>${text(message.text)}`).join('')}</article>`).join('') : '<p>No comments.</p>'}</section>`;
   return `<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; base-uri 'none'; form-action 'none'"><title>DonDocs change report</title><style>
 body{font:16px/1.5 system-ui,sans-serif;color:#17202a;background:white;margin:2rem auto;padding:0 1rem;max-width:70rem}h1,h2,h3,h4{line-height:1.3}article{border:1px solid #999;padding:1rem;margin:1rem 0;break-inside:auto}pre{font:inherit;white-space:pre-wrap;overflow-wrap:anywhere;margin:.4rem 0 1rem}.pair{display:grid;grid-template-columns:1fr 1fr;gap:1rem}.pair>div{min-width:0}.notice{border-left:4px solid #555;padding-left:1rem}header p{overflow-wrap:anywhere}@media(max-width:640px){.pair{grid-template-columns:1fr}body{margin:1rem auto}}@media print{body{max-width:none;margin:0;font-size:10pt}h2,h3,h4{break-after:avoid}}
 </style></head><body><header><p><strong>${escape(report.marking)} — REVIEW DERIVATIVE</strong></p>${report.customMarkings.length ? `<h2>Retained custom source markings</h2>${report.customMarkings.map(text).join('')}` : ''}<h1>Change report</h1><p class="notice">For review only. This is a derivative of captured drafts, not an official clean letter, approval record, or audit proof.</p><p>Before: ${escape(report.before.label)} — ${escape(report.before.title)}<br>After: ${escape(report.after.label)} — ${escape(report.after.title)}<br>Report captured: ${escape(report.capturedAt)}</p></header>
-<p>Complete before/after values for the compared fields and complete readable discussions from both captured versions are included. Paragraphs and repeated rows are compared by position; movement is not tracked. Internal record identities and save metadata are omitted. Attached file and image contents are not reproduced or compared; only available names and properties are reported. Configured forms compare answer values, displayed choices, and definition/template revision labels; template PDF contents, placement rules, and full definition changes are outside this report.</p>
-${report.notices.map(notice => `<p class="notice">${escape(notice)}</p>`).join('')}<section><h2>Field and body changes</h2><p>${report.changes.length} changed fields.</p>${report.changes.length ? report.changes.map(change => `<article><h3>${escape(change.field)}</h3><div class="pair"><div><h4>Before</h4>${text(change.before)}</div><div><h4>After</h4>${text(change.after)}</div></div></article>`).join('') : '<p>No field or body differences in the report scope. Review the discussions below for their captured state.</p>'}</section>${discussion(report.before)}${discussion(report.after)}<footer><p>${escape(report.marking)} — Review derivative. Handle this report according to its contents and retained context.</p></footer></body></html>`;
+<p>Complete before/after values for the compared fields and complete readable discussions from both captured versions are included. Paragraphs with shared stable identities are compared across positions; movement is separate from text changes and automatic renumbering. Missing or unrelated paragraph identities use an explicitly noted positional comparison. Other repeated rows remain positional. Internal record identities and save metadata are omitted. Attached file and image contents are not reproduced or compared; only available names and properties are reported. Configured forms compare answer values, displayed choices, and definition/template revision labels; template PDF contents, placement rules, and full definition changes are outside this report.</p>
+${report.notices.map(notice => `<p class="notice">${escape(notice)}</p>`).join('')}<section><h2>Field and body changes</h2><p>${summary}</p>${report.changes.length ? report.changes.map(change => `<article><h3>${escape(change.field)}</h3><div class="pair"><div><h4>Before</h4>${text(change.before)}</div><div><h4>After</h4>${text(change.after)}</div></div></article>`).join('') : '<p>No field or body differences in the report scope. Review the discussions below for their captured state.</p>'}</section>${discussion(report.before)}${discussion(report.after)}<footer><p>${escape(report.marking)} — Review derivative. Handle this report according to its contents and retained context.</p></footer></body></html>`;
 }
 
 export function downloadChangeReport(report: ChangeReport): void {
