@@ -52,6 +52,7 @@ import {
 import { uint8ArrayToBase64, base64ToUint8Array, arrayBufferToUint8Array } from '@/lib/encoding';
 
 export const BACKUP_KIND = 'dondocs-backup';
+// v10 preserves reconciled acceptance values and their exact pre-decision text.
 // v9 retains suggested replacements and their decisions outside clean drafts.
 // v8 preserves imported-return receipts with their exact saved discussions.
 // v7 retains review pins and copied-document links. Ordinary comment-bearing
@@ -60,8 +61,11 @@ export const BACKUP_KIND = 'dondocs-backup';
 // (per-document version history). v3 added `attachments`. Restore branches on
 // `kind` and on field PRESENCE, not version, so an older bundle (missing any of
 // these fields) still restores cleanly.
-export const BACKUP_VERSION = 9;
+export const BACKUP_VERSION = 10;
 const LIBRARY_KIND = 'dondocs-library'; // legacy docs-only file
+function supportedWorkspaceVersion(version: unknown, minimum: number): boolean {
+  return typeof version === 'number' && Number.isSafeInteger(version) && version >= minimum && version <= BACKUP_VERSION;
+}
 
 /** An enclosure blob embedded in the bundle; `data` is base64 of the raw bytes. */
 export interface BackupAttachment {
@@ -348,7 +352,7 @@ async function serializeBackup(): Promise<string> {
       || Object.values(snapshots).some(ring => ring.some(snapshot => hasReviewComments(snapshot.session)))
       || Object.values(captured.userTemplates).some(template => hasReviewComments(template.session));
     const withReviews = reviewRounds.length > 0 || reviewCopies.length > 0 || docs.some(doc => (doc as { meta: { nativeReviewText?: boolean } }).meta.nativeReviewText === true);
-    const bundle: BackupBundle = { ...captured, version: reviewSuggestions.length || reviewSuggestionWrites.length ? BACKUP_VERSION : reviewReturns.length ? 8 : withReviews ? 7 : withComments ? 6 : 5, documents: docs, snapshots, attachments,
+    const bundle: BackupBundle = { ...captured, version: reviewSuggestions.length || reviewSuggestionWrites.length ? reviewSuggestions.some(record => record.state.version === 2) ? 10 : 9 : reviewReturns.length ? 8 : withReviews ? 7 : withComments ? 6 : 5, documents: docs, snapshots, attachments,
       ...(withReviews ? { reviewRounds, reviewCopies } : {}), ...(reviewReturns.length ? { reviewReturns } : {}),
       ...(reviewSuggestions.length || reviewSuggestionWrites.length ? { reviewSuggestions, reviewSuggestionWrites } : {}) };
     return JSON.stringify(bundle);
@@ -403,15 +407,15 @@ async function runRestore(json: string, canReplaceForms: () => boolean): Promise
 
   if (kind === LIBRARY_KIND) parsed.documents = parsed.docs;
   validateBackup(parsed);
-  if ((parsed.reviewRounds !== undefined || parsed.reviewCopies !== undefined) && (kind !== BACKUP_KIND || ![7, 8, 9].includes(parsed.version as number))) {
-    throw new Error('Review records require a version 7, 8 or 9 workspace backup.');
+  if ((parsed.reviewRounds !== undefined || parsed.reviewCopies !== undefined) && (kind !== BACKUP_KIND || !supportedWorkspaceVersion(parsed.version, 7))) {
+    throw new Error('Review records require a version 7, 8, 9 or 10 workspace backup.');
   }
   if (parsed.reviewRounds !== undefined && !Array.isArray(parsed.reviewRounds)
     || parsed.reviewCopies !== undefined && !Array.isArray(parsed.reviewCopies)) throw new Error('Invalid review recovery records');
   const reviewRounds = ((parsed.reviewRounds ?? []) as unknown[]).map(parseReviewRound);
   const reviewCopies = ((parsed.reviewCopies ?? []) as unknown[]).map(value => reviewCopyLinkSchema.parse(value));
-  if (parsed.reviewReturns !== undefined && (kind !== BACKUP_KIND || ![8, 9].includes(parsed.version as number) || !Array.isArray(parsed.reviewReturns))) {
-    throw new Error('Review return receipts require a version 8 or 9 workspace backup.');
+  if (parsed.reviewReturns !== undefined && (kind !== BACKUP_KIND || !supportedWorkspaceVersion(parsed.version, 8) || !Array.isArray(parsed.reviewReturns))) {
+    throw new Error('Review return receipts require a version 8, 9 or 10 workspace backup.');
   }
   const reviewReturns = ((parsed.reviewReturns ?? []) as unknown[]).map(value => reviewReturnReceiptSchema.parse(value));
   if (new Set(reviewReturns.map(receipt => `${receipt.roundId}:${receipt.returnId}`)).size !== reviewReturns.length
@@ -420,8 +424,9 @@ async function runRestore(json: string, canReplaceForms: () => boolean): Promise
     throw new Error('Invalid or duplicate review return receipt');
   }
   if ((parsed.reviewSuggestions !== undefined || parsed.reviewSuggestionWrites !== undefined)
-    && (kind !== BACKUP_KIND || parsed.version !== 9 || !Array.isArray(parsed.reviewSuggestions) || !Array.isArray(parsed.reviewSuggestionWrites))) throw new Error('Suggested edits require a version 9 workspace backup.');
+    && (kind !== BACKUP_KIND || !supportedWorkspaceVersion(parsed.version, 9) || !Array.isArray(parsed.reviewSuggestions) || !Array.isArray(parsed.reviewSuggestionWrites))) throw new Error('Suggested edits require a version 9 or 10 workspace backup.');
   const reviewSuggestions = ((parsed.reviewSuggestions ?? []) as unknown[]).map(value => reviewSuggestionRecordSchema.parse(value));
+  if (!supportedWorkspaceVersion(parsed.version, 10) && reviewSuggestions.some(record => record.state.version === 2)) throw new Error('Reconciled decisions require a version 10 workspace backup.');
   const reviewSuggestionWrites = ((parsed.reviewSuggestionWrites ?? []) as unknown[]).map(value => reviewSuggestionReceiptSchema.parse(value));
   if (new Set(reviewSuggestions.map(record => `${record.documentId}:${record.state.roundId}`)).size !== reviewSuggestions.length
     || new Set(reviewSuggestionWrites.map(receipt => receipt.writeId)).size !== reviewSuggestionWrites.length) throw new Error('Duplicate suggested edit recovery identity.');

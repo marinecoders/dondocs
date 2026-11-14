@@ -7,6 +7,18 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.82] — 2026-11-14
+
+### Added
+
+- Reconcile returned field and plain-paragraph suggestions against newer source text. Review conservative combinations of independent edits, choose current or proposed text, or write a combined resolution. Separate reviewer proposals and decisions remain attributable to their round; imports never decide conflicts by arrival order.
+- Save the captured current text and accepted resolution together through the existing guarded writer. Undo restores the exact pre-resolution draft, and version 10 workspace backups retain reconciled decisions after reload, transfer and source deletion. Structural proposals and text-range editing remain outside this workflow.
+
+### Fixed
+
+- Keep a decision that retains current text from tagging an unrelated prior edit as a review acceptance.
+- Distinguish comparison landmarks when multiple reviewers replace the same target.
+
 ## [1.3.81] — 2026-11-13
 
 ### Added

@@ -55,6 +55,21 @@ const saved = async () => (await db.idbGetAllDocuments())!.find(record => record
 const decisions = async () => reviewSuggestionRecordSchema.parse(await db.idbReadReviewSuggestions(round.ownerDocumentId!, round.id)).state.decisions;
 
 describe('review suggestion owner and ordinary history integration', () => {
+  it('records keeping the current text without tagging an unrelated prior edit as a review acceptance', async () => {
+    useDocumentStore.getState().setField('to', 'Newer author recipient');await commitCurrentDocument();
+    const proposal = state.proposals[0], resolutions = [{ changeId: proposal.changes[0].id,
+      expectedCurrent: 'Newer author recipient', value: 'Newer author recipient' }];
+    const plan = planReviewSuggestionDecision(round, useDocumentsStore.getState().docs[round.ownerDocumentId!].session,
+      state, proposal.id, 'accepted', undefined, resolutions), decision = plan.state.decisions[0];
+    expect(await applyOwnedReviewSuggestions(captureDocumentTarget(), { kind: 'suggestion-write', version: 1,
+      id: `suggestion-write_${crypto.randomUUID()}`, documentId: round.ownerDocumentId!, createdAt: Date.now(),
+      round: { id: round.id, baselineDigest: round.baselineDigest }, before: state, after: plan.state,
+      intent: { kind: 'decide', proposalId: proposal.id, action: 'accepted', record: { id: decision.id, decidedAt: decision.decidedAt }, resolutions } })).toBe('committed');
+    expect(useHistoryStore.getState().currentSnapshot?.reviewAction).toBeUndefined();
+    expect(changeDocumentHistory('undo', captureDocumentScope())).toBe('applied');await flushDocumentWrites();
+    expect(useDocumentStore.getState().formData.to).toBe('Original recipient');expect((await decisions()).map(item => item.action)).toEqual(['accepted']);
+  });
+
   it('keeps newer body input during an acceptance transaction without acknowledging it early', async () => {
     const release = hold(), operation = acceptance();
     const result = applyOwnedReviewSuggestions(captureDocumentTarget(), operation);

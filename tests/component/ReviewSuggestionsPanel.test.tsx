@@ -50,6 +50,51 @@ it('shows baseline/current/proposed values and blocks acceptance of an overlappi
   expect(screen.getByRole('button', { name: 'Reject suggestion' })).toBeEnabled();
 });
 
+it('distinguishes comparison landmarks for multiple reviewers replacing the same target', () => {
+  const input = props();
+  for (const author of ['Reviewer One', 'Reviewer Two']) input.state.proposals.push(createReviewSuggestion(input.round, { author, label: 'Recipient', changes: [
+    { target: { kind: 'field', field: 'to', docType: 'naval_letter' }, proposed: `${author} recipient` },
+  ] }));
+  render(<ReviewSuggestionsPanel {...input} />);
+  expect(screen.getByRole('region', { name: 'To replacement comparison, suggestion 1' })).toHaveTextContent('Reviewer One recipient');
+  expect(screen.getByRole('region', { name: 'To replacement comparison, suggestion 2' })).toHaveTextContent('Reviewer Two recipient');
+});
+
+it('previews independent changes, permits deliberate combined text and cancels without a decision', async () => {
+  const input = props();input.round.baseline.session.paragraphs[0].text = 'Alpha team meets on Friday.';
+  input.current.paragraphs[0].text = 'Bravo team meets on Friday.';
+  const proposal = createReviewSuggestion(input.round, { author: 'Reviewer', label: 'Meeting', changes: [
+    { target: { kind: 'paragraph', paragraphId: 'paragraph-one', docType: 'naval_letter' }, proposed: 'Alpha team meets on Monday.' },
+  ] });input.state.proposals.push(proposal);render(<ReviewSuggestionsPanel {...input} />);
+  await userEvent.click(screen.getByRole('button', { name: 'Reconcile suggestion' }));
+  expect(screen.getByRole('textbox', { name: 'Resolved replacement' })).toHaveValue('Bravo team meets on Monday.');
+  await userEvent.click(screen.getByRole('button', { name: 'Cancel reconciliation' }));
+  expect(input.onDecide).not.toHaveBeenCalled();expect(screen.queryByRole('textbox', { name: 'Resolved replacement' })).not.toBeInTheDocument();
+  await userEvent.click(screen.getByRole('button', { name: 'Reconcile suggestion' }));
+  fireEvent.change(screen.getByRole('textbox', { name: 'Resolved replacement' }), { target: { value: 'Équipe 👩🏽‍✈️\nCombined meeting.' } });
+  await userEvent.click(screen.getByRole('button', { name: 'Apply resolution' }));
+  expect(input.onDecide).toHaveBeenCalledWith(proposal.id, 'accepted', [{ changeId: proposal.changes[0].id,
+    expectedCurrent: 'Bravo team meets on Friday.', value: 'Équipe 👩🏽‍✈️\nCombined meeting.' }]);
+  expect(input.current.paragraphs[0].text).toBe('Bravo team meets on Friday.');
+});
+
+it('blocks a resolution captured before a newer target edit and requires reopening', async () => {
+  const input = props();input.state.proposals.push(createReviewSuggestion(input.round, { author: 'Reviewer', label: 'Recipient', changes: [
+    { target: { kind: 'field', field: 'to', docType: 'naval_letter' }, proposed: 'Reviewed recipient' },
+  ] }));input.current.formData.to = 'Current recipient';
+  const view = render(<ReviewSuggestionsPanel {...input} />);
+  await userEvent.click(screen.getByRole('button', { name: 'Reconcile suggestion' }));
+  await userEvent.click(screen.getByRole('button', { name: 'Use proposed text' }));
+  expect(screen.getByRole('textbox', { name: 'Resolved replacement' })).toHaveValue('Reviewed recipient');
+  const current = structuredClone(input.current);current.formData.to = 'Later recipient';view.rerender(<ReviewSuggestionsPanel {...input} current={current} />);
+  expect(screen.getByRole('button', { name: 'Apply resolution' })).toBeDisabled();expect(screen.getByRole('alert')).toHaveTextContent('draft changed');
+  await userEvent.click(screen.getByRole('button', { name: 'Cancel reconciliation' }));
+  await userEvent.click(screen.getByRole('button', { name: 'Reconcile suggestion' }));
+  await userEvent.click(screen.getByRole('button', { name: 'Keep current text' }));
+  await userEvent.click(screen.getByRole('button', { name: 'Apply resolution' }));
+  expect(input.onDecide).toHaveBeenCalledWith(input.state.proposals[0].id, 'accepted', [expect.objectContaining({ expectedCurrent: 'Later recipient', value: 'Later recipient' })]);
+});
+
 it('does not offer source-owner decisions on a received reviewer copy', () => {
   const input = props();input.state.proposals.push(createReviewSuggestion(input.round, { author: 'Example', label: 'Recipient', changes: [{ target: { kind: 'field', field: 'to', docType: 'naval_letter' }, proposed: 'Proposed recipient' }] }));
   render(<ReviewSuggestionsPanel {...input} owner={false} />);
