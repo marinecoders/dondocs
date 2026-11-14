@@ -35,13 +35,19 @@ function reportFields(value: unknown, rule?: FieldRule): unknown {
       const display = (id: string) => field.options!.find(option => option.id === id)?.label ?? id;
       return Array.isArray(value) ? value.map(display).join('\n') : typeof value === 'string' ? display(value) : value;
     };
+    const displayKey = (key: string, definitions: Record<string, unknown>, values: object, kind: string, label?: string) => {
+      const index = Object.keys(definitions).indexOf(key);
+      if (index >= 0) return `${kind} ${index + 1}: ${label}`;
+      const unknown = Object.keys(values).filter(key => !Object.hasOwn(definitions, key)).sort();
+      return `Unrecognized ${kind.toLowerCase()} ${unknown.indexOf(key) + 1}`;
+    };
     const answers = (values: Record<string, Answer>, fields: Record<string, AnswerField>) => Object.fromEntries(
-      Object.entries(values).map(([key, value], index) => [`${index + 1}: ${fields[key]?.label ?? 'Unrecognized answer'}`, answer(value, fields[key])]),
+      Object.entries(values).map(([key, value]) => [displayKey(key, fields, values, 'Field', fields[key]?.label), answer(value, fields[key])]),
     );
     return { form: form.definition.label, definitionRevision: form.definition.definitionRevision,
       templateRevision: form.definition.templateRevision,
       answers: answers(form.answers, form.definition.fields),
-      rows: Object.fromEntries(Object.entries(form.rows).map(([key, rows], index) => [`Group ${index + 1}: ${form.definition.rowGroups[key]?.title ?? 'Unrecognized group'}`,
+      rows: Object.fromEntries(Object.entries(form.rows).map(([key, rows]) => [displayKey(key, form.definition.rowGroups, form.rows, 'Group', form.definition.rowGroups[key]?.title),
         rows.map(row => answers(row.answers, form.definition.rowGroups[key]?.columns ?? {}))])),
     };
   }
