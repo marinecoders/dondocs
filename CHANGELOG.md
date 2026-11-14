@@ -17,6 +17,7 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 ### Fixed
 
 - Bound decrypted and expanded share sizes, stop oversized compressed streams and encode large attachment data without per-byte string concatenation.
+- Open image-bearing built-in form shares with their form identity, while retaining exact native-text handling only for supported correspondence.
 
 ## [1.3.82] — 2026-11-14
 

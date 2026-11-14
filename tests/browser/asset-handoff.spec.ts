@@ -14,6 +14,48 @@ async function share(page: Page) {
   return page.getByRole('dialog', { name: 'Share document', exact: true });
 }
 
+for (const formType of ['navmc_10274', 'navmc_118_11']) test(`built-in ${formType} image shares open and reload as forms`, async ({ page }, info) => {
+  const images = await docxImageFixture();
+  const formKey = formType === 'navmc_10274' ? 'navmc10274' : 'navmc11811';
+  await page.addInitScript(() => localStorage.setItem('browser-test-visitor', 'returning'));
+  await page.goto('/');
+  await page.getByLabel('Import draft file').setInputFiles({ name: 'builtin-image.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify({
+    kind: 'dondocs-draft', version: 2, documentKind: 'builtin-form', documentMode: 'compliant', documentCategory: 'forms', docType: 'naval_letter', formType,
+    formData: {}, paragraphs: [], references: [], enclosures: [], copyTos: [],
+    forms: { includeCoverPage: true, [formKey]: { signatureBlocks: [{ name: 'Synthetic signer', statement: '', style: 'image', image: images.signature.toString('base64') }] } },
+  })) });
+  await page.getByRole('button', { name: 'Open as new document', exact: true }).click();
+  await expect(page.getByRole('dialog')).toHaveCount(0);
+  await expect(page.getByRole('button', { name: 'Document actions', exact: true })).toBeVisible();
+  const desktop = page.getByRole('button', { name: 'Share', exact: true });
+  if (await desktop.isVisible()) await desktop.click();
+  else { await page.getByRole('button', { name: 'Document actions', exact: true }).click();await page.getByRole('menuitem', { name: /^Create share link/ }).click(); }
+  const outgoing = page.getByRole('dialog', { name: 'Share document', exact: true });
+  await outgoing.getByLabel('Password for this link', { exact: true }).fill('synthetic-password');
+  await outgoing.getByRole('button', { name: 'Generate link', exact: true }).click();
+  const privacy = outgoing.getByRole('button', { name: 'Share anyway', exact: true });
+  if (await privacy.isVisible()) await privacy.click();
+  const pending = page.waitForEvent('download');
+  await outgoing.getByRole('button', { name: 'Download encrypted share file', exact: true }).click();
+  const path = info.outputPath(`${formType}-encrypted.json`);await (await pending).saveAs(path);
+  await outgoing.getByRole('button', { name: 'Cancel', exact: true }).click();
+  await page.getByRole('button', { name: 'Document actions', exact: true }).click();
+  await page.getByRole('menuitem', { name: 'Open from share link', exact: true }).click();
+  const incoming = page.getByRole('dialog', { name: 'Open shared document', exact: true });
+  await incoming.getByLabel('Encrypted share file', { exact: true }).setInputFiles(path);
+  await expect(incoming).toContainText(`Selected: ${formType}-encrypted.json`);
+  await incoming.getByLabel('Password', { exact: true }).fill('synthetic-password');
+  await incoming.getByRole('button', { name: 'Decrypt and review', exact: true }).click();
+  await incoming.getByRole('button', { name: 'Open as new document', exact: true }).click();
+  await expect(incoming).toBeHidden();
+  for (const reload of [false, true]) {
+    if (reload) await page.reload();
+    const restored = await exportDraft(page);
+    expect(restored.documentCategory).toBe('forms');expect(restored.formType).toBe(formType);
+    expect(restored.forms[formKey].signatureBlocks[0].image).toBe(images.signature.toString('base64'));
+  }
+});
+
 test('a fresh offline recipient opens native assets from an encrypted file without source storage', async ({ page, browser }, testInfo) => {
   const pdf = await PDFDocument.create();pdf.addPage([612, 792]);
   const bytes = Buffer.from(await pdf.save());
