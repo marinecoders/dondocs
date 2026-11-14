@@ -17,12 +17,14 @@ for (const theme of ['light', 'dark', 'classic']) {
     };
     await page.getByLabel('Import draft file').setInputFiles({ name: 'formatting.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(draft)) });
     await page.getByRole('button', { name: 'Open as new document', exact: true }).click();
+    await expect(page.getByRole('dialog', { name: 'Review draft', exact: true })).toBeHidden();
     const addressing = page.locator('#sec-addressing');
     const signature = page.locator('#sec-signature');
     const applyDate = addressing.getByRole('button', { name: 'Apply date formatting fix' });
     const dateInput = page.locator('#date');
     // Inspecting an imported date must not silently apply the proposal on blur.
     await dateInput.focus();
+    await expect(dateInput).toBeFocused();
     await dateInput.press('Tab');
     await expect(dateInput).toHaveValue('2026-11-12');
     await applyDate.scrollIntoViewIfNeeded();
@@ -58,13 +60,17 @@ for (const theme of ['light', 'dark', 'classic']) {
     draft.formData.date = '03/04/2026';
     await page.getByLabel('Import draft file').setInputFiles({ name: 'ambiguous.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(draft)) });
     await page.getByRole('button', { name: 'Open as new document', exact: true }).click();
+    await expect(page.getByRole('dialog', { name: 'Review draft', exact: true })).toBeHidden();
     await expect(addressing.getByText('Date: review date')).toBeVisible();
     await expect(applyDate).toHaveCount(0);
     await dateInput.focus();
+    await expect(dateInput).toBeFocused();
     await dateInput.press('Tab');
     await expect(dateInput).toHaveValue('03/04/2026');
     await expect(addressing.getByText('Date: review date')).toBeVisible();
 
+    await dateInput.focus();
+    await expect(dateInput).toBeFocused();
     await dateInput.fill('31 Apr 2026');
     await dateInput.press('Tab');
     await expect(dateInput).toHaveValue('31 Apr 2026');
