@@ -48,6 +48,7 @@ describe('atomic discussion-return storage', () => {
       (record: StoredDocument) => { record.session.formData.subject = 'Overwritten'; },
       (record: StoredDocument) => { record.meta.title = 'Changed title'; },
       (record: StoredDocument) => { record.session.enclosures.push({ title: 'Changed enclosure' } as never); },
+      (record: StoredDocument) => { record.session.enclosures.length++; },
     ]) {
       const wrong = structuredClone(after);mutate(wrong);
       expect(await idbApplyReviewReturn(before, wrong, round, receipt)).toBe('conflict');

@@ -124,6 +124,7 @@ export class DocumentWrites {
   latest(): StoredDocument[] { return [...this.pending.values()].map(item => structuredClone(item.versions.at(-1)!)); }
 
   hasReviewReturns(): boolean { return [...this.pending.values()].some(item => item.reviewReturns?.length); }
+  reviewReturnDocumentIds(): string[] { return [...this.pending].filter(([, item]) => item.reviewReturns?.length).map(([id]) => id); }
 
   enqueue(before: StoredDocument | null, after: StoredDocument): DocumentWriteRevision {
     return this.enqueueVersion(before, after);

@@ -27,7 +27,7 @@ import {
   parseShareUrl,
 } from '@/lib/shareCrypto';
 import { getSerializedSessionForShare, type SerializedSession } from '@/stores/documentStore';
-import { openSessionAsNew } from '@/stores/documentsStore';
+import { openSessionAsNew, hasPendingReviewWrites, flushPendingReviewWrites } from '@/stores/documentsStore';
 import { parseSharedSession, createSharedPayload, validateShareExpiration } from '@/lib/sharedSession';
 import { detectSharedSessionPII, getPIITypeLabel, type PIIDetectionResult } from '@/services/pii/detector';
 
@@ -125,6 +125,7 @@ export function ShareModal({
     setPiiFindings(null);
     setWorking(true);
     try {
+      if (hasPendingReviewWrites()) await flushPendingReviewWrites();
       const session = snapshot!;
       const duration = { hour: 3_600_000, day: 86_400_000, week: 604_800_000 }[expiration];
       const expiresAt = duration === undefined ? null : Date.now() + duration;
