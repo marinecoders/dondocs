@@ -80,8 +80,10 @@ it('compares configured form answers by readable labels, keeps user identifiers 
   const before = getSerializedSession();before.documentCategory = 'forms';before.genericForm = fixtureInstance();
   before.genericForm.answers.name = '11111111-1111-4111-8111-111111111111';
   before.genericForm.rows.roster = [{ id: 'hidden-row-identity', answers: { grade: 'e2', date: '2026-11-12' } }];
-  const after = structuredClone(before);after.genericForm!.answers.name = 'Updated';after.genericForm!.rows.roster[0].answers.grade = 'e3';
-  const html = renderChangeReport(prepareChangeReport(capture(before, after), policy));
+  const after = structuredClone(before);after.genericForm!.answers.name = 'Updated';after.genericForm!.answers.decision = 'no';after.genericForm!.rows.roster[0].answers.grade = 'e1';
+  const report = prepareChangeReport(capture(before, after), policy);
+  expect(report.changes).toEqual(expect.arrayContaining([expect.objectContaining({ before: 'E-2', after: 'E-1' }), expect.objectContaining({ before: 'Yes', after: 'No' })]));
+  const html = renderChangeReport(report);
   expect(html).toContain('11111111-1111-4111-8111-111111111111');
   expect(html).not.toContain('hidden-row-identity');expect(html).not.toContain('Schema Version');
   expect(html).not.toContain('Answer Revision');expect(html).toContain('placement rules');
