@@ -796,6 +796,7 @@ export async function commitCurrentDocument() {
   }
 }
 
+const REVIEW_RECOVERY_MESSAGE = 'An interrupted review return still needs recovery. Open any recovered copies, then reload this tab to retry remaining edits. Keep this tab; unsupported recovery data requires a newer compatible version.';
 let retainedReviewWriteIntent = false;
 function hasRetainedReviewWrites(documentId?: string): boolean {
   try {
@@ -816,7 +817,7 @@ export function hasPendingReviewWrites(documentId?: string): boolean {
 
 /** A portable copy must not detach visible feedback from its uncommitted receipt. */
 export async function flushPendingReviewWrites(documentId?: string): Promise<void> {
-  if (hasRetainedReviewWrites(documentId)) throw new Error('An interrupted review return needs attention. Open recovered copies to keep its edits before exporting.');
+  if (hasRetainedReviewWrites(documentId)) throw new Error(REVIEW_RECOVERY_MESSAGE);
   while (documentId ? writes.reviewReturnDocumentIds().includes(documentId) : writes.hasReviewReturns()) {
     useDocumentsStore.getState().syncCurrent();
     const owners = writes.reviewReturnDocumentIds().filter(id => !documentId || id === documentId);
@@ -837,7 +838,7 @@ export async function applyOwnedReviewReturn(target: DocumentTarget | null, comm
   } catch { return 'invalid'; }
   if (!isCurrentDocumentTarget(target) || operation.round.ownerDocumentId !== target.scope.documentId) return 'stale';
   if (!supportsReviewComments(useDocumentStore.getState())) return 'invalid';
-  if (hasRetainedReviewWrites(target.scope.documentId)) throw new Error('An interrupted review return needs attention. Open recovered copies first.');
+  if (hasRetainedReviewWrites(target.scope.documentId)) throw new Error(REVIEW_RECOVERY_MESSAGE);
   const saved = await commitCurrentDocument();
   if (!saved || !isCurrentDocumentTarget(target)) return 'stale';
   const registry = useDocumentsStore.getState(), entry = registry.docs[target.scope.documentId];
@@ -868,7 +869,7 @@ async function flushPendingDocumentWrites(): Promise<void> {
   // Hydration publishes the saved ID before init loads its session. Saving in
   // that gap would overwrite the saved document with the blank starter.
   if (initPromise) await initPromise;
-  if (hasRetainedReviewWrites()) throw new Error('An interrupted review return needs attention. Open recovered copies before updating.');
+  if (hasRetainedReviewWrites()) throw new Error(REVIEW_RECOVERY_MESSAGE);
   if (lastWriteFailed(FORMS_PERSIST_KEY)) {
     useFormStore.setState({});
     if (lastWriteFailed(FORMS_PERSIST_KEY)) throw new Error('Your form changes could not be saved. Download a backup before updating.');

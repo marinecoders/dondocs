@@ -125,7 +125,9 @@ is not a verified reviewer identity or proof of a handling label's authority.
 
 If Save fails, the feedback remains pending with its receipt. Retry Save before
 exporting or closing the tab. If interrupted recovery conflicts with newer saved
-work, open the retained recovered copy and keep the original return file. Workspace
+work, open the retained recovered copy and keep the original return file. If more
+recovery remains after opening copies, reload the same tab to retry it. Keep the
+tab open if its recovery format needs a newer compatible version. Workspace
 backups preserve committed receipts and review links. Ordinary draft/share/template
 copies carry comments without granting review ownership. Proposed letter-text
 changes and acceptance of those changes are separate workflows.
