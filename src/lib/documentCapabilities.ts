@@ -57,7 +57,7 @@ export function resolveCapabilities(subject: CapabilitySubject, request: Capabil
         ? 'This publication supports LaTeX configuration fragments, but not flat LaTeX.'
         : 'This publication exports to PDF.');
     }
-    if (request.target === 'docx') return result('partial', 'word-pdf-features', 'Uploaded images, merged PDF pages, and PDF signing fields are omitted from Word output. Reference link annotations require PDF.');
+    if (request.target === 'docx') return result('partial', 'word-pdf-features', 'Uploaded images, merged PDF pages, and PDF signing fields are omitted from Word output. Reference titles with safe URLs remain linked in Word.');
     if (request.target === 'tex' && !(request.operation === 'export' && request.texMode === 'flat')) {
       return result('partial', 'tex-configuration-only', 'Exports LaTeX configuration fragments; a standalone project also needs templates and assets.');
     }

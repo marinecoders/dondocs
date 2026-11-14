@@ -39,6 +39,7 @@ import { safeUrl } from '@/lib/url-safety';
 
 interface DocumentStore {
   docType: string;
+  referenceLinkTarget?: 'docx' | 'tex';
   documentMode?: import('@/types/document').DocumentMode;
   formData: Partial<DocumentData>;
   references: Reference[];
@@ -298,10 +299,14 @@ function buildPreamble(data: Partial<DocumentData>): string {
 \\usepackage{graphicx}
 \\usepackage{setspace}
 \\usepackage{xcolor}
+\\usepackage[hidelinks]{hyperref}
 % Keep Word layout markers inert when this intermediate file is compiled as TeX.
 % Deferring definitions preserves them for pandoc's raw-command Lua filter.
 \\AtBeginDocument{%
 \\providecommand{\\dondocsaddressbreak}{\\newline}%
+\\providecommand{\\dondocshangindent}[1]{}%
+\\providecommand{\\dondocsfirstindent}[1]{}%
+\\providecommand{\\dondocsindent}[1]{}%
 \\providecommand{\\dondocsmemoindent}[2]{}%
 \\providecommand{\\dondocsclosingtail}{}%
 \\providecommand{\\dondocssignatureend}{}%
@@ -571,7 +576,7 @@ const ENTRY_HANG = '\\dondocshangindent{0.28in}';
 
 /** References using tabular for proper hanging-indent alignment.
  * Colon spacing per SECNAV Ch 7 ¶10c: Ref=4sp */
-function buildReferences(references: Reference[], headquarters = false): string {
+function buildReferences(references: Reference[], headquarters = false, target: 'docx' | 'tex' = 'docx'): string {
   if (references.length === 0) return '';
 
   const rows: string[] = [];
@@ -580,10 +585,14 @@ function buildReferences(references: Reference[], headquarters = false): string 
     const ref = references[i];
     const label = headquarters && references.length === 1 ? '' : `(${escapeTabular(ref.letter)})~~`;
     const url = safeUrl(ref.url);
-    // Pandoc's href reader consumes character escapes directly. Text macros
-    // used by the PDF URL escaper would become part of the Word link target.
-    const title = url
-      ? `\\href{${url.replace(/\\/g, '%5C').replace(/[%#&{}$^~_]/g, character => `\\${character}`)}}{${escapeTabular(ref.title)}}`
+    // Pandoc consumes escaped characters directly; native hyperref treats
+    // escaped underscores/accents as commands. Encode native URL delimiters
+    // without double-encoding existing percent escapes.
+    const link = url && (target === 'tex'
+      ? url.replace(/[\\{}^]/g, character => `%${character.charCodeAt(0).toString(16).toUpperCase()}`).replace(/[%#&]/g, character => `\\${character}`)
+      : url.replace(/\\/g, '%5C').replace(/[%#&{}$^~_]/g, character => `\\${character}`));
+    const title = link
+      ? `\\href{${link}}{${escapeTabular(ref.title)}}`
       : escapeTabular(ref.title);
     if (i === 0) {
       rows.push(`${caption}\\hspace{4\\fontdimen2\\font} & ${label ? ENTRY_HANG : ''}${label}${title} \\\\`);
@@ -632,7 +641,7 @@ ${trimLastRow(rows)}
 
 /** Apply the same formal-list controls in every layout that can enable them. */
 function buildFormalLists(store: DocumentStore, config: DocTypeConfig): string {
-  return (config.compliance.allowReferences ? buildReferences(store.references, ['standard_memorandum', 'executive_memorandum'].includes(store.docType)) : '')
+  return (config.compliance.allowReferences ? buildReferences(store.references, ['standard_memorandum', 'executive_memorandum'].includes(store.docType), store.referenceLinkTarget) : '')
     + (config.compliance.allowEnclosures ? buildEnclosures(store.enclosures, enclosureStartNumber(store.docType, store.formData.startingEnclosureNumber)) : '');
 }
 
@@ -1297,7 +1306,7 @@ function buildStandardLayout(store: DocumentStore, config: DocTypeConfig): strin
   }
 
   content += buildAddressBlock(data, config);
-  content += buildReferences(store.references);
+  content += buildReferences(store.references, false, store.referenceLinkTarget);
   content += buildEnclosures(
     store.enclosures,
     enclosureStartNumber(store.docType, store.formData.startingEnclosureNumber)
@@ -1378,7 +1387,7 @@ function buildMemoLayout(store: DocumentStore, config: DocTypeConfig): string {
     content += '\\vspace{12pt}\n';
   }
   content += buildAddressBlock(data, config);
-  content += buildReferences(store.references);
+  content += buildReferences(store.references, false, store.referenceLinkTarget);
   content += buildEnclosures(
     store.enclosures,
     enclosureStartNumber(store.docType, store.formData.startingEnclosureNumber)
@@ -1409,7 +1418,7 @@ Subj:\\hspace{3\\fontdimen2\\font} & ${maybeUnderline(escapeTabularWrapped(data.
 `;
   }
 
-  content += buildReferences(store.references);
+  content += buildReferences(store.references, false, store.referenceLinkTarget);
   content += buildEnclosures(
     store.enclosures,
     enclosureStartNumber(store.docType, store.formData.startingEnclosureNumber)
@@ -1432,7 +1441,7 @@ function buildJointLayout(store: DocumentStore, config: DocTypeConfig): string {
   // 12pt before (matches PDF \par\vspace{12pt}), 12pt after (matches \\[12pt])
   content += '\\vspace{12pt}\n\\noindent JOINT LETTER\n\n\\vspace{12pt}\n';
   content += buildJointAddressBlock(data);
-  content += buildReferences(store.references);
+  content += buildReferences(store.references, false, store.referenceLinkTarget);
   content += buildEnclosures(
     store.enclosures,
     enclosureStartNumber(store.docType, store.formData.startingEnclosureNumber)
@@ -1483,7 +1492,7 @@ ${trimLastRow(rows)}
     }
   }
 
-  content += buildReferences(store.references);
+  content += buildReferences(store.references, false, store.referenceLinkTarget);
   content += buildEnclosures(
     store.enclosures,
     enclosureStartNumber(store.docType, store.formData.startingEnclosureNumber)
@@ -1673,9 +1682,11 @@ function buildInfoMemorandumLayout(store: DocumentStore, config: DocTypeConfig):
 
 /**
  * Generate a flat, self-contained LaTeX document using only standard LaTeX
- * constructs that pandoc can convert to DOCX.
+ * constructs that pandoc can convert to DOCX. The default preserves Pandoc
+ * URL escaping; standalone source exports request the native TeX target.
  */
-export function generateFlatLatex(store: DocumentStore, resolvedLevel?: string): string {
+export function generateFlatLatex(store: DocumentStore, resolvedLevel?: string, target: 'docx' | 'tex' = 'docx'): string {
+  store = { ...store, referenceLinkTarget: target };
   if (store.docType === 'tm_ietm_front_matter') throw new Error('TM/IETM front matter supports PDF only.');
   const data = store.formData;
   const config = documentOutputConfig(store.docType, store.documentMode);
