@@ -7,6 +7,18 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.86] — 2026-11-14
+
+### Added
+
+- Download a complete Word package from one saved action revision: editable main and supported correspondence DOCX files, unchanged original supporting PDFs/images, and readable member/order/revision and SHA-256 manifests.
+- Review captured content and original PDF text with the existing deployment policy and privacy checks. Missing or corrupt files and listed enclosures without captured originals block complete delivery; generated ZIP paths and sizes are bounded.
+
+### Fixed
+
+- Keep Word package approval, cancellation and image resources tied to the captured revision. Share the ordinary export gate until conversion finishes, preserving newer edits and preventing mixed concurrent Word conversions.
+- Explain separate original PDFs and Word signing without implying editable PDF pages, transferred PDF signing fields or matching Word/PDF pagination. Clean Word delivery excludes review metadata and older revisions.
+
 ## [1.3.85] — 2026-11-14
 
 ### Added
