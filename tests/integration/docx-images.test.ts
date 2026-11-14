@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { spawnSync } from 'node:child_process';
-import { mkdir, mkdtemp, writeFile } from 'node:fs/promises';
+import { mkdir, mkdtemp, readFile, writeFile } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import JSZip from 'jszip';
@@ -50,11 +50,22 @@ describe.skipIf(!hasPandoc)('embedded Word images', () => {
     const images = await docxImageFixture();
     let image = sharp(images.figure);
     if (kind === 'metadata') image = image.withMetadata();
-    const jpeg = kind === 'baseline' ? images.jpeg : await image.jpeg({ progressive: kind === 'progressive' }).toBuffer();
-    if (kind === 'baseline') expect(jpeg.length).toBeLessThan(Buffer.poolSize / 2);
+    // Commit the helper's synthetic 480x240 figure at JPEG quality 25 so both
+    // its bytes and base64 text stay below Node 22's pooling threshold.
+    // Fixed bytes avoid platform encoder differences; retain the native checks.
+    const jpeg = kind === 'baseline'
+      ? await readFile(join(__dirname, '../fixtures/images/business-figure-baseline.jpg'))
+      : await image.jpeg({ progressive: kind === 'progressive' }).toBuffer();
+    const dataBase64 = jpeg.toString('base64');
+    if (kind === 'baseline') {
+      expect(jpeg.length).toBeLessThan(Buffer.poolSize / 2);
+      expect(dataBase64.length).toBeLessThan(Buffer.poolSize / 2);
+      const decoded = Buffer.from(dataBase64, 'base64');
+      expect(decoded.buffer.byteLength).toBeGreaterThan(decoded.byteLength);
+    }
     const bytes = await renderPdf({ docType: 'business_letter', subject: 'JPEG BUSINESS FIGURE',
       paragraphs: [{ text: 'Training layout', figure: { fileId: 'figure' } }], attachments: [{ id: 'figure', name: 'figure.jpg',
-        mimeType: 'image/jpeg', dataBase64: jpeg.toString('base64') }] });
+        mimeType: 'image/jpeg', dataBase64 }] });
     const dir = await mkdtemp(join(tmpdir(), 'dondocs-companion-jpeg-'));
     const path = join(dir, 'jpeg.pdf');
     await writeFile(path, bytes);
