@@ -53,7 +53,7 @@ for (const theme of ['light', 'dark', 'classic']) {
     const artifact = await page.context().newPage();await artifact.setContent(html);
     await expect(artifact.getByRole('heading', { name: 'Change report', exact: true })).toBeVisible();
     expect(await artifact.locator('body').evaluate(body => body.scrollWidth <= window.innerWidth)).toBe(true);
-    await artifact.screenshot({ path: testInfo.outputPath(`downloaded-report-${theme}.png`), fullPage: true });
+    await artifact.screenshot({ path: testInfo.outputPath(`downloaded-report-${theme}.png`), fullPage: true, scale: 'css' });
     await artifact.close();
     await history.getByRole('button', { name: 'Close', exact: true }).click();
     await expect(page.locator('#subject')).toHaveValue('CURRENT CLEAN DRAFT');
