@@ -1,3 +1,4 @@
+import type { ExportGate } from '@/lib/exportController';
 import { reviewPackageOriginal } from "@/lib/actionPackageDisclosure";
 import type { PackageAsset } from "@/lib/actionPackages";
 import type { SerializedSession } from "@/stores/documentStore";
@@ -53,18 +54,18 @@ import type { CorrespondenceRendererPorts } from "@/services/exports/corresponde
 type Ports = CorrespondenceRendererPorts & {
   waitForReady(timeoutMs: number): Promise<boolean>;
 };
-export function ActionPackageWorkspace({ ports }: { ports: Ports }) {
+export function ActionPackageWorkspace({ ports, exportGate }: { ports: Ports; exportGate: ExportGate }) {
   const [open, setOpen] = useState(false);
   return (
     <>
       <Button variant="outline" size="sm" onClick={() => setOpen(true)}>
         Packages
       </Button>
-      {open && <PackageDialog ports={ports} onClose={() => setOpen(false)} />}
+      {open && <PackageDialog ports={ports} exportGate={exportGate} onClose={() => setOpen(false)} />}
     </>
   );
 }
-function PackageDialog({ ports, onClose }: { ports: Ports; onClose(): void }) {
+function PackageDialog({ ports, exportGate, onClose }: { ports: Ports; exportGate: ExportGate; onClose(): void }) {
   const operation = useRef<AbortController | null>(null),
     active = useRef(true);
   useEffect(
@@ -264,11 +265,10 @@ function PackageDialog({ ports, onClose }: { ports: Ports; onClose(): void }) {
       await downloadAsset(output.asset);
       setNotice(`Retained PDF downloaded. SHA-256: ${output.asset.sha256}`);
     } else {
-      const updated = await assemblePackage(
-        prepared,
-        ports,
-        operation.current?.signal,
-      );
+      const release = exportGate.acquire();
+      if (!release) throw new Error('Another export is still running. Wait for it to finish before assembling this package.');
+      let updated: ActionPackage;
+      try { updated = await assemblePackage(prepared, ports, operation.current?.signal); } finally { release(); }
       update(updated);
       const output = getPackageRevision(updated, revision.id).outputs.at(-1)!;
       setRevisionId(revision.id);
