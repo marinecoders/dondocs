@@ -100,7 +100,7 @@ export function suggestionTargetValue(session: SerializedSession, target: Review
   }
   const matches = session.paragraphs.filter(paragraph => paragraph.id === target.paragraphId);
   const paragraph = matches.length === 1 ? matches[0] : undefined;
-  if (!paragraph || paragraph.figure || paragraph.tableKey) return null;
+  if (!paragraph || paragraph.figure || paragraph.tableKey || paragraph.callout || paragraph.procedure || paragraph.appendix) return null;
   return { label: `Paragraph ${session.paragraphs.indexOf(paragraph) + 1}`, value: paragraph.text };
 }
 
@@ -190,7 +190,7 @@ export function inspectReviewSuggestion(round: ReviewRound, source: SerializedSe
 
 /** Pure, all-member preflight. A rejected suggestion records no document edits. */
 export function planReviewSuggestionDecision(round: ReviewRound, source: SerializedSession, inputState: ReviewSuggestionState,
-  proposalId: string, action: 'accepted' | 'rejected'): ReviewSuggestionPlan {
+  proposalId: string, action: 'accepted' | 'rejected', record: { id: string; decidedAt: number } = { id: crypto.randomUUID(), decidedAt: Date.now() }): ReviewSuggestionPlan {
   const state = validateReviewSuggestionState(round, inputState);
   const proposal = state.proposals.find(item => item.id === proposalId);
   if (!proposal) throw new Error('The suggestion is unavailable.');
@@ -204,14 +204,14 @@ export function planReviewSuggestionDecision(round: ReviewRound, source: Seriali
     if (target.kind === 'field') Object.assign(session.formData, { [target.field]: change.proposed });
     else session.paragraphs.find(paragraph => paragraph.id === target.paragraphId)!.text = change.proposed;
   }
-  state.decisions.push({ id: crypto.randomUUID(), proposalId, roundId: round.id, baselineDigest: round.baselineDigest,
-    action, decidedAt: Date.now(), ...(previous ? { previousDecisionId: previous.id } : {}) });
+  state.decisions.push({ ...record, proposalId, roundId: round.id, baselineDigest: round.baselineDigest,
+    action, ...(previous ? { previousDecisionId: previous.id } : {}) });
   return { status: 'ready', changes, session, state: reviewSuggestionStateSchema.parse(state) };
 }
 
 /** Called only for the owning History action tagged with this acceptance ID. */
 export function planReviewSuggestionHistory(round: ReviewRound, before: SerializedSession, after: SerializedSession,
-  inputState: ReviewSuggestionState, acceptanceId: string, direction: 'undo' | 'redo'): ReviewSuggestionState {
+  inputState: ReviewSuggestionState, acceptanceId: string, direction: 'undo' | 'redo', record: { id: string; decidedAt: number } = { id: crypto.randomUUID(), decidedAt: Date.now() }): ReviewSuggestionState {
   const state = validateReviewSuggestionState(round, inputState);
   const acceptance = state.decisions.find(decision => decision.id === acceptanceId && decision.action === 'accepted');
   if (!acceptance) throw new Error('The review acceptance for this history action is unavailable.');
@@ -226,7 +226,7 @@ export function planReviewSuggestionHistory(round: ReviewRound, before: Serializ
     if (oldValue !== (direction === 'undo' ? change.proposed : change.expected)
       || nextValue !== (direction === 'undo' ? change.expected : change.proposed)) throw new Error('This history action does not reverse the accepted replacement.');
   }
-  state.decisions.push({ id: crypto.randomUUID(), proposalId: proposal.id, roundId: round.id, baselineDigest: round.baselineDigest,
-    action: direction === 'undo' ? 'reversed' : 'restored', decidedAt: Date.now(), previousDecisionId: previous.id, acceptanceId });
+  state.decisions.push({ ...record, proposalId: proposal.id, roundId: round.id, baselineDigest: round.baselineDigest,
+    action: direction === 'undo' ? 'reversed' : 'restored', previousDecisionId: previous.id, acceptanceId });
   return reviewSuggestionStateSchema.parse(state);
 }
