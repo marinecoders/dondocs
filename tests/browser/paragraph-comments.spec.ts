@@ -140,3 +140,32 @@ test('paragraph feedback follows identity through move, deletion, Undo, reload a
     await checkPdf(await readFile((await (await downloading).path())!));
   }
 });
+
+test('paragraph navigation reveals the body from another focused section', async ({ page }) => {
+  await page.addInitScript(() => {
+    localStorage.setItem('browser-test-visitor', 'returning');
+    localStorage.setItem('dondocs_ui', JSON.stringify({ state: { theme: 'light', editorLayout: 'focused', sidebarOutlineVisible: false }, version: 1 }));
+  });
+  await page.goto('/');
+  await page.getByLabel('Import draft file').setInputFiles({ name: 'focused-paragraph.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify({
+    documentMode: 'compliant', documentCategory: 'correspondence', docType: 'naval_letter',
+    formData: { subject: 'FOCUSED PARAGRAPH CHECK', from: 'Commanding Officer', to: 'Training Officer', date: '13 Nov 26', sigLast: 'DOE' },
+    paragraphs: [{ id: 'focused-target', text: 'Navigate back to this paragraph.', level: 0 }],
+    references: [], enclosures: [], copyTos: [], distributions: [],
+  })) });
+  await page.getByRole('button', { name: 'Open as new document', exact: true }).click();
+  await page.getByRole('button', { name: 'Comment on paragraph 1', exact: true }).click();
+  const comments = page.getByRole('dialog', { name: 'Document comments', exact: true });
+  await comments.getByLabel('Reviewer name', { exact: true }).fill('Chief');
+  await comments.getByLabel('Comment', { exact: true }).fill('Review this paragraph in the editor.');
+  await comments.getByRole('button', { name: 'Post comment', exact: true }).click();
+  await closeComments(page);
+  await page.getByLabel('Document section', { exact: true }).selectOption('addressing');
+  const paragraph = page.getByRole('textbox', { name: 'Paragraph 1', exact: true });
+  await expect(paragraph).toBeHidden();
+  await openComments(page);
+  await comments.getByRole('button', { name: 'Go to paragraph', exact: true }).click();
+  await expect(page.getByLabel('Document section', { exact: true })).toHaveValue('body');
+  await expect(paragraph).toBeVisible();
+  await expect(paragraph).toBeFocused();
+});

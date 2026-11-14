@@ -6,6 +6,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { useDocumentStore } from '@/stores/documentStore';
+import { useEditorOutlineStore } from '@/stores/editorOutlineStore';
 import { captureDocumentTarget, isCurrentDocumentTarget, useDocumentsStore, type DocumentTarget } from '@/stores/documentsStore';
 import { COMMENT_LIMITS, type CommentThread } from '@/lib/reviewComments';
 import { availableCommentFields, availableCommentParagraphs, describeCommentAnchor, supportsReviewComments } from '@/lib/reviewCommentTargets';
@@ -53,6 +54,8 @@ export function CommentsDialog({ onClose, initialParagraphId }: { onClose: () =>
       const next = navigation.current;
       if (!next || !isCurrentDocumentTarget(next.target)) return;
       event.preventDefault();
+      // The body can still be hidden in the One section editor layout.
+      useEditorOutlineStore.getState().jump('body');
       requestAnimationFrame(() => {
         if (!isCurrentDocumentTarget(next.target)) return;
         const row = [...document.querySelectorAll<HTMLElement>('[data-paragraph-id]')].find(element => element.dataset.paragraphId === next.paragraphId);
