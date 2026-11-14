@@ -16,6 +16,7 @@ import {
 import { capturePackageMember } from "@/lib/actionPackageAssets";
 import { captureDocumentRevision } from "@/lib/capturedDocument";
 import { resolveExportDeploymentPolicy } from "@/lib/exportDeploymentPolicy";
+import * as packageRecords from "@/lib/actionPackages";
 
 const policy = resolveExportDeploymentPolicy({
   hostname: "localhost",
@@ -60,6 +61,13 @@ it("cancels a held render on close and never publishes into a reopened dialog or
     await createActionPackage("Cancellation package"),
     [member],
   );
+  const readPackages = packageRecords.listActionPackages;
+  let releaseInventory!: () => void;
+  const inventory = new Promise<void>(resolve => { releaseInventory = resolve; });
+  vi.spyOn(packageRecords, "listActionPackages").mockImplementation(async () => {
+    await inventory;
+    return readPackages();
+  });
   let finish!: (bytes: Uint8Array) => void;
   const compile = vi.fn(
     () =>
@@ -82,6 +90,9 @@ it("cancels a held render on close and never publishes into a reopened dialog or
   );
   await user.click(screen.getByRole("button", { name: "Packages" }));
   let dialog = screen.getByRole("dialog", { name: "Action packages" });
+  expect(within(dialog).queryByRole("option", { name: record.name })).toBeNull();
+  releaseInventory();
+  await within(dialog).findByRole("option", { name: record.name });
   await user.selectOptions(
     within(dialog).getByLabelText("Saved packages", { exact: true }),
     record.id,
@@ -114,6 +125,7 @@ it("cancels a held render on close and never publishes into a reopened dialog or
   expect(screen.queryByRole("dialog", { name: "Action packages" })).toBeNull();
   await user.click(screen.getByRole("button", { name: "Packages" }));
   dialog = screen.getByRole("dialog", { name: "Action packages" });
+  await within(dialog).findByRole("option", { name: record.name });
   const pdf = await PDFDocument.create();
   pdf.addPage();
   finish(await pdf.save());

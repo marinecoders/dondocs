@@ -2,7 +2,8 @@ import { documentTextFields } from "./documentFields";
 import type { SerializedSession } from "@/stores/documentStore";
 import { captureChangeReport, prepareChangeReport } from "./changeReport";
 import { detectTextPII, mergePIIResults } from "@/services/pii/detector";
-import { detectClassification } from "./detectClassification";
+import { retainedTextClassificationLevel } from "./detectClassification";
+import { assertRetainedDocumentTextPolicy } from "./retainedDocumentTextPolicy";
 import {
   assertExportDeploymentPolicy,
   type PolicyResolution,
@@ -37,13 +38,12 @@ export function reviewPackageNative(
     ),
     policy,
   );
-  const fields = documentTextFields(session, "share").map((field) => ({
+  const fields = documentTextFields(session, "share", { includeUnknownDataUris: true }).map((field) => ({
     field: field.label,
     value: field.text,
   }));
   // The portable native model includes definitions, unused choices and retained legacy values too.
-  for (const field of fields)
-    reviewPackageText(field.value, field.field, policy);
+  assertRetainedDocumentTextPolicy(session, policy);
   return {
     privacy: mergePIIResults([report.privacy, detectTextPII(fields)]),
     notices: [...report.notices, `Retained draft marking: ${report.marking}`],
@@ -58,7 +58,7 @@ export function reviewPackageText(
 ): ExportReview {
   if (policy.status !== "ready") throw new Error(policy.message);
   assertExportDeploymentPolicy(policy.policy);
-  const marking = detectClassification(text).classLevel;
+  const marking = retainedTextClassificationLevel(text);
   if (!policy.policy.allowedLevels.includes(marking))
     throw new Error(
       `${label} includes markings outside this deployment's configured levels.`,

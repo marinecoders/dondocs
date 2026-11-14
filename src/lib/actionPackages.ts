@@ -88,7 +88,7 @@ const boundarySchema = z
     memberId: id,
     startPage: z.number().int().positive(),
     pageCount: z.number().int().positive(),
-    firstPageLabel: z.string().min(1).max(80),
+    firstPageLabel: z.string().min(1).max(120),
     numbering: z.enum(["continuation", "separate"]),
   })
   .strict();
@@ -216,6 +216,17 @@ export const actionPackageSchema = z
 export type ActionPackage = z.infer<typeof actionPackageSchema>;
 export const newPackageId = (prefix: string) =>
   `${prefix}_${crypto.randomUUID()}`;
+/** Display labels are bounded independently of the preserved original filename. */
+export function packageMemberLabel(name: string): string {
+  const value = name.trim() || "Package member";
+  if (value.length <= 120) return value;
+  let clipped = "";
+  for (const character of value) {
+    if (clipped.length + character.length > 119) break;
+    clipped += character;
+  }
+  return `${clipped}…`;
+}
 export function getPackageRevision(
   record: ActionPackage,
   revisionId = record.currentRevisionId,

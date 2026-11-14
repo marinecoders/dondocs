@@ -1,4 +1,4 @@
-import { reviewPackageNative } from "@/lib/actionPackageDisclosure";
+import { reviewPackageNative, reviewPackageOriginal } from "@/lib/actionPackageDisclosure";
 import "fake-indexeddb/auto";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { resolve } from "node:path";
@@ -60,6 +60,7 @@ import {
   type PortableResourceManifest,
 } from "@/lib/portableResources";
 import { composeBasicLetterId } from "@/lib/endorsement";
+import { DISCREPANCY_NOTICE, MI_REPORTING } from "@/data/techpub/sections";
 
 vi.mock("@/stores/backupStore", () => ({
   scheduleBackup: vi.fn(),
@@ -861,6 +862,19 @@ it("reviews every transferred native definition choice, retained legacy answer a
       finding.value.includes("123-45-6789"),
     ),
   ).toBe(true);
+  const retained = snapshot();
+  Object.assign(retained.formData, { legacy: { image: 'data:image/not-an-asset\r\nSSN 123-45-6789' } });
+  expect(reviewPackageNative(retained, "Fictional package", policy).privacy.findings.some(finding => finding.value.includes('123-45-6789'))).toBe(true);
+});
+
+it.each(["(S)", "(TS)", "(CUI)"])("blocks retained %s portions in unused form choices and original PDF text", async marking => {
+  const instance = fixtureInstance();
+  instance.definition.fields.decision.options![1].label = `${marking} Unselected retained option`;
+  const source = { ...createBlankSession(), documentCategory: "forms" as const, formType: instance.definition.formId, genericForm: instance };
+  expect(() => reviewPackageNative(source, "Fictional package", policy)).toThrow(/configured levels/);
+  const { extractPdfText } = await import("@/lib/pdfText");
+  vi.mocked(extractPdfText).mockResolvedValueOnce(`Ordinary first line\n${marking} Captured supporting text`);
+  await expect(reviewPackageOriginal(await pdfBytes(), "original.pdf", policy)).rejects.toThrow(/configured levels/);
 });
 
 it("reviews actual retained output content under current policy and retrieves the same reviewed bytes", async () => {
@@ -982,4 +996,90 @@ it("preserves source enclosure bytes after replacement and deletion of the origi
     (await readPackageMemberDraft(retained)).reviewed.files[0]?.data,
   ).toEqual(original);
   expect((await collectLiveAttachmentIds())?.has(first.id)).toBe(false);
+});
+
+it.each([false, true])("cleans up a cancelled working-copy write without deleting a newer copy (newer: %s)", async newer => {
+  const { record, member } = await fixture();
+  const db = await import("@/lib/documentsDb");
+  const { flushDocumentWrites } = await import("@/stores/documentsStore");
+  const { editPackageMember } = await import("@/lib/actionPackageWorkingCopy");
+  useDocumentsStore.getState().newDocument();
+  await flushDocumentWrites();
+  let writtenId = "";
+  const put = db.idbPutDocument;
+  const controller = new AbortController();
+  vi.spyOn(db, "idbPutDocument").mockImplementationOnce(async document => {
+    writtenId = document.id;
+    expect(await put(document)).toBe(true);
+    if (newer) expect(await put({ ...document, meta: { ...document.meta, title: "Newer independent copy" } })).toBe(true);
+    controller.abort();
+    return true;
+  });
+  await expect(editPackageMember(record, member, controller.signal)).rejects.toMatchObject({ name: "AbortError" });
+  const documents = (await db.idbGetAllDocuments())!.filter(item => item.id === writtenId);
+  expect(documents).toHaveLength(newer ? 1 : 0);
+  if (newer) expect(documents![0].meta.title).toBe("Newer independent copy");
+  expect((await listActionPackages()).find(item => item.id === record.id)).toEqual(record);
+});
+
+it("opens a retained working copy when the recipient has no active document", async () => {
+  const { record, member } = await fixture();
+  const { editPackageMember } = await import("@/lib/actionPackageWorkingCopy");
+  const updated = await editPackageMember(record, member);
+  expect(updated.workingCopies).toHaveLength(1);
+  expect(useDocumentsStore.getState().currentId).toBe(updated.workingCopies![0].documentId);
+});
+
+it("retains native PDF figures through package transfer and PDF assembly", async () => {
+  const bytes = await pdfBytes();
+  const fileRef = await persistAttachment({ name: "native-figure.pdf", type: "application/pdf", size: bytes.byteLength }, bytes);
+  const source = { ...snapshot(), docType: "i_type" as const,
+    formData: { ...snapshot().formData, shortTitle: "MI 12345A-26/1", pcn: "184 123456 00", nomenclature: "SUPPORT EQUIPMENT", subject: "INSPECT THE BRACKET",
+      date: "30 Oct 26", publicationSigningDate: "2026-10-15", controllingOffice: "Program Office", cuiDistStatement: "A", signatureType: "digital" as const,
+      fontFamily: "times", fontSize: "12pt", publicationType: "MI" as const, miUrgency: "normal" as const, miCompletionDate: "" }, paragraphs: [
+    { id: "purpose", level: 0, header: "Purpose", text: "Inspect the support bracket." },
+    { id: "administration", level: 0, header: "Administrative Instructions", text: `For questions or concerns with the content or procedures in this Modification Instruction (MI) contact office@example.mil. ${DISCREPANCY_NOTICE} ${MI_REPORTING}` },
+    { id: "pdf-figure", text: "Preserved PDF diagram", level: 0, figure: { fileRef, name: "native-figure.pdf", type: "application/pdf" } },
+  ] };
+  const member = await capturePackageMember(captureDocumentRevision({ documentId: "pdf-figure-source", epoch: 0, editSequence: 1, capturedAt: Date.UTC(2026, 10, 14) }, source), "PDF figure source", "basic-letter");
+  const record = await reviseActionPackage(await createActionPackage("PDF figure package"), [member]);
+  const portable = await buildPortableActionPackage(record);
+  await clearDb();
+  const imported = await importPortableActionPackage(portable);
+  const selected = getPackageRevision(imported).members[0];
+  if (selected.kind !== "native") throw new Error("Expected native figure member");
+  expect((await readPackageMemberDraft(selected)).reviewed.figures[2]?.data).toEqual(bytes);
+  const ready = await preparePackageAssembly(imported, imported.currentRevisionId, policy);
+  expect(ready.readiness.findings.filter(item => item.severity === "error")).toEqual([]);
+  const result = await assemblePackage(ready, { compile: async () => new Uint8Array(await pdfBytes()), convertDocx: vi.fn(), waitForReady: async () => true });
+  expect(getPackageRevision(result).outputs).toHaveLength(1);
+});
+
+it("rejects multi-page PDF figures before capture or portable import while allowing complete original PDFs", async () => {
+  const { validatePackageDraft } = await import("@/lib/actionPackageDraft");
+  const { buildDraftFileFromSnapshot } = await import("@/lib/draftFile");
+  const bytes = await pdfBytes(2);
+  const fileRef = await persistAttachment({ name: "two-page-drawing.pdf", type: "application/pdf", size: bytes.byteLength }, bytes);
+  const source = { ...snapshot(), docType: "i_type" as const, paragraphs: [{ text: "Multi-sheet drawing", level: 0,
+    figure: { name: "two-page-drawing.pdf", type: "application/pdf", fileRef } }] };
+  await expect(capturePackageMember(captureDocumentRevision({ documentId: "multi-page-figure", epoch: 0, editSequence: 1, capturedAt: Date.now() }, source), "Drawing", "basic-letter"))
+    .rejects.toThrow(/single-page figure.*enclosure/);
+  const draft = await buildDraftFileFromSnapshot(source, Date.now());
+  await expect(validatePackageDraft(draft)).rejects.toThrow(/single-page figure.*enclosure/);
+  await expect(captureOriginalPackageMember({ name: "complete-drawing.pdf", data: bytes }, "enclosure", false)).resolves.toMatchObject({ kind: "original" });
+});
+
+it("assembles long supporting labels and preserves long original filenames", async () => {
+  const { record, member } = await fixture();
+  const name = `${"supporting-original-".repeat(8)}.pdf`;
+  const original = await captureOriginalPackageMember({ name, data: await pdfBytes() }, "supporting-document", true);
+  const updated = await reviseActionPackage(record, [member, original]);
+  const ready = await preparePackageAssembly(updated, updated.currentRevisionId, policy);
+  expect(ready.readiness.state).toBe("ready");
+  const assembled = await assemblePackage(ready, { compile: async () => new Uint8Array(await pdfBytes()), convertDocx: vi.fn(), waitForReady: async () => true });
+  expect(getPackageRevision(assembled).outputs[0].boundaries[1].firstPageLabel.length).toBeGreaterThan(80);
+  const parsed = await parsePortableActionPackage(await buildPortableActionPackage(assembled));
+  const retained = getPackageRevision(parsed.record).members[1];
+  if (retained.kind !== "original") throw new Error("Expected original member");
+  expect(retained.original.name).toBe(name);
 });

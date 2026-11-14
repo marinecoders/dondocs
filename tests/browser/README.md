@@ -124,21 +124,17 @@ checksums, unchanged originals, selected-revision transfer and configured-form
 editing/rendering in a fresh offline browser. Theme cases cover Light, Dark and
 Classic across the configured desktop and phone browser projects.
 
-The saved-package fresh-browser checks load the app and run the real deployment
-policy preflight online before disconnecting. They finish the app's ordinary
-preview and render a distinct app-only PDF to initialize the existing viewer and
-worker; neither fixture contains any imported package source or form content.
-Configured-form recipients use the real production service worker and wait for a
-controlled navigation, so its normal engine-core runtime cache retains the PDF.js
-worker loaded during this preparation. This is an app-resource prerequisite, not
-a general qualification of first-time offline installation.
+The saved-package fresh-browser checks initialize only the published app, its
+ordinary preview and the real deployment policy online before disconnecting.
+Recipients use the production service worker and verify the current controlled
+app shell is cached. No matching package source or configured template is supplied
+during preparation. This qualifies transfers using installed app resources.
 
 After disconnecting, recipients receive no matching source documents, catalog
-definitions or template pages outside the imported package. The configured-form
-recipient's template/catalog routes remain denied. Reload checks reconnect only
-to load and prepare the app resources, then repeat editing, assembly, identical
-artifact retrieval and a visible retained-PDF canvas assertion with networking
-disabled. Diagnostic runs with service workers blocked confirmed that a new
-`/lib/pdf.worker.min.mjs` request fails offline when routing disables the browser's
-HTTP cache; the production worker cache, rather than package asset storage, owns
-that application dependency.
+definitions or template pages outside the imported package. Independent HTTP
+checks confirm the synthetic form and exact blank PDF are unavailable on the
+deployment. The configured-form flow stays offline through reload, editing,
+assembly, identical artifact retrieval and a visible retained-PDF canvas check.
+Recipient routing hooks are avoided because they prevent Firefox offline
+navigations from reaching its service worker. Application workers and engine
+resources belong to the installed app; imported package content remains separate.

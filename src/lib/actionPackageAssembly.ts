@@ -229,7 +229,11 @@ export async function preparePackageAssembly(
         continue;
       }
       const { reviewed } = await readPackageMemberDraft(member);
-      for (const file of [...reviewed.files, reviewed.basicLetter])
+      for (const file of [
+        ...reviewed.files,
+        reviewed.basicLetter,
+        ...reviewed.figures.filter((_, index) => reviewed.session.paragraphs[index]?.figure?.type === "application/pdf"),
+      ])
         if (file)
           reviews.push({
             member: `${member.label}: ${file.name}`,

@@ -10,6 +10,7 @@ import {
 import { serializeDocumentSnapshot } from "./documentSerialization";
 import {
   idbPutDocument,
+  idbDeleteDocumentIfUnchanged,
   sameReviewStoredValue,
   type StoredDocument,
 } from "./documentsDb";
@@ -35,6 +36,7 @@ export async function editPackageMember(
   member: NativePackageMember,
   signal?: AbortSignal,
 ): Promise<ActionPackage> {
+  signal?.throwIfAborted();
   if (record.archived)
     throw new Error("Reopen this archived package before editing.");
   const existing = record.workingCopies?.find(
@@ -51,10 +53,16 @@ export async function editPackageMember(
     return record;
   }
   const target = captureDocumentTarget();
+  const activationEpoch = useDocumentsStore.getState().activationEpoch;
+  const current = () => !signal?.aborted && (target
+    ? isCurrentDocumentTarget(target)
+    : useDocumentsStore.getState().currentId === null && useDocumentsStore.getState().activationEpoch === activationEpoch);
   useDocumentsStore.getState().saveCurrent();
   const { prepared, snapshot } = await preparePackageMember(member);
-  if (!isCurrentDocumentTarget(target))
+  if (!current()) {
+    signal?.throwIfAborted();
     throw new Error("The active document changed. Reopen Packages and retry.");
+  }
   const id = newPackageId("package-working-copy"),
     name = `${record.name}: ${member.label} (working copy)`;
   const document: StoredDocument = {
@@ -101,14 +109,17 @@ export async function editPackageMember(
       signal,
     );
   } catch (cause) {
-    if (signal?.aborted) throw signal.reason;
-    openCommittedDocument(prepared, document, target);
+    if (signal?.aborted) {
+      await idbDeleteDocumentIfUnchanged(document);
+      throw signal.reason;
+    }
+    openCommittedDocument(prepared, document, target, current);
     throw new Error(
       `A separate working copy was saved in Recents as "${name}", but its package binding could not be committed. Reopen the latest package before capturing that copy as a new member revision.`,
       { cause },
     );
   }
-  if (openCommittedDocument(prepared, document, target) !== "applied")
+  if (openCommittedDocument(prepared, document, target, current) !== "applied")
     throw new Error(
       "The working copy was saved to Recents. Reopen it there to continue.",
     );

@@ -223,6 +223,8 @@ letter, endorsements, coordination, supporting-document and enclosure roles.
 The first member must be the single main document. Existing native correspondence
 and forms use their existing editors and renderers; uploaded originals support
 PDF only. Selecting a role does not create a new document format.
+Native publication PDF figures keep their original bytes. Long member labels are
+shortened for display; original filenames remain intact in editable transfers.
 
 Every change creates a package revision. Reopen earlier revisions to inspect their
 members and retained outputs. Removing a member from the current revision preserves

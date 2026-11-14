@@ -3,6 +3,8 @@ import { PDFDocument, StandardFonts } from "pdf-lib";
 import { createHash } from "node:crypto";
 import { readFile, writeFile } from "node:fs/promises";
 import { getDocument } from "pdfjs-dist/legacy/build/pdf.mjs";
+import { prepareOfflineApp } from "../_helpers/prepareOfflineApp";
+import { DISCREPANCY_NOTICE, MI_REPORTING } from "../../src/data/techpub/sections";
 
 test.use({ serviceWorkers: "block", actionTimeout: 15_000 });
 test.setTimeout(180_000);
@@ -20,88 +22,6 @@ async function appearance(context: BrowserContext, theme: string) {
     );
   }, theme);
 }
-async function readyOfflineApp(
-  page: Page,
-  url?: string,
-  installedViewer = false,
-) {
-  if (url) await page.goto(url);
-  else await page.reload();
-  await expect(
-    page.getByRole("button", { name: "Document actions", exact: true }),
-  ).toBeVisible();
-  if (installedViewer) {
-    await page.evaluate(async () => {
-      await navigator.serviceWorker.ready;
-    });
-    // The production prompt-mode worker intentionally claims only a new navigation.
-    if (
-      !(await page.evaluate(() => navigator.serviceWorker.controller !== null))
-    )
-      await page.reload();
-    await page.waitForFunction(
-      () => navigator.serviceWorker.controller !== null,
-    );
-    await expect(
-      page.getByRole("button", { name: "Document actions", exact: true }),
-    ).toBeVisible();
-  }
-  // Let the app's initial ordinary preview finish before disconnecting its engine resources.
-  const preview = page.getByRole("button", { name: "Preview", exact: true });
-  const mobilePreview =
-    (await preview.getAttribute("aria-haspopup")) === "dialog";
-  if (mobilePreview || (await preview.getAttribute("aria-pressed")) !== "true")
-    await preview.click();
-  await expect(
-    page.locator('[data-pdf-layer="active"] canvas').first(),
-  ).toBeVisible();
-  if (mobilePreview)
-    await page
-      .getByRole("button", { name: "Close preview", exact: true })
-      .click();
-  // Initialize the real deployment policy online; package assets are imported after disconnecting.
-  const modal = await packages(page);
-  await modal
-    .getByLabel("Package name", { exact: true })
-    .fill("Offline app preparation");
-  await modal
-    .getByRole("button", { name: "Create package", exact: true })
-    .click();
-  await modal
-    .getByRole("button", { name: "Check readiness and assemble", exact: true })
-    .click();
-  await expect(
-    modal.getByRole("heading", {
-      name: "Package readiness: draft",
-      exact: true,
-    }),
-  ).toBeVisible();
-  // This app-only PDF initializes the existing viewer/worker, independent of package source/form assets.
-  const warmup = await PDFDocument.create();
-  warmup.addPage([612, 792]).drawText("APP VIEWER INITIALIZATION ONLY");
-  await modal.getByLabel("Add original PDF", { exact: true }).setInputFiles({
-    name: "app-viewer-initialization.pdf",
-    mimeType: "application/pdf",
-    buffer: Buffer.from(await warmup.save()),
-  });
-  await modal
-    .getByRole("button", { name: "Check readiness and assemble", exact: true })
-    .click();
-  await expect(
-    modal.getByRole("heading", {
-      name: "Package readiness: ready",
-      exact: true,
-    }),
-  ).toBeVisible();
-  await approve(page, "Assemble and retain PDF");
-  await expect(
-    modal
-      .getByRole("region", { name: "Retained package PDF", exact: true })
-      .locator('[data-pdf-layer="active"] canvas')
-      .first(),
-  ).toBeVisible();
-  await page.keyboard.press("Escape");
-}
 async function packages(page: Page) {
   await page.getByRole("button", { name: "Packages", exact: true }).click();
   return page.getByRole("dialog", { name: "Action packages", exact: true });
@@ -115,6 +35,7 @@ async function importDraft(page: Page, value: unknown) {
   await page
     .getByRole("button", { name: "Open as new document", exact: true })
     .click();
+  await expect(page.getByRole("dialog", { name: "Review draft", exact: true })).toBeHidden();
 }
 async function actions(page: Page, name: string | RegExp) {
   await page
@@ -445,12 +366,12 @@ for (const theme of ["light", "dark", "classic"]) {
       userAgent: await page.evaluate(() => navigator.userAgent),
       isMobile: !!info.project.use.isMobile,
       hasTouch: !!info.project.use.hasTouch,
-      serviceWorkers: "block",
+      serviceWorkers: "allow",
     });
     try {
       await appearance(fresh, theme);
       const restored = await fresh.newPage();
-      await readyOfflineApp(restored, baseURL!);
+      await prepareOfflineApp(restored, baseURL!);
       await expect(
         restored.getByRole("button", { name: "Packages", exact: true }),
       ).toBeVisible();
@@ -611,9 +532,14 @@ test("configured package survives fresh offline import, native editing, reload a
   });
   try {
     await appearance(fresh, "dark");
-    await fresh.route("**/templates/**", (route) => route.abort());
+    const [catalog, missingTemplate] = await Promise.all([
+      fresh.request.get(`${baseURL}/templates/index.json`),
+      fresh.request.get(`${baseURL}/templates/package-fixture/page1.pdf`),
+    ]);
+    expect(await catalog.text()).not.toContain('package_fixture');
+    expect(sha(await missingTemplate.body())).not.toBe(hash);
     const restored = await fresh.newPage();
-    await readyOfflineApp(restored, baseURL!, true);
+    await prepareOfflineApp(restored, baseURL!);
     await fresh.setOffline(true);
     modal = await packages(restored);
     await modal
@@ -643,9 +569,8 @@ test("configured package survives fresh offline import, native editing, reload a
       .getByRole("textbox", { name: "Fictional name", exact: true })
       .fill("Fictional working form");
     await actions(restored, /^Save checkpoint/);
-    await fresh.setOffline(false);
-    await readyOfflineApp(restored, undefined, true);
-    await fresh.setOffline(true);
+    await restored.reload();
+    await expect(restored.getByRole("button", { name: "Document actions", exact: true })).toBeVisible();
     await expect(
       restored.getByRole("textbox", { name: "Fictional name", exact: true }),
     ).toHaveValue("Fictional working form");
@@ -694,4 +619,50 @@ test("configured package survives fresh offline import, native editing, reload a
   } finally {
     await fresh.close();
   }
+});
+
+
+test("publication PDF figures and long originals survive actual rendering and editable transfer", async ({ page, context }, info) => {
+  await appearance(context, "light");
+  await page.goto("/");
+  const figure = await originalPdf();
+  const source = {
+    documentMode: "compliant", documentCategory: "correspondence", docType: "i_type",
+    formData: { classLevel: "unclassified", unitLine1: "FICTIONAL TRAINING UNIT", sigLast: "Example", shortTitle: "MI 12345A-26/1", pcn: "184 123456 00", nomenclature: "SUPPORT EQUIPMENT", subject: "INSPECT THE BRACKET",
+      date: "30 Oct 26", publicationSigningDate: "2026-10-15", controllingOffice: "Program Office", cuiDistStatement: "A", signatureType: "digital",
+      fontFamily: "times", fontSize: "12pt", publicationType: "MI", miUrgency: "normal", miCompletionDate: "" },
+    paragraphs: [
+      { id: "purpose", level: 0, header: "Purpose", text: "Inspect the support bracket." },
+      { id: "administration", level: 0, header: "Administrative Instructions", text: `For questions or concerns with the content or procedures in this Modification Instruction (MI) contact office@example.mil. ${DISCREPANCY_NOTICE} ${MI_REPORTING}` },
+      { id: "pdf-figure", level: 0, text: "Preserved PDF diagram", figure: { data: figure.toString("base64"), name: "native-figure.pdf", type: "application/pdf" } },
+    ], references: [], enclosures: [], copyTos: [], distributions: [], endItems: [], publicationTables: {},
+  };
+  await importDraft(page, source);
+  const modal = await packages(page);
+  await modal.getByLabel("Package name", { exact: true }).fill("Publication resource regression");
+  await modal.getByRole("button", { name: "Create package", exact: true }).click();
+  await modal.getByRole("button", { name: "Capture current document", exact: true }).click();
+  const originalName = `${"supporting-original-".repeat(8)}.pdf`;
+  await modal.getByLabel("New member role", { exact: true }).selectOption("supporting-document");
+  await modal.getByLabel("Add original PDF", { exact: true }).setInputFiles({ name: originalName, mimeType: "application/pdf", buffer: figure });
+  await expect(modal.getByRole("heading", { name: /^2\. supporting-original-/ })).toBeVisible();
+  await modal.getByRole("button", { name: "Check readiness and assemble", exact: true }).click();
+  await expect(modal.getByRole("heading", { name: "Package readiness: ready", exact: true })).toBeVisible();
+  await approve(page, "Assemble and retain PDF");
+  await expect(modal.getByRole("status")).toContainText("Assembled PDF retained.", { timeout: 60_000 });
+  const rendered = await download(page, "Download retained PDF", "Download reviewed retained PDF");
+  const pages = await text(rendered);
+  expect(pages.join(" ")).toContain("Preserved PDF diagram");
+  expect(pages.filter(value => value.includes("SYNTHETIC ORIGINAL"))).toHaveLength(2);
+  const portable = JSON.parse((await download(page, "Export editable package", "Download reviewed editable package")).toString("utf8"));
+  const revision = portable.package.revisions[0];
+  expect(revision.members[1].original.name).toBe(originalName);
+  expect(revision.members[1].label.length).toBeLessThanOrEqual(120);
+  expect(revision.outputs[0].boundaries[1].firstPageLabel.length).toBeGreaterThan(80);
+  const retainedOriginal = portable.portableResources.entries.find((entry: {path: string}) => entry.path === `assets/${revision.members[1].original.id}`);
+  expect(Buffer.from(retainedOriginal.data, "base64")).toEqual(figure);
+  const retainedDraft = portable.portableResources.entries.find((entry: {path: string}) => entry.path === `assets/${revision.members[0].draft.id}`);
+  expect(Buffer.from(JSON.parse(Buffer.from(retainedDraft.data, "base64").toString("utf8")).paragraphs[2].figure.data, "base64")).toEqual(figure);
+  await writeFile(info.outputPath("publication-package.pdf"), rendered);
+  await info.attach("publication-package.pdf", { body: rendered, contentType: "application/pdf" });
 });

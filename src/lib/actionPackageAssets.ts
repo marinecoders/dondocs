@@ -20,6 +20,7 @@ import { captureExportFormTemplates } from "@/services/exports/formTemplates";
 import { copyFormExportTemplates } from "./formExportTemplates";
 import {
   newPackageId,
+  packageMemberLabel,
   type NativePackageMember,
   type PackageAsset,
   type PackageMember,
@@ -91,6 +92,7 @@ export async function capturePackageMember(
   role: PackageMember["role"],
   previous?: NativePackageMember,
 ): Promise<NativePackageMember> {
+  label = packageMemberLabel(label);
   const snapshot = copyCapturedDocument(captured).document;
   return withAttachmentStaging(async () => {
     for (const enclosure of snapshot.enclosures)
@@ -186,7 +188,7 @@ export async function captureOriginalPackageMember(
     id: newPackageId("member"),
     revisionId: newPackageId("member-revision"),
     kind: "original",
-    label: file.name,
+    label: packageMemberLabel(file.name),
     role,
     required: true,
     signedOriginal,

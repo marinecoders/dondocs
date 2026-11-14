@@ -3,6 +3,7 @@ import { inspectRasterImage } from "@/services/docx/imageAssets";
 import { parseDraftFile } from "./draftFile";
 import { validateBackup } from "./backupValidation";
 import { base64ToUint8Array, uint8ArrayToBase64 } from "./encoding";
+import { validateFigureAsset } from "@/services/latex/figureAssets";
 
 /** Native draft transfer remains the model owner; package imports additionally require complete readable resources. */
 export async function validatePackageDraft(value: unknown) {
@@ -30,6 +31,7 @@ export async function validatePackageDraft(value: unknown) {
       if (!(await PDFDocument.load(bytes)).getPageCount())
         throw new Error("A saved PDF has no pages.");
     } else await inspectRasterImage(bytes, type);
+    return bytes;
   };
   const form = raw.formData as Record<string, unknown>;
   if (
@@ -69,12 +71,14 @@ export async function validatePackageDraft(value: unknown) {
         throw new Error(
           "A package figure cannot resolve a device-local handle.",
         );
-      if (!["image/png", "image/jpeg"].includes(paragraph.figure.type))
-        throw new Error("Package figure images support PNG and JPEG files.");
-      await verifyBinary(
+      if (!["image/png", "image/jpeg", "application/pdf"].includes(paragraph.figure.type))
+        throw new Error("Package figures support PNG, JPEG and PDF files.");
+      const bytes = await verifyBinary(
         paragraph.figure.data,
-        paragraph.figure.type as "image/png" | "image/jpeg",
+        paragraph.figure.type === "application/pdf" ? "pdf" : paragraph.figure.type as "image/png" | "image/jpeg",
       );
+      if (paragraph.figure.type === "application/pdf")
+        await validateFigureAsset(bytes, "saved-figure.pdf");
     }
   for (const form of [
     reviewed.session.forms?.navmc10274,
