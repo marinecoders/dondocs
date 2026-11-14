@@ -137,6 +137,21 @@ describe('captured review-return actions', () => {
     expect(useDocumentStore.getState().formData.customClassification).toBe('SECRET');
     expect(reviewSuggestionRecordSchema.parse(await idbReadReviewSuggestions(owner, round.id)).state.decisions.map(item => item.action)).toEqual(['accepted']);
   });
+  it('preserves the current handling floor when manually reconciling a stale custom marking', async () => {
+    vi.mocked(getExportDeploymentPolicy).mockResolvedValue(allLevels);
+    const { round, owner } = await fixture({ custom: 'SECRET' });
+    const proposal = createReviewSuggestion(round, { author: 'Reviewer', label: 'Custom marking',
+      changes: [{ target: { kind: 'field', field: 'customClassification', docType: 'naval_letter' }, proposed: 'CUI' }] });
+    await submitReviewSuggestion(proposal);const payload = await exported();useDocumentsStore.getState().switchTo(owner);
+    expect(await applyReviewReturn(await prepareReviewReturnImport(payload), {})).toBe('committed');
+    useDocumentStore.getState().setField('customClassification', 'TOP SECRET');
+    const resolution = { changeId: proposal.changes[0].id, expectedCurrent: 'TOP SECRET', value: 'SECRET' };
+    await expect(decideReviewSuggestion(round.id, proposal.id, 'accepted', [resolution])).rejects.toThrow(/marked below/);
+    expect(useDocumentStore.getState().formData.customClassification).toBe('TOP SECRET');
+    expect(reviewSuggestionRecordSchema.parse(await idbReadReviewSuggestions(owner, round.id)).state.decisions).toEqual([]);
+    expect((await decideReviewSuggestion(round.id, proposal.id, 'accepted', [{ ...resolution, value: 'TOP SECRET' }])).status).toBe('committed');
+    expect(useDocumentStore.getState().formData.customClassification).toBe('TOP SECRET');
+  });
   it('scans an emitted paragraph target identifier without adding unrelated native text to the return', async () => {
     const { round } = await fixture({ subject: 'Unemitted native subject', paragraphId: '123-45-6789' });
     const proposal = createReviewSuggestion(round, { author: 'Reviewer', label: 'Plain paragraph', changes: [{ target: { kind: 'paragraph', paragraphId: '123-45-6789', docType: 'naval_letter' }, proposed: 'Proposed plain paragraph.' }] });
