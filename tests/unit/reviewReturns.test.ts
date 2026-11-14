@@ -3,33 +3,39 @@ import { createReviewReturn, parseReviewReturn, reviewReturnDigest } from '@/lib
 
 const round = () => `review_${crypto.randomUUID()}`;
 const digest = 'a'.repeat(64);
+const handling = { marking: 'UNCLASSIFIED', customMarkings: [] };
 
 describe('bounded comment-only review return files', () => {
   it('binds comments to a round and exact baseline, with an independent return identity', () => {
-    const payload = createReviewReturn(round(), digest, undefined);
+    const payload = createReviewReturn(round(), digest, undefined, handling);
     expect(payload.kind).toBe('dondocs-review-return');expect(payload.id).toMatch(/^return_/);
     expect(payload.baselineDigest).toBe(digest);expect(parseReviewReturn(JSON.parse(JSON.stringify(payload)))).toEqual(payload);
   });
   it('rejects document content, owner authority and unsupported versions instead of silently stripping them', () => {
-    const payload = createReviewReturn(round(), digest, undefined);
+    const payload = createReviewReturn(round(), digest, undefined, handling);
     for (const extra of [{ session: {} }, { ownerDocumentId: 'local-owner' }, { formData: {} }, { version: 2 }]) {
       expect(() => parseReviewReturn({ ...payload, ...extra })).toThrow();
     }
   });
+  it('requires handling metadata in the first released return format', () => {
+    const payload = createReviewReturn(round(), digest, undefined, handling);
+    const { handling: _handling, ...unmarked } = payload;
+    expect(() => parseReviewReturn(unmarked)).toThrow();
+  });
   it('rejects ambiguous or malformed round and digest identities', () => {
-    const payload = createReviewReturn(round(), digest, undefined);
+    const payload = createReviewReturn(round(), digest, undefined, handling);
     for (const extra of [{ roundId: 'constructor' }, { baselineDigest: 'short' }, { id: payload.roundId }, { createdAt: Infinity }]) {
       expect(() => parseReviewReturn({ ...payload, ...extra })).toThrow();
     }
   });
   it('includes a full payload digest so changing feedback under the same return ID is detectable', async () => {
-    const payload = createReviewReturn(round(), digest, undefined);
+    const payload = createReviewReturn(round(), digest, undefined, handling);
     const first = await reviewReturnDigest(payload);
     expect(await reviewReturnDigest({ ...payload })).toBe(first);
     expect(await reviewReturnDigest({ ...payload, createdAt: payload.createdAt + 1 })).not.toBe(first);
   });
   it('validates every incoming comment and unique message ID before any merge', () => {
-    const payload = createReviewReturn(round(), digest, undefined);
+    const payload = createReviewReturn(round(), digest, undefined, handling);
     const id = crypto.randomUUID();
     expect(() => parseReviewReturn({ ...payload, comments: { version: 1, threads: [{ id, anchor: { kind: 'document' }, resolved: false,
       messages: [{ id, author: 'Example', text: 'Feedback', createdAt: '2026-11-13T00:00:00Z' }] }] } })).toThrow();
