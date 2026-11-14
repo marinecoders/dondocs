@@ -9,6 +9,15 @@ async function scan(page: Page, info: TestInfo, state: string) {
   expect(results.violations.map(({ id, nodes }) => ({ id, targets: nodes.map(node => node.target) })), state).toEqual([]);
 }
 
+async function previewReady(page: Page, projectName: string) {
+  if (projectName !== 'desktop') return;
+  const preview = page.locator('.workspace-preview');
+  await expect(preview.locator(':scope > [aria-live="polite"]')).toHaveText('Compilation complete', { timeout: 60_000 });
+  const pageNumber = preview.getByRole('textbox', { name: 'Page number', exact: true });
+  await expect(pageNumber).toBeEnabled({ timeout: 30_000 });
+  await expect(pageNumber).toHaveCSS('opacity', '1');
+}
+
 async function keyboardOpen(control: Locator) {
   await control.focus();
   await expect(control).toBeFocused();
@@ -44,13 +53,14 @@ const letter = 'From: Example sender\nTo: Example recipient\nSubj: ACCESSIBILITY
 
 for (const theme of ['light', 'dark', 'classic']) {
   test.describe(theme, () => {
-    test.beforeEach(async ({ page }) => {
+    test.beforeEach(async ({ page }, info) => {
       await page.addInitScript(appearance => {
         localStorage.setItem('browser-test-visitor', 'returning');
         localStorage.setItem('dondocs_ui', JSON.stringify({ version: 1, state: { theme: appearance, editorLayout: 'scroll' } }));
       }, theme);
       await page.goto('/');
       await expect(page.getByRole('textbox', { name: 'Subject', exact: true })).toBeVisible();
+      await previewReady(page, info.project.name);
     });
 
     test('History comparison and document, field and paragraph comments keep keyboard access', async ({ page }, info) => {
@@ -59,6 +69,7 @@ for (const theme of ['light', 'dark', 'classic']) {
       await action(page, 'Save checkpoint');
       await expect(page.getByRole('status').filter({ hasText: /checkpoint/i })).toBeVisible();
       await subject.fill('CURRENT ACCESSIBILITY SUBJECT');
+      await previewReady(page, info.project.name);
       const historyButton = page.getByRole('button', { name: 'History', exact: true });
       await keyboardOpen(historyButton);
       const history = page.getByRole('dialog', { name: 'Version history', exact: true });
@@ -149,6 +160,7 @@ for (const theme of ['light', 'dark', 'classic']) {
       await page.route('**/lib/pandoc/pandoc.js*', async route => { await waiting; await route.abort('failed'); });
       await page.reload();
       await expect(page.getByRole('textbox', { name: 'Subject', exact: true })).toBeVisible();
+      await previewReady(page, info.project.name);
       await keyboardOpen(page.getByRole('button', { name: 'Download', exact: true }));
       await page.getByRole('menuitem', { name: 'Download Word (.docx)', exact: true }).press('Enter');
       const progress = page.getByRole('dialog');
