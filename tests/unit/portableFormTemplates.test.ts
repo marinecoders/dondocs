@@ -17,6 +17,9 @@ import { idbFormDefinitions, idbGetAllDocuments, idbSetSnapshots, idbPutDocument
 import * as db from '@/lib/documentsDb';
 import { collectLiveAttachmentIds } from '@/lib/attachmentGc';
 import { formTemplateAttachmentId } from '@/lib/formTemplateAssets';
+import { buildAssetSharePayload, parseSharedDocument, hasShareAssets } from '@/lib/assetShare';
+import { openSharedDocument } from '@/lib/sharedDocumentActions';
+import { encryptSharePayload, decryptSharePayload } from '@/lib/shareCrypto';
 
 beforeEach(() => {
   vi.stubGlobal('crypto', webcrypto);
@@ -187,6 +190,32 @@ it('reopens exact retained templates when the accelerator cache is unavailable',
   vi.stubGlobal('caches', { open: async () => { throw new Error('Cache unavailable after reload'); } });
   vi.stubGlobal('fetch', vi.fn(async () => { throw new Error('offline'); }));
   expect(await packageAvailableOffline(instance.definition)).toBe(true);
+});
+
+it('encrypts exact configured templates once and installs them through the shared v4 boundary offline', async () => {
+  formCache();const { instance, page } = await source();openFormInstance(instance);await flushDocumentWrites();
+  const snapshot = useDocumentStore.getState().getSnapshot();expect(hasShareAssets(snapshot)).toBe(true);
+  const envelope = await buildAssetSharePayload(snapshot, Date.now()) as { version: number; draft: Record<string, unknown>; resources: { entries: Array<{ data: string }> } };
+  expect(envelope.version).toBe(4);expect(envelope.draft.portableResources).toBeUndefined();expect(envelope.resources.entries).toHaveLength(1);
+  const body = JSON.stringify(envelope);expect(body.split(envelope.resources.entries[0].data)).toHaveLength(2);
+  const encrypted = await encryptSharePayload(envelope, 'synthetic-form-password');
+  await expect(decryptSharePayload(encrypted, 'wrong-password')).rejects.toThrow(/Wrong password/);
+  const decrypted = await decryptSharePayload(encrypted, 'synthetic-form-password');
+  expect((await parseSharedDocument(decrypted)).formTemplates).toBeDefined();
+  vi.stubGlobal('caches', undefined);vi.stubGlobal('fetch', vi.fn(async () => { throw new Error('No catalog or template server'); }));
+  expect(await openSharedDocument(decrypted, captureDocumentTarget())).toBe('applied');
+  expect(useDocumentStore.getState().genericForm).toEqual(instance);
+  expect((await idbReadAttachment(formTemplateAttachmentId(page.sha256))).status).toBe('found');
+});
+
+it.each(['missing-binding', 'nested-resources', 'mismatched-definition'] as const)('rejects %s in a configured v4 share before changing the editor', async mutation => {
+  formCache();const { instance } = await source();openFormInstance(instance);
+  const envelope = await buildAssetSharePayload(useDocumentStore.getState().getSnapshot(), Date.now()) as { draft: Record<string, unknown>; resources: unknown };
+  if (mutation === 'missing-binding') delete envelope.draft.portableFormTemplates;
+  if (mutation === 'nested-resources') envelope.draft.portableResources = envelope.resources;
+  if (mutation === 'mismatched-definition') (envelope.draft.genericForm as { definition: { label: string } }).definition.label = 'Unrelated same-ID form';
+  const before = useDocumentStore.getState().getSnapshot();
+  await expect(parseSharedDocument(envelope)).rejects.toThrow();expect(useDocumentStore.getState().getSnapshot()).toEqual(before);
 });
 
 it('does not collect any aged page when persisted definition ownership cannot be read', async () => {

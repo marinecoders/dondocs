@@ -139,3 +139,40 @@ test('corrupt and unwritable template imports preserve newer work', async ({ pag
   await page.getByRole('dialog', { name: 'Review draft', exact: true }).getByRole('button', { name: 'Cancel', exact: true }).click();
   await expect(name).toHaveValue('Newer fictional work');
 });
+
+test('encrypted configured forms retain exact templates in a fresh offline browser', async ({ page, context, browser, baseURL }, info) => {
+  await appearance(context, 'light');const source = await fixture('encrypted');
+  await page.route('**/templates/**', route => route.request().url().endsWith('/portable-fixture/page1.pdf')
+    ? route.fulfill({ status: 200, contentType: 'application/pdf', body: source.bytes }) : route.fulfill({ status: 200, json: { templates: [] } }));
+  await page.goto('/');await importDraft(page, source.legacy);
+  await page.getByRole('textbox', { name: 'Fictional name', exact: true }).fill('Fictional retained');
+  const packet = await draft(page), desktop = page.getByRole('button', { name: 'Share', exact: true });
+  if (await desktop.isVisible()) await desktop.click();else await actions(page, /^Create share link/);
+  const sharing = page.getByRole('dialog', { name: 'Share document', exact: true });
+  await sharing.getByLabel('Password for this link', { exact: true }).fill('synthetic-form-password');
+  await sharing.getByRole('button', { name: 'Generate link', exact: true }).click();
+  const downloading = page.waitForEvent('download');
+  await sharing.getByRole('button', { name: 'Download encrypted share file', exact: true }).click();
+  const encrypted = await readFile((await (await downloading).path())!);
+  expect(encrypted.toString('utf8')).not.toContain('Fictional retained');
+  const fresh = await browser.newContext({ viewport: page.viewportSize()!, userAgent: await page.evaluate(() => navigator.userAgent),
+    isMobile: !!info.project.use.isMobile, hasTouch: !!info.project.use.hasTouch, serviceWorkers: 'block' });
+  try {
+    await appearance(fresh, 'light');await fresh.route('**/templates/**', route => route.abort());
+    const recipient = await fresh.newPage();await recipient.goto(baseURL!);
+    await expect(recipient.getByRole('button', { name: 'Document actions', exact: true })).toBeVisible();await fresh.setOffline(true);
+    await actions(recipient, 'Open from share link');
+    const incoming = recipient.getByRole('dialog', { name: 'Open shared document', exact: true });
+    await incoming.getByLabel('Encrypted share file', { exact: true }).setInputFiles({ name: 'encrypted-form.json', mimeType: 'application/json', buffer: encrypted });
+    await incoming.getByLabel('Password', { exact: true }).fill('synthetic-form-password');
+    await incoming.getByRole('button', { name: 'Decrypt and review', exact: true }).click();
+    await expect(incoming).toContainText('attachments passed their size, type and checksum checks');
+    await incoming.getByRole('button', { name: 'Open as new document', exact: true }).click();
+    await expect(incoming).toBeHidden();await expect(recipient.getByRole('textbox', { name: 'Fictional name', exact: true })).toHaveValue('Fictional retained');
+    const rendered = await pdf(recipient);await writeFile(info.outputPath('encrypted-form.pdf'), rendered);
+    expect((await draft(recipient)).portableResources).toEqual(packet.portableResources);
+    await fresh.setOffline(false);await recipient.reload();await fresh.setOffline(true);
+    await expect(recipient.getByRole('textbox', { name: 'Fictional name', exact: true })).toHaveValue('Fictional retained');
+    expect((await draft(recipient)).portableResources).toEqual(packet.portableResources);
+  } finally { await fresh.close(); }
+});
