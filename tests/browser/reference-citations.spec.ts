@@ -115,3 +115,28 @@ async function expectReferenceTargets(bytes: Uint8Array) {
     expect(text).toContain('Office w/ref (a)');
   } finally { await pdf.destroy(); }
 }
+
+
+test('blocks reference reordering within quoted text containing an apostrophe', async ({ page }) => {
+  await page.addInitScript(() => {
+    localStorage.setItem('browser-test-visitor', 'returning');
+    localStorage.setItem('dondocs_ui', JSON.stringify({ state: { theme: 'light', editorLayout: 'scroll' }, version: 1 }));
+  });
+  await page.goto('/');
+  const text = 'He wrote ‘the commander’s reference (b)’. Then follow reference (a).';
+  await page.getByLabel('Import draft file').setInputFiles({ name: 'quoted-reference.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify({
+    documentMode: 'compliant', documentCategory: 'correspondence', docType: 'naval_letter',
+    formData: { subject: 'QUOTED REFERENCE CHECK' },
+    paragraphs: [{ text, level: 0 }],
+    references: [{ letter: 'a', title: 'Alpha directive' }, { letter: 'b', title: 'Bravo directive' }],
+    enclosures: [], copyTos: [], distributions: [],
+  })) });
+  await page.getByRole('button', { name: 'Open as new document', exact: true }).click();
+  await page.getByRole('button', { name: 'Review first-citation order', exact: true }).click();
+  const preview = page.getByRole('dialog', { name: 'Review reference changes' });
+  await expect(preview.getByRole('alert')).toContainText('quoted text');
+  await expect(preview.getByRole('button', { name: 'Apply changes', exact: true })).toHaveCount(0);
+  await preview.getByRole('button', { name: 'Close', exact: true }).first().click();
+  await expect(page.getByRole('textbox', { name: 'Paragraph 1', exact: true })).toHaveText(text);
+  await expect(page.getByLabel('Reference (a) title', { exact: true })).toHaveValue('Alpha directive');
+});

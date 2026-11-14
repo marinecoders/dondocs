@@ -1168,7 +1168,9 @@ export async function rehydrateEnclosureFiles(owns: () => boolean): Promise<void
   if (!owns()) return;
   const original = useDocumentStore.getState();
   const signature = original.formData.signatureImage;
-  if (signature) {
+  // A complete signature is already hydrated. Republishing an equivalent
+  // clone changes formData identity and restarts the live-preview effect.
+  if (signature && (!signature.fileRef || !signature.data)) {
     try {
       await withAttachmentStaging(async () => {
         const resolved = signature.fileRef ? await resolveSignature(signature) : await persistSignature(signature);

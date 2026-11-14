@@ -152,12 +152,19 @@ export function validateLetter(body: Partial<LetterInput>, defaults: CompanionDe
     else if (file.mimeType !== 'image/png') problems.push('Signature images require a PNG attachment.');
     if (DOC_TYPE_CONFIG[body.docType ?? '']?.signature === 'dual' || body.docType === 'information_memorandum' || isTechnicalPublication(body.docType ?? '')) problems.push('Signature images require supported single-signer correspondence.');
   }
-  if (body.docType === 'business_letter' && body.format !== 'docx') {
-    for (const [index, paragraph] of (body.paragraphs ?? []).entries()) {
+  if (body.docType === 'business_letter') {
+    let number = 0;
+    for (const paragraph of body.paragraphs ?? []) {
       if (!paragraph.figure) continue;
+      number++;
       const file = body.attachments?.find(file => file.id === paragraph.figure!.fileId);
-      try { businessFigureFile(index + 1, file?.mimeType, file?.name, paragraph.figure.fileId); }
-      catch (error) { problems.push(error instanceof Error ? error.message : 'Use a shorter figure attachment ID.'); }
+      if (file && !['image/png', 'image/jpeg'].includes(file.mimeType)) {
+        problems.push(`Figure ${number}: business-letter figures require a PNG or JPEG attachment.`);
+      }
+      if (body.format !== 'docx') {
+        try { businessFigureFile(number, file?.mimeType, file?.name, paragraph.figure.fileId); }
+        catch (error) { problems.push(error instanceof Error ? error.message : 'Use a shorter figure attachment ID.'); }
+      }
     }
   }
   return problems;
