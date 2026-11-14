@@ -46,6 +46,9 @@ it('pins existing native resources and exports the captured revision after later
   const round = await startReviewRound('Original reviewer revision');
   useDocumentStore.getState().setField('subject', 'Newer author work');
   useDocumentStore.getState().setField('unitAddress', 'New address');
+  const replacement = await persistAttachment({ name: 'replacement.pdf', size: 3, type: 'application/pdf' }, new Uint8Array([1, 2, 3]).buffer);
+  useDocumentStore.setState(state => ({ enclosures: [{ title: 'Replacement', fileRef: replacement }], paragraphs: [],
+    formData: { ...state.formData, signatureImage: undefined } }));
   const copy = await buildReviewCopy((await readReviewRound(round.id))!);
   const parsed = await parseReviewCopy(copy);
   expect(parsed.reviewed.session.formData.subject).toBe('Fictional review letter');
