@@ -100,6 +100,16 @@ function DialogContent({
             return
           }
           if (event.defaultPrevented) return
+          // FocusScope closes after a deferred callback. Preserve a control
+          // the user has already chosen outside the closing dialog.
+          const active = document.activeElement
+          const closingDialog = event.currentTarget
+          if (active instanceof HTMLElement && active !== document.body && active !== document.documentElement &&
+            active.isConnected && !active.hasAttribute('data-radix-focus-guard') &&
+            closingDialog instanceof HTMLElement && !closingDialog.contains(active)) {
+            event.preventDefault()
+            return
+          }
           const target = returnFocus.current?.isConnected ? returnFocus.current : returnMenuTrigger.current
           const nextDialog = document.querySelector('[data-slot="dialog-content"][data-state="open"]')
           if (nextDialog && target && !nextDialog.contains(target)) {
