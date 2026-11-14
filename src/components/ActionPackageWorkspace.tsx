@@ -881,7 +881,7 @@ function PackageDialog({
                   </>
                 )}
               </div>
-              <WordPackageDownload key={`${record.id}:${revision.id}`} record={record} revisionId={revision.id} ports={ports} />
+              <WordPackageDownload key={`${record.id}:${revision.id}`} record={record} revisionId={revision.id} ports={ports} exportGate={exportGate} />
               {prepared && (
                 <section className="space-y-3 rounded border p-3">
                   <h3 className="font-medium">
