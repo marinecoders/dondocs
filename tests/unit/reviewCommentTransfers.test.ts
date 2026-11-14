@@ -83,6 +83,7 @@ describe('comment-bearing transfer boundaries', () => {
     expect(classifyBackup(JSON.stringify({ kind: BACKUP_KIND, version: 8 })).kind).toBe(BACKUP_KIND);
     expect(classifyBackup(JSON.stringify({ kind: BACKUP_KIND, version: 9 })).kind).toBe(BACKUP_KIND);
     expect(classifyBackup(JSON.stringify({ kind: BACKUP_KIND, version: 10 })).kind).toBe(BACKUP_KIND);
+    expect(classifyBackup(JSON.stringify({ kind: BACKUP_KIND, version: BACKUP_VERSION })).kind).toBe(BACKUP_KIND);
     expect(() => classifyBackup(JSON.stringify({ kind: BACKUP_KIND, version: BACKUP_VERSION + 1 }))).toThrow();
   });
 });

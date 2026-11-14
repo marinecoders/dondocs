@@ -1,9 +1,15 @@
-import { it, expect, vi, afterEach } from 'vitest';
+import 'fake-indexeddb/auto';
+import { it, expect, vi, afterEach, beforeEach } from 'vitest';
 import { webcrypto } from 'node:crypto';
 import { loadPackagePage, packageAvailableOffline } from '@/services/forms/packages';
 import { fixtureDefinition, fixturePage } from '../_helpers/formFixture';
+import { idbReadAttachment, idbGetAllAttachments, idbDeleteAttachment } from '@/lib/documentsDb';
+import { formTemplateAttachmentId } from '@/lib/formTemplateAssets';
 
 afterEach(() => vi.unstubAllGlobals());
+beforeEach(async () => {
+  for (const attachment of await idbGetAllAttachments() ?? []) await idbDeleteAttachment(attachment.id);
+});
 it('verifies template bytes and refuses a stale asset before rendering', async () => {
   vi.stubGlobal('crypto', webcrypto);
   const d = fixtureDefinition();
@@ -32,18 +38,19 @@ it('reads a complete verified package offline and detects partial caches', async
   expect(await packageAvailableOffline(d)).toBe(false);
 });
 
-it('allows online use when browser cache access is denied, but refuses an offline guarantee', async () => {
+it('allows exact durable offline use when browser cache access is denied', async () => {
   vi.stubGlobal('crypto', webcrypto);
   const page = await fixturePage(); const d = fixtureDefinition(); d.pages[0].sha256 = page.sha256;
   vi.stubGlobal('caches', { open: async () => { throw new Error('Storage denied'); } });
   vi.stubGlobal('fetch', vi.fn(async () => new Response(new Uint8Array(page.bytes))));
   await expect(loadPackagePage(d, 'page1.pdf')).resolves.toEqual(page.bytes);
-  await expect(loadPackagePage(d, 'page1.pdf', true)).rejects.toThrow(/Storage denied/);
+  await expect(loadPackagePage(d, 'page1.pdf', true)).resolves.toEqual(page.bytes);
+  expect(await packageAvailableOffline(d)).toBe(true);
   d.pages[0].width = 500;
   await expect(loadPackagePage(d, 'page1.pdf')).rejects.toThrow(/dimensions/);
 });
 
-it('repairs a corrupt cached page from the verified network copy', async () => {
+it('retains exact verified offline bytes independently of a corrupt accelerator cache', async () => {
   vi.stubGlobal('crypto', webcrypto);
   const page = await fixturePage(); const d = fixtureDefinition(); d.pages[0].sha256 = page.sha256;
   const entries = new Map<string, Response>([[`/__form_assets/${page.sha256}.pdf`, new Response('corrupt')]]);
@@ -57,7 +64,9 @@ it('repairs a corrupt cached page from the verified network copy', async () => {
   vi.stubGlobal('fetch', fetch);
   expect(await packageAvailableOffline(d)).toBe(false);
   await expect(loadPackagePage(d, 'page1.pdf', true)).resolves.toEqual(page.bytes);
-  expect(fetch).toHaveBeenCalledOnce();
+  const retained = await idbReadAttachment(formTemplateAttachmentId(page.sha256));
+  expect(retained.status).toBe('found');
+  if (retained.status === 'found') expect(new Uint8Array(retained.attachment.data)).toEqual(page.bytes);
   expect(await packageAvailableOffline(d)).toBe(true);
   d.pages[0].width = 500;
   expect(await packageAvailableOffline(d)).toBe(false);

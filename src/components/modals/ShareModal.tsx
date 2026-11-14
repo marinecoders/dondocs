@@ -32,7 +32,7 @@ import { getSerializedSessionForShare, useDocumentStore, type SerializedSession 
 import { openSessionAsNew, captureDocumentTarget, captureDocumentScope, isCurrentDocumentScope, hasPendingReviewWrites, flushPendingReviewWrites } from '@/stores/documentsStore';
 import { parseSharedSession, createSharedPayload, validateShareExpiration } from '@/lib/sharedSession';
 import { detectSharedSessionPII, getPIITypeLabel, type PIIDetectionResult } from '@/services/pii/detector';
-import { buildAssetSharePayload, hasShareAssets, isAssetShare, parseSharedDocument, assetShareReviewSession } from '@/lib/assetShare';
+import { buildAssetSharePayload, hasShareAssets, isAssetShare, parseSharedDocument, assetShareReviewSession, assertConfiguredFormSharePolicy } from '@/lib/assetShare';
 import { openSharedDocument } from '@/lib/sharedDocumentActions';
 import { triggerDownload } from '@/lib/encoding';
 import { getExportDeploymentPolicy } from '@/config/classification';
@@ -163,6 +163,7 @@ function ShareModalContent({
         payload = await buildAssetSharePayload(capture.full, session.timestamp, expiresAt ?? undefined);
         const policy = await getExportDeploymentPolicy(undefined, true);
         const complete = assetShareReviewSession(capture.full, session.timestamp);
+        assertConfiguredFormSharePolicy(complete, policy);
         const empty = { ...complete, genericForm: undefined, forms: undefined, formData: {}, paragraphs: [], references: [], enclosures: [], copyTos: [], distributions: [], endItems: [], publicationTables: {}, reviewComments: undefined };
         try { prepareChangeReport(captureChangeReport({ label: 'Empty', title: '', session: empty }, { label: 'Shared document', title: '', session: complete }, new Date().toISOString()), policy); }
         catch (cause) { throw new Error(cause instanceof Error ? cause.message.replace(/^This report/, 'This shared document') : 'This shared document could not be reviewed.', { cause }); }

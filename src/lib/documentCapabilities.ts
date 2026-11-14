@@ -96,7 +96,6 @@ export function resolveCapabilities(subject: CapabilitySubject, request: Capabil
     }
   } else return result('invalid-data', 'invalid-subject', 'Choose a supported document or form.');
 
-  if (request.operation === 'share' && subject.kind === 'configured-form') return result('partial', 'share-separate-assets', 'Configured-form shares carry filled values and definitions but still require access to the selected PDF template.');
   return supported;
 }
 

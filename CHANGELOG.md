@@ -7,6 +7,17 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.84] — 2026-11-14
+
+### Added
+
+- Include exact configured-form template pages in portable drafts, workspace backups and encrypted handoffs. Verify the saved definition, page hashes, complete inventory and PDF geometry before publishing restored documents.
+- Retain template bytes as independently owned IndexedDB attachments, preserving offline use through reload and transfer without an installed form catalog. Cache Storage remains an optional accelerator.
+
+### Fixed
+
+- Stop incomplete templates, failed asset writes or failed document commits from replacing current work. Keep older draft, share and backup formats readable and preserve reconciled review decisions alongside template-inclusive backups.
+
 ## [1.3.83] — 2026-11-14
 
 ### Added

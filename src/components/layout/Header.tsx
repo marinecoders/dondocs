@@ -40,7 +40,7 @@ import { useDocumentsStore, openRecoveredCopies, changeDocumentHistory, captureD
 import { editForm } from '@/services/forms/documents';
 import { useCanUndo, useCanRedo } from '@/stores/historyStore';
 import { triggerDownload } from '@/lib/encoding';
-import { buildDraftFile, parseDraftFile, type ReviewedDraft } from '@/lib/draftFile';
+import { buildDraftFile, parseDraftFile, parsePortableDraft, type ReviewedDraft } from '@/lib/draftFile';
 import { SessionPreview } from '@/components/SessionPreview';
 import { ReviewRoundsModal } from '@/components/modals/ReviewRoundsModal';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/dialog';
@@ -231,7 +231,7 @@ export function Header({
     event.target.value = '';
     if (!file) return;
     try {
-      await runFileImport(async () => setReviewedDraft(parseDraftFile(JSON.parse(await file.text()))));
+      await runFileImport(async () => setReviewedDraft(await parsePortableDraft(JSON.parse(await file.text()))));
       setDraftError('');
     } catch {
       showAppAlert({ title: 'Could not import draft', message: 'This file is not a valid DonDocs draft. Choose a JSON draft exported by DonDocs. Nothing was changed.' });
