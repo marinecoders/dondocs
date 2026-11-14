@@ -166,6 +166,41 @@ it('does not install a share after its captured owner target changes', async () 
   expect(await openSharedDocument(envelope, target)).toBe('stale');
   expect(useDocumentStore.getState().formData.subject).toBe('NEWER WORK');
 });
+
+it('opens a complete share when the receiving workspace has no active document', async () => {
+  const envelope = await payload();await flushDocumentWrites();
+  useDocumentsStore.setState({ currentId: null, baseline: null });
+  expect(await openSharedDocument(envelope)).toBe('applied');
+  expect(useDocumentsStore.getState().currentId).toMatch(/^shared_/);
+  expect(useDocumentStore.getState().formData.subject).toBe('SYNTHETIC SHARED LETTER');
+});
+
+it('does not reopen an empty recipient activation replaced while its shared record commits', async () => {
+  const envelope = await payload();await flushDocumentWrites();useDocumentsStore.setState({ currentId: null, baseline: null });
+  let started!: () => void, release!: () => void;
+  const entered = new Promise<void>(resolve => { started = resolve; }), gate = new Promise<void>(resolve => { release = resolve; });
+  const put = database.idbPutDocument;
+  vi.spyOn(database, 'idbPutDocument').mockImplementationOnce(async record => { const saved = await put(record);started();await gate;return saved; });
+  const opening = openSharedDocument(envelope);await entered;
+  useDocumentsStore.getState().newDocument();useDocumentsStore.setState({ currentId: null, baseline: null });release();
+  expect(await opening).toBe('stale');expect(useDocumentsStore.getState().currentId).toBeNull();
+});
+
+it('rejects correspondence-only resource bindings on a built-in form before staging', async () => {
+  const envelope = await payload();
+  envelope.documentKind = 'builtin-form';envelope.draft.documentCategory = 'forms';envelope.draft.formType = 'navmc_10274';
+  envelope.draft.forms = { navmc10274: { signatureBlocks: [] } };
+  const source = useDocumentsStore.getState().currentId, write = vi.spyOn(database, 'idbPutAttachment');
+  await expect(openSharedDocument(envelope)).rejects.toThrow(/target|form/);
+  expect(write).not.toHaveBeenCalled();expect(useDocumentsStore.getState().currentId).toBe(source);
+});
+
+it('rejects a figure bound to a resource with a different declared filename', async () => {
+  const envelope = await payload();
+  const binding = envelope.bindings.find(item => item.slot === 'figure')!;
+  envelope.resources.entries.find(item => item.path === binding.path)!.name = 'other-figure.png';
+  await expect(parseSharedDocument(envelope)).rejects.toThrow(/metadata|name/);
+});
 it('does not switch documents after cancellation while the metadata commit is pending', async () => {
   const envelope = await payload(), source = useDocumentsStore.getState().currentId;
   await flushDocumentWrites();

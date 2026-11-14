@@ -68,6 +68,7 @@ export function validateAssetShareExpiration(value: unknown): void {
   if (envelope.expiresAt !== undefined) validateShareExpiration(envelope.expiresAt);
 }
 function target(draft: ObjectValue, binding: Binding): { object: ObjectValue; key: string; mediaType: string } {
+  if (draft.documentCategory === 'forms' && binding.slot !== 'form-signature') throw new Error('This shared form includes an unsupported attachment target.');
   const formData = object(draft.formData);
   switch (binding.slot) {
     case 'enclosure': return { object: object((draft.enclosures as unknown[])?.[binding.index]), key: 'file', mediaType: 'application/pdf' };
@@ -159,6 +160,7 @@ export async function parseAssetSharePayload(value: unknown): Promise<ReviewedDr
     if (!resource) throw new Error('A required shared resource is missing.');
     const slot = target(envelope.draft, binding);
     if (resource.mediaType !== slot.mediaType || !validBytes(new Uint8Array(resource.data), slot.mediaType)) throw new Error('A shared attachment does not match its target file type.');
+    if (binding.slot === 'figure' && slot.object.name !== undefined && slot.object.name !== resource.name) throw new Error('This shared figure has inconsistent filename metadata.');
     if (slot.key === 'data' || slot.key === 'image') {
       if (slot.object[slot.key] !== undefined) throw new Error('This share includes ambiguous inline attachment bytes.');
       slot.object[slot.key] = uint8ArrayToBase64(new Uint8Array(resource.data));

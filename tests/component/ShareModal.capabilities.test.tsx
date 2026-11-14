@@ -111,3 +111,19 @@ it.each(["navmc_10274", "navmc_118_11"] as const)("rejects %s retained markings 
   await waitFor(() => expect(screen.getByRole("alert")).toHaveTextContent("outside this deployment"));
   expect(encryptSharePayload).not.toHaveBeenCalled();
 });
+
+it.each(["signature filename", "legacy image text"])("rejects portion markings in retained %s before encrypting native assets", async location => {
+  vi.stubGlobal("crypto", webcrypto);
+  const policy = resolveExportDeploymentPolicy({ hostname: "example.test", runtime: { status: "absent" }, environment: null });
+  vi.spyOn(classificationConfig, "getExportDeploymentPolicy").mockResolvedValue(policy);
+  useDocumentsStore.getState().newDocument();
+  const data = "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQIHWP4z8DwHwAFgAI/ScLbtAAAAABJRU5ErkJggg==";
+  useDocumentStore.setState(state => ({ formData: { ...state.formData,
+    signatureImage: { name: location === "signature filename" ? "(TS) signature.png" : "signature.png", size: Buffer.from(data, "base64").length, data },
+    ...(location === "legacy image text" ? { image: "(S) Retained legacy field text" } : {}),
+  } }));
+  render(<ShareModal open mode="share" onOpenChange={() => {}} />);
+  await generate();
+  await waitFor(() => expect(screen.getByRole("alert")).toHaveTextContent("outside this deployment"));
+  expect(encryptSharePayload).not.toHaveBeenCalled();
+});

@@ -1,5 +1,5 @@
 import { captureDocumentTarget, isCurrentDocumentTarget, prepareReviewedDocument, copyPreparedDocument,
-  openCommittedDocument, flushDocumentWrites, deriveTitle, type DocumentTarget } from '@/stores/documentsStore';
+  openCommittedDocument, flushDocumentWrites, deriveTitle, useDocumentsStore, type DocumentTarget } from '@/stores/documentsStore';
 import { serializeDocumentSnapshot } from './documentSerialization';
 import { idbPutDocument, idbDeleteDocumentIfUnchanged, type StoredDocument } from './documentsDb';
 import { withAttachmentStaging } from './attachments';
@@ -8,9 +8,11 @@ import { supportsReviewComments } from './reviewCommentTargets';
 
 /** Resources commit before metadata; a failed capture never replaces the current draft. */
 export async function openSharedDocument(value: unknown, target: DocumentTarget | null = captureDocumentTarget(), active: () => boolean = () => true): Promise<'applied' | 'stale'> {
+  const emptyEpoch = useDocumentsStore.getState().activationEpoch;
   const owned = structuredClone(value);
   const reviewed = await parseSharedDocument(owned);
-  const current = () => active() && isCurrentDocumentTarget(target);
+  const current = () => active() && (target ? isCurrentDocumentTarget(target)
+    : useDocumentsStore.getState().currentId === null && useDocumentsStore.getState().activationEpoch === emptyEpoch);
   if (!current()) return 'stale';
   return withAttachmentStaging(async () => {
     const preserveNativeText = supportsReviewComments(reviewed.session);
@@ -35,6 +37,6 @@ export async function openSharedDocument(value: unknown, target: DocumentTarget 
       if (removed !== 'deleted' && removed !== 'already-deleted') throw new Error('Opening this share stopped while saving. The copy was not opened; check local storage before using any recovered shared record.', { cause });
       throw cause;
     }
-    return openCommittedDocument(prepared, record, target) === 'applied' ? 'applied' : 'stale';
+    return openCommittedDocument(prepared, record, target, current) === 'applied' ? 'applied' : 'stale';
   });
 }

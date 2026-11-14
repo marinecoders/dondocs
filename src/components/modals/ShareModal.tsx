@@ -37,6 +37,7 @@ import { openSharedDocument } from '@/lib/sharedDocumentActions';
 import { triggerDownload } from '@/lib/encoding';
 import { getExportDeploymentPolicy } from '@/config/classification';
 import { captureChangeReport, prepareChangeReport } from '@/lib/changeReport';
+import { assertRetainedDocumentTextPolicy } from '@/lib/retainedDocumentTextPolicy';
 import type { DocumentSnapshot } from '@/stores/historyStore';
 import { z } from 'zod';
 
@@ -163,6 +164,7 @@ function ShareModalContent({
         payload = await buildAssetSharePayload(capture.full, session.timestamp, expiresAt ?? undefined);
         const policy = await getExportDeploymentPolicy(undefined, true);
         const complete = assetShareReviewSession(capture.full, session.timestamp);
+        assertRetainedDocumentTextPolicy(complete, policy);
         const empty = { ...complete, genericForm: undefined, forms: undefined, formData: {}, paragraphs: [], references: [], enclosures: [], copyTos: [], distributions: [], endItems: [], publicationTables: {}, reviewComments: undefined };
         try { prepareChangeReport(captureChangeReport({ label: 'Empty', title: '', session: empty }, { label: 'Shared document', title: '', session: complete }, new Date().toISOString()), policy); }
         catch (cause) { throw new Error(cause instanceof Error ? cause.message.replace(/^This report/, 'This shared document') : 'This shared document could not be reviewed.', { cause }); }
