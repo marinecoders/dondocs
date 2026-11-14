@@ -109,7 +109,12 @@ for (const theme of ['light', 'dark', 'classic']) test(`existing formatting find
     await page.keyboard.press('Escape');
     await page.getByRole('textbox', { name: 'Reference (b) URL', exact: true }).fill('https://example.com/b');
     modal = await chooseRound(page);group = modal.getByRole('article', { name: 'Suggestion 1: Formatting corrections (7)', exact: true });
-    await group.getByRole('button', { name: 'Accept suggestion', exact: true }).click();await expect(group).toContainText('Accepted');await page.keyboard.press('Escape');
+    await group.getByRole('button', { name: 'Accept suggestion', exact: true }).click();await expect(group).toContainText('Accepted');
+    // Accepted state is published before the owning write finishes; the modal
+    // deliberately stays open while that write is pending.
+    await expect(modal.getByText('Review change saved.', { exact: true })).toBeVisible();
+    await expect(modal.getByRole('combobox', { name: 'Review for suggested edits', exact: true })).toBeEnabled();
+    await page.keyboard.press('Escape');await expect(modal).toBeHidden();
     expectDraft(await draft(page), true);
     await history(page, 'Undo');expectDraft(await draft(page), false);
     await history(page, 'Redo');expectDraft(await draft(page), true);
