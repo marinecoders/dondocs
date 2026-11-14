@@ -26,3 +26,26 @@ it('retains changes in distinct configured row groups that share a display title
   expect(html).toContain('FIRST_GROUP_OLD');
   expect(html).toContain('FIRST_GROUP_NEW');
 });
+
+it('does not invent changes when configured row-group dictionary insertion order changes', () => {
+  const before = createBlankSession();
+  before.documentCategory = 'forms';
+  before.genericForm = fixtureInstance();
+  before.formType = before.genericForm.definition.formId;
+  before.genericForm.definition.rowGroups.second = structuredClone(before.genericForm.definition.rowGroups.roster);
+  before.genericForm.rows = {
+    roster: [{ id: 'first-row', answers: { grade: 'e1', date: 'FIRST_GROUP_VALUE' } }],
+    second: [{ id: 'second-row', answers: { grade: 'e2', date: 'SECOND_GROUP_VALUE' } }],
+  };
+  const after = structuredClone(before);
+  after.genericForm!.rows = { second: after.genericForm!.rows.second, roster: after.genericForm!.rows.roster };
+  after.genericForm!.answers = Object.fromEntries(Object.entries(after.genericForm!.answers).reverse());
+  after.genericForm!.rows.roster[0].answers = Object.fromEntries(Object.entries(after.genericForm!.rows.roster[0].answers).reverse());
+  const policy = resolveExportDeploymentPolicy({ hostname: 'example.test', environment: null, runtime: { status: 'absent' } });
+  const report = prepareChangeReport(captureChangeReport(
+    { label: 'Saved', title: 'Before', session: before },
+    { label: 'Current', title: 'After', session: after },
+    '2026-11-13T12:00:00.000Z',
+  ), policy);
+  expect(report.changes).toEqual([]);
+});
