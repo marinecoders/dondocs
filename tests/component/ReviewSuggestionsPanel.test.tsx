@@ -1,4 +1,4 @@
-import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { act, fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { expect, it, vi } from 'vitest';
 import { ReviewSuggestionsPanel } from '@/components/editor/ReviewSuggestionsPanel';
@@ -26,7 +26,7 @@ it('creates an exact field replacement proposal without modifying the baseline o
   await userEvent.clear(replacement);await userEvent.type(replacement, 'Proposed recipient');
   await userEvent.click(screen.getByRole('button', { name: 'Add suggestion' }));
   expect(input.onCreate).toHaveBeenCalledWith(expect.objectContaining({ author: 'Example reviewer', changes: [expect.objectContaining({ expected: 'Original recipient', proposed: 'Proposed recipient', target: { kind: 'field', field: 'to', docType: 'naval_letter' } })] }));
-  expect(await screen.findByRole('status')).toHaveTextContent('Suggestion submitted');
+  expect(await screen.findByRole('status', { name: 'Suggestion submission status' })).toHaveTextContent('Suggestion submitted');
   expect(input.current.formData.to).toBe('Original recipient');expect(input.round.baseline.session.formData.to).toBe('Original recipient');
 });
 
@@ -145,4 +145,23 @@ it('keeps the composer disabled until its submitted proposal finishes and does n
   view.unmount();const focus = vi.spyOn(HTMLElement.prototype, 'focus');
   try { await act(async () => finish(true));expect(focus).not.toHaveBeenCalled(); }
   finally { focus.mockRestore(); }
+});
+
+it('routes existing formatting findings through the shared proposal and decision callbacks', async () => {
+  const input = props();input.round.baseline.session.formData.date = '13 November 2026';
+  input.round.baseline.session.paragraphs[0].text = 'Due 5 Nov 2026.';
+  input.current = structuredClone(input.round.baseline.session);
+  const view = render(<ReviewSuggestionsPanel {...input} />);
+  const formatting = screen.getByRole('region', { name: 'Formatting review proposals' });
+  await userEvent.type(within(formatting).getByRole('textbox', { name: 'Reviewer name for formatting corrections' }), 'Example reviewer');
+  await userEvent.selectOptions(within(formatting).getByRole('combobox', { name: 'Body date audience for review' }), 'military');
+  await userEvent.click(within(formatting).getByRole('button', { name: 'Propose 2 corrections' }));
+  const proposal = input.onCreate.mock.calls[0][0];
+  expect(proposal.origin.kind).toBe('mechanical');expect(proposal.changes).toHaveLength(2);
+  input.state.proposals.push(proposal);view.rerender(<ReviewSuggestionsPanel {...input} />);
+  const group = screen.getByRole('article', { name: 'Suggestion 1: Formatting corrections (2)' });
+  expect(group).toHaveTextContent('All members are checked before any change is applied');
+  await userEvent.click(within(group).getByRole('button', { name: 'Accept suggestion' }));
+  expect(input.onDecide).toHaveBeenCalledWith(proposal.id, 'accepted');
+  expect(input.current.formData.date).toBe('13 November 2026');
 });
