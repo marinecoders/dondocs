@@ -27,6 +27,9 @@ export function MechanicalReviewProposalsPanel({ round, busy, proposalCount, onC
   const prepared = useRef<{ key: string; proposal: ReviewSuggestion } | null>(null);
   const result = useRef<HTMLParagraphElement>(null);
   useLayoutEffect(() => { currentScope.current = scope; }, [scope]);
+  useLayoutEffect(() => {
+    if (feedback.scope === scope && feedback.notice) result.current?.focus({ preventScroll: true });
+  }, [feedback, scope]);
   useEffect(() => { alive.current = true;return () => { alive.current = false; }; }, []);
   const values = draft.scope === scope ? draft : emptyDraft(scope);
   const status = feedback.scope === scope ? feedback : { error: '', notice: '' };
@@ -55,7 +58,6 @@ export function MechanicalReviewProposalsPanel({ round, busy, proposalCount, onC
         setDraft(previous => previous.scope === scope ? { ...previous, selected: [] } : previous);
         setFeedback({ scope, error: '', notice: 'Formatting proposal submitted. Draft text is unchanged.' });
         prepared.current = null;
-        requestAnimationFrame(() => { if (alive.current && currentScope.current === scope) result.current?.focus({ preventScroll: true }); });
       } else if (!saved && alive.current && currentScope.current === scope) setFeedback({ scope, error: 'The proposal was not submitted. Review the current draft and try again.', notice: '' });
     } catch (cause) {
       if (alive.current && currentScope.current === scope) setFeedback({ scope, error: cause instanceof Error ? cause.message : 'The formatting proposal could not be submitted.', notice: '' });

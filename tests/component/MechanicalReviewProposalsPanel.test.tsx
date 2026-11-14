@@ -104,3 +104,22 @@ it('leaves ambiguous dates advisory and never makes them selectable', async () =
   expect(screen.getByRole('button', { name: 'Propose 0 corrections' })).toBeDisabled();
   expect(input.onCreate).not.toHaveBeenCalled();
 });
+
+it('preserves the next reviewer-name edit when an earlier completion frame is delayed', async () => {
+  const frames: FrameRequestCallback[] = [];
+  const frame = vi.spyOn(window, 'requestAnimationFrame').mockImplementation(callback => {
+    frames.push(callback);return frames.length;
+  });
+  try {
+    render(<MechanicalReviewProposalsPanel {...props()} />);
+    const author = screen.getByRole('textbox', { name: 'Reviewer name for formatting corrections' });
+    await userEvent.type(author, 'First reviewer');
+    await userEvent.click(screen.getByRole('button', { name: 'Propose 3 corrections' }));
+    expect(await screen.findByRole('status')).toHaveTextContent('Formatting proposal submitted');
+    await userEvent.clear(author);
+    await act(async () => { for (const callback of frames.splice(0)) callback(performance.now()); });
+    await userEvent.keyboard('Next reviewer');
+    expect(author).toHaveValue('Next reviewer');
+    expect(author).toHaveFocus();
+  } finally { frame.mockRestore(); }
+});
