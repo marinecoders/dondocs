@@ -161,3 +161,19 @@ it('fails closed when review-pin inventory is unreadable or malformed', async ()
     await expect(buildBackup()).rejects.toThrow(/baseline is invalid/);
   } finally { read.mockRestore(); }
 });
+
+
+it('preserves native review text when History resolves an older signature handle', async () => {
+  await resources();
+  const round = await startReviewRound('Legacy signature recovery');
+  expect(await openReviewCopy(await parseReviewCopy(await buildReviewCopy(round)))).toBe('applied');
+  const signature = await persistAttachment({ name: 'older-signature.png', size: base64ToUint8Array(png).length, type: 'image/png' }, new Uint8Array(base64ToUint8Array(png)).buffer);
+  const saved = structuredClone(useDocumentsStore.getState().docs[useDocumentsStore.getState().currentId!].session);
+  saved.formData.unitAddress = 'CAMP PENDLETON CA 92055';
+  saved.formData.signatureImage = { name: signature.name, size: signature.size, data: '', fileRef: signature };
+  saved.paragraphs[0].portionMarking = 'FOUO';
+  expect(await useDocumentsStore.getState().restoreSnapshot(saved, captureDocumentTarget())).toBe('applied');
+  expect(useDocumentStore.getState().formData.signatureImage?.data).toBe(png);
+  expect(useDocumentStore.getState().formData.unitAddress).toBe(saved.formData.unitAddress);
+  expect(useDocumentStore.getState().paragraphs[0].portionMarking).toBe('FOUO');
+});

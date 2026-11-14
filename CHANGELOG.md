@@ -14,6 +14,11 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 - Save named review baselines for native correspondence, retaining the exact letter, discussions, signature images, figures and PDF attachments beyond ordinary version history and source deletion. Prepare a checked reviewer file, open it as a separate editable copy, and recover saved reviews through workspace backups.
 - List and remove saved review baselines from Document actions → Review rounds. Reviewer files carry revision checksums and source correlation; they do not verify sender identity or combine returned edits.
 
+### Fixed
+
+- Clear an earlier reviewer-file preview when a replacement file is selected, so a rejected file cannot leave the previous copy ready to open.
+- Preserve captured native address and portion text when History recovers a reviewer copy’s signature from its saved image handle.
+
 ## [1.3.76] — 2026-11-13
 
 ### Added
