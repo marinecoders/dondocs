@@ -28,7 +28,7 @@ import {
 } from '@/lib/shareCrypto';
 import { getSerializedSessionForShare, type SerializedSession } from '@/stores/documentStore';
 import { openSessionAsNew } from '@/stores/documentsStore';
-import { parseSharedSession, createSharedPayload } from '@/lib/sharedSession';
+import { parseSharedSession, createSharedPayload, validateShareExpiration } from '@/lib/sharedSession';
 import { detectSharedSessionPII, getPIITypeLabel, type PIIDetectionResult } from '@/services/pii/detector';
 
 export type ShareModalMode = 'share' | 'import';
@@ -50,7 +50,9 @@ export function ShareModal({
   onImportComplete,
 }: ShareModalProps) {
   const [snapshot] = useState(() => mode === 'share' ? getSerializedSessionForShare() : null);
-  const [received, setReceived] = useState<SerializedSession | null>(null);
+  const [received, setReceived] = useState<{ session: SerializedSession; payload: object } | null>(null);
+  const [expiration, setExpiration] = useState('none');
+  const [generatedExpiresAt, setGeneratedExpiresAt] = useState<number | null>(null);
   const [password, setPassword] = useState('');
   const [shareLink, setShareLink] = useState('');
   const [pasteLink, setPasteLink] = useState(initialPayload ? '' : '');
@@ -69,14 +71,18 @@ export function ShareModal({
   }, []);
   useEffect(() => clearCopyTimer, [clearCopyTimer]);
 
-  const changePassword = useCallback((value: string) => {
+  const clearGeneratedLink = useCallback(() => {
     clearCopyTimer();
-    setPassword(value);
     setShareLink('');
+    setGeneratedExpiresAt(null);
     setCopied(false);
     setPiiFindings(null);
     setError(null);
   }, [clearCopyTimer]);
+  const changePassword = useCallback((value: string) => {
+    setPassword(value);
+    clearGeneratedLink();
+  }, [clearGeneratedLink]);
 
   const copyLink = useCallback(async (url: string) => {
     clearCopyTimer();
@@ -94,9 +100,13 @@ export function ShareModal({
   const handleCopyAgain = useCallback(async () => {
     if (working || !shareLink) return;
     setWorking(true);
-    try { await copyLink(shareLink); }
+    try {
+      if (generatedExpiresAt !== null) validateShareExpiration(generatedExpiresAt);
+      await copyLink(shareLink);
+    }
+    catch (err) { setError(err instanceof Error ? err.message : 'Could not copy the link.'); }
     finally { setWorking(false); }
-  }, [working, shareLink, copyLink]);
+  }, [working, shareLink, copyLink, generatedExpiresAt]);
 
   const canShareSnapshot = useCallback(() => {
     if (!snapshot) return false;
@@ -116,9 +126,14 @@ export function ShareModal({
     setWorking(true);
     try {
       const session = snapshot!;
-      const encrypted = await encryptSharePayload(createSharedPayload(session), password);
+      const duration = { hour: 3_600_000, day: 86_400_000, week: 604_800_000 }[expiration];
+      const expiresAt = duration === undefined ? null : Date.now() + duration;
+      const payload = expiresAt === null ? createSharedPayload(session) : createSharedPayload(session, expiresAt);
+      const encrypted = await encryptSharePayload(payload, password);
+      if (expiresAt !== null) validateShareExpiration(expiresAt);
       const url = buildShareUrl(encrypted);
       setShareLink(url);
+      setGeneratedExpiresAt(expiresAt);
       // The link is generated and shown regardless — isolate the clipboard write so
       // a failure (insecure context / denied permission) only skips the "copied"
       // confirmation instead of reporting a false "Failed to generate link".
@@ -128,7 +143,7 @@ export function ShareModal({
     } finally {
       setWorking(false);
     }
-  }, [password, snapshot, copyLink, working, canShareSnapshot]);
+  }, [password, snapshot, copyLink, working, canShareSnapshot, expiration]);
 
   const handleGenerateLink = useCallback(() => {
     if (working) return;
@@ -170,7 +185,7 @@ export function ShareModal({
     setWorking(true);
     try {
       const data = await decryptSharePayload(payload, password);
-      setReceived(parseSharedSession(data));
+      setReceived({ session: parseSharedSession(data), payload: data });
       setPassword('');
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Wrong password or invalid link');
@@ -181,7 +196,12 @@ export function ShareModal({
 
   const openReceived = () => {
     if (!received) return;
-    if (openSessionAsNew(received) !== 'applied') { setError('Could not open this document. Your current draft has not changed.'); return; }
+    // Password work and the review dialog may cross the deadline. Check again
+    // immediately before handing anything to the document store.
+    let session: SerializedSession;
+    try { session = parseSharedSession(received.payload); }
+    catch (err) { setError(err instanceof Error ? err.message : 'Could not open this document.'); return; }
+    if (openSessionAsNew(session) !== 'applied') { setError('Could not open this document. Your current draft has not changed.'); return; }
     onImportComplete?.();
     onOpenChange(false);
   };
@@ -196,6 +216,9 @@ export function ShareModal({
         setPasteLink('');
         setError(null);
         setCopied(false);
+        setReceived(null);
+        setGeneratedExpiresAt(null);
+        setExpiration('none');
       }
       onOpenChange(next);
     },
@@ -230,13 +253,26 @@ export function ShareModal({
             <p className="text-muted-foreground">Excluded: attached PDFs, basic-letter files, signature images, version history and other drafts. Send necessary files separately.</p>
           </div>
         )}
-        {received && <div className="space-y-2 rounded-md border p-3"><SessionPreview session={received} /><p className="text-xs text-muted-foreground">Opens as a new document. Your current draft stays in Recents.</p></div>}
+        {received && <div className="space-y-2 rounded-md border p-3"><SessionPreview session={received.session} /><p className="text-xs text-muted-foreground">Opens as a new document. Your current draft stays in Recents.</p></div>}
         <details className="text-sm text-muted-foreground">
           <summary className="cursor-pointer py-1">How sharing works</summary>
           <p className="mt-2">The link holds an encrypted copy made in your browser. Send the password separately. A shared link cannot be revoked, and changes to your draft do not update it.</p>
+          <p className="mt-2">Optional expiration blocks opening in DonDocs using the recipient’s device clock. It cannot remove copies already opened or prevent someone with the password from extracting the contents.</p>
         </details>
 
         <div className="flex flex-col gap-4 py-2">
+          {!isImport && <div className="space-y-2">
+            <Label htmlFor="share-expiration">Link expiration</Label>
+            <select id="share-expiration" value={expiration} disabled={working}
+              onChange={event => { setExpiration(event.target.value); clearGeneratedLink(); }}
+              className="w-full rounded-md border border-input bg-background px-3 py-2 text-sm">
+              <option value="none">No expiration</option>
+              <option value="hour">1 hour after generation</option>
+              <option value="day">24 hours after generation</option>
+              <option value="week">7 days after generation</option>
+            </select>
+            <p className="text-xs text-muted-foreground">Checked on the recipient’s device before opening. Already opened copies remain available.</p>
+          </div>}
           {isImport && !received && !initialPayload && (
             <div className="space-y-2">
               <Label htmlFor="share-paste-link">Share link</Label>
@@ -281,6 +317,7 @@ export function ShareModal({
           {!isImport && shareLink && (
             <div className="space-y-2">
               <Label htmlFor="generated-share-link">{copied ? 'Share link (copied to clipboard)' : 'Share link'}</Label>
+              {generatedExpiresAt !== null && <p className="text-xs text-muted-foreground">Expires {new Date(generatedExpiresAt).toLocaleString(undefined, { timeZoneName: 'short' })}. Requires an updated DonDocs reader.</p>}
               <div className="flex items-center gap-2">
                 <Input
                   id="generated-share-link"

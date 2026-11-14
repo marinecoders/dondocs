@@ -1,5 +1,5 @@
 // @vitest-environment happy-dom
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { render, screen, waitFor, fireEvent, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
@@ -13,6 +13,25 @@ beforeEach(() => {
 });
 
 describe('AppAlertDialog', () => {
+  it('preserves the next editor field while deferred alert close focus runs', () => {
+    vi.useFakeTimers();
+    try {
+      render(<><button onClick={() => showAppAlert({ title: 'Import warning', message: 'Choose another draft.' })}>Import test draft</button><input aria-label="Next editor field" /><AppAlertDialog /></>);
+      const launcher = screen.getByRole('button', { name: 'Import test draft' });
+      launcher.focus();
+      fireEvent.click(launcher);
+      fireEvent.click(screen.getByRole('button', { name: 'OK' }));
+      expect(screen.queryByRole('alertdialog')).not.toBeInTheDocument();
+      const next = screen.getByRole('textbox', { name: 'Next editor field' });
+      next.focus();
+      expect(next).toHaveFocus();
+      act(() => vi.runOnlyPendingTimers());
+      expect(next).toHaveFocus();
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+
   it('keeps focus inside a confirmation and returns to its launcher after cancellation', async () => {
     const user = userEvent.setup();
     render(<><button onClick={() => { void showAppConfirm({ title: 'Discard test changes?', message: 'The current test draft will be reset.' }); }}>Reset test draft</button><AppAlertDialog /></>);

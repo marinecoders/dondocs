@@ -36,11 +36,13 @@ Pasted text does not preserve fonts, images or page layout. Pasting directly int
 ## Password-protected sharing
 
 1. On desktop choose **Share** in the header. On mobile choose **Document actions → Create share link**.
-2. Set a password and generate the link. Resolve any content-review warning.
+2. Set a password, optionally choose **Link expiration**, and generate the link. Resolve any content-review warning. Expiration starts when the link is generated; the default is **No expiration**.
 3. If automatic clipboard copying fails, select/copy the displayed link manually or use its Copy control.
 4. Send the password through a separate channel. The recipient uses **Document actions → Open from share link** and enters it.
 
 The encrypted link is a snapshot, not a shared live document. Later edits do not update it. No server stores it for revocation, and there is no password-recovery service. Links omit binary attachments/signature images; configured forms also require their exact blank PDF template. Review [capabilities](CAPABILITIES.md) for formats that cannot be shared and [security scope](../SECURITY.md) before transfer.
+
+Expiration is checked by DonDocs using the recipient’s device clock after decryption and again when opening the reviewed document. At the deadline, ask the sender for a new link. Expiring links require DonDocs 1.3.74 or later. This check cannot remove already opened copies or prevent someone with the link and password from extracting the contents. It is not server-side revocation.
 
 ## Trash and recovered work
 

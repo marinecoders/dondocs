@@ -387,7 +387,8 @@ jobs:
   browser-flows:
     name: browser flows (${{ matrix.group }})
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    # Budget includes browser installation, build, and four Chromium projects.
+    timeout-minutes: 30
     strategy:
       fail-fast: false
       matrix:

@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { beforeEach, describe, expect, it } from 'vitest';
-import { render, screen, waitFor } from '@testing-library/react';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
+import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Dialog, DialogContent, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { TourOverlay } from '@/components/tour/TourOverlay';
@@ -42,6 +42,48 @@ function WalkthroughDialog() {
 }
 
 describe('externally controlled dialogs', () => {
+  it('preserves the next action chosen before deferred close focus runs', () => {
+    vi.useFakeTimers();
+    try {
+      render(<ExternalDialog />);
+      const launcher = screen.getByRole('button', { name: 'Workspace settings' });
+      launcher.focus();
+      fireEvent.click(launcher);
+      expect(screen.getByRole('textbox', { name: 'Preference' })).toHaveFocus();
+      fireEvent.click(screen.getByRole('button', { name: 'Close' }));
+      expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+      const next = screen.getByRole('button', { name: 'Next action' });
+      next.focus();
+      expect(next).toHaveFocus();
+      act(() => vi.runOnlyPendingTimers());
+      expect(next).toHaveFocus();
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+
+  it('still restores the launcher when focus is on a Radix boundary guard', () => {
+    vi.useFakeTimers();
+    const guard = document.createElement('span');
+    guard.tabIndex = 0;
+    guard.setAttribute('data-radix-focus-guard', '');
+    document.body.append(guard);
+    try {
+      render(<ExternalDialog />);
+      const launcher = screen.getByRole('button', { name: 'Workspace settings' });
+      launcher.focus();
+      fireEvent.click(launcher);
+      fireEvent.click(screen.getByRole('button', { name: 'Close' }));
+      guard.focus();
+      expect(guard).toHaveFocus();
+      act(() => vi.runOnlyPendingTimers());
+      expect(launcher).toHaveFocus();
+    } finally {
+      guard.remove();
+      vi.useRealTimers();
+    }
+  });
+
   it('contains keyboard focus and returns to the launching control after Escape', async () => {
     const user = userEvent.setup();
     render(<ExternalDialog />);

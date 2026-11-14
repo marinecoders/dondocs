@@ -2,6 +2,7 @@ import * as React from "react"
 import * as AlertDialogPrimitive from "@radix-ui/react-alert-dialog"
 
 import { cn } from "@/lib/utils"
+import { preserveOutsideFocus } from "@/components/ui/dialog-focus"
 import { buttonVariants } from "@/components/ui/button"
 
 function AlertDialog({
@@ -72,6 +73,7 @@ function AlertDialogContent({
         onCloseAutoFocus={(event) => {
           onCloseAutoFocus?.(event)
           if (event.defaultPrevented) return
+          if (preserveOutsideFocus(event)) return
           const target = returnFocus.current?.isConnected ? returnFocus.current : returnMenuTrigger.current
           const nextDialog = document.querySelector('[data-slot="dialog-content"][data-state="open"], [data-slot="alert-dialog-content"][data-state="open"]')
           if (nextDialog && target && !nextDialog.contains(target)) {
