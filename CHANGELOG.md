@@ -16,6 +16,8 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ### Fixed
 
+- Validate every queued document's metadata before recovering a review return, retaining malformed recovery data without partially saving its feedback or receipt.
+- Recover review journals containing optional empty properties without reporting a false conflict after JSON serialization.
 - Wait for pending feedback receipts before sharing or exporting an affected draft, and keep failed preparation in a recoverable dialog. Reviewer names and rendered handling labels remain unverified, with content review before unencrypted feedback downloads.
 
 ## [1.3.77] — 2026-11-13

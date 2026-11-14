@@ -8,14 +8,24 @@ import { reviewReturnReceiptSchema } from './reviewReturns';
 import { parseSavedSession } from './savedSession';
 import { supportsReviewComments } from './reviewCommentTargets';
 import { materializeSignatureFallbacks } from './signatureCompatibility';
+import { z } from 'zod';
 
 export const REVIEW_WRITE_RECOVERY_KEY = 'dondocs-review-write-recovery';
+const recoveryMetadataSchema = z.object({
+  id: z.string().min(1), title: z.string(), docType: z.string().min(1),
+  updatedAt: z.number().nonnegative(), name: z.string().optional(),
+  pinned: z.boolean().optional(), nativeReviewText: z.literal(true).optional(),
+  deletedAt: z.number().nonnegative().optional(),
+});
 
 /** Replay known intent without rolling a newer saved version back to an earlier fence. */
 export async function recoverReviewReturnWrite(input: PendingDocumentWrite): Promise<DocumentWriteOutcome> {
   const item = parseDocumentWriteJournal([{ kind: 'dondocs-review-write', version: 1, pending: input }])[0];
   const markers = item.reviewReturns!;
-  for (const record of [item.before!, ...item.versions]) parseSavedSession(record.session);
+  for (const record of [item.before!, ...item.versions]) {
+    if (!recoveryMetadataSchema.safeParse(record.meta).success) throw new Error('Invalid review recovery document metadata.');
+    parseSavedSession(record.session);
+  }
   // Validate every marker and local authority before the first recovery write.
   const checked = await Promise.all(markers.map(async marker => {
     const { operation, index } = marker;

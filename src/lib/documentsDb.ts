@@ -872,7 +872,10 @@ export function sameReviewStoredValue(left: unknown, right: unknown): boolean {
   }
   if (!left || !right || typeof left !== 'object' || typeof right !== 'object' || Array.isArray(left) !== Array.isArray(right)) return false;
   if (Array.isArray(left) && Array.isArray(right) && left.length !== right.length) return false;
-  const a = Object.keys(left), b = Object.keys(right);
+  // JSON journals omit optional object properties whose value is undefined.
+  // Preserve array slots (including holes) and byte comparisons above.
+  const keys = (value: object) => Object.keys(value).filter(key => Array.isArray(value) || (value as Record<string, unknown>)[key] !== undefined);
+  const a = keys(left), b = keys(right);
   return a.length === b.length && a.every(key => Object.hasOwn(right, key)
     && sameReviewStoredValue((left as Record<string, unknown>)[key], (right as Record<string, unknown>)[key]));
 }
