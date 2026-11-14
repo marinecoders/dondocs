@@ -32,7 +32,7 @@ Local `./` references are deliberate same-commit dependencies. Reusable workflow
 
 ## Reviewing updates
 
-A maintainer reviews action updates at least monthly and when upstream publishes a security fix. There is no action-update bot configured in this repository. Propose updates in a focused pull request:
+Review action pins when adopting an upstream release or addressing an upstream security fix. There is no action-update bot or scheduled maintainer review configured in this repository. Propose updates in a focused pull request:
 
 1. Review the official upstream release notes, changed code and runtime requirements for the currently selected major. Keep unrelated toolchain or major upgrades in separate changes.
 2. Resolve the intended upstream tag, for example `git ls-remote https://github.com/actions/checkout.git refs/tags/v7 'refs/tags/v7^{}'`. If a peeled line is present, use its commit SHA rather than the annotated tag object.
