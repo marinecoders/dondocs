@@ -2,6 +2,7 @@ import type { DocumentMeta } from '@/stores/documentsStore';
 import type { SerializedSession } from '@/stores/documentStore';
 import { debug } from '@/lib/debug';
 import type { ReviewRound, ReviewCopyLink } from './reviewRounds';
+import type { ReviewReturnReceipt } from './reviewReturns';
 
 /**
  * IndexedDB store for the document registry (Recents): one record per document,
@@ -25,6 +26,64 @@ const ATTACHMENTS_STORE = 'attachments'; // enclosure file blobs, keyed by conte
 
 export const reviewRoundKey = (id: string) => `review:${id}`;
 export const reviewCopyKey = (documentId: string) => `review-copy:${documentId}`;
+export const reviewReturnKey = (roundId: string, returnId: string) => `review-return:${roundId}:${returnId}`;
+
+export async function idbReadReviewReturn(roundId: string, returnId: string): Promise<unknown | null> {
+  return (await run<{ value: unknown } | undefined>(APP_STORE, 'readonly', store => store.get(reviewReturnKey(roundId, returnId))))?.value ?? null;
+}
+
+export async function idbReadReviewReturns(): Promise<unknown[]> {
+  return (await run<Array<{ value: unknown }>>(APP_STORE, 'readonly', store =>
+    store.getAll(IDBKeyRange.bound('review-return:', 'review-return:\uffff')))).map(record => record.value);
+}
+
+/** Read receipts and their saved owners at one database revision for workspace backup. */
+export async function idbReadReviewReturnBackup(): Promise<{ receipts: unknown[]; documents: StoredDocument[] }> {
+  const db = await openDb();
+  return new Promise((resolve, reject) => {
+    const transaction = db.transaction([APP_STORE, DOCS_STORE], 'readonly');
+    const receipts = transaction.objectStore(APP_STORE).getAll(IDBKeyRange.bound('review-return:', 'review-return:\uffff'));
+    const documents = transaction.objectStore(DOCS_STORE).getAll();
+    transaction.oncomplete = () => resolve({ receipts: receipts.result.map(record => record.value), documents: documents.result });
+    transaction.onerror = () => reject(transaction.error ?? new Error('Review receipts could not be read.'));
+    transaction.onabort = () => reject(transaction.error ?? new Error('Review receipt capture aborted.'));
+  });
+}
+
+/** Restore acknowledgements only beside the exact saved discussion revision in this backup. */
+export async function idbRestoreReviewReturns(receipts: ReviewReturnReceipt[], expected: StoredDocument[]): Promise<boolean> {
+  if (!receipts.length) return true;
+  try {
+    const owned = structuredClone(receipts), snapshots = structuredClone(expected);
+    const db = await openDb();
+    return await new Promise<boolean>((resolve, reject) => {
+      const transaction = db.transaction([APP_STORE, DOCS_STORE], 'readwrite');
+      const app = transaction.objectStore(APP_STORE), documents = transaction.objectStore(DOCS_STORE);
+      const prior = owned.map(receipt => app.get(reviewReturnKey(receipt.roundId, receipt.returnId)));
+      const rounds = owned.map(receipt => app.get(reviewRoundKey(receipt.roundId)));
+      const owners = owned.map(receipt => documents.get(receipt.documentId));
+      const requests = [...prior, ...rounds, ...owners];let remaining = requests.length, restored = false;
+      const ready = () => {
+        if (--remaining) return;
+        if (owned.some((receipt, index) => {
+          const round = rounds[index].result?.value as ReviewRound | undefined;
+          const current = owners[index].result as StoredDocument | undefined;
+          const snapshot = snapshots.find(document => document.id === receipt.documentId);
+          return !round || round.ownerDocumentId !== receipt.documentId || round.baselineDigest !== receipt.baselineDigest
+            || !current || !snapshot || current.meta.updatedAt !== snapshot.meta.updatedAt
+            || !sameReviewStoredValue(current.session.reviewComments, snapshot.session.reviewComments)
+            || prior[index].result && !sameReviewStoredValue(prior[index].result.value, receipt);
+        })) return;
+        owned.forEach((receipt, index) => { if (!prior[index].result) app.put({ key: reviewReturnKey(receipt.roundId, receipt.returnId), value: receipt }); });
+        restored = true;
+      };
+      requests.forEach(request => { request.onsuccess = ready; });
+      transaction.oncomplete = () => resolve(restored);
+      transaction.onerror = () => reject(transaction.error ?? new Error('Review receipt recovery failed.'));
+      transaction.onabort = () => reject(transaction.error ?? new Error('Review receipt recovery aborted.'));
+    });
+  } catch { return false; }
+}
 
 /** Review pins live beside History and are not pruned with its ten-entry ring. */
 export async function idbReadReviewRound(id: string): Promise<unknown | null> {
@@ -798,4 +857,87 @@ export async function idbFormDefinitions(): Promise<import('@/services/forms/mod
     }
     return sessions.flatMap(s => s.genericForm ? [s.genericForm.definition] : []);
   } catch { return null; }
+}
+
+export type ReviewReturnWriteOutcome = 'committed' | 'already-committed' | 'already-imported' | 'conflict' | 'missing-document' | 'stale' | 'failed';
+
+/** Compare saved JSON and legacy inline buffers without treating different bytes as empty objects. */
+export function sameReviewStoredValue(left: unknown, right: unknown): boolean {
+  if (Object.is(left, right)) return true;
+  if (left instanceof ArrayBuffer || right instanceof ArrayBuffer || ArrayBuffer.isView(left) || ArrayBuffer.isView(right)) {
+    const bytes = (value: unknown) => value instanceof ArrayBuffer ? new Uint8Array(value)
+      : ArrayBuffer.isView(value) ? new Uint8Array(value.buffer, value.byteOffset, value.byteLength) : null;
+    const a = bytes(left), b = bytes(right);
+    return !!a && !!b && a.byteLength === b.byteLength && a.every((byte, index) => byte === b[index]);
+  }
+  if (!left || !right || typeof left !== 'object' || typeof right !== 'object' || Array.isArray(left) !== Array.isArray(right)) return false;
+  if (Array.isArray(left) && Array.isArray(right) && left.length !== right.length) return false;
+  // JSON journals omit optional object properties whose value is undefined.
+  // Preserve array slots (including holes) and byte comparisons above.
+  const keys = (value: object) => Object.keys(value).filter(key => Array.isArray(value) || (value as Record<string, unknown>)[key] !== undefined);
+  const a = keys(left), b = keys(right);
+  return a.length === b.length && a.every(key => Object.hasOwn(right, key)
+    && sameReviewStoredValue((left as Record<string, unknown>)[key], (right as Record<string, unknown>)[key]));
+}
+
+/** A comment-return fence cannot carry body, attachment or other metadata changes. */
+export function isCommentOnlyReviewReturnChange(before: StoredDocument, after: StoredDocument): boolean {
+  const withoutComments = (record: StoredDocument) => {
+    const copy = structuredClone(record);delete copy.session.reviewComments;
+    delete (copy.meta as Partial<DocumentMeta>).updatedAt;return copy;
+  };
+  return sameReviewStoredValue(withoutComments(before), withoutComments(after));
+}
+
+/** The discussion update and deduplication receipt either both commit or neither does. */
+export async function idbApplyReviewReturn(
+  inputBefore: StoredDocument,
+  inputAfter: StoredDocument,
+  inputRound: Pick<ReviewRound, 'id' | 'baselineDigest' | 'ownerDocumentId'>,
+  inputReceipt: ReviewReturnReceipt,
+  isCurrent: () => boolean = () => true,
+): Promise<ReviewReturnWriteOutcome> {
+  try {
+    const before = structuredClone(inputBefore), after = structuredClone(inputAfter);
+    const round = structuredClone(inputRound), receipt = structuredClone(inputReceipt);
+    if (!isCurrent()) return 'stale';
+    if (before.id !== after.id || before.meta.id !== before.id || after.meta.id !== before.id
+      || round.ownerDocumentId !== before.id || receipt.documentId !== before.id
+      || round.id !== receipt.roundId || round.baselineDigest !== receipt.baselineDigest) return 'conflict';
+    if (!isCommentOnlyReviewReturnChange(before, after)) return 'conflict';
+    const db = await openDb();
+    return await new Promise<ReviewReturnWriteOutcome>((resolve, reject) => {
+      const transaction = db.transaction([DOCS_STORE, APP_STORE], 'readwrite');
+      const documents = transaction.objectStore(DOCS_STORE), app = transaction.objectStore(APP_STORE);
+      const documentRequest = documents.get(before.id), roundRequest = app.get(reviewRoundKey(round.id));
+      const receiptRequest = app.get(reviewReturnKey(round.id, receipt.returnId));
+      let remaining = 3, outcome: ReviewReturnWriteOutcome = 'conflict';
+      const ready = () => {
+        if (--remaining) return;
+        if (!isCurrent()) { outcome = 'stale'; return; }
+        const owned = roundRequest.result?.value as ReviewRound | undefined;
+        if (!owned || owned.id !== round.id || owned.baselineDigest !== round.baselineDigest || owned.ownerDocumentId !== before.id) return;
+        const previous = receiptRequest.result?.value as ReviewReturnReceipt | undefined;
+        if (previous) {
+          if (previous.returnId === receipt.returnId && previous.returnDigest === receipt.returnDigest
+            && previous.documentId === before.id && previous.roundId === round.id && previous.baselineDigest === round.baselineDigest) {
+            outcome = sameReviewStoredValue(documentRequest.result, after) ? 'already-committed' : 'already-imported';
+          }
+          return;
+        }
+        const current = documentRequest.result as StoredDocument | undefined;
+        if (!current) { outcome = 'missing-document'; return; }
+        if (!sameReviewStoredValue(current, before)) return;
+        try {
+          documents.put(after);
+          app.put({ key: reviewReturnKey(round.id, receipt.returnId), value: receipt });
+          outcome = 'committed';
+        } catch { transaction.abort(); }
+      };
+      documentRequest.onsuccess = ready;roundRequest.onsuccess = ready;receiptRequest.onsuccess = ready;
+      transaction.oncomplete = () => resolve(outcome);
+      transaction.onerror = () => reject(transaction.error ?? new Error('Review feedback could not be saved.'));
+      transaction.onabort = () => reject(transaction.error ?? new Error('Review feedback save aborted.'));
+    });
+  } catch { return 'failed'; }
 }

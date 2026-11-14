@@ -58,11 +58,40 @@ attachment bytes. Checksums need HTTPS or localhost and do not authenticate a se
 
 Reviewer files use the `dondocs-review-copy` version 1 envelope around the existing
 portable draft format. They are unencrypted and limited to 100 MB. Workspace
-backups containing review records or review-derived native copies use version 7; ordinary comment-bearing backups
+backups containing review records or review-derived native copies use version 7,
+and those containing imported-return receipts use version 8; ordinary comment-bearing backups
 remain version 6 and ordinary backups without comments remain version 5. Older
 readers reject the new review envelope/version instead of silently dropping links.
 Review recovery validates required bytes/checksums before installing its records;
 a conflict or failed write leaves that review section uninstalled.
+
+Comment-only returns use a strict `dondocs-review-return` version 1 envelope with
+round ID, baseline digest, full discussion records and required rendered handling
+labels. They contain no draft body or attachment files and are limited to 2 MB.
+The receiver rederives handling against its local baseline and applies a three-way
+merge of baseline, current discussions and returned discussions by stable IDs.
+Competing updates require a choice; no paragraph-index or text guessing reattaches
+feedback. Labels are rendered information, not signed classification or identity.
+
+The existing document writer queues a typed return marker with its exact revision.
+One conditional `documents` + `app` transaction writes the discussion revision and
+`review-return:<round>:<return>` receipt together. A receipt-only operation remains
+unsaved until it commits. Subsequent body edits and Undo follow that revision in
+the same queue. Save acknowledgements use the writer's real committed receipt.
+Review-bearing session journals use a versioned wrapper so older readers fail
+closed. Unreplayable/unknown intent is retained separately from the ordinary
+write journal, which subsequent unrelated saves may replace.
+
+Portable active-draft exports wait for their pending return receipts. Workspace
+backup also blocks while any unresolved review intent remains. Version 8 backup
+captures receipts and saved owner discussions in one read transaction; restore
+installs receipts only beside a matching saved discussion revision and owner pin.
+A newer local revision keeps its discussions and reports skipped receipt recovery.
+Committed receipts remain after Undo, so reopening the same return never reapplies
+it. Deleting a baseline releases its links and committed receipts; editable copies
+and downloaded files remain. Receipts for a permanently deleted owner need no
+portable acknowledgement and are omitted from a workspace backup.
+
 An older on-device build can ignore new records and reader hints; keep a current
 workspace backup before using an older build, as with review-comment compatibility.
 
