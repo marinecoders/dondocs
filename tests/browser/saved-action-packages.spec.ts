@@ -20,12 +20,45 @@ async function appearance(context: BrowserContext, theme: string) {
     );
   }, theme);
 }
-async function readyOfflineApp(page: Page, url?: string) {
+async function readyOfflineApp(
+  page: Page,
+  url?: string,
+  installedViewer = false,
+) {
   if (url) await page.goto(url);
   else await page.reload();
   await expect(
     page.getByRole("button", { name: "Document actions", exact: true }),
   ).toBeVisible();
+  if (installedViewer) {
+    await page.evaluate(async () => {
+      await navigator.serviceWorker.ready;
+    });
+    // The production prompt-mode worker intentionally claims only a new navigation.
+    if (
+      !(await page.evaluate(() => navigator.serviceWorker.controller !== null))
+    )
+      await page.reload();
+    await page.waitForFunction(
+      () => navigator.serviceWorker.controller !== null,
+    );
+    await expect(
+      page.getByRole("button", { name: "Document actions", exact: true }),
+    ).toBeVisible();
+  }
+  // Let the app's initial ordinary preview finish before disconnecting its engine resources.
+  const preview = page.getByRole("button", { name: "Preview", exact: true });
+  const mobilePreview =
+    (await preview.getAttribute("aria-haspopup")) === "dialog";
+  if (mobilePreview || (await preview.getAttribute("aria-pressed")) !== "true")
+    await preview.click();
+  await expect(
+    page.locator('[data-pdf-layer="active"] canvas').first(),
+  ).toBeVisible();
+  if (mobilePreview)
+    await page
+      .getByRole("button", { name: "Close preview", exact: true })
+      .click();
   // Initialize the real deployment policy online; package assets are imported after disconnecting.
   const modal = await packages(page);
   await modal
@@ -42,6 +75,30 @@ async function readyOfflineApp(page: Page, url?: string) {
       name: "Package readiness: draft",
       exact: true,
     }),
+  ).toBeVisible();
+  // This app-only PDF initializes the existing viewer/worker, independent of package source/form assets.
+  const warmup = await PDFDocument.create();
+  warmup.addPage([612, 792]).drawText("APP VIEWER INITIALIZATION ONLY");
+  await modal.getByLabel("Add original PDF", { exact: true }).setInputFiles({
+    name: "app-viewer-initialization.pdf",
+    mimeType: "application/pdf",
+    buffer: Buffer.from(await warmup.save()),
+  });
+  await modal
+    .getByRole("button", { name: "Check readiness and assemble", exact: true })
+    .click();
+  await expect(
+    modal.getByRole("heading", {
+      name: "Package readiness: ready",
+      exact: true,
+    }),
+  ).toBeVisible();
+  await approve(page, "Assemble and retain PDF");
+  await expect(
+    modal
+      .getByRole("region", { name: "Retained package PDF", exact: true })
+      .locator('[data-pdf-layer="active"] canvas')
+      .first(),
   ).toBeVisible();
   await page.keyboard.press("Escape");
 }
@@ -550,13 +607,13 @@ test("configured package survives fresh offline import, native editing, reload a
     userAgent: await page.evaluate(() => navigator.userAgent),
     isMobile: !!info.project.use.isMobile,
     hasTouch: !!info.project.use.hasTouch,
-    serviceWorkers: "block",
+    serviceWorkers: "allow",
   });
   try {
     await appearance(fresh, "dark");
     await fresh.route("**/templates/**", (route) => route.abort());
     const restored = await fresh.newPage();
-    await readyOfflineApp(restored, baseURL!);
+    await readyOfflineApp(restored, baseURL!, true);
     await fresh.setOffline(true);
     modal = await packages(restored);
     await modal
@@ -587,7 +644,7 @@ test("configured package survives fresh offline import, native editing, reload a
       .fill("Fictional working form");
     await actions(restored, /^Save checkpoint/);
     await fresh.setOffline(false);
-    await readyOfflineApp(restored);
+    await readyOfflineApp(restored, undefined, true);
     await fresh.setOffline(true);
     await expect(
       restored.getByRole("textbox", { name: "Fictional name", exact: true }),
@@ -618,6 +675,12 @@ test("configured package survives fresh offline import, native editing, reload a
     await expect(modal.getByRole("status")).toContainText(
       "Assembled PDF retained.",
     );
+    await expect(
+      modal
+        .getByRole("region", { name: "Retained package PDF", exact: true })
+        .locator('[data-pdf-layer="active"] canvas')
+        .first(),
+    ).toBeVisible();
     const edited = await download(
       restored,
       "Download retained PDF",

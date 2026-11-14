@@ -124,10 +124,21 @@ checksums, unchanged originals, selected-revision transfer and configured-form
 editing/rendering in a fresh offline browser. Theme cases cover Light, Dark and
 Classic across the configured desktop and phone browser projects.
 
-The saved-package fresh-browser checks load the app and perform a real empty-package
-policy preflight online before disconnecting. They qualify self-contained package
-assets and retained artifact identity, not offline installation. Recipient contexts
-receive no source documents, template pages or catalog definitions outside the
-imported package; the configured-form route explicitly refuses catalog/template
-requests. Reload checks reconnect only to load the app and deployment policy, then
-repeat editing and assembly with networking disabled.
+The saved-package fresh-browser checks load the app and run the real deployment
+policy preflight online before disconnecting. They finish the app's ordinary
+preview and render a distinct app-only PDF to initialize the existing viewer and
+worker; neither fixture contains any imported package source or form content.
+Configured-form recipients use the real production service worker and wait for a
+controlled navigation, so its normal engine-core runtime cache retains the PDF.js
+worker loaded during this preparation. This is an app-resource prerequisite, not
+a general qualification of first-time offline installation.
+
+After disconnecting, recipients receive no matching source documents, catalog
+definitions or template pages outside the imported package. The configured-form
+recipient's template/catalog routes remain denied. Reload checks reconnect only
+to load and prepare the app resources, then repeat editing, assembly, identical
+artifact retrieval and a visible retained-PDF canvas assertion with networking
+disabled. Diagnostic runs with service workers blocked confirmed that a new
+`/lib/pdf.worker.min.mjs` request fails offline when routing disables the browser's
+HTTP cache; the production worker cache, rather than package asset storage, owns
+that application dependency.
