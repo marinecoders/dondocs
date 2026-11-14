@@ -39,6 +39,16 @@ describe('typed suggestion write recovery', () => {
     expect(await recoverReviewReturnWrite(input.pending)).toBe('already-committed');
   });
 
+  it('recovers a JSON journal beside native optional keys retained by IndexedDB', async () => {
+    const input = await fixture();
+    for (const record of [input.before, ...input.pending.versions]) record.session.formData.signatureImage = undefined;
+    await idbPutDocument(input.before);
+    const journal = JSON.parse(JSON.stringify(input.pending));
+    expect(await recoverReviewReturnWrite(journal)).toBe('committed');
+    expect((await input.saved()).session.formData.to).toBe('Proposed recipient');
+    expect(await idbReadReviewSuggestionReceipt(input.accept.id)).not.toBeNull();
+  });
+
   it('continues after an earlier atomic fence committed before interruption', async () => {
     const input = await fixture();await idbApplyReviewSuggestions(input.before, input.proposed, input.propose);
     expect(await recoverReviewReturnWrite(input.pending)).toBe('committed');expect(await input.saved()).toEqual(input.latest);
