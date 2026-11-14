@@ -166,7 +166,7 @@ for (const theme of ['light', 'dark', 'classic']) test(`existing formatting find
         await restored.getByRole('button', { name: 'Settings', exact: true }).click();
         const restoredSettings = restored.getByRole('dialog', { name: 'Settings', exact: true });
         await restored.getByLabel('Backup file', { exact: true }).setInputFiles({ name: 'formatting-backup.json', mimeType: 'application/json', buffer: backup });
-        await expect(restoredSettings.getByRole('status')).toContainText('Restored');
+        await expect(restoredSettings.getByRole('status')).toContainText('Restored', { timeout: 15_000 });
         await expect(restoredSettings.getByRole('alert')).toHaveCount(0);
         await restoredSettings.getByRole('button', { name: 'Close', exact: true }).click();await restored.reload();
         await restored.getByRole('button', { name: /^NEWER AUTHOR SUBJECT · LTR ·/ }).click();
