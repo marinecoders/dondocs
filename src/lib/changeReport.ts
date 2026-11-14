@@ -5,7 +5,8 @@ import { reviewCommentsSchema } from './reviewComments';
 import { describeCommentAnchor } from './reviewCommentTargets';
 import { parseFormInstance, type AnswerField, type Answer } from '@/services/forms/model';
 import { assertExportDeploymentPolicy, type PolicyResolution } from './exportDeploymentPolicy';
-import { classificationBannerLevel, detectClassification } from './detectClassification';
+import { CLASSIFICATION_LABELS, classificationBannerLevel, detectClassification } from './detectClassification';
+import type { ClassificationLevel } from './domainClassification';
 import { classificationRank, deriveOverallClassLevel } from './overallClassification';
 import { detectTextPII, type PIIDetectionResult } from '@/services/pii/detector';
 
@@ -121,11 +122,11 @@ export function prepareChangeReport(capture: ReturnType<typeof captureChangeRepo
   };
   inspect(before.session);inspect(after.session);
   for (const level of levels) {
-    if (classificationRank(level) === undefined || !policy.policy.allowedLevels.includes(level as 'unclassified')) {
+    if (classificationRank(level) === undefined || !policy.policy.allowedLevels.includes(level as ClassificationLevel)) {
       throw new Error('This report includes retained markings outside this deployment’s configured levels.');
     }
   }
-  const marking = [...levels].sort((a, b) => classificationRank(b)! - classificationRank(a)!)[0].replaceAll('_', ' ').toUpperCase();
+  const marking = CLASSIFICATION_LABELS[[...levels].sort((a, b) => classificationRank(b)! - classificationRank(a)!)[0] as ClassificationLevel];
   const stamp = new Date(capturedAt).toISOString().replace(/[:.]/g, '-');
   return { ...report, capturedAt, filename: `change-report-${stamp}.html`, privacy: detectTextPII(fields), notices: [...new Set(notices)], marking };
 }
