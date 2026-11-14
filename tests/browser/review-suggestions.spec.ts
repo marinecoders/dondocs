@@ -1,6 +1,7 @@
 import { expect, test, type Page } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 import { readFile, writeFile } from 'node:fs/promises';
+import { replaceParagraphText } from '../_helpers/replaceParagraphText';
 
 test.use({ serviceWorkers: 'block' });
 test.setTimeout(180_000);
@@ -63,7 +64,7 @@ for (const theme of ['light', 'dark', 'classic']) test(`round-bound replacement 
     await expect(reviewModal.getByRole('alert')).toHaveText(/original draft/);
     await expect(reviewModal.getByRole('button', { name: 'Import reviewed feedback', exact: true })).toHaveCount(0);
     await reviewer.screenshot({ path: info.outputPath(`wrong-owner-${theme}.png`), scale: 'css' });
-    await page.getByRole('textbox', { name: 'Paragraph 2', exact: true }).fill('Newer author paragraph survives acceptance.');
+    await replaceParagraphText(page.getByRole('textbox', { name: 'Paragraph 2', exact: true }), 'Newer author paragraph survives acceptance.');
     modal = await reviews(page);await modal.getByLabel('Import feedback return', { exact: true }).setInputFiles({ name: 'return.json', mimeType: 'application/json', buffer: returned });
     await modal.getByRole('button', { name: 'Import reviewed feedback', exact: true }).click();await expect(modal.getByText(/Feedback imported/)).toBeVisible();
     await modal.getByLabel('Review for suggested edits', { exact: true }).selectOption({ label: 'Replacement review' });
@@ -207,7 +208,7 @@ test('retained custom labels do not bypass the recognized review marking floor',
   await expect(modal.getByLabel('Review for suggested edits', { exact: true })).toBeEnabled();await modal.getByRole('button', { name: 'Close', exact: true }).click();
   await page.getByRole('button', { name: 'Portion marking: Secret. Change', exact: true }).click();
   await page.getByRole('menuitemradio', { name: '(U) Unclassified', exact: true }).click();
-  await page.getByRole('textbox', { name: 'Paragraph 1', exact: true }).fill('Fictional lower-marked current paragraph.');
+  await replaceParagraphText(page.getByRole('textbox', { name: 'Paragraph 1', exact: true }), 'Fictional lower-marked current paragraph.');
   modal = await reviews(page);await modal.getByLabel('Review for suggested edits', { exact: true }).selectOption({ label: 'Marking floor review' });
   const proposal = modal.getByRole('article', { name: 'Suggestion 1: Replace subject', exact: true });
   await proposal.getByRole('button', { name: 'Accept suggestion', exact: true }).click();
