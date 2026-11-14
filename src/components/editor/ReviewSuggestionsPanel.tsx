@@ -8,7 +8,7 @@ import type { SerializedSession } from '@/stores/documentStore';
 import type { ReviewRound } from '@/lib/reviewRounds';
 import { reconcileReviewText } from '@/lib/reconcileReviewText';
 import {
-  availableReviewSuggestionTargets, createReviewSuggestion, inspectReviewSuggestion, latestReviewSuggestionDecision, REVIEW_SUGGESTION_LIMITS,
+  availableReviewSuggestionTargets, createReviewSuggestion, inspectReviewSuggestion, latestReviewSuggestionDecision, REVIEW_SUGGESTION_LIMITS, suggestionTargetKey,
   type ReviewSuggestion, type ReviewSuggestionResolution, type ReviewSuggestionState,
 } from '@/lib/reviewSuggestions';
 
@@ -39,6 +39,14 @@ export function ReviewSuggestionsPanel({ round, current, state, owner, busy, onC
   const disabled = busy || pending;
   const targets = availableReviewSuggestionTargets(round);
   const target = targets.find(item => item.key === selected);
+  const targetCounts = new Map<string, number>();
+  for (const proposal of state.proposals) for (const change of proposal.changes) {
+    const key = suggestionTargetKey(change.target);targetCounts.set(key, (targetCounts.get(key) ?? 0) + 1);
+  }
+  function comparisonName(proposal: ReviewSuggestion, change: { id: string; label: string }, index: number) {
+    const target = proposal.changes.find(item => item.id === change.id)!;
+    return `${change.label} replacement comparison${(targetCounts.get(suggestionTargetKey(target.target)) ?? 0) > 1 ? `, suggestion ${index + 1}` : ''}`;
+  }
 
   async function add(event: FormEvent) {
     event.preventDefault();setError('');
@@ -112,7 +120,7 @@ export function ReviewSuggestionsPanel({ round, current, state, owner, busy, onC
         {proposal.origin.kind === 'mechanical' && <p className="whitespace-pre-wrap break-words text-xs">Grouped correction{proposal.origin.rule ? `: ${proposal.origin.rule}` : ''}{proposal.origin.context ? ` · ${proposal.origin.context}` : ''}. All members are checked before any change is applied.</p>}
         {changes.map(change => <div key={change.id} className="space-y-1 border-t pt-2">
           <p className="text-sm font-medium">{change.label}</p>
-          <div role="region" aria-label={`${change.label} replacement comparison`} tabIndex={0} className="max-h-60 overflow-auto rounded-md p-1 focus-visible:outline-2 focus-visible:outline-ring">
+          <div role="region" aria-label={comparisonName(proposal, change, index)} tabIndex={0} className="max-h-60 overflow-auto rounded-md p-1 focus-visible:outline-2 focus-visible:outline-ring">
             <dl className="space-y-2 text-sm">
               {([['Reviewed baseline', change.baseline], ['Current draft', change.current === null ? '(Target unavailable)' : change.current], ['Proposed', change.proposed]] as const).map(([label, value]) => <div key={label}>
                 <dt className="text-xs text-muted-foreground">{label}</dt><dd className="whitespace-pre-wrap break-words">{value || '(Empty)'}</dd>

@@ -50,6 +50,16 @@ it('shows baseline/current/proposed values and blocks acceptance of an overlappi
   expect(screen.getByRole('button', { name: 'Reject suggestion' })).toBeEnabled();
 });
 
+it('distinguishes comparison landmarks for multiple reviewers replacing the same target', () => {
+  const input = props();
+  for (const author of ['Reviewer One', 'Reviewer Two']) input.state.proposals.push(createReviewSuggestion(input.round, { author, label: 'Recipient', changes: [
+    { target: { kind: 'field', field: 'to', docType: 'naval_letter' }, proposed: `${author} recipient` },
+  ] }));
+  render(<ReviewSuggestionsPanel {...input} />);
+  expect(screen.getByRole('region', { name: 'To replacement comparison, suggestion 1', exact: true })).toHaveTextContent('Reviewer One recipient');
+  expect(screen.getByRole('region', { name: 'To replacement comparison, suggestion 2', exact: true })).toHaveTextContent('Reviewer Two recipient');
+});
+
 it('previews independent changes, permits deliberate combined text and cancels without a decision', async () => {
   const input = props();input.round.baseline.session.paragraphs[0].text = 'Alpha team meets on Friday.';
   input.current.paragraphs[0].text = 'Bravo team meets on Friday.';
