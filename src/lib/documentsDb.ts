@@ -1,6 +1,7 @@
 import type { DocumentMeta } from '@/stores/documentsStore';
 import type { SerializedSession } from '@/stores/documentStore';
 import { debug } from '@/lib/debug';
+import type { ReviewRound, ReviewCopyLink } from './reviewRounds';
 
 /**
  * IndexedDB store for the document registry (Recents): one record per document,
@@ -21,6 +22,90 @@ const DB_VERSION = 2;
 const DOCS_STORE = 'documents';
 const APP_STORE = 'app'; // key/value store; currently just { key:'currentId', value }
 const ATTACHMENTS_STORE = 'attachments'; // enclosure file blobs, keyed by content-free id
+
+export const reviewRoundKey = (id: string) => `review:${id}`;
+export const reviewCopyKey = (documentId: string) => `review-copy:${documentId}`;
+
+/** Review pins live beside History and are not pruned with its ten-entry ring. */
+export async function idbReadReviewRound(id: string): Promise<unknown | null> {
+  return (await run<{ value: unknown } | undefined>(APP_STORE, 'readonly', store => store.get(reviewRoundKey(id))))?.value ?? null;
+}
+
+export async function idbReadReviewRounds(): Promise<unknown[]> {
+  const records = await run<Array<{ value: unknown }>>(APP_STORE, 'readonly', store =>
+    store.getAll(IDBKeyRange.bound('review:', 'review:\uffff')));
+  return records.map(record => record.value);
+}
+
+export async function idbReadReviewCopies(): Promise<unknown[]> {
+  const records = await run<Array<{ value: unknown }>>(APP_STORE, 'readonly', store =>
+    store.getAll(IDBKeyRange.bound('review-copy:', 'review-copy:\uffff')));
+  return records.map(record => record.value);
+}
+
+export async function idbReadReviewCopy(documentId: string): Promise<unknown | null> {
+  return (await run<{ value: unknown } | undefined>(APP_STORE, 'readonly', store => store.get(reviewCopyKey(documentId))))?.value ?? null;
+}
+
+/** An existing round is immutable; a retry may only acknowledge the same pin. */
+export async function idbAddReviewRound(input: ReviewRound): Promise<'committed' | 'unchanged' | 'conflict' | 'failed'> {
+  try {
+    const round = structuredClone(input);
+    const db = await openDb();
+    return await new Promise((resolve, reject) => {
+      const transaction = db.transaction(APP_STORE, 'readwrite');
+      const store = transaction.objectStore(APP_STORE);
+      const request = store.get(reviewRoundKey(round.id));
+      let outcome: 'committed' | 'unchanged' | 'conflict' = 'conflict';
+      request.onsuccess = () => {
+        if (request.result) {
+          if (JSON.stringify(request.result.value) === JSON.stringify(round)) outcome = 'unchanged';
+          return;
+        }
+        try {
+          store.put({ key: reviewRoundKey(round.id), value: round });
+          outcome = 'committed';
+        } catch { transaction.abort(); }
+      };
+      transaction.oncomplete = () => resolve(outcome);
+      transaction.onerror = () => reject(transaction.error ?? new Error('Review pin could not be saved.'));
+      transaction.onabort = () => reject(transaction.error ?? new Error('Review pin save aborted.'));
+    });
+  } catch { return 'failed'; }
+}
+
+/** A received reviewer copy, its pin and its local association commit together. */
+export async function idbInstallReviewCopy(input: StoredDocument, pin: ReviewRound, association: ReviewCopyLink): Promise<boolean> {
+  try {
+    const document = structuredClone(input), round = structuredClone(pin), link = structuredClone(association);
+    if (document.id !== link.documentId || round.id !== link.roundId || round.baselineDigest !== link.baselineDigest) return false;
+    const db = await openDb();
+    return await new Promise<boolean>((resolve, reject) => {
+      const transaction = db.transaction([DOCS_STORE, APP_STORE], 'readwrite');
+      const documents = transaction.objectStore(DOCS_STORE), app = transaction.objectStore(APP_STORE);
+      const existingDocument = documents.get(document.id), existingRound = app.get(reviewRoundKey(round.id));
+      let remaining = 2, installed = false;
+      const ready = () => {
+        if (--remaining) return;
+        const previous = existingRound.result?.value as ReviewRound | undefined;
+        if (existingDocument.result || previous && (previous.baselineDigest !== round.baselineDigest
+          || previous.sourceDocumentId !== round.sourceDocumentId)) return;
+        try {
+          documents.put(document);
+          // Receiving a copy must never overwrite a local owner's established pin.
+          if (!previous) app.put({ key: reviewRoundKey(round.id), value: { ...round, ownerDocumentId: undefined } });
+          app.put({ key: reviewCopyKey(link.documentId), value: link });
+          installed = true;
+        } catch { transaction.abort(); }
+      };
+      existingDocument.onsuccess = ready;
+      existingRound.onsuccess = ready;
+      transaction.oncomplete = () => resolve(installed);
+      transaction.onerror = () => reject(transaction.error ?? new Error('Review copy could not be saved.'));
+      transaction.onabort = () => reject(transaction.error ?? new Error('Review copy save aborted.'));
+    });
+  } catch { return false; }
+}
 
 export async function putBatchOutput(id: string, data: Uint8Array): Promise<boolean> {
   try { await run(APP_STORE, 'readwrite', (s) => s.put({ key: `batch:${id}`, value: data })); return true; }
