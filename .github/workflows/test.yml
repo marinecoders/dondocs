@@ -387,7 +387,9 @@ jobs:
   browser-flows:
     name: browser flows (${{ matrix.group }})
     runs-on: ubuntu-latest
-    # Includes setup and complete browser groups with review/asset workflows.
+    # Includes setup and complete browser profiles with review/asset workflows.
+    # Keep WebKit profiles separate so one profile cannot consume the next
+    # profile's runtime or prevent its failure artifacts from being uploaded.
     timeout-minutes: 50
     strategy:
       fail-fast: false
@@ -401,10 +403,16 @@ jobs:
             projects: --project=firefox
           - group: webkit
             browsers: webkit
-            projects: --project=webkit --project=ipad-safari
-          - group: webkit-mobile
+            projects: --project=webkit
+          - group: ipad-safari
             browsers: webkit
-            projects: --project=mobile-safari --project=mobile-chrome-ios
+            projects: --project=ipad-safari
+          - group: mobile-safari
+            browsers: webkit
+            projects: --project=mobile-safari
+          - group: mobile-chrome-ios
+            browsers: webkit
+            projects: --project=mobile-chrome-ios
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
       - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
@@ -417,6 +425,9 @@ jobs:
       - run: npm run build
       - name: verify install and downloads
         run: npm run test:browser -- ${{ matrix.projects }}
+        env:
+          PLAYWRIGHT_LIST_PRINT_FAILURES_INLINE: '1'
+          PLAYWRIGHT_LIST_PRINT_STEPS: '1'
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         if: failure()
         with:
