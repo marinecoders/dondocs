@@ -6,9 +6,8 @@ import { serializeDocumentSnapshot } from './documentSerialization';
 import { createSharedPayload, parseSharedSession, validateShareExpiration, type SharedDocumentKind } from './sharedSession';
 import { buildPortableResources, parsePortableResources, type PortableResourceInput, type PortableResourceManifest } from './portableResources';
 import { formTemplateResourcePaths } from '@/services/forms/portableTemplates';
-import { documentTextFields } from './documentFields';
-import { retainedTextClassificationLevel } from './detectClassification';
-import { assertExportDeploymentPolicy, type PolicyResolution } from './exportDeploymentPolicy';
+import { assertRetainedDocumentTextPolicy } from './retainedDocumentTextPolicy';
+import type { PolicyResolution } from './exportDeploymentPolicy';
 import { base64ToUint8Array, uint8ArrayToBase64 } from './encoding';
 
 const path = z.string().min(1).max(180);
@@ -70,14 +69,7 @@ export function assetShareReviewSession(snapshot: DocumentSnapshot, timestamp: n
 /** Form definitions, unselected labels and retained answers travel with the
  * copy even when they do not produce a before/after report difference. */
 export function assertConfiguredFormSharePolicy(session: SerializedSession, policy: PolicyResolution): void {
-  if (!session.genericForm) return;
-  if (policy.status !== 'ready') throw new Error(policy.message);
-  assertExportDeploymentPolicy(policy.policy);
-  for (const field of documentTextFields(session, 'share')) {
-    if (!policy.policy.allowedLevels.includes(retainedTextClassificationLevel(field.text))) {
-      throw new Error('This shared form includes retained markings outside this deployment’s configured levels.');
-    }
-  }
+  if (session.genericForm) assertRetainedDocumentTextPolicy(session, policy);
 }
 export function validateAssetShareExpiration(value: unknown): void {
   if (!isAssetShare(value)) return;

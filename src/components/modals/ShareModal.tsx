@@ -32,7 +32,7 @@ import { getSerializedSessionForShare, useDocumentStore, type SerializedSession 
 import { openSessionAsNew, captureDocumentTarget, captureDocumentScope, isCurrentDocumentScope, hasPendingReviewWrites, flushPendingReviewWrites } from '@/stores/documentsStore';
 import { parseSharedSession, createSharedPayload, validateShareExpiration } from '@/lib/sharedSession';
 import { detectSharedSessionPII, getPIITypeLabel, type PIIDetectionResult } from '@/services/pii/detector';
-import { buildAssetSharePayload, hasShareAssets, isAssetShare, parseSharedDocument, assetShareReviewSession, assertConfiguredFormSharePolicy } from '@/lib/assetShare';
+import { buildAssetSharePayload, hasShareAssets, isAssetShare, parseSharedDocument, assetShareReviewSession } from '@/lib/assetShare';
 import { openSharedDocument } from '@/lib/sharedDocumentActions';
 import { triggerDownload } from '@/lib/encoding';
 import { getExportDeploymentPolicy } from '@/config/classification';
