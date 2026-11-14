@@ -4,7 +4,7 @@ import { readFile } from 'node:fs/promises';
 import JSZip from 'jszip';
 import { getDocument } from 'pdfjs-dist/legacy/build/pdf.mjs';
 
-test.use({ serviceWorkers: 'block' });
+test.use({ serviceWorkers: 'block', actionTimeout: 15_000 });
 test.setTimeout(180_000);
 const REVIEW = 'Fictional formatting review';
 const ORIGINAL_BODY = 'Training due 5 Nov 2026 and 06 Dec 2026; quote "1 Jan 2026".';
@@ -68,7 +68,8 @@ for (const theme of ['light', 'dark', 'classic']) test(`existing formatting find
   await expect(modal.getByText('Review baseline saved. Later source edits will not change this copy.', { exact: true })).toBeVisible();
   await modal.getByRole('button', { name: 'Prepare reviewer copy', exact: true }).click();
   const reviewerFile = await bytes(page, () => modal.getByRole('button', { name: 'Download reviewer copy', exact: true }).click());await page.keyboard.press('Escape');
-  const context = await browser.newContext({ viewport: page.viewportSize()!, serviceWorkers: 'block', isMobile: !!info.project.use.isMobile, hasTouch: !!info.project.use.hasTouch });
+  const context = await browser.newContext({ viewport: page.viewportSize()!, userAgent: await page.evaluate(() => navigator.userAgent),
+    deviceScaleFactor: info.project.use.deviceScaleFactor, serviceWorkers: 'block', isMobile: !!info.project.use.isMobile, hasTouch: !!info.project.use.hasTouch });
   try {
     await context.addInitScript(init, appearance);const reviewer = await context.newPage();await reviewer.goto(baseURL!);
     const copyModal = await reviews(reviewer);
@@ -108,6 +109,16 @@ for (const theme of ['light', 'dark', 'classic']) test(`existing formatting find
     await page.screenshot({ path: info.outputPath(`formatting-group-${theme}.png`), scale: 'css' });
     await page.keyboard.press('Escape');
     await page.getByRole('textbox', { name: 'Reference (b) URL', exact: true }).fill('https://example.com/b');
+    await page.getByRole('textbox', { name: 'Paragraph 2', exact: true }).fill(`${ORIGINAL_BODY} Newer overlapping sentence.`);
+    modal = await chooseRound(page);group = modal.getByRole('article', { name: 'Suggestion 1: Formatting corrections (7)', exact: true });
+    await expect(group.getByRole('button', { name: 'Accept suggestion', exact: true })).toBeDisabled();
+    await expect(group).toContainText('Current draft differs; acceptance is blocked');
+    await page.keyboard.press('Escape');await expect(modal).toBeHidden();
+    const blocked = await draft(page);
+    expect(blocked.formData.date).toBe('13 November 2026');expect(blocked.formData.sigFirst).toBe(' A . ');
+    expect(blocked.references.map((item: { title: string }) => item.title)).toEqual(['Alpha (notal)', 'Bravo ( notal )']);
+    expect(blocked.paragraphs[1].text).toBe(`${ORIGINAL_BODY} Newer overlapping sentence.`);
+    await page.getByRole('textbox', { name: 'Paragraph 2', exact: true }).fill(ORIGINAL_BODY);
     modal = await chooseRound(page);group = modal.getByRole('article', { name: 'Suggestion 1: Formatting corrections (7)', exact: true });
     await group.getByRole('button', { name: 'Accept suggestion', exact: true }).click();await expect(group).toContainText('Accepted');
     // Accepted state is published before the owning write finishes; the modal
@@ -142,6 +153,78 @@ for (const theme of ['light', 'dark', 'classic']) test(`existing formatting find
       } finally { await pdf.destroy(); }
       await info.attach('clean-formatting-letter.docx', { body: word, contentType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' });
       await info.attach('clean-formatting-letter.pdf', { body: pdfBytes, contentType: 'application/pdf' });
+      await page.getByRole('button', { name: 'Settings', exact: true }).click();
+      const settings = page.getByRole('dialog', { name: 'Settings', exact: true });
+      const backup = await bytes(page, () => settings.getByRole('button', { name: 'Download workspace backup', exact: true }).click());
+      const bundle = JSON.parse(backup.toString('utf8'));
+      expect(bundle.version).toBe(9);expect(bundle.reviewSuggestions).toHaveLength(1);
+      expect(bundle.reviewSuggestions[0].state.decisions.map((item: { action: string }) => item.action)).toEqual(['accepted', 'reversed', 'restored']);
+      await settings.getByRole('button', { name: 'Close', exact: true }).click();
+      const fresh = await browser.newContext({ serviceWorkers: 'block' });
+      try {
+        await fresh.addInitScript(init, appearance);const restored = await fresh.newPage();await restored.goto(baseURL!);
+        await restored.getByRole('button', { name: 'Settings', exact: true }).click();
+        const restoredSettings = restored.getByRole('dialog', { name: 'Settings', exact: true });
+        await restored.getByLabel('Backup file', { exact: true }).setInputFiles({ name: 'formatting-backup.json', mimeType: 'application/json', buffer: backup });
+        await expect(restoredSettings.getByRole('status')).toContainText('Restored');
+        await expect(restoredSettings.getByRole('alert')).toHaveCount(0);
+        await restoredSettings.getByRole('button', { name: 'Close', exact: true }).click();await restored.reload();
+        await restored.getByRole('button', { name: /^NEWER AUTHOR SUBJECT · LTR ·/ }).click();
+        expectDraft(await draft(restored), true);
+        const restoredReview = await chooseRound(restored);
+        await expect(restoredReview.getByRole('article', { name: 'Suggestion 1: Formatting corrections (7)', exact: true })).toContainText('Accepted');
+        await restoredReview.getByLabel('Import feedback return', { exact: true }).setInputFiles({ name: 'same-feedback.json', mimeType: 'application/json', buffer: returned });
+        await expect(restoredReview.getByText(/This return has already been imported/)).toBeVisible();
+        await info.attach('restored-formatting-review.png', { body: await restored.screenshot({ scale: 'css' }), contentType: 'image/png' });
+      } finally { await fresh.close(); }
     }
   } finally { await context.close(); }
+});
+
+for (const scenario of ['advisory and target limit', 'oversized whole paragraph', 'unsupported joint letter']) test(`formatting proposals explain ${scenario} without truncating or applying text`, async ({ page }, info) => {
+  await page.addInitScript(() => {
+    localStorage.setItem('browser-test-visitor', 'returning');
+    localStorage.setItem('dondocs_ui', JSON.stringify({ state: { theme: 'light', editorLayout: 'scroll' }, version: 1 }));
+  });await page.goto('/');
+  const oversized = scenario === 'oversized whole paragraph', unsupported = scenario === 'unsupported joint letter';
+  const text = oversized ? `Due 5 Nov 2026; ${'x'.repeat(20_000)}` : 'Due 5 Nov 2026; quote "1 Jan 2026".';
+  const paragraphs = Array.from({ length: oversized || unsupported ? 1 : 21 }, (_, index) => ({ id: `limit-${index}`, text, level: 0 }));
+  if (!oversized && !unsupported) paragraphs.push({ id: 'advisory', text: 'Ambiguous 5 Nov 26.', level: 0 });
+  const source = { documentMode: 'custom', documentCategory: 'correspondence', docType: unsupported ? 'joint_letter' : 'naval_letter',
+    formData: { subject: 'FICTIONAL LIMIT REVIEW', date: oversized ? '13 Nov 26' : '03/04/26', classLevel: 'unclassified' },
+    paragraphs, references: [], enclosures: [], copyTos: [], distributions: [] };
+  await page.getByLabel('Import draft file').setInputFiles({ name: 'formatting-limits.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(source)) });
+  await page.getByRole('button', { name: 'Open as new document', exact: true }).click();
+  const modal = await reviews(page);await modal.getByLabel('Review name', { exact: true }).fill(REVIEW);
+  await modal.getByRole('button', { name: 'Start review from current draft', exact: true }).click();
+  await expect(modal.getByText('Review baseline saved. Later source edits will not change this copy.', { exact: true })).toBeVisible();
+  await modal.getByRole('combobox', { name: 'Review for suggested edits', exact: true }).selectOption({ label: REVIEW });
+  const formatting = modal.getByRole('region', { name: 'Formatting review proposals', exact: true });
+  await formatting.getByRole('textbox', { name: 'Reviewer name for formatting corrections', exact: true }).fill('Example reviewer');
+  await expect(formatting.getByRole('button', { name: 'Propose 0 corrections', exact: true })).toBeDisabled();
+  await formatting.getByRole('combobox', { name: 'Body date audience for review', exact: true }).selectOption('military');
+  if (unsupported) {
+    await expect(formatting.getByText('No supported formatting corrections in this reviewed baseline.', { exact: true })).toBeVisible();
+    await expect(formatting.getByRole('checkbox')).toHaveCount(0);
+    await expect(formatting.getByRole('button', { name: 'Propose 0 corrections', exact: true })).toBeDisabled();
+  } else {
+    await formatting.getByRole('button', { name: `Propose ${oversized ? '1 correction' : '21 corrections'}`, exact: true }).click();
+    await expect(formatting.getByRole('alert')).toContainText(oversized ? '20,000-character' : 'no more than 20');
+  }
+  await expect(modal.getByRole('article', { name: /^Suggestion \d+:/ })).toHaveCount(0);
+  const accessibility = await new AxeBuilder({ page }).analyze();
+  await info.attach('formatting-boundary-axe', { body: JSON.stringify(accessibility, null, 2), contentType: 'application/json' });
+  expect(accessibility.violations).toEqual([]);
+  if (!oversized && !unsupported) {
+    await expect(formatting.getByText(/manual review required/)).toHaveCount(2);
+    await expect(formatting.getByRole('checkbox')).toHaveCount(21);
+    await formatting.getByRole('checkbox', { name: 'Paragraph 21, date 1', exact: true }).uncheck();
+    await formatting.getByRole('button', { name: 'Propose 20 corrections', exact: true }).click();
+    await expect(modal.getByText('Review change saved.', { exact: true })).toBeVisible();
+    await expect(modal.getByRole('article', { name: 'Suggestion 1: Formatting corrections (20)', exact: true })).toContainText('Pending');
+  }
+  await expect(modal.getByRole('combobox', { name: 'Review for suggested edits', exact: true })).toBeEnabled();
+  await page.screenshot({ path: info.outputPath(`formatting-${unsupported ? 'unsupported' : oversized ? 'size' : 'advisory'}-limit.png`), scale: 'css' });
+  await page.keyboard.press('Escape');await expect(modal).toBeHidden();
+  const unchanged = await draft(page);expect(unchanged.paragraphs).toEqual(paragraphs);expect(unchanged.formData.date).toBe(source.formData.date);
 });
