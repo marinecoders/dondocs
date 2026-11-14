@@ -7,6 +7,17 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.78] — 2026-11-13
+
+### Added
+
+- Return native review comments to their exact round and original draft while retaining newer letter text, fields and attachments. Preview full discussions, choose competing message/status changes and retain deleted-paragraph feedback without guessing a new target.
+- Save feedback and its import receipt together through the existing writer, preserving pending operations across interrupted saves and committed receipts in workspace backups. Reopening the same return does not duplicate or reapply feedback, including after Undo.
+
+### Fixed
+
+- Wait for pending feedback receipts before sharing or exporting an affected draft, and keep failed preparation in a recoverable dialog. Reviewer names and rendered handling labels remain unverified, with content review before unencrypted feedback downloads.
+
 ## [1.3.77] — 2026-11-13
 
 ### Added

@@ -11,6 +11,7 @@ import { useProfileStore } from '@/stores/profileStore';
 import { applyCommentMutation, reviewCommentMutation } from '@/lib/reviewCommentActions';
 import type { ReviewReturnWrite } from '@/lib/reviewReturns';
 import type { ReviewRound } from '@/lib/reviewRounds';
+import { buildDraftFile } from '@/lib/draftFile';
 import type { ReviewComments } from '@/lib/reviewComments';
 
 vi.mock('@/lib/documentsDb', async original => {
@@ -73,6 +74,14 @@ describe('review return owner publication', () => {
     release();expect(await importing).toBe('committed');
     expect(useDocumentsStore.getState().currentId).toBe(other);expect(useDocumentStore.getState().reviewComments).toBeUndefined();
     expect(useUIStore.getState().lastSavedAt).toEqual(acknowledgement);expect((await saved()).session.reviewComments).toEqual(comments);
+  });
+  it('does not export another active draft after waiting for its original owner’s receipt', async () => {
+    const release = holdReview();const importing = applyOwnedReviewReturn(captureDocumentTarget(), comments, operation);
+    await vi.waitFor(() => expect(reviewWrite).toHaveBeenCalledOnce());
+    const exporting = buildDraftFile();const rejected = expect(exporting).rejects.toThrow(/draft changed/);
+    useDocumentsStore.getState().newDocument();useDocumentStore.getState().setField('subject', 'Different draft');
+    release();await importing;await rejected;
+    expect(useDocumentStore.getState().formData.subject).toBe('Different draft');
   });
   it('rejects a stale preview before publishing or queueing feedback', async () => {
     const target = captureDocumentTarget();useDocumentStore.getState().setField('subject', 'Changed during review');

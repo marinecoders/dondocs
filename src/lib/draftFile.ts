@@ -1,5 +1,5 @@
 import { resolveSignature, resolveFormSignatures } from './signatureAssets';
-import { flushPendingReviewWrites, hasPendingReviewWrites, useDocumentsStore } from '@/stores/documentsStore';
+import { flushPendingReviewWrites, hasPendingReviewWrites, useDocumentsStore, captureDocumentTarget, isCurrentDocumentTarget } from '@/stores/documentsStore';
 import { z } from 'zod';
 import { parseFormInstance } from '@/services/forms/model';
 import { getSerializedSession, useDocumentStore, type SerializedSession } from '@/stores/documentStore';
@@ -86,7 +86,11 @@ export async function buildDraftFile(): Promise<unknown> {
   draftExports++;
   try {
     const ownerId = useDocumentsStore.getState().currentId ?? undefined;
-    if (hasPendingReviewWrites(ownerId)) await flushPendingReviewWrites(ownerId);
+    if (hasPendingReviewWrites(ownerId)) {
+      const target = captureDocumentTarget();
+      await flushPendingReviewWrites(ownerId);
+      if (!isCurrentDocumentTarget(target)) throw new Error('The draft changed while its feedback was saving. Export the current draft again.');
+    }
     const snapshot = structuredClone(useDocumentStore.getState().getSnapshot());
     const session = getSerializedSession();
     return await serializeDraft(session, snapshot);
