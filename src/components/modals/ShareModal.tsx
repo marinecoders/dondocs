@@ -32,12 +32,11 @@ import { getSerializedSessionForShare, useDocumentStore, type SerializedSession 
 import { openSessionAsNew, captureDocumentTarget, captureDocumentScope, isCurrentDocumentScope, hasPendingReviewWrites, flushPendingReviewWrites } from '@/stores/documentsStore';
 import { parseSharedSession, createSharedPayload, validateShareExpiration } from '@/lib/sharedSession';
 import { detectSharedSessionPII, getPIITypeLabel, type PIIDetectionResult } from '@/services/pii/detector';
-import { buildAssetSharePayload, hasShareAssets, isAssetShare, parseSharedDocument } from '@/lib/assetShare';
+import { buildAssetSharePayload, hasShareAssets, isAssetShare, parseSharedDocument, assetShareReviewSession } from '@/lib/assetShare';
 import { openSharedDocument } from '@/lib/sharedDocumentActions';
 import { triggerDownload } from '@/lib/encoding';
 import { getExportDeploymentPolicy } from '@/config/classification';
 import { captureChangeReport, prepareChangeReport } from '@/lib/changeReport';
-import { serializeDocumentSnapshot } from '@/lib/documentSerialization';
 import type { DocumentSnapshot } from '@/stores/historyStore';
 import { z } from 'zod';
 
@@ -163,9 +162,10 @@ function ShareModalContent({
       if (capture.full && hasShareAssets(capture.full)) {
         payload = await buildAssetSharePayload(capture.full, session.timestamp, expiresAt ?? undefined);
         const policy = await getExportDeploymentPolicy(undefined, true);
-        const complete = serializeDocumentSnapshot(capture.full, session.timestamp);
+        const complete = assetShareReviewSession(capture.full, session.timestamp);
         const empty = { ...complete, formData: {}, paragraphs: [], references: [], enclosures: [], copyTos: [], distributions: [], endItems: [], publicationTables: {}, reviewComments: undefined };
-        prepareChangeReport(captureChangeReport({ label: 'Empty', title: '', session: empty }, { label: 'Shared document', title: '', session: complete }, new Date().toISOString()), policy);
+        try { prepareChangeReport(captureChangeReport({ label: 'Empty', title: '', session: empty }, { label: 'Shared document', title: '', session: complete }, new Date().toISOString()), policy); }
+        catch (cause) { throw new Error(cause instanceof Error ? cause.message.replace(/^This report/, 'This shared document') : 'This shared document could not be reviewed.', { cause }); }
       } else payload = expiresAt === null ? createSharedPayload(session) : createSharedPayload(session, expiresAt);
       const encrypted = await encryptSharePayload(payload, password);
       if (expiresAt !== null) validateShareExpiration(expiresAt);
@@ -199,7 +199,7 @@ function ShareModalContent({
     // user decide (the payload is still password-encrypted either way).
     let pii: PIIDetectionResult;
     try {
-      pii = detectSharedSessionPII(capture.full ? serializeDocumentSnapshot(capture.full, snapshot!.timestamp) : snapshot!);
+      pii = detectSharedSessionPII(capture.full ? assetShareReviewSession(capture.full, snapshot!.timestamp) : snapshot!);
     } catch {
       setError('Could not inspect this draft. Close sharing and review the document before trying again.');
       return;

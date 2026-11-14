@@ -40,6 +40,28 @@ export function hasShareAssets(snapshot: DocumentSnapshot): boolean {
     || snapshot.paragraphs.some(item => item.figure)
     || [snapshot.forms?.navmc10274, snapshot.forms?.navmc11811].some(form => form?.signatureBlocks?.some(block => block.image || block.imageRef)));
 }
+/** Review transferred names and values without scanning local attachment identities or bytes. */
+export function assetShareReviewSession(snapshot: DocumentSnapshot, timestamp: number): SerializedSession {
+  const session = serializeDocumentSnapshot(structuredClone(snapshot), timestamp);
+  session.enclosures = session.enclosures.map((enclosure, index) => {
+    const { fileRef, ...text } = enclosure;
+    const file = snapshot.enclosures[index].file;
+    return { ...text, ...(file || fileRef ? { file: { name: file?.name ?? fileRef!.name, size: file?.size ?? fileRef!.size, data: new ArrayBuffer(0) } } : {}) };
+  });
+  session.paragraphs = session.paragraphs.map(paragraph => {
+    if (!paragraph.figure) return paragraph;
+    const { fileRef: _ref, ...figure } = paragraph.figure;
+    return { ...paragraph, figure };
+  });
+  const { basicLetterFileRef, ...fields } = session.formData;
+  if (fields.signatureImage) { const { fileRef: _ref, ...image } = fields.signatureImage;fields.signatureImage = image; }
+  const basic = snapshot.formData.basicLetterFile;
+  session.formData = { ...fields, ...(basic || basicLetterFileRef ? { basicLetterFile: { name: basic?.name ?? basicLetterFileRef!.name, size: basic?.size ?? basicLetterFileRef!.size, data: new ArrayBuffer(0) } } : {}) };
+  for (const form of [session.forms?.navmc10274, session.forms?.navmc11811]) {
+    if (form) form.signatureBlocks = form.signatureBlocks.map(({ imageRef: _ref, ...block }) => block);
+  }
+  return session;
+}
 export function validateAssetShareExpiration(value: unknown): void {
   if (!isAssetShare(value)) return;
   const envelope = envelopeSchema.parse(value);
