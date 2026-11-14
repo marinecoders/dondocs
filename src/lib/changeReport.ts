@@ -81,6 +81,12 @@ function discussions(session: SerializedSession): ReportDiscussion[] {
   });
 }
 
+function reportSession(session: SerializedSession): SerializedSession {
+  const projected = reportFields(session, { fields: DOCUMENT_FIELD_POLICIES }) as SerializedSession;
+  if (session.genericForm) projected.formType = parseFormInstance(session.genericForm).definition.label;
+  return projected;
+}
+
 export function reportText(report: Pick<ChangeReport, 'before' | 'after' | 'changes'> & { customMarkings?: string[] }): { field: string; value: string }[] {
   return [report.before, report.after].flatMap(version => [
     { field: 'Version label', value: version.label }, { field: 'Document title', value: version.title },
@@ -103,8 +109,7 @@ export function prepareChangeReport(capture: ReturnType<typeof captureChangeRepo
     customMarkings: [] as string[],
     before: { label: before.label, title: before.title, discussions: discussions(before.session) },
     after: { label: after.label, title: after.title, discussions: discussions(after.session) },
-    changes: diffSessions(reportFields(before.session, { fields: DOCUMENT_FIELD_POLICIES }) as SerializedSession,
-      reportFields(after.session, { fields: DOCUMENT_FIELD_POLICIES }) as SerializedSession),
+    changes: diffSessions(reportSession(before.session), reportSession(after.session)),
   };
   const notices: string[] = [];
   const levels = new Set<string>(['unclassified']);
