@@ -14,7 +14,7 @@ export function ReviewSuggestionControls({ rounds, disabled, onBusyChange }: {
 }) {
   const documentId = useDocumentsStore(state => state.currentId);
   useDocumentStore(state => state);
-  const generation = useSyncExternalStore(subscribeReviewSuggestions, reviewSuggestionGeneration);
+  useSyncExternalStore(subscribeReviewSuggestions, reviewSuggestionGeneration);
   const [linked, setLinked] = useState<string | null>(null);
   const [selected, setSelected] = useState('');
   const [context, setContext] = useState<ReviewSuggestionWorkspace | null>(null);
@@ -50,7 +50,7 @@ export function ReviewSuggestionControls({ rounds, disabled, onBusyChange }: {
   }
   // Runtime updates are scoped to this activation; Undo/Redo updates the same cache.
   const validContext = context && available.some(round => round.id === context.round.id) ? context : null;
-  const cached = validContext && generation >= 0 ? cachedReviewSuggestions(validContext.target.scope, validContext.round.id) : null;
+  const cached = validContext ? cachedReviewSuggestions(validContext.target.scope, validContext.round.id) : null;
   const state = cached?.state ?? context?.state;
   return <section aria-label="Suggested edits for this review" className="space-y-3 rounded-md border p-3">
     <h3 className="text-sm font-medium">Suggested edits for this review</h3>

@@ -29,9 +29,10 @@ beforeEach(() => {
   useDocumentsStore.setState({ docs: {}, trash: {}, currentId: null, hydrated: true, baseline: null });
 });
 afterEach(async () => { await flushDocumentWrites(); });
-async function fixture(options: { comments?: ReviewComments; subject?: string; secret?: boolean; custom?: string } = {}) {
+async function fixture(options: { comments?: ReviewComments; subject?: string; paragraphId?: string; secret?: boolean; custom?: string } = {}) {
   useDocumentsStore.getState().newDocument();
   useDocumentStore.getState().setField('subject', options.subject ?? 'Author draft');
+  if (options.paragraphId) useDocumentStore.setState({ paragraphs: [{ ...useDocumentStore.getState().paragraphs[0], id: options.paragraphId, text: 'Reviewed plain paragraph.' }] });
   if (options.secret) useDocumentStore.getState().setField('classLevel', 'secret');
   if (options.custom) { useDocumentStore.getState().setField('classLevel', 'custom');useDocumentStore.getState().setField('customClassification', options.custom); }
   if (options.comments) useDocumentStore.setState({ reviewComments: options.comments });
@@ -73,6 +74,14 @@ describe('captured review-return actions', () => {
     expect(stored.state.decisions.map(decision => decision.action)).toEqual(['accepted', 'reversed', 'restored']);
     const repeated = await prepareReviewReturnImport(payload);expect(repeated.alreadyImported).toBe(true);
     expect(await applyReviewReturn(repeated, {})).toBe('already-imported');
+  });
+  it('scans an emitted paragraph target identifier without adding unrelated native text to the return', async () => {
+    const { round } = await fixture({ subject: 'Unemitted native subject', paragraphId: '123-45-6789' });
+    const proposal = createReviewSuggestion(round, { author: 'Reviewer', label: 'Plain paragraph', changes: [{ target: { kind: 'paragraph', paragraphId: '123-45-6789', docType: 'naval_letter' }, proposed: 'Proposed plain paragraph.' }] });
+    await submitReviewSuggestion(proposal);
+    const prepared = await prepareReviewReturnExport();expect(prepared.privacy.findings.some(finding => finding.value === '123-45-6789')).toBe(true);
+    const payload = await exported();expect(payload.version).toBe(2);expect(JSON.stringify(payload)).not.toContain('Unemitted native subject');
+    expect(proposal.changes[0].expected).not.toContain('123-45-6789');expect(proposal.changes[0].proposed).not.toContain('123-45-6789');
   });
   it('scans emitted replacement before/after text and rejects changed proposal IDs without overwriting newer text', async () => {
     const { owner, round } = await fixture({ subject: 'Prior SSN 123-45-6789' });
