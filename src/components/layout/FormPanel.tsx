@@ -15,6 +15,7 @@ import { useEditorOutlineStore } from '@/stores/editorOutlineStore';
 import { useTourStore } from '@/stores/tourStore';
 import { EditorSectionContext } from './EditorSectionContext';
 import { FormattingCheck } from '@/components/editor/FormattingCheck';
+import { MechanicalCorrections } from '@/components/editor/MechanicalCorrections';
 
 export function FormPanel() {
   const documentId = useDocumentsStore((s) => s.currentId);
@@ -163,6 +164,7 @@ function FocusedEditor({ documentId }: { documentId: string | null }) {
                 {formType !== 'navmc_10274' && formType !== 'navmc_118_11' && <GenericFormSection key={formType} formType={formType} />}
               </> : sections.map((s) => <SectionShell key={s.id} id={s.id} fieldSurface={s.id !== 'body'}>
                 <FormattingCheck section={s.id} />
+                <MechanicalCorrections section={s.id} />
                 {renderEditorSection(s.id, config)}
               </SectionShell>)}
             </AccordionStaticProvider>

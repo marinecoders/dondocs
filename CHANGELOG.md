@@ -7,6 +7,14 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.70] — 2026-11-13
+
+### Added
+
+- Review body-date formatting after choosing the military or civilian audience. Select individual named-date occurrences and apply them together with one Undo; quoted text, links, placeholders and numeric dates stay unchanged, while short years and invalid dates remain for manual review.
+- Review the spelling and spacing of existing terminal `(NOTAL)` reference markers without changing their status, source URLs, reference order or body citations.
+- Bind correction previews to the reviewed draft and audience choice; editing, resetting or switching documents makes an old preview unavailable.
+
 ## [1.3.69] — 2026-11-13
 
 ### Added
