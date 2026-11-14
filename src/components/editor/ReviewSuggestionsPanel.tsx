@@ -6,9 +6,10 @@ import { Textarea } from '@/components/ui/textarea';
 import { MechanicalReviewProposalsPanel } from './MechanicalReviewProposalsPanel';
 import type { SerializedSession } from '@/stores/documentStore';
 import type { ReviewRound } from '@/lib/reviewRounds';
+import { reconcileReviewText } from '@/lib/reconcileReviewText';
 import {
   availableReviewSuggestionTargets, createReviewSuggestion, inspectReviewSuggestion, latestReviewSuggestionDecision, REVIEW_SUGGESTION_LIMITS,
-  type ReviewSuggestion, type ReviewSuggestionState,
+  type ReviewSuggestion, type ReviewSuggestionResolution, type ReviewSuggestionState,
 } from '@/lib/reviewSuggestions';
 
 interface Props {
@@ -18,7 +19,7 @@ interface Props {
   owner: boolean;
   busy: boolean;
   onCreate: (proposal: ReviewSuggestion) => Promise<boolean>;
-  onDecide: (id: string, action: 'accepted' | 'rejected') => Promise<boolean>;
+  onDecide: (id: string, action: 'accepted' | 'rejected', resolutions?: readonly ReviewSuggestionResolution[]) => Promise<boolean>;
 }
 
 /** The owning workspace supplies the shared persistence/return pipeline. */
@@ -30,6 +31,7 @@ export function ReviewSuggestionsPanel({ round, current, state, owner, busy, onC
   const [error, setError] = useState('');
   const [notice, setNotice] = useState('');
   const [pending, setPending] = useState(false);
+  const [resolution, setResolution] = useState<(ReviewSuggestionResolution & { proposalId: string }) | null>(null);
   const alive = useRef(true), working = useRef(false);
   const result = useRef<HTMLParagraphElement>(null);
   useEffect(() => { alive.current = true;return () => { alive.current = false; }; }, []);
@@ -52,12 +54,12 @@ export function ReviewSuggestionsPanel({ round, current, state, owner, busy, onC
     finally { working.current = false;if (alive.current) setPending(false); }
   }
 
-  async function decide(id: string, action: 'accepted' | 'rejected') {
+  async function decide(id: string, action: 'accepted' | 'rejected', resolved?: ReviewSuggestionResolution) {
     if (busy || working.current) return;
     working.current = true;setPending(true);setError('');setNotice('');
     try {
-      if (await onDecide(id, action) && alive.current) {
-        setNotice('Review decision submitted.');
+      if (await (resolved ? onDecide(id, action, [resolved]) : onDecide(id, action)) && alive.current) {
+        setResolution(null);setNotice('Review decision submitted.');
       }
     }
     catch (cause) { if (alive.current) setError(cause instanceof Error ? cause.message : 'The decision could not be recorded.'); }
@@ -97,7 +99,11 @@ export function ReviewSuggestionsPanel({ round, current, state, owner, busy, onC
       const changes = inspectReviewSuggestion(round, current, proposal);
       const decision = latestReviewSuggestionDecision(state, proposal.id);
       const stale = changes.some(change => change.stale);
-      const currentMatches = changes.every(change => change.current === change.proposed);
+      const acceptance = decision?.action === 'accepted' ? decision : state.decisions.find(item => item.id === decision?.acceptanceId);
+      const currentMatches = changes.every(change => change.current === (acceptance?.resolutions?.find(item => item.changeId === change.id)?.value ?? change.proposed));
+      const manualChange = proposal.origin.kind === 'manual' && changes.length === 1 && changes[0].current !== null ? changes[0] : null;
+      const editing = resolution?.proposalId === proposal.id ? resolution : null;
+      const combination = manualChange && reconcileReviewText(manualChange.baseline, manualChange.current!, manualChange.proposed);
       const status = decision ? decision.action === 'accepted' || decision.action === 'restored' ? currentMatches ? 'Accepted' : 'Accepted earlier; current draft text has changed'
         : decision.action === 'reversed' ? 'Acceptance undone' : 'Rejected' : stale ? 'Current draft differs; acceptance is blocked' : 'Pending';
       return <article key={proposal.id} aria-label={`Suggestion ${index + 1}: ${proposal.label}`} className="space-y-2 rounded-md border p-3">
@@ -113,11 +119,32 @@ export function ReviewSuggestionsPanel({ round, current, state, owner, busy, onC
               </div>)}
             </dl>
           </div>
+          {acceptance?.resolutions?.map(item => item.changeId === change.id && <div key={item.changeId} className="space-y-1 text-sm">
+            <p className="text-xs text-muted-foreground">Accepted resolution</p><p className="whitespace-pre-wrap break-words">{item.value || '(Empty)'}</p>
+          </div>)}
         </div>)}
         {owner && (!decision || decision.action === 'reversed') && <div className="flex flex-wrap gap-2">
           <Button size="sm" disabled={disabled || stale} onClick={() => void decide(proposal.id, 'accepted')}>Accept suggestion</Button>
           <Button size="sm" variant="outline" disabled={disabled} onClick={() => void decide(proposal.id, 'rejected')}>Reject suggestion</Button>
+          {stale && manualChange && <Button size="sm" variant="outline" disabled={disabled} onClick={() => setResolution({ proposalId: proposal.id,
+            changeId: manualChange.id, expectedCurrent: manualChange.current!, value: combination!.value })}>Reconcile suggestion</Button>}
         </div>}
+        {owner && editing && manualChange && (!decision || decision.action === 'reversed') && <fieldset disabled={disabled} className="space-y-2 rounded-md border p-3">
+          <legend className="text-sm font-medium">Resolve this replacement</legend>
+          <p className="text-sm">{combination?.kind === 'combined' ? 'Independent edits can be combined. Review the complete result before applying it.' : 'These edits overlap. Keep the current text, use the proposal, or write a combined resolution.'}</p>
+          <Label htmlFor={`${prefix}-${proposal.id}-resolution`}>Resolved replacement</Label>
+          <Textarea id={`${prefix}-${proposal.id}-resolution`} value={editing.value} rows={4} maxLength={REVIEW_SUGGESTION_LIMITS.value}
+            onChange={event => setResolution({ ...editing, value: event.target.value })} />
+          {manualChange.current !== editing.expectedCurrent && <p role="alert" className="text-sm text-destructive">The draft changed after reconciliation opened. Cancel and reopen it to review the new current text.</p>}
+          <div className="flex flex-wrap gap-2">
+            <Button size="sm" variant="outline" onClick={() => setResolution({ ...editing, value: editing.expectedCurrent })}>Keep current text</Button>
+            <Button size="sm" variant="outline" onClick={() => setResolution({ ...editing, value: manualChange.proposed })}>Use proposed text</Button>
+            <Button size="sm" disabled={manualChange.current !== editing.expectedCurrent} onClick={() => {
+              const { proposalId, ...value } = editing;void decide(proposalId, 'accepted', value);
+            }}>Apply resolution</Button>
+            <Button size="sm" variant="outline" onClick={() => setResolution(null)}>Cancel reconciliation</Button>
+          </div>
+        </fieldset>}
       </article>;
     })}
   </section>;

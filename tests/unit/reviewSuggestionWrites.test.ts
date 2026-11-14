@@ -36,6 +36,30 @@ async function fixture() {
 }
 
 describe('atomic source-bound review proposal writes', () => {
+  it('revalidates a reconciled current value and commits its exact before/after values with one receipt', async () => {
+    const input = await fixture();await idbApplyReviewSuggestions(input.before, input.after, input.operation);
+    const current = structuredClone(input.after);current.session.formData.to = 'Newer author recipient';current.meta.updatedAt = 250;
+    await idbPutDocument(current);
+    const resolutions = [{ changeId: input.proposal.changes[0].id, expectedCurrent: current.session.formData.to, value: 'Combined recipient' }];
+    const plan = planReviewSuggestionDecision(input.round, current.session, input.state, input.proposal.id, 'accepted', undefined, resolutions);
+    const decision = plan.state.decisions[0];
+    const operation: ReviewSuggestionWrite = { ...input.operation, id: `suggestion-write_${crypto.randomUUID()}`, before: input.state, after: plan.state,
+      intent: { kind: 'decide', proposalId: input.proposal.id, action: 'accepted', record: { id: decision.id, decidedAt: decision.decidedAt }, resolutions } };
+    const after = { ...structuredClone(current), meta: { ...current.meta, updatedAt: 300, nativeReviewText: true as const }, session: plan.session };
+    const late = structuredClone(current);late.session.formData.to = 'Foreign tab recipient';late.meta.updatedAt++;
+    await idbPutDocument(late);expect(await idbApplyReviewSuggestions(current, after, operation)).toBe('conflict');
+    expect(await input.read()).toEqual(late);expect(await idbReadReviewSuggestionReceipt(operation.id)).toBeNull();
+    await idbPutDocument(current);
+    const forged = structuredClone(after);forged.session.formData.subject = 'Unrelated overwrite';
+    expect(await idbApplyReviewSuggestions(current, forged, operation)).toBe('conflict');
+    const wrongCapture = structuredClone(operation);if (wrongCapture.intent.kind === 'decide') wrongCapture.intent.resolutions![0].expectedCurrent = 'Forged current';
+    expect(await idbApplyReviewSuggestions(current, after, wrongCapture)).toBe('failed');
+    expect(await input.read()).toEqual(current);
+    expect(await idbApplyReviewSuggestions(current, after, operation)).toBe('committed');
+    expect(reviewSuggestionRecordSchema.parse(await idbReadReviewSuggestions(input.id, input.round.id)).state.decisions[0].resolutions).toEqual(resolutions);
+    expect(await idbApplyReviewSuggestions(current, after, operation)).toBe('already-committed');
+  });
+
   it('commits proposal metadata with its source receipt without editing document text', async () => {
     const input = await fixture();
     expect(await idbApplyReviewSuggestions(input.before, input.after, input.operation)).toBe('committed');

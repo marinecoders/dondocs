@@ -50,16 +50,22 @@ export function reviewSuggestionText(proposals: readonly ReviewSuggestion[]): Ar
     ...proposal.changes.flatMap(change => [change.expected, change.proposed, ...Object.values(change.target).filter((value): value is string => typeof value === 'string')])].map(value => ({ field: `Suggested replacement ${index + 1}`, value })));
 }
 
+export const reviewSuggestionResolutionSchema = z.object({
+  changeId, expectedCurrent: z.string().max(REVIEW_SUGGESTION_LIMITS.value), value: z.string().max(REVIEW_SUGGESTION_LIMITS.value),
+}).strict();
+export type ReviewSuggestionResolution = z.infer<typeof reviewSuggestionResolutionSchema>;
+
 export const reviewSuggestionDecisionSchema = z.object({
   id: z.string().uuid(), proposalId: reviewProposalIdSchema,
   roundId: reviewRoundIdSchema, baselineDigest: reviewDigestSchema,
   action: z.enum(['accepted', 'rejected', 'reversed', 'restored']), decidedAt: timestamp,
   previousDecisionId: z.string().uuid().optional(), acceptanceId: z.string().uuid().optional(),
+  resolutions: z.array(reviewSuggestionResolutionSchema).min(1).max(REVIEW_SUGGESTION_LIMITS.changes).optional(),
 }).strict();
 export type ReviewSuggestionDecision = z.infer<typeof reviewSuggestionDecisionSchema>;
 
 export const reviewSuggestionStateSchema = z.object({
-  kind: z.literal('dondocs-review-suggestions'), version: z.literal(1),
+  kind: z.literal('dondocs-review-suggestions'), version: z.union([z.literal(1), z.literal(2)]),
   roundId: reviewRoundIdSchema, baselineDigest: reviewDigestSchema,
   proposals: z.array(reviewSuggestionSchema).max(REVIEW_SUGGESTION_LIMITS.proposals),
   decisions: z.array(reviewSuggestionDecisionSchema).max(REVIEW_SUGGESTION_LIMITS.decisions),
@@ -80,6 +86,13 @@ export const reviewSuggestionStateSchema = z.object({
     if (decision.roundId !== value.roundId || decision.baselineDigest !== value.baselineDigest || !proposals.has(decision.proposalId)) context.addIssue({ code: 'custom', message: 'Decision does not match a suggestion in this round.' });
     if (ids.has(decision.id)) context.addIssue({ code: 'custom', message: 'Decision IDs must be unique.' });
     const previous = latest.get(decision.proposalId);
+    if (decision.resolutions) {
+      const proposal = value.proposals.find(item => item.id === decision.proposalId);
+      if (value.version !== 2 || decision.action !== 'accepted' || proposal?.origin.kind !== 'manual'
+        || proposal.changes.length !== 1 || decision.resolutions.length !== 1
+        || decision.resolutions[0].changeId !== proposal.changes[0].id) context.addIssue({ code: 'custom', message: 'A resolution must identify one accepted manual replacement in a version 2 review.' });
+      for (const resolution of decision.resolutions) characters += resolution.expectedCurrent.length + resolution.value.length;
+    }
     if (decision.previousDecisionId !== previous?.id) context.addIssue({ code: 'custom', message: 'Decision history is not contiguous.' });
     if (decision.action === 'accepted' || decision.action === 'rejected') {
       if (previous && previous.action !== 'reversed' || decision.acceptanceId !== undefined) context.addIssue({ code: 'custom', message: 'This suggestion already has an active decision.' });
@@ -209,23 +222,30 @@ export function inspectReviewSuggestion(round: ReviewRound, source: SerializedSe
 
 /** Pure, all-member preflight. A rejected suggestion records no document edits. */
 export function planReviewSuggestionDecision(round: ReviewRound, source: SerializedSession, inputState: ReviewSuggestionState,
-  proposalId: string, action: 'accepted' | 'rejected', record: { id: string; decidedAt: number } = { id: crypto.randomUUID(), decidedAt: Date.now() }): ReviewSuggestionPlan {
+  proposalId: string, action: 'accepted' | 'rejected', record: { id: string; decidedAt: number } = { id: crypto.randomUUID(), decidedAt: Date.now() },
+  inputResolutions?: readonly ReviewSuggestionResolution[]): ReviewSuggestionPlan {
   const state = validateReviewSuggestionState(round, inputState);
   const proposal = state.proposals.find(item => item.id === proposalId);
   if (!proposal) throw new Error('The suggestion is unavailable.');
   const changes = inspectReviewSuggestion(round, source, proposal);
   const previous = latestReviewSuggestionDecision(state, proposalId);
   if (previous && previous.action !== 'reversed') return { status: 'decided', changes, session: structuredClone(source), state };
-  if (action === 'accepted' && changes.some(change => change.stale)) return { status: 'stale', changes, session: structuredClone(source), state };
+  const resolutions = inputResolutions && z.array(reviewSuggestionResolutionSchema).min(1).max(1).parse(inputResolutions);
+  if (resolutions && (action !== 'accepted' || proposal.origin.kind !== 'manual' || proposal.changes.length !== 1
+    || resolutions[0].changeId !== proposal.changes[0].id)) throw new Error('Only a supported manual field or paragraph replacement can be reconciled.');
+  if (action === 'accepted' && changes.some(change => resolutions
+    ? change.current === null || change.current !== resolutions[0].expectedCurrent : change.stale)) return { status: 'stale', changes, session: structuredClone(source), state };
   const session = structuredClone(source);
   if (action === 'accepted') for (const change of proposal.changes) {
     const target = change.target;
-    if (target.kind === 'field') Object.assign(session.formData, { [target.field]: change.proposed });
-    else if (target.kind === 'paragraph') session.paragraphs.find(paragraph => paragraph.id === target.paragraphId)!.text = change.proposed;
-    else session.references[target.referenceIndex].title = change.proposed;
+    const value = resolutions?.[0].value ?? change.proposed;
+    if (target.kind === 'field') Object.assign(session.formData, { [target.field]: value });
+    else if (target.kind === 'paragraph') session.paragraphs.find(paragraph => paragraph.id === target.paragraphId)!.text = value;
+    else session.references[target.referenceIndex].title = value;
   }
+  if (resolutions) state.version = 2;
   state.decisions.push({ ...record, proposalId, roundId: round.id, baselineDigest: round.baselineDigest,
-    action, ...(previous ? { previousDecisionId: previous.id } : {}) });
+    action, ...(previous ? { previousDecisionId: previous.id } : {}), ...(resolutions ? { resolutions } : {}) });
   return { status: 'ready', changes, session, state: reviewSuggestionStateSchema.parse(state) };
 }
 
@@ -249,8 +269,10 @@ export function planReviewSuggestionHistory(round: ReviewRound, before: Serializ
   for (const change of proposal.changes) {
     const oldValue = suggestionTargetValue(before, change.target)?.value;
     const nextValue = suggestionTargetValue(after, change.target)?.value;
-    if (oldValue !== (direction === 'undo' ? change.proposed : change.expected)
-      || nextValue !== (direction === 'undo' ? change.expected : change.proposed)) throw new Error('This history action does not reverse the accepted replacement.');
+    const resolved = acceptance.resolutions?.find(item => item.changeId === change.id);
+    const original = resolved?.expectedCurrent ?? change.expected, applied = resolved?.value ?? change.proposed;
+    if (oldValue !== (direction === 'undo' ? applied : original)
+      || nextValue !== (direction === 'undo' ? original : applied)) throw new Error('This history action does not reverse the accepted replacement.');
   }
   state.decisions.push({ ...record, proposalId: proposal.id, roundId: round.id, baselineDigest: round.baselineDigest,
     action: direction === 'undo' ? 'reversed' : 'restored', previousDecisionId: previous.id, acceptanceId });

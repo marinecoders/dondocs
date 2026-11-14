@@ -4,7 +4,7 @@ import type { SerializedSession } from '@/stores/documentStore';
 import { canonicalReviewPayload, reviewDigestSchema, reviewPayloadDigest, reviewRoundIdSchema, type ReviewRound } from './reviewRounds';
 import {
   appendReviewSuggestions, emptyReviewSuggestionState, planReviewSuggestionDecision, planReviewSuggestionHistory,
-  reviewProposalIdSchema, reviewSuggestionSchema, reviewSuggestionStateSchema, validateReviewSuggestionState,
+  reviewProposalIdSchema, reviewSuggestionResolutionSchema, reviewSuggestionSchema, reviewSuggestionStateSchema, validateReviewSuggestionState,
 } from './reviewSuggestions';
 import { reviewCommentsSchema } from './reviewComments';
 import { reviewReturnReceiptSchema } from './reviewReturns';
@@ -16,7 +16,8 @@ export const reviewSuggestionWriteIdSchema = z.string().regex(/^suggestion-write
   .refine(value => z.string().uuid().safeParse(value.slice(17)).success);
 export const reviewSuggestionIntentSchema = z.discriminatedUnion('kind', [
   z.object({ kind: z.literal('propose'), proposals: z.array(reviewSuggestionSchema).min(1).max(100) }).strict(),
-  z.object({ kind: z.literal('decide'), proposalId: reviewProposalIdSchema, action: z.enum(['accepted', 'rejected']), record }).strict(),
+  z.object({ kind: z.literal('decide'), proposalId: reviewProposalIdSchema, action: z.enum(['accepted', 'rejected']), record,
+    resolutions: z.array(reviewSuggestionResolutionSchema).min(1).max(1).optional() }).strict(),
   z.object({ kind: z.literal('history'), acceptanceId: z.string().uuid(), direction: z.enum(['undo', 'redo']), record }).strict(),
   z.object({ kind: z.literal('import'), proposals: z.array(reviewSuggestionSchema).min(1).max(100), comments: reviewCommentsSchema.optional(),
     receipt: reviewReturnReceiptSchema }).strict(),
@@ -75,7 +76,7 @@ export function planReviewSuggestionWrite(round: ReviewRound, source: Serialized
     return { session, state: appendReviewSuggestions(round, state, intent.proposals) };
   }
   if (intent.kind === 'decide') {
-    const plan = planReviewSuggestionDecision(round, source, state, intent.proposalId, intent.action, intent.record);
+    const plan = planReviewSuggestionDecision(round, source, state, intent.proposalId, intent.action, intent.record, intent.resolutions);
     if (plan.status !== 'ready') throw new Error('The suggestion has changed or already has a decision.');
     return { session: plan.session, state: plan.state };
   }
@@ -88,7 +89,8 @@ export function planReviewSuggestionWrite(round: ReviewRound, source: Serialized
   if (!proposal) throw new Error('The accepted suggestion is unavailable.');
   for (const change of proposal.changes) {
     const target = change.target;
-    const value = intent.direction === 'undo' ? change.expected : change.proposed;
+    const resolution = acceptance!.resolutions?.find(item => item.changeId === change.id);
+    const value = intent.direction === 'undo' ? resolution?.expectedCurrent ?? change.expected : resolution?.value ?? change.proposed;
     if (target.kind === 'field') Object.assign(next.formData, { [target.field]: value });
     else if (target.kind === 'paragraph') {
       const paragraph = next.paragraphs.find(item => item.id === target.paragraphId);
