@@ -104,6 +104,7 @@ export async function prepareWordPackage(record: ActionPackage, revisionId: stri
   const captured = getPackageRevision(capturedRecord);
   const files = new Map<string, Uint8Array>(), words: WordInput[] = [], reviews: Array<{ member: string; review: ExportReview }> = [];
   const privacy: PIIDetectionResult[] = [];
+  let originalBytes = 0;
   async function reviewOriginal(bytes: ArrayBuffer, label: string) {
     const review = await reviewPackageOriginal(bytes, label, policy);
     signal.throwIfAborted();reviews.push({ member: label, review });privacy.push(review.privacy);
@@ -119,6 +120,8 @@ export async function prepareWordPackage(record: ActionPackage, revisionId: stri
     if (files.has(path)) throw new Error('Duplicate Word package path.');
     if (files.size + words.length >= MAX_WORD_PACKAGE_FILES) throw new Error('A Word package is limited to 512 payload files.');
     if (!data.byteLength) throw new Error(`The saved file ${name} is empty.`);
+    if (data.byteLength > MAX_WORD_PACKAGE_BYTES - originalBytes) throw new Error('The Word package exceeds the 200 MB expanded file limit.');
+    originalBytes += data.byteLength;
     files.set(path, new Uint8Array(data.slice(0)));
     manifest.files.push({ path, name, kind, size: data.byteLength, sha256: await portableResourceDigest(data), purpose,
       ...(member ? { memberId: member.id, memberRevisionId: member.revisionId } : {}) });
@@ -205,8 +208,10 @@ export async function renderWordPackage(prepared: PreparedWordPackage, ports: Co
   const input = preparations.get(prepared);
   if (!input || !approved.has(prepared)) throw new Error('Review and approve this captured Word package before downloading.');
   signal.throwIfAborted();
-  const manifest = structuredClone(input.manifest), zip = new JSZip();
+  const manifest = structuredClone(input.manifest);
   let fileBytes = [...input.files.values()].reduce((total, bytes) => total + bytes.byteLength, 0);
+  if (fileBytes > MAX_WORD_PACKAGE_BYTES) throw new Error('The Word package exceeds the 200 MB expanded file limit.');
+  const zip = new JSZip();
   for (const [path, bytes] of input.files) zip.file(path, new Uint8Array(bytes));
   for (const word of input.words) {
     signal.throwIfAborted();

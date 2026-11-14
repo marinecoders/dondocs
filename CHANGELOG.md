@@ -17,6 +17,7 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 ### Fixed
 
 - Keep Word package approval, cancellation and image resources tied to the captured revision. Share the ordinary export gate until conversion finishes, preserving newer edits and preventing mixed concurrent Word conversions.
+- Enforce the expanded Word package budget before copying repeated original files, even when they share one portable resource.
 - Keep generated ZIP paths resolvable when an imported label contains malformed Unicode.
 - Keep inactive embedded figures and enclosures out of clean Word sidecars while retaining explicit original package members.
 - Apply the existing deployment text checks to emitted Word content while excluding hidden draft fields and review discussions; reject PDF figures with PNG/JPEG conversion guidance.

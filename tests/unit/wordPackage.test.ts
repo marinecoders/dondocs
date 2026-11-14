@@ -6,12 +6,13 @@ import { captureDocumentRevision } from '@/lib/capturedDocument';
 import { capturePackageMember, captureOriginalPackageMember, retainPackageAsset } from '@/lib/actionPackageAssets';
 import { type ActionPackage, type PackageMember } from '@/lib/actionPackages';
 import { buildPortableActionPackage, parsePortableActionPackage } from '@/lib/actionPackageTransfer';
+import * as packageTransfer from '@/lib/actionPackageTransfer';
 import { persistAttachment } from '@/lib/attachments';
 import { buildDraftFileFromSnapshot, parseDraftFile } from '@/lib/draftFile';
 import { idbDeleteAttachment, idbPutAttachment } from '@/lib/documentsDb';
 import { portableResourceDigest } from '@/lib/portableResources';
 import { resolveExportDeploymentPolicy } from '@/lib/exportDeploymentPolicy';
-import { acknowledgeWordPackage, prepareWordPackage, renderWordPackage, wordPackageFilename } from '@/services/exports/wordPackage';
+import { acknowledgeWordPackage, prepareWordPackage, renderWordPackage, wordPackageFilename, MAX_WORD_PACKAGE_BYTES, MAX_WORD_DOCUMENT_BYTES } from '@/services/exports/wordPackage';
 import type { DocumentSnapshot } from '@/stores/historyStore';
 import { prepareSessionState } from '@/stores/documentStore';
 import type { CorrespondenceRendererPorts } from '@/services/exports/correspondence';
@@ -255,4 +256,43 @@ it.each(['attached', 'missing'] as const)('omits %s inactive enclosure sidecars 
   expect(result.manifest.files.filter(file => file.kind === 'original').map(file => file.name)).toEqual(['CON.pdf']);
   expect(Object.keys(zip.files).some(path => path.includes('enclosure-'))).toBe(false);
   expect(record).toEqual(before);
+});
+
+it.each([7, 9])('counts all %i original occurrences against the expanded Word budget before approval', async count => {
+  const { record, main, support } = await fixture({ enclosures: [] });
+  if (support.kind !== 'original') throw new Error('Expected original');
+  record.revisions[0].members = [main, ...Array.from({ length: count }, (_, index) => ({
+    ...structuredClone(support), id: `repeated_original_${index}`, revisionId: `repeated_revision_${index}`,
+  }))];
+  const before = structuredClone(record), parse = packageTransfer.parsePortableActionPackage;
+  const boundary = vi.spyOn(packageTransfer, 'parsePortableActionPackage').mockImplementation(async json => {
+    const captured = await parse(json);
+    // Validate real shared-resource input first, then model 25 MiB decoded pages
+    // without allocating hundreds of MiB in the rejection control.
+    const data = captured.resources.get(`assets/${support.original.id}`)!.data;
+    Object.defineProperty(data, 'byteLength', { value: MAX_WORD_PACKAGE_BYTES / 8 });
+    return captured;
+  });
+  try {
+    if (count > 8) await expect(prepareWordPackage(record, record.currentRevisionId, policy)).rejects.toThrow(/200 MB/);
+    else await expect(prepareWordPackage(record, record.currentRevisionId, policy)).resolves.toMatchObject({ revisionId: record.currentRevisionId });
+    expect(boundary).toHaveBeenCalledOnce();expect(record).toEqual(before);
+  } finally { boundary.mockRestore(); }
+});
+
+it('includes rendered DOCX bytes with originals in the cumulative delivery budget', async () => {
+  const { record, main, support } = await fixture({ enclosures: [] });
+  record.revisions[0].members = [...Array.from({ length: 9 }, (_, index) => ({
+    ...structuredClone(main), id: `word_member_${index}`, revisionId: `word_revision_${index}`,
+    role: index === 0 ? 'basic-letter' as const : 'supporting-document' as const,
+  })), support];
+  const prepared = await prepareWordPackage(record, record.currentRevisionId, policy);acknowledgeWordPackage(prepared);
+  const convertDocx = vi.fn(async (...args: Parameters<typeof ports.convertDocx>) => {
+    const blob = await ports.convertDocx(...args);
+    // Exercise real rendering/assembly with a 25 MiB size model and tiny bytes.
+    Object.defineProperty(blob, 'size', { value: MAX_WORD_DOCUMENT_BYTES });
+    return blob;
+  });
+  await expect(renderWordPackage(prepared, { ...ports, convertDocx })).rejects.toThrow(/200 MB/);
+  expect(convertDocx).toHaveBeenCalledTimes(8);
 });
