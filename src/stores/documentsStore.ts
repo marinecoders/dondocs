@@ -12,6 +12,11 @@ import { waitForStorage, DocumentWrites, WRITE_JOURNAL_KEY, parseDocumentWriteJo
 import { recoverReviewReturnWrite, REVIEW_WRITE_RECOVERY_KEY } from '@/lib/reviewReturnRecovery';
 import { reviewReturnWriteSchema, type ReviewReturnWrite } from '@/lib/reviewReturns';
 import { supportsReviewComments } from '@/lib/reviewCommentTargets';
+import { readReviewRound, readReviewCopyLink } from '@/lib/reviewRounds';
+import { reviewSuggestionWriteMetadata, planReviewSuggestionWrite, reviewSuggestionWriteSchema, reviewSuggestionRecordSchema, type ReviewSuggestionWrite } from '@/lib/reviewSuggestionWrites';
+import { cacheReviewSuggestions, cachedReviewSuggestions, rebindReviewSuggestionHistory, forgetReviewSuggestions } from '@/lib/reviewSuggestionRuntime';
+import { validateReviewSuggestionState, planReviewSuggestionHistory } from '@/lib/reviewSuggestions';
+import { serializeDocumentSnapshot } from '@/lib/documentSerialization';
 import { parseFormInstance, migrateLegacyAnswers, type FormInstance } from '@/services/forms/model';
 import { lastWriteFailed } from '@/lib/compressedStorage';
 import {
@@ -41,6 +46,8 @@ import { ensureParagraphIds, paragraphCommentIds } from '@/lib/paragraphIdentity
 import type { Profile } from '@/types/document';
 import {
   idbGetAllDocuments,
+  idbReadReviewSuggestions,
+  idbDeleteReviewRound,
   sameReviewStoredValue,
   idbWriteDocument,
   idbDeleteDocumentIfUnchanged,
@@ -344,6 +351,7 @@ export function resetCurrentDocument(): TransitionOutcome {
       // Reset is an edit of this document. Retain its Undo chain under the new
       // activation so pending work from before Reset remains invalid.
       const owner = captureDocumentScope();
+      rebindReviewSuggestionHistory(scope, owner);
       useHistoryStore.getState().restoreHistory(history, owner);
       recordDocumentHistory(owner);
     }
@@ -684,7 +692,7 @@ function metaFor(id: string, session: SerializedSession, prev?: DocumentMeta): D
 // Cross-tab sync channel (opened at the bottom of this module). Posting after a
 // registry write lets sibling tabs mirror it into their Recents list.
 let docsChannel: BroadcastChannel | null = null;
-function broadcastDocs(msg: { type: 'put' | 'delete'; id: string }): void {
+function broadcastDocs(msg: { type: 'put' | 'delete' | 'review-delete'; id: string }): void {
   try {
     docsChannel?.postMessage(msg);
   } catch {
@@ -807,7 +815,8 @@ function hasRetainedReviewWrites(documentId?: string): boolean {
     const raw = sessionStorage.getItem(REVIEW_WRITE_RECOVERY_KEY);
     if (!raw) return true;
     const records = parseDocumentWriteJournal(JSON.parse(raw));
-    return records.some(record => record.reviewReturns?.some(marker => marker.operation.round.ownerDocumentId === documentId));
+    return records.some(record => record.reviewReturns?.some(marker => (marker.operation.kind === 'suggestion-write'
+      ? marker.operation.documentId : marker.operation.round.ownerDocumentId) === documentId));
   } catch { return true; } // Unknown/newer intents cannot be safely assigned to another scope.
 }
 
@@ -854,6 +863,76 @@ export async function applyOwnedReviewReturn(target: DocumentTarget | null, comm
   recordDocumentHistory(target.scope);updateSaveStatus(after.id);
   await writes.flush(after.id);
   return writes.status(revision)?.status === 'committed' ? 'committed' : 'pending';
+}
+
+function publishSuggestionText(before: SerializedSession, after: SerializedSession): void {
+  const live = useDocumentStore.getState(), formData = { ...live.formData };
+  let fieldsChanged = false;
+  for (const [field, value] of Object.entries(after.formData)) if (typeof value === 'string'
+    && value !== before.formData[field as keyof typeof before.formData]) {
+    Object.assign(formData, { [field]: value });fieldsChanged = true;
+  }
+  const text = new Map(after.paragraphs.filter(paragraph => paragraph.id).map(paragraph => [paragraph.id!, paragraph.text]));
+  let paragraphsChanged = false;
+  const paragraphs = live.paragraphs.map(paragraph => {
+    const next = paragraph.id ? text.get(paragraph.id) : undefined;
+    if (next === undefined || next === paragraph.text) return paragraph;
+    paragraphsChanged = true;return { ...paragraph, text: next };
+  });
+  const referencesChanged = !sameReviewStoredValue(before.references, after.references);
+  const commentsChanged = !sameReviewStoredValue(before.reviewComments, after.reviewComments);
+  if (fieldsChanged || paragraphsChanged || referencesChanged || commentsChanged) useDocumentStore.setState({
+    ...(fieldsChanged ? { formData } : {}), ...(paragraphsChanged ? { paragraphs } : {}),
+    ...(referencesChanged ? { references: structuredClone(after.references) } : {}),
+    ...(commentsChanged ? { reviewComments: after.reviewComments && structuredClone(after.reviewComments) } : {}),
+  });
+}
+
+/** Review metadata uses the same saved-owner queue as ordinary input and comment returns. */
+export async function applyOwnedReviewSuggestions(target: DocumentTarget | null,
+  input: ReviewSuggestionWrite): Promise<'committed' | 'pending' | 'stale' | 'invalid'> {
+  let operation: ReviewSuggestionWrite;
+  try { operation = reviewSuggestionWriteSchema.parse(input); }
+  catch { return 'invalid'; }
+  if (!isCurrentDocumentTarget(target) || operation.documentId !== target.scope.documentId) return 'stale';
+  if (operation.intent.kind === 'history' || !supportsReviewComments(useDocumentStore.getState())) return 'invalid';
+  if (hasRetainedReviewWrites(target.scope.documentId)) throw new Error(REVIEW_RECOVERY_MESSAGE);
+  const saved = await commitCurrentDocument();
+  if (!saved || !isCurrentDocumentTarget(target)) return 'stale';
+  const round = await readReviewRound(operation.round.id), link = await readReviewCopyLink(operation.documentId);
+  if (!round || round.baselineDigest !== operation.round.baselineDigest || round.ownerDocumentId !== operation.documentId
+    && (operation.intent.kind !== 'propose' || !link || link.roundId !== round.id || link.baselineDigest !== round.baselineDigest)) return 'invalid';
+  const raw = await idbReadReviewSuggestions(operation.documentId, round.id);
+  const stored = raw === null ? null : reviewSuggestionRecordSchema.parse(raw);
+  if (stored && stored.documentId !== operation.documentId) return 'invalid';
+  const state = stored ? validateReviewSuggestionState(round, stored.state) : null;
+  if (!sameReviewStoredValue(state, operation.before) || !isCurrentDocumentTarget(target)) return 'stale';
+  const entry = useDocumentsStore.getState().docs[operation.documentId];
+  if (!entry || !writes.matches(saved, storedEntry(entry))) return 'stale';
+  const before = storedEntry(entry);
+  const planned = planReviewSuggestionWrite(round, before.session, operation);
+  if (!sameReviewStoredValue(planned.state, operation.after) || !recordDocumentHistory(target.scope)) return 'invalid';
+  const after = { ...structuredClone(before), session: planned.session, meta: { ...reviewSuggestionWriteMetadata(before.meta, operation), updatedAt: Math.max(Date.now(), before.meta.updatedAt + 1) } };
+  const revision = writes.enqueueReviewSuggestions(before, after, operation);
+  publishSuggestionText(before.session, after.session);
+  useDocumentsStore.setState(current => ({ docs: { ...current.docs, [after.id]: { meta: after.meta, session: after.session } },
+    ...(current.currentId === after.id && current.activationEpoch === target.scope.epoch ? { baseline: after.session } : {}) }));
+  if (recordDocumentHistory(target.scope) && operation.intent.kind === 'decide' && operation.intent.action === 'accepted') {
+    useHistoryStore.getState().tagReviewAcceptance({ kind: 'review-acceptance', roundId: round.id,
+      baselineDigest: round.baselineDigest, acceptanceId: operation.intent.record.id }, target.scope);
+  }
+  cacheReviewSuggestions(target.scope, round, operation.after);updateSaveStatus(after.id);
+  await writes.flush(after.id);
+  return writes.status(revision)?.status === 'committed' ? 'committed' : 'pending';
+}
+
+/** Explicit review cleanup drops only its metadata tags, keeping ordinary text Undo available. */
+export async function deleteReviewRound(roundId: string, expectedDigest: string): Promise<boolean> {
+  if (hasPendingReviewWrites()) await flushPendingReviewWrites();
+  if (!await idbDeleteReviewRound(roundId, expectedDigest)) return false;
+  forgetReviewSuggestions(roundId);useHistoryStore.getState().clearReviewRoundActions(roundId);
+  broadcastDocs({ type: 'review-delete', id: roundId });
+  return true;
 }
 
 function persistEntry(entry: DocumentEntry, before?: DocumentEntry): void {
@@ -1596,6 +1675,39 @@ export function changeDocumentHistory(direction: 'undo' | 'redo', scope: Documen
   }
   // Include the last keystroke even when its debounced capture has not fired.
   recordDocumentHistory(scope);
+  const currentHistory = useHistoryStore.getState();
+  const destination = direction === 'undo' ? currentHistory.past.at(-1) : currentHistory.future[0];
+  const reviewAction = direction === 'undo' ? currentHistory.currentSnapshot?.reviewAction : destination?.reviewAction;
+  if (reviewAction && destination) {
+    try {
+      const context = cachedReviewSuggestions(scope, reviewAction.roundId);
+      if (!context?.state || context.round.baselineDigest !== reviewAction.baselineDigest
+        || context.round.ownerDocumentId !== scope.documentId) throw new Error('The owned review state for this history action is unavailable.');
+      useDocumentsStore.getState().syncCurrent();
+      const entry = useDocumentsStore.getState().docs[scope.documentId];
+      if (!entry || !isCurrentDocumentScope(scope)) return 'stale';
+      const before = storedEntry(entry), session = serializeDocumentSnapshot(destination, before.session.timestamp);
+      const record = { id: crypto.randomUUID(), decidedAt: Date.now() };
+      const state = planReviewSuggestionHistory(context.round, before.session, session, context.state, reviewAction.acceptanceId, direction, record);
+      const operation: ReviewSuggestionWrite = { kind: 'suggestion-write', version: 1, id: `suggestion-write_${crypto.randomUUID()}`,
+        documentId: scope.documentId, createdAt: Date.now(), round: { id: context.round.id, baselineDigest: context.round.baselineDigest },
+        before: context.state, after: state, intent: { kind: 'history', acceptanceId: reviewAction.acceptanceId, direction, record } };
+      const planned = planReviewSuggestionWrite(context.round, before.session, operation, session);
+      if (!sameReviewStoredValue(planned.session, session)) throw new Error('This history action also changes unrelated document content.');
+      const snapshot = currentHistory[direction](scope);
+      if (!snapshot || !isCurrentDocumentScope(scope)) return 'stale';
+      const after = { ...structuredClone(before), session, meta: { ...before.meta, updatedAt: Math.max(Date.now(), before.meta.updatedAt + 1) } };
+      writes.enqueueReviewSuggestions(before, after, operation);
+      useDocumentStore.getState().applySnapshot(snapshot, () => isCurrentDocumentScope(scope));
+      useDocumentsStore.setState(current => ({ docs: { ...current.docs, [after.id]: { meta: after.meta, session: after.session } },
+        ...(current.currentId === after.id && current.activationEpoch === scope.epoch ? { baseline: after.session } : {}) }));
+      cacheReviewSuggestions(scope, context.round, state);updateSaveStatus(after.id);
+      return 'applied';
+    } catch (cause) {
+      showAppAlert({ title: 'Review decision could not be reversed', message: cause instanceof Error ? cause.message : 'Reopen the review and try again. The current draft has not been replaced.' });
+      return 'invalid';
+    }
+  }
   const snapshot = useHistoryStore.getState()[direction](scope);
   if (!snapshot) return 'unchanged';
   useDocumentStore.getState().applySnapshot(snapshot, () => isCurrentDocumentScope(scope));
@@ -1737,6 +1849,9 @@ if (typeof document !== 'undefined') {
 if (typeof window !== 'undefined' && typeof BroadcastChannel !== 'undefined') {
   docsChannel = new BroadcastChannel('dondocs-docs');
   docsChannel.onmessage = (event: MessageEvent<{ type?: string; id?: string }>) => {
+    if (event.data?.type === 'review-delete' && typeof event.data.id === 'string') {
+      forgetReviewSuggestions(event.data.id);useHistoryStore.getState().clearReviewRoundActions(event.data.id);return;
+    }
     void idbGetAllDocuments().then(async records => records && await materializeRegistrySignatures(records)).then((records) => {
       if (records !== null) reconcileDocuments(records, event.data?.type === 'delete' ? event.data.id : undefined);
     });
