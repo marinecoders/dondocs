@@ -84,6 +84,7 @@ interface AssemblyInput {
   inputs: MemberInput[];
   policy: PolicyResolution;
   eligible: boolean;
+  outputs: Map<string, ArrayBuffer>;
 }
 const preparedAssemblies = new WeakMap<
   PreparedPackageAssembly,
@@ -133,6 +134,7 @@ export async function preparePackageAssembly(
   const findings: PackageFinding[] = [],
     reviews: PreparedPackageAssembly["reviews"] = [],
     inputs: MemberInput[] = [];
+  const outputs = new Map<string, ArrayBuffer>();
   const error = (message: string, memberId?: string) =>
     findings.push({ message, memberId, severity: "error" });
   if (policy.status !== "ready") error(policy.message);
@@ -145,19 +147,54 @@ export async function preparePackageAssembly(
     error(
       "The package must start with exactly one basic letter or main document.",
     );
-  reviews.push({
-    member: "Package name and included filenames",
-    review: reviewPackageText(
-      [
-        owned.name,
-        ...packageAssets({ ...owned, revisions: [revision] }).map(
-          (asset) => asset.name,
-        ),
-      ].join("\n"),
-      "Package metadata",
-      policy,
-    ),
-  });
+  try {
+    reviews.push({
+      member: "Package name and included filenames",
+      review: reviewPackageText(
+        [
+          owned.name,
+          ...packageAssets({ ...owned, revisions: [revision] }).map(
+            (asset) => asset.name,
+          ),
+        ].join("\n"),
+        "Package metadata",
+        policy,
+      ),
+    });
+  } catch (cause) {
+    error(
+      cause instanceof Error
+        ? cause.message
+        : "Package metadata could not be reviewed.",
+    );
+  }
+  for (const output of revision.outputs) {
+    try {
+      const bytes = await readPackageAsset(output.asset);
+      const pdf = await PDFDocument.load(bytes);
+      if (
+        pdf.getPageCount() !==
+        output.boundaries.reduce(
+          (total, boundary) => total + boundary.pageCount,
+          0,
+        )
+      )
+        throw new Error(
+          "The retained PDF does not match its preserved member boundaries.",
+        );
+      reviews.push({
+        member: `Retained PDF: ${output.asset.name}`,
+        review: await reviewPackageOriginal(bytes, output.asset.name, policy),
+      });
+      outputs.set(output.asset.id, bytes);
+    } catch (cause) {
+      error(
+        cause instanceof Error
+          ? cause.message
+          : "A retained output could not be reviewed.",
+      );
+    }
+  }
   let passedEndorsements = false,
     endorsementCount = 0;
   const basic = revision.members[0];
@@ -396,9 +433,21 @@ export async function preparePackageAssembly(
     revisionId,
     inputs,
     policy,
+    outputs,
     eligible: !findings.some((finding) => finding.severity === "error"),
   });
   return result;
+}
+/** Retrieve the exact retained bytes inspected for this current operation. */
+export function copyPreparedPackageOutput(
+  prepared: PreparedPackageAssembly,
+  assetId: string,
+): ArrayBuffer {
+  const input = preparedAssemblies.get(prepared),
+    bytes = input?.outputs.get(assetId);
+  if (!input?.eligible || !bytes)
+    throw new Error("Review this retained output again before retrieving it.");
+  return bytes.slice(0);
 }
 /** Acknowledgement covers each preserved member's displayed export review and original PDF warnings. */
 export async function assemblePackage(
@@ -522,7 +571,7 @@ export async function assemblePackage(
       createdAt: Date.now(),
       policyIdentity:
         input.policy.status === "ready" ? input.policy.policy.identity : "",
-      renderer: `DonDocs ${APP_VERSION} (${GIT_SHA}); package-v1; native-prepared-export-v1; pdf-lib-1.17.1`,
+      renderer: `DonDocs ${APP_VERSION} (${GIT_SHA}); templates ${__LATEX_TEMPLATES_REVISION__}; package-v1; prepared-export-v1; pdf-lib-1.17.1`,
       boundaries,
       signingStatus: "unsigned-assembled-derivative" as const,
     };

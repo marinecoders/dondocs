@@ -1,4 +1,4 @@
-import type { ExportGate } from '@/lib/exportController';
+import type { ExportGate } from "@/lib/exportController";
 import { reviewPackageOriginal } from "@/lib/actionPackageDisclosure";
 import type { PackageAsset } from "@/lib/actionPackages";
 import type { SerializedSession } from "@/stores/documentStore";
@@ -32,6 +32,7 @@ import {
 } from "@/lib/actionPackageAssets";
 import {
   assemblePackage,
+  copyPreparedPackageOutput,
   preparePackageAssembly,
   type PreparedPackageAssembly,
 } from "@/lib/actionPackageAssembly";
@@ -54,27 +55,47 @@ import type { CorrespondenceRendererPorts } from "@/services/exports/corresponde
 type Ports = CorrespondenceRendererPorts & {
   waitForReady(timeoutMs: number): Promise<boolean>;
 };
-export function ActionPackageWorkspace({ ports, exportGate }: { ports: Ports; exportGate: ExportGate }) {
+export function ActionPackageWorkspace({
+  ports,
+  exportGate,
+}: {
+  ports: Ports;
+  exportGate: ExportGate;
+}) {
   const [open, setOpen] = useState(false);
   return (
     <>
       <Button variant="outline" size="sm" onClick={() => setOpen(true)}>
         Packages
       </Button>
-      {open && <PackageDialog ports={ports} exportGate={exportGate} onClose={() => setOpen(false)} />}
+      {open && (
+        <PackageDialog
+          ports={ports}
+          exportGate={exportGate}
+          onClose={() => setOpen(false)}
+        />
+      )}
     </>
   );
 }
-function PackageDialog({ ports, exportGate, onClose }: { ports: Ports; exportGate: ExportGate; onClose(): void }) {
+function PackageDialog({
+  ports,
+  exportGate,
+  onClose,
+}: {
+  ports: Ports;
+  exportGate: ExportGate;
+  onClose(): void;
+}) {
   const operation = useRef<AbortController | null>(null),
     active = useRef(true);
-  useEffect(
-    () => () => {
+  useEffect(() => {
+    active.current = true;
+    return () => {
       active.current = false;
       operation.current?.abort();
-    },
-    [],
-  );
+    };
+  }, []);
   function assertOperationCurrent() {
     if (!active.current)
       throw new DOMException("The package dialog was closed.", "AbortError");
@@ -172,6 +193,10 @@ function PackageDialog({ ports, exportGate, onClose }: { ports: Ports; exportGat
       await action();
     } catch (error) {
       if (!active.current) return;
+      if (controller.signal.aborted) {
+        setPrepared(null);
+        setApproved(false);
+      }
       setError(
         controller.signal.aborted
           ? "Operation cancelled. Reopen the package to check its last complete revision."
@@ -228,11 +253,6 @@ function PackageDialog({ ports, exportGate, onClose }: { ports: Ports; exportGat
       URL.createObjectURL(new Blob([bytes], { type: "application/pdf" })),
     );
   }
-  async function downloadAsset(asset: PackageAsset) {
-    const bytes = await readPackageAsset(asset);
-    assertOperationCurrent();
-    triggerDownload(new Uint8Array(bytes), asset.name, asset.type);
-  }
   async function deliver() {
     if (!record || !revision || !prepared || !approved) return;
     assertOperationCurrent();
@@ -244,7 +264,14 @@ function PackageDialog({ ports, exportGate, onClose }: { ports: Ports; exportGat
         original.asset.type,
       );
     } else if (reviewMode === "portable") {
-      const json = await buildPortableActionPackage(record, revision.id);
+      const json = await buildPortableActionPackage(
+        record,
+        revision.id,
+        async (asset) =>
+          revision.outputs.some((output) => output.asset.id === asset.id)
+            ? copyPreparedPackageOutput(prepared, asset.id)
+            : readPackageAsset(asset),
+      );
       assertOperationCurrent();
       triggerDownload(
         new TextEncoder().encode(json),
@@ -257,18 +284,39 @@ function PackageDialog({ ports, exportGate, onClose }: { ports: Ports; exportGat
     } else if (reviewMode === "preview") {
       const output = revision.outputs.at(-1);
       if (!output) throw new Error("This revision has no retained PDF.");
-      await previewAsset(output.asset);
+      setPdfUrl(
+        URL.createObjectURL(
+          new Blob([copyPreparedPackageOutput(prepared, output.asset.id)], {
+            type: "application/pdf",
+          }),
+        ),
+      );
     } else if (reviewMode === "saved") {
       const output = revision.outputs.at(-1);
       if (!output)
         throw new Error("This revision has no retained assembled PDF.");
-      await downloadAsset(output.asset);
+      triggerDownload(
+        new Uint8Array(copyPreparedPackageOutput(prepared, output.asset.id)),
+        output.asset.name,
+        output.asset.type,
+      );
       setNotice(`Retained PDF downloaded. SHA-256: ${output.asset.sha256}`);
     } else {
       const release = exportGate.acquire();
-      if (!release) throw new Error('Another export is still running. Wait for it to finish before assembling this package.');
+      if (!release)
+        throw new Error(
+          "Another export is still running. Wait for it to finish before assembling this package.",
+        );
       let updated: ActionPackage;
-      try { updated = await assemblePackage(prepared, ports, operation.current?.signal); } finally { release(); }
+      try {
+        updated = await assemblePackage(
+          prepared,
+          ports,
+          operation.current?.signal,
+        );
+      } finally {
+        release();
+      }
       update(updated);
       const output = getPackageRevision(updated, revision.id).outputs.at(-1)!;
       setRevisionId(revision.id);
@@ -717,6 +765,7 @@ function PackageDialog({ ports, exportGate, onClose }: { ports: Ports; exportGat
                                         await savePackageWorkingCopy(
                                           record,
                                           member,
+                                          operation.current?.signal,
                                         ),
                                       ),
                                     )

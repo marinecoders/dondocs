@@ -213,6 +213,56 @@ Larger groups are rejected rather than shortened. Reference ordering and citatio
 relabeling remain in the existing reference tools; they are not proposed by this
 workflow. Clean PDF and Word output omit pending proposals and review metadata.
 
+## Save an action package
+
+Open **Packages** beside document readiness. Name and create a package, then
+capture the current native document or add an original PDF. Assign a main/basic
+letter, endorsements, coordination, supporting-document and enclosure roles.
+The first member must be the single main document. Existing native correspondence
+and forms use their existing editors and renderers; uploaded originals support
+PDF only. Selecting a role does not create a new document format.
+
+Every change creates a package revision. Reopen earlier revisions to inspect their
+members and retained outputs. Removing a member from the current revision preserves
+its older content and original files. Rename, duplicate or archive a package from
+the same workspace. Archived packages can be reopened for editing.
+
+**Edit working copy** opens a separate draft in Recents. Edit normally, reopen
+Packages and choose **Save working copy as new revision**. The library source and
+older package revisions keep their own identities. A working copy is outside the
+saved package until that explicit save. **Compare newer source** shows the captured
+member beside its library source; **Adopt source as new revision** deliberately
+captures the reviewed source. Imported source IDs are foreign provenance and do
+not automatically bind to documents on the receiving browser.
+
+**Check readiness and assemble** checks preserved bytes, required native fields,
+citations, deployment policy and supported native endorsement relationships.
+Review every member and original PDF, including text inside images that automated
+inspection cannot read. Missing or corrupt required content blocks assembly.
+Package enclosure labels are separate from the continued main/endorsement sequence;
+matching literal `enclosure (1)` citations are checked when a native document has
+no embedded enclosure list. Mixed embedded/package citation numbering requires
+manual editing. Linked citation relabeling and package review rounds come later.
+
+Assembly retains the exact combined PDF, checksum and member page boundaries.
+Preview and retained download read those same bytes. An assembled PDF is an
+unsigned derivative; a signed original remains a separate unchanged file.
+Retrieving an older artifact is distinct from rendering it again with a later
+renderer. Every download or preview receives a new policy/content review.
+
+**Export editable package** transfers only the selected revision, its original
+files, exact form templates and retained outputs. Import that file through
+**Import editable package** in a fresh browser with the app available offline.
+Native members can be opened as working copies without their original library
+sources. Portable transfer allows 256 resources, 25 MB per resource and 75 MB total;
+a native draft resource includes its embedded attachments, so those bytes count
+inside its 25 MB limit. The JSON file is limited to 100 MB. Package files are
+unencrypted. Workspace backups preserve every retained revision in version 12;
+ordinary package delivery does not include removed members or older revisions.
+Keep an intact transfer/backup when storage fails. Corrupt package inventory never
+becomes an empty workspace, and an aborted save preserves the last committed
+revision. Cancel or close the package dialog to stop an unfinished operation.
+
 ## Export and sign
 
 Choose an available output from Download. PDF enclosure merging and digital signature fields are PDF features; Word has [documented limits](OUTPUT_LIMITS.md). A downloaded TeX fragment needs the repository templates/assets to compile as a project.

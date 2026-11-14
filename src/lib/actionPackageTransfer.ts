@@ -41,6 +41,7 @@ const envelopeSchema = z
 export async function buildPortableActionPackage(
   record: ActionPackage,
   revisionId = record.currentRevisionId,
+  readAsset: typeof readPackageAsset = readPackageAsset,
 ): Promise<string> {
   const selected = getPackageRevision(record, revisionId);
   const source = structuredClone(record);
@@ -68,7 +69,7 @@ export async function buildPortableActionPackage(
         path: `assets/${asset.id}`,
         name: asset.name,
         mediaType: asset.type,
-        data: await readPackageAsset(asset),
+        data: await readAsset(asset),
       })),
     ),
   );
