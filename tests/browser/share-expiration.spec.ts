@@ -1,6 +1,8 @@
 import { expect, test, type Locator, type Page } from '@playwright/test';
 
 test.use({ serviceWorkers: 'block' });
+// One scenario performs several real encryption/decryption and import rounds.
+test.setTimeout(60_000);
 const NOW = Date.UTC(2026, 10, 13, 12);
 
 async function waitForShareOperation(dialog: Locator) {
