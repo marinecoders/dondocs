@@ -8,7 +8,7 @@ import { SessionPreview } from '@/components/SessionPreview';
  */
 
 import { useState, useCallback, useEffect, useRef } from 'react';
-import { Link2, Copy, Check, Loader2, AlertTriangle } from 'lucide-react';
+import { Link2, Copy, Check, Loader2, AlertTriangle, Download } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -25,11 +25,23 @@ import {
   decryptSharePayload,
   buildShareUrl,
   parseShareUrl,
+  MAX_SHARE_URL_LENGTH,
+  MAX_ENCRYPTED_SHARE_LENGTH,
 } from '@/lib/shareCrypto';
-import { getSerializedSessionForShare, type SerializedSession } from '@/stores/documentStore';
-import { openSessionAsNew, captureDocumentScope, isCurrentDocumentScope, hasPendingReviewWrites, flushPendingReviewWrites } from '@/stores/documentsStore';
+import { getSerializedSessionForShare, useDocumentStore, type SerializedSession } from '@/stores/documentStore';
+import { openSessionAsNew, captureDocumentTarget, captureDocumentScope, isCurrentDocumentScope, hasPendingReviewWrites, flushPendingReviewWrites } from '@/stores/documentsStore';
 import { parseSharedSession, createSharedPayload, validateShareExpiration } from '@/lib/sharedSession';
 import { detectSharedSessionPII, getPIITypeLabel, type PIIDetectionResult } from '@/services/pii/detector';
+import { buildAssetSharePayload, hasShareAssets, isAssetShare, parseSharedDocument } from '@/lib/assetShare';
+import { openSharedDocument } from '@/lib/sharedDocumentActions';
+import { triggerDownload } from '@/lib/encoding';
+import { getExportDeploymentPolicy } from '@/config/classification';
+import { captureChangeReport, prepareChangeReport } from '@/lib/changeReport';
+import { serializeDocumentSnapshot } from '@/lib/documentSerialization';
+import type { DocumentSnapshot } from '@/stores/historyStore';
+import { z } from 'zod';
+
+const encryptedFileSchema = z.object({ kind: z.literal('dondocs-encrypted-share'), version: z.literal(1), payload: z.string().min(1).max(MAX_ENCRYPTED_SHARE_LENGTH) }).strict();
 
 export type ShareModalMode = 'share' | 'import';
 
@@ -52,9 +64,9 @@ export function ShareModal({
   const [ownerScope] = useState(() => mode === 'share' ? captureDocumentScope() : null);
   const reviewOwnerId = ownerScope?.documentId;
   const [capture, setCapture] = useState(() => {
-    if (mode !== 'share') return { snapshot: null as SerializedSession | null, error: null as string | null };
-    try { return { snapshot: getSerializedSessionForShare(), error: null as string | null }; }
-    catch (cause) { return { snapshot: null, error: cause instanceof Error ? cause.message : 'This draft could not be prepared for sharing. Save it and try again.' }; }
+    if (mode !== 'share') return { snapshot: null as SerializedSession | null, full: null as DocumentSnapshot | null, error: null as string | null };
+    try { return { snapshot: getSerializedSessionForShare(), full: structuredClone(useDocumentStore.getState().getSnapshot()), error: null as string | null }; }
+    catch (cause) { return { snapshot: null, full: null, error: cause instanceof Error ? cause.message : 'This draft could not be prepared for sharing. Save it and try again.' }; }
   });
   const snapshot = capture.snapshot;
   const [received, setReceived] = useState<{ session: SerializedSession; payload: object } | null>(null);
@@ -62,15 +74,19 @@ export function ShareModal({
   const [generatedExpiresAt, setGeneratedExpiresAt] = useState<number | null>(null);
   const [password, setPassword] = useState('');
   const [shareLink, setShareLink] = useState('');
+  const [encryptedFile, setEncryptedFile] = useState('');
+  const [importedFile, setImportedFile] = useState<{ name: string; payload: string } | null>(null);
   const [pasteLink, setPasteLink] = useState(initialPayload ? '' : '');
   const [copied, setCopied] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [working, setWorking] = useState(false);
   const copyTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const alive = useRef(true);
+  useEffect(() => { alive.current = true;return () => { alive.current = false; }; }, []);
   // Non-null when a pre-share PII scan found something; the user confirms or backs out.
   const [piiFindings, setPiiFindings] = useState<PIIDetectionResult | null>(null);
 
-  const payloadFromInput = initialPayload ?? (mode === 'import' ? parseShareUrl(pasteLink) : null);
+  const payloadFromInput = initialPayload ?? importedFile?.payload ?? (mode === 'import' ? parseShareUrl(pasteLink) : null);
 
   const clearCopyTimer = useCallback(() => {
     if (copyTimer.current !== null) clearTimeout(copyTimer.current);
@@ -81,6 +97,7 @@ export function ShareModal({
   const clearGeneratedLink = useCallback(() => {
     clearCopyTimer();
     setShareLink('');
+    setEncryptedFile('');
     setGeneratedExpiresAt(null);
     setCopied(false);
     setPiiFindings(null);
@@ -136,12 +153,22 @@ export function ShareModal({
       const session = snapshot!;
       const duration = { hour: 3_600_000, day: 86_400_000, week: 604_800_000 }[expiration];
       const expiresAt = duration === undefined ? null : Date.now() + duration;
-      const payload = expiresAt === null ? createSharedPayload(session) : createSharedPayload(session, expiresAt);
+      let payload: object;
+      if (capture.full && hasShareAssets(capture.full)) {
+        payload = await buildAssetSharePayload(capture.full, session.timestamp, expiresAt ?? undefined);
+        const policy = await getExportDeploymentPolicy(undefined, true);
+        const complete = serializeDocumentSnapshot(capture.full, session.timestamp);
+        const empty = { ...complete, formData: {}, paragraphs: [], references: [], enclosures: [], copyTos: [], distributions: [], endItems: [], publicationTables: {}, reviewComments: undefined };
+        prepareChangeReport(captureChangeReport({ label: 'Empty', title: '', session: empty }, { label: 'Shared document', title: '', session: complete }, new Date().toISOString()), policy);
+      } else payload = expiresAt === null ? createSharedPayload(session) : createSharedPayload(session, expiresAt);
       const encrypted = await encryptSharePayload(payload, password);
       if (expiresAt !== null) validateShareExpiration(expiresAt);
       const url = buildShareUrl(encrypted);
-      setShareLink(url);
+      if (!alive.current) return;
+      setEncryptedFile(encrypted);
       setGeneratedExpiresAt(expiresAt);
+      if (url.length > MAX_SHARE_URL_LENGTH) { setShareLink('');return; }
+      setShareLink(url);
       // The link is generated and shown regardless — isolate the clipboard write so
       // a failure (insecure context / denied permission) only skips the "copied"
       // confirmation instead of reporting a false "Failed to generate link".
@@ -151,7 +178,7 @@ export function ShareModal({
     } finally {
       setWorking(false);
     }
-  }, [password, snapshot, copyLink, working, canShareSnapshot, expiration, reviewOwnerId]);
+  }, [password, snapshot, capture.full, copyLink, working, canShareSnapshot, expiration, reviewOwnerId]);
 
   const handleGenerateLink = useCallback(() => {
     if (working) return;
@@ -166,7 +193,7 @@ export function ShareModal({
     // user decide (the payload is still password-encrypted either way).
     let pii: PIIDetectionResult;
     try {
-      pii = detectSharedSessionPII(snapshot!);
+      pii = detectSharedSessionPII(capture.full ? serializeDocumentSnapshot(capture.full, snapshot!.timestamp) : snapshot!);
     } catch {
       setError('Could not inspect this draft. Close sharing and review the document before trying again.');
       return;
@@ -176,7 +203,7 @@ export function ShareModal({
       return;
     }
     void doGenerate();
-  }, [password, doGenerate, snapshot, working, canShareSnapshot]);
+  }, [password, doGenerate, snapshot, capture.full, working, canShareSnapshot]);
 
   const handleImport = useCallback(async () => {
     if (working) return;
@@ -193,7 +220,9 @@ export function ShareModal({
     setWorking(true);
     try {
       const data = await decryptSharePayload(payload, password);
-      setReceived({ session: parseSharedSession(data), payload: data });
+      const reviewed = await parseSharedDocument(data);
+      if (!alive.current) return;
+      setReceived({ session: reviewed.session, payload: data });
       setPassword('');
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Wrong password or invalid link');
@@ -202,16 +231,20 @@ export function ShareModal({
     }
   }, [payloadFromInput, password, working]);
 
-  const openReceived = () => {
+  const openReceived = async () => {
     if (!received) return;
     // Password work and the review dialog may cross the deadline. Check again
     // immediately before handing anything to the document store.
-    let session: SerializedSession;
-    try { session = parseSharedSession(received.payload); }
-    catch (err) { setError(err instanceof Error ? err.message : 'Could not open this document.'); return; }
-    if (openSessionAsNew(session) !== 'applied') { setError('Could not open this document. Your current draft has not changed.'); return; }
-    onImportComplete?.();
-    onOpenChange(false);
+    setWorking(true);setError(null);
+    try {
+      const outcome = isAssetShare(received.payload)
+        ? await openSharedDocument(received.payload, captureDocumentTarget(), () => alive.current)
+        : openSessionAsNew(parseSharedSession(received.payload));
+      if (!alive.current) return;
+      if (outcome !== 'applied') { setError('The active document changed. Your newer work has not been replaced; reopen the shared copy from Recents if it was saved.');return; }
+      onImportComplete?.();onOpenChange(false);
+    } catch (err) { if (alive.current) setError(err instanceof Error ? err.message : 'Could not open this document. Your current draft has not changed.'); }
+    finally { if (alive.current) setWorking(false); }
   };
 
   const handleOpenChange = useCallback(
@@ -221,6 +254,7 @@ export function ShareModal({
         clearCopyTimer();
         setPassword('');
         setShareLink('');
+        setEncryptedFile('');setImportedFile(null);
         setPasteLink('');
         setError(null);
         setCopied(false);
@@ -248,8 +282,8 @@ export function ShareModal({
           </DialogTitle>
           <DialogDescription>
             {isImport
-              ? 'Paste the share link and enter the password to load the document.'
-              : 'Set a password and generate a link. Anyone with the link and password can open this document. The link is a snapshot; later edits are not shared.'}
+              ? 'Paste a share link or choose an encrypted share file, then enter its password.'
+              : 'Set a password and generate a link or encrypted file. Anyone with the copy and password can open this snapshot; later edits are not shared.'}
           </DialogDescription>
         </DialogHeader>
         <div className="min-h-0 overflow-y-auto space-y-4 pr-1">
@@ -262,8 +296,8 @@ export function ShareModal({
               if (!ownerScope || !isCurrentDocumentScope(ownerScope)) throw new Error('The active draft changed. Close Share and reopen it for the document you want to send.');
               if (hasPendingReviewWrites(reviewOwnerId)) await flushPendingReviewWrites(reviewOwnerId);
               if (!isCurrentDocumentScope(ownerScope)) throw new Error('The active draft changed. Close Share and reopen it for the document you want to send.');
-              setCapture({ snapshot: getSerializedSessionForShare(), error: null });
-            } catch (cause) { setCapture({ snapshot: null, error: cause instanceof Error ? cause.message : 'This draft could not be prepared. Retry Save first.' }); }
+              setCapture({ snapshot: getSerializedSessionForShare(), full: structuredClone(useDocumentStore.getState().getSnapshot()), error: null });
+            } catch (cause) { setCapture({ snapshot: null, full: null, error: cause instanceof Error ? cause.message : 'This draft could not be prepared. Retry Save first.' }); }
             finally { setWorking(false); }
           })()}>Retry preparing document</Button>
         </div>}
@@ -273,10 +307,10 @@ export function ShareModal({
           <div className="rounded-md border border-border p-3 text-sm space-y-1">
             <p className="font-medium">What the recipient receives</p>
             {snapshot && <SessionPreview session={snapshot} />}
-            <p className="text-muted-foreground">Excluded: attached PDFs, basic-letter files, signature images, version history and other drafts. Send necessary files separately.</p>
+            <p className="text-muted-foreground">Includes required native attached PDFs, basic-letter files, PNG signatures and PNG/JPEG figures. Large copies use an encrypted file. Version history and other drafts are excluded. Configured forms still require their selected PDF template.</p>
           </div>
         )}
-        {received && <div className="space-y-2 rounded-md border p-3"><SessionPreview session={received.session} /><p className="text-xs text-muted-foreground">Opens as a new document. Your current draft stays in Recents.</p></div>}
+        {received && <div className="space-y-2 rounded-md border p-3"><SessionPreview session={received.session} />{isAssetShare(received.payload) && <p className="text-sm">The included attachments passed their size, type and checksum checks. Inspect their contents before using or forwarding them.</p>}<p className="text-xs text-muted-foreground">Opens as a new document. Your current draft stays in Recents.</p></div>}
         <details className="text-sm text-muted-foreground">
           <summary className="cursor-pointer py-1">How sharing works</summary>
           <p className="mt-2">The link holds an encrypted copy made in your browser. Send the password separately. A shared link cannot be revoked, and changes to your draft do not update it.</p>
@@ -305,11 +339,30 @@ export function ShareModal({
                 placeholder="Paste the share link here"
                 value={pasteLink}
                 disabled={working}
-                onChange={(e) => setPasteLink(e.target.value)}
+              onChange={(e) => { setPasteLink(e.target.value);setImportedFile(null);setReceived(null);setError(null); }}
                 className="font-mono text-sm"
               />
             </div>
           )}
+          {isImport && !received && !initialPayload && <div className="space-y-2">
+            <Label htmlFor="encrypted-share-file">Encrypted share file</Label>
+            <Input id="encrypted-share-file" type="file" accept=".json,application/json" disabled={working} onChange={event => {
+              const file = event.target.files?.[0];event.target.value = '';
+              setImportedFile(null);setReceived(null);setError(null);
+              if (!file || working) return;
+              setWorking(true);
+              void (async () => {
+                try {
+                  if (file.size > MAX_ENCRYPTED_SHARE_LENGTH + 1024) throw new Error('This encrypted share file exceeds the transfer limit.');
+                  const parsed = encryptedFileSchema.safeParse(JSON.parse(await file.text()));
+                  if (!parsed.success) throw new Error('Choose an encrypted share file downloaded from DonDocs.');
+                  if (alive.current) { setImportedFile({ name: file.name, payload: parsed.data.payload });setPasteLink(''); }
+                } catch (cause) { if (alive.current) setError(cause instanceof Error ? cause.message : 'Could not read this encrypted share file.'); }
+                finally { if (alive.current) setWorking(false); }
+              })();
+            }} />
+            {importedFile && <p className="text-sm break-words">Selected: {importedFile.name}</p>}
+          </div>}
           {isImport && !received && initialPayload && (
             <p className="text-sm text-muted-foreground">
               Opening document from link. Enter the password below.
@@ -364,6 +417,17 @@ export function ShareModal({
               </div>
             </div>
           )}
+          {!isImport && encryptedFile && <div className="space-y-2 rounded-md border p-3 text-sm">
+            {!shareLink && <p>This copy is too large for a reliable link. Send the encrypted file and share its password separately.</p>}
+            {generatedExpiresAt !== null && !shareLink && <p>Expires {new Date(generatedExpiresAt).toLocaleString(undefined, { timeZoneName: 'short' })}. Requires an updated DonDocs reader.</p>}
+            <Button variant="outline" disabled={working} onClick={() => {
+              try {
+                if (generatedExpiresAt !== null) validateShareExpiration(generatedExpiresAt);
+                triggerDownload(new TextEncoder().encode(JSON.stringify({ kind: 'dondocs-encrypted-share', version: 1, payload: encryptedFile })), 'dondocs-encrypted-share.json', 'application/json');
+              } catch (cause) { setError(cause instanceof Error ? cause.message : 'Could not download the encrypted share file.'); }
+            }}><Download className="mr-2 h-4 w-4" />Download encrypted share file</Button>
+            <p className="text-muted-foreground">Open this file through Open from share link → Encrypted share file. The file is password-encrypted and includes the same captured content as the link.</p>
+          </div>}
 
           {error && (
             <p className="text-sm text-destructive" role="alert">

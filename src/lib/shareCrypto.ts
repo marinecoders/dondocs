@@ -11,6 +11,11 @@
  */
 
 import pako from 'pako';
+import { uint8ArrayToBase64 } from './encoding';
+
+export const MAX_SHARE_PLAINTEXT_BYTES = 110 * 1024 * 1024;
+export const MAX_ENCRYPTED_SHARE_LENGTH = 140 * 1024 * 1024;
+export const MAX_SHARE_URL_LENGTH = 8000;
 
 const PBKDF2_ITERATIONS = 120_000;
 const SALT_LENGTH = 16;
@@ -24,14 +29,11 @@ const KEY_LENGTH = 256;
 const DEFLATE_MAGIC = 0x78;
 
 function base64urlEncode(bytes: Uint8Array): string {
-  let binary = '';
-  for (let i = 0; i < bytes.length; i++) {
-    binary += String.fromCharCode(bytes[i]);
-  }
-  return btoa(binary).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+  return uint8ArrayToBase64(bytes).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
 }
 
 function base64urlDecode(str: string): Uint8Array {
+  if (str.length > MAX_ENCRYPTED_SHARE_LENGTH || !/^[A-Za-z0-9_-]+$/.test(str)) throw new Error('This encrypted share is invalid or exceeds the transfer limit.');
   const base64 = str.replace(/-/g, '+').replace(/_/g, '/');
   const pad = base64.length % 4;
   const padded = pad ? base64 + '='.repeat(4 - pad) : base64;
@@ -85,6 +87,7 @@ export async function encryptSharePayload(data: object, password: string): Promi
   // earlier. pako.deflate is already in the bundle for enclosure PDF
   // decompression, so this adds no bundle weight.
   const jsonBytes = enc.encode(JSON.stringify(data));
+  if (jsonBytes.byteLength > MAX_SHARE_PLAINTEXT_BYTES) throw new Error('This shared document exceeds the 110 MB expanded transfer limit.');
   const plaintext = pako.deflate(jsonBytes);
   const ciphertext = await crypto.subtle.encrypt(
     { name: 'AES-GCM', iv },
@@ -95,7 +98,34 @@ export async function encryptSharePayload(data: object, password: string): Promi
   combined.set(salt, 0);
   combined.set(iv, salt.length);
   combined.set(new Uint8Array(ciphertext), salt.length + iv.length);
-  return base64urlEncode(combined);
+  const encoded = base64urlEncode(combined);
+  if (encoded.length > MAX_ENCRYPTED_SHARE_LENGTH) throw new Error('This encrypted share exceeds the transfer limit.');
+  return encoded;
+}
+
+/** Streaming inflation stops before a compressed payload can exceed its allocation budget. */
+export function decodeSharePlaintext(bytes: Uint8Array, limit = MAX_SHARE_PLAINTEXT_BYTES): object {
+  const maximum = Math.min(limit, MAX_SHARE_PLAINTEXT_BYTES);
+  if (!Number.isSafeInteger(maximum) || maximum < 1) throw new Error('Invalid share transfer limit.');
+  let jsonBytes = bytes;
+  if (bytes[0] === DEFLATE_MAGIC) {
+    const inflater = new pako.Inflate({ chunkSize: 64 * 1024 });
+    let total = 0;
+    let complete = false;
+    const chunks: Uint8Array[] = [];
+    inflater.onData = (chunk: Uint8Array) => {
+      total += chunk.byteLength;
+      if (total > maximum) throw new Error('This shared document exceeds the expanded transfer limit.');
+      chunks.push(chunk);
+    };
+    inflater.onEnd = (status: number) => { complete = status === 0; };
+    inflater.push(bytes, true);
+    if (!complete) throw new Error('Invalid compressed share.');
+    jsonBytes = new Uint8Array(total);
+    let offset = 0;
+    for (const chunk of chunks) { jsonBytes.set(chunk, offset);offset += chunk.byteLength; }
+  } else if (bytes.byteLength > maximum) throw new Error('This shared document exceeds the expanded transfer limit.');
+  return JSON.parse(new TextDecoder('utf-8', { fatal: true }).decode(jsonBytes)) as object;
 }
 
 /**
@@ -128,11 +158,7 @@ export async function decryptSharePayload(
     // start with 0x78; legacy payloads are raw UTF-8 JSON that always start
     // with `{` (0x7B) or `[` (0x5B). We keep decoding legacy so old links
     // users have already shared still work.
-    const jsonBytes = decryptedBytes[0] === DEFLATE_MAGIC
-      ? pako.inflate(decryptedBytes)
-      : decryptedBytes;
-    const decoded = new TextDecoder().decode(jsonBytes);
-    return JSON.parse(decoded) as object;
+    return decodeSharePlaintext(decryptedBytes);
   } catch {
     throw new Error('Wrong password or invalid share link');
   }

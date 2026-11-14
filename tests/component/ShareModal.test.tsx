@@ -30,6 +30,8 @@ vi.mock('@/lib/shareCrypto', () => ({
   decryptSharePayload: vi.fn(),
   buildShareUrl: vi.fn((p: string) => `https://dondocs.app/#s=${p}`),
   parseShareUrl: vi.fn((s: string) => (s.includes('#s=') ? s.split('#s=')[1] : null)),
+  MAX_SHARE_URL_LENGTH: 8000,
+  MAX_ENCRYPTED_SHARE_LENGTH: 140 * 1024 * 1024,
 }));
 vi.mock('@/stores/documentsStore', () => ({ openSessionAsNew: vi.fn(() => 'applied'), captureDocumentScope: vi.fn(() => ({ documentId: 'example-draft', epoch: 1 })), isCurrentDocumentScope: vi.fn(() => true), hasPendingReviewWrites: vi.fn(() => false), flushPendingReviewWrites: vi.fn(async () => {}) }));
 vi.mock('@/stores/documentStore', () => ({
@@ -37,7 +39,7 @@ vi.mock('@/stores/documentStore', () => ({
   loadSharedSession: vi.fn(),
   // The share flow scans the live document for PII before building a link;
   // a clean (empty) document lets the happy path generate straight through.
-  useDocumentStore: { getState: vi.fn(() => ({ formData: {}, paragraphs: [], copyTos: [], references: [] })) },
+  useDocumentStore: { getState: vi.fn(() => ({ formData: {}, paragraphs: [], copyTos: [], references: [], getSnapshot: () => structuredClone(vi.mocked(getSerializedSessionForShare).mock.results.at(-1)?.value) })) },
 }));
 
 beforeEach(() => {

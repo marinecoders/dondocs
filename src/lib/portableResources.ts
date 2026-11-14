@@ -33,7 +33,8 @@ function validateInventory(manifest: PortableResourceManifest): void {
     paths.add(entry.path);
     total += entry.size;
     if (total > MAX_PORTABLE_TOTAL_BYTES) throw new Error('Portable resources exceed the 75 MB total limit.');
-    if (entry.data.length !== Math.ceil(entry.size / 3) * 4 || !/^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$/.test(entry.data)) {
+    const padding = entry.data.endsWith('==') ? 2 : entry.data.endsWith('=') ? 1 : 0;
+    if (entry.data.length !== Math.ceil(entry.size / 3) * 4 || /[^A-Za-z0-9+/]/.test(entry.data.slice(0, entry.data.length - padding))) {
       throw new Error('A portable resource has invalid encoded bytes or size.');
     }
   }
