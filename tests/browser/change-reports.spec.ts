@@ -59,3 +59,64 @@ for (const theme of ['light', 'dark', 'classic']) {
     await expect(page.locator('#subject')).toHaveValue('CURRENT CLEAN DRAFT');
   });
 }
+
+test('compares moved paragraph text in History and the downloaded report without replacing the current draft', async ({ page }, testInfo) => {
+  const theme = String(testInfo.project.metadata.theme ?? 'light');
+  await page.addInitScript(theme => {
+    localStorage.setItem('browser-test-visitor', 'returning');
+    localStorage.setItem('dondocs_ui', JSON.stringify({ state: { theme, editorLayout: 'scroll' }, version: 1 }));
+  }, theme);
+  await page.goto('/');
+  const draft = { documentCategory: 'correspondence', documentMode: 'custom', docType: 'naval_letter',
+    formData: { subject: 'PARAGRAPH COMPARISON', classLevel: 'unclassified' },
+    paragraphs: [{ id: 'private-charlie', text: 'Current moved paragraph 🪸', level: 0 },
+      { id: 'private-alpha', text: 'Alpha unchanged paragraph', level: 0 }, { id: 'private-bravo', text: 'Bravo unchanged paragraph', level: 0 }],
+    references: [], enclosures: [], copyTos: [], distributions: [] };
+  await page.getByLabel('Import draft file').setInputFiles({ name: 'moved-paragraphs.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(draft)) });
+  await page.getByRole('button', { name: 'Open as new document', exact: true }).click();
+  await expect(page.getByRole('textbox', { name: 'Paragraph 1', exact: true })).toHaveText('Current moved paragraph 🪸');
+  // Start from the actual complete serialized draft so unrelated defaults do
+  // not become fixture-only differences in this structural comparison.
+  await page.getByRole('button', { name: 'Document actions', exact: true }).click();
+  const exporting = page.waitForEvent('download');
+  await page.getByRole('menuitem', { name: 'Export draft (.json)', exact: true }).click();
+  const current = JSON.parse(await readFile((await (await exporting).path())!, 'utf8'));
+  delete current.version; // The draft file's transport version is not saved document content.
+  await page.evaluate(async current => {
+    const db = await new Promise<IDBDatabase>((resolve, reject) => { const request = indexedDB.open('dondocs');request.onsuccess = () => resolve(request.result);request.onerror = () => reject(request.error); });
+    try {
+      const id = await new Promise<string>((resolve, reject) => { const request = db.transaction('app').objectStore('app').get('currentId');request.onsuccess = () => resolve(request.result.value);request.onerror = () => reject(request.error); });
+      const saved = structuredClone(current);
+      saved.paragraphs = [saved.paragraphs[1], saved.paragraphs[2], { ...saved.paragraphs[0], text: 'Original moved paragraph 🪸' }];
+      await new Promise<void>((resolve, reject) => { const tx = db.transaction('app', 'readwrite');tx.objectStore('app').put({ key: `snap:${id}`, value: [{ ts: Date.UTC(2026, 10, 14), session: saved }] });tx.oncomplete = () => resolve();tx.onerror = () => reject(tx.error); });
+    } finally { db.close(); }
+  }, current);
+  await page.getByRole('button', { name: 'History', exact: true }).click();
+  const history = page.getByRole('dialog', { name: 'Version history', exact: true });
+  if (page.viewportSize()!.width < 768) await history.getByRole('combobox', { name: 'Saved version' }).selectOption('0');
+  else await history.getByRole('button', { name: /Compare version 1/ }).click();
+  const move = history.getByRole('heading', { name: 'Paragraphs › 1 → 3 › Movement', exact: true });
+  await expect(move).toBeVisible();
+  await expect(move.locator('..').locator('del, ins')).toHaveCount(0);
+  await expect(history.getByText('2 comparison items.', { exact: true })).toBeVisible();
+  await expect(history.getByRole('heading', { name: 'Paragraphs › 1 → 3 › Text', exact: true })).toBeVisible();
+  await move.scrollIntoViewIfNeeded();
+  await page.screenshot({ path: testInfo.outputPath(`paragraph-movement-${theme}.png`), scale: 'css' });
+  await history.getByRole('button', { name: 'Prepare change report' }).click();
+  const downloading = page.waitForEvent('download');
+  await history.getByRole('button', { name: 'Download reviewed report (.html)' }).click();
+  const html = await readFile((await (await downloading).path())!, 'utf8');
+  expect(html).toContain('Original moved paragraph 🪸');expect(html).toContain('Current moved paragraph 🪸');
+  expect(html).not.toContain('Alpha unchanged paragraph');expect(html).not.toContain('Bravo unchanged paragraph');
+  for (const id of ['private-alpha', 'private-bravo', 'private-charlie']) expect(html).not.toContain(id);
+  const artifact = await page.context().newPage();
+  await artifact.setContent(html);
+  await expect(artifact.getByRole('heading', { name: 'Paragraphs › 3 → 1 › Movement', exact: true })).toBeVisible();
+  await expect(artifact.getByText('2 comparison items.', { exact: true })).toBeVisible();
+  expect(await artifact.locator('body').evaluate(body => body.scrollWidth <= window.innerWidth)).toBe(true);
+  await artifact.screenshot({ path: testInfo.outputPath(`paragraph-report-${theme}.png`), scale: 'css', fullPage: true });
+  await artifact.close();
+  await history.getByRole('button', { name: 'Close', exact: true }).click();
+  await expect(page.getByRole('textbox', { name: 'Paragraph 1', exact: true })).toHaveText('Current moved paragraph 🪸');
+  await expect(page.locator('[data-paragraph-id]').first()).toHaveAttribute('data-paragraph-id', 'private-charlie');
+});
