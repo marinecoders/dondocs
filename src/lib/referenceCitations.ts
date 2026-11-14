@@ -25,10 +25,10 @@ export function scanReferenceCitations(text: string): CitationScan {
   const citations: Citation[] = [];
   const issues: string[] = [];
   const protectedSpans: Array<[number, number]> = [];
-  for (const match of text.matchAll(/"[^"]*(?:"|$)|“[^”]*(?:”|$)|‘[^’]*(?:’|$)|`[^`]*(?:`|$)|(?:https?:\/\/|mailto:)\S+|(?:^|\n)\s*>[^\n]*/gi)) {
+  for (const match of text.matchAll(/"[^"]*(?:"|$)|“[^”]*(?:”|$)|‘(?:[^’]|’(?=[\p{L}\p{M}\p{N}_]))*(?:’|$)|`[^`]*(?:`|$)|(?:https?:\/\/|mailto:)\S+|(?:^|\n)\s*>[^\n]*/giu)) {
     protectedSpans.push([match.index, match.index + match[0].length]);
   }
-  for (const match of text.matchAll(/(?:^|[\s(])'[^']*(?:'|$)/g)) protectedSpans.push([match.index, match.index + match[0].length]);
+  for (const match of text.matchAll(/(?<![\p{L}\p{M}\p{N}_])'(?:[^']|'(?=[\p{L}\p{M}\p{N}_]))*(?:'|$)/gu)) protectedSpans.push([match.index, match.index + match[0].length]);
   const prefix = /\b(?:references?|refs?\.?)\s*(?=\(|[a-z])/gi;
   for (const match of text.matchAll(prefix)) {
     let cursor = match.index + match[0].length;

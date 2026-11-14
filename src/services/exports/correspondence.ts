@@ -72,7 +72,7 @@ export async function renderPreparedCorrespondence(ready: ReadyExportJob, ports:
     });
   }
   if (target === 'tex') {
-    const text = texMode === 'flat' ? generateFlatLatex(document, resolvedLevel)
+    const text = texMode === 'flat' ? generateFlatLatex(document, resolvedLevel, 'tex')
       : `% DonDocs configuration fragments. Templates and binary assets are transferred separately.\n% Captured: ${new Date(ready.job.source.capturedAt).toISOString()}\n\n`
         + Object.entries(generateAllLatexFiles(document, resolvedLevel, referenceDate).texFiles).map(([name, contents]) => `% ===== ${name} =====\n${contents}`).join('\n');
     return createExportArtifact(ready, new Blob([text], { type: 'text/plain' }));
