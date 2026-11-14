@@ -28,7 +28,6 @@ async function definitionDigest(definition: FormDefinition): Promise<string> {
 /** Capture each exact page once across all retained document/form revisions. */
 export async function capturePortableFormTemplates(definitions: readonly FormDefinition[]): Promise<PortableFormTemplateBundle | undefined> {
   if (!definitions.length) return undefined;
-  if (definitions.length > 256) throw new Error('Too many portable form definitions.');
   const bindings = new Map<string, PortableFormTemplateBinding>();
   const resources = new Map<string, PortableResourceInput>();
   let total = 0;
@@ -37,6 +36,7 @@ export async function capturePortableFormTemplates(definitions: readonly FormDef
     if (definition.pages.length > MAX_PORTABLE_RESOURCE_COUNT) throw new Error('Too many portable form template pages.');
     const definitionSha256 = await definitionDigest(definition);
     if (bindings.has(definitionSha256)) continue;
+    if (bindings.size >= 256) throw new Error('Too many distinct portable form definitions.');
     const pages: Record<string, string> = {};
     for (const page of definition.pages) {
       if (!page.sha256) throw new Error(`Template page has no checksum: ${page.file}`);
@@ -48,6 +48,8 @@ export async function capturePortableFormTemplates(definitions: readonly FormDef
         total += data.byteLength;
         if (total > MAX_PORTABLE_TOTAL_BYTES) throw new Error('Portable form templates exceed the 75 MB total limit.');
         resources.set(path, { path, name: page.file, mediaType: 'application/pdf', data: data.buffer });
+      } else {
+        await validatePackagePage(definition, page.file, new Uint8Array(resources.get(path)!.data));
       }
       pages[page.file] = path;
     }
