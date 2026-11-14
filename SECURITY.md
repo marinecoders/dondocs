@@ -44,6 +44,8 @@ The public site uses Cloudflare Web Analytics at the CDN edge. Unmodified self-h
 
 Share snapshots are password-encrypted, with no server-side revocation or password recovery. Draft files and backups are unencrypted JSON, can include referenced assets, and bypass the rendered-output text review. See the [user guide](docs/USER_GUIDE.md) and [backup rules](docs/STORAGE.md#backups).
 
+Optional share-link expiration is authenticated inside the encrypted snapshot and checked by the receiving client before import using its local clock. It is not a server-enforced access control: it cannot erase imported copies, prevent independent decryption by a password holder, or withstand a modified reader or device clock. See the [share format](docs/STORAGE.md#shared-document-format) for reader compatibility and the exact deadline boundary.
+
 The pre-export text review checks supported text in PDF, Word, TeX, share and batch operations. It does not inspect attached PDF or image contents, and a user can acknowledge a warning and continue. Page 11's dedicated EDIPI field intentionally accepts a valid 10-digit value; free-text IDs are still checked. This review assists the user and is not a data-loss-prevention control.
 
 DonDocs is community software, not an official USMC, DON or DoD system. It has no Authority to Operate for classified processing. Classification selectors and printed markings do not enforce access controls or authorize a deployment to process sensitive information. Follow your organization's handling and records requirements.

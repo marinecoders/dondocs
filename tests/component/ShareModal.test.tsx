@@ -8,7 +8,7 @@
  * decrypts the payload and loads it (surfacing a friendly error on a bad
  * password rather than throwing).
  */
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { act, fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { ShareModal } from '@/components/modals/ShareModal';
@@ -47,6 +47,7 @@ beforeEach(() => {
     formData: {}, paragraphs: [], copyTos: [], references: [], enclosures: [], distributions: [], timestamp: 0,
   }));
 });
+afterEach(() => vi.restoreAllMocks());
 
 // userEvent.setup() installs its own clipboard stub, so any spy must be
 // assigned AFTER it to win — this helper returns the writeText spy.
@@ -57,6 +58,43 @@ function stubClipboard() {
 }
 
 describe('ShareModal — share mode', () => {
+  it('encrypts the selected deadline and clears the old link when expiration changes', async () => {
+    const user = userEvent.setup();
+    stubClipboard();
+    const now = Date.UTC(2026, 10, 13);
+    vi.spyOn(Date, 'now').mockReturnValue(now);
+    vi.mocked(encryptSharePayload).mockResolvedValue('EXPIRING');
+    render(<ShareModal open mode="share" onOpenChange={vi.fn()} />);
+    await user.type(screen.getByLabelText('Password for this link'), 'password');
+    await user.selectOptions(screen.getByLabelText('Link expiration'), 'day');
+    await user.click(screen.getByRole('button', { name: /generate link/i }));
+    expect(encryptSharePayload).toHaveBeenCalledWith(expect.objectContaining({ version: 3, expiresAt: now + 86_400_000, session: expect.objectContaining({ documentMode: 'compliant' }) }), 'password');
+    expect(screen.getByText(/Expires .*Requires an updated/)).toBeVisible();
+    await user.selectOptions(screen.getByLabelText('Link expiration'), 'none');
+    expect(screen.queryByDisplayValue('https://dondocs.app/#s=EXPIRING')).not.toBeInTheDocument();
+    await user.click(screen.getByRole('button', { name: /generate link/i }));
+    expect(vi.mocked(encryptSharePayload).mock.calls.at(-1)?.[0]).toMatchObject({ version: 1 });
+    expect(vi.mocked(encryptSharePayload).mock.calls.at(-1)?.[0]).not.toHaveProperty('expiresAt');
+  });
+
+  it('holds expiration controls during encryption and rejects a deadline crossed during password work', async () => {
+    const user = userEvent.setup();
+    const write = stubClipboard();
+    const now = Date.UTC(2026, 10, 13);
+    const clock = vi.spyOn(Date, 'now').mockReturnValue(now);
+    let finish!: (value: string) => void;
+    vi.mocked(encryptSharePayload).mockImplementationOnce(() => new Promise(resolve => { finish = resolve; }));
+    render(<ShareModal open mode="share" onOpenChange={vi.fn()} />);
+    await user.type(screen.getByLabelText('Password for this link'), 'password');
+    await user.selectOptions(screen.getByLabelText('Link expiration'), 'hour');
+    await user.click(screen.getByRole('button', { name: /generate link/i }));
+    expect(screen.getByLabelText('Link expiration')).toBeDisabled();
+    clock.mockReturnValue(now + 3_600_000);
+    await act(async () => { finish('EXPIRED'); });
+    expect(screen.getByRole('alert')).toHaveTextContent('expired');
+    expect(write).not.toHaveBeenCalled();
+    expect(screen.queryByDisplayValue('https://dondocs.app/#s=EXPIRED')).not.toBeInTheDocument();
+  });
   it('invalidates the generated link when its password changes', async () => {
     const user = userEvent.setup();
     stubClipboard();
@@ -192,6 +230,43 @@ describe('ShareModal — share mode', () => {
 });
 
 describe('ShareModal — import mode', () => {
+  it.each(['during decryption', 'during review'])('rejects expiration %s before touching documents', async stage => {
+    const user = userEvent.setup();
+    const onOpenChange = vi.fn();
+    const onImportComplete = vi.fn();
+    const now = Date.UTC(2026, 10, 13);
+    const clock = vi.spyOn(Date, 'now').mockReturnValue(now);
+    const payload = { kind: 'dondocs-share', version: 3, documentKind: 'correspondence', expiresAt: now + 1000,
+      session: { docType: 'naval_letter', documentMode: 'compliant', formData: {}, paragraphs: [], references: [], enclosures: [], copyTos: [] } };
+    let finish!: (data: object) => void;
+    vi.mocked(decryptSharePayload).mockImplementationOnce(() => new Promise(resolve => { finish = resolve; }));
+    render(<ShareModal open mode="import" initialPayload="EXPIRING" onOpenChange={onOpenChange} onImportComplete={onImportComplete} />);
+    await user.type(screen.getByLabelText('Password'), 'password');
+    await user.click(screen.getByRole('button', { name: /decrypt and review/i }));
+    if (stage === 'during decryption') clock.mockReturnValue(now + 1000);
+    await act(async () => { finish(payload); });
+    if (stage === 'during review') {
+      expect(screen.getByText(/Your current draft stays in Recents/)).toBeVisible();
+      clock.mockReturnValue(now + 1000);
+      await user.click(screen.getByRole('button', { name: 'Open as new document' }));
+    }
+    expect(screen.getByRole('alert')).toHaveTextContent('expired');
+    expect(openSessionAsNew).not.toHaveBeenCalled();
+    expect(loadSharedSession).not.toHaveBeenCalled();
+    expect(onOpenChange).not.toHaveBeenCalled();
+    expect(onImportComplete).not.toHaveBeenCalled();
+  });
+
+  it.each([null, 'tomorrow', NaN, undefined])('rejects malformed expiration %s before displaying a document for review', async expiresAt => {
+    const user = userEvent.setup();
+    vi.mocked(decryptSharePayload).mockResolvedValue({ kind: 'dondocs-share', version: 3, documentKind: 'correspondence', expiresAt, session: {} });
+    render(<ShareModal open mode="import" initialPayload="INVALID" onOpenChange={vi.fn()} />);
+    await user.type(screen.getByLabelText('Password'), 'password');
+    await user.click(screen.getByRole('button', { name: /decrypt and review/i }));
+    expect(screen.getByRole('alert')).toHaveTextContent('invalid expiration');
+    expect(screen.queryByRole('button', { name: 'Open as new document' })).not.toBeInTheDocument();
+    expect(openSessionAsNew).not.toHaveBeenCalled();
+  });
   it('decrypts the payload, loads the session, and closes', async () => {
     const user = userEvent.setup();
     const onOpenChange = vi.fn();

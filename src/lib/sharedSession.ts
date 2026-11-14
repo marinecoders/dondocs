@@ -41,18 +41,51 @@ const envelope = z.discriminatedUnion('kind', [
   z.object({ kind: z.literal('dondocs-share'), version: z.union([z.literal(1), z.literal(2)]), documentKind: sharedKind }),
   z.object({ kind: z.literal('dondocs-draft'), version: z.literal(2), documentKind: sharedKind }),
 ]);
+const expiringEnvelope = z.object({
+  kind: z.literal('dondocs-share'), version: z.literal(3), documentKind: sharedKind,
+  expiresAt: z.number().int().positive().max(8_640_000_000_000_000), session: z.unknown(),
+}).strict();
+type OrdinaryShare = SerializedSession & { kind: 'dondocs-share'; version: 1 | 2; documentKind: SharedDocumentKind };
+type ExpiringShare = { kind: 'dondocs-share'; version: 3; documentKind: SharedDocumentKind; expiresAt: number; session: SerializedSession };
+
+/** UTC epoch milliseconds; the receiving device rejects at the exact deadline. */
+export function validateShareExpiration(expiresAt: number, now = Date.now()): void {
+  if (!Number.isSafeInteger(expiresAt) || expiresAt <= 0 || expiresAt > 8_640_000_000_000_000) throw new Error('This share link has an invalid expiration.');
+  if (!Number.isSafeInteger(now) || now < 0 || now > 8_640_000_000_000_000) throw new Error('Check this device’s date and time before opening the link.');
+  if (now >= expiresAt) throw new Error('This share link has expired. Ask the sender for a new link.');
+}
 function documentKind(session: SerializedSession): SharedDocumentKind {
   return session.documentCategory === 'forms' ? (session.genericForm ? 'configured-form' : 'builtin-form') : 'correspondence';
 }
 
 /** Ordinary shares retain v1; comment-bearing copies require a review-aware reader. */
-export function createSharedPayload(session: SerializedSession): SerializedSession & { kind: 'dondocs-share'; version: 1 | 2; documentKind: SharedDocumentKind } {
+export function createSharedPayload(session: SerializedSession): OrdinaryShare;
+export function createSharedPayload(session: SerializedSession, expiresAt: number): ExpiringShare;
+export function createSharedPayload(session: SerializedSession, expiresAt?: number): OrdinaryShare | ExpiringShare {
   const owned = projectSharedSession(parseSharedSession(session));
+  if (expiresAt !== undefined) {
+    validateShareExpiration(expiresAt);
+    // Nest required document fields so readers predating versioned envelopes
+    // cannot accept the document while silently discarding the deadline.
+    return { kind: 'dondocs-share', version: 3, documentKind: documentKind(owned), expiresAt, session: owned };
+  }
   return { ...owned, kind: 'dondocs-share', version: hasReviewComments(owned) ? 2 : 1, documentKind: documentKind(owned) };
 }
 
 /** Validate before touching the recipient's current document. */
 export function parseSharedSession(value: unknown): SerializedSession {
+  if (value && typeof value === 'object' && 'kind' in value && value.kind === 'dondocs-share' && 'version' in value && value.version === 3) {
+    const parsed = expiringEnvelope.safeParse(value);
+    if (!parsed.success) throw new Error('This share link has an invalid expiration or unsupported format.');
+    validateShareExpiration(parsed.data.expiresAt);
+    const source = parsed.data.session;
+    // Only one envelope is allowed. Avoid recursive or hidden restrictions.
+    if (!source || typeof source !== 'object' || ['kind', 'documentKind', 'expiresAt', 'version'].some(key => key in source)) throw new Error('This share format is unsupported.');
+    const session = parseSharedSession(source);
+    if (parsed.data.documentKind !== documentKind(session)) throw new Error('The shared document kind does not match its contents.');
+    return session;
+  }
+  if (value && typeof value === 'object' && 'expiresAt' in value) throw new Error('Expiration requires a version 3 share link. Ask the sender for a new link.');
   const metadata = value && typeof value === 'object' && ('kind' in value || 'documentKind' in value) ? envelope.safeParse(value) : undefined;
   if (metadata && !metadata.success) throw new Error('This share format is unsupported. Update DonDocs and ask the sender to create a compatible link.');
   const result = sessionSchema.safeParse(structuredClone(value));
