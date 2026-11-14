@@ -66,8 +66,8 @@ export function compareSessions(before: SerializedSession, after: SerializedSess
       for (const pair of paragraphs.pairs) {
         const position = pair.beforeIndex === pair.afterIndex ? String(pair.afterIndex)
           : `${pair.beforeIndex + 1} → ${pair.afterIndex + 1}`;
-        if (pair.moved) changes.push({ field: `Paragraphs › ${position} › Movement`,
-          before: `Position ${pair.beforeIndex + 1}`, after: `Position ${pair.afterIndex + 1}${pair.beforeIndex === pair.afterIndex ? ' in the reordered document' : ''}`, kind: 'move' });
+        if (pair.moved) changes.push({ field: `Paragraphs › ${pair.beforeIndex === pair.afterIndex ? pair.afterIndex + 1 : position} › ${pair.beforeIndex === pair.afterIndex ? 'Relative order' : 'Movement'}`,
+          before: `Position ${pair.beforeIndex + 1}`, after: `Position ${pair.afterIndex + 1}${pair.beforeIndex === pair.afterIndex ? ' (relative order changed)' : ''}`, kind: pair.beforeIndex === pair.afterIndex ? 'context' : 'move' });
         walk(before.paragraphs[pair.beforeIndex], after.paragraphs[pair.afterIndex], ['paragraphs', position]);
       }
       for (const index of paragraphs.added) {
