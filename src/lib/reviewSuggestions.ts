@@ -4,7 +4,7 @@ import { paragraphIdSchema } from './paragraphIdentity';
 import { availableCommentFields, commentFieldLabel, supportsReviewComments } from './reviewCommentTargets';
 import { reviewDigestSchema, reviewRoundIdSchema, type ReviewRound } from './reviewRounds';
 
-export const REVIEW_SUGGESTION_LIMITS = { proposals: 100, changes: 20, value: 20_000, totalCharacters: 200_000 } as const;
+export const REVIEW_SUGGESTION_LIMITS = { proposals: 100, changes: 20, decisions: 1_000, value: 20_000, totalCharacters: 200_000 } as const;
 const timestamp = z.number().int().nonnegative().max(8_640_000_000_000_000);
 export const reviewProposalIdSchema = z.string().regex(/^proposal_[0-9a-f-]{36}$/).refine(value => z.string().uuid().safeParse(value.slice(9)).success);
 const changeId = z.string().uuid();
@@ -46,7 +46,8 @@ export type ReviewSuggestion = z.infer<typeof reviewSuggestionSchema>;
 export const reviewSuggestionDecisionSchema = z.object({
   id: z.string().uuid(), proposalId: reviewProposalIdSchema,
   roundId: reviewRoundIdSchema, baselineDigest: reviewDigestSchema,
-  action: z.enum(['accepted', 'rejected']), decidedAt: timestamp,
+  action: z.enum(['accepted', 'rejected', 'reversed', 'restored']), decidedAt: timestamp,
+  previousDecisionId: z.string().uuid().optional(), acceptanceId: z.string().uuid().optional(),
 }).strict();
 export type ReviewSuggestionDecision = z.infer<typeof reviewSuggestionDecisionSchema>;
 
@@ -54,9 +55,9 @@ export const reviewSuggestionStateSchema = z.object({
   kind: z.literal('dondocs-review-suggestions'), version: z.literal(1),
   roundId: reviewRoundIdSchema, baselineDigest: reviewDigestSchema,
   proposals: z.array(reviewSuggestionSchema).max(REVIEW_SUGGESTION_LIMITS.proposals),
-  decisions: z.array(reviewSuggestionDecisionSchema).max(REVIEW_SUGGESTION_LIMITS.proposals),
+  decisions: z.array(reviewSuggestionDecisionSchema).max(REVIEW_SUGGESTION_LIMITS.decisions),
 }).strict().superRefine((value, context) => {
-  const proposals = new Set<string>(), ids = new Set<string>(), decided = new Set<string>();
+  const proposals = new Set<string>(), ids = new Set<string>(), latest = new Map<string, ReviewSuggestionDecision>();
   let characters = 0;
   for (const proposal of value.proposals) {
     if (proposal.roundId !== value.roundId || proposal.baselineDigest !== value.baselineDigest) context.addIssue({ code: 'custom', message: 'Suggestion baseline does not match its round.' });
@@ -70,8 +71,18 @@ export const reviewSuggestionStateSchema = z.object({
   }
   for (const decision of value.decisions) {
     if (decision.roundId !== value.roundId || decision.baselineDigest !== value.baselineDigest || !proposals.has(decision.proposalId)) context.addIssue({ code: 'custom', message: 'Decision does not match a suggestion in this round.' });
-    if (ids.has(decision.id) || decided.has(decision.proposalId)) context.addIssue({ code: 'custom', message: 'A suggestion already has a decision.' });
-    ids.add(decision.id);decided.add(decision.proposalId);
+    if (ids.has(decision.id)) context.addIssue({ code: 'custom', message: 'Decision IDs must be unique.' });
+    const previous = latest.get(decision.proposalId);
+    if (decision.previousDecisionId !== previous?.id) context.addIssue({ code: 'custom', message: 'Decision history is not contiguous.' });
+    if (decision.action === 'accepted' || decision.action === 'rejected') {
+      if (previous && previous.action !== 'reversed' || decision.acceptanceId !== undefined) context.addIssue({ code: 'custom', message: 'This suggestion already has an active decision.' });
+    } else {
+      const root = previous?.action === 'accepted' ? previous.id : previous?.acceptanceId;
+      if (!previous || decision.acceptanceId !== root || !root
+        || decision.action === 'reversed' && !['accepted', 'restored'].includes(previous.action)
+        || decision.action === 'restored' && previous.action !== 'reversed') context.addIssue({ code: 'custom', message: 'The reversal does not match its acceptance.' });
+    }
+    ids.add(decision.id);latest.set(decision.proposalId, decision);
   }
   if (characters > REVIEW_SUGGESTION_LIMITS.totalCharacters) context.addIssue({ code: 'custom', message: 'The suggestions exceed the supported text limit.' });
 });
@@ -91,6 +102,24 @@ export function suggestionTargetValue(session: SerializedSession, target: Review
   const paragraph = matches.length === 1 ? matches[0] : undefined;
   if (!paragraph || paragraph.figure || paragraph.tableKey) return null;
   return { label: `Paragraph ${session.paragraphs.indexOf(paragraph) + 1}`, value: paragraph.text };
+}
+
+export function availableReviewSuggestionTargets(round: ReviewRound): Array<{ key: string; label: string; target: ReviewSuggestionTarget; value: string }> {
+  const session = round.baseline.session;
+  const candidates: ReviewSuggestionTarget[] = [
+    ...availableCommentFields(session).map(field => ({ kind: 'field' as const, field: field.field, docType: session.docType })),
+    ...session.paragraphs.flatMap(paragraph => paragraph.id && paragraphIdSchema.safeParse(paragraph.id).success
+      ? [{ kind: 'paragraph' as const, paragraphId: paragraph.id, docType: session.docType }] : []),
+  ];
+  return candidates.flatMap(target => {
+    const value = suggestionTargetValue(session, target);
+    return value && value.value.length <= REVIEW_SUGGESTION_LIMITS.value ? [{ key: suggestionTargetKey(target), target, ...value }] : [];
+  });
+}
+
+export function latestReviewSuggestionDecision(state: ReviewSuggestionState, proposalId: string): ReviewSuggestionDecision | undefined {
+  for (let index = state.decisions.length - 1; index >= 0; index--) if (state.decisions[index].proposalId === proposalId) return state.decisions[index];
+  return undefined;
 }
 
 export function emptyReviewSuggestionState(round: Pick<ReviewRound, 'id' | 'baselineDigest'>): ReviewSuggestionState {
@@ -150,19 +179,24 @@ export interface ReviewSuggestionPlan {
   state: ReviewSuggestionState;
 }
 
-/** Pure, all-member preflight. A rejected suggestion records no document edits. */
-export function planReviewSuggestionDecision(round: ReviewRound, source: SerializedSession, inputState: ReviewSuggestionState,
-  proposalId: string, action: ReviewSuggestionDecision['action']): ReviewSuggestionPlan {
-  const state = validateReviewSuggestionState(round, inputState);
-  const proposal = state.proposals.find(item => item.id === proposalId);
-  if (!proposal) throw new Error('The suggestion is unavailable.');
-  validateReviewSuggestion(round, proposal);
-  const changes = proposal.changes.map(change => {
+export function inspectReviewSuggestion(round: ReviewRound, source: SerializedSession, input: ReviewSuggestion): ReviewSuggestionPlan['changes'] {
+  const proposal = validateReviewSuggestion(round, input);
+  return proposal.changes.map(change => {
     const current = suggestionTargetValue(source, change.target);
     return { id: change.id, label: current?.label ?? suggestionTargetValue(round.baseline.session, change.target)!.label,
       baseline: change.expected, current: current?.value ?? null, proposed: change.proposed, stale: current?.value !== change.expected };
   });
-  if (state.decisions.some(decision => decision.proposalId === proposalId)) return { status: 'decided', changes, session: structuredClone(source), state };
+}
+
+/** Pure, all-member preflight. A rejected suggestion records no document edits. */
+export function planReviewSuggestionDecision(round: ReviewRound, source: SerializedSession, inputState: ReviewSuggestionState,
+  proposalId: string, action: 'accepted' | 'rejected'): ReviewSuggestionPlan {
+  const state = validateReviewSuggestionState(round, inputState);
+  const proposal = state.proposals.find(item => item.id === proposalId);
+  if (!proposal) throw new Error('The suggestion is unavailable.');
+  const changes = inspectReviewSuggestion(round, source, proposal);
+  const previous = latestReviewSuggestionDecision(state, proposalId);
+  if (previous && previous.action !== 'reversed') return { status: 'decided', changes, session: structuredClone(source), state };
   if (action === 'accepted' && changes.some(change => change.stale)) return { status: 'stale', changes, session: structuredClone(source), state };
   const session = structuredClone(source);
   if (action === 'accepted') for (const change of proposal.changes) {
@@ -171,6 +205,28 @@ export function planReviewSuggestionDecision(round: ReviewRound, source: Seriali
     else session.paragraphs.find(paragraph => paragraph.id === target.paragraphId)!.text = change.proposed;
   }
   state.decisions.push({ id: crypto.randomUUID(), proposalId, roundId: round.id, baselineDigest: round.baselineDigest,
-    action, decidedAt: Date.now() });
+    action, decidedAt: Date.now(), ...(previous ? { previousDecisionId: previous.id } : {}) });
   return { status: 'ready', changes, session, state: reviewSuggestionStateSchema.parse(state) };
+}
+
+/** Called only for the owning History action tagged with this acceptance ID. */
+export function planReviewSuggestionHistory(round: ReviewRound, before: SerializedSession, after: SerializedSession,
+  inputState: ReviewSuggestionState, acceptanceId: string, direction: 'undo' | 'redo'): ReviewSuggestionState {
+  const state = validateReviewSuggestionState(round, inputState);
+  const acceptance = state.decisions.find(decision => decision.id === acceptanceId && decision.action === 'accepted');
+  if (!acceptance) throw new Error('The review acceptance for this history action is unavailable.');
+  const proposal = state.proposals.find(item => item.id === acceptance.proposalId)!;
+  const previous = latestReviewSuggestionDecision(state, proposal.id)!;
+  const activeId = previous.action === 'accepted' ? previous.id : previous.acceptanceId;
+  if (activeId !== acceptanceId || direction === 'undo' && !['accepted', 'restored'].includes(previous.action)
+    || direction === 'redo' && previous.action !== 'reversed') throw new Error('This history action no longer matches the latest review decision.');
+  for (const change of proposal.changes) {
+    const oldValue = suggestionTargetValue(before, change.target)?.value;
+    const nextValue = suggestionTargetValue(after, change.target)?.value;
+    if (oldValue !== (direction === 'undo' ? change.proposed : change.expected)
+      || nextValue !== (direction === 'undo' ? change.expected : change.proposed)) throw new Error('This history action does not reverse the accepted replacement.');
+  }
+  state.decisions.push({ id: crypto.randomUUID(), proposalId: proposal.id, roundId: round.id, baselineDigest: round.baselineDigest,
+    action: direction === 'undo' ? 'reversed' : 'restored', decidedAt: Date.now(), previousDecisionId: previous.id, acceptanceId });
+  return reviewSuggestionStateSchema.parse(state);
 }

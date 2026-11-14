@@ -3,6 +3,7 @@ import type { SerializedSession } from '@/stores/documentStore';
 import type { ReviewRound } from '@/lib/reviewRounds';
 import {
   appendReviewSuggestions, createReviewSuggestion, emptyReviewSuggestionState, planReviewSuggestionDecision,
+  planReviewSuggestionHistory, latestReviewSuggestionDecision,
   reviewSuggestionSchema, reviewSuggestionStateSchema, suggestionTargetValue, validateReviewSuggestion,
   type ReviewSuggestion, type ReviewSuggestionState,
 } from '@/lib/reviewSuggestions';
@@ -105,6 +106,39 @@ describe('reviewer replacement suggestions', () => {
     expect(again.status).toBe('decided');expect(again.state).toEqual(accepted.state);
     const rejected = planReviewSuggestionDecision(round, session, state, proposal.id, 'rejected');
     expect(planReviewSuggestionDecision(round, session, rejected.state, proposal.id, 'accepted').status).toBe('decided');
+  });
+
+  it('retains acceptance history while recording its exact Undo and Redo reversals', () => {
+    const { session, round, proposal, state } = fixture();
+    const accepted = planReviewSuggestionDecision(round, session, state, proposal.id, 'accepted');
+    const acceptanceId = accepted.state.decisions[0].id;
+    const undone = planReviewSuggestionHistory(round, accepted.session, session, accepted.state, acceptanceId, 'undo');
+    expect(undone.decisions[0]).toEqual(accepted.state.decisions[0]);
+    expect(latestReviewSuggestionDecision(undone, proposal.id)).toMatchObject({ action: 'reversed', acceptanceId });
+    const reloaded = reviewSuggestionStateSchema.parse(JSON.parse(JSON.stringify(undone)));
+    const redone = planReviewSuggestionHistory(round, session, accepted.session, reloaded, acceptanceId, 'redo');
+    expect(redone.decisions.map(decision => decision.action)).toEqual(['accepted', 'reversed', 'restored']);
+    expect(() => planReviewSuggestionHistory(round, accepted.session, session, redone, acceptanceId, 'redo')).toThrow();
+  });
+
+  it('does not mistake Undo of unrelated work for Undo of the accepted replacement', () => {
+    const { session, round, proposal, state } = fixture();
+    const accepted = planReviewSuggestionDecision(round, session, state, proposal.id, 'accepted');
+    const later = structuredClone(accepted.session);later.formData.subject = 'Unrelated edit';
+    expect(() => planReviewSuggestionHistory(round, later, accepted.session, accepted.state, accepted.state.decisions[0].id, 'undo')).toThrow(/does not reverse/);
+    expect(accepted.state.decisions).toHaveLength(1);
+  });
+
+  it('allows a deliberate new decision after Undo but refuses an obsolete acceptance history action', () => {
+    const { session, round, proposal, state } = fixture();
+    const accepted = planReviewSuggestionDecision(round, session, state, proposal.id, 'accepted');
+    const oldId = accepted.state.decisions[0].id;
+    const undone = planReviewSuggestionHistory(round, accepted.session, session, accepted.state, oldId, 'undo');
+    const newAcceptance = planReviewSuggestionDecision(round, session, undone, proposal.id, 'accepted');
+    expect(newAcceptance.status).toBe('ready');expect(newAcceptance.state.decisions).toHaveLength(3);
+    expect(() => planReviewSuggestionHistory(round, newAcceptance.session, session, newAcceptance.state, oldId, 'undo')).toThrow(/latest review decision/);
+    const malformed = structuredClone(newAcceptance.state);malformed.decisions[1].acceptanceId = crypto.randomUUID();
+    expect(reviewSuggestionStateSchema.safeParse(malformed).success).toBe(false);
   });
 
   it('imports new immutable proposals idempotently and rejects changed content under an existing ID', () => {
