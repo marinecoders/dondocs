@@ -1,16 +1,17 @@
 import { useEffect, useRef, useState } from 'react';
 import { Button } from '@/components/ui/button';
+import type { ExportGate } from '@/lib/exportController';
 import type { ActionPackage } from '@/lib/actionPackages';
 import { getExportDeploymentPolicy } from '@/config/classification';
 import { triggerDownload } from '@/lib/encoding';
 import { prepareWordPackage, acknowledgeWordPackage, renderWordPackage, type PreparedWordPackage } from '@/services/exports/wordPackage';
 import type { CorrespondenceRendererPorts } from '@/services/exports/correspondence';
 
-interface WordPackageDownloadProps { record: ActionPackage; revisionId: string; ports: CorrespondenceRendererPorts }
+interface WordPackageDownloadProps { record: ActionPackage; revisionId: string; ports: CorrespondenceRendererPorts; exportGate: ExportGate }
 export function WordPackageDownload(props: WordPackageDownloadProps) {
   return <WordPackageOperation key={`${props.record.id}:${props.revisionId}`} {...props} />;
 }
-function WordPackageOperation({ record, revisionId, ports }: WordPackageDownloadProps) {
+function WordPackageOperation({ record, revisionId, ports, exportGate }: WordPackageDownloadProps) {
   const [prepared, setPrepared] = useState<PreparedWordPackage | null>(null), [approved, setApproved] = useState(false);
   const [busy, setBusy] = useState(false), [message, setMessage] = useState(''), [error, setError] = useState('');
   const operation = useRef<AbortController | null>(null);
@@ -22,11 +23,11 @@ function WordPackageOperation({ record, revisionId, ports }: WordPackageDownload
     setBusy(true);setError('');setMessage('');
     try { await action(owner.signal); }
     catch (cause) { if (!owner.signal.aborted) setError(cause instanceof Error ? cause.message : 'The Word package could not be delivered.'); }
-    finally { if (operation.current === owner) { operation.current = null;setBusy(false); } }
+    finally { if (operation.current === owner) { operation.current = null;setBusy(false);if (owner.signal.aborted) setMessage('Word package cancelled.'); } }
   }
   function cancel() {
-    operation.current?.abort();operation.current = null;
-    setBusy(false);setPrepared(null);setApproved(false);setMessage('Word package cancelled.');
+    operation.current?.abort();
+    setPrepared(null);setApproved(false);setMessage('Cancelling Word package…');
   }
   return <section className="min-w-0 space-y-3 rounded border p-3" aria-label="Word package delivery" aria-busy={busy}>
     <h3 className="font-medium">Word package</h3>
@@ -51,11 +52,15 @@ function WordPackageOperation({ record, revisionId, ports }: WordPackageDownload
       {prepared.limitations.map((limitation, index) => <p key={index} className="text-xs text-muted-foreground">{limitation}</p>)}
       <label className="flex items-start gap-2 text-sm"><input type="checkbox" disabled={busy} checked={approved} onChange={event => setApproved(event.target.checked)} />I reviewed this captured revision, the privacy and marking findings, and every original file’s contents and signing status for Word package delivery.</label>
       <Button disabled={busy || !approved} onClick={() => void run(async signal => {
+        const release = exportGate.acquire();
+        if (!release) throw new Error('Another export is running or waiting for review. Finish or cancel it, then retry this captured Word package.');
+        try {
         acknowledgeWordPackage(prepared);
         const result = await renderWordPackage(prepared, ports, signal);
         const bytes = new Uint8Array(await result.blob.arrayBuffer());signal.throwIfAborted();
         triggerDownload(bytes, result.filename, 'application/zip');
         setPrepared(null);setApproved(false);setMessage(`Complete Word package downloaded from revision ${result.manifest.revisionId}: ${result.manifest.measured.fileCount} files. See README.txt and manifest.json for the main document, separate originals and SHA-256 digests.`);
+        } finally { release(); }
       })}>Download reviewed Word package</Button>
     </div>}
   </section>;

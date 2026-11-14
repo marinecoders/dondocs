@@ -6,7 +6,7 @@ import { PDFDocument } from 'pdf-lib';
 import { docxImageFixture } from '../_helpers/docxImageFixture';
 import { buildBaseline } from '../_helpers/compileMatrix';
 
-test.use({ serviceWorkers: 'block' });
+test.use({ serviceWorkers: 'block', actionTimeout: 15_000 });
 test.setTimeout(120_000);
 async function packages(page: Page, name?: string) {
   await page.getByRole('button', { name: 'Packages', exact: true }).click();
@@ -107,6 +107,8 @@ for (const theme of ['light', 'dark', 'classic']) {
       const transferred = await downloadWord(recipient, received, info.outputPath(`transferred-${theme}.zip`));
       const transferredManifest = JSON.parse(await transferred.file('manifest.json')!.async('string'));
       expect(transferredManifest.revisionId).toBe(manifest.revisionId);expect(transferredManifest.members).toEqual(manifest.members);
+      const receivedWord = await JSZip.loadAsync(await transferred.file(transferredManifest.mainDocument)!.async('uint8array'));
+      const receivedXml = await receivedWord.file('word/document.xml')!.async('string');expect(receivedXml).toContain('Captured package paragraph');expect(receivedXml).toContain('WORD PACKAGE FIXTURE');
       expect(transferredManifest.files.filter((file: { kind: string }) => file.kind === 'original')).toEqual(manifest.files.filter((file: { kind: string }) => file.kind === 'original'));
     } finally { await fresh.close(); }
   });
