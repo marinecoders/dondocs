@@ -14,11 +14,17 @@ export function reconcileReviewText(baseline: string, current: string, proposed:
     let start = 0, end = base.length, nextEnd = next.length;
     while (start < end && start < nextEnd && base[start] === next[start]) start++;
     while (end > start && nextEnd > start && base[end - 1] === next[nextEnd - 1]) { end--;nextEnd--; }
-    return { start, end, value: next.slice(start, nextEnd) };
+    // Repeated text can place the same minimal insertion/deletion earlier.
+    // Include every equivalent alignment when checking the other edit's span.
+    let earliest = start, shiftedEnd = end, shiftedNextEnd = nextEnd;
+    while (earliest > 0 && base[shiftedEnd - 1] === next[shiftedNextEnd - 1]) {
+      earliest--;shiftedEnd--;shiftedNextEnd--;
+    }
+    return { start, end, earliest, value: next.slice(start, nextEnd) };
   };
   const left = edit(current), right = edit(proposed);
   // Insertions on another edit's boundary are ambiguous and need a decision.
-  if (!(left.end < right.start || right.end < left.start)) return { kind: 'overlap', value: current };
+  if (!(left.end < right.earliest || right.end < left.earliest)) return { kind: 'overlap', value: current };
   const result = [...base];
   for (const item of [left, right].sort((a, b) => b.start - a.start)) result.splice(item.start, item.end - item.start, ...item.value);
   const value = result.join('');

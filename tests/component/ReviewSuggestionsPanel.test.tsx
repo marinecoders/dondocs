@@ -78,6 +78,19 @@ it('previews independent changes, permits deliberate combined text and cancels w
   expect(input.current.paragraphs[0].text).toBe('Bravo team meets on Friday.');
 });
 
+it('keeps current text as the resolution default when repeated text makes overlap ambiguous', async () => {
+  const input = props();input.round.baseline.session.paragraphs[0].text = 'Alpha Alpha team reports.';
+  input.current.paragraphs[0].text = 'Alpha team reports.';
+  input.state.proposals.push(createReviewSuggestion(input.round, { author: 'Reviewer', label: 'Team', changes: [
+    { target: { kind: 'paragraph', paragraphId: 'paragraph-one', docType: 'naval_letter' }, proposed: 'Bravo Alpha team reports.' },
+  ] }));
+  render(<ReviewSuggestionsPanel {...input} />);
+  await userEvent.click(screen.getByRole('button', { name: 'Reconcile suggestion' }));
+  expect(screen.getByText(/These edits overlap/)).toBeVisible();
+  expect(screen.getByRole('textbox', { name: 'Resolved replacement' })).toHaveValue('Alpha team reports.');
+  expect(input.onDecide).not.toHaveBeenCalled();
+});
+
 it('blocks a resolution captured before a newer target edit and requires reopening', async () => {
   const input = props();input.state.proposals.push(createReviewSuggestion(input.round, { author: 'Reviewer', label: 'Recipient', changes: [
     { target: { kind: 'field', field: 'to', docType: 'naval_letter' }, proposed: 'Reviewed recipient' },

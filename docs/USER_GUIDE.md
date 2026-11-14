@@ -150,7 +150,7 @@ suggestion**. Acceptance changes only the selected target. A missing target bloc
 acceptance. For a changed supported field or plain paragraph, choose **Reconcile
 suggestion**. Review the baseline, current and proposed values, then confirm the
 **Resolved replacement**. Separate edits within one contiguous span per side may
-be combined for review; overlapping edits, boundary insertions and wider changed
+be combined for review; overlapping edits, ambiguous repeated text, boundary insertions and wider changed
 spans require a deliberate choice. You can keep the current text, use the proposal
 or enter a combined result. Nothing changes until **Apply resolution**, and a newer
 edit invalidates the captured resolution. Mechanical groups retain their original

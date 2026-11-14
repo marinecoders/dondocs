@@ -219,6 +219,54 @@ for (const theme of ['light', 'dark', 'classic']) test(`two reviewer returns rec
   } finally { await context.close(); }
 });
 
+for (const theme of ['light', 'dark', 'classic']) test(`ambiguous repeated text requires deliberate reconciliation in ${theme}`, async ({ page }, info) => {
+  await page.addInitScript(value => {
+    localStorage.setItem('browser-test-visitor', 'returning');
+    localStorage.setItem('dondocs_ui', JSON.stringify({ state: { theme: value, editorLayout: 'scroll' }, version: 1 }));
+  }, theme);await page.goto('/');
+  const source = { documentMode: 'custom', documentCategory: 'correspondence', docType: 'naval_letter',
+    formData: { subject: 'FICTIONAL REPEATED TEXT REVIEW', from: 'Training Office', to: 'Training Officer', date: '13 Nov 26', sigLast: 'EXAMPLE' },
+    paragraphs: [{ id: 'repeated-team', text: 'Alpha Alpha team reports.', level: 0 }], references: [], enclosures: [], copyTos: [], distributions: [] };
+  await page.getByLabel('Import draft file').setInputFiles({ name: 'repeated-source.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(source)) });
+  await page.getByRole('button', { name: 'Open as new document', exact: true }).click();
+  let modal = await reviews(page);await modal.getByLabel('Review name', { exact: true }).fill('Repeated text review');
+  await modal.getByRole('button', { name: 'Start review from current draft', exact: true }).click();
+  await expect(modal.getByText('Review baseline saved. Later source edits will not change this copy.', { exact: true })).toBeVisible();
+  await modal.getByLabel('Review for suggested edits', { exact: true }).selectOption({ label: 'Repeated text review' });
+  await modal.getByLabel('Reviewer name for suggestion', { exact: true }).fill('Example reviewer');
+  await modal.getByLabel('Suggestion target', { exact: true }).selectOption({ label: 'Paragraph 1' });
+  await modal.getByLabel('Proposed replacement', { exact: true }).fill('Bravo Alpha team reports.');
+  await modal.getByRole('button', { name: 'Add suggestion', exact: true }).click();
+  await expect(modal.getByLabel('Review for suggested edits', { exact: true })).toBeEnabled();
+  await modal.getByRole('button', { name: 'Close', exact: true }).click();
+  await replaceParagraphText(page.getByRole('textbox', { name: 'Paragraph 1', exact: true }), 'Alpha team reports.');
+  modal = await reviews(page);await modal.getByLabel('Review for suggested edits', { exact: true }).selectOption({ label: 'Repeated text review' });
+  const proposal = modal.getByRole('article', { name: 'Suggestion 1: Replace paragraph 1', exact: true });
+  await proposal.getByRole('button', { name: 'Reconcile suggestion', exact: true }).click();
+  await expect(proposal.getByText(/These edits overlap/)).toBeVisible();
+  await expect(proposal.getByLabel('Resolved replacement', { exact: true })).toHaveValue('Alpha team reports.');
+  expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
+  await page.screenshot({ path: info.outputPath(`repeated-resolution-${theme}.png`), scale: 'css' });
+  await proposal.getByRole('button', { name: 'Cancel reconciliation', exact: true }).click();
+  await expect(proposal.getByText(/Current draft differs; acceptance is blocked/)).toBeVisible();
+  await proposal.getByRole('button', { name: 'Reconcile suggestion', exact: true }).click();
+  await proposal.getByLabel('Resolved replacement', { exact: true }).fill('Bravo team reports.');
+  await proposal.getByRole('button', { name: 'Apply resolution', exact: true }).click();
+  await expect(proposal.getByText(/· Accepted$/)).toBeVisible();
+  await expect(modal.getByLabel('Review for suggested edits', { exact: true })).toBeEnabled();
+  await modal.getByRole('button', { name: 'Close', exact: true }).click();
+  await action(page, 'Undo');
+  let draft = JSON.parse((await download(page, () => action(page, 'Export draft (.json)'))).toString('utf8'));
+  expect(draft.paragraphs[0].text).toBe('Alpha team reports.');await action(page, 'Redo');
+  draft = JSON.parse((await download(page, () => action(page, 'Export draft (.json)'))).toString('utf8'));
+  expect(draft.paragraphs[0].text).toBe('Bravo team reports.');await page.reload();
+  draft = JSON.parse((await download(page, () => action(page, 'Export draft (.json)'))).toString('utf8'));
+  expect(draft.paragraphs[0].text).toBe('Bravo team reports.');
+  const backup = JSON.parse((await workspaceBackup(page)).toString('utf8'));expect(backup.version).toBe(10);
+  expect(backup.reviewSuggestions[0].state.decisions.map((decision: { action: string }) => decision.action)).toEqual(['accepted', 'reversed', 'restored']);
+  expect(backup.reviewSuggestions[0].state.decisions[0].resolutions[0]).toMatchObject({ expectedCurrent: 'Alpha team reports.', value: 'Bravo team reports.' });
+});
+
 test('accepted paragraph decisions survive workspace transfer and permanent source deletion', async ({ page, browser, baseURL }, info) => {
   const init = () => { localStorage.setItem('browser-test-visitor', 'returning'); };
   await page.addInitScript(init);await page.goto('/');

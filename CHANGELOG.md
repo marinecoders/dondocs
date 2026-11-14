@@ -18,6 +18,7 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 - Keep a decision that retains current text from tagging an unrelated prior edit as a review acceptance.
 - Distinguish comparison landmarks when multiple reviewers replace the same target.
+- Require a deliberate resolution when repeated text makes the apparent independence of two edits ambiguous.
 
 ## [1.3.81] — 2026-11-13
 

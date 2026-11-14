@@ -37,6 +37,19 @@ describe('three-way native review reconciliation', () => {
     }
   });
 
+  it('requires a deliberate choice when repeated text makes an edit overlap another valid alignment', () => {
+    for (const [baseline, current, proposed] of [
+      ['Alpha Alpha team reports.', 'Alpha team reports.', 'Bravo Alpha team reports.'],
+      ['Alpha team reports.', 'Alpha Alpha team reports.', 'Bravo team reports.'],
+      ['👩🏽‍✈️ 👩🏽‍✈️ crew reports.', '👩🏽‍✈️ crew reports.', '👨🏽‍✈️ 👩🏽‍✈️ crew reports.'],
+    ]) {
+      expect(reconcileReviewText(baseline, current, proposed)).toEqual({ kind: 'overlap', value: current });
+      expect(reconcileReviewText(baseline, proposed, current)).toEqual({ kind: 'overlap', value: proposed });
+    }
+    expect(reconcileReviewText('Alpha Alpha team meets Friday.', 'Alpha team meets Friday.', 'Alpha Alpha team meets Monday.'))
+      .toEqual({ kind: 'combined', value: 'Alpha team meets Monday.' });
+  });
+
   it('accepts a captured resolution and reverses exactly the newer draft rather than the baseline', () => {
     const { session, round, proposal, state, resolution } = fixture();
     const accepted = planReviewSuggestionDecision(round, session, state, proposal.id, 'accepted', undefined, [resolution]);
