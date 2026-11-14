@@ -176,10 +176,10 @@ test('preserves endorsement citation targets through a format that temporarily h
     enclosures: [], copyTos: [{ text: 'Office w/ref (g)' }], distributions: [{ text: 'Office w/ref (h)' }],
   })) });
   await page.getByRole('button', { name: 'Open as new document', exact: true }).click();
-  await page.getByRole('button', { name: 'Correspondence type', exact: true }).click();
+  await page.getByRole('button', { name: /^Correspondence type:/ }).click();
   await page.getByRole('option', { name: 'Business Letter', exact: true }).click();
   await expect(page.getByRole('textbox', { name: 'Paragraph 1', exact: true })).toHaveText('Use reference (b), then reference (a).');
-  await page.getByRole('button', { name: 'Correspondence type', exact: true }).click();
+  await page.getByRole('button', { name: /^Correspondence type:/ }).click();
   await page.getByRole('option', { name: 'Same-Page Endorsement', exact: true }).click();
   await expect(page.getByRole('textbox', { name: 'Paragraph 1', exact: true })).toHaveText('Use reference (h), then reference (g).');
   await expect(page.getByLabel('Reference (g) title', { exact: true })).toHaveValue('Alpha');
@@ -210,7 +210,7 @@ test('blocks unsafe publication relabeling and preserves targets through a same-
     enclosures: [], copyTos: [{ text: 'Office w/ref (g)' }], distributions: [{ text: 'Office w/ref (h)' }],
   })) });
   await page.getByRole('button', { name: 'Open as new document', exact: true }).click();
-  const picker = page.getByRole('button', { name: 'Correspondence type', exact: true });
+  const picker = page.getByRole('button', { name: /^Correspondence type:/ });
   await picker.click();
   await page.getByRole('option', { name: 'I-Type Instruction (MI/SI/TI/LI)', exact: true }).click();
   await expect(picker).toHaveText('I-Type Instruction (MI/SI/TI/LI)');

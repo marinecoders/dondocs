@@ -21,7 +21,7 @@ describe('workspace category navigation', () => {
     const paragraphs = useDocumentStore.getState().paragraphs;
     render(<DocumentNavigation />);
 
-    const selector = screen.getByRole('button', { name: 'Correspondence type' });
+    const selector = screen.getByRole('button', { name: /^Correspondence type:/ });
     await user.click(selector);
     expect(within(screen.getByRole('listbox', { name: 'Correspondence types' })).getAllByRole('option')).toHaveLength(Object.keys(DOC_TYPE_CONFIG).length);
     await user.keyboard('{Escape}');
@@ -45,7 +45,7 @@ describe('workspace category navigation', () => {
     useDocumentStore.getState().setFormData({ subject: 'Another newer letter' });
     useDocumentsStore.getState().switchTo(letterId!);
     render(<DocumentNavigation />);
-    await user.click(screen.getByRole('button', { name: 'Correspondence type' }));
+    await user.click(screen.getByRole('button', { name: /^Correspondence type:/ }));
     await user.click(screen.getByRole('option', { name: 'Business Letter' }));
 
     await user.click(screen.getByRole('button', { name: 'Forms' }));
@@ -61,7 +61,7 @@ describe('workspace category navigation', () => {
     await user.click(screen.getByRole('button', { name: 'Correspondence' }));
     expect(useDocumentsStore.getState().currentId).toBe(letterId);
     expect(useDocumentStore.getState().formData.subject).toBe('Keep this letter');
-    expect(screen.getByRole('button', { name: 'Correspondence type' })).toHaveTextContent('Business Letter');
+    expect(screen.getByRole('button', { name: /^Correspondence type:/ })).toHaveTextContent('Business Letter');
     await user.click(screen.getByRole('button', { name: 'Forms' }));
     expect(useDocumentsStore.getState().currentId).toBe(remarksId);
     expect(screen.getByRole('button', { name: 'Form type' })).toHaveTextContent('Administrative Remarks');
