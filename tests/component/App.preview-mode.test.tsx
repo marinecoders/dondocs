@@ -49,7 +49,7 @@ beforeEach(() => {
   vi.spyOn(URL, 'createObjectURL').mockReturnValue('blob:form-preview');
   vi.spyOn(URL, 'revokeObjectURL').mockImplementation(() => {});
   useDocumentsStore.getState().newDocument();
-  useUIStore.setState({ isMobile: false, previewVisible: true });
+  useUIStore.setState({ isMobile: false, previewVisible: true, mobilePreviewOpen: false, shareModal: null });
   vi.spyOn(useDocumentsStore.getState(), 'init').mockResolvedValue(true);
   globalThis.ResizeObserver = class {
     observe() {}
@@ -306,4 +306,40 @@ it('closes an earlier compile error only after the current retry succeeds', asyn
   await act(async () => { finish(new Uint8Array([1, 2, 3])); });
   expect(screen.queryByRole('dialog', { name: 'Preview compile failed' })).not.toBeInTheDocument();
   expect(screen.getByTestId('preview-state')).toHaveTextContent('Ready');
+});
+
+it('retains a late preview failure without opening a modal after the preview is hidden', async () => {
+  let fail!: (error: Error) => void;
+  compile.mockImplementationOnce(() => new Promise((_, reject) => { fail = reject; }));
+  await act(async () => { render(<App />); });
+  await act(async () => { await vi.advanceTimersByTimeAsync(1600); });
+  expect(compile).toHaveBeenCalledTimes(1);
+  act(() => { useUIStore.getState().setPreviewVisible(false); });
+  await act(async () => { fail(new Error('Late preview failure')); });
+  expect(screen.queryByRole('dialog', { name: 'Preview compile failed' })).not.toBeInTheDocument();
+  expect(screen.getByTestId('preview-state')).toHaveTextContent('Late preview failure');
+  act(() => { useUIStore.getState().setPreviewVisible(true); });
+  expect(screen.getByRole('dialog', { name: 'Preview compile failed' })).toBeVisible();
+});
+
+it('defers a current preview failure while a shared import owns the dialog', async () => {
+  let fail!: (error: Error) => void;
+  compile.mockImplementationOnce(() => new Promise((_, reject) => { fail = reject; }));
+  await act(async () => { render(<App />); });
+  await act(async () => { await vi.advanceTimersByTimeAsync(1600); });
+  act(() => { useUIStore.getState().setShareModal('import'); });
+  await act(async () => { fail(new Error('Current preview failure')); });
+  expect(screen.queryByRole('dialog', { name: 'Preview compile failed' })).not.toBeInTheDocument();
+  expect(screen.getByRole('dialog', { name: 'Open shared document' })).toBeVisible();
+  act(() => { useUIStore.getState().setShareModal(null); });
+  expect(screen.getByRole('dialog', { name: 'Preview compile failed' })).toBeVisible();
+});
+
+it('closes the previous document error modal when another document activation takes over', async () => {
+  compile.mockRejectedValueOnce(new Error('Previous document failure'));
+  await act(async () => { render(<App />); });
+  await act(async () => { await vi.advanceTimersByTimeAsync(1600); });
+  expect(screen.getByRole('dialog', { name: 'Preview compile failed' })).toBeVisible();
+  act(() => { useDocumentsStore.getState().newDocument(); });
+  expect(screen.queryByRole('dialog', { name: 'Preview compile failed' })).not.toBeInTheDocument();
 });

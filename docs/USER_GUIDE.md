@@ -49,6 +49,8 @@ The encrypted copy is a snapshot, not a shared live document. Later edits do not
 
 Asset-inclusive copies require an updated reader. Older readers reject their version 4 envelope rather than opening an incomplete document. File limits are 25 MB per attachment, 75 MB total attachment bytes, 256 resources and 110 MB expanded document data. Images and attached PDFs are not automatically inspected for sensitive content; inspect them yourself before sharing. Corruption, missing files, unsupported versions, expired imports and failed storage stop the operation without replacing the current draft. Unused staged attachment bytes are eligible for the normal orphan cleanup.
 
+Handling checks include retained fields, definition text and attachment filenames. A hidden preview keeps its error without interrupting a share import; request the preview to inspect that error.
+
 Expiration is checked by DonDocs using the recipient’s device clock after decryption and again when opening the reviewed document. At the deadline, ask the sender for a new link. Expiring links require DonDocs 1.3.74 or later. This check cannot remove already opened copies or prevent someone with the link and password from extracting the contents. It is not server-side revocation.
 
 ## Trash and recovered work

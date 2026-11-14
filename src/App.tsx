@@ -218,6 +218,7 @@ function App() {
   // cycles with the same error don't re-pop; reset to null on success.
   const [compileErrorModalOpen, setCompileErrorModalOpen] = useState(false);
   const lastShownCompileErrorRef = useRef<string | null>(null);
+  useEffect(() => { lastShownCompileErrorRef.current = null; }, [currentDocId, activationEpoch]);
   // Download progress (PDF + DOCX). Non-null means a download is in flight or
   // failed; drives the modal and the Header's "Generating…" menu state.
   const [downloadProgress, setDownloadProgress] = useState<DownloadProgressPhase | null>(null);
@@ -564,10 +565,11 @@ function App() {
   // the last one shown) appears, so a persistent error doesn't re-pop every
   // debounce cycle.
   //
-  // Suppress the pop while a download or PII modal is up to avoid stacking
-  // modals for the same underlying failure; the deps re-run this when those
-  // clear so we can pop belatedly if the error is still unresolved.
+  // Hidden/background previews cannot take over an authoring or shared-import
+  // dialog. Retain their error and show it when that preview is requested.
+  const compileErrorCanOpen = (isMobile ? mobilePreviewOpen : previewVisible) && shareModal === null;
   useEffect(() => {
+    if (!compileErrorCanOpen) return;
     if (!compileError) return;
     if (compileError === lastShownCompileErrorRef.current) return;
     if (downloadProgress !== null) return;
@@ -575,7 +577,7 @@ function App() {
     lastShownCompileErrorRef.current = compileError;
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setCompileErrorModalOpen(true);
-  }, [compileError, downloadProgress, piiWarningOpen]);
+  }, [compileError, downloadProgress, piiWarningOpen, compileErrorCanOpen]);
 
   // Debounced compilation on document changes
   useEffect(() => {
@@ -633,10 +635,14 @@ function App() {
   const [navmc11811Template, setNavmc11811Template] = useState<ArrayBuffer | null>(null);
   const [formError, setFormError] = useState<string | null>(null);
   const [errorDocumentId, setErrorDocumentId] = useState(currentDocId);
+  const [errorActivationEpoch, setErrorActivationEpoch] = useState(activationEpoch);
   // A previous draft's failure must not appear on the newly selected draft.
-  if (errorDocumentId !== currentDocId) {
+  if (errorDocumentId !== currentDocId || errorActivationEpoch !== activationEpoch) {
     setErrorDocumentId(currentDocId);
+    setErrorActivationEpoch(activationEpoch);
     setCompileError(null);
+    setCompileLog(null);
+    setCompileErrorModalOpen(false);
     setFormError(null);
   }
   const [formRefresh, setFormRefresh] = useState(0);
@@ -1354,7 +1360,7 @@ function App() {
         onCancel={preparedExports.canCancel ? () => { preparedExports.cancel(); } : undefined}
       />
       <CompileErrorModal
-        open={compileErrorModalOpen}
+        open={compileErrorModalOpen && compileErrorCanOpen}
         error={compileError}
         compileLog={compileLog}
         onClose={() => setCompileErrorModalOpen(false)}

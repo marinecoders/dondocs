@@ -2,6 +2,7 @@ import { expect, test, type Page } from '@playwright/test';
 import { readFile } from 'node:fs/promises';
 import { PDFDocument } from 'pdf-lib';
 import { docxImageFixture } from '../_helpers/docxImageFixture';
+import { prepareOfflineApp } from '../_helpers/prepareOfflineApp';
 
 test.use({ serviceWorkers: 'block' });
 test.setTimeout(90_000);
@@ -13,6 +14,52 @@ async function share(page: Page) {
   else { await page.getByRole('button', { name: 'Document actions', exact: true }).click();await page.getByRole('menuitem', { name: /^Create share link/ }).click(); }
   return page.getByRole('dialog', { name: 'Share document', exact: true });
 }
+
+for (const location of ['signature filename', 'legacy image text']) test(`native sharing checks retained markings in ${location}`, async ({ page }, info) => {
+  const images = await docxImageFixture();
+  await page.addInitScript(() => localStorage.setItem('browser-test-visitor', 'returning'));
+  await page.goto('/');
+  await page.getByLabel('Import draft file').setInputFiles({ name: 'marked-native.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify({
+    documentMode: 'custom', documentCategory: 'correspondence', docType: 'naval_letter',
+    formData: { subject: 'SYNTHETIC ASSET HANDOFF', signatureType: 'image',
+      signatureImage: { name: location === 'signature filename' ? '(TS) signature.png' : 'signature.png', size: images.signature.length, data: images.signature.toString('base64') },
+      ...(location === 'legacy image text' ? { image: '(S) Retained legacy field text' } : {}),
+    }, paragraphs: [{ text: 'Synthetic retained-text policy fixture.', level: 0 }], references: [], enclosures: [], copyTos: [],
+  })) });
+  await page.getByRole('button', { name: 'Open as new document', exact: true }).click();
+  const outgoing = await share(page);
+  await outgoing.getByLabel('Password for this link', { exact: true }).fill('synthetic-password');
+  await outgoing.getByRole('button', { name: 'Generate link', exact: true }).click();
+  await expect(outgoing.getByRole('alert')).toContainText('outside this deployment');
+  await expect(outgoing.getByRole('button', { name: 'Download encrypted share file', exact: true })).toHaveCount(0);
+  await expect(outgoing.locator('#generated-share-link')).toHaveCount(0);
+  await page.screenshot({ path: info.outputPath(`retained-${location.replaceAll(' ', '-')}.png`) });
+});
+
+test('a hidden preview failure cannot interrupt reviewing a shared import', async ({ page }, info) => {
+  await page.addInitScript(() => localStorage.setItem('browser-test-visitor', 'returning'));
+  await page.goto('/');
+  const preview = page.getByRole('button', { name: 'Preview', exact: true });
+  const mobile = await preview.getAttribute('aria-haspopup') === 'dialog';
+  if (mobile || await preview.getAttribute('aria-pressed') !== 'true') await preview.click();
+  await expect(page.locator('[data-pdf-layer="active"] canvas').first()).toBeVisible({ timeout: 60_000 });
+  if (mobile) await page.getByRole('button', { name: 'Close preview', exact: true }).click();
+  else await preview.click();
+  const failure = page.waitForEvent('console', { predicate: message => message.type() === 'error' && message.text().startsWith('Compilation error:'), timeout: 30_000 });
+  await page.getByRole('textbox', { name: 'Subject', exact: true }).fill('Synthetic long field '.repeat(1_001));
+  await page.getByRole('button', { name: 'Document actions', exact: true }).click();
+  await page.getByRole('menuitem', { name: 'Open from share link', exact: true }).click();
+  const incoming = page.getByRole('dialog', { name: 'Open shared document', exact: true });
+  await failure;
+  await expect(incoming).toBeVisible();await expect(incoming.getByLabel('Password', { exact: true })).toBeEnabled();
+  await expect(page.getByRole('dialog', { name: 'Preview compile failed', exact: true })).toHaveCount(0);
+  await page.screenshot({ path: info.outputPath('hidden-preview-import.png') });
+  await incoming.getByRole('button', { name: 'Cancel', exact: true }).click();
+  await expect(page.getByRole('dialog', { name: 'Preview compile failed', exact: true })).toHaveCount(0);
+  await preview.click();
+  const error = page.getByRole('dialog', { name: 'Preview compile failed', exact: true });
+  await expect(error).toBeVisible();await expect(error.getByRole('region', { name: 'Compile error log', exact: true })).toContainText('Address block is too tall');
+});
 
 for (const formType of ['navmc_10274', 'navmc_118_11']) test(`built-in ${formType} image shares open and reload as forms`, async ({ page }, info) => {
   const images = await docxImageFixture();
@@ -81,14 +128,14 @@ test('a fresh offline recipient opens native assets from an encrypted file witho
   const filePath = testInfo.outputPath('offline-encrypted-share.json');
   await (await pending).saveAs(filePath);
   const recipient = await browser.newContext({ viewport: page.viewportSize()!, userAgent: await page.evaluate(() => navigator.userAgent),
-    serviceWorkers: 'block', isMobile: !!testInfo.project.use.isMobile, hasTouch: !!testInfo.project.use.hasTouch });
+    serviceWorkers: 'allow', isMobile: !!testInfo.project.use.isMobile, hasTouch: !!testInfo.project.use.hasTouch });
   try {
     await recipient.addInitScript(() => {
       localStorage.setItem('browser-test-visitor', 'returning');
       localStorage.setItem('dondocs_ui', JSON.stringify({ state: { theme: 'light', editorLayout: 'scroll', previewVisible: false }, version: 1 }));
     });
     const receiving = await recipient.newPage();
-    await receiving.goto(page.url().split('#')[0]);
+    await prepareOfflineApp(receiving, page.url().split('#')[0]);
     await expect(receiving.getByRole('textbox', { name: 'Subject', exact: true })).toBeVisible();
     const preview = receiving.getByRole('button', { name: 'Preview', exact: true });
     if (await preview.getAttribute('aria-pressed') === 'true') await preview.click();
@@ -106,7 +153,7 @@ test('a fresh offline recipient opens native assets from an encrypted file witho
     await expect(incoming).toBeHidden();
     const restored = await exportDraft(receiving);
     expect(Buffer.from(restored.enclosures[0].file.data, 'base64').equals(bytes)).toBe(true);
-    await recipient.setOffline(false);await receiving.reload();
+    await receiving.reload();
     await expect(receiving.getByRole('textbox', { name: 'Subject', exact: true })).toHaveValue('SYNTHETIC ASSET HANDOFF');
     const reopened = await exportDraft(receiving);
     expect(reopened.enclosures[0].file.data).toBe(restored.enclosures[0].file.data);
