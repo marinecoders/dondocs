@@ -6,7 +6,11 @@ import { triggerDownload } from '@/lib/encoding';
 import { prepareWordPackage, acknowledgeWordPackage, renderWordPackage, type PreparedWordPackage } from '@/services/exports/wordPackage';
 import type { CorrespondenceRendererPorts } from '@/services/exports/correspondence';
 
-export function WordPackageDownload({ record, revisionId, ports }: { record: ActionPackage; revisionId: string; ports: CorrespondenceRendererPorts }) {
+interface WordPackageDownloadProps { record: ActionPackage; revisionId: string; ports: CorrespondenceRendererPorts }
+export function WordPackageDownload(props: WordPackageDownloadProps) {
+  return <WordPackageOperation key={`${props.record.id}:${props.revisionId}`} {...props} />;
+}
+function WordPackageOperation({ record, revisionId, ports }: WordPackageDownloadProps) {
   const [prepared, setPrepared] = useState<PreparedWordPackage | null>(null), [approved, setApproved] = useState(false);
   const [busy, setBusy] = useState(false), [message, setMessage] = useState(''), [error, setError] = useState('');
   const operation = useRef<AbortController | null>(null);

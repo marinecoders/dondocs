@@ -17,11 +17,9 @@ import { renderPreparedCorrespondence, type CorrespondenceRendererPorts, type Ex
 export const MAX_WORD_PACKAGE_BYTES = 200 * 1024 * 1024;
 export const MAX_WORD_DOCUMENT_BYTES = 25 * 1024 * 1024;
 export const WORD_PACKAGE_LIMITATIONS = [
-  'DOCX files contain supported editable correspondence. Native forms and publications are not converted to Word; deliver those through the separate editable package or as original PDFs.',
-  'Original PDFs, enclosures and images are separate unchanged files. PDF pages are not editable Word pages. PDF signing fields do not become Word signing fields.',
-  'Review the DOCX in Word and complete signing using your organization’s Word signing process. A visual signature image is not a certificate signature. Original signed files retain their original bytes; derivatives inherit no signature or approval.',
-  'Word and PDF use different layout engines. Matching pagination and rich Word review import are not promised.',
-  'Completeness describes the listed captured files, not authorization, classification approval, accessibility conformance or signature validity. Review original file contents before sharing.',
+  'Original PDFs and enclosures remain separate unchanged files. PDF pages and PDF signing fields do not become editable Word content.',
+  'Review the DOCX in Word and complete signing using your organization’s Word signing process. A visual signature image is not a certificate signature. Derivatives inherit no original signature or approval.',
+  'Word and PDF use different layout engines; pagination can differ.',
 ] as const;
 
 export interface WordPackageFile {
@@ -50,8 +48,13 @@ const approved = new WeakSet<PreparedWordPackage>();
 /** ZIP names are generated from positions, never source paths; labels keep their Unicode spelling in the manifest. */
 export function wordPackageFilename(label: string, fallback = 'document'): string {
   const basename = label.split(/[\\/]/).at(-1) || fallback;
-  const safe = Array.from(basename, char => /[<>:"|?*]/.test(char) || char.charCodeAt(0) < 32 || char.charCodeAt(0) === 127 ? '_' : char)
-    .slice(0, 120).join('').replace(/[. ]+$/, '') || fallback;
+  const portable = Array.from(basename, char => /[<>:"|?*\u202a-\u202e\u2066-\u2069]/.test(char) || char.charCodeAt(0) < 32 || char.charCodeAt(0) === 127 ? '_' : char).join('');
+  let safe = '';
+  for (const char of portable) {
+    if (new TextEncoder().encode(safe + char).byteLength > 160) break;
+    safe += char;
+  }
+  safe = safe.replace(/^[. ]+|[. ]+$/g, '') || fallback;
   return /^(?:con|prn|aux|nul|com[1-9]|lpt[1-9])(?:\.|$)/i.test(safe) ? `_${safe}` : safe;
 }
 function scopeAssets(records: Map<string, StoredAttachment>): ExportAssets {

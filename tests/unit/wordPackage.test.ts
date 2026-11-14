@@ -5,6 +5,8 @@ import { PDFDocument } from 'pdf-lib';
 import { captureDocumentRevision } from '@/lib/capturedDocument';
 import { capturePackageMember, captureOriginalPackageMember, retainPackageAsset } from '@/lib/actionPackageAssets';
 import { type ActionPackage, type PackageMember } from '@/lib/actionPackages';
+import { buildPortableActionPackage, parsePortableActionPackage } from '@/lib/actionPackageTransfer';
+import { persistAttachment } from '@/lib/attachments';
 import { idbDeleteAttachment, idbPutAttachment } from '@/lib/documentsDb';
 import { portableResourceDigest } from '@/lib/portableResources';
 import { resolveExportDeploymentPolicy } from '@/lib/exportDeploymentPolicy';
@@ -54,7 +56,7 @@ it('delivers one editable main document and every separate unchanged original wi
   const payloads = Object.values(zip.files).filter(file => !file.dir && !['README.txt', 'manifest.json'].includes(file.name));
   expect(manifest.measured.fileCount).toBe(payloads.length);
   expect(manifest.measured.fileBytes).toBe(manifest.files.reduce((total: number, file: { size: number }) => total + file.size, 0));
-  expect(await zip.file('README.txt')!.async('string')).toContain('PDF signing fields do not become Word signing fields');
+  expect(await zip.file('README.txt')!.async('string')).toContain('PDF signing fields do not become editable Word content');
   expect(Object.keys(zip.files).every(path => !path.includes('..') && !path.includes('\\'))).toBe(true);
   expect(Object.keys(zip.files).some(path => path.endsWith('.json') && path !== 'manifest.json')).toBe(false);
 });
@@ -139,4 +141,23 @@ it('generates extractable filenames without collapsing Unicode labels or allowin
   expect(wordPackageFilename('folder\\CON.pdf')).toBe('_CON.pdf');
   expect(wordPackageFilename('..')).toBe('document');
   expect(wordPackageFilename('A:B?.pdf. ')).toBe('A_B_.pdf');
+  expect(new TextEncoder().encode(wordPackageFilename('演習😀'.repeat(80))).byteLength).toBeLessThanOrEqual(160);
+  expect(wordPackageFilename('\u202epdf.exe')).toBe('_pdf.exe');
+});
+
+it('rejects untrusted portable paths before they can enter a Word delivery', async () => {
+  const { record } = await fixture(), before = structuredClone(record);
+  const json = JSON.parse(await buildPortableActionPackage(record));
+  json.portableResources.entries[0].path = '../outside.pdf';
+  await expect(parsePortableActionPackage(JSON.stringify(json))).rejects.toThrow('manifest');
+  expect(record).toEqual(before);
+});
+it('blocks a corrupt captured figure before producing any complete Word archive', async () => {
+  const bytes = new TextEncoder().encode('corrupt PNG').buffer;
+  const fileRef = await persistAttachment({ name: 'figure.png', size: bytes.byteLength, type: 'image/png' }, bytes);
+  const { record } = await fixture({ docType: 'business_letter', paragraphs: [{ text: 'Broken figure', level: 0, figure: { fileRef, name: 'figure.png', type: 'image/png' } }] });
+  const prepared = await prepareWordPackage(record, record.currentRevisionId, policy);acknowledgeWordPackage(prepared);
+  const convertDocx = vi.fn(ports.convertDocx);
+  await expect(renderWordPackage(prepared, { ...ports, convertDocx })).rejects.toThrow(/PNG/);
+  expect(convertDocx).not.toHaveBeenCalled();
 });
