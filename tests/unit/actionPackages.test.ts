@@ -1069,6 +1069,18 @@ it("rejects multi-page PDF figures before capture or portable import while allow
   await expect(captureOriginalPackageMember({ name: "complete-drawing.pdf", data: bytes }, "enclosure", false)).resolves.toMatchObject({ kind: "original" });
 });
 
+it("reports unsupported business-letter PDF figures before assembly instead of failing during rendering", async () => {
+  const bytes = await pdfBytes();
+  const fileRef = await persistAttachment({ name: "business-drawing.pdf", type: "application/pdf", size: bytes.byteLength }, bytes);
+  const source = { ...snapshot(), documentMode: "custom" as const, docType: "business_letter" as const,
+    paragraphs: [{ text: "Original drawing", level: 0, figure: { name: "business-drawing.pdf", type: "application/pdf", fileRef } }] };
+  const member = await capturePackageMember(captureDocumentRevision({ documentId: "business-pdf-figure", epoch: 0, editSequence: 1, capturedAt: Date.now() }, source), "Business letter", "basic-letter");
+  const record = await reviseActionPackage(await createActionPackage("Business PDF figure"), [member]);
+  const prepared = await preparePackageAssembly(record, record.currentRevisionId, policy);
+  expect(prepared.readiness.state).toBe("incomplete");
+  expect(prepared.readiness.findings).toContainEqual(expect.objectContaining({ memberId: member.id, severity: "error", message: expect.stringMatching(/Business-letter figures require PNG or JPEG/) }));
+});
+
 it("assembles long supporting labels and preserves long original filenames", async () => {
   const { record, member } = await fixture();
   const name = `${"supporting-original-".repeat(8)}.pdf`;

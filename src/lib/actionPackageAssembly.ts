@@ -240,6 +240,8 @@ export async function preparePackageAssembly(
             review: await reviewPackageOriginal(file.data, file.name, policy),
           });
       const { snapshot } = await preparePackageMember(member);
+      if (snapshot.documentCategory !== "forms" && snapshot.docType === "business_letter" && snapshot.paragraphs.some(paragraph => paragraph.figure?.type === "application/pdf"))
+        error("Business-letter figures require PNG or JPEG images. Convert the PDF figure and save a new package revision.", member.id);
       if (member.role === "endorsement" && !isEndorsement(snapshot.docType))
         error(
           "The endorsement role requires an existing native endorsement document or an original PDF.",
