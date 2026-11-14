@@ -1052,6 +1052,10 @@ export async function idbRestoreReviewSuggestions(input: unknown[], inputReceipt
     if (!records.length && !receipts.length) return true;
     if (new Set(records.map(record => reviewSuggestionKey(record.documentId, record.state.roundId))).size !== records.length
       || new Set(receipts.map(receipt => receipt.writeId)).size !== receipts.length) return false;
+    const currentRecords = await idbGetAllDocuments();
+    if (currentRecords === null) return false;
+    const { materializeSignatureFallbacks } = await import('./signatureCompatibility');
+    const portableRecords = await Promise.all(currentRecords.map(async document => JSON.parse(JSON.stringify({ ...document, session: await materializeSignatureFallbacks(document.session) })) as StoredDocument));
     const db = await openDb();
     return await new Promise<boolean>((resolve, reject) => {
       const transaction = db.transaction([APP_STORE, DOCS_STORE], 'readwrite');
@@ -1069,7 +1073,9 @@ export async function idbRestoreReviewSuggestions(input: unknown[], inputReceipt
             validateReviewSuggestionState(round, record.state);
             const current = check.document.result as StoredDocument | undefined;
             const snapshot = expected.find(document => document.id === record.documentId);
-            if (!!current !== !!snapshot || current && !sameReviewStoredValue(current, snapshot)
+            const captured = currentRecords.find(document => document.id === record.documentId);
+            const portable = portableRecords.find(document => document.id === record.documentId);
+            if (!!current !== !!snapshot || current && (!sameReviewStoredValue(current, captured) || !sameReviewStoredValue(portable, snapshot))
               || check.prior.result && !sameReviewStoredValue(check.prior.result.value, record)) return;
             if (current && round.ownerDocumentId !== record.documentId) {
               const copy = reviewCopyLinkSchema.parse(check.copy.result?.value);
