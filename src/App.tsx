@@ -498,6 +498,7 @@ function App() {
         // Success: clear any held-over log and reset the modal dedup guard so a
         // future failure (including a re-break of the same error) pops again.
         setCompileLog(null);
+        setCompileErrorModalOpen(false);
         lastShownCompileErrorRef.current = null;
 
         // Not full-quality but there's more to show: upgrade the resting preview

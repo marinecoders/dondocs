@@ -119,3 +119,39 @@ async function expectPdfImages(bytes: Uint8Array) {
   expect(dimensions).toContain('360x90');
   expect(dimensions).toContain('480x240');
 }
+
+test('a successful figure preview closes an earlier missing-image error and restores document tools', async ({ page, isMobile }) => {
+  test.skip(isMobile, 'This recovery checks the always-visible desktop preview.');
+  const images = await docxImageFixture();
+  await page.addInitScript(() => {
+    localStorage.setItem('browser-test-visitor', 'returning');
+    localStorage.setItem('dondocs_ui', JSON.stringify({ state: { theme: 'light', editorLayout: 'scroll' }, version: 1 }));
+  });
+  await page.goto('/');
+  const draft = { documentCategory: 'correspondence', documentMode: 'custom', docType: 'business_letter',
+    formData: { subject: 'FIGURE PREVIEW RECOVERY', to: 'Training Office', date: 'November 13, 2026', sigFirst: 'Alex', sigLast: 'Example' },
+    paragraphs: [{ text: 'Training layout', level: 0 }], references: [], enclosures: [], copyTos: [], distributions: [] };
+  await page.getByLabel('Import draft file').setInputFiles({ name: 'figure-recovery.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(draft)) });
+  await page.getByRole('button', { name: 'Open as new document', exact: true }).click();
+  // Hold the pending file read so the empty figure preview fails before upload completes.
+  await page.evaluate(() => {
+    const read = File.prototype.arrayBuffer;
+    let release!: () => void;
+    const pending = new Promise<void>(resolve => { release = resolve; });
+    File.prototype.arrayBuffer = function () {
+      return this.name === 'figure.png' ? pending.then(() => read.call(this)) : read.call(this);
+    };
+    (window as unknown as { finishFigureUpload: () => void }).finishFigureUpload = release;
+  });
+  await page.getByRole('button', { name: 'Block kind: paragraph. Change', exact: true }).click();
+  await page.getByRole('menuitemradio', { name: /Figure — an image/ }).click();
+  await page.getByLabel('Image for figure 1', { exact: true }).setInputFiles({ name: 'figure.png', mimeType: 'image/png', buffer: images.figure });
+  const error = page.getByRole('dialog', { name: 'Preview compile failed', exact: true });
+  await expect(error).toContainText('Figure 1 has no image', { timeout: 30_000 });
+  await page.evaluate(() => (window as unknown as { finishFigureUpload: () => void }).finishFigureUpload());
+  await expect(page.getByText('figure.png', { exact: true }).first()).toBeVisible();
+  await expect(error).toBeHidden({ timeout: 30_000 });
+  await expect(page.locator('.workspace-preview [title="Document preview"]').first()).toBeAttached({ timeout: 30_000 });
+  await page.getByRole('button', { name: 'Document tools', exact: true }).click();
+  await expect(page.getByRole('menuitem', { name: 'Formatting…', exact: true })).toBeVisible();
+});

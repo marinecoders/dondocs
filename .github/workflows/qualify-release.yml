@@ -14,8 +14,8 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 25
     steps:
-      - uses: actions/checkout@v7
-      - uses: actions/setup-node@v6
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
         with:
           node-version: 22
           cache: npm
@@ -23,7 +23,7 @@ jobs:
       - run: bash scripts/ci-use-ubuntu-archive.sh
       - run: npx playwright install --with-deps chromium firefox webkit
       - run: npm run test:release-builds
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           ref: a6bab99c2eb394bd677a00312bc595e82f4e0a2a
           path: .release-legacy
@@ -61,7 +61,7 @@ jobs:
             sleep 1
           done
           npm run release:verify-live -- http://127.0.0.1:8789 || { cat /tmp/release-wrangler.log; exit 1; }
-      - uses: actions/upload-artifact@v7
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         if: failure()
         with:
           name: release-qualification-failure

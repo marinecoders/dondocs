@@ -201,8 +201,8 @@ test('resolved detached feedback survives portable drafts without matching repla
   await comments.getByRole('button', { name: 'Go to paragraph', exact: true }).click();
   const paragraph = page.getByRole('textbox', { name: 'Paragraph 1', exact: true });
   await expect(paragraph).toBeFocused();
-  await paragraph.press('ControlOrMeta+A');
-  await paragraph.pressSequentially('The current paragraph changed after its resolved feedback.', { delay: 1 });
+  // Select this editable's text independently of the host OS keyboard shortcuts.
+  await paragraph.fill('The current paragraph changed after its resolved feedback.');
   await expect(paragraph).toHaveText('The current paragraph changed after its resolved feedback.');
   await page.getByRole('button', { name: 'Add paragraph', exact: true }).click();
   await page.getByRole('textbox', { name: 'Paragraph 2', exact: true }).fill(detachedText);
