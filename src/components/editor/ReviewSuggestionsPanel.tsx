@@ -1,4 +1,4 @@
-import { useEffect, useId, useRef, useState, type FormEvent } from 'react';
+import { useEffect, useLayoutEffect, useId, useRef, useState, type FormEvent } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -32,6 +32,7 @@ export function ReviewSuggestionsPanel({ round, current, state, owner, busy, onC
   const alive = useRef(true), working = useRef(false);
   const result = useRef<HTMLParagraphElement>(null);
   useEffect(() => { alive.current = true;return () => { alive.current = false; }; }, []);
+  useLayoutEffect(() => { if (notice) result.current?.focus({ preventScroll: true }); }, [notice]);
   const disabled = busy || pending;
   const targets = availableReviewSuggestionTargets(round);
   const target = targets.find(item => item.key === selected);
@@ -45,7 +46,6 @@ export function ReviewSuggestionsPanel({ round, current, state, owner, busy, onC
         changes: [{ target: target.target, proposed }] });
       if (await onCreate(proposal) && alive.current) {
         setSelected('');setProposed('');setNotice('Suggestion submitted to this review.');
-        requestAnimationFrame(() => result.current?.focus({ preventScroll: true }));
       }
     } catch (cause) { if (alive.current) setError(cause instanceof Error ? cause.message : 'The suggestion could not be added.'); }
     finally { working.current = false;if (alive.current) setPending(false); }
@@ -56,7 +56,7 @@ export function ReviewSuggestionsPanel({ round, current, state, owner, busy, onC
     working.current = true;setPending(true);setError('');setNotice('');
     try {
       if (await onDecide(id, action) && alive.current) {
-        setNotice('Review decision submitted.');requestAnimationFrame(() => result.current?.focus({ preventScroll: true }));
+        setNotice('Review decision submitted.');
       }
     }
     catch (cause) { if (alive.current) setError(cause instanceof Error ? cause.message : 'The decision could not be recorded.'); }
