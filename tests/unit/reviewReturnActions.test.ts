@@ -29,11 +29,12 @@ beforeEach(() => {
   useDocumentsStore.setState({ docs: {}, trash: {}, currentId: null, hydrated: true, baseline: null });
 });
 afterEach(async () => { await flushDocumentWrites(); });
-async function fixture(options: { comments?: ReviewComments; subject?: string; paragraphId?: string; secret?: boolean; custom?: string } = {}) {
+async function fixture(options: { comments?: ReviewComments; subject?: string; paragraphId?: string; secret?: boolean; custom?: string; portion?: 'S' } = {}) {
   useDocumentsStore.getState().newDocument();
   useDocumentStore.getState().setField('subject', options.subject ?? 'Author draft');
   if (options.paragraphId) useDocumentStore.setState({ paragraphs: [{ ...useDocumentStore.getState().paragraphs[0], id: options.paragraphId, text: 'Reviewed plain paragraph.' }] });
   if (options.secret) useDocumentStore.getState().setField('classLevel', 'secret');
+  if (options.portion) useDocumentStore.getState().updateParagraph(0, { text: 'Reviewed baseline paragraph.', portionMarking: options.portion });
   if (options.custom) { useDocumentStore.getState().setField('classLevel', 'custom');useDocumentStore.getState().setField('customClassification', options.custom); }
   if (options.comments) useDocumentStore.setState({ reviewComments: options.comments });
   await commitCurrentDocument();
@@ -74,6 +75,21 @@ describe('captured review-return actions', () => {
     expect(stored.state.decisions.map(decision => decision.action)).toEqual(['accepted', 'reversed', 'restored']);
     const repeated = await prepareReviewReturnImport(payload);expect(repeated.alreadyImported).toBe(true);
     expect(await applyReviewReturn(repeated, {})).toBe('already-imported');
+  });
+  it('keeps the recognized baseline floor when an unranked custom marking is retained', async () => {
+    vi.mocked(getExportDeploymentPolicy).mockResolvedValue(allLevels);
+    const { round, owner } = await fixture({ custom: 'INTERNAL HANDLING', portion: 'S' });
+    const proposal = createReviewSuggestion(round, { author: 'Reviewer', label: 'Subject', changes: [{ target: { kind: 'field', field: 'subject', docType: 'naval_letter' }, proposed: 'Reviewed subject' }] });
+    await submitReviewSuggestion(proposal);const payload = await exported();expect(payload.handling.marking).toContain('SECRET');
+    useDocumentsStore.getState().switchTo(owner);
+    useDocumentStore.getState().updateParagraph(0, { text: 'Lower marked current paragraph.', portionMarking: undefined });
+    expect(await applyReviewReturn(await prepareReviewReturnImport(payload), {})).toBe('committed');
+    await expect(decideReviewSuggestion(round.id, proposal.id, 'accepted')).rejects.toThrow(/marked below/);
+    expect(useDocumentStore.getState().formData.subject).toBe('Author draft');
+    useDocumentStore.getState().updateParagraph(0, { portionMarking: 'S' });
+    expect((await decideReviewSuggestion(round.id, proposal.id, 'accepted')).status).toBe('committed');
+    expect(useDocumentStore.getState().formData.customClassification).toBe('INTERNAL HANDLING');
+    expect(useDocumentStore.getState().formData.subject).toBe('Reviewed subject');
   });
   it('scans an emitted paragraph target identifier without adding unrelated native text to the return', async () => {
     const { round } = await fixture({ subject: 'Unemitted native subject', paragraphId: '123-45-6789' });
