@@ -17,6 +17,7 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 ### Fixed
 
 - Enforce the reviewed baseline’s recognized handling level even when it also carries a custom marking.
+- Validate the resulting document when a suggestion replaces its custom handling label, blocking label removal or downgrades while permitting a valid increase.
 - Keep suggestion success announcements from interrupting input in the next replacement field.
 
 ## [1.3.79] — 2026-11-13

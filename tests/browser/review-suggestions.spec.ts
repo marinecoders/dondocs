@@ -223,3 +223,46 @@ test('retained custom labels do not bypass the recognized review marking floor',
   expect(bundle.reviewSuggestions[0].state.proposals).toHaveLength(1);expect(bundle.reviewSuggestions[0].state.decisions).toEqual([]);
   await writeFile(info.outputPath('unchanged-after-floor-rejection-backup.json'), backup);await writeFile(info.outputPath('unchanged-after-floor-rejection-draft.json'), JSON.stringify(clean, null, 2));
 });
+
+for (const scenario of [
+  { name: 'recognized downgrade', baseline: 'SECRET', proposed: 'UNCLASSIFIED', error: 'marked below the reviewed content' },
+  { name: 'retained custom label removal', baseline: 'INTERNAL HANDLING', proposed: 'UNCLASSIFIED', error: 'unranked or incomplete markings' },
+  { name: 'recognized upgrade', baseline: 'CUI', proposed: 'SECRET', error: null },
+] as const) test(`custom marking replacement checks the resulting document: ${scenario.name}`, async ({ page }, info) => {
+  await page.route('**/classification.config.json?**', route => route.fulfill({ json: { maxLevel: 'secret', allowedLevels: ['unclassified', 'cui', 'confidential', 'secret'] } }));
+  await page.addInitScript(() => { localStorage.setItem('browser-test-visitor', 'returning'); });await page.goto('/');
+  const source = { documentMode: 'custom', documentCategory: 'correspondence', docType: 'naval_letter',
+    formData: { subject: 'FICTIONAL CUSTOM MARKING REVIEW', from: 'Training Office', to: 'Training Officer', date: '13 Nov 26', sigLast: 'EXAMPLE', classLevel: 'custom', customClassification: scenario.baseline },
+    paragraphs: [{ id: 'custom-marking-paragraph', text: 'Fictional baseline paragraph.', level: 0 }], references: [], enclosures: [], copyTos: [], distributions: [] };
+  await page.getByLabel('Import draft file').setInputFiles({ name: 'custom-marking-source.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(source)) });
+  await page.getByRole('button', { name: 'Open as new document', exact: true }).click();
+  const modal = await reviews(page);await modal.getByLabel('Review name', { exact: true }).fill('Custom marking review');
+  await modal.getByRole('button', { name: 'Start review from current draft', exact: true }).click();
+  await expect(modal.getByText('Review baseline saved. Later source edits will not change this copy.', { exact: true })).toBeVisible();
+  await modal.getByLabel('Review for suggested edits', { exact: true }).selectOption({ label: 'Custom marking review' });
+  await modal.getByLabel('Reviewer name for suggestion', { exact: true }).fill('Example reviewer');
+  await modal.getByLabel('Suggestion target', { exact: true }).selectOption('field:customClassification');
+  await modal.getByLabel('Proposed replacement', { exact: true }).fill(scenario.proposed);
+  await modal.getByRole('button', { name: 'Add suggestion', exact: true }).click();
+  const proposal = modal.getByRole('article', { name: 'Suggestion 1: Replace custom classification', exact: true });
+  await proposal.getByRole('button', { name: 'Accept suggestion', exact: true }).click();
+  if (scenario.error) {
+    await expect(modal.getByRole('alert')).toContainText(scenario.error);
+    await expect(proposal.getByText(/· Pending$/)).toBeVisible();
+  } else {
+    await expect(proposal.getByText(/· Accepted$/)).toBeVisible();
+    await expect(modal.getByText('Review change saved.', { exact: true })).toBeVisible();
+  }
+  await expect(modal.getByLabel('Review for suggested edits', { exact: true })).toBeEnabled();
+  await page.screenshot({ path: info.outputPath(`custom-marking-${scenario.name.replaceAll(' ', '-')}.png`), scale: 'css' });
+  await modal.getByRole('button', { name: 'Close', exact: true }).click();
+  const expected = scenario.error ? scenario.baseline : scenario.proposed;
+  const clean = JSON.parse((await download(page, () => action(page, 'Export draft (.json)'))).toString('utf8'));
+  expect(clean.formData.customClassification).toBe(expected);
+  const backup = await workspaceBackup(page), bundle = JSON.parse(backup.toString('utf8'));
+  expect(bundle.reviewSuggestions[0].state.decisions.map((decision: { action: string }) => decision.action)).toEqual(scenario.error ? [] : ['accepted']);
+  await writeFile(info.outputPath('custom-marking-backup.json'), backup);
+  await page.reload();
+  const reopened = JSON.parse((await download(page, () => action(page, 'Export draft (.json)'))).toString('utf8'));
+  expect(reopened.formData.customClassification).toBe(expected);
+});

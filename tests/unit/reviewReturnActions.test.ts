@@ -91,6 +91,33 @@ describe('captured review-return actions', () => {
     expect(useDocumentStore.getState().formData.customClassification).toBe('INTERNAL HANDLING');
     expect(useDocumentStore.getState().formData.subject).toBe('Reviewed subject');
   });
+  it.each([
+    { baseline: 'SECRET', proposed: 'UNCLASSIFIED', error: /marked below/ },
+    { baseline: 'INTERNAL HANDLING', proposed: 'UNCLASSIFIED', error: /unranked or incomplete/ },
+  ])('rejects a custom marking replacement that drops the retained $baseline handling', async ({ baseline, proposed, error }) => {
+    vi.mocked(getExportDeploymentPolicy).mockResolvedValue(allLevels);
+    const { round, owner } = await fixture({ custom: baseline });
+    const proposal = createReviewSuggestion(round, { author: 'Reviewer', label: 'Custom marking',
+      changes: [{ target: { kind: 'field', field: 'customClassification', docType: 'naval_letter' }, proposed }] });
+    expect((await submitReviewSuggestion(proposal)).status).toBe('committed');
+    const payload = await exported();useDocumentsStore.getState().switchTo(owner);
+    expect(await applyReviewReturn(await prepareReviewReturnImport(payload), {})).toBe('committed');
+    await expect(decideReviewSuggestion(round.id, proposal.id, 'accepted')).rejects.toThrow(error);
+    expect(useDocumentStore.getState().formData.customClassification).toBe(baseline);
+    expect(reviewSuggestionRecordSchema.parse(await idbReadReviewSuggestions(owner, round.id)).state.decisions).toEqual([]);
+  });
+  it('accepts a custom marking replacement whose resulting document meets the raised floor', async () => {
+    vi.mocked(getExportDeploymentPolicy).mockResolvedValue(allLevels);
+    const { round, owner } = await fixture({ custom: 'CUI' });
+    const proposal = createReviewSuggestion(round, { author: 'Reviewer', label: 'Custom marking',
+      changes: [{ target: { kind: 'field', field: 'customClassification', docType: 'naval_letter' }, proposed: 'SECRET' }] });
+    expect((await submitReviewSuggestion(proposal)).status).toBe('committed');
+    const payload = await exported();useDocumentsStore.getState().switchTo(owner);
+    expect(await applyReviewReturn(await prepareReviewReturnImport(payload), {})).toBe('committed');
+    expect((await decideReviewSuggestion(round.id, proposal.id, 'accepted')).status).toBe('committed');
+    expect(useDocumentStore.getState().formData.customClassification).toBe('SECRET');
+    expect(reviewSuggestionRecordSchema.parse(await idbReadReviewSuggestions(owner, round.id)).state.decisions.map(item => item.action)).toEqual(['accepted']);
+  });
   it('scans an emitted paragraph target identifier without adding unrelated native text to the return', async () => {
     const { round } = await fixture({ subject: 'Unemitted native subject', paragraphId: '123-45-6789' });
     const proposal = createReviewSuggestion(round, { author: 'Reviewer', label: 'Plain paragraph', changes: [{ target: { kind: 'paragraph', paragraphId: '123-45-6789', docType: 'naval_letter' }, proposed: 'Proposed plain paragraph.' }] });
