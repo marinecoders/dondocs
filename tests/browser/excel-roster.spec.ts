@@ -21,7 +21,8 @@ test('uploads the first worksheet, maps a later header, and keeps roster correct
     buffer: write(workbook, { type: 'buffer', bookType: 'xlsx' }),
   });
   const preview = modal.getByRole('table', { name: 'First worksheet preview' });
-  await expect(preview).toContainText('Recipient A');
+  // The spreadsheet codec is loaded on first upload; wait for parsed content.
+  await expect(preview).toContainText('Recipient A', { timeout: 15_000 });
   await expect(modal).not.toContainText('Must not appear');
   await expect(modal.getByRole('button', { name: 'Generate 1 PDF', exact: true })).toBeDisabled();
   await modal.getByLabel('Header row', { exact: true }).fill('3');

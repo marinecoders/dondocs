@@ -12,6 +12,12 @@ The standalone TeX interface retains its four-argument Via setter for existing s
 
 Supported formal lists use hanging indents, with wrapped text aligned under the entry description. PDF list entries can continue across pages. Headquarters memorandum references use the format's Reference/Reference(s) captions; a single reference has no letter designator.
 
+In **References**, choose **Review first-citation order** to preview the source list in body appearance order (SECNAV M-5216.5, Ch 7 ¶10a). Paragraph headings participate; Via, Copy to and distribution annotations do not determine order. Uncited sources remain at the end in their existing relative order. Endorsements retain their starting letter and inherited references (Ch 9 ¶3).
+
+Dragging or removing a reference also opens a preview. Apply updates the list and supported explicit `reference (a)`, `ref (a)` and parenthesized multi-reference clauses together. One Undo restores the previous revision. Via, Copy to and distribution annotations are included. Source titles and URLs stay attached to their sources. Typing or replacing the active draft invalidates an open preview.
+
+Ranges, quoted citations, unknown labels and affected citations outside supported fields require manual correction before a change can be applied. Bare `(a)` markers are not rewritten: the preview requires confirmation that these are not shorthand reference citations. A cited source cannot be removed until its citation is removed or replaced. Changing an endorsement's starting letter or switching document types also preserves supported citation targets, and stops with an explanation when a safe relabel cannot be made.
+
 PDF reference links require a valid URL and the hyperlink option. Word retains reference titles; the reference-link annotation control applies to PDF. Word caption-column widths account for the selected font and size.
 
 Attached enclosure PDFs are appended to PDF output. Word output retains supported enclosure-list text and requires those files to be transferred separately. See [output limits](OUTPUT_LIMITS.md).
