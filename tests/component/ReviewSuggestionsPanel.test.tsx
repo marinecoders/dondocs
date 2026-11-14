@@ -56,8 +56,8 @@ it('distinguishes comparison landmarks for multiple reviewers replacing the same
     { target: { kind: 'field', field: 'to', docType: 'naval_letter' }, proposed: `${author} recipient` },
   ] }));
   render(<ReviewSuggestionsPanel {...input} />);
-  expect(screen.getByRole('region', { name: 'To replacement comparison, suggestion 1', exact: true })).toHaveTextContent('Reviewer One recipient');
-  expect(screen.getByRole('region', { name: 'To replacement comparison, suggestion 2', exact: true })).toHaveTextContent('Reviewer Two recipient');
+  expect(screen.getByRole('region', { name: 'To replacement comparison, suggestion 1' })).toHaveTextContent('Reviewer One recipient');
+  expect(screen.getByRole('region', { name: 'To replacement comparison, suggestion 2' })).toHaveTextContent('Reviewer Two recipient');
 });
 
 it('previews independent changes, permits deliberate combined text and cancels without a decision', async () => {

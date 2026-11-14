@@ -196,7 +196,9 @@ for (const theme of ['light', 'dark', 'classic']) test(`two reviewer returns rec
   await action(page, 'Undo');
   let draft = JSON.parse((await download(page, () => action(page, 'Export draft (.json)'))).toString('utf8'));
   expect(draft.paragraphs[0].text).toBe('Bravo team meets on Monday.');expect(draft.paragraphs[1].text).toBe(untouched);
-  await action(page, 'Redo');await page.reload();
+  await action(page, 'Redo');
+  draft = JSON.parse((await download(page, () => action(page, 'Export draft (.json)'))).toString('utf8'));
+  expect(draft.paragraphs[0].text).toBe(combined);await page.reload();
   draft = JSON.parse((await download(page, () => action(page, 'Export draft (.json)'))).toString('utf8'));
   expect(draft.paragraphs[0].text).toBe(combined);expect(draft.paragraphs[1].text).toBe(untouched);
   expect(draft.formData.to).toBe('Reviewed recipient');expect(draft.formData.from).toBe('Reviewed sender');expect(draft.decisions).toBeUndefined();
