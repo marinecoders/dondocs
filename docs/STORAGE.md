@@ -100,6 +100,9 @@ The shared writer fences proposal creation, pending imports, accept/reject and
 acceptance Undo/Redo with typed intents. Its conditional transaction checks the
 latest native target and exact prior review state, then writes allowed source
 changes, decision history and a `review-suggestion-write:<id>` receipt together.
+A validated acceptance also promotes the existing native-text reader hint so reopening
+does not canonicalize the accepted replacement. Proposal, import and rejection
+operations cannot promote that hint or change other document metadata.
 No APP-only action is acknowledged before its actual receipt commits. Stale group
 members block the whole action. Interrupted recovery preflights every marker;
 unknown or conflicting intent remains quarantined rather than becoming Saved.

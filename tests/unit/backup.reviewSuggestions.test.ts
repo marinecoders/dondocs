@@ -45,6 +45,7 @@ it('backs up APP-only proposals with their native revision and preserves accepte
     round: { id: round.id, baselineDigest: round.baselineDigest }, before: state, after: plan.state,
     intent: { kind: 'decide', proposalId: proposal.id, action: 'accepted', record: { id: decision.id, decidedAt: decision.decidedAt } } })).toBe('committed');
   const bundle = JSON.parse(await buildBackup());expect(bundle.version).toBe(9);
+  expect(bundle.documents.find((record: { id: string }) => record.id === id).meta.nativeReviewText).toBe(true);
   expect(bundle.reviewSuggestions.find((record: { documentId: string }) => record.documentId === id).state.decisions[0].action).toBe('accepted');
   expect(bundle.reviewSuggestionWrites.filter((receipt: { documentId: string }) => receipt.documentId === id)).toHaveLength(2);
   expect(await idbRestoreReviewSuggestions(bundle.reviewSuggestions, bundle.reviewSuggestionWrites, bundle.documents)).toBe(true);
@@ -55,6 +56,7 @@ it('backs up APP-only proposals with their native revision and preserves accepte
   useDocumentsStore.setState({ docs: {}, trash: {}, currentId: null, baseline: null });
   const restored = await restoreBackup(JSON.stringify(bundle));expect(restored.issues).toBeUndefined();
   expect(reviewSuggestionRecordSchema.parse(await idbReadReviewSuggestions(id, round.id)).state).toEqual(plan.state);
+  expect(useDocumentsStore.getState().docs[id].meta.nativeReviewText).toBe(true);
 
 });
 for (const copy of [false, true]) it(`retains archived ${copy ? 'reviewer-copy' : 'source'} history after permanent deletion without blocking baseline re-export or backup`, async () => {

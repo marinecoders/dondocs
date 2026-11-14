@@ -28,7 +28,7 @@ async function fixture() {
     const decision = planned.state.decisions.at(-1)!;
     const write: ReviewSuggestionWrite = { ...operation, id: `suggestion-write_${crypto.randomUUID()}`, createdAt: 300, before: state,
       after: planned.state, intent: { kind: 'decide', proposalId: proposal.id, action: 'accepted', record: { id: decision.id, decidedAt: decision.decidedAt } } };
-    const saved: StoredDocument = { ...structuredClone(after), meta: { ...after.meta, updatedAt: 300 }, session: planned.session };
+    const saved: StoredDocument = { ...structuredClone(after), meta: { ...after.meta, updatedAt: 300, nativeReviewText: true }, session: planned.session };
     return { write, saved, planned };
   };
   const read = async () => (await idbGetAllDocuments())!.find(document => document.id === id)!;
@@ -67,6 +67,18 @@ describe('atomic source-bound review proposal writes', () => {
     expect(await idbApplyReviewSuggestions(input.after, saved, write)).toBe('conflict');
     expect((await input.read()).session.formData.to).toBe('Original recipient');
     expect(await idbReadReviewSuggestionReceipt(write.id)).toBeNull();
+  });
+
+  it('permits the native reader hint only with a validated acceptance and rejects unrelated metadata', async () => {
+    const input = await fixture(), invalid = structuredClone(input.after);invalid.meta.nativeReviewText = true;
+    expect(await idbApplyReviewSuggestions(input.before, invalid, input.operation)).toBe('conflict');
+    expect(await idbApplyReviewSuggestions(input.before, input.after, input.operation)).toBe('committed');
+    const { write, saved } = input.accept(), unhinted = structuredClone(saved);delete unhinted.meta.nativeReviewText;
+    expect(await idbApplyReviewSuggestions(input.after, unhinted, write)).toBe('conflict');
+    const renamed = structuredClone(saved);renamed.meta.title = 'Unrelated new title';
+    expect(await idbApplyReviewSuggestions(input.after, renamed, write)).toBe('conflict');
+    expect(await idbReadReviewSuggestionReceipt(write.id)).toBeNull();
+    expect(await idbApplyReviewSuggestions(input.after, saved, write)).toBe('committed');
   });
 
   it('preserves a newer foreign edit and stale metadata rather than overwriting either', async () => {
