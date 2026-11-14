@@ -15,10 +15,13 @@ Flat TeX downloads contain text and graphic references, not the image bytes. Sup
 
 ## Form templates and stored assets
 
-Configured forms require a reviewed, published definition and its exact PDF
-template revision. A JSON backup preserves editable answers and definitions,
-but does not embed the blank template PDFs. Reconnect and save the form for
-offline use after restoring it on another device.
+Configured forms require a valid definition and its exact PDF template revision.
+Current draft JSON, workspace backups and encrypted handoffs include the captured
+definition, editable answers and exact blank PDF pages. Import verifies their
+digests and geometry and retains required bytes before opening a new copy.
+Older files without template resources may require a connection and **Save for
+offline use** after restoration. Browser storage can be evicted; keep an external
+copy containing the templates or a separately exported filled PDF.
 
 New document signatures retain durable attachment references and inline image
 fallbacks. Supported older readers can preserve the inline image even if they

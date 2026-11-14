@@ -75,6 +75,14 @@ it('deduplicates shared PDF bytes while retaining different exact form definitio
   expect(templates.map(item => item.definition.label)).toEqual([instance.definition.label, second.label]);
 });
 
+it('counts distinct definitions instead of copies and validates every shared-page geometry', async () => {
+  const { instance } = await source();
+  const many = await capturePortableFormTemplates(Array.from({ length: 257 }, () => instance.definition));
+  expect(many?.portableFormTemplates).toHaveLength(1);expect(many?.portableResources.entries).toHaveLength(1);
+  const incompatible = structuredClone(instance.definition);incompatible.pages[0].width = 700;
+  await expect(capturePortableFormTemplates([instance.definition, incompatible])).rejects.toThrow(/dimensions/);
+});
+
 it.each(['missing', 'bytes', 'definition', 'binding', 'dimensions', 'version', 'unexpected'] as const)('rejects %s template content before changing the current draft', async kind => {
   formCache();const { instance } = await source();openFormInstance(instance);
   const exported = JSON.parse(JSON.stringify(await buildDraftFile()));

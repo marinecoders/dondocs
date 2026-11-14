@@ -147,6 +147,7 @@ test('encrypted configured forms retain exact templates in a fresh offline brows
   await page.goto('/');await importDraft(page, source.legacy);
   await page.getByRole('textbox', { name: 'Fictional name', exact: true }).fill('Fictional retained');
   const packet = await draft(page), desktop = page.getByRole('button', { name: 'Share', exact: true });
+  await expect(page.getByRole('textbox', { name: 'Fictional name', exact: true })).toHaveValue('Fictional retained');
   if (await desktop.isVisible()) await desktop.click();else await actions(page, /^Create share link/);
   const sharing = page.getByRole('dialog', { name: 'Share document', exact: true });
   await sharing.getByLabel('Password for this link', { exact: true }).fill('synthetic-form-password');

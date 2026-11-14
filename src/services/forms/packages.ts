@@ -42,6 +42,8 @@ async function retainTemplateAttachment(hash: string, file: string, bytes: Uint8
   const id = formTemplateAttachmentId(hash);
   const before = await idbReadAttachment(id);
   if (before.status === 'found') {
+    // Public content digests, not authentication secrets.
+    // eslint-disable-next-line security/detect-possible-timing-attacks
     if (await digest(new Uint8Array(before.attachment.data)) !== hash) throw new Error('A retained form template is corrupt. Nothing was opened.');
     return;
   }
