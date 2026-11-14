@@ -82,6 +82,26 @@ it('preserves built-in form signature images and rejects a missing image binding
   envelope.bindings = [];envelope.resources.entries = [];
   await expect(parseSharedDocument(envelope)).rejects.toThrow(/signature is missing/);
 });
+it.each(['navmc_10274', 'navmc_118_11'] as const)('opens %s image shares as durable form documents', async formType => {
+  useDocumentsStore.getState().newDocument(formType);
+  const blocks = [{ name: 'Synthetic signer', statement: '', style: 'image' as const, image: png }];
+  if (formType === 'navmc_10274') useFormStore.getState().setNavmc10274Field('signatureBlocks', blocks);
+  else useFormStore.getState().setNavmc11811Field('signatureBlocks', blocks);
+  const envelope = await buildAssetSharePayload(useDocumentStore.getState().getSnapshot(), Date.now());
+  const source = useDocumentsStore.getState().currentId!;
+  expect(await openSharedDocument(envelope)).toBe('applied');
+  const imported = useDocumentsStore.getState().currentId!;
+  expect(imported).not.toBe(source);
+  const stored = (await database.idbGetAllDocuments())!.find(record => record.id === imported)!;
+  expect(stored.meta.docType).toBe(formType);
+  expect(stored.meta.nativeReviewText).toBeUndefined();
+  expect(openExistingDocument(source)).toBe('applied');
+  expect(openExistingDocument(imported)).toBe('applied');
+  expect(useDocumentStore.getState().documentCategory).toBe('forms');
+  expect(useDocumentStore.getState().formType).toBe(formType);
+  const form = formType === 'navmc_10274' ? useFormStore.getState().navmc10274 : useFormStore.getState().navmc11811;
+  expect(form.signatureBlocks[0].image).toBe(png);
+});
 it.each([
   ['wrong document kind', (v: Envelope) => { v.documentKind = 'builtin-form'; }],
   ['unsupported version', (v: Envelope) => { v.version = 999; }],
