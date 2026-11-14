@@ -35,3 +35,26 @@ using an older tab or rolling back.
 Native correspondence comments travel in supported draft, share, and backup formats. They are excluded from clean PDF/DOCX output and are not emitted as Microsoft Word review annotations. Forms, technical publications, proposed edits, review-return merging, and authenticated approvals are not part of the document/field comment release. See [comment reader compatibility](STORAGE.md#review-comment-reader-compatibility).
 
 Paragraph discussions attach to whole native paragraphs. Each captured paragraph context is limited to 20,000 characters; text-range anchoring is not provided. Deleted or absorbed paragraphs retain detached discussions until they are deliberately deleted or their original paragraph is restored.
+
+## Saved action packages
+
+Packages support existing native correspondence and form PDF renderers plus
+original PDF files. Roles do not add new native document families. Native
+endorsement chains require a matching native main-document identity, ordinal and
+reference/enclosure continuation; unsupported or contradictory chains block
+readiness. Package enclosure references are checked as unambiguous literal labels
+when the native member has no embedded enclosure list. Linked citation relabeling
+and package review rounds remain outside this release.
+
+The retained assembled PDF is reproduced by retrieving its saved bytes and digest.
+Future re-rendering uses recorded inputs/templates but depends on available engine,
+font and renderer resources; byte-equivalent re-rendering is not promised. Original
+signed PDF bytes remain separate, while the assembled derivative is unsigned.
+PDF text inspection cannot read text inside scanned images; visual review remains
+part of each operation.
+
+Portable editable delivery contains the selected revision only. It is unencrypted
+and limited to 256 resource entries, 25 MB each, 75 MB decoded total and 100 MB JSON.
+A native draft stores embedded attachments inside its own 25 MB resource limit.
+Workspace backup version 12 retains complete package history and rejects missing
+or corrupt package assets rather than writing a misleading partial package.

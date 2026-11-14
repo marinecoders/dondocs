@@ -1,3 +1,4 @@
+import { reviewPackageNative } from "@/lib/actionPackageDisclosure";
 import "fake-indexeddb/auto";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { resolve } from "node:path";
@@ -64,7 +65,7 @@ vi.mock("@/stores/backupStore", () => ({
   scheduleBackup: vi.fn(),
   useBackupStore: { getState: () => ({}) },
 }));
-vi.mock("@/lib/pdfText", () => ({ extractPdfText: async () => "" }));
+vi.mock("@/lib/pdfText", () => ({ extractPdfText: vi.fn(async () => "") }));
 type Packet = {
   version: number;
   package: ActionPackage;
@@ -823,4 +824,111 @@ describe("native form package revisions", () => {
       ).getPageCount(),
     ).toBeGreaterThan(0);
   });
+});
+
+it("reviews every transferred native definition choice, retained legacy answer and metadata filename", () => {
+  for (const mutate of [
+    (instance: ReturnType<typeof fixtureInstance>) => {
+      instance.definition.fields.decision.options![1].label = "SECRET";
+    },
+    (instance: ReturnType<typeof fixtureInstance>) => {
+      instance.answers.retired_answer = "SECRET";
+    },
+  ]) {
+    const instance = fixtureInstance();
+    mutate(instance);
+    const source = {
+      ...createBlankSession(),
+      documentCategory: "forms" as const,
+      formType: instance.definition.formId,
+      genericForm: instance,
+    };
+    expect(() =>
+      reviewPackageNative(source, "Fictional package", policy),
+    ).toThrow(/configured levels/);
+  }
+  const instance = fixtureInstance();
+  instance.definition.pages[0].file = "fictional-123-45-6789.pdf";
+  const source = {
+    ...createBlankSession(),
+    documentCategory: "forms" as const,
+    formType: instance.definition.formId,
+    genericForm: instance,
+  };
+  const review = reviewPackageNative(source, "Fictional package", policy);
+  expect(
+    review.privacy.findings.some((finding) =>
+      finding.value.includes("123-45-6789"),
+    ),
+  ).toBe(true);
+});
+
+it("reviews actual retained output content under current policy and retrieves the same reviewed bytes", async () => {
+  const { record } = await fixture();
+  const { retainPackageAsset } = await import("@/lib/actionPackageAssets");
+  const { commitActionPackage } = await import("@/lib/actionPackages");
+  const { copyPreparedPackageOutput } = await import(
+    "@/lib/actionPackageAssembly"
+  );
+  const { extractPdfText } = await import("@/lib/pdfText");
+  const bytes = await pdfBytes(),
+    asset = await retainPackageAsset(
+      "retained-output.pdf",
+      "application/pdf",
+      bytes,
+    );
+  const output = {
+    id: "output-inspection",
+    asset,
+    createdAt: 100,
+    policyIdentity: "historical-policy",
+    renderer: "synthetic-test",
+    signingStatus: "unsigned-assembled-derivative" as const,
+    boundaries: [
+      {
+        memberId: getPackageRevision(record).members[0].id,
+        startPage: 1,
+        pageCount: 1,
+        firstPageLabel: "1",
+        numbering: "continuation" as const,
+      },
+    ],
+  };
+  const revised = await commitActionPackage(record, {
+    ...record,
+    sequence: record.sequence + 1,
+    revisions: record.revisions.map((revision) =>
+      revision.id === record.currentRevisionId
+        ? { ...revision, outputs: [output] }
+        : revision,
+    ),
+  });
+  vi.mocked(extractPdfText).mockResolvedValueOnce("SECRET");
+  const rejected = await preparePackageAssembly(
+    revised,
+    revised.currentRevisionId,
+    policy,
+  );
+  expect(rejected.readiness.state).toBe("incomplete");
+  expect(
+    rejected.readiness.findings.some((finding) =>
+      /configured levels/.test(finding.message),
+    ),
+  ).toBe(true);
+  expect(() => copyPreparedPackageOutput(rejected, asset.id)).toThrow(/Review/);
+  vi.mocked(extractPdfText).mockResolvedValueOnce("Fictional SSN 123-45-6789");
+  const reviewed = await preparePackageAssembly(
+    revised,
+    revised.currentRevisionId,
+    policy,
+  );
+  expect(
+    reviewed.reviews.some(
+      (entry) =>
+        entry.member.startsWith("Retained PDF:") && entry.review.privacy.found,
+    ),
+  ).toBe(true);
+  expect(copyPreparedPackageOutput(reviewed, asset.id)).toEqual(bytes);
+  await idbDeleteAttachment(asset.id);
+  expect(copyPreparedPackageOutput(reviewed, asset.id)).toEqual(bytes);
 });

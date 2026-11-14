@@ -117,3 +117,9 @@ These are regression checks for the listed tasks, not a WCAG conformance claim.
 They do not certify screen-reader output, native devices, other document types,
 or all application states. Manual screen-reader and native-device checks remain
 necessary. Tagged PDF output is outside this suite.
+
+`saved-action-packages.spec.ts` exercises native package capture, working copies,
+explicit source adoption, source deletion/reload, retained PDF page boundaries and
+checksums, unchanged originals, selected-revision transfer and configured-form
+editing/rendering in a fresh offline browser. Theme cases cover Light, Dark and
+Classic across the configured desktop and phone browser projects.

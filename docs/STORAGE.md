@@ -270,6 +270,55 @@ letter edits, including navigation through a built-in form. Draft imports apply
 their document changes together; shared links and companion handoffs open under
 a new ID after preserving the open document.
 
+## Saved action package ownership
+
+Action packages use namespaced `action-package:<id>` records in the existing
+IndexedDB `app` store. Version 1 records contain stable package/member identities,
+immutable revision lineage, ordered roles, source provenance, captured native
+sessions, original asset manifests and append-only output artifacts. They do not
+replace the document registry, native draft format or attachment store.
+
+Each native member is captured through `capturedDocument` and the existing native
+draft serializer. Its immutable draft attachment owns the complete native model
+and embedded enclosure/figure/signature bytes. Form templates are retained as
+separate exact assets; configured templates reuse the existing hash-derived
+durable template attachments. The package's session projection must equal the
+parsed captured draft. A source pointer supplies provenance only, never bytes.
+
+Package commits validate digests, supported resource content and exact template
+hashes/geometry, then compare metadata and the validated attachment records inside
+one app/attachments transaction. A stale tab, quota abort or missing byte leaves
+the earlier record usable. New captures stage attachments before publishing their
+metadata; interrupted staging can leave unreferenced bytes but cannot claim a
+complete revision. Every retained package revision roots its assets and form
+definitions for collection. Unreadable/corrupt inventory aborts collection and
+backup rather than treating it as empty.
+
+Native working copies are separate ordinary library drafts. Their package binding
+records the member and package revision being edited. Saving creates a child
+package revision; adopting a source requires comparison with that exact source
+session. A failed binding after a working draft was saved reports that separate
+Recents copy for recovery. Imported package sources remain foreign and cannot
+silently bind to coincidentally matching local IDs.
+
+Assembly uses existing prepared export policy/privacy/native validation and
+renderer ports. It never installs package data into the active editor to render.
+Captured output stores its PDF bytes, SHA-256, physical member boundaries, numbering
+plan, policy identity and renderer/build provenance. Existing artifacts are never
+overwritten by a later rendering. Original signed PDFs are separate immutable
+assets; combined output is explicitly an unsigned assembled derivative.
+
+Portable package version 1 includes one selected revision with parent identity as
+provenance, a shared bounded resource manifest and its exact retained artifacts.
+Imports verify all required bytes before metadata publication and reject identity
+collisions with different local content. Repeated intact imports are idempotent.
+Workspace backup version 12 instead preserves complete package history, sharing
+configured form template bytes with the version 11 template bundle. Restore
+validates package resources before workspace writes and preserves conflicting
+local histories. Package metadata installation can be partial across different
+packages after a storage failure; restore reports that result and retains earlier
+complete packages. Readers through backup version 11 reject version 12 backups.
+
 ## Multi-tab
 
 These guards apply to tabs running the same document format. Before using new

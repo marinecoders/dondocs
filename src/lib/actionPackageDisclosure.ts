@@ -1,8 +1,12 @@
+import { documentTextFields } from "./documentFields";
 import type { SerializedSession } from "@/stores/documentStore";
 import { captureChangeReport, prepareChangeReport } from "./changeReport";
-import { detectTextPII } from "@/services/pii/detector";
+import { detectTextPII, mergePIIResults } from "@/services/pii/detector";
 import { detectClassification } from "./detectClassification";
-import type { PolicyResolution } from "./exportDeploymentPolicy";
+import {
+  assertExportDeploymentPolicy,
+  type PolicyResolution,
+} from "./exportDeploymentPolicy";
 import type { ExportReview } from "./preparedExport";
 
 /** Portable/native package review includes retained inactive values and discussion text. */
@@ -33,8 +37,15 @@ export function reviewPackageNative(
     ),
     policy,
   );
+  const fields = documentTextFields(session, "share").map((field) => ({
+    field: field.label,
+    value: field.text,
+  }));
+  // The portable native model includes definitions, unused choices and retained legacy values too.
+  for (const field of fields)
+    reviewPackageText(field.value, field.field, policy);
   return {
-    privacy: report.privacy,
+    privacy: mergePIIResults([report.privacy, detectTextPII(fields)]),
     notices: [...report.notices, `Retained draft marking: ${report.marking}`],
     structure: [],
     markingReview: report.notices.length > 0,
@@ -46,6 +57,7 @@ export function reviewPackageText(
   policy: PolicyResolution,
 ): ExportReview {
   if (policy.status !== "ready") throw new Error(policy.message);
+  assertExportDeploymentPolicy(policy.policy);
   const marking = detectClassification(text).classLevel;
   if (!policy.policy.allowedLevels.includes(marking))
     throw new Error(

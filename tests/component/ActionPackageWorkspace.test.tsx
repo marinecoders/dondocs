@@ -1,4 +1,5 @@
-import { createExportGate } from '@/lib/exportController';
+import { StrictMode } from "react";
+import { createExportGate } from "@/lib/exportController";
 import "fake-indexeddb/auto";
 import { beforeEach, expect, it, vi } from "vitest";
 import { render, screen, waitFor, within } from "@testing-library/react";
@@ -68,13 +69,18 @@ it("cancels a held render on close and never publishes into a reopened dialog or
   );
   const user = userEvent.setup();
   render(
-    <ActionPackageWorkspace exportGate={createExportGate()}
-      ports={{ compile, convertDocx: vi.fn(), waitForReady: async () => true }}
-    />,
+    <StrictMode>
+      <ActionPackageWorkspace
+        exportGate={createExportGate()}
+        ports={{
+          compile,
+          convertDocx: vi.fn(),
+          waitForReady: async () => true,
+        }}
+      />
+    </StrictMode>,
   );
-  await user.click(
-    screen.getByRole("button", { name: "Packages" }),
-  );
+  await user.click(screen.getByRole("button", { name: "Packages" }));
   let dialog = screen.getByRole("dialog", { name: "Action packages" });
   await user.selectOptions(
     within(dialog).getByLabelText("Saved packages", { exact: true }),
@@ -106,9 +112,7 @@ it("cancels a held render on close and never publishes into a reopened dialog or
   );
   await user.keyboard("{Escape}");
   expect(screen.queryByRole("dialog", { name: "Action packages" })).toBeNull();
-  await user.click(
-    screen.getByRole("button", { name: "Packages" }),
-  );
+  await user.click(screen.getByRole("button", { name: "Packages" }));
   dialog = screen.getByRole("dialog", { name: "Action packages" });
   const pdf = await PDFDocument.create();
   pdf.addPage();
