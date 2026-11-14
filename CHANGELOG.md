@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.74] — 2026-11-13
+
+### Added
+
+- Optionally set encrypted share links to expire one hour, 24 hours or seven days after generation. DonDocs checks the authenticated deadline against the recipient’s device clock after decryption and before opening; existing copies remain available and no server-side revocation is provided. Shares without expiration keep their existing reader compatibility.
+
 ## [1.3.73] — 2026-11-13
 
 ### Security
