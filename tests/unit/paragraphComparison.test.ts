@@ -43,6 +43,16 @@ describe('paragraph identity comparisons', () => {
     expect(changes.some(change => change.before === 'Position 2')).toBe(false);
   });
 
+  it('describes changed relative order at an unchanged position without claiming a move 3 to 3', () => {
+    const before = session(['alpha', 'bravo', 'charlie', 'delta', 'echo'].map(id => paragraph(id)));
+    const after = { ...before, paragraphs: [3, 4, 2, 0, 1].map(index => before.paragraphs[index]) };
+    const changes = diffSessions(before, after);
+    expect(changes).toHaveLength(3);
+    expect(changes).toContainEqual({ field: 'Paragraphs › 3 › Relative order', before: 'Position 3', after: 'Position 3 (relative order changed)', kind: 'context' });
+    expect(changes.filter(change => change.kind === 'move')).toHaveLength(2);
+    expect(changes.some(change => change.field.includes('3 → 3'))).toBe(false);
+  });
+
   it('treats insertion and deletion shifts as structure, with complete added/removed values', () => {
     const before = session([paragraph('alpha'), paragraph('bravo')]);
     const inserted = { ...before, paragraphs: [paragraph('new', 'Inserted <text> 🪸'), ...before.paragraphs] };
@@ -114,7 +124,7 @@ describe('paragraph identity comparisons', () => {
       }
       const changes = diffSessions(before, { ...before, paragraphs: order.map(index => before.paragraphs[index]) });
       expect(changes).toHaveLength(5 - longest);
-      expect(changes.every(change => change.kind === 'move' && change.before !== change.after)).toBe(true);
+      expect(changes.every(change => (change.kind === 'move' || change.kind === 'context') && change.before !== change.after)).toBe(true);
     }
   });
 });
