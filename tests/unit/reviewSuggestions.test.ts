@@ -99,6 +99,16 @@ describe('reviewer replacement suggestions', () => {
     expect(planReviewSuggestionDecision(round, session, state, proposal.id, 'accepted').status).toBe('stale');
   });
 
+  it('blocks acceptance after the same paragraph becomes an unsupported structural block', () => {
+    const { session, round, paragraph } = fixture();
+    const proposal = createReviewSuggestion(round, { author: 'Example', label: 'Body', changes: [{ target: paragraph, proposed: 'Replacement.' }] });
+    const state = { ...emptyReviewSuggestionState(round), proposals: [proposal] };
+    for (const structural of [{ figure: { name: 'figure.png' } }, { tableKey: 'table' }, { callout: 'note' as const }, { procedure: true }, { appendix: true }]) {
+      const current = structuredClone(session);Object.assign(current.paragraphs[1], structural);
+      expect(planReviewSuggestionDecision(round, current, state, proposal.id, 'accepted').status).toBe('stale');
+    }
+  });
+
   it('does not apply the same proposal twice or reverse an existing rejection by replay', () => {
     const { session, round, proposal, state } = fixture();
     const accepted = planReviewSuggestionDecision(round, session, state, proposal.id, 'accepted');
