@@ -23,7 +23,7 @@ import { STORAGE_KEYS} from '@/lib/constants';
 import { compressedParse, compressedStringify } from '@/lib/compressedStorage';
 import { referenceStartIndex } from '@/lib/endorsement';
 import { referenceLetterAt, reLetterReferences } from '@/lib/referenceLetters';
-import { planReferenceChange, type ReferenceChange } from '@/lib/referenceCitations';
+import { canTrackReferenceCitations, planReferenceChange, type ReferenceChange } from '@/lib/referenceCitations';
 import { showAppAlert } from './alertStore';
 import { canonicalizeUnitAddress } from '@/lib/unitAddress';
 import { normalizeLevels, migratePortionMarkings } from '@/lib/paragraphUtils';
@@ -407,8 +407,15 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
   setDocType: (type) => {
     useUIStore.getState().setValidationVisible(false);
     set((state) => {
-      const patch = safeReferencePatch(planReferenceChange(state, state.references.map((_, index) => index),
-        referenceStartIndex(type, state.formData.startingReferenceLetter)));
+      const plan = planReferenceChange(state, state.references.map((_, index) => index),
+        referenceStartIndex(type, state.formData.startingReferenceLetter));
+      // Publication citation syntax is opaque to ordinary letter corrections.
+      // Permit a same-label transition, but never silently renumber its prose.
+      if (plan.changed && !canTrackReferenceCitations(state)) {
+        showAppAlert({ title: 'Review reference citations', message: 'Changing this document type would renumber references whose citations cannot be updated automatically. Switch first to a correspondence format that keeps the current reference letters, then review the new starting letter.' });
+        return state;
+      }
+      const patch = safeReferencePatch(plan);
       if (!patch) return state;
       const next = documentTypeState(state, type);
       return { ...next, ...patch, formData: { ...next.formData, ...(patch.formData ? { via: patch.formData.via } : {}) } };

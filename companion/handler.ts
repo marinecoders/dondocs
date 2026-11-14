@@ -21,6 +21,7 @@ import { validateLetter, DOC_TYPES, FORMATS, formatsFor } from './validateLetter
 import { acceptedFields, letterSchema } from './letterSchema';
 import { LETTER_TEMPLATES } from '../src/data/templates';
 import { lookupUnits } from './unitLookup';
+import { ImageInputError } from '../src/services/docx/imageAssets';
 
 /** The contract version. Bump when the request or response shape changes. */
 export const CONTRACT = 1;
@@ -207,6 +208,9 @@ async function handleRequest(
     console.log(`  ${file.format}  ${file.bytes} bytes  ->  ${file.path}`);
     return json(200, { ok: true, v: CONTRACT, files: [file] });
   } catch (err) {
+    if (err instanceof ImageInputError) {
+      return json(400, { ok: false, v: CONTRACT, errors: [err.message] });
+    }
     // A path that escapes the root is the caller's mistake, not ours.
     if (err instanceof OutsideSandboxError) {
       return json(400, { ok: false, v: CONTRACT, errors: ['refusing to write outside the output root; choose a filename inside the output root'] });

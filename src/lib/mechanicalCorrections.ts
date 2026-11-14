@@ -1,5 +1,6 @@
 import { DOC_TYPE_CONFIG, type DocumentCategory, type DocumentMode, type Paragraph, type Reference } from '@/types/document';
 import { normalizeBodyDate, type BodyDateAudience } from './bodyDateFormatting';
+import { maskProtectedRanges, protectedCodeRanges } from './protectedCodeRanges';
 
 export type { BodyDateAudience } from './bodyDateFormatting';
 export type MechanicalSection = 'body' | 'references';
@@ -35,12 +36,13 @@ export function supportsMechanicalCorrections(source: MechanicalSource): boolean
 }
 
 function protectedRanges(text: string): readonly [number, number][] {
-  const ranges: [number, number][] = [];
+  const ranges = protectedCodeRanges(text);
+  const prose = maskProtectedRanges(text, ranges);
   // An unclosed literal is also left alone. Date recognition never edits source
   // quotations, code, URLs, placeholders, or a Markdown quote line.
-  const literals = /"[^"]*(?:"|$)|“[^”]*(?:”|$)|‘(?:[^’]|’(?=[\p{L}\p{M}\p{N}_]))*(?:’|$)|`[^`]*(?:`|$)|(?:https?:\/\/|mailto:)\S+|\{\{[\s\S]*?(?:\}\}|$)|\[\[[\s\S]*?(?:\]\]|$)|\[[^\]]*(?:\]|$)|(?:^|\n)\s*>[^\n]*/giu;
-  for (const match of text.matchAll(literals)) ranges.push([match.index, match.index + match[0].length]);
-  for (const match of text.matchAll(/(?<![\p{L}\p{M}\p{N}_])'(?:[^']|'(?=[\p{L}\p{M}\p{N}_]))*(?:'|$)/gu)) ranges.push([match.index, match.index + match[0].length]);
+  const literals = /"[^"]*(?:"|$)|“[^”]*(?:”|$)|‘(?:[^’]|’(?=[\p{L}\p{M}\p{N}_]))*(?:’|$)|(?:https?:\/\/|mailto:)\S+|\{\{[\s\S]*?(?:\}\}|$)|\[\[[\s\S]*?(?:\]\]|$)|\[[^\]]*(?:\]|$)|(?:^|\n)\s*>[^\n]*/giu;
+  for (const match of prose.matchAll(literals)) ranges.push([match.index, match.index + match[0].length]);
+  for (const match of prose.matchAll(/(?<![\p{L}\p{M}\p{N}_])'(?:[^']|'(?=[\p{L}\p{M}\p{N}_]))*(?:'|$)/gu)) ranges.push([match.index, match.index + match[0].length]);
   return ranges;
 }
 

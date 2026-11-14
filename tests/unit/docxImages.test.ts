@@ -1,5 +1,6 @@
 import 'fake-indexeddb/auto';
 import { describe, expect, it } from 'vitest';
+import sharp from 'sharp';
 import { inspectRasterImage, prepareDocxImages, signatureExtent, type DocxImageSource } from '@/services/docx/imageAssets';
 import { generateFlatLatex } from '@/services/latex/flat-generator';
 import { generateAllLatexFiles } from '@/services/latex/generator';
@@ -21,6 +22,20 @@ function source(): DocxImageSource {
 }
 
 describe('Word image preparation', () => {
+  it.each(['information_memorandum', 'joint_letter', 'joint_memorandum', 'moa', 'mou', 'i_type', 'sl3', 'sl4', 'tm_ietm_front_matter'])('does not decode retained inactive %s signature data for PDF', docType => {
+    const store = { ...useDocumentStore.getState().getSnapshot(), docType,
+      formData: { signatureType: 'image' as const, signatureImage: { name: 'retained.png', size: 4, data: 'invalid!' } } };
+    expect(generateAllLatexFiles(store).signatureImage).toBeUndefined();
+    expect(store.formData.signatureImage.data).toBe('invalid!');
+  });
+
+  it('does not decode retained image data after selecting a typed-only signature', () => {
+    const store = { ...useDocumentStore.getState().getSnapshot(), formData: {
+      signatureType: 'none' as const, signatureImage: { name: 'retained.png', size: 4, data: 'invalid!' },
+    } };
+    expect(generateAllLatexFiles(store).signatureImage).toBeUndefined();
+    expect(store.formData.signatureImage.data).toBe('invalid!');
+  });
   it('keeps flat-TeX image names explicit and plain-text-only exports unchanged', () => {
     const store = { ...useDocumentStore.getState().getSnapshot(), docType: 'business_letter', formData: { signatureType: 'none' as const }, paragraphs: [{ text: 'Plain letter', level: 0 }] };
     const tex = generateFlatLatex(store);
@@ -73,6 +88,52 @@ describe('Word image preparation', () => {
     const images = await docxImageFixture();
     const model = source(); model.formData = {};
     await expect(prepareDocxImages(model, async () => images.jpeg)).rejects.toThrow('Figure 1');
+  });
+
+  it('rejects a JPEG truncated after its dimensions but before its image data', async () => {
+    const { jpeg } = await docxImageFixture();
+    const scan = jpeg.indexOf(Buffer.from([0xff, 0xda]));
+    expect(scan).toBeGreaterThan(0);
+    await expect(inspectRasterImage(jpeg.subarray(0, scan), 'image/jpeg')).rejects.toThrow(/JPEG|image/i);
+  });
+
+  it('reads a complete JPEG from a nonzero-offset byte view', async () => {
+    const { jpeg } = await docxImageFixture();
+    const padded = new Uint8Array(jpeg.length + 37);
+    padded.set(jpeg, 19);
+    await expect(inspectRasterImage(padded.subarray(19, 19 + jpeg.length), 'image/jpeg')).resolves.toEqual({ width: 480, height: 240 });
+  });
+
+  it.each(['baseline', 'progressive', 'greyscale', 'cmyk', 'metadata'] as const)('accepts a complete %s JPEG', async kind => {
+    const { figure } = await docxImageFixture();
+    let image = sharp(figure);
+    if (kind === 'greyscale') image = image.toColourspace('b-w');
+    if (kind === 'cmyk') image = image.toColourspace('cmyk');
+    if (kind === 'metadata') image = image.withMetadata({ orientation: 6 });
+    const jpeg = await image.jpeg({ progressive: kind === 'progressive' }).toBuffer();
+    await expect(inspectRasterImage(jpeg, 'image/jpeg')).resolves.toEqual({ width: 480, height: 240 });
+  });
+
+  it('ignores marker-like bytes inside bounded JPEG metadata segments', async () => {
+    const { jpeg } = await docxImageFixture();
+    const metadata = Buffer.from([0xff, 0xe3, 0, 8, 0xff, 0xd9, 0xff, 0xda, 0xff, 0xd8]);
+    const image = Buffer.concat([jpeg.subarray(0, 2), metadata, jpeg.subarray(2)]);
+    await expect(inspectRasterImage(image, 'image/jpeg')).resolves.toEqual({ width: 480, height: 240 });
+  });
+
+  it.each(['ending', 'segment-length', 'scan-length', 'zero-width', 'oversized'] as const)('rejects a JPEG with invalid %s', async kind => {
+    const { jpeg } = await docxImageFixture();
+    let image = Buffer.from(jpeg);
+    if (kind === 'ending') image = image.subarray(0, image.length - 2);
+    if (kind === 'segment-length') image.writeUInt16BE(0xffff, 4);
+    if (kind === 'scan-length') image.writeUInt16BE(2, image.indexOf(Buffer.from([0xff, 0xda])) + 2);
+    if (kind === 'zero-width' || kind === 'oversized') {
+      const frame = image.indexOf(Buffer.from([0xff, 0xc0]));
+      expect(frame).toBeGreaterThan(0);
+      image.writeUInt16BE(kind === 'zero-width' ? 0 : 65535, frame + 7);
+      if (kind === 'oversized') image.writeUInt16BE(65535, frame + 5);
+    }
+    await expect(inspectRasterImage(image, 'image/jpeg')).rejects.toThrow(/JPEG|image/i);
   });
 
   it.each(['graphic', 'paragraph'] as const)('escapes imported %s markings as text in Word and PDF', async target => {

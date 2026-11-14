@@ -8,6 +8,20 @@ function source(text: string): MechanicalSource {
 }
 
 describe('quoted mechanical correction boundaries', () => {
+  it('preserves dates in fenced code containing nested backticks', () => {
+    const state = source('```javascript\nconst deadline = `05 Nov 2026`;\n```\nAttend 06 Dec 2026.');
+    expect(mechanicalFindings(state, 'body', 'military').map(item => item.before)).toEqual(['06 Dec 2026']);
+  });
+
+  it.each([
+    '~~~javascript\nconst deadline = `05 Nov 2026`;\n~~~',
+    '````text\n```\n05 Nov 2026\n```\n````',
+    '``literal ` token 05 Nov 2026``',
+    '```text\nA quote " and 05 Nov 2026\n```',
+  ])('preserves code delimiters and parses the prose after %j independently', code => {
+    expect(mechanicalFindings(source(`${code}\nAttend 06 Dec 2026.`), 'body', 'military').map(item => item.before)).toEqual(['06 Dec 2026']);
+  });
+
   it.each([':', '—', '='])('preserves a single-quoted date immediately after %s', prefix => {
     const state = source(`Quoted${prefix}'Due 05 Nov 2026.' Attend 06 Dec 2026.`);
     expect(mechanicalFindings(state, 'body', 'military').map(item => item.before)).toEqual(['06 Dec 2026']);
