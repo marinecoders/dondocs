@@ -10,6 +10,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { useDocumentStore } from '@/stores/documentStore';
 import { persistAttachment, newAttachmentId, withAttachmentStaging } from '@/lib/attachments';
 import { prepareFigureUpload } from '@/lib/prepareFigureUpload';
+import { newParagraphId } from '@/lib/paragraphIdentity';
 import { Sl3FigurePreview } from './Sl3FigurePreview';
 import {
   SL3_CATEGORIES,
@@ -1004,6 +1005,7 @@ export function Sl3IllustrationsSection({ publication = 'sl3' }: { publication?:
             paragraphs: [
               ...paragraphs,
               {
+                id: newParagraphId(),
                 referenceId: newAttachmentId(),
                 text: '',
                 level: 0,

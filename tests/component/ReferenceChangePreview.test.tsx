@@ -6,6 +6,7 @@ import { applyReferenceChange, reviewReferenceChange } from '@/lib/applyReferenc
 import { resumeSessionSaves, useDocumentStore } from '@/stores/documentStore';
 import { captureDocumentScope, changeDocumentHistory, flushDocumentWrites, resetCurrentDocument, useDocumentsStore } from '@/stores/documentsStore';
 import { useHistoryStore } from '@/stores/historyStore';
+import { freshParagraphs } from '@/lib/paragraphIdentity';
 
 beforeEach(() => {
   vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout', 'Date'] });
@@ -14,7 +15,7 @@ beforeEach(() => {
   useDocumentsStore.getState().newDocument();
   useDocumentStore.setState({ references: [{ letter: 'a', title: 'Alpha', url: 'https://example.com/a' }, { letter: 'b', title: 'Bravo', url: 'https://example.com/b' }],
     formData: { via: 'Office w/ref (b)', subject: 'Current typing' },
-    paragraphs: [{ text: 'Use reference (b), then reference (a).', level: 0 }], copyTos: [{ text: 'Office w/ref (b)' }], distributions: [] });
+    paragraphs: freshParagraphs([{ text: 'Use reference (b), then reference (a).', level: 0 }]), copyTos: [{ text: 'Office w/ref (b)' }], distributions: [] });
 });
 afterEach(async () => { await flushDocumentWrites(); vi.clearAllTimers(); vi.useRealTimers(); });
 

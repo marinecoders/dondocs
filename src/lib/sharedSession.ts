@@ -7,6 +7,7 @@ import { parseFormInstance } from '@/services/forms/model';
 import type { SerializedSession } from '@/stores/documentStore';
 import { projectSharedSession } from './documentSerialization';
 import { DOC_TYPE_LABELS } from '@/types/document';
+import { ensureParagraphIds, paragraphCommentIds, paragraphIdSchema } from './paragraphIdentity';
 
 const signature = z.object({ name: z.string(), statement: z.string(), style: z.enum(['typed', 'image', 'digital']).optional() });
 const form = z.record(z.string(), z.union([z.string(), z.array(signature)]))
@@ -19,7 +20,7 @@ export const sessionSchema = z.object({
   formType: z.string().default('navmc_10274'),
   genericForm: z.unknown().optional(),
   formData: z.record(z.string(), z.unknown()),
-  paragraphs: z.array(z.object({ text: z.string(), level: z.number().int().min(0).max(10), header: z.string().optional(), portionMarking: z.string().optional(),
+  paragraphs: z.array(z.object({ id: paragraphIdSchema.optional(), text: z.string(), level: z.number().int().min(0).max(10), header: z.string().optional(), portionMarking: z.string().optional(),
     tableKey: z.string().optional(), tableIdentifierMode: z.enum(['stock', 'software']).optional(), callout: z.enum(['warning', 'caution', 'note']).optional(), procedure: z.boolean().optional(), appendix: z.boolean().optional(),
     referenceId: z.string().optional(), publicationSection: z.string().optional(), tableFootnotes: z.array(z.object({ id: z.string(), text: z.string() })).optional(),
     figure: z.object({ name: z.string().optional(), type: z.string().optional(), width: z.number().optional(), height: z.number().optional(), portionMarking: z.string().optional() }).optional(),
@@ -57,9 +58,11 @@ export function parseSharedSession(value: unknown): SerializedSession {
   const result = sessionSchema.safeParse(structuredClone(value));
   if (!result.success) throw new Error('This link does not contain a supported DonDocs document.');
   const s = result.data;
+  if (!s.reviewComments?.threads.length) delete s.reviewComments;
   if (hasReviewComments(s) && metadata?.success && metadata.data.version === 1) {
     throw new Error('Comments require a version 2 review-aware share. Ask the sender to create a current copy.');
   }
+  s.paragraphs = ensureParagraphIds(s.paragraphs, paragraphCommentIds(s.reviewComments));
   if (s.formData.additionalEndorsements !== undefined) s.formData.additionalEndorsements = additionalEndorsementsSchema.parse(s.formData.additionalEndorsements);
   if (s.formData.sl3 !== undefined) s.formData.sl3 = sl3Schema.parse(s.formData.sl3);
   if (s.formData.sl4 !== undefined) s.formData.sl4 = sl4Schema.parse(s.formData.sl4);

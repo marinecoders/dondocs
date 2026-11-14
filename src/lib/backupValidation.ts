@@ -1,4 +1,5 @@
 import { reviewCommentsSchema } from './reviewComments';
+import { validateParagraphIds } from './paragraphIdentity';
 import { sl4Schema } from '@/data/techpub/sl4';
 import { additionalEndorsementsSchema } from './endorsementValidation';
 import { sl3Schema } from '@/data/techpub/sl3';
@@ -67,6 +68,7 @@ export function validateBackupSession(value: unknown) {
   if (data.reviewComments !== undefined) reviewCommentsSchema.parse(data.reviewComments);
   for (const key of ['formData', 'publicationTables']) if (data[key] !== undefined) object(data[key], key);
   for (const key of ['enclosures', 'paragraphs', 'references', 'endItems', 'copyTos', 'distributions']) if (data[key] !== undefined && !Array.isArray(data[key])) throw new Error(`Invalid session.${key}`);
+  if (Array.isArray(data.paragraphs)) validateParagraphIds(data.paragraphs);
   const formData = data.formData as RecordValue | undefined;
   if (formData?.additionalEndorsements !== undefined) additionalEndorsementsSchema.parse(formData.additionalEndorsements);
   if (formData?.sl3 !== undefined) sl3Schema.parse(formData.sl3);

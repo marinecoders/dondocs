@@ -6,6 +6,7 @@ import { sl4Schema } from '@/data/techpub/sl4';
 import { manualFrontMatterSchema } from '@/data/techpub/manualFrontMatter';
 import { parseFormInstance } from '@/services/forms/model';
 import type { SerializedSession } from '@/stores/documentStore';
+import { ensureParagraphIds, paragraphCommentIds } from './paragraphIdentity';
 
 const fileRef = z.object({ id: z.string(), name: z.string(), size: z.number(), type: z.string() });
 const signature = z.object({ name: z.string(), statement: z.string(), style: z.enum(['typed', 'image', 'digital']).optional(), image: z.string().optional(), imageRef: fileRef.optional(), digital: z.boolean().optional() });
@@ -27,6 +28,8 @@ const schema = sessionSchema.extend({
 /** Saved drafts retain local handles and images. Shared links use a separate reader. */
 export function parseSavedSession(value: unknown): SerializedSession {
   const session = schema.parse(structuredClone(value));
+  if (!session.reviewComments?.threads.length) delete session.reviewComments;
+  session.paragraphs = ensureParagraphIds(session.paragraphs, paragraphCommentIds(session.reviewComments));
   if (session.formData.additionalEndorsements !== undefined) session.formData.additionalEndorsements = additionalEndorsementsSchema.parse(session.formData.additionalEndorsements);
   if (session.formData.sl3 !== undefined) session.formData.sl3 = sl3Schema.parse(session.formData.sl3);
   if (session.formData.sl4 !== undefined) session.formData.sl4 = sl4Schema.parse(session.formData.sl4);

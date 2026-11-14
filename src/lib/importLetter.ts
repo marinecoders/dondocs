@@ -8,6 +8,7 @@ import { convertDocxToPlainText, extractDocxMarkingText } from '@/services/docx/
 import { detectImportFormat } from '@/lib/importFormat';
 import { openSessionAsNew, type TransitionOutcome } from '@/stores/documentsStore';
 import type { DocumentData } from '@/types/document';
+import { freshParagraphs } from './paragraphIdentity';
 
 export { isDocxFile, isLegacyDocFile, detectImportFormat, type ImportFormat } from '@/lib/importFormat';
 
@@ -110,11 +111,11 @@ export function applyParsedLetter(
   Object.assign(session, {
     references: parsed.references.map((title, index) => ({ letter: referenceLetterAt(index), title })),
     enclosures: parsed.enclosures.map((title) => ({ title })),
-    paragraphs: parsed.paragraphs.map((p) => ({
+    paragraphs: freshParagraphs(parsed.paragraphs.map((p) => ({
       text: p.text,
       level: p.level,
       ...(p.portionMarking && { portionMarking: p.portionMarking }),
-    })),
+    }))),
     copyTos: parsed.copyTos.map((text) => ({ text })),
   });
 

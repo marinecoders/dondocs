@@ -20,6 +20,7 @@ import { useProfileStore } from '@/stores/profileStore';
 import { LETTER_TEMPLATES, type LetterTemplate } from '@/data/templates';
 import { DOC_TYPE_LABELS, FORM_TYPE_LABELS } from '@/types/document';
 import { templateSession } from '@/lib/templateSession';
+import { freshParagraphs } from '@/lib/paragraphIdentity';
 import { SessionPreview } from '@/components/SessionPreview';
 import { sessionSearchFields, matchesSearch } from '@/lib/workspaceSearch';
 
@@ -68,7 +69,7 @@ export function TemplateLoaderModal() {
   const handleLoadTemplate = () => {
     if (!selectedTemplate) return;
 
-    if (openSessionAsNew(selectedSession!) !== 'applied') return;
+    if (openSessionAsNew({ ...selectedSession!, paragraphs: freshParagraphs(selectedSession!.paragraphs) }) !== 'applied') return;
     useUIStore.getState().setValidationVisible(false);
     handleClose();
   };
@@ -78,7 +79,7 @@ export function TemplateLoaderModal() {
   const loadUserTemplate = () => {
     const t = selectedUserId ? userTemplates[selectedUserId] : null;
     if (!t) return;
-    if (openSessionAsNew({ ...t.session, reviewComments: undefined }) !== 'applied') return;
+    if (openSessionAsNew({ ...t.session, paragraphs: freshParagraphs(t.session.paragraphs), reviewComments: undefined }) !== 'applied') return;
     useUIStore.getState().setValidationVisible(false);
     handleClose();
   };

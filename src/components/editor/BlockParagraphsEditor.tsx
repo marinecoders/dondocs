@@ -17,6 +17,7 @@ import {
 import { CSS } from '@dnd-kit/utilities';
 import { GripVertical, Plus, Trash2, ChevronRight, ChevronLeft, ArrowUp, ArrowDown, AlertTriangle, Library, Upload } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { ParagraphCommentsButton } from './ParagraphCommentsButton';
 import { IconTip } from '@/components/ui/icon-tip';
 import { Input } from '@/components/ui/input';
 import {
@@ -95,6 +96,7 @@ function countWords(text: string): number {
 }
 
 interface BlockRowProps {
+  paragraphId: string | undefined;
   index: number;
   level: number;
   text: string;
@@ -121,6 +123,7 @@ interface BlockRowProps {
 // callbacks read the live store via getState(), so they don't need to be passed
 // as (identity-changing) props — only the small set of primitives above.
 const BlockRow = memo(function BlockRow({
+  paragraphId,
   index,
   level,
   text,
@@ -250,6 +253,7 @@ const BlockRow = memo(function BlockRow({
   return (
     <div
       ref={setNodeRef}
+      data-paragraph-id={paragraphId}
       style={style}
       className={cn(
         'workspace-paragraph group relative grid grid-cols-[23px_1fr] items-start gap-2 rounded-sm py-2 mb-4',
@@ -544,6 +548,7 @@ const BlockRow = memo(function BlockRow({
               <ArrowDown className="h-3.5 w-3.5" />
             </Button>
           </IconTip>
+          <ParagraphCommentsButton paragraphId={paragraphId} index={index} />
           <div className="flex-1" />
           <span className="mr-0.5 text-2xs text-muted-foreground tnum">{countWords(text)} w</span>
           <IconTip label="Delete paragraph">
@@ -554,7 +559,7 @@ const BlockRow = memo(function BlockRow({
               onClick={() => {
                 const total = useDocumentStore.getState().paragraphs.length;
                 if (total <= 1) {
-                  updateParagraph(index, { text: '', header: '' });
+                  useDocumentStore.getState().clearParagraphs();
                 } else {
                   removeParagraph(index);
                   requestFocus(Math.max(0, index - 1));
@@ -677,7 +682,8 @@ export function BlockParagraphsEditor() {
         <SortableContext items={paragraphs.map((_, i) => `block-${i}`)} strategy={verticalListSortingStrategy}>
           {paragraphs.map((p, i) => (
             <BlockRow
-              key={`block-${i}`}
+              key={p.id ?? `block-${i}`}
+              paragraphId={p.id}
               index={i}
               level={p.level}
               text={p.text}

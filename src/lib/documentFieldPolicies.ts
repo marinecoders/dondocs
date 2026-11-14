@@ -119,6 +119,7 @@ const forms = {
   navmc10274: object(NAVMC_10274_FIELD_POLICIES), navmc11811: object(NAVMC_11811_FIELD_POLICIES), includeCoverPage: 'value',
 } satisfies PoliciesFor<FormSession>;
 const paragraph = {
+  id: 'identity',
   referenceId: 'identity', tableFootnotes: array(object({ id: 'identity', text: 'text' } satisfies PoliciesFor<NonNullable<Paragraph['tableFootnotes']>[number]>)), publicationSection: 'control',
   text: 'text', level: 'value', header: 'text', tableKey: 'identity', tableIdentifierMode: 'control', callout: 'control',
   procedure: 'value', appendix: 'value', figure: object({ fileRef: 'asset', name: 'label', type: 'control', width: 'value', height: 'value', portionMarking: 'control' } satisfies PoliciesFor<NonNullable<Paragraph['figure']>>),
@@ -135,7 +136,8 @@ const tableRow = {
 const commentMessage = { id: 'identity', author: 'text', text: 'text', createdAt: 'value', editedAt: 'value' } satisfies PoliciesFor<CommentMessage>;
 const documentAnchor = { kind: 'control' } satisfies PoliciesFor<Extract<CommentAnchor, { kind: 'document' }>>;
 const fieldAnchor = { kind: 'control', field: 'control', context: 'text', docType: 'control' } satisfies PoliciesFor<Extract<CommentAnchor, { kind: 'field' }>>;
-const commentThread = { id: 'identity', anchor: { variants: { document: documentAnchor, field: fieldAnchor } }, messages: array(object(commentMessage)), resolved: 'value' } satisfies PoliciesFor<CommentThread>;
+const paragraphAnchor = { kind: 'control', paragraphId: 'identity', context: 'text', docType: 'control' } satisfies PoliciesFor<Extract<CommentAnchor, { kind: 'paragraph' }>>;
+const commentThread = { id: 'identity', anchor: { variants: { document: documentAnchor, field: fieldAnchor, paragraph: paragraphAnchor } }, messages: array(object(commentMessage)), resolved: 'value' } satisfies PoliciesFor<CommentThread>;
 const reviewComments = { version: 'value', threads: array(object(commentThread)) } satisfies PoliciesFor<ReviewComments>;
 export const DOCUMENT_FIELD_POLICIES = {
   reviewComments: object(reviewComments),

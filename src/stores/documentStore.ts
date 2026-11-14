@@ -27,6 +27,7 @@ import { canTrackReferenceCitations, planReferenceChange, type ReferenceChange }
 import { showAppAlert } from './alertStore';
 import { canonicalizeUnitAddress } from '@/lib/unitAddress';
 import { normalizeLevels, migratePortionMarkings } from '@/lib/paragraphUtils';
+import { ensureParagraphIds, freshParagraphs, newParagraphId, paragraphCommentIds } from '@/lib/paragraphIdentity';
 import { serializeForm, loadFormSession, prepareFormSession, type FormSession } from './formStore';
 
 export { referenceLetterAt } from '@/lib/referenceLetters';
@@ -356,7 +357,7 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
   endItems: [],
   publicationTables: {},
   enclosures: [...DEFAULT_ENCLOSURES],
-  paragraphs: [...DEFAULT_PARAGRAPHS],
+  paragraphs: freshParagraphs(DEFAULT_PARAGRAPHS),
   copyTos: [
     { text: 'G-3/5' },
     { text: 'G-4' },
@@ -470,7 +471,7 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
     publicationTables: {},
     genericForm: undefined,
     enclosures: [...DEFAULT_ENCLOSURES],
-    paragraphs: [...DEFAULT_PARAGRAPHS],
+    paragraphs: freshParagraphs(DEFAULT_PARAGRAPHS),
     copyTos: [
       { text: 'G-3/5' },
       { text: 'G-4' },
@@ -590,7 +591,7 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
 
   // Paragraphs
   addParagraph: (text, level, afterIndex) => set((state) => {
-    const newPara = { text, level };
+    const newPara = { id: newParagraphId(), text, level };
     if (afterIndex !== undefined) {
       const newParas = [...state.paragraphs];
       newParas.splice(afterIndex + 1, 0, newPara);
@@ -604,14 +605,14 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
   insertParagraphs: (afterIndex, texts, level) => set((state) => {
     if (texts.length === 0) return {};
     const newParas = [...state.paragraphs];
-    newParas.splice(afterIndex + 1, 0, ...texts.map((text) => ({ text, level })));
+    newParas.splice(afterIndex + 1, 0, ...texts.map((text) => ({ id: newParagraphId(), text, level })));
     return { paragraphs: normalizeLevels(newParas) };
   }),
 
   removeTableFootnote: (index, noteIndex) => set((state) => withoutTableFootnote(state.paragraphs, state.publicationTables, index, noteIndex)),
 
   updateParagraph: (index, updates) => set((state) => ({
-    paragraphs: state.paragraphs.map((p, i) => (i === index ? { ...p, ...updates } : p)),
+    paragraphs: state.paragraphs.map((p, i) => (i === index ? { ...p, ...updates, id: p.id ?? newParagraphId() } : p)),
   })),
 
   // Removing a paragraph can leave a following sub-paragraph stranded too deep
@@ -717,7 +718,7 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
   // Bulk Actions
   clearParagraphs: () => {
     debug.log('Store', 'Clearing all paragraphs');
-    set({ paragraphs: [{ text: '', level: 0 }] });
+    set({ paragraphs: freshParagraphs([{ text: '', level: 0 }]) });
   },
 
   clearReferences: () => {
@@ -738,7 +739,7 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
   clearAll: () => {
     debug.log('Store', 'Clearing all document content');
     set({
-      paragraphs: [{ text: '', level: 0 }],
+      paragraphs: freshParagraphs([{ text: '', level: 0 }]),
       references: [],
       enclosures: [],
       copyTos: [],
@@ -810,7 +811,7 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
           coordination: '',
           preparedBy: '',
         },
-        paragraphs: [{ text: '', level: 0 }],
+        paragraphs: freshParagraphs([{ text: '', level: 0 }]),
         references: [],
         enclosures: [],
         copyTos: [],
@@ -857,7 +858,7 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
         delete formData.basicLetterFileRef;
       }
       return {
-        paragraphs: data.paragraphs ? migratePortionMarkings(data.paragraphs) : state.paragraphs,
+        paragraphs: data.paragraphs ? freshParagraphs(migratePortionMarkings(data.paragraphs)) : state.paragraphs,
         // Re-letter against the incoming start so a loaded endorsement keeps
         // the sequence it was saved with.
         references: data.references
@@ -909,7 +910,7 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
       reviewComments: snapshot.reviewComments ? structuredClone(snapshot.reviewComments) : undefined,
       references: snapshot.references,
       enclosures,
-      paragraphs: snapshot.paragraphs,
+      paragraphs: ensureParagraphIds(snapshot.paragraphs, paragraphCommentIds(snapshot.reviewComments)),
       copyTos: snapshot.copyTos,
       distributions: snapshot.distributions || [],
       endItems: snapshot.endItems ?? [],
@@ -1106,7 +1107,7 @@ export function createBlankSession(formType?: FormType, docType = 'naval_letter'
     formData: category === 'forms' ? {} : configured.formData,
     references: category === 'forms' ? [] : configured.references,
     enclosures: category === 'forms' ? [] : structuredClone(DEFAULT_ENCLOSURES),
-    paragraphs: category === 'forms' ? [] : structuredClone(DEFAULT_PARAGRAPHS),
+    paragraphs: category === 'forms' ? [] : freshParagraphs(structuredClone(DEFAULT_PARAGRAPHS)),
     copyTos: category === 'forms' ? [] : [{ text: 'G-3/5' }, { text: 'G-4' }, { text: 'Regimental S-3' }],
     distributions: [], endItems: [], publicationTables: {}, timestamp: Date.now(),
     ...(category === 'forms' ? { forms: prepareFormSession(formType!) } : {}),

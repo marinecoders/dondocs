@@ -91,7 +91,7 @@ describe('document and field comments', () => {
     expect(shared.version).toBe(2);
     expect(() => parseSharedSession({ ...shared, version: 1 })).toThrow('Comments require');
     expect(parseSharedSession(shared).reviewComments).toEqual(session.reviewComments);
-    expect(() => parseSharedSession({ ...shared, reviewComments: { version: 2, threads: [] } })).toThrow();
+    expect(() => parseSharedSession({ ...shared, reviewComments: { version: 3, threads: [] } })).toThrow();
     const malformed = structuredClone(shared);
     malformed.reviewComments!.threads[0].messages.push(malformed.reviewComments!.threads[0].messages[0]);
     expect(() => parseSavedSession(malformed)).toThrow();

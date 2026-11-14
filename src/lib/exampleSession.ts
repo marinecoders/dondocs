@@ -1,5 +1,6 @@
 import type { ExampleDocument } from '@/data/exampleDocuments';
 import type { SerializedSession } from '@/stores/documentStore';
+import { freshParagraphs } from './paragraphIdentity';
 
 /** Examples are independent drafts: never inherit hidden fields or attachments. */
 export function exampleSession(example: ExampleDocument): SerializedSession {
@@ -8,7 +9,7 @@ export function exampleSession(example: ExampleDocument): SerializedSession {
     docType: example.docType, formType: 'navmc_10274',
     formData: { fontSize: '12pt', fontFamily: 'times', pageNumbering: 'none',
       ...structuredClone(example.formData), docType: example.docType },
-    paragraphs: structuredClone(example.paragraphs),
+    paragraphs: freshParagraphs(structuredClone(example.paragraphs)),
     references: structuredClone(example.references ?? []),
     copyTos: structuredClone(example.copyTos ?? []),
     enclosures: [], distributions: [], endItems: structuredClone(example.endItems ?? []), publicationTables: {}, timestamp: Date.now(),

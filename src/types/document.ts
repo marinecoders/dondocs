@@ -89,6 +89,8 @@ export interface Enclosure {
 export type PortionMarking = 'U' | 'CUI' | 'FOUO' | 'C' | 'S' | 'TS';
 
 export interface Paragraph {
+  /** Stable native editing identity, separate from publication cross-references. */
+  id?: string;
   referenceId?: string;
   tableFootnotes?: { id: string; text: string }[];
   publicationSection?: PublicationSection;
