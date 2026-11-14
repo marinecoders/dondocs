@@ -40,6 +40,10 @@ function record(value: unknown): Record<string, unknown> | undefined {
 function owns(object: object, key: PropertyKey): boolean { return Object.hasOwn(object, key); }
 function fieldLabel(path: FieldPath): string {
   const [root, index, key] = path;
+  if (root === 'reviewComments' && typeof key === 'number') {
+    if (path[3] === 'messages' && typeof path[4] === 'number') return `Comment ${key + 1}, message ${path[4] + 1}${path[5] === 'author' ? ' reviewer' : ''}`;
+    return `Comment ${key + 1} field context`;
+  }
   if (root === 'formData' && typeof index === 'string') {
     if (index === 'additionalEndorsements' && typeof key === 'number') return `Endorsement ${key + 2}: ${String(path[3])}`;
     if (index.startsWith('endorsement')) return `Endorsement 1: ${index}`;
@@ -60,6 +64,7 @@ function fieldLabel(path: FieldPath): string {
 
 /** Select document-kind fields; format-specific output support remains a separate contract. */
 function active(source: DocumentFieldSource, path: FieldPath, projection: FieldProjection): boolean {
+  if (path[0] === 'reviewComments') return ['draft', 'share', 'backup', 'search'].includes(projection);
   if (projection === 'draft' || projection === 'share' || projection === 'backup') return true;
   const root = path[0];
   if (source.documentCategory === 'forms') {
@@ -116,6 +121,7 @@ export function documentTextFields(source: DocumentFieldSource, projection: Fiel
   const emit = (value: string, path: FieldPath, role: DocumentTextField['role'], label = fieldLabel(path), datePurpose?: 'document') => {
     if (!active(source, path, projection)) return;
     if (projection === 'substitution' && role !== 'text') return;
+    if (projection === 'search' && path[0] === 'reviewComments' && role !== 'text') return;
     if ((projection === 'search' || projection === 'output') && role !== 'text') {
       const visibleChoice = projection === 'search' && role === 'control' && !['style', 'type'].includes(String(path[path.length - 1]));
       if (!visibleChoice && !(projection === 'search' && role === 'asset-name')) return;

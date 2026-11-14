@@ -7,6 +7,14 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.71] — 2026-11-13
+
+### Added
+
+- Document and field comment threads for native correspondence, with replies, edits, resolution, reopening, and Undo/Redo. Field context remains visible when content changes or becomes unavailable.
+- Comments persist through saves, draft copies, encrypted shares and workspace history/backups, while clean PDF/Word output and reusable templates exclude review text. Comment-bearing transfers require a compatible reader.
+- Version comparisons summarize discussion content and targets without exposing internal IDs or timestamps.
+
 ## [1.3.70] — 2026-11-13
 
 ### Added

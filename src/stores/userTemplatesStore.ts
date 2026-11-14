@@ -42,7 +42,7 @@ export const useUserTemplatesStore = create<UserTemplatesState>()(
           name: name.trim() || 'Untitled template',
           docType: session.documentCategory === 'forms' ? session.formType : session.docType,
           createdAt: Date.now(),
-          session,
+          session: { ...structuredClone(session), reviewComments: undefined },
         };
         set((s) => ({ templates: { ...s.templates, [id]: template } }));
         return id;

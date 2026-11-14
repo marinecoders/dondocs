@@ -61,3 +61,11 @@ Use the endorsement controls to continue the basic letter's page, reference and 
 ## Maintaining these behaviors
 
 Check both PDF and Word when changing shared layout code. Existing checks cover [address rows](../tests/unit/correspondenceAddressRender.test.ts), [headquarters layout](../tests/integration/headquarters-memo-layout.test.ts), [closing pagination](../tests/integration/correspondence-closing.test.ts) and [endorsement footers](../tests/integration/endorsement-footer.test.ts). Follow the [contributor testing guidance](CONTRIBUTING.md#testing) and review rendered output in addition to generated text.
+
+## Document and field comments
+
+Use **Comments** above the correspondence editor to discuss the whole draft or an available text field. Add a reviewer name and comment, then reply, edit, resolve, reopen, or delete a thread. Names are self-entered labels, not verified identities. Each saved comment action supports Undo and Redo. Version comparisons summarize discussion targets, status, reviewers and text; long discussions use bounded excerpts rather than internal IDs or timestamps.
+
+Field comments retain the field's value when the comment was added. If that field or document format changes, the thread shows the captured and current values; unavailable fields keep their original context. A pending comment cannot save against a changed draft until the author deliberately chooses the current draft. Resetting or opening another document does not carry unrelated comments into it. Replacing content within the same draft retains existing feedback and its context.
+
+Comments are included in draft files, encrypted shared copies, and workspace backups. Shared copies are snapshots; this release does not merge returned discussions or provide live collaboration. Reusable templates exclude review comments. Clean PDF and Word exports omit comments, and batch substitutions do not rewrite review text. Comments on forms and technical publications, text-range review, proposed edits, and authenticated approval records are outside this release.

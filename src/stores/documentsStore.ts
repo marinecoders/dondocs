@@ -1,3 +1,4 @@
+import { hasReviewComments, reviewCommentsSchema } from '@/lib/reviewComments';
 import { showAppAlert } from '@/stores/alertStore';
 import { materializeSignatureFallbacks, needsSignatureFallbacks } from '@/lib/signatureCompatibility';
 import { signatureForComparison, formSignaturesForComparison } from '@/lib/signatureProjection';
@@ -418,12 +419,13 @@ const newId = (): string => {
 
 const isPlaceholder = (v: string): boolean => /^\[.*\]$/.test(v);
 
-// True once the document holds real work: a non-placeholder subject or a body
-// paragraph with real text. Bracketed starter placeholders don't count, so a
+// True once the document holds real work: review feedback, a non-placeholder
+// subject or a body paragraph with real text. Starter placeholders don't count, so a
 // blank new document stays out of Recents until the user writes something. Used
 // only for the legacy single-session migration on first load (no baseline to
 // diff against); the live promotion path uses hasContentDrift() below.
 export function isMeaningful(s: SerializedSession): boolean {
+  if (hasReviewComments(s)) return true;
   if (s.documentCategory === 'forms' && s.genericForm) return true;
   if (s.documentCategory === 'forms') return !!s.forms;
   const subj = (s.formData?.subject ?? '').trim();
@@ -442,7 +444,8 @@ export function isMeaningful(s: SerializedSession): boolean {
 // (letterhead, From, SSIC, serial, date, signature, font, doc-type). The starter
 // document ships with demo references and copy-tos, so "has a copy-to" can't mean
 // "has work"; instead we diff these fields against the doc's starting baseline, so
-// only fields the USER changed from that starting point count.
+// only fields the USER changed from that starting point count. Review feedback
+// is user work even when the draft itself still contains starter text.
 function contentFingerprint(s: SerializedSession): string {
   if (s.documentCategory === 'forms' && s.genericForm) return JSON.stringify(s.genericForm);
   if (s.documentCategory === 'forms') return JSON.stringify(s.forms ?? {});
@@ -465,6 +468,7 @@ function contentFingerprint(s: SerializedSession): string {
     (s.enclosures ?? []).map((e) => [e.title ?? '', e.coverPageDescription ?? '']),
     (s.copyTos ?? []).map((c) => c.text ?? ''),
     (s.distributions ?? []).map((d) => d.text ?? ''),
+    hasReviewComments(s) ? s.reviewComments : null,
   ]);
 }
 
@@ -1635,7 +1639,7 @@ export async function exportLibrary(): Promise<string> {
   }
   const captured = structuredClone(records);
   const compatible = await Promise.all(captured.map(async record => ({ ...record, session: await materializeSignatureFallbacks(record.session) })));
-  return JSON.stringify({ kind: 'dondocs-library', version: 1, docs: compatible });
+  return JSON.stringify({ kind: 'dondocs-library', version: compatible.some(record => hasReviewComments(record.session)) ? 2 : 1, docs: compatible });
 }
 
 /** External sessions must not inherit the open document's library ID. */
@@ -1670,6 +1674,7 @@ export function validateLibraryDocuments(records: unknown): asserts records is u
       || !Number.isFinite(record.meta.updatedAt ?? 0)) throw new Error('Invalid document in backup');
     if (ids.has(record.meta.id)) throw new Error(`Duplicate document ID: ${record.meta.id}`);
     ids.add(record.meta.id);
+    if (record.session.reviewComments !== undefined) reviewCommentsSchema.parse(record.session.reviewComments);
     if (record?.session?.genericForm) {
       const form = parseFormInstance(record.session.genericForm);
       if (record.session.documentCategory !== 'forms' || record.session.formType !== form.definition.formId) throw new Error('Form type does not match the saved definition');

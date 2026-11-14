@@ -1,3 +1,4 @@
+import { hasReviewComments } from './reviewComments';
 import { resolveSignature } from './signatureAssets';
 import { materializeSignatureFallbacks, materializeSignatureFallback, materializeFormSignatureFallbacks } from './signatureCompatibility';
 import { readAttachment, withAttachmentStaging } from './attachments';
@@ -39,11 +40,12 @@ import {
 import { uint8ArrayToBase64, base64ToUint8Array, arrayBufferToUint8Array } from '@/lib/encoding';
 
 export const BACKUP_KIND = 'dondocs-backup';
+// v6 protects comment-bearing copies from older readers. No-comment exports retain v5.
 // v5 adds `routingOverrides` (unit AA-form routing). v4 added `snapshots`
 // (per-document version history). v3 added `attachments`. Restore branches on
 // `kind` and on field PRESENCE, not version, so an older bundle (missing any of
 // these fields) still restores cleanly.
-export const BACKUP_VERSION = 5;
+export const BACKUP_VERSION = 6;
 const LIBRARY_KIND = 'dondocs-library'; // legacy docs-only file
 
 /** An enclosure blob embedded in the bundle; `data` is base64 of the raw bytes. */
@@ -225,7 +227,7 @@ export function classifyBackup(json: string): { kind: string; parsed: Record<str
   }
   const version = (parsed as { version?: unknown }).version;
   if (version !== undefined && (typeof version !== 'number' || !Number.isSafeInteger(version)
-    || version < 1 || version > (kind === BACKUP_KIND ? BACKUP_VERSION : 1))) throw new Error('Unsupported backup version');
+    || version < 1 || version > (kind === BACKUP_KIND ? BACKUP_VERSION : 2))) throw new Error('Unsupported backup version');
   return { kind: kind as string, parsed: parsed as Record<string, unknown> };
 }
 
@@ -247,7 +249,7 @@ async function serializeBackup(): Promise<string> {
     forms: Pick<typeof form, 'navmc10274' | 'navmc11811' | 'includeCoverPage' | 'configFormValues' | 'configFormRows'>;
   }>({
     kind: BACKUP_KIND,
-    version: BACKUP_VERSION,
+    version: 5,
     exportedAt: Date.now(),
     profiles: { profiles: profile.profiles, selectedProfile: profile.selectedProfile },
     forms: { navmc10274: form.navmc10274, navmc11811: form.navmc11811, includeCoverPage: form.includeCoverPage, configFormValues: form.configFormValues, configFormRows: form.configFormRows },
@@ -285,7 +287,10 @@ async function serializeBackup(): Promise<string> {
       const record = copyAttachment(resources, id);
       return { ...record, data: uint8ArrayToBase64(arrayBufferToUint8Array(record.data)) };
     });
-    const bundle: BackupBundle = { ...captured, documents: docs, snapshots, attachments };
+    const withComments = docs.some(doc => hasReviewComments((doc as { session: import('@/stores/documentStore').SerializedSession }).session))
+      || Object.values(snapshots).some(ring => ring.some(snapshot => hasReviewComments(snapshot.session)))
+      || Object.values(captured.userTemplates).some(template => hasReviewComments(template.session));
+    const bundle: BackupBundle = { ...captured, version: withComments ? BACKUP_VERSION : 5, documents: docs, snapshots, attachments };
     return JSON.stringify(bundle);
   });
 }

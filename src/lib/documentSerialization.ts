@@ -6,6 +6,7 @@ import type { SerializedSession } from '@/stores/documentStore';
 export function serializeDocumentSnapshot(snapshot: DocumentSnapshot, timestamp: number): SerializedSession {
   if (snapshot.documentCategory === 'forms') {
     return {
+      ...(snapshot.reviewComments ? { reviewComments: structuredClone(snapshot.reviewComments) } : {}),
       documentMode: snapshot.documentMode, documentCategory: 'forms',
       docType: snapshot.docType, formType: snapshot.formType ?? 'navmc_10274',
       ...(snapshot.genericForm ? { genericForm: snapshot.genericForm } : { forms: snapshot.forms ? { ...snapshot.forms, ...(snapshot.forms.navmc10274 ? { navmc10274: storedFormSignatures(snapshot.forms.navmc10274) } : {}), ...(snapshot.forms.navmc11811 ? { navmc11811: storedFormSignatures(snapshot.forms.navmc11811) } : {}) } : undefined }), formData: {}, references: [],
@@ -13,6 +14,7 @@ export function serializeDocumentSnapshot(snapshot: DocumentSnapshot, timestamp:
     };
   }
   return {
+    ...(snapshot.reviewComments ? { reviewComments: structuredClone(snapshot.reviewComments) } : {}),
     documentMode: snapshot.documentMode,
     documentCategory: snapshot.documentCategory ?? 'correspondence',
     docType: snapshot.docType,

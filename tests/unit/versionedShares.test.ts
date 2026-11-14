@@ -30,7 +30,7 @@ it('round trips configured form answers and repeated rows', () => {
 });
 it('rejects unsupported versions and document-kind mismatches', () => {
   const payload = createSharedPayload(createBlankSession());
-  expect(() => parseSharedSession({ ...payload, version: 2 })).toThrow('unsupported');
+  expect(() => parseSharedSession({ ...payload, version: 3 })).toThrow('unsupported');
   expect(() => parseSharedSession({ ...payload, documentKind: 'builtin-form' })).toThrow('does not match');
 });
 it('strips incoming and outgoing device handles and signature bytes without mutating the source', () => {

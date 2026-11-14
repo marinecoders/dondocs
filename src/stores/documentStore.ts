@@ -1,3 +1,4 @@
+import { hasReviewComments, type ReviewComments } from '@/lib/reviewComments';
 import { persistSignature, resolveSignature } from '@/lib/signatureAssets';
 import { withAttachmentStaging } from '@/lib/attachments';
 import { projectSharedSession, serializeDocumentSnapshot } from '@/lib/documentSerialization';
@@ -43,6 +44,7 @@ export interface SerializedSession {
   formType: FormType;
   genericForm?: FormInstance;
   formData: Partial<DocumentData>;
+  reviewComments?: ReviewComments;
   references: Reference[];
   endItems?: EndItem[];
   publicationTables?: Record<string, PublicationTableRow[]>;
@@ -111,6 +113,7 @@ export interface DocumentState {
   formType: FormType;
   genericForm?: FormInstance;
   formData: Partial<DocumentData>;
+  reviewComments?: ReviewComments;
   references: Reference[];
   endItems: EndItem[];
   publicationTables: Record<string, PublicationTableRow[]>;
@@ -458,6 +461,7 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
   resetForm: () => {
     useUIStore.getState().setValidationVisible(false);
     set({
+    reviewComments: undefined,
     documentMode: 'compliant',
     docType: 'naval_letter',
     formData: { ...DEFAULT_FORM_DATA },
@@ -902,6 +906,7 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
       documentMode: snapshot.documentMode,
       docType: snapshot.docType,
       formData: publicationFont(snapshot.docType, snapshot.documentMode, snapshot.formData),
+      reviewComments: snapshot.reviewComments ? structuredClone(snapshot.reviewComments) : undefined,
       references: snapshot.references,
       enclosures,
       paragraphs: snapshot.paragraphs,
@@ -924,6 +929,7 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
       forms: state.documentCategory === 'forms' && !state.genericForm ? serializeForm(state.formType) : undefined,
       docType: state.docType,
       formData: state.formData,
+      ...(state.reviewComments ? { reviewComments: state.reviewComments } : {}),
       references: state.references,
       enclosures: state.enclosures,
       paragraphs: state.paragraphs,
@@ -987,6 +993,7 @@ export function hasSavedSession(): boolean {
 
     // Meaningful content, not just default empty state.
     const hasContent =
+      hasReviewComments(session) ||
       session.genericForm ||
       (session.paragraphs && session.paragraphs.length > 0 && session.paragraphs.some(p => p.text.trim() !== '')) ||
       (session.references && session.references.length > 0) ||
@@ -1124,6 +1131,7 @@ export function prepareSessionState(value: unknown): DocumentSnapshot {
     docType: session.docType,
     formType: session.formType,
     formData: publicationFont(session.docType, session.documentMode, formData),
+    ...(session.reviewComments ? { reviewComments: session.reviewComments } : {}),
     references: session.references,
     endItems: session.endItems ?? [], publicationTables: session.publicationTables ?? {},
     genericForm: session.genericForm,
@@ -1137,6 +1145,7 @@ export function prepareSessionState(value: unknown): DocumentSnapshot {
 /** Internal adapter: callers prepare before entering the replacement boundary. */
 export function installSessionState(snapshot: DocumentSnapshot): void {
   const { forms, ...document } = snapshot;
+  document.reviewComments = snapshot.reviewComments ? structuredClone(snapshot.reviewComments) : undefined;
   if (snapshot.documentCategory === 'forms' && !snapshot.genericForm) loadFormSession(snapshot.formType!, forms);
   useDocumentStore.setState(document);
 }

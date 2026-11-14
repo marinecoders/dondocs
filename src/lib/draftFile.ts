@@ -2,7 +2,7 @@ import { resolveSignature, resolveFormSignatures } from './signatureAssets';
 import { z } from 'zod';
 import { parseFormInstance } from '@/services/forms/model';
 import { getSerializedSession, useDocumentStore, type SerializedSession } from '@/stores/documentStore';
-import { parseSharedSession } from './sharedSession';
+import { parseSharedSession, draftEnvelope } from './sharedSession';
 import { arrayBufferToUint8Array, uint8ArrayToBase64, base64ToUint8Array } from './encoding';
 import { loadAttachment } from './attachments';
 import type { Enclosure, FileRef } from '@/types/document';
@@ -87,7 +87,7 @@ async function serializeDraft(): Promise<unknown> {
       const resolved = await resolveFormSignatures(form, 'transfer');
       form.signatureBlocks = resolved.signatureBlocks.map(({ imageRef: _ref, ...block }) => block);
     }
-    return { version: '1.1', ...session };
+    return { ...draftEnvelope(session), ...session };
   }
   const enclosures = await Promise.all(session.enclosures.map(async (enclosure, index) => {
     const { fileRef, ...text } = enclosure;
@@ -102,5 +102,5 @@ async function serializeDraft(): Promise<unknown> {
     const packed = await pack(undefined, fileRef);
     return { ...paragraph, figure: { ...figure, data: packed?.data } };
   }));
-  return { version: '1.1', ...session, paragraphs, enclosures, formData: { ...formData, basicLetterFile: await pack(live.formData.basicLetterFile, basicLetterFileRef) } };
+  return { ...draftEnvelope(session), ...session, paragraphs, enclosures, formData: { ...formData, basicLetterFile: await pack(live.formData.basicLetterFile, basicLetterFileRef) } };
 }

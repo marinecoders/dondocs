@@ -312,7 +312,7 @@ bytes cannot be reconstructed. A code rollback does not downgrade stored documen
 
 ## Shared document format
 
-New links use an additive `dondocs-share` envelope with `version: 1` and a
+Ordinary links use an additive `dondocs-share` envelope with `version: 1` and a
 `documentKind` discriminator for correspondence, built-in forms, or configured
 forms. The established document fields remain at the top level so earlier
 clients with the corresponding document reader can still read them. New readers
@@ -325,3 +325,11 @@ clients that lack the form reader must be updated to open those forms. A link is
 a snapshot; subsequent sender edits do not change the recipient's document.
 
 Share links have no server-side revocation or password-recovery service. In contrast to encrypted share payloads, portable draft and workspace-backup JSON is unencrypted; store and transfer those files according to their contents.
+
+## Review comment reader compatibility
+
+Document and field comments use the optional `reviewComments` model, version 1. Comment-bearing shares require the `dondocs-share` envelope version 2; comment-bearing draft files use `dondocs-draft` version 2. Older envelope readers reject those copies instead of opening an incomplete review. Drafts and shares without comments retain their existing versions.
+
+Workspace backups containing comments in documents, trash, version history, or captured templates use backup version 6; other backups remain version 5. Comment-bearing library exports use library version 2. Current readers accept supported older formats and validate review schemas before restoring records or assets. An unsupported review version is an error, not a request to discard notes.
+
+These comment formats require DonDocs 1.3.71 or later. Earlier tabs and code rollbacks can still drop unknown fields when reading an on-device session; changing the new code cannot repair an older reader. Keep a current-version workspace backup before using an older build. Portable draft and backup JSON remains unencrypted; encrypted sharing protects the payload with the supplied password.
