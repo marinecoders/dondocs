@@ -13,6 +13,16 @@ async function reviews(page: Page) {
 async function comments(page: Page) {
   await page.getByRole('button', { name: /^Comments(?: \(\d+\))?$/ }).click();return page.getByRole('dialog', { name: 'Document comments', exact: true });
 }
+async function workspace(page: Page, name: string) {
+  const drawer = page.getByRole('dialog', { name: 'Documents', exact: true });
+  if (await drawer.isVisible()) {
+    await drawer.getByRole('button', { name, exact: true }).click();return;
+  }
+  const launcher = page.getByRole('button', { name: 'Open workspace', exact: true });
+  // Wait for navigation to become available after the review dialog closes.
+  await launcher.or(page.getByRole('button', { name, exact: true })).first().click();
+  if (await drawer.isVisible()) await drawer.getByRole('button', { name, exact: true }).click();
+}
 async function download(page: Page, button: () => Promise<unknown>) {
   const pending = page.waitForEvent('download', { timeout: 30_000 });await button();return readFile((await (await pending).path())!);
 }
@@ -96,8 +106,7 @@ for (const theme of ['light', 'dark', 'classic']) {
         await expect(modal.getByText(/This return has already been imported/)).toBeVisible();await page.keyboard.press('Escape');
       });
       await test.step('Open workspace Settings and download the receipt-bearing backup', async () => {
-        const workspace = page.getByRole('button', { name: 'Open workspace', exact: true });if (await workspace.isVisible()) await workspace.click();
-        await page.getByRole('button', { name: 'Settings', exact: true }).click();
+        await workspace(page, 'Settings');
         const settings = page.getByRole('dialog', { name: 'Settings', exact: true });
         const backup = await download(page, () => settings.getByRole('button', { name: 'Download workspace backup', exact: true }).click());
         const bundle = JSON.parse(backup.toString('utf8'));expect(bundle.version).toBe(8);expect(bundle.reviewReturns).toHaveLength(1);
