@@ -23,6 +23,18 @@ export const reviewReturnReceiptSchema = z.object({
 }).strict();
 export type ReviewReturnReceipt = z.infer<typeof reviewReturnReceiptSchema>;
 
+export const reviewReturnWriteSchema = z.object({
+  kind: z.literal('comment-return'),
+  round: z.object({ id: reviewRoundIdSchema, baselineDigest: reviewDigestSchema, ownerDocumentId: z.string().min(1).max(200) }).strict(),
+  receipt: reviewReturnReceiptSchema,
+}).strict().superRefine((value, context) => {
+  if (value.round.id !== value.receipt.roundId || value.round.baselineDigest !== value.receipt.baselineDigest
+    || value.round.ownerDocumentId !== value.receipt.documentId) {
+    context.addIssue({ code: 'custom', message: 'The review write does not match its owner and baseline.' });
+  }
+});
+export type ReviewReturnWrite = z.infer<typeof reviewReturnWriteSchema>;
+
 export function parseReviewReturn(value: unknown): ReviewReturn {
   const parsed = reviewReturnSchema.parse(value);
   if (new TextEncoder().encode(canonicalReviewPayload(parsed)).byteLength > MAX_REVIEW_RETURN_BYTES) {
