@@ -1111,18 +1111,30 @@ export async function idbReadActionPackages(): Promise<unknown[]> {
 }
 export async function idbCompareActionPackage(before: import('./actionPackages').ActionPackage | null, after: import('./actionPackages').ActionPackage): Promise<boolean> {
   try {
-    const { actionPackageSchema, validPackageTransition } = await import('./actionPackages');
+    before = before && structuredClone(before);after = structuredClone(after);
+    const { actionPackageSchema, validPackageTransition, packageAssets } = await import('./actionPackages');
+    const { validateActionPackageResources } = await import('./actionPackageTransfer');
+    const assets = new Map<string, StoredAttachment>();
     actionPackageSchema.parse(after);
     if (!validPackageTransition(before, after)) return false;
+    await validateActionPackageResources(after, async asset => {
+      const saved = assets.get(asset.id) ?? await idbGetAttachment(asset.id);
+      if (!saved) throw new Error('Required package bytes are unavailable.');
+      assets.set(asset.id, saved);return saved.data;
+    });
+    if (assets.size !== new Set(packageAssets(after).map(asset => asset.id)).size) return false;
     const db = await openDb();
     return await new Promise<boolean>((resolve, reject) => {
-      const transaction = db.transaction(APP_STORE, 'readwrite'), store = transaction.objectStore(APP_STORE);
+      const transaction = db.transaction([APP_STORE, ATTACHMENTS_STORE], 'readwrite'), store = transaction.objectStore(APP_STORE);
       const request = store.get(`action-package:${after.id}`);
-      let committed = false;
-      request.onsuccess = () => {
-        if (!sameReviewStoredValue(request.result?.value ?? null, before)) return;
+      const checks = [...assets].map(([id, expected]) => ({ expected, request: transaction.objectStore(ATTACHMENTS_STORE).get(id) }));
+      let committed = false, remaining = checks.length + 1;
+      const ready = () => {
+        if (--remaining) return;
+        if (!sameReviewStoredValue(request.result?.value ?? null, before) || checks.some(check => !sameReviewStoredValue(check.request.result, check.expected))) return;
         store.put({ key: `action-package:${after.id}`, value: after });committed = true;
       };
+      request.onsuccess = ready;checks.forEach(check => { check.request.onsuccess = ready; });
       transaction.oncomplete = () => resolve(committed);
       transaction.onerror = () => reject(transaction.error);
       transaction.onabort = () => reject(transaction.error);

@@ -31,10 +31,15 @@ export const actionPackageSchema = z.object({ kind: z.literal('dondocs-action-pa
   historyScope: z.enum(['complete', 'selected-revision']).optional(), name: z.string().trim().min(1).max(120), archived: z.boolean(), sequence: z.number().int().nonnegative(), currentRevisionId: id,
   revisions: z.array(revisionSchema).min(1).max(200), workingCopies: z.array(z.object({ memberId: id, documentId: id, revisionId: id }).strict()).max(100).optional(),
 }).strict().superRefine((record, ctx) => {
-  const seen = new Set<string>();
+  const seen = new Set<string>(), memberRevisions = new Map<string, string>();
   for (const [index, revision] of record.revisions.entries()) {
     if (seen.has(revision.id) || revision.parentId && !seen.has(revision.parentId) && !(index === 0 && record.historyScope === 'selected-revision')) ctx.addIssue({ code: 'custom', message: 'Invalid package revision lineage.' });
     seen.add(revision.id);
+    for (const member of revision.members) {
+      const key = `${member.id}:${member.revisionId}`, data = JSON.stringify(member);
+      if (memberRevisions.has(key) && memberRevisions.get(key) !== data) ctx.addIssue({ code: 'custom', message: 'A captured member revision was rewritten.' });
+      memberRevisions.set(key, data);
+    }
     if (new Set(revision.members.map(member => member.id)).size !== revision.members.length) ctx.addIssue({ code: 'custom', message: 'Duplicate package member identity.' });
     if (new Set(revision.outputs.map(output => output.id)).size !== revision.outputs.length) ctx.addIssue({ code: 'custom', message: 'Duplicate output identity.' });
     for (const output of revision.outputs) if (output.boundaries.length !== revision.members.length || output.boundaries.some((boundary, index) => boundary.memberId !== revision.members[index].id || boundary.startPage !== (index ? output.boundaries[index - 1].startPage + output.boundaries[index - 1].pageCount : 1))) ctx.addIssue({ code: 'custom', message: 'Invalid output member boundaries.' });
@@ -74,25 +79,25 @@ export async function createActionPackage(name: string): Promise<ActionPackage> 
 }
 export async function reviseActionPackage(record: ActionPackage, members: PackageMember[]): Promise<ActionPackage> {
   if (record.archived) throw new Error('Reopen this archived package before editing.');
-  const revision: PackageRevision = { id: newPackageId('revision'), parentId: record.currentRevisionId, createdAt: Date.now(), members: structuredClone(members), outputs: [] };
+  const revision: PackageRevision = { id: newPackageId('revision'), parentId: record.currentRevisionId, createdAt: Date.now(), members: structuredClone(members).map(member => { const prior = getPackageRevision(record).members.find(prior => prior.id === member.id);return prior && prior.revisionId === member.revisionId && !sameReviewStoredValue(prior, member) ? { ...member, revisionId: newPackageId('member-revision') } : member; }), outputs: [] };
   return commitActionPackage(record, { ...record, sequence: record.sequence + 1, currentRevisionId: revision.id, revisions: [...record.revisions, revision] });
 }
 export async function renameActionPackage(record: ActionPackage, name: string) { return commitActionPackage(record, { ...record, name, sequence: record.sequence + 1 }); }
 export async function archiveActionPackage(record: ActionPackage, archived: boolean) { return commitActionPackage(record, { ...record, archived, sequence: record.sequence + 1 }); }
 export async function duplicateActionPackage(record: ActionPackage, name = `${record.name} copy`): Promise<ActionPackage> {
-  return commitActionPackage(null, { ...structuredClone(record), id: newPackageId('package'), name, archived: false, sequence: 0 });
+  return commitActionPackage(null, { ...structuredClone(record), id: newPackageId('package'), name, archived: false, sequence: 0, workingCopies: undefined });
 }
 
 /** Existing captured inputs and artifacts are immutable even when a caller bypasses UI actions. */
 export function validPackageTransition(before: ActionPackage | null, after: ActionPackage): boolean {
   if (!before) return true;
-  if (before.id !== after.id || after.sequence !== before.sequence + 1 || after.revisions.length < before.revisions.length) return false;
+  if (before.historyScope !== after.historyScope || before.id !== after.id || after.sequence !== before.sequence + 1 || after.revisions.length < before.revisions.length) return false;
   for (let index = 0; index < before.revisions.length; index++) {
     const prior = before.revisions[index], next = after.revisions[index];
     if (!sameReviewStoredValue({ ...prior, outputs: [] }, { ...next, outputs: [] }) || next.outputs.length < prior.outputs.length
       || prior.outputs.some((output, offset) => !sameReviewStoredValue(output, next.outputs[offset]))) return false;
   }
   if (after.revisions.length === before.revisions.length) return after.currentRevisionId === before.currentRevisionId;
-  return after.revisions.length === before.revisions.length + 1 && after.revisions.at(-1)?.parentId === before.currentRevisionId
+  return !before.archived && after.revisions.length === before.revisions.length + 1 && after.revisions.at(-1)?.parentId === before.currentRevisionId
     && after.currentRevisionId === after.revisions.at(-1)?.id;
 }

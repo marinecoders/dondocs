@@ -1,8 +1,10 @@
+import { supportsReviewComments } from './reviewCommentTargets';
+import { validatePackageDraft } from './actionPackageDraft';
 import { validatePackageMemberTemplates } from './actionPackageTemplates';
 import { PDFDocument } from 'pdf-lib';
 import type { CapturedDocument } from './capturedDocument';
 import { copyCapturedDocument } from './capturedDocument';
-import { buildDraftFileFromSnapshot, parseDraftFile } from './draftFile';
+import { buildDraftFileFromSnapshot } from './draftFile';
 import { loadAttachment, persistAttachment, withAttachmentStaging } from './attachments';
 import { portableResourceDigest } from './portableResources';
 import { captureExportFormTemplates } from '@/services/exports/formTemplates';
@@ -24,7 +26,7 @@ export async function readPackageAsset(asset: PackageAsset): Promise<ArrayBuffer
 export async function readPackageMemberDraft(member: NativePackageMember) {
   const bytes = await readPackageAsset(member.draft);
   const draft: unknown = JSON.parse(new TextDecoder('utf-8', { fatal: true }).decode(bytes));
-  const reviewed = parseDraftFile(draft, false, true);
+  const reviewed = await validatePackageDraft(draft);
   if (JSON.stringify(reviewed.session) !== JSON.stringify(member.session)) throw new Error(`The saved model for ${member.label} does not match its captured native draft.`);
   await validatePackageMemberTemplates(member, readPackageAsset);
   return { draft, reviewed };
@@ -32,7 +34,7 @@ export async function readPackageMemberDraft(member: NativePackageMember) {
 /** Reuse native draft staging without installing or mutating the active editor. */
 export async function preparePackageMember(member: NativePackageMember) {
   const { reviewed } = await readPackageMemberDraft(member);
-  const prepared = await prepareReviewedDocument(reviewed, () => true, true);
+  const prepared = await prepareReviewedDocument(reviewed, () => true, supportsReviewComments(reviewed.session));
   if (!prepared) throw new Error(`Could not stage ${member.label}.`);
   return { prepared, snapshot: copyPreparedDocument(prepared) };
 }
@@ -43,7 +45,7 @@ export async function capturePackageMember(captured: CapturedDocument, label: st
     const draft = await buildDraftFileFromSnapshot(snapshot, captured.source.capturedAt);
     // Templates have one package-owned copy rather than nested draft/resource copies.
     if (draft && typeof draft === 'object') { delete (draft as Record<string, unknown>).portableFormTemplates;delete (draft as Record<string, unknown>).portableResources; }
-    const reviewed = parseDraftFile(draft, false, true);
+    const reviewed = await validatePackageDraft(draft);
     const templates = await captureExportFormTemplates(captured);
     const retained: Record<string, PackageAsset> = {};
     if (templates) for (const [file, bytes] of Object.entries(copyFormExportTemplates(templates))) {
