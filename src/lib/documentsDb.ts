@@ -979,15 +979,14 @@ export async function idbApplyReviewReturn(
 export async function idbApplyReviewSuggestions(inputBefore: StoredDocument, inputAfter: StoredDocument,
   input: ReviewSuggestionWrite, isCurrent: () => boolean = () => true): Promise<ReviewReturnWriteOutcome> {
   try {
-    const { planReviewSuggestionWrite, reviewSuggestionWriteReceipt, reviewSuggestionWriteSchema, reviewSuggestionRecordSchema,
+    const { planReviewSuggestionWrite, isReviewSuggestionMetadataChange, reviewSuggestionWriteReceipt, reviewSuggestionWriteSchema, reviewSuggestionRecordSchema,
       reviewSuggestionReceiptSchema } = await import('./reviewSuggestionWrites');
     const before = structuredClone(inputBefore), after = structuredClone(inputAfter);
     const operation = reviewSuggestionWriteSchema.parse(input), receipt = await reviewSuggestionWriteReceipt(operation);
     if (!isCurrent()) return 'stale';
     if (before.id !== after.id || before.meta.id !== before.id || after.meta.id !== before.id || operation.documentId !== before.id
       || !supportsReviewComments(before.session) || !supportsReviewComments(after.session)) return 'conflict';
-    const metadata = (record: StoredDocument) => { const value = { ...record.meta };delete (value as Partial<DocumentMeta>).updatedAt;return value; };
-    if (!sameReviewStoredValue(metadata(before), metadata(after))) return 'conflict';
+    if (!isReviewSuggestionMetadataChange(before.meta, after.meta, operation)) return 'conflict';
     const db = await openDb();
     return await new Promise<ReviewReturnWriteOutcome>((resolve, reject) => {
       const transaction = db.transaction([DOCS_STORE, APP_STORE], 'readwrite');

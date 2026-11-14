@@ -13,7 +13,7 @@ import { recoverReviewReturnWrite, REVIEW_WRITE_RECOVERY_KEY } from '@/lib/revie
 import { reviewReturnWriteSchema, type ReviewReturnWrite } from '@/lib/reviewReturns';
 import { supportsReviewComments } from '@/lib/reviewCommentTargets';
 import { readReviewRound, readReviewCopyLink } from '@/lib/reviewRounds';
-import { planReviewSuggestionWrite, reviewSuggestionWriteSchema, reviewSuggestionRecordSchema, type ReviewSuggestionWrite } from '@/lib/reviewSuggestionWrites';
+import { reviewSuggestionWriteMetadata, planReviewSuggestionWrite, reviewSuggestionWriteSchema, reviewSuggestionRecordSchema, type ReviewSuggestionWrite } from '@/lib/reviewSuggestionWrites';
 import { cacheReviewSuggestions, cachedReviewSuggestions, rebindReviewSuggestionHistory, forgetReviewSuggestions } from '@/lib/reviewSuggestionRuntime';
 import { validateReviewSuggestionState, planReviewSuggestionHistory } from '@/lib/reviewSuggestions';
 import { serializeDocumentSnapshot } from '@/lib/documentSerialization';
@@ -912,7 +912,7 @@ export async function applyOwnedReviewSuggestions(target: DocumentTarget | null,
   const before = storedEntry(entry);
   const planned = planReviewSuggestionWrite(round, before.session, operation);
   if (!sameReviewStoredValue(planned.state, operation.after) || !recordDocumentHistory(target.scope)) return 'invalid';
-  const after = { ...structuredClone(before), session: planned.session, meta: { ...before.meta, updatedAt: Math.max(Date.now(), before.meta.updatedAt + 1) } };
+  const after = { ...structuredClone(before), session: planned.session, meta: { ...reviewSuggestionWriteMetadata(before.meta, operation), updatedAt: Math.max(Date.now(), before.meta.updatedAt + 1) } };
   const revision = writes.enqueueReviewSuggestions(before, after, operation);
   publishSuggestionText(before.session, after.session);
   useDocumentsStore.setState(current => ({ docs: { ...current.docs, [after.id]: { meta: after.meta, session: after.session } },

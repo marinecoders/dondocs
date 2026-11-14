@@ -22,7 +22,7 @@ async function fixture() {
   const plan = planReviewSuggestionDecision(round, session, state, proposal.id, 'accepted'), decision = plan.state.decisions[0];
   const accept: ReviewSuggestionWrite = { ...propose, id: `suggestion-write_${crypto.randomUUID()}`, createdAt: 3, before: state, after: plan.state,
     intent: { kind: 'decide', proposalId: proposal.id, action: 'accepted', record: { id: decision.id, decidedAt: decision.decidedAt } } };
-  const accepted: StoredDocument = { ...structuredClone(before), meta: { ...before.meta, updatedAt: 3 }, session: plan.session };
+  const accepted: StoredDocument = { ...structuredClone(before), meta: { ...before.meta, updatedAt: 3, nativeReviewText: true }, session: plan.session };
   const latest = structuredClone(accepted);latest.session.formData.subject = 'Newer body work';latest.meta.updatedAt = 4;
   const pending: PendingDocumentWrite = { before, versions: [proposed, accepted, latest], reviewReturns: [{ index: 0, operation: propose }, { index: 1, operation: accept }] };
   await idbPutDocument(before);await idbAddReviewRound(round);
@@ -56,6 +56,13 @@ describe('typed suggestion write recovery', () => {
     await idbPutDocument(input.before);await idbApplyReviewSuggestions(input.before, input.proposed, input.propose);await idbApplyReviewSuggestions(input.proposed, input.accepted, input.accept);
     await idbPutDocument(input.before);
     expect(await recoverReviewReturnWrite(input.pending)).toBe('conflict');expect(await input.saved()).toEqual(input.before);
+  });
+
+  it('rejects a later unrelated title before replaying any earlier valid fence', async () => {
+    const input = await fixture(), bad = structuredClone(input.pending);bad.versions[1].meta.title = 'Forged later title';
+    await expect(recoverReviewReturnWrite(bad)).rejects.toThrow(/Invalid suggestion recovery metadata/);
+    expect(await input.saved()).toEqual(input.before);expect(await idbReadReviewSuggestionReceipt(input.propose.id)).toBeNull();
+    expect(await idbReadReviewSuggestions(input.id, input.round.id)).toBeNull();
   });
 
   it('validates all later metadata before performing even the first queued write', async () => {

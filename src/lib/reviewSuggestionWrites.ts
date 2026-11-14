@@ -1,6 +1,7 @@
 import { z } from 'zod';
+import type { DocumentMeta } from '@/stores/documentsStore';
 import type { SerializedSession } from '@/stores/documentStore';
-import { reviewDigestSchema, reviewPayloadDigest, reviewRoundIdSchema, type ReviewRound } from './reviewRounds';
+import { canonicalReviewPayload, reviewDigestSchema, reviewPayloadDigest, reviewRoundIdSchema, type ReviewRound } from './reviewRounds';
 import {
   appendReviewSuggestions, emptyReviewSuggestionState, planReviewSuggestionDecision, planReviewSuggestionHistory,
   reviewProposalIdSchema, reviewSuggestionSchema, reviewSuggestionStateSchema, validateReviewSuggestionState,
@@ -45,6 +46,16 @@ export async function reviewSuggestionWriteReceipt(input: ReviewSuggestionWrite)
   return { kind: 'dondocs-suggestion-write-receipt', version: 1, writeId: operation.id,
     writeDigest: await reviewPayloadDigest(operation), documentId: operation.documentId,
     roundId: operation.round.id, baselineDigest: operation.round.baselineDigest, committedAt: operation.createdAt };
+}
+
+/** Accepted native text uses the existing reader hint; no other review action can promote it. */
+export function reviewSuggestionWriteMetadata(before: DocumentMeta, operation: ReviewSuggestionWrite): DocumentMeta {
+  return { ...before, ...(operation.intent.kind === 'decide' && operation.intent.action === 'accepted' ? { nativeReviewText: true as const } : {}) };
+}
+export function isReviewSuggestionMetadataChange(before: DocumentMeta, after: DocumentMeta, operation: ReviewSuggestionWrite): boolean {
+  const { updatedAt: _beforeTime, ...expected } = reviewSuggestionWriteMetadata(before, operation);
+  const { updatedAt: _afterTime, ...actual } = after;
+  return canonicalReviewPayload(expected) === canonicalReviewPayload(actual);
 }
 
 /** Derive only the allowed replacement, rather than trusting an arbitrary queued document. */

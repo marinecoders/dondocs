@@ -10,7 +10,7 @@ import { parseSavedSession } from './savedSession';
 import { supportsReviewComments } from './reviewCommentTargets';
 import { materializeSignatureFallbacks } from './signatureCompatibility';
 import { z } from 'zod';
-import { planReviewSuggestionWrite, reviewSuggestionReceiptSchema, reviewSuggestionRecordSchema, reviewSuggestionWriteReceipt } from './reviewSuggestionWrites';
+import { isReviewSuggestionMetadataChange, planReviewSuggestionWrite, reviewSuggestionReceiptSchema, reviewSuggestionRecordSchema, reviewSuggestionWriteReceipt } from './reviewSuggestionWrites';
 import { validateReviewSuggestionState } from './reviewSuggestions';
 
 export const REVIEW_WRITE_RECOVERY_KEY = 'dondocs-review-write-recovery';
@@ -42,6 +42,7 @@ export async function recoverReviewReturnWrite(input: PendingDocumentWrite): Pro
       if (round.baselineDigest !== operation.round.baselineDigest || round.ownerDocumentId !== operation.documentId
         && (operation.intent.kind !== 'propose' || !copy.success || copy.data.documentId !== operation.documentId
           || copy.data.roundId !== round.id || copy.data.baselineDigest !== round.baselineDigest)) throw new Error('The suggestion recovery owner or baseline changed.');
+      if (!isReviewSuggestionMetadataChange(prior.meta, item.versions[index].meta, operation)) throw new Error('Invalid suggestion recovery metadata.');
       const planned = planReviewSuggestionWrite(round, prior.session, operation, item.versions[index].session);
       if (!sameReviewStoredValue(planned.session, item.versions[index].session)
         || !sameReviewStoredValue(planned.state, operation.after)) throw new Error('Invalid suggestion recovery intent.');

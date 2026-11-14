@@ -105,6 +105,23 @@ describe('review suggestion owner and ordinary history integration', () => {
     expect(useUIStore.getState().lastSavedAt).toEqual(stamp);expect((await saved()).session.formData.to).toBe('Proposed recipient');
   });
 
+  it('retains an exact accepted unit-address replacement when the source is reopened', async () => {
+    const proposal = createReviewSuggestion(round, { author: 'Reviewer', label: 'Unit address', changes: [{ target: { kind: 'field', field: 'unitAddress', docType: 'naval_letter' }, proposed: '123 Example Rd\nQuantico VA 22134' }] });
+    const next = appendReviewSuggestions(round, state, [proposal]);
+    expect(await applyOwnedReviewSuggestions(captureDocumentTarget(), { kind: 'suggestion-write', version: 1, id: `suggestion-write_${crypto.randomUUID()}`, documentId: round.ownerDocumentId!, createdAt: Date.now(),
+      round: { id: round.id, baselineDigest: round.baselineDigest }, before: state, after: next, intent: { kind: 'propose', proposals: [proposal] } })).toBe('committed');
+    state = next;
+    const plan = planReviewSuggestionDecision(round, useDocumentsStore.getState().docs[round.ownerDocumentId!].session, state, proposal.id, 'accepted'), decision = plan.state.decisions.at(-1)!;
+    expect(await applyOwnedReviewSuggestions(captureDocumentTarget(), { kind: 'suggestion-write', version: 1, id: `suggestion-write_${crypto.randomUUID()}`, documentId: round.ownerDocumentId!, createdAt: Date.now(),
+      round: { id: round.id, baselineDigest: round.baselineDigest }, before: state, after: plan.state, intent: { kind: 'decide', proposalId: proposal.id, action: 'accepted', record: { id: decision.id, decidedAt: decision.decidedAt } } })).toBe('committed');
+    expect(changeDocumentHistory('undo', captureDocumentScope())).toBe('applied');await flushDocumentWrites();
+    expect(useDocumentStore.getState().formData.unitAddress).toBe(proposal.changes[0].expected);
+    expect(changeDocumentHistory('redo', captureDocumentScope())).toBe('applied');await flushDocumentWrites();
+    expect((await saved()).meta.nativeReviewText).toBe(true);
+    useDocumentsStore.getState().newDocument();await commitCurrentDocument();expect(openExistingDocument(round.ownerDocumentId!)).toBe('applied');
+    expect(useDocumentStore.getState().formData.unitAddress).toBe(proposal.changes[0].proposed);
+  });
+
   it('removes review metadata on explicit cleanup while preserving ordinary text Undo', async () => {
     expect(await applyOwnedReviewSuggestions(captureDocumentTarget(), acceptance())).toBe('committed');
     expect(await deleteReviewRound(round.id, round.baselineDigest)).toBe(true);
