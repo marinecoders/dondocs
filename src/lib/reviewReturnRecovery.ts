@@ -1,6 +1,6 @@
 import {
   idbApplyReviewReturn, idbGetAllDocuments, idbReadReviewReturn, idbReadReviewRound,
-  idbWriteDocument, sameReviewStoredValue, type DocumentWriteOutcome, type StoredDocument,
+  idbWriteDocument, sameReviewStoredValue, isCommentOnlyReviewReturnChange, type DocumentWriteOutcome, type StoredDocument,
 } from './documentsDb';
 import { parseDocumentWriteJournal, type PendingDocumentWrite } from './documentWrites';
 import { parseReviewRound } from './reviewRounds';
@@ -21,6 +21,7 @@ export async function recoverReviewReturnWrite(input: PendingDocumentWrite): Pro
     const { operation, index } = marker;
     const prior = index === 0 ? item.before! : item.versions[index - 1];
     if (!supportsReviewComments(prior.session) || !supportsReviewComments(item.versions[index].session)) throw new Error('Unsupported review recovery document.');
+    if (!isCommentOnlyReviewReturnChange(prior, item.versions[index])) throw new Error('A comment return contains unrelated document changes.');
     const rawRound = await idbReadReviewRound(operation.round.id);
     if (!rawRound) throw new Error('The review baseline is missing.');
     const round = parseReviewRound(rawRound);

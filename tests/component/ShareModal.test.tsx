@@ -22,7 +22,7 @@ import {
   loadSharedSession,
   type SerializedSession,
 } from '@/stores/documentStore';
-import { openSessionAsNew, hasPendingReviewWrites, flushPendingReviewWrites } from '@/stores/documentsStore';
+import { openSessionAsNew, hasPendingReviewWrites, flushPendingReviewWrites, isCurrentDocumentScope } from '@/stores/documentsStore';
 import { fixtureInstance } from '../_helpers/formFixture';
 
 vi.mock('@/lib/shareCrypto', () => ({
@@ -31,7 +31,7 @@ vi.mock('@/lib/shareCrypto', () => ({
   buildShareUrl: vi.fn((p: string) => `https://dondocs.app/#s=${p}`),
   parseShareUrl: vi.fn((s: string) => (s.includes('#s=') ? s.split('#s=')[1] : null)),
 }));
-vi.mock('@/stores/documentsStore', () => ({ openSessionAsNew: vi.fn(() => 'applied'), captureDocumentScope: vi.fn(() => ({ documentId: 'example-draft', epoch: 1 })), hasPendingReviewWrites: vi.fn(() => false), flushPendingReviewWrites: vi.fn(async () => {}) }));
+vi.mock('@/stores/documentsStore', () => ({ openSessionAsNew: vi.fn(() => 'applied'), captureDocumentScope: vi.fn(() => ({ documentId: 'example-draft', epoch: 1 })), isCurrentDocumentScope: vi.fn(() => true), hasPendingReviewWrites: vi.fn(() => false), flushPendingReviewWrites: vi.fn(async () => {}) }));
 vi.mock('@/stores/documentStore', () => ({
   getSerializedSessionForShare: vi.fn(() => ({ docType: 'naval_letter', formData: {}, paragraphs: [], copyTos: [], references: [] })),
   loadSharedSession: vi.fn(),
@@ -43,6 +43,7 @@ vi.mock('@/stores/documentStore', () => ({
 beforeEach(() => {
   vi.clearAllMocks();
   vi.mocked(hasPendingReviewWrites).mockReturnValue(false);
+  vi.mocked(isCurrentDocumentScope).mockReturnValue(true);
   vi.mocked(flushPendingReviewWrites).mockResolvedValue(undefined);
   vi.mocked(getSerializedSessionForShare).mockImplementation(() => ({
     documentMode: 'compliant', documentCategory: 'correspondence', docType: 'naval_letter', formType: 'navmc_10274',
@@ -74,6 +75,20 @@ describe('ShareModal — share mode', () => {
     expect(screen.queryByRole('alert')).not.toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Generate link' })).toBeEnabled();
     expect(encryptSharePayload).not.toHaveBeenCalled();
+  });
+  it('does not recapture a different draft after a retry waits for the original owner', async () => {
+    const user = userEvent.setup();
+    vi.mocked(getSerializedSessionForShare).mockImplementationOnce(() => { throw new Error('Review feedback is not saved yet.'); });
+    vi.mocked(hasPendingReviewWrites).mockReturnValue(true);
+    let finish!: () => void;vi.mocked(flushPendingReviewWrites).mockImplementationOnce(() => new Promise(resolve => { finish = resolve; }));
+    render(<ShareModal open mode="share" onOpenChange={() => {}} />);
+    await user.click(screen.getByRole('button', { name: 'Retry preparing document' }));
+    expect(flushPendingReviewWrites).toHaveBeenCalledWith('example-draft');
+    vi.mocked(isCurrentDocumentScope).mockReturnValue(false);
+    await act(async () => { finish(); });
+    expect(getSerializedSessionForShare).toHaveBeenCalledOnce();
+    expect(screen.getByRole('alert')).toHaveTextContent('active draft changed');
+    expect(screen.getByRole('button', { name: 'Generate link' })).toBeDisabled();expect(encryptSharePayload).not.toHaveBeenCalled();
   });
   it('does not project the active draft when opening an import dialog', () => {
     vi.mocked(getSerializedSessionForShare).mockImplementation(() => { throw new Error('Review feedback is not saved yet.'); });
