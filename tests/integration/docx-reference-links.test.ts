@@ -87,4 +87,17 @@ describe.skipIf(!hasPandoc)('Word reference hyperlinks', () => {
     expect(output.links).toEqual([{ text: 'Bravo source', url: 'https://example.com/bravo?x=1&y=2' }]);
     expect(output.text).toContain('Unsafe source');
   });
+
+  it('retains international reference titles and URI semantics in Word', async () => {
+    const store = buildBaseline('naval_letter');
+    const title = 'Directive été 漢字 😀';
+    const url = 'https://例え.example/naïve/漢字/😀?clé=été#章';
+    store.references = [{ letter: 'a', title, url }];
+    const result = await compileDocxFixture(store);
+    if (!result.ok) throw new Error(formatDocxFailure('international reference', result));
+    const output = await contents(result.docxBytes!);
+    expect(output.links).toHaveLength(1);
+    expect(output.links[0].text).toBe(title);
+    expect(new URL(output.links[0].url!).href).toBe(new URL(url).href);
+  });
 });

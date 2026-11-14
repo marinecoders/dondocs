@@ -587,9 +587,11 @@ function buildReferences(references: Reference[], headquarters = false, target: 
     const url = safeUrl(ref.url);
     // Pandoc consumes escaped characters directly; native hyperref treats
     // escaped underscores/accents as commands. Encode native URL delimiters
-    // without double-encoding existing percent escapes.
+    // and non-ASCII UTF-8 bytes without double-encoding existing percent escapes.
+    // Raw UTF-8 in a PDF URI literal is otherwise read as PDFDocEncoding.
     const link = url && (target === 'tex'
-      ? url.replace(/[\\{}^]/g, character => `%${character.charCodeAt(0).toString(16).toUpperCase()}`).replace(/[%#&]/g, character => `\\${character}`)
+      ? url.replace(/[\\{}^]|[^\p{ASCII}]/gu, character => [...new TextEncoder().encode(character)]
+        .map(byte => `%${byte.toString(16).toUpperCase().padStart(2, '0')}`).join('')).replace(/[%#&]/g, character => `\\${character}`)
       : url.replace(/\\/g, '%5C').replace(/[%#&{}$^~_]/g, character => `\\${character}`));
     const title = link
       ? `\\href{${link}}{${escapeTabular(ref.title)}}`
