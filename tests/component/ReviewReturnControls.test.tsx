@@ -1,5 +1,6 @@
+import { useState } from 'react';
 import { beforeEach, expect, it, vi } from 'vitest';
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { ReviewReturnControls } from '@/components/ReviewReturnControls';
 import { readReviewCopyLink } from '@/lib/reviewRounds';
 import { applyReviewReturn, downloadReviewReturn, prepareReviewReturnExport, prepareReviewReturnImport, reviewReturnPlan } from '@/lib/reviewReturnActions';
@@ -72,4 +73,32 @@ it('does not publish a preview that finishes after the review screen closes', as
   await waitFor(() => expect(prepareReviewReturnImport).toHaveBeenCalledOnce());view.unmount();
   finish(prepared as unknown as Awaited<ReturnType<typeof prepareReviewReturnImport>>);
   expect(busy).toHaveBeenLastCalledWith(false);expect(applyReviewReturn).not.toHaveBeenCalled();
+});
+it.each(['download', 'import'] as const)('keeps the next review name focused after a completed feedback %s', async operation => {
+  const frames: FrameRequestCallback[] = [];
+  const raf = vi.spyOn(window, 'requestAnimationFrame').mockImplementation(callback => { frames.push(callback);return frames.length; });
+  try {
+    function ReviewWithName() {
+      const [busy, setBusy] = useState(false);
+      return <><label>Review name<input disabled={busy} /></label><ReviewReturnControls disabled={false} onBusyChange={setBusy} /></>;
+    }
+    if (operation === 'import') vi.mocked(prepareReviewReturnImport).mockResolvedValue({ ...prepared, plan: { ...plan, conflicts: [], status: 'ready' } } as unknown as Awaited<ReturnType<typeof prepareReviewReturnImport>>);
+    render(<ReviewWithName />);
+    if (operation === 'download') {
+      const prepare = screen.getByRole('button', { name: 'Prepare feedback return' });
+      await waitFor(() => expect(prepare).toBeEnabled());fireEvent.click(prepare);
+      fireEvent.click(await screen.findByRole('button', { name: 'Download feedback return' }));
+      expect(screen.getByRole('status')).toHaveTextContent('browser downloads');
+    } else {
+      upload();
+      const apply = await screen.findByRole('button', { name: 'Import reviewed feedback' });
+      await waitFor(() => expect(apply).toBeEnabled());fireEvent.click(apply);
+      await screen.findByText('Feedback imported. Use Undo to restore the previous discussions.');
+    }
+    const name = screen.getByRole('textbox', { name: 'Review name' });
+    await waitFor(() => expect(name).toBeEnabled());
+    expect(screen.getByRole('status')).toHaveFocus();name.focus();
+    act(() => { for (const callback of frames.splice(0)) callback(performance.now()); });
+    expect(name).toHaveFocus();
+  } finally { raf.mockRestore(); }
 });

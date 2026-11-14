@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type ChangeEvent } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState, type ChangeEvent } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -53,6 +53,7 @@ export function ReviewReturnControls({ disabled, onBusyChange }: { disabled: boo
   const [pendingSave, setPendingSave] = useState(false);
   const [finished, setFinished] = useState(false);
   const active = useRef(true), running = useRef(false), feedback = useRef<HTMLParagraphElement>(null);
+  useLayoutEffect(() => { if (notice) feedback.current?.focus(); }, [notice]);
   useEffect(() => {
     active.current = true;
     return () => { active.current = false;onBusyChange(false); };
@@ -72,7 +73,7 @@ export function ReviewReturnControls({ disabled, onBusyChange }: { disabled: boo
     finally { running.current = false;if (active.current) { setBusy(false);onBusyChange(false); } }
   }
   const announce = (message: string) => {
-    setNotice(message);requestAnimationFrame(() => feedback.current?.focus());
+    setNotice(message);
   };
   async function inspect(value: unknown) {
     const prepared = await prepareReviewReturnImport(value);
