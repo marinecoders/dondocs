@@ -103,3 +103,18 @@ it('keeps unchanged guard-only PII out of v2 returns instead of serializing a re
   await expect(decideReviewSuggestion(round.id, proposal.id, 'accepted')).rejects.toThrow(/target differs/);
   expect(useDocumentStore.getState().references[0].title).toBe('Alpha (notal)');
 });
+
+it('scans unchanged surrounding text retained by a whole-paragraph formatting proposal', async () => {
+  useDocumentsStore.getState().newDocument();
+  useDocumentStore.setState({ paragraphs: [{ id: 'retained-context', text: 'Due 5 Nov 2026. Synthetic identifier 123-45-6789.', level: 0 }] });
+  await commitCurrentDocument();
+  const round = await startReviewRound('Retained formatting context');
+  expect(await openReviewCopy(await parseReviewCopy(await buildReviewCopy(round)))).toBe('applied');
+  const selected = mechanicalReviewCandidates(round, 'military').filter(candidate => candidate.source === 'body');
+  const proposal = createMechanicalReviewProposal(round, { author: 'Example reviewer', bodyAudience: 'military', selectedIds: selected.map(candidate => candidate.id) });
+  expect(proposal.changes).toHaveLength(1);expect(proposal.changes[0].proposed).toContain('123-45-6789');
+  expect((await submitReviewSuggestion(proposal)).status).toBe('committed');
+  const prepared = await prepareReviewReturnExport();
+  expect(prepared.privacy.findings.some(finding => finding.value === '123-45-6789')).toBe(true);
+  expect((await exported()).text).toContain('123-45-6789');
+});
