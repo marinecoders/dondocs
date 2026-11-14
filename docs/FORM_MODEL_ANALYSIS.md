@@ -71,10 +71,14 @@ availability guarantee. Verification requires HTTPS or localhost.
 Cleanup retains packages referenced by documents and history, including persisted
 records from other tabs. It skips deletion when IndexedDB cannot be read, and
 only removes unreferenced assets older than a day. Retired packages stay on disk
-for old instances. Browser-managed storage eviction is still possible; exported
-JSON contains definitions and answers, not template PDF bytes. Reconnect or use a
-self-hosted deployment containing the referenced revisions to recover missing
-assets.
+for old instances. Browser-managed storage eviction is still possible. Exported
+configured-form draft JSON and version 11 workspace backups also retain
+the exact blank pages in one digest-checked portable resource manifest. Restore
+validates every page and its geometry and retains hash-keyed template attachments
+in IndexedDB before
+publishing the document. Older files without page resources still need the
+referenced hosted revision. External backups remain necessary because browser
+storage can be evicted.
 
 ## Import and publication
 

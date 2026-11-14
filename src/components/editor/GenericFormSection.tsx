@@ -103,8 +103,8 @@ function FormInstanceEditor({ instance, currentId }: { instance: FormInstance; c
       </Button>
     </div>
     <p className="text-sm text-muted-foreground">
-      JSON backups keep your answers and form definition, but not the blank PDF pages.
-      {' '}After restoring on another device or clearing browser storage, connect to the internet and choose Save for offline use.
+      Current draft exports and workspace backups include your answers, form definition and exact blank PDF pages.
+      {' '}Older files may require an internet connection and Save for offline use after restoring.
       {' '}Keep an exported PDF if you also need a copy you can open without DonDocs.
     </p>
     </div></details>

@@ -227,21 +227,41 @@ definition, answers, and rows. Existing letters retain their session shape. Buil
 A generic session can also be recovered from the localStorage backstop when
 there is no matching registry document. An unreadable saved definition stays
 in the library and backup; a failed open must never attach subsequent edits to
-that record's ID. Template PDF bytes are fetched or cached separately and are
-not embedded in backups, so offline export also needs the matching PDF package.
+that record's ID. Portable template PDF bytes are retained as hash-keyed assets
+in the existing IndexedDB attachment store; Cache Storage is an optional accelerator.
+Current draft files and version 11 workspace backups embed the exact
+required pages once in a bounded, SHA-256 verified resource manifest. Saved form
+definitions and their history retain template ownership independently of the
+installed catalog. Import does not register or replace a global form ID.
 
 After restoring a backup on another device:
 
-1. Open each saved generic form while connected to the internet.
-2. Choose **Save for offline use** and wait for **Available offline**. This checks
-   every template page against the revision saved with the document.
-3. Export a PDF as a separate readable copy if needed. A JSON backup preserves
-   editable answers; a filled PDF preserves the rendered document.
+1. Current files validate their exact definition digest, complete page inventory,
+   page hashes and PDF dimensions before writing any workspace records. All
+   required pages must commit to IndexedDB and pass readback verification.
+   Failed storage leaves the previous documents and answers unchanged.
+2. Older files without template resources require an internet connection and
+   **Save for offline use** for each saved form. This checks every template page
+   against the revision saved with the document.
+3. Export a PDF as a separate readable copy if needed. JSON preserves editable
+   answers and current transfers also preserve blank template bytes; a filled PDF
+   preserves rendered content.
 
 If a referenced revision is no longer hosted, keep the JSON backup and ask the
-site maintainer to restore that template revision. Do not substitute a newer
+site maintainer to restore that template revision for an older file. Do not substitute a newer
 blank: its fields may be in different positions. Browser storage can be evicted,
-so an earlier offline confirmation is not a permanent backup of the templates.
+so keep an external current draft or workspace backup containing the templates.
+
+`capturePortableFormTemplates`, `validatePortableFormTemplates` and
+`retainPortableFormTemplates` provide the same resource boundary for document
+and package captures. A package must stage pages before publishing its revision,
+and its retained definitions must participate in `idbFormDefinitions` and the
+attachment ownership inventory before claiming long-term ownership. Template
+attachment IDs are `form-template-<sha256>` and are validated before reuse;
+ordinary attachment IDs use a separate namespace. Cache cleanup serializes with
+template writes, keeps document/history owners and skips deletion when inventory
+reads fail. Durable attachment ownership includes current drafts, Undo/Redo,
+batch captures, saved user templates, persisted documents and history.
 
 
 The startup NAVMC view hint cannot override a generic document resumed from

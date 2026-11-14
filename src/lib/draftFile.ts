@@ -9,6 +9,7 @@ import { loadAttachment } from './attachments';
 import type { Enclosure, FileRef } from '@/types/document';
 import type { DocumentSnapshot } from '@/stores/historyStore';
 import { serializeDocumentSnapshot } from './documentSerialization';
+import { capturePortableFormTemplates, validatePortableFormTemplates, type PortableFormTemplateBundle } from '@/services/forms/portableTemplates';
 
 const image = z.object({ name: z.string(), size: z.number(), data: z.string() });
 const ref = z.object({ id: z.string(), name: z.string(), size: z.number(), type: z.string() });
@@ -20,7 +21,7 @@ const shape = z.object({
   forms: z.object({ navmc10274: z.record(z.string(), z.unknown()).optional(), navmc11811: z.record(z.string(), z.unknown()).optional() }).passthrough().optional(),
 }).passthrough();
 type InlineFile = z.infer<typeof inlineFile>;
-export interface ReviewedDraft { session: SerializedSession; files: Array<Enclosure['file']>; figures: Array<Enclosure['file']>; basicLetter?: NonNullable<Enclosure['file']> }
+export interface ReviewedDraft { session: SerializedSession; files: Array<Enclosure['file']>; figures: Array<Enclosure['file']>; basicLetter?: NonNullable<Enclosure['file']>; formTemplates?: PortableFormTemplateBundle }
 const decode = (file: InlineFile): NonNullable<Enclosure['file']> => {
   const bytes = base64ToUint8Array(file.data);
   return { name: file.name, size: bytes.byteLength, data: bytes.buffer as ArrayBuffer };
@@ -38,6 +39,10 @@ export function parseDraftFile(value: unknown, localHandles = false, requireComp
     value = { references: [], enclosures: [], copyTos: [], ...value };
   }
   const raw = shape.parse(value);
+  const portable = z.object({ portableFormTemplates: z.unknown().optional(), portableResources: z.unknown().optional() }).parse(value);
+  const hasPortable = portable.portableFormTemplates !== undefined || portable.portableResources !== undefined;
+  if (hasPortable && (portable.portableFormTemplates === undefined || portable.portableResources === undefined)) throw new Error('The portable form template inventory is incomplete.');
+  if (raw.kind === 'dondocs-draft' && raw.version === 3 && !hasPortable) throw new Error('This portable form draft is missing its required templates.');
   if (requireCompleteAssets) {
     for (const enclosure of raw.enclosures) {
       if ((enclosure.hasFile || enclosure.fileRef) && !enclosure.file) throw new Error('An attached PDF is missing from this reviewer file.');
@@ -76,7 +81,17 @@ export function parseDraftFile(value: unknown, localHandles = false, requireComp
     if (localHandles && figure?.fileRef && session.paragraphs[index].figure) session.paragraphs[index].figure!.fileRef = figure.fileRef;
     return figure?.data ? decode({ name: figure.name ?? 'figure', size: 0, data: figure.data }) : undefined;
   });
-  return { session, files, figures, basicLetter };
+  if (hasPortable && !session.genericForm) throw new Error('Portable form templates require a configured form.');
+  return { session, files, figures, basicLetter,
+    ...(hasPortable ? { formTemplates: { portableFormTemplates: portable.portableFormTemplates, portableResources: portable.portableResources } as PortableFormTemplateBundle } : {}),
+  };
+}
+
+/** External form drafts validate every captured template before showing review. */
+export async function parsePortableDraft(value: unknown, localHandles = false, requireCompleteAssets = false): Promise<ReviewedDraft> {
+  const reviewed = parseDraftFile(value, localHandles, requireCompleteAssets);
+  if (reviewed.formTemplates) await validatePortableFormTemplates([reviewed.session.genericForm!.definition], reviewed.formTemplates.portableFormTemplates, reviewed.formTemplates.portableResources);
+  return reviewed;
 }
 
 /** A portable copy of only the active document, including binary attachments. */
@@ -110,6 +125,10 @@ async function serializeDraft(session: SerializedSession, live: DocumentSnapshot
     return data ? { name: file?.name ?? fileRef!.name, size: data.byteLength, data: uint8ArrayToBase64(arrayBufferToUint8Array(data)) } : undefined;
   };
   if (session.documentCategory === 'forms') {
+    if (session.genericForm) {
+      const portable = await capturePortableFormTemplates([session.genericForm.definition]);
+      return { ...session, kind: 'dondocs-draft', version: 3, documentKind: 'configured-form', ...portable };
+    }
     for (const form of [session.forms?.navmc10274, session.forms?.navmc11811]) {
       if (!form) continue;
       const resolved = await resolveFormSignatures(form, 'transfer');

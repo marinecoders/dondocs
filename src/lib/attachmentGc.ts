@@ -1,4 +1,5 @@
 import { useProfileStore } from '@/stores/profileStore';
+import { useUserTemplatesStore } from '@/stores/userTemplatesStore';
 /**
  * Inventory persisted, live, history, and operation roots before considering
  * attachment collection. Older tabs do not participate in the staging lock,
@@ -20,9 +21,11 @@ import { isRestoreInProgress } from '@/lib/backup';
 import { debug } from '@/lib/debug';
 import { attachmentSweepCheckpoint, withAttachmentSweep } from '@/lib/attachments';
 import { listReviewRounds } from './reviewRounds';
+import { formTemplateAttachmentId } from './formTemplateAssets';
 
 /** Every enclosure and figure `fileRef.id` plus the basic-letter ref in one session. */
-function collectSessionRefs(session: Pick<SerializedSession, 'formData' | 'enclosures' | 'paragraphs' | 'forms'> | undefined, into: Set<string>): void {
+function collectSessionRefs(session: Pick<SerializedSession, 'formData' | 'enclosures' | 'paragraphs' | 'forms' | 'genericForm'> | undefined, into: Set<string>): void {
+  for (const page of session?.genericForm?.definition.pages ?? []) if (page.sha256) into.add(formTemplateAttachmentId(page.sha256));
   // An endorsement's basic-letter PDF is stored as an attachment; keep it
   // reachable so the GC doesn't sweep it out from under a saved endorsement.
   for (const form of [session?.forms?.navmc10274, session?.forms?.navmc11811]) {
@@ -69,6 +72,9 @@ function collectSessionRefs(session: Pick<SerializedSession, 'formData' | 'enclo
  * This union includes known roots; it cannot discover another tab's unsaved history.
  */
 export async function collectLiveAttachmentIds(): Promise<Set<string> | null> {
+  try { return await collectKnownAttachmentIds(); } catch { return null; }
+}
+async function collectKnownAttachmentIds(): Promise<Set<string> | null> {
   const persisted = await idbGetAllDocuments();
   if (persisted === null) return null; // read failure — refuse to sweep on partial knowledge
 
@@ -87,6 +93,7 @@ export async function collectLiveAttachmentIds(): Promise<Set<string> | null> {
   collectSessionRefs({ formData: {}, enclosures: [], paragraphs: [], forms: { navmc10274: forms.navmc10274, navmc11811: forms.navmc11811, includeCoverPage: forms.includeCoverPage } }, live);
   const batchSource = useBatchStore.getState().source;
   if (batchSource) collectSessionRefs(batchSource, live);
+  for (const template of Object.values(useUserTemplatesStore.getState().templates)) collectSessionRefs(template.session, live);
 
   // (a) Mark BOTH versions of a document: another tab's saved attachment may
   // differ from this tab's pending edit. Only deduplicate the history reads.
@@ -109,7 +116,7 @@ export async function collectLiveAttachmentIds(): Promise<Set<string> | null> {
   // bytes before the save made them reachable.
   const liveState = useDocumentStore.getState();
   collectSessionRefs(
-    { enclosures: liveState.enclosures, formData: liveState.formData, paragraphs: liveState.paragraphs },
+    { enclosures: liveState.enclosures, formData: liveState.formData, paragraphs: liveState.paragraphs, genericForm: liveState.genericForm },
     live
   );
 

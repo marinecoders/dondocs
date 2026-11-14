@@ -39,7 +39,8 @@ export type SharedDocumentKind = 'correspondence' | 'builtin-form' | 'configured
 const sharedKind = z.enum(['correspondence', 'builtin-form', 'configured-form']);
 const envelope = z.discriminatedUnion('kind', [
   z.object({ kind: z.literal('dondocs-share'), version: z.union([z.literal(1), z.literal(2)]), documentKind: sharedKind }),
-  z.object({ kind: z.literal('dondocs-draft'), version: z.literal(2), documentKind: sharedKind }),
+  z.object({ kind: z.literal('dondocs-draft'), version: z.union([z.literal(2), z.literal(3)]), documentKind: sharedKind })
+    .refine(value => value.version !== 3 || value.documentKind === 'configured-form'),
 ]);
 const expiringEnvelope = z.object({
   kind: z.literal('dondocs-share'), version: z.literal(3), documentKind: sharedKind,
