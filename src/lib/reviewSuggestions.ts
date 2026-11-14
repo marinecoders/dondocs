@@ -259,8 +259,11 @@ export function planReviewSuggestionHistory(round: ReviewRound, before: Serializ
 
 /** Reference entries have no editing IDs. Bind their ordered values as a whole. */
 function sameReviewReferences(left: SerializedSession, right: SerializedSession): boolean {
-  return left.references.length === right.references.length && left.references.every((reference, index) => {
+  if (left.references.length !== right.references.length) return false;
+  for (let index = 0; index < left.references.length; index++) {
+    const reference = left.references[index];
     const other = right.references[index];
-    return reference.letter === other.letter && reference.title === other.title && reference.url === other.url;
-  });
+    if (!reference || !other || reference.letter !== other.letter || reference.title !== other.title || reference.url !== other.url) return false;
+  }
+  return true;
 }
