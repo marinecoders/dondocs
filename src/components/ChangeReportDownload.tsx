@@ -47,6 +47,7 @@ export function ChangeReportDownload({ before, after, capturedAt, ownsDocument }
     {report ? <div className="space-y-3">
       <h4 className="text-sm font-medium">Review report contents before downloading</h4>
       <p className="text-sm">{report.marking} · Includes removed values, retained comment context, reviewer names, and open and resolved discussions from both versions. Check whether everyone receiving the report may see this content.</p>
+      {report.customMarkings.length > 0 && <div className="space-y-1 text-sm"><p className="font-medium">Retained custom source markings</p>{report.customMarkings.map(marking => <p key={marking} className="whitespace-pre-wrap [overflow-wrap:anywhere]">{marking}</p>)}</div>}
       <p className="text-xs text-muted-foreground">Paragraph and row comparisons use position. Attachment contents and full configured form template definitions are excluded. No approval or audit status is implied.</p>
       {report.privacy.found ? <p role="status" className="text-sm text-warning">Possible sensitive information in the captured report: {[...new Set(report.privacy.findings.map(finding => getPIITypeLabel(finding.type)))].join(', ')}. Check both versions and discussions before sharing.</p>
         : <p className="text-xs text-muted-foreground">The automatic privacy scan found no recognized patterns. Review all contents, including removed text, before sharing.</p>}

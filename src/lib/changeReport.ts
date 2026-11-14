@@ -21,6 +21,7 @@ export interface ChangeReport {
   privacy: PIIDetectionResult;
   notices: string[];
   marking: string;
+  customMarkings: string[];
 }
 
 /** Keep policy-declared record identities and binary data out of a review artifact.
@@ -80,12 +81,13 @@ function discussions(session: SerializedSession): ReportDiscussion[] {
   });
 }
 
-export function reportText(report: Pick<ChangeReport, 'before' | 'after' | 'changes'>): { field: string; value: string }[] {
+export function reportText(report: Pick<ChangeReport, 'before' | 'after' | 'changes'> & { customMarkings?: string[] }): { field: string; value: string }[] {
   return [report.before, report.after].flatMap(version => [
     { field: 'Version label', value: version.label }, { field: 'Document title', value: version.title },
     ...version.discussions.flatMap(thread => [thread.target, thread.status, thread.context ?? '', thread.current ?? '',
       ...thread.messages.flatMap(message => [message.author, message.text])].map(value => ({ field: `${version.label} discussion`, value }))),
-  ]).concat(report.changes.flatMap(change => [change.field, change.before, change.after].map(value => ({ field: change.field, value }))));
+  ]).concat(report.changes.flatMap(change => [change.field, change.before, change.after].map(value => ({ field: change.field, value }))),
+    (report.customMarkings ?? []).map(value => ({ field: 'Retained custom source marking', value })));
 }
 
 /** Everything used after the asynchronous policy read belongs to this captured pair. */
@@ -98,26 +100,21 @@ export function prepareChangeReport(capture: ReturnType<typeof captureChangeRepo
   assertExportDeploymentPolicy(policy.policy);
   const { before, after, capturedAt } = capture;
   const report = {
+    customMarkings: [] as string[],
     before: { label: before.label, title: before.title, discussions: discussions(before.session) },
     after: { label: after.label, title: after.title, discussions: discussions(after.session) },
     changes: diffSessions(reportFields(before.session, { fields: DOCUMENT_FIELD_POLICIES }) as SerializedSession,
       reportFields(after.session, { fields: DOCUMENT_FIELD_POLICIES }) as SerializedSession),
   };
-  const fields = reportText(report);
   const notices: string[] = [];
   const levels = new Set<string>(['unclassified']);
-  for (const { value } of fields) {
-    levels.add(detectClassification(value).classLevel);
-    for (const match of value.matchAll(/^\s*(?:Figure marking:\s*)?\((U|CUI|FOUO|C|S|TS)\)/gm)) {
-      levels.add(deriveOverallClassLevel('unclassified', [{ portionMarking: match[1] as 'U' }]));
-    }
-  }
   // Inspect markings throughout both retained drafts, including inactive fields.
   const inspect = (value: unknown) => {
     if (!value || typeof value !== 'object') return;
     for (const [key, child] of Object.entries(value)) {
       if (key === 'classLevel' && typeof child === 'string' && child !== 'custom') levels.add(child);
       if (key === 'customClassification' && typeof child === 'string' && child.trim()) {
+        report.customMarkings.push(child);
         const level = classificationBannerLevel(child);
         if (level) levels.add(level);
         else notices.push('A retained custom marking could not be ranked. Review the report markings before sharing.');
@@ -127,12 +124,21 @@ export function prepareChangeReport(capture: ReturnType<typeof captureChangeRepo
     }
   };
   inspect(before.session);inspect(after.session);
+  report.customMarkings = [...new Set(report.customMarkings)];
+  const fields = reportText(report);
+  for (const { value } of fields) {
+    levels.add(detectClassification(value).classLevel);
+    for (const match of value.matchAll(/^\s*(?:Figure marking:\s*)?\((U|CUI|FOUO|C|S|TS)\)/gm)) {
+      levels.add(deriveOverallClassLevel('unclassified', [{ portionMarking: match[1] as 'U' }]));
+    }
+  }
   for (const level of levels) {
     if (classificationRank(level) === undefined || !policy.policy.allowedLevels.includes(level as ClassificationLevel)) {
       throw new Error('This report includes retained markings outside this deployment’s configured levels.');
     }
   }
-  const marking = CLASSIFICATION_LABELS[[...levels].sort((a, b) => classificationRank(b)! - classificationRank(a)!)[0] as ClassificationLevel];
+  const recognized = CLASSIFICATION_LABELS[[...levels].sort((a, b) => classificationRank(b)! - classificationRank(a)!)[0] as ClassificationLevel];
+  const marking = notices.length ? `MARKING REVIEW REQUIRED (highest recognized marking: ${recognized})` : recognized;
   const stamp = new Date(capturedAt).toISOString().replace(/[:.]/g, '-');
   return { ...report, capturedAt, filename: `change-report-${stamp}.html`, privacy: detectTextPII(fields), notices: [...new Set(notices)], marking };
 }
@@ -145,7 +151,7 @@ export function renderChangeReport(report: ChangeReport): string {
   return `<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; base-uri 'none'; form-action 'none'"><title>DonDocs change report</title><style>
 body{font:16px/1.5 system-ui,sans-serif;color:#17202a;background:white;margin:2rem auto;padding:0 1rem;max-width:70rem}h1,h2,h3,h4{line-height:1.3}article{border:1px solid #999;padding:1rem;margin:1rem 0;break-inside:auto}pre{font:inherit;white-space:pre-wrap;overflow-wrap:anywhere;margin:.4rem 0 1rem}.pair{display:grid;grid-template-columns:1fr 1fr;gap:1rem}.pair>div{min-width:0}.notice{border-left:4px solid #555;padding-left:1rem}header p{overflow-wrap:anywhere}@media(max-width:640px){.pair{grid-template-columns:1fr}body{margin:1rem auto}}@media print{body{max-width:none;margin:0;font-size:10pt}h2,h3,h4{break-after:avoid}}
-</style></head><body><header><p><strong>${escape(report.marking)} — REVIEW DERIVATIVE</strong></p><h1>Change report</h1><p class="notice">For review only. This is a derivative of captured drafts, not an official clean letter, approval record, or audit proof.</p><p>Before: ${escape(report.before.label)} — ${escape(report.before.title)}<br>After: ${escape(report.after.label)} — ${escape(report.after.title)}<br>Report captured: ${escape(report.capturedAt)}</p></header>
+</style></head><body><header><p><strong>${escape(report.marking)} — REVIEW DERIVATIVE</strong></p>${report.customMarkings.length ? `<h2>Retained custom source markings</h2>${report.customMarkings.map(text).join('')}` : ''}<h1>Change report</h1><p class="notice">For review only. This is a derivative of captured drafts, not an official clean letter, approval record, or audit proof.</p><p>Before: ${escape(report.before.label)} — ${escape(report.before.title)}<br>After: ${escape(report.after.label)} — ${escape(report.after.title)}<br>Report captured: ${escape(report.capturedAt)}</p></header>
 <p>Complete before/after values for the compared fields and complete readable discussions from both captured versions are included. Paragraphs and repeated rows are compared by position; movement is not tracked. Internal record identities and save metadata are omitted. Attached file and image contents are not reproduced or compared; only available names and properties are reported. Configured forms compare answer values, displayed choices, and definition/template revision labels; template PDF contents, placement rules, and full definition changes are outside this report.</p>
 ${report.notices.map(notice => `<p class="notice">${escape(notice)}</p>`).join('')}<section><h2>Field and body changes</h2><p>${report.changes.length} changed fields.</p>${report.changes.length ? report.changes.map(change => `<article><h3>${escape(change.field)}</h3><div class="pair"><div><h4>Before</h4>${text(change.before)}</div><div><h4>After</h4>${text(change.after)}</div></div></article>`).join('') : '<p>No field or body differences in the report scope. Review the discussions below for their captured state.</p>'}</section>${discussion(report.before)}${discussion(report.after)}<footer><p>${escape(report.marking)} — Review derivative. Handle this report according to its contents and retained context.</p></footer></body></html>`;
 }
