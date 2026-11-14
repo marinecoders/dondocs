@@ -99,7 +99,7 @@ const outputSchema = z
     asset: packageAssetSchema,
     createdAt: z.number().int().nonnegative(),
     policyIdentity: z.string().min(1).max(10000),
-    renderer: z.string().min(1).max(120),
+    renderer: z.string().min(1).max(512),
     boundaries: z.array(boundarySchema).max(100),
     signingStatus: z.literal("unsigned-assembled-derivative"),
   })

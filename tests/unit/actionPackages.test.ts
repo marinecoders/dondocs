@@ -49,7 +49,7 @@ import {
   validatePackageBackup,
   restorePackageBackup,
 } from "@/lib/actionPackageBackup";
-import { newAttachmentId } from "@/lib/attachments";
+import { persistAttachment, newAttachmentId } from "@/lib/attachments";
 import { useDocumentsStore } from "@/stores/documentsStore";
 import { buildBackup, restoreBackup } from "@/lib/backup";
 import { parseDraftFile } from "@/lib/draftFile";
@@ -931,4 +931,55 @@ it("reviews actual retained output content under current policy and retrieves th
   expect(copyPreparedPackageOutput(reviewed, asset.id)).toEqual(bytes);
   await idbDeleteAttachment(asset.id);
   expect(copyPreparedPackageOutput(reviewed, asset.id)).toEqual(bytes);
+});
+
+it("preserves source enclosure bytes after replacement and deletion of the original source attachment", async () => {
+  const original = await pdfBytes(),
+    replacement = await pdfBytes(2);
+  const first = await persistAttachment(
+    { name: "support.pdf", type: "application/pdf", size: original.byteLength },
+    original,
+  );
+  const source = {
+    ...snapshot(),
+    enclosures: [{ title: "Original support", fileRef: first }],
+  };
+  const member = await capturePackageMember(
+    captureDocumentRevision(
+      {
+        documentId: "replace-source",
+        epoch: 0,
+        editSequence: 1,
+        capturedAt: 100,
+      },
+      source,
+    ),
+    "Source with original enclosure",
+    "basic-letter",
+  );
+  const record = await reviseActionPackage(
+    await createActionPackage("Replacement preservation"),
+    [member],
+  );
+  source.enclosures[0].fileRef = await persistAttachment(
+    {
+      name: "support.pdf",
+      type: "application/pdf",
+      size: replacement.byteLength,
+    },
+    replacement,
+  );
+  await idbDeleteAttachment(first.id);
+  expect(
+    (await readPackageMemberDraft(member)).reviewed.files[0]?.data,
+  ).toEqual(original);
+  const portable = await buildPortableActionPackage(record);
+  await clearDb();
+  const imported = await importPortableActionPackage(portable),
+    retained = getPackageRevision(imported).members[0];
+  if (retained.kind !== "native") throw new Error("Expected native member");
+  expect(
+    (await readPackageMemberDraft(retained)).reviewed.files[0]?.data,
+  ).toEqual(original);
+  expect((await collectLiveAttachmentIds())?.has(first.id)).toBe(false);
 });

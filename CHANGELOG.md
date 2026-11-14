@@ -7,6 +7,16 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.85] — 2026-11-14
+
+### Added
+- Saved action packages with immutable member revisions, role/order controls, native working copies, explicit source comparison/adoption, duplicate/archive/reopen and complete history retained after source deletion or member removal.
+- Package readiness and assembly from preserved native drafts, pinned form templates and original PDFs, with native validation, current content/policy review, endorsement checks, separate enclosure labels, member page boundaries and exact retained PDF digests.
+- Bounded selected-revision editable package transfer for offline browsers and version 12 workspace recovery for full package history. Signed originals remain separate unchanged assets; assembled PDFs are unsigned derivatives.
+
+### Fixed
+- Package operations share the existing export gate, cancel safely without late output publication and retain independently owned assets through source replacement, deletion and garbage-collection inventory.
+
 ## [1.3.84] — 2026-11-14
 
 ### Added
