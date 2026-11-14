@@ -13,6 +13,10 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 - Pin external CI actions to verified upstream commit hashes while retaining their selected major versions. Check workflow and local composite-action references in pull requests, including reusable workflows and digest-pinned Docker actions.
 
+### Fixed
+
+- Close an earlier preview error after the current document compiles successfully, so a recovered figure preview restores document controls.
+
 ## [1.3.72] — 2026-11-13
 
 ### Added

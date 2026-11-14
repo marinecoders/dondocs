@@ -290,3 +290,20 @@ it('regenerates after passive form asset hydration and returns to idle without i
   expect(screen.getByTestId('preview-state')).toHaveAttribute('data-compiling', 'false');
   expect(() => guards.mock.calls.at(-1)![0]()).not.toThrow();
 });
+
+it('closes an earlier compile error only after the current retry succeeds', async () => {
+  compile.mockRejectedValueOnce(new Error('Figure 1 has no image. Choose a PNG or JPEG before exporting.'));
+  await act(async () => { render(<App />); });
+  await act(async () => { await vi.advanceTimersByTimeAsync(1600); });
+  expect(screen.getByRole('dialog', { name: 'Preview compile failed' })).toBeVisible();
+
+  let finish!: (bytes: Uint8Array) => void;
+  compile.mockImplementationOnce(() => new Promise(resolve => { finish = resolve; }));
+  act(() => { useDocumentStore.getState().setField('subject', 'RECOVERED PREVIEW'); });
+  await act(async () => { await vi.advanceTimersByTimeAsync(1600); });
+  expect(screen.getByRole('dialog', { name: 'Preview compile failed' })).toBeVisible();
+
+  await act(async () => { finish(new Uint8Array([1, 2, 3])); });
+  expect(screen.queryByRole('dialog', { name: 'Preview compile failed' })).not.toBeInTheDocument();
+  expect(screen.getByTestId('preview-state')).toHaveTextContent('Ready');
+});
