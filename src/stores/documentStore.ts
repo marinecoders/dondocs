@@ -1,4 +1,4 @@
-import type { ReviewComments } from '@/lib/reviewComments';
+import { hasReviewComments, type ReviewComments } from '@/lib/reviewComments';
 import { persistSignature, resolveSignature } from '@/lib/signatureAssets';
 import { withAttachmentStaging } from '@/lib/attachments';
 import { projectSharedSession, serializeDocumentSnapshot } from '@/lib/documentSerialization';
@@ -986,6 +986,7 @@ export function hasSavedSession(): boolean {
 
     // Meaningful content, not just default empty state.
     const hasContent =
+      hasReviewComments(session) ||
       session.genericForm ||
       (session.paragraphs && session.paragraphs.length > 0 && session.paragraphs.some(p => p.text.trim() !== '')) ||
       (session.references && session.references.length > 0) ||

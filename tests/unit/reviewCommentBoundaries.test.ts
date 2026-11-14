@@ -1,7 +1,7 @@
 import 'fake-indexeddb/auto';
 import { beforeEach, describe, expect, it } from 'vitest';
-import { useDocumentStore, mutateSessionAssets } from '@/stores/documentStore';
-import { useDocumentsStore, captureDocumentScope, changeDocumentHistory, recordDocumentHistory } from '@/stores/documentsStore';
+import { useDocumentStore, getSerializedSession, mutateSessionAssets, saveSessionToStorage, hasSavedSession } from '@/stores/documentStore';
+import { useDocumentsStore, captureDocumentScope, changeDocumentHistory, recordDocumentHistory, isMeaningful } from '@/stores/documentsStore';
 import { reviewCommentMutation, applyCommentMutation, type CommentMutation } from '@/lib/reviewCommentActions';
 import { reviewCommentsSchema, type CommentThread, type ReviewComments } from '@/lib/reviewComments';
 import { buildBackup } from '@/lib/backup';
@@ -37,6 +37,26 @@ const changes = {
 };
 
 describe('review action ownership across editor transitions', () => {
+  it.each([false, true])('saves comment-only starter work when leaving the draft (synced first: %s)', sync => {
+    useDocumentsStore.getState().newDocument();
+    const documentId = useDocumentsStore.getState().currentId!;
+    expect(applyCommentMutation(reviewCommentMutation({ kind: 'add', author: 'Chief', text: 'Please draft the body.' }))).toBe('applied');
+    if (sync) {
+      useDocumentsStore.getState().syncCurrent();
+      expect(useDocumentsStore.getState().docs[documentId]?.session.reviewComments?.threads[0].messages[0].text).toBe('Please draft the body.');
+    }
+    useDocumentsStore.getState().newDocument();
+    expect(useDocumentsStore.getState().docs[documentId]?.session.reviewComments?.threads[0].messages[0].text).toBe('Please draft the body.');
+  });
+
+  it('recognizes comment-only legacy recovery content', () => {
+    useDocumentStore.setState({ formData: {}, paragraphs: [], references: [], enclosures: [], copyTos: [], distributions: [] });
+    expect(applyCommentMutation(reviewCommentMutation({ kind: 'add', author: 'Chief', text: 'Recover this review.' }))).toBe('applied');
+    expect(isMeaningful(getSerializedSession())).toBe(true);
+    saveSessionToStorage(useDocumentStore.getState());
+    expect(hasSavedSession()).toBe(true);
+  });
+
   for (const [transition, change] of Object.entries(changes)) {
     it.each(['reply', 'edit', 'delete', 'resolve'] as const)('rejects a pending %s after '+transition+' without another mutation', kind => {
       const original = seed();

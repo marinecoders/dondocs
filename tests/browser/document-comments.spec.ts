@@ -13,6 +13,52 @@ async function openComments(page: Page) {
   return page.getByRole('dialog', { name: 'Document comments', exact: true });
 }
 
+test('a comment is enough to save a fresh draft through New document and reload', async ({ page }) => {
+  await page.addInitScript(() => {
+    localStorage.setItem('browser-test-visitor', 'returning');
+    localStorage.setItem('dondocs_ui', JSON.stringify({ state: { theme: 'light', editorLayout: 'scroll' }, version: 1 }));
+  });
+  const note = 'COMMENT_ONLY_SAVED_WORK: draft the letter after this review.';
+  const newDraft = async () => {
+    await expect(page.getByRole('button', { name: /^(?:New document|Open workspace)$/ })).toBeVisible();
+    const button = page.getByRole('button', { name: 'New document', exact: true });
+    if (!await button.isVisible()) await page.getByRole('button', { name: 'Open workspace', exact: true }).click();
+    await button.click();
+    await page.getByRole('menuitem', { name: 'New correspondence', exact: true }).click();
+    await expect(page.getByRole('dialog', { name: 'Documents', exact: true })).toHaveCount(0);
+  };
+  const savedReviewId = () => page.evaluate(async value => {
+    const db = await new Promise<IDBDatabase>((resolve, reject) => {
+      const opening = indexedDB.open('dondocs');
+      opening.onsuccess = () => resolve(opening.result);
+      opening.onerror = () => reject(opening.error);
+    });
+    try {
+      const records = await new Promise<Array<{ id: string; session: { reviewComments?: { threads: Array<{ messages: Array<{ text: string }> }> } } }>>((resolve, reject) => {
+        const reading = db.transaction('documents', 'readonly').objectStore('documents').getAll();
+        reading.onsuccess = () => resolve(reading.result);
+        reading.onerror = () => reject(reading.error);
+      });
+      return records.find(record => record.session.reviewComments?.threads.some(thread => thread.messages.some(message => message.text === value)))?.id;
+    } finally { db.close(); }
+  }, note);
+  await page.goto('/');
+  await newDraft();
+  let comments = await openComments(page);
+  await comments.getByLabel('Reviewer name', { exact: true }).fill('Chief');
+  await comments.getByLabel('Comment', { exact: true }).fill(note);
+  await comments.getByRole('button', { name: 'Post comment', exact: true }).click();
+  await comments.getByRole('button', { name: 'Close comments', exact: true }).click();
+  await expect.poll(savedReviewId, { timeout: 15_000 }).toBeTruthy();
+  const savedId = await savedReviewId();
+  await page.reload();
+  comments = await openComments(page);
+  await expect(comments.getByRole('article', { name: 'Comment on Whole document', exact: true })).toContainText(note);
+  await comments.getByRole('button', { name: 'Close comments', exact: true }).click();
+  await newDraft();
+  expect(await savedReviewId()).toBe(savedId);
+});
+
 test('comments survive editing, reload and draft transfer while clean Word and PDF omit review text', async ({ page }, testInfo) => {
   await page.addInitScript(() => {
     localStorage.setItem('browser-test-visitor', 'returning');
