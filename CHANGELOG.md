@@ -7,6 +7,13 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.81] — 2026-11-13
+
+### Added
+
+- Send selected findings from the existing date, signature-initial, body-date and NOTAL checks as one review proposal. Body dates use an explicit audience choice, and multiple corrections in a paragraph remain one complete replacement. Returned groups stay pending until the source drafter accepts or rejects them.
+- Check every group member before applying changes, preserving unrelated newer work and recording one Undo/Redo decision. NOTAL title proposals require the entire ordered reference list to remain unchanged; reference ordering and citation relabeling stay in the existing local tools. Privacy review includes complete returned values, while clean PDF and Word output omit proposal metadata.
+
 ## [1.3.80] — 2026-11-13
 
 ### Added
