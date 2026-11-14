@@ -24,10 +24,13 @@ export async function openSharedDocument(value: unknown, target: DocumentTarget 
       session: serializeDocumentSnapshot(snapshot, now) };
     validateAssetShareExpiration(owned);
     if (!await idbPutDocument(record)) throw new Error('The shared document could not be saved completely. Your current draft has not changed.');
-    try { validateAssetShareExpiration(owned); }
+    try {
+      validateAssetShareExpiration(owned);
+      if (!active()) throw new Error('Opening this shared document was cancelled. Your current draft has not changed.');
+    }
     catch (cause) {
       const removed = await idbDeleteDocumentIfUnchanged(record);
-      if (removed !== 'deleted' && removed !== 'already-deleted') throw new Error('This share expired while saving. The copy was not opened; check local storage before using any recovered shared record.');
+      if (removed !== 'deleted' && removed !== 'already-deleted') throw new Error('Opening this share stopped while saving. The copy was not opened; check local storage before using any recovered shared record.', { cause });
       throw cause;
     }
     return openCommittedDocument(prepared, record, target) === 'applied' ? 'applied' : 'stale';

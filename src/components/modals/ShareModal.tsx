@@ -54,7 +54,11 @@ interface ShareModalProps {
   onImportComplete?: () => void;
 }
 
-export function ShareModal({
+export function ShareModal(props: ShareModalProps) {
+  return props.open ? <ShareModalContent key={`${props.mode}:${props.initialPayload ?? ''}`} {...props} /> : null;
+}
+
+function ShareModalContent({
   open,
   onOpenChange,
   mode,
@@ -114,10 +118,11 @@ export function ShareModal({
     setCopied(false);
     try {
       await navigator.clipboard.writeText(url);
+      if (!alive.current) return;
       setCopied(true);
       copyTimer.current = setTimeout(() => { copyTimer.current = null; setCopied(false); }, 2500);
     } catch {
-      setError('Could not copy the link. Select and copy the share link manually.');
+      if (alive.current) setError('Could not copy the link. Select and copy the share link manually.');
     }
   }, [clearCopyTimer]);
 
@@ -150,6 +155,7 @@ export function ShareModal({
     setWorking(true);
     try {
       if (hasPendingReviewWrites(reviewOwnerId)) await flushPendingReviewWrites(reviewOwnerId);
+      if (!alive.current) return;
       const session = snapshot!;
       const duration = { hour: 3_600_000, day: 86_400_000, week: 604_800_000 }[expiration];
       const expiresAt = duration === undefined ? null : Date.now() + duration;
@@ -174,9 +180,9 @@ export function ShareModal({
       // confirmation instead of reporting a false "Failed to generate link".
       await copyLink(url);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to generate link');
+      if (alive.current) setError(err instanceof Error ? err.message : 'Failed to generate link');
     } finally {
-      setWorking(false);
+      if (alive.current) setWorking(false);
     }
   }, [password, snapshot, capture.full, copyLink, working, canShareSnapshot, expiration, reviewOwnerId]);
 
@@ -225,9 +231,9 @@ export function ShareModal({
       setReceived({ session: reviewed.session, payload: data });
       setPassword('');
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Wrong password or invalid link');
+      if (alive.current) setError(err instanceof Error ? err.message : 'Wrong password or invalid link');
     } finally {
-      setWorking(false);
+      if (alive.current) setWorking(false);
     }
   }, [payloadFromInput, password, working]);
 

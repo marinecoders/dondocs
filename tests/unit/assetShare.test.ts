@@ -4,7 +4,7 @@ import { useDocumentStore } from '@/stores/documentStore';
 import { useDocumentsStore, captureDocumentTarget, flushDocumentWrites, openExistingDocument } from '@/stores/documentsStore';
 import { useUIStore } from '@/stores/uiStore';
 import { useProfileStore } from '@/stores/profileStore';
-import { buildAssetSharePayload, parseAssetSharePayload, parseSharedDocument } from '@/lib/assetShare';
+import { buildAssetSharePayload, parseSharedDocument } from '@/lib/assetShare';
 import { openSharedDocument } from '@/lib/sharedDocumentActions';
 import { encryptSharePayload, decryptSharePayload } from '@/lib/shareCrypto';
 import { parseSharedSession } from '@/lib/sharedSession';
@@ -12,6 +12,7 @@ import { base64ToUint8Array } from '@/lib/encoding';
 import { persistAttachment, loadAttachment } from '@/lib/attachments';
 import * as database from '@/lib/documentsDb';
 import type { PortableResourceManifest } from '@/lib/portableResources';
+import { useFormStore } from '@/stores/formStore';
 
 const png = 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQIHWP4z8DwHwAFgAI/ScLbtAAAAABJRU5ErkJggg==';
 const pdf = new TextEncoder().encode('%PDF-1.4\nSynthetic support bytes');
@@ -57,6 +58,15 @@ it('continues ordinary and expiring v1-v3 payloads without manufacturing asset a
   expect(ordinary).toMatchObject({ version: 1 });
   expect((await parseSharedDocument(ordinary)).files).toEqual([]);
   expect(await buildAssetSharePayload(snapshot, Date.now(), Date.now() + 1000)).toMatchObject({ version: 3 });
+});
+it('preserves built-in form signature images and rejects a missing image binding', async () => {
+  useDocumentStore.setState({ documentCategory: 'forms', formType: 'navmc_10274' });
+  useFormStore.getState().setNavmc10274Field('signatureBlocks', [{ name: 'Synthetic signer', statement: '', style: 'image', image: png }]);
+  const envelope = await buildAssetSharePayload(useDocumentStore.getState().getSnapshot(), Date.now()) as Envelope;
+  expect(envelope).toMatchObject({ version: 4, documentKind: 'builtin-form' });
+  expect((await parseSharedDocument(envelope)).session.forms?.navmc10274?.signatureBlocks[0].image).toBe(png);
+  envelope.bindings = [];envelope.resources.entries = [];
+  await expect(parseSharedDocument(envelope)).rejects.toThrow(/signature is missing/);
 });
 it.each([
   ['wrong document kind', (v: Envelope) => { v.documentKind = 'builtin-form'; }],
@@ -121,4 +131,19 @@ it('does not install a share after its captured owner target changes', async () 
   useDocumentStore.getState().setField('subject', 'NEWER WORK');
   expect(await openSharedDocument(envelope, target)).toBe('stale');
   expect(useDocumentStore.getState().formData.subject).toBe('NEWER WORK');
+});
+it('does not switch documents after cancellation while the metadata commit is pending', async () => {
+  const envelope = await payload(), source = useDocumentsStore.getState().currentId;
+  await flushDocumentWrites();
+  const previous = new Set((await database.idbGetAllDocuments())!.map(record => record.id));
+  const put = database.idbPutDocument;
+  let started!: () => void, release!: () => void, active = true;
+  const entered = new Promise<void>(resolve => { started = resolve; });
+  const gate = new Promise<void>(resolve => { release = resolve; });
+  vi.spyOn(database, 'idbPutDocument').mockImplementationOnce(async record => { const saved = await put(record);started();await gate;return saved; });
+  const opening = openSharedDocument(envelope, captureDocumentTarget(), () => active);
+  await entered;active = false;release();
+  await expect(opening).rejects.toThrow(/cancelled/);
+  expect(useDocumentsStore.getState().currentId).toBe(source);
+  expect((await database.idbGetAllDocuments())!.some(record => record.id.startsWith('shared_') && !previous.has(record.id))).toBe(false);
 });
