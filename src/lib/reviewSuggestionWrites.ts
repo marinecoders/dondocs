@@ -90,10 +90,14 @@ export function planReviewSuggestionWrite(round: ReviewRound, source: Serialized
     const target = change.target;
     const value = intent.direction === 'undo' ? change.expected : change.proposed;
     if (target.kind === 'field') Object.assign(next.formData, { [target.field]: value });
-    else {
+    else if (target.kind === 'paragraph') {
       const paragraph = next.paragraphs.find(item => item.id === target.paragraphId);
       if (!paragraph) throw new Error('The accepted paragraph is unavailable.');
       paragraph.text = value;
+    } else {
+      const reference = next.references[target.referenceIndex];
+      if (!reference) throw new Error('The accepted reference title is unavailable.');
+      reference.title = value;
     }
   }
   return { session: next, state: planReviewSuggestionHistory(round, source, historyDestination, state,
