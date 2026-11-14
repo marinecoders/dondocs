@@ -30,9 +30,14 @@ it.skipIf(!hasPandoc)('delivers real editable DOCX paragraphs, fields, images an
     reviewComments: { version: 1, threads: [{ id: crypto.randomUUID(), anchor: { kind: 'document' }, resolved: false,
       messages: [{ id: crypto.randomUUID(), author: 'Private reviewer', text: 'Hidden review metadata', createdAt: '2026-11-14T00:00:00Z' }] }] },
   }), 'Lettre résumé', 'basic-letter');
+  const second = await capturePackageMember(captureDocumentRevision({ documentId: 'second-source', epoch: 0, editSequence: 4, capturedAt: Date.UTC(2026, 10, 14) }, {
+    documentMode: 'custom', documentCategory: 'correspondence', docType: 'naval_letter',
+    formData: { subject: 'SECOND EDITABLE MEMBER', from: 'Training Office', to: 'Training Officer', sigFirst: 'Alex', sigLast: 'Example' },
+    paragraphs: [{ text: 'Independent second member content.', level: 0 }], references: [], enclosures: [], copyTos: [], distributions: [], endItems: [], publicationTables: {},
+  }), 'Second correspondence', 'supporting-document');
   const signed = await captureOriginalPackageMember({ name: 'Annexe résumé.pdf', data: original }, 'enclosure', true);
   const record: ActionPackage = { kind: 'dondocs-action-package-record', version: 1, id: 'package_native', name: 'Word package fixture', archived: false, sequence: 1, currentRevisionId: 'revision_native',
-    revisions: [{ id: 'revision_native', createdAt: Date.UTC(2026, 10, 14), members: [main, signed], outputs: [] }] };
+    revisions: [{ id: 'revision_native', createdAt: Date.UTC(2026, 10, 14), members: [main, second, signed], outputs: [] }] };
   const policy = resolveExportDeploymentPolicy({ hostname: 'example.test', environment: null, runtime: { status: 'absent' } });
   const prepared = await prepareWordPackage(record, record.currentRevisionId, policy);acknowledgeWordPackage(prepared);
   const result = await renderWordPackage(prepared, {
@@ -45,6 +50,13 @@ it.skipIf(!hasPandoc)('delivers real editable DOCX paragraphs, fields, images an
   });
   const zip = await JSZip.loadAsync(await result.blob.arrayBuffer(), { checkCRC32: true });
   const word = await JSZip.loadAsync(await zip.file(result.manifest.mainDocument)!.async('uint8array'));
+  expect(result.manifest.members.map(member => member.order)).toEqual([1, 2, 3]);
+  expect(result.manifest.members.filter(member => member.editableInWord)).toHaveLength(2);
+  const secondPath = result.manifest.members[1].files[0];
+  const secondWord = await JSZip.loadAsync(await zip.file(secondPath)!.async('uint8array'));
+  const secondXml = await secondWord.file('word/document.xml')!.async('string');
+  expect(secondXml).toContain('SECOND EDITABLE MEMBER');expect(secondXml).toContain('Independent second member content.');
+  expect(secondXml).not.toContain('WORD PACKAGE CONTENT');
   const xml = await word.file('word/document.xml')!.async('string'), rels = await word.file('word/_rels/document.xml.rels')!.async('string');
   expect(xml).toContain('WORD PACKAGE CONTENT');expect(xml).toContain('Nested editable content.');
   expect(xml).toContain('This captured paragraph cites');expect(xml).toContain('Enclosure (1)');expect(xml).toContain('Reference (a)');

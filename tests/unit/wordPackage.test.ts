@@ -7,11 +7,13 @@ import { capturePackageMember, captureOriginalPackageMember, retainPackageAsset 
 import { type ActionPackage, type PackageMember } from '@/lib/actionPackages';
 import { buildPortableActionPackage, parsePortableActionPackage } from '@/lib/actionPackageTransfer';
 import { persistAttachment } from '@/lib/attachments';
+import { buildDraftFileFromSnapshot, parseDraftFile } from '@/lib/draftFile';
 import { idbDeleteAttachment, idbPutAttachment } from '@/lib/documentsDb';
 import { portableResourceDigest } from '@/lib/portableResources';
 import { resolveExportDeploymentPolicy } from '@/lib/exportDeploymentPolicy';
 import { acknowledgeWordPackage, prepareWordPackage, renderWordPackage, wordPackageFilename } from '@/services/exports/wordPackage';
 import type { DocumentSnapshot } from '@/stores/historyStore';
+import { prepareSessionState } from '@/stores/documentStore';
 import type { CorrespondenceRendererPorts } from '@/services/exports/correspondence';
 
 const policy = resolveExportDeploymentPolicy({ hostname: 'example.test', environment: null, runtime: { status: 'absent' } });
@@ -143,6 +145,7 @@ it('generates extractable filenames without collapsing Unicode labels or allowin
   expect(wordPackageFilename('A:B?.pdf. ')).toBe('A_B_.pdf');
   expect(new TextEncoder().encode(wordPackageFilename('演習😀'.repeat(80))).byteLength).toBeLessThanOrEqual(160);
   expect(wordPackageFilename('\u202epdf.exe')).toBe('_pdf.exe');
+  expect(wordPackageFilename('Training \ud800 😀')).toBe('Training _ 😀');
 });
 
 it('rejects untrusted portable paths before they can enter a Word delivery', async () => {
@@ -186,4 +189,70 @@ it('keeps case-insensitive and sanitized filename collisions in distinct ordered
   expect(paths).toContain('members/001/original/enclosure-002-same_name.pdf');
   expect(paths).toContain('members/002/original/_CON.pdf');expect(paths).toContain('members/003/original/_con.PDF');
   expect(result.manifest.members.map(member => member.order)).toEqual([1, 2, 3]);
+});
+
+it('checks emitted native text against deployment policy before Word package approval', async () => {
+  const { record } = await fixture({ formData: { subject: 'Visible training letter', classLevel: 'unclassified' },
+    paragraphs: [{ text: 'SECRET', level: 0 }] });
+  await expect(prepareWordPackage(record, record.currentRevisionId, policy)).rejects.toThrow(/outside this deployment/);
+});
+
+it('rejects native PDF figures at Word review with raster guidance while preserving the editable source', async () => {
+  const { record, main, original } = await fixture({ docType: 'business_letter', enclosures: [] });
+  const figure = await persistAttachment({ name: 'drawing.pdf', type: 'application/pdf', size: original.byteLength }, original);
+  const draft = await buildDraftFileFromSnapshot({ ...prepareSessionState(main.session, true), paragraphs: [{ text: 'Original vector drawing', level: 0,
+    figure: { name: 'drawing.pdf', type: 'application/pdf', fileRef: figure } }] }, main.source!.capturedAt);
+  main.session = parseDraftFile(draft, false, true).session;
+  main.draft = await retainPackageAsset('native-pdf-figure.json', 'application/json', new TextEncoder().encode(JSON.stringify(draft)).buffer);
+  const before = structuredClone(record);
+  await expect(prepareWordPackage(record, record.currentRevisionId, policy)).rejects.toThrow(/PDF figures.*PNG\/JPEG.*editable package/);
+  expect(record).toEqual(before);
+});
+
+it('keeps hidden native markings outside Word policy review and accepts permitted emitted markings', async () => {
+  const { record } = await fixture({ formData: { subject: 'Visible training letter', classLevel: 'unclassified', seniorCommandName: 'SECRET' },
+    reviewComments: { version: 1, threads: [{ id: crypto.randomUUID(), anchor: { kind: 'document' }, resolved: false,
+      messages: [{ id: crypto.randomUUID(), author: 'Hidden reviewer', text: 'SECRET', createdAt: '2026-11-14T00:00:00Z' }] }] } });
+  const prepared = await prepareWordPackage(record, record.currentRevisionId, policy);acknowledgeWordPackage(prepared);
+  const result = await renderWordPackage(prepared, ports), archive = await JSZip.loadAsync(await result.blob.arrayBuffer());
+  const docx = await JSZip.loadAsync(await archive.file(result.manifest.mainDocument)!.async('uint8array'));
+  expect(await docx.file('word/document.xml')!.async('string')).not.toContain('SECRET');
+  const marked = await fixture({ formData: { subject: 'SECRET', classLevel: 'secret' } });
+  const allowed = resolveExportDeploymentPolicy({ hostname: 'example.test', environment: { maxLevel: 'secret',
+    allowedLevels: ['unclassified', 'cui', 'confidential', 'secret'] }, runtime: { status: 'absent' } });
+  await expect(prepareWordPackage(marked.record, marked.record.currentRevisionId, allowed)).resolves.toMatchObject({ revisionId: marked.record.currentRevisionId });
+});
+
+it('keeps every generated manifest path resolvable after ZIP encoding of malformed Unicode labels', async () => {
+  const { record, main } = await fixture();main.label = 'Training \ud800 letter';record.name = 'Training \udfff action';
+  const prepared = await prepareWordPackage(record, record.currentRevisionId, policy);acknowledgeWordPackage(prepared);
+  const result = await renderWordPackage(prepared, ports), zip = await JSZip.loadAsync(await result.blob.arrayBuffer());
+  const manifest = JSON.parse(await zip.file('manifest.json')!.async('string'));
+  for (const file of manifest.files) expect(zip.file(file.path), file.path).not.toBeNull();
+  expect(zip.file(manifest.mainDocument)).not.toBeNull();
+});
+
+it('omits retained inactive figure originals from clean Word delivery', async () => {
+  const { docxImageFixture } = await import('../_helpers/docxImageFixture');const images = await docxImageFixture();
+  const fileRef = await persistAttachment({ name: 'SSN 123-45-6789.png', type: 'image/png', size: images.figure.length }, new Uint8Array(images.figure).buffer);
+  const { record } = await fixture({ docType: 'naval_letter', paragraphs: [{ text: 'Ordinary body text.', level: 0,
+    figure: { name: 'SSN 123-45-6789.png', type: 'image/png', fileRef } }] });
+  const before = structuredClone(record), prepared = await prepareWordPackage(record, record.currentRevisionId, policy);
+  expect(prepared.privacy.found).toBe(false);acknowledgeWordPackage(prepared);
+  const result = await renderWordPackage(prepared, ports), zip = await JSZip.loadAsync(await result.blob.arrayBuffer());
+  expect(result.manifest.files.some(file => file.name === 'SSN 123-45-6789.png')).toBe(false);
+  expect(Object.keys(zip.files).some(path => path.includes('figure-'))).toBe(false);
+  expect(record).toEqual(before);
+});
+
+it.each(['attached', 'missing'] as const)('omits %s inactive enclosure sidecars without blocking or disclosing them', async kind => {
+  const original = await pdf();
+  const { record } = await fixture({ documentMode: 'compliant', docType: 'business_letter', enclosures: [{ title: 'Inactive retained annex',
+    ...(kind === 'attached' ? { file: { name: 'SSN 123-45-6789.pdf', size: original.byteLength, data: original } } : {}) }] });
+  const before = structuredClone(record), prepared = await prepareWordPackage(record, record.currentRevisionId, policy);
+  expect(prepared.privacy.found).toBe(false);acknowledgeWordPackage(prepared);
+  const result = await renderWordPackage(prepared, ports), zip = await JSZip.loadAsync(await result.blob.arrayBuffer());
+  expect(result.manifest.files.filter(file => file.kind === 'original').map(file => file.name)).toEqual(['CON.pdf']);
+  expect(Object.keys(zip.files).some(path => path.includes('enclosure-'))).toBe(false);
+  expect(record).toEqual(before);
 });

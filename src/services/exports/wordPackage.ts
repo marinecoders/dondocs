@@ -4,7 +4,10 @@ import { actionPackageSchema, getPackageRevision, type ActionPackage, type Packa
 import { buildPortableActionPackage, parsePortableActionPackage, MAX_PACKAGE_FILE_BYTES } from '@/lib/actionPackageTransfer';
 import { reviewPackageOriginal, reviewPackageText } from '@/lib/actionPackageDisclosure';
 import { parseDraftFile } from '@/lib/draftFile';
-import { captureDocumentRevision } from '@/lib/capturedDocument';
+import { captureDocumentRevision, copyCapturedDocument } from '@/lib/capturedDocument';
+import { projectRenderedDocument } from '@/lib/renderedDocument';
+import { documentTextFields, isOutputFieldActive } from '@/lib/documentFields';
+import { figureExtension } from '@/lib/figures';
 import { prepareSessionState } from '@/stores/documentStore';
 import { acknowledgePreparedExport, copyExportReview, prepareExport, type ExportReview, type PreparedExportJob } from '@/lib/preparedExport';
 import { portableResourceDigest, MAX_PORTABLE_RESOURCE_BYTES, MAX_PORTABLE_TOTAL_BYTES, MAX_PORTABLE_RESOURCE_COUNT } from '@/lib/portableResources';
@@ -50,7 +53,10 @@ const approved = new WeakSet<PreparedWordPackage>();
 /** ZIP names are generated from positions, never source paths; labels keep their Unicode spelling in the manifest. */
 export function wordPackageFilename(label: string, fallback = 'document'): string {
   const basename = label.split(/[\\/]/).at(-1) || fallback;
-  const portable = Array.from(basename, char => /[<>:"|?*\u202a-\u202e\u2066-\u2069]/.test(char) || char.charCodeAt(0) < 32 || char.charCodeAt(0) === 127 ? '_' : char).join('');
+  const portable = Array.from(basename, char => {
+    const code = char.codePointAt(0)!;
+    return /[<>:"|?*\u202a-\u202e\u2066-\u2069]/.test(char) || code < 32 || code === 127 || code >= 0xd800 && code <= 0xdfff ? '_' : char;
+  }).join('');
   let safe = '';
   for (const char of portable) {
     if (new TextEncoder().encode(safe + char).byteLength > 160) break;
@@ -82,6 +88,12 @@ export async function prepareWordPackage(record: ActionPackage, revisionId: stri
   const owned = actionPackageSchema.parse({ ...record, historyScope: 'selected-revision', currentRevisionId: revision.id, revisions: [revision], workingCopies: undefined });
   const main = revision.members[0];
   if (!main || main.role !== 'basic-letter' || main.kind !== 'native' || revision.members.filter(member => member.role === 'basic-letter').length !== 1) throw new Error('A Word package must start with exactly one captured native main document.');
+  for (const member of revision.members) if (member.kind === 'native'
+    && capabilityAvailable(documentCapabilities({ ...member.session, documentMode: member.session.documentMode ?? 'compliant' }, { operation: 'export', target: 'docx' }))
+    && member.session.paragraphs.some((paragraph, index) => isOutputFieldActive(member.session, ['paragraphs', index, 'figure'])
+      && paragraph.figure && figureExtension(paragraph.figure.type, paragraph.figure.name) === 'pdf')) {
+    throw new Error(`${member.label}: PDF figures cannot be embedded in Word. Convert them to PNG/JPEG and save a new package revision, or use the editable package export to preserve the native PDF figures.`);
+  }
   // The portable action-package boundary owns validation, resource limits and foreign provenance. Keep only the selected revision.
   delete revision.parentId;
   revision.outputs = [];
@@ -137,13 +149,14 @@ export async function prepareWordPackage(record: ActionPackage, revisionId: stri
       await add(`${folder}/original/${slot}-${wordPackageFilename(name)}`, name, data, 'original', purpose, member);
     };
     for (const [offset, enclosure] of snapshot.enclosures.entries()) {
+      if (!isOutputFieldActive(snapshot, ['enclosures', offset])) continue;
       const file = reviewed.files[offset];
       if (!file) throw new Error(`${member.label}: required enclosure “${enclosure.title || offset + 1}” has no captured original file. Attach it and save a new package revision.`);
       await original(file.data, file.name, 'application/pdf', `enclosure-${String(offset + 1).padStart(3, '0')}`, `Unchanged enclosure (${offset + 1}): ${enclosure.title}. Separate from DOCX.`);
       enclosure.file = structuredClone(file);
     }
     if (snapshot.docType === 'new_page_endorsement' && reviewed.basicLetter) await original(reviewed.basicLetter.data, reviewed.basicLetter.name, 'application/pdf', 'basic-letter', 'Unchanged basic-letter PDF captured with this member; separate from DOCX.');
-    for (const [offset, file] of reviewed.figures.entries()) if (file) {
+    for (const [offset, file] of reviewed.figures.entries()) if (file && isOutputFieldActive(snapshot, ['paragraphs', offset, 'figure'])) {
       const figure = snapshot.paragraphs[offset].figure!;
       const id = `figure-${offset}`;
       figure.fileRef = { id, name: file.name, type: figure.type || 'image/png', size: file.data.byteLength };
@@ -157,6 +170,8 @@ export async function prepareWordPackage(record: ActionPackage, revisionId: stri
     }
     const source = { documentId: member.id, epoch: 0, editSequence: member.source?.editSequence ?? 0, capturedAt: member.source?.capturedAt ?? captured.createdAt };
     const document = captureDocumentRevision(source, snapshot);
+    const output = copyCapturedDocument(projectRenderedDocument(document)).document;
+    for (const field of documentTextFields(output, 'output')) reviewPackageText(field.text, `${member.label}: ${field.label}`, policy);
     const path = `${folder}/${wordPackageFilename(member.label)}.docx`;
     const preparation = prepareExport({ id: `${captured.id}_${member.revisionId}_word-package`, captured: document, target: 'docx', filename: path.split('/').at(-1)!, policy });
     if ('issues' in preparation) throw new Error(`${member.label}: ${preparation.issues.join(' ')}`);

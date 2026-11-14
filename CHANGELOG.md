@@ -17,6 +17,9 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 ### Fixed
 
 - Keep Word package approval, cancellation and image resources tied to the captured revision. Share the ordinary export gate until conversion finishes, preserving newer edits and preventing mixed concurrent Word conversions.
+- Keep generated ZIP paths resolvable when an imported label contains malformed Unicode.
+- Keep inactive embedded figures and enclosures out of clean Word sidecars while retaining explicit original package members.
+- Apply the existing deployment text checks to emitted Word content while excluding hidden draft fields and review discussions; reject PDF figures with PNG/JPEG conversion guidance.
 - Explain separate original PDFs and Word signing without implying editable PDF pages, transferred PDF signing fields or matching Word/PDF pagination. Clean Word delivery excludes review metadata and older revisions.
 
 ## [1.3.85] — 2026-11-14

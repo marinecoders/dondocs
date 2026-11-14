@@ -151,3 +151,47 @@ test('Word delivery blocks disallowed original PDF text and displays original PD
   await expect(word).toContainText('123-45-6789');await expect(word.getByRole('checkbox')).toBeVisible();
   await expect(word).toContainText('Text-layer inspection cannot read text inside scanned images');
 });
+
+test('Word review blocks disallowed emitted native text before approval and preserves the source', async ({ page }, info) => {
+  await page.addInitScript(() => { localStorage.setItem('browser-test-visitor', 'returning'); });await page.goto('/');
+  const baseline = buildBaseline('business_letter');
+  const draft = { ...baseline, documentMode: 'custom', documentCategory: 'correspondence',
+    formData: { ...baseline.formData, subject: 'FICTIONAL WORD NATIVE REVIEW', classLevel: 'unclassified' },
+    paragraphs: [{ text: 'SECRET', level: 0 }], references: [], enclosures: [] };
+  await page.getByLabel('Import draft file').setInputFiles({ name: 'native-review.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(draft)) });
+  await page.getByRole('button', { name: 'Open as new document', exact: true }).click();
+  const dialog = await packages(page);await dialog.getByLabel('Package name', { exact: true }).fill('Native text review');
+  await dialog.getByRole('button', { name: 'Create package', exact: true }).click();
+  await dialog.getByRole('button', { name: 'Capture current document', exact: true }).click();
+  await expect(dialog.getByRole('heading', { name: '1. FICTIONAL WORD NATIVE REVIEW', exact: true })).toBeVisible();
+  const word = dialog.getByRole('region', { name: 'Word package delivery', exact: true });
+  const downloads: string[] = [];page.on('download', file => downloads.push(file.suggestedFilename()));
+  await word.getByRole('button', { name: 'Review Word package', exact: true }).click();
+  await expect(word.getByRole('alert')).toContainText('outside this deployment');
+  await expect(word.getByRole('checkbox')).toHaveCount(0);expect(downloads).toEqual([]);
+  await word.screenshot({ path: info.outputPath('blocked-native-word-policy.png') });
+  await dialog.getByRole('button', { name: 'Close', exact: true }).click();
+  await expect(page.getByRole('textbox', { name: 'Paragraph 1', exact: true })).toHaveText('SECRET');
+});
+
+for (const asset of ['figure', 'enclosure'] as const) test(`clean Word ZIP excludes retained inactive ${asset} sidecars`, async ({ page }, info) => {
+  await page.addInitScript(() => { localStorage.setItem('browser-test-visitor', 'returning'); });await page.goto('/');
+  const images = await docxImageFixture(), pdf = await PDFDocument.create();pdf.addPage().drawText('Inactive retained original');
+  const bytes = Buffer.from(await pdf.save()), baseline = buildBaseline(asset === 'figure' ? 'naval_letter' : 'business_letter');
+  const draft = { ...baseline, documentCategory: 'correspondence', documentMode: asset === 'figure' ? 'custom' : 'compliant',
+    formData: { ...baseline.formData, subject: 'FICTIONAL INACTIVE WORD SIDECAR' },
+    paragraphs: [{ text: 'Ordinary captured body text.', level: 0, ...(asset === 'figure' ? { figure: { name: 'SSN 123-45-6789.png', type: 'image/png', data: images.figure.toString('base64') } } : {}) }],
+    enclosures: asset === 'enclosure' ? [{ title: 'Inactive annex', hasFile: true, file: { name: 'SSN 123-45-6789.pdf', size: bytes.length, data: bytes.toString('base64') } }] : [], references: [] };
+  await page.getByLabel('Import draft file').setInputFiles({ name: 'inactive-sidecar.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(draft)) });
+  await page.getByRole('button', { name: 'Open as new document', exact: true }).click();
+  const dialog = await packages(page);await dialog.getByLabel('Package name', { exact: true }).fill('Inactive Word asset review');
+  await dialog.getByRole('button', { name: 'Create package', exact: true }).click();
+  await dialog.getByRole('button', { name: 'Capture current document', exact: true }).click();
+  await expect(dialog.getByRole('heading', { name: '1. FICTIONAL INACTIVE WORD SIDECAR', exact: true })).toBeVisible();
+  const zip = await downloadWord(page, dialog, info.outputPath(`inactive-${asset}-word.zip`));
+  const manifest = JSON.parse(await zip.file('manifest.json')!.async('string'));
+  expect(manifest.files.map((file: { kind: string }) => file.kind)).toEqual(['editable-docx']);
+  expect(Object.keys(zip.files).some(path => path.includes('/original/'))).toBe(false);
+  const docx = await JSZip.loadAsync(await zip.file(manifest.mainDocument)!.async('uint8array'));
+  expect(await docx.file('word/document.xml')!.async('string')).toContain('Ordinary captured body text.');
+});
