@@ -68,17 +68,17 @@ export async function decideReviewSuggestion(roundId: string, proposalId: string
     ), policy);
     const unknown = report.customMarkings.filter(marking => !classificationBannerLevel(marking));
     if (report.notices.some(notice => notice.includes('without saved marking text')) || unknown.some(marking =>
-      context.current.formData.classLevel !== 'custom' || context.current.formData.customClassification?.trim() !== marking.trim())) {
+      plan.session.formData.classLevel !== 'custom' || plan.session.formData.customClassification?.trim() !== marking.trim())) {
       throw new Error('The reviewed content has unranked or incomplete markings. Preserve its exact custom marking or begin a corrected review before accepting text.');
     }
     const recognized = report.marking.match(/highest recognized marking: (.+)\)$/)?.[1] ?? report.marking;
     const floor = classificationBannerLevel(recognized) ?? 'unclassified';
-    const declared = context.current.formData.classLevel === 'custom'
-      ? classificationBannerLevel(context.current.formData.customClassification ?? '')
-      : context.current.formData.classLevel ?? 'unclassified';
-    const level = deriveOverallClassLevel(declared ?? 'unclassified', context.current.paragraphs);
+    const declared = plan.session.formData.classLevel === 'custom'
+      ? classificationBannerLevel(plan.session.formData.customClassification ?? '')
+      : plan.session.formData.classLevel ?? 'unclassified';
+    const level = deriveOverallClassLevel(declared ?? 'unclassified', plan.session.paragraphs);
     if ((classificationRank(level) ?? -1) < (classificationRank(floor) ?? 0)) {
-      throw new Error('The current draft is marked below the reviewed content. Update its handling marking before accepting this replacement.');
+      throw new Error('The resulting draft would be marked below the reviewed content. Keep or raise its handling marking before accepting this replacement.');
     }
     current(context.target);
   }
