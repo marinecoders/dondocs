@@ -23,6 +23,8 @@ Open **Templates** in the sidebar to load a starter. Replace bracketed author pr
 
 **Document actions → Save checkpoint** (`Ctrl/Cmd+S`) keeps a manual copy in addition to autosave. **Open saved checkpoint** reopens that checkpoint. A checkpoint is local to this browser, not an external backup.
 
+Open **History**, select a saved version, and choose **Prepare change report** to download a printable HTML review report. It compares the saved version with the current draft captured when History opened and includes full readable discussions from both versions, including resolved comments and retained context for deleted targets. Review its privacy notice before downloading: removed text and earlier comment context can contain sensitive information. Later edits are excluded. The report states its comparison limits; it is a review derivative, not an official letter, approval record, or audit proof. Clean PDF and Word exports remain separate.
+
 Open a draft's **History** to inspect/compare or restore a prior snapshot. The ring keeps the ten most recent snapshots, captured at most once every three minutes during editing and on explicit saves. Restoring must first commit a safety snapshot of the current state; if that fails, restore stops. Undo/redo concerns the active editing session and is separate from persistent History.
 
 ## Portable draft files and imports

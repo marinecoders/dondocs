@@ -1,7 +1,14 @@
-import { expect, test, type Page } from '@playwright/test';
+import { expect, test, type Locator, type Page } from '@playwright/test';
 
 test.use({ serviceWorkers: 'block' });
+// One scenario performs several real encryption/decryption and import rounds.
+test.setTimeout(60_000);
 const NOW = Date.UTC(2026, 10, 13, 12);
+
+async function waitForShareOperation(dialog: Locator) {
+  // Real encryption/decryption can run alongside preview compilation in CI.
+  await expect(dialog.getByRole('button', { name: 'Cancel', exact: true })).toBeEnabled({ timeout: 30_000 });
+}
 
 async function share(page: Page) {
   await expect(page.getByRole('dialog')).toHaveCount(0);
@@ -21,6 +28,7 @@ async function review(page: Page, link: string) {
   await dialog.getByLabel('Share link', { exact: true }).fill(link);
   await dialog.getByLabel('Password', { exact: true }).fill('synthetic-password');
   await dialog.getByRole('button', { name: 'Decrypt and review', exact: true }).click();
+  await waitForShareOperation(dialog);
   return dialog;
 }
 
@@ -42,6 +50,7 @@ for (const theme of ['light', 'dark', 'classic']) {
     await dialog.getByLabel('Password for this link', { exact: true }).fill('synthetic-password');
     await dialog.getByLabel('Link expiration', { exact: true }).selectOption('hour');
     await dialog.getByRole('button', { name: 'Generate link', exact: true }).click();
+    await waitForShareOperation(dialog);
     const output = dialog.locator('#generated-share-link');
     await expect(output).toBeVisible();
     const expiringLink = await output.inputValue();
@@ -77,6 +86,7 @@ for (const theme of ['light', 'dark', 'classic']) {
     await expect(dialog.getByLabel('Link expiration')).toHaveValue('none');
     await dialog.getByLabel('Password for this link', { exact: true }).fill('synthetic-password');
     await dialog.getByRole('button', { name: 'Generate link', exact: true }).click();
+    await waitForShareOperation(dialog);
     await expect(dialog.locator('#generated-share-link')).toBeVisible();
     const ordinaryLink = await dialog.locator('#generated-share-link').inputValue();
     await dialog.getByRole('button', { name: 'Cancel', exact: true }).click();
