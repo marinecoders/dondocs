@@ -1,4 +1,5 @@
 import { resolveSignature, resolveFormSignatures } from './signatureAssets';
+import { flushPendingReviewWrites, hasPendingReviewWrites } from '@/stores/documentsStore';
 import { z } from 'zod';
 import { parseFormInstance } from '@/services/forms/model';
 import { getSerializedSession, useDocumentStore, type SerializedSession } from '@/stores/documentStore';
@@ -84,6 +85,7 @@ export function isDraftExportInProgress(): boolean { return draftExports > 0; }
 export async function buildDraftFile(): Promise<unknown> {
   draftExports++;
   try {
+    if (hasPendingReviewWrites()) await flushPendingReviewWrites();
     const snapshot = structuredClone(useDocumentStore.getState().getSnapshot());
     const session = getSerializedSession();
     return await serializeDraft(session, snapshot);

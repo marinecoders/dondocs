@@ -22,7 +22,7 @@ import {
   loadSharedSession,
   type SerializedSession,
 } from '@/stores/documentStore';
-import { openSessionAsNew } from '@/stores/documentsStore';
+import { openSessionAsNew, hasPendingReviewWrites, flushPendingReviewWrites } from '@/stores/documentsStore';
 import { fixtureInstance } from '../_helpers/formFixture';
 
 vi.mock('@/lib/shareCrypto', () => ({
@@ -31,7 +31,7 @@ vi.mock('@/lib/shareCrypto', () => ({
   buildShareUrl: vi.fn((p: string) => `https://dondocs.app/#s=${p}`),
   parseShareUrl: vi.fn((s: string) => (s.includes('#s=') ? s.split('#s=')[1] : null)),
 }));
-vi.mock('@/stores/documentsStore', () => ({ openSessionAsNew: vi.fn(() => 'applied') }));
+vi.mock('@/stores/documentsStore', () => ({ openSessionAsNew: vi.fn(() => 'applied'), hasPendingReviewWrites: vi.fn(() => false), flushPendingReviewWrites: vi.fn(async () => {}) }));
 vi.mock('@/stores/documentStore', () => ({
   getSerializedSessionForShare: vi.fn(() => ({ docType: 'naval_letter', formData: {}, paragraphs: [], copyTos: [], references: [] })),
   loadSharedSession: vi.fn(),
@@ -42,6 +42,8 @@ vi.mock('@/stores/documentStore', () => ({
 
 beforeEach(() => {
   vi.clearAllMocks();
+  vi.mocked(hasPendingReviewWrites).mockReturnValue(false);
+  vi.mocked(flushPendingReviewWrites).mockResolvedValue(undefined);
   vi.mocked(getSerializedSessionForShare).mockImplementation(() => ({
     documentMode: 'compliant', documentCategory: 'correspondence', docType: 'naval_letter', formType: 'navmc_10274',
     formData: {}, paragraphs: [], copyTos: [], references: [], enclosures: [], distributions: [], timestamp: 0,
@@ -58,6 +60,28 @@ function stubClipboard() {
 }
 
 describe('ShareModal — share mode', () => {
+  it('waits for pending review receipts before creating a portable encrypted copy', async () => {
+    const user = userEvent.setup();stubClipboard();
+    let finish!: () => void;
+    vi.mocked(hasPendingReviewWrites).mockReturnValue(true);
+    vi.mocked(flushPendingReviewWrites).mockImplementation(() => new Promise(resolve => { finish = resolve; }));
+    vi.mocked(encryptSharePayload).mockResolvedValue('TOKEN');
+    render(<ShareModal open mode="share" onOpenChange={() => {}} />);
+    await user.type(screen.getByLabelText('Password for this link'), 'password');
+    await user.click(screen.getByRole('button', { name: 'Generate link' }));
+    expect(flushPendingReviewWrites).toHaveBeenCalledOnce();expect(encryptSharePayload).not.toHaveBeenCalled();
+    await act(async () => { finish(); });
+    expect(encryptSharePayload).toHaveBeenCalledOnce();
+  });
+  it('keeps an unsaved review from escaping when its receipt cannot be committed', async () => {
+    const user = userEvent.setup();stubClipboard();
+    vi.mocked(hasPendingReviewWrites).mockReturnValue(true);
+    vi.mocked(flushPendingReviewWrites).mockRejectedValue(new Error('Review feedback is not saved yet.'));
+    render(<ShareModal open mode="share" onOpenChange={() => {}} />);
+    await user.type(screen.getByLabelText('Password for this link'), 'password');
+    await user.click(screen.getByRole('button', { name: 'Generate link' }));
+    expect(screen.getByRole('alert')).toHaveTextContent('Review feedback is not saved yet.');expect(encryptSharePayload).not.toHaveBeenCalled();
+  });
   it('encrypts the selected deadline and clears the old link when expiration changes', async () => {
     const user = userEvent.setup();
     stubClipboard();

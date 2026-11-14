@@ -1,5 +1,4 @@
-import { hasReviewComments, reviewCommentsSchema } from '@/lib/reviewComments';
-import { supportsReviewComments } from '@/lib/reviewCommentTargets';
+import { hasReviewComments, reviewCommentsSchema, type ReviewComments } from '@/lib/reviewComments';
 import { showAppAlert } from '@/stores/alertStore';
 import { materializeSignatureFallbacks, needsSignatureFallbacks } from '@/lib/signatureCompatibility';
 import { signatureForComparison, formSignaturesForComparison } from '@/lib/signatureProjection';
@@ -9,7 +8,10 @@ import { ENDORSEMENT_TEXT_FIELDS, endorsementTexts, hasEndorsementContent } from
 import { create } from 'zustand';
 import { compressedParse } from '@/lib/compressedStorage';
 import { DOC_TYPE_LABELS, formTypeLabel, type FormType, type DocumentCategory } from '@/types/document';
-import { waitForStorage, DocumentWrites, WRITE_JOURNAL_KEY, type PendingDocumentWrite } from '@/lib/documentWrites';
+import { waitForStorage, DocumentWrites, WRITE_JOURNAL_KEY, parseDocumentWriteJournal, serializeDocumentWriteJournal, type PendingDocumentWrite } from '@/lib/documentWrites';
+import { recoverReviewReturnWrite, REVIEW_WRITE_RECOVERY_KEY } from '@/lib/reviewReturnRecovery';
+import { reviewReturnWriteSchema, type ReviewReturnWrite } from '@/lib/reviewReturns';
+import { supportsReviewComments } from '@/lib/reviewCommentTargets';
 import { parseFormInstance, migrateLegacyAnswers, type FormInstance } from '@/services/forms/model';
 import { lastWriteFailed } from '@/lib/compressedStorage';
 import {
@@ -793,6 +795,57 @@ export async function commitCurrentDocument() {
   }
 }
 
+let retainedReviewWriteIntent = false;
+function hasRetainedReviewWrites(): boolean {
+  try {
+    if (typeof sessionStorage !== 'undefined' && sessionStorage.getItem(REVIEW_WRITE_RECOVERY_KEY)) retainedReviewWriteIntent = true;
+  } catch { /* Ordinary exports still work when this runtime has no recovery storage. */ }
+  return retainedReviewWriteIntent;
+}
+
+export function hasPendingReviewWrites(): boolean { return writes.hasReviewReturns() || hasRetainedReviewWrites(); }
+
+/** A portable copy must not detach visible feedback from its uncommitted receipt. */
+export async function flushPendingReviewWrites(): Promise<void> {
+  if (hasRetainedReviewWrites()) throw new Error('An interrupted review return needs attention. Open recovered copies to keep its edits before exporting.');
+  while (writes.hasReviewReturns()) {
+    useDocumentsStore.getState().syncCurrent();
+    const owners = writes.reviewReturnDocumentIds();
+    if ((await Promise.all(owners.map(id => writes.flush(id)))).some(saved => !saved)) {
+      throw new Error('Review feedback is not saved yet. Retry Save before exporting this copy.');
+    }
+  }
+}
+
+/** Publish through the owner and its existing queue, including edits made while storage waits. */
+export async function applyOwnedReviewReturn(target: DocumentTarget | null, comments: ReviewComments | undefined,
+  input: ReviewReturnWrite): Promise<'committed' | 'pending' | 'stale' | 'invalid'> {
+  let operation: ReviewReturnWrite;
+  let nextComments: ReviewComments | undefined;
+  try {
+    operation = reviewReturnWriteSchema.parse(input);
+    nextComments = comments === undefined ? undefined : reviewCommentsSchema.parse(comments);
+  } catch { return 'invalid'; }
+  if (!isCurrentDocumentTarget(target) || operation.round.ownerDocumentId !== target.scope.documentId) return 'stale';
+  if (!supportsReviewComments(useDocumentStore.getState())) return 'invalid';
+  if (hasRetainedReviewWrites()) throw new Error('An interrupted review return needs attention. Open recovered copies first.');
+  const saved = await commitCurrentDocument();
+  if (!saved || !isCurrentDocumentTarget(target)) return 'stale';
+  const registry = useDocumentsStore.getState(), entry = registry.docs[target.scope.documentId];
+  if (!entry || !writes.matches(saved, storedEntry(entry)) || !recordDocumentHistory(target.scope)) return 'stale';
+  const before = storedEntry(entry), after = structuredClone(before);
+  if (nextComments?.threads.length) after.session.reviewComments = nextComments;
+  else delete after.session.reviewComments;
+  after.meta.updatedAt = Math.max(Date.now(), before.meta.updatedAt + 1);
+  const revision = writes.enqueueReviewReturn(before, after, operation);
+  // This synchronous publication happens before later input can capture a save.
+  useDocumentStore.setState({ reviewComments: after.session.reviewComments });
+  useDocumentsStore.setState(state => ({ docs: { ...state.docs, [after.id]: { meta: after.meta, session: after.session } }, baseline: after.session }));
+  recordDocumentHistory(target.scope);updateSaveStatus(after.id);
+  await writes.flush(after.id);
+  return writes.status(revision)?.status === 'committed' ? 'committed' : 'pending';
+}
+
 function persistEntry(entry: DocumentEntry, before?: DocumentEntry): void {
   writes.enqueue(before ? storedEntry(before) : null, storedEntry(entry));
 }
@@ -806,6 +859,7 @@ async function flushPendingDocumentWrites(): Promise<void> {
   // Hydration publishes the saved ID before init loads its session. Saving in
   // that gap would overwrite the saved document with the blank starter.
   if (initPromise) await initPromise;
+  if (hasRetainedReviewWrites()) throw new Error('An interrupted review return needs attention. Open recovered copies before updating.');
   if (lastWriteFailed(FORMS_PERSIST_KEY)) {
     useFormStore.setState({});
     if (lastWriteFailed(FORMS_PERSIST_KEY)) throw new Error('Your form changes could not be saved. Download a backup before updating.');
@@ -933,11 +987,17 @@ function retainRecoveryCopy(after: StoredDocument): void {
 }
 
 async function recoverInterruptedSave(): Promise<void> {
+  let reviewRecovery: PendingDocumentWrite[] = [];
   try {
     const copies = JSON.parse(sessionStorage.getItem(RECOVERY_KEY) ?? '[]');
     if (!Array.isArray(copies) || copies.some(copy => !copy.copyId || !copy.after?.session)) throw new Error('Invalid recovery copies');
     recoveryCopies = copies;
-    const pending: PendingDocumentWrite[] = JSON.parse(sessionStorage.getItem(WRITE_JOURNAL_KEY) ?? '[]');
+    const pending = parseDocumentWriteJournal([
+      ...JSON.parse(sessionStorage.getItem(REVIEW_WRITE_RECOVERY_KEY) ?? '[]'),
+      ...JSON.parse(sessionStorage.getItem(WRITE_JOURNAL_KEY) ?? '[]'),
+    ]);
+    reviewRecovery = pending.filter(item => item.reviewReturns?.length);
+    if (reviewRecovery.length) retainedReviewWriteIntent = true;
     // Read recovery records written by the previous release too.
     const legacy = sessionStorage.getItem('dondocs-interrupted-save');
     if (legacy) {
@@ -950,7 +1010,15 @@ async function recoverInterruptedSave(): Promise<void> {
         || item.versions.some(v => v.id !== after.id)
         || (item.before && item.before.id !== after.id)) throw new Error('Invalid recovery record');
       const prepared = { ...after, session: await materializeSignatureFallbacks(after.session) };
-      const result = await idbWriteDocument(item.before, prepared, item.versions, true);
+      let result;
+      if (item.reviewReturns?.length) {
+        try { result = await recoverReviewReturnWrite(item); }
+        catch (cause) { retainRecoveryCopy(prepared);throw cause; }
+        if (!['committed', 'already-committed'].includes(result)) {
+          retainRecoveryCopy(prepared);
+          throw new Error('An interrupted review return could not be committed to its original document. Its latest edits are kept as a recovered copy.');
+        }
+      } else result = await idbWriteDocument(item.before, prepared, item.versions, true);
 
       if (result === 'committed') broadcastDocs({ type: 'put', id: after.id });
       if (result === 'conflict' || result === 'missing-document' || result === 'failed') {
@@ -962,8 +1030,23 @@ async function recoverInterruptedSave(): Promise<void> {
     // Preserve conflicts before removing the write journal, including on quota errors.
     sessionStorage.setItem(RECOVERY_KEY, JSON.stringify(recoveryCopies));
     sessionStorage.removeItem(WRITE_JOURNAL_KEY);
+    sessionStorage.removeItem(REVIEW_WRITE_RECOVERY_KEY);
+    retainedReviewWriteIntent = false;
     sessionStorage.removeItem('dondocs-interrupted-save');
   } catch (error) {
+    if (reviewRecovery.length) {
+      try { sessionStorage.setItem(REVIEW_WRITE_RECOVERY_KEY, serializeDocumentWriteJournal(reviewRecovery)); }
+      catch { /* The original journal is still retained below. */ }
+    } else {
+      try {
+        const raw = sessionStorage.getItem(REVIEW_WRITE_RECOVERY_KEY) ?? sessionStorage.getItem(WRITE_JOURNAL_KEY);
+        const entries = raw && JSON.parse(raw);
+        if (Array.isArray(entries) && entries.some(item => item?.kind === 'dondocs-review-write')) {
+          retainedReviewWriteIntent = true;
+          sessionStorage.setItem(REVIEW_WRITE_RECOVERY_KEY, raw!);
+        }
+      } catch { /* Unreadable content is retained by the existing recovery copy below. */ }
+    }
     // Keep the raw journal separate so subsequent edits cannot replace it.
     try {
       const raw = sessionStorage.getItem(WRITE_JOURNAL_KEY);
@@ -1002,6 +1085,19 @@ export async function openRecoveredCopies(): Promise<void> {
     return partitionDocuments({ ...state.trash, ...docs });
   });
   if (firstCopyId) useDocumentsStore.getState().switchTo(firstCopyId);
+  if (firstCopyId && !writes.hasReviewReturns()) {
+    const copied = new Set(recoveryCopies.map(copy => copy.after.id));
+    // Keeping a new unbound draft cancels the failed original return intent; it
+    // does not create a receipt or claim that the original source was updated.
+    try {
+      const pending = parseDocumentWriteJournal(JSON.parse(sessionStorage.getItem(WRITE_JOURNAL_KEY) ?? '[]'))
+        .filter(item => !item.reviewReturns?.length || !copied.has(item.versions[0].id));
+      if (pending.length) sessionStorage.setItem(WRITE_JOURNAL_KEY, serializeDocumentWriteJournal(pending));
+      else sessionStorage.removeItem(WRITE_JOURNAL_KEY);
+      sessionStorage.removeItem(REVIEW_WRITE_RECOVERY_KEY);
+      retainedReviewWriteIntent = false;
+    } catch { /* Unsupported intent stays available for a compatible reader. */ }
+  }
   sessionStorage.removeItem(RECOVERY_KEY);
   recoveryCopies = [];
   useDocumentsStore.setState({ recoveryCount: 0 });
@@ -1664,6 +1760,7 @@ export function importShouldReplace(existingUpdatedAt: number | undefined, incom
  *  backup file. When the registry couldn't be read at all this session,
  *  refuse (the caller shows "Backup failed") rather than fabricate success. */
 export async function exportLibrary(): Promise<string> {
+  if (hasPendingReviewWrites()) await flushPendingReviewWrites();
   useDocumentsStore.getState().syncCurrent();
   const { docs, trash, hydrated } = useDocumentsStore.getState();
   if (!hydrated || useUIStore.getState().storageHealth === 'unreadable') {
