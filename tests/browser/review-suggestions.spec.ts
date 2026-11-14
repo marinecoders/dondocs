@@ -125,6 +125,98 @@ async function restoreWorkspace(page: Page, bytes: Buffer) {
   await settings.getByRole('button', { name: 'Close', exact: true }).click();
 }
 
+for (const theme of ['light', 'dark', 'classic']) test(`two reviewer returns reconcile with newer work in ${theme}`, async ({ page, browser, baseURL }, info) => {
+  const appearance = { theme, editorLayout: 'scroll' };
+  const init = (value: typeof appearance) => {
+    localStorage.setItem('browser-test-visitor', 'returning');localStorage.setItem('dondocs_ui', JSON.stringify({ state: value, version: 1 }));
+  };
+  await page.addInitScript(init, appearance);await page.goto('/');
+  const source = { documentMode: 'custom', documentCategory: 'correspondence', docType: 'naval_letter',
+    formData: { subject: 'FICTIONAL RECONCILIATION SOURCE', from: 'Training Office', to: 'Training Officer', date: '13 Nov 26', sigLast: 'EXAMPLE' },
+    paragraphs: [{ id: 'meeting', text: 'Alpha team meets on Friday.', level: 0 }, { id: 'newer-work', text: 'Original other paragraph.', level: 0 }],
+    references: [], enclosures: [], copyTos: [], distributions: [] };
+  await page.getByLabel('Import draft file').setInputFiles({ name: 'source.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(source)) });
+  await page.getByRole('button', { name: 'Open as new document', exact: true }).click();
+  let modal = await reviews(page);await modal.getByLabel('Review name', { exact: true }).fill('Combined review');
+  await modal.getByRole('button', { name: 'Start review from current draft', exact: true }).click();
+  await expect(modal.getByText('Review baseline saved. Later source edits will not change this copy.', { exact: true })).toBeVisible();
+  await modal.getByRole('button', { name: 'Prepare reviewer copy', exact: true }).click();
+  const copy = await download(page, () => modal.getByRole('button', { name: 'Download reviewer copy', exact: true }).click());
+  await modal.getByRole('button', { name: 'Close', exact: true }).click();
+  const returns: Buffer[] = [];
+  for (const author of ['Reviewer Alpha', 'Reviewer Bravo']) {
+    const context = await browser.newContext({ viewport: page.viewportSize()!, userAgent: await page.evaluate(() => navigator.userAgent),
+      serviceWorkers: 'block', isMobile: !!info.project.use.isMobile, hasTouch: !!info.project.use.hasTouch });
+    try {
+      await context.addInitScript(init, appearance);const reviewer = await context.newPage();await reviewer.goto(baseURL!);
+      let dialog = await reviews(reviewer);
+      await dialog.getByLabel('Import reviewer copy', { exact: true }).setInputFiles({ name: 'review.json', mimeType: 'application/json', buffer: copy });
+      await dialog.getByRole('button', { name: 'Open as new review copy', exact: true }).click();await expect(dialog).toBeHidden();
+      dialog = await reviews(reviewer);await dialog.getByLabel('Review for suggested edits', { exact: true }).selectOption({ label: 'Combined review' });
+      await dialog.getByLabel('Reviewer name for suggestion', { exact: true }).fill(author);
+      await dialog.getByLabel('Suggestion target', { exact: true }).selectOption({ label: 'Paragraph 1' });
+      await dialog.getByLabel('Proposed replacement', { exact: true }).fill(author === 'Reviewer Alpha' ? 'Alpha team meets on Monday.' : 'Charlie team meets on Friday.');
+      await dialog.getByRole('button', { name: 'Add suggestion', exact: true }).click();
+      await expect(dialog.getByRole('status', { name: 'Suggestion submission status' })).toHaveText('Suggestion submitted to this review.');
+      await dialog.getByLabel('Suggestion target', { exact: true }).selectOption({ label: author === 'Reviewer Alpha' ? 'To' : 'From' });
+      await dialog.getByLabel('Proposed replacement', { exact: true }).fill(author === 'Reviewer Alpha' ? 'Reviewed recipient' : 'Reviewed sender');
+      await dialog.getByRole('button', { name: 'Add suggestion', exact: true }).click();await expect(dialog.getByRole('article')).toHaveCount(2);
+      await dialog.getByRole('button', { name: 'Prepare feedback return', exact: true }).click();
+      returns.push(await download(reviewer, () => dialog.getByRole('button', { name: 'Download feedback return', exact: true }).click()));
+    } finally { await context.close(); }
+  }
+  const untouched = 'Newer author work survives. Équipe 👩🏽‍✈️ 日本語';
+  await replaceParagraphText(page.getByRole('textbox', { name: 'Paragraph 2', exact: true }), untouched);
+  await replaceParagraphText(page.getByRole('textbox', { name: 'Paragraph 1', exact: true }), 'Bravo team meets on Friday.');
+  modal = await reviews(page);
+  for (const returned of theme === 'dark' ? [...returns].reverse() : returns) {
+    await modal.getByLabel('Import feedback return', { exact: true }).setInputFiles({ name: 'return.json', mimeType: 'application/json', buffer: returned });
+    await modal.getByRole('button', { name: 'Import reviewed feedback', exact: true }).click();await expect(modal.getByText(/Feedback imported/)).toBeVisible();
+  }
+  await modal.getByLabel('Review for suggested edits', { exact: true }).selectOption({ label: 'Combined review' });await expect(modal.getByRole('article')).toHaveCount(4);
+  for (const name of ['Replace to', 'Replace from']) {
+    const item = modal.getByRole('article', { name: new RegExp(`: ${name}$`) });
+    await item.getByRole('button', { name: 'Accept suggestion', exact: true }).click();await expect(item.getByText(/· Accepted$/)).toBeVisible();
+  }
+  const alpha = modal.getByRole('article', { name: /Replace paragraph 1$/ }).filter({ hasText: 'Reviewer Alpha' });
+  await alpha.getByRole('button', { name: 'Reconcile suggestion', exact: true }).click();
+  await expect(alpha.getByLabel('Resolved replacement', { exact: true })).toHaveValue('Bravo team meets on Monday.');
+  await alpha.getByRole('button', { name: 'Apply resolution', exact: true }).click();await expect(alpha.getByText(/· Accepted$/)).toBeVisible();
+  const bravo = modal.getByRole('article', { name: /Replace paragraph 1$/ }).filter({ hasText: 'Reviewer Bravo' });
+  await bravo.getByRole('button', { name: 'Reconcile suggestion', exact: true }).click();await expect(bravo.getByText(/These edits overlap/)).toBeVisible();
+  await bravo.getByRole('button', { name: 'Cancel reconciliation', exact: true }).click();
+  await expect(bravo.getByRole('button', { name: 'Reconcile suggestion', exact: true })).toBeEnabled();
+  await bravo.getByRole('button', { name: 'Reconcile suggestion', exact: true }).click();
+  const combined = 'Charlie team meets on Monday.\nÉquipe 👩🏽‍✈️ 日本語';await bravo.getByLabel('Resolved replacement', { exact: true }).fill(combined);
+  expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
+  expect(await modal.evaluate(element => element.scrollWidth <= element.clientWidth)).toBe(true);
+  await page.screenshot({ path: info.outputPath(`resolution-${theme}.png`), scale: 'css' });
+  await bravo.getByRole('button', { name: 'Apply resolution', exact: true }).click();await expect(bravo.getByText(/· Accepted$/)).toBeVisible();
+  await expect(modal.getByLabel('Review for suggested edits', { exact: true })).toBeEnabled();await modal.getByRole('button', { name: 'Close', exact: true }).click();
+  await action(page, 'Undo');
+  let draft = JSON.parse((await download(page, () => action(page, 'Export draft (.json)'))).toString('utf8'));
+  expect(draft.paragraphs[0].text).toBe('Bravo team meets on Monday.');expect(draft.paragraphs[1].text).toBe(untouched);
+  await action(page, 'Redo');await page.reload();
+  draft = JSON.parse((await download(page, () => action(page, 'Export draft (.json)'))).toString('utf8'));
+  expect(draft.paragraphs[0].text).toBe(combined);expect(draft.paragraphs[1].text).toBe(untouched);
+  expect(draft.formData.to).toBe('Reviewed recipient');expect(draft.formData.from).toBe('Reviewed sender');expect(draft.decisions).toBeUndefined();
+  const backup = await workspaceBackup(page), bundle = JSON.parse(backup.toString('utf8'));expect(bundle.version).toBe(10);
+  expect(bundle.reviewSuggestions[0].state.decisions.filter((item: { resolutions?: unknown }) => item.resolutions)).toHaveLength(2);
+  await writeFile(info.outputPath(`reconciled-workspace-${theme}.json`), backup);
+  const context = await browser.newContext({ viewport: page.viewportSize()!, userAgent: await page.evaluate(() => navigator.userAgent),
+    serviceWorkers: 'block', isMobile: !!info.project.use.isMobile, hasTouch: !!info.project.use.hasTouch });
+  try {
+    await context.addInitScript(init, appearance);const restored = await context.newPage();await restored.goto(baseURL!);await restoreWorkspace(restored, backup);
+    await workspace(restored, /^FICTIONAL RECONCILIATION SOURCE /);
+    modal = await reviews(restored);await modal.getByLabel('Review for suggested edits', { exact: true }).selectOption({ label: 'Combined review' });
+    await expect(modal.getByRole('article').filter({ hasText: 'Accepted resolution' })).toHaveCount(2);
+    await modal.getByLabel('Import feedback return', { exact: true }).setInputFiles({ name: 'again.json', mimeType: 'application/json', buffer: returns[0] });
+    await expect(modal.getByText(/This return has already been imported/)).toBeVisible();await modal.getByRole('button', { name: 'Close', exact: true }).click();
+    const transferred = JSON.parse((await download(restored, () => action(restored, 'Export draft (.json)'))).toString('utf8'));
+    expect(transferred.paragraphs[0].text).toBe(combined);expect(transferred.paragraphs[1].text).toBe(untouched);
+  } finally { await context.close(); }
+});
+
 test('accepted paragraph decisions survive workspace transfer and permanent source deletion', async ({ page, browser, baseURL }, info) => {
   const init = () => { localStorage.setItem('browser-test-visitor', 'returning'); };
   await page.addInitScript(init);await page.goto('/');

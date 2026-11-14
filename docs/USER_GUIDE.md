@@ -146,15 +146,26 @@ moves, tables, figures and structural edits are outside this workflow.
 A reviewer returns proposals through **Prepare feedback return**. Importing stores
 them as pending suggestions. In the source, select the same review and compare
 reviewed, current and proposed values before **Accept suggestion** or **Reject
-suggestion**. Acceptance changes only the selected target. A changed or missing
-target blocks acceptance; retain the newer text, edit deliberately, or start a new
-review. Handling checks may require correcting the current draft's markings first.
+suggestion**. Acceptance changes only the selected target. A missing target blocks
+acceptance. For a changed supported field or plain paragraph, choose **Reconcile
+suggestion**. Review the baseline, current and proposed values, then confirm the
+**Resolved replacement**. Separate edits within one contiguous span per side may
+be combined for review; overlapping edits, boundary insertions and wider changed
+spans require a deliberate choice. You can keep the current text, use the proposal
+or enter a combined result. Nothing changes until **Apply resolution**, and a newer
+edit invalidates the captured resolution. Mechanical groups retain their original
+unchanged-target guards. Handling checks may require correcting the current
+draft's markings first.
 
 Undo/Redo of an acceptance records its reversal/restoration while that action is
 in the current session's history. Reopening a document clears ordinary Undo but
 keeps saved proposals and decisions. If saving fails, use **Retry suggestion save**
-before closing or exporting. Version 9 workspace backups retain this history,
-including archived review records after source/copy deletion. Deleting the review
+before closing or exporting. A reconciled acceptance records the exact prior
+current text, so Undo restores that text rather than the older review baseline.
+Keeping the current text records a decision without adding a text Undo action.
+Version 9 workspace backups retain ordinary suggestion history; version 10
+preserves reconciled decisions and their prior text. This includes
+archived review records after source/copy deletion. Deleting the review
 baseline explicitly removes its local proposals and decision history. Reviewer
 names and decisions do not establish authenticated approval.
 
