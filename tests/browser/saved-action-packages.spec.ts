@@ -394,6 +394,8 @@ for (const theme of ["light", "dark", "classic"]) {
           exact: true,
         })
         .click();
+      const originalDownload = restored.waitForEvent("download");
+      await approve(restored, "Download reviewed unchanged original");
       expect(await readFile((await (await originalDownload).path())!)).toEqual(
         original,
       );

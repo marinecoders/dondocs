@@ -1,3 +1,4 @@
+import { createExportGate } from '@/lib/exportController';
 import "fake-indexeddb/auto";
 import { beforeEach, expect, it, vi } from "vitest";
 import { render, screen, waitFor, within } from "@testing-library/react";
@@ -67,12 +68,12 @@ it("cancels a held render on close and never publishes into a reopened dialog or
   );
   const user = userEvent.setup();
   render(
-    <ActionPackageWorkspace
+    <ActionPackageWorkspace exportGate={createExportGate()}
       ports={{ compile, convertDocx: vi.fn(), waitForReady: async () => true }}
     />,
   );
   await user.click(
-    screen.getByRole("button", { name: "Packages", exact: true }),
+    screen.getByRole("button", { name: "Packages" }),
   );
   let dialog = screen.getByRole("dialog", { name: "Action packages" });
   await user.selectOptions(
@@ -82,7 +83,6 @@ it("cancels a held render on close and never publishes into a reopened dialog or
   await user.click(
     within(dialog).getByRole("button", {
       name: "Check readiness and assemble",
-      exact: true,
     }),
   );
   await within(dialog).findByRole("heading", {
@@ -96,20 +96,18 @@ it("cancels a held render on close and never publishes into a reopened dialog or
   await user.click(
     within(dialog).getByRole("button", {
       name: "Assemble and retain PDF",
-      exact: true,
     }),
   );
   await waitFor(() => expect(compile).toHaveBeenCalledOnce());
   await user.click(
     within(dialog).getByRole("button", {
       name: "Cancel operation",
-      exact: true,
     }),
   );
   await user.keyboard("{Escape}");
   expect(screen.queryByRole("dialog", { name: "Action packages" })).toBeNull();
   await user.click(
-    screen.getByRole("button", { name: "Packages", exact: true }),
+    screen.getByRole("button", { name: "Packages" }),
   );
   dialog = screen.getByRole("dialog", { name: "Action packages" });
   const pdf = await PDFDocument.create();
