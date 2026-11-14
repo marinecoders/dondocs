@@ -72,8 +72,10 @@ describe('paragraph identity comparisons', () => {
   it('keeps replacement identities distinct when they occur among retained nodes', () => {
     const before = session([paragraph('keep'), paragraph('removed', 'Same text')]);
     const after = { ...before, paragraphs: [before.paragraphs[0], paragraph('replacement', 'Same text')] };
-    const kinds = diffSessions(before, after).map(change => change.kind);
+    const changes = diffSessions(before, after);
+    const kinds = changes.map(change => change.kind);
     expect(kinds).toContain('insert');expect(kinds).toContain('remove');expect(kinds).not.toContain('move');
+    expect(new Set(changes.map(change => change.field)).size).toBe(changes.length);
   });
 
   it.each(['missing', 'duplicate', 'invalid', 'unrelated'] as const)('uses explicit positional fallback for %s identities', kind => {
