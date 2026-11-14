@@ -78,13 +78,16 @@ it('blocks a retained classified figure context after both versions delete its p
 
 it('compares configured form answers by readable labels, keeps user identifiers and omits record/schema metadata', () => {
   const before = getSerializedSession();before.documentCategory = 'forms';before.genericForm = fixtureInstance();
+  before.formType = before.genericForm.definition.formId = '33333333-3333-4333-8333-333333333333';
   before.genericForm.answers.name = '11111111-1111-4111-8111-111111111111';
   before.genericForm.rows.roster = [{ id: 'hidden-row-identity', answers: { grade: 'e2', date: '2026-11-12' } }];
   const after = structuredClone(before);after.genericForm!.answers.name = 'Updated';after.genericForm!.answers.decision = 'no';after.genericForm!.rows.roster[0].answers.grade = 'e1';
+  after.formType = after.genericForm!.definition.formId = '44444444-4444-4444-8444-444444444444';
   const report = prepareChangeReport(capture(before, after), policy);
   expect(report.changes).toEqual(expect.arrayContaining([expect.objectContaining({ before: 'E-2', after: 'E-1' }), expect.objectContaining({ before: 'Yes', after: 'No' })]));
   const html = renderChangeReport(report);
   expect(html).toContain('11111111-1111-4111-8111-111111111111');
+  expect(html).not.toContain(before.formType);expect(html).not.toContain(after.formType);
   expect(html).not.toContain('hidden-row-identity');expect(html).not.toContain('Schema Version');
   expect(html).not.toContain('Answer Revision');expect(html).toContain('placement rules');
 });
