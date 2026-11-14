@@ -96,7 +96,7 @@ document/field/paragraph comments (including invalid targets, expanded context,
 reply, resolved state and paragraph navigation), and Word export progress/failure dialogs. The export fixture holds,
 then fails the real engine request so progress and recovery can be inspected
 without a timing sleep. Keyboard checks cover opening, forward/reverse focus
-containment, Escape, return focus, disabled controls, selected state, scrollable comment context and live
+containment, Escape, return focus, disabled controls, selected state, scrollable comment context and preview error logs, and live
 feedback. A deliberately unnamed button must be rejected by the same scan helper;
 removing the accessibility assertion makes that negative check fail.
 

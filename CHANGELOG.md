@@ -15,7 +15,7 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ### Fixed
 
-- Give letterhead selectors explicit labels, signature tabs associated panels and visible control text matching accessible names. Expose sidebar and readiness landmarks, announce import/comment/export feedback, and make scrollable comment context reachable with the keyboard.
+- Give letterhead selectors explicit labels, signature tabs associated panels and visible control text matching accessible names. Expose sidebar and readiness landmarks, announce import/comment/export feedback, and make scrollable comment context and preview error logs reachable with the keyboard.
 
 ## [1.3.75] — 2026-11-13
 
