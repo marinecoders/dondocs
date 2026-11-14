@@ -72,4 +72,5 @@ it('rejects a switched document at final download and reports delivery failures 
   expect(screen.getByRole('alert')).toHaveTextContent('Browser delivery failed');
   await userEvent.click(download);
   expect(screen.getByRole('status')).toHaveTextContent('browser downloads');
+  expect(screen.queryByRole('alert')).not.toBeInTheDocument();
 });
