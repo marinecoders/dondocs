@@ -128,7 +128,9 @@ it("cancels a held render on close and never publishes into a reopened dialog or
     within(dialog).getByLabelText("Saved packages", { exact: true }),
     record.id,
   );
-  expect(within(dialog).queryByTitle("Retained package PDF")).toBeNull();
+  expect(
+    within(dialog).queryByRole("region", { name: "Retained package PDF" }),
+  ).toBeNull();
   expect(within(dialog).queryByText(/Assembled PDF retained/)).toBeNull();
   expect(compile).toHaveBeenCalledOnce();
 });

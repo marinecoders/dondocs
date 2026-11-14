@@ -20,6 +20,31 @@ async function appearance(context: BrowserContext, theme: string) {
     );
   }, theme);
 }
+async function readyOfflineApp(page: Page, url?: string) {
+  if (url) await page.goto(url);
+  else await page.reload();
+  await expect(
+    page.getByRole("button", { name: "Document actions", exact: true }),
+  ).toBeVisible();
+  // Initialize the real deployment policy online; package assets are imported after disconnecting.
+  const modal = await packages(page);
+  await modal
+    .getByLabel("Package name", { exact: true })
+    .fill("Offline app preparation");
+  await modal
+    .getByRole("button", { name: "Create package", exact: true })
+    .click();
+  await modal
+    .getByRole("button", { name: "Check readiness and assemble", exact: true })
+    .click();
+  await expect(
+    modal.getByRole("heading", {
+      name: "Package readiness: draft",
+      exact: true,
+    }),
+  ).toBeVisible();
+  await page.keyboard.press("Escape");
+}
 async function packages(page: Page) {
   await page.getByRole("button", { name: "Packages", exact: true }).click();
   return page.getByRole("dialog", { name: "Action packages", exact: true });
@@ -44,7 +69,7 @@ async function actions(page: Page, name: string | RegExp) {
 }
 async function workspace(page: Page, name: string) {
   const label = new RegExp(
-    `^${name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}(?:\\s·|$)`,
+    `^${name.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}(?:\\s|$)`,
   );
   const drawer = page.getByRole("dialog", { name: "Documents", exact: true });
   if (!(await drawer.isVisible()))
@@ -198,6 +223,12 @@ for (const theme of ["light", "dark", "classic"]) {
       "Assembled PDF retained.",
       { timeout: 60_000 },
     );
+    await expect(
+      modal
+        .getByRole("region", { name: "Retained package PDF", exact: true })
+        .locator('[data-pdf-layer="active"] canvas')
+        .first(),
+    ).toBeVisible();
     const retained = await download(
         page,
         "Download retained PDF",
@@ -362,7 +393,7 @@ for (const theme of ["light", "dark", "classic"]) {
     try {
       await appearance(fresh, theme);
       const restored = await fresh.newPage();
-      await restored.goto(baseURL!);
+      await readyOfflineApp(restored, baseURL!);
       await expect(
         restored.getByRole("button", { name: "Packages", exact: true }),
       ).toBeVisible();
@@ -492,6 +523,12 @@ test("configured package survives fresh offline import, native editing, reload a
   await expect(modal.getByRole("status")).toContainText(
     "Assembled PDF retained.",
   );
+  await expect(
+    modal
+      .getByRole("region", { name: "Retained package PDF", exact: true })
+      .locator('[data-pdf-layer="active"] canvas')
+      .first(),
+  ).toBeVisible();
   const retained = await download(
     page,
     "Download retained PDF",
@@ -519,7 +556,7 @@ test("configured package survives fresh offline import, native editing, reload a
     await appearance(fresh, "dark");
     await fresh.route("**/templates/**", (route) => route.abort());
     const restored = await fresh.newPage();
-    await restored.goto(baseURL!);
+    await readyOfflineApp(restored, baseURL!);
     await fresh.setOffline(true);
     modal = await packages(restored);
     await modal
@@ -550,7 +587,7 @@ test("configured package survives fresh offline import, native editing, reload a
       .fill("Fictional working form");
     await actions(restored, /^Save checkpoint/);
     await fresh.setOffline(false);
-    await restored.reload();
+    await readyOfflineApp(restored);
     await fresh.setOffline(true);
     await expect(
       restored.getByRole("textbox", { name: "Fictional name", exact: true }),
