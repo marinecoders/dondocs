@@ -45,7 +45,7 @@ export function CorrespondencePicker({ value, onSelect }: {
 
   return <Popover open={open} onOpenChange={changeOpen}>
     <PopoverTrigger asChild>
-      <Button type="button" variant="outline" aria-label="Correspondence type" aria-expanded={open} className="w-full justify-between font-normal">
+      <Button type="button" variant="outline" aria-label={`Correspondence type: ${DOC_TYPE_LABELS[value] ?? 'Select correspondence type'}`} aria-expanded={open} className="w-full justify-between font-normal">
         <span className="truncate">{DOC_TYPE_LABELS[value] ?? 'Select correspondence type'}</span>
         <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" aria-hidden />
       </Button>

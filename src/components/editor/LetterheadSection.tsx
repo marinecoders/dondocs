@@ -131,7 +131,7 @@ export function LetterheadSection() {
                     break and min-w-0 lets the cells shrink rather than overflow. */}
                 <div className="grid grid-cols-2 gap-3 min-w-0 sm:basis-52 sm:grow-0 sm:shrink">
                   <div className="space-y-2 min-w-0">
-                    <Label className="flex items-center gap-1.5">
+                    <Label htmlFor="letterhead-seal" className="flex items-center gap-1.5">
                       Seal
                       <HelpTip>
                         <p className="text-xs">
@@ -146,7 +146,7 @@ export function LetterheadSection() {
                       value={formData.sealType || 'dow'}
                       onValueChange={(v) => setField('sealType', v)}
                     >
-                      <SelectTrigger className="w-full">
+                      <SelectTrigger id="letterhead-seal" className="w-full">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
@@ -157,12 +157,12 @@ export function LetterheadSection() {
                   </div>
 
                   <div className="space-y-2 min-w-0">
-                    <Label>Color</Label>
+                    <Label htmlFor="letterhead-color">Color</Label>
                     <Select
                       value={formData.letterheadColor || 'blue'}
                       onValueChange={(v) => setField('letterheadColor', v as 'blue' | 'black')}
                     >
-                      <SelectTrigger className="w-full">
+                      <SelectTrigger id="letterhead-color" className="w-full">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
@@ -187,12 +187,12 @@ export function LetterheadSection() {
                     narrow column. sm:basis-48 gives the wrap a real width (basis-0
                     let Browse Units overflow); min-w-0 truncates the value. */}
                 <div className="space-y-2 min-w-0 hidden sm:block sm:grow sm:basis-48">
-                  <Label>Department / Service</Label>
+                  <Label htmlFor="letterhead-department">Department / Service</Label>
                   <Select
                     value={formData.department || 'usmc'}
                     onValueChange={(v) => setField('department', v)}
                   >
-                    <SelectTrigger className="w-full">
+                    <SelectTrigger id="letterhead-department" className="w-full">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
@@ -206,12 +206,12 @@ export function LetterheadSection() {
 
                 {/* Mobile-only Department selector */}
                 <div className="space-y-2 min-w-0 sm:hidden">
-                  <Label>Department</Label>
+                  <Label htmlFor="letterhead-department-mobile">Department</Label>
                   <Select
                     value={formData.department || 'usmc'}
                     onValueChange={(v) => setField('department', v)}
                   >
-                    <SelectTrigger className="w-full">
+                    <SelectTrigger id="letterhead-department-mobile" className="w-full">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>

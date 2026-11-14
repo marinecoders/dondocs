@@ -115,7 +115,7 @@ it('shows the captured export compiler diagnostics when rendering fails', async 
   fireEvent.click(await screen.findByRole('button', { name: /download anyway/i }));
   await screen.findByRole('dialog', { name: 'PDF download failed' });
   expect(screen.getByLabelText('Error log output').textContent).toBe(compileLog);
-  expect(screen.getByRole('button', { name: 'Copy log to clipboard' })).toBeVisible();
+  expect(screen.getByRole('button', { name: 'Copy logs' })).toBeVisible();
 });
 
 it('reviews and retries the captured configured form without waiting for the LaTeX engine', async () => {

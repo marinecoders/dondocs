@@ -1,14 +1,15 @@
 # Browser tests
 
-Playwright checks production builds through three separate runners:
+Playwright checks production builds through four separate runners:
 
 | Command | Test files | Build inputs |
 |---|---|---|
 | `npm run test:browser` | Install, downloads, settings navigation, preview zoom, document lifecycle and Excel rosters | Current normal build in `dist/`. |
+| `npm run test:a11y` | `accessibility.spec.ts` | Current normal build in `dist/`. |
 | `npm run test:upgrade` | `upgrade.spec.ts` | Previous normal build through `UPGRADE_OLD_BUILD`, plus current `dist/`. |
 | `npm run test:releases` | `releases.spec.ts` | Managed A/B/C/broken artifacts and the pinned legacy build; see [update delivery](../../docs/UPDATE_DELIVERY.md#qualify-and-enable-publishing). |
 
-The configs are [playwright.browser.config.ts](../../playwright.browser.config.ts), [playwright.config.ts](../../playwright.config.ts) and [playwright.releases.config.ts](../../playwright.releases.config.ts), respectively. These suites run separately from Vitest.
+The configs are [playwright.browser.config.ts](../../playwright.browser.config.ts), [playwright.a11y.config.ts](../../playwright.a11y.config.ts), [playwright.config.ts](../../playwright.config.ts) and [playwright.releases.config.ts](../../playwright.releases.config.ts), respectively. These suites run separately from Vitest.
 
 ## Normal browser checks
 
@@ -78,3 +79,38 @@ The [test workflow](../../.github/workflows/test.yml) builds the current app and
 Install events and standalone signals are simulated where needed. Device profiles emulate browser parameters; they do not run actual iOS Chrome, Safari installation dialogs or OS save/share flows. Verify affected native install, installed launch, offline reopening and PDF save/share behavior on real target devices. Managed rollout also requires the real-iPhone and production-host checks in the runbook.
 
 References: [Playwright browsers](https://playwright.dev/docs/browsers) and [device emulation](https://playwright.dev/docs/emulation).
+
+## Accessibility regressions
+
+Run `npm run build`, then `npm run test:a11y`. This focused gate uses Chromium at
+1440 × 1000 and Pixel 7 emulation (412 × 839), each in Light, Dark and Classic.
+It runs in the separate, read-only `accessibility regressions` CI job; the normal
+nine-project browser matrix keeps its existing tests. The preview uses port 4173;
+set `DONDOCS_A11Y_PORT` when another local runner needs that port.
+
+The suite uses [axe with Playwright](https://playwright.dev/docs/accessibility-testing)
+with its default rules, scanning the full current page after visible UI readiness
+assertions. It does not exclude surfaces or disable rules. It checks the editor,
+file import, pasted-text validation and review, saved-version comparison,
+document/field/paragraph comments (including invalid targets, expanded context,
+reply, resolved state and paragraph navigation), both signature tab groups
+(including inactive panel relationships and keyboard focus), Word export
+progress/failure dialogs, and actual PDF compilation failures with scrollable logs
+and copied-log feedback. The export fixture holds,
+then fails the real engine request so progress and recovery can be inspected
+without a timing sleep. Keyboard checks cover opening, forward/reverse focus
+containment, Escape, return focus, disabled controls, selected state, scrollable comment context and preview error logs, and live
+feedback. A deliberately unnamed button must be rejected by the same scan helper;
+removing the accessibility assertion makes that negative check fail.
+
+Each scan attaches the complete axe results, including incomplete findings, to the
+HTML report. Failure artifacts retain Playwright traces, screenshots and the
+report for 14 days in CI. Synthetic screenshots of import review, comparison,
+resolved comments and export failure are saved in `test-results/` during local
+runs. Inspect incomplete axe findings and visual focus/contrast when reviewing a
+failure; automated results alone cannot settle them.
+
+These are regression checks for the listed tasks, not a WCAG conformance claim.
+They do not certify screen-reader output, native devices, other document types,
+or all application states. Manual screen-reader and native-device checks remain
+necessary. Tagged PDF output is outside this suite.
