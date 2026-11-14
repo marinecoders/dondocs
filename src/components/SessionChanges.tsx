@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { diffSessions } from '@/lib/sessionDiff';
+import { compareSessions } from '@/lib/sessionDiff';
 import { compareText, type TextSegment } from '@/lib/textChanges';
 import type { SerializedSession } from '@/stores/documentStore';
 
@@ -14,16 +14,19 @@ export function SessionChanges({ before, after, highlightText = false }: {
   after: SerializedSession;
   highlightText?: boolean;
 }) {
-  const changes = useMemo(() => diffSessions(before, after).map(change => ({
+  const comparison = useMemo(() => compareSessions(before, after), [before, after]);
+  const changes = useMemo(() => comparison.changes.map(change => ({
     ...change,
-    segments: highlightText ? compareText(change.before, change.after) : null,
-  })), [before, after, highlightText]);
+    segments: highlightText && !change.kind ? compareText(change.before, change.after) : null,
+  })), [comparison, highlightText]);
 
   return <div className="min-w-0 space-y-3">
     <p className="text-sm text-muted-foreground">{changes.length
-      ? `${changes.length} changed ${changes.length === 1 ? 'field' : 'fields'}.`
+      ? changes.some(change => change.kind) ? `${changes.length} comparison ${changes.length === 1 ? 'item' : 'items'}.`
+        : `${changes.length} changed ${changes.length === 1 ? 'field' : 'fields'}.`
       : 'No content differences.'}</p>
-    {highlightText && changes.length > 0 && <p className="text-xs text-muted-foreground">Restoring removes struck-through text and adds underlined text.</p>}
+    {comparison.notices.map(notice => <p role="note" key={notice} className="text-xs text-muted-foreground">{notice}</p>)}
+    {highlightText && changes.some(change => !change.kind) && <p className="text-xs text-muted-foreground">Restoring removes struck-through text and adds underlined text.</p>}
     {changes.map(change => <section key={change.field} className="min-w-0 rounded-md border border-border overflow-hidden">
       <h3 className="break-words bg-muted px-3 py-2 text-xs font-medium">{change.field}</h3>
       <div className="grid sm:grid-cols-2 text-sm">

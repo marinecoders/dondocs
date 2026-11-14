@@ -233,10 +233,11 @@ describe('paragraph review change summaries', () => {
     const before = getSerializedSession();
     useDocumentStore.getState().reorderParagraphs(1, 0);
     const changes = diffSessions(before, getSerializedSession());
-    expect(changes).toHaveLength(1);
-    expect(changes[0]).toMatchObject({ field: 'Review comments' });
-    expect(changes[0].before).toContain('Paragraph 2');
-    expect(changes[0].after).toContain('Paragraph 1');
+    expect(changes.filter(change => change.kind === 'move')).toHaveLength(1);
+    const context = changes.find(change => change.field === 'Review comments')!;
+    expect(context.kind).toBe('context');
+    expect(context.before).toContain('Paragraph 2');
+    expect(context.after).toContain('Paragraph 1');
     expect(JSON.stringify(changes)).not.toContain(thread.id);
     if (thread.anchor.kind === 'paragraph') expect(JSON.stringify(changes)).not.toContain(thread.anchor.paragraphId);
   });
