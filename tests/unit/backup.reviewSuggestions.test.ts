@@ -11,6 +11,12 @@ import { appendReviewSuggestions, createReviewSuggestion, emptyReviewSuggestionS
 import { reviewSuggestionRecordSchema, type ReviewSuggestionWrite } from '@/lib/reviewSuggestionWrites';
 import { listReviewRounds } from '@/lib/reviewRounds';
 import { buildReviewCopy, startReviewRound } from '@/lib/reviewRoundActions';
+import { webcrypto } from 'node:crypto';
+import { fixtureInstance, fixturePage } from '../_helpers/formFixture';
+import { formCache } from '../_helpers/formCache';
+import { openFormInstance } from '@/stores/documentsStore';
+import { idbDeleteAttachment, idbReadAttachment } from '@/lib/documentsDb';
+import { formTemplateAttachmentId } from '@/lib/formTemplateAssets';
 
 beforeEach(async () => {
   await flushDocumentWrites();
@@ -20,7 +26,7 @@ beforeEach(async () => {
   useProfileStore.setState({ profiles: {}, selectedProfile: null });useUserTemplatesStore.setState({ templates: {} });
   useUIStore.setState({ storageHealth: 'ok' });
 });
-afterEach(async () => { await flushDocumentWrites();vi.restoreAllMocks(); });
+afterEach(async () => { await flushDocumentWrites();vi.restoreAllMocks();vi.unstubAllGlobals(); });
 async function fixture(copy = false) {
   useDocumentsStore.getState().newDocument();useDocumentStore.getState().setField('to', 'Reviewed recipient');await commitCurrentDocument();
   const owner = useDocumentsStore.getState().currentId!, source = useDocumentsStore.getState().docs[owner];
@@ -99,4 +105,31 @@ it('preserves exact reconciled decisions in version10, rejects downgrade and res
   expect(await idbDeleteReviewRound(round.id, round.baselineDigest)).toBe(true);
   const result = await restoreBackup(JSON.stringify(archived));expect(result.issues).toBeUndefined();
   expect(reviewSuggestionRecordSchema.parse(await idbReadReviewSuggestions(id, round.id)).state).toEqual(plan.state);
+});
+
+it('preserves reconciled version2 decisions together with self-contained form templates in backup11', async () => {
+  vi.stubGlobal('crypto', webcrypto);
+  const { id, round, state, proposal } = await fixture();
+  useDocumentStore.getState().setField('to', 'Newer author recipient');await commitCurrentDocument();
+  const resolutions = [{ changeId: proposal.changes[0].id, expectedCurrent: 'Newer author recipient', value: 'Combined fictional recipient' }];
+  const plan = planReviewSuggestionDecision(round, getSerializedSession(), state, proposal.id, 'accepted', undefined, resolutions);
+  const decision = plan.state.decisions[0];
+  expect(await applyOwnedReviewSuggestions(captureDocumentTarget(), { kind: 'suggestion-write', version: 1,
+    id: `suggestion-write_${crypto.randomUUID()}`, documentId: id, createdAt: Date.now(), round: { id: round.id, baselineDigest: round.baselineDigest }, before: state, after: plan.state,
+    intent: { kind: 'decide', proposalId: proposal.id, action: 'accepted', record: { id: decision.id, decidedAt: decision.decidedAt }, resolutions } })).toBe('committed');
+  const instance = fixtureInstance(), page = await fixturePage();instance.definition.pages[0].sha256 = page.sha256;
+  formCache();vi.stubGlobal('fetch', vi.fn(async () => new Response(new Uint8Array(page.bytes))));
+  openFormInstance(instance);await flushDocumentWrites();
+  const bundle = JSON.parse(await buildBackup());expect(bundle.version).toBe(11);
+  expect(bundle.reviewSuggestions[0].state.version).toBe(2);expect(bundle.reviewSuggestions[0].state.decisions[0].resolutions).toEqual(resolutions);
+  expect(bundle.portableResources.entries).toHaveLength(1);
+  await expect(restoreBackup(JSON.stringify({ ...bundle, version: 10 }))).rejects.toThrow(/version 11/);
+  for (const saved of await listReviewRounds()) await idbDeleteReviewRound(saved.id, saved.baselineDigest);
+  for (const saved of await idbGetAllDocuments() ?? []) await idbDeleteDocument(saved.id);
+  await idbDeleteAttachment(formTemplateAttachmentId(page.sha256));
+  useDocumentsStore.setState({ docs: {}, trash: {}, currentId: null, baseline: null });formCache();
+  vi.stubGlobal('fetch', vi.fn(async () => { throw new Error('offline'); }));
+  expect((await restoreBackup(JSON.stringify(bundle))).issues).toBeUndefined();
+  expect(reviewSuggestionRecordSchema.parse(await idbReadReviewSuggestions(id, round.id)).state).toEqual(plan.state);
+  expect((await idbReadAttachment(formTemplateAttachmentId(page.sha256))).status).toBe('found');
 });

@@ -1,10 +1,11 @@
 import { z } from 'zod';
 import type { DocumentSnapshot } from '@/stores/historyStore';
 import type { SerializedSession } from '@/stores/documentStore';
-import { buildDraftFileFromSnapshot, parseDraftFile, type ReviewedDraft } from './draftFile';
+import { buildDraftFileFromSnapshot, parsePortableDraft, type ReviewedDraft } from './draftFile';
 import { serializeDocumentSnapshot } from './documentSerialization';
 import { createSharedPayload, parseSharedSession, validateShareExpiration, type SharedDocumentKind } from './sharedSession';
-import { buildPortableResources, parsePortableResources, type PortableResourceInput } from './portableResources';
+import { buildPortableResources, parsePortableResources, type PortableResourceInput, type PortableResourceManifest } from './portableResources';
+import { formTemplateResourcePaths } from '@/services/forms/portableTemplates';
 import { base64ToUint8Array, uint8ArrayToBase64 } from './encoding';
 
 const path = z.string().min(1).max(180);
@@ -35,7 +36,7 @@ export function isAssetShare(value: unknown): boolean {
   return !!value && typeof value === 'object' && 'kind' in value && value.kind === 'dondocs-share' && 'version' in value && value.version === 4;
 }
 export function hasShareAssets(snapshot: DocumentSnapshot): boolean {
-  return !!(snapshot.formData.signatureImage || snapshot.formData.basicLetterFile || snapshot.formData.basicLetterFileRef
+  return !!(snapshot.documentCategory === 'forms' && snapshot.genericForm || snapshot.formData.signatureImage || snapshot.formData.basicLetterFile || snapshot.formData.basicLetterFileRef
     || snapshot.enclosures.some(item => item.file || item.fileRef)
     || snapshot.paragraphs.some(item => item.figure)
     || [snapshot.forms?.navmc10274, snapshot.forms?.navmc11811].some(form => form?.signatureBlocks?.some(block => block.image || block.imageRef)));
@@ -123,9 +124,13 @@ export async function buildAssetSharePayload(snapshot: DocumentSnapshot, timesta
     if (Array.isArray(blocks)) blocks.forEach((block, index) => { if (object(block).image) add({ slot: 'form-signature', index, path: `assets/form-signature-${index}.png` }, object(block).image); });
   }
   const session = serializeDocumentSnapshot(snapshot, timestamp);
-  if (!inputs.length) return expiresAt === undefined ? createSharedPayload(session) : createSharedPayload(session, expiresAt);
+  const templates = draft.portableResources as PortableResourceManifest | undefined;
+  delete draft.portableResources;
+  if (!inputs.length && !templates) return expiresAt === undefined ? createSharedPayload(session) : createSharedPayload(session, expiresAt);
+  const resources = await buildPortableResources(inputs);
+  if (templates) resources.entries.push(...templates.entries);
   const envelope: AssetShareEnvelope = { kind: 'dondocs-share', version: 4, documentKind: kind(session),
-    ...(expiresAt === undefined ? {} : { expiresAt }), draft, resources: await buildPortableResources(inputs), bindings };
+    ...(expiresAt === undefined ? {} : { expiresAt }), draft, resources, bindings };
   await parseAssetSharePayload(envelope);
   return envelope;
 }
@@ -137,7 +142,8 @@ export async function parseAssetSharePayload(value: unknown): Promise<ReviewedDr
   const envelope = result.data;
   validateAssetShareExpiration(envelope);
   const raw = envelope.draft, rawForm = object(raw.formData);
-  if (raw.portableResources !== undefined || raw.portableFormTemplates !== undefined) throw new Error('This reader does not support shared configured-form template resources.');
+  if (raw.portableResources !== undefined) throw new Error('Shared templates must use the single resource manifest.');
+  if (envelope.documentKind === 'configured-form' && raw.portableFormTemplates === undefined) throw new Error('This configured-form share is missing its exact templates.');
   if (rawForm.basicLetterFileRef !== undefined || rawForm.signatureImage && object(rawForm.signatureImage).fileRef !== undefined
     || (raw.enclosures as unknown[] | undefined)?.some(item => object(item).fileRef !== undefined)
     || (raw.paragraphs as unknown[] | undefined)?.some(item => object(item).figure && object(object(item).figure).fileRef !== undefined)) throw new Error('A shared attachment cannot use device-local file handles.');
@@ -168,9 +174,18 @@ export async function parseAssetSharePayload(value: unknown): Promise<ReviewedDr
       slot.object[slot.key] = { ...metadata, data: uint8ArrayToBase64(new Uint8Array(resource.data)) };
     }
   }
+  if (raw.portableFormTemplates !== undefined) {
+    const paths = formTemplateResourcePaths(raw.portableFormTemplates);
+    for (const path of paths) {
+      if (boundPaths.has(path) || !resources.has(path)) throw new Error('Shared form templates repeat or omit a required resource.');
+      boundPaths.add(path);
+    }
+    const manifest = envelope.resources as PortableResourceManifest;
+    raw.portableResources = { ...manifest, entries: manifest.entries.filter(entry => paths.includes(entry.path)) };
+  }
   if (resources.size !== boundPaths.size) throw new Error('This share includes unreferenced resources.');
   // A legacy parser cannot accept the nested v4 envelope and discard its assets.
-  const reviewed = parseDraftFile(envelope.draft, false, true);
+  const reviewed = await parsePortableDraft(envelope.draft, false, true);
   for (const form of [reviewed.session.forms?.navmc10274, reviewed.session.forms?.navmc11811]) {
     if (form?.signatureBlocks.some(block => block.style === 'image' && !block.image)) throw new Error('A required form signature is missing from this share.');
   }
