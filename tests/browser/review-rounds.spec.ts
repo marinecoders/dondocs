@@ -187,7 +187,7 @@ test('reviewer imports reject stale previews and preserve native bytes without c
   const modal = await reviews(page);
   await modal.getByLabel('Review name', { exact: true }).fill('Fresh exact baseline');
   await modal.getByRole('button', { name: 'Start review from current draft', exact: true }).click();
-  await expect(modal.getByRole('status')).toContainText('Review baseline saved.');
+  await expect(modal.getByText('Review baseline saved. Later source edits will not change this copy.', { exact: true })).toBeVisible();
   const original = JSON.parse((await downloadCopy(page)).toString('utf8'));
   await info.attach('captured-reviewer-file', { body: JSON.stringify(original, null, 2), contentType: 'application/json' });
   expect(original.draft.formData.unitAddress).toBe('CAMP PENDLETON CA 92055');

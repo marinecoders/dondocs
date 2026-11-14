@@ -22,7 +22,7 @@ import {
   loadSharedSession,
   type SerializedSession,
 } from '@/stores/documentStore';
-import { openSessionAsNew } from '@/stores/documentsStore';
+import { openSessionAsNew, hasPendingReviewWrites, flushPendingReviewWrites, isCurrentDocumentScope } from '@/stores/documentsStore';
 import { fixtureInstance } from '../_helpers/formFixture';
 
 vi.mock('@/lib/shareCrypto', () => ({
@@ -31,7 +31,7 @@ vi.mock('@/lib/shareCrypto', () => ({
   buildShareUrl: vi.fn((p: string) => `https://dondocs.app/#s=${p}`),
   parseShareUrl: vi.fn((s: string) => (s.includes('#s=') ? s.split('#s=')[1] : null)),
 }));
-vi.mock('@/stores/documentsStore', () => ({ openSessionAsNew: vi.fn(() => 'applied') }));
+vi.mock('@/stores/documentsStore', () => ({ openSessionAsNew: vi.fn(() => 'applied'), captureDocumentScope: vi.fn(() => ({ documentId: 'example-draft', epoch: 1 })), isCurrentDocumentScope: vi.fn(() => true), hasPendingReviewWrites: vi.fn(() => false), flushPendingReviewWrites: vi.fn(async () => {}) }));
 vi.mock('@/stores/documentStore', () => ({
   getSerializedSessionForShare: vi.fn(() => ({ docType: 'naval_letter', formData: {}, paragraphs: [], copyTos: [], references: [] })),
   loadSharedSession: vi.fn(),
@@ -42,6 +42,9 @@ vi.mock('@/stores/documentStore', () => ({
 
 beforeEach(() => {
   vi.clearAllMocks();
+  vi.mocked(hasPendingReviewWrites).mockReturnValue(false);
+  vi.mocked(isCurrentDocumentScope).mockReturnValue(true);
+  vi.mocked(flushPendingReviewWrites).mockResolvedValue(undefined);
   vi.mocked(getSerializedSessionForShare).mockImplementation(() => ({
     documentMode: 'compliant', documentCategory: 'correspondence', docType: 'naval_letter', formType: 'navmc_10274',
     formData: {}, paragraphs: [], copyTos: [], references: [], enclosures: [], distributions: [], timestamp: 0,
@@ -58,6 +61,64 @@ function stubClipboard() {
 }
 
 describe('ShareModal — share mode', () => {
+  it('keeps a blocked share capture in the dialog and retries after feedback saves', async () => {
+    const user = userEvent.setup();stubClipboard();
+    vi.mocked(getSerializedSessionForShare).mockImplementationOnce(() => { throw new Error('Review feedback is not saved yet.'); });
+    vi.mocked(hasPendingReviewWrites).mockReturnValue(true);
+    render(<ShareModal open mode="share" onOpenChange={() => {}} />);
+    expect(screen.getByRole('dialog')).toBeVisible();
+    expect(screen.getByRole('alert')).toHaveTextContent('Review feedback is not saved yet.');
+    await user.type(screen.getByLabelText('Password for this link'), 'password');
+    expect(screen.getByRole('button', { name: 'Generate link' })).toBeDisabled();
+    await user.click(screen.getByRole('button', { name: 'Retry preparing document' }));
+    expect(flushPendingReviewWrites).toHaveBeenCalledOnce();
+    expect(screen.queryByRole('alert')).not.toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Generate link' })).toBeEnabled();
+    expect(encryptSharePayload).not.toHaveBeenCalled();
+  });
+  it('does not recapture a different draft after a retry waits for the original owner', async () => {
+    const user = userEvent.setup();
+    vi.mocked(getSerializedSessionForShare).mockImplementationOnce(() => { throw new Error('Review feedback is not saved yet.'); });
+    vi.mocked(hasPendingReviewWrites).mockReturnValue(true);
+    let finish!: () => void;vi.mocked(flushPendingReviewWrites).mockImplementationOnce(() => new Promise(resolve => { finish = resolve; }));
+    render(<ShareModal open mode="share" onOpenChange={() => {}} />);
+    await user.click(screen.getByRole('button', { name: 'Retry preparing document' }));
+    expect(flushPendingReviewWrites).toHaveBeenCalledWith('example-draft');
+    vi.mocked(isCurrentDocumentScope).mockReturnValue(false);
+    await act(async () => { finish(); });
+    expect(getSerializedSessionForShare).toHaveBeenCalledOnce();
+    expect(screen.getByRole('alert')).toHaveTextContent('active draft changed');
+    expect(screen.getByRole('button', { name: 'Generate link' })).toBeDisabled();expect(encryptSharePayload).not.toHaveBeenCalled();
+  });
+  it('does not project the active draft when opening an import dialog', () => {
+    vi.mocked(getSerializedSessionForShare).mockImplementation(() => { throw new Error('Review feedback is not saved yet.'); });
+    render(<ShareModal open mode="import" onOpenChange={() => {}} />);
+    expect(screen.getByRole('dialog')).toBeVisible();
+    expect(getSerializedSessionForShare).not.toHaveBeenCalled();
+  });
+
+  it('waits for pending review receipts before creating a portable encrypted copy', async () => {
+    const user = userEvent.setup();stubClipboard();
+    let finish!: () => void;
+    vi.mocked(hasPendingReviewWrites).mockReturnValue(true);
+    vi.mocked(flushPendingReviewWrites).mockImplementation(() => new Promise(resolve => { finish = resolve; }));
+    vi.mocked(encryptSharePayload).mockResolvedValue('TOKEN');
+    render(<ShareModal open mode="share" onOpenChange={() => {}} />);
+    await user.type(screen.getByLabelText('Password for this link'), 'password');
+    await user.click(screen.getByRole('button', { name: 'Generate link' }));
+    expect(flushPendingReviewWrites).toHaveBeenCalledOnce();expect(encryptSharePayload).not.toHaveBeenCalled();
+    await act(async () => { finish(); });
+    expect(encryptSharePayload).toHaveBeenCalledOnce();
+  });
+  it('keeps an unsaved review from escaping when its receipt cannot be committed', async () => {
+    const user = userEvent.setup();stubClipboard();
+    vi.mocked(hasPendingReviewWrites).mockReturnValue(true);
+    vi.mocked(flushPendingReviewWrites).mockRejectedValue(new Error('Review feedback is not saved yet.'));
+    render(<ShareModal open mode="share" onOpenChange={() => {}} />);
+    await user.type(screen.getByLabelText('Password for this link'), 'password');
+    await user.click(screen.getByRole('button', { name: 'Generate link' }));
+    expect(screen.getByRole('alert')).toHaveTextContent('Review feedback is not saved yet.');expect(encryptSharePayload).not.toHaveBeenCalled();
+  });
   it('encrypts the selected deadline and clears the old link when expiration changes', async () => {
     const user = userEvent.setup();
     stubClipboard();

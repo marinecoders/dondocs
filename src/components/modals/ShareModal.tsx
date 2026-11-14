@@ -27,7 +27,7 @@ import {
   parseShareUrl,
 } from '@/lib/shareCrypto';
 import { getSerializedSessionForShare, type SerializedSession } from '@/stores/documentStore';
-import { openSessionAsNew } from '@/stores/documentsStore';
+import { openSessionAsNew, captureDocumentScope, isCurrentDocumentScope, hasPendingReviewWrites, flushPendingReviewWrites } from '@/stores/documentsStore';
 import { parseSharedSession, createSharedPayload, validateShareExpiration } from '@/lib/sharedSession';
 import { detectSharedSessionPII, getPIITypeLabel, type PIIDetectionResult } from '@/services/pii/detector';
 
@@ -49,7 +49,14 @@ export function ShareModal({
   initialPayload = null,
   onImportComplete,
 }: ShareModalProps) {
-  const [snapshot] = useState(() => mode === 'share' ? getSerializedSessionForShare() : null);
+  const [ownerScope] = useState(() => mode === 'share' ? captureDocumentScope() : null);
+  const reviewOwnerId = ownerScope?.documentId;
+  const [capture, setCapture] = useState(() => {
+    if (mode !== 'share') return { snapshot: null as SerializedSession | null, error: null as string | null };
+    try { return { snapshot: getSerializedSessionForShare(), error: null as string | null }; }
+    catch (cause) { return { snapshot: null, error: cause instanceof Error ? cause.message : 'This draft could not be prepared for sharing. Save it and try again.' }; }
+  });
+  const snapshot = capture.snapshot;
   const [received, setReceived] = useState<{ session: SerializedSession; payload: object } | null>(null);
   const [expiration, setExpiration] = useState('none');
   const [generatedExpiresAt, setGeneratedExpiresAt] = useState<number | null>(null);
@@ -109,7 +116,7 @@ export function ShareModal({
   }, [working, shareLink, copyLink, generatedExpiresAt]);
 
   const canShareSnapshot = useCallback(() => {
-    if (!snapshot) return false;
+    if (!snapshot) { setError('This draft is not ready for sharing. Retry preparing it after Save finishes.');return false; }
     const capability = documentCapabilities(snapshot, { operation: 'share', target: 'link' });
     switch (capability.status) {
       case 'supported': case 'partial': return true;
@@ -125,6 +132,7 @@ export function ShareModal({
     setPiiFindings(null);
     setWorking(true);
     try {
+      if (hasPendingReviewWrites(reviewOwnerId)) await flushPendingReviewWrites(reviewOwnerId);
       const session = snapshot!;
       const duration = { hour: 3_600_000, day: 86_400_000, week: 604_800_000 }[expiration];
       const expiresAt = duration === undefined ? null : Date.now() + duration;
@@ -143,7 +151,7 @@ export function ShareModal({
     } finally {
       setWorking(false);
     }
-  }, [password, snapshot, copyLink, working, canShareSnapshot, expiration]);
+  }, [password, snapshot, copyLink, working, canShareSnapshot, expiration, reviewOwnerId]);
 
   const handleGenerateLink = useCallback(() => {
     if (working) return;
@@ -228,7 +236,7 @@ export function ShareModal({
   const isImport = mode === 'import';
   const canSubmit = isImport
     ? !!payloadFromInput && !!password.trim()
-    : !!password.trim();
+    : !!snapshot && !!password.trim();
 
   return (
     <Dialog open={open} onOpenChange={handleOpenChange}>
@@ -245,6 +253,21 @@ export function ShareModal({
           </DialogDescription>
         </DialogHeader>
         <div className="min-h-0 overflow-y-auto space-y-4 pr-1">
+
+        {!isImport && capture.error && <div className="space-y-2">
+          <p role="alert" className="text-sm text-destructive">{capture.error}</p>
+          <Button type="button" variant="outline" disabled={working} onClick={() => void (async () => {
+            setWorking(true);setError(null);
+            try {
+              if (!ownerScope || !isCurrentDocumentScope(ownerScope)) throw new Error('The active draft changed. Close Share and reopen it for the document you want to send.');
+              if (hasPendingReviewWrites(reviewOwnerId)) await flushPendingReviewWrites(reviewOwnerId);
+              if (!isCurrentDocumentScope(ownerScope)) throw new Error('The active draft changed. Close Share and reopen it for the document you want to send.');
+              setCapture({ snapshot: getSerializedSessionForShare(), error: null });
+            } catch (cause) { setCapture({ snapshot: null, error: cause instanceof Error ? cause.message : 'This draft could not be prepared. Retry Save first.' }); }
+            finally { setWorking(false); }
+          })()}>Retry preparing document</Button>
+        </div>}
+        {!isImport && hasPendingReviewWrites(reviewOwnerId) && <p role="status" className="text-sm">Review feedback is still saving. Generating a link will wait for Save to finish.</p>}
 
         {!isImport && (
           <div className="rounded-md border border-border p-3 text-sm space-y-1">

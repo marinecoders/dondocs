@@ -102,8 +102,35 @@ deleted and can be reopened or downloaded there. Workspace backups include them.
 Use **Delete review baseline** when a pin is no longer needed; existing editable
 copies and downloaded files remain. Review checksums need HTTPS or localhost.
 Configured forms and technical-publication reviews are outside this first scope.
-These controls preserve review baselines and copies; importing feedback into a
-newer source draft and accepting proposed text changes are separate workflows.
+
+## Return comments to the current draft
+
+1. In a linked reviewer copy, add, reply to, edit or resolve comments as usual.
+2. Open **Review rounds… → Prepare feedback return**. Inspect the full discussions,
+   retained context, markings and privacy findings before **Download feedback return**.
+   The unencrypted JSON contains comments, captured text context and handling labels; letter body edits,
+   fields and attachment files are excluded. Reviewer names are self-entered.
+3. In the original draft, choose **Import feedback return**. Check returned and
+   proposed discussions. If the drafter and reviewer changed the same message,
+   removed an edited discussion, or changed its status concurrently, choose
+   **Keep current** or **Use returned** for each conflict. Cancel leaves the draft alone.
+4. Choose **Import reviewed feedback**. Newer letter text, fields and attachments
+   remain. Feedback for a deleted paragraph stays detached with its captured context;
+   DonDocs does not guess a replacement paragraph. Use Undo to restore prior discussions.
+
+Returns must match the original draft's exact review round and baseline. Reopening
+an imported file does not duplicate or reapply it, including after Undo. Export a
+new return file for subsequent feedback. A checksum detects content changes; it
+is not a verified reviewer identity or proof of a handling label's authority.
+
+If Save fails, the feedback remains pending with its receipt. Retry Save before
+exporting or closing the tab. If interrupted recovery conflicts with newer saved
+work, open the retained recovered copy and keep the original return file. If more
+recovery remains after opening copies, reload the same tab to retry it. Keep the
+tab open if its recovery format needs a newer compatible version. Workspace
+backups preserve committed receipts and review links. Ordinary draft/share/template
+copies carry comments without granting review ownership. Proposed letter-text
+changes and acceptance of those changes are separate workflows.
 
 ## Export and sign
 

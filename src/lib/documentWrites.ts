@@ -1,4 +1,5 @@
-import { idbWriteDocument, type StoredDocument, type DocumentWriteOutcome } from './documentsDb';
+import { idbApplyReviewReturn, idbWriteDocument, type StoredDocument, type DocumentWriteOutcome } from './documentsDb';
+import { reviewReturnWriteSchema, type ReviewReturnWrite } from './reviewReturns';
 
 export const STORAGE_WAIT_MS = 15_000;
 
@@ -16,6 +17,43 @@ export const WRITE_JOURNAL_KEY = 'dondocs-pending-writes';
 export interface PendingDocumentWrite {
   before: StoredDocument | null;
   versions: StoredDocument[];
+  reviewReturns?: Array<{ index: number; operation: ReviewReturnWrite }>;
+}
+
+/** Older clients reject the nested review journal instead of dropping its receipt semantics. */
+export function serializeDocumentWriteJournal(items: PendingDocumentWrite[]): string {
+  return JSON.stringify(items.map(item => {
+    const { reviewReturns, ...ordinary } = item;
+    return reviewReturns?.length ? { kind: 'dondocs-review-write', version: 1, pending: item } : ordinary;
+  }));
+}
+
+export function parseDocumentWriteJournal(value: unknown): PendingDocumentWrite[] {
+  if (!Array.isArray(value)) throw new Error('Invalid document write journal.');
+  return value.map(raw => {
+    const wrapped = raw?.kind === 'dondocs-review-write';
+    if (wrapped && (raw.version !== 1 || Object.keys(raw).some(key => !['kind', 'version', 'pending'].includes(key)))) throw new Error('Unsupported review write journal.');
+    const item = wrapped ? raw.pending : raw;
+    if (!item || typeof item !== 'object' || Object.keys(item).some(key => !['before', 'versions', ...(wrapped ? ['reviewReturns'] : [])].includes(key))
+      || !Array.isArray(item.versions) || !item.versions.length) throw new Error('Invalid document write journal.');
+    const id = item.versions[0]?.id;
+    if (typeof id !== 'string' || !id || item.versions.some((version: StoredDocument) => version?.id !== id || version.meta?.id !== id || !version.session)
+      || item.before !== null && (item.before?.id !== id || item.before.meta?.id !== id || !item.before.session)) throw new Error('Invalid queued document identity.');
+    const result: PendingDocumentWrite = structuredClone(item);
+    if (wrapped) {
+      if (!item.before || !Array.isArray(item.reviewReturns) || !item.reviewReturns.length) throw new Error('Invalid review write markers.');
+      const indices = new Set<number>();
+      result.reviewReturns = item.reviewReturns.map((marker: { index: number; operation: unknown }) => {
+        if (!marker || Object.keys(marker).some(key => !['index', 'operation'].includes(key))
+          || !Number.isSafeInteger(marker.index) || marker.index < 0 || marker.index >= item.versions.length || indices.has(marker.index)) throw new Error('Invalid review write marker index.');
+        indices.add(marker.index);
+        const operation = reviewReturnWriteSchema.parse(marker.operation);
+        if (operation.receipt.documentId !== id) throw new Error('A review marker targets another document.');
+        return { index: marker.index, operation };
+      });
+    }
+    return result;
+  });
 }
 
 const revisionBrand = Symbol('document-write-revision');
@@ -66,10 +104,12 @@ export class DocumentWrites {
   private write: typeof idbWriteDocument;
   private changed: (id: string, saved?: StoredDocument, receipt?: DocumentWriteReceipt) => void;
   private prepare?: (document: StoredDocument) => Promise<StoredDocument> | undefined;
-  constructor(write = idbWriteDocument, changed: (id: string, saved?: StoredDocument, receipt?: DocumentWriteReceipt) => void = () => {}, prepare?: (document: StoredDocument) => Promise<StoredDocument> | undefined) {
+  private writeReview: typeof idbApplyReviewReturn;
+  constructor(write = idbWriteDocument, changed: (id: string, saved?: StoredDocument, receipt?: DocumentWriteReceipt) => void = () => {}, prepare?: (document: StoredDocument) => Promise<StoredDocument> | undefined, writeReview: typeof idbApplyReviewReturn = (...args) => idbApplyReviewReturn(...args)) {
     this.write = write;
     this.changed = changed;
     this.prepare = prepare;
+    this.writeReview = writeReview;
   }
 
   has(id: string): boolean { return this.pending.has(id); }
@@ -77,20 +117,33 @@ export class DocumentWrites {
   hasChanges(id: string): boolean {
     const pending = this.pending.get(id);
     const source = (document: StoredDocument | null) => document && this.sourcePayloads.get(document) || JSON.stringify(document);
-    return !!pending && pending.versions.some(document => source(document) !== source(pending.before));
+    return !!pending && (!!pending.reviewReturns?.length || pending.versions.some(document => source(document) !== source(pending.before)));
   }
   failure(id: string): DocumentWriteOutcome | undefined { return this.failures.get(id); }
 
   latest(): StoredDocument[] { return [...this.pending.values()].map(item => structuredClone(item.versions.at(-1)!)); }
 
+  hasReviewReturns(): boolean { return [...this.pending.values()].some(item => item.reviewReturns?.length); }
+  reviewReturnDocumentIds(): string[] { return [...this.pending].filter(([, item]) => item.reviewReturns?.length).map(([id]) => id); }
+
   enqueue(before: StoredDocument | null, after: StoredDocument): DocumentWriteRevision {
+    return this.enqueueVersion(before, after);
+  }
+
+  enqueueReviewReturn(before: StoredDocument, after: StoredDocument, input: ReviewReturnWrite): DocumentWriteRevision {
+    const operation = reviewReturnWriteSchema.parse(input);
+    if (before.id !== after.id || operation.receipt.documentId !== after.id) throw new Error('The return targets another document.');
+    return this.enqueueVersion(before, after, operation);
+  }
+
+  private enqueueVersion(before: StoredDocument | null, after: StoredDocument, operation?: ReviewReturnWrite): DocumentWriteRevision {
     // Own the snapshot: later mutations by a caller cannot change a queued
     // transaction, its recovery journal, or what its receipt acknowledges.
     const owned = structuredClone(after);
     const pending = this.pending.get(owned.id);
     const latest = pending?.versions.at(-1);
     let revision: DocumentWriteRevision;
-    if (latest && JSON.stringify(latest) === JSON.stringify(owned)) {
+    if (!operation && latest && JSON.stringify(latest) === JSON.stringify(owned)) {
       revision = this.revisions.get(latest)!;
     } else {
       revision = Object.freeze({ [revisionBrand]: true as const, documentId: owned.id, sequence: ++this.sequence });
@@ -99,11 +152,14 @@ export class DocumentWrites {
       this.setStatus(owned, { status: 'pending' });
       if (pending) {
         // Preserve the transaction in progress and the newest queued edit.
-        if (pending.versions.length > 1) {
-          this.setStatus(pending.versions[1], { status: 'superseded' });
-          pending.versions[1] = owned;
+        const last = pending.versions.length - 1;
+        if (!operation && last > 0 && !pending.reviewReturns?.some(marker => marker.index === last)) {
+          this.setStatus(pending.versions[last], { status: 'superseded' });
+          pending.versions[last] = owned;
         } else pending.versions.push(owned);
-      } else this.pending.set(owned.id, { before: before ? structuredClone(before) : null, versions: [owned] });
+        if (operation) (pending.reviewReturns ??= []).push({ index: pending.versions.length - 1, operation });
+      } else this.pending.set(owned.id, { before: before ? structuredClone(before) : null, versions: [owned],
+        ...(operation ? { reviewReturns: [{ index: 0, operation }] } : {}) });
     }
     this.persistJournal();
     this.changed(owned.id);
@@ -143,7 +199,12 @@ export class DocumentWrites {
           next.session = structuredClone(prepared.session);
           this.persistJournal();
         }
-        outcome = await this.write(pending.before, next);
+        const review = pending.reviewReturns?.find(marker => marker.index === 0)?.operation;
+        if (review) {
+          if (!pending.before) throw new Error('A review return requires a saved owner document.');
+          const result = await this.writeReview(pending.before, next, review.round, review.receipt);
+          outcome = result === 'already-imported' || result === 'stale' ? 'conflict' : result;
+        } else outcome = await this.write(pending.before, next);
       }
       catch { outcome = 'failed'; }
       finally { clearTimeout(watchdog); }
@@ -164,6 +225,7 @@ export class DocumentWrites {
       this.setStatus(next, { status: 'committed', receipt });
       pending.before = next;
       pending.versions.shift();
+      pending.reviewReturns = pending.reviewReturns?.filter(marker => marker.index > 0).map(marker => ({ ...marker, index: marker.index - 1 }));
       if (!pending.versions.length) this.pending.delete(id);
       this.persistJournal();
       this.changed(id, structuredClone(next), receipt);
@@ -198,7 +260,7 @@ export class DocumentWrites {
   private persistJournal(): void {
     try {
       const edits = [...this.pending.entries()].filter(([id]) => this.hasChanges(id)).map(([, pending]) => pending);
-      if (edits.length) sessionStorage.setItem(WRITE_JOURNAL_KEY, JSON.stringify(edits));
+      if (edits.length) sessionStorage.setItem(WRITE_JOURNAL_KEY, serializeDocumentWriteJournal(edits));
       else sessionStorage.removeItem(WRITE_JOURNAL_KEY);
       this.journalAvailable = true;
     } catch {

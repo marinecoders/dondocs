@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useRef } from 'react';
 import { FileText, FolderOpen, Search, Check, Save, Trash2, Star } from 'lucide-react';
 import {
   Dialog,
@@ -13,7 +13,7 @@ import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { useUIStore } from '@/stores/uiStore';
 import { getSerializedSessionForShare } from '@/stores/documentStore';
-import { profileFormPatch, openSessionAsNew } from '@/stores/documentsStore';
+import { profileFormPatch, openSessionAsNew, captureDocumentTarget, isCurrentDocumentTarget, hasPendingReviewWrites, flushPendingReviewWrites } from '@/stores/documentsStore';
 import { useUserTemplatesStore } from '@/stores/userTemplatesStore';
 import { showAppAlert } from '@/stores/alertStore';
 import { useProfileStore } from '@/stores/profileStore';
@@ -41,6 +41,8 @@ export function TemplateLoaderModal() {
   // A user template is selected instead of a built-in (mutually exclusive).
   const [selectedUserId, setSelectedUserId] = useState<string | null>(null);
   // Non-null while the "Save current as template" name field is showing.
+  const templateSaveRunning = useRef(false);
+  const [preparingTemplate, setPreparingTemplate] = useState(false);
   const [savingName, setSavingName] = useState<string | null>(null);
 
   const userTemplateList = useMemo(
@@ -84,12 +86,16 @@ export function TemplateLoaderModal() {
     handleClose();
   };
 
-  const handleSaveTemplate = () => {
-    if (savingName === null) return;
+  const handleSaveTemplate = async () => {
+    if (savingName === null || templateSaveRunning.current) return;
+    templateSaveRunning.current = true;setPreparingTemplate(true);
     // compressedLocalStorage rethrows on quota; zustand has already applied the
     // in-memory add, so warn rather than crash to the ErrorBoundary — and keep the
     // name field open so the user can retry after freeing space.
+    const target = captureDocumentTarget();
     try {
+      if (hasPendingReviewWrites(target?.scope.documentId)) await flushPendingReviewWrites(target?.scope.documentId);
+      if (!isCurrentDocumentTarget(target)) throw new Error('The draft changed while the template was prepared. Try again.');
       saveTemplate(savingName, getSerializedSessionForShare());
       setSavingName(null);
     } catch (err) {
@@ -97,9 +103,9 @@ export function TemplateLoaderModal() {
       showAppAlert({
         title: "Couldn't save this template",
         message:
-          "Your browser's local storage is full. Delete a few documents or templates, then try again.",
+          err instanceof Error ? err.message : "The template could not be saved. Check browser storage and try again.",
       });
-    }
+    } finally { templateSaveRunning.current = false;setPreparingTemplate(false); }
   };
 
   const handleClose = () => {
@@ -173,7 +179,7 @@ export function TemplateLoaderModal() {
                 placeholder="Template name…"
                 className="flex-1"
               />
-              <Button size="sm" onClick={handleSaveTemplate} disabled={!savingName.trim()}>
+              <Button size="sm" onClick={handleSaveTemplate} disabled={preparingTemplate || !savingName.trim()}>
                 <Save className="mr-1.5 h-3.5 w-3.5" /> Save
               </Button>
               <Button variant="ghost" size="sm" onClick={() => setSavingName(null)}>
