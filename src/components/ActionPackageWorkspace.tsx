@@ -2,7 +2,7 @@ import type { ExportGate } from "@/lib/exportController";
 import { reviewPackageOriginal } from "@/lib/actionPackageDisclosure";
 import type { PackageAsset } from "@/lib/actionPackages";
 import type { SerializedSession } from "@/stores/documentStore";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, lazy, Suspense } from "react";
 import {
   Dialog,
   DialogContent,
@@ -52,6 +52,9 @@ import { getExportDeploymentPolicy } from "@/config/classification";
 import { triggerDownload } from "@/lib/encoding";
 import type { CorrespondenceRendererPorts } from "@/services/exports/correspondence";
 
+const loadRetainedPdfViewer = () => import("@/components/pdf/PdfViewer");
+const RetainedPdfViewer = lazy(loadRetainedPdfViewer);
+
 type Ports = CorrespondenceRendererPorts & {
   waitForReady(timeoutMs: number): Promise<boolean>;
 };
@@ -65,7 +68,14 @@ export function ActionPackageWorkspace({
   const [open, setOpen] = useState(false);
   return (
     <>
-      <Button variant="outline" size="sm" onClick={() => setOpen(true)}>
+      <Button
+        variant="outline"
+        size="sm"
+        onClick={() => {
+          void loadRetainedPdfViewer().catch(() => {});
+          setOpen(true);
+        }}
+      >
         Packages
       </Button>
       {open && (
@@ -974,11 +984,25 @@ function PackageDialog({
                 </div>
               ))}
               {pdfUrl && (
-                <iframe
-                  title="Retained package PDF"
-                  src={pdfUrl}
-                  className="h-[60vh] w-full rounded border"
-                />
+                <section
+                  role="region"
+                  aria-label="Retained package PDF"
+                  className="h-[60vh] min-h-64 w-full overflow-hidden rounded border"
+                >
+                  <Suspense
+                    fallback={
+                      <p className="p-3 text-sm">Loading retained PDF…</p>
+                    }
+                  >
+                    <RetainedPdfViewer
+                      key={`package:${record.id}:${revision.id}:${revision.outputs.at(-1)?.id}`}
+                      documentId={`package:${record.id}:${revision.id}:${revision.outputs.at(-1)?.id}`}
+                      pdfUrl={pdfUrl}
+                      showFullscreen={false}
+                      toolbarLabel="Retained package PDF"
+                    />
+                  </Suspense>
+                </section>
               )}
             </>
           )}

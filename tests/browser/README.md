@@ -123,3 +123,11 @@ explicit source adoption, source deletion/reload, retained PDF page boundaries a
 checksums, unchanged originals, selected-revision transfer and configured-form
 editing/rendering in a fresh offline browser. Theme cases cover Light, Dark and
 Classic across the configured desktop and phone browser projects.
+
+The saved-package fresh-browser checks load the app and perform a real empty-package
+policy preflight online before disconnecting. They qualify self-contained package
+assets and retained artifact identity, not offline installation. Recipient contexts
+receive no source documents, template pages or catalog definitions outside the
+imported package; the configured-form route explicitly refuses catalog/template
+requests. Reload checks reconnect only to load the app and deployment policy, then
+repeat editing and assembly with networking disabled.

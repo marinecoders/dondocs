@@ -177,7 +177,7 @@ jobs:
         # the bundle — that makes "is this growth justified?" a code-
         # review conversation instead of a thing nobody notices.
         run: |
-          # Saved action packages measured 5,048,111 B in 22 JS chunks.
+          # Saved action packages measured 5,048,588 B in 22 JS chunks.
           # Immutable capture, validation, workspace and retained-output handling
           # add application code; no dependency, test or temporary bundle added.
           BUDGET_BYTES=5085594   # 4.85 MiB
