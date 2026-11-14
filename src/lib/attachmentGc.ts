@@ -19,6 +19,7 @@ import { getPendingDeleteSessions, useDocumentsStore } from '@/stores/documentsS
 import { isRestoreInProgress } from '@/lib/backup';
 import { debug } from '@/lib/debug';
 import { attachmentSweepCheckpoint, withAttachmentSweep } from '@/lib/attachments';
+import { listReviewRounds } from './reviewRounds';
 
 /** Every enclosure and figure `fileRef.id` plus the basic-letter ref in one session. */
 function collectSessionRefs(session: Pick<SerializedSession, 'formData' | 'enclosures' | 'paragraphs' | 'forms'> | undefined, into: Set<string>): void {
@@ -72,6 +73,12 @@ export async function collectLiveAttachmentIds(): Promise<Set<string> | null> {
   if (persisted === null) return null; // read failure — refuse to sweep on partial knowledge
 
   const live = new Set<string>();
+  try {
+    for (const round of await listReviewRounds()) collectSessionRefs(round.baseline.session, live);
+  } catch {
+    // A missing or unreadable pin inventory is never proof that its files are orphaned.
+    return null;
+  }
   for (const profile of Object.values(useProfileStore.getState().profiles)) {
     const id = profile.signatureImage?.fileRef?.id;
     if (id) live.add(id);

@@ -3,6 +3,8 @@ import { resolveSignature } from './signatureAssets';
 import { materializeSignatureFallbacks, materializeSignatureFallback, materializeFormSignatureFallbacks } from './signatureCompatibility';
 import { readAttachment, withAttachmentStaging } from './attachments';
 import { copyAttachment, withAttachmentResources } from './attachmentResources';
+import { listReviewRounds, parseReviewRound, reviewCopyLinkSchema, type ReviewRound, type ReviewCopyLink } from './reviewRounds';
+import { buildReviewCopy } from './reviewRoundActions';
 /**
  * Full-account backup: one downloadable file that captures EVERYTHING a user
  * has, not just their documents.
@@ -34,18 +36,21 @@ import {
   idbGetSnapshots,
   idbSetSnapshots,
   MAX_SNAPSHOTS,
+  idbReadReviewCopies,
+  idbRestoreReviewRecords,
   type StoredAttachment,
   type DocSnapshot,
 } from '@/lib/documentsDb';
 import { uint8ArrayToBase64, base64ToUint8Array, arrayBufferToUint8Array } from '@/lib/encoding';
 
 export const BACKUP_KIND = 'dondocs-backup';
-// v6 protects comment-bearing copies from older readers. No-comment exports retain v5.
+// v7 retains review pins and copied-document links. Ordinary comment-bearing
+// copies remain v6, which protects them from older readers; no-comment exports retain v5.
 // v5 adds `routingOverrides` (unit AA-form routing). v4 added `snapshots`
 // (per-document version history). v3 added `attachments`. Restore branches on
 // `kind` and on field PRESENCE, not version, so an older bundle (missing any of
 // these fields) still restores cleanly.
-export const BACKUP_VERSION = 6;
+export const BACKUP_VERSION = 7;
 const LIBRARY_KIND = 'dondocs-library'; // legacy docs-only file
 
 /** An enclosure blob embedded in the bundle; `data` is base64 of the raw bytes. */
@@ -71,6 +76,8 @@ export interface BackupBundle {
   snapshots: Record<string, DocSnapshot[]>;
   /** Unit-specific AA-form routing overrides, keyed by action-type id. */
   routingOverrides?: Record<string, string>;
+  reviewRounds?: ReviewRound[];
+  reviewCopies?: ReviewCopyLink[];
 }
 
 export interface RestoreResult {
@@ -85,6 +92,7 @@ export interface RestoreResult {
   snapshotDocs: number;
   /** Number of unit routing overrides merged in. */
   routingRulesAdded: number;
+  reviewRoundsRestored?: number;
 }
 
 // ---------------------------------------------------------------------------
@@ -260,6 +268,14 @@ async function serializeBackup(): Promise<string> {
   normalizeTemplateEnclosures(captured.userTemplates);
   const libraryJson = await exportLibrary();
   const { docs } = JSON.parse(libraryJson) as { docs: unknown[] };
+  const reviewRounds = await listReviewRounds();
+  await Promise.all(reviewRounds.map(buildReviewCopy));
+  const documentIds = new Set(docs.map(doc => (doc as { id: string }).id));
+  const reviewCopies = (await idbReadReviewCopies()).map(value => reviewCopyLinkSchema.parse(value))
+    .filter(copy => documentIds.has(copy.documentId));
+  if (reviewCopies.some(copy => !reviewRounds.some(round => round.id === copy.roundId && round.baselineDigest === copy.baselineDigest))) {
+    throw new Error('A reviewer copy has no intact baseline. The backup was not created.');
+  }
   for (const profile of Object.values(captured.profiles.profiles)) {
     const image = await resolveSignature(profile.signatureImage);
     if (image) { const { fileRef: _ref, ...inline } = image; profile.signatureImage = inline; }
@@ -279,7 +295,7 @@ async function serializeBackup(): Promise<string> {
   captured.forms.navmc10274 = await materializeFormSignatureFallbacks(normalizeNavmc10274(captured.forms.navmc10274));
   captured.forms.navmc11811 = await materializeFormSignatureFallbacks(normalizeNavmc11811(captured.forms.navmc11811));
 
-  const entries = [{ session: { forms: captured.forms } }, ...docs, ...Object.values(snapshots).flat(), ...Object.values(captured.userTemplates)];
+  const entries = [{ session: { forms: captured.forms } }, ...docs, ...Object.values(snapshots).flat(), ...Object.values(captured.userTemplates), ...reviewRounds.map(round => round.baseline)];
   if (entries.some(hasUnresolvedEnclosure)) throw new Error('An enclosure file is missing its saved reference. The backup was not created.');
   const ids = collectAttachmentIds(entries);
   return withAttachmentResources(ids, async resources => {
@@ -290,7 +306,9 @@ async function serializeBackup(): Promise<string> {
     const withComments = docs.some(doc => hasReviewComments((doc as { session: import('@/stores/documentStore').SerializedSession }).session))
       || Object.values(snapshots).some(ring => ring.some(snapshot => hasReviewComments(snapshot.session)))
       || Object.values(captured.userTemplates).some(template => hasReviewComments(template.session));
-    const bundle: BackupBundle = { ...captured, version: withComments ? BACKUP_VERSION : 5, documents: docs, snapshots, attachments };
+    const withReviews = reviewRounds.length > 0 || reviewCopies.length > 0 || docs.some(doc => (doc as { meta: { nativeReviewText?: boolean } }).meta.nativeReviewText === true);
+    const bundle: BackupBundle = { ...captured, version: withReviews ? BACKUP_VERSION : withComments ? 6 : 5, documents: docs, snapshots, attachments,
+      ...(withReviews ? { reviewRounds, reviewCopies } : {}) };
     return JSON.stringify(bundle);
   });
 }
@@ -343,6 +361,18 @@ async function runRestore(json: string, canReplaceForms: () => boolean): Promise
 
   if (kind === LIBRARY_KIND) parsed.documents = parsed.docs;
   validateBackup(parsed);
+  if ((parsed.reviewRounds !== undefined || parsed.reviewCopies !== undefined) && (kind !== BACKUP_KIND || parsed.version !== 7)) {
+    throw new Error('Review records require a version 7 workspace backup.');
+  }
+  if (parsed.reviewRounds !== undefined && !Array.isArray(parsed.reviewRounds)
+    || parsed.reviewCopies !== undefined && !Array.isArray(parsed.reviewCopies)) throw new Error('Invalid review recovery records');
+  const reviewRounds = ((parsed.reviewRounds ?? []) as unknown[]).map(parseReviewRound);
+  const reviewCopies = ((parsed.reviewCopies ?? []) as unknown[]).map(value => reviewCopyLinkSchema.parse(value));
+  const reviewIds = new Set(reviewRounds.map(round => round.id));
+  if (reviewIds.size !== reviewRounds.length || new Set(reviewCopies.map(copy => copy.documentId)).size !== reviewCopies.length
+    || reviewCopies.some(copy => !reviewRounds.some(round => round.id === copy.roundId && round.baselineDigest === copy.baselineDigest))) {
+    throw new Error('Invalid or duplicate review recovery association');
+  }
   validateLibraryDocuments(kind === LIBRARY_KIND ? parsed.docs : parsed.documents ?? []);
   const incomingTemplates = (parsed.userTemplates ?? {}) as Record<string, UserTemplate>;
   normalizeTemplateEnclosures(incomingTemplates);
@@ -407,7 +437,7 @@ async function runRestore(json: string, canReplaceForms: () => boolean): Promise
   const incomingHistory = (parsed.snapshots ?? {}) as Record<string, DocSnapshot[]>;
   const backupProfiles = (parsed.profiles as BackupBundle['profiles'] | undefined)?.profiles;
   const profileEntry = (profile: Profile) => ({ session: { formData: { signatureImage: profile.signatureImage } } });
-  for (const id of collectAttachmentIds([{ session: { forms: parsed.forms } }, ...(incomingDocuments as unknown[]), ...Object.values(incomingHistory).flat(), ...Object.values(incomingTemplates), ...Object.values(backupProfiles ?? {}).map(profileEntry)])) {
+  for (const id of collectAttachmentIds([{ session: { forms: parsed.forms } }, ...(incomingDocuments as unknown[]), ...Object.values(incomingHistory).flat(), ...Object.values(incomingTemplates), ...Object.values(backupProfiles ?? {}).map(profileEntry), ...reviewRounds.map(round => round.baseline)])) {
     if (available.has(id) || unavailable.has(id)) continue;
     const result = await readAttachment(id);
     if (result.status === 'found') available.add(id);
@@ -530,7 +560,20 @@ async function runRestore(json: string, canReplaceForms: () => boolean): Promise
   }
 
   issues.push(...(documents.issues ?? []));
-  return { documents, profilesAdded, snippetsAdded, templatesAdded, formsRestored, attachmentsAdded, snapshotDocs, routingRulesAdded, ...(issues.length ? { issues } : {}) };
+  let reviewRoundsRestored: number | undefined;
+  if (reviewRounds.length || reviewCopies.length) {
+    try {
+      if (!reviewRounds.every(round => complete(round.baseline))) throw new Error('Required review files are missing.');
+      // Rebuild with the retained bytes before installing any review associations.
+      await Promise.all(reviewRounds.map(buildReviewCopy));
+      if (!await idbRestoreReviewRecords(reviewRounds, reviewCopies)) throw new Error('A review identity conflicts or its copied document could not be saved.');
+      reviewRoundsRestored = reviewRounds.length;
+    } catch (cause) {
+      issues.push(`Review records were not restored: ${cause instanceof Error ? cause.message : 'Review recovery failed.'}`);
+    }
+  }
+  return { documents, profilesAdded, snippetsAdded, templatesAdded, formsRestored, attachmentsAdded, snapshotDocs, routingRulesAdded,
+    ...(reviewRoundsRestored !== undefined ? { reviewRoundsRestored } : {}), ...(issues.length ? { issues } : {}) };
 }
 
 /** One-line human summary of a restore, for the save-status toast. */
@@ -541,6 +584,7 @@ export function summarizeRestore(r: RestoreResult): string {
   if (r.snippetsAdded) parts.push(`${r.snippetsAdded} snippet${r.snippetsAdded === 1 ? '' : 's'}`);
   if (r.templatesAdded) parts.push(`${r.templatesAdded} template${r.templatesAdded === 1 ? '' : 's'}`);
   if (r.attachmentsAdded) parts.push(`${r.attachmentsAdded} attachment${r.attachmentsAdded === 1 ? '' : 's'}`);
+  if (r.reviewRoundsRestored) parts.push(`${r.reviewRoundsRestored} review baseline${r.reviewRoundsRestored === 1 ? '' : 's'}`);
   if (r.snapshotDocs) parts.push('version history');
   if (r.formsRestored) parts.push('form fields');
   if (r.routingRulesAdded) parts.push(`${r.routingRulesAdded} routing rule${r.routingRulesAdded === 1 ? '' : 's'}`);
