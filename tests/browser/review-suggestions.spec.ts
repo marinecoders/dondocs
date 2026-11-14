@@ -135,6 +135,8 @@ test('accepted paragraph decisions survive workspace transfer and permanent sour
   await page.getByRole('button', { name: 'Open as new document', exact: true }).click();
   let modal = await reviews(page);await modal.getByLabel('Review name', { exact: true }).fill('Archive review');
   await modal.getByRole('button', { name: 'Start review from current draft', exact: true }).click();
+  // Durable capture can outlast the short notice assertion while the preview engine starts.
+  await expect(modal.getByRole('button', { name: 'Start review from current draft', exact: true })).toBeEnabled({ timeout: 15_000 });
   await expect(modal.getByText('Review baseline saved. Later source edits will not change this copy.', { exact: true })).toBeVisible();
   await modal.getByLabel('Review for suggested edits', { exact: true }).selectOption({ label: 'Archive review' });
   await modal.getByLabel('Reviewer name for suggestion', { exact: true }).fill('Example drafter');
