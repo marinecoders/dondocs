@@ -106,3 +106,13 @@ it('retains unchanged unrankable custom source markings prominently and scans th
   const html = renderChangeReport(report);
   expect(html.indexOf('LIMITED &lt;DISTRIBUTION&gt; SSN 123-45-6789')).toBeLessThan(html.indexOf('<h1>Change report</h1>'));
 });
+
+it.each([undefined, '', '   '])('requires marking review for retained custom level with missing or blank text: %s', customClassification => {
+  const before = getSerializedSession();before.formData.classLevel = 'custom';before.formData.customClassification = customClassification;
+  before.paragraphs = [{ text: 'Before', level: 0 }];
+  const after = structuredClone(before);after.paragraphs[0].text = 'After';
+  const report = prepareChangeReport(capture(before, after), policy);
+  expect(report.marking).toContain('MARKING REVIEW REQUIRED');
+  expect(report.notices).toContain('A retained draft selected a custom marking without saved marking text. Review the incomplete marking before sharing.');
+  expect(renderChangeReport(report)).toContain('Review the incomplete marking before sharing.');
+});

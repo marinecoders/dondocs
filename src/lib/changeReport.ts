@@ -113,6 +113,10 @@ export function prepareChangeReport(capture: ReturnType<typeof captureChangeRepo
     if (!value || typeof value !== 'object') return;
     for (const [key, child] of Object.entries(value)) {
       if (key === 'classLevel' && typeof child === 'string' && child !== 'custom') levels.add(child);
+      if (key === 'classLevel' && child === 'custom') {
+        const custom = 'customClassification' in value ? value.customClassification : undefined;
+        if (typeof custom !== 'string' || !custom.trim()) notices.push('A retained draft selected a custom marking without saved marking text. Review the incomplete marking before sharing.');
+      }
       if (key === 'customClassification' && typeof child === 'string' && child.trim()) {
         report.customMarkings.push(child);
         const level = classificationBannerLevel(child);
