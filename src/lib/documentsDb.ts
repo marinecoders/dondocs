@@ -58,13 +58,15 @@ export async function idbReadReviewReturns(): Promise<unknown[]> {
 }
 
 /** Read receipts and their saved owners at one database revision for workspace backup. */
-export async function idbReadReviewReturnBackup(): Promise<{ receipts: unknown[]; documents: StoredDocument[] }> {
+export async function idbReadReviewReturnBackup(): Promise<{ receipts: unknown[]; documents: StoredDocument[]; suggestions: unknown[]; suggestionReceipts: unknown[] }> {
   const db = await openDb();
   return new Promise((resolve, reject) => {
     const transaction = db.transaction([APP_STORE, DOCS_STORE], 'readonly');
     const receipts = transaction.objectStore(APP_STORE).getAll(IDBKeyRange.bound('review-return:', 'review-return:\uffff'));
+    const suggestions = transaction.objectStore(APP_STORE).getAll(IDBKeyRange.bound('review-suggestions:', 'review-suggestions:\uffff'));
+    const suggestionReceipts = transaction.objectStore(APP_STORE).getAll(IDBKeyRange.bound('review-suggestion-write:', 'review-suggestion-write:\uffff'));
     const documents = transaction.objectStore(DOCS_STORE).getAll();
-    transaction.oncomplete = () => resolve({ receipts: receipts.result.map(record => record.value), documents: documents.result });
+    transaction.oncomplete = () => resolve({ suggestions: suggestions.result.map(record => record.value), suggestionReceipts: suggestionReceipts.result.map(record => record.value), receipts: receipts.result.map(record => record.value), documents: documents.result });
     transaction.onerror = () => reject(transaction.error ?? new Error('Review receipts could not be read.'));
     transaction.onabort = () => reject(transaction.error ?? new Error('Review receipt capture aborted.'));
   });
@@ -228,28 +230,39 @@ export async function idbRestoreReviewRecords(pins: ReviewRound[], associations:
 /** Release one reviewed pin and its local links together; editable documents remain. */
 export async function idbDeleteReviewRound(id: string, expectedDigest: string): Promise<boolean> {
   try {
+    const { reviewSuggestionRecordSchema, reviewSuggestionReceiptSchema } = await import('./reviewSuggestionWrites');
     const db = await openDb();
     return await new Promise<boolean>((resolve, reject) => {
       const transaction = db.transaction(APP_STORE, 'readwrite'), store = transaction.objectStore(APP_STORE);
       const pin = store.get(reviewRoundKey(id));
       const copies = store.getAll(IDBKeyRange.bound('review-copy:', 'review-copy:\uffff'));
       const receipts = store.getAll(IDBKeyRange.bound(`review-return:${id}:`, `review-return:${id}:\uffff`));
-      let remaining = 3, deleted = false;
+      const suggestions = store.getAll(IDBKeyRange.bound('review-suggestions:', 'review-suggestions:\uffff'));
+      const suggestionReceipts = store.getAll(IDBKeyRange.bound('review-suggestion-write:', 'review-suggestion-write:\uffff'));
+      let remaining = 5, deleted = false;
       const ready = () => {
         if (--remaining) return;
         if (pin.result && pin.result.value?.baselineDigest !== expectedDigest) return;
         const savedReceipts = receipts.result as Array<{ key: string; value?: { kind?: string; version?: number } }>;
         if (savedReceipts.some(receipt => receipt.value?.kind !== 'dondocs-review-return-receipt' || receipt.value.version !== 1)) return;
+        if (suggestions.result.some(record => record.value?.state?.roundId === id && !reviewSuggestionRecordSchema.safeParse(record.value).success)
+          || suggestionReceipts.result.some(record => record.value?.roundId === id && !reviewSuggestionReceiptSchema.safeParse(record.value).success)) return;
         try {
           store.delete(reviewRoundKey(id));
           for (const copy of copies.result as Array<{ key: string; value: ReviewCopyLink | null }>) {
             if (copy.value?.roundId === id) store.delete(copy.key);
           }
           for (const receipt of savedReceipts) store.delete(receipt.key);
+          for (const record of suggestions.result as Array<{ key: string; value?: { state?: { roundId?: string } } }>) {
+            if (record.value?.state?.roundId === id) store.delete(record.key);
+          }
+          for (const receipt of suggestionReceipts.result as Array<{ key: string; value?: { roundId?: string } }>) {
+            if (receipt.value?.roundId === id) store.delete(receipt.key);
+          }
           deleted = true;
         } catch { transaction.abort(); }
       };
-      pin.onsuccess = ready;copies.onsuccess = ready;receipts.onsuccess = ready;
+      pin.onsuccess = ready;copies.onsuccess = ready;receipts.onsuccess = ready;suggestions.onsuccess = ready;suggestionReceipts.onsuccess = ready;
       transaction.oncomplete = () => resolve(deleted);
       transaction.onerror = () => reject(transaction.error ?? new Error('Review removal failed.'));
       transaction.onabort = () => reject(transaction.error ?? new Error('Review removal aborted.'));
@@ -982,7 +995,9 @@ export async function idbApplyReviewSuggestions(inputBefore: StoredDocument, inp
       const documentRequest = documents.get(before.id), roundRequest = app.get(reviewRoundKey(operation.round.id));
       const stateRequest = app.get(reviewSuggestionKey(before.id, operation.round.id));
       const receiptRequest = app.get(reviewSuggestionReceiptKey(operation.id)), copyRequest = app.get(reviewCopyKey(before.id));
-      let remaining = 5, outcome: ReviewReturnWriteOutcome = 'conflict';
+      const incomingReceipt = operation.intent.kind === 'import' ? operation.intent.receipt : null;
+      const incomingRequest = incomingReceipt ? app.get(reviewReturnKey(incomingReceipt.roundId, incomingReceipt.returnId)) : null;
+      let remaining = incomingRequest ? 6 : 5, outcome: ReviewReturnWriteOutcome = 'conflict';
       const ready = () => {
         if (--remaining) return;
         if (!isCurrent()) { outcome = 'stale'; return; }
@@ -997,11 +1012,14 @@ export async function idbApplyReviewSuggestions(inputBefore: StoredDocument, inp
           if (stored && stored.documentId !== before.id) return;
           const currentState = stored?.state ?? null;
           const previous = receiptRequest.result?.value === undefined ? null : reviewSuggestionReceiptSchema.parse(receiptRequest.result.value);
+          const previousReturn = incomingRequest?.result?.value;
+          if (previousReturn && !sameReviewStoredValue(previousReturn, incomingReceipt)) return;
           if (previous) {
             if (sameReviewStoredValue(previous, receipt)) outcome = sameReviewStoredValue(documentRequest.result, after)
               && sameReviewStoredValue(currentState, operation.after) ? 'already-committed' : 'already-imported';
             return;
           }
+          if (previousReturn) { outcome = 'already-imported';return; }
           const current = documentRequest.result as StoredDocument | undefined;
           if (!current) { outcome = 'missing-document';return; }
           if (!sameReviewStoredValue(current, before) || !sameReviewStoredValue(currentState, operation.before)) return;
@@ -1010,14 +1028,67 @@ export async function idbApplyReviewSuggestions(inputBefore: StoredDocument, inp
           documents.put(after);
           app.put({ key: reviewSuggestionKey(before.id, round.id), value: { documentId: before.id, state: operation.after } });
           app.put({ key: reviewSuggestionReceiptKey(operation.id), value: receipt });
+          if (incomingReceipt) app.put({ key: reviewReturnKey(incomingReceipt.roundId, incomingReceipt.returnId), value: incomingReceipt });
           outcome = 'committed';
         } catch { transaction.abort(); }
       };
       documentRequest.onsuccess = ready;roundRequest.onsuccess = ready;stateRequest.onsuccess = ready;
       receiptRequest.onsuccess = ready;copyRequest.onsuccess = ready;
+      if (incomingRequest) incomingRequest.onsuccess = ready;
       transaction.oncomplete = () => resolve(outcome);
       transaction.onerror = () => reject(transaction.error ?? new Error('Review suggestions could not be saved.'));
       transaction.onabort = () => reject(transaction.error ?? new Error('Review suggestion save aborted.'));
     });
   } catch { return 'failed'; }
+}
+
+/** Restore review side records only with the exact saved source revision; never replace local decisions. */
+export async function idbRestoreReviewSuggestions(input: unknown[], inputReceipts: unknown[], expected: StoredDocument[]): Promise<boolean> {
+  try {
+    const { reviewSuggestionRecordSchema, reviewSuggestionReceiptSchema } = await import('./reviewSuggestionWrites');
+    const { validateReviewSuggestionState } = await import('./reviewSuggestions');
+    const records = input.map(value => reviewSuggestionRecordSchema.parse(value));
+    const receipts = inputReceipts.map(value => reviewSuggestionReceiptSchema.parse(value));
+    if (!records.length && !receipts.length) return true;
+    if (new Set(records.map(record => reviewSuggestionKey(record.documentId, record.state.roundId))).size !== records.length
+      || new Set(receipts.map(receipt => receipt.writeId)).size !== receipts.length) return false;
+    const db = await openDb();
+    return await new Promise<boolean>((resolve, reject) => {
+      const transaction = db.transaction([APP_STORE, DOCS_STORE], 'readwrite');
+      const app = transaction.objectStore(APP_STORE), documents = transaction.objectStore(DOCS_STORE);
+      const checks = records.map(record => ({ record, prior: app.get(reviewSuggestionKey(record.documentId, record.state.roundId)),
+        round: app.get(reviewRoundKey(record.state.roundId)), copy: app.get(reviewCopyKey(record.documentId)), document: documents.get(record.documentId) }));
+      const priorReceipts = receipts.map(receipt => app.get(reviewSuggestionReceiptKey(receipt.writeId)));
+      const requests = [...checks.flatMap(check => [check.prior, check.round, check.copy, check.document]), ...priorReceipts];
+      let remaining = requests.length, restored = false;
+      const ready = () => {
+        if (--remaining) return;
+        try {
+          for (const check of checks) {
+            const { record } = check, round = parseReviewRound(check.round.result?.value);
+            validateReviewSuggestionState(round, record.state);
+            const current = check.document.result as StoredDocument | undefined;
+            const snapshot = expected.find(document => document.id === record.documentId);
+            if (!!current !== !!snapshot || current && !sameReviewStoredValue(current, snapshot)
+              || check.prior.result && !sameReviewStoredValue(check.prior.result.value, record)) return;
+            if (current && round.ownerDocumentId !== record.documentId) {
+              const copy = reviewCopyLinkSchema.parse(check.copy.result?.value);
+              if (copy.documentId !== record.documentId || copy.roundId !== round.id || copy.baselineDigest !== round.baselineDigest
+                || record.state.decisions.length) return;
+            }
+          }
+          if (receipts.some((receipt, index) => !records.some(record => record.documentId === receipt.documentId
+            && record.state.roundId === receipt.roundId && record.state.baselineDigest === receipt.baselineDigest)
+            || priorReceipts[index].result && !sameReviewStoredValue(priorReceipts[index].result.value, receipt))) return;
+          checks.forEach(({ record, prior }) => { if (!prior.result) app.put({ key: reviewSuggestionKey(record.documentId, record.state.roundId), value: record }); });
+          receipts.forEach((receipt, index) => { if (!priorReceipts[index].result) app.put({ key: reviewSuggestionReceiptKey(receipt.writeId), value: receipt }); });
+          restored = true;
+        } catch { transaction.abort(); }
+      };
+      requests.forEach(request => { request.onsuccess = ready; });
+      transaction.oncomplete = () => resolve(restored);
+      transaction.onerror = () => reject(transaction.error ?? new Error('Suggested edit recovery failed.'));
+      transaction.onabort = () => reject(transaction.error ?? new Error('Suggested edit recovery aborted.'));
+    });
+  } catch { return false; }
 }

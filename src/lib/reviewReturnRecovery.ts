@@ -50,6 +50,11 @@ export async function recoverReviewReturnWrite(input: PendingDocumentWrite): Pro
       const saved = await idbReadReviewSuggestionReceipt(operation.id);
       const receipt = saved === null ? null : reviewSuggestionReceiptSchema.parse(saved);
       if (receipt && !sameReviewStoredValue(receipt, expected)) throw new Error('A different suggestion write already uses this receipt identity.');
+      if (operation.intent.kind === 'import') {
+        const returned = await idbReadReviewReturn(round.id, operation.intent.receipt.returnId);
+        if (returned !== null && !sameReviewStoredValue(returned, operation.intent.receipt)
+          || receipt !== null && returned === null || returned !== null && receipt === null) throw new Error('The proposal return receipt does not match its atomic suggestion write.');
+      }
       if (receipt) {
         const raw = await idbReadReviewSuggestions(operation.documentId, round.id);
         const record = reviewSuggestionRecordSchema.parse(raw);

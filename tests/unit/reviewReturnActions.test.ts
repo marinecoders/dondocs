@@ -11,6 +11,10 @@ import { idbAddReviewRound, idbInstallReviewCopy } from '@/lib/documentsDb';
 import { type ReviewRound } from '@/lib/reviewRounds';
 import { parseReviewReturn, type ReviewReturn } from '@/lib/reviewReturns';
 import { applyReviewReturn, downloadReviewReturn, prepareReviewReturnExport, prepareReviewReturnImport } from '@/lib/reviewReturnActions';
+import { createReviewSuggestion } from '@/lib/reviewSuggestions';
+import { submitReviewSuggestion, decideReviewSuggestion } from '@/lib/reviewSuggestionActions';
+import { idbReadReviewSuggestions } from '@/lib/documentsDb';
+import { reviewSuggestionRecordSchema } from '@/lib/reviewSuggestionWrites';
 import type { ReviewComments } from '@/lib/reviewComments';
 
 vi.mock('@/config/classification', async original => ({ ...await original<typeof import('@/config/classification')>(), getExportDeploymentPolicy: vi.fn() }));
@@ -49,6 +53,41 @@ async function exported(): Promise<ReviewReturn> {
 }
 
 describe('captured review-return actions', () => {
+  it('returns explicit replacements as pending metadata, preserves newer source work, then accepts with recorded Undo/Redo', async () => {
+    const { owner, round } = await fixture({ subject: 'Reviewed subject' });
+    const proposal = createReviewSuggestion(round, { author: 'Reviewer', label: 'Replace subject', changes: [{ target: { kind: 'field', field: 'subject', docType: 'naval_letter' }, proposed: 'Suggested subject' }] });
+    expect((await submitReviewSuggestion(proposal)).status).toBe('committed');
+    const payload = await exported();expect(payload.version).toBe(2);
+    useDocumentsStore.getState().switchTo(owner);useDocumentStore.getState().updateParagraph(0, { text: 'Newer author paragraph' });
+    const prepared = await prepareReviewReturnImport(payload);expect(prepared.proposals).toEqual([proposal]);
+    expect(await applyReviewReturn(prepared, {})).toBe('committed');
+    expect(useDocumentStore.getState().formData.subject).toBe('Reviewed subject');
+    expect(useDocumentStore.getState().paragraphs[0].text).toBe('Newer author paragraph');
+    expect((await decideReviewSuggestion(round.id, proposal.id, 'accepted')).status).toBe('committed');
+    expect(useDocumentStore.getState().formData.subject).toBe('Suggested subject');
+    expect(changeDocumentHistory('undo', captureDocumentScope())).toBe('applied');await flushDocumentWrites();
+    expect(useDocumentStore.getState().formData.subject).toBe('Reviewed subject');
+    expect(changeDocumentHistory('redo', captureDocumentScope())).toBe('applied');await flushDocumentWrites();
+    expect(useDocumentStore.getState().formData.subject).toBe('Suggested subject');
+    const stored = reviewSuggestionRecordSchema.parse(await idbReadReviewSuggestions(owner, round.id));
+    expect(stored.state.decisions.map(decision => decision.action)).toEqual(['accepted', 'reversed', 'restored']);
+    const repeated = await prepareReviewReturnImport(payload);expect(repeated.alreadyImported).toBe(true);
+    expect(await applyReviewReturn(repeated, {})).toBe('already-imported');
+  });
+  it('scans emitted replacement before/after text and rejects changed proposal IDs without overwriting newer text', async () => {
+    const { owner, round } = await fixture({ subject: 'Prior SSN 123-45-6789' });
+    const proposal = createReviewSuggestion(round, { author: 'Reviewer', label: 'Subject', changes: [{ target: { kind: 'field', field: 'subject', docType: 'naval_letter' }, proposed: 'Removed sensitive value' }] });
+    await submitReviewSuggestion(proposal);const preview = await prepareReviewReturnExport();expect(preview.privacy.found).toBe(true);
+    const payload = await exported();useDocumentsStore.getState().switchTo(owner);
+    expect(await applyReviewReturn(await prepareReviewReturnImport(payload), {})).toBe('committed');
+    const changed = structuredClone(payload);if (changed.version !== 2) throw new Error('Expected proposal return');
+    changed.id = `return_${crypto.randomUUID()}`;changed.proposals[0].changes[0].proposed = 'Changed immutable identity';
+    await expect(prepareReviewReturnImport(changed)).rejects.toThrow();
+    useDocumentStore.getState().setField('subject', 'Newer overlapping author edit');
+    await expect(decideReviewSuggestion(round.id, proposal.id, 'accepted')).rejects.toThrow(/target differs/);
+    expect(useDocumentStore.getState().formData.subject).toBe('Newer overlapping author edit');
+    expect((await decideReviewSuggestion(round.id, proposal.id, 'rejected')).status).toBe('committed');
+  });
   it('exports only discussions and handling metadata, without unrelated baseline body PII', async () => {
     await fixture({ subject: 'Baseline SSN 123-45-6789' });const comments = note();useDocumentStore.setState({ reviewComments: comments });
     const prepared = await prepareReviewReturnExport();expect(prepared.privacy.found).toBe(false);

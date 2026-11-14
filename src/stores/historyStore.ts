@@ -53,6 +53,7 @@ interface HistoryState {
   updateAttachmentHandles: (snapshot: DocumentSnapshot, owner?: DocumentScope | null) => void;
   saveSnapshot: (snapshot: DocumentSnapshot, owner?: DocumentScope | null) => void;
   tagReviewAcceptance: (action: NonNullable<HistoryEntry['reviewAction']>, owner: DocumentScope | null) => boolean;
+  clearReviewRoundActions: (roundId: string) => void;
   undo: (owner?: DocumentScope | null) => HistoryEntry | null;
   redo: (owner?: DocumentScope | null) => HistoryEntry | null;
   canUndo: () => boolean;
@@ -131,6 +132,13 @@ export const useHistoryStore = create<HistoryState>((set, get) => ({
   future: [],
   currentSnapshot: null,
   maxHistorySize: 50,
+  clearReviewRoundActions: (roundId) => {
+    const clear = (entry: HistoryEntry) => {
+      if (entry.reviewAction?.roundId !== roundId) return entry;
+      const { reviewAction: _reviewAction, ...snapshot } = entry;return snapshot;
+    };
+    set(state => ({ past: state.past.map(clear), future: state.future.map(clear), currentSnapshot: state.currentSnapshot && clear(state.currentSnapshot) }));
+  },
   tagReviewAcceptance: (action, owner) => {
     const state = get();
     if (!state.currentSnapshot || !sameOwner(owner, state.owner)) return false;

@@ -43,6 +43,11 @@ export const reviewSuggestionSchema = z.object({
 });
 export type ReviewSuggestion = z.infer<typeof reviewSuggestionSchema>;
 
+export function reviewSuggestionText(proposals: readonly ReviewSuggestion[]): Array<{ field: string; value: string }> {
+  return proposals.flatMap((proposal, index) => [proposal.author, proposal.label, proposal.origin.rule ?? '', proposal.origin.context ?? '',
+    ...proposal.changes.flatMap(change => [change.expected, change.proposed])].map(value => ({ field: `Suggested replacement ${index + 1}`, value })));
+}
+
 export const reviewSuggestionDecisionSchema = z.object({
   id: z.string().uuid(), proposalId: reviewProposalIdSchema,
   roundId: reviewRoundIdSchema, baselineDigest: reviewDigestSchema,

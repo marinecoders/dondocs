@@ -5,6 +5,8 @@ import {
   appendReviewSuggestions, emptyReviewSuggestionState, planReviewSuggestionDecision, planReviewSuggestionHistory,
   reviewProposalIdSchema, reviewSuggestionSchema, reviewSuggestionStateSchema, validateReviewSuggestionState,
 } from './reviewSuggestions';
+import { reviewCommentsSchema } from './reviewComments';
+import { reviewReturnReceiptSchema } from './reviewReturns';
 
 const identifier = z.string().min(1).max(200);
 const timestamp = z.number().int().nonnegative().max(8_640_000_000_000_000);
@@ -15,6 +17,8 @@ export const reviewSuggestionIntentSchema = z.discriminatedUnion('kind', [
   z.object({ kind: z.literal('propose'), proposals: z.array(reviewSuggestionSchema).min(1).max(100) }).strict(),
   z.object({ kind: z.literal('decide'), proposalId: reviewProposalIdSchema, action: z.enum(['accepted', 'rejected']), record }).strict(),
   z.object({ kind: z.literal('history'), acceptanceId: z.string().uuid(), direction: z.enum(['undo', 'redo']), record }).strict(),
+  z.object({ kind: z.literal('import'), proposals: z.array(reviewSuggestionSchema).min(1).max(100), comments: reviewCommentsSchema.optional(),
+    receipt: reviewReturnReceiptSchema }).strict(),
 ]);
 export type ReviewSuggestionIntent = z.infer<typeof reviewSuggestionIntentSchema>;
 
@@ -51,6 +55,14 @@ export function planReviewSuggestionWrite(round: ReviewRound, source: Serialized
   const state = operation.before === null ? emptyReviewSuggestionState(round) : validateReviewSuggestionState(round, operation.before);
   const intent = operation.intent;
   if (intent.kind === 'propose') return { session: structuredClone(source), state: appendReviewSuggestions(round, state, intent.proposals) };
+  if (intent.kind === 'import') {
+    if (intent.receipt.documentId !== operation.documentId || intent.receipt.roundId !== round.id
+      || intent.receipt.baselineDigest !== round.baselineDigest) throw new Error('The suggestion return receipt targets another owner or baseline.');
+    const session = structuredClone(source);
+    if (intent.comments?.threads.length) session.reviewComments = intent.comments;
+    else delete session.reviewComments;
+    return { session, state: appendReviewSuggestions(round, state, intent.proposals) };
+  }
   if (intent.kind === 'decide') {
     const plan = planReviewSuggestionDecision(round, source, state, intent.proposalId, intent.action, intent.record);
     if (plan.status !== 'ready') throw new Error('The suggestion has changed or already has a decision.');
