@@ -9,6 +9,7 @@ import { type FormInstance } from '@/services/forms/model';
 import { withoutTableFootnote } from '@/lib/tableFootnotes';
 import { create } from 'zustand';
 import { parseSavedSession } from '@/lib/savedSession';
+import { supportsReviewComments } from '@/lib/reviewCommentTargets';
 import { format, parse, isValid } from 'date-fns';
 import type { Reference, Enclosure, FileRef, Paragraph, CopyTo, Distribution, DocumentData, DocumentMode, DocumentCategory, FormType,
   EndItem, PublicationTableRow,
@@ -1114,8 +1115,9 @@ export function createBlankSession(formType?: FormType, docType = 'naval_letter'
   };
 }
 
-export function prepareSessionState(value: unknown): DocumentSnapshot {
+export function prepareSessionState(value: unknown, preserveNativeText = false): DocumentSnapshot {
   const session = parseSavedSession(value);
+  if (preserveNativeText && !supportsReviewComments(session)) throw new Error('Only native correspondence can retain review baseline text.');
   const fields = new Map(Object.entries(session.formData));
   for (const [key, fallback] of Object.entries(DEFAULT_FORM_DATA)) {
     const supplied = fields.get(key);
@@ -1123,7 +1125,7 @@ export function prepareSessionState(value: unknown): DocumentSnapshot {
       throw new Error(`Invalid saved field: ${key}`);
     }
   }
-  const formData = session.formData.unitAddress
+  const formData = !preserveNativeText && session.formData.unitAddress
     ? { ...session.formData, unitAddress: canonicalizeUnitAddress(session.formData.unitAddress) }
     : session.formData;
   return {
@@ -1131,14 +1133,14 @@ export function prepareSessionState(value: unknown): DocumentSnapshot {
     documentCategory: session.documentCategory,
     docType: session.docType,
     formType: session.formType,
-    formData: publicationFont(session.docType, session.documentMode, formData),
+    formData: preserveNativeText ? formData : publicationFont(session.docType, session.documentMode, formData),
     ...(session.reviewComments ? { reviewComments: session.reviewComments } : {}),
     references: session.references,
     endItems: session.endItems ?? [], publicationTables: session.publicationTables ?? {},
     genericForm: session.genericForm,
     ...(session.documentCategory === 'forms' && !session.genericForm ? { forms: prepareFormSession(session.formType, session.forms) } : {}),
     enclosures: session.enclosures.map(({ hasFile: _hasFile, ...enclosure }) => enclosure),
-    paragraphs: migratePortionMarkings(session.paragraphs),
+    paragraphs: preserveNativeText ? session.paragraphs : migratePortionMarkings(session.paragraphs),
     copyTos: session.copyTos, distributions: session.distributions,
   };
 }

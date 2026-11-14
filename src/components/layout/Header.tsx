@@ -42,6 +42,7 @@ import { useCanUndo, useCanRedo } from '@/stores/historyStore';
 import { triggerDownload } from '@/lib/encoding';
 import { buildDraftFile, parseDraftFile, type ReviewedDraft } from '@/lib/draftFile';
 import { SessionPreview } from '@/components/SessionPreview';
+import { ReviewRoundsModal } from '@/components/modals/ReviewRoundsModal';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/dialog';
 import { STORAGE_KEYS } from '@/lib/constants';
 import { useTourStore } from '@/stores/tourStore';
@@ -98,6 +99,7 @@ export function Header({
   const setDocumentGuideOpen = useUIStore((s) => s.setDocumentGuideOpen);
   const setFindReplaceOpen = useUIStore((s) => s.setFindReplaceOpen);
   const setShareModal = useUIStore((s) => s.setShareModal);
+  const [reviewRoundsOpen, setReviewRoundsOpen] = useState(false);
   const isMobile = useUIStore((s) => s.isMobile);
   const previewVisible = useUIStore((s) => s.previewVisible);
   const mobilePreviewOpen = useUIStore((s) => s.mobilePreviewOpen);
@@ -389,6 +391,7 @@ export function Header({
                 <FileInput className="h-4 w-4 mr-2" />
                 Open from share link
               </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setReviewRoundsOpen(true)}>Review rounds…</DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuLabel className="text-xs text-muted-foreground font-normal">Import & export drafts</DropdownMenuLabel>
               <DropdownMenuItem onClick={() => setImportLetterModalOpen(true)}><FileUp className="h-4 w-4 mr-2" />Import letter…</DropdownMenuItem>
@@ -457,6 +460,7 @@ export function Header({
           <DialogFooter><Button variant="outline" disabled={openingDraft} onClick={() => setReviewedDraft(null)}>Cancel</Button><Button disabled={openingDraft} onClick={() => void openReviewedDraft()}>{openingDraft ? 'Opening…' : 'Open as new document'}</Button></DialogFooter>
         </DialogContent>
       </Dialog>
+      <ReviewRoundsModal open={reviewRoundsOpen} onOpenChange={setReviewRoundsOpen} />
       {/* Reset confirmation dialog */}
       <AlertDialog open={showResetDialog} onOpenChange={setShowResetDialog}>
         <AlertDialogContent>

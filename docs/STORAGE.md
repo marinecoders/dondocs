@@ -17,7 +17,7 @@ existing records untouched.
 | Store | Contents |
 |-------|----------|
 | `documents` (keyPath `id`) | One record per document: `{ id, meta, session }`. `meta` is the Recents row (title, docType, updatedAt, pinned, user-set name); `session` is the full serialized document. |
-| `app` (key/value) | `currentId` (resume pointer), `backupFileHandle` (the synced-backup `FileSystemFileHandle` — handles are structured-cloneable), `legacyMigratedIds` (migration ledger), `batch:<id>` (generated batch output bytes), and `snap:<docId>` — per-document version-history snapshots, capped at the 10 most recent. |
+| `app` (key/value) | `currentId` (resume pointer), `backupFileHandle` (the synced-backup `FileSystemFileHandle` — handles are structured-cloneable), `legacyMigratedIds` (migration ledger), `batch:<id>` (generated batch output bytes), `snap:<docId>` (the 10 most recent document versions), `review:<roundId>` (a pinned review baseline), and `review-copy:<docId>` (the copied draft's round/checksum association). |
 | `attachments` (keyPath `id`) | Enclosure and signature image bytes: `{ id, name, type, size, data }` (`data` is the raw `ArrayBuffer`). A serialized enclosure keeps only a `fileRef` (id + name/size/type) into this store, so the blob loads once and never bloats a document record. Bytes are written on attach (`src/lib/attachments.ts`) and streamed back into the live document by `rehydrateEnclosureFiles`. Ids are random (not content-addressed): `crypto.subtle` needs a secure origin an air-gapped `http://` deployment may lack, so there is no cross-enclosure dedup. Reachability inventory marks references from saved and live documents, history, snapshots, form buffers, profiles, and staged writes. Automatic deletion is deferred: older tabs can still own unsaved references that this tab cannot discover. A candidate orphan is retained, and unreadable roots abort the inventory. |
 
 Two contracts in `documentsDb.ts` matter more than the rest:
@@ -38,6 +38,39 @@ an explicit Save's checkpoint — serialize instead of losing an update.
 The cached connection resets on `onclose`/`onversionchange`, so a
 browser-forced close (storage eviction, "clear site data") doesn't wedge
 persistence for the rest of the page lifetime.
+
+### Pinned review baselines
+
+Review rounds reuse `DocSnapshot` and immutable attachment handles. A pin remains
+outside the ten-entry History ring and survives permanent deletion of its source.
+The workspace-wide **Document actions → Review rounds…** list keeps these pins
+reachable when their source is gone. Attachment inventory and workspace backup
+include their resource roots; an unreadable or invalid pin aborts collection and
+backup rather than being treated as an empty inventory.
+
+The local owner binding is separate from the portable source ID. Importing a
+reviewer file cannot claim ownership of a local document with a matching ID.
+Its `meta.nativeReviewText` reader hint preserves captured native text on reload
+and reopen; the hint grants no review or source authority and is ignored for forms.
+A received draft, its baseline pin and its reviewer link commit in one IndexedDB
+transaction. Its checksum binds the captured native text, timestamp and portable
+attachment bytes. Checksums need HTTPS or localhost and do not authenticate a sender.
+
+Reviewer files use the `dondocs-review-copy` version 1 envelope around the existing
+portable draft format. They are unencrypted and limited to 100 MB. Workspace
+backups containing review records or review-derived native copies use version 7; ordinary comment-bearing backups
+remain version 6 and ordinary backups without comments remain version 5. Older
+readers reject the new review envelope/version instead of silently dropping links.
+Review recovery validates required bytes/checksums before installing its records;
+a conflict or failed write leaves that review section uninstalled.
+An older on-device build can ignore new records and reader hints; keep a current
+workspace backup before using an older build, as with review-comment compatibility.
+
+**Delete review baseline** removes its pin, local copy links and return receipts
+in one transaction. Editable documents and already downloaded files remain.
+Attachment ownership is released; physical reclamation follows the workspace's
+existing conservative collection policy. Resetting an active draft does not
+remove independent review pins; clearing this site's browser data removes all of them.
 
 ### localStorage — session backstop and small stores
 

@@ -56,7 +56,7 @@ function BackupPreferences() {
       <Button data-tour="backup-restore" variant="outline" disabled={busy} onClick={() => input.current?.click()}>Restore from backup</Button>
       <input ref={input} type="file" accept=".json,application/json" className="hidden" aria-label="Backup file" onChange={restore} />
     </div>
-    <p className="text-xs text-muted-foreground">Backups are unencrypted JSON with documents, Trash, history, profiles, templates and referenced files. Batch jobs/results and UI preferences are excluded. Download batch results separately. Restore keeps newer saved document versions but replaces included live NAVMC buffers; incoming routing overrides win matching keys. Library-form answers and definitions are included; blank PDF pages are not. After restoring on another device, reconnect and save each library form for offline use.</p>
+    <p className="text-xs text-muted-foreground">Backups are unencrypted JSON with documents, Trash, history, saved review baselines, profiles, templates and referenced files. Batch jobs/results and UI preferences are excluded. Download batch results separately. Restore keeps newer saved document versions but replaces included live NAVMC buffers; incoming routing overrides win matching keys. Library-form answers and definitions are included; blank PDF pages are not. After restoring on another device, reconnect and save each library form for offline use.</p>
     {message && <p role="status" className="text-sm">{message}</p>}
     {error && <p role="alert" className="text-sm text-destructive">{error}</p>}
   </div>;
