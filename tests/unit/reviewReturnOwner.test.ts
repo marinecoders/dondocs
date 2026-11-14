@@ -75,6 +75,18 @@ describe('review return owner publication', () => {
     expect(useDocumentsStore.getState().currentId).toBe(other);expect(useDocumentStore.getState().reviewComments).toBeUndefined();
     expect(useUIStore.getState().lastSavedAt).toEqual(acknowledgement);expect((await saved()).session.reviewComments).toEqual(comments);
   });
+  it('keeps input captured after database commit but before queue publication as a later write', async () => {
+    reviewWrite.mockImplementation(async (...args) => {
+      const result = await originalDb.idbApplyReviewReturn(...args);
+      expect(useUIStore.getState().saveStatus).not.toBe('saved');
+      useDocumentStore.getState().setField('subject', 'Input after durable review transaction');useDocumentsStore.getState().syncCurrent();
+      return result;
+    });
+    expect(await applyOwnedReviewReturn(captureDocumentTarget(), comments, operation)).toBe('committed');
+    await flushDocumentWrites();
+    expect((await saved()).session.formData.subject).toBe('Input after durable review transaction');
+    expect((await saved()).session.reviewComments).toEqual(comments);expect(await db.idbReadReviewReturn(operation.round.id, operation.receipt.returnId)).toEqual(operation.receipt);
+  });
   it('does not export another active draft after waiting for its original owner’s receipt', async () => {
     const release = holdReview();const importing = applyOwnedReviewReturn(captureDocumentTarget(), comments, operation);
     await vi.waitFor(() => expect(reviewWrite).toHaveBeenCalledOnce());
