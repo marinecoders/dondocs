@@ -69,7 +69,7 @@ it.each(Object.entries(DOC_TYPE_CONFIG))('renders every %s section in the shared
 
 it('shows one type selector and optional section jumping in Full document', async () => {
   editor();
-  expect(screen.getAllByRole('button', { name: 'Correspondence type' })).toHaveLength(1);
+  expect(screen.getAllByRole('button', { name: /^Correspondence type:/ })).toHaveLength(1);
   expect(screen.queryByRole('combobox', { name: 'Document section' })).not.toBeInTheDocument();
   expect(document.getElementById('sec-type')).not.toBeInTheDocument();
   await userEvent.click(screen.getByRole('button', { name: 'Contents' }));

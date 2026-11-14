@@ -22,5 +22,5 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
-  "include": ["vite.config.ts", "vite.companion.config.ts", "vite.companion-app.config.ts", "playwright.config.ts", "playwright.browser.config.ts", "playwright.releases.config.ts", "scripts/retained-releases.ts", "scripts/prepare-release.ts", "scripts/release-qualification.ts", "scripts/check-release-qualification.ts", "scripts/capture-legacy*.ts", "scripts/verify-live-release.ts", "scripts/serve-release.ts"]
+  "include": ["vite.config.ts", "vite.companion.config.ts", "vite.companion-app.config.ts", "playwright.config.ts", "playwright.browser.config.ts", "playwright.a11y.config.ts", "playwright.releases.config.ts", "scripts/retained-releases.ts", "scripts/prepare-release.ts", "scripts/release-qualification.ts", "scripts/check-release-qualification.ts", "scripts/capture-legacy*.ts", "scripts/verify-live-release.ts", "scripts/serve-release.ts"]
 }
