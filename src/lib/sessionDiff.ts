@@ -1,8 +1,10 @@
 import type { SerializedSession } from '@/stores/documentStore';
 import { describeCommentAnchor } from './reviewCommentTargets';
 import { reviewCommentsSchema } from './reviewComments';
+import { alignParagraphs } from './paragraphAlignment';
 
-export interface SessionChange { field: string; before: string; after: string }
+export interface SessionChange { field: string; before: string; after: string; kind?: 'move' | 'insert' | 'remove' | 'context' }
+export interface SessionComparison { changes: SessionChange[]; notices: string[] }
 const names: Record<string, string> = { formData: 'Document fields', forms: 'Form fields', navmc10274: 'NAVMC 10274', navmc11811: 'NAVMC 118 (11)', fileRef: 'Attached file', basicLetterFileRef: 'Basic letter', signatureImage: 'Signature image' };
 const label = (key: string) => names[key] ?? (/^\d+$/.test(key) ? `${Number(key) + 1}` : key.replace(/([a-z])([A-Z])/g, '$1 $2').replace(/^./, (c) => c.toUpperCase()));
 
@@ -39,15 +41,20 @@ function commentExcerpts(before: string, after: string): { before: string; after
 }
 
 /** Compare every persisted field, including ordered structure and asset handles. */
-export function diffSessions(before: SerializedSession, after: SerializedSession): SessionChange[] {
+export function compareSessions(before: SerializedSession, after: SerializedSession): SessionComparison {
   const changes: SessionChange[] = [];
+  const paragraphs = before.documentCategory !== 'forms' && after.documentCategory !== 'forms'
+    && Array.isArray(before.paragraphs) && Array.isArray(after.paragraphs)
+    ? alignParagraphs(before.paragraphs, after.paragraphs) : null;
   const leftComments = semanticComments(before);const rightComments = semanticComments(after);
   let reviewChange: SessionChange | undefined;
   if (JSON.stringify(leftComments) !== JSON.stringify(rightComments)
     || (leftComments === null || rightComments === null) && JSON.stringify(before.reviewComments) !== JSON.stringify(after.reviewComments)) {
     const excerpts = commentExcerpts(commentText(leftComments), commentText(rightComments));
     if (excerpts.before === excerpts.after) excerpts.after += '\nThe discussion changed. Inspect the comments for full details.';
-    reviewChange = { field: 'Review comments', ...excerpts };
+    const targetsOnly = paragraphs?.mode === 'identity' && leftComments && rightComments
+      && JSON.stringify(leftComments.map(({ target: _target, ...comment }) => comment)) === JSON.stringify(rightComments.map(({ target: _target, ...comment }) => comment));
+    reviewChange = { field: 'Review comments', ...excerpts, ...(targetsOnly ? { kind: 'context' as const } : {}) };
   }
   function walk(a: unknown, b: unknown, path: string[]) {
     if (path.length === 1 && path[0] === 'reviewComments') return;
@@ -55,6 +62,24 @@ export function diffSessions(before: SerializedSession, after: SerializedSession
     const key = path.at(-1);
     if (key === 'timestamp' || key === 'hasFile') return;
     if (path[0] === 'paragraphs' && path.length === 3 && key === 'id') return;
+    if (path.length === 1 && key === 'paragraphs' && paragraphs?.mode === 'identity') {
+      for (const pair of paragraphs.pairs) {
+        const position = pair.beforeIndex === pair.afterIndex ? String(pair.afterIndex)
+          : `${pair.beforeIndex + 1} → ${pair.afterIndex + 1}`;
+        if (pair.moved) changes.push({ field: `Paragraphs › ${pair.beforeIndex === pair.afterIndex ? pair.afterIndex + 1 : position} › ${pair.beforeIndex === pair.afterIndex ? 'Relative order' : 'Movement'}`,
+          before: `Position ${pair.beforeIndex + 1}`, after: `Position ${pair.afterIndex + 1}${pair.beforeIndex === pair.afterIndex ? ' (relative order changed)' : ''}`, kind: pair.beforeIndex === pair.afterIndex ? 'context' : 'move' });
+        walk(before.paragraphs[pair.beforeIndex], after.paragraphs[pair.afterIndex], ['paragraphs', position]);
+      }
+      for (const index of paragraphs.added) {
+        changes.push({ field: `Paragraphs › Added paragraph ${index + 1}`, before: 'No paragraph', after: `Paragraph ${index + 1}`, kind: 'insert' });
+        walk(undefined, after.paragraphs[index], ['paragraphs', `Added paragraph ${index + 1}`]);
+      }
+      for (const index of paragraphs.removed) {
+        changes.push({ field: `Paragraphs › Removed paragraph ${index + 1}`, before: `Paragraph ${index + 1}`, after: 'No paragraph', kind: 'remove' });
+        walk(before.paragraphs[index], undefined, ['paragraphs', `Removed paragraph ${index + 1}`]);
+      }
+      return;
+    }
     if (key === 'signatureImage' || key === 'image') {
       changes.push({ field: path.map(label).join(' › '), before: a ? 'Image attached' : 'No image', after: b ? (a ? 'Different image attached' : 'Image attached') : 'No image' });
       return;
@@ -75,5 +100,9 @@ export function diffSessions(before: SerializedSession, after: SerializedSession
   }
   walk(before, after, []);
   if (reviewChange) changes.push(reviewChange);
-  return changes;
+  return { changes, notices: paragraphs?.notices ?? [] };
+}
+
+export function diffSessions(before: SerializedSession, after: SerializedSession): SessionChange[] {
+  return compareSessions(before, after).changes;
 }

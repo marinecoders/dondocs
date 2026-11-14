@@ -27,6 +27,8 @@ Open **History**, select a saved version, and choose **Prepare change report** t
 
 Open a draft's **History** to inspect/compare or restore a prior snapshot. The ring keeps the ten most recent snapshots, captured at most once every three minutes during editing and on explicit saves. Restoring must first commit a safety snapshot of the current state; if that fails, restore stops. Undo/redo concerns the active editing session and is separate from persistent History.
 
+History and change reports follow shared paragraph identities through reordering. A moved paragraph has a separate **Movement** item; its text or formatting edits stay attached to that paragraph. Insertions and deletions do not turn every shifted paragraph into rewritten prose. Position changes and automatic renumbering are described separately, and moves show one minimum reordering consistent with the snapshots, rather than a record of individual editing gestures. Older versions without unique shared identities explicitly fall back to positional comparison. Other repeated rows, including configured-form rows, remain positional. Internal paragraph identities are not printed in comparisons or reports.
+
 ## Portable draft files and imports
 
 Use **Document actions → Export draft (.json)** for an editable portable copy, and the corresponding import action to open one. Draft JSON is **unencrypted**, can embed resolved assets, and does not run the pre-export PII/PHI review used by rendered downloads. Inspect it before transferring it.
