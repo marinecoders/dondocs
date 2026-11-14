@@ -72,11 +72,11 @@ export function compareSessions(before: SerializedSession, after: SerializedSess
       }
       for (const index of paragraphs.added) {
         changes.push({ field: `Paragraphs › Added paragraph ${index + 1}`, before: 'No paragraph', after: `Paragraph ${index + 1}`, kind: 'insert' });
-        walk(undefined, after.paragraphs[index], ['paragraphs', String(index)]);
+        walk(undefined, after.paragraphs[index], ['paragraphs', `Added paragraph ${index + 1}`]);
       }
       for (const index of paragraphs.removed) {
         changes.push({ field: `Paragraphs › Removed paragraph ${index + 1}`, before: `Paragraph ${index + 1}`, after: 'No paragraph', kind: 'remove' });
-        walk(before.paragraphs[index], undefined, ['paragraphs', String(index)]);
+        walk(before.paragraphs[index], undefined, ['paragraphs', `Removed paragraph ${index + 1}`]);
       }
       return;
     }
