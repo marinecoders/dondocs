@@ -18,6 +18,7 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 - Bound decrypted and expanded share sizes, stop oversized compressed streams and encode large attachment data without per-byte string concatenation.
 - Open image-bearing built-in form shares with their form identity, while retaining exact native-text handling only for supported correspondence.
+- Review retained built-in form text against deployment handling levels before encrypting an asset-inclusive copy.
 
 ## [1.3.82] — 2026-11-14
 

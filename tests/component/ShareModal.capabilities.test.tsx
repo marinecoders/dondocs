@@ -1,12 +1,17 @@
 import "fake-indexeddb/auto";
-import { beforeEach, expect, it, vi } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { afterEach, beforeEach, expect, it, vi } from "vitest";
+import { render, screen, waitFor } from "@testing-library/react";
+import { webcrypto } from "node:crypto";
 import userEvent from "@testing-library/user-event";
 import { ShareModal } from "@/components/modals/ShareModal";
 import { useDocumentStore } from "@/stores/documentStore";
 import { documentCapabilities } from "@/lib/documentCapabilities";
 import { fixtureInstance, fixturePage } from "../_helpers/formFixture";
 import { encryptSharePayload } from "@/lib/shareCrypto";
+import { useDocumentsStore } from "@/stores/documentsStore";
+import { useFormStore } from "@/stores/formStore";
+import * as classificationConfig from "@/config/classification";
+import { resolveExportDeploymentPolicy } from "@/lib/exportDeploymentPolicy";
 
 vi.mock("@/lib/shareCrypto", () => ({
   encryptSharePayload: vi.fn(async () => "TOKEN"),
@@ -17,6 +22,7 @@ vi.mock("@/lib/shareCrypto", () => ({
   MAX_ENCRYPTED_SHARE_LENGTH: 140 * 1024 * 1024,
 }));
 beforeEach(() => vi.clearAllMocks());
+afterEach(() => { vi.restoreAllMocks();vi.unstubAllGlobals(); });
 async function generate() {
   const user = userEvent.setup();
   Object.defineProperty(navigator, "clipboard", {
@@ -84,4 +90,24 @@ it("checks and encrypts the captured configured form after privacy approval desp
   expect(
     screen.getByRole("textbox", { name: "Share link (copied to clipboard)" }),
   ).toBeVisible();
+});
+
+it.each(["navmc_10274", "navmc_118_11"] as const)("rejects %s retained markings before encrypting image shares", async formType => {
+  vi.stubGlobal("crypto", webcrypto);
+  const policy = resolveExportDeploymentPolicy({ hostname: "example.test", runtime: { status: "absent" }, environment: null });
+  vi.spyOn(classificationConfig, "getExportDeploymentPolicy").mockResolvedValue(policy);
+  useDocumentsStore.getState().newDocument(formType);
+  const image = "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQIHWP4z8DwHwAFgAI/ScLbtAAAAABJRU5ErkJggg==";
+  const blocks = [{ name: "Synthetic signer", statement: "", style: "image" as const, image }];
+  if (formType === "navmc_10274") {
+    useFormStore.getState().setNavmc10274Field("signatureBlocks", blocks);
+    useFormStore.getState().setNavmc10274Field("supplementalInfo", "SECRET");
+  } else {
+    useFormStore.getState().setNavmc11811Field("signatureBlocks", blocks);
+    useFormStore.getState().setNavmc11811Field("remarksText", "SECRET");
+  }
+  render(<ShareModal open mode="share" onOpenChange={() => {}} />);
+  await generate();
+  await waitFor(() => expect(screen.getByRole("alert")).toHaveTextContent("outside this deployment"));
+  expect(encryptSharePayload).not.toHaveBeenCalled();
 });
