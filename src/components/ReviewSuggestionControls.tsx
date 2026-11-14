@@ -54,7 +54,7 @@ export function ReviewSuggestionControls({ rounds, disabled, onBusyChange }: {
   const state = cached?.state ?? context?.state;
   return <section aria-label="Suggested edits for this review" className="space-y-3 rounded-md border p-3">
     <h3 className="text-sm font-medium">Suggested edits for this review</h3>
-    <p className="text-sm text-muted-foreground">Propose a complete plain paragraph or one supported letter field. Partial text selections, paragraph moves, tables, figures and other structural edits are excluded. Accepting preserves other draft work; overlapping edits require a new review or a deliberate manual edit.</p>
+    <p className="text-sm text-muted-foreground">Propose supported letter fields and plain paragraphs, or use the existing formatting checks below. NOTAL title corrections require an unchanged reference list. Partial text selections, paragraph moves, tables, figures and other structural edits are excluded. Accepting preserves other draft work; overlapping edits require a new review or a deliberate manual edit.</p>
     <p className="text-xs text-muted-foreground">Decisions are retained with the review. Undo and Redo work in the current document session; reopening a document clears the ordinary Undo history.</p>
     {error && <p role="alert" className="text-sm text-destructive">{error}</p>}
     {notice && <p role="status" className="text-sm">{notice}</p>}
