@@ -1,4 +1,5 @@
 import { expect, test, type Page } from '@playwright/test';
+import { replaceParagraphText } from '../_helpers/replaceParagraphText';
 import { readFile } from 'node:fs/promises';
 import JSZip from 'jszip';
 import { getDocument } from 'pdfjs-dist/legacy/build/pdf.mjs';
@@ -53,7 +54,7 @@ test('paragraph feedback follows identity through move, deletion, Undo, reload a
   await page.locator('[data-paragraph-id="fixture-second"]').getByRole('button', { name: 'Move up (⌘↑)', exact: true }).click();
   await expect(page.locator('[data-paragraph-id]').first()).toHaveAttribute('data-paragraph-id', 'fixture-second');
   await page.getByRole('button', { name: 'Add paragraph', exact: true }).click();
-  await page.getByRole('textbox', { name: 'Paragraph 3', exact: true }).fill('New leading paragraph.');
+  await replaceParagraphText(page.getByRole('textbox', { name: 'Paragraph 3', exact: true }), 'New leading paragraph.');
   const inserted = page.locator('[data-paragraph-id]').last();
   const insertedId = await inserted.getAttribute('data-paragraph-id');
   const insertedRow = page.locator(`[data-paragraph-id="${insertedId}"]`);
@@ -63,7 +64,7 @@ test('paragraph feedback follows identity through move, deletion, Undo, reload a
   await expect(modal.getByRole('article', { name: 'Comment on Paragraph 2', exact: true })).toContainText(NOTE);
   await modal.getByRole('button', { name: 'Go to paragraph', exact: true }).click();
   await expect(page.getByRole('textbox', { name: 'Paragraph 2', exact: true })).toBeFocused();
-  await page.getByRole('textbox', { name: 'Paragraph 2', exact: true }).fill(BODY);
+  await replaceParagraphText(page.getByRole('textbox', { name: 'Paragraph 2', exact: true }), BODY);
   await page.waitForTimeout(750);
   await page.locator('[data-paragraph-id="fixture-second"]').getByRole('button', { name: 'Delete paragraph', exact: true }).click();
   await openComments(page);
@@ -201,11 +202,10 @@ test('resolved detached feedback survives portable drafts without matching repla
   await comments.getByRole('button', { name: 'Go to paragraph', exact: true }).click();
   const paragraph = page.getByRole('textbox', { name: 'Paragraph 1', exact: true });
   await expect(paragraph).toBeFocused();
-  // Select this editable's text independently of the host OS keyboard shortcuts.
-  await paragraph.fill('The current paragraph changed after its resolved feedback.');
+  await replaceParagraphText(paragraph, 'The current paragraph changed after its resolved feedback.');
   await expect(paragraph).toHaveText('The current paragraph changed after its resolved feedback.');
   await page.getByRole('button', { name: 'Add paragraph', exact: true }).click();
-  await page.getByRole('textbox', { name: 'Paragraph 2', exact: true }).fill(detachedText);
+  await replaceParagraphText(page.getByRole('textbox', { name: 'Paragraph 2', exact: true }), detachedText);
   await openComments(page);
   await comments.getByRole('button', { name: 'Resolved (2)', exact: true }).click();
   await expect(comments.getByRole('article', { name: 'Comment on Paragraph 1', exact: true })).toContainText('text or markings changed');

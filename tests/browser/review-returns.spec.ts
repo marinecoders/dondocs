@@ -1,6 +1,7 @@
 import { expect, test, type Page } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 import { readFile } from 'node:fs/promises';
+import { replaceParagraphText } from '../_helpers/replaceParagraphText';
 
 test.use({ serviceWorkers: 'block' });
 test.setTimeout(180_000);
@@ -77,7 +78,7 @@ for (const theme of ['light', 'dark', 'classic']) {
       });
       await test.step('Make independent newer author text and discussion edits', async () => {
         await page.getByRole('textbox', { name: 'Subject', exact: true }).fill('NEWER AUTHOR SUBJECT');
-        await page.getByRole('textbox', { name: 'Paragraph 2', exact: true }).fill('Newer author body survives returned feedback.');
+        await replaceParagraphText(page.getByRole('textbox', { name: 'Paragraph 2', exact: true }), 'Newer author body survives returned feedback.');
         await page.locator('[data-paragraph-id="review-first"]').getByRole('button', { name: 'Delete paragraph', exact: true }).click();
         const panel = await comments(page);await panel.getByRole('button', { name: 'Edit comment by Chief', exact: true }).click();
         await panel.getByLabel('Comment', { exact: true }).fill('Local correction.');await panel.getByRole('button', { name: 'Save comment', exact: true }).click();
