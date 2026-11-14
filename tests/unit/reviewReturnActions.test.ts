@@ -55,6 +55,25 @@ async function exported(): Promise<ReviewReturn> {
 }
 
 describe('captured review-return actions', () => {
+  it('cancels a captured reconciliation when the author edits during handling-policy validation', async () => {
+    const { owner, round } = await fixture({ subject: 'Reviewed subject' });
+    const proposal = createReviewSuggestion(round, { author: 'Reviewer', label: 'Subject', changes: [
+      { target: { kind: 'field', field: 'subject', docType: 'naval_letter' }, proposed: 'Reviewer subject' },
+    ] });
+    await submitReviewSuggestion(proposal);const payload = await exported();useDocumentsStore.getState().switchTo(owner);
+    expect(await applyReviewReturn(await prepareReviewReturnImport(payload), {})).toBe('committed');
+    useDocumentStore.getState().setField('subject', 'Current author subject');
+    let release!: (value: typeof policy) => void;
+    vi.mocked(getExportDeploymentPolicy).mockClear().mockImplementationOnce(() => new Promise(resolve => { release = resolve; }));
+    const pending = decideReviewSuggestion(round.id, proposal.id, 'accepted', [{ changeId: proposal.changes[0].id,
+      expectedCurrent: 'Current author subject', value: 'Combined subject' }]);
+    await vi.waitFor(() => expect(getExportDeploymentPolicy).toHaveBeenCalledOnce());
+    useDocumentStore.getState().setField('subject', 'Later author subject');release(policy);
+    await expect(pending).rejects.toThrow(/draft changed/);
+    expect(useDocumentStore.getState().formData.subject).toBe('Later author subject');
+    expect(reviewSuggestionRecordSchema.parse(await idbReadReviewSuggestions(owner, round.id)).state.decisions).toEqual([]);
+  });
+
   it('returns explicit replacements as pending metadata, preserves newer source work, then accepts with recorded Undo/Redo', async () => {
     const { owner, round } = await fixture({ subject: 'Reviewed subject' });
     const proposal = createReviewSuggestion(round, { author: 'Reviewer', label: 'Replace subject', changes: [{ target: { kind: 'field', field: 'subject', docType: 'naval_letter' }, proposed: 'Suggested subject' }] });

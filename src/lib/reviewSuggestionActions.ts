@@ -9,7 +9,7 @@ import { classificationBannerLevel } from './detectClassification';
 import { classificationRank, deriveOverallClassLevel } from './overallClassification';
 import { supportsReviewComments } from './reviewCommentTargets';
 import { appendReviewSuggestions, emptyReviewSuggestionState, planReviewSuggestionDecision, reviewSuggestionText,
-  validateReviewSuggestion, validateReviewSuggestionState, type ReviewSuggestion, type ReviewSuggestionState } from './reviewSuggestions';
+  validateReviewSuggestion, validateReviewSuggestionState, type ReviewSuggestion, type ReviewSuggestionResolution, type ReviewSuggestionState } from './reviewSuggestions';
 import { reviewSuggestionRecordSchema, type ReviewSuggestionWrite } from './reviewSuggestionWrites';
 import { cacheReviewSuggestions } from './reviewSuggestionRuntime';
 
@@ -51,16 +51,19 @@ export async function submitReviewSuggestion(input: ReviewSuggestion): Promise<R
 }
 
 /** Reuse the handling gate before reviewer text can enter a lower-marked source. */
-export async function decideReviewSuggestion(roundId: string, proposalId: string, action: 'accepted' | 'rejected'): Promise<ReviewSuggestionOutcome> {
+export async function decideReviewSuggestion(roundId: string, proposalId: string, action: 'accepted' | 'rejected',
+  resolutions?: readonly ReviewSuggestionResolution[]): Promise<ReviewSuggestionOutcome> {
   const context = await loadReviewSuggestionWorkspace(roundId);
   if (!context.owner) throw new Error('Only the local source draft can decide a suggested replacement.');
   const state = context.state ?? emptyReviewSuggestionState(context.round);
-  const plan = planReviewSuggestionDecision(context.round, context.current, state, proposalId, action);
+  const plan = planReviewSuggestionDecision(context.round, context.current, state, proposalId, action, undefined, resolutions);
   if (plan.status !== 'ready') throw new Error(plan.status === 'stale' ? 'The target differs from the reviewed baseline. Keep the newer draft or start a new review; no replacement was applied.' : 'This suggestion already has a decision.');
   const proposal = state.proposals.find(item => item.id === proposalId)!;
   if (action === 'accepted') {
     const policy = await getExportDeploymentPolicy(undefined, true);
-    const text = reviewSuggestionText([proposal]).map((field, index) => ({ id: `suggestion-policy-${index}`, text: field.value, level: 0 }));
+    const text = [...reviewSuggestionText([proposal]), ...(resolutions ?? []).flatMap(item => [
+      { field: 'Current text before resolution', value: item.expectedCurrent }, { field: 'Resolved text', value: item.value },
+    ])].map((field, index) => ({ id: `suggestion-policy-${index}`, text: field.value, level: 0 }));
     const report = prepareChangeReport(captureChangeReport(
       { label: 'Reviewed baseline', title: '', session: context.round.baseline.session },
       { label: 'Proposed source', title: '', session: { ...plan.session, paragraphs: [...plan.session.paragraphs, ...text] } },
@@ -85,6 +88,7 @@ export async function decideReviewSuggestion(roundId: string, proposalId: string
   const decision = plan.state.decisions.at(-1)!;
   const operation: ReviewSuggestionWrite = { kind: 'suggestion-write', version: 1, id: `suggestion-write_${crypto.randomUUID()}`,
     documentId: context.target.scope.documentId, createdAt: Date.now(), round: { id: context.round.id, baselineDigest: context.round.baselineDigest },
-    before: context.state, after: plan.state, intent: { kind: 'decide', proposalId, action, record: { id: decision.id, decidedAt: decision.decidedAt } } };
+    before: context.state, after: plan.state, intent: { kind: 'decide', proposalId, action, record: { id: decision.id, decidedAt: decision.decidedAt },
+      ...(decision.resolutions ? { resolutions: decision.resolutions } : {}) } };
   return { status: await applyOwnedReviewSuggestions(context.target, operation), state: plan.state };
 }
