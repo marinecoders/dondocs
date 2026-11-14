@@ -4,7 +4,7 @@ import { useDocumentStore } from '@/stores/documentStore';
 import { useDocumentsStore, captureDocumentTarget, flushDocumentWrites, openExistingDocument } from '@/stores/documentsStore';
 import { useUIStore } from '@/stores/uiStore';
 import { useProfileStore } from '@/stores/profileStore';
-import { buildAssetSharePayload, parseSharedDocument } from '@/lib/assetShare';
+import { buildAssetSharePayload, parseSharedDocument, assetShareReviewSession } from '@/lib/assetShare';
 import { openSharedDocument } from '@/lib/sharedDocumentActions';
 import { encryptSharePayload, decryptSharePayload } from '@/lib/shareCrypto';
 import { parseSharedSession } from '@/lib/sharedSession';
@@ -13,6 +13,9 @@ import { persistAttachment, loadAttachment } from '@/lib/attachments';
 import * as database from '@/lib/documentsDb';
 import type { PortableResourceManifest } from '@/lib/portableResources';
 import { useFormStore } from '@/stores/formStore';
+import { detectSharedSessionPII } from '@/services/pii/detector';
+import { captureChangeReport, prepareChangeReport } from '@/lib/changeReport';
+import { resolveExportDeploymentPolicy } from '@/lib/exportDeploymentPolicy';
 
 const png = 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQIHWP4z8DwHwAFgAI/ScLbtAAAAABJRU5ErkJggg==';
 const pdf = new TextEncoder().encode('%PDF-1.4\nSynthetic support bytes');
@@ -58,6 +61,17 @@ it('continues ordinary and expiring v1-v3 payloads without manufacturing asset a
   expect(ordinary).toMatchObject({ version: 1 });
   expect((await parseSharedDocument(ordinary)).files).toEqual([]);
   expect(await buildAssetSharePayload(snapshot, Date.now(), Date.now() + 1000)).toMatchObject({ version: 3 });
+});
+it('reviews transferred filenames and retained handling floors while excluding local resource identities', () => {
+  useDocumentStore.setState({ enclosures: [{ title: 'Synthetic support', fileRef: { id: 'att_123456789', name: 'alex@example.com.pdf', size: 10, type: 'application/pdf' } }] });
+  const session = assetShareReviewSession(useDocumentStore.getState().getSnapshot(), Date.now());
+  const findings = detectSharedSessionPII(session);
+  expect(findings.findings.some(finding => finding.value.includes('alex@example.com'))).toBe(true);
+  expect(findings.findings.some(finding => finding.value.includes('123456789'))).toBe(false);
+  const empty = { ...session, formData: {}, paragraphs: [], enclosures: [] };
+  session.formData.classLevel = 'secret';
+  const policy = resolveExportDeploymentPolicy({ hostname: 'example.test', environment: null, runtime: { status: 'absent' } });
+  expect(() => prepareChangeReport(captureChangeReport({ label: 'Empty', title: '', session: empty }, { label: 'Shared', title: '', session }, new Date().toISOString()), policy)).toThrow(/configured levels/);
 });
 it('preserves built-in form signature images and rejects a missing image binding', async () => {
   useDocumentStore.setState({ documentCategory: 'forms', formType: 'navmc_10274' });
