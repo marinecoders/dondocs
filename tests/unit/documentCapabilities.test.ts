@@ -102,3 +102,10 @@ it('distinguishes configuration fragments from flat TeX and applies PDF-only lim
   expect(resolveCapabilities({ ...letter, docType: 'sl3' }, { operation: 'export', target: 'tex', texMode: 'flat' })).toMatchObject({ status: 'unsupported', reason: 'pdf-only' });
   expect(resolveCapabilities({ ...letter, docType: 'sl3' }, { operation: 'export', target: 'tex', texMode: 'configuration' })).toMatchObject({ status: 'partial', reason: 'tex-configuration-only' });
 });
+
+it('supports verified scalar configured-form batches and rejects missing templates before enabling them', () => {
+  const definition = loadedDefinition();definition.rowGroups = {};
+  expect(resolveCapabilities(configured(definition), { operation: 'batch', target: 'pdf' })).toEqual({ status: 'supported' });
+  delete definition.pages[0].sha256;
+  expect(resolveCapabilities(configured(definition), { operation: 'batch', target: 'pdf' })).toMatchObject({ status: 'invalid-data', reason: 'invalid-definition' });
+});

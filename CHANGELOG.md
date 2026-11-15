@@ -7,6 +7,18 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.90] — 2026-11-15
+
+### Added
+
+- Generate configured-form PDFs from reviewed scalar roster answers through the existing batch pipeline, with frozen templates, per-row results, retry, reload recovery, content review and retained ZIP delivery.
+- Keep each person’s answers independent and leave signature fields blank for later signing; repeating rows and multiple-selection fields remain explicitly unsupported.
+
+### Fixed
+
+- Reject incomplete saved configured jobs instead of borrowing a different live editor definition.
+- Preserve literal configured-form answers while retaining raw roster values in generation and saved-download privacy review.
+
 ## [1.3.89] — 2026-11-15
 
 ### Added

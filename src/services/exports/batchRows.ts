@@ -1,9 +1,11 @@
+import { applyConfiguredBatchRow } from '@/lib/configuredFormBatch';
 import type { SerializedSession } from '@/stores/documentStore';
 import { captureDocumentRevision, type CapturedDocument } from '@/lib/capturedDocument';
 import { capturedCapabilities } from '@/lib/documentCapabilities';
 import { prepareExport, type ReadyExportJob } from '@/lib/preparedExport';
 import type { PolicyResolution } from '@/lib/exportDeploymentPolicy';
 import type { FormExportTemplates } from '@/lib/formExportTemplates';
+import { renderPreparedConfiguredForm } from './configuredForms';
 import { renderPreparedBuiltinForm } from './builtinForms';
 import { renderPreparedCorrespondence, type CorrespondenceRendererPorts } from './correspondence';
 
@@ -20,7 +22,8 @@ export interface BatchRowContext {
 /** Capture the row before any asynchronous dependency is consulted. */
 export function captureBatchRowIntent(values: Readonly<Record<string, string>>, context: BatchRowContext) {
   const { batchId, rowId, filename, capturedAt } = context;
-  const source = structuredClone(context.source);
+  const configured = context.source.documentCategory === 'forms' && !!context.source.genericForm;
+  const source = configured ? applyConfiguredBatchRow(context.source, values) : structuredClone(context.source);
   const captured = captureDocumentRevision({ documentId: batchId, epoch: 0, editSequence: 0, capturedAt }, {
     ...source, endItems: source.endItems ?? [], publicationTables: source.publicationTables ?? {},
   });
@@ -45,6 +48,7 @@ export async function renderPreparedBatchRow(ready: ReadyExportJob, ports: Corre
   for (let attempt = 0; ; attempt++) {
     if (signal.aborted) throw new Error('Export cancelled.');
     try {
+      if (ready.job.kind === 'configured-form') return await renderPreparedConfiguredForm(ready, signal);
       return ready.job.kind === 'builtin-form' ? await renderPreparedBuiltinForm(ready, signal)
         : await renderPreparedCorrespondence(ready, ports, signal);
     } catch (error) {

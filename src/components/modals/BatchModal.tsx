@@ -310,8 +310,8 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
   const isFormsMode = documentCategory === 'forms';
   const isBuiltinForm = Object.hasOwn(FORM_TYPE_LABELS, formType);
 
-  const configuredForm = isFormsMode && !isBuiltinForm ? (source?.genericForm ?? liveDocument.genericForm) : undefined;
-  const configuredMapping = useMemo(() => configuredForm ? configuredBatchMapping(configuredForm) : undefined, [configuredForm]);
+  const configuredForm = isFormsMode && !isBuiltinForm ? (source ? source.genericForm : liveDocument.genericForm) : undefined;
+  const configuredMapping = useMemo(() => batchModalOpen && configuredForm ? configuredBatchMapping(configuredForm) : undefined, [batchModalOpen, configuredForm]);
   const literalRosterFields = useMemo(() => new Set(configuredMapping?.fields.filter(field => field.kind === 'text').map(field => field.id)), [configuredMapping]);
   const identifierRosterFields = useMemo(() => new Set(configuredMapping?.fields.filter(field => field.kind === 'identifier').map(field => field.id)), [configuredMapping]);
   const configuredRowReview = useMemo(() => configuredForm && configuredMapping
@@ -366,8 +366,8 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
   }, [compile, waitForReady]);
 
   // Templates are acquired by the row owner, where failures have a retry path.
-  const batchCapability = documentCapabilities(source ?? liveDocument, { operation: 'batch', target: 'pdf' });
-  const isReadyToGenerate = capabilityAvailable(batchCapability) === true && (isFormsMode || isEngineReady);
+  const batchCapability = batchModalOpen ? documentCapabilities(source ?? liveDocument, { operation: 'batch', target: 'pdf' }) : undefined;
+  const isReadyToGenerate = !!batchCapability && capabilityAvailable(batchCapability) === true && !configuredMapping?.issues.length && (isFormsMode || isEngineReady);
 
   // Preview a single row
   const handlePreview = useCallback(async (row: BatchRow) => {
@@ -530,8 +530,8 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
   const mappingWarnings = mappedRoster.flatMap(row => rosterRowWarnings({ ...row, rosterWarnings: row.warnings }, detectedPlaceholders, { includeInferred: !configuredForm }));
   const rowWarnings = batchModalOpen
     ? rows.flatMap(row => rosterRowWarnings(row, detectedPlaceholders, { includeInferred: !configuredForm })) : [];
-  const configuredRowIssues = useMemo(() => configuredRowReview
-    ? rows.flatMap((row, index) => configuredRowReview(row).map(issue => `Row ${index + 1}: ${issue}`)) : [], [rows, configuredRowReview]);
+  const configuredRowIssues = useMemo(() => batchModalOpen && configuredRowReview
+    ? rows.flatMap((row, index) => configuredRowReview(row).map(issue => `Row ${index + 1}: ${issue}`)) : [], [batchModalOpen, rows, configuredRowReview]);
 
   // Apply the current column mappings to create rows
   const applyColumnMappings = useCallback(() => {
@@ -733,7 +733,7 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
     return 'Tip: Add a variable to your Subject line like "PROMOTION OF {{NAME}} TO {{RANK}}"';
   }, [isFormsMode, formType]);
 
-  if (!capabilityAvailable(batchCapability) && (!configuredForm || !configuredMapping?.fields.length) && !source && !exportReview) {
+  if (batchCapability && !capabilityAvailable(batchCapability) && (!configuredForm || !configuredMapping?.fields.length) && !source && !exportReview) {
     return <Dialog open={batchModalOpen && !exportReview} onOpenChange={open => { if (open) setBatchModalOpen(true);else closePanel(); }}>
       <DialogContent>
         <DialogHeader>
@@ -757,7 +757,7 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
               {!isReadyToGenerate && (!source || rows.some((r) => r.status !== 'success')) && (
                 <Badge variant="secondary" className="ml-2">
                   <Loader2 className="h-3 w-3 mr-1 animate-spin" />
-                  {configuredForm ? 'Mapping only' : isFormsMode ? 'Loading templates...' : 'Engine loading...'}
+                  {configuredForm ? 'Check form setup' : isFormsMode ? 'Loading templates...' : 'Engine loading...'}
                 </Badge>
               )}
             </DialogTitle>
@@ -789,7 +789,7 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
                 <p>Saved answers are not copied to roster rows. Signature fields stay blank; sign each PDF after export.</p>
                 <ul className="space-y-1">{configuredMapping.fields.map(field => <li key={field.id}><strong>{field.id}</strong> · {field.label} · {field.guidance}</li>)}</ul>
                 {configuredMapping.issues.map(issue => <p role="alert" key={issue}>{issue}</p>)}
-                {!capabilityAvailable(batchCapability) && <p>Generation is unavailable for this form. Roster mapping is available for review.</p>}
+                {batchCapability && !capabilityAvailable(batchCapability) && <p>Generation is unavailable for this form. Roster mapping is available for review.</p>}
               </section>}
               {/* Add Variable stays visible throughout setup. Saved jobs freeze
                   their source and expose only the applicable row actions.
@@ -1150,7 +1150,7 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
             {(!source || isGenerating || rows.some((r) => !r.status || r.status === 'pending')) && <Button
               data-tour="batch-generate"
               onClick={() => handleGenerateBatch()}
-              disabled={hasNoPlaceholders || isGenerating || rowActive || !!previewingRow || showColumnMapping || rosterPending || isPreparingZip || !rows.some((r) => !r.status || r.status === 'pending') || !isReadyToGenerate}
+              disabled={configuredRowIssues.length > 0 || hasNoPlaceholders || isGenerating || rowActive || !!previewingRow || showColumnMapping || rosterPending || isPreparingZip || !rows.some((r) => !r.status || r.status === 'pending') || !isReadyToGenerate}
               className="tracking-wide"
             >
               {isGenerating ? (

@@ -91,7 +91,7 @@ Desktop Chrome/Edge can mirror backups to a file you choose. Registry saves trig
 7. Choose **Download ZIP** to collect the available saved PDFs in one file, or download results individually. The ZIP keeps existing filenames, adjusts names that cannot be extracted on Windows, and adds numbered suffixes for duplicates. Rows without an available PDF are omitted and identified in the panel, including failures, unfinished rows and missing results. If no PDFs are available, no ZIP is downloaded.
 8. Download needed results before **New batch**, which clears the old job/results. Workspace backups do not contain them.
 
-Each row's supported source/resolved text and retained values are reviewed. Saved downloads, including ZIP downloads, get a fresh review; if source text is missing/unreadable, the UI asks for explicit confirmation. Review attached content yourself: the text scan does not inspect PDF/image bytes. Configured-form batch generation is unavailable; consult the [capability matrix](CAPABILITIES.md) for all formats.
+Each row's supported source/resolved text and retained values are reviewed. Saved downloads, including ZIP downloads, get a fresh review; if source text is missing/unreadable, the UI asks for explicit confirmation. Review attached content yourself: the text scan does not inspect PDF/image bytes. Configured-form batches map roster columns directly to supported scalar fields, with typed row checks and exact retained definitions and template pages. Each row supplies its own answers; source answers are not inherited. Signature fields remain blank for signing after export. Repeating rows and multiple-selection fields are unsupported. Consult the [capability matrix](CAPABILITIES.md) for all formats.
 
 ## Keep an exact review baseline
 
