@@ -39,12 +39,12 @@ it('describes TeX fragments and configured templates separately from native asse
 it.each(['not-loaded', 'loading', 'failed'] as const)('reports selected form definition state %s without assuming support', status => {
   expect(resolveCapabilities({ kind: 'configured-form', documentMode: 'compliant', formType: 'fixture', definition: { status } }, pdf)).toMatchObject({ status: 'not-ready' });
 });
-it('supports a loaded definition without mutating it and explicitly rejects configured-form batch', () => {
+it('supports loaded repeating definitions for configured-form batches without mutation', () => {
   const definition = loadedDefinition();
   const before = structuredClone(definition);
   expect(resolveCapabilities(configured(definition), pdf).status).toBe('supported');
   expect(definition).toEqual(before);
-  expect(resolveCapabilities(configured(definition), { operation: 'batch', target: 'pdf' })).toMatchObject({ status: 'unsupported', reason: 'configured-form-batch' });
+  expect(resolveCapabilities(configured(definition), { operation: 'batch', target: 'pdf' })).toEqual({ status: 'supported' });
 });
 it('rejects mismatched, malformed, and unsupported definition versions', () => {
   const definition = fixtureDefinition();

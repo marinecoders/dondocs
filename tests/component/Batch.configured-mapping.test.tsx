@@ -244,3 +244,25 @@ it('keeps recovered non-string selection cells reviewable instead of crashing th
   expect(screen.getByRole('status', { name: 'Form row checks' })).toHaveTextContent('Decision: Enter text in the roster cell');
   expect(screen.getByRole('button', { name: 'Resume remaining' })).toBeDisabled();
 });
+
+it('maps repeating row objects, previews normalized answers and blocks overflow without changing source rows', () => {
+  const genericForm = fixtureInstance();
+  genericForm.definition.pages[0].sha256 = 'a'.repeat(64);
+  genericForm.rows.roster = [{ id: 'saved-source', answers: { grade: 'e1' } }];
+  useDocumentStore.setState({ genericForm });
+  render(<BatchModal compile={vi.fn()} isEngineReady={false} waitForReady={vi.fn()} />);
+  expect(screen.getByRole('region', { name: 'Configured form roster fields' })).toHaveTextContent('at most 3 rows');
+  fireEvent.change(screen.getByRole('textbox', { name: 'Row 1: name' }), { target: { value: 'B' } });
+  fireEvent.change(screen.getByRole('textbox', { name: 'Row 1: decision' }), { target: { value: 'yes' } });
+  const input = screen.getByRole('textbox', { name: 'Row 1: roster' });
+  fireEvent.change(input, { target: { value: '[{"grade":"E-2","date":"2026-02-28"}]' } });
+  const preview = screen.getByLabelText('Row 1: roster reviewed rows');
+  expect(preview).toHaveTextContent('Row 1: Grade: E-2 (e2); Date: 2026-02-28');
+  expect(input).toHaveAttribute('aria-describedby', preview.id);
+  expect(screen.getByRole('button', { name: 'Generate 1 PDF' })).toBeEnabled();
+  fireEvent.change(input, { target: { value: JSON.stringify(Array(4).fill({ grade: 'e1' })) } });
+  expect(screen.queryByLabelText('Row 1: roster reviewed rows')).not.toBeInTheDocument();
+  expect(screen.getByRole('status', { name: 'Form row checks' })).toHaveTextContent('at most 3 roster rows');
+  expect(screen.getByRole('button', { name: 'Generate 1 PDF' })).toBeDisabled();
+  expect(useDocumentStore.getState().genericForm?.rows.roster).toEqual([{ id: 'saved-source', answers: { grade: 'e1' } }]);
+});
