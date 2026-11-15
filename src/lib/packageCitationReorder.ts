@@ -95,8 +95,9 @@ function assertLinkedCoverage(revision: PackageRevision, changedLabels: Readonly
 }
 
 /** Prepare a private before/after plan; no files or package revisions are written by preview. */
-export async function preparePackageCitationReorder(record: ActionPackage, operation: PackageCitationReorder, policy: PolicyResolution, signal?: AbortSignal): Promise<PreparedPackageCitationReorder> {
+export async function preparePackageCitationReorder(record: ActionPackage, requestedOperation: PackageCitationReorder, policy: PolicyResolution, signal?: AbortSignal): Promise<PreparedPackageCitationReorder> {
   signal?.throwIfAborted();
+  const operation = structuredClone(requestedOperation);
   packageCitationPolicyIdentity(policy);
   const owned = actionPackageSchema.parse(structuredClone(record)), revision = getPackageRevision(owned);
   if (owned.archived) throw new Error("Reopen this archived package before reordering.");

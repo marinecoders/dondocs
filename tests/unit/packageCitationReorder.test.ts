@@ -258,3 +258,37 @@ it("preserves the previous package when a native asset write fails or the operat
   await expect(applyPackageCitationReorder(plan, controller.signal)).rejects.toThrow();
   expect(await persisted(record)).toEqual(record);
 });
+
+it("keeps the reviewed member permutation when the caller mutates its order during asynchronous preparation", async () => {
+  const f = await fixture("No enclosure citation changes.");
+  const order = [f.native.id, f.second.id, f.first.id];
+  const pending = preparePackageCitationReorder(f.record, { kind: "members", order }, policy);
+  order.splice(0, order.length, f.native.id, f.first.id, f.second.id);
+  const plan = await pending;
+  expect(plan.orderLabels).toEqual([f.native.label, `Enclosure (1) · ${f.second.label}`, `Enclosure (2) · ${f.first.label}`]);
+  const changed = await applyPackageCitationReorder(plan);
+  expect(getPackageRevision(changed).members.map(member => member.id)).toEqual([f.native.id, f.second.id, f.first.id]);
+});
+
+it("keeps distinct embedded enclosure bytes attached to their reviewed reordered items", async () => {
+  const binaries = await Promise.all(["FIRST ORIGINAL", "SECOND ORIGINAL"].map(async title => {
+    const pdf = await PDFDocument.create(); pdf.addPage(); pdf.setTitle(title);
+    return new Uint8Array(await pdf.save()).buffer;
+  }));
+  const source = createBlankSession();
+  source.paragraphs = [{ id: "distinct-enclosure-body", text: "Use enclosure (1) and enclosure (2).", level: 0 }];
+  const native = await capturePackageMember(captureDocumentRevision({ documentId: "distinct-source", epoch: 0, editSequence: 1, capturedAt: 1 }, {
+    ...source, enclosures: binaries.map((data, index) => ({ title: `Distinct item ${index + 1}`, file: { name: `distinct-${index + 1}.pdf`, size: data.byteLength, data } })), endItems: [], publicationTables: {},
+  }), "Distinct enclosure letter", "basic-letter");
+  const identified = await initializePackageCitationTargets(await reviseActionPackage(await createActionPackage("Distinct binary reorder"), [native]));
+  const record = await linkAll(identified);
+  const changed = await applyPackageCitationReorder(await preparePackageCitationReorder(record, { kind: "enclosures", memberId: native.id, order: [1, 0] }, policy));
+  const member = getPackageRevision(changed).members[0];
+  if (member.kind !== "native") throw new Error("Expected native");
+  const { reviewed } = await readPackageMemberDraft(member);
+  expect(member.session.enclosures.map(value => value.title)).toEqual(["Distinct item 2", "Distinct item 1"]);
+  expect(reviewed.files[0]!.data).toEqual(binaries[1]);
+  expect(reviewed.files[1]!.data).toEqual(binaries[0]);
+  expect((await readPackageMemberDraft(native)).reviewed.files[0]!.data).toEqual(binaries[0]);
+  expect((await resolvePackageCitations(getPackageRevision(changed))).links.every(value => value.state === "current")).toBe(true);
+});
