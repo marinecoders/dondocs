@@ -46,7 +46,7 @@ async function assembledPdf(page: Page) {
   await expect(modal.getByRole("heading", { name: /^Package readiness: (ready|exported)$/, exact: true })).toBeVisible();
   await modal.getByRole("checkbox", { name: /^I reviewed every included member/ }).check();
   await modal.getByRole("button", { name: "Assemble and retain PDF", exact: true }).click();
-  await expect(modal.getByText("Assembled PDF retained.", { exact: true })).toBeVisible({ timeout: 90_000 });
+  await expect(modal.getByRole("status").filter({ hasText: /^Assembled PDF retained\. SHA-256: [a-f0-9]{64}$/ })).toBeVisible({ timeout: 90_000 });
   return retainedPdf(page);
 }
 async function pdfText(bytes: Buffer) {
