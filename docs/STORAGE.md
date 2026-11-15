@@ -560,3 +560,22 @@ use existing asset validation and the package compare-and-swap transaction.
 Aborted or stale writes preserve the previous record. Selected-revision transfer,
 backup and duplication preserve this metadata through the shared package schema;
 foreign source bindings retain their existing lack of local authority.
+
+
+## Linked citation reorder commits
+
+Reorder previews keep a private copy of the selected record, known member/list
+permutation, expected source ranges and policy identity. Public preview objects
+cannot supply replacement operations. No package or asset is written by preview.
+The shared citation writer applies only text/header changes and known list
+permutations to hydrated package inputs, preserving embedded originals and images.
+Changed native members are recaptured through existing asset staging; unchanged
+members retain their original assets. Stable link/target IDs are rebound only
+through the reviewed permutation and exact rewritten occurrences, never text search.
+
+The final save creates one new revision. Asynchronous policy resolution precedes
+the final inventory check; current policy, cancellation and owner validity are
+checked again inside the existing IndexedDB compare-and-swap callback. A failed
+capture, quota error, stale record or invalid binding leaves the previous record
+and all retained historical outputs usable. Staged orphan bytes remain subject
+to the normal attachment lifetime and collection rules.

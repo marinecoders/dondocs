@@ -34,7 +34,7 @@ export function PackageCitations({ record, revision, editable, onChange }: Props
   return <section aria-label="Package citation identities" className="space-y-3 rounded border p-3 text-sm">
     <h3 className="font-medium">Linked references and enclosures</h3>
     <p>Identify this revision’s references and enclosures, then explicitly link supported body citations to their targets. Saving creates a new package revision and preserves the captured files.</p>
-    <p>Plain text remains unchanged. Reordering alone does not update linked citation labels in this release. Changed or missing bindings stay visible for review.</p>
+    <p>Linking alone leaves text unchanged. Supported reorder operations show a review before updating linked citation labels. Changed or missing bindings stay visible for repair.</p>
     {loading && <p role="status">Reading citation identities…</p>}
     {error && <p role="alert">{error}</p>}
     <p>{targets.length} identified targets · {links.length} linked citations</p>

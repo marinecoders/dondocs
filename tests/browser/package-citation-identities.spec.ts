@@ -68,6 +68,10 @@ for (const theme of ["light", "dark", "classic"]) {
     const before = JSON.parse((await exportPackage(page)).toString("utf8"));
     const member = modal.getByRole("listitem").filter({ has: page.getByRole("heading", { name: "3. support-two.pdf", exact: true }) });
     await member.getByRole("button", { name: "Move up", exact: true }).click();
+    const reorder = modal.getByRole("region", { name: "Citation reorder review", exact: true });
+    await expect(reorder).toBeVisible();
+    await reorder.getByRole("checkbox", { name: /^I reviewed the proposed order/ }).check();
+    await reorder.getByRole("button", { name: "Save reviewed citation reorder", exact: true }).click();
     await expect(modal.getByRole("heading", { name: "2. support-two.pdf", exact: true })).toBeVisible();
     const portable = await exportPackage(page), packet = JSON.parse(portable.toString("utf8"));
     const revision = packet.package.revisions[0];
