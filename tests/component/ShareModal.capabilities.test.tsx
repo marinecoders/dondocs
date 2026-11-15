@@ -1,20 +1,28 @@
 import "fake-indexeddb/auto";
-import { beforeEach, expect, it, vi } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { afterEach, beforeEach, expect, it, vi } from "vitest";
+import { render, screen, waitFor } from "@testing-library/react";
+import { webcrypto } from "node:crypto";
 import userEvent from "@testing-library/user-event";
 import { ShareModal } from "@/components/modals/ShareModal";
 import { useDocumentStore } from "@/stores/documentStore";
 import { documentCapabilities } from "@/lib/documentCapabilities";
 import { fixtureInstance, fixturePage } from "../_helpers/formFixture";
 import { encryptSharePayload } from "@/lib/shareCrypto";
+import { useDocumentsStore } from "@/stores/documentsStore";
+import { useFormStore } from "@/stores/formStore";
+import * as classificationConfig from "@/config/classification";
+import { resolveExportDeploymentPolicy } from "@/lib/exportDeploymentPolicy";
 
 vi.mock("@/lib/shareCrypto", () => ({
   encryptSharePayload: vi.fn(async () => "TOKEN"),
   buildShareUrl: (token: string) => `https://example.test/#s=${token}`,
   parseShareUrl: vi.fn(),
   decryptSharePayload: vi.fn(),
+  MAX_SHARE_URL_LENGTH: 8000,
+  MAX_ENCRYPTED_SHARE_LENGTH: 140 * 1024 * 1024,
 }));
 beforeEach(() => vi.clearAllMocks());
+afterEach(() => { vi.restoreAllMocks();vi.unstubAllGlobals(); });
 async function generate() {
   const user = userEvent.setup();
   Object.defineProperty(navigator, "clipboard", {
@@ -82,4 +90,61 @@ it("checks and encrypts the captured configured form after privacy approval desp
   expect(
     screen.getByRole("textbox", { name: "Share link (copied to clipboard)" }),
   ).toBeVisible();
+});
+
+it.each(["navmc_10274", "navmc_118_11"] as const)("rejects %s retained markings before encrypting image shares", async formType => {
+  vi.stubGlobal("crypto", webcrypto);
+  const policy = resolveExportDeploymentPolicy({ hostname: "example.test", runtime: { status: "absent" }, environment: null });
+  vi.spyOn(classificationConfig, "getExportDeploymentPolicy").mockResolvedValue(policy);
+  useDocumentsStore.getState().newDocument(formType);
+  const image = "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQIHWP4z8DwHwAFgAI/ScLbtAAAAABJRU5ErkJggg==";
+  const blocks = [{ name: "Synthetic signer", statement: "", style: "image" as const, image }];
+  if (formType === "navmc_10274") {
+    useFormStore.getState().setNavmc10274Field("signatureBlocks", blocks);
+    useFormStore.getState().setNavmc10274Field("supplementalInfo", "SECRET");
+  } else {
+    useFormStore.getState().setNavmc11811Field("signatureBlocks", blocks);
+    useFormStore.getState().setNavmc11811Field("remarksText", "SECRET");
+  }
+  render(<ShareModal open mode="share" onOpenChange={() => {}} />);
+  await generate();
+  await waitFor(() => expect(screen.getByRole("alert")).toHaveTextContent("outside this deployment"));
+  expect(encryptSharePayload).not.toHaveBeenCalled();
+});
+
+it.each(["signature filename", "legacy image text"])("rejects portion markings in retained %s before encrypting native assets", async location => {
+  vi.stubGlobal("crypto", webcrypto);
+  const policy = resolveExportDeploymentPolicy({ hostname: "example.test", runtime: { status: "absent" }, environment: null });
+  vi.spyOn(classificationConfig, "getExportDeploymentPolicy").mockResolvedValue(policy);
+  useDocumentsStore.getState().newDocument();
+  const data = "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQIHWP4z8DwHwAFgAI/ScLbtAAAAABJRU5ErkJggg==";
+  useDocumentStore.setState(state => ({ formData: { ...state.formData,
+    signatureImage: { name: location === "signature filename" ? "(TS) signature.png" : "signature.png", size: Buffer.from(data, "base64").length, data },
+    ...(location === "legacy image text" ? { image: "(S) Retained legacy field text" } : {}),
+  } }));
+  render(<ShareModal open mode="share" onOpenChange={() => {}} />);
+  await generate();
+  await waitFor(() => expect(screen.getByRole("alert")).toHaveTextContent("outside this deployment"));
+  expect(encryptSharePayload).not.toHaveBeenCalled();
+});
+
+it("requires privacy approval for retained legacy image-like text before encrypting native assets", async () => {
+  vi.stubGlobal("crypto", webcrypto);
+  const policy = resolveExportDeploymentPolicy({ hostname: "example.test", runtime: { status: "absent" }, environment: null });
+  vi.spyOn(classificationConfig, "getExportDeploymentPolicy").mockResolvedValue(policy);
+  useDocumentsStore.getState().newDocument();
+  const legacy = { image: "data:image/not-an-asset\r\nSSN 123-45-6789" };
+  const data = "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQIHWP4z8DwHwAFgAI/ScLbtAAAAABJRU5ErkJggg==";
+  useDocumentStore.setState(state => ({ formData: { ...state.formData, legacy,
+    signatureImage: { name: "signature.png", size: Buffer.from(data, "base64").length, data },
+  } }));
+  render(<ShareModal open mode="share" onOpenChange={() => {}} />);
+  const user = await generate();
+  expect(screen.getByRole("button", { name: "Share anyway" })).toBeVisible();
+  expect(encryptSharePayload).not.toHaveBeenCalled();
+  await user.click(screen.getByRole("button", { name: "Share anyway" }));
+  await waitFor(() => expect(encryptSharePayload).toHaveBeenCalledExactlyOnceWith(
+    expect.objectContaining({ version: 4, draft: expect.objectContaining({ formData: expect.objectContaining({ legacy }) }) }),
+    "password",
+  ));
 });

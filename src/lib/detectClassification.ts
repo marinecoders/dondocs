@@ -15,6 +15,8 @@
  */
 
 import type { ClassificationLevel } from '@/lib/domainClassification';
+import type { PortionMarking } from '@/types/document';
+import { deriveOverallClassLevel } from './overallClassification';
 
 export interface ClassificationDetection {
   /** The detected banner level; 'unclassified' when nothing was marked. */
@@ -90,6 +92,13 @@ function bannerLevelOf(line: string): { level: ClassificationLevel; label: strin
 /** Recognize one complete banner without inferring a level from prose or authority fields. */
 export function classificationBannerLevel(text: string): ClassificationLevel | null {
   return bannerLevelOf(text.trim())?.level ?? null;
+}
+
+/** Transferred text can retain portion prefixes outside the current render view. */
+export function retainedTextClassificationLevel(text: string): ClassificationLevel {
+  const portions = Array.from(text.replace(/\r\n?/g, '\n').matchAll(/^\s*\((U|CUI|FOUO|C|S|TS)\)/gm),
+    match => ({ portionMarking: match[1] as PortionMarking }));
+  return deriveOverallClassLevel(detectClassification(text).classLevel, portions) as ClassificationLevel;
 }
 
 export function detectClassification(rawText: string): ClassificationDetection {

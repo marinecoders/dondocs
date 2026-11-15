@@ -7,6 +7,23 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.83] — 2026-11-14
+
+### Added
+
+- Include native attached PDFs, basic-letter PDFs, PNG signatures and PNG/JPEG figures in password-encrypted handoffs. A versioned resource manifest validates exact sizes, file types and SHA-256 checksums before imported content is saved as a separate draft.
+- Download and open encrypted share files when a complete copy exceeds the reliable link-size limit. Existing links and optional expiration remain supported; missing resources, failed storage, cancellation and expired imports preserve current work.
+
+### Fixed
+
+- Bound decrypted and expanded share sizes, stop oversized compressed streams and encode large attachment data without per-byte string concatenation.
+- Open image-bearing built-in form shares with their form identity, while retaining exact native-text handling only for supported correspondence.
+- Review retained built-in form text against deployment handling levels before encrypting an asset-inclusive copy.
+- Check retained field text and attachment filenames for portion markings before sharing; report-only projections cannot omit transferred handling text.
+- Review personal information in retained legacy fields even when their text resembles an image data URL.
+- Reject resource bindings outside the selected document family and inconsistent figure filenames. Open complete copies in an empty receiving workspace while preserving activation ownership through delayed commits.
+- Keep background preview failures from interrupting shared import or a hidden preview, and discard error dialogs from an earlier document activation.
+
 ## [1.3.82] — 2026-11-14
 
 ### Added

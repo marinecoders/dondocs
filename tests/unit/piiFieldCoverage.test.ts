@@ -64,6 +64,17 @@ it('inspects only the portable payload and does not treat excluded image bytes a
   }));
   expect(detectSharedSessionPII(shared).found).toBe(false);
 });
+it('inspects retained legacy image-like text while excluding declared binary image data', () => {
+  const legacy = { image: 'data:image/not-an-asset\r\nSSN 123-45-6789' };
+  const shared = session({ formData: {
+    signatureImage: { name: 'signature.png', size: 1, data: 'SSN 987-65-4321' },
+  } });
+  Object.assign(shared.formData, { legacy });
+  expect(shared.formData).toMatchObject({ legacy });
+  const result = detectSharedSessionPII(shared);
+  expect(result.summary.ssn).toBe(1);
+  expect(result.findings.filter(finding => finding.type === 'SSN').map(finding => finding.value)).toEqual(['123-45-6789']);
+});
 
 it.each([', ', '; ', ' ', '\n'])('keeps ordinary office closure lists out of birth-date findings with separator %j', separator => {
   const publication = session({ docType: 'i_type', formData: { publicationClosedDates: ['2026-11-11', '2026-11-26'].join(separator) } });

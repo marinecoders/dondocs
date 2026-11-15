@@ -114,7 +114,8 @@ export function isOutputFieldActive(source: DocumentFieldSource, path: FieldPath
 }
 
 /** Inspect only this supplied revision. Returned paths and values cannot alias its objects. */
-export function documentTextFields(source: DocumentFieldSource, projection: FieldProjection): readonly DocumentTextField[] {
+export function documentTextFields(source: DocumentFieldSource, projection: FieldProjection,
+  options: { includeUnknownDataUris?: boolean } = {}): readonly DocumentTextField[] {
   const fields: DocumentTextField[] = [];
   const transfer = projection === 'draft' || projection === 'share' || projection === 'backup';
   const ancestors = new WeakSet<object>();
@@ -137,7 +138,7 @@ export function documentTextFields(source: DocumentFieldSource, projection: Fiel
   const unknown = (value: unknown, path: FieldPath, role: 'unknown' | 'control' = 'unknown') => {
     if (!transfer) return;
     if (typeof value === 'string') {
-      if (!value.startsWith('data:image/')) emit(value, path, role);
+      if (options.includeUnknownDataUris || !value.startsWith('data:image/')) emit(value, path, role);
       return;
     }
     if (!value || typeof value !== 'object' || value instanceof ArrayBuffer || ArrayBuffer.isView(value)) return;

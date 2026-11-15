@@ -95,7 +95,10 @@ for (const theme of ['light', 'dark', 'classic']) {
 
       const commentsButton = page.getByRole('button', { name: /^Comments(?: \(\d+\))?$/ });
       await subject.fill('Synthetic long field '.repeat(1_001));
-      // Every viewport auto-compiles this fixture, even with the phone preview closed.
+      // A background preview keeps its error without interrupting other work.
+      // Open the phone preview before qualifying its error dialog and keyboard flow.
+      const previewButton = page.getByRole('button', { name: 'Preview', exact: true });
+      if (info.project.name === 'phone') await keyboardOpen(previewButton);
       const compileError = page.getByRole('dialog', { name: 'Preview compile failed', exact: true });
       await expect(compileError).toBeVisible({ timeout: 60_000 });
       const compileLog = compileError.getByRole('region', { name: 'Compile error log', exact: true });
@@ -114,7 +117,10 @@ for (const theme of ['light', 'dark', 'classic']) {
       await scan(page, info, 'preview-log-copied');
       await page.keyboard.press('Escape');
       await expect(compileError).toBeHidden();
-      await expect(subject).toBeFocused();
+      if (info.project.name === 'phone') {
+        await keyboardOpen(page.getByRole('button', { name: 'Close preview', exact: true }));
+        await expect(previewButton).toBeFocused();
+      } else await expect(subject).toBeFocused();
       await keyboardOpen(page.getByRole('button', { name: 'Download', exact: true }));
       await page.getByRole('menuitem', { name: /^Download PDF(?:\s|$)/ }).press('Enter');
       const exportError = page.getByRole('dialog', { name: 'PDF download failed', exact: true });

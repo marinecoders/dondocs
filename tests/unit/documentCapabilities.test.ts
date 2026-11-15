@@ -31,11 +31,10 @@ it.each(['navmc_10274', 'navmc_118_11'])('limits built-in %s output to PDF while
   expect(resolveCapabilities(form, word)).toMatchObject({ status: 'unsupported', reason: 'pdf-only' });
   expect(resolveCapabilities(form, { operation: 'export', target: 'tex' }).status).toBe('unsupported');
 });
-it('describes TeX fragments and share omissions as partial capabilities', () => {
+it('describes TeX fragments and configured templates separately from native asset handoff', () => {
   expect(resolveCapabilities(letter, { operation: 'export', target: 'tex' })).toMatchObject({ status: 'partial', reason: 'tex-configuration-only' });
-  for (const subject of [letter, configured(), { kind: 'builtin-form', documentMode: 'compliant', formType: 'navmc_10274' }] as const) {
-    expect(resolveCapabilities(subject, { operation: 'share', target: 'link' })).toMatchObject({ status: 'partial', reason: 'share-separate-assets' });
-  }
+  expect(resolveCapabilities(configured(), { operation: 'share', target: 'link' })).toMatchObject({ status: 'partial', reason: 'share-separate-assets' });
+  for (const subject of [letter, { kind: 'builtin-form', documentMode: 'compliant', formType: 'navmc_10274' }] as const) expect(resolveCapabilities(subject, { operation: 'share', target: 'link' })).toEqual({ status: 'supported' });
 });
 it.each(['not-loaded', 'loading', 'failed'] as const)('reports selected form definition state %s without assuming support', status => {
   expect(resolveCapabilities({ kind: 'configured-form', documentMode: 'compliant', formType: 'fixture', definition: { status } }, pdf)).toMatchObject({ status: 'not-ready' });

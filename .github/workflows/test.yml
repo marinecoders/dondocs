@@ -177,7 +177,9 @@ jobs:
         # the bundle — that makes "is this growth justified?" a code-
         # review conversation instead of a thing nobody notices.
         run: |
-          BUDGET_BYTES=4980736   # 4.75 MiB
+          # Native encrypted asset handoff measured 4,986,453 B: 5,717 B over
+          # the former 4.75 MiB gate. No dependency or test/debug bundle added.
+          BUDGET_BYTES=5033165   # 4.80 MiB
           TOTAL=$(find dist/assets -name "*.js" -exec stat -c %s {} \; | awk '{s+=$1} END {print s+0}')
           echo "Total dist/assets JS: $TOTAL bytes (budget: $BUDGET_BYTES)"
           if [ "$TOTAL" -gt "$BUDGET_BYTES" ]; then

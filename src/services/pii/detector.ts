@@ -310,7 +310,7 @@ export function detectPII(documentStore: DocumentStore): PIIDetectionResult {
 
 /** Inspect the exact serialized share payload, including its inactive fields. */
 export function detectSharedSessionPII(session: SerializedSession): PIIDetectionResult {
-  return inspectFields(documentTextFields(session, 'share'));
+  return inspectFields(documentTextFields(session, 'share', { includeUnknownDataUris: true }));
 }
 
 /** Preparation inspects an issued revision rather than rereading a live store. */

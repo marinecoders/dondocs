@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { detectClassification, CLASSIFICATION_LABELS } from '@/lib/detectClassification';
+import { detectClassification, CLASSIFICATION_LABELS, retainedTextClassificationLevel } from '@/lib/detectClassification';
 
 describe('detectClassification — banner level', () => {
   it('reads a SECRET banner from a standalone line', () => {
@@ -118,5 +118,18 @@ describe('detectClassification — labels', () => {
     for (const level of ['unclassified', 'cui', 'confidential', 'secret', 'top_secret', 'top_secret_sci'] as const) {
       expect(CLASSIFICATION_LABELS[level]).toBeTruthy();
     }
+  });
+});
+
+describe('retained text classification', () => {
+  it.each([
+    ['(U) Ordinary text', 'unclassified'], ['(CUI) Retained answer', 'cui'], ['(FOUO) Retained answer', 'cui'],
+    ['(C) Retained label', 'confidential'], ['(S) Retained option', 'secret'], ['(TS) Retained option', 'top_secret'],
+    ['UNCLASSIFIED\r\n\r\n  (S) Retained option', 'secret'], ['TOP SECRET//SCI\n(U) Ordinary text', 'top_secret_sci'],
+  ])('preserves the highest recognized level in %s', (text, expected) => {
+    expect(retainedTextClassificationLevel(text)).toBe(expected);
+  });
+  it.each(['SECRET SERVICE DETAIL', 'A choice mentions (S) in prose.', 'Confidential sources report an ordinary event.'])('does not infer a banner or portion from prose: %s', text => {
+    expect(retainedTextClassificationLevel(text)).toBe('unclassified');
   });
 });
