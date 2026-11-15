@@ -26,7 +26,8 @@ async function originalPdf(text: string) {
 async function download(page: Page, prepare: string, deliver: string) {
   const modal = page.getByRole("dialog", { name: "Action packages", exact: true });
   await modal.getByRole("button", { name: prepare, exact: true }).click();
-  await expect(modal.getByRole("heading", { name: /^Package readiness:/ })).toBeVisible();
+  // Readiness includes asynchronous inspection of every retained PDF.
+  await expect(modal.getByRole("heading", { name: /^Package readiness:/ })).toBeVisible({ timeout: 30_000 });
   await modal.getByRole("checkbox", { name: /^I reviewed every included member/ }).check();
   const pending = page.waitForEvent("download");
   await modal.getByRole("button", { name: deliver, exact: true }).click();
