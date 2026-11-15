@@ -3,7 +3,7 @@ import { getSerializedSession, type SerializedSession } from '@/stores/documentS
 import { applyOwnedReviewSuggestions, captureDocumentTarget, flushPendingReviewWrites, hasPendingReviewWrites,
   isCurrentDocumentTarget, type DocumentTarget } from '@/stores/documentsStore';
 import { idbReadReviewSuggestions } from './documentsDb';
-import { readReviewCopyLink, readReviewRound, type ReviewRound } from './reviewRounds';
+import { assertActiveReviewRound, readReviewCopyLink, readReviewRound, type ReviewRound } from './reviewRounds';
 import { captureChangeReport, prepareChangeReport } from './changeReport';
 import { classificationBannerLevel } from './detectClassification';
 import { classificationRank, deriveOverallClassLevel } from './overallClassification';
@@ -41,6 +41,7 @@ export interface ReviewSuggestionOutcome { status: 'committed' | 'pending' | 'st
 
 export async function submitReviewSuggestion(input: ReviewSuggestion): Promise<ReviewSuggestionOutcome> {
   const proposal = structuredClone(input), context = await loadReviewSuggestionWorkspace(proposal.roundId);
+  assertActiveReviewRound(context.round);
   validateReviewSuggestion(context.round, proposal);
   const after = appendReviewSuggestions(context.round, context.state ?? emptyReviewSuggestionState(context.round), [proposal]);
   if (context.state?.proposals.some(item => item.id === proposal.id)) return { status: 'committed', state: after };
@@ -54,6 +55,7 @@ export async function submitReviewSuggestion(input: ReviewSuggestion): Promise<R
 export async function decideReviewSuggestion(roundId: string, proposalId: string, action: 'accepted' | 'rejected',
   resolutions?: readonly ReviewSuggestionResolution[]): Promise<ReviewSuggestionOutcome> {
   const context = await loadReviewSuggestionWorkspace(roundId);
+  assertActiveReviewRound(context.round);
   if (!context.owner) throw new Error('Only the local source draft can decide a suggested replacement.');
   const state = context.state ?? emptyReviewSuggestionState(context.round);
   const plan = planReviewSuggestionDecision(context.round, context.current, state, proposalId, action, undefined, resolutions);

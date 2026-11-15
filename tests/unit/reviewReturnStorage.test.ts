@@ -106,3 +106,13 @@ describe('atomic discussion-return storage', () => {
     expect(await stored()).toEqual(before);expect(await idbReadReviewReturn(round.id, receipt.returnId)).toBeNull();
   });
 });
+
+it('does not commit late feedback after its round closes while keeping prior receipts recognizable', async () => {
+  const { idbTransitionReviewRound } = await import('@/lib/documentsDb');
+  const { planReviewRoundTransition } = await import('@/lib/reviewRoundLifecycle');
+  const closed = planReviewRoundTransition(round, 'close');
+  expect(await idbTransitionReviewRound(round, closed, () => true)).toBe(true);
+  expect(await idbApplyReviewReturn(before, after, round, receipt)).toBe('conflict');
+  expect(await stored()).toEqual(before);
+  expect(await idbReadReviewReturn(round.id, receipt.returnId)).toBeNull();
+});

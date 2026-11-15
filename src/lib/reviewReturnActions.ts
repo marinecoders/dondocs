@@ -10,7 +10,7 @@ import type { PolicyResolution } from './exportDeploymentPolicy';
 import { triggerDownload } from './encoding';
 import { describeCommentAnchor, supportsReviewComments } from './reviewCommentTargets';
 import { mergeReturnedComments, type ReviewCommentMerge, type ReviewReturnChoice } from './reviewCommentMerge';
-import { readReviewCopyLink, readReviewRound, type ReviewRound } from './reviewRounds';
+import { assertActiveReviewRound, readReviewCopyLink, readReviewRound, type ReviewRound } from './reviewRounds';
 import {
   createReviewReturn, createSuggestionReviewReturn, parseReviewReturn, readReviewReturnReceipt, reviewReturnDigest,
   reviewReturnReceiptSchema, type ReviewReturn,
@@ -130,6 +130,7 @@ export async function prepareReviewReturnImport(value: unknown): Promise<Prepare
   if (previous && (previous.returnDigest !== digest || previous.documentId !== round.ownerDocumentId || previous.baselineDigest !== round.baselineDigest)) {
     throw new Error('Different feedback uses an already imported return identity. Ask the reviewer to export a new return.');
   }
+  if (!previous) assertActiveReviewRound(round);
   const saved = payload.version === 2 ? await idbReadReviewSuggestions(captured.target.scope.documentId, round.id) : null;
   const suggestions = saved === null ? null : validateReviewSuggestionState(round, reviewSuggestionRecordSchema.parse(saved).state);
   if (payload.version === 2) appendReviewSuggestions(round, suggestions ?? emptyReviewSuggestionState(round), payload.proposals);
@@ -168,6 +169,10 @@ export async function applyReviewReturn(prepared: PreparedReviewReturnImport, ch
   if (!owned || owned.started) throw new Error('This return has already been applied. Prepare it again to check its saved state.');
   current(owned.target);
   if (prepared.alreadyImported) return 'already-imported';
+  const round = await readReviewRound(owned.round.id);
+  if (!round) throw new Error('The retained round is unavailable.');
+  assertActiveReviewRound(round);
+  current(owned.target);
   const plan = reviewReturnPlan(prepared, choices);
   if (plan.status !== 'ready') throw new Error('Choose how to resolve every conflicting discussion before importing.');
   const receipt = reviewReturnReceiptSchema.parse({ kind: 'dondocs-review-return-receipt', version: 1,

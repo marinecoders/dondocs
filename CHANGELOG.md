@@ -7,6 +7,18 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.95] — 2026-11-15
+
+### Added
+
+- Close, deliberately reopen or supersede retained review rounds while preserving their exact baselines, decisions and state history.
+
+### Fixed
+
+- Advance compatible received review histories through copy imports and backup restore without rolling back newer state or replacing retained baseline metadata.
+- Recover explicit source ownership during workspace restore only when the actual source document is present; reject inconsistent authority changes atomically.
+- Reject stale round transitions and new feedback for closed or superseded rounds at storage commit, preserve duplicate return receipts, and keep received status separate from authenticated decisions.
+
 ## [1.3.94] — 2026-11-15
 
 ### Added

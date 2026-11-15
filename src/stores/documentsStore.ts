@@ -12,7 +12,7 @@ import { waitForStorage, DocumentWrites, WRITE_JOURNAL_KEY, parseDocumentWriteJo
 import { recoverReviewReturnWrite, REVIEW_WRITE_RECOVERY_KEY } from '@/lib/reviewReturnRecovery';
 import { reviewReturnWriteSchema, type ReviewReturnWrite } from '@/lib/reviewReturns';
 import { supportsReviewComments } from '@/lib/reviewCommentTargets';
-import { readReviewRound, readReviewCopyLink } from '@/lib/reviewRounds';
+import { readReviewRound, readReviewCopyLink, reviewRoundStatus } from '@/lib/reviewRounds';
 import { reviewSuggestionWriteMetadata, planReviewSuggestionWrite, reviewSuggestionWriteSchema, reviewSuggestionRecordSchema, type ReviewSuggestionWrite } from '@/lib/reviewSuggestionWrites';
 import { cacheReviewSuggestions, cachedReviewSuggestions, rebindReviewSuggestionHistory, forgetReviewSuggestions } from '@/lib/reviewSuggestionRuntime';
 import { validateReviewSuggestionState, planReviewSuggestionHistory } from '@/lib/reviewSuggestions';
@@ -921,7 +921,7 @@ export async function applyOwnedReviewSuggestions(target: DocumentTarget | null,
   const saved = await commitCurrentDocument();
   if (!saved || !isCurrentDocumentTarget(target)) return 'stale';
   const round = await readReviewRound(operation.round.id), link = await readReviewCopyLink(operation.documentId);
-  if (!round || round.baselineDigest !== operation.round.baselineDigest || round.ownerDocumentId !== operation.documentId
+  if (!round || reviewRoundStatus(round) !== 'active' || round.baselineDigest !== operation.round.baselineDigest || round.ownerDocumentId !== operation.documentId
     && (operation.intent.kind !== 'propose' || !link || link.roundId !== round.id || link.baselineDigest !== round.baselineDigest)) return 'invalid';
   const raw = await idbReadReviewSuggestions(operation.documentId, round.id);
   const stored = raw === null ? null : reviewSuggestionRecordSchema.parse(raw);

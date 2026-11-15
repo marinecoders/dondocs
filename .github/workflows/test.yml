@@ -165,22 +165,16 @@ jobs:
           fi
 
       - name: bundle-size budget
-        # Catches silent bundle bloat. The runtime ships every byte under
-        # dist/assets/*.js to the browser; if the total drifts much past
-        # the current size something has been pulled in unintentionally
-        # (a tree-shaking regression, an accidental whole-library import,
-        # a polyfill imported in app code, etc.). Threshold is the
-        # current measurement (4.54 MiB, including the on-demand Excel
-        # roster reader) + ~5% headroom, so legitimate
-        # growth is fine but quiet 30%-over-six-months drift fails CI.
-        # Bump the budget upward in the same PR that legitimately grows
-        # the bundle — that makes "is this growth justified?" a code-
-        # review conversation instead of a thing nobody notices.
+        # Bound total emitted JavaScript, including on-demand chunks. Measure
+        # intentional feature growth and review its module graph in the same PR.
+        # Keep the limit close to the observed total so accidental dependencies,
+        # test imports, duplicated modules and tree-shaking regressions fail CI.
         run: |
-          # Saved action packages measured 5,048,588 B in 22 JS chunks.
-          # Immutable capture, validation, workspace and retained-output handling
-          # add application code; no dependency, test or temporary bundle added.
-          BUDGET_BYTES=5085594   # 4.85 MiB
+          # The reviewed batch/review features and navigation total about 5.12 MB.
+          # Module-graph inspection found only feature code growth: no added
+          # dependency modules, duplicate source modules or test imports.
+          # Keep about 1% headroom over the measured, normalized feature stack.
+          BUDGET_BYTES=5190451   # 4.95 MiB
           TOTAL=$(find dist/assets -name "*.js" -exec stat -c %s {} \; | awk '{s+=$1} END {print s+0}')
           echo "Total dist/assets JS: $TOTAL bytes (budget: $BUDGET_BYTES)"
           if [ "$TOTAL" -gt "$BUDGET_BYTES" ]; then

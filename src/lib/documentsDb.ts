@@ -3,7 +3,8 @@ import type { SerializedSession } from '@/stores/documentStore';
 import { debug } from '@/lib/debug';
 import type { ReviewRound, ReviewCopyLink } from './reviewRounds';
 import type { ReviewReturnReceipt } from './reviewReturns';
-import { parseReviewRound, reviewCopyLinkSchema } from './reviewRounds';
+import { parseReviewRound, reviewCopyLinkSchema, reviewRoundStatus } from './reviewRounds';
+import { mergeReceivedReviewLifecycle } from './reviewRoundLifecycle';
 import { supportsReviewComments } from './reviewCommentTargets';
 import type { ReviewSuggestionWrite } from './reviewSuggestionWrites';
 
@@ -155,10 +156,52 @@ export async function idbAddReviewRound(input: ReviewRound): Promise<'committed'
   } catch { return 'failed'; }
 }
 
+/** Compare and commit a lifecycle event under the same lock used by feedback writes. */
+export async function idbTransitionReviewRound(expected: ReviewRound, next: ReviewRound,
+  isCurrent: () => boolean): Promise<boolean> {
+  try {
+    const before = parseReviewRound(structuredClone(expected));
+    const after = parseReviewRound(structuredClone(next));
+    const { lifecycle: beforeLifecycle, ...beforeBaseline } = before;
+    const { lifecycle: afterLifecycle, ...afterBaseline } = after;
+    if (!before.ownerDocumentId || !sameReviewStoredValue(beforeBaseline, afterBaseline)
+      || !afterLifecycle || afterLifecycle.events.length !== (beforeLifecycle?.events.length ?? 0) + 1
+      || !sameReviewStoredValue(afterLifecycle.events.slice(0, -1), beforeLifecycle?.events ?? [])) return false;
+    const replacementId = afterLifecycle.events.at(-1)?.replacementRoundId;
+    const db = await openDb();
+    return await new Promise<boolean>((resolve, reject) => {
+      const transaction = db.transaction([APP_STORE, DOCS_STORE], 'readwrite');
+      const app = transaction.objectStore(APP_STORE);
+      const roundRequest = app.get(reviewRoundKey(before.id));
+      const ownerRequest = transaction.objectStore(DOCS_STORE).get(before.ownerDocumentId!);
+      const replacementRequest = replacementId ? app.get(reviewRoundKey(replacementId)) : null;
+      let remaining = replacementRequest ? 3 : 2;
+      let committed = false;
+      const ready = () => {
+        if (--remaining || !isCurrent() || !ownerRequest.result
+          || !sameReviewStoredValue(roundRequest.result?.value, before)) return;
+        if (replacementRequest) {
+          const replacement = replacementRequest.result?.value as ReviewRound | undefined;
+          if (!replacement || replacement.ownerDocumentId !== before.ownerDocumentId
+            || replacement.createdAt <= before.createdAt || reviewRoundStatus(replacement) !== 'active') return;
+        }
+        app.put({ key: reviewRoundKey(after.id), value: after });
+        committed = true;
+      };
+      roundRequest.onsuccess = ready;
+      ownerRequest.onsuccess = ready;
+      if (replacementRequest) replacementRequest.onsuccess = ready;
+      transaction.oncomplete = () => resolve(committed);
+      transaction.onerror = () => reject(transaction.error ?? new Error('The round state could not be saved.'));
+      transaction.onabort = () => reject(transaction.error ?? new Error('The round state save was cancelled.'));
+    });
+  } catch { return false; }
+}
+
 /** A received reviewer copy, its pin and its local association commit together. */
 export async function idbInstallReviewCopy(input: StoredDocument, pin: ReviewRound, association: ReviewCopyLink): Promise<boolean> {
   try {
-    const document = structuredClone(input), round = structuredClone(pin), link = structuredClone(association);
+    const document = structuredClone(input), round = parseReviewRound(structuredClone(pin)), link = structuredClone(association);
     if (document.id !== link.documentId || round.id !== link.roundId || round.baselineDigest !== link.baselineDigest) return false;
     const db = await openDb();
     return await new Promise<boolean>((resolve, reject) => {
@@ -172,9 +215,13 @@ export async function idbInstallReviewCopy(input: StoredDocument, pin: ReviewRou
         if (existingDocument.result || previous && (previous.baselineDigest !== round.baselineDigest
           || previous.sourceDocumentId !== round.sourceDocumentId)) return;
         try {
+          const retained = previous ? mergeReceivedReviewLifecycle(previous, round) : { ...round, ownerDocumentId: undefined };
           documents.put(document);
-          // Receiving a copy must never overwrite a local owner's established pin.
-          if (!previous) app.put({ key: reviewRoundKey(round.id), value: { ...round, ownerDocumentId: undefined } });
+          // Preserve local ownership and comparison markers. Received lifecycle
+          // advancement commits atomically with its new document and link.
+          if (!previous || !sameReviewStoredValue(previous, retained)) {
+            app.put({ key: reviewRoundKey(round.id), value: retained });
+          }
           app.put({ key: reviewCopyKey(link.documentId), value: link });
           installed = true;
         } catch { transaction.abort(); }
@@ -192,7 +239,7 @@ export async function idbInstallReviewCopy(input: StoredDocument, pin: ReviewRou
 export async function idbRestoreReviewRecords(pins: ReviewRound[], associations: ReviewCopyLink[]): Promise<boolean> {
   if (!pins.length && !associations.length) return true;
   try {
-    const rounds = structuredClone(pins), copies = structuredClone(associations);
+    const rounds = structuredClone(pins).map(parseReviewRound), copies = structuredClone(associations);
     if (new Set(rounds.map(round => round.id)).size !== rounds.length || new Set(copies.map(copy => copy.documentId)).size !== copies.length
       || copies.some(copy => !rounds.some(round => round.id === copy.roundId && round.baselineDigest === copy.baselineDigest))) return false;
     const db = await openDb();
@@ -202,7 +249,8 @@ export async function idbRestoreReviewRecords(pins: ReviewRound[], associations:
       const roundReads = rounds.map(round => app.get(reviewRoundKey(round.id)));
       const copyReads = copies.map(copy => app.get(reviewCopyKey(copy.documentId)));
       const documentReads = copies.map(copy => documents.get(copy.documentId));
-      const requests = [...roundReads, ...copyReads, ...documentReads];
+      const ownerReads = rounds.map(round => round.ownerDocumentId ? documents.get(round.ownerDocumentId) : null);
+      const requests = [...roundReads, ...copyReads, ...documentReads, ...ownerReads.filter(request => request !== null)];
       let remaining = requests.length, restored = false;
       const ready = () => {
         if (--remaining) return;
@@ -214,7 +262,24 @@ export async function idbRestoreReviewRecords(pins: ReviewRound[], associations:
           return !documentReads[index].result || existing && (existing.roundId !== copy.roundId || existing.baselineDigest !== copy.baselineDigest);
         })) return;
         try {
-          rounds.forEach((round, index) => { if (!roundReads[index].result) app.put({ key: reviewRoundKey(round.id), value: round }); });
+          const retainedRounds = rounds.map((round, index) => {
+            const existing = roundReads[index].result?.value as ReviewRound | undefined;
+            if (!existing) return round;
+            const retained = mergeReceivedReviewLifecycle(existing, round);
+            if (existing.ownerDocumentId || !round.ownerDocumentId) return retained;
+            // Only explicit workspace restore can recover source authority.
+            // A portable copy never reaches this promotion path.
+            const owner = ownerReads[index]?.result as StoredDocument | undefined;
+            if (round.ownerDocumentId !== round.sourceDocumentId || owner?.id !== round.ownerDocumentId) {
+              throw new Error('The backup source is unavailable or inconsistent.');
+            }
+            return parseReviewRound({ ...retained, ownerDocumentId: round.ownerDocumentId });
+          });
+          retainedRounds.forEach((round, index) => {
+            if (!sameReviewStoredValue(roundReads[index].result?.value, round)) {
+              app.put({ key: reviewRoundKey(round.id), value: round });
+            }
+          });
           copies.forEach((copy, index) => { if (!copyReads[index].result) app.put({ key: reviewCopyKey(copy.documentId), value: copy }); });
           restored = true;
         } catch { transaction.abort(); }
@@ -960,6 +1025,7 @@ export async function idbApplyReviewReturn(
           }
           return;
         }
+        if (reviewRoundStatus(owned) !== 'active') return;
         const current = documentRequest.result as StoredDocument | undefined;
         if (!current) { outcome = 'missing-document'; return; }
         if (!sameReviewStoredValue(current, before)) return;
@@ -1021,6 +1087,7 @@ export async function idbApplyReviewSuggestions(inputBefore: StoredDocument, inp
             return;
           }
           if (previousReturn) { outcome = 'already-imported';return; }
+          if (reviewRoundStatus(round) !== 'active' && operation.intent.kind !== 'history') return;
           const current = documentRequest.result as StoredDocument | undefined;
           if (!current) { outcome = 'missing-document';return; }
           if (!sameReviewStoredValue(current, before) || !sameReviewStoredValue(currentState, operation.before)) return;
