@@ -119,3 +119,19 @@ it('counts UTF-8 bytes and bounds total supplied repeat answers', () => {
   const answers = Object.fromEntries(Array.from({ length: 11 }, (_, index) => [`extra_${index}`, 'x']));
   expect(mapConfiguredBatchRow(source, { ...values, roster: JSON.stringify(Array(200).fill({ grade: 'e1', ...answers })) }).issues.join()).toContain('at most 2000 answers');
 });
+
+
+it('counts supplied blank answers toward the form-wide answer budget across groups', () => {
+  const source = form(), group = source.definition.rowGroups.roster;
+  for (let index = 0; index < 11; index++) {
+    const id = `extra_${index}`;
+    group.columns[id] = { kind: 'text', label: id };
+    for (const row of group.rows) row.push({ ...row[0], fieldId: id });
+  }
+  group.rows = Array.from({ length: 100 }, () => structuredClone(group.rows[0]));
+  source.definition.rowGroups.second = structuredClone(group);
+  const answers = { grade: 'e1', ...Object.fromEntries(Array.from({ length: 11 }, (_, index) => [`extra_${index}`, '  '])) };
+  const raw = JSON.stringify(Array(100).fill(answers));
+  expect(mapConfiguredBatchRow(source, { ...values, roster: raw }).issues).toEqual([]);
+  expect(mapConfiguredBatchRow(source, { ...values, roster: raw, second: raw }).issues.join()).toContain('at most 2000 repeating-row answers');
+});

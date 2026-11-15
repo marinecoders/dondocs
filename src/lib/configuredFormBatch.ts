@@ -112,8 +112,10 @@ function assertDistinctObjectKeys(raw: string): void {
   }
 }
 
-/** One roster cell contains explicit rows; source answers and row IDs are never copied. */
-export function parseConfiguredBatchRows(groupId: string, group: FormDefinition['rowGroups'][string], raw: string): AnswerRows[string] {
+function parseConfiguredBatchRowsWithCount(groupId: string, group: FormDefinition['rowGroups'][string], raw: string): {
+  rows: AnswerRows[string];
+  suppliedAnswers: number;
+} {
   if (new TextEncoder().encode(raw).byteLength > MAX_CONFIGURED_BATCH_REPEAT_BYTES)
     throw new Error('Repeating-row cells are limited to 256 KiB.');
   let value: unknown;
@@ -124,7 +126,7 @@ export function parseConfiguredBatchRows(groupId: string, group: FormDefinition[
   if (value.length > capacity) throw new Error(`The form holds at most ${capacity} roster rows; no rows were dropped`);
   assertDistinctObjectKeys(raw);
   let cells = 0;
-  return value.map((row: unknown, index) => {
+  const rows = value.map((row: unknown, index) => {
     if (!row || typeof row !== 'object' || Array.isArray(row)) throw new Error(`Row ${index + 1}: enter an answer object`);
     const answers: FormInstance['answers'] = {};
     for (const [id, answer] of Object.entries(row)) {
@@ -142,6 +144,12 @@ export function parseConfiguredBatchRows(groupId: string, group: FormDefinition[
     }
     return { id: `batch_${groupId}_${index}`, answers };
   });
+  return { rows, suppliedAnswers: cells };
+}
+
+/** One roster cell contains explicit rows; source answers and row IDs are never copied. */
+export function parseConfiguredBatchRows(groupId: string, group: FormDefinition['rowGroups'][string], raw: string): AnswerRows[string] {
+  return parseConfiguredBatchRowsWithCount(groupId, group, raw).rows;
 }
 
 /** Render a normalized row summary only after the complete group passes validation. */
@@ -183,6 +191,7 @@ export function reviewConfiguredBatchRow(instance: FormInstance, values: Readonl
   const repeatBytes = mapping.fields.filter(field => field.kind === 'rows').reduce((total, field) => total + (typeof values[field.id] === 'string' ? new TextEncoder().encode(values[field.id]).byteLength : 0), 0);
   if (repeatBytes > MAX_CONFIGURED_BATCH_REPEAT_TOTAL_BYTES) return { answers, rows, issues: ['A form supports at most 1 MiB of repeating-row input.'] };
   const fieldIds = new Set(mapping.fields.map(field => field.id));
+  let suppliedAnswers = 0;
   for (const key of Object.keys(values)) {
     if (!fieldIds.has(key)) issues.push(`Unknown roster field: ${key}`);
   }
@@ -194,7 +203,11 @@ export function reviewConfiguredBatchRow(instance: FormInstance, values: Readonl
     }
     if (!raw.trim()) continue;
     try {
-      if (field.kind === 'rows') rows[field.id] = parseConfiguredBatchRows(field.id, instance.definition.rowGroups[field.id], raw);
+      if (field.kind === 'rows') {
+        const parsed = parseConfiguredBatchRowsWithCount(field.id, instance.definition.rowGroups[field.id], raw);
+        rows[field.id] = parsed.rows;
+        suppliedAnswers += parsed.suppliedAnswers;
+      }
       else answers[field.id] = parseConfiguredBatchAnswer(instance.definition.fields[field.id], raw);
     } catch (error) {
       issues.push(`${field.label}: ${error instanceof Error ? error.message : 'Invalid roster value'}`);
@@ -202,8 +215,7 @@ export function reviewConfiguredBatchRow(instance: FormInstance, values: Readonl
   }
   const totalRows = Object.values(rows).reduce((total, group) => total + group.length, 0);
   if (totalRows > MAX_CONFIGURED_BATCH_REPEAT_ROWS) issues.push(`A form supports at most ${MAX_CONFIGURED_BATCH_REPEAT_ROWS} repeating rows`);
-  const totalCells = Object.values(rows).flat().reduce((total, row) => total + Object.keys(row.answers).length, 0);
-  if (totalCells > MAX_CONFIGURED_BATCH_REPEAT_CELLS) issues.push(`A form supports at most ${MAX_CONFIGURED_BATCH_REPEAT_CELLS} repeating-row answers`);
+  if (suppliedAnswers > MAX_CONFIGURED_BATCH_REPEAT_CELLS) issues.push(`A form supports at most ${MAX_CONFIGURED_BATCH_REPEAT_CELLS} repeating-row answers`);
   issues.push(...validateAnswers(instance.definition, answers, rows).map(issue => diagnosticText(instance.definition, issue)));
   return { answers, rows, issues };
 }
