@@ -53,7 +53,7 @@ import {
 import { captureCurrentDocumentRevision } from "@/stores/captureDocument";
 import { useDocumentsStore } from "@/stores/documentsStore";
 import { useUIStore } from "@/stores/uiStore";
-import { getExportDeploymentPolicy } from "@/config/classification";
+import { getExportDeploymentPolicy, getExportDeploymentPolicySync } from "@/config/classification";
 import { triggerDownload } from "@/lib/encoding";
 import { parseEncryptedShareFile, MAX_ENCRYPTED_SHARE_FILE_BYTES } from "@/lib/encryptedShareFile";
 import { ShareModal } from "./modals/ShareModal";
@@ -310,10 +310,12 @@ function PackageDialog({
         prepared, beforeComparisonId, afterComparisonId, operation.current!.signal,
       );
       assertOperationCurrent();
+      assertPreparedPackagePolicy(prepared, await getExportDeploymentPolicy());
+      assertOperationCurrent();
       const current = (await listActionPackages()).find(item => item.id === record.id);
       if (!current || current.sequence !== record.sequence || current.currentRevisionId !== record.currentRevisionId)
         throw new Error("The package changed during comparison. Reopen it and review the selected revision again.");
-      assertPreparedPackagePolicy(prepared, await getExportDeploymentPolicy());
+      assertPreparedPackagePolicy(prepared, getExportDeploymentPolicySync());
       assertOperationCurrent();
       setRenderComparison(result);
       setNotice("Comparison complete. The saved PDFs were not changed.");
