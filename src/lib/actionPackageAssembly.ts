@@ -4,6 +4,7 @@ import {
   reviewPackageOriginal,
 } from "./actionPackageDisclosure";
 import { APP_VERSION, GIT_SHA } from "./version";
+import { resolvePackageCitations } from "./packageCitations";
 import { PDFDocument, StandardFonts } from "pdf-lib";
 import { captureDocumentRevision } from "./capturedDocument";
 import { captureFormExportTemplates } from "./formExportTemplates";
@@ -137,6 +138,12 @@ export async function preparePackageAssembly(
   const reviewOriginal = options.reviewOriginal ?? reviewPackageOriginal;
   const owned = structuredClone(record),
     revision = getPackageRevision(owned, revisionId);
+  const linkedEnclosures = new Set(
+    (await resolvePackageCitations(revision)).links
+      .filter(value => value.state === "current" && value.link.source.kind === "enclosure" && value.link.source.field === "text")
+      .map(({ link }) => JSON.stringify([link.source.memberId, link.source.paragraphId, link.source.start, link.source.end])),
+  );
+  options.signal?.throwIfAborted();
   const findings: PackageFinding[] = [],
     reviews: PreparedPackageAssembly["reviews"] = [],
     inputs: MemberInput[] = [];
@@ -350,10 +357,19 @@ export async function preparePackageAssembly(
         if (canReviewReferenceOrder(snapshot))
           for (const message of planFirstCitationOrder(snapshot).blockers)
             error(message, member.id);
-        const text = snapshot.paragraphs
-          .map((paragraph) => paragraph.text)
-          .join("\n");
+        let paragraphOffset = 0;
+        const paragraphSpans = snapshot.paragraphs.map(paragraph => {
+          const start = paragraphOffset;
+          paragraphOffset += paragraph.text.length + 1;
+          return { id: paragraph.id, start, end: start + paragraph.text.length };
+        });
+        const text = snapshot.paragraphs.map(paragraph => paragraph.text).join("\n");
         for (const match of text.matchAll(/\benclosure\s*\((\d+)\)/gi)) {
+          const paragraph = paragraphSpans.find(span => match.index >= span.start && match.index + match[0].length <= span.end);
+          const labelStart = paragraph ? match.index - paragraph.start + match[0].lastIndexOf(match[1]) : -1;
+          const linked = paragraph?.id !== undefined && linkedEnclosures.has(
+            JSON.stringify([member.id, paragraph.id, labelStart, labelStart + match[1].length]),
+          );
           const offset = snapshot.formData.startingEnclosureNumber ?? 1;
           const embedded =
             Number(match[1]) >= offset &&
@@ -365,9 +381,9 @@ export async function preparePackageAssembly(
             !snapshot.enclosures.length &&
             Number(match[1]) >= 1 &&
             Number(match[1]) <= packageEnclosures.length;
-          if (!embedded && !packageLiteral)
+          if (!linked && !embedded && !packageLiteral)
             error(
-              `Unresolved enclosure (${match[1]}) citation. Linked package enclosure citations are planned for a later release.`,
+              `Unresolved enclosure (${match[1]}) citation. Link its current package target or correct the literal citation before assembling.`,
               member.id,
             );
         }
