@@ -129,7 +129,10 @@ export async function preparePackageAssembly(
   record: ActionPackage,
   revisionId: string,
   policy: PolicyResolution,
+  options: { reviewOriginal?: typeof reviewPackageOriginal; signal?: AbortSignal } = {},
 ): Promise<PreparedPackageAssembly> {
+  options.signal?.throwIfAborted();
+  const reviewOriginal = options.reviewOriginal ?? reviewPackageOriginal;
   const owned = structuredClone(record),
     revision = getPackageRevision(owned, revisionId);
   const findings: PackageFinding[] = [],
@@ -170,6 +173,7 @@ export async function preparePackageAssembly(
     );
   }
   for (const output of revision.outputs) {
+    options.signal?.throwIfAborted();
     try {
       const bytes = await readPackageAsset(output.asset);
       const pdf = await PDFDocument.load(bytes);
@@ -185,7 +189,7 @@ export async function preparePackageAssembly(
         );
       reviews.push({
         member: `Retained PDF: ${output.asset.name}`,
-        review: await reviewPackageOriginal(bytes, output.asset.name, policy),
+        review: await reviewOriginal(bytes, output.asset.name, policy),
       });
       outputs.set(output.asset.id, bytes);
     } catch (cause) {
@@ -202,6 +206,7 @@ export async function preparePackageAssembly(
   const basicSession = basic?.kind === "native" ? basic.session : null;
   let previousSession = basicSession;
   for (const member of revision.members) {
+    options.signal?.throwIfAborted();
     if (member.role !== "basic-letter" && member.role !== "endorsement")
       passedEndorsements = true;
     if (member.role === "endorsement" && passedEndorsements)
@@ -215,7 +220,7 @@ export async function preparePackageAssembly(
         await validatePackageOriginalPdf(original);
         reviews.push({
           member: member.label,
-          review: await reviewPackageOriginal(original, member.label, policy),
+          review: await reviewOriginal(original, member.label, policy),
         });
         if (member.role === "endorsement") {
           endorsementCount++;
@@ -238,7 +243,7 @@ export async function preparePackageAssembly(
         if (file)
           reviews.push({
             member: `${member.label}: ${file.name}`,
-            review: await reviewPackageOriginal(file.data, file.name, policy),
+            review: await reviewOriginal(file.data, file.name, policy),
           });
       const { snapshot } = await preparePackageMember(member);
       if (snapshot.documentCategory !== "forms" && snapshot.docType === "business_letter" && snapshot.paragraphs.some(paragraph => paragraph.figure?.type === "application/pdf"))
@@ -421,6 +426,7 @@ export async function preparePackageAssembly(
       );
     }
   }
+  options.signal?.throwIfAborted();
   const result: PreparedPackageAssembly = Object.freeze({
     revisionId,
     readiness: {
