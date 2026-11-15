@@ -27,6 +27,7 @@ interface Capture { record: ActionPackage; operation: PackageCitationReorder; se
 const plans = new WeakMap<PreparedPackageCitationReorder, Capture>();
 const sameSource = (left: PackageCitationLink["source"], right: PackageCitationLink["source"]) => sameReviewStoredValue(left, right);
 const sameField = (left: PackageCitationLink["source"], right: PackageCitationLink["source"]) => left.memberId === right.memberId && left.paragraphId === right.paragraphId && left.field === right.field;
+const numericLabel = (value: string) => value.replace(/^0+(?=\d)/, "");
 
 function permuted<T>(values: readonly T[], order: readonly number[]): T[] {
   if (order.length !== values.length || new Set(order).size !== values.length || order.some(index => !Number.isInteger(index) || index < 0 || index >= values.length)) throw new Error("Choose a complete, unique current order.");
@@ -63,12 +64,27 @@ function assertLinkedCoverage(revision: PackageRevision, changedLabels: Readonly
     if (member.kind !== "native") continue;
     for (const field of documentTextFields(member.session, "draft")) {
       if (!["text", "unknown"].includes(field.role) || ["references", "enclosures", "reviewComments"].includes(String(field.path[0]))) continue;
+      const affectedEnclosures = new Set(changedLabels.filter(value => value.kind === "enclosure" && (value.global || value.memberId === member.id)).map(value => numericLabel(value.before)));
+      if (affectedEnclosures.size) {
+        let enclosureContext: string | undefined;
+        // A later bare parenthesized number has no stable target, regardless of its separator or prose connector.
+        // Known explicit paragraph/page/section labels are not enclosure citations and remain untouched.
+        for (const token of field.text.matchAll(/(?:\b(enclosures?|encls?\.?|paragraphs?|paras?\.?|subparagraphs?|pages?|pp?\.?|sections?|secs?\.?|figures?|tables?|items?|appendices|attachments?)\s*)?\(\s*(\d+)\s*\)/gi)) {
+          if (token[1]) {
+            enclosureContext = /^encl/i.test(token[1]) ? numericLabel(token[2]) : undefined;
+            continue;
+          }
+          if (enclosureContext !== undefined && (affectedEnclosures.has(enclosureContext) || affectedEnclosures.has(numericLabel(token[2]))))
+            throw new Error(`${member.label}: expand enclosure lists or ranges into individual explicit citations and link them before reordering.`);
+        }
+      }
       for (const match of field.text.matchAll(/\b(references?|refs?\.?|enclosures?|encls?\.?)\s*\(\s*([a-z][a-z0-9]*|\d+)\s*\)/gi)) {
         const kind = /^ref/i.test(match[1]) ? "reference" : "enclosure";
-        if (kind === "enclosure" && changedLabels.some(value => value.kind === kind && (value.global || value.memberId === member.id))
-          && /^\s*(?:[,;]\s*(?:(?:and|or)\s+)?|(?:and|or|through|to)\s+|[-–—]\s*)\(?\s*\d/i.test(field.text.slice(match.index + match[0].length)))
+        if (kind === "enclosure" && affectedEnclosures.size
+          && /^\s*(?:(?:[\p{P}\p{S}]+|and\b|or\b|through\b|to\b)\s*)+\d/iu.test(field.text.slice(match.index + match[0].length)))
           throw new Error(`${member.label}: expand enclosure lists or ranges into individual explicit citations and link them before reordering.`);
-        if (!changedLabels.some(value => value.kind === kind && (value.global || value.memberId === member.id) && value.before.toLowerCase() === match[2].toLowerCase())) continue;
+        const label = kind === "enclosure" ? numericLabel(match[2]) : match[2].toLowerCase();
+        if (!changedLabels.some(value => value.kind === kind && (value.global || value.memberId === member.id) && value.before.toLowerCase() === label)) continue;
         const start = match.index + match[0].lastIndexOf(match[2]);
         const paragraph = field.path[0] === "paragraphs" && typeof field.path[1] === "number" ? member.session.paragraphs[field.path[1]] : undefined;
         const occurrence = occurrences.find(value => value.source.memberId === member.id && value.source.paragraphId === paragraph?.id && value.source.field === field.path[2] && value.source.start === start);

@@ -50,6 +50,24 @@ async function linkAll(record: ActionPackage, packageEnclosures = false) {
 }
 async function persisted(record: ActionPackage) { return (await listActionPackages()).find(value => value.id === record.id)!; }
 
+async function enclosureClause(text: string, kind: "native" | "package", offset = 1) {
+  const source = createBlankSession();
+  source.references = [];
+  source.paragraphs = [{ id: "clause-reorder-body", text, level: 0 }];
+  source.enclosures = kind === "native" ? ["First", "Second", "Third"].map(title => ({ title })) : [];
+  if (offset !== 1) { source.docType = "new_page_endorsement"; source.formData.startingEnclosureNumber = offset; }
+  const native = await capturePackageMember(captureDocumentRevision({ documentId: "clause-source", epoch: 0, editSequence: 1, capturedAt: 1 }, { ...source, endItems: [], publicationTables: {} }), "Clause training", "basic-letter");
+  const members = [native];
+  const originals = [];
+  if (kind === "package") for (const name of ["one.pdf", "two.pdf", "three.pdf"]) originals.push(await captureOriginalPackageMember({ name, data: await pdfBytes() }, "enclosure", false));
+  let record = await initializePackageCitationTargets(await reviseActionPackage(await createActionPackage("Enclosure clause training"), [...members, ...originals]));
+  for (const occurrence of await packageCitationOccurrences(getPackageRevision(record))) {
+    const target = (await resolvePackageCitations(getPackageRevision(record))).targets.find(value => value.citationLabel === occurrence.literal && value.target.kind === (kind === "native" ? "native-enclosure" : "package-enclosure"));
+    if (target) record = await linkPackageCitation(record, occurrence.source, target.target.id);
+  }
+  return { record, native, originals };
+}
+
 it("previews without writes, then updates repeated linked references atomically while preserving old revisions and embedded originals", async () => {
   const fixtureValue = await fixture();
   const record = await linkAll(fixtureValue.record), before = structuredClone(record);
@@ -134,6 +152,64 @@ it("rejects unlinked native enclosure citations even when metadata has no enclos
   expect(await persisted(record)).toEqual(record);
   await expect(preparePackageCitationReorder(record, { kind: "members", order: [f.native.id, f.second.id, f.first.id] }, policy)).rejects.toThrow(/unlinked/);
   expect(await persisted(record)).toEqual(record);
+});
+
+it.each([" & ", " ", " / ", " ＆ ", " plus ", " along with ", " and ", " through "])("rejects an unchanged first linked enclosure followed by an unlinked moving label across %j", async separator => {
+  for (const kind of ["native", "package"] as const) {
+    const f = await enclosureClause(`Use enclosures (1)${separator}(2).`, kind);
+    expect(getPackageRevision(f.record).citations!.links).toHaveLength(1);
+    const operation = kind === "native" ? { kind: "enclosures" as const, memberId: f.native.id, order: [0, 2, 1] }
+      : { kind: "members" as const, order: [f.native.id, f.originals[0].id, f.originals[2].id, f.originals[1].id] };
+    await expect(preparePackageCitationReorder(f.record, operation, policy)).rejects.toThrow(/lists or ranges/);
+    expect(await persisted(f.record)).toEqual(f.record);
+  }
+});
+
+it.each([" and 2.", " AND 2.", " through 2.", " — 2.", " ＆ 2."])("preserves rejection of unsupported enclosure continuations without parentheses: %s", async tail => {
+  const f = await enclosureClause(`Use enclosures (1)${tail}`, "native");
+  await expect(preparePackageCitationReorder(f.record, { kind: "enclosures", memberId: f.native.id, order: [0, 2, 1] }, policy)).rejects.toThrow(/lists or ranges/);
+  expect(await persisted(f.record)).toEqual(f.record);
+});
+
+it("rejects affected zero-padded labels in native, package and endorsement numbering without normalizing the text", async () => {
+  for (const [kind, literal, offset] of [["native", "01", 1], ["package", "01", 1], ["native", "010", 10]] as const) {
+    const f = await enclosureClause(`Use enclosure (${literal}).`, kind, offset);
+    expect(getPackageRevision(f.record).citations!.links).toHaveLength(0);
+    const operation = kind === "native" ? { kind: "enclosures" as const, memberId: f.native.id, order: [1, 0, 2] }
+      : { kind: "members" as const, order: [f.native.id, f.originals[1].id, f.originals[0].id, f.originals[2].id] };
+    await expect(preparePackageCitationReorder(f.record, operation, policy)).rejects.toThrow(/unlinked/);
+    expect(await persisted(f.record)).toEqual(f.record);
+    const native = getPackageRevision(f.record).members[0];
+    if (native.kind !== "native") throw new Error("Expected native");
+    expect(native.session.paragraphs[0].text).toBe(`Use enclosure (${literal}).`);
+  }
+});
+
+it.each(['Use "enclosure (2)".', "Use `enclosure (2)`.", "Use https://example.test/enclosure(2)."])("keeps protected enclosure text outside linked rewriting: %s", async text => {
+  for (const kind of ["native", "package"] as const) {
+    const f = await enclosureClause(text, kind);
+    expect(getPackageRevision(f.record).citations!.links).toHaveLength(0);
+    const operation = kind === "native" ? { kind: "enclosures" as const, memberId: f.native.id, order: [0, 2, 1] }
+      : { kind: "members" as const, order: [f.native.id, f.originals[0].id, f.originals[2].id, f.originals[1].id] };
+    await expect(preparePackageCitationReorder(f.record, operation, policy)).rejects.toThrow(/unlinked/);
+    expect(await persisted(f.record)).toEqual(f.record);
+  }
+});
+
+it("leaves explicit paragraph, page and section designators unchanged beside a linked enclosure", async () => {
+  const f = await enclosureClause("Use enclosure (1), paragraph (2), page (2), and section (2).", "native");
+  const changed = await applyPackageCitationReorder(await preparePackageCitationReorder(f.record, { kind: "enclosures", memberId: f.native.id, order: [1, 0, 2] }, policy));
+  const native = getPackageRevision(changed).members[0];
+  if (native.kind !== "native") throw new Error("Expected native");
+  expect(native.session.paragraphs[0].text).toBe("Use enclosure (2), paragraph (2), page (2), and section (2).");
+});
+
+it("ends enclosure context when an explicit paragraph category starts its own numeric list", async () => {
+  const f = await enclosureClause("Use enclosure (1). See paragraphs (2) and (3).", "native");
+  const changed = await applyPackageCitationReorder(await preparePackageCitationReorder(f.record, { kind: "enclosures", memberId: f.native.id, order: [1, 0, 2] }, policy));
+  const native = getPackageRevision(changed).members[0];
+  if (native.kind !== "native") throw new Error("Expected native");
+  expect(native.session.paragraphs[0].text).toBe("Use enclosure (2). See paragraphs (2) and (3).");
 });
 
 it("rejects forged plans, incomplete orders and late source updates without changing the reviewed package", async () => {
