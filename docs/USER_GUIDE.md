@@ -136,7 +136,38 @@ earlier accepted edits; closure does not disable ordinary document history.
 Received copies show only their captured status, not a live or authenticated
 status from the sender. Status and state history travel with current reviewer
 copies and workspace backups; importing a copy never changes a local owner's
-established state.
+established state. For a received baseline, a later copy or backup can advance
+the same retained state history. Older copies cannot roll it back, and conflicting
+state histories are rejected.
+
+## See changes since a reviewer checkpoint
+
+In **Review rounds → Since you last reviewed**, select the review and enter a
+reviewer label. **Mark current view reviewed** saves that captured text and feedback
+state. Select the saved marker explicitly on later visits, then choose **Show
+changes since checkpoint** to inspect later document changes and feedback outcomes.
+Names do not identify authenticated people, and a marker does not approve anything.
+Without a selected marker, DonDocs reports that the earlier review point is unknown.
+
+A comparison is captured when requested; request it again after further edits.
+Native paragraph identities distinguish position changes from wording edits. File
+names and metadata are compared, not attachment contents. Checkpoints contain
+comparison text, cannot restore a draft, and retain earlier wording after it is
+removed from the source. Marking a view again replaces only that reviewer's marker.
+Each round supports 25 markers with a combined 2 MB limit.
+
+**Prepare checkpoint file** runs the text/privacy/marking review before downloading
+an unencrypted JSON marker. **Import reviewer checkpoint** checks its checksum and
+exact round/baseline binding, previews the marker, and requires an explicit import
+before replacing the same reviewer's marker. Import preserves document text and
+review decisions. Current reviewer-copy files and workspace backups also retain
+markers. Captured marking contexts and raw retained values remain part of the
+export checks even when the baseline has a lower marking. DonDocs reloads the
+deployment policy before downloading a checkpoint or reviewer copy.
+Receiving another copy preserves local-owner state and existing comparison
+markers; compatible received state history can advance as described above.
+Keep a separate checkpoint file when deliberately moving a marker
+between workspaces that already have the same round.
 
 ## Return feedback to the current draft
 

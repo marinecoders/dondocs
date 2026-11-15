@@ -5,7 +5,8 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { getExportDeploymentPolicy } from '@/config/classification';
 import { useDocumentStore } from '@/stores/documentStore';
-import { useDocumentsStore, captureDocumentTarget, hasPendingReviewWrites, flushPendingReviewWrites, deleteReviewRound } from '@/stores/documentsStore';
+import { useDocumentsStore, captureDocumentTarget, isCurrentDocumentTarget, hasPendingReviewWrites, flushPendingReviewWrites, deleteReviewRound } from '@/stores/documentsStore';
+import { ReviewCheckpoints } from '@/components/ReviewCheckpoints';
 import { ReviewRoundLifecycleControls } from '@/components/ReviewRoundLifecycleControls';
 import { ReviewSuggestionControls } from '@/components/ReviewSuggestionControls';
 import { ReviewReturnControls } from '@/components/ReviewReturnControls';
@@ -33,7 +34,8 @@ function ReviewRoundsContent({ onClose }: { onClose: () => void }) {
   const [returnBusy, setReturnBusy] = useState(false);
   const [suggestionBusy, setSuggestionBusy] = useState(false);
   const documentId = useDocumentsStore(state => state.currentId), epoch = useDocumentsStore(state => state.activationEpoch);
-  const working = busy || returnBusy || suggestionBusy;
+  const [checkpointBusy, setCheckpointBusy] = useState(false);
+  const working = busy || returnBusy || suggestionBusy || checkpointBusy;
   const [error, setError] = useState('');
   const [notice, setNotice] = useState('');
   const [prepared, setPrepared] = useState<PreparedReviewCopy | null>(null);
@@ -153,16 +155,20 @@ function ReviewRoundsContent({ onClose }: { onClose: () => void }) {
         {prepared && <section aria-label="Review copy contents" className="space-y-2 rounded-md border p-3 text-sm">
           <h3 className="font-medium">Check this reviewer copy before downloading</h3>
           <p>{prepared.review.marking}</p>
-          <p>The file is unencrypted and includes the entire baseline letter, existing discussions, signature images, figures and attached PDFs. Check who may receive it.</p>
+          <p>The file is unencrypted and includes the entire baseline letter, existing discussions, signature images, figures, attached PDFs and any reviewer checkpoints. Checkpoints can retain earlier document text. Check who may receive it.</p>
           <p>Automatic checks cover text and filenames. Inspect attached PDFs and images yourself.</p>
           {prepared.review.customMarkings.map(marking => <p key={marking} className="whitespace-pre-wrap break-words">{marking}</p>)}
           {prepared.review.notices.map(message => <p key={message}>{message}</p>)}
           <p>{prepared.review.privacy.found ? `Possible sensitive information: ${[...new Set(prepared.review.privacy.findings.map(finding => getPIITypeLabel(finding.type)))].join(', ')}.`
             : 'The privacy scan found no recognized patterns. Review the contents and attachment files yourself before sending.'}</p>
-          <Button disabled={working} onClick={() => {
-            try { downloadReviewCopy(prepared);setPrepared(null);setNotice('Reviewer copy sent to browser downloads.'); }
-            catch (cause) { setError(cause instanceof Error ? cause.message : 'The download could not start.'); }
-          }}>Download reviewer copy</Button>
+          <Button disabled={working} onClick={() => void run(async () => {
+            const target = captureDocumentTarget();
+            const policy = await getExportDeploymentPolicy(undefined, true);
+            if (!alive.current || !isCurrentDocumentTarget(target)) throw new Error('The draft changed. Prepare the reviewer copy again.');
+            downloadReviewCopy(prepared, policy);
+            setPrepared(null);
+            setNotice('Reviewer copy sent to browser downloads.');
+          })}>Download reviewer copy</Button>
           <Button variant="ghost" disabled={working} onClick={() => setPrepared(null)}>Cancel download</Button>
         </section>}
         <section aria-label="Open a reviewer copy" className="space-y-2 rounded-md border p-3">
@@ -179,8 +185,11 @@ function ReviewRoundsContent({ onClose }: { onClose: () => void }) {
             <Button variant="ghost" disabled={working} onClick={() => setIncoming(null)}>Cancel imported copy</Button>
           </div>}
         </section>
-        <ReviewSuggestionControls key={`suggestions:${documentId}:${epoch}`} rounds={rounds} disabled={busy || returnBusy} onBusyChange={setSuggestionBusy} />
-        <ReviewReturnControls key={`${documentId}:${epoch}`} disabled={busy || suggestionBusy} onBusyChange={setReturnBusy} />
+        <ReviewSuggestionControls key={`suggestions:${documentId}:${epoch}`} rounds={rounds} disabled={busy || returnBusy || checkpointBusy} onBusyChange={setSuggestionBusy} />
+        <ReviewCheckpoints key={`checkpoints:${documentId}:${epoch}`} rounds={rounds}
+          disabled={busy || returnBusy || suggestionBusy} onBusyChange={setCheckpointBusy}
+          onRoundChange={updated => setRounds(previous => previous.map(round => round.id === updated.id ? updated : round))} />
+        <ReviewReturnControls key={`${documentId}:${epoch}`} disabled={busy || suggestionBusy || checkpointBusy} onBusyChange={setReturnBusy} />
         {busy && <p role="status" className="text-sm">Saving or checking review contents…</p>}
       </div>
     </DialogContent>

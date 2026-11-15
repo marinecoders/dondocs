@@ -11,6 +11,34 @@ import type { ClassificationLevel } from './domainClassification';
 import { classificationRank, deriveOverallClassLevel } from './overallClassification';
 import { detectTextPII, type PIIDetectionResult } from '@/services/pii/detector';
 
+export interface ReportMarkingContext {
+  classLevel?: string;
+  customClassification?: string;
+  portionMarking?: string;
+}
+export interface RetainedReportContent {
+  text: Array<{ field: string; value: string }>;
+  markings: ReportMarkingContext[];
+}
+
+/** Preserve declared marking structure separately from flattened comparison text. */
+export function captureReportMarkings(source: unknown): ReportMarkingContext[] {
+  const contexts: ReportMarkingContext[] = [];
+  function visit(value: unknown) {
+    if (!value || typeof value !== 'object' || value instanceof ArrayBuffer || ArrayBuffer.isView(value)) return;
+    const context: ReportMarkingContext = {};
+    for (const [key, child] of Object.entries(value)) {
+      if (key === 'classLevel' && typeof child === 'string') context.classLevel = child;
+      if (key === 'customClassification' && typeof child === 'string') context.customClassification = child;
+      if (/portion|marking/i.test(key) && typeof child === 'string') contexts.push({ portionMarking: child });
+      visit(child);
+    }
+    if (Object.keys(context).length) contexts.push(context);
+  }
+  visit(source);
+  return contexts;
+}
+
 export interface ReportVersion { label: string; title: string; session: SerializedSession }
 interface ReportDiscussion { target: string; status: string; context?: string; current?: string; messages: { author: string; text: string }[] }
 export interface ChangeReport {
@@ -82,7 +110,7 @@ function discussions(session: SerializedSession): ReportDiscussion[] {
   });
 }
 
-function reportSession(session: SerializedSession): SerializedSession {
+export function reviewComparisonSession(session: SerializedSession): SerializedSession {
   const projected = reportFields(session, { fields: DOCUMENT_FIELD_POLICIES }) as SerializedSession;
   if (session.genericForm) projected.formType = parseFormInstance(session.genericForm).definition.label;
   // IDs align the sanitized paragraphs privately; the diff never emits them.
@@ -100,15 +128,16 @@ export function reportText(report: Pick<ChangeReport, 'before' | 'after' | 'chan
 }
 
 /** Everything used after the asynchronous policy read belongs to this captured pair. */
-export function captureChangeReport(before: ReportVersion, after: ReportVersion, capturedAt: string) {
-  return structuredClone({ before, after, capturedAt });
+export function captureChangeReport(before: ReportVersion, after: ReportVersion, capturedAt: string,
+  retained?: RetainedReportContent) {
+  return structuredClone({ before, after, capturedAt, ...(retained ? { retained } : {}) });
 }
 
 export function prepareChangeReport(capture: ReturnType<typeof captureChangeReport>, policy: PolicyResolution): ChangeReport {
   if (policy.status !== 'ready') throw new Error(policy.message);
   assertExportDeploymentPolicy(policy.policy);
   const { before, after, capturedAt } = capture;
-  const comparison = compareSessions(reportSession(before.session), reportSession(after.session));
+  const comparison = compareSessions(reviewComparisonSession(before.session), reviewComparisonSession(after.session));
   const report = {
     customMarkings: [] as string[],
     before: { label: before.label, title: before.title, discussions: discussions(before.session) },
@@ -136,9 +165,9 @@ export function prepareChangeReport(capture: ReturnType<typeof captureChangeRepo
       inspect(child);
     }
   };
-  inspect(before.session);inspect(after.session);
+  inspect(before.session);inspect(after.session);inspect(capture.retained?.markings);
   report.customMarkings = [...new Set(report.customMarkings)];
-  const fields = reportText(report);
+  const fields = [...reportText(report), ...(capture.retained?.text ?? [])];
   for (const { value } of fields) {
     levels.add(detectClassification(value).classLevel);
     for (const match of value.matchAll(/^\s*(?:Figure marking:\s*)?\((U|CUI|FOUO|C|S|TS)\)/gm)) {

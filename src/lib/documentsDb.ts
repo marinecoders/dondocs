@@ -1,6 +1,7 @@
 import type { DocumentMeta } from '@/stores/documentsStore';
 import type { SerializedSession } from '@/stores/documentStore';
 import { debug } from '@/lib/debug';
+import type { ReviewCheckpoint } from './reviewCheckpointModel';
 import type { ReviewRound, ReviewCopyLink } from './reviewRounds';
 import type { ReviewReturnReceipt } from './reviewReturns';
 import { parseReviewRound, reviewCopyLinkSchema, reviewRoundStatus } from './reviewRounds';
@@ -196,6 +197,42 @@ export async function idbTransitionReviewRound(expected: ReviewRound, next: Revi
       transaction.onabort = () => reject(transaction.error ?? new Error('The round state save was cancelled.'));
     });
   } catch { return false; }
+}
+
+/** Save a comparison-only reviewer marker without changing document text or granting ownership. */
+export async function idbSaveReviewCheckpoint(expected: ReviewRound, checkpoint: ReviewCheckpoint,
+  documentId: string, isCurrent: () => boolean): Promise<ReviewRound | null> {
+  try {
+    const { parseReviewCheckpoint, planReviewCheckpointUpdate } = await import('./reviewCheckpoints');
+    const before = parseReviewRound(structuredClone(expected));
+    const captured = await parseReviewCheckpoint(checkpoint);
+    const after = planReviewCheckpointUpdate(before, captured);
+    const db = await openDb();
+    return await new Promise<ReviewRound | null>((resolve, reject) => {
+      const transaction = db.transaction([APP_STORE, DOCS_STORE], 'readwrite');
+      const app = transaction.objectStore(APP_STORE);
+      const roundRequest = app.get(reviewRoundKey(before.id));
+      const documentRequest = transaction.objectStore(DOCS_STORE).get(documentId);
+      const linkRequest = app.get(reviewCopyKey(documentId));
+      let remaining = 3;
+      let committed = false;
+      const ready = () => {
+        if (--remaining || !isCurrent() || !documentRequest.result
+          || !sameReviewStoredValue(roundRequest.result?.value, before)) return;
+        const link = reviewCopyLinkSchema.safeParse(linkRequest.result?.value);
+        if (before.ownerDocumentId !== documentId && (!link.success || link.data.roundId !== before.id
+          || link.data.baselineDigest !== before.baselineDigest)) return;
+        app.put({ key: reviewRoundKey(after.id), value: after });
+        committed = true;
+      };
+      roundRequest.onsuccess = ready;
+      documentRequest.onsuccess = ready;
+      linkRequest.onsuccess = ready;
+      transaction.oncomplete = () => resolve(committed ? after : null);
+      transaction.onerror = () => reject(transaction.error ?? new Error('The checkpoint could not be saved.'));
+      transaction.onabort = () => reject(transaction.error ?? new Error('The checkpoint save was cancelled.'));
+    });
+  } catch { return null; }
 }
 
 /** A received reviewer copy, its pin and its local association commit together. */

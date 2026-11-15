@@ -154,7 +154,11 @@ for (const viewport of [{ width: 1440, height: 1000 }, { width: 320, height: 568
       const tools = page.getByRole('button', { name: 'Document tools', exact: true, includeHidden: true });
       await expect(tools).toBeVisible();
       await page.evaluate(() => document.fonts.ready);
-      await page.getByRole('textbox', { name: 'Subject', exact: true }).fill('FEEDBACK OUTGOING');
+      const subject = page.getByRole('textbox', { name: 'Subject', exact: true });
+      await subject.click();
+      await expect(subject).toBeFocused();
+      await subject.fill('FEEDBACK OUTGOING');
+      await expect(subject).toHaveValue('FEEDBACK OUTGOING');
       await expect.poll(async () => (await savedState(page)).currentSubject, { timeout: 15_000 }).toBe('FEEDBACK OUTGOING');
       await page.locator('.workspace-shell').evaluate(shell => { shell.scrollTop = 0; });
       await page.clock.pauseAt(new Date('2026-01-01T01:00:00Z'));

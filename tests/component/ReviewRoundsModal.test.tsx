@@ -45,7 +45,8 @@ it('keeps a deleted-source pin reachable and requires content review before down
   expect(downloadReviewCopy).not.toHaveBeenCalled();
   expect(screen.getByText(/file is unencrypted/)).toBeVisible();
   fireEvent.click(screen.getByRole('button', { name: 'Download reviewer copy' }));
-  expect(downloadReviewCopy).toHaveBeenCalledWith(prepared);
+  await waitFor(() => expect(downloadReviewCopy).toHaveBeenCalledWith(prepared, expect.objectContaining({ status: 'ready' })));
+  expect(getExportDeploymentPolicy).toHaveBeenCalledTimes(2);
 });
 
 it('does not turn a failed inventory read into an empty successful review list', async () => {
@@ -64,4 +65,19 @@ it('still exposes retained native review copies while a form is active', async (
   await screen.findByText('Retained letter');
   expect(screen.getByRole('button', { name: 'Start review from current draft' })).toBeDisabled();
   expect(screen.getByRole('button', { name: 'Prepare reviewer copy' })).toBeEnabled();
+});
+
+it('does not download an older prepared copy when the active document changes during the fresh policy read', async () => {
+  render(<ReviewRoundsModal open onOpenChange={vi.fn()} />);
+  await screen.findByText('Retained letter');
+  fireEvent.click(screen.getByRole('button', { name: 'Prepare reviewer copy' }));
+  await screen.findByRole('heading', { name: 'Check this reviewer copy before downloading' });
+  let release!: (policy: Awaited<ReturnType<typeof getExportDeploymentPolicy>>) => void;
+  vi.mocked(getExportDeploymentPolicy).mockImplementationOnce(() => new Promise(resolve => { release = resolve; }));
+  fireEvent.click(screen.getByRole('button', { name: 'Download reviewer copy' }));
+  await waitFor(() => expect(getExportDeploymentPolicy).toHaveBeenCalledTimes(2));
+  useDocumentsStore.setState({ currentId: 'another-current-document' });
+  release(resolveExportDeploymentPolicy({ hostname: 'example.com', environment: null, runtime: { status: 'absent' } }));
+  expect(await screen.findByRole('alert')).toHaveTextContent('draft changed');
+  expect(downloadReviewCopy).not.toHaveBeenCalled();
 });

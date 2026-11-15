@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { reviewCheckpointSchema, MAX_REVIEW_CHECKPOINTS, MAX_REVIEW_CHECKPOINT_BYTES, type ReviewCheckpoint } from './reviewCheckpointModel';
 import type { SerializedSession } from '@/stores/documentStore';
 import type { DocSnapshot } from './documentsDb';
 import { parseSavedSession } from './savedSession';
@@ -37,18 +38,21 @@ const session = z.unknown().transform((value, context): SerializedSession => {
   }
 });
 
-/** The baseline uses the same saved snapshot and immutable attachment handles as History. */
-export const reviewRoundSchema = z.object({
-  kind: z.literal('dondocs-review-round'), version: z.literal(1),
-  id: reviewRoundIdSchema, createdAt: timestamp, label: z.string().min(1).max(120),
-  sourceDocumentId: identifier, baselineDigest: reviewDigestSchema,
-  baseline: z.object({ ts: timestamp, session }).strict(),
-  // Set only by local creation or an explicit workspace backup restore. A
-  // portable reviewer copy never supplies local owner authority.
-  ownerDocumentId: identifier.optional(),
-  lifecycle: reviewRoundLifecycleSchema.optional(),
-}).strict().refine(round => round.createdAt === round.baseline.ts && round.baseline.session.timestamp === round.baseline.ts,
-  'Review baseline timestamps do not match.').superRefine((round, context) => {
+interface ReviewRoundMetadata {
+  id: string;
+  createdAt: number;
+  baselineDigest: string;
+  lifecycle?: z.infer<typeof reviewRoundLifecycleSchema>;
+  checkpoints?: ReviewCheckpoint[];
+}
+
+function validateReviewRoundMetadata(round: ReviewRoundMetadata, context: z.RefinementCtx) {
+  const checkpoints = round.checkpoints ?? [];
+  if (new Set(checkpoints.map(checkpoint => checkpoint.reviewerId)).size !== checkpoints.length
+    || checkpoints.some(checkpoint => checkpoint.roundId !== round.id || checkpoint.baselineDigest !== round.baselineDigest)
+    || new TextEncoder().encode(JSON.stringify(checkpoints)).byteLength > MAX_REVIEW_CHECKPOINT_BYTES) {
+    context.addIssue({ code: 'custom', message: 'The round checkpoints are invalid or exceed their combined 2 MB limit.' });
+  }
   let state: 'active' | 'closed' | 'superseded' = 'active';
   let changedAt = round.createdAt;
   const ids = new Set<string>();
@@ -62,7 +66,21 @@ export const reviewRoundSchema = z.object({
     state = event.state;
     changedAt = event.changedAt;
   }
-});
+}
+
+/** The baseline uses the same saved snapshot and immutable attachment handles as History. */
+export const reviewRoundSchema = z.object({
+  kind: z.literal('dondocs-review-round'), version: z.literal(1),
+  id: reviewRoundIdSchema, createdAt: timestamp, label: z.string().min(1).max(120),
+  sourceDocumentId: identifier, baselineDigest: reviewDigestSchema,
+  baseline: z.object({ ts: timestamp, session }).strict(),
+  // Set only by local creation or an explicit workspace backup restore. A
+  // portable reviewer copy never supplies local owner authority.
+  ownerDocumentId: identifier.optional(),
+  lifecycle: reviewRoundLifecycleSchema.optional(),
+  checkpoints: z.array(reviewCheckpointSchema).max(MAX_REVIEW_CHECKPOINTS).optional(),
+}).strict().refine(round => round.createdAt === round.baseline.ts && round.baseline.session.timestamp === round.baseline.ts,
+  'Review baseline timestamps do not match.').superRefine(validateReviewRoundMetadata);
 export type ReviewRound = z.infer<typeof reviewRoundSchema>;
 
 export function reviewRoundStatus(round: ReviewRound): 'active' | 'closed' | 'superseded' {
@@ -86,7 +104,8 @@ export const reviewCopyEnvelopeSchema = z.object({
     id: reviewRoundIdSchema, createdAt: timestamp, label: z.string().min(1).max(120),
     sourceDocumentId: identifier, baselineDigest: reviewDigestSchema,
     lifecycle: reviewRoundLifecycleSchema.optional(),
-  }).strict(),
+    checkpoints: z.array(reviewCheckpointSchema).max(MAX_REVIEW_CHECKPOINTS).optional(),
+  }).strict().superRefine(validateReviewRoundMetadata),
   // This is the existing portable draft-file format, not another document model.
   draft: z.unknown(),
 }).strict();
