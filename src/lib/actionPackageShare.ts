@@ -76,6 +76,8 @@ async function prepare(json: string, policy: PolicyResolution, expiresAt?: numbe
   const identity = policyIdentity(policy);
   assertDeadline(expiresAt);
   const { record, resources } = await parsePortableActionPackage(json);
+  if (record.historyScope !== "selected-revision" || record.revisions.length !== 1)
+    throw new Error("Encrypted packages must contain exactly one selected revision. Ask the sender to share the package again.");
   const revision = getPackageRevision(record);
   const reviews: Array<{ member: string; review: ExportReview }> = [
     { member: "Package name", review: reviewPackageText(record.name, "Package name", policy) },

@@ -192,3 +192,41 @@ it("rejects cancelled package preparation before exposing review or installing a
   const controller = new AbortController();controller.abort();
   await expect(preparePackageShare(record, record.currentRevisionId, policy, controller.signal)).rejects.toThrow();
 });
+
+it.each(["text", "embedded-pdf"])("rejects encrypted envelopes carrying unreviewed historical native %s", async kind => {
+  const { record, native, bytes } = await fixture();
+  const session = structuredClone(native.session);
+  session.paragraphs[0].text = kind === "text" ? "(TS) SYNTHETIC HIDDEN HISTORICAL CONTENT" : "Synthetic historical PDF";
+  const enclosures = kind === "embedded-pdf" ? [{ id: "hidden-enclosure", title: "Historical PDF", hasFile: true,
+    file: { name: "historical-original.pdf", size: bytes.byteLength, data: bytes } }] : [];
+  const hidden = await capturePackageMember(captureDocumentRevision(
+    { documentId: "hidden-local", epoch: 1, editSequence: 1, capturedAt: 100 },
+    { ...session, enclosures, endItems: [], publicationTables: {} }), "Hidden historical member", "basic-letter");
+  const historical = await reviseActionPackage(record, [hidden]);
+  const clean = await reviseActionPackage(historical, [native]);
+  const { buildPortableActionPackage } = await import("@/lib/actionPackageTransfer");
+  const oldPayload = JSON.parse(await buildPortableActionPackage(clean, historical.currentRevisionId));
+  const payload = JSON.parse(await buildPortableActionPackage(clean));
+  payload.package.revisions.unshift(oldPayload.package.revisions[0]);
+  payload.portableResources.entries = [...new Map([...oldPayload.portableResources.entries, ...payload.portableResources.entries]
+    .map((entry: { path: string }) => [entry.path, entry])).values()];
+  const envelope = { kind: "dondocs-action-package-share", version: 1, package: payload };
+  await clearDatabase();
+  // A single-revision encrypted share must not install a hidden native history
+  // whose captured text was never presented or checked against recipient policy.
+  await expect(prepareReceivedPackageShare(envelope, policy)).rejects.toThrow(/exactly one selected revision/);
+  expect(await listActionPackages()).toEqual([]);
+});
+
+it.each(["complete", undefined])("rejects encrypted envelopes without selected-revision scope (%s)", async historyScope => {
+  const { record } = await fixture();
+  const { buildPortableActionPackage } = await import("@/lib/actionPackageTransfer");
+  const payload = JSON.parse(await buildPortableActionPackage(record));
+  delete payload.package.revisions[0].parentId;
+  if (historyScope === undefined) delete payload.package.historyScope;
+  else payload.package.historyScope = historyScope;
+  await clearDatabase();
+  await expect(prepareReceivedPackageShare({ kind: "dondocs-action-package-share", version: 1, package: payload }, policy))
+    .rejects.toThrow(/exactly one selected revision/);
+  expect(await listActionPackages()).toEqual([]);
+});
