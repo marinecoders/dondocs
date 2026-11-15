@@ -13,6 +13,49 @@ async function openComments(page: Page) {
   return page.getByRole('dialog', { name: 'Document comments', exact: true });
 }
 
+for (const theme of ['light', 'dark', 'classic']) {
+  test(`workspace review navigation preserves context and focus in ${theme}`, async ({ page }, info) => {
+    await page.addInitScript(appearance => {
+      localStorage.setItem('browser-test-visitor', 'returning');
+      localStorage.setItem('dondocs_ui', JSON.stringify({ state: { theme: appearance, editorLayout: 'focused' }, version: 1 }));
+    }, theme);
+    await page.goto('/');
+    const launcher = page.locator('header').getByRole('button', { name: 'Comments', exact: true });
+    await expect(launcher).toBeVisible();
+    await expect(page.getByRole('main').getByRole('button', { name: 'Comments', exact: true })).toHaveCount(0);
+    await expect(page.getByRole('region', { name: 'Document readiness' }).getByRole('button', { name: 'Packages', exact: true })).toHaveCount(0);
+    const comments = await openComments(page);
+    await expect(comments.getByLabel('Comment on', { exact: true })).toBeFocused();
+    await comments.getByLabel('Reviewer name', { exact: true }).fill('Training reviewer');
+    await comments.getByLabel('Comment', { exact: true }).fill('Synthetic navigation check.');
+    await comments.getByRole('button', { name: 'Post comment', exact: true }).click();
+    await comments.getByRole('button', { name: 'Close comments', exact: true }).click();
+    const counted = page.locator('header').getByRole('button', { name: 'Comments (1)', exact: true });
+    await expect(counted).toBeFocused();
+    await page.screenshot({ path: info.outputPath(`workspace-${theme}.png`), scale: 'css' });
+    await counted.click();
+    await comments.getByRole('button', { name: 'Review rounds…', exact: true }).click();
+    await expect(page.getByRole('dialog', { name: 'Review rounds', exact: true })).toBeVisible();
+    await expect(page.getByRole('dialog')).toHaveCount(1);
+    await page.keyboard.press('Escape');
+    await expect(counted).toBeFocused();
+
+    const workspace = page.getByRole('button', { name: 'Open workspace', exact: true });
+    if (await workspace.isVisible()) await workspace.click();
+    const packages = page.getByRole('button', { name: 'Packages', exact: true });
+    await expect(packages).toBeVisible();
+    await page.screenshot({ path: info.outputPath(`navigation-${theme}.png`), scale: 'css' });
+    await packages.click();
+    const packageDialog = page.getByRole('dialog', { name: 'Action packages', exact: true });
+    await expect(packageDialog).toBeVisible();
+    await expect(page.getByRole('dialog')).toHaveCount(1);
+    await packageDialog.getByRole('button', { name: 'Close', exact: true }).click();
+    await expect(await workspace.isVisible() ? workspace : packages).toBeFocused();
+    await expect(counted).toBeVisible();
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
+  });
+}
+
 test('a comment is enough to save a fresh draft through New document and reload', async ({ page }) => {
   await page.addInitScript(() => {
     localStorage.setItem('browser-test-visitor', 'returning');

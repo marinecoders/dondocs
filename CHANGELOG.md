@@ -7,6 +7,14 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.87] — 2026-11-14
+
+### Fixed
+
+- Put Packages beside Templates in workspace navigation on desktop and phones, using a document icon and keeping the document footer focused on readiness.
+- Keep Comments directly accessible from the document toolbar and provide a Review rounds shortcut for reviewer copies, suggested edits, and returned feedback.
+- Separate fresh-draft save feedback from the workspace label so pending status remains readable.
+
 ## [1.3.86] — 2026-11-14
 
 ### Added

@@ -19,7 +19,7 @@ vi.mock('@/lib/backupDownload', () => ({ downloadWorkspaceBackup: vi.fn() }));
 
 beforeEach(() => {
   useAlertStore.setState({ open: false, current: null, queue: [] });
-  useUIStore.setState({ saveMenuOpen: false, batchModalOpen: false, settingsOpen: false });
+  useUIStore.setState({ saveMenuOpen: false, batchModalOpen: false, settingsOpen: false, reviewRoundsOpen: false });
   useDocumentStore.setState({ documentCategory: 'correspondence', formType: 'navmc_10274' });
   useFormStore.getState().clearNavmc10274();
   useFormStore.getState().clearNavmc11811();
@@ -40,6 +40,24 @@ async function chooseAction(name: string | RegExp) {
   await user.click(screen.getByRole('button', { name: 'Document actions' }));
   await user.click(screen.getByRole('menuitem', { name }));
 }
+
+it('keeps Comments directly in the document header and hands off to review rounds with focus restored', async () => {
+  useDocumentsStore.getState().newDocument();
+  renderHeader();
+  const user = userEvent.setup();
+  const comments = screen.getByRole('button', { name: 'Comments' });
+  expect(comments.closest('header')).not.toBeNull();
+  await user.click(comments);
+  await user.click(screen.getByRole('button', { name: 'Review rounds…' }));
+  const review = await screen.findByRole('dialog', { name: 'Review rounds' });
+  expect(screen.queryByRole('dialog', { name: 'Document comments' })).not.toBeInTheDocument();
+  expect(review).toContainElement(document.activeElement as HTMLElement);
+  await user.keyboard('{Escape}');
+  await waitFor(() => expect(comments).toHaveFocus());
+  // The original document-actions route remains available as a shortcut.
+  await chooseAction('Review rounds…');
+  expect(await screen.findByRole('dialog', { name: 'Review rounds' })).toBeVisible();
+});
 
 describe('document action error feedback', () => {
   it('shows a visible popup for a missing saved draft and returns focus to Document actions', async () => {

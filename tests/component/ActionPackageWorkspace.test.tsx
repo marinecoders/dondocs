@@ -6,6 +6,9 @@ import { render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { PDFDocument } from "pdf-lib";
 import { ActionPackageWorkspace } from "@/components/ActionPackageWorkspace";
+import { EditorSidebar } from "@/components/layout/EditorSidebar";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import { useUIStore } from "@/stores/uiStore";
 import { createBlankSession } from "@/stores/documentStore";
 import {
   createActionPackage,
@@ -29,7 +32,10 @@ vi.mock("@/config/classification", async (importOriginal) => ({
   getExportDeploymentPolicy: async () => policy,
 }));
 
-beforeEach(() => vi.restoreAllMocks());
+beforeEach(() => {
+  vi.restoreAllMocks();
+  useUIStore.setState({ actionPackagesOpen: false, isMobile: false, sidebarCollapsed: false });
+});
 it("cancels a held render on close and never publishes into a reopened dialog or retains late output", async () => {
   const source = createBlankSession();
   source.formData = {
@@ -78,6 +84,8 @@ it("cancels a held render on close and never publishes into a reopened dialog or
   const user = userEvent.setup();
   render(
     <StrictMode>
+      <TooltipProvider>
+      <EditorSidebar />
       <ActionPackageWorkspace
         exportGate={createExportGate()}
         ports={{
@@ -86,6 +94,7 @@ it("cancels a held render on close and never publishes into a reopened dialog or
           waitForReady: async () => true,
         }}
       />
+      </TooltipProvider>
     </StrictMode>,
   );
   await user.click(screen.getByRole("button", { name: "Packages" }));
