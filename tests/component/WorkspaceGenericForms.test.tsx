@@ -2,6 +2,7 @@ import 'fake-indexeddb/auto';
 import userEvent from '@testing-library/user-event';
 import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { afterEach, beforeEach, expect, it, vi } from 'vitest';
+import { webcrypto } from 'node:crypto';
 import { FormPanel } from '@/components/layout/FormPanel';
 import { Header } from '@/components/layout/Header';
 import { DocumentGuideModal } from '@/components/modals/DocumentGuideModal';
@@ -14,7 +15,7 @@ import { importForm } from '@/services/forms/documents';
 import { buildDraftFile, parseDraftFile } from '@/lib/draftFile';
 import { parseSharedSession } from '@/lib/sharedSession';
 import { sessionSearchFields } from '@/lib/workspaceSearch';
-import { fixtureInstance } from '../_helpers/formFixture';
+import { fixtureInstance, fixturePage } from '../_helpers/formFixture';
 
 beforeEach(() => {
   vi.stubGlobal('fetch', vi.fn().mockResolvedValue({ ok: true, json: async () => ({ templates: [] }) }));
@@ -54,7 +55,11 @@ it('edits a pinned form in both workspace views without exposing a second type p
 });
 
 it('round-trips generic shares and drafts, including compact main-branch exports', async () => {
-  const original = getSerializedSession().genericForm;
+  const original = getSerializedSession().genericForm!;
+  const page = await fixturePage();original.definition.pages[0].sha256 = page.sha256;
+  vi.stubGlobal('crypto', webcrypto);
+  vi.stubGlobal('fetch', vi.fn(async () => new Response(new Uint8Array(page.bytes))));
+  useDocumentStore.setState({ genericForm: original });
   expect(parseSharedSession(getSerializedSessionForShare()).genericForm).toEqual(original);
   expect(parseDraftFile(await buildDraftFile()).session.genericForm).toEqual(original);
   expect(parseDraftFile({ version: '2.0', genericForm: original }).session.genericForm).toEqual(original);

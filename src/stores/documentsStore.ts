@@ -67,6 +67,7 @@ import { TIMING } from '@/lib/constants';
 import { useHistoryStore, type DocumentSnapshot } from './historyStore';
 import { persistAttachment, withAttachmentStaging } from '@/lib/attachments';
 import type { ReviewedDraft } from '@/lib/draftFile';
+import { validatePortableFormTemplates, retainPortableFormTemplates } from '@/services/forms/portableTemplates';
 import { configForFormType } from '@/services/formRegistry';
 
 /**
@@ -262,6 +263,11 @@ export async function prepareReviewedDocument(reviewed: ReviewedDraft, current: 
 function stageReviewedDocument(owned: ReviewedDraft, state: DocumentSnapshot, current: () => boolean): Promise<PreparedDocument | null> {
   return withAttachmentStaging(async () => {
     if (!current()) return null;
+    if (owned.formTemplates) {
+      if (!state.genericForm) throw new Error('Portable templates require a configured form.');
+      const templates = await validatePortableFormTemplates([state.genericForm.definition], owned.formTemplates.portableFormTemplates, owned.formTemplates.portableResources);
+      if (!await retainPortableFormTemplates(templates, current)) return null;
+    }
     for (const [index, file] of owned.figures.entries()) {
       if (!file) continue;
       const figure = state.paragraphs[index]?.figure;
@@ -298,7 +304,19 @@ export async function openReviewedDocument(reviewed: ReviewedDraft, target: Docu
   catch { return 'invalid'; }
   return withAttachmentStaging(async () => {
     const prepared = await stageReviewedDocument(owned, state, current);
-    return prepared ? openPreparedDocument(prepared, target) : 'stale';
+    if (!prepared) return 'stale';
+    if (!owned.formTemplates) return openPreparedDocument(prepared, target);
+    await flushDocumentWrites();
+    if (!current()) return 'stale';
+    const now = Date.now(), id = newId(), session = serializeDocumentSnapshot(copyPreparedDocument(prepared), now);
+    const record: StoredDocument = { id, meta: { id, title: deriveTitle(session), docType: 'form', updatedAt: now }, session };
+    const outcome = await idbWriteDocument(null, record);
+    if (outcome !== 'committed' && outcome !== 'already-committed') throw new Error('The portable form could not be saved completely. Your current draft has not changed.');
+    if (!current()) {
+      await idbDeleteDocumentIfUnchanged(record);
+      return 'stale';
+    }
+    return openCommittedReviewCopy(prepared, record, target);
   });
 }
 

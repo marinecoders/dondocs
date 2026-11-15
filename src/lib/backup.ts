@@ -8,6 +8,8 @@ import { readAttachment, withAttachmentStaging } from './attachments';
 import { copyAttachment, withAttachmentResources } from './attachmentResources';
 import { listReviewRounds, parseReviewRound, reviewCopyLinkSchema, type ReviewRound, type ReviewCopyLink } from './reviewRounds';
 import { buildReviewCopy } from './reviewRoundActions';
+import { capturePortableFormTemplates, validatePortableFormTemplates, retainPortableFormTemplates, type PortableFormTemplateBundle } from '@/services/forms/portableTemplates';
+import type { FormDefinition } from '@/services/forms/model';
 /**
  * Full-account backup: one downloadable file that captures EVERYTHING a user
  * has, not just their documents.
@@ -52,6 +54,7 @@ import {
 import { uint8ArrayToBase64, base64ToUint8Array, arrayBufferToUint8Array } from '@/lib/encoding';
 
 export const BACKUP_KIND = 'dondocs-backup';
+// v11 includes exact configured-form templates; older readers must reject it.
 // v10 preserves reconciled acceptance values and their exact pre-decision text.
 // v9 retains suggested replacements and their decisions outside clean drafts.
 // v8 preserves imported-return receipts with their exact saved discussions.
@@ -61,7 +64,7 @@ export const BACKUP_KIND = 'dondocs-backup';
 // (per-document version history). v3 added `attachments`. Restore branches on
 // `kind` and on field PRESENCE, not version, so an older bundle (missing any of
 // these fields) still restores cleanly.
-export const BACKUP_VERSION = 10;
+export const BACKUP_VERSION = 11;
 const LIBRARY_KIND = 'dondocs-library'; // legacy docs-only file
 function supportedWorkspaceVersion(version: unknown, minimum: number): boolean {
   return typeof version === 'number' && Number.isSafeInteger(version) && version >= minimum && version <= BACKUP_VERSION;
@@ -95,6 +98,8 @@ export interface BackupBundle {
   reviewReturns?: ReviewReturnReceipt[];
   reviewSuggestions?: ReviewSuggestionRecord[];
   reviewSuggestionWrites?: ReviewSuggestionReceipt[];
+  portableFormTemplates?: PortableFormTemplateBundle['portableFormTemplates'];
+  portableResources?: PortableFormTemplateBundle['portableResources'];
 }
 
 export interface RestoreResult {
@@ -193,6 +198,13 @@ function hasUnresolvedEnclosure(entry: unknown): boolean {
   const session = (entry as { session?: { enclosures?: Array<{ hasFile?: boolean; fileRef?: { id?: unknown } }> } })?.session;
   return Array.isArray(session?.enclosures) && session.enclosures.some(enclosure =>
     (enclosure.hasFile || enclosure.fileRef) && (typeof enclosure.fileRef?.id !== 'string' || !enclosure.fileRef.id));
+}
+
+function configuredDefinitions(entries: readonly unknown[]): FormDefinition[] {
+  return entries.flatMap(entry => {
+    const session = (entry as { session?: { genericForm?: { definition: FormDefinition } } })?.session;
+    return session?.genericForm ? [session.genericForm.definition] : [];
+  });
 }
 
 function sameAttachmentBytes(left: ArrayBuffer, right: ArrayBuffer): boolean {
@@ -342,6 +354,7 @@ async function serializeBackup(): Promise<string> {
 
   const entries = [{ session: { forms: captured.forms } }, ...docs, ...Object.values(snapshots).flat(), ...Object.values(captured.userTemplates), ...reviewRounds.map(round => round.baseline)];
   if (entries.some(hasUnresolvedEnclosure)) throw new Error('An enclosure file is missing its saved reference. The backup was not created.');
+  const formTemplates = await capturePortableFormTemplates(configuredDefinitions(entries));
   const ids = collectAttachmentIds(entries);
   return withAttachmentResources(ids, async resources => {
     const attachments = ids.map(id => {
@@ -352,10 +365,13 @@ async function serializeBackup(): Promise<string> {
       || Object.values(snapshots).some(ring => ring.some(snapshot => hasReviewComments(snapshot.session)))
       || Object.values(captured.userTemplates).some(template => hasReviewComments(template.session));
     const withReviews = reviewRounds.length > 0 || reviewCopies.length > 0 || docs.some(doc => (doc as { meta: { nativeReviewText?: boolean } }).meta.nativeReviewText === true);
-    const bundle: BackupBundle = { ...captured, version: reviewSuggestions.length || reviewSuggestionWrites.length ? reviewSuggestions.some(record => record.state.version === 2) ? 10 : 9 : reviewReturns.length ? 8 : withReviews ? 7 : withComments ? 6 : 5, documents: docs, snapshots, attachments,
+    const bundle: BackupBundle = { ...captured, version: formTemplates ? 11 : reviewSuggestions.length || reviewSuggestionWrites.length ? reviewSuggestions.some(record => record.state.version === 2) ? 10 : 9 : reviewReturns.length ? 8 : withReviews ? 7 : withComments ? 6 : 5, documents: docs, snapshots, attachments,
+      ...formTemplates,
       ...(withReviews ? { reviewRounds, reviewCopies } : {}), ...(reviewReturns.length ? { reviewReturns } : {}),
       ...(reviewSuggestions.length || reviewSuggestionWrites.length ? { reviewSuggestions, reviewSuggestionWrites } : {}) };
-    return JSON.stringify(bundle);
+    const json = JSON.stringify(bundle);
+    if (formTemplates && new TextEncoder().encode(json).byteLength > MAX_BACKUP_BYTES) throw new Error('This complete workspace backup exceeds the 100 MB JSON import limit. Export separate draft copies before transferring it.');
+    return json;
   });
 }
 
@@ -408,14 +424,14 @@ async function runRestore(json: string, canReplaceForms: () => boolean): Promise
   if (kind === LIBRARY_KIND) parsed.documents = parsed.docs;
   validateBackup(parsed);
   if ((parsed.reviewRounds !== undefined || parsed.reviewCopies !== undefined) && (kind !== BACKUP_KIND || !supportedWorkspaceVersion(parsed.version, 7))) {
-    throw new Error('Review records require a version 7, 8, 9 or 10 workspace backup.');
+    throw new Error('Review records require a version 7 or newer workspace backup.');
   }
   if (parsed.reviewRounds !== undefined && !Array.isArray(parsed.reviewRounds)
     || parsed.reviewCopies !== undefined && !Array.isArray(parsed.reviewCopies)) throw new Error('Invalid review recovery records');
   const reviewRounds = ((parsed.reviewRounds ?? []) as unknown[]).map(parseReviewRound);
   const reviewCopies = ((parsed.reviewCopies ?? []) as unknown[]).map(value => reviewCopyLinkSchema.parse(value));
   if (parsed.reviewReturns !== undefined && (kind !== BACKUP_KIND || !supportedWorkspaceVersion(parsed.version, 8) || !Array.isArray(parsed.reviewReturns))) {
-    throw new Error('Review return receipts require a version 8, 9 or 10 workspace backup.');
+    throw new Error('Review return receipts require a version 8 or newer workspace backup.');
   }
   const reviewReturns = ((parsed.reviewReturns ?? []) as unknown[]).map(value => reviewReturnReceiptSchema.parse(value));
   if (new Set(reviewReturns.map(receipt => `${receipt.roundId}:${receipt.returnId}`)).size !== reviewReturns.length
@@ -424,7 +440,7 @@ async function runRestore(json: string, canReplaceForms: () => boolean): Promise
     throw new Error('Invalid or duplicate review return receipt');
   }
   if ((parsed.reviewSuggestions !== undefined || parsed.reviewSuggestionWrites !== undefined)
-    && (kind !== BACKUP_KIND || !supportedWorkspaceVersion(parsed.version, 9) || !Array.isArray(parsed.reviewSuggestions) || !Array.isArray(parsed.reviewSuggestionWrites))) throw new Error('Suggested edits require a version 9 or 10 workspace backup.');
+    && (kind !== BACKUP_KIND || !supportedWorkspaceVersion(parsed.version, 9) || !Array.isArray(parsed.reviewSuggestions) || !Array.isArray(parsed.reviewSuggestionWrites))) throw new Error('Suggested edits require a version 9 or newer workspace backup.');
   const reviewSuggestions = ((parsed.reviewSuggestions ?? []) as unknown[]).map(value => reviewSuggestionRecordSchema.parse(value));
   if (!supportedWorkspaceVersion(parsed.version, 10) && reviewSuggestions.some(record => record.state.version === 2)) throw new Error('Reconciled decisions require a version 10 workspace backup.');
   const reviewSuggestionWrites = ((parsed.reviewSuggestionWrites ?? []) as unknown[]).map(value => reviewSuggestionReceiptSchema.parse(value));
@@ -468,6 +484,16 @@ async function runRestore(json: string, canReplaceForms: () => boolean): Promise
       validateBackupSession(snapshot.session);
     }
   }
+  const formDefinitions = configuredDefinitions([...(parsed.documents ?? []) as unknown[],
+    ...Object.values((parsed.snapshots ?? {}) as Record<string, unknown[]>).flat(),
+    ...Object.values(incomingTemplates), ...reviewRounds.map(round => round.baseline)]);
+  const hasFormTemplates = parsed.portableFormTemplates !== undefined || parsed.portableResources !== undefined;
+  if (hasFormTemplates && (kind !== BACKUP_KIND || !supportedWorkspaceVersion(parsed.version, 11))
+    || supportedWorkspaceVersion(parsed.version, 11) && formDefinitions.length > 0 && !hasFormTemplates) throw new Error('Portable form templates require a complete version 11 workspace backup.');
+  const formTemplates = hasFormTemplates
+    ? await validatePortableFormTemplates(formDefinitions, parsed.portableFormTemplates, parsed.portableResources) : [];
+  // Verified page staging precedes every document, profile, answer and history write.
+  if (!await retainPortableFormTemplates(formTemplates)) throw new Error('Portable form templates could not be retained. Nothing was restored.');
   const issues: string[] = [];
   const persistCategory = (label: string, write: () => void, key?: string): boolean => {
     try {

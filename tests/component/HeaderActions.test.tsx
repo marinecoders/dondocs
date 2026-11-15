@@ -8,7 +8,7 @@ import { AppAlertDialog } from '@/components/AppAlertDialog';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { useAlertStore } from '@/stores/alertStore';
 import { useFormStore } from '@/stores/formStore';
-import { useDocumentStore } from '@/stores/documentStore';
+import { useDocumentStore, getSerializedSession } from '@/stores/documentStore';
 import { useUIStore } from '@/stores/uiStore';
 import { useDocumentsStore } from '@/stores/documentsStore';
 import { idbGetSnapshots } from '@/lib/documentsDb';
@@ -56,6 +56,29 @@ describe('document action error feedback', () => {
     fireEvent.change(screen.getByLabelText('Import draft file'), { target: { files: [new File(['{broken'], 'invalid.json', { type: 'application/json' })] } });
     expect(await screen.findByRole('alertdialog', { name: 'Could not import draft' })).toBeVisible();
     expect(useDocumentStore.getState().formData.subject).toBe('Keep my draft');
+  });
+
+  it('keeps the latest selected draft when an earlier asynchronous file finishes later', async () => {
+    const contents = (subject: string) => JSON.stringify({ ...getSerializedSession(), formData: { ...getSerializedSession().formData, subject } });
+    let release!: (value: string) => void;
+    renderHeader();const input = screen.getByLabelText('Import draft file');
+    fireEvent.change(input, { target: { files: [{ text: () => new Promise<string>(resolve => { release = resolve; }) }] } });
+    fireEvent.change(input, { target: { files: [new File([contents('LATEST SELECTED COPY')], 'latest.json', { type: 'application/json' })] } });
+    const review = await screen.findByRole('dialog', { name: 'Review draft' });
+    await waitFor(() => expect(review).toHaveTextContent('LATEST SELECTED COPY'));
+    await act(async () => { release(contents('SUPERSEDED COPY')); });
+    expect(review).toHaveTextContent('LATEST SELECTED COPY');expect(review).not.toHaveTextContent('SUPERSEDED COPY');
+    expect(useDocumentStore.getState().formData.subject).toBe('Keep my draft');
+  });
+
+  it('does not report an older read failure over a newer valid draft review', async () => {
+    let reject!: (cause: Error) => void;
+    renderHeader();const input = screen.getByLabelText('Import draft file');
+    fireEvent.change(input, { target: { files: [{ text: () => new Promise<string>((_resolve, fail) => { reject = fail; }) }] } });
+    fireEvent.change(input, { target: { files: [new File([JSON.stringify(getSerializedSession())], 'latest.json', { type: 'application/json' })] } });
+    await screen.findByRole('dialog', { name: 'Review draft' });
+    await act(async () => { reject(new Error('Older file is unavailable')); });
+    expect(screen.queryByRole('alertdialog', { name: 'Could not import draft' })).not.toBeInTheDocument();
   });
 
   it('reports backup file read failures instead of failing silently', async () => {

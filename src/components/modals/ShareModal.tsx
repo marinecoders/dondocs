@@ -315,7 +315,7 @@ function ShareModalContent({
           <div className="rounded-md border border-border p-3 text-sm space-y-1">
             <p className="font-medium">What the recipient receives</p>
             {snapshot && <SessionPreview session={snapshot} />}
-            <p className="text-muted-foreground">Includes required native attached PDFs, basic-letter files, PNG signatures and PNG/JPEG figures. Large copies use an encrypted file. Version history and other drafts are excluded. Configured forms still require their selected PDF template.</p>
+            <p className="text-muted-foreground">Includes required native attached PDFs, basic-letter files, PNG signatures and PNG/JPEG figures. Large copies use an encrypted file. Version history and other drafts are excluded. Configured forms include their exact PDF template pages.</p>
           </div>
         )}
         {received && <div className="space-y-2 rounded-md border p-3"><SessionPreview session={received.session} />{isAssetShare(received.payload) && <p className="text-sm">The included attachments passed their size, type and checksum checks. Inspect their contents before using or forwarding them.</p>}<p className="text-xs text-muted-foreground">Opens as a new document. Your current draft stays in Recents.</p></div>}
