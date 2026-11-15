@@ -387,3 +387,38 @@ Every listed enclosure needs a captured original file. Missing, corrupt or unrea
 Original PDF pages and signing fields stay in separate files. Review the DOCX in Word and complete signing through your organization’s Word signing process. A visual signature image is not a certificate signature, and a DOCX derivative inherits no original signature or approval. Word and PDF pagination can differ. The ZIP is unencrypted; its manifest checks file integrity without authenticating the sender.
 
 For supported PDF formats, choose **Digital field** and sign the downloaded result in your PDF signing application. Typed-only and image-signature styles do not themselves apply a cryptographic signature. Review content, markings and authority before signing.
+
+
+### Identify package references and enclosures
+
+Open **Packages**, select the current saved revision, and use **Identify current
+references and enclosures**. This creates durable target identities for each
+supported native reference, each native enclosure, and each package member whose
+role is enclosure. Native enclosure labels come from that document's own list, including endorsement
+continuation offsets;
+package enclosure numbers count only enclosure-role members in package order.
+
+Under **Citation occurrence**, choose an explicit reference or enclosure citation
+in a native correspondence paragraph or heading, then select its intended target
+and choose **Save citation link**. The current printed label must match that
+target; references and native enclosures must belong to the citing document's own
+list. Quoted text, code and URLs are not editable citation occurrences. A bare
+“(a)” does not establish a reference citation. Paragraphs without unique stable
+identities cannot be linked.
+
+Every identity or link save creates a new package revision. Captured documents,
+original signed files and historical revisions stay unchanged. IDs and hashes
+survive editable package transfer and backups; they grant no authority over a
+foreign library document. Metadata retains no copied titles or paragraph text.
+
+This release does not automatically rewrite citations after reordering. A changed
+member, missing member, changed literal or mismatched enclosure number appears as
+a stale or missing binding. Older revisions remain readable. Correct the source
+through a working copy and deliberately capture a new revision; never assume a
+same-title item is the original target. Historical and archived revisions show
+identity details without editing controls.
+
+The registry supports at most 1,000 targets and 2,000 links per revision. Source
+offsets use UTF-16 editor positions, checked against full-field and selection
+SHA-256 hashes and never across a surrogate pair. Unsupported metadata or a stale
+save is rejected without replacing the last complete revision.

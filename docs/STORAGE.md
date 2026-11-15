@@ -540,3 +540,23 @@ Native `Paragraph.id` values identify actual editing nodes independently of publ
 Workspace backups containing comments in documents, trash, version history, or captured templates use backup version 6; other backups remain version 5. Comment-bearing library exports use library version 2. Current readers accept supported older formats and validate review schemas before restoring records or assets. An unsupported review version is an error, not a request to discard notes.
 
 These comment formats require DonDocs 1.3.71 or later. Earlier tabs and code rollbacks can still drop unknown fields when reading an on-device session; changing the new code cannot repair an older reader. Keep a current-version workspace backup before using an older build. Portable draft and backup JSON remains unencrypted; encrypted sharing protects the payload with the supplied password.
+
+
+## Package citation identities
+
+A saved package revision may carry version-1 `citations` metadata. Its bounded
+target registry contains durable IDs, member/revision bindings, list positions
+and item hashes. Links contain target IDs and supported paragraph text/header
+anchors with UTF-16 ranges and full-field/selection hashes. It duplicates no
+native text or filenames. References and native enclosures cannot bind another
+member's local list. Package enclosure identities bind the captured member
+revision and fingerprint separately from its current derived number.
+
+`reviseActionPackage` carries the registry into new revisions without changing old
+revisions. Missing or changed bindings remain as tombstones, never resolved by
+title, text similarity or a newly occupied list position. Explicit linking checks
+the current literal against the intended target's label. Registry and link saves
+use existing asset validation and the package compare-and-swap transaction.
+Aborted or stale writes preserve the previous record. Selected-revision transfer,
+backup and duplication preserve this metadata through the shared package schema;
+foreign source bindings retain their existing lack of local authority.

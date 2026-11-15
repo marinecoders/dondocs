@@ -8,6 +8,7 @@ import {
 } from "./documentsDb";
 import { scheduleBackup } from "@/stores/backupStore";
 import { packageRenderProvenanceSchema } from "./packageRenderProvenance";
+import { packageCitationsSchema, type PackageCitations } from "./packageCitationSchema";
 
 const id = z
   .string()
@@ -114,6 +115,7 @@ const revisionSchema = z
     createdAt: z.number().int().nonnegative(),
     members: z.array(packageMemberSchema).max(100),
     outputs: z.array(outputSchema).max(20),
+    citations: packageCitationsSchema.optional(),
   })
   .strict();
 export type PackageRevision = z.infer<typeof revisionSchema>;
@@ -138,7 +140,8 @@ export const actionPackageSchema = z
   .strict()
   .superRefine((record, ctx) => {
     const seen = new Set<string>(),
-      memberRevisions = new Map<string, string>();
+      memberRevisions = new Map<string, string>(),
+      citationOwners = new Map<string, string>();
     for (const [index, revision] of record.revisions.entries()) {
       if (
         seen.has(revision.id) ||
@@ -151,6 +154,12 @@ export const actionPackageSchema = z
           message: "Invalid package revision lineage.",
         });
       seen.add(revision.id);
+      for (const target of revision.citations?.targets ?? []) {
+        const owner = `${target.kind}:${target.memberId}`;
+        if (citationOwners.has(target.id) && citationOwners.get(target.id) !== owner)
+          ctx.addIssue({ code: "custom", message: "A citation target identity changed owners." });
+        citationOwners.set(target.id, owner);
+      }
       for (const member of revision.members) {
         const key = `${member.id}:${member.revisionId}`,
           data = JSON.stringify(member);
@@ -318,6 +327,7 @@ export async function reviseActionPackage(
   record: ActionPackage,
   members: PackageMember[],
   signal?: AbortSignal,
+  citations: PackageCitations | undefined = getPackageRevision(record).citations,
 ): Promise<ActionPackage> {
   if (record.archived)
     throw new Error("Reopen this archived package before editing.");
@@ -336,6 +346,7 @@ export async function reviseActionPackage(
         : member;
     }),
     outputs: [],
+    ...(citations ? { citations: structuredClone(citations) } : {}),
   };
   return commitActionPackage(
     record,

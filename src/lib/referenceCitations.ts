@@ -20,17 +20,23 @@ export interface ReferenceChange {
   readonly patch: Partial<ReferenceSource>;
 }
 
-/** Only explicit, parenthesized ref/reference clauses are editable. A bare (a)
- * is also a paragraph designator, so it is never evidence of a citation. */
-export function scanReferenceCitations(text: string): CitationScan {
-  const citations: Citation[] = [];
-  const issues: string[] = [];
+/** Quoted prose, code, URLs and block quotations cannot be safely relabeled. */
+export function citationProtectedRanges(text: string): Array<[number, number]> {
   const protectedSpans = protectedCodeRanges(text);
   const outsideCode = maskProtectedRanges(text, protectedSpans);
   for (const match of outsideCode.matchAll(/"[^"]*(?:"|$)|“[^”]*(?:”|$)|‘(?:[^’]|’(?=[\p{L}\p{M}\p{N}_]))*(?:’|$)|(?:https?:\/\/|mailto:)\S+|(?:^|\n)\s*>[^\n]*/giu)) {
     protectedSpans.push([match.index, match.index + match[0].length]);
   }
   for (const match of outsideCode.matchAll(/(?<![\p{L}\p{M}\p{N}_])'(?:[^']|'(?=[\p{L}\p{M}\p{N}_]))*(?:'|$)/gu)) protectedSpans.push([match.index, match.index + match[0].length]);
+  return protectedSpans;
+}
+
+/** Only explicit, parenthesized ref/reference clauses are editable. A bare (a)
+ * is also a paragraph designator, so it is never evidence of a citation. */
+export function scanReferenceCitations(text: string): CitationScan {
+  const citations: Citation[] = [];
+  const issues: string[] = [];
+  const protectedSpans = citationProtectedRanges(text);
   const prefix = /\b(?:references?|refs?\.?)\s*(?=\(|[a-z])/gi;
   for (const match of text.matchAll(prefix)) {
     let cursor = match.index + match[0].length;
