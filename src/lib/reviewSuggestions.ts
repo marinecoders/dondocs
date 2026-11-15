@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { feedbackCategorySchema, type FeedbackCategory } from './reviewFeedback';
 import type { SerializedSession } from '@/stores/documentStore';
 import { paragraphIdSchema } from './paragraphIdentity';
 import { availableCommentFields, commentFieldLabel, supportsReviewComments } from './reviewCommentTargets';
@@ -28,6 +29,7 @@ export const reviewSuggestionSchema = z.object({
   id: reviewProposalIdSchema, roundId: reviewRoundIdSchema, baselineDigest: reviewDigestSchema,
   author: z.string().trim().min(1).max(100), createdAt: timestamp,
   label: z.string().trim().min(1).max(120),
+  category: feedbackCategorySchema.optional(),
   origin: z.object({ kind: z.enum(['manual', 'mechanical']), rule: z.string().min(1).max(200).optional(),
     context: z.string().max(500).optional() }).strict(),
   changes: z.array(reviewSuggestionChangeSchema).min(1).max(REVIEW_SUGGESTION_LIMITS.changes),
@@ -187,13 +189,13 @@ export function appendReviewSuggestions(round: ReviewRound, original: ReviewSugg
 }
 
 export function createReviewSuggestion(round: ReviewRound, input: {
-  author: string; label: string; origin?: ReviewSuggestion['origin'];
+  author: string; label: string; origin?: ReviewSuggestion['origin']; category?: FeedbackCategory;
   changes: ReadonlyArray<{ target: ReviewSuggestionTarget; proposed: string }>;
 }): ReviewSuggestion {
   return validateReviewSuggestion(round, {
     kind: 'dondocs-review-suggestion', version: 1, id: `proposal_${crypto.randomUUID()}`,
     roundId: round.id, baselineDigest: round.baselineDigest, author: input.author,
-    createdAt: Date.now(), label: input.label, origin: input.origin ?? { kind: 'manual' },
+    createdAt: Date.now(), label: input.label, ...(input.category ? { category: input.category } : {}), origin: input.origin ?? { kind: 'manual' },
     changes: input.changes.map(change => {
       const baseline = suggestionTargetValue(round.baseline.session, change.target);
       if (!baseline) throw new Error('Choose a supported text field or whole paragraph from the reviewed baseline.');

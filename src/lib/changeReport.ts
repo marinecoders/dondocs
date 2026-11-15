@@ -1,6 +1,7 @@
 import type { SerializedSession } from '@/stores/documentStore';
 import { DOCUMENT_FIELD_POLICIES, type FieldRule } from './documentFieldPolicies';
 import { compareSessions, type SessionChange } from './sessionDiff';
+import { feedbackCategoryLabel } from './reviewFeedback';
 import { reviewCommentsSchema } from './reviewComments';
 import { describeCommentAnchor } from './reviewCommentTargets';
 import { parseFormInstance, type AnswerField, type Answer } from '@/services/forms/model';
@@ -75,7 +76,7 @@ function discussions(session: SerializedSession): ReportDiscussion[] {
   if (!parsed.success) throw new Error('These review comments cannot be read completely. Update DonDocs before downloading a report.');
   return parsed.data.threads.map(thread => {
     const anchor = describeCommentAnchor(session, thread.anchor);
-    return { target: anchor.label, status: `${thread.resolved ? 'Resolved' : 'Open'} · ${anchor.status === 'current' ? 'Target current' : anchor.status === 'changed' ? 'Target changed' : 'Target unavailable / detached'}`,
+    return { target: anchor.label, status: `${thread.category ? `${feedbackCategoryLabel(thread.category)} · ` : ''}${thread.resolved ? 'Resolved' : 'Open'} · ${anchor.status === 'current' ? 'Target current' : anchor.status === 'changed' ? 'Target changed' : 'Target unavailable / detached'}`,
       context: anchor.context, current: anchor.current,
       messages: thread.messages.map(({ author, text }) => ({ author, text })) };
   });

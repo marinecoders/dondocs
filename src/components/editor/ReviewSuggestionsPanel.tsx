@@ -1,4 +1,6 @@
 import { useEffect, useLayoutEffect, useId, useRef, useState, type FormEvent } from 'react';
+import { FeedbackCategorySelect } from '@/components/FeedbackCategorySelect';
+import { feedbackCategoryLabel, matchesFeedbackFilter, type FeedbackCategory, type FeedbackFilter } from '@/lib/reviewFeedback';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -26,6 +28,8 @@ interface Props {
 export function ReviewSuggestionsPanel({ round, current, state, owner, busy, onCreate, onDecide }: Props) {
   const prefix = useId();
   const [author, setAuthor] = useState('');
+  const [category, setCategory] = useState<FeedbackCategory>('edit');
+  const [filter, setFilter] = useState<FeedbackFilter>('all');
   const [selected, setSelected] = useState('');
   const [proposed, setProposed] = useState('');
   const [error, setError] = useState('');
@@ -53,7 +57,7 @@ export function ReviewSuggestionsPanel({ round, current, state, owner, busy, onC
     if (busy || working.current || !target) return;
     working.current = true;setPending(true);setNotice('');
     try {
-      const proposal = createReviewSuggestion(round, { author, label: `Replace ${target.label.toLowerCase()}`,
+      const proposal = createReviewSuggestion(round, { author, category, label: `Replace ${target.label.toLowerCase()}`,
         changes: [{ target: target.target, proposed }] });
       if (await onCreate(proposal) && alive.current) {
         setSelected('');setProposed('');setNotice('Suggestion submitted to this review.');
@@ -84,6 +88,7 @@ export function ReviewSuggestionsPanel({ round, current, state, owner, busy, onC
         <legend className="text-sm font-medium">Propose one field or paragraph replacement</legend>
         <Label htmlFor={`${prefix}-author`}>Reviewer name for suggestion</Label>
         <Input id={`${prefix}-author`} value={author} maxLength={100} onChange={event => setAuthor(event.target.value)} />
+        <FeedbackCategorySelect label="Suggestion category" value={category} onChange={setCategory} />
         <Label htmlFor={`${prefix}-target`}>Suggestion target</Label>
         <select id={`${prefix}-target`} value={selected} className="w-full rounded-md border bg-background p-2 text-sm" onChange={event => {
           const next = targets.find(item => item.key === event.target.value);
@@ -103,7 +108,9 @@ export function ReviewSuggestionsPanel({ round, current, state, owner, busy, onC
     </form>
     <MechanicalReviewProposalsPanel round={round} busy={disabled} proposalCount={state.proposals.length} onCreate={onCreate} />
     {!state.proposals.length && <p className="text-sm text-muted-foreground">No suggested replacements in this review.</p>}
+    <FeedbackCategorySelect label="Filter suggestion category" value={filter} onChange={setFilter} filter />
     {state.proposals.map((proposal, index) => {
+      if (!matchesFeedbackFilter(proposal.category, filter)) return null;
       const changes = inspectReviewSuggestion(round, current, proposal);
       const decision = latestReviewSuggestionDecision(state, proposal.id);
       const stale = changes.some(change => change.stale);
@@ -116,6 +123,7 @@ export function ReviewSuggestionsPanel({ round, current, state, owner, busy, onC
         : decision.action === 'reversed' ? 'Acceptance undone' : 'Rejected' : stale ? 'Current draft differs; acceptance is blocked' : 'Pending';
       return <article key={proposal.id} aria-label={`Suggestion ${index + 1}: ${proposal.label}`} className="space-y-2 rounded-md border p-3">
         <h4 className="break-words text-sm font-medium">{proposal.label}</h4>
+        <p className="text-xs text-muted-foreground">{feedbackCategoryLabel(proposal.category)}{proposal.category === 'required-correction' ? ' · Reviewer intent; not an authenticated approval requirement.' : ''}</p>
         <p className="break-words text-xs text-muted-foreground">{proposal.author} · {new Date(proposal.createdAt).toLocaleString()} · {status}</p>
         {proposal.origin.kind === 'mechanical' && <p className="whitespace-pre-wrap break-words text-xs">Grouped correction{proposal.origin.rule ? `: ${proposal.origin.rule}` : ''}{proposal.origin.context ? ` · ${proposal.origin.context}` : ''}. All members are checked before any change is applied.</p>}
         {changes.map(change => <div key={change.id} className="space-y-1 border-t pt-2">

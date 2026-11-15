@@ -223,3 +223,28 @@ it('routes existing formatting findings through the shared proposal and decision
   expect(input.onDecide).toHaveBeenCalledWith(proposal.id, 'accepted');
   expect(input.current.formData.date).toBe('13 November 2026');
 });
+
+it('creates categorized feedback and filters without renumbering or changing decisions', async () => {
+  const input = props();
+  const legacy = createReviewSuggestion(input.round, { author: 'Example', label: 'Legacy', changes: [
+    { target: { kind: 'field', field: 'to', docType: 'naval_letter' }, proposed: 'Legacy recipient' },
+  ] });
+  const required = createReviewSuggestion(input.round, { author: 'Example', label: 'Required', category: 'required-correction', changes: [
+    { target: { kind: 'field', field: 'to', docType: 'naval_letter' }, proposed: 'Required recipient' },
+  ] });
+  input.state.proposals.push(legacy, required);
+  render(<ReviewSuggestionsPanel {...input} />);
+  await userEvent.selectOptions(screen.getByRole('combobox', { name: 'Filter suggestion category' }), 'required-correction');
+  expect(screen.queryByRole('article', { name: 'Suggestion 1: Legacy' })).not.toBeInTheDocument();
+  expect(screen.getByRole('article', { name: 'Suggestion 2: Required' })).toHaveTextContent('Reviewer intent');
+  await userEvent.selectOptions(screen.getByRole('combobox', { name: 'Filter suggestion category' }), 'unclassified');
+  expect(screen.getByRole('article', { name: 'Suggestion 1: Legacy' })).toBeInTheDocument();
+  expect(screen.queryByRole('article', { name: 'Suggestion 2: Required' })).not.toBeInTheDocument();
+  await userEvent.type(screen.getByRole('textbox', { name: 'Reviewer name for suggestion' }), 'Example reviewer');
+  await userEvent.selectOptions(screen.getByRole('combobox', { name: 'Suggestion category' }), 'required-correction');
+  await userEvent.selectOptions(screen.getByRole('combobox', { name: 'Suggestion target' }), 'field:to');
+  fireEvent.change(screen.getByRole('textbox', { name: 'Proposed replacement' }), { target: { value: 'Categorized recipient' } });
+  await userEvent.click(screen.getByRole('button', { name: 'Add suggestion' }));
+  expect(input.onCreate).toHaveBeenCalledWith(expect.objectContaining({ category: 'required-correction' }));
+  expect(input.onDecide).not.toHaveBeenCalled();
+});

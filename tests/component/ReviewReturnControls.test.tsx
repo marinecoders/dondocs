@@ -102,3 +102,19 @@ it.each(['download', 'import'] as const)('keeps the next review name focused aft
     expect(name).toHaveFocus();
   } finally { raf.mockRestore(); }
 });
+
+
+it('shows an absent category as unclassified rather than a removed discussion', async () => {
+  const categoryConflict = { id: 'thread:category', kind: 'category' as const, threadId: 'thread',
+    baseline: undefined, current: 'question' as const, returned: 'required-correction' as const };
+  vi.mocked(prepareReviewReturnImport).mockResolvedValue({ ...prepared,
+    plan: { ...plan, conflicts: [categoryConflict] },
+  } as unknown as Awaited<ReturnType<typeof prepareReviewReturnImport>>);
+  render(<ReviewReturnControls disabled={false} onBusyChange={vi.fn()} />);
+  upload();
+  await screen.findByRole('heading', { name: 'November letter' });
+  expect(screen.getByRole('region', { name: 'Conflict 1 baseline' })).toHaveTextContent('Unclassified');
+  expect(screen.getByRole('region', { name: 'Conflict 1 baseline' })).not.toHaveTextContent('Removed');
+  expect(screen.getByRole('region', { name: 'Conflict 1 current' })).toHaveTextContent('Question');
+  expect(screen.getByRole('region', { name: 'Conflict 1 returned' })).toHaveTextContent('Required correction');
+});

@@ -7,6 +7,16 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.94] — 2026-11-15
+
+### Added
+
+- Classify review comments and suggestions as edits, questions or required corrections, with category filters and preservation through saved drafts and review returns. Reviewer intent remains separate from approval authority.
+
+### Fixed
+
+- Preserve legacy comment bytes and baseline digests, reconcile competing category changes explicitly, and distinguish an unclassified category from a removed discussion.
+
 ## [1.3.93] — 2026-11-15
 
 ### Fixed

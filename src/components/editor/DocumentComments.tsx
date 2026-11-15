@@ -1,4 +1,6 @@
 import { useRef, useState } from 'react';
+import { FeedbackCategorySelect } from '@/components/FeedbackCategorySelect';
+import { feedbackCategoryLabel, matchesFeedbackFilter, type FeedbackCategory, type FeedbackFilter } from '@/lib/reviewFeedback';
 import { MessageSquare } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -34,6 +36,7 @@ export function CommentsDialog({ onClose, initialParagraphId }: { onClose: () =>
   const state = useDocumentStore();
   const viewTarget = captureDocumentTarget();
   const [showResolved, setShowResolved] = useState(false);
+  const [filter, setFilter] = useState<FeedbackFilter>('all');
   const [editor, setEditor] = useState<Editor>({ kind: 'add' });
   const [editorKey, setEditorKey] = useState(0);
   const [hasDraft, setHasDraft] = useState(false);
@@ -51,7 +54,7 @@ export function CommentsDialog({ onClose, initialParagraphId }: { onClose: () =>
     if (outcome === 'applied') requestAnimationFrame(() => result.current?.focus({ preventScroll: true }));
     return outcome === 'applied';
   };
-  const visible = threads.filter(thread => thread.resolved === showResolved);
+  const visible = threads.filter(thread => thread.resolved === showResolved && matchesFeedbackFilter(thread.category, filter));
   return <Dialog open onOpenChange={open => { if (!open) onClose(); }}>
     <DialogContent className="sm:max-w-2xl" onOpenAutoFocus={event => {
       const target = document.getElementById('comment-target');
@@ -80,7 +83,7 @@ export function CommentsDialog({ onClose, initialParagraphId }: { onClose: () =>
     }}>
       <DialogHeader>
         <DialogTitle>Document comments</DialogTitle>
-        <DialogDescription>Comments travel with drafts and shared copies. Clean PDF and Word exports omit them. Reviewer names are self-entered.</DialogDescription>
+        <DialogDescription>Comments travel with drafts and shared copies. Clean PDF and Word exports omit them. Reviewer names are self-entered. Required correction expresses reviewer intent, not approval authority.</DialogDescription>
       </DialogHeader>
       <div className="space-y-1 border-b border-border pb-3">
         <Button type="button" variant="outline" size="sm" className="min-h-11 sm:min-h-8" disabled={hasDraft} aria-describedby="comments-review-rounds-help" onClick={() => {
@@ -95,6 +98,7 @@ export function CommentsDialog({ onClose, initialParagraphId }: { onClose: () =>
         if (saved) { setEditor({ kind: 'add' });setEditorKey(value => value + 1);setHasDraft(false); }
         return saved;
       }} />
+      <FeedbackCategorySelect label="Filter comment category" value={filter} onChange={setFilter} filter />
       <div role="group" className="flex flex-wrap gap-2" aria-label="Comment status">
         <Button type="button" size="sm" variant={!showResolved ? 'secondary' : 'outline'} aria-pressed={!showResolved} onClick={() => setShowResolved(false)}>Open ({threads.filter(thread => !thread.resolved).length})</Button>
         <Button type="button" size="sm" variant={showResolved ? 'secondary' : 'outline'} aria-pressed={showResolved} onClick={() => setShowResolved(true)}>Resolved ({threads.filter(thread => thread.resolved).length})</Button>
@@ -118,6 +122,7 @@ function CommentEditor({ editor, initialParagraphId, onDraftChange, onCancel, on
   const [target, setTarget] = useState(captureDocumentTarget);
   const [field, setField] = useState(initialParagraphId ? `paragraph:${initialParagraphId}` : 'document');
   const [author, setAuthor] = useState('');
+  const [category, setCategory] = useState<FeedbackCategory>('question');
   const [text, setText] = useState(editor.kind === 'edit' ? editor.text : '');
   const stale = !!text && !isCurrentDocumentTarget(target);
   const paragraphId = field.startsWith('paragraph:') ? field.slice('paragraph:'.length) : undefined;
@@ -127,7 +132,7 @@ function CommentEditor({ editor, initialParagraphId, onDraftChange, onCancel, on
   const unavailable = paragraphId !== undefined && !paragraphs.some(paragraph => paragraph.paragraphId === paragraphId);
   return <form className="min-w-0 space-y-3 rounded-md border border-border p-3" onSubmit={event => {
     event.preventDefault();
-    const mutation: CommentMutation = editor.kind === 'add' ? { kind: 'add', ...(field === 'document' ? {} : paragraphId ? { paragraphId } : { field }), author, text }
+    const mutation: CommentMutation = editor.kind === 'add' ? { kind: 'add', ...(field === 'document' ? {} : paragraphId ? { paragraphId } : { field }), author, text, category }
       : editor.kind === 'reply' ? { kind: 'reply', threadId: editor.threadId, author, text }
         : { kind: 'edit', threadId: editor.threadId, messageId: editor.messageId, text };
     onSave(mutation, target);
@@ -152,6 +157,7 @@ function CommentEditor({ editor, initialParagraphId, onDraftChange, onCancel, on
       {unavailable && <p id="comment-target-error" role="alert" className="text-sm text-destructive">This paragraph is unavailable or too long for a paragraph comment. Your text is preserved; choose another target to continue.</p>}
       {paragraphId && !unavailable && <div role="region" aria-label="Current paragraph" tabIndex={0} className="max-h-36 overflow-auto text-xs text-muted-foreground focus-visible:outline-2 focus-visible:outline-ring"><p className="font-medium">Current paragraph</p><p className="whitespace-pre-wrap break-words">{paragraphs.find(paragraph => paragraph.paragraphId === paragraphId)?.value || '(Empty)'}</p></div>}
     </div>}
+    {editor.kind === 'add' && <FeedbackCategorySelect label="Comment category" value={category} onChange={setCategory} />}
     {editor.kind !== 'edit' && <div className="space-y-1"><Label htmlFor="comment-author">Reviewer name</Label><Input id="comment-author" value={author} maxLength={COMMENT_LIMITS.author} onChange={event => setAuthor(event.target.value)} autoComplete="off" /></div>}
     <div className="space-y-1"><Label htmlFor="comment-text">{editor.kind === 'reply' ? 'Reply' : 'Comment'}</Label><Textarea id="comment-text" autoFocus={editor.kind !== 'add'} value={text} maxLength={COMMENT_LIMITS.text} onChange={event => { if (!text) setTarget(captureDocumentTarget());setText(event.target.value);onDraftChange(editor.kind === 'edit' ? event.target.value !== editor.text : event.target.value.length > 0); }} className="min-h-24" /></div>
     <div className="flex flex-wrap gap-2">
@@ -167,7 +173,8 @@ function CommentThreadView({ thread, run, startEditor, onNavigate }: {
   const state = useDocumentStore();
   const anchor = describeCommentAnchor(state, thread.anchor);
   return <article className="min-w-0 space-y-3 rounded-md border border-border p-3" aria-label={`Comment on ${anchor.label}`}>
-    <h3 className="text-sm font-medium">{anchor.label}</h3>
+    <h3 className="text-sm font-medium">{anchor.label} · {feedbackCategoryLabel(thread.category)}</h3>
+    <FeedbackCategorySelect label="Feedback category" value={thread.category ?? 'unclassified'} onChange={value => run({ kind: 'classify', threadId: thread.id, category: value })} />
     {thread.anchor.kind === 'paragraph' && anchor.status !== 'unavailable' && <Button type="button" size="sm" variant="outline" onClick={() => {
       if (thread.anchor.kind === 'paragraph') onNavigate(thread.anchor.paragraphId);
     }}>Go to paragraph</Button>}
