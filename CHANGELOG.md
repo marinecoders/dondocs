@@ -7,6 +7,16 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.97] — 2026-11-15
+
+### Added
+
+- Export a captured review decision summary as printable HTML, including grouped suggestion outcomes, retained discussion and revision checksums for the selected round.
+
+### Fixed
+
+- Preserve later draft edits while reviewing a frozen summary, scan retained text and markings, and check current export policy again when downloading.
+
 ## [1.3.96] — 2026-11-15
 
 ### Added

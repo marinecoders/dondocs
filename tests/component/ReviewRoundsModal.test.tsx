@@ -1,6 +1,6 @@
 import { StrictMode } from 'react';
 import { beforeEach, expect, it, vi } from 'vitest';
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { act, fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 import { ReviewRoundsModal } from '@/components/modals/ReviewRoundsModal';
 import { listReviewRounds, type ReviewRound } from '@/lib/reviewRounds';
 import { buildReviewCopy, downloadReviewCopy, prepareReviewCopyExport } from '@/lib/reviewRoundActions';
@@ -9,11 +9,14 @@ import { resolveExportDeploymentPolicy } from '@/lib/exportDeploymentPolicy';
 import { createBlankSession, useDocumentStore } from '@/stores/documentStore';
 import { useDocumentsStore } from '@/stores/documentsStore';
 import { detectTextPII } from '@/services/pii/detector';
+import { captureReviewDecisionSummary, loadReviewDecisionSummary, type DecisionSummaryCapture } from '@/lib/reviewDecisionSummary';
+import { decisionSummaryFixture } from '../_helpers/decisionSummaryFixture';
 
 vi.mock('@/lib/reviewRounds', async actual => ({ ...await actual<typeof import('@/lib/reviewRounds')>(), listReviewRounds: vi.fn(), readReviewCopyLink: vi.fn(async () => null) }));
 vi.mock('@/lib/reviewRoundActions', async actual => ({ ...await actual<typeof import('@/lib/reviewRoundActions')>(),
   initialReviewLabel: () => 'Current letter', buildReviewCopy: vi.fn(), prepareReviewCopyExport: vi.fn(), downloadReviewCopy: vi.fn() }));
 vi.mock('@/config/classification', () => ({ getExportDeploymentPolicy: vi.fn() }));
+vi.mock('@/lib/reviewDecisionSummary', async actual => ({ ...await actual<typeof import('@/lib/reviewDecisionSummary')>(), loadReviewDecisionSummary: vi.fn() }));
 
 const session = { ...createBlankSession(), timestamp: 1 };
 const round: ReviewRound = { kind: 'dondocs-review-round', version: 1,
@@ -80,4 +83,38 @@ it('does not download an older prepared copy when the active document changes du
   release(resolveExportDeploymentPolicy({ hostname: 'example.com', environment: null, runtime: { status: 'absent' } }));
   expect(await screen.findByRole('alert')).toHaveTextContent('draft changed');
   expect(downloadReviewCopy).not.toHaveBeenCalled();
+});
+
+it('keeps other actions disabled when canceling an idle prepared summary while another round is preparing', async () => {
+  const workspace = decisionSummaryFixture();
+  workspace.round.label = 'First summary round';
+  const second = { ...structuredClone(workspace.round), id: `review_${crypto.randomUUID()}`, label: 'Second summary round' };
+  vi.mocked(listReviewRounds).mockResolvedValue([workspace.round, second]);
+  const capture = await captureReviewDecisionSummary(workspace, '2026-11-15T05:00:00.000Z');
+  vi.mocked(loadReviewDecisionSummary).mockResolvedValueOnce(capture);
+  render(<ReviewRoundsModal open onOpenChange={vi.fn()} />);
+  const firstArticle = await screen.findByRole('article', { name: 'Review First summary round' });
+  const secondArticle = screen.getByRole('article', { name: 'Review Second summary round' });
+  expect(screen.getAllByRole('group', { name: 'Review decision summary' })).toHaveLength(2);
+  expect(within(firstArticle).getByRole('group', { name: 'Review decision summary' })).toBeVisible();
+  expect(within(secondArticle).getByRole('group', { name: 'Review decision summary' })).toBeVisible();
+  expect(screen.queryByRole('region', { name: 'Review decision summary' })).not.toBeInTheDocument();
+  fireEvent.click(within(firstArticle).getByRole('button', { name: 'Prepare decision summary' }));
+  await within(firstArticle).findByRole('button', { name: 'Download reviewed decision summary (.html)' });
+  let finish!: (value: DecisionSummaryCapture) => void;
+  vi.mocked(loadReviewDecisionSummary).mockReturnValueOnce(new Promise(resolve => { finish = resolve; }));
+  fireEvent.click(within(secondArticle).getByRole('button', { name: 'Prepare decision summary' }));
+  await waitFor(() => expect(screen.getByRole('button', { name: 'Refresh review rounds' })).toBeDisabled());
+  fireEvent.click(within(firstArticle).getByRole('button', { name: 'Cancel decision summary' }));
+  expect(screen.getByRole('button', { name: 'Refresh review rounds' })).toBeDisabled();
+  expect(screen.getByRole('combobox', { name: 'Review for comparison checkpoint' })).toBeDisabled();
+  expect(within(firstArticle).getByRole('button', { name: 'Prepare decision summary' })).toBeDisabled();
+  expect(within(firstArticle).getByRole('button', { name: 'Close review' })).toBeDisabled();
+  for (const button of screen.getAllByRole('button', { name: 'Prepare reviewer copy' })) expect(button).toBeDisabled();
+  expect(within(secondArticle).getByText('Checking captured summary contents…')).toBeVisible();
+  fireEvent.click(within(secondArticle).getByRole('button', { name: 'Cancel decision summary' }));
+  expect(screen.getByRole('button', { name: 'Refresh review rounds' })).toBeEnabled();
+  expect(screen.getByRole('combobox', { name: 'Review for comparison checkpoint' })).toBeEnabled();
+  await act(async () => finish(capture));
+  expect(screen.queryByRole('button', { name: 'Download reviewed decision summary (.html)' })).not.toBeInTheDocument();
 });

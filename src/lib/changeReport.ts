@@ -186,6 +186,7 @@ export function prepareChangeReport(capture: ReturnType<typeof captureChangeRepo
 }
 
 const escape = (text: string) => text.replace(/[&<>"']/g, character => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[character]!);
+export const escapeReportHtml = escape;
 const text = (value: string) => `<pre>${escape(value || '(Empty)')}</pre>`;
 
 export function renderChangeReport(report: ChangeReport): string {
@@ -201,12 +202,16 @@ body{font:16px/1.5 system-ui,sans-serif;color:#17202a;background:white;margin:2r
 ${report.notices.map(notice => `<p class="notice">${escape(notice)}</p>`).join('')}<section><h2>Field and body changes</h2><p>${summary}</p>${report.changes.length ? report.changes.map(change => `<article><h3>${escape(change.field)}</h3><div class="pair"><div><h4>Before</h4>${text(change.before)}</div><div><h4>After</h4>${text(change.after)}</div></div></article>`).join('') : '<p>No field or body differences in the report scope. Review the discussions below for their captured state.</p>'}</section>${discussion(report.before)}${discussion(report.after)}<footer><p>${escape(report.marking)} — Review derivative. Handle this report according to its contents and retained context.</p></footer></body></html>`;
 }
 
-export function downloadChangeReport(report: ChangeReport): void {
-  const url = URL.createObjectURL(new Blob([renderChangeReport(report)], { type: 'text/html;charset=utf-8' }));
+export function downloadReportHtml(html: string, filename: string): void {
+  const url = URL.createObjectURL(new Blob([html], { type: 'text/html;charset=utf-8' }));
   const anchor = document.createElement('a');
   let delivered = false;
   try {
-    anchor.href = url;anchor.download = report.filename;document.body.appendChild(anchor);anchor.click();delivered = true;
+    anchor.href = url;anchor.download = filename;document.body.appendChild(anchor);anchor.click();delivered = true;
     setTimeout(() => URL.revokeObjectURL(url), 10_000);
   } finally { anchor.remove();if (!delivered) URL.revokeObjectURL(url); }
+}
+
+export function downloadChangeReport(report: ChangeReport): void {
+  downloadReportHtml(renderChangeReport(report), report.filename);
 }

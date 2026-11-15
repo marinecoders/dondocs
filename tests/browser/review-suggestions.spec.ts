@@ -796,3 +796,77 @@ for (const kind of ['signature', 'basic-letter'] as const) test(`reviewer-copy d
   await info.attach(`${kind}-reviewer-copy.json`, { body: actual, contentType: 'application/json' });
   expect(disclosure).toContain('Possible sensitive information: Social Security Number.');
 });
+
+test('closed categorized decisions and earlier checkpoints survive Undo Redo and a fresh backup restore', async ({ page, browser, baseURL }, info) => {
+  const init = () => {
+    localStorage.setItem('browser-test-visitor', 'returning');
+    localStorage.setItem('dondocs_ui', JSON.stringify({ version: 1, state: { theme: 'light', editorLayout: 'scroll' } }));
+  };
+  await page.addInitScript(init);
+  await page.goto('/');
+  const source = { documentMode: 'custom', documentCategory: 'correspondence', docType: 'naval_letter',
+    formData: { subject: 'FICTIONAL CROSS REVIEW', to: 'Original recipient', classLevel: 'unclassified' },
+    paragraphs: [{ id: 'overlap-body', text: 'Synthetic unchanged body.', level: 0 }], references: [], enclosures: [], copyTos: [], distributions: [] };
+  await page.getByLabel('Import draft file').setInputFiles({ name: 'overlap.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(source)) });
+  await page.getByRole('button', { name: 'Open as new document', exact: true }).click();
+  let modal = await reviews(page);
+  await modal.getByLabel('Review name', { exact: true }).fill('Cross-feature round');
+  await modal.getByRole('button', { name: 'Start review from current draft', exact: true }).click();
+  await expect(modal.getByText('Review baseline saved. Later source edits will not change this copy.', { exact: true })).toBeVisible();
+  await modal.getByLabel('Review for suggested edits', { exact: true }).selectOption({ label: 'Cross-feature round' });
+  await modal.getByLabel('Reviewer name for suggestion', { exact: true }).fill('Synthetic chief');
+  await modal.getByLabel('Suggestion category', { exact: true }).selectOption('required-correction');
+  await modal.getByLabel('Suggestion target', { exact: true }).selectOption('field:to');
+  await modal.getByLabel('Proposed replacement', { exact: true }).fill('Accepted recipient');
+  await modal.getByRole('button', { name: 'Add suggestion', exact: true }).click();
+  const suggestion = modal.getByRole('article', { name: 'Suggestion 1: Replace to', exact: true });
+  await expect(suggestion).toContainText('Required correction');
+  await modal.getByLabel('Review for comparison checkpoint', { exact: true }).selectOption({ label: 'Cross-feature round' });
+  await modal.getByLabel('Reviewer label for checkpoint', { exact: true }).fill('Synthetic chief');
+  await modal.getByRole('button', { name: 'Mark current view reviewed', exact: true }).click();
+  await expect(modal.getByText(/Current captured document and feedback marked reviewed/)).toBeVisible();
+  await suggestion.getByRole('button', { name: 'Accept suggestion', exact: true }).click();
+  await expect(suggestion.getByText(/· Accepted$/)).toBeVisible();
+  await modal.getByRole('button', { name: 'Close review', exact: true }).click();
+  await expect(modal.getByText('Round status: closed', { exact: true })).toBeVisible();
+  await page.keyboard.press('Escape');
+  await action(page, 'Undo');
+  const undone = JSON.parse((await download(page, () => action(page, 'Export draft (.json)'))).toString('utf8'));
+  expect(undone.formData.to).toBe('Original recipient');
+  modal = await reviews(page);
+  await modal.getByRole('button', { name: 'Prepare decision summary', exact: true }).click();
+  const reversed = (await download(page, () => modal.getByRole('button', { name: 'Download reviewed decision summary (.html)', exact: true }).click())).toString('utf8');
+  expect(reversed).toContain('Round status at capture: closed');
+  expect(reversed).toContain('Accepted: 0 · Rejected: 0 · Open: 1 · Conflicting: 0');
+  expect(reversed).toContain('reversed');
+  await page.keyboard.press('Escape');
+  await action(page, 'Redo');
+  const backup = await workspaceBackup(page);
+  await info.attach('cross-review-backup.json', { body: backup, contentType: 'application/json' });
+  const context = await browser.newContext({ viewport: page.viewportSize()!, userAgent: await page.evaluate(() => navigator.userAgent),
+    serviceWorkers: 'block', isMobile: !!info.project.use.isMobile, hasTouch: !!info.project.use.hasTouch });
+  try {
+    await context.addInitScript(init);
+    const restored = await context.newPage();
+    await restored.goto(baseURL!);
+    await restoreWorkspace(restored, backup);
+    await workspace(restored, /^(?:LTR\s*)?FICTIONAL CROSS REVIEW/);
+    const restoredModal = await reviews(restored);
+    await expect(restoredModal.getByText('Round status: closed', { exact: true })).toBeVisible();
+    await restoredModal.getByRole('button', { name: 'Prepare decision summary', exact: true }).click();
+    const html = await download(restored, () => restoredModal.getByRole('button', { name: 'Download reviewed decision summary (.html)', exact: true }).click());
+    expect(html.toString('utf8')).toContain('Accepted: 1 · Rejected: 0 · Open: 0 · Conflicting: 0');
+    expect(html.toString('utf8')).toContain('restored');
+    expect(html.toString('utf8')).toContain('Feedback category: Required correction');
+    await info.attach('restored-closed-summary.html', { body: html, contentType: 'text/html' });
+    await restoredModal.getByLabel('Review for comparison checkpoint', { exact: true }).selectOption({ label: 'Cross-feature round' });
+    const marker = restoredModal.getByLabel('Reviewer checkpoint', { exact: true });
+    const markerId = await marker.getByRole('option', { name: /Synthetic chief/ }).getAttribute('value');
+    expect(markerId).toBeTruthy();
+    await marker.selectOption(markerId!);
+    await restoredModal.getByRole('button', { name: 'Show changes since checkpoint', exact: true }).click();
+    await expect(restoredModal.getByRole('region', { name: 'feedback changes since checkpoint', exact: true })).toContainText('Accepted');
+    await expect(restoredModal.getByRole('region', { name: 'document changes since checkpoint', exact: true })).toContainText('Original recipient');
+    await expect(restoredModal.getByRole('region', { name: 'document changes since checkpoint', exact: true })).toContainText('Accepted recipient');
+  } finally { await context.close(); }
+});
