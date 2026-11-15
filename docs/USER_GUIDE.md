@@ -121,6 +121,23 @@ Use **Delete review baseline** when a pin is no longer needed; existing editable
 copies and downloaded files remain. Review checksums need HTTPS or localhost.
 Configured forms and technical-publication reviews are outside this first scope.
 
+## Download review decisions
+
+In **Review rounds**, choose **Prepare decision summary** on the round associated
+with the open source draft or linked reviewer copy. Preparation saves pending
+work and captures the round, current draft, suggestions, decision history and
+readable discussions. Review the handling/privacy notice, then choose
+**Download reviewed decision summary (.html)**. The printable file identifies its
+captured baseline and draft; later edits are excluded.
+
+Accepted, rejected, open and conflicting totals count each suggested-edit group
+once. Open and resolved discussion totals are separate. Undo returns an accepted
+item to open or conflicting; Redo restores its acceptance. Earlier accepted
+resolutions remain visible even when the current draft has changed. Reviewer
+labels are self-entered. This review derivative is not an authenticated approval
+record, and it does not include attached PDF/image contents or feedback that has
+not been imported into this local draft.
+
 ## Manage review round status
 
 In **Review rounds**, the open source draft can **Close review**, deliberately

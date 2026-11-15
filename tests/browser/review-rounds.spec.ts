@@ -60,6 +60,10 @@ for (const theme of ['light', 'dark', 'classic']) {
       enclosures: [{ title: 'Supporting PDF', file: { name: 'support.pdf', size: attached.length, data: attached.toString('base64') } }], references: [], copyTos: [], distributions: [] };
     await page.getByLabel('Import draft file').setInputFiles({ name: 'review-source.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(source)) });
     await page.getByRole('button', { name: 'Open as new document', exact: true }).click();
+    // Wait until the asset-import dialog releases the document's controls.
+    await expect(page.getByRole('dialog', {
+      name: 'Review draft', exact: true, includeHidden: true,
+    })).toHaveCount(0, { timeout: 15_000 });
     await expect(page.getByRole('button', { name: `REVIEW SOURCE ${theme}`, exact: true })).toBeVisible();
     // A user can paste an entire address into City while the other parts are empty.
     // Normal saved-document readers canonicalize it; a linked review copy must not.

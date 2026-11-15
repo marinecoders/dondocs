@@ -1,4 +1,5 @@
-import { useEffect, useRef, useState, type ChangeEvent } from 'react';
+import { ReviewDecisionSummary } from '@/components/ReviewDecisionSummary';
+import { useCallback, useEffect, useRef, useState, type ChangeEvent } from 'react';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -33,9 +34,14 @@ function ReviewRoundsContent({ onClose }: { onClose: () => void }) {
   const [busy, setBusy] = useState(false);
   const [returnBusy, setReturnBusy] = useState(false);
   const [suggestionBusy, setSuggestionBusy] = useState(false);
+  const [summaryBusyRoundId, setSummaryBusyRoundId] = useState<string | null>(null);
+  const summaryBusy = summaryBusyRoundId !== null;
+  const handleSummaryBusyChange = useCallback((isBusy: boolean, roundId: string) => {
+    setSummaryBusyRoundId(current => isBusy ? roundId : current === roundId ? null : current);
+  }, []);
   const documentId = useDocumentsStore(state => state.currentId), epoch = useDocumentsStore(state => state.activationEpoch);
   const [checkpointBusy, setCheckpointBusy] = useState(false);
-  const working = busy || returnBusy || suggestionBusy || checkpointBusy;
+  const working = busy || returnBusy || suggestionBusy || checkpointBusy || summaryBusy;
   const [error, setError] = useState('');
   const [notice, setNotice] = useState('');
   const [prepared, setPrepared] = useState<PreparedReviewCopy | null>(null);
@@ -135,6 +141,7 @@ function ReviewRoundsContent({ onClose }: { onClose: () => void }) {
               <p className="text-xs text-muted-foreground [overflow-wrap:anywhere]">{new Date(round.createdAt).toLocaleString()} · {round.ownerDocumentId
                 ? docs[round.ownerDocumentId] ? `Source: ${docs[round.ownerDocumentId].meta.title}` : 'Source unavailable; the saved baseline is retained.'
                 : 'Received reviewer baseline; no local source ownership is assigned.'}</p>
+              <ReviewDecisionSummary key={`${round.id}:${documentId}:${epoch}`} roundId={round.id} disabled={working} onBusyChange={handleSummaryBusyChange} />
               <ReviewRoundLifecycleControls round={round} rounds={rounds} owner={round.ownerDocumentId === documentId}
                 disabled={working} onTransition={(transition, replacementId) => void run(async () => {
                   const updated = await transitionReviewRound(round, transition, replacementId, captureDocumentTarget());
@@ -185,11 +192,11 @@ function ReviewRoundsContent({ onClose }: { onClose: () => void }) {
             <Button variant="ghost" disabled={working} onClick={() => setIncoming(null)}>Cancel imported copy</Button>
           </div>}
         </section>
-        <ReviewSuggestionControls key={`suggestions:${documentId}:${epoch}`} rounds={rounds} disabled={busy || returnBusy || checkpointBusy} onBusyChange={setSuggestionBusy} />
+        <ReviewSuggestionControls key={`suggestions:${documentId}:${epoch}`} rounds={rounds} disabled={busy || returnBusy || checkpointBusy || summaryBusy} onBusyChange={setSuggestionBusy} />
         <ReviewCheckpoints key={`checkpoints:${documentId}:${epoch}`} rounds={rounds}
-          disabled={busy || returnBusy || suggestionBusy} onBusyChange={setCheckpointBusy}
+          disabled={busy || returnBusy || suggestionBusy || summaryBusy} onBusyChange={setCheckpointBusy}
           onRoundChange={updated => setRounds(previous => previous.map(round => round.id === updated.id ? updated : round))} />
-        <ReviewReturnControls key={`${documentId}:${epoch}`} disabled={busy || suggestionBusy || checkpointBusy} onBusyChange={setReturnBusy} />
+        <ReviewReturnControls key={`${documentId}:${epoch}`} disabled={busy || suggestionBusy || checkpointBusy || summaryBusy} onBusyChange={setReturnBusy} />
         {busy && <p role="status" className="text-sm">Saving or checking review contents…</p>}
       </div>
     </DialogContent>
