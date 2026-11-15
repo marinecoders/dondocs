@@ -108,8 +108,8 @@ for (const theme of ["light", "dark", "classic"]) {
     await repair.getByRole("button", { name: "Save reviewed citation repair", exact: true }).click();
     await expect(repair).toContainText("0 linked citations need repair");
     const newPdf = await assembledPdf(page);
-    expect(await pdfText(newPdf)).toContain("enclosure (2)");
-    expect(await pdfText(oldPdf)).toContain("enclosure (1)");
+    expect(await pdfText(newPdf)).toContain("Enclosure (2)");
+    expect(await pdfText(oldPdf)).toContain("Enclosure (1)");
     const portable = await exportPackage(page), after = JSON.parse(portable.toString("utf8"));
     expect(after.package.currentRevisionId).not.toBe(oldRevisionId);
     await modal.getByLabel("Package revision", { exact: true }).selectOption(oldRevisionId);
