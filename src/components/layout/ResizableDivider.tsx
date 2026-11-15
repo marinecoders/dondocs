@@ -55,6 +55,7 @@ export function ResizableDivider({ onResize, containerRef, currentWidth }: Resiz
     // Set cursor on body while dragging
     document.body.style.cursor = 'col-resize';
     document.body.style.userSelect = 'none';
+    document.body.dataset.panelResizing = 'true';
 
     document.addEventListener('mousemove', handleMouseMove);
     document.addEventListener('mouseup', handleMouseUp);
@@ -62,6 +63,7 @@ export function ResizableDivider({ onResize, containerRef, currentWidth }: Resiz
     return () => {
       document.body.style.cursor = '';
       document.body.style.userSelect = '';
+      delete document.body.dataset.panelResizing;
       document.removeEventListener('mousemove', handleMouseMove);
       document.removeEventListener('mouseup', handleMouseUp);
     };

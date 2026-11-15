@@ -501,6 +501,46 @@
 .workspace-editor [hidden], nav[aria-label="Documents"] [hidden] { display: none !important; }
 .workspace-preview { background: var(--preview-mat); }
 .workspace-preview .pdf-viewer { background: var(--preview-mat); }
+/* Only the slots change size. Sidebar labels and PDF paper keep their open
+   width while the slot clips them, so closing never squeezes their contents. */
+.workspace-main { container-type: inline-size; }
+.workspace-sidebar-panel {
+  transition: width var(--workspace-panel-duration, 200ms) cubic-bezier(0.2, 0, 0, 1);
+}
+.workspace-preview-panel {
+  transition: flex-basis var(--workspace-panel-duration, 200ms) cubic-bezier(0.2, 0, 0, 1),
+    visibility 0s;
+}
+.workspace-sidebar-content, .workspace-sidebar-brand {
+  transition: transform var(--workspace-panel-duration, 200ms) cubic-bezier(0.2, 0, 0, 1),
+    opacity 140ms ease-out, visibility 0s;
+}
+.workspace-sidebar-panel[data-open="false"] :is(.workspace-sidebar-content, .workspace-sidebar-brand) {
+  transform: translateX(-16px);
+  opacity: 0;
+  visibility: hidden;
+  transition-delay: 0s, 0s, var(--workspace-panel-duration, 200ms);
+}
+.workspace-collapsed-rail {
+  transition: opacity 140ms ease-out, visibility 0s;
+}
+.workspace-sidebar-panel[data-open="true"] .workspace-collapsed-rail {
+  opacity: 0;
+  visibility: hidden;
+}
+.workspace-preview-panel[data-open="false"] {
+  visibility: hidden;
+  transition-delay: 0s, var(--workspace-panel-duration, 200ms);
+}
+/* Follow the pointer directly while either divider is being dragged. */
+body[data-panel-resizing="true"] :is(.workspace-sidebar-panel, .workspace-preview-panel) {
+  transition: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .workspace-shell :is(.workspace-sidebar-panel, .workspace-sidebar-content, .workspace-sidebar-brand, .workspace-collapsed-rail, .workspace-preview-panel) {
+    transition: none;
+  }
+}
 .workspace-editor [data-section="body"] [data-slot="accordion-item"] { padding-bottom: 0; }
 .workspace-editor [data-section="body"] [data-slot="accordion-trigger"] { padding-bottom: var(--density-space-4); }
 @media (hover: none) {

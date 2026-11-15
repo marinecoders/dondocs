@@ -1,6 +1,6 @@
 // @vitest-environment happy-dom
 import { describe, it, expect, vi, beforeAll, beforeEach } from 'vitest';
-import { render, screen, waitFor } from '@testing-library/react';
+import { act, render, screen, waitFor } from '@testing-library/react';
 
 // Same react-pdf stub as PdfViewer.test — the panel lazy-loads the viewer.
 vi.mock('react-pdf', async () => {
@@ -68,6 +68,15 @@ beforeEach(() => {
 const LAZY_TIMEOUT = { timeout: 5000 };
 
 describe('PreviewPanel — compile-error reporting', () => {
+  it('preserves the rendered viewer across desktop preview toggles', async () => {
+    renderPanel({ pdfUrl: 'blob:test/retained' });
+    const document = await screen.findByTestId('doc:blob:test/retained', undefined, LAZY_TIMEOUT);
+    act(() => useUIStore.getState().togglePreview());
+    expect(document).toBeInTheDocument();
+    act(() => useUIStore.getState().togglePreview());
+    expect(screen.getByTestId('doc:blob:test/retained')).toBe(document);
+  });
+
   it('a failure AFTER a successful compile banners over the stale document', async () => {
     renderPanel({ pdfUrl: 'blob:test/ok', error: 'Undefined control sequence \\badmacro' });
 

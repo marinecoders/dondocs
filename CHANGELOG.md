@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.98] — 2026-11-15
+
+### Fixed
+
+- Smoothly slide the desktop sidebar and preview open and closed while preserving the PDF viewer's state. Keep divider dragging immediate and respect reduced-motion preferences.
+
 ## [1.3.97] — 2026-11-15
 
 ### Added

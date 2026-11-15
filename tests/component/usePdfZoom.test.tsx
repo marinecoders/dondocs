@@ -20,7 +20,10 @@ beforeEach(() => {
   });
 });
 
-afterEach(() => vi.unstubAllGlobals());
+afterEach(() => {
+  vi.unstubAllGlobals();
+  vi.useRealTimers();
+});
 
 function setup() {
   const element = document.createElement('div');
@@ -36,6 +39,47 @@ function setup() {
 }
 
 describe('preview zoom preference', () => {
+  it('renders only the settled width after rapid panel toggles, then follows resizing directly', () => {
+    vi.useFakeTimers();
+    vi.stubGlobal('requestAnimationFrame', (callback: FrameRequestCallback) => { callback(0); return 1; });
+    vi.stubGlobal('cancelAnimationFrame', vi.fn());
+    const { result } = setup();
+    expect(result.current.pageWidth).toBe(612);
+
+    act(() => {
+      useUIStore.getState().toggleSidebar();
+      resize(720, 1000);
+      vi.advanceTimersByTime(100);
+    });
+    expect(result.current.pageWidth).toBe(612);
+    act(() => {
+      useUIStore.getState().toggleSidebar();
+      resize(800, 1000);
+      vi.advanceTimersByTime(150);
+    });
+    expect(result.current.pageWidth).toBe(612);
+    act(() => {
+      resize(900, 1000);
+      vi.advanceTimersByTime(300);
+    });
+    expect(result.current.pageWidth).toBe(852);
+
+    act(() => resize(700, 1000));
+    expect(result.current.pageWidth).toBe(652);
+  });
+
+  it('updates fit width immediately when reduced motion is enabled', () => {
+    vi.stubGlobal('matchMedia', () => ({ matches: true, addEventListener() {}, removeEventListener() {} }));
+    vi.stubGlobal('requestAnimationFrame', (callback: FrameRequestCallback) => { callback(0); return 1; });
+    vi.stubGlobal('cancelAnimationFrame', vi.fn());
+    const { result } = setup();
+    act(() => {
+      useUIStore.getState().toggleSidebar();
+      resize(900, 1000);
+    });
+    expect(result.current.pageWidth).toBe(852);
+  });
+
   it('keeps 110% when the panel resizes and a wider form loads', async () => {
     const { result, rerender } = setup();
     act(() => result.current.zoomStep(1));

@@ -56,6 +56,7 @@ export function SidebarResizer() {
 
     document.body.style.cursor = 'col-resize';
     document.body.style.userSelect = 'none';
+    document.body.dataset.panelResizing = 'true';
     document.addEventListener('pointermove', onMove);
     document.addEventListener('pointerup', onUp);
     // The browser can take the gesture instead of ending it — a touch that
@@ -65,6 +66,7 @@ export function SidebarResizer() {
     return () => {
       document.body.style.cursor = '';
       document.body.style.userSelect = '';
+      delete document.body.dataset.panelResizing;
       document.removeEventListener('pointermove', onMove);
       document.removeEventListener('pointerup', onUp);
       document.removeEventListener('pointercancel', onUp);

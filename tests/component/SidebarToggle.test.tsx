@@ -28,8 +28,11 @@ it('uses one focused toggle in the compact rail and restores its width and local
   expect(screen.getByRole('button', { name: 'Show sidebar' })).toBe(toggle);
   expect(toggle).toHaveFocus();
   expect(toggle).toHaveAttribute('aria-expanded', 'false');
-  expect(nav).not.toBeVisible();
-  expect(logo).not.toBeVisible();
+  // Outgoing contents can still paint during the slide, but must immediately
+  // leave keyboard navigation and the accessibility tree.
+  expect(nav).toHaveAttribute('inert');
+  expect(screen.queryByRole('navigation', { name: 'Documents' })).not.toBeInTheDocument();
+  expect(screen.queryByRole('img', { name: 'Marine Coders' })).not.toBeInTheDocument();
   expect(screen.getByRole('navigation', { name: 'Document shortcuts' })).toBeVisible();
   expect(screen.getByRole('button', { name: 'New document' })).toBeVisible();
   expect(screen.getAllByRole('button', { name: 'Search workspace' })).toHaveLength(1);
@@ -41,6 +44,7 @@ it('uses one focused toggle in the compact rail and restores its width and local
   expect(toggle).toHaveFocus();
   expect(toggle).toHaveAttribute('aria-expanded', 'true');
   expect(nav).toBeVisible();
+  expect(nav).not.toHaveAttribute('inert');
   expect(screen.getByRole('img', { name: 'Marine Coders' })).toBe(logo);
   expect(logo).toBeVisible();
   expect(screen.queryByRole('navigation', { name: 'Document shortcuts' })).not.toBeInTheDocument();
