@@ -496,6 +496,36 @@ Version 3 nests the document under `session` rather than leaving required docume
 
 Expiration is an import check based on the recipient’s local clock. There is no trusted time server, hosted revocation, deletion of already imported copies, or protection against a password holder extracting the plaintext independently. Changing the device clock or using a modified reader can bypass this client check. Imported documents have no continuing expiration policy.
 
+### Encrypted action package format
+
+DonDocs 1.3.99 adds an authenticated inner envelope
+`{ kind: "dondocs-action-package-share", version: 1, expiresAt?, package }`.
+`package` is the existing portable package version 1 payload for exactly one
+selected revision, with its original resources and retained PDF bytes. The
+existing PBKDF2/AES-GCM share codec, `s=` URL fragment and encrypted-file wrapper
+`{ kind: "dondocs-encrypted-share", version: 1, payload }` are reused. Native
+document share formats and plain portable imports remain supported. Older readers
+without package dispatch reject these envelopes rather than opening a draft.
+
+Decryption validates every required asset and presents package members, privacy
+findings and markings before installation. No package metadata is published until
+explicit approval; cancellation, expiry, stale policy or failed storage preserves
+previous complete records. Expiry and current resolved deployment policy are
+checked again inside the final package metadata transaction. This uses the same
+cached runtime configuration as the export policy resolver; it does not promise a
+new network lookup. Source provenance remains foreign on import. The active
+native document is untouched and the installed package opens in Packages.
+
+Passwords, decrypted review captures and encrypted delivery tokens remain in
+memory. Once approved, the package is stored normally in the local IndexedDB
+workspace; it is not encrypted at rest. The sender must re-review if the saved
+package or policy changes before copying or downloading. Links are capped at
+8,000 characters with an encrypted-file fallback. Existing 100 MB portable JSON,
+110 MB expanded plaintext and 140 MB encrypted payload bounds apply; the file
+wrapper allows another 1,024 bytes. Resource limits also apply before metadata
+installation. The authenticated optional deadline uses the same local-clock
+boundary as native shares and cannot revoke already opened copies.
+
 ## Review comment reader compatibility
 
 Document and field comments use the optional `reviewComments` model, version 1. Comment-bearing shares require the `dondocs-share` envelope version 2; comment-bearing draft files use `dondocs-draft` version 2. Older envelope readers reject those copies instead of opening an incomplete review. Drafts and shares without comments retain their existing versions.

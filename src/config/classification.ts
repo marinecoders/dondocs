@@ -62,6 +62,11 @@ export async function getExportDeploymentPolicy(hostname = window.location.hostn
   return resolveExportDeploymentPolicy({ hostname, environment, runtime });
 }
 
+/** Read the already loaded policy at an atomic delivery boundary without starting I/O. */
+export function getExportDeploymentPolicySync(hostname = window.location.hostname): PolicyResolution {
+  return resolveExportDeploymentPolicy({ hostname, environment: getClassificationConfigSync(), runtime });
+}
+
 /** Editor compatibility adapter. Typed policy errors currently fall back to domain settings. */
 export async function getClassificationConfig(): Promise<ClassificationConfig | null> {
   const result = await getExportDeploymentPolicy();

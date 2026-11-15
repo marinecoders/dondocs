@@ -7,6 +7,17 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.99] — 2026-11-15
+
+### Added
+
+- Share a selected saved-action-package revision as a password-encrypted link or file, with optional authenticated expiration and complete retained originals, templates and PDFs.
+- Review decrypted package contents before installation through existing share and package import entry points; keep the current document unchanged.
+
+### Fixed
+
+- Recheck package ownership, current deployment policy and expiration at delivery and transactional import boundaries; rejected or cancelled copies preserve existing packages.
+
 ## [1.3.98] — 2026-11-15
 
 ### Fixed
