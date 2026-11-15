@@ -6,6 +6,7 @@ Start with the [application README](../README.md) and [output capabilities](CAPA
 
 - [User guide](USER_GUIDE.md): drafts, profiles, sharing, imports, history, Trash, recovery and batches.
 - [Technical publications](TECHNICAL_PUBLICATIONS.md): I-Type, SL-3, SL-4 and TM/IETM front matter.
+- [Package render qualification](PACKAGE_RENDER_QUALIFICATION.md): saved-output comparisons and their limits.
 - [Output capabilities](CAPABILITIES.md) and [known limits](OUTPUT_LIMITS.md).
 - [Local companion and MCP](COMPANION.md); [bundle installation](../companion/mcpb/README.md).
 - [Security and privacy](../SECURITY.md), [classification configuration](CLASSIFICATION_CONFIG.md) and [storage/backup rules](STORAGE.md).

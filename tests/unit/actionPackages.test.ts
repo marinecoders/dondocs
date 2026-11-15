@@ -42,6 +42,9 @@ import { collectLiveAttachmentIds } from "@/lib/attachmentGc";
 import {
   assemblePackage,
   preparePackageAssembly,
+  capturePreparedPackageComparison,
+  copyPreparedPackageOutput,
+  assertPreparedPackagePolicy,
 } from "@/lib/actionPackageAssembly";
 import { resolveExportDeploymentPolicy } from "@/lib/exportDeploymentPolicy";
 import {
@@ -147,6 +150,32 @@ beforeEach(async () => {
     hydrated: true,
     baseline: null,
   });
+});
+
+it("binds comparison copies to two reviewed outputs of the same immutable revision and current policy", async () => {
+  const { record } = await fixture();
+  const ports = { compile: async () => new Uint8Array(await pdfBytes()), convertDocx: vi.fn(), waitForReady: async () => true };
+  const first = await assemblePackage(await preparePackageAssembly(record, record.currentRevisionId, policy), ports);
+  const second = await assemblePackage(await preparePackageAssembly(first, first.currentRevisionId, policy), ports);
+  const revision = getPackageRevision(second), [before, after] = revision.outputs;
+  expect(before.provenance?.inputSha256).toBe(after.provenance?.inputSha256);
+  const prepared = await preparePackageAssembly(second, revision.id, policy);
+  assertPreparedPackagePolicy(prepared, policy);
+  expect(() => assertPreparedPackagePolicy(prepared, { status: "error", message: "changed" })).toThrow("policy changed");
+  expect(() => capturePreparedPackageComparison(prepared, before.id, before.id)).toThrow("two different");
+  expect(() => capturePreparedPackageComparison(prepared, before.id, "other-revision-output")).toThrow("same reviewed");
+  const captured = capturePreparedPackageComparison(prepared, before.id, after.id);
+  new Uint8Array(captured.beforeBytes).fill(0);
+  captured.before.boundaries[0].pageCount = 999;
+  expect(new Uint8Array(copyPreparedPackageOutput(prepared, before.asset.id))[0]).toBe(37);
+  expect(capturePreparedPackageComparison(prepared, before.id, after.id).before.boundaries[0].pageCount).toBe(1);
+  const portable = await buildPortableActionPackage(second);
+  expect((await parsePortableActionPackage(portable)).record.revisions[0].outputs[0].provenance).toEqual(before.provenance);
+  const legacy = JSON.parse(portable);
+  for (const output of legacy.package.revisions[0].outputs) delete output.provenance;
+  const restored = await parsePortableActionPackage(JSON.stringify(legacy));
+  expect(restored.record.revisions[0].outputs[0].provenance).toBeUndefined();
+  expect(restored.resources.get(`assets/${before.asset.id}`)?.data).toEqual(await readPackageAsset(before.asset));
 });
 
 describe("retained package ownership and transactions", () => {

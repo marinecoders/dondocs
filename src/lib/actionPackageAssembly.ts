@@ -58,6 +58,8 @@ import {
 import { renderPreparedConfiguredForm } from "@/services/exports/configuredForms";
 import { renderPreparedBuiltinForm } from "@/services/exports/builtinForms";
 import type { FormExportTemplates } from "./formExportTemplates";
+import { capturePackageRenderProvenance } from "./packageRenderProvenance";
+import type { PackageOutput, PackageRevision } from "./actionPackages";
 
 export interface PackageFinding {
   memberId?: string;
@@ -462,6 +464,36 @@ export function copyPreparedPackageOutput(
     throw new Error("Review this retained output again before retrieving it.");
   return bytes.slice(0);
 }
+
+/** Bind comparison to the same private capture whose contents were reviewed. */
+export function capturePreparedPackageComparison(
+  prepared: PreparedPackageAssembly,
+  beforeId: string,
+  afterId: string,
+): { revision: PackageRevision; before: PackageOutput; after: PackageOutput; beforeBytes: ArrayBuffer; afterBytes: ArrayBuffer } {
+  const input = preparedAssemblies.get(prepared);
+  if (!input?.eligible || beforeId === afterId)
+    throw new Error("Choose two different retained PDFs from this reviewed revision.");
+  const revision = getPackageRevision(input.record, input.revisionId);
+  const before = revision.outputs.find(output => output.id === beforeId);
+  const after = revision.outputs.find(output => output.id === afterId);
+  if (!before || !after)
+    throw new Error("Both retained PDFs must belong to the same reviewed package revision.");
+  return {
+    revision: structuredClone(revision),
+    before: structuredClone(before),
+    after: structuredClone(after),
+    beforeBytes: copyPreparedPackageOutput(prepared, before.asset.id),
+    afterBytes: copyPreparedPackageOutput(prepared, after.asset.id),
+  };
+}
+
+export function assertPreparedPackagePolicy(prepared: PreparedPackageAssembly, policy: PolicyResolution): void {
+  const input = preparedAssemblies.get(prepared);
+  if (!input?.eligible || input.policy.status !== "ready" || policy.status !== "ready"
+    || input.policy.policy.identity !== policy.policy.identity)
+    throw new Error("The export policy changed. Review this package operation again.");
+}
 /** Acknowledgement covers each preserved member's displayed export review and original PDF warnings. */
 export async function assemblePackage(
   prepared: PreparedPackageAssembly,
@@ -585,6 +617,7 @@ export async function assemblePackage(
       policyIdentity:
         input.policy.status === "ready" ? input.policy.policy.identity : "",
       renderer: `DonDocs ${APP_VERSION} (${GIT_SHA}); templates ${__LATEX_TEMPLATES_REVISION__}; package-v1; prepared-export-v1; pdf-lib-1.17.1`,
+      provenance: await capturePackageRenderProvenance(getPackageRevision(input.record, input.revisionId)),
       boundaries,
       signingStatus: "unsigned-assembled-derivative" as const,
     };

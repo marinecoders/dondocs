@@ -1,3 +1,4 @@
+import type { PackageRenderComparison } from "@/lib/packageRenderComparison";
 import { StrictMode } from "react";
 import { createExportGate } from "@/lib/exportController";
 import "fake-indexeddb/auto";
@@ -171,4 +172,71 @@ it("selects the exact reviewed historical revision when an imported package alre
   expect(within(dialog).queryByRole("heading", { name: "1. Newer unreviewed member" })).toBeNull();
   expect(within(dialog).getByLabelText("Package revision")).toHaveValue(reviewed.currentRevisionId);
   await waitFor(() => expect(useUIStore.getState().actionPackageSelectionRevisionId).toBeNull());
+});
+
+async function retainedPair(name: string) {
+  const { captureOriginalPackageMember } = await import("@/lib/actionPackageAssets");
+  const { assemblePackage, preparePackageAssembly } = await import("@/lib/actionPackageAssembly");
+  const pdf = await PDFDocument.create();
+  pdf.addPage();
+  const member = await captureOriginalPackageMember({ name: "synthetic.pdf", data: new Uint8Array(await pdf.save()).buffer }, "basic-letter", false);
+  let record = await reviseActionPackage(await createActionPackage(name), [member]);
+  const ports = { compile: vi.fn(), convertDocx: vi.fn(), waitForReady: async () => true };
+  for (let index = 0; index < 2; index++) record = await assemblePackage(await preparePackageAssembly(record, record.currentRevisionId, policy), ports);
+  return { record, ports };
+}
+
+it("locks the reviewed comparison pair while reading and discards a cancelled late result", async () => {
+  const { record, ports } = await retainedPair("Held comparison");
+  const comparison = await import("@/lib/packageRenderComparison");
+  const { preparePackageAssembly } = await import("@/lib/actionPackageAssembly");
+  vi.spyOn(comparison, "preparePackageRenderComparison").mockImplementation((record, id, policy) => preparePackageAssembly(record, id, policy));
+  let finish!: (value: PackageRenderComparison) => void;
+  const compare = vi.spyOn(comparison, "comparePreparedPackageOutputs").mockImplementation(() => new Promise(resolve => { finish = resolve; }));
+  const user = userEvent.setup();
+  useUIStore.setState({ actionPackagesOpen: true });
+  render(<ActionPackageWorkspace exportGate={createExportGate()} ports={ports} />);
+  let dialog = screen.getByRole("dialog", { name: "Action packages" });
+  await within(dialog).findByRole("option", { name: record.name });
+  await user.selectOptions(within(dialog).getByLabelText("Saved packages", { exact: true }), record.id);
+  const before = within(dialog).getByLabelText("Earlier retained PDF"), after = within(dialog).getByLabelText("Later retained PDF");
+  const beforeValue = (before as HTMLSelectElement).value, afterValue = (after as HTMLSelectElement).value;
+  await user.click(within(dialog).getByRole("button", { name: "Review PDF comparison" }));
+  await within(dialog).findByRole("heading", { name: /^Package readiness: (ready|exported)$/ });
+  await user.click(within(dialog).getByRole("checkbox", { name: /^I reviewed every included member/ }));
+  await user.click(within(dialog).getByRole("button", { name: "Compare reviewed retained PDFs" }));
+  await waitFor(() => expect(compare).toHaveBeenCalledOnce());
+  await user.selectOptions(before, afterValue);
+  await user.selectOptions(after, beforeValue);
+  expect((before as HTMLSelectElement).value).toBe(beforeValue);
+  expect((after as HTMLSelectElement).value).toBe(afterValue);
+  expect((within(dialog).getByRole("button", { name: "Review PDF comparison" }) as HTMLButtonElement).disabled).toBe(true);
+  await user.click(within(dialog).getByRole("button", { name: "Cancel operation" }));
+  const signal = compare.mock.calls[0][3];
+  expect(signal.aborted).toBe(true);
+  await user.keyboard("{Escape}");
+  useUIStore.setState({ actionPackagesOpen: true });
+  dialog = await screen.findByRole("dialog", { name: "Action packages" });
+  finish({} as PackageRenderComparison);
+  await waitFor(() => expect(within(dialog).queryByRole("region", { name: "Retained PDF comparison" })).toBeNull());
+  expect(within(dialog).queryByText(/Comparison complete/)).toBeNull();
+});
+
+it("explains the aggregate saved-output review limit before reading a small selected pair", async () => {
+  const { record, ports } = await retainedPair("Aggregate comparison limit");
+  const revision = getPackageRevision(record), extra = structuredClone(revision.outputs[0]);
+  extra.id = "extra-output";
+  extra.asset = { ...extra.asset, id: "large-other-output", size: 25 * 1024 * 1024 };
+  revision.outputs.unshift(extra);
+  record.revisions = record.revisions.map(value => value.id === revision.id ? revision : value);
+  vi.spyOn(packageRecords, "listActionPackages").mockResolvedValue([record]);
+  const user = userEvent.setup();
+  useUIStore.setState({ actionPackagesOpen: true });
+  render(<ActionPackageWorkspace exportGate={createExportGate()} ports={ports} />);
+  const dialog = screen.getByRole("dialog", { name: "Action packages" });
+  await within(dialog).findByRole("option", { name: record.name });
+  await user.selectOptions(within(dialog).getByLabelText("Saved packages", { exact: true }), record.id);
+  await user.click(within(dialog).getByRole("button", { name: "Review PDF comparison" }));
+  await within(dialog).findByText(/Comparison reviews every saved output before inspecting the selected pair/);
+  expect(within(dialog).queryByRole("heading", { name: /^Package readiness:/ })).toBeNull();
 });

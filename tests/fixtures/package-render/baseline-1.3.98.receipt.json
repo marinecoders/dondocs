@@ -1,0 +1,18 @@
+{
+  "sourceHead": "ef36b64c1efd486609c6a1238ea1fc89ee6ea078",
+  "version": "1.3.98",
+  "releaseId": "package-baseline-98",
+  "browser": "Chromium",
+  "actualUiAssembly": true,
+  "reloadRetainedBytesIdentical": true,
+  "packageId": "package_10341acd-5bda-4aa4-baef-6a26e6a05748",
+  "revisionId": "revision_ce010327-3e80-4e11-b789-7bd8aba907a6",
+  "outputId": "output_73b7bccb-c04a-4259-b6b2-b067a2edbd4c",
+  "renderer": "DonDocs 1.3.98 (ef36b64c); templates 4ded35f4497ca6caa12099c4b19f16f1298844d889577b57fc680b028f0ee987; package-v1; prepared-export-v1; pdf-lib-1.17.1",
+  "retainedSha256": "c8b438f71eaebac91818adec83fa238f21ec1e2590fcab33a3563d81a2937395",
+  "portableSha256": "90bcd4e9b08149b7122e78c42c581f24e46382305247128e227d787c56d08cbc",
+  "originalSha256": "54d14246464a0c0de5eb8a968c094e00ccea200fb69504933610d009b705f85a",
+  "pageCount": 2,
+  "pageErrors": [],
+  "capturePipeline": "Production release build at sourceHead; Chromium UI imported a synthetic draft, captured it into a package, uploaded a synthetic signed-original PDF, assembled, downloaded, exported, reloaded and downloaded again."
+}
