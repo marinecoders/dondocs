@@ -36,12 +36,26 @@ async function importDraft(page: Page, value: unknown, opens = true) {
   await review.getByRole('button', { name: 'Open as new document', exact: true }).click();
   if (opens) await expect(review).toBeHidden();
 }
-async function pdf(page: Page) {
-  const pending = page.waitForEvent('download');
-  await page.getByRole('button', { name: 'Download', exact: true }).click();
-  await page.getByRole('menuitem', { name: /^Download PDF(?:\s|$)/ }).click();
-  const file = await pending;expect(await file.failure()).toBeNull();
-  const bytes = await readFile((await file.path())!);
+async function pdf(page: Page, projectName: string) {
+  const exportPdf = async () => {
+    await page.getByRole('button', { name: 'Download', exact: true }).click();
+    await page.getByRole('menuitem', { name: /^Download PDF(?:\s|$)/ }).click();
+  };
+  let bytes: Buffer;
+  if (projectName === 'mobile-chrome-ios') {
+    const pending = page.waitForEvent('popup');await exportPdf();const popup = await pending;
+    try {
+      await expect(popup.locator('iframe')).toHaveAttribute('src', /^data:application\/pdf;base64,/, { timeout: 30_000 });
+      const saving = popup.waitForEvent('download');
+      await popup.getByRole('link', { name: 'Download PDF', exact: true }).click();
+      const file = await saving;expect(await file.failure()).toBeNull();
+      bytes = await readFile((await file.path())!);
+    } finally { await popup.close(); }
+  } else {
+    const pending = page.waitForEvent('download');await exportPdf();
+    const file = await pending;expect(await file.failure()).toBeNull();
+    bytes = await readFile((await file.path())!);
+  }
   const document = await getDocument({ data: new Uint8Array(bytes), useSystemFonts: false }).promise;
   try {
     expect(document.numPages).toBe(1);
@@ -113,7 +127,7 @@ for (const theme of ['light', 'dark', 'classic']) for (const mode of ['draft', '
         const db = await new Promise<IDBDatabase>((resolve, reject) => { const request = indexedDB.open('dondocs');request.onsuccess = () => resolve(request.result);request.onerror = () => reject(request.error); });
         try { return await new Promise<number>((resolve, reject) => { const request = db.transaction('attachments').objectStore('attachments').get(`form-template-${hash}`);request.onsuccess = () => resolve(request.result?.data?.byteLength ?? 0);request.onerror = () => reject(request.error); }); } finally { db.close(); }
       }, source.definition.pages[0].sha256)).toBe(source.bytes.byteLength);
-      const rendered = await pdf(restored);
+      const rendered = await pdf(restored, info.project.name);
       await writeFile(info.outputPath(`${mode}-${theme}.pdf`), rendered);
       await info.attach(`${mode}-${theme}.pdf`, { body: rendered, contentType: 'application/pdf' });
       expect((await draft(restored)).portableResources).toEqual(packet.portableResources);
@@ -215,7 +229,7 @@ test('encrypted configured forms retain exact templates in a fresh offline brows
     await expect(incoming).toContainText('attachments passed their size, type and checksum checks');
     await incoming.getByRole('button', { name: 'Open as new document', exact: true }).click();
     await expect(incoming).toBeHidden();await expect(recipient.getByRole('textbox', { name: 'Fictional name', exact: true })).toHaveValue('Fictional retained');
-    const rendered = await pdf(recipient);await writeFile(info.outputPath('encrypted-form.pdf'), rendered);
+    const rendered = await pdf(recipient, info.project.name);await writeFile(info.outputPath('encrypted-form.pdf'), rendered);
     expect((await draft(recipient)).portableResources).toEqual(packet.portableResources);
     await recipient.reload();
     await expect(recipient.getByRole('textbox', { name: 'Fictional name', exact: true })).toHaveValue('Fictional retained');

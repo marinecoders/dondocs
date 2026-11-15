@@ -63,7 +63,8 @@ export function wordPackageFilename(label: string, fallback = 'document'): strin
     safe += char;
   }
   safe = safe.replace(/^[. ]+|[. ]+$/g, '') || fallback;
-  return /^(?:con|prn|aux|nul|com[1-9]|lpt[1-9])(?:\.|$)/i.test(safe) ? `_${safe}` : safe;
+  // Windows reserves the Latin-1 superscript digits in COM/LPT device names too.
+  return /^(?:con|prn|aux|nul|(?:com|lpt)[1-9¹²³])(?:\.|$)/i.test(safe) ? `_${safe}` : safe;
 }
 function scopeAssets(records: Map<string, StoredAttachment>): ExportAssets {
   return { withAssets: async (ids, operation) => {
@@ -169,7 +170,7 @@ export async function prepareWordPackage(record: ActionPackage, revisionId: stri
     const signature = snapshot.formData.signatureImage;
     if (snapshot.formData.signatureType === 'image' && supportsCorrespondenceSignatureImage(snapshot.docType) && signature?.data) {
       const { base64ToUint8Array } = await import('@/lib/encoding');
-      await original(new Uint8Array(base64ToUint8Array(signature.data)).buffer, signature.name, 'image/png', 'signature', 'Unchanged visual signature image; not a certificate signature.');
+      await original(new Uint8Array(base64ToUint8Array(signature.data.replace(/^data:image\/png;base64,/, ''))).buffer, signature.name, 'image/png', 'signature', 'Unchanged visual signature image; not a certificate signature.');
     }
     const source = { documentId: member.id, epoch: 0, editSequence: member.source?.editSequence ?? 0, capturedAt: member.source?.capturedAt ?? captured.createdAt };
     const document = captureDocumentRevision(source, snapshot);

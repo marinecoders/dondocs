@@ -23,7 +23,7 @@ it.skipIf(!hasPandoc)('delivers real editable DOCX paragraphs, fields, images an
   const main = await capturePackageMember(captureDocumentRevision({ documentId: 'source', epoch: 0, editSequence: 3, capturedAt: Date.UTC(2026, 10, 14) }, {
     documentMode: 'custom', documentCategory: 'correspondence', docType: 'business_letter',
     formData: { subject: 'WORD PACKAGE CONTENT', to: 'Training Office', date: 'November 14, 2026', sigFirst: 'Alex', sigLast: 'Example', signatureType: 'image', pageNumbering: 'simple',
-      signatureImage: { name: 'signature.png', size: images.signature.length, data: images.signature.toString('base64') } },
+      signatureImage: { name: 'signature.png', size: images.signature.length, data: `data:image/png;base64,${images.signature.toString('base64')}` } },
     paragraphs: [{ text: 'This captured paragraph cites Reference (a) and Enclosure (1).', level: 0 }, { text: 'Nested editable content.', level: 1 }, { text: 'Training diagram', level: 0, figure: { name: 'figure.png', type: 'image/png', fileRef: figureRef } }],
     references: [{ letter: 'a', title: 'Training guidance', url: 'https://example.test/guidance' }],
     enclosures: [{ title: 'Training annex', file: { name: 'Annexe résumé.pdf', size: original.byteLength, data: original } }], copyTos: [], distributions: [], endItems: [], publicationTables: {},

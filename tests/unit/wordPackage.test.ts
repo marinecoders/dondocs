@@ -149,6 +149,51 @@ it('generates extractable filenames without collapsing Unicode labels or allowin
   expect(wordPackageFilename('Training \ud800 😀')).toBe('Training _ 😀');
 });
 
+it.each(['COM¹.pdf', 'COM².pdf', 'COM³.pdf', 'LPT¹.pdf', 'LPT².pdf', 'LPT³.pdf'])('makes the Windows device filename %s extractable', name => {
+  expect(wordPackageFilename(name)).toBe(`_${name}`);
+});
+
+it.each(['base64', 'data-url'] as const)('retains a captured %s PNG signature in the Word document and original sidecar', async encoding => {
+  const { docxImageFixture } = await import('../_helpers/docxImageFixture');
+  const images = await docxImageFixture();
+  const encoded = images.signature.toString('base64');
+  const { record } = await fixture({ docType: 'business_letter', enclosures: [], formData: {
+    subject: 'SIGNED TRAINING LETTER', sigFirst: 'Alex', sigLast: 'Example', signatureType: 'image',
+    signatureImage: { name: 'signature.png', size: images.signature.length,
+      data: encoding === 'data-url' ? `data:image/png;base64,${encoded}` : encoded },
+  } });
+  const prepared = await prepareWordPackage(record, record.currentRevisionId, policy);
+  acknowledgeWordPackage(prepared);
+  const convertDocx = vi.fn(ports.convertDocx);
+  const delivered = await renderWordPackage(prepared, { ...ports, convertDocx });
+  const zip = await JSZip.loadAsync(await delivered.blob.arrayBuffer(), { checkCRC32: true });
+  const signature = delivered.manifest.files.find(file => file.purpose.startsWith('Unchanged visual signature'))!;
+  expect(await zip.file(signature.path)!.async('uint8array')).toEqual(new Uint8Array(images.signature));
+  expect(signature.sha256).toBe(await portableResourceDigest(new Uint8Array(images.signature).buffer));
+  expect(convertDocx.mock.calls[0][1].mediaFiles?.['signature.png']).toEqual(new Uint8Array(images.signature));
+});
+
+it('serializes the normalized signature byte size before package capture without changing the source', async () => {
+  const sharp = (await import('sharp')).default;
+  const { docxImageFixture } = await import('../_helpers/docxImageFixture');
+  const images = await docxImageFixture();
+  const upload = await sharp(images.signature).jpeg().toBuffer();
+  const normalized = await sharp(upload).png().toBuffer();
+  expect(normalized.length).not.toBe(upload.length);
+  const signatureImage = { name: 'uploaded-signature.jpg', size: upload.length, data: normalized.toString('base64') };
+  const { record } = await fixture({ docType: 'business_letter', enclosures: [], formData: {
+    subject: 'NORMALIZED SIGNATURE', sigFirst: 'Alex', sigLast: 'Example', signatureType: 'image', signatureImage,
+  } });
+  expect(signatureImage.size).toBe(upload.length);
+  const prepared = await prepareWordPackage(record, record.currentRevisionId, policy);
+  acknowledgeWordPackage(prepared);
+  const delivered = await renderWordPackage(prepared, ports);
+  const zip = await JSZip.loadAsync(await delivered.blob.arrayBuffer(), { checkCRC32: true });
+  const signature = delivered.manifest.files.find(file => file.purpose.startsWith('Unchanged visual signature'))!;
+  expect(signature.size).toBe(normalized.length);
+  expect(await zip.file(signature.path)!.async('uint8array')).toEqual(new Uint8Array(normalized));
+});
+
 it('rejects untrusted portable paths before they can enter a Word delivery', async () => {
   const { record } = await fixture(), before = structuredClone(record);
   const json = JSON.parse(await buildPortableActionPackage(record));
@@ -183,13 +228,15 @@ it('keeps case-insensitive and sanitized filename collisions in distinct ordered
     { title: 'Second annex', file: { name: 'same?name.pdf', size: bytes.byteLength, data: bytes } },
   ] });
   record.revisions[0].members.push(await captureOriginalPackageMember({ name: 'con.PDF', data: bytes }, 'supporting-document', false));
+  record.revisions[0].members.push(await captureOriginalPackageMember({ name: 'COM¹.pdf', data: bytes }, 'supporting-document', false));
   const prepared = await prepareWordPackage(record, record.currentRevisionId, policy);acknowledgeWordPackage(prepared);
   const result = await renderWordPackage(prepared, ports), paths = result.manifest.files.map(file => file.path);
   expect(new Set(paths.map(path => path.toLowerCase())).size).toBe(paths.length);
   expect(paths).toContain('members/001/original/enclosure-001-same_name.pdf');
   expect(paths).toContain('members/001/original/enclosure-002-same_name.pdf');
   expect(paths).toContain('members/002/original/_CON.pdf');expect(paths).toContain('members/003/original/_con.PDF');
-  expect(result.manifest.members.map(member => member.order)).toEqual([1, 2, 3]);
+  expect(paths).toContain('members/004/original/_COM¹.pdf');
+  expect(result.manifest.members.map(member => member.order)).toEqual([1, 2, 3, 4]);
 });
 
 it('checks emitted native text against deployment policy before Word package approval', async () => {

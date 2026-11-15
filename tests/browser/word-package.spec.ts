@@ -3,6 +3,7 @@ import { readFile } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
 import JSZip from 'jszip';
 import { PDFDocument } from 'pdf-lib';
+import AxeBuilder from '@axe-core/playwright';
 import { docxImageFixture } from '../_helpers/docxImageFixture';
 import { buildBaseline } from '../_helpers/compileMatrix';
 
@@ -18,6 +19,8 @@ async function downloadWord(page: Page, dialog: Locator, path: string) {
   const word = dialog.getByRole('region', { name: 'Word package delivery', exact: true });
   await word.getByRole('button', { name: 'Review Word package', exact: true }).click();
   await expect(word.getByRole('checkbox')).toBeVisible();
+  const accessibility = await new AxeBuilder({ page }).include('[aria-label="Word package delivery"]').analyze();
+  expect(accessibility.violations).toEqual([]);
   await word.getByRole('checkbox').check();
   expect(await word.evaluate(element => element.scrollWidth <= element.clientWidth)).toBe(true);
   await word.getByRole('button', { name: 'Download reviewed Word package', exact: true }).scrollIntoViewIfNeeded();
@@ -122,6 +125,44 @@ for (const theme of ['light', 'dark', 'classic']) {
     } finally { await fresh.close(); }
   });
 }
+
+test('Word packages retain a JPEG signature upload after PNG normalization', async ({ page }, info) => {
+  const images = await docxImageFixture();
+  await page.addInitScript(() => {
+    localStorage.setItem('browser-test-visitor', 'returning');
+    localStorage.setItem('dondocs_ui', JSON.stringify({ state: { editorLayout: 'scroll' }, version: 1 }));
+  });
+  await page.goto('/');
+  const baseline = buildBaseline('business_letter');
+  const draft = { ...baseline, documentMode: 'custom', documentCategory: 'correspondence',
+    formData: { ...baseline.formData, subject: 'JPEG SIGNATURE CAPTURE', signatureType: 'none' },
+    paragraphs: [{ text: 'Fictional signature upload test.', level: 0 }], references: [], enclosures: [] };
+  await page.getByLabel('Import draft file').setInputFiles({ name: 'signature-source.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(draft)) });
+  await page.getByRole('button', { name: 'Open as new document', exact: true }).click();
+  await expect(page.getByRole('dialog', { name: 'Review draft', exact: true })).toBeHidden();
+  const upload = page.getByRole('radio', { name: 'Upload Image', exact: true });
+  if (!await upload.isVisible()) await page.getByRole('button', { name: /^Signature Block/ }).click();
+  await upload.click();
+  await page.getByLabel('Upload signature image', { exact: true }).setInputFiles({ name: 'uploaded-signature.jpg', mimeType: 'image/jpeg', buffer: images.jpeg });
+  const preview = page.getByRole('img', { name: 'Signature preview', exact: true });
+  await expect(preview).toHaveAttribute('src', /^data:image\/png;base64,/);
+  const normalized = Buffer.from((await preview.getAttribute('src'))!.split(',')[1], 'base64');
+  expect(normalized.subarray(0, 8)).toEqual(Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]));
+  expect(normalized.length).not.toBe(images.jpeg.length);
+  const dialog = await packages(page);
+  await dialog.getByLabel('Package name', { exact: true }).fill('Normalized signature package');
+  await dialog.getByRole('button', { name: 'Create package', exact: true }).click();
+  await dialog.getByRole('button', { name: 'Capture current document', exact: true }).click();
+  await expect(dialog.getByRole('heading', { name: '1. JPEG SIGNATURE CAPTURE', exact: true })).toBeVisible();
+  const zip = await downloadWord(page, dialog, info.outputPath('normalized-signature.zip'));
+  const manifest = JSON.parse(await zip.file('manifest.json')!.async('string'));
+  const signature = manifest.files.find((file: { purpose: string }) => file.purpose.startsWith('Unchanged visual signature'));
+  expect(signature.size).toBe(normalized.length);
+  expect(Buffer.from(await zip.file(signature.path)!.async('uint8array'))).toEqual(normalized);
+  const docx = await JSZip.loadAsync(await zip.file(manifest.mainDocument)!.async('uint8array'));
+  const media = await Promise.all(Object.values(docx.files).filter(file => !file.dir && file.name.startsWith('word/media/')).map(file => file.async('uint8array')));
+  expect(media.some(bytes => Buffer.from(bytes).equals(normalized))).toBe(true);
+});
 
 test('Word delivery blocks disallowed original PDF text and displays original PDF privacy findings', async ({ page }) => {
   await page.addInitScript(() => { localStorage.setItem('browser-test-visitor', 'returning'); });
