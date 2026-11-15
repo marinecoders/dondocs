@@ -22,6 +22,16 @@ function comment(text = 'Check this subject. 😀') {
 }
 
 describe('native document comments', () => {
+  it('keeps unposted comment text intact before handing off to review rounds', () => {
+    open();
+    fireEvent.change(screen.getByLabelText('Comment', { exact: true }), { target: { value: 'Unposted review context' } });
+    expect(screen.getByRole('button', { name: 'Review rounds…' })).toBeDisabled();
+    expect(screen.getByLabelText('Comment', { exact: true })).toHaveValue('Unposted review context');
+    fireEvent.change(screen.getByLabelText('Comment', { exact: true }), { target: { value: '' } });
+    expect(screen.getByRole('button', { name: 'Review rounds…' })).toBeEnabled();
+    comment();
+    expect(screen.getByRole('button', { name: 'Review rounds…' })).toBeEnabled();
+  });
   it('adds field and whole-document comments with readable labels and retained text', () => {
     open();
     expect(screen.getByRole('button', { name: 'Post comment' })).toBeDisabled();

@@ -1,6 +1,6 @@
 import 'fake-indexeddb/auto';
 import { beforeEach, expect, it, vi } from 'vitest';
-import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { act, fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { EditorSidebar } from '@/components/layout/EditorSidebar';
 import { MobileRecents } from '@/components/layout/MobileRecents';
@@ -17,21 +17,45 @@ import { useOnboardingStore } from '@/stores/onboardingStore';
 import { useTourStore } from '@/stores/tourStore';
 import { TourOverlay } from '@/components/tour/TourOverlay';
 import { TOUR_STEPS } from '@/components/tour/tourSteps';
+import { ActionPackageWorkspace } from '@/components/ActionPackageWorkspace';
+import { createExportGate } from '@/lib/exportController';
 
 beforeEach(() => {
   useUIStore.setState({ isMobile: false, sidebarCollapsed: false, sidebarOutlineVisible: false,
     mobileDocsOpen: true, profileManagerOpen: false, settingsOpen: false, settingsSection: 'appearance',
-    trashOpen: false, helpOpen: false, checklistSheetOpen: false, saveMenuOpen: false });
+    trashOpen: false, helpOpen: false, checklistSheetOpen: false, saveMenuOpen: false, actionPackagesOpen: false, reviewRoundsOpen: false });
   useDocumentsStore.setState({ currentId: null, docs: {}, hydrated: true });
   useOnboardingStore.setState({ checklistCelebrated: false });
   useTourStore.setState({ active: false });
 });
 const destinations = [
+  ['Packages', { actionPackagesOpen: true }],
   ['Profiles', { profileManagerOpen: true }],
   ['Trash', { trashOpen: true }],
   ['Settings', { settingsOpen: true, settingsSection: 'appearance' }],
   ['Help', { helpOpen: true }],
 ] as const;
+
+it.each([false, true])('opens packages from workspace navigation without stacking dialogs and restores focus on mobile=%s', async mobile => {
+  useUIStore.setState({ isMobile: mobile, mobileDocsOpen: false });
+  useDocumentsStore.getState().newDocument();
+  const documentId = useDocumentsStore.getState().currentId;
+  const user = userEvent.setup();
+  render(<TooltipProvider>
+    <Header />
+    {mobile ? <MobileRecents /> : <EditorSidebar />}
+    <ActionPackageWorkspace exportGate={createExportGate()} ports={{ compile: vi.fn(), convertDocx: vi.fn(), waitForReady: async () => true }} />
+  </TooltipProvider>);
+  if (mobile) await user.click(screen.getByRole('button', { name: 'Open workspace' }));
+  else expect(within(screen.getByRole('navigation', { name: 'Documents' })).getByRole('button', { name: 'Packages' })).toBeVisible();
+  await user.click(screen.getByRole('button', { name: 'Packages' }));
+  const modal = await screen.findByRole('dialog', { name: 'Action packages' });
+  expect(screen.queryByRole('dialog', { name: 'Documents' })).not.toBeInTheDocument();
+  expect(modal).toContainElement(document.activeElement as HTMLElement);
+  expect(useDocumentsStore.getState().currentId).toBe(documentId);
+  await user.click(within(modal).getByRole('button', { name: 'Close' }));
+  await waitFor(() => expect(screen.getByRole('button', { name: mobile ? 'Open workspace' : 'Packages' })).toHaveFocus());
+});
 
 it('closes the mobile workspace before handing off to update confirmation', async () => {
   useUIStore.setState({ isMobile: true, mobileDocsOpen: true });

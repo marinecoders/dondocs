@@ -10,6 +10,10 @@ import { buildBaseline } from '../_helpers/compileMatrix';
 test.use({ serviceWorkers: 'block', actionTimeout: 15_000 });
 test.setTimeout(120_000);
 async function packages(page: Page, name?: string) {
+  const workspace = page.getByRole('button', { name: 'Open workspace', exact: true });
+  const launcher = page.getByRole('button', { name: 'Packages', exact: true });
+  await workspace.or(launcher).first().waitFor({ state: 'visible' });
+  if (await workspace.isVisible()) await workspace.click();
   await page.getByRole('button', { name: 'Packages', exact: true }).click();
   const dialog = page.getByRole('dialog', { name: 'Action packages', exact: true });
   if (name) await dialog.getByLabel('Saved packages', { exact: true }).selectOption({ label: name });

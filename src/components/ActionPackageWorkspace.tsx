@@ -49,6 +49,7 @@ import {
 } from "@/lib/actionPackageWorkingCopy";
 import { captureCurrentDocumentRevision } from "@/stores/captureDocument";
 import { useDocumentsStore } from "@/stores/documentsStore";
+import { useUIStore } from "@/stores/uiStore";
 import { getExportDeploymentPolicy } from "@/config/classification";
 import { triggerDownload } from "@/lib/encoding";
 import type { CorrespondenceRendererPorts } from "@/services/exports/correspondence";
@@ -66,28 +67,18 @@ export function ActionPackageWorkspace({
   ports: Ports;
   exportGate: ExportGate;
 }) {
-  const [open, setOpen] = useState(false);
-  return (
-    <>
-      <Button
-        variant="outline"
-        size="sm"
-        onClick={() => {
-          void loadRetainedPdfViewer().catch(() => {});
-          setOpen(true);
-        }}
-      >
-        Packages
-      </Button>
-      {open && (
-        <PackageDialog
-          ports={ports}
-          exportGate={exportGate}
-          onClose={() => setOpen(false)}
-        />
-      )}
-    </>
-  );
+  const open = useUIStore(state => state.actionPackagesOpen);
+  const setOpen = useUIStore(state => state.setActionPackagesOpen);
+  useEffect(() => {
+    if (open) void loadRetainedPdfViewer().catch(() => {});
+  }, [open]);
+  return open ? (
+    <PackageDialog
+      ports={ports}
+      exportGate={exportGate}
+      onClose={() => setOpen(false)}
+    />
+  ) : null;
 }
 function PackageDialog({
   ports,

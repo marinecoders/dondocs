@@ -23,7 +23,7 @@ async function appearance(context: BrowserContext, theme: string) {
   }, theme);
 }
 async function packages(page: Page) {
-  await page.getByRole("button", { name: "Packages", exact: true }).click();
+  await workspace(page, "Packages");
   return page.getByRole("dialog", { name: "Action packages", exact: true });
 }
 async function importDraft(page: Page, value: unknown) {
@@ -384,7 +384,7 @@ for (const theme of ["light", "dark", "classic"]) {
       const restored = await fresh.newPage();
       await prepareOfflineApp(restored, baseURL!);
       await expect(
-        restored.getByRole("button", { name: "Packages", exact: true }),
+        restored.getByRole("button", { name: "Open workspace", exact: true }).or(restored.getByRole("button", { name: "Packages", exact: true })),
       ).toBeVisible();
       await fresh.setOffline(true);
       const freshModal = await packages(restored);

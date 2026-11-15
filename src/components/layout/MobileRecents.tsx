@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import { WORKSPACE_DESTINATIONS } from './workspaceNavigation';
+import { PACKAGES_DESTINATION, WORKSPACE_DESTINATIONS } from './workspaceNavigation';
 import { Plus, Trash2, Undo2, Pin, PinOff, Search, FileDown, Download, MoreHorizontal, Pencil, Copy, History } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
@@ -106,6 +106,7 @@ export function MobileRecents({ onUpdate }: { onUpdate?: () => void }) {
             {[
               { label: 'Search', icon: Search, run: () => useUIStore.getState().setCommandPaletteOpen(true) },
               { label: 'Templates', icon: FileDown, run: () => useUIStore.getState().setTemplateLoaderOpen(true) },
+              PACKAGES_DESTINATION,
               ...WORKSPACE_DESTINATIONS,
             ].map(({ label, icon: Icon, run }) => <button key={label} data-tour={label === 'Templates' ? 'templates' : undefined} type="button" className="inline-flex min-h-11 items-center gap-2 rounded px-2 text-sm hover:bg-muted" onClick={() => openTool(run)}><Icon className="h-4 w-4" />{label}</button>)}
           </div>

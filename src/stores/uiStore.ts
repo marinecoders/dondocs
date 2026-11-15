@@ -91,6 +91,8 @@ interface UIState {
    *  nothing it holds is worth carrying across a reload. */
   connectivityModalOpen: boolean;
   batchModalOpen: boolean;
+  actionPackagesOpen: boolean;
+  reviewRoundsOpen: boolean;
   importLetterModalOpen: boolean;
   commandPaletteOpen: boolean;
   findReplaceOpen: boolean;
@@ -122,6 +124,8 @@ interface UIState {
   setConnectivityModalOpen: (open: boolean) => void;
   setNistModalOpen: (open: boolean) => void;
   setBatchModalOpen: (open: boolean) => void;
+  setActionPackagesOpen: (open: boolean) => void;
+  setReviewRoundsOpen: (open: boolean) => void;
   setImportLetterModalOpen: (open: boolean) => void;
   setCommandPaletteOpen: (open: boolean) => void;
   setFindReplaceOpen: (open: boolean) => void;
@@ -245,6 +249,8 @@ export const useUIStore = create<UIState>()(
       nistModalOpen: false,
       connectivityModalOpen: false,
       batchModalOpen: false,
+      actionPackagesOpen: false,
+      reviewRoundsOpen: false,
       importLetterModalOpen: false,
       commandPaletteOpen: false,
       findReplaceOpen: false,
@@ -269,6 +275,8 @@ export const useUIStore = create<UIState>()(
       setConnectivityModalOpen: (open) => set({ connectivityModalOpen: open }),
       setNistModalOpen: (open) => set({ nistModalOpen: open }),
       setBatchModalOpen: (open) => set({ batchModalOpen: open }),
+      setActionPackagesOpen: (open) => set({ actionPackagesOpen: open }),
+      setReviewRoundsOpen: (open) => set({ reviewRoundsOpen: open }),
       setImportLetterModalOpen: (open) => set({ importLetterModalOpen: open }),
       setCommandPaletteOpen: (open) => set({ commandPaletteOpen: open }),
       setFindReplaceOpen: (open) => set({ findReplaceOpen: open }),
@@ -364,6 +372,8 @@ export const useUIStore = create<UIState>()(
         aboutModalOpen: false,
         nistModalOpen: false,
         batchModalOpen: false,
+        actionPackagesOpen: false,
+        reviewRoundsOpen: false,
         importLetterModalOpen: false,
         commandPaletteOpen: false,
         findReplaceOpen: false,

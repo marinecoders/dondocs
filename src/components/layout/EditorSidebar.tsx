@@ -1,4 +1,4 @@
-import { WORKSPACE_DESTINATIONS } from './workspaceNavigation';
+import { PACKAGES_DESTINATION, WORKSPACE_DESTINATIONS } from './workspaceNavigation';
 import { matchesSearch } from '@/lib/workspaceSearch';
 import { formErrorSections } from '@/services/forms/model';
 import { useMemo, useState, useRef, useEffect, type ReactNode } from 'react';
@@ -280,7 +280,8 @@ export function EditorSidebar({ updateAction }: { updateAction?: ReactNode }) {
         {[
           { label: 'Search workspace', icon: Search, run: () => useUIStore.getState().setCommandPaletteOpen(true) },
           { label: 'Templates', icon: FolderOpen, run: () => useUIStore.getState().setTemplateLoaderOpen(true) },
-        ].map(({ label, icon: Icon, run }) => <button key={label} data-tour={label === 'Templates' ? 'templates' : undefined} type="button" onClick={run} aria-current={label === 'Search workspace' && searchOpen ? 'page' : undefined} className="flex min-h-9 w-full items-center gap-2 rounded-md px-2 text-[13px] hover:bg-sidebar-accent aria-[current=page]:bg-sidebar-accent focus-visible:outline-2 focus-visible:outline-ring"><Icon className="h-4 w-4" />{label}</button>)}
+          PACKAGES_DESTINATION,
+        ].map(({ label, icon: Icon, run }) => <button key={label} data-tour={label === 'Templates' ? 'templates' : undefined} type="button" onClick={event => { event.currentTarget.focus();run(); }} aria-current={label === 'Search workspace' && searchOpen ? 'page' : undefined} className="flex min-h-9 w-full items-center gap-2 rounded-md px-2 text-[13px] hover:bg-sidebar-accent aria-[current=page]:bg-sidebar-accent focus-visible:outline-2 focus-visible:outline-ring"><Icon className="h-4 w-4" />{label}</button>)}
       </div>
       {showOutline && <>
       {/* On this page: section outline (collapse control shares the label row).

@@ -43,6 +43,7 @@ import { triggerDownload } from '@/lib/encoding';
 import { buildDraftFile, parseDraftFile, parsePortableDraft, type ReviewedDraft } from '@/lib/draftFile';
 import { SessionPreview } from '@/components/SessionPreview';
 import { ReviewRoundsModal } from '@/components/modals/ReviewRoundsModal';
+import { DocumentComments } from '@/components/editor/DocumentComments';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/dialog';
 import { STORAGE_KEYS } from '@/lib/constants';
 import { useTourStore } from '@/stores/tourStore';
@@ -99,7 +100,8 @@ export function Header({
   const setDocumentGuideOpen = useUIStore((s) => s.setDocumentGuideOpen);
   const setFindReplaceOpen = useUIStore((s) => s.setFindReplaceOpen);
   const setShareModal = useUIStore((s) => s.setShareModal);
-  const [reviewRoundsOpen, setReviewRoundsOpen] = useState(false);
+  const reviewRoundsOpen = useUIStore(s => s.reviewRoundsOpen);
+  const setReviewRoundsOpen = useUIStore(s => s.setReviewRoundsOpen);
   const isMobile = useUIStore((s) => s.isMobile);
   const previewVisible = useUIStore((s) => s.previewVisible);
   const mobilePreviewOpen = useUIStore((s) => s.mobilePreviewOpen);
@@ -437,11 +439,12 @@ export function Header({
       {saveStatus && <div role="status" aria-atomic="true" className="pointer-events-none fixed bottom-[max(1rem,env(safe-area-inset-bottom))] left-1/2 z-50 w-max max-w-[calc(100vw-2rem)] -translate-x-1/2 rounded-md border border-border bg-background px-4 py-2 text-center text-xs text-foreground shadow-elevated">{saveStatus}</div>}
       <div className="flex min-w-0 flex-wrap items-center gap-1 px-4 sm:px-5 py-2 text-xs">
         <DocumentNavigation />
-        <Button variant="ghost" size="sm" className="ml-auto h-10 sm:h-8 px-2" onClick={openHistory} disabled={!currentId}><History className="h-3.5 w-3.5" />History</Button>
-        <Button disabled={!capabilityAvailable(output.batch)} title={output.batch.status === 'supported' ? undefined : output.batch.message} data-tour="batch" variant="ghost" size="sm" className="h-10 sm:h-8 px-2" onClick={() => setBatchModalOpen(true)}><Layers className="h-3.5 w-3.5" />Batch</Button>
+        <Button variant="ghost" size="sm" className="ml-auto h-11 sm:h-8 gap-0.5 sm:gap-1.5 px-2 has-[>svg]:px-0.5 sm:has-[>svg]:px-2.5" onClick={openHistory} disabled={!currentId}><History className="h-3.5 w-3.5" />History</Button>
+        {!isFormsMode && <DocumentComments />}
+        <Button disabled={!capabilityAvailable(output.batch)} title={output.batch.status === 'supported' ? undefined : output.batch.message} data-tour="batch" variant="ghost" size="sm" className="h-11 sm:h-8 gap-0.5 sm:gap-1.5 px-2 has-[>svg]:px-0.5 sm:has-[>svg]:px-2.5" onClick={() => setBatchModalOpen(true)}><Layers className="h-3.5 w-3.5" />Batch</Button>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="sm" aria-label="Document tools" data-tour="tools" className="h-10 sm:h-8 px-2">
+              <Button variant="ghost" size="sm" aria-label="Document tools" data-tour="tools" className="h-11 sm:h-8 gap-0.5 sm:gap-1.5 px-2 has-[>svg]:px-0.5 sm:has-[>svg]:px-2.5">
                 <Wrench className="h-3.5 w-3.5" aria-hidden="true" />Tools
               </Button>
             </DropdownMenuTrigger>

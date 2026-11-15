@@ -6,6 +6,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { useDocumentStore } from '@/stores/documentStore';
+import { useUIStore } from '@/stores/uiStore';
 import { useEditorOutlineStore } from '@/stores/editorOutlineStore';
 import { captureDocumentTarget, isCurrentDocumentTarget, useDocumentsStore, type DocumentTarget } from '@/stores/documentsStore';
 import { COMMENT_LIMITS, type CommentThread } from '@/lib/reviewComments';
@@ -23,10 +24,10 @@ export function DocumentComments() {
   const [open, setOpen] = useState(false);
   if (!documentId || !supportsReviewComments({ documentCategory: category, docType, formData: {} })) return null;
   const count = comments?.threads.filter(thread => !thread.resolved).length ?? 0;
-  return <div className="shrink-0 border-b border-border/40 px-4 py-2">
-    <Button type="button" variant="outline" size="sm" onClick={() => setOpen(true)}><MessageSquare className="h-4 w-4" />Comments{count ? ` (${count})` : ''}</Button>
+  return <>
+    <Button type="button" variant="ghost" size="sm" className="h-11 sm:h-8 gap-0.5 sm:gap-1.5 px-2 has-[>svg]:px-0.5 sm:has-[>svg]:px-2.5" aria-haspopup="dialog" aria-expanded={open} onClick={event => { event.currentTarget.focus();setOpen(true); }}><MessageSquare className="h-3.5 w-3.5" />Comments{count ? ` (${count})` : ''}</Button>
     {open && <CommentsDialog key={`${documentId}:${epoch}`} onClose={() => setOpen(false)} />}
-  </div>;
+  </>;
 }
 
 export function CommentsDialog({ onClose, initialParagraphId }: { onClose: () => void; initialParagraphId?: string }) {
@@ -35,11 +36,13 @@ export function CommentsDialog({ onClose, initialParagraphId }: { onClose: () =>
   const [showResolved, setShowResolved] = useState(false);
   const [editor, setEditor] = useState<Editor>({ kind: 'add' });
   const [editorKey, setEditorKey] = useState(0);
+  const [hasDraft, setHasDraft] = useState(false);
   const [feedback, setFeedback] = useState('');
   const result = useRef<HTMLParagraphElement>(null);
   const navigation = useRef<{ paragraphId: string; target: DocumentTarget | null } | null>(null);
+  const pendingReview = useRef(false);
   const threads = state.reviewComments?.threads ?? [];
-  const startEditor = (next: Editor) => { setEditor(next);setEditorKey(value => value + 1);setFeedback(''); };
+  const startEditor = (next: Editor) => { setEditor(next);setEditorKey(value => value + 1);setFeedback('');setHasDraft(false); };
   const run = (mutation: CommentMutation, target: DocumentTarget | null): boolean => {
     const outcome = applyCommentMutation(reviewCommentMutation(mutation, target));
     setFeedback(outcome === 'applied' ? 'Comment changes saved. Use Undo to restore the previous state.'
@@ -50,7 +53,20 @@ export function CommentsDialog({ onClose, initialParagraphId }: { onClose: () =>
   };
   const visible = threads.filter(thread => thread.resolved === showResolved);
   return <Dialog open onOpenChange={open => { if (!open) onClose(); }}>
-    <DialogContent className="sm:max-w-2xl" onCloseAutoFocus={event => {
+    <DialogContent className="sm:max-w-2xl" onOpenAutoFocus={event => {
+      const target = document.getElementById('comment-target');
+      if (target) {
+        event.preventDefault();
+        target.focus({ preventScroll: true });
+      }
+    }} onCloseAutoFocus={event => {
+      if (pendingReview.current) {
+        pendingReview.current = false;
+        // Restore the persistent comment launcher before the review dialog
+        // captures focus, rather than leaving two modal surfaces open.
+        queueMicrotask(() => useUIStore.getState().setReviewRoundsOpen(true));
+        return;
+      }
       const next = navigation.current;
       if (!next || !isCurrentDocumentTarget(next.target)) return;
       event.preventDefault();
@@ -66,10 +82,17 @@ export function CommentsDialog({ onClose, initialParagraphId }: { onClose: () =>
         <DialogTitle>Document comments</DialogTitle>
         <DialogDescription>Comments travel with drafts and shared copies. Clean PDF and Word exports omit them. Reviewer names are self-entered.</DialogDescription>
       </DialogHeader>
+      <div className="space-y-1 border-b border-border pb-3">
+        <Button type="button" variant="outline" size="sm" className="min-h-11 sm:min-h-8" disabled={hasDraft} aria-describedby="comments-review-rounds-help" onClick={() => {
+          pendingReview.current = true;
+          onClose();
+        }}>Review rounds…</Button>
+        <p id="comments-review-rounds-help" className="text-xs text-muted-foreground">{hasDraft ? 'Post, save, or clear your comment draft before opening review rounds.' : 'Manage reviewer copies, suggested edits, and returned feedback.'}</p>
+      </div>
       <p ref={result} role="status" tabIndex={-1} className={feedback ? 'text-sm text-muted-foreground' : 'sr-only'}>{feedback}</p>
-      <CommentEditor key={editorKey} editor={editor} initialParagraphId={initialParagraphId} onCancel={() => startEditor({ kind: 'add' })} onSave={(mutation, target) => {
+      <CommentEditor key={editorKey} editor={editor} initialParagraphId={initialParagraphId} onDraftChange={setHasDraft} onCancel={() => startEditor({ kind: 'add' })} onSave={(mutation, target) => {
         const saved = run(mutation, target);
-        if (saved) { setEditor({ kind: 'add' });setEditorKey(value => value + 1); }
+        if (saved) { setEditor({ kind: 'add' });setEditorKey(value => value + 1);setHasDraft(false); }
         return saved;
       }} />
       <div role="group" className="flex flex-wrap gap-2" aria-label="Comment status">
@@ -86,8 +109,8 @@ export function CommentsDialog({ onClose, initialParagraphId }: { onClose: () =>
   </Dialog>;
 }
 
-function CommentEditor({ editor, initialParagraphId, onCancel, onSave }: {
-  editor: Editor; initialParagraphId?: string; onCancel: () => void; onSave: (mutation: CommentMutation, target: DocumentTarget | null) => boolean;
+function CommentEditor({ editor, initialParagraphId, onDraftChange, onCancel, onSave }: {
+  editor: Editor; initialParagraphId?: string; onDraftChange: (dirty: boolean) => void; onCancel: () => void; onSave: (mutation: CommentMutation, target: DocumentTarget | null) => boolean;
 }) {
   const state = useDocumentStore();
   const fields = availableCommentFields(state);
@@ -130,7 +153,7 @@ function CommentEditor({ editor, initialParagraphId, onCancel, onSave }: {
       {paragraphId && !unavailable && <div role="region" aria-label="Current paragraph" tabIndex={0} className="max-h-36 overflow-auto text-xs text-muted-foreground focus-visible:outline-2 focus-visible:outline-ring"><p className="font-medium">Current paragraph</p><p className="whitespace-pre-wrap break-words">{paragraphs.find(paragraph => paragraph.paragraphId === paragraphId)?.value || '(Empty)'}</p></div>}
     </div>}
     {editor.kind !== 'edit' && <div className="space-y-1"><Label htmlFor="comment-author">Reviewer name</Label><Input id="comment-author" value={author} maxLength={COMMENT_LIMITS.author} onChange={event => setAuthor(event.target.value)} autoComplete="off" /></div>}
-    <div className="space-y-1"><Label htmlFor="comment-text">{editor.kind === 'reply' ? 'Reply' : 'Comment'}</Label><Textarea id="comment-text" autoFocus={editor.kind !== 'add'} value={text} maxLength={COMMENT_LIMITS.text} onChange={event => { if (!text) setTarget(captureDocumentTarget());setText(event.target.value); }} className="min-h-24" /></div>
+    <div className="space-y-1"><Label htmlFor="comment-text">{editor.kind === 'reply' ? 'Reply' : 'Comment'}</Label><Textarea id="comment-text" autoFocus={editor.kind !== 'add'} value={text} maxLength={COMMENT_LIMITS.text} onChange={event => { if (!text) setTarget(captureDocumentTarget());setText(event.target.value);onDraftChange(editor.kind === 'edit' ? event.target.value !== editor.text : event.target.value.length > 0); }} className="min-h-24" /></div>
     <div className="flex flex-wrap gap-2">
       <Button type="submit" size="sm" disabled={stale || editor.kind === 'add' && (unavailableField || longContext || unavailable) || !text.trim() || editor.kind !== 'edit' && !author.trim() || editor.kind === 'edit' && text === editor.text}>{editor.kind === 'edit' ? 'Save comment' : editor.kind === 'reply' ? 'Post reply' : 'Post comment'}</Button>
       {editor.kind !== 'add' && <Button type="button" size="sm" variant="outline" onClick={onCancel}>Cancel edit</Button>}
