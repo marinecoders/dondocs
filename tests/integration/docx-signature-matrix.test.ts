@@ -11,7 +11,6 @@ import { docxImageFixture } from '../_helpers/docxImageFixture';
 
 const hasPandoc = spawnSync('pandoc', ['--version']).status === 0;
 const supported = ALL_DOC_TYPES.filter(type => !DOC_TYPE_CONFIG[type].pdfOnly
-  && DOC_TYPE_CONFIG[type].signature !== 'dual' && type !== 'information_memorandum'
   && !['i_type', 'sl3', 'sl4', 'tm_ietm_front_matter'].includes(type));
 
 describe.skipIf(!hasPandoc)('signature image preservation across Word layouts', () => {
@@ -19,6 +18,7 @@ describe.skipIf(!hasPandoc)('signature image preservation across Word layouts', 
     const { signature } = await docxImageFixture();
     const store = buildBaseline(docType);
     store.formData.signatureType = 'image';
+    if (DOC_TYPE_CONFIG[docType].signature === 'dual') store.formData.signatureImageSigner = 'junior';
     store.formData.signatureImage = { name: 'signature.png', size: signature.length, data: signature.toString('base64') };
     const media = await prepareDocxImages(store, async () => { throw new Error('Inline signature must not read another resource.'); });
     const compiled = await compileGeneratedDocxFixture(generateFlatLatex(store), store.formData, media);
@@ -32,6 +32,9 @@ describe.skipIf(!hasPandoc)('signature image preservation across Word layouts', 
     const parser = new DOMParser();
     const drawing = [...parser.parseFromString(document, 'application/xml').getElementsByTagName('wp:docPr')]
       .find(node => node.getAttribute('descr') === 'Handwritten signature image');
+    let row = drawing?.parentElement;
+    while (row && row.tagName !== 'w:tr') row = row.parentElement;
+    expect(row?.getElementsByTagName('w:trHeight')).toHaveLength(0);
     const embed = drawing?.parentElement?.getElementsByTagName('a:blip')[0]?.getAttribute('r:embed');
     expect(embed).toBeTruthy();
     const relationships = parser.parseFromString(await zip.file('word/_rels/document.xml.rels')!.async('string'), 'application/xml');

@@ -7,6 +7,19 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.92] — 2026-11-15
+
+### Added
+
+- Place one retained signature image on an explicitly selected junior or senior Word signature block, or beside the information memorandum FROM sender. These placements are Word-only; the other dual signer stays unsigned.
+
+### Fixed
+
+- Prevent common signature uploads from completing after a document type change, including an away-and-back switch.
+- Preserve natural image-only table row height in Word instead of clipping signature images to spacer rows.
+- Cancel pending signature uploads after signer, document or layout changes, including a layout switch away and back, while preserving ordinary text edits.
+- Validate signer assignments before restoring saved documents, history or templates, preserving usable work when an incoming record is invalid.
+
 ## [1.3.91] — 2026-11-15
 
 ### Fixed

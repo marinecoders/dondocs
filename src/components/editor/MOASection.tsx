@@ -1,3 +1,4 @@
+import { WordSignatureImage } from './WordSignatureImage';
 import { ActingCheckbox } from './SigningCapacityField';
 import { EditorGuidance } from './EditorGuidance';
 import { useState } from 'react';
@@ -468,6 +469,7 @@ export function MOASection() {
           </AccordionContent>
         </AccordionItem>
       </Accordion>
+      <WordSignatureImage dual />
     </>
   );
 }

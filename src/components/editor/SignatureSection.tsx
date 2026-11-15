@@ -137,38 +137,49 @@ export function SignatureSection({ config }: SignatureSectionProps) {
       return;
     }
 
+    const originalDocumentType = useDocumentStore.getState().docType;
     const original = useDocumentStore.getState().formData;
     const task = beginDocumentTask('signature-image');
+    let layoutChanged = false;
+    const stopObservingLayout = useDocumentStore.subscribe((current, previous) => {
+      if (current.docType !== previous.docType) layoutChanged = true;
+    });
     const ownsSignature = () => {
       const current = useDocumentStore.getState().formData;
-      return isCurrentDocumentTask(task) && current.signatureImage === original.signatureImage && current.signatureType === original.signatureType;
+      return !layoutChanged && isCurrentDocumentTask(task)
+        && useDocumentStore.getState().docType === originalDocumentType
+        && current.signatureImage === original.signatureImage && current.signatureType === original.signatureType;
     };
-    let base64: string;
     try {
-      base64 = await loadSignatureAsPngBase64(file);
-    } catch (err) {
+      let base64: string;
+      try {
+        base64 = await loadSignatureAsPngBase64(file);
+      } catch (err) {
+        if (!ownsSignature()) return;
+        showAppAlert({
+          title: "Couldn't read that image",
+          message: err instanceof Error ? err.message : 'Please try a different file.',
+        });
+        return;
+      }
+
       if (!ownsSignature()) return;
-      showAppAlert({
-        title: "Couldn't read that image",
-        message: err instanceof Error ? err.message : 'Please try a different file.',
-      });
-      return;
-    }
+      const signatureImage: SignatureImage = {
+        name: file.name,
+        size: file.size,
+        data: base64,
+      };
 
-    if (!ownsSignature()) return;
-    const signatureImage: SignatureImage = {
-      name: file.name,
-      size: file.size,
-      data: base64,
-    };
-
-    try {
-      await withAttachmentStaging(async () => {
-        const owned = await persistSignature(signatureImage);
-        if (ownsSignature()) useDocumentStore.getState().setFormData({ signatureImage: owned });
-      });
-    } catch (error) {
-      if (ownsSignature()) showAppAlert({ title: 'Signature could not be saved', message: error instanceof Error ? error.message : 'Check browser storage and retry.' });
+      try {
+        await withAttachmentStaging(async () => {
+          const owned = await persistSignature(signatureImage);
+          if (ownsSignature()) useDocumentStore.getState().setFormData({ signatureImage: owned });
+        });
+      } catch (error) {
+        if (ownsSignature()) showAppAlert({ title: 'Signature could not be saved', message: error instanceof Error ? error.message : 'Check browser storage and retry.' });
+      }
+    } finally {
+      stopObservingLayout();
     }
   }), []);
 

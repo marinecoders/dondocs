@@ -1983,6 +1983,10 @@ export function validateLibraryDocuments(records: unknown): asserts records is u
     if (ids.has(record.meta.id)) throw new Error(`Duplicate document ID: ${record.meta.id}`);
     ids.add(record.meta.id);
     if (record.meta.nativeReviewText !== undefined && record.meta.nativeReviewText !== true) throw new Error('Invalid native review reader hint');
+    const signer = record.session.formData?.signatureImageSigner;
+    if (signer !== undefined && signer !== 'junior' && signer !== 'senior') {
+      throw new Error('Invalid signature image signer in backup');
+    }
     if (record.session.reviewComments !== undefined) reviewCommentsSchema.parse(record.session.reviewComments);
     if (record?.session?.genericForm) {
       const form = parseFormInstance(record.session.genericForm);

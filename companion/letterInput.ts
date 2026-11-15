@@ -216,6 +216,7 @@ export function toStore(input: LetterInput, defaults: CompanionDefaults = {}): G
       seniorDate: date,
 
       sigFirst: sig.first ?? '',
+      signatureImageSigner: input.signature?.imageSigner,
       ...(signatureFile ? { signatureType: 'image' as const, signatureImage: { name: signatureFile.name, size: Buffer.byteLength(signatureFile.dataBase64, 'base64'), data: signatureFile.dataBase64 } } : {}),
       sigMiddle: sig.middle ?? '',
       sigLast: sig.last ?? '',

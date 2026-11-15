@@ -34,6 +34,7 @@ export function parseSavedSession(value: unknown): SerializedSession {
   if (session.formData.sl3 !== undefined) session.formData.sl3 = sl3Schema.parse(session.formData.sl3);
   if (session.formData.sl4 !== undefined) session.formData.sl4 = sl4Schema.parse(session.formData.sl4);
   if (session.formData.manualFrontMatter !== undefined) session.formData.manualFrontMatter = manualFrontMatterSchema.parse(session.formData.manualFrontMatter);
+  if (session.formData.signatureImageSigner !== undefined) session.formData.signatureImageSigner = z.enum(['junior', 'senior']).parse(session.formData.signatureImageSigner);
   if (session.formData.signatureImage !== undefined) session.formData.signatureImage = z.object({ name: z.string(), size: z.number(), data: z.string(), fileRef: fileRef.optional() }).parse(session.formData.signatureImage);
   if (session.formData.basicLetterFile !== undefined) session.formData.basicLetterFile = z.object({ name: z.string(), size: z.number(), data: z.instanceof(ArrayBuffer) }).parse(session.formData.basicLetterFile);
   if (session.formData.basicLetterFileRef !== undefined) session.formData.basicLetterFileRef = fileRef.parse(session.formData.basicLetterFileRef);

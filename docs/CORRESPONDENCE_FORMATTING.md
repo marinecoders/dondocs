@@ -48,7 +48,7 @@ Standard and executive memorandum layouts align address continuation lines and t
 
 Correspondence formats with bottom signatures use keep-together and widow controls to help keep the final written paragraphs with the close and signature block. Blank trailing input rows do not select the closing paragraphs. Long groups may split to fit the page; review the resulting page breaks.
 
-Word keep rules end before copy/distribution blocks. Action/information memoranda and technical publications use their own signing layouts. Supported single-signer correspondence embeds an uploaded PNG signature image above the typed name in Word, preserving its aspect ratio within 1.5 by 0.5 inches. This is a visual signature image; PDF signing fields and other signing layouts have the [documented Word limitations](OUTPUT_LIMITS.md#word-output).
+Word keep rules end before copy/distribution blocks. Action/information memoranda and technical publications use their own signing layouts. Supported correspondence embeds one uploaded PNG signature image in Word, preserving its aspect ratio within 1.5 by 0.5 inches. Dual-signer documents require explicit junior or senior assignment and leave the other party unsigned; information memoranda place the image beside the FROM sender. These two placements are Word-only. This is a visual signature image; PDF signing fields and other signing layouts have the [documented Word limitations](OUTPUT_LIMITS.md#word-output).
 
 ## Business-letter figures
 

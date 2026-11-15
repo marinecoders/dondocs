@@ -150,7 +150,8 @@ export function validateLetter(body: Partial<LetterInput>, defaults: CompanionDe
     const file = body.attachments?.find(file => file.id === body.signature!.imageFileId);
     if (!file) problems.push(`Signature attachment "${body.signature.imageFileId}" is missing.`);
     else if (file.mimeType !== 'image/png') problems.push('Signature images require a PNG attachment.');
-    if (DOC_TYPE_CONFIG[body.docType ?? '']?.signature === 'dual' || body.docType === 'information_memorandum' || isTechnicalPublication(body.docType ?? '')) problems.push('Signature images require supported single-signer correspondence.');
+    if (isTechnicalPublication(body.docType ?? '')) problems.push('Signature images require supported correspondence.');
+    if (DOC_TYPE_CONFIG[body.docType ?? '']?.signature === 'dual' && !body.signature.imageSigner) problems.push('Choose the junior or senior imageSigner for dual-signer Word output.');
   }
   if (body.docType === 'business_letter') {
     let number = 0;

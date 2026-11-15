@@ -4,7 +4,7 @@ See the [capability matrix](CAPABILITIES.md) for current format availability.
 
 ## Word output
 
-- PNG signature images are embedded in supported single-signer correspondence. These are visual images, not certificate signatures. Dual-signer documents and information memoranda do not support uploaded Word signature images.
+- One PNG signature image can be embedded in supported correspondence. Dual-signer documents require an explicit junior or senior selection; the image is placed on that party only and the other remains unsigned. Information memoranda place it with the FROM sender. These dual-signer and information-memorandum placements are Word-only; PDF output does not include them. Two independent uploaded signatures are not supported. Images are visual signatures, not certificate signatures.
 - Custom business letters can add PNG/JPEG figures through the paragraph block menu. Their images and captions are retained in PDF and Word, including after a mode switch. Word images are limited to 10 MB and 40 megapixels each. Missing or unreadable images stop Word export; PDF figure attachments require conversion to PNG/JPEG for Word. Publication Word output remains unsupported.
 - PDF signing fields are not emitted into Word. Use Word's signing workflow separately.
 - Reference titles with valid URLs are clickable in Word. The hyperlink checkbox controls PDF links separately.

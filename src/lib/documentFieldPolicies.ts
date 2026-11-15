@@ -88,7 +88,7 @@ export const DOCUMENT_DATA_FIELD_POLICIES = {
   endorsementOrdinal: 'text', basicLetterId: 'text', basicLetterFile: 'asset', basicLetterFileRef: 'asset',
   sigFirst: 'text', sigMiddle: 'text', sigLast: 'text', sigRank: 'text', sigTitle: 'text', officeCode: 'text',
   byDirection: 'value', byDirectionAuthority: 'text', acting: 'value', actingTitle: 'text', seniorActing: 'value', juniorActing: 'value',
-  signatureImage: 'asset', signatureType: 'control', appendEndorsement: 'value', additionalEndorsements: array(object(endorsement)),
+  signatureImage: 'asset', signatureType: 'control', signatureImageSigner: 'control', appendEndorsement: 'value', additionalEndorsements: array(object(endorsement)),
   endorsementFrom: 'text', endorsementTo: 'text', endorsementBody: 'text', endorsementSigFirst: 'text',
   endorsementSigMiddle: 'text', endorsementSigLast: 'text', endorsementSerial: 'text', endorsementDate: 'document-date',
   classLevel: 'control', customClassification: 'text', classifiedBy: 'text', classificationBasis: 'control',
