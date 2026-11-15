@@ -4,7 +4,7 @@ import { Label } from '@/components/ui/label';
 import { ReviewSuggestionsPanel } from '@/components/editor/ReviewSuggestionsPanel';
 import { getSerializedSession, useDocumentStore } from '@/stores/documentStore';
 import { flushPendingReviewWrites, useDocumentsStore } from '@/stores/documentsStore';
-import { readReviewCopyLink, type ReviewRound } from '@/lib/reviewRounds';
+import { readReviewCopyLink, reviewRoundStatus, type ReviewRound } from '@/lib/reviewRounds';
 import { cachedReviewSuggestions, reviewSuggestionGeneration, subscribeReviewSuggestions } from '@/lib/reviewSuggestionRuntime';
 import { decideReviewSuggestion, loadReviewSuggestionWorkspace, submitReviewSuggestion, type ReviewSuggestionWorkspace, type ReviewSuggestionOutcome } from '@/lib/reviewSuggestionActions';
 import { emptyReviewSuggestionState } from '@/lib/reviewSuggestions';
@@ -50,6 +50,8 @@ export function ReviewSuggestionControls({ rounds, disabled, onBusyChange }: {
   }
   // Runtime updates are scoped to this activation; Undo/Redo updates the same cache.
   const validContext = context && available.some(round => round.id === context.round.id) ? context : null;
+  const displayedRound = validContext && available.find(round => round.id === validContext.round.id);
+  const inactive = !!displayedRound && reviewRoundStatus(displayedRound) !== 'active';
   const cached = validContext ? cachedReviewSuggestions(validContext.target.scope, validContext.round.id) : null;
   const state = cached?.state ?? context?.state;
   return <section aria-label="Suggested edits for this review" className="space-y-3 rounded-md border p-3">
@@ -65,8 +67,9 @@ export function ReviewSuggestionControls({ rounds, disabled, onBusyChange }: {
     </select>
     {!available.length && <p className="text-sm text-muted-foreground">Start a review from this draft or open a linked reviewer copy to propose replacements.</p>}
     {selected && !context && !busy && <Button variant="outline" disabled={disabled} onClick={() => void select(selected)}>Retry suggested edits</Button>}
+    {inactive && <p className="text-sm">This round is closed or superseded. Its suggestions and decisions remain available for inspection.</p>}
     {validContext && context && <ReviewSuggestionsPanel key={context.round.id} round={context.round} current={getSerializedSession()}
-      state={state ?? emptyReviewSuggestionState(context.round)} owner={context.owner} busy={disabled || busy || pending}
+      state={state ?? emptyReviewSuggestionState(context.round)} owner={context.owner} busy={disabled || busy || pending || inactive}
       onCreate={proposal => run(async () => outcome(await submitReviewSuggestion(proposal)))}
       onDecide={(id, action, resolutions) => run(async () => outcome(await decideReviewSuggestion(context.round.id, id, action, resolutions)))} />}
     {pending && <Button disabled={disabled || busy} onClick={() => void run(async () => {

@@ -6,12 +6,13 @@ import { Label } from '@/components/ui/label';
 import { getExportDeploymentPolicy } from '@/config/classification';
 import { useDocumentStore } from '@/stores/documentStore';
 import { useDocumentsStore, captureDocumentTarget, hasPendingReviewWrites, flushPendingReviewWrites, deleteReviewRound } from '@/stores/documentsStore';
+import { ReviewRoundLifecycleControls } from '@/components/ReviewRoundLifecycleControls';
 import { ReviewSuggestionControls } from '@/components/ReviewSuggestionControls';
 import { ReviewReturnControls } from '@/components/ReviewReturnControls';
 import { supportsReviewComments } from '@/lib/reviewCommentTargets';
 import { listReviewRounds, MAX_REVIEW_COPY_BYTES, type ReviewRound } from '@/lib/reviewRounds';
 import { buildReviewCopy, downloadReviewCopy, initialReviewLabel, openReviewCopy, parseReviewCopy,
-  prepareReviewCopyExport, startReviewRound, type PreparedReviewCopy, type ReviewedReviewCopy } from '@/lib/reviewRoundActions';
+  prepareReviewCopyExport, startReviewRound, transitionReviewRound, type PreparedReviewCopy, type ReviewedReviewCopy } from '@/lib/reviewRoundActions';
 import { getPIITypeLabel } from '@/services/pii/detector';
 import { showAppConfirm } from '@/stores/alertStore';
 import { sweepOrphanedAttachments } from '@/lib/attachmentGc';
@@ -38,6 +39,7 @@ function ReviewRoundsContent({ onClose }: { onClose: () => void }) {
   const [prepared, setPrepared] = useState<PreparedReviewCopy | null>(null);
   const [incoming, setIncoming] = useState<ReviewedReviewCopy | null>(null);
   const alive = useRef(true);
+  const running = useRef(false);
   useEffect(() => { alive.current = true;return () => { alive.current = false; }; }, []);
   useEffect(() => {
     let active = true;
@@ -49,11 +51,12 @@ function ReviewRoundsContent({ onClose }: { onClose: () => void }) {
   }, [attempt]);
 
   async function run(operation: () => Promise<void>) {
-    if (working) return;
+    if (working || running.current) return;
+    running.current = true;
     setBusy(true);setError('');setNotice('');
     try { await operation(); }
     catch (cause) { if (alive.current) setError(cause instanceof Error ? cause.message : 'The review operation could not finish. Your source draft has not been replaced.'); }
-    finally { if (alive.current) setBusy(false); }
+    finally { running.current = false; if (alive.current) setBusy(false); }
   }
 
   async function start() {
@@ -123,12 +126,22 @@ function ReviewRoundsContent({ onClose }: { onClose: () => void }) {
           </section>
           <section className="space-y-2" aria-label="Saved review baselines">
             <h3 className="text-sm font-medium">Saved review baselines</h3>
+            <Button size="sm" variant="outline" disabled={working} onClick={() => { setLoaded(false); setAttempt(value => value + 1); }}>Refresh review rounds</Button>
             {!rounds.length && <p className="text-sm text-muted-foreground">No review baselines saved yet.</p>}
             {rounds.map(round => <article key={round.id} className="space-y-2 rounded-md border p-3" aria-label={`Review ${round.label}`}>
               <h4 className="break-words text-sm font-medium">{round.label}</h4>
               <p className="text-xs text-muted-foreground [overflow-wrap:anywhere]">{new Date(round.createdAt).toLocaleString()} · {round.ownerDocumentId
                 ? docs[round.ownerDocumentId] ? `Source: ${docs[round.ownerDocumentId].meta.title}` : 'Source unavailable; the saved baseline is retained.'
                 : 'Received reviewer baseline; no local source ownership is assigned.'}</p>
+              <ReviewRoundLifecycleControls round={round} rounds={rounds} owner={round.ownerDocumentId === documentId}
+                disabled={working} onTransition={(transition, replacementId) => void run(async () => {
+                  const updated = await transitionReviewRound(round, transition, replacementId, captureDocumentTarget());
+                  if (alive.current) {
+                    setRounds(previous => previous.map(item => item.id === updated.id ? updated : item));
+                    setPrepared(null);
+                    setNotice('Review round state saved. Earlier baselines and decisions are retained.');
+                  }
+                })} />
               <div className="flex flex-wrap gap-2">
                 <Button size="sm" variant="outline" className="h-auto min-h-9 whitespace-normal text-left" disabled={working} onClick={() => void run(() => inspect(round))}>Open baseline as new review copy</Button>
                 <Button size="sm" variant="outline" disabled={working} onClick={() => void run(() => prepare(round))}>Prepare reviewer copy</Button>

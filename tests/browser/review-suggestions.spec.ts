@@ -458,3 +458,187 @@ test('categorized feedback survives reload and downloadable returns', async ({ p
   await info.attach('categorized-return.json', { body: JSON.stringify(returned, null, 2), contentType: 'application/json' });
   await page.screenshot({ path: info.outputPath('categorized-review.png'), scale: 'css' });
 });
+
+test('review lifecycle preserves late returns and requires deliberate reopening', async ({ page }, info) => {
+  await page.addInitScript(() => {
+    localStorage.setItem('browser-test-visitor', 'returning');
+    localStorage.setItem('dondocs_ui', JSON.stringify({ version: 1, state: { theme: 'dark', editorLayout: 'scroll' } }));
+  });
+  await page.goto('/');
+  const draft = { documentMode: 'custom', documentCategory: 'correspondence', docType: 'naval_letter',
+    formData: { subject: 'FICTIONAL LIFECYCLE SOURCE', from: 'Training Office', to: 'Original recipient', date: '15 Nov 26' },
+    paragraphs: [{ id: 'lifecycle-paragraph', text: 'Fictional training text.', level: 0 }], references: [], enclosures: [], copyTos: [], distributions: [] };
+  await page.getByLabel('Import draft file').setInputFiles({ name: 'lifecycle.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(draft)) });
+  await page.getByRole('button', { name: 'Open as new document', exact: true }).click();
+  let modal = await reviews(page);
+  await modal.getByLabel('Review name', { exact: true }).fill('First lifecycle round');
+  await modal.getByRole('button', { name: 'Start review from current draft', exact: true }).click();
+  await expect(modal.getByText('Review baseline saved. Later source edits will not change this copy.', { exact: true })).toBeVisible();
+  await modal.getByRole('button', { name: 'Open baseline as new review copy', exact: true }).click();
+  await expect(modal).toBeHidden();
+  modal = await reviews(page);
+  await modal.getByLabel('Review for suggested edits', { exact: true }).selectOption({ label: 'First lifecycle round' });
+  await modal.getByLabel('Reviewer name for suggestion', { exact: true }).fill('Example reviewer');
+  await modal.getByLabel('Suggestion target', { exact: true }).selectOption('field:to');
+  await modal.getByLabel('Proposed replacement', { exact: true }).fill('Reviewed recipient');
+  await modal.getByRole('button', { name: 'Add suggestion', exact: true }).click();
+  await expect(modal.getByRole('article', { name: 'Suggestion 1: Replace to', exact: true })).toBeVisible();
+  await modal.getByRole('button', { name: 'Prepare feedback return', exact: true }).click();
+  const returned = await download(page, () => modal.getByRole('button', { name: 'Download feedback return', exact: true }).click());
+  await page.keyboard.press('Escape');
+  await workspace(page, /^(?:LTR\s*)?FICTIONAL LIFECYCLE SOURCE/);
+  modal = await reviews(page);
+  const first = modal.getByRole('article', { name: 'Review First lifecycle round', exact: true });
+  await first.getByRole('button', { name: 'Close review', exact: true }).click();
+  await expect(first).toContainText('Round status: closed');
+  await modal.getByLabel('Import feedback return', { exact: true }).setInputFiles({ name: 'late.json', mimeType: 'application/json', buffer: returned });
+  await expect(modal.getByRole('alert')).toContainText('closed or superseded');
+  await expect(modal.getByRole('button', { name: 'Import reviewed feedback', exact: true })).toHaveCount(0);
+  await first.getByRole('button', { name: 'Reopen review', exact: true }).click();
+  await expect(first).toContainText('Round status: active');
+  await modal.getByLabel('Import feedback return', { exact: true }).setInputFiles({ name: 'late.json', mimeType: 'application/json', buffer: returned });
+  await modal.getByRole('button', { name: 'Import reviewed feedback', exact: true }).click();
+  await expect(modal.getByText(/Feedback imported/)).toBeVisible();
+  await modal.getByLabel('Review name', { exact: true }).fill('Replacement lifecycle round');
+  await modal.getByRole('button', { name: 'Start review from current draft', exact: true }).click();
+  await expect(modal.getByRole('article', { name: 'Review Replacement lifecycle round', exact: true })).toBeVisible();
+  await first.getByLabel('Replacement for First lifecycle round', { exact: true }).selectOption({ label: 'Replacement lifecycle round' });
+  await first.getByRole('button', { name: 'Supersede review', exact: true }).click();
+  await expect(first).toContainText('Round status: superseded');
+  await expect(first).toContainText('Replaced by Replacement lifecycle round');
+  await expect(first.getByRole('button', { name: 'Reopen review', exact: true })).toHaveCount(0);
+  await page.keyboard.press('Escape');
+  await page.reload();
+  modal = await reviews(page);
+  await expect(modal.getByRole('article', { name: 'Review First lifecycle round', exact: true })).toContainText('Round status: superseded');
+  await modal.getByLabel('Import feedback return', { exact: true }).setInputFiles({ name: 'duplicate.json', mimeType: 'application/json', buffer: returned });
+  await expect(modal.getByText(/This return has already been imported/)).toBeVisible();
+  expect((await new AxeBuilder({ page }).include('[role="dialog"]').analyze()).violations).toEqual([]);
+  await page.screenshot({ path: info.outputPath('retained-round-lifecycle.png'), scale: 'css' });
+});
+
+test('received copies and backups advance compatible closed review history', async ({ page, browser, baseURL }, info) => {
+  const initialize = () => {
+    localStorage.setItem('browser-test-visitor', 'returning');
+    localStorage.setItem('dondocs_ui', JSON.stringify({ version: 1, state: { theme: 'light', editorLayout: 'scroll' } }));
+  };
+  await page.addInitScript(initialize);
+  await page.goto('/');
+  await page.getByLabel('Import draft file').setInputFiles({
+    name: 'received-state-source.json', mimeType: 'application/json',
+    buffer: Buffer.from(JSON.stringify({
+      documentMode: 'custom', documentCategory: 'correspondence', docType: 'naval_letter',
+      formData: { subject: 'SYNTHETIC RECEIVED STATE SOURCE', to: 'Example recipient' },
+      paragraphs: [], references: [], enclosures: [], copyTos: [], distributions: [],
+    })),
+  });
+  await page.getByRole('button', { name: 'Open as new document', exact: true }).click();
+  let modal = await reviews(page);
+  await modal.getByLabel('Review name', { exact: true }).fill('Received state review');
+  await modal.getByRole('button', { name: 'Start review from current draft', exact: true }).click();
+  const sourceRound = modal.getByRole('article', { name: 'Review Received state review', exact: true });
+  await expect(sourceRound).toContainText('Round status: active');
+  async function copy() {
+    await sourceRound.getByRole('button', { name: 'Prepare reviewer copy', exact: true }).click();
+    return download(page, () => modal.getByRole('button', { name: 'Download reviewer copy', exact: true }).click());
+  }
+  const activeFile = await copy();
+  await sourceRound.getByRole('button', { name: 'Close review', exact: true }).click();
+  await expect(sourceRound).toContainText('Round status: closed');
+  const closedFile = await copy();
+  const device = {
+    viewport: page.viewportSize()!, userAgent: await page.evaluate(() => navigator.userAgent),
+    isMobile: !!info.project.use.isMobile, hasTouch: !!info.project.use.hasTouch,
+    serviceWorkers: 'block' as const, reducedMotion: 'reduce' as const,
+  };
+  await writeFile(info.outputPath('received-active.json'), activeFile);
+  await writeFile(info.outputPath('received-closed.json'), closedFile);
+  await page.close();
+
+  async function importCopy(recipient: Page, bytes: Buffer) {
+    const incoming = await reviews(recipient);
+    await incoming.getByLabel('Import reviewer copy', { exact: true }).setInputFiles({
+      name: 'received-review.json', mimeType: 'application/json', buffer: bytes,
+    });
+    await incoming.getByRole('button', { name: 'Open as new review copy', exact: true }).click();
+    await expect(incoming).toBeHidden();
+  }
+  async function expectClosed(recipient: Page, screenshot: string) {
+    const received = await reviews(recipient);
+    const round = received.getByRole('article', { name: 'Review Received state review', exact: true });
+    await expect(round).toContainText('Round status: closed');
+    await expect(round).toContainText('Received reviewer baseline; no local source ownership is assigned.');
+    await expect(round.getByRole('button', { name: 'Reopen review', exact: true })).toHaveCount(0);
+    await received.getByLabel('Review for suggested edits', { exact: true }).selectOption({ label: 'Received state review' });
+    await expect(received.getByLabel('Reviewer name for suggestion', { exact: true })).toBeDisabled();
+    await expect(received.getByLabel('Suggestion target', { exact: true })).toBeDisabled();
+    await expect(received.getByRole('button', { name: 'Add suggestion', exact: true })).toBeDisabled();
+    await expect(received.getByText('This round is closed or superseded. Its suggestions and decisions remain available for inspection.', { exact: true })).toBeVisible();
+    await recipient.screenshot({ path: info.outputPath(screenshot), scale: 'css' });
+    await recipient.keyboard.press('Escape');
+    await expect(received).toBeHidden();
+  }
+
+  const first = await browser.newContext(device);
+  let closedBackup: Buffer;
+  try {
+    await first.addInitScript(initialize);
+    const recipient = await first.newPage();
+    await recipient.goto(baseURL!);
+    await importCopy(recipient, activeFile);
+    modal = await reviews(recipient);
+    await expect(modal.getByRole('article', { name: 'Review Received state review', exact: true })).toContainText('Round status: active');
+    await recipient.keyboard.press('Escape');
+    await importCopy(recipient, closedFile);
+    await expectClosed(recipient, 'received-state-closed-copy.png');
+    closedBackup = await workspaceBackup(recipient);
+    const savedRound = JSON.parse(closedBackup.toString('utf8')).reviewRounds[0];
+    expect(savedRound.ownerDocumentId).toBeUndefined();
+    expect(savedRound.lifecycle.events.at(-1).state).toBe('closed');
+    await writeFile(info.outputPath('received-closed-workspace.json'), closedBackup);
+  } finally { await first.close(); }
+
+  const second = await browser.newContext(device);
+  try {
+    await second.addInitScript(initialize);
+    const recipient = await second.newPage();
+    await recipient.goto(baseURL!);
+    await importCopy(recipient, activeFile);
+    await restoreWorkspace(recipient, closedBackup!);
+    await recipient.reload();
+    await expectClosed(recipient, 'received-state-restored.png');
+  } finally { await second.close(); }
+});
+
+test('a round changed in another tab rejects stale state controls', async ({ page }, info) => {
+  await page.addInitScript(() => {
+    localStorage.setItem('browser-test-visitor', 'returning');
+    localStorage.setItem('dondocs_ui', JSON.stringify({ version: 1, state: { theme: 'classic', editorLayout: 'scroll' } }));
+  });
+  await page.goto('/');
+  const draft = { documentMode: 'custom', documentCategory: 'correspondence', docType: 'naval_letter',
+    formData: { subject: 'FICTIONAL TWO TAB REVIEW', to: 'Example recipient' },
+    paragraphs: [{ id: 'two-tab-review', text: 'Synthetic review content.', level: 0 }], references: [], enclosures: [], copyTos: [], distributions: [] };
+  await page.getByLabel('Import draft file').setInputFiles({ name: 'two-tab.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(draft)) });
+  await page.getByRole('button', { name: 'Open as new document', exact: true }).click();
+  const modal = await reviews(page);
+  await modal.getByLabel('Review name', { exact: true }).fill('Concurrent round');
+  await modal.getByRole('button', { name: 'Start review from current draft', exact: true }).click();
+  await expect(modal.getByRole('button', { name: 'Close review', exact: true })).toBeVisible();
+  const second = await page.context().newPage();
+  try {
+    await second.goto('/');
+    const other = await reviews(second);
+    await other.getByRole('button', { name: 'Close review', exact: true }).click();
+    await expect(other.getByText('Round status: closed', { exact: true })).toBeVisible();
+    await modal.getByRole('button', { name: 'Close review', exact: true }).click();
+    await expect(modal.getByRole('alert')).toContainText('changed before the state could be saved');
+    await modal.getByRole('button', { name: 'Refresh review rounds', exact: true }).click();
+    await expect(modal.getByText('Round status: closed', { exact: true })).toBeVisible();
+    await modal.getByRole('button', { name: 'Reopen review', exact: true }).click();
+    await expect(modal.getByText('Round status: active', { exact: true })).toBeVisible();
+    await page.screenshot({ path: info.outputPath('stale-lifecycle-rejected.png'), scale: 'css' });
+  } finally {
+    await second.close();
+  }
+});

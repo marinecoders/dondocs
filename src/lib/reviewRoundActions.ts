@@ -4,8 +4,8 @@ import { copyCapturedDocument } from './capturedDocument';
 import { serializeDocumentSnapshot } from './documentSerialization';
 import { getSerializedSession, prepareSessionState } from '@/stores/documentStore';
 import { captureDocumentTarget, copyPreparedDocument, deriveTitle, isCurrentDocumentTarget, openCommittedReviewCopy,
-  prepareReviewedDocument, flushDocumentWrites, useDocumentsStore, type DocumentTarget } from '@/stores/documentsStore';
-import { idbAddReviewRound, idbInstallReviewCopy, type StoredDocument } from './documentsDb';
+  prepareReviewedDocument, flushDocumentWrites, hasPendingReviewWrites, flushPendingReviewWrites, useDocumentsStore, type DocumentTarget } from '@/stores/documentsStore';
+import { idbAddReviewRound, idbInstallReviewCopy, idbTransitionReviewRound, type StoredDocument } from './documentsDb';
 import { withAttachmentStaging } from './attachments';
 import { supportsReviewComments } from './reviewCommentTargets';
 import { captureChangeReport, prepareChangeReport, type ChangeReport } from './changeReport';
@@ -14,6 +14,7 @@ import { triggerDownload } from './encoding';
 import { MAX_REVIEW_COPY_BYTES, REVIEW_COPY_KIND, parseReviewRound, reviewCopyEnvelopeSchema, reviewPayloadDigest,
   type ReviewRound, type ReviewCopyEnvelope } from './reviewRounds';
 import { readReviewRound } from './reviewRounds';
+import { planReviewRoundTransition, type ReviewRoundTransition } from './reviewRoundLifecycle';
 import { scheduleBackup } from '@/stores/backupStore';
 
 function assertCurrent(target: DocumentTarget | null): asserts target is DocumentTarget {
@@ -53,8 +54,8 @@ export async function buildReviewCopy(round: ReviewRound): Promise<ReviewCopyEnv
   const draft = await buildDraftFileFromSnapshot(prepareSessionState(pin.baseline.session, true), pin.baseline.ts);
   parseDraftFile(draft, false, true);
   if (await reviewPayloadDigest(draft) !== pin.baselineDigest) throw new Error('The saved review baseline no longer matches its retained resources. Keep the original reviewer file and retry from an intact backup.');
-  const { id, createdAt, label, sourceDocumentId, baselineDigest } = pin;
-  const envelope: ReviewCopyEnvelope = { kind: REVIEW_COPY_KIND, version: 1, round: { id, createdAt, label, sourceDocumentId, baselineDigest }, draft };
+  const { id, createdAt, label, sourceDocumentId, baselineDigest, lifecycle } = pin;
+  const envelope: ReviewCopyEnvelope = { kind: REVIEW_COPY_KIND, version: 1, round: { id, createdAt, label, sourceDocumentId, baselineDigest, ...(lifecycle ? { lifecycle } : {}) }, draft };
   builtCopies.set(envelope, structuredClone(envelope));
   return envelope;
 }
@@ -138,4 +139,25 @@ export function downloadReviewCopy(prepared: PreparedReviewCopy): void {
 
 export function initialReviewLabel(): string {
   return deriveTitle(getSerializedSession()).slice(0, 120);
+}
+
+/** Only the open local source may deliberately change a round's lifecycle. */
+export async function transitionReviewRound(round: ReviewRound, transition: ReviewRoundTransition,
+  replacementId?: string, target = captureDocumentTarget()): Promise<ReviewRound> {
+  assertCurrent(target);
+  if (round.ownerDocumentId !== target.scope.documentId) {
+    throw new Error('Open the original source draft to change this review round.');
+  }
+  if (hasPendingReviewWrites(target.scope.documentId)) await flushPendingReviewWrites(target.scope.documentId);
+  useDocumentsStore.getState().saveCurrent();
+  await flushDocumentWrites();
+  assertCurrent(target);
+  const replacement = replacementId ? await readReviewRound(replacementId) : undefined;
+  if (replacementId && !replacement) throw new Error('The replacement review is no longer available.');
+  const next = planReviewRoundTransition(round, transition, replacement ?? undefined);
+  if (!await idbTransitionReviewRound(round, next, () => isCurrentDocumentTarget(target))) {
+    throw new Error('The round, source or replacement changed before the state could be saved. Refresh Reviews and try again.');
+  }
+  scheduleBackup();
+  return next;
 }

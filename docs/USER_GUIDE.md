@@ -121,6 +121,23 @@ Use **Delete review baseline** when a pin is no longer needed; existing editable
 copies and downloaded files remain. Review checksums need HTTPS or localhost.
 Configured forms and technical-publication reviews are outside this first scope.
 
+## Manage review round status
+
+In **Review rounds**, the open source draft can **Close review**, deliberately
+**Reopen review**, or choose a newer active round and **Supersede review**. State
+history and earlier baselines remain retained. Superseded rounds cannot be
+reopened. Refresh the rounds list after changes made in another tab.
+
+Closed and superseded rounds reject new suggestions, decisions and feedback
+imports. Keep late return files: reopen a closed round deliberately or ask the
+reviewer to return feedback for the replacement. Previously imported files remain
+recognized without applying them twice. Existing Undo/Redo may record reversals of
+earlier accepted edits; closure does not disable ordinary document history.
+Received copies show only their captured status, not a live or authenticated
+status from the sender. Status and state history travel with current reviewer
+copies and workspace backups; importing a copy never changes a local owner's
+established state.
+
 ## Return feedback to the current draft
 
 1. In a linked reviewer copy, add, reply to, edit or resolve comments as usual.

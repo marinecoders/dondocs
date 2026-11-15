@@ -11,6 +11,17 @@ const identifier = z.string().min(1).max(200).refine(value => !Object.hasOwn(Obj
 export const reviewRoundIdSchema = z.string().regex(/^review_[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/);
 export const reviewDigestSchema = z.string().regex(/^[0-9a-f]{64}$/);
 const timestamp = z.number().int().nonnegative().max(8_640_000_000_000_000);
+export const reviewRoundEventSchema = z.object({
+  id: z.string().uuid(),
+  state: z.enum(['active', 'closed', 'superseded']),
+  changedAt: timestamp,
+  replacementRoundId: reviewRoundIdSchema.optional(),
+}).strict().refine(event => (event.state === 'superseded') === !!event.replacementRoundId,
+  'Only a superseded round identifies a replacement.');
+export const reviewRoundLifecycleSchema = z.object({
+  events: z.array(reviewRoundEventSchema).min(1).max(100),
+}).strict();
+
 const session = z.unknown().transform((value, context): SerializedSession => {
   try {
     const raw = value as { enclosures?: Array<{ hasFile?: boolean; fileRef?: unknown }>; paragraphs?: Array<{ figure?: { fileRef?: unknown } }>; formData?: { basicLetterFile?: unknown; basicLetterFileRef?: unknown } };
@@ -35,9 +46,34 @@ export const reviewRoundSchema = z.object({
   // Set only by local creation or an explicit workspace backup restore. A
   // portable reviewer copy never supplies local owner authority.
   ownerDocumentId: identifier.optional(),
+  lifecycle: reviewRoundLifecycleSchema.optional(),
 }).strict().refine(round => round.createdAt === round.baseline.ts && round.baseline.session.timestamp === round.baseline.ts,
-  'Review baseline timestamps do not match.');
+  'Review baseline timestamps do not match.').superRefine((round, context) => {
+  let state: 'active' | 'closed' | 'superseded' = 'active';
+  let changedAt = round.createdAt;
+  const ids = new Set<string>();
+  for (const event of round.lifecycle?.events ?? []) {
+    const permitted = state === 'active' && event.state !== 'active'
+      || state === 'closed' && event.state === 'active';
+    if (!permitted || event.changedAt < changedAt || event.replacementRoundId === round.id || ids.has(event.id)) {
+      context.addIssue({ code: 'custom', message: 'The review lifecycle history is inconsistent.' });
+    }
+    ids.add(event.id);
+    state = event.state;
+    changedAt = event.changedAt;
+  }
+});
 export type ReviewRound = z.infer<typeof reviewRoundSchema>;
+
+export function reviewRoundStatus(round: ReviewRound): 'active' | 'closed' | 'superseded' {
+  return round.lifecycle?.events.at(-1)?.state ?? 'active';
+}
+
+export function assertActiveReviewRound(round: ReviewRound): void {
+  if (reviewRoundStatus(round) !== 'active') {
+    throw new Error('This review round is closed or superseded. Keep the returned file. Reopen a closed round deliberately, or request feedback for its replacement.');
+  }
+}
 
 export const reviewCopyLinkSchema = z.object({
   documentId: identifier, roundId: reviewRoundIdSchema, baselineDigest: reviewDigestSchema,
@@ -49,6 +85,7 @@ export const reviewCopyEnvelopeSchema = z.object({
   round: z.object({
     id: reviewRoundIdSchema, createdAt: timestamp, label: z.string().min(1).max(120),
     sourceDocumentId: identifier, baselineDigest: reviewDigestSchema,
+    lifecycle: reviewRoundLifecycleSchema.optional(),
   }).strict(),
   // This is the existing portable draft-file format, not another document model.
   draft: z.unknown(),

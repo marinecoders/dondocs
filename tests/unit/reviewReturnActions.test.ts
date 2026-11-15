@@ -259,3 +259,18 @@ describe('captured review-return actions', () => {
     await expect(prepareReviewReturnImport({ ...payload, handling: { marking: 'UNCLASSIFIED', customMarkings: [] } })).rejects.toThrow(/handling markings/);
   });
 });
+
+it('rechecks lifecycle after feedback preflight and preserves a late return for explicit reopening', async () => {
+  const { transitionReviewRound } = await import('@/lib/reviewRoundActions');
+  const { round, owner } = await fixture();
+  expect(applyCommentMutation(reviewCommentMutation({ kind: 'add', author: 'Example reviewer', text: 'Late feedback.' }))).toBe('applied');
+  const payload = await exported();
+  useDocumentsStore.getState().switchTo(owner);
+  const prepared = await prepareReviewReturnImport(payload);
+  const closed = await transitionReviewRound(round, 'close');
+  await expect(applyReviewReturn(prepared, {})).rejects.toThrow(/closed or superseded/);
+  expect(useDocumentStore.getState().reviewComments).toBeUndefined();
+  await transitionReviewRound(closed, 'reopen');
+  expect(await applyReviewReturn(await prepareReviewReturnImport(payload), {})).toBe('committed');
+  expect(useDocumentStore.getState().reviewComments?.threads[0].messages[0].text).toBe('Late feedback.');
+});
