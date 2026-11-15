@@ -1,7 +1,7 @@
 import { afterEach, expect, it, vi } from 'vitest';
 import JSZip from 'jszip';
 import * as documentsDb from '@/lib/documentsDb';
-import { createBatchResultsZip } from '@/services/exports/batchResultsZip';
+import { assertBatchZipBudget, BATCH_ZIP_LIMITS, createBatchResultsZip } from '@/services/exports/batchResultsZip';
 import type { BatchRow } from '@/stores/batchStore';
 
 afterEach(() => vi.restoreAllMocks());
@@ -80,6 +80,19 @@ it('does not read any saved output when cancelled before preparation starts', as
   expect(read).not.toHaveBeenCalled();
 });
 
+it('escapes superscript Windows device names without displacing safe names or changing bytes', async () => {
+  vi.spyOn(documentsDb, 'getBatchOutput').mockImplementation(async id => new TextEncoder().encode(`%PDF-${id}`));
+  const result = await createBatchResultsZip([
+    saved('COM¹.pdf', 'one'), saved('_COM¹.pdf', 'two'), saved('LPT².PDF', 'three'), saved('LPT³.pdf', 'four'),
+  ]);
+  const zip = await JSZip.loadAsync(await result.blob!.arrayBuffer(), { checkCRC32: true });
+  expect(Object.keys(zip.files)).toEqual(['_COM¹ (2).pdf', '_COM¹.pdf', '_LPT².PDF', '_LPT³.pdf']);
+  expect(await zip.file('_COM¹ (2).pdf')!.async('string')).toBe('%PDF-one');
+  expect(await zip.file('_COM¹.pdf')!.async('string')).toBe('%PDF-two');
+  expect(await zip.file('_LPT².PDF')!.async('string')).toBe('%PDF-three');
+  expect(await zip.file('_LPT³.pdf')!.async('string')).toBe('%PDF-four');
+});
+
 it.each(['success', 'failure'] as const)('stops before reading the next output after cancellation during a %s', async outcome => {
   let finish!: (value: Uint8Array) => void;
   let fail!: (error: Error) => void;
@@ -95,4 +108,72 @@ it.each(['success', 'failure'] as const)('stops before reading the next output a
   else fail(new Error('Storage unavailable'));
   await aborted;
   expect(read).toHaveBeenCalledTimes(1);
+});
+
+it('rejects too many retained candidates before reading storage or starting assembly', async () => {
+  const read = vi.spyOn(documentsDb, 'getBatchOutput');
+  const generate = vi.spyOn(JSZip.prototype, 'generateAsync');
+  const rows = Array.from({ length: BATCH_ZIP_LIMITS.files + 1 }, (_, index) => saved(`${index}.pdf`, String(index)));
+  await expect(createBatchResultsZip(rows)).rejects.toThrow('at most 500 PDFs');
+  expect(read).not.toHaveBeenCalled();
+  expect(generate).not.toHaveBeenCalled();
+});
+
+it('does not count pending rows against the retained file limit', async () => {
+  const rows: BatchRow[] = Array.from({ length: BATCH_ZIP_LIMITS.files + 1 }, (_, index) => ({
+    id: String(index), values: {}, status: 'pending',
+  }));
+  vi.spyOn(documentsDb, 'getBatchOutput').mockResolvedValue(new Uint8Array([1]));
+  const result = await createBatchResultsZip([...rows, saved('retained.pdf', 'retained')]);
+  expect(result.files).toHaveLength(1);
+  expect(result.omitted).toHaveLength(rows.length);
+});
+
+it('stops after an oversized PDF without assembling a partial ZIP or changing retained results', async () => {
+  const bytes = new Uint8Array(BATCH_ZIP_LIMITS.fileBytes + 1);
+  const read = vi.spyOn(documentsDb, 'getBatchOutput').mockResolvedValue(bytes);
+  const generate = vi.spyOn(JSZip.prototype, 'generateAsync');
+  const rows = [saved('large.pdf', 'large'), saved('next.pdf', 'next')];
+  const before = structuredClone(rows);
+  await expect(createBatchResultsZip(rows)).rejects.toThrow('Your saved PDFs remain available for individual download');
+  expect(read).toHaveBeenCalledExactlyOnceWith('large');
+  expect(generate).not.toHaveBeenCalled();
+  expect(rows).toEqual(before);
+});
+
+it('enforces aggregate bytes before starting ZIP assembly', async () => {
+  const bytes = new Uint8Array(23 * 1024 * 1024);
+  vi.spyOn(documentsDb, 'getBatchOutput').mockResolvedValue(bytes);
+  const generate = vi.spyOn(JSZip.prototype, 'generateAsync');
+  await expect(createBatchResultsZip([saved('a.pdf', 'a'), saved('b.pdf', 'b'), saved('c.pdf', 'c')]))
+    .rejects.toThrow('64 MB batch ZIP input limit');
+  expect(generate).not.toHaveBeenCalled();
+});
+
+it('budgets archive overhead and estimated assembly memory as well as PDF bytes', () => {
+  expect(() => assertBatchZipBudget(500, 1, 22)).not.toThrow();
+  expect(() => assertBatchZipBudget(1, BATCH_ZIP_LIMITS.totalBytes, 22)).toThrow('assembly memory budget');
+  expect(() => assertBatchZipBudget(1, 1, BATCH_ZIP_LIMITS.archiveBytes)).toThrow('66 MB archive limit');
+});
+
+it('rejects overlong UTF-8 filenames instead of silently losing names in extraction', async () => {
+  vi.spyOn(documentsDb, 'getBatchOutput').mockResolvedValue(new Uint8Array([1]));
+  const generate = vi.spyOn(JSZip.prototype, 'generateAsync');
+  await expect(createBatchResultsZip([saved(`${'文'.repeat(84)}.pdf`, 'long')])).rejects.toThrow('255 UTF-8 bytes');
+  expect(generate).not.toHaveBeenCalled();
+});
+
+it('cancels during ZIP assembly without returning a downloadable partial archive', async () => {
+  vi.spyOn(documentsDb, 'getBatchOutput').mockResolvedValue(new Uint8Array([1]));
+  const generate = JSZip.prototype.generateAsync;
+  const controller = new AbortController();
+  const assembly = vi.spyOn(JSZip.prototype, 'generateAsync').mockImplementation(function (this: JSZip, options, update) {
+    return generate.call(this, options, metadata => {
+      controller.abort();
+      update?.(metadata);
+    });
+  });
+  await expect(createBatchResultsZip([saved('sample.pdf', 'one')], controller.signal))
+    .rejects.toMatchObject({ name: 'AbortError' });
+  expect(assembly).toHaveBeenCalledOnce();
 });
