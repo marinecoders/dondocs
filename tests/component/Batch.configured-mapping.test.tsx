@@ -266,3 +266,19 @@ it('maps repeating row objects, previews normalized answers and blocks overflow 
   expect(screen.getByRole('button', { name: 'Generate 1 PDF' })).toBeDisabled();
   expect(useDocumentStore.getState().genericForm?.rows.roster).toEqual([{ id: 'saved-source', answers: { grade: 'e1' } }]);
 });
+
+
+it('keeps recovered non-string repeating cells reviewable instead of crashing the batch panel', async () => {
+  const { BATCH_KEY } = await import('@/stores/batchStore');
+  const { getSerializedSession } = await import('@/stores/documentStore');
+  const form = fixtureInstance();form.definition.pages[0].sha256 = 'a'.repeat(64);
+  useDocumentStore.setState({ genericForm: form });
+  localStorage.setItem(BATCH_KEY, JSON.stringify({ state: {
+    source: getSerializedSession(), jobId: 'recovered-job', status: 'paused', placeholders: ['name', 'decision', 'roster'],
+    rows: [{ id: 'recovered-row', values: { name: 'Recipient B', decision: 'yes', roster: 42 }, status: 'pending' }],
+  }, version: 0 }));
+  await useBatchStore.persist.rehydrate();
+  expect(() => render(<BatchModal compile={vi.fn()} isEngineReady={false} waitForReady={vi.fn()} />)).not.toThrow();
+  expect(screen.getByRole('status', { name: 'Form row checks' })).toHaveTextContent('Roster: Enter text in the roster cell');
+  expect(screen.getByRole('button', { name: 'Resume remaining' })).toBeDisabled();
+});

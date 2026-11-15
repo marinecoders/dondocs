@@ -147,7 +147,7 @@ export function parseConfiguredBatchRows(groupId: string, group: FormDefinition[
 /** Render a normalized row summary only after the complete group passes validation. */
 export function configuredBatchRowsPreview(definition: FormDefinition | undefined, groupId: string, raw: string): string | undefined {
   const group = definition?.rowGroups[groupId];
-  if (!group || !raw.trim()) return undefined;
+  if (!group || typeof raw !== 'string' || !raw.trim()) return undefined;
   try {
     const rows = parseConfiguredBatchRows(groupId, group, raw);
     if (validateAnswers(definition!, {}, { [groupId]: rows }).some(issue => issue.path.startsWith(`${groupId}.`) || issue.path === groupId)) return undefined;
