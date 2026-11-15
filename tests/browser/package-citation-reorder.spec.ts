@@ -105,8 +105,8 @@ for (const theme of ["light", "dark", "classic"]) {
     await approveReorder(page);
     await assemble(page);
     const newPdf = await download(page, "Download retained PDF", "Download reviewed retained PDF");
-    expect(await pdfText(oldPdf)).toContain("Follow reference (a) and enclosure (1)");
-    expect(await pdfText(newPdf)).toContain("Follow reference (b) and enclosure (2)");
+    expect(await pdfText(oldPdf)).toContain("Follow reference (a) and Enclosure (1)");
+    expect(await pdfText(newPdf)).toContain("Follow reference (b) and Enclosure (2)");
     const portable = await download(page, "Export editable package", "Download reviewed editable package"), packet = JSON.parse(portable.toString("utf8"));
     const currentRevision = packet.package.currentRevisionId, revision = packet.package.revisions[0];
     expect(revision.citations.links.map((link: { id: string }) => link.id)).toEqual(oldPortable.package.revisions[0].citations.links.map((link: { id: string }) => link.id));
