@@ -1117,6 +1117,7 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
                 {isPreparingZip ? 'Preparing ZIP…' : 'Download ZIP'}
               </Button>
               <p>Includes available saved PDFs. Duplicate filenames receive a numbered suffix. Missing PDFs and skipped rows are reported after preparation.</p>
+              <p>ZIP limits: 500 PDFs, 25 MB per PDF and 64 MB combined. Archive overhead also counts toward the assembly budget. If a limit is exceeded, download saved PDFs individually.</p>
               {!zipReport && rows.filter(row => row.status === 'success' && (!row.outputId || !row.filename)).map(row => (
                 <p key={row.id} className="text-destructive">Row #{rows.indexOf(row) + 1}{row.filename ? ` (${row.filename})` : ''}: The PDF or its filename was not retained in this browser.</p>
               ))}

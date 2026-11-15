@@ -7,6 +7,13 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.91] — 2026-11-15
+
+### Fixed
+
+- Bound retained batch ZIP delivery by file count, per-file and combined input bytes, archive bytes and a conservative assembly-memory estimate. Refuse oversized archives without losing saved PDFs, and check cancellation during assembly.
+- Escape Windows device filenames containing superscript digits while preserving original names, collisions and PDF bytes.
+
 ## [1.3.90] — 2026-11-15
 
 ### Added

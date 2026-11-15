@@ -1,5 +1,6 @@
 import { test, expect, type Page, type Download } from '@playwright/test';
 import { readFile } from 'node:fs/promises';
+import { createHash } from 'node:crypto';
 import JSZip from 'jszip';
 import { PDFDocument } from 'pdf-lib';
 import { utils, write } from 'xlsx';
@@ -77,14 +78,18 @@ async function expectPdfExport(page: Page, projectName: string, exportPdf: () =>
       await popup.getByRole('link', { name: 'Download PDF', exact: true }).click();
       const download = await saving;
       expect(download.suggestedFilename()).toMatch(filename);
-      await expectPdf(await downloadBytes(download), expectedText);
+      const bytes = await downloadBytes(download);
+      await expectPdf(bytes, expectedText);
+      return bytes;
     } finally { await popup.close(); }
   } else {
     const pending = page.waitForEvent('download');
     await exportPdf();
     const download = await pending;
     expect(download.suggestedFilename()).toMatch(filename);
-    await expectPdf(await downloadBytes(download), expectedText);
+    const bytes = await downloadBytes(download);
+    await expectPdf(bytes, expectedText);
+    return bytes;
   }
 }
 
@@ -207,6 +212,63 @@ test('batch ZIP downloads retain duplicate PDFs and identify omitted results', a
   await expect(missingResult).toBeInViewport();
   await expect(page.getByRole('button', { name: 'Close panel', exact: true })).toBeInViewport();
   await page.screenshot({ path: testInfo.outputPath('batch-results-zip.png'), fullPage: true });
+});
+
+test('an oversized batch ZIP is refused while its original PDF remains individually downloadable', async ({ page }, testInfo) => {
+  await page.goto('/');
+  await expect(page.getByRole('button', { name: 'Batch', exact: true })).toBeEnabled();
+  const pdf = await PDFDocument.create();
+  pdf.addPage().drawText('Fictional retained PDF after ZIP budget refusal.');
+  const original = Array.from(await pdf.save());
+  await page.evaluate(async prefix => {
+    // PDF readers allow trailing whitespace. Retain a valid oversized PDF,
+    // rather than manufacturing an invalid file that fails for another reason.
+    const bytes = new Uint8Array(25 * 1024 * 1024 + 1).fill(32);
+    bytes.set(prefix);
+    const db = await new Promise<IDBDatabase>((resolve, reject) => {
+      const request = indexedDB.open('dondocs', 2);
+      request.onsuccess = () => resolve(request.result);
+      request.onerror = () => reject(request.error);
+    });
+    try {
+      await new Promise<void>((resolve, reject) => {
+        const transaction = db.transaction('app', 'readwrite');
+        transaction.objectStore('app').put({ key: 'batch:zip-budget', value: bytes });
+        transaction.oncomplete = () => resolve();
+        transaction.onerror = () => reject(transaction.error);
+        transaction.onabort = () => reject(transaction.error);
+      });
+    } finally {
+      db.close();
+    }
+    localStorage.setItem('dondocs-batch-job', JSON.stringify({ version: 0, state: {
+      source: null, jobId: 'zip-budget', status: 'complete', title: 'Fictional budget example',
+      placeholders: [], recoveryError: '', rows: [
+        { id: 'one', values: {}, status: 'success', outputId: 'zip-budget', filename: 'large.pdf' },
+      ],
+    } }));
+  }, original);
+  await page.reload();
+  await page.getByRole('button', { name: 'Batch', exact: true }).click();
+  const panel = page.getByRole('dialog', { name: /Batch/i }).first();
+  await expect(panel.getByText(/ZIP limits: 500 PDFs/)).toBeVisible();
+  const downloads: Download[] = [];
+  page.on('download', download => downloads.push(download));
+  await panel.getByRole('button', { name: 'Download ZIP', exact: true }).click();
+  await page.getByRole('dialog', { name: 'Review ZIP download' })
+    .getByRole('button', { name: 'Download ZIP without text review' }).click();
+  await expect(panel.getByRole('alert')).toContainText('25 MB per-file batch ZIP limit');
+  expect(downloads).toHaveLength(0);
+  await panel.getByRole('button', { name: 'Download large.pdf', exact: true }).click();
+  const bytes = await expectPdfExport(page, testInfo.project.name,
+    () => page.getByRole('dialog').filter({ hasText: 'source text' }).getByRole('button', { name: /without text review/i }).click(),
+    /^large\.pdf$/, ['Fictional retained PDF after ZIP budget refusal.']);
+  const expectedSize = 25 * 1024 * 1024 + 1;
+  expect(bytes.byteLength).toBe(expectedSize);
+  expect([...bytes.subarray(0, original.length)]).toEqual(original);
+  const expectedDigest = createHash('sha256').update(Uint8Array.from(original))
+    .update(Buffer.alloc(expectedSize - original.length, 32)).digest('hex');
+  expect(createHash('sha256').update(bytes).digest('hex')).toBe(expectedDigest);
 });
 
 test('LaTeX exports contain the latest subject and paragraph with useful filenames', async ({ page }) => {
