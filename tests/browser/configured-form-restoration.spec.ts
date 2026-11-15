@@ -97,8 +97,12 @@ for (const theme of ['light', 'dark', 'classic']) for (const mode of ['draft', '
       ? route.fulfill({ status: 200, contentType: 'application/pdf', body: source.bytes }) : route.fulfill({ status: 200, json: { templates: [] } }));
     await page.goto('/');await importDraft(page, source.legacy);
     const name = page.getByRole('textbox', { name: 'Fictional name', exact: true });
-    await expect(name).toHaveValue('Fictional first');await actions(page, /^Save checkpoint/);await name.fill('Fictional retained');
+    await expect(name).toHaveValue('Fictional first');await actions(page, /^Save checkpoint/);
+    // Clicking waits for the closing menu to release pointer/focus ownership.
+    await name.click();await expect(name).toBeFocused();await name.fill('Fictional retained');
+    await expect(name).toHaveValue('Fictional retained');
     const packet = await draft(page);expect(packet.version).toBe(3);expect(packet.portableResources.entries).toHaveLength(1);
+    expect(packet.genericForm.answers.name).toBe('Fictional retained');
     expect(packet.portableResources.entries[0].data).toBe(source.bytes.toString('base64'));
     await workspace(page, 'Settings');const settings = page.getByRole('dialog', { name: 'Settings', exact: true });
     const downloading = page.waitForEvent('download');await settings.getByRole('button', { name: 'Download workspace backup', exact: true }).click();

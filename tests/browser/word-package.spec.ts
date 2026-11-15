@@ -22,7 +22,8 @@ async function packages(page: Page, name?: string) {
 async function downloadWord(page: Page, dialog: Locator, path: string) {
   const word = dialog.getByRole('region', { name: 'Word package delivery', exact: true });
   await word.getByRole('button', { name: 'Review Word package', exact: true }).click();
-  await expect(word.getByRole('checkbox')).toBeVisible();
+  // Captured PDFs need asynchronous text-layer privacy checks before review.
+  await expect(word.getByRole('checkbox')).toBeVisible({ timeout: 30_000 });
   const accessibility = await new AxeBuilder({ page }).include('[aria-label="Word package delivery"]').analyze();
   expect(accessibility.violations).toEqual([]);
   await word.getByRole('checkbox').check();
