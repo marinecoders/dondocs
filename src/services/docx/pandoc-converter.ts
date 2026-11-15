@@ -549,31 +549,13 @@ function pageNumberParagraph(style?: string): string {
 /** An empty paragraph — one blank line, and what Word needs a part to contain. */
 const EMPTY_PARAGRAPH = '<w:p/>';
 
-/**
- * The height of one single-spaced line, in twips.
- *
- * NOT 240. `w:line="240" w:lineRule="auto"` in the styles is Word's
- * single-spacing *base unit*, not a measurement — the rendered line is driven
- * by the font's ascent, descent and line gap. Times New Roman runs about
- * 1.15 em, so 12pt sets a ~276 twip line.
- */
-function lineTwips(fontSizePt: number): number {
-  return Math.round(fontSizePt * 20 * 1.15);
-}
-
-/**
- * How far the subject sits below the top of the header region.
- *
- * This positions the line; it does NOT create the gap beneath it. On a
- * letterhead document `w:top` is 720 — the same as `w:header` — so the body
- * begins directly after whatever the header contains, with no margin left over
- * to space against. That is why the blank line has to be a real empty
- * paragraph (see planHeadersAndFooters) rather than arithmetic against the
- * top margin, which is what the first two attempts at this got wrong.
- */
+/** Position unmarked continuation subjects near the native PDF's 0.85in text
+ * top. A 0.5in header origin plus two font-size lines places 12pt text at
+ * about 61pt in Word; the old 0.6-line lead-in placed it at 45pt. Keep the
+ * separate blank paragraph below the subject so wrapped headers grow safely.
+ * Marked headers retain their independently qualified existing placement. */
 function subjectSpaceBefore(hasMarking: boolean, fontSizePt: number): number {
-  // A marking already occupies the first line; the subject follows it.
-  return hasMarking ? 0 : Math.round(lineTwips(fontSizePt) * 0.6);
+  return hasMarking ? 0 : Math.round(fontSizePt * 40);
 }
 
 interface HeaderFooterParts {

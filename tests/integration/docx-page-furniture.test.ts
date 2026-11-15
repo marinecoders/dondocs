@@ -101,6 +101,7 @@ describe.skipIf(!pandocAvailable)('DOCX page furniture', () => {
     const paragraphs = header.match(/<w:p[ />]/g) || [];
     expect(paragraphs.length, 'no trailing empty line after the subject').toBe(2);
     expect(header, 'the trailing line is not empty').toMatch(/<w:p\/>|<w:p><\/w:p>/);
+    expect(header).toContain('w:before="480"');
   }, 120_000);
 
   it('drops the lead-in when a marking already occupies the line above', async () => {

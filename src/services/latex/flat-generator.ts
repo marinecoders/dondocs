@@ -669,14 +669,18 @@ function bodySizePt(data: Partial<DocumentData> | undefined): number {
 function buildBody(paragraphs: Paragraph[], config: DocTypeConfig, font: LabelFont, fontSizePt: number, docType: string): string {
   if (paragraphs.length === 0) return '';
 
-  const labels = calculateLabels(paragraphs);
-  const ancestors = ancestorLabelsPerParagraph(labels, paragraphs.map((p) => p.level));
+  // Figures have their own caption sequence. Exclude them from both body
+  // counters and ancestor tracking so they cannot renumber or reparent text.
+  const bodyParagraphs = paragraphs.filter(paragraph => !paragraph.figure);
+  const labels = calculateLabels(bodyParagraphs);
+  const ancestors = ancestorLabelsPerParagraph(labels, bodyParagraphs.map((p) => p.level));
   // Push-then-join across paragraphs (the cross-paragraph accumulator is
   // the one that grows unbounded — within a single paragraph the
   // accumulator stays small so we leave that alone).
   const bodyParts: string[] = [];
   const tailStart = closingTailStart(docType, paragraphs);
   let figureNumber = 0;
+  let bodyIndex = 0;
 
   for (let i = 0; i < paragraphs.length; i++) {
     const para = paragraphs[i];
@@ -693,10 +697,11 @@ function buildBody(paragraphs: Paragraph[], config: DocTypeConfig, font: LabelFo
       bodyParts.push(`\\vspace{12pt}\n\\begin{tabularx}{\\textwidth}{@{}c@{}}\n${mark ? `(${escapeTabular(mark)})\\newline ` : ''}${graphic}\\newline\\textbf{Figure ${number}. ${processText(title)}} \\\\\n\\end{tabularx}\n\n`);
       continue;
     }
-    const label = paragraphHasLabel(para.level, config) ? labels[i] : '';
+    const label = paragraphHasLabel(para.level, config) ? labels[bodyIndex] : '';
     const headerText = para.header?.trim();
     const portionPrefix = para.portionMarking ? `(${para.portionMarking}) ` : '';
-    const layout = resolveParagraphLayout(para.level, ancestors[i], config, font, fontSizePt);
+    const layout = resolveParagraphLayout(para.level, ancestors[bodyIndex], config, font, fontSizePt);
+    bodyIndex++;
     const spacing = `\\vspace{${layout.spaceBeforePt}pt}`;
 
     let paraText = '';

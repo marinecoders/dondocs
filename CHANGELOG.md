@@ -7,6 +7,17 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.93] — 2026-11-15
+
+### Fixed
+
+- Align unmarked Word continuation subjects and body lead-in with measured native PDF positions. Marked headers retain their existing placement.
+- Keep Word body numbering and nested counters aligned with ordinary paragraphs across a separate figure sequence.
+
+### Added
+
+- Reproducible Word layout fixtures, exact input/output digest stamping and target-renderer checks for complete content, reference-table continuation, deep numbering, wrapping, page counts and page furniture. Qualify native Pandoc and a browser WASM download in actual Microsoft Word for Mac without claiming general pagination parity.
+
 ## [1.3.92] — 2026-11-15
 
 ### Added
