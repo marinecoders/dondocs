@@ -642,3 +642,157 @@ test('a round changed in another tab rejects stale state controls', async ({ pag
     await second.close();
   }
 });
+
+test('explicit reviewer checkpoints show later text and feedback outcomes after reload and transfer', async ({ page }, info) => {
+  await page.addInitScript(() => {
+    localStorage.setItem('browser-test-visitor', 'returning');
+    localStorage.setItem('dondocs_ui', JSON.stringify({ version: 1, state: { theme: 'classic', editorLayout: 'scroll' } }));
+  });
+  await page.goto('/');
+  const draft = { documentMode: 'custom', documentCategory: 'correspondence', docType: 'naval_letter',
+    formData: { subject: 'FICTIONAL CHECKPOINT SOURCE', from: 'Training Office', to: 'Original recipient', date: '15 Nov 26' },
+    paragraphs: [{ id: 'checkpoint-body', text: 'Earlier training paragraph.', level: 0 }], references: [], enclosures: [], copyTos: [], distributions: [] };
+  await page.getByLabel('Import draft file').setInputFiles({ name: 'checkpoint.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(draft)) });
+  await page.getByRole('button', { name: 'Open as new document', exact: true }).click();
+  let modal = await reviews(page);
+  await modal.getByLabel('Review name', { exact: true }).fill('Checkpoint round');
+  await modal.getByRole('button', { name: 'Start review from current draft', exact: true }).click();
+  await expect(modal.getByText('Review baseline saved. Later source edits will not change this copy.', { exact: true })).toBeVisible();
+  await modal.getByLabel('Review for suggested edits', { exact: true }).selectOption({ label: 'Checkpoint round' });
+  await modal.getByLabel('Reviewer name for suggestion', { exact: true }).fill('Example chief');
+  await modal.getByLabel('Suggestion target', { exact: true }).selectOption('field:to');
+  await modal.getByLabel('Proposed replacement', { exact: true }).fill('Reviewed recipient');
+  await modal.getByRole('button', { name: 'Add suggestion', exact: true }).click();
+  const suggestion = modal.getByRole('article', { name: 'Suggestion 1: Replace to', exact: true });
+  await expect(suggestion).toBeVisible();
+  await modal.getByLabel('Review for comparison checkpoint', { exact: true }).selectOption({ label: 'Checkpoint round' });
+  await expect(modal.getByText(/No checkpoint is selected/)).toBeVisible();
+  await modal.getByLabel('Reviewer label for checkpoint', { exact: true }).fill('Example chief');
+  await modal.getByRole('button', { name: 'Mark current view reviewed', exact: true }).click();
+  await expect(modal.getByText(/Current captured document and feedback marked reviewed/)).toBeVisible();
+  await suggestion.getByRole('button', { name: 'Accept suggestion', exact: true }).click();
+  await expect(suggestion.getByText(/· Accepted$/)).toBeVisible();
+  await expect(modal.getByLabel('Review for suggested edits', { exact: true })).toBeEnabled();
+  await page.keyboard.press('Escape');
+  await expect(modal).toBeHidden();
+  await replaceParagraphText(page.getByRole('textbox', { name: 'Paragraph 1', exact: true }), 'Later author paragraph.');
+  modal = await reviews(page);
+  await modal.getByLabel('Review for comparison checkpoint', { exact: true }).selectOption({ label: 'Checkpoint round' });
+  await expect(modal.getByText(/No checkpoint is selected/)).toBeVisible();
+  const reviewerOption = await modal.getByLabel('Reviewer checkpoint', { exact: true }).getByRole('option', { name: /Example chief/ }).getAttribute('value');
+  await modal.getByLabel('Reviewer checkpoint', { exact: true }).selectOption(reviewerOption!);
+  await modal.getByRole('button', { name: 'Show changes since checkpoint', exact: true }).click();
+  await expect(modal.getByRole('region', { name: 'document changes since checkpoint', exact: true })).toContainText('Earlier training paragraph.');
+  await expect(modal.getByRole('region', { name: 'document changes since checkpoint', exact: true })).toContainText('Later author paragraph.');
+  await expect(modal.getByRole('region', { name: 'feedback changes since checkpoint', exact: true })).toContainText('Accepted');
+  await modal.getByRole('button', { name: 'Prepare checkpoint file', exact: true }).click();
+  const checkpointFile = await download(page, () => modal.getByRole('button', { name: 'Download checkpoint file', exact: true }).click());
+  const checkpoint = JSON.parse(checkpointFile.toString('utf8'));
+  expect(checkpoint.document.some((field: { value: string }) => field.value === 'Earlier training paragraph.')).toBe(true);
+  await info.attach('explicit-reviewer-checkpoint.json', { body: checkpointFile, contentType: 'application/json' });
+  await page.keyboard.press('Escape');
+  await page.reload();
+  modal = await reviews(page);
+  await modal.getByLabel('Review for comparison checkpoint', { exact: true }).selectOption({ label: 'Checkpoint round' });
+  await modal.getByLabel('Reviewer checkpoint', { exact: true }).selectOption(checkpoint.reviewerId);
+  await modal.getByRole('button', { name: 'Show changes since checkpoint', exact: true }).click();
+  await expect(modal.getByRole('region', { name: 'feedback changes since checkpoint', exact: true })).toContainText('Accepted');
+  const tampered = { ...checkpoint, reviewerLabel: 'Changed after capture' };
+  await modal.getByLabel('Import reviewer checkpoint', { exact: true }).setInputFiles({ name: 'tampered.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(tampered)) });
+  await expect(modal.getByRole('alert')).toContainText('checksum');
+  await modal.getByLabel('Import reviewer checkpoint', { exact: true }).setInputFiles({ name: 'checkpoint.json', mimeType: 'application/json', buffer: checkpointFile });
+  await modal.getByRole('button', { name: 'Import this checkpoint', exact: true }).click();
+  await expect(modal.getByText('Reviewer checkpoint imported. Document text and review decisions were kept.', { exact: true })).toBeVisible();
+  await modal.getByRole('button', { name: 'Show changes since checkpoint', exact: true }).click();
+  await expect(modal.getByRole('region', { name: 'feedback changes since checkpoint', exact: true })).toContainText('Accepted');
+  await modal.getByRole('button', { name: 'Prepare reviewer copy', exact: true }).click();
+  const reviewerCopy = JSON.parse((await download(page, () => modal.getByRole('button', { name: 'Download reviewer copy', exact: true }).click())).toString('utf8'));
+  expect(reviewerCopy.round.checkpoints).toHaveLength(1);
+  expect(reviewerCopy.round.checkpoints[0].digest).toBe(checkpoint.digest);
+  expect((await new AxeBuilder({ page }).include('[role="dialog"]').analyze()).violations).toEqual([]);
+  await page.screenshot({ path: info.outputPath('since-last-reviewed-checkpoint.png'), scale: 'css' });
+});
+
+test('retained checkpoint markings block both file downloads after a stricter policy refresh', async ({ page }, info) => {
+  let restricted = false;
+  await page.route('**/classification.config.json?**', route => route.fulfill({ json: restricted
+    ? { maxLevel: 'unclassified', allowedLevels: ['unclassified'] }
+    : { maxLevel: 'secret', allowedLevels: ['unclassified', 'cui', 'confidential', 'secret'] } }));
+  await page.addInitScript(() => {
+    localStorage.setItem('browser-test-visitor', 'returning');
+    localStorage.setItem('dondocs_ui', JSON.stringify({ version: 1, state: { theme: 'light', editorLayout: 'scroll' } }));
+  });
+  await page.goto('/');
+  const draft = { documentMode: 'custom', documentCategory: 'correspondence', docType: 'naval_letter',
+    formData: { subject: 'FICTIONAL CHECKPOINT MARKING TEST', to: 'Example recipient', classLevel: 'custom', customClassification: 'UNCLASSIFIED' },
+    paragraphs: [{ id: 'checkpoint-marking', text: 'Synthetic training text only.', level: 0, portionMarking: 'U' }],
+    references: [], enclosures: [], copyTos: [], distributions: [] };
+  await page.getByLabel('Import draft file').setInputFiles({ name: 'checkpoint-marking.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(draft)) });
+  await page.getByRole('button', { name: 'Open as new document', exact: true }).click();
+  let modal = await reviews(page);
+  await modal.getByLabel('Review name', { exact: true }).fill('Unclassified retained baseline');
+  await modal.getByRole('button', { name: 'Start review from current draft', exact: true }).click();
+  await expect(modal.getByText('Review baseline saved. Later source edits will not change this copy.', { exact: true })).toBeVisible();
+  await page.keyboard.press('Escape');
+  await expect(modal).toBeHidden();
+  await page.getByRole('button', { name: 'Portion marking: Unclassified. Change', exact: true }).click();
+  await page.getByRole('menuitemradio', { name: '(S) Secret', exact: true }).click();
+  modal = await reviews(page);
+  const checkpoints = modal.getByRole('region', { name: 'Since you last reviewed', exact: true });
+  await checkpoints.getByLabel('Review for comparison checkpoint', { exact: true }).selectOption({ label: 'Unclassified retained baseline' });
+  await checkpoints.getByLabel('Reviewer label for checkpoint', { exact: true }).fill('Example chief');
+  await checkpoints.getByRole('button', { name: 'Mark current view reviewed', exact: true }).click();
+  await expect(checkpoints.getByText(/Current captured document and feedback marked reviewed/)).toBeVisible();
+  await checkpoints.getByRole('button', { name: 'Prepare checkpoint file', exact: true }).click();
+  await expect(checkpoints.getByText('Example chief · SECRET', { exact: true })).toBeVisible();
+  await modal.getByRole('button', { name: 'Prepare reviewer copy', exact: true }).click();
+  await expect(modal.getByRole('heading', { name: 'Check this reviewer copy before downloading', exact: true })).toBeVisible();
+  const downloads: string[] = [];
+  page.on('download', event => downloads.push(event.suggestedFilename()));
+  restricted = true;
+  await checkpoints.getByRole('button', { name: 'Download checkpoint file', exact: true }).click();
+  await expect(checkpoints.getByRole('alert')).toContainText('configured levels');
+  await modal.getByRole('button', { name: 'Download reviewer copy', exact: true }).click();
+  await expect(modal.getByRole('alert').filter({ hasText: 'configured levels' })).toHaveCount(2);
+  expect(downloads).toEqual([]);
+  await page.screenshot({ path: info.outputPath('checkpoint-retained-marking-downloads-blocked.png'), scale: 'css' });
+});
+
+for (const kind of ['signature', 'basic-letter'] as const) test(`reviewer-copy disclosure scans the actual retained ${kind} filename`, async ({ page }, info) => {
+  const { docxImageFixture } = await import('../_helpers/docxImageFixture');
+  const { PDFDocument } = await import('pdf-lib');
+  const pdf = await PDFDocument.create();
+  pdf.addPage().drawText('Synthetic retained original.');
+  const bytes = kind === 'signature' ? (await docxImageFixture()).signature : Buffer.from(await pdf.save());
+  const name = `Synthetic SSN 123-45-6789.${kind === 'signature' ? 'png' : 'pdf'}`;
+  await page.addInitScript(theme => {
+    localStorage.setItem('browser-test-visitor', 'returning');
+    localStorage.setItem('dondocs_ui', JSON.stringify({ version: 1, state: { theme, editorLayout: 'scroll' } }));
+  }, kind === 'signature' ? 'dark' : 'classic');
+  await page.goto('/');
+  const file = { name, size: bytes.length, data: bytes.toString('base64') };
+  const source = { documentMode: 'custom', documentCategory: 'correspondence', docType: kind === 'signature' ? 'naval_letter' : 'new_page_endorsement',
+    formData: { subject: 'SYNTHETIC RETAINED FILE NAME', to: 'Training office', classLevel: 'unclassified',
+      ...(kind === 'signature' ? { signatureType: 'image', signatureImage: file } : { basicLetterFile: file }) },
+    paragraphs: [{ id: 'SECRET', text: 'Synthetic benign training paragraph.', level: 0 }],
+    references: [], enclosures: [], copyTos: [], distributions: [] };
+  await page.getByLabel('Import draft file').setInputFiles({ name: 'source.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(source)) });
+  await page.getByRole('button', { name: 'Open as new document', exact: true }).click();
+  const modal = await reviews(page);
+  await modal.getByLabel('Review name', { exact: true }).fill('Retained filename disclosure');
+  await modal.getByRole('button', { name: 'Start review from current draft', exact: true }).click();
+  await expect(modal.getByText('Review baseline saved. Later source edits will not change this copy.', { exact: true })).toBeVisible();
+  await modal.getByRole('button', { name: 'Prepare reviewer copy', exact: true }).click();
+  const contents = modal.getByRole('region', { name: 'Review copy contents', exact: true });
+  await expect(contents).toContainText('Automatic checks cover text and filenames.');
+  const disclosure = await contents.innerText();
+  await page.screenshot({ path: info.outputPath(`${kind}-filename-disclosure.png`), scale: 'css' });
+  const actual = await download(page, () => contents.getByRole('button', { name: 'Download reviewer copy', exact: true }).click());
+  const envelope = JSON.parse(actual.toString('utf8'));
+  expect(envelope.draft.paragraphs[0].id).toBe('SECRET');
+  const retained = envelope.draft.formData[kind === 'signature' ? 'signatureImage' : 'basicLetterFile'];
+  expect(retained.name).toBe(name);
+  expect(Buffer.from(retained.data, 'base64')).toEqual(bytes);
+  await info.attach(`${kind}-reviewer-copy.json`, { body: actual, contentType: 'application/json' });
+  expect(disclosure).toContain('Possible sensitive information: Social Security Number.');
+});

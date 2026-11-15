@@ -168,12 +168,14 @@ for (const theme of ["light", "dark", "classic"]) {
     await modal
       .getByRole("button", { name: "Capture current document", exact: true })
       .click();
+    // Observe the captured revision before continuing while the initial preview
+    // may still be compiling, using the same budget as package actions.
     await expect(
       modal.getByRole("heading", {
         name: `1. TRAINING SOURCE ${theme}`,
         exact: true,
       }),
-    ).toBeVisible();
+    ).toBeVisible({ timeout: 15_000 });
     const original = await originalPdf();
     await modal
       .getByLabel("New member role", { exact: true })

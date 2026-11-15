@@ -14,8 +14,10 @@ import { triggerDownload } from './encoding';
 import { MAX_REVIEW_COPY_BYTES, REVIEW_COPY_KIND, parseReviewRound, reviewCopyEnvelopeSchema, reviewPayloadDigest,
   type ReviewRound, type ReviewCopyEnvelope } from './reviewRounds';
 import { readReviewRound } from './reviewRounds';
+import { assertCheckpointRound, parseReviewCheckpoint, checkpointRetainedContent } from './reviewCheckpoints';
 import { planReviewRoundTransition, type ReviewRoundTransition } from './reviewRoundLifecycle';
 import { scheduleBackup } from '@/stores/backupStore';
+import { documentTextFields } from './documentFields';
 
 function assertCurrent(target: DocumentTarget | null): asserts target is DocumentTarget {
   if (!isCurrentDocumentTarget(target)) throw new Error('The document changed. Reopen Reviews before trying again.');
@@ -51,11 +53,20 @@ export async function startReviewRound(label: string, target = captureDocumentTa
 /** Read only the retained snapshot; newer editor work never enters a reviewer copy. */
 export async function buildReviewCopy(round: ReviewRound): Promise<ReviewCopyEnvelope> {
   const pin = parseReviewRound(round);
+  for (const checkpoint of pin.checkpoints ?? []) {
+    assertCheckpointRound(await parseReviewCheckpoint(checkpoint), pin);
+  }
   const draft = await buildDraftFileFromSnapshot(prepareSessionState(pin.baseline.session, true), pin.baseline.ts);
   parseDraftFile(draft, false, true);
   if (await reviewPayloadDigest(draft) !== pin.baselineDigest) throw new Error('The saved review baseline no longer matches its retained resources. Keep the original reviewer file and retry from an intact backup.');
-  const { id, createdAt, label, sourceDocumentId, baselineDigest, lifecycle } = pin;
-  const envelope: ReviewCopyEnvelope = { kind: REVIEW_COPY_KIND, version: 1, round: { id, createdAt, label, sourceDocumentId, baselineDigest, ...(lifecycle ? { lifecycle } : {}) }, draft };
+  const { id, createdAt, label, sourceDocumentId, baselineDigest, lifecycle, checkpoints } = pin;
+  const envelope: ReviewCopyEnvelope = {
+    kind: REVIEW_COPY_KIND,
+    version: 1,
+    round: { id, createdAt, label, sourceDocumentId, baselineDigest,
+      ...(lifecycle ? { lifecycle } : {}), ...(checkpoints?.length ? { checkpoints } : {}) },
+    draft,
+  };
   builtCopies.set(envelope, structuredClone(envelope));
   return envelope;
 }
@@ -71,6 +82,9 @@ export async function parseReviewCopy(value: unknown): Promise<ReviewedReviewCop
   const parsed = reviewCopyEnvelopeSchema.safeParse(structuredClone(value));
   if (!parsed.success) throw new Error('This is not a supported reviewer copy. Choose a current DonDocs reviewer file.');
   const envelope = parsed.data;
+  for (const checkpoint of envelope.round.checkpoints ?? []) {
+    assertCheckpointRound(await parseReviewCheckpoint(checkpoint), envelope.round);
+  }
   let reviewed: ReviewedDraft;
   try { reviewed = parseDraftFile(envelope.draft, false, true); }
   catch { throw new Error('This reviewer file does not contain a complete readable native draft.'); }
@@ -113,25 +127,37 @@ export async function openReviewCopy(input: ReviewedReviewCopy, target = capture
 export interface PreparedReviewCopy { readonly review: ChangeReport }
 const preparedCopies = new WeakMap<PreparedReviewCopy, ReviewCopyEnvelope>();
 
-/** Reuse full document marking/privacy review; an empty comparison includes every retained value. */
+/** Reuse full document marking/privacy review, including raw checkpoint values and declared markings. */
+function reviewCopyExportReport(owned: ReviewCopyEnvelope, policy: PolicyResolution): ChangeReport {
+  const parsed = parseDraftFile(owned.draft, false, true);
+  const session = { ...parsed.session,
+    formData: { ...parsed.session.formData, ...(parsed.basicLetter ? { basicLetterFile: parsed.basicLetter } : {}) },
+    enclosures: parsed.session.enclosures.map((enclosure, index) => ({ ...enclosure, file: parsed.files[index] })) };
+  const empty = { ...session, formData: {}, paragraphs: [], references: [], enclosures: [], copyTos: [], distributions: [],
+    endItems: [], publicationTables: {}, reviewComments: undefined };
+  const retained = checkpointRetainedContent(owned.round.checkpoints ?? []);
+  // Keep report identity/control exclusions when scanning copy-only asset metadata.
+  retained.text.push(...documentTextFields(session, 'share', { includeUnknownDataUris: true })
+    .filter(field => field.role !== 'control')
+    .map(field => ({ field: field.label, value: field.text })));
+  return prepareChangeReport(captureChangeReport({ label: 'Empty', title: '', session: empty },
+    { label: 'Review baseline', title: owned.round.label, session }, new Date(owned.round.createdAt).toISOString(),
+    retained), policy);
+}
+
 export function prepareReviewCopyExport(envelope: ReviewCopyEnvelope, policy: PolicyResolution): PreparedReviewCopy {
   const captured = builtCopies.get(envelope);
   if (!captured) throw new Error('Prepare the retained baseline again before downloading a reviewer copy.');
   const owned = structuredClone(captured);
-  const parsed = parseDraftFile(owned.draft, false, true);
-  const session = { ...parsed.session, enclosures: parsed.session.enclosures.map((enclosure, index) => ({ ...enclosure, file: parsed.files[index] })) };
-  const empty = { ...session, formData: {}, paragraphs: [], references: [], enclosures: [], copyTos: [], distributions: [],
-    endItems: [], publicationTables: {}, reviewComments: undefined };
-  const review = prepareChangeReport(captureChangeReport({ label: 'Empty', title: '', session: empty },
-    { label: 'Review baseline', title: owned.round.label, session }, new Date(owned.round.createdAt).toISOString()), policy);
-  const prepared = Object.freeze({ review });
+  const prepared = Object.freeze({ review: reviewCopyExportReport(owned, policy) });
   preparedCopies.set(prepared, owned);
   return prepared;
 }
 
-export function downloadReviewCopy(prepared: PreparedReviewCopy): void {
+export function downloadReviewCopy(prepared: PreparedReviewCopy, policy: PolicyResolution): void {
   const envelope = preparedCopies.get(prepared);
   if (!envelope) throw new Error('Review this copy before downloading it.');
+  reviewCopyExportReport(envelope, policy);
   const bytes = new TextEncoder().encode(JSON.stringify(envelope));
   if (bytes.byteLength > MAX_REVIEW_COPY_BYTES) throw new Error('This review copy exceeds the 100 MB transfer limit.');
   triggerDownload(bytes, `dondocs-review-${envelope.round.id}.json`, 'application/json');

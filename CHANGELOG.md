@@ -7,6 +7,18 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.96] — 2026-11-15
+
+### Added
+
+- Mark an explicit reviewer comparison point and see subsequent document and feedback changes for the same retained review baseline. Preserve bounded markers through reviewer copies, checkpoint files and workspace backups without retaining attachment bytes or implying authenticated identity.
+
+### Fixed
+
+- Preserve structured marking contexts and inspect raw retained text in checkpoint and reviewer-copy exports, including earlier content that is absent from the current draft. Recheck current deployment policy at file delivery.
+- Guard checkpoint writes against stale owner, round and lifecycle state; reject corrupted or unrelated markers without changing document text or decisions.
+- Inspect retained reviewer-copy text and asset filenames without treating internal identifiers as content markings.
+
 ## [1.3.95] — 2026-11-15
 
 ### Added
