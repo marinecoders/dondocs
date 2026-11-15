@@ -888,7 +888,9 @@ export async function idbFormDefinitions(): Promise<import('@/services/forms/mod
     for (const entry of app) if (entry.key.startsWith('snap:') && Array.isArray(entry.value)) {
       for (const snapshot of entry.value as DocSnapshot[]) sessions.push(snapshot.session);
     }
-    return sessions.flatMap(s => s.genericForm ? [s.genericForm.definition] : []);
+    const { actionPackageSchema, packageDefinitions } = await import('./actionPackages');
+    const packages = app.filter(entry => entry.key.startsWith('action-package:')).map(entry => actionPackageSchema.parse(entry.value));
+    return [...sessions.flatMap(s => s.genericForm ? [s.genericForm.definition] : []), ...packageDefinitions(packages)];
   } catch { return null; }
 }
 
@@ -1094,6 +1096,48 @@ export async function idbRestoreReviewSuggestions(input: unknown[], inputReceipt
       transaction.oncomplete = () => resolve(restored);
       transaction.onerror = () => reject(transaction.error ?? new Error('Suggested edit recovery failed.'));
       transaction.onabort = () => reject(transaction.error ?? new Error('Suggested edit recovery aborted.'));
+    });
+  } catch { return false; }
+}
+
+/** Package metadata shares the existing app store and conditional transaction boundary. */
+export async function idbReadActionPackages(): Promise<unknown[]> {
+  const records = await run<Array<{ key: string; value: unknown }>>(APP_STORE, 'readonly', store =>
+    store.getAll(IDBKeyRange.bound('action-package:', 'action-package:\uffff')));
+  return records.map(record => {
+    if (!record.value || typeof record.value !== 'object' || !('id' in record.value) || record.key !== `action-package:${record.value.id}`) throw new Error('The saved package inventory is corrupt. Keep a workspace backup before recovery.');
+    return record.value;
+  });
+}
+export async function idbCompareActionPackage(before: import('./actionPackages').ActionPackage | null, after: import('./actionPackages').ActionPackage, isCurrent: () => boolean = () => true): Promise<boolean> {
+  try {
+    before = before && structuredClone(before);after = structuredClone(after);
+    const { actionPackageSchema, validPackageTransition, packageAssets } = await import('./actionPackages');
+    const { validateActionPackageResources } = await import('./actionPackageTransfer');
+    const assets = new Map<string, StoredAttachment>();
+    actionPackageSchema.parse(after);
+    if (!isCurrent() || !validPackageTransition(before, after)) return false;
+    await validateActionPackageResources(after, async asset => {
+      const saved = assets.get(asset.id) ?? await idbGetAttachment(asset.id);
+      if (!saved) throw new Error('Required package bytes are unavailable.');
+      assets.set(asset.id, saved);return saved.data;
+    });
+    if (assets.size !== new Set(packageAssets(after).map(asset => asset.id)).size) return false;
+    const db = await openDb();
+    return await new Promise<boolean>((resolve, reject) => {
+      const transaction = db.transaction([APP_STORE, ATTACHMENTS_STORE], 'readwrite'), store = transaction.objectStore(APP_STORE);
+      const request = store.get(`action-package:${after.id}`);
+      const checks = [...assets].map(([id, expected]) => ({ expected, request: transaction.objectStore(ATTACHMENTS_STORE).get(id) }));
+      let committed = false, remaining = checks.length + 1;
+      const ready = () => {
+        if (--remaining) return;
+        if (!isCurrent() || !sameReviewStoredValue(request.result?.value ?? null, before) || checks.some(check => !sameReviewStoredValue(check.request.result, check.expected))) return;
+        store.put({ key: `action-package:${after.id}`, value: after });committed = true;
+      };
+      request.onsuccess = ready;checks.forEach(check => { check.request.onsuccess = ready; });
+      transaction.oncomplete = () => resolve(committed);
+      transaction.onerror = () => reject(transaction.error);
+      transaction.onabort = () => reject(transaction.error);
     });
   } catch { return false; }
 }

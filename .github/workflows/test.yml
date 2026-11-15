@@ -177,9 +177,10 @@ jobs:
         # the bundle — that makes "is this growth justified?" a code-
         # review conversation instead of a thing nobody notices.
         run: |
-          # Native encrypted asset handoff measured 4,986,453 B: 5,717 B over
-          # the former 4.75 MiB gate. No dependency or test/debug bundle added.
-          BUDGET_BYTES=5033165   # 4.80 MiB
+          # Saved action packages measured 5,048,588 B in 22 JS chunks.
+          # Immutable capture, validation, workspace and retained-output handling
+          # add application code; no dependency, test or temporary bundle added.
+          BUDGET_BYTES=5085594   # 4.85 MiB
           TOTAL=$(find dist/assets -name "*.js" -exec stat -c %s {} \; | awk '{s+=$1} END {print s+0}')
           echo "Total dist/assets JS: $TOTAL bytes (budget: $BUDGET_BYTES)"
           if [ "$TOTAL" -gt "$BUDGET_BYTES" ]; then
@@ -390,9 +391,8 @@ jobs:
     name: browser flows (${{ matrix.group }})
     runs-on: ubuntu-latest
     # Includes setup and complete browser profiles with review/asset workflows.
-    # Keep every profile separate: the four-profile Chromium job exhausted
-    # its 50-minute budget before finishing. Each profile keeps full coverage
-    # and independent failure artifacts without consuming another's budget.
+    # Give each browser profile its own job. Desktop WebKit needs two shards
+    # to finish the complete suite within the job's runtime budget.
     timeout-minutes: 50
     strategy:
       fail-fast: false
@@ -413,9 +413,12 @@ jobs:
           - group: firefox
             browsers: firefox
             projects: --project=firefox
-          - group: webkit
+          - group: webkit-1
             browsers: webkit
-            projects: --project=webkit
+            projects: --project=webkit --shard=1/2
+          - group: webkit-2
+            browsers: webkit
+            projects: --project=webkit --shard=2/2
           - group: ipad-safari
             browsers: webkit
             projects: --project=ipad-safari

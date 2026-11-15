@@ -117,3 +117,24 @@ These are regression checks for the listed tasks, not a WCAG conformance claim.
 They do not certify screen-reader output, native devices, other document types,
 or all application states. Manual screen-reader and native-device checks remain
 necessary. Tagged PDF output is outside this suite.
+
+`saved-action-packages.spec.ts` exercises native package capture, working copies,
+explicit source adoption, source deletion/reload, retained PDF page boundaries and
+checksums, unchanged originals, selected-revision transfer and configured-form
+editing/rendering in a fresh offline browser. Theme cases cover Light, Dark and
+Classic across the configured desktop and phone browser projects.
+
+The saved-package fresh-browser checks initialize only the published app, its
+ordinary preview and the real deployment policy online before disconnecting.
+Recipients use the production service worker and verify the current controlled
+app shell is cached. No matching package source or configured template is supplied
+during preparation. This qualifies transfers using installed app resources.
+
+After disconnecting, recipients receive no matching source documents, catalog
+definitions or template pages outside the imported package. Independent HTTP
+checks confirm the synthetic form and exact blank PDF are unavailable on the
+deployment. The configured-form flow stays offline through reload, editing,
+assembly, identical artifact retrieval and a visible retained-PDF canvas check.
+Recipient routing hooks are avoided because they prevent Firefox offline
+navigations from reaching its service worker. Application workers and engine
+resources belong to the installed app; imported package content remains separate.
