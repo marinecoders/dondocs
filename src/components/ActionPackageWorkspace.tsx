@@ -425,8 +425,7 @@ function PackageDialog({
           <DialogTitle>Action packages</DialogTitle>
           <DialogDescription>
             Preserve editable members, original files and assembled PDFs by
-            revision. Linked citation relabeling and package review rounds are
-            planned for a later release.
+            revision. Review linked citation reorders before saving a new revision.
           </DialogDescription>
         </DialogHeader>
         {error && (
