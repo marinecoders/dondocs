@@ -169,7 +169,7 @@ describe('Word image preparation', () => {
 
   it('rejects missing and unsupported signature images', async () => {
     await expect(prepareDocxImages({ ...source(), paragraphs: [], formData: { signatureType: 'image' } }, async () => new Uint8Array())).rejects.toThrow('missing');
-    await expect(prepareDocxImages({ ...source(), docType: 'joint_letter' }, async () => new Uint8Array())).rejects.toThrow('single-signer');
+    await expect(prepareDocxImages({ ...source(), docType: 'joint_letter' }, async () => new Uint8Array())).rejects.toThrow('Choose the junior or senior');
   });
 
   it('also stops PDF export when a business figure has no image or carries a PDF page', () => {

@@ -36,7 +36,7 @@ import { formatViaLines } from '@/lib/viaLines';
 import { deriveOverallClassLevel } from '@/lib/overallClassification';
 import { documentDistributionStatement } from './distributionStatement';
 import { safeUrl } from '@/lib/url-safety';
-import { docxFigureFile, imageExtent, signatureExtent } from '@/services/docx/imageAssets';
+import { assertWordSignatureSigner, docxFigureFile, imageExtent, signatureExtent } from '@/services/docx/imageAssets';
 
 interface DocumentStore {
   docType: string;
@@ -903,6 +903,11 @@ function buildDualSignature(data: Partial<DocumentData>, variant: 'moa' | 'joint
     seniorTitle = signers.seniorTitle;
   }
 
+  assertWordSignatureSigner({ docType: variant === 'moa' ? 'moa' : variant === 'joint' ? 'joint_letter' : 'joint_memorandum', formData: data, paragraphs: [] });
+  const imageRow = data.signatureType === 'image'
+    ? `${data.signatureImageSigner === 'junior' ? signatureGraphic(data) : ''} & ${data.signatureImageSigner === 'senior' ? signatureGraphic(data) : ''} \\\\`
+    : undefined;
+
   // MOA/MOU: overscored signatures (rule above name)
   // Per SECNAV M-5216.5 Fig 10-5: junior LEFT (signs first), senior RIGHT (signs last)
   // Use p{3in}@{\hfill}p{3in} — same columns as SSIC/date block for alignment.
@@ -911,6 +916,8 @@ function buildDualSignature(data: Partial<DocumentData>, variant: 'moa' | 'joint
   if (variant === 'moa') {
     const sigLine = '\\_'.repeat(24); // ~2in signature line at 12pt
     const rows: string[] = [];
+
+    if (imageRow) rows.push(imageRow);
 
     // Row 1: overscore lines (left-aligned within column, matching date alignment)
     rows.push(`${sigLine} & ${sigLine} \\\\`);
@@ -945,6 +952,7 @@ ${trimLastRow(rows)}
   // Title fields support multi-line input from the UI textarea — each \n-separated
   // line becomes its own row (e.g., "Captain, U.S. Navy\nCommanding Officer" → 2 rows).
   const rows: string[] = [];
+  if (imageRow) rows.push(imageRow);
   rows.push(`${escapeTabular(juniorName)} & ${escapeTabular(seniorName)} \\\\`);
 
   if (juniorRank || seniorRank) {
@@ -1673,7 +1681,7 @@ function buildInfoMemorandumLayout(store: DocumentStore, config: DocTypeConfig):
   if (data.memorandumFor) rows.push(`FOR: & ${escapeTabularWrapped(data.memorandumFor)} \\\\`);
   if (data.from) {
     rows.push(`& \\\\[-6pt]`);
-    rows.push(`FROM: & ${escapeTabularWrapped(data.from)} \\\\`);
+    rows.push(`FROM: & ${escapeTabularWrapped(data.from)}${data.signatureType === 'image' ? ` \\quad ${signatureGraphic(data)}` : ''} \\\\`);
   }
   if (data.subject) {
     rows.push(`& \\\\[-6pt]`);

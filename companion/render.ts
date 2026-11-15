@@ -10,7 +10,7 @@ import { publicationExportErrors, isTechnicalPublication } from '../src/lib/publ
 import { loadFigureFiles } from '../src/services/latex/figureAssets';
 import { assemblePublicationPdf } from './publicationPdf';
 import { attachment } from './publicationInput';
-import { inspectRasterImage } from '../src/services/docx/imageAssets';
+import { ImageInputError, inspectRasterImage, supportsCorrespondenceSignatureImage } from '../src/services/docx/imageAssets';
 import { generateAllLatexFiles } from '@/services/latex/generator';
 import { prepareEngine, compileDocument, LatexCompileError } from '@/services/latex/renderDocument';
 import { createNodeEngine, loadAssets } from './nodeEngine';
@@ -37,6 +37,9 @@ export async function renderPdf(
   { signal }: { signal?: AbortSignal } = {},
 ): Promise<Uint8Array> {
   const store = toStore(input, defaults);
+  if (store.formData.signatureType === 'image' && !supportsCorrespondenceSignatureImage(store.docType)) {
+    throw new ImageInputError('Uploaded images on dual-signer documents and information memoranda require Word output. PDF output cannot place this image.');
+  }
   const errors = publicationExportErrors(store);
   if (errors.length) throw new Error(errors.join('\n'));
   const engine = await createNodeEngine();

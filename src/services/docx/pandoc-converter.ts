@@ -1195,7 +1195,9 @@ export async function postProcessDocx(
       (_match, inner: string) => {
         // Only process rows that have NO text content at all
         // Use regex to match actual <w:t> or <w:t ...> elements, not <w:tcPr> etc.
-        if (/<w:t[ >]/.test(inner)) return _match;
+        // An image-only row has no w:t, but still needs its natural height.
+        // A fixed 12pt row clips inline signatures when Word lays out the file.
+        if (/<w:(?:t|drawing|pict|object)(?:[ >])/.test(inner)) return _match;
         // Must have at least one cell (not a malformed row)
         if (!inner.includes('<w:tc>')) return _match;
         // Skip if already has trPr (don't double-process)

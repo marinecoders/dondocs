@@ -1,3 +1,4 @@
+import { WordSignatureImage } from './WordSignatureImage';
 import { ActingCheckbox } from './SigningCapacityField';
 import { jointSignatories } from '@/lib/signingAuthority';
 import { EditorGuidance } from './EditorGuidance';
@@ -183,6 +184,7 @@ export function JointMemoSection() {
           </AccordionContent>
         </AccordionItem>
       </Accordion>
+      <WordSignatureImage dual />
     </>
   );
 }

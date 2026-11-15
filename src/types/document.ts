@@ -266,6 +266,8 @@ export interface DocumentData {
   /** Each party independently signs in an acting capacity on dual-signature documents. */
   seniorActing?: boolean;
   juniorActing?: boolean;
+  /** Word places the shared uploaded image on this party only. */
+  signatureImageSigner?: 'junior' | 'senior';
   signatureImage?: SignatureImage;
   signatureType?: SignatureType;
 

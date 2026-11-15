@@ -74,6 +74,10 @@ export function validateBackupSession(value: unknown) {
   if (formData?.sl3 !== undefined) sl3Schema.parse(formData.sl3);
   if (formData?.sl4 !== undefined) sl4Schema.parse(formData.sl4);
   if (formData?.manualFrontMatter !== undefined) manualFrontMatterSchema.parse(formData.manualFrontMatter);
+  const signer = formData?.signatureImageSigner;
+  if (signer !== undefined && signer !== 'junior' && signer !== 'senior') {
+    throw new Error('Invalid signature image signer');
+  }
   if (formData?.signatureImage !== undefined) validateSignatureImage(formData.signatureImage);
   if (data.forms !== undefined) validateForms(data.forms);
   if (formData?.basicLetterFileRef !== undefined) validateAttachmentReference(formData.basicLetterFileRef);

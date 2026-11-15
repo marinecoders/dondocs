@@ -172,12 +172,19 @@ it('keeps a long original filename recognizable as a PDF in the generated archiv
   expect(await zip.file(file.path)!.async('uint8array')).toEqual(new Uint8Array(original));
 });
 
-it.each(['base64', 'data-url'] as const)('retains a captured %s PNG signature in the Word document and original sidecar', async encoding => {
+const signatureSidecarCases = [
+  ...(['business_letter', 'information_memorandum'] as const).map(docType => ({ docType, signer: undefined })),
+  ...(['joint_letter', 'joint_memorandum', 'moa', 'mou'] as const).flatMap(docType =>
+    (['junior', 'senior'] as const).map(signer => ({ docType, signer }))),
+].flatMap(testCase => (['base64', 'data-url'] as const).map(encoding => ({ ...testCase, encoding })));
+
+it.each(signatureSidecarCases)('retains the $docType $signer $encoding PNG signature in Word and its exact original sidecar', async ({ docType, signer, encoding }) => {
   const { docxImageFixture } = await import('../_helpers/docxImageFixture');
   const images = await docxImageFixture();
   const encoded = images.signature.toString('base64');
-  const { record } = await fixture({ docType: 'business_letter', enclosures: [], formData: {
-    subject: 'SIGNED TRAINING LETTER', sigFirst: 'Alex', sigLast: 'Example', signatureType: 'image',
+  const { record } = await fixture({ docType, enclosures: [], formData: {
+    subject: 'SIGNED TRAINING LETTER', from: 'Synthetic Training Sender', sigFirst: 'Alex', sigLast: 'Example', signatureType: 'image',
+    signatureImageSigner: signer,
     signatureImage: { name: 'signature.png', size: images.signature.length,
       data: encoding === 'data-url' ? `data:image/png;base64,${encoded}` : encoded },
   } });
@@ -186,10 +193,12 @@ it.each(['base64', 'data-url'] as const)('retains a captured %s PNG signature in
   const convertDocx = vi.fn(ports.convertDocx);
   const delivered = await renderWordPackage(prepared, { ...ports, convertDocx });
   const zip = await JSZip.loadAsync(await delivered.blob.arrayBuffer(), { checkCRC32: true });
-  const signature = delivered.manifest.files.find(file => file.purpose.startsWith('Unchanged visual signature'))!;
+  expect(convertDocx.mock.calls[0][1].mediaFiles?.['signature.png']).toEqual(new Uint8Array(images.signature));
+  const signatures = delivered.manifest.files.filter(file => file.purpose.startsWith('Unchanged visual signature'));
+  expect(signatures).toHaveLength(1);
+  const signature = signatures[0];
   expect(await zip.file(signature.path)!.async('uint8array')).toEqual(new Uint8Array(images.signature));
   expect(signature.sha256).toBe(await portableResourceDigest(new Uint8Array(images.signature).buffer));
-  expect(convertDocx.mock.calls[0][1].mediaFiles?.['signature.png']).toEqual(new Uint8Array(images.signature));
 });
 
 it('serializes the normalized signature byte size before package capture without changing the source', async () => {

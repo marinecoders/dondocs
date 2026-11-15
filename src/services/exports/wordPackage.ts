@@ -15,7 +15,7 @@ import { documentCapabilities, capabilityAvailable } from '@/lib/documentCapabil
 import type { PolicyResolution } from '@/lib/exportDeploymentPolicy';
 import type { StoredAttachment } from '@/lib/documentsDb';
 import { detectTextPII, mergePIIResults, type PIIDetectionResult } from '@/services/pii/detector';
-import { supportsCorrespondenceSignatureImage } from '@/services/docx/imageAssets';
+import { supportsWordSignatureImage } from '@/services/docx/imageAssets';
 import { renderPreparedCorrespondence, type CorrespondenceRendererPorts, type ExportAssets } from './correspondence';
 
 export const MAX_WORD_PACKAGE_BYTES = 200 * 1024 * 1024;
@@ -172,7 +172,7 @@ export async function prepareWordPackage(record: ActionPackage, revisionId: stri
       await original(file.data, file.name, figure.type || 'image/png', `figure-${String(offset + 1).padStart(3, '0')}`, 'Unchanged captured figure image.');
     }
     const signature = snapshot.formData.signatureImage;
-    if (snapshot.formData.signatureType === 'image' && supportsCorrespondenceSignatureImage(snapshot.docType) && signature?.data) {
+    if (snapshot.formData.signatureType === 'image' && supportsWordSignatureImage(snapshot.docType) && signature?.data) {
       const { base64ToUint8Array } = await import('@/lib/encoding');
       await original(new Uint8Array(base64ToUint8Array(signature.data.replace(/^data:image\/png;base64,/, ''))).buffer, signature.name, 'image/png', 'signature', 'Unchanged visual signature image; not a certificate signature.');
     }

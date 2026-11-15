@@ -6,7 +6,7 @@ import JSZip from 'jszip';
 import { PDFDocument } from 'pdf-lib';
 import { captureDocumentRevision } from '@/lib/capturedDocument';
 import { capturePackageMember, captureOriginalPackageMember } from '@/lib/actionPackageAssets';
-import type { ActionPackage } from '@/lib/actionPackages';
+import type { ActionPackage, PackageMember } from '@/lib/actionPackages';
 import { persistAttachment } from '@/lib/attachments';
 import { portableResourceDigest } from '@/lib/portableResources';
 import { resolveExportDeploymentPolicy } from '@/lib/exportDeploymentPolicy';
@@ -14,6 +14,7 @@ import { acknowledgeWordPackage, prepareWordPackage, renderWordPackage } from '@
 import { postProcessDocx } from '@/services/docx/pandoc-converter';
 import { docxImageFixture } from '../_helpers/docxImageFixture';
 import { compileGeneratedDocxFixture } from '../_helpers/compileDocx';
+import { buildBaseline } from '../_helpers/compileMatrix';
 
 const hasPandoc = spawnSync('pandoc', ['--version']).status === 0;
 it.skipIf(!hasPandoc)('delivers real editable DOCX paragraphs, fields, images and links with unchanged original enclosure digests', async () => {
@@ -79,3 +80,49 @@ it.skipIf(!hasPandoc)('delivers real editable DOCX paragraphs, fields, images an
     await writeFile(`${process.env.DONDOCS_WORD_PACKAGE_ARTIFACTS}/main.docx`, await zip.file(result.manifest.mainDocument)!.async('uint8array'));
   }
 }, 45_000);
+
+it.skipIf(!hasPandoc)('keeps exact signature originals beside real DOCX output for every added signature family', async () => {
+  const { signature } = await docxImageFixture();
+  const cases = [
+    { docType: 'information_memorandum' as const, signer: undefined },
+    ...(['joint_letter', 'joint_memorandum', 'moa', 'mou'] as const).flatMap(docType =>
+      (['junior', 'senior'] as const).map(signer => ({ docType, signer }))),
+  ];
+  const members: PackageMember[] = [];
+  for (const [index, { docType, signer }] of cases.entries()) {
+    const baseline = buildBaseline(docType);
+    const snapshot = { ...baseline, endItems: [], publicationTables: {}, documentMode: 'custom' as const, documentCategory: 'correspondence' as const,
+      formData: { ...baseline.formData, from: 'Synthetic Training Sender', signatureType: 'image' as const,
+        signatureImageSigner: signer, signatureImage: { name: 'signature.png', size: signature.length, data: signature.toString('base64') } } };
+    members.push(await capturePackageMember(captureDocumentRevision({ documentId: `signature-${index}`, epoch: 0,
+      editSequence: 1, capturedAt: Date.UTC(2026, 10, 14) }, snapshot), `${docType}-${signer ?? 'from'}`, index === 0 ? 'basic-letter' : 'supporting-document'));
+  }
+  const record: ActionPackage = { kind: 'dondocs-action-package-record', version: 1, id: 'package_signature_originals',
+    name: 'Synthetic signature originals', archived: false, sequence: 1, currentRevisionId: 'revision_signatures',
+    revisions: [{ id: 'revision_signatures', createdAt: Date.UTC(2026, 10, 14), members, outputs: [] }] };
+  const policy = resolveExportDeploymentPolicy({ hostname: 'example.test', environment: null, runtime: { status: 'absent' } });
+  const prepared = await prepareWordPackage(record, record.currentRevisionId, policy);
+  acknowledgeWordPackage(prepared);
+  const result = await renderWordPackage(prepared, {
+    compile: async () => { throw new Error('Unexpected PDF compile'); },
+    convertDocx: async (latex, options) => {
+      const compiled = await compileGeneratedDocxFixture(latex, options, options.mediaFiles);
+      expect(compiled.ok, compiled.log).toBe(true);
+      return postProcessDocx(new Blob([new Uint8Array(compiled.docxBytes!)]), options);
+    },
+  });
+  const zip = await JSZip.loadAsync(await result.blob.arrayBuffer(), { checkCRC32: true });
+  expect(result.manifest.members).toHaveLength(cases.length);
+  for (const member of result.manifest.members) {
+    const files = result.manifest.files.filter(file => file.memberId === member.id);
+    const originals = files.filter(file => file.purpose.startsWith('Unchanged visual signature'));
+    expect(originals).toHaveLength(1);
+    const original = originals[0];
+    expect(await zip.file(original.path)!.async('nodebuffer')).toEqual(signature);
+    expect(original.sha256).toBe(await portableResourceDigest(new Uint8Array(signature).buffer));
+    const docx = files.find(file => file.path.endsWith('.docx'))!;
+    const word = await JSZip.loadAsync(await zip.file(docx.path)!.async('uint8array'));
+    const media = await Promise.all(Object.values(word.files).filter(file => file.name.startsWith('word/media/') && !file.dir).map(file => file.async('nodebuffer')));
+    expect(media.filter(bytes => bytes.equals(signature))).toHaveLength(1);
+  }
+}, 60_000);

@@ -21,6 +21,20 @@ export function supportsCorrespondenceSignatureImage(docType: string): boolean {
   return Object.hasOwn(DOC_TYPE_CONFIG, docType) && DOC_TYPE_CONFIG[docType].signature !== 'dual'
     && !['information_memorandum', 'i_type', 'sl3', 'sl4', 'tm_ietm_front_matter'].includes(docType);
 }
+/** Word supports a single retained signature image, with explicit party selection
+ * for a dual-signer document. PDF template support remains separate above. */
+export function supportsWordSignatureImage(docType: string): boolean {
+  return Object.hasOwn(DOC_TYPE_CONFIG, docType) && !DOC_TYPE_CONFIG[docType].pdfOnly;
+}
+
+export function assertWordSignatureSigner(source: DocxImageSource): void {
+  if (source.formData.signatureType === 'image'
+    && DOC_TYPE_CONFIG[source.docType]?.signature === 'dual'
+    && !['junior', 'senior'].includes(source.formData.signatureImageSigner ?? '')) {
+    throw new ImageInputError('Choose the junior or senior signer for the uploaded Word signature image.');
+  }
+}
+
 /** A conversion owns a fresh input filesystem, so the ordinal is sufficient
  * and keeps opaque attachment IDs out of native filenames. */
 export function docxFigureFile(number: number, type?: string, name?: string) {
@@ -160,7 +174,11 @@ export function signatureExtent(data: string) {
 export async function prepareDocxImages(source: DocxImageSource, read: (id: string) => Promise<ArrayBuffer | Uint8Array>): Promise<Record<string, Uint8Array>> {
   const files: Record<string, Uint8Array> = {};
   if (source.formData.signatureType === 'image') {
-    if (!supportsCorrespondenceSignatureImage(source.docType)) throw new ImageInputError('Word signature images require supported single-signer correspondence.');
+    if (!supportsWordSignatureImage(source.docType)) throw new ImageInputError('Word signature images require supported correspondence.');
+    assertWordSignatureSigner(source);
+    if (source.docType === 'information_memorandum' && !source.formData.from?.trim()) {
+      throw new ImageInputError('Enter the FROM sender before exporting an information memorandum signature image.');
+    }
     let image = source.formData.signatureImage;
     if (image && !image.data && image.fileRef) {
       let bytes: Uint8Array;

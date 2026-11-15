@@ -1,3 +1,4 @@
+import { WordSignatureImage } from './WordSignatureImage';
 import { EditorGuidance } from './EditorGuidance';
 import { FileText, AlertCircle } from 'lucide-react';
 import { Input } from '@/components/ui/input';
@@ -262,6 +263,7 @@ export function ExecutiveMemoSection() {
                 />
               </div>
             )}
+            {isInfoMemo && <WordSignatureImage />}
           </div>
         </AccordionContent>
       </AccordionItem>

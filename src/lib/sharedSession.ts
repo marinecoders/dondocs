@@ -98,6 +98,7 @@ export function parseSharedSession(value: unknown): SerializedSession {
     throw new Error('Comments require a version 2 review-aware share. Ask the sender to create a current copy.');
   }
   s.paragraphs = ensureParagraphIds(s.paragraphs, paragraphCommentIds(s.reviewComments));
+  if (s.formData.signatureImageSigner !== undefined) s.formData.signatureImageSigner = z.enum(['junior', 'senior']).parse(s.formData.signatureImageSigner);
   if (s.formData.additionalEndorsements !== undefined) s.formData.additionalEndorsements = additionalEndorsementsSchema.parse(s.formData.additionalEndorsements);
   if (s.formData.sl3 !== undefined) s.formData.sl3 = sl3Schema.parse(s.formData.sl3);
   if (s.formData.sl4 !== undefined) s.formData.sl4 = sl4Schema.parse(s.formData.sl4);
