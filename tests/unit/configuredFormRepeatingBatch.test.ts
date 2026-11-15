@@ -135,3 +135,10 @@ it('counts supplied blank answers toward the form-wide answer budget across grou
   expect(mapConfiguredBatchRow(source, { ...values, roster: raw }).issues).toEqual([]);
   expect(mapConfiguredBatchRow(source, { ...values, roster: raw, second: raw }).issues.join()).toContain('at most 2000 repeating-row answers');
 });
+
+
+it('enforces the repeating-cell byte budget for whitespace-only blank input', () => {
+  const source = form();
+  expect(mapConfiguredBatchRow(source, { ...values, roster: ' '.repeat(MAX_CONFIGURED_BATCH_REPEAT_BYTES) }).issues).toEqual([]);
+  expect(mapConfiguredBatchRow(source, { ...values, roster: ' '.repeat(MAX_CONFIGURED_BATCH_REPEAT_BYTES + 1) }).issues.join()).toContain('256 KiB');
+});

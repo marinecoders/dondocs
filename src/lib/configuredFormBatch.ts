@@ -201,7 +201,11 @@ export function reviewConfiguredBatchRow(instance: FormInstance, values: Readonl
       issues.push(`${field.label}: Enter text in the roster cell`);
       continue;
     }
-    if (!raw.trim()) continue;
+    if (!raw.trim()) {
+      if (field.kind === 'rows' && new TextEncoder().encode(raw).byteLength > MAX_CONFIGURED_BATCH_REPEAT_BYTES)
+        issues.push(`${field.label}: Repeating-row cells are limited to 256 KiB.`);
+      continue;
+    }
     try {
       if (field.kind === 'rows') {
         const parsed = parseConfiguredBatchRowsWithCount(field.id, instance.definition.rowGroups[field.id], raw);
