@@ -47,6 +47,8 @@ async function generate(page: Page) {
 }
 
 test('encrypted package link and file preserve reviewed content across fresh browser import and reload', async ({ page, browser, baseURL }, info) => {
+  // This full flow includes real rendering, password/tamper/expiry checks, reload and downloads.
+  test.setTimeout(180_000);
   await initialize(page);
   await page.getByLabel('Import draft file', { exact: true }).setInputFiles({ name: 'synthetic.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify({
     documentMode: 'custom', documentCategory: 'correspondence', docType: 'naval_letter',
