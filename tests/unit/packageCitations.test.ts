@@ -12,11 +12,11 @@ import { portableResourceDigest } from "@/lib/portableResources";
 
 vi.mock("@/stores/backupStore", () => ({ scheduleBackup: vi.fn() }));
 
-async function fixture() {
+async function fixture(paragraphId = "citation-body") {
   const session = createBlankSession();
   session.formData = { ...session.formData, subject: "SYNTHETIC CITATION TRAINING", classLevel: "unclassified" };
   session.references = [{ letter: "a", title: "Training reference" }, { letter: "b", title: "Training reference" }];
-  session.paragraphs = [{ id: "citation-body", text: "😀 Follow reference (a) and enclosure (1).", level: 0 }];
+  session.paragraphs = [{ id: paragraphId, text: "😀 Follow reference (a) and enclosure (1).", level: 0 }];
   session.enclosures = [{ title: "Native training enclosure" }];
   const captured = captureDocumentRevision({ documentId: "citation-source", epoch: 0, editSequence: 1, capturedAt: 1 }, { ...session, endItems: [], publicationTables: {} });
   const native = await capturePackageMember(captured, "Training letter", "basic-letter");
@@ -42,8 +42,8 @@ it("keeps legacy packages valid and initializes distinct durable identities with
   expect(JSON.stringify(getPackageRevision(updated).citations)).not.toContain("Training reference");
 });
 
-it("resolves identities after schema, storage, duplicate and portable transfer roundtrips", async () => {
-  const { record } = await fixture();
+it.each(["citation-body", "legacy:paragraph.1"])("resolves identities after schema, storage, duplicate and portable transfer roundtrips for %s", async paragraphId => {
+  const { record } = await fixture(paragraphId);
   const identified = await initializePackageCitationTargets(record);
   const source = (await packageCitationOccurrences(getPackageRevision(identified))).find(value => value.source.kind === "reference")!;
   const target = getPackageRevision(identified).citations!.targets.find(value => value.kind === "reference" && value.index === 0)!;
@@ -58,6 +58,15 @@ it("resolves identities after schema, storage, duplicate and portable transfer r
   }
   const imported = await importPortableActionPackage(await buildPortableActionPackage(linked));
   expect((await resolvePackageCitations(getPackageRevision(imported))).links[0].state).toBe("current");
+});
+
+it("does not offer invalid native paragraph identities as linkable occurrences", async () => {
+  const { record } = await fixture();
+  const revision = getPackageRevision(record);
+  const member = revision.members.find(value => value.kind === "native")!;
+  if (member.kind !== "native") throw new Error("Expected native member");
+  member.session.paragraphs[0].id = "invalid paragraph identity";
+  expect(await packageCitationOccurrences(revision)).toEqual([]);
 });
 
 it("retains exact identities through member reorder and marks changed or removed owners explicitly", async () => {

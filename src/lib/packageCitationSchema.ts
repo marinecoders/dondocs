@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { paragraphIdSchema } from "./paragraphIdentity";
 
 const id = z.string().min(1).max(100).regex(/^[a-zA-Z0-9_-]+$/);
 const sha256 = z.string().regex(/^[a-f0-9]{64}$/);
@@ -17,7 +18,7 @@ export const packageCitationTargetSchema = z.discriminatedUnion("kind", [
 export const packageCitationSourceSchema = z.object({
   memberId: id,
   memberRevisionId: id,
-  paragraphId: id,
+  paragraphId: paragraphIdSchema,
   field: z.enum(["text", "header"]),
   kind: z.enum(["reference", "enclosure"]),
   start: z.number().int().nonnegative().max(2_000_000),

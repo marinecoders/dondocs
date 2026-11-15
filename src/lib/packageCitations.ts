@@ -5,6 +5,7 @@ import { portableResourceDigest } from "./portableResources";
 import { canTrackReferenceCitations, scanReferenceCitations, citationProtectedRanges } from "./referenceCitations";
 import { enclosureStartNumber } from "./endorsement";
 import { sameReviewStoredValue } from "./documentsDb";
+import { paragraphIdSchema } from "./paragraphIdentity";
 
 export type CitationBindingState = "current" | "missing" | "stale";
 export interface ResolvedPackageCitationTarget { target: PackageCitationTarget; state: CitationBindingState; label: string; citationLabel: string | null }
@@ -51,7 +52,7 @@ export async function packageCitationOccurrences(revision: PackageRevision): Pro
     if (member.kind !== "native" || !canTrackReferenceCitations(member.session)) continue;
     const paragraphs = member.session.paragraphs;
     for (const [index, paragraph] of paragraphs.entries()) {
-      if (!paragraph.id || paragraphs.filter(value => value.id === paragraph.id).length !== 1) continue;
+      if (!paragraph.id || !paragraphIdSchema.safeParse(paragraph.id).success || paragraphs.filter(value => value.id === paragraph.id).length !== 1) continue;
       for (const field of ["text", "header"] as const) {
         const text = paragraph[field];
         if (!text || text.length > 2_000_000) continue;
