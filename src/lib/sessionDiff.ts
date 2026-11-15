@@ -1,5 +1,6 @@
 import type { SerializedSession } from '@/stores/documentStore';
 import { describeCommentAnchor } from './reviewCommentTargets';
+import { feedbackCategoryLabel } from './reviewFeedback';
 import { reviewCommentsSchema } from './reviewComments';
 import { alignParagraphs } from './paragraphAlignment';
 
@@ -14,13 +15,13 @@ function semanticComments(session: SerializedSession) {
   return parsed.data.threads.map(thread => {
     const target = describeCommentAnchor(session, thread.anchor);
     return { target: target.label, status: target.status, context: target.context,
-      resolved: thread.resolved, messages: thread.messages.map(message => ({ author: message.author, text: message.text })) };
+      ...(thread.category ? { category: feedbackCategoryLabel(thread.category) } : {}), resolved: thread.resolved, messages: thread.messages.map(message => ({ author: message.author, text: message.text })) };
   });
 }
 function commentText(comments: ReturnType<typeof semanticComments>): string {
   if (comments === null) return 'Update DonDocs to inspect these review comments.';
   return comments.length ? comments.map((thread, index) => [
-    `Thread ${index + 1}: ${thread.target} (${thread.resolved ? 'Resolved' : 'Open'}${thread.status === 'current' ? '' : thread.status === 'changed' ? '; target changed' : '; target unavailable'})`,
+    `Thread ${index + 1}: ${thread.target} (${thread.category ? `${thread.category}; ` : ''}${thread.resolved ? 'Resolved' : 'Open'}${thread.status === 'current' ? '' : thread.status === 'changed' ? '; target changed' : '; target unavailable'})`,
     ...(thread.context === undefined ? [] : [`Captured context: ${thread.context || '(Empty)'}`]),
     ...thread.messages.map((message, messageIndex) => `${messageIndex ? 'Reply' : 'Comment'} by ${message.author}: ${message.text}`),
   ].join('\n')).join('\n\n') : 'No comments';

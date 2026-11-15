@@ -12,17 +12,19 @@ import {
   reviewReturnPlan, reviewReturnTargetLabel, type PreparedReviewReturnExport, type PreparedReviewReturnImport,
 } from '@/lib/reviewReturnActions';
 import type { ReviewSuggestion } from '@/lib/reviewSuggestions';
+import { feedbackCategoryLabel } from '@/lib/reviewFeedback';
 import { getPIITypeLabel } from '@/services/pii/detector';
 
 const regionClass = 'max-h-64 overflow-auto whitespace-pre-wrap break-words rounded-md border p-2 text-sm [overflow-wrap:anywhere] focus-visible:outline-2 focus-visible:outline-ring';
 
-function DiscussionValue({ value }: { value: ReviewReturnConflict['current'] }) {
+function DiscussionValue({ value, category = false }: { value: ReviewReturnConflict['current']; category?: boolean }) {
+  if (typeof value === 'string') return <p>{feedbackCategoryLabel(value)}</p>;
   if (typeof value === 'boolean') return <p>{value ? 'Resolved' : 'Open'}</p>;
-  if (!value) return <p>Removed</p>;
+  if (!value) return <p>{category ? 'Unclassified' : 'Removed'}</p>;
   const thread = 'messages' in value ? value as CommentThread : null;
   const messages = thread ? thread.messages : [value as CommentMessage];
   return <div className="space-y-2">
-    {thread && <><p>{thread.resolved ? 'Resolved' : 'Open'}</p>{thread.anchor.kind !== 'document' && <p className="whitespace-pre-wrap [overflow-wrap:anywhere]">Captured context: {thread.anchor.context || '(Empty)'}</p>}</>}
+    {thread && <><p>{feedbackCategoryLabel(thread.category)} · {thread.resolved ? 'Resolved' : 'Open'}</p>{thread.anchor.kind !== 'document' && <p className="whitespace-pre-wrap [overflow-wrap:anywhere]">Captured context: {thread.anchor.context || '(Empty)'}</p>}</>}
     {messages.map(message => <p key={message.id} className="whitespace-pre-wrap [overflow-wrap:anywhere]"><strong>{message.author}:</strong> {message.text}</p>)}
   </div>;
 }
@@ -43,7 +45,7 @@ function Proposals({ proposals, label }: { proposals: readonly ReviewSuggestion[
   return <details className="text-sm"><summary className="cursor-pointer font-medium">{label} ({proposals.length})</summary>
     <div role="region" aria-label={label} tabIndex={0} className={`${regionClass} mt-2 space-y-3`}>
       {proposals.map(proposal => <article key={proposal.id} className="space-y-2 border-b pb-2 last:border-b-0">
-        <p><strong>{proposal.label}</strong> · {proposal.author}</p>
+        <p><strong>{proposal.label}</strong> · {feedbackCategoryLabel(proposal.category)} · {proposal.author}</p>
         {proposal.origin.rule && <p>{proposal.origin.rule}</p>}{proposal.origin.context && <p>{proposal.origin.context}</p>}
         {proposal.changes.map(change => <dl key={change.id} className="space-y-1"><dt>Reviewed value</dt><dd>{change.expected || '(Empty)'}</dd><dt>Proposed replacement</dt><dd>{change.proposed || '(Empty)'}</dd></dl>)}
       </article>)}
@@ -154,10 +156,10 @@ export function ReviewReturnControls({ disabled, onBusyChange }: { disabled: boo
         <Discussions comments={incoming.comments} label="Returned discussions" target={id => reviewReturnTargetLabel(incoming, id)} />
         <Discussions comments={plan.comments} label="Proposed discussions" target={id => reviewReturnTargetLabel(incoming, id)} />
         {plan.conflicts.map((conflict, index) => <fieldset key={conflict.id} className="space-y-2 rounded-md border p-3">
-          <legend className="font-medium">Conflict {index + 1}: {reviewReturnTargetLabel(incoming, conflict.threadId)} · {conflict.kind === 'resolution' ? 'discussion status' : conflict.kind === 'message' ? 'message edit' : 'edited or removed discussion'}</legend>
+          <legend className="font-medium">Conflict {index + 1}: {reviewReturnTargetLabel(incoming, conflict.threadId)} · {conflict.kind === 'resolution' ? 'discussion status' : conflict.kind === 'message' ? 'message edit' : conflict.kind === 'category' ? 'feedback category' : 'edited or removed discussion'}</legend>
           <div className="grid min-w-0 gap-3 sm:grid-cols-3">{(['baseline', 'current', 'returned'] as const).map(version => <div key={version} className="min-w-0 space-y-1">
             <h5 className="font-medium">{version === 'baseline' ? 'Reviewed baseline' : version === 'current' ? 'Current draft' : 'Returned feedback'}</h5>
-            <div role="region" aria-label={`Conflict ${index + 1} ${version}`} tabIndex={0} className={regionClass}><DiscussionValue value={conflict[version]} /></div>
+            <div role="region" aria-label={`Conflict ${index + 1} ${version}`} tabIndex={0} className={regionClass}><DiscussionValue value={conflict[version]} category={conflict.kind === 'category'} /></div>
           </div>)}</div>
           <div className="flex flex-wrap gap-3">{(['current', 'returned'] as const).map(value => <Label key={value} className="flex items-center gap-2">
             <input type="radio" name={`review-conflict-${index}`} value={value} checked={choices[conflict.id] === value}

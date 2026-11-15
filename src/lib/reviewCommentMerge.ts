@@ -1,3 +1,4 @@
+import type { FeedbackCategory } from './reviewFeedback';
 import { reviewCommentsSchema, type CommentMessage, type CommentThread, type ReviewComments } from './reviewComments';
 
 export type ReviewReturnChoice = 'current' | 'returned';
@@ -5,10 +6,10 @@ export interface ReviewReturnConflict {
   id: string;
   threadId: string;
   messageId?: string;
-  kind: 'thread' | 'message' | 'resolution';
-  baseline?: CommentThread | CommentMessage | boolean;
-  current?: CommentThread | CommentMessage | boolean;
-  returned?: CommentThread | CommentMessage | boolean;
+  kind: 'thread' | 'message' | 'resolution' | 'category';
+  baseline?: CommentThread | CommentMessage | boolean | FeedbackCategory;
+  current?: CommentThread | CommentMessage | boolean | FeedbackCategory;
+  returned?: CommentThread | CommentMessage | boolean | FeedbackCategory;
   choice?: ReviewReturnChoice;
 }
 export interface ReviewCommentMerge {
@@ -28,7 +29,7 @@ const messageValue = (message: CommentMessage | undefined) => message && {
 const sameMessage = (a: CommentMessage | undefined, b: CommentMessage | undefined) => equal(messageValue(a), messageValue(b));
 const sameThread = (a: CommentThread | undefined, b: CommentThread | undefined) => {
   const value = (thread: CommentThread | undefined) => thread && {
-    id: thread.id, anchor: thread.anchor, resolved: thread.resolved, messages: thread.messages.map(messageValue),
+    id: thread.id, anchor: thread.anchor, resolved: thread.resolved, category: thread.category, messages: thread.messages.map(messageValue),
   };
   return equal(value(a), value(b));
 };
@@ -60,7 +61,7 @@ export function mergeReturnedComments(
     }
   }
   const conflicts: ReviewReturnConflict[] = [];
-  const choose = <T extends CommentThread | CommentMessage | boolean>(
+  const choose = <T extends CommentThread | CommentMessage | boolean | FeedbackCategory>(
     kind: ReviewReturnConflict['kind'], threadId: string, base: T | undefined, left: T | undefined,
     right: T | undefined, messageId?: string,
   ): T | undefined => {
@@ -94,7 +95,12 @@ export function mergeReturnedComments(
       // A resolution made while the other copy gains feedback needs an explicit decision.
       const resolved = left.resolved === right.resolved ? left.resolved
         : choose('resolution', id, base?.resolved, left.resolved, right.resolved)!;
-      next = { ...left, messages, resolved };
+      const category = left.category === right.category ? left.category
+        : right.category === base?.category ? left.category
+          : left.category === base?.category ? right.category
+            : choose('category', id, base?.category, left.category, right.category);
+      next = { ...left, messages, resolved, ...(category ? { category } : {}) };
+      if (!category) delete next.category;
     }
     if (next) merged.push(structuredClone(next));
   }

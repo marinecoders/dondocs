@@ -410,3 +410,51 @@ for (const scenario of [
   const reopened = JSON.parse((await download(page, () => action(page, 'Export draft (.json)'))).toString('utf8'));
   expect(reopened.formData.customClassification).toBe(expected);
 });
+
+test('categorized feedback survives reload and downloadable returns', async ({ page }, info) => {
+  await page.addInitScript(() => {
+    localStorage.setItem('browser-test-visitor', 'returning');
+    localStorage.setItem('dondocs_ui', JSON.stringify({ version: 1, state: { theme: 'light', editorLayout: 'scroll' } }));
+  });
+  await page.goto('/');
+  const draft = { documentMode: 'custom', documentCategory: 'correspondence', docType: 'naval_letter',
+    formData: { subject: 'FICTIONAL CATEGORY REVIEW', from: 'Training Office', to: 'Original recipient', date: '15 Nov 26' },
+    paragraphs: [{ id: 'category-paragraph', text: 'Fictional training text.', level: 0 }], references: [], enclosures: [], copyTos: [], distributions: [] };
+  await page.getByLabel('Import draft file').setInputFiles({ name: 'category.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(draft)) });
+  await page.getByRole('button', { name: 'Open as new document', exact: true }).click();
+  await page.getByRole('button', { name: 'Comments', exact: true }).click();
+  let comments = page.getByRole('dialog', { name: 'Document comments', exact: true });
+  await comments.getByLabel('Reviewer name', { exact: true }).fill('Example chief');
+  await comments.getByLabel('Comment', { exact: true }).fill('Which recipient should receive this?');
+  await comments.getByLabel('Comment category', { exact: true }).selectOption('question');
+  await comments.getByRole('button', { name: 'Post comment', exact: true }).click();
+  await expect(comments.getByRole('article')).toContainText('Question');
+  await comments.getByLabel('Filter comment category', { exact: true }).selectOption('required-correction');
+  await expect(comments.getByRole('article')).toHaveCount(0);
+  await comments.getByRole('button', { name: 'Close comments', exact: true }).click();
+  await page.reload();
+  await page.getByRole('button', { name: 'Comments (1)', exact: true }).click();
+  comments = page.getByRole('dialog', { name: 'Document comments', exact: true });
+  await expect(comments.getByRole('article')).toContainText('Question');
+  await comments.getByRole('button', { name: 'Close comments', exact: true }).click();
+  let modal = await reviews(page);
+  await modal.getByLabel('Review name', { exact: true }).fill('Categorized round');
+  await modal.getByRole('button', { name: 'Start review from current draft', exact: true }).click();
+  await expect(modal.getByText('Review baseline saved. Later source edits will not change this copy.', { exact: true })).toBeVisible();
+  await modal.getByRole('button', { name: 'Open baseline as new review copy', exact: true }).click();
+  await expect(modal).toBeHidden();
+  modal = await reviews(page);
+  await modal.getByLabel('Review for suggested edits', { exact: true }).selectOption({ label: 'Categorized round' });
+  await modal.getByLabel('Reviewer name for suggestion', { exact: true }).fill('Example chief');
+  await modal.getByLabel('Suggestion category', { exact: true }).selectOption('required-correction');
+  await modal.getByLabel('Suggestion target', { exact: true }).selectOption('field:to');
+  await modal.getByLabel('Proposed replacement', { exact: true }).fill('Corrected recipient');
+  await modal.getByRole('button', { name: 'Add suggestion', exact: true }).click();
+  await expect(modal.getByRole('article', { name: 'Suggestion 1: Replace to', exact: true })).toContainText('Required correction');
+  await modal.getByRole('button', { name: 'Prepare feedback return', exact: true }).click();
+  const returned = JSON.parse((await download(page, () => modal.getByRole('button', { name: 'Download feedback return', exact: true }).click())).toString('utf8'));
+  expect(returned.proposals[0].category).toBe('required-correction');
+  expect(returned.comments.threads[0].category).toBe('question');
+  await info.attach('categorized-return.json', { body: JSON.stringify(returned, null, 2), contentType: 'application/json' });
+  await page.screenshot({ path: info.outputPath('categorized-review.png'), scale: 'css' });
+});

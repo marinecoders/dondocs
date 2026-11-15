@@ -1,14 +1,16 @@
 import { useDocumentStore } from '@/stores/documentStore';
 import { captureDocumentTarget, isCurrentDocumentTarget, recordDocumentHistory, type DocumentTarget } from '@/stores/documentsStore';
 import { captureCommentAnchor, supportsReviewComments } from './reviewCommentTargets';
+import type { FeedbackCategory } from './reviewFeedback';
 import { reviewCommentsSchema, type CommentMessage, type ReviewComments } from './reviewComments';
 
 export type CommentMutation =
-  | { kind: 'add'; field?: string; paragraphId?: string; author: string; text: string }
+  | { kind: 'add'; field?: string; paragraphId?: string; author: string; text: string; category?: FeedbackCategory }
   | { kind: 'reply'; threadId: string; author: string; text: string }
   | { kind: 'edit'; threadId: string; messageId: string; text: string }
   | { kind: 'delete-reply'; threadId: string; messageId: string }
   | { kind: 'delete'; threadId: string }
+  | { kind: 'classify'; threadId: string; category: FeedbackCategory }
   | { kind: 'resolve'; threadId: string; resolved: boolean };
 export interface ReviewedCommentMutation { readonly target: DocumentTarget | null }
 const issued = new WeakMap<ReviewedCommentMutation, CommentMutation>();
@@ -30,11 +32,12 @@ export function applyCommentMutation(request: ReviewedCommentMutation): 'applied
   if (mutation.kind === 'add') {
     const anchor = captureCommentAnchor(state, mutation.field, mutation.paragraphId);
     if (!anchor) return 'invalid';
-    next.threads.push({ id: crypto.randomUUID(), anchor, messages: [newMessage(mutation.author, mutation.text)], resolved: false });
+    next.threads.push({ id: crypto.randomUUID(), anchor, messages: [newMessage(mutation.author, mutation.text)], resolved: false, ...(mutation.category ? { category: mutation.category } : {}) });
   } else {
     const thread = next.threads.find(item => item.id === mutation.threadId);
     if (!thread) return 'invalid';
     if (mutation.kind === 'delete') next.threads = next.threads.filter(item => item !== thread);
+    else if (mutation.kind === 'classify') thread.category = mutation.category;
     else if (mutation.kind === 'resolve') thread.resolved = mutation.resolved;
     else if (mutation.kind === 'reply') thread.messages.push(newMessage(mutation.author, mutation.text));
     else {

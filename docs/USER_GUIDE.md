@@ -93,6 +93,15 @@ Desktop Chrome/Edge can mirror backups to a file you choose. Registry saves trig
 
 Each row's supported source/resolved text and retained values are reviewed. Saved downloads, including ZIP downloads, get a fresh review; if source text is missing/unreadable, the UI asks for explicit confirmation. Review attached content yourself: the text scan does not inspect PDF/image bytes. Configured-form batches map roster columns directly to supported scalar fields, with typed row checks and exact retained definitions and template pages. Each row supplies its own answers; source answers are not inherited. Signature fields remain blank for signing after export. Repeating rows and multiple-selection fields are unsupported. Consult the [capability matrix](CAPABILITIES.md) for all formats.
 
+## Classify review feedback
+
+Comments and suggested replacements can be labeled **Edit**, **Question**, or
+**Required correction**. Filter by category in the comments or suggested-edits
+workspace. Older feedback remains **Unclassified** until deliberately categorized;
+DonDocs does not infer reviewer intent. Categories travel with supported draft,
+backup and review-return files. A required correction is a reviewer request, not
+an authenticated approval requirement, and it never applies text automatically.
+
 ## Keep an exact review baseline
 
 1. Open native correspondence and choose **Document actions → Review rounds…**.

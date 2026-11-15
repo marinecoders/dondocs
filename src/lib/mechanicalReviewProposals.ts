@@ -96,5 +96,5 @@ export function createMechanicalReviewProposal(round: ReviewRound, input: {
     characters += expected.length + change.proposed.length;
   }
   if (characters > REVIEW_SUGGESTION_LIMITS.totalCharacters) throw new Error('The selected corrections contain too much text for one proposal. Select a smaller group.');
-  return createReviewSuggestion(round, { author: input.author, label, origin, changes });
+  return createReviewSuggestion(round, { author: input.author, category: 'edit', label, origin, changes });
 }

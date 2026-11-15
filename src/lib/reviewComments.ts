@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { paragraphIdSchema } from './paragraphIdentity';
+import { feedbackCategorySchema } from './reviewFeedback';
 
 export const COMMENT_LIMITS = { threads: 100, messages: 50, author: 100, text: 10_000, context: 20_000, totalCharacters: 200_000 } as const;
 const identifier = z.string().uuid();
@@ -20,7 +21,7 @@ export const commentMessageSchema = z.object({
 export type CommentMessage = z.infer<typeof commentMessageSchema>;
 export const commentThreadSchema = z.object({
   id: identifier, anchor: commentAnchorSchema, messages: z.array(commentMessageSchema).min(1).max(COMMENT_LIMITS.messages),
-  resolved: z.boolean(),
+  resolved: z.boolean(), category: feedbackCategorySchema.optional(),
 }).strict();
 export type CommentThread = z.infer<typeof commentThreadSchema>;
 export const reviewCommentsSchema = z.object({ version: z.union([z.literal(1), z.literal(2)]), threads: z.array(commentThreadSchema).max(COMMENT_LIMITS.threads) })
