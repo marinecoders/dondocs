@@ -18,7 +18,9 @@ Async exports must not reread the live editor after capturing a revision. Owners
 
 Correspondence PDF generates TeX fragments and uses the packaged SwiftLaTeX **pdfTeX** engine. Word uses flat TeX plus Pandoc and DOCX post-processing. They share content/layout rules but have separate engines and pagination. PDF finishing handles supported links, enclosure assembly and signature fields. Technical-publication families add structured preflight/rendering and are PDF-only.
 
-Built-in NAVMC forms keep dedicated editors and PDF generators. Configured forms instead validate a pinned semantic definition and render answers/rows over checksummed immutable template pages. A draft/backup includes its definition/answers, while the blank PDF package is loaded/cached separately.
+Word package delivery in `src/services/exports/wordPackage.ts` captures one saved action-package revision through the existing portable resource validator. It renders approved correspondence through the ordinary prepared Word path with operation-owned image resources, preserves separate original bytes and emits a measured digest manifest. `WordPackageDownload` owns revision-scoped review/cancellation; ordinary clean PDF/DOCX exports retain their existing path.
+
+Built-in NAVMC forms keep dedicated editors and PDF generators. Configured forms instead validate a pinned semantic definition and render answers/rows over checksummed immutable template pages. Current configured-form drafts, backups and encrypted handoffs include the exact template bytes, retained as hash-keyed IndexedDB attachments; Cache Storage is an optional accelerator. Legacy files may still require the hosted template pages.
 
 The companion accepts HTTP/MCP requests, validates them, maps them to renderer input and writes final files locally. It does not depend on a browser's Zustand state. It uses the same publication preflight, and system Pandoc rather than the browser-vendored WASM converter for Word. See [the contract](COMPANION.md).
 

@@ -7,6 +7,26 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.86] — 2026-11-14
+
+### Added
+
+- Download a complete Word package from one saved action revision: editable main and supported correspondence DOCX files, unchanged original supporting PDFs/images, and readable member/order/revision and SHA-256 manifests.
+- Review captured content and original PDF text with the existing deployment policy and privacy checks. Missing or corrupt files and listed enclosures without captured originals block complete delivery; generated ZIP paths and sizes are bounded.
+
+### Fixed
+
+- Keep Word package approval, cancellation and image resources tied to the captured revision. Share the ordinary export gate until conversion finishes, preserving newer edits and preventing mixed concurrent Word conversions.
+- Enforce the expanded Word package budget before copying repeated original files, even when they share one portable resource.
+- Keep generated ZIP paths resolvable when an imported label contains malformed Unicode.
+- Escape Windows device filenames containing superscript digits so captured originals remain extractable.
+- Preserve file extensions when shortening long Unicode names in Word archives.
+- Deliver valid captured PNG signatures stored as either base64 or data URLs with unchanged signature sidecars.
+- Serialize the normalized PNG signature size after JPEG uploads so saved drafts and packages pass their attachment integrity checks.
+- Keep inactive embedded figures and enclosures out of clean Word sidecars while retaining explicit original package members.
+- Apply the existing deployment text checks to emitted Word content while excluding hidden draft fields and review discussions; reject PDF figures with PNG/JPEG conversion guidance.
+- Explain separate original PDFs and Word signing without implying editable PDF pages, transferred PDF signing fields or matching Word/PDF pagination. Clean Word delivery excludes review metadata and older revisions.
+
 ## [1.3.85] — 2026-11-14
 
 ### Added

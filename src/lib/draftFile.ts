@@ -144,7 +144,12 @@ async function serializeDraft(session: SerializedSession, live: DocumentSnapshot
   }));
   const { basicLetterFileRef, ...formData } = session.formData;
   const signature = await resolveSignature(formData.signatureImage);
-  if (signature) { const { fileRef: _ref, ...image } = signature; formData.signatureImage = image; }
+  if (signature) {
+    const { fileRef: _ref, ...image } = signature;
+    // Uploads can be normalized from JPEG to PNG; serialize the delivered size.
+    if (image.data) image.size = base64ToUint8Array(image.data.replace(/^data:image\/[^;]+;base64,/, '')).byteLength;
+    formData.signatureImage = image;
+  }
   const paragraphs = await Promise.all(session.paragraphs.map(async (paragraph) => {
     if (!paragraph.figure) return paragraph;
     const { fileRef, ...figure } = paragraph.figure;

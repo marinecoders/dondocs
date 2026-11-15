@@ -27,6 +27,9 @@ export const fixtureDefinition = (): FormDefinition => compileFormDefinition({
 export const fixtureInstance = (): FormInstance => ({ definition: fixtureDefinition(), answers: { name: '000123', decision: 'yes' }, rows: {}, answerRevision: 0 });
 export async function fixturePage() {
   const doc = await PDFDocument.create(); doc.addPage([612, 792]);
+  // Identical template fixtures must retain their digest across clock boundaries.
+  const timestamp = new Date('2026-01-01T00:00:00Z');
+  doc.setCreationDate(timestamp);doc.setModificationDate(timestamp);
   const bytes = await doc.save();
   return { bytes, sha256: createHash('sha256').update(bytes).digest('hex') };
 }
