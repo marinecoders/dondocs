@@ -1,3 +1,4 @@
+import { configuredBatchMapping } from './configuredFormBatch';
 import type { DocumentSnapshot } from '@/stores/historyStore';
 import { DOC_TYPE_CONFIG, FORM_TYPE_LABELS, type DocumentMode } from '@/types/document';
 import { compileFormDefinition } from '@/services/forms/model';
@@ -70,9 +71,6 @@ export function resolveCapabilities(subject: CapabilitySubject, request: Capabil
       return result('unsupported', 'pdf-only', 'This form exports to PDF.');
     }
     if (subject.kind === 'configured-form') {
-      if (request.operation === 'batch') {
-        return result('unsupported', 'configured-form-batch', 'Batch generation is available for correspondence and the two built-in NAVMC forms.');
-      }
       const availability = subject.definition;
       if (!availability || typeof availability !== 'object') return result('invalid-data', 'invalid-definition', 'The selected form definition is invalid.');
       if (availability.status === 'not-loaded' || availability.status === 'loading') {
@@ -89,6 +87,10 @@ export function resolveCapabilities(subject: CapabilitySubject, request: Capabil
         }
         if (definition.pages.some(page => !page.sha256)) {
           return result('invalid-data', 'invalid-definition', 'The selected form definition is missing template page checksums.');
+        }
+        if (request.operation === 'batch') {
+          const mapping = configuredBatchMapping({ definition, answers: {}, rows: {}, answerRevision: 0 });
+          if (mapping.issues.length) return result('unsupported', 'configured-form-batch', mapping.issues.join(' '));
         }
       } catch {
         return result('invalid-data', 'invalid-definition', 'The selected form definition is invalid or uses an unsupported version.');

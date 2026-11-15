@@ -34,6 +34,16 @@ it('maps pasted roster values to configured fields and explains typed errors wit
   expect(compile).not.toHaveBeenCalled();
 });
 
+it('does not borrow a live form definition when a retained job has no captured definition', async () => {
+  const { getSerializedSession } = await import('@/stores/documentStore');
+  const source = getSerializedSession();delete source.genericForm;
+  useBatchStore.setState({ source, jobId: 'old-job', status: 'paused', placeholders: ['name'] });
+  render(<BatchModal compile={vi.fn()} isEngineReady={false} waitForReady={vi.fn()} />);
+  expect(screen.queryByRole('region', { name: 'Configured form roster fields' })).not.toBeInTheDocument();
+  expect(screen.getByRole('button', { name: 'Resume remaining' })).toBeDisabled();
+});
+
+
 it.each(['__skip__', 'skip', 'name'])('keeps manual mapping and skipping distinct for the configured field %s', fieldId => {
   const genericForm = fixtureInstance();
   genericForm.definition.rowGroups = {};

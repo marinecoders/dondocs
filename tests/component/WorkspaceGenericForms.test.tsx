@@ -29,7 +29,7 @@ it('explains why the batch walkthrough is unavailable for a packaged form', asyn
   useUIStore.setState({ documentGuideOpen: true, documentGuideTab: 'features' });
   render(<TooltipProvider><DocumentGuideModal /></TooltipProvider>);
   await userEvent.click(screen.getByRole('button', { name: /Batch generation.*Toolbar/ }));
-  expect(screen.getByRole('button', { name: 'Batch generation supports correspondence and the two built-in NAVMC forms' })).toBeDisabled();
+  expect(screen.getByRole('button', { name: 'This walkthrough uses correspondence variables. For configured forms, open Batch and map roster columns directly to form fields.' })).toBeDisabled();
 });
 
 it('edits a pinned form in both workspace views without exposing a second type picker', async () => {

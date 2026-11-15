@@ -111,7 +111,10 @@ export function prepareExport(input: {
     const defaults = original.kind === 'builtin-form' && original.document.formType === 'navmc_118_11'
       ? buildNavmc11811DefaultValues(original.document.forms.navmc11811!) : {};
     const values = { ...defaults, ...input.placeholders };
-    const substituted = mapCapturedText(input.captured, field => replacePlaceholders(field.text, values));
+    // Configured forms already contain typed answers from direct field mapping.
+    // Their literal text must not become another field's placeholder template.
+    const substituted = original.kind === 'configured-form' ? input.captured
+      : mapCapturedText(input.captured, field => replacePlaceholders(field.text, values));
     let output = projectRenderedDocument(substituted);
     const snapshot = copyCapturedDocument(output).document;
     const notices: string[] = capability.status === 'partial' && input.texMode !== 'flat' ? [capability.message] : [];

@@ -18,7 +18,8 @@ export function detectBatchPII(captured: CapturedDocument, values: Readonly<Reco
       ? [] : [{ field: `Batch value: ${key}`, value }];
   });
   const substitutions = { ...(page11 ? buildNavmc11811DefaultValues(page11) : {}), ...values };
-  const resolved = mapCapturedText(captured, field => replacePlaceholders(field.text, substitutions));
+  const resolved = source.kind === 'configured-form' ? captured
+    : mapCapturedText(captured, field => replacePlaceholders(field.text, substitutions));
   const documentFindings = mergePIIResults([detectCapturedPII(captured), detectCapturedPII(resolved)]);
   const rawValues = detectTextPII(fields);
   // A value already identified in document text needs no duplicate row-value

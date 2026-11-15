@@ -935,7 +935,7 @@ export function DocumentGuideModal() {
                 const isOpen = expandedFeature === f.title;
                 const isLearned = !!completed[f.key];
                 const unavailableReason = f.key === 'batch' && isGenericForm
-                  ? 'Batch generation supports correspondence and the two built-in NAVMC forms'
+                  ? 'This walkthrough uses correspondence variables. For configured forms, open Batch and map roster columns directly to form fields.'
                   : ['enclosures', 'signature', 'classification'].includes(f.key) && !sectionIds.includes(f.key)
                     ? 'This walkthrough needs a correspondence format with this section'
                     : null;
