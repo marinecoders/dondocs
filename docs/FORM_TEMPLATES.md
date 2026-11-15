@@ -272,3 +272,15 @@ rendered placement review when publishing a form.
 ## Placement rotation
 
 The v2 definition supports optional `rotation: 270` on ordinary and repeated-row text placements. This rotates a placement's text, not the template page. Page/source normalization is a separate import step. Regenerate the [schema](form-definition.schema.json) after model changes; `npm run docs:check` detects schema drift.
+
+### Configured-form roster mapping
+
+Open **Batch** to map roster columns directly to a configured form's field IDs.
+The field list explains date, number, boolean, identifier, and single-choice input
+formats. Review row checks before generation. Dates use `YYYY-MM-DD`, identifiers
+retain leading zeros, and choices accept an exact option ID or a unique label.
+
+Every row supplies its own answers. Saved answers from the source form are not
+inherited, and signature fields remain blank for signing after export. Repeating
+rows and multiple-selection fields are not supported by this initial mapping
+path. Mapping availability does not imply that PDF generation is available.

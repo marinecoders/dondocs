@@ -24,12 +24,12 @@ it('offers publication configuration fragments while withholding unsupported Wor
   expect(screen.getByRole('menuitem', { name: 'Download LaTeX' })).toBeEnabled();
   expect(screen.queryByRole('menuitem', { name: /Word|Flat LaTeX/ })).not.toBeInTheDocument();
 });
-it('keeps configured-form batch unavailable while allowing its loaded PDF', async () => {
+it('offers configured-form roster mapping while keeping individual PDF output available', async () => {
   const form = fixtureInstance();form.definition.pages[0].sha256 = (await fixturePage()).sha256;useDocumentStore.setState({ documentCategory: 'forms', formType: form.definition.formId, genericForm: form });
   await menu();expect(screen.getByRole('menuitem', { name: /^Download PDF/ })).toBeEnabled();
   expect(screen.queryByRole('menuitem', { name: /Word|LaTeX/ })).not.toBeInTheDocument();
   await userEvent.keyboard('{Escape}');
-  expect(screen.getByRole('button', { name: 'Batch' })).toBeDisabled();
+  expect(screen.getByRole('button', { name: 'Batch' })).toBeEnabled();
 });
 it('does not promise PDF output before the selected form definition is loaded', async () => {
   useDocumentStore.setState({ documentCategory: 'forms', formType: 'fixture', genericForm: undefined });await menu();

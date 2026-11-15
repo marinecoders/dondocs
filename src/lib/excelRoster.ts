@@ -141,7 +141,13 @@ export function autoMapRosterColumns(headers: string[], placeholders: string[]) 
   }));
 }
 
-export function mappedRosterRows(selection: RosterSelection, mappings: Record<number, string>, placeholders: string[]) {
+export function mappedRosterRows(
+  selection: RosterSelection, mappings: Record<number, string>, placeholders: string[],
+  { preserveWhitespaceFor, identifierFields }: {
+    preserveWhitespaceFor?: ReadonlySet<string>;
+    identifierFields?: ReadonlySet<string>;
+  } = {},
+) {
   const headers = rosterHeaders(selection);
   return rosterDataRows(selection).map(row => {
     const values: Record<string, string> = Object.create(null);
@@ -149,12 +155,13 @@ export function mappedRosterRows(selection: RosterSelection, mappings: Record<nu
     for (const [index, placeholder] of Object.entries(mappings)) {
       if (!placeholder || !placeholders.includes(placeholder)) continue;
       const cell = row.cells[+index];
-      const value = cell?.value.trim() ?? '';
+      const rawValue = cell?.value ?? '';
+      const value = preserveWhitespaceFor?.has(placeholder) ? rawValue : rawValue.trim();
       values[placeholder] = value;
       const location = `Worksheet row ${row.number}, ${placeholder}`;
       if (cell?.warning) warnings.push({ placeholder, value, message: `${location}: ${cell.warning}` });
       if (ambiguousDate(value)) warnings.push({ placeholder, value, kind: 'ambiguous-date', message: `${location}: Ambiguous date. Confirm day/month order and use YYYY-MM-DD or a month name.` });
-      if (isIdentifier(headers[+index]) || isIdentifier(placeholder)) {
+      if (identifierFields?.has(placeholder) || isIdentifier(headers[+index]) || isIdentifier(placeholder)) {
         if (cell?.excelDate) warnings.push({ placeholder, value, message: `${location}: Stored as an Excel date; the original identifier may have changed. Verify against the original source.` });
         else if (cell?.numericIdentifierRisk) warnings.push({ placeholder, value, message: `${location}: Stored as a number; leading zeros may already be missing. Verify against the original source.` });
       }
@@ -163,10 +170,19 @@ export function mappedRosterRows(selection: RosterSelection, mappings: Record<nu
   });
 }
 
-export function rosterRowWarnings(row: { values: Record<string, string>; rosterWarnings?: RosterWarning[]; worksheetRow?: number }, placeholders: string[]) {
+/** Typed forms own value validation; workbook provenance still needs review. */
+export function rosterRowWarnings(
+  row: { values: Record<string, string>; rosterWarnings?: RosterWarning[]; worksheetRow?: number },
+  placeholders: string[],
+  { includeInferred = true }: { includeInferred?: boolean } = {},
+) {
   if (row.worksheetRow === undefined) return [];
+  const provenance = (row.rosterWarnings ?? []).filter(warning =>
+    warning.kind !== 'ambiguous-date' && placeholders.includes(warning.placeholder)
+      && row.values[warning.placeholder] === warning.value);
+  if (!includeInferred) return provenance;
   return [
-    ...(row.rosterWarnings ?? []).filter(warning => warning.kind !== 'ambiguous-date' && placeholders.includes(warning.placeholder) && row.values[warning.placeholder] === warning.value),
+    ...provenance,
     ...placeholders.flatMap(placeholder => {
       const value = row.values[placeholder] ?? '';
       const location = `Worksheet row ${row.worksheetRow}, ${placeholder}`;

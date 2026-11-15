@@ -7,6 +7,20 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.88] — 2026-11-15
+
+### Added
+
+- Map roster columns to supported configured-form fields, review typed values and missing answers, and preserve the original person’s answers. This release enables mapping review; generation remains disabled until the configured-form execution phase.
+
+### Fixed
+
+- Keep roster field IDs distinct from the mapping Skip action, including fields named skip or __skip__.
+- Preserve configured text spacing and workbook provenance warnings, and use typed identifier fields when flagging Excel number/date conversion risks.
+- Defer retained roster warning review while its panel is closed.
+- Reuse compiled field inventories and unchanged-row diagnostics while editing configured-form rosters.
+- Reject incomplete saved configured batches with a recovery message while keeping the workspace usable.
+
 ## [1.3.87] — 2026-11-14
 
 ### Fixed

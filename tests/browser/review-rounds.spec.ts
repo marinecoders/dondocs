@@ -101,6 +101,17 @@ for (const theme of ['light', 'dark', 'classic']) {
     await expect(trash.getByText('Trash is empty.', { exact: true })).toBeVisible();
     await trash.getByRole('button', { name: 'Close', exact: true }).click();
     await page.reload();
+    await expect(page.getByRole('button', { name: 'Document actions', exact: true })).toBeVisible();
+    const preview = page.locator('.workspace-preview');
+    if (await preview.isVisible()) {
+      // Whole-page axe must inspect the ready toolbar, rather than sampling
+      // its disabled loading styles while the PDF page count changes.
+      await expect(preview.locator(':scope > [aria-live="polite"]'))
+        .toHaveText('Compilation complete', { timeout: 60_000 });
+      const pageNumber = preview.getByRole('textbox', { name: 'Page number', exact: true });
+      await expect(pageNumber).toBeEnabled({ timeout: 30_000 });
+      await expect(pageNumber).toHaveCSS('opacity', '1');
+    }
     const retained = await reviews(page);
     await expect(retained.getByText('Source unavailable; the saved baseline is retained.', { exact: false })).toBeVisible();
     expect(JSON.parse((await downloadCopy(page)).toString('utf8'))).toEqual(packet);

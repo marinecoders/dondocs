@@ -140,9 +140,10 @@ export function Header({
   }, []);
   useEffect(() => {
     mounted.current = true;
+    const importRequest = draftImportRequest;
     return () => {
       mounted.current = false;
-      draftImportRequest.current++;
+      importRequest.current++;
       if (saveStatusTimeoutRef.current) {
         clearTimeout(saveStatusTimeoutRef.current);
         saveStatusTimeoutRef.current = null;
@@ -441,7 +442,7 @@ export function Header({
         <DocumentNavigation />
         <Button variant="ghost" size="sm" className="ml-auto h-11 sm:h-8 gap-0.5 sm:gap-1.5 px-2 has-[>svg]:px-0.5 sm:has-[>svg]:px-2.5" onClick={openHistory} disabled={!currentId}><History className="h-3.5 w-3.5" />History</Button>
         {!isFormsMode && <DocumentComments />}
-        <Button disabled={!capabilityAvailable(output.batch)} title={output.batch.status === 'supported' ? undefined : output.batch.message} data-tour="batch" variant="ghost" size="sm" className="h-11 sm:h-8 gap-0.5 sm:gap-1.5 px-2 has-[>svg]:px-0.5 sm:has-[>svg]:px-2.5" onClick={() => setBatchModalOpen(true)}><Layers className="h-3.5 w-3.5" />Batch</Button>
+        <Button disabled={!(capabilityAvailable(output.batch) || output.batch.status === 'unsupported' && output.batch.reason === 'configured-form-batch')} title={output.batch.status === 'supported' ? undefined : output.batch.message} data-tour="batch" variant="ghost" size="sm" className="h-11 sm:h-8 gap-0.5 sm:gap-1.5 px-2 has-[>svg]:px-0.5 sm:has-[>svg]:px-2.5" onClick={() => setBatchModalOpen(true)}><Layers className="h-3.5 w-3.5" />Batch</Button>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="sm" aria-label="Document tools" data-tour="tools" className="h-11 sm:h-8 gap-0.5 sm:gap-1.5 px-2 has-[>svg]:px-0.5 sm:has-[>svg]:px-2.5">

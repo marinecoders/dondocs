@@ -160,3 +160,37 @@ describe('Excel roster import', () => {
     await expect(readExcelRoster(rosterFile([], { sheet }))).rejects.toThrow(/exceeds 5,000 rows or 100 columns/);
   });
 });
+
+
+it('preserves workbook provenance while configured forms handle missing-value requirements separately', () => {
+  const warning = { placeholder: 'ID', value: '123', message: 'Excel may have rounded this identifier.' };
+  const row = { worksheetRow: 2, values: { ID: '123', OPTIONAL: '' }, rosterWarnings: [warning] };
+  expect(rosterRowWarnings(row, ['ID', 'OPTIONAL'], { includeInferred: false })).toEqual([warning]);
+  expect(rosterRowWarnings(row, ['ID', 'OPTIONAL'])).toEqual([
+    warning, { placeholder: 'OPTIONAL', value: '', message: 'Worksheet row 2, OPTIONAL: Missing value. Enter it below or remove this row.' },
+  ]);
+  expect(rosterRowWarnings({ ...row, values: { ID: '00123', OPTIONAL: '' } }, ['ID', 'OPTIONAL'], { includeInferred: false })).toEqual([]);
+  const literalDate = { worksheetRow: 2, values: { ID: '01/02/2026' }, rosterWarnings: [{
+    placeholder: 'ID', value: '01/02/2026', message: 'Ambiguous date', kind: 'ambiguous-date' as const,
+  }] };
+  expect(rosterRowWarnings(literalDate, ['ID'], { includeInferred: false })).toEqual([]);
+  expect(rosterRowWarnings(literalDate, ['ID'])).toEqual([expect.objectContaining({ message: expect.stringContaining('Ambiguous date') })]);
+});
+
+
+it('preserves configured text whitespace without changing identifier or ordinary roster defaults', async () => {
+  const roster = await readExcelRoster(rosterFile([['BODY', 'ID'], ['  Training text  ', '  000123  ']]));
+  const selection = { roster, headerRow: 1 }, mappings = { 0: 'BODY', 1: 'ID' }, fields = ['BODY', 'ID'];
+  expect(mappedRosterRows(selection, mappings, fields, { preserveWhitespaceFor: new Set(['BODY']) })[0].values)
+    .toEqual({ BODY: '  Training text  ', ID: '000123' });
+  expect(mappedRosterRows(selection, mappings, fields)[0].values).toEqual({ BODY: 'Training text', ID: '000123' });
+});
+
+
+it('uses explicit configured identifier fields without changing ordinary header heuristics', async () => {
+  const roster = await readExcelRoster(rosterFile([['name'], [123]]));
+  const selection = { roster, headerRow: 1 };
+  expect(mappedRosterRows(selection, { 0: 'name' }, ['name'])[0].warnings).toEqual([]);
+  expect(mappedRosterRows(selection, { 0: 'name' }, ['name'], { identifierFields: new Set(['name']) })[0].warnings)
+    .toEqual([expect.objectContaining({ placeholder: 'name', value: '123', message: expect.stringContaining('leading zeros') })]);
+});
