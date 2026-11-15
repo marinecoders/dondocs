@@ -7,6 +7,17 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.89] — 2026-11-15
+
+### Added
+
+- Retain verified configured-form template bytes and the exact source definition before batch generation, using existing digest ownership and browser storage for reload and offline recovery.
+
+### Fixed
+
+- Abandon replaced batch operations after asynchronous preparation, generation and output retention without changing or downloading results for the replacement job.
+- Clear a repaired template-preparation diagnostic after successful retry while preserving independent storage warnings.
+
 ## [1.3.88] — 2026-11-15
 
 ### Added

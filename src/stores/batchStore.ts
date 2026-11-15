@@ -1,5 +1,6 @@
 import { confirmBatchExport, cancelBatchExport, clearBatchExports, isBatchExportActive, type BatchExportReview } from '@/services/exports/batchExecution';
-import { materializeSignatureFallbacks, needsSignatureFallbacks } from '@/lib/signatureCompatibility';
+import { needsSignatureFallbacks } from '@/lib/signatureCompatibility';
+import { prepareBatchSource } from '@/services/exports/batchSource';
 import type { PreparedExportJob } from '@/lib/preparedExport';
 import type { ExportReviewStage } from '@/lib/exportController';
 import type { BatchRowContext } from '@/services/exports/batchRows';
@@ -35,6 +36,8 @@ interface BatchState {
   status: 'idle' | 'running' | 'paused' | 'interrupted' | 'complete';
   stopRequested: boolean;
   recoveryError: string;
+  /** Provenance for clearing only a recovered source diagnostic after reload. */
+  sourcePreparationError?: string;
   setRows: (rows: BatchRow[] | ((rows: BatchRow[]) => BatchRow[])) => void;
   stop: () => void;
   reset: () => void;
@@ -44,7 +47,7 @@ export const BATCH_KEY = 'dondocs-batch-job';
 
 export function recoverBatch(state: Partial<BatchState>): Partial<BatchState> {
   return {
-    ...state, jobId: state.jobId ?? null, review: null, rowCanCancel: false, rowActive: false, stopRequested: false,
+    ...state, sourcePreparationError: state.sourcePreparationError ?? '', jobId: state.jobId ?? null, review: null, rowCanCancel: false, rowActive: false, stopRequested: false,
     status: state.status === 'running' ? 'interrupted' : state.status ?? 'idle',
     rows: (state.rows ?? [emptyRow()]).map((r) => r.status === 'generating'
       ? { ...r, status: 'error', error: 'Interrupted during generation. Check your downloads before retrying this row.' } : r),
@@ -55,17 +58,17 @@ export const useBatchStore = create<BatchState>()(persist((set, get) => ({
   rows: [emptyRow()], source: null, jobId: null, review: null, rowCanCancel: false, rowActive: false,
   confirmReview: confirmBatchExport,
   cancelCurrent: () => { if (get().status === 'running') set({ stopRequested: true });cancelBatchExport(); },
-  title: '', placeholders: [], status: 'idle', stopRequested: false, recoveryError: '',
+  title: '', placeholders: [], status: 'idle', stopRequested: false, recoveryError: '', sourcePreparationError: '',
   setRows: (rows) => set({ rows: typeof rows === 'function' ? rows(get().rows) : rows }),
   stop: () => set({ stopRequested: true }),
   reset: () => {
     if (get().status === 'running' || !clearBatchExports()) return;
     for (const row of get().rows) if (row.outputId) void deleteBatchOutput(row.outputId);
-    set({ rows: [emptyRow()], source: null, jobId: null, review: null, rowCanCancel: false, rowActive: false, title: '', placeholders: [], status: 'idle', stopRequested: false, recoveryError: '' });
+    set({ rows: [emptyRow()], source: null, jobId: null, review: null, rowCanCancel: false, rowActive: false, title: '', placeholders: [], status: 'idle', stopRequested: false, recoveryError: '', sourcePreparationError: '' });
   },
 }), {
   name: BATCH_KEY, storage: createJSONStorage(() => safeLocalStorage),
-  partialize: ({ rows, source, jobId, title, placeholders, status, recoveryError }) => ({ rows, source, jobId, title, placeholders, status, recoveryError }),
+  partialize: ({ rows, source, jobId, title, placeholders, status, recoveryError, sourcePreparationError }) => ({ rows, source, jobId, title, placeholders, status, recoveryError, sourcePreparationError }),
   merge: (saved, current) => ({ ...current, ...recoverBatch((saved ?? {}) as Partial<BatchState>) }),
 }));
 
@@ -85,10 +88,41 @@ export async function runBatchJob(options: {
     placeholders: store.getState().source ? store.getState().placeholders : options.placeholders, status: 'running', stopRequested: false });
   const jobPlaceholders = [...store.getState().placeholders];
   const originalSource = store.getState().source!;
-  const capturedSource = structuredClone(originalSource);
-  const jobSource = needsSignatureFallbacks(capturedSource) ? await materializeSignatureFallbacks(capturedSource) : capturedSource;
-  if (store.getState().source === originalSource && store.getState().jobId === batchId) store.setState({ source: jobSource });
+  let jobSource: SerializedSession;
+  try {
+    const capturedSource = structuredClone(originalSource);
+    const configuredForm = capturedSource.documentCategory === 'forms' && Boolean(capturedSource.genericForm);
+    const requiresPreparation = configuredForm || needsSignatureFallbacks(capturedSource);
+    jobSource = requiresPreparation
+      ? await prepareBatchSource(capturedSource, () => store.getState().jobId === batchId
+        && store.getState().source === originalSource && !store.getState().stopRequested)
+      : capturedSource;
+  } catch (error) {
+    if (store.getState().jobId !== batchId || store.getState().source !== originalSource) return;
+    const message = error instanceof Error ? error.message : 'Batch source resources could not be retained.';
+    const cancelled = store.getState().stopRequested;
+    if (!cancelled) {
+      const selectedIds = new Set(rows.map(row => row.id));
+      store.getState().setRows(all => all.map(row => selectedIds.has(row.id) ? { ...row, status: 'error', error: message } : row));
+    }
+    store.setState({ status: 'paused', stopRequested: false, rowCanCancel: false, rowActive: false, recoveryError: message, sourcePreparationError: message });
+    return;
+  }
+  if (store.getState().source !== originalSource || store.getState().jobId !== batchId) return;
+  if (store.getState().stopRequested) {
+    store.setState({ status: 'paused', stopRequested: false });
+    return;
+  }
+  const { recoveryError, sourcePreparationError } = store.getState();
+  // A successful retry resolves this preparation failure, but must retain any
+  // newer warning about saved outputs, delivery, or browser storage.
+  store.setState({
+    source: jobSource, sourcePreparationError: '',
+    ...(sourcePreparationError && recoveryError === sourcePreparationError ? { recoveryError: '' } : {}),
+  });
+  const ownsJob = (): boolean => store.getState().jobId === batchId && store.getState().source === jobSource;
   for (const selected of rows) {
+    if (!ownsJob()) return;
     const row = structuredClone(selected);
     const filename = row.filename ?? batchRowFilename(row, jobPlaceholders);
     if (store.getState().stopRequested) break;
@@ -96,24 +130,34 @@ export async function runBatchJob(options: {
     let delivered = false;
     let deliveryOpen = true;
     const deliver = async (bytes: Uint8Array) => {
-      if (!deliveryOpen || delivered) throw new Error('This row delivery is no longer available.');
+      if (!ownsJob() || !deliveryOpen || delivered) throw new Error('This row delivery is no longer available.');
       delivered = true;store.setState({ rowCanCancel: false });
       const owned = new Uint8Array(bytes);
       const outputId = newAttachmentId();
       const retained = await putBatchOutput(outputId, owned);
+      if (!ownsJob()) {
+        if (retained) await deleteBatchOutput(outputId);
+        throw new Error('This batch was replaced before delivery.');
+      }
       store.getState().setRows(all => all.map(r => r.id === row.id ? { ...r, status: 'success', filename, outputId: retained ? outputId : r.outputId } : r));
       if (retained && row.outputId) void deleteBatchOutput(row.outputId);
       if (!retained) store.setState({ recoveryError: 'Generated files could not be retained in this browser. Keep the downloaded copies.' });
       try { await download(owned, filename); }
-      catch (error) { store.setState({ recoveryError: 'A download was blocked. Use the saved result to download it again.' });throw error; }
+      catch (error) {
+        if (ownsJob()) store.setState({ recoveryError: 'A download was blocked. Use the saved result to download it again.' });
+        throw error;
+      }
     };
     try {
       const pdf = await generate(row.values, { batchId, rowId: row.id, filename, retryPolicy: options.retryFailed === true, capturedAt: jobSource.timestamp, source: structuredClone(jobSource), deliver });
+      if (!ownsJob()) return;
       if (!delivered) await deliver(pdf);
     } catch (error) {
+      if (!ownsJob()) return;
       store.getState().setRows(all => all.map(r => r.id === row.id ? { ...r, status: 'error', error: error instanceof Error ? error.message : 'Generation failed' } : r));
     } finally { deliveryOpen = false; }
   }
+  if (!ownsJob()) return;
   const unfinished = store.getState().rows.some((r) => !r.status || r.status === 'pending' || r.status === 'error');
   store.setState({ status: unfinished ? 'paused' : 'complete', stopRequested: false, review: null, rowCanCancel: false });
   if (lastWriteFailed(BATCH_KEY)) store.setState({ recoveryError: 'This job could not be saved. Keep this tab open; reload recovery is unavailable.' });
