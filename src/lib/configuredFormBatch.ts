@@ -84,7 +84,7 @@ export function parseConfiguredBatchAnswer(field: AnswerField, raw: string): Ans
 
 /** Invalid cells have row diagnostics instead of a misleading partial selection preview. */
 export function configuredBatchSelectionPreview(field: AnswerField | undefined, raw: string): string | undefined {
-  if (field?.kind !== 'multipleChoice' || !raw.trim()) return undefined;
+  if (field?.kind !== 'multipleChoice' || typeof raw !== 'string' || !raw.trim()) return undefined;
   try {
     const selected = parseConfiguredBatchAnswer(field, raw) as string[];
     return selected.length ? selected.map(id => `${field.options!.find(option => option.id === id)!.label} (${id})`).join('; ') : 'None';

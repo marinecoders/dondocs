@@ -225,3 +225,22 @@ it('keeps zero-padded Excel identifier formats without an unwarranted numeric-lo
   expect(recipient).not.toHaveAttribute('aria-describedby');
   expect(screen.queryByText(/Stored as a number|original identifier/)).not.toBeInTheDocument();
 });
+
+
+it('keeps recovered non-string selection cells reviewable instead of crashing the batch panel', async () => {
+  const { BATCH_KEY } = await import('@/stores/batchStore');
+  const { getSerializedSession } = await import('@/stores/documentStore');
+  const form = fixtureInstance();form.definition.rowGroups = {};
+  form.definition.pages[0].sha256 = 'a'.repeat(64);
+  form.definition.fields.decision.kind = 'multipleChoice';form.answers.decision = ['yes'];
+  useDocumentStore.setState({ genericForm: form });
+  const source = getSerializedSession();
+  localStorage.setItem(BATCH_KEY, JSON.stringify({ state: {
+    source, jobId: 'recovered-job', status: 'paused', placeholders: ['name', 'decision'],
+    rows: [{ id: 'recovered-row', values: { name: 'Recipient B', decision: 42 }, status: 'pending' }],
+  }, version: 0 }));
+  await useBatchStore.persist.rehydrate();
+  expect(() => render(<BatchModal compile={vi.fn()} isEngineReady={false} waitForReady={vi.fn()} />)).not.toThrow();
+  expect(screen.getByRole('status', { name: 'Form row checks' })).toHaveTextContent('Decision: Enter text in the roster cell');
+  expect(screen.getByRole('button', { name: 'Resume remaining' })).toBeDisabled();
+});
