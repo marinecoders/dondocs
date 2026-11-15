@@ -391,8 +391,8 @@ jobs:
     name: browser flows (${{ matrix.group }})
     runs-on: ubuntu-latest
     # Includes setup and complete browser profiles with review/asset workflows.
-    # Give each browser profile its own job. Desktop WebKit needs two shards
-    # to finish the complete suite within the job's runtime budget.
+    # Give each browser profile its own job. Desktop WebKit and iPad Safari
+    # need two shards to finish the suite within the job's runtime budget.
     timeout-minutes: 50
     strategy:
       fail-fast: false
@@ -419,9 +419,12 @@ jobs:
           - group: webkit-2
             browsers: webkit
             projects: --project=webkit --shard=2/2
-          - group: ipad-safari
+          - group: ipad-safari-1
             browsers: webkit
-            projects: --project=ipad-safari
+            projects: --project=ipad-safari --shard=1/2
+          - group: ipad-safari-2
+            browsers: webkit
+            projects: --project=ipad-safari --shard=2/2
           - group: mobile-safari
             browsers: webkit
             projects: --project=mobile-safari

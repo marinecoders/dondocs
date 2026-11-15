@@ -217,7 +217,7 @@ workflow. Clean PDF and Word output omit pending proposals and review metadata.
 
 ## Save an action package
 
-Open **Packages** beside document readiness. Name and create a package, then
+Open **Packages** beside **Templates** in workspace navigation. Name and create a package, then
 capture the current native document or add an original PDF. Assign a main/basic
 letter, endorsements, coordination, supporting-document and enclosure roles.
 The first member must be the single main document. Existing native correspondence

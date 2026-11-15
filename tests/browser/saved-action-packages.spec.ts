@@ -1,4 +1,4 @@
-import { test, expect, type Page, type BrowserContext } from "@playwright/test";
+import { test, expect, type Page, type BrowserContext, type Locator } from "@playwright/test";
 import { PDFDocument, StandardFonts } from "pdf-lib";
 import { createHash } from "node:crypto";
 import { readFile, writeFile } from "node:fs/promises";
@@ -58,6 +58,14 @@ async function workspace(page: Page, name: string) {
       .click();
   if (await drawer.isVisible())
     await drawer.getByRole("button", { name: label }).click();
+}
+async function editField(field: Locator, before: string, value: string) {
+  await expect(field).toHaveValue(before);
+  // Click establishes visible native focus after a dialog or document handoff.
+  await field.click();
+  await expect(field).toBeFocused();
+  await field.fill(value);
+  await expect(field).toHaveValue(value);
 }
 async function approve(page: Page, button: string) {
   const modal = page.getByRole("dialog", {
@@ -256,12 +264,15 @@ for (const theme of ["light", "dark", "classic"]) {
     await page
       .getByLabel("Document section", { exact: true })
       .selectOption("addressing");
-    const workingSubject = page.getByRole("textbox", { name: "Subject", exact: true });
-    // Let the closed package dialog release focus before WebKit inserts text.
-    await workingSubject.click();
-    await expect(workingSubject).toBeFocused();
-    await workingSubject.fill(`WORKING COPY ${theme}`);
-    await expect(workingSubject).toHaveValue(`WORKING COPY ${theme}`);
+    const workingSubject = page.getByRole("textbox", {
+      name: "Subject",
+      exact: true,
+    });
+    await editField(
+      workingSubject,
+      `TRAINING SOURCE ${theme}`,
+      `WORKING COPY ${theme}`,
+    );
     modal = await packages(page);
     await modal
       .getByLabel("Saved packages", { exact: true })
@@ -297,9 +308,11 @@ for (const theme of ["light", "dark", "classic"]) {
       name: "Subject",
       exact: true,
     });
-    await expect(sourceSubject).toHaveValue(`TRAINING SOURCE ${theme}`);
-    await sourceSubject.fill(`NEWER SOURCE ${theme}`);
-    await expect(sourceSubject).toHaveValue(`NEWER SOURCE ${theme}`);
+    await editField(
+      sourceSubject,
+      `TRAINING SOURCE ${theme}`,
+      `NEWER SOURCE ${theme}`,
+    );
     await actions(page, /^Save checkpoint/);
     await expect(
       page.getByText("Checkpoint saved in this browser", { exact: true }),
@@ -576,12 +589,12 @@ test("configured package survives fresh offline import, native editing, reload a
     await modal
       .getByRole("button", { name: "Edit working copy", exact: true })
       .click();
-    await expect(
+    await expect(modal).toBeHidden();
+    await editField(
       restored.getByRole("textbox", { name: "Fictional name", exact: true }),
-    ).toHaveValue("Fictional retained form");
-    await restored
-      .getByRole("textbox", { name: "Fictional name", exact: true })
-      .fill("Fictional working form");
+      "Fictional retained form",
+      "Fictional working form",
+    );
     await actions(restored, /^Save checkpoint/);
     await restored.reload();
     await expect(restored.getByRole("button", { name: "Document actions", exact: true })).toBeVisible();

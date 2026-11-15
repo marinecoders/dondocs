@@ -1,3 +1,4 @@
+import { configuredBatchMapping, createConfiguredBatchRowReviewer } from '@/lib/configuredFormBatch';
 import { documentCapabilities, capabilityAvailable } from '@/lib/documentCapabilities';
 import { downloadPdfBlob, preOpenWindowForIOS } from '@/utils/downloadPdf';
 import { DOC_TYPE_LABELS, FORM_TYPE_LABELS, formTypeLabel } from '@/types/document';
@@ -85,10 +86,10 @@ interface BatchModalProps {
   waitForReady: (timeoutMs?: number) => Promise<boolean>;
 }
 
-// Sentinel for the column-mapping "skip this column" choice. Radix Select v2
-// throws on <SelectItem value=""> (empty string is reserved for clearing),
-// which crashed the whole app the moment the mapping dropdown opened.
-const SKIP_COLUMN = '__skip__';
+// Radix reserves the empty string for clearing. Keep UI option values in
+// disjoint namespaces so a real field ID can never become the skip action.
+const SKIP_COLUMN = 'skip';
+const MAPPED_COLUMN_PREFIX = 'field:';
 
 // Copy text to clipboard
 function copyToClipboard(text: string) {
@@ -110,6 +111,7 @@ interface BatchModalRowProps {
   row: BatchRow;
   idx: number;
   detectedPlaceholders: string[];
+  isConfiguredForm: boolean;
   isGenerating: boolean;
   isLocked: boolean;
   isPreviewing: boolean;
@@ -134,6 +136,7 @@ const BatchModalRow = memo(function BatchModalRow({
   row,
   idx,
   detectedPlaceholders,
+  isConfiguredForm,
   isGenerating,
   isLocked,
   isPreviewing,
@@ -144,7 +147,7 @@ const BatchModalRow = memo(function BatchModalRow({
   removeRow,
   handlePreview,
 }: BatchModalRowProps) {
-  const warnings = rosterRowWarnings(row, detectedPlaceholders);
+  const warnings = rosterRowWarnings(row, detectedPlaceholders, { includeInferred: !isConfiguredForm });
   return (
     <tr className={`border-t ${row.status === 'error' ? 'bg-destructive/10' : row.status === 'success' ? 'bg-success/10' : ''}`}>
       <td className="px-2 py-1 text-muted-foreground">
@@ -307,10 +310,17 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
   const isFormsMode = documentCategory === 'forms';
   const isBuiltinForm = Object.hasOwn(FORM_TYPE_LABELS, formType);
 
+  const configuredForm = isFormsMode && !isBuiltinForm ? (source?.genericForm ?? liveDocument.genericForm) : undefined;
+  const configuredMapping = useMemo(() => configuredForm ? configuredBatchMapping(configuredForm) : undefined, [configuredForm]);
+  const literalRosterFields = useMemo(() => new Set(configuredMapping?.fields.filter(field => field.kind === 'text').map(field => field.id)), [configuredMapping]);
+  const identifierRosterFields = useMemo(() => new Set(configuredMapping?.fields.filter(field => field.kind === 'identifier').map(field => field.id)), [configuredMapping]);
+  const configuredRowReview = useMemo(() => configuredForm && configuredMapping
+    ? createConfiguredBatchRowReviewer(configuredForm, configuredMapping) : undefined, [configuredForm, configuredMapping]);
+
   const detectedPlaceholders = useMemo(() => {
     if (source) return savedPlaceholders;
     if (!batchModalOpen) return [];
-    if (isFormsMode && !isBuiltinForm) return [];
+    if (isFormsMode && !isBuiltinForm) return configuredForm ? configuredBatchMapping(configuredForm).fields.map(field => field.id) : [];
     const forms = liveDocument.formType === 'navmc_118_11'
       ? { includeCoverPage: liveForms.includeCoverPage, navmc11811: liveForms.navmc11811 }
       : { includeCoverPage: liveForms.includeCoverPage, navmc10274: liveForms.navmc10274 };
@@ -319,7 +329,7 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
       forms: liveDocument.documentCategory === 'forms' && !liveDocument.genericForm ? forms : undefined,
     }, 0);
     return detectSessionPlaceholders(snapshot);
-  }, [liveDocument, liveForms, batchModalOpen, source, savedPlaceholders, isFormsMode, isBuiltinForm]);
+  }, [liveDocument, liveForms, batchModalOpen, source, savedPlaceholders, isFormsMode, isBuiltinForm, configuredForm]);
 
   const addRow = useCallback(() => {
     setRows((prev) => [
@@ -516,9 +526,12 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
   };
   const mappedTargets = Object.values(columnMappings).filter(Boolean);
   const duplicateMapping = new Set(mappedTargets).size !== mappedTargets.length;
-  const mappedRoster = useMemo(() => mappingRoster ? mappedRosterRows(mappingRoster, columnMappings, detectedPlaceholders) : [], [mappingRoster, columnMappings, detectedPlaceholders]);
-  const mappingWarnings = mappedRoster.flatMap(row => rosterRowWarnings({ ...row, rosterWarnings: row.warnings }, detectedPlaceholders));
-  const rowWarnings = rows.flatMap(row => rosterRowWarnings(row, detectedPlaceholders));
+  const mappedRoster = useMemo(() => mappingRoster ? mappedRosterRows(mappingRoster, columnMappings, detectedPlaceholders, { preserveWhitespaceFor: literalRosterFields, identifierFields: identifierRosterFields }) : [], [mappingRoster, columnMappings, detectedPlaceholders, literalRosterFields, identifierRosterFields]);
+  const mappingWarnings = mappedRoster.flatMap(row => rosterRowWarnings({ ...row, rosterWarnings: row.warnings }, detectedPlaceholders, { includeInferred: !configuredForm }));
+  const rowWarnings = batchModalOpen
+    ? rows.flatMap(row => rosterRowWarnings(row, detectedPlaceholders, { includeInferred: !configuredForm })) : [];
+  const configuredRowIssues = useMemo(() => configuredRowReview
+    ? rows.flatMap((row, index) => configuredRowReview(row).map(issue => `Row ${index + 1}: ${issue}`)) : [], [rows, configuredRowReview]);
 
   // Apply the current column mappings to create rows
   const applyColumnMappings = useCallback(() => {
@@ -536,7 +549,7 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
         if (placeholder) {
           const colIdx = parseInt(colIdxStr);
           if (columns[colIdx] !== undefined) {
-            values[placeholder] = columns[colIdx].trim();
+            values[placeholder] = literalRosterFields.has(placeholder) ? columns[colIdx] : columns[colIdx].trim();
           }
         }
       });
@@ -552,12 +565,12 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
     setRawPastedData([]);
     setRosterPending(false);
     setRosterUploadKey(key => key + 1);
-  }, [rawPastedData, columnHeaders, columnMappings, setRows, mappingRoster, mappedRoster, duplicateMapping, setShowColumnMapping, setMappingRoster, setRawPastedData, setRosterUploadKey, setRosterPending]);
+  }, [rawPastedData, columnHeaders, columnMappings, setRows, mappingRoster, mappedRoster, literalRosterFields, duplicateMapping, setShowColumnMapping, setMappingRoster, setRawPastedData, setRosterUploadKey, setRosterPending]);
 
   const handlePasteData = useCallback((e: React.ClipboardEvent<HTMLTextAreaElement>) => {
     e.preventDefault();
     const pastedText = e.clipboardData.getData('text');
-    const lines = pastedText.split('\n').filter((line) => line.trim());
+    const lines = pastedText.split(/\r?\n/).filter((line) => line.trim());
 
     if (lines.length === 0) return;
     setMappingRoster(null);
@@ -588,7 +601,7 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
 
         detectedPlaceholders.forEach((placeholder, colIdx) => {
           if (columns[colIdx] !== undefined) {
-            values[placeholder] = columns[colIdx].trim();
+            values[placeholder] = literalRosterFields.has(placeholder) ? columns[colIdx] : columns[colIdx].trim();
           }
         });
 
@@ -599,7 +612,7 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
         setRows(newRows);
       }
     }
-  }, [detectedPlaceholders, looksLikeHeaders, setRows, setMappingRoster, setShowColumnMapping, setRosterUploadKey, setRawPastedData, setColumnHeaders, setColumnMappings, setRosterPending]);
+  }, [detectedPlaceholders, literalRosterFields, looksLikeHeaders, setRows, setMappingRoster, setShowColumnMapping, setRosterUploadKey, setRawPastedData, setColumnHeaders, setColumnMappings, setRosterPending]);
 
   // Handle adding a variable to the document.
   // Reads live state via getState() at click time (not stale render-time snapshot),
@@ -720,7 +733,7 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
     return 'Tip: Add a variable to your Subject line like "PROMOTION OF {{NAME}} TO {{RANK}}"';
   }, [isFormsMode, formType]);
 
-  if (!capabilityAvailable(batchCapability) && !source && !exportReview) {
+  if (!capabilityAvailable(batchCapability) && (!configuredForm || !configuredMapping?.fields.length) && !source && !exportReview) {
     return <Dialog open={batchModalOpen && !exportReview} onOpenChange={open => { if (open) setBatchModalOpen(true);else closePanel(); }}>
       <DialogContent>
         <DialogHeader>
@@ -744,7 +757,7 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
               {!isReadyToGenerate && (!source || rows.some((r) => r.status !== 'success')) && (
                 <Badge variant="secondary" className="ml-2">
                   <Loader2 className="h-3 w-3 mr-1 animate-spin" />
-                  {isFormsMode ? 'Loading templates...' : 'Engine loading...'}
+                  {configuredForm ? 'Mapping only' : isFormsMode ? 'Loading templates...' : 'Engine loading...'}
                 </Badge>
               )}
             </DialogTitle>
@@ -771,6 +784,13 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
 
           <div className="flex-1 min-h-0 overflow-auto">
             <div className="p-4 sm:p-6 space-y-4 min-w-0">
+              {configuredMapping && <section aria-label="Configured form roster fields" className="space-y-2 rounded-lg border p-3 text-sm">
+                <p className="font-medium">Map roster columns directly to form fields</p>
+                <p>Saved answers are not copied to roster rows. Signature fields stay blank; sign each PDF after export.</p>
+                <ul className="space-y-1">{configuredMapping.fields.map(field => <li key={field.id}><strong>{field.id}</strong> · {field.label} · {field.guidance}</li>)}</ul>
+                {configuredMapping.issues.map(issue => <p role="alert" key={issue}>{issue}</p>)}
+                {!capabilityAvailable(batchCapability) && <p>Generation is unavailable for this form. Roster mapping is available for review.</p>}
+              </section>}
               {/* Add Variable stays visible throughout setup. Saved jobs freeze
                   their source and expose only the applicable row actions.
                   Add Variable to Document — always visible during setup.
@@ -782,7 +802,7 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
                   already has placeholders, and the inline `addStatus` toast
                   surfaces the action's effect now that the UI no longer
                   visually changes around it. */}
-              {!source && <div data-tour="batch-addvar" className="space-y-3 rounded-lg border border-border/50 bg-muted/20 p-4">
+              {!source && !configuredForm && <div data-tour="batch-addvar" className="space-y-3 rounded-lg border border-border/50 bg-muted/20 p-4">
                 <div className="flex items-center gap-2">
                   <Plus className="h-4 w-4 text-primary" />
                   <Label>Add a variable</Label>
@@ -923,12 +943,12 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
                   <div className="space-y-2">
                     <div className="flex items-center gap-2">
                       <Variable className="h-4 w-4 text-primary" />
-                      <Label>Detected Placeholders</Label>
+                      <Label>{configuredForm ? 'Roster fields' : 'Detected Placeholders'}</Label>
                     </div>
                     <div className="flex flex-wrap gap-2">
                       {detectedPlaceholders.map((placeholder) => (
                         <Badge key={placeholder} variant="secondary">
-                          {`{{${placeholder}}}`}
+                          {configuredForm ? placeholder : `{{${placeholder}}}`}
                         </Badge>
                       ))}
                     </div>
@@ -973,8 +993,8 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
                             </span>
                             <ArrowRight className="h-4 w-4 text-muted-foreground shrink-0" />
                             <Select
-                              value={columnMappings[idx] || SKIP_COLUMN}
-                              onValueChange={(v) => updateColumnMapping(idx, v === SKIP_COLUMN ? '' : v)}
+                              value={columnMappings[idx] ? `${MAPPED_COLUMN_PREFIX}${columnMappings[idx]}` : SKIP_COLUMN}
+                              onValueChange={value => updateColumnMapping(idx, value.startsWith(MAPPED_COLUMN_PREFIX) ? value.slice(MAPPED_COLUMN_PREFIX.length) : '')}
                             >
                               <SelectTrigger className="h-8 flex-1 min-w-0" aria-label={`Map column ${idx + 1}: ${header}`}>
                                 <SelectValue placeholder="Select variable…" />
@@ -982,7 +1002,7 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
                               <SelectContent>
                                 <SelectItem value={SKIP_COLUMN}>— Skip —</SelectItem>
                                 {detectedPlaceholders.map((p) => (
-                                  <SelectItem key={p} value={p}>{`{{${p}}}`}</SelectItem>
+                                  <SelectItem key={p} value={`${MAPPED_COLUMN_PREFIX}${p}`}>{`{{${p}}}`}</SelectItem>
                                 ))}
                               </SelectContent>
                             </Select>
@@ -1006,6 +1026,7 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
                     </div>
                   )}
 
+                  {configuredRowIssues.length > 0 && <div role="status" aria-label="Form row checks" className="rounded-lg border p-3 text-sm"><p className="font-medium">Form row checks</p><ul>{configuredRowIssues.slice(0, 30).map((issue, index) => <li key={index}>{issue}</li>)}</ul>{configuredRowIssues.length > 30 && <p>Showing the first 30 checks. Correct these rows to see remaining checks.</p>}</div>}
                   {rowWarnings.length > 0 && <RosterChecks id="batch-roster-checks" warnings={rowWarnings} />}
 
                   <div className="space-y-2">
@@ -1037,6 +1058,7 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
                                 row={row}
                                 idx={idx}
                                 detectedPlaceholders={detectedPlaceholders}
+                                isConfiguredForm={!!configuredForm}
                                 isGenerating={isGenerating}
                                 isLocked={!!source}
                                 isPreviewing={previewingRow === row.id}
