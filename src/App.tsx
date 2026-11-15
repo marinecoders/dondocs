@@ -11,7 +11,8 @@ import { usePageScrollLayout } from '@/hooks/usePageScrollLayout';
 import { applyTheme, THEMES } from '@/lib/appearance';
 import { loadFigureFiles } from '@/services/latex/figureAssets';
 import { publicationMarking } from '@/lib/publicationMarking';
-import { useEffect, useCallback, useMemo, useState, useRef, lazy, Suspense } from 'react';
+import { useEffect, useCallback, useMemo, useState, useRef, lazy, Suspense, type CSSProperties } from 'react';
+import { PANEL_TRANSITION_MS } from '@/lib/panelMotion';
 import { Header } from '@/components/layout/Header';
 import { BetaBanner } from '@/components/BetaBanner';
 import { ReadinessMeter } from '@/components/layout/ReadinessMeter';
@@ -1195,7 +1196,7 @@ function App() {
         and preview toolbar under it — with a 100vh fallback for pre-dvh
         engines. */}
     {updating && <p role="status" className="fixed left-1/2 top-4 z-[200] -translate-x-1/2 rounded-md border border-border bg-background px-4 py-2 text-sm shadow">Preparing update…</p>}
-    <div inert={updating || undefined} aria-busy={updating || undefined} data-page-scroll={pageScroll || undefined} className="workspace-shell flex flex-col h-screen-dvh bg-background relative overflow-hidden">
+    <div inert={updating || undefined} aria-busy={updating || undefined} data-page-scroll={pageScroll || undefined} className="workspace-shell flex flex-col h-screen-dvh bg-background relative overflow-hidden" style={{ '--workspace-panel-duration': `${PANEL_TRANSITION_MS}ms` } as CSSProperties}>
       {/* Skip link for keyboard navigation - WCAG 2.4.1 */}
       <a
         href="#main-content"
@@ -1235,43 +1236,38 @@ function App() {
 
             <main id={commandPaletteOpen ? undefined : 'main-content'} ref={mainContainerRef} className="workspace-main flex flex-1 min-w-0 overflow-hidden">
               {/* Form Panel - takes remaining space when preview is visible */}
-              <div
-                className="workspace-form-panel min-w-0 overflow-hidden"
-                style={{
-                  // shrink=1 so the panels absorb the divider's width; with shrink=0 the
-                  // preview's right edge got clipped.
-                  flex: previewVisible && !isMobile ? `1 1 ${100 - previewWidth}%` : '1 1 100%',
-                }}
-              >
+              <div className="workspace-form-panel min-w-0 flex-1 overflow-hidden">
                 <FormPanel />
               </div>
 
-              {/* Resizable divider - only show on desktop when preview is visible */}
-              {previewVisible && !isMobile && (
+              {/* The outer slot closes; its full-width contents stay mounted and
+                  slide out without squeezing the PDF or resetting its position. */}
+              <div
+                className="workspace-preview-panel flex min-w-0 shrink-0 overflow-hidden"
+                data-open={previewVisible && !isMobile}
+                aria-hidden={!previewVisible || isMobile}
+                inert={!previewVisible || isMobile}
+                style={{
+                  flexBasis: previewVisible && !isMobile ? `${previewWidth}%` : '0%',
+                  display: isMobile ? 'none' : undefined,
+                }}
+              >
                 <ResizableDivider
                   onResize={setPreviewWidth}
                   containerRef={mainContainerRef}
                   currentWidth={previewWidth}
                 />
-              )}
-
-              {/* Preview Panel - width controlled by previewWidth */}
-              <div
-                className="min-w-0 overflow-hidden"
-                style={{
-                  flex: previewVisible && !isMobile ? `1 1 ${previewWidth}%` : undefined,
-                  display: previewVisible || isMobile ? 'block' : 'none',
-                }}
-              >
-                <PreviewPanel
-                  documentId={currentDocId ?? undefined}
-                  onDownloadPdf={handleDownloadPdf}
-                  pdfUrl={currentPreviewUrl}
-                  isCompiling={previewBusy}
-                  isWarmingUp={documentCategory === 'forms' ? false : !isReady}
-                  previewEnhanced={documentCategory === 'forms' ? true : previewEnhanced}
-                  error={documentCategory === 'forms' ? formError : (compileError || engineError)}
-                />
+                <div className="workspace-preview-content shrink-0" style={{ width: `calc(${previewWidth}cqw - 1px)` }}>
+                  <PreviewPanel
+                    documentId={currentDocId ?? undefined}
+                    onDownloadPdf={handleDownloadPdf}
+                    pdfUrl={currentPreviewUrl}
+                    isCompiling={previewBusy}
+                    isWarmingUp={documentCategory === 'forms' ? false : !isReady}
+                    previewEnhanced={documentCategory === 'forms' ? true : previewEnhanced}
+                    error={documentCategory === 'forms' ? formError : (compileError || engineError)}
+                  />
+                </div>
               </div>
             </main>
             <div role="region" aria-label="Document readiness" className="workspace-reviewbar flex shrink-0 flex-wrap items-center justify-start gap-2 border-t border-border pl-4 pr-20 sm:pl-6 sm:pr-44 py-1.5 text-xs text-muted-foreground">

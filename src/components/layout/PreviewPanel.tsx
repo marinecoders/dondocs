@@ -25,7 +25,6 @@ interface PreviewPanelProps {
 
 export function PreviewPanel({ pdfUrl, isCompiling, isWarmingUp = false, previewEnhanced = false, error, documentId, onDownloadPdf }: PreviewPanelProps) {
   // Individual selectors avoid re-rendering for unrelated UI-store updates.
-  const previewVisible = useUIStore((s) => s.previewVisible);
   const isMobile = useUIStore((s) => s.isMobile);
   const fullQualityPreview = useUIStore((s) => s.fullQualityPreview);
   const enclosureCount = useDocumentStore((s) => isOutputFieldActive(s, ['enclosures']) ? s.enclosures.length : 0);
@@ -46,11 +45,6 @@ export function PreviewPanel({ pdfUrl, isCompiling, isWarmingUp = false, preview
 
   // The document header opens the full-screen preview on mobile.
   if (isMobile) return null;
-
-  // Desktop: if preview is hidden, render nothing (toggle is in Header).
-  if (!previewVisible) {
-    return null;
-  }
 
   const previewLabel = <>
     <span>Preview</span>

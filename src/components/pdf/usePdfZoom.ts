@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useUIStore } from '@/stores/uiStore';
+import { useReducedMotion } from '@/hooks/useReducedMotion';
+import { PANEL_TRANSITION_MS } from '@/lib/panelMotion';
 import { nextZoomStep, DEFAULT_PAGE_ASPECT, type ZoomMode } from './pdfMath';
 
 /**
@@ -34,23 +36,47 @@ export function usePdfZoom(
   const setMode = useUIStore((s) => s.setPdfZoomMode);
   const [box, setBox] = useState({ width: 0, height: 0 });
   const rafRef = useRef<number | null>(null);
+  const reducedMotion = useReducedMotion();
 
   useEffect(() => {
     const el = contentRef.current;
     if (!el || typeof ResizeObserver === 'undefined') return;
+    let latestBox = { width: el.clientWidth, height: el.clientHeight };
+    let settleTimer: ReturnType<typeof setTimeout> | null = null;
+    const commitSize = () => {
+      // Retain the last useful size if an ancestor is hidden (e.g. search).
+      if (latestBox.width <= 0 || latestBox.height <= 0) return;
+      const next = latestBox;
+      setBox((previous) => previous.width === next.width && previous.height === next.height ? previous : next);
+    };
+    // A sidebar toggle changes the PDF's available width every frame. Wait for
+    // the slot to settle, then render once; ordinary divider dragging stays live.
+    const unsubscribe = useUIStore.subscribe((state, previous) => {
+      if (reducedMotion || state.isMobile || (state.sidebarCollapsed === previous.sidebarCollapsed && state.previewVisible === previous.previewVisible)) return;
+      if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
+      if (settleTimer !== null) clearTimeout(settleTimer);
+      settleTimer = setTimeout(() => {
+        settleTimer = null;
+        commitSize();
+      }, PANEL_TRANSITION_MS + 32);
+    });
     const ro = new ResizeObserver((entries) => {
       const rect = entries[entries.length - 1]?.contentRect;
       if (!rect) return;
+      latestBox = { width: rect.width, height: rect.height };
+      if (settleTimer !== null) return;
       if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
-      rafRef.current = requestAnimationFrame(() => setBox({ width: rect.width, height: rect.height }));
+      rafRef.current = requestAnimationFrame(commitSize);
     });
     ro.observe(el);
-    setBox({ width: el.clientWidth, height: el.clientHeight });
+    commitSize();
     return () => {
       ro.disconnect();
+      unsubscribe();
+      if (settleTimer !== null) clearTimeout(settleTimer);
       if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
     };
-  }, [contentRef]);
+  }, [contentRef, reducedMotion]);
 
   const aspect = basePageAspect ?? DEFAULT_PAGE_ASPECT;
   const clampWidth = (w: number) => Math.min(Math.max(w, 120), MAX_FIT_WIDTH);

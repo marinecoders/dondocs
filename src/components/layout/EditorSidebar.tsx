@@ -245,10 +245,10 @@ export function EditorSidebar({ updateAction }: { updateAction?: ReactNode }) {
 
   return (
     <div role="region" aria-label="Workspace sidebar" className="contents">
-    <div className="relative hidden shrink-0 bg-sidebar sm:flex" style={{ width: collapsed ? SIDEBAR_WIDTH.collapsed : sidebarWidth }}>
-      <div hidden={collapsed} style={{ left: 52 }} className={collapsed ? "hidden" : "absolute top-2 z-30 flex h-8 items-center gap-1.5 whitespace-nowrap text-[17px] font-semibold tracking-tight"}>
+    <div data-open={!collapsed} className="workspace-sidebar-panel relative hidden shrink-0 overflow-hidden bg-sidebar sm:flex" style={{ width: collapsed ? SIDEBAR_WIDTH.collapsed : sidebarWidth }}>
+      <div aria-hidden={collapsed} inert={collapsed} style={{ left: 52 }} className="workspace-sidebar-brand absolute top-2 z-30 flex h-8 items-center gap-1.5 whitespace-nowrap text-[17px] font-semibold tracking-tight">
         <img src={`${import.meta.env.BASE_URL}attachments/marine-coders-logo.svg`} alt="Marine Coders" className="h-7 w-7 shrink-0 object-contain brightness-0 dark:invert" />
-        <span className={collapsed ? 'sr-only' : undefined}>DonDocs</span>
+        <span>DonDocs</span>
       </div>
       <div className="workspace-sidebar-toggle-position absolute z-30">
         <IconTip label={collapsed ? 'Show sidebar' : 'Hide sidebar'} side="right">
@@ -260,18 +260,19 @@ export function EditorSidebar({ updateAction }: { updateAction?: ReactNode }) {
           </button>
         </IconTip>
       </div>
-    {collapsed && <nav aria-label="Document shortcuts" style={{ width: SIDEBAR_WIDTH.collapsed }} className="workspace-collapsed-rail absolute inset-y-0 left-0 flex flex-col items-center gap-1 border-r border-border pt-[52px] pb-3 pl-px">
+    <nav aria-label="Document shortcuts" aria-hidden={!collapsed} inert={!collapsed} style={{ width: SIDEBAR_WIDTH.collapsed }} className="workspace-collapsed-rail absolute inset-y-0 left-0 flex flex-col items-center gap-1 border-r border-border bg-sidebar pt-[52px] pb-3 pl-px">
       {renderNewDocumentMenu(true)}
       <IconTip label="Search workspace" side="right"><button type="button" onClick={() => useUIStore.getState().setCommandPaletteOpen(true)} className="inline-flex h-9 w-8 items-center justify-center rounded-md text-muted-foreground hover:bg-sidebar-accent focus-visible:outline-2 focus-visible:outline-ring"><Search aria-hidden="true" className="h-4 w-4" /></button></IconTip>
       {updateAction && <div className="mt-auto shrink-0 pt-2">{updateAction}</div>}
-    </nav>}
+    </nav>
     <nav
       ref={navRef}
       id="workspace-documents"
-      hidden={collapsed}
+      aria-hidden={collapsed}
+      inert={collapsed}
       aria-label="Documents"
       style={{ width: sidebarWidth }}
-      className={collapsed ? "hidden" : "hidden sm:flex shrink-0 flex-col bg-sidebar"}
+      className="workspace-sidebar-content hidden sm:flex shrink-0 flex-col bg-sidebar"
     >
       <span aria-live="polite" className="sr-only">{announce}</span>
 
