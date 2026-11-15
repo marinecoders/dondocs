@@ -1166,7 +1166,7 @@ function App() {
         onRun: () => { if (currentDocId) useEditorOutlineStore.getState().requestJump(currentDocId, 'enclosures'); },
       });
     }
-    if (capabilityAvailable(outputCapabilities.batch)) insertItems.push({
+    if (!(documentCategory === 'forms' && genericForm) && capabilityAvailable(outputCapabilities.batch)) insertItems.push({
       id: 'insert-batch-variable',
       label: 'Insert batch variable…',
       icon: Braces,
@@ -1175,7 +1175,7 @@ function App() {
     groups.push({ label: 'Insert', items: insertItems });
 
     return groups;
-  }, [outputCapabilities, outlineSections, allDocs, currentDocId, isInstalled, userTemplates, documentCategory, isMobile, mobilePreviewOpen, previewVisible, formCatalog]);
+  }, [outputCapabilities, outlineSections, allDocs, currentDocId, isInstalled, userTemplates, documentCategory, genericForm, isMobile, mobilePreviewOpen, previewVisible, formCatalog]);
 
   if (!workspaceReady) {
     return <main className="flex h-screen-dvh flex-col items-center justify-center gap-3 bg-background text-foreground">
