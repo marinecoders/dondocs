@@ -284,3 +284,9 @@ Every row supplies its own answers. Saved answers from the source form are not
 inherited, and signature fields remain blank for signing after export. Repeating
 rows and multiple-selection fields are not supported by this initial mapping
 path. Mapping availability does not imply that PDF generation is available.
+
+Configured-form batch jobs retain the selected definition and verified blank PDF
+pages before rendering a row. A resumed job uses those exact page digests, even
+if the source form is replaced or removed. If required pages cannot be retained,
+the job pauses with a resource error and keeps its rows for retry. Batch jobs and
+results remain local to this browser and are excluded from workspace backups.
