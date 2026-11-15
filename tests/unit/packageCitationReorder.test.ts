@@ -212,6 +212,14 @@ it("ends enclosure context when an explicit paragraph category starts its own nu
   expect(native.session.paragraphs[0].text).toBe("Use enclosure (2). See paragraphs (2) and (3).");
 });
 
+it("does not treat a following sentence beginning with a year as an enclosure list", async () => {
+  const f = await enclosureClause("Use enclosure (1). 2026 training guidance follows.", "native");
+  const changed = await applyPackageCitationReorder(await preparePackageCitationReorder(f.record, { kind: "enclosures", memberId: f.native.id, order: [1, 0, 2] }, policy));
+  const native = getPackageRevision(changed).members[0];
+  if (native.kind !== "native") throw new Error("Expected native");
+  expect(native.session.paragraphs[0].text).toBe("Use enclosure (2). 2026 training guidance follows.");
+});
+
 it("rejects forged plans, incomplete orders and late source updates without changing the reviewed package", async () => {
   const f = await fixture(), record = await linkAll(f.record);
   await expect(applyPackageCitationReorder({} as PreparedPackageCitationReorder)).rejects.toThrow(/review/);

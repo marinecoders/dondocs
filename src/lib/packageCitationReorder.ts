@@ -81,7 +81,7 @@ function assertLinkedCoverage(revision: PackageRevision, changedLabels: Readonly
       for (const match of field.text.matchAll(/\b(references?|refs?\.?|enclosures?|encls?\.?)\s*\(\s*([a-z][a-z0-9]*|\d+)\s*\)/gi)) {
         const kind = /^ref/i.test(match[1]) ? "reference" : "enclosure";
         if (kind === "enclosure" && affectedEnclosures.size
-          && /^\s*(?:(?:[\p{P}\p{S}]+|and\b|or\b|through\b|to\b)\s*)+\d/iu.test(field.text.slice(match.index + match[0].length)))
+          && /^\s*(?:(?:[,;&/＆+\-–—]|and\b|or\b|through\b|to\b)\s*)+\d/i.test(field.text.slice(match.index + match[0].length)))
           throw new Error(`${member.label}: expand enclosure lists or ranges into individual explicit citations and link them before reordering.`);
         const label = kind === "enclosure" ? numericLabel(match[2]) : match[2].toLowerCase();
         if (!changedLabels.some(value => value.kind === kind && (value.global || value.memberId === member.id) && value.before.toLowerCase() === label)) continue;
