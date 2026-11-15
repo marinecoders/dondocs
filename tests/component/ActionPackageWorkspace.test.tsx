@@ -305,3 +305,32 @@ it("clears the previous comparison when a received package selects another revis
   expect(within(dialog).queryByRole("region", { name: "Retained PDF comparison" })).toBeNull();
   expect(within(dialog).queryByRole("button", { name: "Compare reviewed retained PDFs" })).toBeNull();
 });
+
+it("discards an active comparison when a received package selects another revision", async () => {
+  const { record, ports } = await retainedPair("Active comparison before received selection");
+  const incoming = await createActionPackage("Incoming during comparison");
+  const comparison = await import("@/lib/packageRenderComparison");
+  const { preparePackageAssembly } = await import("@/lib/actionPackageAssembly");
+  vi.spyOn(comparison, "preparePackageRenderComparison").mockImplementation((record, id, policy) => preparePackageAssembly(record, id, policy));
+  let finish!: (value: PackageRenderComparison) => void;
+  const compare = vi.spyOn(comparison, "comparePreparedPackageOutputs").mockImplementation(() => new Promise(resolve => { finish = resolve; }));
+  const user = userEvent.setup();
+  useUIStore.setState({ actionPackagesOpen: true });
+  render(<ActionPackageWorkspace exportGate={createExportGate()} ports={ports} />);
+  const dialog = screen.getByRole("dialog", { name: "Action packages" });
+  await within(dialog).findByRole("option", { name: record.name });
+  await user.selectOptions(within(dialog).getByLabelText("Saved packages", { exact: true }), record.id);
+  await user.click(within(dialog).getByRole("button", { name: "Review PDF comparison" }));
+  await within(dialog).findByRole("heading", { name: /^Package readiness: (ready|exported)$/ });
+  await user.click(within(dialog).getByRole("checkbox", { name: /^I reviewed every included member/ }));
+  await user.click(within(dialog).getByRole("button", { name: "Compare reviewed retained PDFs" }));
+  await waitFor(() => expect(compare).toHaveBeenCalledOnce());
+  act(() => useUIStore.getState().openActionPackage(incoming.id, incoming.currentRevisionId));
+  await waitFor(() => expect(within(dialog).getByLabelText("Saved packages", { exact: true })).toHaveValue(incoming.id));
+  await act(async () => { finish(comparisonResult(record.currentRevisionId)); });
+  await waitFor(() => expect(dialog).not.toHaveAttribute("aria-busy", "true"));
+  expect(within(dialog).queryByRole("region", { name: "Retained PDF comparison" })).toBeNull();
+  expect(within(dialog).queryByText(/Comparison complete/)).toBeNull();
+  expect(compare.mock.calls[0][3].aborted).toBe(true);
+  expect(within(dialog).queryByRole("alert")).toBeNull();
+});

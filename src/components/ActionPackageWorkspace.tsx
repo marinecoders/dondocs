@@ -59,6 +59,7 @@ import { parseEncryptedShareFile, MAX_ENCRYPTED_SHARE_FILE_BYTES } from "@/lib/e
 import { ShareModal } from "./modals/ShareModal";
 import type { CorrespondenceRendererPorts } from "@/services/exports/correspondence";
 
+const RECEIVED_PACKAGE_SELECTION = Symbol("received-package-selection");
 const loadRetainedPdfViewer = () => import("@/components/pdf/PdfViewer");
 const RetainedPdfViewer = lazy(loadRetainedPdfViewer);
 const PackageShareDialog = lazy(() => import("./PackageShareDialog"));
@@ -163,6 +164,9 @@ function PackageDialog({
   const afterComparisonId = afterOutputId || revision?.outputs.at(-1)?.id || "";
   useEffect(() => {
     if (!requestedPackageId && inventoryLoaded.current) return;
+    // A received selection supersedes work captured for the previous package.
+    // Abort before loading inventory so late results cannot publish during that read.
+    if (requestedPackageId) operation.current?.abort(RECEIVED_PACKAGE_SELECTION);
     let live = true;
     void listActionPackages()
       .then((records) => {
@@ -231,7 +235,7 @@ function PackageDialog({
     try {
       await action();
     } catch (error) {
-      if (!active.current) return;
+      if (!active.current || controller.signal.reason === RECEIVED_PACKAGE_SELECTION) return;
       if (controller.signal.aborted) {
         setPrepared(null);
         setApproved(false);
