@@ -3,7 +3,7 @@ import { StrictMode } from "react";
 import { createExportGate } from "@/lib/exportController";
 import "fake-indexeddb/auto";
 import { beforeEach, expect, it, vi } from "vitest";
-import { render, screen, waitFor, within } from "@testing-library/react";
+import { act, render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { PDFDocument } from "pdf-lib";
 import { ActionPackageWorkspace } from "@/components/ActionPackageWorkspace";
@@ -187,6 +187,17 @@ async function retainedPair(name: string) {
   return { record, ports };
 }
 
+function comparisonResult(revisionId: string): PackageRenderComparison {
+  return {
+    revisionId, beforeId: "before", afterId: "after",
+    beforeCreatedAt: 1, afterCreatedAt: 2, beforeVersion: null, afterVersion: null,
+    beforeSha256: "a".repeat(64), afterSha256: "b".repeat(64), identicalBytes: false,
+    extractedText: "matches", textLayout: "matches", pageGeometry: "matches",
+    memberBoundaries: "matches", recordedResources: "unavailable", recordedInputs: "unavailable",
+    beforePages: 1, afterPages: 1, pagesWithoutText: [],
+  };
+}
+
 it("locks the reviewed comparison pair while reading and discards a cancelled late result", async () => {
   const { record, ports } = await retainedPair("Held comparison");
   const comparison = await import("@/lib/packageRenderComparison");
@@ -248,14 +259,7 @@ it("rechecks the saved package after a delayed final policy refresh before publi
   const classification = await import("@/config/classification");
   const { preparePackageAssembly } = await import("@/lib/actionPackageAssembly");
   vi.spyOn(comparison, "preparePackageRenderComparison").mockImplementation((record, id, policy) => preparePackageAssembly(record, id, policy));
-  vi.spyOn(comparison, "comparePreparedPackageOutputs").mockResolvedValue({
-    revisionId: record.currentRevisionId, beforeId: "before", afterId: "after",
-    beforeCreatedAt: 1, afterCreatedAt: 2, beforeVersion: null, afterVersion: null,
-    beforeSha256: "a".repeat(64), afterSha256: "b".repeat(64), identicalBytes: false,
-    extractedText: "matches", textLayout: "matches", pageGeometry: "matches",
-    memberBoundaries: "matches", recordedResources: "unavailable", recordedInputs: "unavailable",
-    beforePages: 1, afterPages: 1, pagesWithoutText: [],
-  });
+  vi.spyOn(comparison, "comparePreparedPackageOutputs").mockResolvedValue(comparisonResult(record.currentRevisionId));
   const user = userEvent.setup();
   useUIStore.setState({ actionPackagesOpen: true });
   render(<ActionPackageWorkspace exportGate={createExportGate()} ports={ports} />);
@@ -276,4 +280,28 @@ it("rechecks the saved package after a delayed final policy refresh before publi
   await within(dialog).findByText(/The package changed during comparison/);
   expect(within(dialog).queryByRole("region", { name: "Retained PDF comparison" })).toBeNull();
   expect(within(dialog).queryByText(/Comparison complete/)).toBeNull();
+});
+
+it("clears the previous comparison when a received package selects another revision in the open workspace", async () => {
+  const { record, ports } = await retainedPair("Previously compared package");
+  const incoming = await createActionPackage("Received package selection");
+  const comparison = await import("@/lib/packageRenderComparison");
+  const { preparePackageAssembly } = await import("@/lib/actionPackageAssembly");
+  vi.spyOn(comparison, "preparePackageRenderComparison").mockImplementation((record, id, policy) => preparePackageAssembly(record, id, policy));
+  vi.spyOn(comparison, "comparePreparedPackageOutputs").mockResolvedValue(comparisonResult(record.currentRevisionId));
+  const user = userEvent.setup();
+  useUIStore.setState({ actionPackagesOpen: true });
+  render(<ActionPackageWorkspace exportGate={createExportGate()} ports={ports} />);
+  const dialog = screen.getByRole("dialog", { name: "Action packages" });
+  await within(dialog).findByRole("option", { name: record.name });
+  await user.selectOptions(within(dialog).getByLabelText("Saved packages", { exact: true }), record.id);
+  await user.click(within(dialog).getByRole("button", { name: "Review PDF comparison" }));
+  await within(dialog).findByRole("heading", { name: /^Package readiness: (ready|exported)$/ });
+  await user.click(within(dialog).getByRole("checkbox", { name: /^I reviewed every included member/ }));
+  await user.click(within(dialog).getByRole("button", { name: "Compare reviewed retained PDFs" }));
+  await within(dialog).findByRole("region", { name: "Retained PDF comparison" });
+  act(() => useUIStore.getState().openActionPackage(incoming.id, incoming.currentRevisionId));
+  await waitFor(() => expect(within(dialog).getByLabelText("Saved packages", { exact: true })).toHaveValue(incoming.id));
+  expect(within(dialog).queryByRole("region", { name: "Retained PDF comparison" })).toBeNull();
+  expect(within(dialog).queryByRole("button", { name: "Compare reviewed retained PDFs" })).toBeNull();
 });

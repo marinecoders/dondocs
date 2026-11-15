@@ -181,6 +181,9 @@ function PackageDialog({
             setApproved(false);
             setComparison(null);
             setPdfUrl("");
+            setBeforeOutputId("");
+            setAfterOutputId("");
+            setRenderComparison(null);
             useUIStore.getState().clearActionPackageSelection();
           }
         }
