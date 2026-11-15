@@ -3,6 +3,7 @@ import type { SerializedSession } from '@/stores/documentStore';
 import { paragraphIdSchema } from './paragraphIdentity';
 import { availableCommentFields, commentFieldLabel, supportsReviewComments } from './reviewCommentTargets';
 import { reviewDigestSchema, reviewRoundIdSchema, type ReviewRound } from './reviewRounds';
+import { mechanicalFindings } from './mechanicalCorrections';
 
 export const REVIEW_SUGGESTION_LIMITS = { proposals: 100, changes: 20, decisions: 1_000, value: 20_000, totalCharacters: 200_000 } as const;
 const timestamp = z.number().int().nonnegative().max(8_640_000_000_000_000);
@@ -12,6 +13,7 @@ const changeId = z.string().uuid();
 export const reviewSuggestionTargetSchema = z.discriminatedUnion('kind', [
   z.object({ kind: z.literal('field'), field: z.string().regex(/^[a-z][A-Za-z0-9]*$/).max(100), docType: z.string().min(1).max(100) }).strict(),
   z.object({ kind: z.literal('paragraph'), paragraphId: paragraphIdSchema, docType: z.string().min(1).max(100) }).strict(),
+  z.object({ kind: z.literal('reference-title'), referenceIndex: z.number().int().nonnegative().max(Number.MAX_SAFE_INTEGER), docType: z.string().min(1).max(100) }).strict(),
 ]);
 export type ReviewSuggestionTarget = z.infer<typeof reviewSuggestionTargetSchema>;
 export const reviewSuggestionChangeSchema = z.object({
@@ -94,7 +96,7 @@ export const reviewSuggestionStateSchema = z.object({
 export type ReviewSuggestionState = z.infer<typeof reviewSuggestionStateSchema>;
 
 export function suggestionTargetKey(target: ReviewSuggestionTarget): string {
-  return target.kind === 'field' ? `field:${target.field}` : `paragraph:${target.paragraphId}`;
+  return target.kind === 'field' ? `field:${target.field}` : target.kind === 'paragraph' ? `paragraph:${target.paragraphId}` : `reference-title:${target.referenceIndex}`;
 }
 
 export function suggestionTargetValue(session: SerializedSession, target: ReviewSuggestionTarget): { label: string; value: string } | null {
@@ -102,6 +104,10 @@ export function suggestionTargetValue(session: SerializedSession, target: Review
   if (target.kind === 'field') {
     const field = availableCommentFields(session).find(item => item.field === target.field);
     return field ? { label: commentFieldLabel(target.field), value: field.value } : null;
+  }
+  if (target.kind === 'reference-title') {
+    const reference = session.references[target.referenceIndex];
+    return reference ? { label: `Reference ${target.referenceIndex + 1} title`, value: reference.title } : null;
   }
   const matches = session.paragraphs.filter(paragraph => paragraph.id === target.paragraphId);
   const paragraph = matches.length === 1 ? matches[0] : undefined;
@@ -137,6 +143,12 @@ export function validateReviewSuggestion(round: ReviewRound, value: unknown): Re
   for (const change of proposal.changes) {
     const baseline = suggestionTargetValue(round.baseline.session, change.target);
     if (!baseline || baseline.value !== change.expected) throw new Error('This suggestion does not match a supported field or paragraph in the reviewed baseline.');
+    if (change.target.kind === 'reference-title') {
+      const index = change.target.referenceIndex;
+      const finding = mechanicalFindings({ ...round.baseline.session, references: [round.baseline.session.references[index]] }, 'references', null).find(item => item.after !== undefined);
+      const corrected = finding && finding.sourceText.slice(0, finding.target.start) + finding.after + finding.sourceText.slice(finding.target.end);
+      if (proposal.origin.kind !== 'mechanical' || change.proposed !== corrected) throw new Error('Reference review suggestions support only the existing NOTAL formatting correction.');
+    }
   }
   return proposal;
 }
@@ -186,10 +198,12 @@ export interface ReviewSuggestionPlan {
 
 export function inspectReviewSuggestion(round: ReviewRound, source: SerializedSession, input: ReviewSuggestion): ReviewSuggestionPlan['changes'] {
   const proposal = validateReviewSuggestion(round, input);
+  const referencesMatch = !proposal.changes.some(change => change.target.kind === 'reference-title') || sameReviewReferences(source, round.baseline.session);
   return proposal.changes.map(change => {
     const current = suggestionTargetValue(source, change.target);
     return { id: change.id, label: current?.label ?? suggestionTargetValue(round.baseline.session, change.target)!.label,
-      baseline: change.expected, current: current?.value ?? null, proposed: change.proposed, stale: current?.value !== change.expected };
+      baseline: change.expected, current: current?.value ?? null, proposed: change.proposed,
+      stale: current?.value !== change.expected || change.target.kind === 'reference-title' && !referencesMatch };
   });
 }
 
@@ -207,7 +221,8 @@ export function planReviewSuggestionDecision(round: ReviewRound, source: Seriali
   if (action === 'accepted') for (const change of proposal.changes) {
     const target = change.target;
     if (target.kind === 'field') Object.assign(session.formData, { [target.field]: change.proposed });
-    else session.paragraphs.find(paragraph => paragraph.id === target.paragraphId)!.text = change.proposed;
+    else if (target.kind === 'paragraph') session.paragraphs.find(paragraph => paragraph.id === target.paragraphId)!.text = change.proposed;
+    else session.references[target.referenceIndex].title = change.proposed;
   }
   state.decisions.push({ ...record, proposalId, roundId: round.id, baselineDigest: round.baselineDigest,
     action, ...(previous ? { previousDecisionId: previous.id } : {}) });
@@ -225,6 +240,12 @@ export function planReviewSuggestionHistory(round: ReviewRound, before: Serializ
   const activeId = previous.action === 'accepted' ? previous.id : previous.acceptanceId;
   if (activeId !== acceptanceId || direction === 'undo' && !['accepted', 'restored'].includes(previous.action)
     || direction === 'redo' && previous.action !== 'reversed') throw new Error('This history action no longer matches the latest review decision.');
+  if (proposal.changes.some(change => change.target.kind === 'reference-title')) {
+    const corrected = structuredClone(round.baseline.session);
+    for (const change of proposal.changes) if (change.target.kind === 'reference-title') corrected.references[change.target.referenceIndex].title = change.proposed;
+    if (!sameReviewReferences(before, direction === 'undo' ? corrected : round.baseline.session)
+      || !sameReviewReferences(after, direction === 'undo' ? round.baseline.session : corrected)) throw new Error('The reference list no longer matches this review decision.');
+  }
   for (const change of proposal.changes) {
     const oldValue = suggestionTargetValue(before, change.target)?.value;
     const nextValue = suggestionTargetValue(after, change.target)?.value;
@@ -234,4 +255,15 @@ export function planReviewSuggestionHistory(round: ReviewRound, before: Serializ
   state.decisions.push({ ...record, proposalId: proposal.id, roundId: round.id, baselineDigest: round.baselineDigest,
     action: direction === 'undo' ? 'reversed' : 'restored', previousDecisionId: previous.id, acceptanceId });
   return reviewSuggestionStateSchema.parse(state);
+}
+
+/** Reference entries have no editing IDs. Bind their ordered values as a whole. */
+function sameReviewReferences(left: SerializedSession, right: SerializedSession): boolean {
+  if (left.references.length !== right.references.length) return false;
+  for (let index = 0; index < left.references.length; index++) {
+    const reference = left.references[index];
+    const other = right.references[index];
+    if (!reference || !other || reference.letter !== other.letter || reference.title !== other.title || reference.url !== other.url) return false;
+  }
+  return true;
 }

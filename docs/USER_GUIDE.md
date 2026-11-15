@@ -158,6 +158,45 @@ including archived review records after source/copy deletion. Deleting the revie
 baseline explicitly removes its local proposals and decision history. Reviewer
 names and decisions do not establish authenticated approval.
 
+## Propose formatting corrections in a review
+
+Open **Review rounds…**, choose **Review for suggested edits**, then use
+**Propose formatting corrections**. These are the existing formatting checks;
+this workflow sends their findings for a drafter's decision instead of applying
+them to the reviewer copy.
+
+1. Enter a reviewer name. Choose a **Body date audience for review** to include
+   body-date findings; DonDocs does not infer the audience from a recipient.
+2. Inspect and select corrections. Supported findings include header date format,
+   spacing around signature initials, body dates and existing terminal NOTAL
+   markers. Ambiguous dates remain advisory. Quotes, code, URLs and placeholders
+   keep the protections of the existing checks.
+3. Choose **Propose corrections**. Selected spans in the same paragraph become
+   one complete paragraph replacement. All selected targets belong to one group;
+   creating it leaves the letter text unchanged.
+4. From a linked reviewer copy, prepare and download the usual feedback return.
+   Inspect its privacy and marking summary: the file includes reviewer names and
+   full before/after values of selected fields and paragraphs, including their
+   unchanged surrounding text.
+5. In the source draft, import the return and inspect the pending group. **Accept
+   suggestion** validates every member before changing any text; **Reject
+   suggestion** records a decision without applying it. Unrelated newer work is
+   kept. One Undo reverses the whole accepted group in the current document
+   session; reopening keeps the saved decisions but clears ordinary Undo history.
+
+Reference entries do not have stable editing identities. A NOTAL group can be
+accepted only while the entire ordered reference list still matches the reviewed
+baseline, including titles, letters and URLs. Propose related reference fixes
+together; accepting one changes that list and blocks separate old-baseline
+reference proposals. Other overlapping edits also block acceptance; keep the newer
+work, reject the proposal or start a fresh review.
+
+A group supports at most 20 distinct fields, paragraphs or reference titles,
+with complete values up to 20,000 characters each and an overall text limit.
+Larger groups are rejected rather than shortened. Reference ordering and citation
+relabeling remain in the existing reference tools; they are not proposed by this
+workflow. Clean PDF and Word output omit pending proposals and review metadata.
+
 ## Export and sign
 
 Choose an available output from Download. PDF enclosure merging and digital signature fields are PDF features; Word has [documented limits](OUTPUT_LIMITS.md). A downloaded TeX fragment needs the repository templates/assets to compile as a project.
