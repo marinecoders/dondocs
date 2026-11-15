@@ -1,10 +1,10 @@
-import { HelpCircle, PackageOpen, Settings, Trash2, UserRound } from 'lucide-react';
+import { Files, HelpCircle, Settings, Trash2, UserRound } from 'lucide-react';
 import { useUIStore } from '@/stores/uiStore';
 
 /** Saved packages are a workspace collection, alongside documents and templates. */
 export const PACKAGES_DESTINATION = {
   label: 'Packages',
-  icon: PackageOpen,
+  icon: Files,
   run: () => useUIStore.getState().setActionPackagesOpen(true),
 };
 
