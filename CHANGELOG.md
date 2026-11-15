@@ -20,6 +20,7 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 - Enforce the expanded Word package budget before copying repeated original files, even when they share one portable resource.
 - Keep generated ZIP paths resolvable when an imported label contains malformed Unicode.
 - Escape Windows device filenames containing superscript digits so captured originals remain extractable.
+- Preserve file extensions when shortening long Unicode names in Word archives.
 - Deliver valid captured PNG signatures stored as either base64 or data URLs with unchanged signature sidecars.
 - Serialize the normalized PNG signature size after JPEG uploads so saved drafts and packages pass their attachment integrity checks.
 - Keep inactive embedded figures and enclosures out of clean Word sidecars while retaining explicit original package members.

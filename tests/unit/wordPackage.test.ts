@@ -153,6 +153,25 @@ it.each(['COM¹.pdf', 'COM².pdf', 'COM³.pdf', 'LPT¹.pdf', 'LPT².pdf', 'LPT³
   expect(wordPackageFilename(name)).toBe(`_${name}`);
 });
 
+it.each(['.pdf', '.PNG', '.jpeg', '.docx'])('preserves the %s extension when truncating a long Unicode filename', extension => {
+  const name = wordPackageFilename(`${'演習😀'.repeat(20)}${extension}`);
+  expect(name.endsWith(extension)).toBe(true);
+  expect(new TextEncoder().encode(name).byteLength).toBeLessThanOrEqual(160);
+});
+
+it('keeps a long original filename recognizable as a PDF in the generated archive', async () => {
+  const { record, original } = await fixture();
+  const name = `${'演習😀'.repeat(20)}.pdf`;
+  record.revisions[0].members.push(await captureOriginalPackageMember({ name, data: original }, 'supporting-document', false));
+  const prepared = await prepareWordPackage(record, record.currentRevisionId, policy);acknowledgeWordPackage(prepared);
+  const result = await renderWordPackage(prepared, ports);
+  const file = result.manifest.files.find(file => file.name === name)!;
+  expect(file.path.endsWith('.pdf')).toBe(true);
+  expect(new TextEncoder().encode(file.path.split('/').at(-1)!).byteLength).toBeLessThanOrEqual(160);
+  const zip = await JSZip.loadAsync(await result.blob.arrayBuffer(), { checkCRC32: true });
+  expect(await zip.file(file.path)!.async('uint8array')).toEqual(new Uint8Array(original));
+});
+
 it.each(['base64', 'data-url'] as const)('retains a captured %s PNG signature in the Word document and original sidecar', async encoding => {
   const { docxImageFixture } = await import('../_helpers/docxImageFixture');
   const images = await docxImageFixture();

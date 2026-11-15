@@ -56,13 +56,17 @@ export function wordPackageFilename(label: string, fallback = 'document'): strin
   const portable = Array.from(basename, char => {
     const code = char.codePointAt(0)!;
     return /[<>:"|?*\u202a-\u202e\u2066-\u2069]/.test(char) || code < 32 || code === 127 || code >= 0xd800 && code <= 0xdfff ? '_' : char;
-  }).join('');
+  }).join('').replace(/^[. ]+|[. ]+$/g, '') || fallback;
+  const encoder = new TextEncoder();
+  // Keep recognizable file types when a long original name needs shortening.
+  const extension = encoder.encode(portable).byteLength > 160 ? /\.[a-z0-9]{1,10}$/i.exec(portable)?.[0] ?? '' : '';
+  const stem = extension ? portable.slice(0, -extension.length) : portable;
   let safe = '';
-  for (const char of portable) {
-    if (new TextEncoder().encode(safe + char).byteLength > 160) break;
+  for (const char of stem) {
+    if (encoder.encode(safe + char + extension).byteLength > 160) break;
     safe += char;
   }
-  safe = safe.replace(/^[. ]+|[. ]+$/g, '') || fallback;
+  safe = (safe + extension).replace(/^[. ]+|[. ]+$/g, '') || fallback;
   // Windows reserves the Latin-1 superscript digits in COM/LPT device names too.
   return /^(?:con|prn|aux|nul|(?:com|lpt)[1-9¹²³])(?:\.|$)/i.test(safe) ? `_${safe}` : safe;
 }
