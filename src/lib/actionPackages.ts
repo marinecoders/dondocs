@@ -328,6 +328,7 @@ export async function reviseActionPackage(
   members: PackageMember[],
   signal?: AbortSignal,
   citations: PackageCitations | undefined = getPackageRevision(record).citations,
+  isCurrent: () => boolean = () => true,
 ): Promise<ActionPackage> {
   if (record.archived)
     throw new Error("Reopen this archived package before editing.");
@@ -357,6 +358,7 @@ export async function reviseActionPackage(
       revisions: [...record.revisions, revision],
     },
     signal,
+    isCurrent,
   );
 }
 export async function renameActionPackage(
