@@ -1,4 +1,5 @@
-import { configuredBatchMapping, createConfiguredBatchRowReviewer } from '@/lib/configuredFormBatch';
+import { configuredBatchMapping, configuredBatchSelectionPreview, createConfiguredBatchRowReviewer } from '@/lib/configuredFormBatch';
+import type { FormDefinition } from '@/services/forms/model';
 import { documentCapabilities, capabilityAvailable } from '@/lib/documentCapabilities';
 import { downloadPdfBlob, preOpenWindowForIOS } from '@/utils/downloadPdf';
 import { DOC_TYPE_LABELS, FORM_TYPE_LABELS, formTypeLabel } from '@/types/document';
@@ -112,6 +113,7 @@ interface BatchModalRowProps {
   idx: number;
   detectedPlaceholders: string[];
   isConfiguredForm: boolean;
+  configuredFields?: FormDefinition['fields'];
   isGenerating: boolean;
   isLocked: boolean;
   isPreviewing: boolean;
@@ -137,6 +139,7 @@ const BatchModalRow = memo(function BatchModalRow({
   idx,
   detectedPlaceholders,
   isConfiguredForm,
+  configuredFields,
   isGenerating,
   isLocked,
   isPreviewing,
@@ -158,20 +161,26 @@ const BatchModalRow = memo(function BatchModalRow({
           {(!row.status || row.status === 'pending') && <span>{idx + 1}</span>}
         </div>
       </td>
-      {detectedPlaceholders.map((placeholder) => (
-        <td key={placeholder} className="px-1 py-1">
-          <Input
-            aria-label={`Row ${idx + 1}: ${placeholder}`}
-            aria-describedby={warnings.some(w => w.placeholder === placeholder) ? 'batch-roster-checks' : undefined}
-            title={warnings.filter(w => w.placeholder === placeholder).map(w => w.message).join('\n') || undefined}
-            value={row.values[placeholder] || ''}
-            onChange={(e) => updateRowValue(row.id, placeholder, e.target.value)}
-            placeholder={placeholder.substring(0, 8)}
-            className={`h-7 w-36 text-xs ${warnings.some(w => w.placeholder === placeholder) ? 'border-warning' : ''}`}
-            disabled={isGenerating || isLocked || row.status === 'success'}
-          />
-        </td>
-      ))}
+      {detectedPlaceholders.map((placeholder) => {
+        const selection = configuredBatchSelectionPreview(configuredFields?.[placeholder], row.values[placeholder] || '');
+        const selectionId = `batch-selection-${idx}-${placeholder}`;
+        const describedBy = [warnings.some(w => w.placeholder === placeholder) ? 'batch-roster-checks' : '', selection !== undefined ? selectionId : ''].filter(Boolean).join(' ') || undefined;
+        return (
+          <td key={placeholder} className="px-1 py-1">
+            <Input
+              aria-label={`Row ${idx + 1}: ${placeholder}`}
+              aria-describedby={describedBy}
+              title={warnings.filter(w => w.placeholder === placeholder).map(w => w.message).join('\n') || undefined}
+              value={row.values[placeholder] || ''}
+              onChange={(e) => updateRowValue(row.id, placeholder, e.target.value)}
+              placeholder={placeholder.substring(0, 8)}
+              className={`h-7 w-36 text-xs ${warnings.some(w => w.placeholder === placeholder) ? 'border-warning' : ''}`}
+              disabled={isGenerating || isLocked || row.status === 'success'}
+            />
+            {selection !== undefined && <p id={selectionId} aria-label={`Row ${idx + 1}: ${placeholder} selected options`} className="max-w-60 break-words text-xs text-muted-foreground">Selected: {selection}</p>}
+          </td>
+        );
+      })}
       <td className="px-1 py-2">
         <div className="flex items-center gap-0.5">
           <Button
@@ -1059,6 +1068,7 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
                                 idx={idx}
                                 detectedPlaceholders={detectedPlaceholders}
                                 isConfiguredForm={!!configuredForm}
+                                configuredFields={configuredForm?.definition.fields}
                                 isGenerating={isGenerating}
                                 isLocked={!!source}
                                 isPreviewing={previewingRow === row.id}

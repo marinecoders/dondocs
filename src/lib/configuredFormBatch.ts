@@ -15,7 +15,7 @@ export interface ConfiguredBatchMapping {
   issues: string[];
 }
 
-/** Scalar roster values are explicit answers; another person's saved values are never defaults. */
+/** Roster values are explicit answers; another person's saved values are never defaults. */
 export function configuredBatchMapping(instance: FormInstance): ConfiguredBatchMapping {
   const fields: ConfiguredBatchField[] = [];
   const issues: string[] = [];
@@ -35,14 +35,11 @@ export function configuredBatchMapping(instance: FormInstance): ConfiguredBatchM
       if (answer !== undefined && answer !== '') issues.push(`${field.label}: clear the signature answer and sign each PDF after export.`);
       continue;
     }
-    if (field.kind === 'multipleChoice') {
-      issues.push(`${field.label}: multiple-choice roster mapping is not supported. Prepare this form individually.`);
-      continue;
-    }
     const guidance = field.kind === 'date' ? 'YYYY-MM-DD'
       : field.kind === 'decimal' ? 'Decimal number, without commas'
       : field.kind === 'boolean' ? 'yes / no or true / false'
       : field.kind === 'singleChoice' ? field.options!.map(option => `${option.label} (${option.id})`).join('; ')
+      : field.kind === 'multipleChoice' ? `JSON array of option IDs or unique labels, for example ${JSON.stringify(field.options!.slice(0, 2).map(option => option.id))}; [] selects none. Options: ${field.options!.map(option => `${option.label} (${option.id})`).join('; ')}`
       : field.kind === 'identifier' ? 'Text; retain leading zeros' : 'Text';
     fields.push({ id, label: field.label, kind: field.kind, guidance });
   }
@@ -50,7 +47,16 @@ export function configuredBatchMapping(instance: FormInstance): ConfiguredBatchM
   return { fields, issues };
 }
 
-function parseAnswer(field: AnswerField, raw: string): Answer {
+function resolveChoice(field: AnswerField, value: string): string {
+  const exact = field.options!.find(option => option.id === value);
+  if (exact) return exact.id;
+  const labels = field.options!.filter(option => option.label.toLocaleLowerCase() === value.toLocaleLowerCase());
+  if (labels.length === 1) return labels[0].id;
+  throw new Error('Enter an option ID or an unambiguous option label');
+}
+
+/** Parse one roster cell using the same answer types as the individual form editor. */
+export function parseConfiguredBatchAnswer(field: AnswerField, raw: string): Answer {
   const value = raw.trim();
   if (field.kind === 'boolean') {
     if (/^(true|yes)$/i.test(value)) return true;
@@ -58,14 +64,31 @@ function parseAnswer(field: AnswerField, raw: string): Answer {
     throw new Error('Enter yes, no, true, or false');
   }
   if (field.kind === 'singleChoice') {
-    const exact = field.options!.find(option => option.id === value);
-    if (exact) return exact.id;
-    const labels = field.options!.filter(option => option.label.toLocaleLowerCase() === value.toLocaleLowerCase());
-    if (labels.length === 1) return labels[0].id;
-    throw new Error('Enter an option ID or an unambiguous option label');
+    return resolveChoice(field, value);
+  }
+  if (field.kind === 'multipleChoice') {
+    let parsed: unknown;
+    try { parsed = JSON.parse(value); }
+    catch { throw new Error('Enter a JSON array of option IDs or unique labels, such as ["first","second"]'); }
+    if (!Array.isArray(parsed) || parsed.some(item => typeof item !== 'string')) {
+      throw new Error('Enter a JSON array containing only option IDs or unique labels as strings');
+    }
+    if (parsed.length > field.options!.length) throw new Error(`Select at most ${field.options!.length} distinct options`);
+    const selected = parsed.map(item => resolveChoice(field, item));
+    if (new Set(selected).size !== selected.length) throw new Error('Select each option only once');
+    return selected;
   }
   // Text spacing is user content. Typed values and identifiers have surrounding whitespace removed.
   return field.kind === 'text' ? raw : value;
+}
+
+/** Invalid cells have row diagnostics instead of a misleading partial selection preview. */
+export function configuredBatchSelectionPreview(field: AnswerField | undefined, raw: string): string | undefined {
+  if (field?.kind !== 'multipleChoice' || !raw.trim()) return undefined;
+  try {
+    const selected = parseConfiguredBatchAnswer(field, raw) as string[];
+    return selected.length ? selected.map(id => `${field.options!.find(option => option.id === id)!.label} (${id})`).join('; ') : 'None';
+  } catch { return undefined; }
 }
 
 /** Reuse one compiled field inventory while reviewing many roster rows. */
@@ -88,7 +111,7 @@ export function reviewConfiguredBatchRow(instance: FormInstance, values: Readonl
     }
     if (!raw.trim()) continue;
     try {
-      answers[field.id] = parseAnswer(instance.definition.fields[field.id], raw);
+      answers[field.id] = parseConfiguredBatchAnswer(instance.definition.fields[field.id], raw);
     } catch (error) {
       issues.push(`${field.label}: ${error instanceof Error ? error.message : 'Invalid roster value'}`);
     }

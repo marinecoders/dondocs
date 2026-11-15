@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.101] — 2026-11-15
+
+### Added
+
+- Map configured-form roster cells to multiple selections using JSON arrays of option IDs or unique labels, with normalized selection previews and explicit invalid or duplicate selection checks. Each generated PDF keeps its own answers and the existing retained-template, retry and ZIP delivery protections.
+
 ## [1.3.100] — 2026-11-15
 
 ### Added
