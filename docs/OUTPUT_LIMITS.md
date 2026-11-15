@@ -60,3 +60,5 @@ and limited to 256 resource entries, 25 MB each, 75 MB decoded total and 100 MB 
 A native draft stores embedded attachments inside its own 25 MB resource limit.
 Workspace backup version 12 retains complete package history and rejects missing
 or corrupt package assets rather than writing a misleading partial package.
+
+See [Word layout qualification](WORD_LAYOUT_QUALIFICATION.md) for measured target-renderer scope and reproducible checks.
