@@ -283,13 +283,24 @@ for (const theme of ["light", "dark", "classic"]) {
       .click();
     await page.keyboard.press("Escape");
     await workspace(page, `TRAINING SOURCE ${theme}`);
+    // Finish the drawer's close/focus restoration before editing its source.
+    await expect(
+      page.getByRole("dialog", { name: "Documents", exact: true }),
+    ).toBeHidden();
     await page
       .getByLabel("Document section", { exact: true })
       .selectOption("addressing");
-    await page
-      .getByRole("textbox", { name: "Subject", exact: true })
-      .fill(`NEWER SOURCE ${theme}`);
+    const sourceSubject = page.getByRole("textbox", {
+      name: "Subject",
+      exact: true,
+    });
+    await expect(sourceSubject).toHaveValue(`TRAINING SOURCE ${theme}`);
+    await sourceSubject.fill(`NEWER SOURCE ${theme}`);
+    await expect(sourceSubject).toHaveValue(`NEWER SOURCE ${theme}`);
     await actions(page, /^Save checkpoint/);
+    await expect(
+      page.getByText("Checkpoint saved in this browser", { exact: true }),
+    ).toBeVisible();
     modal = await packages(page);
     await modal
       .getByLabel("Saved packages", { exact: true })

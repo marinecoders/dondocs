@@ -391,9 +391,8 @@ jobs:
     name: browser flows (${{ matrix.group }})
     runs-on: ubuntu-latest
     # Includes setup and complete browser profiles with review/asset workflows.
-    # Keep every profile separate: the four-profile Chromium job exhausted
-    # its 50-minute budget before finishing. Each profile keeps full coverage
-    # and independent failure artifacts without consuming another's budget.
+    # Give each browser profile its own job. Desktop WebKit needs two shards
+    # to finish the complete suite within the job's runtime budget.
     timeout-minutes: 50
     strategy:
       fail-fast: false
@@ -414,9 +413,12 @@ jobs:
           - group: firefox
             browsers: firefox
             projects: --project=firefox
-          - group: webkit
+          - group: webkit-1
             browsers: webkit
-            projects: --project=webkit
+            projects: --project=webkit --shard=1/2
+          - group: webkit-2
+            browsers: webkit
+            projects: --project=webkit --shard=2/2
           - group: ipad-safari
             browsers: webkit
             projects: --project=ipad-safari
