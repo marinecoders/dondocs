@@ -59,7 +59,8 @@ attachment bytes. Checksums need HTTPS or localhost and do not authenticate a se
 Reviewer files use the `dondocs-review-copy` version 1 envelope around the existing
 portable draft format. They are unencrypted and limited to 100 MB. Workspace
 backups containing review records or review-derived native copies use version 7,
-and those containing imported-return receipts use version 8; ordinary comment-bearing backups
+those containing imported-return receipts use version 8, and those with suggested
+replacements or decisions use version 9; ordinary comment-bearing backups
 remain version 6 and ordinary backups without comments remain version 5. Older
 readers reject the new review envelope/version instead of silently dropping links.
 Review recovery validates required bytes/checksums before installing its records;
@@ -91,6 +92,38 @@ Committed receipts remain after Undo, so reopening the same return never reappli
 it. Deleting a baseline releases its links and committed receipts; editable copies
 and downloaded files remain. Receipts for a permanently deleted owner need no
 portable acknowledgement and are omitted from a workspace backup.
+
+Suggested replacements live in `review-suggestions:<document>:<round>` records,
+outside the native session and clean export model. They bind immutable expected
+text to a supported field or stable plain-paragraph ID in the pinned baseline.
+The shared writer fences proposal creation, pending imports, accept/reject and
+acceptance Undo/Redo with typed intents. Its conditional transaction checks the
+latest native target and exact prior review state, then writes allowed source
+changes, decision history and a `review-suggestion-write:<id>` receipt together.
+A validated acceptance also promotes the existing native-text reader hint so reopening
+does not canonicalize the accepted replacement. Proposal, import and rejection
+operations cannot promote that hint or change other document metadata.
+No APP-only action is acknowledged before its actual receipt commits. Stale group
+members block the whole action. Interrupted recovery preflights every marker;
+unknown or conflicting intent remains quarantined rather than becoming Saved.
+
+Strict feedback-return version 2 adds explicit proposals to the version 1 return
+fields. Returned suggestions remain pending until locally accepted. Handling and
+privacy review includes emitted expected/proposed text, names and context, while
+the trusted pin supplies the handling floor. Ordinary draft, share and template
+transfers carry comments, but omit proposals and decisions. Feedback returns carry
+proposals; full workspace backups retain local decisions and operation receipts.
+
+Version 9 captures proposal state, operation receipts and saved documents in the
+same read transaction. Restore requires intact baseline associations and exact
+saved source revisions and never replaces different local review history. An
+archived record with no saved source/copy is retained beside its pin and can be
+restored without inventing a document, owner or reviewer link. Native baseline
+re-export remains available after source deletion. Ordinary Undo remains in memory
+and clears on activation/reload; recorded acceptance/reversal decisions remain
+durable. Explicit baseline deletion also removes its proposals, decisions and
+operation receipts, and removes review tags from the current Undo chain while
+preserving ordinary text Undo.
 
 An older on-device build can ignore new records and reader hints; keep a current
 workspace backup before using an older build, as with review-comment compatibility.

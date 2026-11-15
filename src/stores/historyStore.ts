@@ -27,6 +27,7 @@ export interface DocumentSnapshot {
 
 export interface HistoryEntry extends DocumentSnapshot {
   readonly owner: DocumentScope | null;
+  readonly reviewAction?: { kind: 'review-acceptance'; roundId: string; baselineDigest: string; acceptanceId: string };
 }
 
 function sameOwner(a: DocumentScope | null, b: DocumentScope | null): boolean {
@@ -51,6 +52,8 @@ interface HistoryState {
   updateSignatureHandles: (snapshot: DocumentSnapshot, owner?: DocumentScope | null) => void;
   updateAttachmentHandles: (snapshot: DocumentSnapshot, owner?: DocumentScope | null) => void;
   saveSnapshot: (snapshot: DocumentSnapshot, owner?: DocumentScope | null) => void;
+  tagReviewAcceptance: (action: NonNullable<HistoryEntry['reviewAction']>, owner: DocumentScope | null) => boolean;
+  clearReviewRoundActions: (roundId: string) => void;
   undo: (owner?: DocumentScope | null) => HistoryEntry | null;
   redo: (owner?: DocumentScope | null) => HistoryEntry | null;
   canUndo: () => boolean;
@@ -76,15 +79,17 @@ function snapshotsEqual(a: DocumentSnapshot | null, b: DocumentSnapshot | null):
     return !sameAttachment(enclosure.file, enclosure.fileRef, other.file, other.fileRef);
   })) return false;
   if (!sameAttachment(a.formData.basicLetterFile, a.formData.basicLetterFileRef, b.formData.basicLetterFile, b.formData.basicLetterFileRef)) return false;
-  const content = (snapshot: DocumentSnapshot) => ({
-    ...snapshot,
+  const content = (snapshot: DocumentSnapshot) => {
+    const { reviewAction: _reviewAction, ...data } = snapshot as HistoryEntry;
+    return ({
+    ...data,
     formData: { ...snapshot.formData, signatureImage: signatureForComparison(snapshot.formData.signatureImage), basicLetterFile: undefined, basicLetterFileRef: undefined },
     forms: snapshot.forms && { ...snapshot.forms,
       ...(snapshot.forms.navmc10274 ? { navmc10274: formSignaturesForComparison(snapshot.forms.navmc10274) } : {}),
       ...(snapshot.forms.navmc11811 ? { navmc11811: formSignaturesForComparison(snapshot.forms.navmc11811) } : {}),
     },
     enclosures: snapshot.enclosures.map(({ file: _file, fileRef: _ref, ...enclosure }) => enclosure),
-  });
+  }); };
   return JSON.stringify(content(a)) === JSON.stringify(content(b));
 }
 
@@ -92,6 +97,7 @@ function snapshotsEqual(a: DocumentSnapshot | null, b: DocumentSnapshot | null):
 function cloneSnapshot(snapshot: DocumentSnapshot, owner: DocumentScope | null): HistoryEntry {
   return {
     owner,
+    ...((snapshot as HistoryEntry).reviewAction ? { reviewAction: structuredClone((snapshot as HistoryEntry).reviewAction) } : {}),
     genericForm: snapshot.genericForm ? structuredClone(snapshot.genericForm) : undefined,
     documentMode: snapshot.documentMode,
     documentCategory: snapshot.documentCategory,
@@ -126,6 +132,19 @@ export const useHistoryStore = create<HistoryState>((set, get) => ({
   future: [],
   currentSnapshot: null,
   maxHistorySize: 50,
+  clearReviewRoundActions: (roundId) => {
+    const clear = (entry: HistoryEntry) => {
+      if (entry.reviewAction?.roundId !== roundId) return entry;
+      const { reviewAction: _reviewAction, ...snapshot } = entry;return snapshot;
+    };
+    set(state => ({ past: state.past.map(clear), future: state.future.map(clear), currentSnapshot: state.currentSnapshot && clear(state.currentSnapshot) }));
+  },
+  tagReviewAcceptance: (action, owner) => {
+    const state = get();
+    if (!state.currentSnapshot || !sameOwner(owner, state.owner)) return false;
+    set({ currentSnapshot: { ...state.currentSnapshot, reviewAction: structuredClone(action) } });
+    return true;
+  },
 
   updateAttachmentHandles: (snapshot, owner = get().owner) => {
     const state = get();

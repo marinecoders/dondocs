@@ -105,13 +105,13 @@ Use **Delete review baseline** when a pin is no longer needed; existing editable
 copies and downloaded files remain. Review checksums need HTTPS or localhost.
 Configured forms and technical-publication reviews are outside this first scope.
 
-## Return comments to the current draft
+## Return feedback to the current draft
 
 1. In a linked reviewer copy, add, reply to, edit or resolve comments as usual.
 2. Open **Review rounds… → Prepare feedback return**. Inspect the full discussions,
    retained context, markings and privacy findings before **Download feedback return**.
-   The unencrypted JSON contains comments, captured text context and handling labels; letter body edits,
-   fields and attachment files are excluded. Reviewer names are self-entered.
+   The unencrypted JSON contains comments, captured context, explicit suggested replacements
+   and handling labels. Other draft edits and attachment files are excluded. Reviewer names are self-entered.
 3. In the original draft, choose **Import feedback return**. Check returned and
    proposed discussions. If the drafter and reviewer changed the same message,
    removed an edited discussion, or changed its status concurrently, choose
@@ -131,8 +131,32 @@ work, open the retained recovered copy and keep the original return file. If mor
 recovery remains after opening copies, reload the same tab to retry it. Keep the
 tab open if its recovery format needs a newer compatible version. Workspace
 backups preserve committed receipts and review links. Ordinary draft/share/template
-copies carry comments without granting review ownership. Proposed letter-text
-changes and acceptance of those changes are separate workflows.
+copies carry comments without granting review ownership. Suggested replacements and
+review decisions require a feedback return or workspace backup; ordinary draft,
+share and template transfers do not carry them.
+
+## Propose and decide replacements
+
+In **Review rounds… → Review for suggested edits**, select the baseline belonging
+to the current source or linked reviewer copy. Enter a reviewer name, choose one
+supported field or complete plain paragraph, and add its proposed replacement.
+The baseline and current draft stay unchanged. Partial text ranges, paragraph
+moves, tables, figures and structural edits are outside this workflow.
+
+A reviewer returns proposals through **Prepare feedback return**. Importing stores
+them as pending suggestions. In the source, select the same review and compare
+reviewed, current and proposed values before **Accept suggestion** or **Reject
+suggestion**. Acceptance changes only the selected target. A changed or missing
+target blocks acceptance; retain the newer text, edit deliberately, or start a new
+review. Handling checks may require correcting the current draft's markings first.
+
+Undo/Redo of an acceptance records its reversal/restoration while that action is
+in the current session's history. Reopening a document clears ordinary Undo but
+keeps saved proposals and decisions. If saving fails, use **Retry suggestion save**
+before closing or exporting. Version 9 workspace backups retain this history,
+including archived review records after source/copy deletion. Deleting the review
+baseline explicitly removes its local proposals and decision history. Reviewer
+names and decisions do not establish authenticated approval.
 
 ## Export and sign
 

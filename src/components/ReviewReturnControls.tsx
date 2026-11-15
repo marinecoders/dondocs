@@ -11,6 +11,7 @@ import {
   applyReviewReturn, downloadReviewReturn, prepareReviewReturnExport, prepareReviewReturnImport,
   reviewReturnPlan, reviewReturnTargetLabel, type PreparedReviewReturnExport, type PreparedReviewReturnImport,
 } from '@/lib/reviewReturnActions';
+import type { ReviewSuggestion } from '@/lib/reviewSuggestions';
 import { getPIITypeLabel } from '@/services/pii/detector';
 
 const regionClass = 'max-h-64 overflow-auto whitespace-pre-wrap break-words rounded-md border p-2 text-sm [overflow-wrap:anywhere] focus-visible:outline-2 focus-visible:outline-ring';
@@ -33,6 +34,18 @@ function Discussions({ comments, label, target }: { comments: ReviewComments | u
       {comments?.threads.map((thread, index) => <article key={thread.id} className="space-y-1 border-b pb-2 last:border-b-0">
         <h5 className="font-medium">{target?.(thread.id) ?? `Discussion ${index + 1}`} · {thread.resolved ? 'Resolved' : 'Open'}</h5>
         <DiscussionValue value={thread} />
+      </article>)}
+    </div>
+  </details>;
+}
+
+function Proposals({ proposals, label }: { proposals: readonly ReviewSuggestion[]; label: string }) {
+  return <details className="text-sm"><summary className="cursor-pointer font-medium">{label} ({proposals.length})</summary>
+    <div role="region" aria-label={label} tabIndex={0} className={`${regionClass} mt-2 space-y-3`}>
+      {proposals.map(proposal => <article key={proposal.id} className="space-y-2 border-b pb-2 last:border-b-0">
+        <p><strong>{proposal.label}</strong> · {proposal.author}</p>
+        {proposal.origin.rule && <p>{proposal.origin.rule}</p>}{proposal.origin.context && <p>{proposal.origin.context}</p>}
+        {proposal.changes.map(change => <dl key={change.id} className="space-y-1"><dt>Reviewed value</dt><dd>{change.expected || '(Empty)'}</dd><dt>Proposed replacement</dt><dd>{change.proposed || '(Empty)'}</dd></dl>)}
       </article>)}
     </div>
   </details>;
@@ -102,7 +115,7 @@ export function ReviewReturnControls({ disabled, onBusyChange }: { disabled: boo
   }
   return <section className="space-y-3 rounded-md border p-3" aria-label="Return and receive review feedback">
     <h3 className="text-sm font-medium">Return and receive feedback</h3>
-    <p className="text-sm text-muted-foreground">Return comments, replies, deletions and discussion status to the original draft. Letter text and attachment edits made in a reviewer copy are excluded. Reviewer names are self-entered.</p>
+    <p className="text-sm text-muted-foreground">Return discussions and explicit suggested replacements to the original draft. Suggestions remain pending until the drafter accepts them. Other edits made in a reviewer copy are excluded. Reviewer names are self-entered.</p>
     <p ref={feedback} role="status" tabIndex={-1} className={notice ? 'text-sm' : 'sr-only'}>{notice}</p>
     {error && <p role="alert" className="text-sm text-destructive">{error}</p>}
     <Button variant="outline" disabled={working || !linked} onClick={() => void run(async () => {
@@ -112,10 +125,11 @@ export function ReviewReturnControls({ disabled, onBusyChange }: { disabled: boo
     {outgoing && <div className="space-y-2 rounded-md border p-3 text-sm" aria-label="Review outgoing feedback">
       <h4 className="font-medium">Review feedback before downloading</h4>
       <p className="[overflow-wrap:anywhere]">{outgoing.roundLabel} · {outgoing.marking}</p>
-      <p>This unencrypted JSON file includes reviewer names, full discussion text and retained context. Check who may receive it. It excludes the full draft and attachment files; captured context may quote letter text.</p>
+      <p>This unencrypted JSON file includes reviewer names, full discussion text, suggested replacements and retained context. Check who may receive it. It excludes the full draft and attachment files; captured context may quote letter text.</p>
       {outgoing.customMarkings.map(marking => <p key={marking} className="whitespace-pre-wrap [overflow-wrap:anywhere]">{marking}</p>)}
       {outgoing.notices.map(notice => <p key={notice}>{notice}</p>)}
       <p>{outgoing.privacy.found ? `Possible sensitive information: ${[...new Set(outgoing.privacy.findings.map(finding => getPIITypeLabel(finding.type)))].join(', ')}.` : 'The privacy scan found no recognized patterns. Review all returned text yourself.'}</p>
+      <Proposals proposals={outgoing.proposals} label="Outgoing suggested replacements" />
       <Discussions comments={outgoing.comments} label="Outgoing discussions" />
       <div className="flex flex-wrap gap-2"><Button disabled={working} onClick={() => {
         try { downloadReviewReturn(outgoing);setOutgoing(null);announce('Feedback return sent to browser downloads.'); }
@@ -135,6 +149,8 @@ export function ReviewReturnControls({ disabled, onBusyChange }: { disabled: boo
       {incoming.alreadyImported ? <p role="status">This return has already been imported. Opening the same file will not apply it again, including after Undo.</p> : <>
         <p>{plan.addedThreads} new, {plan.changedThreads} changed and {plan.removedThreads} removed discussions.</p>
         {plan.removedThreads > 0 && <p className="text-warning">This return removes discussions that were unchanged in the current draft. Review the proposed result before importing.</p>}
+        <Proposals proposals={incoming.proposals} label="Returned suggested replacements" />
+        {incoming.proposals.length > 0 && <p>These replacements are imported as pending suggestions. Review each one in Suggested edits for this review; importing feedback does not apply its text.</p>}
         <Discussions comments={incoming.comments} label="Returned discussions" target={id => reviewReturnTargetLabel(incoming, id)} />
         <Discussions comments={plan.comments} label="Proposed discussions" target={id => reviewReturnTargetLabel(incoming, id)} />
         {plan.conflicts.map((conflict, index) => <fieldset key={conflict.id} className="space-y-2 rounded-md border p-3">
@@ -152,7 +168,7 @@ export function ReviewReturnControls({ disabled, onBusyChange }: { disabled: boo
         {!finished && !pendingSave && <Button disabled={working || outdated || plan.status !== 'ready'} onClick={() => void run(async () => {
           const result = await applyReviewReturn(incoming, choices);
           if (!active.current) return;
-          if (result === 'committed' || result === 'already-imported') { setFinished(true);announce('Feedback imported. Use Undo to restore the previous discussions.'); }
+          if (result === 'committed' || result === 'already-imported') { setFinished(true);announce('Feedback imported. Review pending replacements separately. Undo restores the previous discussions; imported suggestions and the return receipt remain recorded.'); }
           else if (result === 'pending') { setPendingSave(true);announce('Feedback is in this draft but is not saved yet. Retry Save before closing or exporting.'); }
           else { setOutdated(true);throw new Error('The draft changed. Review this return against the current draft again.'); }
         })}>Import reviewed feedback</Button>}

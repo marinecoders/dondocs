@@ -1,5 +1,6 @@
-import { idbApplyReviewReturn, idbWriteDocument, type StoredDocument, type DocumentWriteOutcome } from './documentsDb';
+import { idbApplyReviewReturn, idbApplyReviewSuggestions, idbWriteDocument, type StoredDocument, type DocumentWriteOutcome } from './documentsDb';
 import { reviewReturnWriteSchema, type ReviewReturnWrite } from './reviewReturns';
+import { reviewSuggestionWriteSchema, type ReviewSuggestionWrite } from './reviewSuggestionWrites';
 
 export const STORAGE_WAIT_MS = 15_000;
 
@@ -14,17 +15,18 @@ export async function waitForStorage<T>(operation: Promise<T>): Promise<T> {
 }
 
 export const WRITE_JOURNAL_KEY = 'dondocs-pending-writes';
+export type ReviewWrite = ReviewReturnWrite | ReviewSuggestionWrite;
 export interface PendingDocumentWrite {
   before: StoredDocument | null;
   versions: StoredDocument[];
-  reviewReturns?: Array<{ index: number; operation: ReviewReturnWrite }>;
+  reviewReturns?: Array<{ index: number; operation: ReviewWrite }>;
 }
 
 /** Older clients reject the nested review journal instead of dropping its receipt semantics. */
 export function serializeDocumentWriteJournal(items: PendingDocumentWrite[]): string {
   return JSON.stringify(items.map(item => {
     const { reviewReturns, ...ordinary } = item;
-    return reviewReturns?.length ? { kind: 'dondocs-review-write', version: 1, pending: item } : ordinary;
+    return reviewReturns?.length ? { kind: 'dondocs-review-write', version: reviewReturns.some(marker => marker.operation.kind === 'suggestion-write') ? 2 : 1, pending: item } : ordinary;
   }));
 }
 
@@ -32,7 +34,7 @@ export function parseDocumentWriteJournal(value: unknown): PendingDocumentWrite[
   if (!Array.isArray(value)) throw new Error('Invalid document write journal.');
   return value.map(raw => {
     const wrapped = raw?.kind === 'dondocs-review-write';
-    if (wrapped && (raw.version !== 1 || Object.keys(raw).some(key => !['kind', 'version', 'pending'].includes(key)))) throw new Error('Unsupported review write journal.');
+    if (wrapped && (![1, 2].includes(raw.version) || Object.keys(raw).some(key => !['kind', 'version', 'pending'].includes(key)))) throw new Error('Unsupported review write journal.');
     const item = wrapped ? raw.pending : raw;
     if (!item || typeof item !== 'object' || Object.keys(item).some(key => !['before', 'versions', ...(wrapped ? ['reviewReturns'] : [])].includes(key))
       || !Array.isArray(item.versions) || !item.versions.length) throw new Error('Invalid document write journal.');
@@ -47,10 +49,13 @@ export function parseDocumentWriteJournal(value: unknown): PendingDocumentWrite[
         if (!marker || Object.keys(marker).some(key => !['index', 'operation'].includes(key))
           || !Number.isSafeInteger(marker.index) || marker.index < 0 || marker.index >= item.versions.length || indices.has(marker.index)) throw new Error('Invalid review write marker index.');
         indices.add(marker.index);
-        const operation = reviewReturnWriteSchema.parse(marker.operation);
-        if (operation.receipt.documentId !== id) throw new Error('A review marker targets another document.');
+        const suggestion = !!marker.operation && typeof marker.operation === 'object' && 'kind' in marker.operation && marker.operation.kind === 'suggestion-write';
+        if (suggestion && raw.version !== 2) throw new Error('Suggestion writes require review journal version 2.');
+        const operation = suggestion ? reviewSuggestionWriteSchema.parse(marker.operation) : reviewReturnWriteSchema.parse(marker.operation);
+        if ((operation.kind === 'suggestion-write' ? operation.documentId : operation.receipt.documentId) !== id) throw new Error('A review marker targets another document.');
         return { index: marker.index, operation };
       });
+      if (raw.version === 2 && !result.reviewReturns?.some(marker => marker.operation.kind === 'suggestion-write')) throw new Error('Review journal version 2 requires a suggestion write.');
     }
     return result;
   });
@@ -105,11 +110,13 @@ export class DocumentWrites {
   private changed: (id: string, saved?: StoredDocument, receipt?: DocumentWriteReceipt) => void;
   private prepare?: (document: StoredDocument) => Promise<StoredDocument> | undefined;
   private writeReview: typeof idbApplyReviewReturn;
-  constructor(write = idbWriteDocument, changed: (id: string, saved?: StoredDocument, receipt?: DocumentWriteReceipt) => void = () => {}, prepare?: (document: StoredDocument) => Promise<StoredDocument> | undefined, writeReview: typeof idbApplyReviewReturn = (...args) => idbApplyReviewReturn(...args)) {
+  private writeSuggestions: typeof idbApplyReviewSuggestions;
+  constructor(write = idbWriteDocument, changed: (id: string, saved?: StoredDocument, receipt?: DocumentWriteReceipt) => void = () => {}, prepare?: (document: StoredDocument) => Promise<StoredDocument> | undefined, writeReview: typeof idbApplyReviewReturn = (...args) => idbApplyReviewReturn(...args), writeSuggestions: typeof idbApplyReviewSuggestions = (...args) => idbApplyReviewSuggestions(...args)) {
     this.write = write;
     this.changed = changed;
     this.prepare = prepare;
     this.writeReview = writeReview;
+    this.writeSuggestions = writeSuggestions;
   }
 
   has(id: string): boolean { return this.pending.has(id); }
@@ -136,7 +143,13 @@ export class DocumentWrites {
     return this.enqueueVersion(before, after, operation);
   }
 
-  private enqueueVersion(before: StoredDocument | null, after: StoredDocument, operation?: ReviewReturnWrite): DocumentWriteRevision {
+  enqueueReviewSuggestions(before: StoredDocument, after: StoredDocument, input: ReviewSuggestionWrite): DocumentWriteRevision {
+    const operation = reviewSuggestionWriteSchema.parse(input);
+    if (before.id !== after.id || operation.documentId !== after.id) throw new Error('A suggestion write requires its own source document.');
+    return this.enqueueVersion(before, after, operation);
+  }
+
+  private enqueueVersion(before: StoredDocument | null, after: StoredDocument, operation?: ReviewWrite): DocumentWriteRevision {
     // Own the snapshot: later mutations by a caller cannot change a queued
     // transaction, its recovery journal, or what its receipt acknowledges.
     const owned = structuredClone(after);
@@ -202,7 +215,8 @@ export class DocumentWrites {
         const review = pending.reviewReturns?.find(marker => marker.index === 0)?.operation;
         if (review) {
           if (!pending.before) throw new Error('A review return requires a saved owner document.');
-          const result = await this.writeReview(pending.before, next, review.round, review.receipt);
+          const result = review.kind === 'suggestion-write' ? await this.writeSuggestions(pending.before, next, review)
+            : await this.writeReview(pending.before, next, review.round, review.receipt);
           outcome = result === 'already-imported' || result === 'stale' ? 'conflict' : result;
         } else outcome = await this.write(pending.before, next);
       }

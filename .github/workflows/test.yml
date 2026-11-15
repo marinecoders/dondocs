@@ -388,16 +388,26 @@ jobs:
     name: browser flows (${{ matrix.group }})
     runs-on: ubuntu-latest
     # Includes setup and complete browser profiles with review/asset workflows.
-    # Keep WebKit profiles separate so one profile cannot consume the next
-    # profile's runtime or prevent its failure artifacts from being uploaded.
+    # Keep every profile separate: the four-profile Chromium job exhausted
+    # its 50-minute budget before finishing. Each profile keeps full coverage
+    # and independent failure artifacts without consuming another's budget.
     timeout-minutes: 50
     strategy:
       fail-fast: false
       matrix:
         include:
           - group: chromium
-            browsers: chromium chrome msedge
-            projects: --project=chromium --project=chrome --project=msedge --project=mobile-chrome
+            browsers: chromium
+            projects: --project=chromium
+          - group: chrome
+            browsers: chrome
+            projects: --project=chrome
+          - group: msedge
+            browsers: msedge
+            projects: --project=msedge
+          - group: mobile-chrome
+            browsers: chromium
+            projects: --project=mobile-chrome
           - group: firefox
             browsers: firefox
             projects: --project=firefox

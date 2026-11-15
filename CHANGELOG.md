@@ -7,6 +7,19 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.80] — 2026-11-13
+
+### Added
+
+- Propose complete plain paragraph and supported letter-field replacements against an exact review baseline. Return suggested edits with discussions, compare baseline/current/proposed values, and accept or reject without overwriting unrelated draft work. Changed targets block acceptance.
+- Save proposals, decisions and source changes together, retaining failed-save intent and duplicate-return receipts. Undo and Redo record acceptance reversals in the current session; durable review history survives reloads and version 9 workspace backups, including archived reviews after source deletion.
+
+### Fixed
+
+- Enforce the reviewed baseline’s recognized handling level even when it also carries a custom marking.
+- Validate the resulting document when a suggestion replaces its custom handling label, blocking label removal or downgrades while permitting a valid increase.
+- Keep suggestion success announcements from interrupting input in the next replacement field.
+
 ## [1.3.79] — 2026-11-13
 
 ### Added

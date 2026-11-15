@@ -1,7 +1,7 @@
 import { getExportDeploymentPolicy } from '@/config/classification';
 import { getSerializedSession, type SerializedSession } from '@/stores/documentStore';
 import {
-  applyOwnedReviewReturn, captureDocumentTarget, flushPendingReviewWrites, hasPendingReviewWrites,
+  applyOwnedReviewReturn, applyOwnedReviewSuggestions, captureDocumentTarget, flushPendingReviewWrites, hasPendingReviewWrites,
   isCurrentDocumentTarget, type DocumentTarget,
 } from '@/stores/documentsStore';
 import { detectTextPII, type PIIDetectionResult } from '@/services/pii/detector';
@@ -12,9 +12,13 @@ import { describeCommentAnchor, supportsReviewComments } from './reviewCommentTa
 import { mergeReturnedComments, type ReviewCommentMerge, type ReviewReturnChoice } from './reviewCommentMerge';
 import { readReviewCopyLink, readReviewRound, type ReviewRound } from './reviewRounds';
 import {
-  createReviewReturn, parseReviewReturn, readReviewReturnReceipt, reviewReturnDigest,
+  createReviewReturn, createSuggestionReviewReturn, parseReviewReturn, readReviewReturnReceipt, reviewReturnDigest,
   reviewReturnReceiptSchema, type ReviewReturn,
 } from './reviewReturns';
+
+import { idbReadReviewSuggestions } from './documentsDb';
+import { appendReviewSuggestions, emptyReviewSuggestionState, reviewSuggestionText, validateReviewSuggestionState, type ReviewSuggestion, type ReviewSuggestionState } from './reviewSuggestions';
+import { reviewSuggestionRecordSchema, type ReviewSuggestionWrite } from './reviewSuggestionWrites';
 
 interface ReturnSafety {
   marking: string;
@@ -27,6 +31,7 @@ export interface PreparedReviewReturnExport extends ReturnSafety {
   readonly [exportBrand]: true;
   readonly roundLabel: string;
   readonly comments: ReviewReturn['comments'];
+  readonly proposals: readonly ReviewSuggestion[];
 }
 export interface PreparedReviewReturnImport extends ReturnSafety {
   readonly [importBrand]: true;
@@ -35,6 +40,7 @@ export interface PreparedReviewReturnImport extends ReturnSafety {
   readonly currentMarking: string;
   readonly alreadyImported: boolean;
   readonly comments: ReviewReturn['comments'];
+  readonly proposals: readonly ReviewSuggestion[];
   readonly plan: ReviewCommentMerge;
 }
 interface OwnedReturn {
@@ -42,6 +48,7 @@ interface OwnedReturn {
   round: ReviewRound;
   payload: ReviewReturn;
   session: SerializedSession;
+  suggestions?: ReviewSuggestionState | null;
 }
 const exports = new WeakMap<PreparedReviewReturnExport, OwnedReturn>();
 const imports = new WeakMap<PreparedReviewReturnImport, OwnedReturn & { digest: string; started: boolean }>();
@@ -54,12 +61,13 @@ function currentCapture(): { target: DocumentTarget; session: SerializedSession 
 function current(target: DocumentTarget): void {
   if (!isCurrentDocumentTarget(target)) throw new Error('The draft changed. Prepare the return again against the current document.');
 }
-type ReturnContents = Pick<ReviewReturn, 'comments' | 'createdAt'> & { handling?: ReviewReturn['handling'] };
+type ReturnContents = Pick<ReviewReturn, 'comments' | 'createdAt'> & { handling?: ReviewReturn['handling']; proposals?: readonly ReviewSuggestion[] };
 function textFields(payload: ReturnContents) {
   return (payload.comments?.threads ?? []).flatMap((thread, index) => [
     ...Object.values(thread.anchor).filter((value): value is string => typeof value === 'string'),
     ...thread.messages.flatMap(message => [message.author, message.text]),
   ].map(value => ({ field: `Returned discussion ${index + 1}`, value })))
+    .concat(reviewSuggestionText(payload.proposals ?? []))
     .concat([payload.handling?.marking ?? '', ...(payload.handling?.customMarkings ?? [])].map(value => ({ field: 'Return handling marking', value })));
 }
 
@@ -68,12 +76,12 @@ function safety(round: ReviewRound, payload: ReturnContents, policy: PolicyResol
   const baseline = round.baseline.session;
   const report = prepareChangeReport(captureChangeReport(
     { label: 'Reviewed baseline', title: round.label, session: baseline },
-    { label: 'Returned discussions', title: round.label, session: { ...baseline, reviewComments: payload.comments } },
+    { label: 'Returned discussions', title: round.label, session: { ...baseline, reviewComments: payload.comments, paragraphs: [...baseline.paragraphs, ...reviewSuggestionText(payload.proposals ?? []).map((field, index) => ({ id: `review-return-policy-${index}`, level: 0, text: field.value }))] } },
     new Date(payload.createdAt).toISOString(),
   ), policy);
   if (payload.handling && (payload.handling.marking !== report.marking
     || JSON.stringify([...payload.handling.customMarkings].sort()) !== JSON.stringify([...report.customMarkings].sort()))) {
-    throw new Error('The return handling markings do not match its baseline and comments. Ask the reviewer to export the return again.');
+    throw new Error('The return handling markings do not match its baseline and returned text. Ask the reviewer to export the return again.');
   }
   return { marking: report.marking, customMarkings: report.customMarkings, notices: report.notices, privacy: detectTextPII(textFields(payload)) };
 }
@@ -86,13 +94,18 @@ export async function prepareReviewReturnExport(): Promise<PreparedReviewReturnE
   if (!link) throw new Error('This document is not a linked reviewer copy. Open a reviewer copy before returning feedback.');
   const round = await readReviewRound(link.roundId);
   if (!round || round.baselineDigest !== link.baselineDigest) throw new Error('The reviewed baseline is unavailable or changed. Keep this draft and obtain the original review copy.');
-  const raw = { comments: captured.session.reviewComments, createdAt: Date.now() };
+  const saved = await idbReadReviewSuggestions(captured.target.scope.documentId, round.id);
+  const state = saved === null ? null : validateReviewSuggestionState(round, reviewSuggestionRecordSchema.parse(saved).state);
+  const proposals = state?.proposals ?? [];
+  const raw = { comments: captured.session.reviewComments, createdAt: Date.now(), proposals };
   const policy = await getExportDeploymentPolicy(undefined, true);
   current(captured.target);
   const checked = safety(round, raw, policy);
-  const payload = createReviewReturn(round.id, round.baselineDigest, raw.comments, { marking: checked.marking, customMarkings: checked.customMarkings });
+  const handling = { marking: checked.marking, customMarkings: checked.customMarkings };
+  const payload = proposals.length ? createSuggestionReviewReturn(round.id, round.baselineDigest, raw.comments, proposals, handling)
+    : createReviewReturn(round.id, round.baselineDigest, raw.comments, handling);
   const result: PreparedReviewReturnExport = Object.freeze({ [exportBrand]: true as const, roundLabel: round.label,
-    comments: structuredClone(payload.comments), ...checked, privacy: detectTextPII(textFields(payload)) });
+    comments: structuredClone(payload.comments), proposals: structuredClone(proposals), ...checked, privacy: detectTextPII(textFields(payload)) });
   exports.set(result, { ...captured, round: structuredClone(round), payload });
   return result;
 }
@@ -117,6 +130,9 @@ export async function prepareReviewReturnImport(value: unknown): Promise<Prepare
   if (previous && (previous.returnDigest !== digest || previous.documentId !== round.ownerDocumentId || previous.baselineDigest !== round.baselineDigest)) {
     throw new Error('Different feedback uses an already imported return identity. Ask the reviewer to export a new return.');
   }
+  const saved = payload.version === 2 ? await idbReadReviewSuggestions(captured.target.scope.documentId, round.id) : null;
+  const suggestions = saved === null ? null : validateReviewSuggestionState(round, reviewSuggestionRecordSchema.parse(saved).state);
+  if (payload.version === 2) appendReviewSuggestions(round, suggestions ?? emptyReviewSuggestionState(round), payload.proposals);
   const policy = await getExportDeploymentPolicy(undefined, true);
   current(captured.target);
   const checked = safety(round, payload, policy);
@@ -128,8 +144,8 @@ export async function prepareReviewReturnImport(value: unknown): Promise<Prepare
     new Date(payload.createdAt).toISOString(),
   ), policy);
   const result: PreparedReviewReturnImport = Object.freeze({ [importBrand]: true as const, roundLabel: round.label, createdAt: payload.createdAt,
-    currentMarking: local.marking, alreadyImported: previous !== null, comments: structuredClone(payload.comments), plan: structuredClone(plan), ...checked });
-  imports.set(result, { ...captured, round: structuredClone(round), payload, digest, started: false });
+    currentMarking: local.marking, alreadyImported: previous !== null, comments: structuredClone(payload.comments), proposals: structuredClone(payload.version === 2 ? payload.proposals : []), plan: structuredClone(plan), ...checked });
+  imports.set(result, { ...captured, round: structuredClone(round), payload, digest, suggestions, started: false });
   return result;
 }
 
@@ -158,6 +174,14 @@ export async function applyReviewReturn(prepared: PreparedReviewReturnImport, ch
     roundId: owned.round.id, baselineDigest: owned.round.baselineDigest, documentId: owned.target.scope.documentId,
     returnId: owned.payload.id, returnDigest: owned.digest, importedAt: Date.now() });
   owned.started = true;
+  if (owned.payload.version === 2) {
+    const before = owned.suggestions ?? null;
+    const operation: ReviewSuggestionWrite = { kind: 'suggestion-write', version: 1, id: `suggestion-write_${crypto.randomUUID()}`,
+      documentId: owned.target.scope.documentId, createdAt: Date.now(), round: { id: owned.round.id, baselineDigest: owned.round.baselineDigest },
+      before, after: appendReviewSuggestions(owned.round, before ?? emptyReviewSuggestionState(owned.round), owned.payload.proposals),
+      intent: { kind: 'import', proposals: owned.payload.proposals, comments: plan.comments, receipt } };
+    return applyOwnedReviewSuggestions(owned.target, operation);
+  }
   return applyOwnedReviewReturn(owned.target, plan.comments, { kind: 'comment-return', round: {
     id: owned.round.id, baselineDigest: owned.round.baselineDigest, ownerDocumentId: owned.target.scope.documentId,
   }, receipt });
