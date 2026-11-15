@@ -75,6 +75,7 @@ function ShareModalContent({
   const snapshot = capture.snapshot;
   const [received, setReceived] = useState<{ session: SerializedSession; payload: object } | null>(null);
   const [receivedPackage, setReceivedPackage] = useState<PreparedPackageShare | null>(null);
+  const [reviewingPackage, setReviewingPackage] = useState(false);
   const [packageApproved, setPackageApproved] = useState(false);
   const importController = useRef<AbortController | null>(null);
   const [expiration, setExpiration] = useState('none');
@@ -230,10 +231,14 @@ function ShareModalContent({
     }
     setWorking(true);
     try {
+      const controller = new AbortController();
+      importController.current = controller;
       const data = await decryptSharePayload(payload, password);
       if (data && typeof data === 'object' && 'kind' in data && data.kind === 'dondocs-action-package-share') {
+        if (!alive.current) return;
+        setReviewingPackage(true);
         const { prepareReceivedPackageShare } = await import('@/lib/actionPackageShare');
-        const prepared = await prepareReceivedPackageShare(data, await getExportDeploymentPolicy());
+        const prepared = await prepareReceivedPackageShare(data, await getExportDeploymentPolicy(), controller.signal);
         if (!alive.current) return;
         setReceivedPackage(prepared);setPackageApproved(false);setPassword('');return;
       }
@@ -244,7 +249,7 @@ function ShareModalContent({
     } catch (err) {
       if (alive.current) setError(err instanceof Error ? err.message : 'Wrong password or invalid link');
     } finally {
-      if (alive.current) setWorking(false);
+      if (alive.current) { setWorking(false);setReviewingPackage(false); }
     }
   }, [payloadFromInput, password, working]);
 
@@ -257,7 +262,7 @@ function ShareModalContent({
         const { importPreparedPackageShare } = await import('@/lib/actionPackageShare');
         const record = await importPreparedPackageShare(receivedPackage, controller.signal, () => alive.current);
         if (!alive.current) return;
-        useUIStore.getState().openActionPackage(record.id);
+        useUIStore.getState().openActionPackage(record.id, receivedPackage.revisionId);
         onImportComplete?.();onOpenChange(false);
       } catch (cause) { if (alive.current) setError(cause instanceof Error ? cause.message : 'The package could not be opened. Existing work is unchanged.'); }
       finally { if (alive.current) setWorking(false); }
@@ -280,7 +285,7 @@ function ShareModalContent({
 
   const handleOpenChange = useCallback(
     (next: boolean) => {
-      if (working && !receivedPackage) return;
+      if (working && !receivedPackage && !reviewingPackage) return;
       if (!next) {
         clearCopyTimer();
         setPassword('');
@@ -290,13 +295,13 @@ function ShareModalContent({
         setError(null);
         setCopied(false);
         setReceived(null);
-        setReceivedPackage(null);setPackageApproved(false);importController.current?.abort();
+        setReceivedPackage(null);setReviewingPackage(false);setPackageApproved(false);importController.current?.abort();
         setGeneratedExpiresAt(null);
         setExpiration('none');
       }
       onOpenChange(next);
     },
-    [onOpenChange, working, clearCopyTimer, receivedPackage]
+    [onOpenChange, working, clearCopyTimer, receivedPackage, reviewingPackage]
   );
 
   const isImport = mode === 'import';
@@ -500,7 +505,7 @@ function ShareModalContent({
 
         </div>
         <DialogFooter className="shrink-0">
-          <Button variant="outline" onClick={() => handleOpenChange(false)} disabled={working && !receivedPackage}>
+          <Button variant="outline" onClick={() => handleOpenChange(false)} disabled={working && !receivedPackage && !reviewingPackage}>
             Cancel
           </Button>
           {isImport ? (

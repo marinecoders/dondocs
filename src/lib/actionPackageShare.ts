@@ -2,12 +2,15 @@ import { z } from "zod";
 import { getExportDeploymentPolicy, getExportDeploymentPolicySync } from "@/config/classification";
 import { buildPortableActionPackage, importPortableActionPackage, parsePortableActionPackage } from "./actionPackageTransfer";
 import { getPackageRevision, listActionPackages, type ActionPackage } from "./actionPackages";
-import { reviewPackageNative, reviewPackageOriginal, reviewPackageText } from "./actionPackageDisclosure";
+import { reviewPackageNative, reviewPackageText } from "./actionPackageDisclosure";
 import { sameReviewStoredValue } from "./documentsDb";
 import { validateShareExpiration } from "./sharedSession";
 import { encryptSharePayload, buildShareUrl, MAX_SHARE_URL_LENGTH } from "./shareCrypto";
 import { serializeEncryptedShareFile } from "./encryptedShareFile";
 import { assertExportDeploymentPolicy, type PolicyResolution } from "./exportDeploymentPolicy";
+import { parseDraftFile } from "./draftFile";
+import { portableResourceDigest } from "./portableResources";
+import { reviewBoundedPackagePdf } from "./packagePdfEvidence";
 import type { ExportReview } from "./preparedExport";
 
 const envelopeSchema = z.object({
@@ -68,7 +71,8 @@ async function assertExportCurrent(prepared: PreparedPackageShare, expiresAt?: n
   return value;
 }
 
-async function prepare(json: string, policy: PolicyResolution, expiresAt?: number): Promise<PreparedPackageShare> {
+async function prepare(json: string, policy: PolicyResolution, expiresAt?: number, signal: AbortSignal = new AbortController().signal): Promise<PreparedPackageShare> {
+  signal.throwIfAborted();
   const identity = policyIdentity(policy);
   assertDeadline(expiresAt);
   const { record, resources } = await parsePortableActionPackage(json);
@@ -76,22 +80,50 @@ async function prepare(json: string, policy: PolicyResolution, expiresAt?: numbe
   const reviews: Array<{ member: string; review: ExportReview }> = [
     { member: "Package name", review: reviewPackageText(record.name, "Package name", policy) },
   ];
+  const pdfReviews = new Map<string, ExportReview>();
+  const reviewPdf = async (bytes: ArrayBuffer, name: string) => {
+    signal.throwIfAborted();
+    assertDeadline(expiresAt);
+    reviews.push({ member: name, review: reviewPackageText(name, "Included PDF filename", policy) });
+    const digest = await portableResourceDigest(bytes);
+    let review = pdfReviews.get(digest);
+    if (!review) {
+      review = await reviewBoundedPackagePdf(bytes, "Included PDF content", policy, signal);
+      pdfReviews.set(digest, review);
+    }
+    signal.throwIfAborted();
+    assertDeadline(expiresAt);
+    reviews.push({ member: name, review });
+  };
   for (const member of revision.members) {
     reviews.push({ member: member.label, review: reviewPackageText(member.label, "Package member label", policy) });
-    if (member.kind === "native") reviews.push({ member: member.label, review: reviewPackageNative(member.session, member.label, policy) });
+    if (member.kind === "native") {
+      reviews.push({ member: member.label, review: reviewPackageNative(member.session, member.label, policy) });
+      // Portable validation already authenticated this draft and matched its model.
+      // Decode its embedded originals without installing assets or using local handles.
+      const draft = resources.get(`assets/${member.draft.id}`)!;
+      const reviewed = parseDraftFile(JSON.parse(new TextDecoder("utf-8", { fatal: true }).decode(draft.data)), false, true);
+      for (const file of [
+        ...reviewed.files,
+        reviewed.basicLetter,
+        ...reviewed.figures.filter((_, index) => reviewed.session.paragraphs[index]?.figure?.type === "application/pdf"),
+      ]) if (file) await reviewPdf(file.data, `${member.label}: ${file.name}`);
+    }
     const asset = member.kind === "original" ? member.original : member.draft;
     reviews.push({ member: member.label, review: reviewPackageText(asset.name, "Captured filename", policy) });
   }
   for (const asset of resources.values()) {
-    reviews.push({ member: asset.name, review: reviewPackageText(asset.name, "Included filename", policy) });
-    if (asset.mediaType === "application/pdf") reviews.push({ member: asset.name,
-      review: await reviewPackageOriginal(asset.data, asset.name, policy) });
+    signal.throwIfAborted();
+    assertDeadline(expiresAt);
+    if (asset.mediaType === "application/pdf") await reviewPdf(asset.data, asset.name);
+    else reviews.push({ member: asset.name, review: reviewPackageText(asset.name, "Included filename", policy) });
   }
   for (const output of revision.outputs) {
     reviews.push({ member: output.asset.name, review: reviewPackageText(output.renderer, "Retained renderer description", policy) });
     for (const boundary of output.boundaries) reviews.push({ member: output.asset.name,
       review: reviewPackageText(boundary.firstPageLabel, "Retained page label", policy) });
   }
+  signal.throwIfAborted();
   assertDeadline(expiresAt);
   const result = Object.freeze({ name: record.name, revisionId: revision.id,
     members: revision.members.map(member => ({ label: member.label, kind: member.kind, role: member.role })),
@@ -101,19 +133,19 @@ async function prepare(json: string, policy: PolicyResolution, expiresAt?: numbe
 }
 
 /** The existing portable serializer selects one revision and removes local source authority. */
-export async function preparePackageShare(record: ActionPackage, revisionId: string, policy: PolicyResolution): Promise<PreparedPackageShare> {
+export async function preparePackageShare(record: ActionPackage, revisionId: string, policy: PolicyResolution, signal?: AbortSignal): Promise<PreparedPackageShare> {
   const source = structuredClone(record);
-  const result = await prepare(await buildPortableActionPackage(source, revisionId), policy);
+  const result = await prepare(await buildPortableActionPackage(source, revisionId), policy, undefined, signal);
   captures.get(result)!.source = source;
   return result;
 }
 
 /** Decryption is deliberately separate; no resources are installed before this review. */
-export async function prepareReceivedPackageShare(value: unknown, policy: PolicyResolution): Promise<PreparedPackageShare> {
+export async function prepareReceivedPackageShare(value: unknown, policy: PolicyResolution, signal?: AbortSignal): Promise<PreparedPackageShare> {
   const parsed = envelopeSchema.safeParse(value);
   if (!parsed.success) throw new Error("This encrypted package is invalid or unsupported.");
   assertDeadline(parsed.data.expiresAt);
-  return prepare(JSON.stringify(parsed.data.package), policy, parsed.data.expiresAt);
+  return prepare(JSON.stringify(parsed.data.package), policy, parsed.data.expiresAt, signal);
 }
 
 export async function encryptPreparedPackageShare(prepared: PreparedPackageShare, password: string, expiresAt?: number): Promise<EncryptedPackageShare> {

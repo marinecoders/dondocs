@@ -29,14 +29,15 @@ function PackageShareDialogContent({ record, revisionId, onClose }: Props) {
   useEffect(() => {
     alive.current = true;
     let current = true;
+    const controller = new AbortController();
     void (async () => {
       try {
-        const result = await preparePackageShare(record, revisionId, await getExportDeploymentPolicy());
+        const result = await preparePackageShare(record, revisionId, await getExportDeploymentPolicy(), controller.signal);
         if (current && alive.current) setPrepared(result);
       } catch (cause) { if (current && alive.current) setError(cause instanceof Error ? cause.message : "The package could not be prepared."); }
       finally { if (current && alive.current) setBusy(false); }
     })();
-    return () => { current = false; alive.current = false; };
+    return () => { current = false; alive.current = false; controller.abort(); };
   }, [record, revisionId]);
   function close() { alive.current = false; setPassword(""); onClose(); }
   async function run(action: () => Promise<void>) {
@@ -105,7 +106,7 @@ function PackageShareDialogContent({ record, revisionId, onClose }: Props) {
           </div>}
         </fieldset>
       </div>
-      <Button variant="outline" onClick={close}>Close</Button>
+      <Button variant="outline" onClick={close}>Close sharing</Button>
     </DialogContent>
   </Dialog>;
 }

@@ -1335,6 +1335,10 @@ function App() {
           if (!open) {
             setShareModal(null);
             setSharePayloadFromHash(null);
+            if (parseShareUrl(window.location.href) !== null) {
+              const u = window.location;
+              window.history.replaceState(null, '', u.pathname + u.search);
+            }
           }
         }}
         mode={shareModal ?? 'share'}

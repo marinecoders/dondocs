@@ -13,6 +13,12 @@ import { resolveExportDeploymentPolicy } from "@/lib/exportDeploymentPolicy";
 import * as database from "@/lib/documentsDb";
 
 vi.mock("@/stores/backupStore", () => ({ scheduleBackup: vi.fn() }));
+vi.mock("@/lib/packagePdfEvidence", async () => ({
+  reviewBoundedPackagePdf: async (bytes: ArrayBuffer, label: string, policy: Parameters<typeof import("@/lib/actionPackageDisclosure")["reviewPackageOriginal"]>[2], signal: AbortSignal) => {
+    signal.throwIfAborted();
+    return (await import("@/lib/actionPackageDisclosure")).reviewPackageOriginal(bytes, label, policy);
+  },
+}));
 vi.mock("@/lib/pdfText", () => ({ extractPdfText: vi.fn(async () => "Synthetic retained PDF text.") }));
 const { policyState } = vi.hoisted(() => ({ policyState: { current: undefined as unknown } }));
 vi.mock("@/config/classification", async importOriginal => ({
@@ -156,4 +162,33 @@ it("rejects missing/corrupt resources, malformed envelopes and forged review tok
     await expect(prepareReceivedPackageShare({ ...data, ...change }, policy)).rejects.toThrow(/invalid or unsupported/);
   await expect(importPreparedPackageShare({} as never)).rejects.toThrow(/Review this package again/);
   expect(await listActionPackages()).toEqual([]);
+});
+
+it("keeps retained assembled PDF bytes and hashes in encrypted delivery", async () => {
+  const { record } = await fixture();
+  const { retainPackageAsset, readPackageAsset } = await import("@/lib/actionPackageAssets");
+  const { commitActionPackage, getPackageRevision } = await import("@/lib/actionPackages");
+  const pdf = await PDFDocument.create();pdf.addPage();pdf.addPage();
+  const bytes = new Uint8Array(await pdf.save()).buffer;
+  const asset = await retainPackageAsset("retained-exact.pdf", "application/pdf", bytes);
+  const revision = getPackageRevision(record);
+  const output = { id: "handoff-output", asset, createdAt: 100, policyIdentity: "historical-policy", renderer: "synthetic-test",
+    signingStatus: "unsigned-assembled-derivative" as const,
+    boundaries: revision.members.map((member, index) => ({ memberId: member.id, startPage: index + 1, pageCount: 1,
+      firstPageLabel: String(index + 1), numbering: "continuation" as const })) };
+  const retained = await commitActionPackage(record, { ...record, sequence: record.sequence + 1,
+    revisions: record.revisions.map(value => value.id === revision.id ? { ...value, outputs: [output] } : value) });
+  const encrypted = await encryptPreparedPackageShare(await preparePackageShare(retained, revision.id, policy), "synthetic-password");
+  const { data } = await decoded(encrypted);
+  await clearDatabase();
+  const imported = await importPreparedPackageShare(await prepareReceivedPackageShare(data, policy));
+  const received = getPackageRevision(imported).outputs[0];
+  expect(received.asset.sha256).toBe(asset.sha256);
+  expect(await readPackageAsset(received.asset)).toEqual(bytes);
+});
+
+it("rejects cancelled package preparation before exposing review or installing assets", async () => {
+  const { record } = await fixture();
+  const controller = new AbortController();controller.abort();
+  await expect(preparePackageShare(record, record.currentRevisionId, policy, controller.signal)).rejects.toThrow();
 });

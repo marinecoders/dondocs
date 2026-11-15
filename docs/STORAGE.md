@@ -523,7 +523,10 @@ package or policy changes before copying or downloading. Links are capped at
 8,000 characters with an encrypted-file fallback. Existing 100 MB portable JSON,
 110 MB expanded plaintext and 140 MB encrypted payload bounds apply; the file
 wrapper allows another 1,024 bytes. Resource limits also apply before metadata
-installation. The authenticated optional deadline uses the same local-clock
+installation. New encrypted package reviews use a cancellable PDF reader with
+500-page, 200,000-text-item, two-million-character and 45-second bounds per file;
+failed or incomplete inspection blocks preparation. The authenticated optional
+deadline uses the same local-clock
 boundary as native shares and cannot revoke already opened copies.
 
 ## Review comment reader compatibility

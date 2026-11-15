@@ -128,6 +128,7 @@ function PackageDialog({
   const [shareOpen, setShareOpen] = useState(false);
   const [encryptedImport, setEncryptedImport] = useState<string | null>(null);
   const requestedPackageId = useUIStore(state => state.actionPackageSelectionId);
+  const requestedRevisionId = useUIStore(state => state.actionPackageSelectionRevisionId);
   const inventoryLoaded = useRef(false);
   const [prepared, setPrepared] = useState<PreparedPackageAssembly | null>(
       null,
@@ -164,7 +165,9 @@ function PackageDialog({
           const requested = records.find(record => record.id === requestedPackageId);
           if (requested) {
             setSelectedId(requested.id);
-            setRevisionId(requested.currentRevisionId);
+            if (requestedRevisionId && !requested.revisions.some(revision => revision.id === requestedRevisionId))
+              throw new Error("The reviewed package revision is no longer available. Reopen the share and review it again.");
+            setRevisionId(requestedRevisionId ?? requested.currentRevisionId);
             setName(requested.name);
             setPrepared(null);
             setApproved(false);
@@ -180,7 +183,7 @@ function PackageDialog({
     return () => {
       live = false;
     };
-  }, [requestedPackageId]);
+  }, [requestedPackageId, requestedRevisionId]);
   useEffect(
     () => () => {
       if (pdfUrl) URL.revokeObjectURL(pdfUrl);

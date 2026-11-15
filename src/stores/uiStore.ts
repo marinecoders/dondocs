@@ -93,6 +93,7 @@ interface UIState {
   batchModalOpen: boolean;
   actionPackagesOpen: boolean;
   actionPackageSelectionId: string | null;
+  actionPackageSelectionRevisionId: string | null;
   reviewRoundsOpen: boolean;
   importLetterModalOpen: boolean;
   commandPaletteOpen: boolean;
@@ -126,7 +127,7 @@ interface UIState {
   setNistModalOpen: (open: boolean) => void;
   setBatchModalOpen: (open: boolean) => void;
   setActionPackagesOpen: (open: boolean) => void;
-  openActionPackage: (id: string) => void;
+  openActionPackage: (id: string, revisionId?: string) => void;
   clearActionPackageSelection: () => void;
   setReviewRoundsOpen: (open: boolean) => void;
   setImportLetterModalOpen: (open: boolean) => void;
@@ -254,6 +255,7 @@ export const useUIStore = create<UIState>()(
       batchModalOpen: false,
       actionPackagesOpen: false,
       actionPackageSelectionId: null,
+      actionPackageSelectionRevisionId: null,
       reviewRoundsOpen: false,
       importLetterModalOpen: false,
       commandPaletteOpen: false,
@@ -279,9 +281,9 @@ export const useUIStore = create<UIState>()(
       setConnectivityModalOpen: (open) => set({ connectivityModalOpen: open }),
       setNistModalOpen: (open) => set({ nistModalOpen: open }),
       setBatchModalOpen: (open) => set({ batchModalOpen: open }),
-      setActionPackagesOpen: (open) => set({ actionPackagesOpen: open, ...(!open ? { actionPackageSelectionId: null } : {}) }),
-      openActionPackage: (id) => set({ actionPackagesOpen: true, actionPackageSelectionId: id }),
-      clearActionPackageSelection: () => set({ actionPackageSelectionId: null }),
+      setActionPackagesOpen: (open) => set({ actionPackagesOpen: open, ...(!open ? { actionPackageSelectionId: null, actionPackageSelectionRevisionId: null } : {}) }),
+      openActionPackage: (id, revisionId) => set({ actionPackagesOpen: true, actionPackageSelectionId: id, actionPackageSelectionRevisionId: revisionId ?? null }),
+      clearActionPackageSelection: () => set({ actionPackageSelectionId: null, actionPackageSelectionRevisionId: null }),
       setReviewRoundsOpen: (open) => set({ reviewRoundsOpen: open }),
       setImportLetterModalOpen: (open) => set({ importLetterModalOpen: open }),
       setCommandPaletteOpen: (open) => set({ commandPaletteOpen: open }),
@@ -379,6 +381,8 @@ export const useUIStore = create<UIState>()(
         nistModalOpen: false,
         batchModalOpen: false,
         actionPackagesOpen: false,
+        actionPackageSelectionId: null,
+        actionPackageSelectionRevisionId: null,
         reviewRoundsOpen: false,
         importLetterModalOpen: false,
         commandPaletteOpen: false,

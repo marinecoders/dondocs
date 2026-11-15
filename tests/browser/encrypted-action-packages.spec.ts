@@ -3,7 +3,7 @@ import { PDFDocument } from 'pdf-lib';
 import { randomBytes, createHash } from 'node:crypto';
 import { readFile } from 'node:fs/promises';
 
-test.use({ serviceWorkers: 'block' });
+test.use({ serviceWorkers: 'block', actionTimeout: 15_000 });
 test.setTimeout(120_000);
 const NOW = Date.UTC(2026, 10, 15, 12);
 const PASSWORD = 'synthetic-package-password';
@@ -50,7 +50,7 @@ test('encrypted package link and file preserve reviewed content across fresh bro
   await initialize(page);
   await page.getByLabel('Import draft file', { exact: true }).setInputFiles({ name: 'synthetic.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify({
     documentMode: 'custom', documentCategory: 'correspondence', docType: 'naval_letter',
-    formData: { subject: 'ENCRYPTED PACKAGE SOURCE', classLevel: 'unclassified' }, paragraphs: [{ text: 'Synthetic package content.', level: 0 }], references: [], enclosures: [], copyTos: [],
+    formData: { subject: 'ENCRYPTED PACKAGE SOURCE', classLevel: 'unclassified', unitLine1: 'FICTIONAL TRAINING UNIT', from: 'Training Office', to: 'Training Officer', date: '15 Nov 26', ssic: '1000', serial: '001', sigFirst: 'Alex', sigLast: 'Example' }, paragraphs: [{ text: 'Synthetic package content. See enclosure (1).', level: 0 }], references: [], enclosures: [], copyTos: [],
   })) });
   await page.getByRole('button', { name: 'Open as new document', exact: true }).click();
   let modal = await packages(page);
@@ -61,7 +61,7 @@ test('encrypted package link and file preserve reviewed content across fresh bro
   let dialog = await generate(page);
   const link = await dialog.getByLabel('Encrypted package link', { exact: true }).inputValue();
   expect(link.length).toBeLessThanOrEqual(8000);
-  await dialog.getByRole('button', { name: 'Close', exact: true }).click();
+  await dialog.getByRole('button', { name: 'Close sharing', exact: true }).click();
   // A valid original with incompressible metadata forces the file fallback.
   const pdf = await PDFDocument.create();
   pdf.addPage();
@@ -71,6 +71,16 @@ test('encrypted package link and file preserve reviewed content across fresh bro
   await modal.getByRole('checkbox', { name: 'Uploaded original is signed (preserve unchanged)', exact: true }).check();
   await modal.getByLabel('Add original PDF', { exact: true }).setInputFiles({ name: 'signed-original.pdf', mimeType: 'application/pdf', buffer: original });
   await expect(modal.getByText('Signed original PDF', { exact: false })).toBeVisible();
+  await modal.getByRole('button', { name: 'Check readiness and assemble', exact: true }).click();
+  await expect(modal.getByRole('heading', { name: 'Package readiness: ready', exact: true })).toBeVisible();
+  await modal.getByRole('checkbox', { name: /^I reviewed every included member/ }).check();
+  await modal.getByRole('button', { name: 'Assemble and retain PDF', exact: true }).click();
+  await expect(modal.getByRole('status')).toContainText('Assembled PDF retained.', { timeout: 60_000 });
+  await modal.getByRole('button', { name: 'Download retained PDF', exact: true }).click();
+  await modal.getByRole('checkbox', { name: /^I reviewed every included member/ }).check();
+  const retainedPending = page.waitForEvent('download');
+  await modal.getByRole('button', { name: 'Download reviewed retained PDF', exact: true }).click();
+  const retained = await readFile((await (await retainedPending).path())!);
   dialog = await generate(page);
   await expect(dialog).toContainText('too large for a reliable link');
   const pending = page.waitForEvent('download');
@@ -85,6 +95,8 @@ test('encrypted package link and file preserve reviewed content across fresh bro
   try {
     await initialize(receiver);
     await receiver.getByRole('textbox', { name: 'Subject', exact: true }).fill('RECEIVER DRAFT PRESERVED');
+    await receiver.clock.runFor(2_000);
+    await expect(receiver.getByRole('banner').getByText(/^Saved(?:\s|$)/)).toBeVisible();
     let review = await openShare(receiver, encrypted, 'wrong-password');
     await expect(review.getByRole('alert')).toBeVisible();
     await review.getByRole('button', { name: 'Cancel', exact: true }).click();
@@ -94,7 +106,8 @@ test('encrypted package link and file preserve reviewed content across fresh bro
     review = await openShare(receiver, Buffer.from(JSON.stringify(tampered)));
     await expect(review.getByRole('alert')).toBeVisible();
     await review.getByRole('button', { name: 'Cancel', exact: true }).click();
-    await receiver.goto(link);
+    await receiver.goto('about:blank');
+    await receiver.goto(link); // A full navigation exercises initial hash dispatch.
     review = receiver.getByRole('dialog', { name: 'Open shared document', exact: true });
     await review.getByLabel('Password', { exact: true }).fill(PASSWORD);
     await review.getByRole('button', { name: 'Decrypt and review', exact: true }).click();
@@ -130,6 +143,11 @@ test('encrypted package link and file preserve reviewed content across fresh bro
     modal = await packages(receiver);
     await modal.getByLabel('Saved packages', { exact: true }).selectOption({ label: 'Encrypted training action' });
     await expect(modal.getByRole('heading', { name: '1. ENCRYPTED PACKAGE SOURCE', exact: true })).toBeVisible();
+    await modal.getByRole('button', { name: 'Download retained PDF', exact: true }).click();
+    await modal.getByRole('checkbox', { name: /^I reviewed every included member/ }).check();
+    const receivedRetained = receiver.waitForEvent('download');
+    await modal.getByRole('button', { name: 'Download reviewed retained PDF', exact: true }).click();
+    expect(hash(await readFile((await (await receivedRetained).path())!))).toBe(hash(retained));
     // The UI offers exact original download after import/reload; validate actual bytes.
     const originalPending = receiver.waitForEvent('download');
     await modal.getByRole('button', { name: 'Download unchanged original', exact: true }).click();
@@ -139,3 +157,33 @@ test('encrypted package link and file preserve reviewed content across fresh bro
     await receiver.screenshot({ path: info.outputPath('imported-encrypted-package.png') });
   } finally { await context.close(); }
 });
+
+for (const placement of ['enclosure', 'basic-letter', 'figure'] as const) {
+  test(`blocks restricted text inside a captured native ${placement} PDF before encrypted handoff`, async ({ page }, info) => {
+    await initialize(page);
+    const pdf = await PDFDocument.create();
+    pdf.addPage().drawText('SECRET', { x: 50, y: 700, size: 16 });
+    const bytes = Buffer.from(await pdf.save());
+    const inline = { name: 'training-attachment.pdf', size: bytes.length, data: bytes.toString('base64') };
+    const source = {
+      documentMode: 'custom', documentCategory: 'correspondence', docType: 'naval_letter',
+      formData: { subject: `SYNTHETIC ${placement.toUpperCase()}`, classLevel: 'unclassified', ...(placement === 'basic-letter' ? { basicLetterFile: inline } : {}) },
+      paragraphs: [{ id: 'synthetic-body', text: 'Synthetic unclassified visible draft text.', level: 0,
+        ...(placement === 'figure' ? { figure: { name: inline.name, type: 'application/pdf', data: inline.data } } : {}) }],
+      references: [], copyTos: [], enclosures: placement === 'enclosure' ? [{ id: 'embedded-enclosure', title: 'Training attachment', hasFile: true, file: inline }] : [],
+    };
+    await page.getByLabel('Import draft file', { exact: true }).setInputFiles({ name: 'synthetic-embedded.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(source)) });
+    await page.getByRole('button', { name: 'Open as new document', exact: true }).click();
+    const modal = await packages(page);
+    await modal.getByLabel('Package name', { exact: true }).fill(`Embedded ${placement} review`);
+    await modal.getByRole('button', { name: 'Create package', exact: true }).click();
+    await modal.getByRole('button', { name: 'Capture current document', exact: true }).click();
+    await expect(modal.getByRole('heading', { name: `1. SYNTHETIC ${placement.toUpperCase()}`, exact: true })).toBeVisible();
+    await modal.getByRole('button', { name: 'Share encrypted package', exact: true }).click();
+    const sharing = page.getByRole('dialog', { name: 'Share action package', exact: true });
+    await expect(sharing.getByRole('alert')).toContainText('markings outside');
+    await expect(sharing.getByRole('button', { name: 'Generate encrypted package', exact: true })).toBeDisabled();
+    await expect(sharing.getByRole('button', { name: 'Download encrypted package file', exact: true })).toHaveCount(0);
+    await page.screenshot({ path: info.outputPath(`blocked-embedded-${placement}.png`) });
+  });
+}

@@ -40,7 +40,7 @@ function ImportHarness() {
 }
 beforeEach(() => {
   vi.resetAllMocks();
-  useUIStore.setState({ actionPackagesOpen: false, actionPackageSelectionId: null });
+  useUIStore.setState({ actionPackagesOpen: false, actionPackageSelectionId: null, actionPackageSelectionRevisionId: null });
   mocks.prepare.mockResolvedValue(prepared);mocks.receive.mockResolvedValue(prepared);
   mocks.decrypt.mockResolvedValue({ kind: "dondocs-action-package-share", version: 1 });
   mocks.encrypt.mockResolvedValue({ url: null });
@@ -94,6 +94,7 @@ it("reviews a received package before importing and opens Packages without chang
   await waitFor(() => expect(screen.queryByRole("dialog")).toBeNull());
   expect(useUIStore.getState().actionPackagesOpen).toBe(true);
   expect(useUIStore.getState().actionPackageSelectionId).toBe("package-received");
+  expect(useUIStore.getState().actionPackageSelectionRevisionId).toBe("selected-revision");
   expect(useDocumentStore.getState().formData).toEqual(before);
 });
 
@@ -129,4 +130,19 @@ it("does not show an older asynchronously prepared package after its selected re
   view.rerender(<PackageShareDialog record={record} revisionId="new" onClose={vi.fn()} />);
   await screen.findByText("Latest selected package");finish(prepared);
   await waitFor(() => expect(screen.queryByText("Synthetic reviewed package")).toBeNull());
+});
+
+it("cancels a package PDF review before any package is installed", async () => {
+  let finish!: (value: PreparedPackageShare) => void;
+  mocks.receive.mockImplementation(() => new Promise(resolve => { finish = resolve; }));
+  const user = userEvent.setup();render(<ImportHarness />);
+  await user.type(screen.getByLabelText("Password"), "secret-password");
+  await user.click(screen.getByRole("button", { name: "Decrypt and review" }));
+  await waitFor(() => expect(mocks.receive).toHaveBeenCalledOnce());
+  const signal = mocks.receive.mock.calls[0][2] as AbortSignal;
+  await user.click(screen.getByRole("button", { name: "Cancel" }));
+  expect(signal.aborted).toBe(true);finish(prepared);
+  await waitFor(() => expect(screen.queryByRole("dialog")).toBeNull());
+  expect(mocks.install).not.toHaveBeenCalled();
+  expect(useUIStore.getState().actionPackagesOpen).toBe(false);
 });
