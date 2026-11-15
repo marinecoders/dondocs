@@ -917,7 +917,8 @@ export async function applyOwnedReviewSuggestions(target: DocumentTarget | null,
   publishSuggestionText(before.session, after.session);
   useDocumentsStore.setState(current => ({ docs: { ...current.docs, [after.id]: { meta: after.meta, session: after.session } },
     ...(current.currentId === after.id && current.activationEpoch === target.scope.epoch ? { baseline: after.session } : {}) }));
-  if (recordDocumentHistory(target.scope) && operation.intent.kind === 'decide' && operation.intent.action === 'accepted') {
+  if (recordDocumentHistory(target.scope) && operation.intent.kind === 'decide' && operation.intent.action === 'accepted'
+    && !sameReviewStoredValue(before.session, after.session)) {
     useHistoryStore.getState().tagReviewAcceptance({ kind: 'review-acceptance', roundId: round.id,
       baselineDigest: round.baselineDigest, acceptanceId: operation.intent.record.id }, target.scope);
   }

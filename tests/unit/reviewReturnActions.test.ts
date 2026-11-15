@@ -55,6 +55,25 @@ async function exported(): Promise<ReviewReturn> {
 }
 
 describe('captured review-return actions', () => {
+  it('cancels a captured reconciliation when the author edits during handling-policy validation', async () => {
+    const { owner, round } = await fixture({ subject: 'Reviewed subject' });
+    const proposal = createReviewSuggestion(round, { author: 'Reviewer', label: 'Subject', changes: [
+      { target: { kind: 'field', field: 'subject', docType: 'naval_letter' }, proposed: 'Reviewer subject' },
+    ] });
+    await submitReviewSuggestion(proposal);const payload = await exported();useDocumentsStore.getState().switchTo(owner);
+    expect(await applyReviewReturn(await prepareReviewReturnImport(payload), {})).toBe('committed');
+    useDocumentStore.getState().setField('subject', 'Current author subject');
+    let release!: (value: typeof policy) => void;
+    vi.mocked(getExportDeploymentPolicy).mockClear().mockImplementationOnce(() => new Promise(resolve => { release = resolve; }));
+    const pending = decideReviewSuggestion(round.id, proposal.id, 'accepted', [{ changeId: proposal.changes[0].id,
+      expectedCurrent: 'Current author subject', value: 'Combined subject' }]);
+    await vi.waitFor(() => expect(getExportDeploymentPolicy).toHaveBeenCalledOnce());
+    useDocumentStore.getState().setField('subject', 'Later author subject');release(policy);
+    await expect(pending).rejects.toThrow(/draft changed/);
+    expect(useDocumentStore.getState().formData.subject).toBe('Later author subject');
+    expect(reviewSuggestionRecordSchema.parse(await idbReadReviewSuggestions(owner, round.id)).state.decisions).toEqual([]);
+  });
+
   it('returns explicit replacements as pending metadata, preserves newer source work, then accepts with recorded Undo/Redo', async () => {
     const { owner, round } = await fixture({ subject: 'Reviewed subject' });
     const proposal = createReviewSuggestion(round, { author: 'Reviewer', label: 'Replace subject', changes: [{ target: { kind: 'field', field: 'subject', docType: 'naval_letter' }, proposed: 'Suggested subject' }] });
@@ -117,6 +136,21 @@ describe('captured review-return actions', () => {
     expect((await decideReviewSuggestion(round.id, proposal.id, 'accepted')).status).toBe('committed');
     expect(useDocumentStore.getState().formData.customClassification).toBe('SECRET');
     expect(reviewSuggestionRecordSchema.parse(await idbReadReviewSuggestions(owner, round.id)).state.decisions.map(item => item.action)).toEqual(['accepted']);
+  });
+  it('preserves the current handling floor when manually reconciling a stale custom marking', async () => {
+    vi.mocked(getExportDeploymentPolicy).mockResolvedValue(allLevels);
+    const { round, owner } = await fixture({ custom: 'SECRET' });
+    const proposal = createReviewSuggestion(round, { author: 'Reviewer', label: 'Custom marking',
+      changes: [{ target: { kind: 'field', field: 'customClassification', docType: 'naval_letter' }, proposed: 'CUI' }] });
+    await submitReviewSuggestion(proposal);const payload = await exported();useDocumentsStore.getState().switchTo(owner);
+    expect(await applyReviewReturn(await prepareReviewReturnImport(payload), {})).toBe('committed');
+    useDocumentStore.getState().setField('customClassification', 'TOP SECRET');
+    const resolution = { changeId: proposal.changes[0].id, expectedCurrent: 'TOP SECRET', value: 'SECRET' };
+    await expect(decideReviewSuggestion(round.id, proposal.id, 'accepted', [resolution])).rejects.toThrow(/marked below/);
+    expect(useDocumentStore.getState().formData.customClassification).toBe('TOP SECRET');
+    expect(reviewSuggestionRecordSchema.parse(await idbReadReviewSuggestions(owner, round.id)).state.decisions).toEqual([]);
+    expect((await decideReviewSuggestion(round.id, proposal.id, 'accepted', [{ ...resolution, value: 'TOP SECRET' }])).status).toBe('committed');
+    expect(useDocumentStore.getState().formData.customClassification).toBe('TOP SECRET');
   });
   it('scans an emitted paragraph target identifier without adding unrelated native text to the return', async () => {
     const { round } = await fixture({ subject: 'Unemitted native subject', paragraphId: '123-45-6789' });

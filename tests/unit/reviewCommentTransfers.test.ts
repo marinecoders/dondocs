@@ -4,7 +4,7 @@ import { useDocumentStore, getSerializedSession } from '@/stores/documentStore';
 import { useDocumentsStore, openSessionAsNew, commitCurrentDocument } from '@/stores/documentsStore';
 import { applyCommentMutation, reviewCommentMutation } from '@/lib/reviewCommentActions';
 import { buildDraftFile, parseDraftFile } from '@/lib/draftFile';
-import { buildBackup, classifyBackup, restoreBackup, BACKUP_KIND } from '@/lib/backup';
+import { buildBackup, classifyBackup, restoreBackup, BACKUP_KIND, BACKUP_VERSION } from '@/lib/backup';
 import { idbSetSnapshots } from '@/lib/documentsDb';
 import { createSharedPayload, parseSharedSession } from '@/lib/sharedSession';
 import { encryptSharePayload, decryptSharePayload } from '@/lib/shareCrypto';
@@ -82,6 +82,7 @@ describe('comment-bearing transfer boundaries', () => {
     expect(classifyBackup(JSON.stringify({ kind: BACKUP_KIND, version: 7 })).kind).toBe(BACKUP_KIND);
     expect(classifyBackup(JSON.stringify({ kind: BACKUP_KIND, version: 8 })).kind).toBe(BACKUP_KIND);
     expect(classifyBackup(JSON.stringify({ kind: BACKUP_KIND, version: 9 })).kind).toBe(BACKUP_KIND);
-    expect(() => classifyBackup(JSON.stringify({ kind: BACKUP_KIND, version: 10 }))).toThrow();
+    expect(classifyBackup(JSON.stringify({ kind: BACKUP_KIND, version: 10 })).kind).toBe(BACKUP_KIND);
+    expect(() => classifyBackup(JSON.stringify({ kind: BACKUP_KIND, version: BACKUP_VERSION + 1 }))).toThrow();
   });
 });

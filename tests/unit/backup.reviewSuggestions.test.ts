@@ -77,3 +77,26 @@ it('rejects malformed or wrong-version proposal backup metadata before changing 
   const wrong = structuredClone(bundle);wrong.reviewSuggestions[0].state.baselineDigest = 'b'.repeat(64);
   await expect(restoreBackup(JSON.stringify(wrong))).rejects.toThrow();
 });
+
+it('preserves exact reconciled decisions in version10, rejects downgrade and restores archived history after source deletion', async () => {
+  const { id, round, state, proposal } = await fixture();
+  useDocumentStore.getState().setField('to', 'Newer author recipient');await commitCurrentDocument();
+  const resolutions = [{ changeId: proposal.changes[0].id, expectedCurrent: 'Newer author recipient', value: 'Équipe 👩🏽‍✈️\nCombined recipient' }];
+  const plan = planReviewSuggestionDecision(round, getSerializedSession(), state, proposal.id, 'accepted', undefined, resolutions);
+  const decision = plan.state.decisions[0];
+  expect(await applyOwnedReviewSuggestions(captureDocumentTarget(), { kind: 'suggestion-write', version: 1,
+    id: `suggestion-write_${crypto.randomUUID()}`, documentId: id, createdAt: Date.now(),
+    round: { id: round.id, baselineDigest: round.baselineDigest }, before: state, after: plan.state,
+    intent: { kind: 'decide', proposalId: proposal.id, action: 'accepted', record: { id: decision.id, decidedAt: decision.decidedAt }, resolutions } })).toBe('committed');
+  const bundle = JSON.parse(await buildBackup());expect(bundle.version).toBe(10);
+  expect(bundle.reviewSuggestions[0].state.decisions[0].resolutions).toEqual(resolutions);
+  await expect(restoreBackup(JSON.stringify({ ...bundle, version: 9 }))).rejects.toThrow(/version 10/);
+  expect(useDocumentStore.getState().formData.to).toBe(resolutions[0].value);
+  await flushDocumentWrites();expect(await idbDeleteDocument(id)).toBe(true);
+  useDocumentsStore.setState({ docs: {}, currentId: null, baseline: null });
+  const archived = JSON.parse(await buildBackup());expect(archived.version).toBe(10);expect(archived.documents).toHaveLength(0);
+  expect(archived.reviewSuggestions).toEqual(bundle.reviewSuggestions);
+  expect(await idbDeleteReviewRound(round.id, round.baselineDigest)).toBe(true);
+  const result = await restoreBackup(JSON.stringify(archived));expect(result.issues).toBeUndefined();
+  expect(reviewSuggestionRecordSchema.parse(await idbReadReviewSuggestions(id, round.id)).state).toEqual(plan.state);
+});
