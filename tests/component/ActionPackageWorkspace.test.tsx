@@ -175,6 +175,22 @@ it("selects the exact reviewed historical revision when an imported package alre
   await waitFor(() => expect(useUIStore.getState().actionPackageSelectionRevisionId).toBeNull());
 });
 
+it("keeps exactly one citation editor while switching preserved package revisions", async () => {
+  let record = await createActionPackage("Citation editor identity");
+  record = await reviseActionPackage(record, []);
+  record = await reviseActionPackage(record, []);
+  const user = userEvent.setup();
+  useUIStore.setState({ actionPackagesOpen: true });
+  render(<ActionPackageWorkspace exportGate={createExportGate()} ports={{ compile: vi.fn(), convertDocx: vi.fn(), waitForReady: async () => true }} />);
+  const dialog = screen.getByRole("dialog", { name: "Action packages" });
+  await within(dialog).findByRole("option", { name: record.name });
+  await user.selectOptions(within(dialog).getByLabelText("Saved packages", { exact: true }), record.id);
+  for (const id of [record.revisions[0].id, record.revisions[1].id, record.currentRevisionId, record.revisions[0].id]) {
+    await user.selectOptions(within(dialog).getByLabelText("Package revision"), id);
+    expect(within(dialog).getAllByRole("region", { name: "Package citation identities" })).toHaveLength(1);
+  }
+});
+
 async function retainedPair(name: string) {
   const { captureOriginalPackageMember } = await import("@/lib/actionPackageAssets");
   const { assemblePackage, preparePackageAssembly } = await import("@/lib/actionPackageAssembly");

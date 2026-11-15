@@ -953,7 +953,7 @@ function PackageDialog({
                   </>
                 )}
               </div>
-              <PackageCitations key={`${record.id}:${revision.id}`} record={record} revision={revision} editable={editable}
+              <PackageCitations key={`citations:${record.id}:${revision.id}`} record={record} revision={revision} editable={editable}
                 onChange={action => void run(async () => update(await action(operation.current?.signal)))} />
               <WordPackageDownload key={`${record.id}:${revision.id}`} record={record} revisionId={revision.id} ports={ports} exportGate={exportGate} />
               {revision.outputs.length > 1 && (
