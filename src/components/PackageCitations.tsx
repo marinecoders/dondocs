@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { sameReviewStoredValue } from "@/lib/documentsDb";
 import { Button } from "@/components/ui/button";
+import { PackageCitationRepair } from "./PackageCitationRepair";
 import type { ActionPackage, PackageRevision } from "@/lib/actionPackages";
 import { initializePackageCitationTargets, linkPackageCitation, packageCitationOccurrences, resolvePackageCitations, type PackageCitationOccurrence, type ResolvedPackageCitationTarget, type ResolvedPackageCitationLink } from "@/lib/packageCitations";
 
@@ -57,5 +58,6 @@ export function PackageCitations({ record, revision, editable, onChange }: Props
       <Button variant="outline" disabled={!source || !compatible.some(value => value.target.id === targetId)} onClick={() => { if (source) onChange(signal => linkPackageCitation(record, source.source, targetId, signal)); }}>Save citation link</Button>
       {!loading && occurrences.length === 0 && <p>No unlinked supported occurrences. Use explicit “reference (a)” or “enclosure (1)” text in a native correspondence paragraph with a stable paragraph identity.</p>}
     </fieldset>}
+    <PackageCitationRepair key={`citation-repair:${revision.id}`} record={record} revision={revision} editable={editable} onChange={onChange} />
   </section>;
 }

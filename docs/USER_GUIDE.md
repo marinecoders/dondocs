@@ -436,3 +436,30 @@ The registry supports at most 1,000 targets and 2,000 links per revision. Source
 offsets use UTF-16 editor positions, checked against full-field and selection
 SHA-256 hashes and never across a surrogate pair. Unsupported metadata or a stale
 save is rejected without replacing the last complete revision.
+
+
+### Repair linked package citations
+
+A tracked citation whose source text or target changed is shown under **Citation
+repair**. A changed visible label also needs repair. These findings prevent a
+package from becoming ready for assembly; they do not rewrite the document or
+change an older package revision. Unlinked literal citations still need manual
+review.
+
+Choose **Link to repair**, select the exact **Current citation occurrence**, and
+choose its intended **Replacement citation target**. Only supported explicit
+reference/enclosure clauses outside quoted text, code and URLs are selectable.
+A native reference or native enclosure belongs to the citing member's own list;
+package enclosures use the package enclosure sequence. **Review citation repair**
+shows the chosen occurrence and target and any visible label change. Acknowledge
+the preview, then **Save reviewed citation repair** to create a new revision.
+Other current links retain their exact bindings through a supported label edit.
+A changed or missing binding is never resolved by a matching title or nearby text.
+
+**Review discarding link** removes only the selected link after explicit
+acknowledgement. Its text stays unchanged and unverified; remove or correct that
+literal separately where needed. Unused target identities can be removed through
+**Remove unused identities**. A target still used by any link cannot be removed.
+Cancelling a review, changing packages, a stale save, or a failed save leaves the
+previous package revision intact. Original signed files and retained historical
+PDFs remain unchanged.

@@ -5,6 +5,8 @@ import {
 } from "./actionPackageDisclosure";
 import { APP_VERSION, GIT_SHA } from "./version";
 import { resolvePackageCitations } from "./packageCitations";
+
+import { packageCitationReadiness } from "./packageCitationRepair";
 import { PDFDocument, StandardFonts } from "pdf-lib";
 import { captureDocumentRevision } from "./capturedDocument";
 import { captureFormExportTemplates } from "./formExportTemplates";
@@ -152,6 +154,7 @@ export async function preparePackageAssembly(
     findings.push({ message, memberId, severity: "error" });
   if (policy.status !== "ready") error(policy.message);
   if (!revision.members.length) error("Add a basic letter or main document.");
+  findings.push(...await packageCitationReadiness(revision));
   if (
     revision.members.filter((member) => member.role === "basic-letter")
       .length !== 1 ||
