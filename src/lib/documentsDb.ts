@@ -1215,16 +1215,22 @@ export async function idbReadActionPackages(): Promise<unknown[]> {
     return record.value;
   });
 }
-export async function idbCompareActionPackage(before: import('./actionPackages').ActionPackage | null, after: import('./actionPackages').ActionPackage, isCurrent: () => boolean = () => true): Promise<boolean> {
+export async function idbCompareActionPackage(before: import('./actionPackages').ActionPackage | null, after: import('./actionPackages').ActionPackage, isCurrent: () => boolean = () => true, stagedAttachments: readonly StoredAttachment[] = []): Promise<boolean> {
   try {
     before = before && structuredClone(before);after = structuredClone(after);
     const { actionPackageSchema, validPackageTransition, packageAssets } = await import('./actionPackages');
     const { validateActionPackageResources } = await import('./actionPackageTransfer');
     const assets = new Map<string, StoredAttachment>();
+    const staged = new Map(stagedAttachments.map(asset => [asset.id, structuredClone(asset)]));
+    const bound = new Map(packageAssets(after).map(asset => [asset.id, asset]));
+    if (staged.size !== stagedAttachments.length || [...staged].some(([id, asset]) => {
+      const expected = bound.get(id);
+      return !expected || expected.name !== asset.name || expected.type !== asset.type || expected.size !== asset.size;
+    })) return false;
     actionPackageSchema.parse(after);
     if (!isCurrent() || !validPackageTransition(before, after)) return false;
     await validateActionPackageResources(after, async asset => {
-      const saved = assets.get(asset.id) ?? await idbGetAttachment(asset.id);
+      const saved = assets.get(asset.id) ?? staged.get(asset.id) ?? await idbGetAttachment(asset.id);
       if (!saved) throw new Error('Required package bytes are unavailable.');
       assets.set(asset.id, saved);return saved.data;
     });
@@ -1237,7 +1243,14 @@ export async function idbCompareActionPackage(before: import('./actionPackages')
       let committed = false, remaining = checks.length + 1;
       const ready = () => {
         if (--remaining) return;
-        if (!isCurrent() || !sameReviewStoredValue(request.result?.value ?? null, before) || checks.some(check => !sameReviewStoredValue(check.request.result, check.expected))) return;
+        if (!isCurrent() || !sameReviewStoredValue(request.result?.value ?? null, before) || checks.some(check => {
+          if (!staged.has(check.expected.id)) return !sameReviewStoredValue(check.request.result, check.expected);
+          const saved = check.request.result as StoredAttachment | undefined;
+          return saved !== undefined && !sameReviewStoredValue(
+            { id: saved.id, name: saved.name, type: saved.type, size: saved.size, data: saved.data },
+            { id: check.expected.id, name: check.expected.name, type: check.expected.type, size: check.expected.size, data: check.expected.data });
+        })) return;
+        for (const asset of staged.values()) transaction.objectStore(ATTACHMENTS_STORE).put(asset);
         store.put({ key: `action-package:${after.id}`, value: after });committed = true;
       };
       request.onsuccess = ready;checks.forEach(check => { check.request.onsuccess = ready; });

@@ -1,0 +1,94 @@
+import 'fake-indexeddb/auto';
+import { useState } from 'react';
+import { expect, it, vi } from 'vitest';
+import { act, render, screen, within, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { PDFDocument } from 'pdf-lib';
+import { PackageMemberReviewPanel } from '@/components/PackageMemberReviewPanel';
+import { createActionPackage, reviseActionPackage, listActionPackages, type ActionPackage } from '@/lib/actionPackages';
+import { capturePackageMember, captureOriginalPackageMember, readPackageAsset } from '@/lib/actionPackageAssets';
+import { captureDocumentRevision } from '@/lib/capturedDocument';
+import { createBlankSession } from '@/stores/documentStore';
+import { useDocumentsStore } from '@/stores/documentsStore';
+import * as memberReviews from '@/lib/packageMemberReviews';
+import { startPackageReview } from '@/lib/packageReviewRounds';
+vi.mock('@/stores/backupStore', () => ({ scheduleBackup: vi.fn() }));
+function View({ initial }: { initial: ActionPackage }) {
+  const [record, setRecord] = useState(initial), [busy, setBusy] = useState(false), [error, setError] = useState('');
+  return <><p role="alert">{error}</p><PackageMemberReviewPanel record={record} round={record.reviewRounds![0]} busy={busy}
+    onChange={setRecord} run={async action => { setBusy(true); try { await action(); } catch (cause) { setError(String(cause)); } finally { setBusy(false); } }} /></>;
+}
+it('navigates retained members, saves native comments with Undo/Redo and proposals, keeps signed PDF and active library untouched', async () => {
+  const session = createBlankSession(); session.paragraphs = [{ id: 'member-ui-paragraph', level: 0, text: 'Synthetic captured paragraph.' }];
+  const native = await capturePackageMember(captureDocumentRevision({ documentId: 'ui-source', epoch: 0, editSequence: 0, capturedAt: 100 }, { ...session, endItems: [], publicationTables: {} }), 'Synthetic native review', 'basic-letter');
+  const pdf = await PDFDocument.create(); pdf.addPage(); const bytes = new Uint8Array(await pdf.save()).buffer;
+  const original = await captureOriginalPackageMember({ name: 'synthetic-ui-signed.pdf', data: bytes }, 'enclosure', true);
+  if (original.kind !== 'original') throw new Error('Expected an original PDF fixture.');
+  const record = await startPackageReview(await reviseActionPackage(await createActionPackage('Synthetic UI review'), [native, original]));
+  const documentsBefore = structuredClone(useDocumentsStore.getState().docs), currentBefore = useDocumentsStore.getState().currentId;
+  const user = userEvent.setup(); render(<View initial={record} />);
+  const nav = screen.getByRole('navigation', { name: 'Captured review members' });
+  await user.click(within(nav).getByRole('button', { name: native.label }));
+  await screen.findByRole('region', { name: 'Package member comments' });
+  await user.type(screen.getByLabelText('Package comment reviewer name'), 'Synthetic reviewer');
+  await user.type(screen.getByLabelText('Package member comment'), 'A captured member question.');
+  await user.click(screen.getByRole('button', { name: 'Post member comment' }));
+  await screen.findByText('A captured member question.', { selector: 'p' });
+  await waitFor(() => expect(screen.getByRole('button', { name: 'Undo member comment' })).not.toBeDisabled());
+  await user.click(screen.getByRole('button', { name: 'Undo member comment' }));
+  await waitFor(() => expect(screen.queryByText('A captured member question.', { selector: 'p' })).toBeNull());
+  await waitFor(() => expect(screen.getByRole('button', { name: 'Redo member comment' })).not.toBeDisabled());
+  await user.click(screen.getByRole('button', { name: 'Redo member comment' }));
+  await screen.findByText('A captured member question.', { selector: 'p' });
+  await user.type(screen.getByLabelText('Reviewer name for suggestion'), 'Synthetic reviewer');
+  await user.selectOptions(screen.getByLabelText('Suggestion target'), 'paragraph:member-ui-paragraph');
+  await user.clear(screen.getByLabelText('Proposed replacement')); await user.type(screen.getByLabelText('Proposed replacement'), 'Synthetic suggested paragraph.');
+  await user.click(screen.getByRole('button', { name: 'Add suggestion' }));
+  await screen.findByText('Suggestion submitted to this review.');
+  expect(screen.queryByRole('button', { name: 'Accept suggestion' })).toBeNull();
+  await user.click(within(nav).getByRole('button', { name: original.label }));
+  await screen.findByText(/Comments do not alter PDF bytes or signatures/);
+  expect(screen.queryByRole('region', { name: 'Review suggestions' })).toBeNull();
+  await user.type(screen.getByLabelText('Package comment reviewer name'), 'Synthetic reviewer');
+  await user.type(screen.getByLabelText('Package member comment'), 'Inspect the unchanged original.');
+  await user.click(screen.getByRole('button', { name: 'Post member comment' }));
+  await screen.findByText('Inspect the unchanged original.', { selector: 'p' });
+  await waitFor(() => expect(screen.getByRole('button', { name: 'Undo member comment' })).not.toBeDisabled());
+  expect(await readPackageAsset(original.original)).toEqual(bytes);
+  const loaded = (await listActionPackages()).find(value => value.id === record.id)!;
+  expect(loaded.reviewRounds![0].memberReviews).toHaveLength(2);
+  expect(loaded.reviewRounds![0].memberReviews!.find(child => child.binding.memberId === native.id)!.suggestions!.proposals).toHaveLength(1);
+  expect(loaded.revisions).toEqual(record.revisions);
+  expect(useDocumentsStore.getState().docs).toEqual(documentsBefore); expect(useDocumentsStore.getState().currentId).toBe(currentBefore);
+});
+
+it('rejects a held member save when the displayed package owner changes', async () => {
+  const session = createBlankSession(); session.paragraphs = [{ id: 'owner-guard-body', level: 0, text: 'Synthetic owner boundary.' }];
+  const native = await capturePackageMember(captureDocumentRevision({ documentId: 'owner-guard-source', epoch: 0, editSequence: 0, capturedAt: 100 }, { ...session, endItems: [], publicationTables: {} }), 'Synthetic owner member', 'basic-letter');
+  const first = await startPackageReview(await reviseActionPackage(await createActionPackage('Synthetic first owner'), [native]));
+  const second = await startPackageReview(await reviseActionPackage(await createActionPackage('Synthetic second owner'), [native]));
+  let record = first;
+  const onChange = vi.fn((next: ActionPackage) => { record = next; });
+  const run = async (action: () => Promise<void>) => { try { await action(); } catch { /* parent displays the rejected save */ } };
+  const view = render(<PackageMemberReviewPanel record={record} round={record.reviewRounds![0]} busy={false} onChange={onChange} run={run} />);
+  const user = userEvent.setup(); await user.click(screen.getByRole('button', { name: native.label }));
+  await waitFor(() => expect(onChange).toHaveBeenCalledTimes(1));
+  view.rerender(<PackageMemberReviewPanel record={record} round={record.reviewRounds![0]} busy={false} onChange={onChange} run={run} />);
+  await user.type(screen.getByLabelText('Package comment reviewer name'), 'Synthetic reviewer');
+  await user.type(screen.getByLabelText('Package member comment'), 'This write belongs only to the first displayed owner.');
+  const save = memberReviews.savePackageMemberReview;
+  let release!: () => void;
+  const held = new Promise<void>(resolve => { release = resolve; });
+  let finish!: () => void; const completed = new Promise<void>(resolve => { finish = resolve; });
+  const pending = vi.spyOn(memberReviews, 'savePackageMemberReview').mockImplementationOnce(async (...args) => {
+    await held; try { return await save(...args); } finally { finish(); }
+  });
+  await user.click(screen.getByRole('button', { name: 'Post member comment' }));
+  await waitFor(() => expect(pending).toHaveBeenCalledTimes(1));
+  view.rerender(<PackageMemberReviewPanel record={second} round={second.reviewRounds![0]} busy={false} onChange={onChange} run={run} />);
+  await act(async () => { release(); await completed; });
+  await waitFor(async () => expect((await listActionPackages()).find(item => item.id === first.id)).toEqual(record));
+  expect(onChange).toHaveBeenCalledTimes(1);
+  expect((await listActionPackages()).find(item => item.id === second.id)).toEqual(second);
+  pending.mockRestore();
+});

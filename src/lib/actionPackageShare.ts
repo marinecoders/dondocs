@@ -100,11 +100,12 @@ async function prepare(json: string, policy: PolicyResolution, expiresAt?: numbe
   for (const member of revision.members) {
     reviews.push({ member: member.label, review: reviewPackageText(member.label, "Package member label", policy) });
     if (member.kind === "native") {
-      reviews.push({ member: member.label, review: reviewPackageNative(member.session, member.label, policy) });
       // Portable validation already authenticated this draft and matched its model.
       // Decode its embedded originals without installing assets or using local handles.
       const draft = resources.get(`assets/${member.draft.id}`)!;
-      const reviewed = parseDraftFile(JSON.parse(new TextDecoder("utf-8", { fatal: true }).decode(draft.data)), false, true);
+      const retained = JSON.parse(new TextDecoder("utf-8", { fatal: true }).decode(draft.data));
+      const reviewed = parseDraftFile(retained, false, true);
+      reviews.push({ member: member.label, review: reviewPackageNative(member.session, member.label, policy, retained) });
       for (const file of [
         ...reviewed.files,
         reviewed.basicLetter,

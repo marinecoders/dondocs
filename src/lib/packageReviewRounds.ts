@@ -16,7 +16,9 @@ export function assertActivePackageReview(round: PackageReviewRound): void {
 }
 /** Validate at load, resource import, backup and CAS; digest checks never confer local authority. */
 export async function validatePackageReviewBaselines(record: ActionPackage): Promise<void> {
+  const { validatePackageMemberReviews } = await import("./packageMemberReviews");
   for (const round of record.reviewRounds ?? []) {
+    await validatePackageMemberReviews(round);
     if (await reviewPayloadDigest(round.baseline) !== round.baselineDigest)
       throw new Error('The exact package review baseline digest does not match. Restore an intact workspace backup.');
     for (const [index, member] of round.baseline.members.entries())

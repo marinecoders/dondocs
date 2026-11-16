@@ -15,6 +15,7 @@ import {
   captureOriginalPackageMember,
   readPackageAsset,
   readPackageMemberDraft,
+  retainPackageAsset,
 } from "@/lib/actionPackageAssets";
 import {
   createActionPackage,
@@ -866,6 +867,27 @@ describe("native form package revisions", () => {
       ).getPageCount(),
     ).toBeGreaterThan(0);
   });
+});
+
+it.each(["(S) Synthetic omitted note", "Contact synthetic-portable@example.test"])("reviews omitted raw native text only when preparing editable package transfer: %s", async text => {
+  const { record, member } = await fixture();
+  const { draft } = await readPackageMemberDraft(member);
+  Object.assign(draft as object, { legacyRetainedText: text });
+  const bytes = new TextEncoder().encode(JSON.stringify(draft)).buffer;
+  const asset = await retainPackageAsset(member.draft.name, member.draft.type, bytes);
+  const owner = await reviseActionPackage(record, [{ ...member, draft: asset }]);
+  const pdf = await preparePackageAssembly(owner, owner.currentRevisionId, policy);
+  expect(pdf.readiness.state).toBe("ready");
+  const portable = await preparePackageAssembly(owner, owner.currentRevisionId, policy, { includeRetainedDraftText: true });
+  if (text.startsWith("(S)")) {
+    expect(portable.readiness.state).toBe("incomplete");
+    expect(portable.readiness.findings.some(finding => /markings|levels/.test(finding.message))).toBe(true);
+  } else {
+    expect(portable.readiness.state).toBe("ready");
+    expect(portable.reviews.flatMap(entry => entry.review.privacy.findings).some(finding => finding.value === "synthetic-portable@example.test")).toBe(true);
+    expect((await parsePortableActionPackage(await buildPortableActionPackage(owner))).resources.get(`assets/${asset.id}`)!.data).toEqual(bytes);
+  }
+  expect((await listActionPackages()).find(value => value.id === owner.id)).toEqual(owner);
 });
 
 it("reviews every transferred native definition choice, retained legacy answer and metadata filename", () => {

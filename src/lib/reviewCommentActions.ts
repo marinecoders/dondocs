@@ -1,3 +1,4 @@
+import type { DocumentFieldSource } from './documentFields';
 import { useDocumentStore } from '@/stores/documentStore';
 import { captureDocumentTarget, isCurrentDocumentTarget, recordDocumentHistory, type DocumentTarget } from '@/stores/documentsStore';
 import { captureCommentAnchor, supportsReviewComments } from './reviewCommentTargets';
@@ -29,21 +30,36 @@ export function applyCommentMutation(request: ReviewedCommentMutation): 'applied
   if (!mutation || !isCurrentDocumentTarget(request.target)) return 'stale';
   const state = useDocumentStore.getState();
   if (!supportsReviewComments(state)) return 'invalid';
-  const next: ReviewComments = structuredClone(state.reviewComments ?? { version: 1, threads: [] });
+  const parsed = mutateReviewComments(state.reviewComments, mutation,
+    value => captureCommentAnchor(state, value.field, value.paragraphId), state);
+  if (!parsed) return 'invalid';
+  if (JSON.stringify(parsed) === JSON.stringify(state.reviewComments)) return 'invalid';
+  if (!recordDocumentHistory(request.target.scope)) return 'stale';
+  issued.delete(request);
+  useDocumentStore.setState({ reviewComments: parsed.threads.length ? parsed : undefined });
+  recordDocumentHistory(request.target.scope);
+  return 'applied';
+}
+
+/** Shared pure mutation adapter for package members; persistence belongs to the caller. */
+export function mutateReviewComments(comments: ReviewComments | undefined, mutation: CommentMutation,
+  anchorFor: (mutation: Extract<CommentMutation, { kind: 'add' }>) => import('./reviewComments').CommentAnchor | null, source?: DocumentFieldSource): ReviewComments | null {
+  const next: ReviewComments = structuredClone(comments ?? { version: 1, threads: [] });
   const newMessage = (author: string, text: string): CommentMessage => ({ id: crypto.randomUUID(), author, text, createdAt: new Date().toISOString() });
   if (mutation.kind === 'add') {
-    const anchor = mutation.range ? !mutation.field && !mutation.paragraphId && mutation.range.start < mutation.range.end && resolveTextRange(state, mutation.range).status === 'current'
-      && JSON.stringify(captureTextRange(state, mutation.range.paragraphId, mutation.range.start, mutation.range.end)) === JSON.stringify(mutation.range) ? mutation.range : null
-      : captureCommentAnchor(state, mutation.field, mutation.paragraphId);
-    if (!anchor) return 'invalid';
+    const anchor = mutation.range ? source && !mutation.field && !mutation.paragraphId && mutation.range.start < mutation.range.end
+      && resolveTextRange(source, mutation.range).status === 'current'
+      && JSON.stringify(captureTextRange(source, mutation.range.paragraphId, mutation.range.start, mutation.range.end)) === JSON.stringify(mutation.range) ? mutation.range : null
+      : anchorFor(mutation);
+    if (!anchor) return null;
     next.threads.push({ id: crypto.randomUUID(), anchor, messages: [newMessage(mutation.author, mutation.text)], resolved: false, ...(mutation.category ? { category: mutation.category } : {}) });
   } else {
     const thread = next.threads.find(item => item.id === mutation.threadId);
-    if (!thread) return 'invalid';
+    if (!thread) return null;
     if (mutation.kind === 'reattach') {
-      if (thread.anchor.kind !== 'range' || resolveTextRange(state, thread.anchor).status === 'current'
+      if (!source || thread.anchor.kind !== 'range' || resolveTextRange(source, thread.anchor).status === 'current'
         || !mutation.range || mutation.range.start === mutation.range.end
-        || JSON.stringify(captureTextRange(state, mutation.range.paragraphId, mutation.range.start, mutation.range.end)) !== JSON.stringify(mutation.range)) return 'invalid';
+        || JSON.stringify(captureTextRange(source, mutation.range.paragraphId, mutation.range.start, mutation.range.end)) !== JSON.stringify(mutation.range)) return null;
       thread.anchorHistory = [...(thread.anchorHistory ?? []), { anchor: thread.anchor, reattachedAt: new Date().toISOString() }];
       thread.anchor = mutation.range;
     } else if (mutation.kind === 'delete') next.threads = next.threads.filter(item => item !== thread);
@@ -52,19 +68,14 @@ export function applyCommentMutation(request: ReviewedCommentMutation): 'applied
     else if (mutation.kind === 'reply') thread.messages.push(newMessage(mutation.author, mutation.text));
     else {
       const index = thread.messages.findIndex(message => message.id === mutation.messageId);
-      if (index < 0 || mutation.kind === 'delete-reply' && index === 0) return 'invalid';
-      if (mutation.kind === 'edit' && thread.messages[index].text === mutation.text) return 'invalid';
+      if (index < 0 || mutation.kind === 'delete-reply' && index === 0) return null;
+      if (mutation.kind === 'edit' && thread.messages[index].text === mutation.text) return null;
       if (mutation.kind === 'delete-reply') thread.messages.splice(index, 1);
       else thread.messages[index] = { ...thread.messages[index], text: mutation.text, editedAt: new Date().toISOString() };
     }
   }
   next.version = reviewCommentsVersion(next.threads);
   const parsed = reviewCommentsSchema.safeParse(next);
-  if (!parsed.success) return 'invalid';
-  if (JSON.stringify(parsed.data) === JSON.stringify(state.reviewComments)) return 'invalid';
-  if (!recordDocumentHistory(request.target.scope)) return 'stale';
-  issued.delete(request);
-  useDocumentStore.setState({ reviewComments: parsed.data.threads.length ? parsed.data : undefined });
-  recordDocumentHistory(request.target.scope);
-  return 'applied';
+  if (!parsed.success) return null;
+  return parsed.data;
 }

@@ -11,7 +11,7 @@ export function PackageReviewControls({ record, disabled, opened, onStart, onOpe
   return <section aria-label="Saved package reviews" className="space-y-3 rounded border p-3">
     <h3 className="font-medium">Review a saved package revision</h3>
     <p className="text-xs text-muted-foreground">Start a review of the selected saved revision. Captured members, original PDFs, templates and retained output stay with this review when the package or its source documents change.</p>
-    <Button variant="outline" disabled={disabled || record.archived || !!opened} onClick={onStart}>Start package review</Button>
+    <Button variant="outline" disabled={disabled || record.archived || !!opened || record.reviewRounds?.some(round => round.ownerPackageId === undefined)} onClick={onStart}>Start package review</Button>
     {(record.reviewRounds ?? []).map(round => <div key={round.id} className="flex flex-wrap items-center gap-2">
       <span className="min-w-0 break-words text-sm">{round.label} · {packageReviewRoundStatus(round)} · {new Date(round.createdAt).toLocaleString()}</span>
       <Button variant="outline" disabled={disabled} onClick={() => onOpen(round.id)}>Open review {round.label}</Button>

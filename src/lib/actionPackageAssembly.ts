@@ -4,6 +4,7 @@ import {
   reviewPackageOriginal,
 } from "./actionPackageDisclosure";
 import { APP_VERSION, GIT_SHA } from "./version";
+import type { DocumentFieldSource } from "./documentFields";
 import { resolvePackageCitations } from "./packageCitations";
 
 import { packageCitationReadiness } from "./packageCitationRepair";
@@ -134,7 +135,12 @@ export async function preparePackageAssembly(
   record: ActionPackage,
   revisionId: string,
   policy: PolicyResolution,
-  options: { reviewOriginal?: typeof reviewPackageOriginal; signal?: AbortSignal } = {},
+  options: {
+    reviewOriginal?: typeof reviewPackageOriginal;
+    signal?: AbortSignal;
+    /** Editable transfers preserve original JSON values omitted from normalized PDF input. */
+    includeRetainedDraftText?: boolean;
+  } = {},
 ): Promise<PreparedPackageAssembly> {
   options.signal?.throwIfAborted();
   const reviewOriginal = options.reviewOriginal ?? reviewPackageOriginal;
@@ -246,7 +252,7 @@ export async function preparePackageAssembly(
         });
         continue;
       }
-      const { reviewed } = await readPackageMemberDraft(member);
+      const { draft, reviewed } = await readPackageMemberDraft(member);
       for (const file of [
         ...reviewed.files,
         reviewed.basicLetter,
@@ -422,6 +428,7 @@ export async function preparePackageAssembly(
           member.session,
           `${owned.name}: ${member.label}`,
           policy,
+          options.includeRetainedDraftText ? draft as DocumentFieldSource : undefined,
         ),
       });
       const input = { member, snapshot, templates },

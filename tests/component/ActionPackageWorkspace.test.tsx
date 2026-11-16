@@ -17,9 +17,10 @@ import {
   listActionPackages,
   getPackageRevision,
 } from "@/lib/actionPackages";
-import { capturePackageMember } from "@/lib/actionPackageAssets";
+import { capturePackageMember, readPackageMemberDraft, retainPackageAsset } from "@/lib/actionPackageAssets";
 import { captureDocumentRevision } from "@/lib/capturedDocument";
 import { resolveExportDeploymentPolicy } from "@/lib/exportDeploymentPolicy";
+import * as memberReviews from "@/lib/packageMemberReviews";
 import * as packageRecords from "@/lib/actionPackages";
 
 const policy = resolveExportDeploymentPolicy({
@@ -37,6 +38,32 @@ vi.mock("@/config/classification", async (importOriginal) => ({
 beforeEach(() => {
   vi.restoreAllMocks();
   useUIStore.setState({ actionPackagesOpen: false, isMobile: false, sidebarCollapsed: false });
+});
+it("checks retained raw draft text before editable package download while allowing normalized PDF assembly", async () => {
+  const source = createBlankSession();
+  source.formData = { ...source.formData, subject: "Synthetic retained text", unitLine1: "FICTIONAL TRAINING UNIT",
+    from: "Training Office", to: "Training Officer", sigLast: "Example", classLevel: "unclassified" };
+  source.paragraphs = [{ id: "portable-raw-body", text: "Synthetic visible paragraph.", level: 0 }];
+  const member = await capturePackageMember(captureDocumentRevision(
+    { documentId: "portable-raw-source", epoch: 0, editSequence: 1, capturedAt: 100 },
+    { ...source, endItems: [], publicationTables: {} },
+  ), "Synthetic retained text member", "basic-letter");
+  const { draft } = await readPackageMemberDraft(member);
+  Object.assign(draft as object, { legacyRetainedText: "(S) Synthetic omitted note" });
+  const asset = await retainPackageAsset(member.draft.name, member.draft.type, new TextEncoder().encode(JSON.stringify(draft)).buffer);
+  const record = await reviseActionPackage(await createActionPackage("Synthetic portable text review"), [{ ...member, draft: asset }]);
+  const user = userEvent.setup(); useUIStore.setState({ actionPackagesOpen: true });
+  render(<ActionPackageWorkspace exportGate={createExportGate()} ports={{ compile: vi.fn(), convertDocx: vi.fn(), waitForReady: async () => true }} />);
+  const dialog = screen.getByRole("dialog", { name: "Action packages" });
+  await within(dialog).findByRole("option", { name: record.name });
+  await user.selectOptions(within(dialog).getByLabelText("Saved packages", { exact: true }), record.id);
+  await user.click(within(dialog).getByRole("button", { name: "Export editable package" }));
+  await within(dialog).findByRole("heading", { name: "Package readiness: incomplete" });
+  await user.click(within(dialog).getByRole("checkbox", { name: /I reviewed every included member/ }));
+  expect(within(dialog).getByRole("button", { name: "Download reviewed editable package" })).toBeDisabled();
+  await user.click(within(dialog).getByRole("button", { name: "Check readiness and assemble" }));
+  await within(dialog).findByRole("heading", { name: "Package readiness: ready" });
+  expect((await listActionPackages()).find(value => value.id === record.id)).toEqual(record);
 });
 it("cancels a held render on close and never publishes into a reopened dialog or retains late output", async () => {
   const source = createBlankSession();
@@ -383,4 +410,82 @@ it("starts and reopens an exact saved package review after membership removal an
   await user.click(within(dialog).getByRole("button", { name: "Close package review" }));
   await within(dialog).findByRole("button", { name: "Reopen package review" });
   expect((await listActionPackages()).find(value => value.id === record.id)?.reviewRounds?.[0].lifecycle?.events.at(-1)?.state).toBe("closed");
+});
+
+
+it("keeps unsaved package typing through blocked navigation, close and failed save, then unlocks after cancel", async () => {
+  const source = createBlankSession();
+  source.paragraphs = [{ id: "package-typed-body", text: "Synthetic paragraph.", level: 0 }];
+  const member = await capturePackageMember(captureDocumentRevision(
+    { documentId: "package-typed-source", epoch: 0, editSequence: 1, capturedAt: 100 },
+    { ...source, endItems: [], publicationTables: {} },
+  ), "Synthetic typing member", "basic-letter");
+  const record = await reviseActionPackage(await createActionPackage("Synthetic typing workflow"), [member]);
+  const user = userEvent.setup(); useUIStore.setState({ actionPackagesOpen: true });
+  render(<ActionPackageWorkspace exportGate={createExportGate()} ports={{ compile: vi.fn(), convertDocx: vi.fn(), waitForReady: async () => true }} />);
+  const dialog = screen.getByRole("dialog", { name: "Action packages" });
+  await within(dialog).findByRole("option", { name: record.name });
+  await user.selectOptions(within(dialog).getByLabelText("Saved packages", { exact: true }), record.id);
+  await user.click(within(dialog).getByRole("button", { name: "Start package review" }));
+  const nav = await within(dialog).findByRole("navigation", { name: "Captured review members" });
+  await user.click(within(nav).getByRole("button", { name: member.label }));
+  await user.type(await within(dialog).findByLabelText("Reviewer name for suggestion"), "Synthetic reviewer");
+  await user.click(within(dialog).getByRole("button", { name: "Suggest Changes mode" }));
+  await user.selectOptions(within(dialog).getByLabelText("Paragraph for suggested typing"), "package-typed-body");
+  await user.type(within(dialog).getByLabelText("Suggested paragraph text"), " Added");
+  for (const label of ["Saved packages", "Package revision", "Import package reviewer copy"])
+    expect(within(dialog).getByLabelText(label, { exact: true })).toBeDisabled();
+  for (const name of ["Return to package workspace", "Close package review", "Open review Package review 1", "Prepare package feedback return", "Prepare package reviewer copy", "Export editable package"])
+    expect(within(dialog).getByRole("button", { name })).toBeDisabled();
+  expect(within(nav).getByRole("button", { name: member.label })).toBeDisabled();
+  expect(within(dialog).getByRole("button", { name: "Save typed suggestion" })).toBeEnabled();
+  expect(within(dialog).getByRole("button", { name: "Cancel typed changes" })).toBeEnabled();
+  const unload = new Event("beforeunload", { cancelable: true }); window.dispatchEvent(unload); expect(unload.defaultPrevented).toBe(true);
+  await user.keyboard("{Escape}"); expect(screen.getByRole("dialog", { name: "Action packages" })).toBeInTheDocument();
+  vi.spyOn(memberReviews, "savePackageMemberReview").mockRejectedValueOnce(new Error("Synthetic quota failure"));
+  await user.click(within(dialog).getByRole("button", { name: "Save typed suggestion" }));
+  await within(dialog).findByText("Synthetic quota failure");
+  expect(within(dialog).getByLabelText("Suggested paragraph text")).toHaveValue("Synthetic paragraph. Added");
+  expect(within(dialog).getByLabelText("Saved packages", { exact: true })).toBeDisabled();
+  await user.click(within(dialog).getByRole("button", { name: "Cancel typed changes" }));
+  await waitFor(() => expect(within(dialog).getByLabelText("Saved packages", { exact: true })).toBeEnabled());
+  await user.type(within(dialog).getByLabelText("Suggested paragraph text"), " Saved");
+  await user.click(within(dialog).getByRole("button", { name: "Save typed suggestion" }));
+  await within(dialog).findByText("Typed suggestion submitted. The reviewed baseline is unchanged.");
+  await waitFor(() => expect(within(dialog).getByLabelText("Saved packages", { exact: true })).toBeEnabled());
+  const saved = (await listActionPackages()).find(value => value.id === record.id)!;
+  expect(saved.revisions).toEqual(record.revisions);
+  expect(saved.reviewRounds![0].memberReviews![0].suggestions!.proposals).toHaveLength(1);
+});
+
+
+it("cancels a held package member write before its parent CAS", async () => {
+  const source = createBlankSession(); source.paragraphs = [{ id: "member-cancel-body", text: "Synthetic member.", level: 0 }];
+  const member = await capturePackageMember(captureDocumentRevision(
+    { documentId: "member-cancel-source", epoch: 0, editSequence: 1, capturedAt: 100 },
+    { ...source, endItems: [], publicationTables: {} },
+  ), "Synthetic cancelled member", "basic-letter");
+  const record = await reviseActionPackage(await createActionPackage("Synthetic member cancellation"), [member]);
+  const user = userEvent.setup(); useUIStore.setState({ actionPackagesOpen: true });
+  render(<ActionPackageWorkspace exportGate={createExportGate()} ports={{ compile: vi.fn(), convertDocx: vi.fn(), waitForReady: async () => true }} />);
+  const dialog = screen.getByRole("dialog", { name: "Action packages" });
+  await within(dialog).findByRole("option", { name: record.name });
+  await user.selectOptions(within(dialog).getByLabelText("Saved packages", { exact: true }), record.id);
+  await user.click(within(dialog).getByRole("button", { name: "Start package review" }));
+  const nav = await within(dialog).findByRole("navigation", { name: "Captured review members" });
+  await user.click(within(nav).getByRole("button", { name: member.label }));
+  await user.type(await within(dialog).findByLabelText("Package comment reviewer name"), "Synthetic reviewer");
+  await user.type(within(dialog).getByLabelText("Package member comment"), "Cancelled feedback must not commit.");
+  const before = (await listActionPackages()).find(value => value.id === record.id)!;
+  const save = memberReviews.savePackageMemberReview;
+  let release!: () => void; const held = new Promise<void>(resolve => { release = resolve; });
+  let finish!: () => void; const completed = new Promise<void>(resolve => { finish = resolve; });
+  vi.spyOn(memberReviews, "savePackageMemberReview").mockImplementationOnce(async (...args) => {
+    await held; try { return await save(...args); } finally { finish(); }
+  });
+  await user.click(within(dialog).getByRole("button", { name: "Post member comment" }));
+  await user.click(await within(dialog).findByRole("button", { name: "Cancel operation" }));
+  await act(async () => { release(); await completed; });
+  expect((await listActionPackages()).find(value => value.id === record.id)).toEqual(before);
+  expect(within(dialog).getByLabelText("Package member comment")).toHaveValue("Cancelled feedback must not commit.");
 });
