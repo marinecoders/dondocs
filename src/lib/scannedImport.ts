@@ -6,6 +6,7 @@ import { inspectRasterImage } from '@/services/docx/imageAssets';
 export const SCAN_MAX_BYTES = 20 * 1024 * 1024;
 export const SCAN_MAX_PAGES = 12;
 export const SCAN_MAX_PIXELS = 8_000_000;
+export const SCAN_MAX_PREVIEW_BYTES = 32 * 1024 * 1024;
 export interface ScanPage extends OcrText { preview: Blob; page: number }
 export interface ScanProgress { page: number; total: number; fraction: number }
 
@@ -42,11 +43,14 @@ export async function recognizeScannedFile(file: File, signal: AbortSignal, onPr
   const worker = new LocalOcrWorker(signal, fraction => onProgress({ page: currentPage, total, fraction }));
   let currentPage = 0;
   let total = 1;
+  let previewBytes = 0;
   const pages: ScanPage[] = [];
   const recognize = async (canvas: HTMLCanvasElement) => {
     try {
       signal.throwIfAborted();
       const preview = await canvasBlob(canvas);
+      previewBytes += preview.size;
+      if (previewBytes > SCAN_MAX_PREVIEW_BYTES) throw new Error('Prepared page images exceed 32 MB. Split this document and try again.');
       const result = await worker.recognize(new Uint8Array(await preview.arrayBuffer()));
       signal.throwIfAborted();
       pages.push({ ...result, page: currentPage, preview });
@@ -69,7 +73,7 @@ export async function recognizeScannedFile(file: File, signal: AbortSignal, onPr
         await recognize(canvas);
       } finally { bitmap.close(); }
     } else {
-      const task = pdfjs.getDocument({ data: sourceBytes, ...HARDENED_PDF_OPTIONS });
+      const task = pdfjs.getDocument({ data: sourceBytes, maxImageSize: 40_000_000, ...HARDENED_PDF_OPTIONS });
       const abort = () => { void task.destroy(); };
       signal.addEventListener('abort', abort, { once: true });
       try {
@@ -85,10 +89,12 @@ export async function recognizeScannedFile(file: File, signal: AbortSignal, onPr
             const viewport = page.getViewport({ scale: dimensions.width / base.width });
             const canvas = document.createElement('canvas');
             canvas.width = Math.ceil(viewport.width); canvas.height = Math.ceil(viewport.height);
-            const context = canvas.getContext('2d');
-            if (!context) throw new Error('This browser cannot prepare PDF pages for text recognition.');
-            await page.render({ canvas, canvasContext: context, viewport }).promise;
-            await recognize(canvas);
+            try {
+              const context = canvas.getContext('2d');
+              if (!context) throw new Error('This browser cannot prepare PDF pages for text recognition.');
+              await page.render({ canvas, canvasContext: context, viewport }).promise;
+              await recognize(canvas);
+            } finally { canvas.width = canvas.height = 0; }
           } finally { page.cleanup(); }
         }
       } finally {
