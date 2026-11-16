@@ -21,6 +21,7 @@ import { persistAttachment } from '@/lib/attachments';
 import { reviewRoundSchema } from '@/lib/reviewRounds';
 import sharp from 'sharp';
 import { buildPortableActionPackage } from '@/lib/actionPackageTransfer';
+import { reviewPackageNative } from '@/lib/actionPackageDisclosure';
 vi.mock('@/stores/backupStore', () => ({ scheduleBackup: vi.fn(), useBackupStore: { getState: () => ({}) } }));
 vi.mock('@/lib/pdfText', () => ({ extractPdfText: async () => 'Synthetic retained PDF' }));
 type Envelope = PackageReviewReturn & { portableResources: { entries: PortableResourceEntry[] } };
@@ -62,6 +63,17 @@ it.each([buildPackageReviewerCopy, buildPackageReviewReturn])('blocks markings i
   await expect(build(owner, owner.reviewRounds![0].id, policy)).rejects.toThrow(/markings|levels/);
   expect((await listActionPackages()).find(value => value.id === owner.id)).toEqual(owner);
   expect(await idbGetAllAttachments()).toEqual(attachments);
+});
+it('exposes allowed higher markings in retained transfer text without changing the native draft marking', async () => {
+  const { native } = await fixture();
+  const { draft } = await readPackageMemberDraft(native);
+  Object.assign(draft as object, { legacyRetainedText: '(S) Synthetic allowed retained note' });
+  const permitted = resolveExportDeploymentPolicy({ hostname: 'localhost', environment: { maxLevel: 'secret', allowedLevels: ['unclassified', 'secret'] }, runtime: { status: 'absent' } });
+  const before = structuredClone({ session: native.session, draft });
+  const review = reviewPackageNative(native.session, native.label, permitted, draft as typeof native.session);
+  expect(review.markingReview).toBe(true);
+  expect(review.notices.some(notice => notice.includes('Retained transfer text marking: SECRET'))).toBe(true);
+  expect({ session: native.session, draft }).toEqual(before);
 });
 it('discloses retained native draft privacy findings for downloads and imports without rewriting bytes', async () => {
   const { native } = await fixture();

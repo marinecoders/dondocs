@@ -2,7 +2,8 @@ import { documentTextFields, type DocumentFieldSource } from "./documentFields";
 import type { SerializedSession } from "@/stores/documentStore";
 import { captureChangeReport, prepareChangeReport } from "./changeReport";
 import { detectTextPII, mergePIIResults } from "@/services/pii/detector";
-import { retainedTextClassificationLevel } from "./detectClassification";
+import { CLASSIFICATION_LABELS, retainedTextClassificationLevel } from "./detectClassification";
+import { classificationRank } from "./overallClassification";
 import { assertRetainedDocumentTextPolicy } from "./retainedDocumentTextPolicy";
 import {
   assertExportDeploymentPolicy,
@@ -45,11 +46,22 @@ export function reviewPackageNative(
   }));
   // The portable native model includes definitions, unused choices and retained legacy values too.
   assertRetainedDocumentTextPolicy(retained, policy);
+  const retainedNotices: string[] = [];
+  if (retained !== session) {
+    let highest: keyof typeof CLASSIFICATION_LABELS = "unclassified";
+    for (const field of fields) {
+      const level = retainedTextClassificationLevel(field.value);
+      if (classificationRank(level)! > classificationRank(highest)!) highest = level;
+    }
+    if (highest !== "unclassified") retainedNotices.push(
+      `Retained transfer text marking: ${CLASSIFICATION_LABELS[highest]}. Review the original retained content before transfer.`,
+    );
+  }
   return {
     privacy: mergePIIResults([report.privacy, detectTextPII(fields)]),
-    notices: [...report.notices, `Retained draft marking: ${report.marking}`],
+    notices: [...report.notices, `${retained === session ? "Retained draft" : "Native document"} marking: ${report.marking}`, ...retainedNotices],
     structure: [],
-    markingReview: report.notices.length > 0,
+    markingReview: report.notices.length > 0 || retainedNotices.length > 0,
   };
 }
 export function reviewPackageText(
