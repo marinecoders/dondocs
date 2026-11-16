@@ -1,7 +1,7 @@
 import { expect, test, type Page } from '@playwright/test';
 import { readFile, writeFile } from 'node:fs/promises';
 import AxeBuilder from '@axe-core/playwright';
-test.use({serviceWorkers:'block'});test.setTimeout(180_000);
+test.use({serviceWorkers:'block',actionTimeout:15_000});test.setTimeout(180_000);
 async function action(page:Page,name:string){await page.getByRole('button',{name:name==='Undo'||name==='Redo'?'Document tools':'Document actions',exact:true}).click();await page.getByRole('menuitem',{name:name==='Undo'||name==='Redo'?new RegExp(`^${name}`):name,exact:true}).click();}
 async function reviews(page:Page){await action(page,'Review rounds…');return page.getByRole('dialog',{name:'Review rounds',exact:true});}
 async function exported(page:Page){const waiting=page.waitForEvent('download');await action(page,'Export draft (.json)');return JSON.parse(await readFile((await(await waiting).path())!,'utf8'));}
@@ -19,13 +19,16 @@ for(const theme of ['light','dark','classic'])test(`paragraph split/join preserv
   const panel=modal.getByRole('region',{name:'Paragraph split and join suggestions'});
   await panel.getByLabel('Reviewer name for paragraph split or join',{exact:true}).fill('Synthetic reviewer');
   await panel.getByLabel('Paragraph to split or first paragraph to join',{exact:true}).selectOption('rich');
-  await panel.getByLabel('Place the split in reviewed paragraph',{exact:true}).evaluate((element:HTMLTextAreaElement)=>{element.focus();element.setSelectionRange(16,16);element.dispatchEvent(new Event('select',{bubbles:true}));});
+  const caret=panel.getByLabel('Place the split in reviewed paragraph',{exact:true});await caret.focus();
+  await caret.evaluate((element:HTMLTextAreaElement)=>{element.setSelectionRange(16,16);element.dispatchEvent(new Event('select',{bubbles:true}));});
+  await caret.press('Shift');
+  await expect(panel.getByRole('button',{name:'Add paragraph split or join suggestion',exact:true})).toBeEnabled();
   await panel.getByRole('button',{name:'Add paragraph split or join suggestion',exact:true}).click();
   const split=modal.getByRole('article',{name:'Suggestion 1: Split paragraph',exact:true});await expect(split).toBeVisible();
   await panel.getByLabel('Split or join operation',{exact:true}).selectOption('join-paragraphs');await panel.getByLabel('Paragraph to split or first paragraph to join',{exact:true}).selectOption('join-left');
   await expect(panel.getByText(/Second selected paragraph: Paragraph 4:/)).toBeVisible();await panel.getByRole('button',{name:'Add paragraph split or join suggestion',exact:true}).click();
   const join=modal.getByRole('article',{name:'Suggestion 2: Join paragraphs',exact:true});await expect(join).toBeVisible();
-  await page.keyboard.press('Escape');const unchanged=await exported(page);expect(unchanged.paragraphs).toEqual(source.paragraphs);
+  await expect(modal.getByLabel('Review for suggested edits',{exact:true})).toBeEnabled();await page.keyboard.press('Escape');await expect(modal).toBeHidden();const unchanged=await exported(page);expect(unchanged.paragraphs).toEqual(source.paragraphs);
   modal=await reviews(page);await modal.getByLabel('Review for suggested edits',{exact:true}).selectOption({label:'Structural review'});
   await modal.getByRole('article',{name:'Suggestion 1: Split paragraph',exact:true}).getByRole('button',{name:'Accept suggestion',exact:true}).click();
   await modal.getByRole('article',{name:'Suggestion 2: Join paragraphs',exact:true}).getByRole('button',{name:'Accept suggestion',exact:true}).click();
