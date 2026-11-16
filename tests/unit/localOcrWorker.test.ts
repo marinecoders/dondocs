@@ -8,7 +8,8 @@ class WorkerDouble {
   onmessageerror: (() => void) | null = null;
   postMessage = vi.fn();
   terminate = vi.fn();
-  constructor(public url: string) { WorkerDouble.instances.push(this); }
+  url: string;
+  constructor(url: string) { this.url = url; WorkerDouble.instances.push(this); }
   reply(status: string, data: unknown, jobId = String(this.postMessage.mock.calls.length)) {
     this.onmessage?.({ data: { status, jobId, data } } as MessageEvent);
   }
@@ -77,5 +78,11 @@ describe('pinned local OCR worker adapter', () => {
       await vi.advanceTimersByTimeAsync(90_000); await assertion;
       expect(WorkerDouble.instances[0].terminate).toHaveBeenCalledOnce();
     } finally { vi.useRealTimers(); }
+  });
+  it.each(['onerror', 'onmessageerror'] as const)('terminates and rejects on %s', async event => {
+    const engine = new LocalOcrWorker(new AbortController().signal, vi.fn());
+    const assertion = expect(engine.initialize()).rejects.toThrow(/engine/);
+    WorkerDouble.instances[0][event]?.(); await assertion;
+    expect(WorkerDouble.instances[0].terminate).toHaveBeenCalledOnce();
   });
 });
