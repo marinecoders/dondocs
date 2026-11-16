@@ -20,6 +20,7 @@ import {
 import { capturePackageMember } from "@/lib/actionPackageAssets";
 import { captureDocumentRevision } from "@/lib/capturedDocument";
 import { resolveExportDeploymentPolicy } from "@/lib/exportDeploymentPolicy";
+import * as memberReviews from "@/lib/packageMemberReviews";
 import * as packageRecords from "@/lib/actionPackages";
 
 const policy = resolveExportDeploymentPolicy({
@@ -383,4 +384,50 @@ it("starts and reopens an exact saved package review after membership removal an
   await user.click(within(dialog).getByRole("button", { name: "Close package review" }));
   await within(dialog).findByRole("button", { name: "Reopen package review" });
   expect((await listActionPackages()).find(value => value.id === record.id)?.reviewRounds?.[0].lifecycle?.events.at(-1)?.state).toBe("closed");
+});
+
+
+it("keeps unsaved package typing through blocked navigation, close and failed save, then unlocks after cancel", async () => {
+  const source = createBlankSession();
+  source.paragraphs = [{ id: "package-typed-body", text: "Synthetic paragraph.", level: 0 }];
+  const member = await capturePackageMember(captureDocumentRevision(
+    { documentId: "package-typed-source", epoch: 0, editSequence: 1, capturedAt: 100 },
+    { ...source, endItems: [], publicationTables: {} },
+  ), "Synthetic typing member", "basic-letter");
+  const record = await reviseActionPackage(await createActionPackage("Synthetic typing workflow"), [member]);
+  const user = userEvent.setup(); useUIStore.setState({ actionPackagesOpen: true });
+  render(<ActionPackageWorkspace exportGate={createExportGate()} ports={{ compile: vi.fn(), convertDocx: vi.fn(), waitForReady: async () => true }} />);
+  const dialog = screen.getByRole("dialog", { name: "Action packages" });
+  await within(dialog).findByRole("option", { name: record.name });
+  await user.selectOptions(within(dialog).getByLabelText("Saved packages", { exact: true }), record.id);
+  await user.click(within(dialog).getByRole("button", { name: "Start package review" }));
+  const nav = await within(dialog).findByRole("navigation", { name: "Captured review members" });
+  await user.click(within(nav).getByRole("button", { name: member.label }));
+  await user.type(await within(dialog).findByLabelText("Reviewer name for suggestion"), "Synthetic reviewer");
+  await user.click(within(dialog).getByRole("button", { name: "Suggest Changes mode" }));
+  await user.selectOptions(within(dialog).getByLabelText("Paragraph for suggested typing"), "package-typed-body");
+  await user.type(within(dialog).getByLabelText("Suggested paragraph text"), " Added");
+  for (const label of ["Saved packages", "Package revision", "Import package reviewer copy"])
+    expect(within(dialog).getByLabelText(label, { exact: true })).toBeDisabled();
+  for (const name of ["Return to package workspace", "Close package review", "Open review Package review 1", "Prepare package feedback return", "Prepare package reviewer copy", "Export editable package"])
+    expect(within(dialog).getByRole("button", { name })).toBeDisabled();
+  expect(within(nav).getByRole("button", { name: member.label })).toBeDisabled();
+  expect(within(dialog).getByRole("button", { name: "Save typed suggestion" })).toBeEnabled();
+  expect(within(dialog).getByRole("button", { name: "Cancel typed changes" })).toBeEnabled();
+  const unload = new Event("beforeunload", { cancelable: true }); window.dispatchEvent(unload); expect(unload.defaultPrevented).toBe(true);
+  await user.keyboard("{Escape}"); expect(screen.getByRole("dialog", { name: "Action packages" })).toBeInTheDocument();
+  vi.spyOn(memberReviews, "savePackageMemberReview").mockRejectedValueOnce(new Error("Synthetic quota failure"));
+  await user.click(within(dialog).getByRole("button", { name: "Save typed suggestion" }));
+  await within(dialog).findByText("Synthetic quota failure");
+  expect(within(dialog).getByLabelText("Suggested paragraph text")).toHaveValue("Synthetic paragraph. Added");
+  expect(within(dialog).getByLabelText("Saved packages", { exact: true })).toBeDisabled();
+  await user.click(within(dialog).getByRole("button", { name: "Cancel typed changes" }));
+  await waitFor(() => expect(within(dialog).getByLabelText("Saved packages", { exact: true })).toBeEnabled());
+  await user.type(within(dialog).getByLabelText("Suggested paragraph text"), " Saved");
+  await user.click(within(dialog).getByRole("button", { name: "Save typed suggestion" }));
+  await within(dialog).findByText("Typed suggestion submitted. The reviewed baseline is unchanged.");
+  await waitFor(() => expect(within(dialog).getByLabelText("Saved packages", { exact: true })).toBeEnabled());
+  const saved = (await listActionPackages()).find(value => value.id === record.id)!;
+  expect(saved.revisions).toEqual(record.revisions);
+  expect(saved.reviewRounds![0].memberReviews![0].suggestions!.proposals).toHaveLength(1);
 });

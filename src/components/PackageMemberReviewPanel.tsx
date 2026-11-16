@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
 import { Textarea } from './ui/textarea';
@@ -13,32 +13,49 @@ import { FeedbackCategorySelect } from './FeedbackCategorySelect';
 import type { FeedbackCategory } from '@/lib/reviewFeedback';
 
 /** A package-owned detached view. No document-store activation or autosave occurs. */
-export function PackageMemberReviewPanel({ record, round, busy, onChange, run }: {
+export function PackageMemberReviewPanel({ record, round, busy, onChange, run, onDraftChange }: {
+  onDraftChange?: (dirty: boolean) => void;
   record: ActionPackage; round: PackageReviewRound; busy: boolean;
   onChange(record: ActionPackage, round: PackageReviewRound): void;
   run(action: () => Promise<void>): Promise<void>;
 }) {
+  const [typedDirty, setTypedDirty] = useState(false);
+  useEffect(() => { onDraftChange?.(typedDirty); return () => onDraftChange?.(false); }, [typedDirty, onDraftChange]);
+  useEffect(() => {
+    if (!typedDirty) return;
+    const warn = (event: BeforeUnloadEvent) => { event.preventDefault(); event.returnValue = ''; };
+    const guard = (event: KeyboardEvent) => {
+      if ((event.ctrlKey || event.metaKey) && (event.key.toLowerCase() === 'k' || event.shiftKey && event.key.toLowerCase() === 't')) {
+        event.preventDefault(); event.stopImmediatePropagation();
+      }
+    };
+    window.addEventListener('beforeunload', warn); window.addEventListener('keydown', guard, true);
+    return () => { window.removeEventListener('beforeunload', warn); window.removeEventListener('keydown', guard, true); };
+  }, [typedDirty]);
   const [selected, setSelected] = useState('');
   const [history, setHistory] = useState<PackageMemberReview[]>([]), [future, setFuture] = useState<PackageMemberReview[]>([]);
   const member = round.baseline.members.find(member => member.id === selected);
   const child = round.memberReviews?.find(child => child.binding.memberId === selected);
   const alive = useRef(true);
+  const view = `${record.id}:${round.id}:${selected}`;
+  const currentView = useRef(view);
+  useLayoutEffect(() => { currentView.current = view; }, [view]);
   useEffect(() => { alive.current = true; return () => { alive.current = false; }; }, []);
   const disabled = busy || packageReviewRoundStatus(round) !== 'active';
   async function publish(value: PackageMemberReview, remember = true) {
-    const next = await savePackageMemberReview(record, round.id, value, undefined, () => alive.current);
-    if (!alive.current) return;
+    const next = await savePackageMemberReview(record, round.id, value, undefined, () => alive.current && currentView.current === view);
+    if (!alive.current || currentView.current !== view) throw new Error('This package member review is no longer current.');
     if (remember && child) { setHistory(items => [...items, structuredClone(child)]); setFuture([]); }
     onChange(next, next.reviewRounds!.find(value => value.id === round.id)!);
   }
   return <section aria-label="Package member feedback" className="space-y-3 rounded border p-3">
     <h3 className="font-medium">Review captured package members</h3>
     <nav aria-label="Captured review members" className="flex flex-wrap gap-2">
-      {round.baseline.members.map(member => <Button key={member.id} variant={selected === member.id ? 'secondary' : 'outline'} disabled={busy}
+      {round.baseline.members.map(member => <Button key={member.id} variant={selected === member.id ? 'secondary' : 'outline'} disabled={busy || typedDirty}
         onClick={() => void run(async () => {
           if (packageReviewRoundStatus(round) !== 'active') { setSelected(member.id); return; }
-          const result = await preparePackageReviewMember(record, round.id, member.id, undefined, () => alive.current);
-          if (alive.current) { onChange(result.record, result.record.reviewRounds!.find(value => value.id === round.id)!); setSelected(member.id); setHistory([]); setFuture([]); }
+          const result = await preparePackageReviewMember(record, round.id, member.id, undefined, () => alive.current && currentView.current === view);
+          if (alive.current && currentView.current === view) { onChange(result.record, result.record.reviewRounds!.find(value => value.id === round.id)!); setSelected(member.id); setHistory([]); setFuture([]); }
         })}>{member.label}</Button>)}
     </nav>
     {member && <>
@@ -50,21 +67,21 @@ export function PackageMemberReviewPanel({ record, round, busy, onChange, run }:
       {member.kind === 'native' && !child?.nativeRound && <p className="text-xs text-muted-foreground">This captured format supports whole-member comments. Native correspondence supports field and paragraph replacement proposals.</p>}
       {child && <>
         <div className="flex gap-2">
-          <Button variant="outline" disabled={disabled || !history.length} onClick={() => void run(async () => {
+          <Button variant="outline" disabled={disabled || typedDirty || !history.length} onClick={() => void run(async () => {
             const previous = history.at(-1)!; await publish({ ...child, comments: previous.comments }, false); setHistory(items => items.slice(0, -1)); setFuture(items => [...items, structuredClone(child)]);
           })}>Undo member comment</Button>
-          <Button variant="outline" disabled={disabled || !future.length} onClick={() => void run(async () => {
+          <Button variant="outline" disabled={disabled || typedDirty || !future.length} onClick={() => void run(async () => {
             const next = future.at(-1)!; await publish({ ...child, comments: next.comments }, false); setFuture(items => items.slice(0, -1)); setHistory(items => [...items, structuredClone(child)]);
           })}>Redo member comment</Button>
         </div>
-        <PackageMemberComments key={selected} child={child} busy={disabled} onSave={async mutation => {
+        <PackageMemberComments key={`comments:${selected}`} child={child} busy={disabled || typedDirty} onSave={async mutation => {
           let saved = false; await run(async () => {
           const comments = mutateReviewComments(child.comments, mutation, value => child.nativeRound && member.kind === 'native'
-            ? captureCommentAnchor(member.session, value.field, value.paragraphId) : value.field || value.paragraphId ? null : { kind: 'document' });
+            ? captureCommentAnchor(member.session, value.field, value.paragraphId) : value.field || value.paragraphId ? null : { kind: 'document' }, member.kind === 'native' ? member.session : undefined);
           if (!comments) throw new Error('Check the comment text, reviewer name and captured target.');
           await publish({ ...child, comments }); saved = true;
         }); return saved; }} />
-        {child.nativeRound && child.suggestions && <ReviewSuggestionsPanel round={child.nativeRound} current={child.nativeRound.baseline.session}
+        {child.nativeRound && child.suggestions && <ReviewSuggestionsPanel key={`suggestions:${selected}`} onDraftChange={setTypedDirty} round={child.nativeRound} current={child.nativeRound.baseline.session}
           state={child.suggestions} busy={disabled} owner={false} onDecide={async () => false} onCreate={async proposal => {
             let saved = false;
             await run(async () => { await publish({ ...child, suggestions: appendReviewSuggestions(child.nativeRound!, child.suggestions!, [proposal]) }, false); saved = true; });

@@ -1,7 +1,7 @@
 import 'fake-indexeddb/auto';
 import { useState } from 'react';
 import { expect, it, vi } from 'vitest';
-import { render, screen, within, waitFor } from '@testing-library/react';
+import { act, render, screen, within, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { PDFDocument } from 'pdf-lib';
 import { PackageMemberReviewPanel } from '@/components/PackageMemberReviewPanel';
@@ -10,6 +10,7 @@ import { capturePackageMember, captureOriginalPackageMember, readPackageAsset } 
 import { captureDocumentRevision } from '@/lib/capturedDocument';
 import { createBlankSession } from '@/stores/documentStore';
 import { useDocumentsStore } from '@/stores/documentsStore';
+import * as memberReviews from '@/lib/packageMemberReviews';
 import { startPackageReview } from '@/lib/packageReviewRounds';
 vi.mock('@/stores/backupStore', () => ({ scheduleBackup: vi.fn() }));
 function View({ initial }: { initial: ActionPackage }) {
@@ -59,4 +60,35 @@ it('navigates retained members, saves native comments with Undo/Redo and proposa
   expect(loaded.reviewRounds![0].memberReviews!.find(child => child.binding.memberId === native.id)!.suggestions!.proposals).toHaveLength(1);
   expect(loaded.revisions).toEqual(record.revisions);
   expect(useDocumentsStore.getState().docs).toEqual(documentsBefore); expect(useDocumentsStore.getState().currentId).toBe(currentBefore);
+});
+
+it('rejects a held member save when the displayed package owner changes', async () => {
+  const session = createBlankSession(); session.paragraphs = [{ id: 'owner-guard-body', level: 0, text: 'Synthetic owner boundary.' }];
+  const native = await capturePackageMember(captureDocumentRevision({ documentId: 'owner-guard-source', epoch: 0, editSequence: 0, capturedAt: 100 }, { ...session, endItems: [], publicationTables: {} }), 'Synthetic owner member', 'basic-letter');
+  const first = await startPackageReview(await reviseActionPackage(await createActionPackage('Synthetic first owner'), [native]));
+  const second = await startPackageReview(await reviseActionPackage(await createActionPackage('Synthetic second owner'), [native]));
+  let record = first;
+  const onChange = vi.fn((next: ActionPackage) => { record = next; });
+  const run = async (action: () => Promise<void>) => { try { await action(); } catch { /* parent displays the rejected save */ } };
+  const view = render(<PackageMemberReviewPanel record={record} round={record.reviewRounds![0]} busy={false} onChange={onChange} run={run} />);
+  const user = userEvent.setup(); await user.click(screen.getByRole('button', { name: native.label }));
+  await waitFor(() => expect(onChange).toHaveBeenCalledTimes(1));
+  view.rerender(<PackageMemberReviewPanel record={record} round={record.reviewRounds![0]} busy={false} onChange={onChange} run={run} />);
+  await user.type(screen.getByLabelText('Package comment reviewer name'), 'Synthetic reviewer');
+  await user.type(screen.getByLabelText('Package member comment'), 'This write belongs only to the first displayed owner.');
+  const save = memberReviews.savePackageMemberReview;
+  let release!: () => void;
+  const held = new Promise<void>(resolve => { release = resolve; });
+  let finish!: () => void; const completed = new Promise<void>(resolve => { finish = resolve; });
+  const pending = vi.spyOn(memberReviews, 'savePackageMemberReview').mockImplementationOnce(async (...args) => {
+    await held; try { return await save(...args); } finally { finish(); }
+  });
+  await user.click(screen.getByRole('button', { name: 'Post member comment' }));
+  await waitFor(() => expect(pending).toHaveBeenCalledTimes(1));
+  view.rerender(<PackageMemberReviewPanel record={second} round={second.reviewRounds![0]} busy={false} onChange={onChange} run={run} />);
+  await act(async () => { release(); await completed; });
+  await waitFor(async () => expect((await listActionPackages()).find(item => item.id === first.id)).toEqual(record));
+  expect(onChange).toHaveBeenCalledTimes(1);
+  expect((await listActionPackages()).find(item => item.id === second.id)).toEqual(second);
+  pending.mockRestore();
 });

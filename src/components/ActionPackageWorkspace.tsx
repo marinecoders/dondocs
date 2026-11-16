@@ -120,6 +120,7 @@ function PackageDialog({
     operation.current?.signal.throwIfAborted();
   }
   function close() {
+    if (typedDirty) { setError("Save or cancel the typed suggestion before closing this package review."); return; }
     operation.current?.abort();
     active.current = false;
     onClose();
@@ -138,6 +139,7 @@ function PackageDialog({
     [error, setError] = useState(""),
     [loaded, setLoaded] = useState(false),
     [notice, setNotice] = useState("");
+  const [typedDirty, setTypedDirty] = useState(false);
   const [openedReview, setOpenedReview] = useState<PackageReviewRound | null>(null);
   const [shareOpen, setShareOpen] = useState(false);
   const [encryptedImport, setEncryptedImport] = useState<string | null>(null);
@@ -175,7 +177,7 @@ function PackageDialog({
   const beforeComparisonId = beforeOutputId || revision?.outputs.at(-2)?.id || "";
   const afterComparisonId = afterOutputId || revision?.outputs.at(-1)?.id || "";
   useEffect(() => {
-    if (!requestedPackageId && inventoryLoaded.current) return;
+    if (typedDirty || !requestedPackageId && inventoryLoaded.current) return;
     // A received selection supersedes work captured for the previous package.
     // Abort before loading inventory so late results cannot publish during that read.
     if (requestedPackageId) operation.current?.abort(RECEIVED_PACKAGE_SELECTION);
@@ -211,7 +213,7 @@ function PackageDialog({
     return () => {
       live = false;
     };
-  }, [requestedPackageId, requestedRevisionId]);
+  }, [requestedPackageId, requestedRevisionId, typedDirty]);
   useEffect(
     () => () => {
       if (pdfUrl) URL.revokeObjectURL(pdfUrl);
@@ -430,7 +432,7 @@ function PackageDialog({
         if (!value) close();
       }}
     >
-      <DialogContent className="sm:max-w-4xl" aria-busy={busy}>
+      <DialogContent className="sm:max-w-4xl" aria-busy={busy} showCloseButton={!typedDirty}>
         <DialogHeader>
           <DialogTitle>Action packages</DialogTitle>
           <DialogDescription>
@@ -448,7 +450,8 @@ function PackageDialog({
             {notice}
           </p>
         )}
-        <fieldset disabled={busy} className="min-w-0 space-y-4">
+        <div className="min-w-0 space-y-4">
+        <fieldset disabled={busy || typedDirty} className="min-w-0 space-y-4">
           <div className="flex flex-wrap items-end gap-2">
             <label className="min-w-0 flex-1 text-sm">
               Package name
@@ -536,8 +539,10 @@ function PackageDialog({
               ))}
             </select>
           </label>
+        </fieldset>
           {record && revision && (
             <>
+              <fieldset disabled={busy || typedDirty} className="min-w-0 space-y-4">
               <Button variant="outline" disabled={!!openedReview} onClick={() => setShareOpen(true)}>Share encrypted package</Button>
               <div className="flex flex-wrap gap-2">
                 <Button
@@ -608,10 +613,12 @@ function PackageDialog({
                   const round = await openPackageReview(next, roundId);
                   assertOperationCurrent(); setOpenedReview(round); setRevisionId(round.revisionId);
                 })} />
+              </fieldset>
               {openedReview && <Suspense fallback={<p>Loading member review…</p>}>
-                <PackageMemberReviewPanel key={openedReview.id} record={record} round={openedReview} busy={busy} run={run}
+                <PackageMemberReviewPanel key={openedReview.id} record={record} round={openedReview} busy={busy} run={run} onDraftChange={setTypedDirty}
                   onChange={(next, round) => { update(next); setOpenedReview(round); setRevisionId(round.revisionId); }} />
               </Suspense>}
+              <fieldset disabled={busy || typedDirty} className="min-w-0 space-y-4">
               <label className="block text-sm">
                 Package revision
                 <select
@@ -1161,9 +1168,10 @@ function PackageDialog({
                   </Suspense>
                 </section>
               )}
+              </fieldset>
             </>
           )}
-        </fieldset>
+        </div>
         {busy && (
           <Button variant="outline" onClick={() => operation.current?.abort()}>
             Cancel operation
