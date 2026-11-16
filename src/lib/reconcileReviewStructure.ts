@@ -31,15 +31,22 @@ export function captureReconciledReviewStructure(source: SerializedSession, orig
   else if (op.kind === 'join-paragraphs') target = captureReviewStructure(source, { kind: op.kind, paragraphId: op.before[0].id, nextParagraphId: op.before[1].id, separator: op.separator });
   else target = captureReviewStructure(source, { kind: op.kind, paragraphId: op.before[0].id });
   if (target.docType !== original.docType || target.operation.parentId !== op.parentId) throw new Error('The captured parent changed. Keep current work and create a new proposal.');
-  for (const node of op.before) if (parent(source, node.id) === undefined) throw new Error('An original paragraph is missing. It cannot be retargeted.');
+  if (!op.before.length) return target;
+  // A move can retain a 100-node corridor. Index the current hierarchy once,
+  // rather than rebuilding the entire document outline for each retained node.
+  const outline = outlineParagraphs(source.paragraphs.map(p => p.level));
+  const currentById = new Map(source.paragraphs.map((node, index) => [node.id, {
+    node, parentId: outline[index].parentIndex === null ? null : source.paragraphs[outline[index].parentIndex!].id,
+  }]));
+  for (const node of op.before) if (!currentById.has(node.id)) throw new Error('An original paragraph is missing. It cannot be retargeted.');
   if (op.kind === 'move-paragraph') {
     const originalParents = outlineParagraphs(op.before.map(p => p.level));
     for (let i = 0; i < op.before.length; i++) {
-      const node = op.before[i], current = source.paragraphs.find(p => p.id === node.id)!;
+      const node = op.before[i], current = currentById.get(node.id)!;
       const pi = originalParents[i].parentIndex;
-      if (current.level !== node.level || parent(source, node.id) !== (pi === null ? op.parentId : op.before[pi].id)) throw new Error('A moved subtree parent or level changed.');
+      if (current.node.level !== node.level || current.parentId !== (pi === null ? op.parentId : op.before[pi].id)) throw new Error('A moved subtree parent or level changed.');
     }
-  } else for (const node of op.before) if (parent(source, node.id) !== op.parentId || source.paragraphs.find(p => p.id === node.id)?.level !== node.level) throw new Error('The captured paragraph parent changed.');
+  } else for (const node of op.before) if (currentById.get(node.id)!.parentId !== op.parentId || currentById.get(node.id)!.node.level !== node.level) throw new Error('The captured paragraph parent changed.');
   return target;
 }
 /** Exact node identity and full values decide independence. Readable text never
