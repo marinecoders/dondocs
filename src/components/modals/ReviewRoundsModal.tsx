@@ -1,3 +1,4 @@
+import { ReviewRedlinePdf } from '@/components/ReviewRedlinePdf';
 import { ReviewDecisionSummary } from '@/components/ReviewDecisionSummary';
 import { useCallback, useEffect, useRef, useState, type ChangeEvent } from 'react';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
@@ -142,6 +143,7 @@ function ReviewRoundsContent({ onClose }: { onClose: () => void }) {
                 ? docs[round.ownerDocumentId] ? `Source: ${docs[round.ownerDocumentId].meta.title}` : 'Source unavailable; the saved baseline is retained.'
                 : 'Received reviewer baseline; no local source ownership is assigned.'}</p>
               <ReviewDecisionSummary key={`${round.id}:${documentId}:${epoch}`} roundId={round.id} disabled={working} onBusyChange={handleSummaryBusyChange} />
+              <ReviewRedlinePdf roundId={round.id} disabled={working} onBusyChange={handleSummaryBusyChange} />
               <ReviewRoundLifecycleControls round={round} rounds={rounds} owner={round.ownerDocumentId === documentId}
                 disabled={working} onTransition={(transition, replacementId) => void run(async () => {
                   const updated = await transitionReviewRound(round, transition, replacementId, captureDocumentTarget());

@@ -1,12 +1,14 @@
-import type { SerializedSession } from '@/stores/documentStore';
-import { captureDocumentScope, flushDocumentWrites, flushPendingReviewWrites, hasPendingReviewWrites, isCurrentDocumentScope, type DocumentScope } from '@/stores/documentsStore';
+import { getSerializedSession, type SerializedSession } from '@/stores/documentStore';
+import { captureDocumentScope, flushDocumentWrites, flushPendingReviewWrites, hasPendingReviewWrites, isCurrentDocumentScope, type DocumentScope, type DocumentTarget, isCurrentDocumentTarget } from '@/stores/documentsStore';
 import { captureChangeReport, prepareChangeReport, escapeReportHtml, downloadReportHtml, type ChangeReport } from './changeReport';
 import type { PolicyResolution } from './exportDeploymentPolicy';
 import { loadReviewSuggestionWorkspace, type ReviewSuggestionWorkspace } from './reviewSuggestionActions';
-import { parseReviewRound, reviewPayloadDigest, reviewRoundStatus, type ReviewRound } from './reviewRounds';
+import { parseReviewRound, reviewPayloadDigest, reviewRoundStatus, canonicalReviewPayload, reviewCopyLinkSchema, type ReviewRound } from './reviewRounds';
 import { emptyReviewSuggestionState, inspectReviewSuggestion, latestReviewSuggestionDecision, reviewSuggestionResolutionText, validateReviewSuggestionState, type ReviewSuggestionDecision, type ReviewSuggestionState } from './reviewSuggestions';
 import { feedbackCategoryLabel } from './reviewFeedback';
 import { reviewCommentsSchema } from './reviewComments';
+import { idbReadReviewExportSnapshot } from './documentsDb';
+import { reviewSuggestionRecordSchema } from './reviewSuggestionWrites';
 import { describeCommentAnchor } from './reviewCommentTargets';
 
 const captureBrand = Symbol('decision-summary-capture');
@@ -21,7 +23,7 @@ interface SummaryItem {
   status: SummaryStatus;
   acceptedCurrentChanged: boolean;
   origin: { kind: string; rule?: string; context?: string };
-  changes: Array<{ label: string; baseline: string; current: string | null; proposed: string; accepted?: string }>;
+  changes: Array<{ label: string; kind: string; context?: string; reconciliation?: string; range?: { start: number; end: number }; baseline: string; current: string | null; proposed: string; accepted?: string }>;
   history: Array<{ action: string; at: string; resolutions: Array<{ before: string; accepted: string; context?: string }> }>;
 }
 interface SummaryDiscussion {
@@ -35,6 +37,7 @@ interface SummaryDiscussion {
 }
 interface CaptureData {
   scope: DocumentScope;
+  target: DocumentTarget;
   round: ReviewRound;
   current: SerializedSession;
   state: ReviewSuggestionState;
@@ -60,7 +63,7 @@ export async function captureReviewDecisionSummary(workspace: ReviewSuggestionWo
   const state = validateReviewSuggestionState(round, workspace.state ?? emptyReviewSuggestionState(round));
   // Discussion validation must fail closed; never silently omit an unreadable thread.
   reviewCommentsSchema.parse(current.reviewComments ?? { version: 1, threads: [] });
-  const owned = { scope: workspace.target.scope, round, current, state, owner: workspace.owner, capturedAt: new Date(capturedAt).toISOString() };
+  const owned = { scope: workspace.target.scope, target: workspace.target, round, current, state, owner: workspace.owner, capturedAt: new Date(capturedAt).toISOString() };
   const currentDigest = await reviewPayloadDigest(current);
   const capture: DecisionSummaryCapture = Object.freeze({ [captureBrand]: true as const });
   captures.set(capture, { ...owned, currentDigest });
@@ -119,8 +122,12 @@ function buildSummary(capture: CaptureData, policy: PolicyResolution): SummaryDa
     const acceptance = decision?.action === 'accepted' ? decision
       : decision?.action === 'restored' ? state.decisions.find(value => value.id === decision.acceptanceId) : undefined;
     const acceptedInspected = acceptance ? inspectReviewSuggestion(round, current, proposal, acceptance.resolutions) : inspected;
-    const changes = acceptedInspected.map(change => ({ label: change.label, baseline: change.baseline, current: change.current, proposed: change.proposed,
-      ...(acceptance ? { accepted: acceptance.resolutions?.find(value => value.changeId === change.id)?.value ?? change.proposed } : {}) }));
+    const changes = acceptedInspected.map(change => {
+      const target = proposal.changes.find(value => value.id === change.id)!.target;
+      return ({ label: change.movement?.description ?? change.label, kind: target.kind === 'structure' ? target.operation.kind : target.kind,
+      ...(change.structureReconciliation ? { reconciliation: change.structureReconciliation.kind } : change.reconciliation ? { reconciliation: change.reconciliation.kind } : {}),
+      ...(target.kind === 'range' ? { context: target.context, range: { start: target.start, end: target.end } } : {}), baseline: change.baseline, current: change.current, proposed: change.proposed,
+      ...(acceptance ? { accepted: acceptance.resolutions?.find(value => value.changeId === change.id)?.value ?? change.proposed } : {}) }); });
     return { label: proposal.label, author: proposal.author, category: feedbackCategoryLabel(proposal.category), status,
       acceptedCurrentChanged: status === 'accepted' && acceptedInspected.some((change,index) => change.applied === undefined ? change.current !== changes[index].accepted : !change.applied), origin: { ...proposal.origin }, changes,
       history: state.decisions.filter(value => value.proposalId === proposal.id).map(historyEntry) };
@@ -129,7 +136,7 @@ function buildSummary(capture: CaptureData, policy: PolicyResolution): SummaryDa
   const lifecycle = (round.lifecycle?.events ?? []).map(event => `${event.state} ${new Date(event.changedAt).toISOString()}`);
   const emitted = [...state.decisions.flatMap(decision => reviewSuggestionResolutionText(decision.resolutions ?? []).map(field => field.value)), round.label, reviewRoundStatus(round), ...lifecycle,
     ...items.flatMap(item => [item.label, item.author, item.category, item.status, item.origin.kind, item.origin.rule ?? '', item.origin.context ?? '',
-      ...item.changes.flatMap(change => [change.label, change.baseline, change.current ?? 'Target unavailable', change.proposed, change.accepted ?? '']),
+      ...item.changes.flatMap(change => [change.label, change.kind, change.reconciliation ?? '', change.context ?? '', change.baseline, change.current ?? 'Target unavailable', change.proposed, change.accepted ?? '']),
       ...item.history.flatMap(entry => [entry.action, entry.at, ...entry.resolutions.flatMap(value => [value.before, value.accepted, value.context ?? ''])])]),
     ...threads.flatMap(thread => [thread.version, thread.target, thread.category, thread.status, thread.context ?? '', thread.current ?? '',
       ...thread.messages.flatMap(message => [message.author, message.text, message.createdAt, message.editedAt ?? ''])])];
@@ -288,4 +295,37 @@ export function downloadReviewDecisionSummary(prepared: PreparedDecisionSummary,
   if (!isCurrentDocumentScope(data.capture.scope)) throw new Error('The active draft changed. Prepare this summary again.');
   buildSummary(data.capture, policy);
   downloadReportHtml(renderReviewDecisionSummary(prepared), data.filename);
+}
+
+/** A detached rendering view of the already reviewed capture; never reads live text. */
+export function reviewDecisionSummaryPdfContent(prepared: PreparedDecisionSummary) {
+  const data = preparedData(prepared);
+  return structuredClone({ ...reviewDecisionSummaryDetails(prepared), roundStatus: reviewRoundStatus(data.capture.round),
+    baselineDigest: data.capture.round.baselineDigest, currentDigest: data.capture.currentDigest,
+    items: data.items, discussions: data.discussions, comparison: data.review.changes });
+}
+
+/** Compare authority, content, round lifecycle and feedback against the capture. */
+export async function validateReviewDecisionSummaryPdf(prepared: PreparedDecisionSummary, policy: PolicyResolution): Promise<void> {
+  const data = preparedData(prepared), captured = data.capture;
+  if (!isCurrentDocumentTarget(captured.target)) throw new Error('The draft changed. Prepare the redline PDF again.');
+  if (hasPendingReviewWrites(captured.scope.documentId)) throw new Error('The review changed. Save pending feedback and prepare the redline PDF again.');
+  const latest = await idbReadReviewExportSnapshot(captured.scope.documentId, captured.round.id);
+  const round = latest.round === null ? null : parseReviewRound(latest.round);
+  const record = latest.state === null ? null : reviewSuggestionRecordSchema.parse(latest.state);
+  const state = round ? validateReviewSuggestionState(round, record?.state ?? emptyReviewSuggestionState(round)) : null;
+  const link = latest.link === null ? null : reviewCopyLinkSchema.parse(latest.link);
+  const same = (before: unknown, after: unknown) => canonicalReviewPayload(before) === canonicalReviewPayload(after);
+  const payload = (session: SerializedSession) => ({ ...session, timestamp: 0 });
+  const authorized = round?.ownerDocumentId === captured.scope.documentId || !captured.owner && link?.documentId === captured.scope.documentId
+    && link.roundId === captured.round.id && link.baselineDigest === captured.round.baselineDigest;
+  if (!latest.document || latest.document.id !== captured.scope.documentId || latest.document.meta.deletedAt || !authorized
+    || record && record.documentId !== captured.scope.documentId || !same(round, captured.round) || !same(state, captured.state)
+    || !same(payload(latest.document.session), payload(captured.current)) || !same(payload(getSerializedSession()), payload(captured.current))
+    || !isCurrentDocumentTarget(captured.target) || hasPendingReviewWrites(captured.scope.documentId)) throw new Error('The review changed. Prepare the redline PDF again.');
+  buildSummary(captured, policy);
+}
+
+export function ownsReviewDecisionSummaryPdf(prepared: PreparedDecisionSummary): boolean {
+  return isCurrentDocumentTarget(preparedData(prepared).capture.target);
 }

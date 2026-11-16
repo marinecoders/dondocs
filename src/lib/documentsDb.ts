@@ -39,6 +39,22 @@ export const reviewSuggestionReceiptKey = (id: string) => `review-suggestion-wri
 export async function idbReadReviewSuggestions(documentId: string, roundId: string): Promise<unknown | null> {
   return (await run<{ value: unknown } | undefined>(APP_STORE, 'readonly', store => store.get(reviewSuggestionKey(documentId, roundId))))?.value ?? null;
 }
+/** One consistent read boundary for a prepared review derivative. */
+export async function idbReadReviewExportSnapshot(documentId: string, roundId: string): Promise<{
+  document: StoredDocument | null; round: unknown | null; state: unknown | null; link: unknown | null;
+}> {
+  const db = await openDb();
+  return new Promise((resolve, reject) => {
+    const tx = db.transaction([DOCS_STORE, APP_STORE], 'readonly');
+    const app = tx.objectStore(APP_STORE);
+    const document = tx.objectStore(DOCS_STORE).get(documentId), round = app.get(reviewRoundKey(roundId)),
+      state = app.get(reviewSuggestionKey(documentId, roundId)), link = app.get(reviewCopyKey(documentId));
+    tx.oncomplete = () => resolve({ document: document.result ?? null, round: round.result?.value ?? null,
+      state: state.result?.value ?? null, link: link.result?.value ?? null });
+    tx.onerror = () => reject(tx.error ?? new Error('The captured review could not be checked.'));
+    tx.onabort = () => reject(tx.error ?? new Error('The captured review check was interrupted.'));
+  });
+}
 function reviewSuggestionRange(documentId?: string): IDBKeyRange {
   const prefix = documentId === undefined ? 'review-suggestions:' : reviewSuggestionKey(documentId, '');
   return IDBKeyRange.bound(prefix, `${prefix}\uffff`);

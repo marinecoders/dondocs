@@ -40,7 +40,7 @@ interface PdfViewerToolbarProps {
   onZoomOut: () => void;
   onZoomFitWidth: () => void;
   onZoomFitPage: () => void;
-  onOpenInTab: () => void;
+  onOpenInTab?: () => void;
   onDownload?: () => void;
   downloadLabel?: string;
   fullscreen?: { isFullscreen: boolean; toggle: () => void } | null;
@@ -227,9 +227,9 @@ export function PdfViewerToolbar({
         {onDownload && <ToolButton label={downloadLabel} onClick={onDownload}>
           <Download className="h-4 w-4" />
         </ToolButton>}
-        <ToolButton label="Open in browser tab" onClick={onOpenInTab}>
+        {onOpenInTab && <ToolButton label="Open in browser tab" onClick={onOpenInTab}>
           <ExternalLink className="h-4 w-4" />
-        </ToolButton>
+        </ToolButton>}
       </div>
 
       {/* Narrower: the same five, one button wide. Until this existed they were
@@ -283,10 +283,10 @@ export function PdfViewerToolbar({
               <Download className="h-4 w-4" aria-hidden="true" />
               {downloadLabel}
             </DropdownMenuItem>}
-            <DropdownMenuItem onSelect={onOpenInTab}>
+            {onOpenInTab && <DropdownMenuItem onSelect={onOpenInTab}>
               <ExternalLink className="h-4 w-4" aria-hidden="true" />
               Open in browser tab
-            </DropdownMenuItem>
+            </DropdownMenuItem>}
           </DropdownMenuContent>
         </DropdownMenu>
       </div>

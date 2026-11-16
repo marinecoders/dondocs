@@ -57,6 +57,15 @@ describe('PdfViewerToolbar trailing actions', () => {
     }
   });
 
+  it('omits external opening and unguarded download actions from captured review previews', async () => {
+    setup({ onOpenInTab: undefined, onDownload: undefined });
+    expect(screen.queryByRole('button', { name: 'Open in browser tab' })).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'Download PDF' })).not.toBeInTheDocument();
+    await openOverflowMenu();
+    expect(screen.queryByRole('menuitem', { name: 'Open in browser tab' })).not.toBeInTheDocument();
+    expect(screen.queryByRole('menuitem', { name: 'Download PDF' })).not.toBeInTheDocument();
+  });
+
   it('offers the same five through the overflow menu', async () => {
     setup();
     await openOverflowMenu();

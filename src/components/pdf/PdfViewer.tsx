@@ -20,6 +20,8 @@ export interface PdfViewerProps {
   /** Hide the fullscreen control (the mobile modal is already fullscreen). */
   showFullscreen?: boolean;
   documentId?: string;
+  /** Captured review exports keep delivery behind their final authority/policy gate. */
+  allowOpenInTab?: boolean;
   onDownloadPdf?: () => void;
   /** Optional workspace title/status, sharing the viewer's existing toolbar. */
   toolbarLabel?: React.ReactNode;
@@ -43,7 +45,7 @@ export interface PdfViewerProps {
  *   3. the old gen N layer sticks around ~180ms with a fade-out class (skipped
  *      under prefers-reduced-motion), then unmounts.
  */
-export default function PdfViewer({ pdfUrl, className, showFullscreen = true, documentId, onDownloadPdf, toolbarLabel }: PdfViewerProps) {
+export default function PdfViewer({ pdfUrl, className, showFullscreen = true, documentId, onDownloadPdf, toolbarLabel, allowOpenInTab = true }: PdfViewerProps) {
   const rootRef = useRef<HTMLDivElement>(null);
   // The column the pages actually live in — this is what fit modes must track
   // (it shrinks when the thumbnail rail opens; the root does not).
@@ -240,9 +242,9 @@ export default function PdfViewer({ pdfUrl, className, showFullscreen = true, do
         <p className="max-w-[22rem] text-center text-sm text-muted-foreground">
           The preview couldn&apos;t be rendered here.
         </p>
-        <Button type="button" variant="outline" size="sm" onClick={openInTab}>
+        {allowOpenInTab && <Button type="button" variant="outline" size="sm" onClick={openInTab}>
           <ExternalLink className="mr-1.5 h-3.5 w-3.5" /> Open in browser tab
-        </Button>
+        </Button>}
       </div>
     );
   }
@@ -275,7 +277,7 @@ export default function PdfViewer({ pdfUrl, className, showFullscreen = true, do
         onZoomOut={() => zoomStep(-1)}
         onZoomFitWidth={zoomFitWidth}
         onZoomFitPage={zoomFitPage}
-        onOpenInTab={openInTab}
+        onOpenInTab={allowOpenInTab ? openInTab : undefined}
         onDownload={onDownloadPdf}
         downloadLabel="Download PDF"
         fullscreen={showFullscreen && fullscreen.available ? fullscreen : null}

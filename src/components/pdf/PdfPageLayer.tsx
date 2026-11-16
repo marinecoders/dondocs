@@ -287,8 +287,9 @@ export const PdfPageLayer = forwardRef<PdfPageLayerHandle, PdfPageLayerProps>(fu
       onScroll={handleScroll}
       aria-hidden={!visible || undefined}
       inert={!visible}
+      tabIndex={visible ? 0 : -1}
       className={cn(
-        'absolute inset-0 overflow-auto overscroll-contain',
+        'absolute inset-0 overflow-auto overscroll-contain outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:ring-inset',
         // Hidden pre-render layer: invisible, inert. Fading layer: same, but
         // with a transition so it dissolves over the promoted one (the global
         // prefers-reduced-motion rule collapses the duration; the fade is also

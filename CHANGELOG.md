@@ -7,6 +7,13 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.117] — 2026-11-15
+
+### Added
+
+- Preview and download a captured redline review PDF with struck deletions, underlined insertions, exact selected-text context, paragraph split/join boundaries, movement descriptions, decisions and discussions. The official clean document PDF remains a separate export.
+- Review-copy legends, marking/privacy checks, page counts and bounded overflow handling preserve captured text and readable Unicode appearances. Document, review or policy changes invalidate the prepared download; cancellation and failed generation preserve the source.
+
 ## [1.3.116] — 2026-11-15
 
 ### Added
