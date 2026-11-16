@@ -7,6 +7,13 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.118] — 2026-11-16
+
+### Added
+
+- Retain reusable package starters with exact native content and form pages, required fresh attachment inputs, and explicit placeholder values. New actions receive independent identities and omit prior signatures, reviews, and source authority.
+- Preflight substituted content and combined file sizes before allocation; preserve the template library through conditional saves, portable files, and workspace backups.
+
 ## [1.3.117] — 2026-11-15
 
 ### Added
