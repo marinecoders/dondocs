@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useId, useRef, useState, type FormEvent } from 'react';
+import { useEffect, useLayoutEffect, useId, useMemo, useRef, useState, type FormEvent } from 'react';
 import { FeedbackCategorySelect } from '@/components/FeedbackCategorySelect';
 import { feedbackCategoryLabel, matchesFeedbackFilter, type FeedbackCategory, type FeedbackFilter } from '@/lib/reviewFeedback';
 import { Button } from '@/components/ui/button';
@@ -53,6 +53,14 @@ export function ReviewSuggestionsPanel({ round, current, state, owner, busy, onC
   const baseTarget = targets.find(item => item.key === selected);
   const target = range ? { key: suggestionTargetKey(range), label: 'Selected text', target: range, value: range.context.slice(range.start, range.end) } : baseTarget;
   const selectable = baseTarget?.target.kind === 'paragraph' ? captureTextRange(round.baseline.session, baseTarget.target.paragraphId, 0, baseTarget.value.length) : null;
+  // Alignment can exhaust its comparison budget for each proposal. Local form
+  // input does not change the reviewed source or any retained decision.
+  const inspectedProposals = useMemo(() => state.proposals.flatMap((proposal, index) => {
+    if (!matchesFeedbackFilter(proposal.category, filter)) return [];
+    const decision = latestReviewSuggestionDecision(state, proposal.id);
+    const acceptance = decision?.action === 'accepted' ? decision : state.decisions.find(item => item.id === decision?.acceptanceId);
+    return [{ proposal, index, decision, acceptance, changes: inspectReviewSuggestion(round, current, proposal, acceptance?.resolutions) }];
+  }), [round, current, state, filter]);
   function comparisonName(proposal: ReviewSuggestion, change: { id: string; label: string }, index: number) {
     const member = proposal.changes.length > 1 ? `, change ${proposal.changes.findIndex(item => item.id === change.id) + 1}` : '';
     return `${change.label} replacement comparison, suggestion ${index + 1}${member}`;
@@ -136,11 +144,7 @@ export function ReviewSuggestionsPanel({ round, current, state, owner, busy, onC
     <MechanicalReviewProposalsPanel round={round} busy={disabled || typedDirty} proposalCount={state.proposals.length} onCreate={onCreate} />
     {!state.proposals.length && <p className="text-sm text-muted-foreground">No suggested replacements in this review.</p>}
     <FeedbackCategorySelect label="Filter suggestion category" value={filter} onChange={setFilter} filter />
-    {state.proposals.map((proposal, index) => {
-      if (!matchesFeedbackFilter(proposal.category, filter)) return null;
-      const decision = latestReviewSuggestionDecision(state, proposal.id);
-      const acceptance = decision?.action === 'accepted' ? decision : state.decisions.find(item => item.id === decision?.acceptanceId);
-      const changes = inspectReviewSuggestion(round, current, proposal, acceptance?.resolutions);
+    {inspectedProposals.map(({ proposal, index, decision, acceptance, changes }) => {
       const stale = changes.some(change => change.stale);
       const currentMatches = changes.every(change => change.current === (acceptance?.resolutions?.find(item => item.changeId === change.id)?.value ?? change.proposed));
       const rangeTarget = proposal.changes[0].target.kind === 'range' ? proposal.changes[0].target : null;
