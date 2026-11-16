@@ -105,8 +105,12 @@ export function PackageReviewApplicationPanel({ record, round, busy, run, onAppl
               }} /></label>}
           </div>)}
           <select aria-label={`Proposal decision ${proposal.label}`} className="w-full border bg-background p-2 text-sm" value={choices[member.memberId]?.proposals?.[proposal.id]?.action ?? ''} disabled={busy}
-            onChange={event => update({ ...choices, [member.memberId]: { ...choices[member.memberId], proposals: { ...choices[member.memberId]?.proposals,
-              [proposal.id]: { ...choices[member.memberId]?.proposals?.[proposal.id], action: event.target.value as 'accepted' | 'rejected' | 'keep' } } } })}>
+            onChange={event => {
+              const action = event.target.value as 'accepted' | 'rejected' | 'keep';
+              const resolutions = action === 'accepted' ? choices[member.memberId]?.proposals?.[proposal.id]?.resolutions : undefined;
+              update({ ...choices, [member.memberId]: { ...choices[member.memberId], proposals: { ...choices[member.memberId]?.proposals,
+                [proposal.id]: { action, ...(resolutions ? { resolutions } : {}) } } } });
+            }}>
             <option value="">Choose proposal action</option><option value="keep">Keep proposal pending or retain recorded decision</option>
             {!proposal.decided && <><option value="accepted">Accept reviewed replacement</option><option value="rejected">Reject proposal</option></>}
           </select>
