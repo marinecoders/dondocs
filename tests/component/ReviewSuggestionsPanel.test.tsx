@@ -44,7 +44,7 @@ it('keeps stable paragraph identity when the newer draft has moved it', async ()
 it('shows baseline/current/proposed values and blocks acceptance of an overlapping draft edit', () => {
   const input = props();input.state.proposals.push(createReviewSuggestion(input.round, { author: 'Example', label: 'Recipient', changes: [{ target: { kind: 'field', field: 'to', docType: 'naval_letter' }, proposed: 'Proposed recipient' }] }));
   input.current.formData.to = 'Newer recipient';render(<ReviewSuggestionsPanel {...input} />);
-  const comparison = screen.getByRole('region', { name: 'To replacement comparison' });
+  const comparison = screen.getByRole('region', { name: 'To replacement comparison, suggestion 1' });
   expect(comparison).toHaveTextContent('Original recipient');expect(comparison).toHaveTextContent('Newer recipient');expect(comparison).toHaveTextContent('Proposed recipient');
   expect(screen.getByRole('button', { name: 'Accept suggestion' })).toBeDisabled();
   expect(screen.getByRole('button', { name: 'Reject suggestion' })).toBeEnabled();
@@ -291,4 +291,16 @@ it('blocks changed selected text without offering whole paragraph reconciliation
   view.rerender(<ReviewSuggestionsPanel {...input} owner={false} />);
   expect(screen.queryByRole('button', { name: 'Accept suggestion' })).not.toBeInTheDocument();
   expect(screen.queryByRole('button', { name: 'Reject suggestion' })).not.toBeInTheDocument();
+});
+
+
+it('gives distinct comparison landmarks to different selected spans in one paragraph', () => {
+  const input = props();
+  for (const [start, end] of [[0, 8], [9, 13]]) input.state.proposals.push(createSelectedTextSuggestion(input.round,
+    { author: 'Synthetic chief', paragraphId: 'paragraph-one', start, end, proposed: 'replacement' }));
+  render(<ReviewSuggestionsPanel {...input} />);
+  expect(screen.getByRole('region', { name: 'Selected text in paragraph 1 replacement comparison, suggestion 1' })).toHaveTextContent('Original');
+  expect(screen.getByRole('region', { name: 'Selected text in paragraph 1 replacement comparison, suggestion 2' })).toHaveTextContent('body');
+  const regions = screen.getAllByRole('region').map(element => element.getAttribute('aria-label'));
+  expect(new Set(regions).size).toBe(regions.length);
 });

@@ -48,13 +48,9 @@ export function ReviewSuggestionsPanel({ round, current, state, owner, busy, onC
   const baseTarget = targets.find(item => item.key === selected);
   const target = range ? { key: suggestionTargetKey(range), label: 'Selected text', target: range, value: range.context.slice(range.start, range.end) } : baseTarget;
   const selectable = baseTarget?.target.kind === 'paragraph' ? captureTextRange(round.baseline.session, baseTarget.target.paragraphId, 0, baseTarget.value.length) : null;
-  const targetCounts = new Map<string, number>();
-  for (const proposal of state.proposals) for (const change of proposal.changes) {
-    const key = suggestionTargetKey(change.target);targetCounts.set(key, (targetCounts.get(key) ?? 0) + 1);
-  }
   function comparisonName(proposal: ReviewSuggestion, change: { id: string; label: string }, index: number) {
-    const target = proposal.changes.find(item => item.id === change.id)!;
-    return `${change.label} replacement comparison${(targetCounts.get(suggestionTargetKey(target.target)) ?? 0) > 1 ? `, suggestion ${index + 1}` : ''}`;
+    const member = proposal.changes.length > 1 ? `, change ${proposal.changes.findIndex(item => item.id === change.id) + 1}` : '';
+    return `${change.label} replacement comparison, suggestion ${index + 1}${member}`;
   }
 
   async function add(event: FormEvent) {
