@@ -1,4 +1,5 @@
 import { expect, test, type Locator, type Page } from '@playwright/test';
+import { capturePackageDocument } from '../_helpers/capturePackageDocument';
 import { readFile } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
 import JSZip from 'jszip';
@@ -61,7 +62,7 @@ for (const theme of ['light', 'dark', 'classic']) {
     let dialog = await packages(page);
     await dialog.getByLabel('Package name', { exact: true }).fill(packageName);
     await dialog.getByRole('button', { name: 'Create package', exact: true }).click();
-    await dialog.getByRole('button', { name: 'Capture current document', exact: true }).click();
+    await capturePackageDocument(dialog);
     await expect(dialog.getByRole('heading', { name: /WORD PACKAGE FIXTURE/ })).toBeVisible();
     await dialog.getByLabel('New member role', { exact: true }).selectOption('enclosure');
     await dialog.getByRole('checkbox', { name: /Uploaded original is signed/ }).check();
@@ -157,7 +158,7 @@ test('Word packages retain a JPEG signature upload after PNG normalization', asy
   const dialog = await packages(page);
   await dialog.getByLabel('Package name', { exact: true }).fill('Normalized signature package');
   await dialog.getByRole('button', { name: 'Create package', exact: true }).click();
-  await dialog.getByRole('button', { name: 'Capture current document', exact: true }).click();
+  await capturePackageDocument(dialog);
   await expect(dialog.getByRole('heading', { name: '1. JPEG SIGNATURE CAPTURE', exact: true })).toBeVisible();
   const zip = await downloadWord(page, dialog, info.outputPath('normalized-signature.zip'));
   const manifest = JSON.parse(await zip.file('manifest.json')!.async('string'));
@@ -178,7 +179,7 @@ test('Word delivery blocks disallowed original PDF text and displays original PD
   await page.getByRole('button', { name: 'Open as new document', exact: true }).click();
   const dialog = await packages(page);
   await dialog.getByLabel('Package name', { exact: true }).fill('Original content review');await dialog.getByRole('button', { name: 'Create package', exact: true }).click();
-  await dialog.getByRole('button', { name: 'Capture current document', exact: true }).click();
+  await capturePackageDocument(dialog);
   await expect(dialog.getByRole('heading', { name: '1. WORD ORIGINAL REVIEW', exact: true })).toBeVisible();
   await dialog.getByLabel('New member role', { exact: true }).selectOption('supporting-document');
   async function addOriginal(text: string) {
@@ -208,7 +209,7 @@ test('Word review blocks disallowed emitted native text before approval and pres
   await page.getByRole('button', { name: 'Open as new document', exact: true }).click();
   const dialog = await packages(page);await dialog.getByLabel('Package name', { exact: true }).fill('Native text review');
   await dialog.getByRole('button', { name: 'Create package', exact: true }).click();
-  await dialog.getByRole('button', { name: 'Capture current document', exact: true }).click();
+  await capturePackageDocument(dialog);
   await expect(dialog.getByRole('heading', { name: '1. FICTIONAL WORD NATIVE REVIEW', exact: true })).toBeVisible();
   const word = dialog.getByRole('region', { name: 'Word package delivery', exact: true });
   const downloads: string[] = [];page.on('download', file => downloads.push(file.suggestedFilename()));
@@ -232,7 +233,7 @@ for (const asset of ['figure', 'enclosure'] as const) test(`clean Word ZIP exclu
   await page.getByRole('button', { name: 'Open as new document', exact: true }).click();
   const dialog = await packages(page);await dialog.getByLabel('Package name', { exact: true }).fill('Inactive Word asset review');
   await dialog.getByRole('button', { name: 'Create package', exact: true }).click();
-  await dialog.getByRole('button', { name: 'Capture current document', exact: true }).click();
+  await capturePackageDocument(dialog);
   await expect(dialog.getByRole('heading', { name: '1. FICTIONAL INACTIVE WORD SIDECAR', exact: true })).toBeVisible();
   const zip = await downloadWord(page, dialog, info.outputPath(`inactive-${asset}-word.zip`));
   const manifest = JSON.parse(await zip.file('manifest.json')!.async('string'));

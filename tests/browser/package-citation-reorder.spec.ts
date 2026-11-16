@@ -1,4 +1,5 @@
 import { test, expect, type Page, type BrowserContext } from "@playwright/test";
+import { capturePackageDocument } from "../_helpers/capturePackageDocument";
 import { PDFDocument, StandardFonts } from "pdf-lib";
 import { readFile } from "node:fs/promises";
 import { createHash } from "node:crypto";
@@ -71,7 +72,7 @@ for (const theme of ["light", "dark", "classic"]) {
     let modal = await packages(page);
     await modal.getByLabel("Package name", { exact: true }).fill(`Reorder action ${theme}`);
     await modal.getByRole("button", { name: "Create package", exact: true }).click();
-    await modal.getByRole("button", { name: "Capture current document", exact: true }).click();
+    await capturePackageDocument(modal);
     await expect(modal.getByRole("heading", { name: `1. ${subject}`, exact: true })).toBeVisible();
     const signed = await originalPdf("SIGNED TRAINING ORIGINAL - EXACT BYTES");
     await modal.getByLabel("New member role", { exact: true }).selectOption("enclosure");

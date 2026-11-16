@@ -1,4 +1,5 @@
 import { expect, test, type Page } from '@playwright/test';
+import { capturePackageDocument } from '../_helpers/capturePackageDocument';
 import { PDFDocument } from 'pdf-lib';
 import { randomBytes, createHash } from 'node:crypto';
 import { readFile } from 'node:fs/promises';
@@ -58,7 +59,7 @@ test('encrypted package link and file preserve reviewed content across fresh bro
   let modal = await packages(page);
   await modal.getByLabel('Package name', { exact: true }).fill('Encrypted training action');
   await modal.getByRole('button', { name: 'Create package', exact: true }).click();
-  await modal.getByRole('button', { name: 'Capture current document', exact: true }).click();
+  await capturePackageDocument(modal);
   await expect(modal.getByRole('heading', { name: '1. ENCRYPTED PACKAGE SOURCE', exact: true })).toBeVisible();
   let dialog = await generate(page);
   const link = await dialog.getByLabel('Encrypted package link', { exact: true }).inputValue();
