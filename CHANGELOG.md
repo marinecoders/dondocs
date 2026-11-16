@@ -7,6 +7,13 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.122] — 2026-11-16
+
+### Added
+
+- Compare each scanned page with its recognized text, correct the result, and explicitly review the parsed letter before importing it as a new draft.
+- Require a rendered source before page approval, preserve corrections through review, and retain existing documents when recognition fails or is cancelled.
+
 ## [1.3.121] — 2026-11-16
 
 ### Added
