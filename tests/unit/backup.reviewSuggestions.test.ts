@@ -7,7 +7,7 @@ import { useProfileStore } from '@/stores/profileStore';
 import { useUserTemplatesStore } from '@/stores/userTemplatesStore';
 import { useUIStore } from '@/stores/uiStore';
 import { idbDeleteReviewRound, idbGetAllDocuments, idbInstallReviewCopy, idbReadReviewSuggestions, idbDeleteDocument, idbRestoreReviewSuggestions } from '@/lib/documentsDb';
-import { appendReviewSuggestions, createReviewSuggestion, emptyReviewSuggestionState, planReviewSuggestionDecision } from '@/lib/reviewSuggestions';
+import { appendReviewSuggestions, createReviewSuggestion, createSelectedTextSuggestion, emptyReviewSuggestionState, planReviewSuggestionDecision } from '@/lib/reviewSuggestions';
 import { reviewSuggestionRecordSchema, type ReviewSuggestionWrite } from '@/lib/reviewSuggestionWrites';
 import { listReviewRounds } from '@/lib/reviewRounds';
 import { buildReviewCopy, startReviewRound } from '@/lib/reviewRoundActions';
@@ -27,8 +27,10 @@ beforeEach(async () => {
   useUIStore.setState({ storageHealth: 'ok' });
 });
 afterEach(async () => { await flushDocumentWrites();vi.restoreAllMocks();vi.unstubAllGlobals(); });
-async function fixture(copy = false) {
-  useDocumentsStore.getState().newDocument();useDocumentStore.getState().setField('to', 'Reviewed recipient');await commitCurrentDocument();
+async function fixture(copy = false, selected = false) {
+  useDocumentsStore.getState().newDocument();useDocumentStore.getState().setField('to', 'Reviewed recipient');
+  if (selected) useDocumentStore.getState().updateParagraph(0, { text: 'Reviewed body.' });
+  await commitCurrentDocument();
   const owner = useDocumentsStore.getState().currentId!, source = useDocumentsStore.getState().docs[owner];
   const round = await startReviewRound('Backup review');
   const session = structuredClone(round.baseline.session);
@@ -132,4 +134,31 @@ it('preserves reconciled version2 decisions together with self-contained form te
   expect((await restoreBackup(JSON.stringify(bundle))).issues).toBeUndefined();
   expect(reviewSuggestionRecordSchema.parse(await idbReadReviewSuggestions(id, round.id)).state).toEqual(plan.state);
   expect((await idbReadAttachment(formTemplateAttachmentId(page.sha256))).status).toBe('found');
+});
+
+
+it('backs up and restores a resolved selected range with exact current context and Unicode', async () => {
+  const { id, round, state } = await fixture(false, true);
+  const paragraphId = round.baseline.session.paragraphs[0].id!;
+  const proposal = createSelectedTextSuggestion(round, { author: 'Reviewer', paragraphId, start: 9, end: 13, proposed: 'text' });
+  const pending = appendReviewSuggestions(round, state, [proposal]);
+  const base = { kind: 'suggestion-write' as const, version: 1 as const, documentId: id, createdAt: Date.now(),
+    round: { id: round.id, baselineDigest: round.baselineDigest } };
+  expect(await applyOwnedReviewSuggestions(captureDocumentTarget(), { ...base, id: `suggestion-write_${crypto.randomUUID()}`, before: state, after: pending,
+    intent: { kind: 'propose', proposals: [proposal] } })).toBe('committed');
+  useDocumentStore.getState().updateParagraph(0, { text: 'Reviewed BODY. New author work.' });await commitCurrentDocument();
+  const context = 'Reviewed BODY. New author work.';
+  const resolutions = [{ changeId: proposal.changes[0].id, expectedCurrent: 'BODY', value: 'Équipe 👩🏽‍✈️', range: { context, start: 9, end: 13 } }];
+  const plan = planReviewSuggestionDecision(round, getSerializedSession(), pending, proposal.id, 'accepted', undefined, resolutions);
+  const decision = plan.state.decisions[0];
+  expect(await applyOwnedReviewSuggestions(captureDocumentTarget(), { ...base, id: `suggestion-write_${crypto.randomUUID()}`, before: pending, after: plan.state,
+    intent: { kind: 'decide', proposalId: proposal.id, action: 'accepted', record: { id: decision.id, decidedAt: decision.decidedAt }, resolutions } })).toBe('committed');
+  const bundle = JSON.parse(await buildBackup());expect(bundle.version).toBe(10);
+  expect(bundle.reviewSuggestions[0].state.decisions[0].resolutions).toEqual(resolutions);
+  await expect(restoreBackup(JSON.stringify({ ...bundle, version: 9 }))).rejects.toThrow(/version 10/);
+  await idbDeleteReviewRound(round.id, round.baselineDigest);await idbDeleteDocument(id);
+  useDocumentsStore.setState({ docs: {}, trash: {}, currentId: null, baseline: null });
+  expect((await restoreBackup(JSON.stringify(bundle))).issues).toBeUndefined();
+  expect(reviewSuggestionRecordSchema.parse(await idbReadReviewSuggestions(id, round.id)).state).toEqual(plan.state);
+  expect(useDocumentsStore.getState().docs[id].session.paragraphs[0].text).toBe('Reviewed Équipe 👩🏽‍✈️. New author work.');
 });

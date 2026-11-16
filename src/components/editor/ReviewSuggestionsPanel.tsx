@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useId, useRef, useState, type FormEvent } from 'react';
+import { useEffect, useLayoutEffect, useId, useMemo, useRef, useState, type FormEvent } from 'react';
 import { FeedbackCategorySelect } from '@/components/FeedbackCategorySelect';
 import { feedbackCategoryLabel, matchesFeedbackFilter, type FeedbackCategory, type FeedbackFilter } from '@/lib/reviewFeedback';
 import { Button } from '@/components/ui/button';
@@ -12,7 +12,7 @@ import type { ReviewRound } from '@/lib/reviewRounds';
 import { reconcileReviewText } from '@/lib/reconcileReviewText';
 import { captureTextRange, type SelectedTextRange } from '@/lib/reviewTextRanges';
 import {
-  availableReviewSuggestionTargets, createReviewSuggestion, inspectReviewSuggestion, latestReviewSuggestionDecision, REVIEW_SUGGESTION_LIMITS, suggestionTargetKey,
+  availableReviewSuggestionTargets, createReviewSuggestion, inspectReviewSuggestionBatch, latestReviewSuggestionDecision, REVIEW_SUGGESTION_LIMITS, suggestionTargetKey,
   type ReviewSuggestion, type ReviewSuggestionResolution, type ReviewSuggestionState,
 } from '@/lib/reviewSuggestions';
 
@@ -38,11 +38,12 @@ export function ReviewSuggestionsPanel({ round, current, state, owner, busy, onC
   const [selected, setSelected] = useState('');
   const [range, setRange] = useState<SelectedTextRange | null>(null);
   const [selection, setSelection] = useState<{ start: number; end: number } | null>(null);
+  const [scopeSelection, setScopeSelection] = useState<{ context: string; start: number; end: number } | null>(null);
   const [proposed, setProposed] = useState('');
   const [error, setError] = useState('');
   const [notice, setNotice] = useState('');
   const [pending, setPending] = useState(false);
-  const [resolution, setResolution] = useState<(ReviewSuggestionResolution & { proposalId: string }) | null>(null);
+  const [resolution, setResolution] = useState<(ReviewSuggestionResolution & { proposalId: string; previewContext?: string }) | null>(null);
   const alive = useRef(true), working = useRef(false);
   const result = useRef<HTMLParagraphElement>(null);
   useEffect(() => { alive.current = true;return () => { alive.current = false; }; }, []);
@@ -52,6 +53,18 @@ export function ReviewSuggestionsPanel({ round, current, state, owner, busy, onC
   const baseTarget = targets.find(item => item.key === selected);
   const target = range ? { key: suggestionTargetKey(range), label: 'Selected text', target: range, value: range.context.slice(range.start, range.end) } : baseTarget;
   const selectable = baseTarget?.target.kind === 'paragraph' ? captureTextRange(round.baseline.session, baseTarget.target.paragraphId, 0, baseTarget.value.length) : null;
+  // Alignment can exhaust its comparison budget for each proposal. Local form
+  // input does not change the reviewed source or any retained decision.
+  const inspectedProposals = useMemo(() => {
+    const displayed = state.proposals.flatMap((proposal, index) => {
+      if (!matchesFeedbackFilter(proposal.category, filter)) return [];
+      const decision = latestReviewSuggestionDecision(state, proposal.id);
+      const acceptance = decision?.action === 'accepted' ? decision : state.decisions.find(item => item.id === decision?.acceptanceId);
+      return [{ proposal, index, decision, acceptance }];
+    });
+    const inspections = inspectReviewSuggestionBatch(round, current, displayed.map(item => ({ proposal: item.proposal, resolutions: item.acceptance?.resolutions })));
+    return displayed.map((item, index) => ({ ...item, changes: inspections[index] }));
+  }, [round, current, state, filter]);
   function comparisonName(proposal: ReviewSuggestion, change: { id: string; label: string }, index: number) {
     const member = proposal.changes.length > 1 ? `, change ${proposal.changes.findIndex(item => item.id === change.id) + 1}` : '';
     return `${change.label} replacement comparison, suggestion ${index + 1}${member}`;
@@ -124,7 +137,7 @@ export function ReviewSuggestionsPanel({ round, current, state, owner, busy, onC
           <Label htmlFor={`${prefix}-proposed`}>Proposed replacement</Label>
           <Textarea id={`${prefix}-proposed`} value={proposed} maxLength={REVIEW_SUGGESTION_LIMITS.value} rows={4} onChange={event => setProposed(event.target.value)} />
         </>}
-        {range && <p className="text-sm">This proposal replaces only the selected text. Acceptance checks the exact reviewed paragraph and preserves text outside the selection.</p>}
+        {range && <p className="text-sm">This proposal replaces only the selected text. Acceptance preserves independent edits outside the selection; overlap requires a deliberate resolution.</p>}
         <div className="flex flex-wrap gap-2">
           <Button type="submit" disabled={state.proposals.length >= REVIEW_SUGGESTION_LIMITS.proposals || !author.trim() || !target || proposed === target.value}>Add suggestion</Button>
           {target && <Button type="button" variant="outline" onClick={() => { setSelected('');setRange(null);setSelection(null);setProposed('');setError(''); }}>Cancel replacement</Button>}
@@ -135,23 +148,21 @@ export function ReviewSuggestionsPanel({ round, current, state, owner, busy, onC
     <MechanicalReviewProposalsPanel round={round} busy={disabled || typedDirty} proposalCount={state.proposals.length} onCreate={onCreate} />
     {!state.proposals.length && <p className="text-sm text-muted-foreground">No suggested replacements in this review.</p>}
     <FeedbackCategorySelect label="Filter suggestion category" value={filter} onChange={setFilter} filter />
-    {state.proposals.map((proposal, index) => {
-      if (!matchesFeedbackFilter(proposal.category, filter)) return null;
-      const changes = inspectReviewSuggestion(round, current, proposal);
-      const decision = latestReviewSuggestionDecision(state, proposal.id);
+    {inspectedProposals.map(({ proposal, index, decision, acceptance, changes }) => {
       const stale = changes.some(change => change.stale);
-      const acceptance = decision?.action === 'accepted' ? decision : state.decisions.find(item => item.id === decision?.acceptanceId);
       const currentMatches = changes.every(change => change.current === (acceptance?.resolutions?.find(item => item.changeId === change.id)?.value ?? change.proposed));
-      const manualChange = proposal.origin.kind === 'manual' && proposal.changes[0].target.kind !== 'range' && changes.length === 1 && changes[0].current !== null ? changes[0] : null;
+      const rangeTarget = proposal.changes[0].target.kind === 'range' ? proposal.changes[0].target : null;
+      const manualChange = proposal.origin.kind === 'manual' && changes.length === 1 && (changes[0].current !== null || changes[0].reconciliation) ? changes[0] : null;
       const editing = resolution?.proposalId === proposal.id ? resolution : null;
-      const combination = manualChange && reconcileReviewText(manualChange.baseline, manualChange.current!, manualChange.proposed);
+      const combination = manualChange && (rangeTarget ? { kind: 'overlap', value: manualChange.current ?? '' } : reconcileReviewText(manualChange.baseline, manualChange.current!, manualChange.proposed));
+      const resolutionStale = !!editing && (rangeTarget ? editing.previewContext !== manualChange?.reconciliation?.currentContext : manualChange?.current !== editing.expectedCurrent);
       const status = decision ? decision.action === 'accepted' || decision.action === 'restored' ? currentMatches ? 'Accepted' : 'Accepted earlier; current draft text has changed'
         : decision.action === 'reversed' ? 'Acceptance undone' : 'Rejected' : stale ? 'Current draft differs; acceptance is blocked' : 'Pending';
       return <article key={proposal.id} aria-label={`Suggestion ${index + 1}: ${proposal.label}`} className="space-y-2 rounded-md border p-3">
         <h4 className="break-words text-sm font-medium">{proposal.label}</h4>
         <p className="text-xs text-muted-foreground">{feedbackCategoryLabel(proposal.category)}{proposal.category === 'required-correction' ? ' · Reviewer intent; not an authenticated approval requirement.' : ''}</p>
         <p className="break-words text-xs text-muted-foreground">{proposal.author} · {new Date(proposal.createdAt).toLocaleString()} · {status}</p>
-        {proposal.changes[0].target.kind === 'range' && <p className="text-xs text-muted-foreground">{!proposal.changes[0].expected ? 'Text insertion.' : !proposal.changes[0].proposed ? 'Text deletion.' : 'Selected text replacement.'} Text outside this selection is preserved; a changed paragraph blocks acceptance.</p>}
+        {proposal.changes[0].target.kind === 'range' && <p className="text-xs text-muted-foreground">{!proposal.changes[0].expected ? 'Text insertion.' : !proposal.changes[0].proposed ? 'Text deletion.' : 'Selected text replacement.'} Independent edits outside this selection are preserved. Overlap or ambiguous boundaries require your decision.</p>}
         {proposal.origin.kind === 'mechanical' && <p className="whitespace-pre-wrap break-words text-xs">Grouped correction{proposal.origin.rule ? `: ${proposal.origin.rule}` : ''}{proposal.origin.context ? ` · ${proposal.origin.context}` : ''}. All members are checked before any change is applied.</p>}
         {changes.map(change => <div key={change.id} className="space-y-1 border-t pt-2">
           <p className="text-sm font-medium">{change.label}</p>
@@ -169,21 +180,44 @@ export function ReviewSuggestionsPanel({ round, current, state, owner, busy, onC
         {owner && (!decision || decision.action === 'reversed') && <div className="flex flex-wrap gap-2">
           <Button size="sm" disabled={disabled || typedDirty || stale} onClick={() => void decide(proposal.id, 'accepted')}>Accept suggestion</Button>
           <Button size="sm" variant="outline" disabled={disabled || typedDirty} onClick={() => void decide(proposal.id, 'rejected')}>Reject suggestion</Button>
-          {stale && manualChange && <Button size="sm" variant="outline" disabled={disabled || typedDirty} onClick={() => setResolution({ proposalId: proposal.id,
-            changeId: manualChange.id, expectedCurrent: manualChange.current!, value: combination!.value })}>Reconcile suggestion</Button>}
+          {stale && manualChange && <Button size="sm" variant="outline" disabled={disabled || typedDirty} onClick={() => { setScopeSelection(null);setResolution({ proposalId: proposal.id,
+            changeId: manualChange.id, expectedCurrent: manualChange.current ?? '', value: combination!.value,
+            ...(rangeTarget ? { previewContext: manualChange.reconciliation?.currentContext } : {}),
+            ...(rangeTarget && manualChange.reconciliation?.scope ? { range: manualChange.reconciliation.scope } : {}) }); }}>Reconcile suggestion</Button>}
         </div>}
         {owner && editing && manualChange && (!decision || decision.action === 'reversed') && <fieldset disabled={disabled || typedDirty} className="space-y-2 rounded-md border p-3">
           <legend className="text-sm font-medium">Resolve this replacement</legend>
           <p className="text-sm">{combination?.kind === 'combined' ? 'Independent edits can be combined. Review the complete result before applying it.' : 'These edits overlap. Keep the current text, use the proposal, or write a combined resolution.'}</p>
+          {rangeTarget && manualChange.reconciliation && <div className="space-y-2">
+            <p className="text-sm">{manualChange.reconciliation.kind === 'ambiguous'
+              ? 'The current boundaries cannot be mapped safely. Select the exact current text to replace, or place the caret for an insertion, then choose Use current selection.'
+              : 'Only the captured current selection will change. You can deliberately choose another current selection before applying.'}</p>
+            <details className="text-sm"><summary>Reviewed paragraph context</summary><p className="whitespace-pre-wrap break-words">{rangeTarget.context}</p></details>
+            <Label htmlFor={`${prefix}-${proposal.id}-scope`}>Select current text to resolve</Label>
+            <Textarea id={`${prefix}-${proposal.id}-scope`} readOnly value={manualChange.reconciliation.currentContext} rows={4}
+              onSelect={event => {
+                const { selectionStart: start, selectionEnd: end } = event.currentTarget;
+                setScopeSelection({ context: manualChange.reconciliation!.currentContext, start, end });
+              }} />
+            <Button size="sm" variant="outline" disabled={!scopeSelection} onClick={() => {
+              if (!scopeSelection || scopeSelection.context !== manualChange.reconciliation!.currentContext) return;
+              const { context, start, end } = scopeSelection;
+              const captured = captureTextRange(current, rangeTarget.paragraphId, start, end, { allowCaret: true });
+              if (!captured || captured.context !== context) { setError('Choose complete characters in the current paragraph.');return; }
+              const expectedCurrent = context.slice(start, end);
+              setResolution({ ...editing, range: { context, start, end }, expectedCurrent, value: expectedCurrent });setScopeSelection(null);
+            }}>Use current selection</Button>
+            {editing.range && <p className="whitespace-pre-wrap break-words text-sm">Current selected scope: {editing.expectedCurrent || '(Insertion point)'}</p>}
+          </div>}
           <Label htmlFor={`${prefix}-${proposal.id}-resolution`}>Resolved replacement</Label>
           <Textarea id={`${prefix}-${proposal.id}-resolution`} value={editing.value} rows={4} maxLength={REVIEW_SUGGESTION_LIMITS.value}
             onChange={event => setResolution({ ...editing, value: event.target.value })} />
-          {manualChange.current !== editing.expectedCurrent && <p role="alert" className="text-sm text-destructive">The draft changed after reconciliation opened. Cancel and reopen it to review the new current text.</p>}
+          {resolutionStale && <p role="alert" className="text-sm text-destructive">The draft changed after reconciliation opened. Cancel and reopen it to review the new current text.</p>}
           <div className="flex flex-wrap gap-2">
             <Button size="sm" variant="outline" onClick={() => setResolution({ ...editing, value: editing.expectedCurrent })}>Keep current text</Button>
             <Button size="sm" variant="outline" onClick={() => setResolution({ ...editing, value: manualChange.proposed })}>Use proposed text</Button>
-            <Button size="sm" disabled={manualChange.current !== editing.expectedCurrent} onClick={() => {
-              const { proposalId, ...value } = editing;void decide(proposalId, 'accepted', value);
+            <Button size="sm" disabled={resolutionStale || !!rangeTarget && !editing.range} onClick={() => {
+              const { proposalId, previewContext: _previewContext, ...value } = editing;void decide(proposalId, 'accepted', value);
             }}>Apply resolution</Button>
             <Button size="sm" variant="outline" onClick={() => setResolution(null)}>Cancel reconciliation</Button>
           </div>

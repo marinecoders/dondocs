@@ -5,7 +5,7 @@ import type { DocumentMeta } from '@/stores/documentsStore';
 import type { SerializedSession } from '@/stores/documentStore';
 import { canonicalReviewPayload, reviewDigestSchema, reviewPayloadDigest, reviewRoundIdSchema, type ReviewRound } from './reviewRounds';
 import {
-  acceptedReviewSuggestionRange, applyReviewSuggestionRange, appendReviewSuggestions, emptyReviewSuggestionState, planReviewSuggestionDecision, planReviewSuggestionHistory,
+  acceptedReviewSuggestionRange, resolvedReviewSuggestionRange, applyReviewSuggestionRange, appendReviewSuggestions, emptyReviewSuggestionState, planReviewSuggestionDecision, planReviewSuggestionHistory,
   reviewProposalIdSchema, reviewSuggestionResolutionSchema, reviewSuggestionSchema, reviewSuggestionStateSchema, validateReviewSuggestionState,
 } from './reviewSuggestions';
 import { reviewCommentsSchema } from './reviewComments';
@@ -96,8 +96,10 @@ export function planReviewSuggestionWrite(round: ReviewRound, source: Serialized
     if (target.kind === 'field') Object.assign(next.formData, { [target.field]: value });
     else if (target.kind === 'paragraph') replaceReviewParagraphText(next, target.paragraphId, value);
     else if (target.kind === 'range') {
-      const range = intent.direction === 'undo' ? acceptedReviewSuggestionRange(target, change.proposed) : target;
-      next = applyReviewSuggestionRange(next, range, intent.direction === 'undo' ? change.proposed : change.expected, value);
+      const original = resolution?.expectedCurrent ?? change.expected, applied = resolution?.value ?? change.proposed;
+      const scope = resolvedReviewSuggestionRange(target, resolution);
+      const range = intent.direction === 'undo' ? acceptedReviewSuggestionRange(scope, applied) : scope;
+      next = applyReviewSuggestionRange(next, range, intent.direction === 'undo' ? applied : original, value);
     } else {
       const reference = next.references[target.referenceIndex];
       if (!reference) throw new Error('The accepted reference title is unavailable.');

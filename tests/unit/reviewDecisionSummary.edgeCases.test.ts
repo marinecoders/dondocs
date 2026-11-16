@@ -1,7 +1,7 @@
 import 'fake-indexeddb/auto';
 import { expect, it } from 'vitest';
 import { decisionSummaryFixture } from '../_helpers/decisionSummaryFixture';
-import { createReviewSuggestion, planReviewSuggestionDecision } from '@/lib/reviewSuggestions';
+import { createReviewSuggestion, createSelectedTextSuggestion, planReviewSuggestionDecision } from '@/lib/reviewSuggestions';
 import { captureReviewDecisionSummary, prepareReviewDecisionSummary, renderReviewDecisionSummary,
   reviewDecisionSummaryDetails } from '@/lib/reviewDecisionSummary';
 import { resolveExportDeploymentPolicy } from '@/lib/exportDeploymentPolicy';
@@ -66,4 +66,20 @@ it('exports discussion-only rounds without inventing decisions or double-countin
   expect(html).toContain('No suggested edits retained for this round.');
   expect(html).toContain('Baseline discussions: 1 open, 0 resolved. Current discussions: 0 open, 1 resolved.');
   expect(html).toContain('Completed discussion without a proposed edit.');
+});
+
+
+it('shows accepted manual range scope and privacy-scans retained current context after it leaves the draft', async () => {
+  const input = decisionSummaryFixture();input.round.baseline.session.paragraphs[0].text = 'Alpha Alpha end.';
+  input.current.paragraphs[0].text = 'Alpha end. Synthetic SSN 123-45-6789';
+  const proposal = createSelectedTextSuggestion(input.round, { author: 'Reviewer', paragraphId: 'first', start: 0, end: 5, proposed: 'Bravo' });
+  input.state!.proposals = [proposal];
+  const context = input.current.paragraphs[0].text;
+  const accepted = planReviewSuggestionDecision(input.round, input.current, input.state!, proposal.id, 'accepted', undefined,
+    [{ changeId: proposal.changes[0].id, expectedCurrent: context, value: 'Deliberate replacement.', range: { context, start: 0, end: context.length } }]);
+  input.state = accepted.state;input.current = accepted.session;
+  const prepared = prepareReviewDecisionSummary(await captureReviewDecisionSummary(input, capturedAt), policy);
+  expect(reviewDecisionSummaryDetails(prepared).privacy.findings.some(finding => finding.value === '123-45-6789')).toBe(true);
+  const html = renderReviewDecisionSummary(prepared);expect(html).toContain('Captured current paragraph context');
+  expect(html).toContain('Deliberate replacement.');expect(html).not.toContain('Accepted earlier; current draft text has changed');
 });

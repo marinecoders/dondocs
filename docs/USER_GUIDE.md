@@ -256,10 +256,19 @@ A reviewer returns proposals through **Prepare feedback return**. Importing stor
 them as pending suggestions. In the source, select the same review and compare
 reviewed, current and proposed values before **Accept suggestion** or **Reject
 suggestion**. Acceptance changes only the selected target. A missing target blocks
-acceptance. A selected replacement checks its stable paragraph ID, exact reviewed
-paragraph context and selected span, then changes only that span. Changed context
-blocks acceptance; reject it or start a new review. Repeated text is identified by
-its captured offsets, never by searching for matching words. For a changed supported field or plain paragraph, choose **Reconcile
+acceptance. A selected replacement follows its stable paragraph ID through moves
+and preserves unambiguous independent edits outside the selected span, including
+separate edits before and after it. Repeated text is identified by captured
+offsets, never by searching for matching words. Overlap blocks automatic acceptance.
+Choose **Reconcile suggestion** to compare baseline, current and proposed text.
+Repeated selected text in a changed paragraph always requires an explicit current
+selection; nearby edits cannot prove which identical occurrence survived.
+When boundaries are ambiguous, select the exact current text in **Select current
+text to resolve**, or place the caret for an insertion, then choose **Use current
+selection**. Only that deliberate current scope can change. A large or complex
+comparison also requires an explicit current selection.
+
+For a changed supported field or whole plain paragraph, choose **Reconcile
 suggestion**. Review the baseline, current and proposed values, then confirm the
 **Resolved replacement**. Separate edits within one contiguous span per side may
 be combined for review; overlapping edits, ambiguous repeated text, boundary insertions and wider changed

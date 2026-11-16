@@ -63,8 +63,9 @@ export async function decideReviewSuggestion(roundId: string, proposalId: string
   const proposal = state.proposals.find(item => item.id === proposalId)!;
   if (action === 'accepted') {
     const policy = await getExportDeploymentPolicy(undefined, true);
-    const text = [...reviewSuggestionText([proposal]), ...(resolutions ?? []).flatMap(item => [
+    const text = [...reviewSuggestionText([proposal]), ...(plan.state.decisions.at(-1)?.resolutions ?? []).flatMap(item => [
       { field: 'Current text before resolution', value: item.expectedCurrent }, { field: 'Resolved text', value: item.value },
+      ...(item.range ? [{ field: 'Current paragraph retained for resolution', value: item.range.context }] : []),
     ])].map((field, index) => ({ id: `suggestion-policy-${index}`, text: field.value, level: 0 }));
     const report = prepareChangeReport(captureChangeReport(
       { label: 'Reviewed baseline', title: '', session: context.round.baseline.session },

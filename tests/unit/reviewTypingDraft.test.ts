@@ -50,5 +50,9 @@ it('saves the capture through the canonical proposal path and retains scanned co
   expect(planReviewSuggestionDecision(round, session, state, proposal.id, 'accepted').session.paragraphs[0].text).toBe('New Synthetic 123-45-6789 text.');
   expect(session.paragraphs[0].text).toBe(draft.baseline);
   const changed = structuredClone(session);changed.paragraphs[0].text += ' Newer.';
-  expect(planReviewSuggestionDecision(round, changed, state, proposal.id, 'accepted').status).toBe('stale');
+  const reconciled = planReviewSuggestionDecision(round, changed, state, proposal.id, 'accepted');
+  expect(reconciled.status).toBe('ready');
+  expect(reconciled.session.paragraphs[0].text).toBe('New Synthetic 123-45-6789 text. Newer.');
+  const overlapping = structuredClone(session);overlapping.paragraphs[0].text = 'Other ' + overlapping.paragraphs[0].text;
+  expect(planReviewSuggestionDecision(round, overlapping, state, proposal.id, 'accepted').status).toBe('stale');
 });

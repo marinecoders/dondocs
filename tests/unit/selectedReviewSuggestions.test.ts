@@ -73,7 +73,6 @@ describe('precise selected text replacements', () => {
 
   it('rejects changed context, changed selection, duplicate identity, deleted and newly formatted paragraphs', () => {
     for (const edit of [
-      (source: ReturnType<typeof fixture>['session']) => { source.paragraphs[0].text += ' More work.'; },
       (source: ReturnType<typeof fixture>['session']) => { source.paragraphs[0].text = 'Keep Alpha Gamma ending.'; },
       (source: ReturnType<typeof fixture>['session']) => { source.paragraphs.push({ ...source.paragraphs[0] }); },
       (source: ReturnType<typeof fixture>['session']) => { source.paragraphs[0].id = 'changed-id'; },

@@ -214,3 +214,34 @@ it('never permits a precise replacement decision from a linked reviewer copy', a
   const { write, saved } = input.accept();write.documentId = id;saved.id = id;saved.meta.id = id;
   expect(await idbApplyReviewSuggestions(after, saved, write)).toBe('conflict');expect(await idbReadReviewSuggestionReceipt(write.id)).toBeNull();
 });
+
+it('atomically resolves only a deliberately selected current range and preserves its captured scope on reload', async () => {
+  const input = await fixture(true);await idbApplyReviewSuggestions(input.before, input.after, input.operation);
+  const current = structuredClone(input.after);current.session.paragraphs[0].text = 'Newest BODY ending.';current.meta.updatedAt = 250;
+  await idbPutDocument(current);
+  const resolutions = [{ changeId: input.proposal.changes[0].id, expectedCurrent: 'BODY', value: 'combined',
+    range: { context: 'Newest BODY ending.', start: 7, end: 11 } }];
+  const plan = planReviewSuggestionDecision(input.round, current.session, input.state, input.proposal.id, 'accepted', undefined, resolutions);
+  const decision = plan.state.decisions[0];
+  const operation: ReviewSuggestionWrite = { ...input.operation, id: `suggestion-write_${crypto.randomUUID()}`, before: input.state, after: plan.state,
+    intent: { kind: 'decide', proposalId: input.proposal.id, action: 'accepted', record: { id: decision.id, decidedAt: decision.decidedAt }, resolutions } };
+  const after = { ...structuredClone(current), meta: { ...current.meta, updatedAt: 300, nativeReviewText: true as const }, session: plan.session };
+  expect(after.session.paragraphs[0].text).toBe('Newest combined ending.');
+  const late = structuredClone(current);late.session.paragraphs[0].text += ' Foreign work.';late.meta.updatedAt++;
+  await idbPutDocument(late);expect(await idbApplyReviewSuggestions(current, after, operation)).toBe('conflict');
+  expect(await input.read()).toEqual(late);expect(await idbReadReviewSuggestionReceipt(operation.id)).toBeNull();
+  await idbPutDocument(current);
+  const forged = structuredClone(after);forged.session.paragraphs[0].text = 'Overwrite outside scope';
+  expect(await idbApplyReviewSuggestions(current, forged, operation)).toBe('conflict');expect(await input.read()).toEqual(current);
+  expect(await idbApplyReviewSuggestions(current, after, operation, () => false)).toBe('stale');expect(await input.read()).toEqual(current);
+  const original = IDBObjectStore.prototype.put;
+  const spy = vi.spyOn(IDBObjectStore.prototype, 'put').mockImplementation(function (this: IDBObjectStore, value, key) {
+    if (value && typeof value === 'object' && 'key' in value && String(value.key).startsWith('review-suggestions:')) throw new DOMException('Full', 'QuotaExceededError');
+    return original.call(this, value, key);
+  });
+  try { expect(await idbApplyReviewSuggestions(current, after, operation)).toBe('failed'); } finally { spy.mockRestore(); }
+  expect(await input.read()).toEqual(current);expect(await idbReadReviewSuggestionReceipt(operation.id)).toBeNull();
+  expect(await idbApplyReviewSuggestions(current, after, operation)).toBe('committed');
+  expect(await idbApplyReviewSuggestions(current, after, operation)).toBe('already-committed');
+  expect(reviewSuggestionRecordSchema.parse(await idbReadReviewSuggestions(input.id, input.round.id)).state.decisions[0].resolutions).toEqual(resolutions);
+});

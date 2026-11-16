@@ -2,9 +2,10 @@ import { act, fireEvent, render, screen, waitFor, within } from '@testing-librar
 import userEvent from '@testing-library/user-event';
 import { expect, it, vi } from 'vitest';
 import { ReviewSuggestionsPanel } from '@/components/editor/ReviewSuggestionsPanel';
-import { createSelectedTextSuggestion, createReviewSuggestion, emptyReviewSuggestionState, planReviewSuggestionDecision, planReviewSuggestionHistory } from '@/lib/reviewSuggestions';
+import { appendReviewSuggestions, createSelectedTextSuggestion, createReviewSuggestion, emptyReviewSuggestionState, planReviewSuggestionDecision, planReviewSuggestionHistory } from '@/lib/reviewSuggestions';
 import { getSerializedSession } from '@/stores/documentStore';
 import type { ReviewRound } from '@/lib/reviewRounds';
+import * as reconciliation from '@/lib/reconcileReviewText';
 
 function props() {
   const current = getSerializedSession();current.documentCategory = 'correspondence';current.docType = 'naval_letter';
@@ -216,7 +217,7 @@ it('routes existing formatting findings through the shared proposal and decision
   await userEvent.click(within(formatting).getByRole('button', { name: 'Propose 2 corrections' }));
   const proposal = input.onCreate.mock.calls[0][0];
   expect(proposal.origin.kind).toBe('mechanical');expect(proposal.changes).toHaveLength(2);
-  input.state.proposals.push(proposal);view.rerender(<ReviewSuggestionsPanel {...input} />);
+  input.state = { ...input.state, proposals: [...input.state.proposals, proposal] };view.rerender(<ReviewSuggestionsPanel {...input} />);
   const group = screen.getByRole('article', { name: 'Suggestion 1: Formatting corrections (2)' });
   expect(group).toHaveTextContent('All members are checked before any change is applied');
   await userEvent.click(within(group).getByRole('button', { name: 'Accept suggestion' }));
@@ -281,13 +282,13 @@ it('captures an actual baseline text selection, cancels without submission, then
   expect(screen.getByText(/Acceptance undone/)).toBeVisible();expect(screen.getByRole('button', { name: 'Accept suggestion' })).toBeEnabled();
 });
 
-it('blocks changed selected text without offering whole paragraph reconciliation and hides decisions from reviewer copies', () => {
+it('offers scoped reconciliation for changed selected text and hides decisions from reviewer copies', () => {
   const input = props();input.state.proposals.push(createSelectedTextSuggestion(input.round, { author: 'Synthetic reviewer', paragraphId: 'paragraph-one', start: 9, end: 13, proposed: 'text' }));
-  input.current.paragraphs[0].text = 'Newer body.';
+  input.current.paragraphs[0].text = 'Original work.';
   const view = render(<ReviewSuggestionsPanel {...input} />);
   expect(screen.getByRole('button', { name: 'Accept suggestion' })).toBeDisabled();
   expect(screen.getByRole('button', { name: 'Reject suggestion' })).toBeEnabled();
-  expect(screen.queryByRole('button', { name: 'Reconcile suggestion' })).not.toBeInTheDocument();
+  expect(screen.getByRole('button', { name: 'Reconcile suggestion' })).toBeEnabled();
   view.rerender(<ReviewSuggestionsPanel {...input} owner={false} />);
   expect(screen.queryByRole('button', { name: 'Accept suggestion' })).not.toBeInTheDocument();
   expect(screen.queryByRole('button', { name: 'Reject suggestion' })).not.toBeInTheDocument();
@@ -303,4 +304,104 @@ it('gives distinct comparison landmarks to different selected spans in one parag
   expect(screen.getByRole('region', { name: 'Selected text in paragraph 1 replacement comparison, suggestion 2' })).toHaveTextContent('body');
   const regions = screen.getAllByRole('region').map(element => element.getAttribute('aria-label'));
   expect(new Set(regions).size).toBe(regions.length);
+});
+
+it('requires an explicit current scope for an ambiguous repeated range and cancels without deciding', async () => {
+  const input = props();input.round.baseline.session.paragraphs[0].text = 'Alpha Alpha end.';input.current.paragraphs[0].text = 'Alpha end.';
+  const proposal = createSelectedTextSuggestion(input.round, { author: 'Reviewer', paragraphId: 'paragraph-one', start: 0, end: 5, proposed: 'Bravo' });
+  input.state.proposals.push(proposal);render(<ReviewSuggestionsPanel {...input} />);
+  expect(screen.getByRole('button', { name: 'Accept suggestion' })).toBeDisabled();
+  await userEvent.click(screen.getByRole('button', { name: 'Reconcile suggestion' }));
+  expect(screen.getByText(/current boundaries cannot be mapped safely/)).toBeVisible();
+  expect(screen.getByRole('button', { name: 'Apply resolution' })).toBeDisabled();
+  await userEvent.click(screen.getByRole('button', { name: 'Cancel reconciliation' }));expect(input.onDecide).not.toHaveBeenCalled();
+  await userEvent.click(screen.getByRole('button', { name: 'Reconcile suggestion' }));
+  const current = screen.getByRole('textbox', { name: 'Select current text to resolve' }) as HTMLTextAreaElement;
+  current.setSelectionRange(0, 5);fireEvent.select(current);
+  await userEvent.click(screen.getByRole('button', { name: 'Use current selection' }));
+  expect(screen.getByText('Current selected scope: Alpha')).toBeVisible();
+  await userEvent.click(screen.getByRole('button', { name: 'Use proposed text' }));
+  expect(screen.getByRole('textbox', { name: 'Resolved replacement' })).toHaveValue('Bravo');
+  await userEvent.click(screen.getByRole('button', { name: 'Apply resolution' }));
+  expect(input.onDecide).toHaveBeenCalledWith(proposal.id, 'accepted', [{ changeId: proposal.changes[0].id, expectedCurrent: 'Alpha', value: 'Bravo',
+    range: { context: 'Alpha end.', start: 0, end: 5 } }]);
+});
+
+it('shows range baseline, current, proposal and resolution, and blocks changes outside the captured current scope', async () => {
+  const input = props();input.current.paragraphs[0].text = 'Original work.';
+  const proposal = createSelectedTextSuggestion(input.round, { author: 'Reviewer', paragraphId: 'paragraph-one', start: 9, end: 13, proposed: 'text' });
+  input.state.proposals.push(proposal);const view = render(<ReviewSuggestionsPanel {...input} />);
+  const comparison = screen.getByRole('region', { name: 'Selected text in paragraph 1 replacement comparison, suggestion 1' });
+  expect(comparison).toHaveTextContent('body');expect(comparison).toHaveTextContent('work');expect(comparison).toHaveTextContent('text');
+  await userEvent.click(screen.getByRole('button', { name: 'Reconcile suggestion' }));
+  await userEvent.click(screen.getByRole('button', { name: 'Keep current text' }));
+  expect(screen.getByRole('textbox', { name: 'Resolved replacement' })).toHaveValue('work');
+  const current = structuredClone(input.current);current.paragraphs[0].text += ' Later outside work.';
+  view.rerender(<ReviewSuggestionsPanel {...input} current={current} />);
+  expect(screen.getByRole('button', { name: 'Apply resolution' })).toBeDisabled();
+  expect(screen.getByRole('alert')).toHaveTextContent('draft changed');expect(input.onDecide).not.toHaveBeenCalled();
+});
+
+it('does not realign unchanged source text while editing a resolution, but rechecks a new source revision', async () => {
+  const input = props();input.current.paragraphs[0].text = 'Original work.';
+  input.state.proposals.push(createSelectedTextSuggestion(input.round, { author: 'Reviewer', paragraphId: 'paragraph-one', start: 9, end: 13, proposed: 'text' }));
+  const align = vi.spyOn(reconciliation, 'reconcileReviewRange');
+  try {
+    const view = render(<ReviewSuggestionsPanel {...input} />);
+    await userEvent.click(screen.getByRole('button', { name: 'Reconcile suggestion' }));
+    align.mockClear();
+    fireEvent.change(screen.getByRole('textbox', { name: 'Resolved replacement' }), { target: { value: 'Deliberate combined text' } });
+    fireEvent.change(screen.getByRole('textbox', { name: 'Reviewer name for suggestion' }), { target: { value: 'Another reviewer' } });
+    const scope = screen.getByRole('textbox', { name: 'Select current text to resolve' }) as HTMLTextAreaElement;
+    scope.setSelectionRange(9, 13);fireEvent.select(scope);
+    expect(screen.getByRole('textbox', { name: 'Resolved replacement' })).toHaveValue('Deliberate combined text');
+    expect(align).not.toHaveBeenCalled();
+
+    const current = structuredClone(input.current);current.paragraphs[0].text += ' New outside work.';
+    view.rerender(<ReviewSuggestionsPanel {...input} current={current} />);
+    expect(align).toHaveBeenCalled();
+    expect(screen.getByRole('button', { name: 'Apply resolution' })).toBeDisabled();
+    expect(screen.getByRole('alert')).toHaveTextContent('draft changed');
+  } finally { align.mockRestore(); }
+});
+
+it('refreshes inspections when proposals, decisions or the review round change', () => {
+  const input = props(), proposal = createSelectedTextSuggestion(input.round, { author: 'Reviewer', paragraphId: 'paragraph-one', start: 9, end: 13, proposed: 'text' });
+  const align = vi.spyOn(reconciliation, 'reconcileReviewRange');
+  try {
+    const view = render(<ReviewSuggestionsPanel {...input} />);
+    const state = { ...input.state, proposals: [proposal] };
+    align.mockClear();view.rerender(<ReviewSuggestionsPanel {...input} state={state} />);
+    expect(align).toHaveBeenCalled();expect(screen.getByRole('button', { name: 'Accept suggestion' })).toBeEnabled();
+
+    const rejected = planReviewSuggestionDecision(input.round, input.current, state, proposal.id, 'rejected');
+    align.mockClear();view.rerender(<ReviewSuggestionsPanel {...input} state={rejected.state} />);
+    expect(align).toHaveBeenCalled();expect(screen.getByText(/· Rejected$/)).toBeVisible();
+    expect(screen.queryByRole('button', { name: 'Accept suggestion' })).not.toBeInTheDocument();
+
+    align.mockClear();view.rerender(<ReviewSuggestionsPanel {...input} state={rejected.state} round={{ ...input.round, label: 'Refreshed review' }} />);
+    expect(align).toHaveBeenCalled();expect(screen.getByText(/· Rejected$/)).toBeVisible();
+  } finally { align.mockRestore(); }
+});
+
+it('aligns an identical range once per displayed batch and starts fresh for a new source', () => {
+  const input = props(), text = 'a'.repeat(450) + ' UNIQUE! ' + 'b'.repeat(450);
+  input.round.baseline.session.paragraphs[0].text = text;
+  input.current.paragraphs[0].text = 'c' + text.slice(1, 451) + 'ALTERED' + text.slice(458, -1) + 'd';
+  const proposals = Array.from({ length: 100 }, () => createSelectedTextSuggestion(input.round, {
+    author: 'Reviewer', paragraphId: 'paragraph-one', start: 451, end: 458, proposed: 'distinct',
+  }));
+  const state = appendReviewSuggestions(input.round, input.state, proposals);
+  expect(new Set(proposals.map(proposal => JSON.stringify(proposal.changes[0].target))).size).toBe(1);
+  const align = vi.spyOn(reconciliation, 'reconcileReviewRange');
+  try {
+    const view = render(<ReviewSuggestionsPanel {...input} state={state} />);
+    expect(screen.getAllByRole('article', { name: /^Suggestion / })).toHaveLength(100);
+    expect(align.mock.calls.filter(([, current]) => current === input.current.paragraphs[0].text)).toHaveLength(1);
+
+    const current = structuredClone(input.current);current.paragraphs[0].text += ' Later.';
+    align.mockClear();view.rerender(<ReviewSuggestionsPanel {...input} state={state} current={current} />);
+    expect(align.mock.calls.filter(([, context]) => context === current.paragraphs[0].text)).toHaveLength(1);
+    expect(screen.getAllByRole('button', { name: 'Accept suggestion' }).every(button => button.hasAttribute('disabled'))).toBe(true);
+  } finally { align.mockRestore(); }
 });
