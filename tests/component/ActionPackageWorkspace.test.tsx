@@ -364,7 +364,7 @@ it("starts and reopens an exact saved package review after membership removal an
   let dialog = screen.getByRole("dialog", { name: "Action packages" });
   await within(dialog).findByRole("option", { name: record.name });
   await user.selectOptions(within(dialog).getByLabelText("Saved packages", { exact: true }), record.id);
-  await user.click(within(dialog).getByRole("button", { name: "Start package review", exact: true }));
+  await user.click(within(dialog).getByRole("button", { name: "Start package review" }));
   await within(dialog).findByText("Reviewing exact saved package revision");
   expect(within(dialog).getByRole("button", { name: "Check readiness and assemble" })).toBeDisabled();
   expect(within(dialog).queryByRole("button", { name: "Edit working copy" })).toBeNull();
@@ -377,10 +377,10 @@ it("starts and reopens an exact saved package review after membership removal an
   await within(dialog).findByRole("option", { name: record.name });
   await user.selectOptions(within(dialog).getByLabelText("Saved packages", { exact: true }), record.id);
   expect(within(dialog).queryByRole("heading", { name: "1. Synthetic exact review member" })).toBeNull();
-  await user.click(within(dialog).getByRole("button", { name: "Open review Package review 1", exact: true }));
+  await user.click(within(dialog).getByRole("button", { name: "Open review Package review 1" }));
   await within(dialog).findByRole("heading", { name: "1. Synthetic exact review member" });
   expect(within(dialog).getByLabelText("Package revision")).toHaveValue(record.currentRevisionId);
-  await user.click(within(dialog).getByRole("button", { name: "Close package review", exact: true }));
-  await within(dialog).findByRole("button", { name: "Reopen package review", exact: true });
+  await user.click(within(dialog).getByRole("button", { name: "Close package review" }));
+  await within(dialog).findByRole("button", { name: "Reopen package review" });
   expect((await listActionPackages()).find(value => value.id === record.id)?.reviewRounds?.[0].lifecycle?.events.at(-1)?.state).toBe("closed");
 });
