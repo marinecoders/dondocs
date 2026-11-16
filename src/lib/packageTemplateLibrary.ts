@@ -2,7 +2,7 @@ import { packageRoles } from './packageRoles';
 import { z } from 'zod';
 import type { SerializedSession } from '@/stores/documentStore';
 import { scheduleBackup } from '@/stores/backupStore';
-import { actionPackageSchema, commitActionPackage, getPackageRevision, newPackageId, type ActionPackage, type NativePackageMember, type PackageMember } from './actionPackages';
+import { actionPackageSchema, commitActionPackage, newPackageId, type ActionPackage, type NativePackageMember, type PackageMember } from './actionPackages';
 import { readPackageAsset, readPackageMemberDraft } from './actionPackageAssets';
 import { validatePackageDraft } from './actionPackageDraft';
 import { validatePackageMemberTemplates } from './actionPackageTemplates';
@@ -148,13 +148,30 @@ async function saveTemplate(before: PackageTemplate | null, after: PackageTempla
   scheduleBackup();
 }
 export async function capturePackageTemplate(record: ActionPackage, revisionId: string, name: string, signal?: AbortSignal): Promise<PackageTemplate> {
-  const revision = getPackageRevision(actionPackageSchema.parse(record), revisionId);
-  const members: PackageTemplateMember[] = [];
+  signal?.throwIfAborted();
+  const revision = actionPackageSchema.parse(record).revisions.find(revision => revision.id === revisionId);
+  if (!revision) throw new Error('This package revision is unavailable.');
+  const template: PackageTemplate = { kind: 'dondocs-package-template', version: 1, id: newPackageId('template'),
+    name: packageTemplateSchema.shape.name.parse(name), createdAt: Date.now(), members: [] };
+  let bytes = jsonSize(template);
+  const includeBytes = (size: number): void => {
+    bytes += size;
+    if (bytes > MAX_PACKAGE_TEMPLATE_BYTES) throw new Error('Package templates are limited to 12 MB.');
+  };
+  // Each binding is embedded separately, even when several members share one stored PDF.
+  // Reserve guaranteed retained bytes before reading drafts or allocating encoded pages.
+  for (const member of revision.members) if (member.kind === 'native')
+    for (const asset of Object.values(member.templates ?? {})) includeBytes(Math.ceil(asset.size / 3) * 4);
+  const appendMember = (member: PackageTemplateMember): void => {
+    includeBytes(jsonSize(member) + (template.members.length ? 1 : 0));
+    template.members.push(member);
+  };
   for (const member of revision.members) {
     signal?.throwIfAborted();
     const { label, role, required } = member;
-    if (member.kind === 'original') { members.push({ kind: 'attachment', label, role, required }); continue; }
+    if (member.kind === 'original') { appendMember({ kind: 'attachment', label, role, required }); continue; }
     const { draft } = await readPackageMemberDraft(member);
+    signal?.throwIfAborted();
     const requiredFiles: RequiredNativeFile[] = [];
     if (member.session.documentCategory !== 'forms') {
       const form = (draft as Record<string, unknown>).formData as Record<string, unknown>;
@@ -164,13 +181,20 @@ export async function capturePackageTemplate(record: ActionPackage, revisionId: 
         if (enclosure.file || enclosure.fileRef || enclosure.hasFile) requiredFiles.push({ kind: 'enclosure', index, label: `Enclosure ${index + 1}: ${String(enclosure.title)}`.slice(0, 120) });
       });
     }
-    const pages = Object.fromEntries(await Promise.all(Object.entries(member.templates ?? {}).map(async ([file, asset]) =>
-      [file, { name: asset.name, type: 'application/pdf' as const, data: uint8ArrayToBase64(new Uint8Array(await readPackageAsset(asset))) }])));
-    members.push({ kind: 'native', label, role, required, draft: cleanStarter(draft as Record<string, unknown>), pages, ...(requiredFiles.length ? { requiredFiles } : {}) });
+    const pages = Object.fromEntries(Object.entries(member.templates ?? {}).map(([file, asset]) =>
+      [file, { name: asset.name, type: 'application/pdf' as const, data: '' }]));
+    // Empty page data accounts for all JSON keys/escaping; encoded lengths are reserved above.
+    appendMember({ kind: 'native', label, role, required, draft: cleanStarter(draft as Record<string, unknown>), pages, ...(requiredFiles.length ? { requiredFiles } : {}) });
+    for (const [file, asset] of Object.entries(member.templates ?? {})) {
+      signal?.throwIfAborted();
+      const data = await readPackageAsset(asset);
+      signal?.throwIfAborted();
+      pages[file].data = uint8ArrayToBase64(new Uint8Array(data));
+    }
   }
-  const template = boundedTemplate({ kind: 'dondocs-package-template', version: 1, id: newPackageId('template'), name, createdAt: Date.now(), members });
-  await saveTemplate(null, template, signal);
-  return template;
+  const bounded = boundedTemplate(template);
+  await saveTemplate(null, bounded, signal);
+  return bounded;
 }
 export async function renamePackageTemplate(before: PackageTemplate, name: string, signal?: AbortSignal): Promise<PackageTemplate> {
   const after = boundedTemplate({ ...before, name });
