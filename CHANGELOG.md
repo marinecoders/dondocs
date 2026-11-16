@@ -7,6 +7,13 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.116] — 2026-11-15
+
+### Added
+
+- Reconcile paragraph proposals with newer document work by stable identity. Moves retain current text, formatting, discussions and unrelated inserted paragraphs; independent paragraph position changes no longer discard review intent.
+- Review delete-versus-edit, split/join overlaps and competing moves against baseline, current and proposed content. Confirm an exact current operation or keep current structure; changed split text requires an explicit current boundary. Missing identities and changed parents require a fresh proposal. Accepted current scopes persist through guarded Undo/Redo and backup.
+
 ## [1.3.115] — 2026-11-15
 
 ### Added

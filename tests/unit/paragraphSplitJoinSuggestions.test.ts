@@ -76,9 +76,9 @@ describe('split/join through the shared review planner and scoped history writer
     expect(() => captureReviewStructure(session,{kind:'split-paragraph',paragraphId:'first',splitAt:12,newParagraphId:'second'})).toThrow(/reserved/);
     session.paragraphs[1].header='Retained label';expect(() => captureReviewStructure(session,{kind:'join-paragraphs',paragraphId:'first',nextParagraphId:'second',separator:' '})).toThrow(/heading/);
   });
-  it.each(['text','missing','gap','parent'] as const)('blocks stale %s and retains the document', kind => {
+  it.each(['text','missing','parent'] as const)('blocks stale %s and retains the document', kind => {
     const {session,make,accept}=fixture(),proposal=make({kind:'split-paragraph',paragraphId:'first',splitAt:12});
-    if(kind==='text')session.paragraphs[0].text+=' newer';if(kind==='missing')session.paragraphs[0].id='other';if(kind==='gap')session.paragraphs.splice(1,0,{id:'interposed',text:'New',level:0});if(kind==='parent')session.paragraphs[0].level=1;
+    if(kind==='text')session.paragraphs[0].text+=' newer';if(kind==='missing')session.paragraphs[0].id='other';if(kind==='parent')session.paragraphs[0].level=1;
     const plan=accept(proposal);expect(plan.status).toBe('stale');expect(plan.session).toEqual(session);expect(plan.state.decisions).toEqual([]);
   });
   it('rejects after text, unknown fields, malformed graphemes and duplicate replay', () => {

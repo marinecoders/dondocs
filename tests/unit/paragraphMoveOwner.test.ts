@@ -98,10 +98,9 @@ describe('paragraph movement through source actions and IndexedDB',()=>{
     expect(changeDocumentHistory('undo',captureDocumentScope())).toBe('applied');await flushDocumentWrites();expect(getSerializedSession().paragraphs).toEqual(before.paragraphs);
     expect(changeDocumentHistory('redo',captureDocumentScope())).toBe('applied');await flushDocumentWrites();expect((await loadReviewSuggestionWorkspace(round.id)).current.paragraphs.find(p=>p.id==='move-source')!.figure!.fileRef).toEqual(figure);
   });
-  it.each(['target','destination','child','parent','interposed','duplicate'] as const)('refuses changed %s with no source or decision mutation',async kind=>{
+  it.each(['parent','duplicate'] as const)('refuses changed %s with no source or decision mutation',async kind=>{
     const {round,proposal,id}=await fixture();const nodes=structuredClone(useDocumentStore.getState().paragraphs);
-    if(kind==='target')nodes[0].header='Changed heading';if(kind==='destination')nodes[2].text='Changed destination';if(kind==='child')nodes[1].text='Changed child';
-    if(kind==='parent')nodes[2].level=1;if(kind==='interposed')nodes.splice(2,0,{id:'newer-between',text:'Newer paragraph',level:0});if(kind==='duplicate')nodes.push({...nodes[0]});
+    if(kind==='parent')nodes[2].level=1;if(kind==='duplicate')nodes.push({...nodes[0]});
     useDocumentStore.setState({paragraphs:nodes});await commitCurrentDocument();const before=await saved(id);
     await expect(decideReviewSuggestion(round.id,proposal.id,'accepted')).rejects.toThrow();expect(await saved(id)).toEqual(before);
     expect((await loadReviewSuggestionWorkspace(round.id)).state!.decisions).toEqual([]);

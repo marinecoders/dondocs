@@ -60,7 +60,7 @@ function parentId(paragraphs: readonly Paragraph[], index: number): string | nul
 function assertOutline(paragraphs: Paragraph[]): void {
   if (normalizeLevels(paragraphs).some((paragraph, index) => paragraph.level !== paragraphs[index].level)) throw new Error('This operation would create invalid paragraph nesting.');
 }
-function assertOperation(target: ReviewStructureTarget): void {
+export function assertReviewStructureOperation(target: ReviewStructureTarget): void {
   const operation = target.operation;
   if (operation.kind === 'insert-paragraph') {
     const paragraph = operation.after[0];
@@ -135,7 +135,7 @@ function locate(source: SerializedSession, target: ReviewStructureTarget, direct
  * general array replacement. New operation kinds must prove their own derivation. */
 export function validateReviewStructureTarget(baseline: SerializedSession, input: ReviewStructureTarget): ReviewStructureTarget {
   const target = reviewStructureTargetSchema.parse(input);
-  assertOperation(target);
+  assertReviewStructureOperation(target);
   locate(baseline, target, 'forward');
   const reserved = new Set([...baseline.paragraphs.map(paragraph => paragraph.id), ...paragraphCommentIds(baseline.reviewComments)]);
   for (const id of structureNewIds(target)) if (reserved.has(id)) throw new Error('The new paragraph identity is already reserved by document content or discussion history.');
@@ -143,7 +143,7 @@ export function validateReviewStructureTarget(baseline: SerializedSession, input
 }
 /** Validate applicability before deriving a writable document or discussion mappings. */
 function prepareReviewStructure(source: SerializedSession, input: ReviewStructureTarget, direction: 'forward' | 'reverse', reservedIds: readonly string[], historyReplay: boolean) {
-  const target = reviewStructureTargetSchema.parse(input);assertOperation(target);
+  const target = reviewStructureTargetSchema.parse(input);assertReviewStructureOperation(target);
   const { start, before, after } = locate(source, target, direction);
   const retained = new Set(before.map(paragraph => paragraph.id));
   const occupied = new Set([...source.paragraphs.map(paragraph => paragraph.id), ...paragraphCommentIds(source.reviewComments), ...reservedIds]);

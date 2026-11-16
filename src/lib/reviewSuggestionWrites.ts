@@ -123,7 +123,7 @@ export function planReviewSuggestionWrite(round: ReviewRound, source: Serialized
       const range = intent.direction === 'undo' ? acceptedReviewSuggestionRange(scope, applied) : scope;
       next = applyReviewSuggestionRange(next, range, intent.direction === 'undo' ? applied : original, value);
     } else if (target.kind === 'structure') {
-      next = applyReviewStructure(next, target, intent.direction === 'undo' ? 'reverse' : 'forward', reviewStructureReservedIds(state, proposal.id), true);
+      next = applyReviewStructure(next, resolution?.structure ?? target, intent.direction === 'undo' ? 'reverse' : 'forward', reviewStructureReservedIds(state, proposal.id), true);
     } else {
       const reference = next.references[target.referenceIndex];
       if (!reference) throw new Error('The accepted reference title is unavailable.');
@@ -154,7 +154,7 @@ export function planReviewSuggestionWrite(round: ReviewRound, source: Serialized
       else delete replay.reviewComments;
     }
     for (const change of proposal.changes) if (change.target.kind === 'structure')
-      replay = applyReviewStructure(replay, change.target, 'forward', reviewStructureReservedIds(state, proposal.id), true);
+      replay = applyReviewStructure(replay, acceptance!.resolutions?.find(item => item.changeId === change.id)?.structure ?? change.target, 'forward', reviewStructureReservedIds(state, proposal.id), true);
     const expected = intent.direction === 'undo' ? source.reviewComments : destination;
     if (canonicalReviewPayload(replay.reviewComments ?? null) !== canonicalReviewPayload(expected ?? null))
       throw new Error('This history action changes discussion content beyond the accepted paragraph operation.');

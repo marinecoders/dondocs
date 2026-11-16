@@ -8,7 +8,7 @@ import { captureChangeReport, prepareChangeReport } from './changeReport';
 import { classificationBannerLevel } from './detectClassification';
 import { classificationRank, deriveOverallClassLevel } from './overallClassification';
 import { supportsReviewComments } from './reviewCommentTargets';
-import { appendReviewSuggestions, emptyReviewSuggestionState, planReviewSuggestionDecision, reviewSuggestionText,
+import { appendReviewSuggestions, emptyReviewSuggestionState, planReviewSuggestionDecision, reviewSuggestionResolutionText, reviewSuggestionText,
   validateReviewSuggestion, validateReviewSuggestionState, type ReviewSuggestion, type ReviewSuggestionResolution, type ReviewSuggestionState } from './reviewSuggestions';
 import { reviewSuggestionRecordSchema, type ReviewSuggestionWrite } from './reviewSuggestionWrites';
 import { cacheReviewSuggestions } from './reviewSuggestionRuntime';
@@ -63,10 +63,7 @@ export async function decideReviewSuggestion(roundId: string, proposalId: string
   const proposal = state.proposals.find(item => item.id === proposalId)!;
   if (action === 'accepted') {
     const policy = await getExportDeploymentPolicy(undefined, true);
-    const text = [...reviewSuggestionText([proposal]), ...(plan.state.decisions.at(-1)?.resolutions ?? []).flatMap(item => [
-      { field: 'Current text before resolution', value: item.expectedCurrent }, { field: 'Resolved text', value: item.value },
-      ...(item.range ? [{ field: 'Current paragraph retained for resolution', value: item.range.context }] : []),
-    ])].map((field, index) => ({ id: `suggestion-policy-${index}`, text: field.value, level: 0 }));
+    const text = [...reviewSuggestionText([proposal]), ...reviewSuggestionResolutionText(plan.state.decisions.at(-1)?.resolutions ?? [])].map((field, index) => ({ id: `suggestion-policy-${index}`, text: field.value, level: 0 }));
     const report = prepareChangeReport(captureChangeReport(
       { label: 'Reviewed baseline', title: '', session: context.round.baseline.session },
       { label: 'Proposed source', title: '', session: { ...plan.session, paragraphs: [...plan.session.paragraphs, ...text] } },
