@@ -6,7 +6,7 @@ import type { ReviewRound } from '@/lib/reviewRounds';
 import type { FeedbackCategory } from '@/lib/reviewFeedback';
 import { captureTextRange, resolveTextRange } from '@/lib/reviewTextRanges';
 import { createSelectedTextSuggestion, type ReviewSuggestion } from '@/lib/reviewSuggestions';
-import { editReviewTypingDraft, emptyReviewTypingDraft, typingChangeKind, typingDeletion, plainTypingText } from '@/lib/reviewTypingDraft';
+import { editReviewTypingDraft, emptyReviewTypingDraft, typingChangeKind, typingDeletion, typingCaret, plainTypingText } from '@/lib/reviewTypingDraft';
 import type { SerializedSession } from '@/stores/documentStore';
 
 export function ReviewTypingEditor({ round, current, author, category, disabled, quotaFull, onCreate, onDirtyChange }: {
@@ -33,7 +33,8 @@ export function ReviewTypingEditor({ round, current, author, category, disabled,
     try {
       const next = editReviewTypingDraft(draft, start, end, insert);
       setDraft(next);setText(next.text);setError('');setNotice('');
-      restore.current = { start: start + insert.length, end: start + insert.length };
+      const caret = typingCaret(next.text, start + insert.length);
+      restore.current = { start: caret, end: caret };
     } catch (cause) {
       setText(draft.text);if (input.current) input.current.value = draft.text;
       restore.current = { start, end };setError((cause as Error).message);

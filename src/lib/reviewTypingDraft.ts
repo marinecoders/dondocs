@@ -18,6 +18,13 @@ export function typingDeletion(text: string, start: number, end: number, backwar
   return backwards ? { start: boundaries.filter(index => index < start).at(-1) ?? 0, end }
     : { start, end: boundaries.find(index => index > end) ?? text.length };
 }
+/** An insertion or deletion can join text on either side into one character. */
+export function typingCaret(text: string, offset: number): number {
+  for (const part of new Intl.Segmenter('en', { granularity: 'grapheme' }).segment(text)) {
+    if (part.index >= offset) return part.index;
+  }
+  return text.length;
+}
 export function editReviewTypingDraft(draft: ReviewTypingDraft, from: number, to: number, insert: string): ReviewTypingDraft {
   if (from > to || !isTextRangeBoundary(draft.text, from) || !isTextRangeBoundary(draft.text, to)) {
     throw new Error('Select complete characters. This edit was refused; the last valid suggested text is retained.');

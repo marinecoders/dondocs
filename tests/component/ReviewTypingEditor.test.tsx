@@ -125,3 +125,38 @@ it('rejects image and empty clipboard pastes without deleting selected unsaved d
   await userEvent.click(screen.getByRole('button', { name: 'Save typed suggestion' }));
   expect(input.onCreate.mock.calls[0][0].changes[0]).toMatchObject({ expected: '', proposed: 'New ', target: { start: 0, end: 0 } });
 });
+
+for (const operation of ['paste', 'typing', 'composition']) it.each([
+  { name: 'regional indicators', baseline: '🇸 team', offset: 0, insert: '🇺', joined: '🇺🇸 team', caret: 4, start: 0, end: 2 },
+  { name: 'a following combining mark', baseline: '\u0301 team', offset: 0, insert: 'e', joined: 'é team', caret: 2, start: 0, end: 1 },
+  { name: 'a preceding base character', baseline: 'e team', offset: 1, insert: '\u0301', joined: 'é team', caret: 2, start: 0, end: 1 },
+  { name: 'both sides of a ZWJ sequence', baseline: '👨👩 team', offset: 2, insert: '\u200d', joined: '👨‍👩 team', caret: 5, start: 0, end: 4 },
+])(`keeps typing after ${operation} joins $name at the complete character boundary`, async ({ baseline, offset, insert, joined, caret, start, end }) => {
+  const { editor, input } = await open(fixture(baseline));
+  const source = structuredClone(input.current), reviewed = structuredClone(input.round.baseline);
+  select(editor, offset);
+  if (operation === 'paste') fireEvent.paste(editor, { clipboardData: { getData: () => insert } });
+  else if (operation === 'typing') {
+    const event = new InputEvent('beforeinput', { bubbles: true, cancelable: true, inputType: 'insertText', data: insert });
+    act(() => { editor.dispatchEvent(event); });expect(event.defaultPrevented).toBe(false);
+    fireEvent.input(editor, { target: { value: baseline.slice(0, offset) + insert + baseline.slice(offset) }, inputType: 'insertText', data: insert });
+  }
+  else ime(editor, baseline.slice(0, offset) + insert + baseline.slice(offset));
+  expect(editor).toHaveValue(joined);expect(editor.selectionStart).toBe(caret);expect(editor.selectionEnd).toBe(caret);
+  await userEvent.keyboard('X');
+  expect(editor).toHaveValue(joined.slice(0, caret) + 'X' + joined.slice(caret));
+  for (const inputType of ['historyUndo', 'historyRedo']) {
+    const event = new InputEvent('beforeinput', { bubbles: true, cancelable: true, inputType });
+    act(() => { editor.dispatchEvent(event); });expect(event.defaultPrevented).toBe(true);
+  }
+  await userEvent.click(screen.getByRole('button', { name: 'Save typed suggestion' }));
+  expect(input.onCreate.mock.calls[0][0].changes[0]).toMatchObject({ expected: baseline.slice(start, end), proposed: joined.slice(start, caret) + 'X', target: { start, end } });
+  expect(input.current).toEqual(source);expect(input.round.baseline).toEqual(reviewed);
+});
+it('keeps typing after deleting a separator that joins surrounding graphemes', async () => {
+  const { editor, input } = await open(fixture('🇺 🇸 team'));
+  select(editor, 2, 3);await userEvent.keyboard('{Backspace}X');
+  expect(editor).toHaveValue('🇺🇸X team');
+  await userEvent.click(screen.getByRole('button', { name: 'Save typed suggestion' }));
+  expect(input.onCreate.mock.calls[0][0].changes[0]).toMatchObject({ expected: '🇺 🇸', proposed: '🇺🇸X', target: { start: 0, end: 5 } });
+});
