@@ -935,6 +935,10 @@ export function VariableChipEditor({
     // here too or every store-driven re-render would drop leading
     // whitespace from sub-paragraphs.
     editor.commands.setContent(textToEditorHtml(value), {
+      // Controlled hydration (including review Undo/Redo) is not an author edit.
+      // Emitting onUpdate would normalize the restored value, write it back to
+      // the document and invalidate the exact history frame being restored.
+      emitUpdate: false,
       parseOptions: { preserveWhitespace: 'full' },
     });
   }, [value, editor]);
