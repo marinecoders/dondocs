@@ -245,10 +245,14 @@ export function createSelectedTextSuggestion(round: ReviewRound, input: {
 
 /** Map only the unique, plain paragraph ID. Never infer identity from a quote. */
 export function inspectReviewSuggestionRange(source: SerializedSession, target: SelectedTextRange): ReviewRangeReconciliation | null {
+  return inspectReviewSuggestionRangeUsing(source, target, reconcileReviewRange);
+}
+function inspectReviewSuggestionRangeUsing(source: SerializedSession, target: SelectedTextRange,
+  reconcileRange: typeof reconcileReviewRange): ReviewRangeReconciliation | null {
   if (!supportsReviewComments(source) || source.docType !== target.docType || target.detached || target.tracking) return null;
   const matches = source.paragraphs.filter(paragraph => paragraph.id === target.paragraphId);
   if (matches.length !== 1 || !supportsPlainTextRange(matches[0])) return null;
-  return reconcileReviewRange(target, matches[0].text);
+  return reconcileRange(target, matches[0].text);
 }
 
 /** Validate the scoped splice without copying unrelated text or mapping discussions. */
@@ -295,13 +299,40 @@ export interface ReviewSuggestionPlan {
 }
 
 export function inspectReviewSuggestion(round: ReviewRound, source: SerializedSession, input: ReviewSuggestion, acceptedResolutions?: readonly ReviewSuggestionResolution[]): ReviewSuggestionPlan['changes'] {
+  return inspectReviewSuggestionUsing(round, source, input, acceptedResolutions, reconcileReviewRange);
+}
+
+/** Reuse only identical pure alignments during this synchronous display batch.
+ * Every proposal and native target is still validated; writes use the uncached
+ * single-proposal path. The bounded cache leaves scope when the batch returns.
+ */
+export function inspectReviewSuggestionBatch(round: ReviewRound, source: SerializedSession,
+  inputs: readonly { proposal: ReviewSuggestion; resolutions?: readonly ReviewSuggestionResolution[] }[]): Array<ReviewSuggestionPlan['changes']> {
+  if (inputs.length > REVIEW_SUGGESTION_LIMITS.proposals) throw new Error('The review contains too many suggestions.');
+  const cache = new Map<string, ReviewRangeReconciliation>();
+  let characters = 0;
+  const reconcileRange: typeof reconcileReviewRange = (baseline, current) => {
+    const key = JSON.stringify([baseline.context, baseline.start, baseline.end, current]);
+    const cached = cache.get(key);
+    if (cached) return { ...cached, ...(cached.scope ? { scope: { ...cached.scope } } : {}) };
+    const result = reconcileReviewRange(baseline, current);
+    if (cache.size < REVIEW_SUGGESTION_LIMITS.proposals * 2 && characters + key.length <= REVIEW_SUGGESTION_LIMITS.totalCharacters) {
+      cache.set(key, result);characters += key.length;
+    }
+    return result;
+  };
+  return inputs.map(input => inspectReviewSuggestionUsing(round, source, input.proposal, input.resolutions, reconcileRange));
+}
+
+function inspectReviewSuggestionUsing(round: ReviewRound, source: SerializedSession, input: ReviewSuggestion,
+  acceptedResolutions: readonly ReviewSuggestionResolution[] | undefined, reconcileRange: typeof reconcileReviewRange): ReviewSuggestionPlan['changes'] {
   const proposal = validateReviewSuggestion(round, input);
   const referencesMatch = !proposal.changes.some(change => change.target.kind === 'reference-title') || sameReviewReferences(source, round.baseline.session);
   return proposal.changes.map(change => {
-    const reconciliation = change.target.kind === 'range' ? inspectReviewSuggestionRange(source, change.target) : null;
+    const reconciliation = change.target.kind === 'range' ? inspectReviewSuggestionRangeUsing(source, change.target, reconcileRange) : null;
     const resolution = acceptedResolutions?.find(item => item.changeId === change.id);
     const applied = change.target.kind === 'range' && resolution?.range
-      ? inspectReviewSuggestionRange(source, acceptedReviewSuggestionRange(resolvedReviewSuggestionRange(change.target, resolution), resolution.value)) : null;
+      ? inspectReviewSuggestionRangeUsing(source, acceptedReviewSuggestionRange(resolvedReviewSuggestionRange(change.target, resolution), resolution.value), reconcileRange) : null;
     const current = resolution?.range ? applied?.scope ? { value: applied.scope.context.slice(applied.scope.start, applied.scope.end),
       label: suggestionTargetValue(round.baseline.session, change.target)!.label } : null : reconciliation?.scope ? { value: reconciliation.scope.context.slice(reconciliation.scope.start, reconciliation.scope.end),
       label: suggestionTargetValue(round.baseline.session, change.target)!.label } : suggestionTargetValue(source, change.target);

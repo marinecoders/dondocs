@@ -12,7 +12,7 @@ import type { ReviewRound } from '@/lib/reviewRounds';
 import { reconcileReviewText } from '@/lib/reconcileReviewText';
 import { captureTextRange, type SelectedTextRange } from '@/lib/reviewTextRanges';
 import {
-  availableReviewSuggestionTargets, createReviewSuggestion, inspectReviewSuggestion, latestReviewSuggestionDecision, REVIEW_SUGGESTION_LIMITS, suggestionTargetKey,
+  availableReviewSuggestionTargets, createReviewSuggestion, inspectReviewSuggestionBatch, latestReviewSuggestionDecision, REVIEW_SUGGESTION_LIMITS, suggestionTargetKey,
   type ReviewSuggestion, type ReviewSuggestionResolution, type ReviewSuggestionState,
 } from '@/lib/reviewSuggestions';
 
@@ -55,12 +55,16 @@ export function ReviewSuggestionsPanel({ round, current, state, owner, busy, onC
   const selectable = baseTarget?.target.kind === 'paragraph' ? captureTextRange(round.baseline.session, baseTarget.target.paragraphId, 0, baseTarget.value.length) : null;
   // Alignment can exhaust its comparison budget for each proposal. Local form
   // input does not change the reviewed source or any retained decision.
-  const inspectedProposals = useMemo(() => state.proposals.flatMap((proposal, index) => {
-    if (!matchesFeedbackFilter(proposal.category, filter)) return [];
-    const decision = latestReviewSuggestionDecision(state, proposal.id);
-    const acceptance = decision?.action === 'accepted' ? decision : state.decisions.find(item => item.id === decision?.acceptanceId);
-    return [{ proposal, index, decision, acceptance, changes: inspectReviewSuggestion(round, current, proposal, acceptance?.resolutions) }];
-  }), [round, current, state, filter]);
+  const inspectedProposals = useMemo(() => {
+    const displayed = state.proposals.flatMap((proposal, index) => {
+      if (!matchesFeedbackFilter(proposal.category, filter)) return [];
+      const decision = latestReviewSuggestionDecision(state, proposal.id);
+      const acceptance = decision?.action === 'accepted' ? decision : state.decisions.find(item => item.id === decision?.acceptanceId);
+      return [{ proposal, index, decision, acceptance }];
+    });
+    const inspections = inspectReviewSuggestionBatch(round, current, displayed.map(item => ({ proposal: item.proposal, resolutions: item.acceptance?.resolutions })));
+    return displayed.map((item, index) => ({ ...item, changes: inspections[index] }));
+  }, [round, current, state, filter]);
   function comparisonName(proposal: ReviewSuggestion, change: { id: string; label: string }, index: number) {
     const member = proposal.changes.length > 1 ? `, change ${proposal.changes.findIndex(item => item.id === change.id) + 1}` : '';
     return `${change.label} replacement comparison, suggestion ${index + 1}${member}`;

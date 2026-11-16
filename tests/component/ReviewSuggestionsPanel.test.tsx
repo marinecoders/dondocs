@@ -2,7 +2,7 @@ import { act, fireEvent, render, screen, waitFor, within } from '@testing-librar
 import userEvent from '@testing-library/user-event';
 import { expect, it, vi } from 'vitest';
 import { ReviewSuggestionsPanel } from '@/components/editor/ReviewSuggestionsPanel';
-import { createSelectedTextSuggestion, createReviewSuggestion, emptyReviewSuggestionState, planReviewSuggestionDecision, planReviewSuggestionHistory } from '@/lib/reviewSuggestions';
+import { appendReviewSuggestions, createSelectedTextSuggestion, createReviewSuggestion, emptyReviewSuggestionState, planReviewSuggestionDecision, planReviewSuggestionHistory } from '@/lib/reviewSuggestions';
 import { getSerializedSession } from '@/stores/documentStore';
 import type { ReviewRound } from '@/lib/reviewRounds';
 import * as reconciliation from '@/lib/reconcileReviewText';
@@ -381,5 +381,27 @@ it('refreshes inspections when proposals, decisions or the review round change',
 
     align.mockClear();view.rerender(<ReviewSuggestionsPanel {...input} state={rejected.state} round={{ ...input.round, label: 'Refreshed review' }} />);
     expect(align).toHaveBeenCalled();expect(screen.getByText(/· Rejected$/)).toBeVisible();
+  } finally { align.mockRestore(); }
+});
+
+it('aligns an identical range once per displayed batch and starts fresh for a new source', () => {
+  const input = props(), text = 'a'.repeat(450) + ' UNIQUE! ' + 'b'.repeat(450);
+  input.round.baseline.session.paragraphs[0].text = text;
+  input.current.paragraphs[0].text = 'c' + text.slice(1, 451) + 'ALTERED' + text.slice(458, -1) + 'd';
+  const proposals = Array.from({ length: 100 }, () => createSelectedTextSuggestion(input.round, {
+    author: 'Reviewer', paragraphId: 'paragraph-one', start: 451, end: 458, proposed: 'distinct',
+  }));
+  const state = appendReviewSuggestions(input.round, input.state, proposals);
+  expect(new Set(proposals.map(proposal => JSON.stringify(proposal.changes[0].target))).size).toBe(1);
+  const align = vi.spyOn(reconciliation, 'reconcileReviewRange');
+  try {
+    const view = render(<ReviewSuggestionsPanel {...input} state={state} />);
+    expect(screen.getAllByRole('article', { name: /^Suggestion / })).toHaveLength(100);
+    expect(align.mock.calls.filter(([, current]) => current === input.current.paragraphs[0].text)).toHaveLength(1);
+
+    const current = structuredClone(input.current);current.paragraphs[0].text += ' Later.';
+    align.mockClear();view.rerender(<ReviewSuggestionsPanel {...input} state={state} current={current} />);
+    expect(align.mock.calls.filter(([, context]) => context === current.paragraphs[0].text)).toHaveLength(1);
+    expect(screen.getAllByRole('button', { name: 'Accept suggestion' }).every(button => button.hasAttribute('disabled'))).toBe(true);
   } finally { align.mockRestore(); }
 });
