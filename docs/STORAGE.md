@@ -118,6 +118,27 @@ retained current context counts against the same 200,000-character suggestion
 budget; each paragraph/replacement remains limited to 20,000 characters.
 Retained range context counts against suggestion text limits and is scanned with
 reviewer text before transfer or acceptance.
+Paragraph movement uses the same structural schema, owner-bound writer, receipts,
+portable returns, backups and tagged history path. A `move-paragraph` operation
+captures `paragraphId`, `destinationId`, `placement`, the smallest complete
+contiguous `before`/`after` corridor, its stable boundary gap and its parent ID.
+Only same-parent sibling subtrees are supported. Semantic validation derives the
+exact full-node permutation and compares every property; supplied after-arrays
+cannot authorize hidden text, identity, marking, reference or resource edits.
+Current source/destination subtrees and every surviving node's parent are checked
+again in both directions. Neighbour text and work outside the captured corridor
+survive. Node IDs and selected-text comment anchors do not change on a move;
+paragraph numbering remains derived. `inspectReviewSuggestion` exposes a
+`movement` view with explicit source/destination IDs, placement, moved subtree IDs
+and readable description for captured summaries and redlines.
+
+Native moves preserve existing figure handles and bytes. Reviewer copies cannot
+construct move proposals whose captured corridor includes figures, since portable
+import creates different local handles; this is refused with comment recovery.
+No handle equivalence or content identity is inferred. All nested operation
+strings participate in existing bounded review handling/privacy scans. Pending
+movement operations remain outside clean document rendering and templates.
+
 Paragraph split/join suggestions extend the same structural target and scoped
 writer. Their full before objects must equal the reviewed baseline; full after
 objects must equal the deterministic result of the explicit split offset or join

@@ -229,6 +229,27 @@ support plain native text in one paragraph; formatted text, variables, headings,
 markings, tables, figures and structural edits are excluded. The full paragraph
 context travels with the selected range and is included in handling/privacy checks.
 
+To move a paragraph, use **Propose a paragraph move** and the reviewer name above.
+Choose the reviewed paragraph, **Before** or **After**, and a destination sibling.
+Its complete subtree moves together under the same parent. The preview names the
+source and destination; **Cancel move proposal** leaves no proposal. Reparenting,
+cycles and positions that leave the order unchanged are unavailable. Use a review
+comment for a different structural request.
+
+The proposal leaves the baseline unchanged. Accepting it preserves every moved
+paragraph identity, text, formatting, variable, reference, resource and discussion.
+Paragraph numbers follow the new outline automatically; they are not replacement
+text. The exact source-to-destination span, complete subtrees, parent and boundary
+positions must still match when accepted or replayed through Undo/Redo. Changed
+captured content or positions block acceptance; unrelated newer work outside that
+span is retained. The existing 100-node structural span limit applies.
+
+Reviewer copies cannot propose a move whose captured span contains a figure,
+because their local resource handles differ from the source. Keep the figures and
+describe the move in a review comment. The original source can propose and accept
+same-parent moves with its retained figures. Pending movement metadata stays out
+of clean PDF and Word output.
+
 To split or join paragraphs, use **Propose a paragraph split or join** in the
 same review. Choose a reviewed paragraph and place a caret in its text, or choose
 the first paragraph and review the explicitly displayed adjacent second paragraph.

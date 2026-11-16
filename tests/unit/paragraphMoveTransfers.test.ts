@@ -1,0 +1,41 @@
+import 'fake-indexeddb/auto';
+import {afterEach,beforeEach,expect,it,vi} from 'vitest';
+import {getExportDeploymentPolicy} from '@/config/classification';
+import {resolveExportDeploymentPolicy} from '@/lib/exportDeploymentPolicy';
+import {triggerDownload} from '@/lib/encoding';
+import * as db from '@/lib/documentsDb';
+import {buildBackup,restoreBackup} from '@/lib/backup';
+import {getSerializedSession,useDocumentStore} from '@/stores/documentStore';
+import {useDocumentsStore,commitCurrentDocument,flushDocumentWrites} from '@/stores/documentsStore';
+import {listReviewRounds} from '@/lib/reviewRounds';
+import {startReviewRound} from '@/lib/reviewRoundActions';
+import {createParagraphStructureSuggestion} from '@/lib/reviewSuggestions';
+import {submitReviewSuggestion,decideReviewSuggestion} from '@/lib/reviewSuggestionActions';
+import {applyReviewReturn,prepareReviewReturnExport,downloadReviewReturn,prepareReviewReturnImport} from '@/lib/reviewReturnActions';
+import {parseReviewReturn} from '@/lib/reviewReturns';
+import {reviewSuggestionRecordSchema} from '@/lib/reviewSuggestionWrites';
+import {captureTextRange} from '@/lib/reviewTextRanges';
+import {documentTextFields} from '@/lib/documentFields';
+vi.mock('@/config/classification',async original=>({...await original<typeof import('@/config/classification')>(),getExportDeploymentPolicy:vi.fn()}));
+vi.mock('@/lib/encoding',async original=>({...await original<typeof import('@/lib/encoding')>(),triggerDownload:vi.fn()}));
+beforeEach(async()=>{await flushDocumentWrites();for(const round of await listReviewRounds())await db.idbDeleteReviewRound(round.id,round.baselineDigest);for(const document of await db.idbGetAllDocuments()??[])await db.idbDeleteDocument(document.id);useDocumentsStore.setState({docs:{},trash:{},currentId:null,baseline:null,hydrated:true});vi.mocked(getExportDeploymentPolicy).mockResolvedValue(resolveExportDeploymentPolicy({hostname:'example.test',environment:null,runtime:{status:'absent'}}));});
+afterEach(async()=>{await flushDocumentWrites();});
+async function fixture(){useDocumentsStore.getState().newDocument();useDocumentStore.setState({paragraphs:[{id:'first',level:0,text:'Left words. Right words.'},{id:'child',level:1,text:'Child with **formatting** {{UNIT}}.'},{id:'second',level:0,text:'Other body.'}]});useDocumentStore.setState({reviewComments:{version:3,threads:[{id:crypto.randomUUID(),anchor:captureTextRange(useDocumentStore.getState(),'first',12,17)!,resolved:false,messages:[{id:crypto.randomUUID(),author:'Reviewer',text:'PORTABLE DISCUSSION',createdAt:'2026-11-15T00:00:00Z'}]}]}});await commitCurrentDocument();const owner=useDocumentsStore.getState().currentId!,round=await startReviewRound('Portable movement'),proposal=createParagraphStructureSuggestion(round,{author:'Reviewer',operation:{kind:'move-paragraph',paragraphId:'first',destinationId:'second',placement:'after'}});return{owner,round,proposal};}
+it('returns a structural proposal as metadata, applies once and keeps immutable original discussion identity',async()=>{
+ const{owner,round,proposal}=await fixture(),copyId=crypto.randomUUID(),source=useDocumentsStore.getState().docs[owner];const copy={id:copyId,meta:{...source.meta,id:copyId},session:structuredClone(source.session)};
+ expect(await db.idbInstallReviewCopy(copy,round,{documentId:copyId,roundId:round.id,baselineDigest:round.baselineDigest})).toBe(true);useDocumentsStore.setState(state=>({docs:{...state.docs,[copyId]:copy}}));useDocumentsStore.getState().switchTo(copyId);
+ expect((await submitReviewSuggestion(proposal)).status).toBe('committed');downloadReviewReturn(await prepareReviewReturnExport());
+ const payload=parseReviewReturn(JSON.parse(new TextDecoder().decode(vi.mocked(triggerDownload).mock.calls.at(-1)![0] as Uint8Array)));expect(payload.version).toBe(2);expect(payload).not.toHaveProperty('ownerDocumentId');
+ await expect(decideReviewSuggestion(round.id,proposal.id,'accepted')).rejects.toThrow(/Only the local source/);useDocumentsStore.getState().switchTo(owner);
+ expect(await applyReviewReturn(await prepareReviewReturnImport(payload),{})).toBe('committed');expect((await decideReviewSuggestion(round.id,proposal.id,'accepted')).status).toBe('committed');
+ expect(useDocumentStore.getState().paragraphs.map(p=>p.id)).toEqual(['second','first','child']);expect(useDocumentStore.getState().reviewComments!.threads[0].anchor).toMatchObject({paragraphId:'first',context:'Left words. Right words.',start:12,end:17});expect(useDocumentStore.getState().reviewComments!.threads[0].anchor).not.toHaveProperty('detached');
+ const repeated=await prepareReviewReturnImport(payload);expect(repeated.alreadyImported).toBe(true);expect(await applyReviewReturn(repeated,{})).toBe('already-imported');
+ expect(documentTextFields(getSerializedSession(),'output').some(field=>field.text.includes('PORTABLE DISCUSSION'))).toBe(false);
+});
+it('backs up and restores accepted moves, exact native subtree identities and discussions',async()=>{
+ const{owner,round,proposal}=await fixture();await submitReviewSuggestion(proposal);await decideReviewSuggestion(round.id,proposal.id,'accepted');const before=structuredClone(getSerializedSession());
+ const bundle=JSON.parse(await buildBackup());const record=bundle.reviewSuggestions.find((value:{documentId:string})=>value.documentId===owner);expect(record.state.proposals[0].changes[0].target.operation.kind).toBe('move-paragraph');
+ await db.idbDeleteReviewRound(round.id,round.baselineDigest);for(const document of await db.idbGetAllDocuments()??[])await db.idbDeleteDocument(document.id);useDocumentsStore.setState({docs:{},trash:{},currentId:null,baseline:null});
+ const restored=await restoreBackup(JSON.stringify(bundle));expect(restored.issues).toBeUndefined();expect(useDocumentsStore.getState().docs[owner].session.paragraphs).toEqual(before.paragraphs);expect(useDocumentsStore.getState().docs[owner].session.reviewComments).toEqual(before.reviewComments);
+ expect(reviewSuggestionRecordSchema.parse(await db.idbReadReviewSuggestions(owner,round.id)).state.proposals[0]).toEqual(proposal);
+});

@@ -28,7 +28,7 @@ import { referenceLetterAt, reLetterReferences } from '@/lib/referenceLetters';
 import { canTrackReferenceCitations, planReferenceChange, type ReferenceChange } from '@/lib/referenceCitations';
 import { showAppAlert } from './alertStore';
 import { canonicalizeUnitAddress } from '@/lib/unitAddress';
-import { normalizeLevels, migratePortionMarkings } from '@/lib/paragraphUtils';
+import { normalizeLevels, paragraphSubtreeEnd, migratePortionMarkings } from '@/lib/paragraphUtils';
 import { ensureParagraphIds, freshParagraphs, newParagraphId, paragraphCommentIds } from '@/lib/paragraphIdentity';
 import { serializeForm, loadFormSession, prepareFormSession, type FormSession } from './formStore';
 
@@ -646,9 +646,7 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
 
     // The moved unit is the paragraph plus its contiguous deeper-level
     // descendants, so a parent carries its whole subtree.
-    const baseLevel = paras[fromIndex].level;
-    let blockEnd = fromIndex + 1;
-    while (blockEnd < paras.length && paras[blockEnd].level > baseLevel) blockEnd++;
+    const blockEnd = paragraphSubtreeEnd(paras, fromIndex);
 
     // Keyboard "move down" on a parent targets its own first child; reinterpret
     // that as the sibling just past the whole block. Any other drop inside the
@@ -671,10 +669,7 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
     } else {
       // Moving down: land after the target and its own subtree, so the block is
       // never wedged between another parent and its children.
-      let end = targetInRest + 1;
-      const targetLevel = target.level;
-      while (end < rest.length && rest[end].level > targetLevel) end++;
-      insertAt = end;
+      insertAt = paragraphSubtreeEnd(rest, targetInRest);
     }
 
     const next = [...rest.slice(0, insertAt), ...block, ...rest.slice(insertAt)];

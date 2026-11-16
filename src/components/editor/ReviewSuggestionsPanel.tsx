@@ -1,3 +1,5 @@
+import { ParagraphMoveProposalsPanel } from './ParagraphMoveProposalsPanel';
+import { reviewParagraphMoveDescription } from '@/lib/reviewParagraphMoves';
 import { ParagraphSplitJoinProposalsPanel } from './ParagraphSplitJoinProposalsPanel';
 import { useEffect, useLayoutEffect, useId, useMemo, useRef, useState, type FormEvent } from 'react';
 import { FeedbackCategorySelect } from '@/components/FeedbackCategorySelect';
@@ -149,6 +151,8 @@ export function ReviewSuggestionsPanel({ round, current, state, owner, busy, onC
     </form>
     <ParagraphStructureProposalsPanel round={round} author={author} category={category} busy={disabled || typedDirty} proposalCount={state.proposals.length} onCreate={onCreate} />
     <ParagraphSplitJoinProposalsPanel round={round} disabled={disabled || typedDirty} quotaFull={state.proposals.length >= REVIEW_SUGGESTION_LIMITS.proposals} onCreate={onCreate} />
+
+    <ParagraphMoveProposalsPanel round={round} author={author} category={category} busy={disabled || typedDirty} proposalCount={state.proposals.length} onCreate={onCreate} />
     <MechanicalReviewProposalsPanel round={round} busy={disabled || typedDirty} proposalCount={state.proposals.length} onCreate={onCreate} />
     {!state.proposals.length && <p className="text-sm text-muted-foreground">No suggested replacements in this review.</p>}
     <FeedbackCategorySelect label="Filter suggestion category" value={filter} onChange={setFilter} filter />
@@ -167,12 +171,14 @@ export function ReviewSuggestionsPanel({ round, current, state, owner, busy, onC
         <p className="text-xs text-muted-foreground">{feedbackCategoryLabel(proposal.category)}{proposal.category === 'required-correction' ? ' · Reviewer intent; not an authenticated approval requirement.' : ''}</p>
         <p className="break-words text-xs text-muted-foreground">{proposal.author} · {new Date(proposal.createdAt).toLocaleString()} · {status}</p>
         {proposal.changes[0].target.kind === 'range' && <p className="text-xs text-muted-foreground">{!proposal.changes[0].expected ? 'Text insertion.' : !proposal.changes[0].proposed ? 'Text deletion.' : 'Selected text replacement.'} Independent edits outside this selection are preserved. Overlap or ambiguous boundaries require your decision.</p>}
-        {proposal.changes[0].target.kind === 'structure' && <p className="text-xs text-muted-foreground">{proposal.changes[0].target.operation.kind === 'insert-paragraph' ? 'Insert one new paragraph at the captured gap.' : 'Delete the captured leaf paragraph. Its discussion context and full original content are retained.'} Acceptance checks exact paragraph identities, boundaries and parent. Unrelated current work is preserved; numbering is derived.</p>}
+        {proposal.changes[0].target.kind === 'structure' && <p className="text-xs text-muted-foreground">{({ 'insert-paragraph': 'Insert one new paragraph at the captured gap.', 'delete-paragraph': 'Delete the captured leaf paragraph. Its discussion context and full original content are retained.', 'split-paragraph': 'Split the captured paragraph at the explicit selected boundary.', 'join-paragraphs': 'Join the captured adjacent paragraphs with the chosen separator.', 'move-paragraph': 'Move the captured paragraph with its complete child subtree.' })[proposal.changes[0].target.operation.kind]} Acceptance checks exact paragraph identities, boundaries and parent. Unrelated current work is preserved; numbering is derived.</p>}
         {proposal.changes[0].target.kind === 'structure' && <details className="text-xs text-muted-foreground">
           <summary>Reviewed paragraph position</summary>
           <p className="whitespace-pre-wrap break-words">Before: {round.baseline.session.paragraphs.find(paragraph => paragraph.id === (proposal.changes[0].target.kind === 'structure' ? proposal.changes[0].target.operation.gap.before?.id : ''))?.text || '(Start of document)'}</p>
           <p className="whitespace-pre-wrap break-words">After: {round.baseline.session.paragraphs.find(paragraph => paragraph.id === (proposal.changes[0].target.kind === 'structure' ? proposal.changes[0].target.operation.gap.after?.id : ''))?.text || '(End of document)'}</p>
         </details>}
+
+        {proposal.changes[0].target.kind === 'structure' && proposal.changes[0].target.operation.kind === 'move-paragraph' && <p className="break-words text-sm">{reviewParagraphMoveDescription(proposal.changes[0].target.operation.before, proposal.changes[0].target.operation)} Numbering follows the new order automatically; paragraph contents and discussions retain their identities.</p>}
         {proposal.origin.kind === 'mechanical' && <p className="whitespace-pre-wrap break-words text-xs">Grouped correction{proposal.origin.rule ? `: ${proposal.origin.rule}` : ''}{proposal.origin.context ? ` · ${proposal.origin.context}` : ''}. All members are checked before any change is applied.</p>}
         {changes.map(change => <div key={change.id} className="space-y-1 border-t pt-2">
           <p className="text-sm font-medium">{change.label}</p>
