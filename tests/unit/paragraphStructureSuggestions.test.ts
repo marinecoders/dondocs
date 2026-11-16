@@ -77,17 +77,28 @@ describe('paragraph insertion/deletion suggestions', () => {
     const forged = structuredClone(session);forged.reviewComments!.threads[0].messages[0].text = 'Forged restoration';
     expect(() => planReviewSuggestionWrite(round, plan.session, operation, forged)).toThrow(/discussion content/);
   });
-  it.each(['edit','delete','move','indent','interpose'] as const)('blocks a stale neighbor/target: %s', kind => {
+  it.each(['edit','indent'] as const)('blocks a stale target: %s', kind => {
     const { session, round, make, stateFor } = fixture();
     const proposal = make({ kind: 'delete-paragraph', paragraphId: 'second' });
     if (kind === 'edit') session.paragraphs[1].text = 'Edited second';
-    if (kind === 'delete') session.paragraphs.shift();
-    if (kind === 'move') session.paragraphs.reverse();
     if (kind === 'indent') session.paragraphs[0].level = 1;
-    if (kind === 'interpose') session.paragraphs.splice(1,0,{id:'interposed',text:'Newer work',level:0});
     const plan = planReviewSuggestionDecision(round, session, stateFor(proposal), proposal.id, 'accepted');
     expect(plan.status).toBe('stale');expect(plan.session).toEqual(session);expect(plan.state.decisions).toEqual([]);
     expect(planReviewSuggestionDecision(round, session, stateFor(proposal), proposal.id, 'rejected').session).toEqual(session);
+  });
+  it.each(['delete','move','interpose'] as const)('reconciles independent neighbor changes without rewriting current nodes: %s', kind => {
+    const { session, round, make, stateFor } = fixture();
+    const proposal = make({ kind: 'delete-paragraph', paragraphId: 'second' });
+    if (kind === 'delete') session.paragraphs.shift();
+    if (kind === 'move') session.paragraphs.reverse();
+    if (kind === 'interpose') session.paragraphs.splice(1, 0, { id: 'interposed', text: 'Newer work', level: 0 });
+    // The original strict operation is stale, but the116 identity-based planner
+    // safely derives deletion of the unchanged stable leaf at its current gap.
+    expect(() => applyReviewStructure(session, proposal.changes[0].target as Parameters<typeof applyReviewStructure>[1])).toThrow();
+    const plan = planReviewSuggestionDecision(round, session, stateFor(proposal), proposal.id, 'accepted');
+    expect(plan.status).toBe('ready');
+    expect(plan.session.paragraphs).toEqual(session.paragraphs.filter(node => node.id !== 'second'));
+    expect(plan.state.decisions[0].resolutions?.[0].structure?.operation.before).toEqual([session.paragraphs.find(node => node.id === 'second')]);
   });
   it('allows independent neighbor text edits while guarding their stable position and parent', () => {
     const { session, round, make, stateFor } = fixture();

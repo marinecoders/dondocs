@@ -7,7 +7,8 @@ import { capturePackageMember, captureOriginalPackageMember, readPackageAsset } 
 import { actionPackageSchema, createActionPackage, getPackageRevision, listActionPackages, reviseActionPackage, renameActionPackage, validPackageTransition, type ActionPackage, type NativePackageMember } from '@/lib/actionPackages';
 import { startPackageReview, transitionPackageReview } from '@/lib/packageReviewRounds';
 import { createPackageMemberReview, savePackageMemberReview } from '@/lib/packageMemberReviews';
-import { createReviewSuggestion, createSelectedTextSuggestion, appendReviewSuggestions } from '@/lib/reviewSuggestions';
+import { createReviewSuggestion, createSelectedTextSuggestion, createParagraphStructureSuggestion, appendReviewSuggestions } from '@/lib/reviewSuggestions';
+import { applyReviewStructure, type CaptureReviewStructureInput } from '@/lib/reviewStructureSuggestions';
 import { captureTextRange } from '@/lib/reviewTextRanges';
 import { initializePackageCitationTargets, linkPackageCitation, packageCitationOccurrences, resolvePackageCitations } from '@/lib/packageCitations';
 import { packageCitationReadiness } from '@/lib/packageCitationRepair';
@@ -324,4 +325,35 @@ it('restores a replaced signed original with its exact reviewed bytes while pres
   expect(applied.revisions.slice(0, -1)).toEqual(latest.revisions);
   expect(applied.reviewApplications).toHaveLength(1);
   expect((await listActionPackages())[0]).toEqual(applied);
+});
+
+it.each(['insert', 'delete', 'split', 'join', 'move'] as const)('applies %s structural feedback through portable package return and atomic parent storage without library authority', async kind => {
+  const input = await selectedFixture(), child = input.owner.reviewRounds![0].memberReviews!.find(item => item.binding.memberId === input.native.id)!;
+  const operation: CaptureReviewStructureInput = kind === 'insert' ? { kind: 'insert-paragraph', index: 1, text: 'New reviewed paragraph.', level: 0, paragraphId: 'package-new-paragraph' }
+    : kind === 'delete' ? { kind: 'delete-paragraph', paragraphId: 'synthetic-paragraph' }
+      : kind === 'split' ? { kind: 'split-paragraph', paragraphId: 'synthetic-paragraph', splitAt: 9, newParagraphId: 'package-split-paragraph' }
+        : kind === 'join' ? { kind: 'join-paragraphs', paragraphId: 'synthetic-paragraph', nextParagraphId: 'unrelated-paragraph', separator: ' ' }
+          : { kind: 'move-paragraph', paragraphId: 'synthetic-paragraph', destinationId: 'unrelated-paragraph', placement: 'after' };
+  const proposal = createParagraphStructureSuggestion(child.nativeRound!, { author: 'Structural package reviewer', operation });
+  const owner = await savePackageMemberReview(input.owner, input.round.id, { ...child, suggestions: appendReviewSuggestions(child.nativeRound!, child.suggestions!, [proposal]) });
+  const json = await packageReviewTransferFile(await buildPackageReviewReturn(owner, input.round.id, policy), policy);
+  const choices: PackageFeedbackChoices = structuredClone(input.choices);
+  for (const decision of Object.values(choices[input.native.id].proposals!)) decision.action = 'keep';
+  choices[input.native.id].proposals![proposal.id] = { action: 'accepted' };
+  const preview = await previewPackageReviewReturn(json, owner, input.round.id, policy), prepared = await preparePackageReviewApplication(preview, choices, policy);
+  const applied = await applyPreparedPackageReviewApplication(prepared, policy);
+  const member = getPackageRevision(applied).members.find(item => item.id === input.native.id) as NativePackageMember;
+  const target = proposal.changes[0].target; if (target.kind !== 'structure') throw new Error();
+  const expected = applyReviewStructure({ ...input.native.session, reviewComments: child.comments }, target);
+  expect(member.session.paragraphs).toEqual(expected.paragraphs);
+  expect(member.session.reviewComments).toEqual(expected.reviewComments);
+  const range = member.session.reviewComments!.threads[0].anchor;
+  if (kind === 'split') expect(range).toMatchObject({ paragraphId: 'synthetic-paragraph', tracking: { paragraphId: 'package-split-paragraph', start: 0, end: 7 } });
+  if (kind === 'delete') expect(range).toMatchObject({ detached: true });
+  expect(JSON.parse(new TextDecoder().decode(await readPackageAsset(member.draft))).paragraphs).toEqual(expected.paragraphs);
+  expect(await readPackageAsset(input.original.original)).toEqual(input.bytes);
+  expect(applied.reviewRounds![0].baseline).toEqual(owner.reviewRounds![0].baseline);
+  expect(applied.revisions).toHaveLength(owner.revisions.length + 1);
+  expect((await listActionPackages())[0]).toEqual(applied);
+  expect(useDocumentsStore.getState().docs).toEqual({});
 });
