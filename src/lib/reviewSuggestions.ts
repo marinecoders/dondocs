@@ -425,6 +425,10 @@ export function planReviewSuggestionDecision(round: ReviewRound, source: Seriali
   const changes = inspectReviewSuggestion(round, source, proposal);
   const previous = latestReviewSuggestionDecision(state, proposalId);
   if (previous && previous.action !== 'reversed') return { status: 'decided', changes, session: structuredClone(source), state };
+  // Later captured moves may reference an identity this proposal already owns.
+  // Reacceptance restores it; current nodes and discussions still reserve IDs.
+  const ownedIds = new Set(previous?.action === 'reversed' ? proposal.changes.flatMap(change => change.target.kind === 'structure' ? structureNewIds(change.target) : []) : []);
+  const reservedIds = proposal.changes.some(change => change.target.kind === 'structure') ? reviewStructureReservedIds(state, proposal.id).filter(id => !ownedIds.has(id)) : [];
   let resolutions = inputResolutions && z.array(reviewSuggestionResolutionSchema).min(1).max(1).parse(inputResolutions);
 
   if (resolutions && (action !== 'accepted' || proposal.origin.kind !== 'manual' || proposal.changes.length !== 1
@@ -455,7 +459,7 @@ export function planReviewSuggestionDecision(round: ReviewRound, source: Seriali
   } else if (action === 'accepted' && !structureChange && changes.some(change => resolutions
     ? change.current === null || change.current !== resolutions[0].expectedCurrent : change.stale)) return { status: 'stale', changes, session: structuredClone(source), state };
   if (action === 'accepted' && proposal.changes.some(change => change.target.kind === 'structure'
-    && !inspectReviewStructure(source, resolutions?.[0].structure ?? change.target, 'forward', reviewStructureReservedIds(state, proposal.id)))) return { status: 'stale', changes, session: structuredClone(source), state };
+    && !inspectReviewStructure(source, resolutions?.[0].structure ?? change.target, 'forward', reservedIds))) return { status: 'stale', changes, session: structuredClone(source), state };
   let session = structuredClone(source);
   if (action === 'accepted') for (const change of proposal.changes) {
     const target = change.target;
@@ -463,7 +467,7 @@ export function planReviewSuggestionDecision(round: ReviewRound, source: Seriali
     if (target.kind === 'field') Object.assign(session.formData, { [target.field]: value });
     else if (target.kind === 'paragraph') replaceReviewParagraphText(session, target.paragraphId, value);
     else if (target.kind === 'range') session = applyReviewSuggestionRange(session, resolvedReviewSuggestionRange(target, resolutions?.[0]), resolutions?.[0].expectedCurrent ?? change.expected, value);
-    else if (target.kind === 'structure') session = applyReviewStructure(session, resolutions?.[0].structure ?? target, 'forward', reviewStructureReservedIds(state, proposal.id));
+    else if (target.kind === 'structure') session = applyReviewStructure(session, resolutions?.[0].structure ?? target, 'forward', reservedIds);
     else session.references[target.referenceIndex].title = value;
   }
   if (resolutions) state.version = 2;
