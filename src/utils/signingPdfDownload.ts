@@ -4,10 +4,12 @@ import { downloadPdfBlob, preOpenWindowForIOS } from './downloadPdf';
 export function reserveSigningPdfDownload() {
   let prepared = preOpenWindowForIOS(), released = false, used = false;
   return {
-    async deliver(bytes: Uint8Array, filename: string): Promise<boolean> {
+    async deliver(bytes: Uint8Array, filename: string, isCurrent: () => boolean = () => true): Promise<boolean> {
       if (released || used) throw new Error('This signing PDF download is no longer available.');
       used = true;
-      const delivered = await downloadPdfBlob(new Blob([new Uint8Array(bytes)], { type: 'application/pdf' }), filename, prepared);
+      const current = () => !released && isCurrent();
+      if (!current()) return false;
+      const delivered = await downloadPdfBlob(new Blob([new Uint8Array(bytes)], { type: 'application/pdf' }), filename, prepared, current);
       if (delivered) prepared = null;
       return delivered;
     },

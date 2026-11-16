@@ -29,3 +29,14 @@ it('blocks delivery when policy or workspace ownership changes during review', a
   await expect(confirmSigningDisclosure({ pdfs: [] }, () => true)).rejects.toThrow('policy changed');
   await expect(confirmSigningDisclosure({ pdfs: [] }, () => false)).rejects.toThrow('cancelled');
 });
+
+it('rejects delivery when the workspace closes during the final policy refresh', async () => {
+  let resolve: (value: typeof policy) => void = () => {};
+  mocks.policy.mockResolvedValueOnce(policy).mockReturnValueOnce(new Promise(done => { resolve = done; }));
+  let current = true;
+  const result = confirmSigningDisclosure({ pdfs: [] }, () => current);
+  const assertion = expect(result).rejects.toThrow('cancelled');
+  await vi.waitFor(() => expect(mocks.policy).toHaveBeenCalledTimes(2));
+  current = false; resolve(policy);
+  await assertion;
+});

@@ -19,5 +19,6 @@ export async function confirmSigningDisclosure(input: SigningDisclosureInput, is
   }
   if (!isCurrent()) throw new Error('The signing delivery was cancelled.');
   const current = await getExportDeploymentPolicy(undefined, true);
+  if (!isCurrent()) throw new Error('The signing delivery was cancelled.');
   if (policy.status !== 'ready' || current.status !== 'ready' || current.policy.identity !== policy.policy.identity) throw new Error('The deployment policy changed. Review the signing download again.');
 }

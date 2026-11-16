@@ -55,7 +55,8 @@ export function SigningReturnReview({ record, onSaved }: { record: SigningRecord
         const bytes = base64ToUint8Array(retained.pdf.data);
         await confirmSigningDisclosure({ pdfs: [{ bytes, label: retained.pdf.filename }], metadata: { existingFieldNames: retained.pdf.existingFieldNames } }, isCurrent,
           { onPrivacyReview: () => lease.release(), onPrivacyApproved: () => { lease = reserveSigningPdfDownload(); } });
-        if (!await lease.deliver(bytes, retained.pdf.filename)) throw new Error('The returned PDF could not be delivered. Retry in a supported browser.');
+        if (!isCurrent()) return;
+        if (!await lease.deliver(bytes, retained.pdf.filename, isCurrent)) throw new Error('The returned PDF could not be delivered. Retry in a supported browser.');
       } finally { lease.release(); }
     });
   }

@@ -75,7 +75,8 @@ function SigningEditor({ initialRecordId }: { initialRecordId?: string }) {
         const result = await operation();if (!result || generation !== request.current) return;
         await confirmSigningDisclosure({ pdfs: [{ bytes: result.bytes, label: result.filename }], metadata: result.metadata }, () => generation === request.current,
           { onPrivacyReview: () => lease.release(), onPrivacyApproved: () => { lease = reserveSigningPdfDownload(); } });
-        if (!await lease.deliver(result.bytes, result.filename)) throw new Error('The PDF could not be delivered. Retry in a supported browser.');
+        if (generation !== request.current) return;
+        if (!await lease.deliver(result.bytes, result.filename, () => generation === request.current)) throw new Error('The PDF could not be delivered. Retry in a supported browser.');
         if (generation === request.current) setNotice('PDF delivered to your browser. Complete signing in your signing application.');
       } finally { lease.release(); }
     });
