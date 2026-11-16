@@ -95,6 +95,17 @@ describe('reusable package starters', () => {
     await expect(instantiatePackageTemplate(template, 'Unknown slot', values, { 1: { name: 'fresh.pdf', data, signedOriginal: false }, 99: { name: 'extra.pdf', data, signedOriginal: false } })).rejects.toThrow('does not belong');
     expect(await listActionPackages()).toHaveLength(1);
   });
+  it('rejects oversized fresh-file selections before cloning or publishing their bytes', async () => {
+    const { record } = await fixture(); const template = await capturePackageTemplate(record, record.currentRevisionId, 'Bounded action');
+    template.members.push(structuredClone(template.members[1]), structuredClone(template.members[1]));
+    const files = Object.fromEntries([1, 2, 3].map(index => [index, { name: `fresh-${index}.pdf`, data: new ArrayBuffer(22 * 1024 * 1024), signedOriginal: false }]));
+    const clone = vi.spyOn(globalThis, 'structuredClone');
+    try {
+      await expect(instantiatePackageTemplate(template, 'Oversized action', { NAME: 'New Marine', ATTACHMENT_LABEL: 'New PDF' }, files)).rejects.toThrow('combined 64 MB limit');
+      expect(clone.mock.calls.some(([value]) => value === files)).toBe(false);
+      expect(await listActionPackages()).toHaveLength(1);
+    } finally { clone.mockRestore(); }
+  });
   it('renames and deletes conditionally, preserving edits from another tab', async () => {
     const { record } = await fixture(); const template = await capturePackageTemplate(record, record.currentRevisionId, 'First name');
     const renamed = await renamePackageTemplate(template, 'New name');
@@ -110,6 +121,12 @@ describe('reusable package starters', () => {
     const imported = await importPackageTemplate(json);
     expect(imported.id).not.toBe(template.id); expect(imported.members).toEqual(template.members);
     expect(await listPackageTemplates()).toEqual([imported]);
+  });
+  it('checks current import authority at the final storage boundary', async () => {
+    const { record } = await fixture(); const template = await capturePackageTemplate(record, record.currentRevisionId, 'Guarded starter');
+    const json = await exportPackageTemplate(template);
+    await expect(importPackageTemplate(json, undefined, () => false)).rejects.toThrow('changed');
+    expect(await listPackageTemplates()).toEqual([template]);
   });
   it('refuses tampered signatures, malformed models and duplicate recovery identities', async () => {
     const { record } = await fixture(); const template = await capturePackageTemplate(record, record.currentRevisionId, 'Valid starter');

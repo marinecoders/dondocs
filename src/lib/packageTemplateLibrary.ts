@@ -15,6 +15,7 @@ import { detectPlaceholders } from './placeholders';
 
 export const MAX_PACKAGE_TEMPLATE_BYTES = 12 * 1024 * 1024;
 export const MAX_PACKAGE_TEMPLATES = 20;
+export const MAX_TEMPLATE_ACTION_BYTES = 64 * 1024 * 1024;
 export const MAX_PACKAGE_TEMPLATE_LIBRARY_BYTES = 40 * 1024 * 1024;
 const identity = z.string().min(1).max(100).regex(/^[a-zA-Z0-9_-]+$/);
 const common = { label: z.string().trim().min(1).max(120), role: z.enum(packageRoles), required: z.boolean() };
@@ -115,10 +116,10 @@ export async function validatePackageTemplateLibrary(records: unknown): Promise<
   return templates;
 }
 export async function listPackageTemplates(): Promise<PackageTemplate[]> { return validatePackageTemplateLibrary(await idbReadPackageTemplates()); }
-async function saveTemplate(before: PackageTemplate | null, after: PackageTemplate | null, signal?: AbortSignal): Promise<void> {
+async function saveTemplate(before: PackageTemplate | null, after: PackageTemplate | null, signal?: AbortSignal, isCurrent: () => boolean = () => true): Promise<void> {
   if (after) await validatePackageTemplate(after);
   signal?.throwIfAborted();
-  if (!await idbComparePackageTemplate(before, after, () => !signal?.aborted))
+  if (!await idbComparePackageTemplate(before, after, () => !signal?.aborted && isCurrent()))
     throw new Error('The template library changed or could not be saved. Reopen it and retry.');
   scheduleBackup();
 }
@@ -145,11 +146,11 @@ export async function renamePackageTemplate(before: PackageTemplate, name: strin
 }
 export async function deletePackageTemplate(template: PackageTemplate, signal?: AbortSignal): Promise<void> { await saveTemplate(template, null, signal); }
 export async function exportPackageTemplate(template: PackageTemplate): Promise<string> { return JSON.stringify(await validatePackageTemplate(template)); }
-export async function importPackageTemplate(json: string, signal?: AbortSignal): Promise<PackageTemplate> {
+export async function importPackageTemplate(json: string, signal?: AbortSignal, isCurrent: () => boolean = () => true): Promise<PackageTemplate> {
   if (new TextEncoder().encode(json).byteLength > MAX_PACKAGE_TEMPLATE_BYTES) throw new Error('Package templates are limited to 12 MB.');
   const template = await validatePackageTemplate(JSON.parse(json));
   const imported = { ...template, id: newPackageId('template'), createdAt: Date.now() };
-  await saveTemplate(null, imported, signal);
+  await saveTemplate(null, imported, signal, isCurrent);
   return imported;
 }
 export async function restorePackageTemplates(records: PackageTemplate[]): Promise<number> {
@@ -168,6 +169,11 @@ export interface TemplateAttachment { name: string; data: ArrayBuffer; signedOri
 /** Required slots and substitutions resolve before the new package is published atomically. */
 export async function instantiatePackageTemplate(input: PackageTemplate, name: string, values: Record<string, string>, attachments: Record<number, TemplateAttachment>, signal?: AbortSignal): Promise<ActionPackage> {
   const template = await validatePackageTemplate(input);
+  name = z.string().trim().min(1).max(120).parse(name);
+  for (const key of Object.keys(attachments)) if (!/^(0|[1-9][0-9]{0,2})$/.test(key) || template.members[Number(key)]?.kind !== 'attachment')
+    throw new Error('An attachment does not belong to this template.');
+  if (Object.values(attachments).reduce((sum, file) => sum + file.data.byteLength, 0) > MAX_TEMPLATE_ACTION_BYTES)
+    throw new Error('Fresh package files exceed the combined 64 MB limit.');
   values = z.record(z.string(), z.string().max(10000)).parse(structuredClone(values));
   attachments = structuredClone(attachments);
   const placeholders = packageTemplatePlaceholders(template);
@@ -175,7 +181,10 @@ export async function instantiatePackageTemplate(input: PackageTemplate, name: s
     throw new Error(`Supply a fresh value for ${key}.`);
   if (Object.keys(values).some(key => !placeholders.includes(key))) throw new Error('An unknown template input was supplied.');
   const members: PackageMember[] = [], staged: StoredAttachment[] = [];
+  let stagedBytes = 0;
   const stage = async (assetName: string, type: string, data: ArrayBuffer) => {
+    stagedBytes += data.byteLength;
+    if (stagedBytes > MAX_TEMPLATE_ACTION_BYTES) throw new Error('Package starter content and fresh files exceed the combined 64 MB limit.');
     const asset = { id: newPackageId('asset'), name: assetName, type, size: data.byteLength, sha256: await portableResourceDigest(data) };
     staged.push({ id: asset.id, name: asset.name, type, size: data.byteLength, data: data.slice(0) });
     return asset;
@@ -205,8 +214,6 @@ export async function instantiatePackageTemplate(input: PackageTemplate, name: s
       });
     }
   }
-  for (const key of Object.keys(attachments)) if (!Number.isInteger(Number(key)) || template.members[Number(key)]?.kind !== 'attachment')
-    throw new Error('An attachment does not belong to this template.');
   const revision = { id: newPackageId('revision'), createdAt: Date.now(), members, outputs: [] };
   const record = actionPackageSchema.parse({ kind: 'dondocs-action-package-record', version: 1, id: newPackageId('package'), name,
     archived: false, sequence: 0, currentRevisionId: revision.id, revisions: [revision] });
