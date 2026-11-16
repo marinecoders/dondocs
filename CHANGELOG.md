@@ -7,6 +7,13 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.119] — 2026-11-16
+
+### Added
+
+- Save, inspect, rename, transfer and reuse package templates from the package workspace. Supply fresh placeholder values and every required original or native embedded PDF before creating a separate action.
+- Review retained starter content and deployment-policy findings before portable transfer. Existing packages and original files remain unchanged.
+
 ## [1.3.118] — 2026-11-16
 
 ### Added
