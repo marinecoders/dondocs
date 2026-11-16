@@ -729,4 +729,8 @@ is local to PDF preparation; the resulting PDF does not need the reader's fonts.
 Missing-glyph checks and explicit unsupported-character errors fail closed. ASCII
 uses existing PDF standard fonts with unkerned advance bounds. Grapheme wrapping,
 page, character, raster-pixel and byte limits bound this derivative independently
-of the existing transfer quotas. This is not a tagged-PDF/PDF-UA implementation.
+of the existing transfer quotas. Each wrapped line is limited to 1,024 UTF-16 units
+before width measurement, so zero-advance characters and oversized clusters cannot
+cause unbounded shaping work. Longer paragraphs still wrap normally; a line that
+reaches this limit produces an explicit decision-summary HTML recovery message
+without changing the source text. This is not a tagged-PDF/PDF-UA implementation.
