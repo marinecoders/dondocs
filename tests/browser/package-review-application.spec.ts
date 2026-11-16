@@ -136,7 +136,8 @@ for (const theme of ['light', 'dark', 'classic']) test(`returned package feedbac
     const reloadedApplication = modal.getByRole('region', { name: 'Apply package feedback', exact: true });
     await expect(reloadedApplication.getByText(/Saved feedback applications/)).toBeVisible();
     await reloadedApplication.getByText(new RegExp(`Return ${payload.id}`)).click();
-    await expect(reloadedApplication.getByText('Synthetic reviewer: Synthetic original PDF question.', { exact: true })).toBeVisible();
+    const returnedOriginal = reloadedApplication.getByText(`Returned feedback for ${original.label}`, { exact: true }).locator('..');
+    await expect(returnedOriginal.getByText('Synthetic reviewer: Synthetic original PDF question.', { exact: true })).toBeVisible();
     await reloadedApplication.getByLabel('Import package feedback return', { exact: true }).setInputFiles({ name: 'duplicate-return.json', mimeType: 'application/json', buffer: returned });
     await expect(modal.getByRole('alert')).toContainText('already applied');
     expect(await savedPackage(page, fixture.package.id)).toEqual(appliedPackage);
