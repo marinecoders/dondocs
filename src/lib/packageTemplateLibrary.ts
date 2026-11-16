@@ -12,6 +12,7 @@ import { applyPlaceholdersToSession, detectSessionPlaceholders, replacePlacehold
 import { freshParagraphs } from './paragraphIdentity';
 import { validateBackup } from './backupValidation';
 import { detectPlaceholders } from './placeholders';
+import { documentTextFields } from './documentFields';
 
 export const MAX_PACKAGE_TEMPLATE_BYTES = 12 * 1024 * 1024;
 export const MAX_PACKAGE_TEMPLATES = 20;
@@ -166,20 +167,53 @@ export async function restorePackageTemplates(records: PackageTemplate[]): Promi
   return restored;
 }
 export interface TemplateAttachment { name: string; data: ArrayBuffer; signedOriginal: boolean }
+function freshTemplateDraft(input: Record<string, unknown>): Record<string, unknown> {
+  const draft = { ...input, timestamp: Date.now(), paragraphs: freshParagraphs((input as unknown as SerializedSession).paragraphs) };
+  const configured = input.genericForm as SerializedSession['genericForm'];
+  if (configured) Object.assign(draft, { genericForm: { ...configured, rows: Object.fromEntries(Object.entries(configured.rows)
+    .map(([key, rows]) => [key, rows.map(row => ({ ...row, id: newPackageId('row') }))])) } });
+  return draft;
+}
+/** Measure JSON escaping and substitution growth without allocating expanded text. */
+function assertTemplateActionBytes(template: PackageTemplate, drafts: Map<number, Record<string, unknown>>, values: Record<string, string>, fileBytes: number): void {
+  const costs = new Map<string, number>();
+  const encoder = new TextEncoder();
+  let bytes = fileBytes;
+  for (const [index, starter] of template.members.entries()) {
+    if (starter.kind !== 'native') continue;
+    const draft = drafts.get(index)!;
+    let draftBytes = jsonSize(draft);
+    for (const field of documentTextFields(draft as unknown as SerializedSession, 'substitution')) {
+      for (const match of field.text.matchAll(/\{\{([A-Za-z0-9_]+)\}\}/g)) {
+        const key = match[1].toUpperCase();
+        if (!Object.hasOwn(values, key)) continue;
+        if (!costs.has(key)) costs.set(key, encoder.encode(JSON.stringify(values[key])).byteLength - 2);
+        draftBytes += costs.get(key)! - match[0].length;
+      }
+    }
+    bytes += draftBytes;
+    for (const page of Object.values(starter.pages)) bytes += page.data.length / 4 * 3 - (page.data.endsWith('==') ? 2 : page.data.endsWith('=') ? 1 : 0);
+    if (bytes > MAX_TEMPLATE_ACTION_BYTES) throw new Error('Package starter content and fresh files exceed the combined 64 MB limit.');
+    if (draftBytes > 25 * 1024 * 1024) throw new Error('A generated starter exceeds the 25 MB per-file limit. Shorten its text or values.');
+  }
+}
 /** Required slots and substitutions resolve before the new package is published atomically. */
 export async function instantiatePackageTemplate(input: PackageTemplate, name: string, values: Record<string, string>, attachments: Record<number, TemplateAttachment>, signal?: AbortSignal): Promise<ActionPackage> {
   const template = await validatePackageTemplate(input);
   name = z.string().trim().min(1).max(120).parse(name);
   for (const key of Object.keys(attachments)) if (!/^(0|[1-9][0-9]{0,2})$/.test(key) || template.members[Number(key)]?.kind !== 'attachment')
     throw new Error('An attachment does not belong to this template.');
-  if (Object.values(attachments).reduce((sum, file) => sum + file.data.byteLength, 0) > MAX_TEMPLATE_ACTION_BYTES)
+  const fileBytes = Object.values(attachments).reduce((sum, file) => sum + file.data.byteLength, 0);
+  if (fileBytes > MAX_TEMPLATE_ACTION_BYTES)
     throw new Error('Fresh package files exceed the combined 64 MB limit.');
   values = z.record(z.string(), z.string().max(10000)).parse(structuredClone(values));
-  attachments = structuredClone(attachments);
   const placeholders = packageTemplatePlaceholders(template);
   for (const key of placeholders) if (!Object.hasOwn(values, key) || !values[key].trim() || /\{\{[A-Za-z0-9_]+\}\}/.test(values[key]))
     throw new Error(`Supply a fresh value for ${key}.`);
   if (Object.keys(values).some(key => !placeholders.includes(key))) throw new Error('An unknown template input was supplied.');
+  const drafts = new Map(template.members.flatMap((member, index) => member.kind === 'native' ? [[index, freshTemplateDraft(member.draft)] as const] : []));
+  assertTemplateActionBytes(template, drafts, values, fileBytes);
+  attachments = structuredClone(attachments);
   const members: PackageMember[] = [], staged: StoredAttachment[] = [];
   let stagedBytes = 0;
   const stage = async (assetName: string, type: string, data: ArrayBuffer) => {
@@ -200,11 +234,7 @@ export async function instantiatePackageTemplate(input: PackageTemplate, name: s
       await validatePackageOriginalPdf(file.data);
       members.push({ ...common, kind: 'original', signedOriginal: file.signedOriginal, original: await stage(file.name, 'application/pdf', file.data) });
     } else {
-      const draft = applyPlaceholdersToSession(starter.draft as unknown as SerializedSession, values) as unknown as Record<string, unknown>;
-      draft.timestamp = Date.now();
-      draft.paragraphs = freshParagraphs((draft as unknown as SerializedSession).paragraphs);
-      const configured = draft.genericForm as SerializedSession['genericForm'];
-      if (configured) for (const rows of Object.values(configured.rows)) for (const row of rows) row.id = newPackageId('row');
+      const draft = applyPlaceholdersToSession(drafts.get(index) as unknown as SerializedSession, values) as unknown as Record<string, unknown>;
       const reviewed = await validatePackageDraft(draft);
       const pages: NonNullable<NativePackageMember['templates']> = {};
       for (const [file, page] of Object.entries(starter.pages)) pages[file] = await stage(page.name, page.type, (await pageAsset(page, 'page')).data);
