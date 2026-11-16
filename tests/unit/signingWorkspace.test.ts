@@ -84,3 +84,21 @@ describe('retained signing drafts', () => {
     expect((await listSigningRecords()).some(value => value.id === healthy.id)).toBe(true);
   });
 });
+
+async function portableHandoffFixture() {
+  let record = await createSigningRecord(await fixture(), 'Import invariants.pdf');
+  record = await updateSigningFields(record, [{ id: crypto.randomUUID(), signer: 'SIGNER', page: 0, x: 0.2, y: 0.6, width: 0.3, height: 0.06 }]);
+  return createSigningHandoff(record);
+}
+it('rejects duplicate handoff field identities in portable records', async () => {
+  const duplicate = await portableHandoffFixture();
+  duplicate.handoffs![0].fields.push(structuredClone(duplicate.handoffs![0].fields[0]));
+  await expect(validateSigningRecord(duplicate)).rejects.toThrow('duplicate identity');
+});
+it('rejects handoff page geometry inconsistent with its retained source', async () => {
+  const geometry = await portableHandoffFixture();
+  const changed = await PDFDocument.create(); changed.addPage([500, 700]);
+  const { captureSigningPdf } = await import('@/lib/signingWorkspace');
+  geometry.handoffs![0].pdf = await captureSigningPdf(await changed.save(), 'Different page.pdf');
+  await expect(validateSigningRecord(geometry)).rejects.toThrow('Invalid signature page');
+});

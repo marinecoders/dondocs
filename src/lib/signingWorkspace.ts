@@ -37,6 +37,8 @@ export const signingRecordSchema = z.object({
   && record.fields.every(field => field.page < record.source.pages.length)
   && new Set(record.handoffs?.map(handoff => handoff.id)).size === (record.handoffs?.length ?? 0)
   && (record.handoffs ?? []).every(handoff => handoff.sourceSha256 === record.source.sha256
+    && JSON.stringify(handoff.pdf.pages) === JSON.stringify(record.source.pages)
+    && new Set(handoff.fields.map(field => field.id)).size === handoff.fields.length
     && handoff.fields.every(field => field.page < record.source.pages.length))
   && new Set(record.returns?.map(value => value.id)).size === (record.returns?.length ?? 0)
   && (record.returns ?? []).every(value => record.handoffs?.some(handoff => handoff.id === value.handoffId)), 'Invalid signature page, duplicate identity or missing handoff.');
