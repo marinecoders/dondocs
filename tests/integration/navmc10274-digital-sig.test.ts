@@ -16,7 +16,7 @@ import { join } from 'node:path';
 import { tmpdir } from 'node:os';
 import { spawnSync } from 'node:child_process';
 import { writeFileSync, mkdtempSync } from 'node:fs';
-import { PDFDocument, PDFName, PDFDict, PDFArray, PDFRef } from 'pdf-lib';
+import { PDFDocument, PDFName, PDFDict, PDFArray, PDFRef, PDFString, PDFHexString } from 'pdf-lib';
 import { generateNavmc10274Pdf } from '@/services/pdf/navmc10274Generator';
 import { hasPdfToolchain, describeToolchainRequirement } from '../_helpers/pdfToolchain';
 
@@ -52,7 +52,8 @@ async function sigFields(bytes: Uint8Array) {
     if ((f.lookup(PDFName.of('FT')) as PDFName | undefined)?.toString() !== '/Sig') continue;
     const rect = (f.lookup(PDFName.of('Rect')) as PDFArray).asArray().map((n) => (n as unknown as { asNumber(): number }).asNumber());
     const pRef = f.get(PDFName.of('P')) as PDFRef | undefined;
-    const name = (f.lookup(PDFName.of('T')) as { asString?(): string } | undefined)?.asString?.() ?? '';
+    const fieldName = f.lookup(PDFName.of('T'));
+    const name = fieldName instanceof PDFString || fieldName instanceof PDFHexString ? fieldName.decodeText() : '';
     out.push({ pageIndex: pageRefs.indexOf(pRef?.toString()), rect, name });
   }
   return out;
