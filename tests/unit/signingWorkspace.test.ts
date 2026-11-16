@@ -57,4 +57,18 @@ describe('retained signing drafts', () => {
     await expect(removeSigningRecord(record, () => false)).rejects.toThrow('cancelled');
     await expect(removeSigningRecord({ ...record, updatedAt: record.updatedAt + 1 })).rejects.toThrow('changed');
   });
+  it('checks ownership at the commit boundary and frees record capacity after explicit removal', async () => {
+    let checks = 0;
+    const before = await listSigningRecords();
+    await expect(createSigningRecord(await fixture(), 'Cancelled at commit.pdf', () => ++checks === 1)).rejects.toThrow('could not be saved');
+    expect(await listSigningRecords()).toEqual(before);
+    const created = [];
+    for (let index = before.length; index < 20; index++) created.push(await createSigningRecord(await fixture(), `Capacity ${index}.pdf`));
+    await expect(createSigningRecord(await fixture(), 'Overflow.pdf')).rejects.toThrow('could not be saved');
+    const removed = created.pop()!;await removeSigningRecord(removed);
+    const replacement = await createSigningRecord(await fixture(), 'Replacement.pdf');
+    expect((await listSigningRecords()).some(value => value.id === replacement.id)).toBe(true);
+    for (const record of [...created, replacement]) await removeSigningRecord(record);
+    expect(await listSigningRecords()).toEqual(before);
+  });
 });

@@ -1,4 +1,4 @@
-import { PDFDocument, PDFName, PDFNumber, PDFSignature } from 'pdf-lib';
+import { PDFDocument, PDFName, PDFNull, PDFNumber, PDFSignature } from 'pdf-lib';
 import { z } from 'zod';
 import { addSignatureFieldToPage } from '@/services/pdf/signatureFieldCore';
 
@@ -41,7 +41,8 @@ export async function inspectSigningPdf(bytes: Uint8Array, allowSigned = false) 
   if (pdf.isEncrypted) throw new Error('Encrypted PDFs cannot be prepared for signing here.');
   if (!pdf.getPageCount() || pdf.getPageCount() > MAX_SIGNING_PAGES) throw new Error('Signing supports PDFs with 1–100 pages.');
   const fields = pdf.getForm().getFields();
-  if (!allowSigned && fields.some(field => field instanceof PDFSignature && field.acroField.dict.has(PDFName.of('V')))) {
+  if (!allowSigned && fields.some(field => field instanceof PDFSignature && field.acroField.dict.lookup(PDFName.of('V')) !== undefined
+    && field.acroField.dict.lookup(PDFName.of('V')) !== PDFNull)) {
     throw new Error('This PDF already contains a signature. Keep its original bytes; start from an unsigned export to place fields.');
   }
   const pages = pdf.getPages().map(page => {

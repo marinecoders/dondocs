@@ -27,6 +27,12 @@ describe('manual signature PDF geometry', () => {
     const pdf = await PDFDocument.create();const page = pdf.addPage([400, 600]);page.setCropBox(-20, -10, 350, 500);
     expect((await inspectSigningPdf(await pdf.save())).pages[0]).toEqual({ x: 0, y: 0, width: 330, height: 490, rotation: 0 });
   });
+  it('can retain an existing automatic field without adding a duplicate', async () => {
+    const pdf = await PDFDocument.create(), page = pdf.addPage();
+    addSignatureFieldToPage(pdf, page, [10, 20, 100, 50], 'Automatic signer');
+    const output = await placeManualSignatureFields(await pdf.save(), [], crypto.randomUUID());
+    expect((await inspectSigningPdf(output)).existingSignatureNames).toEqual(['Automatic signer']);
+  });
   it('rejects unsupported units, signatures, corrupt files, missing pages and overflowing boxes', async () => {
     const pdf = await PDFDocument.create();const page = pdf.addPage();
     page.node.set(PDFName.of('UserUnit'), PDFNumber.of(2));
