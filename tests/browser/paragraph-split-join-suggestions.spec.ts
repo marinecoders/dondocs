@@ -22,7 +22,7 @@ for(const theme of ['light','dark','classic'])test(`paragraph split/join preserv
   await panel.getByLabel('Place the split in reviewed paragraph',{exact:true}).evaluate((element:HTMLTextAreaElement)=>{element.focus();element.setSelectionRange(16,16);element.dispatchEvent(new Event('select',{bubbles:true}));});
   await panel.getByRole('button',{name:'Add paragraph split or join suggestion',exact:true}).click();
   const split=modal.getByRole('article',{name:'Suggestion 1: Split paragraph',exact:true});await expect(split).toBeVisible();
-  await panel.getByLabel('Paragraph operation',{exact:true}).selectOption('join-paragraphs');await panel.getByLabel('Paragraph to split or first paragraph to join',{exact:true}).selectOption('join-left');
+  await panel.getByLabel('Split or join operation',{exact:true}).selectOption('join-paragraphs');await panel.getByLabel('Paragraph to split or first paragraph to join',{exact:true}).selectOption('join-left');
   await expect(panel.getByText(/Second selected paragraph: Paragraph 4:/)).toBeVisible();await panel.getByRole('button',{name:'Add paragraph split or join suggestion',exact:true}).click();
   const join=modal.getByRole('article',{name:'Suggestion 2: Join paragraphs',exact:true});await expect(join).toBeVisible();
   await page.keyboard.press('Escape');const unchanged=await exported(page);expect(unchanged.paragraphs).toEqual(source.paragraphs);

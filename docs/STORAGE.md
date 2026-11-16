@@ -136,7 +136,12 @@ navigation, later edits and identity reservations use the effective tracked ID.
 Returned tracking remains runtime data without authority over the owner's mapping.
 Tracking context and destination identity count against retained-context budgets
 and use the existing privacy, draft/share and backup policies; clean output omits
-all discussion metadata.
+all discussion metadata. Cross-paragraph tracking requires DonDocs 1.3.114 or later.
+Earlier strict readers reject a draft or backup containing this destination field
+before import; keep the original file and reopen it in a compatible build. The
+review model remains version 3 because original anchors and quotes are unchanged.
+Keep a current workspace backup before rolling back an installed build; an older
+on-device reader cannot be made compatible by a new build.
 
 Suggest Changes mode holds one unsaved paragraph draft in the mounted review
 editor. Native input selections expand one exact baseline range; typing never

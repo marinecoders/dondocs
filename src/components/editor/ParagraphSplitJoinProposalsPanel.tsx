@@ -28,7 +28,7 @@ export function ParagraphSplitJoinProposalsPanel({ round, disabled, quotaFull, o
     <fieldset disabled={locked} className="min-w-0 space-y-2">
       <Label htmlFor={`${prefix}-author`}>Reviewer name for paragraph split or join</Label>
       <Input id={`${prefix}-author`} value={author} maxLength={100} onChange={event => setAuthor(event.target.value)} />
-      <Label htmlFor={`${prefix}-mode`}>Paragraph operation</Label>
+      <Label htmlFor={`${prefix}-mode`}>Split or join operation</Label>
       <select id={`${prefix}-mode`} className="w-full rounded-md border bg-background p-2 text-sm" value={mode} onChange={event => { setMode(event.target.value as typeof mode);setSplitAt(null);setNotice(''); }}>
         <option value="split-paragraph">Split one paragraph</option><option value="join-paragraphs">Join two adjacent paragraphs</option>
       </select>

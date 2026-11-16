@@ -20,7 +20,7 @@ it('refuses splitting through variables and explains legacy recovery; cancel lea
  expect(screen.getByText(/Place the split outside a variable chip/)).toBeVisible();expect(screen.getByRole('button',{name:'Add paragraph split or join suggestion'})).toBeDisabled();await userEvent.click(screen.getByRole('button',{name:'Cancel paragraph split or join'}));expect(input.onCreate).not.toHaveBeenCalled();
 });
 it('requires the explicit adjacent pair and preserves a chosen empty separator',async()=>{
- const input=fixture('First');render(<ParagraphSplitJoinProposalsPanel {...input}/>);await userEvent.type(screen.getByLabelText('Reviewer name for paragraph split or join'),'Reviewer');await userEvent.selectOptions(screen.getByLabelText('Paragraph operation'),'join-paragraphs');await userEvent.selectOptions(screen.getByLabelText('Paragraph to split or first paragraph to join'),'first');
+ const input=fixture('First');render(<ParagraphSplitJoinProposalsPanel {...input}/>);await userEvent.type(screen.getByLabelText('Reviewer name for paragraph split or join'),'Reviewer');await userEvent.selectOptions(screen.getByLabelText('Split or join operation'),'join-paragraphs');await userEvent.selectOptions(screen.getByLabelText('Paragraph to split or first paragraph to join'),'first');
  expect(screen.getByText('Second selected paragraph: Paragraph 2: Second.')).toBeVisible();await userEvent.selectOptions(screen.getByLabelText('Space between joined paragraphs'),'');await userEvent.click(screen.getByRole('button',{name:'Add paragraph split or join suggestion'}));expect(input.onCreate.mock.calls[0][0].changes[0].proposed).toBe('FirstSecond.');
 });
 it('retries the same immutable proposal and new paragraph identity after a failed submission',async()=>{
