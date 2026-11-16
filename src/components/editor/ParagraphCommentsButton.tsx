@@ -22,7 +22,7 @@ export function ParagraphCommentsButton({ paragraphId, index, selection, selecti
   if (!supportsReviewComments({ docType, documentCategory: category, formData: {} })) return null;
   const available = !!paragraph && paragraph.id === paragraphId && paragraphIdSchema.safeParse(paragraphId).success
     && paragraphCommentContext(paragraph).length <= COMMENT_LIMITS.context;
-  const count = comments?.threads.filter(thread => !thread.resolved && (thread.anchor.kind === 'paragraph' || thread.anchor.kind === 'range') && thread.anchor.paragraphId === paragraphId).length ?? 0;
+  const count = comments?.threads.filter(thread => !thread.resolved && (thread.anchor.kind === 'paragraph' || thread.anchor.kind === 'range') && (thread.anchor.kind === 'range' ? thread.anchor.tracking?.paragraphId ?? thread.anchor.paragraphId : thread.anchor.paragraphId) === paragraphId).length ?? 0;
   return <>
     <Button type="button" variant="ghost" size="sm" className="h-6 gap-1 px-1 text-xs" disabled={!available}
       title={!available ? 'Paragraph comments support up to 20,000 characters. Use a whole-document comment for longer paragraphs.' : undefined}

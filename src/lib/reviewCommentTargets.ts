@@ -1,4 +1,4 @@
-import { resolveTextRange } from './reviewTextRanges';
+import { resolveTextRange, textRangeParagraphId } from './reviewTextRanges';
 import { documentTextFields, type DocumentFieldSource } from './documentFields';
 import { DOC_TYPE_CONFIG } from '@/types/document';
 import { COMMENT_LIMITS, type CommentAnchor } from './reviewComments';
@@ -62,7 +62,7 @@ export function describeCommentAnchor(source: DocumentFieldSource, anchor: Comme
   if (anchor.kind === 'document') return { label: 'Whole document', status: 'current' };
   if (anchor.kind === 'range') {
     const resolved = resolveTextRange(source, anchor);
-    const index = source.paragraphs?.findIndex(paragraph => paragraph.id === anchor.paragraphId) ?? -1;
+    const index = source.paragraphs?.findIndex(paragraph => paragraph.id === textRangeParagraphId(anchor)) ?? -1;
     return { label: index < 0 ? 'Deleted or unavailable selected text' : `Selected text in paragraph ${index + 1}`,
       status: resolved.status, context: `Selected text:\n${anchor.context.slice(anchor.start, anchor.end)}\n\nParagraph context:\n${anchor.context}`, current: resolved.paragraph?.text };
   }

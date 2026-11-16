@@ -229,6 +229,31 @@ support plain native text in one paragraph; formatted text, variables, headings,
 markings, tables, figures and structural edits are excluded. The full paragraph
 context travels with the selected range and is included in handling/privacy checks.
 
+To split or join paragraphs, use **Propose a paragraph split or join** in the
+same review. Choose a reviewed paragraph and place a caret in its text, or choose
+the first paragraph and review the explicitly displayed adjacent second paragraph.
+A join adds your chosen one space or no space; existing spaces are never trimmed.
+Preview the complete result before submitting. The baseline stays unchanged until
+the source owner accepts the proposal. The normal Undo and Redo commands reverse
+an accepted operation together with its discussion mappings.
+
+Splits and joins preserve separate balanced bold (`**`), italic (`*`) and underline
+(`__`) runs and whole variable chips. A split inside one marked run closes and
+reopens its formatting. It cannot cut through a variable or a visible character,
+including combining marks. A split retains its heading and reference label on the
+first paragraph and copies its portion marking to both parts. A join requires the
+same level and portion marking; a second heading or reference label stays in its
+own paragraph. Choose leaf paragraphs so no unselected children change parent.
+Legacy LaTeX, overlapping or nested formatting, multiline text and structured
+blocks require ordinary editing or simplified content in a fresh review.
+
+Discussion IDs, messages, earlier targets and original quotes remain. A known
+plain-text selection wholly inside one destination follows that exact span;
+crossing, ambiguous or unsupported spans detach for deliberate reattachment.
+Whole-paragraph discussions retain their original scope, so the first paragraph
+may show changed context and a removed second paragraph remains unavailable with
+its original context. The app never searches for matching words to retarget them.
+
 To type suggested changes naturally, turn on **Suggest Changes mode**, choose a
 supported **Paragraph for suggested typing**, and edit **Suggested paragraph text**.
 Caret typing, Backspace, Delete, complete-character selections, plain-text paste

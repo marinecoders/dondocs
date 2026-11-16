@@ -7,6 +7,13 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.114] — 2026-11-15
+
+### Added
+
+- Propose paragraph splits and joins without changing the reviewed baseline. Acceptance preserves supported bold, italic, underline and whole variable chips, exact whitespace, paragraph labels and portion markings through the existing guarded review and Undo/Redo workflow.
+- Selected-text discussions follow explicitly mapped paragraph spans while retaining their original quote and discussion identity. Crossing or unsupported spans detach with their original context; complex formatting and changes that would consume child paragraphs receive a clear recovery explanation.
+
 ## [1.3.113] — 2026-11-15
 
 ### Added

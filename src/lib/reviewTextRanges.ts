@@ -14,7 +14,7 @@ export function isTextRangeBoundary(text: string, offset: number): boolean {
   // this offset instead of allocating every grapheme in each retained context.
   return new Intl.Segmenter('en', { granularity: 'grapheme' }).segment(text).containing(offset)?.index === offset;
 }
-const position = z.object({ context: z.string().max(TEXT_RANGE_CONTEXT_LIMIT), start: z.number().int().nonnegative(), end: z.number().int().nonnegative() }).strict();
+const position = z.object({ paragraphId: paragraphIdSchema.optional(), context: z.string().max(TEXT_RANGE_CONTEXT_LIMIT), start: z.number().int().nonnegative(), end: z.number().int().nonnegative() }).strict();
 export const selectedTextRangeSchema = z.object({
   kind: z.literal('range'), paragraphId: paragraphIdSchema, docType: z.string().min(1).max(100),
   context: z.string().max(TEXT_RANGE_CONTEXT_LIMIT), start: z.number().int().nonnegative(), end: z.number().int().nonnegative(),
@@ -30,6 +30,7 @@ export const selectedTextRangeSchema = z.object({
   }
 });
 export type SelectedTextRange = z.infer<typeof selectedTextRangeSchema>;
+export function textRangeParagraphId(range: SelectedTextRange): string { return range.tracking?.paragraphId ?? range.paragraphId; }
 export interface TextRangeEdit { from: number; to: number; insert: string }
 
 /** The first release supports a single native paragraph of literal, unformatted text. */
@@ -56,7 +57,7 @@ export function resolveTextRange(source: DocumentFieldSource, range: SelectedTex
 } {
   const parsed = selectedTextRangeSchema.safeParse(range);
   if (!parsed.success) return { status: 'unavailable' };
-  const paragraph = findParagraph(source, range.paragraphId);
+  const paragraph = findParagraph(source, textRangeParagraphId(range));
   if (!paragraph) return { status: 'unavailable' };
   const current = range.tracking ?? range;
   if (range.detached || source.docType !== range.docType || paragraph.text !== current.context) return { status: 'changed', paragraph };
@@ -74,7 +75,7 @@ export function transformTextRange(range: SelectedTextRange, before: string, edi
   let { start, end } = current;
   if (edit.to < start) { const shift = edit.insert.length - (edit.to - edit.from); start += shift; end += shift; }
   else if (edit.from <= end) return detach();
-  const next = { ...range, tracking: { context, start, end } };
+  const next = { ...range, tracking: { ...(range.tracking?.paragraphId ? { paragraphId: range.tracking.paragraphId } : {}), context, start, end } };
   return selectedTextRangeSchema.safeParse(next).success && !/[\r\n*\\]|__|\{\{/.test(context) ? next : detach();
 }
 /** Derive every equivalent minimal single splice; keep only an unambiguous mapping.
