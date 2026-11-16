@@ -1,3 +1,6 @@
+import { PackageReviewControls } from "./PackageReviewControls";
+import { startPackageReview, openPackageReview, transitionPackageReview } from "@/lib/packageReviewRounds";
+import type { PackageReviewRound } from "@/lib/actionPackages";
 import type { ExportGate } from "@/lib/exportController";
 import { reviewPackageOriginal } from "@/lib/actionPackageDisclosure";
 import type { PackageAsset } from "@/lib/actionPackages";
@@ -132,6 +135,7 @@ function PackageDialog({
     [error, setError] = useState(""),
     [loaded, setLoaded] = useState(false),
     [notice, setNotice] = useState("");
+  const [openedReview, setOpenedReview] = useState<PackageReviewRound | null>(null);
   const [shareOpen, setShareOpen] = useState(false);
   const [encryptedImport, setEncryptedImport] = useState<string | null>(null);
   const requestedPackageId = useUIStore(state => state.actionPackageSelectionId);
@@ -160,10 +164,11 @@ function PackageDialog({
     currentId = useDocumentsStore((state) => state.currentId);
   const record = records.find((record) => record.id === selectedId),
     revision = record
-      ? getPackageRevision(record, revisionId || record.currentRevisionId)
+      ? openedReview?.baseline ?? getPackageRevision(record, revisionId || record.currentRevisionId)
       : null;
+  const readRecord: ActionPackage | undefined = record && openedReview ? { ...record, historyScope: "selected-revision", currentRevisionId: openedReview.revisionId, revisions: [openedReview.baseline], reviewRounds: undefined, workingCopies: undefined } : record;
   const editable =
-    !!record && revision?.id === record.currentRevisionId && !record.archived;
+    !!record && !openedReview && revision?.id === record.currentRevisionId && !record.archived;
   const beforeComparisonId = beforeOutputId || revision?.outputs.at(-2)?.id || "";
   const afterComparisonId = afterOutputId || revision?.outputs.at(-1)?.id || "";
   useEffect(() => {
@@ -180,6 +185,7 @@ function PackageDialog({
           inventoryLoaded.current = true;
           const requested = records.find(record => record.id === requestedPackageId);
           if (requested) {
+            setOpenedReview(null);
             setSelectedId(requested.id);
             if (requestedRevisionId && !requested.revisions.some(revision => revision.id === requestedRevisionId))
               throw new Error("The reviewed package revision is no longer available. Reopen the share and review it again.");
@@ -210,6 +216,7 @@ function PackageDialog({
     [pdfUrl],
   );
   function select(value: ActionPackage) {
+    setOpenedReview(null);
     setCitationReorder(null);
     setSelectedId(value.id);
     setRevisionId(value.currentRevisionId);
@@ -286,9 +293,9 @@ function PackageDialog({
     if (policy.status !== "ready") throw new Error(policy.message);
     const result = mode === "compare"
       ? await (await import("@/lib/packageRenderComparison")).preparePackageRenderComparison(
-          record, revision.id, policy, operation.current!.signal,
+          readRecord!, revision.id, policy, operation.current!.signal,
         )
-      : await preparePackageAssembly(record, revision.id, policy);
+      : await preparePackageAssembly(readRecord!, revision.id, policy);
     assertOperationCurrent();
     setOtherReviews([]);
     setReviewMode(mode);
@@ -351,7 +358,7 @@ function PackageDialog({
       );
     } else if (reviewMode === "portable") {
       const json = await buildPortableActionPackage(
-        record,
+        readRecord!,
         revision.id,
         async (asset) =>
           revision.outputs.some((output) => output.asset.id === asset.id)
@@ -522,7 +529,7 @@ function PackageDialog({
           </label>
           {record && revision && (
             <>
-              <Button variant="outline" onClick={() => setShareOpen(true)}>Share encrypted package</Button>
+              <Button variant="outline" disabled={!!openedReview} onClick={() => setShareOpen(true)}>Share encrypted package</Button>
               <div className="flex flex-wrap gap-2">
                 <Button
                   variant="outline"
@@ -573,6 +580,25 @@ function PackageDialog({
                   {record.archived ? "Reopen archived package" : "Archive"}
                 </Button>
               </div>
+              <PackageReviewControls record={record} disabled={busy} opened={openedReview} onExit={() => select(record)}
+                onStart={() => void run(async () => {
+                  const next = await startPackageReview(record, revision.id, `Package review ${(record.reviewRounds?.length ?? 0) + 1}`, operation.current?.signal, () => active.current);
+                  update(next);
+                  const round = await openPackageReview(next, next.reviewRounds!.at(-1)!.id);
+                  assertOperationCurrent(); setOpenedReview(round); setRevisionId(round.revisionId);
+                })}
+                onOpen={roundId => void run(async () => {
+                  const latest = (await listActionPackages()).find(value => value.id === record.id);
+                  if (!latest) throw new Error("This saved package is unavailable.");
+                  const round = await openPackageReview(latest, roundId);
+                  update(latest); setOpenedReview(round); setRevisionId(round.revisionId);
+                })}
+                onTransition={(roundId, transition) => void run(async () => {
+                  const next = await transitionPackageReview(record, roundId, transition, undefined, operation.current?.signal, () => active.current);
+                  update(next);
+                  const round = await openPackageReview(next, roundId);
+                  assertOperationCurrent(); setOpenedReview(round); setRevisionId(round.revisionId);
+                })} />
               <label className="block text-sm">
                 Package revision
                 <select
@@ -580,6 +606,7 @@ function PackageDialog({
                   className="mt-1 w-full rounded border bg-background p-2"
                   value={revision.id}
                   onChange={(event) => {
+                    setOpenedReview(null);
                     setRevisionId(event.target.value);
                     setPrepared(null);
                     setComparison(null);
@@ -941,7 +968,7 @@ function PackageDialog({
                 </section>
               )}
               <div className="flex flex-wrap gap-2">
-                <Button onClick={() => void run(() => review("assemble"))}>
+                <Button disabled={!!openedReview} onClick={() => void run(() => review("assemble"))}>
                   Check readiness and assemble
                 </Button>
                 <Button
@@ -972,7 +999,7 @@ function PackageDialog({
               <PackageCitationReorder key={`reorder-${record.id}:${revision.id}:${record.sequence}`} record={record} revision={revision} editable={editable} prepared={citationReorder}
                 onPrepare={value => void run(() => prepareCitationReorder(value))} onDiscard={() => setCitationReorder(null)}
                 onChange={action => void run(async () => update(await action(operation.current?.signal)))} />
-              <WordPackageDownload key={`${record.id}:${revision.id}`} record={record} revisionId={revision.id} ports={ports} exportGate={exportGate} />
+              <WordPackageDownload key={`${record.id}:${revision.id}`} record={readRecord!} revisionId={revision.id} ports={ports} exportGate={exportGate} />
               {revision.outputs.length > 1 && (
                 <section className="space-y-3 rounded border p-3" aria-label="Compare saved renderings">
                   <h3 className="font-medium">Compare saved renderings</h3>

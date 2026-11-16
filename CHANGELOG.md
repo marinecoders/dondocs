@@ -7,6 +7,13 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.110] — 2026-11-15
+
+### Added
+
+- Start and reopen reviews pinned to an exact saved package revision, preserving captured native members, original PDFs, templates and the output retained when review began.
+- Keep package review lifecycle and ownership with the saved package through reload and workspace recovery, with exact member bindings for subsequent feedback. Clean package copies and exports omit review authority and context.
+
 ## [1.3.109] — 2026-11-15
 
 ### Added

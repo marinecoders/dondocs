@@ -992,6 +992,8 @@ export async function idbFormDefinitions(): Promise<import('@/services/forms/mod
     }
     const { actionPackageSchema, packageDefinitions } = await import('./actionPackages');
     const packages = app.filter(entry => entry.key.startsWith('action-package:')).map(entry => actionPackageSchema.parse(entry.value));
+    const { validatePackageReviewBaselines } = await import('./packageReviewRounds');
+    for (const record of packages) await validatePackageReviewBaselines(record);
     return [...sessions.flatMap(s => s.genericForm ? [s.genericForm.definition] : []), ...packageDefinitions(packages)];
   } catch { return null; }
 }

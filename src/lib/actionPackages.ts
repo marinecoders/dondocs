@@ -108,7 +108,7 @@ const outputSchema = z
   })
   .strict();
 export type PackageOutput = z.infer<typeof outputSchema>;
-const revisionSchema = z
+export const packageRevisionSchema = z
   .object({
     id,
     parentId: id.optional(),
@@ -118,7 +118,55 @@ const revisionSchema = z
     citations: packageCitationsSchema.optional(),
   })
   .strict();
-export type PackageRevision = z.infer<typeof revisionSchema>;
+export type PackageRevision = z.infer<typeof packageRevisionSchema>;
+/** Package review authority is separate from native document ownership. */
+export const packageReviewBindingSchema = z.object({
+  packageId: id, roundId: id, revisionId: id, baselineDigest: digest,
+  memberId: id, memberRevisionId: id, memberDigest: digest, assetDigest: digest,
+}).strict();
+export type PackageReviewBinding = z.infer<typeof packageReviewBindingSchema>;
+export const packageReviewRoundSchema = z.object({
+  kind: z.literal("dondocs-package-review-round"), version: z.literal(1),
+  id, packageId: id, revisionId: id, label: z.string().trim().min(1).max(120),
+  createdAt: z.number().int().nonnegative(), baselineDigest: digest,
+  // Captured again because output may be appended to a saved revision later.
+  // This also remains a GC/backup root if history pruning is added in future.
+  baseline: packageRevisionSchema,
+  members: z.array(packageReviewBindingSchema).max(100),
+  ownerPackageId: id.optional(),
+  lifecycle: z.object({ events: z.array(z.object({
+    id, state: z.enum(["active", "closed", "superseded"]),
+    changedAt: z.number().int().nonnegative(), replacementRoundId: id.optional(),
+  }).strict()).min(1).max(100) }).strict().optional(),
+}).strict().superRefine((round, ctx) => {
+  let state = "active", changedAt = round.createdAt;
+  const events = new Set<string>();
+  if (round.revisionId !== round.baseline.id || round.createdAt < round.baseline.createdAt
+    || round.ownerPackageId !== undefined && round.ownerPackageId !== round.packageId
+    || round.members.length !== round.baseline.members.length
+    || round.members.some((binding, index) => binding.packageId !== round.packageId
+      || binding.roundId !== round.id || binding.revisionId !== round.revisionId
+      || binding.baselineDigest !== round.baselineDigest
+      || binding.memberId !== round.baseline.members[index].id
+      || binding.memberRevisionId !== round.baseline.members[index].revisionId
+      || binding.assetDigest !== (round.baseline.members[index].kind === "native"
+        ? round.baseline.members[index].draft.sha256 : round.baseline.members[index].original.sha256)))
+    ctx.addIssue({ code: "custom", message: "Invalid exact package review binding." });
+  for (const event of round.lifecycle?.events ?? []) {
+    if (!(state === "active" && event.state !== "active" || state === "closed" && event.state === "active")
+      || event.changedAt < changedAt || events.has(event.id)
+      || (event.state === "superseded") !== !!event.replacementRoundId || event.replacementRoundId === round.id)
+      ctx.addIssue({ code: "custom", message: "Invalid package review lifecycle." });
+    state = event.state; changedAt = event.changedAt; events.add(event.id);
+  }
+});
+export type PackageReviewRound = z.infer<typeof packageReviewRoundSchema>;
+/** Portable/recovery normalization never turns source provenance into authority. */
+export function packageReviewRevision(revision: PackageRevision): PackageRevision {
+  const baseline = structuredClone(revision);
+  for (const member of baseline.members) if (member.kind === "native" && member.source) member.source.local = false;
+  return baseline;
+}
 export const actionPackageSchema = z
   .object({
     kind: z.literal("dondocs-action-package-record"),
@@ -129,7 +177,8 @@ export const actionPackageSchema = z
     archived: z.boolean(),
     sequence: z.number().int().nonnegative(),
     currentRevisionId: id,
-    revisions: z.array(revisionSchema).min(1).max(200),
+    revisions: z.array(packageRevisionSchema).min(1).max(200),
+    reviewRounds: z.array(packageReviewRoundSchema).max(100).optional(),
     workingCopies: z
       .array(
         z.object({ memberId: id, documentId: id, revisionId: id }).strict(),
@@ -218,6 +267,18 @@ export const actionPackageSchema = z
         code: "custom",
         message: "Invalid package working copy binding.",
       });
+    const rounds = record.reviewRounds ?? [];
+    if (new Set(rounds.map(round => round.id)).size !== rounds.length)
+      ctx.addIssue({ code: "custom", message: "Duplicate package review round." });
+    for (const round of rounds) {
+      const revision = record.revisions.find(revision => revision.id === round.revisionId);
+      if (round.packageId !== record.id || !revision
+        || !sameReviewStoredValue(packageReviewRevision({ ...revision, outputs: revision.outputs.slice(0, round.baseline.outputs.length) }), round.baseline)
+        || round.lifecycle?.events.some(event => event.replacementRoundId && !rounds.some(replacement =>
+          replacement.id === event.replacementRoundId && replacement.createdAt > round.createdAt
+          && replacement.ownerPackageId === round.ownerPackageId)))
+        ctx.addIssue({ code: "custom", message: "The package review baseline or replacement is unavailable." });
+    }
     if (!seen.has(record.currentRevisionId))
       ctx.addIssue({
         code: "custom",
@@ -253,12 +314,13 @@ export function getPackageRevision(
 }
 /** Failed or corrupt inventory reads must never look like an empty workspace. */
 export async function listActionPackages(): Promise<ActionPackage[]> {
-  return (await idbReadActionPackages()).map((value) =>
-    actionPackageSchema.parse(value),
-  );
+  const records = (await idbReadActionPackages()).map(value => actionPackageSchema.parse(value));
+  const { validatePackageReviewBaselines } = await import("./packageReviewRounds");
+  for (const record of records) await validatePackageReviewBaselines(record);
+  return records;
 }
 export function packageAssets(record: ActionPackage): PackageAsset[] {
-  return record.revisions.flatMap((revision) => [
+  return [...record.revisions, ...(record.reviewRounds ?? []).map(round => round.baseline)].flatMap((revision) => [
     ...revision.members.flatMap((member) =>
       member.kind === "original"
         ? [member.original]
@@ -269,7 +331,7 @@ export function packageAssets(record: ActionPackage): PackageAsset[] {
 }
 export function packageDefinitions(records: ActionPackage[]) {
   return records.flatMap((record) =>
-    record.revisions.flatMap((revision) =>
+    [...record.revisions, ...(record.reviewRounds ?? []).map(round => round.baseline)].flatMap((revision) =>
       revision.members.flatMap((member) =>
         member.kind === "native" && member.session.genericForm
           ? [member.session.genericForm.definition]
@@ -405,6 +467,7 @@ export async function duplicateActionPackage(
       archived: false,
       sequence: 0,
       workingCopies: undefined,
+      reviewRounds: undefined,
     },
     signal,
   );
@@ -423,6 +486,25 @@ export function validPackageTransition(
     after.revisions.length < before.revisions.length
   )
     return false;
+  const oldRounds = before.reviewRounds ?? [], newRounds = after.reviewRounds ?? [];
+  if (newRounds.length < oldRounds.length || newRounds.length > oldRounds.length + 1) return false;
+  for (let index = 0; index < oldRounds.length; index++) {
+    const prior = oldRounds[index], next = newRounds[index];
+    if (!sameReviewStoredValue({ ...prior, lifecycle: undefined }, { ...next, lifecycle: undefined })) return false;
+    const events = prior.lifecycle?.events ?? [], updated = next.lifecycle?.events ?? [];
+    if (updated.length < events.length || updated.length > events.length + 1
+      || !sameReviewStoredValue(events, updated.slice(0, events.length))) return false;
+    if (updated.length !== events.length) {
+      if (prior.ownerPackageId !== before.id) return false;
+      const event = updated.at(-1)!;
+      if (event.state === "superseded") {
+        const replacement = newRounds.find(round => round.id === event.replacementRoundId);
+        if (!replacement || replacement.ownerPackageId !== before.id
+          || (replacement.lifecycle?.events.at(-1)?.state ?? "active") !== "active") return false;
+      }
+    }
+  }
+  if (newRounds.length > oldRounds.length && (before.archived || newRounds.at(-1)?.ownerPackageId !== before.id || newRounds.at(-1)?.lifecycle !== undefined)) return false;
   for (let index = 0; index < before.revisions.length; index++) {
     const prior = before.revisions[index],
       next = after.revisions[index];

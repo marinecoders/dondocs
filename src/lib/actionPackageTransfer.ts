@@ -47,6 +47,7 @@ export async function buildPortableActionPackage(
   const selected = getPackageRevision(record, revisionId);
   const source = structuredClone(record);
   delete source.workingCopies;
+  delete source.reviewRounds;
   const owned = actionPackageSchema.parse({
     ...source,
     historyScope: "selected-revision",
@@ -89,6 +90,7 @@ export async function parsePortableActionPackage(json: string) {
     throw new Error("This editable package exceeds the 100 MB transfer limit.");
   const envelope = envelopeSchema.parse(JSON.parse(json));
   if (
+    envelope.package.reviewRounds !== undefined ||
     envelope.package.workingCopies?.length ||
     envelope.package.revisions.some((revision) =>
       revision.members.some(
@@ -153,6 +155,7 @@ export async function importPortableActionPackage(
     const comparable = (value: ActionPackage) => {
       const copy = structuredClone(value);
       delete copy.workingCopies;
+      delete copy.reviewRounds;
       for (const revision of copy.revisions)
         for (const member of revision.members)
           if (member.kind === "native" && member.source)
@@ -205,6 +208,8 @@ export async function validateActionPackageResources(
   ) => Promise<ArrayBuffer>,
 ) {
   const owned = actionPackageSchema.parse(record);
+  const { validatePackageReviewBaselines } = await import("./packageReviewRounds");
+  await validatePackageReviewBaselines(owned);
   const seen = new Map<string, string>();
   for (const asset of packageAssets(owned)) {
     const identity = JSON.stringify(asset);

@@ -350,3 +350,37 @@ it("discards an active comparison when a received package selects another revisi
   expect(compare.mock.calls[0][3].aborted).toBe(true);
   expect(within(dialog).queryByRole("alert")).toBeNull();
 });
+
+it("starts and reopens an exact saved package review after membership removal and dialog reload", async () => {
+  const source = createBlankSession();
+  const member = await capturePackageMember(captureDocumentRevision(
+    { documentId: "review-package-source", epoch: 0, editSequence: 1, capturedAt: 100 },
+    { ...source, endItems: [], publicationTables: {} },
+  ), "Synthetic exact review member", "basic-letter");
+  const record = await reviseActionPackage(await createActionPackage("Synthetic review workflow"), [member]);
+  const user = userEvent.setup();
+  useUIStore.setState({ actionPackagesOpen: true });
+  const view = render(<ActionPackageWorkspace exportGate={createExportGate()} ports={{ compile: vi.fn(), convertDocx: vi.fn(), waitForReady: async () => true }} />);
+  let dialog = screen.getByRole("dialog", { name: "Action packages" });
+  await within(dialog).findByRole("option", { name: record.name });
+  await user.selectOptions(within(dialog).getByLabelText("Saved packages", { exact: true }), record.id);
+  await user.click(within(dialog).getByRole("button", { name: "Start package review", exact: true }));
+  await within(dialog).findByText("Reviewing exact saved package revision");
+  expect(within(dialog).getByRole("button", { name: "Check readiness and assemble" })).toBeDisabled();
+  expect(within(dialog).queryByRole("button", { name: "Edit working copy" })).toBeNull();
+  const saved = (await listActionPackages()).find(value => value.id === record.id)!;
+  expect(saved.revisions).toEqual(record.revisions);
+  await reviseActionPackage(saved, []);
+  view.unmount();
+  render(<ActionPackageWorkspace exportGate={createExportGate()} ports={{ compile: vi.fn(), convertDocx: vi.fn(), waitForReady: async () => true }} />);
+  dialog = screen.getByRole("dialog", { name: "Action packages" });
+  await within(dialog).findByRole("option", { name: record.name });
+  await user.selectOptions(within(dialog).getByLabelText("Saved packages", { exact: true }), record.id);
+  expect(within(dialog).queryByRole("heading", { name: "1. Synthetic exact review member" })).toBeNull();
+  await user.click(within(dialog).getByRole("button", { name: "Open review Package review 1", exact: true }));
+  await within(dialog).findByRole("heading", { name: "1. Synthetic exact review member" });
+  expect(within(dialog).getByLabelText("Package revision")).toHaveValue(record.currentRevisionId);
+  await user.click(within(dialog).getByRole("button", { name: "Close package review", exact: true }));
+  await within(dialog).findByRole("button", { name: "Reopen package review", exact: true });
+  expect((await listActionPackages()).find(value => value.id === record.id)?.reviewRounds?.[0].lifecycle?.events.at(-1)?.state).toBe("closed");
+});
