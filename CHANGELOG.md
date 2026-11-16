@@ -14,6 +14,10 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 - Propose a new plain paragraph at an exact reviewed position or delete a captured leaf paragraph through existing review rounds, feedback returns and source-owner decisions. Comparisons show readable content and reviewed position; unrelated newer work is preserved.
 - Guard acceptance with stable paragraph identities, exact node content, parent and neighboring boundaries. Keep deleted formatting, variables, markings and discussion context for scoped Undo/Redo; reserve paragraph identities across review operations and retained history. Parents, the final remaining paragraph, structured-block deletions and unsupported new rich content are refused with a recovery explanation.
 
+### Fixed
+
+- Keep the clean PDF preview usable after accepting emoji paragraph proposals. Unsupported emoji marks follow the existing bundled-font fallback while the native draft preserves the exact original text.
+
 ## [1.3.112] — 2026-11-15
 
 ### Added

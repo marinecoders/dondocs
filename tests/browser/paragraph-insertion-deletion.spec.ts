@@ -1,6 +1,7 @@
 import { expect, test, type Page } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 import { readFile } from 'node:fs/promises';
+import { getDocument } from 'pdfjs-dist/legacy/build/pdf.mjs';
 import { replaceParagraphText } from '../_helpers/replaceParagraphText';
 
 test.use({ serviceWorkers: 'block' });
@@ -87,5 +88,35 @@ for (const theme of ['light', 'dark', 'classic']) test(`paragraph insertion and 
     await expect(modal.getByRole('article', { name: 'Suggestion 1: Insert paragraph', exact: true }).getByText(/· Accepted$/)).toBeVisible();
     await modal.getByLabel('Import feedback return', { exact: true }).setInputFiles({ name: 'repeated.json', mimeType: 'application/json', buffer: returned });
     await expect(modal.getByText(/This return has already been imported/)).toBeVisible();
+    await page.keyboard.press('Escape');await expect(modal).toBeHidden();
+    // Accepted Unicode content must also compile through the clean PDF path.
+    const preview = page.getByRole('button', { name: 'Preview', exact: true });
+    let exportPdf: () => Promise<unknown>;
+    if (await preview.getAttribute('aria-haspopup') === 'dialog') {
+      await preview.click();
+      const pdfPreview = page.getByRole('dialog', { name: 'PDF preview', exact: true });
+      const save = pdfPreview.getByRole('button', { name: 'Download', exact: true });
+      await expect(save).toBeVisible({ timeout: 60_000 });exportPdf = () => save.click();
+    } else {
+      if (await preview.getAttribute('aria-pressed') !== 'true') await preview.click();
+      await expect(page.locator('.workspace-preview [title="Document preview"]').first()).toBeAttached({ timeout: 60_000 });
+      exportPdf = async () => {
+        await page.getByRole('button', { name: 'Download', exact: true }).click();
+        await page.getByRole('menuitem', { name: /^Download PDF(?:\s|$)/ }).click();
+      };
+    }
+    const cleanPdf = await download(page, exportPdf);
+    await info.attach('accepted-paragraph-clean.pdf', { body: cleanPdf, contentType: 'application/pdf' });
+    const pdf = await getDocument({ data: new Uint8Array(cleanPdf), useSystemFonts: false }).promise;
+    try {
+      let text = '';
+      for (let index = 1; index <= pdf.numPages; index++) {
+        const content = await (await pdf.getPage(index)).getTextContent();
+        text += content.items.flatMap(item => 'str' in item ? [item.str] : []).join(' ') + ' ';
+      }
+      expect(text.replace(/\s+/g, ' ')).toContain('Inserted Équipe paragraph.');
+      expect(text).toContain('Newer independent third.');
+      expect(text).not.toContain('Remove this reviewed paragraph.');
+    } finally { await pdf.destroy(); }
   } finally { await context.close(); }
 });
