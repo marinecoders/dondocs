@@ -120,7 +120,7 @@ export function wrapRedlineText(text: string, width: number, measure: (text: str
   return directional.flatMap(paragraph => {
     if (!paragraph) return [''];
     const result: string[] = [];
-    let line = '';
+    let line = '', breakAt = 0;
     for (const { segment } of segmenter.segment(paragraph)) {
       // Zero-advance text can grow forever without reaching the width limit.
       // Bound each shaping input before canvas measures it; keep the exact text
@@ -128,12 +128,13 @@ export function wrapRedlineText(text: string, width: number, measure: (text: str
       if (line.length + segment.length > REDLINE_LIMITS.lineCharacters) throw new Error('A line exceeds the PDF character shaping limit. Use the decision summary HTML to preserve this text.');
       if (measure(segment) > width) throw new Error('A character cluster is too wide for this PDF. Shorten the affected value.');
       if (line && measure(line + segment) > width) {
-        const spaces = Array.from(line.matchAll(/\s+/g));
-        const last = spaces.at(-1), at = last ? last.index! + last[0].length : 0;
-        if (at > 0) { result.push(line.slice(0, at));line = line.slice(at); }
-        if (line && measure(line + segment) > width) { result.push(line);line = ''; }
+        if (breakAt > 0) { result.push(line.slice(0, breakAt));line = line.slice(breakAt);breakAt = 0; }
+        if (line && measure(line + segment) > width) { result.push(line);line = '';breakAt = 0; }
       }
       line += segment;
+      // A whitespace scalar can share its grapheme with combining marks.
+      // Prefer the end of that complete cluster when wrapping at whitespace.
+      if (/\s/u.test(segment)) breakAt = line.length;
     }
     result.push(line);return result;
   });

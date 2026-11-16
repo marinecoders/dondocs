@@ -29,6 +29,18 @@ it('wraps complete graphemes and preserves all whitespace and long tokens', () =
   expect(wrapRedlineText('one\n\ntwo\n', 9, text => text.length)).toEqual(['one', '', 'two', '']);
 });
 
+it('keeps whitespace-led combining clusters together at preferred wrap boundaries', () => {
+  const segmenter = new Intl.Segmenter(undefined, { granularity: 'grapheme' });
+  const measure = (text: string) => Array.from(segmenter.segment(text)).length;
+  const source = 'A \u0301B';
+  expect(wrapRedlineText(source, 2, measure)).toEqual(['A \u0301', 'B']);
+  const runs = [{ text: 'A' }, { text: ' \u0301', style: 'delete' as const }, { text: 'B' }];
+  const lines = layoutRedline([{ text: source, role: 'text', runs }], text => measure(text) * 250).flat();
+  expect(lines.map(line => line.text)).toEqual(['A \u0301', 'B']);
+  expect(lines[0].marks).toEqual([{ start: 1, end: 3, style: 'delete' }]);
+  expect(lines[1].marks).toEqual([]);
+});
+
 it.each(['\u200b'.repeat(10_000), `A${'\u0301'.repeat(10_000)}`])('bounds invisible runs and huge clusters before shaping them', text => {
   let largest = 0;
   expect(() => wrapRedlineText(text, 518, value => { largest = Math.max(largest, value.length);return 0; })).toThrow('character shaping limit');
