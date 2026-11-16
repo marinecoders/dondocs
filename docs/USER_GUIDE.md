@@ -35,6 +35,8 @@ Use **Document actions → Export draft (.json)** for an editable portable copy,
 
 **Document actions → Import letter** accepts a PDF or Word file, or choose **Paste letter text**, paste the full letter, and select **Read letter**. Review the recognized fields and document type, then select **Import into editor** to open a new editable document. **Edit pasted text** returns to your text for corrections before importing. Imports preserve the previous open document.
 
+For a photo or image-only PDF, choose **Scan or photo**. Select a clear, upright PNG/JPEG image (up to 10 MB and 40 megapixels) or PDF (up to 20 MB and 12 pages). English text recognition runs locally using the bundled engine and language data; no source file is uploaded. Assets load on first use and can be reused offline after a successful online run. Compare each page beside its recognized text, correct names, numbers, dates and markings, and check its review box. Editing that page clears its check. Choose **Review recognized letter**, verify the parsed fields, and then **Import into editor**. Recognition does not preserve the original layout, signatures or attachments, and confidence scores do not establish accuracy. **Cancel recognition** stops the worker; closing the dialog leaves the current draft intact.
+
 Pasted text does not preserve fonts, images or page layout. Pasting directly into the body editor still creates paragraph blocks rather than importing the whole letter's fields. If no body paragraphs are recognized, review warns you to check the source text and paragraph numbers before importing. Keep the source for comparison: recognition is best effort, and you can correct fields in the editor.
 
 ## Password-protected sharing
