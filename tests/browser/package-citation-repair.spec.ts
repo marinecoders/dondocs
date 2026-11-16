@@ -26,6 +26,7 @@ async function originalPdf(text: string) {
 async function exportPackage(page: Page) {
   const modal = page.getByRole("dialog", { name: "Action packages", exact: true });
   await modal.getByRole("button", { name: "Export editable package", exact: true }).click();
+  await expect(modal).toHaveAttribute("aria-busy", "false", { timeout: 90_000 });
   await expect(modal.getByRole("heading", { name: /^Package readiness:/ })).toBeVisible();
   await modal.getByRole("checkbox", { name: /^I reviewed every included member/ }).check();
   const pending = page.waitForEvent("download");

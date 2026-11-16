@@ -180,6 +180,7 @@ for (const placement of ['enclosure', 'basic-letter', 'figure'] as const) {
     await modal.getByLabel('Package name', { exact: true }).fill(`Embedded ${placement} review`);
     await modal.getByRole('button', { name: 'Create package', exact: true }).click();
     await modal.getByRole('button', { name: 'Capture current document', exact: true }).click();
+    await expect(modal).toHaveAttribute('aria-busy', 'false', { timeout: 90_000 });
     await expect(modal.getByRole('heading', { name: `1. SYNTHETIC ${placement.toUpperCase()}`, exact: true })).toBeVisible();
     await modal.getByRole('button', { name: 'Share encrypted package', exact: true }).click();
     const sharing = page.getByRole('dialog', { name: 'Share action package', exact: true });
