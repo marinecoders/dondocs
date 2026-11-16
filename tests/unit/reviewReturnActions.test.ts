@@ -6,6 +6,7 @@ import { CLASSIFICATION_LEVELS } from '@/lib/overallClassification';
 import { triggerDownload } from '@/lib/encoding';
 import { useDocumentStore } from '@/stores/documentStore';
 import { useDocumentsStore, captureDocumentScope, changeDocumentHistory, commitCurrentDocument, flushDocumentWrites } from '@/stores/documentsStore';
+import { captureTextRange } from '@/lib/reviewTextRanges';
 import { applyCommentMutation, reviewCommentMutation } from '@/lib/reviewCommentActions';
 import { idbAddReviewRound, idbInstallReviewCopy } from '@/lib/documentsDb';
 import { type ReviewRound } from '@/lib/reviewRounds';
@@ -55,6 +56,40 @@ async function exported(): Promise<ReviewReturn> {
 }
 
 describe('captured review-return actions', () => {
+  it.each([false, true])('validates new returned selection against baseline and ignores reviewer runtime tracking (owner changed: %s)', async changed => {
+    const { owner } = await fixture({ paragraphId: 'range-reviewed' });
+    const range = captureTextRange(useDocumentStore.getState(), 'range-reviewed', 9, 14)!;
+    expect(applyCommentMutation(reviewCommentMutation({ kind: 'add', range, author: 'Reviewer', text: 'Review this exact word.' }))).toBe('applied');
+    useDocumentStore.setState(state => ({ reviewComments: { ...state.reviewComments!, threads: state.reviewComments!.threads.map(thread => ({ ...thread,
+      anchor: { ...range, tracking: { context: 'plain SSN 123-45-6789', start: 0, end: 5 } },
+    })) } }));
+    const preview = await prepareReviewReturnExport();
+    expect(preview.privacy.findings.some(finding => finding.value === '123-45-6789')).toBe(true);
+    const payload = await exported();
+    useDocumentsStore.getState().switchTo(owner);
+    if (changed) useDocumentStore.getState().updateParagraph(0, { text: 'Reviewed plain paragraph. Reviewed plain paragraph.' });
+    const prepared = await prepareReviewReturnImport(payload);
+    expect(prepared.privacy.findings.some(finding => finding.value === '123-45-6789')).toBe(true);
+    expect(await applyReviewReturn(prepared, {})).toBe('committed');
+    const anchor = useDocumentStore.getState().reviewComments!.threads[0].anchor;
+    expect(anchor).toMatchObject({ ...range, ...(changed ? { detached: true } : {}) });
+    expect(anchor).not.toHaveProperty('tracking');
+  });
+  it('rejects forged original range or earlier anchor context before installing returned comments', async () => {
+    const { owner } = await fixture({ paragraphId: 'range-reviewed' });
+    const range = captureTextRange(useDocumentStore.getState(), 'range-reviewed', 9, 14)!;
+    expect(applyCommentMutation(reviewCommentMutation({ kind: 'add', range, author: 'Reviewer', text: 'Review this word.' }))).toBe('applied');
+    const payload = await exported();
+    useDocumentsStore.getState().switchTo(owner);
+    const before = useDocumentStore.getState().getSnapshot();
+    const forged = structuredClone(payload);
+    forged.comments!.threads[0].anchor = { ...range, context: 'Foreign plain paragraph', start: 8, end: 13 };
+    await expect(prepareReviewReturnImport(forged)).rejects.toThrow('reviewed baseline');
+    const history = structuredClone(payload);
+    history.comments!.threads[0].anchorHistory = [{ anchor: { ...range, paragraphId: 'foreign' }, reattachedAt: '2026-11-15T12:00:00Z' }];
+    await expect(prepareReviewReturnImport(history)).rejects.toThrow('anchor history');
+    expect(useDocumentStore.getState().getSnapshot()).toEqual(before);
+  });
   it('cancels a captured reconciliation when the author edits during handling-policy validation', async () => {
     const { owner, round } = await fixture({ subject: 'Reviewed subject' });
     const proposal = createReviewSuggestion(round, { author: 'Reviewer', label: 'Subject', changes: [

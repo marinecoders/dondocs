@@ -13,6 +13,7 @@ import { buildBackup, restoreBackup } from '@/lib/backup';
 import { documentTextFields } from '@/lib/documentFields';
 import { detectTextPII } from '@/services/pii/detector';
 import { useUserTemplatesStore } from '@/stores/userTemplatesStore';
+import { normalizeReturnedRangeComments } from '@/lib/reviewCommentRanges';
 import { mergeReturnedComments } from '@/lib/reviewCommentMerge';
 
 const TEXT = 'Before selected words after.';
@@ -184,6 +185,26 @@ describe('range comments survive native persistence and review transport', () =>
     const changedHistory = structuredClone(returned);
     changedHistory.threads[0].anchorHistory = [{ anchor: { ...returned.threads[0].anchor, context: 'Earlier selected words', start: 8, end: 22 }, reattachedAt: '2026-11-15T12:00:00Z' }];
     expect(() => mergeReturnedComments(baseline, owner, changedHistory)).toThrow('anchor history');
+  });
+  it('validates new returned ranges against the reviewed baseline and ignores reviewer mappings into newer owner text', () => {
+    const baseline = getSerializedSession();
+    add();
+    const returned = structuredClone(useDocumentStore.getState().reviewComments!);
+    const range = currentAnchor();
+    if (returned.threads[0].anchor.kind !== 'range') throw Error('Expected range');
+    returned.threads[0].anchor.tracking = { context: TEXT + ' ' + TEXT, start: TEXT.length + 8, end: TEXT.length + 22 };
+    const honest = normalizeReturnedRangeComments(baseline, baseline, returned)!;
+    expect(honest.threads[0].anchor).toEqual(range);
+    const owner = { ...baseline, paragraphs: baseline.paragraphs.map(paragraph => ({ ...paragraph, text: TEXT + ' ' + TEXT })) };
+    const detached = normalizeReturnedRangeComments(baseline, owner, returned)!;
+    expect(detached.threads[0].anchor).toMatchObject({ start: 7, end: 21, detached: true });
+    expect(detached.threads[0].anchor).not.toHaveProperty('tracking');
+    const forged = structuredClone(returned);
+    forged.threads[0].anchor = { ...range, context: 'Fake original selected words', start: 14, end: 28 };
+    expect(() => normalizeReturnedRangeComments(baseline, owner, forged)).toThrow('reviewed baseline');
+    const forgedHistory = structuredClone(returned);
+    forgedHistory.threads[0].anchorHistory = [{ anchor: { ...range, paragraphId: 'foreign' }, reattachedAt: '2026-11-15T12:00:00Z' }];
+    expect(() => normalizeReturnedRangeComments(baseline, owner, forgedHistory)).toThrow('anchor history');
   });
   it('reserves deleted range IDs during legacy migration and keeps range threads through return merging', () => {
     const thread = add();
