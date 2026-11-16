@@ -433,6 +433,16 @@ Larger groups are rejected rather than shortened. Reference ordering and citatio
 relabeling remain in the existing reference tools; they are not proposed by this
 workflow. Clean PDF and Word output omit pending proposals and review metadata.
 
+## Reuse an action package setup
+
+Open **Packages**, select the source revision, and enter a **Template name** in **Reusable package templates**. Review the native starter text before saving. Names, dates, form answers and other ordinary text are retained; replace every value that must change with a `{{PLACEHOLDER}}` in the source documents first. Confirm the source-content review and choose **Save package template**.
+
+A template preserves member order, roles, required flags, native starter content, figures and exact form pages. Original PDF members become fresh upload slots. Prior signatures, review feedback, source links, working-copy bindings and assembled outputs are omitted. Attached basic-letter and enclosure PDFs inside native correspondence are also removed and become required fresh-file slots. Supply replacements before creating the action; they are embedded into the corresponding native member. The previous person’s original files are never reused automatically. Existing package readiness checks then apply to the completed new action.
+
+Choose a saved template, enter a new action name, fill every displayed placeholder, and supply fresh PDFs for required slots. Confirm whether each new PDF is a signed original, review the retained starter contents, and choose **Create package from template**. The result has independent package, member and editing identities; editing it does not change the source or template. Publication cross-reference identities remain valid within their new document.
+
+Templates survive source-document deletion because their starter bytes and form pages are retained independently. They are included in workspace backups (version 13 when templates are present). **Review template export** and **Import package template** transfer one template through an explicit content, marking and privacy review. These JSON files are unencrypted. The library supports 20 templates, 12 MB per template and 40 MB combined. A newly created action accepts at most 64 MB of starter assets and fresh PDFs combined. Rename or delete a template without changing packages already created from it.
+
 ## Save an action package
 
 Open **Packages** beside **Templates** in workspace navigation. Name and create a package, then

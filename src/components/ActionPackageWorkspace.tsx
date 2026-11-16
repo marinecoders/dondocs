@@ -65,6 +65,8 @@ import { parseEncryptedShareFile, MAX_ENCRYPTED_SHARE_FILE_BYTES } from "@/lib/e
 import { ShareModal } from "./modals/ShareModal";
 import type { CorrespondenceRendererPorts } from "@/services/exports/correspondence";
 
+const PackageTemplatePanel = lazy(() => import("./PackageTemplatePanel").then(module => ({ default: module.PackageTemplatePanel })));
+
 const RECEIVED_PACKAGE_SELECTION = Symbol("received-package-selection");
 const loadRetainedPdfViewer = () => import("@/components/pdf/PdfViewer");
 const RetainedPdfViewer = lazy(loadRetainedPdfViewer);
@@ -518,6 +520,14 @@ function PackageDialog({
                 update(value); const round = value.reviewRounds![0]; setOpenedReview(round); setRevisionId(round.revisionId);
               }} />
           </Suspense>
+          <details className="rounded border p-3">
+          <summary className="cursor-pointer text-sm font-medium">Reusable package templates</summary>
+          <Suspense fallback={<p>Loading package templates…</p>}>
+            <PackageTemplatePanel record={openedReview ? undefined : record} revisionId={revision?.id} busy={busy || typedDirty}
+              run={run} signal={() => operation.current?.signal} isCurrent={() => active.current}
+              onCreate={update} />
+          </Suspense>
+          </details>
           <label className="block text-sm">
             Saved packages
             <select
