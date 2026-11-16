@@ -1,5 +1,5 @@
 import type { FeedbackCategory } from './reviewFeedback';
-import { reviewCommentsSchema, type CommentMessage, type CommentThread, type ReviewComments } from './reviewComments';
+import { reviewCommentsVersion, reviewCommentsSchema, type CommentMessage, type CommentThread, type ReviewComments } from './reviewComments';
 
 export type ReviewReturnChoice = 'current' | 'returned';
 export interface ReviewReturnConflict {
@@ -29,11 +29,13 @@ const messageValue = (message: CommentMessage | undefined) => message && {
 const sameMessage = (a: CommentMessage | undefined, b: CommentMessage | undefined) => equal(messageValue(a), messageValue(b));
 const sameThread = (a: CommentThread | undefined, b: CommentThread | undefined) => {
   const value = (thread: CommentThread | undefined) => thread && {
-    id: thread.id, anchor: thread.anchor, resolved: thread.resolved, category: thread.category, messages: thread.messages.map(messageValue),
+    id: thread.id, anchor: thread.anchor, anchorHistory: thread.anchorHistory, resolved: thread.resolved, category: thread.category, messages: thread.messages.map(messageValue),
   };
   return equal(value(a), value(b));
 };
 const threads = (value: ReviewComments | undefined) => reviewCommentsSchema.parse(value ?? { version: 2, threads: [] }).threads;
+const anchorIdentity = (anchor: CommentThread['anchor']) => anchor.kind === 'range'
+  ? { kind: anchor.kind, paragraphId: anchor.paragraphId, docType: anchor.docType, context: anchor.context, start: anchor.start, end: anchor.end } : anchor;
 const byId = <T extends { id: string }>(items: readonly T[]) => new Map(items.map(item => [item.id, item]));
 
 /** Merge discussions only. Document text and target identities never come from a return. */
@@ -43,14 +45,22 @@ export function mergeReturnedComments(
   returned: ReviewComments | undefined,
   choices: Readonly<Record<string, ReviewReturnChoice>> = {},
 ): ReviewCommentMerge {
-  const original = threads(baseline), local = threads(current), incoming = threads(returned);
+  const original = threads(baseline), local = threads(current), incoming = structuredClone(threads(returned));
   const before = byId(original), now = byId(local), received = byId(incoming);
   // Existing controls edit message text and status, never their target or identity.
   for (const thread of incoming) {
     const old = before.get(thread.id);
     if (!old) continue;
-    if (!equal(old.anchor, thread.anchor) || old.messages[0].id !== thread.messages[0].id) {
-      throw new Error('This return changes an existing comment target or original message. Ask the reviewer to return comments from the original review copy.');
+    if (!equal(anchorIdentity(old.anchor), anchorIdentity(thread.anchor)) || !equal(old.anchorHistory, thread.anchorHistory) || old.messages[0].id !== thread.messages[0].id) {
+      throw new Error('This return changes an existing comment target, anchor history or original message. It was not imported. Keep the incoming return file for review or recovery, and ask the reviewer to return feedback from the original review copy.');
+    }
+    // Tracking is runtime position in that copy, not authority to move the
+    // owner's current discussion. Keep the owner's mapping when the immutable
+    // original target and complete deliberate reattachment history agree.
+    const ownerThread = now.get(thread.id);
+    if (thread.anchor.kind === 'range' && ownerThread?.anchor.kind === 'range'
+      && equal(anchorIdentity(ownerThread.anchor), anchorIdentity(thread.anchor)) && equal(ownerThread.anchorHistory, thread.anchorHistory)) {
+      thread.anchor = structuredClone(ownerThread.anchor);
     }
     const oldMessages = byId(old.messages);
     for (const message of thread.messages) {
@@ -78,7 +88,7 @@ export function mergeReturnedComments(
     if (sameThread(left, right)) next = left;
     else if (sameThread(right, base)) next = left;
     else if (sameThread(left, base)) next = right;
-    else if (!left || !right || !equal(left.anchor, right.anchor) || left.messages[0].id !== right.messages[0].id) {
+    else if (!left || !right || !equal(left.anchor, right.anchor) || !equal(left.anchorHistory, right.anchorHistory) || left.messages[0].id !== right.messages[0].id) {
       next = choose('thread', id, base, left, right);
     } else {
       const oldMessages = byId(base?.messages ?? []), localMessages = byId(left.messages), returnedMessages = byId(right.messages);
@@ -105,7 +115,7 @@ export function mergeReturnedComments(
     if (next) merged.push(structuredClone(next));
   }
   // Combined inputs can exceed limits or collide even when each input is valid alone.
-  const parsed = reviewCommentsSchema.safeParse({ version: merged.some(thread => thread.anchor.kind === 'paragraph') ? 2 : 1, threads: merged });
+  const parsed = reviewCommentsSchema.safeParse({ version: reviewCommentsVersion(merged), threads: merged });
   if (!parsed.success) throw new Error('The combined comments exceed the supported limits or contain conflicting identifiers. No comments were imported.');
   const result = byId(parsed.data.threads);
   return {

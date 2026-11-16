@@ -15,6 +15,7 @@ function semanticComments(session: SerializedSession) {
   return parsed.data.threads.map(thread => {
     const target = describeCommentAnchor(session, thread.anchor);
     return { target: target.label, status: target.status, context: target.context,
+      ...(thread.anchorHistory?.length ? { history: thread.anchorHistory.map(previous => ({ quote: previous.anchor.context.slice(previous.anchor.start, previous.anchor.end), context: previous.anchor.context })) } : {}),
       ...(thread.category ? { category: feedbackCategoryLabel(thread.category) } : {}), resolved: thread.resolved, messages: thread.messages.map(message => ({ author: message.author, text: message.text })) };
   });
 }
@@ -23,6 +24,7 @@ function commentText(comments: ReturnType<typeof semanticComments>): string {
   return comments.length ? comments.map((thread, index) => [
     `Thread ${index + 1}: ${thread.target} (${thread.category ? `${thread.category}; ` : ''}${thread.resolved ? 'Resolved' : 'Open'}${thread.status === 'current' ? '' : thread.status === 'changed' ? '; target changed' : '; target unavailable'})`,
     ...(thread.context === undefined ? [] : [`Captured context: ${thread.context || '(Empty)'}`]),
+    ...(thread.history ?? []).map(previous => `Earlier selected target: ${previous.quote}\nEarlier paragraph context: ${previous.context}`),
     ...thread.messages.map((message, messageIndex) => `${messageIndex ? 'Reply' : 'Comment'} by ${message.author}: ${message.text}`),
   ].join('\n')).join('\n\n') : 'No comments';
 }

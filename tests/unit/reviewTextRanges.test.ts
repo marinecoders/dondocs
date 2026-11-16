@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { captureTextRange, resolveTextRange, selectedTextRangeSchema, transformTextRange, transformTextRangeForText } from '@/lib/reviewTextRanges';
-const source = { documentCategory: 'correspondence', docType: 'naval_letter', formData: {}, paragraphs: [{ id: 'first', level: 0, text: 'Before selected words after.' }] };
+const source = { documentCategory: 'correspondence' as const, docType: 'naval_letter', formData: {}, paragraphs: [{ id: 'first', level: 0, text: 'Before selected words after.' }] };
 const capture = () => captureTextRange(source, 'first', 7, 21)!;
 
 describe('exact selected-text range contract', () => {
@@ -24,10 +24,15 @@ describe('exact selected-text range contract', () => {
     expect(transformTextRangeForText(range, range.context, 'X ' + range.context).tracking?.start).toBe(9);
     const detached = transformTextRange(range, range.context, { from: 7, to: 8, insert: 'x' });
     expect(transformTextRangeForText(detached, 'changed', range.context).detached).toBe(true);
+    expect(transformTextRangeForText(range, 'stale', 'stale').detached).toBe(true);
+    expect(transformTextRange(range, 'stale', { from: 0, to: 0, insert: '' }).detached).toBe(true);
+    expect(transformTextRange(range, range.context, { from: 0, to: 0, insert: '\ud800' }).detached).toBe(true);
   });
   it('accepts whole graphemes and rejects split Unicode, carets, malformed offsets and hidden structure', () => {
     const unicode = { ...source, paragraphs: [{ id: 'first', level: 0, text: 'A 😀 e\u0301 👨‍👩‍👧‍👦 Z' }] };
     expect(captureTextRange(unicode, 'first', 2, 4)).not.toBeNull();
+    expect(transformTextRange({ ...capture(), context: unicode.paragraphs[0].text, start: 5, end: 7 }, unicode.paragraphs[0].text, { from: 3, to: 3, insert: 'x' }).detached).toBe(true);
+    expect(captureTextRange({ ...source, paragraphs: [{ id: 'first', level: 0, text: 'A\ud800B' }] }, 'first', 0, 1)).toBeNull();
     for (const [start, end] of [[2, 3], [5, 6], [0, 0], [-1, 1], [0, 99]]) expect(captureTextRange(unicode, 'first', start, end)).toBeNull();
     expect(captureTextRange(unicode, 'first', 0, 0, { allowCaret: true })).not.toBeNull();
     expect(selectedTextRangeSchema.safeParse({ ...capture(), end: 999 }).success).toBe(false);

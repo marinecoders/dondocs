@@ -7,6 +7,7 @@ import { paragraphIdSchema } from './paragraphIdentity';
 export const TEXT_RANGE_CONTEXT_LIMIT = 20_000;
 /** Offsets use JavaScript/ProseMirror UTF-16 units, but must land on grapheme boundaries. */
 export function isTextRangeBoundary(text: string, offset: number): boolean {
+  if (/[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?<![\uD800-\uDBFF])[\uDC00-\uDFFF]/.test(text)) return false;
   if (!Number.isSafeInteger(offset) || offset < 0 || offset > text.length) return false;
   if (offset === text.length) return true;
   return Array.from(new Intl.Segmenter('en', { granularity: 'grapheme' }).segment(text)).some(part => part.index === offset);
@@ -77,7 +78,9 @@ export function transformTextRange(range: SelectedTextRange, before: string, edi
 /** Derive every equivalent minimal single splice; keep only an unambiguous mapping.
  * Never search for the selection text or infer paragraph identity from its content. */
 export function transformTextRangeForText(range: SelectedTextRange, before: string, after: string): SelectedTextRange {
-  if (before === after || range.detached) return range;
+  if (range.detached) return range;
+  if (!selectedTextRangeSchema.safeParse(range).success || (range.tracking ?? range).context !== before) return { ...range, detached: true };
+  if (before === after) return range;
   let prefix = 0, suffix = 0;
   while (prefix < Math.min(before.length, after.length) && before[prefix] === after[prefix]) prefix++;
   while (suffix < Math.min(before.length, after.length) && before[before.length - 1 - suffix] === after[after.length - 1 - suffix]) suffix++;

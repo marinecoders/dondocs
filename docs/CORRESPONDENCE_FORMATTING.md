@@ -68,7 +68,7 @@ Use **Comments** above the correspondence editor to discuss the whole draft or a
 
 Field comments retain the field's value when the comment was added. If that field or document format changes, the thread shows the captured and current values; unavailable fields keep their original context. A pending comment cannot save against a changed draft until the author deliberately chooses the current draft. Resetting or opening another document does not carry unrelated comments into it. Replacing content within the same draft retains existing feedback and its context.
 
-Comments are included in draft files, encrypted shared copies, and workspace backups. Shared copies are snapshots; this release does not merge returned discussions or provide live collaboration. Reusable templates exclude review comments. Clean PDF and Word exports omit comments, and batch substitutions do not rewrite review text. Comments on forms and technical publications, text-range review, proposed edits, and authenticated approval records are outside this release.
+Comments are included in draft files, encrypted shared copies, and workspace backups. Shared copies are snapshots; this release does not merge returned discussions or provide live collaboration. Reusable templates exclude review comments. Clean PDF and Word exports omit comments, and batch substitutions do not rewrite review text. Comments on forms and technical publications and authenticated approval records are outside this review surface.
 
 ## Paragraph comments
 
@@ -76,4 +76,17 @@ Use **Comment** in a paragraph's controls, or select a paragraph from **Comments
 
 Editing the paragraph or its heading retains its identity and shows the original context beside its current content. Splitting retains the first piece's identity and creates new identities for the other pieces. Merging retains the receiving paragraph's identity; comments on the absorbed paragraph remain detached. Deleting a paragraph or replacing its content with template paragraphs never attaches its feedback to a new paragraph at the same position. Detached discussions remain available, and Undo can restore their original target.
 
-Paragraph comments capture up to 20,000 characters of heading, text, and explicit paragraph or figure portion markings. The context comparison covers those values; image bytes, layout, and formatting are not preserved review baselines. Longer paragraphs can be discussed with a whole-document comment. Whole-paragraph targets are supported; selection ranges and proposed edits remain separate work. Paragraph identities and discussions survive current draft/share/backup round trips and never print in clean output. See the [minimum reader boundary](STORAGE.md#review-comment-reader-compatibility).
+Paragraph comments capture up to 20,000 characters of heading, text, and explicit paragraph or figure portion markings. The context comparison covers those values; image bytes, layout, and formatting are not preserved review baselines. Longer paragraphs can be discussed with a whole-document comment. Use selected-text comments below when a discussion concerns specific words. Paragraph identities and discussions survive current draft/share/backup round trips and never print in clean output. See the [minimum reader boundary](STORAGE.md#review-comment-reader-compatibility).
+
+
+## Selected-text comments
+
+Select words or a sentence in a plain native paragraph, then choose **Comment on selection** in that paragraph’s controls. The comment form shows the exact quote before posting. Existing **Reply**, **Resolve** and **Go to selected text** controls work on the discussion. The same words in another paragraph never become its target.
+
+Selected-text comments support one plain paragraph without a heading, portion marking, formatting, variables, line breaks, figures, tables or other structured content. The selection must cover complete Unicode characters and graphemes. Use a paragraph comment when those boundaries cannot be represented safely; the editor does not flatten the content.
+
+Paragraph moves and supported edits strictly outside the selection retain the target. Changes at either selection boundary, edits inside the quote, ambiguous repeated-text edits, deletion and unsupported structure detach it. The original quote and paragraph context remain available. Undo and Redo preserve both the text and discussion state.
+
+To deliberately reattach a detached discussion, select its new words and open **Comment on selection**. Choose the existing discussion under **Reattach an existing detached discussion**, review the earlier and new quotes, and choose **Reattach selected discussion**. This retains the same discussion, messages and up to ten earlier targets. A changed draft requires a fresh selection. Returned feedback cannot silently retarget an owner’s existing discussion; keep a rejected incoming file for review or recovery.
+
+Original, tracked and earlier target text travels with drafts, encrypted shares and backups and is included in privacy checks. It remains outside clean PDF, Word and reusable templates. Selected-text comments require DonDocs 1.3.106 or later.

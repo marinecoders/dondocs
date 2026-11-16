@@ -105,7 +105,7 @@ function discussions(session: SerializedSession): ReportDiscussion[] {
   return parsed.data.threads.map(thread => {
     const anchor = describeCommentAnchor(session, thread.anchor);
     return { target: anchor.label, status: `${thread.category ? `${feedbackCategoryLabel(thread.category)} · ` : ''}${thread.resolved ? 'Resolved' : 'Open'} · ${anchor.status === 'current' ? 'Target current' : anchor.status === 'changed' ? 'Target changed' : 'Target unavailable / detached'}`,
-      context: anchor.context, current: anchor.current,
+      context: thread.anchorHistory?.length ? [anchor.context ?? '', ...thread.anchorHistory.map(previous => `Earlier selected text:\n${previous.anchor.context.slice(previous.anchor.start, previous.anchor.end)}\n\nEarlier paragraph context:\n${previous.anchor.context}`)].join('\n\n') : anchor.context, current: anchor.current,
       messages: thread.messages.map(({ author, text }) => ({ author, text })) };
   });
 }

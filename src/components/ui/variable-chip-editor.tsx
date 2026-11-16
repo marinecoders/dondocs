@@ -1,3 +1,4 @@
+import { getPlainEditorRange, type PlainEditorSelection } from '@/lib/editorTextSelection';
 import { formatShortcut } from '@/lib/platform';
 import { publicationReferences, referenceName } from '@/lib/publicationReferences';
 import { useEditor, EditorContent, ReactRenderer } from '@tiptap/react';
@@ -646,6 +647,7 @@ function EditorToolbar({ editor }: EditorToolbarProps) {
 // Main editor component
 interface VariableChipEditorProps {
   ariaLabel?: string;
+  onTextSelectionChange?: (selection: PlainEditorSelection | null) => void;
   value: string;
   onChange: (value: string) => void;
   placeholder?: string;
@@ -692,6 +694,7 @@ interface VariableChipEditorProps {
 export function VariableChipEditor({
   value,
   onChange,
+  onTextSelectionChange,
   placeholder = 'Type @ to insert variables...',
   ariaLabel,
   className,
@@ -709,6 +712,8 @@ export function VariableChipEditor({
   const [isFocused, setIsFocused] = useState(false);
   // Floating B/I/U toolbar position when text is selected in block mode.
   const [selBox, setSelBox] = useState<{ top: number; bottom: number; left: number } | null>(null);
+  const selectionHandler = useRef(onTextSelectionChange);
+  useEffect(() => { selectionHandler.current = onTextSelectionChange; }, [onTextSelectionChange]);
   const lastValue = useRef(value);
   const currentValue = useRef(value);
 
@@ -888,6 +893,7 @@ export function VariableChipEditor({
       lastValue.current = text;
       currentValue.current = text;
       onChange(text);
+      selectionHandler.current?.(getPlainEditorRange(editor.state, text));
       // Rescan document to update custom variables (debounced via React batching)
       rescanDocumentVariables();
     },
@@ -899,6 +905,7 @@ export function VariableChipEditor({
     },
     // Block mode: surface a small B/I/U toolbar over a non-empty selection.
     onSelectionUpdate: ({ editor }) => {
+      selectionHandler.current?.(getPlainEditorRange(editor.state, currentValue.current));
       if (!blockMode) return;
       if (editor.state.selection.empty) {
         setSelBox(null);
@@ -931,6 +938,20 @@ export function VariableChipEditor({
       parseOptions: { preserveWhitespace: 'full' },
     });
   }, [value, editor]);
+
+  useEffect(() => {
+    if (!editor) return;
+    const selectRange = (event: Event) => {
+      const range = (event as CustomEvent<PlainEditorSelection>).detail;
+      if (!range || range.context !== currentValue.current || !getPlainEditorRange(editor.state, range.context, { allowCaret: true })
+        || !Number.isInteger(range.start) || !Number.isInteger(range.end) || range.start < 0 || range.end > range.context.length) return;
+      editor.commands.setTextSelection({ from: range.start + 1, to: range.end + 1 });
+      editor.commands.focus();
+    };
+    const dom = editor.view.dom;
+    dom.addEventListener('dondocs-select-text-range', selectRange);
+    return () => dom.removeEventListener('dondocs-select-text-range', selectRange);
+  }, [editor]);
 
   // Register any variables found in the initial value
   useEffect(() => {

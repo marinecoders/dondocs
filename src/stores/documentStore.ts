@@ -1,3 +1,4 @@
+import { transformRangeComments } from '@/lib/reviewCommentRanges';
 import { hasReviewComments, type ReviewComments } from '@/lib/reviewComments';
 import { persistSignature, resolveSignature } from '@/lib/signatureAssets';
 import { withAttachmentStaging } from '@/lib/attachments';
@@ -612,9 +613,13 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
 
   removeTableFootnote: (index, noteIndex) => set((state) => withoutTableFootnote(state.paragraphs, state.publicationTables, index, noteIndex)),
 
-  updateParagraph: (index, updates) => set((state) => ({
-    paragraphs: state.paragraphs.map((p, i) => (i === index ? { ...p, ...updates, id: p.id ?? newParagraphId() } : p)),
-  })),
+  updateParagraph: (index, updates) => set((state) => {
+    const before = state.paragraphs[index];
+    const paragraphs = state.paragraphs.map((p, i) => (i === index ? { ...p, ...updates, id: p.id ?? newParagraphId() } : p));
+    const after = paragraphs[index];
+    const reviewComments = before && after ? transformRangeComments(state.reviewComments, before, after) : state.reviewComments;
+    return { paragraphs, reviewComments };
+  }),
 
   // Removing a paragraph can leave a following sub-paragraph stranded too deep
   // under its new predecessor, so re-normalize the nesting after the filter.
