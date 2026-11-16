@@ -56,6 +56,15 @@ for (const theme of ['light', 'dark', 'classic']) test(`natural typed suggestion
     await select(editor, 11);await editor.pressSequentially('new ');
     await expect(editor).toHaveValue('Keep Alpha new Alpha ending.');
     await expect(remote.getByText('Unsaved suggested changes · Insertion', { exact: true })).toBeVisible();
+    await select(editor, 11, 14);
+    await editor.evaluate((element: HTMLTextAreaElement) => {
+      const clipboard = new DataTransfer();
+      clipboard.items.add(new File(['synthetic image'], 'example.png', { type: 'image/png' }));
+      element.dispatchEvent(new ClipboardEvent('paste', { bubbles: true, cancelable: true, clipboardData: clipboard }));
+    });
+    await expect(editor).toHaveValue('Keep Alpha new Alpha ending.');
+    await expect(remote.getByRole('alert').filter({ hasText: 'Only plain-text paste is supported.' })).toBeVisible();
+    await expect.poll(() => editor.evaluate((element: HTMLTextAreaElement) => [element.selectionStart, element.selectionEnd])).toEqual([11, 14]);
     await expect(paragraph).toBeDisabled();await expect(remote.getByLabel('Review for suggested edits', { exact: true })).toBeDisabled();
     await expect(remote.getByRole('button', { name: 'Prepare feedback return', exact: true })).toBeDisabled();
     await reviewer.keyboard.press('Escape');await expect(remote).toBeVisible();

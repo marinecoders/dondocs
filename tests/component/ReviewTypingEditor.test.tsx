@@ -108,3 +108,20 @@ it('refuses selections that split a character and still permits cancellation whe
   expect(screen.getByRole('button', { name: 'Cancel typed changes' })).toBeEnabled();
   await userEvent.click(screen.getByRole('button', { name: 'Cancel typed changes' }));expect(editor).toHaveValue('A 👩🏽‍✈️ Z');expect(input.onCreate).not.toHaveBeenCalled();
 });
+
+it('rejects image and empty clipboard pastes without deleting selected unsaved draft text', async () => {
+  const { input, editor } = await open();select(editor, 0);await userEvent.keyboard('New ');
+  const clipboardInputs = [
+    { types: ['Files'], files: [new File(['synthetic image'], 'example.png', { type: 'image/png' })], getData: () => '' },
+    { types: ['image/png'], getData: () => '' },
+    { types: ['text/plain'], getData: () => '' },
+  ];
+  for (const clipboardData of clipboardInputs) {
+    select(editor, 9, 14);fireEvent.paste(editor, { clipboardData });
+    expect(editor).toHaveValue('New Keep Alpha Alpha ending.');
+    expect(screen.getByRole('alert')).toHaveTextContent(/plain.text paste/);
+  }
+  expect(input.onCreate).not.toHaveBeenCalled();
+  await userEvent.click(screen.getByRole('button', { name: 'Save typed suggestion' }));
+  expect(input.onCreate.mock.calls[0][0].changes[0]).toMatchObject({ expected: '', proposed: 'New ', target: { start: 0, end: 0 } });
+});

@@ -98,7 +98,11 @@ export function ReviewTypingEditor({ round, current, author, category, disabled,
           if (event.clipboardData.types?.includes('text/html') && event.clipboardData.getData('text/html')) {
             setError('Formatted paste is unsupported. Paste plain text instead; the last valid suggested text is retained.');return;
           }
-          remember();edit(selection.current.start, selection.current.end, event.clipboardData.getData('text/plain'));
+          const pastedText = event.clipboardData.getData('text/plain');
+          if (!pastedText) {
+            setError('Only plain-text paste is supported. The last valid suggested text is retained.');return;
+          }
+          remember();edit(selection.current.start, selection.current.end, pastedText);
         }}
         onDrop={event => { event.preventDefault();setError('Drag and drop is unsupported. Paste plain text at the caret instead.'); }}
         onCompositionStart={() => { remember();composition.current = { ...selection.current };setComposing(true); }}
