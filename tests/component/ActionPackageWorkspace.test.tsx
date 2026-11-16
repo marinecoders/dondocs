@@ -431,3 +431,35 @@ it("keeps unsaved package typing through blocked navigation, close and failed sa
   expect(saved.revisions).toEqual(record.revisions);
   expect(saved.reviewRounds![0].memberReviews![0].suggestions!.proposals).toHaveLength(1);
 });
+
+
+it("cancels a held package member write before its parent CAS", async () => {
+  const source = createBlankSession(); source.paragraphs = [{ id: "member-cancel-body", text: "Synthetic member.", level: 0 }];
+  const member = await capturePackageMember(captureDocumentRevision(
+    { documentId: "member-cancel-source", epoch: 0, editSequence: 1, capturedAt: 100 },
+    { ...source, endItems: [], publicationTables: {} },
+  ), "Synthetic cancelled member", "basic-letter");
+  const record = await reviseActionPackage(await createActionPackage("Synthetic member cancellation"), [member]);
+  const user = userEvent.setup(); useUIStore.setState({ actionPackagesOpen: true });
+  render(<ActionPackageWorkspace exportGate={createExportGate()} ports={{ compile: vi.fn(), convertDocx: vi.fn(), waitForReady: async () => true }} />);
+  const dialog = screen.getByRole("dialog", { name: "Action packages" });
+  await within(dialog).findByRole("option", { name: record.name });
+  await user.selectOptions(within(dialog).getByLabelText("Saved packages", { exact: true }), record.id);
+  await user.click(within(dialog).getByRole("button", { name: "Start package review" }));
+  const nav = await within(dialog).findByRole("navigation", { name: "Captured review members" });
+  await user.click(within(nav).getByRole("button", { name: member.label }));
+  await user.type(await within(dialog).findByLabelText("Package comment reviewer name"), "Synthetic reviewer");
+  await user.type(within(dialog).getByLabelText("Package member comment"), "Cancelled feedback must not commit.");
+  const before = (await listActionPackages()).find(value => value.id === record.id)!;
+  const save = memberReviews.savePackageMemberReview;
+  let release!: () => void; const held = new Promise<void>(resolve => { release = resolve; });
+  let finish!: () => void; const completed = new Promise<void>(resolve => { finish = resolve; });
+  vi.spyOn(memberReviews, "savePackageMemberReview").mockImplementationOnce(async (...args) => {
+    await held; try { return await save(...args); } finally { finish(); }
+  });
+  await user.click(within(dialog).getByRole("button", { name: "Post member comment" }));
+  await user.click(await within(dialog).findByRole("button", { name: "Cancel operation" }));
+  await act(async () => { release(); await completed; });
+  expect((await listActionPackages()).find(value => value.id === record.id)).toEqual(before);
+  expect(within(dialog).getByLabelText("Package member comment")).toHaveValue("Cancelled feedback must not commit.");
+});

@@ -13,7 +13,8 @@ import { FeedbackCategorySelect } from './FeedbackCategorySelect';
 import type { FeedbackCategory } from '@/lib/reviewFeedback';
 
 /** A package-owned detached view. No document-store activation or autosave occurs. */
-export function PackageMemberReviewPanel({ record, round, busy, onChange, run, onDraftChange }: {
+export function PackageMemberReviewPanel({ record, round, busy, onChange, run, onDraftChange, signal }: {
+  signal?: () => AbortSignal | undefined;
   onDraftChange?: (dirty: boolean) => void;
   record: ActionPackage; round: PackageReviewRound; busy: boolean;
   onChange(record: ActionPackage, round: PackageReviewRound): void;
@@ -43,7 +44,7 @@ export function PackageMemberReviewPanel({ record, round, busy, onChange, run, o
   useEffect(() => { alive.current = true; return () => { alive.current = false; }; }, []);
   const disabled = busy || packageReviewRoundStatus(round) !== 'active';
   async function publish(value: PackageMemberReview, remember = true) {
-    const next = await savePackageMemberReview(record, round.id, value, undefined, () => alive.current && currentView.current === view);
+    const next = await savePackageMemberReview(record, round.id, value, signal?.(), () => alive.current && currentView.current === view);
     if (!alive.current || currentView.current !== view) throw new Error('This package member review is no longer current.');
     if (remember && child) { setHistory(items => [...items, structuredClone(child)]); setFuture([]); }
     onChange(next, next.reviewRounds!.find(value => value.id === round.id)!);
@@ -54,7 +55,7 @@ export function PackageMemberReviewPanel({ record, round, busy, onChange, run, o
       {round.baseline.members.map(member => <Button key={member.id} variant={selected === member.id ? 'secondary' : 'outline'} disabled={busy || typedDirty}
         onClick={() => void run(async () => {
           if (packageReviewRoundStatus(round) !== 'active') { setSelected(member.id); return; }
-          const result = await preparePackageReviewMember(record, round.id, member.id, undefined, () => alive.current && currentView.current === view);
+          const result = await preparePackageReviewMember(record, round.id, member.id, signal?.(), () => alive.current && currentView.current === view);
           if (alive.current && currentView.current === view) { onChange(result.record, result.record.reviewRounds!.find(value => value.id === round.id)!); setSelected(member.id); setHistory([]); setFuture([]); }
         })}>{member.label}</Button>)}
     </nav>

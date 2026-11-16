@@ -615,7 +615,7 @@ function PackageDialog({
                 })} />
               </fieldset>
               {openedReview && <Suspense fallback={<p>Loading member review…</p>}>
-                <PackageMemberReviewPanel key={openedReview.id} record={record} round={openedReview} busy={busy} run={run} onDraftChange={setTypedDirty}
+                <PackageMemberReviewPanel key={openedReview.id} record={record} round={openedReview} busy={busy} run={run} onDraftChange={setTypedDirty} signal={() => operation.current?.signal}
                   onChange={(next, round) => { update(next); setOpenedReview(round); setRevisionId(round.revisionId); }} />
               </Suspense>}
               <fieldset disabled={busy || typedDirty} className="min-w-0 space-y-4">
