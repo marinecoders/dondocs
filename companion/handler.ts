@@ -42,7 +42,7 @@ class BodyTooLargeError extends Error {
 async function readBody(req: IncomingMessage): Promise<string> {
   const chunks: Buffer[] = [];
   let size = 0;
-  for await (const chunk of req) {
+  for await (const chunk of req.iterator({ destroyOnReturn: false })) {
     size += (chunk as Buffer).length;
     if (size > MAX_BODY) { throw new BodyTooLargeError(MAX_BODY); }
     chunks.push(chunk as Buffer);
@@ -180,15 +180,12 @@ async function handleRequest(
   try {
     body = JSON.parse(await readBody(req));
   } catch (err) {
-    // Abandoning an oversized body mid-stream leaves unread bytes in the socket.
-    // On a keep-alive connection the server parses those leftovers as the NEXT
-    // request, which arrives as a connection reset for whatever the caller sends
-    // second. Answer, then close: the response is delivered and the poisoned
-    // socket is not reused.
+    // Discard remaining bytes without buffering or destroying the socket before
+    // the 400 can flush. Connection: close prevents reuse after early rejection.
     if (err instanceof BodyTooLargeError) {
       res.setHeader('Connection', 'close');
       json(400, { ok: false, v: CONTRACT, errors: [`request body exceeds ${MAX_BODY} bytes`] });
-      req.destroy();
+      req.resume();
       return;
     }
     return json(400, { ok: false, v: CONTRACT, errors: ['invalid JSON'] });
