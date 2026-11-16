@@ -13,7 +13,7 @@ import { packageCitationsSchema, type PackageCitations } from "./packageCitation
 import { supportsReviewComments } from "./reviewCommentTargets";
 import { reviewRoundSchema } from "./reviewRounds";
 import { reviewCommentsSchema } from "./reviewComments";
-import { reviewSuggestionStateSchema } from "./reviewSuggestions";
+import { reviewSuggestionStateSchema, reviewSuggestionResolutionSchema } from "./reviewSuggestions";
 
 const id = z
   .string()
@@ -218,6 +218,21 @@ export function packageReviewRevision(revision: PackageRevision): PackageRevisio
   for (const member of baseline.members) if (member.kind === "native" && member.source) member.source.local = false;
   return baseline;
 }
+export const packageFeedbackChoiceSchema = z.object({
+  member: z.enum(['current', 'restore-reviewed']).optional(),
+  comments: z.enum(['merge', 'skip']).optional(),
+  commentConflicts: z.record(z.string().min(1).max(300), z.enum(['current', 'returned'])).optional(),
+  proposals: z.record(z.string().min(1).max(100), z.object({ action: z.enum(['accepted', 'rejected', 'keep']),
+    resolutions: z.array(reviewSuggestionResolutionSchema).max(20).optional() }).strict()).optional(),
+}).strict();
+export const packageReviewApplicationSchema = z.object({
+  id, roundId: id, baselineDigest: digest, returnId: id, returnDigest: digest,
+  createdAt: z.number().int().nonnegative(), revisionId: id,
+  feedback: z.array(packageMemberReviewSchema).max(100),
+  outcomes: z.array(z.object({ memberId: id, choice: packageFeedbackChoiceSchema,
+    comments: reviewCommentsSchema.optional(), suggestions: reviewSuggestionStateSchema.optional() }).strict()).max(100),
+}).strict();
+export type PackageReviewApplication = z.infer<typeof packageReviewApplicationSchema>;
 export const actionPackageSchema = z
   .object({
     kind: z.literal("dondocs-action-package-record"),
@@ -230,6 +245,7 @@ export const actionPackageSchema = z
     currentRevisionId: id,
     revisions: z.array(packageRevisionSchema).min(1).max(200),
     reviewRounds: z.array(packageReviewRoundSchema).max(100).optional(),
+    reviewApplications: z.array(packageReviewApplicationSchema).max(500).optional(),
     workingCopies: z
       .array(
         z.object({ memberId: id, documentId: id, revisionId: id }).strict(),
@@ -329,6 +345,24 @@ export const actionPackageSchema = z
           replacement.id === event.replacementRoundId && replacement.createdAt > round.createdAt
           && replacement.ownerPackageId === round.ownerPackageId)))
         ctx.addIssue({ code: "custom", message: "The package review baseline or replacement is unavailable." });
+    }
+    const applications = record.reviewApplications ?? [];
+    if (new TextEncoder().encode(JSON.stringify(applications)).byteLength > 4 * 1024 * 1024)
+      ctx.addIssue({ code: 'custom', message: 'Retained package application metadata exceeds the 4 MB limit. Start a new package for further review.' });
+    if (new Set(applications.map(item => item.id)).size !== applications.length
+      || new Set(applications.map(item => item.returnId)).size !== applications.length
+      || new Set(applications.map(item => item.revisionId)).size !== applications.length)
+      ctx.addIssue({ code: 'custom', message: 'Duplicate package feedback application.' });
+    for (const application of applications) {
+      const round = rounds.find(round => round.id === application.roundId);
+      const memberIds = application.feedback.map(child => child.binding.memberId);
+      if (!round || round.ownerPackageId !== record.id || round.baselineDigest !== application.baselineDigest
+        || application.createdAt < round.createdAt || !seen.has(application.revisionId)
+        || new Set(memberIds).size !== memberIds.length || application.outcomes.length !== memberIds.length
+        || new Set(application.outcomes.map(item => item.memberId)).size !== memberIds.length
+        || application.outcomes.some(item => !memberIds.includes(item.memberId))
+        || application.feedback.some(child => !round.members.some(binding => sameReviewStoredValue(binding, child.binding))))
+        ctx.addIssue({ code: 'custom', message: 'Invalid package application owner, baseline or member binding.' });
     }
     if (!seen.has(record.currentRevisionId))
       ctx.addIssue({
@@ -521,6 +555,7 @@ export async function duplicateActionPackage(
       sequence: 0,
       workingCopies: undefined,
       reviewRounds: undefined,
+      reviewApplications: undefined,
     },
     signal,
   );
@@ -539,6 +574,16 @@ export function validPackageTransition(
     after.revisions.length < before.revisions.length
   )
     return false;
+  const previousApplications = before.reviewApplications ?? [], applications = after.reviewApplications ?? [];
+  if (applications.length < previousApplications.length || applications.length > previousApplications.length + 1
+    || !sameReviewStoredValue(previousApplications, applications.slice(0, previousApplications.length))) return false;
+  if (applications.length > previousApplications.length) {
+    const application = applications.at(-1)!, round = before.reviewRounds?.find(item => item.id === application.roundId);
+    if (before.archived || !round || round.ownerPackageId !== before.id
+      || (round.lifecycle?.events.at(-1)?.state ?? 'active') !== 'active'
+      || application.revisionId !== after.currentRevisionId || after.revisions.length !== before.revisions.length + 1
+      || !sameReviewStoredValue(before.reviewRounds, after.reviewRounds)) return false;
+  }
   const oldRounds = before.reviewRounds ?? [], newRounds = after.reviewRounds ?? [];
   if (oldRounds.some(round => round.ownerPackageId === undefined) && (newRounds.length !== oldRounds.length
     || !sameReviewStoredValue({ ...before, sequence: 0, reviewRounds: undefined }, { ...after, sequence: 0, reviewRounds: undefined }))) return false;

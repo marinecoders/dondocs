@@ -894,8 +894,9 @@ function publishSuggestionText(before: SerializedSession, after: SerializedSessi
     Object.assign(formData, { [field]: value });fieldsChanged = true;
   }
   const text = new Map(after.paragraphs.filter(paragraph => paragraph.id).map(paragraph => [paragraph.id!, paragraph.text]));
-  let paragraphsChanged = false;
-  const paragraphs = live.paragraphs.map(paragraph => {
+  const structureChanged = !sameReviewStoredValue(before.paragraphs.map(({ text: _text, ...node }) => node), after.paragraphs.map(({ text: _text, ...node }) => node));
+  let paragraphsChanged = structureChanged;
+  const paragraphs = structureChanged ? structuredClone(after.paragraphs) : live.paragraphs.map(paragraph => {
     const next = paragraph.id ? text.get(paragraph.id) : undefined;
     if (next === undefined || next === paragraph.text) return paragraph;
     paragraphsChanged = true;return { ...paragraph, text: next };
@@ -931,8 +932,17 @@ export async function applyOwnedReviewSuggestions(target: DocumentTarget | null,
   const entry = useDocumentsStore.getState().docs[operation.documentId];
   if (!entry || !writes.matches(saved, storedEntry(entry))) return 'stale';
   const before = storedEntry(entry);
-  const planned = planReviewSuggestionWrite(round, before.session, operation);
-  if (!sameReviewStoredValue(planned.state, operation.after) || !recordDocumentHistory(target.scope)) return 'invalid';
+  const history = useHistoryStore.getState();
+  const reservedParagraphIds = history.owner?.documentId === target.scope.documentId && history.owner.epoch === target.scope.epoch
+    ? [...history.past, ...history.future, ...(history.currentSnapshot ? [history.currentSnapshot] : [])]
+      .flatMap(snapshot => [...snapshot.paragraphs.flatMap(paragraph => paragraph.id ? [paragraph.id] : []), ...paragraphCommentIds(snapshot.reviewComments)]) : [];
+  const planned = planReviewSuggestionWrite(round, before.session, operation, undefined, reservedParagraphIds);
+  if (!sameReviewStoredValue(planned.state, operation.after)) return 'invalid';
+  const structuralAcceptance = operation.intent.kind === 'decide' && operation.intent.action === 'accepted'
+    && planned.state.proposals.find(proposal => proposal.id === (operation.intent.kind === 'decide' ? operation.intent.proposalId : ''))?.changes.some(change => change.target.kind === 'structure');
+  if (structuralAcceptance && (!sameReviewStoredValue(before.session.paragraphs, useDocumentStore.getState().paragraphs)
+    || !sameReviewStoredValue(before.session.reviewComments, useDocumentStore.getState().reviewComments))) return 'stale';
+  if (!recordDocumentHistory(target.scope)) return 'invalid';
   const after = { ...structuredClone(before), session: planned.session, meta: { ...reviewSuggestionWriteMetadata(before.meta, operation), updatedAt: Math.max(Date.now(), before.meta.updatedAt + 1) } };
   const revision = writes.enqueueReviewSuggestions(before, after, operation);
   publishSuggestionText(before.session, after.session);

@@ -29,7 +29,7 @@ export async function parsePackageReviewTransfer(json: string) {
   const record = payload.package, round = record.reviewRounds?.[0];
   if (!round || record.reviewRounds?.length !== 1 || record.revisions.length !== 1
     || record.historyScope !== 'selected-revision' || record.currentRevisionId !== round.revisionId
-    || round.ownerPackageId !== undefined || record.workingCopies !== undefined
+    || record.reviewApplications !== undefined || round.ownerPackageId !== undefined || record.workingCopies !== undefined
     || !sameReviewStoredValue(record.revisions[0], round.baseline)
     || record.revisions.some(revision => revision.members.some(member => member.kind === 'native' && member.source?.local)))
     throw new Error('A reviewer copy must contain one exact baseline without local owner or source authority.');
@@ -106,7 +106,7 @@ async function prepareBuild(input: ActionPackage, roundId: string, mode: 'copy' 
   const children = await Promise.all(round.baseline.members.map(member => round.memberReviews?.find(child => child.binding.memberId === member.id) ?? createPackageMemberReview(round, member.id)));
   const portableRound = { ...round, ownerPackageId: undefined, memberReviews: children };
   const record = actionPackageSchema.parse({ ...before, archived: false, historyScope: 'selected-revision',
-    revisions: [packageReviewRevision(round.baseline)], currentRevisionId: round.revisionId, workingCopies: undefined, reviewRounds: [portableRound] });
+    revisions: [packageReviewRevision(round.baseline)], currentRevisionId: round.revisionId, workingCopies: undefined, reviewApplications: undefined, reviewRounds: [portableRound] });
   const assets = [...new Map(packageAssets(record).map(asset => [asset.id, asset])).values()];
   const portableResources = await buildPortableResources(await Promise.all(assets.map(async asset => ({
     path: `assets/${asset.id}`, name: asset.name, mediaType: asset.type, data: await readPackageAsset(asset),

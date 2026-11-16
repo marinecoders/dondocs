@@ -90,7 +90,7 @@ export async function prepareWordPackage(record: ActionPackage, revisionId: stri
   signal.throwIfAborted();
   if (policy.status !== 'ready') throw new Error(policy.message);
   const revision = getPackageRevision(record, revisionId);
-  const owned = actionPackageSchema.parse({ ...record, historyScope: 'selected-revision', currentRevisionId: revision.id, revisions: [revision], reviewRounds: undefined, workingCopies: undefined });
+  const owned = actionPackageSchema.parse({ ...record, historyScope: 'selected-revision', currentRevisionId: revision.id, revisions: [revision], reviewRounds: undefined, reviewApplications: undefined, workingCopies: undefined });
   const main = revision.members[0];
   if (!main || main.role !== 'basic-letter' || main.kind !== 'native' || revision.members.filter(member => member.role === 'basic-letter').length !== 1) throw new Error('A Word package must start with exactly one captured native main document.');
   for (const member of revision.members) if (member.kind === 'native'

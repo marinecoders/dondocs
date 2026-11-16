@@ -7,6 +7,13 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.112] — 2026-11-15
+
+### Added
+
+- Preview exact-round package feedback against the latest saved package, with deliberate proposal, discussion and missing-member choices. Range reconciliation retains independent newer work and requires an exact current selection for overlap or ambiguity.
+- Apply reviewed feedback as one new package revision with atomic changed-draft bytes and immutable return receipts, retaining original PDFs, historical baselines and stable citation identities through reload and workspace recovery. Duplicate returns and stale or cancelled saves preserve the prior package.
+
 ## [1.3.111] — 2026-11-15
 
 ### Added

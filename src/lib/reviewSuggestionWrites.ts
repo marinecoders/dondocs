@@ -1,11 +1,12 @@
 import { transformRangeComments } from './reviewCommentRanges';
 import { replaceReviewParagraphText } from './reviewParagraphText';
+import { applyReviewStructure, assertReviewStructureNewIdsAvailable } from './reviewStructureSuggestions';
 import { z } from 'zod';
 import type { DocumentMeta } from '@/stores/documentsStore';
 import type { SerializedSession } from '@/stores/documentStore';
 import { canonicalReviewPayload, reviewDigestSchema, reviewPayloadDigest, reviewRoundIdSchema, type ReviewRound } from './reviewRounds';
 import {
-  acceptedReviewSuggestionRange, resolvedReviewSuggestionRange, applyReviewSuggestionRange, appendReviewSuggestions, emptyReviewSuggestionState, planReviewSuggestionDecision, planReviewSuggestionHistory,
+  reviewStructureReservedIds, acceptedReviewSuggestionRange, resolvedReviewSuggestionRange, applyReviewSuggestionRange, appendReviewSuggestions, emptyReviewSuggestionState, planReviewSuggestionDecision, planReviewSuggestionHistory,
   reviewProposalIdSchema, reviewSuggestionResolutionSchema, reviewSuggestionSchema, reviewSuggestionStateSchema, validateReviewSuggestionState,
 } from './reviewSuggestions';
 import { reviewCommentsSchema } from './reviewComments';
@@ -63,11 +64,16 @@ export function isReviewSuggestionMetadataChange(before: DocumentMeta, after: Do
 
 /** Derive only the allowed replacement, rather than trusting an arbitrary queued document. */
 export function planReviewSuggestionWrite(round: ReviewRound, source: SerializedSession, input: ReviewSuggestionWrite,
-  historyDestination?: SerializedSession): { session: SerializedSession; state: ReviewSuggestionWrite['after'] } {
+  historyDestination?: SerializedSession, reservedParagraphIds: readonly string[] = []): { session: SerializedSession; state: ReviewSuggestionWrite['after'] } {
   const operation = reviewSuggestionWriteSchema.parse(input);
   if (operation.round.id !== round.id || operation.round.baselineDigest !== round.baselineDigest) throw new Error('The suggestion write belongs to another review baseline.');
   const state = operation.before === null ? emptyReviewSuggestionState(round) : validateReviewSuggestionState(round, operation.before);
   const intent = operation.intent;
+  if (intent.kind === 'propose' || intent.kind === 'import') {
+    for (const proposal of intent.proposals) if (!state.proposals.some(existing => existing.id === proposal.id))
+      for (const change of proposal.changes) if (change.target.kind === 'structure')
+        assertReviewStructureNewIdsAvailable(source, change.target, [...reservedParagraphIds, ...reviewStructureReservedIds(state)]);
+  }
   if (intent.kind === 'propose') return { session: structuredClone(source), state: appendReviewSuggestions(round, state, intent.proposals) };
   if (intent.kind === 'import') {
     if (intent.receipt.documentId !== operation.documentId || intent.receipt.roundId !== round.id
@@ -78,6 +84,8 @@ export function planReviewSuggestionWrite(round: ReviewRound, source: Serialized
     return { session, state: appendReviewSuggestions(round, state, intent.proposals) };
   }
   if (intent.kind === 'decide') {
+    if (intent.action === 'accepted') for (const change of state.proposals.find(proposal => proposal.id === intent.proposalId)?.changes ?? [])
+      if (change.target.kind === 'structure') assertReviewStructureNewIdsAvailable(source, change.target, reservedParagraphIds);
     const plan = planReviewSuggestionDecision(round, source, state, intent.proposalId, intent.action, intent.record, intent.resolutions);
     if (plan.status !== 'ready') throw new Error('The suggestion has changed or already has a decision.');
     return { session: plan.session, state: plan.state };
@@ -100,6 +108,8 @@ export function planReviewSuggestionWrite(round: ReviewRound, source: Serialized
       const scope = resolvedReviewSuggestionRange(target, resolution);
       const range = intent.direction === 'undo' ? acceptedReviewSuggestionRange(scope, applied) : scope;
       next = applyReviewSuggestionRange(next, range, intent.direction === 'undo' ? applied : original, value);
+    } else if (target.kind === 'structure') {
+      next = applyReviewStructure(next, target, intent.direction === 'undo' ? 'reverse' : 'forward', reviewStructureReservedIds(state, proposal.id), true);
     } else {
       const reference = next.references[target.referenceIndex];
       if (!reference) throw new Error('The accepted reference title is unavailable.');
@@ -119,6 +129,21 @@ export function planReviewSuggestionWrite(round: ReviewRound, source: Serialized
     const expected = intent.direction === 'undo' ? source.reviewComments : destination;
     if (canonicalReviewPayload(replay.reviewComments ?? null) !== canonicalReviewPayload(expected ?? null))
       throw new Error('This history action changes discussion content beyond the accepted paragraph text.');
+    if (destination) next.reviewComments = structuredClone(destination);
+    else delete next.reviewComments;
+  }
+  if (proposal.changes.some(change => change.target.kind === 'structure')) {
+    const destination = historyDestination.reviewComments && reviewCommentsSchema.parse(historyDestination.reviewComments);
+    let replay = structuredClone(intent.direction === 'undo' ? next : source);
+    if (intent.direction === 'undo') {
+      if (destination) replay.reviewComments = structuredClone(destination);
+      else delete replay.reviewComments;
+    }
+    for (const change of proposal.changes) if (change.target.kind === 'structure')
+      replay = applyReviewStructure(replay, change.target, 'forward', reviewStructureReservedIds(state, proposal.id), true);
+    const expected = intent.direction === 'undo' ? source.reviewComments : destination;
+    if (canonicalReviewPayload(replay.reviewComments ?? null) !== canonicalReviewPayload(expected ?? null))
+      throw new Error('This history action changes discussion content beyond the accepted paragraph operation.');
     if (destination) next.reviewComments = structuredClone(destination);
     else delete next.reviewComments;
   }

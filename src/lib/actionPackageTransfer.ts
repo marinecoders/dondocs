@@ -48,6 +48,7 @@ export async function buildPortableActionPackage(
   const source = structuredClone(record);
   delete source.workingCopies;
   delete source.reviewRounds;
+  delete source.reviewApplications;
   const owned = actionPackageSchema.parse({
     ...source,
     historyScope: "selected-revision",
@@ -91,6 +92,7 @@ export async function parsePortableActionPackage(json: string) {
   const envelope = envelopeSchema.parse(JSON.parse(json));
   if (
     envelope.package.reviewRounds !== undefined ||
+    envelope.package.reviewApplications !== undefined ||
     envelope.package.workingCopies?.length ||
     envelope.package.revisions.some((revision) =>
       revision.members.some(
@@ -156,6 +158,7 @@ export async function importPortableActionPackage(
       const copy = structuredClone(value);
       delete copy.workingCopies;
       delete copy.reviewRounds;
+      delete copy.reviewApplications;
       for (const revision of copy.revisions)
         for (const member of revision.members)
           if (member.kind === "native" && member.source)

@@ -111,7 +111,7 @@ export async function reviewPackageOriginal(
 
 /** Review transfer must inspect every retained field, including labels and provenance IDs. */
 export function reviewPackageReviewMetadata(
-  round: import("./actionPackages").PackageReviewRound,
+  round: import("./actionPackages").PackageReviewRound | import("./actionPackages").PackageReviewApplication,
   policy: PolicyResolution,
 ): ExportReview {
   const strings: string[] = [];

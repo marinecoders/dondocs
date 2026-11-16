@@ -38,9 +38,13 @@ export const reviewSuggestionReceiptKey = (id: string) => `review-suggestion-wri
 export async function idbReadReviewSuggestions(documentId: string, roundId: string): Promise<unknown | null> {
   return (await run<{ value: unknown } | undefined>(APP_STORE, 'readonly', store => store.get(reviewSuggestionKey(documentId, roundId))))?.value ?? null;
 }
-export async function idbReadAllReviewSuggestions(): Promise<unknown[]> {
+function reviewSuggestionRange(documentId?: string): IDBKeyRange {
+  const prefix = documentId === undefined ? 'review-suggestions:' : reviewSuggestionKey(documentId, '');
+  return IDBKeyRange.bound(prefix, `${prefix}\uffff`);
+}
+export async function idbReadAllReviewSuggestions(documentId?: string): Promise<unknown[]> {
   return (await run<Array<{ value: unknown }>>(APP_STORE, 'readonly', store =>
-    store.getAll(IDBKeyRange.bound('review-suggestions:', 'review-suggestions:\uffff')))).map(record => record.value);
+    store.getAll(reviewSuggestionRange(documentId)))).map(record => record.value);
 }
 export async function idbReadReviewSuggestionReceipt(id: string): Promise<unknown | null> {
   return (await run<{ value: unknown } | undefined>(APP_STORE, 'readonly', store => store.get(reviewSuggestionReceiptKey(id))))?.value ?? null;
@@ -1088,6 +1092,7 @@ export async function idbApplyReviewSuggestions(inputBefore: StoredDocument, inp
   try {
     const { planReviewSuggestionWrite, isReviewSuggestionMetadataChange, reviewSuggestionWriteReceipt, reviewSuggestionWriteSchema, reviewSuggestionRecordSchema,
       reviewSuggestionReceiptSchema } = await import('./reviewSuggestionWrites');
+    const { reviewStructureReservedIds } = await import('./reviewSuggestions');
     const before = structuredClone(inputBefore), after = structuredClone(inputAfter);
     const operation = reviewSuggestionWriteSchema.parse(input), receipt = await reviewSuggestionWriteReceipt(operation);
     if (!isCurrent()) return 'stale';
@@ -1100,10 +1105,11 @@ export async function idbApplyReviewSuggestions(inputBefore: StoredDocument, inp
       const documents = transaction.objectStore(DOCS_STORE), app = transaction.objectStore(APP_STORE);
       const documentRequest = documents.get(before.id), roundRequest = app.get(reviewRoundKey(operation.round.id));
       const stateRequest = app.get(reviewSuggestionKey(before.id, operation.round.id));
+      const structureRecordsRequest = app.getAll(reviewSuggestionRange(before.id));
       const receiptRequest = app.get(reviewSuggestionReceiptKey(operation.id)), copyRequest = app.get(reviewCopyKey(before.id));
       const incomingReceipt = operation.intent.kind === 'import' ? operation.intent.receipt : null;
       const incomingRequest = incomingReceipt ? app.get(reviewReturnKey(incomingReceipt.roundId, incomingReceipt.returnId)) : null;
-      let remaining = incomingRequest ? 6 : 5, outcome: ReviewReturnWriteOutcome = 'conflict';
+      let remaining = incomingRequest ? 7 : 6, outcome: ReviewReturnWriteOutcome = 'conflict';
       const ready = () => {
         if (--remaining) return;
         if (!isCurrent()) { outcome = 'stale'; return; }
@@ -1130,7 +1136,10 @@ export async function idbApplyReviewSuggestions(inputBefore: StoredDocument, inp
           const current = documentRequest.result as StoredDocument | undefined;
           if (!current) { outcome = 'missing-document';return; }
           if (!sameReviewStoredValue(current, before) || !sameReviewStoredValue(currentState, operation.before)) return;
-          const planned = planReviewSuggestionWrite(round, before.session, operation, after.session);
+          const reserved = (structureRecordsRequest.result as Array<{ value: unknown }>).map(record => reviewSuggestionRecordSchema.parse(record.value))
+            .filter(record => record.documentId === before.id && record.state.roundId !== round.id)
+            .flatMap(record => reviewStructureReservedIds(record.state));
+          const planned = planReviewSuggestionWrite(round, before.session, operation, after.session, reserved);
           if (!sameReviewStoredValue(planned.session, after.session) || !sameReviewStoredValue(planned.state, operation.after)) return;
           documents.put(after);
           app.put({ key: reviewSuggestionKey(before.id, round.id), value: { documentId: before.id, state: operation.after } });
@@ -1140,7 +1149,7 @@ export async function idbApplyReviewSuggestions(inputBefore: StoredDocument, inp
         } catch { transaction.abort(); }
       };
       documentRequest.onsuccess = ready;roundRequest.onsuccess = ready;stateRequest.onsuccess = ready;
-      receiptRequest.onsuccess = ready;copyRequest.onsuccess = ready;
+      receiptRequest.onsuccess = ready;copyRequest.onsuccess = ready;structureRecordsRequest.onsuccess = ready;
       if (incomingRequest) incomingRequest.onsuccess = ready;
       transaction.oncomplete = () => resolve(outcome);
       transaction.onerror = () => reject(transaction.error ?? new Error('Review suggestions could not be saved.'));
