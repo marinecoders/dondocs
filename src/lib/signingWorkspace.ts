@@ -50,6 +50,7 @@ export async function signingDigest(bytes: Uint8Array): Promise<string> {
   return [...new Uint8Array(await crypto.subtle.digest('SHA-256', new Uint8Array(bytes)))].map(value => value.toString(16).padStart(2, '0')).join('');
 }
 export async function captureSigningPdf(bytes: Uint8Array, filename: string, allowSigned = false) {
+  if (!bytes.length || bytes.length > MAX_SIGNING_PDF_BYTES) throw new Error('Choose a PDF no larger than 20 MB.');
   const owned = new Uint8Array(bytes), inspection = await inspectSigningPdf(owned, allowSigned);
   const safeName = [...filename].map(char => char === '/' || char === '\\' || char.charCodeAt(0) < 32 ? '_' : char).join('');
   return signingPdfSchema.parse({ filename: `${safeName.replace(/\.pdf$/i, '').slice(0, 176) || 'document'}.pdf`,
