@@ -67,6 +67,57 @@ test('captures the current draft through the reviewed PDF export pipeline', asyn
   expect((await PDFDocument.load(Buffer.from(record.source.data, 'base64'))).getPageCount()).toBeGreaterThan(0);
 });
 
+test('keeps the signing workspace unavailable until a captured PDF is retained', async ({ page }, info) => {
+  await page.goto('/');
+  const preview = page.getByRole('button', { name: 'Preview', exact: true });
+  const mobile = await preview.getAttribute('aria-haspopup') === 'dialog';
+  if (mobile || await preview.getAttribute('aria-pressed') !== 'true') await preview.click();
+  await expect(page.locator('[data-pdf-layer="active"] canvas').first()).toBeVisible({ timeout: 60_000 });
+  if (mobile) await page.getByRole('button', { name: 'Close preview', exact: true }).click();
+  await page.getByRole('textbox', { name: 'Subject', exact: true }).fill('SYNTHETIC CAPTURE EXCLUSION');
+  await page.getByRole('textbox', { name: 'Paragraph 1', exact: true }).fill('Fictional training text for capture ownership.');
+
+  let release!: () => void;
+  const retentionGate = new Promise<void>(resolve => { release = resolve; });
+  let retainedReadStack = '';
+  await page.exposeFunction('holdSigningPdfRead', async (stack: string) => {
+    retainedReadStack = stack;
+    await retentionGate;
+  });
+  await page.evaluate(() => {
+    const original = Blob.prototype.arrayBuffer;
+    let armed = true;
+    Blob.prototype.arrayBuffer = async function () {
+      if (armed && this.type === 'application/pdf') {
+        armed = false;
+        await (window as unknown as { holdSigningPdfRead(stack: string): Promise<void> }).holdSigningPdfRead(new Error().stack ?? 'PDF read');
+      }
+      return original.call(this);
+    };
+  });
+  try {
+    await page.getByRole('button', { name: 'Download', exact: true }).click();
+    await page.getByRole('menuitem', { name: 'Prepare current draft for signing', exact: true }).click();
+    await expect.poll(() => retainedReadStack, { timeout: 90_000 }).not.toBe('');
+    const progress = page.getByRole('dialog', { name: 'Saving PDF…', exact: true });
+    await expect(progress).toBeVisible();
+    await expect(progress.getByRole('button', { name: 'Cancel export', exact: true })).toHaveCount(0);
+    await expect(page.getByRole('button', { name: 'Download', exact: true })).toHaveCount(0);
+    await expect(page.getByRole('dialog', { name: 'Signing workspace', exact: true })).toHaveCount(0);
+    await page.keyboard.press('Escape');
+    await expect(progress).toBeVisible();
+    await expect(page.locator('button[data-tour="download"]').click({ trial: true, timeout: 500 })).rejects.toThrow(/intercepts pointer events/);
+    await info.attach('paused-signing-retention-stack', { body: retainedReadStack, contentType: 'text/plain' });
+    release();
+    const dialog = page.getByRole('dialog', { name: 'Signing workspace', exact: true });
+    await expect(dialog.getByText(/Captured draft:/)).toBeVisible();
+    await expect(dialog.locator('[aria-busy="true"]')).toHaveCount(0);
+    await expect(dialog.getByRole('button', { name: 'Add signature box', exact: true })).toBeEnabled();
+    await dialog.getByRole('button', { name: 'Add signature box', exact: true }).click();
+    await expect(dialog.getByLabel('Signer name', { exact: true })).toBeVisible();
+  } finally { release(); }
+});
+
 test('keeps healthy records usable while damaged entries can be recovered and explicitly removed', async ({ page }) => {
   const pdf = await PDFDocument.create();pdf.addPage([400, 600]);const bytes = Buffer.from(await pdf.save());
   await page.goto('/');await page.getByRole('button', { name: 'Download', exact: true }).click();await page.getByRole('menuitem', { name: 'Signing workspace', exact: true }).click();
