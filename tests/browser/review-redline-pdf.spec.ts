@@ -82,6 +82,8 @@ for (const theme of ['light', 'dark', 'classic']) {
     await report.getByRole('checkbox').check();
     const pages = report.locator('[data-pdf-layer="active"]');
     await expect(pages).toHaveAttribute('tabindex', '0');
+    await expect(pages.locator('.react-pdf__Page__canvas').first()).toBeVisible();
+    await expect.poll(() => pages.evaluate(element => element.scrollHeight > element.clientHeight)).toBe(true);
     await pages.focus();await pages.press('ArrowDown');
     await expect.poll(() => pages.evaluate(element => element.scrollTop)).toBeGreaterThan(0);
     await pages.press('Home');
