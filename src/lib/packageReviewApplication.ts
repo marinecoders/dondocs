@@ -57,7 +57,8 @@ export function planPackageReviewApplication(owner: ActionPackage, returned: Par
     const memberId = child.binding.memberId, baseline = round.baseline.members.find(item => item.id === memberId)!;
     const index = members.findIndex(item => item.id === memberId), current = index < 0 ? undefined : members[index];
     const replaced = current && (current.kind !== baseline.kind || current.kind === 'native' && baseline.kind === 'native'
-      && current.source?.documentId !== baseline.source?.documentId);
+      && current.source?.documentId !== baseline.source?.documentId
+      || current.kind === 'original' && baseline.kind === 'original' && current.original.sha256 !== baseline.original.sha256);
     const status = !current ? 'removed' : replaced ? 'replaced' : 'present';
     const choice = choices[memberId] ?? {}, issues: string[] = [];
     if (status !== 'present' && !choice.member) issues.push('Choose whether to keep the current membership or restore this reviewed member.');

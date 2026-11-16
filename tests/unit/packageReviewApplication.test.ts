@@ -268,3 +268,22 @@ it('preserves embedded native enclosure bytes when applying a supported proposal
   const after = JSON.parse(new TextDecoder().decode(await readPackageAsset(member.draft)));
   expect(after.enclosures).toEqual(before.enclosures); expect(after.paragraphs[0].text).toBe('Revised text, original embedded PDF.');
 });
+
+it('requires a replacement decision when an original PDF identity now contains different bytes', async () => {
+  const { owner, native, original, round, json, choices } = await fixture();
+  const pdf = await PDFDocument.create(); pdf.addPage(); pdf.addPage();
+  const replacement = await captureOriginalPackageMember({ name: 'synthetic-replaced-original.pdf', data: new Uint8Array(await pdf.save()).buffer }, 'enclosure', true);
+  if (replacement.kind !== 'original') throw new Error('Expected original replacement');
+  const changed = { ...replacement, id: original.id };
+  const latest = await reviseActionPackage(owner, [native, changed]);
+  const preview = await previewPackageReviewReturn(json, latest, round.id, policy);
+  const unresolved = inspectPackageReviewApplication(preview, choices, policy);
+  expect(unresolved.ready).toBe(false);
+  expect(unresolved.previews.find(member => member.memberId === original.id)?.status).toBe('replaced');
+  await expect(preparePackageReviewApplication(preview, choices, policy)).rejects.toThrow(/Resolve/);
+  choices[original.id].member = 'current';
+  const applied = await applyPreparedPackageReviewApplication(await preparePackageReviewApplication(preview, choices, policy), policy);
+  expect(getPackageRevision(applied).members.find(member => member.id === original.id)).toEqual(changed);
+  expect(new Uint8Array(await readPackageAsset(original.original))).not.toEqual(new Uint8Array(await readPackageAsset(changed.original)));
+  expect(applied.reviewRounds![0].baseline.members.find(member => member.id === original.id)).toEqual(original);
+});

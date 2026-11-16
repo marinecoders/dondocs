@@ -136,6 +136,14 @@ export function PackageReviewApplicationPanel({ record, round, busy, run, onAppl
       })}>Apply feedback as new package revision</Button>
     </div>}
     {(preview || prepared) && <Button variant="outline" disabled={busy} onClick={() => { setPreview(null); setPrepared(null); setPlan(null); setChoices({}); setApproved(false); }}>Cancel feedback application</Button>}
-    {!!record.reviewApplications?.length && <div className="space-y-1 text-xs"><p>Saved feedback applications</p>{record.reviewApplications.filter(item => item.roundId === round.id).map(item => <details key={item.id}><summary className="break-all">Return {item.returnId} · New revision {item.revisionId}</summary>{item.outcomes.map(outcome => <div key={outcome.memberId} className="space-y-1 border-l pl-2"><p>Member {outcome.memberId} · Discussion: {outcome.choice.comments}</p>{outcome.comments?.threads.flatMap(thread => thread.messages.map(message => <p key={message.id} className="whitespace-pre-wrap break-words">{message.author}: {message.text}</p>))}{outcome.suggestions?.decisions.map(decision => <p key={decision.id}>{outcome.suggestions!.proposals.find(proposal => proposal.id === decision.proposalId)?.label}: {decision.action}</p>)}</div>)}</details>)}</div>}
+    {!!record.reviewApplications?.length && <div className="space-y-1 text-xs"><p>Saved feedback applications</p>{record.reviewApplications.filter(item => item.roundId === round.id).map(item => <details key={item.id}><summary className="break-all">Return {item.returnId} · New revision {item.revisionId}</summary>{item.feedback.map(child => <details key={child.binding.memberId} open className="space-y-1 border-l pl-2">
+      <summary>Returned feedback for {round.baseline.members.find(member => member.id === child.binding.memberId)?.label ?? child.binding.memberId}</summary>
+      {child.comments.threads.map(thread => <DiscussionValue key={thread.id} value={thread} />)}
+      {!child.comments.threads.length && <p>No returned discussion.</p>}
+      {child.suggestions?.proposals.map(proposal => <div key={proposal.id} className="space-y-1">
+        <p className="font-medium">{proposal.author}: {proposal.label}</p>
+        {proposal.changes.map(change => <p key={change.id} className="whitespace-pre-wrap break-words">{change.expected || '(Empty)'} → {change.proposed || '(Empty)'}</p>)}
+      </div>)}
+    </details>)}{item.outcomes.map(outcome => <div key={outcome.memberId} className="space-y-1 border-l pl-2"><p>Member {outcome.memberId} · Discussion: {outcome.choice.comments}</p>{outcome.comments?.threads.flatMap(thread => thread.messages.map(message => <p key={message.id} className="whitespace-pre-wrap break-words">{message.author}: {message.text}</p>))}{outcome.suggestions?.decisions.map(decision => <p key={decision.id}>{outcome.suggestions!.proposals.find(proposal => proposal.id === decision.proposalId)?.label}: {decision.action}</p>)}</div>)}</details>)}</div>}
   </section>;
 }
