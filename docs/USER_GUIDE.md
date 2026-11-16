@@ -532,6 +532,8 @@ deployment policy requires a new review before sending.
 
 ## Export and sign
 
+Open **Download → Signing workspace** to place signature boxes on an unsigned PDF. Add a box for each signer, choose its page, and use Left/Top and Width/Height to position it in the preview. Positions stay attached to the retained PDF even when the preview zoom changes. Existing PDF fields are preserved. Save the placement, review all pages and signer assignments, then download the PDF with signature boxes for your signing application. Signed source PDFs and pages with nonstandard PDF user units cannot be edited here. Signing drafts survive reload in this browser; download source and prepared PDFs for external retention.
+
 Choose an available output from Download. PDF enclosure merging and digital signature fields are PDF features; Word has [documented limits](OUTPUT_LIMITS.md). A downloaded TeX fragment needs the repository templates/assets to compile as a project.
 
 For a saved action, open **Packages**, select the saved revision, and choose **Review Word package**. Review its captured content, privacy/marking findings and original files, then choose **Download reviewed Word package**. The ZIP contains an editable main DOCX, separate DOCX files for other supported native correspondence, and unchanged original PDFs, enclosures and supported images. `README.txt` identifies the main document; `manifest.json` lists member roles, order, captured member revisions, file sizes and SHA-256 digests. The download uses those captured bytes even if a library source changes later.

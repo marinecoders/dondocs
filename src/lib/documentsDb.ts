@@ -30,6 +30,35 @@ const DOCS_STORE = 'documents';
 const APP_STORE = 'app'; // key/value store; currently just { key:'currentId', value }
 const ATTACHMENTS_STORE = 'attachments'; // enclosure file blobs, keyed by content-free id
 
+export async function idbReadSigningRecords(): Promise<unknown[]> {
+  return (await run<Array<{ value: unknown }>>(APP_STORE, 'readonly', store =>
+    store.getAll(IDBKeyRange.bound('signing-workspace:', 'signing-workspace:\uffff'), 20))).map(record => record.value);
+}
+
+/** A signing record owns its exact PDF bytes, independently of draft lifetime. */
+export async function idbCompareSigningRecord(before: unknown | null, after: { id: string }, isCurrent: () => boolean = () => true): Promise<boolean> {
+  const expected = structuredClone(before), owned = structuredClone(after);
+  if (!isCurrent()) return false;
+  const db = await openDb();
+  return new Promise((resolve, reject) => {
+    const transaction = db.transaction(APP_STORE, 'readwrite'), store = transaction.objectStore(APP_STORE);
+    const request = store.get(`signing-workspace:${owned.id}`);
+    const inventory = store.getAll(IDBKeyRange.bound('signing-workspace:', 'signing-workspace:\uffff'), 21);
+    let committed = false, remaining = 2;
+    const ready = () => {
+      if (--remaining) return;
+      const records = inventory.result.filter(record => record.key !== `signing-workspace:${owned.id}`).map(record => record.value);
+      if (!isCurrent() || records.length >= 20 || JSON.stringify([...records, owned]).length > 96 * 1024 * 1024
+        || !sameReviewStoredValue(request.result?.value ?? null, expected)) return;
+      store.put({ key: `signing-workspace:${owned.id}`, value: owned });committed = true;
+    };
+    request.onsuccess = ready;inventory.onsuccess = ready;
+    transaction.oncomplete = () => resolve(committed);
+    transaction.onerror = () => reject(transaction.error ?? new Error('The signing draft could not be saved.'));
+    transaction.onabort = () => reject(transaction.error ?? new Error('The signing save was interrupted.'));
+  });
+}
+
 export const reviewRoundKey = (id: string) => `review:${id}`;
 export const reviewCopyKey = (documentId: string) => `review-copy:${documentId}`;
 export const reviewReturnKey = (roundId: string, returnId: string) => `review-return:${roundId}:${returnId}`;
