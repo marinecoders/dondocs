@@ -138,7 +138,7 @@ it('keeps unsaved typed changes reachable when closing, switching rounds or prep
   expect(screen.getByRole('button', { name: 'Prepare feedback return' })).toBeDisabled();
   expect(screen.getByRole('button', { name: 'Prepare reviewer copy' })).toBeDisabled();
   await userEvent.keyboard('{Escape}');expect(close).not.toHaveBeenCalled();expect(editor).toHaveValue('Unsaved First body.');
-  await userEvent.click(screen.getByRole('button', { name: 'Close', exact: true }));expect(close).not.toHaveBeenCalled();
+  await userEvent.click(screen.getByRole('button', { name: 'Close' }));expect(close).not.toHaveBeenCalled();
   const palette = new KeyboardEvent('keydown', { key: 'k', ctrlKey: true, cancelable: true });window.dispatchEvent(palette);expect(palette.defaultPrevented).toBe(true);
   const template = new KeyboardEvent('keydown', { key: 'T', ctrlKey: true, shiftKey: true, cancelable: true });window.dispatchEvent(template);expect(template.defaultPrevented).toBe(true);
   const unload = new Event('beforeunload', { cancelable: true });window.dispatchEvent(unload);expect(unload.defaultPrevented).toBe(true);
