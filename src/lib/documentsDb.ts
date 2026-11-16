@@ -38,9 +38,13 @@ export const reviewSuggestionReceiptKey = (id: string) => `review-suggestion-wri
 export async function idbReadReviewSuggestions(documentId: string, roundId: string): Promise<unknown | null> {
   return (await run<{ value: unknown } | undefined>(APP_STORE, 'readonly', store => store.get(reviewSuggestionKey(documentId, roundId))))?.value ?? null;
 }
-export async function idbReadAllReviewSuggestions(): Promise<unknown[]> {
+function reviewSuggestionRange(documentId?: string): IDBKeyRange {
+  const prefix = documentId === undefined ? 'review-suggestions:' : reviewSuggestionKey(documentId, '');
+  return IDBKeyRange.bound(prefix, `${prefix}\uffff`);
+}
+export async function idbReadAllReviewSuggestions(documentId?: string): Promise<unknown[]> {
   return (await run<Array<{ value: unknown }>>(APP_STORE, 'readonly', store =>
-    store.getAll(IDBKeyRange.bound('review-suggestions:', 'review-suggestions:\uffff')))).map(record => record.value);
+    store.getAll(reviewSuggestionRange(documentId)))).map(record => record.value);
 }
 export async function idbReadReviewSuggestionReceipt(id: string): Promise<unknown | null> {
   return (await run<{ value: unknown } | undefined>(APP_STORE, 'readonly', store => store.get(reviewSuggestionReceiptKey(id))))?.value ?? null;
@@ -1101,7 +1105,7 @@ export async function idbApplyReviewSuggestions(inputBefore: StoredDocument, inp
       const documents = transaction.objectStore(DOCS_STORE), app = transaction.objectStore(APP_STORE);
       const documentRequest = documents.get(before.id), roundRequest = app.get(reviewRoundKey(operation.round.id));
       const stateRequest = app.get(reviewSuggestionKey(before.id, operation.round.id));
-      const structureRecordsRequest = app.getAll(IDBKeyRange.bound('review-suggestions:', 'review-suggestions:\uffff'));
+      const structureRecordsRequest = app.getAll(reviewSuggestionRange(before.id));
       const receiptRequest = app.get(reviewSuggestionReceiptKey(operation.id)), copyRequest = app.get(reviewCopyKey(before.id));
       const incomingReceipt = operation.intent.kind === 'import' ? operation.intent.receipt : null;
       const incomingRequest = incomingReceipt ? app.get(reviewReturnKey(incomingReceipt.roundId, incomingReceipt.returnId)) : null;
