@@ -42,7 +42,7 @@ it('discards an accepted resolution when the package reviewer switches to reject
   await user.selectOptions(screen.getByLabelText(`Proposal decision ${proposal.label}`), 'rejected');
   expect(screen.getByRole('button', { name: 'Review new package revision' })).toBeEnabled();
   await user.click(screen.getByRole('button', { name: 'Review new package revision' }));
-  await user.click(screen.getByRole('checkbox', { name: /^I reviewed the baseline/ }));
+  await user.click(await screen.findByRole('checkbox', { name: /^I reviewed the baseline/ }));
   await user.click(screen.getByRole('button', { name: 'Apply feedback as new package revision' }));
   await waitFor(async () => {
     const saved = (await listActionPackages()).find(item => item.id === owner.id)!;
