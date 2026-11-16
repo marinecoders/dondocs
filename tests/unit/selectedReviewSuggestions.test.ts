@@ -46,7 +46,7 @@ describe('precise selected text replacements', () => {
       (source: ReturnType<typeof fixture>['session']) => { source.paragraphs[0].text = 'Keep Alpha Gamma ending.'; },
       (source: ReturnType<typeof fixture>['session']) => { source.paragraphs.push({ ...source.paragraphs[0] }); },
       (source: ReturnType<typeof fixture>['session']) => { source.paragraphs[0].id = 'changed-id'; },
-      (source: ReturnType<typeof fixture>['session']) => { source.paragraphs[0].header = true; },
+      (source: ReturnType<typeof fixture>['session']) => { source.paragraphs[0].header = 'Example heading'; },
       (source: ReturnType<typeof fixture>['session']) => { source.paragraphs[0].text = 'Keep Alpha **Alpha** ending.'; },
     ]) {
       const input = fixture();edit(input.session);const before = structuredClone(input.session);
