@@ -80,6 +80,11 @@ for (const theme of ['light', 'dark', 'classic']) {
     await expect(report).toContainText('Accepted: 1 · Rejected: 1 · Open: 5 · Conflicting: 1');
     const button = report.getByRole('button', { name: 'Download reviewed redline (.pdf)', exact: true });await expect(button).toBeDisabled();
     await report.getByRole('checkbox').check();
+    const pages = report.locator('[data-pdf-layer="active"]');
+    await expect(pages).toHaveAttribute('tabindex', '0');
+    await pages.focus();await pages.press('ArrowDown');
+    await expect.poll(() => pages.evaluate(element => element.scrollTop)).toBeGreaterThan(0);
+    await pages.press('Home');
     expect((await new AxeBuilder({ page }).include('[role="dialog"]').analyze()).violations).toEqual([]);
     await report.scrollIntoViewIfNeeded();await page.screenshot({ path: info.outputPath(`redline-${theme}.png`), fullPage: true, scale: 'css' });
     const downloading = page.waitForEvent('download');await button.click();const download = await downloading;

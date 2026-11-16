@@ -287,6 +287,19 @@ describe('PdfViewer', () => {
       expect(region.getAttribute('aria-label')).toMatch(/Space scroll/);
     });
 
+    it('focuses the active scroll layer and keeps its keyboard controls working', async () => {
+      const { container } = renderViewer('blob:test/keyboard-layer');
+      await waitFor(() => expect(container.querySelector('[data-testid="page:1"]')).toBeTruthy());
+      const active = container.querySelector('[data-pdf-layer="active"]') as HTMLElement;
+      expect(active.tabIndex).toBe(0);
+      active.focus();
+      expect(document.activeElement).toBe(active);
+      const width = () => Number(container.querySelector('[data-testid="page:1"]')!.getAttribute('data-width'));
+      const before = width();
+      fireEvent.keyDown(active, { key: '+' });
+      await waitFor(() => expect(width()).toBeGreaterThan(before));
+    });
+
     it('+ / - / 0 drive zoom from the keyboard', async () => {
       const { container } = renderViewer('blob:test/kb2');
       const region = await getRegion();
