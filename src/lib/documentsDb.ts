@@ -1136,8 +1136,9 @@ export async function idbApplyReviewSuggestions(inputBefore: StoredDocument, inp
           const current = documentRequest.result as StoredDocument | undefined;
           if (!current) { outcome = 'missing-document';return; }
           if (!sameReviewStoredValue(current, before) || !sameReviewStoredValue(currentState, operation.before)) return;
-          const reserved = (structureRecordsRequest.result as Array<{ value: unknown }>).map(record => reviewSuggestionRecordSchema.parse(record.value))
-            .filter(record => record.documentId === before.id && record.state.roundId !== round.id)
+          const reserved = (structureRecordsRequest.result as Array<{ value: unknown }>).filter(record => !!record.value && typeof record.value === 'object'
+            && 'documentId' in record.value && record.value.documentId === before.id).map(record => reviewSuggestionRecordSchema.parse(record.value))
+            .filter(record => record.state.roundId !== round.id)
             .flatMap(record => reviewStructureReservedIds(record.state));
           const planned = planReviewSuggestionWrite(round, before.session, operation, after.session, reserved);
           if (!sameReviewStoredValue(planned.session, after.session) || !sameReviewStoredValue(planned.state, operation.after)) return;

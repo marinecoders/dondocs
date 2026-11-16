@@ -252,6 +252,31 @@ plain paragraphs against the exact reviewed baseline. It does not track structur
 edits, variables or formatting. Ordinary authoring outside this mode is unchanged.
 Reviewer names remain self-entered and do not authenticate identity.
 
+To add or remove a paragraph, use **Propose paragraph insertion or deletion**.
+Enter the reviewer name above, choose an exact reviewed gap and level, and enter
+**New paragraph text**, or choose the **Reviewed paragraph to delete**. Review the
+position and content before **Add paragraph proposal**. **Cancel paragraph
+proposal** discards unsent input. Proposals leave both the baseline and draft unchanged.
+
+Insertion supports one nonempty plain native paragraph with a fresh identity;
+formatting, variables and multiline/structured content require ordinary authoring
+or a review comment. Deletion retains the entire captured leaf paragraph, including
+supported formatting, variables and markings. Use a comment to request deletion of a figure, table or other structured block. Paragraphs with children and the final remaining paragraph cannot be
+deleted. Invalid nesting or a position that would reparent another paragraph is
+refused, rather than silently adjusting levels. Numbering derives from the resulting
+outline and is separate from the proposed content change.
+
+Source acceptance checks the captured paragraph, its parent and both neighboring
+boundaries. Independent fields and other paragraphs are preserved, including text
+edits in an unchanged neighbor. A moved, removed or indented boundary, an edited
+deleted paragraph, or a colliding identity blocks acceptance. Reject the stale
+proposal or start a fresh review from the current structure. Deleted discussions
+keep their original quote/context and identity; selected comments detach instead
+of moving to a different paragraph. Undo restores the exact captured paragraph and
+can restore an anchor only when replaying the deletion reproduces the entire
+current discussion. These proposals use the same saved decisions, returns, backup,
+handling review and ordinary session Undo/Redo as text suggestions.
+
 A reviewer returns proposals through **Prepare feedback return**. Importing stores
 them as pending suggestions. In the source, select the same review and compare
 reviewed, current and proposed values before **Accept suggestion** or **Reject

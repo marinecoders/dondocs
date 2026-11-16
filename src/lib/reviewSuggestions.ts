@@ -256,7 +256,8 @@ function structureReviewText(target: ReviewStructureTarget): string[] {
   return strings(target);
 }
 export function reviewStructureReservedIds(state: ReviewSuggestionState, exceptProposalId?: string): string[] {
-  return state.proposals.filter(proposal => proposal.id !== exceptProposalId).flatMap(proposal => proposal.changes.flatMap(change => change.target.kind === 'structure' ? structureOperationIds(change.target) : []));
+  return state.proposals.filter(proposal => proposal.id !== exceptProposalId).flatMap(proposal => proposal.changes.flatMap(change => change.target.kind === 'structure' ? structureOperationIds(change.target)
+    : change.target.kind === 'paragraph' || change.target.kind === 'range' ? [change.target.paragraphId] : []));
 }
 export function createParagraphStructureSuggestion(round: ReviewRound, input: { author: string; category?: FeedbackCategory; operation: Parameters<typeof captureReviewStructure>[1] }): ReviewSuggestion {
   const target = captureReviewStructure(round.baseline.session, input.operation);

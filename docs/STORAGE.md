@@ -126,6 +126,31 @@ there is no separate persistence record or native-session metadata. Cancel drops
 the local draft. Unsaved typing blocks review navigation and registers the browser
 leave-page warning; it is not persisted across tab closure or reload. Saved typed
 suggestions use the existing backup, feedback-return and decision records.
+Paragraph insertion/deletion extends the existing strict suggestion target union
+with `kind: "structure"`, document type and a typed operation. The operation retains
+bounded full native `before`/`after` nodes, stable ID/level boundaries and parent ID.
+The writer proves the allowed operation from that exact baseline and current
+structure; a queued document or return never authorizes arbitrary array/session
+replacement. The first version inserts one plain paragraph or removes one leaf.
+It refuses figure/structured-block deletion, final-paragraph deletion, child reparenting and invalid
+nesting. Existing unsupported structures remain untouched. Numbering is derived.
+
+Fresh IDs are captured once. Baseline/current nodes, retained comment anchors and
+reattachment history, source session history and other saved review operations on
+the same source reserve identities. Full captured-node strings, metadata and
+serialized target size count against the 200,000-character proposal/state budget
+and handling/privacy review; the strict schema bounds array lengths, metadata
+strings and nesting. No new embedded resource payload is accepted. Existing
+unrelated resource fields remain intact.
+
+Structural acceptances use existing decisions, write intents, receipts, return
+version 2 and supported workspace backups; older strict target readers reject the
+unknown operation instead of silently applying part of it. Undo derives the exact
+inverse node operation and verifies scoped paragraph changes. A candidate comment
+restoration is allowed only when replaying the original operation recreates the
+entire current discussion, including messages and anchor history. Rejection edits
+no document content. Pending structures stay outside clean exports and templates.
+
 The shared writer fences proposal creation, pending imports, accept/reject and
 acceptance Undo/Redo with typed intents. Its conditional transaction checks the
 latest native target and exact prior review state, then writes allowed source
