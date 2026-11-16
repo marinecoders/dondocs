@@ -49,6 +49,22 @@ async function reconciledDbFixture(){
   return {...f,before,operation,after:{...structuredClone(before),meta:{...before.meta,updatedAt:before.meta.updatedAt+1,nativeReviewText:true as const},session:plan.session}};
 }
 describe('structural reconciliation through actual source and database writes',()=>{
+  it('reloads and reverses a move retaining an earlier accepted insertion identity',async()=>{
+    const {round,proposal,id}=await fixture();
+    const insertion=createParagraphStructureSuggestion(round,{author:'Reviewer',operation:{kind:'insert-paragraph',index:2,text:'Accepted independent sibling.',level:0,paragraphId:'accepted-independent'}});
+    await submitReviewSuggestion(insertion);
+    expect((await decideReviewSuggestion(round.id,insertion.id,'accepted')).status).toBe('committed');
+    const inserted=getSerializedSession();
+    expect((await decideReviewSuggestion(round.id,proposal.id,'accepted')).status).toBe('committed');
+    const moved=getSerializedSession();
+    expect(moved.paragraphs.map(p=>p.id)).toEqual(['accepted-independent','move-destination','move-destination-child','move-source','move-child','move-tail']);
+    expect((await saved(id)).session.paragraphs).toEqual(moved.paragraphs);
+    const workspace=await loadReviewSuggestionWorkspace(round.id);
+    expect(workspace.state!.decisions.map(decision=>decision.action)).toEqual(['accepted','accepted']);
+    expect(changeDocumentHistory('undo',captureDocumentScope())).toBe('applied');await flushDocumentWrites();expect(getSerializedSession().paragraphs).toEqual(inserted.paragraphs);
+    expect(changeDocumentHistory('redo',captureDocumentScope())).toBe('applied');await flushDocumentWrites();expect((await saved(id)).session.paragraphs).toEqual(moved.paragraphs);
+    expect(JSON.parse(await buildBackup()).reviewSuggestions.some((record:{state:{roundId:string}})=>record.state.roundId===round.id)).toBe(true);
+  });
   it('merges newer moved-node content and inserted siblings, then persists exact Undo/Redo scopes',async()=>{
     const {round,proposal,id}=await fixture();useDocumentStore.getState().updateParagraph(0,{text:'**New current source** {{UNIT}}',header:'Current heading'});
     useDocumentStore.setState(s=>({paragraphs:[...s.paragraphs.slice(0,2),{id:'independent-sibling',text:'Independent insertion',level:0},...s.paragraphs.slice(2)]}));

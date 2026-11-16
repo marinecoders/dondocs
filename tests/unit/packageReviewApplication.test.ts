@@ -357,3 +357,22 @@ it.each(['insert', 'delete', 'split', 'join', 'move'] as const)('applies %s stru
   expect((await listActionPackages())[0]).toEqual(applied);
   expect(useDocumentsStore.getState().docs).toEqual({});
 });
+
+it('persists a package move retaining a paragraph introduced by an earlier accepted proposal', async () => {
+  const input = await fixture(), child = input.owner.reviewRounds![0].memberReviews!.find(item => item.binding.memberId === input.native.id)!;
+  const insertion = { ...createParagraphStructureSuggestion(child.nativeRound!, { author: 'Reviewer', operation: { kind: 'insert-paragraph', index: 1, text: 'Accepted package insertion.', level: 0, paragraphId: 'accepted-package-insertion' } }), id: 'proposal_11111111-1111-4111-8111-111111111111' };
+  const move = { ...createParagraphStructureSuggestion(child.nativeRound!, { author: 'Reviewer', operation: { kind: 'move-paragraph', paragraphId: 'synthetic-paragraph', destinationId: 'unrelated-paragraph', placement: 'after' } }), id: 'proposal_22222222-2222-4222-8222-222222222222' };
+  const owner = await savePackageMemberReview(input.owner, input.round.id, { ...child, suggestions: appendReviewSuggestions(child.nativeRound!, child.suggestions!, [insertion, move]) });
+  const json = await packageReviewTransferFile(await buildPackageReviewReturn(owner, input.round.id, policy), policy);
+  const choices = structuredClone(input.choices);
+  choices[input.native.id].proposals![input.proposal.id] = { action: 'keep' };
+  choices[input.native.id].proposals![insertion.id] = { action: 'accepted' };
+  choices[input.native.id].proposals![move.id] = { action: 'accepted' };
+  const preview = await previewPackageReviewReturn(json, owner, input.round.id, policy);
+  const applied = await applyPreparedPackageReviewApplication(await preparePackageReviewApplication(preview, choices, policy), policy);
+  const member = getPackageRevision(applied).members.find(item => item.id === input.native.id) as NativePackageMember;
+  expect(member.session.paragraphs.map(node => node.id)).toEqual(['accepted-package-insertion', 'unrelated-paragraph', 'synthetic-paragraph']);
+  expect(JSON.parse(new TextDecoder().decode(await readPackageAsset(member.draft))).paragraphs).toEqual(member.session.paragraphs);
+  expect((await listActionPackages())[0]).toEqual(applied);
+  expect(JSON.parse(await buildBackup()).actionPackages[0].reviewApplications).toEqual(applied.reviewApplications);
+});

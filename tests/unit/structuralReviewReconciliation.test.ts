@@ -62,6 +62,22 @@ describe('three-way structural intent reconciliation',()=>{
   expect(validateReviewSuggestionState(f.round,JSON.parse(JSON.stringify(second.state)))).toEqual(second.state);expect(f.round.baseline.session.paragraphs.map(p=>p.id)).toEqual(['a','b','c','tail']);
   expect(inspectReviewSuggestion(f.round,first.session,f.proposal,first.state.decisions[0].resolutions)[0].current).toBe(first.state.decisions[0].resolutions![0].value);
  });
+ it.each(['insert-paragraph','split-paragraph'] as const)('retains an accepted %s identity in another proposal current move scope',kind=>{
+  const f=fixture();const insertion=createParagraphStructureSuggestion(f.round,{author:'Reviewer',operation:kind==='insert-paragraph'?{kind,index:1,text:'Accepted insertion',level:0,paragraphId:'review-inserted'}:{kind,paragraphId:'a',splitAt:5,newParagraphId:'review-inserted'}});
+  const state=appendReviewSuggestions(f.round,f.state,[insertion]);
+  const inserted=planReviewSuggestionDecision(f.round,f.session,state,insertion.id,'accepted');
+  const moved=planReviewSuggestionDecision(f.round,inserted.session,inserted.state,f.proposal.id,'accepted');
+  expect(moved.status).toBe('ready');expect(moved.session.paragraphs.map(p=>p.id)).toEqual(['review-inserted','b','c','a','tail']);
+  expect(validateReviewSuggestionState(f.round,JSON.parse(JSON.stringify(moved.state)))).toEqual(moved.state);
+  const forged=structuredClone(moved.state);forged.decisions.reverse();
+  expect(()=>validateReviewSuggestionState(f.round,forged)).toThrow(/reuse a new paragraph identity/);
+ });
+ it('keeps an earlier reconciled identity reserved against a new pending proposal',()=>{
+  const f=fixture();f.session.paragraphs.splice(1,0,{id:'current-only',text:'Newer native sibling',level:0});
+  const moved=planReviewSuggestionDecision(f.round,f.session,f.state,f.proposal.id,'accepted');
+  const reuse=createParagraphStructureSuggestion(f.round,{author:'Reviewer',operation:{kind:'insert-paragraph',index:0,text:'Different content',level:0,paragraphId:'current-only'}});
+  expect(()=>appendReviewSuggestions(f.round,moved.state,[reuse])).toThrow(/reuse a new paragraph identity/);
+ });
  it('scans every nested resolved string and bounds metadata before durable acceptance',()=>{
   const f=fixture();f.session.paragraphs[0].figure={name:'Retained historic figure',fileRef:{id:'native-file',name:'Nested retained filename',size:42,type:'image/png'}};const r=resolution(f);
   expect(reviewSuggestionResolutionText([r]).some(field=>field.value==='Nested retained filename')).toBe(true);

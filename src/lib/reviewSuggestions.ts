@@ -227,9 +227,19 @@ export function validateReviewSuggestionState(round: ReviewRound, value: unknown
   const reserved = new Set<string>();
   for (const proposal of state.proposals) {
     validateReviewSuggestion(round, proposal);
-    for (const change of proposal.changes) if (change.target.kind === 'structure') for (const id of structureNewIds(change.target)) {
-      if (reserved.has(id) || reviewStructureReservedIds(state, proposal.id).includes(id)) throw new Error('Different review operations cannot reuse a new paragraph identity.');
-      reserved.add(id);
+    for (const change of proposal.changes) if (change.target.kind === 'structure') {
+      const newIds = structureNewIds(change.target);
+      if (!newIds.length) continue;
+      // Later resolutions can retain nodes introduced by this acceptance. They
+      // reference its existing identities; only earlier captures reserve them
+      // against this proposal's original introduction.
+      const acceptance = state.decisions.findIndex(decision => decision.proposalId === proposal.id && decision.action === 'accepted');
+      const prior = acceptance < 0 ? state : { ...state, decisions: state.decisions.slice(0, acceptance) };
+      const otherIds = new Set(reviewStructureReservedIds(prior, proposal.id));
+      for (const id of newIds) {
+        if (reserved.has(id) || otherIds.has(id)) throw new Error('Different review operations cannot reuse a new paragraph identity.');
+        reserved.add(id);
+      }
     }
   }
   return state;
