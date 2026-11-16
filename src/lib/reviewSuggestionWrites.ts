@@ -1,3 +1,4 @@
+import { replaceReviewParagraphText } from './reviewParagraphText';
 import { z } from 'zod';
 import type { DocumentMeta } from '@/stores/documentsStore';
 import type { SerializedSession } from '@/stores/documentStore';
@@ -92,15 +93,28 @@ export function planReviewSuggestionWrite(round: ReviewRound, source: Serialized
     const resolution = acceptance!.resolutions?.find(item => item.changeId === change.id);
     const value = intent.direction === 'undo' ? resolution?.expectedCurrent ?? change.expected : resolution?.value ?? change.proposed;
     if (target.kind === 'field') Object.assign(next.formData, { [target.field]: value });
-    else if (target.kind === 'paragraph') {
-      const paragraph = next.paragraphs.find(item => item.id === target.paragraphId);
-      if (!paragraph) throw new Error('The accepted paragraph is unavailable.');
-      paragraph.text = value;
-    } else {
+    else if (target.kind === 'paragraph') replaceReviewParagraphText(next, target.paragraphId, value);
+    else {
       const reference = next.references[target.referenceIndex];
       if (!reference) throw new Error('The accepted reference title is unavailable.');
       reference.title = value;
     }
+  }
+  if (proposal.changes.some(change => change.target.kind === 'paragraph')) {
+    const destination = historyDestination.reviewComments && reviewCommentsSchema.parse(historyDestination.reviewComments);
+    const replay = structuredClone(intent.direction === 'undo' ? next : source);
+    if (intent.direction === 'undo') {
+      if (destination) replay.reviewComments = structuredClone(destination);
+      else delete replay.reviewComments;
+    }
+    for (const change of proposal.changes) if (change.target.kind === 'paragraph')
+      replaceReviewParagraphText(replay, change.target.paragraphId,
+        acceptance!.resolutions?.find(item => item.changeId === change.id)?.value ?? change.proposed);
+    const expected = intent.direction === 'undo' ? source.reviewComments : destination;
+    if (canonicalReviewPayload(replay.reviewComments ?? null) !== canonicalReviewPayload(expected ?? null))
+      throw new Error('This history action changes discussion content beyond the accepted paragraph text.');
+    if (destination) next.reviewComments = structuredClone(destination);
+    else delete next.reviewComments;
   }
   return { session: next, state: planReviewSuggestionHistory(round, source, historyDestination, state,
     intent.acceptanceId, intent.direction, intent.record) };

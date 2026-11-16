@@ -1,3 +1,5 @@
+import { captureDocumentScope, type DocumentScope } from '@/stores/documentsStore';
+import type { PlainEditorSelection } from '@/lib/editorTextSelection';
 import { beginDocumentTask, isCurrentDocumentTask } from '@/lib/documentTask';
 import { prepareFigureUpload } from '@/lib/prepareFigureUpload';
 import { inspectRasterImage } from '@/services/docx/imageAssets';
@@ -160,6 +162,7 @@ const BlockRow = memo(function BlockRow({
   // (headerless) block — shows immediately, without a setState-in-effect.
   const [wantsHeader, setWantsHeader] = useState(false);
   const [figureError, setFigureError] = useState('');
+  const [textSelection, setTextSelection] = useState<{ range: PlainEditorSelection; owner: DocumentScope | null } | null>(null);
   const showHeader = !!header || wantsHeader;
 
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
@@ -434,6 +437,7 @@ const BlockRow = memo(function BlockRow({
             )}
             <VariableChipEditor
               blockMode
+              onTextSelectionChange={range => setTextSelection(range ? { range, owner: captureDocumentScope() } : null)}
               ariaLabel={`Paragraph ${index + 1}`}
               autoFocus={autoFocus}
               value={text}
@@ -548,7 +552,7 @@ const BlockRow = memo(function BlockRow({
               <ArrowDown className="h-3.5 w-3.5" />
             </Button>
           </IconTip>
-          <ParagraphCommentsButton paragraphId={paragraphId} index={index} />
+          <ParagraphCommentsButton paragraphId={paragraphId} index={index} selection={textSelection?.range} selectionOwner={textSelection?.owner} />
           <div className="flex-1" />
           <span className="mr-0.5 text-2xs text-muted-foreground tnum">{countWords(text)} w</span>
           <IconTip label="Delete paragraph">

@@ -1,3 +1,4 @@
+import { transformRangeComments } from '@/lib/reviewCommentRanges';
 import { hasReviewComments, type ReviewComments } from '@/lib/reviewComments';
 import { persistSignature, resolveSignature } from '@/lib/signatureAssets';
 import { withAttachmentStaging } from '@/lib/attachments';
@@ -201,12 +202,17 @@ export interface DocumentState {
 const getNextReferenceLetter = (refs: Reference[], offset = 0): string =>
   referenceLetterAt(refs.length + offset);
 
-function safeReferencePatch(plan: ReferenceChange): Partial<DocumentState> | null {
+function safeReferencePatch(plan: ReferenceChange, state: DocumentState): Partial<DocumentState> | null {
   if (plan.blockers.length || plan.advisories.length) {
     showAppAlert({ title: 'Review reference citations', message: [...plan.blockers, ...plan.advisories].join('\n\n') });
     return null;
   }
-  return plan.patch;
+  let reviewComments = state.reviewComments;
+  if (plan.patch.paragraphs) for (const [index, before] of state.paragraphs.entries()) {
+    const after = plan.patch.paragraphs[index];
+    if (after && after !== before) reviewComments = transformRangeComments(reviewComments, before, after);
+  }
+  return { ...plan.patch, reviewComments };
 }
 
 // Example form data for first-time visitors (one-time mode / no profile selected)
@@ -417,7 +423,7 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
         showAppAlert({ title: 'Review reference citations', message: 'Changing this document type would renumber references whose citations cannot be updated automatically. Switch first to a correspondence format that keeps the current reference letters, then review the new starting letter.' });
         return state;
       }
-      const patch = safeReferencePatch(plan);
+      const patch = safeReferencePatch(plan, state);
       if (!patch) return state;
       const next = documentTypeState(state, type);
       return { ...next, ...patch, formData: { ...next.formData, ...(patch.formData ? { via: patch.formData.via } : {}) } };
@@ -438,7 +444,7 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
     // same commit — otherwise the rows keep the previous sequence on screen.
     if (key === 'startingReferenceLetter') {
       const patch = safeReferencePatch(planReferenceChange(state, state.references.map((_, index) => index),
-        referenceStartIndex(state.docType, formData.startingReferenceLetter)));
+        referenceStartIndex(state.docType, formData.startingReferenceLetter)), state);
       return patch ? { ...patch, formData: { ...formData, ...(patch.formData ? { via: patch.formData.via } : {}) } } : state;
     }
     if (state.docType === 'tm_ietm_front_matter') {
@@ -454,7 +460,7 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
     if (data.startingReferenceLetter !== undefined) {
       const candidate = { ...state, formData: { ...formData, startingReferenceLetter: state.formData.startingReferenceLetter } };
       const patch = safeReferencePatch(planReferenceChange(candidate, state.references.map((_, index) => index),
-        referenceStartIndex(state.docType, formData.startingReferenceLetter)));
+        referenceStartIndex(state.docType, formData.startingReferenceLetter)), state);
       return patch ? { ...patch, formData: { ...formData, ...(patch.formData ? { via: patch.formData.via } : {}) } } : state;
     }
     return { formData };
@@ -552,7 +558,7 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
 
   removeReference: (index) => set((state) => {
     if (!Number.isInteger(index) || index < 0 || index >= state.references.length) return state;
-    return safeReferencePatch(planReferenceChange(state, state.references.map((_, i) => i).filter(i => i !== index))) ?? state;
+    return safeReferencePatch(planReferenceChange(state, state.references.map((_, i) => i).filter(i => i !== index)), state) ?? state;
   }),
 
   reorderReferences: (fromIndex, toIndex) => set((state) => {
@@ -560,7 +566,7 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
     const order = state.references.map((_, index) => index);
     const [moved] = order.splice(fromIndex, 1);
     order.splice(toIndex, 0, moved);
-    return safeReferencePatch(planReferenceChange(state, order)) ?? state;
+    return safeReferencePatch(planReferenceChange(state, order), state) ?? state;
   }),
 
   // Enclosures
@@ -612,9 +618,13 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
 
   removeTableFootnote: (index, noteIndex) => set((state) => withoutTableFootnote(state.paragraphs, state.publicationTables, index, noteIndex)),
 
-  updateParagraph: (index, updates) => set((state) => ({
-    paragraphs: state.paragraphs.map((p, i) => (i === index ? { ...p, ...updates, id: p.id ?? newParagraphId() } : p)),
-  })),
+  updateParagraph: (index, updates) => set((state) => {
+    const before = state.paragraphs[index];
+    const paragraphs = state.paragraphs.map((p, i) => (i === index ? { ...p, ...updates, id: p.id ?? newParagraphId() } : p));
+    const after = paragraphs[index];
+    const reviewComments = before && after ? transformRangeComments(state.reviewComments, before, after) : state.reviewComments;
+    return { paragraphs, reviewComments };
+  }),
 
   // Removing a paragraph can leave a following sub-paragraph stranded too deep
   // under its new predecessor, so re-normalize the nesting after the filter.
@@ -724,7 +734,7 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
 
   clearReferences: () => {
     debug.log('Store', 'Clearing all references');
-    set(state => safeReferencePatch(planReferenceChange(state, [])) ?? state);
+    set(state => safeReferencePatch(planReferenceChange(state, []), state) ?? state);
   },
 
   clearEnclosures: () => {

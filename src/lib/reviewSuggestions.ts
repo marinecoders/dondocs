@@ -1,3 +1,4 @@
+import { replaceReviewParagraphText } from './reviewParagraphText';
 import { z } from 'zod';
 import { feedbackCategorySchema, type FeedbackCategory } from './reviewFeedback';
 import type { SerializedSession } from '@/stores/documentStore';
@@ -242,7 +243,7 @@ export function planReviewSuggestionDecision(round: ReviewRound, source: Seriali
     const target = change.target;
     const value = resolutions?.[0].value ?? change.proposed;
     if (target.kind === 'field') Object.assign(session.formData, { [target.field]: value });
-    else if (target.kind === 'paragraph') session.paragraphs.find(paragraph => paragraph.id === target.paragraphId)!.text = value;
+    else if (target.kind === 'paragraph') replaceReviewParagraphText(session, target.paragraphId, value);
     else session.references[target.referenceIndex].title = value;
   }
   if (resolutions) state.version = 2;

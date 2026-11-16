@@ -5,6 +5,7 @@ import { capturePackageMember, preparePackageMember } from "./actionPackageAsset
 import { withAttachmentStaging } from "./attachments";
 import { captureDocumentRevision } from "./capturedDocument";
 import { sameReviewStoredValue } from "./documentsDb";
+import { transformRangeComments } from "./reviewCommentRanges";
 import { reviewPackageNative } from "./actionPackageDisclosure";
 import { assertExportDeploymentPolicy, type PolicyResolution } from "./exportDeploymentPolicy";
 import { packageCitationsSchema, type PackageCitations } from "./packageCitationSchema";
@@ -81,6 +82,14 @@ export async function commitPackageCitationRevision(
           enclosures: enclosureOrder.map(index => snapshot.enclosures[index]),
           paragraphs: snapshot.paragraphs.map((paragraph, index) => ({ ...paragraph, text: session.paragraphs[index].text, header: session.paragraphs[index].header })),
         };
+        // Only the guarded text/header changes above may derive runtime mappings.
+        // Caller-supplied discussion changes remain forbidden by the scope check.
+        for (const [index, paragraph] of snapshot.paragraphs.entries()) {
+          if (sameReviewStoredValue(paragraph, document.paragraphs[index])) continue;
+          const comments = transformRangeComments(document.reviewComments, paragraph, document.paragraphs[index]);
+          if (comments) document.reviewComments = comments;
+          else delete document.reviewComments;
+        }
         const updated = await capturePackageMember(captureDocumentRevision({
           documentId: member.id, epoch: 0, editSequence: owned.sequence + 1, capturedAt: Date.now(),
         }, document), member.label, member.role, member);

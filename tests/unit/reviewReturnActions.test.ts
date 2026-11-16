@@ -6,6 +6,7 @@ import { CLASSIFICATION_LEVELS } from '@/lib/overallClassification';
 import { triggerDownload } from '@/lib/encoding';
 import { useDocumentStore } from '@/stores/documentStore';
 import { useDocumentsStore, captureDocumentScope, changeDocumentHistory, commitCurrentDocument, flushDocumentWrites } from '@/stores/documentsStore';
+import { captureTextRange, resolveTextRange } from '@/lib/reviewTextRanges';
 import { applyCommentMutation, reviewCommentMutation } from '@/lib/reviewCommentActions';
 import { idbAddReviewRound, idbInstallReviewCopy } from '@/lib/documentsDb';
 import { type ReviewRound } from '@/lib/reviewRounds';
@@ -55,6 +56,76 @@ async function exported(): Promise<ReviewReturn> {
 }
 
 describe('captured review-return actions', () => {
+  it('preserves deletion of an unchanged returned discussion after owner paragraph edits', async () => {
+    const context = 'Reviewed plain paragraph.', paragraphId = 'range-reviewed';
+    const comments: ReviewComments = { version: 3, threads: [{ id: crypto.randomUUID(),
+      anchor: { kind: 'range', paragraphId, docType: 'naval_letter', context, start: 9, end: 14 }, resolved: false,
+      messages: [{ id: crypto.randomUUID(), author: 'Author', text: 'Original discussion.', createdAt: '2026-11-15T00:00:00Z' }] }] };
+    const { owner } = await fixture({ paragraphId, comments }), payload = await exported();
+    useDocumentsStore.getState().switchTo(owner);
+    expect(applyCommentMutation(reviewCommentMutation({ kind: 'delete', threadId: comments.threads[0].id }))).toBe('applied');
+    useDocumentStore.getState().updateParagraph(0, { text: context + ' plain' });
+    const prepared = await prepareReviewReturnImport(payload);
+    expect(prepared.plan.conflicts).toEqual([]);
+    expect(await applyReviewReturn(prepared, {})).toBe('committed');
+    expect(useDocumentStore.getState().reviewComments).toBeUndefined();
+  });
+  it.each([false, true])('discards reviewer tracking when restoring a deleted baseline discussion (owner text changed: %s)', async changed => {
+    const context = 'Reviewed plain paragraph.', paragraphId = 'range-reviewed';
+    const range = { kind: 'range' as const, paragraphId, docType: 'naval_letter', context, start: 9, end: 14 };
+    const comments: ReviewComments = { version: 3, threads: [{ id: crypto.randomUUID(), anchor: range, resolved: false,
+      messages: [{ id: crypto.randomUUID(), author: 'Author', text: 'Original discussion.', createdAt: '2026-11-15T00:00:00Z' }] }] };
+    const thread = comments.threads[0];
+    const { owner } = await fixture({ paragraphId, comments });
+    expect(applyCommentMutation(reviewCommentMutation({ kind: 'reply', threadId: thread.id, author: 'Reviewer', text: 'Returned reply.' }))).toBe('applied');
+    const payload = await exported(), currentText = context + ' plain';
+    payload.comments!.threads[0].anchor = { ...range,
+      tracking: { context: currentText, start: currentText.lastIndexOf('plain'), end: currentText.length } };
+    useDocumentsStore.getState().switchTo(owner);
+    expect(applyCommentMutation(reviewCommentMutation({ kind: 'delete', threadId: thread.id }))).toBe('applied');
+    if (changed) useDocumentStore.getState().updateParagraph(0, { text: currentText });
+    const prepared = await prepareReviewReturnImport(payload);
+    expect(prepared.plan.conflicts).toHaveLength(1);
+    expect(await applyReviewReturn(prepared, { [prepared.plan.conflicts[0].id]: 'returned' })).toBe('committed');
+    const restored = useDocumentStore.getState().reviewComments!.threads[0];
+    expect(restored.messages).toHaveLength(2);
+    expect(restored.anchor).toEqual({ ...range, ...(changed ? { detached: true } : {}) });
+    expect(restored.anchor.kind === 'range' && resolveTextRange(useDocumentStore.getState(), restored.anchor).status).toBe(changed ? 'changed' : 'current');
+  });
+  it.each([false, true])('validates new returned selection against baseline and ignores reviewer runtime tracking (owner changed: %s)', async changed => {
+    const { owner } = await fixture({ paragraphId: 'range-reviewed' });
+    const range = captureTextRange(useDocumentStore.getState(), 'range-reviewed', 9, 14)!;
+    expect(applyCommentMutation(reviewCommentMutation({ kind: 'add', range, author: 'Reviewer', text: 'Review this exact word.' }))).toBe('applied');
+    useDocumentStore.setState(state => ({ reviewComments: { ...state.reviewComments!, threads: state.reviewComments!.threads.map(thread => ({ ...thread,
+      anchor: { ...range, tracking: { context: 'plain SSN 123-45-6789', start: 0, end: 5 } },
+    })) } }));
+    const preview = await prepareReviewReturnExport();
+    expect(preview.privacy.findings.some(finding => finding.value === '123-45-6789')).toBe(true);
+    const payload = await exported();
+    useDocumentsStore.getState().switchTo(owner);
+    if (changed) useDocumentStore.getState().updateParagraph(0, { text: 'Reviewed plain paragraph. Reviewed plain paragraph.' });
+    const prepared = await prepareReviewReturnImport(payload);
+    expect(prepared.privacy.findings.some(finding => finding.value === '123-45-6789')).toBe(true);
+    expect(await applyReviewReturn(prepared, {})).toBe('committed');
+    const anchor = useDocumentStore.getState().reviewComments!.threads[0].anchor;
+    expect(anchor).toMatchObject({ ...range, ...(changed ? { detached: true } : {}) });
+    expect(anchor).not.toHaveProperty('tracking');
+  });
+  it('rejects forged original range or earlier anchor context before installing returned comments', async () => {
+    const { owner } = await fixture({ paragraphId: 'range-reviewed' });
+    const range = captureTextRange(useDocumentStore.getState(), 'range-reviewed', 9, 14)!;
+    expect(applyCommentMutation(reviewCommentMutation({ kind: 'add', range, author: 'Reviewer', text: 'Review this word.' }))).toBe('applied');
+    const payload = await exported();
+    useDocumentsStore.getState().switchTo(owner);
+    const before = useDocumentStore.getState().getSnapshot();
+    const forged = structuredClone(payload);
+    forged.comments!.threads[0].anchor = { ...range, context: 'Foreign plain paragraph', start: 8, end: 13 };
+    await expect(prepareReviewReturnImport(forged)).rejects.toThrow('reviewed baseline');
+    const history = structuredClone(payload);
+    history.comments!.threads[0].anchorHistory = [{ anchor: { ...range, paragraphId: 'foreign' }, reattachedAt: '2026-11-15T12:00:00Z' }];
+    await expect(prepareReviewReturnImport(history)).rejects.toThrow('anchor history');
+    expect(useDocumentStore.getState().getSnapshot()).toEqual(before);
+  });
   it('cancels a captured reconciliation when the author edits during handling-policy validation', async () => {
     const { owner, round } = await fixture({ subject: 'Reviewed subject' });
     const proposal = createReviewSuggestion(round, { author: 'Reviewer', label: 'Subject', changes: [

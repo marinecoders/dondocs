@@ -7,6 +7,14 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.106] — 2026-11-15
+
+### Added
+
+- Select words or a sentence in a plain native paragraph and add a comment to that exact range. Read, reply, resolve and navigate to the selected quote with the existing discussion controls.
+- Keep selected targets through supported edits outside the range and paragraph moves. Detach changed, deleted or ambiguous selections with their original quote and context; deliberately reattach a discussion to a fresh selection while retaining its earlier targets.
+- Preserve selected discussions and their retained context in drafts, encrypted shares and backups, including Undo and Redo. Clean PDF, Word and reusable templates omit review metadata. Formatted text, variables and structured blocks continue to use paragraph comments.
+
 ## [1.3.105] — 2026-11-15
 
 ### Added

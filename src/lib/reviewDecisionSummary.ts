@@ -97,7 +97,7 @@ function discussions(session: SerializedSession, version: string): SummaryDiscus
     const anchor = describeCommentAnchor(session, thread.anchor);
     return { version, target: anchor.label, category: feedbackCategoryLabel(thread.category),
       status: `${thread.resolved ? 'Resolved' : 'Open'} · ${anchor.status === 'current' ? 'Target current' : anchor.status === 'changed' ? 'Target changed' : 'Target unavailable / detached'}`,
-      context: anchor.context, current: anchor.current,
+      context: thread.anchorHistory?.length ? [anchor.context ?? '', ...thread.anchorHistory.map(previous => `Earlier selected text:\n${previous.anchor.context.slice(previous.anchor.start, previous.anchor.end)}\n\nEarlier paragraph context:\n${previous.anchor.context}`)].join('\n\n') : anchor.context, current: anchor.current,
       messages: thread.messages.map(({ author, text, createdAt, editedAt }) => ({ author, text, createdAt, editedAt })) };
   });
 }

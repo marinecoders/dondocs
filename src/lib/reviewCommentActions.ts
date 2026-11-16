@@ -2,10 +2,12 @@ import { useDocumentStore } from '@/stores/documentStore';
 import { captureDocumentTarget, isCurrentDocumentTarget, recordDocumentHistory, type DocumentTarget } from '@/stores/documentsStore';
 import { captureCommentAnchor, supportsReviewComments } from './reviewCommentTargets';
 import type { FeedbackCategory } from './reviewFeedback';
-import { reviewCommentsSchema, type CommentMessage, type ReviewComments } from './reviewComments';
+import { captureTextRange, resolveTextRange, type SelectedTextRange } from './reviewTextRanges';
+import { reviewCommentsVersion, reviewCommentsSchema, type CommentMessage, type ReviewComments } from './reviewComments';
 
 export type CommentMutation =
-  | { kind: 'add'; field?: string; paragraphId?: string; author: string; text: string; category?: FeedbackCategory }
+  | { kind: 'add'; field?: string; paragraphId?: string; range?: SelectedTextRange; author: string; text: string; category?: FeedbackCategory }
+  | { kind: 'reattach'; threadId: string; range: SelectedTextRange }
   | { kind: 'reply'; threadId: string; author: string; text: string }
   | { kind: 'edit'; threadId: string; messageId: string; text: string }
   | { kind: 'delete-reply'; threadId: string; messageId: string }
@@ -30,13 +32,21 @@ export function applyCommentMutation(request: ReviewedCommentMutation): 'applied
   const next: ReviewComments = structuredClone(state.reviewComments ?? { version: 1, threads: [] });
   const newMessage = (author: string, text: string): CommentMessage => ({ id: crypto.randomUUID(), author, text, createdAt: new Date().toISOString() });
   if (mutation.kind === 'add') {
-    const anchor = captureCommentAnchor(state, mutation.field, mutation.paragraphId);
+    const anchor = mutation.range ? !mutation.field && !mutation.paragraphId && mutation.range.start < mutation.range.end && resolveTextRange(state, mutation.range).status === 'current'
+      && JSON.stringify(captureTextRange(state, mutation.range.paragraphId, mutation.range.start, mutation.range.end)) === JSON.stringify(mutation.range) ? mutation.range : null
+      : captureCommentAnchor(state, mutation.field, mutation.paragraphId);
     if (!anchor) return 'invalid';
     next.threads.push({ id: crypto.randomUUID(), anchor, messages: [newMessage(mutation.author, mutation.text)], resolved: false, ...(mutation.category ? { category: mutation.category } : {}) });
   } else {
     const thread = next.threads.find(item => item.id === mutation.threadId);
     if (!thread) return 'invalid';
-    if (mutation.kind === 'delete') next.threads = next.threads.filter(item => item !== thread);
+    if (mutation.kind === 'reattach') {
+      if (thread.anchor.kind !== 'range' || resolveTextRange(state, thread.anchor).status === 'current'
+        || !mutation.range || mutation.range.start === mutation.range.end
+        || JSON.stringify(captureTextRange(state, mutation.range.paragraphId, mutation.range.start, mutation.range.end)) !== JSON.stringify(mutation.range)) return 'invalid';
+      thread.anchorHistory = [...(thread.anchorHistory ?? []), { anchor: thread.anchor, reattachedAt: new Date().toISOString() }];
+      thread.anchor = mutation.range;
+    } else if (mutation.kind === 'delete') next.threads = next.threads.filter(item => item !== thread);
     else if (mutation.kind === 'classify') thread.category = mutation.category;
     else if (mutation.kind === 'resolve') thread.resolved = mutation.resolved;
     else if (mutation.kind === 'reply') thread.messages.push(newMessage(mutation.author, mutation.text));
@@ -48,7 +58,7 @@ export function applyCommentMutation(request: ReviewedCommentMutation): 'applied
       else thread.messages[index] = { ...thread.messages[index], text: mutation.text, editedAt: new Date().toISOString() };
     }
   }
-  next.version = next.threads.some(thread => thread.anchor.kind === 'paragraph') ? 2 : 1;
+  next.version = reviewCommentsVersion(next.threads);
   const parsed = reviewCommentsSchema.safeParse(next);
   if (!parsed.success) return 'invalid';
   if (JSON.stringify(parsed.data) === JSON.stringify(state.reviewComments)) return 'invalid';

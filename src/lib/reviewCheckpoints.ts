@@ -46,6 +46,7 @@ export function checkpointFeedbackFields(round: ReviewRound, session: Serialized
     add(`${key}:status`, `${label} · Status`, thread.resolved ? 'Resolved' : 'Open');
     add(`${key}:category`, `${label} · Category`, feedbackCategoryLabel(thread.category));
     if (thread.anchor.kind !== 'document') add(`${key}:context`, `${label} · Retained context`, thread.anchor.context);
+    (thread.anchorHistory ?? []).forEach((previous, index) => add(`${key}:earlier-target:${index}`, `${label} · Earlier selected target`, `Selected text:\n${previous.anchor.context.slice(previous.anchor.start, previous.anchor.end)}\n\nParagraph context:\n${previous.anchor.context}`));
     thread.messages.forEach((message, index) => {
       add(`${key}:message:${message.id}:author`, `${label} · Message ${index + 1} reviewer`, message.author);
       add(`${key}:message:${message.id}:text`, `${label} · Message ${index + 1}`, message.text);

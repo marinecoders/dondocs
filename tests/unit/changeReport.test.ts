@@ -93,7 +93,7 @@ it('compares configured form answers by readable labels, keeps user identifiers 
 });
 
 it('fails explicitly for unreadable discussions and unavailable policy rather than emitting partial evidence', () => {
-  const before = getSerializedSession();before.reviewComments = { version: 3, threads: [] } as never;
+  const before = getSerializedSession();before.reviewComments = { version: 4, threads: [] } as never;
   expect(() => prepareChangeReport(capture(before), policy)).toThrow(/cannot be read completely/);
   expect(() => prepareChangeReport(capture(), { status: 'error', message: 'Policy unavailable' })).toThrow('Policy unavailable');
 });

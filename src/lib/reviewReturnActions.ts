@@ -1,3 +1,5 @@
+import { documentTextFields } from './documentFields';
+import { normalizeReturnedRangeComments } from './reviewCommentRanges';
 import { getExportDeploymentPolicy } from '@/config/classification';
 import { getSerializedSession, type SerializedSession } from '@/stores/documentStore';
 import {
@@ -63,10 +65,8 @@ function current(target: DocumentTarget): void {
 }
 type ReturnContents = Pick<ReviewReturn, 'comments' | 'createdAt'> & { handling?: ReviewReturn['handling']; proposals?: readonly ReviewSuggestion[] };
 function textFields(payload: ReturnContents) {
-  return (payload.comments?.threads ?? []).flatMap((thread, index) => [
-    ...Object.values(thread.anchor).filter((value): value is string => typeof value === 'string'),
-    ...thread.messages.flatMap(message => [message.author, message.text]),
-  ].map(value => ({ field: `Returned discussion ${index + 1}`, value })))
+  return documentTextFields({ documentCategory: 'correspondence', docType: 'naval_letter', formData: {}, reviewComments: payload.comments }, 'share')
+    .filter(field => field.path[0] === 'reviewComments').map(field => ({ field: field.label, value: field.text }))
     .concat(reviewSuggestionText(payload.proposals ?? []))
     .concat([payload.handling?.marking ?? '', ...(payload.handling?.customMarkings ?? [])].map(value => ({ field: 'Return handling marking', value })));
 }
@@ -138,7 +138,7 @@ export async function prepareReviewReturnImport(value: unknown): Promise<Prepare
   current(captured.target);
   const checked = safety(round, payload, policy);
   const plan = previous ? { status: 'ready' as const, comments: captured.session.reviewComments, conflicts: [], changedThreads: 0, addedThreads: 0, removedThreads: 0 }
-    : mergeReturnedComments(round.baseline.session.reviewComments, captured.session.reviewComments, payload.comments);
+    : mergeReturnedComments(round.baseline.session.reviewComments, captured.session.reviewComments, normalizeReturnedRangeComments(round.baseline.session, captured.session, payload.comments));
   const local = prepareChangeReport(captureChangeReport(
     { label: 'Current captured draft', title: 'Current draft', session: captured.session },
     { label: 'Proposed discussions', title: 'Current draft', session: { ...captured.session, reviewComments: plan.comments } },
@@ -154,7 +154,7 @@ export function reviewReturnPlan(prepared: PreparedReviewReturnImport, choices: 
   const owned = imports.get(prepared);
   if (!owned || owned.started || prepared.alreadyImported) throw new Error('Prepare the return again before applying it.');
   current(owned.target);
-  return mergeReturnedComments(owned.round.baseline.session.reviewComments, owned.session.reviewComments, owned.payload.comments, choices);
+  return mergeReturnedComments(owned.round.baseline.session.reviewComments, owned.session.reviewComments, normalizeReturnedRangeComments(owned.round.baseline.session, owned.session, owned.payload.comments), choices);
 }
 
 export function reviewReturnTargetLabel(prepared: PreparedReviewReturnImport, threadId: string): string {
