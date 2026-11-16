@@ -13,24 +13,46 @@ import { useReleaseUpdates } from './useReleaseUpdates';
 // Key to signal auto-restore after update reload
 export const SW_AUTO_RESTORE_KEY = 'dondocs-sw-auto-restore';
 
+type UpdateAttempt = { phase: 'saving' | 'activating' | 'waiting'; reloadRequested: boolean };
+
 function useLegacyServiceWorker() {
   const [showUpdatePrompt, setShowUpdatePrompt] = useState(false);
+  const [updating, setUpdating] = useState(false);
   // Periodic update-check interval, cancelled on unmount so dev HMR and tests
   // don't leak a 60s timer calling registration.update() against a dead component.
   const updateIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
   // The live registration, so the focus/reconnect listeners below can trigger an
   // immediate update check (not just wait for the next 60s tick).
   const registrationRef = useRef<ServiceWorkerRegistration | null>(null);
+  const mounted = useRef(true);
+  const updateAttempt = useRef<UpdateAttempt | null>(null);
   const reloading = useRef(false);
   const activationCleanup = useRef<(() => void) | null>(null);
-  const reloadOnce = useCallback(() => {
-    if (reloading.current) return;
-    reloading.current = true;
-    void flushDocumentWrites().then(() => window.location.reload()).catch(error => {
-      reloading.current = false;
-      showAppAlert({ title: 'Update paused', message: error instanceof Error ? error.message : String(error) });
-    });
+  const pauseUpdate = useCallback((attempt: UpdateAttempt, message: string) => {
+    if (!mounted.current || updateAttempt.current !== attempt) return;
+    updateAttempt.current = null;
+    reloading.current = false;
+    setUpdating(false);
+    activationCleanup.current?.();
+    activationCleanup.current = null;
+    showAppAlert({ title: 'Update paused', message });
   }, []);
+  const reloadOnce = useCallback(() => {
+    const attempt = updateAttempt.current;
+    if (!mounted.current || !attempt || attempt.phase === 'saving') return;
+    attempt.reloadRequested = true;
+    // Activation can notify synchronously. Wait for the confirmed activation
+    // request to succeed before accepting that notification as a reload.
+    if (attempt.phase !== 'waiting' || reloading.current) return;
+    reloading.current = true;
+    activationCleanup.current?.();
+    activationCleanup.current = null;
+    void flushDocumentWrites().then(() => {
+      if (mounted.current && updateAttempt.current === attempt) window.location.reload();
+    }).catch(error => {
+      pauseUpdate(attempt, error instanceof Error ? error.message : String(error));
+    });
+  }, [pauseUpdate]);
 
   const {
     needRefresh: [needRefresh],
@@ -39,6 +61,7 @@ function useLegacyServiceWorker() {
   } = useRegisterSW({
     onNeedReload: reloadOnce,
     onRegisteredSW(swUrl, registration) {
+      if (!mounted.current) return;
       console.log('[SW] Registered:', swUrl);
 
       // Poll for updates every 60s. Clear any prior interval in case
@@ -58,50 +81,44 @@ function useLegacyServiceWorker() {
     },
   });
 
-  const activateUpdate = useCallback(async (update: ((reload?: boolean) => Promise<void>) | null) => {
+  const activateUpdate = useCallback(async (update: ((reload?: boolean) => Promise<void>) | null, attempt: UpdateAttempt) => {
     await flushDocumentWrites();
+    if (!mounted.current || updateAttempt.current !== attempt) return;
     // Resolve the live registration at confirmation time; the prompt can arrive
     // before the registration callback exposes the waiting worker.
     const registration = await navigator.serviceWorker?.getRegistration?.() ?? registrationRef.current;
-    const offered = registration?.waiting ?? registration?.installing ?? registration?.active;
-    if (offered) {
-      activationCleanup.current?.();
-      const activated = () => {
-        if (offered.state !== 'activated') return;
-        activationCleanup.current?.();
-        reloadOnce();
-      };
-      offered.addEventListener('statechange', activated);
-      activationCleanup.current = () => offered.removeEventListener('statechange', activated);
-      activated();
-    }
-    await update?.(true);
-  }, [reloadOnce]);
-
-  // A first-install tab is uncontrolled until navigation. Without clientsClaim,
-  // activating an update does not send it controllerchange. Observe the offered
-  // worker as well so this tab reloads once activation has actually completed.
-  useEffect(() => {
+    if (!mounted.current || updateAttempt.current !== attempt) return;
+    attempt.phase = 'activating';
     const worker = navigator.serviceWorker;
-    if (!needRefresh || !worker) return;
-    const registration = registrationRef.current;
-    const waiting = registration?.waiting ?? registration?.installing ?? registration?.active;
-    const onStateChange = () => {
-      if (waiting?.state === 'activated') reloadOnce();
+    const offered = registration?.waiting ?? registration?.installing ?? registration?.active;
+    const notify = () => {
+      if (mounted.current && updateAttempt.current === attempt) reloadOnce();
     };
-    worker.addEventListener('controllerchange', reloadOnce);
-    waiting?.addEventListener('statechange', onStateChange);
-    onStateChange();
-    return () => {
-      worker.removeEventListener('controllerchange', reloadOnce);
-      waiting?.removeEventListener('statechange', onStateChange);
+    // A first-install tab may receive no controllerchange without clientsClaim.
+    // Observe only this confirmed attempt's live offered worker as well.
+    const onActivated = () => { if (offered?.state === 'activated') notify(); };
+    worker?.addEventListener('controllerchange', notify);
+    offered?.addEventListener('statechange', onActivated);
+    activationCleanup.current = () => {
+      worker?.removeEventListener('controllerchange', notify);
+      offered?.removeEventListener('statechange', onActivated);
     };
-  }, [needRefresh, reloadOnce]);
+    await update?.(true);
+    if (!mounted.current || updateAttempt.current !== attempt) return;
+    attempt.phase = 'waiting';
+    onActivated();
+    if (attempt.reloadRequested) reloadOnce();
+  }, [reloadOnce]);
 
   // Clean up the update-check interval on unmount.
   useEffect(() => {
+    mounted.current = true;
     return () => {
+      mounted.current = false;
+      updateAttempt.current = null;
+      reloading.current = false;
       activationCleanup.current?.();
+      activationCleanup.current = null;
       if (updateIntervalRef.current) {
         clearInterval(updateIntervalRef.current);
         updateIntervalRef.current = null;
@@ -140,12 +157,16 @@ function useLegacyServiceWorker() {
   // User confirms the update, so reload. documentsStore.init auto-resumes the open
   // document, so there's no restore prompt to pre-empt.
   const confirmUpdate = useCallback(() => {
+    if (!mounted.current || updateAttempt.current) return;
+    const attempt: UpdateAttempt = { phase: 'saving', reloadRequested: false };
+    updateAttempt.current = attempt;
+    setUpdating(true);
     console.log('[SW] User confirmed update, reloading');
     setShowUpdatePrompt(false);
-    void activateUpdate(updateServiceWorker).catch(error => {
-      showAppAlert({ title: 'Update paused', message: String(error) });
+    void activateUpdate(updateServiceWorker, attempt).catch(error => {
+      pauseUpdate(attempt, String(error));
     });
-  }, [updateServiceWorker, activateUpdate]);
+  }, [updateServiceWorker, activateUpdate, pauseUpdate]);
 
   // User dismisses update prompt (update later)
   const dismissUpdatePrompt = useCallback(() => {
@@ -159,7 +180,7 @@ function useLegacyServiceWorker() {
     confirmUpdate,
     dismissUpdatePrompt,
     offlineReady,
-    updating: false,
+    updating,
   };
 }
 
