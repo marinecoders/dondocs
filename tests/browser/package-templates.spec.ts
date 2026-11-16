@@ -1,4 +1,5 @@
 import { expect, test, type Page } from '@playwright/test';
+import { capturePackageDocument } from '../_helpers/capturePackageDocument';
 import { PDFDocument, StandardFonts } from 'pdf-lib';
 import { readFile, writeFile } from 'node:fs/promises';
 import { getDocument } from 'pdfjs-dist/legacy/build/pdf.mjs';
@@ -33,7 +34,7 @@ for (const theme of ['light', 'dark']) {
     let dialog = await openPackages(page);
     await dialog.getByLabel('Package name', { exact: true }).fill('Training action starter');
     await dialog.getByRole('button', { name: 'Create package', exact: true }).click();
-    await dialog.getByRole('button', { name: 'Capture current document', exact: true }).click();
+    await capturePackageDocument(dialog);
     await expect(dialog.getByRole('heading', { name: '1. ACTION FOR {{NAME}}', exact: true })).toBeVisible();
     const pdf = await PDFDocument.create(); const pdfPage = pdf.addPage([612, 792]);
     pdfPage.drawText('FRESH TRAINING ENCLOSURE', { x: 40, y: 730, font: await pdf.embedFont(StandardFonts.Helvetica), size: 12 });
@@ -112,7 +113,7 @@ test('native enclosure replacements are required and only fresh bytes reach the 
   const dialog = await openPackages(page);
   await dialog.getByLabel('Package name', { exact: true }).fill('Native source action');
   await dialog.getByRole('button', { name: 'Create package', exact: true }).click();
-  await dialog.getByRole('button', { name: 'Capture current document', exact: true }).click();
+  await capturePackageDocument(dialog);
   await expect(dialog.getByRole('heading', { name: '1. NATIVE ENCLOSURE STARTER', exact: true })).toBeVisible();
   await dialog.locator('summary').filter({ hasText: 'Reusable package templates' }).click();
   const panel = dialog.getByRole('region', { name: 'Reusable package templates', exact: true });
