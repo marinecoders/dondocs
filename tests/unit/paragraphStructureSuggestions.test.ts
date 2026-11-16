@@ -50,14 +50,12 @@ describe('paragraph insertion/deletion suggestions', () => {
     const redo = planReviewSuggestionWrite(round, undo.session, history(round, undo.state, plan.state.decisions[0].id, 'redo'), plan.session);
     expect(redo.session).toEqual(plan.session);expect(redo.state.decisions.at(-1)?.action).toBe('restored');
   });
-  it('retains an existing structured leaf and resource handle for Undo', () => {
-    const { session, round, make, stateFor } = fixture();
+  it('refuses resource-bearing figure deletion explicitly, preserving all original resources', () => {
+    const { session, round, make } = fixture();
     session.paragraphs[1].figure = { name: 'Synthetic figure', fileRef: { id: 'figure-file', name: 'example.png', size: 8, type: 'image/png' }, portionMarking: 'U' };
-    round.baseline.session = structuredClone(session);
-    const proposal = make({ kind: 'delete-paragraph', paragraphId: 'second' });
-    const plan = planReviewSuggestionDecision(round, session, stateFor(proposal), proposal.id, 'accepted');
-    expect(plan.status).toBe('ready');
-    expect(planReviewSuggestionWrite(round, plan.session, history(round, plan.state, plan.state.decisions[0].id, 'undo'), session).session).toEqual(session);
+    round.baseline.session = structuredClone(session);const before=structuredClone(session);
+    expect(() => make({ kind: 'delete-paragraph', paragraphId: 'second' })).toThrow(/Figure paragraphs.*add a comment/);
+    expect(session).toEqual(before);
   });
   it('detaches removed range anchors without losing paragraph discussion context and verifies full discussion replay on Undo', () => {
     const { session, round, make, stateFor } = fixture();

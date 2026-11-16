@@ -61,7 +61,10 @@ function assertOperation(target: ReviewStructureTarget): void {
     if (operation.before.length !== 0 || operation.after.length !== 1 || !paragraph
       || Object.keys(paragraph).some(key => !['id', 'text', 'level'].includes(key)) || !supportsPlainTextRange(paragraph)
       || !paragraph.text.trim()) throw new Error('Insert one nonempty plain native paragraph. Formatting, variables and structured blocks are not supported for new paragraphs.');
-  } else if (operation.before.length !== 1 || operation.after.length !== 0) throw new Error('Delete exactly one leaf paragraph.');
+  } else {
+    if (operation.before.length !== 1 || operation.after.length !== 0) throw new Error('Delete exactly one leaf paragraph.');
+    if (operation.before[0].figure) throw new Error('Figure paragraphs require resource-aware structural review. Keep the paragraph and add a comment describing the deletion.');
+  }
 }
 /** Locate an exact gap/span by stable IDs. Neighbor text edits survive; moved,
  * removed, indented or interposed neighbors invalidate the captured operation. */
@@ -108,7 +111,7 @@ export function validateReviewStructureTarget(baseline: SerializedSession, input
   for (const id of structureNewIds(target)) if (reserved.has(id)) throw new Error('The new paragraph identity is already reserved by document content or discussion history.');
   return target;
 }
-export function applyReviewStructure(source: SerializedSession, input: ReviewStructureTarget, direction: 'forward' | 'reverse' = 'forward', reservedIds: readonly string[] = []): SerializedSession {
+export function applyReviewStructure(source: SerializedSession, input: ReviewStructureTarget, direction: 'forward' | 'reverse' = 'forward', reservedIds: readonly string[] = [], historyReplay = false): SerializedSession {
   const target = reviewStructureTargetSchema.parse(input);assertOperation(target);
   const { start, before, after } = locate(source, target, direction);
   const retained = new Set(before.map(paragraph => paragraph.id));
@@ -116,7 +119,7 @@ export function applyReviewStructure(source: SerializedSession, input: ReviewStr
   for (const paragraph of after) if (!retained.has(paragraph.id) && occupied.has(paragraph.id)
     // An inverse deletion restores the exact captured ID and discussions; never
     // use the inverse outside a tagged, independently verified history action.
-    && !(direction === 'reverse' && target.operation.kind === 'delete-paragraph'
+    && !((direction === 'reverse' && target.operation.kind === 'delete-paragraph' || historyReplay && direction === 'forward' && structureNewIds(target).includes(paragraph.id!))
       && !source.paragraphs.some(current => current.id === paragraph.id))) throw new Error('The new paragraph identity is already reserved.');
   const session = structuredClone(source);
   session.paragraphs.splice(start, before.length, ...structuredClone(after));
@@ -125,6 +128,11 @@ export function applyReviewStructure(source: SerializedSession, input: ReviewStr
     if (comments) session.reviewComments = comments;
   }
   return session;
+}
+/** Proposal/import preflight checks identity reservations even when position is stale. */
+export function assertReviewStructureNewIdsAvailable(source: SerializedSession, target: ReviewStructureTarget, reservedIds: readonly string[] = []): void {
+  const occupied = new Set([...source.paragraphs.map(paragraph => paragraph.id), ...paragraphCommentIds(source.reviewComments), ...reservedIds]);
+  if (structureNewIds(target).some(id => occupied.has(id))) throw new Error('The new paragraph identity is already reserved by current content, history or another review operation.');
 }
 export function inspectReviewStructure(source: SerializedSession, target: ReviewStructureTarget, direction: 'forward' | 'reverse' = 'forward', reservedIds: readonly string[] = []): boolean {
   try { applyReviewStructure(source, target, direction, reservedIds);return true; } catch { return false; }

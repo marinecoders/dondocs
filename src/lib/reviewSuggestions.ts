@@ -448,7 +448,7 @@ export function planReviewSuggestionHistory(round: ReviewRound, before: Serializ
   }
   for (const change of proposal.changes) {
     if (change.target.kind === 'structure') {
-      const derived = applyReviewStructure(before, change.target, direction === 'undo' ? 'reverse' : 'forward', reviewStructureReservedIds(state, proposal.id));
+      const derived = applyReviewStructure(before, change.target, direction === 'undo' ? 'reverse' : 'forward', reviewStructureReservedIds(state, proposal.id), true);
       if (canonicalReviewPayload(derived.paragraphs) !== canonicalReviewPayload(after.paragraphs)) throw new Error('This history action does not reverse only the accepted paragraph operation.');
       continue;
     }
