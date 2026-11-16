@@ -41,7 +41,8 @@ export function VoiceLetterInput({ onInsert }: { onInsert: (text: string) => voi
 
   function start() {
     if (!Constructor || active.current) return;
-    setText(''); setInterim(''); setError('');
+    const previousText = text.trim();
+    setInterim(''); setError('');
     let recognition: Recognition;
     try { recognition = new Constructor(); }
     catch { setError('This browser could not open speech recognition. You can type or paste text instead.'); return; }
@@ -60,7 +61,7 @@ export function VoiceLetterInput({ onInsert }: { onInsert: (text: string) => voi
         const result = event.results[index];
         (result.isFinal ? final : pending).push(result[0].transcript);
       }
-      const value = final.join(' ').trim();
+      const value = [previousText, final.join(' ').trim()].filter(Boolean).join('\n');
       setText(value.slice(0, MAX_TRANSCRIPT)); setInterim(pending.join(' ').slice(0, 2000));
       if (value.length > MAX_TRANSCRIPT) {
         setError('The transcript reached its 50,000-character limit. Review it before inserting.');

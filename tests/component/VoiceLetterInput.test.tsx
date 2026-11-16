@@ -78,4 +78,15 @@ describe('optional reviewed dictation', () => {
       expect(speech.abort).toHaveBeenCalledOnce();
     } finally { vi.useRealTimers(); }
   });
+  it('preserves a corrected transcript and appends a subsequent recording once', () => {
+    render(<VoiceLetterInput onInsert={vi.fn()} />);
+    const transcript = screen.getByRole('textbox', { name: 'Review dictated text' });
+    fireEvent.change(transcript, { target: { value: 'Corrected existing text.' } });
+    fireEvent.click(screen.getByRole('button', { name: 'Start dictation' }));
+    expect(transcript).toHaveValue('Corrected existing text.');
+    const speech = SpeechDouble.instances[0];
+    act(() => speech.result('Additional words.'));
+    act(() => speech.result('Additional words.'));
+    expect(transcript).toHaveValue('Corrected existing text.\nAdditional words.');
+  });
 });
