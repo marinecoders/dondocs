@@ -35,3 +35,30 @@ for (const kind of ['blocked marking', 'privacy review'] as const) {
     }
   });
 }
+
+test('requires a rendered signing preview before accepting page review', async ({ page, context }) => {
+  let releasePreview!: () => void;
+  const previewGate = new Promise<void>(resolve => { releasePreview = resolve; });
+  let blockedWorkers = 0;
+  await context.route('**/lib/pdf.worker.min.mjs*', async route => {
+    blockedWorkers++;await previewGate;await route.continue();
+  });
+  try {
+    await page.addInitScript(() => localStorage.setItem('browser-test-visitor', 'returning'));
+    const pdf = await PDFDocument.create(), font = await pdf.embedFont(StandardFonts.Helvetica);
+    pdf.addPage([400, 600]).drawText('SYNTHETIC PREVIEW READINESS', { x: 20, y: 500, font, size: 12 });
+    await page.goto('/');await page.getByRole('button', { name: 'Download', exact: true }).click();
+    await page.getByRole('menuitem', { name: 'Signing workspace', exact: true }).click();
+    const dialog = page.getByRole('dialog', { name: 'Signing workspace', exact: true });
+    await dialog.getByLabel('Unsigned PDF for signing').setInputFiles({ name: 'Preview.pdf', mimeType: 'application/pdf', buffer: Buffer.from(await pdf.save()) });
+    await expect(dialog.getByText('Exact source PDF saved. Add the fields you need.')).toBeVisible();
+    await expect.poll(() => blockedWorkers).toBeGreaterThan(0);
+    const reviewed = dialog.getByRole('checkbox', { name: /^I reviewed every page,/ });
+    await expect(reviewed).toBeDisabled();
+    await expect(dialog.getByRole('button', { name: 'Download unchanged source PDF', exact: true })).toBeDisabled();
+    releasePreview();
+    await expect(reviewed).toBeEnabled();await reviewed.check();
+    await expect(reviewed).toBeChecked();
+    await expect(dialog.getByRole('button', { name: 'Download unchanged source PDF', exact: true })).toBeEnabled();
+  } finally { releasePreview(); }
+});

@@ -1,6 +1,5 @@
-import { useEffect, useRef, useState } from 'react';
-import { Document, Page } from 'react-pdf';
-import { HARDENED_PDF_OPTIONS } from '@/components/pdf/pdfConfig';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { SigningPdfPreview } from '@/components/SigningPdfPreview';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { base64ToUint8Array, triggerDownload } from '@/lib/encoding';
@@ -25,7 +24,8 @@ function SigningEditor({ initialRecordId }: { initialRecordId?: string }) {
   const [record, setRecord] = useState<SigningRecord | null>(null);
   const [fields, setFields] = useState<ManualSignature[]>([]);
   const [page, setPage] = useState(0), [zoom, setZoom] = useState(1);
-  const [selected, setSelected] = useState(''), [url, setUrl] = useState('');
+  const [selected, setSelected] = useState('');
+  const [preview, setPreview] = useState<{ key: string; ready: boolean } | null>(null);
   const [busy, setBusy] = useState(false), [error, setError] = useState(''), [notice, setNotice] = useState('');
   const [reviewed, setReviewed] = useState(false);
   const request = useRef(0);
@@ -42,14 +42,13 @@ function SigningEditor({ initialRecordId }: { initialRecordId?: string }) {
       .catch(cause => { if (generation === owner.current) setError(cause instanceof Error ? cause.message : 'Saved signing drafts could not be opened.'); });
     return () => { owner.current++; };
   }, [initialRecordId]);
-  const sourceData = record?.source.data, sourceId = record?.id;
-  useEffect(() => {
-    if (!sourceData) return;
-    let active = true;
-    const next = URL.createObjectURL(new Blob([new Uint8Array(base64ToUint8Array(sourceData))], { type: 'application/pdf' }));
-    queueMicrotask(() => { if (active) setUrl(next); });
-    return () => { active = false;URL.revokeObjectURL(next); };
-  }, [sourceData, sourceId]);
+  const sourceKey = record ? `${record.id}:${record.source.sha256}` : '';
+  const previewKey = `${sourceKey}:${page}:${zoom}`;
+  const previewReady = preview?.key === previewKey && preview.ready;
+  const previewReadiness = useCallback((ready: boolean) => {
+    setPreview(current => current?.key === previewKey && current.ready === ready ? current : { key: previewKey, ready });
+    if (!ready) setReviewed(false);
+  }, [previewKey]);
 
   async function run(operation: () => Promise<void>) {
     if (working.current) return;
@@ -67,7 +66,7 @@ function SigningEditor({ initialRecordId }: { initialRecordId?: string }) {
     setNotice('Signature placement saved in this browser.');return saved;
   }
   function runPdf(operation: () => Promise<{ bytes: Uint8Array; filename: string; metadata?: unknown } | null>) {
-    if (working.current) return;
+    if (working.current || !reviewed || !previewReady) return;
     let lease = reserveSigningPdfDownload();
     void run(async () => {
       const generation = request.current;
@@ -148,12 +147,11 @@ function SigningEditor({ initialRecordId }: { initialRecordId?: string }) {
       </div>
       <div className="grid gap-4 md:grid-cols-[minmax(0,1fr)_15rem]">
         <div className="overflow-auto rounded border bg-muted p-2" role="region" tabIndex={0} aria-label="Signing PDF preview">
-          {url && <Document file={url} options={HARDENED_PDF_OPTIONS} loading="Opening saved PDF…" error="The saved PDF preview could not be rendered."><div className="relative" style={{ width: previewWidth, height: previewHeight }}>
-            <Page pageNumber={page + 1} width={previewWidth} devicePixelRatio={Math.min(window.devicePixelRatio || 1, 1.5)} renderTextLayer={false} renderAnnotationLayer={false} />
+          <SigningPdfPreview key={sourceKey} data={record.source.data} page={page} width={previewWidth} height={previewHeight} onReadiness={previewReadiness}>
             {fields.filter(value => value.page === page).map(value => <button key={value.id} type="button" aria-label={`Select signature box for ${value.signer}`} aria-pressed={value.id === selected} onClick={() => setSelected(value.id)}
               className={`absolute overflow-hidden border-2 px-1 text-left text-xs ${value.id === selected ? 'border-blue-700 bg-blue-100/80 text-blue-950' : 'border-slate-700 bg-white/80 text-slate-950'}`}
               style={{ left: `${value.x * 100}%`, top: `${value.y * 100}%`, width: `${value.width * 100}%`, height: `${value.height * 100}%` }}>{value.signer}</button>)}
-          </div></Document>}
+          </SigningPdfPreview>
         </div>
         <div className="space-y-3">
           {!!fields.length && <label className="block text-sm">Signature box<select className="mt-1 w-full rounded border p-2" value={selected} onChange={event => { setSelected(event.target.value);const next = fields.find(value => value.id === event.target.value);if (next) setPage(next.page); }}>{fields.map((value, index) => <option key={value.id} value={value.id}>{index + 1}. {value.signer} · page {value.page + 1}</option>)}</select></label>}
@@ -167,19 +165,19 @@ function SigningEditor({ initialRecordId }: { initialRecordId?: string }) {
         </div>
       </div>
       <div className="flex flex-wrap gap-2"><Button disabled={busy} onClick={() => void run(async () => { await save(); })}>Save signature placement</Button></div>
-      <label className="flex items-start gap-2 text-sm"><input type="checkbox" checked={reviewed} onChange={event => setReviewed(event.target.checked)} />I reviewed every page, signer assignments, signature placement, personal information and document markings, including text inside images.</label>
-      <div className="flex flex-wrap gap-2"><Button disabled={busy || !reviewed || !hasSignatureFields} onClick={() => runPdf(async () => {
+      <label className="flex items-start gap-2 text-sm"><input type="checkbox" checked={reviewed} disabled={busy || !previewReady} onChange={event => setReviewed(event.target.checked)} />I reviewed every page, signer assignments, signature placement, personal information and document markings, including text inside images.</label>
+      <div className="flex flex-wrap gap-2"><Button disabled={busy || !reviewed || !previewReady || !hasSignatureFields} onClick={() => runPdf(async () => {
         const saved = await save();if (!saved) return null;
         const generation = request.current, bytes = await placeManualSignatureFields(base64ToUint8Array(saved.source.data), saved.fields);
         if (generation !== request.current) return null;
         return { bytes, filename: `signing-${saved.source.filename}`, metadata: { fields: saved.fields, existingFieldNames: saved.source.existingFieldNames } };
       })}>Download PDF with signature boxes</Button>
-        <Button variant="outline" disabled={busy || !reviewed} onClick={() => runPdf(async () => ({ bytes: base64ToUint8Array(record.source.data), filename: record.source.filename, metadata: { existingFieldNames: record.source.existingFieldNames } }))}>Download unchanged source PDF</Button>
+        <Button variant="outline" disabled={busy || !reviewed || !previewReady} onClick={() => runPdf(async () => ({ bytes: base64ToUint8Array(record.source.data), filename: record.source.filename, metadata: { existingFieldNames: record.source.existingFieldNames } }))}>Download unchanged source PDF</Button>
       </div>
       <section aria-label="Saved signing handoffs" className="space-y-3 rounded border p-3">
         <h3 className="font-medium">Signing handoffs</h3>
         <p className="text-sm">Save a handoff to freeze its PDF and signer assignments. The ZIP contains that exact PDF, its manifest and signing instructions. Downloads are unencrypted.</p>
-        <Button disabled={busy || !reviewed || !hasSignatureFields || (record.handoffs?.length ?? 0) >= 10} onClick={() => void run(async () => {
+        <Button disabled={busy || !reviewed || !previewReady || !hasSignatureFields || (record.handoffs?.length ?? 0) >= 10} onClick={() => void run(async () => {
           const saved = await save();if (!saved) return;
           const generation = request.current, next = await createSigningHandoff(saved, () => generation === request.current);
           if (generation !== request.current) return;
@@ -189,7 +187,7 @@ function SigningEditor({ initialRecordId }: { initialRecordId?: string }) {
           <p className="text-sm">Handoff {index + 1} · {new Date(handoff.createdAt).toLocaleString()}</p>
           <p className="break-all text-xs">PDF SHA-256: {handoff.pdf.sha256}</p>
           <p className="text-xs">Signers: {[...(record.source.existingSignatureNames ?? []), ...handoff.fields.map(value => value.signer)].join(', ')}</p>
-          <Button variant="outline" disabled={busy || !reviewed} onClick={() => void run(async () => {
+          <Button variant="outline" disabled={busy || !reviewed || !previewReady} onClick={() => void run(async () => {
             const generation = request.current;
             await confirmSigningDisclosure(signingRecordDisclosure({ sourceRevision: record.sourceRevision, handoff }), () => generation === request.current);
             const bytes = await downloadSigningHandoff(record, handoff.id);
@@ -197,7 +195,7 @@ function SigningEditor({ initialRecordId }: { initialRecordId?: string }) {
           })}>Download handoff {index + 1}</Button>
         </div>)}
         <p className="text-xs">A signing record download includes the source PDF, every saved handoff, and every associated return, even when their content differs from the current editor. Review all retained versions before transferring the file.</p>
-        <Button variant="outline" disabled={busy || !reviewed} onClick={() => void run(async () => {
+        <Button variant="outline" disabled={busy || !reviewed || !previewReady} onClick={() => void run(async () => {
           const generation = request.current;
           await confirmSigningDisclosure(signingRecordDisclosure(record), () => generation === request.current);
           const bytes = await exportSigningRecord(record);
