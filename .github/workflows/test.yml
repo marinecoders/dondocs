@@ -170,10 +170,10 @@ jobs:
         # Keep the limit close to the observed total so accidental dependencies,
         # test imports, duplicated modules and tree-shaking regressions fail CI.
         run: |
-          # Reviewed document workflow output measures 5,380,322 bytes across 42 JS chunks.
+          # Reviewed document workflow output measures 5,452,937 bytes across 54 JS chunks.
           # The feature uses the existing library graph; OCR assets remain local and on demand.
           # Keep approximately 1% headroom over measured production JavaScript.
-          BUDGET_BYTES=5434126   # measured output plus 1% headroom
+          BUDGET_BYTES=5507467   # measured output plus 1% headroom
           TOTAL=$(find dist/assets -name "*.js" -exec stat -c %s {} \; | awk '{s+=$1} END {print s+0}')
           echo "Total dist/assets JS: $TOTAL bytes (budget: $BUDGET_BYTES)"
           if [ "$TOTAL" -gt "$BUDGET_BYTES" ]; then

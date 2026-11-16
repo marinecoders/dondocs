@@ -3,7 +3,7 @@ import { runFileImport } from '@/lib/fileImports';
 import { DraftIdentity } from './DraftIdentity';
 import { DocumentNavigation } from './DocumentNavigation';
 import { DocumentTypeSelector } from '@/components/editor/DocumentTypeSelector';
-import { useState, useCallback, useRef, useEffect, type ChangeEvent, type ReactNode } from 'react';
+import { useState, useCallback, useRef, useEffect, lazy, Suspense, type ChangeEvent, type ReactNode } from 'react';
 import { PanelLeft, MoreHorizontal, Copy, History, Wrench, Download, FileText, Braces, RefreshCw, Save, RotateCcw, Layers, Search, FileDown, FileUp, Undo2, Redo2, Eraser, Compass, PanelRight, Link2, FileInput, Loader2, FolderOpen } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
@@ -49,8 +49,12 @@ import { STORAGE_KEYS } from '@/lib/constants';
 import { useTourStore } from '@/stores/tourStore';
 import { capabilityAvailable, documentCapabilities } from '@/lib/documentCapabilities';
 import { useOutputCapabilities } from '@/hooks/useOutputCapabilities';
+import { subscribeSigningCapture } from '@/lib/signingCaptureEvents';
+
+const SigningWorkspace = lazy(() => import('@/components/modals/SigningWorkspace'));
 
 interface HeaderProps {
+  onPrepareSigning?: () => void;
   onDownloadPdf?: () => void;
   onDownloadTex?: () => void;
   onDownloadDocx?: () => void;
@@ -81,6 +85,7 @@ function HeaderTip({ label, children }: { label: ReactNode; children: ReactNode 
 }
 
 export function Header({
+  onPrepareSigning,
   onDownloadPdf,
   onDownloadTex,
   onDownloadDocx,
@@ -124,6 +129,9 @@ export function Header({
   const [showResetDialog, setShowResetDialog] = useState(false);
   const [showClearFieldsDialog, setShowClearFieldsDialog] = useState(false);
   const [formattingOpen, setFormattingOpen] = useState(false);
+  const [signingOpen, setSigningOpen] = useState(false);
+  const [capturedSigningId, setCapturedSigningId] = useState<string>();
+  useEffect(() => subscribeSigningCapture(id => { setCapturedSigningId(id);setSigningOpen(true); }), []);
   const [saveStatus, setSaveStatus] = useState<string | null>(null);
   // Pending "clear saveStatus" timeout, tracked so we can cancel it when a new
   // flash replaces an in-flight one and clear it on unmount.
@@ -324,6 +332,8 @@ export function Header({
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
+              <DropdownMenuItem onClick={() => { setCapturedSigningId(undefined);setSigningOpen(true); }}>Signing workspace</DropdownMenuItem>
+              {onPrepareSigning && <DropdownMenuItem disabled={isPdfGenerating || !capabilityAvailable(output.pdf)} onClick={onPrepareSigning}>Prepare current draft for signing</DropdownMenuItem>}
               <DropdownMenuItem
                 onClick={handleDownloadPdf}
                 disabled={isPdfGenerating || !capabilityAvailable(output.pdf)}
@@ -462,6 +472,7 @@ export function Header({
             </DropdownMenuContent>
           </DropdownMenu>
       </div>
+      {signingOpen && <Suspense fallback={<p role="status">Opening signing workspace…</p>}><SigningWorkspace open initialRecordId={capturedSigningId} onOpenChange={setSigningOpen} /></Suspense>}
       <Dialog open={formattingOpen} onOpenChange={setFormattingOpen}>
         <DialogContent className="sm:max-w-md max-h-[85dvh] overflow-y-auto">
           <DialogHeader><DialogTitle>Document formatting</DialogTitle><DialogDescription>Formatting for this correspondence. Changes are applied to the current draft.</DialogDescription></DialogHeader>

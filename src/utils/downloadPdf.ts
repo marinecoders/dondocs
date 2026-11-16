@@ -22,10 +22,11 @@ import { showAppAlert } from '@/stores/alertStore';
  * The data URL is embedded in the anchor href, triggering browser's
  * native download behavior.
  */
-function downloadViaDataUrl(blob: Blob, filename: string): Promise<boolean> {
+function downloadViaDataUrl(blob: Blob, filename: string, isCurrent: () => boolean = () => true): Promise<boolean> {
   return new Promise((resolve) => {
     const reader = new FileReader();
     reader.onload = function(event) {
+      if (!isCurrent()) { resolve(false); return; }
       const dataUrl = event.target?.result as string;
       const a = document.createElement('a');
       a.href = dataUrl;
@@ -49,10 +50,11 @@ function downloadViaDataUrl(blob: Blob, filename: string): Promise<boolean> {
  * the PDF preview available and gives the user an explicit file download link.
  * If popups are blocked, fall back to a download without navigating the editor.
  */
-function openViaDataUrlInNewWindow(blob: Blob, filename: string, prepared?: Window | null): Promise<boolean> {
+function openViaDataUrlInNewWindow(blob: Blob, filename: string, prepared?: Window | null, isCurrent: () => boolean = () => true): Promise<boolean> {
   return new Promise((resolve) => {
     const reader = new FileReader();
     reader.onload = function() {
+      if (!isCurrent()) { if (prepared && !prepared.closed) prepared.close(); resolve(false); return; }
       const dataUrl = reader.result;
       if (typeof dataUrl !== 'string') {
         prepared?.close();
@@ -62,7 +64,7 @@ function openViaDataUrlInNewWindow(blob: Blob, filename: string, prepared?: Wind
       try {
         const target = prepared && !prepared.closed ? prepared : window.open('', '_blank');
         if (!target) {
-          void downloadViaDataUrl(new Blob([blob], { type: 'application/octet-stream' }), filename).then(resolve);
+          void downloadViaDataUrl(new Blob([blob], { type: 'application/octet-stream' }), filename, isCurrent).then(resolve);
           return;
         }
         target.opener = null;
@@ -126,8 +128,10 @@ function downloadViaBlobAnchor(blob: Blob, filename: string): void {
 export async function downloadPdfBlob(
   blob: Blob,
   filename: string = 'correspondence.pdf',
-  preOpenedWindow?: Window | null
+  preOpenedWindow?: Window | null,
+  isCurrent: () => boolean = () => true
 ): Promise<boolean> {
+  if (!isCurrent()) { if (preOpenedWindow && !preOpenedWindow.closed) preOpenedWindow.close(); return false; }
   const device = getDeviceInfo();
   const strategy = getPdfDownloadStrategy(device);
   if (strategy !== 'data-url-window') preOpenedWindow?.close();
@@ -175,7 +179,8 @@ export async function downloadPdfBlob(
       // Chrome iOS, Firefox iOS: Use FileReader + data URL + window.open
       console.log('[downloadPdf] Using data URL + window.open approach');
       const pdfBlob = new Blob([blob], { type: 'application/pdf' });
-      const success = await openViaDataUrlInNewWindow(pdfBlob, filename, preOpenedWindow);
+      const success = await openViaDataUrlInNewWindow(pdfBlob, filename, preOpenedWindow, isCurrent);
+      if (!isCurrent()) return false;
       
       if (!success) {
         // Fallback to blob anchor (probably won't work but try anyway)
@@ -189,7 +194,8 @@ export async function downloadPdfBlob(
       // Android: Use FileReader + data URL + anchor click
       console.log('[downloadPdf] Using data URL + anchor approach');
       const downloadBlob = new Blob([blob], { type: 'application/octet-stream' });
-      const success = await downloadViaDataUrl(downloadBlob, filename);
+      const success = await downloadViaDataUrl(downloadBlob, filename, isCurrent);
+      if (!isCurrent()) return false;
       
       if (!success) {
         // Fallback to blob anchor

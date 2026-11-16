@@ -3,7 +3,7 @@ import {
   PDFName,
   PDFDict,
   PDFArray,
-  PDFString,
+  PDFHexString,
   PDFNumber,
   type PDFPage,
 } from 'pdf-lib';
@@ -78,7 +78,7 @@ export function addSignatureFieldToPage(
     Type: PDFName.of('Annot'),
     Subtype: PDFName.of('Widget'),
     FT: PDFName.of('Sig'),
-    T: PDFString.of(name),
+    T: PDFHexString.fromText(name),
     Rect: rect,
     F: 4, // Print
     P: pageRef,

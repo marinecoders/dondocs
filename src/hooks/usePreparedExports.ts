@@ -31,13 +31,27 @@ export function usePreparedExports({ isReady, gate, compile, waitForReady, setPr
   const engineReady = useRef(isReady);
   useLayoutEffect(() => { engineReady.current = isReady; }, [isReady]);
   const [owner] = useState(() => {
+    let signingIntent: string | null = null;
     let viewActive = true;
     let timer: ReturnType<typeof setTimeout> | undefined;
     const owner = createExportController({
       gate,
       resolvePolicy: retry => getExportDeploymentPolicy(undefined, retry),
       captureResources: captureExportFormTemplates,
-      openDelivery: openBrowserExportDelivery,
+      openDelivery: target => {
+        const signingId = target === 'pdf' ? signingIntent : null;
+        if (!signingId) return openBrowserExportDelivery(target);
+        let released = false;
+        return {
+          deliver: async artifact => {
+            if (released || artifact.job.id !== signingId) throw new Error('This signing capture is no longer available.');
+            const { retainSigningExport } = await import('@/services/exports/signingDelivery');
+            await retainSigningExport(artifact, () => viewActive && !released && signingIntent === signingId);
+            return true;
+          },
+          release: () => { released = true; },
+        };
+      },
       render: async (ready, signal) => {
         let active = true;
         const progress = (phase: DownloadProgressPhase) => { if (viewActive && active && !signal.aborted) setProgress(phase); };
@@ -78,7 +92,7 @@ export function usePreparedExports({ isReady, gate, compile, waitForReady, setPr
       },
       onCleanupIssue: error => { console.warn('Export delivery cleanup failed:', error); },
     });
-    return { controller: owner, activate: () => { viewActive = true; }, deactivate: () => {
+    return { controller: owner, getSigningIntent: () => signingIntent, setSigningIntent: (id: string | null) => { signingIntent = id; }, activate: () => { viewActive = true; }, deactivate: () => {
       viewActive = false;
       if (timer) { clearTimeout(timer);timer = undefined; }
       useUIStore.getState().setPiiWarningOpen(false);
@@ -89,7 +103,7 @@ export function usePreparedExports({ isReady, gate, compile, waitForReady, setPr
   const state = useSyncExternalStore(controller.subscribe, controller.getState, controller.getState);
   useEffect(() => { owner.activate();return () => { owner.deactivate();controller.cancel(); }; }, [controller, owner]);
   const review = useMemo(() => state.phase === 'review' ? copyExportReview(state.job) : null, [state]);
-  const request = useCallback((target: ExportTarget, texMode?: 'configuration' | 'flat') => {
+  const request = useCallback((target: ExportTarget, texMode?: 'configuration' | 'flat', purpose?: 'signing') => {
     try {
       const captured = captureCurrentDocumentRevision();
       const session = copyCapturedSession(captured);
@@ -100,12 +114,16 @@ export function usePreparedExports({ isReady, gate, compile, waitForReady, setPr
           : `NAVMC-118-11-${safe(session.forms?.navmc11811?.lastName || 'Marine')}-${safe(session.forms?.navmc11811?.entryDate || 'entry')}.pdf`
         : captured.kind === 'configured-form' ? `${safe(session.genericForm!.definition.formId)}-form.pdf` : correspondenceFilename(target, session);
       const id = [...crypto.getRandomValues(new Uint32Array(4))].map(part => part.toString(16)).join('-');
-      return controller.request({ id, captured, target, texMode, filename: target === 'tex' && texMode === 'flat' ? 'correspondence-flat.tex' : filename });
+      const previous = owner.getSigningIntent();
+      owner.setSigningIntent(purpose === 'signing' && target === 'pdf' ? id : null);
+      const accepted = controller.request({ id, captured, target, texMode, filename: target === 'tex' && texMode === 'flat' ? 'correspondence-flat.tex' : filename });
+      if (!accepted) owner.setSigningIntent(previous);
+      return accepted;
     } catch (error) {
       setProgress({ kind: 'error', target, title: 'Export could not be captured', message: exportErrorMessage(error), retryable: false });
       return false;
     }
-  }, [controller, setProgress]);
+  }, [controller, owner, setProgress]);
   const confirm = () => state.phase === 'review' && controller.confirm(state.job, state.stage);
   const cancelReview = () => state.phase === 'review' && controller.cancelReview(state.job, state.stage);
   const canCancel = state.phase === 'preparing' || state.phase === 'executing'
