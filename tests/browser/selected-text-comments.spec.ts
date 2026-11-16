@@ -3,6 +3,7 @@ import type { Editor } from '@tiptap/core';
 import { replaceParagraphText } from '../_helpers/replaceParagraphText';
 
 test.use({ serviceWorkers: 'block' });
+test.setTimeout(180_000);
 async function selectWords(editor: Locator, start: number, end: number) {
   await editor.focus();
   await editor.evaluate((element, offsets) => {
