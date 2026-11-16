@@ -144,7 +144,7 @@ for (const theme of ['light', 'dark', 'classic']) test(`two reviewer returns rec
   await expect(modal.getByText('Review baseline saved. Later source edits will not change this copy.', { exact: true })).toBeVisible();
   await modal.getByRole('button', { name: 'Prepare reviewer copy', exact: true }).click();
   const copy = await download(page, () => modal.getByRole('button', { name: 'Download reviewer copy', exact: true }).click());
-  await modal.getByRole('button', { name: 'Close', exact: true }).click();
+  await closeReviewRounds(modal, 'close-button');
   const returns: Buffer[] = [];
   for (const author of ['Reviewer Alpha', 'Reviewer Bravo']) {
     const context = await browser.newContext({ viewport: page.viewportSize()!, userAgent: await page.evaluate(() => navigator.userAgent),
@@ -318,7 +318,7 @@ test('accepted paragraph decisions survive workspace transfer and permanent sour
     const baseline = await download(restored, () => modal.getByRole('button', { name: 'Download reviewer copy', exact: true }).click());
     expect(JSON.parse(baseline.toString('utf8')).draft.paragraphs[0].text).toBe('Archive baseline paragraph.');
     await restored.screenshot({ path: info.outputPath('archived-review-after-source-deletion.png'), scale: 'css' });
-    await modal.getByRole('button', { name: 'Close', exact: true }).click();
+    await closeReviewRounds(modal, 'close-button');
     const archivedBackup = await workspaceBackup(restored), archived = JSON.parse(archivedBackup.toString('utf8'));
     expect(archived.version).toBe(9);expect(archived.documents.some((document: { id: string }) => document.id === ownerId)).toBe(false);
     expect(archived.reviewSuggestions).toEqual(bundle.reviewSuggestions);expect(archived.reviewSuggestionWrites).toEqual(bundle.reviewSuggestionWrites);

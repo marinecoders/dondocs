@@ -2,6 +2,7 @@ import { expect, test, type Page } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 import { readFile } from 'node:fs/promises';
 import { replaceParagraphText } from '../_helpers/replaceParagraphText';
+import { closeReviewRounds } from '../_helpers/closeReviewRounds';
 
 test.use({serviceWorkers:'block'});test.setTimeout(180_000);
 async function action(page:Page,name:string){await page.getByRole('button',{name:['Undo','Redo'].includes(name)?'Document tools':'Document actions',exact:true}).click();await page.getByRole('menuitem',{name:['Undo','Redo'].includes(name)?new RegExp(`^${name}`):name,exact:true}).click();}
@@ -19,7 +20,7 @@ for(const theme of ['light','dark','classic'])test(`paragraph move preserves nat
  await page.getByRole('button',{name:'Open as new document',exact:true}).click();let modal=await reviews(page);
  await modal.getByLabel('Review name',{exact:true}).fill('Stable movement baseline');await modal.getByRole('button',{name:'Start review from current draft',exact:true}).click();
  await expect(modal.getByText('Review baseline saved. Later source edits will not change this copy.',{exact:true})).toBeVisible();
- await modal.getByRole('button',{name:'Prepare reviewer copy',exact:true}).click();const copy=await download(page,()=>modal.getByRole('button',{name:'Download reviewer copy',exact:true}).click());await page.keyboard.press('Escape');
+ await modal.getByRole('button',{name:'Prepare reviewer copy',exact:true}).click();const copy=await download(page,()=>modal.getByRole('button',{name:'Download reviewer copy',exact:true}).click());await closeReviewRounds(modal);
  const context=await browser.newContext({viewport:page.viewportSize()!,userAgent:await page.evaluate(()=>navigator.userAgent),serviceWorkers:'block',isMobile:!!info.project.use.isMobile,hasTouch:!!info.project.use.hasTouch});
  try{
   await context.addInitScript(init,theme);const reviewer=await context.newPage();await reviewer.goto(baseURL!);let remote=await reviews(reviewer);

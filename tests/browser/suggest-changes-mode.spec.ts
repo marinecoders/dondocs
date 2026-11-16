@@ -1,6 +1,7 @@
 import { expect, test, type Locator, type Page } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 import { readFile } from 'node:fs/promises';
+import { closeReviewRounds } from '../_helpers/closeReviewRounds';
 
 test.use({ serviceWorkers: 'block' });
 test.setTimeout(180_000);
@@ -58,7 +59,7 @@ for (const theme of ['light', 'dark', 'classic']) test(`natural typed suggestion
   await expect(modal.getByText('Review baseline saved. Later source edits will not change this copy.', { exact: true })).toBeVisible();
   await modal.getByRole('button', { name: 'Prepare reviewer copy', exact: true }).click();
   const copy = await download(page, () => modal.getByRole('button', { name: 'Download reviewer copy', exact: true }).click());
-  await page.keyboard.press('Escape');
+  await closeReviewRounds(modal);
   const context = await browser.newContext({ viewport: page.viewportSize()!, userAgent: await page.evaluate(() => navigator.userAgent),
     serviceWorkers: 'block', isMobile: !!info.project.use.isMobile, hasTouch: !!info.project.use.hasTouch });
   try {
