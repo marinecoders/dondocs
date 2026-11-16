@@ -67,7 +67,7 @@ it('cancels generation, fails when canvas is unavailable and detects unsupported
   await expect(generateReviewRedlinePdf(redlineFixture())).rejects.toThrow('canvas support');
   const canvas = { width: 0, height: 0 } as HTMLCanvasElement;
   const context = { clearRect() {}, fillText() {}, measureText: () => ({ width: 12 }), getImageData: () => ({ data: new Uint8ClampedArray([1]) }) } as unknown as CanvasRenderingContext2D;
-  expect(() => assertRedlineGlyphs('漢', canvas, context)).toThrow('U+6F22');
+  await expect(assertRedlineGlyphs('漢', canvas, context)).rejects.toThrow('U+6F22');
   expect(reviewTextDirection('Café العربية')).toBe('ltr');expect(reviewTextDirection('العربية Café')).toBe('rtl');
 });
 
@@ -113,4 +113,30 @@ it.each(['split-paragraph', 'join-paragraphs'])('labels one %s boundary once and
   expect(inline.text.match(/\[PARAGRAPH BREAK\]/g)).toHaveLength(1);
   for (const value of [change.baseline, change.current, change.proposed]) expect(blocks.some(block => !block.runs && block.text === value)).toBe(true);
   expect(data).toEqual(original);
+});
+
+it('lets a queued cancellation stop glyph preflight before scanning a large supported alphabet', async () => {
+  const canvas = { width: 0, height: 0 } as HTMLCanvasElement;
+  let drawn = '', cancelled = false;
+  const readback = vi.fn(() => ({ data: new Uint8ClampedArray([drawn.codePointAt(0)! % 255]) }));
+  const context = { clearRect() {}, fillText(value: string) { drawn = value; },
+    measureText: () => ({ width: drawn.codePointAt(0)! }), getImageData: readback } as unknown as CanvasRenderingContext2D;
+  // A deterministic clock makes a batch take time without burning CPU in CI.
+  let elapsed = 0;const now = vi.spyOn(performance, 'now').mockImplementation(() => ++elapsed * 9);
+  const text = Array.from({ length: 20_000 }, (_, i) => String.fromCodePoint(0x4e00 + i)).join('');
+  const timer = setTimeout(() => { cancelled = true; }, 0);
+  try {
+    await expect(Promise.resolve(assertRedlineGlyphs(text, canvas, context, () => cancelled))).rejects.toThrow('cancelled');
+    expect(cancelled).toBe(true);expect(readback.mock.calls.length).toBeLessThan(1000);
+  } finally { clearTimeout(timer);now.mockRestore(); }
+});
+
+it('rejects page overflow before any glyph fingerprint readback', async () => {
+  let drawn = '';
+  const readback = vi.fn(() => ({ data: new Uint8ClampedArray([drawn.codePointAt(0)! % 255]) }));
+  const context = { font: '', clearRect() {}, fillText(value: string) { drawn = value; }, measureText: (text: string) => ({ width: text.length * 10 }), getImageData: readback };
+  vi.stubGlobal('document', { fonts: { ready: Promise.resolve() }, createElement: () => ({ width: 0, height: 0, getContext: () => context }) });
+  const data = redlineFixture();data.roundLabel = '漢\n'.repeat(12_000);
+  await expect(generateReviewRedlinePdf(data)).rejects.toThrow('250 pages');
+  expect(readback).not.toHaveBeenCalled();
 });

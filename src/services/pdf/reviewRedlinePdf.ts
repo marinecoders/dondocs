@@ -173,13 +173,16 @@ export async function generateReviewRedlinePdf(data: RedlineContent, cancelled: 
   const canvas = document.createElement('canvas'), context = canvas.getContext('2d');
   if (!context) throw new Error('This browser cannot render the redline PDF. Use a browser with canvas support.');
   const measure = (text: string, size: number) => { context.font = `${size * 2}px ${REVIEW_FONT}`;return context.measureText(text).width / 2; };
-  assertRedlineGlyphs(blocks.map(block => block.text).join("\n"), canvas, context);
   const pdf = await PDFDocument.create();
   pdf.setTitle(`REVIEW COPY - ${data.roundLabel}`);pdf.setSubject('Captured proposed edits, paragraph movement, decisions and discussions');pdf.setCreator('DonDocs');pdf.setLanguage('en');
   const font = await pdf.embedFont(StandardFonts.Helvetica);
   const widths = new Map(Array.from({ length: 95 }, (_, i) => [String.fromCharCode(i + 32), font.widthOfTextAtSize(String.fromCharCode(i + 32), 1)]));
   const advance = (text: string, size: number) => Array.from(text).reduce((sum, char) => sum + widths.get(char)!, 0) * size;
   const pages = layoutRedline(blocks, (text, size) => /^[\x20-\x7e]*$/.test(text) ? advance(text, size) : measure(text, size));
+  assertActive();
+  // Reject page overflow before paying for per-grapheme canvas readbacks.
+  await assertRedlineGlyphs(blocks.map(block => block.text).join('\n'), canvas, context, cancelled);
+  assertActive();
   const colors = { insert: rgb(0, .28, .15), delete: rgb(.55, .08, .08), move: rgb(.1, .2, .5) };
   let rasterPixels = 0;
   for (const [index, lines] of pages.entries()) {

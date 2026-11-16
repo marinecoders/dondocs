@@ -8,7 +8,10 @@ export function reviewTextDirection(text: string): 'rtl' | 'ltr' {
 }
 
 /** Compare graphemes with missing-glyph and replacement shapes before export. */
-export function assertRedlineGlyphs(text: string, canvas: HTMLCanvasElement, context: CanvasRenderingContext2D): void {
+export async function assertRedlineGlyphs(text: string, canvas: HTMLCanvasElement, context: CanvasRenderingContext2D,
+  cancelled: () => boolean = () => false): Promise<void> {
+  const assertActive = () => { if (cancelled()) throw new Error('Redline PDF preparation cancelled.'); };
+  assertActive();
   canvas.width = 160;canvas.height = 96;
   const fingerprint = (value: string) => {
     context.clearRect(0, 0, canvas.width, canvas.height);context.font = `32px ${REVIEW_FONT}`;context.fillStyle = '#000';context.textBaseline = 'alphabetic';
@@ -16,7 +19,16 @@ export function assertRedlineGlyphs(text: string, canvas: HTMLCanvasElement, con
     return { width: context.measureText(value).width, pixels: context.getImageData(0, 0, canvas.width, canvas.height).data };
   };
   const missing = [fingerprint('\u{10ffff}'), fingerprint('\ufffd')], seen = new Set<string>();
+  let checkpoint = performance.now(), scanned = 0;
   for (const { segment } of new Intl.Segmenter(undefined, { granularity: 'grapheme' }).segment(text)) {
+    // Canvas readbacks are synchronous. Give cancellation and owner changes a
+    // turn during preflight, including long runs of already-seen characters.
+    if (++scanned % 64 === 0) {
+      assertActive();
+      if (performance.now() - checkpoint >= 8) {
+        await new Promise(resolve => setTimeout(resolve, 0));assertActive();checkpoint = performance.now();
+      }
+    }
     if (Array.from(segment).every(char => char.codePointAt(0)! < 128) || seen.has(segment) || /^[\p{Cf}\p{Z}]+$/u.test(segment)) continue;
     seen.add(segment);
     const actual = fingerprint(segment);
@@ -25,6 +37,7 @@ export function assertRedlineGlyphs(text: string, canvas: HTMLCanvasElement, con
       throw new Error(`This device has no readable glyph for ${code}. Use a device with a font for this text, then prepare the redline again.`);
     }
   }
+  assertActive();
 }
 
 /** Embed the shaped appearance, then map complete Unicode graphemes in
