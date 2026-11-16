@@ -4,7 +4,7 @@ import type { DocumentMeta } from '@/stores/documentsStore';
 import type { SerializedSession } from '@/stores/documentStore';
 import { canonicalReviewPayload, reviewDigestSchema, reviewPayloadDigest, reviewRoundIdSchema, type ReviewRound } from './reviewRounds';
 import {
-  appendReviewSuggestions, emptyReviewSuggestionState, planReviewSuggestionDecision, planReviewSuggestionHistory,
+  acceptedReviewSuggestionRange, applyReviewSuggestionRange, appendReviewSuggestions, emptyReviewSuggestionState, planReviewSuggestionDecision, planReviewSuggestionHistory,
   reviewProposalIdSchema, reviewSuggestionResolutionSchema, reviewSuggestionSchema, reviewSuggestionStateSchema, validateReviewSuggestionState,
 } from './reviewSuggestions';
 import { reviewCommentsSchema } from './reviewComments';
@@ -84,7 +84,7 @@ export function planReviewSuggestionWrite(round: ReviewRound, source: Serialized
   if (!historyDestination) throw new Error('The review history destination is unavailable.');
   // The ordinary history entry supplies the destination; the owner must tag its
   // acceptance and the database verifies that no unrelated fields are rewritten.
-  const next = structuredClone(source);
+  let next = structuredClone(source);
   const acceptance = state.decisions.find(decision => decision.id === intent.acceptanceId && decision.action === 'accepted');
   const proposal = acceptance && state.proposals.find(item => item.id === acceptance.proposalId);
   if (!proposal) throw new Error('The accepted suggestion is unavailable.');
@@ -94,7 +94,10 @@ export function planReviewSuggestionWrite(round: ReviewRound, source: Serialized
     const value = intent.direction === 'undo' ? resolution?.expectedCurrent ?? change.expected : resolution?.value ?? change.proposed;
     if (target.kind === 'field') Object.assign(next.formData, { [target.field]: value });
     else if (target.kind === 'paragraph') replaceReviewParagraphText(next, target.paragraphId, value);
-    else {
+    else if (target.kind === 'range') {
+      const range = intent.direction === 'undo' ? acceptedReviewSuggestionRange(target, change.proposed) : target;
+      next = applyReviewSuggestionRange(next, range, intent.direction === 'undo' ? change.proposed : change.expected, value);
+    } else {
       const reference = next.references[target.referenceIndex];
       if (!reference) throw new Error('The accepted reference title is unavailable.');
       reference.title = value;

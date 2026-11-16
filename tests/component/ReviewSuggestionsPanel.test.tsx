@@ -2,7 +2,7 @@ import { act, fireEvent, render, screen, waitFor, within } from '@testing-librar
 import userEvent from '@testing-library/user-event';
 import { expect, it, vi } from 'vitest';
 import { ReviewSuggestionsPanel } from '@/components/editor/ReviewSuggestionsPanel';
-import { createReviewSuggestion, emptyReviewSuggestionState, planReviewSuggestionDecision, planReviewSuggestionHistory } from '@/lib/reviewSuggestions';
+import { createSelectedTextSuggestion, createReviewSuggestion, emptyReviewSuggestionState, planReviewSuggestionDecision, planReviewSuggestionHistory } from '@/lib/reviewSuggestions';
 import { getSerializedSession } from '@/stores/documentStore';
 import type { ReviewRound } from '@/lib/reviewRounds';
 
@@ -247,4 +247,48 @@ it('creates categorized feedback and filters without renumbering or changing dec
   await userEvent.click(screen.getByRole('button', { name: 'Add suggestion' }));
   expect(input.onCreate).toHaveBeenCalledWith(expect.objectContaining({ category: 'required-correction' }));
   expect(input.onDecide).not.toHaveBeenCalled();
+});
+
+
+it('captures an actual baseline text selection, cancels without submission, then proposes only the selected word', async () => {
+  const input = props();const view = render(<ReviewSuggestionsPanel {...input} />);
+  await userEvent.type(screen.getByRole('textbox', { name: 'Reviewer name for suggestion' }), 'Synthetic reviewer');
+  await userEvent.selectOptions(screen.getByRole('combobox', { name: 'Suggestion target' }), 'paragraph:paragraph-one');
+  const selectWord = () => {
+    const editor = screen.getByRole('textbox', { name: 'Select text in reviewed paragraph' }) as HTMLTextAreaElement;
+    editor.setSelectionRange(9, 13);fireEvent.select(editor);
+  };
+  selectWord();await userEvent.click(screen.getByRole('button', { name: 'Use selected text' }));
+  expect(screen.getByRole('region', { name: 'Suggestion baseline value' })).toHaveTextContent('body');
+  fireEvent.change(screen.getByRole('textbox', { name: 'Proposed replacement' }), { target: { value: 'text' } });
+  await userEvent.click(screen.getByRole('button', { name: 'Cancel replacement' }));
+  expect(input.onCreate).not.toHaveBeenCalled();expect(input.onDecide).not.toHaveBeenCalled();
+  await userEvent.selectOptions(screen.getByRole('combobox', { name: 'Suggestion target' }), 'paragraph:paragraph-one');
+  selectWord();await userEvent.click(screen.getByRole('button', { name: 'Use selected text' }));
+  fireEvent.change(screen.getByRole('textbox', { name: 'Proposed replacement' }), { target: { value: 'text' } });
+  await userEvent.click(screen.getByRole('button', { name: 'Add suggestion' }));
+  const proposal = input.onCreate.mock.calls[0][0];
+  expect(proposal.changes[0]).toMatchObject({ expected: 'body', proposed: 'text', target: { kind: 'range', paragraphId: 'paragraph-one', context: 'Original body.', start: 9, end: 13 } });
+  const state = { ...input.state, proposals: [proposal] };
+  view.rerender(<ReviewSuggestionsPanel {...input} state={state} />);
+  await userEvent.click(screen.getByRole('button', { name: 'Accept suggestion' }));
+  expect(input.onDecide).toHaveBeenCalledWith(proposal.id, 'accepted');
+  const accepted = planReviewSuggestionDecision(input.round, input.current, state, proposal.id, 'accepted');
+  view.rerender(<ReviewSuggestionsPanel {...input} state={accepted.state} current={accepted.session} />);
+  expect(screen.getByText(/ · Accepted$/)).toBeVisible();expect(accepted.session.paragraphs[0].text).toBe('Original text.');
+  const undone = planReviewSuggestionHistory(input.round, accepted.session, input.current, accepted.state, accepted.state.decisions[0].id, 'undo');
+  view.rerender(<ReviewSuggestionsPanel {...input} state={undone} />);
+  expect(screen.getByText(/Acceptance undone/)).toBeVisible();expect(screen.getByRole('button', { name: 'Accept suggestion' })).toBeEnabled();
+});
+
+it('blocks changed selected text without offering whole paragraph reconciliation and hides decisions from reviewer copies', () => {
+  const input = props();input.state.proposals.push(createSelectedTextSuggestion(input.round, { author: 'Synthetic reviewer', paragraphId: 'paragraph-one', start: 9, end: 13, proposed: 'text' }));
+  input.current.paragraphs[0].text = 'Newer body.';
+  const view = render(<ReviewSuggestionsPanel {...input} />);
+  expect(screen.getByRole('button', { name: 'Accept suggestion' })).toBeDisabled();
+  expect(screen.getByRole('button', { name: 'Reject suggestion' })).toBeEnabled();
+  expect(screen.queryByRole('button', { name: 'Reconcile suggestion' })).not.toBeInTheDocument();
+  view.rerender(<ReviewSuggestionsPanel {...input} owner={false} />);
+  expect(screen.queryByRole('button', { name: 'Accept suggestion' })).not.toBeInTheDocument();
+  expect(screen.queryByRole('button', { name: 'Reject suggestion' })).not.toBeInTheDocument();
 });

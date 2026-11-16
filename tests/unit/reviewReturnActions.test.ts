@@ -12,7 +12,7 @@ import { idbAddReviewRound, idbInstallReviewCopy } from '@/lib/documentsDb';
 import { type ReviewRound } from '@/lib/reviewRounds';
 import { parseReviewReturn, type ReviewReturn } from '@/lib/reviewReturns';
 import { applyReviewReturn, downloadReviewReturn, prepareReviewReturnExport, prepareReviewReturnImport } from '@/lib/reviewReturnActions';
-import { createReviewSuggestion } from '@/lib/reviewSuggestions';
+import { createReviewSuggestion, createSelectedTextSuggestion } from '@/lib/reviewSuggestions';
 import { submitReviewSuggestion, decideReviewSuggestion } from '@/lib/reviewSuggestionActions';
 import { idbReadReviewSuggestions } from '@/lib/documentsDb';
 import { reviewSuggestionRecordSchema } from '@/lib/reviewSuggestionWrites';
@@ -344,4 +344,41 @@ it('rechecks lifecycle after feedback preflight and preserves a late return for 
   await transitionReviewRound(closed, 'reopen');
   expect(await applyReviewReturn(await prepareReviewReturnImport(payload), {})).toBe('committed');
   expect(useDocumentStore.getState().reviewComments?.threads[0].messages[0].text).toBe('Late feedback.');
+});
+
+
+it('returns a precise selection as pending metadata, enforces owner decisions and persists actual Undo/Redo', async () => {
+  const { owner, round } = await fixture({ paragraphId: 'selected-action' });
+  const proposal = createSelectedTextSuggestion(round, { author: 'Synthetic reviewer', paragraphId: 'selected-action', start: 9, end: 14, proposed: 'precise' });
+  expect((await submitReviewSuggestion(proposal)).status).toBe('committed');
+  expect(useDocumentStore.getState().paragraphs[0].text).toBe('Reviewed plain paragraph.');
+  await expect(decideReviewSuggestion(round.id, proposal.id, 'accepted')).rejects.toThrow(/Only the local source/);
+  const payload = await exported();expect(payload.version).toBe(2);
+  useDocumentsStore.getState().switchTo(owner);useDocumentStore.getState().setField('subject', 'NEWER SUBJECT');
+  expect(await applyReviewReturn(await prepareReviewReturnImport(payload), {})).toBe('committed');
+  expect((await decideReviewSuggestion(round.id, proposal.id, 'accepted')).status).toBe('committed');
+  expect(useDocumentStore.getState().paragraphs[0].text).toBe('Reviewed precise paragraph.');
+  expect(useDocumentStore.getState().formData.subject).toBe('NEWER SUBJECT');
+  expect(changeDocumentHistory('undo', captureDocumentScope())).toBe('applied');await flushDocumentWrites();
+  expect(useDocumentStore.getState().paragraphs[0].text).toBe('Reviewed plain paragraph.');
+  expect(useDocumentStore.getState().formData.subject).toBe('NEWER SUBJECT');
+  expect(changeDocumentHistory('redo', captureDocumentScope())).toBe('applied');await flushDocumentWrites();
+  expect(useDocumentStore.getState().paragraphs[0].text).toBe('Reviewed precise paragraph.');
+  expect(reviewSuggestionRecordSchema.parse(await idbReadReviewSuggestions(owner, round.id)).state.decisions.map(item => item.action)).toEqual(['accepted', 'reversed', 'restored']);
+  expect((await prepareReviewReturnImport(payload)).alreadyImported).toBe(true);
+});
+
+it('cancels a selected replacement when the native paragraph changes during handling validation', async () => {
+  const { owner, round } = await fixture({ paragraphId: 'selected-race' });
+  const proposal = createSelectedTextSuggestion(round, { author: 'Synthetic reviewer', paragraphId: 'selected-race', start: 9, end: 14, proposed: 'precise' });
+  await submitReviewSuggestion(proposal);const payload = await exported();useDocumentsStore.getState().switchTo(owner);
+  await applyReviewReturn(await prepareReviewReturnImport(payload), {});
+  let release!: (value: typeof policy) => void;
+  vi.mocked(getExportDeploymentPolicy).mockClear().mockImplementationOnce(() => new Promise(resolve => { release = resolve; }));
+  const pending = decideReviewSuggestion(round.id, proposal.id, 'accepted');
+  await vi.waitFor(() => expect(getExportDeploymentPolicy).toHaveBeenCalledOnce());
+  useDocumentStore.getState().updateParagraph(0, { text: 'Newer plain paragraph.' });release(policy);
+  await expect(pending).rejects.toThrow(/draft changed/);
+  expect(useDocumentStore.getState().paragraphs[0].text).toBe('Newer plain paragraph.');
+  expect(reviewSuggestionRecordSchema.parse(await idbReadReviewSuggestions(owner, round.id)).state.decisions).toEqual([]);
 });

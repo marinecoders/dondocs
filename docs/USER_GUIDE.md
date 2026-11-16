@@ -221,14 +221,22 @@ share and template transfers do not carry them.
 In **Review rounds… → Review for suggested edits**, select the baseline belonging
 to the current source or linked reviewer copy. Enter a reviewer name, choose one
 supported field or complete plain paragraph, and add its proposed replacement.
-The baseline and current draft stay unchanged. Partial text ranges, paragraph
-moves, tables, figures and structural edits are outside this workflow.
+For a selected word or sentence, choose its paragraph, highlight complete
+characters in **Select text in reviewed paragraph**, then choose **Use selected
+text** and enter the replacement. **Cancel replacement** discards the unsent
+proposal. The baseline and current draft stay unchanged. Selected replacements
+support plain native text in one paragraph; formatted text, variables, headings,
+markings, tables, figures and structural edits are excluded. The full paragraph
+context travels with the selected range and is included in handling/privacy checks.
 
 A reviewer returns proposals through **Prepare feedback return**. Importing stores
 them as pending suggestions. In the source, select the same review and compare
 reviewed, current and proposed values before **Accept suggestion** or **Reject
 suggestion**. Acceptance changes only the selected target. A missing target blocks
-acceptance. For a changed supported field or plain paragraph, choose **Reconcile
+acceptance. A selected replacement checks its stable paragraph ID, exact reviewed
+paragraph context and selected span, then changes only that span. Changed context
+blocks acceptance; reject it or start a new review. Repeated text is identified by
+its captured offsets, never by searching for matching words. For a changed supported field or plain paragraph, choose **Reconcile
 suggestion**. Review the baseline, current and proposed values, then confirm the
 **Resolved replacement**. Separate edits within one contiguous span per side may
 be combined for review; overlapping edits, ambiguous repeated text, boundary insertions and wider changed
