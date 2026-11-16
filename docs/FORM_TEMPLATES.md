@@ -276,14 +276,23 @@ The v2 definition supports optional `rotation: 270` on ordinary and repeated-row
 ### Configured-form roster mapping
 
 Open **Batch** to map roster columns directly to a configured form's field IDs.
-The field list explains date, number, boolean, identifier, and single-choice input
+The field list explains date, number, boolean, identifier, and choice input
 formats. Review row checks before generation. Dates use `YYYY-MM-DD`, identifiers
 retain leading zeros, and choices accept an exact option ID or a unique label.
 
 Every row supplies its own answers. Saved answers from the source form are not
-inherited, and signature fields remain blank for signing after export. Repeating
-rows and multiple-selection fields are not supported by this initial mapping
-path. Mapping availability does not imply that PDF generation is available.
+inherited, and signature fields remain blank for signing after export.
+
+For multiple-selection fields, each cell contains a JSON array of strings, for
+example `["approve","notify"]`. Each string must be an exact option ID or a
+unique label (label matching ignores case); exact IDs take precedence. JSON
+escaping preserves commas and quotes in option IDs and labels. Review the resolved
+labels and IDs beneath each roster cell. Unknown or ambiguous options, repeated
+selections (including a label and ID resolving to the same option), malformed
+JSON, and non-string entries block generation. A blank cell never inherits the
+source answer; `[]` explicitly selects none. Export-required fields still need at
+least one selection. Repeating rows remain unsupported. Mapping availability does
+not imply that PDF generation is available.
 
 Configured-form batch jobs retain the selected definition and verified blank PDF
 pages before rendering a row. A resumed job uses those exact page digests, even

@@ -34,6 +34,32 @@ it('maps pasted roster values to configured fields and explains typed errors wit
   expect(compile).not.toHaveBeenCalled();
 });
 
+it('reviews normalized multiple selections from a workbook and removes the preview for invalid cells', async () => {
+  const genericForm = fixtureInstance();
+  genericForm.definition.rowGroups = {};
+  genericForm.definition.pages[0].sha256 = 'a'.repeat(64);
+  genericForm.definition.fields.decision.kind = 'multipleChoice';
+  genericForm.answers.decision = ['yes'];
+  useDocumentStore.setState({ genericForm });
+  render(<BatchModal compile={vi.fn()} isEngineReady={false} waitForReady={vi.fn()} />);
+  expect(screen.getByRole('region', { name: 'Configured form roster fields' })).toHaveTextContent('JSON array');
+  fireEvent.change(screen.getByLabelText('Upload Excel roster (.xlsx)'), {
+    target: { files: [rosterFile([['name', 'decision'], ['B', '["YES","no"]']])] },
+  });
+  fireEvent.click(await screen.findByRole('button', { name: 'Map 1 roster row' }));
+  fireEvent.click(screen.getByRole('button', { name: 'Apply Mapping' }));
+  const input = screen.getByRole('textbox', { name: 'Row 1: decision' });
+  const selected = screen.getByLabelText('Row 1: decision selected options');
+  expect(selected).toHaveTextContent('Selected: Yes (yes); No (no)');
+  expect(input).toHaveAttribute('aria-describedby', selected.id);
+  expect(screen.getByRole('button', { name: 'Generate 1 PDF' })).toBeEnabled();
+  fireEvent.change(input, { target: { value: '["yes","YES"]' } });
+  expect(screen.queryByLabelText('Row 1: decision selected options')).not.toBeInTheDocument();
+  expect(screen.getByRole('status', { name: 'Form row checks' })).toHaveTextContent('Select each option only once');
+  expect(screen.getByRole('button', { name: 'Generate 1 PDF' })).toBeDisabled();
+  expect(useDocumentStore.getState().genericForm?.answers.decision).toEqual(['yes']);
+});
+
 it('does not borrow a live form definition when a retained job has no captured definition', async () => {
   const { getSerializedSession } = await import('@/stores/documentStore');
   const source = getSerializedSession();delete source.genericForm;
@@ -198,4 +224,23 @@ it('keeps zero-padded Excel identifier formats without an unwarranted numeric-lo
   expect(recipient).toHaveValue('000123');
   expect(recipient).not.toHaveAttribute('aria-describedby');
   expect(screen.queryByText(/Stored as a number|original identifier/)).not.toBeInTheDocument();
+});
+
+
+it('keeps recovered non-string selection cells reviewable instead of crashing the batch panel', async () => {
+  const { BATCH_KEY } = await import('@/stores/batchStore');
+  const { getSerializedSession } = await import('@/stores/documentStore');
+  const form = fixtureInstance();form.definition.rowGroups = {};
+  form.definition.pages[0].sha256 = 'a'.repeat(64);
+  form.definition.fields.decision.kind = 'multipleChoice';form.answers.decision = ['yes'];
+  useDocumentStore.setState({ genericForm: form });
+  const source = getSerializedSession();
+  localStorage.setItem(BATCH_KEY, JSON.stringify({ state: {
+    source, jobId: 'recovered-job', status: 'paused', placeholders: ['name', 'decision'],
+    rows: [{ id: 'recovered-row', values: { name: 'Recipient B', decision: 42 }, status: 'pending' }],
+  }, version: 0 }));
+  await useBatchStore.persist.rehydrate();
+  expect(() => render(<BatchModal compile={vi.fn()} isEngineReady={false} waitForReady={vi.fn()} />)).not.toThrow();
+  expect(screen.getByRole('status', { name: 'Form row checks' })).toHaveTextContent('Decision: Enter text in the roster cell');
+  expect(screen.getByRole('button', { name: 'Resume remaining' })).toBeDisabled();
 });

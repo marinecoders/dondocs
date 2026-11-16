@@ -59,6 +59,27 @@ it('refuses invalid configured answers before consulting deployment policy', asy
   expect(resolvePolicy).not.toHaveBeenCalled();
 });
 
+it('captures multiple selections and reviews their resolved labels before export and retained download', async () => {
+  const { fixtureInstance, fixturePage } = await import('../_helpers/formFixture');
+  const { captureFormExportTemplates } = await import('@/lib/formExportTemplates');
+  const form = fixtureInstance();form.definition.rowGroups = {};
+  form.definition.fields.decision.kind = 'multipleChoice';
+  form.definition.fields.decision.options![0].label = 'SSN 123-45-6789';
+  form.answers.decision = ['no'];
+  const page = await fixturePage();form.definition.pages[0].sha256 = page.sha256;
+  const source = { ...context().source, documentCategory: 'forms' as const, formType: 'fixture', genericForm: form };
+  const values = { name: 'Recipient B', decision: '["yes"]' };
+  const result = await prepareBatchRow(values, { ...context(), source }, {
+    resolvePolicy: async () => policy,
+    captureResources: async () => captureFormExportTemplates('configured-form', 'fixture', { 'page1.pdf': page.bytes }, JSON.stringify(form.definition)),
+  });
+  if (result.status !== 'needs-review') throw new Error(JSON.stringify(result));
+  expect(copyExportReview(result.job).privacy.findings.some(finding => finding.value === '123-45-6789')).toBe(true);
+  expect(copyPreparedDocument(acknowledgePreparedExport(result.job)).document.genericForm?.answers.decision).toEqual(['yes']);
+  expect(form.answers.decision).toEqual(['no']);
+  expect(inspectSavedBatchResult({ id: 'row', values, filename: 'saved.pdf', outputId: 'output', status: 'success' }, source, 'batch').findings.some(finding => finding.value === '123-45-6789')).toBe(true);
+});
+
 it('preserves literal configured text while reviewing raw roster values on generation and saved downloads', async () => {
   const { fixtureInstance, fixturePage } = await import('../_helpers/formFixture');
   const { captureFormExportTemplates } = await import('@/lib/formExportTemplates');

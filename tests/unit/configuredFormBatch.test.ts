@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { applyConfiguredBatchRow, configuredBatchMapping, mapConfiguredBatchRow } from '@/lib/configuredFormBatch';
+import { applyConfiguredBatchRow, configuredBatchMapping, configuredBatchSelectionPreview, mapConfiguredBatchRow } from '@/lib/configuredFormBatch';
 import { fixtureInstance } from '../_helpers/formFixture';
 import type { FormInstance } from '@/services/forms/model';
 import type { SerializedSession } from '@/stores/documentStore';
@@ -46,11 +46,8 @@ describe('configured form roster mapping', () => {
     expect(mapConfiguredBatchRow(scalarForm(), {}).issues.join()).toContain('Name is required');
   });
 
-  it('rejects repeated groups, multi-selection definitions and populated signature answers', () => {
+  it('rejects repeated groups and populated signature answers', () => {
     expect(configuredBatchMapping(fixtureInstance()).issues.join()).toContain('repeating rows');
-    const multiple = scalarForm();
-    multiple.definition.fields.decision.kind = 'multipleChoice';
-    expect(configuredBatchMapping(multiple).issues.join()).toContain('multiple-choice');
     const signed = scalarForm();signed.answers.signature = 'Someone';
     expect(configuredBatchMapping(signed).issues.join()).toContain('clear the signature');
   });
@@ -68,6 +65,72 @@ describe('configured form roster mapping', () => {
     expect(mapped.genericForm?.answers.name).toBe('B');
     expect(source.genericForm?.answers.name).toBe('000123');
     expect(() => applyConfiguredBatchRow(source, {})).toThrow('Name is required');
+  });
+});
+
+describe('multiple-selection roster answers', () => {
+  function form(required = true): FormInstance {
+    const instance = scalarForm();
+    instance.definition.fields.decision.kind = 'multipleChoice';
+    if (!required) delete instance.definition.fields.decision.requiredAt;
+    instance.answers.decision = ['yes'];
+    return instance;
+  }
+
+  it('maps JSON IDs and unique labels to explicit independent selections', () => {
+    const source = form();
+    expect(configuredBatchMapping(source).issues).toEqual([]);
+    expect(configuredBatchMapping(source).fields.find(field => field.id === 'decision')?.guidance).toContain('["yes","no"]');
+    const result = mapConfiguredBatchRow(source, { name: 'B', decision: '["YES","no"]' });
+    expect(result.issues).toEqual([]);
+    expect(result.instance.answers.decision).toEqual(['yes', 'no']);
+    expect(configuredBatchSelectionPreview(source.definition.fields.decision, '["YES","no"]')).toBe('Yes (yes); No (no)');
+    (result.instance.answers.decision as string[]).push('other');
+    expect(source.answers.decision).toEqual(['yes']);
+  });
+
+  it.each([
+    'yes,no', '"yes"', '{}', 'null', '[true]', '[1]', '[null]', '[{}]',
+    '["yes",]', '["unknown"]', '["yes","yes"]', '["yes","YES"]', '["yes","no","yes"]',
+  ])('rejects invalid selections atomically: %s', raw => {
+    const result = mapConfiguredBatchRow(form(), { name: 'B', decision: raw });
+    expect(result.issues.length).toBeGreaterThan(0);
+    expect(result.instance.answers.decision).toBeUndefined();
+    expect(configuredBatchSelectionPreview(form().definition.fields.decision, raw)).toBeUndefined();
+  });
+
+  it('does not split punctuation or coerce option IDs', () => {
+    const source = form();
+    source.definition.fields.decision.options = [{ id: 'a,b', label: 'One, two' }, { id: 'with"quote', label: 'Quoted' }];
+    source.definition.placements = source.definition.placements.map(placement => placement.fieldId === 'decision'
+      ? { ...placement, optionId: placement.optionId === 'yes' ? 'a,b' : 'with"quote' } : placement);
+    const result = mapConfiguredBatchRow(source, { name: 'B', decision: '["a,b","with\\"quote"]' });
+    expect(result.issues).toEqual([]);
+    expect(result.instance.answers.decision).toEqual(['a,b', 'with"quote']);
+  });
+
+  it('rejects ambiguous labels while exact IDs take precedence over labels', () => {
+    const source = form();
+    source.definition.fields.decision.options = [{ id: 'yes', label: 'Same' }, { id: 'no', label: 'same' }];
+    expect(mapConfiguredBatchRow(source, { name: 'B', decision: '["Same"]' }).issues.join()).toContain('unambiguous');
+    source.definition.fields.decision.options = [{ id: 'yes', label: 'no' }, { id: 'no', label: 'yes' }];
+    expect(mapConfiguredBatchRow(source, { name: 'B', decision: '["yes"]' }).instance.answers.decision).toEqual(['yes']);
+  });
+
+  it.each(['', '[]'])('requires a selection for export-required fields: %j', raw => {
+    expect(mapConfiguredBatchRow(form(), { name: 'B', decision: raw }).issues.join()).toContain('Decision is required');
+  });
+
+  it('keeps blank and explicit empty optional selections separate from saved source answers', () => {
+    const source = form(false);
+    const blank = mapConfiguredBatchRow(source, { name: 'B', decision: '  ' });
+    expect(blank.issues).toEqual([]);
+    expect(blank.instance.answers.decision).toBeUndefined();
+    const empty = mapConfiguredBatchRow(source, { name: 'B', decision: '[]' });
+    expect(empty.issues).toEqual([]);
+    expect(empty.instance.answers.decision).toEqual([]);
+    expect(configuredBatchSelectionPreview(source.definition.fields.decision, '[]')).toBe('None');
+    expect(source.answers.decision).toEqual(['yes']);
   });
 });
 
