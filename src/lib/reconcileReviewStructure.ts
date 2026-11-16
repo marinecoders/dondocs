@@ -1,7 +1,7 @@
 import type { SerializedSession } from '@/stores/documentStore';
 import { outlineParagraphs } from '@/services/latex/paragraphLabel';
 import { canonicalReviewPayload } from './reviewRounds';
-import { applyReviewStructure, assertReviewStructureOperation, captureReviewStructure, structureSuggestionText, type ReviewStructureTarget } from './reviewStructureSuggestions';
+import { assertReviewStructureOperation, captureReviewStructure, inspectReviewStructure, structureSuggestionText, type ReviewStructureTarget } from './reviewStructureSuggestions';
 
 export type StructureReconciliationKind = 'unchanged' | 'independent' | 'delete-vs-edit' | 'split-join-overlap' | 'competing-move' | 'missing-target' | 'changed-parent-boundary';
 export interface ReviewStructureReconciliation {
@@ -59,7 +59,7 @@ export function inspectReviewStructureReconciliation(source: SerializedSession, 
     baseline: structureSuggestionText(op.before), current: structureSuggestionText(currentNodes), proposed: structureSuggestionText(target?.operation.after ?? op.after), ...(target ? { target } : {}), canResolve });
   if (source.docType !== original.docType || new Set(source.paragraphs.map(p => p.id)).size !== source.paragraphs.length) return result('changed-parent-boundary');
   if (op.before.some(p => !source.paragraphs.some(current => current.id === p.id))) return result('missing-target');
-  try { applyReviewStructure(source, original); return result('unchanged', original); } catch { /* Inspect current intent below. */ }
+  if (inspectReviewStructure(source, original)) return result('unchanged', original);
   let target: ReviewStructureTarget;
   try { target = captureReconciledReviewStructure(source, original); }
   catch {
