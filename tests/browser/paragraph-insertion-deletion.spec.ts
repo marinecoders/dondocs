@@ -72,9 +72,30 @@ for (const theme of ['light', 'dark', 'classic']) test(`paragraph insertion and 
     }
     const rejected = modal.getByRole('article', { name: 'Suggestion 3: Delete paragraph', exact: true });
     await rejected.getByRole('button', { name: 'Reject suggestion', exact: true }).click();await expect(rejected.getByText(/· Rejected$/)).toBeVisible();
+    await expect(modal.getByLabel('Review for suggested edits', { exact: true })).toBeEnabled();
+    await page.keyboard.press('Escape');await expect(modal).toBeHidden();
+    // Reaccept the original immutable proposals after ordinary source Undo.
+    // The existing export assertions below still require the captured newId.
+    await action(page, 'Undo');
+    await expect(page.getByRole('textbox', { name: 'Paragraph 4', exact: true })).toBeVisible();
+    await action(page, 'Undo');
+    await expect(page.getByRole('textbox', { name: 'Paragraph 4', exact: true })).toHaveCount(0);
+    await expect(page.getByRole('textbox', { name: 'Paragraph 3', exact: true })).toHaveText('Newer independent third.');
+    modal = await reviews(page);
+    await expect(modal.getByLabel('Review for suggested edits', { exact: true })).toBeEnabled();
+    await modal.getByLabel('Review for suggested edits', { exact: true }).selectOption({ label: 'Paragraph baseline' });
+    for (const name of ['Suggestion 1: Insert paragraph', 'Suggestion 2: Delete paragraph']) {
+      const proposal = modal.getByRole('article', { name, exact: true });
+      await expect(proposal.getByText(/· Acceptance undone$/)).toBeVisible();
+      await expect(proposal.getByRole('button', { name: 'Accept suggestion', exact: true })).toBeEnabled();
+      await proposal.getByRole('button', { name: 'Accept suggestion', exact: true }).click();
+      await expect(proposal.getByText(/· Accepted$/)).toBeVisible();
+      await expect(modal.getByLabel('Review for suggested edits', { exact: true })).toBeEnabled();
+    }
+    await expect(modal.getByRole('article', { name: 'Suggestion 3: Delete paragraph', exact: true }).getByText(/· Rejected$/)).toBeVisible();
     expect((await new AxeBuilder({ page }).include('[role="dialog"]').analyze()).violations).toEqual([]);
     expect(await modal.evaluate(element => element.scrollWidth <= element.clientWidth)).toBe(true);
-    await page.screenshot({ path: info.outputPath(`paragraph-proposals-${theme}.png`), scale: 'css' });await page.keyboard.press('Escape');
+    await page.screenshot({ path: info.outputPath(`paragraph-proposals-${theme}.png`), scale: 'css' });await page.keyboard.press('Escape');await expect(modal).toBeHidden();
     await action(page, 'Undo');
     const undone = JSON.parse((await download(page, () => action(page, 'Export draft (.json)'))).toString('utf8'));
     expect(undone.paragraphs.map((paragraph: {id:string}) => paragraph.id)).toEqual(['structure-first', 'structure-second', 'structure-third', newId]);
