@@ -29,10 +29,18 @@ export async function assertRedlineGlyphs(text: string, canvas: HTMLCanvasElemen
         await new Promise(resolve => setTimeout(resolve, 0));assertActive();checkpoint = performance.now();
       }
     }
-    if (Array.from(segment).every(char => char.codePointAt(0)! < 128) || seen.has(segment) || /^[\p{Cf}\p{Z}]+$/u.test(segment)) continue;
+    const scalars = Array.from(segment);
+    if (scalars.every(char => char.codePointAt(0)! < 128) || seen.has(segment) || /^[\p{Cf}\p{Z}]+$/u.test(segment)) continue;
+    if (scalars.length > 8) throw new Error('A character cluster exceeds this PDF reader compatibility limit. Use the decision summary HTML to preserve this text.');
     seen.add(segment);
     const actual = fingerprint(segment);
-    if (missing.some(shape => actual.width === shape.width && actual.pixels.every((value, i) => value === shape.pixels[i]))) {
+    const matches = (shape: ReturnType<typeof fingerprint>) => actual.width === shape.width && actual.pixels.every((value, i) => value === shape.pixels[i]);
+    // A readable base can conceal a missing combining mark. Compare the same
+    // shaped context with each non-ASCII scalar replaced by a missing glyph;
+    // standalone scalar checks would reject valid contextual/emoji shaping.
+    const missingPart = scalars.length > 1 && scalars.some((char, index) => char.codePointAt(0)! >= 128 && !/^[\p{Cf}\p{Z}]$/u.test(char)
+      && ['\u{10ffff}', '\ufffd'].some(replacement => matches(fingerprint([...scalars.slice(0, index), replacement, ...scalars.slice(index + 1)].join('')))));
+    if (missing.some(matches) || missingPart) {
       const code = Array.from(segment, char => `U+${char.codePointAt(0)!.toString(16).toUpperCase()}`).join(' ');
       throw new Error(`This device has no readable glyph for ${code}. Use a device with a font for this text, then prepare the redline again.`);
     }

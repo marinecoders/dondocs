@@ -140,3 +140,12 @@ it('rejects page overflow before any glyph fingerprint readback', async () => {
   await expect(generateReviewRedlinePdf(data)).rejects.toThrow('250 pages');
   expect(readback).not.toHaveBeenCalled();
 });
+
+it('rejects a missing combining mark inside an otherwise readable grapheme and keeps supported clusters', async () => {
+  const canvas = { width: 0, height: 0 } as HTMLCanvasElement;let appearance = '';
+  const context = { clearRect() {}, fillText(value: string) { appearance = value.replaceAll('\u1abf', '\u{10ffff}'); },
+    measureText: () => ({ width: appearance.length * 10 }),
+    getImageData: () => ({ data: Uint8ClampedArray.from(appearance, char => char.charCodeAt(0) % 255) }) } as unknown as CanvasRenderingContext2D;
+  await expect(assertRedlineGlyphs('A\u1abf', canvas, context)).rejects.toThrow('U+1ABF');
+  await expect(assertRedlineGlyphs('e\u0301 👩🏽‍🚀', canvas, context)).resolves.toBeUndefined();
+});
