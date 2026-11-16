@@ -114,7 +114,7 @@ it('deliberately reconciles structural package feedback against current native n
   await user.click(screen.getByRole('button', { name: 'Preview operation on current draft' }));
   await user.click(screen.getByRole('button', { name: 'Confirm operation on current draft' }));
   await user.click(screen.getByRole('button', { name: 'Review new package revision' }));
-  await user.click(screen.getByRole('checkbox', { name: /^I reviewed the baseline/ }));
+  await user.click(await screen.findByRole('checkbox', { name: /^I reviewed the baseline/ }));
   await user.click(screen.getByRole('button', { name: 'Apply feedback as new package revision' }));
   await waitFor(async () => {
     const saved = (await listActionPackages()).find(item => item.id === owner.id)!;
