@@ -309,6 +309,7 @@ export function reviewDecisionSummaryPdfContent(prepared: PreparedDecisionSummar
 export async function validateReviewDecisionSummaryPdf(prepared: PreparedDecisionSummary, policy: PolicyResolution): Promise<void> {
   const data = preparedData(prepared), captured = data.capture;
   if (!isCurrentDocumentTarget(captured.target)) throw new Error('The draft changed. Prepare the redline PDF again.');
+  if (hasPendingReviewWrites(captured.scope.documentId)) throw new Error('The review changed. Save pending feedback and prepare the redline PDF again.');
   const latest = await idbReadReviewExportSnapshot(captured.scope.documentId, captured.round.id);
   const round = latest.round === null ? null : parseReviewRound(latest.round);
   const record = latest.state === null ? null : reviewSuggestionRecordSchema.parse(latest.state);
@@ -321,7 +322,7 @@ export async function validateReviewDecisionSummaryPdf(prepared: PreparedDecisio
   if (!latest.document || latest.document.id !== captured.scope.documentId || latest.document.meta.deletedAt || !authorized
     || record && record.documentId !== captured.scope.documentId || !same(round, captured.round) || !same(state, captured.state)
     || !same(payload(latest.document.session), payload(captured.current)) || !same(payload(getSerializedSession()), payload(captured.current))
-    || !isCurrentDocumentTarget(captured.target)) throw new Error('The review changed. Prepare the redline PDF again.');
+    || !isCurrentDocumentTarget(captured.target) || hasPendingReviewWrites(captured.scope.documentId)) throw new Error('The review changed. Prepare the redline PDF again.');
   buildSummary(captured, policy);
 }
 
