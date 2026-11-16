@@ -228,7 +228,7 @@ export function validateReviewSuggestionState(round: ReviewRound, value: unknown
   for (const proposal of state.proposals) {
     validateReviewSuggestion(round, proposal);
     for (const change of proposal.changes) if (change.target.kind === 'structure') for (const id of structureNewIds(change.target)) {
-      if (reserved.has(id)) throw new Error('Different review operations cannot reuse a new paragraph identity.');
+      if (reserved.has(id) || reviewStructureReservedIds(state, proposal.id).includes(id)) throw new Error('Different review operations cannot reuse a new paragraph identity.');
       reserved.add(id);
     }
   }
@@ -271,7 +271,9 @@ function structureReviewText(target: ReviewStructureTarget): string[] {
 }
 export function reviewStructureReservedIds(state: ReviewSuggestionState, exceptProposalId?: string): string[] {
   return state.proposals.filter(proposal => proposal.id !== exceptProposalId).flatMap(proposal => proposal.changes.flatMap(change => change.target.kind === 'structure' ? structureOperationIds(change.target)
-    : change.target.kind === 'paragraph' || change.target.kind === 'range' ? [change.target.paragraphId] : []));
+    : change.target.kind === 'paragraph' || change.target.kind === 'range' ? [change.target.paragraphId] : []))
+    .concat(state.decisions.filter(decision => decision.proposalId !== exceptProposalId).flatMap(decision =>
+      decision.resolutions?.flatMap(resolution => resolution.structure ? structureOperationIds(resolution.structure) : []) ?? []));
 }
 export function createParagraphStructureSuggestion(round: ReviewRound, input: { author: string; category?: FeedbackCategory; operation: Parameters<typeof captureReviewStructure>[1] }): ReviewSuggestion {
   const target = captureReviewStructure(round.baseline.session, input.operation);

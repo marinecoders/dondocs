@@ -13,6 +13,7 @@ import { decideReviewSuggestion, submitReviewSuggestion, loadReviewSuggestionWor
 import { createParagraphStructureSuggestion, planReviewSuggestionDecision } from '@/lib/reviewSuggestions';
 import { reviewSuggestionRecordSchema, type ReviewSuggestionWrite } from '@/lib/reviewSuggestionWrites';
 import { captureTextRange } from '@/lib/reviewTextRanges';
+import { useHistoryStore } from '@/stores/historyStore';
 import { listReviewRounds } from '@/lib/reviewRounds';
 import { buildBackup } from '@/lib/backup';
 
@@ -60,6 +61,23 @@ describe('structural reconciliation through actual source and database writes',(
     expect(changeDocumentHistory('redo',captureDocumentScope())).toBe('applied');await flushDocumentWrites();expect(getSerializedSession().paragraphs).toEqual(accepted.paragraphs);
     expect((await loadReviewSuggestionWorkspace(round.id)).state!.decisions.map(d=>d.action)).toEqual(['accepted','reversed','restored']);
     expect(JSON.parse(await buildBackup()).reviewSuggestions.some((r:{state:{decisions:Array<{resolutions?:Array<{structure?:unknown}>}>}})=>r.state.decisions.some(d=>d.resolutions?.some(v=>v.structure)))).toBe(true);
+  });
+  it('reserves IDs retained only by a rebased decision after ordinary history is cleared', async () => {
+    const { round, proposal, id } = await fixture();
+    useDocumentStore.setState(state => ({ paragraphs: [...state.paragraphs.slice(0, 2), { id: 'rebased-only-id', text: 'Newer independent sibling.', level: 0 }, ...state.paragraphs.slice(2)] }));
+    await commitCurrentDocument();
+    expect((await decideReviewSuggestion(round.id, proposal.id, 'accepted')).status).toBe('committed');
+    const accepted = reviewSuggestionRecordSchema.parse(await db.idbReadReviewSuggestions(id, round.id)).state;
+    expect(accepted.proposals[0].changes[0].target.kind === 'structure' && accepted.proposals[0].changes[0].target.operation.before.some(node => node.id === 'rebased-only-id')).toBe(false);
+    expect(accepted.decisions[0].resolutions![0].structure!.operation.before.some(node => node.id === 'rebased-only-id')).toBe(true);
+    useDocumentStore.setState(state => ({ paragraphs: state.paragraphs.filter(node => node.id !== 'rebased-only-id') }));
+    await commitCurrentDocument();
+    useHistoryStore.setState({ past: [], future: [], currentSnapshot: null });
+    const later = await startReviewRound('Synthetic later review');
+    const reused = createParagraphStructureSuggestion(later, { author: 'Reviewer', operation: { kind: 'insert-paragraph', index: 0, level: 0, text: 'Different new content.', paragraphId: 'rebased-only-id' } });
+    await expect(submitReviewSuggestion(reused)).rejects.toThrow(/identity.*reserved/);
+    expect(await db.idbReadReviewSuggestions(id, later.id)).toBeNull();
+    expect((await saved(id)).session.paragraphs.some(node => node.id === 'rebased-only-id')).toBe(false);
   });
   it('requires visible current delete confirmation and protects changed content and comments across Undo/Redo',async()=>{
     const round=await startReviewRound('Synthetic deletion reconciliation'),proposal=createParagraphStructureSuggestion(round,{author:'Reviewer',operation:{kind:'delete-paragraph',paragraphId:'move-child'}});await submitReviewSuggestion(proposal);
