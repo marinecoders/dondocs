@@ -933,7 +933,7 @@ export async function applyOwnedReviewSuggestions(target: DocumentTarget | null,
   if (!sameReviewStoredValue(state, operation.before) || !isCurrentDocumentTarget(target)) return 'stale';
   let otherReviewIds: string[] = [];
   if (reviewSuggestionWriteNewIds(operation).length > 0) {
-    const [suggestions, retainedIds] = await Promise.all([idbReadAllReviewSuggestions(), idbReadRetainedParagraphIds(operation.documentId)]);
+    const [suggestions, retainedIds] = await Promise.all([idbReadAllReviewSuggestions(operation.documentId), idbReadRetainedParagraphIds(operation.documentId)]);
     otherReviewIds = suggestions.filter((value): value is { documentId: string } => !!value && typeof value === 'object'
       && 'documentId' in value && value.documentId === operation.documentId).map(value => reviewSuggestionRecordSchema.parse(value))
       .filter(record => record.state.roundId !== round.id).flatMap(record => reviewStructureReservedIds(record.state)).concat(retainedIds);

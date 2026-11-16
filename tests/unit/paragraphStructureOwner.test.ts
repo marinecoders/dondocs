@@ -8,12 +8,12 @@ import { getExportDeploymentPolicy } from '@/config/classification';
 import { resolveExportDeploymentPolicy } from '@/lib/exportDeploymentPolicy';
 import { startReviewRound, transitionReviewRound } from '@/lib/reviewRoundActions';
 import { decideReviewSuggestion, submitReviewSuggestion, loadReviewSuggestionWorkspace } from '@/lib/reviewSuggestionActions';
-import { createParagraphStructureSuggestion, emptyReviewSuggestionState, appendReviewSuggestions, planReviewSuggestionDecision } from '@/lib/reviewSuggestions';
+import { createParagraphStructureSuggestion, emptyReviewSuggestionState, appendReviewSuggestions, planReviewSuggestionDecision, createReviewSuggestion } from '@/lib/reviewSuggestions';
 import { planReviewSuggestionWrite, reviewSuggestionRecordSchema, type ReviewSuggestionWrite } from '@/lib/reviewSuggestionWrites';
 import { captureTextRange } from '@/lib/reviewTextRanges';
 import { ensureParagraphIds } from '@/lib/paragraphIdentity';
 import { persistAttachment } from '@/lib/attachments';
-import { listReviewRounds } from '@/lib/reviewRounds';
+import { listReviewRounds, parseReviewRound } from '@/lib/reviewRounds';
 import { createSuggestionReviewReturn, parseReviewReturn } from '@/lib/reviewReturns';
 import { buildBackup, restoreBackup } from '@/lib/backup';
 import { captureReviewDecisionSummary, prepareReviewDecisionSummary, renderReviewDecisionSummary } from '@/lib/reviewDecisionSummary';
@@ -206,4 +206,32 @@ describe('paragraph scoped transaction defenses',()=>{
     expect(()=>planReviewSuggestionWrite(round,context.current,op,candidate)).toThrow(/discussion/);
     expect(changeDocumentHistory('undo',captureDocumentScope())).toBe('applied');await flushDocumentWrites();expect(getSerializedSession().reviewComments).toEqual(round.baseline.session.reviewComments);
   });
+});
+
+it('reads only the current document suggestion inventory during structural preflight and atomic storage', async () => {
+  const f = await dbFixture(), unrelatedDocuments: db.StoredDocument[] = [], unrelatedStates = [];
+  for (let index = 0; index < 3; index++) {
+    const id = `unrelated-review-document-${index}`;
+    const document = { ...structuredClone(f.before), id, meta: { ...f.before.meta, id } };
+    const round = parseReviewRound({ ...f.round, id: `review_${crypto.randomUUID()}`, sourceDocumentId: id, ownerDocumentId: id });
+    const proposal = createReviewSuggestion(round, { author: 'Synthetic unrelated reviewer', label: 'Unrelated subject proposal', changes: [{
+      target: { kind: 'field', field: 'subject', docType: round.baseline.session.docType }, proposed: `Unrelated subject ${index}`,
+    }] });
+    const state = appendReviewSuggestions(round, emptyReviewSuggestionState(round), [proposal]);
+    unrelatedDocuments.push(document); unrelatedStates.push({ documentId: id, state });
+    await db.idbPutDocument(document); expect(await db.idbAddReviewRound(round)).toBe('committed');
+  }
+  expect(await db.idbRestoreReviewSuggestions(unrelatedStates, [], unrelatedDocuments)).toBe(true);
+  expect(await db.idbReadAllReviewSuggestions()).toHaveLength(unrelatedStates.length + 1);
+  const inventories: Array<Array<{ value: { documentId: string } }>> = [], getAll = IDBObjectStore.prototype.getAll;
+  vi.spyOn(IDBObjectStore.prototype, 'getAll').mockImplementation(function(this: IDBObjectStore, ...args) {
+    const request = getAll.apply(this, args), query = args[0];
+    if (this.name === 'app' && query instanceof IDBKeyRange && String(query.lower).startsWith('review-suggestions:'))
+      request.addEventListener('success', () => { inventories.push(request.result); });
+    return request;
+  });
+  expect((await decideReviewSuggestion(f.round.id, f.proposal.id, 'accepted')).status).toBe('committed');
+  expect(inventories.length).toBeGreaterThan(0);
+  expect(inventories.every(records => records.length === 1 && records.every(record => record.value.documentId === f.id))).toBe(true);
+  expect((await saved(f.id)).session).toEqual(f.after.session);
 });
