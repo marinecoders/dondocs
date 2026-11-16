@@ -20,10 +20,9 @@ export function typingDeletion(text: string, start: number, end: number, backwar
 }
 /** An insertion or deletion can join text on either side into one character. */
 export function typingCaret(text: string, offset: number): number {
-  for (const part of new Intl.Segmenter('en', { granularity: 'grapheme' }).segment(text)) {
-    if (part.index >= offset) return part.index;
-  }
-  return text.length;
+  if (offset <= 0) return 0;
+  const part = new Intl.Segmenter('en', { granularity: 'grapheme' }).segment(text).containing(offset);
+  return part ? part.index === offset ? offset : part.index + part.segment.length : text.length;
 }
 export function editReviewTypingDraft(draft: ReviewTypingDraft, from: number, to: number, insert: string): ReviewTypingDraft {
   if (from > to || !isTextRangeBoundary(draft.text, from) || !isTextRangeBoundary(draft.text, to)) {
@@ -38,10 +37,23 @@ export function editReviewTypingDraft(draft: ReviewTypingDraft, from: number, to
   const mapEnd = to < draft.start ? to : to > oldEnd ? to - delta : draft.end;
   let start = dirty ? Math.min(draft.start, mapStart) : from;
   let end = dirty ? Math.max(draft.end, mapEnd) : to;
-  // Combining marks may join a neighboring character; retain the complete grapheme.
-  while (start > 0 && (!isTextRangeBoundary(draft.baseline, start) || !isTextRangeBoundary(text, start))) start--;
+  const segmenter = new Intl.Segmenter('en', { granularity: 'grapheme' });
+  const baselineSegments = segmenter.segment(draft.baseline), textSegments = segmenter.segment(text);
+  // Retain joined characters, jumping whole graphemes even for long combining sequences.
+  while (start > 0) {
+    const next = Math.min(baselineSegments.containing(start)?.index ?? start, textSegments.containing(start)?.index ?? start);
+    if (next === start) break;
+    start = next;
+  }
   let proposedEnd = end + text.length - draft.baseline.length;
-  while (end < draft.baseline.length && (!isTextRangeBoundary(draft.baseline, end) || !isTextRangeBoundary(text, proposedEnd))) { end++;proposedEnd++; }
+  while (end < draft.baseline.length) {
+    const baselinePart = baselineSegments.containing(end), textPart = textSegments.containing(proposedEnd);
+    const baselineEnd = baselinePart && baselinePart.index !== end ? baselinePart.index + baselinePart.segment.length : end;
+    const textEnd = textPart && textPart.index !== proposedEnd ? textPart.index + textPart.segment.length : proposedEnd;
+    const distance = Math.max(baselineEnd - end, textEnd - proposedEnd);
+    if (!distance) break;
+    end += distance;proposedEnd += distance;
+  }
   if (!isTextRangeBoundary(text, start) || !isTextRangeBoundary(text, proposedEnd)) throw new Error('This edit would split a character. The last valid suggested text is retained.');
   return { baseline: draft.baseline, text, start, end, proposed: text.slice(start, proposedEnd) };
 }
