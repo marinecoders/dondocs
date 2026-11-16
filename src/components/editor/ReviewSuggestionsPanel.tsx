@@ -1,3 +1,4 @@
+import { ParagraphSplitJoinProposalsPanel } from './ParagraphSplitJoinProposalsPanel';
 import { useEffect, useLayoutEffect, useId, useMemo, useRef, useState, type FormEvent } from 'react';
 import { FeedbackCategorySelect } from '@/components/FeedbackCategorySelect';
 import { feedbackCategoryLabel, matchesFeedbackFilter, type FeedbackCategory, type FeedbackFilter } from '@/lib/reviewFeedback';
@@ -147,6 +148,7 @@ export function ReviewSuggestionsPanel({ round, current, state, owner, busy, onC
       </fieldset>
     </form>
     <ParagraphStructureProposalsPanel round={round} author={author} category={category} busy={disabled || typedDirty} proposalCount={state.proposals.length} onCreate={onCreate} />
+    <ParagraphSplitJoinProposalsPanel round={round} disabled={disabled || typedDirty} quotaFull={state.proposals.length >= REVIEW_SUGGESTION_LIMITS.proposals} onCreate={onCreate} />
     <MechanicalReviewProposalsPanel round={round} busy={disabled || typedDirty} proposalCount={state.proposals.length} onCreate={onCreate} />
     {!state.proposals.length && <p className="text-sm text-muted-foreground">No suggested replacements in this review.</p>}
     <FeedbackCategorySelect label="Filter suggestion category" value={filter} onChange={setFilter} filter />

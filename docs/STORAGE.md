@@ -118,6 +118,31 @@ retained current context counts against the same 200,000-character suggestion
 budget; each paragraph/replacement remains limited to 20,000 characters.
 Retained range context counts against suggestion text limits and is scanned with
 reviewer text before transfer or acceptance.
+Paragraph split/join suggestions extend the same structural target and scoped
+writer. Their full before objects must equal the reviewed baseline; full after
+objects must equal the deterministic result of the explicit split offset or join
+separator, including every supported nontext property. Stable adjacent boundaries,
+parent identity and leaf constraints are rechecked against the current draft.
+No arbitrary after object, hidden metadata change or complete-session restoration
+is accepted. New split identities are generated once and checked against document,
+discussion and retained review/history reservations. Exact comment replay proves
+that Undo restores only effects of the tagged acceptance.
+
+Accepted structural mappings may add `tracking.paragraphId` to a selected-text
+comment. The original paragraph ID, quote, context, offsets and deliberate
+reattachment history remain immutable. Only known contained spans receive that
+explicit destination; changed, crossing or ambiguous spans detach. Resolvers,
+navigation, later edits and identity reservations use the effective tracked ID.
+Returned tracking remains runtime data without authority over the owner's mapping.
+Tracking context and destination identity count against retained-context budgets
+and use the existing privacy, draft/share and backup policies; clean output omits
+all discussion metadata. Cross-paragraph tracking requires DonDocs 1.3.114 or later.
+Earlier strict readers reject a draft or backup containing this destination field
+before import; keep the original file and reopen it in a compatible build. The
+review model remains version 3 because original anchors and quotes are unchanged.
+Keep a current workspace backup before rolling back an installed build; an older
+on-device reader cannot be made compatible by a new build.
+
 Suggest Changes mode holds one unsaved paragraph draft in the mounted review
 editor. Native input selections expand one exact baseline range; typing never
 writes the document or baseline. Separate edits share one displayed contiguous

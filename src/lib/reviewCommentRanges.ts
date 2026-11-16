@@ -1,15 +1,15 @@
 import type { Paragraph } from '@/types/document';
 import { reviewCommentsSchema, type CommentThread, type ReviewComments } from './reviewComments';
 import type { DocumentFieldSource } from './documentFields';
-import { captureTextRange, resolveTextRange, type SelectedTextRange, supportsPlainTextRange, transformTextRangeForText } from './reviewTextRanges';
+import { captureTextRange, resolveTextRange, textRangeParagraphId, type SelectedTextRange, supportsPlainTextRange, transformTextRangeForText } from './reviewTextRanges';
 
 /** Shared by editor edits and guarded review writers. Caller supplies the exact
  * paragraph before/after at the same write boundary; discussion history is immutable. */
 export function transformRangeComments(comments: ReviewComments | undefined, before: Paragraph, after: Paragraph): ReviewComments | undefined {
   if (!comments) return comments;
-  const detach = () => ({ ...comments, threads: comments.threads.map(thread => thread.anchor.kind === 'range' && thread.anchor.paragraphId === before.id
+  const detach = () => ({ ...comments, threads: comments.threads.map(thread => thread.anchor.kind === 'range' && textRangeParagraphId(thread.anchor) === before.id
     ? { ...thread, anchor: { ...thread.anchor, detached: true as const } } : thread) });
-  const next = { ...comments, threads: comments.threads.map(thread => thread.anchor.kind === 'range' && thread.anchor.paragraphId === before.id
+  const next = { ...comments, threads: comments.threads.map(thread => thread.anchor.kind === 'range' && textRangeParagraphId(thread.anchor) === before.id
     ? { ...thread, anchor: after.id === before.id && supportsPlainTextRange(after)
       ? transformTextRangeForText(thread.anchor, before.text, after.text) : { ...thread.anchor, detached: true as const } } : thread) };
   // Growing text can exceed the aggregate retained-context budget. Preserve
@@ -55,4 +55,39 @@ export function normalizeReturnedRangeComments(baseline: DocumentFieldSource, cu
     for (const previous of thread.anchorHistory ?? []) original(previous.anchor);
     return { ...thread, anchor: resolveTextRange(current, anchor).status === 'current' ? anchor : { ...anchor, detached: true as const } };
   }) };
+}
+
+export interface StructuralRangeSpan {
+  fromParagraphId: string; fromStart: number; fromEnd: number;
+  toParagraphId: string; toStart: number;
+}
+/** Only accepted operations supply these exact identity/span correspondences.
+ * A crossing span, changed context, unsupported destination, or detached target
+ * retains its original quote. Text is never searched to find another match. */
+export function mapStructuralRangeComments(comments: ReviewComments | undefined, before: readonly Paragraph[], after: readonly Paragraph[],
+  spans: readonly StructuralRangeSpan[]): ReviewComments | undefined {
+  if (!comments) return comments;
+  const next = { ...comments, threads: comments.threads.map(thread => {
+    if (thread.anchor.kind !== 'range' || thread.anchor.detached) return thread;
+    const anchor = thread.anchor, id = textRangeParagraphId(anchor), position = anchor.tracking ?? anchor;
+    const original = before.find(paragraph => paragraph.id === id);
+    if (!original) return thread;
+    const detach = () => ({ ...thread, anchor: { ...anchor, detached: true as const } });
+    if (original.text !== position.context) return detach();
+    const candidates = spans.filter(span => span.fromParagraphId === id && position.start >= span.fromStart && position.end <= span.fromEnd);
+    if (candidates.length !== 1) return detach();
+    const span = candidates[0], destination = after.find(paragraph => paragraph.id === span.toParagraphId);
+    if (!destination || !supportsPlainTextRange(destination)) return detach();
+    const start = position.start - span.fromStart + span.toStart, end = position.end - span.fromStart + span.toStart;
+    const tracking = { paragraphId: span.toParagraphId, context: destination.text, start, end };
+    if (destination.text.slice(start, end) !== anchor.context.slice(anchor.start, anchor.end)) return detach();
+    const mapped: SelectedTextRange = { ...anchor, tracking };
+    if (tracking.paragraphId === anchor.paragraphId && tracking.context === anchor.context && start === anchor.start && end === anchor.end) delete mapped.tracking;
+    return { ...thread, anchor: mapped };
+  }) };
+  // Context growth cannot prevent a valid document operation. Retain original
+  // discussions detached if the combined runtime contexts exceed the budget.
+  if (reviewCommentsSchema.safeParse(next).success) return next;
+  return { ...comments, threads: comments.threads.map(thread => thread.anchor.kind === 'range' && before.some(paragraph => paragraph.id === textRangeParagraphId(thread.anchor as SelectedTextRange))
+    ? { ...thread, anchor: { ...thread.anchor, detached: true as const } } : thread) };
 }

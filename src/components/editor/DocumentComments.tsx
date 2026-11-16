@@ -209,7 +209,7 @@ function CommentThreadView({ thread, run, startEditor, onNavigate }: {
     <FeedbackCategorySelect label="Feedback category" value={thread.category ?? 'unclassified'} onChange={value => run({ kind: 'classify', threadId: thread.id, category: value })} />
     {thread.anchor.kind === 'range' && <blockquote aria-label="Commented text" className="whitespace-pre-wrap break-words border-l-2 pl-2 text-sm">{thread.anchor.context.slice(thread.anchor.start, thread.anchor.end)}</blockquote>}
     {(thread.anchor.kind === 'paragraph' && anchor.status !== 'unavailable' || thread.anchor.kind === 'range' && anchor.status === 'current') && <Button type="button" size="sm" variant="outline" onClick={() => {
-      if (thread.anchor.kind === 'paragraph' || thread.anchor.kind === 'range') onNavigate(thread.anchor.paragraphId, thread.anchor.kind === 'range' ? thread.anchor : undefined);
+      if (thread.anchor.kind === 'paragraph' || thread.anchor.kind === 'range') onNavigate(thread.anchor.kind === 'range' ? thread.anchor.tracking?.paragraphId ?? thread.anchor.paragraphId : thread.anchor.paragraphId, thread.anchor.kind === 'range' ? thread.anchor : undefined);
     }}>{thread.anchor.kind === 'range' ? 'Go to selected text' : 'Go to paragraph'}</Button>}
     {anchor.status !== 'current' && <p className="text-sm text-amber-700 dark:text-amber-400">{thread.anchor.kind === 'range' ? 'This selected text is detached because its text, boundaries, format or paragraph changed or became unavailable. The original quote and context are retained.' : thread.anchor.kind === 'paragraph'
       ? anchor.status === 'changed' ? 'This paragraph’s text or markings changed after the comment was added.' : 'This paragraph was deleted or is unavailable. Its earlier context is kept below.'

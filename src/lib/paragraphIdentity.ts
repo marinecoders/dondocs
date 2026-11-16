@@ -10,7 +10,7 @@ export function newParagraphId(): string {
 }
 
 export function paragraphCommentIds(comments: ReviewComments | undefined): string[] {
-  return comments?.threads.flatMap(thread => [...((thread.anchor.kind === 'paragraph' || thread.anchor.kind === 'range') ? [thread.anchor.paragraphId] : []), ...(thread.anchorHistory ?? []).map(previous => previous.anchor.paragraphId)]) ?? [];
+  return comments?.threads.flatMap(thread => [...((thread.anchor.kind === 'paragraph' || thread.anchor.kind === 'range') ? [thread.anchor.paragraphId, ...(thread.anchor.kind === 'range' && thread.anchor.tracking?.paragraphId ? [thread.anchor.tracking.paragraphId] : [])] : []), ...(thread.anchorHistory ?? []).flatMap(previous => [previous.anchor.paragraphId, ...(previous.anchor.tracking?.paragraphId ? [previous.anchor.tracking.paragraphId] : [])])]) ?? [];
 }
 
 /** New content never borrows the identity of a template or duplicated node. */

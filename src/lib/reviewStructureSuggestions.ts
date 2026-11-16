@@ -8,7 +8,8 @@ import { paragraphCommentIds, paragraphIdSchema, validateParagraphIds } from './
 import { supportsReviewComments, paragraphCommentContext } from './reviewCommentTargets';
 import { isTextRangeBoundary, supportsPlainTextRange } from './reviewTextRanges';
 import { normalizeLevels } from './paragraphUtils';
-import { transformRangeComments } from './reviewCommentRanges';
+import { splitReviewParagraph, joinReviewParagraphs } from './reviewStructureFormatting';
+import { mapStructuralRangeComments, type StructuralRangeSpan, transformRangeComments } from './reviewCommentRanges';
 
 const text = z.string().max(20_000);
 const fileRef = z.object({ id: z.string().min(1).max(200), name: text, size: z.number().int().nonnegative(), type: text }).strict();
@@ -29,6 +30,8 @@ const common = { before: z.array(reviewStructureParagraphSchema).max(100), after
 export const reviewStructureOperationSchema = z.discriminatedUnion('kind', [
   z.object({ kind: z.literal('insert-paragraph'), ...common }).strict(),
   z.object({ kind: z.literal('delete-paragraph'), ...common }).strict(),
+  z.object({ kind: z.literal('split-paragraph'), ...common, splitAt: z.number().int().positive() }).strict(),
+  z.object({ kind: z.literal('join-paragraphs'), ...common, separator: z.enum(['', ' ']) }).strict(),
 ]);
 export const reviewStructureTargetSchema = z.object({ kind: z.literal('structure'), docType: z.string().min(1).max(100), operation: reviewStructureOperationSchema }).strict();
 export type ReviewStructureTarget = z.infer<typeof reviewStructureTargetSchema>;
@@ -38,7 +41,7 @@ export function structureSuggestionText(paragraphs: readonly Paragraph[]): strin
   return paragraphs.map(paragraphCommentContext).join('\n\n');
 }
 export function structureSuggestionLabel(target: ReviewStructureTarget): string {
-  return target.operation.kind === 'insert-paragraph' ? 'Insert paragraph' : 'Delete paragraph';
+  return ({ 'insert-paragraph': 'Insert paragraph', 'delete-paragraph': 'Delete paragraph', 'split-paragraph': 'Split paragraph', 'join-paragraphs': 'Join paragraphs' })[target.operation.kind];
 }
 export function structureOperationIds(target: ReviewStructureTarget): string[] {
   return [...new Set([...target.operation.before, ...target.operation.after].map(paragraph => paragraph.id)
@@ -62,13 +65,19 @@ function assertOperation(target: ReviewStructureTarget): void {
     if (operation.before.length !== 0 || operation.after.length !== 1 || !paragraph
       || Object.keys(paragraph).some(key => !['id', 'text', 'level'].includes(key)) || !supportsPlainTextRange(paragraph)
       || !paragraph.text.trim() || !isTextRangeBoundary(paragraph.text, 0) || !isTextRangeBoundary(paragraph.text, paragraph.text.length)) throw new Error('Insert one nonempty plain native paragraph. Formatting, variables and structured blocks are not supported for new paragraphs.');
-  } else {
+  } else if (operation.kind === 'delete-paragraph') {
     if (operation.before.length !== 1 || operation.after.length !== 0) throw new Error('Delete exactly one leaf paragraph.');
     const paragraph = operation.before[0];
     if (paragraph.figure || paragraph.tableKey || paragraph.tableIdentifierMode || paragraph.tableFootnotes?.length
       || paragraph.callout || paragraph.procedure || paragraph.appendix || paragraph.publicationSection)
       throw new Error('Structured paragraphs require resource-aware structural review. Keep the paragraph and add a comment describing the deletion.');
-  }
+  } else if (operation.kind === 'split-paragraph') {
+    if (operation.before.length !== 1 || operation.after.length !== 2 || operation.after[1].id === operation.before[0].id
+      || !same(operation.after, splitReviewParagraph(operation.before[0], operation.splitAt, operation.after[1].id)))
+      throw new Error('A split must preserve the exact paragraph properties, formatting and generated identity.');
+  } else if (operation.before.length !== 2 || operation.after.length !== 1
+    || !same(operation.after, [joinReviewParagraphs(operation.before[0], operation.before[1], operation.separator)]))
+    throw new Error('A join must preserve both exact adjacent paragraphs and their supported properties.');
 }
 /** Locate an exact gap/span by stable IDs. Neighbor text edits survive; moved,
  * removed, indented or interposed neighbors invalidate the captured operation. */
@@ -128,14 +137,21 @@ function prepareReviewStructure(source: SerializedSession, input: ReviewStructur
   for (const paragraph of after) if (!retained.has(paragraph.id) && occupied.has(paragraph.id)
     // An inverse deletion restores the exact captured ID and discussions; never
     // use the inverse outside a tagged, independently verified history action.
-    && !((direction === 'reverse' && target.operation.kind === 'delete-paragraph' || historyReplay && direction === 'forward' && structureNewIds(target).includes(paragraph.id!))
+    && !((direction === 'reverse' && ['delete-paragraph', 'join-paragraphs'].includes(target.operation.kind) || historyReplay && direction === 'forward' && structureNewIds(target).includes(paragraph.id!))
       && !source.paragraphs.some(current => current.id === paragraph.id))) throw new Error('The new paragraph identity is already reserved.');
   return { target, start, before, after };
 }
 export function applyReviewStructure(source: SerializedSession, input: ReviewStructureTarget, direction: 'forward' | 'reverse' = 'forward', reservedIds: readonly string[] = [], historyReplay = false): SerializedSession {
-  const { start, before, after } = prepareReviewStructure(source, input, direction, reservedIds, historyReplay);
+  const { target, start, before, after } = prepareReviewStructure(source, input, direction, reservedIds, historyReplay);
   const session = structuredClone(source);
   session.paragraphs.splice(start, before.length, ...structuredClone(after));
+  const spans = structureRangeSpans(target);
+  if (spans.length) {
+    const mapping = direction === 'forward' ? spans : spans.map(span => ({ fromParagraphId: span.toParagraphId, fromStart: span.toStart,
+      fromEnd: span.toStart + span.fromEnd - span.fromStart, toParagraphId: span.fromParagraphId, toStart: span.fromStart }));
+    const comments = mapStructuralRangeComments(session.reviewComments, before, after, mapping);
+    if (comments) session.reviewComments = comments;
+  }
   for (const paragraph of before) if (!after.some(item => item.id === paragraph.id)) {
     const comments = transformRangeComments(session.reviewComments, paragraph, { ...paragraph, id: undefined });
     if (comments) session.reviewComments = comments;
@@ -151,14 +167,37 @@ export function inspectReviewStructure(source: SerializedSession, target: Review
   try { prepareReviewStructure(source, target, direction, reservedIds, false);return true; } catch { return false; }
 }
 /** Capture once; callers retain the generated new ID when submitting/retrying. */
-export function captureReviewStructure(source: SerializedSession, input: { kind: 'insert-paragraph'; index: number; text: string; level: number; paragraphId?: string } | { kind: 'delete-paragraph'; paragraphId: string }): ReviewStructureTarget {
-  const index = input.kind === 'delete-paragraph' ? source.paragraphs.findIndex(paragraph => paragraph.id === input.paragraphId) : input.index;
-  if (!Number.isInteger(index) || index < 0 || index > source.paragraphs.length || input.kind === 'delete-paragraph' && index === source.paragraphs.length) throw new Error('Choose a current stable paragraph or insertion position.');
-  const before = input.kind === 'delete-paragraph' ? [structuredClone(source.paragraphs[index])] : [];
-  const after = input.kind === 'insert-paragraph' ? [{ id: input.paragraphId ?? crypto.randomUUID(), text: input.text, level: input.level }] : [];
+export type CaptureReviewStructureInput = { kind: 'insert-paragraph'; index: number; text: string; level: number; paragraphId?: string }
+  | { kind: 'delete-paragraph'; paragraphId: string }
+  | { kind: 'split-paragraph'; paragraphId: string; splitAt: number; newParagraphId?: string }
+  | { kind: 'join-paragraphs'; paragraphId: string; nextParagraphId: string; separator: '' | ' ' };
+export function captureReviewStructure(source: SerializedSession, input: CaptureReviewStructureInput): ReviewStructureTarget {
+  const index = input.kind === 'insert-paragraph' ? input.index : source.paragraphs.findIndex(paragraph => paragraph.id === input.paragraphId);
+  if (!Number.isInteger(index) || index < 0 || index > source.paragraphs.length || input.kind !== 'insert-paragraph' && index === source.paragraphs.length) throw new Error('Choose a current stable paragraph or insertion position.');
+  const before = input.kind === 'insert-paragraph' ? [] : structuredClone(source.paragraphs.slice(index, index + (input.kind === 'join-paragraphs' ? 2 : 1)));
+  if (input.kind === 'join-paragraphs' && before[1]?.id !== input.nextParagraphId) throw new Error('Explicitly select two adjacent paragraphs. Their descendants cannot be joined.');
+  const after = input.kind === 'insert-paragraph' ? [{ id: input.paragraphId ?? crypto.randomUUID(), text: input.text, level: input.level }]
+    : input.kind === 'split-paragraph' ? splitReviewParagraph(before[0], input.splitAt, input.newParagraphId ?? crypto.randomUUID())
+      : input.kind === 'join-paragraphs' ? [joinReviewParagraphs(before[0], before[1], input.separator)] : [];
   const boundaryOf = (paragraph: Paragraph | undefined) => paragraph ? { id: paragraph.id!, level: paragraph.level } : null;
   const next = [...source.paragraphs.slice(0, index), ...after, ...source.paragraphs.slice(index + before.length)];
-  return validateReviewStructureTarget(source, { kind: 'structure', docType: source.docType, operation: { kind: input.kind, before: before as ReviewStructureOperation['before'], after,
-    gap: { before: boundaryOf(source.paragraphs[index - 1]), after: boundaryOf(source.paragraphs[index + before.length]) },
-    parentId: parentId(before.length ? source.paragraphs : next, index) } });
+  const common = { before: before as ReviewStructureOperation['before'], after: after as ReviewStructureOperation['after'],
+    gap: { before: boundaryOf(source.paragraphs[index - 1]), after: boundaryOf(source.paragraphs[index + before.length]) }, parentId: parentId(before.length ? source.paragraphs : next, index) };
+  const operation = input.kind === 'split-paragraph' ? { ...common, kind: input.kind, splitAt: input.splitAt }
+    : input.kind === 'join-paragraphs' ? { ...common, kind: input.kind, separator: input.separator } : { ...common, kind: input.kind };
+  return validateReviewStructureTarget(source, { kind: 'structure', docType: source.docType, operation });
+}
+
+/** Derived solely from validated explicit offsets. Rich paragraphs preserve
+ * marks, while current selected-text comments remain limited to plain text. */
+export function structureRangeSpans(target: ReviewStructureTarget): StructuralRangeSpan[] {
+  const operation = target.operation;
+  if (operation.kind === 'split-paragraph') return [
+    { fromParagraphId: operation.before[0].id, fromStart: 0, fromEnd: operation.splitAt, toParagraphId: operation.after[0].id, toStart: 0 },
+    { fromParagraphId: operation.before[0].id, fromStart: operation.splitAt, fromEnd: operation.before[0].text.length, toParagraphId: operation.after[1].id, toStart: 0 },
+  ];
+  if (operation.kind === 'join-paragraphs') return operation.before.map((paragraph, index) => ({ fromParagraphId: paragraph.id,
+    fromStart: 0, fromEnd: paragraph.text.length, toParagraphId: operation.after[0].id,
+    toStart: index ? operation.before[0].text.length + operation.separator.length : 0 }));
+  return [];
 }

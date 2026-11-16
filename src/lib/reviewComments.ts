@@ -38,13 +38,13 @@ export const reviewCommentsSchema = z.object({ version: z.union([z.literal(1), z
       }
       if (thread.anchor.kind !== 'document') characters += thread.anchor.context.length;
       if (thread.anchor.kind === 'range') {
-        characters += thread.anchor.tracking?.context.length ?? 0;
+        characters += (thread.anchor.tracking?.context.length ?? 0) + (thread.anchor.tracking?.paragraphId?.length ?? 0);
         if (value.version !== 3 || thread.anchor.start === thread.anchor.end) ctx.addIssue({ code: 'custom', message: 'Selected-text comments require a nonempty range and review format version 3.' });
       }
       if (thread.anchor.kind === 'paragraph' && value.version === 1) ctx.addIssue({ code: 'custom', message: 'Paragraph comments require review format version 2.' });
       if (thread.anchorHistory !== undefined && (value.version !== 3 || thread.anchor.kind !== 'range')) ctx.addIssue({ code: 'custom', message: 'Reattachment history requires selected-text comments in format version 3.' });
       for (const previous of thread.anchorHistory ?? []) {
-        characters += previous.anchor.context.length + (previous.anchor.tracking?.context.length ?? 0);
+        characters += previous.anchor.context.length + (previous.anchor.tracking?.context.length ?? 0) + (previous.anchor.tracking?.paragraphId?.length ?? 0);
         if (value.version !== 3 || previous.anchor.start === previous.anchor.end || thread.anchor.kind !== 'range') ctx.addIssue({ code: 'custom', message: 'Reattachment history requires selected-text comments in format version 3.' });
       }
       for (const message of thread.messages) characters += message.author.length + message.text.length;
