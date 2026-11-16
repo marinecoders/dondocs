@@ -138,6 +138,39 @@ labels are self-entered. This review derivative is not an authenticated approval
 record, and it does not include attached PDF/image contents or feedback that has
 not been imported into this local draft.
 
+### Redline review PDF
+
+In **Review rounds**, choose **Prepare redline PDF** on the source or linked reviewer
+copy. Preparation saves pending work and captures the exact document and review
+state. Inspect the PDF preview, then acknowledge its retained text and choose
+**Download reviewed redline (.pdf)**. The downloaded file is a **REVIEW COPY**;
+the ordinary clean document PDF remains a separate export.
+
+The legend identifies struck deletions and underlined insertions. Selected-text
+proposals show the exact reviewed paragraph context. Moves identify the source,
+destination and paragraph order without treating automatic numbering as text
+changes. Split/join proposals annotate paragraph boundaries. Separate baseline,
+current and proposed values, accepted results and retained decision history explain
+what was proposed, what is current and what was decided. Open, conflicting,
+accepted and rejected states use written labels in addition to color. Retained
+discussions and earlier context are included; attached PDF/image contents are not.
+
+Later document edits, document switches, changed feedback and round lifecycle
+changes invalidate the prepared download. Cancel and prepare it again; the app
+never silently substitutes a newer capture after acknowledgement. Deployment
+policy is checked again before delivery. A failed download can be retried against
+the same capture when its authority and content remain current.
+
+Unicode appearances use the device's available fonts and are embedded in the PDF,
+with searchable text mappings. Check every script in the preview. Missing glyphs,
+unsupported control characters or very long character clusters produce a recovery
+message instead of substituted text. Use a device with the required fonts, or the
+printable decision-summary HTML for unsupported text. The review PDF is searchable
+but is not a tagged PDF. A single review is limited to 2 million emitted characters,
+250 pages, 60 million rendered Unicode pixels and 40 MB; use a smaller round if a
+limit is reached.
+
+
 ## Manage review round status
 
 In **Review rounds**, the open source draft can **Close review**, deliberately

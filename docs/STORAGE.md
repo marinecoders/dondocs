@@ -701,3 +701,33 @@ block assembly, while unlinked literal citations remain a separate manual check.
 
 
 Structural reconciliation stores the exact current `structure` target in an accepted manual suggestion resolution, alongside its readable `expectedCurrent` and `value`. The immutable proposal continues to describe the reviewed baseline. Resolution targets must derive from current nodes and the original operation kind, identities, parent and explicit parameters; only a split can select a new current split boundary. The scoped writer recomputes this derivation before acceptance, and tagged history reverses the accepted current target rather than replaying an obsolete baseline snapshot. Full nested targets participate in size and handling checks. Existing source ownership, CAS, active-round, receipt and atomic rollback gates apply. No pending resolution metadata enters clean document exports.
+
+
+### Captured redline PDF
+
+The redline PDF uses the existing decision-summary capture and its retained-content
+marking/privacy gate. Its detached rendering view owns the reviewed baseline,
+current serialized draft, suggestion/decision state and discussions before
+asynchronous policy and rendering work. Only the prepared PDF bytes feed preview
+and download; acknowledgement never causes another capture. The source document,
+clean compiled output, review records and resource handles are not mutated.
+
+Before delivery, the exporter checks the issued document target and re-reads the
+same round and feedback, comparing lifecycle, owner, exact current payload and
+suggestion state to the capture. Serialization timestamps are excluded from that
+freshness comparison. One readonly IndexedDB transaction checks the saved document, round, feedback and
+review-copy link together; synchronous canonical comparisons and the document edit
+sequence guard the final delivery boundary. Current deployment policy is applied to the same capture.
+Cancellation and component/document disposal invalidate in-flight generations and
+release preview URLs. Preview bytes remain transient and are not persisted.
+
+Browser canvas embeds shaped Unicode line appearances. A small Type3 text mapping
+preserves complete graphemes for search/copy without a font download. Values
+beginning in a right-to-left script wrap at writing-direction transitions to keep
+logical copy order deterministic; ordinary PDF linewrap/trailing whitespace may
+be normalized by readers. Font fallback
+is local to PDF preparation; the resulting PDF does not need the reader's fonts.
+Missing-glyph checks and explicit unsupported-character errors fail closed. ASCII
+uses existing PDF standard fonts with unkerned advance bounds. Grapheme wrapping,
+page, character, raster-pixel and byte limits bound this derivative independently
+of the existing transfer quotas. This is not a tagged-PDF/PDF-UA implementation.
