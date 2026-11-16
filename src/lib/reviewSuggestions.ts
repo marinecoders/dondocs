@@ -175,7 +175,7 @@ export function validateReviewSuggestion(round: ReviewRound, value: unknown): Re
       const target = change.target;
       if (proposal.origin.kind !== 'manual' || target.tracking || target.detached) throw new Error('Selected text suggestions require the exact original range.');
       // Validate the complete result too: replacements must keep this a supported plain paragraph.
-      applyReviewSuggestionRange(round.baseline.session, target, change.expected, change.proposed);
+      prepareReviewSuggestionRange(round.baseline.session, target, change.expected, change.proposed);
     }
     if (change.target.kind === 'reference-title') {
       const index = change.target.referenceIndex;
@@ -233,18 +233,24 @@ export function createSelectedTextSuggestion(round: ReviewRound, input: {
     changes: [{ target, proposed: input.proposed }] });
 }
 
-/** Pure guarded splice. Context and offsets are authority; repeated text is never searched. */
-export function applyReviewSuggestionRange(source: SerializedSession, target: SelectedTextRange, expected: string, proposed: string): SerializedSession {
+/** Validate the scoped splice without copying unrelated text or mapping discussions. */
+function prepareReviewSuggestionRange(source: SerializedSession, target: SelectedTextRange, expected: string, proposed: string) {
   if (target.tracking || target.detached || target.context.slice(target.start, target.end) !== expected) throw new Error('The selected text no longer matches this replacement.');
   const resolved = resolveTextRange(source, target);
   if (resolved.status !== 'current' || resolved.text !== expected) throw new Error('The selected text no longer matches this replacement.');
   const text = target.context.slice(0, target.start) + proposed + target.context.slice(target.end);
   if (!supportsPlainTextRange({ ...resolved.paragraph!, text }) || !isTextRangeBoundary(text, target.start)
     || !isTextRangeBoundary(text, target.start + proposed.length)) throw new Error('The replacement must preserve supported plain text and complete characters.');
+  return { before: resolved.paragraph!, text };
+}
+
+/** Pure guarded splice. Context and offsets are authority; repeated text is never searched. */
+export function applyReviewSuggestionRange(source: SerializedSession, target: SelectedTextRange, expected: string, proposed: string): SerializedSession {
+  const { before, text } = prepareReviewSuggestionRange(source, target, expected, proposed);
   const session = structuredClone(source);
   const paragraph = session.paragraphs.find(paragraph => paragraph.id === target.paragraphId)!;
   paragraph.text = text;
-  const comments = transformRangeComments(source.reviewComments, resolved.paragraph!, paragraph);
+  const comments = transformRangeComments(source.reviewComments, before, paragraph);
   if (comments) session.reviewComments = comments;
   else delete session.reviewComments;
   return session;

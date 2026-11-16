@@ -1,9 +1,9 @@
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi } from 'vitest';
 import { captureTextRange } from '@/lib/reviewTextRanges';
 import { createBlankSession } from '@/stores/documentStore';
 import type { ReviewRound } from '@/lib/reviewRounds';
 import { createSelectedTextSuggestion, emptyReviewSuggestionState, inspectReviewSuggestion, planReviewSuggestionDecision,
-  planReviewSuggestionHistory, appendReviewSuggestions, reviewSuggestionText, validateReviewSuggestion, validateReviewSuggestionState } from '@/lib/reviewSuggestions';
+  planReviewSuggestionHistory, appendReviewSuggestions, applyReviewSuggestionRange, reviewSuggestionText, validateReviewSuggestion, validateReviewSuggestionState } from '@/lib/reviewSuggestions';
 import { planReviewSuggestionWrite, type ReviewSuggestionWrite } from '@/lib/reviewSuggestionWrites';
 import { createSuggestionReviewReturn, parseReviewReturn } from '@/lib/reviewReturns';
 
@@ -29,6 +29,36 @@ function historyWrite(input: ReturnType<typeof fixture>, state: ReturnType<typeo
 }
 
 describe('precise selected text replacements', () => {
+  it('validates and inspects selected text without cloning the complete baseline', () => {
+    const input = fixture();
+    const before = JSON.stringify(input);
+    const clone = vi.spyOn(globalThis, 'structuredClone');
+    try {
+      expect(validateReviewSuggestion(input.round, input.proposal)).toEqual(input.proposal);
+      expect(inspectReviewSuggestion(input.round, input.session, input.proposal)[0].current).toBe('Alpha');
+      // Read-only comparisons run for every proposal on each render. Applying a
+      // temporary replacement here also copies all unrelated document content.
+      expect(clone.mock.calls.filter(([value]) => value === input.round.baseline.session)).toHaveLength(0);
+    } finally { clone.mockRestore(); }
+    expect(JSON.stringify(input)).toBe(before);
+  });
+
+  it('keeps read-only validation and application aligned on complete supported replacement text', () => {
+    const input = fixture(), change = input.proposal.changes[0];
+    const target = change.target;
+    if (target.kind !== 'range') throw new Error('Expected selected range.');
+    for (const [proposed, valid] of [
+      ['Bravo', true], ['', true], ['Équipe 👩🏽‍✈️ 日本語', true], ['**bold**', false], ['{{NAME}}', false],
+      ['new\nparagraph', false], ['\ud800', false], ['\u0301', false], ['x'.repeat(20_000), false],
+    ] as const) {
+      const validate = () => validateReviewSuggestion(input.round, { ...input.proposal, changes: [{ ...change, proposed }] });
+      const apply = () => applyReviewSuggestionRange(input.round.baseline.session, target, change.expected, proposed);
+      if (valid) {
+        expect(validate).not.toThrow();expect(apply().paragraphs[0].text).toBe(`Keep Alpha ${proposed} ending.`);
+      } else { expect(validate).toThrow();expect(apply).toThrow(); }
+    }
+  });
+
   it('captures the second repeated occurrence without changing either document and splices only that span', () => {
     const input = fixture(), before = structuredClone(input.session);
     expect(input.proposal.changes[0]).toMatchObject({ expected: 'Alpha', target: { kind: 'range', start: 11, end: 16, context: 'Keep Alpha Alpha ending.' } });
