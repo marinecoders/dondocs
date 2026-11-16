@@ -1,3 +1,4 @@
+import { transformRangeComments } from './reviewCommentRanges';
 import { replaceReviewParagraphText } from './reviewParagraphText';
 import { z } from 'zod';
 import type { DocumentMeta } from '@/stores/documentsStore';
@@ -116,6 +117,24 @@ export function planReviewSuggestionWrite(round: ReviewRound, source: Serialized
     const expected = intent.direction === 'undo' ? source.reviewComments : destination;
     if (canonicalReviewPayload(replay.reviewComments ?? null) !== canonicalReviewPayload(expected ?? null))
       throw new Error('This history action changes discussion content beyond the accepted paragraph text.');
+    if (destination) next.reviewComments = structuredClone(destination);
+    else delete next.reviewComments;
+  }
+  if (proposal.changes.some(change => change.target.kind === 'range')) {
+    // A touched comment detaches on acceptance. Undo can restore its earlier
+    // anchor only when replaying that exact splice recreates the entire current
+    // discussion state; messages, history and unrelated anchors cannot change.
+    const destination = historyDestination.reviewComments && reviewCommentsSchema.parse(historyDestination.reviewComments);
+    let comments = intent.direction === 'undo' ? destination : source.reviewComments;
+    for (const change of proposal.changes) if (change.target.kind === 'range') {
+      const paragraphId = change.target.paragraphId;
+      const beforeParagraph = (intent.direction === 'undo' ? next : source).paragraphs.find(item => item.id === paragraphId)!;
+      const afterParagraph = (intent.direction === 'undo' ? source : next).paragraphs.find(item => item.id === paragraphId)!;
+      comments = transformRangeComments(comments, beforeParagraph, afterParagraph);
+    }
+    const expected = intent.direction === 'undo' ? source.reviewComments : destination;
+    if (canonicalReviewPayload(comments ?? null) !== canonicalReviewPayload(expected ?? null))
+      throw new Error('This history action changes discussion content beyond the accepted text range.');
     if (destination) next.reviewComments = structuredClone(destination);
     else delete next.reviewComments;
   }

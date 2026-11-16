@@ -1,4 +1,5 @@
 import { replaceReviewParagraphText } from './reviewParagraphText';
+import { transformRangeComments } from './reviewCommentRanges';
 import { z } from 'zod';
 import { feedbackCategorySchema, type FeedbackCategory } from './reviewFeedback';
 import type { SerializedSession } from '@/stores/documentStore';
@@ -241,7 +242,11 @@ export function applyReviewSuggestionRange(source: SerializedSession, target: Se
   if (!supportsPlainTextRange({ ...resolved.paragraph!, text }) || !isTextRangeBoundary(text, target.start)
     || !isTextRangeBoundary(text, target.start + proposed.length)) throw new Error('The replacement must preserve supported plain text and complete characters.');
   const session = structuredClone(source);
-  session.paragraphs.find(paragraph => paragraph.id === target.paragraphId)!.text = text;
+  const paragraph = session.paragraphs.find(paragraph => paragraph.id === target.paragraphId)!;
+  paragraph.text = text;
+  const comments = transformRangeComments(source.reviewComments, resolved.paragraph!, paragraph);
+  if (comments) session.reviewComments = comments;
+  else delete session.reviewComments;
   return session;
 }
 

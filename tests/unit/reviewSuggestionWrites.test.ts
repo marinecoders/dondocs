@@ -1,4 +1,5 @@
 import 'fake-indexeddb/auto';
+import { captureTextRange } from '@/lib/reviewTextRanges';
 import { describe, expect, it, vi } from 'vitest';
 import { createBlankSession } from '@/stores/documentStore';
 import {
@@ -10,9 +11,13 @@ import { appendReviewSuggestions, createSelectedTextSuggestion, createReviewSugg
   planReviewSuggestionHistory } from '@/lib/reviewSuggestions';
 import { planReviewSuggestionWrite, reviewSuggestionRecordSchema, type ReviewSuggestionWrite } from '@/lib/reviewSuggestionWrites';
 
-async function fixture(selected = false) {
+async function fixture(selected = false, withRangeComments = false) {
   const id = crypto.randomUUID(), session = createBlankSession();
   session.timestamp = 100;session.formData.to = 'Original recipient';session.paragraphs = [{ id: 'paragraph-one', text: 'Original body.', level: 0 }];
+  if (withRangeComments) session.reviewComments = { version: 3, threads: [9, 0].map((start, index) => ({
+    id: crypto.randomUUID(), anchor: captureTextRange(session, 'paragraph-one', start, index ? 8 : 13)!,
+    messages: [{ id: crypto.randomUUID(), author: 'Synthetic chief', text: 'Existing discussion', createdAt: new Date(100).toISOString() }], resolved: false,
+  })) };
   const before: StoredDocument = { id, meta: { id, title: 'Example draft', docType: 'naval_letter', updatedAt: 100 }, session };
   const round: ReviewRound = { kind: 'dondocs-review-round', version: 1, id: `review_${crypto.randomUUID()}`,
     createdAt: 100, label: 'Example', sourceDocumentId: id, ownerDocumentId: id, baselineDigest: 'a'.repeat(64), baseline: { ts: 100, session: structuredClone(session) } };
@@ -158,10 +163,11 @@ describe('atomic source-bound review proposal writes', () => {
 
 
 it('commits a precise replacement with its decision and rejects forged whole-paragraph writes, stale owners and quota failure', async () => {
-  const input = await fixture(true);
+  const input = await fixture(true, true);
   expect(await idbApplyReviewSuggestions(input.before, input.after, input.operation)).toBe('committed');
   const { write, saved } = input.accept();
   expect(saved.session.paragraphs[0].text).toBe('Original selected replacement.');
+  expect(saved.session.reviewComments!.threads[0].anchor).toMatchObject({ detached: true });
   const forged = structuredClone(saved);forged.session.paragraphs[0].text = 'Whole paragraph overwrite';
   expect(await idbApplyReviewSuggestions(input.after, forged, write)).toBe('conflict');
   const stale = structuredClone(input.after);stale.session.paragraphs[0].text = 'Newer body.';stale.meta.updatedAt++;
@@ -184,7 +190,19 @@ it('commits a precise replacement with its decision and rejects forged whole-par
   const undo: ReviewSuggestionWrite = { ...write, id: `suggestion-write_${crypto.randomUUID()}`, before: reloaded.state, after: reversed,
     intent: { kind: 'history', acceptanceId: reloaded.state.decisions[0].id, direction: 'undo', record: { id: event.id, decidedAt: event.decidedAt } } };
   const undone = { ...structuredClone(saved), meta: { ...saved.meta, updatedAt: 400 }, session: structuredClone(input.before.session) };
-  expect(await idbApplyReviewSuggestions(saved, undone, undo)).toBe('committed');expect((await input.read()).session.paragraphs[0].text).toBe('Original body.');
+  const forgedDiscussion = structuredClone(undone);
+  forgedDiscussion.session.reviewComments!.threads[0].messages[0].text = 'Unrelated overwritten discussion';
+  expect(await idbApplyReviewSuggestions(saved, forgedDiscussion, undo)).toBe('failed');
+  expect(await input.read()).toEqual(saved);expect(await idbReadReviewSuggestionReceipt(undo.id)).toBeNull();
+  expect(await idbApplyReviewSuggestions(saved, undone, undo)).toBe('committed');
+  expect((await input.read()).session).toEqual(input.before.session);
+  const restored = planReviewSuggestionHistory(input.round, undone.session, saved.session, reversed, reloaded.state.decisions[0].id, 'redo');
+  const restoredEvent = restored.decisions.at(-1)!;
+  const redo: ReviewSuggestionWrite = { ...undo, id: `suggestion-write_${crypto.randomUUID()}`, before: reversed, after: restored,
+    intent: { kind: 'history', acceptanceId: reloaded.state.decisions[0].id, direction: 'redo', record: { id: restoredEvent.id, decidedAt: restoredEvent.decidedAt } } };
+  const redone = { ...structuredClone(saved), meta: { ...saved.meta, updatedAt: 500 } };
+  expect(await idbApplyReviewSuggestions(undone, redone, redo)).toBe('committed');
+  expect((await input.read()).session).toEqual(saved.session);
 });
 
 it('never permits a precise replacement decision from a linked reviewer copy', async () => {

@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { captureTextRange } from '@/lib/reviewTextRanges';
 import { createBlankSession } from '@/stores/documentStore';
 import type { ReviewRound } from '@/lib/reviewRounds';
 import { createSelectedTextSuggestion, emptyReviewSuggestionState, inspectReviewSuggestion, planReviewSuggestionDecision,
@@ -110,5 +111,33 @@ describe('precise selected text replacements', () => {
     expect(reviewSuggestionText([proposal]).some(field => field.value.includes('123-45-6789'))).toBe(true);
     const proposals = Array.from({ length: 11 }, () => input.make(0, 9, 'Example'));
     expect(() => appendReviewSuggestions(input.round, emptyReviewSuggestionState(input.round), proposals)).toThrow();
+  });
+});
+
+
+describe('selected decisions preserve discussions through exact history', () => {
+  it('restores detached and shifted anchors with Undo/Redo and rejects discussion forgery', () => {
+    const input = fixture();
+    const anchors = [captureTextRange(input.session, 'selected-body', 5, 10)!, captureTextRange(input.session, 'selected-body', 11, 16)!, captureTextRange(input.session, 'selected-body', 17, 23)!];
+    input.session.reviewComments = { version: 3, threads: anchors.map(anchor => ({ id: crypto.randomUUID(), anchor,
+      messages: [{ id: crypto.randomUUID(), author: 'Synthetic chief', text: 'Retain this discussion.', createdAt: new Date(1).toISOString() }], resolved: false })) };
+    const original = structuredClone(input.session);
+    const accepted = planReviewSuggestionDecision(input.round, original, input.state, input.proposal.id, 'accepted');
+    expect(accepted.session.reviewComments!.threads[1].anchor).toMatchObject({ detached: true });
+    expect(accepted.session.reviewComments!.threads[2].anchor).toMatchObject({ tracking: { context: 'Keep Alpha Bravo ending.' } });
+    const undo = historyWrite(input, accepted.state, 'undo', accepted.session, original);
+    const undone = planReviewSuggestionWrite(input.round, accepted.session, undo, original);
+    expect(undone.session).toEqual(original);
+    const redo = historyWrite(input, undone.state, 'redo', original, accepted.session);
+    expect(planReviewSuggestionWrite(input.round, original, redo, accepted.session).session).toEqual(accepted.session);
+    for (const forge of [
+      (value: typeof original) => { value.reviewComments!.threads[0].messages[0].text = 'Unrelated overwritten discussion'; },
+      (value: typeof original) => { value.reviewComments!.threads.pop(); },
+      (value: typeof original) => { value.reviewComments!.threads[0].anchor = anchors[1]; },
+    ]) {
+      const destination = structuredClone(original);forge(destination);
+      expect(() => planReviewSuggestionWrite(input.round, accepted.session, undo, destination)).toThrow(/discussion/);
+      expect(original.reviewComments!.threads[0].messages[0].text).toBe('Retain this discussion.');
+    }
   });
 });
