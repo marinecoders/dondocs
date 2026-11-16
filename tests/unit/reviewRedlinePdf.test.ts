@@ -3,7 +3,7 @@ import { afterEach, expect, it, vi } from 'vitest';
 import { getDocument } from 'pdfjs-dist/legacy/build/pdf.mjs';
 import { PDFDocument } from 'pdf-lib';
 import { detectTextPII } from '@/services/pii/detector';
-import { generateReviewRedlinePdf, inlineRedlineRuns, layoutRedline, redlineBlocks, wrapRedlineText, type RedlineContent } from '@/services/pdf/reviewRedlinePdf';
+import { generateReviewRedlinePdf, inlineRedlineRuns, layoutRedline, redlineBlocks, wrapRedlineText, REDLINE_LIMITS, type RedlineContent } from '@/services/pdf/reviewRedlinePdf';
 import { reviewTextDirection, assertRedlineGlyphs } from '@/services/pdf/reviewUnicodeLine';
 
 export function redlineFixture(): RedlineContent {
@@ -27,6 +27,20 @@ it('wraps complete graphemes and preserves all whitespace and long tokens', () =
   expect(lines.join('')).toBe(source);expect(lines.some(line => line.includes('👩🏽‍🚀'))).toBe(true);
   expect(() => wrapRedlineText('x', 1, () => 2)).toThrow('too wide');
   expect(wrapRedlineText('one\n\ntwo\n', 9, text => text.length)).toEqual(['one', '', 'two', '']);
+});
+
+it.each(['\u200b'.repeat(10_000), `A${'\u0301'.repeat(10_000)}`])('bounds invisible runs and huge clusters before shaping them', text => {
+  let largest = 0;
+  expect(() => wrapRedlineText(text, 518, value => { largest = Math.max(largest, value.length);return 0; })).toThrow('character shaping limit');
+  expect(largest).toBeLessThanOrEqual(1_024);
+});
+
+it('keeps long ordinary paragraphs and supported complete scripts within each shaping input', () => {
+  const text = 'Café 中文 العربية שלום 👩🏽‍🚀 e\u0301 '.repeat(500);
+  const lines = wrapRedlineText(text, 518, value => Array.from(value).length * 5);
+  expect(text.length).toBeGreaterThan(REDLINE_LIMITS.lineCharacters);
+  expect(lines.join('')).toBe(text);
+  expect(lines.every(line => line.length <= REDLINE_LIMITS.lineCharacters)).toBe(true);
 });
 
 it('keeps every line within page bounds through long replacements and rejects excessive output', () => {

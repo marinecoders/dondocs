@@ -8,7 +8,7 @@ export interface RedlineRun { text: string; style?: 'delete' | 'insert' }
 export interface RedlineMark { start: number; end: number; style: 'delete' | 'insert' }
 export interface RedlineBlock { text: string; runs?: RedlineRun[]; role: 'title' | 'heading' | 'label' | 'text'; tone?: 'insert' | 'delete' | 'move' }
 export interface RedlineLine extends RedlineBlock { x: number; y: number; size: number; width: number; marks: RedlineMark[] }
-export const REDLINE_LIMITS = { characters: 2_000_000, pages: 250, bytes: 40_000_000, rasterPixels: 60_000_000 } as const;
+export const REDLINE_LIMITS = { characters: 2_000_000, lineCharacters: 1_024, pages: 250, bytes: 40_000_000, rasterPixels: 60_000_000 } as const;
 const PAGE = { width: 612, height: 792, margin: 42, top: 734, bottom: 58 };
 
 
@@ -122,6 +122,10 @@ export function wrapRedlineText(text: string, width: number, measure: (text: str
     const result: string[] = [];
     let line = '';
     for (const { segment } of segmenter.segment(paragraph)) {
+      // Zero-advance text can grow forever without reaching the width limit.
+      // Bound each shaping input before canvas measures it; keep the exact text
+      // in the source and offer the existing lossless HTML export instead.
+      if (line.length + segment.length > REDLINE_LIMITS.lineCharacters) throw new Error('A line exceeds the PDF character shaping limit. Use the decision summary HTML to preserve this text.');
       if (measure(segment) > width) throw new Error('A character cluster is too wide for this PDF. Shorten the affected value.');
       if (line && measure(line + segment) > width) {
         const spaces = Array.from(line.matchAll(/\s+/g));
