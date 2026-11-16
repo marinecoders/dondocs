@@ -83,7 +83,7 @@ async function collectKnownAttachmentIds(): Promise<Set<string> | null> {
   try {
     for (const record of await listActionPackages()) {
       for (const asset of packageAssets(record)) live.add(asset.id);
-      for (const revision of record.revisions) for (const member of revision.members) if (member.kind === 'native') collectSessionRefs(member.session, live);
+      for (const revision of [...record.revisions, ...(record.reviewRounds ?? []).map(round => round.baseline)]) for (const member of revision.members) if (member.kind === 'native') collectSessionRefs(member.session, live);
     }
     for (const round of await listReviewRounds()) collectSessionRefs(round.baseline.session, live);
   } catch {

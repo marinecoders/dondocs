@@ -376,6 +376,8 @@ async function serializeBackup(): Promise<string> {
       ...formTemplates,
       ...(withReviews ? { reviewRounds, reviewCopies } : {}), ...(reviewReturns.length ? { reviewReturns } : {}),
       ...(reviewSuggestions.length || reviewSuggestionWrites.length ? { reviewSuggestions, reviewSuggestionWrites } : {}) };
+    // Apply the recovery complexity and key guards before claiming an export is restorable.
+    validateBackup({ ...bundle });
     const json = JSON.stringify(bundle);
     if ((formTemplates || actionPackages.length) && new TextEncoder().encode(json).byteLength > MAX_BACKUP_BYTES) throw new Error('This complete workspace backup exceeds the 100 MB JSON import limit. Export separate draft copies before transferring it.');
     return json;

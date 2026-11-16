@@ -1,6 +1,6 @@
 import 'fake-indexeddb/auto';
 import { beforeEach, afterEach, describe, expect, it, vi } from 'vitest';
-import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { act, fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { SettingsModal } from '@/components/modals/SettingsModal';
 import { Header } from '@/components/layout/Header';
@@ -139,8 +139,10 @@ describe('document action error feedback', () => {
     await userEvent.click(screen.getByRole('button', { name: 'Download workspace backup' }));
     expect(await screen.findByRole('alert')).toHaveTextContent('Storage unavailable');
     await userEvent.click(screen.getByRole('button', { name: 'Download workspace backup' }));
-    expect(await screen.findByRole('status')).toHaveTextContent('Backup download started');
-    expect(screen.getByRole('status')).not.toHaveClass('sr-only');
+    const feedback = await within(screen.getByRole('dialog', { name: 'Settings' })).findByRole('status');
+    expect(feedback).toHaveTextContent('Backup download started');
+    expect(feedback).toBeVisible();
+    expect(feedback).not.toHaveClass('sr-only');
   });
 });
 

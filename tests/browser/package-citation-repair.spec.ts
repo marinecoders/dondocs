@@ -122,6 +122,7 @@ for (const theme of ["light", "dark", "classic"]) {
       await appearance(fresh, theme); const receiver = await fresh.newPage(); await receiver.goto("/");
       const received = await packages(receiver);
       await received.getByLabel("Import editable package", { exact: true }).setInputFiles({ name: "repaired-action.dondocs-package.json", mimeType: "application/json", buffer: portable });
+      await expect(received).toHaveAttribute("aria-busy", "false", { timeout: 30_000 });
       await expect(received.getByRole("region", { name: "Package citation repair", exact: true })).toContainText("0 linked citations need repair");
       const returned = JSON.parse((await exportPackage(receiver)).toString("utf8"));
       expect(returned.package.revisions[0].citations).toEqual(after.package.revisions[0].citations);

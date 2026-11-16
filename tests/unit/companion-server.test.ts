@@ -17,7 +17,7 @@
  * @vitest-environment node
  */
 import { describe, it, expect, beforeAll, afterAll } from 'vitest';
-import { createServer, type Server } from 'node:http';
+import { createServer, request, type Server } from 'node:http';
 import { mkdtemp, readdir } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
@@ -51,6 +51,40 @@ async function post(body: string, path = '/generate') {
     body,
   });
   return { status: res.status, json: (await res.json()) as { ok: boolean; v: number; errors?: string[] } };
+}
+
+/** Stop uploading when the server answers; require its complete JSON response. */
+async function oversizedPost(url: string, contentLength = true) {
+  return new Promise<{ status: number; connection: string | undefined; json: { ok: boolean; errors: string[] } }>((resolve, reject) => {
+    let responding = false;
+    const req = request(url, { method: 'POST', headers: {
+      'content-type': 'application/json', ...(contentLength ? { 'content-length': '17000000' } : {}),
+    } }, (res) => {
+      responding = true;
+      const chunks: Buffer[] = [];
+      res.on('data', (chunk: Buffer) => chunks.push(chunk));
+      res.once('error', reject);
+      res.once('aborted', () => reject(new Error('oversize response was aborted')));
+      res.once('end', () => {
+        try { resolve({ status: res.statusCode!, connection: res.headers.connection, json: JSON.parse(Buffer.concat(chunks).toString('utf8')) }); }
+        catch (error) { reject(error); }
+        finally { req.destroy(); }
+      });
+    });
+    // Once headers arrive, only a complete response can resolve; response-stream
+    // abort/error handlers still reject an interrupted or truncated response.
+    req.once('error', (error) => { if (!responding) reject(error); });
+    req.setTimeout(10_000, () => req.destroy(new Error('oversized upload response timed out')));
+    void (async () => {
+      const chunk = Buffer.alloc(64 * 1024, 'x');
+      for (let sent = 0; sent < 16_100_000 && !responding;) {
+        const part = chunk.subarray(0, Math.min(chunk.length, 16_100_000 - sent));
+        sent += part.length;
+        await new Promise<void>((done, fail) => req.write(part, (error) => error ? fail(error) : done()));
+      }
+      // Withhold the final body bytes/end marker: the cap must reject early.
+    })().catch((error) => { if (!responding) reject(error); });
+  });
 }
 
 const VALID = { docType: 'naval_letter', subject: 'ROUTING CHECK' };
@@ -187,20 +221,35 @@ describe('malformed input is 400, never 500', () => {
     expect((await fetch(`${base}/health`)).status).toBe(200);
   });
 
-  it('rejects a body past the cap without reading it all into memory', async () => {
-    // 1 MB + slop. The cap exists so a runaway caller cannot balloon the process.
-    const { status, json } = await post(JSON.stringify({ ...VALID, subject: 'x'.repeat(16_100_000) }));
-    expect(status).toBe(400);
-    expect(json.errors?.join(' ')).toMatch(/exceeds/);
+  it.each([true, false])('rejects an unfinished oversized upload before aborting its response (Content-Length: %s)', async (contentLength) => {
+    let abortedBeforeResponse = false;
+    const handler = createHandler({}, root);
+    const observed = createServer((req, res) => {
+      req.once('aborted', () => { if (!res.writableFinished) abortedBeforeResponse = true; });
+      handler(req, res);
+    });
+    await new Promise<void>((resolve) => observed.listen(0, '127.0.0.1', resolve));
+    const address = observed.address();
+    if (!address || typeof address === 'string') throw new Error('no probe port');
+    const probe = `http://127.0.0.1:${address.port}`;
+    try {
+      const { status, connection, json } = await oversizedPost(`${probe}/generate`, contentLength);
+      expect(status).toBe(400);
+      expect(connection).toBe('close');
+      expect(json).toEqual({ ok: false, v: 1, errors: ['request body exceeds 16000000 bytes'] });
+      expect(abortedBeforeResponse).toBe(false);
+      expect((await fetch(`${probe}/health`)).status).toBe(200);
+    } finally {
+      await new Promise<void>((resolve, reject) => observed.close((error) => error ? reject(error) : resolve()));
+    }
   });
 
   it('does not poison the connection for the request that follows', async () => {
-    // Abandoning an oversized body leaves unread bytes in the socket. Node's
-    // fetch keeps connections alive, so the server used to parse those
-    // leftovers as the NEXT request and the following call died with
-    // ECONNRESET. Linux surfaced it; macOS tolerated it.
-    const big = await post(JSON.stringify({ ...VALID, subject: 'x'.repeat(16_100_000) }));
+    // Oversized uploads explicitly close rather than reuse their connection.
+    // A following normal request must still receive its validation response.
+    const big = await oversizedPost(`${base}/generate`);
     expect(big.status).toBe(400);
+    expect(big.connection).toBe('close');
 
     const next = await post(JSON.stringify({ docType: 'invoice', format: 'rtf', paragraphs: 'not an array' }));
     expect(next.status).toBe(400);
