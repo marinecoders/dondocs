@@ -46,8 +46,9 @@ describe('configured form roster mapping', () => {
     expect(mapConfiguredBatchRow(scalarForm(), {}).issues.join()).toContain('Name is required');
   });
 
-  it('rejects repeated groups and populated signature answers', () => {
-    expect(configuredBatchMapping(fixtureInstance()).issues.join()).toContain('repeating rows');
+  it('supports repeated groups while rejecting populated signature answers', () => {
+    expect(configuredBatchMapping(fixtureInstance()).issues).toEqual([]);
+    expect(configuredBatchMapping(fixtureInstance()).fields.find(field => field.id === 'roster')?.kind).toBe('rows');
     const signed = scalarForm();signed.answers.signature = 'Someone';
     expect(configuredBatchMapping(signed).issues.join()).toContain('clear the signature');
   });

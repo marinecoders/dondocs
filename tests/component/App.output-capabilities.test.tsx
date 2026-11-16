@@ -141,12 +141,22 @@ it("actual App palette tracks unavailable, loaded configured, and correspondence
   expect(
     screen.getByRole("option", { name: /^Create share link/ }),
   ).toBeVisible();
+  expect(screen.getByRole("option", { name: /^Batch generate/ })).toBeVisible();
   for (const name of [
     /^Download Word/,
-    /^Batch generate/,
     /^Insert batch variable/,
   ])
     expect(screen.queryByRole("option", { name })).not.toBeInTheDocument();
+  await act(async () =>
+    useDocumentStore.setState({
+      genericForm: undefined,
+      formType: "navmc_10274",
+    }),
+  );
+  act(() => useUIStore.getState().setCommandPaletteOpen(true));
+  expect(screen.getByRole("option", { name: /^Batch generate/ })).toBeVisible();
+  expect(screen.getByRole("option", { name: /^Insert batch variable/ })).toBeVisible();
+  expect(screen.queryByRole("option", { name: /^Download Word/ })).not.toBeInTheDocument();
   await act(async () =>
     useDocumentStore.setState({
       documentCategory: "correspondence",

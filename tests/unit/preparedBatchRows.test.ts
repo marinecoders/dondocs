@@ -103,3 +103,33 @@ it('preserves literal configured text while reviewing raw roster values on gener
   const savedReview = inspectSavedBatchResult({ id: 'row', values, filename: 'saved.pdf', outputId: 'output', status: 'success' }, source, 'batch');
   expect(savedReview.findings.some(finding => finding.value === '123-45-6789')).toBe(true);
 });
+
+it('captures and reviews repeated typed rows, renders their pinned PDF, and refuses overflow before policy', async () => {
+  const { fixtureInstance, fixturePage } = await import('../_helpers/formFixture');
+  const { captureFormExportTemplates } = await import('@/lib/formExportTemplates');
+  const { PDFDocument } = await import('pdf-lib');
+  const form = fixtureInstance();
+  form.rows.roster = [{ id: 'source-only', answers: { grade: 'e1', date: '2020-01-01' } }];
+  form.definition.rowGroups.roster.columns.grade.options![1].label = 'SSN 123-45-6789';
+  const page = await fixturePage();form.definition.pages[0].sha256 = page.sha256;
+  const source = { ...context().source, documentCategory: 'forms' as const, formType: 'fixture', genericForm: form };
+  const values = { name: 'Recipient B', decision: 'yes', roster: '[{"grade":"e2","date":"2026-02-28"},{"grade":"e1"}]' };
+  const result = await prepareBatchRow(values, { ...context(), source }, {
+    resolvePolicy: async () => policy,
+    captureResources: async () => captureFormExportTemplates('configured-form', 'fixture', { 'page1.pdf': page.bytes }, JSON.stringify(form.definition)),
+  });
+  if (result.status !== 'needs-review') throw new Error(JSON.stringify(result));
+  expect(copyExportReview(result.job).privacy.findings.some(finding => finding.value === '123-45-6789')).toBe(true);
+  const ready = acknowledgePreparedExport(result.job);
+  expect(copyPreparedDocument(ready).document.genericForm?.rows.roster).toEqual([
+    { id: 'batch_roster_0', answers: { grade: 'e2', date: '2026-02-28' } },
+    { id: 'batch_roster_1', answers: { grade: 'e1' } },
+  ]);
+  const artifact = await renderPreparedBatchRow(ready, { compile: vi.fn(), convertDocx: vi.fn(), waitForReady: vi.fn() }, new AbortController().signal);
+  expect((await PDFDocument.load(await artifact.blob.arrayBuffer())).getPageCount()).toBe(1);
+  expect(form.rows.roster).toEqual([{ id: 'source-only', answers: { grade: 'e1', date: '2020-01-01' } }]);
+  expect(inspectSavedBatchResult({ id: 'row', values, filename: 'rows.pdf', outputId: 'output', status: 'success' }, source, 'batch').findings.some(finding => finding.value === '123-45-6789')).toBe(true);
+  const resolvePolicy = vi.fn();
+  await expect(prepareBatchRow({ ...values, roster: JSON.stringify(Array(4).fill({ grade: 'e1' })) }, { ...context(), source }, { resolvePolicy, captureResources: vi.fn() })).rejects.toThrow('at most 3 roster rows');
+  expect(resolvePolicy).not.toHaveBeenCalled();
+});

@@ -291,8 +291,24 @@ labels and IDs beneath each roster cell. Unknown or ambiguous options, repeated
 selections (including a label and ID resolving to the same option), malformed
 JSON, and non-string entries block generation. A blank cell never inherits the
 source answer; `[]` explicitly selects none. Export-required fields still need at
-least one selection. Repeating rows remain unsupported. Mapping availability does
-not imply that PDF generation is available.
+least one selection. Mapping availability does not imply that PDF generation is available.
+
+Each repeating group has one roster column named by its group ID. Its cell is a
+JSON array of answer objects, for example
+`[{"name":"Child Birch","active":true,"choices":["approve","notify"]}]`.
+Use the column IDs shown in the field list. Text, identifiers, dates, decimals and
+single choices are strings; booleans are `true` or `false`; multiple selections
+are arrays of option IDs or unique labels. Dates and choices use the same checks
+as ordinary fields. Review the normalized row summary beneath the cell.
+
+Each group accepts only its printed row capacity, capped at 200 roster rows;
+across a form, at most 200 repeated rows and 2,000 supplied answers are supported.
+Each group cell is limited to 256 KiB of UTF-8 input and all group cells together
+to 1 MiB. Unknown or duplicate JSON keys, wrong types, missing required answers,
+signature columns and overflow block generation; rows are never silently dropped.
+Blank cells and `[]` supply no repeated rows and never inherit the source's saved
+rows. Required row fields apply to supplied rows. Source signatures must be
+cleared, and generated signatures remain blank for signing after export.
 
 Configured-form batch jobs retain the selected definition and verified blank PDF
 pages before rendering a row. A resumed job uses those exact page digests, even

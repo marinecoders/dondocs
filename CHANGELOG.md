@@ -7,6 +7,14 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.102] — 2026-11-15
+
+### Added
+
+- Map configured-form repeating groups from bounded, reviewed JSON row arrays in roster cells.
+- Validate printed capacity, required row answers and typed selections; preserve independent row data through retained batch retry and reload recovery.
+- Keep source rows and signing fields out of generated answers, with normalized row previews and explicit overflow errors.
+
 ## [1.3.101] — 2026-11-15
 
 ### Added

@@ -1,4 +1,4 @@
-import { configuredBatchMapping, configuredBatchSelectionPreview, createConfiguredBatchRowReviewer } from '@/lib/configuredFormBatch';
+import { configuredBatchMapping, configuredBatchSelectionPreview, configuredBatchRowsPreview, createConfiguredBatchRowReviewer } from '@/lib/configuredFormBatch';
 import type { FormDefinition } from '@/services/forms/model';
 import { documentCapabilities, capabilityAvailable } from '@/lib/documentCapabilities';
 import { downloadPdfBlob, preOpenWindowForIOS } from '@/utils/downloadPdf';
@@ -113,7 +113,7 @@ interface BatchModalRowProps {
   idx: number;
   detectedPlaceholders: string[];
   isConfiguredForm: boolean;
-  configuredFields?: FormDefinition['fields'];
+  configuredDefinition?: FormDefinition;
   isGenerating: boolean;
   isLocked: boolean;
   isPreviewing: boolean;
@@ -139,7 +139,7 @@ const BatchModalRow = memo(function BatchModalRow({
   idx,
   detectedPlaceholders,
   isConfiguredForm,
-  configuredFields,
+  configuredDefinition,
   isGenerating,
   isLocked,
   isPreviewing,
@@ -162,9 +162,10 @@ const BatchModalRow = memo(function BatchModalRow({
         </div>
       </td>
       {detectedPlaceholders.map((placeholder) => {
-        const selection = configuredBatchSelectionPreview(configuredFields?.[placeholder], row.values[placeholder] || '');
+        const repeated = configuredBatchRowsPreview(configuredDefinition, placeholder, row.values[placeholder] || '');
+        const selection = configuredBatchSelectionPreview(configuredDefinition?.fields[placeholder], row.values[placeholder] || '');
         const selectionId = `batch-selection-${idx}-${placeholder}`;
-        const describedBy = [warnings.some(w => w.placeholder === placeholder) ? 'batch-roster-checks' : '', selection !== undefined ? selectionId : ''].filter(Boolean).join(' ') || undefined;
+        const describedBy = [warnings.some(w => w.placeholder === placeholder) ? 'batch-roster-checks' : '', selection !== undefined || repeated !== undefined ? selectionId : ''].filter(Boolean).join(' ') || undefined;
         return (
           <td key={placeholder} className="px-1 py-1">
             <Input
@@ -177,6 +178,7 @@ const BatchModalRow = memo(function BatchModalRow({
               className={`h-7 w-36 text-xs ${warnings.some(w => w.placeholder === placeholder) ? 'border-warning' : ''}`}
               disabled={isGenerating || isLocked || row.status === 'success'}
             />
+            {repeated !== undefined && <p id={selectionId} aria-label={`Row ${idx + 1}: ${placeholder} reviewed rows`} className="max-w-80 break-words text-xs text-muted-foreground">{repeated}</p>}
             {selection !== undefined && <p id={selectionId} aria-label={`Row ${idx + 1}: ${placeholder} selected options`} className="max-w-60 break-words text-xs text-muted-foreground">Selected: {selection}</p>}
           </td>
         );
@@ -1068,7 +1070,7 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
                                 idx={idx}
                                 detectedPlaceholders={detectedPlaceholders}
                                 isConfiguredForm={!!configuredForm}
-                                configuredFields={configuredForm?.definition.fields}
+                                configuredDefinition={configuredForm?.definition}
                                 isGenerating={isGenerating}
                                 isLocked={!!source}
                                 isPreviewing={previewingRow === row.id}
