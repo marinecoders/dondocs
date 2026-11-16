@@ -47,6 +47,20 @@ if (!pdflatexAvailable) {
 }
 
 describe('mapped symbols never request TS1 fonts (bundled-engine safety)', () => {
+  it.skipIf(!pdflatexAvailable)('compiles a retained emoji ZWJ sequence without an orphan variation selector', async () => {
+    const store = buildBaseline('naval_letter');
+    store.formData.subject = 'EMOJI VARIATION ✈️ 1️⃣';
+    store.paragraphs = [{ text: 'Inserted Équipe 👩🏽‍✈️ paragraph. Keycap 1️⃣.', level: 0 }];
+    const original = structuredClone(store);
+    const result = await compileFixture(store);
+    expect(result.ok, formatFailure('emoji-variation-selector', result)).toBe(true);
+    expect(result.pdfBytes!.byteLength).toBeGreaterThan(1_000);
+    const body = await readFile(join(result.workDir, 'body.tex'), 'utf-8');
+    expect(body).not.toMatch(/[\p{Variation_Selector}\u200D\u20E3]/u);
+    expect(body).toContain('Équipe');
+    expect(store).toEqual(original);
+  });
+
   it.skipIf(!pdflatexAvailable)(
     'naval letter with § ¶ † ‡ © ® ™ ° in body/subject/reference compiles with zero TS1 font loads',
     async () => {

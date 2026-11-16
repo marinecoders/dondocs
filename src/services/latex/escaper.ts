@@ -84,6 +84,11 @@ function applyLatexSymbolFallback(text: string): string {
   // -> "ref (a)para 4"). A vertical tab or form feed separates words the same
   // way; Word uses the vertical tab for a soft line break.
   out = out.replace(/[\p{Zs}\p{Zl}\p{Zp}\v\f]/gu, ' ');
+  // Variation selectors and the enclosing keycap are combining marks, but
+  // pdfTeX cannot render them. Do not leave them behind when the unsupported
+  // emoji/CJK base is stripped below; keep ordinary Latin combining accents.
+  // This bounded-font fallback is not used by the Unicode DOCX path.
+  out = out.replace(/[\p{Variation_Selector}\u20E3]/gu, '');
   // Fail-safe: drop any remaining character the offline font set cannot
   // render, so a stray glyph can never fatal the compile. Kept: ASCII, and
   // the Latin ranges the bundled fonts + the kernel's UTF-8 handling cover —

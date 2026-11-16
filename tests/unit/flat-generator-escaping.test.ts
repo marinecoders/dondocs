@@ -38,6 +38,11 @@ function latexFor(fields: { body?: string; enclosure?: string; reference?: strin
 const RE_ESCAPED = '\\textbackslash\\{\\}';
 
 describe('backslash escaping in the DOCX generator', () => {
+  it('retains CJK variation sequences and complete emoji in the Unicode DOCX path', () => {
+    const source = 'CJK 禰\u{E0100} and emoji 👩🏽‍✈️';
+    expect(latexFor({ body: source })).toContain(source);
+  });
+
   it('emits \\textbackslash{} for body text, with its braces intact', () => {
     const tex = latexFor({ body: 'See C:\\win\\path now.' });
     expect(tex).toContain('C:\\textbackslash{}win\\textbackslash{}path');
