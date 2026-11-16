@@ -73,8 +73,11 @@ export async function inspectPackageReviewTransfer(parsed: Pick<ParsedPackageRev
   const reviews = [reviewPackageReviewMetadata(round, policy), reviewPackageText(`${record.id}\n${record.name}`, 'Package review identity', policy)];
   for (const member of round.baseline.members) {
     if (member.kind === 'native') {
-      reviews.push(reviewPackageNative(member.session, member.label, policy));
-      const draft = await validatePackageDraft(JSON.parse(new TextDecoder('utf-8', { fatal: true }).decode(resources.get(`assets/${member.draft.id}`)!.data)));
+      const retained = JSON.parse(new TextDecoder('utf-8', { fatal: true }).decode(resources.get(`assets/${member.draft.id}`)!.data));
+      const draft = await validatePackageDraft(retained);
+      // The original JSON bytes can retain text that session normalization omits.
+      // Inspect that inventory without copying inline binary data into the comparison report.
+      reviews.push(reviewPackageNative(member.session, member.label, policy, retained));
       for (const file of [...draft.files, draft.basicLetter, ...draft.figures.filter((_, index) => draft.session.paragraphs[index]?.figure?.type === 'application/pdf')])
         if (file) reviews.push(await reviewPackageOriginal(file.data, file.name, policy));
     }

@@ -1,4 +1,4 @@
-import { documentTextFields } from "./documentFields";
+import { documentTextFields, type DocumentFieldSource } from "./documentFields";
 import type { SerializedSession } from "@/stores/documentStore";
 import { captureChangeReport, prepareChangeReport } from "./changeReport";
 import { detectTextPII, mergePIIResults } from "@/services/pii/detector";
@@ -15,6 +15,7 @@ export function reviewPackageNative(
   session: SerializedSession,
   title: string,
   policy: PolicyResolution,
+  retained: DocumentFieldSource = session,
 ): ExportReview {
   const empty = {
     ...session,
@@ -38,12 +39,12 @@ export function reviewPackageNative(
     ),
     policy,
   );
-  const fields = documentTextFields(session, "share", { includeUnknownDataUris: true }).map((field) => ({
+  const fields = documentTextFields(retained, "share", { includeUnknownDataUris: true }).map((field) => ({
     field: field.label,
     value: field.text,
   }));
   // The portable native model includes definitions, unused choices and retained legacy values too.
-  assertRetainedDocumentTextPolicy(session, policy);
+  assertRetainedDocumentTextPolicy(retained, policy);
   return {
     privacy: mergePIIResults([report.privacy, detectTextPII(fields)]),
     notices: [...report.notices, `Retained draft marking: ${report.marking}`],

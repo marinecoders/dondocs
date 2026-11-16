@@ -3,7 +3,7 @@ import { beforeEach, expect, it, vi } from 'vitest';
 import { PDFDocument } from 'pdf-lib';
 import { createBlankSession } from '@/stores/documentStore';
 import { captureDocumentRevision } from '@/lib/capturedDocument';
-import { capturePackageMember, captureOriginalPackageMember, readPackageAsset, readPackageMemberDraft } from '@/lib/actionPackageAssets';
+import { capturePackageMember, captureOriginalPackageMember, readPackageAsset, readPackageMemberDraft, retainPackageAsset } from '@/lib/actionPackageAssets';
 import { createActionPackage, listActionPackages, reviseActionPackage, packageAssets, validPackageTransition, packageNativeReviewRoundSchema } from '@/lib/actionPackages';
 import { startPackageReview, transitionPackageReview, openPackageReview } from '@/lib/packageReviewRounds';
 import { createPackageMemberReview, preparePackageReviewMember, savePackageMemberReview } from '@/lib/packageMemberReviews';
@@ -41,6 +41,49 @@ async function fixture() {
   return { owner, native, original, bytes, round: owner.reviewRounds![0] };
 }
 beforeEach(async () => { vi.restoreAllMocks(); await createActionPackage('Initialize'); await clear(); useDocumentsStore.setState({ docs: {}, currentId: null, hydrated: true, baseline: null }); });
+it('refuses an over-complex reviewer copy without changing the captured package or resources', async () => {
+  const session = createBlankSession(); session.timestamp = 123;
+  session.paragraphs = Array.from({ length: 9000 }, (_, index) => ({ id: `large-paragraph-${index}`, level: 0, text: 'Synthetic paragraph.' }));
+  const native = await capturePackageMember(captureDocumentRevision({ documentId: 'large-source', capturedAt: 123, editSequence: 1, epoch: 0 }, { ...session, endItems: [], publicationTables: {} }), 'Synthetic large member', 'basic-letter');
+  const owner = await startPackageReview(await reviseActionPackage(await createActionPackage('Synthetic large review'), [native]));
+  const assets = await idbGetAllAttachments();
+  await expect(buildPackageReviewerCopy(owner, owner.reviewRounds![0].id, policy)).rejects.toThrow('too complex');
+  expect((await listActionPackages()).find(value => value.id === owner.id)).toEqual(owner);
+  expect(await idbGetAllAttachments()).toEqual(assets);
+});
+it.each([buildPackageReviewerCopy, buildPackageReviewReturn])('blocks markings in retained native draft values omitted from the parsed session (%#)', async build => {
+  const { native } = await fixture();
+  const { draft } = await readPackageMemberDraft(native);
+  Object.assign(draft as object, { legacyRetainedText: '(S) Synthetic retained draft note' });
+  const data = new TextEncoder().encode(JSON.stringify(draft)).buffer;
+  const asset = await retainPackageAsset(native.draft.name, native.draft.type, data);
+  const owner = await startPackageReview(await reviseActionPackage(await createActionPackage('Synthetic retained draft review'), [{ ...native, draft: asset }]));
+  const attachments = await idbGetAllAttachments();
+  await expect(build(owner, owner.reviewRounds![0].id, policy)).rejects.toThrow(/markings|levels/);
+  expect((await listActionPackages()).find(value => value.id === owner.id)).toEqual(owner);
+  expect(await idbGetAllAttachments()).toEqual(attachments);
+});
+it('discloses retained native draft privacy findings for downloads and imports without rewriting bytes', async () => {
+  const { native } = await fixture();
+  const { draft } = await readPackageMemberDraft(native);
+  const email = 'synthetic-reviewer@example.test';
+  Object.assign(draft as object, { legacyRetainedText: `Contact ${email}` });
+  const data = new TextEncoder().encode(JSON.stringify(draft)).buffer;
+  const asset = await retainPackageAsset(native.draft.name, native.draft.type, data);
+  const owner = await startPackageReview(await reviseActionPackage(await createActionPackage('Synthetic retained privacy review'), [{ ...native, draft: asset }]));
+  const prepared = await buildPackageReviewerCopy(owner, owner.reviewRounds![0].id, policy);
+  const findings = (value: typeof prepared) => value.reviews.flatMap(review => review.privacy.findings);
+  expect(findings(prepared).some(finding => finding.value === email)).toBe(true);
+  const json = await packageReviewTransferFile(prepared, policy);
+  const parsed = await parsePackageReviewTransfer(json);
+  expect(parsed.resources.get(`assets/${asset.id}`)!.data).toEqual(data);
+  expect((await listActionPackages()).find(value => value.id === owner.id)).toEqual(owner);
+  await clear();
+  const imported = await preparePackageReviewerImport(json, policy);
+  expect(findings(imported).some(finding => finding.value === email)).toBe(true);
+  expect(await listActionPackages()).toEqual([]);
+  expect(await idbGetAllAttachments()).toEqual([]);
+});
 it('persists exact detached native and original child reviews, native proposals, comments, reload, backup and GC without library writes', async () => {
   const { owner, round, native, original, bytes } = await fixture();
   const initial = await preparePackageReviewMember(owner, round.id, native.id); const child = initial.child;
