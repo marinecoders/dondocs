@@ -5,6 +5,7 @@ import JSZip from 'jszip';
 import { getDocument } from 'pdfjs-dist/legacy/build/pdf.mjs';
 import { replaceParagraphText } from '../_helpers/replaceParagraphText';
 import { closeReviewRounds } from '../_helpers/closeReviewRounds';
+import { uploadReviewFile } from '../_helpers/uploadReviewFile';
 
 test.use({ serviceWorkers: 'block', actionTimeout: 15_000 });
 test.setTimeout(180_000);
@@ -75,7 +76,7 @@ for (const theme of ['light', 'dark', 'classic']) test(`existing formatting find
   try {
     await context.addInitScript(init, appearance);const reviewer = await context.newPage();await reviewer.goto(baseURL!);
     const copyModal = await reviews(reviewer);
-    await copyModal.getByLabel('Import reviewer copy', { exact: true }).setInputFiles({ name: 'review-copy.json', mimeType: 'application/json', buffer: reviewerFile });
+    await uploadReviewFile(copyModal.getByLabel('Import reviewer copy', { exact: true }), { name: 'review-copy.json', mimeType: 'application/json', buffer: reviewerFile });
     await copyModal.getByRole('button', { name: 'Open as new review copy', exact: true }).click();await expect(copyModal).toBeHidden();
     const reviewing = await chooseRound(reviewer), formatting = reviewing.getByRole('region', { name: 'Formatting review proposals', exact: true });
     await formatting.getByRole('textbox', { name: 'Reviewer name for formatting corrections', exact: true }).fill(AUTHOR);
@@ -95,7 +96,7 @@ for (const theme of ['light', 'dark', 'classic']) test(`existing formatting find
     await replaceParagraphText(page.getByRole('textbox', { name: 'Paragraph 2', exact: true }), 'Newer unrelated author body.');
     await page.locator('[data-paragraph-id="unrelated"]').getByRole('button', { name: 'Move up (⌘↑)', exact: true }).click();
     await page.getByRole('textbox', { name: 'Reference (b) URL', exact: true }).fill('https://example.com/later');
-    modal = await reviews(page);await modal.getByLabel('Import feedback return', { exact: true }).setInputFiles({ name: 'feedback.json', mimeType: 'application/json', buffer: returned });
+    modal = await reviews(page);await uploadReviewFile(modal.getByLabel('Import feedback return', { exact: true }), { name: 'feedback.json', mimeType: 'application/json', buffer: returned });
     await expect(modal.getByText(/Returned text may contain sensitive information: Social Security Number/)).toBeVisible();
     await modal.getByRole('button', { name: 'Import reviewed feedback', exact: true }).click();await expect(modal.getByText(/Feedback imported/)).toBeVisible();
     await modal.getByRole('combobox', { name: 'Review for suggested edits', exact: true }).selectOption({ label: REVIEW });
@@ -133,7 +134,7 @@ for (const theme of ['light', 'dark', 'classic']) test(`existing formatting find
     await history(page, 'Redo');expectDraft(await draft(page), true);
     await page.reload();expectDraft(await draft(page), true);
     modal = await chooseRound(page);await expect(modal.getByRole('article', { name: 'Suggestion 1: Formatting corrections (7)', exact: true })).toContainText('Accepted');
-    await modal.getByLabel('Import feedback return', { exact: true }).setInputFiles({ name: 'same-feedback.json', mimeType: 'application/json', buffer: returned });
+    await uploadReviewFile(modal.getByLabel('Import feedback return', { exact: true }), { name: 'same-feedback.json', mimeType: 'application/json', buffer: returned });
     await expect(modal.getByText(/This return has already been imported/)).toBeVisible();await closeReviewRounds(modal);
     const clean = await draft(page);expectDraft(clean, true);expect(JSON.stringify(clean)).not.toContain(payload.proposals[0].id);
 
@@ -175,7 +176,7 @@ for (const theme of ['light', 'dark', 'classic']) test(`existing formatting find
         expectDraft(await draft(restored), true);
         const restoredReview = await chooseRound(restored);
         await expect(restoredReview.getByRole('article', { name: 'Suggestion 1: Formatting corrections (7)', exact: true })).toContainText('Accepted');
-        await restoredReview.getByLabel('Import feedback return', { exact: true }).setInputFiles({ name: 'same-feedback.json', mimeType: 'application/json', buffer: returned });
+        await uploadReviewFile(restoredReview.getByLabel('Import feedback return', { exact: true }), { name: 'same-feedback.json', mimeType: 'application/json', buffer: returned });
         await expect(restoredReview.getByText(/This return has already been imported/)).toBeVisible();
         await info.attach('restored-formatting-review.png', { body: await restored.screenshot({ scale: 'css' }), contentType: 'image/png' });
       } finally { await fresh.close(); }

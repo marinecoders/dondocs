@@ -2,6 +2,7 @@ import { expect, test, type Locator, type Page } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 import { readFile } from 'node:fs/promises';
 import { closeReviewRounds } from '../_helpers/closeReviewRounds';
+import { uploadReviewFile } from '../_helpers/uploadReviewFile';
 
 test.use({ serviceWorkers: 'block' });
 test.setTimeout(180_000);
@@ -65,7 +66,7 @@ for (const theme of ['light', 'dark', 'classic']) test(`natural typed suggestion
   try {
     await context.addInitScript(init, theme);const reviewer = await context.newPage();await reviewer.goto(baseURL!);
     let remote = await reviews(reviewer);
-    await remote.getByLabel('Import reviewer copy', { exact: true }).setInputFiles({ name: 'review.json', mimeType: 'application/json', buffer: copy });
+    await uploadReviewFile(remote.getByLabel('Import reviewer copy', { exact: true }), { name: 'review.json', mimeType: 'application/json', buffer: copy });
     await remote.getByRole('button', { name: 'Open as new review copy', exact: true }).click();await expect(remote).toBeHidden();remote = await reviews(reviewer);
     await remote.getByLabel('Review for suggested edits', { exact: true }).selectOption({ label: 'Typing baseline' });
     await expect(remote.getByRole('button', { name: 'Suggest Changes mode', exact: true })).toHaveAttribute('aria-pressed', 'false');
@@ -129,7 +130,7 @@ for (const theme of ['light', 'dark', 'classic']) test(`natural typed suggestion
       { expected: '', proposed: 'New Équipe 日本語', target: { start: 0, end: 0 } },
     ]);
     await info.attach('typed-feedback-return.json', { body: returned, contentType: 'application/json' });
-    modal = await reviews(page);await modal.getByLabel('Import feedback return', { exact: true }).setInputFiles({ name: 'returned.json', mimeType: 'application/json', buffer: returned });
+    modal = await reviews(page);await uploadReviewFile(modal.getByLabel('Import feedback return', { exact: true }), { name: 'returned.json', mimeType: 'application/json', buffer: returned });
     await modal.getByRole('button', { name: 'Import reviewed feedback', exact: true }).click();await expect(modal.getByText(/Feedback imported/)).toBeVisible();
     await modal.getByLabel('Review for suggested edits', { exact: true }).selectOption({ label: 'Typing baseline' });
     for (const label of ['Replacement', 'Deletion', 'Insertion']) {

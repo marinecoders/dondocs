@@ -3,6 +3,7 @@ import AxeBuilder from '@axe-core/playwright';
 import { readFile, writeFile } from 'node:fs/promises';
 import { replaceParagraphText } from '../_helpers/replaceParagraphText';
 import { closeReviewRounds } from '../_helpers/closeReviewRounds';
+import { uploadReviewFile } from '../_helpers/uploadReviewFile';
 
 test.use({ serviceWorkers: 'block' });
 test.setTimeout(180_000);
@@ -37,7 +38,7 @@ for (const theme of ['light', 'dark', 'classic']) test(`round-bound replacement 
   try {
     await reviewerContext.addInitScript(init, appearance);const reviewer = await reviewerContext.newPage();await reviewer.goto(baseURL!);
     let reviewModal = await reviews(reviewer);
-    await reviewModal.getByLabel('Import reviewer copy', { exact: true }).setInputFiles({ name: 'review.json', mimeType: 'application/json', buffer: copy });
+    await uploadReviewFile(reviewModal.getByLabel('Import reviewer copy', { exact: true }), { name: 'review.json', mimeType: 'application/json', buffer: copy });
     await reviewModal.getByRole('button', { name: 'Open as new review copy', exact: true }).click();await expect(reviewModal).toBeHidden();
     reviewModal = await reviews(reviewer);await reviewModal.getByLabel('Review for suggested edits', { exact: true }).selectOption({ label: 'Replacement review' });
     await reviewModal.getByLabel('Reviewer name for suggestion', { exact: true }).fill('Example chief');
@@ -62,12 +63,12 @@ for (const theme of ['light', 'dark', 'classic']) test(`round-bound replacement 
     const returned = await download(reviewer, () => reviewModal.getByRole('button', { name: 'Download feedback return', exact: true }).click());
     const payload = JSON.parse(returned.toString('utf8'));expect(payload.version).toBe(2);expect(payload.proposals).toHaveLength(4);expect(payload.formData).toBeUndefined();
     await writeFile(info.outputPath(`review-return-${theme}.json`), returned);
-    await reviewModal.getByLabel('Import feedback return', { exact: true }).setInputFiles({ name: 'wrong-owner.json', mimeType: 'application/json', buffer: returned });
+    await uploadReviewFile(reviewModal.getByLabel('Import feedback return', { exact: true }), { name: 'wrong-owner.json', mimeType: 'application/json', buffer: returned });
     await expect(reviewModal.getByRole('alert')).toHaveText(/original draft/);
     await expect(reviewModal.getByRole('button', { name: 'Import reviewed feedback', exact: true })).toHaveCount(0);
     await reviewer.screenshot({ path: info.outputPath(`wrong-owner-${theme}.png`), scale: 'css' });
     await replaceParagraphText(page.getByRole('textbox', { name: 'Paragraph 2', exact: true }), 'Newer author paragraph survives acceptance.');
-    modal = await reviews(page);await modal.getByLabel('Import feedback return', { exact: true }).setInputFiles({ name: 'return.json', mimeType: 'application/json', buffer: returned });
+    modal = await reviews(page);await uploadReviewFile(modal.getByLabel('Import feedback return', { exact: true }), { name: 'return.json', mimeType: 'application/json', buffer: returned });
     await modal.getByRole('button', { name: 'Import reviewed feedback', exact: true }).click();await expect(modal.getByText(/Feedback imported/)).toBeVisible();
     await modal.getByLabel('Review for suggested edits', { exact: true }).selectOption({ label: 'Replacement review' });
     const address = modal.getByRole('article', { name: 'Suggestion 3: Replace unit address', exact: true });
@@ -97,7 +98,7 @@ for (const theme of ['light', 'dark', 'classic']) test(`round-bound replacement 
     await writeFile(info.outputPath(`clean-draft-${theme}.json`), JSON.stringify(saved, null, 2));
     modal = await reviews(page);await modal.getByLabel('Review for suggested edits', { exact: true }).selectOption({ label: 'Replacement review' });
     await expect(modal.getByRole('article', { name: 'Suggestion 1: Replace to', exact: true }).getByText(/· Accepted$/)).toBeVisible();
-    await modal.getByLabel('Import feedback return', { exact: true }).setInputFiles({ name: 'again.json', mimeType: 'application/json', buffer: returned });
+    await uploadReviewFile(modal.getByLabel('Import feedback return', { exact: true }), { name: 'again.json', mimeType: 'application/json', buffer: returned });
     await expect(modal.getByText(/This return has already been imported/)).toBeVisible();
   } finally { await reviewerContext.close(); }
 });
@@ -152,7 +153,7 @@ for (const theme of ['light', 'dark', 'classic']) test(`two reviewer returns rec
     try {
       await context.addInitScript(init, appearance);const reviewer = await context.newPage();await reviewer.goto(baseURL!);
       let dialog = await reviews(reviewer);
-      await dialog.getByLabel('Import reviewer copy', { exact: true }).setInputFiles({ name: 'review.json', mimeType: 'application/json', buffer: copy });
+      await uploadReviewFile(dialog.getByLabel('Import reviewer copy', { exact: true }), { name: 'review.json', mimeType: 'application/json', buffer: copy });
       await dialog.getByRole('button', { name: 'Open as new review copy', exact: true }).click();await expect(dialog).toBeHidden();
       dialog = await reviews(reviewer);await dialog.getByLabel('Review for suggested edits', { exact: true }).selectOption({ label: 'Combined review' });
       await dialog.getByLabel('Reviewer name for suggestion', { exact: true }).fill(author);
@@ -172,7 +173,7 @@ for (const theme of ['light', 'dark', 'classic']) test(`two reviewer returns rec
   await replaceParagraphText(page.getByRole('textbox', { name: 'Paragraph 1', exact: true }), 'Bravo team meets on Friday.');
   modal = await reviews(page);
   for (const returned of theme === 'dark' ? [...returns].reverse() : returns) {
-    await modal.getByLabel('Import feedback return', { exact: true }).setInputFiles({ name: 'return.json', mimeType: 'application/json', buffer: returned });
+    await uploadReviewFile(modal.getByLabel('Import feedback return', { exact: true }), { name: 'return.json', mimeType: 'application/json', buffer: returned });
     await modal.getByRole('button', { name: 'Import reviewed feedback', exact: true }).click();await expect(modal.getByText(/Feedback imported/)).toBeVisible();
   }
   await modal.getByLabel('Review for suggested edits', { exact: true }).selectOption({ label: 'Combined review' });await expect(modal.getByRole('article', { name: /^Suggestion \d+:/ })).toHaveCount(4);
@@ -214,7 +215,7 @@ for (const theme of ['light', 'dark', 'classic']) test(`two reviewer returns rec
     await workspace(restored, /^FICTIONAL RECONCILIATION SOURCE /);
     modal = await reviews(restored);await modal.getByLabel('Review for suggested edits', { exact: true }).selectOption({ label: 'Combined review' });
     await expect(modal.getByRole('article').filter({ hasText: 'Accepted resolution' })).toHaveCount(2);
-    await modal.getByLabel('Import feedback return', { exact: true }).setInputFiles({ name: 'again.json', mimeType: 'application/json', buffer: returns[0] });
+    await uploadReviewFile(modal.getByLabel('Import feedback return', { exact: true }), { name: 'again.json', mimeType: 'application/json', buffer: returns[0] });
     await expect(modal.getByText(/This return has already been imported/)).toBeVisible();await closeReviewRounds(modal, 'close-button');
     const transferred = JSON.parse((await download(restored, () => action(restored, 'Export draft (.json)'))).toString('utf8'));
     expect(transferred.paragraphs[0].text).toBe(combined);expect(transferred.paragraphs[1].text).toBe(untouched);
@@ -493,12 +494,12 @@ test('review lifecycle preserves late returns and requires deliberate reopening'
   const first = modal.getByRole('article', { name: 'Review First lifecycle round', exact: true });
   await first.getByRole('button', { name: 'Close review', exact: true }).click();
   await expect(first).toContainText('Round status: closed');
-  await modal.getByLabel('Import feedback return', { exact: true }).setInputFiles({ name: 'late.json', mimeType: 'application/json', buffer: returned });
+  await uploadReviewFile(modal.getByLabel('Import feedback return', { exact: true }), { name: 'late.json', mimeType: 'application/json', buffer: returned });
   await expect(modal.getByRole('alert')).toContainText('closed or superseded');
   await expect(modal.getByRole('button', { name: 'Import reviewed feedback', exact: true })).toHaveCount(0);
   await first.getByRole('button', { name: 'Reopen review', exact: true }).click();
   await expect(first).toContainText('Round status: active');
-  await modal.getByLabel('Import feedback return', { exact: true }).setInputFiles({ name: 'late.json', mimeType: 'application/json', buffer: returned });
+  await uploadReviewFile(modal.getByLabel('Import feedback return', { exact: true }), { name: 'late.json', mimeType: 'application/json', buffer: returned });
   await modal.getByRole('button', { name: 'Import reviewed feedback', exact: true }).click();
   await expect(modal.getByText(/Feedback imported/)).toBeVisible();
   await modal.getByLabel('Review name', { exact: true }).fill('Replacement lifecycle round');
@@ -513,7 +514,7 @@ test('review lifecycle preserves late returns and requires deliberate reopening'
   await page.reload();
   modal = await reviews(page);
   await expect(modal.getByRole('article', { name: 'Review First lifecycle round', exact: true })).toContainText('Round status: superseded');
-  await modal.getByLabel('Import feedback return', { exact: true }).setInputFiles({ name: 'duplicate.json', mimeType: 'application/json', buffer: returned });
+  await uploadReviewFile(modal.getByLabel('Import feedback return', { exact: true }), { name: 'duplicate.json', mimeType: 'application/json', buffer: returned });
   await expect(modal.getByText(/This return has already been imported/)).toBeVisible();
   expect((await new AxeBuilder({ page }).include('[role="dialog"]').analyze()).violations).toEqual([]);
   await page.screenshot({ path: info.outputPath('retained-round-lifecycle.png'), scale: 'css' });
@@ -559,7 +560,7 @@ test('received copies and backups advance compatible closed review history', asy
 
   async function importCopy(recipient: Page, bytes: Buffer) {
     const incoming = await reviews(recipient);
-    await incoming.getByLabel('Import reviewer copy', { exact: true }).setInputFiles({
+    await uploadReviewFile(incoming.getByLabel('Import reviewer copy', { exact: true }), {
       name: 'received-review.json', mimeType: 'application/json', buffer: bytes,
     });
     await incoming.getByRole('button', { name: 'Open as new review copy', exact: true }).click();
@@ -698,9 +699,9 @@ test('explicit reviewer checkpoints show later text and feedback outcomes after 
   await modal.getByRole('button', { name: 'Show changes since checkpoint', exact: true }).click();
   await expect(modal.getByRole('region', { name: 'feedback changes since checkpoint', exact: true })).toContainText('Accepted');
   const tampered = { ...checkpoint, reviewerLabel: 'Changed after capture' };
-  await modal.getByLabel('Import reviewer checkpoint', { exact: true }).setInputFiles({ name: 'tampered.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(tampered)) });
+  await uploadReviewFile(modal.getByLabel('Import reviewer checkpoint', { exact: true }), { name: 'tampered.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(tampered)) });
   await expect(modal.getByRole('alert')).toContainText('checksum');
-  await modal.getByLabel('Import reviewer checkpoint', { exact: true }).setInputFiles({ name: 'checkpoint.json', mimeType: 'application/json', buffer: checkpointFile });
+  await uploadReviewFile(modal.getByLabel('Import reviewer checkpoint', { exact: true }), { name: 'checkpoint.json', mimeType: 'application/json', buffer: checkpointFile });
   await modal.getByRole('button', { name: 'Import this checkpoint', exact: true }).click();
   await expect(modal.getByText('Reviewer checkpoint imported. Document text and review decisions were kept.', { exact: true })).toBeVisible();
   await modal.getByRole('button', { name: 'Show changes since checkpoint', exact: true }).click();

@@ -3,6 +3,7 @@ import AxeBuilder from '@axe-core/playwright';
 import { readFile } from 'node:fs/promises';
 import { replaceParagraphText } from '../_helpers/replaceParagraphText';
 import { closeReviewRounds } from '../_helpers/closeReviewRounds';
+import { uploadReviewFile } from '../_helpers/uploadReviewFile';
 
 test.use({ serviceWorkers: 'block' });
 test.setTimeout(180_000);
@@ -53,7 +54,7 @@ for (const theme of ['light', 'dark', 'classic']) test(`selected replacement tra
   try {
     await context.addInitScript(init, theme);const reviewer = await context.newPage();await reviewer.goto(baseURL!);
     let remote = await reviews(reviewer);
-    await remote.getByLabel('Import reviewer copy', { exact: true }).setInputFiles({ name: 'review.json', mimeType: 'application/json', buffer: copy });
+    await uploadReviewFile(remote.getByLabel('Import reviewer copy', { exact: true }), { name: 'review.json', mimeType: 'application/json', buffer: copy });
     await remote.getByRole('button', { name: 'Open as new review copy', exact: true }).click();await expect(remote).toBeHidden();
     remote = await reviews(reviewer);
     await remote.getByLabel('Review for suggested edits', { exact: true }).selectOption({ label: 'Precise baseline' });
@@ -75,7 +76,7 @@ for (const theme of ['light', 'dark', 'classic']) test(`selected replacement tra
     await info.attach('selected-feedback-return.json', { body: returned, contentType: 'application/json' });
     await replaceParagraphText(page.getByRole('textbox', { name: 'Paragraph 2', exact: true }), 'Newer independent draft work.');
     modal = await reviews(page);
-    await modal.getByLabel('Import feedback return', { exact: true }).setInputFiles({ name: 'returned.json', mimeType: 'application/json', buffer: returned });
+    await uploadReviewFile(modal.getByLabel('Import feedback return', { exact: true }), { name: 'returned.json', mimeType: 'application/json', buffer: returned });
     await modal.getByRole('button', { name: 'Import reviewed feedback', exact: true }).click();await expect(modal.getByText(/Feedback imported/)).toBeVisible();
     await modal.getByLabel('Review for suggested edits', { exact: true }).selectOption({ label: 'Precise baseline' });
     const first = modal.getByRole('article', { name: 'Suggestion 1: Replace selected text', exact: true });
@@ -96,7 +97,7 @@ for (const theme of ['light', 'dark', 'classic']) test(`selected replacement tra
     expect(reloaded.proposals).toBeUndefined();expect(JSON.stringify(reloaded)).not.toContain('Synthetic reviewer');
     modal = await reviews(page);await modal.getByLabel('Review for suggested edits', { exact: true }).selectOption({ label: 'Precise baseline' });
     await expect(modal.getByRole('article', { name: 'Suggestion 1: Replace selected text', exact: true }).getByText(/· Accepted$/)).toBeVisible();
-    await modal.getByLabel('Import feedback return', { exact: true }).setInputFiles({ name: 'repeated.json', mimeType: 'application/json', buffer: returned });
+    await uploadReviewFile(modal.getByLabel('Import feedback return', { exact: true }), { name: 'repeated.json', mimeType: 'application/json', buffer: returned });
     await expect(modal.getByText(/This return has already been imported/)).toBeVisible();
   } finally { await context.close(); }
 });

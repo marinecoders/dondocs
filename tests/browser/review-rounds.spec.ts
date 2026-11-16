@@ -5,6 +5,7 @@ import { PDFDocument } from 'pdf-lib';
 import JSZip from 'jszip';
 import { docxImageFixture } from '../_helpers/docxImageFixture';
 import { closeReviewRounds } from '../_helpers/closeReviewRounds';
+import { uploadReviewFile } from '../_helpers/uploadReviewFile';
 
 test.use({ serviceWorkers: 'block', actionTimeout: 15_000 });
 test.setTimeout(180_000);
@@ -218,7 +219,7 @@ test('reviewer imports reject stale previews and preserve native bytes without c
 
   const foreign = structuredClone(original);
   foreign.round.id = `review_${crypto.randomUUID()}`;
-  const importCopy = (value: unknown) => modal.getByLabel('Import reviewer copy', { exact: true }).setInputFiles({
+  const importCopy = (value: unknown) => uploadReviewFile(modal.getByLabel('Import reviewer copy', { exact: true }), {
     name: 'incoming-review.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(value)) });
   await importCopy(foreign);
   await expect(modal.getByRole('button', { name: 'Open as new review copy', exact: true })).toBeVisible();

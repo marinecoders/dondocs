@@ -5,6 +5,7 @@ import { getDocument } from 'pdfjs-dist/legacy/build/pdf.mjs';
 import { replaceParagraphText } from '../_helpers/replaceParagraphText';
 import { closeReviewRounds } from '../_helpers/closeReviewRounds';
 import { downloadBrowserPdf } from '../_helpers/downloadBrowserPdf';
+import { uploadReviewFile } from '../_helpers/uploadReviewFile';
 
 test.use({ serviceWorkers: 'block' });
 test.setTimeout(180_000);
@@ -38,7 +39,7 @@ for (const theme of ['light', 'dark', 'classic']) test(`paragraph insertion and 
   try {
     await context.addInitScript(init, theme);const reviewer = await context.newPage();await reviewer.goto(baseURL!);
     let remote = await reviews(reviewer);
-    await remote.getByLabel('Import reviewer copy', { exact: true }).setInputFiles({ name: 'review.json', mimeType: 'application/json', buffer: copy });
+    await uploadReviewFile(remote.getByLabel('Import reviewer copy', { exact: true }), { name: 'review.json', mimeType: 'application/json', buffer: copy });
     await remote.getByRole('button', { name: 'Open as new review copy', exact: true }).click();await expect(remote).toBeHidden();
     remote = await reviews(reviewer);await remote.getByLabel('Review for suggested edits', { exact: true }).selectOption({ label: 'Paragraph baseline' });
     await remote.getByLabel('Reviewer name for suggestion', { exact: true }).fill('Synthetic paragraph reviewer');
@@ -65,7 +66,7 @@ for (const theme of ['light', 'dark', 'classic']) test(`paragraph insertion and 
     expect(newId).not.toBe('structure-first');await info.attach('paragraph-feedback-return.json', { body: returned, contentType: 'application/json' });
     await replaceParagraphText(page.getByRole('textbox', { name: 'Paragraph 3', exact: true }), 'Newer independent third.');
     modal = await reviews(page);
-    await modal.getByLabel('Import feedback return', { exact: true }).setInputFiles({ name: 'returned.json', mimeType: 'application/json', buffer: returned });
+    await uploadReviewFile(modal.getByLabel('Import feedback return', { exact: true }), { name: 'returned.json', mimeType: 'application/json', buffer: returned });
     await modal.getByRole('button', { name: 'Import reviewed feedback', exact: true }).click();await expect(modal.getByText(/Feedback imported/)).toBeVisible();
     await modal.getByLabel('Review for suggested edits', { exact: true }).selectOption({ label: 'Paragraph baseline' });
     for (const name of ['Suggestion 1: Insert paragraph', 'Suggestion 2: Delete paragraph']) {
