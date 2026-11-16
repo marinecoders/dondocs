@@ -7,6 +7,13 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.121] — 2026-11-16
+
+### Added
+
+- Recognize English text locally from scanned PDFs and PNG/JPEG photos using bundled OCR assets. Bound source dimensions, page counts, retained previews and worker lifetime.
+- Load the engine on first use in regular and immutable deployments and retain local assets for subsequent offline recognition.
+
 ## [1.3.120] — 2026-11-16
 
 ### Added
