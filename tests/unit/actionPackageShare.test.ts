@@ -3,7 +3,8 @@ import { afterEach, beforeEach, expect, it, vi } from "vitest";
 import { PDFDocument } from "pdf-lib";
 import { createBlankSession } from "@/stores/documentStore";
 import { captureDocumentRevision } from "@/lib/capturedDocument";
-import { capturePackageMember, captureOriginalPackageMember } from "@/lib/actionPackageAssets";
+import { capturePackageMember, captureOriginalPackageMember, readPackageMemberDraft, retainPackageAsset } from "@/lib/actionPackageAssets";
+import { buildPortableActionPackage, parsePortableActionPackage } from "@/lib/actionPackageTransfer";
 import { createActionPackage, reviseActionPackage, renameActionPackage, listActionPackages } from "@/lib/actionPackages";
 import { preparePackageShare, prepareReceivedPackageShare, encryptPreparedPackageShare, packageShareDelivery,
   importPreparedPackageShare, type EncryptedPackageShare } from "@/lib/actionPackageShare";
@@ -57,6 +58,40 @@ async function decoded(encrypted: EncryptedPackageShare) {
 }
 beforeEach(async () => { vi.restoreAllMocks();policyState.current = policy;await clearDatabase(); });
 afterEach(() => vi.restoreAllMocks());
+
+it.each(["outbound", "received"])("blocks omitted retained native draft markings in %s encrypted package preparation", async direction => {
+  const { record, native, original } = await fixture();
+  const { draft } = await readPackageMemberDraft(native);
+  Object.assign(draft as object, { legacyRetainedText: "(S) Synthetic retained encrypted note" });
+  const bytes = new TextEncoder().encode(JSON.stringify(draft)).buffer;
+  const asset = await retainPackageAsset(native.draft.name, native.draft.type, bytes);
+  const owner = await reviseActionPackage(record, [{ ...native, draft: asset }, original]);
+  const attachments = await database.idbGetAllAttachments();
+  const operation = direction === "outbound" ? preparePackageShare(owner, owner.currentRevisionId, policy)
+    : prepareReceivedPackageShare({ kind: "dondocs-action-package-share", version: 1, package: JSON.parse(await buildPortableActionPackage(owner)) }, policy);
+  await expect(operation).rejects.toThrow(/markings|levels/);
+  expect(await listActionPackages()).toEqual([owner]);
+  expect(await database.idbGetAllAttachments()).toEqual(attachments);
+});
+
+it("discloses omitted retained native privacy text in encrypted delivery and received review without rewriting resources", async () => {
+  const { record, native, original } = await fixture();
+  const { draft } = await readPackageMemberDraft(native);
+  const email = "synthetic-encrypted@example.test";
+  Object.assign(draft as object, { legacyRetainedText: `Contact ${email}` });
+  const bytes = new TextEncoder().encode(JSON.stringify(draft)).buffer;
+  const asset = await retainPackageAsset(native.draft.name, native.draft.type, bytes);
+  const owner = await reviseActionPackage(record, [{ ...native, draft: asset }, original]);
+  const prepared = await preparePackageShare(owner, owner.currentRevisionId, policy);
+  const findings = (value: typeof prepared) => value.reviews.flatMap(entry => entry.review.privacy.findings);
+  expect(findings(prepared).some(finding => finding.value === email)).toBe(true);
+  const { data } = await decoded(await encryptPreparedPackageShare(prepared, "synthetic-password"));
+  const payload = (data as { package: unknown }).package;
+  expect((await parsePortableActionPackage(JSON.stringify(payload))).resources.get(`assets/${asset.id}`)!.data).toEqual(bytes);
+  const received = await prepareReceivedPackageShare(data, policy);
+  expect(findings(received).some(finding => finding.value === email)).toBe(true);
+  expect(await listActionPackages()).toEqual([owner]);
+});
 
 it("encrypts one exact selected revision, preserves original bytes and installs only after review", async () => {
   const { record, bytes } = await fixture();

@@ -17,7 +17,7 @@ import {
   listActionPackages,
   getPackageRevision,
 } from "@/lib/actionPackages";
-import { capturePackageMember } from "@/lib/actionPackageAssets";
+import { capturePackageMember, readPackageMemberDraft, retainPackageAsset } from "@/lib/actionPackageAssets";
 import { captureDocumentRevision } from "@/lib/capturedDocument";
 import { resolveExportDeploymentPolicy } from "@/lib/exportDeploymentPolicy";
 import * as memberReviews from "@/lib/packageMemberReviews";
@@ -38,6 +38,32 @@ vi.mock("@/config/classification", async (importOriginal) => ({
 beforeEach(() => {
   vi.restoreAllMocks();
   useUIStore.setState({ actionPackagesOpen: false, isMobile: false, sidebarCollapsed: false });
+});
+it("checks retained raw draft text before editable package download while allowing normalized PDF assembly", async () => {
+  const source = createBlankSession();
+  source.formData = { ...source.formData, subject: "Synthetic retained text", unitLine1: "FICTIONAL TRAINING UNIT",
+    from: "Training Office", to: "Training Officer", sigLast: "Example", classLevel: "unclassified" };
+  source.paragraphs = [{ id: "portable-raw-body", text: "Synthetic visible paragraph.", level: 0 }];
+  const member = await capturePackageMember(captureDocumentRevision(
+    { documentId: "portable-raw-source", epoch: 0, editSequence: 1, capturedAt: 100 },
+    { ...source, endItems: [], publicationTables: {} },
+  ), "Synthetic retained text member", "basic-letter");
+  const { draft } = await readPackageMemberDraft(member);
+  Object.assign(draft as object, { legacyRetainedText: "(S) Synthetic omitted note" });
+  const asset = await retainPackageAsset(member.draft.name, member.draft.type, new TextEncoder().encode(JSON.stringify(draft)).buffer);
+  const record = await reviseActionPackage(await createActionPackage("Synthetic portable text review"), [{ ...member, draft: asset }]);
+  const user = userEvent.setup(); useUIStore.setState({ actionPackagesOpen: true });
+  render(<ActionPackageWorkspace exportGate={createExportGate()} ports={{ compile: vi.fn(), convertDocx: vi.fn(), waitForReady: async () => true }} />);
+  const dialog = screen.getByRole("dialog", { name: "Action packages" });
+  await within(dialog).findByRole("option", { name: record.name });
+  await user.selectOptions(within(dialog).getByLabelText("Saved packages", { exact: true }), record.id);
+  await user.click(within(dialog).getByRole("button", { name: "Export editable package" }));
+  await within(dialog).findByRole("heading", { name: "Package readiness: incomplete" });
+  await user.click(within(dialog).getByRole("checkbox", { name: /I reviewed every included member/ }));
+  expect(within(dialog).getByRole("button", { name: "Download reviewed editable package" })).toBeDisabled();
+  await user.click(within(dialog).getByRole("button", { name: "Check readiness and assemble" }));
+  await within(dialog).findByRole("heading", { name: "Package readiness: ready" });
+  expect((await listActionPackages()).find(value => value.id === record.id)).toEqual(record);
 });
 it("cancels a held render on close and never publishes into a reopened dialog or retains late output", async () => {
   const source = createBlankSession();

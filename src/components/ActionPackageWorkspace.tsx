@@ -300,7 +300,7 @@ function PackageDialog({
       ? await (await import("@/lib/packageRenderComparison")).preparePackageRenderComparison(
           readRecord!, revision.id, policy, operation.current!.signal,
         )
-      : await preparePackageAssembly(readRecord!, revision.id, policy);
+      : await preparePackageAssembly(readRecord!, revision.id, policy, { includeRetainedDraftText: mode === "portable" });
     assertOperationCurrent();
     setOtherReviews([]);
     setReviewMode(mode);

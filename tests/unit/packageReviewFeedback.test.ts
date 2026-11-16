@@ -10,7 +10,7 @@ import { createPackageMemberReview, preparePackageReviewMember, savePackageMembe
 import { createReviewSuggestion, appendReviewSuggestions } from '@/lib/reviewSuggestions';
 import { mutateReviewComments } from '@/lib/reviewCommentActions';
 import { buildPackageReviewerCopy, buildPackageReviewReturn, packageReviewTransferFile, preparePackageReviewerImport, importPackageReviewerCopy,
-  parsePackageReviewTransfer, parsePackageReviewReturn, type PackageReviewReturn } from '@/lib/packageReviewTransfer';
+  parsePackageReviewTransfer, parsePackageReviewReturn, type PackageReviewReturn, type PreparedPackageReviewTransfer } from '@/lib/packageReviewTransfer';
 import { resolveExportDeploymentPolicy } from '@/lib/exportDeploymentPolicy';
 import { idbGetAllAttachments, idbGetAttachment, idbCompareActionPackage, sameReviewStoredValue } from '@/lib/documentsDb';
 import { buildBackup, restoreBackup } from '@/lib/backup';
@@ -72,7 +72,7 @@ it('discloses retained native draft privacy findings for downloads and imports w
   const asset = await retainPackageAsset(native.draft.name, native.draft.type, data);
   const owner = await startPackageReview(await reviseActionPackage(await createActionPackage('Synthetic retained privacy review'), [{ ...native, draft: asset }]));
   const prepared = await buildPackageReviewerCopy(owner, owner.reviewRounds![0].id, policy);
-  const findings = (value: typeof prepared) => value.reviews.flatMap(review => review.privacy.findings);
+  const findings = (value: PreparedPackageReviewTransfer) => value.reviews.flatMap(review => review.privacy.findings);
   expect(findings(prepared).some(finding => finding.value === email)).toBe(true);
   const json = await packageReviewTransferFile(prepared, policy);
   const parsed = await parsePackageReviewTransfer(json);
