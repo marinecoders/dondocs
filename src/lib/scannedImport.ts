@@ -11,9 +11,12 @@ export interface ScanPage extends OcrText { preview: Blob; page: number }
 export interface ScanProgress { page: number; total: number; fraction: number }
 
 export function validateScanFile(file: Pick<File, 'name' | 'size' | 'type'>): 'pdf' | 'image' {
-  if (file.size === 0 || file.size > SCAN_MAX_BYTES) throw new Error('Choose a nonempty file up to 20 MB.');
+  if (!Number.isSafeInteger(file.size) || file.size <= 0 || file.size > SCAN_MAX_BYTES) throw new Error('Choose a nonempty file up to 20 MB.');
   if (/\.pdf$/i.test(file.name) || file.type === 'application/pdf') return 'pdf';
-  if (/\.(?:png|jpe?g)$/i.test(file.name) || /^(?:image\/png|image\/jpeg)$/.test(file.type)) return 'image';
+  if (/\.(?:png|jpe?g)$/i.test(file.name) || /^(?:image\/png|image\/jpeg)$/.test(file.type)) {
+    if (file.size > 10 * 1024 * 1024) throw new Error('Choose an image up to 10 MB.');
+    return 'image';
+  }
   throw new Error('Choose a PDF, PNG, or JPEG image.');
 }
 
@@ -58,6 +61,7 @@ export async function recognizeScannedFile(file: File, signal: AbortSignal, onPr
   };
   try {
     await worker.initialize();
+    signal.throwIfAborted();
     if (format === 'image') {
       const bitmap = await createImageBitmap(file);
       try {
