@@ -1,4 +1,5 @@
 import { replaceReviewParagraphText } from './reviewParagraphText';
+import { reviewParagraphMoveView, type ReviewParagraphMoveView } from './reviewParagraphMoves';
 import { applyReviewStructure, captureReviewStructure, inspectReviewStructure, reviewStructureTargetSchema, structureNewIds, structureOperationIds, structureSuggestionLabel, structureSuggestionText, validateReviewStructureTarget, type ReviewStructureTarget } from './reviewStructureSuggestions';
 import { transformRangeComments } from './reviewCommentRanges';
 import { z } from 'zod';
@@ -261,6 +262,8 @@ export function reviewStructureReservedIds(state: ReviewSuggestionState, exceptP
 }
 export function createParagraphStructureSuggestion(round: ReviewRound, input: { author: string; category?: FeedbackCategory; operation: Parameters<typeof captureReviewStructure>[1] }): ReviewSuggestion {
   const target = captureReviewStructure(round.baseline.session, input.operation);
+  if (target.operation.kind === 'move-paragraph' && !round.ownerDocumentId && target.operation.before.some(paragraph => paragraph.figure))
+    throw new Error('Reviewer copies cannot propose a move whose captured span includes a figure with local resource handles. Keep the figure and describe the move in a review comment. The original source can propose this move.');
   return validateReviewSuggestion(round, { kind: 'dondocs-review-suggestion', version: 1, id: `proposal_${crypto.randomUUID()}`,
     roundId: round.id, baselineDigest: round.baselineDigest, author: input.author, createdAt: Date.now(), label: structureSuggestionLabel(target),
     ...(input.category ? { category: input.category } : {}), origin: { kind: 'manual' },
@@ -327,7 +330,7 @@ export function acceptedReviewSuggestionRange(target: SelectedTextRange, propose
 
 export interface ReviewSuggestionPlan {
   status: 'ready' | 'stale' | 'decided';
-  changes: Array<{ id: string; label: string; baseline: string; current: string | null; proposed: string; stale: boolean; reconciliation?: ReviewRangeReconciliation }>;
+  changes: Array<{ id: string; label: string; baseline: string; current: string | null; proposed: string; stale: boolean; applied?: boolean; movement?: ReviewParagraphMoveView; reconciliation?: ReviewRangeReconciliation }>;
   session: SerializedSession;
   state: ReviewSuggestionState;
 }
@@ -366,8 +369,10 @@ function inspectReviewSuggestionUsing(round: ReviewRound, source: SerializedSess
     if (change.target.kind === 'structure') {
       const forward = inspectReviewStructure(source, change.target);
       const reverse = inspectReviewStructure(source, change.target, 'reverse');
+      // Readable prose cannot prove the accepted order of distinct paragraph IDs.
       return { id: change.id, label: structureSuggestionLabel(change.target), baseline: change.expected,
-        current: forward ? change.expected : reverse ? change.proposed : null, proposed: change.proposed, stale: !forward };
+        current: forward ? change.expected : reverse ? change.proposed : null, proposed: change.proposed, stale: !forward, applied: reverse,
+        ...(change.target.operation.kind === 'move-paragraph' ? { movement: reviewParagraphMoveView(change.target.operation.before, change.target.operation) } : {}) };
     }
     const reconciliation = change.target.kind === 'range' ? inspectReviewSuggestionRangeUsing(source, change.target, reconcileRange) : null;
     const resolution = acceptedResolutions?.find(item => item.changeId === change.id);

@@ -8,6 +8,7 @@ import { paragraphCommentIds, paragraphIdSchema, validateParagraphIds } from './
 import { supportsReviewComments, paragraphCommentContext } from './reviewCommentTargets';
 import { isTextRangeBoundary, supportsPlainTextRange } from './reviewTextRanges';
 import { normalizeLevels } from './paragraphUtils';
+import { captureReviewParagraphMove, deriveReviewParagraphMove, type ParagraphMoveIntent } from './reviewParagraphMoves';
 import { splitReviewParagraph, joinReviewParagraphs } from './reviewStructureFormatting';
 import { mapStructuralRangeComments, type StructuralRangeSpan, transformRangeComments } from './reviewCommentRanges';
 
@@ -30,6 +31,7 @@ const common = { before: z.array(reviewStructureParagraphSchema).max(100), after
 export const reviewStructureOperationSchema = z.discriminatedUnion('kind', [
   z.object({ kind: z.literal('insert-paragraph'), ...common }).strict(),
   z.object({ kind: z.literal('delete-paragraph'), ...common }).strict(),
+  z.object({ kind: z.literal('move-paragraph'), ...common, paragraphId: paragraphIdSchema, destinationId: paragraphIdSchema, placement: z.enum(['before', 'after']) }).strict(),
   z.object({ kind: z.literal('split-paragraph'), ...common, splitAt: z.number().int().positive() }).strict(),
   z.object({ kind: z.literal('join-paragraphs'), ...common, separator: z.enum(['', ' ']) }).strict(),
 ]);
@@ -41,7 +43,7 @@ export function structureSuggestionText(paragraphs: readonly Paragraph[]): strin
   return paragraphs.map(paragraphCommentContext).join('\n\n');
 }
 export function structureSuggestionLabel(target: ReviewStructureTarget): string {
-  return ({ 'insert-paragraph': 'Insert paragraph', 'delete-paragraph': 'Delete paragraph', 'split-paragraph': 'Split paragraph', 'join-paragraphs': 'Join paragraphs' })[target.operation.kind];
+  return ({ 'insert-paragraph': 'Insert paragraph', 'delete-paragraph': 'Delete paragraph', 'move-paragraph': 'Move paragraph', 'split-paragraph': 'Split paragraph', 'join-paragraphs': 'Join paragraphs' })[target.operation.kind];
 }
 export function structureOperationIds(target: ReviewStructureTarget): string[] {
   return [...new Set([...target.operation.before, ...target.operation.after].map(paragraph => paragraph.id)
@@ -71,6 +73,11 @@ function assertOperation(target: ReviewStructureTarget): void {
     if (paragraph.figure || paragraph.tableKey || paragraph.tableIdentifierMode || paragraph.tableFootnotes?.length
       || paragraph.callout || paragraph.procedure || paragraph.appendix || paragraph.publicationSection)
       throw new Error('Structured paragraphs require resource-aware structural review. Keep the paragraph and add a comment describing the deletion.');
+  } else if (operation.kind === 'move-paragraph') {
+    const captured = captureReviewParagraphMove(operation.before, operation);
+    if (captured.start !== 0 || captured.before.length !== operation.before.length
+      || !same(operation.after, deriveReviewParagraphMove(operation.before, operation)))
+      throw new Error('A move must preserve every exact native node and move only its complete subtree.');
   } else if (operation.kind === 'split-paragraph') {
     if (operation.before.length !== 1 || operation.after.length !== 2 || operation.after[1].id === operation.before[0].id
       || !same(operation.after, splitReviewParagraph(operation.before[0], operation.splitAt, operation.after[1].id)))
@@ -106,14 +113,20 @@ function locate(source: SerializedSession, target: ReviewStructureTarget, direct
   const sourceParents = parents(source.paragraphs), nextParents = parents(replacement);
   const affected = before.length ? sourceParents.get(before[0].id) : nextParents.get(after[0]?.id);
   if (affected !== operation.parentId) throw new Error('The captured paragraph parent changed.');
-  // Add/delete operates only on a leaf. Inserting ahead of a child cannot steal it.
-  if (before.length && source.paragraphs[start + before.length]?.level > before[before.length - 1].level
-    || after.length && replacement[start + after.length]?.level > after[after.length - 1].level)
+  if (operation.kind === 'move-paragraph') {
+    const original = direction === 'forward' ? source.paragraphs : replacement;
+    const captured = captureReviewParagraphMove(original, operation);
+    if (captured.start !== start || !same(captured.before, operation.before) || !same(captured.after, operation.after))
+      throw new Error('The captured source or destination subtree changed.');
+  }
+  // Leaf operations cannot steal children; moves prove both complete subtrees above.
+  if (operation.kind !== 'move-paragraph' && (before.length && source.paragraphs[start + before.length]?.level > before[before.length - 1].level
+    || after.length && replacement[start + after.length]?.level > after[after.length - 1].level))
     throw new Error('This change would delete or reparent child paragraphs. Choose a leaf paragraph or another position.');
   // Every surviving node must retain its parent; numbering itself is derived.
   for (let index = 0; index < source.paragraphs.length; index++) {
     const paragraph = source.paragraphs[index];
-    if (before.some(item => item.id === paragraph.id)) continue;
+    if (operation.kind !== 'move-paragraph' && before.some(item => item.id === paragraph.id)) continue;
     if (sourceParents.get(paragraph.id) !== nextParents.get(paragraph.id)) throw new Error('This change would reparent unrelated paragraphs.');
   }
   return { start, before, after };
@@ -169,9 +182,18 @@ export function inspectReviewStructure(source: SerializedSession, target: Review
 /** Capture once; callers retain the generated new ID when submitting/retrying. */
 export type CaptureReviewStructureInput = { kind: 'insert-paragraph'; index: number; text: string; level: number; paragraphId?: string }
   | { kind: 'delete-paragraph'; paragraphId: string }
+  | ({ kind: 'move-paragraph' } & ParagraphMoveIntent)
   | { kind: 'split-paragraph'; paragraphId: string; splitAt: number; newParagraphId?: string }
   | { kind: 'join-paragraphs'; paragraphId: string; nextParagraphId: string; separator: '' | ' ' };
 export function captureReviewStructure(source: SerializedSession, input: CaptureReviewStructureInput): ReviewStructureTarget {
+  if (input.kind === 'move-paragraph') {
+    const { start, before, after } = captureReviewParagraphMove(source.paragraphs, input);
+    const boundaryOf = (paragraph: Paragraph | undefined) => paragraph ? { id: paragraph.id!, level: paragraph.level } : null;
+    return validateReviewStructureTarget(source, { kind: 'structure', docType: source.docType, operation: { ...input,
+      before: before as ReviewStructureOperation['before'], after: after as ReviewStructureOperation['after'],
+      gap: { before: boundaryOf(source.paragraphs[start - 1]), after: boundaryOf(source.paragraphs[start + before.length]) },
+      parentId: parentId(source.paragraphs, start) } });
+  }
   const index = input.kind === 'insert-paragraph' ? input.index : source.paragraphs.findIndex(paragraph => paragraph.id === input.paragraphId);
   if (!Number.isInteger(index) || index < 0 || index > source.paragraphs.length || input.kind !== 'insert-paragraph' && index === source.paragraphs.length) throw new Error('Choose a current stable paragraph or insertion position.');
   const before = input.kind === 'insert-paragraph' ? [] : structuredClone(source.paragraphs.slice(index, index + (input.kind === 'join-paragraphs' ? 2 : 1)));

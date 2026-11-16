@@ -244,3 +244,12 @@ export function canIndentAt(paragraphs: { level: number }[], index: number): boo
   const level = paragraphs[index].level;
   return level < PARAGRAPH.MAX_DEPTH && level <= paragraphs[index - 1].level;
 }
+
+/** End of a native paragraph subtree. The root and every contiguous deeper
+ * node travel together; callers choose the destination without changing levels. */
+export function paragraphSubtreeEnd(paragraphs: readonly { level: number }[], index: number): number {
+  if (!Number.isInteger(index) || index < 0 || index >= paragraphs.length) throw new Error('Choose a current paragraph.');
+  let end = index + 1;
+  while (end < paragraphs.length && paragraphs[end].level > paragraphs[index].level) end++;
+  return end;
+}

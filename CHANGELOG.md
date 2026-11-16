@@ -7,6 +7,13 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.115] — 2026-11-15
+
+### Added
+
+- Propose same-parent paragraph moves with complete child subtrees, a readable source/destination preview, and guarded acceptance through existing review decisions and Undo/Redo. Stable paragraph identities retain their text, native formatting, variables, resources and discussions; numbering follows the resulting outline.
+- Exact captured source, destination, parent and boundary checks refuse stale or forged reorderings while preserving unrelated newer work. Portable reviewer moves containing figures receive a visible comment recovery path; native source moves preserve retained figure handles.
+
 ## [1.3.114] — 2026-11-15
 
 ### Added
