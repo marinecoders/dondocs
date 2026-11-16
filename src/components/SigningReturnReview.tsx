@@ -5,6 +5,7 @@ import { base64ToUint8Array } from '@/lib/encoding';
 import { MAX_SIGNING_PDF_BYTES } from '@/lib/manualSignatureFields';
 import { associateSigningReturn, prepareSigningReturn, signingErrorMessage, type SigningRecord, type SigningReturnCandidate } from '@/lib/signingWorkspace';
 import { reserveSigningPdfDownload } from '@/utils/signingPdfDownload';
+import { confirmSigningDisclosure } from '@/components/signingDisclosure';
 
 function RetainedSigningPreview({ data, label }: { data: string; label: string }) {
   const [preview, setPreview] = useState<{ data: string; url: string } | null>(null);
@@ -47,11 +48,14 @@ export function SigningReturnReview({ record, onSaved }: { record: SigningRecord
   }
   function downloadRetained() {
     if (!retained || !retainedReviewed || working.current) return;
-    const lease = reserveSigningPdfDownload();
+    let lease = reserveSigningPdfDownload();
     void run(async isCurrent => {
       try {
         if (!isCurrent()) return;
-        if (!await lease.deliver(base64ToUint8Array(retained.pdf.data), retained.pdf.filename)) throw new Error('The returned PDF could not be delivered. Retry in a supported browser.');
+        const bytes = base64ToUint8Array(retained.pdf.data);
+        await confirmSigningDisclosure({ pdfs: [{ bytes, label: retained.pdf.filename }], metadata: { existingFieldNames: retained.pdf.existingFieldNames } }, isCurrent,
+          { onPrivacyReview: () => lease.release(), onPrivacyApproved: () => { lease = reserveSigningPdfDownload(); } });
+        if (!await lease.deliver(bytes, retained.pdf.filename)) throw new Error('The returned PDF could not be delivered. Retry in a supported browser.');
       } finally { lease.release(); }
     });
   }

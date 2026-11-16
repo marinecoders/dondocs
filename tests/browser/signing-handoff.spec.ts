@@ -61,3 +61,34 @@ test('captures the current draft through the reviewed PDF export pipeline', asyn
   expect(record.source.sha256).toBe(createHash('sha256').update(Buffer.from(record.source.data, 'base64')).digest('hex'));
   expect((await PDFDocument.load(Buffer.from(record.source.data, 'base64'))).getPageCount()).toBeGreaterThan(0);
 });
+
+test('keeps healthy records usable while damaged entries can be recovered and explicitly removed', async ({ page }) => {
+  const pdf = await PDFDocument.create();pdf.addPage([400, 600]);const bytes = Buffer.from(await pdf.save());
+  await page.goto('/');await page.getByRole('button', { name: 'Download', exact: true }).click();await page.getByRole('menuitem', { name: 'Signing workspace', exact: true }).click();
+  const dialog = page.getByRole('dialog', { name: 'Signing workspace', exact: true });
+  await dialog.getByLabel('Unsigned PDF for signing').setInputFiles({ name: 'Healthy.pdf', mimeType: 'application/pdf', buffer: bytes });
+  await expect(dialog.getByText('Exact source PDF saved. Add the fields you need.')).toBeVisible();
+  await page.evaluate(() => new Promise<void>((resolve, reject) => {
+    const opening = indexedDB.open('dondocs');opening.onerror = () => reject(opening.error);
+    opening.onsuccess = () => {
+      const db = opening.result, transaction = db.transaction('app', 'readwrite'), store = transaction.objectStore('app');
+      const request = store.getAll(IDBKeyRange.bound('signing-workspace:', 'signing-workspace:\uffff'));
+      request.onsuccess = () => { const damaged = structuredClone(request.result[0].value);damaged.id = crypto.randomUUID();damaged.source.sha256 = '0'.repeat(64);store.put({ key: `signing-workspace:${damaged.id}`, value: damaged }); };
+      transaction.oncomplete = () => { db.close();resolve(); };transaction.onerror = () => reject(transaction.error);
+    };
+  }));
+  await page.reload();await page.getByRole('button', { name: 'Download', exact: true }).click();await page.getByRole('menuitem', { name: 'Signing workspace', exact: true }).click();
+  await expect(dialog.getByRole('heading', { name: 'Unreadable signing records', exact: true })).toBeVisible();
+  await expect(dialog.getByRole('button', { name: 'Add signature box', exact: true })).toBeEnabled();
+  const saving = page.waitForEvent('download');await dialog.getByRole('button', { name: 'Download recovery data 1', exact: true }).click();
+  const recovery = JSON.parse(await readFile((await (await saving).path())!, 'utf8'));
+  expect(Buffer.from(recovery.source.data, 'base64')).toEqual(bytes);expect(recovery.source.sha256).toBe('0'.repeat(64));
+  await dialog.getByRole('button', { name: 'Remove unreadable record 1', exact: true }).click();
+  const confirmation = page.getByRole('alertdialog', { name: 'Remove unreadable signing record?', exact: true });
+  await confirmation.getByRole('button', { name: 'Cancel', exact: true }).click();
+  await expect(dialog.getByRole('heading', { name: 'Unreadable signing records', exact: true })).toBeVisible();
+  await dialog.getByRole('button', { name: 'Remove unreadable record 1', exact: true }).click();
+  await confirmation.getByRole('button', { name: 'Remove unreadable record', exact: true }).click();
+  await expect(dialog.getByRole('heading', { name: 'Unreadable signing records', exact: true })).not.toBeVisible();
+  await expect(dialog.getByRole('button', { name: 'Add signature box', exact: true })).toBeEnabled();
+});

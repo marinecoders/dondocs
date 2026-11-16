@@ -1,8 +1,8 @@
 import 'fake-indexeddb/auto';
 import { describe, expect, it } from 'vitest';
 import { PDFDocument } from 'pdf-lib';
-import { createSigningRecord, createSigningHandoff, downloadSigningHandoff, exportSigningRecord, importSigningRecord, listSigningRecords, removeSigningRecord, signingDigest, updateSigningFields, validateSigningRecord } from '@/lib/signingWorkspace';
-import { idbReadSigningRecords } from '@/lib/documentsDb';
+import { createSigningRecord, createSigningHandoff, downloadSigningHandoff, exportSigningRecord, importSigningRecord, listSigningRecords, loadSigningInventory, removeSigningRecord, removeUnreadableSigningRecord, signingDigest, updateSigningFields, validateSigningRecord } from '@/lib/signingWorkspace';
+import { idbCompareSigningRecord, idbReadSigningRecords } from '@/lib/documentsDb';
 import { base64ToUint8Array } from '@/lib/encoding';
 import JSZip from 'jszip';
 
@@ -70,5 +70,17 @@ describe('retained signing drafts', () => {
     expect((await listSigningRecords()).some(value => value.id === replacement.id)).toBe(true);
     for (const record of [...created, replacement]) await removeSigningRecord(record);
     expect(await listSigningRecords()).toEqual(before);
+  });
+  it('quarantines malformed saved records without hiding healthy work and guards their explicit removal', async () => {
+    const healthy = await createSigningRecord(await fixture(), 'Healthy.pdf');
+    const damaged = structuredClone(healthy);damaged.id = crypto.randomUUID();damaged.source.sha256 = '0'.repeat(64);
+    expect(await idbCompareSigningRecord(null, damaged)).toBe(true);
+    const inventory = await loadSigningInventory();expect(inventory.records.some(value => value.id === healthy.id)).toBe(true);
+    const problem = inventory.unreadable.find(value => value.id === damaged.id)!;expect(problem.data).toEqual(damaged);
+    await expect(removeUnreadableSigningRecord(problem, () => false)).rejects.toThrow('cancelled');
+    await removeUnreadableSigningRecord(problem);
+    expect((await loadSigningInventory()).unreadable.some(value => value.id === damaged.id)).toBe(false);
+    await expect(removeUnreadableSigningRecord({ id: healthy.id, data: healthy, message: 'Invalid' })).rejects.toThrow('readable');
+    expect((await listSigningRecords()).some(value => value.id === healthy.id)).toBe(true);
   });
 });

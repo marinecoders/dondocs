@@ -31,18 +31,25 @@ const APP_STORE = 'app'; // key/value store; currently just { key:'currentId', v
 const ATTACHMENTS_STORE = 'attachments'; // enclosure file blobs, keyed by content-free id
 
 export async function idbReadSigningRecords(): Promise<unknown[]> {
-  return (await run<Array<{ value: unknown }>>(APP_STORE, 'readonly', store =>
-    store.getAll(IDBKeyRange.bound('signing-workspace:', 'signing-workspace:\uffff'), 20))).map(record => record.value);
+  return (await idbReadSigningEntries()).map(record => record.value);
+}
+export async function idbReadSigningEntries(): Promise<Array<{ key: string; value: unknown }>> {
+  return run<Array<{ key: string; value: unknown }>>(APP_STORE, 'readonly', store =>
+    store.getAll(IDBKeyRange.bound('signing-workspace:', 'signing-workspace:\uffff'), 20));
 }
 
 export async function idbDeleteSigningRecord(expected: { id: string }, isCurrent: () => boolean = () => true): Promise<boolean> {
+  return idbDeleteSigningRecordValue(expected.id, expected, isCurrent);
+}
+export async function idbDeleteSigningRecordValue(id: string, expected: unknown, isCurrent: () => boolean = () => true): Promise<boolean> {
+  if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id)) return false;
   const owned = structuredClone(expected), db = await openDb();
   return new Promise((resolve, reject) => {
     const transaction = db.transaction(APP_STORE, 'readwrite'), store = transaction.objectStore(APP_STORE);
-    const request = store.get(`signing-workspace:${owned.id}`);let removed = false;
+    const request = store.get(`signing-workspace:${id}`);let removed = false;
     request.onsuccess = () => {
       if (!isCurrent() || !sameReviewStoredValue(request.result?.value ?? null, owned)) return;
-      store.delete(`signing-workspace:${owned.id}`);removed = true;
+      store.delete(`signing-workspace:${id}`);removed = true;
     };
     transaction.oncomplete = () => resolve(removed);
     transaction.onerror = () => reject(transaction.error ?? new Error('The signing record could not be removed.'));

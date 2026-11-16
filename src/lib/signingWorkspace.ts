@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { base64ToUint8Array, uint8ArrayToBase64 } from './encoding';
-import { idbReadSigningRecords, idbCompareSigningRecord, idbDeleteSigningRecord } from './documentsDb';
+import { idbReadSigningRecords, idbReadSigningEntries, idbCompareSigningRecord, idbDeleteSigningRecord, idbDeleteSigningRecordValue } from './documentsDb';
 import { inspectSigningPdf, placeManualSignatureFields, manualSignatureSchema, signingPageSchema, MAX_SIGNING_PDF_BYTES, type ManualSignature } from './manualSignatureFields';
 import type { CapturedSource } from './capturedDocument';
 import { compareSigningPdfs } from './signingPdfComparison';
@@ -84,9 +84,30 @@ export async function createSigningRecord(bytes: Uint8Array, filename: string, i
   return structuredClone(record);
 }
 export async function listSigningRecords(): Promise<SigningRecord[]> {
-  const records: SigningRecord[] = [];
-  for (const input of await idbReadSigningRecords()) records.push(await validateSigningRecord(input));
-  return records.sort((a, b) => b.updatedAt - a.updatedAt);
+  return (await loadSigningInventory()).records;
+}
+export interface UnreadableSigningRecord { readonly id: string | null; readonly data: unknown; readonly message: string }
+export async function loadSigningInventory(): Promise<{ records: SigningRecord[]; unreadable: UnreadableSigningRecord[] }> {
+  const records: SigningRecord[] = [], unreadable: UnreadableSigningRecord[] = [];
+  for (const entry of await idbReadSigningEntries()) {
+    try {
+      const record = await validateSigningRecord(entry.value);
+      if (entry.key !== `signing-workspace:${record.id}`) throw new Error('The saved record identity does not match its storage entry.');
+      records.push(record);
+    }
+    catch (cause) {
+      const identity = z.string().uuid().safeParse(entry.key.slice('signing-workspace:'.length));
+      unreadable.push({ id: identity.success ? identity.data : null, data: structuredClone(entry.value), message: signingErrorMessage(cause) });
+    }
+  }
+  return { records: records.sort((a, b) => b.updatedAt - a.updatedAt), unreadable };
+}
+export async function removeUnreadableSigningRecord(input: UnreadableSigningRecord, isCurrent: () => boolean = () => true): Promise<void> {
+  const id = z.string().uuid().parse(input.id);
+  let readable = false;
+  try { readable = (await validateSigningRecord(input.data)).id === id; } catch { /* Keep unreadable data intact until the explicit removal below. */ }
+  if (readable) throw new Error('This signing record is readable. Reopen it before choosing a removal action.');
+  if (!await idbDeleteSigningRecordValue(id, input.data, isCurrent)) throw new Error('The unreadable record changed or removal was cancelled. Reopen the signing workspace and retry.');
 }
 export async function updateSigningFields(before: SigningRecord, fields: readonly ManualSignature[], isCurrent: () => boolean = () => true): Promise<SigningRecord> {
   const after = await validateSigningRecord({ ...before, revision: crypto.randomUUID(), updatedAt: Date.now(), fields });

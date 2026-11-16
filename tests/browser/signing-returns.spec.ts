@@ -36,7 +36,7 @@ test('associates a returned PDF, preserves its bytes through reload and transfer
   returned.getForm().getFields()[0].acroField.dict.set(PDFName.of('V'), returned.context.obj({ Type: 'Sig', ByteRange: [0, 0, 0, 0] }));
   const bytes = Buffer.from(await returned.save());
   await dialog.getByLabel('Returned PDF', { exact: true }).setInputFiles({ name: 'Returned.pdf', mimeType: 'application/pdf', buffer: bytes });
-  await expect(dialog.getByRole('status')).toContainText('Page geometry, content streams and the handoff marker agree.');
+  await expect(dialog.getByRole('status').filter({ hasText: 'Page geometry, content streams and the handoff marker agree.' })).toBeVisible();
   await dialog.getByRole('button', { name: 'View exact handoff', exact: true }).click();
   await expect(dialog.getByLabel('Exact handoff PDF', { exact: true }).locator('canvas').first()).toBeVisible();
   await dialog.getByRole('button', { name: 'View returned file', exact: true }).click();
@@ -65,7 +65,7 @@ test('requires an explicit mismatch decision for a different PDF with the same f
   const { dialog, manifest } = await startHandoff(page), wrong = await PDFDocument.load(await pdfBytes('A DIFFERENT DOCUMENT'));
   wrong.setKeywords([`DonDocs handoff ${manifest.handoffId}`]);
   await dialog.getByLabel('Returned PDF', { exact: true }).setInputFiles({ name: 'Same name.pdf', mimeType: 'application/pdf', buffer: Buffer.from(await wrong.save()) });
-  await expect(dialog.getByRole('status')).toContainText('The returned file differs');
+  await expect(dialog.getByRole('status').filter({ hasText: 'The returned file differs' })).toBeVisible();
   await dialog.getByRole('checkbox', { name: /^I compared every page/ }).check();
   await expect(dialog.getByRole('button', { name: 'Associate returned PDF', exact: true })).toBeDisabled();
   await dialog.getByRole('checkbox', { name: /^I understand this file is unchanged/ }).check();

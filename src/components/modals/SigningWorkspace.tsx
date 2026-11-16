@@ -5,10 +5,12 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 import { Button } from '@/components/ui/button';
 import { base64ToUint8Array, triggerDownload } from '@/lib/encoding';
 import { MAX_SIGNING_PDF_BYTES, placeManualSignatureFields, type ManualSignature } from '@/lib/manualSignatureFields';
-import { createSigningRecord, createSigningHandoff, downloadSigningHandoff, exportSigningRecord, importSigningRecord, listSigningRecords, removeSigningRecord, signingErrorMessage, updateSigningFields, type SigningRecord } from '@/lib/signingWorkspace';
+import { createSigningRecord, createSigningHandoff, downloadSigningHandoff, exportSigningRecord, importSigningRecord, loadSigningInventory, removeSigningRecord, removeUnreadableSigningRecord, signingErrorMessage, updateSigningFields, type SigningRecord, type UnreadableSigningRecord } from '@/lib/signingWorkspace';
 import { reserveSigningPdfDownload } from '@/utils/signingPdfDownload';
 import { showAppConfirm } from '@/stores/alertStore';
 import { SigningReturnReview } from '@/components/SigningReturnReview';
+import { confirmSigningDisclosure } from '@/components/signingDisclosure';
+import { signingRecordDisclosure } from '@/lib/signingDisclosure';
 
 export default function SigningWorkspace({ open, onOpenChange, initialRecordId }: { open: boolean; onOpenChange(open: boolean): void; initialRecordId?: string }) {
   return <Dialog open={open} onOpenChange={onOpenChange}><DialogContent className="flex max-h-[95dvh] max-w-5xl flex-col overflow-hidden sm:max-w-5xl">
@@ -19,6 +21,7 @@ export default function SigningWorkspace({ open, onOpenChange, initialRecordId }
 
 function SigningEditor({ initialRecordId }: { initialRecordId?: string }) {
   const [records, setRecords] = useState<SigningRecord[]>([]);
+  const [unreadable, setUnreadable] = useState<UnreadableSigningRecord[]>([]);
   const [record, setRecord] = useState<SigningRecord | null>(null);
   const [fields, setFields] = useState<ManualSignature[]>([]);
   const [page, setPage] = useState(0), [zoom, setZoom] = useState(1);
@@ -35,7 +38,7 @@ function SigningEditor({ initialRecordId }: { initialRecordId?: string }) {
   };
   useEffect(() => {
     const owner = request, generation = ++owner.current;
-    void listSigningRecords().then(saved => { if (generation === owner.current) { setRecords(saved);const selected = saved.find(value => value.id === initialRecordId) ?? saved[0];if (selected) selectRecord(selected); } })
+    void loadSigningInventory().then(inventory => { if (generation === owner.current) { setRecords(inventory.records);setUnreadable(inventory.unreadable);const selected = inventory.records.find(value => value.id === initialRecordId) ?? inventory.records[0];if (selected) selectRecord(selected); } })
       .catch(cause => { if (generation === owner.current) setError(cause instanceof Error ? cause.message : 'Saved signing drafts could not be opened.'); });
     return () => { owner.current++; };
   }, [initialRecordId]);
@@ -63,13 +66,15 @@ function SigningEditor({ initialRecordId }: { initialRecordId?: string }) {
     setRecord(saved);setRecords(all => [saved, ...all.filter(value => value.id !== saved.id)]);
     setNotice('Signature placement saved in this browser.');return saved;
   }
-  function runPdf(operation: () => Promise<{ bytes: Uint8Array; filename: string } | null>) {
+  function runPdf(operation: () => Promise<{ bytes: Uint8Array; filename: string; metadata?: unknown } | null>) {
     if (working.current) return;
-    const lease = reserveSigningPdfDownload();
+    let lease = reserveSigningPdfDownload();
     void run(async () => {
       const generation = request.current;
       try {
         const result = await operation();if (!result || generation !== request.current) return;
+        await confirmSigningDisclosure({ pdfs: [{ bytes: result.bytes, label: result.filename }], metadata: result.metadata }, () => generation === request.current,
+          { onPrivacyReview: () => lease.release(), onPrivacyApproved: () => { lease = reserveSigningPdfDownload(); } });
         if (!await lease.deliver(result.bytes, result.filename)) throw new Error('The PDF could not be delivered. Retry in a supported browser.');
         if (generation === request.current) setNotice('PDF delivered to your browser. Complete signing in your signing application.');
       } finally { lease.release(); }
@@ -86,6 +91,25 @@ function SigningEditor({ initialRecordId }: { initialRecordId?: string }) {
   return <div className="min-h-0 space-y-4 overflow-y-auto pr-1" aria-busy={busy}>
     {error && <p role="alert" className="text-sm text-destructive">{error}</p>}
     {notice && <p role="status" className="text-sm">{notice}</p>}
+    {!!unreadable.length && <section aria-label="Unreadable signing records" className="space-y-3 rounded border p-3">
+      <h3 className="font-medium">Unreadable signing records</h3>
+      <p className="text-sm">Readable records remain available below. These entries need recovery; they have not been changed. A recovery download contains their raw saved data and may include original PDFs. It is unencrypted.</p>
+      {unreadable.map((problem, index) => <div className="space-y-2" key={problem.id ?? index}>
+        <p className="text-sm">Record {index + 1}: {problem.message}</p>
+        <div className="flex flex-wrap gap-2"><Button variant="outline" disabled={busy} onClick={() => void run(async () => {
+          const generation = request.current;
+          await confirmSigningDisclosure(signingRecordDisclosure(problem.data), () => generation === request.current);
+          if (generation !== request.current) return;
+          triggerDownload(new TextEncoder().encode(JSON.stringify(problem.data)), `unreadable-signing-${problem.id ?? index + 1}.json`, 'application/json');
+        })}>Download recovery data {index + 1}</Button>
+          <Button variant="outline" disabled={busy || !problem.id} onClick={() => void run(async () => {
+            const generation = request.current;
+            if (!await showAppConfirm({ title: 'Remove unreadable signing record?', message: 'Download its recovery data first if you need to retain the original PDFs. Removal permanently releases this entry from this browser.', confirmLabel: 'Remove unreadable record' }) || generation !== request.current) return;
+            await removeUnreadableSigningRecord(problem, () => generation === request.current);
+            if (generation === request.current) setUnreadable(all => all.filter(value => value !== problem));
+          })}>Remove unreadable record {index + 1}</Button></div>
+      </div>)}
+    </section>}
     <label className="block text-sm">Unsigned PDF for signing<input className="mt-1 block w-full" type="file" accept="application/pdf,.pdf" disabled={busy} onChange={event => {
       const file = event.target.files?.[0];event.target.value = '';
       if (!file) return;
@@ -142,14 +166,14 @@ function SigningEditor({ initialRecordId }: { initialRecordId?: string }) {
         </div>
       </div>
       <div className="flex flex-wrap gap-2"><Button disabled={busy} onClick={() => void run(async () => { await save(); })}>Save signature placement</Button></div>
-      <label className="flex items-start gap-2 text-sm"><input type="checkbox" checked={reviewed} onChange={event => setReviewed(event.target.checked)} />I reviewed every page, the signer assignments, and the placement of every signature box.</label>
+      <label className="flex items-start gap-2 text-sm"><input type="checkbox" checked={reviewed} onChange={event => setReviewed(event.target.checked)} />I reviewed every page, signer assignments, signature placement, personal information and document markings, including text inside images.</label>
       <div className="flex flex-wrap gap-2"><Button disabled={busy || !reviewed || !hasSignatureFields} onClick={() => runPdf(async () => {
         const saved = await save();if (!saved) return null;
         const generation = request.current, bytes = await placeManualSignatureFields(base64ToUint8Array(saved.source.data), saved.fields);
         if (generation !== request.current) return null;
-        return { bytes, filename: `signing-${saved.source.filename}` };
+        return { bytes, filename: `signing-${saved.source.filename}`, metadata: { fields: saved.fields, existingFieldNames: saved.source.existingFieldNames } };
       })}>Download PDF with signature boxes</Button>
-        <Button variant="outline" disabled={busy || !reviewed} onClick={() => runPdf(async () => ({ bytes: base64ToUint8Array(record.source.data), filename: record.source.filename }))}>Download unchanged source PDF</Button>
+        <Button variant="outline" disabled={busy || !reviewed} onClick={() => runPdf(async () => ({ bytes: base64ToUint8Array(record.source.data), filename: record.source.filename, metadata: { existingFieldNames: record.source.existingFieldNames } }))}>Download unchanged source PDF</Button>
       </div>
       <section aria-label="Saved signing handoffs" className="space-y-3 rounded border p-3">
         <h3 className="font-medium">Signing handoffs</h3>
@@ -165,13 +189,17 @@ function SigningEditor({ initialRecordId }: { initialRecordId?: string }) {
           <p className="break-all text-xs">PDF SHA-256: {handoff.pdf.sha256}</p>
           <p className="text-xs">Signers: {[...(record.source.existingSignatureNames ?? []), ...handoff.fields.map(value => value.signer)].join(', ')}</p>
           <Button variant="outline" disabled={busy || !reviewed} onClick={() => void run(async () => {
-            const generation = request.current, bytes = await downloadSigningHandoff(record, handoff.id);
+            const generation = request.current;
+            await confirmSigningDisclosure(signingRecordDisclosure({ sourceRevision: record.sourceRevision, handoff }), () => generation === request.current);
+            const bytes = await downloadSigningHandoff(record, handoff.id);
             if (generation === request.current) triggerDownload(bytes, `signing-handoff-${handoff.id}.zip`, 'application/zip');
           })}>Download handoff {index + 1}</Button>
         </div>)}
         <p className="text-xs">A signing record download includes the source PDF, every saved handoff, and every associated return, even when their content differs from the current editor. Review all retained versions before transferring the file.</p>
         <Button variant="outline" disabled={busy || !reviewed} onClick={() => void run(async () => {
-          const generation = request.current, bytes = await exportSigningRecord(record);
+          const generation = request.current;
+          await confirmSigningDisclosure(signingRecordDisclosure(record), () => generation === request.current);
+          const bytes = await exportSigningRecord(record);
           if (generation === request.current) triggerDownload(bytes, `signing-record-${record.id}.dondocs-signing.json`, 'application/json');
         })}>Download signing record</Button>
         <Button variant="outline" disabled={busy} onClick={() => void run(async () => {
