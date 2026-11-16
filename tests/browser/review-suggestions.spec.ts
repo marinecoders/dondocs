@@ -300,7 +300,7 @@ test('accepted paragraph decisions survive workspace transfer and permanent sour
     await workspace(restored, /^ARCHIVE REVIEW SOURCE /);
     modal = await reviews(restored);await modal.getByLabel('Review for suggested edits', { exact: true }).selectOption({ label: 'Archive review' });
     await expect(modal.getByRole('article', { name: 'Suggestion 1: Replace paragraph 1', exact: true }).getByText(/· Accepted$/)).toBeVisible();
-    await expect(modal.getByRole('region', { name: 'Paragraph 1 replacement comparison', exact: true })).toContainText('Accepted archive paragraph.');
+    await expect(modal.getByRole('region', { name: 'Paragraph 1 replacement comparison, suggestion 1', exact: true })).toContainText('Accepted archive paragraph.');
     await restored.screenshot({ path: info.outputPath('restored-accepted-decision.png'), scale: 'css' });
     await modal.getByRole('button', { name: 'Close', exact: true }).click();
     const clean = JSON.parse((await download(restored, () => action(restored, 'Export draft (.json)'))).toString('utf8'));

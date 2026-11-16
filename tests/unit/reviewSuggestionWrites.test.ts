@@ -1,4 +1,5 @@
 import 'fake-indexeddb/auto';
+import { captureTextRange } from '@/lib/reviewTextRanges';
 import { describe, expect, it, vi } from 'vitest';
 import { createBlankSession } from '@/stores/documentStore';
 import {
@@ -6,17 +7,21 @@ import {
   idbReadReviewSuggestionReceipt, idbReadReviewSuggestions, type StoredDocument,
 } from '@/lib/documentsDb';
 import type { ReviewRound } from '@/lib/reviewRounds';
-import { appendReviewSuggestions, createReviewSuggestion, emptyReviewSuggestionState, planReviewSuggestionDecision,
+import { appendReviewSuggestions, createSelectedTextSuggestion, createReviewSuggestion, emptyReviewSuggestionState, planReviewSuggestionDecision,
   planReviewSuggestionHistory } from '@/lib/reviewSuggestions';
 import { planReviewSuggestionWrite, reviewSuggestionRecordSchema, type ReviewSuggestionWrite } from '@/lib/reviewSuggestionWrites';
 
-async function fixture() {
+async function fixture(selected = false, withRangeComments = false) {
   const id = crypto.randomUUID(), session = createBlankSession();
   session.timestamp = 100;session.formData.to = 'Original recipient';session.paragraphs = [{ id: 'paragraph-one', text: 'Original body.', level: 0 }];
+  if (withRangeComments) session.reviewComments = { version: 3, threads: [9, 0].map((start, index) => ({
+    id: crypto.randomUUID(), anchor: captureTextRange(session, 'paragraph-one', start, index ? 8 : 13)!,
+    messages: [{ id: crypto.randomUUID(), author: 'Synthetic chief', text: 'Existing discussion', createdAt: new Date(100).toISOString() }], resolved: false,
+  })) };
   const before: StoredDocument = { id, meta: { id, title: 'Example draft', docType: 'naval_letter', updatedAt: 100 }, session };
   const round: ReviewRound = { kind: 'dondocs-review-round', version: 1, id: `review_${crypto.randomUUID()}`,
     createdAt: 100, label: 'Example', sourceDocumentId: id, ownerDocumentId: id, baselineDigest: 'a'.repeat(64), baseline: { ts: 100, session: structuredClone(session) } };
-  const proposal = createReviewSuggestion(round, { author: 'Example reviewer', label: 'Recipient', changes: [{ target: { kind: 'field', field: 'to', docType: 'naval_letter' }, proposed: 'Proposed recipient' }] });
+  const proposal = selected ? createSelectedTextSuggestion(round, { author: 'Synthetic reviewer', paragraphId: 'paragraph-one', start: 9, end: 13, proposed: 'selected replacement' }) : createReviewSuggestion(round, { author: 'Example reviewer', label: 'Recipient', changes: [{ target: { kind: 'field', field: 'to', docType: 'naval_letter' }, proposed: 'Proposed recipient' }] });
   const state = appendReviewSuggestions(round, emptyReviewSuggestionState(round), [proposal]);
   const operation: ReviewSuggestionWrite = { kind: 'suggestion-write', version: 1, id: `suggestion-write_${crypto.randomUUID()}`, documentId: id,
     createdAt: 200, round: { id: round.id, baselineDigest: round.baselineDigest }, before: null, after: state,
@@ -154,4 +159,58 @@ describe('atomic source-bound review proposal writes', () => {
     const unrelated = structuredClone(undone);unrelated.session.formData.subject = 'Unrelated overwrite';
     expect(planReviewSuggestionWrite(input.round, saved.session, operation, unrelated.session).session.formData.subject).toBe(saved.session.formData.subject);
   });
+});
+
+
+it('commits a precise replacement with its decision and rejects forged whole-paragraph writes, stale owners and quota failure', async () => {
+  const input = await fixture(true, true);
+  expect(await idbApplyReviewSuggestions(input.before, input.after, input.operation)).toBe('committed');
+  const { write, saved } = input.accept();
+  expect(saved.session.paragraphs[0].text).toBe('Original selected replacement.');
+  expect(saved.session.reviewComments!.threads[0].anchor).toMatchObject({ detached: true });
+  const forged = structuredClone(saved);forged.session.paragraphs[0].text = 'Whole paragraph overwrite';
+  expect(await idbApplyReviewSuggestions(input.after, forged, write)).toBe('conflict');
+  const stale = structuredClone(input.after);stale.session.paragraphs[0].text = 'Newer body.';stale.meta.updatedAt++;
+  await idbPutDocument(stale);expect(await idbApplyReviewSuggestions(input.after, saved, write)).toBe('conflict');
+  expect(await input.read()).toEqual(stale);await idbPutDocument(input.after);
+  const original = IDBObjectStore.prototype.put;
+  const spy = vi.spyOn(IDBObjectStore.prototype, 'put').mockImplementation(function (this: IDBObjectStore, value, key) {
+    if (value && typeof value === 'object' && 'key' in value && String(value.key).startsWith('review-suggestions:')) throw new DOMException('Synthetic full storage', 'QuotaExceededError');
+    return original.call(this, value, key);
+  });
+  try { expect(await idbApplyReviewSuggestions(input.after, saved, write)).toBe('failed'); }
+  finally { spy.mockRestore(); }
+  expect(await input.read()).toEqual(input.after);expect(await idbReadReviewSuggestionReceipt(write.id)).toBeNull();
+  expect(await idbApplyReviewSuggestions(input.after, saved, write)).toBe('committed');
+  expect(await idbApplyReviewSuggestions(input.after, saved, write)).toBe('already-committed');
+  const reloaded = reviewSuggestionRecordSchema.parse(await idbReadReviewSuggestions(input.id, input.round.id));
+  expect(reloaded.state.decisions[0].action).toBe('accepted');expect((await input.read()).session.paragraphs[0].text).toBe('Original selected replacement.');
+  const reversed = planReviewSuggestionHistory(input.round, saved.session, input.before.session, reloaded.state, reloaded.state.decisions[0].id, 'undo');
+  const event = reversed.decisions.at(-1)!;
+  const undo: ReviewSuggestionWrite = { ...write, id: `suggestion-write_${crypto.randomUUID()}`, before: reloaded.state, after: reversed,
+    intent: { kind: 'history', acceptanceId: reloaded.state.decisions[0].id, direction: 'undo', record: { id: event.id, decidedAt: event.decidedAt } } };
+  const undone = { ...structuredClone(saved), meta: { ...saved.meta, updatedAt: 400 }, session: structuredClone(input.before.session) };
+  const forgedDiscussion = structuredClone(undone);
+  forgedDiscussion.session.reviewComments!.threads[0].messages[0].text = 'Unrelated overwritten discussion';
+  expect(await idbApplyReviewSuggestions(saved, forgedDiscussion, undo)).toBe('failed');
+  expect(await input.read()).toEqual(saved);expect(await idbReadReviewSuggestionReceipt(undo.id)).toBeNull();
+  expect(await idbApplyReviewSuggestions(saved, undone, undo)).toBe('committed');
+  expect((await input.read()).session).toEqual(input.before.session);
+  const restored = planReviewSuggestionHistory(input.round, undone.session, saved.session, reversed, reloaded.state.decisions[0].id, 'redo');
+  const restoredEvent = restored.decisions.at(-1)!;
+  const redo: ReviewSuggestionWrite = { ...undo, id: `suggestion-write_${crypto.randomUUID()}`, before: reversed, after: restored,
+    intent: { kind: 'history', acceptanceId: reloaded.state.decisions[0].id, direction: 'redo', record: { id: restoredEvent.id, decidedAt: restoredEvent.decidedAt } } };
+  const redone = { ...structuredClone(saved), meta: { ...saved.meta, updatedAt: 500 } };
+  expect(await idbApplyReviewSuggestions(undone, redone, redo)).toBe('committed');
+  expect((await input.read()).session).toEqual(saved.session);
+});
+
+it('never permits a precise replacement decision from a linked reviewer copy', async () => {
+  const input = await fixture(true), id = crypto.randomUUID();
+  const copy: StoredDocument = { ...structuredClone(input.before), id, meta: { ...input.before.meta, id } };
+  expect(await idbInstallReviewCopy(copy, input.round, { documentId: id, roundId: input.round.id, baselineDigest: input.round.baselineDigest })).toBe(true);
+  const after = { ...structuredClone(copy), meta: { ...copy.meta, updatedAt: 200 } };
+  expect(await idbApplyReviewSuggestions(copy, after, { ...input.operation, documentId: id })).toBe('committed');
+  const { write, saved } = input.accept();write.documentId = id;saved.id = id;saved.meta.id = id;
+  expect(await idbApplyReviewSuggestions(after, saved, write)).toBe('conflict');expect(await idbReadReviewSuggestionReceipt(write.id)).toBeNull();
 });

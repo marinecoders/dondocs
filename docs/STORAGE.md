@@ -95,7 +95,14 @@ portable acknowledgement and are omitted from a workspace backup.
 
 Suggested replacements live in `review-suggestions:<document>:<round>` records,
 outside the native session and clean export model. They bind immutable expected
-text to a supported field or stable plain-paragraph ID in the pinned baseline.
+text to a supported field, stable plain-paragraph ID, or precise selected range
+in the pinned baseline. Selected ranges reuse the comment range contract: stable
+paragraph ID, document type, full immutable paragraph context and UTF-16 offsets
+at complete character boundaries. Suggestion targets cannot supply comment tracking
+or detached state as replacement authority. The guarded writer checks exact context
+and splices only that selected span; its inverse uses the exact accepted context.
+Retained range context counts against suggestion text limits and is scanned with
+reviewer text before transfer or acceptance.
 The shared writer fences proposal creation, pending imports, accept/reject and
 acceptance Undo/Redo with typed intents. Its conditional transaction checks the
 latest native target and exact prior review state, then writes allowed source

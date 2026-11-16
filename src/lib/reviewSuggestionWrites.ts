@@ -1,10 +1,11 @@
+import { transformRangeComments } from './reviewCommentRanges';
 import { replaceReviewParagraphText } from './reviewParagraphText';
 import { z } from 'zod';
 import type { DocumentMeta } from '@/stores/documentsStore';
 import type { SerializedSession } from '@/stores/documentStore';
 import { canonicalReviewPayload, reviewDigestSchema, reviewPayloadDigest, reviewRoundIdSchema, type ReviewRound } from './reviewRounds';
 import {
-  appendReviewSuggestions, emptyReviewSuggestionState, planReviewSuggestionDecision, planReviewSuggestionHistory,
+  acceptedReviewSuggestionRange, applyReviewSuggestionRange, appendReviewSuggestions, emptyReviewSuggestionState, planReviewSuggestionDecision, planReviewSuggestionHistory,
   reviewProposalIdSchema, reviewSuggestionResolutionSchema, reviewSuggestionSchema, reviewSuggestionStateSchema, validateReviewSuggestionState,
 } from './reviewSuggestions';
 import { reviewCommentsSchema } from './reviewComments';
@@ -84,7 +85,7 @@ export function planReviewSuggestionWrite(round: ReviewRound, source: Serialized
   if (!historyDestination) throw new Error('The review history destination is unavailable.');
   // The ordinary history entry supplies the destination; the owner must tag its
   // acceptance and the database verifies that no unrelated fields are rewritten.
-  const next = structuredClone(source);
+  let next = structuredClone(source);
   const acceptance = state.decisions.find(decision => decision.id === intent.acceptanceId && decision.action === 'accepted');
   const proposal = acceptance && state.proposals.find(item => item.id === acceptance.proposalId);
   if (!proposal) throw new Error('The accepted suggestion is unavailable.');
@@ -94,7 +95,10 @@ export function planReviewSuggestionWrite(round: ReviewRound, source: Serialized
     const value = intent.direction === 'undo' ? resolution?.expectedCurrent ?? change.expected : resolution?.value ?? change.proposed;
     if (target.kind === 'field') Object.assign(next.formData, { [target.field]: value });
     else if (target.kind === 'paragraph') replaceReviewParagraphText(next, target.paragraphId, value);
-    else {
+    else if (target.kind === 'range') {
+      const range = intent.direction === 'undo' ? acceptedReviewSuggestionRange(target, change.proposed) : target;
+      next = applyReviewSuggestionRange(next, range, intent.direction === 'undo' ? change.proposed : change.expected, value);
+    } else {
       const reference = next.references[target.referenceIndex];
       if (!reference) throw new Error('The accepted reference title is unavailable.');
       reference.title = value;
@@ -113,6 +117,24 @@ export function planReviewSuggestionWrite(round: ReviewRound, source: Serialized
     const expected = intent.direction === 'undo' ? source.reviewComments : destination;
     if (canonicalReviewPayload(replay.reviewComments ?? null) !== canonicalReviewPayload(expected ?? null))
       throw new Error('This history action changes discussion content beyond the accepted paragraph text.');
+    if (destination) next.reviewComments = structuredClone(destination);
+    else delete next.reviewComments;
+  }
+  if (proposal.changes.some(change => change.target.kind === 'range')) {
+    // A touched comment detaches on acceptance. Undo can restore its earlier
+    // anchor only when replaying that exact splice recreates the entire current
+    // discussion state; messages, history and unrelated anchors cannot change.
+    const destination = historyDestination.reviewComments && reviewCommentsSchema.parse(historyDestination.reviewComments);
+    let comments = intent.direction === 'undo' ? destination : source.reviewComments;
+    for (const change of proposal.changes) if (change.target.kind === 'range') {
+      const paragraphId = change.target.paragraphId;
+      const beforeParagraph = (intent.direction === 'undo' ? next : source).paragraphs.find(item => item.id === paragraphId)!;
+      const afterParagraph = (intent.direction === 'undo' ? source : next).paragraphs.find(item => item.id === paragraphId)!;
+      comments = transformRangeComments(comments, beforeParagraph, afterParagraph);
+    }
+    const expected = intent.direction === 'undo' ? source.reviewComments : destination;
+    if (canonicalReviewPayload(comments ?? null) !== canonicalReviewPayload(expected ?? null))
+      throw new Error('This history action changes discussion content beyond the accepted text range.');
     if (destination) next.reviewComments = structuredClone(destination);
     else delete next.reviewComments;
   }

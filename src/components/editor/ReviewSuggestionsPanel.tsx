@@ -9,6 +9,7 @@ import { MechanicalReviewProposalsPanel } from './MechanicalReviewProposalsPanel
 import type { SerializedSession } from '@/stores/documentStore';
 import type { ReviewRound } from '@/lib/reviewRounds';
 import { reconcileReviewText } from '@/lib/reconcileReviewText';
+import { captureTextRange, type SelectedTextRange } from '@/lib/reviewTextRanges';
 import {
   availableReviewSuggestionTargets, createReviewSuggestion, inspectReviewSuggestion, latestReviewSuggestionDecision, REVIEW_SUGGESTION_LIMITS, suggestionTargetKey,
   type ReviewSuggestion, type ReviewSuggestionResolution, type ReviewSuggestionState,
@@ -31,6 +32,8 @@ export function ReviewSuggestionsPanel({ round, current, state, owner, busy, onC
   const [category, setCategory] = useState<FeedbackCategory>('edit');
   const [filter, setFilter] = useState<FeedbackFilter>('all');
   const [selected, setSelected] = useState('');
+  const [range, setRange] = useState<SelectedTextRange | null>(null);
+  const [selection, setSelection] = useState<{ start: number; end: number } | null>(null);
   const [proposed, setProposed] = useState('');
   const [error, setError] = useState('');
   const [notice, setNotice] = useState('');
@@ -42,14 +45,12 @@ export function ReviewSuggestionsPanel({ round, current, state, owner, busy, onC
   useLayoutEffect(() => { if (notice) result.current?.focus({ preventScroll: true }); }, [notice]);
   const disabled = busy || pending;
   const targets = availableReviewSuggestionTargets(round);
-  const target = targets.find(item => item.key === selected);
-  const targetCounts = new Map<string, number>();
-  for (const proposal of state.proposals) for (const change of proposal.changes) {
-    const key = suggestionTargetKey(change.target);targetCounts.set(key, (targetCounts.get(key) ?? 0) + 1);
-  }
+  const baseTarget = targets.find(item => item.key === selected);
+  const target = range ? { key: suggestionTargetKey(range), label: 'Selected text', target: range, value: range.context.slice(range.start, range.end) } : baseTarget;
+  const selectable = baseTarget?.target.kind === 'paragraph' ? captureTextRange(round.baseline.session, baseTarget.target.paragraphId, 0, baseTarget.value.length) : null;
   function comparisonName(proposal: ReviewSuggestion, change: { id: string; label: string }, index: number) {
-    const target = proposal.changes.find(item => item.id === change.id)!;
-    return `${change.label} replacement comparison${(targetCounts.get(suggestionTargetKey(target.target)) ?? 0) > 1 ? `, suggestion ${index + 1}` : ''}`;
+    const member = proposal.changes.length > 1 ? `, change ${proposal.changes.findIndex(item => item.id === change.id) + 1}` : '';
+    return `${change.label} replacement comparison, suggestion ${index + 1}${member}`;
   }
 
   async function add(event: FormEvent) {
@@ -60,7 +61,7 @@ export function ReviewSuggestionsPanel({ round, current, state, owner, busy, onC
       const proposal = createReviewSuggestion(round, { author, category, label: `Replace ${target.label.toLowerCase()}`,
         changes: [{ target: target.target, proposed }] });
       if (await onCreate(proposal) && alive.current) {
-        setSelected('');setProposed('');setNotice('Suggestion submitted to this review.');
+        setSelected('');setRange(null);setSelection(null);setProposed('');setNotice('Suggestion submitted to this review.');
       }
     } catch (cause) { if (alive.current) setError(cause instanceof Error ? cause.message : 'The suggestion could not be added.'); }
     finally { working.current = false;if (alive.current) setPending(false); }
@@ -85,25 +86,43 @@ export function ReviewSuggestionsPanel({ round, current, state, owner, busy, onC
     {error && <p role="alert" className="text-sm text-destructive">{error}</p>}
     <form onSubmit={event => void add(event)} className="space-y-2 rounded-md border p-3">
       <fieldset disabled={disabled || state.proposals.length >= REVIEW_SUGGESTION_LIMITS.proposals} className="space-y-2">
-        <legend className="text-sm font-medium">Propose one field or paragraph replacement</legend>
+        <legend className="text-sm font-medium">Propose a text replacement</legend>
         <Label htmlFor={`${prefix}-author`}>Reviewer name for suggestion</Label>
         <Input id={`${prefix}-author`} value={author} maxLength={100} onChange={event => setAuthor(event.target.value)} />
         <FeedbackCategorySelect label="Suggestion category" value={category} onChange={setCategory} />
         <Label htmlFor={`${prefix}-target`}>Suggestion target</Label>
         <select id={`${prefix}-target`} value={selected} className="w-full rounded-md border bg-background p-2 text-sm" onChange={event => {
           const next = targets.find(item => item.key === event.target.value);
-          setSelected(event.target.value);setProposed(next?.value ?? '');setError('');
+          setSelected(event.target.value);setRange(null);setSelection(null);setProposed(next?.value ?? '');setError('');
         }}>
           <option value="">Choose a field or whole paragraph</option>
           {targets.map(item => <option key={item.key} value={item.key}>{item.label}</option>)}
         </select>
+        {selectable && <div className="space-y-2">
+          <Label htmlFor={`${prefix}-selection`}>Select text in reviewed paragraph</Label>
+          <p className="text-xs text-muted-foreground">Highlight complete words or characters below, then choose Use selected text. The reviewed paragraph stays unchanged.</p>
+          <Textarea id={`${prefix}-selection`} readOnly value={baseTarget!.value} rows={4} onSelect={event => {
+            const { selectionStart: start, selectionEnd: end } = event.currentTarget;
+            setSelection(start < end ? { start, end } : null);
+          }} />
+          <Button type="button" variant="outline" disabled={!selection} onClick={() => {
+            if (!selection) return;
+            const captured = captureTextRange(round.baseline.session, selectable.paragraphId, selection.start, selection.end);
+            if (!captured) { setError('Select complete characters in supported plain text.');return; }
+            setRange(captured);setProposed(captured.context.slice(captured.start, captured.end));setError('');
+          }}>Use selected text</Button>
+        </div>}
         {target && <>
           <p className="text-xs text-muted-foreground">Reviewed baseline</p>
           <div role="region" aria-label="Suggestion baseline value" tabIndex={0} className="max-h-36 overflow-auto whitespace-pre-wrap break-words rounded-md border p-2 text-sm focus-visible:outline-2 focus-visible:outline-ring">{target.value || '(Empty)'}</div>
           <Label htmlFor={`${prefix}-proposed`}>Proposed replacement</Label>
           <Textarea id={`${prefix}-proposed`} value={proposed} maxLength={REVIEW_SUGGESTION_LIMITS.value} rows={4} onChange={event => setProposed(event.target.value)} />
         </>}
-        <Button type="submit" disabled={!author.trim() || !target || proposed === target.value}>Add suggestion</Button>
+        {range && <p className="text-sm">This proposal replaces only the selected text. Acceptance checks the exact reviewed paragraph and preserves text outside the selection.</p>}
+        <div className="flex flex-wrap gap-2">
+          <Button type="submit" disabled={!author.trim() || !target || proposed === target.value}>Add suggestion</Button>
+          {target && <Button type="button" variant="outline" onClick={() => { setSelected('');setRange(null);setSelection(null);setProposed('');setError(''); }}>Cancel replacement</Button>}
+        </div>
       </fieldset>
     </form>
     <MechanicalReviewProposalsPanel round={round} busy={disabled} proposalCount={state.proposals.length} onCreate={onCreate} />
@@ -116,7 +135,7 @@ export function ReviewSuggestionsPanel({ round, current, state, owner, busy, onC
       const stale = changes.some(change => change.stale);
       const acceptance = decision?.action === 'accepted' ? decision : state.decisions.find(item => item.id === decision?.acceptanceId);
       const currentMatches = changes.every(change => change.current === (acceptance?.resolutions?.find(item => item.changeId === change.id)?.value ?? change.proposed));
-      const manualChange = proposal.origin.kind === 'manual' && changes.length === 1 && changes[0].current !== null ? changes[0] : null;
+      const manualChange = proposal.origin.kind === 'manual' && proposal.changes[0].target.kind !== 'range' && changes.length === 1 && changes[0].current !== null ? changes[0] : null;
       const editing = resolution?.proposalId === proposal.id ? resolution : null;
       const combination = manualChange && reconcileReviewText(manualChange.baseline, manualChange.current!, manualChange.proposed);
       const status = decision ? decision.action === 'accepted' || decision.action === 'restored' ? currentMatches ? 'Accepted' : 'Accepted earlier; current draft text has changed'
@@ -125,6 +144,7 @@ export function ReviewSuggestionsPanel({ round, current, state, owner, busy, onC
         <h4 className="break-words text-sm font-medium">{proposal.label}</h4>
         <p className="text-xs text-muted-foreground">{feedbackCategoryLabel(proposal.category)}{proposal.category === 'required-correction' ? ' · Reviewer intent; not an authenticated approval requirement.' : ''}</p>
         <p className="break-words text-xs text-muted-foreground">{proposal.author} · {new Date(proposal.createdAt).toLocaleString()} · {status}</p>
+        {proposal.changes[0].target.kind === 'range' && <p className="text-xs text-muted-foreground">Selected text replacement. Text outside this selection is preserved; a changed paragraph blocks acceptance.</p>}
         {proposal.origin.kind === 'mechanical' && <p className="whitespace-pre-wrap break-words text-xs">Grouped correction{proposal.origin.rule ? `: ${proposal.origin.rule}` : ''}{proposal.origin.context ? ` · ${proposal.origin.context}` : ''}. All members are checked before any change is applied.</p>}
         {changes.map(change => <div key={change.id} className="space-y-1 border-t pt-2">
           <p className="text-sm font-medium">{change.label}</p>

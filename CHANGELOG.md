@@ -7,6 +7,13 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.107] — 2026-11-15
+
+### Added
+
+- Propose replacements for selected words or sentences in a reviewed plain paragraph. Acceptance checks the exact selected range and paragraph context, preserves surrounding text, and uses the existing source-owner decisions, feedback returns and Undo/Redo history.
+- Include retained selected-text context in review handling checks and text limits while keeping pending suggestions and decisions out of clean documents and templates.
+
 ## [1.3.106] — 2026-11-15
 
 ### Added
