@@ -119,7 +119,8 @@ export function validateReviewStructureTarget(baseline: SerializedSession, input
   for (const id of structureNewIds(target)) if (reserved.has(id)) throw new Error('The new paragraph identity is already reserved by document content or discussion history.');
   return target;
 }
-export function applyReviewStructure(source: SerializedSession, input: ReviewStructureTarget, direction: 'forward' | 'reverse' = 'forward', reservedIds: readonly string[] = [], historyReplay = false): SerializedSession {
+/** Validate applicability before deriving a writable document or discussion mappings. */
+function prepareReviewStructure(source: SerializedSession, input: ReviewStructureTarget, direction: 'forward' | 'reverse', reservedIds: readonly string[], historyReplay: boolean) {
   const target = reviewStructureTargetSchema.parse(input);assertOperation(target);
   const { start, before, after } = locate(source, target, direction);
   const retained = new Set(before.map(paragraph => paragraph.id));
@@ -129,6 +130,10 @@ export function applyReviewStructure(source: SerializedSession, input: ReviewStr
     // use the inverse outside a tagged, independently verified history action.
     && !((direction === 'reverse' && target.operation.kind === 'delete-paragraph' || historyReplay && direction === 'forward' && structureNewIds(target).includes(paragraph.id!))
       && !source.paragraphs.some(current => current.id === paragraph.id))) throw new Error('The new paragraph identity is already reserved.');
+  return { target, start, before, after };
+}
+export function applyReviewStructure(source: SerializedSession, input: ReviewStructureTarget, direction: 'forward' | 'reverse' = 'forward', reservedIds: readonly string[] = [], historyReplay = false): SerializedSession {
+  const { start, before, after } = prepareReviewStructure(source, input, direction, reservedIds, historyReplay);
   const session = structuredClone(source);
   session.paragraphs.splice(start, before.length, ...structuredClone(after));
   for (const paragraph of before) if (!after.some(item => item.id === paragraph.id)) {
@@ -143,7 +148,7 @@ export function assertReviewStructureNewIdsAvailable(source: SerializedSession, 
   if (structureNewIds(target).some(id => occupied.has(id))) throw new Error('The new paragraph identity is already reserved by current content, history or another review operation.');
 }
 export function inspectReviewStructure(source: SerializedSession, target: ReviewStructureTarget, direction: 'forward' | 'reverse' = 'forward', reservedIds: readonly string[] = []): boolean {
-  try { applyReviewStructure(source, target, direction, reservedIds);return true; } catch { return false; }
+  try { prepareReviewStructure(source, target, direction, reservedIds, false);return true; } catch { return false; }
 }
 /** Capture once; callers retain the generated new ID when submitting/retrying. */
 export function captureReviewStructure(source: SerializedSession, input: { kind: 'insert-paragraph'; index: number; text: string; level: number; paragraphId?: string } | { kind: 'delete-paragraph'; paragraphId: string }): ReviewStructureTarget {
