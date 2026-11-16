@@ -14,7 +14,7 @@ import { HARDENED_PDF_OPTIONS } from '@/components/pdf/pdfConfig';
  * naval-letter parser see "From:", "Subj:", and "1." as whole lines again.
  *
  * Text-layer only: a scanned/image PDF has no text to extract and yields an
- * empty result (that's the OCR path, deliberately out of scope here).
+ * empty result. Scanned-document import has a separate explicit OCR flow.
  */
 
 export interface PositionedItem {

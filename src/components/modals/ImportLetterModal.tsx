@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { lazy, Suspense, useState, useCallback } from 'react';
 import { ClipboardPaste, FileUp, Loader2, AlertTriangle, FileText, Info, ShieldAlert } from 'lucide-react';
 import {
   Dialog,
@@ -32,13 +32,15 @@ import { CLASSIFICATION_LABELS } from '@/lib/detectClassification';
 import { DOC_TYPE_LABELS } from '@/types/document';
 import { abbreviatedSignatoryName } from '@/lib/signatoryName';
 import { debug } from '@/lib/debug';
+const ScannedLetterImport = lazy(() => import('./ScannedLetterImport').then(module => ({ default: module.ScannedLetterImport })));
 
-type ImportSource = 'file' | 'text';
+type ImportSource = 'file' | 'text' | 'scan';
 
 type Phase =
   | { kind: 'idle' }
   | { kind: 'paste'; message?: string }
   | { kind: 'parsing' }
+  | { kind: 'scan' }
   | { kind: 'review'; result: ParsedImport; source: ImportSource }
   | { kind: 'error'; message: string; source: ImportSource };
 
@@ -59,7 +61,7 @@ function Row({ label, value }: { label: string; value?: string | number }) {
  * SECNAV structure, guess the document type, show what was recognized, and on
  * confirm open it as a new editable document. Best-effort — the review step
  * exists because parsing can't be perfect, and the letter opens for editing
- * either way. Scanned/image PDFs have no text to read (OCR is out of scope).
+ * either way. Scanned pages use a separate local recognition and correction flow.
  */
 export function ImportLetterModal() {
   const open = useUIStore((s) => s.importLetterModalOpen);
@@ -72,6 +74,7 @@ function ImportLetterDialog() {
   const setOpen = useUIStore((s) => s.setImportLetterModalOpen);
   const [phase, setPhase] = useState<Phase>({ kind: 'idle' });
   const [letterText, setLetterText] = useState('');
+  const [scanStarted, setScanStarted] = useState(false);
 
   const handleFile = useCallback(async (file: File) => {
     // Legacy binary .doc can't be read by either engine — catch it up front with
@@ -95,7 +98,7 @@ function ImportLetterDialog() {
           source: 'file',
           message: docx
             ? "Couldn't find any letter text in this Word document — it may be empty or hold only images."
-            : "Couldn't find letter text in this PDF. If it's a scan or image, text import can't read it yet.",
+            : "Couldn't find letter text in this PDF. If it's a scan or image, choose Scan or photo to recognize its text.",
         });
         return;
       }
@@ -155,15 +158,15 @@ function ImportLetterDialog() {
 
   return (
     <Dialog open onOpenChange={setOpen}>
-      <DialogContent className="sm:max-w-lg max-h-[85vh] overflow-y-auto">
+      <DialogContent className={`${phase.kind === 'scan' ? 'sm:max-w-5xl' : 'sm:max-w-lg'} max-h-[85vh] overflow-y-auto`}>
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <FileUp className="h-5 w-5 text-primary" />
             Import a letter
           </DialogTitle>
           <DialogDescription>
-            Open an existing letter from a PDF, Word document, or pasted text as a new editable document.
-            Everything is read in your browser — nothing is uploaded.
+            Open a letter from a PDF, Word document, scanned pages, or text as a new editable document.
+            Files and pasted text are read in your browser.
           </DialogDescription>
         </DialogHeader>
 
@@ -173,7 +176,7 @@ function ImportLetterDialog() {
               <FileUp className="h-6 w-6 text-muted-foreground" />
               <span className="text-sm font-medium">Choose a PDF or Word file to import</span>
               <span className="text-xs text-muted-foreground">
-                Text-based PDF (.pdf) or Word (.docx) — a scanned image can&apos;t be read yet.
+                Text-based PDF (.pdf) or Word (.docx). For photos and image-only PDFs, choose Scan or photo.
               </span>
               <input
                 type="file" aria-label="Choose a PDF or Word file"
@@ -186,12 +189,19 @@ function ImportLetterDialog() {
                 }}
               />
             </label>
+            <Button variant="outline" className="w-full" onClick={() => { setScanStarted(true); setPhase({ kind: 'scan' }); }}>Scan or photo</Button>
             <Button variant="outline" className="w-full" onClick={() => setPhase({ kind: 'paste' })}>
               <ClipboardPaste className="h-4 w-4" />
               Paste letter text
             </Button>
           </div>
         )}
+
+        {scanStarted && <div hidden={phase.kind !== 'scan'}><Suspense fallback={<p role="status">Opening scanned import…</p>}><ScannedLetterImport onBack={() => setPhase({ kind: 'idle' })} onRead={text => {
+          const result = parseLetterText(text);
+          if (!hasParsedContent(result.parsed)) throw new Error('No letter fields or body paragraphs were recognized. Check the corrected text.');
+          setPhase({ kind: 'review', result, source: 'scan' });
+        }} /></Suspense></div>}
 
         {phase.kind === 'paste' && (
           <>
@@ -244,8 +254,8 @@ function ImportLetterDialog() {
           <div className="flex flex-col items-center gap-3 py-8 text-center">
             <AlertTriangle className="h-6 w-6 text-warning" />
             <p role="alert" className="text-sm text-muted-foreground">{phase.message}</p>
-            <Button variant="outline" size="sm" onClick={() => setPhase({ kind: phase.source === 'text' ? 'paste' : 'idle' })}>
-              {phase.source === 'text' ? 'Edit pasted text' : 'Choose a different file'}
+            <Button variant="outline" size="sm" onClick={() => setPhase({ kind: phase.source === 'text' ? 'paste' : phase.source === 'scan' ? 'scan' : 'idle' })}>
+              {phase.source === 'text' ? 'Edit pasted text' : phase.source === 'scan' ? 'Correct scanned text' : 'Choose a different file'}
             </Button>
           </div>
         )}
@@ -253,8 +263,8 @@ function ImportLetterDialog() {
         {phase.kind === 'review' && (
           <ReviewBody
             result={phase.result}
-            backLabel={phase.source === 'text' ? 'Edit pasted text' : 'Choose a different file'}
-            onBack={() => setPhase({ kind: phase.source === 'text' ? 'paste' : 'idle' })}
+            backLabel={phase.source === 'text' ? 'Edit pasted text' : phase.source === 'scan' ? 'Correct scanned text' : 'Choose a different file'}
+            onBack={() => setPhase({ kind: phase.source === 'text' ? 'paste' : phase.source === 'scan' ? 'scan' : 'idle' })}
             onImport={(docType) => doImport(phase.result, docType, phase.source)}
           />
         )}
