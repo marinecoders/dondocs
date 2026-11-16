@@ -363,6 +363,11 @@ export default defineConfig({
         // Cache TeX Live files for offline use
         runtimeCaching: [
           {
+            urlPattern: /\/lib\/ocr\/7\.0\.0\//,
+            handler: 'CacheFirst',
+            options: { cacheName: 'ocr-runtime-7.0.0', expiration: { maxEntries: 16, maxAgeSeconds: 60 * 60 * 24 * 90 } },
+          },
+          {
             // The query bypasses the precache route so a runtime policy update
             // is observed without rebuilding. Offline installs retain the
             // explicit build policy until a runtime response has been cached.

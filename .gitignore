@@ -137,3 +137,6 @@ release-site/
 
 # Standalone TeX example build
 .tex-build/
+
+# OCR runtime assets staged from locked dependencies.
+public/lib/ocr/
