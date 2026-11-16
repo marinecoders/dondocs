@@ -229,9 +229,12 @@ test('updates only the accepting tab and reopens the staged release offline', as
 
 test('does not advertise an incomplete release and retries after the origin recovers', async ({ page }) => {
   await start(page);
+  const previous = releaseManifest.parse(JSON.parse(await readFile(resolve(first!, 'release.json'), 'utf8')));
+  const cachedHashes = new Set(previous.assets.map(asset => asset.sha256));
   const next = releaseManifest.parse(JSON.parse(await readFile(resolve(second!, 'release.json'), 'utf8')));
-  const missing = next.assets.find(asset => asset.group === 'shell' && asset.url.endsWith('.js'));
-  if (!missing) throw new Error('Missing shell script fixture');
+  // Staging reuses verified bytes by hash even when the release URL changes.
+  const missing = next.assets.find(asset => asset.group === 'shell' && asset.url.endsWith('.js') && !cachedHashes.has(asset.sha256));
+  if (!missing) throw new Error('Missing uncached shell script fixture');
   server.faults.set(missing.url, { status: 503 }); root = resolve(second!);
   const original = await documentIdentity(page);
   await page.evaluate(() => window.dispatchEvent(new Event('focus')));
