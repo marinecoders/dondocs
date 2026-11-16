@@ -48,6 +48,11 @@ test('downloads an immutable handoff and transfers its exact source and placemen
 
 test('captures the current draft through the reviewed PDF export pipeline', async ({ page }) => {
   await page.goto('/');
+  const preview = page.getByRole('button', { name: 'Preview', exact: true });
+  const mobile = await preview.getAttribute('aria-haspopup') === 'dialog';
+  if (mobile || await preview.getAttribute('aria-pressed') !== 'true') await preview.click();
+  await expect(page.locator('[data-pdf-layer="active"] canvas').first()).toBeVisible({ timeout: 60_000 });
+  if (mobile) await page.getByRole('button', { name: 'Close preview', exact: true }).click();
   await page.getByRole('textbox', { name: 'Subject', exact: true }).fill('SYNTHETIC SIGNING CAPTURE');
   await page.getByRole('textbox', { name: 'Paragraph 1', exact: true }).fill('Fictional training text for the exact signing capture.');
   await page.getByRole('button', { name: 'Download', exact: true }).click();
