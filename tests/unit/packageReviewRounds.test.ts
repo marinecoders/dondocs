@@ -84,6 +84,24 @@ it('binds feedback to exact parent, round, member revision, member digest and or
   }
   expect(() => getPackageReviewBinding(round, 'missing-member')).toThrow();
 });
+it('reviews only selected revision filenames for assembly while retaining older review resources', async () => {
+  const { record, native, bytes } = await fixture();
+  const retained = await captureOriginalPackageMember({ name: '(S) synthetic retained original.pdf', data: bytes }, 'enclosure', false);
+  const prior = await reviseActionPackage(record, [native, retained]);
+  const reviewed = await startPackageReview(prior);
+  const current = await reviseActionPackage(reviewed, [native]);
+  const prepared = await preparePackageAssembly(current, current.currentRevisionId, policy);
+  expect(prepared.readiness).toEqual({ state: 'ready', findings: [] });
+  const assembled = await assemblePackage(prepared, { compile: async () => new Uint8Array(bytes), convertDocx: vi.fn(), waitForReady: async () => true });
+  expect(getPackageRevision(assembled).outputs).toHaveLength(1);
+  const opened = await openPackageReview(assembled, reviewed.reviewRounds![0].id);
+  expect(opened.baseline.members).toContainEqual(retained);
+  expect(await readPackageAsset(retained.kind === 'original' ? retained.original : retained.draft)).toEqual(bytes);
+  const included = await preparePackageAssembly({ ...assembled, currentRevisionId: opened.revisionId, revisions: [opened.baseline],
+    historyScope: 'selected-revision', reviewRounds: undefined }, opened.revisionId, policy);
+  expect(included.readiness.findings).toContainEqual(expect.objectContaining({ severity: 'error',
+    message: "Package metadata includes markings outside this deployment's configured levels." }));
+});
 it('retains append-only lifecycle with local package authority, stale CAS and deliberate closed-round reopening', async () => {
   const { record } = await fixture(); const first = await startPackageReview(record);
   const round = first.reviewRounds![0];

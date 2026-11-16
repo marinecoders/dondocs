@@ -169,7 +169,7 @@ export async function preparePackageAssembly(
       review: reviewPackageText(
         [
           owned.name,
-          ...packageAssets({ ...owned, revisions: [revision] }).map(
+          ...packageAssets({ ...owned, revisions: [revision], reviewRounds: undefined }).map(
             (asset) => asset.name,
           ),
         ].join("\n"),
