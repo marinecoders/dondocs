@@ -21,6 +21,15 @@ async function action(page: Page, name: string | RegExp) {
 async function reviews(page: Page) {
   await action(page, 'Review rounds…');return page.getByRole('dialog', { name: 'Review rounds', exact: true });
 }
+async function readyPreviewForAccessibility(page: Page) {
+  const preview = page.locator('.workspace-preview');
+  if (!await preview.isVisible()) return;
+  await expect(preview.locator(':scope > [aria-live="polite"]'))
+    .toHaveText('Compilation complete', { timeout: 60_000 });
+  const pageNumber = preview.locator('input[aria-label="Page number"]');
+  await expect(pageNumber).toBeEnabled({ timeout: 30_000 });
+  await expect(pageNumber).toHaveCSS('opacity', '1');
+}
 async function bytes(page: Page, start: () => Promise<unknown>) {
   const pending = page.waitForEvent('download');await start();
   const download = await pending;expect(await download.failure()).toBeNull();return readFile((await download.path())!);
@@ -106,6 +115,7 @@ for (const theme of ['light', 'dark', 'classic']) test(`existing formatting find
     await group.scrollIntoViewIfNeeded();
     expect(await modal.evaluate(element => element.scrollWidth <= element.clientWidth)).toBe(true);
     await page.evaluate(() => document.fonts.ready);
+    await readyPreviewForAccessibility(page);
     const accessibility = await new AxeBuilder({ page }).analyze();
     await info.attach('formatting-group-axe', { body: JSON.stringify(accessibility, null, 2), contentType: 'application/json' });
     expect(accessibility.violations).toEqual([]);
@@ -215,6 +225,7 @@ for (const scenario of ['advisory and target limit', 'oversized whole paragraph'
     await expect(formatting.getByRole('alert')).toContainText(oversized ? '20,000-character' : 'no more than 20');
   }
   await expect(modal.getByRole('article', { name: /^Suggestion \d+:/ })).toHaveCount(0);
+  await readyPreviewForAccessibility(page);
   const accessibility = await new AxeBuilder({ page }).analyze();
   await info.attach('formatting-boundary-axe', { body: JSON.stringify(accessibility, null, 2), contentType: 'application/json' });
   expect(accessibility.violations).toEqual([]);
