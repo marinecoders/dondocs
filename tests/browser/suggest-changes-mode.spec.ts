@@ -53,6 +53,20 @@ for (const theme of ['light', 'dark', 'classic']) test(`natural typed suggestion
     const paragraph = remote.getByLabel('Paragraph for suggested typing', { exact: true });
     await expect(paragraph.getByRole('option', { name: 'Paragraph 4 (unsupported content)' })).toBeDisabled();
     await paragraph.selectOption('typed-one');const editor = remote.getByRole('textbox', { name: 'Suggested paragraph text', exact: true });
+    await select(editor, 0, 'Keep Alpha Alpha ending.'.length);
+    await editor.evaluate((element: HTMLTextAreaElement) => {
+      const clipboard = new DataTransfer();clipboard.setData('text/plain', '🇸 team');
+      element.dispatchEvent(new ClipboardEvent('paste', { bubbles: true, cancelable: true, clipboardData: clipboard }));
+    });
+    await expect(editor).toHaveValue('🇸 team');await select(editor, 0);
+    await editor.evaluate((element: HTMLTextAreaElement) => {
+      const clipboard = new DataTransfer();clipboard.setData('text/plain', '🇺');
+      element.dispatchEvent(new ClipboardEvent('paste', { bubbles: true, cancelable: true, clipboardData: clipboard }));
+    });
+    await expect.poll(() => editor.evaluate((element: HTMLTextAreaElement) => [element.selectionStart, element.selectionEnd])).toEqual([4, 4]);
+    await editor.pressSequentially('X');await expect(editor).toHaveValue('🇺🇸X team');
+    await remote.getByRole('button', { name: 'Cancel typed changes', exact: true }).click();
+    await expect(editor).toHaveValue('Keep Alpha Alpha ending.');
     await select(editor, 11);await editor.pressSequentially('new ');
     await expect(editor).toHaveValue('Keep Alpha new Alpha ending.');
     await expect(remote.getByText('Unsaved suggested changes · Insertion', { exact: true })).toBeVisible();
