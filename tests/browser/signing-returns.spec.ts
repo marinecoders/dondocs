@@ -1,7 +1,8 @@
 import { expect, test, type Page } from '@playwright/test';
-import { PDFDocument, PDFName, StandardFonts } from 'pdf-lib';
+import { PDFDict, PDFDocument, PDFName, StandardFonts } from 'pdf-lib';
 import { createHash } from 'node:crypto';
 import { readFile } from 'node:fs/promises';
+import { resolve } from 'node:path';
 import JSZip from 'jszip';
 import { signingPdfDownload } from '../_helpers/signingBrowser';
 
@@ -15,9 +16,9 @@ async function openSigning(page: Page) {
   await page.getByRole('button', { name: 'Download', exact: true }).click();await page.getByRole('menuitem', { name: 'Signing workspace', exact: true }).click();
   return page.getByRole('dialog', { name: 'Signing workspace', exact: true });
 }
-async function startHandoff(page: Page) {
+async function startHandoff(page: Page, providedSource?: Buffer) {
   await page.addInitScript(() => localStorage.setItem('browser-test-visitor', 'returning'));await page.goto('/');
-  const dialog = await openSigning(page), source = await pdfBytes('SYNTHETIC SIGNING RETURN SOURCE');
+  const dialog = await openSigning(page), source = providedSource ?? await pdfBytes('SYNTHETIC SIGNING RETURN SOURCE');
   await dialog.getByLabel('Unsigned PDF for signing').setInputFiles({ name: 'Same name.pdf', mimeType: 'application/pdf', buffer: source });
   await expect(dialog.getByText('Exact source PDF saved. Add the fields you need.')).toBeVisible();
   await dialog.getByRole('button', { name: 'Add signature box', exact: true }).click();
@@ -36,7 +37,7 @@ test('associates a returned PDF, preserves its bytes through reload and transfer
   returned.getForm().getFields()[0].acroField.dict.set(PDFName.of('V'), returned.context.obj({ Type: 'Sig', ByteRange: [0, 0, 0, 0] }));
   const bytes = Buffer.from(await returned.save());
   await dialog.getByLabel('Returned PDF', { exact: true }).setInputFiles({ name: 'Returned.pdf', mimeType: 'application/pdf', buffer: bytes });
-  await expect(dialog.getByRole('status').filter({ hasText: 'Page geometry, content streams and the handoff marker agree.' })).toBeVisible();
+  await expect(dialog.getByRole('status').filter({ hasText: 'Page geometry, content streams, page resources and the handoff marker agree.' })).toBeVisible();
   await dialog.getByRole('button', { name: 'View exact handoff', exact: true }).click();
   await expect(dialog.getByLabel('Exact handoff PDF', { exact: true }).locator('canvas').first()).toBeVisible();
   await dialog.getByRole('button', { name: 'View returned file', exact: true }).click();
@@ -71,4 +72,31 @@ test('requires an explicit mismatch decision for a different PDF with the same f
   await dialog.getByRole('checkbox', { name: /^I understand this file is unchanged/ }).check();
   await dialog.getByRole('button', { name: 'Associate returned PDF', exact: true }).click();
   await expect(dialog.getByText(/Return 1: Same name.pdf · associated, signer authenticity unverified/)).toBeVisible();
+});
+
+
+test('requires mismatch acknowledgement when displayed image resources change', async ({ page }, info) => {
+  const source = await PDFDocument.create();
+  const image = await source.embedPng(await readFile(resolve('tests/fixtures/review-redline/unicode-line.png')));
+  source.addPage([612, 792]).drawImage(image, { x: 40, y: 400, width: 500, height: 200 });
+  const { dialog, handoff } = await startHandoff(page, Buffer.from(await source.save()));
+  const returned = await PDFDocument.load(handoff);
+  const replacement = await returned.embedJpg(await readFile(resolve('tests/fixtures/images/business-figure-baseline.jpg')));
+  const objects = returned.getPage(0).node.Resources()!.lookup(PDFName.of('XObject'), PDFDict);
+  objects.set(objects.keys()[0], replacement.ref);
+  const bytes = Buffer.from(await returned.save());
+  await dialog.getByLabel('Returned PDF', { exact: true }).setInputFiles({ name: 'Changed image.pdf', mimeType: 'application/pdf', buffer: bytes });
+  await expect(dialog.getByText('Page resources: differ', { exact: true })).toBeVisible();
+  await expect(dialog.getByText('Content streams: agree', { exact: true })).toBeVisible();
+  await dialog.getByRole('button', { name: 'View exact handoff', exact: true }).click();
+  await expect(dialog.getByLabel('Exact handoff PDF', { exact: true }).locator('canvas').first()).toBeVisible();
+  await dialog.getByRole('button', { name: 'View returned file', exact: true }).click();
+  await expect(dialog.getByLabel('Candidate returned PDF', { exact: true }).locator('canvas').first()).toBeVisible();
+  await dialog.getByRole('checkbox', { name: /^I compared every page/ }).check();
+  await expect(dialog.getByRole('button', { name: 'Associate returned PDF', exact: true })).toBeDisabled();
+  await dialog.getByRole('checkbox', { name: /^I understand this file is unchanged/ }).check();
+  await dialog.getByRole('button', { name: 'Associate returned PDF', exact: true }).click();
+  await expect(dialog.getByText(/Return 1: Changed image.pdf · associated, signer authenticity unverified/)).toBeVisible();
+  await info.attach('original-handoff.pdf', { body: handoff, contentType: 'application/pdf' });
+  await info.attach('changed-resource-return.pdf', { body: bytes, contentType: 'application/pdf' });
 });

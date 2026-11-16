@@ -19,7 +19,8 @@ const signingHandoffSchema = z.object({ id: z.string().uuid(), createdAt: z.numb
   sourceSha256: z.string().regex(/^[a-f0-9]{64}$/), fields: z.array(manualSignatureSchema).max(30),
   pdf: signingPdfSchema }).strict();
 const returnEvidenceSchema = z.object({ assessment: z.enum(['unchanged', 'checks-agree', 'different', 'inconclusive']), checks: z.object({
-  samePageGeometry: z.boolean(), contentComparisonAvailable: z.boolean(), sameContentStreams: z.boolean(), originalPrefix: z.boolean(),
+  samePageGeometry: z.boolean(), contentComparisonAvailable: z.boolean(), sameContentStreams: z.boolean(),
+  resourceComparisonAvailable: z.boolean(), samePageResources: z.boolean(), originalPrefix: z.boolean(),
   matchingHandoffMarker: z.boolean(), signatureValuesPresent: z.number().int().nonnegative().max(1000),
 }).strict() }).strict();
 const signingReturnSchema = z.object({ id: z.string().uuid(), handoffId: z.string().uuid(), receivedAt: z.number().finite(),

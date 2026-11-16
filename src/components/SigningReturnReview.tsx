@@ -22,8 +22,8 @@ function RetainedSigningPreview({ data, label }: { data: string; label: string }
 
 const assessmentText = {
   unchanged: 'This is the unchanged handoff PDF. A returned copy alone does not establish that signing occurred.',
-  'checks-agree': 'Page geometry, content streams and the handoff marker agree. Compare the visible pages before associating the return.',
-  different: 'The returned file differs in page geometry or content streams. It may belong to another document or contain changes.',
+  'checks-agree': 'Page geometry, content streams, page resources and the handoff marker agree. Compare the visible pages before associating the return.',
+  different: 'The returned file differs in page geometry, content streams or page resources. It may belong to another document or contain changes.',
   inconclusive: 'The file could not be matched conclusively to this handoff. Review both documents and confirm the association yourself.',
 };
 
@@ -63,7 +63,7 @@ export function SigningReturnReview({ record, onSaved }: { record: SigningRecord
   return <section aria-label="Returned signing documents" className="space-y-3 rounded border p-3" aria-busy={busy}>
     <h3 className="font-medium">Returned signing documents</h3>
     <p className="text-sm">Select the handoff that was shared, inspect the returned PDF beside that exact handoff, and confirm its association. Original and returned files retain their exact bytes.</p>
-    <p className="text-xs text-muted-foreground">These checks compare file structure and content streams. They do not compare every font or image resource, verify certificates, authenticate a signer, or establish approval. Confirm signatures in your signing application.</p>
+    <p className="text-xs text-muted-foreground">These bounded checks compare page structure, content streams and page resources. They do not establish visual equivalence, verify certificates, authenticate a signer, or establish approval. Review annotations and every visible page yourself. Confirm signatures in your signing application.</p>
     {error && <p role="alert" className="text-sm text-destructive">{error}</p>}
     <label className="block text-sm">Return belongs to handoff<select className="ml-2 max-w-full rounded border p-2" disabled={busy} value={handoffId} onChange={event => {
       setHandoffId(event.target.value);setCandidate(null);setReviewed(false);setAcceptMismatch(false);setError('');
@@ -82,6 +82,7 @@ export function SigningReturnReview({ record, onSaved }: { record: SigningRecord
       <ul className="list-inside list-disc text-xs">
         <li>Page geometry: {candidate.evidence.checks.samePageGeometry ? 'agrees' : 'differs'}</li>
         <li>Content streams: {!candidate.evidence.checks.contentComparisonAvailable ? 'comparison unavailable' : candidate.evidence.checks.sameContentStreams ? 'agree' : 'differ'}</li>
+        <li>Page resources: {!candidate.evidence.checks.resourceComparisonAvailable ? 'comparison unavailable' : candidate.evidence.checks.samePageResources ? 'agree' : 'differ'}</li>
         <li>Original handoff bytes retained as prefix: {candidate.evidence.checks.originalPrefix ? 'yes' : 'no'}</li>
         <li>Handoff marker: {candidate.evidence.checks.matchingHandoffMarker ? 'present' : 'absent'}</li>
         <li>Signature field values found: {candidate.evidence.checks.signatureValuesPresent} (validity unverified)</li>
