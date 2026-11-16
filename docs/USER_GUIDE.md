@@ -320,7 +320,7 @@ inspection cannot read. Missing or corrupt required content blocks assembly.
 Package enclosure labels are separate from the continued main/endorsement sequence;
 matching literal `enclosure (1)` citations are checked when a native document has
 no embedded enclosure list. Mixed embedded/package citation numbering requires
-manual editing. Linked citation relabeling and package review rounds come later.
+manual editing unless explicit citation links establish the intended targets. Supported linked reordering is described below; package review rounds remain planned.
 
 Assembly retains the exact combined PDF, checksum and member page boundaries.
 Preview and retained download read those same bytes. An assembled PDF is an
@@ -411,12 +411,26 @@ original signed files and historical revisions stay unchanged. IDs and hashes
 survive editable package transfer and backups; they grant no authority over a
 foreign library document. Metadata retains no copied titles or paragraph text.
 
-This release does not automatically rewrite citations after reordering. A changed
-member, missing member, changed literal or mismatched enclosure number appears as
-a stale or missing binding. Older revisions remain readable. Correct the source
-through a working copy and deliberately capture a new revision; never assume a
-same-title item is the original target. Historical and archived revisions show
-identity details without editing controls.
+With citation identities present, package **Move up** / **Move down** opens a
+**Citation reorder review** before saving. For a native document's references or
+enclosures, use **Native member to reorder**, choose the list, arrange its items,
+and select **Review native list reorder**. Review the proposed order, before/after
+paragraph text, privacy findings and markings; approve, then select **Save reviewed
+citation reorder**. Cancel leaves the saved package unchanged.
+
+Supported explicit linked citations update together with list labels in one new
+package revision. Reference case, repeated occurrences, UTF-16 text positions and
+endorsement continuation offsets are preserved. Native enclosure files and original
+signed PDFs retain their exact bytes. An affected unlinked citation, quoted/code/URL
+citation, ambiguous enclosure list/range, stale link or conflicting save blocks the
+operation instead of partially updating text. Expand lists/ranges into individually
+linked citations or correct unsupported text in a working copy first. Preview is
+limited to two million before/after text characters.
+
+A changed or removed member, changed literal or mismatched binding remains stale
+or missing until deliberately repaired. Older revisions remain readable; a same-title
+item is never assumed to be the original target. Historical and archived revisions
+show identity details without editing controls.
 
 The registry supports at most 1,000 targets and 2,000 links per revision. Source
 offsets use UTF-16 editor positions, checked against full-field and selection

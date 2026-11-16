@@ -16,6 +16,8 @@ import { SessionChanges } from "./SessionChanges";
 import { PackageRenderComparisonView } from "./PackageRenderComparisonView";
 import type { PackageRenderComparison } from "@/lib/packageRenderComparison";
 import { PackageCitations } from "./PackageCitations";
+import { PackageCitationReorder } from "./PackageCitationReorder";
+import { preparePackageCitationReorder, type PackageCitationReorder as CitationReorderOperation, type PreparedPackageCitationReorder } from "@/lib/packageCitationReorder";
 import {
   createActionPackage,
   listActionPackages,
@@ -148,6 +150,7 @@ function PackageDialog({
   const [otherReviews, setOtherReviews] = useState<PreparedPackageAssembly[]>(
     [],
   );
+  const [citationReorder, setCitationReorder] = useState<PreparedPackageCitationReorder | null>(null);
   const [comparison, setComparison] = useState<{
       member: NativePackageMember;
       source: SerializedSession;
@@ -207,6 +210,7 @@ function PackageDialog({
     [pdfUrl],
   );
   function select(value: ActionPackage) {
+    setCitationReorder(null);
     setSelectedId(value.id);
     setRevisionId(value.currentRevisionId);
     setName(value.name);
@@ -257,6 +261,17 @@ function PackageDialog({
       update(
         await reviseActionPackage(record, members, operation.current?.signal),
       );
+  }
+  async function prepareCitationReorder(value: CitationReorderOperation) {
+    if (!record) return;
+    setCitationReorder(null);
+    const result = await preparePackageCitationReorder(record, value, await getExportDeploymentPolicy(), operation.current?.signal);
+    assertOperationCurrent();
+    setCitationReorder(result);
+  }
+  async function reorderMembers(members: PackageMember[]) {
+    if (revision?.citations) await prepareCitationReorder({ kind: "members", order: members.map(member => member.id) });
+    else await modify(members);
   }
   async function review(mode: typeof reviewMode) {
     if (!record || !revision) return;
@@ -410,8 +425,7 @@ function PackageDialog({
           <DialogTitle>Action packages</DialogTitle>
           <DialogDescription>
             Preserve editable members, original files and assembled PDFs by
-            revision. Linked citation relabeling and package review rounds are
-            planned for a later release.
+            revision. Review linked citation reorders before saving a new revision.
           </DialogDescription>
         </DialogHeader>
         {error && (
@@ -765,7 +779,7 @@ function PackageDialog({
                                     members[index],
                                     members[index - 1],
                                   ];
-                                  await modify(members);
+                                  await reorderMembers(members);
                                 })
                               }
                             >
@@ -782,7 +796,7 @@ function PackageDialog({
                                     members[index],
                                     members[index + 1],
                                   ];
-                                  await modify(members);
+                                  await reorderMembers(members);
                                 })
                               }
                             >
@@ -954,6 +968,9 @@ function PackageDialog({
                 )}
               </div>
               <PackageCitations key={`citations:${record.id}:${revision.id}`} record={record} revision={revision} editable={editable}
+                onChange={action => void run(async () => update(await action(operation.current?.signal)))} />
+              <PackageCitationReorder key={`reorder-${record.id}:${revision.id}:${record.sequence}`} record={record} revision={revision} editable={editable} prepared={citationReorder}
+                onPrepare={value => void run(() => prepareCitationReorder(value))} onDiscard={() => setCitationReorder(null)}
                 onChange={action => void run(async () => update(await action(operation.current?.signal)))} />
               <WordPackageDownload key={`${record.id}:${revision.id}`} record={record} revisionId={revision.id} ports={ports} exportGate={exportGate} />
               {revision.outputs.length > 1 && (

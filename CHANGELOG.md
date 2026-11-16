@@ -7,6 +7,14 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.104] — 2026-11-15
+
+### Added
+
+- Review linked package member, native reference and native enclosure reorders before saving a new revision.
+- Update supported linked citations and their exact identity bindings atomically, preserving historical outputs and original files.
+- Reject affected unlinked, stale or ambiguous citations and guard the final save against policy, ownership and concurrent package changes.
+
 ## [1.3.103] — 2026-11-15
 
 ### Added
