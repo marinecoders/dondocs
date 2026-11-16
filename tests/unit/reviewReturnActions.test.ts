@@ -6,7 +6,7 @@ import { CLASSIFICATION_LEVELS } from '@/lib/overallClassification';
 import { triggerDownload } from '@/lib/encoding';
 import { useDocumentStore } from '@/stores/documentStore';
 import { useDocumentsStore, captureDocumentScope, changeDocumentHistory, commitCurrentDocument, flushDocumentWrites } from '@/stores/documentsStore';
-import { captureTextRange } from '@/lib/reviewTextRanges';
+import { captureTextRange, resolveTextRange } from '@/lib/reviewTextRanges';
 import { applyCommentMutation, reviewCommentMutation } from '@/lib/reviewCommentActions';
 import { idbAddReviewRound, idbInstallReviewCopy } from '@/lib/documentsDb';
 import { type ReviewRound } from '@/lib/reviewRounds';
@@ -56,6 +56,42 @@ async function exported(): Promise<ReviewReturn> {
 }
 
 describe('captured review-return actions', () => {
+  it('preserves deletion of an unchanged returned discussion after owner paragraph edits', async () => {
+    const context = 'Reviewed plain paragraph.', paragraphId = 'range-reviewed';
+    const comments: ReviewComments = { version: 3, threads: [{ id: crypto.randomUUID(),
+      anchor: { kind: 'range', paragraphId, docType: 'naval_letter', context, start: 9, end: 14 }, resolved: false,
+      messages: [{ id: crypto.randomUUID(), author: 'Author', text: 'Original discussion.', createdAt: '2026-11-15T00:00:00Z' }] }] };
+    const { owner } = await fixture({ paragraphId, comments }), payload = await exported();
+    useDocumentsStore.getState().switchTo(owner);
+    expect(applyCommentMutation(reviewCommentMutation({ kind: 'delete', threadId: comments.threads[0].id }))).toBe('applied');
+    useDocumentStore.getState().updateParagraph(0, { text: context + ' plain' });
+    const prepared = await prepareReviewReturnImport(payload);
+    expect(prepared.plan.conflicts).toEqual([]);
+    expect(await applyReviewReturn(prepared, {})).toBe('committed');
+    expect(useDocumentStore.getState().reviewComments).toBeUndefined();
+  });
+  it.each([false, true])('discards reviewer tracking when restoring a deleted baseline discussion (owner text changed: %s)', async changed => {
+    const context = 'Reviewed plain paragraph.', paragraphId = 'range-reviewed';
+    const range = { kind: 'range' as const, paragraphId, docType: 'naval_letter', context, start: 9, end: 14 };
+    const comments: ReviewComments = { version: 3, threads: [{ id: crypto.randomUUID(), anchor: range, resolved: false,
+      messages: [{ id: crypto.randomUUID(), author: 'Author', text: 'Original discussion.', createdAt: '2026-11-15T00:00:00Z' }] }] };
+    const thread = comments.threads[0];
+    const { owner } = await fixture({ paragraphId, comments });
+    expect(applyCommentMutation(reviewCommentMutation({ kind: 'reply', threadId: thread.id, author: 'Reviewer', text: 'Returned reply.' }))).toBe('applied');
+    const payload = await exported(), currentText = context + ' plain';
+    payload.comments!.threads[0].anchor = { ...range,
+      tracking: { context: currentText, start: currentText.lastIndexOf('plain'), end: currentText.length } };
+    useDocumentsStore.getState().switchTo(owner);
+    expect(applyCommentMutation(reviewCommentMutation({ kind: 'delete', threadId: thread.id }))).toBe('applied');
+    if (changed) useDocumentStore.getState().updateParagraph(0, { text: currentText });
+    const prepared = await prepareReviewReturnImport(payload);
+    expect(prepared.plan.conflicts).toHaveLength(1);
+    expect(await applyReviewReturn(prepared, { [prepared.plan.conflicts[0].id]: 'returned' })).toBe('committed');
+    const restored = useDocumentStore.getState().reviewComments!.threads[0];
+    expect(restored.messages).toHaveLength(2);
+    expect(restored.anchor).toEqual({ ...range, ...(changed ? { detached: true } : {}) });
+    expect(restored.anchor.kind === 'range' && resolveTextRange(useDocumentStore.getState(), restored.anchor).status).toBe(changed ? 'changed' : 'current');
+  });
   it.each([false, true])('validates new returned selection against baseline and ignores reviewer runtime tracking (owner changed: %s)', async changed => {
     const { owner } = await fixture({ paragraphId: 'range-reviewed' });
     const range = captureTextRange(useDocumentStore.getState(), 'range-reviewed', 9, 14)!;

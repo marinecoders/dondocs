@@ -22,6 +22,8 @@ export interface ReviewCommentMerge {
 }
 
 const equal = (a: unknown, b: unknown): boolean => JSON.stringify(a) === JSON.stringify(b);
+const anchorIdentity = (anchor: CommentThread['anchor']) => anchor.kind === 'range'
+  ? { kind: anchor.kind, paragraphId: anchor.paragraphId, docType: anchor.docType, context: anchor.context, start: anchor.start, end: anchor.end } : anchor;
 // Editing the same wording twice does not become a conflict solely because of clocks.
 const messageValue = (message: CommentMessage | undefined) => message && {
   id: message.id, author: message.author, text: message.text, createdAt: message.createdAt,
@@ -29,13 +31,11 @@ const messageValue = (message: CommentMessage | undefined) => message && {
 const sameMessage = (a: CommentMessage | undefined, b: CommentMessage | undefined) => equal(messageValue(a), messageValue(b));
 const sameThread = (a: CommentThread | undefined, b: CommentThread | undefined) => {
   const value = (thread: CommentThread | undefined) => thread && {
-    id: thread.id, anchor: thread.anchor, anchorHistory: thread.anchorHistory, resolved: thread.resolved, category: thread.category, messages: thread.messages.map(messageValue),
+    id: thread.id, anchor: anchorIdentity(thread.anchor), anchorHistory: thread.anchorHistory, resolved: thread.resolved, category: thread.category, messages: thread.messages.map(messageValue),
   };
   return equal(value(a), value(b));
 };
 const threads = (value: ReviewComments | undefined) => reviewCommentsSchema.parse(value ?? { version: 2, threads: [] }).threads;
-const anchorIdentity = (anchor: CommentThread['anchor']) => anchor.kind === 'range'
-  ? { kind: anchor.kind, paragraphId: anchor.paragraphId, docType: anchor.docType, context: anchor.context, start: anchor.start, end: anchor.end } : anchor;
 const byId = <T extends { id: string }>(items: readonly T[]) => new Map(items.map(item => [item.id, item]));
 
 /** Merge discussions only. Document text and target identities never come from a return. */

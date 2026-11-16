@@ -1,5 +1,5 @@
 import type { Paragraph } from '@/types/document';
-import { reviewCommentsSchema, type ReviewComments } from './reviewComments';
+import { reviewCommentsSchema, type CommentThread, type ReviewComments } from './reviewComments';
 import type { DocumentFieldSource } from './documentFields';
 import { captureTextRange, resolveTextRange, type SelectedTextRange, supportsPlainTextRange, transformTextRangeForText } from './reviewTextRanges';
 
@@ -23,7 +23,14 @@ export function transformRangeComments(comments: ReviewComments | undefined, bef
 export function normalizeReturnedRangeComments(baseline: DocumentFieldSource, current: DocumentFieldSource,
   returned: ReviewComments | undefined): ReviewComments | undefined {
   if (!returned) return returned;
-  const known = new Set(baseline.reviewComments?.threads.map(thread => thread.id) ?? []);
+  const known = new Map(baseline.reviewComments?.threads.map(thread => [thread.id, thread]) ?? []);
+  const sameTarget = (left: CommentThread, right: CommentThread): boolean => {
+    if (left.anchor.kind !== 'range' || right.anchor.kind !== 'range') return false;
+    const identity = (anchor: SelectedTextRange) => ({ paragraphId: anchor.paragraphId, docType: anchor.docType,
+      context: anchor.context, start: anchor.start, end: anchor.end });
+    return JSON.stringify(identity(left.anchor)) === JSON.stringify(identity(right.anchor))
+      && JSON.stringify(left.anchorHistory) === JSON.stringify(right.anchorHistory);
+  };
   const original = (range: SelectedTextRange): SelectedTextRange => {
     const captured = captureTextRange(baseline, range.paragraphId, range.start, range.end);
     if (!captured || captured.context !== range.context || captured.docType !== range.docType) {
@@ -32,7 +39,18 @@ export function normalizeReturnedRangeComments(baseline: DocumentFieldSource, cu
     return captured;
   };
   return { ...returned, threads: returned.threads.map(thread => {
-    if (known.has(thread.id) || thread.anchor.kind !== 'range') return thread;
+    if (thread.anchor.kind !== 'range') return thread;
+    const previous = known.get(thread.id);
+    if (previous) {
+      const owner = current.reviewComments?.threads.find(item => item.id === thread.id);
+      // The merger retains a matching owner's runtime mapping. If that thread
+      // was deleted or deliberately reattached, restoring returned feedback can
+      // use only the owner's captured baseline mapping, never reviewer offsets.
+      // Leave changed immutable targets/history intact for the merger to reject.
+      if (previous.anchor.kind !== 'range' || owner && sameTarget(owner, thread) || !sameTarget(previous, thread)) return thread;
+      const anchor = previous.anchor;
+      return { ...thread, anchor: resolveTextRange(current, anchor).status === 'current' ? anchor : { ...anchor, detached: true as const } };
+    }
     const anchor = original(thread.anchor);
     for (const previous of thread.anchorHistory ?? []) original(previous.anchor);
     return { ...thread, anchor: resolveTextRange(current, anchor).status === 'current' ? anchor : { ...anchor, detached: true as const } };
