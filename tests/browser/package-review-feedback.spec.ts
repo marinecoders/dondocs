@@ -1,4 +1,5 @@
 import { expect, test, type Download, type Page } from '@playwright/test';
+import AxeBuilder from '@axe-core/playwright';
 import { readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 
@@ -52,6 +53,7 @@ for (const theme of ['light', 'dark', 'classic']) test(`package reviewer copy an
     await reviewModal.getByLabel('Proposed replacement', { exact: true }).fill('SYNTHETIC RETURNED SUBJECT');
     await reviewModal.getByRole('button', { name: 'Add suggestion', exact: true }).click();
     await expect(reviewModal.getByText('Suggestion submitted to this review.', { exact: true })).toBeVisible();
+    expect((await new AxeBuilder({ page: reviewer }).include('[role="dialog"]').analyze()).violations).toEqual([]);
     await navigation.getByRole('button', { name: original.label, exact: true }).click();
     await expect(reviewModal.getByText(/Comments do not alter PDF bytes or signatures/)).toBeVisible();
     await reviewModal.getByLabel('Package comment reviewer name', { exact: true }).fill('Synthetic reviewer');
