@@ -287,3 +287,41 @@ it('requires a replacement decision when an original PDF identity now contains d
   expect(new Uint8Array(await readPackageAsset(original.original))).not.toEqual(new Uint8Array(await readPackageAsset(changed.original)));
   expect(applied.reviewRounds![0].baseline.members.find(member => member.id === original.id)).toEqual(original);
 });
+
+it.each(['removed', 'replaced'] as const)('restores an unchanged %s native member with detached authority and a fresh capture identity', async kind => {
+  const { owner, native, original, round, json, choices, proposal } = await fixture(true);
+  const latest = await reviseActionPackage(owner, kind === 'removed' ? [original] : [original, { ...original, id: native.id, revisionId: 'replacement-original-revision' }]);
+  choices[native.id] = { member: 'restore-reviewed', comments: 'skip', proposals: { [proposal.id]: { action: 'keep' } } };
+  const preview = await previewPackageReviewReturn(json, latest, round.id, policy);
+  expect(inspectPackageReviewApplication(preview, choices, policy).ready).toBe(true);
+  const prepared = await preparePackageReviewApplication(preview, choices, policy);
+  const applied = await applyPreparedPackageReviewApplication(prepared, policy);
+  const restored = getPackageRevision(applied).members.find(member => member.id === native.id) as NativePackageMember;
+  expect(restored.session).toEqual(native.session);
+  expect(restored.draft).toEqual(native.draft);
+  expect(restored.source?.local).toBe(false);
+  expect(restored.revisionId).not.toBe(native.revisionId);
+  expect(getPackageRevision(applied).citations!.targets.map(target => target.id)).toEqual(getPackageRevision(owner).citations!.targets.map(target => target.id));
+  expect((await resolvePackageCitations(getPackageRevision(applied))).links.every(link => link.state === 'current')).toBe(true);
+  expect(applied.reviewApplications).toHaveLength(1);
+  expect(applied.revisions.slice(0, -1)).toEqual(latest.revisions);
+  expect((await listActionPackages())[0]).toEqual(applied);
+});
+
+it('restores a replaced signed original with its exact reviewed bytes while preserving the replacement in history', async () => {
+  const { owner, original, native, round, json, choices, proposal, bytes } = await fixture();
+  const pdf = await PDFDocument.create(); pdf.addPage(); pdf.addPage();
+  const replacement = await captureOriginalPackageMember({ name: 'newer-original.pdf', data: new Uint8Array(await pdf.save()).buffer }, 'enclosure', false);
+  if (replacement.kind !== 'original') throw new Error('Expected original fixture');
+  const latest = await reviseActionPackage(owner, [native, { ...replacement, id: original.id }]);
+  choices[original.id].member = 'restore-reviewed';
+  choices[native.id] = { comments: 'skip', proposals: { [proposal.id]: { action: 'keep' } } };
+  const prepared = await preparePackageReviewApplication(await previewPackageReviewReturn(json, latest, round.id, policy), choices, policy);
+  const applied = await applyPreparedPackageReviewApplication(prepared, policy);
+  expect(getPackageRevision(applied).members.find(member => member.id === original.id)).toEqual(original);
+  expect(await readPackageAsset(original.original)).toEqual(bytes);
+  expect(new Uint8Array(await readPackageAsset(replacement.original))).not.toEqual(new Uint8Array(bytes));
+  expect(applied.revisions.slice(0, -1)).toEqual(latest.revisions);
+  expect(applied.reviewApplications).toHaveLength(1);
+  expect((await listActionPackages())[0]).toEqual(applied);
+});

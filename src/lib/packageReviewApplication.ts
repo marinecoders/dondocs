@@ -180,7 +180,14 @@ export async function preparePackageReviewApplication(preview: PackageReviewRetu
     if (member.kind !== 'native') return member;
     const previous = current.members.find(item => item.id === member.id);
     const retained = previous?.kind === 'native' && previous.draft.id === member.draft.id ? previous : returned.round.baseline.members.find(item => item.id === member.id);
-    if (retained?.kind !== 'native' || sameReviewStoredValue(retained.session, member.session)) return member;
+    if (retained?.kind !== 'native' || sameReviewStoredValue(retained.session, member.session)) {
+      // Restored review captures strip local source authority. Preserve the saved
+      // draft bytes while assigning that detached capture its own revision identity.
+      const captured = owner.revisions.flatMap(revision => revision.members)
+        .find(saved => saved.id === member.id && saved.revisionId === member.revisionId);
+      return captured && !sameReviewStoredValue(captured, member)
+        ? { ...member, revisionId: newPackageId('member-revision') } : member;
+    }
     const rewritten = await rewrittenMember(retained, member.session); attachments.push(rewritten.attachment); return rewritten.member;
   }));
   const revision = { id: newPackageId('revision'), parentId: owner.currentRevisionId, createdAt: Date.now(), members, outputs: [],
