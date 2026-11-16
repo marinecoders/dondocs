@@ -4,6 +4,7 @@ import { readFile } from 'node:fs/promises';
 import { getDocument } from 'pdfjs-dist/legacy/build/pdf.mjs';
 import { replaceParagraphText } from '../_helpers/replaceParagraphText';
 import { closeReviewRounds } from '../_helpers/closeReviewRounds';
+import { downloadBrowserPdf } from '../_helpers/downloadBrowserPdf';
 
 test.use({ serviceWorkers: 'block' });
 test.setTimeout(180_000);
@@ -129,7 +130,7 @@ for (const theme of ['light', 'dark', 'classic']) test(`paragraph insertion and 
         await page.getByRole('menuitem', { name: /^Download PDF(?:\s|$)/ }).click();
       };
     }
-    const cleanPdf = await download(page, exportPdf);
+    const cleanPdf = await downloadBrowserPdf(page, info.project.name, exportPdf);
     await info.attach('accepted-paragraph-clean.pdf', { body: cleanPdf, contentType: 'application/pdf' });
     const pdf = await getDocument({ data: new Uint8Array(cleanPdf), useSystemFonts: false }).promise;
     try {
