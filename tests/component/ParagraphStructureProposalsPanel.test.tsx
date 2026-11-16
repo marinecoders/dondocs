@@ -33,6 +33,6 @@ it('visibly refuses unsupported rich insertion and deleting a parent without sub
 });
 it('shows insertion/deletion comparisons and keeps stale structure out of text reconciliation',()=>{
   const input=props();const proposal=createParagraphStructureSuggestion(input.round,{author:'Example',operation:{kind:'delete-paragraph',paragraphId:'second'}});input.state.proposals=[proposal];input.current.paragraphs[1].header='Newer heading';render(<ReviewSuggestionsPanel {...input}/>);
-  expect(screen.getByRole('region',{name:'Delete paragraph replacement comparison'})).toHaveTextContent('Second body');
+  expect(screen.getByRole('region',{name:'Delete paragraph replacement comparison, suggestion 1'})).toHaveTextContent('Second body');
   expect(screen.getByRole('button',{name:'Accept suggestion'})).toBeDisabled();expect(screen.getByRole('button',{name:'Reject suggestion'})).toBeEnabled();expect(screen.queryByRole('button',{name:'Reconcile suggestion'})).toBeNull();
 });
