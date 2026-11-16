@@ -1,11 +1,12 @@
 import { replaceReviewParagraphText } from './reviewParagraphText';
+import { applyReviewStructure, captureReviewStructure, inspectReviewStructure, reviewStructureTargetSchema, structureNewIds, structureOperationIds, structureSuggestionLabel, structureSuggestionText, validateReviewStructureTarget, type ReviewStructureTarget } from './reviewStructureSuggestions';
 import { transformRangeComments } from './reviewCommentRanges';
 import { z } from 'zod';
 import { feedbackCategorySchema, type FeedbackCategory } from './reviewFeedback';
 import type { SerializedSession } from '@/stores/documentStore';
 import { paragraphIdSchema } from './paragraphIdentity';
 import { availableCommentFields, commentFieldLabel, supportsReviewComments } from './reviewCommentTargets';
-import { reviewDigestSchema, reviewRoundIdSchema, type ReviewRound } from './reviewRounds';
+import { canonicalReviewPayload, reviewDigestSchema, reviewRoundIdSchema, type ReviewRound } from './reviewRounds';
 import { mechanicalFindings } from './mechanicalCorrections';
 import { reconcileReviewRange, type ReviewRangeReconciliation } from './reconcileReviewText';
 import { captureTextRange, isTextRangeBoundary, resolveTextRange, selectedTextRangeSchema, supportsPlainTextRange, type SelectedTextRange } from './reviewTextRanges';
@@ -19,13 +20,14 @@ export const reviewSuggestionTargetSchema = z.union([
   z.object({ kind: z.literal('field'), field: z.string().regex(/^[a-z][A-Za-z0-9]*$/).max(100), docType: z.string().min(1).max(100) }).strict(),
   z.object({ kind: z.literal('paragraph'), paragraphId: paragraphIdSchema, docType: z.string().min(1).max(100) }).strict(),
   selectedTextRangeSchema,
+  reviewStructureTargetSchema,
   z.object({ kind: z.literal('reference-title'), referenceIndex: z.number().int().nonnegative().max(Number.MAX_SAFE_INTEGER), docType: z.string().min(1).max(100) }).strict(),
 ]);
 export type ReviewSuggestionTarget = z.infer<typeof reviewSuggestionTargetSchema>;
 export const reviewSuggestionChangeSchema = z.object({
   id: changeId, target: reviewSuggestionTargetSchema,
   expected: z.string().max(REVIEW_SUGGESTION_LIMITS.value), proposed: z.string().max(REVIEW_SUGGESTION_LIMITS.value),
-}).strict().refine(value => value.expected !== value.proposed, 'A suggestion must change its target value.');
+}).strict().refine(value => value.expected !== value.proposed || value.target.kind === 'structure', 'A suggestion must change its target value.');
 export type ReviewSuggestionChange = z.infer<typeof reviewSuggestionChangeSchema>;
 
 /** Each manual suggestion is one change; a mechanical group is decided atomically. */
@@ -54,7 +56,7 @@ export type ReviewSuggestion = z.infer<typeof reviewSuggestionSchema>;
 
 export function reviewSuggestionText(proposals: readonly ReviewSuggestion[]): Array<{ field: string; value: string }> {
   return proposals.flatMap((proposal, index) => [proposal.author, proposal.label, proposal.origin.rule ?? '', proposal.origin.context ?? '',
-    ...proposal.changes.flatMap(change => [change.expected, change.proposed, ...Object.values(change.target).filter((value): value is string => typeof value === 'string'), ...(change.target.kind === 'range' && change.target.tracking ? [change.target.tracking.context] : [])])].map(value => ({ field: `Suggested replacement ${index + 1}`, value })));
+    ...proposal.changes.flatMap(change => [change.expected, change.proposed, ...(change.target.kind === 'structure' ? structureReviewText(change.target) : []), ...Object.values(change.target).filter((value): value is string => typeof value === 'string'), ...(change.target.kind === 'range' && change.target.tracking ? [change.target.tracking.context] : [])])].map(value => ({ field: `Suggested replacement ${index + 1}`, value })));
 }
 
 export const reviewSuggestionRangeScopeSchema = z.object({
@@ -125,16 +127,18 @@ export const reviewSuggestionStateSchema = z.object({
 export type ReviewSuggestionState = z.infer<typeof reviewSuggestionStateSchema>;
 
 function suggestionChangeCharacters(change: ReviewSuggestionChange): number {
-  return change.expected.length + change.proposed.length + (change.target.kind === 'range' ? change.target.context.length + (change.target.tracking?.context.length ?? 0) : 0);
+  return (change.target.kind === 'structure' ? JSON.stringify(change.target).length : 0) + change.expected.length + change.proposed.length + (change.target.kind === 'range' ? change.target.context.length + (change.target.tracking?.context.length ?? 0) : 0);
 }
 
 export function suggestionTargetKey(target: ReviewSuggestionTarget): string {
+  if (target.kind === 'structure') return `structure:${target.operation.kind}:${structureOperationIds(target).join(':')}:${target.operation.gap.before?.id ?? ''}:${target.operation.gap.after?.id ?? ''}`;
   if (target.kind === 'range') return `range:${target.paragraphId}:${target.start}:${target.end}`;
   return target.kind === 'field' ? `field:${target.field}` : target.kind === 'paragraph' ? `paragraph:${target.paragraphId}` : `reference-title:${target.referenceIndex}`;
 }
 
 export function suggestionTargetValue(session: SerializedSession, target: ReviewSuggestionTarget): { label: string; value: string } | null {
   if (!supportsReviewComments(session) || session.docType !== target.docType) return null;
+  if (target.kind === 'structure') return inspectReviewStructure(session, target) ? { label: structureSuggestionLabel(target), value: structureSuggestionText(target.operation.before) } : null;
   if (target.kind === 'field') {
     const field = availableCommentFields(session).find(item => item.field === target.field);
     return field ? { label: commentFieldLabel(target.field), value: field.value } : null;
@@ -179,6 +183,12 @@ export function validateReviewSuggestion(round: ReviewRound, value: unknown): Re
   const proposal = reviewSuggestionSchema.parse(value);
   if (proposal.roundId !== round.id || proposal.baselineDigest !== round.baselineDigest) throw new Error('This suggestion belongs to another review baseline.');
   for (const change of proposal.changes) {
+    if (change.target.kind === 'structure') {
+      validateReviewStructureTarget(round.baseline.session, change.target);
+      if (proposal.origin.kind !== 'manual' || change.expected !== structureSuggestionText(change.target.operation.before)
+        || change.proposed !== structureSuggestionText(change.target.operation.after)) throw new Error('The structural suggestion must retain its exact captured nodes and readable comparison.');
+      continue;
+    }
     const baseline = suggestionTargetValue(round.baseline.session, change.target);
     if (!baseline || baseline.value !== change.expected) throw new Error('This suggestion does not match a supported field or paragraph in the reviewed baseline.');
     if (change.target.kind === 'range') {
@@ -200,7 +210,14 @@ export function validateReviewSuggestion(round: ReviewRound, value: unknown): Re
 export function validateReviewSuggestionState(round: ReviewRound, value: unknown): ReviewSuggestionState {
   const state = reviewSuggestionStateSchema.parse(value);
   if (state.roundId !== round.id || state.baselineDigest !== round.baselineDigest) throw new Error('These suggestions belong to another review baseline.');
-  for (const proposal of state.proposals) validateReviewSuggestion(round, proposal);
+  const reserved = new Set<string>();
+  for (const proposal of state.proposals) {
+    validateReviewSuggestion(round, proposal);
+    for (const change of proposal.changes) if (change.target.kind === 'structure') for (const id of structureNewIds(change.target)) {
+      if (reserved.has(id)) throw new Error('Different review operations cannot reuse a new paragraph identity.');
+      reserved.add(id);
+    }
+  }
   return state;
 }
 
@@ -231,6 +248,22 @@ export function createReviewSuggestion(round: ReviewRound, input: {
       return { id: crypto.randomUUID(), target: change.target, expected: baseline.value, proposed: change.proposed };
     }),
   });
+}
+
+/** Recursive retained text participates in handling checks, including metadata. */
+function structureReviewText(target: ReviewStructureTarget): string[] {
+  const strings = (value: unknown): string[] => typeof value === 'string' ? [value] : value && typeof value === 'object' ? Object.values(value).flatMap(strings) : [];
+  return strings(target);
+}
+export function reviewStructureReservedIds(state: ReviewSuggestionState, exceptProposalId?: string): string[] {
+  return state.proposals.filter(proposal => proposal.id !== exceptProposalId).flatMap(proposal => proposal.changes.flatMap(change => change.target.kind === 'structure' ? structureOperationIds(change.target) : []));
+}
+export function createParagraphStructureSuggestion(round: ReviewRound, input: { author: string; category?: FeedbackCategory; operation: Parameters<typeof captureReviewStructure>[1] }): ReviewSuggestion {
+  const target = captureReviewStructure(round.baseline.session, input.operation);
+  return validateReviewSuggestion(round, { kind: 'dondocs-review-suggestion', version: 1, id: `proposal_${crypto.randomUUID()}`,
+    roundId: round.id, baselineDigest: round.baselineDigest, author: input.author, createdAt: Date.now(), label: structureSuggestionLabel(target),
+    ...(input.category ? { category: input.category } : {}), origin: { kind: 'manual' },
+    changes: [{ id: crypto.randomUUID(), target, expected: structureSuggestionText(target.operation.before), proposed: structureSuggestionText(target.operation.after) }] });
 }
 
 /** Capture a precise baseline selection; caret targets also support explicit insertion proposals. */
@@ -329,6 +362,12 @@ function inspectReviewSuggestionUsing(round: ReviewRound, source: SerializedSess
   const proposal = validateReviewSuggestion(round, input);
   const referencesMatch = !proposal.changes.some(change => change.target.kind === 'reference-title') || sameReviewReferences(source, round.baseline.session);
   return proposal.changes.map(change => {
+    if (change.target.kind === 'structure') {
+      const forward = inspectReviewStructure(source, change.target);
+      const reverse = inspectReviewStructure(source, change.target, 'reverse');
+      return { id: change.id, label: structureSuggestionLabel(change.target), baseline: change.expected,
+        current: forward ? change.expected : reverse ? change.proposed : null, proposed: change.proposed, stale: !forward };
+    }
     const reconciliation = change.target.kind === 'range' ? inspectReviewSuggestionRangeUsing(source, change.target, reconcileRange) : null;
     const resolution = acceptedResolutions?.find(item => item.changeId === change.id);
     const applied = change.target.kind === 'range' && resolution?.range
@@ -355,6 +394,7 @@ export function planReviewSuggestionDecision(round: ReviewRound, source: Seriali
   const previous = latestReviewSuggestionDecision(state, proposalId);
   if (previous && previous.action !== 'reversed') return { status: 'decided', changes, session: structuredClone(source), state };
   let resolutions = inputResolutions && z.array(reviewSuggestionResolutionSchema).min(1).max(1).parse(inputResolutions);
+  if (resolutions && proposal.changes.some(change => change.target.kind === 'structure')) throw new Error('Structural changes require their exact captured paragraph structure. Start a fresh proposal for changed content.');
   if (resolutions && (action !== 'accepted' || proposal.origin.kind !== 'manual' || proposal.changes.length !== 1
     || resolutions[0].changeId !== proposal.changes[0].id)) throw new Error('Only a supported manual replacement can be reconciled.');
   const rangeChange = proposal.changes[0].target.kind === 'range' ? proposal.changes[0] : null;
@@ -371,6 +411,8 @@ export function planReviewSuggestionDecision(round: ReviewRound, source: Seriali
     }
   } else if (action === 'accepted' && changes.some(change => resolutions
     ? change.current === null || change.current !== resolutions[0].expectedCurrent : change.stale)) return { status: 'stale', changes, session: structuredClone(source), state };
+  if (action === 'accepted' && proposal.changes.some(change => change.target.kind === 'structure'
+    && !inspectReviewStructure(source, change.target, 'forward', reviewStructureReservedIds(state, proposal.id)))) return { status: 'stale', changes, session: structuredClone(source), state };
   let session = structuredClone(source);
   if (action === 'accepted') for (const change of proposal.changes) {
     const target = change.target;
@@ -378,6 +420,7 @@ export function planReviewSuggestionDecision(round: ReviewRound, source: Seriali
     if (target.kind === 'field') Object.assign(session.formData, { [target.field]: value });
     else if (target.kind === 'paragraph') replaceReviewParagraphText(session, target.paragraphId, value);
     else if (target.kind === 'range') session = applyReviewSuggestionRange(session, resolvedReviewSuggestionRange(target, resolutions?.[0]), resolutions?.[0].expectedCurrent ?? change.expected, value);
+    else if (target.kind === 'structure') session = applyReviewStructure(session, target, 'forward', reviewStructureReservedIds(state, proposal.id));
     else session.references[target.referenceIndex].title = value;
   }
   if (resolutions) state.version = 2;
@@ -404,6 +447,11 @@ export function planReviewSuggestionHistory(round: ReviewRound, before: Serializ
       || !sameReviewReferences(after, direction === 'undo' ? round.baseline.session : corrected)) throw new Error('The reference list no longer matches this review decision.');
   }
   for (const change of proposal.changes) {
+    if (change.target.kind === 'structure') {
+      const derived = applyReviewStructure(before, change.target, direction === 'undo' ? 'reverse' : 'forward', reviewStructureReservedIds(state, proposal.id));
+      if (canonicalReviewPayload(derived.paragraphs) !== canonicalReviewPayload(after.paragraphs)) throw new Error('This history action does not reverse only the accepted paragraph operation.');
+      continue;
+    }
     const resolved = acceptance.resolutions?.find(item => item.changeId === change.id);
     const original = resolved?.expectedCurrent ?? change.expected, applied = resolved?.value ?? change.proposed;
     const target = change.target.kind === 'range' ? resolvedReviewSuggestionRange(change.target, resolved) : change.target;
