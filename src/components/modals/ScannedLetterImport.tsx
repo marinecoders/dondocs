@@ -3,21 +3,25 @@ import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { recognizeScannedFile, type ScanPage, type ScanProgress } from '@/lib/scannedImport';
 
-function SourcePage({ page, onFailure }: { page: ScanPage; onFailure: () => void }) {
+function SourcePage({ page, onFailure, onReady }: { page: ScanPage; onFailure: () => void; onReady: () => void }) {
   const ref = useRef<HTMLCanvasElement>(null);
   const [failed, setFailed] = useState(false);
   useEffect(() => {
     let active = true;
     void createImageBitmap(page.preview).then(bitmap => {
       const canvas = ref.current;
-      if (active && canvas) {
-        canvas.width = bitmap.width; canvas.height = bitmap.height;
-        canvas.getContext('2d')?.drawImage(bitmap, 0, 0);
-      }
-      bitmap.close();
+      try {
+        if (active && canvas) {
+          canvas.width = bitmap.width; canvas.height = bitmap.height;
+          const context = canvas.getContext('2d');
+          if (!context) throw new Error('Canvas rendering is unavailable.');
+          context.drawImage(bitmap, 0, 0); onReady();
+        }
+      } finally { bitmap.close(); }
     }).catch(() => { if (active) { setFailed(true); onFailure(); } });
-    return () => { active = false; };
-  }, [page.preview, onFailure]);
+    const canvas = ref.current;
+    return () => { active = false; if (canvas) canvas.width = canvas.height = 0; };
+  }, [page.preview, onFailure, onReady]);
   return <>{failed && <p role="alert">The source preview could not be displayed. Choose the file again before reviewing it.</p>}<canvas ref={ref} role="img" aria-label={`Original scanned page ${page.page}`} className="h-auto w-full bg-white" /></>;
 }
 
@@ -25,6 +29,7 @@ export function ScannedLetterImport({ onRead, onBack }: { onRead: (text: string)
   const active = useRef<AbortController | null>(null);
   const [pages, setPages] = useState<ScanPage[]>([]);
   const [reviewed, setReviewed] = useState<boolean[]>([]);
+  const [ready, setReady] = useState<boolean[]>([]);
   const [index, setIndex] = useState(0);
   const [progress, setProgress] = useState<ScanProgress | null>(null);
   const [error, setError] = useState('');
@@ -33,7 +38,12 @@ export function ScannedLetterImport({ onRead, onBack }: { onRead: (text: string)
   const page = pages[index];
   const previewFailed = useCallback(() => {
     setPreviewFailure(index);
+    setReady(values => values.map((value, position) => position === index ? false : value));
     setReviewed(values => values.map((value, position) => position === index ? false : value));
+  }, [index]);
+  const previewReady = useCallback(() => {
+    setReady(values => values.map((value, position) => position === index ? true : value));
+    setPreviewFailure(value => value === index ? null : value);
   }, [index]);
   useEffect(() => () => { active.current?.abort(); }, []);
 
@@ -43,14 +53,14 @@ export function ScannedLetterImport({ onRead, onBack }: { onRead: (text: string)
   async function choose(file: File) {
     active.current?.abort();
     const operation = new AbortController(); active.current = operation;
-    setPages([]); setReviewed([]); setIndex(0); setError(''); setName(file.name); setPreviewFailure(null);
+    setPages([]); setReviewed([]); setReady([]); setIndex(0); setError(''); setName(file.name); setPreviewFailure(null);
     setProgress({ page: 0, total: 1, fraction: 0 });
     try {
       const result = await recognizeScannedFile(file, operation.signal, value => {
         if (active.current === operation && !operation.signal.aborted) setProgress(value);
       });
       if (active.current !== operation || operation.signal.aborted) return;
-      setPages(result); setReviewed(result.map(() => false));
+      setPages(result); setReviewed(result.map(() => false)); setReady(result.map(() => false));
       if (!result.some(page => page.text.trim())) setError('No text was recognized. Type the letter text beside its source, or choose a clearer scan.');
     } catch (cause) {
       if (active.current === operation && !operation.signal.aborted) {
@@ -76,21 +86,21 @@ export function ScannedLetterImport({ onRead, onBack }: { onRead: (text: string)
       <div className="flex flex-wrap items-center justify-between gap-2">
         <p className="text-sm break-words">{name} · Page {index + 1} of {pages.length} · Recognition confidence {Math.round(page.confidence)}%</p>
         <div className="flex gap-2">
-          <Button variant="outline" disabled={index === 0} onClick={() => setIndex(value => value - 1)}>Previous page</Button>
-          <Button variant="outline" disabled={index === pages.length - 1} onClick={() => setIndex(value => value + 1)}>Next page</Button>
+          <Button variant="outline" disabled={index === 0} onClick={() => { setReady(values => values.map((value, position) => position === index - 1 ? false : value)); setIndex(value => value - 1); }}>Previous page</Button>
+          <Button variant="outline" disabled={index === pages.length - 1} onClick={() => { setReady(values => values.map((value, position) => position === index + 1 ? false : value)); setIndex(value => value + 1); }}>Next page</Button>
         </div>
       </div>
       <p className="text-xs text-muted-foreground">Confidence is an engine estimate. Verify names, dates, numbers, and markings against the original even when the score is high.</p>
       <div className="grid min-w-0 gap-4 md:grid-cols-2">
-        <section aria-label="Scanned source" className="max-h-[45vh] overflow-auto rounded border"><SourcePage key={page.page} page={page} onFailure={previewFailed} /></section>
+        <section aria-label="Scanned source" className="max-h-[45vh] overflow-auto rounded border"><SourcePage key={page.page} page={page} onFailure={previewFailed} onReady={previewReady} /></section>
         <div className="space-y-2">
           <label htmlFor="scan-corrected-text" className="text-sm font-medium">Corrected text for page {index + 1}</label>
-          <Textarea id="scan-corrected-text" className="h-72 field-sizing-fixed resize-y" value={page.text} onChange={event => {
+          <Textarea id="scan-corrected-text" className="h-72 field-sizing-fixed resize-y" value={page.text} maxLength={500_000} onChange={event => {
             const text = event.target.value;
             setPages(values => values.map((value, position) => position === index ? { ...value, text } : value));
             setReviewed(values => values.map((value, position) => position === index ? false : value));
           }} />
-          <label className="flex items-start gap-2 text-sm"><input type="checkbox" disabled={previewFailure === index} checked={reviewed[index] ?? false} onChange={event => {
+          <label className="flex items-start gap-2 text-sm"><input type="checkbox" disabled={!ready[index] || previewFailure === index} checked={reviewed[index] ?? false} onChange={event => {
             const checked = event.target.checked;
             setReviewed(values => values.map((value, position) => position === index ? checked : value));
           }} />I checked the recognized text against this page.</label>
@@ -99,8 +109,12 @@ export function ScannedLetterImport({ onRead, onBack }: { onRead: (text: string)
     </>}
     <div className="flex flex-wrap justify-end gap-2">
       <Button variant="outline" onClick={() => { cancel(); onBack(); }}>Back</Button>
-      <Button disabled={!pages.length || !reviewed.every(Boolean) || !pages.some(page => page.text.trim()) || Boolean(progress)} onClick={() => {
-        try { onRead(pages.map(page => page.text).join('\n\n')); setError(''); }
+      <Button disabled={!pages.length || !reviewed.every(Boolean) || !ready.every(Boolean) || !pages.some(page => page.text.trim()) || Boolean(progress)} onClick={() => {
+        try {
+          const text = pages.map(page => page.text).join('\n\n');
+          if (text.length > 500_000) throw new Error('Corrected text exceeds 500,000 characters. Split this document and try again.');
+          onRead(text); setError('');
+        }
         catch (cause) { setError(cause instanceof Error ? cause.message : 'The corrected text could not be parsed.'); }
       }}>Review recognized letter</Button>
     </div>
