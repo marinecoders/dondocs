@@ -7,6 +7,13 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.108] — 2026-11-15
+
+### Added
+
+- Suggest Changes mode in the review workspace captures natural typing, caret insertions, complete-character deletions, replacements, plain-text paste and input-method composition without changing the document or reviewed baseline.
+- Preview the exact changed span and save one typed suggestion through the existing feedback return, source-owner decision and Undo/Redo workflow. Unsaved typing blocks review navigation until saved or cancelled; unsupported operations preserve the last valid draft.
+
 ## [1.3.107] — 2026-11-15
 
 ### Added

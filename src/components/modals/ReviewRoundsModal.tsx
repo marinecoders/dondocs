@@ -197,6 +197,7 @@ function ReviewRoundsContent({ onClose }: { onClose: () => void }) {
           disabled={busy || returnBusy || suggestionBusy || summaryBusy} onBusyChange={setCheckpointBusy}
           onRoundChange={updated => setRounds(previous => previous.map(round => round.id === updated.id ? updated : round))} />
         <ReviewReturnControls key={`${documentId}:${epoch}`} disabled={busy || suggestionBusy || checkpointBusy || summaryBusy} onBusyChange={setReturnBusy} />
+        {suggestionBusy && <p role="status" className="text-sm">Save or cancel unsaved suggested changes before closing or switching this review.</p>}
         {busy && <p role="status" className="text-sm">Saving or checking review contents…</p>}
       </div>
     </DialogContent>
