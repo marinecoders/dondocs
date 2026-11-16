@@ -1,4 +1,4 @@
-import { expect, test } from '@playwright/test';
+import { errors, expect, test } from '@playwright/test';
 import { PDFDocument, StandardFonts } from 'pdf-lib';
 import { createHash } from 'node:crypto';
 import { readFile } from 'node:fs/promises';
@@ -106,7 +106,29 @@ test('keeps the signing workspace unavailable until a captured PDF is retained',
     await expect(page.getByRole('dialog', { name: 'Signing workspace', exact: true })).toHaveCount(0);
     await page.keyboard.press('Escape');
     await expect(progress).toBeVisible();
-    await expect(page.locator('button[data-tour="download"]').click({ trial: true, timeout: 500 })).rejects.toThrow(/intercepts pointer events/);
+    const download = page.locator('button[data-tour="download"]');
+    const progressId = await progress.getAttribute('id');
+    expect(progressId).toBeTruthy();
+    const hitTest = () => download.evaluate((button, id) => {
+      const bounds = button.getBoundingClientRect();
+      const x = bounds.left + bounds.width / 2, y = bounds.top + bounds.height / 2;
+      const hit = document.elementFromPoint(x, y);
+      const dialog = document.getElementById(id!);
+      return { x, y,
+        inViewport: bounds.width > 0 && bounds.height > 0 && x >= 0 && y >= 0 && x < innerWidth && y < innerHeight,
+        blockedByProgressOverlay: hit?.matches('[data-slot="dialog-overlay"][data-state="open"]') === true && hit === dialog?.previousElementSibling,
+        reachesDownload: hit === button || (hit !== null && button.contains(hit)),
+      };
+    }, progressId);
+    await expect.poll(hitTest).toMatchObject({ inViewport: true, blockedByProgressOverlay: true, reachesDownload: false });
+    await expect(download.click({ trial: true, timeout: 500 })).rejects.toBeInstanceOf(errors.TimeoutError);
+    const intercepted = await hitTest();
+    expect(intercepted).toMatchObject({ inViewport: true, blockedByProgressOverlay: true, reachesDownload: false });
+    await page.mouse.click(intercepted.x, intercepted.y);
+    await expect(progress).toBeVisible();
+    await expect(download).toHaveAttribute('aria-expanded', 'false');
+    await expect(page.getByRole('dialog', { name: 'Signing workspace', exact: true })).toHaveCount(0);
+    await info.attach('capture-barrier-hit-test', { body: JSON.stringify(intercepted), contentType: 'application/json' });
     await info.attach('paused-signing-retention-stack', { body: retainedReadStack, contentType: 'text/plain' });
     release();
     const dialog = page.getByRole('dialog', { name: 'Signing workspace', exact: true });
