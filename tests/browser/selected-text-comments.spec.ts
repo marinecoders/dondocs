@@ -31,7 +31,7 @@ for (const theme of ['light', 'dark', 'classic'] as const) {
     await page.getByRole('button', { name: 'Open as new document', exact: true }).click();
     const editor = page.getByRole('textbox', { name: 'Paragraph 2', exact: true });
     await selectWords(editor, 7, 21);
-    const launch = page.getByRole('button', { name: 'Comment on selected text in paragraph 2', exact: true });
+    const launch = page.getByRole('button', { name: 'Comment on selection in paragraph 2', exact: true });
     await expect(launch).toBeEnabled();
     await launch.click();
     const dialog = page.getByRole('dialog', { name: 'Document comments', exact: true });

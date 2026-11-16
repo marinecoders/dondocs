@@ -27,9 +27,9 @@ function post() {
 describe('actual paragraph editor selections create precise discussions', () => {
   it('captures native editor positions, displays exact quote, replies and resolves', async () => {
     const dom = await setup();
-    expect(screen.getByRole('button', { name: 'Comment on selected text in paragraph 1' })).toBeDisabled();
+    expect(screen.getByRole('button', { name: 'Comment on selection in paragraph 1' })).toBeDisabled();
     act(() => { dom.editor.commands.setTextSelection({ from: 8, to: 22 }); });
-    const launch = screen.getByRole('button', { name: 'Comment on selected text in paragraph 1' });
+    const launch = screen.getByRole('button', { name: 'Comment on selection in paragraph 1' });
     expect(launch).toBeEnabled();
     fireEvent.click(launch);
     expect(screen.getByLabelText('Comment on')).toHaveValue('selection');
@@ -50,12 +50,12 @@ describe('actual paragraph editor selections create precise discussions', () => 
     const dom = await setup();
     expect(screen.getByText(/Formatting, variables and structured blocks need a paragraph comment/)).toBeVisible();
     act(() => { dom.editor.commands.setTextSelection({ from: 8, to: 22 }); });
-    fireEvent.click(screen.getByRole('button', { name: 'Comment on selected text in paragraph 1' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Comment on selection in paragraph 1' }));
     fireEvent.change(screen.getByLabelText('Comment', { exact: true }), { target: { value: 'Unposted text.' } });
     fireEvent.click(screen.getByRole('button', { name: 'Close comments' }));
     expect(useDocumentStore.getState().reviewComments).toBeUndefined();
     act(() => { dom.editor.commands.setTextSelection({ from: 8, to: 22 }); });
-    fireEvent.click(screen.getByRole('button', { name: 'Comment on selected text in paragraph 1' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Comment on selection in paragraph 1' }));
     fireEvent.change(screen.getByLabelText('Reviewer name'), { target: { value: 'Chief' } });
     fireEvent.change(screen.getByLabelText('Comment', { exact: true }), { target: { value: 'Pending note.' } });
     act(() => useDocumentStore.getState().updateParagraph(0, { text: 'Before changed words after.' }));
@@ -66,12 +66,12 @@ describe('actual paragraph editor selections create precise discussions', () => 
   it('reattaches one detached discussion only after reviewing old and fresh selected quotes', async () => {
     const dom = await setup();
     act(() => { dom.editor.commands.setTextSelection({ from: 8, to: 22 }); });
-    fireEvent.click(screen.getByRole('button', { name: 'Comment on selected text in paragraph 1' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Comment on selection in paragraph 1' }));
     post();
     fireEvent.click(screen.getByRole('button', { name: 'Close comments' }));
     act(() => useDocumentStore.getState().updateParagraph(0, { text: 'Before replacement words after.' }));
     act(() => { dom.editor.commands.setTextSelection({ from: 8, to: 25 }); });
-    fireEvent.click(screen.getByRole('button', { name: 'Comment on selected text in paragraph 1' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Comment on selection in paragraph 1' }));
     fireEvent.change(screen.getByLabelText('Reattach an existing detached discussion'), { target: { value: useDocumentStore.getState().reviewComments!.threads[0].id } });
     expect(screen.getByLabelText('Earlier selected text')).toHaveTextContent('selected words');
     expect(screen.getByLabelText('Selected text')).toHaveTextContent('replacement words');
@@ -83,9 +83,9 @@ describe('actual paragraph editor selections create precise discussions', () => 
   it('rejects marked editor text and closes a selection form across document owners', async () => {
     const dom = await setup();
     act(() => { dom.editor.commands.setTextSelection({ from: 8, to: 22 });dom.editor.commands.toggleBold(); });
-    expect(screen.getByRole('button', { name: 'Comment on selected text in paragraph 1' })).toBeDisabled();
+    expect(screen.getByRole('button', { name: 'Comment on selection in paragraph 1' })).toBeDisabled();
     act(() => { dom.editor.commands.toggleBold();dom.editor.commands.setTextSelection({ from: 9, to: 20 }); });
-    fireEvent.click(screen.getByRole('button', { name: 'Comment on selected text in paragraph 1' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Comment on selection in paragraph 1' }));
     expect(screen.getByRole('dialog', { name: 'Document comments' })).toBeVisible();
     act(() => useDocumentsStore.getState().newDocument());
     expect(screen.queryByRole('dialog', { name: 'Document comments' })).toBeNull();

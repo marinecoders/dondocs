@@ -32,7 +32,7 @@ export function ParagraphCommentsButton({ paragraphId, index, selection, selecti
     <Button type="button" variant="ghost" size="sm" className="min-h-11 sm:min-h-6 gap-1 px-1 text-xs"
       disabled={!isCurrentDocumentScope(selectionOwner ?? null) || !selection || !paragraph || selection.context !== paragraph.text || !paragraphId || !captureTextRange(useDocumentStore.getState(), paragraphId, selection.start, selection.end)}
       title="Select words or a sentence in one plain paragraph. Formatting, variables, headings and structured blocks are not supported."
-      aria-label={`Comment on selected text in paragraph ${index + 1}`} onMouseDown={event => event.preventDefault()} onClick={() => {
+      aria-label={`Comment on selection in paragraph ${index + 1}`} onMouseDown={event => event.preventDefault()} onClick={() => {
         if (!isCurrentDocumentScope(selectionOwner ?? null) || !selection || !paragraphId || selection.context !== useDocumentStore.getState().paragraphs[index]?.text) return;
         const anchor = captureTextRange(useDocumentStore.getState(), paragraphId, selection.start, selection.end);
         if (!anchor) return;
