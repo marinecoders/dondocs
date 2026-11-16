@@ -39,7 +39,7 @@ async function fixture() {
   const record = await reviseActionPackage(await createActionPackage('Source action'), [native, original]);
   return { record, native, data };
 }
-beforeEach(async () => { await listActionPackages(); await clearDb(); useDocumentsStore.setState({ docs: {}, trash: {}, currentId: null, hydrated: true }); useUIStore.setState({ storageHealth: 'healthy' }); });
+beforeEach(async () => { await listActionPackages(); await clearDb(); useDocumentsStore.setState({ docs: {}, trash: {}, currentId: null, hydrated: true }); useUIStore.setState({ storageHealth: 'ok' }); });
 describe('reusable package starters', () => {
   it('owns starter bytes, order, roles and fresh attachment requirements after reload', async () => {
     const { record } = await fixture();
@@ -127,8 +127,8 @@ describe('reusable package starters', () => {
     const first = await firstPdf.save(), second = await secondPdf.save();
     const instance = fixtureInstance();
     instance.definition.pages = [
-      { file: 'a.b.pdf', width: 612, height: 792, sha256: await portableResourceDigest(first) },
-      { file: 'a_b.pdf', width: 612, height: 792, sha256: await portableResourceDigest(second) },
+      { file: 'a.b.pdf', width: 612, height: 792, sha256: await portableResourceDigest(new Uint8Array(first).buffer) },
+      { file: 'a_b.pdf', width: 612, height: 792, sha256: await portableResourceDigest(new Uint8Array(second).buffer) },
     ];
     const session = { ...createBlankSession(), documentCategory: 'forms' as const, formType: 'fixture', genericForm: instance };
     const template = await validatePackageTemplate({ kind: 'dondocs-package-template', version: 1, id: 'two_pages', name: 'Two page starter', createdAt: 0,
