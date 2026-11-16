@@ -386,7 +386,7 @@ jobs:
     # Includes setup and complete browser profiles with review/asset workflows.
     # Desktop WebKit uses three shards; Firefox, iPad Safari and both iOS
     # phone profiles use two to fit complete suites within the per-job budget.
-    timeout-minutes: 60
+    timeout-minutes: 75
     strategy:
       fail-fast: false
       matrix:
