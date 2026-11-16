@@ -74,6 +74,7 @@ type Ports = CorrespondenceRendererPorts & {
   waitForReady(timeoutMs: number): Promise<boolean>;
 };
 const PackageMemberReviewPanel = lazy(() => import("./PackageMemberReviewPanel").then(module => ({ default: module.PackageMemberReviewPanel })));
+const PackageReviewApplicationPanel = lazy(() => import("./PackageReviewApplicationPanel").then(module => ({ default: module.PackageReviewApplicationPanel })));
 const PackageReviewTransfer = lazy(() => import("./PackageReviewTransfer").then(module => ({ default: module.PackageReviewTransfer })));
 
 export function ActionPackageWorkspace({
@@ -171,7 +172,7 @@ function PackageDialog({
     revision = record
       ? openedReview?.baseline ?? getPackageRevision(record, revisionId || record.currentRevisionId)
       : null;
-  const readRecord: ActionPackage | undefined = record && openedReview ? { ...record, historyScope: "selected-revision", currentRevisionId: openedReview.revisionId, revisions: [openedReview.baseline], reviewRounds: undefined, workingCopies: undefined } : record;
+  const readRecord: ActionPackage | undefined = record && openedReview ? { ...record, historyScope: "selected-revision", currentRevisionId: openedReview.revisionId, revisions: [openedReview.baseline], reviewRounds: undefined, reviewApplications: undefined, workingCopies: undefined } : record;
   const editable =
     !!record && !record.reviewRounds?.some(round => round.ownerPackageId === undefined) && !openedReview && revision?.id === record.currentRevisionId && !record.archived;
   const beforeComparisonId = beforeOutputId || revision?.outputs.at(-2)?.id || "";
@@ -613,6 +614,11 @@ function PackageDialog({
                   const round = await openPackageReview(next, roundId);
                   assertOperationCurrent(); setOpenedReview(round); setRevisionId(round.revisionId);
                 })} />
+              {openedReview?.ownerPackageId === record.id && <Suspense fallback={<p>Loading feedback application…</p>}>
+                <PackageReviewApplicationPanel key={`${record.id}:${record.sequence}:${openedReview.id}`} record={record} round={openedReview} busy={busy} run={run}
+                  signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted}
+                  onApply={next => { update(next); setOpenedReview(null); setRevisionId(next.currentRevisionId); }} />
+              </Suspense>}
               </fieldset>
               {openedReview && <Suspense fallback={<p>Loading member review…</p>}>
                 <PackageMemberReviewPanel key={openedReview.id} record={record} round={openedReview} busy={busy} run={run} onDraftChange={setTypedDirty} signal={() => operation.current?.signal}

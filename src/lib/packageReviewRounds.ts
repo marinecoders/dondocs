@@ -17,6 +17,18 @@ export function assertActivePackageReview(round: PackageReviewRound): void {
 /** Validate at load, resource import, backup and CAS; digest checks never confer local authority. */
 export async function validatePackageReviewBaselines(record: ActionPackage): Promise<void> {
   const { validatePackageMemberReviews } = await import("./packageMemberReviews");
+  const { validateReviewSuggestionState } = await import('./reviewSuggestions');
+  for (const application of record.reviewApplications ?? []) {
+    const round = record.reviewRounds!.find(round => round.id === application.roundId)!;
+    await validatePackageMemberReviews({ ...round, memberReviews: application.feedback });
+    for (const outcome of application.outcomes) {
+      const child = application.feedback.find(child => child.binding.memberId === outcome.memberId)!;
+      if (outcome.suggestions) {
+        if (!child.nativeRound) throw new Error('Original PDF feedback cannot contain native decisions.');
+        validateReviewSuggestionState(child.nativeRound, outcome.suggestions);
+      }
+    }
+  }
   for (const round of record.reviewRounds ?? []) {
     await validatePackageMemberReviews(round);
     if (await reviewPayloadDigest(round.baseline) !== round.baselineDigest)
@@ -35,7 +47,7 @@ export async function openPackageReview(input: ActionPackage, roundId: string): 
   const { validateActionPackageResources } = await import('./actionPackageTransfer');
   const { readPackageAsset } = await import('./actionPackageAssets');
   await validateActionPackageResources({ ...record, revisions: [round.baseline], currentRevisionId: round.revisionId,
-    historyScope: 'selected-revision', reviewRounds: undefined, workingCopies: undefined }, readPackageAsset);
+    historyScope: 'selected-revision', reviewRounds: undefined, reviewApplications: undefined, workingCopies: undefined }, readPackageAsset);
   return structuredClone(round);
 }
 export function getPackageReviewBinding(round: PackageReviewRound, memberId: string): PackageReviewBinding {
