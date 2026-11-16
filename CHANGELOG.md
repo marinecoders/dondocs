@@ -7,6 +7,14 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.120] — 2026-11-16
+
+### Added
+
+- Place and assign signature boxes on retained PDF pages, capture an exact reviewed export, prepare immutable external signing handoffs, and associate returned PDFs with explicit human review.
+- Preserve originals and returned bytes through reloads and portable transfer. Compare bounded page content and resources, retain Unicode signer names, enforce current delivery policy, and cancel stale asynchronous downloads.
+- Associations remain unverified; this workflow does not validate cryptographic signatures or authenticate signers.
+
 ## [1.3.119] — 2026-11-16
 
 ### Added
