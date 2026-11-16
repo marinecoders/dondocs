@@ -97,8 +97,6 @@ async function attachPdf(info: TestInfo, filename: string, bytes: Buffer) {
 
 for (const theme of ['light', 'dark', 'classic'] as const) {
   test(`scanned letter becomes an independent package and retained signing handoff in ${theme}`, async ({ page, context }, info) => {
-    test.skip(!['chromium', 'mobile-safari', 'mobile-chrome-ios'].includes(info.project.name)
-      || info.project.name === 'mobile-chrome-ios' && theme !== 'light', 'The complete workflow is qualified in Chromium and mobile WebKit, plus one CriOS delivery case.');
     await context.addInitScript(value => {
       localStorage.setItem('browser-test-visitor', 'returning');
       localStorage.setItem('dondocs_ui', JSON.stringify({ version: 1, state: { theme: value, editorLayout: 'scroll' } }));
