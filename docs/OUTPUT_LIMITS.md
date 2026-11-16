@@ -55,6 +55,15 @@ signed PDF bytes remain separate, while the assembled derivative is unsigned.
 PDF text inspection cannot read text inside scanned images; visual review remains
 part of each operation.
 
+Saved-output comparison checks two PDFs from the same preserved revision. It is
+limited to 25 MB across all retained outputs in that revision because the review
+first verifies every saved output. Each inspected PDF is limited to 500 pages,
+200,000 text items, two million text characters and 45 seconds. Failed or cancelled
+comparisons leave the saved outputs intact. Matching text, layout, visible page
+geometry and member boundaries do not establish visual equivalence. See
+[package render qualification](PACKAGE_RENDER_QUALIFICATION.md) for measured scope,
+legacy provenance and cross-release evidence.
+
 Portable editable delivery contains the selected revision only. It is unencrypted
 and limited to 256 resource entries, 25 MB each, 75 MB decoded total and 100 MB JSON.
 A native draft stores embedded attachments inside its own 25 MB resource limit.

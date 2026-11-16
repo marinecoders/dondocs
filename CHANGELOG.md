@@ -7,6 +7,13 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.100] — 2026-11-15
+
+### Added
+
+- Compare two retained PDFs from the same preserved package revision, with checks for exact bytes, extracted text, positioned text, page geometry and member boundaries. Reuse ordinary assembly to retain an explicit new rendering without replacing earlier output.
+- Record structured render/input provenance for new package outputs. Legacy outputs remain readable, with missing provenance reported as unavailable; matching observations do not imply visual parity or authenticated provenance.
+
 ## [1.3.99] — 2026-11-15
 
 ### Added

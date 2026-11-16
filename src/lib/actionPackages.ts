@@ -7,6 +7,7 @@ import {
   sameReviewStoredValue,
 } from "./documentsDb";
 import { scheduleBackup } from "@/stores/backupStore";
+import { packageRenderProvenanceSchema } from "./packageRenderProvenance";
 
 const id = z
   .string()
@@ -100,6 +101,7 @@ const outputSchema = z
     createdAt: z.number().int().nonnegative(),
     policyIdentity: z.string().min(1).max(10000),
     renderer: z.string().min(1).max(512),
+    provenance: packageRenderProvenanceSchema.optional(),
     boundaries: z.array(boundarySchema).max(100),
     signingStatus: z.literal("unsigned-assembled-derivative"),
   })

@@ -13,6 +13,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { WordPackageDownload } from "./WordPackageDownload";
 import { SessionChanges } from "./SessionChanges";
+import { PackageRenderComparisonView } from "./PackageRenderComparisonView";
+import type { PackageRenderComparison } from "@/lib/packageRenderComparison";
 import {
   createActionPackage,
   listActionPackages,
@@ -35,6 +37,7 @@ import {
   assemblePackage,
   copyPreparedPackageOutput,
   preparePackageAssembly,
+  assertPreparedPackagePolicy,
   type PreparedPackageAssembly,
 } from "@/lib/actionPackageAssembly";
 import {
@@ -50,12 +53,13 @@ import {
 import { captureCurrentDocumentRevision } from "@/stores/captureDocument";
 import { useDocumentsStore } from "@/stores/documentsStore";
 import { useUIStore } from "@/stores/uiStore";
-import { getExportDeploymentPolicy } from "@/config/classification";
+import { getExportDeploymentPolicy, getExportDeploymentPolicySync } from "@/config/classification";
 import { triggerDownload } from "@/lib/encoding";
 import { parseEncryptedShareFile, MAX_ENCRYPTED_SHARE_FILE_BYTES } from "@/lib/encryptedShareFile";
 import { ShareModal } from "./modals/ShareModal";
 import type { CorrespondenceRendererPorts } from "@/services/exports/correspondence";
 
+const RECEIVED_PACKAGE_SELECTION = Symbol("received-package-selection");
 const loadRetainedPdfViewer = () => import("@/components/pdf/PdfViewer");
 const RetainedPdfViewer = lazy(loadRetainedPdfViewer);
 const PackageShareDialog = lazy(() => import("./PackageShareDialog"));
@@ -135,8 +139,11 @@ function PackageDialog({
     ),
     [approved, setApproved] = useState(false);
   const [reviewMode, setReviewMode] = useState<
-    "assemble" | "portable" | "saved" | "preview" | "original"
+    "assemble" | "portable" | "saved" | "preview" | "original" | "compare"
   >("assemble");
+  const [beforeOutputId, setBeforeOutputId] = useState(""),
+    [afterOutputId, setAfterOutputId] = useState(""),
+    [renderComparison, setRenderComparison] = useState<PackageRenderComparison | null>(null);
   const [otherReviews, setOtherReviews] = useState<PreparedPackageAssembly[]>(
     [],
   );
@@ -153,8 +160,13 @@ function PackageDialog({
       : null;
   const editable =
     !!record && revision?.id === record.currentRevisionId && !record.archived;
+  const beforeComparisonId = beforeOutputId || revision?.outputs.at(-2)?.id || "";
+  const afterComparisonId = afterOutputId || revision?.outputs.at(-1)?.id || "";
   useEffect(() => {
     if (!requestedPackageId && inventoryLoaded.current) return;
+    // A received selection supersedes work captured for the previous package.
+    // Abort before loading inventory so late results cannot publish during that read.
+    if (requestedPackageId) operation.current?.abort(RECEIVED_PACKAGE_SELECTION);
     let live = true;
     void listActionPackages()
       .then((records) => {
@@ -173,6 +185,9 @@ function PackageDialog({
             setApproved(false);
             setComparison(null);
             setPdfUrl("");
+            setBeforeOutputId("");
+            setAfterOutputId("");
+            setRenderComparison(null);
             useUIStore.getState().clearActionPackageSelection();
           }
         }
@@ -198,6 +213,9 @@ function PackageDialog({
     setComparison(null);
     setPdfUrl("");
     setApproved(false);
+    setBeforeOutputId("");
+    setAfterOutputId("");
+    setRenderComparison(null);
   }
   function update(value: ActionPackage) {
     assertOperationCurrent();
@@ -217,7 +235,7 @@ function PackageDialog({
     try {
       await action();
     } catch (error) {
-      if (!active.current) return;
+      if (!active.current || controller.signal.reason === RECEIVED_PACKAGE_SELECTION) return;
       if (controller.signal.aborted) {
         setPrepared(null);
         setApproved(false);
@@ -241,9 +259,20 @@ function PackageDialog({
   }
   async function review(mode: typeof reviewMode) {
     if (!record || !revision) return;
+    if (mode === "compare") {
+      if (!beforeComparisonId || !afterComparisonId || beforeComparisonId === afterComparisonId)
+        throw new Error("Choose two different retained PDFs from this revision.");
+      if (revision.outputs.reduce((total, output) => total + output.asset.size, 0) > 25 * 1024 * 1024)
+        throw new Error("This revision has more than 25 MB of retained PDFs. Comparison reviews every saved output before inspecting the selected pair. Their saved downloads remain available.");
+      setRenderComparison(null);
+    }
     const policy = await getExportDeploymentPolicy();
     if (policy.status !== "ready") throw new Error(policy.message);
-    const result = await preparePackageAssembly(record, revision.id, policy);
+    const result = mode === "compare"
+      ? await (await import("@/lib/packageRenderComparison")).preparePackageRenderComparison(
+          record, revision.id, policy, operation.current!.signal,
+        )
+      : await preparePackageAssembly(record, revision.id, policy);
     assertOperationCurrent();
     setOtherReviews([]);
     setReviewMode(mode);
@@ -281,7 +310,23 @@ function PackageDialog({
   async function deliver() {
     if (!record || !revision || !prepared || !approved) return;
     assertOperationCurrent();
-    if (reviewMode === "original") {
+    if (reviewMode === "compare") {
+      assertPreparedPackagePolicy(prepared, await getExportDeploymentPolicy());
+      const { comparePreparedPackageOutputs } = await import("@/lib/packageRenderComparison");
+      const result = await comparePreparedPackageOutputs(
+        prepared, beforeComparisonId, afterComparisonId, operation.current!.signal,
+      );
+      assertOperationCurrent();
+      assertPreparedPackagePolicy(prepared, await getExportDeploymentPolicy());
+      assertOperationCurrent();
+      const current = (await listActionPackages()).find(item => item.id === record.id);
+      if (!current || current.sequence !== record.sequence || current.currentRevisionId !== record.currentRevisionId)
+        throw new Error("The package changed during comparison. Reopen it and review the selected revision again.");
+      assertPreparedPackagePolicy(prepared, getExportDeploymentPolicySync());
+      assertOperationCurrent();
+      setRenderComparison(result);
+      setNotice("Comparison complete. The saved PDFs were not changed.");
+    } else if (reviewMode === "original") {
       if (!original) throw new Error("Review the unchanged original again.");
       triggerDownload(
         new Uint8Array(original.bytes),
@@ -524,6 +569,9 @@ function PackageDialog({
                     setPrepared(null);
                     setComparison(null);
                     setPdfUrl("");
+                    setBeforeOutputId("");
+                    setAfterOutputId("");
+                    setRenderComparison(null);
                   }}
                 >
                   {[...record.revisions].reverse().map((revision, index) => (
@@ -905,6 +953,28 @@ function PackageDialog({
                 )}
               </div>
               <WordPackageDownload key={`${record.id}:${revision.id}`} record={record} revisionId={revision.id} ports={ports} exportGate={exportGate} />
+              {revision.outputs.length > 1 && (
+                <section className="space-y-3 rounded border p-3" aria-label="Compare saved renderings">
+                  <h3 className="font-medium">Compare saved renderings</h3>
+                  <p className="text-sm">Use “Check readiness and assemble” to retain a new rendering of this exact revision, then compare it with an earlier saved PDF. Existing outputs are preserved.</p>
+                  {(["before", "after"] as const).map(side => (
+                    <label className="block text-sm" key={side}>
+                      {side === "before" ? "Earlier retained PDF" : "Later retained PDF"}
+                      <select disabled={busy} className="mt-1 w-full rounded border bg-background p-2"
+                        value={side === "before" ? beforeComparisonId : afterComparisonId}
+                        onChange={event => {
+                          (side === "before" ? setBeforeOutputId : setAfterOutputId)(event.target.value);
+                          setPrepared(null); setApproved(false); setRenderComparison(null);
+                        }}>
+                        {revision.outputs.map((output, index) => <option key={output.id} value={output.id}>Saved PDF {index + 1} · {new Date(output.createdAt).toLocaleString()}</option>)}
+                      </select>
+                    </label>
+                  ))}
+                  <Button variant="outline" disabled={busy || beforeComparisonId === afterComparisonId}
+                    onClick={() => void run(() => review("compare"))}>Review PDF comparison</Button>
+                </section>
+              )}
+              {renderComparison && <PackageRenderComparisonView comparison={renderComparison} />}
               {prepared && (
                 <section className="space-y-3 rounded border p-3">
                   <h3 className="font-medium">
@@ -974,6 +1044,8 @@ function PackageDialog({
                       ? "Assemble and retain PDF"
                       : reviewMode === "portable"
                         ? "Download reviewed editable package"
+                        : reviewMode === "compare"
+                          ? "Compare reviewed retained PDFs"
                         : reviewMode === "preview"
                           ? "Preview reviewed retained PDF"
                           : reviewMode === "original"
