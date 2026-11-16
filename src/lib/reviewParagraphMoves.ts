@@ -7,6 +7,25 @@ export interface ParagraphMoveIntent {
   destinationId: string;
   placement: 'before' | 'after';
 }
+/** Enumerate sibling positions once for the picker. Submission still derives
+ * and validates the complete native move through the structural writer. */
+export function availableReviewParagraphMoveDestinations(paragraphs: readonly Paragraph[], paragraphId: string, placement: ParagraphMoveIntent['placement']): Paragraph[] {
+  if (!paragraphId) return [];
+  const ids = new Set<string>();
+  let from = -1;
+  for (let index = 0; index < paragraphs.length; index++) {
+    const id = paragraphs[index].id;
+    if (!id || ids.has(id)) return [];
+    ids.add(id);
+    if (id === paragraphId) from = index;
+  }
+  if (from < 0) return [];
+  const outline = outlineParagraphs(paragraphs.map(paragraph => paragraph.level));
+  const end = paragraphSubtreeEnd(paragraphs, from);
+  return paragraphs.filter((paragraph, index) => index !== from
+    && paragraph.level === paragraphs[from].level && outline[index].parentIndex === outline[from].parentIndex
+    && (placement === 'before' ? index !== end : index > from || paragraphSubtreeEnd(paragraphs, index) !== from));
+}
 /** Derive a move from stable identities. This deliberately refuses reparenting;
  * the complete source subtree travels unchanged beside a sibling subtree. */
 export function deriveReviewParagraphMove(paragraphs: readonly Paragraph[], intent: ParagraphMoveIntent): Paragraph[] {

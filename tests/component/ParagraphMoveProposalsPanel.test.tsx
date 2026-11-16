@@ -4,6 +4,7 @@ import { expect, it, vi } from 'vitest';
 import { ParagraphMoveProposalsPanel } from '@/components/editor/ParagraphMoveProposalsPanel';
 import { createBlankSession } from '@/stores/documentStore';
 import type { ReviewRound } from '@/lib/reviewRounds';
+import { parseReviewRound } from '@/lib/reviewRounds';
 function fixture(){
  const session=createBlankSession();session.paragraphs=[{id:'source',level:0,text:'**Source** {{UNIT}}'},{id:'child',level:1,text:'Child'},{id:'destination',level:0,text:'Destination'}];
  const round:ReviewRound={kind:'dondocs-review-round',version:1,id:`review_${crypto.randomUUID()}`,createdAt:1,label:'Example',sourceDocumentId:'source-document',ownerDocumentId:'source-document',baselineDigest:'a'.repeat(64),baseline:{ts:1,session}};
@@ -29,4 +30,21 @@ it('retries an identical captured move after an unsuccessful submission',async()
 });
 it.each([{busy:true},{proposalCount:100}])('locks structural controls while busy, typing elsewhere, or quota full: %j',override=>{
  render(<ParagraphMoveProposalsPanel {...fixture()} {...override}/>);expect(screen.getByLabelText('Reviewed paragraph to move')).toBeDisabled();expect(screen.getByRole('button',{name:'Cancel move proposal'})).toBeDisabled();
+});
+it.each(['empty','selected','reviewer'] as const)('bounds baseline identity reads with %s move controls',async scenario=>{
+ const props=fixture(),count=200;
+ props.round.baseline.session.timestamp=1;
+ props.round.baseline.session.paragraphs=Array.from({length:count},(_,index)=>({id:`bounded-${index}`,text:`Synthetic paragraph ${index}.`,level:0}));
+ props.round=parseReviewRound(props.round);
+ let reads=0;
+ for(const paragraph of props.round.baseline.session.paragraphs){const id=paragraph.id;Object.defineProperty(paragraph,'id',{enumerable:true,get(){reads++;return id;}});}
+ const view=render(<ParagraphMoveProposalsPanel {...props}/>);
+ if(scenario!=='empty'){
+  reads=0;await userEvent.selectOptions(screen.getByLabelText('Reviewed paragraph to move'),'bounded-0');
+ }
+ if(scenario==='reviewer'){
+  reads=0;view.rerender(<ParagraphMoveProposalsPanel {...props} author="Updated reviewer"/>);
+ }
+ expect(screen.getByLabelText('Destination sibling').children).toHaveLength(scenario==='empty'?1:count);
+ expect(reads).toBeLessThan(count*50);
 });

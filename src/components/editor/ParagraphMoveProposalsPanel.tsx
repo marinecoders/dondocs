@@ -1,10 +1,10 @@
-import { useEffect, useId, useRef, useState } from 'react';
+import { useEffect, useId, useMemo, useRef, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import type { ReviewRound } from '@/lib/reviewRounds';
 import type { FeedbackCategory } from '@/lib/reviewFeedback';
 import { createParagraphStructureSuggestion, REVIEW_SUGGESTION_LIMITS, type ReviewSuggestion } from '@/lib/reviewSuggestions';
-import { deriveReviewParagraphMove, reviewParagraphMoveDescription } from '@/lib/reviewParagraphMoves';
+import { availableReviewParagraphMoveDestinations, reviewParagraphMoveDescription } from '@/lib/reviewParagraphMoves';
 import { paragraphSubtreeEnd } from '@/lib/paragraphUtils';
 import { paragraphCommentContext } from '@/lib/reviewCommentTargets';
 
@@ -18,9 +18,8 @@ export function ParagraphMoveProposalsPanel({ round, author, category, busy, pro
   useEffect(()=>{alive.current=true;return()=>{alive.current=false;};},[]);
   const paragraphs=round.baseline.session.paragraphs,full=proposalCount>=REVIEW_SUGGESTION_LIMITS.proposals;
   const intent={paragraphId,destinationId,placement};
-  const available=paragraphs.filter(paragraph=>{
-    try { deriveReviewParagraphMove(paragraphs,{...intent,destinationId:paragraph.id!});return true; }catch{return false;}
-  });
+  const available=useMemo(()=>availableReviewParagraphMoveDestinations(paragraphs,paragraphId,placement),[paragraphs,paragraphId,placement]);
+  const names=useMemo(()=>new Map(paragraphs.map((paragraph,index)=>[paragraph.id,`Paragraph ${index+1}: ${(paragraph.header||paragraph.text||'(Empty)').slice(0,65)}`])),[paragraphs]);
   const valid=available.some(paragraph=>paragraph.id===destinationId);
   const index=paragraphs.findIndex(paragraph=>paragraph.id===paragraphId);
   const moved=index<0?[]:paragraphs.slice(index,paragraphSubtreeEnd(paragraphs,index));
@@ -35,7 +34,7 @@ export function ParagraphMoveProposalsPanel({ round, author, category, busy, pro
     }catch(cause){if(alive.current)setError(cause instanceof Error?cause.message:'The move proposal could not be created.');}
     finally{working.current=false;if(alive.current)setPending(false);}
   }
-  const name=(id:string|undefined)=>{const position=paragraphs.findIndex(paragraph=>paragraph.id===id);return `Paragraph ${position+1}: ${(paragraphs[position]?.header||paragraphs[position]?.text||'(Empty)').slice(0,65)}`;};
+  const name=(id:string|undefined)=>names.get(id);
   return <section aria-label="Paragraph movement" className="space-y-2 rounded-md border p-3">
     <h4 className="text-sm font-medium">Propose a paragraph move</h4>
     <p className="text-xs text-muted-foreground">Move a paragraph and all its children beside a sibling under the same parent. Text, formatting, resources and discussions stay on their paragraph identities. Numbering is derived from the resulting order; it is not a separate text edit.</p>
