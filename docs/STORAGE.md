@@ -579,3 +579,19 @@ checked again inside the existing IndexedDB compare-and-swap callback. A failed
 capture, quota error, stale record or invalid binding leaves the previous record
 and all retained historical outputs usable. Staged orphan bytes remain subject
 to the normal attachment lifetime and collection rules.
+
+### Citation repairs and readiness
+
+Citation repair previews are memory-only capabilities bound to a captured package
+record, its sequence, and the deployment policy. Saving uses the shared staged
+citation writer and checks cancellation, ownership, live policy and the final
+compare-and-swap boundary. Modified native members are recaptured from hydrated
+inputs so embedded PDF/image bytes remain present. Metadata and content are
+published together in a new package revision; earlier revisions are immutable.
+
+Repairing one link to a replacement target selects that target's existing or new
+identity. It does not redirect another link using the old target identity.
+Unresolved historical bindings remain as tombstones. Discard removes a link only;
+it does not validate the remaining literal text. Unused targets may be removed,
+but targets still referenced by links are rejected. Tracked stale/missing links
+block assembly, while unlinked literal citations remain a separate manual check.

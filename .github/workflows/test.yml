@@ -170,11 +170,11 @@ jobs:
         # Keep the limit close to the observed total so accidental dependencies,
         # test imports, duplicated modules and tree-shaking regressions fail CI.
         run: |
-          # The reviewed batch/review features and navigation total about 5.12 MB.
-          # Module-graph inspection found only feature code growth: no added
-          # dependency modules, duplicate source modules or test imports.
-          # Keep about 1% headroom over the measured, normalized feature stack.
-          BUDGET_BYTES=5190451   # 4.95 MiB
+          # Package sharing/comparison, roster and citation workflows measure
+          # 5,199,513 bytes across 31 JS chunks in regular production mode.
+          # Module-graph review found feature code growth without new dependencies,
+          # duplicate source modules or test imports. Keep about 1% headroom.
+          BUDGET_BYTES=5251509   # 5.01 MiB
           TOTAL=$(find dist/assets -name "*.js" -exec stat -c %s {} \; | awk '{s+=$1} END {print s+0}')
           echo "Total dist/assets JS: $TOTAL bytes (budget: $BUDGET_BYTES)"
           if [ "$TOTAL" -gt "$BUDGET_BYTES" ]; then

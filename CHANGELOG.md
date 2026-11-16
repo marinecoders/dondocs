@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.105] — 2026-11-15
+
+### Added
+
+- Block package assembly on stale or missing tracked citation links. Review an exact current occurrence and replacement target, preview any label change, and save the repair as a new revision. Discarding a link explicitly leaves its text literal and unverified; used targets cannot be removed.
+
 ## [1.3.104] — 2026-11-15
 
 ### Added

@@ -71,3 +71,11 @@ Workspace backup version 12 retains complete package history and rejects missing
 or corrupt package assets rather than writing a misleading partial package.
 
 See [Word layout qualification](WORD_LAYOUT_QUALIFICATION.md) for measured target-renderer scope and reproducible checks.
+
+
+Saved package assembly refuses stale or missing explicitly linked citations,
+including visible labels that no longer match their targets. Citation repair is
+limited to supported native paragraph text/header occurrences. It offers an
+explicit before/after preview and creates a new revision. Unsupported, quoted,
+coded, ambiguous or unlinked literal text is not automatically rewritten or
+claimed valid. Discarding a link leaves that literal text for manual review.
