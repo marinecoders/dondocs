@@ -49,3 +49,18 @@ it('rejects corrupt bytes and HTML fallbacks before caching them', async () => {
   await expect(cacheAsset(file, store, async () => new Response('<html>', { headers: { 'Content-Type': 'text/html' } }))).rejects.toThrow('Invalid resource');
   expect(store.data.size).toBe(0);
 });
+
+it('keeps unused OCR runtime assets on demand during immutable release preparation', async () => {
+  const store = cache(), app = asset('/releases/new/app.js', 'app');
+  const worker = asset('/runtimes/new/lib/ocr/7.0.0/worker.min.js', 'worker', 'runtime');
+  const core = asset('/runtimes/new/lib/ocr/7.0.0/tesseract-core-lstm.wasm', 'core', 'runtime');
+  const model = asset('/runtimes/new/lib/ocr/7.0.0/eng.traineddata.gz', 'model', 'runtime');
+  const fetcher = vi.fn<typeof fetch>(async url => new Response(String(url) === app.url ? 'app' : String(url) === worker.url ? 'worker' : String(url) === core.url ? 'core' : 'model', { headers: { 'Content-Type': 'text/javascript' } }));
+  const keys = await stageAssets(manifest([app, worker, core, model]), store, fetcher);
+  expect(fetcher).toHaveBeenCalledExactlyOnceWith(app.url, expect.any(Object));
+  expect(keys).toEqual([assetKey(app)]);
+  await cacheAsset(worker, store, fetcher);
+  const subsequent = await stageAssets(manifest([app, worker, core, model]), store, fetcher);
+  expect(subsequent).toContain(assetKey(worker));
+  expect(fetcher).toHaveBeenCalledTimes(2);
+});

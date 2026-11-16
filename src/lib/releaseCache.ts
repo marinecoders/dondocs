@@ -27,7 +27,7 @@ export async function cacheAsset(asset: ReleaseAsset, cache: AssetCache, fetcher
   return verified;
 }
 
-/** Cache the shell and PDF runtime; retain already-used Word resources without downloading an unused engine. */
+/** Cache the shell and PDF runtime; retain optional engines after use. */
 export async function stageAssets(manifest: ReleaseManifest, cache: AssetCache, fetcher: typeof fetch = fetch, requireWord = false): Promise<string[]> {
   const required: string[] = [], added: string[] = [];
   try {
@@ -35,6 +35,9 @@ export async function stageAssets(manifest: ReleaseManifest, cache: AssetCache, 
       if (asset.group === 'form') continue;
       const cached = await cache.match(assetKey(asset));
       if (isWordAsset(asset) && !cached && !requireWord) continue;
+      // OCR requests are verified/cached by the worker fetch route on first use.
+      // Do not make every release download all capability-specific OCR cores.
+      if (asset.group === 'runtime' && /\/lib\/ocr\//.test(asset.url) && !cached) continue;
       if (!cached) added.push(assetKey(asset));
       await cacheAsset(asset, cache, fetcher);
       required.push(assetKey(asset));

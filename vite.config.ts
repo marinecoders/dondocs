@@ -349,7 +349,7 @@ export default defineConfig({
         // into every offline install via the png glob; they runtime-cache on
         // demand instead (form-templates rule below), the same lesson as the
         // lib/** exclusion (SW-1).
-        globIgnores: ['templates/**'],
+        globIgnores: ['templates/**', 'lib/ocr/**'],
         // Don't fall back to a precached index.html — we want NetworkFirst.
         navigateFallback: null,
         // Precache critical TeX files to ensure they're always available
@@ -362,6 +362,11 @@ export default defineConfig({
         ],
         // Cache TeX Live files for offline use
         runtimeCaching: [
+          {
+            urlPattern: /\/lib\/ocr\/7\.0\.0\//,
+            handler: 'CacheFirst',
+            options: { cacheName: 'ocr-runtime-7.0.0', expiration: { maxEntries: 16, maxAgeSeconds: 60 * 60 * 24 * 90 } },
+          },
           {
             // The query bypasses the precache route so a runtime policy update
             // is observed without rebuilding. Offline installs retain the
