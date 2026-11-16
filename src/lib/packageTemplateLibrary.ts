@@ -21,16 +21,30 @@ export const MAX_PACKAGE_TEMPLATE_LIBRARY_BYTES = 40 * 1024 * 1024;
 const identity = z.string().min(1).max(100).regex(/^[a-zA-Z0-9_-]+$/);
 const common = { label: z.string().trim().min(1).max(120), role: z.enum(packageRoles), required: z.boolean() };
 const pageSchema = z.object({ name: z.string().min(1).max(255), type: z.literal('application/pdf'), data: z.string().min(1) }).strict();
+const requiredFileSchema = z.discriminatedUnion('kind', [
+  z.object({ kind: z.literal('basic-letter'), label: z.string().min(1).max(120) }).strict(),
+  z.object({ kind: z.literal('enclosure'), index: z.number().int().min(0).max(999), label: z.string().min(1).max(120) }).strict(),
+]);
+type RequiredNativeFile = z.infer<typeof requiredFileSchema>;
 export const packageTemplateSchema = z.object({
   kind: z.literal('dondocs-package-template'), version: z.literal(1),
   id: identity, name: z.string().trim().min(1).max(120), createdAt: z.number().int().nonnegative(),
   members: z.array(z.discriminatedUnion('kind', [
-    z.object({ ...common, kind: z.literal('native'), draft: z.record(z.string(), z.unknown()), pages: z.record(z.string().min(1).max(180), pageSchema) }).strict(),
+    z.object({ ...common, kind: z.literal('native'), draft: z.record(z.string(), z.unknown()), pages: z.record(z.string().min(1).max(180), pageSchema), requiredFiles: z.array(requiredFileSchema).max(100).optional() }).strict(),
     z.object({ ...common, kind: z.literal('attachment') }).strict(),
   ])).min(1).max(100),
 }).strict();
 export type PackageTemplate = z.infer<typeof packageTemplateSchema>;
 export type PackageTemplateMember = PackageTemplate['members'][number];
+function nativeFileKey(index: number, file: RequiredNativeFile): string {
+  return `${index}:${file.kind}${file.kind === 'enclosure' ? `:${file.index}` : ''}`;
+}
+interface TemplateFileSlot { key: string; label: string; required: boolean; native: boolean }
+export function packageTemplateFileSlots(template: PackageTemplate): TemplateFileSlot[] {
+  return template.members.flatMap<TemplateFileSlot>((member, index) => member.kind === 'attachment'
+    ? [{ key: String(index), label: member.label, required: member.required, native: false }]
+    : (member.requiredFiles ?? []).map(file => ({ key: nativeFileKey(index, file), label: `${member.label}: ${file.label}`, required: true, native: true })));
+}
 
 /** Starters retain deliberate text and figures, never prior signing or review authority. */
 function cleanStarter(input: Record<string, unknown>): Record<string, unknown> {
@@ -86,6 +100,14 @@ export async function validatePackageTemplate(value: unknown): Promise<PackageTe
   for (const member of template.members) {
     if (member.kind !== 'native') continue;
     const { session } = await validatePackageDraft(member.draft);
+    const fileKeys = new Set<string>();
+    for (const file of member.requiredFiles ?? []) {
+      const key = nativeFileKey(0, file);
+      if (session.documentCategory === 'forms' || fileKeys.has(key)
+        || (file.kind === 'basic-letter' ? session.docType !== 'new_page_endorsement' : !session.enclosures[file.index]))
+        throw new Error('A native template file requirement has an invalid or duplicate target.');
+      fileKeys.add(key);
+    }
     if (JSON.stringify(cleanStarter(member.draft)) !== JSON.stringify(member.draft))
       throw new Error('Package templates cannot contain prior signatures, attached files or review comments.');
     const pages = new Map(await Promise.all(Object.entries(member.pages).map(async ([file, page], index) => {
@@ -106,7 +128,7 @@ export async function validatePackageTemplate(value: unknown): Promise<PackageTe
 }
 export function packageTemplatePlaceholders(template: PackageTemplate): string[] {
   return [...new Set(template.members.flatMap(member => [...detectPlaceholders(member.label), ...(member.kind === 'native'
-    ? detectSessionPlaceholders(member.draft as unknown as SerializedSession) : [])]))].sort();
+    ? [...detectSessionPlaceholders(member.draft as unknown as SerializedSession), ...(member.requiredFiles ?? []).flatMap(file => detectPlaceholders(file.label))] : [])]))].sort();
 }
 export async function validatePackageTemplateLibrary(records: unknown): Promise<PackageTemplate[]> {
   if (!Array.isArray(records)) throw new Error('Invalid package template library.');
@@ -132,9 +154,18 @@ export async function capturePackageTemplate(record: ActionPackage, revisionId: 
     const { label, role, required } = member;
     if (member.kind === 'original') { members.push({ kind: 'attachment', label, role, required }); continue; }
     const { draft } = await readPackageMemberDraft(member);
+    const requiredFiles: RequiredNativeFile[] = [];
+    if (member.session.documentCategory !== 'forms') {
+      const form = (draft as Record<string, unknown>).formData as Record<string, unknown>;
+      if (member.session.docType === 'new_page_endorsement' && (form.basicLetterFile || form.basicLetterFileRef))
+        requiredFiles.push({ kind: 'basic-letter', label: 'Basic-letter PDF' });
+      ((draft as Record<string, unknown>).enclosures as Array<Record<string, unknown>>).forEach((enclosure, index) => {
+        if (enclosure.file || enclosure.fileRef || enclosure.hasFile) requiredFiles.push({ kind: 'enclosure', index, label: `Enclosure ${index + 1}: ${String(enclosure.title)}`.slice(0, 120) });
+      });
+    }
     const pages = Object.fromEntries(await Promise.all(Object.entries(member.templates ?? {}).map(async ([file, asset]) =>
       [file, { name: asset.name, type: 'application/pdf' as const, data: uint8ArrayToBase64(new Uint8Array(await readPackageAsset(asset))) }])));
-    members.push({ kind: 'native', label, role, required, draft: cleanStarter(draft as Record<string, unknown>), pages });
+    members.push({ kind: 'native', label, role, required, draft: cleanStarter(draft as Record<string, unknown>), pages, ...(requiredFiles.length ? { requiredFiles } : {}) });
   }
   const template = boundedTemplate({ kind: 'dondocs-package-template', version: 1, id: newPackageId('template'), name, createdAt: Date.now(), members });
   await saveTemplate(null, template, signal);
@@ -168,21 +199,23 @@ export async function restorePackageTemplates(records: PackageTemplate[]): Promi
 }
 export interface TemplateAttachment { name: string; data: ArrayBuffer; signedOriginal: boolean }
 function freshTemplateDraft(input: Record<string, unknown>): Record<string, unknown> {
-  const draft = { ...input, timestamp: Date.now(), paragraphs: freshParagraphs((input as unknown as SerializedSession).paragraphs) };
+  const draft = { ...input, formData: { ...input.formData as Record<string, unknown> },
+    enclosures: (input.enclosures as Array<Record<string, unknown>>).map(enclosure => ({ ...enclosure })),
+    timestamp: Date.now(), paragraphs: freshParagraphs((input as unknown as SerializedSession).paragraphs) };
   const configured = input.genericForm as SerializedSession['genericForm'];
   if (configured) Object.assign(draft, { genericForm: { ...configured, rows: Object.fromEntries(Object.entries(configured.rows)
     .map(([key, rows]) => [key, rows.map(row => ({ ...row, id: newPackageId('row') }))])) } });
   return draft;
 }
 /** Measure JSON escaping and substitution growth without allocating expanded text. */
-function assertTemplateActionBytes(template: PackageTemplate, drafts: Map<number, Record<string, unknown>>, values: Record<string, string>, fileBytes: number): void {
+function assertTemplateActionBytes(template: PackageTemplate, drafts: Map<number, Record<string, unknown>>, values: Record<string, string>, fileBytes: number, nativeBytes: Map<number, number>): void {
   const costs = new Map<string, number>();
   const encoder = new TextEncoder();
   let bytes = fileBytes;
   for (const [index, starter] of template.members.entries()) {
     if (starter.kind !== 'native') continue;
     const draft = drafts.get(index)!;
-    let draftBytes = jsonSize(draft);
+    let draftBytes = jsonSize(draft) + (nativeBytes.get(index) ?? 0);
     for (const field of documentTextFields(draft as unknown as SerializedSession, 'substitution')) {
       for (const match of field.text.matchAll(/\{\{([A-Za-z0-9_]+)\}\}/g)) {
         const key = match[1].toUpperCase();
@@ -197,11 +230,17 @@ function assertTemplateActionBytes(template: PackageTemplate, drafts: Map<number
     if (draftBytes > 25 * 1024 * 1024) throw new Error('A generated starter exceeds the 25 MB per-file limit. Shorten its text or values.');
   }
 }
+function bindNativeFile(draft: Record<string, unknown>, requirement: RequiredNativeFile, file: TemplateAttachment, data: string): void {
+  const payload = { name: file.name, size: file.data.byteLength, data };
+  if (requirement.kind === 'basic-letter') (draft.formData as Record<string, unknown>).basicLetterFile = payload;
+  else Object.assign((draft.enclosures as Array<Record<string, unknown>>)[requirement.index], { file: payload, hasFile: true });
+}
 /** Required slots and substitutions resolve before the new package is published atomically. */
-export async function instantiatePackageTemplate(input: PackageTemplate, name: string, values: Record<string, string>, attachments: Record<number, TemplateAttachment>, signal?: AbortSignal): Promise<ActionPackage> {
+export async function instantiatePackageTemplate(input: PackageTemplate, name: string, values: Record<string, string>, attachments: Record<string, TemplateAttachment>, signal?: AbortSignal): Promise<ActionPackage> {
   const template = await validatePackageTemplate(input);
   name = z.string().trim().min(1).max(120).parse(name);
-  for (const key of Object.keys(attachments)) if (!/^(0|[1-9][0-9]{0,2})$/.test(key) || template.members[Number(key)]?.kind !== 'attachment')
+  const slots = packageTemplateFileSlots(template);
+  for (const key of Object.keys(attachments)) if (!slots.some(slot => slot.key === key))
     throw new Error('An attachment does not belong to this template.');
   const fileBytes = Object.values(attachments).reduce((sum, file) => sum + file.data.byteLength, 0);
   if (fileBytes > MAX_TEMPLATE_ACTION_BYTES)
@@ -211,9 +250,24 @@ export async function instantiatePackageTemplate(input: PackageTemplate, name: s
   for (const key of placeholders) if (!Object.hasOwn(values, key) || !values[key].trim() || /\{\{[A-Za-z0-9_]+\}\}/.test(values[key]))
     throw new Error(`Supply a fresh value for ${key}.`);
   if (Object.keys(values).some(key => !placeholders.includes(key))) throw new Error('An unknown template input was supplied.');
+  for (const slot of slots) if (slot.required && !attachments[slot.key]) throw new Error(`Attach a fresh PDF for ${slot.label}.`);
   const drafts = new Map(template.members.flatMap((member, index) => member.kind === 'native' ? [[index, freshTemplateDraft(member.draft)] as const] : []));
-  assertTemplateActionBytes(template, drafts, values, fileBytes);
+  const nativeBytes = new Map<number, number>();
+  let originalBytes = fileBytes;
+  for (const [index, member] of template.members.entries()) if (member.kind === 'native') for (const requirement of member.requiredFiles ?? []) {
+    const file = attachments[nativeFileKey(index, requirement)];
+    bindNativeFile(drafts.get(index)!, requirement, file, '');
+    originalBytes -= file.data.byteLength;
+    nativeBytes.set(index, (nativeBytes.get(index) ?? 0) + Math.ceil(file.data.byteLength / 3) * 4);
+  }
+  assertTemplateActionBytes(template, drafts, values, originalBytes, nativeBytes);
   attachments = structuredClone(attachments);
+  const { validatePackageOriginalPdf } = await import('./actionPackageAssets');
+  for (const file of Object.values(attachments)) {
+    signal?.throwIfAborted();
+    if (!/\.pdf$/i.test(file.name) || !file.data.byteLength || file.data.byteLength > 25 * 1024 * 1024) throw new Error('Choose a PDF no larger than 25 MB.');
+    await validatePackageOriginalPdf(file.data);
+  }
   const members: PackageMember[] = [], staged: StoredAttachment[] = [];
   let stagedBytes = 0;
   const stage = async (assetName: string, type: string, data: ArrayBuffer) => {
@@ -229,12 +283,13 @@ export async function instantiatePackageTemplate(input: PackageTemplate, name: s
     if (starter.kind === 'attachment') {
       const file = attachments[index];
       if (!file) { if (starter.required) throw new Error(`Attach a fresh PDF for ${starter.label}.`); continue; }
-      const { validatePackageOriginalPdf } = await import('./actionPackageAssets');
-      if (!/\.pdf$/i.test(file.name) || !file.data.byteLength || file.data.byteLength > 25 * 1024 * 1024) throw new Error('Choose a PDF no larger than 25 MB.');
-      await validatePackageOriginalPdf(file.data);
       members.push({ ...common, kind: 'original', signedOriginal: file.signedOriginal, original: await stage(file.name, 'application/pdf', file.data) });
     } else {
       const draft = applyPlaceholdersToSession(drafts.get(index) as unknown as SerializedSession, values) as unknown as Record<string, unknown>;
+      for (const requirement of starter.requiredFiles ?? []) {
+        const file = attachments[nativeFileKey(index, requirement)];
+        bindNativeFile(draft, requirement, file, uint8ArrayToBase64(new Uint8Array(file.data)));
+      }
       const reviewed = await validatePackageDraft(draft);
       const pages: NonNullable<NativePackageMember['templates']> = {};
       for (const [file, page] of Object.entries(starter.pages)) pages[file] = await stage(page.name, page.type, (await pageAsset(page, 'page')).data);
