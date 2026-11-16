@@ -107,7 +107,9 @@ for (const theme of ['light', 'dark', 'classic']) test(`paragraph insertion and 
     expect(reloaded.proposals).toBeUndefined();expect(JSON.stringify(reloaded)).not.toContain('Synthetic paragraph reviewer');
     modal = await reviews(page);await modal.getByLabel('Review for suggested edits', { exact: true }).selectOption({ label: 'Paragraph baseline' });
     await expect(modal.getByRole('article', { name: 'Suggestion 1: Insert paragraph', exact: true }).getByText(/· Accepted$/)).toBeVisible();
-    await modal.getByLabel('Import feedback return', { exact: true }).setInputFiles({ name: 'repeated.json', mimeType: 'application/json', buffer: returned });
+    const repeatedReturn = modal.getByLabel('Import feedback return', { exact: true });
+    await expect(repeatedReturn).toBeEnabled();
+    await repeatedReturn.setInputFiles({ name: 'repeated.json', mimeType: 'application/json', buffer: returned });
     await expect(modal.getByText(/This return has already been imported/)).toBeVisible();
     await page.keyboard.press('Escape');await expect(modal).toBeHidden();
     // Accepted Unicode content must also compile through the clean PDF path.
