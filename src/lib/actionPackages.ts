@@ -10,6 +10,11 @@ import { scheduleBackup } from "@/stores/backupStore";
 import { packageRenderProvenanceSchema } from "./packageRenderProvenance";
 import { packageCitationsSchema, type PackageCitations } from "./packageCitationSchema";
 
+import { supportsReviewComments } from "./reviewCommentTargets";
+import { reviewRoundSchema } from "./reviewRounds";
+import { reviewCommentsSchema } from "./reviewComments";
+import { reviewSuggestionStateSchema } from "./reviewSuggestions";
+
 const id = z
   .string()
   .min(1)
@@ -125,6 +130,13 @@ export const packageReviewBindingSchema = z.object({
   memberId: id, memberRevisionId: id, memberDigest: digest, assetDigest: digest,
 }).strict();
 export type PackageReviewBinding = z.infer<typeof packageReviewBindingSchema>;
+export const packageMemberReviewSchema = z.object({
+  binding: packageReviewBindingSchema,
+  nativeRound: reviewRoundSchema.optional(),
+  comments: reviewCommentsSchema,
+  suggestions: reviewSuggestionStateSchema.optional(),
+}).strict();
+export type PackageMemberReview = z.infer<typeof packageMemberReviewSchema>;
 export const packageReviewRoundSchema = z.object({
   kind: z.literal("dondocs-package-review-round"), version: z.literal(1),
   id, packageId: id, revisionId: id, label: z.string().trim().min(1).max(120),
@@ -133,6 +145,7 @@ export const packageReviewRoundSchema = z.object({
   // This also remains a GC/backup root if history pruning is added in future.
   baseline: packageRevisionSchema,
   members: z.array(packageReviewBindingSchema).max(100),
+  memberReviews: z.array(packageMemberReviewSchema).max(100).optional(),
   ownerPackageId: id.optional(),
   lifecycle: z.object({ events: z.array(z.object({
     id, state: z.enum(["active", "closed", "superseded"]),
@@ -152,6 +165,25 @@ export const packageReviewRoundSchema = z.object({
       || binding.assetDigest !== (round.baseline.members[index].kind === "native"
         ? round.baseline.members[index].draft.sha256 : round.baseline.members[index].original.sha256)))
     ctx.addIssue({ code: "custom", message: "Invalid exact package review binding." });
+  const children = new Set<string>();
+  for (const child of round.memberReviews ?? []) {
+    const member = round.baseline.members.find(member => member.id === child.binding.memberId);
+    const binding = round.members.find(binding => binding.memberId === child.binding.memberId);
+    if (!member || children.has(child.binding.memberId) || !sameReviewStoredValue(binding, child.binding)
+      || member.kind === "native" && supportsReviewComments(member.session) && (!child.nativeRound || !child.suggestions
+        || child.nativeRound.ownerDocumentId !== undefined || child.nativeRound.lifecycle !== undefined
+        || child.nativeRound.checkpoints !== undefined || child.nativeRound.sourceDocumentId !== member.id
+        || child.nativeRound.label !== member.label
+        || !sameReviewStoredValue(child.nativeRound.baseline, { ts: member.session.timestamp, session: member.session })
+        || child.suggestions.roundId !== child.nativeRound.id || child.suggestions.baselineDigest !== child.nativeRound.baselineDigest
+        || child.suggestions.decisions.length !== 0)
+      || (member.kind === "original" || !supportsReviewComments(member.session)) && (child.nativeRound !== undefined || child.suggestions !== undefined
+        || child.comments.threads.some(thread => thread.anchor.kind !== "document")))
+      ctx.addIssue({ code: "custom", message: "Invalid package member review association." });
+    children.add(child.binding.memberId);
+  }
+  if (new TextEncoder().encode(JSON.stringify(round.memberReviews ?? [])).byteLength > 2 * 1024 * 1024)
+    ctx.addIssue({ code: "custom", message: "Package feedback exceeds the combined 2 MB limit." });
   for (const event of round.lifecycle?.events ?? []) {
     if (!(state === "active" && event.state !== "active" || state === "closed" && event.state === "active")
       || event.changedAt < changedAt || events.has(event.id)
@@ -345,15 +377,17 @@ export async function commitActionPackage(
   value: ActionPackage,
   signal?: AbortSignal,
   isCurrent: () => boolean = () => true,
+  stagedAttachments: readonly import("./documentsDb").StoredAttachment[] = [],
 ): Promise<ActionPackage> {
   const after = actionPackageSchema.parse(structuredClone(value));
   const { validateActionPackageResources } = await import(
     "./actionPackageTransfer"
   );
   const { readPackageAsset } = await import("./actionPackageAssets");
-  await validateActionPackageResources(after, readPackageAsset);
+  const staged = new Map(stagedAttachments.map(asset => [asset.id, asset]));
+  await validateActionPackageResources(after, async asset => staged.get(asset.id)?.data ?? readPackageAsset(asset));
   signal?.throwIfAborted();
-  if (!(await idbCompareActionPackage(before, after, () => !signal?.aborted && isCurrent())))
+  if (!(await idbCompareActionPackage(before, after, () => !signal?.aborted && isCurrent(), stagedAttachments)))
     throw new Error(
       "The package changed in another tab or could not be saved. Reopen it and retry; the previous revision is preserved.",
     );
@@ -487,10 +521,22 @@ export function validPackageTransition(
   )
     return false;
   const oldRounds = before.reviewRounds ?? [], newRounds = after.reviewRounds ?? [];
+  if (oldRounds.some(round => round.ownerPackageId === undefined) && (newRounds.length !== oldRounds.length
+    || !sameReviewStoredValue({ ...before, sequence: 0, reviewRounds: undefined }, { ...after, sequence: 0, reviewRounds: undefined }))) return false;
   if (newRounds.length < oldRounds.length || newRounds.length > oldRounds.length + 1) return false;
   for (let index = 0; index < oldRounds.length; index++) {
     const prior = oldRounds[index], next = newRounds[index];
-    if (!sameReviewStoredValue({ ...prior, lifecycle: undefined }, { ...next, lifecycle: undefined })) return false;
+    if (!sameReviewStoredValue({ ...prior, lifecycle: undefined, memberReviews: undefined }, { ...next, lifecycle: undefined, memberReviews: undefined })) return false;
+    const children = prior.memberReviews ?? [];
+    const changedChildren = !sameReviewStoredValue(children, next.memberReviews ?? []);
+    if (changedChildren && (before.archived || (prior.lifecycle?.events.at(-1)?.state ?? "active") !== "active")) return false;
+    for (const child of children) {
+      const changed = next.memberReviews?.find(value => value.binding.memberId === child.binding.memberId);
+      if (!changed || !sameReviewStoredValue({ ...child, comments: undefined, suggestions: undefined },
+        { ...changed, comments: undefined, suggestions: undefined })) return false;
+      const proposals = child.suggestions?.proposals ?? [], incoming = changed.suggestions?.proposals ?? [];
+      if (incoming.length < proposals.length || !sameReviewStoredValue(proposals, incoming.slice(0, proposals.length))) return false;
+    }
     const events = prior.lifecycle?.events ?? [], updated = next.lifecycle?.events ?? [];
     if (updated.length < events.length || updated.length > events.length + 1
       || !sameReviewStoredValue(events, updated.slice(0, events.length))) return false;

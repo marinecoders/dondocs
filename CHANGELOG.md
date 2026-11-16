@@ -7,6 +7,13 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.111] — 2026-11-15
+
+### Added
+
+- Review captured package members with native comments and replacement proposals, plus comments on unchanged original PDFs, without editing library drafts.
+- Prepare portable reviewer copies and exact-round feedback returns with retained content checks, independent browser ownership boundaries, and atomic package/resource installation.
+
 ## [1.3.110] — 2026-11-15
 
 ### Added

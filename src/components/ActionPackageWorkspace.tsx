@@ -73,6 +73,9 @@ const PackageShareDialog = lazy(() => import("./PackageShareDialog"));
 type Ports = CorrespondenceRendererPorts & {
   waitForReady(timeoutMs: number): Promise<boolean>;
 };
+const PackageMemberReviewPanel = lazy(() => import("./PackageMemberReviewPanel").then(module => ({ default: module.PackageMemberReviewPanel })));
+const PackageReviewTransfer = lazy(() => import("./PackageReviewTransfer").then(module => ({ default: module.PackageReviewTransfer })));
+
 export function ActionPackageWorkspace({
   ports,
   exportGate,
@@ -168,7 +171,7 @@ function PackageDialog({
       : null;
   const readRecord: ActionPackage | undefined = record && openedReview ? { ...record, historyScope: "selected-revision", currentRevisionId: openedReview.revisionId, revisions: [openedReview.baseline], reviewRounds: undefined, workingCopies: undefined } : record;
   const editable =
-    !!record && !openedReview && revision?.id === record.currentRevisionId && !record.archived;
+    !!record && !record.reviewRounds?.some(round => round.ownerPackageId === undefined) && !openedReview && revision?.id === record.currentRevisionId && !record.archived;
   const beforeComparisonId = beforeOutputId || revision?.outputs.at(-2)?.id || "";
   const afterComparisonId = afterOutputId || revision?.outputs.at(-1)?.id || "";
   useEffect(() => {
@@ -505,6 +508,12 @@ function PackageDialog({
               />
             </label>
           </div>
+          <Suspense fallback={<p>Loading package review files…</p>}>
+            <PackageReviewTransfer record={record} round={openedReview} busy={busy} run={run} signal={() => operation.current?.signal}
+              isCurrent={() => active.current && !operation.current?.signal.aborted} onImport={value => {
+                update(value); const round = value.reviewRounds![0]; setOpenedReview(round); setRevisionId(round.revisionId);
+              }} />
+          </Suspense>
           <label className="block text-sm">
             Saved packages
             <select
@@ -599,6 +608,10 @@ function PackageDialog({
                   const round = await openPackageReview(next, roundId);
                   assertOperationCurrent(); setOpenedReview(round); setRevisionId(round.revisionId);
                 })} />
+              {openedReview && <Suspense fallback={<p>Loading member review…</p>}>
+                <PackageMemberReviewPanel key={openedReview.id} record={record} round={openedReview} busy={busy} run={run}
+                  onChange={(next, round) => { update(next); setOpenedReview(round); setRevisionId(round.revisionId); }} />
+              </Suspense>}
               <label className="block text-sm">
                 Package revision
                 <select
