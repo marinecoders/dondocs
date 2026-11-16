@@ -130,9 +130,28 @@ export const packageReviewBindingSchema = z.object({
   memberId: id, memberRevisionId: id, memberDigest: digest, assetDigest: digest,
 }).strict();
 export type PackageReviewBinding = z.infer<typeof packageReviewBindingSchema>;
+/** Package drafts own their embedded bytes; this adapter never resolves device-local handles.
+ * safeExtend keeps every native round timestamp and metadata refinement intact.
+ */
+export const packageNativeReviewRoundSchema = reviewRoundSchema.safeExtend({
+  baseline: reviewRoundSchema.shape.baseline.safeExtend({
+    session: nativeSchema.shape.session.refine(session => supportsReviewComments(session),
+      "Package native review supports correspondence only.").refine(session =>
+      !!session.formData && Array.isArray(session.enclosures) && Array.isArray(session.paragraphs)
+      && !session.formData.basicLetterFileRef && !session.formData.signatureImage?.fileRef
+      && !session.enclosures.some(enclosure => enclosure.fileRef)
+      && !session.paragraphs.some(paragraph => paragraph.figure?.fileRef)
+      && ![session.forms?.navmc10274, session.forms?.navmc11811].some(form =>
+        form?.signatureBlocks.some(block => block.imageRef)),
+    "Package review baselines cannot resolve device-local file handles."),
+  }),
+  ownerDocumentId: z.never().optional(),
+  lifecycle: z.never().optional(),
+  checkpoints: z.never().optional(),
+});
 export const packageMemberReviewSchema = z.object({
   binding: packageReviewBindingSchema,
-  nativeRound: reviewRoundSchema.optional(),
+  nativeRound: packageNativeReviewRoundSchema.optional(),
   comments: reviewCommentsSchema,
   suggestions: reviewSuggestionStateSchema.optional(),
 }).strict();

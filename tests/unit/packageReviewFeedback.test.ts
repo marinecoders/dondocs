@@ -3,8 +3,8 @@ import { beforeEach, expect, it, vi } from 'vitest';
 import { PDFDocument } from 'pdf-lib';
 import { createBlankSession } from '@/stores/documentStore';
 import { captureDocumentRevision } from '@/lib/capturedDocument';
-import { capturePackageMember, captureOriginalPackageMember, readPackageAsset } from '@/lib/actionPackageAssets';
-import { createActionPackage, listActionPackages, reviseActionPackage, packageAssets, validPackageTransition } from '@/lib/actionPackages';
+import { capturePackageMember, captureOriginalPackageMember, readPackageAsset, readPackageMemberDraft } from '@/lib/actionPackageAssets';
+import { createActionPackage, listActionPackages, reviseActionPackage, packageAssets, validPackageTransition, packageNativeReviewRoundSchema } from '@/lib/actionPackages';
 import { startPackageReview, transitionPackageReview, openPackageReview } from '@/lib/packageReviewRounds';
 import { createPackageMemberReview, preparePackageReviewMember, savePackageMemberReview } from '@/lib/packageMemberReviews';
 import { createReviewSuggestion, appendReviewSuggestions } from '@/lib/reviewSuggestions';
@@ -17,6 +17,9 @@ import { buildBackup, restoreBackup } from '@/lib/backup';
 import { collectLiveAttachmentIds } from '@/lib/attachmentGc';
 import { useDocumentsStore } from '@/stores/documentsStore';
 import type { PortableResourceEntry } from '@/lib/portableResources';
+import { persistAttachment } from '@/lib/attachments';
+import { reviewRoundSchema } from '@/lib/reviewRounds';
+import sharp from 'sharp';
 import { buildPortableActionPackage } from '@/lib/actionPackageTransfer';
 vi.mock('@/stores/backupStore', () => ({ scheduleBackup: vi.fn(), useBackupStore: { getState: () => ({}) } }));
 vi.mock('@/lib/pdfText', () => ({ extractPdfText: async () => 'Synthetic retained PDF' }));
@@ -86,8 +89,8 @@ it('rejects wrong owner/round/digests/child authority and portable author decisi
     (value: Envelope) => { value.package.id = 'foreign-package'; },
     (value: Envelope) => { value.package.reviewRounds![0].baselineDigest = 'f'.repeat(64); },
     (value: Envelope) => { value.package.reviewRounds![0].memberReviews![0].binding.assetDigest = 'f'.repeat(64); },
-    (value: Envelope) => { value.package.reviewRounds![0].memberReviews![0].nativeRound!.ownerDocumentId = 'source'; },
-    (value: Envelope) => { value.package.reviewRounds![0].memberReviews![0].nativeRound!.checkpoints = []; },
+    (value: Envelope) => { Object.assign(value.package.reviewRounds![0].memberReviews![0].nativeRound!, { ownerDocumentId: 'source' }); },
+    (value: Envelope) => { Object.assign(value.package.reviewRounds![0].memberReviews![0].nativeRound!, { checkpoints: [] }); },
     (value: Envelope) => { value.package.reviewRounds![0].memberReviews![0].nativeRound!.baselineDigest = 'f'.repeat(64); },
     (value: Envelope) => { value.package.reviewRounds![0].memberReviews![0].nativeRound!.createdAt++; },
     (value: Envelope) => { value.package.reviewRounds![0].memberReviews![0].nativeRound!.id = `review_${crypto.randomUUID()}`; },
@@ -136,4 +139,62 @@ it('blocks retained baseline and returned metadata marking leaks and policy chan
   const saved = await savePackageMemberReview(record, round.id, { ...child, comments });
   await expect(buildPackageReviewReturn(saved, round.id, policy)).rejects.toThrow(/markings|levels/);
   expect((await listActionPackages())[0]).toEqual(saved);
+});
+
+it.each(['embedded-pdf', 'pdf-figure', 'png-figure'] as const)('reviews exact captured native %s resources without manufacturing local native file handles', async kind => {
+  const pdf = await PDFDocument.create(); pdf.addPage();
+  const pdfBytes = new Uint8Array(await pdf.save()).buffer;
+  const png = await sharp({ create: { width: 2, height: 2, channels: 3, background: 'white' } }).png().toBuffer();
+  const resource = kind === 'png-figure' ? new Uint8Array(png).buffer : pdfBytes;
+  const mediaType = kind === 'png-figure' ? 'image/png' : 'application/pdf';
+  const name = kind === 'png-figure' ? 'synthetic-diagram.png' : 'synthetic-content.pdf';
+  const fileRef = await persistAttachment({ name, type: mediaType, size: resource.byteLength }, resource);
+  const session = createBlankSession(); session.timestamp = 456;
+  session.formData.subject = 'SYNTHETIC CAPTURED ATTACHMENTS';
+  const snapshot = { ...session, endItems: [], publicationTables: {},
+    enclosures: kind === 'embedded-pdf' ? [{ title: 'Synthetic enclosure', file: { name, size: resource.byteLength, data: resource } }] : [],
+    paragraphs: [{ id: 'supported-text', level: 0, text: 'Synthetic reviewable paragraph.' },
+      ...(kind === 'embedded-pdf' ? [] : [{ id: 'captured-figure', level: 0, text: 'Synthetic captured figure', figure: { fileRef, name, type: mediaType } }])],
+  };
+  const native = await capturePackageMember(captureDocumentRevision({ documentId: 'synthetic-resource-source', epoch: 0, editSequence: 1, capturedAt: 456 }, snapshot), 'Synthetic resource member', 'basic-letter');
+  const captured = (await readPackageMemberDraft(native)).reviewed;
+  expect(kind === 'embedded-pdf' ? captured.files[0]?.data : captured.figures[1]?.data).toEqual(resource);
+  expect(native.session.enclosures.every(enclosure => !enclosure.fileRef)).toBe(true);
+  expect(native.session.paragraphs.every(paragraph => !paragraph.figure?.fileRef)).toBe(true);
+  const owner = await startPackageReview(await reviseActionPackage(await createActionPackage('Synthetic resource package'), [native]));
+  const round = owner.reviewRounds![0];
+  const { record, child } = await preparePackageReviewMember(owner, round.id, native.id);
+  expect(child.nativeRound!.baseline).toEqual({ ts: native.session.timestamp, session: native.session });
+  expect(child.nativeRound!.ownerDocumentId).toBeUndefined();
+  expect(packageNativeReviewRoundSchema.safeParse(child.nativeRound).success).toBe(true);
+  // Generic document round acceptance is unchanged; figures still require local handles there.
+  expect(reviewRoundSchema.safeParse(child.nativeRound).success).toBe(kind === 'embedded-pdf');
+  for (const mutate of [
+    (value: NonNullable<typeof child.nativeRound>) => { value.createdAt++; },
+    (value: NonNullable<typeof child.nativeRound>) => { value.baseline.ts++; },
+    (value: NonNullable<typeof child.nativeRound>) => { value.baseline.session.timestamp++; },
+    (value: NonNullable<typeof child.nativeRound>) => { value.baseline.session.formData.basicLetterFileRef = fileRef; },
+  ]) {
+    const invalid = structuredClone(child.nativeRound!); mutate(invalid);
+    expect(packageNativeReviewRoundSchema.safeParse(invalid).success).toBe(false);
+  }
+  const proposal = createReviewSuggestion(child.nativeRound!, { author: 'Synthetic reviewer', label: 'Review retained paragraph',
+    changes: [{ target: { kind: 'paragraph', paragraphId: 'supported-text', docType: native.session.docType }, proposed: 'Proposed retained paragraph.' }] });
+  const saved = await savePackageMemberReview(record, round.id, { ...child,
+    suggestions: appendReviewSuggestions(child.nativeRound!, child.suggestions!, [proposal]) });
+  const copy = await packageReviewTransferFile(await buildPackageReviewerCopy(saved, round.id, policy), policy);
+  const parsedCopy = await parsePackageReviewTransfer(copy);
+  expect(parsedCopy.memberReviews[0].nativeRound!.baseline).toEqual(child.nativeRound!.baseline);
+  await clear();
+  const reviewer = await importPackageReviewerCopy(await preparePackageReviewerImport(copy, policy), policy);
+  const retainedMember = reviewer.reviewRounds![0].baseline.members[0];
+  if (retainedMember.kind !== 'native') throw new Error('Expected retained native resource member.');
+  const retained = (await readPackageMemberDraft(retainedMember)).reviewed;
+  expect(kind === 'embedded-pdf' ? retained.files[0]?.data : retained.figures[1]?.data).toEqual(resource);
+  const returned = await packageReviewTransferFile(await buildPackageReviewReturn(reviewer, round.id, policy), policy);
+  const parsed = await parsePackageReviewReturn(returned, owner, round.id);
+  expect(parsed.memberReviews[0].nativeRound!.baseline).toEqual(child.nativeRound!.baseline);
+  expect(parsed.memberReviews[0].suggestions!.proposals).toEqual([proposal]);
+  expect(parsed.payload.portableResources).toEqual(parsedCopy.payload.portableResources);
+  expect(useDocumentsStore.getState().docs).toEqual({});
 });
