@@ -229,6 +229,29 @@ support plain native text in one paragraph; formatted text, variables, headings,
 markings, tables, figures and structural edits are excluded. The full paragraph
 context travels with the selected range and is included in handling/privacy checks.
 
+To type suggested changes naturally, turn on **Suggest Changes mode**, choose a
+supported **Paragraph for suggested typing**, and edit **Suggested paragraph text**.
+Caret typing, Backspace, Delete, complete-character selections, plain-text paste
+and input-method composition create an **Unsaved suggested changes** preview. The
+preview distinguishes insertion, deletion and replacement and shows the exact
+reviewed span and proposed text. Separate edits in the same paragraph become one
+replacement of the entire displayed span, including unchanged text between them.
+Input coordinates identify repeated text; the editor never searches for matching
+words. Reverting part of a draft can leave a wider displayed span. Review that
+span before saving. There is no independent per-edit reconciliation in this mode.
+
+**Save typed suggestion** submits one proposal for the entire typing session;
+keystrokes do not create separate proposals. After submission, the editor shows
+the baseline again and the saved proposal appears below. **Cancel typed changes**
+discards unsaved typing. Save or cancel before changing paragraphs, switching mode
+or reviews, preparing a return, or closing the review dialog. The browser also
+warns before leaving a page with unsaved typing; unsaved drafts are held only in
+this open editor and are not recovered after closing the tab. Unsupported input
+is visibly refused and retains the last valid suggested text. This mode supports
+plain paragraphs against the exact reviewed baseline. It does not track structural
+edits, variables or formatting. Ordinary authoring outside this mode is unchanged.
+Reviewer names remain self-entered and do not authenticate identity.
+
 A reviewer returns proposals through **Prepare feedback return**. Importing stores
 them as pending suggestions. In the source, select the same review and compare
 reviewed, current and proposed values before **Accept suggestion** or **Reject

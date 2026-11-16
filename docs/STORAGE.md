@@ -103,6 +103,14 @@ or detached state as replacement authority. The guarded writer checks exact cont
 and splices only that selected span; its inverse uses the exact accepted context.
 Retained range context counts against suggestion text limits and is scanned with
 reviewer text before transfer or acceptance.
+Suggest Changes mode holds one unsaved paragraph draft in the mounted review
+editor. Native input selections expand one exact baseline range; typing never
+writes the document or baseline. Separate edits share one displayed contiguous
+span. Saving creates a normal selected-range suggestion through the same writer;
+there is no separate persistence record or native-session metadata. Cancel drops
+the local draft. Unsaved typing blocks review navigation and registers the browser
+leave-page warning; it is not persisted across tab closure or reload. Saved typed
+suggestions use the existing backup, feedback-return and decision records.
 The shared writer fences proposal creation, pending imports, accept/reject and
 acceptance Undo/Redo with typed intents. Its conditional transaction checks the
 latest native target and exact prior review state, then writes allowed source

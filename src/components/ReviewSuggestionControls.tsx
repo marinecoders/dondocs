@@ -18,7 +18,20 @@ export function ReviewSuggestionControls({ rounds, disabled, onBusyChange }: {
   const [linked, setLinked] = useState<string | null>(null);
   const [selected, setSelected] = useState('');
   const [context, setContext] = useState<ReviewSuggestionWorkspace | null>(null);
+  const [typedDirty, setTypedDirty] = useState(false);
   const [busy, setBusy] = useState(false), [pending, setPending] = useState(false);
+  useEffect(() => { onBusyChange(busy || typedDirty);return () => onBusyChange(false); }, [busy, typedDirty, onBusyChange]);
+  useEffect(() => {
+    if (!typedDirty) return;
+    const warn = (event: BeforeUnloadEvent) => { event.preventDefault();event.returnValue = ''; };
+    const guardNavigation = (event: KeyboardEvent) => {
+      if ((event.ctrlKey || event.metaKey) && (event.key.toLowerCase() === 'k' || event.shiftKey && event.key.toLowerCase() === 't')) {
+        event.preventDefault();event.stopImmediatePropagation();
+      }
+    };
+    window.addEventListener('beforeunload', warn);window.addEventListener('keydown', guardNavigation, true);
+    return () => { window.removeEventListener('beforeunload', warn);window.removeEventListener('keydown', guardNavigation, true); };
+  }, [typedDirty]);
   const [error, setError] = useState(''), [notice, setNotice] = useState('');
   const alive = useRef(true), running = useRef(false);
   useEffect(() => { alive.current = true;return () => { alive.current = false;onBusyChange(false); }; }, [onBusyChange]);
@@ -31,10 +44,10 @@ export function ReviewSuggestionControls({ rounds, disabled, onBusyChange }: {
   const available = rounds.filter(round => round.ownerDocumentId === documentId || round.id === linked);
   async function run(operation: () => Promise<boolean>): Promise<boolean> {
     if (disabled || running.current) return false;
-    running.current = true;setBusy(true);onBusyChange(true);setError('');
+    running.current = true;setBusy(true);setError('');
     try { return await operation(); }
     catch (cause) { if (alive.current) setError(cause instanceof Error ? cause.message : 'The suggested edits could not be saved. Check the draft’s save status.');return false; }
-    finally { running.current = false;if (alive.current) { setBusy(false);onBusyChange(false); } }
+    finally { running.current = false;if (alive.current) { setBusy(false); } }
   }
   async function select(roundId: string) {
     setSelected(roundId);setContext(null);setNotice('');setPending(false);
@@ -61,7 +74,7 @@ export function ReviewSuggestionControls({ rounds, disabled, onBusyChange }: {
     {error && <p role="alert" className="text-sm text-destructive">{error}</p>}
     {notice && <p role="status" className="text-sm">{notice}</p>}
     <Label htmlFor="review-suggestion-round">Review for suggested edits</Label>
-    <select id="review-suggestion-round" value={available.some(round => round.id === selected) ? selected : ''} disabled={disabled || busy || pending} className="w-full rounded-md border bg-background p-2 text-sm" onChange={event => void select(event.target.value)}>
+    <select id="review-suggestion-round" value={available.some(round => round.id === selected) ? selected : ''} disabled={disabled || busy || pending || typedDirty} className="w-full rounded-md border bg-background p-2 text-sm" onChange={event => void select(event.target.value)}>
       <option value="">Choose a review for this draft</option>
       {available.map(round => <option key={round.id} value={round.id}>{round.label}</option>)}
     </select>
@@ -70,6 +83,7 @@ export function ReviewSuggestionControls({ rounds, disabled, onBusyChange }: {
     {inactive && <p className="text-sm">This round is closed or superseded. Its suggestions and decisions remain available for inspection.</p>}
     {validContext && context && <ReviewSuggestionsPanel key={context.round.id} round={context.round} current={getSerializedSession()}
       state={state ?? emptyReviewSuggestionState(context.round)} owner={context.owner} busy={disabled || busy || pending || inactive}
+      onDraftChange={setTypedDirty}
       onCreate={proposal => run(async () => outcome(await submitReviewSuggestion(proposal)))}
       onDecide={(id, action, resolutions) => run(async () => outcome(await decideReviewSuggestion(context.round.id, id, action, resolutions)))} />}
     {pending && <Button disabled={disabled || busy} onClick={() => void run(async () => {

@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
+import { ReviewTypingEditor } from './ReviewTypingEditor';
 import { MechanicalReviewProposalsPanel } from './MechanicalReviewProposalsPanel';
 import type { SerializedSession } from '@/stores/documentStore';
 import type { ReviewRound } from '@/lib/reviewRounds';
@@ -22,12 +23,15 @@ interface Props {
   owner: boolean;
   busy: boolean;
   onCreate: (proposal: ReviewSuggestion) => Promise<boolean>;
+  onDraftChange?: (dirty: boolean) => void;
   onDecide: (id: string, action: 'accepted' | 'rejected', resolutions?: readonly ReviewSuggestionResolution[]) => Promise<boolean>;
 }
 
 /** The owning workspace supplies the shared persistence/return pipeline. */
-export function ReviewSuggestionsPanel({ round, current, state, owner, busy, onCreate, onDecide }: Props) {
+export function ReviewSuggestionsPanel({ round, current, state, owner, busy, onCreate, onDecide, onDraftChange }: Props) {
   const prefix = useId();
+  const [typing, setTyping] = useState(false), [typedDirty, setTypedDirty] = useState(false);
+  useEffect(() => { onDraftChange?.(typedDirty);return () => onDraftChange?.(false); }, [typedDirty, onDraftChange]);
   const [author, setAuthor] = useState('');
   const [category, setCategory] = useState<FeedbackCategory>('edit');
   const [filter, setFilter] = useState<FeedbackFilter>('all');
@@ -55,7 +59,7 @@ export function ReviewSuggestionsPanel({ round, current, state, owner, busy, onC
 
   async function add(event: FormEvent) {
     event.preventDefault();setError('');
-    if (busy || working.current || !target) return;
+    if (typing || busy || working.current || !target || state.proposals.length >= REVIEW_SUGGESTION_LIMITS.proposals) return;
     working.current = true;setPending(true);setNotice('');
     try {
       const proposal = createReviewSuggestion(round, { author, category, label: `Replace ${target.label.toLowerCase()}`,
@@ -68,7 +72,7 @@ export function ReviewSuggestionsPanel({ round, current, state, owner, busy, onC
   }
 
   async function decide(id: string, action: 'accepted' | 'rejected', resolved?: ReviewSuggestionResolution) {
-    if (busy || working.current) return;
+    if (typedDirty || busy || working.current) return;
     working.current = true;setPending(true);setError('');setNotice('');
     try {
       if (await (resolved ? onDecide(id, action, [resolved]) : onDecide(id, action)) && alive.current) {
@@ -85,11 +89,13 @@ export function ReviewSuggestionsPanel({ round, current, state, owner, busy, onC
     <p ref={result} role="status" aria-label="Suggestion submission status" tabIndex={-1} className={notice ? 'text-sm' : 'sr-only'}>{notice}</p>
     {error && <p role="alert" className="text-sm text-destructive">{error}</p>}
     <form onSubmit={event => void add(event)} className="space-y-2 rounded-md border p-3">
-      <fieldset disabled={disabled || state.proposals.length >= REVIEW_SUGGESTION_LIMITS.proposals} className="space-y-2">
+      <fieldset disabled={disabled} className="space-y-2">
         <legend className="text-sm font-medium">Propose a text replacement</legend>
+        <Button type="button" variant="outline" aria-pressed={typing} disabled={typedDirty} onClick={() => setTyping(value => !value)}>Suggest Changes mode</Button>
         <Label htmlFor={`${prefix}-author`}>Reviewer name for suggestion</Label>
         <Input id={`${prefix}-author`} value={author} maxLength={100} onChange={event => setAuthor(event.target.value)} />
         <FeedbackCategorySelect label="Suggestion category" value={category} onChange={setCategory} />
+        {typing ? <ReviewTypingEditor round={round} current={current} author={author} category={category} disabled={disabled} quotaFull={state.proposals.length >= REVIEW_SUGGESTION_LIMITS.proposals} onCreate={onCreate} onDirtyChange={setTypedDirty} /> : <>
         <Label htmlFor={`${prefix}-target`}>Suggestion target</Label>
         <select id={`${prefix}-target`} value={selected} className="w-full rounded-md border bg-background p-2 text-sm" onChange={event => {
           const next = targets.find(item => item.key === event.target.value);
@@ -120,12 +126,13 @@ export function ReviewSuggestionsPanel({ round, current, state, owner, busy, onC
         </>}
         {range && <p className="text-sm">This proposal replaces only the selected text. Acceptance checks the exact reviewed paragraph and preserves text outside the selection.</p>}
         <div className="flex flex-wrap gap-2">
-          <Button type="submit" disabled={!author.trim() || !target || proposed === target.value}>Add suggestion</Button>
+          <Button type="submit" disabled={state.proposals.length >= REVIEW_SUGGESTION_LIMITS.proposals || !author.trim() || !target || proposed === target.value}>Add suggestion</Button>
           {target && <Button type="button" variant="outline" onClick={() => { setSelected('');setRange(null);setSelection(null);setProposed('');setError(''); }}>Cancel replacement</Button>}
         </div>
+        </>}
       </fieldset>
     </form>
-    <MechanicalReviewProposalsPanel round={round} busy={disabled} proposalCount={state.proposals.length} onCreate={onCreate} />
+    <MechanicalReviewProposalsPanel round={round} busy={disabled || typedDirty} proposalCount={state.proposals.length} onCreate={onCreate} />
     {!state.proposals.length && <p className="text-sm text-muted-foreground">No suggested replacements in this review.</p>}
     <FeedbackCategorySelect label="Filter suggestion category" value={filter} onChange={setFilter} filter />
     {state.proposals.map((proposal, index) => {
@@ -144,7 +151,7 @@ export function ReviewSuggestionsPanel({ round, current, state, owner, busy, onC
         <h4 className="break-words text-sm font-medium">{proposal.label}</h4>
         <p className="text-xs text-muted-foreground">{feedbackCategoryLabel(proposal.category)}{proposal.category === 'required-correction' ? ' · Reviewer intent; not an authenticated approval requirement.' : ''}</p>
         <p className="break-words text-xs text-muted-foreground">{proposal.author} · {new Date(proposal.createdAt).toLocaleString()} · {status}</p>
-        {proposal.changes[0].target.kind === 'range' && <p className="text-xs text-muted-foreground">Selected text replacement. Text outside this selection is preserved; a changed paragraph blocks acceptance.</p>}
+        {proposal.changes[0].target.kind === 'range' && <p className="text-xs text-muted-foreground">{!proposal.changes[0].expected ? 'Text insertion.' : !proposal.changes[0].proposed ? 'Text deletion.' : 'Selected text replacement.'} Text outside this selection is preserved; a changed paragraph blocks acceptance.</p>}
         {proposal.origin.kind === 'mechanical' && <p className="whitespace-pre-wrap break-words text-xs">Grouped correction{proposal.origin.rule ? `: ${proposal.origin.rule}` : ''}{proposal.origin.context ? ` · ${proposal.origin.context}` : ''}. All members are checked before any change is applied.</p>}
         {changes.map(change => <div key={change.id} className="space-y-1 border-t pt-2">
           <p className="text-sm font-medium">{change.label}</p>
@@ -160,12 +167,12 @@ export function ReviewSuggestionsPanel({ round, current, state, owner, busy, onC
           </div>)}
         </div>)}
         {owner && (!decision || decision.action === 'reversed') && <div className="flex flex-wrap gap-2">
-          <Button size="sm" disabled={disabled || stale} onClick={() => void decide(proposal.id, 'accepted')}>Accept suggestion</Button>
-          <Button size="sm" variant="outline" disabled={disabled} onClick={() => void decide(proposal.id, 'rejected')}>Reject suggestion</Button>
-          {stale && manualChange && <Button size="sm" variant="outline" disabled={disabled} onClick={() => setResolution({ proposalId: proposal.id,
+          <Button size="sm" disabled={disabled || typedDirty || stale} onClick={() => void decide(proposal.id, 'accepted')}>Accept suggestion</Button>
+          <Button size="sm" variant="outline" disabled={disabled || typedDirty} onClick={() => void decide(proposal.id, 'rejected')}>Reject suggestion</Button>
+          {stale && manualChange && <Button size="sm" variant="outline" disabled={disabled || typedDirty} onClick={() => setResolution({ proposalId: proposal.id,
             changeId: manualChange.id, expectedCurrent: manualChange.current!, value: combination!.value })}>Reconcile suggestion</Button>}
         </div>}
-        {owner && editing && manualChange && (!decision || decision.action === 'reversed') && <fieldset disabled={disabled} className="space-y-2 rounded-md border p-3">
+        {owner && editing && manualChange && (!decision || decision.action === 'reversed') && <fieldset disabled={disabled || typedDirty} className="space-y-2 rounded-md border p-3">
           <legend className="text-sm font-medium">Resolve this replacement</legend>
           <p className="text-sm">{combination?.kind === 'combined' ? 'Independent edits can be combined. Review the complete result before applying it.' : 'These edits overlap. Keep the current text, use the proposal, or write a combined resolution.'}</p>
           <Label htmlFor={`${prefix}-${proposal.id}-resolution`}>Resolved replacement</Label>

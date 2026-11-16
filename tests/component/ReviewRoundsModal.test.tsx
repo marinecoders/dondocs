@@ -10,6 +10,8 @@ import { createBlankSession, useDocumentStore } from '@/stores/documentStore';
 import { useDocumentsStore } from '@/stores/documentsStore';
 import { detectTextPII } from '@/services/pii/detector';
 import { captureReviewDecisionSummary, loadReviewDecisionSummary, type DecisionSummaryCapture } from '@/lib/reviewDecisionSummary';
+import userEvent from '@testing-library/user-event';
+import { loadReviewSuggestionWorkspace } from '@/lib/reviewSuggestionActions';
 import { decisionSummaryFixture } from '../_helpers/decisionSummaryFixture';
 
 vi.mock('@/lib/reviewRounds', async actual => ({ ...await actual<typeof import('@/lib/reviewRounds')>(), listReviewRounds: vi.fn(), readReviewCopyLink: vi.fn(async () => null) }));
@@ -17,6 +19,8 @@ vi.mock('@/lib/reviewRoundActions', async actual => ({ ...await actual<typeof im
   initialReviewLabel: () => 'Current letter', buildReviewCopy: vi.fn(), prepareReviewCopyExport: vi.fn(), downloadReviewCopy: vi.fn() }));
 vi.mock('@/config/classification', () => ({ getExportDeploymentPolicy: vi.fn() }));
 vi.mock('@/lib/reviewDecisionSummary', async actual => ({ ...await actual<typeof import('@/lib/reviewDecisionSummary')>(), loadReviewDecisionSummary: vi.fn() }));
+
+vi.mock('@/lib/reviewSuggestionActions', async actual => ({ ...await actual<typeof import('@/lib/reviewSuggestionActions')>(), loadReviewSuggestionWorkspace: vi.fn() }));
 
 const session = { ...createBlankSession(), timestamp: 1 };
 const round: ReviewRound = { kind: 'dondocs-review-round', version: 1,
@@ -117,4 +121,29 @@ it('keeps other actions disabled when canceling an idle prepared summary while a
   expect(screen.getByRole('combobox', { name: 'Review for comparison checkpoint' })).toBeEnabled();
   await act(async () => finish(capture));
   expect(screen.queryByRole('button', { name: 'Download reviewed decision summary (.html)' })).not.toBeInTheDocument();
+});
+
+it('keeps unsaved typed changes reachable when closing, switching rounds or preparing feedback', async () => {
+  const workspace = decisionSummaryFixture();workspace.state = null;
+  vi.mocked(listReviewRounds).mockResolvedValue([workspace.round]);
+  vi.mocked(loadReviewSuggestionWorkspace).mockResolvedValue(workspace);
+  const close = vi.fn();render(<ReviewRoundsModal open onOpenChange={close} />);
+  await screen.findByRole('heading', { name: workspace.round.label });
+  await userEvent.selectOptions(screen.getByLabelText('Review for suggested edits'), workspace.round.id);
+  await userEvent.click(await screen.findByRole('button', { name: 'Suggest Changes mode' }));
+  await userEvent.selectOptions(screen.getByLabelText('Paragraph for suggested typing'), 'first');
+  const editor = screen.getByRole('textbox', { name: 'Suggested paragraph text' }) as HTMLTextAreaElement;
+  editor.focus();editor.setSelectionRange(0, 0);fireEvent.select(editor);await userEvent.keyboard('Unsaved ');
+  expect(screen.getByLabelText('Review for suggested edits')).toBeDisabled();
+  expect(screen.getByRole('button', { name: 'Prepare feedback return' })).toBeDisabled();
+  expect(screen.getByRole('button', { name: 'Prepare reviewer copy' })).toBeDisabled();
+  await userEvent.keyboard('{Escape}');expect(close).not.toHaveBeenCalled();expect(editor).toHaveValue('Unsaved First body.');
+  await userEvent.click(screen.getByRole('button', { name: 'Close', exact: true }));expect(close).not.toHaveBeenCalled();
+  const palette = new KeyboardEvent('keydown', { key: 'k', ctrlKey: true, cancelable: true });window.dispatchEvent(palette);expect(palette.defaultPrevented).toBe(true);
+  const template = new KeyboardEvent('keydown', { key: 'T', ctrlKey: true, shiftKey: true, cancelable: true });window.dispatchEvent(template);expect(template.defaultPrevented).toBe(true);
+  const unload = new Event('beforeunload', { cancelable: true });window.dispatchEvent(unload);expect(unload.defaultPrevented).toBe(true);
+  await userEvent.click(screen.getByRole('button', { name: 'Cancel typed changes' }));
+  expect(screen.getByLabelText('Review for suggested edits')).toBeEnabled();
+  const cleanUnload = new Event('beforeunload', { cancelable: true });window.dispatchEvent(cleanUnload);expect(cleanUnload.defaultPrevented).toBe(false);
+  await userEvent.keyboard('{Escape}');expect(close).toHaveBeenCalledWith(false);
 });
