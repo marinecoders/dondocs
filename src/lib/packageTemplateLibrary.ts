@@ -1,7 +1,8 @@
+import { packageRoles } from './packageRoles';
 import { z } from 'zod';
 import type { SerializedSession } from '@/stores/documentStore';
 import { scheduleBackup } from '@/stores/backupStore';
-import { actionPackageSchema, commitActionPackage, getPackageRevision, newPackageId, packageRoles, type ActionPackage, type NativePackageMember, type PackageMember } from './actionPackages';
+import { actionPackageSchema, commitActionPackage, getPackageRevision, newPackageId, type ActionPackage, type NativePackageMember, type PackageMember } from './actionPackages';
 import { readPackageAsset, readPackageMemberDraft } from './actionPackageAssets';
 import { validatePackageDraft } from './actionPackageDraft';
 import { validatePackageMemberTemplates } from './actionPackageTemplates';
