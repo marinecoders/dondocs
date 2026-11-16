@@ -15,7 +15,7 @@
  * of crashing the compile.
  */
 import { describe, it, expect } from 'vitest';
-import { escapeLatex } from '@/services/latex/escaper';
+import { escapeLatex, processBodyText } from '@/services/latex/escaper';
 
 describe('fail-safe separators and numerics (C-1)', () => {
   it('NBSP becomes a space, not a deletion (no word fusion)', () => {
@@ -56,5 +56,21 @@ describe('fail-safe non-Latin scripts (C-2)', () => {
     expect(out).not.toMatch(/[α-ωА-Яа-я一-鿿가-힯]/u);
     expect(out).toContain('alpha');
     expect(out).toContain('end');
+  });
+
+  it.each(['👩🏽‍✈️', '✈\uFE0E', '漢\u{E0100}', '1️⃣'])('removes unsupported emoji mark constituents from PDF output: %s', sequence => {
+    const source = `Before ${sequence} after`;
+    for (const rendered of [escapeLatex(source), processBodyText(source)]) {
+      expect(rendered).not.toMatch(/\p{Variation_Selector}|\u200D|\u20E3/u);
+      expect(rendered).toContain('Before');
+      expect(rendered).toContain('after');
+    }
+    expect(escapeLatex('Équipe e\u0301')).toBe('Équipe e\u0301');
+  });
+
+  it('preserves supported Latin marks, formatting, placeholders and keycap digits', () => {
+    expect(processBodyText('**Équipe** e\u0301 {{UNIT}} 1️⃣')).toContain('\\textbf{Équipe} e\u0301');
+    expect(processBodyText('**Équipe** e\u0301 {{UNIT}} 1️⃣')).toContain('UNIT');
+    expect(escapeLatex('1️⃣')).toBe('1');
   });
 });

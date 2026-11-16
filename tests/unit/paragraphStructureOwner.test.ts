@@ -2,18 +2,20 @@ import 'fake-indexeddb/auto';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import * as db from '@/lib/documentsDb';
 import { getSerializedSession, useDocumentStore } from '@/stores/documentStore';
-import { useDocumentsStore, commitCurrentDocument, flushDocumentWrites, captureDocumentScope, changeDocumentHistory, recordDocumentHistory } from '@/stores/documentsStore';
+import { useDocumentsStore, commitCurrentDocument, flushDocumentWrites, captureDocumentScope, changeDocumentHistory, recordDocumentHistory, openExistingDocument } from '@/stores/documentsStore';
 import { useProfileStore } from '@/stores/profileStore';
 import { getExportDeploymentPolicy } from '@/config/classification';
 import { resolveExportDeploymentPolicy } from '@/lib/exportDeploymentPolicy';
-import { startReviewRound } from '@/lib/reviewRoundActions';
+import { startReviewRound, transitionReviewRound } from '@/lib/reviewRoundActions';
 import { decideReviewSuggestion, submitReviewSuggestion, loadReviewSuggestionWorkspace } from '@/lib/reviewSuggestionActions';
-import { createParagraphStructureSuggestion, emptyReviewSuggestionState, appendReviewSuggestions, planReviewSuggestionDecision } from '@/lib/reviewSuggestions';
+import { createParagraphStructureSuggestion, emptyReviewSuggestionState, appendReviewSuggestions, planReviewSuggestionDecision, createReviewSuggestion } from '@/lib/reviewSuggestions';
 import { planReviewSuggestionWrite, reviewSuggestionRecordSchema, type ReviewSuggestionWrite } from '@/lib/reviewSuggestionWrites';
 import { captureTextRange } from '@/lib/reviewTextRanges';
-import { listReviewRounds } from '@/lib/reviewRounds';
+import { ensureParagraphIds } from '@/lib/paragraphIdentity';
+import { persistAttachment } from '@/lib/attachments';
+import { listReviewRounds, parseReviewRound } from '@/lib/reviewRounds';
 import { createSuggestionReviewReturn, parseReviewReturn } from '@/lib/reviewReturns';
-import { buildBackup } from '@/lib/backup';
+import { buildBackup, restoreBackup } from '@/lib/backup';
 import { captureReviewDecisionSummary, prepareReviewDecisionSummary, renderReviewDecisionSummary } from '@/lib/reviewDecisionSummary';
 
 vi.mock('@/config/classification', async original => ({ ...await original<typeof import('@/config/classification')>(), getExportDeploymentPolicy: vi.fn() }));
@@ -46,14 +48,34 @@ async function fixture(kind:'insert-paragraph'|'delete-paragraph'='insert-paragr
 const saved=async(id:string)=>(await db.idbGetAllDocuments())!.find(document=>document.id===id)!;
 
 describe('paragraph suggestions through the source owner and IndexedDB',()=>{
+  it('can accept the same insertion again after Undo and retain its own Undo/Redo',async()=>{
+    const {round,proposal,id}=await fixture();
+    const original=getSerializedSession();
+    expect((await decideReviewSuggestion(round.id,proposal.id,'accepted')).status).toBe('committed');
+    const accepted=getSerializedSession();
+    await startReviewRound('Retained capture of the originally accepted identity');
+    expect(changeDocumentHistory('undo',captureDocumentScope())).toBe('applied');await flushDocumentWrites();
+    expect(getSerializedSession().paragraphs).toEqual(original.paragraphs);
+    expect((await decideReviewSuggestion(round.id,proposal.id,'accepted')).status).toBe('committed');
+    expect((await saved(id)).session.paragraphs).toEqual(accepted.paragraphs);
+    expect((await loadReviewSuggestionWorkspace(round.id)).state?.decisions.map(decision=>decision.action)).toEqual(['accepted','reversed','accepted']);
+    expect(changeDocumentHistory('undo',captureDocumentScope())).toBe('applied');await flushDocumentWrites();
+    expect((await saved(id)).session.paragraphs).toEqual(original.paragraphs);
+    expect(changeDocumentHistory('redo',captureDocumentScope())).toBe('applied');await flushDocumentWrites();
+    expect((await saved(id)).session.paragraphs).toEqual(accepted.paragraphs);
+    expect((await loadReviewSuggestionWorkspace(round.id)).state?.decisions.map(decision=>decision.action)).toEqual(['accepted','reversed','accepted','reversed','restored']);
+  });
   it.each(['insert-paragraph','delete-paragraph'] as const)('persists %s with real Undo/Redo and preserves unrelated newer fields/body/attachments',async kind=>{
     const {round,proposal,id}=await fixture(kind);
+    const assetBytes=new TextEncoder().encode('%PDF-1.4\nSynthetic unrelated attachment.');
+    const fileRef=await persistAttachment({name:'synthetic.pdf',size:assetBytes.byteLength,type:'application/pdf'},assetBytes.buffer);
+    useDocumentStore.setState({enclosures:[{title:'Newer supporting resource',fileRef}]});
     useDocumentStore.getState().setField('subject','Independent newer subject');
     useDocumentStore.getState().updateParagraph(2,{text:'Independent newer third.'});
     const before=getSerializedSession();
     expect((await decideReviewSuggestion(round.id,proposal.id,'accepted')).status).toBe('committed');
     const accepted=getSerializedSession();expect(accepted.paragraphs).toHaveLength(kind==='insert-paragraph'?4:2);
-    expect((await saved(id)).session.paragraphs).toEqual(accepted.paragraphs);
+    expect((await saved(id)).session.paragraphs).toEqual(accepted.paragraphs);expect(accepted.enclosures).toEqual(before.enclosures);
     expect(changeDocumentHistory('undo',captureDocumentScope())).toBe('applied');await flushDocumentWrites();
     expect(getSerializedSession().paragraphs).toEqual(before.paragraphs);
     expect(getSerializedSession().formData.subject).toBe('Independent newer subject');
@@ -66,6 +88,13 @@ describe('paragraph suggestions through the source owner and IndexedDB',()=>{
     const backup=JSON.parse(await buildBackup());expect(backup.reviewSuggestions.some((record:{state:{proposals:Array<{id:string}>}})=>record.state.proposals.some(item=>item.id===proposal.id))).toBe(true);
     const returned=parseReviewReturn(createSuggestionReviewReturn(round.id,round.baselineDigest,{version:1,threads:[]},[proposal],{marking:'UNCLASSIFIED',customMarkings:[]}));
     expect(returned.version).toBe(2);if(returned.version===2)expect(returned.proposals[0]).toEqual(proposal);
+    await db.idbDeleteReviewRound(round.id,round.baselineDigest);await db.idbDeleteDocument(id);
+    useDocumentsStore.setState({docs:{},trash:{},currentId:null,baseline:null});
+    const restored=await restoreBackup(JSON.stringify(backup));expect(restored.issues).toBeUndefined();
+    expect(reviewSuggestionRecordSchema.parse(await db.idbReadReviewSuggestions(id,round.id)).state).toEqual(workspace.state);
+    expect(openExistingDocument(id)).toBe('applied');expect(getSerializedSession().paragraphs).toEqual(accepted.paragraphs);
+    const retainedAsset=await db.idbReadAttachment(fileRef.id);expect(retainedAsset.status).toBe('found');
+    if(retainedAsset.status==='found')expect(new Uint8Array(retainedAsset.attachment.data)).toEqual(assetBytes);
   });
   it('keeps a pending storage failure and retries the exact paragraph change without losing later input',async()=>{
     const {round,proposal,id}=await fixture();write.mockResolvedValue('failed');
@@ -82,6 +111,18 @@ describe('paragraph suggestions through the source owner and IndexedDB',()=>{
     expect(await saved(id)).toEqual(before);expect((await decideReviewSuggestion(round.id,proposal.id,'rejected')).status).toBe('committed');
     expect((await saved(id)).session).toEqual(before.session);
   });
+  it('refuses closed rounds and preserves the previous source and pending decision',async()=>{
+    const {round,proposal,id}=await fixture();await transitionReviewRound(round,'close');const before=await saved(id);
+    await expect(decideReviewSuggestion(round.id,proposal.id,'accepted')).rejects.toThrow(/closed/);
+    expect(await saved(id)).toEqual(before);expect(reviewSuggestionRecordSchema.parse(await db.idbReadReviewSuggestions(id,round.id)).state.decisions).toEqual([]);
+  });
+  it('keeps the retained handling floor when deleting a marked paragraph',async()=>{
+    useDocumentStore.getState().updateParagraph(1,{portionMarking:'S'});await commitCurrentDocument();
+    const {round,proposal,id}=await fixture('delete-paragraph');const before=await saved(id);
+    vi.mocked(getExportDeploymentPolicy).mockResolvedValue(resolveExportDeploymentPolicy({hostname:'example.test',environment:{maxLevel:'secret',allowedLevels:['unclassified','cui','confidential','secret']},runtime:{status:'absent'}}));
+    await expect(decideReviewSuggestion(round.id,proposal.id,'accepted')).rejects.toThrow(/marked below/);
+    expect(await saved(id)).toEqual(before);
+  });
   it('reserves deleted/undone paragraph identities from ordinary source history',async()=>{
     const round=await startReviewRound('History identity review');const historyId=crypto.randomUUID();
     useDocumentStore.getState().addParagraph('History-only paragraph.',0);const last=useDocumentStore.getState().paragraphs.length-1;
@@ -89,6 +130,27 @@ describe('paragraph suggestions through the source owner and IndexedDB',()=>{
     useDocumentStore.getState().removeParagraph(last);await commitCurrentDocument();
     const proposal=createParagraphStructureSuggestion(round,{author:'Example',operation:{kind:'insert-paragraph',index:3,text:'Other new content',level:0,paragraphId:historyId}});
     await expect(submitReviewSuggestion(proposal)).rejects.toThrow(/reserved/);
+  });
+  it.each(['review-baseline','saved-history','legacy-saved-history'] as const)('reserves removed identities from %s after reopening the source',async retained=>{
+    const id=useDocumentsStore.getState().currentId!,before=getSerializedSession();
+    if(retained==='legacy-saved-history') {
+      for(const paragraph of before.paragraphs)delete paragraph.id;
+      useDocumentStore.setState({paragraphs:ensureParagraphIds(before.paragraphs)});await commitCurrentDocument();
+    }
+    const removedId=ensureParagraphIds(before.paragraphs)[2].id;
+    if(retained==='review-baseline')await startReviewRound('Earlier retained baseline');
+    else expect(await db.idbSetSnapshots(id,[{ts:before.timestamp!,session:before}])).toBe(true);
+    useDocumentStore.getState().removeParagraph(2);await commitCurrentDocument();
+    useDocumentsStore.getState().newDocument();expect(openExistingDocument(id)).toBe('applied');
+    const round=await startReviewRound('Newer review after reopening');
+    const proposal=createParagraphStructureSuggestion(round,{author:'Example',operation:{kind:'insert-paragraph',index:2,text:'Different new paragraph.',level:0,paragraphId:removedId}});
+    const savedBefore=await saved(id);
+    const state=appendReviewSuggestions(round,emptyReviewSuggestionState(round),[proposal]);
+    const operation:ReviewSuggestionWrite={kind:'suggestion-write',version:1,id:`suggestion-write_${crypto.randomUUID()}`,documentId:id,createdAt:Date.now(),round:{id:round.id,baselineDigest:round.baselineDigest},before:null,after:state,intent:{kind:'propose',proposals:[proposal]}};
+    expect(await actualDb.idbApplyReviewSuggestions(savedBefore,{...savedBefore,meta:{...savedBefore.meta,updatedAt:savedBefore.meta.updatedAt+1}},operation)).toBe('failed');
+    expect(await saved(id)).toEqual(savedBefore);expect(await db.idbReadReviewSuggestions(id,round.id)).toBeNull();
+    await expect(submitReviewSuggestion(proposal)).rejects.toThrow(/reserved/);
+    expect(await saved(id)).toEqual(savedBefore);expect(await db.idbReadReviewSuggestions(id,round.id)).toBeNull();
   });
 });
 
@@ -129,6 +191,7 @@ describe('paragraph scoped transaction defenses',()=>{
     const duplicate=createParagraphStructureSuggestion(other,{author:'Example',operation:{kind:'insert-paragraph',index:3,level:0,text:'Conflicting identity',paragraphId:target.operation.after[0].id}});
     const before=await saved(id),state=appendReviewSuggestions(other,emptyReviewSuggestionState(other),[duplicate]);
     const op:ReviewSuggestionWrite={kind:'suggestion-write',version:1,id:`suggestion-write_${crypto.randomUUID()}`,documentId:id,createdAt:Date.now(),round:{id:other.id,baselineDigest:other.baselineDigest},before:null,after:state,intent:{kind:'propose',proposals:[duplicate]}};
+    await expect(submitReviewSuggestion(duplicate)).rejects.toThrow(/reserved/);
     expect(await actualDb.idbApplyReviewSuggestions(before,{...before,meta:{...before.meta,updatedAt:before.meta.updatedAt+1}},op)).toBe('failed');
     expect(await db.idbReadReviewSuggestions(id,other.id)).toBeNull();expect(await db.idbReadReviewSuggestions(id,round.id)).not.toBeNull();
   });
@@ -143,4 +206,32 @@ describe('paragraph scoped transaction defenses',()=>{
     expect(()=>planReviewSuggestionWrite(round,context.current,op,candidate)).toThrow(/discussion/);
     expect(changeDocumentHistory('undo',captureDocumentScope())).toBe('applied');await flushDocumentWrites();expect(getSerializedSession().reviewComments).toEqual(round.baseline.session.reviewComments);
   });
+});
+
+it('reads only the current document suggestion inventory during structural preflight and atomic storage', async () => {
+  const f = await dbFixture(), unrelatedDocuments: db.StoredDocument[] = [], unrelatedStates = [];
+  for (let index = 0; index < 3; index++) {
+    const id = `unrelated-review-document-${index}`;
+    const document = { ...structuredClone(f.before), id, meta: { ...f.before.meta, id } };
+    const round = parseReviewRound({ ...f.round, id: `review_${crypto.randomUUID()}`, sourceDocumentId: id, ownerDocumentId: id });
+    const proposal = createReviewSuggestion(round, { author: 'Synthetic unrelated reviewer', label: 'Unrelated subject proposal', changes: [{
+      target: { kind: 'field', field: 'subject', docType: round.baseline.session.docType }, proposed: `Unrelated subject ${index}`,
+    }] });
+    const state = appendReviewSuggestions(round, emptyReviewSuggestionState(round), [proposal]);
+    unrelatedDocuments.push(document); unrelatedStates.push({ documentId: id, state });
+    await db.idbPutDocument(document); expect(await db.idbAddReviewRound(round)).toBe('committed');
+  }
+  expect(await db.idbRestoreReviewSuggestions(unrelatedStates, [], unrelatedDocuments)).toBe(true);
+  expect(await db.idbReadAllReviewSuggestions()).toHaveLength(unrelatedStates.length + 1);
+  const inventories: Array<Array<{ value: { documentId: string } }>> = [], getAll = IDBObjectStore.prototype.getAll;
+  vi.spyOn(IDBObjectStore.prototype, 'getAll').mockImplementation(function(this: IDBObjectStore, ...args) {
+    const request = getAll.apply(this, args), query = args[0];
+    if (this.name === 'app' && query instanceof IDBKeyRange && String(query.lower).startsWith('review-suggestions:'))
+      request.addEventListener('success', () => { inventories.push(request.result); });
+    return request;
+  });
+  expect((await decideReviewSuggestion(f.round.id, f.proposal.id, 'accepted')).status).toBe('committed');
+  expect(inventories.length).toBeGreaterThan(0);
+  expect(inventories.every(records => records.length === 1 && records.every(record => record.value.documentId === f.id))).toBe(true);
+  expect((await saved(f.id)).session).toEqual(f.after.session);
 });

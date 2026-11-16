@@ -1,10 +1,12 @@
+import { assertReviewStructureNewIdsAvailable } from './reviewStructureSuggestions';
+import { paragraphCommentIds } from './paragraphIdentity';
 import type { SerializedSession } from '@/stores/documentStore';
 import { actionPackageSchema, commitActionPackage, getPackageRevision, listActionPackages, newPackageId,
   type ActionPackage, type NativePackageMember, type PackageMember } from './actionPackages';
 import { assertActivePackageReview, assertPackageReviewBinding } from './packageReviewRounds';
 import { inspectPackageReviewTransfer, parsePackageReviewReturn, type ParsedPackageReviewTransfer } from './packageReviewTransfer';
 import { appendReviewSuggestions, emptyReviewSuggestionState, inspectReviewSuggestion, latestReviewSuggestionDecision,
-  planReviewSuggestionDecision, type ReviewSuggestionResolution, type ReviewSuggestionState } from './reviewSuggestions';
+  planReviewSuggestionDecision, reviewStructureReservedIds, type ReviewSuggestionResolution, type ReviewSuggestionState } from './reviewSuggestions';
 import { normalizeReturnedRangeComments, transformRangeComments } from './reviewCommentRanges';
 import { mergeReturnedComments, type ReviewReturnChoice, type ReviewCommentMerge } from './reviewCommentMerge';
 import { canonicalReviewPayload } from './reviewRounds';
@@ -41,6 +43,17 @@ export interface PackageFeedbackMemberPreview {
 export interface PackageReviewApplicationPlan {
   ready: boolean; members: PackageMember[]; previews: PackageFeedbackMemberPreview[];
   outcomes: Array<{ memberId: string; choice: PackageFeedbackChoice; comments?: ReviewComments; suggestions?: ReviewSuggestionState }>;
+}
+/** Package-member identity history belongs to the saved parent, independently
+ * of a native library document or the current review's portable baseline. */
+function packageReservedParagraphIds(record: ActionPackage, memberId: string, roundId: string, exceptProposalId: string): string[] {
+  const contentIds = (members: readonly PackageMember[]) => members.flatMap(member => member.id === memberId && member.kind === 'native'
+    ? [...member.session.paragraphs.flatMap(node => node.id ? [node.id] : []), ...paragraphCommentIds(member.session.reviewComments)] : []);
+  const rounds = record.reviewRounds ?? [];
+  const states = [...rounds.flatMap(round => (round.memberReviews ?? []).filter(child => child.binding.memberId === memberId).flatMap(child => child.suggestions ? [child.suggestions] : [])),
+    ...(record.reviewApplications ?? []).flatMap(application => application.outcomes.filter(outcome => outcome.memberId === memberId).flatMap(outcome => outcome.suggestions ? [outcome.suggestions] : []))];
+  return [...record.revisions.flatMap(revision => contentIds(revision.members)), ...rounds.flatMap(round => contentIds(round.baseline.members)),
+    ...states.flatMap(state => reviewStructureReservedIds(state, state.roundId === roundId ? exceptProposalId : undefined))];
 }
 /** All proposal operations flow through the shared native planner, including future supported operations. */
 export function planPackageReviewApplication(owner: ActionPackage, returned: ParsedPackageReviewTransfer,
@@ -92,6 +105,8 @@ export function planPackageReviewApplication(owner: ActionPackage, returned: Par
         if (decided) { issues.push(`This proposal already has a decision. Keep its recorded decision.`); continue; }
         if ((keep || !session) && decision.action === 'accepted') { issues.push('Restore the reviewed member before accepting its proposals, or keep them pending or reject them.'); continue; }
         try {
+          if (decision.action === 'accepted' && session) for (const change of proposal.changes) if (change.target.kind === 'structure')
+            assertReviewStructureNewIdsAvailable(session, change.target, packageReservedParagraphIds(record, memberId, child.nativeRound.id, proposal.id));
           const plan = planReviewSuggestionDecision(child.nativeRound, session ?? child.nativeRound.baseline.session, state, proposal.id, decision.action, undefined, decision.resolutions);
           if (plan.status !== 'ready') { issues.push(`Resolve the overlapping or unsupported change in ${proposal.label}, or keep it pending.`); continue; }
           if (decision.action === 'accepted' && session && sameReviewStoredValue(session.reviewComments, plan.session.reviewComments)) {

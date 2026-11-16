@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { ReviewTypingEditor } from './ReviewTypingEditor';
+import { ParagraphStructureProposalsPanel } from './ParagraphStructureProposalsPanel';
 import { MechanicalReviewProposalsPanel } from './MechanicalReviewProposalsPanel';
 import type { SerializedSession } from '@/stores/documentStore';
 import type { ReviewRound } from '@/lib/reviewRounds';
@@ -145,6 +146,7 @@ export function ReviewSuggestionsPanel({ round, current, state, owner, busy, onC
         </>}
       </fieldset>
     </form>
+    <ParagraphStructureProposalsPanel round={round} author={author} category={category} busy={disabled || typedDirty} proposalCount={state.proposals.length} onCreate={onCreate} />
     <MechanicalReviewProposalsPanel round={round} busy={disabled || typedDirty} proposalCount={state.proposals.length} onCreate={onCreate} />
     {!state.proposals.length && <p className="text-sm text-muted-foreground">No suggested replacements in this review.</p>}
     <FeedbackCategorySelect label="Filter suggestion category" value={filter} onChange={setFilter} filter />
@@ -152,7 +154,7 @@ export function ReviewSuggestionsPanel({ round, current, state, owner, busy, onC
       const stale = changes.some(change => change.stale);
       const currentMatches = changes.every(change => change.current === (acceptance?.resolutions?.find(item => item.changeId === change.id)?.value ?? change.proposed));
       const rangeTarget = proposal.changes[0].target.kind === 'range' ? proposal.changes[0].target : null;
-      const manualChange = proposal.origin.kind === 'manual' && changes.length === 1 && (changes[0].current !== null || changes[0].reconciliation) ? changes[0] : null;
+      const manualChange = proposal.changes[0].target.kind !== 'structure' && proposal.origin.kind === 'manual' && changes.length === 1 && (changes[0].current !== null || changes[0].reconciliation) ? changes[0] : null;
       const editing = resolution?.proposalId === proposal.id ? resolution : null;
       const combination = manualChange && (rangeTarget ? { kind: 'overlap', value: manualChange.current ?? '' } : reconcileReviewText(manualChange.baseline, manualChange.current!, manualChange.proposed));
       const resolutionStale = !!editing && (rangeTarget ? editing.previewContext !== manualChange?.reconciliation?.currentContext : manualChange?.current !== editing.expectedCurrent);
@@ -163,6 +165,12 @@ export function ReviewSuggestionsPanel({ round, current, state, owner, busy, onC
         <p className="text-xs text-muted-foreground">{feedbackCategoryLabel(proposal.category)}{proposal.category === 'required-correction' ? ' · Reviewer intent; not an authenticated approval requirement.' : ''}</p>
         <p className="break-words text-xs text-muted-foreground">{proposal.author} · {new Date(proposal.createdAt).toLocaleString()} · {status}</p>
         {proposal.changes[0].target.kind === 'range' && <p className="text-xs text-muted-foreground">{!proposal.changes[0].expected ? 'Text insertion.' : !proposal.changes[0].proposed ? 'Text deletion.' : 'Selected text replacement.'} Independent edits outside this selection are preserved. Overlap or ambiguous boundaries require your decision.</p>}
+        {proposal.changes[0].target.kind === 'structure' && <p className="text-xs text-muted-foreground">{proposal.changes[0].target.operation.kind === 'insert-paragraph' ? 'Insert one new paragraph at the captured gap.' : 'Delete the captured leaf paragraph. Its discussion context and full original content are retained.'} Acceptance checks exact paragraph identities, boundaries and parent. Unrelated current work is preserved; numbering is derived.</p>}
+        {proposal.changes[0].target.kind === 'structure' && <details className="text-xs text-muted-foreground">
+          <summary>Reviewed paragraph position</summary>
+          <p className="whitespace-pre-wrap break-words">Before: {round.baseline.session.paragraphs.find(paragraph => paragraph.id === (proposal.changes[0].target.kind === 'structure' ? proposal.changes[0].target.operation.gap.before?.id : ''))?.text || '(Start of document)'}</p>
+          <p className="whitespace-pre-wrap break-words">After: {round.baseline.session.paragraphs.find(paragraph => paragraph.id === (proposal.changes[0].target.kind === 'structure' ? proposal.changes[0].target.operation.gap.after?.id : ''))?.text || '(End of document)'}</p>
+        </details>}
         {proposal.origin.kind === 'mechanical' && <p className="whitespace-pre-wrap break-words text-xs">Grouped correction{proposal.origin.rule ? `: ${proposal.origin.rule}` : ''}{proposal.origin.context ? ` · ${proposal.origin.context}` : ''}. All members are checked before any change is applied.</p>}
         {changes.map(change => <div key={change.id} className="space-y-1 border-t pt-2">
           <p className="text-sm font-medium">{change.label}</p>

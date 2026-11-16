@@ -13,9 +13,9 @@ import { recoverReviewReturnWrite, REVIEW_WRITE_RECOVERY_KEY } from '@/lib/revie
 import { reviewReturnWriteSchema, type ReviewReturnWrite } from '@/lib/reviewReturns';
 import { supportsReviewComments } from '@/lib/reviewCommentTargets';
 import { readReviewRound, readReviewCopyLink, reviewRoundStatus } from '@/lib/reviewRounds';
-import { reviewSuggestionWriteMetadata, planReviewSuggestionWrite, reviewSuggestionWriteSchema, reviewSuggestionRecordSchema, type ReviewSuggestionWrite } from '@/lib/reviewSuggestionWrites';
+import { reviewSuggestionWriteMetadata, planReviewSuggestionWrite, reviewSuggestionWriteSchema, reviewSuggestionRecordSchema, reviewSuggestionWriteNewIds, type ReviewSuggestionWrite } from '@/lib/reviewSuggestionWrites';
 import { cacheReviewSuggestions, cachedReviewSuggestions, rebindReviewSuggestionHistory, forgetReviewSuggestions } from '@/lib/reviewSuggestionRuntime';
-import { validateReviewSuggestionState, planReviewSuggestionHistory } from '@/lib/reviewSuggestions';
+import { validateReviewSuggestionState, planReviewSuggestionHistory, reviewStructureReservedIds } from '@/lib/reviewSuggestions';
 import { serializeDocumentSnapshot } from '@/lib/documentSerialization';
 import { parseFormInstance, migrateLegacyAnswers, type FormInstance } from '@/services/forms/model';
 import { lastWriteFailed } from '@/lib/compressedStorage';
@@ -47,6 +47,8 @@ import type { Profile } from '@/types/document';
 import {
   idbGetAllDocuments,
   idbReadReviewSuggestions,
+  idbReadAllReviewSuggestions,
+  idbReadRetainedParagraphIds,
   idbDeleteReviewRound,
   sameReviewStoredValue,
   idbWriteDocument,
@@ -929,6 +931,14 @@ export async function applyOwnedReviewSuggestions(target: DocumentTarget | null,
   if (stored && stored.documentId !== operation.documentId) return 'invalid';
   const state = stored ? validateReviewSuggestionState(round, stored.state) : null;
   if (!sameReviewStoredValue(state, operation.before) || !isCurrentDocumentTarget(target)) return 'stale';
+  let otherReviewIds: string[] = [];
+  if (reviewSuggestionWriteNewIds(operation).length > 0) {
+    const [suggestions, retainedIds] = await Promise.all([idbReadAllReviewSuggestions(operation.documentId), idbReadRetainedParagraphIds(operation.documentId)]);
+    otherReviewIds = suggestions.filter((value): value is { documentId: string } => !!value && typeof value === 'object'
+      && 'documentId' in value && value.documentId === operation.documentId).map(value => reviewSuggestionRecordSchema.parse(value))
+      .filter(record => record.state.roundId !== round.id).flatMap(record => reviewStructureReservedIds(record.state)).concat(retainedIds);
+  }
+  if (!isCurrentDocumentTarget(target)) return 'stale';
   const entry = useDocumentsStore.getState().docs[operation.documentId];
   if (!entry || !writes.matches(saved, storedEntry(entry))) return 'stale';
   const before = storedEntry(entry);
@@ -936,7 +946,7 @@ export async function applyOwnedReviewSuggestions(target: DocumentTarget | null,
   const reservedParagraphIds = history.owner?.documentId === target.scope.documentId && history.owner.epoch === target.scope.epoch
     ? [...history.past, ...history.future, ...(history.currentSnapshot ? [history.currentSnapshot] : [])]
       .flatMap(snapshot => [...snapshot.paragraphs.flatMap(paragraph => paragraph.id ? [paragraph.id] : []), ...paragraphCommentIds(snapshot.reviewComments)]) : [];
-  const planned = planReviewSuggestionWrite(round, before.session, operation, undefined, reservedParagraphIds);
+  const planned = planReviewSuggestionWrite(round, before.session, operation, undefined, [...reservedParagraphIds, ...otherReviewIds]);
   if (!sameReviewStoredValue(planned.state, operation.after)) return 'invalid';
   const structuralAcceptance = operation.intent.kind === 'decide' && operation.intent.action === 'accepted'
     && planned.state.proposals.find(proposal => proposal.id === (operation.intent.kind === 'decide' ? operation.intent.proposalId : ''))?.changes.some(change => change.target.kind === 'structure');

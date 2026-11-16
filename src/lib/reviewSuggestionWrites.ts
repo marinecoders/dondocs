@@ -1,12 +1,12 @@
 import { transformRangeComments } from './reviewCommentRanges';
 import { replaceReviewParagraphText } from './reviewParagraphText';
-import { applyReviewStructure, assertReviewStructureNewIdsAvailable } from './reviewStructureSuggestions';
+import { applyReviewStructure, assertReviewStructureNewIdsAvailable, structureNewIds } from './reviewStructureSuggestions';
 import { z } from 'zod';
 import type { DocumentMeta } from '@/stores/documentsStore';
 import type { SerializedSession } from '@/stores/documentStore';
 import { canonicalReviewPayload, reviewDigestSchema, reviewPayloadDigest, reviewRoundIdSchema, type ReviewRound } from './reviewRounds';
 import {
-  reviewStructureReservedIds, acceptedReviewSuggestionRange, resolvedReviewSuggestionRange, applyReviewSuggestionRange, appendReviewSuggestions, emptyReviewSuggestionState, planReviewSuggestionDecision, planReviewSuggestionHistory,
+  reviewStructureReservedIds, latestReviewSuggestionDecision, acceptedReviewSuggestionRange, resolvedReviewSuggestionRange, applyReviewSuggestionRange, appendReviewSuggestions, emptyReviewSuggestionState, planReviewSuggestionDecision, planReviewSuggestionHistory,
   reviewProposalIdSchema, reviewSuggestionResolutionSchema, reviewSuggestionSchema, reviewSuggestionStateSchema, validateReviewSuggestionState,
 } from './reviewSuggestions';
 import { reviewCommentsSchema } from './reviewComments';
@@ -38,6 +38,13 @@ export const reviewSuggestionWriteSchema = z.object({
   intent: reviewSuggestionIntentSchema,
 }).strict();
 export type ReviewSuggestionWrite = z.infer<typeof reviewSuggestionWriteSchema>;
+/** Only actions introducing a generated identity need retained-source scans. */
+export function reviewSuggestionWriteNewIds(operation: ReviewSuggestionWrite): string[] {
+  const intent = operation.intent;
+  const proposals = intent.kind === 'propose' || intent.kind === 'import' ? intent.proposals
+    : intent.kind === 'decide' && intent.action === 'accepted' ? operation.after.proposals.filter(proposal => proposal.id === intent.proposalId) : [];
+  return proposals.flatMap(proposal => proposal.changes.flatMap(change => change.target.kind === 'structure' ? structureNewIds(change.target) : []));
+}
 export const reviewSuggestionReceiptSchema = z.object({
   kind: z.literal('dondocs-suggestion-write-receipt'), version: z.literal(1),
   writeId: reviewSuggestionWriteIdSchema, writeDigest: reviewDigestSchema,
@@ -84,8 +91,15 @@ export function planReviewSuggestionWrite(round: ReviewRound, source: Serialized
     return { session, state: appendReviewSuggestions(round, state, intent.proposals) };
   }
   if (intent.kind === 'decide') {
+    // An immutable proposal with a recorded, undone acceptance owns its original
+    // generated identities. Accepting it again restores those same nodes, just
+    // as Redo does; current content/discussion collisions still block it.
+    const reaccepting = latestReviewSuggestionDecision(state, intent.proposalId)?.action === 'reversed';
     if (intent.action === 'accepted') for (const change of state.proposals.find(proposal => proposal.id === intent.proposalId)?.changes ?? [])
-      if (change.target.kind === 'structure') assertReviewStructureNewIdsAvailable(source, change.target, reservedParagraphIds);
+      if (change.target.kind === 'structure') {
+        const ownedIds = new Set(reaccepting ? structureNewIds(change.target) : []);
+        assertReviewStructureNewIdsAvailable(source, change.target, reservedParagraphIds.filter(id => !ownedIds.has(id)));
+      }
     const plan = planReviewSuggestionDecision(round, source, state, intent.proposalId, intent.action, intent.record, intent.resolutions);
     if (plan.status !== 'ready') throw new Error('The suggestion has changed or already has a decision.');
     return { session: plan.session, state: plan.state };

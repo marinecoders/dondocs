@@ -6,7 +6,7 @@ import { outlineParagraphs } from '@/services/latex/paragraphLabel';
 import { canonicalReviewPayload } from './reviewRounds';
 import { paragraphCommentIds, paragraphIdSchema, validateParagraphIds } from './paragraphIdentity';
 import { supportsReviewComments, paragraphCommentContext } from './reviewCommentTargets';
-import { supportsPlainTextRange } from './reviewTextRanges';
+import { isTextRangeBoundary, supportsPlainTextRange } from './reviewTextRanges';
 import { normalizeLevels } from './paragraphUtils';
 import { transformRangeComments } from './reviewCommentRanges';
 
@@ -41,7 +41,8 @@ export function structureSuggestionLabel(target: ReviewStructureTarget): string 
   return target.operation.kind === 'insert-paragraph' ? 'Insert paragraph' : 'Delete paragraph';
 }
 export function structureOperationIds(target: ReviewStructureTarget): string[] {
-  return [...target.operation.before, ...target.operation.after].map(paragraph => paragraph.id);
+  return [...new Set([...target.operation.before, ...target.operation.after].map(paragraph => paragraph.id)
+    .concat([target.operation.gap.before?.id, target.operation.gap.after?.id, target.operation.parentId].filter((id): id is string => !!id)))];
 }
 export function structureNewIds(target: ReviewStructureTarget): string[] {
   return target.operation.after.filter(paragraph => !target.operation.before.some(before => before.id === paragraph.id)).map(paragraph => paragraph.id);
@@ -52,7 +53,7 @@ function parentId(paragraphs: readonly Paragraph[], index: number): string | nul
   return parent === null || parent === undefined ? null : paragraphs[parent].id ?? null;
 }
 function assertOutline(paragraphs: Paragraph[]): void {
-  if (!same(normalizeLevels(paragraphs), paragraphs)) throw new Error('This operation would create invalid paragraph nesting.');
+  if (normalizeLevels(paragraphs).some((paragraph, index) => paragraph.level !== paragraphs[index].level)) throw new Error('This operation would create invalid paragraph nesting.');
 }
 function assertOperation(target: ReviewStructureTarget): void {
   const operation = target.operation;
@@ -60,10 +61,13 @@ function assertOperation(target: ReviewStructureTarget): void {
     const paragraph = operation.after[0];
     if (operation.before.length !== 0 || operation.after.length !== 1 || !paragraph
       || Object.keys(paragraph).some(key => !['id', 'text', 'level'].includes(key)) || !supportsPlainTextRange(paragraph)
-      || !paragraph.text.trim()) throw new Error('Insert one nonempty plain native paragraph. Formatting, variables and structured blocks are not supported for new paragraphs.');
+      || !paragraph.text.trim() || !isTextRangeBoundary(paragraph.text, 0) || !isTextRangeBoundary(paragraph.text, paragraph.text.length)) throw new Error('Insert one nonempty plain native paragraph. Formatting, variables and structured blocks are not supported for new paragraphs.');
   } else {
     if (operation.before.length !== 1 || operation.after.length !== 0) throw new Error('Delete exactly one leaf paragraph.');
-    if (operation.before[0].figure) throw new Error('Figure paragraphs require resource-aware structural review. Keep the paragraph and add a comment describing the deletion.');
+    const paragraph = operation.before[0];
+    if (paragraph.figure || paragraph.tableKey || paragraph.tableIdentifierMode || paragraph.tableFootnotes?.length
+      || paragraph.callout || paragraph.procedure || paragraph.appendix || paragraph.publicationSection)
+      throw new Error('Structured paragraphs require resource-aware structural review. Keep the paragraph and add a comment describing the deletion.');
   }
 }
 /** Locate an exact gap/span by stable IDs. Neighbor text edits survive; moved,
@@ -86,7 +90,12 @@ function locate(source: SerializedSession, target: ReviewStructureTarget, direct
   const replacement = [...source.paragraphs.slice(0, start), ...after, ...source.paragraphs.slice(start + before.length)];
   if (!replacement.length) throw new Error('Keep at least one paragraph in the document.');
   assertOutline(replacement);
-  const affected = before.length ? parentId(source.paragraphs, start) : parentId(replacement, start);
+  const parents = (paragraphs: readonly Paragraph[]) => {
+    const outline = outlineParagraphs(paragraphs.map(paragraph => paragraph.level));
+    return new Map(paragraphs.map((paragraph, index) => [paragraph.id, outline[index].parentIndex === null ? null : paragraphs[outline[index].parentIndex!].id ?? null]));
+  };
+  const sourceParents = parents(source.paragraphs), nextParents = parents(replacement);
+  const affected = before.length ? sourceParents.get(before[0].id) : nextParents.get(after[0]?.id);
   if (affected !== operation.parentId) throw new Error('The captured paragraph parent changed.');
   // Add/delete operates only on a leaf. Inserting ahead of a child cannot steal it.
   if (before.length && source.paragraphs[start + before.length]?.level > before[before.length - 1].level
@@ -96,8 +105,7 @@ function locate(source: SerializedSession, target: ReviewStructureTarget, direct
   for (let index = 0; index < source.paragraphs.length; index++) {
     const paragraph = source.paragraphs[index];
     if (before.some(item => item.id === paragraph.id)) continue;
-    const next = replacement.findIndex(item => item.id === paragraph.id);
-    if (parentId(source.paragraphs, index) !== parentId(replacement, next)) throw new Error('This change would reparent unrelated paragraphs.');
+    if (sourceParents.get(paragraph.id) !== nextParents.get(paragraph.id)) throw new Error('This change would reparent unrelated paragraphs.');
   }
   return { start, before, after };
 }
@@ -111,7 +119,8 @@ export function validateReviewStructureTarget(baseline: SerializedSession, input
   for (const id of structureNewIds(target)) if (reserved.has(id)) throw new Error('The new paragraph identity is already reserved by document content or discussion history.');
   return target;
 }
-export function applyReviewStructure(source: SerializedSession, input: ReviewStructureTarget, direction: 'forward' | 'reverse' = 'forward', reservedIds: readonly string[] = [], historyReplay = false): SerializedSession {
+/** Validate applicability before deriving a writable document or discussion mappings. */
+function prepareReviewStructure(source: SerializedSession, input: ReviewStructureTarget, direction: 'forward' | 'reverse', reservedIds: readonly string[], historyReplay: boolean) {
   const target = reviewStructureTargetSchema.parse(input);assertOperation(target);
   const { start, before, after } = locate(source, target, direction);
   const retained = new Set(before.map(paragraph => paragraph.id));
@@ -121,6 +130,10 @@ export function applyReviewStructure(source: SerializedSession, input: ReviewStr
     // use the inverse outside a tagged, independently verified history action.
     && !((direction === 'reverse' && target.operation.kind === 'delete-paragraph' || historyReplay && direction === 'forward' && structureNewIds(target).includes(paragraph.id!))
       && !source.paragraphs.some(current => current.id === paragraph.id))) throw new Error('The new paragraph identity is already reserved.');
+  return { target, start, before, after };
+}
+export function applyReviewStructure(source: SerializedSession, input: ReviewStructureTarget, direction: 'forward' | 'reverse' = 'forward', reservedIds: readonly string[] = [], historyReplay = false): SerializedSession {
+  const { start, before, after } = prepareReviewStructure(source, input, direction, reservedIds, historyReplay);
   const session = structuredClone(source);
   session.paragraphs.splice(start, before.length, ...structuredClone(after));
   for (const paragraph of before) if (!after.some(item => item.id === paragraph.id)) {
@@ -135,7 +148,7 @@ export function assertReviewStructureNewIdsAvailable(source: SerializedSession, 
   if (structureNewIds(target).some(id => occupied.has(id))) throw new Error('The new paragraph identity is already reserved by current content, history or another review operation.');
 }
 export function inspectReviewStructure(source: SerializedSession, target: ReviewStructureTarget, direction: 'forward' | 'reverse' = 'forward', reservedIds: readonly string[] = []): boolean {
-  try { applyReviewStructure(source, target, direction, reservedIds);return true; } catch { return false; }
+  try { prepareReviewStructure(source, target, direction, reservedIds, false);return true; } catch { return false; }
 }
 /** Capture once; callers retain the generated new ID when submitting/retrying. */
 export function captureReviewStructure(source: SerializedSession, input: { kind: 'insert-paragraph'; index: number; text: string; level: number; paragraphId?: string } | { kind: 'delete-paragraph'; paragraphId: string }): ReviewStructureTarget {

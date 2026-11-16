@@ -54,8 +54,12 @@ describe('paragraph insertion/deletion suggestions', () => {
     const { session, round, make } = fixture();
     session.paragraphs[1].figure = { name: 'Synthetic figure', fileRef: { id: 'figure-file', name: 'example.png', size: 8, type: 'image/png' }, portionMarking: 'U' };
     round.baseline.session = structuredClone(session);const before=structuredClone(session);
-    expect(() => make({ kind: 'delete-paragraph', paragraphId: 'second' })).toThrow(/Figure paragraphs.*add a comment/);
+    expect(() => make({ kind: 'delete-paragraph', paragraphId: 'second' })).toThrow(/Structured paragraphs.*add a comment/);
     expect(session).toEqual(before);
+  });
+  it.each([{ tableKey: 'existing-table' }, { procedure: true }, { appendix: true }, { callout: 'warning' as const }, { publicationSection: 'purpose' as const }])('refuses structured deletion with comment recovery: %j', metadata => {
+    const { session, round, make } = fixture();Object.assign(session.paragraphs[1], metadata);round.baseline.session=structuredClone(session);
+    expect(() => make({kind:'delete-paragraph',paragraphId:'second'})).toThrow(/Structured paragraphs.*add a comment/);
   });
   it('detaches removed range anchors without losing paragraph discussion context and verifies full discussion replay on Undo', () => {
     const { session, round, make, stateFor } = fixture();
@@ -100,7 +104,7 @@ describe('paragraph insertion/deletion suggestions', () => {
     session.paragraphs = [session.paragraphs[0]];
     expect(() => captureReviewStructure(session,{kind:'delete-paragraph',paragraphId:'first'})).toThrow(/at least one/);
   });
-  it.each(['**rich**', '{{variable}}', '\\textbf{legacy}', 'two\nparagraphs'])('refuses unsupported new paragraph: %s', text => {
+  it.each(['**rich**', '{{variable}}', '\\textbf{legacy}', 'two\nparagraphs', '\uD800'])('refuses unsupported new paragraph: %s', text => {
     const { make } = fixture();expect(() => make({kind:'insert-paragraph',index:1,text,level:0})).toThrow();
   });
   it('refuses paragraph ID collisions in baseline, current, detached anchor history and other review operations', () => {
@@ -117,6 +121,11 @@ describe('paragraph insertion/deletion suggestions', () => {
     expect(planReviewSuggestionDecision(round,session,stateFor(proposal),proposal.id,'accepted').status).toBe('stale');
     round.baseline.session=structuredClone(session);
     expect(() => make({kind:'insert-paragraph',index:1,text:'New',level:0,paragraphId:'tombstone'})).toThrow(/reserved/);
+  });
+  it('allows an initial top-level paragraph in an empty document and refuses a nested orphan', () => {
+    const { session } = fixture();session.paragraphs=[];
+    expect(applyReviewStructure(session,captureReviewStructure(session,{kind:'insert-paragraph',index:0,text:'First paragraph',level:0})).paragraphs).toHaveLength(1);
+    expect(() => captureReviewStructure(session,{kind:'insert-paragraph',index:0,text:'Orphan',level:1})).toThrow(/nesting/);
   });
   it('rejects arbitrary retained node mutations and counts all retained metadata for limits and handling', () => {
     const { round, make, stateFor } = fixture();const proposal=make({kind:'delete-paragraph',paragraphId:'second'});
