@@ -1,4 +1,5 @@
 import { expect, test, type Download, type Page } from '@playwright/test';
+import AxeBuilder from '@axe-core/playwright';
 import { readFile } from 'node:fs/promises';
 import { replaceParagraphText } from '../_helpers/replaceParagraphText';
 import { fileURLToPath } from 'node:url';
@@ -76,6 +77,8 @@ for (const theme of ['light', 'dark', 'classic']) test(`returned package feedbac
     await reviewModal.getByLabel('Package comment reviewer name', { exact: true }).fill('Synthetic reviewer');
     await reviewModal.getByLabel('Package member comment', { exact: true }).fill('Synthetic original PDF question.');
     await reviewModal.getByRole('button', { name: 'Post member comment', exact: true }).click();
+    await expect(reviewModal.getByText('Synthetic original PDF question.', { exact: true })).toBeVisible();
+    await expect(navigation.getByRole('button', { name: original.label, exact: true })).toBeEnabled();
     await expect(reviewModal.getByRole('region', { name: 'Review suggestions', exact: true })).toHaveCount(0);
     await reviewer.reload(); reviewModal = await packages(reviewer);
     await reviewModal.getByLabel('Saved packages', { exact: true }).selectOption(fixture.package.id);
@@ -106,6 +109,7 @@ for (const theme of ['light', 'dark', 'classic']) test(`returned package feedbac
     await application.getByLabel(`Resolved replacement ${proposal.changes[0].id}`, { exact: true }).fill('SYNTHETIC DELIBERATE COMBINED SUBJECT');
     await application.getByRole('button', { name: 'Review new package revision', exact: true }).click();
     await application.getByRole('checkbox', { name: /^I reviewed the baseline/ }).check();
+    expect((await new AxeBuilder({ page }).include('[role="dialog"]').analyze()).violations).toEqual([]);
     const beforeApplication = await savedPackage(page, fixture.package.id);
     await application.getByRole('button', { name: 'Apply feedback as new package revision', exact: true }).click();
     await expect(modal.getByText('Reviewing exact saved package revision', { exact: true })).toBeHidden();
