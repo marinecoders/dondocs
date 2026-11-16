@@ -170,11 +170,11 @@ jobs:
         # Keep the limit close to the observed total so accidental dependencies,
         # test imports, duplicated modules and tree-shaking regressions fail CI.
         run: |
-          # Exact package reviews and portable member feedback measure
-          # 5,268,288 bytes across 38 JS chunks in regular production mode.
+          # Package feedback and formatting-preserving structural reviews measure
+          # 5,323,325 bytes across 39 JS chunks in regular production mode.
           # Reviewed module graph: no new dependencies, duplicate modules or
           # test imports. Feature growth retains about 1% measured headroom.
-          BUDGET_BYTES=5320971   # 5.07 MiB
+          BUDGET_BYTES=5376559   # 5.13 MiB
           TOTAL=$(find dist/assets -name "*.js" -exec stat -c %s {} \; | awk '{s+=$1} END {print s+0}')
           echo "Total dist/assets JS: $TOTAL bytes (budget: $BUDGET_BYTES)"
           if [ "$TOTAL" -gt "$BUDGET_BYTES" ]; then
