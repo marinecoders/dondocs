@@ -68,7 +68,7 @@ export function redlineBlocks(data: RedlineContent): RedlineBlock[] {
         add(change.kind === 'split-paragraph' ? 'SPLIT boundary: the paragraph break below is proposed.' : change.kind === 'join-paragraphs' ? 'JOIN boundary: the reviewed paragraph break is removed.' : 'Inline redline - strike = deletion; underline = insertion', 'label');
         const runs = inlineRedlineRuns(change.baseline, change.proposed).map(run =>
           (change.kind === 'split-paragraph' || change.kind === 'join-paragraphs') && run.style
-            ? { ...run, text: run.text.replace(/\n/g, ' [PARAGRAPH BREAK] \n') } : run);
+            ? { ...run, text: run.text.replace(/\n\n/g, ' [PARAGRAPH BREAK] \n\n') } : run);
         if (change.context !== undefined && change.range) {
           runs.unshift({ text: change.context.slice(0, change.range.start) });runs.push({ text: change.context.slice(change.range.end) });
         }

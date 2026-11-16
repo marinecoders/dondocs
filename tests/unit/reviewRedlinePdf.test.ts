@@ -101,3 +101,16 @@ it('wraps every writing-direction boundary without losing LTR-first source separ
   expect(lines).toEqual(['Café 中文 ', 'العربية שלום ', '👩🏽‍🚀 e\u0301']);
   expect(lines.join('')).toBe(source);
 });
+
+it.each(['split-paragraph', 'join-paragraphs'])('labels one %s boundary once and preserves captured values', kind => {
+  const data = redlineFixture(), change = data.items[0].changes[0];
+  change.kind = kind;
+  change.baseline = kind === 'split-paragraph' ? 'First second' : 'First\n\nsecond';
+  change.proposed = kind === 'split-paragraph' ? 'First\n\nsecond' : 'First second';
+  change.current = change.baseline;
+  const original = structuredClone(data);
+  const blocks = redlineBlocks(data), inline = blocks.find(block => block.runs)!;
+  expect(inline.text.match(/\[PARAGRAPH BREAK\]/g)).toHaveLength(1);
+  for (const value of [change.baseline, change.current, change.proposed]) expect(blocks.some(block => !block.runs && block.text === value)).toBe(true);
+  expect(data).toEqual(original);
+});
