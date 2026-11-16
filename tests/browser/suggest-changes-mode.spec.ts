@@ -19,6 +19,26 @@ async function select(editor: Locator, start: number, end = start) {
     element.setSelectionRange(span.start, span.end);element.dispatchEvent(new Event('select', { bubbles: true }));
   }, { start, end });
 }
+async function paste(editor: Locator, value: string | { name: string; type: string; content: string }) {
+  await expect(editor).toBeEnabled();
+  const handled = await editor.evaluate((element: HTMLTextAreaElement, payload) => {
+    const event = new ClipboardEvent('paste', { bubbles: true, cancelable: true, clipboardData: new DataTransfer() });
+    const clipboard = event.clipboardData;
+    if (!clipboard) throw new Error('The synthetic paste event has no clipboard data.');
+    // Validate the event's own store before exercising paste handling.
+    if (typeof payload === 'string') {
+      clipboard.setData('text/plain', payload);
+      if (clipboard.getData('text/plain') !== payload) throw new Error('The synthetic paste lost its text before dispatch.');
+    } else {
+      const file = new File([payload.content], payload.name, { type: payload.type });
+      clipboard.items.add(file);
+      if (clipboard.files.length !== 1 || clipboard.files[0].name !== file.name || clipboard.files[0].size !== file.size)
+        throw new Error('The synthetic paste lost its file before dispatch.');
+    }
+    return !element.dispatchEvent(event);
+  }, value);
+  expect(handled).toBe(true);
+}
 for (const theme of ['light', 'dark', 'classic']) test(`natural typed suggestions return, apply and Undo in ${theme}`, async ({ page, browser, baseURL }, info) => {
   const init = (appearance: string) => {
     localStorage.setItem('browser-test-visitor', 'returning');
@@ -54,15 +74,9 @@ for (const theme of ['light', 'dark', 'classic']) test(`natural typed suggestion
     await expect(paragraph.getByRole('option', { name: 'Paragraph 4 (unsupported content)' })).toBeDisabled();
     await paragraph.selectOption('typed-one');const editor = remote.getByRole('textbox', { name: 'Suggested paragraph text', exact: true });
     await select(editor, 0, 'Keep Alpha Alpha ending.'.length);
-    await editor.evaluate((element: HTMLTextAreaElement) => {
-      const clipboard = new DataTransfer();clipboard.setData('text/plain', '🇸 team');
-      element.dispatchEvent(new ClipboardEvent('paste', { bubbles: true, cancelable: true, clipboardData: clipboard }));
-    });
+    await paste(editor, '🇸 team');
     await expect(editor).toHaveValue('🇸 team');await select(editor, 0);
-    await editor.evaluate((element: HTMLTextAreaElement) => {
-      const clipboard = new DataTransfer();clipboard.setData('text/plain', '🇺');
-      element.dispatchEvent(new ClipboardEvent('paste', { bubbles: true, cancelable: true, clipboardData: clipboard }));
-    });
+    await paste(editor, '🇺');
     await expect.poll(() => editor.evaluate((element: HTMLTextAreaElement) => [element.selectionStart, element.selectionEnd])).toEqual([4, 4]);
     await editor.pressSequentially('X');await expect(editor).toHaveValue('🇺🇸X team');
     await remote.getByRole('button', { name: 'Cancel typed changes', exact: true }).click();
@@ -71,11 +85,7 @@ for (const theme of ['light', 'dark', 'classic']) test(`natural typed suggestion
     await expect(editor).toHaveValue('Keep Alpha new Alpha ending.');
     await expect(remote.getByText('Unsaved suggested changes · Insertion', { exact: true })).toBeVisible();
     await select(editor, 11, 14);
-    await editor.evaluate((element: HTMLTextAreaElement) => {
-      const clipboard = new DataTransfer();
-      clipboard.items.add(new File(['synthetic image'], 'example.png', { type: 'image/png' }));
-      element.dispatchEvent(new ClipboardEvent('paste', { bubbles: true, cancelable: true, clipboardData: clipboard }));
-    });
+    await paste(editor, { name: 'example.png', type: 'image/png', content: 'synthetic image' });
     await expect(editor).toHaveValue('Keep Alpha new Alpha ending.');
     await expect(remote.getByRole('alert').filter({ hasText: 'Only plain-text paste is supported.' })).toBeVisible();
     await expect.poll(() => editor.evaluate((element: HTMLTextAreaElement) => [element.selectionStart, element.selectionEnd])).toEqual([11, 14]);
@@ -93,10 +103,7 @@ for (const theme of ['light', 'dark', 'classic']) test(`natural typed suggestion
     await remote.getByRole('button', { name: 'Save typed suggestion', exact: true }).click();
     await expect(editor).toHaveValue('Delete word please.');
     await paragraph.selectOption('typed-three');await select(editor, 0);await editor.pressSequentially('New ');
-    await editor.evaluate((element: HTMLTextAreaElement) => {
-      const clipboard = new DataTransfer();clipboard.setData('text/plain', 'Équipe ');
-      element.dispatchEvent(new ClipboardEvent('paste', { bubbles: true, cancelable: true, clipboardData: clipboard }));
-    });
+    await paste(editor, 'Équipe ');
     await expect(editor).toHaveValue('New Équipe Paste here.');
     await select(editor, 11);
     await editor.evaluate((element: HTMLTextAreaElement) => {
