@@ -109,13 +109,13 @@ for (const theme of ['light', 'dark', 'classic']) test(`existing formatting find
     await info.attach('formatting-group-axe', { body: JSON.stringify(accessibility, null, 2), contentType: 'application/json' });
     expect(accessibility.violations).toEqual([]);
     await page.screenshot({ path: info.outputPath(`formatting-group-${theme}.png`), scale: 'css' });
-    await page.keyboard.press('Escape');
+    await closeReviewRounds(modal);
     await page.getByRole('textbox', { name: 'Reference (b) URL', exact: true }).fill('https://example.com/b');
     await replaceParagraphText(page.getByRole('textbox', { name: 'Paragraph 2', exact: true }), `${ORIGINAL_BODY} Newer overlapping sentence.`);
     modal = await chooseRound(page);group = modal.getByRole('article', { name: 'Suggestion 1: Formatting corrections (7)', exact: true });
     await expect(group.getByRole('button', { name: 'Accept suggestion', exact: true })).toBeDisabled();
     await expect(group).toContainText('Current draft differs; acceptance is blocked');
-    await page.keyboard.press('Escape');await expect(modal).toBeHidden();
+    await closeReviewRounds(modal);
     const blocked = await draft(page);
     expect(blocked.formData.date).toBe('13 November 2026');expect(blocked.formData.sigFirst).toBe(' A . ');
     expect(blocked.references.map((item: { title: string }) => item.title)).toEqual(['Alpha (notal)', 'Bravo ( notal )']);
@@ -127,14 +127,14 @@ for (const theme of ['light', 'dark', 'classic']) test(`existing formatting find
     // deliberately stays open while that write is pending.
     await expect(modal.getByText('Review change saved.', { exact: true })).toBeVisible();
     await expect(modal.getByRole('combobox', { name: 'Review for suggested edits', exact: true })).toBeEnabled();
-    await page.keyboard.press('Escape');await expect(modal).toBeHidden();
+    await closeReviewRounds(modal);
     expectDraft(await draft(page), true);
     await history(page, 'Undo');expectDraft(await draft(page), false);
     await history(page, 'Redo');expectDraft(await draft(page), true);
     await page.reload();expectDraft(await draft(page), true);
     modal = await chooseRound(page);await expect(modal.getByRole('article', { name: 'Suggestion 1: Formatting corrections (7)', exact: true })).toContainText('Accepted');
     await modal.getByLabel('Import feedback return', { exact: true }).setInputFiles({ name: 'same-feedback.json', mimeType: 'application/json', buffer: returned });
-    await expect(modal.getByText(/This return has already been imported/)).toBeVisible();await page.keyboard.press('Escape');
+    await expect(modal.getByText(/This return has already been imported/)).toBeVisible();await closeReviewRounds(modal);
     const clean = await draft(page);expectDraft(clean, true);expect(JSON.stringify(clean)).not.toContain(payload.proposals[0].id);
 
     // Renderer behavior is theme-independent; retain actual clean files once.
@@ -227,6 +227,6 @@ for (const scenario of ['advisory and target limit', 'oversized whole paragraph'
   }
   await expect(modal.getByRole('combobox', { name: 'Review for suggested edits', exact: true })).toBeEnabled();
   await page.screenshot({ path: info.outputPath(`formatting-${unsupported ? 'unsupported' : oversized ? 'size' : 'advisory'}-limit.png`), scale: 'css' });
-  await page.keyboard.press('Escape');await expect(modal).toBeHidden();
+  await closeReviewRounds(modal);
   const unchanged = await draft(page);expect(unchanged.paragraphs).toEqual(paragraphs);expect(unchanged.formData.date).toBe(source.formData.date);
 });

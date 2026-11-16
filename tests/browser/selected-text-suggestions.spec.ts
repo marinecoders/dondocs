@@ -86,7 +86,7 @@ for (const theme of ['light', 'dark', 'classic']) test(`selected replacement tra
     expect((await new AxeBuilder({ page }).include('[role="dialog"]').analyze()).violations).toEqual([]);
     expect(await modal.evaluate(element => element.scrollWidth <= element.clientWidth)).toBe(true);
     await page.screenshot({ path: info.outputPath(`selected-text-${theme}.png`), scale: 'css' });
-    await page.keyboard.press('Escape');
+    await closeReviewRounds(modal);
     await action(page, 'Undo');
     const undone = JSON.parse((await download(page, () => action(page, 'Export draft (.json)'))).toString('utf8'));
     expect(undone.paragraphs[0].text).toBe('Keep Alpha Alpha ending.');expect(undone.paragraphs[1].text).toBe('Newer independent draft work.');

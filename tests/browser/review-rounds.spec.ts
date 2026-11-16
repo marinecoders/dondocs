@@ -168,7 +168,7 @@ for (const theme of ['light', 'dark', 'classic']) {
       await cleanup.getByRole('button', { name: 'Delete review baseline', exact: true }).click();
       await restored.getByRole('alertdialog', { name: 'Delete this review baseline?', exact: true }).getByRole('button', { name: 'Delete review baseline', exact: true }).click();
       await expect(cleanup.getByText('No review baselines saved yet.', { exact: true })).toBeVisible();
-      await restored.keyboard.press('Escape');await restored.reload();
+      await closeReviewRounds(cleanup);await restored.reload();
       await expect(restored.getByRole('button', { name: `Review: Retained review ${theme}`, exact: true })).toBeVisible();
       expect((await exportedDraft(restored)).formData.unitAddress).toBe('CAMP PENDLETON CA 92055');
     } finally { await second.close(); }

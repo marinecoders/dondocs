@@ -137,7 +137,7 @@ for (const theme of ['light', 'dark', 'classic']) test(`natural typed suggestion
       await article.getByRole('button', { name: 'Accept suggestion', exact: true }).click();await expect(article.getByText(/· Accepted$/)).toBeVisible();
     }
     await expect(modal.getByLabel('Review for suggested edits', { exact: true })).toBeEnabled();
-    await page.keyboard.press('Escape');await expect(modal).toBeHidden();await action(page, 'Undo');
+    await closeReviewRounds(modal);await action(page, 'Undo');
     let exported = JSON.parse((await download(page, () => action(page, 'Export draft (.json)'))).toString('utf8'));
     expect(exported.paragraphs.map((item: { text: string }) => item.text).slice(0, 3)).toEqual(['Keep Alpha Bravo ending.', 'Delete please.', 'Paste here.']);
     await action(page, 'Redo');await page.reload();

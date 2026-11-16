@@ -75,7 +75,7 @@ for (const theme of ['light', 'dark', 'classic']) test(`paragraph insertion and 
     const rejected = modal.getByRole('article', { name: 'Suggestion 3: Delete paragraph', exact: true });
     await rejected.getByRole('button', { name: 'Reject suggestion', exact: true }).click();await expect(rejected.getByText(/· Rejected$/)).toBeVisible();
     await expect(modal.getByLabel('Review for suggested edits', { exact: true })).toBeEnabled();
-    await page.keyboard.press('Escape');await expect(modal).toBeHidden();
+    await closeReviewRounds(modal);
     // Reaccept the original immutable proposals after ordinary source Undo.
     // The existing export assertions below still require the captured newId.
     await action(page, 'Undo');
@@ -97,7 +97,7 @@ for (const theme of ['light', 'dark', 'classic']) test(`paragraph insertion and 
     await expect(modal.getByRole('article', { name: 'Suggestion 3: Delete paragraph', exact: true }).getByText(/· Rejected$/)).toBeVisible();
     expect((await new AxeBuilder({ page }).include('[role="dialog"]').analyze()).violations).toEqual([]);
     expect(await modal.evaluate(element => element.scrollWidth <= element.clientWidth)).toBe(true);
-    await page.screenshot({ path: info.outputPath(`paragraph-proposals-${theme}.png`), scale: 'css' });await page.keyboard.press('Escape');await expect(modal).toBeHidden();
+    await page.screenshot({ path: info.outputPath(`paragraph-proposals-${theme}.png`), scale: 'css' });await closeReviewRounds(modal);
     await action(page, 'Undo');
     const undone = JSON.parse((await download(page, () => action(page, 'Export draft (.json)'))).toString('utf8'));
     expect(undone.paragraphs.map((paragraph: {id:string}) => paragraph.id)).toEqual(['structure-first', 'structure-second', 'structure-third', newId]);
@@ -113,7 +113,7 @@ for (const theme of ['light', 'dark', 'classic']) test(`paragraph insertion and 
     await expect(repeatedReturn).toBeEnabled();
     await repeatedReturn.setInputFiles({ name: 'repeated.json', mimeType: 'application/json', buffer: returned });
     await expect(modal.getByText(/This return has already been imported/)).toBeVisible();
-    await page.keyboard.press('Escape');await expect(modal).toBeHidden();
+    await closeReviewRounds(modal);
     // Accepted Unicode content must also compile through the clean PDF path.
     const preview = page.getByRole('button', { name: 'Preview', exact: true });
     let exportPdf: () => Promise<unknown>;

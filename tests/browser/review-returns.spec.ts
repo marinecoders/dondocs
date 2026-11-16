@@ -97,7 +97,7 @@ for (const theme of ['light', 'dark', 'classic']) {
         await modal.getByRole('button', { name: 'Import reviewed feedback', exact: true }).click();await expect(modal.getByText(/Feedback imported/)).toBeVisible();
       });
       await test.step('Reload and verify newer author work and detached feedback', async () => {
-        await page.keyboard.press('Escape');await page.reload();
+        await closeReviewRounds(page.getByRole('dialog', { name: 'Review rounds', exact: true }));await page.reload();
         const saved = await exported(page);expect(saved.formData.subject).toBe('NEWER AUTHOR SUBJECT');
         expect(saved.paragraphs).toHaveLength(1);expect(saved.paragraphs[0].text).toBe('Newer author body survives returned feedback.');
         expect(saved.reviewComments.threads[0].anchor.paragraphId).toBe('review-first');
@@ -105,7 +105,7 @@ for (const theme of ['light', 'dark', 'classic']) {
       });
       await test.step('Recognize the same feedback return after reload', async () => {
         const modal = await reviews(page);await modal.getByLabel('Import feedback return', { exact: true }).setInputFiles({ name: 'same-return.json', mimeType: 'application/json', buffer: returned });
-        await expect(modal.getByText(/This return has already been imported/)).toBeVisible();await page.keyboard.press('Escape');
+        await expect(modal.getByText(/This return has already been imported/)).toBeVisible();await closeReviewRounds(modal);
       });
       await test.step('Open workspace Settings and download the receipt-bearing backup', async () => {
         await workspace(page, 'Settings');

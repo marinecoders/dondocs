@@ -71,7 +71,7 @@ for (const theme of ['light', 'dark', 'classic']) {
     await modal.getByRole('button', { name: 'Add move proposal', exact: true }).click();
     await expect(modal.getByText('Move proposal submitted. The reviewed document is unchanged.', { exact: true })).toBeVisible();
     await expect(modal.getByLabel('Review for suggested edits', { exact: true })).toBeEnabled();
-    await page.keyboard.press('Escape');await expect(modal).toBeHidden();
+    await closeReviewRounds(modal);
     await replaceParagraphText(page.getByRole('textbox', { name: 'Paragraph 1', exact: true }), 'CURRENT_INDEPENDENT_EDIT');
     modal = await reviews(page);
     const report = modal.getByRole('article', { name: 'Review Synthetic redline round', exact: true }).getByRole('group', { name: 'Redline review PDF', exact: true });

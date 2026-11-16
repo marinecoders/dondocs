@@ -85,7 +85,7 @@ for (const theme of ['light', 'dark', 'classic']) test(`round-bound replacement 
     expect((await new AxeBuilder({ page }).include('[role="dialog"]').analyze()).violations).toEqual([]);
     await page.screenshot({ path: info.outputPath(`suggestions-${theme}.png`), scale: 'css' });
     await expect(modal.getByLabel('Review for suggested edits', { exact: true })).toBeEnabled();
-    await page.keyboard.press('Escape');await expect(modal).toBeHidden();
+    await closeReviewRounds(modal);
     await action(page, 'Undo');
     const undone = JSON.parse((await download(page, () => action(page, 'Export draft (.json)'))).toString('utf8'));expect(undone.formData.to).toBe('Original recipient');
     await action(page, 'Redo');
@@ -194,7 +194,7 @@ for (const theme of ['light', 'dark', 'classic']) test(`two reviewer returns rec
   expect(await modal.evaluate(element => element.scrollWidth <= element.clientWidth)).toBe(true);
   await page.screenshot({ path: info.outputPath(`resolution-${theme}.png`), scale: 'css' });
   await bravo.getByRole('button', { name: 'Apply resolution', exact: true }).click();await expect(bravo.getByText(/· Accepted$/)).toBeVisible();
-  await expect(modal.getByLabel('Review for suggested edits', { exact: true })).toBeEnabled();await modal.getByRole('button', { name: 'Close', exact: true }).click();
+  await expect(modal.getByLabel('Review for suggested edits', { exact: true })).toBeEnabled();await closeReviewRounds(modal, 'close-button');
   await action(page, 'Undo');
   let draft = JSON.parse((await download(page, () => action(page, 'Export draft (.json)'))).toString('utf8'));
   expect(draft.paragraphs[0].text).toBe('Bravo team meets on Monday.');expect(draft.paragraphs[1].text).toBe(untouched);
@@ -215,7 +215,7 @@ for (const theme of ['light', 'dark', 'classic']) test(`two reviewer returns rec
     modal = await reviews(restored);await modal.getByLabel('Review for suggested edits', { exact: true }).selectOption({ label: 'Combined review' });
     await expect(modal.getByRole('article').filter({ hasText: 'Accepted resolution' })).toHaveCount(2);
     await modal.getByLabel('Import feedback return', { exact: true }).setInputFiles({ name: 'again.json', mimeType: 'application/json', buffer: returns[0] });
-    await expect(modal.getByText(/This return has already been imported/)).toBeVisible();await modal.getByRole('button', { name: 'Close', exact: true }).click();
+    await expect(modal.getByText(/This return has already been imported/)).toBeVisible();await closeReviewRounds(modal, 'close-button');
     const transferred = JSON.parse((await download(restored, () => action(restored, 'Export draft (.json)'))).toString('utf8'));
     expect(transferred.paragraphs[0].text).toBe(combined);expect(transferred.paragraphs[1].text).toBe(untouched);
   } finally { await context.close(); }
@@ -240,7 +240,7 @@ for (const theme of ['light', 'dark', 'classic']) test(`ambiguous repeated text 
   await modal.getByLabel('Proposed replacement', { exact: true }).fill('Bravo Alpha team reports.');
   await modal.getByRole('button', { name: 'Add suggestion', exact: true }).click();
   await expect(modal.getByLabel('Review for suggested edits', { exact: true })).toBeEnabled();
-  await modal.getByRole('button', { name: 'Close', exact: true }).click();
+  await closeReviewRounds(modal, 'close-button');
   await replaceParagraphText(page.getByRole('textbox', { name: 'Paragraph 1', exact: true }), 'Alpha team reports.');
   modal = await reviews(page);await modal.getByLabel('Review for suggested edits', { exact: true }).selectOption({ label: 'Repeated text review' });
   const proposal = modal.getByRole('article', { name: 'Suggestion 1: Replace paragraph 1', exact: true });
@@ -256,7 +256,7 @@ for (const theme of ['light', 'dark', 'classic']) test(`ambiguous repeated text 
   await proposal.getByRole('button', { name: 'Apply resolution', exact: true }).click();
   await expect(proposal.getByText(/· Accepted$/)).toBeVisible();
   await expect(modal.getByLabel('Review for suggested edits', { exact: true })).toBeEnabled();
-  await modal.getByRole('button', { name: 'Close', exact: true }).click();
+  await closeReviewRounds(modal, 'close-button');
   await action(page, 'Undo');
   let draft = JSON.parse((await download(page, () => action(page, 'Export draft (.json)'))).toString('utf8'));
   expect(draft.paragraphs[0].text).toBe('Alpha team reports.');await action(page, 'Redo');
@@ -290,7 +290,7 @@ test('accepted paragraph decisions survive workspace transfer and permanent sour
   const proposal = modal.getByRole('article', { name: 'Suggestion 1: Replace paragraph 1', exact: true });
   await proposal.getByRole('button', { name: 'Accept suggestion', exact: true }).click();
   await expect(proposal.getByText(/· Accepted$/)).toBeVisible();await expect(modal.getByLabel('Review for suggested edits', { exact: true })).toBeEnabled();
-  await modal.getByRole('button', { name: 'Close', exact: true }).click();
+  await closeReviewRounds(modal, 'close-button');
   const fullBackup = await workspaceBackup(page), bundle = JSON.parse(fullBackup.toString('utf8'));
   expect(bundle.version).toBe(9);expect(bundle.reviewSuggestions).toHaveLength(1);
   expect(bundle.reviewSuggestions[0].state.decisions.map((decision: { action: string }) => decision.action)).toEqual(['accepted']);
@@ -304,7 +304,7 @@ test('accepted paragraph decisions survive workspace transfer and permanent sour
     await expect(modal.getByRole('article', { name: 'Suggestion 1: Replace paragraph 1', exact: true }).getByText(/· Accepted$/)).toBeVisible();
     await expect(modal.getByRole('region', { name: 'Paragraph 1 replacement comparison, suggestion 1', exact: true })).toContainText('Accepted archive paragraph.');
     await restored.screenshot({ path: info.outputPath('restored-accepted-decision.png'), scale: 'css' });
-    await modal.getByRole('button', { name: 'Close', exact: true }).click();
+    await closeReviewRounds(modal, 'close-button');
     const clean = JSON.parse((await download(restored, () => action(restored, 'Export draft (.json)'))).toString('utf8'));
     expect(clean.paragraphs[0].text).toBe('Accepted archive paragraph.');expect(clean.proposals).toBeUndefined();expect(clean.decisions).toBeUndefined();
     await workspace(restored, 'Actions for ARCHIVE REVIEW SOURCE');
@@ -351,7 +351,7 @@ test('retained custom labels do not bypass the recognized review marking floor',
   await modal.getByLabel('Suggestion target', { exact: true }).selectOption({ label: 'Subject' });
   await modal.getByLabel('Proposed replacement', { exact: true }).fill('REVIEWED MARKING FLOOR SUBJECT');
   await modal.getByRole('button', { name: 'Add suggestion', exact: true }).click();
-  await expect(modal.getByLabel('Review for suggested edits', { exact: true })).toBeEnabled();await modal.getByRole('button', { name: 'Close', exact: true }).click();
+  await expect(modal.getByLabel('Review for suggested edits', { exact: true })).toBeEnabled();await closeReviewRounds(modal, 'close-button');
   await page.getByRole('button', { name: 'Portion marking: Secret. Change', exact: true }).click();
   await page.getByRole('menuitemradio', { name: '(U) Unclassified', exact: true }).click();
   await replaceParagraphText(page.getByRole('textbox', { name: 'Paragraph 1', exact: true }), 'Fictional lower-marked current paragraph.');
@@ -361,7 +361,7 @@ test('retained custom labels do not bypass the recognized review marking floor',
   await expect(modal.getByRole('alert')).toContainText('marked below the reviewed content');
   await expect(proposal.getByText(/· Pending$/)).toBeVisible();await expect(modal.getByLabel('Review for suggested edits', { exact: true })).toBeEnabled();
   await page.screenshot({ path: info.outputPath('rejected-below-recognized-floor.png'), scale: 'css' });
-  await modal.getByRole('button', { name: 'Close', exact: true }).click();
+  await closeReviewRounds(modal, 'close-button');
   const clean = JSON.parse((await download(page, () => action(page, 'Export draft (.json)'))).toString('utf8'));
   expect(clean.formData.subject).toBe('FICTIONAL MARKING FLOOR SOURCE');expect(clean.formData.customClassification).toBe('INTERNAL HANDLING');
   expect(clean.paragraphs[0]).toMatchObject({ text: 'Fictional lower-marked current paragraph.', portionMarking: 'U' });
@@ -401,7 +401,7 @@ for (const scenario of [
   }
   await expect(modal.getByLabel('Review for suggested edits', { exact: true })).toBeEnabled();
   await page.screenshot({ path: info.outputPath(`custom-marking-${scenario.name.replaceAll(' ', '-')}.png`), scale: 'css' });
-  await modal.getByRole('button', { name: 'Close', exact: true }).click();
+  await closeReviewRounds(modal, 'close-button');
   const expected = scenario.error ? scenario.baseline : scenario.proposed;
   const clean = JSON.parse((await download(page, () => action(page, 'Export draft (.json)'))).toString('utf8'));
   expect(clean.formData.customClassification).toBe(expected);
@@ -509,7 +509,7 @@ test('review lifecycle preserves late returns and requires deliberate reopening'
   await expect(first).toContainText('Round status: superseded');
   await expect(first).toContainText('Replaced by Replacement lifecycle round');
   await expect(first.getByRole('button', { name: 'Reopen review', exact: true })).toHaveCount(0);
-  await page.keyboard.press('Escape');
+  await closeReviewRounds(modal);
   await page.reload();
   modal = await reviews(page);
   await expect(modal.getByRole('article', { name: 'Review First lifecycle round', exact: true })).toContainText('Round status: superseded');
@@ -577,8 +577,7 @@ test('received copies and backups advance compatible closed review history', asy
     await expect(received.getByRole('button', { name: 'Add suggestion', exact: true })).toBeDisabled();
     await expect(received.getByText('This round is closed or superseded. Its suggestions and decisions remain available for inspection.', { exact: true })).toBeVisible();
     await recipient.screenshot({ path: info.outputPath(screenshot), scale: 'css' });
-    await recipient.keyboard.press('Escape');
-    await expect(received).toBeHidden();
+    await closeReviewRounds(received);
   }
 
   const first = await browser.newContext(device);
@@ -590,7 +589,7 @@ test('received copies and backups advance compatible closed review history', asy
     await importCopy(recipient, activeFile);
     modal = await reviews(recipient);
     await expect(modal.getByRole('article', { name: 'Review Received state review', exact: true })).toContainText('Round status: active');
-    await recipient.keyboard.press('Escape');
+    await closeReviewRounds(modal);
     await importCopy(recipient, closedFile);
     await expectClosed(recipient, 'received-state-closed-copy.png');
     closedBackup = await workspaceBackup(recipient);
@@ -675,8 +674,7 @@ test('explicit reviewer checkpoints show later text and feedback outcomes after 
   await suggestion.getByRole('button', { name: 'Accept suggestion', exact: true }).click();
   await expect(suggestion.getByText(/· Accepted$/)).toBeVisible();
   await expect(modal.getByLabel('Review for suggested edits', { exact: true })).toBeEnabled();
-  await page.keyboard.press('Escape');
-  await expect(modal).toBeHidden();
+  await closeReviewRounds(modal);
   await replaceParagraphText(page.getByRole('textbox', { name: 'Paragraph 1', exact: true }), 'Later author paragraph.');
   modal = await reviews(page);
   await modal.getByLabel('Review for comparison checkpoint', { exact: true }).selectOption({ label: 'Checkpoint round' });
@@ -735,8 +733,7 @@ test('retained checkpoint markings block both file downloads after a stricter po
   await modal.getByLabel('Review name', { exact: true }).fill('Unclassified retained baseline');
   await modal.getByRole('button', { name: 'Start review from current draft', exact: true }).click();
   await expect(modal.getByText('Review baseline saved. Later source edits will not change this copy.', { exact: true })).toBeVisible();
-  await page.keyboard.press('Escape');
-  await expect(modal).toBeHidden();
+  await closeReviewRounds(modal);
   await page.getByRole('button', { name: 'Portion marking: Unclassified. Change', exact: true }).click();
   await page.getByRole('menuitemradio', { name: '(S) Secret', exact: true }).click();
   modal = await reviews(page);
@@ -831,7 +828,7 @@ test('closed categorized decisions and earlier checkpoints survive Undo Redo and
   await expect(suggestion.getByText(/· Accepted$/)).toBeVisible();
   await modal.getByRole('button', { name: 'Close review', exact: true }).click();
   await expect(modal.getByText('Round status: closed', { exact: true })).toBeVisible();
-  await page.keyboard.press('Escape');
+  await closeReviewRounds(modal);
   await action(page, 'Undo');
   const undone = JSON.parse((await download(page, () => action(page, 'Export draft (.json)'))).toString('utf8'));
   expect(undone.formData.to).toBe('Original recipient');

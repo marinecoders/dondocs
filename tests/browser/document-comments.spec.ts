@@ -2,6 +2,7 @@ import { expect, test, type Page } from '@playwright/test';
 import { readFile } from 'node:fs/promises';
 import JSZip from 'jszip';
 import { getDocument } from 'pdfjs-dist/legacy/build/pdf.mjs';
+import { closeReviewRounds } from '../_helpers/closeReviewRounds';
 
 test.use({ serviceWorkers: 'block' });
 test.setTimeout(180_000);
@@ -37,7 +38,7 @@ for (const theme of ['light', 'dark', 'classic']) {
     await comments.getByRole('button', { name: 'Review rounds…', exact: true }).click();
     await expect(page.getByRole('dialog', { name: 'Review rounds', exact: true })).toBeVisible();
     await expect(page.getByRole('dialog')).toHaveCount(1);
-    await page.keyboard.press('Escape');
+    await closeReviewRounds(page.getByRole('dialog', { name: 'Review rounds', exact: true }));
     await expect(counted).toBeFocused();
 
     const workspace = page.getByRole('button', { name: 'Open workspace', exact: true });
