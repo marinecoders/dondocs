@@ -10,7 +10,9 @@ export function isTextRangeBoundary(text: string, offset: number): boolean {
   if (/[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?<![\uD800-\uDBFF])[\uDC00-\uDFFF]/.test(text)) return false;
   if (!Number.isSafeInteger(offset) || offset < 0 || offset > text.length) return false;
   if (offset === text.length) return true;
-  return Array.from(new Intl.Segmenter('en', { granularity: 'grapheme' }).segment(text)).some(part => part.index === offset);
+  // Range validation runs repeatedly while typing. Inspect only the segment at
+  // this offset instead of allocating every grapheme in each retained context.
+  return new Intl.Segmenter('en', { granularity: 'grapheme' }).segment(text).containing(offset)?.index === offset;
 }
 const position = z.object({ context: z.string().max(TEXT_RANGE_CONTEXT_LIMIT), start: z.number().int().nonnegative(), end: z.number().int().nonnegative() }).strict();
 export const selectedTextRangeSchema = z.object({
