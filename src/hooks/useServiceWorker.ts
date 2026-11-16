@@ -13,7 +13,8 @@ import { useReleaseUpdates } from './useReleaseUpdates';
 // Key to signal auto-restore after update reload
 export const SW_AUTO_RESTORE_KEY = 'dondocs-sw-auto-restore';
 
-type UpdateAttempt = { phase: 'saving' | 'activating' | 'waiting'; reloadRequested: boolean };
+type UpdateAttempt = { phase: 'saving' | 'activating' | 'waiting'; reloadRequested: boolean; offered: ServiceWorker | null };
+const UPDATE_UNAVAILABLE = 'The offered update is no longer available. Check for updates and try again.';
 
 function useLegacyServiceWorker() {
   const [showUpdatePrompt, setShowUpdatePrompt] = useState(false);
@@ -39,16 +40,21 @@ function useLegacyServiceWorker() {
   }, []);
   const reloadOnce = useCallback(() => {
     const attempt = updateAttempt.current;
-    if (!mounted.current || !attempt || attempt.phase === 'saving') return;
+    if (!mounted.current || !attempt || attempt.phase === 'saving' || attempt.offered?.state !== 'activated') return;
     attempt.reloadRequested = true;
     // Activation can notify synchronously. Wait for the confirmed activation
     // request to succeed before accepting that notification as a reload.
     if (attempt.phase !== 'waiting' || reloading.current) return;
     reloading.current = true;
-    activationCleanup.current?.();
-    activationCleanup.current = null;
     void flushDocumentWrites().then(() => {
-      if (mounted.current && updateAttempt.current === attempt) window.location.reload();
+      if (!mounted.current || updateAttempt.current !== attempt) return;
+      if (attempt.offered?.state !== 'activated') {
+        pauseUpdate(attempt, UPDATE_UNAVAILABLE);
+        return;
+      }
+      activationCleanup.current?.();
+      activationCleanup.current = null;
+      window.location.reload();
     }).catch(error => {
       pauseUpdate(attempt, error instanceof Error ? error.message : String(error));
     });
@@ -88,27 +94,32 @@ function useLegacyServiceWorker() {
     // before the registration callback exposes the waiting worker.
     const registration = await navigator.serviceWorker?.getRegistration?.() ?? registrationRef.current;
     if (!mounted.current || updateAttempt.current !== attempt) return;
-    attempt.phase = 'activating';
     const worker = navigator.serviceWorker;
     const offered = registration?.waiting ?? registration?.installing ?? registration?.active;
+    if (!offered || offered.state === 'redundant') throw new Error(UPDATE_UNAVAILABLE);
+    attempt.offered = offered;
+    attempt.phase = 'activating';
     const notify = () => {
       if (mounted.current && updateAttempt.current === attempt) reloadOnce();
     };
     // A first-install tab may receive no controllerchange without clientsClaim.
     // Observe only this confirmed attempt's live offered worker as well.
-    const onActivated = () => { if (offered?.state === 'activated') notify(); };
+    const onStateChange = () => {
+      if (offered.state === 'redundant') pauseUpdate(attempt, UPDATE_UNAVAILABLE);
+      else if (offered.state === 'activated') notify();
+    };
     worker?.addEventListener('controllerchange', notify);
-    offered?.addEventListener('statechange', onActivated);
+    offered.addEventListener('statechange', onStateChange);
     activationCleanup.current = () => {
       worker?.removeEventListener('controllerchange', notify);
-      offered?.removeEventListener('statechange', onActivated);
+      offered.removeEventListener('statechange', onStateChange);
     };
     await update?.(true);
     if (!mounted.current || updateAttempt.current !== attempt) return;
     attempt.phase = 'waiting';
-    onActivated();
+    onStateChange();
     if (attempt.reloadRequested) reloadOnce();
-  }, [reloadOnce]);
+  }, [reloadOnce, pauseUpdate]);
 
   // Clean up the update-check interval on unmount.
   useEffect(() => {
@@ -158,7 +169,7 @@ function useLegacyServiceWorker() {
   // document, so there's no restore prompt to pre-empt.
   const confirmUpdate = useCallback(() => {
     if (!mounted.current || updateAttempt.current) return;
-    const attempt: UpdateAttempt = { phase: 'saving', reloadRequested: false };
+    const attempt: UpdateAttempt = { phase: 'saving', reloadRequested: false, offered: null };
     updateAttempt.current = attempt;
     setUpdating(true);
     console.log('[SW] User confirmed update, reloading');

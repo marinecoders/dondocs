@@ -23,6 +23,8 @@ vi.mock('virtual:pwa-register/react', () => ({
   }),
 }));
 
+const originalServiceWorker = Object.getOwnPropertyDescriptor(navigator, 'serviceWorker');
+
 function UpdateFlow() {
   const { updateAvailable, promptUpdate, showUpdatePrompt, confirmUpdate, dismissUpdatePrompt } = useServiceWorker();
   return (
@@ -35,13 +37,23 @@ function UpdateFlow() {
 }
 
 beforeEach(() => {
+  const active = Object.assign(new EventTarget(), { state: 'activated' });
+  Object.defineProperty(navigator, 'serviceWorker', {
+    configurable: true,
+    value: Object.assign(new EventTarget(), { getRegistration: vi.fn(async () => ({ active })) }),
+  });
+  vi.spyOn(window.location, 'reload').mockImplementation(() => {});
   worker.available = false;
   worker.update.mockClear();
   vi.mocked(flushDocumentWrites).mockReset().mockResolvedValue();
   useAlertStore.setState({ open: false, current: null, queue: [] });
 });
 
-afterEach(() => vi.useRealTimers());
+afterEach(() => {
+  vi.useRealTimers();vi.restoreAllMocks();
+  if (originalServiceWorker) Object.defineProperty(navigator, 'serviceWorker', originalServiceWorker);
+  else Reflect.deleteProperty(navigator, 'serviceWorker');
+});
 
 describe('passive update action', () => {
   it('does not activate or open a prompt when an update is waiting on a fresh visit', async () => {

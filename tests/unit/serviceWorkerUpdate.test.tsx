@@ -209,12 +209,81 @@ it('does not reload from notifications emitted by a failed activation request', 
   expect(env.reload).toHaveBeenCalledOnce();
 });
 
-it('retains a notification emitted during a successful activation request', async () => {
-  registration.update.mockImplementationOnce(async () => { registration.options.onNeedReload?.(); });
-  const env = environment();
+it('retains an activated-worker notification emitted during a successful activation request', async () => {
+  const waiting = worker();
+  registration.update.mockImplementationOnce(async () => {
+    waiting.state = 'activated';
+    waiting.dispatchEvent(new Event('statechange'));
+    registration.options.onNeedReload?.();
+  });
+  const env = environment({ waiting });
   const { result } = renderHook(() => useServiceWorker());
   await act(async () => result.current.confirmUpdate());
   expect(flushDocumentWrites).toHaveBeenCalledTimes(2);
+  expect(env.reload).toHaveBeenCalledOnce();
+});
+
+it('pauses a missing live offer and permits an explicit retry when a worker is available', async () => {
+  const env = environment();
+  const { result } = renderHook(() => useServiceWorker());
+  await act(async () => result.current.confirmUpdate());
+  expect(result.current.updating).toBe(false);
+  expect(registration.update).not.toHaveBeenCalled();
+  expect(env.reload).not.toHaveBeenCalled();
+  expect(showAppAlert).toHaveBeenCalledWith(expect.objectContaining({ title: 'Update paused' }));
+  env.record.active = worker('activated');
+  await act(async () => result.current.confirmUpdate());
+  expect(env.reload).toHaveBeenCalledOnce();
+});
+
+it('pauses a redundant offered worker and observes only the replacement on retry', async () => {
+  const waiting = worker(), env = environment({ waiting });
+  const remove = vi.spyOn(waiting, 'removeEventListener');
+  const { result } = renderHook(() => useServiceWorker());
+  await act(async () => result.current.confirmUpdate());
+  waiting.state = 'redundant';
+  await act(async () => waiting.dispatchEvent(new Event('statechange')));
+  expect(result.current.updating).toBe(false);
+  expect(remove).toHaveBeenCalledWith('statechange', expect.any(Function));
+  expect(env.reload).not.toHaveBeenCalled();
+  const replacement = worker();env.record.waiting = replacement;
+  await act(async () => result.current.confirmUpdate());
+  waiting.state = 'activated';
+  await act(async () => waiting.dispatchEvent(new Event('statechange')));
+  expect(env.reload).not.toHaveBeenCalled();
+  replacement.state = 'activated';
+  await act(async () => replacement.dispatchEvent(new Event('statechange')));
+  expect(env.reload).toHaveBeenCalledOnce();
+});
+
+it('ignores an early plugin notification until the owned worker has activated', async () => {
+  registration.update.mockImplementationOnce(async () => { registration.options.onNeedReload?.(); });
+  const waiting = worker(), env = environment({ waiting });
+  const { result } = renderHook(() => useServiceWorker());
+  await act(async () => result.current.confirmUpdate());
+  expect(result.current.updating).toBe(true);
+  expect(env.reload).not.toHaveBeenCalled();
+  expect(flushDocumentWrites).toHaveBeenCalledOnce();
+  waiting.state = 'activated';
+  await act(async () => waiting.dispatchEvent(new Event('statechange')));
+  expect(flushDocumentWrites).toHaveBeenCalledTimes(2);
+  expect(env.reload).toHaveBeenCalledOnce();
+});
+
+it('does not reload an obsolete attempt after its worker is discarded during the final save', async () => {
+  const saved = deferred<void>(), active = worker('activated');
+  vi.mocked(flushDocumentWrites).mockResolvedValueOnce().mockReturnValueOnce(saved.promise);
+  const env = environment({ active });
+  const { result } = renderHook(() => useServiceWorker());
+  await act(async () => result.current.confirmUpdate());
+  active.state = 'redundant';
+  await act(async () => active.dispatchEvent(new Event('statechange')));
+  expect(result.current.updating).toBe(false);
+  expect(env.reload).not.toHaveBeenCalled();
+  env.record.active = worker('activated');
+  await act(async () => result.current.confirmUpdate());
+  expect(env.reload).toHaveBeenCalledOnce();
+  await act(async () => saved.resolve());
   expect(env.reload).toHaveBeenCalledOnce();
 });
 
