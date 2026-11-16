@@ -25,12 +25,17 @@ declare global {
 const MAX_TRANSCRIPT = 50_000;
 
 /** Dictation is opt-in and reviewed before it reaches even the pending letter text. */
-export function VoiceLetterInput({ onInsert }: { onInsert: (text: string) => void }) {
+export function VoiceLetterInput({ onInsert, initialTranscript = '', onTranscriptChange }: {
+  onInsert: (text: string) => void;
+  initialTranscript?: string;
+  onTranscriptChange?: (text: string) => void;
+}) {
   const Constructor = window.SpeechRecognition ?? window.webkitSpeechRecognition;
   const active = useRef<Recognition | null>(null);
   const finishingTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [status, setStatus] = useState<'idle' | 'listening' | 'finishing'>('idle');
-  const [text, setText] = useState('');
+  const [text, setLocalText] = useState(initialTranscript);
+  function setText(value: string) { setLocalText(value); onTranscriptChange?.(value); }
   const [interim, setInterim] = useState('');
   const [error, setError] = useState('');
   useEffect(() => () => {

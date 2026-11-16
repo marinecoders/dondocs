@@ -75,6 +75,7 @@ function ImportLetterDialog() {
   const setOpen = useUIStore((s) => s.setImportLetterModalOpen);
   const [phase, setPhase] = useState<Phase>({ kind: 'idle' });
   const [letterText, setLetterText] = useState('');
+  const [dictationText, setDictationText] = useState('');
   const [scanStarted, setScanStarted] = useState(false);
 
   const handleFile = useCallback(async (file: File) => {
@@ -227,7 +228,7 @@ function ImportLetterDialog() {
                 placeholder={'From: …\nTo: …\nSubj: …\n\n1. …'}
                 className="h-64 field-sizing-fixed resize-y"
               />
-              <VoiceLetterInput onInsert={text => setLetterText(value => value.trim() ? `${value}\n${text}` : text)} />
+              <VoiceLetterInput initialTranscript={dictationText} onTranscriptChange={setDictationText} onInsert={text => setLetterText(value => value.trim() ? `${value}\n${text}` : text)} />
               {phase.message && (
                 <p id="import-letter-text-error" role="alert" className="text-sm text-warning">
                   {phase.message}

@@ -33,6 +33,11 @@ test('dictated browser results require transcript review before entering the pen
   await expect(pending).toHaveValue('');
   await dialog.getByRole('button', { name: 'Stop dictation', exact: true }).click();
   await dialog.getByRole('textbox', { name: 'Review dictated text', exact: true }).fill(dictated.replace('DICTATED LETTER', 'REVIEWED DICTATION'));
+  await pending.fill('Subj: EXISTING PENDING LETTER\n\n1. Existing pending body.');
+  await dialog.getByRole('button', { name: 'Read letter', exact: true }).click();
+  await dialog.getByRole('button', { name: 'Edit pasted text', exact: true }).click();
+  await expect(dialog.getByRole('textbox', { name: 'Review dictated text', exact: true })).toHaveValue(dictated.replace('DICTATED LETTER', 'REVIEWED DICTATION'));
+  await pending.fill('');
   await dialog.getByRole('button', { name: 'Add reviewed transcript to letter text', exact: true }).click();
   await expect(pending).toHaveValue(dictated.replace('DICTATED LETTER', 'REVIEWED DICTATION'));
   await dialog.getByRole('button', { name: 'Read letter', exact: true }).click();

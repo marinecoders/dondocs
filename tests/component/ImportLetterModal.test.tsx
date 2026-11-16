@@ -174,6 +174,17 @@ describe('ImportLetterModal — pasted letter text', () => {
     expect(mockApply).toHaveBeenCalledWith(result.parsed, 'business_letter', marked.classification);
   });
 
+  it('preserves an uninserted reviewed dictation transcript when returning from letter review', () => {
+    vi.stubGlobal('SpeechRecognition', class {});
+    try {
+      render(<ImportLetterModal />); pasteLetter();
+      fireEvent.change(screen.getByRole('textbox', { name: 'Review dictated text' }), { target: { value: 'Keep these corrected dictated words.' } });
+      fireEvent.click(screen.getByRole('button', { name: 'Read letter' }));
+      fireEvent.click(screen.getByRole('button', { name: 'Edit pasted text' }));
+      expect(screen.getByRole('textbox', { name: 'Review dictated text' })).toHaveValue('Keep these corrected dictated words.');
+    } finally { vi.unstubAllGlobals(); }
+  });
+
   it('keeps the pasted text when returning from review, and re-reads corrections', () => {
     render(<ImportLetterModal />);
     pasteLetter();
