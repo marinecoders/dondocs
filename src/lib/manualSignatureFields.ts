@@ -18,6 +18,10 @@ export const manualSignatureSchema = z.object({
 }).strict().refine(field => field.x + field.width <= 1.00000001 && field.y + field.height <= 1.00000001,
   'Signature boxes must fit entirely on their page.');
 export type ManualSignature = z.infer<typeof manualSignatureSchema>;
+export function manualSignatureFieldName(field: ManualSignature): string {
+  const signer = [...field.signer].map(char => char === '.' || char.charCodeAt(0) < 32 ? ' ' : char).join('');
+  return `DonDocs ${field.id} ${signer}`;
+}
 
 /** Normalized top-left viewport coordinates are independent of display zoom. */
 export function signaturePdfRectangle(field: ManualSignature, input: SigningPage): [number, number, number, number] {
@@ -67,10 +71,9 @@ export async function placeManualSignatureFields(bytes: Uint8Array, input: reado
   if (handoffId) pdf.setKeywords([pdf.getKeywords() ?? '', `DonDocs handoff ${z.string().uuid().parse(handoffId)}`].filter(Boolean));
   for (const field of fields) {
     if (!pages[field.page]) throw new Error('A signature box refers to a missing page.');
-    const signer = [...field.signer].map(char => char === '.' || char.charCodeAt(0) < 32 ? ' ' : char).join('');
-    const name = `DonDocs ${field.id} ${signer}`;
+    const name = manualSignatureFieldName(field);
     if (existingFieldNames.includes(name)) throw new Error('This signature box already exists in the source PDF.');
     addSignatureFieldToPage(pdf, pdf.getPage(field.page), signaturePdfRectangle(field, pages[field.page]), name);
   }
-  return pdf.save();
+  return pdf.save({ updateFieldAppearances: false });
 }

@@ -1,9 +1,9 @@
 import { z } from 'zod';
 import { base64ToUint8Array, uint8ArrayToBase64 } from './encoding';
 import { idbReadSigningRecords, idbReadSigningEntries, idbCompareSigningRecord, idbDeleteSigningRecord, idbDeleteSigningRecordValue } from './documentsDb';
-import { inspectSigningPdf, placeManualSignatureFields, manualSignatureSchema, signingPageSchema, MAX_SIGNING_PDF_BYTES, type ManualSignature } from './manualSignatureFields';
+import { inspectSigningPdf, placeManualSignatureFields, manualSignatureSchema, signingPageSchema, MAX_SIGNING_PDF_BYTES, type ManualSignature, type SigningPage } from './manualSignatureFields';
 import type { CapturedSource } from './capturedDocument';
-import { compareSigningPdfs } from './signingPdfComparison';
+import { assertSigningHandoffRelation, compareSigningPdfs } from './signingPdfComparison';
 
 const signingPdfSchema = z.object({
   filename: z.string().min(1).max(180).refine(value => /\.pdf$/i.test(value)
@@ -72,6 +72,7 @@ export async function validateSigningRecord(input: unknown): Promise<SigningReco
       || JSON.stringify(inspected.existingFieldNames) !== JSON.stringify(retained.existingFieldNames)
       || retained.existingSignatureNames && JSON.stringify(inspected.existingSignatureNames) !== JSON.stringify(retained.existingSignatureNames)) throw new Error('The saved signing PDF geometry has changed.');
   }
+  for (const handoff of record.handoffs ?? []) await assertSigningHandoffRelation(record.source, handoff);
   for (const returned of record.returns ?? []) {
     const handoff = record.handoffs!.find(value => value.id === returned.handoffId)!;
     const evidence = await compareSigningPdfs(base64ToUint8Array(handoff.pdf.data), base64ToUint8Array(returned.pdf.data), handoff.id);
@@ -163,10 +164,16 @@ export async function downloadSigningHandoff(input: SigningRecord, handoffId: st
 }
 
 const returnCandidateBrand = Symbol('signing-return-candidate');
+type CandidatePdf = Readonly<Omit<z.infer<typeof signingPdfSchema>, 'pages' | 'existingFieldNames' | 'existingSignatureNames'>> & {
+  readonly pages: readonly Readonly<SigningPage>[];
+  readonly existingFieldNames: readonly string[];
+  readonly existingSignatureNames?: readonly string[];
+};
+type ReturnEvidence = z.infer<typeof returnEvidenceSchema>;
 export interface SigningReturnCandidate {
   readonly [returnCandidateBrand]: true;
-  readonly pdf: z.infer<typeof signingPdfSchema>;
-  readonly evidence: z.infer<typeof returnEvidenceSchema>;
+  readonly pdf: CandidatePdf;
+  readonly evidence: { readonly assessment: ReturnEvidence['assessment']; readonly checks: Readonly<ReturnEvidence['checks']> };
   readonly handoffId: string;
 }
 const returnCandidates = new WeakMap<SigningReturnCandidate, { before: SigningRecord; returned: Omit<z.infer<typeof signingReturnSchema>, 'decision'> }>();
@@ -177,7 +184,12 @@ export async function prepareSigningReturn(input: SigningRecord, handoffId: stri
   const pdf = await captureSigningPdf(bytes, filename, true);
   const evidence = await compareSigningPdfs(base64ToUint8Array(handoff.pdf.data), base64ToUint8Array(pdf.data), handoff.id);
   const returned = { id: crypto.randomUUID(), handoffId, receivedAt: Date.now(), pdf, evidence, status: 'associated-unverified' as const };
-  const candidate = Object.freeze({ [returnCandidateBrand]: true as const, pdf: structuredClone(pdf), evidence: structuredClone(evidence), handoffId });
+  const pdfView = structuredClone(pdf), evidenceView = structuredClone(evidence);
+  pdfView.pages.forEach(page => Object.freeze(page)); Object.freeze(pdfView.pages);
+  Object.freeze(pdfView.existingFieldNames);
+  if (pdfView.existingSignatureNames) Object.freeze(pdfView.existingSignatureNames);
+  Object.freeze(pdfView); Object.freeze(evidenceView.checks); Object.freeze(evidenceView);
+  const candidate = Object.freeze({ [returnCandidateBrand]: true as const, pdf: pdfView, evidence: evidenceView, handoffId });
   returnCandidates.set(candidate, { before, returned });return candidate;
 }
 
