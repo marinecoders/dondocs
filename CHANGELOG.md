@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.103] — 2026-11-15
+
+### Added
+
+- Identify references and enclosures in saved package revisions and explicitly link supported native paragraph citations to durable targets. Preserve identities through reload and package transfer, retaining changed or missing bindings for review without rewriting historical content.
+
 ## [1.3.102] — 2026-11-15
 
 ### Added

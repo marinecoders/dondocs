@@ -15,6 +15,7 @@ import { WordPackageDownload } from "./WordPackageDownload";
 import { SessionChanges } from "./SessionChanges";
 import { PackageRenderComparisonView } from "./PackageRenderComparisonView";
 import type { PackageRenderComparison } from "@/lib/packageRenderComparison";
+import { PackageCitations } from "./PackageCitations";
 import {
   createActionPackage,
   listActionPackages,
@@ -952,6 +953,8 @@ function PackageDialog({
                   </>
                 )}
               </div>
+              <PackageCitations key={`citations:${record.id}:${revision.id}`} record={record} revision={revision} editable={editable}
+                onChange={action => void run(async () => update(await action(operation.current?.signal)))} />
               <WordPackageDownload key={`${record.id}:${revision.id}`} record={record} revisionId={revision.id} ports={ports} exportGate={exportGate} />
               {revision.outputs.length > 1 && (
                 <section className="space-y-3 rounded border p-3" aria-label="Compare saved renderings">
