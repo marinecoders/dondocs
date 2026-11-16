@@ -4,6 +4,7 @@ import { readFile } from 'node:fs/promises';
 import { PDFDocument } from 'pdf-lib';
 import JSZip from 'jszip';
 import { docxImageFixture } from '../_helpers/docxImageFixture';
+import { closeReviewRounds } from '../_helpers/closeReviewRounds';
 
 test.use({ serviceWorkers: 'block', actionTimeout: 15_000 });
 test.setTimeout(180_000);
@@ -83,7 +84,7 @@ for (const theme of ['light', 'dark', 'classic']) {
     expect(packet.draft.formData.signatureImage.data).toBe(images.signature.toString('base64'));
     expect(packet.draft.paragraphs[1].figure.data).toBe(images.figure.toString('base64'));
     expect(packet.draft.enclosures[0].file.data).toBe(attached.toString('base64'));
-    await page.keyboard.press('Escape');
+    await closeReviewRounds(modal);
 
     await page.getByLabel('Document section', { exact: true }).selectOption('addressing');
     for (let index = 0; index < 11; index++) {

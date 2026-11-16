@@ -2,6 +2,7 @@ import { expect, test, type Page } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 import { readFile, writeFile } from 'node:fs/promises';
 import { replaceParagraphText } from '../_helpers/replaceParagraphText';
+import { closeReviewRounds } from '../_helpers/closeReviewRounds';
 
 test.use({ serviceWorkers: 'block' });
 test.setTimeout(180_000);
@@ -30,7 +31,8 @@ for (const theme of ['light', 'dark', 'classic']) test(`round-bound replacement 
   await modal.getByRole('button', { name: 'Start review from current draft', exact: true }).click();
   await expect(modal.getByText('Review baseline saved. Later source edits will not change this copy.', { exact: true })).toBeVisible();
   await modal.getByRole('button', { name: 'Prepare reviewer copy', exact: true }).click();
-  const copy = await download(page, () => modal.getByRole('button', { name: 'Download reviewer copy', exact: true }).click());await page.keyboard.press('Escape');
+  const copy = await download(page, () => modal.getByRole('button', { name: 'Download reviewer copy', exact: true }).click());
+  await closeReviewRounds(modal);
   const reviewerContext = await browser.newContext({ viewport: page.viewportSize()!, userAgent: await page.evaluate(() => navigator.userAgent), serviceWorkers: 'block', isMobile: !!info.project.use.isMobile, hasTouch: !!info.project.use.hasTouch });
   try {
     await reviewerContext.addInitScript(init, appearance);const reviewer = await reviewerContext.newPage();await reviewer.goto(baseURL!);
@@ -485,7 +487,7 @@ test('review lifecycle preserves late returns and requires deliberate reopening'
   await expect(modal.getByRole('article', { name: 'Suggestion 1: Replace to', exact: true })).toBeVisible();
   await modal.getByRole('button', { name: 'Prepare feedback return', exact: true }).click();
   const returned = await download(page, () => modal.getByRole('button', { name: 'Download feedback return', exact: true }).click());
-  await page.keyboard.press('Escape');
+  await closeReviewRounds(modal);
   await workspace(page, /^(?:LTR\s*)?FICTIONAL LIFECYCLE SOURCE/);
   modal = await reviews(page);
   const first = modal.getByRole('article', { name: 'Review First lifecycle round', exact: true });
@@ -690,7 +692,7 @@ test('explicit reviewer checkpoints show later text and feedback outcomes after 
   const checkpoint = JSON.parse(checkpointFile.toString('utf8'));
   expect(checkpoint.document.some((field: { value: string }) => field.value === 'Earlier training paragraph.')).toBe(true);
   await info.attach('explicit-reviewer-checkpoint.json', { body: checkpointFile, contentType: 'application/json' });
-  await page.keyboard.press('Escape');
+  await closeReviewRounds(modal);
   await page.reload();
   modal = await reviews(page);
   await modal.getByLabel('Review for comparison checkpoint', { exact: true }).selectOption({ label: 'Checkpoint round' });
@@ -839,7 +841,7 @@ test('closed categorized decisions and earlier checkpoints survive Undo Redo and
   expect(reversed).toContain('Round status at capture: closed');
   expect(reversed).toContain('Accepted: 0 · Rejected: 0 · Open: 1 · Conflicting: 0');
   expect(reversed).toContain('reversed');
-  await page.keyboard.press('Escape');
+  await closeReviewRounds(modal);
   await action(page, 'Redo');
   const backup = await workspaceBackup(page);
   await info.attach('cross-review-backup.json', { body: backup, contentType: 'application/json' });

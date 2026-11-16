@@ -2,6 +2,7 @@ import { expect, test, type Page } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 import { readFile } from 'node:fs/promises';
 import { replaceParagraphText } from '../_helpers/replaceParagraphText';
+import { closeReviewRounds } from '../_helpers/closeReviewRounds';
 
 test.use({ serviceWorkers: 'block' });
 test.setTimeout(180_000);
@@ -50,7 +51,7 @@ for (const theme of ['light', 'dark', 'classic']) {
       await expect(modal.getByText('Review baseline saved. Later source edits will not change this copy.', { exact: true })).toBeVisible();
       await modal.getByRole('button', { name: 'Prepare reviewer copy', exact: true }).click();
       await expect(modal.getByRole('heading', { name: 'Check this reviewer copy before downloading', exact: true })).toBeVisible();
-      const reviewerFile = await download(page, () => modal.getByRole('button', { name: 'Download reviewer copy', exact: true }).click());await page.keyboard.press('Escape');
+      const reviewerFile = await download(page, () => modal.getByRole('button', { name: 'Download reviewer copy', exact: true }).click());await closeReviewRounds(modal);
       return reviewerFile;
     });
     const reviewerContext = await browser.newContext({ viewport: page.viewportSize()!, serviceWorkers: 'block', isMobile: !!info.project.use.isMobile, hasTouch: !!info.project.use.hasTouch });

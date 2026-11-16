@@ -3,6 +3,7 @@ import AxeBuilder from '@axe-core/playwright';
 import { readFile } from 'node:fs/promises';
 import { getDocument } from 'pdfjs-dist/legacy/build/pdf.mjs';
 import { replaceParagraphText } from '../_helpers/replaceParagraphText';
+import { closeReviewRounds } from '../_helpers/closeReviewRounds';
 
 test.use({ serviceWorkers: 'block', actionTimeout: 15_000 });test.setTimeout(150_000);
 async function reviews(page: Page) {
@@ -96,7 +97,7 @@ for (const theme of ['light', 'dark', 'classic']) {
     let text = '';try { expect(pdf.numPages).toBeGreaterThan(2);for (let i = 1; i <= pdf.numPages; i++) text += (await (await pdf.getPage(i)).getTextContent({ disableNormalization: true })).items.flatMap(item => 'str' in item ? [item.str, item.hasEOL ? ' ' : ''] : []).join('') + '\n'; } finally { await task.destroy(); }
     for (const value of ['REVIEW COPY', 'ACCEPTED_RECIPIENT', 'REJECTED_RETAINED', 'PROPOSED_END', 'CURRENT_INDEPENDENT_EDIT', 'MOVE', 'Move source body.', 'Destination body.', 'INSERTED_PARAGRAPH_PENDING', 'SPLIT -', 'JOIN -', '[PARAGRAPH BREAK]', unicode, rtlFirst, longUnicode]) expect(text).toContain(value);
     expect(text.match(/\[PARAGRAPH BREAK\]/g)).toHaveLength(2);
-    await page.keyboard.press('Escape');await expect(modal).toBeHidden();
+    await closeReviewRounds(modal);
     expect(await page.getByRole('textbox', { name: 'Paragraph 1', exact: true }).innerText()).toContain('CURRENT_INDEPENDENT_EDIT');
     expect(await page.getByRole('textbox', { name: 'Paragraph 2', exact: true }).innerText()).toContain('Move source body.');
     expect(await page.getByRole('textbox', { name: 'Paragraph 3', exact: true }).innerText()).toContain('Destination body.');

@@ -4,6 +4,7 @@ import { readFile } from 'node:fs/promises';
 import JSZip from 'jszip';
 import { getDocument } from 'pdfjs-dist/legacy/build/pdf.mjs';
 import { replaceParagraphText } from '../_helpers/replaceParagraphText';
+import { closeReviewRounds } from '../_helpers/closeReviewRounds';
 
 test.use({ serviceWorkers: 'block', actionTimeout: 15_000 });
 test.setTimeout(180_000);
@@ -68,7 +69,7 @@ for (const theme of ['light', 'dark', 'classic']) test(`existing formatting find
   await modal.getByRole('button', { name: 'Start review from current draft', exact: true }).click();
   await expect(modal.getByText('Review baseline saved. Later source edits will not change this copy.', { exact: true })).toBeVisible();
   await modal.getByRole('button', { name: 'Prepare reviewer copy', exact: true }).click();
-  const reviewerFile = await bytes(page, () => modal.getByRole('button', { name: 'Download reviewer copy', exact: true }).click());await page.keyboard.press('Escape');
+  const reviewerFile = await bytes(page, () => modal.getByRole('button', { name: 'Download reviewer copy', exact: true }).click());await closeReviewRounds(modal);
   const context = await browser.newContext({ viewport: page.viewportSize()!, userAgent: await page.evaluate(() => navigator.userAgent),
     deviceScaleFactor: info.project.use.deviceScaleFactor, serviceWorkers: 'block', isMobile: !!info.project.use.isMobile, hasTouch: !!info.project.use.hasTouch });
   try {
