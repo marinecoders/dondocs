@@ -114,7 +114,8 @@ for (const theme of ['light', 'dark', 'classic']) test(`paragraph insertion and 
         const content = await (await pdf.getPage(index)).getTextContent();
         text += content.items.flatMap(item => 'str' in item ? [item.str] : []).join(' ') + ' ';
       }
-      expect(text.replace(/\s+/g, ' ')).toContain('Inserted Équipe paragraph.');
+      // The bundled TeX font can expose the acute and capital E as separate PDF text items.
+      expect(text.replace(/\s+/g, ' ')).toMatch(/Inserted (?:É|´\s*E)quipe paragraph\./u);
       expect(text).toContain('Newer independent third.');
       expect(text).not.toContain('Remove this reviewed paragraph.');
     } finally { await pdf.destroy(); }
