@@ -32,6 +32,7 @@ import { CLASSIFICATION_LABELS } from '@/lib/detectClassification';
 import { DOC_TYPE_LABELS } from '@/types/document';
 import { abbreviatedSignatoryName } from '@/lib/signatoryName';
 import { debug } from '@/lib/debug';
+import { VoiceLetterInput } from './VoiceLetterInput';
 const ScannedLetterImport = lazy(() => import('./ScannedLetterImport').then(module => ({ default: module.ScannedLetterImport })));
 
 type ImportSource = 'file' | 'text' | 'scan';
@@ -226,6 +227,7 @@ function ImportLetterDialog() {
                 placeholder={'From: …\nTo: …\nSubj: …\n\n1. …'}
                 className="h-64 field-sizing-fixed resize-y"
               />
+              <VoiceLetterInput onInsert={text => setLetterText(value => value.trim() ? `${value}\n${text}` : text)} />
               {phase.message && (
                 <p id="import-letter-text-error" role="alert" className="text-sm text-warning">
                   {phase.message}
