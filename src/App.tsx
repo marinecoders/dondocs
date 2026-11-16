@@ -1216,6 +1216,7 @@ function App() {
           {commandPaletteOpen && <CommandPalette open presentation="workspace" onClose={() => setCommandPaletteOpen(false)} groups={commandGroups} />}
           <div className="workspace-document flex flex-1 min-h-0 flex-col overflow-hidden" style={{ display: commandPaletteOpen ? 'none' : undefined }}>
             <Header
+              onPrepareSigning={() => { useUIStore.getState().setValidationVisible(true);requestExport('pdf', undefined, 'signing'); }}
               onDownloadPdf={handleDownloadPdf}
               onDownloadTex={handleDownloadTex}
               onDownloadDocx={handleDownloadDocx}

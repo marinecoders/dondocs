@@ -3,7 +3,7 @@ import { PDFDocument, degrees } from 'pdf-lib';
 import { readFile } from 'node:fs/promises';
 
 test.use({ serviceWorkers: 'block' });
-test('retains manual positions across reload and exports real rotated PDF signature widgets', async ({ page }) => {
+test('retains manual positions across reload and exports real rotated PDF signature widgets', async ({ page }, info) => {
   await page.addInitScript(() => localStorage.setItem('browser-test-visitor', 'returning'));
   const pdf = await PDFDocument.create();pdf.addPage([400, 600]).setRotation(degrees(90));
   await page.goto('/');
@@ -24,8 +24,18 @@ test('retains manual positions across reload and exports real rotated PDF signat
   await dialog.getByRole('combobox', { name: 'Signing preview zoom', exact: true }).selectOption('1.25');
   await expect(dialog.locator('canvas')).toBeVisible();
   await dialog.getByRole('checkbox').check();
-  const download = page.waitForEvent('download');await dialog.getByRole('button', { name: 'Download PDF with signature boxes', exact: true }).click();
-  const output = await PDFDocument.load(await readFile((await (await download).path())!));
+  let delivered: Buffer;
+  if (info.project.name === 'mobile-chrome-ios') {
+    const popupPromise = page.waitForEvent('popup');await dialog.getByRole('button', { name: 'Download PDF with signature boxes', exact: true }).click();
+    const popup = await popupPromise;
+    await expect(popup.locator('iframe')).toHaveAttribute('src', /^data:application\/pdf;base64,/);
+    const saving = popup.waitForEvent('download');await popup.getByRole('link', { name: 'Download PDF', exact: true }).click();
+    delivered = await readFile((await (await saving).path())!);await popup.close();
+  } else {
+    const download = page.waitForEvent('download');await dialog.getByRole('button', { name: 'Download PDF with signature boxes', exact: true }).click();
+    delivered = await readFile((await (await download).path())!);
+  }
+  const output = await PDFDocument.load(delivered);
   const fields = output.getForm().getFields();expect(fields).toHaveLength(1);expect(fields[0].getName()).toContain('JANE EXAMPLE');
   const rect = fields[0].acroField.getWidgets()[0].getRectangle();
   expect(rect.x).toBeCloseTo(120);expect(rect.y).toBeCloseTo(120);

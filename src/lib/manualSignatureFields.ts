@@ -53,14 +53,17 @@ export async function inspectSigningPdf(bytes: Uint8Array, allowSigned = false) 
     return signingPageSchema.parse({ x, y, width: Math.min(crop.x + crop.width, media.x + media.width) - x,
       height: Math.min(crop.y + crop.height, media.y + media.height) - y, rotation });
   });
-  return { pages, existingFieldNames: fields.map(field => field.getName()) };
+  return { pages, existingFieldNames: fields.map(field => field.getName()),
+    existingSignatureNames: fields.filter(field => field instanceof PDFSignature).map(field => field.getName()) };
 }
 
-export async function placeManualSignatureFields(bytes: Uint8Array, input: readonly ManualSignature[]): Promise<Uint8Array> {
-  const fields = z.array(manualSignatureSchema).min(1).max(30).parse(input);
+export async function placeManualSignatureFields(bytes: Uint8Array, input: readonly ManualSignature[], handoffId?: string): Promise<Uint8Array> {
+  const fields = z.array(manualSignatureSchema).max(30).parse(input);
   if (new Set(fields.map(field => field.id)).size !== fields.length) throw new Error('Signature boxes must have unique identities.');
-  const { pages, existingFieldNames } = await inspectSigningPdf(bytes);
+  const { pages, existingFieldNames, existingSignatureNames } = await inspectSigningPdf(bytes);
+  if (!fields.length && !existingSignatureNames.length) throw new Error('Add at least one signature box before preparing a signing PDF.');
   const pdf = await PDFDocument.load(bytes);
+  if (handoffId) pdf.setKeywords([pdf.getKeywords() ?? '', `DonDocs handoff ${z.string().uuid().parse(handoffId)}`].filter(Boolean));
   for (const field of fields) {
     if (!pages[field.page]) throw new Error('A signature box refers to a missing page.');
     const signer = [...field.signer].map(char => char === '.' || char.charCodeAt(0) < 32 ? ' ' : char).join('');
