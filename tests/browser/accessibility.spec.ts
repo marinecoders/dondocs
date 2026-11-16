@@ -234,6 +234,7 @@ for (const theme of ['light', 'dark', 'classic']) {
     test('signature tabs keep both panel relationships and keyboard selection', async ({ page }, info) => {
       await keyboardOpen(page.getByRole('button', { name: /^Correspondence type:/ }));
       await page.getByRole('option', { name: 'Business Letter', exact: true }).press('Enter');
+      await expect(page.getByRole('button', { name: 'Correspondence type: Business Letter', exact: true })).toBeFocused();
       for (const [first, second] of [['Military', 'Civilian / Other'], ['Standard', 'Custom']]) {
         const initial = page.getByRole('tab', { name: first, exact: true });
         const alternate = page.getByRole('tab', { name: second, exact: true });
