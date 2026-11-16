@@ -1,4 +1,5 @@
 import { expect, test, type Page, type TestInfo } from '@playwright/test';
+import { capturePackageDocument } from '../_helpers/capturePackageDocument';
 import { PDFDocument, PDFName, PDFSignature } from 'pdf-lib';
 import { getDocument } from 'pdfjs-dist/legacy/build/pdf.mjs';
 import { createHash } from 'node:crypto';
@@ -143,7 +144,7 @@ for (const theme of ['light', 'dark', 'classic'] as const) {
       let dialog = await openPackages(page);
       await dialog.getByLabel('Package name', { exact: true }).fill(SOURCE_PACKAGE);
       await dialog.getByRole('button', { name: 'Create package', exact: true }).click();
-      await dialog.getByRole('button', { name: 'Capture current document', exact: true }).click();
+      await capturePackageDocument(dialog);
       await expect(dialog.getByRole('heading', { name: `1. ${IMPORTED_SUBJECT}`, exact: true })).toBeVisible();
       sourcePackage = (await snapshot(page)).packages.find(record => record.name === SOURCE_PACKAGE)!;
       await dialog.locator('summary').filter({ hasText: 'Reusable package templates' }).click();
