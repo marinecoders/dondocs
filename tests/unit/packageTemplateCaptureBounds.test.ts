@@ -169,6 +169,48 @@ it('stops before copying or encoding pages when cancellation completes with a dr
   expect(await listPackageTemplates()).toEqual([]);
 });
 
+it('derives fresh-file requirements from the validated draft despite later caller metadata changes', async () => {
+  const data = await pdfBytes(32);
+  const original = { name: 'retained.pdf', size: data.byteLength, data: encoding.uint8ArrayToBase64(new Uint8Array(data)) };
+  const session = createBlankSession();
+  session.formData.signatureType = 'none';
+  const member = await native({ ...session, timestamp: 0, docType: 'new_page_endorsement',
+    formData: { ...session.formData, basicLetterFile: original },
+    enclosures: [{ title: 'Required enclosure', hasFile: true, file: original }] }, 'owned_draft');
+  const record = await reviseActionPackage(await createActionPackage('Owned capture source'), [member]);
+  expect(actionPackageSchema.safeParse(record).success).toBe(true);
+  const storedBefore = (await listActionPackages()).find(value => value.id === record.id);
+  expect(storedBefore).toEqual(record);
+  const caller = record.revisions.find(value => value.id === record.currentRevisionId)!.members[0];
+  if (caller.kind !== 'native') throw new Error('Expected a native source member.');
+  let ready!: () => void, release!: () => void;
+  const validated = new Promise<void>(resolve => { ready = resolve; });
+  const resumed = new Promise<void>(resolve => { release = resolve; });
+  const originalRead = assets.readPackageMemberDraft;
+  const read = vi.spyOn(assets, 'readPackageMemberDraft').mockImplementation(async value => {
+    const result = await originalRead(value);
+    ready();await resumed;
+    return result;
+  });
+  const pending = capturePackageTemplate(record, record.currentRevisionId, 'Owned draft starter');
+  try {
+    await validated;
+    caller.session.documentCategory = 'forms';
+    caller.session.docType = 'naval_letter';
+    release();
+    const template = await pending;
+    expect(packageTemplateFileSlots(template)).toEqual([
+      { key: '0:basic-letter', label: 'owned_draft: Basic-letter PDF', required: true, native: true },
+      { key: '0:enclosure:0', label: 'owned_draft: Enclosure 1: Required enclosure', required: true, native: true },
+    ]);
+    expect(await listPackageTemplates()).toEqual([template]);
+    expect((await listActionPackages()).find(value => value.id === record.id)).toEqual(storedBefore);
+    expect(caller.session).toMatchObject({ documentCategory: 'forms', docType: 'naval_letter' });
+  } finally {
+    release();await pending.catch(() => {});read.mockRestore();
+  }
+});
+
 it('preserves the unavailable-revision error without publishing a template', async () => {
   const record = await createActionPackage('Unavailable source revision');
   await expect(capturePackageTemplate(record, 'missing_revision', 'Unavailable starter'))

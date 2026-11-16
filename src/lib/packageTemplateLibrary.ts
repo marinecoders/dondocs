@@ -170,12 +170,12 @@ export async function capturePackageTemplate(record: ActionPackage, revisionId: 
     signal?.throwIfAborted();
     const { label, role, required } = member;
     if (member.kind === 'original') { appendMember({ kind: 'attachment', label, role, required }); continue; }
-    const { draft } = await readPackageMemberDraft(member);
+    const { draft, reviewed } = await readPackageMemberDraft(member);
     signal?.throwIfAborted();
     const requiredFiles: RequiredNativeFile[] = [];
-    if (member.session.documentCategory !== 'forms') {
+    if (reviewed.session.documentCategory !== 'forms') {
       const form = (draft as Record<string, unknown>).formData as Record<string, unknown>;
-      if (member.session.docType === 'new_page_endorsement' && (form.basicLetterFile || form.basicLetterFileRef))
+      if (reviewed.session.docType === 'new_page_endorsement' && (form.basicLetterFile || form.basicLetterFileRef))
         requiredFiles.push({ kind: 'basic-letter', label: 'Basic-letter PDF' });
       ((draft as Record<string, unknown>).enclosures as Array<Record<string, unknown>>).forEach((enclosure, index) => {
         if (enclosure.file || enclosure.fileRef || enclosure.hasFile) requiredFiles.push({ kind: 'enclosure', index, label: `Enclosure ${index + 1}: ${String(enclosure.title)}`.slice(0, 120) });
