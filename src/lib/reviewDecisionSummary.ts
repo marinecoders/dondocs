@@ -22,7 +22,7 @@ interface SummaryItem {
   acceptedCurrentChanged: boolean;
   origin: { kind: string; rule?: string; context?: string };
   changes: Array<{ label: string; baseline: string; current: string | null; proposed: string; accepted?: string }>;
-  history: Array<{ action: string; at: string; resolutions: Array<{ before: string; accepted: string }> }>;
+  history: Array<{ action: string; at: string; resolutions: Array<{ before: string; accepted: string; context?: string }> }>;
 }
 interface SummaryDiscussion {
   version: string;
@@ -104,7 +104,7 @@ function discussions(session: SerializedSession, version: string): SummaryDiscus
 
 function historyEntry(decision: ReviewSuggestionDecision): SummaryItem['history'][number] {
   return { action: decision.action, at: new Date(decision.decidedAt).toISOString(),
-    resolutions: (decision.resolutions ?? []).map(value => ({ before: value.expectedCurrent, accepted: value.value })) };
+    resolutions: (decision.resolutions ?? []).map(value => ({ before: value.expectedCurrent, accepted: value.value, ...(value.range ? { context: value.range.context } : {}) })) };
 }
 
 function buildSummary(capture: CaptureData, policy: PolicyResolution): SummaryData {
@@ -118,7 +118,8 @@ function buildSummary(capture: CaptureData, policy: PolicyResolution): SummaryDa
     counts[status]++;
     const acceptance = decision?.action === 'accepted' ? decision
       : decision?.action === 'restored' ? state.decisions.find(value => value.id === decision.acceptanceId) : undefined;
-    const changes = inspected.map(change => ({ label: change.label, baseline: change.baseline, current: change.current, proposed: change.proposed,
+    const acceptedInspected = acceptance ? inspectReviewSuggestion(round, current, proposal, acceptance.resolutions) : inspected;
+    const changes = acceptedInspected.map(change => ({ label: change.label, baseline: change.baseline, current: change.current, proposed: change.proposed,
       ...(acceptance ? { accepted: acceptance.resolutions?.find(value => value.changeId === change.id)?.value ?? change.proposed } : {}) }));
     return { label: proposal.label, author: proposal.author, category: feedbackCategoryLabel(proposal.category), status,
       acceptedCurrentChanged: status === 'accepted' && changes.some(change => change.current !== change.accepted), origin: { ...proposal.origin }, changes,
@@ -129,7 +130,7 @@ function buildSummary(capture: CaptureData, policy: PolicyResolution): SummaryDa
   const emitted = [round.label, reviewRoundStatus(round), ...lifecycle,
     ...items.flatMap(item => [item.label, item.author, item.category, item.status, item.origin.kind, item.origin.rule ?? '', item.origin.context ?? '',
       ...item.changes.flatMap(change => [change.label, change.baseline, change.current ?? 'Target unavailable', change.proposed, change.accepted ?? '']),
-      ...item.history.flatMap(entry => [entry.action, entry.at, ...entry.resolutions.flatMap(value => [value.before, value.accepted])])]),
+      ...item.history.flatMap(entry => [entry.action, entry.at, ...entry.resolutions.flatMap(value => [value.before, value.accepted, value.context ?? ''])])]),
     ...threads.flatMap(thread => [thread.version, thread.target, thread.category, thread.status, thread.context ?? '', thread.current ?? '',
       ...thread.messages.flatMap(message => [message.author, message.text, message.createdAt, message.editedAt ?? ''])])];
   // Existing report preparation is the single marking/privacy gate, including
@@ -180,7 +181,7 @@ function renderSummaryHistory(history: SummaryItem['history']): string {
   if (!history.length) return '<p>No decision recorded.</p>';
   return history.map(entry => `<section>
     <p>${escapeReportHtml(entry.action)} · ${escapeReportHtml(entry.at)}</p>
-    ${entry.resolutions.map(value => `<h5>Current value before manual resolution</h5>${htmlText(value.before)}
+    ${entry.resolutions.map(value => `${value.context !== undefined ? `<h5>Captured current paragraph context</h5>${htmlText(value.context)}` : ''}<h5>Current value before manual resolution</h5>${htmlText(value.before)}
       <h5>Accepted manual resolution</h5>${htmlText(value.accepted)}`).join('')}
   </section>`).join('');
 }

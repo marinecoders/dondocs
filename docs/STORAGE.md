@@ -100,7 +100,22 @@ in the pinned baseline. Selected ranges reuse the comment range contract: stable
 paragraph ID, document type, full immutable paragraph context and UTF-16 offsets
 at complete character boundaries. Suggestion targets cannot supply comment tracking
 or detached state as replacement authority. The guarded writer checks exact context
-and splices only that selected span; its inverse uses the exact accepted context.
+and splices only that selected span. Range reconciliation compares every optimal
+bounded grapheme alignment of baseline and current paragraph text. Independent
+outside edits are retained only when all alignments agree; touching edits,
+repeated-text ambiguity and work beyond the comparison budget require a deliberate
+owner resolution. No matching-quote search supplies identity.
+
+Selected acceptances use suggestion state version 2 and retain a resolution
+`range: { context, start, end }`, `expectedCurrent` and accepted `value` alongside
+the immutable baseline proposal. Explicit resolutions may choose a current range
+or caret after reviewing baseline/current/proposed values. The writer requires the
+full captured current paragraph to remain exact, validates complete characters and
+supported plain text, and derives only that scoped splice. Undo/Redo use the actual
+accepted current range, preserving independent newer text and verifying exact
+comment transformations. Old version 1 range decisions remain readable. Every
+retained current context counts against the same 200,000-character suggestion
+budget; each paragraph/replacement remains limited to 20,000 characters.
 Retained range context counts against suggestion text limits and is scanned with
 reviewer text before transfer or acceptance.
 Suggest Changes mode holds one unsaved paragraph draft in the mounted review

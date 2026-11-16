@@ -7,6 +7,7 @@ import { paragraphIdSchema } from './paragraphIdentity';
 import { availableCommentFields, commentFieldLabel, supportsReviewComments } from './reviewCommentTargets';
 import { reviewDigestSchema, reviewRoundIdSchema, type ReviewRound } from './reviewRounds';
 import { mechanicalFindings } from './mechanicalCorrections';
+import { reconcileReviewRange, type ReviewRangeReconciliation } from './reconcileReviewText';
 import { captureTextRange, isTextRangeBoundary, resolveTextRange, selectedTextRangeSchema, supportsPlainTextRange, type SelectedTextRange } from './reviewTextRanges';
 
 export const REVIEW_SUGGESTION_LIMITS = { proposals: 100, changes: 20, decisions: 1_000, value: 20_000, totalCharacters: 200_000 } as const;
@@ -56,9 +57,15 @@ export function reviewSuggestionText(proposals: readonly ReviewSuggestion[]): Ar
     ...proposal.changes.flatMap(change => [change.expected, change.proposed, ...Object.values(change.target).filter((value): value is string => typeof value === 'string'), ...(change.target.kind === 'range' && change.target.tracking ? [change.target.tracking.context] : [])])].map(value => ({ field: `Suggested replacement ${index + 1}`, value })));
 }
 
+export const reviewSuggestionRangeScopeSchema = z.object({
+  context: z.string().max(REVIEW_SUGGESTION_LIMITS.value), start: z.number().int().nonnegative(), end: z.number().int().nonnegative(),
+}).strict().refine(scope => scope.start <= scope.end && isTextRangeBoundary(scope.context, scope.start)
+  && isTextRangeBoundary(scope.context, scope.end), 'Choose complete characters in the exact current paragraph.');
 export const reviewSuggestionResolutionSchema = z.object({
   changeId, expectedCurrent: z.string().max(REVIEW_SUGGESTION_LIMITS.value), value: z.string().max(REVIEW_SUGGESTION_LIMITS.value),
-}).strict();
+  range: reviewSuggestionRangeScopeSchema.optional(),
+}).strict().refine(value => !value.range || value.range.context.slice(value.range.start, value.range.end) === value.expectedCurrent,
+  'The resolution must match its exact selected current scope.');
 export type ReviewSuggestionResolution = z.infer<typeof reviewSuggestionResolutionSchema>;
 
 export const reviewSuggestionDecisionSchema = z.object({
@@ -95,9 +102,12 @@ export const reviewSuggestionStateSchema = z.object({
     if (decision.resolutions) {
       const proposal = value.proposals.find(item => item.id === decision.proposalId);
       if (value.version !== 2 || decision.action !== 'accepted' || proposal?.origin.kind !== 'manual'
-        || proposal.changes.length !== 1 || proposal.changes[0].target.kind === 'range' || decision.resolutions.length !== 1
+        || proposal.changes.length !== 1 || decision.resolutions.length !== 1
         || decision.resolutions[0].changeId !== proposal.changes[0].id) context.addIssue({ code: 'custom', message: 'A resolution must identify one accepted manual replacement in a version 2 review.' });
-      for (const resolution of decision.resolutions) characters += resolution.expectedCurrent.length + resolution.value.length;
+      for (const resolution of decision.resolutions) {
+        characters += resolution.expectedCurrent.length + resolution.value.length + (resolution.range?.context.length ?? 0);
+        if ((proposal?.changes[0].target.kind === 'range') !== !!resolution.range) context.addIssue({ code: 'custom', message: 'A selected resolution must retain its exact current range.' });
+      }
     }
     if (decision.previousDecisionId !== previous?.id) context.addIssue({ code: 'custom', message: 'Decision history is not contiguous.' });
     if (decision.action === 'accepted' || decision.action === 'rejected') {
@@ -233,27 +243,43 @@ export function createSelectedTextSuggestion(round: ReviewRound, input: {
     changes: [{ target, proposed: input.proposed }] });
 }
 
-/** Validate the scoped splice without copying unrelated text or mapping discussions. */
-function prepareReviewSuggestionRange(source: SerializedSession, target: SelectedTextRange, expected: string, proposed: string) {
-  if (target.tracking || target.detached || target.context.slice(target.start, target.end) !== expected) throw new Error('The selected text no longer matches this replacement.');
-  const resolved = resolveTextRange(source, target);
-  if (resolved.status !== 'current' || resolved.text !== expected) throw new Error('The selected text no longer matches this replacement.');
-  const text = target.context.slice(0, target.start) + proposed + target.context.slice(target.end);
-  if (!supportsPlainTextRange({ ...resolved.paragraph!, text }) || !isTextRangeBoundary(text, target.start)
-    || !isTextRangeBoundary(text, target.start + proposed.length)) throw new Error('The replacement must preserve supported plain text and complete characters.');
-  return { before: resolved.paragraph!, text };
+/** Map only the unique, plain paragraph ID. Never infer identity from a quote. */
+export function inspectReviewSuggestionRange(source: SerializedSession, target: SelectedTextRange): ReviewRangeReconciliation | null {
+  if (!supportsReviewComments(source) || source.docType !== target.docType || target.detached || target.tracking) return null;
+  const matches = source.paragraphs.filter(paragraph => paragraph.id === target.paragraphId);
+  if (matches.length !== 1 || !supportsPlainTextRange(matches[0])) return null;
+  return reconcileReviewRange(target, matches[0].text);
 }
 
-/** Pure guarded splice. Context and offsets are authority; repeated text is never searched. */
+/** Validate the scoped splice without copying unrelated text or mapping discussions. */
+function prepareReviewSuggestionRange(source: SerializedSession, target: SelectedTextRange, expected: string, proposed: string) {
+  if (target.context.slice(target.start, target.end) !== expected) throw new Error('The selected text no longer matches this replacement.');
+  const mapped = inspectReviewSuggestionRange(source, target);
+  if (mapped?.kind !== 'independent' || !mapped.scope) throw new Error('The selected text no longer matches this replacement.');
+  const { context, start, end } = mapped.scope;
+  if (context.slice(start, end) !== expected) throw new Error('The selected text no longer matches this replacement.');
+  const before = source.paragraphs.find(paragraph => paragraph.id === target.paragraphId)!;
+  const text = context.slice(0, start) + proposed + context.slice(end);
+  if (!supportsPlainTextRange({ ...before, text }) || !isTextRangeBoundary(text, start)
+    || !isTextRangeBoundary(text, start + proposed.length)) throw new Error('The replacement must preserve supported plain text and complete characters.');
+  return { before, text };
+}
+
+/** Pure scoped splice. Outside edits survive only an unambiguous independent mapping. */
 export function applyReviewSuggestionRange(source: SerializedSession, target: SelectedTextRange, expected: string, proposed: string): SerializedSession {
   const { before, text } = prepareReviewSuggestionRange(source, target, expected, proposed);
-  const session = structuredClone(source);
-  const paragraph = session.paragraphs.find(paragraph => paragraph.id === target.paragraphId)!;
-  paragraph.text = text;
-  const comments = transformRangeComments(source.reviewComments, before, paragraph);
+  const session = structuredClone(source), after = { ...before, text };
+  session.paragraphs[session.paragraphs.findIndex(paragraph => paragraph.id === target.paragraphId)] = after;
+  const comments = transformRangeComments(source.reviewComments, before, after);
+
   if (comments) session.reviewComments = comments;
   else delete session.reviewComments;
   return session;
+}
+
+/** Exact current target retained by an acceptance; immutable proposal stays unchanged. */
+export function resolvedReviewSuggestionRange(target: SelectedTextRange, resolution?: ReviewSuggestionResolution): SelectedTextRange {
+  return resolution?.range ? { kind: 'range', paragraphId: target.paragraphId, docType: target.docType, ...resolution.range } : target;
 }
 
 /** Inverse target for the exact accepted splice, used by the existing Undo writer. */
@@ -263,20 +289,27 @@ export function acceptedReviewSuggestionRange(target: SelectedTextRange, propose
 
 export interface ReviewSuggestionPlan {
   status: 'ready' | 'stale' | 'decided';
-  changes: Array<{ id: string; label: string; baseline: string; current: string | null; proposed: string; stale: boolean }>;
+  changes: Array<{ id: string; label: string; baseline: string; current: string | null; proposed: string; stale: boolean; reconciliation?: ReviewRangeReconciliation }>;
   session: SerializedSession;
   state: ReviewSuggestionState;
 }
 
-export function inspectReviewSuggestion(round: ReviewRound, source: SerializedSession, input: ReviewSuggestion): ReviewSuggestionPlan['changes'] {
+export function inspectReviewSuggestion(round: ReviewRound, source: SerializedSession, input: ReviewSuggestion, acceptedResolutions?: readonly ReviewSuggestionResolution[]): ReviewSuggestionPlan['changes'] {
   const proposal = validateReviewSuggestion(round, input);
   const referencesMatch = !proposal.changes.some(change => change.target.kind === 'reference-title') || sameReviewReferences(source, round.baseline.session);
   return proposal.changes.map(change => {
-    const current = suggestionTargetValue(source, change.target);
+    const reconciliation = change.target.kind === 'range' ? inspectReviewSuggestionRange(source, change.target) : null;
+    const resolution = acceptedResolutions?.find(item => item.changeId === change.id);
+    const applied = change.target.kind === 'range' && resolution?.range
+      ? inspectReviewSuggestionRange(source, acceptedReviewSuggestionRange(resolvedReviewSuggestionRange(change.target, resolution), resolution.value)) : null;
+    const current = resolution?.range ? applied?.scope ? { value: applied.scope.context.slice(applied.scope.start, applied.scope.end),
+      label: suggestionTargetValue(round.baseline.session, change.target)!.label } : null : reconciliation?.scope ? { value: reconciliation.scope.context.slice(reconciliation.scope.start, reconciliation.scope.end),
+      label: suggestionTargetValue(round.baseline.session, change.target)!.label } : suggestionTargetValue(source, change.target);
     const accepted = change.target.kind === 'range' ? suggestionTargetValue(source, acceptedReviewSuggestionRange(change.target, change.proposed)) : null;
     return { id: change.id, label: current?.label ?? suggestionTargetValue(round.baseline.session, change.target)!.label,
-      baseline: change.expected, current: current?.value ?? accepted?.value ?? null, proposed: change.proposed,
-      stale: current?.value !== change.expected || change.target.kind === 'reference-title' && !referencesMatch };
+      baseline: change.expected, current: current?.value ?? (resolution?.range ? null : accepted?.value ?? null), proposed: change.proposed,
+      stale: change.target.kind === 'range' ? reconciliation?.kind !== 'independent' : current?.value !== change.expected || change.target.kind === 'reference-title' && !referencesMatch,
+      ...(reconciliation ? { reconciliation } : {}) };
   });
 }
 
@@ -290,10 +323,22 @@ export function planReviewSuggestionDecision(round: ReviewRound, source: Seriali
   const changes = inspectReviewSuggestion(round, source, proposal);
   const previous = latestReviewSuggestionDecision(state, proposalId);
   if (previous && previous.action !== 'reversed') return { status: 'decided', changes, session: structuredClone(source), state };
-  const resolutions = inputResolutions && z.array(reviewSuggestionResolutionSchema).min(1).max(1).parse(inputResolutions);
+  let resolutions = inputResolutions && z.array(reviewSuggestionResolutionSchema).min(1).max(1).parse(inputResolutions);
   if (resolutions && (action !== 'accepted' || proposal.origin.kind !== 'manual' || proposal.changes.length !== 1
-    || proposal.changes[0].target.kind === 'range' || resolutions[0].changeId !== proposal.changes[0].id)) throw new Error('Only a supported manual field or paragraph replacement can be reconciled.');
-  if (action === 'accepted' && changes.some(change => resolutions
+    || resolutions[0].changeId !== proposal.changes[0].id)) throw new Error('Only a supported manual replacement can be reconciled.');
+  const rangeChange = proposal.changes[0].target.kind === 'range' ? proposal.changes[0] : null;
+  if (resolutions && !!rangeChange !== !!resolutions[0].range) throw new Error('A selected resolution requires its exact current range scope.');
+  if (action === 'accepted' && rangeChange) {
+    const inspection = changes[0].reconciliation;
+    const resolution = resolutions?.[0];
+    const validCurrent = inspection && (resolution ? inspection.currentContext === resolution.range!.context
+      : inspection.kind === 'independent' && !!inspection.scope);
+    if (!validCurrent) return { status: 'stale', changes, session: structuredClone(source), state };
+    if (!resolutions) {
+      const scope = inspection!.scope!;
+      resolutions = [{ changeId: rangeChange.id, expectedCurrent: scope.context.slice(scope.start, scope.end), value: rangeChange.proposed, range: scope }];
+    }
+  } else if (action === 'accepted' && changes.some(change => resolutions
     ? change.current === null || change.current !== resolutions[0].expectedCurrent : change.stale)) return { status: 'stale', changes, session: structuredClone(source), state };
   let session = structuredClone(source);
   if (action === 'accepted') for (const change of proposal.changes) {
@@ -301,7 +346,7 @@ export function planReviewSuggestionDecision(round: ReviewRound, source: Seriali
     const value = resolutions?.[0].value ?? change.proposed;
     if (target.kind === 'field') Object.assign(session.formData, { [target.field]: value });
     else if (target.kind === 'paragraph') replaceReviewParagraphText(session, target.paragraphId, value);
-    else if (target.kind === 'range') session = applyReviewSuggestionRange(session, target, change.expected, value);
+    else if (target.kind === 'range') session = applyReviewSuggestionRange(session, resolvedReviewSuggestionRange(target, resolutions?.[0]), resolutions?.[0].expectedCurrent ?? change.expected, value);
     else session.references[target.referenceIndex].title = value;
   }
   if (resolutions) state.version = 2;
@@ -328,13 +373,26 @@ export function planReviewSuggestionHistory(round: ReviewRound, before: Serializ
       || !sameReviewReferences(after, direction === 'undo' ? round.baseline.session : corrected)) throw new Error('The reference list no longer matches this review decision.');
   }
   for (const change of proposal.changes) {
-    const appliedTarget = change.target.kind === 'range' ? acceptedReviewSuggestionRange(change.target, change.proposed) : change.target;
-    const oldValue = suggestionTargetValue(before, direction === 'undo' ? appliedTarget : change.target)?.value;
-    const nextValue = suggestionTargetValue(after, direction === 'undo' ? change.target : appliedTarget)?.value;
     const resolved = acceptance.resolutions?.find(item => item.changeId === change.id);
     const original = resolved?.expectedCurrent ?? change.expected, applied = resolved?.value ?? change.proposed;
+    const target = change.target.kind === 'range' ? resolvedReviewSuggestionRange(change.target, resolved) : change.target;
+    const appliedTarget = target.kind === 'range' ? acceptedReviewSuggestionRange(target, applied) : target;
+    const historyValue = (source: SerializedSession, value: ReviewSuggestionTarget) => {
+      if (value.kind !== 'range') return suggestionTargetValue(source, value)?.value;
+      const mapping = inspectReviewSuggestionRange(source, value);
+      return mapping?.kind === 'independent' && mapping.scope ? mapping.scope.context.slice(mapping.scope.start, mapping.scope.end) : undefined;
+    };
+    const oldValue = historyValue(before, direction === 'undo' ? appliedTarget : target);
+    const nextValue = historyValue(after, direction === 'undo' ? target : appliedTarget);
     if (oldValue !== (direction === 'undo' ? applied : original)
       || nextValue !== (direction === 'undo' ? original : applied)) throw new Error('This history action does not reverse the accepted replacement.');
+    if (target.kind === 'range' && appliedTarget.kind === 'range') {
+      const derived = applyReviewSuggestionRange(before, direction === 'undo' ? appliedTarget : target,
+        direction === 'undo' ? applied : original, direction === 'undo' ? original : applied);
+      const expectedText = derived.paragraphs.find(paragraph => paragraph.id === target.paragraphId)!.text;
+      if (after.paragraphs.find(paragraph => paragraph.id === target.paragraphId)?.text !== expectedText)
+        throw new Error('This history action does not reverse only the accepted range.');
+    }
   }
   state.decisions.push({ ...record, proposalId: proposal.id, roundId: round.id, baselineDigest: round.baselineDigest,
     action: direction === 'undo' ? 'reversed' : 'restored', previousDecisionId: previous.id, acceptanceId });

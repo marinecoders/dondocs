@@ -7,6 +7,13 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.109] — 2026-11-15
+
+### Added
+
+- Reconcile selected-text suggestions against newer draft work, preserving independent edits before and after a selection and paragraphs moved by their stable identity.
+- Resolve overlapping changes by retaining the current text, taking the proposal or writing combined text. Ambiguous boundaries require an explicit current selection; acceptance rechecks the entire captured paragraph and records the exact scope for Undo and Redo.
+
 ## [1.3.108] — 2026-11-15
 
 ### Added
