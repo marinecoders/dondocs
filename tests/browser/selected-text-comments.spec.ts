@@ -1,7 +1,9 @@
 import { expect, test, type Locator } from '@playwright/test';
+import type { Editor } from '@tiptap/core';
 import { replaceParagraphText } from '../_helpers/replaceParagraphText';
 
 test.use({ serviceWorkers: 'block' });
+test.setTimeout(180_000);
 async function selectWords(editor: Locator, start: number, end: number) {
   await editor.focus();
   await editor.evaluate((element, offsets) => {
@@ -47,8 +49,12 @@ for (const theme of ['light', 'dark', 'classic'] as const) {
     await dialog.getByRole('button', { name: 'Go to selected text', exact: true }).click();
     await expect(editor).toBeFocused();
     await expect.poll(() => page.evaluate(() => window.getSelection()?.toString())).toBe('selected words');
-    await selectWords(editor, 0, 0);
+    await editor.click({ position: { x: 1, y: 8 } });
     await expect.poll(() => page.evaluate(() => ({ collapsed: window.getSelection()?.isCollapsed, offset: window.getSelection()?.anchorOffset }))).toEqual({ collapsed: true, offset: 0 });
+    await expect.poll(() => editor.evaluate(element => {
+      const { from, to } = (element as HTMLElement & { editor: Editor }).editor.state.selection;
+      return { from, to };
+    })).toEqual({ from: 1, to: 1 });
     await page.keyboard.type('New ');
     await expect(editor).toHaveText('New ' + text);
     await page.getByRole('button', { name: /^Comments(?: \(\d+\))?$/ }).click();

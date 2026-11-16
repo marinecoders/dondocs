@@ -3,6 +3,9 @@ import AxeBuilder from '@axe-core/playwright';
 import { readFile } from 'node:fs/promises';
 import { getDocument } from 'pdfjs-dist/legacy/build/pdf.mjs';
 import { replaceParagraphText } from '../_helpers/replaceParagraphText';
+import { closeReviewRounds } from '../_helpers/closeReviewRounds';
+import { downloadBrowserPdf } from '../_helpers/downloadBrowserPdf';
+import { uploadReviewFile } from '../_helpers/uploadReviewFile';
 
 test.use({ serviceWorkers: 'block' });
 test.setTimeout(180_000);
@@ -30,13 +33,13 @@ for (const theme of ['light', 'dark', 'classic']) test(`paragraph insertion and 
   await modal.getByRole('button', { name: 'Start review from current draft', exact: true }).click();
   await expect(modal.getByText('Review baseline saved. Later source edits will not change this copy.', { exact: true })).toBeVisible();
   await modal.getByRole('button', { name: 'Prepare reviewer copy', exact: true }).click();
-  const copy = await download(page, () => modal.getByRole('button', { name: 'Download reviewer copy', exact: true }).click());await page.keyboard.press('Escape');
+  const copy = await download(page, () => modal.getByRole('button', { name: 'Download reviewer copy', exact: true }).click());await closeReviewRounds(modal);
   const context = await browser.newContext({ viewport: page.viewportSize()!, userAgent: await page.evaluate(() => navigator.userAgent),
     serviceWorkers: 'block', isMobile: !!info.project.use.isMobile, hasTouch: !!info.project.use.hasTouch });
   try {
     await context.addInitScript(init, theme);const reviewer = await context.newPage();await reviewer.goto(baseURL!);
     let remote = await reviews(reviewer);
-    await remote.getByLabel('Import reviewer copy', { exact: true }).setInputFiles({ name: 'review.json', mimeType: 'application/json', buffer: copy });
+    await uploadReviewFile(remote.getByLabel('Import reviewer copy', { exact: true }), { name: 'review.json', mimeType: 'application/json', buffer: copy });
     await remote.getByRole('button', { name: 'Open as new review copy', exact: true }).click();await expect(remote).toBeHidden();
     remote = await reviews(reviewer);await remote.getByLabel('Review for suggested edits', { exact: true }).selectOption({ label: 'Paragraph baseline' });
     await remote.getByLabel('Reviewer name for suggestion', { exact: true }).fill('Synthetic paragraph reviewer');
@@ -63,7 +66,7 @@ for (const theme of ['light', 'dark', 'classic']) test(`paragraph insertion and 
     expect(newId).not.toBe('structure-first');await info.attach('paragraph-feedback-return.json', { body: returned, contentType: 'application/json' });
     await replaceParagraphText(page.getByRole('textbox', { name: 'Paragraph 3', exact: true }), 'Newer independent third.');
     modal = await reviews(page);
-    await modal.getByLabel('Import feedback return', { exact: true }).setInputFiles({ name: 'returned.json', mimeType: 'application/json', buffer: returned });
+    await uploadReviewFile(modal.getByLabel('Import feedback return', { exact: true }), { name: 'returned.json', mimeType: 'application/json', buffer: returned });
     await modal.getByRole('button', { name: 'Import reviewed feedback', exact: true }).click();await expect(modal.getByText(/Feedback imported/)).toBeVisible();
     await modal.getByLabel('Review for suggested edits', { exact: true }).selectOption({ label: 'Paragraph baseline' });
     for (const name of ['Suggestion 1: Insert paragraph', 'Suggestion 2: Delete paragraph']) {
@@ -73,7 +76,7 @@ for (const theme of ['light', 'dark', 'classic']) test(`paragraph insertion and 
     const rejected = modal.getByRole('article', { name: 'Suggestion 3: Delete paragraph', exact: true });
     await rejected.getByRole('button', { name: 'Reject suggestion', exact: true }).click();await expect(rejected.getByText(/· Rejected$/)).toBeVisible();
     await expect(modal.getByLabel('Review for suggested edits', { exact: true })).toBeEnabled();
-    await page.keyboard.press('Escape');await expect(modal).toBeHidden();
+    await closeReviewRounds(modal);
     // Reaccept the original immutable proposals after ordinary source Undo.
     // The existing export assertions below still require the captured newId.
     await action(page, 'Undo');
@@ -95,7 +98,7 @@ for (const theme of ['light', 'dark', 'classic']) test(`paragraph insertion and 
     await expect(modal.getByRole('article', { name: 'Suggestion 3: Delete paragraph', exact: true }).getByText(/· Rejected$/)).toBeVisible();
     expect((await new AxeBuilder({ page }).include('[role="dialog"]').analyze()).violations).toEqual([]);
     expect(await modal.evaluate(element => element.scrollWidth <= element.clientWidth)).toBe(true);
-    await page.screenshot({ path: info.outputPath(`paragraph-proposals-${theme}.png`), scale: 'css' });await page.keyboard.press('Escape');await expect(modal).toBeHidden();
+    await page.screenshot({ path: info.outputPath(`paragraph-proposals-${theme}.png`), scale: 'css' });await closeReviewRounds(modal);
     await action(page, 'Undo');
     const undone = JSON.parse((await download(page, () => action(page, 'Export draft (.json)'))).toString('utf8'));
     expect(undone.paragraphs.map((paragraph: {id:string}) => paragraph.id)).toEqual(['structure-first', 'structure-second', 'structure-third', newId]);
@@ -107,9 +110,11 @@ for (const theme of ['light', 'dark', 'classic']) test(`paragraph insertion and 
     expect(reloaded.proposals).toBeUndefined();expect(JSON.stringify(reloaded)).not.toContain('Synthetic paragraph reviewer');
     modal = await reviews(page);await modal.getByLabel('Review for suggested edits', { exact: true }).selectOption({ label: 'Paragraph baseline' });
     await expect(modal.getByRole('article', { name: 'Suggestion 1: Insert paragraph', exact: true }).getByText(/· Accepted$/)).toBeVisible();
-    await modal.getByLabel('Import feedback return', { exact: true }).setInputFiles({ name: 'repeated.json', mimeType: 'application/json', buffer: returned });
+    const repeatedReturn = modal.getByLabel('Import feedback return', { exact: true });
+    await expect(repeatedReturn).toBeEnabled();
+    await repeatedReturn.setInputFiles({ name: 'repeated.json', mimeType: 'application/json', buffer: returned });
     await expect(modal.getByText(/This return has already been imported/)).toBeVisible();
-    await page.keyboard.press('Escape');await expect(modal).toBeHidden();
+    await closeReviewRounds(modal);
     // Accepted Unicode content must also compile through the clean PDF path.
     const preview = page.getByRole('button', { name: 'Preview', exact: true });
     let exportPdf: () => Promise<unknown>;
@@ -126,7 +131,7 @@ for (const theme of ['light', 'dark', 'classic']) test(`paragraph insertion and 
         await page.getByRole('menuitem', { name: /^Download PDF(?:\s|$)/ }).click();
       };
     }
-    const cleanPdf = await download(page, exportPdf);
+    const cleanPdf = await downloadBrowserPdf(page, info.project.name, exportPdf);
     await info.attach('accepted-paragraph-clean.pdf', { body: cleanPdf, contentType: 'application/pdf' });
     const pdf = await getDocument({ data: new Uint8Array(cleanPdf), useSystemFonts: false }).promise;
     try {

@@ -4,6 +4,8 @@ import { readFile } from 'node:fs/promises';
 import { PDFDocument } from 'pdf-lib';
 import JSZip from 'jszip';
 import { docxImageFixture } from '../_helpers/docxImageFixture';
+import { closeReviewRounds } from '../_helpers/closeReviewRounds';
+import { uploadReviewFile } from '../_helpers/uploadReviewFile';
 
 test.use({ serviceWorkers: 'block', actionTimeout: 15_000 });
 test.setTimeout(180_000);
@@ -83,7 +85,7 @@ for (const theme of ['light', 'dark', 'classic']) {
     expect(packet.draft.formData.signatureImage.data).toBe(images.signature.toString('base64'));
     expect(packet.draft.paragraphs[1].figure.data).toBe(images.figure.toString('base64'));
     expect(packet.draft.enclosures[0].file.data).toBe(attached.toString('base64'));
-    await page.keyboard.press('Escape');
+    await closeReviewRounds(modal);
 
     await page.getByLabel('Document section', { exact: true }).selectOption('addressing');
     for (let index = 0; index < 11; index++) {
@@ -167,7 +169,7 @@ for (const theme of ['light', 'dark', 'classic']) {
       await cleanup.getByRole('button', { name: 'Delete review baseline', exact: true }).click();
       await restored.getByRole('alertdialog', { name: 'Delete this review baseline?', exact: true }).getByRole('button', { name: 'Delete review baseline', exact: true }).click();
       await expect(cleanup.getByText('No review baselines saved yet.', { exact: true })).toBeVisible();
-      await restored.keyboard.press('Escape');await restored.reload();
+      await closeReviewRounds(cleanup);await restored.reload();
       await expect(restored.getByRole('button', { name: `Review: Retained review ${theme}`, exact: true })).toBeVisible();
       expect((await exportedDraft(restored)).formData.unitAddress).toBe('CAMP PENDLETON CA 92055');
     } finally { await second.close(); }
@@ -193,6 +195,9 @@ test('reviewer imports reject stale previews and preserve native bytes without c
     enclosures: [{ title: 'Synthetic supporting PDF', file: { name: 'support.pdf', size: Buffer.from(bytes, 'base64').length, data: bytes } }], references: [], copyTos: [], distributions: [] };
   await page.getByLabel('Import draft file').setInputFiles({ name: 'fresh-source.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(draft)) });
   await page.getByRole('button', { name: 'Open as new document', exact: true }).click();
+  await expect(page.getByRole('dialog', {
+    name: 'Review draft', exact: true, includeHidden: true,
+  })).toHaveCount(0, { timeout: 15_000 });
   await expect(page.getByRole('button', { name: draft.formData.subject, exact: true })).toBeVisible();
   await page.getByLabel('Document section', { exact: true }).selectOption('letterhead');
   await page.evaluate(() => new Promise<void>(resolve => requestAnimationFrame(() => resolve())));
@@ -214,7 +219,7 @@ test('reviewer imports reject stale previews and preserve native bytes without c
 
   const foreign = structuredClone(original);
   foreign.round.id = `review_${crypto.randomUUID()}`;
-  const importCopy = (value: unknown) => modal.getByLabel('Import reviewer copy', { exact: true }).setInputFiles({
+  const importCopy = (value: unknown) => uploadReviewFile(modal.getByLabel('Import reviewer copy', { exact: true }), {
     name: 'incoming-review.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(value)) });
   await importCopy(foreign);
   await expect(modal.getByRole('button', { name: 'Open as new review copy', exact: true })).toBeVisible();

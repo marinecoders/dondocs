@@ -1,6 +1,7 @@
 import { test, expect, type Page } from '@playwright/test';
 import { readFile } from 'node:fs/promises';
 import { replaceParagraphText } from '../_helpers/replaceParagraphText';
+import { closeReviewRounds } from '../_helpers/closeReviewRounds';
 
 test.use({ serviceWorkers: 'block' });
 test.setTimeout(150_000);
@@ -45,8 +46,7 @@ for (const theme of ['light', 'dark', 'classic']) {
     await modal.getByRole('article', { name: 'Suggestion 2: Replace from', exact: true }).getByRole('button', { name: 'Reject suggestion', exact: true }).click();
     await expect(modal.getByRole('article', { name: 'Suggestion 2: Replace from', exact: true })).toContainText('Rejected');
     await expect(modal.getByLabel('Review for suggested edits', { exact: true })).toBeEnabled();
-    await page.keyboard.press('Escape');
-    await expect(modal).toBeHidden();
+    await closeReviewRounds(modal);
     await replaceParagraphText(page.getByRole('textbox', { name: 'Paragraph 2', exact: true }), 'Independent current body creates a conflict.');
     await page.getByRole('button', { name: /^Comments(?: \(\d+\))?$/ }).click();
     const comments = page.getByRole('dialog', { name: 'Document comments', exact: true });
@@ -92,7 +92,7 @@ for (const theme of ['light', 'dark', 'classic']) {
     expect(await artifact.locator('body').evaluate(body => body.scrollWidth <= window.innerWidth)).toBe(true);
     await artifact.screenshot({ path: info.outputPath(`summary-${theme}.png`), fullPage: true, scale: 'css' });
     await artifact.close();
-    await page.keyboard.press('Escape');
+    await closeReviewRounds(modal);
     await page.getByRole('button', { name: 'Document actions', exact: true }).click();
     const draftDownload = page.waitForEvent('download');
     await page.getByRole('menuitem', { name: 'Export draft (.json)', exact: true }).click();

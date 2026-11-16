@@ -2,6 +2,8 @@ import { expect, test, type Page } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 import { readFile } from 'node:fs/promises';
 import { replaceParagraphText } from '../_helpers/replaceParagraphText';
+import { closeReviewRounds } from '../_helpers/closeReviewRounds';
+import { uploadReviewFile } from '../_helpers/uploadReviewFile';
 
 test.use({ serviceWorkers: 'block' });
 test.setTimeout(180_000);
@@ -50,7 +52,7 @@ for (const theme of ['light', 'dark', 'classic']) {
       await expect(modal.getByText('Review baseline saved. Later source edits will not change this copy.', { exact: true })).toBeVisible();
       await modal.getByRole('button', { name: 'Prepare reviewer copy', exact: true }).click();
       await expect(modal.getByRole('heading', { name: 'Check this reviewer copy before downloading', exact: true })).toBeVisible();
-      const reviewerFile = await download(page, () => modal.getByRole('button', { name: 'Download reviewer copy', exact: true }).click());await page.keyboard.press('Escape');
+      const reviewerFile = await download(page, () => modal.getByRole('button', { name: 'Download reviewer copy', exact: true }).click());await closeReviewRounds(modal);
       return reviewerFile;
     });
     const reviewerContext = await browser.newContext({ viewport: page.viewportSize()!, serviceWorkers: 'block', isMobile: !!info.project.use.isMobile, hasTouch: !!info.project.use.hasTouch });
@@ -58,7 +60,7 @@ for (const theme of ['light', 'dark', 'classic']) {
       const reviewer = await test.step('Open the reviewer copy in a separate browser context', async () => {
         await reviewerContext.addInitScript(init, appearance);const reviewer = await reviewerContext.newPage();await reviewer.goto(baseURL!);
         const reviewModal = await reviews(reviewer);
-        await reviewModal.getByLabel('Import reviewer copy', { exact: true }).setInputFiles({ name: 'review.json', mimeType: 'application/json', buffer: reviewerFile });
+        await uploadReviewFile(reviewModal.getByLabel('Import reviewer copy', { exact: true }), { name: 'review.json', mimeType: 'application/json', buffer: reviewerFile });
         await reviewModal.getByRole('button', { name: 'Open as new review copy', exact: true }).click();
         await expect(reviewModal).toBeHidden();
         return reviewer;
@@ -85,7 +87,7 @@ for (const theme of ['light', 'dark', 'classic']) {
         await panel.getByRole('button', { name: 'Close comments', exact: true }).click();
       });
       await test.step('Review conflicting discussions and import selected feedback', async () => {
-        const modal = await reviews(page);await modal.getByLabel('Import feedback return', { exact: true }).setInputFiles({ name: 'return.json', mimeType: 'application/json', buffer: returned });
+        const modal = await reviews(page);await uploadReviewFile(modal.getByLabel('Import feedback return', { exact: true }), { name: 'return.json', mimeType: 'application/json', buffer: returned });
         await expect(modal.getByRole('region', { name: 'Conflict 1 current', exact: true })).toBeVisible();
         await expect(modal.getByRole('button', { name: 'Import reviewed feedback', exact: true })).toBeDisabled();
         for (const choice of await modal.getByRole('radio', { name: 'Keep current', exact: true }).all()) await choice.check();
@@ -96,15 +98,15 @@ for (const theme of ['light', 'dark', 'classic']) {
         await modal.getByRole('button', { name: 'Import reviewed feedback', exact: true }).click();await expect(modal.getByText(/Feedback imported/)).toBeVisible();
       });
       await test.step('Reload and verify newer author work and detached feedback', async () => {
-        await page.keyboard.press('Escape');await page.reload();
+        await closeReviewRounds(page.getByRole('dialog', { name: 'Review rounds', exact: true }));await page.reload();
         const saved = await exported(page);expect(saved.formData.subject).toBe('NEWER AUTHOR SUBJECT');
         expect(saved.paragraphs).toHaveLength(1);expect(saved.paragraphs[0].text).toBe('Newer author body survives returned feedback.');
         expect(saved.reviewComments.threads[0].anchor.paragraphId).toBe('review-first');
         expect(saved.reviewComments.threads[0].messages.map((message: { text: string }) => message.text)).toEqual(['Local correction.', 'Independent returned reply.']);
       });
       await test.step('Recognize the same feedback return after reload', async () => {
-        const modal = await reviews(page);await modal.getByLabel('Import feedback return', { exact: true }).setInputFiles({ name: 'same-return.json', mimeType: 'application/json', buffer: returned });
-        await expect(modal.getByText(/This return has already been imported/)).toBeVisible();await page.keyboard.press('Escape');
+        const modal = await reviews(page);await uploadReviewFile(modal.getByLabel('Import feedback return', { exact: true }), { name: 'same-return.json', mimeType: 'application/json', buffer: returned });
+        await expect(modal.getByText(/This return has already been imported/)).toBeVisible();await closeReviewRounds(modal);
       });
       await test.step('Open workspace Settings and download the receipt-bearing backup', async () => {
         await workspace(page, 'Settings');

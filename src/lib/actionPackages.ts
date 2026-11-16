@@ -1,3 +1,5 @@
+import { packageRoles } from "./packageRoles";
+export { packageRoles } from "./packageRoles";
 import { z } from "zod";
 import type { SerializedSession } from "@/stores/documentStore";
 import { validateBackupSession } from "./backupValidation";
@@ -21,13 +23,7 @@ const id = z
   .max(100)
   .regex(/^[a-zA-Z0-9_-]+$/);
 const digest = z.string().regex(/^[a-f0-9]{64}$/);
-export const packageRoles = [
-  "basic-letter",
-  "endorsement",
-  "coordination-sheet",
-  "supporting-document",
-  "enclosure",
-] as const;
+
 export const packageAssetSchema = z
   .object({
     id,

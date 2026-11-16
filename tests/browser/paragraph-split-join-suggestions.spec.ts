@@ -1,6 +1,8 @@
 import { expect, test, type Page } from '@playwright/test';
 import { readFile, writeFile } from 'node:fs/promises';
 import AxeBuilder from '@axe-core/playwright';
+import { closeReviewRounds } from '../_helpers/closeReviewRounds';
+
 test.use({serviceWorkers:'block',actionTimeout:15_000});test.setTimeout(180_000);
 async function action(page:Page,name:string){await page.getByRole('button',{name:name==='Undo'||name==='Redo'?'Document tools':'Document actions',exact:true}).click();await page.getByRole('menuitem',{name:name==='Undo'||name==='Redo'?new RegExp(`^${name}`):name,exact:true}).click();}
 async function reviews(page:Page){await action(page,'Review rounds…');return page.getByRole('dialog',{name:'Review rounds',exact:true});}
@@ -28,12 +30,12 @@ for(const theme of ['light','dark','classic'])test(`paragraph split/join preserv
   await panel.getByLabel('Split or join operation',{exact:true}).selectOption('join-paragraphs');await panel.getByLabel('Paragraph to split or first paragraph to join',{exact:true}).selectOption('join-left');
   await expect(panel.getByText(/Second selected paragraph: Paragraph 4:/)).toBeVisible();await panel.getByRole('button',{name:'Add paragraph split or join suggestion',exact:true}).click();
   const join=modal.getByRole('article',{name:'Suggestion 2: Join paragraphs',exact:true});await expect(join).toBeVisible();
-  await expect(modal.getByLabel('Review for suggested edits',{exact:true})).toBeEnabled();await page.keyboard.press('Escape');await expect(modal).toBeHidden();const unchanged=await exported(page);expect(unchanged.paragraphs).toEqual(source.paragraphs);
+  await expect(modal.getByLabel('Review for suggested edits',{exact:true})).toBeEnabled();await closeReviewRounds(modal);const unchanged=await exported(page);expect(unchanged.paragraphs).toEqual(source.paragraphs);
   modal=await reviews(page);await modal.getByLabel('Review for suggested edits',{exact:true}).selectOption({label:'Structural review'});
   await modal.getByRole('article',{name:'Suggestion 1: Split paragraph',exact:true}).getByRole('button',{name:'Accept suggestion',exact:true}).click();
   await modal.getByRole('article',{name:'Suggestion 2: Join paragraphs',exact:true}).getByRole('button',{name:'Accept suggestion',exact:true}).click();
   expect(await modal.evaluate(element=>element.scrollWidth<=element.clientWidth)).toBe(true);expect((await new AxeBuilder({page}).include('[role="dialog"]').analyze()).violations).toEqual([]);
-  await page.screenshot({path:info.outputPath(`paragraph-split-join-${theme}.png`),scale:'css'});await page.keyboard.press('Escape');
+  await page.screenshot({path:info.outputPath(`paragraph-split-join-${theme}.png`),scale:'css'});await closeReviewRounds(modal);
   const accepted=await exported(page);expect(accepted.paragraphs.map((paragraph:{text:string})=>paragraph.text)).toEqual(['Before **marked **','**words** after','Keep this paragraph.','Équipe 😀 left  Second plain paragraph.']);
   expect(accepted.paragraphs[0].id).toBe('rich');expect(accepted.paragraphs[1].id).not.toBe('rich');expect(accepted.reviewComments.threads[0].id).toBe(source.reviewComments.threads[0].id);expect(accepted.reviewComments.threads[0].anchor).toMatchObject({paragraphId:'join-right',tracking:{paragraphId:'join-left'}});expect(accepted.proposals).toBeUndefined();
   await action(page,'Undo');expect((await exported(page)).paragraphs).toHaveLength(5);await action(page,'Redo');expect((await exported(page)).paragraphs).toEqual(accepted.paragraphs);

@@ -1,3 +1,4 @@
+import { listPackageTemplates, validatePackageTemplateLibrary, restorePackageTemplates, type PackageTemplate } from './packageTemplateLibrary';
 import { capturePackageBackup, validatePackageBackup, restorePackageBackup } from './actionPackageBackup';
 import { formTemplateAttachmentId } from './formTemplateAssets';
 import { packageAssets, packageDefinitions, actionPackageSchema, type ActionPackage } from './actionPackages';
@@ -67,7 +68,8 @@ export const BACKUP_KIND = 'dondocs-backup';
 // (per-document version history). v3 added `attachments`. Restore branches on
 // `kind` and on field PRESENCE, not version, so an older bundle (missing any of
 // these fields) still restores cleanly.
-export const BACKUP_VERSION = 12;
+// v13 preserves reusable package starters, including their exact form pages.
+export const BACKUP_VERSION = 13;
 const LIBRARY_KIND = 'dondocs-library'; // legacy docs-only file
 function supportedWorkspaceVersion(version: unknown, minimum: number): boolean {
   return typeof version === 'number' && Number.isSafeInteger(version) && version >= minimum && version <= BACKUP_VERSION;
@@ -104,6 +106,7 @@ export interface BackupBundle {
   portableFormTemplates?: PortableFormTemplateBundle['portableFormTemplates'];
   portableResources?: PortableFormTemplateBundle['portableResources'];
   actionPackages?: ActionPackage[];
+  packageTemplates?: PackageTemplate[];
 }
 
 export interface RestoreResult {
@@ -120,6 +123,7 @@ export interface RestoreResult {
   routingRulesAdded: number;
   reviewRoundsRestored?: number;
   actionPackagesRestored?: number;
+  packageTemplatesRestored?: number;
 }
 
 // ---------------------------------------------------------------------------
@@ -358,6 +362,7 @@ async function serializeBackup(): Promise<string> {
   captured.forms.navmc11811 = await materializeFormSignatureFallbacks(normalizeNavmc11811(captured.forms.navmc11811));
 
   const actionPackages = await capturePackageBackup();
+  const packageTemplates = await listPackageTemplates();
   const entries = [{ session: { forms: captured.forms } }, ...docs, ...Object.values(snapshots).flat(), ...Object.values(captured.userTemplates), ...reviewRounds.map(round => round.baseline)];
   if (entries.some(hasUnresolvedEnclosure)) throw new Error('An enclosure file is missing its saved reference. The backup was not created.');
   const formTemplates = await capturePortableFormTemplates([...configuredDefinitions(entries), ...packageDefinitions(actionPackages)]);
@@ -372,14 +377,14 @@ async function serializeBackup(): Promise<string> {
       || Object.values(snapshots).some(ring => ring.some(snapshot => hasReviewComments(snapshot.session)))
       || Object.values(captured.userTemplates).some(template => hasReviewComments(template.session));
     const withReviews = reviewRounds.length > 0 || reviewCopies.length > 0 || docs.some(doc => (doc as { meta: { nativeReviewText?: boolean } }).meta.nativeReviewText === true);
-    const bundle: BackupBundle = { ...captured, version: actionPackages.length ? 12 : formTemplates ? 11 : reviewSuggestions.length || reviewSuggestionWrites.length ? reviewSuggestions.some(record => record.state.version === 2) ? 10 : 9 : reviewReturns.length ? 8 : withReviews ? 7 : withComments ? 6 : 5, documents: docs, snapshots, attachments, ...(actionPackages.length ? { actionPackages } : {}),
+    const bundle: BackupBundle = { ...captured, version: packageTemplates.length ? 13 : actionPackages.length ? 12 : formTemplates ? 11 : reviewSuggestions.length || reviewSuggestionWrites.length ? reviewSuggestions.some(record => record.state.version === 2) ? 10 : 9 : reviewReturns.length ? 8 : withReviews ? 7 : withComments ? 6 : 5, documents: docs, snapshots, attachments, ...(actionPackages.length ? { actionPackages } : {}), ...(packageTemplates.length ? { packageTemplates } : {}),
       ...formTemplates,
       ...(withReviews ? { reviewRounds, reviewCopies } : {}), ...(reviewReturns.length ? { reviewReturns } : {}),
       ...(reviewSuggestions.length || reviewSuggestionWrites.length ? { reviewSuggestions, reviewSuggestionWrites } : {}) };
     // Apply the recovery complexity and key guards before claiming an export is restorable.
     validateBackup({ ...bundle });
     const json = JSON.stringify(bundle);
-    if ((formTemplates || actionPackages.length) && new TextEncoder().encode(json).byteLength > MAX_BACKUP_BYTES) throw new Error('This complete workspace backup exceeds the 100 MB JSON import limit. Export separate draft copies before transferring it.');
+    if ((formTemplates || actionPackages.length || packageTemplates.length) && new TextEncoder().encode(json).byteLength > MAX_BACKUP_BYTES) throw new Error('This complete workspace backup exceeds the 100 MB JSON import limit. Export separate draft copies before transferring it.');
     return json;
   });
 }
@@ -486,6 +491,8 @@ async function runRestore(json: string, canReplaceForms: () => boolean): Promise
   }
   if (parsed.actionPackages !== undefined && (kind !== BACKUP_KIND || !supportedWorkspaceVersion(parsed.version, 12))) throw new Error('Saved packages require a version 12 workspace backup.');
   if (parsed.actionPackages !== undefined && !Array.isArray(parsed.actionPackages)) throw new Error('Invalid package recovery inventory.');
+  if (parsed.packageTemplates !== undefined && (kind !== BACKUP_KIND || !supportedWorkspaceVersion(parsed.version, 13))) throw new Error('Package templates require a version 13 workspace backup.');
+  const packageTemplates = await validatePackageTemplateLibrary(parsed.packageTemplates ?? []);
   const packageRecords = ((parsed.actionPackages ?? []) as unknown[]).map(value => actionPackageSchema.parse(value));
   if (parsed.snapshots !== undefined && (!parsed.snapshots || typeof parsed.snapshots !== 'object' || Array.isArray(parsed.snapshots))) throw new Error('Invalid history');
   for (const [docId, ring] of Object.entries(parsed.snapshots ?? {})) {
@@ -695,7 +702,13 @@ async function runRestore(json: string, canReplaceForms: () => boolean): Promise
     try { actionPackagesRestored = await restorePackageBackup(actionPackages); }
     catch (error) { issues.push(error instanceof Error ? error.message : 'Saved packages could not be restored. Keep the backup file.'); }
   }
+  let packageTemplatesRestored: number | undefined;
+  if (packageTemplates.length) {
+    try { packageTemplatesRestored = await restorePackageTemplates(packageTemplates); }
+    catch (error) { issues.push(error instanceof Error ? error.message : 'Package templates could not be restored. Keep the backup file.'); }
+  }
   return { documents, profilesAdded, snippetsAdded, templatesAdded, formsRestored, attachmentsAdded, snapshotDocs, routingRulesAdded,
+    ...(packageTemplatesRestored !== undefined ? { packageTemplatesRestored } : {}),
     ...(actionPackagesRestored !== undefined ? { actionPackagesRestored } : {}),
     ...(reviewRoundsRestored !== undefined ? { reviewRoundsRestored } : {}), ...(issues.length ? { issues } : {}) };
 }
@@ -707,6 +720,7 @@ export function summarizeRestore(r: RestoreResult): string {
   if (r.profilesAdded) parts.push(`${r.profilesAdded} profile${r.profilesAdded === 1 ? '' : 's'}`);
   if (r.snippetsAdded) parts.push(`${r.snippetsAdded} snippet${r.snippetsAdded === 1 ? '' : 's'}`);
   if (r.templatesAdded) parts.push(`${r.templatesAdded} template${r.templatesAdded === 1 ? '' : 's'}`);
+  if (r.packageTemplatesRestored) parts.push(`${r.packageTemplatesRestored} package template${r.packageTemplatesRestored === 1 ? '' : 's'}`);
   if (r.actionPackagesRestored) parts.push(`${r.actionPackagesRestored} saved package${r.actionPackagesRestored === 1 ? '' : 's'}`);
   if (r.attachmentsAdded) parts.push(`${r.attachmentsAdded} attachment${r.attachmentsAdded === 1 ? '' : 's'}`);
   if (r.reviewRoundsRestored) parts.push(`${r.reviewRoundsRestored} review baseline${r.reviewRoundsRestored === 1 ? '' : 's'}`);

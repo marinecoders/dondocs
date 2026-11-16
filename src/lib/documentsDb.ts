@@ -1315,3 +1315,42 @@ export async function idbCompareActionPackage(before: import('./actionPackages')
     });
   } catch { return false; }
 }
+
+/** Self-contained package starters have no device-local attachment or source handles. */
+export async function idbReadPackageTemplates(): Promise<unknown[]> {
+  const records = await run<Array<{ key: string; value: unknown }>>(APP_STORE, 'readonly', store =>
+    store.getAll(IDBKeyRange.bound('package-template:', 'package-template:\uffff')));
+  return records.map(record => {
+    if (!record.value || typeof record.value !== 'object' || !('id' in record.value)
+      || record.key !== `package-template:${record.value.id}`) throw new Error('The package template inventory is corrupt.');
+    return record.value;
+  });
+}
+export async function idbComparePackageTemplate(before: import('./packageTemplateLibrary').PackageTemplate | null,
+  after: import('./packageTemplateLibrary').PackageTemplate | null, isCurrent: () => boolean): Promise<boolean> {
+  try {
+    const { validatePackageTemplate, MAX_PACKAGE_TEMPLATES, MAX_PACKAGE_TEMPLATE_LIBRARY_BYTES } = await import('./packageTemplateLibrary');
+    before = before && structuredClone(before); after = after && await validatePackageTemplate(after);
+    if ((!before && !after) || before && after && before.id !== after.id) return false;
+    const key = `package-template:${(after ?? before)!.id}`;
+    const db = await openDb();
+    return await new Promise<boolean>((resolve, reject) => {
+      const transaction = db.transaction(APP_STORE, 'readwrite'), store = transaction.objectStore(APP_STORE);
+      const inventory = store.getAll(IDBKeyRange.bound('package-template:', 'package-template:\uffff'));
+      let committed = false;
+      inventory.onsuccess = () => {
+        const records = inventory.result as Array<{ key: string; value: unknown }>;
+        const prior = records.find(record => record.key === key)?.value ?? null;
+        if (!isCurrent() || !sameReviewStoredValue(prior, before)) return;
+        const remaining = records.filter(record => record.key !== key).map(record => record.value);
+        if (after) remaining.push(after);
+        if (remaining.length > MAX_PACKAGE_TEMPLATES || new TextEncoder().encode(JSON.stringify(remaining)).byteLength > MAX_PACKAGE_TEMPLATE_LIBRARY_BYTES) return;
+        if (after) store.put({ key, value: after }); else store.delete(key);
+        committed = true;
+      };
+      transaction.oncomplete = () => resolve(committed);
+      transaction.onerror = () => reject(transaction.error);
+      transaction.onabort = () => reject(transaction.error);
+    });
+  } catch { return false; }
+}

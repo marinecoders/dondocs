@@ -1,4 +1,5 @@
 import { test, expect, type Page, type BrowserContext } from "@playwright/test";
+import { capturePackageDocument } from "../_helpers/capturePackageDocument";
 import { PDFDocument, StandardFonts } from "pdf-lib";
 import { readFile } from "node:fs/promises";
 import { createHash } from "node:crypto";
@@ -26,6 +27,7 @@ async function originalPdf(text: string) {
 async function exportPackage(page: Page) {
   const modal = page.getByRole("dialog", { name: "Action packages", exact: true });
   await modal.getByRole("button", { name: "Export editable package", exact: true }).click();
+  await expect(modal).toHaveAttribute("aria-busy", "false", { timeout: 90_000 });
   await expect(modal.getByRole("heading", { name: /^Package readiness:/ })).toBeVisible();
   await modal.getByRole("checkbox", { name: /^I reviewed every included member/ }).check();
   const pending = page.waitForEvent("download");
@@ -49,7 +51,7 @@ for (const theme of ["light", "dark", "classic"]) {
     let modal = await packages(page);
     await modal.getByLabel("Package name", { exact: true }).fill(`Citation action ${theme}`);
     await modal.getByRole("button", { name: "Create package", exact: true }).click();
-    await modal.getByRole("button", { name: "Capture current document", exact: true }).click();
+    await capturePackageDocument(modal);
     await expect(modal.getByRole("heading", { name: `1. ${subject}`, exact: true })).toBeVisible();
     const signed = await originalPdf("SYNTHETIC SIGNED ORIGINAL - PRESERVE EXACT BYTES");
     await modal.getByLabel("New member role", { exact: true }).selectOption("enclosure");

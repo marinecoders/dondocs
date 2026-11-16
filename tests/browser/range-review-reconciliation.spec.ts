@@ -2,6 +2,7 @@ import { expect, test, type Page } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 import { readFile } from 'node:fs/promises';
 import { replaceParagraphText } from '../_helpers/replaceParagraphText';
+import { closeReviewRounds } from '../_helpers/closeReviewRounds';
 
 test.use({ serviceWorkers: 'block' });test.setTimeout(180_000);
 async function action(page: Page, name: string) {
@@ -50,7 +51,7 @@ for (const theme of ['light', 'dark', 'classic']) test(`range reconciliation pre
   }
   await expect(modal.getByRole('article', { name: /^Suggestion / })).toHaveCount(3);
   await expect(modal.getByLabel('Review for suggested edits', { exact: true })).toBeEnabled();
-  await page.keyboard.press('Escape');await expect(modal).toBeHidden();
+  await closeReviewRounds(modal);
   await replaceParagraphText(page.getByRole('textbox', { name: 'Paragraph 1', exact: true }), 'Newest red middle blue Alpha completed.');
   modal = await reviews(page);await modal.getByLabel('Review for suggested edits', { exact: true }).selectOption({ label: 'Range reconciliation baseline' });
   for (const index of [1, 2]) {
@@ -79,7 +80,7 @@ for (const theme of ['light', 'dark', 'classic']) test(`range reconciliation pre
   expect(await modal.evaluate(element => element.scrollWidth <= element.clientWidth)).toBe(true);
   await page.screenshot({ path: info.outputPath(`range-resolution-${theme}.png`), scale: 'css' });
   await expect(modal.getByLabel('Review for suggested edits', { exact: true })).toBeEnabled();
-  await page.keyboard.press('Escape');await expect(modal).toBeHidden();await action(page, 'Undo');
+  await closeReviewRounds(modal);await action(page, 'Undo');
   const undone = await exportDraft(page);expect(undone.paragraphs[0].text).toBe('Newest scarlet middle azure Alpha completed.');
   expect(undone.paragraphs[1].text).toBe('Other saved author work.');
   await action(page, 'Redo');await page.reload();

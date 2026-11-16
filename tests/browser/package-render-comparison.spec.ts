@@ -37,6 +37,7 @@ async function approve(page: Page, button: string) {
 async function download(page: Page, prepare: string, deliver: string) {
   const modal = page.getByRole("dialog", { name: "Action packages", exact: true });
   await modal.getByRole("button", { name: prepare, exact: true }).click();
+  await expect(modal).toHaveAttribute("aria-busy", "false", { timeout: 90_000 });
   await expect(modal.getByRole("heading", { name: /^Package readiness:/ })).toBeVisible();
   const pending = page.waitForEvent("download");
   await approve(page, deliver);
@@ -45,6 +46,7 @@ async function download(page: Page, prepare: string, deliver: string) {
 async function compare(page: Page) {
   const modal = page.getByRole("dialog", { name: "Action packages", exact: true });
   await modal.getByRole("button", { name: "Review PDF comparison", exact: true }).click();
+  await expect(modal).toHaveAttribute("aria-busy", "false", { timeout: 90_000 });
   await expect(modal.getByRole("heading", { name: /^Package readiness:/ })).toBeVisible();
   await approve(page, "Compare reviewed retained PDFs");
   const result = modal.getByRole("region", { name: "Retained PDF comparison", exact: true });
@@ -66,6 +68,7 @@ for (const theme of ["light", "dark", "classic"]) test(`v1.3.98 saved inputs re-
   const originalAsset = originalPacket.package.revisions[0].members.find((member: { kind: string }) => member.kind === "original").original;
   expect(sha(await download(page, "Download retained PDF", "Download reviewed retained PDF"))).toBe(receipt.retainedSha256);
   await modal.getByRole("button", { name: "Check readiness and assemble", exact: true }).click();
+  await expect(modal).toHaveAttribute("aria-busy", "false", { timeout: 90_000 });
   await expect(modal.getByRole("heading", { name: /^Package readiness: (ready|exported)$/, exact: true })).toBeVisible();
   await approve(page, "Assemble and retain PDF");
   await expect(modal.getByRole("status")).toContainText("Assembled PDF retained.", { timeout: 90_000 });

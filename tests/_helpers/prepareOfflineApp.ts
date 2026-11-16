@@ -7,7 +7,11 @@ export async function prepareOfflineApp(page: Page, url?: string): Promise<void>
   if (url) await page.goto(url);
   else await page.reload();
   await expect(page.getByRole('button', { name: 'Document actions', exact: true })).toBeVisible();
-  await page.evaluate(async () => { await navigator.serviceWorker.ready; });
+  // ready can resolve while the active worker is still activating. Wait for
+  // functional-event readiness before navigating the uncontrolled first tab.
+  await expect.poll(() => page.evaluate(async () =>
+    (await navigator.serviceWorker.getRegistration())?.active?.state,
+  ), { timeout: 60_000 }).toBe('activated');
   if (!await page.evaluate(() => navigator.serviceWorker.controller !== null)) await page.reload();
   await page.waitForFunction(() => navigator.serviceWorker.controller !== null);
   // A claimed first page may predate interception. Cache a controlled online

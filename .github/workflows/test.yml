@@ -41,7 +41,7 @@ jobs:
   test:
     name: ${{ matrix.task }}
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: ${{ matrix.task == 'unit' && 20 || 10 }}
     strategy:
       fail-fast: false
       matrix:
@@ -118,7 +118,7 @@ jobs:
     # upward as the suite grows.
     name: coverage threshold
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
       - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
@@ -170,11 +170,10 @@ jobs:
         # Keep the limit close to the observed total so accidental dependencies,
         # test imports, duplicated modules and tree-shaking regressions fail CI.
         run: |
-          # Package feedback and formatting-preserving structural reviews measure
-          # 5,323,325 bytes across 39 JS chunks in regular production mode.
-          # Reviewed module graph: no new dependencies, duplicate modules or
-          # test imports. Feature growth retains about 1% measured headroom.
-          BUDGET_BYTES=5376559   # 5.13 MiB
+          # Reviewed document workflow output measures 5,380,322 bytes across 42 JS chunks.
+          # The feature uses the existing library graph; OCR assets remain local and on demand.
+          # Keep approximately 1% headroom over measured production JavaScript.
+          BUDGET_BYTES=5434126   # measured output plus 1% headroom
           TOTAL=$(find dist/assets -name "*.js" -exec stat -c %s {} \; | awk '{s+=$1} END {print s+0}')
           echo "Total dist/assets JS: $TOTAL bytes (budget: $BUDGET_BYTES)"
           if [ "$TOTAL" -gt "$BUDGET_BYTES" ]; then
@@ -387,7 +386,7 @@ jobs:
     # Includes setup and complete browser profiles with review/asset workflows.
     # Desktop WebKit uses three shards; Firefox, iPad Safari and both iOS
     # phone profiles use two to fit complete suites within the per-job budget.
-    timeout-minutes: 50
+    timeout-minutes: 75
     strategy:
       fail-fast: false
       matrix:

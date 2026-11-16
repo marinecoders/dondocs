@@ -1,6 +1,8 @@
 import { expect, test, type Locator, type Page } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 import { readFile } from 'node:fs/promises';
+import { closeReviewRounds } from '../_helpers/closeReviewRounds';
+import { uploadReviewFile } from '../_helpers/uploadReviewFile';
 
 test.use({ serviceWorkers: 'block' });
 test.setTimeout(180_000);
@@ -18,6 +20,26 @@ async function select(editor: Locator, start: number, end = start) {
   await editor.focus();await editor.evaluate((element: HTMLTextAreaElement, span) => {
     element.setSelectionRange(span.start, span.end);element.dispatchEvent(new Event('select', { bubbles: true }));
   }, { start, end });
+}
+async function paste(editor: Locator, value: string | { name: string; type: string; content: string }) {
+  await expect(editor).toBeEnabled();
+  const handled = await editor.evaluate((element: HTMLTextAreaElement, payload) => {
+    const event = new ClipboardEvent('paste', { bubbles: true, cancelable: true, clipboardData: new DataTransfer() });
+    const clipboard = event.clipboardData;
+    if (!clipboard) throw new Error('The synthetic paste event has no clipboard data.');
+    // Validate the event's own store before exercising paste handling.
+    if (typeof payload === 'string') {
+      clipboard.setData('text/plain', payload);
+      if (clipboard.getData('text/plain') !== payload) throw new Error('The synthetic paste lost its text before dispatch.');
+    } else {
+      const file = new File([payload.content], payload.name, { type: payload.type });
+      clipboard.items.add(file);
+      if (clipboard.files.length !== 1 || clipboard.files[0].name !== file.name || clipboard.files[0].size !== file.size)
+        throw new Error('The synthetic paste lost its file before dispatch.');
+    }
+    return !element.dispatchEvent(event);
+  }, value);
+  expect(handled).toBe(true);
 }
 for (const theme of ['light', 'dark', 'classic']) test(`natural typed suggestions return, apply and Undo in ${theme}`, async ({ page, browser, baseURL }, info) => {
   const init = (appearance: string) => {
@@ -38,13 +60,13 @@ for (const theme of ['light', 'dark', 'classic']) test(`natural typed suggestion
   await expect(modal.getByText('Review baseline saved. Later source edits will not change this copy.', { exact: true })).toBeVisible();
   await modal.getByRole('button', { name: 'Prepare reviewer copy', exact: true }).click();
   const copy = await download(page, () => modal.getByRole('button', { name: 'Download reviewer copy', exact: true }).click());
-  await page.keyboard.press('Escape');
+  await closeReviewRounds(modal);
   const context = await browser.newContext({ viewport: page.viewportSize()!, userAgent: await page.evaluate(() => navigator.userAgent),
     serviceWorkers: 'block', isMobile: !!info.project.use.isMobile, hasTouch: !!info.project.use.hasTouch });
   try {
     await context.addInitScript(init, theme);const reviewer = await context.newPage();await reviewer.goto(baseURL!);
     let remote = await reviews(reviewer);
-    await remote.getByLabel('Import reviewer copy', { exact: true }).setInputFiles({ name: 'review.json', mimeType: 'application/json', buffer: copy });
+    await uploadReviewFile(remote.getByLabel('Import reviewer copy', { exact: true }), { name: 'review.json', mimeType: 'application/json', buffer: copy });
     await remote.getByRole('button', { name: 'Open as new review copy', exact: true }).click();await expect(remote).toBeHidden();remote = await reviews(reviewer);
     await remote.getByLabel('Review for suggested edits', { exact: true }).selectOption({ label: 'Typing baseline' });
     await expect(remote.getByRole('button', { name: 'Suggest Changes mode', exact: true })).toHaveAttribute('aria-pressed', 'false');
@@ -54,15 +76,9 @@ for (const theme of ['light', 'dark', 'classic']) test(`natural typed suggestion
     await expect(paragraph.getByRole('option', { name: 'Paragraph 4 (unsupported content)' })).toBeDisabled();
     await paragraph.selectOption('typed-one');const editor = remote.getByRole('textbox', { name: 'Suggested paragraph text', exact: true });
     await select(editor, 0, 'Keep Alpha Alpha ending.'.length);
-    await editor.evaluate((element: HTMLTextAreaElement) => {
-      const clipboard = new DataTransfer();clipboard.setData('text/plain', '🇸 team');
-      element.dispatchEvent(new ClipboardEvent('paste', { bubbles: true, cancelable: true, clipboardData: clipboard }));
-    });
+    await paste(editor, '🇸 team');
     await expect(editor).toHaveValue('🇸 team');await select(editor, 0);
-    await editor.evaluate((element: HTMLTextAreaElement) => {
-      const clipboard = new DataTransfer();clipboard.setData('text/plain', '🇺');
-      element.dispatchEvent(new ClipboardEvent('paste', { bubbles: true, cancelable: true, clipboardData: clipboard }));
-    });
+    await paste(editor, '🇺');
     await expect.poll(() => editor.evaluate((element: HTMLTextAreaElement) => [element.selectionStart, element.selectionEnd])).toEqual([4, 4]);
     await editor.pressSequentially('X');await expect(editor).toHaveValue('🇺🇸X team');
     await remote.getByRole('button', { name: 'Cancel typed changes', exact: true }).click();
@@ -71,11 +87,7 @@ for (const theme of ['light', 'dark', 'classic']) test(`natural typed suggestion
     await expect(editor).toHaveValue('Keep Alpha new Alpha ending.');
     await expect(remote.getByText('Unsaved suggested changes · Insertion', { exact: true })).toBeVisible();
     await select(editor, 11, 14);
-    await editor.evaluate((element: HTMLTextAreaElement) => {
-      const clipboard = new DataTransfer();
-      clipboard.items.add(new File(['synthetic image'], 'example.png', { type: 'image/png' }));
-      element.dispatchEvent(new ClipboardEvent('paste', { bubbles: true, cancelable: true, clipboardData: clipboard }));
-    });
+    await paste(editor, { name: 'example.png', type: 'image/png', content: 'synthetic image' });
     await expect(editor).toHaveValue('Keep Alpha new Alpha ending.');
     await expect(remote.getByRole('alert').filter({ hasText: 'Only plain-text paste is supported.' })).toBeVisible();
     await expect.poll(() => editor.evaluate((element: HTMLTextAreaElement) => [element.selectionStart, element.selectionEnd])).toEqual([11, 14]);
@@ -93,10 +105,7 @@ for (const theme of ['light', 'dark', 'classic']) test(`natural typed suggestion
     await remote.getByRole('button', { name: 'Save typed suggestion', exact: true }).click();
     await expect(editor).toHaveValue('Delete word please.');
     await paragraph.selectOption('typed-three');await select(editor, 0);await editor.pressSequentially('New ');
-    await editor.evaluate((element: HTMLTextAreaElement) => {
-      const clipboard = new DataTransfer();clipboard.setData('text/plain', 'Équipe ');
-      element.dispatchEvent(new ClipboardEvent('paste', { bubbles: true, cancelable: true, clipboardData: clipboard }));
-    });
+    await paste(editor, 'Équipe ');
     await expect(editor).toHaveValue('New Équipe Paste here.');
     await select(editor, 11);
     await editor.evaluate((element: HTMLTextAreaElement) => {
@@ -121,7 +130,7 @@ for (const theme of ['light', 'dark', 'classic']) test(`natural typed suggestion
       { expected: '', proposed: 'New Équipe 日本語', target: { start: 0, end: 0 } },
     ]);
     await info.attach('typed-feedback-return.json', { body: returned, contentType: 'application/json' });
-    modal = await reviews(page);await modal.getByLabel('Import feedback return', { exact: true }).setInputFiles({ name: 'returned.json', mimeType: 'application/json', buffer: returned });
+    modal = await reviews(page);await uploadReviewFile(modal.getByLabel('Import feedback return', { exact: true }), { name: 'returned.json', mimeType: 'application/json', buffer: returned });
     await modal.getByRole('button', { name: 'Import reviewed feedback', exact: true }).click();await expect(modal.getByText(/Feedback imported/)).toBeVisible();
     await modal.getByLabel('Review for suggested edits', { exact: true }).selectOption({ label: 'Typing baseline' });
     for (const label of ['Replacement', 'Deletion', 'Insertion']) {
@@ -129,7 +138,7 @@ for (const theme of ['light', 'dark', 'classic']) test(`natural typed suggestion
       await article.getByRole('button', { name: 'Accept suggestion', exact: true }).click();await expect(article.getByText(/· Accepted$/)).toBeVisible();
     }
     await expect(modal.getByLabel('Review for suggested edits', { exact: true })).toBeEnabled();
-    await page.keyboard.press('Escape');await expect(modal).toBeHidden();await action(page, 'Undo');
+    await closeReviewRounds(modal);await action(page, 'Undo');
     let exported = JSON.parse((await download(page, () => action(page, 'Export draft (.json)'))).toString('utf8'));
     expect(exported.paragraphs.map((item: { text: string }) => item.text).slice(0, 3)).toEqual(['Keep Alpha Bravo ending.', 'Delete please.', 'Paste here.']);
     await action(page, 'Redo');await page.reload();

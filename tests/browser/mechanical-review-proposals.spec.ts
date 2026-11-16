@@ -4,6 +4,8 @@ import { readFile } from 'node:fs/promises';
 import JSZip from 'jszip';
 import { getDocument } from 'pdfjs-dist/legacy/build/pdf.mjs';
 import { replaceParagraphText } from '../_helpers/replaceParagraphText';
+import { closeReviewRounds } from '../_helpers/closeReviewRounds';
+import { uploadReviewFile } from '../_helpers/uploadReviewFile';
 
 test.use({ serviceWorkers: 'block', actionTimeout: 15_000 });
 test.setTimeout(180_000);
@@ -18,6 +20,15 @@ async function action(page: Page, name: string | RegExp) {
 }
 async function reviews(page: Page) {
   await action(page, 'Review rounds…');return page.getByRole('dialog', { name: 'Review rounds', exact: true });
+}
+async function readyPreviewForAccessibility(page: Page) {
+  const preview = page.locator('.workspace-preview');
+  if (!await preview.isVisible()) return;
+  await expect(preview.locator(':scope > [aria-live="polite"]'))
+    .toHaveText('Compilation complete', { timeout: 60_000 });
+  const pageNumber = preview.locator('input[aria-label="Page number"]');
+  await expect(pageNumber).toBeEnabled({ timeout: 30_000 });
+  await expect(pageNumber).toHaveCSS('opacity', '1');
 }
 async function bytes(page: Page, start: () => Promise<unknown>) {
   const pending = page.waitForEvent('download');await start();
@@ -68,13 +79,13 @@ for (const theme of ['light', 'dark', 'classic']) test(`existing formatting find
   await modal.getByRole('button', { name: 'Start review from current draft', exact: true }).click();
   await expect(modal.getByText('Review baseline saved. Later source edits will not change this copy.', { exact: true })).toBeVisible();
   await modal.getByRole('button', { name: 'Prepare reviewer copy', exact: true }).click();
-  const reviewerFile = await bytes(page, () => modal.getByRole('button', { name: 'Download reviewer copy', exact: true }).click());await page.keyboard.press('Escape');
+  const reviewerFile = await bytes(page, () => modal.getByRole('button', { name: 'Download reviewer copy', exact: true }).click());await closeReviewRounds(modal);
   const context = await browser.newContext({ viewport: page.viewportSize()!, userAgent: await page.evaluate(() => navigator.userAgent),
     deviceScaleFactor: info.project.use.deviceScaleFactor, serviceWorkers: 'block', isMobile: !!info.project.use.isMobile, hasTouch: !!info.project.use.hasTouch });
   try {
     await context.addInitScript(init, appearance);const reviewer = await context.newPage();await reviewer.goto(baseURL!);
     const copyModal = await reviews(reviewer);
-    await copyModal.getByLabel('Import reviewer copy', { exact: true }).setInputFiles({ name: 'review-copy.json', mimeType: 'application/json', buffer: reviewerFile });
+    await uploadReviewFile(copyModal.getByLabel('Import reviewer copy', { exact: true }), { name: 'review-copy.json', mimeType: 'application/json', buffer: reviewerFile });
     await copyModal.getByRole('button', { name: 'Open as new review copy', exact: true }).click();await expect(copyModal).toBeHidden();
     const reviewing = await chooseRound(reviewer), formatting = reviewing.getByRole('region', { name: 'Formatting review proposals', exact: true });
     await formatting.getByRole('textbox', { name: 'Reviewer name for formatting corrections', exact: true }).fill(AUTHOR);
@@ -94,7 +105,7 @@ for (const theme of ['light', 'dark', 'classic']) test(`existing formatting find
     await replaceParagraphText(page.getByRole('textbox', { name: 'Paragraph 2', exact: true }), 'Newer unrelated author body.');
     await page.locator('[data-paragraph-id="unrelated"]').getByRole('button', { name: 'Move up (⌘↑)', exact: true }).click();
     await page.getByRole('textbox', { name: 'Reference (b) URL', exact: true }).fill('https://example.com/later');
-    modal = await reviews(page);await modal.getByLabel('Import feedback return', { exact: true }).setInputFiles({ name: 'feedback.json', mimeType: 'application/json', buffer: returned });
+    modal = await reviews(page);await uploadReviewFile(modal.getByLabel('Import feedback return', { exact: true }), { name: 'feedback.json', mimeType: 'application/json', buffer: returned });
     await expect(modal.getByText(/Returned text may contain sensitive information: Social Security Number/)).toBeVisible();
     await modal.getByRole('button', { name: 'Import reviewed feedback', exact: true }).click();await expect(modal.getByText(/Feedback imported/)).toBeVisible();
     await modal.getByRole('combobox', { name: 'Review for suggested edits', exact: true }).selectOption({ label: REVIEW });
@@ -104,17 +115,18 @@ for (const theme of ['light', 'dark', 'classic']) test(`existing formatting find
     await group.scrollIntoViewIfNeeded();
     expect(await modal.evaluate(element => element.scrollWidth <= element.clientWidth)).toBe(true);
     await page.evaluate(() => document.fonts.ready);
+    await readyPreviewForAccessibility(page);
     const accessibility = await new AxeBuilder({ page }).analyze();
     await info.attach('formatting-group-axe', { body: JSON.stringify(accessibility, null, 2), contentType: 'application/json' });
     expect(accessibility.violations).toEqual([]);
     await page.screenshot({ path: info.outputPath(`formatting-group-${theme}.png`), scale: 'css' });
-    await page.keyboard.press('Escape');
+    await closeReviewRounds(modal);
     await page.getByRole('textbox', { name: 'Reference (b) URL', exact: true }).fill('https://example.com/b');
     await replaceParagraphText(page.getByRole('textbox', { name: 'Paragraph 2', exact: true }), `${ORIGINAL_BODY} Newer overlapping sentence.`);
     modal = await chooseRound(page);group = modal.getByRole('article', { name: 'Suggestion 1: Formatting corrections (7)', exact: true });
     await expect(group.getByRole('button', { name: 'Accept suggestion', exact: true })).toBeDisabled();
     await expect(group).toContainText('Current draft differs; acceptance is blocked');
-    await page.keyboard.press('Escape');await expect(modal).toBeHidden();
+    await closeReviewRounds(modal);
     const blocked = await draft(page);
     expect(blocked.formData.date).toBe('13 November 2026');expect(blocked.formData.sigFirst).toBe(' A . ');
     expect(blocked.references.map((item: { title: string }) => item.title)).toEqual(['Alpha (notal)', 'Bravo ( notal )']);
@@ -126,14 +138,14 @@ for (const theme of ['light', 'dark', 'classic']) test(`existing formatting find
     // deliberately stays open while that write is pending.
     await expect(modal.getByText('Review change saved.', { exact: true })).toBeVisible();
     await expect(modal.getByRole('combobox', { name: 'Review for suggested edits', exact: true })).toBeEnabled();
-    await page.keyboard.press('Escape');await expect(modal).toBeHidden();
+    await closeReviewRounds(modal);
     expectDraft(await draft(page), true);
     await history(page, 'Undo');expectDraft(await draft(page), false);
     await history(page, 'Redo');expectDraft(await draft(page), true);
     await page.reload();expectDraft(await draft(page), true);
     modal = await chooseRound(page);await expect(modal.getByRole('article', { name: 'Suggestion 1: Formatting corrections (7)', exact: true })).toContainText('Accepted');
-    await modal.getByLabel('Import feedback return', { exact: true }).setInputFiles({ name: 'same-feedback.json', mimeType: 'application/json', buffer: returned });
-    await expect(modal.getByText(/This return has already been imported/)).toBeVisible();await page.keyboard.press('Escape');
+    await uploadReviewFile(modal.getByLabel('Import feedback return', { exact: true }), { name: 'same-feedback.json', mimeType: 'application/json', buffer: returned });
+    await expect(modal.getByText(/This return has already been imported/)).toBeVisible();await closeReviewRounds(modal);
     const clean = await draft(page);expectDraft(clean, true);expect(JSON.stringify(clean)).not.toContain(payload.proposals[0].id);
 
     // Renderer behavior is theme-independent; retain actual clean files once.
@@ -174,7 +186,7 @@ for (const theme of ['light', 'dark', 'classic']) test(`existing formatting find
         expectDraft(await draft(restored), true);
         const restoredReview = await chooseRound(restored);
         await expect(restoredReview.getByRole('article', { name: 'Suggestion 1: Formatting corrections (7)', exact: true })).toContainText('Accepted');
-        await restoredReview.getByLabel('Import feedback return', { exact: true }).setInputFiles({ name: 'same-feedback.json', mimeType: 'application/json', buffer: returned });
+        await uploadReviewFile(restoredReview.getByLabel('Import feedback return', { exact: true }), { name: 'same-feedback.json', mimeType: 'application/json', buffer: returned });
         await expect(restoredReview.getByText(/This return has already been imported/)).toBeVisible();
         await info.attach('restored-formatting-review.png', { body: await restored.screenshot({ scale: 'css' }), contentType: 'image/png' });
       } finally { await fresh.close(); }
@@ -213,6 +225,7 @@ for (const scenario of ['advisory and target limit', 'oversized whole paragraph'
     await expect(formatting.getByRole('alert')).toContainText(oversized ? '20,000-character' : 'no more than 20');
   }
   await expect(modal.getByRole('article', { name: /^Suggestion \d+:/ })).toHaveCount(0);
+  await readyPreviewForAccessibility(page);
   const accessibility = await new AxeBuilder({ page }).analyze();
   await info.attach('formatting-boundary-axe', { body: JSON.stringify(accessibility, null, 2), contentType: 'application/json' });
   expect(accessibility.violations).toEqual([]);
@@ -226,6 +239,6 @@ for (const scenario of ['advisory and target limit', 'oversized whole paragraph'
   }
   await expect(modal.getByRole('combobox', { name: 'Review for suggested edits', exact: true })).toBeEnabled();
   await page.screenshot({ path: info.outputPath(`formatting-${unsupported ? 'unsupported' : oversized ? 'size' : 'advisory'}-limit.png`), scale: 'css' });
-  await page.keyboard.press('Escape');await expect(modal).toBeHidden();
+  await closeReviewRounds(modal);
   const unchanged = await draft(page);expect(unchanged.paragraphs).toEqual(paragraphs);expect(unchanged.formData.date).toBe(source.formData.date);
 });

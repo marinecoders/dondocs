@@ -950,7 +950,9 @@ export function VariableChipEditor({
       if (!range || range.context !== currentValue.current || !getPlainEditorRange(editor.state, range.context, { allowCaret: true })
         || !Number.isInteger(range.start) || !Number.isInteger(range.end) || range.start < 0 || range.end > range.context.length) return;
       editor.commands.setTextSelection({ from: range.start + 1, to: range.end + 1 });
-      editor.commands.focus();
+      // Native focus can collapse the DOM range while the model keeps it.
+      // Synchronize both even when the requested model selection is unchanged.
+      editor.view.focus();
     };
     const dom = editor.view.dom;
     dom.addEventListener('dondocs-select-text-range', selectRange);
