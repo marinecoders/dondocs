@@ -127,6 +127,7 @@ for (const theme of ["light", "dark", "classic"]) {
       await appearance(fresh, theme); const receiver = await fresh.newPage(); await receiver.goto("/");
       const received = await packages(receiver);
       await received.getByLabel("Import editable package", { exact: true }).setInputFiles({ name: "reordered-package.json", mimeType: "application/json", buffer: portable });
+      await expect(received).toHaveAttribute("aria-busy", "false", { timeout: 30_000 });
       await expect(received.getByRole("list", { name: "Linked citation occurrences" })).toBeVisible();
       await expect(received.getByRole("list", { name: "Linked citation occurrences" })).not.toContainText(/stale|missing/);
       expect(sha(await download(receiver, "Download retained PDF", "Download reviewed retained PDF"))).toBe(sha(newPdf));
