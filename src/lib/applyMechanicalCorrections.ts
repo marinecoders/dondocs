@@ -1,6 +1,7 @@
 import { useDocumentStore } from '@/stores/documentStore';
 import { captureDocumentTarget, isCurrentDocumentTarget, recordDocumentHistory, type DocumentTarget } from '@/stores/documentsStore';
 import { mechanicalFindings, type BodyDateAudience, type MechanicalFinding, type MechanicalSection } from './mechanicalCorrections';
+import { transformRangeComments } from './reviewCommentRanges';
 
 export interface ReviewedMechanicalCorrections {
   readonly target: DocumentTarget | null;
@@ -34,11 +35,13 @@ export function applyMechanicalCorrections(proposal: ReviewedMechanicalCorrectio
   }
   let paragraphs = state.paragraphs;
   let references = state.references;
+  let reviewComments = state.reviewComments;
   for (const item of selected.sort((a, b) => b.target.start - a.target.start)) {
     const { kind, index, start, end } = item.target;
     if (kind === 'paragraph-text') {
-      paragraphs = paragraphs.map((paragraph, i) => i === index
-        ? { ...paragraph, text: paragraph.text.slice(0, start) + item.after + paragraph.text.slice(end) } : paragraph);
+      const before = paragraphs[index], after = { ...before, text: before.text.slice(0, start) + item.after + before.text.slice(end) };
+      reviewComments = transformRangeComments(reviewComments, before, after);
+      paragraphs = paragraphs.map((paragraph, i) => i === index ? after : paragraph);
     } else {
       references = references.map((reference, i) => i === index
         ? { ...reference, title: reference.title.slice(0, start) + item.after + reference.title.slice(end) } : reference);
@@ -46,7 +49,7 @@ export function applyMechanicalCorrections(proposal: ReviewedMechanicalCorrectio
   }
   if (!recordDocumentHistory(proposal.target.scope)) return false;
   issued.delete(proposal);
-  useDocumentStore.setState({ paragraphs, references });
+  useDocumentStore.setState({ paragraphs, references, reviewComments });
   recordDocumentHistory(proposal.target.scope);
   return true;
 }

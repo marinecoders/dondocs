@@ -1,6 +1,7 @@
 import { useDocumentStore } from '@/stores/documentStore';
 import { captureDocumentTarget, isCurrentDocumentTarget, recordDocumentHistory, type DocumentTarget } from '@/stores/documentsStore';
 import { planReferenceChange, planFirstCitationOrder, type ReferenceChange } from './referenceCitations';
+import { transformRangeComments } from './reviewCommentRanges';
 
 export interface ReviewedReferenceChange {
   readonly target: DocumentTarget | null;
@@ -22,11 +23,17 @@ export function reviewReferenceChange(order?: readonly number[], offset?: number
 export function applyReferenceChange(proposal: ReviewedReferenceChange, markersReviewed = false): boolean {
   const request = issued.get(proposal);
   if (!request || !isCurrentDocumentTarget(proposal.target) || proposal.plan.blockers.length || !proposal.plan.changed) return false;
-  const plan = request.order ? planReferenceChange(useDocumentStore.getState(), request.order, request.offset)
-    : planFirstCitationOrder(useDocumentStore.getState());
+  const state = useDocumentStore.getState();
+  const plan = request.order ? planReferenceChange(state, request.order, request.offset)
+    : planFirstCitationOrder(state);
   if (plan.blockers.length || plan.advisories.length > 0 && !markersReviewed || !plan.changed || !recordDocumentHistory(proposal.target.scope)) return false;
+  let reviewComments = state.reviewComments;
+  if (plan.patch.paragraphs) for (const [index, before] of state.paragraphs.entries()) {
+    const after = plan.patch.paragraphs[index];
+    if (after && after !== before) reviewComments = transformRangeComments(reviewComments, before, after);
+  }
   issued.delete(proposal);
-  useDocumentStore.setState(plan.patch);
+  useDocumentStore.setState({ ...plan.patch, reviewComments });
   recordDocumentHistory(proposal.target.scope);
   return true;
 }
