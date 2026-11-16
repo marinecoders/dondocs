@@ -1,6 +1,6 @@
 import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';
 import { compareText, type TextSegment } from '@/lib/textChanges';
-import { REVIEW_FONT, assertRedlineGlyphs, drawReviewUnicodeLine, reviewTextDirection } from './reviewUnicodeLine';
+import { REVIEW_FONT, assertRedlineGlyphs, drawReviewUnicodeLine } from './reviewUnicodeLine';
 import type { reviewDecisionSummaryPdfContent } from '@/lib/reviewDecisionSummary';
 
 export type RedlineContent = ReturnType<typeof reviewDecisionSummaryPdfContent>;
@@ -108,7 +108,6 @@ export function redlineBlocks(data: RedlineContent): RedlineBlock[] {
 export function wrapRedlineText(text: string, width: number, measure: (text: string) => number): string[] {
   const segmenter = new Intl.Segmenter(undefined, { granularity: 'grapheme' });
   const directional = text.split('\n').flatMap(paragraph => {
-    if (reviewTextDirection(paragraph) !== 'rtl') return [paragraph];
     const groups: string[] = [];let previous: boolean | undefined;
     for (const { segment } of segmenter.segment(paragraph)) {
       const strong = /[\p{L}\p{N}\p{Extended_Pictographic}]/u.test(segment);

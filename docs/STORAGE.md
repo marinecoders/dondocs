@@ -722,9 +722,8 @@ Cancellation and component/document disposal invalidate in-flight generations an
 release preview URLs. Preview bytes remain transient and are not persisted.
 
 Browser canvas embeds shaped Unicode line appearances. A small Type3 text mapping
-preserves complete graphemes for search/copy without a font download. Values
-beginning in a right-to-left script wrap at writing-direction transitions to keep
-logical copy order deterministic; ordinary PDF linewrap/trailing whitespace may
+preserves complete graphemes for search/copy without a font download. Text with both writing directions
+wraps at direction transitions to keep logical copy order deterministic; ordinary PDF linewrap/trailing whitespace may
 be normalized by readers. Font fallback
 is local to PDF preparation; the resulting PDF does not need the reader's fonts.
 Missing-glyph checks and explicit unsupported-character errors fail closed. ASCII

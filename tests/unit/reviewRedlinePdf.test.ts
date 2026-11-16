@@ -94,3 +94,10 @@ it('renders range context and structural boundaries as actual annotated text, le
   expect(redlineBlocks(data).find(block => block.runs)!.text).toContain('[PARAGRAPH BREAK]');
   change.kind = 'move-paragraph';expect(redlineBlocks(data).some(block => block.runs)).toBe(false);
 });
+
+it('wraps every writing-direction boundary without losing LTR-first source separators', () => {
+  const source = 'Café 中文 العربية שלום 👩🏽‍🚀 e\u0301';
+  const lines = wrapRedlineText(source, 518, text => text.length);
+  expect(lines).toEqual(['Café 中文 ', 'العربية שלום ', '👩🏽‍🚀 e\u0301']);
+  expect(lines.join('')).toBe(source);
+});
