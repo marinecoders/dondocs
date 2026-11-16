@@ -37,3 +37,23 @@ it('rejects oversized placeholder expansion before constructing expanded text', 
   } finally { apply.mockRestore(); }
 });
 
+
+it('preserves unknown configured row groups for deliberate correction without crashing cleanup', async () => {
+  const { PDFDocument } = await import('pdf-lib');
+  const { fixtureInstance } = await import('../_helpers/formFixture');
+  const { portableResourceDigest } = await import('@/lib/portableResources');
+  const { uint8ArrayToBase64 } = await import('@/lib/encoding');
+  const pdf = await PDFDocument.create(); pdf.addPage([612, 792]); const data = await pdf.save();
+  const form = fixtureInstance();
+  form.definition.pages = [{ file: 'page1.pdf', width: 612, height: 792, sha256: await portableResourceDigest(new Uint8Array(data).buffer) }];
+  form.rows.future_group = [{ id: 'old_future_row', answers: { retained: 'Review this retained value.' } }];
+  const session = createBlankSession(); session.formData.signatureType = 'none';
+  const template = await validatePackageTemplate({ kind: 'dondocs-package-template', version: 1, id: 'future_rows', name: 'Future rows', createdAt: 0, members: [{
+    kind: 'native', label: 'Form', role: 'basic-letter', required: true, draft: { ...session, timestamp: 0, documentCategory: 'forms', formType: form.definition.formId, genericForm: form },
+    pages: { 'page1.pdf': { name: 'page1.pdf', type: 'application/pdf', data: uint8ArrayToBase64(data) } },
+  }] });
+  const created = await instantiatePackageTemplate(template, 'Fresh future row action', {}, {});
+  const rows = created.revisions[0].members[0].kind === 'native' && created.revisions[0].members[0].session.genericForm?.rows.future_group;
+  expect(rows && rows[0].answers.retained).toBe('Review this retained value.');
+  expect(rows && rows[0].id).not.toBe('old_future_row');
+});

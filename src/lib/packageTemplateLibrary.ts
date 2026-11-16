@@ -71,7 +71,7 @@ function cleanStarter(input: Record<string, unknown>): Record<string, unknown> {
   if (configured) {
     for (const [key, field] of Object.entries(configured.definition.fields)) if (field.kind === 'signature') delete configured.answers[key];
     for (const [key, rows] of Object.entries(configured.rows))
-      for (const row of rows) for (const [column, field] of Object.entries(configured.definition.rowGroups[key].columns))
+      for (const row of rows) for (const [column, field] of Object.entries(configured.definition.rowGroups[key]?.columns ?? {}))
         if (field.kind === 'signature') delete row.answers[column];
     configured.answerRevision = 0;
   }
