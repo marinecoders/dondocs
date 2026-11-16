@@ -47,9 +47,10 @@ for (const theme of ['light', 'dark', 'classic'] as const) {
     await dialog.getByRole('button', { name: 'Go to selected text', exact: true }).click();
     await expect(editor).toBeFocused();
     await expect.poll(() => page.evaluate(() => window.getSelection()?.toString())).toBe('selected words');
-    await editor.press('Home');
-    await editor.press('ControlOrMeta+Home');
+    await selectWords(editor, 0, 0);
+    await expect.poll(() => page.evaluate(() => ({ collapsed: window.getSelection()?.isCollapsed, offset: window.getSelection()?.anchorOffset }))).toEqual({ collapsed: true, offset: 0 });
     await page.keyboard.type('New ');
+    await expect(editor).toHaveText('New ' + text);
     await page.getByRole('button', { name: /^Comments(?: \(\d+\))?$/ }).click();
     await expect(dialog.getByRole('article')).toContainText('Checked this exact quote.');
     await expect(dialog.getByRole('button', { name: 'Go to selected text', exact: true })).toBeVisible();
@@ -68,7 +69,8 @@ for (const theme of ['light', 'dark', 'classic'] as const) {
     await expect(dialog.getByRole('article')).toContainText('Earlier selected targets (1)');
     await page.screenshot({ path: testInfo.outputPath(`selected-text-comments-${theme}.png`) });
     await dialog.getByRole('button', { name: 'Close comments', exact: true }).click();
-    await page.waitForTimeout(1100);
+    await expect(page.getByRole('status').filter({ hasText: /Unsaved changes|Saving/ })).toHaveCount(0);
+    await expect(page.getByText(/^Saved(?: ·.*)?$/)).toBeVisible();
     await page.reload();
     await page.getByRole('button', { name: /^Comments(?: \(\d+\))?$/ }).click();
     await dialog.getByRole('button', { name: 'Resolved (1)', exact: true }).click();
