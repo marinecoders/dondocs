@@ -138,7 +138,13 @@ export async function parsePortableActionPackage(json: string) {
 export async function importPortableActionPackage(
   json: string,
   signal?: AbortSignal,
+  isCurrent: () => boolean = () => true,
 ): Promise<ActionPackage> {
+  const assertCurrent = () => {
+    signal?.throwIfAborted();
+    if (!isCurrent()) throw new Error("This package import is no longer current. Reopen it and review again.");
+  };
+  assertCurrent();
   const { record, resources } = await parsePortableActionPackage(json);
   return withAttachmentStaging(async () => {
     const existing = (await listActionPackages()).find(
@@ -170,7 +176,7 @@ export async function importPortableActionPackage(
         "This package identity already exists with different revisions. Duplicate the local package before importing a different history.",
       );
     for (const asset of packageAssets(record)) {
-      signal?.throwIfAborted();
+      assertCurrent();
       const previous = await idbGetAttachment(asset.id),
         data = resources.get(`assets/${asset.id}`)!.data;
       if (previous) {
@@ -186,8 +192,8 @@ export async function importPortableActionPackage(
           await readPackageMemberDraft(member);
           await retainPackageMemberTemplates(member, readPackageAsset);
         }
-    signal?.throwIfAborted();
-    return existing ?? commitActionPackage(null, record, signal);
+    assertCurrent();
+    return existing ?? commitActionPackage(null, record, signal, isCurrent);
   });
 }
 

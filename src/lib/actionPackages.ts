@@ -271,6 +271,7 @@ export async function commitActionPackage(
   before: ActionPackage | null,
   value: ActionPackage,
   signal?: AbortSignal,
+  isCurrent: () => boolean = () => true,
 ): Promise<ActionPackage> {
   const after = actionPackageSchema.parse(structuredClone(value));
   const { validateActionPackageResources } = await import(
@@ -279,7 +280,7 @@ export async function commitActionPackage(
   const { readPackageAsset } = await import("./actionPackageAssets");
   await validateActionPackageResources(after, readPackageAsset);
   signal?.throwIfAborted();
-  if (!(await idbCompareActionPackage(before, after, () => !signal?.aborted)))
+  if (!(await idbCompareActionPackage(before, after, () => !signal?.aborted && isCurrent())))
     throw new Error(
       "The package changed in another tab or could not be saved. Reopen it and retry; the previous revision is preserved.",
     );

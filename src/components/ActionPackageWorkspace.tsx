@@ -52,10 +52,13 @@ import { useDocumentsStore } from "@/stores/documentsStore";
 import { useUIStore } from "@/stores/uiStore";
 import { getExportDeploymentPolicy } from "@/config/classification";
 import { triggerDownload } from "@/lib/encoding";
+import { parseEncryptedShareFile, MAX_ENCRYPTED_SHARE_FILE_BYTES } from "@/lib/encryptedShareFile";
+import { ShareModal } from "./modals/ShareModal";
 import type { CorrespondenceRendererPorts } from "@/services/exports/correspondence";
 
 const loadRetainedPdfViewer = () => import("@/components/pdf/PdfViewer");
 const RetainedPdfViewer = lazy(loadRetainedPdfViewer);
+const PackageShareDialog = lazy(() => import("./PackageShareDialog"));
 
 type Ports = CorrespondenceRendererPorts & {
   waitForReady(timeoutMs: number): Promise<boolean>;
@@ -122,6 +125,11 @@ function PackageDialog({
     [error, setError] = useState(""),
     [loaded, setLoaded] = useState(false),
     [notice, setNotice] = useState("");
+  const [shareOpen, setShareOpen] = useState(false);
+  const [encryptedImport, setEncryptedImport] = useState<string | null>(null);
+  const requestedPackageId = useUIStore(state => state.actionPackageSelectionId);
+  const requestedRevisionId = useUIStore(state => state.actionPackageSelectionRevisionId);
+  const inventoryLoaded = useRef(false);
   const [prepared, setPrepared] = useState<PreparedPackageAssembly | null>(
       null,
     ),
@@ -146,12 +154,27 @@ function PackageDialog({
   const editable =
     !!record && revision?.id === record.currentRevisionId && !record.archived;
   useEffect(() => {
+    if (!requestedPackageId && inventoryLoaded.current) return;
     let live = true;
     void listActionPackages()
       .then((records) => {
         if (live) {
           setRecords(records);
           setLoaded(true);
+          inventoryLoaded.current = true;
+          const requested = records.find(record => record.id === requestedPackageId);
+          if (requested) {
+            setSelectedId(requested.id);
+            if (requestedRevisionId && !requested.revisions.some(revision => revision.id === requestedRevisionId))
+              throw new Error("The reviewed package revision is no longer available. Reopen the share and review it again.");
+            setRevisionId(requestedRevisionId ?? requested.currentRevisionId);
+            setName(requested.name);
+            setPrepared(null);
+            setApproved(false);
+            setComparison(null);
+            setPdfUrl("");
+            useUIStore.getState().clearActionPackageSelection();
+          }
         }
       })
       .catch((error) => {
@@ -160,7 +183,7 @@ function PackageDialog({
     return () => {
       live = false;
     };
-  }, []);
+  }, [requestedPackageId, requestedRevisionId]);
   useEffect(
     () => () => {
       if (pdfUrl) URL.revokeObjectURL(pdfUrl);
@@ -330,7 +353,7 @@ function PackageDialog({
   }
   const comparedSource = comparison?.source;
   return (
-    <Dialog
+    <><Dialog
       open
       onOpenChange={(value) => {
         if (!value) close();
@@ -392,13 +415,21 @@ function PackageDialog({
                   event.target.value = "";
                   if (file)
                     void run(async () => {
-                      if (file.size > MAX_PACKAGE_FILE_BYTES)
+                      if (file.size > MAX_ENCRYPTED_SHARE_FILE_BYTES)
                         throw new Error(
-                          "Editable packages are limited to 100 MB.",
+                          "This package file exceeds the encrypted transfer limit.",
                         );
+                      const json = await file.text();
+                      assertOperationCurrent();
+                      const value: unknown = JSON.parse(json);
+                      if (value && typeof value === "object" && "kind" in value && value.kind === "dondocs-encrypted-share") {
+                        setEncryptedImport(parseEncryptedShareFile(json));
+                        return;
+                      }
+                      if (file.size > MAX_PACKAGE_FILE_BYTES) throw new Error("Editable packages are limited to 100 MB.");
                       update(
                         await importPortableActionPackage(
-                          await file.text(),
+                          json,
                           operation.current?.signal,
                         ),
                       );
@@ -431,6 +462,7 @@ function PackageDialog({
           </label>
           {record && revision && (
             <>
+              <Button variant="outline" onClick={() => setShareOpen(true)}>Share encrypted package</Button>
               <div className="flex flex-wrap gap-2">
                 <Button
                   variant="outline"
@@ -1010,5 +1042,11 @@ function PackageDialog({
         )}
       </DialogContent>
     </Dialog>
+    {record && revision && shareOpen && <Suspense fallback={<p role="status">Opening package sharing…</p>}>
+      <PackageShareDialog key={`${record.id}:${revision.id}`} record={record} revisionId={revision.id} onClose={() => setShareOpen(false)} />
+    </Suspense>}
+    {encryptedImport && <ShareModal open mode="import" initialPayload={encryptedImport}
+      onOpenChange={open => { if (!open) setEncryptedImport(null); }} />}
+    </>
   );
 }

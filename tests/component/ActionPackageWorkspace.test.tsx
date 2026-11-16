@@ -155,3 +155,20 @@ it("cancels a held render on close and never publishes into a reopened dialog or
   expect(within(dialog).queryByText(/Assembled PDF retained/)).toBeNull();
   expect(compile).toHaveBeenCalledOnce();
 });
+
+it("selects the exact reviewed historical revision when an imported package already has newer local history", async () => {
+  const source = createBlankSession();
+  const member = await capturePackageMember(captureDocumentRevision(
+    { documentId: "selection-source", epoch: 0, editSequence: 1, capturedAt: 100 },
+    { ...source, endItems: [], publicationTables: {} },
+  ), "Reviewed historical member", "basic-letter");
+  const reviewed = await reviseActionPackage(await createActionPackage("Historical selection"), [member]);
+  const newer = await reviseActionPackage(reviewed, [{ ...member, label: "Newer unreviewed member" }]);
+  useUIStore.getState().openActionPackage(newer.id, reviewed.currentRevisionId);
+  render(<ActionPackageWorkspace exportGate={createExportGate()} ports={{ compile: vi.fn(), convertDocx: vi.fn(), waitForReady: async () => true }} />);
+  const dialog = await screen.findByRole("dialog", { name: "Action packages" });
+  await within(dialog).findByRole("heading", { name: "1. Reviewed historical member" });
+  expect(within(dialog).queryByRole("heading", { name: "1. Newer unreviewed member" })).toBeNull();
+  expect(within(dialog).getByLabelText("Package revision")).toHaveValue(reviewed.currentRevisionId);
+  await waitFor(() => expect(useUIStore.getState().actionPackageSelectionRevisionId).toBeNull());
+});

@@ -26,8 +26,11 @@ import {
   buildShareUrl,
   parseShareUrl,
   MAX_SHARE_URL_LENGTH,
-  MAX_ENCRYPTED_SHARE_LENGTH,
 } from '@/lib/shareCrypto';
+import { parseEncryptedShareFile, serializeEncryptedShareFile, MAX_ENCRYPTED_SHARE_FILE_BYTES } from '@/lib/encryptedShareFile';
+import type { PreparedPackageShare } from '@/lib/actionPackageShare';
+import { PackageShareReview } from '@/components/PackageShareReview';
+import { useUIStore } from '@/stores/uiStore';
 import { getSerializedSessionForShare, useDocumentStore, type SerializedSession } from '@/stores/documentStore';
 import { openSessionAsNew, captureDocumentTarget, captureDocumentScope, isCurrentDocumentScope, hasPendingReviewWrites, flushPendingReviewWrites } from '@/stores/documentsStore';
 import { parseSharedSession, createSharedPayload, validateShareExpiration } from '@/lib/sharedSession';
@@ -39,9 +42,6 @@ import { getExportDeploymentPolicy } from '@/config/classification';
 import { captureChangeReport, prepareChangeReport } from '@/lib/changeReport';
 import { assertRetainedDocumentTextPolicy } from '@/lib/retainedDocumentTextPolicy';
 import type { DocumentSnapshot } from '@/stores/historyStore';
-import { z } from 'zod';
-
-const encryptedFileSchema = z.object({ kind: z.literal('dondocs-encrypted-share'), version: z.literal(1), payload: z.string().min(1).max(MAX_ENCRYPTED_SHARE_LENGTH) }).strict();
 
 export type ShareModalMode = 'share' | 'import';
 
@@ -74,6 +74,10 @@ function ShareModalContent({
   });
   const snapshot = capture.snapshot;
   const [received, setReceived] = useState<{ session: SerializedSession; payload: object } | null>(null);
+  const [receivedPackage, setReceivedPackage] = useState<PreparedPackageShare | null>(null);
+  const [reviewingPackage, setReviewingPackage] = useState(false);
+  const [packageApproved, setPackageApproved] = useState(false);
+  const importController = useRef<AbortController | null>(null);
   const [expiration, setExpiration] = useState('none');
   const [generatedExpiresAt, setGeneratedExpiresAt] = useState<number | null>(null);
   const [password, setPassword] = useState('');
@@ -86,7 +90,7 @@ function ShareModalContent({
   const [working, setWorking] = useState(false);
   const copyTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const alive = useRef(true);
-  useEffect(() => { alive.current = true;return () => { alive.current = false; }; }, []);
+  useEffect(() => { alive.current = true;return () => { alive.current = false; importController.current?.abort(); }; }, []);
   // Non-null when a pre-share PII scan found something; the user confirms or backs out.
   const [piiFindings, setPiiFindings] = useState<PIIDetectionResult | null>(null);
 
@@ -227,7 +231,17 @@ function ShareModalContent({
     }
     setWorking(true);
     try {
+      const controller = new AbortController();
+      importController.current = controller;
       const data = await decryptSharePayload(payload, password);
+      if (data && typeof data === 'object' && 'kind' in data && data.kind === 'dondocs-action-package-share') {
+        if (!alive.current) return;
+        setReviewingPackage(true);
+        const { prepareReceivedPackageShare } = await import('@/lib/actionPackageShare');
+        const prepared = await prepareReceivedPackageShare(data, await getExportDeploymentPolicy(), controller.signal);
+        if (!alive.current) return;
+        setReceivedPackage(prepared);setPackageApproved(false);setPassword('');return;
+      }
       const reviewed = await parseSharedDocument(data);
       if (!alive.current) return;
       setReceived({ session: reviewed.session, payload: data });
@@ -235,11 +249,25 @@ function ShareModalContent({
     } catch (err) {
       if (alive.current) setError(err instanceof Error ? err.message : 'Wrong password or invalid link');
     } finally {
-      if (alive.current) setWorking(false);
+      if (alive.current) { setWorking(false);setReviewingPackage(false); }
     }
   }, [payloadFromInput, password, working]);
 
   const openReceived = async () => {
+    if (receivedPackage) {
+      if (!packageApproved || working) return;
+      const controller = new AbortController();importController.current = controller;
+      setWorking(true);setError(null);
+      try {
+        const { importPreparedPackageShare } = await import('@/lib/actionPackageShare');
+        const record = await importPreparedPackageShare(receivedPackage, controller.signal, () => alive.current);
+        if (!alive.current) return;
+        useUIStore.getState().openActionPackage(record.id, receivedPackage.revisionId);
+        onImportComplete?.();onOpenChange(false);
+      } catch (cause) { if (alive.current) setError(cause instanceof Error ? cause.message : 'The package could not be opened. Existing work is unchanged.'); }
+      finally { if (alive.current) setWorking(false); }
+      return;
+    }
     if (!received) return;
     // Password work and the review dialog may cross the deadline. Check again
     // immediately before handing anything to the document store.
@@ -257,7 +285,7 @@ function ShareModalContent({
 
   const handleOpenChange = useCallback(
     (next: boolean) => {
-      if (working) return;
+      if (working && !receivedPackage && !reviewingPackage) return;
       if (!next) {
         clearCopyTimer();
         setPassword('');
@@ -267,12 +295,13 @@ function ShareModalContent({
         setError(null);
         setCopied(false);
         setReceived(null);
+        setReceivedPackage(null);setReviewingPackage(false);setPackageApproved(false);importController.current?.abort();
         setGeneratedExpiresAt(null);
         setExpiration('none');
       }
       onOpenChange(next);
     },
-    [onOpenChange, working, clearCopyTimer]
+    [onOpenChange, working, clearCopyTimer, receivedPackage, reviewingPackage]
   );
 
   const isImport = mode === 'import';
@@ -286,7 +315,7 @@ function ShareModalContent({
         <DialogHeader className="shrink-0 pr-10 text-left">
           <DialogTitle className="flex items-center gap-2">
             <Link2 className="h-5 w-5 text-primary" />
-            {isImport ? 'Open shared document' : 'Share document'}
+            {isImport ? receivedPackage ? 'Review shared action package' : 'Open shared document' : 'Share document'}
           </DialogTitle>
           <DialogDescription>
             {isImport
@@ -319,6 +348,12 @@ function ShareModalContent({
           </div>
         )}
         {received && <div className="space-y-2 rounded-md border p-3"><SessionPreview session={received.session} />{isAssetShare(received.payload) && <p className="text-sm">The included attachments passed their size, type and checksum checks. Inspect their contents before using or forwarding them.</p>}<p className="text-xs text-muted-foreground">Opens as a new document. Your current draft stays in Recents.</p></div>}
+        {receivedPackage && <div className="space-y-3">
+          <PackageShareReview prepared={receivedPackage} />
+          <p className="text-sm">Opens in Packages. Your current document is unchanged. An existing package is reused only when its captured revision matches exactly.</p>
+          <label className="flex items-start gap-2 text-sm"><input type="checkbox" checked={packageApproved} disabled={working}
+            onChange={event => setPackageApproved(event.target.checked)} />I reviewed every included member, original file, privacy finding and classification marking for this package import.</label>
+        </div>}
         <details className="text-sm text-muted-foreground">
           <summary className="cursor-pointer py-1">How sharing works</summary>
           <p className="mt-2">The link holds an encrypted copy made in your browser. Send the password separately. A shared link cannot be revoked, and changes to your draft do not update it.</p>
@@ -338,7 +373,7 @@ function ShareModalContent({
             </select>
             <p className="text-xs text-muted-foreground">Checked on the recipient’s device before opening. Already opened copies remain available.</p>
           </div>}
-          {isImport && !received && !initialPayload && (
+          {isImport && !received && !receivedPackage && !initialPayload && (
             <div className="space-y-2">
               <Label htmlFor="share-paste-link">Share link</Label>
               <Input
@@ -352,7 +387,7 @@ function ShareModalContent({
               />
             </div>
           )}
-          {isImport && !received && !initialPayload && <div className="space-y-2">
+          {isImport && !received && !receivedPackage && !initialPayload && <div className="space-y-2">
             <Label htmlFor="encrypted-share-file">Encrypted share file</Label>
             <Input id="encrypted-share-file" type="file" accept=".json,application/json" disabled={working} onChange={event => {
               const file = event.target.files?.[0];event.target.value = '';
@@ -361,23 +396,22 @@ function ShareModalContent({
               setWorking(true);
               void (async () => {
                 try {
-                  if (file.size > MAX_ENCRYPTED_SHARE_LENGTH + 1024) throw new Error('This encrypted share file exceeds the transfer limit.');
-                  const parsed = encryptedFileSchema.safeParse(JSON.parse(await file.text()));
-                  if (!parsed.success) throw new Error('Choose an encrypted share file downloaded from DonDocs.');
-                  if (alive.current) { setImportedFile({ name: file.name, payload: parsed.data.payload });setPasteLink(''); }
+                  if (file.size > MAX_ENCRYPTED_SHARE_FILE_BYTES) throw new Error('This encrypted share file exceeds the transfer limit.');
+                  const payload = parseEncryptedShareFile(await file.text());
+                  if (alive.current) { setImportedFile({ name: file.name, payload });setPasteLink(''); }
                 } catch (cause) { if (alive.current) setError(cause instanceof Error ? cause.message : 'Could not read this encrypted share file.'); }
                 finally { if (alive.current) setWorking(false); }
               })();
             }} />
             {importedFile && <p className="text-sm break-words">Selected: {importedFile.name}</p>}
           </div>}
-          {isImport && !received && initialPayload && (
+          {isImport && !received && !receivedPackage && initialPayload && (
             <p className="text-sm text-muted-foreground">
               Opening document from link. Enter the password below.
             </p>
           )}
 
-          {!received && <div data-tour="share-password" className="space-y-2">
+          {!received && !receivedPackage && <div data-tour="share-password" className="space-y-2">
             <Label htmlFor="share-password">
               {isImport ? 'Password' : 'Password for this link'}
             </Label>
@@ -431,7 +465,7 @@ function ShareModalContent({
             <Button variant="outline" disabled={working} onClick={() => {
               try {
                 if (generatedExpiresAt !== null) validateShareExpiration(generatedExpiresAt);
-                triggerDownload(new TextEncoder().encode(JSON.stringify({ kind: 'dondocs-encrypted-share', version: 1, payload: encryptedFile })), 'dondocs-encrypted-share.json', 'application/json');
+                triggerDownload(serializeEncryptedShareFile(encryptedFile), 'dondocs-encrypted-share.json', 'application/json');
               } catch (cause) { setError(cause instanceof Error ? cause.message : 'Could not download the encrypted share file.'); }
             }}><Download className="mr-2 h-4 w-4" />Download encrypted share file</Button>
             <p className="text-muted-foreground">Open this file through Open from share link → Encrypted share file. The file is password-encrypted and includes the same captured content as the link.</p>
@@ -471,13 +505,13 @@ function ShareModalContent({
 
         </div>
         <DialogFooter className="shrink-0">
-          <Button variant="outline" onClick={() => handleOpenChange(false)} disabled={working}>
+          <Button variant="outline" onClick={() => handleOpenChange(false)} disabled={working && !receivedPackage && !reviewingPackage}>
             Cancel
           </Button>
           {isImport ? (
             <Button
-              onClick={received ? openReceived : handleImport}
-              disabled={(!received && !canSubmit) || working}
+              onClick={received || receivedPackage ? openReceived : handleImport}
+              disabled={(!received && !receivedPackage && !canSubmit) || !!receivedPackage && !packageApproved || working}
             >
               {working ? (
                 <>
@@ -485,7 +519,7 @@ function ShareModalContent({
                   Opening…
                 </>
               ) : (
-                received ? 'Open as new document' : 'Decrypt and review'
+                receivedPackage ? 'Open reviewed package' : received ? 'Open as new document' : 'Decrypt and review'
               )}
             </Button>
           ) : (
