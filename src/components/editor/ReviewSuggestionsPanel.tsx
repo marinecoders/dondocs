@@ -158,7 +158,7 @@ export function ReviewSuggestionsPanel({ round, current, state, owner, busy, onC
     <FeedbackCategorySelect label="Filter suggestion category" value={filter} onChange={setFilter} filter />
     {inspectedProposals.map(({ proposal, index, decision, acceptance, changes }) => {
       const stale = changes.some(change => change.stale);
-      const currentMatches = changes.every(change => change.current === (acceptance?.resolutions?.find(item => item.changeId === change.id)?.value ?? change.proposed));
+      const currentMatches = changes.every(change => change.applied ?? change.current === (acceptance?.resolutions?.find(item => item.changeId === change.id)?.value ?? change.proposed));
       const rangeTarget = proposal.changes[0].target.kind === 'range' ? proposal.changes[0].target : null;
       const manualChange = proposal.changes[0].target.kind !== 'structure' && proposal.origin.kind === 'manual' && changes.length === 1 && (changes[0].current !== null || changes[0].reconciliation) ? changes[0] : null;
       const editing = resolution?.proposalId === proposal.id ? resolution : null;

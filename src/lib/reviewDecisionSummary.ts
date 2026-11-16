@@ -122,7 +122,7 @@ function buildSummary(capture: CaptureData, policy: PolicyResolution): SummaryDa
     const changes = acceptedInspected.map(change => ({ label: change.label, baseline: change.baseline, current: change.current, proposed: change.proposed,
       ...(acceptance ? { accepted: acceptance.resolutions?.find(value => value.changeId === change.id)?.value ?? change.proposed } : {}) }));
     return { label: proposal.label, author: proposal.author, category: feedbackCategoryLabel(proposal.category), status,
-      acceptedCurrentChanged: status === 'accepted' && changes.some(change => change.current !== change.accepted), origin: { ...proposal.origin }, changes,
+      acceptedCurrentChanged: status === 'accepted' && acceptedInspected.some((change,index) => change.applied === undefined ? change.current !== changes[index].accepted : !change.applied), origin: { ...proposal.origin }, changes,
       history: state.decisions.filter(value => value.proposalId === proposal.id).map(historyEntry) };
   });
   const threads = [...discussions(round.baseline.session, 'Reviewed baseline'), ...discussions(current, 'Captured current draft')];

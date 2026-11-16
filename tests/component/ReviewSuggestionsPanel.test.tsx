@@ -2,7 +2,7 @@ import { act, fireEvent, render, screen, waitFor, within } from '@testing-librar
 import userEvent from '@testing-library/user-event';
 import { expect, it, vi } from 'vitest';
 import { ReviewSuggestionsPanel } from '@/components/editor/ReviewSuggestionsPanel';
-import { appendReviewSuggestions, createSelectedTextSuggestion, createReviewSuggestion, emptyReviewSuggestionState, planReviewSuggestionDecision, planReviewSuggestionHistory } from '@/lib/reviewSuggestions';
+import { appendReviewSuggestions, createParagraphStructureSuggestion, createSelectedTextSuggestion, createReviewSuggestion, emptyReviewSuggestionState, planReviewSuggestionDecision, planReviewSuggestionHistory } from '@/lib/reviewSuggestions';
 import { getSerializedSession } from '@/stores/documentStore';
 import type { ReviewRound } from '@/lib/reviewRounds';
 import * as reconciliation from '@/lib/reconcileReviewText';
@@ -16,6 +16,18 @@ function props() {
   return { round, current, state: emptyReviewSuggestionState(round), owner: true, busy: false,
     onCreate: vi.fn().mockResolvedValue(true), onDecide: vi.fn().mockResolvedValue(true) };
 }
+it('distinguishes accepted paragraph identities from identical readable move text',()=>{
+  const input=props();input.current.paragraphs=[{id:'first',text:'Repeated body.',level:0},{id:'second',text:'Repeated body.',level:0}];
+  input.round.baseline.session=structuredClone(input.current);
+  const proposal=createParagraphStructureSuggestion(input.round,{author:'Reviewer',operation:{kind:'move-paragraph',paragraphId:'first',destinationId:'second',placement:'after'}});
+  input.state.proposals.push(proposal);
+  const accepted=planReviewSuggestionDecision(input.round,input.current,input.state,proposal.id,'accepted');
+  input.state=accepted.state;
+  const view=render(<ReviewSuggestionsPanel {...input} current={accepted.session}/>);
+  expect(within(screen.getByRole('article',{name:'Suggestion 1: Move paragraph'})).getByText(/· Accepted$/)).toBeVisible();
+  view.rerender(<ReviewSuggestionsPanel {...input}/>);
+  expect(screen.getByRole('article',{name:'Suggestion 1: Move paragraph'})).toHaveTextContent('Accepted earlier; current draft text has changed');
+});
 
 it('creates an exact field replacement proposal without modifying the baseline or current draft', async () => {
   const input = props();render(<ReviewSuggestionsPanel {...input} />);

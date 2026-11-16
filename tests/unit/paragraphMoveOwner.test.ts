@@ -16,6 +16,7 @@ import { createSuggestionReviewReturn, parseReviewReturn } from '@/lib/reviewRet
 import { buildBackup } from '@/lib/backup';
 import { persistAttachment, loadAttachment } from '@/lib/attachments';
 import { base64ToUint8Array } from '@/lib/encoding';
+import { loadReviewDecisionSummary, prepareReviewDecisionSummary, reviewDecisionSummaryPdfContent } from '@/lib/reviewDecisionSummary';
 
 vi.mock('@/config/classification', async original => ({ ...await original<typeof import('@/config/classification')>(), getExportDeploymentPolicy: vi.fn() }));
 const policy = resolveExportDeploymentPolicy({ hostname: 'example.test', environment: null, runtime: { status: 'absent' } });
@@ -51,6 +52,19 @@ async function dbFixture(){
   return{...f,before,after,operation};
 }
 describe('paragraph movement through source actions and IndexedDB',()=>{
+  it('reports a later identity reorder even when the accepted move has identical readable text',async()=>{
+    useDocumentStore.setState({paragraphs:[{id:'move-source',text:'Repeated body.',level:0},{id:'move-destination',text:'Repeated body.',level:0}]});
+    await commitCurrentDocument();const {round,proposal,id}=await fixture();
+    expect(proposal.changes[0].expected).toBe(proposal.changes[0].proposed);
+    await decideReviewSuggestion(round.id,proposal.id,'accepted');
+    const summarize=async()=>reviewDecisionSummaryPdfContent(prepareReviewDecisionSummary(await loadReviewDecisionSummary(round.id),policy));
+    expect((await summarize()).items[0].acceptedCurrentChanged).toBe(false);
+    useDocumentStore.getState().reorderParagraphs(1,0);await commitCurrentDocument();
+    expect((await saved(id)).session.paragraphs.map(paragraph=>paragraph.id)).toEqual(['move-source','move-destination']);
+    const summary=await summarize();
+    expect(summary.items[0].status).toBe('accepted');
+    expect(summary.items[0].acceptedCurrentChanged).toBe(true);
+  });
   it('persists exact native subtrees, stable discussions, unrelated work, Undo/Redo, reload, backup and portable return',async()=>{
     const {round,proposal,id}=await fixture();const baseline=structuredClone(round.baseline.session);
     expect(getSerializedSession().paragraphs).toEqual(baseline.paragraphs);
