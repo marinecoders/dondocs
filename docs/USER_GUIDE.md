@@ -574,3 +574,12 @@ literal separately where needed. Unused target identities can be removed through
 Cancelling a review, changing packages, a stale save, or a failed save leaves the
 previous package revision intact. Original signed files and retained historical
 PDFs remain unchanged.
+
+
+### Reconcile structural suggestions with newer work
+
+Paragraph review compares the saved baseline, the proposal and your current draft by stable paragraph identity. Moving a paragraph retains its current text, formatting, children and discussions, including independent edits made after review began. Unrelated paragraphs and insertions remain in the document.
+
+A changed deletion, split/join overlap or competing move requires a deliberate decision. In **Reconcile paragraph structure**, choose **Keep current structure** to reject the proposal, or **Preview operation on current draft** to inspect its exact current scope and result. A changed split requires placing the caret at the intended boundary in the displayed current stored text. Confirm only after reviewing the result. Cancelling the preview makes no document or decision changes.
+
+Missing original targets, changed parents and unsupported formatting cannot be silently retargeted. Keep current work and start a fresh review for those cases. Confirmed operations retain their exact current nodes and boundaries for source-owner persistence and Undo/Redo. Returned package feedback uses the same structural preview and confirmation controls against the current package member. Its confirmed choice is saved only when you review and apply the new package revision.

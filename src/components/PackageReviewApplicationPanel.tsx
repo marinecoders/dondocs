@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { StructureReconciliationControls } from './editor/StructureReconciliationControls';
 import type { ReviewReturnConflict } from '@/lib/reviewCommentMerge';
 import { Button } from './ui/button';
 import type { ActionPackage, PackageReviewRound } from '@/lib/actionPackages';
@@ -83,6 +84,10 @@ export function PackageReviewApplicationPanel({ record, round, busy, run, onAppl
             <p className="whitespace-pre-wrap break-words">Reviewed baseline: {change.baseline}</p>
             <p className="whitespace-pre-wrap break-words">Latest saved content: {change.current ?? 'Unavailable'}</p>
             <p className="whitespace-pre-wrap break-words">Returned proposal: {change.proposed}</p>
+            {!proposal.decided && proposal.structural && change.structureReconciliation && change.structureReconciliation.kind !== 'unchanged' && <StructureReconciliationControls
+              source={proposal.structural.source} target={proposal.structural.target} inspection={change.structureReconciliation} changeId={change.id} disabled={busy}
+              onDecide={(action, resolution) => update({ ...choices, [member.memberId]: { ...choices[member.memberId], proposals: { ...choices[member.memberId]?.proposals,
+                [proposal.id]: { action, ...(resolution ? { resolutions: [resolution] } : {}) } } } })} />}
             {change.reconciliation && <div className="space-y-1">
               <p className="whitespace-pre-wrap break-words">Latest complete paragraph: {change.reconciliation.currentContext}</p>
               <p>Range reconciliation: {change.reconciliation.kind}. Select the exact current text to replace, or place the caret for an insertion, then choose Use selected current text.</p>
@@ -96,7 +101,7 @@ export function PackageReviewApplicationPanel({ record, round, busy, run, onAppl
               }}>Use selected current text</Button>
               {choices[member.memberId]?.proposals?.[proposal.id]?.resolutions?.[0]?.range && <p className="whitespace-pre-wrap break-words">Selected current text: {choices[member.memberId].proposals![proposal.id].resolutions![0].expectedCurrent || '(Insertion point)'}</p>}
             </div>}
-            {change.stale && (change.current !== null || change.reconciliation) && <label className="block">Deliberate replacement for current content<textarea aria-label={`Resolved replacement ${change.id}`} className="block min-h-20 w-full border bg-background p-2" disabled={busy || proposal.decided}
+            {!change.structureReconciliation && change.stale && (change.current !== null || change.reconciliation) && <label className="block">Deliberate replacement for current content<textarea aria-label={`Resolved replacement ${change.id}`} className="block min-h-20 w-full border bg-background p-2" disabled={busy || proposal.decided}
               value={choices[member.memberId]?.proposals?.[proposal.id]?.resolutions?.find(item => item.changeId === change.id)?.value ?? ''}
               onChange={event => {
                 const prior = choices[member.memberId]?.proposals?.[proposal.id];

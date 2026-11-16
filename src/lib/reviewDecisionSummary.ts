@@ -4,7 +4,7 @@ import { captureChangeReport, prepareChangeReport, escapeReportHtml, downloadRep
 import type { PolicyResolution } from './exportDeploymentPolicy';
 import { loadReviewSuggestionWorkspace, type ReviewSuggestionWorkspace } from './reviewSuggestionActions';
 import { parseReviewRound, reviewPayloadDigest, reviewRoundStatus, type ReviewRound } from './reviewRounds';
-import { emptyReviewSuggestionState, inspectReviewSuggestion, latestReviewSuggestionDecision, validateReviewSuggestionState, type ReviewSuggestionDecision, type ReviewSuggestionState } from './reviewSuggestions';
+import { emptyReviewSuggestionState, inspectReviewSuggestion, latestReviewSuggestionDecision, reviewSuggestionResolutionText, validateReviewSuggestionState, type ReviewSuggestionDecision, type ReviewSuggestionState } from './reviewSuggestions';
 import { feedbackCategoryLabel } from './reviewFeedback';
 import { reviewCommentsSchema } from './reviewComments';
 import { describeCommentAnchor } from './reviewCommentTargets';
@@ -127,7 +127,7 @@ function buildSummary(capture: CaptureData, policy: PolicyResolution): SummaryDa
   });
   const threads = [...discussions(round.baseline.session, 'Reviewed baseline'), ...discussions(current, 'Captured current draft')];
   const lifecycle = (round.lifecycle?.events ?? []).map(event => `${event.state} ${new Date(event.changedAt).toISOString()}`);
-  const emitted = [round.label, reviewRoundStatus(round), ...lifecycle,
+  const emitted = [...state.decisions.flatMap(decision => reviewSuggestionResolutionText(decision.resolutions ?? []).map(field => field.value)), round.label, reviewRoundStatus(round), ...lifecycle,
     ...items.flatMap(item => [item.label, item.author, item.category, item.status, item.origin.kind, item.origin.rule ?? '', item.origin.context ?? '',
       ...item.changes.flatMap(change => [change.label, change.baseline, change.current ?? 'Target unavailable', change.proposed, change.accepted ?? '']),
       ...item.history.flatMap(entry => [entry.action, entry.at, ...entry.resolutions.flatMap(value => [value.before, value.accepted, value.context ?? ''])])]),

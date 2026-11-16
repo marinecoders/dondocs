@@ -12,7 +12,7 @@ import { PDFDocument } from 'pdf-lib';
 import { mutateReviewComments } from '@/lib/reviewCommentActions';
 import { startPackageReview } from '@/lib/packageReviewRounds';
 import { createPackageMemberReview, savePackageMemberReview } from '@/lib/packageMemberReviews';
-import { appendReviewSuggestions, createReviewSuggestion } from '@/lib/reviewSuggestions';
+import { appendReviewSuggestions, createReviewSuggestion, createParagraphStructureSuggestion } from '@/lib/reviewSuggestions';
 import { buildPackageReviewReturn, packageReviewTransferFile } from '@/lib/packageReviewTransfer';
 import { resolveExportDeploymentPolicy } from '@/lib/exportDeploymentPolicy';
 const { currentPolicy } = vi.hoisted(() => ({ currentPolicy: { value: undefined as unknown } }));
@@ -88,4 +88,41 @@ it('shows retained returned original PDF discussion after keeping the current di
   expect(saved.revisions).toHaveLength(owner.revisions.length + 1);
   expect(getPackageRevision(saved).members[0]).toEqual(original);
   expect(saved.reviewApplications![0].outcomes[0].comments).toBeUndefined();
+});
+
+
+it('deliberately reconciles structural package feedback against current native nodes and persists one exact revision', async () => {
+  currentPolicy.value = policy;
+  const session = createBlankSession(); session.formData.subject = 'SYNTHETIC STRUCTURAL PACKAGE';
+  session.paragraphs = [{ id: 'structure-first', text: 'First retained paragraph.', level: 0 }, { id: 'structure-delete', text: 'Reviewed deletion.', level: 0 }, { id: 'structure-tail', text: 'Independent tail.', level: 0 }];
+  const native = await capturePackageMember(captureDocumentRevision({ documentId: 'structure-package-source', epoch: 0, editSequence: 0, capturedAt: 100 }, { ...session, endItems: [], publicationTables: {} }), 'Synthetic structural member', 'basic-letter');
+  let owner = await startPackageReview(await reviseActionPackage(await createActionPackage('Synthetic structural application'), [native]));
+  const round = owner.reviewRounds![0], child = await createPackageMemberReview(round, native.id);
+  const proposal = createParagraphStructureSuggestion(child.nativeRound!, { author: 'Synthetic reviewer', operation: { kind: 'delete-paragraph', paragraphId: 'structure-delete' } });
+  owner = await savePackageMemberReview(owner, round.id, { ...child, suggestions: appendReviewSuggestions(child.nativeRound!, child.suggestions!, [proposal]) });
+  const json = await packageReviewTransferFile(await buildPackageReviewReturn(owner, round.id, policy), policy);
+  session.paragraphs[1] = { ...session.paragraphs[1], text: '**Newer owner content** {{UNIT}}', header: 'Current heading', referenceId: 'current-reference' };
+  session.paragraphs[2].text = 'Independent newest tail.';
+  const updated = await capturePackageMember(captureDocumentRevision({ documentId: 'structure-package-source', epoch: 0, editSequence: 1, capturedAt: 200 }, { ...session, endItems: [], publicationTables: {} }), native.label, native.role, native);
+  const latest = await reviseActionPackage(owner, [updated]), user = userEvent.setup(); render(<View initial={latest} />);
+  await user.upload(screen.getByLabelText('Import package feedback return'), new File([json], 'synthetic-structure-return.json', { type: 'application/json' }));
+  await screen.findByText(/Latest saved content: Current heading/);
+  await user.selectOptions(screen.getByLabelText(`Discussion decision ${native.label}`), 'skip');
+  await user.selectOptions(screen.getByLabelText(`Proposal decision ${proposal.label}`), 'accepted');
+  expect(screen.getByRole('button', { name: 'Review new package revision' })).toBeDisabled();
+  expect(screen.queryByLabelText(`Resolved replacement ${proposal.changes[0].id}`)).toBeNull();
+  await user.click(screen.getByRole('button', { name: 'Preview operation on current draft' }));
+  await user.click(screen.getByRole('button', { name: 'Confirm operation on current draft' }));
+  await user.click(screen.getByRole('button', { name: 'Review new package revision' }));
+  await user.click(await screen.findByRole('checkbox', { name: /^I reviewed the baseline/ }));
+  await user.click(screen.getByRole('button', { name: 'Apply feedback as new package revision' }));
+  await waitFor(async () => {
+    const saved = (await listActionPackages()).find(item => item.id === owner.id)!;
+    expect(saved.revisions).toHaveLength(latest.revisions.length + 1);
+    const member = getPackageRevision(saved).members[0]; if (member.kind !== 'native') throw new Error();
+    expect(member.session.paragraphs).toEqual([session.paragraphs[0], session.paragraphs[2]]);
+    const retained = saved.reviewApplications![0].outcomes[0].suggestions!.decisions[0].resolutions![0].structure!;
+    expect(retained.operation.before).toEqual([session.paragraphs[1]]);
+    expect(JSON.parse(new TextDecoder().decode(await readPackageAsset(member.draft))).paragraphs).toEqual(member.session.paragraphs);
+  });
 });

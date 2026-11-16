@@ -698,3 +698,6 @@ Unresolved historical bindings remain as tombstones. Discard removes a link only
 it does not validate the remaining literal text. Unused targets may be removed,
 but targets still referenced by links are rejected. Tracked stale/missing links
 block assembly, while unlinked literal citations remain a separate manual check.
+
+
+Structural reconciliation stores the exact current `structure` target in an accepted manual suggestion resolution, alongside its readable `expectedCurrent` and `value`. The immutable proposal continues to describe the reviewed baseline. Resolution targets must derive from current nodes and the original operation kind, identities, parent and explicit parameters; only a split can select a new current split boundary. The scoped writer recomputes this derivation before acceptance, and tagged history reverses the accepted current target rather than replaying an obsolete baseline snapshot. Full nested targets participate in size and handling checks. Existing source ownership, CAS, active-round, receipt and atomic rollback gates apply. No pending resolution metadata enters clean document exports.

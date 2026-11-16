@@ -1,4 +1,5 @@
 import { replaceReviewParagraphText } from './reviewParagraphText';
+import { assertStoredStructuralResolution, inspectReviewStructureReconciliation, validateReconciledReviewStructure, type ReviewStructureReconciliation } from './reconcileReviewStructure';
 import { reviewParagraphMoveView, type ReviewParagraphMoveView } from './reviewParagraphMoves';
 import { applyReviewStructure, captureReviewStructure, inspectReviewStructure, reviewStructureTargetSchema, structureNewIds, structureOperationIds, structureSuggestionLabel, structureSuggestionText, validateReviewStructureTarget, type ReviewStructureTarget } from './reviewStructureSuggestions';
 import { transformRangeComments } from './reviewCommentRanges';
@@ -66,10 +67,18 @@ export const reviewSuggestionRangeScopeSchema = z.object({
   && isTextRangeBoundary(scope.context, scope.end), 'Choose complete characters in the exact current paragraph.');
 export const reviewSuggestionResolutionSchema = z.object({
   changeId, expectedCurrent: z.string().max(REVIEW_SUGGESTION_LIMITS.value), value: z.string().max(REVIEW_SUGGESTION_LIMITS.value),
-  range: reviewSuggestionRangeScopeSchema.optional(),
+  range: reviewSuggestionRangeScopeSchema.optional(), structure: reviewStructureTargetSchema.optional(),
 }).strict().refine(value => !value.range || value.range.context.slice(value.range.start, value.range.end) === value.expectedCurrent,
   'The resolution must match its exact selected current scope.');
 export type ReviewSuggestionResolution = z.infer<typeof reviewSuggestionResolutionSchema>;
+
+/** Every nested retained string participates in handling checks, including
+ * historic node metadata which may no longer appear in the current draft. */
+export function reviewSuggestionResolutionText(resolutions: readonly ReviewSuggestionResolution[]): Array<{ field: string; value: string }> {
+  const strings = (value: unknown): string[] => typeof value === 'string' ? [value] : value && typeof value === 'object' ? Object.values(value).flatMap(strings) : [];
+  return resolutions.flatMap((resolution, index) => strings(resolution).map(value => ({ field: `Retained review resolution ${index + 1}`, value })));
+}
+
 
 export const reviewSuggestionDecisionSchema = z.object({
   id: z.string().uuid(), proposalId: reviewProposalIdSchema,
@@ -108,7 +117,11 @@ export const reviewSuggestionStateSchema = z.object({
         || proposal.changes.length !== 1 || decision.resolutions.length !== 1
         || decision.resolutions[0].changeId !== proposal.changes[0].id) context.addIssue({ code: 'custom', message: 'A resolution must identify one accepted manual replacement in a version 2 review.' });
       for (const resolution of decision.resolutions) {
-        characters += resolution.expectedCurrent.length + resolution.value.length + (resolution.range?.context.length ?? 0);
+        characters += resolution.expectedCurrent.length + resolution.value.length + (resolution.range?.context.length ?? 0) + (resolution.structure ? JSON.stringify(resolution.structure).length : 0);
+        if ((proposal?.changes[0].target.kind === 'structure') !== !!resolution.structure || resolution.structure && (resolution.range || resolution.expectedCurrent !== structureSuggestionText(resolution.structure.operation.before) || resolution.value !== structureSuggestionText(resolution.structure.operation.after))) context.addIssue({ code: 'custom', message: 'A structural resolution must retain its exact captured operation and readable scope.' });
+        if (resolution.structure && proposal?.changes[0].target.kind === 'structure') {
+          try { assertStoredStructuralResolution(proposal.changes[0].target, resolution.structure); } catch { context.addIssue({ code: 'custom', message: 'Structural resolution changed its proven intent.' }); }
+        }
         if ((proposal?.changes[0].target.kind === 'range') !== !!resolution.range) context.addIssue({ code: 'custom', message: 'A selected resolution must retain its exact current range.' });
       }
     }
@@ -214,9 +227,19 @@ export function validateReviewSuggestionState(round: ReviewRound, value: unknown
   const reserved = new Set<string>();
   for (const proposal of state.proposals) {
     validateReviewSuggestion(round, proposal);
-    for (const change of proposal.changes) if (change.target.kind === 'structure') for (const id of structureNewIds(change.target)) {
-      if (reserved.has(id)) throw new Error('Different review operations cannot reuse a new paragraph identity.');
-      reserved.add(id);
+    for (const change of proposal.changes) if (change.target.kind === 'structure') {
+      const newIds = structureNewIds(change.target);
+      if (!newIds.length) continue;
+      // Later resolutions can retain nodes introduced by this acceptance. They
+      // reference its existing identities; only earlier captures reserve them
+      // against this proposal's original introduction.
+      const acceptance = state.decisions.findIndex(decision => decision.proposalId === proposal.id && decision.action === 'accepted');
+      const prior = acceptance < 0 ? state : { ...state, decisions: state.decisions.slice(0, acceptance) };
+      const otherIds = new Set(reviewStructureReservedIds(prior, proposal.id));
+      for (const id of newIds) {
+        if (reserved.has(id) || otherIds.has(id)) throw new Error('Different review operations cannot reuse a new paragraph identity.');
+        reserved.add(id);
+      }
     }
   }
   return state;
@@ -258,7 +281,9 @@ function structureReviewText(target: ReviewStructureTarget): string[] {
 }
 export function reviewStructureReservedIds(state: ReviewSuggestionState, exceptProposalId?: string): string[] {
   return state.proposals.filter(proposal => proposal.id !== exceptProposalId).flatMap(proposal => proposal.changes.flatMap(change => change.target.kind === 'structure' ? structureOperationIds(change.target)
-    : change.target.kind === 'paragraph' || change.target.kind === 'range' ? [change.target.paragraphId] : []));
+    : change.target.kind === 'paragraph' || change.target.kind === 'range' ? [change.target.paragraphId] : []))
+    .concat(state.decisions.filter(decision => decision.proposalId !== exceptProposalId).flatMap(decision =>
+      decision.resolutions?.flatMap(resolution => resolution.structure ? structureOperationIds(resolution.structure) : []) ?? []));
 }
 export function createParagraphStructureSuggestion(round: ReviewRound, input: { author: string; category?: FeedbackCategory; operation: Parameters<typeof captureReviewStructure>[1] }): ReviewSuggestion {
   const target = captureReviewStructure(round.baseline.session, input.operation);
@@ -330,7 +355,7 @@ export function acceptedReviewSuggestionRange(target: SelectedTextRange, propose
 
 export interface ReviewSuggestionPlan {
   status: 'ready' | 'stale' | 'decided';
-  changes: Array<{ id: string; label: string; baseline: string; current: string | null; proposed: string; stale: boolean; applied?: boolean; movement?: ReviewParagraphMoveView; reconciliation?: ReviewRangeReconciliation }>;
+  changes: Array<{ id: string; label: string; baseline: string; current: string | null; proposed: string; stale: boolean; applied?: boolean; movement?: ReviewParagraphMoveView; structureReconciliation?: ReviewStructureReconciliation; reconciliation?: ReviewRangeReconciliation }>;
   session: SerializedSession;
   state: ReviewSuggestionState;
 }
@@ -367,11 +392,12 @@ function inspectReviewSuggestionUsing(round: ReviewRound, source: SerializedSess
   const referencesMatch = !proposal.changes.some(change => change.target.kind === 'reference-title') || sameReviewReferences(source, round.baseline.session);
   return proposal.changes.map(change => {
     if (change.target.kind === 'structure') {
-      const forward = inspectReviewStructure(source, change.target);
-      const reverse = inspectReviewStructure(source, change.target, 'reverse');
-      // Readable prose cannot prove the accepted order of distinct paragraph IDs.
+      const resolution = acceptedResolutions?.find(item => item.changeId === change.id);
+      const structureReconciliation = inspectReviewStructureReconciliation(source, change.target);
+      const target = resolution?.structure ?? change.target;
+      const reverse = inspectReviewStructure(source, target, 'reverse');
       return { id: change.id, label: structureSuggestionLabel(change.target), baseline: change.expected,
-        current: forward ? change.expected : reverse ? change.proposed : null, proposed: change.proposed, stale: !forward, applied: reverse,
+        current: reverse ? resolution?.value ?? change.proposed : structureReconciliation.current, proposed: change.proposed, stale: !['unchanged', 'independent'].includes(structureReconciliation.kind), applied: reverse, structureReconciliation,
         ...(change.target.operation.kind === 'move-paragraph' ? { movement: reviewParagraphMoveView(change.target.operation.before, change.target.operation) } : {}) };
     }
     const reconciliation = change.target.kind === 'range' ? inspectReviewSuggestionRangeUsing(source, change.target, reconcileRange) : null;
@@ -399,10 +425,25 @@ export function planReviewSuggestionDecision(round: ReviewRound, source: Seriali
   const changes = inspectReviewSuggestion(round, source, proposal);
   const previous = latestReviewSuggestionDecision(state, proposalId);
   if (previous && previous.action !== 'reversed') return { status: 'decided', changes, session: structuredClone(source), state };
+  // Later captured moves may reference an identity this proposal already owns.
+  // Reacceptance restores it; current nodes and discussions still reserve IDs.
+  const ownedIds = new Set(previous?.action === 'reversed' ? proposal.changes.flatMap(change => change.target.kind === 'structure' ? structureNewIds(change.target) : []) : []);
+  const reservedIds = proposal.changes.some(change => change.target.kind === 'structure') ? reviewStructureReservedIds(state, proposal.id).filter(id => !ownedIds.has(id)) : [];
   let resolutions = inputResolutions && z.array(reviewSuggestionResolutionSchema).min(1).max(1).parse(inputResolutions);
-  if (resolutions && proposal.changes.some(change => change.target.kind === 'structure')) throw new Error('Structural changes require their exact captured paragraph structure. Start a fresh proposal for changed content.');
+
   if (resolutions && (action !== 'accepted' || proposal.origin.kind !== 'manual' || proposal.changes.length !== 1
     || resolutions[0].changeId !== proposal.changes[0].id)) throw new Error('Only a supported manual replacement can be reconciled.');
+  const structureChange = proposal.changes[0].target.kind === 'structure' ? proposal.changes[0] : null;
+  if (!!resolutions?.[0].structure && !structureChange) throw new Error('Only a structural proposal accepts a structural resolution.');
+  if (action === 'accepted' && structureChange && structureChange.target.kind === 'structure') {
+    const inspection = changes[0].structureReconciliation!;
+    const resolved = resolutions?.[0];
+    const target = resolved?.structure ? validateReconciledReviewStructure(source, structureChange.target, resolved.structure)
+      : ['unchanged', 'independent'].includes(inspection.kind) ? inspection.target : undefined;
+    if (!target) return { status: 'stale', changes, session: structuredClone(source), state };
+    if (resolved && (!resolved.structure || resolved.range || resolved.expectedCurrent !== structureSuggestionText(target.operation.before) || resolved.value !== structureSuggestionText(target.operation.after))) throw new Error('The structural resolution comparison does not match its exact operation.');
+    resolutions = [{ changeId: structureChange.id, expectedCurrent: structureSuggestionText(target.operation.before), value: structureSuggestionText(target.operation.after), structure: target }];
+  }
   const rangeChange = proposal.changes[0].target.kind === 'range' ? proposal.changes[0] : null;
   if (resolutions && !!rangeChange !== !!resolutions[0].range) throw new Error('A selected resolution requires its exact current range scope.');
   if (action === 'accepted' && rangeChange) {
@@ -415,10 +456,10 @@ export function planReviewSuggestionDecision(round: ReviewRound, source: Seriali
       const scope = inspection!.scope!;
       resolutions = [{ changeId: rangeChange.id, expectedCurrent: scope.context.slice(scope.start, scope.end), value: rangeChange.proposed, range: scope }];
     }
-  } else if (action === 'accepted' && changes.some(change => resolutions
+  } else if (action === 'accepted' && !structureChange && changes.some(change => resolutions
     ? change.current === null || change.current !== resolutions[0].expectedCurrent : change.stale)) return { status: 'stale', changes, session: structuredClone(source), state };
   if (action === 'accepted' && proposal.changes.some(change => change.target.kind === 'structure'
-    && !inspectReviewStructure(source, change.target, 'forward', reviewStructureReservedIds(state, proposal.id)))) return { status: 'stale', changes, session: structuredClone(source), state };
+    && !inspectReviewStructure(source, resolutions?.[0].structure ?? change.target, 'forward', reservedIds))) return { status: 'stale', changes, session: structuredClone(source), state };
   let session = structuredClone(source);
   if (action === 'accepted') for (const change of proposal.changes) {
     const target = change.target;
@@ -426,7 +467,7 @@ export function planReviewSuggestionDecision(round: ReviewRound, source: Seriali
     if (target.kind === 'field') Object.assign(session.formData, { [target.field]: value });
     else if (target.kind === 'paragraph') replaceReviewParagraphText(session, target.paragraphId, value);
     else if (target.kind === 'range') session = applyReviewSuggestionRange(session, resolvedReviewSuggestionRange(target, resolutions?.[0]), resolutions?.[0].expectedCurrent ?? change.expected, value);
-    else if (target.kind === 'structure') session = applyReviewStructure(session, target, 'forward', reviewStructureReservedIds(state, proposal.id));
+    else if (target.kind === 'structure') session = applyReviewStructure(session, resolutions?.[0].structure ?? target, 'forward', reservedIds);
     else session.references[target.referenceIndex].title = value;
   }
   if (resolutions) state.version = 2;
@@ -454,7 +495,8 @@ export function planReviewSuggestionHistory(round: ReviewRound, before: Serializ
   }
   for (const change of proposal.changes) {
     if (change.target.kind === 'structure') {
-      const derived = applyReviewStructure(before, change.target, direction === 'undo' ? 'reverse' : 'forward', reviewStructureReservedIds(state, proposal.id), true);
+      const resolved = acceptance.resolutions?.find(item => item.changeId === change.id);
+      const derived = applyReviewStructure(before, resolved?.structure ?? change.target, direction === 'undo' ? 'reverse' : 'forward', reviewStructureReservedIds(state, proposal.id), true);
       if (canonicalReviewPayload(derived.paragraphs) !== canonicalReviewPayload(after.paragraphs)) throw new Error('This history action does not reverse only the accepted paragraph operation.');
       continue;
     }

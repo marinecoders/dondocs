@@ -1,3 +1,4 @@
+import { StructureReconciliationControls } from './StructureReconciliationControls';
 import { ParagraphMoveProposalsPanel } from './ParagraphMoveProposalsPanel';
 import { reviewParagraphMoveDescription } from '@/lib/reviewParagraphMoves';
 import { ParagraphSplitJoinProposalsPanel } from './ParagraphSplitJoinProposalsPanel';
@@ -201,6 +202,7 @@ export function ReviewSuggestionsPanel({ round, current, state, owner, busy, onC
             ...(rangeTarget ? { previewContext: manualChange.reconciliation?.currentContext } : {}),
             ...(rangeTarget && manualChange.reconciliation?.scope ? { range: manualChange.reconciliation.scope } : {}) }); }}>Reconcile suggestion</Button>}
         </div>}
+        {owner && (!decision || decision.action === 'reversed') && proposal.changes[0].target.kind === 'structure' && changes[0].structureReconciliation && changes[0].structureReconciliation.kind !== 'unchanged' && <StructureReconciliationControls source={current} target={proposal.changes[0].target} inspection={changes[0].structureReconciliation} changeId={changes[0].id} disabled={disabled || typedDirty} onDecide={(action, resolved) => void decide(proposal.id, action, resolved)} />}
         {owner && editing && manualChange && (!decision || decision.action === 'reversed') && <fieldset disabled={disabled || typedDirty} className="space-y-2 rounded-md border p-3">
           <legend className="text-sm font-medium">Resolve this replacement</legend>
           <p className="text-sm">{combination?.kind === 'combined' ? 'Independent edits can be combined. Review the complete result before applying it.' : 'These edits overlap. Keep the current text, use the proposal, or write a combined resolution.'}</p>

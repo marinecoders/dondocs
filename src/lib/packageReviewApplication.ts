@@ -1,5 +1,6 @@
 import { assertReviewStructureNewIdsAvailable } from './reviewStructureSuggestions';
 import { paragraphCommentIds } from './paragraphIdentity';
+import type { ReviewStructureTarget } from './reviewStructureSuggestions';
 import type { SerializedSession } from '@/stores/documentStore';
 import { actionPackageSchema, commitActionPackage, getPackageRevision, listActionPackages, newPackageId,
   type ActionPackage, type NativePackageMember, type PackageMember } from './actionPackages';
@@ -37,7 +38,7 @@ export interface PackageFeedbackMemberPreview {
   memberId: string; label: string; status: 'present' | 'removed' | 'replaced';
   baseline: PackageMember; current?: PackageMember; comments: ReviewCommentMerge;
   discussion: { baseline?: ReviewComments; current?: ReviewComments; returned?: ReviewComments };
-  proposals: Array<{ id: string; label: string; decided: boolean; changes: ReturnType<typeof inspectReviewSuggestion> }>;
+  proposals: Array<{ id: string; label: string; decided: boolean; structural?: { source: SerializedSession; target: ReviewStructureTarget }; changes: ReturnType<typeof inspectReviewSuggestion> }>;
   issues: string[];
 }
 export interface PackageReviewApplicationPlan {
@@ -98,6 +99,7 @@ export function planPackageReviewApplication(owner: ActionPackage, returned: Par
       for (const proposal of [...child.suggestions.proposals].sort((a, b) => a.id.localeCompare(b.id))) {
         const decided = !!latestReviewSuggestionDecision(state, proposal.id);
         proposals.push({ id: proposal.id, label: proposal.label, decided,
+          ...(session && proposal.changes[0].target.kind === 'structure' ? { structural: { source: structuredClone(session), target: proposal.changes[0].target } } : {}),
           changes: inspectReviewSuggestion(child.nativeRound, session ?? child.nativeRound.baseline.session, proposal) });
         const decision = choice.proposals?.[proposal.id];
         if (!decision) { issues.push(`Choose an action for ${proposal.label}.`); continue; }
