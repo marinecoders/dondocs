@@ -194,6 +194,9 @@ test('reviewer imports reject stale previews and preserve native bytes without c
     enclosures: [{ title: 'Synthetic supporting PDF', file: { name: 'support.pdf', size: Buffer.from(bytes, 'base64').length, data: bytes } }], references: [], copyTos: [], distributions: [] };
   await page.getByLabel('Import draft file').setInputFiles({ name: 'fresh-source.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(draft)) });
   await page.getByRole('button', { name: 'Open as new document', exact: true }).click();
+  await expect(page.getByRole('dialog', {
+    name: 'Review draft', exact: true, includeHidden: true,
+  })).toHaveCount(0, { timeout: 15_000 });
   await expect(page.getByRole('button', { name: draft.formData.subject, exact: true })).toBeVisible();
   await page.getByLabel('Document section', { exact: true }).selectOption('letterhead');
   await page.evaluate(() => new Promise<void>(resolve => requestAnimationFrame(() => resolve())));
