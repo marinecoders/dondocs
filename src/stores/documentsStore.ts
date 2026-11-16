@@ -13,7 +13,7 @@ import { recoverReviewReturnWrite, REVIEW_WRITE_RECOVERY_KEY } from '@/lib/revie
 import { reviewReturnWriteSchema, type ReviewReturnWrite } from '@/lib/reviewReturns';
 import { supportsReviewComments } from '@/lib/reviewCommentTargets';
 import { readReviewRound, readReviewCopyLink, reviewRoundStatus } from '@/lib/reviewRounds';
-import { reviewSuggestionWriteMetadata, planReviewSuggestionWrite, reviewSuggestionWriteSchema, reviewSuggestionRecordSchema, type ReviewSuggestionWrite } from '@/lib/reviewSuggestionWrites';
+import { reviewSuggestionWriteMetadata, planReviewSuggestionWrite, reviewSuggestionWriteSchema, reviewSuggestionRecordSchema, reviewSuggestionWriteNewIds, type ReviewSuggestionWrite } from '@/lib/reviewSuggestionWrites';
 import { cacheReviewSuggestions, cachedReviewSuggestions, rebindReviewSuggestionHistory, forgetReviewSuggestions } from '@/lib/reviewSuggestionRuntime';
 import { validateReviewSuggestionState, planReviewSuggestionHistory, reviewStructureReservedIds } from '@/lib/reviewSuggestions';
 import { serializeDocumentSnapshot } from '@/lib/documentSerialization';
@@ -48,6 +48,7 @@ import {
   idbGetAllDocuments,
   idbReadReviewSuggestions,
   idbReadAllReviewSuggestions,
+  idbReadRetainedParagraphIds,
   idbDeleteReviewRound,
   sameReviewStoredValue,
   idbWriteDocument,
@@ -930,10 +931,13 @@ export async function applyOwnedReviewSuggestions(target: DocumentTarget | null,
   if (stored && stored.documentId !== operation.documentId) return 'invalid';
   const state = stored ? validateReviewSuggestionState(round, stored.state) : null;
   if (!sameReviewStoredValue(state, operation.before) || !isCurrentDocumentTarget(target)) return 'stale';
-  const otherReviewIds = operation.after.proposals.some(proposal => proposal.changes.some(change => change.target.kind === 'structure'))
-    ? (await idbReadAllReviewSuggestions()).filter((value): value is { documentId: string } => !!value && typeof value === 'object'
+  let otherReviewIds: string[] = [];
+  if (reviewSuggestionWriteNewIds(operation).length > 0) {
+    const [suggestions, retainedIds] = await Promise.all([idbReadAllReviewSuggestions(), idbReadRetainedParagraphIds(operation.documentId)]);
+    otherReviewIds = suggestions.filter((value): value is { documentId: string } => !!value && typeof value === 'object'
       && 'documentId' in value && value.documentId === operation.documentId).map(value => reviewSuggestionRecordSchema.parse(value))
-      .filter(record => record.state.roundId !== round.id).flatMap(record => reviewStructureReservedIds(record.state)) : [];
+      .filter(record => record.state.roundId !== round.id).flatMap(record => reviewStructureReservedIds(record.state)).concat(retainedIds);
+  }
   if (!isCurrentDocumentTarget(target)) return 'stale';
   const entry = useDocumentsStore.getState().docs[operation.documentId];
   if (!entry || !writes.matches(saved, storedEntry(entry))) return 'stale';

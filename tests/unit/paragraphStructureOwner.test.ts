@@ -11,6 +11,7 @@ import { decideReviewSuggestion, submitReviewSuggestion, loadReviewSuggestionWor
 import { createParagraphStructureSuggestion, emptyReviewSuggestionState, appendReviewSuggestions, planReviewSuggestionDecision } from '@/lib/reviewSuggestions';
 import { planReviewSuggestionWrite, reviewSuggestionRecordSchema, type ReviewSuggestionWrite } from '@/lib/reviewSuggestionWrites';
 import { captureTextRange } from '@/lib/reviewTextRanges';
+import { ensureParagraphIds } from '@/lib/paragraphIdentity';
 import { persistAttachment } from '@/lib/attachments';
 import { listReviewRounds } from '@/lib/reviewRounds';
 import { createSuggestionReviewReturn, parseReviewReturn } from '@/lib/reviewReturns';
@@ -47,6 +48,23 @@ async function fixture(kind:'insert-paragraph'|'delete-paragraph'='insert-paragr
 const saved=async(id:string)=>(await db.idbGetAllDocuments())!.find(document=>document.id===id)!;
 
 describe('paragraph suggestions through the source owner and IndexedDB',()=>{
+  it('can accept the same insertion again after Undo and retain its own Undo/Redo',async()=>{
+    const {round,proposal,id}=await fixture();
+    const original=getSerializedSession();
+    expect((await decideReviewSuggestion(round.id,proposal.id,'accepted')).status).toBe('committed');
+    const accepted=getSerializedSession();
+    await startReviewRound('Retained capture of the originally accepted identity');
+    expect(changeDocumentHistory('undo',captureDocumentScope())).toBe('applied');await flushDocumentWrites();
+    expect(getSerializedSession().paragraphs).toEqual(original.paragraphs);
+    expect((await decideReviewSuggestion(round.id,proposal.id,'accepted')).status).toBe('committed');
+    expect((await saved(id)).session.paragraphs).toEqual(accepted.paragraphs);
+    expect((await loadReviewSuggestionWorkspace(round.id)).state?.decisions.map(decision=>decision.action)).toEqual(['accepted','reversed','accepted']);
+    expect(changeDocumentHistory('undo',captureDocumentScope())).toBe('applied');await flushDocumentWrites();
+    expect((await saved(id)).session.paragraphs).toEqual(original.paragraphs);
+    expect(changeDocumentHistory('redo',captureDocumentScope())).toBe('applied');await flushDocumentWrites();
+    expect((await saved(id)).session.paragraphs).toEqual(accepted.paragraphs);
+    expect((await loadReviewSuggestionWorkspace(round.id)).state?.decisions.map(decision=>decision.action)).toEqual(['accepted','reversed','accepted','reversed','restored']);
+  });
   it.each(['insert-paragraph','delete-paragraph'] as const)('persists %s with real Undo/Redo and preserves unrelated newer fields/body/attachments',async kind=>{
     const {round,proposal,id}=await fixture(kind);
     const assetBytes=new TextEncoder().encode('%PDF-1.4\nSynthetic unrelated attachment.');
@@ -112,6 +130,27 @@ describe('paragraph suggestions through the source owner and IndexedDB',()=>{
     useDocumentStore.getState().removeParagraph(last);await commitCurrentDocument();
     const proposal=createParagraphStructureSuggestion(round,{author:'Example',operation:{kind:'insert-paragraph',index:3,text:'Other new content',level:0,paragraphId:historyId}});
     await expect(submitReviewSuggestion(proposal)).rejects.toThrow(/reserved/);
+  });
+  it.each(['review-baseline','saved-history','legacy-saved-history'] as const)('reserves removed identities from %s after reopening the source',async retained=>{
+    const id=useDocumentsStore.getState().currentId!,before=getSerializedSession();
+    if(retained==='legacy-saved-history') {
+      for(const paragraph of before.paragraphs)delete paragraph.id;
+      useDocumentStore.setState({paragraphs:ensureParagraphIds(before.paragraphs)});await commitCurrentDocument();
+    }
+    const removedId=ensureParagraphIds(before.paragraphs)[2].id;
+    if(retained==='review-baseline')await startReviewRound('Earlier retained baseline');
+    else expect(await db.idbSetSnapshots(id,[{ts:before.timestamp!,session:before}])).toBe(true);
+    useDocumentStore.getState().removeParagraph(2);await commitCurrentDocument();
+    useDocumentsStore.getState().newDocument();expect(openExistingDocument(id)).toBe('applied');
+    const round=await startReviewRound('Newer review after reopening');
+    const proposal=createParagraphStructureSuggestion(round,{author:'Example',operation:{kind:'insert-paragraph',index:2,text:'Different new paragraph.',level:0,paragraphId:removedId}});
+    const savedBefore=await saved(id);
+    const state=appendReviewSuggestions(round,emptyReviewSuggestionState(round),[proposal]);
+    const operation:ReviewSuggestionWrite={kind:'suggestion-write',version:1,id:`suggestion-write_${crypto.randomUUID()}`,documentId:id,createdAt:Date.now(),round:{id:round.id,baselineDigest:round.baselineDigest},before:null,after:state,intent:{kind:'propose',proposals:[proposal]}};
+    expect(await actualDb.idbApplyReviewSuggestions(savedBefore,{...savedBefore,meta:{...savedBefore.meta,updatedAt:savedBefore.meta.updatedAt+1}},operation)).toBe('failed');
+    expect(await saved(id)).toEqual(savedBefore);expect(await db.idbReadReviewSuggestions(id,round.id)).toBeNull();
+    await expect(submitReviewSuggestion(proposal)).rejects.toThrow(/reserved/);
+    expect(await saved(id)).toEqual(savedBefore);expect(await db.idbReadReviewSuggestions(id,round.id)).toBeNull();
   });
 });
 

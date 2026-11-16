@@ -7,6 +7,7 @@ import type { ReviewReturnReceipt } from './reviewReturns';
 import { parseReviewRound, reviewCopyLinkSchema, reviewRoundStatus } from './reviewRounds';
 import { mergeReceivedReviewLifecycle } from './reviewRoundLifecycle';
 import { supportsReviewComments } from './reviewCommentTargets';
+import { paragraphCommentIds, ensureParagraphIds } from './paragraphIdentity';
 import type { ReviewSuggestionWrite } from './reviewSuggestionWrites';
 
 /**
@@ -45,6 +46,28 @@ function reviewSuggestionRange(documentId?: string): IDBKeyRange {
 export async function idbReadAllReviewSuggestions(documentId?: string): Promise<unknown[]> {
   return (await run<Array<{ value: unknown }>>(APP_STORE, 'readonly', store =>
     store.getAll(reviewSuggestionRange(documentId)))).map(record => record.value);
+}
+/** Retained source captures still own their paragraph and discussion identities
+ * after the editor's in-memory Undo history has been cleared. */
+function retainedParagraphIds(documentId: string, snapshots: DocSnapshot[], rounds: unknown[]): string[] {
+  const baselines = rounds.filter(value => !!value && typeof value === 'object'
+    && 'ownerDocumentId' in value && value.ownerDocumentId === documentId)
+    .map(value => (value as ReviewRound).baseline.session);
+  // Read identities without parsing/cloning every retained baseline's text and
+  // resources. Invalid identity containers fail closed at the write boundary.
+  const ids = new Set<string>();
+  for (const session of [...snapshots.map(snapshot => snapshot.session), ...baselines]) {
+    const comments = paragraphCommentIds(session.reviewComments);
+    // Legacy snapshots acquire deterministic identities when reopened. Reserve
+    // those same identities without mutating the retained capture.
+    for (const paragraph of ensureParagraphIds(session.paragraphs, comments)) ids.add(paragraph.id);
+    for (const id of comments) ids.add(id);
+  }
+  return [...ids];
+}
+export async function idbReadRetainedParagraphIds(documentId: string): Promise<string[]> {
+  const [snapshots, rounds] = await Promise.all([idbReadSnapshots(documentId), idbReadReviewRounds()]);
+  return retainedParagraphIds(documentId, snapshots, rounds);
 }
 export async function idbReadReviewSuggestionReceipt(id: string): Promise<unknown | null> {
   return (await run<{ value: unknown } | undefined>(APP_STORE, 'readonly', store => store.get(reviewSuggestionReceiptKey(id))))?.value ?? null;
@@ -1090,7 +1113,7 @@ export async function idbApplyReviewReturn(
 export async function idbApplyReviewSuggestions(inputBefore: StoredDocument, inputAfter: StoredDocument,
   input: ReviewSuggestionWrite, isCurrent: () => boolean = () => true): Promise<ReviewReturnWriteOutcome> {
   try {
-    const { planReviewSuggestionWrite, isReviewSuggestionMetadataChange, reviewSuggestionWriteReceipt, reviewSuggestionWriteSchema, reviewSuggestionRecordSchema,
+    const { planReviewSuggestionWrite, isReviewSuggestionMetadataChange, reviewSuggestionWriteReceipt, reviewSuggestionWriteSchema, reviewSuggestionRecordSchema, reviewSuggestionWriteNewIds,
       reviewSuggestionReceiptSchema } = await import('./reviewSuggestionWrites');
     const { reviewStructureReservedIds } = await import('./reviewSuggestions');
     const before = structuredClone(inputBefore), after = structuredClone(inputAfter);
@@ -1106,10 +1129,13 @@ export async function idbApplyReviewSuggestions(inputBefore: StoredDocument, inp
       const documentRequest = documents.get(before.id), roundRequest = app.get(reviewRoundKey(operation.round.id));
       const stateRequest = app.get(reviewSuggestionKey(before.id, operation.round.id));
       const structureRecordsRequest = app.getAll(reviewSuggestionRange(before.id));
+      const reservesIds = reviewSuggestionWriteNewIds(operation).length > 0;
+      const snapshotsRequest = reservesIds ? app.get(`snap:${before.id}`) : null;
+      const retainedRoundsRequest = reservesIds ? app.getAll(IDBKeyRange.bound('review:', 'review:\uffff')) : null;
       const receiptRequest = app.get(reviewSuggestionReceiptKey(operation.id)), copyRequest = app.get(reviewCopyKey(before.id));
       const incomingReceipt = operation.intent.kind === 'import' ? operation.intent.receipt : null;
       const incomingRequest = incomingReceipt ? app.get(reviewReturnKey(incomingReceipt.roundId, incomingReceipt.returnId)) : null;
-      let remaining = incomingRequest ? 7 : 6, outcome: ReviewReturnWriteOutcome = 'conflict';
+      let remaining = (incomingRequest ? 7 : 6) + (reservesIds ? 2 : 0), outcome: ReviewReturnWriteOutcome = 'conflict';
       const ready = () => {
         if (--remaining) return;
         if (!isCurrent()) { outcome = 'stale'; return; }
@@ -1140,7 +1166,9 @@ export async function idbApplyReviewSuggestions(inputBefore: StoredDocument, inp
             && 'documentId' in record.value && record.value.documentId === before.id).map(record => reviewSuggestionRecordSchema.parse(record.value))
             .filter(record => record.state.roundId !== round.id)
             .flatMap(record => reviewStructureReservedIds(record.state));
-          const planned = planReviewSuggestionWrite(round, before.session, operation, after.session, reserved);
+          const retained = reservesIds ? retainedParagraphIds(before.id, snapshotsRequest!.result?.value ?? [],
+            (retainedRoundsRequest!.result as Array<{ value: unknown }>).map(record => record.value)) : [];
+          const planned = planReviewSuggestionWrite(round, before.session, operation, after.session, [...reserved, ...retained]);
           if (!sameReviewStoredValue(planned.session, after.session) || !sameReviewStoredValue(planned.state, operation.after)) return;
           documents.put(after);
           app.put({ key: reviewSuggestionKey(before.id, round.id), value: { documentId: before.id, state: operation.after } });
@@ -1151,6 +1179,7 @@ export async function idbApplyReviewSuggestions(inputBefore: StoredDocument, inp
       };
       documentRequest.onsuccess = ready;roundRequest.onsuccess = ready;stateRequest.onsuccess = ready;
       receiptRequest.onsuccess = ready;copyRequest.onsuccess = ready;structureRecordsRequest.onsuccess = ready;
+      if (snapshotsRequest && retainedRoundsRequest) { snapshotsRequest.onsuccess = ready;retainedRoundsRequest.onsuccess = ready; }
       if (incomingRequest) incomingRequest.onsuccess = ready;
       transaction.oncomplete = () => resolve(outcome);
       transaction.onerror = () => reject(transaction.error ?? new Error('Review suggestions could not be saved.'));
