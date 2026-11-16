@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import type { ActionPackage } from '@/lib/actionPackages';
 import { getPackageRevision } from '@/lib/actionPackages';
 import { capturePackageTemplate, deletePackageTemplate, exportPackageTemplate, importPackageTemplate,
-  instantiatePackageTemplate, listPackageTemplates, MAX_PACKAGE_TEMPLATE_BYTES, MAX_TEMPLATE_ACTION_BYTES, packageTemplatePlaceholders,
+  instantiatePackageTemplate, listPackageTemplates, MAX_PACKAGE_TEMPLATE_BYTES, MAX_TEMPLATE_ACTION_BYTES, packageTemplatePlaceholders, packageTemplateFileSlots,
   renamePackageTemplate, type PackageTemplate, type TemplateAttachment } from '@/lib/packageTemplateLibrary';
 import { documentTextFields, type DocumentFieldSource } from '@/lib/documentFields';
 import { parseDraftFile } from '@/lib/draftFile';
@@ -24,7 +24,7 @@ interface Props {
   onCreate(record: ActionPackage): void;
 }
 function reviewTemplate(template: PackageTemplate, policy: PolicyResolution): ExportReview[] {
-  const reviews = [reviewPackageText([template.name, ...template.members.flatMap(member => [member.label, ...(member.kind === 'native' ? Object.values(member.pages).map(page => page.name) : [])])].join('\n'), 'Package template labels', policy)];
+  const reviews = [reviewPackageText([template.name, ...template.members.flatMap(member => [member.label, ...(member.kind === 'native' ? [...Object.values(member.pages).map(page => page.name), ...(member.requiredFiles ?? []).map(file => file.label)] : [])])].join('\n'), 'Package template labels', policy)];
   for (const member of template.members) if (member.kind === 'native') {
     const { session } = parseDraftFile(member.draft, false, true);
     reviews.push(reviewPackageNative(session, member.label, policy, member.draft as unknown as DocumentFieldSource));
@@ -43,6 +43,7 @@ function StarterContents({ template }: { template: PackageTemplate }) {
         {member.kind === 'attachment' ? <p>Upload a fresh PDF for this slot.</p> : <pre className="mt-1 max-h-48 overflow-y-auto whitespace-pre-wrap font-sans">{
           documentTextFields(member.draft as unknown as DocumentFieldSource, 'share').filter(field => field.text.trim()).map(field => `${field.label}: ${field.text}`).join('\n')
         }</pre>}
+        {member.kind === 'native' && (member.requiredFiles ?? []).map((file, position) => <p key={position}>Fresh PDF required: {file.label}</p>)}
       </li>)}
     </ol>
   </details>;
@@ -52,7 +53,7 @@ export function PackageTemplatePanel({ record, revisionId, busy, run, signal, is
   const [templates, setTemplates] = useState<PackageTemplate[]>([]), [loaded, setLoaded] = useState(false), [loadError, setLoadError] = useState('');
   const [selectedId, setSelectedId] = useState(''), [templateName, setTemplateName] = useState(''), [packageName, setPackageName] = useState('');
   const [starterReviewKey, setStarterReviewKey] = useState(''), [creationReviewed, setCreationReviewed] = useState(false);
-  const [values, setValues] = useState<Record<string, string>>({}), [attachments, setAttachments] = useState<Record<number, TemplateAttachment>>({});
+  const [values, setValues] = useState<Record<string, string>>({}), [attachments, setAttachments] = useState<Record<string, TemplateAttachment>>({});
   const [notice, setNotice] = useState('');
   const [transfer, setTransfer] = useState<{ mode: 'import' | 'export'; template: PackageTemplate; policy: PolicyResolution; reviews: ExportReview[]; json: string } | null>(null);
   const [transferApproved, setTransferApproved] = useState(false);
@@ -68,6 +69,7 @@ export function PackageTemplatePanel({ record, revisionId, busy, run, signal, is
   const starterReviewed = starterReviewKey === sourceKey;
   const selected = templates.find(template => template.id === selectedId);
   const placeholders = selected ? packageTemplatePlaceholders(selected) : [];
+  const fileSlots = selected ? packageTemplateFileSlots(selected) : [];
   const current = () => alive.current && isCurrent() && !signal()?.aborted;
   async function refresh(select?: PackageTemplate) {
     const items = await listPackageTemplates();
@@ -80,11 +82,20 @@ export function PackageTemplatePanel({ record, revisionId, busy, run, signal, is
     setPackageName(template ? `${template.name.slice(0, 113)} action` : '');
     setValues({}); setAttachments({}); setCreationReviewed(false); setTransfer(null); setTransferApproved(false); setNotice('');
   }
+  function uploadFile(key: string, file: File) {
+    void run(async () => {
+      if (file.size > 25 * 1024 * 1024) throw new Error('Choose a PDF no larger than 25 MB.');
+      if (Object.entries(attachments).reduce((sum, [other, item]) => sum + (other === key ? 0 : item.data.byteLength), file.size) > MAX_TEMPLATE_ACTION_BYTES)
+        throw new Error('Fresh package files exceed the combined 64 MB limit.');
+      const data = await file.arrayBuffer(); if (!current()) return;
+      setAttachments(before => ({ ...before, [key]: { name: file.name, data, signedOriginal: false } })); setCreationReviewed(false);
+    });
+  }
   const ready = !!selected && !!packageName.trim() && creationReviewed && placeholders.every(key => values[key]?.trim())
-    && selected.members.every((member, index) => member.kind !== 'attachment' || !member.required || attachments[index]);
+    && fileSlots.every(slot => !slot.required || attachments[slot.key]);
   return <section className="min-w-0 space-y-3 rounded border p-3" aria-label="Reusable package templates">
     <h3 className="font-medium">Reusable package templates</h3>
-    <p className="text-sm text-muted-foreground">Keep document starters and member order for the next action. Original PDFs become fresh upload slots. Starter text and figures are retained; signatures, feedback and source links are removed. Attach fresh basic-letter and enclosure files inside native documents after creation.</p>
+    <p className="text-sm text-muted-foreground">Keep document starters and member order for the next action. Original PDFs and attached native PDFs become fresh upload slots. Starter text and figures are retained; signatures, feedback and source links are removed. Supply required replacements before creating the action.</p>
     {loadError && <p role="alert" className="text-sm text-destructive">{loadError}</p>}
     {notice && <p role="status" className="text-sm">{notice}</p>}
     <fieldset disabled={busy || !loaded} className="min-w-0 space-y-3">
@@ -128,23 +139,17 @@ export function PackageTemplatePanel({ record, revisionId, busy, run, signal, is
         <label className="block text-sm">New action name<input aria-label="New action name" value={packageName} maxLength={120} className="mt-1 w-full rounded border bg-background p-2" onChange={event => setPackageName(event.target.value)} /></label>
         {placeholders.map(key => <label key={key} className="block text-sm">{key}<input aria-label={`Template value ${key}`} value={values[key] ?? ''} maxLength={10000}
           className="mt-1 w-full rounded border bg-background p-2" onChange={event => { setValues(before => ({ ...before, [key]: event.target.value })); setCreationReviewed(false); }} /></label>)}
-        {selected.members.map((member, index) => member.kind === 'attachment' && <div key={index} className="space-y-1 rounded border p-2 text-sm">
-          <label className="block">{member.label} ({member.required ? 'required PDF' : 'optional PDF'})<input type="file" aria-label={`Fresh PDF for ${member.label}`} accept=".pdf,application/pdf" className="mt-1 block max-w-full"
-            onChange={event => { const file = event.target.files?.[0]; event.target.value = ''; if (!file) return; void run(async () => {
-              if (file.size > 25 * 1024 * 1024) throw new Error('Choose a PDF no larger than 25 MB.');
-              if (Object.entries(attachments).reduce((sum, [key, item]) => sum + (key === String(index) ? 0 : item.data.byteLength), file.size) > MAX_TEMPLATE_ACTION_BYTES)
-                throw new Error('Fresh package files exceed the combined 64 MB limit.');
-              const data = await file.arrayBuffer(); if (!current()) return;
-              setAttachments(before => ({ ...before, [index]: { name: file.name, data, signedOriginal: false } })); setCreationReviewed(false);
-            }); }} /></label>
-          {attachments[index] && <><p>{attachments[index].name}</p><label className="flex items-start gap-2"><input type="checkbox" checked={attachments[index].signedOriginal}
-            onChange={event => { const checked = event.target.checked; setAttachments(before => ({ ...before, [index]: { ...before[index], signedOriginal: checked } })); setCreationReviewed(false); }} />This uploaded PDF is a signed original.</label>
-            <Button variant="ghost" onClick={() => { setAttachments(before => Object.fromEntries(Object.entries(before).filter(([key]) => key !== String(index)))); setCreationReviewed(false); }}>Remove uploaded PDF</Button></>}
+        {fileSlots.map(slot => <div key={slot.key} className="space-y-1 rounded border p-2 text-sm">
+          <label className="block">{slot.label} ({slot.required ? 'required PDF' : 'optional PDF'})<input type="file" aria-label={`Fresh PDF for ${slot.label}`} accept=".pdf,application/pdf" className="mt-1 block max-w-full"
+            onChange={event => { const file = event.target.files?.[0]; event.target.value = ''; if (file) uploadFile(slot.key, file); }} /></label>
+          {attachments[slot.key] && <><p>{attachments[slot.key].name}</p>{!slot.native && <label className="flex items-start gap-2"><input type="checkbox" checked={attachments[slot.key].signedOriginal}
+            onChange={event => { const checked = event.target.checked; setAttachments(before => ({ ...before, [slot.key]: { ...before[slot.key], signedOriginal: checked } })); setCreationReviewed(false); }} />This uploaded PDF is a signed original.</label>}
+            <Button variant="ghost" onClick={() => { setAttachments(before => Object.fromEntries(Object.entries(before).filter(([key]) => key !== slot.key))); setCreationReviewed(false); }}>Remove uploaded PDF</Button></>}
         </div>)}
         <label className="flex items-start gap-2 text-sm"><input type="checkbox" checked={creationReviewed} onChange={event => setCreationReviewed(event.target.checked)} />I reviewed the retained starter contents, supplied fresh values and selected the correct attachments for this new action.</label>
         <Button disabled={!ready} onClick={() => void run(async () => {
           const created = await instantiatePackageTemplate(selected, packageName, values, attachments, signal());
-          if (current()) { onCreate(created); setValues({}); setAttachments({}); setCreationReviewed(false); setNotice('Fresh package created. Open its native members to review the completed text and attach any remaining files.'); }
+          if (current()) { onCreate(created); setValues({}); setAttachments({}); setCreationReviewed(false); setNotice('Fresh package created. Open its native members to review the completed text and fresh attachments.'); }
         })}>Create package from template</Button>
       </>}
       {transfer && <div className="space-y-2 rounded border p-2 text-sm">
