@@ -61,7 +61,7 @@ describe('fail-safe non-Latin scripts (C-2)', () => {
   it.each(['👩🏽‍✈️', '✈\uFE0E', '漢\u{E0100}', '1️⃣'])('removes unsupported emoji mark constituents from PDF output: %s', sequence => {
     const source = `Before ${sequence} after`;
     for (const rendered of [escapeLatex(source), processBodyText(source)]) {
-      expect(rendered).not.toMatch(/[\p{Variation_Selector}\u200D\u20E3]/u);
+      expect(rendered).not.toMatch(/\p{Variation_Selector}|\u200D|\u20E3/u);
       expect(rendered).toContain('Before');
       expect(rendered).toContain('after');
     }

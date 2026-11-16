@@ -56,7 +56,7 @@ describe('mapped symbols never request TS1 fonts (bundled-engine safety)', () =>
     expect(result.ok, formatFailure('emoji-variation-selector', result)).toBe(true);
     expect(result.pdfBytes!.byteLength).toBeGreaterThan(1_000);
     const body = await readFile(join(result.workDir, 'body.tex'), 'utf-8');
-    expect(body).not.toMatch(/[\p{Variation_Selector}\u200D\u20E3]/u);
+    expect(body).not.toMatch(/\p{Variation_Selector}|\u200D|\u20E3/u);
     expect(body).toContain('Équipe');
     expect(store).toEqual(original);
   });
