@@ -58,6 +58,14 @@ export async function parsePackageReviewReturn(json: string, owner: ActionPackag
   const immutable = (value: typeof round) => ({ ...value, ownerPackageId: undefined, memberReviews: undefined, lifecycle: undefined });
   if (owner.id !== parsed.record.id || !sameReviewStoredValue(immutable(round), immutable(parsed.round)))
     throw new Error('This feedback belongs to a different exact package round or revision.');
+  for (const child of parsed.memberReviews) {
+    const retained = round.memberReviews?.find(item => item.binding.memberId === child.binding.memberId);
+    for (const proposal of child.suggestions?.proposals ?? []) {
+      const existing = retained?.suggestions?.proposals.find(item => item.id === proposal.id);
+      if (existing && !sameReviewStoredValue(existing, proposal))
+        throw new Error('A returned suggestion changed under an existing identity. Ask the reviewer to create a new suggestion.');
+    }
+  }
   return parsed;
 }
 export async function inspectPackageReviewTransfer(parsed: Pick<ParsedPackageReviewTransfer, 'record' | 'round' | 'resources'>, policy: PolicyResolution): Promise<ExportReview[]> {

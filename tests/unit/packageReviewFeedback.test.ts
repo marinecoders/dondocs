@@ -198,3 +198,36 @@ it.each(['embedded-pdf', 'pdf-figure', 'png-figure'] as const)('reviews exact ca
   expect(parsed.payload.portableResources).toEqual(parsedCopy.payload.portableResources);
   expect(useDocumentsStore.getState().docs).toEqual({});
 });
+
+
+it('refuses a changed pending proposal identity before the first application and preserves the saved owner and resources', async () => {
+  const { owner: initial, round, native } = await fixture();
+  const child = await createPackageMemberReview(round, native.id);
+  const proposal = createReviewSuggestion(child.nativeRound!, { author: 'Original reviewer', label: 'Known pending proposal', changes: [{ target: { kind: 'paragraph', paragraphId: 'synthetic-paragraph', docType: native.session.docType }, proposed: 'Original pending wording.' }] });
+  const owner = await savePackageMemberReview(initial, round.id, { ...child, suggestions: appendReviewSuggestions(child.nativeRound!, child.suggestions!, [proposal]) });
+  const json = await packageReviewTransferFile(await buildPackageReviewReturn(owner, round.id, policy), policy), assets = await idbGetAllAttachments();
+  for (const mutate of [
+    (value: Envelope) => { value.package.reviewRounds![0].memberReviews![0].suggestions!.proposals[0].changes[0].proposed = 'Different wording under the known identity.'; },
+    (value: Envelope) => { value.package.reviewRounds![0].memberReviews![0].suggestions!.proposals[0].author = 'Changed reviewer attribution'; },
+    (value: Envelope) => { value.package.reviewRounds![0].memberReviews![0].suggestions!.proposals[0].changes[0].id = crypto.randomUUID(); },
+  ]) {
+    const value: Envelope = JSON.parse(json); mutate(value);
+    await expect(parsePackageReviewReturn(JSON.stringify(value), owner, round.id)).rejects.toThrow(/existing identity/);
+  }
+  expect((await listActionPackages())[0]).toEqual(owner);
+  expect(await idbGetAllAttachments()).toEqual(assets);
+});
+
+it('accepts an identical known proposal with independent new feedback without modifying the retained owner', async () => {
+  const { owner: initial, round, native } = await fixture();
+  const child = await createPackageMemberReview(round, native.id);
+  const known = createReviewSuggestion(child.nativeRound!, { author: 'First reviewer', label: 'Known subject proposal', changes: [{ target: { kind: 'field', field: 'subject', docType: native.session.docType }, proposed: 'RETURNED SUBJECT' }] });
+  const owner = await savePackageMemberReview(initial, round.id, { ...child, suggestions: appendReviewSuggestions(child.nativeRound!, child.suggestions!, [known]) });
+  const json = await packageReviewTransferFile(await buildPackageReviewReturn(owner, round.id, policy), policy), value: Envelope = JSON.parse(json);
+  const independent = createReviewSuggestion(child.nativeRound!, { author: 'Independent reviewer', label: 'New paragraph proposal', changes: [{ target: { kind: 'paragraph', paragraphId: 'synthetic-paragraph', docType: native.session.docType }, proposed: 'Independent returned wording.' }] });
+  value.package.reviewRounds![0].memberReviews![0].suggestions!.proposals.push(independent);
+  const parsed = await parsePackageReviewReturn(JSON.stringify(value), owner, round.id);
+  expect(parsed.memberReviews[0].suggestions!.proposals).toEqual([known, independent]);
+  expect((await listActionPackages())[0]).toEqual(owner);
+  expect(owner.reviewRounds![0].memberReviews![0].suggestions!.proposals).toEqual([known]);
+});
