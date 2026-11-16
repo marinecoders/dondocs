@@ -261,6 +261,8 @@ and preserves unambiguous independent edits outside the selected span, including
 separate edits before and after it. Repeated text is identified by captured
 offsets, never by searching for matching words. Overlap blocks automatic acceptance.
 Choose **Reconcile suggestion** to compare baseline, current and proposed text.
+Repeated selected text in a changed paragraph always requires an explicit current
+selection; nearby edits cannot prove which identical occurrence survived.
 When boundaries are ambiguous, select the exact current text in **Select current
 text to resolve**, or place the caret for an insertion, then choose **Use current
 selection**. Only that deliberate current scope can change. A large or complex

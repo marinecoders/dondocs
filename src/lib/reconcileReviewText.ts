@@ -55,6 +55,16 @@ export function reconcileReviewRange(baseline: ReviewRangeScope, current: string
     || !isTextRangeBoundary(baseline.context, baseline.end)) return ambiguous();
   if (current === baseline.context) return { kind: 'independent', currentContext: current, scope: { context: current, start: baseline.start, end: baseline.end } };
   if (!isTextRangeBoundary(current, current.length)) return ambiguous();
+  // A globally cheapest edit script can prefer one identical occurrence only
+  // because nearby unrelated wording changed. That cost does not establish
+  // which occurrence survived. Repeated selected text in a changed paragraph
+  // therefore requires an explicit current selection, never a guessed match.
+  const selected = baseline.context.slice(baseline.start, baseline.end);
+  const repeated = (text: string): boolean => {
+    const first = text.indexOf(selected);
+    return first >= 0 && text.indexOf(selected, first + 1) >= 0;
+  };
+  if (selected && (repeated(baseline.context) || repeated(current))) return ambiguous();
   const began = performance.now();
   const segmenter = new Intl.Segmenter(undefined, { granularity: 'grapheme' });
   const base = [...segmenter.segment(baseline.context)], next = [...segmenter.segment(current)];

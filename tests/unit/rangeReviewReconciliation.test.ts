@@ -172,3 +172,21 @@ describe('range-aware review reconciliation', () => {
     expect(() => validateReviewSuggestionState(round, oversized)).toThrow(/supported text limit/);
   });
 });
+
+
+it('does not infer the surviving repeated selection from unrelated edit costs', () => {
+  const text = 'Start red middle blue Alpha Alpha ending.';
+  const input = fixture(text), proposal = input.make(22, 27, 'Bravo');
+  const state = appendReviewSuggestions(input.round, emptyReviewSuggestionState(input.round), [proposal]);
+  for (const current of ['Newest red middle blue Alpha completed.', 'Newest scarlet middle azure Alpha completed.']) {
+    const source = structuredClone(input.source);source.paragraphs[0].text = current;
+    expect(reconcileReviewRange({ context: text, start: 22, end: 27 }, current).kind).toBe('ambiguous');
+    const blocked = planReviewSuggestionDecision(input.round, source, state, proposal.id, 'accepted');
+    expect(blocked.status).toBe('stale');expect(blocked.session).toEqual(source);
+    const start = current.indexOf('Alpha');
+    const explicit = planReviewSuggestionDecision(input.round, source, state, proposal.id, 'accepted', undefined,
+      [{ changeId: proposal.changes[0].id, expectedCurrent: 'Alpha', value: 'Bravo', range: { context: current, start, end: start + 5 } }]);
+    expect(explicit.status).toBe('ready');
+    expect(explicit.session.paragraphs[0].text).toBe(current.slice(0, start) + 'Bravo' + current.slice(start + 5));
+  }
+});
