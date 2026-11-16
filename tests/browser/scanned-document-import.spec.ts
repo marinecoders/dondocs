@@ -71,6 +71,16 @@ for (const format of ['image', 'mixed-pdf'] as const) {
     await dialog.getByRole('button', { name: 'Review recognized letter', exact: true }).click();
     await dialog.getByRole('button', { name: 'Import into editor', exact: true }).click();
     await expect(page.getByRole('textbox', { name: 'Subject', exact: true })).toHaveValue('CORRECTED SCAN SUBJECT');
+    await expect.poll(() => page.evaluate(() => new Promise<string[]>((resolve, reject) => {
+      const request = indexedDB.open('dondocs');
+      request.onerror = () => reject(request.error);
+      request.onsuccess = () => {
+        const db = request.result;
+        const read = db.transaction('documents', 'readonly').objectStore('documents').getAll();
+        read.onerror = () => { db.close(); reject(read.error); };
+        read.onsuccess = () => { db.close(); resolve(read.result.map((record: { session: { formData: { subject: string } } }) => record.session.formData.subject)); };
+      };
+    }))).toEqual(expect.arrayContaining(['PREVIOUS DRAFT PRESERVED', 'CORRECTED SCAN SUBJECT']));
     expect(external).toEqual([]);
     await page.screenshot({ path: testInfo.outputPath(`scan-${format}.png`) });
   });
@@ -81,7 +91,7 @@ test('a corrupt scan leaves the current document unchanged', async ({ page }) =>
   const dialog = await openScan(page);
   await dialog.getByLabel('Scanned PDF or image', { exact: true }).setInputFiles({ name: 'corrupt.pdf', mimeType: 'application/pdf', buffer: Buffer.from('not a PDF') });
   await expect(dialog.getByRole('alert')).toBeVisible({ timeout: 60_000 });
-  await dialog.getByRole('button', { name: 'Review recognized letter', exact: true }).isDisabled();
+  await expect(dialog.getByRole('button', { name: 'Review recognized letter', exact: true })).toBeDisabled();
   await dialog.getByRole('button', { name: 'Close', exact: true }).click();
   await expect(page.getByRole('textbox', { name: 'Subject', exact: true })).toHaveValue('KEEP THIS SUBJECT');
 });
