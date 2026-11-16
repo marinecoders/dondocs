@@ -107,22 +107,42 @@ test('old release upgrades with two tabs, committed edits, attachment bytes, and
   await reloadDuringUpdate(other);
   await expect(other.locator('#subject:visible, #body-subject:visible')).toHaveValue('EDIT JUST BEFORE UPGRADE');
   await expect(async () => expect((await readSaved(other)).attachments).toEqual(before.attachments)).toPass({ timeout: 15_000 });
-  // Claim the newest build before going offline, then prove stored work opens.
-  const beforeActivation = await documentIdentity(page);
-  await expect(async () => {
-    await page.evaluate(async () => {
-      const registration = await navigator.serviceWorker.ready;
-      const worker = registration.waiting ?? registration.installing;
-      if (worker?.state === 'installed') worker.postMessage({ type: 'SKIP_WAITING' });
-    });
-    // Let controllerchange finish the application's reload; a competing manual
-    // reload can interrupt it. Each poll returns even during navigation.
-    expect(await documentIdentity(page)).not.toBe(beforeActivation);
-  }).toPass({ timeout: 15_000 });
-  await expect(page.locator('#subject:visible, #body-subject:visible')).toHaveValue('EDIT JUST BEFORE UPGRADE', { timeout: 15_000 });
   const html = await readFile(resolve(newBuild, 'index.html'), 'utf8');
   const newScript = html.match(/type="module"[^>]*src="([^"]+)"/)?.[1];
   expect(newScript).toBeTruthy();
+  // The new application is already loaded through the old worker. Its passive
+  // offer and Later action must not navigate or interrupt current work.
+  await expect(page.locator('script[type="module"]')).toHaveAttribute('src', newScript!);
+  const beforeActivation = await documentIdentity(page);
+  const update = page.getByRole('button', { name: 'Update Available', exact: true });
+  const confirmation = page.getByRole('dialog', { name: 'Update Available', exact: true });
+  await expect(update).toBeVisible({ timeout: 15_000 });
+  await expect(confirmation).toHaveCount(0);
+  expect(await documentIdentity(page)).toBe(beforeActivation);
+  await update.click();
+  await expect(confirmation).toBeVisible();
+  expect(await documentIdentity(page)).toBe(beforeActivation);
+  await confirmation.getByRole('button', { name: 'Later', exact: true }).click();
+  await expect(confirmation).toHaveCount(0);
+  expect(await documentIdentity(page)).toBe(beforeActivation);
+
+  // Do not wait for autosave: accepting through the public UI must retain the
+  // just-edited paragraph before activating and reloading this same document.
+  const pendingEdit = 'PENDING EDIT AT UPDATE CONFIRMATION';
+  await page.getByRole('textbox', { name: 'Paragraph 1', exact: true }).fill(pendingEdit);
+  await update.click();
+  await expect(confirmation).toBeVisible();
+  expect(await documentIdentity(page)).toBe(beforeActivation);
+  await confirmation.getByRole('button', { name: 'Update Now', exact: true }).click();
+  await expect(async () => {
+    expect(await documentIdentity(page)).not.toBe(beforeActivation);
+  }).toPass({ timeout: 15_000 });
+  await expect(page.locator('#subject:visible, #body-subject:visible')).toHaveValue('EDIT JUST BEFORE UPGRADE', { timeout: 15_000 });
+  await expect(page.getByRole('textbox', { name: 'Paragraph 1', exact: true })).toHaveText(pendingEdit);
+  const afterAcceptance = await readSaved(page);
+  expect(afterAcceptance.documents.map(value => (value as { id: string }).id)).toEqual(before.documents.map(value => (value as { id: string }).id));
+  expect(JSON.stringify(afterAcceptance.documents)).toContain(pendingEdit);
+  expect(afterAcceptance.attachments).toEqual(before.attachments);
   await expect(page.locator('script[type="module"]')).toHaveAttribute('src', newScript!);
   // Workbox writes the navigation response asynchronously. Go offline only
   // after activation and the online navigation have cached the current shell.
@@ -147,7 +167,11 @@ test('old release upgrades with two tabs, committed edits, attachment bytes, and
   await context.setOffline(true);
   await reloadDuringUpdate(page);
   await expect(page.locator('#subject:visible, #body-subject:visible')).toHaveValue('EDIT JUST BEFORE UPGRADE');
-  expect((await readSaved(page)).attachments).toEqual(before.attachments);
+  await expect(page.getByRole('textbox', { name: 'Paragraph 1', exact: true })).toHaveText(pendingEdit);
+  const offlineSaved = await readSaved(page);
+  expect(offlineSaved.attachments).toEqual(before.attachments);
+  expect(offlineSaved.documents.map(value => (value as { id: string }).id)).toEqual(before.documents.map(value => (value as { id: string }).id));
+  expect(JSON.stringify(offlineSaved.documents)).toContain(pendingEdit);
 });
 
 test('upgraded browser bypasses cached pre-TM templates and compiles TM/IETM online and offline', async ({ page, context }) => {
