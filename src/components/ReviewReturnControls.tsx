@@ -11,6 +11,7 @@ import {
   applyReviewReturn, downloadReviewReturn, prepareReviewReturnExport, prepareReviewReturnImport,
   reviewReturnPlan, reviewReturnTargetLabel, type PreparedReviewReturnExport, type PreparedReviewReturnImport,
 } from '@/lib/reviewReturnActions';
+import type { PreparedWordReviewReturn } from '@/lib/wordReviewReturn';
 import type { ReviewSuggestion } from '@/lib/reviewSuggestions';
 import { feedbackCategoryLabel } from '@/lib/reviewFeedback';
 import { getPIITypeLabel } from '@/services/pii/detector';
@@ -61,6 +62,7 @@ export function ReviewReturnControls({ disabled, onBusyChange }: { disabled: boo
   const [notice, setNotice] = useState('');
   const [outgoing, setOutgoing] = useState<PreparedReviewReturnExport | null>(null);
   const [incoming, setIncoming] = useState<PreparedReviewReturnImport | null>(null);
+  const [incomingWord, setIncomingWord] = useState<PreparedWordReviewReturn | null>(null);
   const [incomingValue, setIncomingValue] = useState<unknown>(null);
   const [choices, setChoices] = useState<Record<string, ReviewReturnChoice>>({});
   const [plan, setPlan] = useState<ReviewCommentMerge | null>(null);
@@ -91,16 +93,24 @@ export function ReviewReturnControls({ disabled, onBusyChange }: { disabled: boo
     setNotice(message);
   };
   async function inspect(value: unknown) {
-    const prepared = await prepareReviewReturnImport(value);
+    const word = value instanceof File ? await (async () => {
+      if (value.size > 20 * 1024 * 1024) throw new Error('Returned Word files are limited to 20 MB.');
+      const { prepareWordReviewReturn } = await import('@/lib/wordReviewReturn');
+      return prepareWordReviewReturn(new Uint8Array(await value.arrayBuffer()), value.name);
+    })() : null;
+    const prepared = word?.native ?? await prepareReviewReturnImport(value);
     if (active.current) {
-      setIncoming(prepared);setPlan(prepared.plan);setChoices({});setOutdated(false);setPendingSave(false);setFinished(false);setOutgoing(null);
+      setIncomingWord(word);setIncoming(prepared);setPlan(prepared.plan);setChoices({});setOutdated(false);setPendingSave(false);setFinished(false);setOutgoing(null);
     }
   }
   function importFile(event: ChangeEvent<HTMLInputElement>) {
     const file = event.target.files?.[0];event.target.value = '';
     if (!file) return;
-    setIncoming(null);setIncomingValue(null);setPlan(null);setPendingSave(false);setFinished(false);setOutdated(false);
+    setIncoming(null);setIncomingWord(null);setIncomingValue(null);setPlan(null);setPendingSave(false);setFinished(false);setOutdated(false);
     void run(async () => {
+      if (/\.docx$/i.test(file.name) || file.type === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') {
+        if (active.current) setIncomingValue(file);await inspect(file);return;
+      }
       if (file.size > MAX_REVIEW_RETURN_BYTES) throw new Error('Review returns are limited to 2 MB.');
       let value: unknown;
       try { value = JSON.parse(await file.text()); }
@@ -123,7 +133,7 @@ export function ReviewReturnControls({ disabled, onBusyChange }: { disabled: boo
     <Button variant="outline" disabled={working || !linked} onClick={() => void run(async () => {
       const prepared = await prepareReviewReturnExport();if (active.current) { setOutgoing(prepared);setIncoming(null);setPlan(null); }
     })}>Prepare feedback return</Button>
-    {!linked && <p className="text-xs text-muted-foreground">Open a linked reviewer copy to export feedback. The original draft receives returned files below.</p>}
+    {!linked && <p className="text-xs text-muted-foreground">Open a linked reviewer copy to export feedback. The original draft receives returned native JSON or issued Word review files below.</p>}
     {outgoing && <div className="space-y-2 rounded-md border p-3 text-sm" aria-label="Review outgoing feedback">
       <h4 className="font-medium">Review feedback before downloading</h4>
       <p className="[overflow-wrap:anywhere]">{outgoing.roundLabel} · {outgoing.marking}</p>
@@ -139,11 +149,12 @@ export function ReviewReturnControls({ disabled, onBusyChange }: { disabled: boo
       }}>Download feedback return</Button><Button variant="ghost" disabled={working} onClick={() => setOutgoing(null)}>Cancel feedback download</Button></div>
     </div>}
     <div className="space-y-2"><Label htmlFor="review-return-file">Import feedback return</Label>
-      <Input id="review-return-file" type="file" accept=".json,application/json" disabled={working} onChange={importFile} />
+      <Input id="review-return-file" type="file" accept=".json,.docx,application/json,application/vnd.openxmlformats-officedocument.wordprocessingml.document" disabled={working} onChange={importFile} />
     </div>
     {incoming && plan && <div className="space-y-3 rounded-md border p-3 text-sm" aria-label="Review incoming feedback">
       <h4 className="font-medium">{incoming.roundLabel}</h4>
-      <p>Return created {new Date(incoming.createdAt).toLocaleString()} · {incoming.marking}</p>
+      {incomingWord && <div className="space-y-1"><p className="break-all">Word source: {incomingWord.name} · SHA-256 {incomingWord.sha256}</p>{incomingWord.notices.map((notice, index) => <p key={index}>{notice}</p>)}</div>}
+      <p>{incomingWord ? 'Word copy issued' : 'Return created'} {new Date(incoming.createdAt).toLocaleString()} · {incoming.marking}</p>
       <p>Current draft handling: {incoming.currentMarking}. Letter fields, body text and attachments will be kept.</p>
       {incoming.customMarkings.map(marking => <p key={marking} className="whitespace-pre-wrap [overflow-wrap:anywhere]">{marking}</p>)}
       {incoming.notices.map(notice => <p key={notice}>{notice}</p>)}
@@ -168,7 +179,7 @@ export function ReviewReturnControls({ disabled, onBusyChange }: { disabled: boo
           </Label>)}</div>
         </fieldset>)}
         {!finished && !pendingSave && <Button disabled={working || outdated || plan.status !== 'ready'} onClick={() => void run(async () => {
-          const result = await applyReviewReturn(incoming, choices);
+          const result = incomingWord ? await (await import('@/lib/wordReviewReturn')).applyWordReviewReturn(incomingWord, choices) : await applyReviewReturn(incoming, choices);
           if (!active.current) return;
           if (result === 'committed' || result === 'already-imported') { setFinished(true);announce('Feedback imported. Review pending replacements separately. Undo restores the previous discussions; imported suggestions and the return receipt remain recorded.'); }
           else if (result === 'pending') { setPendingSave(true);announce('Feedback is in this draft but is not saved yet. Retry Save before closing or exporting.'); }
@@ -180,7 +191,7 @@ export function ReviewReturnControls({ disabled, onBusyChange }: { disabled: boo
       </>}
     </div>}
     {incoming && !finished && !pendingSave && <Button variant="ghost" disabled={working} onClick={() => {
-      setIncoming(null);setIncomingValue(null);setPlan(null);setChoices({});setOutdated(false);setError('');
+      setIncoming(null);setIncomingWord(null);setIncomingValue(null);setPlan(null);setChoices({});setOutdated(false);setError('');
     }}>Cancel feedback import</Button>}
     {incomingValue !== null && !finished && !pendingSave && <Button variant="ghost" disabled={working} onClick={() => void run(() => inspect(incomingValue))}>Review against current draft again</Button>}
     {busy && <p role="status" className="text-sm">Checking or saving feedback…</p>}

@@ -42,6 +42,7 @@ import { useCanUndo, useCanRedo } from '@/stores/historyStore';
 import { triggerDownload } from '@/lib/encoding';
 import { buildDraftFile, parseDraftFile, parsePortableDraft, type ReviewedDraft } from '@/lib/draftFile';
 import { SessionPreview } from '@/components/SessionPreview';
+import type { WordReviewExportOptions } from '@/components/WordReviewControls';
 import { ReviewRoundsModal } from '@/components/modals/ReviewRoundsModal';
 import { DocumentComments } from '@/components/editor/DocumentComments';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/dialog';
@@ -54,6 +55,7 @@ import { subscribeSigningCapture } from '@/lib/signingCaptureEvents';
 const SigningWorkspace = lazy(() => import('@/components/modals/SigningWorkspace'));
 
 interface HeaderProps {
+  wordReviewExport?: WordReviewExportOptions;
   onPrepareSigning?: () => void;
   onDownloadPdf?: () => void;
   onDownloadTex?: () => void;
@@ -85,6 +87,7 @@ function HeaderTip({ label, children }: { label: ReactNode; children: ReactNode 
 }
 
 export function Header({
+  wordReviewExport,
   onPrepareSigning,
   onDownloadPdf,
   onDownloadTex,
@@ -488,7 +491,7 @@ export function Header({
           <DialogFooter><Button variant="outline" disabled={openingDraft} onClick={() => setReviewedDraft(null)}>Cancel</Button><Button disabled={openingDraft} onClick={() => void openReviewedDraft()}>{openingDraft ? 'Opening…' : 'Open as new document'}</Button></DialogFooter>
         </DialogContent>
       </Dialog>
-      <ReviewRoundsModal open={reviewRoundsOpen} onOpenChange={setReviewRoundsOpen} />
+      <ReviewRoundsModal wordExport={wordReviewExport} open={reviewRoundsOpen} onOpenChange={setReviewRoundsOpen} />
       {/* Reset confirmation dialog */}
       <AlertDialog open={showResetDialog} onOpenChange={setShowResetDialog}>
         <AlertDialogContent>

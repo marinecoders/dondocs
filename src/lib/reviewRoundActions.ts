@@ -51,12 +51,12 @@ export async function startReviewRound(label: string, target = captureDocumentTa
 }
 
 /** Read only the retained snapshot; newer editor work never enters a reviewer copy. */
-export async function buildReviewCopy(round: ReviewRound): Promise<ReviewCopyEnvelope> {
+export async function buildReviewCopy(round: ReviewRound, readAsset?: (id: string) => Promise<ArrayBuffer | null>): Promise<ReviewCopyEnvelope> {
   const pin = parseReviewRound(round);
   for (const checkpoint of pin.checkpoints ?? []) {
     assertCheckpointRound(await parseReviewCheckpoint(checkpoint), pin);
   }
-  const draft = await buildDraftFileFromSnapshot(prepareSessionState(pin.baseline.session, true), pin.baseline.ts);
+  const draft = await buildDraftFileFromSnapshot(prepareSessionState(pin.baseline.session, true), pin.baseline.ts, readAsset);
   parseDraftFile(draft, false, true);
   if (await reviewPayloadDigest(draft) !== pin.baselineDigest) throw new Error('The saved review baseline no longer matches its retained resources. Keep the original reviewer file and retry from an intact backup.');
   const { id, createdAt, label, sourceDocumentId, baselineDigest, lifecycle, checkpoints } = pin;

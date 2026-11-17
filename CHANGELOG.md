@@ -7,6 +7,15 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.127] — 2026-11-17
+
+### Added
+
+- Prepare a Word review copy from one saved native baseline, retain a local matching receipt and import supported returned body text and comments as pending native feedback.
+- Preserve newer draft work, enforce exact owned resource snapshots and reject missing identities or unsupported content changes. Word markers and reviewer metadata do not establish authenticity or approval.
+- Keep the returned Word file separately; the workspace retains converted feedback and its receipt. Native Microsoft Word edit/save/reopen qualification remains pending.
+
+
 ## [1.3.126] — 2026-11-17
 
 ### Added

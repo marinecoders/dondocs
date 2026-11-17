@@ -170,10 +170,10 @@ jobs:
         # Keep the limit close to the observed total so accidental dependencies,
         # test imports, duplicated modules and tree-shaking regressions fail CI.
         run: |
-          # Reviewed rich Word import output measures 5,514,674 bytes across 61 JS chunks.
-          # JSZip is emitted once for bounded DOCX parsing; no test modules enter the graph.
+          # Reviewed Word feedback output measures 5,571,066 bytes across 64 JS chunks.
+          # The owned review workflow reuses the renderer and dependencies; no test modules enter the graph.
           # Keep approximately 1% headroom over measured production JavaScript.
-          BUDGET_BYTES=5569821   # measured output plus 1% headroom
+          BUDGET_BYTES=5626777   # measured output plus 1% headroom
           TOTAL=$(find dist/assets -name "*.js" -exec stat -c %s {} \; | awk '{s+=$1} END {print s+0}')
           echo "Total dist/assets JS: $TOTAL bytes (budget: $BUDGET_BYTES)"
           if [ "$TOTAL" -gt "$BUDGET_BYTES" ]; then

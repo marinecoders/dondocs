@@ -1,6 +1,6 @@
 import { ReviewRedlinePdf } from '@/components/ReviewRedlinePdf';
 import { ReviewDecisionSummary } from '@/components/ReviewDecisionSummary';
-import { useCallback, useEffect, useRef, useState, type ChangeEvent } from 'react';
+import { useCallback, useEffect, useRef, useState, lazy, Suspense, type ChangeEvent } from 'react';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -11,6 +11,7 @@ import { useDocumentsStore, captureDocumentTarget, isCurrentDocumentTarget, hasP
 import { ReviewCheckpoints } from '@/components/ReviewCheckpoints';
 import { ReviewRoundLifecycleControls } from '@/components/ReviewRoundLifecycleControls';
 import { ReviewSuggestionControls } from '@/components/ReviewSuggestionControls';
+import type { WordReviewExportOptions } from '@/components/WordReviewControls';
 import { ReviewReturnControls } from '@/components/ReviewReturnControls';
 import { supportsReviewComments } from '@/lib/reviewCommentTargets';
 import { listReviewRounds, MAX_REVIEW_COPY_BYTES, type ReviewRound } from '@/lib/reviewRounds';
@@ -21,11 +22,13 @@ import { showAppConfirm } from '@/stores/alertStore';
 import { sweepOrphanedAttachments } from '@/lib/attachmentGc';
 import { scheduleBackup } from '@/stores/backupStore';
 
-export function ReviewRoundsModal({ open, onOpenChange }: { open: boolean; onOpenChange: (open: boolean) => void }) {
-  return open ? <ReviewRoundsContent onClose={() => onOpenChange(false)} /> : null;
+const WordReviewControls = lazy(() => import('@/components/WordReviewControls').then(module => ({ default: module.WordReviewControls })));
+
+export function ReviewRoundsModal({ open, onOpenChange, wordExport }: { open: boolean; onOpenChange: (open: boolean) => void; wordExport?: WordReviewExportOptions }) {
+  return open ? <ReviewRoundsContent wordExport={wordExport} onClose={() => onOpenChange(false)} /> : null;
 }
 
-function ReviewRoundsContent({ onClose }: { onClose: () => void }) {
+function ReviewRoundsContent({ onClose, wordExport }: { onClose: () => void; wordExport?: WordReviewExportOptions }) {
   const native = useDocumentStore(state => supportsReviewComments(state));
   const docs = useDocumentsStore(state => state.docs);
   const [rounds, setRounds] = useState<ReviewRound[]>([]);
@@ -41,8 +44,9 @@ function ReviewRoundsContent({ onClose }: { onClose: () => void }) {
     setSummaryBusyRoundId(current => isBusy ? roundId : current === roundId ? null : current);
   }, []);
   const documentId = useDocumentsStore(state => state.currentId), epoch = useDocumentsStore(state => state.activationEpoch);
+  const [wordBusy, setWordBusy] = useState(false);
   const [checkpointBusy, setCheckpointBusy] = useState(false);
-  const working = busy || returnBusy || suggestionBusy || checkpointBusy || summaryBusy;
+  const working = busy || returnBusy || suggestionBusy || checkpointBusy || summaryBusy || wordBusy;
   const [error, setError] = useState('');
   const [notice, setNotice] = useState('');
   const [prepared, setPrepared] = useState<PreparedReviewCopy | null>(null);
@@ -194,11 +198,14 @@ function ReviewRoundsContent({ onClose }: { onClose: () => void }) {
             <Button variant="ghost" disabled={working} onClick={() => setIncoming(null)}>Cancel imported copy</Button>
           </div>}
         </section>
-        <ReviewSuggestionControls key={`suggestions:${documentId}:${epoch}`} rounds={rounds} disabled={busy || returnBusy || checkpointBusy || summaryBusy} onBusyChange={setSuggestionBusy} />
+        <ReviewSuggestionControls key={`suggestions:${documentId}:${epoch}`} rounds={rounds} disabled={busy || returnBusy || checkpointBusy || summaryBusy || wordBusy} onBusyChange={setSuggestionBusy} />
         <ReviewCheckpoints key={`checkpoints:${documentId}:${epoch}`} rounds={rounds}
-          disabled={busy || returnBusy || suggestionBusy || summaryBusy} onBusyChange={setCheckpointBusy}
+          disabled={busy || returnBusy || suggestionBusy || summaryBusy || wordBusy} onBusyChange={setCheckpointBusy}
           onRoundChange={updated => setRounds(previous => previous.map(round => round.id === updated.id ? updated : round))} />
-        <ReviewReturnControls key={`${documentId}:${epoch}`} disabled={busy || suggestionBusy || checkpointBusy || summaryBusy} onBusyChange={setReturnBusy} />
+        {wordExport && <Suspense fallback={<p role="status" className="text-sm">Loading Word review controls…</p>}><WordReviewControls key={`word:${documentId}:${epoch}`}
+          {...wordExport} rounds={rounds} disabled={busy || returnBusy || suggestionBusy || checkpointBusy || summaryBusy}
+          onBusyChange={setWordBusy} onSaved={updated => setRounds(previous => previous.map(round => round.id === updated.id ? updated : round))} /></Suspense>}
+        <ReviewReturnControls key={`${documentId}:${epoch}`} disabled={busy || suggestionBusy || checkpointBusy || summaryBusy || wordBusy} onBusyChange={setReturnBusy} />
         {suggestionBusy && <p role="status" className="text-sm">Save or cancel unsaved suggested changes before closing or switching this review.</p>}
         {busy && <p role="status" className="text-sm">Saving or checking review contents…</p>}
       </div>
