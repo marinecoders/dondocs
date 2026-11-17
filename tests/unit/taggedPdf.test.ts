@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { PDFArray, PDFDict, PDFDocument, PDFHexString, PDFName, PDFNumber, PDFRawStream, StandardFonts, decodePDFRawStream } from 'pdf-lib';
 import { finishTaggedPdf, type PdfTaggingPlan } from '@/services/pdf/accessibility/taggedPdf';
 import { readPdfContent } from '@/services/pdf/accessibility/contentStream';
+import { fingerprintPdfRaster } from '@/services/pdf/accessibility/raster';
 
 const NONCE = '2a5b9426e0f54ba89e91c8452ef7ce1b';
 const plan = (): PdfTaggingPlan => ({ nonce: NONCE, title: 'Training example', language: 'en-US', nodes: [{ id: 1, role: 'P' }] });
@@ -82,5 +83,45 @@ describe('genuine tagged PDF finishing', () => {
     duplicate.nodes = [{ id: 1, role: 'P' }, { id: 1, role: 'H1' }];
     await expect(finishTaggedPdf(bytes, duplicate)).rejects.toThrow(/duplicate/);
     await expect(finishTaggedPdf(bytes, { ...plan(), nodes: [{ id: 1, role: 'Figure' }] })).rejects.toThrow(/alternative text/);
+  });
+
+  it('keeps repeated table headers out of logical reading order and preserves empty data cells', async () => {
+    const pdf = await PDFDocument.create();
+    const font = await pdf.embedFont(StandardFonts.Helvetica);
+    const point = (id: number, begin: boolean) => `/DDTag << /N <${NONCE}> /I ${id} /B ${begin} >> DP\n`;
+    for (let index = 0; index < 2; index++) {
+      const page = pdf.addPage();
+      const header = point(2, true) + 'BT /F1 12 Tf 50 700 Td (COLUMN HEADER) Tj ET\n' + point(2, false);
+      const cell = index ? '' : point(4, true) + point(4, false);
+      page.node.set(PDFName.of('Resources'), pdf.context.obj({ Font: { F1: font.ref } }));
+      page.node.set(PDFName.of('Contents'), pdf.context.register(pdf.context.flateStream(header + cell)));
+    }
+    const table: PdfTaggingPlan = { ...plan(), nodes: [{ id: 0, role: 'Table', children: [
+      { id: 1, role: 'TR', children: [{ id: 2, role: 'TH', columnHeader: true, repeatAsArtifact: true }] },
+      { id: 3, role: 'TR', children: [{ id: 4, role: 'TD', allowEmpty: true }] },
+    ] }] };
+    const result = await finishTaggedPdf(await pdf.save(), table);
+    expect(result).toMatchObject({ associatedChunks: 1, artifactChunks: 1, contentPages: { 2: [0] } });
+    const output = await PDFDocument.load(result.bytes);
+    const scoped = output.context.enumerateIndirectObjects().map(([, object]) => object).filter(object => object instanceof PDFDict && object.get(PDFName.of('S')) === PDFName.of('TH')) as PDFDict[];
+    expect(scoped).toHaveLength(1);
+    expect(scoped[0].lookup(PDFName.of('K'), PDFArray).size()).toBe(1);
+    expect(scoped[0].lookup(PDFName.of('A'), PDFDict).get(PDFName.of('Scope'))).toBe(PDFName.of('Column'));
+  });
+
+  it('binds the actual painted image rather than accepting equal dimensions with different pixels', async () => {
+    const pdf = await PDFDocument.create();
+    const page = pdf.addPage();
+    const make = (bytes: number[]) => pdf.context.flateStream(new Uint8Array(bytes), { Type: 'XObject', Subtype: 'Image', Width: 1, Height: 1, BitsPerComponent: 8, ColorSpace: 'DeviceRGB' });
+    const original = make([255, 0, 0]);
+    const binding = await fingerprintPdfRaster(pdf.context, original);
+    const actualRef = pdf.context.register(original);
+    page.node.set(PDFName.of('Resources'), pdf.context.obj({ XObject: { Im1: actualRef } }));
+    page.node.set(PDFName.of('Contents'), pdf.context.register(pdf.context.flateStream(`/DDTag << /N <${NONCE}> /I 1 /B true >> DP\nq 50 0 0 50 20 20 cm /Im1 Do Q\n/DDTag << /N <${NONCE}> /I 1 /B false >> DP`)));
+    const imagePlan: PdfTaggingPlan = { ...plan(), nodes: [{ id: 1, role: 'Figure', altText: 'A red square' }], images: { 1: binding } };
+    expect((await finishTaggedPdf(await pdf.save(), imagePlan)).associatedChunks).toBe(1);
+    pdf.context.assign(actualRef, make([0, 255, 0]));
+    await expect(finishTaggedPdf(await pdf.save(), imagePlan)).rejects.toThrow(/does not match its owned source/);
+    await expect(finishTaggedPdf(await pdf.save(), { ...imagePlan, images: {} })).rejects.toThrow(/explicit owned raster binding/);
   });
 });
