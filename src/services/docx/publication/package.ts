@@ -20,6 +20,11 @@ export interface ParagraphFormat {
   size?: number; before?: number; after?: number; indent?: number; hanging?: number;
   keep?: boolean; style?: 'Title' | 'Heading1' | 'Heading2' | 'Heading3';
 }
+export interface WordTextRun {
+  text: string;
+  format?: Pick<ParagraphFormat, 'bold' | 'italic' | 'underline' | 'uppercase' | 'superscript' | 'inlineMode' | 'size'>;
+}
+export type WordText = string | readonly WordTextRun[];
 export interface SectionFormat {
   title: string; marking?: string; landscape?: boolean; numbering?: 'decimal' | 'lowerRoman';
   prefix?: string; start?: number; cover?: boolean;
@@ -99,10 +104,13 @@ export class PublicationWordPackage {
     this.xmlChars += value.length;
     this.body.push(value);
   }
-  text(value: string, format: ParagraphFormat = {}): void { this.add(paragraphRuns(this.inline(value, format), format)); }
-  heading(value: string, level: 1 | 2 | 3 = 1, options: { newPage?: boolean; destination?: string } = {}): void {
+  private textRuns(value: WordText, format: ParagraphFormat): string {
+    return typeof value === 'string' ? this.inline(value, format) : value.map(part => this.inline(part.text, { ...format, ...part.format })).join('');
+  }
+  text(value: WordText, format: ParagraphFormat = {}): void { this.add(paragraphRuns(this.textRuns(value, format), format)); }
+  heading(value: WordText, level: 1 | 2 | 3 = 1, options: { newPage?: boolean; destination?: string } = {}): void {
     const format: ParagraphFormat = { style: `Heading${level}`, bold: true, size: this.fontSize, keep: true, before: 12, after: 6, pageBreakBefore: options.newPage };
-    this.add(paragraphRuns((options.destination ? this.anchorMarkup(options.destination) : '') + this.inline(value, format), format));
+    this.add(paragraphRuns((options.destination ? this.anchorMarkup(options.destination) : '') + this.textRuns(value, format), format));
   }
   registerTargets(targets: readonly WordTarget[]): void {
     for (const target of targets) {

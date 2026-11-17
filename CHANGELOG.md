@@ -7,6 +7,13 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.129] — 2026-11-17
+
+### Added
+
+- Editable I-Type instruction content behind the publication Word gate.
+
+
 ## [1.3.128] — 2026-11-17
 
 ### Added

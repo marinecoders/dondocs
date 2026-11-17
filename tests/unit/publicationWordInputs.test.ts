@@ -12,7 +12,7 @@ describe('publication Word qualification inputs', () => {
   it('binds the real renderer dependencies, fixture builders, locked packages and bundled seal', async () => {
     const paths = await publicationWordInputPaths();
     for (const path of ['src/data/techpub/manualStatements.ts', 'src/lib/publicationReferences.ts', 'src/services/docx/imageAssets.ts',
-      'tests/_helpers/manualPacket.ts', 'companion/letterSchema.ts', 'public/attachments/usmc-seal.png', 'package-lock.json', 'scripts/publication-word-inputs.ts']) {
+      'tests/_helpers/companionPublication.ts', 'companion/letterInput.ts', 'public/attachments/usmc-seal.png', 'package-lock.json', 'scripts/publication-word-inputs.ts']) {
       expect(paths).toContain(path);
     }
     expect(paths.some(path => path.includes('node_modules'))).toBe(false);
