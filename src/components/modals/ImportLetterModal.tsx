@@ -76,6 +76,7 @@ function ImportLetterDialog() {
   const [phase, setPhase] = useState<Phase>({ kind: 'idle' });
   const [letterText, setLetterText] = useState('');
   const [dictationText, setDictationText] = useState('');
+  const [dictationActive, setDictationActive] = useState(false);
   const [scanStarted, setScanStarted] = useState(false);
 
   const handleFile = useCallback(async (file: File) => {
@@ -121,7 +122,7 @@ function ImportLetterDialog() {
   }, []);
 
   const handleText = useCallback(() => {
-    if (!letterText.trim()) return;
+    if (dictationActive || !letterText.trim()) return;
     try {
       const result = parseLetterText(letterText);
       if (!hasParsedContent(result.parsed)) {
@@ -139,7 +140,7 @@ function ImportLetterDialog() {
         message: 'This letter text could not be read. Check the text and try again.',
       });
     }
-  }, [letterText]);
+  }, [dictationActive, letterText]);
 
   const doImport = useCallback(
     (result: ParsedImport, docType: string, source: ImportSource) => {
@@ -228,7 +229,7 @@ function ImportLetterDialog() {
                 placeholder={'From: …\nTo: …\nSubj: …\n\n1. …'}
                 className="h-64 field-sizing-fixed resize-y"
               />
-              <VoiceLetterInput initialTranscript={dictationText} onTranscriptChange={setDictationText} onInsert={text => setLetterText(value => value.trim() ? `${value}\n${text}` : text)} />
+              <VoiceLetterInput initialTranscript={dictationText} onTranscriptChange={setDictationText} onActiveChange={setDictationActive} onInsert={text => setLetterText(value => value.trim() ? `${value}\n${text}` : text)} />
               {phase.message && (
                 <p id="import-letter-text-error" role="alert" className="text-sm text-warning">
                   {phase.message}
@@ -239,7 +240,7 @@ function ImportLetterDialog() {
               <Button variant="outline" onClick={() => setPhase({ kind: 'idle' })}>
                 Back
               </Button>
-              <Button onClick={handleText} disabled={!letterText.trim()}>
+              <Button onClick={handleText} disabled={dictationActive || !letterText.trim()}>
                 Read letter
               </Button>
             </DialogFooter>

@@ -185,6 +185,71 @@ describe('ImportLetterModal — pasted letter text', () => {
     } finally { vi.unstubAllGlobals(); }
   });
 
+  it('waits for active dictation to finish before opening letter review', () => {
+    type Recognition = InstanceType<NonNullable<Window['SpeechRecognition']>>;
+    class PendingSpeech implements Recognition {
+      static current: PendingSpeech;
+      lang = ''; continuous = false; interimResults = false;
+      onresult: Recognition['onresult'] = null;
+      onerror: Recognition['onerror'] = null;
+      onend: Recognition['onend'] = null;
+      start = vi.fn(); stop = vi.fn(); abort = vi.fn();
+      constructor() { PendingSpeech.current = this; }
+    }
+    vi.stubGlobal('SpeechRecognition', PendingSpeech);
+    try {
+      render(<ImportLetterModal />);
+      pasteLetter();
+      fireEvent.click(screen.getByRole('button', { name: 'Start dictation' }));
+      const speech = PendingSpeech.current;
+      act(() => speech.onresult?.({ results: [{ isFinal: false, 0: { transcript: 'Additional dictated words.' } }] }));
+      const read = screen.getByRole('button', { name: 'Read letter' });
+      fireEvent.click(read);
+      expect(speech.abort).not.toHaveBeenCalled();
+      expect(mockParseText).not.toHaveBeenCalled();
+      expect(read).toBeDisabled();
+
+      fireEvent.click(screen.getByRole('button', { name: 'Stop dictation' }));
+      expect(read).toBeDisabled();
+      act(() => {
+        speech.onresult?.({ results: [{ isFinal: true, 0: { transcript: 'Additional dictated words.' } }] });
+        speech.onend?.();
+      });
+      expect(read).toBeEnabled();
+      expect(screen.getByRole('textbox', { name: 'Review dictated text' })).toHaveValue('Additional dictated words.');
+      fireEvent.click(screen.getByRole('button', { name: 'Add reviewed transcript to letter text' }));
+      fireEvent.click(read);
+      expect(mockParseText).toHaveBeenCalledExactlyOnceWith(`${text}\nAdditional dictated words.`);
+    } finally { vi.unstubAllGlobals(); }
+  });
+
+  it.each(['Back', 'Close'])('cancels active dictation with %s and allows a fresh pasted review', (action) => {
+    type Recognition = InstanceType<NonNullable<Window['SpeechRecognition']>>;
+    class PendingSpeech implements Recognition {
+      static current: PendingSpeech;
+      lang = ''; continuous = false; interimResults = false;
+      onresult: Recognition['onresult'] = null;
+      onerror: Recognition['onerror'] = null;
+      onend: Recognition['onend'] = null;
+      start = vi.fn(); stop = vi.fn(); abort = vi.fn();
+      constructor() { PendingSpeech.current = this; }
+    }
+    vi.stubGlobal('SpeechRecognition', PendingSpeech);
+    try {
+      render(<ImportLetterModal />);
+      pasteLetter();
+      fireEvent.click(screen.getByRole('button', { name: 'Start dictation' }));
+      const speech = PendingSpeech.current;
+      fireEvent.click(screen.getByRole('button', { name: action }));
+      expect(speech.abort).toHaveBeenCalledOnce();
+      if (action === 'Close') act(() => useUIStore.getState().setImportLetterModalOpen(true));
+      pasteLetter();
+      expect(screen.getByRole('button', { name: 'Read letter' })).toBeEnabled();
+      fireEvent.click(screen.getByRole('button', { name: 'Read letter' }));
+      expect(mockParseText).toHaveBeenCalledExactlyOnceWith(text);
+    } finally { vi.unstubAllGlobals(); }
+  });
+
   it('keeps the pasted text when returning from review, and re-reads corrections', () => {
     render(<ImportLetterModal />);
     pasteLetter();
