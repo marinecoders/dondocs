@@ -121,6 +121,7 @@ for (const theme of ['light', 'dark', 'classic']) {
       const recipient = await fresh.newPage();await recipient.goto('/');
       const received = await packages(recipient);
       await received.getByLabel('Import editable package', { exact: true }).setInputFiles(portablePath);
+      await expect(received).toHaveAttribute('aria-busy', 'false', { timeout: 30_000 });
       await expect(received.getByRole('heading', { name: '2. CON.pdf', exact: true })).toBeVisible();
       const transferred = await downloadWord(recipient, received, info.outputPath(`transferred-${theme}.zip`));
       const transferredManifest = JSON.parse(await transferred.file('manifest.json')!.async('string'));
