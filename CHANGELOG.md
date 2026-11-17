@@ -7,6 +7,13 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.130] — 2026-11-17
+
+### Added
+
+- Editable SL-3/SL-4 stock publication output and shared companion rendering.
+
+
 ## [1.3.129] — 2026-11-17
 
 ### Added
