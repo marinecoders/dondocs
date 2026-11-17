@@ -7,6 +7,13 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.135] — 2026-11-17
+
+### Added
+
+- Read back and validate saved tagged PDF bytes before delivery.
+
+
 ## [1.3.134] — 2026-11-17
 
 ### Added

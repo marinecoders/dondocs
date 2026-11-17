@@ -30,7 +30,13 @@ export function taggedCorrespondenceIssues(source: TaggedCorrespondenceSource, r
   if (source.references.some(ref => ref.url?.trim())) issues.push('Linked references need annotation qualification before tagged export.');
   if (source.references.some(ref => !ref.letter.trim() || !ref.title.trim())) issues.push('Complete reference labels and titles before tagged export.');
   if (source.copyTos.some(row => !row.text.trim()) || source.distributions.some(row => !row.text.trim())) issues.push('Remove empty Copy to and Distribution entries before tagged export.');
-  const chars = source.paragraphs.reduce((sum, p) => sum + p.text.length + (p.header?.length ?? 0) + (p.bodyTable?.rows.reduce((total, row) => total + row.reduce((length, cell) => length + cell.length, 0), 0) ?? 0) + (p.figure?.altText?.length ?? 0), 0);
+  if (source.paragraphs.filter(p => p.figure).length > (source.docType === 'naval_letter' ? 19 : 20)) issues.push('Tagged output supports at most 20 painted raster images, including the naval seal.');
+  const estimate = 40 + source.references.length * 4 + (source.copyTos.length + source.distributions.length) * 3 + source.paragraphs.reduce((sum, paragraph) => {
+    const table = bodyTableSchema.safeParse(paragraph.bodyTable);
+    return sum + (table.success ? table.data.rows.length * (table.data.rows[0].length + 1) + 3 : paragraph.figure ? 3 : 7);
+  }, 0);
+  if (estimate > 4000) issues.push('The document exceeds the qualified tagged structure limit. Split large tables or lists into separate documents.');
+  const chars = source.paragraphs.reduce((sum, p) => sum + p.text.length + (p.header?.length ?? 0) + (bodyTableSchema.safeParse(p.bodyTable).data?.rows.reduce((total, row) => total + row.reduce((length, cell) => length + cell.length, 0), 0) ?? 0) + (p.figure?.altText?.length ?? 0), 0);
   if (chars > 250_000 || source.references.length > 100 || source.copyTos.length > 100 || source.distributions.length > 100) issues.push('The letter exceeds the qualified tagged-output content limits.');
   return issues;
 }

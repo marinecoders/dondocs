@@ -2,6 +2,10 @@
 
 See the [capability matrix](CAPABILITIES.md) for current format availability.
 
+## Tagged PDF output
+
+**Download → Tagged PDF (experimental)** supports native unclassified Standard and Naval Letters, with explicit table column headers and body-image alternatives. It rejects original/enclosure PDFs, signing fields and other unqualified input. The exporter validates the saved structure and content associations before delivery. Native screen-reader qualification and PDF/UA conformance remain unestablished; see the [tagged PDF guide](TAGGED_PDF.md) for measured scope and limits. Ordinary PDFs and mixed packages have no new accessibility claim.
+
 ## Word output
 
 - One PNG signature image can be embedded in supported correspondence. Dual-signer documents require an explicit junior or senior selection; the image is placed on that party only and the other remains unsigned. Information memoranda place it with the FROM sender. These dual-signer and information-memorandum placements are Word-only; PDF output does not include them. Two independent uploaded signatures are not supported. Images are visual signatures, not certificate signatures.

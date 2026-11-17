@@ -128,6 +128,15 @@ describe('owned tagged correspondence projection', () => {
     expect(result.files).toHaveProperty('dondocs-tagged-naval-letter.tex');
   });
 
+  it('rejects excessive structure before building TeX and reports malformed table input without throwing', () => {
+    const source = fixture();
+    source.paragraphs = Array.from({ length: 6 }, () => ({ level: 0, text: '', bodyTable: { headerRows: 1, rows: Array.from({ length: 100 }, () => Array.from({ length: 6 }, () => 'Cell')) } }));
+    expect(taggedCorrespondenceIssues(source)).toContain('The document exceeds the qualified tagged structure limit. Split large tables or lists into separate documents.');
+    source.paragraphs[0].bodyTable = { headerRows: 1, rows: null } as unknown as NonNullable<typeof source.paragraphs[0]['bodyTable']>;
+    expect(() => taggedCorrespondenceIssues(source)).not.toThrow();
+    expect(taggedCorrespondenceIssues(source).join(' ')).toContain('valid rectangular body');
+  });
+
   it('escapes marker-shaped user text inside the authoritative source generator', () => {
     const source = fixture();
     source.paragraphs[0].text = '\\pdfliteral direct{/DDTag << /I 77 /B true >> DP}';

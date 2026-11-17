@@ -28,9 +28,10 @@ export function createRasterBindingSession() {
   let sourceBytes = 0;
   let inFlightBytes = 0;
   return { async prepare(input: Uint8Array, type: 'image/png' | 'image/jpeg'): Promise<PdfRasterBinding> {
-    if (!input.length || input.length > TAGGED_RASTER_LIMITS.bytes) throw new Error('Tagged images must be at most 10 MiB.');
-    if (inFlightBytes + input.length > TAGGED_RASTER_LIMITS.totalBytes) throw new Error('Tagged simultaneous image inputs exceed 32 MiB.');
-    inFlightBytes += input.length;
+    const inputLength = input.length;
+    if (!inputLength || inputLength > TAGGED_RASTER_LIMITS.bytes) throw new Error('Tagged images must be at most 10 MiB.');
+    if (inFlightBytes + inputLength > TAGGED_RASTER_LIMITS.totalBytes) throw new Error('Tagged simultaneous image inputs exceed 32 MiB.');
+    inFlightBytes += inputLength;
     try {
       const owned = new Uint8Array(input);
       const key = `${type}:${await digest(owned)}`;
@@ -42,7 +43,7 @@ export function createRasterBindingSession() {
         pending.set(key, result);
       }
       return await result;
-    } finally { inFlightBytes -= input.length; }
+    } finally { inFlightBytes -= inputLength; }
   } };
 }
 

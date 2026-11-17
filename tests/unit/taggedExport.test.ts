@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from 'vitest';
 import { PDFDict, PDFDocument, PDFName, StandardFonts } from 'pdf-lib';
 import { captureDocumentRevision } from '@/lib/capturedDocument';
-import { acknowledgePreparedExport, copyPreparedDocument, prepareExport, type ReadyExportJob } from '@/lib/preparedExport';
+import { acknowledgePreparedExport, copyExportReview, copyPreparedDocument, prepareExport, type ReadyExportJob } from '@/lib/preparedExport';
 import { resolveExportDeploymentPolicy } from '@/lib/exportDeploymentPolicy';
 import { renderPreparedCorrespondence, type CorrespondenceRendererPorts } from '@/services/exports/correspondence';
 import { loadTaggedSeal } from '@/services/pdf/accessibility/render';
@@ -74,6 +74,18 @@ describe('reviewed tagged PDF export', () => {
   it('rejects unknown tagged profiles for non-PDF targets', () => {
     const captured = captureDocumentRevision({ documentId: 'owned', epoch: 1, editSequence: 1, capturedAt: 1 }, source);
     expect(prepareExport({ id: 'invalid', filename: 'file.docx', target: 'docx', pdfAccessibility: 'tagged', captured, policy })).toMatchObject({ status: 'error' });
+  });
+
+  it('reviews actual table text and authored image alternatives before issuing the tagged job', () => {
+    const document = structuredClone(source);
+    document.paragraphs = [{ level: 0, text: 'Roster', bodyTable: { rows: [['Identifier'], ['SSN 123-45-6789']], headerRows: 1 } },
+      { level: 0, text: 'Caption', figure: { placement: 'body', altText: 'SSN 987-65-4321', type: 'image/png', name: 'diagram.png', width: 1, height: 1, fileRef: { id: 'att_image', name: 'diagram.png', type: 'image/png', size: 70 } } }];
+    const result = prepare(document);
+    expect(result.status).toBe('needs-review');
+    if (result.status !== 'needs-review') throw new Error('Privacy review was bypassed.');
+    expect(copyExportReview(result.job).privacy.findings.filter(item => item.type === 'SSN').map(item => item.value)).toEqual(expect.arrayContaining(['123-45-6789', '987-65-4321']));
+    const captured = copyPreparedDocument(acknowledgePreparedExport(result.job)).document;
+    expect(captured.paragraphs[1].figure?.altText).toBe('SSN 987-65-4321');
   });
 
   it('bounds actual streamed seal bytes even when a server omits its content length', async () => {
