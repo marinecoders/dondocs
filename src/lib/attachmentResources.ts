@@ -6,14 +6,17 @@ export interface AttachmentResources { readonly [resourceBrand]: true }
 const resources = new WeakMap<AttachmentResources, Map<string, StoredAttachment>>();
 
 /** Borrow the retained resource set only within its owning operation. */
-export async function withAttachmentResources<T>(ids: Iterable<string>, operation: (resources: AttachmentResources) => Promise<T>): Promise<T> {
+export async function withAttachmentResources<T>(ids: Iterable<string>, operation: (resources: AttachmentResources) => Promise<T>, limits?: { maxBytes: number }): Promise<T> {
   const requestedIds = new Set(ids);
   return withAttachmentStaging(async () => {
     const records = new Map<string, StoredAttachment>();
+    let bytes = 0;
     for (const id of requestedIds) {
       const result = await readAttachment(id);
       if (result.status !== 'found') throw new Error(`Attachment ${id} could not be read (${result.status}).`);
-      records.set(id, structuredClone(result.attachment));
+      const record = result.attachment;
+      if (record.size !== record.data.byteLength || limits && (record.data.byteLength > limits.maxBytes - bytes)) throw new Error('The captured attachment set exceeds its resource limit or has inconsistent bytes.');
+      bytes += record.data.byteLength;records.set(id, structuredClone(record));
     }
     const scope: AttachmentResources = Object.freeze({ [resourceBrand]: true as const });
     resources.set(scope, records);

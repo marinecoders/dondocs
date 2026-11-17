@@ -70,7 +70,7 @@ export const BACKUP_KIND = 'dondocs-backup';
 // `kind` and on field PRESENCE, not version, so an older bundle (missing any of
 // these fields) still restores cleanly.
 // v13 preserves reusable package starters, including their exact form pages.
-export const BACKUP_VERSION = 14;
+export const BACKUP_VERSION = 15;
 const LIBRARY_KIND = 'dondocs-library'; // legacy docs-only file
 function supportedWorkspaceVersion(version: unknown, minimum: number): boolean {
   return typeof version === 'number' && Number.isSafeInteger(version) && version >= minimum && version <= BACKUP_VERSION;
@@ -338,7 +338,7 @@ async function serializeBackup(): Promise<string> {
     && round.baselineDigest === receipt.baselineDigest && round.ownerDocumentId === receipt.documentId))) {
     throw new Error('An imported review return has no intact owning baseline. The backup was not created.');
   }
-  await Promise.all(reviewRounds.map(buildReviewCopy));
+  await Promise.all(reviewRounds.map(round => buildReviewCopy(round)));
   const documentIds = new Set(docs.map(doc => (doc as { id: string }).id));
   const reviewCopies = (await idbReadReviewCopies()).map(value => reviewCopyLinkSchema.parse(value))
     .filter(copy => documentIds.has(copy.documentId));
@@ -384,7 +384,7 @@ async function serializeBackup(): Promise<string> {
       .flatMap(revision => revision.members.flatMap(member => member.kind === 'native' ? [member.session] : [])));
     const starterSessions = packageTemplates.flatMap(template => template.members.flatMap(member => member.kind === 'native' ? [member.draft as unknown as import('@/stores/documentStore').SerializedSession] : []));
     const rich = [...entries.map(entry => (entry as { session?: import('@/stores/documentStore').SerializedSession }).session ?? {}), ...packageSessions, ...starterSessions].some(hasRichBody);
-    const bundle: BackupBundle = { ...captured, version: rich ? 14 : packageTemplates.length ? 13 : actionPackages.length ? 12 : formTemplates ? 11 : reviewSuggestions.length || reviewSuggestionWrites.length ? reviewSuggestions.some(record => record.state.version === 2) ? 10 : 9 : reviewReturns.length ? 8 : withReviews ? 7 : withComments ? 6 : 5, documents: docs, snapshots, attachments, ...(actionPackages.length ? { actionPackages } : {}), ...(packageTemplates.length ? { packageTemplates } : {}),
+    const bundle: BackupBundle = { ...captured, version: reviewRounds.some(round => round.wordHandoffs?.length) ? 15 : rich ? 14 : packageTemplates.length ? 13 : actionPackages.length ? 12 : formTemplates ? 11 : reviewSuggestions.length || reviewSuggestionWrites.length ? reviewSuggestions.some(record => record.state.version === 2) ? 10 : 9 : reviewReturns.length ? 8 : withReviews ? 7 : withComments ? 6 : 5, documents: docs, snapshots, attachments, ...(actionPackages.length ? { actionPackages } : {}), ...(packageTemplates.length ? { packageTemplates } : {}),
       ...formTemplates,
       ...(withReviews ? { reviewRounds, reviewCopies } : {}), ...(reviewReturns.length ? { reviewReturns } : {}),
       ...(reviewSuggestions.length || reviewSuggestionWrites.length ? { reviewSuggestions, reviewSuggestionWrites } : {}) };
@@ -450,6 +450,7 @@ async function runRestore(json: string, canReplaceForms: () => boolean): Promise
   if (parsed.reviewRounds !== undefined && !Array.isArray(parsed.reviewRounds)
     || parsed.reviewCopies !== undefined && !Array.isArray(parsed.reviewCopies)) throw new Error('Invalid review recovery records');
   const reviewRounds = ((parsed.reviewRounds ?? []) as unknown[]).map(parseReviewRound);
+  if (reviewRounds.some(round => round.wordHandoffs?.length) && !supportedWorkspaceVersion(parsed.version, 15)) throw new Error('Word review handoffs require workspace backup version 15.');
   const reviewCopies = ((parsed.reviewCopies ?? []) as unknown[]).map(value => reviewCopyLinkSchema.parse(value));
   if (parsed.reviewReturns !== undefined && (kind !== BACKUP_KIND || !supportedWorkspaceVersion(parsed.version, 8) || !Array.isArray(parsed.reviewReturns))) {
     throw new Error('Review return receipts require a version 8 or newer workspace backup.');
@@ -689,7 +690,7 @@ async function runRestore(json: string, canReplaceForms: () => boolean): Promise
     try {
       if (!reviewRounds.every(round => complete(round.baseline))) throw new Error('Required review files are missing.');
       // Rebuild with the retained bytes before installing any review associations.
-      await Promise.all(reviewRounds.map(buildReviewCopy));
+      await Promise.all(reviewRounds.map(round => buildReviewCopy(round)));
       if (!await idbRestoreReviewRecords(reviewRounds, reviewCopies)) throw new Error('A review identity conflicts or its copied document could not be saved.');
       reviewRoundsRestored = reviewRounds.length;
     } catch (cause) {

@@ -1,4 +1,4 @@
-import { isWord, wordAttribute, wordChildren, wordDescendants, xmlChildren } from './archive';
+import { isWord, wordAttribute, wordChildren, wordDescendants, xmlChildren, WORD_NAMESPACES } from './archive';
 
 export interface WordTrackedRevision {
   kind: 'insertion' | 'deletion';
@@ -19,19 +19,40 @@ const MAX_REVISIONS = 2000;
 const MAX_PARAGRAPHS = 100;
 const MAX_VALUE = 20_000;
 const MAX_TOTAL = 190_000; // Leave space for native proposal labels/metadata.
+const CUSTOM_XML_REVISIONS = new Set([
+  'customXmlInsRangeStart', 'customXmlInsRangeEnd', 'customXmlDelRangeStart', 'customXmlDelRangeEnd',
+  'customXmlMoveFromRangeStart', 'customXmlMoveFromRangeEnd', 'customXmlMoveToRangeStart', 'customXmlMoveToRangeEnd',
+]);
+const CONFLICT_REVISIONS = new Set([
+  'conflictIns', 'conflictDel', 'customXmlConflictInsRangeStart', 'customXmlConflictInsRangeEnd',
+  'customXmlConflictDelRangeStart', 'customXmlConflictDelRangeEnd',
+]);
+function isUnsupportedMarkupRevision(element: Element): boolean {
+  return WORD_NAMESPACES.has(element.namespaceURI ?? '') && CUSTOM_XML_REVISIONS.has(element.localName)
+    || element.namespaceURI === 'http://schemas.microsoft.com/office/word/2010/wordml' && CONFLICT_REVISIONS.has(element.localName);
+}
 
 /** Revision IDs and author strings are unverified evidence from the original,
  * never native document identities or authority to replace a paragraph. */
 export function readWordTrackedChanges(body: Element, readText: ReadText, notice: (message: string) => void): WordTrackedParagraphEdit[] {
+  return assessWordTrackedChanges(body, readText, notice).edits;
+}
+
+export function assessWordTrackedChanges(body: Element, readText: ReadText, notice: (message: string) => void): { edits: WordTrackedParagraphEdit[]; incomplete: boolean } {
   const children = xmlChildren(body);
   const indexes = new Map(children.map((element, index) => [element, index]));
   const revisions = [...wordDescendants(body, 'ins'), ...wordDescendants(body, 'del')];
-  const moves = [...wordDescendants(body, 'moveFrom'), ...wordDescendants(body, 'moveTo'), ...wordDescendants(body, 'moveFromRangeStart'), ...wordDescendants(body, 'moveToRangeStart')];
-  if (['rPrChange', 'pPrChange', 'sectPrChange', 'tblPrChange', 'tblGridChange', 'trPrChange', 'tcPrChange', 'cellIns', 'cellDel', 'cellMerge', 'numberingChange'].some(name => wordDescendants(body, name).length)) notice('Word tracked formatting, numbering, table and section changes are not converted. Review their retained original before using the imported layout.');
+  const moves = [...wordDescendants(body, 'moveFrom'), ...wordDescendants(body, 'moveTo'), ...wordDescendants(body, 'moveFromRangeStart'), ...wordDescendants(body, 'moveToRangeStart'), ...wordDescendants(body, 'moveFromRangeEnd'), ...wordDescendants(body, 'moveToRangeEnd')];
+  const unsupportedFormatting = ['rPrChange', 'pPrChange', 'sectPrChange', 'tblPrChange', 'tblGridChange', 'tblPrExChange', 'trPrChange', 'tcPrChange', 'cellIns', 'cellDel', 'cellMerge', 'numberingChange'].some(name => wordDescendants(body, name).length);
+  if (unsupportedFormatting) notice('Word tracked formatting, numbering, table and section changes are not converted. Review their retained original before using the imported layout.');
+  // wordXml already bounds this DOM to 50,000 nodes; reuse it rather than
+  // reparsing the original or inferring revision status from prose notices.
+  const unsupportedMarkup = Array.from(body.getElementsByTagName('*')).some(isUnsupportedMarkupRevision);
+  if (unsupportedMarkup) notice('Word custom XML and conflict revisions are not converted to native text proposals. Inspect the retained original.');
   if (moves.length) notice('Word tracked moves are not converted to text replacements. Their original positions and revisions remain in the retained Word file.');
   if (revisions.length > MAX_REVISIONS) {
     notice('This file has too many Word revision records for native text review. No tracked edits were converted; the imported baseline and exact original retain the source.');
-    return [];
+    return { edits: [], incomplete: true };
   }
   const parentOf = (element: Element): Element | null => element.parentNode?.nodeType === 1 ? element.parentNode as Element : null;
   const directParagraph = (element: Element): Element | undefined => {
@@ -65,8 +86,8 @@ export function readWordTrackedChanges(body: Element, readText: ReadText, notice
       }
       return false;
     });
-    const unsupportedContent = ['drawing', 'pict', 'object', 'fldChar', 'fldSimple', 'instrText', 'sdt', 'rPrChange', 'pPrChange', 'moveFrom', 'moveTo']
-      .some(name => wordDescendants(paragraph, name).length);
+    const unsupportedContent = ['drawing', 'pict', 'object', 'fldChar', 'fldSimple', 'instrText', 'delInstrText', 'sdt', 'rPrChange', 'pPrChange', 'moveFrom', 'moveTo', 'moveFromRangeStart', 'moveFromRangeEnd', 'moveToRangeStart', 'moveToRangeEnd']
+      .some(name => wordDescendants(paragraph, name).length) || Array.from(paragraph.getElementsByTagName('*')).some(isUnsupportedMarkupRevision);
     const ambiguousIds = entries.some(entry => {
       const id = wordAttribute(entry, 'id');
       return !id || id.length > 100 || ids.get(id)!.size !== 1;
@@ -76,12 +97,12 @@ export function readWordTrackedChanges(body: Element, readText: ReadText, notice
     }
     try {
       const before = readText(paragraph, 'before', true), proposed = readText(paragraph, 'after', true);
-      if (before === proposed) continue;
+      if (before === proposed) { unsupported++; continue; }
       if (!before.trim() || before.length > MAX_VALUE || proposed.length > MAX_VALUE) { unsupported++; continue; }
       characters += before.length + proposed.length;
       if (result.length >= MAX_PARAGRAPHS || characters > MAX_TOTAL) {
         notice('Word tracked text exceeds the native review size limit. No tracked edits were converted; the baseline and original are preserved.');
-        return [];
+        return { edits: [], incomplete: true };
       }
       result.push({ sourceIndex: indexes.get(paragraph)!, before, proposed, beforePlain: readText(paragraph, 'before', false), proposedPlain: readText(paragraph, 'after', false),
         revisions: entries.slice(0, 100).map(entry => ({
@@ -97,9 +118,9 @@ export function readWordTrackedChanges(body: Element, readText: ReadText, notice
       unsupported++;
     }
   }
-  if (unsupported) notice('Some Word tracked edits affect headings, fields, images, tables, paragraph boundaries, nested revisions or ambiguous revision IDs. They are not native text suggestions; inspect the retained original.');
+  if (unsupported) notice('Some Word tracked edits cannot be represented as paragraph-text replacements, including structural or field changes, nested or ambiguous revisions and revisions without a text-only change. They are not native text suggestions; inspect the retained original.');
   if (result.length) notice('Supported Word tracked text is grouped into one native replacement per body paragraph. Author names, dates and Word revision IDs are unverified; review every proposal before accepting it.');
-  return result.sort((left, right) => left.sourceIndex - right.sourceIndex);
+  return { edits: result.sort((left, right) => left.sourceIndex - right.sourceIndex), incomplete: unsupportedFormatting || unsupportedMarkup || moves.length > 0 || unsupported > 0 };
 }
 
 export function clip(value: string, length: number): string {

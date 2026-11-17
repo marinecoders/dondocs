@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { MAX_WORD_REVIEW_HANDOFFS, validWordReviewPrefix, wordReviewHandoffSchema } from './wordReviewModel';
 import { reviewCheckpointSchema, MAX_REVIEW_CHECKPOINTS, MAX_REVIEW_CHECKPOINT_BYTES, type ReviewCheckpoint } from './reviewCheckpointModel';
 import type { SerializedSession } from '@/stores/documentStore';
 import type { DocSnapshot } from './documentsDb';
@@ -77,10 +78,23 @@ export const reviewRoundSchema = z.object({
   // Set only by local creation or an explicit workspace backup restore. A
   // portable reviewer copy never supplies local owner authority.
   ownerDocumentId: identifier.optional(),
+  wordHandoffs: z.array(wordReviewHandoffSchema).max(MAX_WORD_REVIEW_HANDOFFS).optional(),
   lifecycle: reviewRoundLifecycleSchema.optional(),
   checkpoints: z.array(reviewCheckpointSchema).max(MAX_REVIEW_CHECKPOINTS).optional(),
 }).strict().refine(round => round.createdAt === round.baseline.ts && round.baseline.session.timestamp === round.baseline.ts,
-  'Review baseline timestamps do not match.').superRefine(validateReviewRoundMetadata);
+  'Review baseline timestamps do not match.').superRefine(validateReviewRoundMetadata).superRefine((round, context) => {
+  const handoffs = round.wordHandoffs ?? [];
+  if (handoffs.length && (!round.ownerDocumentId || new Set(handoffs.map(item => item.id)).size !== handoffs.length
+    || new TextEncoder().encode(JSON.stringify(handoffs)).byteLength > 2 * 1024 * 1024)) context.addIssue({ code: 'custom', message: 'Word handoffs require bounded locally owned issued receipts.' });
+  for (const handoff of handoffs) {
+    if (handoff.createdAt < round.createdAt) context.addIssue({ code: 'custom', message: 'The Word handoff predates its native baseline.' });
+    for (const block of handoff.blocks) if (block.kind === 'paragraph') {
+      const matches = round.baseline.session.paragraphs.filter(paragraph => paragraph.id === block.paragraphId);
+      if (matches.length !== 1 || !matches[0].text.trim() || matches[0].figure || matches[0].bodyTable || matches[0].tableKey || matches[0].callout || matches[0].procedure || matches[0].appendix
+        || !validWordReviewPrefix(block.prefix, matches[0])) context.addIssue({ code: 'custom', message: 'A Word handoff binding differs from its retained native paragraph.' });
+    }
+  }
+});
 export type ReviewRound = z.infer<typeof reviewRoundSchema>;
 
 export function reviewRoundStatus(round: ReviewRound): 'active' | 'closed' | 'superseded' {

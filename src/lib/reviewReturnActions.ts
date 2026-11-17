@@ -86,6 +86,18 @@ function safety(round: ReviewRound, payload: ReturnContents, policy: PolicyResol
   return { marking: report.marking, customMarkings: report.customMarkings, notices: report.notices, privacy: detectTextPII(textFields(payload)) };
 }
 
+/** Adapt another supported review format into the same validated native
+ * payload and handling report. This does not confer local owner authority. */
+export function createCheckedReviewReturn(round: ReviewRound, contents: { id: string; createdAt: number;
+  comments: ReviewReturn['comments']; proposals: readonly ReviewSuggestion[] }, policy: PolicyResolution): ReviewReturn {
+  const checked = safety(round, contents, policy);
+  return parseReviewReturn({ kind: 'dondocs-review-return', version: contents.proposals.length ? 2 : 1,
+    id: contents.id, roundId: round.id, baselineDigest: round.baselineDigest, createdAt: contents.createdAt,
+    ...(contents.comments?.threads.length ? { comments: contents.comments } : {}),
+    ...(contents.proposals.length ? { proposals: contents.proposals } : {}),
+    handling: { marking: checked.marking, customMarkings: checked.customMarkings } });
+}
+
 export async function prepareReviewReturnExport(): Promise<PreparedReviewReturnExport> {
   const captured = currentCapture();
   if (hasPendingReviewWrites(captured.target.scope.documentId)) await flushPendingReviewWrites(captured.target.scope.documentId);

@@ -1,6 +1,7 @@
 import type { DocumentMeta } from '@/stores/documentsStore';
 import type { SerializedSession } from '@/stores/documentStore';
 import { debug } from '@/lib/debug';
+import type { WordReviewHandoff } from './wordReviewModel';
 import type { ReviewCheckpoint } from './reviewCheckpointModel';
 import type { ReviewRound, ReviewCopyLink } from './reviewRounds';
 import type { ReviewReturnReceipt } from './reviewReturns';
@@ -293,6 +294,31 @@ export async function idbTransitionReviewRound(expected: ReviewRound, next: Revi
   } catch { return false; }
 }
 
+/** Append one local Word locator without changing its authoritative baseline. */
+export async function idbAppendWordHandoff(expected: ReviewRound, receipt: WordReviewHandoff,
+  isCurrent: () => boolean): Promise<ReviewRound | null> {
+  try {
+    const before = parseReviewRound(structuredClone(expected));
+    if (!before.ownerDocumentId || reviewRoundStatus(before) !== 'active' || !isCurrent()) return null;
+    const after = parseReviewRound({ ...before, wordHandoffs: [...(before.wordHandoffs ?? []), structuredClone(receipt)] });
+    const db = await openDb();
+    return await new Promise((resolve, reject) => {
+      const transaction = db.transaction([APP_STORE, DOCS_STORE], 'readwrite'), app = transaction.objectStore(APP_STORE);
+      const roundRequest = app.get(reviewRoundKey(before.id));
+      const ownerRequest = transaction.objectStore(DOCS_STORE).get(before.ownerDocumentId!);
+      let remaining = 2, committed = false;
+      const ready = () => {
+        if (--remaining || !isCurrent() || !ownerRequest.result || !sameReviewStoredValue(roundRequest.result?.value, before)) return;
+        app.put({ key: reviewRoundKey(after.id), value: after });committed = true;
+      };
+      roundRequest.onsuccess = ready;ownerRequest.onsuccess = ready;
+      transaction.oncomplete = () => resolve(committed ? after : null);
+      transaction.onerror = () => reject(transaction.error ?? new Error('The Word review locator could not be saved.'));
+      transaction.onabort = () => reject(transaction.error ?? new Error('The Word review locator save was cancelled.'));
+    });
+  } catch { return null; }
+}
+
 /** Save a comparison-only reviewer marker without changing document text or granting ownership. */
 export async function idbSaveReviewCheckpoint(expected: ReviewRound, checkpoint: ReviewCheckpoint,
   documentId: string, isCurrent: () => boolean): Promise<ReviewRound | null> {
@@ -397,14 +423,23 @@ export async function idbRestoreReviewRecords(pins: ReviewRound[], associations:
             const existing = roundReads[index].result?.value as ReviewRound | undefined;
             if (!existing) return round;
             const retained = mergeReceivedReviewLifecycle(existing, round);
-            if (existing.ownerDocumentId || !round.ownerDocumentId) return retained;
-            // Only explicit workspace restore can recover source authority.
-            // A portable copy never reaches this promotion path.
+            if (!round.ownerDocumentId || existing.ownerDocumentId && !round.wordHandoffs?.length) return retained;
+            // Only a full workspace restore with its original source can add
+            // issued Word receipts or recover ownership. Public reviewer
+            // copies never reach this path and cannot supply local authority.
             const owner = ownerReads[index]?.result as StoredDocument | undefined;
-            if (round.ownerDocumentId !== round.sourceDocumentId || owner?.id !== round.ownerDocumentId) {
+            if (round.ownerDocumentId !== round.sourceDocumentId || owner?.id !== round.ownerDocumentId
+              || retained.ownerDocumentId && retained.ownerDocumentId !== round.ownerDocumentId) {
               throw new Error('The backup source is unavailable or inconsistent.');
             }
-            return parseReviewRound({ ...retained, ownerDocumentId: round.ownerDocumentId });
+            const handoffs = new Map((retained.wordHandoffs ?? []).map(receipt => [receipt.id, receipt]));
+            for (const receipt of round.wordHandoffs ?? []) {
+              const previous = handoffs.get(receipt.id);
+              if (previous && !sameReviewStoredValue(previous, receipt)) throw new Error('A backed-up Word receipt conflicts with its retained issued copy.');
+              handoffs.set(receipt.id, receipt);
+            }
+            return parseReviewRound({ ...retained, ownerDocumentId: round.ownerDocumentId,
+              ...(handoffs.size ? { wordHandoffs: [...handoffs.values()] } : {}) });
           });
           retainedRounds.forEach((round, index) => {
             if (!sameReviewStoredValue(roundReads[index].result?.value, round)) {
