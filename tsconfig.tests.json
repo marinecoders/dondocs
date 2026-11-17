@@ -37,6 +37,6 @@
     }
   },
   /* The ambient vite `define` globals the shared app code refers to. */
-  "include": ["tests", "src/types/build-constants.d.ts", "scripts/check-documentation.mts", "scripts/generate-doc-inventory.mts"],
+  "include": ["tests", "src/types/build-constants.d.ts", "scripts/check-documentation.mts", "scripts/generate-doc-inventory.mts", "scripts/generate-publication-word.mts", "scripts/verify-publication-word.mts"],
   "exclude": ["tests/types"]
 }

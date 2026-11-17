@@ -10,6 +10,7 @@ import { classificationRank, deriveOverallClassLevel } from './overallClassifica
 import { classificationBannerLevel, detectClassification } from './detectClassification';
 import { publicationMarking } from './publicationMarking';
 import { publicationExportErrors } from './publicationPreflight';
+import { publicationWordExportErrors } from './publicationWordPreflight';
 import { validateParagraphStructure, type ParagraphStructureFinding } from './paragraphStructureValidation';
 import { detectCapturedPII, mergePIIResults, type PIIDetectionResult } from '@/services/pii/detector';
 import { detectBatchPII } from '@/services/pii/batchScan';
@@ -142,6 +143,7 @@ export function prepareExport(input: {
       snapshot.formData.classLevel = level;
       marking = publicationMarking(snapshot.formData, portions);
       const issues = publicationExportErrors(snapshot, new Date(output.source.capturedAt));
+      if (input.target === 'docx') issues.push(...publicationWordExportErrors(snapshot));
       if (issues.length) return Object.freeze({ status: 'error', issues: Object.freeze(issues) });
       output = captureDocumentRevision(output.source, snapshot);
     }

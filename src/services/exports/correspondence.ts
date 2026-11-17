@@ -11,6 +11,8 @@ import type { DocxConversionOptions, DocxProgressCallback } from '@/services/doc
 import { resolvePageNumbering } from '@/lib/pageNumbering';
 import { pageStartNumber } from '@/lib/endorsement';
 import { inspectRasterImage, prepareDocxImages, supportsCorrespondenceSignatureImage } from '@/services/docx/imageAssets';
+import { renderPublicationDocx } from '@/services/docx/publication';
+import { isTechnicalPublication } from '@/lib/publicationPreflight';
 
 export interface ExportAssets {
   withAssets<T>(ids: readonly string[], operation: (read: (id: string) => StoredAttachment) => Promise<T>): Promise<T>;
@@ -57,6 +59,11 @@ export async function renderPreparedCorrespondence(ready: ReadyExportJob, ports:
     const figureIds = document.paragraphs.flatMap(paragraph => paragraph.figure?.fileRef ? [paragraph.figure.fileRef.id] : []);
     if (data.signatureType === 'image' && !data.signatureImage?.data && data.signatureImage?.fileRef) figureIds.push(data.signatureImage.fileRef.id);
     return (ports.assets ?? storedExportAssets).withAssets(figureIds, async read => {
+      if (isTechnicalPublication(document.docType)) {
+        const blob = await renderPublicationDocx(document, { readAsset: read }, signal, referenceDate);
+        checkCancellation(signal);
+        return createExportArtifact(ready, blob);
+      }
       const mediaFiles = await prepareDocxImages(document, async id => read(id).data);
       checkCancellation(signal);
       const blob = await convertDocx(generateFlatLatex(document, resolvedLevel), {
