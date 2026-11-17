@@ -3,6 +3,7 @@ import { PDFDocument, PDFName, PDFRawStream } from 'pdf-lib';
 import sharp from 'sharp';
 import { preparePdfRasterBinding } from '@/services/pdf/accessibility/raster';
 import { finishTaggedPdf, type PdfTaggingPlan } from '@/services/pdf/accessibility/taggedPdf';
+import { validateGeneratedTaggedPdf } from '@/services/pdf/accessibility/validate';
 
 const nonce = 'a'.repeat(32);
 async function fixture(grayscale = false) {
@@ -25,8 +26,7 @@ describe('source-bound JPEG interpretation', () => {
     const { pdf, stream, plan, bytes } = await fixture();
     expect(stream.contents).toEqual(bytes);
     const original = await finishTaggedPdf(await pdf.save(), plan);
-    expect(original).toMatchObject({ pageCount: 1, associatedChunks: 1, contentPages: { 1: [0] } });
-    expect((await PDFDocument.load(original.bytes)).getTitle()).toBe(plan.title);
+    expect(await validateGeneratedTaggedPdf(original.bytes)).toMatchObject({ figures: 1, paintedOperations: 1 });
     if (change === 'color-space') stream.dict.set(PDFName.of('ColorSpace'), PDFName.of('DeviceGray'));
     else stream.dict.set(PDFName.of('DecodeParms'), pdf.context.obj({ ColorTransform: 0 }));
     expect(stream.contents).toEqual(bytes);
@@ -39,7 +39,6 @@ describe('source-bound JPEG interpretation', () => {
     expect(stream.dict.has(PDFName.of('DecodeParms'))).toBe(false);
     stream.dict.set(PDFName.of('Decode'), pdf.context.obj(grayscale ? [0, 1] : [0, 1, 0, 1, 0, 1]));
     const output = await finishTaggedPdf(await pdf.save(), plan);
-    expect(output).toMatchObject({ pageCount: 1, associatedChunks: 1, contentPages: { 1: [0] } });
-    expect((await PDFDocument.load(output.bytes)).getTitle()).toBe(plan.title);
+    expect(await validateGeneratedTaggedPdf(output.bytes)).toMatchObject({ figures: 1, paintedOperations: 1 });
   });
 });

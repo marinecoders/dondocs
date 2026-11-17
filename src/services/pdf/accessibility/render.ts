@@ -1,6 +1,7 @@
 import { RUNTIME_BASE } from '@/lib/releasePaths';
 import { prepareTaggedCorrespondence, taggedCorrespondenceIssues, type TaggedCorrespondenceSource } from './correspondence';
 import { createRasterBindingSession, TAGGED_RASTER_LIMITS, type PdfRasterBinding } from './raster';
+import { validateGeneratedTaggedPdf } from './validate';
 import { finishTaggedPdf } from './taggedPdf';
 import type { LatexCompileProfile } from '@/services/latex/renderDocument';
 import type { StoredAttachment } from '@/lib/documentsDb';
@@ -53,6 +54,7 @@ export async function renderTaggedCorrespondence(source: TaggedCorrespondenceSou
     let resource = resources.get(key);
     if (!resource) {
       const data = options.read(figure.fileRef.id).data;
+      check();
       if (data.byteLength > TAGGED_RASTER_LIMITS.bytes) throw new Error('Tagged images must be at most 10 MiB.');
       const bytes = new Uint8Array(data.slice(0));
       const binding = await session.prepare(bytes, type);
@@ -66,6 +68,7 @@ export async function renderTaggedCorrespondence(source: TaggedCorrespondenceSou
   if (source.docType === 'naval_letter') {
     const filename = `${source.formData.sealType || 'dow'}-seal${source.formData.letterheadColor === 'black' ? '-bw' : ''}.png`;
     const data = await (options.loadSeal ?? loadTaggedSeal)(filename, options.signal);
+    check();
     if (data.byteLength > TAGGED_RASTER_LIMITS.bytes) throw new Error('The decorative seal exceeds the tagged image limit.');
     const bytes = new Uint8Array(data);
     seal = await session.prepare(bytes, 'image/png');
@@ -86,6 +89,8 @@ export async function renderTaggedCorrespondence(source: TaggedCorrespondenceSou
   check();
   if (!input) throw new Error('The PDF engine produced no tagged source document.');
   const result = await finishTaggedPdf(input, prepared.plan);
+  check();
+  await validateGeneratedTaggedPdf(result.bytes);
   check();
   return result.bytes;
 }
