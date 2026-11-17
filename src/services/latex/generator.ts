@@ -20,6 +20,8 @@ import { publicationNavigation, navigationTex } from './publicationNavigation';
 import { escapeLatex, escapeLatexUrl, keepTypedSpaces, processBodyText, formatSubjectForLatex, formatAddressForLatex } from './escaper';
 import { composeSenderSymbol } from './senderSymbol';
 import { tableSpec } from '@/data/techpub/tables';
+import { renderBodyTable } from './bodyTable';
+import { assertRichBlockShape } from '@/lib/bodyTable';
 import { publicationTypeName } from '@/data/techpub/publicationTypes';
 import { composeDistributionStatement } from '@/data/techpub/distributionStatements';
 import { documentDistributionStatement } from './distributionStatement';
@@ -1006,6 +1008,7 @@ export function generateBodyTex(store: DocumentStore): string {
   const tailStart = closingTailStart(store.docType, store.paragraphs);
   for (let i = 0; i < store.paragraphs.length; i++) {
     const para = store.paragraphs[i];
+    assertRichBlockShape(para);
     if (tailStart !== undefined && i > tailStart) parts.push('\\nopagebreak[4]\n');
     const label = paragraphHasLabel(para.level, config) ? labels[i] : '';
     const layout = resolveParagraphLayout(para.level, ancestors[i], config, bodyFont, bodySizePt);
@@ -1015,6 +1018,20 @@ export function generateBodyTex(store: DocumentStore): string {
     // DOCX path; the PDF silently dropped it (DoDM 5200.01 V2 requires
     // portion marks on the primary output too). Enum-constrained, LaTeX-safe.
     const portionPrefix = para.portionMarking ? `(${para.portionMarking}) ` : '';
+    if (para.bodyTable) {
+      const caption = `${portionPrefix}${[headerText ? bodyText(headerText) : '', para.text ? bodyText(para.text) : ''].filter(Boolean).join(' ')}`;
+      if (caption) parts.push(`\\par\\noindent ${caption}\\par\n`);
+      parts.push(renderBodyTable(para.bodyTable, text => text.split('\n').map(line => bodyText(line)).join('\\newline ')));
+      continue;
+    }
+    if (para.figure?.placement === 'body') {
+      if (!para.figure.fileRef) throw new Error('A body image is missing. Reattach it before exporting.');
+      const file = (store.docType === 'business_letter' ? businessFigureFile : figureFile)(++figureFileIndex, para.figure.type, para.figure.name, para.figure.fileRef.id);
+      const graphicMark = para.figure.portionMarking ?? para.portionMarking;
+      const caption = `${portionPrefix}${[headerText ? bodyText(headerText) : '', para.text ? bodyText(para.text) : ''].filter(Boolean).join(' ')}`;
+      parts.push(`\\par\\vspace{12pt}\\begin{center}${graphicMark ? `(${escapeLatex(graphicMark)})\\\\*` : ''}\\includegraphics[width=\\textwidth,height=5in,keepaspectratio]{${file}}${caption ? '\\\\[6pt]' + caption : ''}\\end{center}\n`);
+      continue;
+    }
 
     // A figure: the image, then its numbered title beneath. The framed
     // fallback stands in until the image is loaded, as the seal's does.
@@ -1332,10 +1349,10 @@ export function generateAllLatexFiles(store: DocumentStore, resolvedLevel?: stri
     .map((r) => ({ letter: r.letter, url: r.url! }));
 
   const figures: GeneratedFiles['figures'] = [];
-  if (isTechnicalPublication(store.docType) || store.docType === 'business_letter') {
+  {
     let figureFileIndex = 0;
     for (const p of store.paragraphs) {
-      if (!p.figure) continue;
+      if (!p.figure || !isTechnicalPublication(store.docType) && store.docType !== 'business_letter' && p.figure.placement !== 'body') continue;
       figureFileIndex++;
       if (p.figure.fileRef) figures.push({ file: (store.docType === 'business_letter' ? businessFigureFile : figureFile)(figureFileIndex, p.figure.type, p.figure.name, p.figure.fileRef.id), ref: p.figure.fileRef });
     }

@@ -20,6 +20,7 @@ export function publicationNavigation(paragraphs: Paragraph[], tables: Record<st
   let headingDepth = -1;
   const add = (id: string, title: string, depth: number) => entries.push({ id, title, depth, children: 0 });
   paragraphs.forEach((p, i) => {
+    if (p.bodyTable || p.figure?.placement === 'body') return;
     if (p.appendix) {
       appendix = String.fromCharCode(65 + appendixCount++);
       figure = 0;

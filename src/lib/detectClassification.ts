@@ -15,8 +15,8 @@
  */
 
 import type { ClassificationLevel } from '@/lib/domainClassification';
-import type { PortionMarking } from '@/types/document';
 import { deriveOverallClassLevel } from './overallClassification';
+import { leadingPortionMarking } from './portionMarkings';
 
 export interface ClassificationDetection {
   /** The detected banner level; 'unclassified' when nothing was marked. */
@@ -96,8 +96,10 @@ export function classificationBannerLevel(text: string): ClassificationLevel | n
 
 /** Transferred text can retain portion prefixes outside the current render view. */
 export function retainedTextClassificationLevel(text: string): ClassificationLevel {
-  const portions = Array.from(text.replace(/\r\n?/g, '\n').matchAll(/^\s*\((U|CUI|FOUO|C|S|TS)\)/gm),
-    match => ({ portionMarking: match[1] as PortionMarking }));
+  const portions = text.replace(/\r\n?/g, '\n').split('\n').map(line => ({
+    // Retained source text still includes printed Word paragraph designators.
+    portionMarking: leadingPortionMarking(line.replace(/^\s*(?:\d+\.|[a-z]\.|\(\d+\)|\([a-z]\))\s+/, '')),
+  }));
   return deriveOverallClassLevel(detectClassification(text).classLevel, portions) as ClassificationLevel;
 }
 

@@ -1,4 +1,5 @@
 import { listPackageTemplates, validatePackageTemplateLibrary, restorePackageTemplates, type PackageTemplate } from './packageTemplateLibrary';
+import { hasRichBody } from './bodyTable';
 import { capturePackageBackup, validatePackageBackup, restorePackageBackup } from './actionPackageBackup';
 import { formTemplateAttachmentId } from './formTemplateAssets';
 import { packageAssets, packageDefinitions, actionPackageSchema, type ActionPackage } from './actionPackages';
@@ -69,7 +70,7 @@ export const BACKUP_KIND = 'dondocs-backup';
 // `kind` and on field PRESENCE, not version, so an older bundle (missing any of
 // these fields) still restores cleanly.
 // v13 preserves reusable package starters, including their exact form pages.
-export const BACKUP_VERSION = 13;
+export const BACKUP_VERSION = 14;
 const LIBRARY_KIND = 'dondocs-library'; // legacy docs-only file
 function supportedWorkspaceVersion(version: unknown, minimum: number): boolean {
   return typeof version === 'number' && Number.isSafeInteger(version) && version >= minimum && version <= BACKUP_VERSION;
@@ -174,7 +175,7 @@ export function mergeById<T extends { id: string }>(
 export function collectAttachmentIds(docs: unknown[]): string[] {
   const ids = new Set<string>();
   for (const doc of docs) {
-    const session = (doc as { session?: { enclosures?: unknown; paragraphs?: unknown; forms?: Record<string, { signatureBlocks?: Array<{ imageRef?: { id?: unknown } }> }>; formData?: { signatureImage?: { fileRef?: { id?: unknown } }; basicLetterFileRef?: { id?: unknown } } } })?.session;
+    const session = (doc as { session?: { enclosures?: unknown; paragraphs?: unknown; forms?: Record<string, { signatureBlocks?: Array<{ imageRef?: { id?: unknown } }> }>; formData?: { signatureImage?: { fileRef?: { id?: unknown } }; basicLetterFileRef?: { id?: unknown }; wordSource?: { fileRef?: { id?: unknown } } } } })?.session;
     for (const form of Object.values(session?.forms ?? {})) {
       for (const block of form?.signatureBlocks ?? []) if (typeof block.imageRef?.id === 'string') ids.add(block.imageRef.id);
     }
@@ -198,6 +199,8 @@ export function collectAttachmentIds(docs: unknown[]): string[] {
     if (typeof signatureId === 'string' && signatureId) ids.add(signatureId);
     const blId = session?.formData?.basicLetterFileRef?.id;
     if (typeof blId === 'string' && blId) ids.add(blId);
+    const wordId = session?.formData?.wordSource?.fileRef?.id;
+    if (typeof wordId === 'string' && wordId) ids.add(wordId);
   }
   return [...ids];
 }
@@ -377,7 +380,11 @@ async function serializeBackup(): Promise<string> {
       || Object.values(snapshots).some(ring => ring.some(snapshot => hasReviewComments(snapshot.session)))
       || Object.values(captured.userTemplates).some(template => hasReviewComments(template.session));
     const withReviews = reviewRounds.length > 0 || reviewCopies.length > 0 || docs.some(doc => (doc as { meta: { nativeReviewText?: boolean } }).meta.nativeReviewText === true);
-    const bundle: BackupBundle = { ...captured, version: packageTemplates.length ? 13 : actionPackages.length ? 12 : formTemplates ? 11 : reviewSuggestions.length || reviewSuggestionWrites.length ? reviewSuggestions.some(record => record.state.version === 2) ? 10 : 9 : reviewReturns.length ? 8 : withReviews ? 7 : withComments ? 6 : 5, documents: docs, snapshots, attachments, ...(actionPackages.length ? { actionPackages } : {}), ...(packageTemplates.length ? { packageTemplates } : {}),
+    const packageSessions = actionPackages.flatMap(record => [...record.revisions, ...(record.reviewRounds ?? []).map(round => round.baseline)]
+      .flatMap(revision => revision.members.flatMap(member => member.kind === 'native' ? [member.session] : [])));
+    const starterSessions = packageTemplates.flatMap(template => template.members.flatMap(member => member.kind === 'native' ? [member.draft as unknown as import('@/stores/documentStore').SerializedSession] : []));
+    const rich = [...entries.map(entry => (entry as { session?: import('@/stores/documentStore').SerializedSession }).session ?? {}), ...packageSessions, ...starterSessions].some(hasRichBody);
+    const bundle: BackupBundle = { ...captured, version: rich ? 14 : packageTemplates.length ? 13 : actionPackages.length ? 12 : formTemplates ? 11 : reviewSuggestions.length || reviewSuggestionWrites.length ? reviewSuggestions.some(record => record.state.version === 2) ? 10 : 9 : reviewReturns.length ? 8 : withReviews ? 7 : withComments ? 6 : 5, documents: docs, snapshots, attachments, ...(actionPackages.length ? { actionPackages } : {}), ...(packageTemplates.length ? { packageTemplates } : {}),
       ...formTemplates,
       ...(withReviews ? { reviewRounds, reviewCopies } : {}), ...(reviewReturns.length ? { reviewReturns } : {}),
       ...(reviewSuggestions.length || reviewSuggestionWrites.length ? { reviewSuggestions, reviewSuggestionWrites } : {}) };

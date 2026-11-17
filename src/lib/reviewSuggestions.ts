@@ -167,7 +167,7 @@ export function suggestionTargetValue(session: SerializedSession, target: Review
   }
   const matches = session.paragraphs.filter(paragraph => paragraph.id === target.paragraphId);
   const paragraph = matches.length === 1 ? matches[0] : undefined;
-  if (!paragraph || paragraph.figure || paragraph.tableKey || paragraph.callout || paragraph.procedure || paragraph.appendix) return null;
+  if (!paragraph || paragraph.figure || paragraph.bodyTable || paragraph.tableKey || paragraph.callout || paragraph.procedure || paragraph.appendix) return null;
   return { label: `Paragraph ${session.paragraphs.indexOf(paragraph) + 1}`, value: paragraph.text };
 }
 

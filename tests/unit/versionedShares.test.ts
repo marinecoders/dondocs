@@ -38,6 +38,6 @@ it('strips incoming and outgoing device handles and signature bytes without muta
   const imageRef = { id: 'local', name: 'signature.png', size: 3, type: 'image/png' };
   session.forms!.navmc11811!.signatureBlocks = [{ name: 'Signer', statement: '', style: 'image', image: 'YWJj', imageRef }];
   const payload = createSharedPayload(session);
-  expect(payload.forms!.navmc11811!.signatureBlocks[0]).toEqual({ name: 'Signer', statement: '', style: 'image' });
+  expect(parseSharedSession(payload).forms!.navmc11811!.signatureBlocks[0]).toEqual({ name: 'Signer', statement: '', style: 'image' });
   expect(session.forms!.navmc11811!.signatureBlocks[0].imageRef).toEqual(imageRef);
 });

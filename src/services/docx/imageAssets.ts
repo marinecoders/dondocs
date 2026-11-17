@@ -199,7 +199,7 @@ export async function prepareDocxImages(source: DocxImageSource, read: (id: stri
     const figure = paragraph.figure;
     if (!figure) continue;
     number++;
-    if (source.docType !== 'business_letter') throw new ImageInputError('Word figures are supported in business letters. This document family does not support Word figures yet.');
+    if (source.docType !== 'business_letter' && figure.placement !== 'body') throw new ImageInputError('Word figures are supported in business letters. This document family does not support Word figures yet.');
     if (!figure.fileRef) throw new ImageInputError(`Figure ${number} has no image. Choose a PNG or JPEG before exporting Word.`);
     const file = docxFigureFile(number, figure.type, figure.name);
     if (/\.pdf$/i.test(file)) throw new ImageInputError(`Figure ${number} is a PDF. Choose a PNG or JPEG for Word export.`);

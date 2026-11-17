@@ -135,6 +135,7 @@ export const packageNativeReviewRoundSchema = reviewRoundSchema.safeExtend({
       "Package native review supports correspondence only.").refine(session =>
       !!session.formData && Array.isArray(session.enclosures) && Array.isArray(session.paragraphs)
       && !session.formData.basicLetterFileRef && !session.formData.signatureImage?.fileRef
+      && !session.formData.wordSource?.fileRef
       && !session.enclosures.some(enclosure => enclosure.fileRef)
       && !session.paragraphs.some(paragraph => paragraph.figure?.fileRef)
       && ![session.forms?.navmc10274, session.forms?.navmc11811].some(form =>

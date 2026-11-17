@@ -3,6 +3,8 @@ import type { ManualFrontMatter } from '@/data/techpub/manualFrontMatter';
 import type { Sl3Data } from '@/data/techpub/sl3';
 import type { Sl4Data } from '@/data/techpub/sl4';
 import type { AdditionalEndorsement } from '@/lib/appendedEndorsement';
+import type { BodyTable } from '@/lib/bodyTable';
+import type { WordSourceMetadata } from '@/lib/wordSource';
 
 export type DocumentMode = 'compliant' | 'custom';
 
@@ -95,6 +97,7 @@ export interface Paragraph {
   tableFootnotes?: { id: string; text: string }[];
   publicationSection?: PublicationSection;
   text: string;
+  bodyTable?: BodyTable;
   level: number;
   header?: string; // Optional paragraph heading (underlined per Ch 7 ¶13d)
   /** A technical publication paragraph may carry one of its fixed tables; the
@@ -113,7 +116,7 @@ export interface Paragraph {
   /** A figure: an image placed in the body, numbered in order, titled by the
    *  paragraph's text ("Figure 1. Rail alignment"). The image lives in the
    *  attachments store; `fileRef` is its durable handle. */
-  figure?: { fileRef?: FileRef; name?: string; type?: string; width?: number; height?: number; portionMarking?: PortionMarking };
+  figure?: { fileRef?: FileRef; name?: string; type?: string; width?: number; height?: number; portionMarking?: PortionMarking; placement?: 'body'; altText?: string };
   portionMarking?: PortionMarking;
 }
 
@@ -159,6 +162,8 @@ export interface Profile {
 }
 
 export interface DocumentData {
+  /** Exact source Word file, retained independently of editable imported content. */
+  wordSource?: WordSourceMetadata;
   manualFrontMatter?: ManualFrontMatter;
   publicationSigningDate?: string;
   publicationClosedDates?: string;

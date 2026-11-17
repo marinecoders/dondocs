@@ -1,4 +1,6 @@
 import { toTitleCase } from '@/lib/titleCase';
+import { renderBodyTable } from './bodyTable';
+import { assertRichBlockShape } from '@/lib/bodyTable';
 import { closingTailStart, hasBottomSignature } from '@/lib/correspondenceClosing';
 import { resolveParagraphLayout, paragraphHasLabel } from './paragraphLayout';
 import { documentOutputConfig } from '@/lib/documentOutputConfig';
@@ -671,7 +673,7 @@ function buildBody(paragraphs: Paragraph[], config: DocTypeConfig, font: LabelFo
 
   // Figures have their own caption sequence. Exclude them from both body
   // counters and ancestor tracking so they cannot renumber or reparent text.
-  const bodyParagraphs = paragraphs.filter(paragraph => !paragraph.figure);
+  const bodyParagraphs = paragraphs.filter(paragraph => !paragraph.figure && !paragraph.bodyTable);
   const labels = calculateLabels(bodyParagraphs);
   const ancestors = ancestorLabelsPerParagraph(labels, bodyParagraphs.map((p) => p.level));
   // Push-then-join across paragraphs (the cross-paragraph accumulator is
@@ -680,20 +682,33 @@ function buildBody(paragraphs: Paragraph[], config: DocTypeConfig, font: LabelFo
   const bodyParts: string[] = [];
   const tailStart = closingTailStart(docType, paragraphs);
   let figureNumber = 0;
+  let figureAssetIndex = 0;
   let bodyIndex = 0;
 
   for (let i = 0; i < paragraphs.length; i++) {
     const para = paragraphs[i];
+    assertRichBlockShape(para);
+    if (para.bodyTable) {
+      const caption = `${para.portionMarking ? `(${para.portionMarking}) ` : ''}${[para.header ? processText(para.header) : '', para.text ? processText(para.text) : ''].filter(Boolean).join(' ')}`;
+      if (caption) bodyParts.push(`${caption}\n\n`);
+      bodyParts.push(renderBodyTable(para.bodyTable, text => text.split('\n').map(line => processText(line)).join('\\newline '), { repeatHeaders: false }));
+      continue;
+    }
     if (para.figure) {
-      if (docType !== 'business_letter') throw new Error('Word figures are supported in business letters. This document family does not support Word figures yet.');
-      const number = ++figureNumber;
+      if (docType !== 'business_letter' && para.figure.placement !== 'body') throw new Error('Word figures are supported in business letters. This document family does not support Word figures yet.');
+      const number = para.figure.placement === 'body' ? figureNumber : ++figureNumber;
       if (!para.figure.fileRef) throw new Error(`Figure ${number} has no image. Choose a PNG or JPEG before exporting Word.`);
-      const path = docxFigureFile(number, para.figure.type, para.figure.name);
+      const path = docxFigureFile(++figureAssetIndex, para.figure.type, para.figure.name);
       if (/\.pdf$/i.test(path)) throw new Error(`Figure ${number} is a PDF. Choose a PNG or JPEG for Word export.`);
       const extent = imageExtent(para.figure.width ?? 0, para.figure.height ?? 0, 6.5, 5);
       const mark = para.figure.portionMarking ?? para.portionMarking;
-      const graphic = `\\includegraphics[width=${extent.width.toFixed(4)}in,height=${extent.height.toFixed(4)}in,alt={${escapeFlat(para.text || `Figure ${number}`)}}]{${path}}`;
+      const graphic = `\\includegraphics[width=${extent.width.toFixed(4)}in,height=${extent.height.toFixed(4)}in,alt={${escapeFlat(para.figure.altText || para.text || `Figure ${number}`)}}]{${path}}`;
       const title = `${para.portionMarking ? `(${para.portionMarking}) ` : ''}${para.text}`;
+      if (para.figure.placement === 'body') {
+        const caption = `${para.portionMarking ? `(${para.portionMarking}) ` : ''}${[para.header ? processText(para.header) : '', para.text ? processText(para.text) : ''].filter(Boolean).join(' ')}`;
+        bodyParts.push(`\\par\\vspace{12pt}\n${mark ? `(${escapeTabular(mark)})\\newline ` : ''}${graphic}${caption ? '\\newline ' + caption : ''}\n\n`);
+        continue;
+      }
       bodyParts.push(`\\vspace{12pt}\n\\begin{tabularx}{\\textwidth}{@{}c@{}}\n${mark ? `(${escapeTabular(mark)})\\newline ` : ''}${graphic}\\newline\\textbf{Figure ${number}. ${processText(title)}} \\\\\n\\end{tabularx}\n\n`);
       continue;
     }

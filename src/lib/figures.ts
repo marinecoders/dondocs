@@ -56,7 +56,7 @@ export function validateFigures(paragraphs: Paragraph[]): { severity: 'warning';
     if (!p.figure) continue;
     n++;
     if (!p.figure.fileRef) findings.push({ severity: 'warning', message: `Figure ${n} has no image. Choose a PNG, JPEG, or PDF for it.` });
-    if (!p.text.trim()) findings.push({ severity: 'warning', message: `Figure ${n} has no title. Its text is the title that prints under it.` });
+    if (!p.text.trim() && p.figure.placement !== 'body') findings.push({ severity: 'warning', message: `Figure ${n} has no title. Its text is the title that prints under it.` });
     if (p.figure.width && p.figure.height) {
       const dpi = Math.round(printedDpi(p.figure.width, p.figure.height));
       if (dpi < MIN_DPI) findings.push({ severity: 'warning', message: `Figure ${n}'s image is ${p.figure.width} by ${p.figure.height} pixels and prints at about ${dpi} dpi; it will look soft. Use a larger image.` });

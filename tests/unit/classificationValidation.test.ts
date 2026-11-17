@@ -98,3 +98,17 @@ describe('optional CUI portion markings', () => {
     expect(validateClassificationMarkings('cui', [para('Instructions.', 'CUI'), para('More instructions.')]).some((f) => /Mark every paragraph/.test(f.message))).toBe(true);
   });
 });
+
+
+describe('native tables and independent graphic markings', () => {
+  it('checks an empty-caption table and body image against the banner', () => {
+    const table: Paragraph = { text: '', level: 0, bodyTable: { rows: [['CONTENT']], headerRows: 0 }, portionMarking: 'S' };
+    const image: Paragraph = { text: '', level: 0, figure: { placement: 'body', portionMarking: 'CUI' } };
+    expect(severities('unclassified', [table])).toContain('error');
+    expect(severities('unclassified', [image])).toContain('error');
+  });
+  it('keeps caption and graphic markings distinct when finding the highest portion', () => {
+    const image: Paragraph = { text: 'Diagram', level: 0, portionMarking: 'U', figure: { placement: 'body', portionMarking: 'CUI' } };
+    expect(validateClassificationMarkings('cui', [image])).toEqual([]);
+  });
+});

@@ -36,7 +36,7 @@ export interface TextRangeEdit { from: number; to: number; insert: string }
 /** The first release supports a single native paragraph of literal, unformatted text. */
 export function supportsPlainTextRange(paragraph: Paragraph): boolean {
   return paragraph.text.length <= TEXT_RANGE_CONTEXT_LIMIT && !/[\r\n*\\]|__|\{\{/.test(paragraph.text)
-    && !paragraph.header && !paragraph.portionMarking && !paragraph.figure && !paragraph.tableKey && !paragraph.tableFootnotes?.length
+    && !paragraph.header && !paragraph.portionMarking && !paragraph.figure && !paragraph.bodyTable && !paragraph.tableKey && !paragraph.tableFootnotes?.length
     && !paragraph.callout && !paragraph.procedure && !paragraph.appendix && !paragraph.publicationSection && !paragraph.referenceId;
 }
 function findParagraph(source: DocumentFieldSource, paragraphId: string): Paragraph | undefined {

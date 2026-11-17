@@ -11,6 +11,7 @@ import { normalizeLevels } from './paragraphUtils';
 import { captureReviewParagraphMove, deriveReviewParagraphMove, type ParagraphMoveIntent } from './reviewParagraphMoves';
 import { splitReviewParagraph, joinReviewParagraphs } from './reviewStructureFormatting';
 import { mapStructuralRangeComments, type StructuralRangeSpan, transformRangeComments } from './reviewCommentRanges';
+import { assertRichBlockShape, bodyTableSchema } from './bodyTable';
 
 const text = z.string().max(20_000);
 const fileRef = z.object({ id: z.string().min(1).max(200), name: text, size: z.number().int().nonnegative(), type: text }).strict();
@@ -21,10 +22,15 @@ export const reviewStructureParagraphSchema = z.object({
   referenceId: text.optional(), publicationSection: z.enum(Object.keys(PUBLICATION_SECTIONS) as [PublicationSection, ...PublicationSection[]]).optional(),
   tableKey: text.optional(), tableIdentifierMode: z.enum(['stock', 'software']).optional(),
   tableFootnotes: z.array(z.object({ id: text, text }).strict()).max(100).optional(),
+  bodyTable: bodyTableSchema.optional(),
   callout: z.enum(['warning', 'caution', 'note']).optional(), procedure: z.boolean().optional(), appendix: z.boolean().optional(),
   figure: z.object({ fileRef: fileRef.optional(), name: text.optional(), type: text.optional(), width: z.number().optional(), height: z.number().optional(),
-    portionMarking: z.enum(['U', 'CUI', 'C', 'S', 'TS', 'FOUO']).optional() }).strict().optional(),
-}).strict();
+    portionMarking: z.enum(['U', 'CUI', 'C', 'S', 'TS', 'FOUO']).optional(),
+    placement: z.literal('body').optional(), altText: z.string().max(2_000).optional() }).strict().optional(),
+}).strict().superRefine((paragraph, context) => {
+  try { assertRichBlockShape(paragraph); }
+  catch (error) { context.addIssue({ code: 'custom', message: error instanceof Error ? error.message : 'Invalid rich body block.' }); }
+});
 const boundary = z.object({ id: paragraphIdSchema, level: z.number().int().min(0).max(10) }).strict().nullable();
 const common = { before: z.array(reviewStructureParagraphSchema).max(100), after: z.array(reviewStructureParagraphSchema).max(100),
   gap: z.object({ before: boundary, after: boundary }).strict(), parentId: paragraphIdSchema.nullable() };
@@ -70,7 +76,7 @@ export function assertReviewStructureOperation(target: ReviewStructureTarget): v
   } else if (operation.kind === 'delete-paragraph') {
     if (operation.before.length !== 1 || operation.after.length !== 0) throw new Error('Delete exactly one leaf paragraph.');
     const paragraph = operation.before[0];
-    if (paragraph.figure || paragraph.tableKey || paragraph.tableIdentifierMode || paragraph.tableFootnotes?.length
+    if (paragraph.figure || paragraph.bodyTable || paragraph.tableKey || paragraph.tableIdentifierMode || paragraph.tableFootnotes?.length
       || paragraph.callout || paragraph.procedure || paragraph.appendix || paragraph.publicationSection)
       throw new Error('Structured paragraphs require resource-aware structural review. Keep the paragraph and add a comment describing the deletion.');
   } else if (operation.kind === 'move-paragraph') {

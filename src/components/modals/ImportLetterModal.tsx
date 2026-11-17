@@ -1,4 +1,4 @@
-import { lazy, Suspense, useState, useCallback } from 'react';
+import { lazy, Suspense, useState, useCallback, useEffect, useRef } from 'react';
 import { ClipboardPaste, FileUp, Loader2, AlertTriangle, FileText, Info, ShieldAlert } from 'lucide-react';
 import {
   Dialog,
@@ -33,6 +33,8 @@ import { DOC_TYPE_LABELS } from '@/types/document';
 import { abbreviatedSignatoryName } from '@/lib/signatoryName';
 import { debug } from '@/lib/debug';
 import { VoiceLetterInput } from './VoiceLetterInput';
+import { captureDocumentTarget } from '@/stores/documentsStore';
+import { openWordImport } from '@/lib/importWord';
 const ScannedLetterImport = lazy(() => import('./ScannedLetterImport').then(module => ({ default: module.ScannedLetterImport })));
 
 type ImportSource = 'file' | 'text' | 'scan';
@@ -58,7 +60,7 @@ function Row({ label, value }: { label: string; value?: string | number }) {
 
 /**
  * Import an existing naval letter from pasted text, a PDF, or a Word document.
- * Read its text offline (via pdf.js for PDFs or pandoc WASM for DOCX), parse the
+ * Read its supported content offline (via pdf.js for PDFs or bounded OOXML parsing for DOCX), parse the
  * SECNAV structure, guess the document type, show what was recognized, and on
  * confirm open it as a new editable document. Best-effort — the review step
  * exists because parsing can't be perfect, and the letter opens for editing
@@ -78,8 +80,16 @@ function ImportLetterDialog() {
   const [dictationText, setDictationText] = useState('');
   const [dictationActive, setDictationActive] = useState(false);
   const [scanStarted, setScanStarted] = useState(false);
+  const owner = useRef(captureDocumentTarget());
+  const mounted = useRef(true);
+  const request = useRef(0);
+  const reading = useRef<AbortController | null>(null);
+  useEffect(() => { mounted.current = true; return () => { mounted.current = false; reading.current?.abort(); }; }, []);
 
   const handleFile = useCallback(async (file: File) => {
+    const generation = ++request.current;
+    reading.current?.abort();
+    const controller = new AbortController(); reading.current = controller;
     // Legacy binary .doc can't be read by either engine — catch it up front with
     // a message that tells the drafter how to proceed, not a vague failure.
     if (isLegacyDocFile(file)) {
@@ -94,8 +104,9 @@ function ImportLetterDialog() {
     setPhase({ kind: 'parsing' });
     const docx = isDocxFile(file);
     try {
-      const result = await parseLetterFile(file);
-      if (!hasParsedContent(result.parsed)) {
+      const result = await parseLetterFile(file, controller.signal);
+      if (!mounted.current || generation !== request.current) return;
+      if (!hasParsedContent(result.parsed) && !result.word?.blocks.length) {
         setPhase({
           kind: 'error',
           source: 'file',
@@ -107,15 +118,14 @@ function ImportLetterDialog() {
       }
       setPhase({ kind: 'review', result, source: 'file' });
     } catch (err) {
-      // Surface the failure to the user and log the cause for diagnosis — a
-      // failed DOCX read on an air-gapped host is usually the pandoc engine not
-      // loading, which the generic "corrupt file" wording would hide.
+      if (!mounted.current || generation !== request.current) return;
+      // Surface actionable parsing failures before any document is changed.
       debug.error('Import', `Failed to read ${docx ? 'DOCX' : 'PDF'} for import`, err);
       setPhase({
         kind: 'error',
         source: 'file',
         message: docx
-          ? 'This Word document could not be read. It may be corrupt or password-protected, or the document engine could not start.'
+          ? `This Word document could not be read. ${err instanceof Error ? err.message : 'It may be corrupt or password-protected.'}`
           : 'This PDF could not be read. It may be corrupt or password-protected.',
       });
     }
@@ -143,11 +153,17 @@ function ImportLetterDialog() {
   }, [dictationActive, letterText]);
 
   const doImport = useCallback(
-    (result: ParsedImport, docType: string, source: ImportSource) => {
+    async (result: ParsedImport, docType: string, source: ImportSource) => {
+      const generation = ++request.current;
       try {
-        if (applyParsedLetter(result.parsed, docType, result.classification) !== 'applied') throw new Error('The prepared letter could not be installed');
+        if (result.word) {
+          setPhase({ kind: 'parsing' });
+          if (await openWordImport(result, docType, owner.current, () => mounted.current && generation === request.current, reading.current?.signal) !== 'applied') throw new Error('The document changed while Word content was being prepared. Import the file again.');
+        } else if (applyParsedLetter(result.parsed, docType, result.classification) !== 'applied') throw new Error('The prepared letter could not be installed');
+        if (!mounted.current || generation !== request.current) return;
         setOpen(false);
       } catch (err) {
+        if (!mounted.current || generation !== request.current) return;
         debug.error('Import', 'Failed to apply the parsed letter to the editor', err);
         setPhase({
           kind: 'error',
@@ -313,6 +329,8 @@ function ReviewBody({
         <Row label="Enclosures" value={parsed.enclosures.length} />
         <Row label="Copy to" value={parsed.copyTos.length} />
         <Row label="Paragraphs" value={parsed.paragraphs.length} />
+        <Row label="Editable tables" value={result.word?.blocks.filter(block => block.paragraph.bodyTable).length} />
+        <Row label="Body images" value={result.word?.blocks.filter(block => block.paragraph.figure).length} />
         <Row label="Signature" value={sig} />
         <Row
           label="Classification"
@@ -322,8 +340,11 @@ function ReviewBody({
         <Row label="Derived from" value={classification.derivedFrom} />
         <Row label="Declassify on" value={classification.declassifyOn} />
       </div>
+      {result.word && <div className="space-y-2 text-sm"><p>The original Word file is retained with this draft. Supported text, rectangular tables and embedded PNG/JPEG images become editable native content. Review the layout before sending.</p>
+        {result.word.notices.length > 0 && <ul className="list-disc space-y-1 pl-5" aria-label="Word import notices">{result.word.notices.map(notice => <li key={notice}>{notice}</li>)}</ul>}
+      </div>}
 
-      {parsed.paragraphs.length === 0 && (
+      {parsed.paragraphs.length === 0 && !result.word?.blocks.length && (
         <p role="alert" className="flex items-start gap-1.5 text-sm text-warning">
           <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" />
           No body paragraphs were recognized. Check the source text and paragraph numbers before importing.

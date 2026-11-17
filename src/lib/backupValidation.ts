@@ -1,4 +1,6 @@
 import { reviewCommentsSchema } from './reviewComments';
+import { bodyTableSchema, assertRichBlockShape } from './bodyTable';
+import { wordSourceSchema } from './wordSource';
 import { validateParagraphIds } from './paragraphIdentity';
 import { sl4Schema } from '@/data/techpub/sl4';
 import { additionalEndorsementsSchema } from './endorsementValidation';
@@ -70,6 +72,7 @@ export function validateBackupSession(value: unknown) {
   for (const key of ['enclosures', 'paragraphs', 'references', 'endItems', 'copyTos', 'distributions']) if (data[key] !== undefined && !Array.isArray(data[key])) throw new Error(`Invalid session.${key}`);
   if (Array.isArray(data.paragraphs)) validateParagraphIds(data.paragraphs);
   const formData = data.formData as RecordValue | undefined;
+  if (formData?.wordSource !== undefined) wordSourceSchema.parse(formData.wordSource);
   if (formData?.additionalEndorsements !== undefined) additionalEndorsementsSchema.parse(formData.additionalEndorsements);
   if (formData?.sl3 !== undefined) sl3Schema.parse(formData.sl3);
   if (formData?.sl4 !== undefined) sl4Schema.parse(formData.sl4);
@@ -87,8 +90,12 @@ export function validateBackupSession(value: unknown) {
   }
   for (const entry of (data.paragraphs ?? []) as unknown[]) {
     const paragraph = object(entry, 'paragraph');
+    assertRichBlockShape(paragraph);
+    if (paragraph.bodyTable !== undefined) bodyTableSchema.parse(paragraph.bodyTable);
     if (paragraph.figure !== undefined) {
       const figure = object(paragraph.figure, 'figure');
+      if (figure.placement !== undefined && figure.placement !== 'body') throw new Error('Invalid body image placement.');
+      if (figure.altText !== undefined && (typeof figure.altText !== 'string' || figure.altText.length > 2_000)) throw new Error('Invalid image alternative text.');
       if (figure.fileRef !== undefined) validateAttachmentReference(figure.fileRef);
     }
   }

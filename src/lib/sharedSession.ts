@@ -2,6 +2,7 @@ import { sl4Schema } from '@/data/techpub/sl4';
 import { additionalEndorsementsSchema } from './endorsementValidation';
 import { sl3Schema } from '@/data/techpub/sl3';
 import { z } from 'zod';
+import { bodyTableSchema, hasRichBody, assertRichBlockShape } from './bodyTable';
 import { reviewCommentsSchema, hasReviewComments } from './reviewComments';
 import { parseFormInstance } from '@/services/forms/model';
 import type { SerializedSession } from '@/stores/documentStore';
@@ -20,10 +21,13 @@ export const sessionSchema = z.object({
   formType: z.string().default('navmc_10274'),
   genericForm: z.unknown().optional(),
   formData: z.record(z.string(), z.unknown()),
-  paragraphs: z.array(z.object({ id: paragraphIdSchema.optional(), text: z.string(), level: z.number().int().min(0).max(10), header: z.string().optional(), portionMarking: z.string().optional(),
+  paragraphs: z.array(z.object({ id: paragraphIdSchema.optional(), text: z.string(), bodyTable: bodyTableSchema.optional(), level: z.number().int().min(0).max(10), header: z.string().optional(), portionMarking: z.string().optional(),
     tableKey: z.string().optional(), tableIdentifierMode: z.enum(['stock', 'software']).optional(), callout: z.enum(['warning', 'caution', 'note']).optional(), procedure: z.boolean().optional(), appendix: z.boolean().optional(),
     referenceId: z.string().optional(), publicationSection: z.string().optional(), tableFootnotes: z.array(z.object({ id: z.string(), text: z.string() })).optional(),
-    figure: z.object({ name: z.string().optional(), type: z.string().optional(), width: z.number().optional(), height: z.number().optional(), portionMarking: z.string().optional() }).optional(),
+    figure: z.object({ name: z.string().optional(), type: z.string().optional(), width: z.number().optional(), height: z.number().optional(), portionMarking: z.string().optional(), placement: z.literal('body').optional(), altText: z.string().max(2_000).optional() }).optional(),
+  }).superRefine((paragraph, context) => {
+    try { assertRichBlockShape(paragraph); }
+    catch (error) { context.addIssue({ code: 'custom', message: error instanceof Error ? error.message : 'Invalid rich body block.' }); }
   })),
   references: z.array(z.object({ letter: z.string(), title: z.string(), url: z.string().optional() })),
   enclosures: z.array(z.object({ title: z.string(), pageStyle: z.string().optional(), hasCoverPage: z.boolean().optional(), coverPageDescription: z.string().optional() })),
@@ -39,7 +43,7 @@ export type SharedDocumentKind = 'correspondence' | 'builtin-form' | 'configured
 const sharedKind = z.enum(['correspondence', 'builtin-form', 'configured-form']);
 const envelope = z.discriminatedUnion('kind', [
   z.object({ kind: z.literal('dondocs-share'), version: z.union([z.literal(1), z.literal(2)]), documentKind: sharedKind }),
-  z.object({ kind: z.literal('dondocs-draft'), version: z.union([z.literal(2), z.literal(3)]), documentKind: sharedKind })
+  z.object({ kind: z.literal('dondocs-draft'), version: z.union([z.literal(2), z.literal(3), z.literal(4)]), documentKind: sharedKind })
     .refine(value => value.version !== 3 || value.documentKind === 'configured-form'),
 ]);
 const expiringEnvelope = z.object({
@@ -48,6 +52,8 @@ const expiringEnvelope = z.object({
 }).strict();
 type OrdinaryShare = SerializedSession & { kind: 'dondocs-share'; version: 1 | 2; documentKind: SharedDocumentKind };
 type ExpiringShare = { kind: 'dondocs-share'; version: 3; documentKind: SharedDocumentKind; expiresAt: number; session: SerializedSession };
+type RichShare = { kind: 'dondocs-share'; version: 5; documentKind: SharedDocumentKind; expiresAt?: number; session: SerializedSession };
+const richShareEnvelope = z.object({ kind: z.literal('dondocs-share'), version: z.literal(5), documentKind: sharedKind, expiresAt: z.number().optional(), session: z.unknown() }).strict();
 
 /** UTC epoch milliseconds; the receiving device rejects at the exact deadline. */
 export function validateShareExpiration(expiresAt: number, now = Date.now()): void {
@@ -60,10 +66,14 @@ function documentKind(session: SerializedSession): SharedDocumentKind {
 }
 
 /** Ordinary shares retain v1; comment-bearing copies require a review-aware reader. */
-export function createSharedPayload(session: SerializedSession): OrdinaryShare;
-export function createSharedPayload(session: SerializedSession, expiresAt: number): ExpiringShare;
-export function createSharedPayload(session: SerializedSession, expiresAt?: number): OrdinaryShare | ExpiringShare {
+export function createSharedPayload(session: SerializedSession): OrdinaryShare | RichShare;
+export function createSharedPayload(session: SerializedSession, expiresAt: number): ExpiringShare | (RichShare & { expiresAt: number });
+export function createSharedPayload(session: SerializedSession, expiresAt?: number): OrdinaryShare | ExpiringShare | RichShare {
   const owned = projectSharedSession(parseSharedSession(session));
+  if (hasRichBody(owned)) {
+    if (expiresAt !== undefined) validateShareExpiration(expiresAt);
+    return { kind: 'dondocs-share', version: 5, documentKind: documentKind(owned), session: owned, ...(expiresAt !== undefined ? { expiresAt } : {}) };
+  }
   if (expiresAt !== undefined) {
     validateShareExpiration(expiresAt);
     // Nest required document fields so readers predating versioned envelopes
@@ -75,6 +85,15 @@ export function createSharedPayload(session: SerializedSession, expiresAt?: numb
 
 /** Validate before touching the recipient's current document. */
 export function parseSharedSession(value: unknown): SerializedSession {
+  if (value && typeof value === 'object' && 'kind' in value && value.kind === 'dondocs-share' && 'version' in value && value.version === 5) {
+    const envelope = richShareEnvelope.parse(value);
+    if (envelope.expiresAt !== undefined) validateShareExpiration(envelope.expiresAt);
+    const raw = envelope.session;
+    if (!raw || typeof raw !== 'object' || ['kind', 'documentKind', 'expiresAt', 'version'].some(key => key in raw)) throw new Error('This rich share format is unsupported.');
+    const session = parseSharedSession(raw);
+    if (documentKind(session) !== envelope.documentKind) throw new Error('The shared document kind does not match its contents.');
+    return session;
+  }
   if (value && typeof value === 'object' && 'kind' in value && value.kind === 'dondocs-share' && 'version' in value && value.version === 3) {
     const parsed = expiringEnvelope.safeParse(value);
     if (!parsed.success) throw new Error('This share link has an invalid expiration or unsupported format.');
@@ -125,5 +144,6 @@ export function parseSharedSession(value: unknown): SerializedSession {
 
 /** Older readers reject comment-bearing drafts instead of silently removing review data. */
 export function draftEnvelope(session: SerializedSession) {
+  if (hasRichBody(session)) return { kind: 'dondocs-draft' as const, version: 4 as const, documentKind: documentKind(session) };
   return hasReviewComments(session) ? { kind: 'dondocs-draft' as const, version: 2 as const, documentKind: documentKind(session) } : { version: '1.1' };
 }

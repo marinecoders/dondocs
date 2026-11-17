@@ -734,3 +734,9 @@ before width measurement, so zero-advance characters and oversized clusters cann
 cause unbounded shaping work. Longer paragraphs still wrap normally; a line that
 reaches this limit produces an explicit decision-summary HTML recovery message
 without changing the source text. This is not a tagged-PDF/PDF-UA implementation.
+
+## Rich Word import resources
+
+Native body tables, body-image placement/alternatives and retained Word originals use draft version 4, ordinary share version 5, asset share version 6 and workspace backup version 14. Existing documents without this content retain their previous envelopes. Readers that do not support these versions reject them rather than silently dropping rich content. Older code reading on-device sessions can still lose unfamiliar fields; retain a current complete backup before opening an older build.
+
+The original Word resource has its own local attachment reference, byte length, SHA-256 and bounded source-text inventory. Complete draft and asset transfers include its bytes; ordinary shares remove local handles. Import validates complete resources before committing the document and attachments together. Garbage collection and workspace backup follow references in saved documents, history and package content. Reusable package templates strip historical Word originals while retaining deliberate native content. See [Word imports](WORD_IMPORT.md) for the user-visible boundary.

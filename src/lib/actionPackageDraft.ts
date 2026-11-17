@@ -4,6 +4,7 @@ import { parseDraftFile } from "./draftFile";
 import { validateBackup } from "./backupValidation";
 import { base64ToUint8Array, uint8ArrayToBase64 } from "./encoding";
 import { validateFigureAsset } from "@/services/latex/figureAssets";
+import { validateWordSourceFile } from './wordSourceResources';
 
 /** Native draft transfer remains the model owner; package imports additionally require complete readable resources. */
 export async function validatePackageDraft(value: unknown) {
@@ -36,11 +37,13 @@ export async function validatePackageDraft(value: unknown) {
   const form = raw.formData as Record<string, unknown>;
   if (
     form.basicLetterFileRef ||
+    (form.wordSource as { fileRef?: unknown } | undefined)?.fileRef ||
     (form.signatureImage as { fileRef?: unknown } | undefined)?.fileRef
   )
     throw new Error(
       "A package draft cannot resolve device-local attachment handles.",
     );
+  if (reviewed.wordSourceFile && reviewed.session.formData.wordSource) await validateWordSourceFile(reviewed.wordSourceFile, reviewed.session.formData.wordSource);
   const basic = form.basicLetterFile as
     | { data: string; size: number }
     | undefined;

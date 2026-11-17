@@ -180,7 +180,7 @@ describe('paragraph review persistence and compatibility', () => {
     expect(parseSavedSession(session).reviewComments).toBeUndefined();
     const payload = createSharedPayload(session);
     expect(payload.version).toBe(1);
-    expect(payload.reviewComments).toBeUndefined();
+    expect(parseSharedSession(payload).reviewComments).toBeUndefined();
   });
 
   it('scans retained paragraph context, reviewer names and messages after the node is deleted', () => {

@@ -265,6 +265,15 @@ export async function prepareReviewedDocument(reviewed: ReviewedDraft, current: 
 function stageReviewedDocument(owned: ReviewedDraft, state: DocumentSnapshot, current: () => boolean): Promise<PreparedDocument | null> {
   return withAttachmentStaging(async () => {
     if (!current()) return null;
+    if (owned.wordSourceFile) {
+      const file = owned.wordSourceFile, source = state.formData.wordSource;
+      if (!source || file.data.byteLength > 20 * 1024 * 1024) throw new Error('Invalid original Word resource.');
+      const { validateWordSourceFile } = await import('@/lib/wordSourceResources');
+      await validateWordSourceFile(file, source);
+      if (!current()) return null;
+      source.fileRef = await persistAttachment({ name: source.name, size: file.data.byteLength, type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' }, file.data);
+      if (!current()) return null;
+    }
     if (owned.formTemplates) {
       if (!state.genericForm) throw new Error('Portable templates require a configured form.');
       const templates = await validatePortableFormTemplates([state.genericForm.definition], owned.formTemplates.portableFormTemplates, owned.formTemplates.portableResources);

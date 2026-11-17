@@ -79,7 +79,7 @@ function active(source: DocumentFieldSource, path: FieldPath, projection: FieldP
   if (source.documentMode !== 'custom' && root === 'references' && !config.compliance.allowReferences) return false;
   if (source.documentMode !== 'custom' && root === 'enclosures' && !config.compliance.allowEnclosures) return false;
   const technical = technicalTypes.has(source.docType);
-  if (root === 'paragraphs' && path[2] === 'figure' && projection !== 'search') return technical || source.docType === 'business_letter';
+  if (root === 'paragraphs' && path[2] === 'figure' && projection !== 'search') return technical || source.docType === 'business_letter' || typeof path[1] === 'number' && source.paragraphs?.[path[1]]?.figure?.placement === 'body';
   if (root === 'endItems') return technical && source.docType !== 'tm_ietm_front_matter';
   if (root === 'publicationTables') return source.docType === 'i_type';
   if (root === 'paragraphs' && ['sl3', 'sl4'].includes(source.docType) && typeof path[1] === 'number') {
@@ -89,6 +89,7 @@ function active(source: DocumentFieldSource, path: FieldPath, projection: FieldP
   if (source.docType === 'tm_ietm_front_matter' && ['paragraphs', 'references', 'enclosures', 'copyTos', 'distributions'].includes(String(root))) return false;
   if (root !== 'formData' || typeof path[1] !== 'string') return true;
   const key = path[1];
+  if (key === 'wordSource') return ['draft', 'share', 'backup', 'search'].includes(projection);
   if (source.docType === 'mfr' && ['from', 'to', 'via'].includes(key)) return false;
   if (key === 'manualFrontMatter') return source.docType === 'tm_ietm_front_matter';
   if (key === 'sl3' || key === 'sl4') return source.docType === key;

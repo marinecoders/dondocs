@@ -582,6 +582,42 @@ export async function idbPutDocument(doc: StoredDocument): Promise<boolean> {
 
 export type DocumentWriteOutcome = 'committed' | 'already-committed' | 'conflict' | 'missing-document' | 'failed';
 
+/** A new document and its operation-owned imported files become durable
+ * together. A cancelled/failed transaction cannot leave partial source files. */
+export async function idbInstallDocumentWithAssets(document: StoredDocument, assets: readonly StoredAttachment[], current: () => boolean, signal?: AbortSignal): Promise<'committed' | 'stale' | 'failed'> {
+  if (!hasIndexedDb) return 'failed';
+  if (!current() || signal?.aborted) return 'stale';
+  const ids = new Set(assets.map(asset => asset.id));
+  if (document.id !== document.meta.id || ids.size !== assets.length || assets.length > 31
+    || assets.some(asset => !asset.id || !(asset.data instanceof ArrayBuffer) || asset.size !== asset.data.byteLength || !asset.size || asset.size > 25 * 1024 * 1024)
+    || assets.reduce((size, asset) => size + asset.size, 0) > 64 * 1024 * 1024) throw new Error('Imported document resources exceed their storage limits.');
+  const ownedDocument = structuredClone(document);
+  const ownedAssets = assets.map(asset => ({ ...asset, data: asset.data.slice(0) }));
+  try {
+    const db = await openDb();
+    if (!current() || signal?.aborted) return 'stale';
+    return await new Promise((resolve, reject) => {
+      const transaction = db.transaction([DOCS_STORE, ATTACHMENTS_STORE], 'readwrite');
+      let stale = false;
+      const abort = () => { stale = true; try { transaction.abort(); } catch { /* Completion already owns the committed copy. */ } };
+      signal?.addEventListener('abort', abort, { once: true });
+      const request = transaction.objectStore(DOCS_STORE).get(ownedDocument.id);
+      request.onsuccess = () => {
+        if (!current() || signal?.aborted) { abort(); return; }
+        if (request.result) { transaction.abort(); return; }
+        for (const asset of ownedAssets) transaction.objectStore(ATTACHMENTS_STORE).add(asset);
+        transaction.objectStore(DOCS_STORE).add(ownedDocument);
+      };
+      transaction.oncomplete = () => { signal?.removeEventListener('abort', abort); resolve('committed'); };
+      transaction.onabort = () => { signal?.removeEventListener('abort', abort); if (stale) resolve('stale'); else reject(transaction.error ?? new Error('Imported document write aborted.')); };
+      transaction.onerror = () => { signal?.removeEventListener('abort', abort); reject(transaction.error ?? new Error('Imported document write failed.')); };
+    });
+  } catch (error) {
+    debug.error('DocumentsDb', 'Imported document and resource transaction failed', error);
+    return 'failed';
+  }
+}
+
 /** Compare and write in one transaction; ordinary saves and recovery share this contract. */
 export async function idbWriteDocument(
   before: StoredDocument | null,
