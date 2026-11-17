@@ -42,6 +42,7 @@ import { useCanUndo, useCanRedo } from '@/stores/historyStore';
 import { triggerDownload } from '@/lib/encoding';
 import { buildDraftFile, parseDraftFile, parsePortableDraft, type ReviewedDraft } from '@/lib/draftFile';
 import { SessionPreview } from '@/components/SessionPreview';
+import { TaggedPdfExportDialog } from '@/components/modals/TaggedPdfExportDialog';
 import type { WordReviewExportOptions } from '@/components/WordReviewControls';
 import { ReviewRoundsModal } from '@/components/modals/ReviewRoundsModal';
 import { DocumentComments } from '@/components/editor/DocumentComments';
@@ -58,6 +59,7 @@ interface HeaderProps {
   wordReviewExport?: WordReviewExportOptions;
   onPrepareSigning?: () => void;
   onDownloadPdf?: () => void;
+  onDownloadTaggedPdf?: () => void;
   onDownloadTex?: () => void;
   onDownloadDocx?: () => void;
   onDownloadFlatTex?: () => void;
@@ -90,6 +92,7 @@ export function Header({
   wordReviewExport,
   onPrepareSigning,
   onDownloadPdf,
+  onDownloadTaggedPdf,
   onDownloadTex,
   onDownloadDocx,
   onDownloadFlatTex,
@@ -100,6 +103,7 @@ export function Header({
   isFormsMode = false,
   updateAvailable = false,
 }: HeaderProps) {
+  const [taggedPdfOpen, setTaggedPdfOpen] = useState(false);
   // One selector per field so Zustand only re-renders on that field's change,
   // not on every store update (this header is ~40 buttons + dropdowns). Setters
   // are stable, so selecting them is free. Same for the document + history stores.
@@ -354,6 +358,9 @@ export function Header({
                   <DropdownMenuShortcut>{formatShortcut('mod D')}</DropdownMenuShortcut>
                 )}
               </DropdownMenuItem>
+              {onDownloadTaggedPdf && !isFormsMode && <DropdownMenuItem disabled={isPdfGenerating} onClick={() => setTaggedPdfOpen(true)}>
+                <FileText className="h-4 w-4 mr-2" />Tagged PDF (experimental)
+              </DropdownMenuItem>}
               {capabilityAvailable(output.word) && (
                 <>
                   <DropdownMenuItem
@@ -491,6 +498,7 @@ export function Header({
           <DialogFooter><Button variant="outline" disabled={openingDraft} onClick={() => setReviewedDraft(null)}>Cancel</Button><Button disabled={openingDraft} onClick={() => void openReviewedDraft()}>{openingDraft ? 'Opening…' : 'Open as new document'}</Button></DialogFooter>
         </DialogContent>
       </Dialog>
+      {onDownloadTaggedPdf && taggedPdfOpen && <TaggedPdfExportDialog open={taggedPdfOpen} onOpenChange={setTaggedPdfOpen} onExport={onDownloadTaggedPdf} disabled={isPdfGenerating} />}
       <ReviewRoundsModal wordExport={wordReviewExport} open={reviewRoundsOpen} onOpenChange={setReviewRoundsOpen} />
       {/* Reset confirmation dialog */}
       <AlertDialog open={showResetDialog} onOpenChange={setShowResetDialog}>

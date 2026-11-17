@@ -13,6 +13,7 @@ export interface ExportIntent {
   readonly target: ExportTarget;
   readonly filename: string;
   readonly texMode?: 'configuration' | 'flat';
+  readonly pdfAccessibility?: 'tagged';
   readonly placeholders?: Record<string, string>;
 }
 export type ExportReviewStage = 'structure' | 'marking' | 'privacy';

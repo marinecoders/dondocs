@@ -10,8 +10,6 @@ import { formatViaLines } from '@/lib/viaLines';
 import { composeSenderSymbol } from '@/services/latex/senderSymbol';
 import { signatureAuthorityLine, signaturePosition, supportsActingSignature } from '@/lib/signingAuthority';
 import { DOC_TYPE_CONFIG } from '@/types/document';
-import { resolveAppendedEndorsements } from '@/lib/appendedEndorsement';
-import { bodyTableSchema } from '@/lib/bodyTable';
 import type { PdfRasterBinding } from './raster';
 import { validatePdfTaggingPlan, type PdfSemanticNode, type PdfSemanticRole, type PdfTaggingPlan } from './taggedPdf';
 
@@ -30,38 +28,8 @@ export interface TaggedCorrespondenceOptions {
 type InlinePart = Parameters<LatexBodyAdapter['inline']>[1];
 interface MutableNode extends Omit<PdfSemanticNode, 'children'> { children?: MutableNode[] }
 
-/** Conservative, visible support boundaries. Unsupported source stays editable;
- * a tagged request must stop rather than silently return an ordinary PDF. */
-export function taggedCorrespondenceIssues(source: TaggedCorrespondenceSource, resolvedLevel = source.formData.classLevel ?? 'unclassified'): string[] {
-  const issues: string[] = [];
-  if (!['standard_letter', 'naval_letter'].includes(source.docType)) issues.push('Tagged PDF currently supports standard and naval letters. Other document layouts need separate qualification.');
-  if (resolvedLevel !== 'unclassified' || source.paragraphs.some(p => (p.portionMarking && p.portionMarking !== 'U') || (p.figure?.portionMarking && p.figure.portionMarking !== 'U'))) issues.push('Classification and handling banners are not yet qualified for tagged output.');
-  if (source.enclosures.length || source.formData.basicLetterFile || source.formData.basicLetterFileRef) issues.push('Tagged output cannot include original PDFs or enclosures. Export the native letter separately.');
-  if (source.formData.signatureType && source.formData.signatureType !== 'none') issues.push('Signature images and digital signature fields need separate tagged-output qualification.');
-  if (resolveAppendedEndorsements(source.docType, source.formData).length) issues.push('Appended endorsements are not yet qualified for tagged output.');
-  if (!source.formData.subject?.trim() || !source.formData.from?.trim() || !source.formData.to?.trim() || !source.formData.date?.trim()) issues.push('Complete the subject, date, From and To fields before tagged export.');
-  if (!source.paragraphs.length || source.paragraphs.length > 200) issues.push('Tagged letters require between 1 and 200 body paragraphs.');
-  if (source.paragraphs.some(p => p.tableKey || p.callout || p.procedure || p.appendix)) issues.push('Publication blocks need their tagged-output qualification.');
-  for (const [index, p] of source.paragraphs.entries()) {
-    if (p.bodyTable) {
-      const parsed = bodyTableSchema.safeParse(p.bodyTable);
-      if (!parsed.success || !p.bodyTable.headerRows || p.bodyTable.headerRows >= p.bodyTable.rows.length
-        || p.bodyTable.rows.slice(0, p.bodyTable.headerRows).some(row => row.some(cell => !cell.trim()))) issues.push('Tagged tables need a valid rectangular body with nonempty column headers and at least one data row.');
-      if (parsed.success && (p.bodyTable.rows[0].length > 6 || p.bodyTable.rows.some(row => row.reduce((sum, cell) => sum + cell.length, 0) > 1200 || row.some(cell => cell.length > 400)))) issues.push('Tagged tables currently support up to 6 columns, 400 characters per cell and 1200 per row. Split dense tables before tagged export.');
-    }
-    if (p.figure && (p.figure.placement !== 'body' || !p.figure.fileRef || !['image/png', 'image/jpeg'].includes(p.figure.type ?? '') || !p.figure.altText?.trim() || p.figure.altText.length > 2000)) issues.push('Tagged body images need an attached PNG or JPEG and meaningful alternative text.');
-    if ((p.figure || p.bodyTable) && (p.level !== 0 || (source.paragraphs[index + 1]?.level ?? 0) !== 0)) issues.push('Tagged tables and images must stand between top-level paragraphs.');
-  }
-  if (source.paragraphs.some(p => !p.bodyTable && !p.figure && !p.text.trim() && !p.header?.trim())) issues.push('Remove empty body paragraphs before tagged export.');
-  if (source.paragraphs.some((p, index) => !Number.isInteger(p.level) || p.level < 0 || p.level > 5 || (!index && p.level !== 0)
-    || (index > 0 && p.level > source.paragraphs[index - 1].level + 1))) issues.push('Correct the paragraph hierarchy before tagged export.');
-  if (source.references.some(ref => ref.url?.trim())) issues.push('Linked references need annotation qualification before tagged export.');
-  if (source.references.some(ref => !ref.letter.trim() || !ref.title.trim())) issues.push('Complete reference labels and titles before tagged export.');
-  if (source.copyTos.some(row => !row.text.trim()) || source.distributions.some(row => !row.text.trim())) issues.push('Remove empty Copy to and Distribution entries before tagged export.');
-  const chars = source.paragraphs.reduce((sum, p) => sum + p.text.length + (p.header?.length ?? 0) + (p.bodyTable?.rows.reduce((total, row) => total + row.reduce((length, cell) => length + cell.length, 0), 0) ?? 0) + (p.figure?.altText?.length ?? 0), 0);
-  if (chars > 250_000 || source.references.length > 100 || source.copyTos.length > 100 || source.distributions.length > 100) issues.push('The letter exceeds the qualified tagged-output content limits.');
-  return issues;
-}
+export { taggedCorrespondenceIssues } from './preflight';
+import { taggedCorrespondenceIssues } from './preflight';
 
 function replaceOnce(source: string, target: string, replacement: string): string {
   if (!source.includes(target) || source.indexOf(target) !== source.lastIndexOf(target)) throw new Error('The tagged PDF template contract changed. Requalify this layout before export.');

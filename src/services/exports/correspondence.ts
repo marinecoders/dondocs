@@ -1,3 +1,5 @@
+import type { LatexCompileProfile } from '@/services/latex/renderDocument';
+import { renderTaggedCorrespondence } from '@/services/pdf/accessibility/render';
 import { resolveSignature } from '@/lib/signatureAssets';
 import { copyPreparedDocument, preparedExportMarking, type ReadyExportJob } from '@/lib/preparedExport';
 import { createExportArtifact, type ExportArtifact } from '@/lib/exportExecution';
@@ -22,7 +24,7 @@ export const storedExportAssets: ExportAssets = {
 };
 export type CorrespondenceRenderPhase = 'pdf-compiling' | 'pdf-merging-enclosures' | 'pdf-saving' | 'docx-preparing';
 export interface CorrespondenceRendererPorts {
-  compile(files: Record<string, string | Uint8Array>): Promise<Uint8Array | null>;
+  compile(files: Record<string, string | Uint8Array>, profile?: LatexCompileProfile): Promise<Uint8Array | null>;
   convertDocx(latex: string, options: DocxConversionOptions, onProgress?: DocxProgressCallback): Promise<Blob>;
   assets?: ExportAssets;
   onDocxProgress?: DocxProgressCallback;
@@ -91,6 +93,11 @@ export async function renderPreparedCorrespondence(ready: ReadyExportJob, ports:
   const assets = ports.assets ?? storedExportAssets;
   return assets.withAssets([...ids], async read => {
     checkCancellation(signal);
+    if (ready.job.pdfAccessibility === 'tagged') {
+      const bytes = await renderTaggedCorrespondence(document, { referenceDate, signal, read, compile, onCompiling: () => reportProgress('pdf-compiling') });
+      reportProgress('pdf-saving');
+      return createExportArtifact(ready, new Blob([new Uint8Array(bytes)], { type: 'application/pdf' }));
+    }
     if (document.docType === 'new_page_endorsement' && document.formData.basicLetterFileRef && !document.formData.basicLetterFile?.data) {
       const ref = document.formData.basicLetterFileRef;
       const record = read(ref.id);

@@ -7,6 +7,13 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.134] — 2026-11-17
+
+### Added
+
+- An explicit reviewed Tagged PDF (experimental) download.
+
+
 ## [1.3.133] — 2026-11-17
 
 ### Added
