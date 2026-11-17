@@ -5,6 +5,8 @@ import { manualPacket } from '../_helpers/manualPacket';
 import { renderPublicationDocx, type PublicationWordSource } from '@/services/docx/publication';
 import { PublicationWordPackage } from '@/services/docx/publication/package';
 import { MANUAL_TYPES, type ManualFrontMatter } from '@/data/techpub/manualFrontMatter';
+import { instructionWordSource } from '../_helpers/publicationWordQualification';
+import { publicationWordExportErrors } from '@/lib/publicationWordPreflight';
 
 const referenceDate = new Date('2026-10-30T12:00:00Z');
 const source = (count = 1): PublicationWordSource => ({ ...manualPacket(count), paragraphs: [], endItems: [], publicationTables: {} });
@@ -96,6 +98,140 @@ describe('publication Word output', () => {
     expect(xml).toMatch(/<w:ind w:left="360"\/><w:jc w:val="center"\/>/);
     expect(xml).toMatch(/<w:tblW[^>]*\/><w:tblBorders>[\s\S]*?<\/w:tblBorders><w:tblLayout w:type="fixed"\/><w:tblCellMar>/);
   });
+  it.each(['MI', 'TI', 'SI', 'LI'] as const)('retains %s instruction identity and supported native typography', async type => {
+    const { xml, zip } = await output(instructionWordSource(type));
+    expect(text(xml)).toContain(`${type} 12345A-26/1`);
+    expect(text(xml)).toContain('END OF INSTRUCTION');
+    expect(text(xml).includes('GCSS-MC Recording')).toBe(type === 'MI');
+    expect(await zip.file('word/styles.xml')!.async('string')).toContain('<w:sz w:val="24"/>');
+    expect(xml).not.toContain('w:fmt="lowerRoman"');
+    expect((xml.match(/w:start="1"/g) ?? [])).toHaveLength(1);
+    for (const name of Object.keys(zip.files).filter(name => /^word\/footer\d+\.xml$/.test(name))) expect(await zip.file(name)!.async('string')).not.toContain('T-');
+  });
+  it('retains fixed table columns, references and appendix numbering in an instruction', async () => {
+    const document = instructionWordSource();
+    const id = 'A'.repeat(32);
+    document.paragraphs[0].text = `Review {{PUBREF_T_${id}}} before use.`;
+    document.paragraphs.push({ referenceId: id, level: 0, header: 'Major Items Affected', text: '', tableKey: 'majorItems' },
+      { level: 0, appendix: true, header: 'Inspection record', text: 'APPENDIX INTRODUCTION' }, { level: 0, text: 'APPENDIX CONTENT' });
+    document.publicationTables.majorItems = [{ values: { description: 'SUPPORT BRACKET', nsn: '1005-01-566-1100', tamcn: 'A02557G', id: '12345A' } }];
+    const { xml } = await output(document);
+    for (const marker of ['Description', 'NSN', 'TAMCN', 'I.D. No.', 'SUPPORT BRACKET', '1005-01-566-1100', 'APPENDIX INTRODUCTION', 'APPENDIX CONTENT']) expect(text(xml)).toContain(marker);
+    expect(xml).toContain('<w:hyperlink w:anchor="publication_');
+    expect(xml).toContain('w:bookmarkStart');
+    expect(xml).toContain('A-');
+    expect(text(xml)).not.toContain('{{PUBREF_');
+  });
+  it.each([0, 2])('preserves a general body table with %i header rows without inventing paragraph numbering', async headerRows => {
+    const document = instructionWordSource();
+    document.paragraphs.push({ level: 1, text: '', bodyTable: { rows: [['ALPHA CELL', 'BETA CELL'], ['GAMMA CELL', 'DELTA CELL']], headerRows } });
+    const { xml } = await output(document);
+    const tables = xml.match(/<w:tbl>[\s\S]*?<\/w:tbl>/g)!;
+    const last = tables.at(-1)!;
+    const content = text(`<root xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main">${last}</root>`);
+    for (const marker of ['ALPHA CELL', 'BETA CELL', 'GAMMA CELL', 'DELTA CELL']) expect(content).toContain(marker);
+    expect((last.match(/<w:tblHeader\/>/g) ?? []).length).toBe(headerRows);
+    expect((last.match(/<w:b\/>/g) ?? []).length).toBe(headerRows * 2);
+  });
+  it('rejects invalid generic header counts and inapplicable imported content in front-matter profiles', async () => {
+    const word = new PublicationWordPackage(new AbortController().signal);
+    for (const headerRows of [-1, 1.5, 3]) expect(() => word.table(['Header'], [['Cell']], [10080], { headerRows })).toThrow('header count');
+    const document = source();
+    document.paragraphs.push({ level: 0, text: '', bodyTable: { rows: [['RETAIN THIS']], headerRows: 0 } });
+    await expect(output(document)).rejects.toThrow('general body tables');
+  });
+  it('preserves unnumbered body images, numbered figures, source bytes and author alternative text', async () => {
+    const document = instructionWordSource();
+    const image = await seal();
+    const ref = { id: 'owned-figure', name: 'drawing.png', type: 'image/png', size: image.byteLength };
+    document.paragraphs.push({ level: 0, text: 'BODY CAPTION', figure: { fileRef: ref, type: 'image/png', placement: 'body', altText: 'Author supplied alternative text' } },
+      { level: 0, text: 'NUMBERED CAPTION', figure: { fileRef: ref, type: 'image/png' } });
+    const before = JSON.stringify(document);
+    const blob = await renderPublicationDocx(document, { loadSeal: seal, readAsset: id => {
+      expect(id).toBe(ref.id);
+      return { ...ref, data: new Uint8Array(image).buffer };
+    } }, new AbortController().signal, referenceDate);
+    const zip = await JSZip.loadAsync(await blob.arrayBuffer());
+    const xml = await zip.file('word/document.xml')!.async('string');
+    expect(xml).toContain('descr="Author supplied alternative text"');
+    expect(text(xml)).toContain('BODY CAPTION');
+    expect(text(xml)).toContain('Figure 1. NUMBERED CAPTION');
+    expect(text(xml)).not.toContain('Figure 2.');
+    expect(JSON.stringify(document)).toBe(before);
+    expect(await zip.file('word/media/image2.png')!.async('uint8array')).toEqual(image);
+  });
+  it('uppercases warning text while retaining a case-sensitive destination', async () => {
+    const word = new PublicationWordPackage(new AbortController().signal, 12);
+    word.text('Read https://example.test/CaseSensitive before work.', { uppercase: true });
+    const zip = await JSZip.loadAsync(await (await word.finish({ title: 'TEST' })).arrayBuffer());
+    expect(text(await zip.file('word/document.xml')!.async('string'))).toContain('READ HTTPS://EXAMPLE.TEST/CASESENSITIVE BEFORE WORK.');
+    expect(await zip.file('word/_rels/document.xml.rels')!.async('string')).toContain('https://example.test/CaseSensitive');
+  });
+  it('rejects a publication with a PDF figure before loading any Word assets', async () => {
+    const document = instructionWordSource();
+    document.paragraphs.push({ level: 0, text: 'Vector drawing', figure: { name: 'drawing.pdf', type: 'application/pdf', fileRef: { id: 'pdf-figure', name: 'drawing.pdf', type: 'application/pdf', size: 1024 } } });
+    expect(publicationWordExportErrors(document).join(' ')).toContain('PNG or JPEG');
+    let loaded = false;
+    await expect(renderPublicationDocx(document, { readAsset: noAsset, loadSeal: async () => { loaded = true; return seal(); } }, new AbortController().signal, referenceDate)).rejects.toThrow('Keep the original PDF separately');
+    expect(loaded).toBe(false);
+  });
+  it.each([false, true])('keeps distinct graphic and caption markings on body images, including empty captions (%s)', async empty => {
+    const document = instructionWordSource();
+    Object.assign(document.formData, { classLevel: 'cui', cuiControlledBy: 'Example Command', cuiCategory: 'CTI', pocEmail: 'sample@example.usmc.mil', cuiDistStatement: 'C', distReason: 'Controlled Technical Information', distDate: '2026-10-01' });
+    const bytes = await seal();
+    const ref = { id: 'marked-image', name: 'drawing.png', type: 'image/png', size: bytes.byteLength };
+    document.paragraphs.push({ level: 0, portionMarking: 'U', header: empty ? '' : 'Image heading', text: empty ? '' : 'Image caption', figure: { fileRef: ref, type: 'image/png', placement: 'body', portionMarking: 'CUI', altText: 'Marked body image' } });
+    const blob = await renderPublicationDocx(document, { loadSeal: seal, readAsset: () => ({ ...ref, data: new Uint8Array(bytes).buffer }) }, new AbortController().signal, referenceDate);
+    const zip = await JSZip.loadAsync(await blob.arrayBuffer());
+    const xml = await zip.file('word/document.xml')!.async('string');
+    const image = xml.indexOf('descr="Marked body image"');
+    expect(xml.indexOf('>(CUI)</w:t>')).toBeLessThan(image);
+    expect(xml.indexOf(empty ? '>(U)</w:t>' : '(U) Image heading. ')).toBeGreaterThan(image);
+    if (!empty) expect(text(xml)).toContain('(U) Image heading. Image caption');
+    expect(text(xml)).not.toContain('(CUI) Image heading');
+  });
+  it('keeps table footnote links superscript and small fixed headers wide enough', async () => {
+    const document = instructionWordSource(), id = 'B'.repeat(32);
+    document.paragraphs.push({ level: 0, header: 'Materiel Required', text: '', referenceId: id, tableKey: 'materielRequired', tableFootnotes: [{ id: 'a', text: 'Quantity is per assembly.' }] });
+    document.publicationTables.materielRequired = [{ values: { item: '1', description: `BOLT{{PUBREF_N_${id}_A}}`, pn: 'BR-100 (1AB23)', qty: '2' } }];
+    const { xml } = await output(document);
+    const table = xml.match(/<w:tbl>[\s\S]*?<\/w:tbl>/g)!.at(-1)!;
+    expect(table).toContain('<w:vertAlign w:val="superscript"/>');
+    expect(Number(/<w:tblGrid><w:gridCol w:w="(\d+)"/.exec(table)![1])).toBeGreaterThanOrEqual(720);
+    expect(text(xml)).toContain('a  Quantity is per assembly.');
+  });
+  it('places instruction furniture at the outer edges with native even-page parts', async () => {
+    const document = instructionWordSource();
+    Object.assign(document.formData, { classLevel: 'cui', cuiControlledBy: 'Example Command', cuiCategory: 'CTI', cuiDissemination: 'FEDCON', pocEmail: 'sample@example.usmc.mil', cuiDistStatement: 'C', distReason: 'Controlled Technical Information', distDate: '2026-10-01' });
+    const { zip, xml } = await output(document);
+    const settings = await zip.file('word/settings.xml')!.async('string');
+    expect(settings).toContain('<w:evenAndOddHeaders/>');
+    expect(settings.indexOf('evenAndOddHeaders')).toBeLessThan(settings.indexOf('updateFields'));
+    for (const [suffix, edge] of [['', 'right'], ['-even', 'left']]) {
+      const header = await zip.file(`word/header2${suffix}.xml`)!.async('string');
+      const footer = await zip.file(`word/footer2${suffix}.xml`)!.async('string');
+      expect(header).toContain(`<w:jc w:val="${edge}"/>`);
+      expect(footer).toContain(`<w:jc w:val="${edge}"/>`);
+      expect(header).toContain('<w:sz w:val="20"/>');
+      expect(header).not.toContain('<w:sz w:val="28"/>');
+    }
+    for (const section of xml.match(/<w:sectPr>[\s\S]*?<\/w:sectPr>/g)!) {
+      expect(section).toContain('<w:headerReference w:type="even"');
+      expect(section).toContain('<w:footerReference w:type="even"');
+      expect(section.lastIndexOf('headerReference')).toBeLessThan(section.indexOf('footerReference'));
+    }
+    const manual = await output();
+    expect(await manual.zip.file('word/settings.xml')!.async('string')).not.toContain('evenAndOddHeaders');
+  });
+
+  it('rejects conflicting rich blocks before loading or silently dropping either payload', async () => {
+    const document = instructionWordSource();
+    document.paragraphs.push({ level: 0, text: '', bodyTable: { rows: [['Retain this table']], headerRows: 0 }, figure: { placement: 'body', fileRef: { id: 'figure', name: 'drawing.png', type: 'image/png', size: 1 } } });
+    let loaded = false;
+    await expect(renderPublicationDocx(document, { readAsset: noAsset, loadSeal: async () => { loaded = true; return seal(); } }, new AbortController().signal, referenceDate).then(() => undefined)).rejects.toThrow('own native block');
+    expect(loaded).toBe(false);
+  });
+
   it('retains a manual volume in its running title', async () => {
     const document = source();
     Object.assign(document.formData.manualFrontMatter!, { volume: '1', volumes: '2', subtitle: 'CONTROLLER INSPECTION' });
@@ -128,19 +264,84 @@ describe('publication Word output', () => {
     expect(document.match(/<w:b\/><w:i\/>/g)).toHaveLength(2);
   });
 
-  it('rejects invalid generic header counts and inapplicable imported content in front-matter profiles', async () => {
-    const word = new PublicationWordPackage(new AbortController().signal);
-    for (const headerRows of [-1, 1.5, 3]) expect(() => word.table(['Header'], [['Cell']], [10080], { headerRows })).toThrow('header count');
-    const document = source();
-    document.paragraphs.push({ level: 0, text: '', bodyTable: { rows: [['RETAIN THIS']], headerRows: 0 } });
-    await expect(output(document)).rejects.toThrow('general body tables');
+  it('keeps plain manual metadata literal while explicitly rich instruction prose stays styled', async () => {
+    const manual = source();
+    manual.formData.subject = 'CONTROLLER__REV__A';
+    manual.formData.unitLine2 = 'Office__Branch__A';
+    manual.formData.manualFrontMatter!.endItems[0].model = 'MODEL__REV__A';
+    const manualOutput = await output(manual);
+    for (const marker of ['CONTROLLER__REV__A', 'Office__Branch__A', 'MODEL__REV__A']) expect(text(manualOutput.xml)).toContain(marker);
+    const instruction = instructionWordSource();
+    instruction.formData.subject = 'INSPECT__REV__A';
+    instruction.paragraphs[0].text = 'Use **rich** prose.';
+    instruction.paragraphs.push({ level: 1, text: '', header: 'HEADER__REV__A' }, { level: 1, text: '', bodyTable: { rows: [['**RICH CELL**']], headerRows: 0 } });
+    const rendered = await output(instruction), visible = text(rendered.xml);
+    for (const marker of ['INSPECT__REV__A', 'HEADER__REV__A', 'Use rich prose.', 'RICH CELL']) expect(visible).toContain(marker);
+    expect(visible).not.toContain('**rich**');
+    expect(visible).not.toContain('**RICH CELL**');
   });
-  it('keeps manual identifiers literal rather than interpreting emphasis markers', async () => {
-    const document = source();
-    document.formData.subject = 'CONTROLLER__REV__A';
-    document.formData.unitLine2 = 'Office__Branch__A';
-    document.formData.manualFrontMatter!.endItems[0].model = 'MODEL__REV__A';
-    const result = await output(document);
-    for (const marker of ['CONTROLLER__REV__A', 'Office__Branch__A', 'MODEL__REV__A']) expect(text(result.xml)).toContain(marker);
+
+  it('retains a header-only appendix portion mark on its title and front-matter listing', async () => {
+    const document = instructionWordSource('TI');
+    Object.assign(document.formData, { classLevel: 'secret', cuiDistStatement: 'C', distReason: 'Controlled Technical Information', distDate: '2026-10-01',
+      classificationBasis: 'derivative', classifiedBy: 'Example Classifier, Example Office', derivedFrom: 'Example source', declassifyOn: '20361030' });
+    document.paragraphs.forEach(paragraph => { paragraph.portionMarking = 'U'; });
+    document.paragraphs.push({ level: 0, appendix: true, header: 'Secret appendix title', text: '', portionMarking: 'S' });
+    const visible = text((await output(document)).xml);
+    expect(visible).toContain('(S) Appendix A: Secret appendix title');
+    expect(visible).toContain('(S) APPENDIX A: SECRET APPENDIX TITLE');
   });
+
+  it('preserves plain body-table header identifiers alongside rich caption prose', async () => {
+    const document = instructionWordSource('TI');
+    document.paragraphs.push({ level: 1, header: 'CIRCUIT__REV__A', text: 'Use **this** caption.', bodyTable: { rows: [['CELL']], headerRows: 0 } });
+    const { xml } = await output(document);
+    const visible = text(xml);
+    expect(visible).toContain('CIRCUIT__REV__A. Use this caption.');
+    expect(visible).not.toContain('**this**');
+    expect(xml).toContain('<w:b/></w:rPr><w:t xml:space="preserve">this</w:t>');
+  });
+
+  it('keeps body-image and numbered-figure heading identifiers literal while styling their title prose', async () => {
+    const document = instructionWordSource('TI'), bytes = await seal();
+    const ref = { id: 'caption-image', name: 'drawing.png', type: 'image/png', size: bytes.byteLength };
+    document.paragraphs.push({ level: 0, header: 'BODY__REV__A', text: 'Use **rich** prose.', figure: { fileRef: ref, type: 'image/png', placement: 'body' } },
+      { level: 0, header: 'FIGURE__REV__A', text: 'Use **rich** prose.', figure: { fileRef: ref, type: 'image/png' } });
+    const blob = await renderPublicationDocx(document, { loadSeal: seal, readAsset: () => ({ ...ref, data: new Uint8Array(bytes).buffer }) }, new AbortController().signal, referenceDate);
+    const zip = await JSZip.loadAsync(await blob.arrayBuffer());
+    const visible = text(await zip.file('word/document.xml')!.async('string'));
+    expect(visible).toContain('BODY__REV__A. Use rich prose.');
+    expect(visible).toContain('Figure 1. FIGURE__REV__A. Use rich prose');
+    expect(visible).not.toContain('**rich**');
+  });
+
+  it.each([false, true])('underlines only the counter in deep ordinary paragraph labels (headings: %s)', async headings => {
+    const document = instructionWordSource('TI');
+    for (let level = 1; level <= 7; level++) document.paragraphs.push({ level, ...(headings ? { header: `Depth ${level} content`, text: '' } : { text: `Depth ${level} content` }) });
+    const dom = new DOMParser().parseFromString((await output(document)).xml, 'application/xml');
+    const paragraphs = Array.from(dom.getElementsByTagName('w:p'));
+    for (const [offset, counter] of ['1', 'a', '1', 'a'].entries()) {
+      const paragraph = paragraphs.find(p => p.textContent?.includes(`Depth ${offset + 4} content`))!;
+      const underlined = Array.from(paragraph.getElementsByTagName('w:r')).filter(run => run.getElementsByTagName('w:u').length);
+      expect(underlined.map(run => run.textContent)).toEqual([counter]);
+      expect(underlined[0].getElementsByTagName('w:b')).toHaveLength(headings ? 1 : 0);
+      expect(paragraph.textContent).toMatch(new RegExp(`^${['1\\.', 'a\\.', '\\(1\\)', '\\(a\\)'][offset]}  Depth`));
+    }
+    const shallow = paragraphs.find(p => p.textContent?.includes('Depth 1 content'))!;
+    const shallowCounter = Array.from(shallow.getElementsByTagName('w:r')).find(run => run.textContent?.trim())!;
+    expect(shallowCounter.getElementsByTagName('w:b')).toHaveLength(headings ? 1 : 0);
+    expect(dom.documentElement.textContent).not.toContain('\\uline');
+  });
+
+  it('retains the unpunctuated level-four I-Type step label', async () => {
+    const document = instructionWordSource('TI');
+    document.paragraphs.push({ level: 0, publicationSection: 'skill', header: 'Skill and Time Required', text: 'Equipment technician, 0.5 hours.' },
+      { level: 0, publicationSection: 'procedures', header: 'Inspect the bracket', text: 'Follow the steps below.' },
+      { level: 4, procedure: true, text: 'STEP ONE' }, { level: 4, procedure: true, text: 'STEP TWO' });
+    const dom = new DOMParser().parseFromString((await output(document)).xml, 'application/xml');
+    const steps = Array.from(dom.getElementsByTagName('w:p')).filter(p => p.textContent?.includes('STEP '));
+    expect(steps.map(p => p.textContent)).toEqual(['1  STEP ONE', '2  STEP TWO']);
+    expect(steps.map(p => Array.from(p.getElementsByTagName('w:r')).find(run => run.getElementsByTagName('w:u').length)?.textContent)).toEqual(['1', '2']);
+  });
+
 });
