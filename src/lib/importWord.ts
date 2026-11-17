@@ -5,6 +5,7 @@ import { newAttachmentId, withAttachmentStaging } from './attachments';
 import { idbInstallDocumentWithAssets, type StoredAttachment, type StoredDocument } from './documentsDb';
 import { serializeDocumentSnapshot } from './documentSerialization';
 import { WORD_DOCUMENT_TYPE } from '@/services/docx/import/readWord';
+import { nativeWordComments } from './wordComments';
 import type { FileRef } from '@/types/document';
 
 /** Install one prepared revision after all source/media writes, under the original owner. */
@@ -27,6 +28,7 @@ export async function openWordImport(result: ParsedImport, docType: string, targ
   if (!parsed.parsed.signature) { session.formData.sigFirst = ''; session.formData.sigMiddle = ''; session.formData.sigLast = ''; }
   const paragraphs = imported.blocks;
   session.paragraphs = paragraphs.map(block => block.paragraph);
+  session.reviewComments = nativeWordComments(imported, session);
   session.formData.wordSource = { name: imported.source.name, sha256: imported.source.sha256, notices: imported.notices, retainedText: imported.source.retainedText };
   const assets: StoredAttachment[] = [];
   const stage = (name: string, type: string, bytes: Uint8Array): FileRef => {

@@ -115,6 +115,22 @@ describe('rich Word storage and portable ownership', () => {
     expect(useDocumentsStore.getState().docs[id].meta.nativeReviewText).toBe(true);
   });
 
+  it('persists imported native Word discussions with exact original bytes through a complete draft', async () => {
+    const source = await wordImportFixture('<w:p><w:r><w:t>Before </w:t></w:r><w:commentRangeStart w:id="1"/><w:r><w:t>selected</w:t></w:r><w:commentRangeEnd w:id="1"/><w:r><w:t> after.</w:t></w:r></w:p>', {
+      'word/comments.xml': '<w:comments xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:comment w:id="1" w:author="Word Chief"><w:p><w:r><w:t>Imported Word feedback.</w:t></w:r></w:p></w:comment></w:comments>',
+    });
+    const parsed = await parseLetterFile(new File([source.buffer as ArrayBuffer], 'word-comments.docx'));
+    expect(await openWordImport(parsed, 'naval_letter')).toBe('applied');
+    const session = getSerializedSession(), thread = session.reviewComments!.threads[0];
+    expect(thread.anchor.kind).toBe('range');
+    expect(thread.messages[0].text).toContain('Imported Word feedback.');
+    const draft = await parsePortableDraft(await buildDraftFile(), false, true);
+    expect(draft.session.reviewComments).toEqual(session.reviewComments);
+    expect(new Uint8Array(draft.wordSourceFile!.data)).toEqual(source);
+    const share = await parseAssetSharePayload(await buildAssetSharePayload(useDocumentStore.getState().getSnapshot(), Date.now()));
+    expect(share.session.reviewComments).toEqual(session.reviewComments);
+  });
+
   it('aborts an asynchronous import without changing documents or retaining partial files', async () => {
     const bytes = await wordImportFixture(wordParagraph('1. Cancel this import.'));
     const parsed = await parseLetterFile(new File([bytes.buffer as ArrayBuffer], 'cancel.docx'));

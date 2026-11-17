@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import { useDocumentStore } from '@/stores/documentStore';
 import { loadAttachment } from '@/lib/attachments';
 import { triggerDownload } from '@/lib/encoding';
-import { readWordDocument, WORD_DOCUMENT_TYPE } from '@/services/docx/import/readWord';
+import { readRetainedWordSource, WORD_DOCUMENT_TYPE } from '@/services/docx/import/readWord';
 import { assertRetainedTextPolicy } from '@/lib/retainedDocumentTextPolicy';
 import { getExportDeploymentPolicy } from '@/config/classification';
 import { beginDocumentTask, isCurrentDocumentTask } from '@/lib/documentTask';
@@ -21,10 +21,10 @@ export function WordSourceNotice() {
       if (!source.fileRef) throw new Error('The original Word file is not included in this shared copy. Use a complete draft or library backup.');
       const data = await loadAttachment(source.fileRef.id);
       if (!data) throw new Error('The original Word file is unavailable. Restore its complete backup.');
-      const original = await readWordDocument(new Uint8Array(data), source.name);
+      const original = await readRetainedWordSource(new Uint8Array(data), source.name);
       if (!mounted.current || !isCurrentDocumentTask(task)) return;
-      if (original.source.sha256 !== source.sha256) throw new Error('The retained Word file does not match its saved identity.');
-      assertRetainedTextPolicy([source.name, original.source.retainedText], await getExportDeploymentPolicy(undefined, true));
+      if (original.sha256 !== source.sha256) throw new Error('The retained Word file does not match its saved identity.');
+      assertRetainedTextPolicy([source.name, original.retainedText], await getExportDeploymentPolicy(undefined, true));
       if (!mounted.current || !isCurrentDocumentTask(task)) return;
       triggerDownload(new Blob([data], { type: WORD_DOCUMENT_TYPE }), source.name);
     } catch (failure) {

@@ -168,7 +168,7 @@ function ImportLetterDialog() {
         setPhase({
           kind: 'error',
           source,
-          message: 'The letter was read, but could not be opened in the editor. Please try again.',
+          message: result.word && err instanceof Error ? err.message : 'The letter was read, but could not be opened in the editor. Please try again.',
         });
       }
     },
@@ -330,6 +330,7 @@ function ReviewBody({
         <Row label="Copy to" value={parsed.copyTos.length} />
         <Row label="Paragraphs" value={parsed.paragraphs.length} />
         <Row label="Editable tables" value={result.word?.blocks.filter(block => block.paragraph.bodyTable).length} />
+        <Row label="Word comments" value={result.word?.comments.length} />
         <Row label="Body images" value={result.word?.blocks.filter(block => block.paragraph.figure).length} />
         <Row label="Signature" value={sig} />
         <Row
