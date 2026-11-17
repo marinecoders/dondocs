@@ -12,7 +12,7 @@ import { describe, it, expect } from 'vitest';
 import { readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import { PDFDocument } from 'pdf-lib';
-import { prepareEngine, compileDocument, LatexCompileError } from '@/services/latex/renderDocument';
+import { prepareEngine, compileDocument, LatexCompileError, TAGGED_MAIN_FILE } from '@/services/latex/renderDocument';
 import { DOC_TYPE_CONFIG } from '@/types/document';
 import { supportsCorrespondenceSignatureImage } from '@/services/docx/imageAssets';
 import { docxImageFixture } from '../_helpers/docxImageFixture';
@@ -108,6 +108,24 @@ describe('prepareEngine', () => {
 });
 
 describe('compileDocument', () => {
+  it('resets the main source explicitly for normal jobs after successful and failed tagged jobs', async () => {
+    const result: Partial<CompileResult> = {};
+    const { engine, calls } = fakeEngine(result);
+    await compileDocument(engine, {});
+    await compileDocument(engine, { [TAGGED_MAIN_FILE]: 'tagged source' }, 'tagged-correspondence');
+    result.status = 1; result.pdf = undefined;
+    await expect(compileDocument(engine, { [TAGGED_MAIN_FILE]: 'invalid tagged source' }, 'tagged-correspondence')).rejects.toThrow();
+    result.status = 0; result.pdf = new Uint8Array([1, 2, 3]);
+    await compileDocument(engine, {});
+    expect(calls.filter(call => call.op === 'main').map(call => call.path)).toEqual(['main.tex', TAGGED_MAIN_FILE, TAGGED_MAIN_FILE, 'main.tex']);
+  });
+
+  it('requires the reserved entry source for a tagged compilation', async () => {
+    const { engine, calls } = fakeEngine();
+    await expect(compileDocument(engine, {}, 'tagged-correspondence')).rejects.toThrow(/main source is missing/);
+    expect(calls.some(call => call.op === 'compile')).toBe(false);
+  });
+
   it.each(Object.keys(DOC_TYPE_CONFIG))('matches signature-image visibility of the actual %s template', docType => {
     const load = (name: string): string => readFileSync(resolve('tex/templates', `${name}.tex`), 'utf8')
       .replace(/^\\input\{([^}]+)\}/gm, (_match, include: string) => load(include));

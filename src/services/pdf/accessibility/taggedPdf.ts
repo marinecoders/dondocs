@@ -1,3 +1,4 @@
+import { TAGGED_PDF_STRUCTURE_LIMITS } from './limits';
 import { PDFArray, PDFDict, PDFDocument, PDFHexString, PDFName, PDFNumber, PDFRawStream, type PDFRef } from 'pdf-lib';
 import { Inflate } from 'pako';
 import { byteString, byteStringBytes, readPdfContent, type PdfContentOperation } from './contentStream';
@@ -28,7 +29,7 @@ export interface TaggedPdfResult {
 const PAINT = new Set(['Tj', 'TJ', "'", '"', 'Do', 'sh', 'S', 's', 'f', 'F', 'f*', 'B', 'B*', 'b', 'b*']);
 const EXISTING_MARKED = new Set(['BMC', 'BDC', 'EMC']);
 const MAX_BYTES = 32 * 1024 * 1024;
-const MAX_NODES = 4096;
+const MAX_NODES = TAGGED_PDF_STRUCTURE_LIMITS.nodes;
 const ROLES = new Set(('Document Sect P H1 H2 H3 H4 H5 H6 L LI Lbl LBody Table TR TH TD Figure Caption Span').split(' '));
 
 function marker(operation: PdfContentOperation, nonce: string): { id: number; begin: boolean } | undefined {
@@ -48,7 +49,7 @@ function validatePlan(plan: PdfTaggingPlan): Map<number, PdfSemanticNode> {
   if (!/^[0-9a-f]{32}$/.test(plan.nonce) || !plan.title.trim() || plan.title.length > 2000 || !/^[A-Za-z]{2,3}(?:-[A-Za-z0-9]{2,8})*$/.test(plan.language) || !Array.isArray(plan.nodes)) throw new Error('Invalid tagged PDF document metadata.');
   const nodes = new Map<number, PdfSemanticNode>();
   const visit = (node: PdfSemanticNode, depth: number) => {
-    if (depth > 16 || nodes.size >= MAX_NODES || !Number.isSafeInteger(node.id) || node.id < 0 || nodes.has(node.id)) throw new Error('Invalid or duplicate tagged PDF structure identity.');
+    if (depth > TAGGED_PDF_STRUCTURE_LIMITS.planDepth || nodes.size >= MAX_NODES || !Number.isSafeInteger(node.id) || node.id < 0 || nodes.has(node.id)) throw new Error('Invalid or duplicate tagged PDF structure identity.');
     if (!ROLES.has(node.role)) throw new Error('Unsupported tagged PDF semantic role.');
     if (node.altText !== undefined && (typeof node.altText !== 'string' || node.altText.length > 2000)) throw new Error('Invalid tagged PDF alternative text.');
     if (node.role === 'Figure' && (!node.altText?.trim() || node.altText.length > 2000)) throw new Error('Every meaningful figure requires alternative text.');
