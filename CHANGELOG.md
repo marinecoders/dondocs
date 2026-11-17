@@ -7,6 +7,14 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.125] — 2026-11-17
+
+### Added
+
+- Bring Word comments into native discussions with exact supported text ranges or explicit paragraph/quoted-selection fallbacks.
+- Preserve unverified source attribution and original Word bytes while keeping clean document exports free of review annotations.
+
+
 ## [1.3.124] — 2026-11-17
 
 ### Added
