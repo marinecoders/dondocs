@@ -113,10 +113,13 @@ export class LatexCompileError extends Error {
  * Keyed weakly so a discarded engine takes its queue with it.
  */
 const compileQueues = new WeakMap<LatexEngine, Promise<unknown>>();
+export type LatexCompileProfile = 'standard' | 'tagged-correspondence';
+export const TAGGED_MAIN_FILE = 'dondocs-tagged-main.tex';
 
 async function runCompile(
   engine: LatexEngine,
-  files: Record<string, string | Uint8Array>
+  files: Record<string, string | Uint8Array>,
+  profile: LatexCompileProfile
 ): Promise<Uint8Array> {
   if (!engine.isReady()) {
     throw new Error('Engine not ready');
@@ -139,7 +142,10 @@ async function runCompile(
     engine.writeMemFSFile(path, content);
   }
 
-  engine.setEngineMainFile(LATEX.MAIN_FILE);
+  if (profile !== 'standard' && profile !== 'tagged-correspondence') throw new Error('Unknown PDF compilation profile.');
+  if (profile === 'tagged-correspondence' && typeof files[TAGGED_MAIN_FILE] !== 'string') throw new Error('The tagged PDF main source is missing.');
+  // Always select the entry point, including after another profile failed.
+  engine.setEngineMainFile(profile === 'tagged-correspondence' ? TAGGED_MAIN_FILE : LATEX.MAIN_FILE);
   let result = await engine.compileLaTeX();
   // Resolve stock-list page references and custom page totals from this draft,
   // rather than auxiliary data left behind by the previous draft.
@@ -162,13 +168,14 @@ async function runCompile(
  */
 export function compileDocument(
   engine: LatexEngine,
-  files: Record<string, string | Uint8Array>
+  files: Record<string, string | Uint8Array>,
+  profile: LatexCompileProfile = 'standard'
 ): Promise<Uint8Array> {
   // Strip the prior error before chaining so one caller's failure does not
   // reject the next caller's compile, but hand *this* caller the un-swallowed
   // promise so it still sees its own.
   const prior = compileQueues.get(engine) ?? Promise.resolve();
-  const next = prior.catch(() => undefined).then(() => runCompile(engine, files));
+  const next = prior.catch(() => undefined).then(() => runCompile(engine, files, profile));
   compileQueues.set(engine, next.catch(() => undefined));
   return next;
 }

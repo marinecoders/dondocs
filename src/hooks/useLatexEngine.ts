@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 import { debug } from '@/lib/debug';
 import { base64ToUint8Array } from '@/lib/encoding';
 import { LATEX } from '@/lib/constants';
-import { compileDocument, prepareEngine, LatexCompileError } from '@/services/latex/renderDocument';
+import { compileDocument, prepareEngine, LatexCompileError, type LatexCompileProfile } from '@/services/latex/renderDocument';
 import { htmlResponseIndex } from '@/services/latex/logDiagnostics';
 import { RUNTIME_BASE } from '@/lib/releasePaths';
 
@@ -213,7 +213,7 @@ export function useLatexEngine() {
   }, [initEngine]);
 
   const compile = useCallback(
-    async (files: Record<string, string | Uint8Array>): Promise<Uint8Array | null> => {
+    async (files: Record<string, string | Uint8Array>, profile: LatexCompileProfile = 'standard'): Promise<Uint8Array | null> => {
       // Inner function: the actual compile work. Wrapped in a queue
       // below so two rapid compiles can never both pass isReady() before
       // either flips the worker's Busy flag.
@@ -233,7 +233,7 @@ export function useLatexEngine() {
       // log analysis below.
       let result: { status: number; log: string };
       try {
-        const pdf = await compileDocument(engine, files);
+        const pdf = await compileDocument(engine, files, profile);
         debug.timeEnd('Compile');
         debug.log('Compile', 'Compilation successful', { pdfSize: pdf.byteLength });
         return pdf;

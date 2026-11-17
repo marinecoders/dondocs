@@ -59,6 +59,11 @@ interface DocumentStore {
   distributions: Distribution[];
 }
 
+/** Optional source instrumentation; absent for normal preview and exports. */
+export interface LatexBodyAdapter {
+  inline(index: number, part: 'label' | 'heading' | 'body', latex: string): string;
+}
+
 /**
  * Validate a Point-of-Contact email before it gets embedded in the
  * `\setPOC{}` macro (which the LaTeX template wraps in
@@ -948,7 +953,7 @@ ${body}\\par
 `;
 }
 
-export function generateBodyTex(store: DocumentStore): string {
+export function generateBodyTex(store: DocumentStore, adapter?: LatexBodyAdapter): string {
   if (store.docType === 'tm_ietm_front_matter') return '';
   if (store.docType === 'sl4') return generateSl4Body(store);
   if (store.docType === 'sl3') return generateSl3Body(store);
@@ -1108,8 +1113,9 @@ export function generateBodyTex(store: DocumentStore): string {
     // behind — it would push the first line right of its own wrapped lines.
     // A technical publication sets its paragraph numbers in bold (the
     // MARCORSYSCOM template); correspondence does not.
+    const tag = (part: 'label' | 'heading' | 'body', latex: string) => adapter?.inline(i, part, latex) ?? latex;
     const shownLabel = store.docType === 'i_type' && label ? `\\textbf{${label}}` : label;
-    const labelGap = shownLabel ? `${shownLabel}~~` : '';
+    const labelGap = shownLabel ? `${tag('label', shownLabel)}~~` : '';
 
     // The period belongs to the sentence the heading introduces, not to the
     // heading — so a heading that introduces nothing does not get one. ¶13d
@@ -1125,6 +1131,8 @@ export function generateBodyTex(store: DocumentStore): string {
     // DOCX path has always done this. Costs the period on a heading that ends
     // in an abbreviation, which is the rarer case by far.
     const formattedHeader = headerText ? toTitleCase(headerText.replace(/\.$/, '')) : '';
+    const renderedHeader = headerText ? tag('heading', `${underlineWords(escapeLatex(formattedHeader))}${headingDot}`) : '';
+    const renderedBody = tag('body', `${portionPrefix}${bodyText(para.text)}`);
 
     if (store.docType === 'i_type' && para.tableKey && store.publicationTables?.[para.tableKey]?.length) {
       parts.push(generatePublicationTable(para.tableKey, store.publicationTables[para.tableKey], navigation.get(`itype.table.${i}`)?.title || headerText || '', true, crossReferences, para.tableIdentifierMode));
@@ -1137,19 +1145,19 @@ export function generateBodyTex(store: DocumentStore): string {
       if (isBusinessLetter || (config.headquartersMemo && !useNumberedParagraphs)) {
         // Business letter: 0.5" first-line indent, no numbers
         if (headerText) {
-          parts.push(`${spacing}\n\\noindent\\hspace{${layout.firstLineIndentIn}in}${underlineWords(escapeLatex(formattedHeader))}${headingDot}~~${portionPrefix}${bodyText(para.text)}\n\n`);
+          parts.push(`${spacing}\n\\noindent\\hspace{${layout.firstLineIndentIn}in}${renderedHeader}~~${renderedBody}\n\n`);
         } else {
-          parts.push(`${spacing}\n\\noindent\\hspace{${layout.firstLineIndentIn}in}${portionPrefix}${bodyText(para.text)}\n\n`);
+          parts.push(`${spacing}\n\\noindent\\hspace{${layout.firstLineIndentIn}in}${renderedBody}\n\n`);
         }
       } else if (headerText) {
-        parts.push(`${spacing}\n\\noindent ${labelGap}${underlineWords(escapeLatex(formattedHeader))}${headingDot}~~${portionPrefix}${bodyText(para.text)}\n\n`);
+        parts.push(`${spacing}\n\\noindent ${labelGap}${renderedHeader}~~${renderedBody}\n\n`);
       } else {
-        parts.push(`${spacing}\n\\noindent ${labelGap}${portionPrefix}${bodyText(para.text)}\n\n`);
+        parts.push(`${spacing}\n\\noindent ${labelGap}${renderedBody}\n\n`);
       }
     } else {
       const body = headerText
-        ? `${labelGap}${underlineWords(escapeLatex(formattedHeader))}${headingDot}~~${portionPrefix}${bodyText(para.text)}`
-        : `${labelGap}${portionPrefix}${bodyText(para.text)}`;
+        ? `${labelGap}${renderedHeader}~~${renderedBody}`
+        : `${labelGap}${renderedBody}`;
 
       if (isBusinessLetter) {
         parts.push(`${spacing}\n{\\leftskip=${layout.continuationIndentIn}in\n\\noindent ${body}\\par}\n\n`);
@@ -1285,7 +1293,7 @@ export interface GeneratedFiles {
   figures: { file: string; ref: FileRef }[];
 }
 
-export function generateAllLatexFiles(store: DocumentStore, resolvedLevel?: string, referenceDate = new Date()): GeneratedFiles {
+export function generateAllLatexFiles(store: DocumentStore, resolvedLevel?: string, referenceDate = new Date(), bodyAdapter?: LatexBodyAdapter): GeneratedFiles {
   if (store.docType === 'business_letter') {
     let number = 0;
     for (const paragraph of store.paragraphs) {
@@ -1317,7 +1325,7 @@ export function generateAllLatexFiles(store: DocumentStore, resolvedLevel?: stri
     'encl-config.tex': generateEnclosuresTex(store),
     'copyto-config.tex': generateCopyToTex(store),
     'distribution-config.tex': generateDistributionTex(store),
-    'body.tex': generateBodyTex(store),
+    'body.tex': generateBodyTex(store, bodyAdapter),
     'classification.tex': generateClassificationTex(store, resolvedLevel),
   };
 
