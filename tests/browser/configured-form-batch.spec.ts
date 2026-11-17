@@ -201,12 +201,14 @@ test('configured batches preserve exact templates through interruption, source d
     const url = new URL(request.url());
     return url.pathname === '/classification.config.json'
       && url.searchParams.get('deployment-policy') === 'runtime';
+  }).then(async request => {
+    const response = await request.response();
+    expect(response).not.toBeNull();
+    // Retain the actual body before later setup can evict WebKit's inspector copy.
+    return { request, body: await response!.text() };
   });
   const source = await setup(page, 'light', true);
-  const publishedPolicyRequest = await policyRequest;
-  const publishedPolicyResponse = await publishedPolicyRequest.response();
-  expect(publishedPolicyResponse).not.toBeNull();
-  const publishedPolicyBody = await publishedPolicyResponse!.text();
+  const { request: publishedPolicyRequest, body: publishedPolicyBody } = await policyRequest;
   await page.getByRole('dialog', { name: /^Batch generation \(Forms\)/ }).getByRole('button', { name: 'Close panel', exact: true }).click();
   await prepareOfflineApp(page);
   await page.getByRole('button', { name: 'Batch', exact: true }).click();
