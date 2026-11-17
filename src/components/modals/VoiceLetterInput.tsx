@@ -110,14 +110,14 @@ export function VoiceLetterInput({ onInsert, initialTranscript = '', onTranscrip
     <p className="text-sm font-medium">Optional dictation</p>
     {!Constructor ? <p className="text-xs text-muted-foreground">Speech recognition is unavailable in this browser. You can type or paste letter text above.</p> : <>
       <p id="voice-privacy" className="text-xs text-muted-foreground">Your browser may send microphone audio to its speech provider. Use dictation only where your organization permits that service. It requires microphone permission and may require an internet connection. File OCR remains local.</p>
-      <div className="flex gap-2">
+      <div className="flex flex-wrap gap-2">
         <Button variant="outline" aria-describedby="voice-privacy" disabled={status !== 'idle'} onClick={start}>Start dictation</Button>
         <Button variant="outline" disabled={status !== 'listening'} onClick={stop}>Stop dictation</Button>
       </div>
       {status !== 'idle' && <p role="status" className="text-xs">{status === 'listening' ? 'Listening…' : 'Finishing dictation…'} {interim}</p>}
       <label htmlFor="voice-transcript" className="block text-sm">Review dictated text</label>
       <Textarea id="voice-transcript" value={text} maxLength={MAX_TRANSCRIPT} disabled={status !== 'idle'} onChange={event => setText(event.target.value)} className="h-28 field-sizing-fixed" />
-      <Button variant="outline" disabled={status !== 'idle' || !text.trim()} onClick={() => {
+      <Button variant="outline" className="h-auto max-w-full whitespace-normal" disabled={status !== 'idle' || !text.trim()} onClick={() => {
         try { onInsert(text.trim()); setText(''); setError(''); }
         catch { setError('The transcript could not be added. Copy it or try again.'); }
       }}>Add reviewed transcript to letter text</Button>

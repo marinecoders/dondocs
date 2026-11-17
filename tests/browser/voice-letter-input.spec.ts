@@ -27,6 +27,24 @@ test('dictated browser results require transcript review before entering the pen
   await dialog.getByRole('button', { name: 'Paste letter text', exact: true }).click();
   const pending = dialog.getByRole('textbox', { name: 'Paste letter text', exact: true });
   await expect(dialog.getByText(/may send microphone audio/)).toBeVisible();
+  for (const width of [375, 320]) {
+    await page.setViewportSize({ width, height: 800 });
+    await expect.poll(() => dialog.evaluate(element => element.scrollWidth <= element.clientWidth)).toBe(true);
+    const dialogBounds = await dialog.boundingBox();
+    expect(dialogBounds).not.toBeNull();
+    const controls = [
+      pending,
+      dialog.getByRole('button', { name: 'Start dictation', exact: true }),
+      dialog.getByRole('button', { name: 'Stop dictation', exact: true }),
+      dialog.getByRole('button', { name: 'Add reviewed transcript to letter text', exact: true }),
+    ];
+    for (const control of controls) {
+      const bounds = await control.boundingBox();
+      expect(bounds).not.toBeNull();
+      expect(bounds!.x).toBeGreaterThanOrEqual(dialogBounds!.x);
+      expect(bounds!.x + bounds!.width).toBeLessThanOrEqual(dialogBounds!.x + dialogBounds!.width);
+    }
+  }
   await dialog.getByRole('button', { name: 'Start dictation', exact: true }).click();
   const dictated = 'From: Commanding Officer\nTo: Training Officer\nSubj: DICTATED LETTER\n\n1. This fictional letter tests reviewed dictation.';
   await page.evaluate(text => window.dispatchEvent(new CustomEvent('test-dictation-result', { detail: text })), dictated);
