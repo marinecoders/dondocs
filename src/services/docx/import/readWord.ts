@@ -1,5 +1,6 @@
 import { retainedWordText } from './retainedText';
 import { assertSupportedWordImage } from './imageSupport';
+import { readWordTrackedChanges, type WordTrackedParagraphEdit } from './readTrackedChanges';
 import { readWordComments, type WordComment } from './readComments';
 import { inspectRasterImage } from '../imageAssets';
 import { bodyTableSchema } from '@/lib/bodyTable';
@@ -13,7 +14,7 @@ const DRAWING = new Set(['http://schemas.openxmlformats.org/drawingml/2006/main'
 const DOCX_TYPE = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
 export interface WordBlock { paragraph: Paragraph; plainText: string; wordId?: string; sourceIndex: number; numbered?: boolean; nativeTextOffset?: number; tablePlainRows?: string[][] }
 export interface WordSource { name: string; bytes: Uint8Array; sha256: string; retainedText: string }
-export interface WordImport { comments: WordComment[]; blocks: WordBlock[]; sourceBlocks: WordBlock[]; headerFields: WordHeaderFields; plainText: string; markings: string; notices: string[]; source: WordSource }
+export interface WordImport { trackedEdits?: WordTrackedParagraphEdit[]; comments: WordComment[]; blocks: WordBlock[]; sourceBlocks: WordBlock[]; headerFields: WordHeaderFields; plainText: string; markings: string; notices: string[]; source: WordSource }
 
 function assertLiteralText(text: string): void {
   // The native editor has no lossless escape for these paired markers. Reject
@@ -225,6 +226,7 @@ async function readWord(input: Uint8Array, name: string, signal: AbortSignal | u
       notice('Some body objects are not editable in DonDocs and remain in the original Word file.');
     }
   }
+  const trackedEdits = readWordTrackedChanges(body, (paragraph, view, formatted) => paragraphText(paragraph, view, formatted, notice), notice);
   if (['ins', 'del', 'moveTo', 'moveFrom'].some(name => wordDescendants(body, name).length)) notice('This draft shows content before Word tracked changes. Proposed image changes remain in the original Word file; review them there.');
   const commentRelations = [...relationships.values()].filter(relation => [...WORD_REL_NAMESPACES].some(namespace => relation.type === `${namespace}/comments`));
   if (commentRelations.length > 1) throw new Error('Word comments have ambiguous relationships.');
@@ -246,7 +248,7 @@ async function readWord(input: Uint8Array, name: string, signal: AbortSignal | u
   const retainedText = retained.text;
   const sha256 = Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256', bytes))).map(byte => byte.toString(16).padStart(2, '0')).join('');
   const projection = projectWordBody(blocks, notice);
-  const result: WordImport = { comments, blocks: projection.blocks, sourceBlocks: blocks, headerFields: projection.headerFields, plainText: blocks.map(block => block.plainText).join('\n'), markings: retained.markings, notices: [...notices], source: { name, bytes, sha256, retainedText } };
+  const result: WordImport = { trackedEdits, comments, blocks: projection.blocks, sourceBlocks: blocks, headerFields: projection.headerFields, plainText: blocks.map(block => block.plainText).join('\n'), markings: retained.markings, notices: [...notices], source: { name, bytes, sha256, retainedText } };
   resources.set(result, imageBytes);
   ownedImports.set(result, structuredClone(result));
   return result;
@@ -281,3 +283,5 @@ export function copyWordImport(imported: WordImport): WordImport {
 export function wordImageResourceKey(imported: WordImport, paragraphId: string): string | undefined { return resources.get(imported)?.get(paragraphId)?.path; }
 export function wordImageBytes(imported: WordImport, paragraphId: string): Uint8Array | undefined { return resources.get(imported)?.get(paragraphId)?.bytes.slice(); }
 export const WORD_DOCUMENT_TYPE = DOCX_TYPE;
+
+export { paragraphText as readWordParagraphText };

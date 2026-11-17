@@ -41,6 +41,8 @@ For a photo or image-only PDF, choose **Scan or photo**. Select a clear, upright
 
 **Paste letter text → Optional dictation** offers microphone input when your browser supports speech recognition. Your browser may send audio to its speech provider; use it only where your organization permits that service. It may need internet access. Choose **Start dictation**, speak, then **Stop dictation**. Correct the separate transcript and choose **Add reviewed transcript to letter text**. This only appends to the pending text; **Read letter** and **Import into editor** remain explicit review steps. Unsupported browsers retain ordinary typing/pasting. Closing the dialog stops the active recognition session.
 
+Word tracked insertions, deletions and replacements in supported body paragraphs become native review proposals. The imported text stays at its baseline until you accept a proposal. Use **Review imported Word edits** to decide changes, reconcile newer work and Undo an acceptance. See the [tracked Word text limits](WORD_TRACKED_TEXT.md) before relying on imported revisions.
+
 Pasted text does not preserve fonts, images or page layout. Pasting directly into the body editor still creates paragraph blocks rather than importing the whole letter's fields. If no body paragraphs are recognized, review warns you to check the source text and paragraph numbers before importing. Keep the source for comparison: recognition is best effort, and you can correct fields in the editor.
 
 ## Password-protected sharing

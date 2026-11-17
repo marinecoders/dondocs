@@ -5,6 +5,7 @@ import { newAttachmentId, withAttachmentStaging } from './attachments';
 import { idbInstallDocumentWithAssets, type StoredAttachment, type StoredDocument } from './documentsDb';
 import { serializeDocumentSnapshot } from './documentSerialization';
 import { WORD_DOCUMENT_TYPE } from '@/services/docx/import/readWord';
+import { prepareWordTrackedReview, wordTrackedReviewNotices } from './wordTrackedChanges';
 import { nativeWordComments } from './wordComments';
 import type { FileRef } from '@/types/document';
 
@@ -49,14 +50,19 @@ export async function openWordImport(result: ParsedImport, docType: string, targ
     }
     block.paragraph.figure!.fileRef = ref;
   }
+  const notices = [...wordTrackedReviewNotices(imported, session), ...session.formData.wordSource!.notices];
+  session.formData.wordSource!.notices = notices.length > 30 ? [...notices.slice(0, 29), 'Further import notices were omitted from this summary. Inspect the retained original for unsupported Word content.'] : notices;
   const prepared = prepareDocument(session, true);
   return withAttachmentStaging(async () => {
     await flushDocumentWrites();
     if (!current()) return 'stale';
     const now = Date.now(), id = crypto.randomUUID();
-    const saved = serializeDocumentSnapshot(copyPreparedDocument(prepared), now);
+    const snapshot = copyPreparedDocument(prepared);
+    const review = await prepareWordTrackedReview(imported, snapshot, id, now, assets, signal);
+    if (!current()) return 'stale';
+    const saved = serializeDocumentSnapshot(snapshot, now);
     const record: StoredDocument = { id, meta: { id, title: deriveTitle(saved), docType, updatedAt: now, nativeReviewText: true }, session: saved };
-    const outcome = await idbInstallDocumentWithAssets(record, assets, current, signal);
+    const outcome = await idbInstallDocumentWithAssets(record, assets, current, signal, review);
     if (outcome === 'failed') throw new Error('The Word document and original files could not be saved. Your current draft is unchanged.');
     if (outcome === 'stale') return 'stale';
     return openCommittedDocument(prepared, record, target, current) === 'applied' ? 'applied' : 'stale';
