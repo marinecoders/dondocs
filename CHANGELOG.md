@@ -7,6 +7,13 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.123] — 2026-11-16
+
+### Added
+
+- Offer optional browser dictation with explicit microphone action and provider disclosure. Correct a separate transcript before adding it to pending letter text.
+- Preserve reviewed text across restarts and review navigation, handle unsupported browsers, and ignore callbacks from closed recognition sessions.
+
 ## [1.3.122] — 2026-11-16
 
 ### Added

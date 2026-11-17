@@ -413,6 +413,7 @@ for (const theme of ["light", "dark", "classic"]) {
           mimeType: "application/json",
           buffer: portable,
         });
+      await expect(freshModal).toHaveAttribute("aria-busy", "false", { timeout: 30_000 });
       await expect(
         freshModal.getByRole("heading", {
           name: `1. TRAINING SOURCE ${theme}`,
@@ -578,6 +579,7 @@ test("configured package survives fresh offline import, native editing, reload a
         mimeType: "application/json",
         buffer: portable,
       });
+    await expect(modal).toHaveAttribute("aria-busy", "false", { timeout: 30_000 });
     await expect(
       modal.getByRole("button", { name: "Edit working copy", exact: true }),
     ).toBeVisible();

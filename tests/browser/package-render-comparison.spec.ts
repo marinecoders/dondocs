@@ -25,8 +25,8 @@ async function packages(page: Page) {
 async function importPackage(page: Page, bytes: Buffer) {
   const modal = await packages(page);
   await modal.getByLabel("Import editable package", { exact: true }).setInputFiles({ name: "synthetic.dondocs-package.json", mimeType: "application/json", buffer: bytes });
+  await expect(modal).toHaveAttribute("aria-busy", "false", { timeout: 30_000 });
   await expect(modal.getByRole("button", { name: "Check readiness and assemble", exact: true })).toBeVisible();
-  await expect(modal).not.toHaveAttribute("aria-busy", "true");
   return modal;
 }
 async function approve(page: Page, button: string) {

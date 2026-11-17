@@ -22,8 +22,8 @@ for (const theme of ['light', 'dark', 'classic']) test(`exact package review sur
   const bytes = await readFile(fixturePath), packet = JSON.parse(bytes.toString('utf8'));
   const revision = packet.package.revisions[0];
   await modal.getByLabel('Import editable package', { exact: true }).setInputFiles({ name: 'synthetic-review.dondocs-package.json', mimeType: 'application/json', buffer: bytes });
+  await expect(modal).toHaveAttribute('aria-busy', 'false', { timeout: 30_000 });
   await expect(modal.getByRole('button', { name: 'Start package review', exact: true })).toBeVisible();
-  await expect(modal).not.toHaveAttribute('aria-busy', 'true');
   await modal.getByRole('button', { name: 'Start package review', exact: true }).click();
   await expect(modal.getByText('Reviewing exact saved package revision', { exact: true })).toBeVisible();
   await expect(modal.getByRole('button', { name: 'Check readiness and assemble', exact: true })).toBeDisabled();

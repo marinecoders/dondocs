@@ -92,6 +92,7 @@ for (const theme of ["light", "dark", "classic"]) {
       const receiver = await fresh.newPage(); await receiver.goto("/");
       const received = await packages(receiver);
       await received.getByLabel("Import editable package", { exact: true }).setInputFiles({ name: "citation-action.dondocs-package.json", mimeType: "application/json", buffer: portable });
+      await expect(received).toHaveAttribute("aria-busy", "false", { timeout: 30_000 });
       await expect(received.getByText("4 identified targets · 1 linked citations", { exact: true })).toBeVisible();
       const returned = JSON.parse((await exportPackage(receiver)).toString("utf8"));
       expect(returned.package.revisions[0].citations).toEqual(revision.citations);
