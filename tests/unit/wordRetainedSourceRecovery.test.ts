@@ -1,5 +1,4 @@
-import { afterEach, expect, it, vi } from 'vitest';
-import * as attachments from '@/lib/attachments';
+import { expect, it } from 'vitest';
 import { installWordXmlDom } from '../_helpers/wordXmlDom';
 import { WORD_NS, wordImportFixture, wordParagraph } from '../_helpers/wordImportFixture';
 import { readRetainedWordSource, readWordDocument } from '@/services/docx/import/readWord';
@@ -10,7 +9,6 @@ import { assertRetainedTextPolicy } from '@/lib/retainedDocumentTextPolicy';
 import { resolveExportDeploymentPolicy } from '@/lib/exportDeploymentPolicy';
 
 installWordXmlDom();
-afterEach(() => vi.restoreAllMocks());
 
 it.each([{ count: 101, text: 'Short comment.', error: 'more than 100 comments' }, { count: 1, text: 'x'.repeat(8_001), error: 'supported text limits' }])('recovers and transfers an existing original with $count comments while new native imports remain bounded', async ({ count, text, error }) => {
   const comments = Array.from({ length: count }, (_, id) => `<w:comment w:id="${id}" w:author="Chief">${wordParagraph(id === 0 ? `(S) Synthetic retained feedback. ${text}` : text)}</w:comment>`).join('');
@@ -26,9 +24,7 @@ it.each([{ count: 101, text: 'Short comment.', error: 'more than 100 comments' }
   await expect(validateWordSourceFile({ data: bytes.buffer as ArrayBuffer }, { ...metadata, sha256: '0'.repeat(64) })).rejects.toThrow('identity');
   await expect(validateWordSourceFile({ data: bytes.buffer as ArrayBuffer }, { ...metadata, retainedText: 'forged harmless inventory' })).rejects.toThrow('identity');
   const snapshot = { ...createBlankSession(), endItems: [], publicationTables: {} };snapshot.formData.wordSource = metadata;snapshot.paragraphs = [{ ...snapshot.paragraphs[0], text: 'Existing editable draft.', level: 0 }];
-  const readSource = vi.spyOn(attachments, 'loadAttachment').mockResolvedValue(bytes.buffer as ArrayBuffer);
-  const draft = await buildDraftFileFromSnapshot(snapshot, 1);
-  expect(readSource).toHaveBeenCalledWith(metadata.fileRef.id);
+  const draft = await buildDraftFileFromSnapshot(snapshot, 1, async () => bytes.buffer as ArrayBuffer);
   const restored = await parsePortableDraft(draft, false, true);
   expect(new Uint8Array(restored.wordSourceFile!.data)).toEqual(bytes);
   expect(restored.session.paragraphs).toEqual(snapshot.paragraphs);
@@ -46,9 +42,7 @@ it('recovers the exact older hyphen inventory without accepting stripped literal
   await expect(validateWordSourceFile({ data: bytes.buffer as ArrayBuffer }, { ...metadata, retainedText: legacyInventory.replaceAll('\u2011', '') })).rejects.toThrow('identity');
   await expect(validateWordSourceFile({ data: bytes.buffer as ArrayBuffer }, { ...metadata, retainedText: legacyInventory.replace(' (S)', '') })).rejects.toThrow('identity');
   const snapshot = { ...createBlankSession(), endItems: [], publicationTables: {} };snapshot.formData.wordSource = { ...metadata, fileRef: { id: 'source', name: source.name, size: bytes.byteLength, type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' } };
-  const readSource = vi.spyOn(attachments, 'loadAttachment').mockResolvedValue(bytes.buffer as ArrayBuffer);
-  const restored = await parsePortableDraft(await buildDraftFileFromSnapshot(snapshot, 1), false, true);
-  expect(readSource).toHaveBeenCalledWith('source');
+  const restored = await parsePortableDraft(await buildDraftFileFromSnapshot(snapshot, 1, async () => bytes.buffer as ArrayBuffer), false, true);
   expect(new Uint8Array(restored.wordSourceFile!.data)).toEqual(bytes);
   expect(restored.session.formData.wordSource?.retainedText).toBe(legacyInventory);
 });

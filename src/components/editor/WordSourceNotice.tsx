@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Button } from '@/components/ui/button';
+import { useUIStore } from '@/stores/uiStore';
 import { useDocumentStore } from '@/stores/documentStore';
 import { loadAttachment } from '@/lib/attachments';
 import { triggerDownload } from '@/lib/encoding';
@@ -35,6 +36,7 @@ export function WordSourceNotice() {
     <p>Imported from {source.name}. The retained original stays separate from your current edits.</p>
     {source.notices.length > 0 && <details><summary>Word import notices</summary><ul className="list-disc space-y-1 pl-5">{source.notices.map(notice => <li key={notice}>{notice}</li>)}</ul></details>}
     <div className="flex flex-wrap gap-2">
+      {source.notices.some(notice => notice.startsWith('Imported Word tracked text:')) && <Button variant="outline" size="sm" className="h-auto min-h-8 max-w-full whitespace-normal text-left" onClick={() => useUIStore.getState().setReviewRoundsOpen(true)}>Review imported Word edits</Button>}
       <Button variant="outline" size="sm" className="h-auto min-h-8 max-w-full whitespace-normal text-left" disabled={busy} onClick={() => void download()}>{busy ? 'Checking original…' : 'Download original Word file'}</Button>
     </div>
     {error && <p role="alert">{error}</p>}

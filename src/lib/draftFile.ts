@@ -127,15 +127,15 @@ export async function buildDraftFile(): Promise<unknown> {
   } finally { draftExports--; }
 }
 /** Reuse draft transfer for a pinned revision without reading the current editor. */
-export async function buildDraftFileFromSnapshot(snapshot: DocumentSnapshot, timestamp: number): Promise<unknown> {
+export async function buildDraftFileFromSnapshot(snapshot: DocumentSnapshot, timestamp: number, readAsset?: typeof loadAttachment): Promise<unknown> {
   const owned = structuredClone(snapshot);
   const session = serializeDocumentSnapshot(owned, timestamp);
   draftExports++;
-  try { return await serializeDraft(session, owned); } finally { draftExports--; }
+  try { return await serializeDraft(session, owned, readAsset); } finally { draftExports--; }
 }
-async function serializeDraft(session: SerializedSession, live: DocumentSnapshot): Promise<unknown> {
+async function serializeDraft(session: SerializedSession, live: DocumentSnapshot, readAsset?: typeof loadAttachment): Promise<unknown> {
   const pack = async (file?: Enclosure['file'], fileRef?: FileRef): Promise<InlineFile | undefined> => {
-    const data = file?.data ?? (fileRef ? await loadAttachment(fileRef.id) : null);
+    const data = file?.data ?? (fileRef ? await (readAsset ?? loadAttachment)(fileRef.id) : null);
     if (!data && fileRef) throw new Error(`Could not read ${fileRef.name}. Reattach it before exporting this draft.`);
     return data ? { name: file?.name ?? fileRef!.name, size: data.byteLength, data: uint8ArrayToBase64(arrayBufferToUint8Array(data)) } : undefined;
   };
@@ -146,7 +146,7 @@ async function serializeDraft(session: SerializedSession, live: DocumentSnapshot
     }
     for (const form of [session.forms?.navmc10274, session.forms?.navmc11811]) {
       if (!form) continue;
-      const resolved = await resolveFormSignatures(form, 'transfer');
+      const resolved = await resolveFormSignatures(form, 'transfer', readAsset);
       form.signatureBlocks = resolved.signatureBlocks.map(({ imageRef: _ref, ...block }) => block);
     }
     return { ...draftEnvelope(session), ...session };
@@ -160,13 +160,13 @@ async function serializeDraft(session: SerializedSession, live: DocumentSnapshot
   let wordSourceFile: InlineFile | undefined;
   if (formData.wordSource) {
     const ref = formData.wordSource.fileRef;
-    const data = ref ? await loadAttachment(ref.id) : null;
+    const data = ref ? await (readAsset ?? loadAttachment)(ref.id) : null;
     if (!data) throw new Error('The original Word file is unavailable. Restore it before exporting a complete draft.');
     await validateWordSourceFile({ data }, formData.wordSource);
     wordSourceFile = { name: formData.wordSource.name, size: data.byteLength, data: uint8ArrayToBase64(new Uint8Array(data)) };
   }
   if (formData.wordSource) formData.wordSource = { ...formData.wordSource, fileRef: undefined };
-  const signature = await resolveSignature(formData.signatureImage);
+  const signature = await resolveSignature(formData.signatureImage, readAsset);
   if (signature) {
     const { fileRef: _ref, ...image } = signature;
     // Uploads can be normalized from JPEG to PNG; serialize the delivered size.

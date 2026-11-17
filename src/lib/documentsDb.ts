@@ -8,7 +8,7 @@ import { parseReviewRound, reviewCopyLinkSchema, reviewRoundStatus } from './rev
 import { mergeReceivedReviewLifecycle } from './reviewRoundLifecycle';
 import { supportsReviewComments } from './reviewCommentTargets';
 import { paragraphCommentIds, ensureParagraphIds } from './paragraphIdentity';
-import type { ReviewSuggestionWrite } from './reviewSuggestionWrites';
+import type { ReviewSuggestionWrite, ReviewSuggestionRecord } from './reviewSuggestionWrites';
 
 /**
  * IndexedDB store for the document registry (Recents): one record per document,
@@ -584,7 +584,7 @@ export type DocumentWriteOutcome = 'committed' | 'already-committed' | 'conflict
 
 /** A new document and its operation-owned imported files become durable
  * together. A cancelled/failed transaction cannot leave partial source files. */
-export async function idbInstallDocumentWithAssets(document: StoredDocument, assets: readonly StoredAttachment[], current: () => boolean, signal?: AbortSignal): Promise<'committed' | 'stale' | 'failed'> {
+export async function idbInstallDocumentWithAssets(document: StoredDocument, assets: readonly StoredAttachment[], current: () => boolean, signal?: AbortSignal, review?: { round: ReviewRound; suggestions: ReviewSuggestionRecord }): Promise<'committed' | 'stale' | 'failed'> {
   if (!hasIndexedDb) return 'failed';
   if (!current() || signal?.aborted) return 'stale';
   const ids = new Set(assets.map(asset => asset.id));
@@ -593,11 +593,24 @@ export async function idbInstallDocumentWithAssets(document: StoredDocument, ass
     || assets.reduce((size, asset) => size + asset.size, 0) > 64 * 1024 * 1024) throw new Error('Imported document resources exceed their storage limits.');
   const ownedDocument = structuredClone(document);
   const ownedAssets = assets.map(asset => ({ ...asset, data: asset.data.slice(0) }));
+  const ownedReview = review ? structuredClone(review) : undefined;
   try {
+    if (ownedReview) {
+      const { reviewSuggestionRecordSchema } = await import('./reviewSuggestionWrites');
+      const { validateReviewSuggestionState } = await import('./reviewSuggestions');
+      ownedReview.round = parseReviewRound(ownedReview.round);
+      ownedReview.suggestions = reviewSuggestionRecordSchema.parse(ownedReview.suggestions);
+      validateReviewSuggestionState(ownedReview.round, ownedReview.suggestions.state);
+      if (ownedReview.round.ownerDocumentId !== ownedDocument.id || ownedReview.round.sourceDocumentId !== ownedDocument.id
+        || ownedReview.suggestions.documentId !== ownedDocument.id || ownedReview.suggestions.state.decisions.length
+        || !ownedReview.suggestions.state.proposals.length || !sameReviewStoredValue(ownedReview.round.baseline.session, ownedDocument.session)) {
+        throw new Error('The imported review does not match its exact new document baseline.');
+      }
+    }
     const db = await openDb();
     if (!current() || signal?.aborted) return 'stale';
     return await new Promise((resolve, reject) => {
-      const transaction = db.transaction([DOCS_STORE, ATTACHMENTS_STORE], 'readwrite');
+      const transaction = db.transaction(ownedReview ? [DOCS_STORE, ATTACHMENTS_STORE, APP_STORE] : [DOCS_STORE, ATTACHMENTS_STORE], 'readwrite');
       let stale = false;
       const abort = () => { stale = true; try { transaction.abort(); } catch { /* Completion already owns the committed copy. */ } };
       signal?.addEventListener('abort', abort, { once: true });
@@ -607,6 +620,11 @@ export async function idbInstallDocumentWithAssets(document: StoredDocument, ass
         if (request.result) { transaction.abort(); return; }
         for (const asset of ownedAssets) transaction.objectStore(ATTACHMENTS_STORE).add(asset);
         transaction.objectStore(DOCS_STORE).add(ownedDocument);
+        if (ownedReview) {
+          const app = transaction.objectStore(APP_STORE);
+          app.add({ key: reviewRoundKey(ownedReview.round.id), value: ownedReview.round });
+          app.add({ key: reviewSuggestionKey(ownedDocument.id, ownedReview.round.id), value: ownedReview.suggestions });
+        }
       };
       transaction.oncomplete = () => { signal?.removeEventListener('abort', abort); resolve('committed'); };
       transaction.onabort = () => { signal?.removeEventListener('abort', abort); if (stale) resolve('stale'); else reject(transaction.error ?? new Error('Imported document write aborted.')); };

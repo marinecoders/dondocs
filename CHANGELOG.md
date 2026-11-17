@@ -7,6 +7,14 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.126] — 2026-11-17
+
+### Added
+
+- Convert supported Word tracked paragraph text into pending native review proposals with accept/reject, Undo/Redo and reconciliation against newer work.
+- Preview the proposals that can actually be installed, preserve unconverted revisions in the original, and commit the exact review baseline with its resources and proposals together.
+
+
 ## [1.3.125] — 2026-11-17
 
 ### Added

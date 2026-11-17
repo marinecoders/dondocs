@@ -35,6 +35,7 @@ import { debug } from '@/lib/debug';
 import { VoiceLetterInput } from './VoiceLetterInput';
 import { captureDocumentTarget } from '@/stores/documentsStore';
 import { openWordImport } from '@/lib/importWord';
+import { wordTrackedReviewSummary } from '@/lib/wordTrackedChanges';
 const ScannedLetterImport = lazy(() => import('./ScannedLetterImport').then(module => ({ default: module.ScannedLetterImport })));
 
 type ImportSource = 'file' | 'text' | 'scan';
@@ -307,6 +308,8 @@ function ReviewBody({
   const { parsed, detection, classification } = result;
   const [docType, setDocType] = useState(detection.docType);
   const lowConfidence = detection.confidence === 'low';
+  const tracked = result.word ? wordTrackedReviewSummary(result.word, { paragraphs: result.word.blocks.map(block => block.paragraph) }) : undefined;
+  const wordNotices = result.word ? [...new Set([...(tracked?.notices.filter(notice => !notice.startsWith('Imported Word tracked text:')) ?? []), ...result.word.notices])] : [];
   // Surface a classification marking when one was read from the source, and
   // treat anything above Unclassified as needing the drafter's eye.
   const classified = classification.found && classification.classLevel !== 'unclassified';
@@ -331,6 +334,8 @@ function ReviewBody({
         <Row label="Paragraphs" value={parsed.paragraphs.length} />
         <Row label="Editable tables" value={result.word?.blocks.filter(block => block.paragraph.bodyTable).length} />
         <Row label="Word comments" value={result.word?.comments.length} />
+        <Row label="Readable tracked paragraphs" value={tracked?.detected} />
+        <Row label="Native text proposals" value={tracked?.detected ? String(tracked.proposals) : undefined} />
         <Row label="Body images" value={result.word?.blocks.filter(block => block.paragraph.figure).length} />
         <Row label="Signature" value={sig} />
         <Row
@@ -342,7 +347,7 @@ function ReviewBody({
         <Row label="Declassify on" value={classification.declassifyOn} />
       </div>
       {result.word && <div className="space-y-2 text-sm"><p>The original Word file is retained with this draft. Supported text, rectangular tables and embedded PNG/JPEG images become editable native content. Review the layout before sending.</p>
-        {result.word.notices.length > 0 && <ul className="list-disc space-y-1 pl-5" aria-label="Word import notices">{result.word.notices.map(notice => <li key={notice}>{notice}</li>)}</ul>}
+        {wordNotices.length > 0 && <ul className="list-disc space-y-1 pl-5" aria-label="Word import notices">{wordNotices.map(notice => <li key={notice}>{notice}</li>)}</ul>}
       </div>}
 
       {parsed.paragraphs.length === 0 && !result.word?.blocks.length && (
