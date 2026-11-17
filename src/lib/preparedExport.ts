@@ -1,3 +1,4 @@
+import { taggedCorrespondenceIssues } from '@/services/pdf/accessibility/preflight';
 import { projectRenderedDocument, correspondencePortions } from './renderedDocument';
 import { validateAnswers, diagnosticText } from '@/services/forms/model';
 import { copyFormExportTemplates, type FormExportTemplates } from './formExportTemplates';
@@ -27,6 +28,7 @@ export interface PreparedExportJob {
   readonly kind: CapturedDocument['kind'];
   readonly target: ExportTarget;
   readonly texMode?: 'configuration' | 'flat';
+  readonly pdfAccessibility?: 'tagged';
   readonly filename: string;
   readonly policyIdentity: string;
 }
@@ -89,6 +91,7 @@ export function prepareExport(input: {
   readonly captured: CapturedDocument;
   readonly target: ExportTarget;
   readonly texMode?: 'configuration' | 'flat';
+  readonly pdfAccessibility?: 'tagged';
   readonly filename: string;
   readonly policy: PolicyResolution;
   readonly placeholders?: PlaceholderValues;
@@ -98,6 +101,7 @@ export function prepareExport(input: {
   if (input.policy.status !== 'ready') return Object.freeze({ status: input.policy.status, issues: Object.freeze([input.policy.message]) });
   try {
     assertExportDeploymentPolicy(input.policy.policy);
+    if (input.pdfAccessibility !== undefined && (input.target !== 'pdf' || input.pdfAccessibility !== 'tagged')) return error('Invalid tagged PDF export option.');
     if (input.texMode !== undefined && (input.target !== 'tex' || !['configuration', 'flat'].includes(input.texMode))) return error('Invalid TeX export mode.');
     if (!input.id.trim() || !input.filename.trim() || /[\\/]/.test(input.filename) || [...input.filename].some(char => char.charCodeAt(0) < 32)) return error('Choose a valid export identity and filename.');
     const capability = capturedCapabilities(input.captured, { operation: 'export', target: input.target, texMode: input.texMode });
@@ -147,6 +151,12 @@ export function prepareExport(input: {
       if (issues.length) return Object.freeze({ status: 'error', issues: Object.freeze(issues) });
       output = captureDocumentRevision(output.source, snapshot);
     }
+    if (input.pdfAccessibility === 'tagged') {
+      if (output.kind !== 'correspondence') return error('Tagged PDF currently supports native standard and naval letters, not form originals.');
+      const issues = taggedCorrespondenceIssues(snapshot);
+      if (issues.length) return Object.freeze({ status: 'error', issues: Object.freeze(issues) });
+      notices.push('Tagged output is experimental. English (en-US), document tags, reading order, table column headers and image alternatives are included. Native screen-reader qualification and PDF/UA conformance have not been established.');
+    }
     if (output.kind === 'configured-form') {
       const form = copyCapturedDocument(output);
       if (form.kind !== 'configured-form') throw new Error('Configured form projection lost its definition.');
@@ -158,7 +168,7 @@ export function prepareExport(input: {
       ...(input.placeholders ? [detectBatchPII(input.captured, input.placeholders)] : []),
     ]);
     const structure = output.kind === 'correspondence' && !['sl3', 'sl4'].includes(snapshot.docType) ? validateParagraphStructure(snapshot.paragraphs) : [];
-    const job: PreparedExportJob = Object.freeze({ [preparedBrand]: true as const, id: input.id, source: output.source, kind: output.kind, target: input.target, ...(input.target === 'tex' ? { texMode: input.texMode ?? 'configuration' } : {}), filename: input.filename, policyIdentity: input.policy.policy.identity });
+    const job: PreparedExportJob = Object.freeze({ [preparedBrand]: true as const, id: input.id, source: output.source, kind: output.kind, target: input.target, ...(input.pdfAccessibility ? { pdfAccessibility: input.pdfAccessibility } : {}), ...(input.target === 'tex' ? { texMode: input.texMode ?? 'configuration' } : {}), filename: input.filename, policyIdentity: input.policy.policy.identity });
     prepared.set(job, { captured: output, policy: input.policy.policy, marking, formTemplates: input.formTemplates, review: { privacy, structure, notices, markingReview } });
     return privacy.found || structure.length || markingReview
       ? Object.freeze({ status: 'needs-review', job })

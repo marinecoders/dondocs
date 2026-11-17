@@ -1,3 +1,4 @@
+import type { LatexCompileProfile } from '@/services/latex/renderDocument';
 import { exportErrorMessage } from '@/lib/exportDiagnostics';
 import { renderPreparedConfiguredForm } from '@/services/exports/configuredForms';
 import { captureExportFormTemplates } from '@/services/exports/formTemplates';
@@ -21,7 +22,7 @@ const ENGINE_STARTING = 'The LaTeX engine is still starting. Retry this export w
 interface PreparedExportOptions {
   isReady: boolean;
   gate: ExportGate;
-  compile(files: Record<string, string | Uint8Array>): Promise<Uint8Array | null>;
+  compile(files: Record<string, string | Uint8Array>, profile?: LatexCompileProfile): Promise<Uint8Array | null>;
   waitForReady(timeoutMs?: number): Promise<boolean>;
   setProgress: Dispatch<SetStateAction<DownloadProgressPhase | null>>;
 }
@@ -103,7 +104,7 @@ export function usePreparedExports({ isReady, gate, compile, waitForReady, setPr
   const state = useSyncExternalStore(controller.subscribe, controller.getState, controller.getState);
   useEffect(() => { owner.activate();return () => { owner.deactivate();controller.cancel(); }; }, [controller, owner]);
   const review = useMemo(() => state.phase === 'review' ? copyExportReview(state.job) : null, [state]);
-  const request = useCallback((target: ExportTarget, texMode?: 'configuration' | 'flat', purpose?: 'signing') => {
+  const request = useCallback((target: ExportTarget, texMode?: 'configuration' | 'flat', purpose?: 'signing' | 'tagged') => {
     try {
       const captured = captureCurrentDocumentRevision();
       const session = copyCapturedSession(captured);
@@ -116,7 +117,7 @@ export function usePreparedExports({ isReady, gate, compile, waitForReady, setPr
       const id = [...crypto.getRandomValues(new Uint32Array(4))].map(part => part.toString(16)).join('-');
       const previous = owner.getSigningIntent();
       owner.setSigningIntent(purpose === 'signing' && target === 'pdf' ? id : null);
-      const accepted = controller.request({ id, captured, target, texMode, filename: target === 'tex' && texMode === 'flat' ? 'correspondence-flat.tex' : filename });
+      const accepted = controller.request({ id, captured, target, texMode, ...(purpose === 'tagged' ? { pdfAccessibility: 'tagged' as const } : {}), filename: target === 'tex' && texMode === 'flat' ? 'correspondence-flat.tex' : purpose === 'tagged' ? filename.replace(/\.pdf$/i, '-tagged.pdf') : filename });
       if (!accepted) owner.setSigningIntent(previous);
       return accepted;
     } catch (error) {

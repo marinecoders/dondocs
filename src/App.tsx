@@ -769,6 +769,10 @@ function App() {
     useUIStore.getState().setValidationVisible(true);
     requestExport('pdf');
   }, [requestExport]);
+  const handleDownloadTaggedPdf = useCallback(() => {
+    useUIStore.getState().setValidationVisible(true);
+    requestExport('pdf', undefined, 'tagged');
+  }, [requestExport]);
   const handleDownloadTex = useCallback(() => { requestExport('tex', 'configuration'); }, [requestExport]);
   const handleDownloadFlatTex = useCallback(() => { requestExport('tex', 'flat'); }, [requestExport]);
   const handleDownloadDocx = useCallback(() => {
@@ -1216,6 +1220,7 @@ function App() {
           {commandPaletteOpen && <CommandPalette open presentation="workspace" onClose={() => setCommandPaletteOpen(false)} groups={commandGroups} />}
           <div className="workspace-document flex flex-1 min-h-0 flex-col overflow-hidden" style={{ display: commandPaletteOpen ? 'none' : undefined }}>
             <Header
+              onDownloadTaggedPdf={handleDownloadTaggedPdf}
               wordReviewExport={{ gate: exportGate, renderer: { compile, convertDocx: convertLatexToDocx } }}
               onPrepareSigning={() => { useUIStore.getState().setValidationVisible(true);requestExport('pdf', undefined, 'signing'); }}
               onDownloadPdf={handleDownloadPdf}
