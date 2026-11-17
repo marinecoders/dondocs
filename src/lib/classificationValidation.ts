@@ -1,4 +1,5 @@
 import type { Paragraph, PortionMarking } from '@/types/document';
+import { paragraphPortionMarkings } from './portionMarkings';
 
 /**
  * Consistency checks between a document's overall classification (the banner)
@@ -67,13 +68,15 @@ export function validateClassificationMarkings(
 ): ClassificationFinding[] {
   const findings: ClassificationFinding[] = [];
 
-  // Only body paragraphs with real text carry portion markings; blank rows and
-  // headings don't count toward "every paragraph is marked".
-  const body = paragraphs.filter((p) => (p.text ?? '').trim() !== '');
+  // Tables and body images remain meaningful when their optional caption is
+  // empty. Blank text-only rows do not count toward marking completeness.
+  const body = paragraphs.filter(p => !!p.text?.trim() || !!p.header?.trim() || !!p.bodyTable || !!p.figure);
   if (body.length === 0) return findings;
 
-  const marked = body.map((p) => p.portionMarking).filter((m): m is PortionMarking => !!m);
-  const highest = highestPortion(marked);
+  const markings = body.map(paragraphPortionMarkings);
+  const marked = markings.filter(marks => marks.length > 0);
+  const allMarks = markings.flat();
+  const highest = highestPortion(allMarks);
   const banner = bannerRank(classLevel);
 
   // 1. Under-marking (the serious one): a portion outranks the banner. The
@@ -114,7 +117,7 @@ export function validateClassificationMarkings(
   }
 
   // 5. Mixed CUI and legacy FOUO in the same document — pick one scheme.
-  if (marked.includes('CUI') && marked.includes('FOUO')) {
+  if (allMarks.includes('CUI') && allMarks.includes('FOUO')) {
     findings.push({
       severity: 'warning',
       message: 'This document mixes CUI and the legacy FOUO marking. Use one scheme — CUI supersedes FOUO.',

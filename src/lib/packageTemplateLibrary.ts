@@ -53,6 +53,10 @@ function cleanStarter(input: Record<string, unknown>): Record<string, unknown> {
   delete draft.reviewComments;
   draft.timestamp = 0;
   const form = draft.formData as Record<string, unknown>;
+  // A prior Word source can contain deleted text, review notes and signatures.
+  // Starters retain deliberate native content, not that historical original.
+  delete form.wordSource;
+  delete draft.wordSourceFile;
   delete form.basicLetterFile;
   delete form.basicLetterFileRef;
   const cleanSignatures = (value: unknown): void => {

@@ -38,7 +38,7 @@ it.each([undefined, null, '2026-11-13', true, NaN, Infinity, -1, 0, 1.5, 8_640_0
 
 it('rejects hidden, nested and unsupported restrictions and fails closed on an invalid clock', () => {
   const original = payload();
-  for (const version of [1, 2, 4]) expect(() => parseSharedSession({ ...original, version })).toThrow();
+  for (const version of [1, 2, 6]) expect(() => parseSharedSession({ ...original, version })).toThrow();
   expect(() => parseSharedSession({ ...original.session, expiresAt: original.expiresAt })).toThrow('version 3');
   expect(() => parseSharedSession({ ...original, session: original })).toThrow('unsupported');
   expect(() => parseSharedSession({ ...original, minReader: 99 })).toThrow('unsupported');

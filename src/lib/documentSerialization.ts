@@ -48,7 +48,7 @@ export function serializeDocumentSnapshot(snapshot: DocumentSnapshot, timestamp:
 /** A portable share owns its payload and excludes device-local binary resources. */
 export function projectSharedSession(session: SerializedSession): SerializedSession {
   const owned = structuredClone(session);
-  owned.formData = { ...owned.formData, signatureImage: undefined, basicLetterFile: undefined, basicLetterFileRef: undefined };
+  owned.formData = { ...owned.formData, signatureImage: undefined, basicLetterFile: undefined, basicLetterFileRef: undefined, wordSource: undefined };
   owned.paragraphs = owned.paragraphs.map(paragraph => ({
     ...paragraph,
     ...(paragraph.figure ? { figure: { ...paragraph.figure, fileRef: undefined } } : {}),

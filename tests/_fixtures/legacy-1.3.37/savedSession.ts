@@ -1,7 +1,7 @@
 // Frozen from main ff57278f1ae08bf78e2a1e68e428c2919d8e0999 (1.3.37).
-// Only relative imports were redirected to the application aliases.
+// Relative imports use application aliases, except the frozen shared schema.
 import { z } from 'zod';
-import { sessionSchema } from '@/lib/sharedSession';
+import { sessionSchema } from './sharedSessionSchema';
 import { additionalEndorsementsSchema } from '@/lib/endorsementValidation';
 import { sl3Schema } from '@/data/techpub/sl3';
 import { sl4Schema } from '@/data/techpub/sl4';

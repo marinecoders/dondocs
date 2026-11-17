@@ -82,6 +82,16 @@ it('preserves built-in form signature images and rejects a missing image binding
   envelope.bindings = [];envelope.resources.entries = [];
   await expect(parseSharedDocument(envelope)).rejects.toThrow(/signature is missing/);
 });
+it('rejects correspondence attachment bindings in a forged rich form without staging hidden files', async () => {
+  const envelope = await payload();
+  envelope.version = 6; envelope.documentKind = 'builtin-form';
+  Object.assign(envelope.draft, { kind: 'dondocs-draft', version: 4, documentKind: 'builtin-form', documentCategory: 'forms', formType: 'navmc_10274', forms: { includeCoverPage: true, navmc10274: { signatureBlocks: [] } } });
+  const source = useDocumentsStore.getState().currentId;
+  const write = vi.spyOn(database, 'idbPutAttachment');
+  await expect(openSharedDocument(envelope)).rejects.toThrow('unsupported attachment target');
+  expect(write).not.toHaveBeenCalled();
+  expect(useDocumentsStore.getState().currentId).toBe(source);
+});
 it.each(['navmc_10274', 'navmc_118_11'] as const)('opens %s image shares as durable form documents', async formType => {
   useDocumentsStore.getState().newDocument(formType);
   const blocks = [{ name: 'Synthetic signer', statement: '', style: 'image' as const, image: png }];

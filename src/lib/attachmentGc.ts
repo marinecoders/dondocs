@@ -36,6 +36,8 @@ function collectSessionRefs(session: Pick<SerializedSession, 'formData' | 'enclo
   if (typeof signatureId === 'string' && signatureId) into.add(signatureId);
   const blId = session?.formData?.basicLetterFileRef?.id;
   if (typeof blId === 'string' && blId) into.add(blId);
+  const wordId = session?.formData?.wordSource?.fileRef?.id;
+  if (typeof wordId === 'string' && wordId) into.add(wordId);
 
   // A publication's figure images hang off paragraphs, not the enclosure list.
   // This walk must precede the enclosures guard below: a publication has

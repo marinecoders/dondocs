@@ -78,6 +78,7 @@ const endorsement = {
 
 /** Every editable field needs a deliberate text, structure, or exclusion policy. */
 export const DOCUMENT_DATA_FIELD_POLICIES = {
+  wordSource: object({ name: 'label', sha256: 'identity', fileRef: 'asset', notices: array('text'), retainedText: 'text' }),
   manualFrontMatter: object(manual), publicationSigningDate: 'document-date', publicationClosedDates: 'document-date',
   docType: 'control', fontSize: 'control', fontFamily: 'control', pageNumbering: 'control',
   startingPageNumber: 'value', startingReferenceLetter: 'control', startingEnclosureNumber: 'value',
@@ -119,10 +120,11 @@ const forms = {
   navmc10274: object(NAVMC_10274_FIELD_POLICIES), navmc11811: object(NAVMC_11811_FIELD_POLICIES), includeCoverPage: 'value',
 } satisfies PoliciesFor<FormSession>;
 const paragraph = {
+  bodyTable: object({ rows: array(array('text')), headerRows: 'value' }),
   id: 'identity',
   referenceId: 'identity', tableFootnotes: array(object({ id: 'identity', text: 'text' } satisfies PoliciesFor<NonNullable<Paragraph['tableFootnotes']>[number]>)), publicationSection: 'control',
   text: 'text', level: 'value', header: 'text', tableKey: 'identity', tableIdentifierMode: 'control', callout: 'control',
-  procedure: 'value', appendix: 'value', figure: object({ fileRef: 'asset', name: 'label', type: 'control', width: 'value', height: 'value', portionMarking: 'control' } satisfies PoliciesFor<NonNullable<Paragraph['figure']>>),
+  procedure: 'value', appendix: 'value', figure: object({ fileRef: 'asset', name: 'label', type: 'control', width: 'value', height: 'value', portionMarking: 'control', placement: 'control', altText: 'text' } satisfies PoliciesFor<NonNullable<Paragraph['figure']>>),
   portionMarking: 'control',
 } satisfies PoliciesFor<Paragraph>;
 const reference = { letter: 'control', title: 'text', url: 'text' } satisfies PoliciesFor<Reference>;

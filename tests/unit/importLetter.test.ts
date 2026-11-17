@@ -2,14 +2,12 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 
 // Keep the actual parser and detectors; only file extraction needs a stand-in.
 vi.mock('@/lib/pdfText', () => ({ extractPdfText: vi.fn() }));
-vi.mock('@/services/docx/pandoc-converter', () => ({
-  convertDocxToPlainText: vi.fn(),
-  extractDocxMarkingText: vi.fn(),
-}));
 
 import { parseLetterText, parseLetterFile, hasParsedContent } from '@/lib/importLetter';
 import { extractPdfText } from '@/lib/pdfText';
-import { convertDocxToPlainText, extractDocxMarkingText } from '@/services/docx/pandoc-converter';
+import { WORD_NS, wordImportFixture, wordParagraph } from '../_helpers/wordImportFixture';
+import { installWordXmlDom } from '../_helpers/wordXmlDom';
+installWordXmlDom();
 
 const letter = `UNCLASSIFIED
 5216
@@ -54,7 +52,6 @@ describe('shared letter-text import pipeline', () => {
     expect(result.classification).toMatchObject({ classLevel: 'unclassified', found: true });
     expect(hasParsedContent(result.parsed)).toBe(true);
     expect(extractPdfText).not.toHaveBeenCalled();
-    expect(convertDocxToPlainText).not.toHaveBeenCalled();
   });
 
   it.each(['', ' \r\n\t ', 'Some text without recognizable letter structure.'])('does not import unrecognized input: %j', (text) => {
@@ -74,17 +71,17 @@ describe('shared letter-text import pipeline', () => {
 
   it('keeps DOCX header/footer markings in classification detection', async () => {
     const body = letter.replace('UNCLASSIFIED\n', '');
-    vi.mocked(convertDocxToPlainText).mockResolvedValue(body);
-    vi.mocked(extractDocxMarkingText).mockResolvedValue('UNCLASSIFIED');
-    const result = await parseLetterFile(new File(['sample'], 'sample.docx'));
-    expect(result.parsed).toEqual(parseLetterText(body).parsed);
+    const bytes = await wordImportFixture(body.split('\n').map(wordParagraph).join(''), { 'word/header1.xml': `<w:hdr xmlns:w="${WORD_NS}">${wordParagraph('UNCLASSIFIED')}</w:hdr>` });
+    const result = await parseLetterFile(new File([bytes.buffer as ArrayBuffer], 'sample.docx'));
+    const { paragraphs: _paragraphs, ...fields } = parseLetterText(body).parsed;
+    expect(result.parsed).toMatchObject(fields);
+    expect(result.parsed.paragraphs.some(paragraph => paragraph.text === 'First sample paragraph.')).toBe(true);
     expect(result.classification).toMatchObject({ classLevel: 'unclassified', found: true });
     expect(parseLetterText(body).classification.found).toBe(false);
   });
 
-  it('still reads a DOCX body if optional header/footer extraction fails', async () => {
-    vi.mocked(convertDocxToPlainText).mockResolvedValue(letter);
-    vi.mocked(extractDocxMarkingText).mockRejectedValue(new Error('markings unavailable'));
-    expect(await parseLetterFile(new File(['sample'], 'sample.docx'))).toEqual(parseLetterText(letter));
+  it('rejects an unreadable header instead of silently omitting possible markings', async () => {
+    const bytes = await wordImportFixture(letter.split('\n').map(wordParagraph).join(''), { 'word/header1.xml': '<w:hdr><' });
+    await expect(parseLetterFile(new File([bytes.buffer as ArrayBuffer], 'sample.docx'))).rejects.toThrow();
   });
 });

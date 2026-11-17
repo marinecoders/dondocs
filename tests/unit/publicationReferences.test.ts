@@ -115,4 +115,41 @@ describe('publication references', () => {
   it('rejects footnotes that would not render', () => {
     expect(validatePublicationReferences([{ ...target, tableFootnotes: [{ id: 'a', text: '' }] }]).join(' ')).toContain('populated table');
   });
+  it('keeps target identities and counters aligned around standalone rich blocks', () => {
+    const ids = Array.from({ length: 11 }, (_, index) => (index + 1).toString(16).toUpperCase().repeat(32));
+    const richTable = { rows: [['Retain the table']], headerRows: 0 };
+    const paragraphs: Paragraph[] = [
+      { ...target, referenceId: ids[0] },
+      { level: 0, text: 'Numbered before', figure: {}, referenceId: ids[1] },
+      { level: 0, text: '', bodyTable: richTable, referenceId: ids[2] },
+      { level: 0, text: 'Body image', figure: { placement: 'body' }, referenceId: ids[3] },
+      { ...target, header: 'Second', referenceId: ids[4] },
+      { level: 0, text: 'Numbered after', figure: {}, referenceId: ids[5] },
+      { level: 0, text: '', appendix: true, header: 'Data', referenceId: ids[6] },
+      { level: 0, text: '', bodyTable: richTable, referenceId: ids[7] },
+      { level: 0, text: 'Appendix body image', figure: { placement: 'body' }, referenceId: ids[8] },
+      { level: 0, text: 'Appendix numbered figure', figure: {}, referenceId: ids[9] },
+      { ...target, header: 'Appendix paragraph', referenceId: ids[10] },
+    ];
+    const refs = publicationReferences(paragraphs);
+    expect(refs.map(({ index, label }) => ({ index, label }))).toEqual([
+      { index: 0, label: 'paragraph 1' }, { index: 1, label: 'figure 1' },
+      { index: 4, label: 'paragraph 2' }, { index: 5, label: 'figure 2' },
+      { index: 6, label: 'appendix A' }, { index: 9, label: 'figure A-1' }, { index: 10, label: 'paragraph A-1' },
+    ]);
+    expect(publicationReferenceText(`{{PUBREF_P_${ids[4]}}} and {{PUBREF_F_${ids[5]}}}`, refs)).toBe('\\dondocsReferenceLink{itype.p.4}{paragraph 2} and \\dondocsReferenceLink{itype.figure.5}{figure 2}');
+    const navigation = publicationNavigation(paragraphs);
+    expect(navigation.get('itype.figure.5')?.title).toBe('Figure 2. Numbered after');
+    expect(navigation.get('itype.figure.9')?.title).toBe('Figure A-1. Appendix numbered figure');
+    for (const index of [2, 3, 7, 8]) expect([...navigation.keys()].some(key => key.endsWith(`.${index}`))).toBe(false);
+    const citation = { ...target, referenceId: undefined, text: `{{PUBREF_P_${ids[4]}}}` };
+    expect(validatePublicationReferences([citation, ...paragraphs])).toEqual([]);
+    expect(validatePublicationReferences([{ ...citation, text: `{{PUBREF_F_${ids[3]}}}` }, ...paragraphs])).toContain('A publication reference has no target. Reinsert it or restore the deleted target.');
+  });
+  it('validates rich table cell citations before any output can replace them', () => {
+    const cell = (text: string): Paragraph => ({ level: 0, text: '', bodyTable: { rows: [[text]], headerRows: 0 } });
+    expect(validatePublicationReferences([target, cell(`{{PUBREF_P_${id}}}`)])).toEqual([]);
+    expect(validatePublicationReferences([cell(`{{PUBREF_P_${id}}}`)])).toContain('A publication reference has no target. Reinsert it or restore the deleted target.');
+  });
+
 });

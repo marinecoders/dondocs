@@ -54,13 +54,13 @@ describe('ImportLetterModal — failed imports reach the error phase', () => {
     expect(screen.getByRole('button', { name: /choose a different file/i })).toBeTruthy();
   });
 
-  it('shows a Word-specific error (engine hint) when a DOCX read throws', async () => {
-    mockParse.mockRejectedValue(new Error('pandoc failed'));
+  it('shows the specific bounded Word reader failure when a DOCX read throws', async () => {
+    mockParse.mockRejectedValue(new Error('Word relationships must have unique IDs.'));
     render(<ImportLetterModal />);
     selectFile(new File(['x'], 'letter.docx'));
 
     expect(await screen.findByText(/Word document could not be read/i)).toBeTruthy();
-    expect(await screen.findByText(/document engine could not start/i)).toBeTruthy();
+    expect(await screen.findByText(/Word relationships must have unique IDs/i)).toBeTruthy();
   });
 
   it('shows a "no text" error when nothing parseable was found', async () => {

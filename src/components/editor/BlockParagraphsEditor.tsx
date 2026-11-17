@@ -46,6 +46,8 @@ import { withAttachmentStaging, persistAttachment } from '@/lib/attachments';
 import { DOC_TYPE_CONFIG, type PortionMarking, type CalloutKind, type Paragraph } from '@/types/document';
 import { calculateLabels, canIndentAt } from '@/lib/paragraphUtils';
 import { cn } from '@/lib/utils';
+import { BodyTableEditor } from './BodyTableEditor';
+import { WordSourceNotice } from './WordSourceNotice';
 
 /** What a technical publication paragraph can be. `callout`, `procedure`,
  *  `appendix` and `figure` are separate optional fields on Paragraph but are
@@ -113,6 +115,7 @@ interface BlockRowProps {
   procedure: boolean | undefined;
   appendix: boolean | undefined;
   figure: Paragraph['figure'];
+  bodyTable: Paragraph['bodyTable'];
   tableKey: string | undefined;
   disableIndent: boolean;
   /** Whether a deeper indent is currently legal (≤ one level below the block
@@ -140,13 +143,14 @@ const BlockRow = memo(function BlockRow({
   procedure,
   appendix,
   figure,
+  bodyTable,
   tableKey,
   disableIndent,
   canIndent,
   requestFocus,
 }: BlockRowProps) {
   const updateParagraph = useDocumentStore((s) => s.updateParagraph);
-  const businessFigure = useDocumentStore(s => s.docType === 'business_letter');
+  const businessFigure = useDocumentStore(s => s.docType === 'business_letter') || figure?.placement === 'body';
   const section = useDocumentStore((s) => publicationSection(s.paragraphs[index] ?? {}));
   const footnotes = useDocumentStore((s) => s.paragraphs[index]?.tableFootnotes);
   const removeParagraph = useDocumentStore((s) => s.removeParagraph);
@@ -285,7 +289,7 @@ const BlockRow = memo(function BlockRow({
 
       <div className="min-w-0">
         {showBlockKind && procedure && header?.trim() && <p className="text-xs text-destructive">Steps do not have titles. Move this heading to the containing procedure and clear the step heading.</p>}
-        {showBlockKind && level === 0 && !callout && !procedure && !appendix && !figure && (
+        {showBlockKind && !bodyTable && level === 0 && !callout && !procedure && !appendix && !figure && (
           <label className="mb-1 flex items-center gap-2 text-xs text-muted-foreground">
             Section
             <select
@@ -318,7 +322,7 @@ const BlockRow = memo(function BlockRow({
           />
         )}
         <div className="flex items-baseline gap-1">
-          {(showBlockKind || allowBusinessFigure) && (
+          {(showBlockKind || allowBusinessFigure) && !bodyTable && (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <button
@@ -435,7 +439,10 @@ const BlockRow = memo(function BlockRow({
                 {figureError && <span role="alert" className="text-destructive">{figureError}</span>}
               </div>
             )}
-            <VariableChipEditor
+            {figure && <label className="mb-2 block font-sans text-xs text-muted-foreground">Image alternative text
+              <Input aria-label={`Alternative text for image ${index + 1}`} maxLength={2_000} value={figure.altText ?? ''} onChange={event => updateParagraph(index, { figure: { ...figure, altText: event.target.value } })} placeholder="Describe the information conveyed by this image" />
+            </label>}
+            {bodyTable ? <BodyTableEditor table={bodyTable} index={index} onChange={table => updateParagraph(index, { bodyTable: table })} /> : <VariableChipEditor
               blockMode
               onTextSelectionChange={range => setTextSelection(range ? { range, owner: captureDocumentScope() } : null)}
               ariaLabel={`Paragraph ${index + 1}`}
@@ -449,7 +456,7 @@ const BlockRow = memo(function BlockRow({
               onBackspaceAtStart={onBackspaceAtStart}
               onMoveBlock={onMove}
               onSplitPaste={onSplitPaste}
-            />
+            />}
           </div>
         </div>
 
@@ -488,7 +495,7 @@ const BlockRow = memo(function BlockRow({
               carried by the paragraph that introduces it, so it is attached
               here rather than being a block kind of its own -- the paragraph
               keeps its number and title and the table prints beneath. */}
-          {showBlockKind && (
+          {showBlockKind && !bodyTable && (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <button
@@ -682,6 +689,7 @@ export function BlockParagraphsEditor() {
         </div>
       )}
 
+      <WordSourceNotice />
       <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
         <SortableContext items={paragraphs.map((_, i) => `block-${i}`)} strategy={verticalListSortingStrategy}>
           {paragraphs.map((p, i) => (
@@ -702,8 +710,9 @@ export function BlockParagraphsEditor() {
               procedure={p.procedure}
               appendix={p.appendix}
               figure={p.figure}
+              bodyTable={p.bodyTable}
               tableKey={p.tableKey}
-              disableIndent={disableNumbered}
+              disableIndent={disableNumbered || !!p.bodyTable || p.figure?.placement === 'body'}
               canIndent={canIndentAt(paragraphs, i)}
               requestFocus={requestFocus}
             />

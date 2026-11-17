@@ -7,6 +7,7 @@ import { manualFrontMatterSchema } from '@/data/techpub/manualFrontMatter';
 import { parseFormInstance } from '@/services/forms/model';
 import type { SerializedSession } from '@/stores/documentStore';
 import { ensureParagraphIds, paragraphCommentIds } from './paragraphIdentity';
+import { wordSourceSchema } from './wordSource';
 
 const fileRef = z.object({ id: z.string(), name: z.string(), size: z.number(), type: z.string() });
 const signature = z.object({ name: z.string(), statement: z.string(), style: z.enum(['typed', 'image', 'digital']).optional(), image: z.string().optional(), imageRef: fileRef.optional(), digital: z.boolean().optional() });
@@ -19,7 +20,7 @@ const schema = sessionSchema.extend({
   references: sessionSchema.shape.references.default([]),
   copyTos: sessionSchema.shape.copyTos.default([]),
   enclosures: z.array(sessionSchema.shape.enclosures.element.extend({ fileRef: fileRef.optional() })).default([]),
-  paragraphs: z.array(sessionSchema.shape.paragraphs.element.extend({
+  paragraphs: z.array(sessionSchema.shape.paragraphs.element.safeExtend({
     figure: sessionSchema.shape.paragraphs.element.shape.figure.unwrap().extend({ fileRef: fileRef.optional() }).optional(),
   })).default([]),
   forms: z.object({ navmc10274: form.optional(), navmc11811: form.optional(), includeCoverPage: z.boolean().default(false) }).optional(),
@@ -28,6 +29,7 @@ const schema = sessionSchema.extend({
 /** Saved drafts retain local handles and images. Shared links use a separate reader. */
 export function parseSavedSession(value: unknown): SerializedSession {
   const session = schema.parse(structuredClone(value));
+  if (session.formData.wordSource !== undefined) session.formData.wordSource = wordSourceSchema.parse(session.formData.wordSource);
   if (!session.reviewComments?.threads.length) delete session.reviewComments;
   session.paragraphs = ensureParagraphIds(session.paragraphs, paragraphCommentIds(session.reviewComments));
   if (session.formData.additionalEndorsements !== undefined) session.formData.additionalEndorsements = additionalEndorsementsSchema.parse(session.formData.additionalEndorsements);

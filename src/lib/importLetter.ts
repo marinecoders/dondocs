@@ -4,8 +4,9 @@ import { extractPdfText } from '@/lib/pdfText';
 import { parseNavalLetter, type ParsedLetter } from '@/lib/parseNavalLetter';
 import { detectDocumentType, type DocTypeDetection } from '@/lib/detectDocumentType';
 import { detectClassification, type ClassificationDetection } from '@/lib/detectClassification';
-import { convertDocxToPlainText, extractDocxMarkingText } from '@/services/docx/pandoc-converter';
-import { detectImportFormat } from '@/lib/importFormat';
+import { readWordDocument, type WordImport } from '@/services/docx/import/readWord';
+import { WORD_IMPORT_LIMITS } from '@/services/docx/import/archive';
+import { detectImportFormat, isDocxFile } from '@/lib/importFormat';
 import { openSessionAsNew, type TransitionOutcome } from '@/stores/documentsStore';
 import type { DocumentData } from '@/types/document';
 import { freshParagraphs } from './paragraphIdentity';
@@ -17,6 +18,7 @@ export interface ParsedImport {
   parsed: ParsedLetter;
   detection: DocTypeDetection;
   classification: ClassificationDetection;
+  word?: WordImport;
 }
 
 /**
@@ -27,18 +29,17 @@ export interface ParsedImport {
  * separately. A PDF's banner is already in the page text, so `markings` is
  * empty there.
  */
-async function extractLetterText(file: File): Promise<{ body: string; markings: string }> {
+async function extractLetterText(file: File, signal?: AbortSignal): Promise<{ body: string; markings: string; word?: WordImport }> {
+  if (isDocxFile(file) && file.size > WORD_IMPORT_LIMITS.compressedBytes) throw new Error('Word files must be smaller than 20 MB.');
+  signal?.throwIfAborted();
   const buffer = await readFileAsArrayBuffer(file);
+  signal?.throwIfAborted();
   const bytes = arrayBufferToUint8Array(buffer);
   const format = detectImportFormat(file, bytes);
   if (format === 'docx') {
-    // The body is essential; the header/footer markings only feed classification
-    // detection, so a hiccup reading them must not fail the whole import.
-    const [body, markings] = await Promise.all([
-      convertDocxToPlainText(bytes),
-      extractDocxMarkingText(bytes).catch(() => ''),
-    ]);
-    return { body, markings };
+    // The original's complete retained inventory is required for its handling checks.
+    const word = await readWordDocument(bytes, file.name, signal);
+    return { body: word.plainText, markings: `${word.markings}\n${word.source.retainedText}`, word };
   }
   if (format === 'pdf') return { body: await extractPdfText(bytes), markings: '' };
   throw new Error(`Unsupported file type for import: ${file.name || '(unnamed file)'}`);
@@ -51,9 +52,20 @@ async function extractLetterText(file: File): Promise<{ body: string; markings: 
  * structure is parsed from the body; classification also considers the
  * header/footer markings (where the DOCX banner lives).
  */
-export async function parseLetterFile(file: File): Promise<ParsedImport> {
-  const { body, markings } = await extractLetterText(file);
-  return parseLetterText(body, markings);
+export async function parseLetterFile(file: File, signal?: AbortSignal): Promise<ParsedImport> {
+  const { body, markings, word } = await extractLetterText(file, signal);
+  const result = parseLetterText(body, markings);
+  if (word) {
+    result.word = word;
+    result.parsed = parsedWordFields(word);
+  }
+  return result;
+}
+
+/** Word metadata owns only source blocks the rich projection actually mapped. */
+export function parsedWordFields(word: Pick<WordImport, 'headerFields' | 'blocks'>): ParsedLetter {
+  return { references: [], enclosures: [], copyTos: [], ...word.headerFields,
+    paragraphs: word.blocks.map(block => ({ text: block.paragraph.text, level: block.paragraph.level })) };
 }
 
 /** Parse pasted or extracted text through the same letter-import pipeline. */
@@ -78,14 +90,15 @@ export function hasParsedContent(p: ParsedLetter): boolean {
 }
 
 /** Prepare a parsed letter from fresh defaults, then open it under one new identity. */
-export function applyParsedLetter(
+export function parsedLetterSession(
   parsed: ParsedLetter,
   docType = 'naval_letter',
   classification?: ClassificationDetection
-): TransitionOutcome {
+) {
   const session = createBlankSession(undefined, docType);
 
   const formData: Partial<DocumentData> = {};
+  for (const key of ['department', 'unitLine1', 'unitLine2', 'unitAddress'] as const) if (parsed[key] !== undefined) formData[key] = parsed[key];
   if (parsed.ssic) formData.ssic = parsed.ssic;
   if (parsed.serial) formData.serial = parsed.serial;
   if (parsed.date) formData.date = parsed.date;
@@ -117,7 +130,12 @@ export function applyParsedLetter(
       ...(p.portionMarking && { portionMarking: p.portionMarking }),
     }))),
     copyTos: parsed.copyTos.map((text) => ({ text })),
+    distributions: (parsed.distributions ?? []).map(text => ({ text })),
   });
 
-  return openSessionAsNew(session);
+  return session;
+}
+
+export function applyParsedLetter(parsed: ParsedLetter, docType = 'naval_letter', classification?: ClassificationDetection): TransitionOutcome {
+  return openSessionAsNew(parsedLetterSession(parsed, docType, classification));
 }

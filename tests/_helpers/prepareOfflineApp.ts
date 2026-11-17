@@ -12,11 +12,10 @@ export async function prepareOfflineApp(page: Page, url?: string): Promise<void>
   await expect.poll(() => page.evaluate(async () =>
     (await navigator.serviceWorker.getRegistration())?.active?.state,
   ), { timeout: 60_000 }).toBe('activated');
-  if (!await page.evaluate(() => navigator.serviceWorker.controller !== null)) await page.reload();
-  await page.waitForFunction(() => navigator.serviceWorker.controller !== null);
-  // A claimed first page may predate interception. Cache a controlled online
-  // navigation, then read back the current shell as in the upgrade rehearsal.
+  // One navigation after activation is controlled and can cache the current
+  // shell. Do not reload that new page again while its engine is starting.
   await page.reload();
+  await page.waitForFunction(() => navigator.serviceWorker.controller !== null);
   const script = await page.locator('script[type="module"]').getAttribute('src');
   expect(script).toBeTruthy();
   await expect.poll(() => page.evaluate(async currentScript => {

@@ -9,6 +9,7 @@ import { formTemplateResourcePaths } from '@/services/forms/portableTemplates';
 import { assertRetainedDocumentTextPolicy } from './retainedDocumentTextPolicy';
 import type { PolicyResolution } from './exportDeploymentPolicy';
 import { base64ToUint8Array, uint8ArrayToBase64 } from './encoding';
+import { hasRichBody } from './bodyTable';
 
 const path = z.string().min(1).max(180);
 const index = z.number().int().min(0).max(10000);
@@ -17,10 +18,11 @@ const bindingSchema = z.discriminatedUnion('slot', [
   z.object({ slot: z.literal('figure'), index, path }).strict(),
   z.object({ slot: z.literal('signature'), path }).strict(),
   z.object({ slot: z.literal('basic-letter'), path }).strict(),
+  z.object({ slot: z.literal('word-source'), path }).strict(),
   z.object({ slot: z.literal('form-signature'), index, path }).strict(),
 ]);
 type Binding = z.infer<typeof bindingSchema>;
-const envelopeSchema = z.object({ kind: z.literal('dondocs-share'), version: z.literal(4),
+const envelopeSchema = z.object({ kind: z.literal('dondocs-share'), version: z.union([z.literal(4), z.literal(6)]),
   documentKind: z.enum(['correspondence', 'builtin-form', 'configured-form']),
   expiresAt: z.number().int().positive().max(8_640_000_000_000_000).optional(),
   draft: z.record(z.string(), z.unknown()), resources: z.unknown(), bindings: z.array(bindingSchema).max(256),
@@ -35,10 +37,10 @@ function kind(session: SerializedSession): SharedDocumentKind {
   return session.documentCategory === 'forms' ? session.genericForm ? 'configured-form' : 'builtin-form' : 'correspondence';
 }
 export function isAssetShare(value: unknown): boolean {
-  return !!value && typeof value === 'object' && 'kind' in value && value.kind === 'dondocs-share' && 'version' in value && value.version === 4;
+  return !!value && typeof value === 'object' && 'kind' in value && value.kind === 'dondocs-share' && 'version' in value && (value.version === 4 || value.version === 6);
 }
 export function hasShareAssets(snapshot: DocumentSnapshot): boolean {
-  return !!(snapshot.documentCategory === 'forms' && snapshot.genericForm || snapshot.formData.signatureImage || snapshot.formData.basicLetterFile || snapshot.formData.basicLetterFileRef
+  return !!(snapshot.documentCategory === 'forms' && snapshot.genericForm || snapshot.formData.signatureImage || snapshot.formData.basicLetterFile || snapshot.formData.basicLetterFileRef || snapshot.formData.wordSource
     || snapshot.enclosures.some(item => item.file || item.fileRef)
     || snapshot.paragraphs.some(item => item.figure)
     || [snapshot.forms?.navmc10274, snapshot.forms?.navmc11811].some(form => form?.signatureBlocks?.some(block => block.image || block.imageRef)));
@@ -57,6 +59,7 @@ export function assetShareReviewSession(snapshot: DocumentSnapshot, timestamp: n
     return { ...paragraph, figure };
   });
   const { basicLetterFileRef, ...fields } = session.formData;
+  if (fields.wordSource) fields.wordSource = { ...fields.wordSource, fileRef: undefined };
   if (fields.signatureImage) { const { fileRef: _ref, ...image } = fields.signatureImage;fields.signatureImage = image; }
   const basic = snapshot.formData.basicLetterFile;
   session.formData = { ...fields, ...(basic || basicLetterFileRef ? { basicLetterFile: { name: basic?.name ?? basicLetterFileRef!.name, size: basic?.size ?? basicLetterFileRef!.size, data: new ArrayBuffer(0) } } : {}) };
@@ -82,6 +85,10 @@ function target(draft: ObjectValue, binding: Binding): { object: ObjectValue; ke
   switch (binding.slot) {
     case 'enclosure': return { object: object((draft.enclosures as unknown[])?.[binding.index]), key: 'file', mediaType: 'application/pdf' };
     case 'basic-letter': return { object: formData, key: 'basicLetterFile', mediaType: 'application/pdf' };
+    case 'word-source': {
+      if (!formData.wordSource) throw new Error('The original Word source metadata is missing.');
+      return { object: draft, key: 'wordSourceFile', mediaType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' };
+    }
     case 'signature': return { object: formData, key: 'signatureImage', mediaType: 'image/png' };
     case 'figure': {
       const figure = object(object((draft.paragraphs as unknown[])?.[binding.index]).figure);
@@ -96,6 +103,7 @@ function target(draft: ObjectValue, binding: Binding): { object: ObjectValue; ke
   }
 }
 function validBytes(bytes: Uint8Array, mediaType: string): boolean {
+  if (mediaType === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document') return bytes[0] === 80 && bytes[1] === 75 && bytes[2] === 3 && bytes[3] === 4;
   if (mediaType === 'application/pdf') return bytes.length >= 5 && String.fromCharCode(...bytes.subarray(0, 5)) === '%PDF-';
   if (mediaType === 'image/png') return [137, 80, 78, 71, 13, 10, 26, 10].every((byte, index) => bytes[index] === byte);
   return mediaType === 'image/jpeg' && bytes[0] === 255 && bytes[1] === 216 && bytes[2] === 255;
@@ -125,6 +133,7 @@ export async function buildAssetSharePayload(snapshot: DocumentSnapshot, timesta
     if (paragraph.figure) add({ slot: 'figure', index, path: `assets/figure-${index}` }, object(paragraph.figure).data);
   }
   const formData = object(draft.formData);
+  if (formData.wordSource) add({ slot: 'word-source', path: 'assets/original-word.docx' }, draft.wordSourceFile);
   if (formData.basicLetterFile) add({ slot: 'basic-letter', path: 'assets/basic-letter.pdf' }, formData.basicLetterFile);
   if (formData.signatureImage) add({ slot: 'signature', path: 'assets/signature.png' }, formData.signatureImage);
   if (draft.forms) {
@@ -138,7 +147,7 @@ export async function buildAssetSharePayload(snapshot: DocumentSnapshot, timesta
   if (!inputs.length && !templates) return expiresAt === undefined ? createSharedPayload(session) : createSharedPayload(session, expiresAt);
   const resources = await buildPortableResources(inputs);
   if (templates) resources.entries.push(...templates.entries);
-  const envelope: AssetShareEnvelope = { kind: 'dondocs-share', version: 4, documentKind: kind(session),
+  const envelope: AssetShareEnvelope = { kind: 'dondocs-share', version: hasRichBody(session) ? 6 : 4, documentKind: kind(session),
     ...(expiresAt === undefined ? {} : { expiresAt }), draft, resources, bindings };
   await parseAssetSharePayload(envelope);
   return envelope;
@@ -151,15 +160,16 @@ export async function parseAssetSharePayload(value: unknown): Promise<ReviewedDr
   const envelope = result.data;
   validateAssetShareExpiration(envelope);
   const raw = envelope.draft, rawForm = object(raw.formData);
+  if (hasRichBody(raw as unknown as SerializedSession) && envelope.version !== 6) throw new Error('Rich document assets require a version 6 share.');
   if (raw.portableResources !== undefined) throw new Error('Shared templates must use the single resource manifest.');
   if (envelope.documentKind === 'configured-form' && raw.portableFormTemplates === undefined) throw new Error('This configured-form share is missing its exact templates.');
-  if (rawForm.basicLetterFileRef !== undefined || rawForm.signatureImage && object(rawForm.signatureImage).fileRef !== undefined
+  if (rawForm.basicLetterFileRef !== undefined || rawForm.wordSource && object(rawForm.wordSource).fileRef !== undefined || rawForm.signatureImage && object(rawForm.signatureImage).fileRef !== undefined
     || (raw.enclosures as unknown[] | undefined)?.some(item => object(item).fileRef !== undefined)
     || (raw.paragraphs as unknown[] | undefined)?.some(item => object(item).figure && object(object(item).figure).fileRef !== undefined)) throw new Error('A shared attachment cannot use device-local file handles.');
   if ((raw.enclosures as unknown[] | undefined)?.some(item => object(item).file && object(object(item).file).data !== undefined)
     || (raw.paragraphs as unknown[] | undefined)?.some(item => object(item).figure && object(object(item).figure).data !== undefined)
     || rawForm.signatureImage && object(rawForm.signatureImage).data !== undefined
-    || rawForm.basicLetterFile && object(rawForm.basicLetterFile).data !== undefined) throw new Error('This share includes ambiguous inline attachment bytes.');
+    || rawForm.basicLetterFile && object(rawForm.basicLetterFile).data !== undefined || raw.wordSourceFile && object(raw.wordSourceFile).data !== undefined) throw new Error('This share includes ambiguous inline attachment bytes.');
   if (raw.forms) for (const value of Object.values(object(raw.forms))) {
     if (value && typeof value === 'object' && Array.isArray(object(value).signatureBlocks)
       && (object(value).signatureBlocks as unknown[]).some(block => object(block).image !== undefined || object(block).imageRef !== undefined)) throw new Error('This share includes ambiguous inline signature bytes or device-local handles.');

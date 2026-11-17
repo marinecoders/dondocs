@@ -22,6 +22,7 @@ export function publicationReferences(paragraphs: Paragraph[], tables: Record<st
   const counts = new Array(8).fill(0);
   const path: string[] = [];
   paragraphs.forEach((p, index) => {
+    if (p.bodyTable || p.figure?.placement === 'body') return;
     const add = (kind: PublicationReference['kind'], label: string, destination: string, note?: string) => {
       entries.push({ index, kind, label, destination, note, name: referenceName(kind, p.referenceId ?? `INDEX${index}`, note) });
     };
@@ -63,7 +64,7 @@ export function validatePublicationReferences(paragraphs: Paragraph[], tables: R
     if (numeric && notes.some((n, i) => n.id !== String(i + 1))) errors.push('Number table footnotes consecutively from 1 within each table.');
     const proseFields = [p.text, ...notes.map((n) => n.text)];
     if (proseFields.some((text) => (text.match(FOOTNOTE_REFERENCE_TOKEN) ?? []).length)) errors.push('Reference table footnotes only within their own table cells.');
-    const cellFields = p.tableKey ? (tables[p.tableKey] ?? []).flatMap((row) => Object.values(row.values)) : [];
+    const cellFields = p.tableKey ? (tables[p.tableKey] ?? []).flatMap((row) => Object.values(row.values)) : p.bodyTable?.rows.flat() ?? [];
     const ownNotes = new Set(notes.map((n) => referenceName('N', p.referenceId ?? '', n.id)));
     for (const text of cellFields) {
       for (const token of text.match(FOOTNOTE_REFERENCE_TOKEN) ?? []) {

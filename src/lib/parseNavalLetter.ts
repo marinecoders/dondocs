@@ -14,6 +14,11 @@
 import type { PortionMarking } from '@/types/document';
 
 export interface ParsedLetter {
+  distributions?: string[];
+  department?: string;
+  unitLine1?: string;
+  unitLine2?: string;
+  unitAddress?: string;
   ssic?: string;
   serial?: string;
   date?: string;

@@ -36,7 +36,7 @@ describe('comment-bearing transfer boundaries', () => {
     const payload = createSharedPayload(getSerializedSession());
     const encrypted = await encryptSharePayload(payload, 'comments-test-password');
     const decrypted = await decryptSharePayload(encrypted, 'comments-test-password');
-    expect(parseSharedSession(decrypted).reviewComments).toEqual(payload.reviewComments);
+    expect(parseSharedSession(decrypted).reviewComments).toEqual(parseSharedSession(payload).reviewComments);
   });
   it('keeps new documents and reusable templates independent of existing comments', () => {
     add();

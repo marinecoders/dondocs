@@ -19,7 +19,7 @@ export function calculateLabels(paragraphs: Paragraph[], letteredAppendices = fa
     // A safety callout is not a numbered paragraph: it takes no label and does
     // not advance the count, so the steps around it stay consecutive. The empty
     // label keeps this array aligned with `paragraphs` by index.
-    if (para.callout || para.figure) {
+    if (para.callout || para.figure || para.bodyTable) {
       labels.push('');
       continue;
     }

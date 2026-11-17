@@ -38,6 +38,7 @@ export interface ParagraphLike {
    *  count; an appendix numbers afresh. Technical publications only. */
   callout?: string;
   figure?: object;
+  bodyTable?: object;
   appendix?: boolean;
 }
 
@@ -52,7 +53,7 @@ export function calculateLabels(paragraphs: ParagraphLike[]): string[] {
   for (const para of paragraphs) {
     // A callout or figure is not a numbered paragraph: an empty label keeps
     // this array aligned with `paragraphs` by index, and the count stands.
-    if (para.callout || para.figure) {
+    if (para.callout || para.figure || para.bodyTable) {
       labels.push('');
       continue;
     }

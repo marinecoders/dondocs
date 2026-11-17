@@ -5,6 +5,7 @@ Start with the [application README](../README.md) and [output capabilities](CAPA
 ## Using DonDocs
 
 - [User guide](USER_GUIDE.md): drafts, profiles, sharing, imports, history, Trash, recovery and batches.
+- [Word imports](WORD_IMPORT.md): supported native content, retained originals and import limits.
 - [Technical publications](TECHNICAL_PUBLICATIONS.md): I-Type, SL-3, SL-4 and TM/IETM front matter.
 - [Package render qualification](PACKAGE_RENDER_QUALIFICATION.md): saved-output comparisons and their limits.
 - [Output capabilities](CAPABILITIES.md) and [known limits](OUTPUT_LIMITS.md).

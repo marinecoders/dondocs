@@ -10,6 +10,8 @@ import type { Enclosure, FileRef } from '@/types/document';
 import type { DocumentSnapshot } from '@/stores/historyStore';
 import { serializeDocumentSnapshot } from './documentSerialization';
 import { capturePortableFormTemplates, validatePortableFormTemplates, type PortableFormTemplateBundle } from '@/services/forms/portableTemplates';
+import { wordSourceSchema } from './wordSource';
+import { validateWordSourceFile } from './wordSourceResources';
 
 const image = z.object({ name: z.string(), size: z.number(), data: z.string() });
 const ref = z.object({ id: z.string(), name: z.string(), size: z.number(), type: z.string() });
@@ -21,7 +23,7 @@ const shape = z.object({
   forms: z.object({ navmc10274: z.record(z.string(), z.unknown()).optional(), navmc11811: z.record(z.string(), z.unknown()).optional() }).passthrough().optional(),
 }).passthrough();
 type InlineFile = z.infer<typeof inlineFile>;
-export interface ReviewedDraft { session: SerializedSession; files: Array<Enclosure['file']>; figures: Array<Enclosure['file']>; basicLetter?: NonNullable<Enclosure['file']>; formTemplates?: PortableFormTemplateBundle }
+export interface ReviewedDraft { session: SerializedSession; files: Array<Enclosure['file']>; figures: Array<Enclosure['file']>; basicLetter?: NonNullable<Enclosure['file']>; wordSourceFile?: NonNullable<Enclosure['file']>; formTemplates?: PortableFormTemplateBundle }
 const decode = (file: InlineFile): NonNullable<Enclosure['file']> => {
   const bytes = base64ToUint8Array(file.data);
   return { name: file.name, size: bytes.byteLength, data: bytes.buffer as ArrayBuffer };
@@ -55,6 +57,17 @@ export function parseDraftFile(value: unknown, localHandles = false, requireComp
     if (raw.formData.signatureImage && !image.parse(raw.formData.signatureImage).data) throw new Error('A signature image is missing from this reviewer file.');
   }
   const session = parseSharedSession(value);
+  let wordSourceFile: NonNullable<Enclosure['file']> | undefined;
+  if (raw.formData.wordSource !== undefined) {
+    const metadata = wordSourceSchema.parse(raw.formData.wordSource);
+    if (raw.wordSourceFile !== undefined) {
+      const source = inlineFile.parse(raw.wordSourceFile);
+      if (source.data.length > Math.ceil(20 * 1024 * 1024 / 3) * 4) throw new Error('The original Word file exceeds 20 MB.');
+      wordSourceFile = decode(source);
+      if (source.name !== metadata.name || source.size !== wordSourceFile.size || uint8ArrayToBase64(new Uint8Array(wordSourceFile.data)) !== source.data) throw new Error('The original Word resource has inconsistent metadata or encoded bytes.');
+    } else if (requireCompleteAssets) throw new Error('The original Word source is missing from this complete draft.');
+    session.formData.wordSource = { ...metadata, fileRef: localHandles ? metadata.fileRef : undefined };
+  }
   if (raw.formData.signatureImage) {
     session.formData.signatureImage = image.parse(raw.formData.signatureImage);
     if (localHandles) {
@@ -83,7 +96,7 @@ export function parseDraftFile(value: unknown, localHandles = false, requireComp
     return figure?.data ? decode({ name: figure.name ?? 'figure', size: 0, data: figure.data }) : undefined;
   });
   if (hasPortable && !session.genericForm) throw new Error('Portable form templates require a configured form.');
-  return { session, files, figures, basicLetter,
+  return { session, files, figures, basicLetter, ...(wordSourceFile ? { wordSourceFile } : {}),
     ...(hasPortable ? { formTemplates: { portableFormTemplates: portable.portableFormTemplates, portableResources: portable.portableResources } as PortableFormTemplateBundle } : {}),
   };
 }
@@ -91,6 +104,7 @@ export function parseDraftFile(value: unknown, localHandles = false, requireComp
 /** External form drafts validate every captured template before showing review. */
 export async function parsePortableDraft(value: unknown, localHandles = false, requireCompleteAssets = false): Promise<ReviewedDraft> {
   const reviewed = parseDraftFile(value, localHandles, requireCompleteAssets);
+  if (reviewed.wordSourceFile && reviewed.session.formData.wordSource) await validateWordSourceFile(reviewed.wordSourceFile, reviewed.session.formData.wordSource);
   if (reviewed.formTemplates) await validatePortableFormTemplates([reviewed.session.genericForm!.definition], reviewed.formTemplates.portableFormTemplates, reviewed.formTemplates.portableResources);
   return reviewed;
 }
@@ -143,6 +157,15 @@ async function serializeDraft(session: SerializedSession, live: DocumentSnapshot
     return { ...text, hasFile: !!file, file };
   }));
   const { basicLetterFileRef, ...formData } = session.formData;
+  let wordSourceFile: InlineFile | undefined;
+  if (formData.wordSource) {
+    const ref = formData.wordSource.fileRef;
+    const data = ref ? await loadAttachment(ref.id) : null;
+    if (!data) throw new Error('The original Word file is unavailable. Restore it before exporting a complete draft.');
+    await validateWordSourceFile({ data }, formData.wordSource);
+    wordSourceFile = { name: formData.wordSource.name, size: data.byteLength, data: uint8ArrayToBase64(new Uint8Array(data)) };
+  }
+  if (formData.wordSource) formData.wordSource = { ...formData.wordSource, fileRef: undefined };
   const signature = await resolveSignature(formData.signatureImage);
   if (signature) {
     const { fileRef: _ref, ...image } = signature;
@@ -156,5 +179,5 @@ async function serializeDraft(session: SerializedSession, live: DocumentSnapshot
     const packed = await pack(undefined, fileRef);
     return { ...paragraph, figure: { ...figure, data: packed?.data } };
   }));
-  return { ...draftEnvelope(session), ...session, paragraphs, enclosures, formData: { ...formData, basicLetterFile: await pack(live.formData.basicLetterFile, basicLetterFileRef) } };
+  return { ...draftEnvelope(session), ...session, paragraphs, enclosures, ...(wordSourceFile ? { wordSourceFile } : {}), formData: { ...formData, basicLetterFile: await pack(live.formData.basicLetterFile, basicLetterFileRef) } };
 }

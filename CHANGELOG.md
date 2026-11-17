@@ -7,6 +7,14 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.124] — 2026-11-17
+
+### Added
+
+- Import supported Word text, rectangular tables and embedded PNG/JPEG pictures as editable native content while retaining the exact original file separately.
+- Preserve complete resources through drafts, shares and backups; explain unsupported content and reject unsupported picture transformations before changing saved work.
+
+
 ## [1.3.123] — 2026-11-16
 
 ### Added

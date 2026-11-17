@@ -14,6 +14,7 @@
  */
 import type { ClassificationLevel } from '@/lib/domainClassification';
 import type { Paragraph, PortionMarking } from '@/types/document';
+import { paragraphPortionMarkings } from './portionMarkings';
 
 const LEVEL_RANK: Record<string, number> = {
   unclassified: 0,
@@ -47,7 +48,7 @@ const PORTION_TO_LEVEL: Record<PortionMarking, ClassificationLevel> = {
  */
 export function deriveOverallClassLevel(
   classLevel: string | undefined,
-  paragraphs: Array<Pick<Paragraph, 'portionMarking' | 'figure'>>
+  paragraphs: Array<Pick<Paragraph, 'portionMarking' | 'figure'> & Partial<Pick<Paragraph, 'text' | 'header' | 'bodyTable'>>>
 ): string {
   const docLevel = classLevel || 'unclassified';
   if (docLevel === 'custom' || !Object.hasOwn(LEVEL_RANK, docLevel)) return docLevel;
@@ -55,7 +56,7 @@ export function deriveOverallClassLevel(
   let maxRank = LEVEL_RANK[docLevel];
   let maxLevel = docLevel;
   for (const para of paragraphs) {
-    for (const mark of [para.portionMarking, para.figure?.portionMarking]) {
+    for (const mark of paragraphPortionMarkings(para)) {
       if (!mark) continue;
       const level = PORTION_TO_LEVEL[mark];
       const rank = level ? LEVEL_RANK[level] : undefined;
