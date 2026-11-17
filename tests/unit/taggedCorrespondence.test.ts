@@ -57,7 +57,7 @@ describe('owned tagged correspondence projection', () => {
   });
 
   it.each([
-    ['naval seal', (source: TaggedCorrespondenceSource) => { source.docType = 'naval_letter'; }],
+    ['unqualified layout', (source: TaggedCorrespondenceSource) => { source.docType = 'business_letter'; }],
     ['digital field', (source: TaggedCorrespondenceSource) => { source.formData.signatureType = 'digital'; }],
     ['classification', (source: TaggedCorrespondenceSource) => { source.formData.classLevel = 'cui'; }],
     ['portion marking', (source: TaggedCorrespondenceSource) => { source.paragraphs[0].portionMarking = 'S'; }],
@@ -65,11 +65,67 @@ describe('owned tagged correspondence projection', () => {
     ['hyperlink', (source: TaggedCorrespondenceSource) => { source.references[0].url = 'https://example.com'; }],
     ['empty row', (source: TaggedCorrespondenceSource) => { source.paragraphs.push({ text: '', level: 0 }); }],
     ['hierarchy jump', (source: TaggedCorrespondenceSource) => { source.paragraphs[1].level = 3; }],
-    ['body table', (source: TaggedCorrespondenceSource) => { source.paragraphs[0].bodyTable = { rows: [['Header'], ['Value']], headerRows: 1 }; }],
+    ['headerless table', (source: TaggedCorrespondenceSource) => { source.paragraphs[0].bodyTable = { rows: [['Header'], ['Value']], headerRows: 0 }; }],
   ])('blocks %s rather than silently falling back', (_name, change) => {
     const source = fixture(); change(source);
     expect(taggedCorrespondenceIssues(source).length).toBeGreaterThan(0);
     expect(() => prepareTaggedCorrespondence(source)).toThrow();
+  });
+
+  it('projects real table header scope, repeated-header artifacts and empty data cells', () => {
+    const source = fixture();
+    source.paragraphs = [{ level: 0, text: 'Roster', bodyTable: { rows: [['Name', 'Date'], ['Pat', '']], headerRows: 1 } }, { level: 0, text: 'After table.' }];
+    const prepared = prepareTaggedCorrespondence(source);
+    const nodes = flatten(prepared.plan.nodes);
+    expect(nodes.filter(node => node.role === 'TH')).toEqual(expect.arrayContaining([expect.objectContaining({ columnHeader: true, repeatAsArtifact: true })]));
+    expect(nodes.filter(node => node.role === 'TD' && node.allowEmpty)).toHaveLength(1);
+    expect(prepared.plan.artifactIds).toHaveLength(1);
+    expect(prepared.files['body.tex']).toContain('\\noalign{\\pdfliteral');
+    expect(untag(prepared.files['body.tex'] as string).replace(/\\noalign\{\}\n/g, '')).toBe(generateAllLatexFiles(source).texFiles['body.tex']);
+  });
+
+  it('requires exact image binding and keeps alternative text separate from the caption', () => {
+    const source = fixture();
+    source.paragraphs = [{ level: 0, text: 'Diagram caption', figure: { placement: 'body', altText: 'Two connected offices', width: 1, height: 1, type: 'image/png', name: 'diagram.png', fileRef: { id: 'att_image', size: 100, name: 'diagram.png', type: 'image/png' } } }];
+    expect(() => prepareTaggedCorrespondence(source)).toThrow(/exact body image/);
+    const result = prepareTaggedCorrespondence(source, undefined, undefined, { figures: { 0: { width: 1, height: 1, encoding: 'rgb', digest: 'a'.repeat(64), alphaDigest: 'b'.repeat(64) } } });
+    expect(flatten(result.plan.nodes).find(node => node.role === 'Figure')?.altText).toBe('Two connected offices');
+    expect(flatten(result.plan.nodes).filter(node => node.role === 'Caption')).toHaveLength(1);
+    expect(Object.keys(result.plan.images!)).toHaveLength(1);
+    expect(untag(result.files['body.tex'] as string)).toBe(generateAllLatexFiles(source).texFiles['body.tex']);
+  });
+
+  it.each(['table', 'figure'] as const)('omits whitespace-only %s captions from both the plan and rendered body', kind => {
+    const source = fixture();
+    const block = kind === 'table'
+      ? { bodyTable: { rows: [['Header'], ['Value']], headerRows: 1 } }
+      : { figure: { placement: 'body' as const, altText: 'Training diagram', type: 'image/png', fileRef: { id: 'image', name: 'diagram.png', size: 100, type: 'image/png' } } };
+    source.paragraphs = [{ level: 0, text: ' \t ', header: ' \t ', ...block }];
+    expect(taggedCorrespondenceIssues(source)).toEqual([]);
+    const result = prepareTaggedCorrespondence(source, undefined, undefined, { figures: { 0: { width: 1, height: 1, encoding: 'rgb', digest: 'a'.repeat(64), alphaDigest: 'b'.repeat(64) } } });
+    expect(flatten(result.plan.nodes).filter(node => node.role === 'Caption')).toHaveLength(0);
+    expect(result.files['body.tex']).not.toContain('\\\\[6pt]');
+    expect(untag(result.files['body.tex'] as string).replace(/\\noalign\{\}\n/g, '')).toBe(generateAllLatexFiles(source).texFiles['body.tex']);
+  });
+
+  it('refuses an oversized completed table projection before returning compiler input', () => {
+    const source = fixture();
+    source.paragraphs = Array.from({ length: 6 }, () => ({ level: 0, text: '', bodyTable: { headerRows: 1,
+      rows: Array.from({ length: 100 }, () => Array.from({ length: 6 }, () => 'Cell')) } }));
+    expect(() => prepareTaggedCorrespondence(source)).toThrow(/qualified tagged structure limit/);
+  });
+
+  it('requires an owned decorative naval seal and announces actual letterhead text before the date', () => {
+    const source = fixture(); source.docType = 'naval_letter';
+    source.formData.unitLine1 = 'TRAINING COMMAND'; source.formData.unitAddress = '123 Training Road\nQuantico VA 22134';
+    expect(() => prepareTaggedCorrespondence(source)).toThrow(/exact decorative letterhead seal/);
+    const result = prepareTaggedCorrespondence(source, undefined, undefined, { seal: { width: 1024, height: 1024, encoding: 'rgb', digest: 'a'.repeat(64), alphaDigest: 'b'.repeat(64) } });
+    expect(result.qualification).toBe('naval-letter');
+    expect(result.plan.artifactIds).toHaveLength(1);
+    expect(Object.keys(result.plan.images!)).toEqual(result.plan.artifactIds!.map(String));
+    expect(result.files[TAGGED_MAIN_FILE]).toContain('textbf{\\leavevmode\\pdfliteral');
+    expect(result.files[TAGGED_MAIN_FILE]).toContain('\\UnitName\\pdfliteral');
+    expect(result.files).toHaveProperty('dondocs-tagged-naval-letter.tex');
   });
 
   it('escapes marker-shaped user text inside the authoritative source generator', () => {

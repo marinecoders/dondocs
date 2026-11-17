@@ -7,6 +7,13 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.133] — 2026-11-17
+
+### Added
+
+- Tagged native tables and source-bound raster images, including Naval Letters.
+
+
 ## [1.3.132] — 2026-11-17
 
 ### Added

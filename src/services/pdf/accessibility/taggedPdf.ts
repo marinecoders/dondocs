@@ -2,6 +2,7 @@ import { TAGGED_PDF_STRUCTURE_LIMITS } from './limits';
 import { PDFArray, PDFDict, PDFDocument, PDFHexString, PDFName, PDFNumber, PDFRawStream, type PDFRef } from 'pdf-lib';
 import { Inflate } from 'pako';
 import { byteString, byteStringBytes, readPdfContent, type PdfContentOperation } from './contentStream';
+import { createRasterDecodeBudget, fingerprintPdfRaster, TAGGED_RASTER_LIMITS, type PdfRasterBinding } from './raster';
 
 export type PdfSemanticRole = 'Document' | 'Sect' | 'P' | 'H1' | 'H2' | 'H3' | 'H4' | 'H5' | 'H6' | 'L' | 'LI' | 'Lbl' | 'LBody' | 'Table' | 'TR' | 'TH' | 'TD' | 'Figure' | 'Caption' | 'Span';
 export interface PdfSemanticNode {
@@ -10,6 +11,8 @@ export interface PdfSemanticNode {
   children?: readonly PdfSemanticNode[];
   altText?: string;
   columnHeader?: boolean;
+  repeatAsArtifact?: boolean;
+  allowEmpty?: boolean;
 }
 export interface PdfTaggingPlan {
   nonce: string;
@@ -17,6 +20,7 @@ export interface PdfTaggingPlan {
   language: string;
   nodes: readonly PdfSemanticNode[];
   artifactIds?: readonly number[];
+  images?: Readonly<Record<number, PdfRasterBinding>>;
 }
 export interface TaggedPdfResult {
   bytes: Uint8Array;
@@ -45,14 +49,18 @@ function marker(operation: PdfContentOperation, nonce: string): { id: number; be
   return { id: Number(id.value), begin: Boolean(begin.value) };
 }
 
-function validatePlan(plan: PdfTaggingPlan): Map<number, PdfSemanticNode> {
+/** Bound a completed projection before compilation and recheck at finishing. */
+export function validatePdfTaggingPlan(plan: PdfTaggingPlan): Map<number, PdfSemanticNode> {
   if (!/^[0-9a-f]{32}$/.test(plan.nonce) || !plan.title.trim() || plan.title.length > 2000 || !/^[A-Za-z]{2,3}(?:-[A-Za-z0-9]{2,8})*$/.test(plan.language) || !Array.isArray(plan.nodes)) throw new Error('Invalid tagged PDF document metadata.');
   const nodes = new Map<number, PdfSemanticNode>();
   const visit = (node: PdfSemanticNode, depth: number) => {
-    if (depth > TAGGED_PDF_STRUCTURE_LIMITS.planDepth || nodes.size >= MAX_NODES || !Number.isSafeInteger(node.id) || node.id < 0 || nodes.has(node.id)) throw new Error('Invalid or duplicate tagged PDF structure identity.');
+    if (nodes.size >= MAX_NODES) throw new Error('The document exceeds the qualified tagged structure limit. Split large tables or lists into separate documents.');
+    if (depth > TAGGED_PDF_STRUCTURE_LIMITS.planDepth || !Number.isSafeInteger(node.id) || node.id < 0 || nodes.has(node.id)) throw new Error('Invalid or duplicate tagged PDF structure identity.');
     if (!ROLES.has(node.role)) throw new Error('Unsupported tagged PDF semantic role.');
     if (node.altText !== undefined && (typeof node.altText !== 'string' || node.altText.length > 2000)) throw new Error('Invalid tagged PDF alternative text.');
     if (node.role === 'Figure' && (!node.altText?.trim() || node.altText.length > 2000)) throw new Error('Every meaningful figure requires alternative text.');
+    if (node.repeatAsArtifact && node.role !== 'TH') throw new Error('Only repeated table headers can become structural-repeat artifacts.');
+    if (node.allowEmpty && node.role !== 'TD') throw new Error('Only an explicitly empty table data cell may omit painted content.');
     nodes.set(node.id, node);
     for (const child of node.children ?? []) visit(child, depth + 1);
   };
@@ -65,20 +73,35 @@ function validatePlan(plan: PdfTaggingPlan): Map<number, PdfSemanticNode> {
  * semantics from an arbitrary PDF, repair signed files or tag appended pages. */
 export async function finishTaggedPdf(input: Uint8Array, sourcePlan: PdfTaggingPlan): Promise<TaggedPdfResult> {
   if (input.byteLength > MAX_BYTES) throw new Error('Tagged PDF input exceeds 32 MiB.');
-  validatePlan(sourcePlan);
+  validatePdfTaggingPlan(sourcePlan);
   if ((sourcePlan.artifactIds?.length ?? 0) > MAX_NODES) throw new Error('Too many tagged PDF artifacts.');
   const copyNode = (node: PdfSemanticNode): PdfSemanticNode => ({ id: node.id, role: node.role,
     ...(node.altText === undefined ? {} : { altText: node.altText }),
     ...(node.columnHeader ? { columnHeader: true } : {}),
+    ...(node.repeatAsArtifact ? { repeatAsArtifact: true } : {}),
+    ...(node.allowEmpty ? { allowEmpty: true } : {}),
     ...(node.children ? { children: node.children.map(copyNode) } : {}),
   });
   const plan: PdfTaggingPlan = { nonce: sourcePlan.nonce, title: sourcePlan.title, language: sourcePlan.language,
     nodes: sourcePlan.nodes.map(copyNode), artifactIds: [...sourcePlan.artifactIds ?? []] };
-  const nodes = validatePlan(plan);
+  const nodes = validatePdfTaggingPlan(plan);
   const artifacts = new Set([-1]);
   for (const id of plan.artifactIds ?? []) {
     if (!Number.isSafeInteger(id) || id < 0 || nodes.has(id) || artifacts.has(id) || artifacts.size > MAX_NODES) throw new Error('Invalid tagged PDF artifact identity.');
     artifacts.add(id);
+  }
+  const imageBindings = new Map<number, PdfRasterBinding>();
+  const sourceImages = Object.entries(sourcePlan.images ?? {});
+  if (sourceImages.length > 20) throw new Error('Tagged PDF output supports at most 20 raster bindings.');
+  for (const [key, image] of sourceImages) {
+    const id = Number(key);
+    if (!/^\d+$/.test(key) || !Number.isSafeInteger(id) || (!artifacts.has(id) && nodes.get(id)?.role !== 'Figure')
+      || !Number.isSafeInteger(image.width) || !Number.isSafeInteger(image.height) || image.width < 1 || image.height < 1
+      || image.width > TAGGED_RASTER_LIMITS.dimension || image.height > TAGGED_RASTER_LIMITS.dimension || image.width * image.height > TAGGED_RASTER_LIMITS.pixels
+      || !['dct', 'rgb'].includes(image.encoding) || !/^[a-f0-9]{64}$/.test(image.digest)
+      || (image.encoding === 'rgb' ? !/^[a-f0-9]{64}$/.test(image.alphaDigest ?? '') : image.alphaDigest !== undefined)) throw new Error('Invalid owned tagged PDF raster binding.');
+    imageBindings.set(id, { width: image.width, height: image.height, encoding: image.encoding, digest: image.digest,
+      ...(image.alphaDigest ? { alphaDigest: image.alphaDigest } : {}) });
   }
   const pdf = await PDFDocument.load(new Uint8Array(input));
   if (pdf.getPageCount() > 100) throw new Error('Tagged PDF output exceeds 100 pages.');
@@ -105,7 +128,11 @@ export async function finishTaggedPdf(input: Uint8Array, sourcePlan: PdfTaggingP
   document.set(PDFName.of('K'), context.obj(plan.nodes.map(node => create(node, documentRef))));
   const parentNumbers: (number | PDFArray)[] = [];
   const stack: number[] = [];
+  const repeatedArtifactScopes = new Set<number>();
   const seen = new Set<number>();
+  const usedImages = new Map<number, number>();
+  const rasterBudget = createRasterDecodeBudget();
+  const rasterCache = new Map<PDFRawStream, Promise<PdfRasterBinding>>();
   let decodedBytes = 0;
   let associatedChunks = 0;
   let artifactChunks = 0;
@@ -163,7 +190,7 @@ export async function finishTaggedPdf(input: Uint8Array, sourcePlan: PdfTaggingP
       painted = false;
       const owner = stack.at(-1);
       if (owner === undefined) throw new Error(`Page ${pageIndex + 1} has painted content without a semantic or artifact scope.`);
-      if (artifacts.has(owner)) { output.push(`/Artifact BMC\n${segment}\nEMC\n`); artifactChunks++; return; }
+      if (artifacts.has(owner) || repeatedArtifactScopes.has(stack.length - 1)) { output.push(`/Artifact BMC\n${segment}\nEMC\n`); artifactChunks++; return; }
       const ref = refs.get(owner);
       if (!ref) throw new Error('Unknown tagged PDF content owner.');
       const mcid = parents.length;
@@ -176,7 +203,23 @@ export async function finishTaggedPdf(input: Uint8Array, sourcePlan: PdfTaggingP
     };
     for (const operation of operations) {
       if (EXISTING_MARKED.has(operation.operator)) throw new Error('Preexisting marked content is not qualified for this export.');
-      if (operation.operator === 'Do') throw new Error('Image and form XObjects require explicit qualification before tagged export.');
+      if (operation.operator === 'Do') {
+        const owner = stack.at(-1);
+        const expected = owner === undefined ? undefined : imageBindings.get(owner);
+        const name = operation.operands[0];
+        if (owner === undefined || !expected || operation.operands.length !== 1 || name?.kind !== 'name') throw new Error('An image or form XObject has no explicit owned raster binding.');
+        const objects = page.node.Resources()?.lookupMaybe(PDFName.of('XObject'), PDFDict);
+        const image = objects && context.lookup(objects.get(PDFName.of(String(name.value))));
+        if (!(image instanceof PDFRawStream)) throw new Error('The bound raster XObject is missing.');
+        let pending = rasterCache.get(image);
+        if (!pending) { pending = fingerprintPdfRaster(context, image, rasterBudget); rasterCache.set(image, pending); }
+        const actual = await pending;
+        if (actual.width !== expected.width || actual.height !== expected.height || actual.encoding !== expected.encoding
+          || actual.digest !== expected.digest || actual.alphaDigest !== expected.alphaDigest) throw new Error('The painted PDF image does not match its owned source raster.');
+        const count = (usedImages.get(owner) ?? 0) + 1;
+        if (count > 1) throw new Error('A tagged raster binding painted more than its one planned image.');
+        usedImages.set(owner, count);
+      }
       if (operation.operator === 'BT') {
         if (textOpen || operation.operands.length) throw new Error('Invalid PDF text object boundary.');
         textOpen = true;
@@ -214,9 +257,13 @@ export async function finishTaggedPdf(input: Uint8Array, sourcePlan: PdfTaggingP
         if (point.begin) {
           if (!nodes.has(point.id) && !artifacts.has(point.id)) throw new Error('Unknown tagged PDF source block.');
           if (stack.length >= 16 || stack.includes(point.id)) throw new Error('Ambiguous nested tagged PDF source block.');
+          if (nodes.get(point.id)?.repeatAsArtifact && seen.has(point.id)) repeatedArtifactScopes.add(stack.length);
           stack.push(point.id);
           if (nodes.has(point.id)) seen.add(point.id);
-        } else if (stack.pop() !== point.id) throw new Error('Unbalanced tagged PDF source blocks.');
+        } else {
+          repeatedArtifactScopes.delete(stack.length - 1);
+          if (stack.pop() !== point.id) throw new Error('Unbalanced tagged PDF source blocks.');
+        }
       } else if (PAINT.has(operation.operator)) painted = true;
     }
     if (textOpen || graphicsDepth || compatibilityDepth) throw new Error('Unterminated PDF page graphics or text object.');
@@ -232,7 +279,7 @@ export async function finishTaggedPdf(input: Uint8Array, sourcePlan: PdfTaggingP
     const chunks = content.get(id) ?? [];
     if (node.children?.length && chunks.length) throw new Error('Mixed container and painted content requires an explicit child sequence.');
     if (!node.children?.length) {
-      if (!chunks.length) throw new Error('A tagged PDF structure leaf has no painted content.');
+      if (!chunks.length && !node.allowEmpty) throw new Error('A tagged PDF structure leaf has no painted content.');
       elements.get(id)!.set(PDFName.of('K'), context.obj(chunks.map(item => context.obj({ Type: 'MCR', Pg: item.pageRef, MCID: item.mcid }))));
       // Expose figure page context without changing its marked-content references.
       const figurePage = chunks[0];
@@ -241,6 +288,7 @@ export async function finishTaggedPdf(input: Uint8Array, sourcePlan: PdfTaggingP
       }
     }
   }
+  for (const id of imageBindings.keys()) if (!usedImages.has(id)) throw new Error('An expected source raster was not painted in the tagged PDF.');
   structure.set(PDFName.of('K'), context.obj([documentRef]));
   structure.set(PDFName.of('ParentTree'), context.register(context.obj({ Nums: parentNumbers })));
   structure.set(PDFName.of('ParentTreeNextKey'), PDFNumber.of(pdf.getPageCount()));

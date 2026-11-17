@@ -37,6 +37,7 @@ import { ancestorLabelsPerParagraph, type LabelFont } from './subparagraphIndent
 import { safeUrl } from '@/lib/url-safety';
 import { ImageInputError, supportsCorrespondenceSignatureImage } from '@/services/docx/imageAssets';
 import { splitAddressForLetterhead } from '@/lib/unitAddress';
+import { hasBodyCaption } from '@/lib/bodyCaption';
 import { formatViaLines } from '@/lib/viaLines';
 import { parse as parseDate, isValid as isValidDate, format as formatDate } from 'date-fns';
 import { deriveOverallClassLevel } from '@/lib/overallClassification';
@@ -62,6 +63,10 @@ interface DocumentStore {
 /** Optional source instrumentation; absent for normal preview and exports. */
 export interface LatexBodyAdapter {
   inline(index: number, part: 'label' | 'heading' | 'body', latex: string): string;
+  tableCell?(index: number, row: number, column: number, header: boolean, latex: string): string;
+  tableCaption?(index: number, latex: string): string;
+  tableScope?(index: number): { begin: string; end: string };
+  figure?(index: number, part: 'image' | 'caption' | 'mark', latex: string): string;
 }
 
 /**
@@ -1024,17 +1029,23 @@ export function generateBodyTex(store: DocumentStore, adapter?: LatexBodyAdapter
     // portion marks on the primary output too). Enum-constrained, LaTeX-safe.
     const portionPrefix = para.portionMarking ? `(${para.portionMarking}) ` : '';
     if (para.bodyTable) {
-      const caption = `${portionPrefix}${[headerText ? bodyText(headerText) : '', para.text ? bodyText(para.text) : ''].filter(Boolean).join(' ')}`;
-      if (caption) parts.push(`\\par\\noindent ${caption}\\par\n`);
-      parts.push(renderBodyTable(para.bodyTable, text => text.split('\n').map(line => bodyText(line)).join('\\newline ')));
+      const caption = hasBodyCaption(para) ? `${portionPrefix}${[headerText ? bodyText(headerText) : '', para.text ? bodyText(para.text) : ''].filter(Boolean).join(' ')}` : '';
+      if (caption) parts.push(`\\par\\noindent ${adapter?.tableCaption?.(i, caption) ?? caption}\\par\n`);
+      parts.push(renderBodyTable(para.bodyTable, (text, row, column, header) => {
+        const cell = text.split('\n').map(line => bodyText(line)).join('\\newline ');
+        return adapter?.tableCell?.(i, row, column, header, cell) ?? cell;
+      }, { scope: adapter?.tableScope?.(i) }));
       continue;
     }
     if (para.figure?.placement === 'body') {
       if (!para.figure.fileRef) throw new Error('A body image is missing. Reattach it before exporting.');
       const file = (store.docType === 'business_letter' ? businessFigureFile : figureFile)(++figureFileIndex, para.figure.type, para.figure.name, para.figure.fileRef.id);
       const graphicMark = para.figure.portionMarking ?? para.portionMarking;
-      const caption = `${portionPrefix}${[headerText ? bodyText(headerText) : '', para.text ? bodyText(para.text) : ''].filter(Boolean).join(' ')}`;
-      parts.push(`\\par\\vspace{12pt}\\begin{center}${graphicMark ? `(${escapeLatex(graphicMark)})\\\\*` : ''}\\includegraphics[width=\\textwidth,height=5in,keepaspectratio]{${file}}${caption ? '\\\\[6pt]' + caption : ''}\\end{center}\n`);
+      const caption = hasBodyCaption(para) ? `${portionPrefix}${[headerText ? bodyText(headerText) : '', para.text ? bodyText(para.text) : ''].filter(Boolean).join(' ')}` : '';
+      const graphic = `\\includegraphics[width=\\textwidth,height=5in,keepaspectratio]{${file}}`;
+      const mark = graphicMark ? `(${escapeLatex(graphicMark)})` : '';
+      const tagFigure = (part: 'image' | 'caption' | 'mark', latex: string) => adapter?.figure?.(i, part, latex) ?? latex;
+      parts.push(`\\par\\vspace{12pt}\\begin{center}${mark ? `${tagFigure('mark', mark)}\\\\*` : ''}${tagFigure('image', graphic)}${caption ? '\\\\[6pt]' + tagFigure('caption', caption) : ''}\\end{center}\n`);
       continue;
     }
 
