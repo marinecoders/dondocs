@@ -60,12 +60,14 @@ test('closing an unapplied roster leaves setup usable when the panel reopens', a
   utils.book_append_sheet(workbook, utils.aoa_to_sheet([['NAME'], ['Recipient A']]), 'Roster');
   const file = { name: 'synthetic-roster.xlsx', mimeType: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', buffer: write(workbook, { type: 'buffer', bookType: 'xlsx' }) };
   await modal.getByLabel('Upload Excel roster (.xlsx)').setInputFiles(file);
+  await expect(modal.getByRole('table', { name: 'First worksheet preview' })).toContainText('Recipient A', { timeout: 15_000 });
   await expect(modal.getByRole('button', { name: 'Map 1 roster row', exact: true })).toBeVisible();
   await expect(modal.getByRole('button', { name: 'Preview row 1', exact: true })).toBeDisabled();
   await modal.getByRole('button', { name: 'Close panel', exact: true }).click();
   await page.getByRole('button', { name: 'Batch', exact: true }).click();
   await expect(modal.getByRole('table', { name: 'First worksheet preview' })).toBeHidden();
   await modal.getByLabel('Upload Excel roster (.xlsx)').setInputFiles(file);
+  await expect(modal.getByRole('table', { name: 'First worksheet preview' })).toContainText('Recipient A', { timeout: 15_000 });
   await modal.getByRole('button', { name: 'Map 1 roster row', exact: true }).click();
   await modal.getByRole('button', { name: 'Apply Mapping', exact: true }).click();
   await expect(modal.getByRole('textbox', { name: 'Row 1: NAME', exact: true })).toHaveValue('Recipient A');
