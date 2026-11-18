@@ -42,6 +42,7 @@ it('creates, reviews, saves, completes and reloads actual revision-owned task da
   expect(getPackageRevision((await listActionPackages()).find(record => record.id === initial.id)!).work).toBeUndefined();
   await save(user);
   expect(screen.getByText('Tasks saved as a new package revision.')).toBeVisible();
+  expect(screen.getByRole('heading', { name: 'Work and next actions' })).toHaveFocus();
   const saved = (await listActionPackages()).find(record => record.id === initial.id)!;
   expect(getPackageRevision(saved).work?.tasks[0]).toMatchObject({ title: 'Collect the supporting record', owner: 'Alex Example', dueDate: '2026-11-18', notes: 'Use the reviewed copy.', status: 'pending' });
   expect(getPackageRevision(saved).members).toEqual([]); expect(saved.revisions.slice(0, -1)).toEqual(initial.revisions);
@@ -98,4 +99,10 @@ it('invalidates reviewed changes on policy changes while retaining draft input',
   activePolicy.value = otherPolicy; act(() => { window.dispatchEvent(new Event('focus')); });
   expect(screen.queryByRole('button', { name: 'Save task changes' })).toBeNull(); expect(screen.getByLabelText('Task 1 title')).toHaveValue('Keep this draft');
   expect(screen.getByText(/Deployment settings changed/)).toBeVisible();
+});
+it('restores useful keyboard focus when removing the last unsaved task', async () => {
+  const user = userEvent.setup(); render(<Harness initial={await fixture()} />);
+  await user.click(screen.getByRole('button', { name: 'Add task' }));
+  await user.click(screen.getByRole('button', { name: 'Remove task 1' }));
+  expect(screen.getByRole('button', { name: 'Add task' })).toHaveFocus();
 });

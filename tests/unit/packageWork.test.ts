@@ -18,6 +18,7 @@ import * as classification from '@/config/classification';
 import { useUIStore } from '@/stores/uiStore';
 import { updatePackageInformation } from '@/lib/packageInformation';
 import { updatePackageConsistency } from '@/lib/packageConsistency';
+import { preparePackageUpdate, applyPreparedPackageUpdate, undoPackageUpdate } from '@/lib/packageUpdates';
 
 vi.mock('@/stores/backupStore', () => ({ scheduleBackup: vi.fn() }));
 vi.mock('@/lib/pdfText', () => ({ extractPdfText: vi.fn(async () => '') }));
@@ -158,4 +159,33 @@ it('uses local calendar dates, retains same-owner tasks and prioritizes real con
   expect(tasks.find(task => task.taskId === 'today')?.overdue).toBe(false);
   expect(tasks.find(task => task.taskId === 'past')?.overdue).toBe(true);
   expect((await derivePackageNextActions(record, undefined, { operation: 'portable', policy })).actions.find(action => action.kind === 'consistency')?.blocking).toBe(false);
+});
+
+
+it('reviews retained task names and notes before linked updates or restoring an older revision', async () => {
+  const high = resolveExportDeploymentPolicy({ hostname: 'example.test', environment: { maxLevel: 'secret', allowedLevels: ['unclassified', 'cui', 'confidential', 'secret'] }, runtime: { status: 'absent' } });
+  vi.mocked(classification.getExportDeploymentPolicy).mockResolvedValue(high);
+  vi.mocked(classification.getExportDeploymentPolicySync).mockReturnValue(high);
+  const record = await updatePackageWork(await fixture(), work({ notes: 'SECRET' }), high);
+  const information = { version: 1 as const, participants: [], facts: [{ id: 'subject', label: 'Subject', kind: 'text' as const, value: 'Training', source: { kind: 'entered' as const } }] };
+  await expect(preparePackageUpdate(record, information, undefined, {}, policy)).rejects.toThrow(/outside/);
+  const applied = await applyPreparedPackageUpdate(await preparePackageUpdate(record, information, undefined, {}, high), high, true);
+  vi.mocked(classification.getExportDeploymentPolicy).mockResolvedValue(policy);
+  vi.mocked(classification.getExportDeploymentPolicySync).mockReturnValue(policy);
+  await expect(undoPackageUpdate(applied.undo, policy)).rejects.toThrow(/outside/);
+  expect((await listActionPackages()).find(item => item.id === record.id)).toEqual(applied.record);
+});
+
+it('does not advertise an owning review for archived, historical or reviewer-only views', async () => {
+  const initial = await fixture(), record = await updatePackageWork(initial, work(), policy);
+  const historical = await derivePackageNextActions(record, initial.currentRevisionId, { operation: 'review', policy });
+  expect(historical.readyForOperation).toBe(false);
+  expect(historical.actions.find(action => action.id === 'review-historical')?.destination?.revisionId).toBe(record.currentRevisionId);
+  const archived = await derivePackageNextActions({ ...record, archived: true }, undefined, { operation: 'review', policy });
+  expect(archived.readyForOperation).toBe(false); expect(archived.actions.some(action => action.id === 'prepare-review')).toBe(false);
+  const reviewed = await startPackageReview(record), round = reviewed.reviewRounds![0];
+  const reviewer = (await parsePackageReviewTransfer(await packageReviewTransferFile(await buildPackageReviewerCopy(reviewed, round.id, policy), policy))).record;
+  const inspected = await derivePackageNextActions(reviewer, undefined, { operation: 'review', policy });
+  expect(inspected.readyForOperation).toBe(false); expect(inspected.actions.some(action => action.id === 'review-copy' && action.blocking)).toBe(true);
+  expect(inspected.actions.find(action => action.id === `review-${round.id}`)?.destination).toEqual({ section: 'review', reviewRoundId: round.id, revisionId: round.revisionId });
 });

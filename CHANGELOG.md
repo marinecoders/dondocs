@@ -7,6 +7,13 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.148] — 2026-11-17
+
+### Added
+
+- Revision-owned package tasks with responsible people, calendar due dates and reviewed changes.
+- Operation-specific next actions based on actual package checks, separate from manual task completion.
+
 ## [1.3.147] — 2026-11-17
 
 ### Added

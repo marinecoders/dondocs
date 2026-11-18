@@ -85,6 +85,12 @@ export async function derivePackageNextActions(input: ActionPackage, revisionId 
       destination: { section: 'documents', ...(finding.memberId ? { memberId: finding.memberId } : {}) },
     });
     if (operation === 'review') {
+      if (record.archived) add({ id: 'review-archived', kind: 'inspection', label: 'Reopen the owning package',
+        message: 'This archived package can be inspected, but must be reopened before starting a review.', blocking: true, destination: { section: 'overview' } });
+      if (record.reviewRounds?.some(round => round.ownerPackageId === undefined)) add({ id: 'review-copy', kind: 'review', label: 'Return feedback to the owning package',
+        message: 'This reviewer copy can inspect its captured content. Start a new review from the owning package.', blocking: true, destination: { section: 'review' } });
+      if (revision.id !== record.currentRevisionId) add({ id: 'review-historical', kind: 'inspection', label: 'Open the current saved revision',
+        message: 'These checks describe historical content. Open the current revision before preparing a new owning review.', blocking: true, destination: { section: 'review', revisionId: record.currentRevisionId } });
       if (policy.status !== 'ready') throw new Error(policy.message);
       if (revision.work) reviewPackageWork(revision.work, policy);
       if (!revision.members.length) add({ id: 'review-no-documents', kind: 'inspection', label: 'Add a saved document',
@@ -108,7 +114,7 @@ export async function derivePackageNextActions(input: ActionPackage, revisionId 
   const activeReviews = (record.reviewRounds ?? []).filter(round => packageReviewRoundStatus(round) === 'active');
   for (const round of activeReviews) add({ id: `review-${round.id}`, kind: 'review', label: 'Inspect an active review',
     message: `${round.label} is tied to saved revision ${round.revisionId.slice(-8)}. Check its returned feedback and applicability.`,
-    blocking: false, destination: { section: 'review' } });
+    blocking: false, destination: { section: 'review', reviewRoundId: round.id, revisionId: round.revisionId } });
   const pendingTasks = revision.work?.tasks.filter(task => task.status === 'pending') ?? [];
   for (const task of pendingTasks) {
     const target = task.target ? resolvePackageTaskTarget(revision, task.target) : undefined;

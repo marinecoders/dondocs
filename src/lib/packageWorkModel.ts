@@ -55,7 +55,7 @@ export function resolvePackageTaskTarget(revision: PackageRevision, target: Pack
       : { state: 'missing', label: 'The linked document is no longer in this revision.' };
   }
   const requirement = revision.requirements?.items.find(item => item.id === target.id);
-  return requirement ? { state: 'available', label: requirement.label, destination: { section: 'overview', requirementId: requirement.id } }
+  return requirement ? { state: 'available', label: requirement.label, destination: { section: 'overview', panel: 'requirements', requirementId: requirement.id } }
     : { state: 'missing', label: 'The linked requirement is no longer in this revision.' };
 }
 /** Due dates are calendar dates in the user's current locale, not UTC instants. */

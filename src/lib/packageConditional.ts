@@ -19,7 +19,7 @@ import { freshParagraphs } from './paragraphIdentity';
 import { sameReviewStoredValue, type StoredAttachment } from './documentsDb';
 import { portableResourceDigest } from './portableResources';
 import { base64ToUint8Array } from './encoding';
-import { reviewPackageBindings, reviewPackageInformation, reviewPackageRequirements, reviewPackageNative, reviewPackageOriginal, reviewPackageText, reviewPackageConsistency } from './actionPackageDisclosure';
+import { reviewPackageBindings, reviewPackageInformation, reviewPackageRequirements, reviewPackageNative, reviewPackageOriginal, reviewPackageText, reviewPackageConsistency, reviewPackageWork } from './actionPackageDisclosure';
 import { withAttachmentStaging } from './attachments';
 import { comparePackageChangeImpact, type PackageChangeImpact } from './packageChangeImpact';
 import { getExportDeploymentPolicy, getExportDeploymentPolicySync } from '@/config/classification';
@@ -614,6 +614,7 @@ export async function undoConditionalPackage(receipt: ConditionalPackageUndo, po
   if (original.bindings) reviewPackageBindings(original.bindings, policy);
   if (original.requirements) reviewPackageRequirements(original.requirements, policy);
   if (original.consistency) reviewPackageConsistency(original.consistency, policy);
+  if (original.work) reviewPackageWork(original.work, policy);
   await reviewRestoredPackageSources(original, policy, signal);
   const revision = { ...own(original), id: newPackageId('revision'), parentId: captured.after.currentRevisionId, createdAt: Date.now(), outputs: [] };
   const record = await guardedCommit(captured.after, buildRecord(captured.after, captured.before.name, revision), [], policy, signal, isCurrent);

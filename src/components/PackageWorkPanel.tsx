@@ -49,6 +49,7 @@ export function PackageWorkPanel({ record, revision, disabled, busy, run, onAppl
   const dirtyCallback = useRef(onDirtyChange), focusTask = useRef<string | null>(null), taskInputs = useRef(new Map<string, HTMLInputElement>());
   const inspectionPolicy = useRef<string | undefined>(undefined), reviewedPolicy = useRef<string | undefined>(undefined);
   const ownRevision = useRef<string | undefined>(undefined);
+  const headingRef = useRef<HTMLHeadingElement>(null), addButton = useRef<HTMLButtonElement>(null), focusAdd = useRef(false), returnFocus = useRef(false);
   const editable = !disabled && !record.archived && revision.id === record.currentRevisionId && !record.reviewRounds?.some(round => round.ownerPackageId === undefined);
   const dirty = JSON.stringify(base) !== JSON.stringify(draft), locked = !editable || busy || pending;
   useLayoutEffect(() => { currentOwner.current = owner; dirtyCallback.current = onDirtyChange; }, [owner, onDirtyChange]);
@@ -77,7 +78,11 @@ export function PackageWorkPanel({ record, revision, disabled, busy, run, onAppl
     if (wasEditable.current !== editable) { generation.current++; setReview(null); setReviewed(false); }
     wasEditable.current = editable;
   }, [editable]);
-  useEffect(() => { if (focusTask.current) { taskInputs.current.get(focusTask.current)?.focus(); focusTask.current = null; } }, [page, draft.length]);
+  useEffect(() => {
+    if (focusTask.current) { taskInputs.current.get(focusTask.current)?.focus(); focusTask.current = null; }
+    if (focusAdd.current) { addButton.current?.focus(); focusAdd.current = false; }
+  }, [page, draft.length]);
+  useEffect(() => { if (returnFocus.current && !pending && !busy) { headingRef.current?.focus(); returnFocus.current = false; } }, [pending, busy]);
   function invalidate() { generation.current++; inspectionPolicy.current = undefined; reviewedPolicy.current = undefined; setReview(null); setReviewed(false); setInspection(null); setError(''); setNotice(''); }
   function edit(id: string, patch: Partial<TaskDraft>) { invalidate(); setDraft(previous => previous.map(task => task.id === id ? { ...task, ...patch } : task)); }
   async function perform(action: (current: () => boolean, operationSignal?: AbortSignal) => Promise<void>) {
@@ -94,7 +99,7 @@ export function PackageWorkPanel({ record, revision, disabled, busy, run, onAppl
   }
   const shown = draft.slice(page * 25, (page + 1) * 25), today = packageWorkToday();
   return <section aria-labelledby={heading} aria-busy={pending} className="min-w-0 space-y-3 rounded-lg border bg-background p-3 sm:p-4">
-    <h3 id={heading} className="font-medium">Work and next actions</h3>
+    <h3 ref={headingRef} tabIndex={-1} id={heading} className="font-medium">Work and next actions</h3>
     <p className="text-sm text-muted-foreground">Track responsible people and due dates here. Completing a task does not fulfill evidence checks or grant approval.</p>
     <p role="status" className="text-xs text-muted-foreground">{dirty ? 'Unapplied task changes · not saved yet.' : 'Showing saved tasks.'}</p>
     {!editable && <p className="text-xs text-muted-foreground">Tasks are read-only in this view.</p>}
@@ -102,7 +107,7 @@ export function PackageWorkPanel({ record, revision, disabled, busy, run, onAppl
     {notice && <p role="status" className="text-sm">{notice}</p>}
     <div className="flex flex-wrap items-center gap-2">
       <p className="text-sm">{draft.filter(task => task.status === 'pending').length} open · {draft.filter(task => task.status === 'complete').length} complete</p>
-      <Button className={buttonClass} variant="outline" disabled={locked || draft.length >= 100} onClick={() => {
+      <Button ref={addButton} className={buttonClass} variant="outline" disabled={locked || draft.length >= 100} onClick={() => {
         invalidate(); const task: TaskDraft = { id: newPackageId('task'), title: '', status: 'pending', owner: '', dueDate: '', notes: '' };
         focusTask.current = task.id; setPage(Math.floor(draft.length / 25)); setDraft(previous => [...previous, task]);
       }}>Add task</Button>
@@ -138,7 +143,9 @@ export function PackageWorkPanel({ record, revision, disabled, busy, run, onAppl
           <div className="flex flex-wrap items-center gap-2">
             <label className="flex items-start gap-2 text-sm"><input type="checkbox" aria-label={`Mark task ${ordinal} complete`} checked={task.status === 'complete'} onChange={event => edit(task.id, { status: event.target.checked ? 'complete' : 'pending' })} />Complete</label>
             <Button className={buttonClass} variant="outline" onClick={() => {
-              invalidate(); setDraft(previous => previous.filter(item => item.id !== task.id)); setPage(value => Math.min(value, Math.max(0, Math.ceil((draft.length - 1) / 25) - 1)));
+              invalidate(); const remaining = draft.filter(item => item.id !== task.id), next = remaining[Math.min(ordinal - 1, remaining.length - 1)];
+              if (next) focusTask.current = next.id; else focusAdd.current = true;
+              setDraft(remaining); setPage(value => Math.min(value, Math.max(0, Math.ceil((draft.length - 1) / 25) - 1)));
             }}>Remove task {ordinal}</Button>
           </div>
         </article>;
@@ -154,7 +161,7 @@ export function PackageWorkPanel({ record, revision, disabled, busy, run, onAppl
         if (policy.status !== 'ready') throw new Error(policy.message);
         if (current()) { const key = JSON.stringify(policy.policy); reviewedPolicy.current = key; setReview({ value, policyIdentity: key }); setReviewed(false); }
       })}>Review task changes</Button>
-        <Button className={buttonClass} variant="outline" disabled={locked} onClick={() => { invalidate(); setDraft(structuredClone(base)); }}>Discard task changes</Button>
+        <Button className={buttonClass} variant="outline" disabled={locked} onClick={() => { invalidate(); setDraft(structuredClone(base)); addButton.current?.focus(); }}>Discard task changes</Button>
       </div>
       {review && <div className="min-w-0 space-y-2 rounded border p-3">
         {review.value.notices.map((notice, index) => <p key={index} className="break-words text-xs">{notice}</p>)}
@@ -167,6 +174,7 @@ export function PackageWorkPanel({ record, revision, disabled, busy, run, onAppl
           if (!current()) return;
           const nextDraft = drafts(next.revisions.find(item => item.id === next.currentRevisionId)!);
           ownRevision.current = next.currentRevisionId;
+          returnFocus.current = true;
           setBase(nextDraft); setDraft(structuredClone(nextDraft)); setReview(null); setReviewed(false); setInspection(null);
           dirtyCallback.current?.(false); onApply(next); setNotice('Tasks saved as a new package revision.');
         })}>Save task changes</Button>
