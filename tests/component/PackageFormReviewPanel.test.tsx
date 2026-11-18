@@ -91,3 +91,25 @@ it('keeps an unfinished field comment attached to the selected answer until it i
   await user.click(within(panel).getByRole('button', { name: 'Cancel form comment' }));
   expect(target).toBeEnabled();
 });
+
+it('keeps a typed replacement on its captured field and requires cancellation before selecting another answer', async () => {
+  const { record, member } = await packageFormFixture(), user = userEvent.setup();
+  render(<Review initial={record} />);
+  await user.click(screen.getByRole('button', { name: member.label }));
+  const panel = await screen.findByRole('region', { name: 'Captured form field feedback' });
+  const target = within(panel).getByLabelText('Reviewed form field');
+  const first = await within(panel).findByRole('option', { name: 'A' }), second = within(panel).getByRole('option', { name: 'B' });
+  await user.selectOptions(target, first);
+  await user.type(within(panel).getByLabelText('Form comment reviewer name'), 'Alex Example');
+  await user.selectOptions(within(panel).getByLabelText('Proposed form answer'), 'true');
+  expect(target).toBeDisabled();
+  await user.selectOptions(target, second);
+  expect(target).toHaveValue((first as HTMLOptionElement).value);
+  await user.click(within(panel).getByRole('button', { name: 'Cancel field correction' }));
+  expect(target).toBeEnabled();
+  await user.selectOptions(target, second);
+  expect(within(panel).getByLabelText('Proposed form answer')).toHaveValue('');
+  expect(within(panel).getByRole('button', { name: 'Suggest field correction' })).toBeDisabled();
+  const saved = (await listActionPackages()).find(item => item.id === record.id)!;
+  expect(saved.reviewRounds![0].memberReviews![0].fieldReview?.proposals ?? []).toEqual([]);
+});
