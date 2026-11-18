@@ -17,7 +17,7 @@ interface Props {
   signal(): AbortSignal | undefined;
   onDirtyChange?(dirty: boolean): void;
 }
-const inputClass = 'block w-full rounded border bg-background p-2 text-sm';
+const inputClass = 'block w-full min-w-0 rounded border bg-background p-2 text-sm';
 const operationLabels: Record<PackageRequirementOperation, string> = { review: 'Review', pdf: 'PDF assembly', portable: 'Editable transfer' };
 
 /** Declared evidence slots remain metadata until the user assigns actual captured package content. */
@@ -98,7 +98,7 @@ export function PackageRequirementsPanel({ record, revision, disabled, busy, run
         const finding = inspection?.items.find(finding => finding.id === item.id);
         return <article key={item.id} className="min-w-0 space-y-2 rounded border p-3">
           <h4 className="break-words text-sm font-medium">{item.label}</h4>
-          <p className="text-xs text-muted-foreground">{personContext} · Required for {item.operations.map(value => operationLabels[value]).join(', ')} · {item.condition === 'active' ? 'Active' : item.condition === 'inactive' ? 'Inactive for saved answers' : 'Condition unresolved'}</p>
+          <p className="break-words text-xs text-muted-foreground">{personContext} · Required for {item.operations.map(value => operationLabels[value]).join(', ')} · {item.condition === 'active' ? 'Active' : item.condition === 'inactive' ? 'Inactive for saved answers' : 'Condition unresolved'}</p>
           {item.kind === 'document' ? <label className="block text-sm">Captured evidence<select aria-label={`Evidence for ${controlLabel}`} className={inputClass} value={item.memberId ?? ''} onChange={event => {
             if (!draft) return;
             const next = { ...item }; if (event.target.value) next.memberId = event.target.value; else delete next.memberId;
