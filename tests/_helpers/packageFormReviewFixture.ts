@@ -6,8 +6,8 @@ import { startPackageReview } from '@/lib/packageReviewRounds';
 import { preparePackageReviewMember } from '@/lib/packageMemberReviews';
 import { fixtureInstance, fixturePage } from './formFixture';
 import { retainPortableFormTemplates } from '@/services/forms/portableTemplates';
-export async function packageFormFixture() {
-  const page = await fixturePage(), session = createBlankSession();
+export async function packageFormFixture(templatePage?: Awaited<ReturnType<typeof fixturePage>>) {
+  const page = templatePage ?? await fixturePage(), session = createBlankSession();
   session.documentCategory = 'forms'; session.formType = 'fixture'; session.genericForm = fixtureInstance();
   session.genericForm.definition.pages[0].sha256 = page.sha256;
   session.genericForm.rows.roster = [{ id: 'first', answers: { grade: 'e1', date: '2026-11-17' } }, { id: 'second', answers: { grade: 'e2' } }];

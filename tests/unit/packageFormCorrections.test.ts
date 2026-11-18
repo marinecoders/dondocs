@@ -13,12 +13,17 @@ import { buildPackageReviewerCopy, packageReviewTransferFile, parsePackageReview
 import { patchPackageBindingDraftFields } from '@/lib/packageBindingTargets';
 import { readPackageMemberDraft, retainPackageAsset } from '@/lib/actionPackageAssets';
 import { transitionPackageReview } from '@/lib/packageReviewRounds';
+import { extractPdfText } from '@/lib/pdfText';
+import { PDFDocument } from 'pdf-lib';
+import { portableResourceDigest } from '@/lib/portableResources';
+import { validatePackageDraft } from '@/lib/actionPackageDraft';
+import { uint8ArrayToBase64 } from '@/lib/encoding';
 vi.mock('@/stores/backupStore', () => ({ scheduleBackup: vi.fn() }));
 vi.mock('@/lib/pdfText', () => ({ extractPdfText: vi.fn(async () => '') }));
 const policy = resolveExportDeploymentPolicy({ hostname: 'localhost', environment: { maxLevel: 'unclassified', allowedLevels: ['unclassified'] }, runtime: { status: 'absent' } });
-beforeEach(() => { vi.restoreAllMocks(); vi.spyOn(classification, 'getExportDeploymentPolicy').mockResolvedValue(policy); vi.spyOn(classification, 'getExportDeploymentPolicySync').mockReturnValue(policy); });
-async function proposed(fieldId = 'name', value: string | boolean = '000999') {
-  const { record, round, child, member } = await packageFormFixture();
+beforeEach(() => { vi.restoreAllMocks(); vi.mocked(extractPdfText).mockResolvedValue(''); vi.spyOn(classification, 'getExportDeploymentPolicy').mockResolvedValue(policy); vi.spyOn(classification, 'getExportDeploymentPolicySync').mockReturnValue(policy); });
+async function proposed(fieldId = 'name', value: string | boolean = '000999', templatePage?: Parameters<typeof packageFormFixture>[0]) {
+  const { record, round, child, member } = await packageFormFixture(templatePage);
   const field = (await packageFormReviewFields(member)).find(field => field.target.kind === 'configured-form' && field.target.fieldId === fieldId && !field.target.row)!;
   const anchor = await capturePackageFormAnchor(member, field.target);
   const fieldReview = await addPackageFormProposal(member, undefined, anchor, 'Alex Example', value);
@@ -130,4 +135,25 @@ it('reviews every restored downstream value before Undo under a stricter deploym
   await expect(preparePackageFormDecisionUndo(accepted, accepted.fieldReviewApplications![0].id, policy)).rejects.toThrow(/marking|levels|deployment/i);
   expect((await listActionPackages()).find(item => item.id === accepted.id)).toEqual(accepted);
   expect(await idbGetAllAttachments()).toEqual(before);
+});
+it.each(['template', 'enclosure'])('reviews preserved native %s PDF content before Undo under a stricter deployment policy', async resource => {
+  const secret = resolveExportDeploymentPolicy({ hostname: 'localhost', environment: { maxLevel: 'secret', allowedLevels: ['unclassified', 'secret'] }, runtime: { status: 'absent' } });
+  const document = await PDFDocument.create(); document.addPage([612, 792]).drawText('(S) Restricted synthetic template text.');
+  const bytes = await document.save(), sha256 = await portableResourceDigest(bytes.slice().buffer as ArrayBuffer);
+  const data = await proposed('name', '000999', resource === 'template' ? { bytes, sha256 } : undefined);
+  const { round, member, proposal } = data; let owner = data.owner;
+  if (resource === 'enclosure') {
+    const captured = await readPackageMemberDraft(member), draft = { ...(captured.draft as Record<string, unknown>),
+      enclosures: [{ title: 'Synthetic retained enclosure', hasFile: true, file: { name: 'synthetic.pdf', size: bytes.byteLength, data: uint8ArrayToBase64(bytes) } }] };
+    const validated = await validatePackageDraft(draft), asset = await retainPackageAsset(member.draft.name, member.draft.type, new TextEncoder().encode(JSON.stringify(draft)).buffer);
+    owner = await reviseActionPackage(owner, [{ ...member, draft: asset, session: validated.session }]);
+  }
+  vi.mocked(classification.getExportDeploymentPolicy).mockResolvedValue(secret); vi.mocked(classification.getExportDeploymentPolicySync).mockReturnValue(secret);
+  const accepted = await applyPreparedPackageFormCorrection(await preparePackageFormCorrection(owner, round.id, member.id, proposal.id, 'accepted', secret), secret, true);
+  vi.mocked(extractPdfText).mockImplementation(async input => await portableResourceDigest((input instanceof Uint8Array ? input.slice().buffer : input.slice(0)) as ArrayBuffer) === sha256
+    ? 'Synthetic original template.\n(S) Restricted synthetic template text.' : '');
+  vi.mocked(classification.getExportDeploymentPolicy).mockResolvedValue(policy); vi.mocked(classification.getExportDeploymentPolicySync).mockReturnValue(policy);
+  await expect(preparePackageFormDecisionUndo(accepted, accepted.fieldReviewApplications![0].id, policy)).rejects.toThrow(/marking|levels|deployment/i);
+  expect(vi.mocked(extractPdfText)).toHaveBeenCalledWith(bytes.buffer);
+  expect((await listActionPackages()).find(item => item.id === accepted.id)).toEqual(accepted);
 });
