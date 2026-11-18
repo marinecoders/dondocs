@@ -92,7 +92,8 @@ describe('captured conditional package membership', () => {
   });
 
   it('requires a keep/remove decision for edited documents leaving a branch and preserves untracked documents', async () => {
-    let record = await create(true), current = getPackageRevision(record), old = current.members[1];
+    let record = await create(true), current = getPackageRevision(record);
+    const old = current.members[1];
     if (old.kind !== 'native') throw new Error('Expected native');
     const { draft } = await readPackageMemberDraft(old);
     const changed = { ...old.session, paragraphs: [{ id: 'body', text: 'Independent local correction.', level: 0 }], endItems: [], publicationTables: {} };
@@ -119,7 +120,8 @@ describe('captured conditional package membership', () => {
   });
 
   it('merges newer information for untouched answers and surfaces overlapping intake edits', async () => {
-    let record = await create(), current = getPackageRevision(record), info = structuredClone(current.information!);
+    let record = await create();
+    const current = getPackageRevision(record), info = structuredClone(current.information!);
     info.facts.find(fact => fact.label === 'Subject')!.value = 'Newer package value'; record = await updatePackageInformation(record, info);
     expect(conditionalPackageAnswers(record).values.subject).toBe('Newer package value');
     const unchanged = answers(true), merged = await prepareConditionalPackage({ template: template(), answers: unchanged, record }, policy);
@@ -169,11 +171,44 @@ describe('captured conditional package membership', () => {
 });
 
 describe('PR8 independent adversarial regressions', () => {
+  it('links an initially unanswered optional field when an answer is supplied later', async () => {
+    const source = template(); source.program.questions[0].required = false;
+    const input = answers(); delete input.values.subject;
+    const initial = await applyPreparedConditionalPackage(await prepareConditionalPackage({ template: source, answers: input }, policy), policy, true);
+    expect(getPackageRevision(initial.record).bindings!.items).toHaveLength(0);
+    const later = conditionalPackageAnswers(initial.record); later.values.subject = 'Supplied later';
+    const plan = await prepareConditionalPackage({ template: source, answers: later, record: initial.record }, policy);
+    expect(plan.ready).toBe(true); expect(plan.fieldChanges[0].state).toBe('update');
+    const applied = await applyPreparedConditionalPackage(plan, policy, true), member = getPackageRevision(applied.record).members[0];
+    expect(member.kind === 'native' && member.session.formData.subject).toBe('Supplied later');
+    expect(getPackageRevision(applied.record).bindings!.items).toHaveLength(1);
+  });
+  it('expands contiguous repeated variants in person order while preserving stable identity keys', async () => {
+    const source = template(), repeated = source.members[2];
+    source.members.push({ ...structuredClone(repeated), key: 'person_cost', label: 'Person cost worksheet' });
+    const input = answers(); input.groups.people = [{ id: 'alex', label: 'Same name', answers: { person: 'Alex' } }, { id: 'blair', label: 'Same name', answers: { person: 'Blair' } }];
+    const initial = await applyPreparedConditionalPackage(await prepareConditionalPackage({ template: source, answers: input }, policy), policy, true);
+    const before = getPackageRevision(initial.record), titles = before.members.map(member => member.label);
+    expect(new Set(titles).size).toBe(titles.length);
+    expect(before.templateState!.instances.filter(instance => instance.condition && instance.participantId).map(instance => instance.participantId)).toEqual(['alex', 'alex', 'blair', 'blair']);
+    input.groups.people.reverse();
+    const reordered = await applyPreparedConditionalPackage(await prepareConditionalPackage({ template: source, answers: input, record: initial.record }, policy), policy, true);
+    expect(getPackageRevision(reordered.record).members.map(member => member.id)).toEqual([before.members[0].id, before.members[3].id, before.members[4].id, before.members[1].id, before.members[2].id]);
+  });
+  it('does not publish duplicate revisions for an unchanged applied intake', async () => {
+    const record = await create();
+    const plan = await prepareConditionalPackage({ template: template(), answers: conditionalPackageAnswers(record), record }, policy);
+    expect(plan.changed).toBe(false);
+    await expect(applyPreparedConditionalPackage(plan, policy, true)).rejects.toThrow(/Resolve and review/);
+  });
   it('does not resurrect an explicitly cleared optional answer when intake resumes', async () => {
     const source = template(); source.program.questions.find(question => question.id === 'subject')!.required = false;
     const initial = await applyPreparedConditionalPackage(await prepareConditionalPackage({ template: source, answers: answers() }, policy), policy, true);
     const cleared = conditionalPackageAnswers(initial.record);delete cleared.values.subject;
-    const plan = await prepareConditionalPackage({ template: source, answers: cleared, record: initial.record }, policy);
+    const conflict = await prepareConditionalPackage({ template: source, answers: cleared, record: initial.record }, policy);
+    expect(conflict.ready).toBe(false);
+    const link = getPackageRevision(initial.record).bindings!.items[0];
+    const plan = await prepareConditionalPackage({ template: source, answers: cleared, record: initial.record, fieldChoices: { [link.id]: 'detach' } }, policy);
     expect(plan.ready).toBe(true);
     const applied = await applyPreparedConditionalPackage(plan, policy, true);
     expect(conditionalPackageAnswers(applied.record).values.subject).toBeUndefined();
@@ -200,7 +235,7 @@ describe('PR8 independent adversarial regressions', () => {
     const source = template();source.members.push({ key: 'evidence', kind: 'attachment', label: 'Evidence', role: 'enclosure', required: true });
     const file = { name: 'reviewed.pdf', data: original, signedOriginal: false };
     vi.mocked(extractPdfText).mockImplementationOnce(async inspected => {
-      expect(await portableResourceDigest(inspected)).toBe(await portableResourceDigest(original));
+      expect(await portableResourceDigest(inspected instanceof Uint8Array ? new Uint8Array(inspected).buffer : inspected)).toBe(await portableResourceDigest(original));
       file.data = changed;file.name = 'replacement.pdf';return 'Synthetic reviewed evidence';
     });
     const plan = await prepareConditionalPackage({ template: source, answers: answers(), attachments: { [packageTemplateInstanceKey('evidence')]: file } }, policy);

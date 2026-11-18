@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { packageTemplateAnswersSchema } from './packageTemplateProgram';
+import { packageBindingTargetSchema, packageBindingTargetKey } from './packageBindingTargets';
 
 const identity = z.string().min(1).max(100).regex(/^[A-Za-z0-9_-]+$/)
   .refine(value => value !== 'prototype' && !Object.hasOwn(Object.prototype, value), 'Reserved template state identity.');
@@ -25,8 +26,9 @@ export const packageConditionalStateSchema = z.object({
   facts: z.array(z.object({ questionId: identity, participantId: identity.optional(), factId: identity }).strict()).max(200),
   instances: z.array(z.object({ key: z.string().min(1).max(220), memberKey: identity, participantId: identity.optional(),
     memberId: identity, label, required: z.boolean(), condition: z.union([z.boolean(), z.literal('unknown')]),
-    generatedDigest: digest.optional() }).strict()).max(100),
-  requirementIds: z.array(z.object({ key: z.string().min(1).max(220), id: identity }).strict()).max(200),
+    generatedDigest: digest.optional(), targets: z.array(z.object({ questionId: identity, target: packageBindingTargetSchema,
+      format: z.enum(['field', 'uppercase']), linkId: identity, initialized: z.boolean() }).strict()).max(100).optional() }).strict()).max(100),
+  requirementIds: z.array(z.object({ key: z.string().min(1).max(260), id: identity }).strict()).max(200),
 }).strict().superRefine((state, context) => {
   const issue = (message: string) => context.addIssue({ code: 'custom', message });
   if (new Set(state.facts.map(fact => packageTemplateFactKey(fact.questionId, fact.participantId))).size !== state.facts.length
@@ -35,6 +37,11 @@ export const packageConditionalStateSchema = z.object({
     || new Set(state.instances.map(instance => instance.memberId)).size !== state.instances.length) issue('Duplicate conditional member mapping.');
   for (const instance of state.instances)
     if (instance.key !== packageTemplateInstanceKey(instance.memberKey, instance.participantId)) issue('A conditional member key does not match its identity.');
+  for (const instance of state.instances) {
+    const targets = instance.targets ?? [];
+    if (new Set(targets.map(item => item.linkId)).size !== targets.length || new Set(targets.map(item => packageBindingTargetKey(item.target))).size !== targets.length)
+      issue('Duplicate conditional field target identity.');
+  }
   if (new Set(state.requirementIds.map(requirement => requirement.key)).size !== state.requirementIds.length
     || new Set(state.requirementIds.map(requirement => requirement.id)).size !== state.requirementIds.length) issue('Duplicate conditional requirement mapping.');
   if (new TextEncoder().encode(JSON.stringify(state)).byteLength > 768 * 1024) issue('Conditional intake state exceeds 768 KB.');

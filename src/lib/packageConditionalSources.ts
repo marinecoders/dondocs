@@ -12,6 +12,7 @@ import { base64ToUint8Array } from './encoding';
 import type { PolicyResolution } from './exportDeploymentPolicy';
 import type { ExportReview } from './preparedExport';
 import type { DocumentFieldSource } from './documentFields';
+import { sameReviewStoredValue } from './documentsDb';
 
 type Reader = (asset: PackageAsset) => Promise<ArrayBuffer>;
 async function sourceTemplate(state: PackageConditionalState, read: Reader): Promise<PackageTemplateV2> {
@@ -29,7 +30,18 @@ function stateMatches(template: PackageTemplateV2, value: PackageConditionalStat
   const evaluation = evaluatePackageTemplateProgram(template.program, state.answers);
   if (!state.pending && !evaluation.ready) throw new Error('Applied action answers are incomplete or invalid.');
   const applied = state.appliedAnswers ?? state.answers;
-  evaluatePackageTemplateProgram(template.program, applied);
+  const appliedEvaluation = evaluatePackageTemplateProgram(template.program, applied);
+  if (!state.pending && !sameReviewStoredValue(state.answers, applied)) throw new Error('Applied intake cannot contain a different pending answer set.');
+  if (!state.pending) {
+    for (const blueprint of template.members) {
+      const ids = blueprint.repeatGroupId ? (applied.groups[blueprint.repeatGroupId] ?? []).map(person => person.id) : [undefined];
+      for (const participantId of ids) if (!state.instances.some(instance => instance.memberKey === blueprint.key && instance.participantId === participantId))
+        throw new Error('The captured action is missing a declared document mapping.');
+    }
+    for (const question of appliedEvaluation.questions) if (question.visibility === true && question.answered && question.valid
+      && !state.facts.some(fact => fact.questionId === question.questionId && fact.participantId === question.scope?.participantId))
+      throw new Error('The captured action is missing an applied question mapping.');
+  }
   for (const fact of state.facts) {
     const question = template.program.questions.find(question => question.id === fact.questionId);
     if (!question || !!question.groupId !== !!fact.participantId)
@@ -39,6 +51,16 @@ function stateMatches(template: PackageTemplateV2, value: PackageConditionalStat
     const blueprint = template.members.find(member => member.key === instance.memberKey);
     if (!blueprint || !!blueprint.repeatGroupId !== !!instance.participantId || blueprint.required !== instance.required)
       throw new Error('A saved action document does not belong to this template.');
+    if (instance.generatedDigest && blueprint.kind === 'native') {
+      const targets = instance.targets ?? [];
+      if (targets.length !== (blueprint.links?.length ?? 0)) throw new Error('The captured action is missing native field declarations.');
+      for (const declaration of blueprint.links ?? []) {
+        const target = targets.find(target => target.questionId === declaration.questionId && target.format === declaration.format
+          && sameReviewStoredValue(target.target.kind === 'configured-form' && target.target.row ? { ...target.target, row: { ...target.target.row, rowId: '' } } : target.target,
+          declaration.target.kind === 'configured-form' && declaration.target.row ? { ...declaration.target, row: { ...declaration.target.row, rowId: '' } } : declaration.target));
+        if (!target) throw new Error('A captured native field does not match its declared template target.');
+      }
+    }
     const scope = blueprint.repeatGroupId && instance.participantId ? { groupId: blueprint.repeatGroupId, participantId: instance.participantId } : undefined;
     const personExists = !scope || applied.groups[scope.groupId]?.some(person => person.id === scope.participantId);
     const expected = !personExists ? false : blueprint.when

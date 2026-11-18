@@ -66,6 +66,13 @@ function editable(record: ActionPackage | null): void {
   if (record?.archived) throw new Error('Reopen this archived package before changing its intake.');
   if (record?.reviewRounds?.some(round => round.ownerPackageId === undefined)) throw new Error('A reviewer copy cannot change its captured intake.');
 }
+function capturedInput<T extends Pick<ConditionalPackageInput, 'template' | 'answers' | 'record' | 'name'>>(input: T): T {
+  const files = Object.values((input as ConditionalPackageInput).attachments ?? {});
+  if (files.some(file => !(file.data instanceof ArrayBuffer) || !file.data.byteLength || file.data.byteLength > 25 * 1024 * 1024)
+    || files.reduce((sum, file) => sum + file.data.byteLength, 0) > MAX_TEMPLATE_ACTION_BYTES)
+    throw new Error('Choose supported PDFs within the 25 MB file and 64 MB combined limits.');
+  return own(input);
+}
 async function stage(attachments: StoredAttachment[], name: string, type: string, input: ArrayBuffer): Promise<PackageAsset> {
   if (!input.byteLength || input.byteLength > 25 * 1024 * 1024) throw new Error('An action file exceeds the supported 25 MB limit.');
   const data = input.slice(0), asset = { id: newPackageId('asset'), name, type, size: data.byteLength, sha256: await portableResourceDigest(data) };
@@ -82,6 +89,17 @@ function setAnswer(answers: PackageTemplateAnswers, question: PackageTemplateQue
     if (person) person.answers[question.id] = value;
   } else answers.values[question.id] = value;
 }
+function participantContext(template: PackageTemplateV2, answers: PackageTemplateAnswers, participantId?: string, previous?: PackageTemplateAnswers): string {
+  if (!participantId) return '';
+  for (const [source, removed] of [[answers, false], [previous, true]] as const) {
+    if (!source) continue;
+    for (const [groupId, people] of Object.entries(source.groups)) {
+      const index = people.findIndex(person => person.id === participantId);
+      if (index >= 0) return `${template.program.participantGroups.find(group => group.id === groupId)?.label ?? groupId} ${index + 1} · ${people[index].label}${removed ? ' (removed)' : ''}`;
+    }
+  }
+  return `Person ${participantId.slice(-8)}`;
+}
 function reconcile(template: PackageTemplateV2, record: ActionPackage | null, answers: PackageTemplateAnswers,
   choices: ConditionalPackageInput['answerChoices'] = {}): { answers: PackageTemplateAnswers; changes: ConditionalAnswerChange[]; issues: string[] } {
   const current = record && getPackageRevision(record), state = current?.templateState, next = own(answers);
@@ -93,14 +111,15 @@ function reconcile(template: PackageTemplateV2, record: ActionPackage | null, an
     const key = packageTemplateFactKey(question.id, mapping.participantId); known.add(key);
     if (question.groupId && !next.groups[question.groupId]?.some(person => person.id === mapping.participantId)) continue;
     const before = answerAt(state!.appliedAnswers ?? state!.answers, question, mapping.participantId), requested = answerAt(next, question, mapping.participantId);
+    const person = participantContext(template, next, mapping.participantId, state!.appliedAnswers), label = person ? `${person} · ${question.label}` : question.label;
     if (sameReviewStoredValue(fact.value, before) || sameReviewStoredValue(fact.value, requested)) continue;
     if (sameReviewStoredValue(requested, before) || choices[key] === 'keep-current') {
       setAnswer(next, question, mapping.participantId, fact.value);
-      changes.push({ key, label: question.label, before, current: fact.value, requested, state: 'kept-current' });
-    } else if (choices[key] === 'use-intake') changes.push({ key, label: question.label, before, current: fact.value, requested, state: 'update' });
+      changes.push({ key, label, before, current: fact.value, requested, state: 'kept-current' });
+    } else if (choices[key] === 'use-intake') changes.push({ key, label, before, current: fact.value, requested, state: 'update' });
     else {
-      changes.push({ key, label: question.label, before, current: fact.value, requested, state: 'conflict' });
-      issues.push(`${question.label}: choose the current package value or the changed intake answer.`);
+      changes.push({ key, label, before, current: fact.value, requested, state: 'conflict' });
+      issues.push(`${label}: choose the current package value or the changed intake answer.`);
     }
   }
   for (const [key, choice] of Object.entries(choices)) if (!known.has(key) || !['keep-current', 'use-intake'].includes(choice))
@@ -171,7 +190,7 @@ async function guardedCommit(before: ActionPackage | null, after: ActionPackage,
 /** Saving unfinished intake captures progress, while current documents and facts remain untouched. */
 export async function saveConditionalPackageDraft(input: Pick<ConditionalPackageInput, 'template' | 'answers' | 'record' | 'name'>,
   policy: PolicyResolution, signal?: AbortSignal, isCurrent: () => boolean = () => true): Promise<ActionPackage> {
-  signal?.throwIfAborted(); identity(policy);
+  input = capturedInput(input); signal?.throwIfAborted(); identity(policy);
   const attachments: StoredAttachment[] = [], { template, answers, before, current, source, name } = await context(input, attachments);
   if (current?.templateState?.pending && sameReviewStoredValue(current.templateState.answers, answers) && name === before?.name)
     throw new Error('This intake draft is already saved.');
@@ -191,11 +210,20 @@ function contexts(answers: PackageTemplateAnswers, groupId?: string): Array<{ sc
   return groupId ? (answers.groups[groupId] ?? []).map(person => ({ scope: { groupId, participantId: person.id }, label: person.label })) : [{}];
 }
 export function listConditionalPackageInstances(template: PackageTemplateV2, answers: PackageTemplateAnswers) {
-  return template.members.flatMap(blueprint => contexts(answers, blueprint.repeatGroupId).map(({ scope, label }) => ({
+  const expanded: Array<{ blueprint: PackageTemplateV2['members'][number]; scope?: PackageTemplateScope; label?: string }> = [];
+  for (let index = 0; index < template.members.length;) {
+    const blueprint = template.members[index];
+    if (!blueprint.repeatGroupId) { expanded.push({ blueprint }); index++; continue; }
+    let end = index + 1;
+    while (end < template.members.length && template.members[end].repeatGroupId === blueprint.repeatGroupId) end++;
+    for (const context of contexts(answers, blueprint.repeatGroupId)) for (const item of template.members.slice(index, end)) expanded.push({ blueprint: item, ...context });
+    index = end;
+  }
+  return expanded.map(({ blueprint, scope, label }) => ({
     key: packageTemplateInstanceKey(blueprint.key, scope?.participantId), memberKey: blueprint.key, ...(scope ? { participantId: scope.participantId } : {}),
-    label: packageMemberLabel(label ? `${blueprint.label} · ${label}` : blueprint.label), kind: blueprint.kind,
+    label: packageMemberLabel(label ? `${blueprint.label.slice(0, 60)} · ${label.slice(0, 40)}${scope && (answers.groups[scope.groupId] ?? []).filter(person => person.label === label).length > 1 ? ` [${scope.participantId.slice(-8)}]` : ''}` : blueprint.label), kind: blueprint.kind,
     required: blueprint.required, condition: blueprint.when ? evaluatePackageTemplateCondition(template.program, answers, blueprint.when, scope) : true,
-  })));
+  }));
 }
 function freshDraft(input: Record<string, unknown>) {
   const draft = own(input), rows = new Map<string, string>();
@@ -245,18 +273,23 @@ async function nativeMember(blueprint: Extract<PackageTemplateV2['members'][numb
   const fields = await listPackageBindingFields({ id: instance.memberId, revisionId: 'preparing', label: instance.label, role: blueprint.role, required: blueprint.required,
     kind: 'native', session: reviewed.session, draft: { id: 'preparing', name: 'draft.json', type: 'application/json', size: 1, sha256: '0'.repeat(64) } });
   const updates = [], links: PackageFieldBinding[] = [];
+  instance.targets = [];
   for (const declared of blueprint.links ?? []) {
+    const target = remapTarget(declared.target, rows), targetState = { questionId: declared.questionId, target, format: declared.format,
+      linkId: newPackageId('link'), initialized: false };
+    instance.targets.push(targetState);
     const question = template.program.questions.find(question => question.id === declared.questionId)!;
     const scope = question.groupId && instance.participantId ? { groupId: question.groupId, participantId: instance.participantId } : undefined;
     const visible = !question.when || evaluatePackageTemplateCondition(template.program, answers, question.when, scope) === true;
     const mapping = state.facts.find(fact => fact.questionId === question.id && fact.participantId === scope?.participantId);
     const fact = mapping && information.facts.find(fact => fact.id === mapping.factId);
     if (!visible || !fact || answerAt(answers, question, scope?.participantId) === undefined) continue;
-    const target = remapTarget(declared.target, rows), field = fields.find(field => packageBindingTargetKey(field.target) === packageBindingTargetKey(target));
+    const field = fields.find(field => packageBindingTargetKey(field.target) === packageBindingTargetKey(target));
     if (!field) throw new Error('The declared starter field no longer matches its pinned form.');
     const value = formatPackageFactForField(fact, field, declared.format);
     if (value !== field.value) updates.push({ target, expected: field.value, value });
-    links.push({ id: newPackageId('link'), factId: fact.id, memberId: instance.memberId, target, format: declared.format, mode: 'linked', expectedValue: value });
+    targetState.initialized = true;
+    links.push({ id: targetState.linkId, factId: fact.id, memberId: instance.memberId, target, format: declared.format, mode: 'linked', expectedValue: value });
   }
   if (updates.length) { const patched = await patchPackageBindingDraftFields(raw, updates); draft = patched.draft; reviewed = await validatePackageDraft(draft); }
   const pages: NonNullable<NativePackageMember['templates']> = {};
@@ -296,12 +329,12 @@ export function conditionalRequirementSlots(template: PackageTemplateV2, answers
 
 /** Preview known membership and field changes against one exact saved package. No storage writes. */
 export async function prepareConditionalPackage(input: ConditionalPackageInput, policy: PolicyResolution, signal?: AbortSignal): Promise<PreparedConditionalPackage> {
-  signal?.throwIfAborted(); const policyKey = identity(policy), attachments: StoredAttachment[] = [];
+  input = capturedInput(input); signal?.throwIfAborted(); const policyKey = identity(policy), attachments: StoredAttachment[] = [];
   const { template, answers: supplied, before, current, source, name } = await context(input, attachments);
   const reconciled = reconcile(template, before, supplied, input.answerChoices), answers = reconciled.answers;
   const evaluation = evaluatePackageTemplateProgram(template.program, answers), issues = [...reconciled.issues,
     ...evaluation.issues.filter(issue => issue.severity === 'error' || issue.code === 'visibility-unknown').map(issue => issue.message)];
-  const state = stateFor(template, source, answers, current?.templateState), changes: ConditionalPackageChange[] = [];
+  const state = stateFor(template, source, answers, current?.templateState), changes: ConditionalPackageChange[] = [], earlyFields: PackageUpdatePreview[] = [];
   const reviews = [reviewPackageText(name, 'Package name', policy), reviewPackageText(conditionalStateText(state), 'Action intake and retained answers', policy),
     ...await reviewConditionalTemplate(template, policy)];
   const desired = listConditionalPackageInstances(template, answers);
@@ -309,14 +342,40 @@ export async function prepareConditionalPackage(input: ConditionalPackageInput, 
   for (const [key, choice] of Object.entries(selectedChoices)) if (!knownKeys.has(key) || !['keep', 'remove', 'restore'].includes(choice)) throw new Error('A document decision does not belong to this action.');
   for (const key of Object.keys(input.attachments ?? {})) if (!desired.some(item => item.key === key && item.kind === 'attachment' && item.condition === true)) throw new Error('This PDF does not belong to an active action slot.');
   const early = () => {
-    const prepared = freeze({ packageName: name, ready: false, changed: true, changes: own(changes), answerChanges: own(reconciled.changes), fieldChanges: [], issues: [...issues], reviews: own(reviews) });
+    const qualifiedChanges = changes.map(change => {
+      const person = participantContext(template, answers, state.instances.find(instance => instance.key === change.key)?.participantId, state.appliedAnswers);
+      return person ? { ...change, label: `${person} · ${change.label}` } : change;
+    });
+    const qualifiedFields = earlyFields.map(change => {
+      const person = participantContext(template, answers, state.instances.find(instance => instance.memberId === change.memberId)?.participantId, state.appliedAnswers);
+      return person ? { ...change, label: `${person} · ${change.label}` } : change;
+    });
+    const prepared = freeze({ packageName: name, ready: false, changed: true, changes: own(qualifiedChanges), answerChanges: own(reconciled.changes), fieldChanges: own(qualifiedFields), issues: [...issues], reviews: own(reviews) });
     plans.set(prepared, { before, attachments: [], policy: policyKey }); return prepared;
   };
   if (!evaluation.ready || reconciled.issues.length) {
     for (const item of desired) changes.push({ key: item.key, label: item.label, state: item.condition === 'unknown' ? 'unresolved' : 'keep', message: 'Complete the relevant intake answers before applying document changes.' });
     return early();
   }
+  const retiredFacts = new Set<string>();
+  for (const result of evaluation.questions) if (result.visibility === true && !result.answered) {
+    const mapping = state.facts.find(fact => fact.questionId === result.questionId && fact.participantId === result.scope?.participantId);
+    if (!mapping) continue;
+    const bound = (current?.bindings?.items ?? []).filter(binding => binding.factId === mapping.factId);
+    const question = template.program.questions.find(question => question.id === result.questionId)!;
+    for (const binding of bound) if (binding.mode !== 'override' && !['keep-local', 'detach'].includes(input.fieldChoices?.[binding.id] ?? '')) {
+      issues.push(`${question.label}: preserve the document value locally or detach its link before clearing this answer.`);
+      earlyFields.push({ bindingId: binding.id, memberId: binding.memberId, label: question.label, state: 'conflict', before: binding.expectedValue,
+        message: 'Clearing this intake answer requires an explicit decision about the existing document value.' });
+    }
+    state.facts = state.facts.filter(fact => fact !== mapping);
+    if (!bound.length || bound.every(binding => input.fieldChoices?.[binding.id] === 'detach')) retiredFacts.add(mapping.factId);
+    reconciled.changes.push({ key: packageTemplateFactKey(result.questionId, result.scope?.participantId), label: question.label,
+      before: current?.information?.facts.find(fact => fact.id === mapping.factId)?.value, requested: result.value, state: 'update' });
+  }
+  if (issues.length) return early();
   const information = materializeInformation(template, answers, state, current);
+  information.facts = information.facts.filter(fact => !retiredFacts.has(fact.id));
   const members = own(current?.members ?? []), bindings = own(current?.bindings?.items ?? []), selectedMembers: PackageMember[] = [];
   const clean = new Map<string, boolean>(), desiredKeys = new Set(desired.map(item => item.key));
   for (const prior of state.instances) if (!desiredKeys.has(prior.key)) prior.condition = false;
@@ -378,6 +437,36 @@ export async function prepareConditionalPackage(input: ConditionalPackageInput, 
   }
   ordered.push(...queue);
   const retainedIds = new Set(ordered.map(member => member.id));
+  for (const instance of state.instances) {
+    if (instance.condition !== true) continue;
+    const member = ordered.find(member => member.id === instance.memberId);
+    if (!member || member.kind !== 'native' || !current?.members.some(prior => prior.id === member.id)) continue;
+    const fields = await listPackageBindingFields(member);
+    for (const targetState of instance.targets ?? []) {
+      if (targetState.initialized) continue;
+      const question = template.program.questions.find(question => question.id === targetState.questionId)!;
+      const result = evaluation.questions.find(result => result.questionId === question.id && result.scope?.participantId === (question.groupId ? instance.participantId : undefined));
+      if (!result?.answered || result.visibility !== true || !result.valid) continue;
+      const mapping = state.facts.find(fact => fact.questionId === question.id && fact.participantId === result.scope?.participantId);
+      const fact = mapping && information.facts.find(fact => fact.id === mapping.factId);
+      if (!fact) continue;
+      if (bindings.some(binding => binding.memberId === member.id && packageBindingTargetKey(binding.target) === packageBindingTargetKey(targetState.target))) {
+        targetState.initialized = true; continue; // A deliberate existing link owns the field.
+      }
+      const field = fields.find(field => packageBindingTargetKey(field.target) === packageBindingTargetKey(targetState.target));
+      if (!field) { issues.push(`The saved optional field for ${question.label} is missing. Review its native document.`); continue; }
+      const desiredValue = formatPackageFactForField(fact, field, targetState.format);
+      if (field.value !== null && field.value !== '' && field.value !== desiredValue && !input.fieldChoices?.[targetState.linkId]) {
+        issues.push(`${question.label}: decide whether to preserve the independently entered document value or apply intake.`);
+        earlyFields.push({ bindingId: targetState.linkId, memberId: member.id, label: question.label, state: 'conflict', before: field.value, after: desiredValue,
+          message: 'This optional field was filled independently before its intake answer was supplied.' }); continue;
+      }
+      targetState.initialized = true;
+      bindings.push({ id: targetState.linkId, memberId: member.id, factId: fact.id, target: own(targetState.target), format: targetState.format,
+        mode: 'linked', expectedValue: field.value });
+    }
+  }
+  if (issues.length) return early();
   const keptBindings = bindings.filter(binding => retainedIds.has(binding.memberId));
   const inactiveFields: PackageUpdatePreview[] = [];
   for (const binding of keptBindings) {
@@ -406,6 +495,20 @@ export async function prepareConditionalPackage(input: ConditionalPackageInput, 
     if (member && clean.get(member.id)) instance.generatedDigest = await memberDigest(member);
   }
   const after = buildRecord(before, name, planned.revision);
+  for (const change of changes) {
+    const instance = state.instances.find(instance => instance.key === change.key);
+    const person = participantContext(template, answers, instance?.participantId, current?.templateState?.appliedAnswers);
+    if (person) change.label = `${person} · ${change.label}`;
+    const oldIndex = current?.members.findIndex(member => member.id === change.memberId) ?? -1;
+    const newIndex = planned.revision.members.findIndex(member => member.id === change.memberId);
+    if (change.state === 'keep' && oldIndex >= 0 && newIndex >= 0 && oldIndex !== newIndex)
+      change.message = `Move from document ${oldIndex + 1} to ${newIndex + 1}; preserve captured content and local edits.`;
+  }
+  for (const change of [...planned.changes, ...inactiveFields]) {
+    const instance = state.instances.find(instance => instance.memberId === change.memberId);
+    const person = participantContext(template, answers, instance?.participantId, current?.templateState?.appliedAnswers);
+    if (person) change.label = `${person} · ${change.label}`;
+  }
   const changed = !current || !sameReviewStoredValue({ ...current, id: undefined, parentId: undefined, createdAt: undefined, outputs: [] },
     { ...planned.revision, id: undefined, parentId: undefined, createdAt: undefined, outputs: [] }) || name !== before?.name;
   const prepared = freeze({ packageName: name, ready: !issues.length, changed, changes: own(changes), answerChanges: own(reconciled.changes),
@@ -432,7 +535,7 @@ export async function undoConditionalPackage(receipt: ConditionalPackageUndo, po
   const captured = reversals.get(receipt);
   if (!captured) throw new Error('This action change can no longer be undone here. Saved history remains available.');
   const original = getPackageRevision(captured.before);
-  await reviewConditionalPackage(original, policy); reviewPackageText(captured.after.name, 'Package name', policy);
+  await reviewConditionalPackage(original, policy); reviewPackageText(captured.before.name, 'Package name', policy);
   if (original.information) reviewPackageInformation(original.information, policy);
   if (original.bindings) reviewPackageBindings(original.bindings, policy);
   for (const member of original.members) {
@@ -440,6 +543,6 @@ export async function undoConditionalPackage(receipt: ConditionalPackageUndo, po
     else await reviewPackageOriginal(await readPackageAsset(member.original), member.label, policy);
   }
   const revision = { ...own(original), id: newPackageId('revision'), parentId: captured.after.currentRevisionId, createdAt: Date.now(), outputs: [] };
-  const record = await guardedCommit(captured.after, buildRecord(captured.after, captured.after.name, revision), [], policy, signal, isCurrent);
+  const record = await guardedCommit(captured.after, buildRecord(captured.after, captured.before.name, revision), [], policy, signal, isCurrent);
   reversals.delete(receipt); return record;
 }
