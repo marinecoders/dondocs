@@ -1,3 +1,4 @@
+import { projectBrowserContextOptions } from '../_helpers/projectBrowserContext';
 import { expect, test, type Page, type Locator } from '@playwright/test';
 import { createHash } from 'node:crypto';
 import { readFile } from 'node:fs/promises';
@@ -89,6 +90,6 @@ for (const { theme, width, format } of cases) test(`captured ${format} evidence 
   if (format === 'image') { const included = manifest.files.find((file: { name: string }) => file.name === sourceName); expect(await zip.file(included.path)!.async('nodebuffer')).toEqual(png); }
   const geometry = await dialog.evaluate(root => ({ width: root.clientWidth, scroll: root.scrollWidth })); expect(geometry.scroll).toBeLessThanOrEqual(geometry.width + 1); expect(external).toEqual([]);
   await delivery.scrollIntoViewIfNeeded(); await page.screenshot({ path: info.outputPath(`evidence-${format}-${theme}-${width}px.png`) });
-  const fresh = await browser.newContext({ serviceWorkers: 'block', acceptDownloads: true, viewport: { width, height: 950 } });
+  const fresh = await browser.newContext({ ...projectBrowserContextOptions(info), serviceWorkers: 'block', acceptDownloads: true, viewport: { width, height: 950 } });
   try { const recovered = await fresh.newPage(); await fresh.addInitScript(() => localStorage.setItem('browser-test-visitor', 'returning')); await recovered.goto(baseURL!); const target = await packages(recovered); await target.getByLabel('Import editable package', { exact: true }).setInputFiles({ name: 'scoped-evidence.zip', mimeType: 'application/zip', buffer: bundle }); await expect(target.getByLabel('Package name', { exact: true })).toHaveValue('Scoped evidence copy'); await expect(target.getByText('Excluded supporting.pdf', { exact: true })).toHaveCount(0); } finally { await fresh.close(); }
 });
