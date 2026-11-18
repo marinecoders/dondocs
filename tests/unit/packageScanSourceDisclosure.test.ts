@@ -33,6 +33,7 @@ it('reviews retained scan source bytes even after the source member leaves the s
   record = await savePreparedPackageScan(await preparePackageScanCorrection(scan, scan.scan.pages.map(page => page.text), secret), secret, true);
   const replacement = await PDFDocument.create(); replacement.addPage([612, 792]);
   const next = await captureOriginalPackageMember({ name: 'Current public.pdf', data: new Uint8Array(await replacement.save()).buffer }, 'basic-letter', false);
+  if (next.kind !== 'original') throw new Error('Expected a preserved PDF member.');
   record = await reviseActionPackage(record, [next]); currentPolicy = unclassified;
   expect(getPackageRevision(record).scans!.items[0].source.sha256).not.toBe(next.original.sha256);
   const portable = await preparePackageAssembly(record, record.currentRevisionId, unclassified, { includeRetainedDraftText: true });
