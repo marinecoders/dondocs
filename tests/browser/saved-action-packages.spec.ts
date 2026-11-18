@@ -207,7 +207,7 @@ for (const theme of ["light", "dark", "classic"]) {
       }),
     ).toBeVisible();
     await approve(page, "Assemble and retain PDF");
-    await expect(modal.getByRole("status")).toContainText(
+    await expect(modal.getByRole("status").filter({ hasText: "Assembled PDF retained." })).toContainText(
       "Assembled PDF retained.",
       { timeout: 60_000 },
     );
@@ -528,7 +528,7 @@ test("configured package survives fresh offline import, native editing, reload a
     }),
   ).toBeVisible();
   await approve(page, "Assemble and retain PDF");
-  await expect(modal.getByRole("status")).toContainText(
+  await expect(modal.getByRole("status").filter({ hasText: "Assembled PDF retained." })).toContainText(
     "Assembled PDF retained.",
   );
   await expect(
@@ -628,7 +628,7 @@ test("configured package survives fresh offline import, native editing, reload a
       }),
     ).toBeVisible();
     await approve(restored, "Assemble and retain PDF");
-    await expect(modal.getByRole("status")).toContainText(
+    await expect(modal.getByRole("status").filter({ hasText: "Assembled PDF retained." })).toContainText(
       "Assembled PDF retained.",
     );
     await expect(
@@ -680,7 +680,7 @@ test("publication PDF figures and long originals survive actual rendering and ed
   await modal.getByRole("button", { name: "Check readiness and assemble", exact: true }).click();
   await expect(modal.getByRole("heading", { name: "Package readiness: ready", exact: true })).toBeVisible();
   await approve(page, "Assemble and retain PDF");
-  await expect(modal.getByRole("status")).toContainText("Assembled PDF retained.", { timeout: 60_000 });
+  await expect(modal.getByRole("status").filter({ hasText: "Assembled PDF retained." })).toContainText("Assembled PDF retained.", { timeout: 60_000 });
   const rendered = await download(page, "Download retained PDF", "Download reviewed retained PDF");
   const pages = await text(rendered);
   expect(pages.join(" ")).toContain("Preserved PDF diagram");

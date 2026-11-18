@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.140] — 2026-11-17
+
+### Added
+
+- A Workspace editor for shared information, linked-field previews and explicit local-edit decisions.
+
 ## [1.3.139] — 2026-11-17
 
 ### Added

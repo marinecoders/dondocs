@@ -71,7 +71,7 @@ for (const theme of ["light", "dark", "classic"]) test(`v1.3.98 saved inputs re-
   await expect(modal).toHaveAttribute("aria-busy", "false", { timeout: 90_000 });
   await expect(modal.getByRole("heading", { name: /^Package readiness: (ready|exported)$/, exact: true })).toBeVisible();
   await approve(page, "Assemble and retain PDF");
-  await expect(modal.getByRole("status")).toContainText("Assembled PDF retained.", { timeout: 90_000 });
+  await expect(modal.getByRole("status").filter({ hasText: /^Assembled PDF retained\./ })).toContainText("Assembled PDF retained.", { timeout: 90_000 });
   const result = await compare(page);
   await expect(result.getByText("Unavailable for a legacy output", { exact: true })).toBeVisible();
   for (const metric of ["Extracted text", "Text layout", "Page geometry", "Member boundaries and numbering"])

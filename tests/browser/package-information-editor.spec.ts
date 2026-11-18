@@ -1,0 +1,71 @@
+import { expect, test, type Page } from '@playwright/test';
+import { readFile } from 'node:fs/promises';
+
+test.use({ serviceWorkers: 'block' });
+test.setTimeout(90_000);
+async function openPackages(page: Page) {
+  const drawer = page.getByRole('dialog', { name: 'Documents', exact: true });
+  if (!await drawer.isVisible()) await page.getByRole('button', { name: 'Open workspace', exact: true })
+    .or(page.getByRole('button', { name: /^Packages(?:\s|$)/ })).first().click();
+  if (await drawer.isVisible()) await drawer.getByRole('button', { name: /^Packages(?:\s|$)/ }).click();
+  return page.getByRole('dialog', { name: 'Action packages', exact: true });
+}
+for (const theme of ['light', 'dark', 'classic']) test(`edits, links, reviews and restores package information in ${theme}`, async ({ page, context }, info) => {
+  await context.addInitScript(value => {
+    localStorage.setItem('browser-test-visitor', 'returning');
+    localStorage.setItem('dondocs_ui', JSON.stringify({ version: 1, state: { theme: value, editorLayout: 'focused' } }));
+  }, theme);
+  await page.goto('/');
+  let dialog = await openPackages(page);
+  const bytes = await readFile(new URL('../fixtures/package-render/baseline-1.3.98.dondocs-package.json', import.meta.url));
+  await dialog.getByLabel('Import editable package', { exact: true }).setInputFiles({ name: 'synthetic-package.json', mimeType: 'application/json', buffer: bytes });
+  let panel = dialog.getByRole('region', { name: 'Package information', exact: true });
+  await expect(panel.getByRole('button', { name: 'Add shared value', exact: true })).toBeEnabled();
+  await panel.getByRole('button', { name: 'Add shared value', exact: true }).click();
+  await panel.getByLabel('Value label 1', { exact: true }).fill('Shared subject');
+  await panel.getByLabel('Value 1', { exact: true }).fill('SYNTHETIC SHARED PACKAGE SUBJECT');
+  await expect(panel.getByText('Unapplied changes · not saved to the package yet.', { exact: true })).toBeVisible();
+  await expect(dialog.getByLabel('Saved packages', { exact: true })).toBeDisabled();
+  await expect(dialog.getByLabel('Package revision', { exact: true })).toBeDisabled();
+  await page.keyboard.press('Escape');
+  await expect(dialog).toBeVisible();
+  await expect(dialog.getByRole('alert')).toHaveText('Apply or discard the package information changes before closing this package.');
+  await panel.getByRole('button', { name: 'Load document fields', exact: true }).click();
+  const targets = panel.getByLabel('Link field for value 1', { exact: true });
+  await expect(targets).toBeVisible();
+  const subject = targets.getByRole('option').filter({ hasText: ' · Subject · ' });
+  await targets.selectOption(await subject.getAttribute('value') ?? '');
+  await panel.getByRole('button', { name: 'Link value 1', exact: true }).click();
+  await panel.getByRole('button', { name: 'Preview package changes', exact: true }).click();
+  const changes = panel.getByRole('region', { name: 'Package changes preview', exact: true });
+  await expect(changes).toContainText('Package value: SYNTHETIC SHARED PACKAGE SUBJECT');
+  await expect(changes.getByRole('button', { name: 'Apply package changes', exact: true })).toBeDisabled();
+  await changes.getByRole('checkbox').check();
+  await changes.getByRole('button', { name: 'Apply package changes', exact: true }).click();
+  await expect(panel.getByText('Package changes saved as a new revision.', { exact: true })).toBeVisible();
+  await expect(dialog.getByLabel('Saved packages', { exact: true })).toBeEnabled();
+  await expect(panel.getByLabel('Value kind 1', { exact: true })).toBeDisabled();
+  await panel.getByRole('button', { name: 'Undo package changes', exact: true }).click();
+  await expect(panel.getByText('Package changes undone in a new revision.', { exact: true })).toBeVisible();
+  await expect(panel.getByLabel('Value 1', { exact: true })).toHaveCount(0);
+  await panel.getByRole('button', { name: 'Add shared value', exact: true }).click();
+  await panel.getByLabel('Value label 1', { exact: true }).fill('Control number');
+  await panel.getByLabel('Value kind 1', { exact: true }).selectOption('identifier');
+  await panel.getByLabel('Value 1', { exact: true }).fill('000042');
+  await panel.getByRole('button', { name: 'Preview package changes', exact: true }).click();
+  await panel.getByRole('checkbox').check();
+  await panel.getByRole('button', { name: 'Apply package changes', exact: true }).click();
+  await expect(panel.getByText('Package changes saved as a new revision.', { exact: true })).toBeVisible();
+  await page.reload();
+  dialog = await openPackages(page); panel = dialog.getByRole('region', { name: 'Package information', exact: true });
+  await expect(panel.getByLabel('Value 1', { exact: true })).toHaveValue('000042');
+  await expect(panel.getByText('Showing saved package information.', { exact: true })).toBeVisible();
+  await expect(dialog.getByLabel('Saved packages', { exact: true })).toBeEnabled();
+  await dialog.getByRole('navigation', { name: 'Package workspace', exact: true }).getByRole('button', { name: 'Documents', exact: true }).click();
+  await dialog.getByRole('navigation', { name: 'Package workspace', exact: true }).getByRole('button', { name: 'Overview', exact: true }).click();
+  await expect(panel.getByRole('heading', { name: 'Package information', exact: true })).toBeInViewport();
+  const bounds = await panel.boundingBox();
+  expect(bounds).not.toBeNull(); expect(bounds!.width).toBeLessThanOrEqual(page.viewportSize()!.width);
+  await dialog.evaluate(element => { element.scrollTop = 0; });
+  await page.screenshot({ path: info.outputPath(`package-information-${theme}.png`) });
+});
