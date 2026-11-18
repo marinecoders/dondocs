@@ -22,7 +22,7 @@ import { spawnSync } from 'node:child_process';
 import { createRequire } from 'node:module';
 import { readFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
-import { pathToFileURL } from 'node:url';
+import { pathToFileURL, fileURLToPath } from 'node:url';
 import { compileFixture } from '../_helpers/compileLatex';
 import { sl3Fixture } from '../_helpers/sl3Fixture';
 import { buildBaseline } from '../_helpers/compileMatrix';
@@ -162,7 +162,7 @@ describe('PDF viewer × real compiled documents', () => {
     // resolves from the same nested package this test just exercised.
     const workerBytes = readFileSync(join(pdfjsDir, 'build', 'pdf.worker.min.mjs'));
     const vendored = readFileSync(
-      join(dirname(req.resolve('react-pdf/package.json')), '..', '..', 'public', 'lib', 'pdf.worker.min.mjs')
+      fileURLToPath(new URL('../../public/lib/pdf.worker.min.mjs', import.meta.url))
     );
     expect(pdfjsVersion).toMatch(/^\d+\.\d+\.\d+$/);
     expect(vendored.equals(workerBytes)).toBe(true);
