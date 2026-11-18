@@ -1,3 +1,4 @@
+import { validatePackagePdfFeedback } from './packagePdfReview';
 import { validatePackageFormFeedback } from './packageFormReview';
 import { actionPackageSchema, commitActionPackage, packageMemberReviewSchema, type ActionPackage, type PackageMemberReview, type PackageReviewBinding, type PackageReviewRound } from './actionPackages';
 import { assertActivePackageReview, assertPackageReviewBinding, getPackageReviewBinding, openPackageReview } from './packageReviewRounds';
@@ -25,10 +26,11 @@ export async function createPackageMemberReview(round: PackageReviewRound, membe
     suggestions: emptyReviewSuggestionState(nativeRound) });
 }
 /** Validate immutable native adapter identity, exact captured timestamp/model, and proposal targets. */
-export async function validatePackageMemberReviews(round: PackageReviewRound): Promise<void> {
+export async function validatePackageMemberReviews(round: PackageReviewRound, read?: (asset: import('./actionPackages').PackageAsset) => Promise<ArrayBuffer>, pdfCache?: import('./packagePdfReview').PackagePdfValidationCache): Promise<void> {
   for (const child of round.memberReviews ?? []) {
     assertPackageReviewBinding(round, child.binding);
     await validatePackageFormFeedback(round, child);
+    await validatePackagePdfFeedback(round, child, read, pdfCache);
     const expected = await createPackageMemberReview(round, child.binding.memberId);
     if (!sameReviewStoredValue(expected.nativeRound, child.nativeRound)) throw new Error('The native child review does not match its exact captured package member.');
     if (child.nativeRound) {

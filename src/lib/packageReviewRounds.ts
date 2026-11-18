@@ -17,13 +17,14 @@ export function assertActivePackageReview(round: PackageReviewRound): void {
   if (packageReviewRoundStatus(round) !== 'active') throw new Error('This package review is closed or superseded. Reopen a closed review deliberately before collecting or applying feedback.');
 }
 /** Validate at load, resource import, backup and CAS; digest checks never confer local authority. */
-export async function validatePackageReviewBaselines(record: ActionPackage): Promise<void> {
+export async function validatePackageReviewBaselines(record: ActionPackage, read?: (asset: import('./actionPackages').PackageAsset) => Promise<ArrayBuffer>): Promise<void> {
   if (record.fieldReviewApplications?.length) { const { validatePackageFieldReviewApplications } = await import('./packageFormDecisionValidation'); await validatePackageFieldReviewApplications(record); }
+  const pdfCache: import('./packagePdfReview').PackagePdfValidationCache = new Map();
   const { validatePackageMemberReviews } = await import("./packageMemberReviews");
   const { validateReviewSuggestionState } = await import('./reviewSuggestions');
   for (const application of record.reviewApplications ?? []) {
     const round = record.reviewRounds!.find(round => round.id === application.roundId)!;
-    await validatePackageMemberReviews({ ...round, memberReviews: application.feedback });
+    await validatePackageMemberReviews({ ...round, memberReviews: application.feedback }, read, pdfCache);
     for (const outcome of application.outcomes) {
       const child = application.feedback.find(child => child.binding.memberId === outcome.memberId)!;
       if (outcome.suggestions) {
@@ -33,7 +34,7 @@ export async function validatePackageReviewBaselines(record: ActionPackage): Pro
     }
   }
   for (const round of record.reviewRounds ?? []) {
-    await validatePackageMemberReviews(round);
+    await validatePackageMemberReviews(round, read, pdfCache);
     if (await reviewPayloadDigest(round.baseline) !== round.baselineDigest)
       throw new Error('The exact package review baseline digest does not match. Restore an intact workspace backup.');
     for (const [index, member] of round.baseline.members.entries())

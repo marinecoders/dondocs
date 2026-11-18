@@ -1,3 +1,4 @@
+import { packagePdfReviewSchema } from './packagePdfReviewModel';
 import { packageFieldReviewApplicationSchema, packageFormReviewSchema } from './packageFormReviewModel';
 import { MAX_PACKAGE_WORK_HISTORY_BYTES, packageWorkSchema } from "./packageWorkModel";
 import { MAX_PACKAGE_REQUIREMENTS_HISTORY_BYTES, packageRequirementsSchema } from "./packageRequirementsModel";
@@ -164,6 +165,7 @@ export const packageMemberReviewSchema = z.object({
   binding: packageReviewBindingSchema,
   nativeRound: packageNativeReviewRoundSchema.optional(),
   fieldReview: packageFormReviewSchema.optional(),
+  pdfReview: packagePdfReviewSchema.optional(),
   comments: reviewCommentsSchema,
   suggestions: reviewSuggestionStateSchema.optional(),
 }).strict();
@@ -200,6 +202,7 @@ export const packageReviewRoundSchema = z.object({
   for (const child of round.memberReviews ?? []) {
     const member = round.baseline.members.find(member => member.id === child.binding.memberId);
     const binding = round.members.find(binding => binding.memberId === child.binding.memberId);
+    if (child.pdfReview && member?.kind !== 'original') ctx.addIssue({ code: 'custom', message: 'PDF region feedback requires an original PDF member.' });
     if (child.fieldReview && (member?.kind !== 'native' || member.session.documentCategory !== 'forms'))
       ctx.addIssue({ code: 'custom', message: 'Field feedback requires a captured form member.' });
     if (!member || children.has(child.binding.memberId) || !sameReviewStoredValue(binding, child.binding)
@@ -703,8 +706,12 @@ export function validPackageTransition(
     if (changedChildren && (before.archived || (prior.lifecycle?.events.at(-1)?.state ?? "active") !== "active")) return false;
     for (const child of children) {
       const changed = next.memberReviews?.find(value => value.binding.memberId === child.binding.memberId);
-      if (!changed || !sameReviewStoredValue({ ...child, comments: undefined, suggestions: undefined, fieldReview: undefined },
-        { ...changed, comments: undefined, suggestions: undefined, fieldReview: undefined })) return false;
+      if (!changed || !sameReviewStoredValue({ ...child, comments: undefined, suggestions: undefined, fieldReview: undefined, pdfReview: undefined },
+        { ...changed, comments: undefined, suggestions: undefined, fieldReview: undefined, pdfReview: undefined })) return false;
+      for (const previous of [...child.fieldReview?.comments ?? [], ...child.pdfReview?.comments ?? []]) {
+        const nextComment = [...changed.fieldReview?.comments ?? [], ...changed.pdfReview?.comments ?? []].find(comment => comment.id === previous.id);
+        if (nextComment && !sameReviewStoredValue(previous.anchor, nextComment.anchor)) return false;
+      }
       const formProposals = child.fieldReview?.proposals ?? [], incomingForm = changed.fieldReview?.proposals ?? [];
       if (incomingForm.length < formProposals.length || !sameReviewStoredValue(formProposals, incomingForm.slice(0, formProposals.length))) return false;
       const proposals = child.suggestions?.proposals ?? [], incoming = changed.suggestions?.proposals ?? [];

@@ -31,3 +31,15 @@ Independent comments and proposals are retained together. If the same comment ha
 **Decide form corrections** shows the reviewed, latest saved and proposed answers. An unchanged exact answer can be accepted while preserving unrelated edits and row order. If the answer itself changed, **Review acceptance** stays disabled until the drafter explicitly chooses to replace that exact latest answer. The saved receipt keeps both the expected current answer and the reviewed replacement. If it changes again before save, the package compare-and-swap boundary refuses the stale application.
 
 Deleted or ambiguous rows, replaced source documents and incompatible pinned definitions remain unavailable. They never acquire a different similarly named field. The drafter can reject a proposal while preserving the current form, or edit the form separately and start an appropriate new review.
+
+## Comment on an original PDF region
+
+Select an original PDF in the exact package review. **Review original PDF regions** opens its preserved bytes and physical pages. Choose a page and draw a rectangle, or use the keyboard-accessible percentage bounds. Regions use the displayed page's top-left origin, after its saved crop and rotation. Comment creation waits for that exact page to render successfully.
+
+Each comment records the original file's SHA-256, physical page number, crop geometry, rotation and normalized region. **View PDF region** returns to the captured location. Discussion supports replies, resolution, Undo and Redo. The blue overlay belongs to the review interface; it never edits the PDF, signature fields or signed bytes.
+
+Replacing the original or rearranging pages inside it changes the file identity. An older anchor becomes unavailable and never moves to a similarly positioned page in another file. Moving the intact member within a package preserves its original-page identity.
+
+The existing reviewer copy and return retain region discussion. The owning review can **Collect returned PDF region feedback**, inspect conflicting discussion versions and **Save bound PDF region feedback** without changing package content. Fresh-browser import validates anchors against the incoming portable bytes before those files exist in local storage.
+
+Region review supports original PDFs up to 25 MB and 500 pages, with bounded page geometry. Encrypted, malformed or unsupported previews report their limitation; whole-member comments remain available. Comments travel through existing disclosure checks, including multiline markings and personal information. Closed reviews allow reading and page navigation while their discussion stays read-only.
