@@ -108,9 +108,8 @@ export function PackageInformationPanel({ record, revision, disabled, busy, run,
     const attribute = destination.bindingId ? 'data-package-binding-id' : 'data-package-fact-id';
     const identity = destination.bindingId ?? destination.factId;
     if (!identity) return;
-    handledDestination.current = destination.requestId;
-    focusPackageDestination(content.current, attribute, identity);
-  }, [destination, record.id, revision.id]);
+    if (focusPackageDestination(content.current, attribute, identity)) handledDestination.current = destination.requestId;
+  }, [destination, record.id, revision.id, draft]);
   useEffect(() => {
     mounted.current = true;
     return () => { mounted.current = false; dirtyCallback.current?.(false); };

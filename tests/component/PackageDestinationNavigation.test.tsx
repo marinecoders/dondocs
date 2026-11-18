@@ -74,3 +74,32 @@ it('reports rejected browser focus instead of marking the destination handled', 
     expect(focusPackageDestination(root, 'data-package-fact-id', 'new-value')).toBe(false);
   } finally { root.remove(); }
 });
+
+it('focuses a destination after switching to another saved revision with different rows', async () => {
+  const record = await updatePackageInformation(await createActionPackage(`Changed destination ${crypto.randomUUID()}`), { version: 1, participants: [], facts: [
+    { id: 'first', label: 'Original value', kind: 'text', value: 'Original', source: { kind: 'entered' } },
+  ] });
+  const old = getPackageRevision(record);
+  const newer = await updatePackageInformation(record, { ...old.information!, facts: [...old.information!.facts,
+    { id: 'second', label: 'New value', kind: 'text', value: 'New', source: { kind: 'entered' } },
+  ] });
+  const revision = getPackageRevision(newer);
+  const view = render(<PackageInformationPanel {...callbacks} record={newer} revision={old} />);
+  view.rerender(<PackageInformationPanel {...callbacks} record={newer} revision={revision}
+    destination={{ packageId: newer.id, revisionId: revision.id, requestId: 4, factId: 'second' }} />);
+  await waitFor(() => expect(screen.getByText('New value', { selector: 'legend' })).toHaveFocus());
+});
+
+it('focuses a newly added requirement after switching the saved revision', async () => {
+  const record = await createActionPackage(`Changed requirement destination ${crypto.randomUUID()}`);
+  const old = getPackageRevision(record);
+  const newer = await updatePackageRequirements(record, { version: 1, items: [
+    { id: 'original', label: 'Original criterion', kind: 'confirmation', operations: ['pdf'], condition: 'active' },
+    { id: 'added', label: 'New criterion', kind: 'confirmation', operations: ['pdf'], condition: 'active' },
+  ] }, policy);
+  const revision = getPackageRevision(newer);
+  const view = render(<PackageRequirementsPanel {...callbacks} record={newer} revision={old} />);
+  view.rerender(<PackageRequirementsPanel {...callbacks} record={newer} revision={revision}
+    destination={{ packageId: newer.id, revisionId: revision.id, requestId: 5, requirementId: 'added' }} />);
+  await waitFor(() => expect(screen.getByRole('heading', { name: 'New criterion' }).closest('article')).toHaveFocus());
+});

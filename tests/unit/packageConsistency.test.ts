@@ -190,3 +190,22 @@ it('includes retained labels and exception reasons in classification/privacy rev
   await expect(save(record, value)).rejects.toThrow(/outside/);
   expect((await listActionPackages()).find(item => item.id === record.id)).toEqual(record);
 });
+
+it('preserves the exact excepted revision when an actual IndexedDB write aborts', async () => {
+  let record = await save(await fixture());
+  const revision = getPackageRevision(record);
+  const exception = await createPackageConsistencyException(revision, 'same-action', 'Retain this exact deliberate difference.');
+  record = await save(record, { ...revision.consistency!, exceptions: [exception] });
+  const next = structuredClone(getPackageRevision(record).consistency!); next.rules[0].label = 'Reviewed new label';
+  const original = IDBObjectStore.prototype.put;
+  const failingPut = vi.spyOn(IDBObjectStore.prototype, 'put').mockImplementation(function (this: IDBObjectStore, ...args) {
+    const request = original.apply(this, args);
+    if (this.name === 'app') this.transaction.abort();
+    return request;
+  });
+  await expect(save(record, next)).rejects.toThrow(/could not be saved/);
+  failingPut.mockRestore();
+  const stored = (await listActionPackages()).find(item => item.id === record.id)!;
+  expect(stored).toEqual(record);
+  expect((await inspectPackageConsistency(getPackageRevision(stored))).findings[0]).toMatchObject({ state: 'excepted', exceptionReason: exception.reason });
+});
