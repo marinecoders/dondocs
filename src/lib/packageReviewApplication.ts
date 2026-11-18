@@ -216,6 +216,7 @@ export async function preparePackageReviewApplication(preview: PackageReviewRetu
     ...(current.consistency ? { consistency: structuredClone(current.consistency) } : {}),
     ...(current.work ? { work: structuredClone(current.work) } : {}),
     ...(current.signing ? { signing: structuredClone(current.signing) } : {}),
+    ...(current.assembly ? { assembly: structuredClone(current.assembly) } : {}),
     ...(current.citations ? { citations: structuredClone(current.citations) } : {}) };
   // Rebind an unchanged known citation identity only when every recorded value except the new member revision still matches.
   if (revision.citations) {

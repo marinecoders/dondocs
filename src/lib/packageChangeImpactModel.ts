@@ -52,7 +52,7 @@ export function packageMemberContent(member: PackageMember) {
     : { kind: member.kind, sha256: member.draft.sha256, templates: Object.entries(member.templates ?? {}).sort(([a], [b]) => a.localeCompare(b)).map(([file, asset]) => [file, asset.sha256]) };
 }
 export function packageAssemblyInputs(revision: PackageRevision) {
-  return revision.members.map(member => ({ id: member.id, role: member.role, boundaryLabel: !['basic-letter', 'endorsement', 'enclosure'].includes(member.role) ? member.label : undefined, ...packageMemberContent(member) }));
+  return { assembly: revision.assembly, members: revision.members.map(member => ({ id: member.id, role: member.role, boundaryLabel: !['basic-letter', 'endorsement', 'enclosure'].includes(member.role) ? member.label : undefined, ...packageMemberContent(member) })) };
 }
 /** Reviewers receive the package context too; task ownership does not change their captured documents. */
 export function packageReviewContext(revision: ImpactRevision) {

@@ -7,3 +7,13 @@ export const packageOutputDestinationSchema = z.object({
 }).strict();
 export type PackageOutputDestination = z.infer<typeof packageOutputDestinationSchema>;
 
+
+export const packageAssemblySettingsSchema = z.object({
+  version: z.literal(1), profile: z.enum(['letter-led', 'forms-led', 'mixed']),
+  cover: z.boolean(), contents: z.boolean(), samePageEndorsements: z.boolean(),
+}).strict();
+export type PackageAssemblySettings = z.infer<typeof packageAssemblySettingsSchema>;
+export const defaultPackageAssemblySettings = (): PackageAssemblySettings => ({ version: 1, profile: 'mixed', cover: false, contents: false, samePageEndorsements: false });
+export const packageAssemblyResultSchema = z.object({
+  version: z.literal(1), profile: z.enum(['letter-led', 'forms-led', 'mixed']), frontMatterPages: z.number().int().min(0).max(100),
+}).strict();
