@@ -212,3 +212,34 @@ it('attaches impact from the actual captured conditional plan while new actions 
   expect(preview.ready).toBe(true); expect(preview.impact?.summary).toMatchObject({ changedMembers: 2, changedFacts: 1 });
   expect(section(preview.impact!, 'member').every(member => member.state === 'changed')).toBe(true);
 });
+
+it('reports a same-byte retained filename change as context while preserving the captured review and original bytes', async () => {
+  let record = await startPackageReview(await retainedOutput(await fixture()));
+  const before = getPackageRevision(record), first = before.members[0] as NativePackageMember;
+  const bytes = await readPackageAsset(first.draft);
+  const renamed = { ...structuredClone(first), draft: await retainPackageAsset('Renamed synthetic letter.json', first.draft.type, bytes) };
+  record = await reviseActionPackage(record, [renamed, ...before.members.slice(1)]);
+  const after = getPackageRevision(record), report = await inspectPackageChangeImpact(record, before.id);
+  expect((after.members[0] as NativePackageMember).draft.sha256).toBe(first.draft.sha256);
+  expect((after.members[0] as NativePackageMember).draft.name).not.toBe(first.draft.name);
+  expect(section(report, 'member')[0].state).toBe('metadata-only');
+  expect(section(report, 'review')[0]).toMatchObject({ state: 'changed', capturedRevisionId: before.id, association: 'historical' });
+  expect(section(report, 'output')[0]).toMatchObject({ state: 'metadata-only', capturedRevisionId: before.id });
+  expect(new Uint8Array(await readPackageAsset(first.draft))).toEqual(new Uint8Array(bytes));
+  expect((await listActionPackages())[0].reviewRounds).toEqual(record.reviewRounds);
+});
+
+it('reports a retained PDF from earlier saved history when neither compared revision owns it', async () => {
+  let record = await retainedOutput(await fixture());
+  const rendered = getPackageRevision(record), output = rendered.outputs[0];
+  const changed = await native('Main letter', 'Updated since the retained PDF', rendered.members[0] as NativePackageMember);
+  record = await reviseActionPackage(record, [changed, ...rendered.members.slice(1)]);
+  const before = getPackageRevision(record);
+  record = await updatePackageInformation(record, { version: 1, participants: [], facts: [{ id: 'checked', label: 'Source checked', kind: 'boolean', value: true, source: { kind: 'entered' } }] });
+  expect(before.outputs).toEqual([]); expect(getPackageRevision(record).outputs).toEqual([]);
+  const bytes = await readPackageAsset(output.asset), report = await inspectPackageChangeImpact(record, before.id);
+  expect(section(report, 'output')).toEqual([expect.objectContaining({ id: output.id, state: 'changed', capturedRevisionId: rendered.id,
+    association: 'historical', destinations: [{ outputId: output.id, revisionId: rendered.id }] })]);
+  expect(report.summary.affectedOutputs).toBe(1);
+  expect(new Uint8Array(await readPackageAsset(output.asset))).toEqual(new Uint8Array(bytes));
+});
