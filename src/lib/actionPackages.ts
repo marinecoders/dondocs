@@ -91,9 +91,17 @@ const originalSchema = z
     signedOriginal: z.boolean(),
   })
   .strict();
+const attachmentSchema = z.object({
+  ...common,
+  kind: z.literal("attachment"),
+  role: z.enum(["supporting-document", "enclosure", "coordination-sheet"]),
+  original: packageAssetSchema,
+  signedOriginal: z.literal(false),
+}).strict();
 export const packageMemberSchema = z.discriminatedUnion("kind", [
   nativeSchema,
   originalSchema,
+  attachmentSchema,
 ]);
 export type PackageMember = z.infer<typeof packageMemberSchema>;
 export type NativePackageMember = Extract<PackageMember, { kind: "native" }>;
@@ -219,7 +227,7 @@ export const packageReviewRoundSchema = z.object({
         || !sameReviewStoredValue(child.nativeRound.baseline, { ts: member.session.timestamp, session: member.session })
         || child.suggestions.roundId !== child.nativeRound.id || child.suggestions.baselineDigest !== child.nativeRound.baselineDigest
         || child.suggestions.decisions.length !== 0)
-      || (member.kind === "original" || !supportsReviewComments(member.session)) && (child.nativeRound !== undefined || child.suggestions !== undefined
+      || (member.kind !== "native" || !supportsReviewComments(member.session)) && (child.nativeRound !== undefined || child.suggestions !== undefined
         || child.comments.threads.some(thread => thread.anchor.kind !== "document")))
       ctx.addIssue({ code: "custom", message: "Invalid package member review association." });
     children.add(child.binding.memberId);
@@ -550,7 +558,7 @@ export async function listActionPackages(): Promise<ActionPackage[]> {
 export function packageAssets(record: ActionPackage): PackageAsset[] {
   return [...record.revisions, ...(record.reviewRounds ?? []).map(round => round.baseline)].flatMap((revision) => [
     ...revision.members.flatMap((member) =>
-      member.kind === "original"
+      member.kind !== "native"
         ? [member.original]
         : [member.draft, ...Object.values(member.templates ?? {})],
     ),

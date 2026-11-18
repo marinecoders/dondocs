@@ -66,7 +66,7 @@ it('pins the selected saved revision, original bytes and captured output through
   const opened = await openPackageReview(loaded, round.id);
   expect(opened.baseline).toEqual(round.baseline); expect(opened.baseline.outputs).toHaveLength(1);
   expect(getPackageRevision(loaded, record.currentRevisionId).outputs).toHaveLength(2);
-  expect(await readPackageAsset(original.kind === 'original' ? original.original : original.draft)).toEqual(bytes);
+  expect(await readPackageAsset(original.kind === 'native' ? original.draft : original.original)).toEqual(bytes);
   const member = opened.baseline.members[0]; expect(member.kind === 'native' && member.session.paragraphs[0].text).toBe('Captured review content.');
   expect(member.kind === 'native' && member.session.timestamp).toBe(native.session.timestamp);
   const roots = await collectLiveAttachmentIds();
@@ -97,7 +97,7 @@ it('reviews only selected revision filenames for assembly while retaining older 
   expect(getPackageRevision(assembled).outputs).toHaveLength(1);
   const opened = await openPackageReview(assembled, reviewed.reviewRounds![0].id);
   expect(opened.baseline.members).toContainEqual(retained);
-  expect(await readPackageAsset(retained.kind === 'original' ? retained.original : retained.draft)).toEqual(bytes);
+  expect(await readPackageAsset(retained.kind === 'native' ? retained.draft : retained.original)).toEqual(bytes);
   const included = await preparePackageAssembly({ ...assembled, currentRevisionId: opened.revisionId, revisions: [opened.baseline],
     historyScope: 'selected-revision', reviewRounds: undefined }, opened.revisionId, policy);
   expect(included.readiness.findings).toContainEqual(expect.objectContaining({ severity: 'error',

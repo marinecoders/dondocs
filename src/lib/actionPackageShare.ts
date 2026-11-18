@@ -1,4 +1,5 @@
 import { reviewPackageSigning } from './packageSigning';
+import { reviewPackageAttachment } from './packageAttachmentCapabilities';
 import { z } from "zod";
 import { getExportDeploymentPolicy, getExportDeploymentPolicySync } from "@/config/classification";
 import { buildPortableActionPackage, importPortableActionPackage, parsePortableActionPackage } from "./actionPackageTransfer";
@@ -124,7 +125,12 @@ async function prepare(json: string, policy: PolicyResolution, expiresAt?: numbe
         ...reviewed.figures.filter((_, index) => reviewed.session.paragraphs[index]?.figure?.type === "application/pdf"),
       ]) if (file) await reviewPdf(file.data, `${member.label}: ${file.name}`);
     }
-    const asset = member.kind === "original" ? member.original : member.draft;
+    if (member.kind === "attachment") {
+      const resource = resources.get(`assets/${member.original.id}`);
+      if (!resource) throw new Error("A supporting attachment is missing from this captured share.");
+      reviews.push({ member: member.label, review: (await reviewPackageAttachment(member.original, resource.data, policy, signal)).review });
+    }
+    const asset = member.kind !== "native" ? member.original : member.draft;
     reviews.push({ member: member.label, review: reviewPackageText(asset.name, "Captured filename", policy) });
   }
   for (const asset of resources.values()) {

@@ -31,7 +31,7 @@ function assertCompleteInlineInventory(root: Element): void {
 /** The original includes comments, discarded revisions and document metadata.
  * Inventory all package-owned XML text and attributes before native shortening;
  * none of these editable values authenticates a reviewer or a return. */
-export function retainedWordText(archive: ReadonlyMap<string, Uint8Array>, paragraphText: (paragraph: Element, view: View) => string) {
+export function retainedWordText(archive: ReadonlyMap<string, Uint8Array>, paragraphText: (paragraph: Element, view: View) => string, maximumCharacters: number = WORD_IMPORT_LIMITS.text) {
   const types = wordXml(archive.get('[Content_Types].xml'), 'content types');
   const extensions = new Set(['xml', 'rels']), parts = new Set<string>();
   for (const element of xmlChildren(types.documentElement)) {
@@ -50,7 +50,7 @@ export function retainedWordText(archive: ReadonlyMap<string, Uint8Array>, parag
   const retain = (text: string, header = false) => {
     if (!text.trim()) return;
     characters += text.length + (values.length ? 1 : 0);
-    if (characters > WORD_IMPORT_LIMITS.text) throw new Error('This Word file exceeds the retained source-text limit, including its original metadata.');
+    if (characters > maximumCharacters) throw new Error('This Word file exceeds the retained source-text limit, including its original metadata.');
     values.push(text);
     if (header) markings.push(text);
   };

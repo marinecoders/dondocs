@@ -122,7 +122,7 @@ export function PackageRequirementsPanel({ record, revision, disabled, busy, run
           }}>
             <option value="">Missing evidence · leave slot unassigned</option>
             {item.memberId && !revision.members.some(member => member.id === item.memberId) && <option value={item.memberId}>Unavailable captured document</option>}
-            {revision.members.map((member, index) => <option key={member.id} value={member.id}>{index + 1}. {member.label} · {member.kind === 'native' ? 'Editable document' : 'Original PDF'}</option>)}
+            {revision.members.map((member, index) => <option key={member.id} value={member.id}>{index + 1}. {member.label} · {member.kind === 'native' ? 'Editable document' : member.kind === 'original' ? 'Original PDF' : 'Supporting file'}</option>)}
           </select></label> : <label className="flex items-start gap-2 text-sm"><input type="checkbox" aria-label={`User declaration for ${controlLabel}`} checked={item.confirmed === true} onChange={event => {
             if (draft) edit({ ...draft, items: draft.items.map(value => value.id === item.id ? { ...item, confirmed: event.target.checked } : value) });
           }} />I confirm: {item.label}. This is my declaration, not an approval.</label>}

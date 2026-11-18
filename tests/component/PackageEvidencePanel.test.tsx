@@ -1,0 +1,36 @@
+import 'fake-indexeddb/auto';
+import { afterEach, beforeEach, expect, it, vi } from 'vitest';
+import { cleanup, render, screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { PackageEvidencePanel } from '@/components/PackageEvidencePanel';
+import { createActionPackage, getPackageRevision, listActionPackages } from '@/lib/actionPackages';
+import { resolveExportDeploymentPolicy } from '@/lib/exportDeploymentPolicy';
+import * as classification from '@/config/classification';
+import { useUIStore } from '@/stores/uiStore';
+const policy = resolveExportDeploymentPolicy({ hostname: 'localhost', environment: { maxLevel: 'unclassified', allowedLevels: ['unclassified'] }, runtime: { status: 'absent' } });
+vi.mock('@/stores/backupStore', () => ({ scheduleBackup: vi.fn() }));
+beforeEach(() => { vi.restoreAllMocks(); useUIStore.setState({ storageHealth: 'ok' }); vi.spyOn(classification, 'getExportDeploymentPolicy').mockResolvedValue(policy); vi.spyOn(classification, 'getExportDeploymentPolicySync').mockReturnValue(policy); });
+afterEach(cleanup);
+it('uses actual retained-text review and commits only the acknowledged supporting file', async () => {
+  const record = await createActionPackage(`Evidence UI ${crypto.randomUUID()}`), user = userEvent.setup(), onApply = vi.fn(), dirty = vi.fn();
+  render(<PackageEvidencePanel record={record} revision={getPackageRevision(record)} disabled={false} busy={false} run={async action => action()} onApply={onApply} onDirtyChange={dirty} signal={() => undefined} isCurrent={() => true} />);
+  await user.upload(screen.getByLabelText('Choose supporting evidence'), new File(['Synthetic reviewable evidence'], 'support.txt', { type: 'text/plain' }));
+  const save = await screen.findByRole('button', { name: 'Add reviewed evidence file' }); expect(save).toBeDisabled();
+  expect(dirty).toHaveBeenLastCalledWith(true); expect(onApply).not.toHaveBeenCalled();
+  await user.click(screen.getByRole('checkbox', { name: /^I reviewed this original file/ })); await user.click(save);
+  await waitFor(() => expect(onApply).toHaveBeenCalledTimes(1));
+  expect(getPackageRevision(onApply.mock.calls[0][0]).members[0]).toMatchObject({ kind: 'attachment', label: 'support.txt' });
+  expect((await listActionPackages()).find(item => item.id === record.id)).toEqual(onApply.mock.calls[0][0]);
+});
+it('discards a prepared file and fences read-only and rejected parent operations', async () => {
+  const record = await createActionPackage(`Evidence recovery ${crypto.randomUUID()}`), user = userEvent.setup(), onApply = vi.fn();
+  const props = { record, revision: getPackageRevision(record), disabled: false, busy: false, run: async (action: () => Promise<void>) => action(), onApply, signal: () => undefined, isCurrent: () => true };
+  const view = render(<PackageEvidencePanel {...props} />);
+  await user.upload(screen.getByLabelText('Choose supporting evidence'), new File(['Synthetic evidence'], 'support.txt', { type: 'text/plain' }));
+  await user.click(await screen.findByRole('button', { name: 'Discard evidence file' }));
+  expect(screen.queryByRole('button', { name: 'Add reviewed evidence file' })).toBeNull(); expect(onApply).not.toHaveBeenCalled();
+  view.rerender(<PackageEvidencePanel {...props} run={async () => { throw new Error('Operation unavailable'); }} />);
+  await user.upload(screen.getByLabelText('Choose supporting evidence'), new File(['Synthetic evidence'], 'support.txt', { type: 'text/plain' }));
+  expect(await screen.findByRole('alert')).toHaveTextContent('Operation unavailable');
+  view.rerender(<PackageEvidencePanel {...props} disabled />); expect(screen.getByLabelText('Choose supporting evidence')).toBeDisabled();
+});

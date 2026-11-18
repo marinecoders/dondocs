@@ -87,7 +87,7 @@ export async function resolvePackageFieldBinding(revision: PackageRevision, inpu
   const base = { binding, label: binding.id };
   const member = revision.members.find(member => member.id === binding.memberId);
   if (!member) return { ...base, state: 'missing', message: 'The linked package member is missing. Detach or reconnect this field.' };
-  if (member.kind === 'original') return { ...base, label: member.label, state: 'unsupported', message: 'Original PDFs do not support linked field edits.' };
+  if (member.kind !== 'native') return { ...base, label: member.label, state: 'unsupported', message: 'Original PDFs do not support linked field edits.' };
   const target = await resolvePackageBindingTarget(member.session, binding.target);
   if (target.state !== 'current') return { ...base, label: member.label, ...target };
   const label = `${member.label}: ${target.field.label}`;
@@ -129,7 +129,7 @@ function sourceLabel(value: string, fallback: string): string {
 export async function suggestPackageFieldValues(members: readonly PackageMember[]): Promise<PackageFieldSuggestion[]> {
   const suggestions: PackageFieldSuggestion[] = [];
   for (const member of members) {
-    if (member.kind === 'original') continue;
+    if (member.kind !== 'native') continue;
     for (const field of await listPackageBindingFields(member)) {
       if (field.value === null || typeof field.value === 'string' && !field.value.trim()) continue;
       if (field.kind === 'date' && (typeof field.value !== 'string' || !realDate(field.value))) continue;

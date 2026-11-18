@@ -1,3 +1,4 @@
+import { validatePackageAttachment } from './packageAttachmentCapabilities';
 import { assertPackageRequirementsReady } from "./packageRequirements";
 import { validatePackageDraft } from "./actionPackageDraft";
 import {
@@ -256,8 +257,14 @@ export async function validateActionPackageResources(
   }
   const { validateConditionalPackageStates } = await import('./packageConditionalSources');
   await validateConditionalPackageStates(owned, read);
-  for (const revision of owned.revisions) {
+  const checkedEvidence = new Set<string>();
+  for (const revision of [...owned.revisions, ...(owned.reviewRounds ?? []).map(round => round.baseline)]) {
     for (const member of revision.members) {
+      if (member.kind === "attachment") {
+        const identity = JSON.stringify(member.original);
+        if (!checkedEvidence.has(identity)) { await validatePackageAttachment(member.original, await read(member.original)); checkedEvidence.add(identity); }
+        continue;
+      }
       if (member.kind === "original") {
         await validatePackageOriginalPdf(await read(member.original));
         continue;

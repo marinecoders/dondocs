@@ -1,3 +1,4 @@
+import { validatePackageAttachment } from './packageAttachmentCapabilities';
 import { packageRequirementOperationSchema, packageRequirementsSchema, type PackageRequirement, type PackageRequirementOperation, type PackageRequirements } from './packageRequirementsModel';
 import { actionPackageSchema, commitActionPackage, getPackageRevision, newPackageId, packageMemberSchema, type ActionPackage, type PackageAsset, type PackageMember, type PackageRevision } from './actionPackages';
 import { readPackageAsset, validatePackageOriginalPdf } from './actionPackageAssets';
@@ -34,6 +35,7 @@ async function validateMember(input: PackageMember, read: (asset: PackageAsset) 
       throw new Error(`Missing or corrupt captured file: ${asset.name}.`);
     signal?.throwIfAborted(); return bytes;
   };
+  if (member.kind === 'attachment') { await validatePackageAttachment(member.original, await verifiedRead(member.original), signal); return; }
   if (member.kind === 'original') { await validatePackageOriginalPdf(await verifiedRead(member.original)); return; }
   const raw: unknown = JSON.parse(new TextDecoder('utf-8', { fatal: true }).decode(await verifiedRead(member.draft)));
   const parsed = await validatePackageDraft(raw);

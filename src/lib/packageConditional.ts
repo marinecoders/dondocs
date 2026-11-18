@@ -226,7 +226,7 @@ export async function saveConditionalPackageDraft(input: Pick<ConditionalPackage
 
 async function memberDigest(member: PackageMember): Promise<string> {
   return portableResourceDigest(new TextEncoder().encode(JSON.stringify({ kind: member.kind, label: member.label, role: member.role, required: member.required,
-    ...(member.kind === 'original' ? { sha256: member.original.sha256, signed: member.signedOriginal }
+    ...(member.kind !== 'native' ? { sha256: member.original.sha256, signed: member.signedOriginal }
       : { sha256: member.draft.sha256, templates: Object.entries(member.templates ?? {}).sort().map(([file, asset]) => [file, asset.sha256]) }) })).buffer);
 }
 function contexts(answers: PackageTemplateAnswers, groupId?: string): Array<{ scope?: PackageTemplateScope; label?: string }> {
@@ -594,7 +594,7 @@ export async function prepareConditionalPackage(input: ConditionalPackageInput, 
     ...(current && !issues.length ? { impact: await comparePackageChangeImpact(current, planned.revision, { reviewRounds: before?.reviewRounds, retainedRevisions: before?.revisions.filter(item => item.outputs.length), packageId: before?.id, signal }) } : {}) });
   plans.set(prepared, { before, after, attachments: [...attachments, ...planned.attachments].filter(asset =>
     after.revisions.some(revision => revision.members.some(member => member.kind === 'native' && (member.draft.id === asset.id || Object.values(member.templates ?? {}).some(template => template.id === asset.id))
-      || member.kind === 'original' && member.original.id === asset.id) || revision.templateState?.source.id === asset.id)), policy: policyKey });
+      || member.kind !== 'native' && member.original.id === asset.id) || revision.templateState?.source.id === asset.id)), policy: policyKey });
   return prepared;
 }
 

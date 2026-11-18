@@ -192,6 +192,7 @@ export async function capturePackageTemplate(record: ActionPackage, revisionId: 
   for (const member of revision.members) {
     signal?.throwIfAborted();
     const { label, role, required } = member;
+    if (member.kind === 'attachment') throw new Error('Convert non-PDF evidence to a reviewed PDF before capturing a reusable PDF attachment slot.');
     if (member.kind === 'original') { appendMember({ kind: 'attachment', label, role, required }); continue; }
     const { draft, reviewed } = await readPackageMemberDraft(member);
     signal?.throwIfAborted();

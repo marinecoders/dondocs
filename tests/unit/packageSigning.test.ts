@@ -59,7 +59,7 @@ it('opens only a reviewed privately captured exact source without changing the p
   await expect(openPackageSigningSource(prepared, policy, false)).rejects.toThrow('Review');
   await expect(openPackageSigningSource({ ...prepared }, policy, true)).rejects.toThrow('Review');
   const saved = await openPackageSigningSource(prepared, policy, true);
-  expect(base64ToUint8Array(saved.source.data)).toEqual(new Uint8Array(await readPackageAsset(source.kind === 'original' ? source.original : source.draft)));
+  expect(base64ToUint8Array(saved.source.data)).toEqual(new Uint8Array(await readPackageAsset(source.kind !== 'native' ? source.original : source.draft)));
   expect((await listActionPackages())[0]).toEqual(record);
 });
 it('captures a handoff into a new child revision and verifies its actual PDF bytes and signer assignment', async () => {

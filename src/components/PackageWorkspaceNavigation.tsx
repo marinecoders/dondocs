@@ -46,7 +46,7 @@ export function PackageWorkspaceSummary({ record, revision, children }: {
     <p className="flex flex-wrap gap-x-4 gap-y-1 text-sm text-muted-foreground">
       <span className="inline-flex items-center gap-1.5"><Files className="size-4" aria-hidden="true" />{revision.members.length} document{revision.members.length === 1 ? '' : 's'}</span>
       <span>{native} editable draft{native === 1 ? '' : 's'}</span>
-      <span>{revision.members.length - native} original PDF{revision.members.length - native === 1 ? '' : 's'}</span>
+      <span>{revision.members.length - native} supporting original{revision.members.length - native === 1 ? '' : 's'}</span>
     </p>
     {children}
   </section>;
@@ -54,6 +54,7 @@ export function PackageWorkspaceSummary({ record, revision, children }: {
 
 function memberKind(member: PackageMember): string {
   if (member.kind === 'original') return member.signedOriginal ? 'Marked signed · original PDF' : 'Original PDF';
+  if (member.kind === 'attachment') return 'Supporting file · original bytes';
   return member.session.documentCategory === 'forms' ? 'Editable form' : 'Editable document';
 }
 
@@ -77,7 +78,7 @@ export function PackageMemberNavigation({ members, selectedId, disabled, onSelec
         disabled={disabled} aria-current={selectedId === member.id ? 'true' : undefined}
         className={`flex w-full min-w-0 items-start gap-2 rounded-md px-2 py-2.5 text-left text-sm disabled:opacity-50 ${selectedId === member.id ? 'bg-accent text-accent-foreground' : 'hover:bg-accent/50'}`}
         onClick={() => onSelect(member.id)}>
-        {member.kind === 'original' ? <Paperclip className="mt-0.5 size-4 shrink-0" aria-hidden="true" /> : <FileText className="mt-0.5 size-4 shrink-0" aria-hidden="true" />}
+        {member.kind !== 'native' ? <Paperclip className="mt-0.5 size-4 shrink-0" aria-hidden="true" /> : <FileText className="mt-0.5 size-4 shrink-0" aria-hidden="true" />}
         <span className="min-w-0 break-words"><span className="font-medium">{index + 1}. {member.label}</span><span className="block text-xs text-muted-foreground">{memberKind(member)}</span></span>
       </button>)}
     </div>

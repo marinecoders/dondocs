@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.161] — 2026-11-17
+
+### Added
+
+- Preserved supporting image, text, CSV and Office evidence with reviewed capture, qualified PDF derivatives and explicit operation limits.
+
 ## [1.3.160] — 2026-11-17
 
 ### Added

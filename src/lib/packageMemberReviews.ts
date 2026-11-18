@@ -16,7 +16,7 @@ async function nativeIdentity(binding: PackageReviewBinding): Promise<string> {
 export async function createPackageMemberReview(round: PackageReviewRound, memberId: string): Promise<PackageMemberReview> {
   const binding = getPackageReviewBinding(round, memberId);
   const member = round.baseline.members.find(member => member.id === memberId)!;
-  if (member.kind === 'original' || !supportsReviewComments(member.session)) return { binding, comments: { version: 1, threads: [] } };
+  if (member.kind !== 'native' || !supportsReviewComments(member.session)) return { binding, comments: { version: 1, threads: [] } };
   const baseline = { ts: member.session.timestamp, session: structuredClone(member.session) };
   const nativeRound: ReviewRound = { kind: 'dondocs-review-round', version: 1, id: await nativeIdentity(binding),
     createdAt: baseline.ts, label: member.label, sourceDocumentId: member.id,

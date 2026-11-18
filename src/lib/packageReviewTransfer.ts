@@ -1,4 +1,5 @@
 import { reviewPackageSigning } from './packageSigning';
+import { reviewPackageAttachment } from './packageAttachmentCapabilities';
 import { assertPackageRequirementsReady } from './packageRequirements';
 import { assertPackageConsistencyReady } from './packageConsistency';
 import { z } from 'zod';
@@ -93,6 +94,7 @@ export async function inspectPackageReviewTransfer(parsed: Pick<ParsedPackageRev
       for (const file of [...draft.files, draft.basicLetter, ...draft.figures.filter((_, index) => draft.session.paragraphs[index]?.figure?.type === 'application/pdf')])
         if (file) reviews.push(await reviewPackageOriginal(file.data, file.name, policy));
     }
+    else if (member.kind === 'attachment') reviews.push((await reviewPackageAttachment(member.original, resources.get(`assets/${member.original.id}`)!.data, policy)).review);
     else reviews.push(await reviewPackageOriginal(resources.get(`assets/${member.original.id}`)!.data, member.label, policy));
   }
   for (const output of round.baseline.outputs)

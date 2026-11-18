@@ -37,7 +37,7 @@ export async function packageInputFingerprint(revision: PackageRevision): Promis
       role: member.role,
       required: member.required,
       kind: member.kind,
-      resources: member.kind === "original"
+      resources: member.kind !== "native"
         ? [["original", member.original.sha256]]
         : [["draft", member.draft.sha256], ...Object.entries(member.templates ?? {})
           .sort(([a], [b]) => a < b ? -1 : a > b ? 1 : 0)
