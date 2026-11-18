@@ -7,6 +7,7 @@ import { PackageDeliveryPanel } from '@/components/PackageDeliveryPanel';
 import { createActionPackage, getPackageRevision, reviseActionPackage } from '@/lib/actionPackages';
 import { captureOriginalPackageMember } from '@/lib/actionPackageAssets';
 import { resolveExportDeploymentPolicy } from '@/lib/exportDeploymentPolicy';
+import { parsePackageDeliveryBundle } from '@/lib/packageDeliveryBundle';
 import * as encoding from '@/lib/encoding';
 import * as delivery from '@/lib/packageDelivery';
 import * as classification from '@/config/classification';
@@ -35,6 +36,9 @@ it('prepares exact scope, requires review, downloads captured bytes and clears i
   await waitFor(() => expect(download).toHaveBeenCalledTimes(1));
   const payload = JSON.parse(new TextDecoder().decode(download.mock.calls[0][0] as Uint8Array));
   expect(payload.package.revisions[0].members).toHaveLength(1); expect(JSON.stringify(payload.package)).not.toContain('Second excluded.pdf');
+  await user.click(screen.getByRole('button', { name: 'Download reviewed delivery bundle' }));
+  await waitFor(() => expect(download).toHaveBeenCalledTimes(2));
+  const bundle = await parsePackageDeliveryBundle(download.mock.calls[1][0] as Uint8Array); expect(bundle.manifest.members).toHaveLength(1);
   expect(onPreparedChange.mock.calls.some(([value]) => value?.members.length === 1)).toBe(true);
   await user.type(screen.getByLabelText('Delivery name'), ' revised');
   expect(screen.queryByRole('region', { name: 'Captured delivery contents' })).toBeNull(); expect(onPreparedChange).toHaveBeenLastCalledWith(null);

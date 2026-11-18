@@ -1,4 +1,5 @@
 import { useEffect, useId, useLayoutEffect, useRef, useState } from 'react';
+import { buildPackageDeliveryBundle } from '@/lib/packageDeliveryBundle';
 import { PackageDeliveryPreview } from './PackageDeliveryPreview';
 import { Button } from './ui/button';
 import type { ActionPackage, PackageRevision } from '@/lib/actionPackages';
@@ -81,6 +82,10 @@ function DeliveryProfile({ record, revision, disabled, busy, ports, run, signal,
       <PackageDeliveryPreview key={prepared.revisionId} prepared={prepared} disabled={locked} run={run} signal={signal} isCurrent={isCurrent} />
       <label className="flex items-start gap-2"><input type="checkbox" checked={approved} disabled={locked} onChange={event => setApproved(event.target.checked)} />I reviewed every included document, original PDF, file and privacy finding for this exact delivery.</label>
       <Button className="h-auto min-h-9 max-w-full whitespace-normal" disabled={locked || !approved} onClick={() => void perform(async (current, operationSignal) => {
+        const bundle = await buildPackageDeliveryBundle(prepared, await getExportDeploymentPolicy(), approved, operationSignal, current);
+        if (current()) triggerDownload(bundle.bytes, bundle.filename, 'application/zip');
+      })}>Download reviewed delivery bundle</Button>
+      <Button className="h-auto min-h-9 max-w-full whitespace-normal" variant="outline" disabled={locked || !approved} onClick={() => void perform(async (current, operationSignal) => {
         const json = await buildPackageDeliveryFile(prepared, await getExportDeploymentPolicy(), approved, operationSignal, current);
         if (current()) { assertPackageDeliveryPolicy(prepared, getExportDeploymentPolicySync()); triggerDownload(new TextEncoder().encode(json), 'selected-delivery.dondocs-package.json', 'application/json'); }
       })}>Download reviewed delivery package</Button>
