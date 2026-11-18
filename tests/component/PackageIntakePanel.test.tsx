@@ -108,3 +108,17 @@ it('cannot publish a held draft save after the intake unmounts', async () => {
   view.unmount(); release(policy); await act(async () => { await completed; });
   expect(await listActionPackages()).toEqual([]); expect(await idbGetAllAttachments()).toEqual([]);
 });
+
+it('cancels a held intake draft save when the panel is disabled while keeping local answers', async () => {
+  const user = userEvent.setup(); let completed: Promise<void> | undefined;
+  const props = { editable: true, disabled: false, busy: false, isCurrent: () => true, signal: () => undefined, onApply: vi.fn(),
+    run: (action: () => Promise<void>) => { completed = action().catch(() => {}); return completed; } };
+  const view = render(<PackageIntakePanel {...props} />);
+  const course = await startTraining(user); await user.type(course, 'Keep this unsaved fictional course');
+  let release!: (value: typeof policy) => void;
+  vi.mocked(classification.getExportDeploymentPolicy).mockImplementationOnce(() => new Promise(resolve => { release = resolve; }));
+  await user.click(screen.getByRole('button', { name: 'Save intake draft' }));
+  view.rerender(<PackageIntakePanel {...props} disabled />); release(policy); await act(async () => { await completed; });
+  expect(await listActionPackages()).toEqual([]); expect(await idbGetAllAttachments()).toEqual([]); expect(props.onApply).not.toHaveBeenCalled();
+  view.rerender(<PackageIntakePanel {...props} />); expect(screen.getByLabelText('Course or activity', { exact: true })).toHaveValue('Keep this unsaved fictional course');
+});

@@ -48,6 +48,13 @@ export function PackageIntakePanel({ record, revision, editable, disabled, busy,
   const [library, setLibrary] = useState<PackageTemplateV2[] | null>(null), [libraryId, setLibraryId] = useState('');
   const alive = useRef(true), generation = useRef(0), running = useRef(false), owner = useRef(''), ownScope = useRef('');
   const selectedSource = useRef({ record, revision }), dirtyCallback = useRef(onDirtyChange);
+  const enabled = useRef(!disabled), wasUnavailable = useRef(disabled);
+  const unavailable = disabled || mode === 'saved' && !editable;
+  useLayoutEffect(() => {
+    enabled.current = !disabled;
+    if (wasUnavailable.current !== unavailable) { generation.current++; setPreview(null); setFresh(false); setReviewed(false); }
+    wasUnavailable.current = unavailable;
+  }, [disabled, unavailable]);
   const heading = useRef<HTMLHeadingElement>(null), returnFocus = useRef(false);
   const ownerScope = scope(record, revision);
   useLayoutEffect(() => { selectedSource.current = { record, revision }; owner.current = ownerScope; dirtyCallback.current = onDirtyChange; });
@@ -92,7 +99,7 @@ export function PackageIntakePanel({ record, revision, editable, disabled, busy,
   const hasInactiveFiles = Object.keys(attachments).some(key => !files.slots.some(slot => slot.key === key));
   function token(): Token { return { generation: generation.current, owner: owner.current, signal: signal() }; }
   function current(capture: Token): boolean {
-    return alive.current && capture.generation === generation.current && capture.owner === owner.current && capture.signal === signal() && !capture.signal?.aborted && isCurrent();
+    return alive.current && enabled.current && capture.generation === generation.current && capture.owner === owner.current && capture.signal === signal() && !capture.signal?.aborted && isCurrent();
   }
   async function perform(action: (capture: Token) => Promise<void>) {
     if (running.current || viewDisabled) return;
