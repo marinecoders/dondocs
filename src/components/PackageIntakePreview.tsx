@@ -27,10 +27,11 @@ interface Props {
   onFieldChoice(key: string, choice: PackageUpdateChoices[string] | undefined): void;
   onReviewed(value: boolean): void;
   onApply(): void;
+  applyLabel?: string;
 }
 
 export function PackageIntakePreview({ preview, fresh, disabled, reviewed, memberChoices, answerChoices, fieldChoices,
-  onMemberChoice, onAnswerChoice, onFieldChoice, onReviewed, onApply }: Props) {
+  onMemberChoice, onAnswerChoice, onFieldChoice, onReviewed, onApply, applyLabel = 'Apply action changes' }: Props) {
   const [memberCount, setMemberCount] = useState(25), [fieldCount, setFieldCount] = useState(25), [reviewCount, setReviewCount] = useState(25);
   const [answerCount, setAnswerCount] = useState(25), [issueCount, setIssueCount] = useState(25);
   const findings = useMemo(() => [...new Set(preview.reviews.flatMap(review => [
@@ -101,6 +102,6 @@ export function PackageIntakePreview({ preview, fresh, disabled, reviewed, membe
     {!preview.changed && <p className="text-sm text-muted-foreground">No document or intake changes need applying.</p>}
     <label className="flex items-start gap-2 text-sm"><input type="checkbox" checked={reviewed} disabled={disabled || !fresh || !preview.ready || !preview.changed}
       onChange={event => onReviewed(event.target.checked)} />I reviewed the intake, document changes, local decisions and privacy findings.</label>
-    <Button className={buttonClass} disabled={disabled || !fresh || !preview.ready || !preview.changed || !reviewed} onClick={onApply}>Apply action changes</Button>
+    <Button className={buttonClass} disabled={disabled || !fresh || !preview.ready || !preview.changed || !reviewed} onClick={onApply}>{applyLabel}</Button>
   </section>;
 }

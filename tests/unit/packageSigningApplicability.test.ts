@@ -5,7 +5,7 @@ import JSZip from 'jszip';
 import { createActionPackage, getPackageRevision, reviseActionPackage, listActionPackages, type PackageRevision } from '@/lib/actionPackages';
 import { captureOriginalPackageMember } from '@/lib/actionPackageAssets';
 import { preparePackageSigningSource, openPackageSigningSource, preparePackageSigningHandoff, capturePackageSigningHandoff, inspectPackageSigning,
-  preparePackageSigningReturn, applyPackageSigningReturn, downloadPackageSigningHandoff, reviewPackageSigningCapture, reviewPackageSigning, type PackageSigningTarget } from '@/lib/packageSigning';
+  preparePackageSigningReturn, applyPackageSigningReturn, downloadPackageSigningHandoff, reviewPackageSigningCapture, reviewPackageSigning, validatePackageSigningResources, type PackageSigningTarget } from '@/lib/packageSigning';
 import { updateSigningFields, createSigningHandoff, prepareSigningReturn, associateSigningReturn } from '@/lib/signingWorkspace';
 import { updatePackageInformation } from '@/lib/packageInformation';
 import { updatePackageWork } from '@/lib/packageWork';
@@ -114,6 +114,14 @@ it('treats an inconsistent recorded context digest as unknown rather than a chan
   const { record } = await fixture(), altered = structuredClone(record);
   altered.revisions.find(item => item.id === altered.currentRevisionId)!.signing!.handoffs[0].contextSha256 = '0'.repeat(64);
   expect((await inspectPackageSigning(altered)).findings[0]).toMatchObject({ state: 'unknown', association: 'unknown' });
+});
+it('validates source-target bindings independently for retained review captures', async () => {
+  const { source, entry } = await fixture(), changed = structuredClone(entry);
+  changed.target = { kind: 'member', id: 'different-member', revisionId: 'different-revision' };
+  await expect(validatePackageSigningResources({ version: 1, handoffs: [changed] }, undefined, source.revisions)).rejects.toThrow('exact unsigned PDF');
+  const output = await fixture('output'), altered = structuredClone(output.source.revisions);
+  altered.find(revision => revision.id === output.entry.sourceRevisionId)!.outputs[0].provenance = undefined;
+  await expect(validatePackageSigningResources({ version: 1, handoffs: [output.entry] }, undefined, altered)).rejects.toThrow('Retain a new PDF');
 });
 it('tracks exact return-member removal without turning associated returns into signing completion', async () => {
   const { record, entry, signing } = await fixture();

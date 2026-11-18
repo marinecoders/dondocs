@@ -1459,9 +1459,11 @@ export async function idbReadActionPackages(): Promise<unknown[]> {
     return record.value;
   });
 }
-export async function idbCompareActionPackage(before: import('./actionPackages').ActionPackage | null, after: import('./actionPackages').ActionPackage, isCurrent: () => boolean = () => true, stagedAttachments: readonly StoredAttachment[] = [], jobPublish?: PackageJobPublication): Promise<boolean> {
+export async function idbCompareActionPackage(before: import('./actionPackages').ActionPackage | null, after: import('./actionPackages').ActionPackage, isCurrent: () => boolean = () => true, stagedAttachments: readonly StoredAttachment[] = [], jobPublish?: PackageJobPublication, rosterPublish?: import('./packageRosterModel').PackageRosterPublish): Promise<boolean> {
   try {
     const publication = typeof jobPublish === 'function' ? jobPublish : jobPublish && structuredClone(jobPublish);
+    const roster = rosterPublish && structuredClone(rosterPublish);
+    if (roster && (before || publication)) return false;
     before = before && structuredClone(before);after = structuredClone(after);
     const { actionPackageSchema, validPackageTransition, packageAssets } = await import('./actionPackages');
     const { validateActionPackageResources } = await import('./actionPackageTransfer');
@@ -1480,6 +1482,12 @@ export async function idbCompareActionPackage(before: import('./actionPackages')
       assets.set(asset.id, saved);return saved.data;
     });
     if (assets.size !== new Set(packageAssets(after).map(asset => asset.id)).size) return false;
+    if (roster) {
+      const { packageRosterSchema, validatePackageRosterBytes, validPackageRosterPublication } = await import('./packageRosterModel');
+      roster.before = packageRosterSchema.parse(roster.before); roster.after = packageRosterSchema.parse(roster.after);
+      await validatePackageRosterBytes(roster.after);
+      if (!await validPackageRosterPublication(roster, after)) return false;
+    }
     const db = await openDb();
     // Resource checks may outlast a lease. Freeze a live owner's latest lease
     // only after those awaits, immediately before opening the write transaction.
@@ -1498,12 +1506,14 @@ export async function idbCompareActionPackage(before: import('./actionPackages')
       const transaction = db.transaction([APP_STORE, ATTACHMENTS_STORE], 'readwrite'), store = transaction.objectStore(APP_STORE);
       const request = store.get(`action-package:${after.id}`);
       const jobRequest = job && store.get(`package-job:${job.before.id}`);
+      const rosterRequest = roster && store.get(`package-roster:${roster.before.id}`);
       const checks = [...assets].map(([id, expected]) => ({ expected, request: transaction.objectStore(ATTACHMENTS_STORE).get(id) }));
-      let committed = false, remaining = checks.length + 1 + Number(!!jobRequest);
+      let committed = false, remaining = checks.length + 1 + Number(!!jobRequest) + Number(!!rosterRequest);
       const ready = () => {
         if (--remaining) return;
         try {
         if (!isCurrent() || job && (!sameReviewStoredValue(jobRequest?.result?.value ?? null, job.before) || !validPackageJobTransition(job.before, job.after, job.token))
+          || roster && !sameReviewStoredValue(rosterRequest?.result?.value ?? null, roster.before)
           || !sameReviewStoredValue(request.result?.value ?? null, before) || checks.some(check => {
           if (!staged.has(check.expected.id)) return !sameReviewStoredValue(check.request.result, check.expected);
           const saved = check.request.result as StoredAttachment | undefined;
@@ -1515,10 +1525,11 @@ export async function idbCompareActionPackage(before: import('./actionPackages')
         store.put({ key: `action-package:${after.id}`, value: after });
         if (job) { store.put({ key: `package-job:${job.after.id}`, value: job.after });
           for (const entry of job.before.checkpoints) store.delete(`batch:${entry.outputId}`); }
+        if (roster) store.put({ key: `package-roster:${roster.after.id}`, value: roster.after });
         committed = true;
         } catch { transaction.abort(); }
       };
-      request.onsuccess = ready;if (jobRequest) jobRequest.onsuccess = ready;checks.forEach(check => { check.request.onsuccess = ready; });
+      request.onsuccess = ready;if (jobRequest) jobRequest.onsuccess = ready;if (rosterRequest) rosterRequest.onsuccess = ready;checks.forEach(check => { check.request.onsuccess = ready; });
       transaction.oncomplete = () => resolve(committed);
       transaction.onerror = () => reject(transaction.error);
       transaction.onabort = () => reject(transaction.error);
@@ -1561,6 +1572,52 @@ export async function idbComparePackageTemplate(before: import('./packageTemplat
       transaction.oncomplete = () => resolve(committed);
       transaction.onerror = () => reject(transaction.error);
       transaction.onabort = () => reject(transaction.error);
+    });
+  } catch { return false; }
+}
+
+/** Local roster journals hold frozen creation inputs, never saved review acknowledgements. */
+export async function idbReadPackageRoster(id: string): Promise<unknown | null> {
+  if (!/^[a-f0-9-]{36}$/i.test(id)) throw new Error('Invalid saved roster identity.');
+  return (await run<{ value: unknown } | undefined>(APP_STORE, 'readonly', store => store.get(`package-roster:${id}`)))?.value ?? null;
+}
+export async function idbReadPackageRosters(): Promise<unknown[]> {
+  const records = await run<Array<{ key: string; value: unknown }>>(APP_STORE, 'readonly', store =>
+    store.getAll(IDBKeyRange.bound('package-roster:', 'package-roster:\uffff'), 5));
+  if (records.length > 4) throw new Error('The local package roster inventory exceeds its supported limit.');
+  return records.map(record => {
+    if (!record.value || typeof record.value !== 'object' || !('id' in record.value) || record.key !== `package-roster:${record.value.id}`)
+      throw new Error('The local package roster inventory is corrupt. Existing packages remain separate.');
+    return record.value;
+  });
+}
+export async function idbComparePackageRoster(inputBefore: import('./packageRosterModel').PackageRoster | null,
+  inputAfter: import('./packageRosterModel').PackageRoster | null, isCurrent: () => boolean): Promise<boolean> {
+  try {
+    const owned = structuredClone({ before: inputBefore, after: inputAfter });
+    const { validatePackageRoster, validPackageRosterTransition, packageRosterSchema, packageRosterStoredBytes, MAX_PACKAGE_ROSTERS, MAX_PACKAGE_ROSTER_LIBRARY_BYTES } = await import('./packageRosterModel');
+    const before = owned.before && packageRosterSchema.parse(owned.before), after = owned.after && await validatePackageRoster(owned.after);
+    if ((!before && !after) || !validPackageRosterTransition(before, after)) return false;
+    if (after) await (await import('./packageTemplateLibrary')).validatePackageTemplate(after.template);
+    if (!isCurrent()) return false;
+    const key = `package-roster:${(after ?? before)!.id}`, db = await openDb();
+    return await new Promise<boolean>((resolve, reject) => {
+      const transaction = db.transaction(APP_STORE, 'readwrite'), store = transaction.objectStore(APP_STORE);
+      const inventory = store.getAll(IDBKeyRange.bound('package-roster:', 'package-roster:\uffff'), MAX_PACKAGE_ROSTERS + 1);
+      let committed = false;
+      inventory.onsuccess = () => {
+        try {
+          const records = inventory.result as Array<{ key: string; value: unknown }>;
+          if (!isCurrent() || !sameReviewStoredValue(records.find(record => record.key === key)?.value ?? null, before)) return;
+          if (after) {
+            const remaining = records.filter(record => record.key !== key).map(record => packageRosterSchema.parse(record.value)); remaining.push(after);
+            if (remaining.length > MAX_PACKAGE_ROSTERS || remaining.reduce((sum, record) => sum + packageRosterStoredBytes(record), 0) > MAX_PACKAGE_ROSTER_LIBRARY_BYTES) return;
+            store.put({ key, value: after });
+          } else store.delete(key);
+          committed = true;
+        } catch { transaction.abort(); }
+      };
+      transaction.oncomplete = () => resolve(committed); transaction.onerror = () => reject(transaction.error); transaction.onabort = () => reject(transaction.error);
     });
   } catch { return false; }
 }

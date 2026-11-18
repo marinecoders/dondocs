@@ -6,7 +6,7 @@ import * as impactModel from '@/lib/packageChangeImpactModel';
 import { createActionPackage, getPackageRevision, reviseActionPackage, renameActionPackage, listActionPackages, duplicateActionPackage,
   actionPackageSchema, type ActionPackage } from '@/lib/actionPackages';
 import { captureOriginalPackageMember, readPackageAsset } from '@/lib/actionPackageAssets';
-import { capturePackageSigningHandoff, validatePackageSigningResources, preparePackageSigningHandoff, preparePackageSigningSource, openPackageSigningSource,
+import { capturePackageSigningHandoff, preparePackageSigningHandoff, preparePackageSigningSource, openPackageSigningSource,
   packageSigningTargets, readPackageSigningRecord, getPackageSigningPdf, openCapturedPackageSigningRecord, packageSigningContextFingerprint,
   type PackageSigningTarget } from '@/lib/packageSigning';
 import { createSigningHandoff, updateSigningFields, listSigningRecords, removeSigningRecord } from '@/lib/signingWorkspace';
@@ -173,21 +173,6 @@ it('compares package signing context independently of local tasks and signing-hi
   expect(await packageSigningContextFingerprint(changed)).not.toBe(await packageSigningContextFingerprint(getPackageRevision(record)));
   const zip = await JSZip.loadAsync(await (await import('@/lib/signingWorkspace')).downloadSigningHandoff(await readPackageSigningRecord(getPackageRevision(record).signing!.handoffs[0]), getPackageRevision(record).signing!.handoffs[0].handoffId));
   expect(await zip.file('ready-to-sign.pdf')!.async('uint8array')).toEqual((await getPackageSigningPdf(getPackageRevision(record).signing!.handoffs[0])).bytes);
-});
-
-it('validates an exact signing source target and output provenance in retained captures', async () => {
-  const { record, target } = await fixture(), local = await signing(record, target);
-  const saved = await capturePackageSigningHandoff(await preparePackageSigningHandoff(record, record.currentRevisionId, target, local, local.handoffs![0].id, policy), policy, true);
-  const entry = structuredClone(getPackageRevision(saved).signing!.handoffs[0]);
-  entry.target = { kind: 'member', id: 'different-member', revisionId: 'different-revision' };
-  await expect(validatePackageSigningResources({ version: 1, handoffs: [entry] }, undefined, record.revisions)).rejects.toThrow('exact unsigned PDF');
-  const assembly = await assemblePackage(await preparePackageAssembly(saved, saved.currentRevisionId, policy), { compile: vi.fn(), convertDocx: vi.fn(), waitForReady: async () => true });
-  const outputTarget = packageSigningTargets(getPackageRevision(assembly)).find(item => item.target.kind === 'output')!.target;
-  const outputLocal = await signing(assembly, outputTarget);
-  const captured = await capturePackageSigningHandoff(await preparePackageSigningHandoff(assembly, assembly.currentRevisionId, outputTarget, outputLocal, outputLocal.handoffs![0].id, policy), policy, true);
-  const outputEntry = getPackageRevision(captured).signing!.handoffs.at(-1)!, altered = structuredClone(assembly.revisions);
-  altered.find(revision => revision.id === outputEntry.sourceRevisionId)!.outputs[0].provenance = undefined;
-  await expect(validatePackageSigningResources({ version: 1, handoffs: [outputEntry] }, undefined, altered)).rejects.toThrow('Retain a new PDF');
 });
 
 it('preserves earlier signing context hashes when assembly inputs gain an optional profile wrapper', async () => {

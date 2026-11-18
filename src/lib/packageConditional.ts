@@ -43,6 +43,8 @@ export interface ConditionalAnswerChange {
 }
 export interface ConditionalPackageInput {
   template: PackageTemplateV2; answers: PackageTemplateAnswers; record?: ActionPackage; name?: string;
+  /** A durable roster reserves a fresh owning ID; the final before=null insert still rejects collisions. */
+  newPackageId?: string;
   memberChoices?: Readonly<Record<string, ConditionalMemberChoice>>;
   fieldChoices?: PackageUpdateChoices;
   answerChoices?: Readonly<Record<string, 'keep-current' | 'use-intake'>>;
@@ -179,6 +181,7 @@ async function context(input: Pick<ConditionalPackageInput, 'template' | 'answer
   const answers = packageTemplateAnswersSchema.parse(own(input.answers));
   evaluatePackageTemplateProgram(template.program, answers);
   const before = input.record ? actionPackageSchema.parse(own(input.record)) : null; editable(before);
+  if (before && (input as ConditionalPackageInput).newPackageId) throw new Error('A reserved new package identity cannot replace an existing action.');
   const current = before ? getPackageRevision(before) : undefined;
   const bytes = new TextEncoder().encode(JSON.stringify(template)).buffer;
   const sha256 = await portableResourceDigest(bytes);
@@ -187,12 +190,12 @@ async function context(input: Pick<ConditionalPackageInput, 'template' | 'answer
   const source = current?.templateState?.source ?? await stage(attachments, `${template.name}.dondocs-template.json`, 'application/json', bytes);
   return { template, answers, before, current, source: source as PackageConditionalState['source'], name: packageMemberLabel(input.name?.trim() || before?.name || `${template.name} action`) };
 }
-function buildRecord(before: ActionPackage | null, name: string, revision: PackageRevision): ActionPackage {
+function buildRecord(before: ActionPackage | null, name: string, revision: PackageRevision, reservedId?: string): ActionPackage {
   return actionPackageSchema.parse(before ? { ...before, name, sequence: before.sequence + 1, currentRevisionId: revision.id, revisions: [...before.revisions, revision] }
-    : { kind: 'dondocs-action-package-record', version: 1, id: newPackageId('package'), name, archived: false, sequence: 0, currentRevisionId: revision.id, revisions: [revision] });
+    : { kind: 'dondocs-action-package-record', version: 1, id: reservedId ?? newPackageId('package'), name, archived: false, sequence: 0, currentRevisionId: revision.id, revisions: [revision] });
 }
 async function guardedCommit(before: ActionPackage | null, after: ActionPackage, attachments: StoredAttachment[], policy: PolicyResolution,
-  signal?: AbortSignal, isCurrent: () => boolean = () => true): Promise<ActionPackage> {
+  signal?: AbortSignal, isCurrent: () => boolean = () => true, rosterPublish?: import('./packageRosterModel').PackageRosterPublish): Promise<ActionPackage> {
   const policyKey = identity(policy);
   if (identity(await getExportDeploymentPolicy()) !== policyKey) throw new Error('Deployment settings changed. Review the intake again.');
   let error: unknown;
@@ -204,7 +207,7 @@ async function guardedCommit(before: ActionPackage | null, after: ActionPackage,
   if (!current()) throw error;
   const stored = (await listActionPackages()).find(record => record.id === after.id) ?? null;
   if (!sameReviewStoredValue(stored, before)) throw new Error('The saved package changed. Review its latest revision before applying intake.');
-  try { return await withAttachmentStaging(() => commitActionPackage(before, after, signal, current, attachments)); }
+  try { return await withAttachmentStaging(() => commitActionPackage(before, after, signal, current, attachments, undefined, rosterPublish)); }
   catch (cause) { throw error ?? cause; }
 }
 
@@ -362,6 +365,7 @@ export async function prepareConditionalPackage(input: ConditionalPackageInput, 
 interface AdoptedTemplateContext { before: ActionPackage; current: PackageRevision; source: PackageConditionalState['source']; attachments: StoredAttachment[] }
 async function prepareConditionalPackageContext(input: ConditionalPackageInput, policy: PolicyResolution, signal?: AbortSignal, adopted?: AdoptedTemplateContext): Promise<PreparedConditionalPackage> {
   input = capturedInput(input); signal?.throwIfAborted(); const policyKey = identity(policy), attachments: StoredAttachment[] = [];
+  if (input.record && input.newPackageId) throw new Error('A reserved new package identity cannot replace an existing action.');
   const { template, answers: supplied, before, current, source, name } = adopted
     ? { ...adopted, template: input.template, answers: input.answers, name: adopted.before.name } : await context(input, attachments);
   if (adopted) attachments.push(...adopted.attachments);
@@ -586,7 +590,7 @@ async function prepareConditionalPackageContext(input: ConditionalPackageInput, 
     const member = planned.revision.members.find(member => member.id === instance.memberId);
     if (member && clean.get(member.id)) instance.generatedDigest = await memberDigest(member);
   }
-  const after = buildRecord(before, name, planned.revision);
+  const after = buildRecord(before, name, planned.revision, input.newPackageId);
   for (const change of changes) {
     const instance = state.instances.find(instance => instance.key === change.key);
     const person = participantContext(template, answers, instance?.participantId, current?.templateState?.appliedAnswers);
@@ -614,15 +618,23 @@ async function prepareConditionalPackageContext(input: ConditionalPackageInput, 
 }
 
 export async function applyPreparedConditionalPackage(prepared: PreparedConditionalPackage, policy: PolicyResolution, reviewed: boolean,
-  signal?: AbortSignal, isCurrent: () => boolean = () => true): Promise<{ record: ActionPackage; undo?: ConditionalPackageUndo }> {
+  signal?: AbortSignal, isCurrent: () => boolean = () => true, rosterPublish?: import('./packageRosterModel').PackageRosterPublish): Promise<{ record: ActionPackage; undo?: ConditionalPackageUndo }> {
   const captured = plans.get(prepared);
   if (!captured?.after || captured.policy !== identity(policy)) throw new Error('Prepare and review these action changes again.');
   if (!prepared.ready || !prepared.changed || !reviewed) throw new Error('Resolve and review the action changes before applying them.');
-  const record = await guardedCommit(captured.before, captured.after, captured.attachments, policy, signal, isCurrent);
+  if (rosterPublish && captured.before) throw new Error('A roster can create a fresh action, never replace an owning package.');
+  const publication = rosterPublish && own(rosterPublish);
+  const record = await guardedCommit(captured.before, captured.after, captured.attachments, policy, signal, isCurrent, publication);
   plans.delete(prepared);
   if (!captured.before) return { record };
   const undo = freeze({ packageId: record.id, appliedRevisionId: record.currentRevisionId });
   reversals.set(undo, { before: captured.before, after: own(record) }); return { record, undo };
+}
+/** An owned metadata copy supports durable row receipts; file bytes and mutation authority remain private. */
+export function copyPreparedConditionalPackageRecord(prepared: PreparedConditionalPackage): { record: ActionPackage; stagedBytes: number } {
+  const captured = plans.get(prepared);
+  if (!captured?.after || !prepared.ready) throw new Error('Resolve this exact action preparation first.');
+  return { record: own(captured.after), stagedBytes: captured.attachments.reduce((sum, item) => sum + item.size, 0) };
 }
 
 export interface ConditionalTemplateUpgradeInput extends ConditionalPackageInput {
