@@ -1,3 +1,4 @@
+import { packageFormReviewSchema } from './packageFormReviewModel';
 import { MAX_PACKAGE_WORK_HISTORY_BYTES, packageWorkSchema } from "./packageWorkModel";
 import { MAX_PACKAGE_REQUIREMENTS_HISTORY_BYTES, packageRequirementsSchema } from "./packageRequirementsModel";
 import { packageRoles } from "./packageRoles";
@@ -162,6 +163,7 @@ export const packageNativeReviewRoundSchema = reviewRoundSchema.safeExtend({
 export const packageMemberReviewSchema = z.object({
   binding: packageReviewBindingSchema,
   nativeRound: packageNativeReviewRoundSchema.optional(),
+  fieldReview: packageFormReviewSchema.optional(),
   comments: reviewCommentsSchema,
   suggestions: reviewSuggestionStateSchema.optional(),
 }).strict();
@@ -198,6 +200,8 @@ export const packageReviewRoundSchema = z.object({
   for (const child of round.memberReviews ?? []) {
     const member = round.baseline.members.find(member => member.id === child.binding.memberId);
     const binding = round.members.find(binding => binding.memberId === child.binding.memberId);
+    if (child.fieldReview && (member?.kind !== 'native' || member.session.documentCategory !== 'forms'))
+      ctx.addIssue({ code: 'custom', message: 'Field feedback requires a captured form member.' });
     if (!member || children.has(child.binding.memberId) || !sameReviewStoredValue(binding, child.binding)
       || member.kind === "native" && supportsReviewComments(member.session) && (!child.nativeRound || !child.suggestions
         || child.nativeRound.ownerDocumentId !== undefined || child.nativeRound.lifecycle !== undefined
@@ -668,8 +672,8 @@ export function validPackageTransition(
     if (changedChildren && (before.archived || (prior.lifecycle?.events.at(-1)?.state ?? "active") !== "active")) return false;
     for (const child of children) {
       const changed = next.memberReviews?.find(value => value.binding.memberId === child.binding.memberId);
-      if (!changed || !sameReviewStoredValue({ ...child, comments: undefined, suggestions: undefined },
-        { ...changed, comments: undefined, suggestions: undefined })) return false;
+      if (!changed || !sameReviewStoredValue({ ...child, comments: undefined, suggestions: undefined, fieldReview: undefined },
+        { ...changed, comments: undefined, suggestions: undefined, fieldReview: undefined })) return false;
       const proposals = child.suggestions?.proposals ?? [], incoming = changed.suggestions?.proposals ?? [];
       if (incoming.length < proposals.length || !sameReviewStoredValue(proposals, incoming.slice(0, proposals.length))) return false;
     }

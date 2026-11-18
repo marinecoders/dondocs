@@ -1,3 +1,4 @@
+import { PackageFormReviewPanel } from './PackageFormReviewPanel';
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
@@ -51,8 +52,8 @@ export function PackageMemberReviewPanel({ record, round, busy, onChange, run, o
   }
   return <section aria-label="Package member feedback" className="space-y-3 rounded border p-3">
     <h3 className="font-medium">Review captured package members</h3>
-    <nav aria-label="Captured review members" className="flex flex-wrap gap-2">
-      {round.baseline.members.map(member => <Button key={member.id} variant={selected === member.id ? 'secondary' : 'outline'} disabled={busy || typedDirty}
+    <nav aria-label="Captured review members" className="flex min-w-0 flex-wrap gap-2">
+      {round.baseline.members.map(member => <Button className="h-auto min-h-9 max-w-full whitespace-normal" key={member.id} variant={selected === member.id ? 'secondary' : 'outline'} disabled={busy || typedDirty}
         onClick={() => void run(async () => {
           if (packageReviewRoundStatus(round) !== 'active') { setSelected(member.id); return; }
           const result = await preparePackageReviewMember(record, round.id, member.id, signal?.(), () => alive.current && currentView.current === view);
@@ -61,20 +62,22 @@ export function PackageMemberReviewPanel({ record, round, busy, onChange, run, o
     </nav>
     {member && <>
       <h4 className="font-medium break-words">{member.label}</h4>
-      {member.kind === 'native' ? <div role="region" aria-label="Captured member text" tabIndex={0} className="max-h-72 overflow-auto space-y-2 whitespace-pre-wrap break-words rounded border p-3 text-sm">
+      {member.kind === 'native' && member.session.documentCategory !== 'forms' ? <div role="region" aria-label="Captured member text" tabIndex={0} className="max-h-72 overflow-auto space-y-2 whitespace-pre-wrap break-words rounded border p-3 text-sm">
         {availableCommentFields(member.session).map(field => <p key={field.field}><strong>{field.label}: </strong>{field.value}</p>)}
         {member.session.paragraphs.map((paragraph, index) => <p key={paragraph.id ?? index}>{paragraph.text}</p>)}
-      </div> : <p className="text-sm">Preserved original PDF · {member.signedOriginal ? 'signed original' : 'original'}. Use Download unchanged original below to inspect its exact pages. Comments do not alter PDF bytes or signatures.</p>}
-      {member.kind === 'native' && !child?.nativeRound && <p className="text-xs text-muted-foreground">This captured format supports whole-member comments. Native correspondence supports field and paragraph replacement proposals.</p>}
+      </div> : member.kind === 'original' ? <p className="text-sm">Preserved original PDF · {member.signedOriginal ? 'signed original' : 'original'}. Use Download unchanged original below to inspect its exact pages. Comments do not alter PDF bytes or signatures.</p> : null}
+      {member.kind === 'native' && member.session.documentCategory !== 'forms' && !child?.nativeRound && <p className="text-xs text-muted-foreground">This captured format supports whole-member comments. Native correspondence supports field and paragraph replacement proposals.</p>}
       {child && <>
-        <div className="flex gap-2">
-          <Button variant="outline" disabled={disabled || typedDirty || !history.length} onClick={() => void run(async () => {
-            const previous = history.at(-1)!; await publish({ ...child, comments: previous.comments }, false); setHistory(items => items.slice(0, -1)); setFuture(items => [...items, structuredClone(child)]);
+        <div className="flex min-w-0 flex-wrap gap-2">
+          <Button className="h-auto min-h-9 max-w-full whitespace-normal" variant="outline" disabled={disabled || typedDirty || !history.length} onClick={() => void run(async () => {
+            const previous = history.at(-1)!; await publish({ ...child, comments: previous.comments, fieldReview: previous.fieldReview }, false); setHistory(items => items.slice(0, -1)); setFuture(items => [...items, structuredClone(child)]);
           })}>Undo member comment</Button>
-          <Button variant="outline" disabled={disabled || typedDirty || !future.length} onClick={() => void run(async () => {
-            const next = future.at(-1)!; await publish({ ...child, comments: next.comments }, false); setFuture(items => items.slice(0, -1)); setHistory(items => [...items, structuredClone(child)]);
+          <Button className="h-auto min-h-9 max-w-full whitespace-normal" variant="outline" disabled={disabled || typedDirty || !future.length} onClick={() => void run(async () => {
+            const next = future.at(-1)!; await publish({ ...child, comments: next.comments, fieldReview: next.fieldReview }, false); setFuture(items => items.slice(0, -1)); setHistory(items => [...items, structuredClone(child)]);
           })}>Redo member comment</Button>
         </div>
+        {member.kind === 'native' && member.session.documentCategory === 'forms' && <PackageFormReviewPanel key={`form:${selected}`} member={member} child={child} busy={disabled} onDraftChange={setTypedDirty}
+          onSave={async value => { let saved = false; await run(async () => { await publish({ ...child, fieldReview: value }); saved = true; }); return saved; }} />}
         <PackageMemberComments key={`comments:${selected}`} child={child} busy={disabled || typedDirty} onSave={async mutation => {
           let saved = false; await run(async () => {
           const comments = mutateReviewComments(child.comments, mutation, value => child.nativeRound && member.kind === 'native'
@@ -114,15 +117,15 @@ function PackageMemberComments({ child, busy, onSave }: { child: PackageMemberRe
         <label className="block text-sm">Reviewer name<Input aria-label="Package comment reviewer name" value={author} maxLength={100} onChange={event => setAuthor(event.target.value)} /></label>
         <FeedbackCategorySelect label="Package comment category" value={category} onChange={setCategory} />
         <label className="block text-sm">{reply ? 'Reply' : 'Comment'}<Textarea aria-label="Package member comment" value={text} maxLength={10000} onChange={event => setText(event.target.value)} /></label>
-        <Button disabled={!author.trim() || !text.trim()} type="submit">{reply ? 'Post member reply' : 'Post member comment'}</Button>
-        {reply && <Button type="button" variant="outline" onClick={() => setReply(null)}>Cancel reply</Button>}
+        <Button className="h-auto min-h-9 max-w-full whitespace-normal" disabled={!author.trim() || !text.trim()} type="submit">{reply ? 'Post member reply' : 'Post member comment'}</Button>
+        {reply && <Button className="h-auto min-h-9 max-w-full whitespace-normal" type="button" variant="outline" onClick={() => setReply(null)}>Cancel reply</Button>}
       </fieldset>
     </form>
     {child.comments.threads.map(thread => <article key={thread.id} className="space-y-2 rounded border p-3 text-sm">
       <p className="font-medium">{session ? describeCommentAnchor(session, thread.anchor).label : 'Whole original PDF'} · {thread.resolved ? 'Resolved' : 'Open'}</p>
       {thread.messages.map(message => <div key={message.id}><p className="font-medium break-words">{message.author}</p><p className="whitespace-pre-wrap break-words">{message.text}</p></div>)}
-      <Button disabled={busy} variant="outline" onClick={() => setReply(thread.id)}>Reply to member comment</Button>
-      <Button disabled={busy} variant="outline" onClick={() => void onSave({ kind: 'resolve', threadId: thread.id, resolved: !thread.resolved })}>{thread.resolved ? 'Reopen member comment' : 'Resolve member comment'}</Button>
+      <Button className="h-auto min-h-9 max-w-full whitespace-normal" disabled={busy} variant="outline" onClick={() => setReply(thread.id)}>Reply to member comment</Button>
+      <Button className="h-auto min-h-9 max-w-full whitespace-normal" disabled={busy} variant="outline" onClick={() => void onSave({ kind: 'resolve', threadId: thread.id, resolved: !thread.resolved })}>{thread.resolved ? 'Reopen member comment' : 'Resolve member comment'}</Button>
     </article>)}
   </section>;
 }

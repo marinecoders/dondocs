@@ -33,11 +33,11 @@ function PackageReviewTransferView({ record, round, busy, run, onImport, isCurre
         if (current()) setPrepared(result);
       }); }} /></label>
     {record && round && packageReviewRoundStatus(round) === 'active' && <div className="flex flex-wrap gap-2">
-      {round.ownerPackageId === record.id && <Button variant="outline" disabled={busy} onClick={() => void run(async () => {
+      {round.ownerPackageId === record.id && <Button className="h-auto min-h-9 max-w-full whitespace-normal" variant="outline" disabled={busy} onClick={() => void run(async () => {
         setPrepared(null); setApproved(false); const value = await buildPackageReviewerCopy(record, round.id, await getExportDeploymentPolicy());
         if (current()) setPrepared(value);
       })}>Prepare package reviewer copy</Button>}
-      <Button variant="outline" disabled={busy} onClick={() => void run(async () => {
+      <Button className="h-auto min-h-9 max-w-full whitespace-normal" variant="outline" disabled={busy} onClick={() => void run(async () => {
         setPrepared(null); setApproved(false); const value = await buildPackageReviewReturn(record, round.id, await getExportDeploymentPolicy());
         if (current()) setPrepared(value);
       })}>Prepare package feedback return</Button>
@@ -49,7 +49,7 @@ function PackageReviewTransferView({ record, round, busy, run, onImport, isCurre
         {review.privacy.findings.map((finding, index) => <p key={index} className="whitespace-pre-wrap break-words">{finding.type}: {finding.value}</p>)}
       </div>)}
       <label className="flex items-start gap-2 text-sm"><input type="checkbox" checked={approved} onChange={event => setApproved(event.target.checked)} />I reviewed all captured members, original PDF pages, retained content, discussion and privacy findings for this transfer.</label>
-      <div className="flex flex-wrap gap-2"><Button disabled={busy || !approved} onClick={() => void run(async () => {
+      <div className="flex flex-wrap gap-2"><Button className="h-auto min-h-9 max-w-full whitespace-normal" disabled={busy || !approved} onClick={() => void run(async () => {
         const policy = await getExportDeploymentPolicy(); if (!current()) return;
         if (prepared.mode === 'import') {
           const imported = await importPackageReviewerCopy(prepared, policy, signal(), () => {
@@ -68,7 +68,7 @@ function PackageReviewTransferView({ record, round, busy, run, onImport, isCurre
         }
         setPrepared(null); setApproved(false);
       })}>{prepared.mode === 'import' ? 'Import reviewed package reviewer copy' : prepared.mode === 'copy' ? 'Download package reviewer copy' : 'Download package feedback return'}</Button>
-      <Button variant="outline" disabled={busy} onClick={() => { setPrepared(null); setApproved(false); }}>Cancel package review transfer</Button></div>
+      <Button className="h-auto min-h-9 max-w-full whitespace-normal" variant="outline" disabled={busy} onClick={() => { setPrepared(null); setApproved(false); }}>Cancel package review transfer</Button></div>
     </div>}
   </section>;
 }
