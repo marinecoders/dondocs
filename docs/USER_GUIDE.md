@@ -505,6 +505,11 @@ Keep an intact transfer/backup when storage fails. Corrupt package inventory nev
 becomes an empty workspace, and an aborted save preserves the last committed
 revision. Cancel or close the package dialog to stop an unfinished operation.
 
+Declared evidence requirements are checked separately for review, PDF assembly and
+editable transfer. Missing PDF evidence can stay in an editable draft. Choose an
+actual captured document for an evidence slot; a user confirmation records a
+declaration and does not grant approval. See [package evidence requirements](PACKAGE_REQUIREMENTS.md).
+
 ### Send an encrypted action package
 
 Select the revision to send, then choose **Share encrypted package**. Review the

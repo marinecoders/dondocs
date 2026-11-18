@@ -390,6 +390,7 @@ function PackageDialog({
     setOtherReviews([]);
     setApproved(false);
     setPrepared({
+      purpose: "pdf",
       revisionId: revision!.id,
       readiness: { state: "ready", findings: [] },
       reviews: [{ member: member.label, review }],
@@ -1163,7 +1164,7 @@ function PackageDialog({
               {prepared && (
                 <section className="space-y-3 rounded border p-3">
                   <h3 className="font-medium">
-                    Package readiness: {prepared.readiness.state}
+                    {prepared.purpose === "portable" ? "Editable transfer checks" : "Package readiness"}: {prepared.readiness.state}
                   </h3>
                   {[prepared, ...otherReviews].flatMap((result, group) =>
                     result.readiness.findings.map((finding, index) => (

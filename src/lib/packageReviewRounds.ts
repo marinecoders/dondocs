@@ -1,3 +1,4 @@
+import { assertPackageRequirementsReady } from "./packageRequirements";
 import {
   actionPackageSchema, commitActionPackage, getPackageRevision, newPackageId,
   packageReviewBindingSchema, packageReviewRevision, packageReviewRoundSchema,
@@ -66,6 +67,7 @@ export async function startPackageReview(input: ActionPackage, revisionId = inpu
   const incomplete = conditionalMembershipFindings(baseline);
   if (incomplete.length) throw new Error(incomplete.map(finding => finding.message).join(' '));
   if (!baseline.members.length) throw new Error('Add a saved member before starting a package review.');
+  await assertPackageRequirementsReady(baseline, 'review', { signal });
   const id = newPackageId('package-review'), baselineDigest = await reviewPayloadDigest(baseline);
   const members = await Promise.all(baseline.members.map(async member => ({
     packageId: record.id, roundId: id, revisionId, baselineDigest,

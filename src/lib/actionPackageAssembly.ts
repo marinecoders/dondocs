@@ -1,9 +1,11 @@
+import { inspectPackageRequirements } from "./packageRequirements";
 import { packageBindingReadiness } from "./packageFieldBindings";
 import {
   reviewPackageNative,
   reviewPackageText,
   reviewPackageInformation,
   reviewPackageBindings,
+  reviewPackageRequirements,
   reviewPackageOriginal,
 } from "./actionPackageDisclosure";
 import { APP_VERSION, GIT_SHA } from "./version";
@@ -84,11 +86,13 @@ interface MemberInput {
   original?: ArrayBuffer;
 }
 export interface PreparedPackageAssembly {
+  readonly purpose: "pdf" | "portable";
   readonly revisionId: string;
   readonly readiness: PackageReadiness;
   readonly reviews: Array<{ member: string; review: ExportReview }>;
 }
 interface AssemblyInput {
+  purpose: "pdf" | "portable";
   record: ActionPackage;
   revisionId: string;
   inputs: MemberInput[];
@@ -155,6 +159,7 @@ export async function preparePackageAssembly(
       .map(({ link }) => JSON.stringify([link.source.memberId, link.source.paragraphId, link.source.start, link.source.end])),
   );
   options.signal?.throwIfAborted();
+  const purpose = options.includeRetainedDraftText ? "portable" : "pdf";
   const findings: PackageFinding[] = [],
     reviews: PreparedPackageAssembly["reviews"] = [],
     inputs: MemberInput[] = [];
@@ -176,15 +181,22 @@ export async function preparePackageAssembly(
     try { reviews.push({ member: "Package field links", review: reviewPackageBindings(revision.bindings, policy) }); }
     catch (cause) { error(cause instanceof Error ? cause.message : "Package field links could not be reviewed."); }
   }
+  if (revision.requirements) {
+    try { reviews.push({ member: "Package requirements", review: reviewPackageRequirements(revision.requirements, policy) }); }
+    catch (cause) { error(cause instanceof Error ? cause.message : "Package requirements could not be reviewed."); }
+  }
+  const requirements = await inspectPackageRequirements(revision, options.includeRetainedDraftText ? "portable" : "pdf", { signal: options.signal });
+  for (const item of requirements.items) if (["missing", "unknown", "invalid"].includes(item.state)) error(`${item.label}: ${item.message}`, item.memberId);
   findings.push(...(await packageBindingReadiness(revision)).map(finding => ({ ...finding, severity: options.includeRetainedDraftText ? "warning" as const : "error" as const })));
-  if (!revision.members.length) error("Add a basic letter or main document.");
-  findings.push(...await packageCitationReadiness(revision));
+  const completeness = (message: string, memberId?: string) => findings.push({ message, memberId, severity: purpose === "portable" ? "warning" as const : "error" as const });
+  if (!revision.members.length) completeness("Add a basic letter or main document before PDF assembly.");
+  findings.push(...(await packageCitationReadiness(revision)).map(item => ({ ...item, severity: purpose === "portable" ? "warning" as const : item.severity })));
   if (
     revision.members.filter((member) => member.role === "basic-letter")
       .length !== 1 ||
     revision.members[0]?.role !== "basic-letter"
   )
-    error(
+    completeness(
       "The package must start with exactly one basic letter or main document.",
     );
   try {
@@ -246,7 +258,7 @@ export async function preparePackageAssembly(
     if (member.role !== "basic-letter" && member.role !== "endorsement")
       passedEndorsements = true;
     if (member.role === "endorsement" && passedEndorsements)
-      error(
+      completeness(
         "Endorsements must follow the basic letter in chain order before supporting members.",
         member.id,
       );
@@ -281,6 +293,10 @@ export async function preparePackageAssembly(
             member: `${member.label}: ${file.name}`,
             review: await reviewOriginal(file.data, file.name, policy),
           });
+      if (purpose === "portable") {
+        reviews.push({ member: `${member.label}: complete retained draft`, review: reviewPackageNative(member.session, `${owned.name}: ${member.label}`, policy, draft as DocumentFieldSource) });
+        continue;
+      }
       const { snapshot } = await preparePackageMember(member);
       if (snapshot.documentCategory !== "forms" && snapshot.docType === "business_letter" && snapshot.paragraphs.some(paragraph => paragraph.figure?.type === "application/pdf"))
         error("Business-letter figures require PNG or JPEG images. Convert the PDF figure and save a new package revision.", member.id);
@@ -474,13 +490,14 @@ export async function preparePackageAssembly(
   }
   options.signal?.throwIfAborted();
   const result: PreparedPackageAssembly = Object.freeze({
+    purpose,
     revisionId,
     readiness: {
-      state: !revision.members.length
+      state: purpose === "pdf" && !revision.members.length
         ? "draft"
         : findings.some((finding) => finding.severity === "error")
           ? "incomplete"
-          : revision.outputs.length
+          : purpose === "portable" ? "ready" : revision.outputs.length
             ? "exported"
             : "ready",
       findings,
@@ -488,6 +505,7 @@ export async function preparePackageAssembly(
     reviews,
   });
   preparedAssemblies.set(result, {
+    purpose,
     record: owned,
     revisionId,
     inputs,
@@ -547,8 +565,8 @@ export async function assemblePackage(
   signal = new AbortController().signal,
 ): Promise<ActionPackage> {
   const input = preparedAssemblies.get(prepared);
-  if (!input || !input.eligible)
-    throw new Error("Resolve package readiness findings before assembly.");
+  if (!input || !input.eligible) throw new Error("Resolve package readiness findings before assembly.");
+  if (input.purpose !== "pdf") throw new Error("Review PDF assembly requirements before assembling this package.");
   return withAttachmentStaging(async () => {
     const pdf = await PDFDocument.create(),
       boundaries: PackageBoundary[] = [];

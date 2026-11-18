@@ -1,3 +1,4 @@
+import { assertPackageRequirementsReady } from './packageRequirements';
 import { z } from 'zod';
 import { actionPackageSchema, commitActionPackage, listActionPackages, newPackageId, packageAssets, packageReviewRevision, type ActionPackage, type PackageAsset } from './actionPackages';
 import { openPackageReview, assertActivePackageReview } from './packageReviewRounds';
@@ -110,6 +111,7 @@ async function prepareBuild(input: ActionPackage, roundId: string, mode: 'copy' 
   const { conditionalMembershipFindings } = await import('./packageConditionalSources');
   const incomplete = conditionalMembershipFindings(round.baseline);
   if (incomplete.length) throw new Error(incomplete.map(finding => finding.message).join(' '));
+  if (mode === 'copy') await assertPackageRequirementsReady(round.baseline, 'review');
   const children = await Promise.all(round.baseline.members.map(member => round.memberReviews?.find(child => child.binding.memberId === member.id) ?? createPackageMemberReview(round, member.id)));
   const portableRound = { ...round, ownerPackageId: undefined, memberReviews: children };
   const record = actionPackageSchema.parse({ ...before, archived: false, historyScope: 'selected-revision',

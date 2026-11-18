@@ -1,3 +1,4 @@
+import { assertPackageRequirementsReady } from "./packageRequirements";
 import { validatePackageDraft } from "./actionPackageDraft";
 import {
   retainPackageMemberTemplates,
@@ -44,7 +45,7 @@ export async function buildPortableActionPackage(
   revisionId = record.currentRevisionId,
   readAsset: typeof readPackageAsset = readPackageAsset,
 ): Promise<string> {
-  const selected = getPackageRevision(record, revisionId);
+  const selected = structuredClone(getPackageRevision(record, revisionId));
   const source = structuredClone(record);
   delete source.workingCopies;
   delete source.reviewRounds;
@@ -55,9 +56,19 @@ export async function buildPortableActionPackage(
     currentRevisionId: selected.id,
     revisions: [selected],
   });
-  for (const revision of owned.revisions)
-    for (const member of revision.members)
-      if (member.kind === "native") await readPackageMemberDraft(member);
+  const capturedAssets = new Map<string, { identity: string; bytes: ArrayBuffer }>();
+  const readCaptured: typeof readAsset = async asset => {
+    const identity = JSON.stringify(asset), prior = capturedAssets.get(asset.id);
+    if (prior) {
+      if (prior.identity !== identity) throw new Error("Conflicting package asset identity.");
+      return prior.bytes.slice(0);
+    }
+    const bytes = (await readAsset(asset)).slice(0);
+    if (bytes.byteLength !== asset.size || await portableResourceDigest(bytes) !== asset.sha256) throw new Error(`Missing or corrupt package content: ${asset.name}.`);
+    capturedAssets.set(asset.id, { identity, bytes }); return bytes.slice(0);
+  };
+  await validateActionPackageResources(owned, readCaptured);
+  await assertPackageRequirementsReady(getPackageRevision(owned), "portable", { readAsset: readCaptured });
   for (const revision of owned.revisions)
     for (const member of revision.members)
       if (member.kind === "native" && member.source)
@@ -72,7 +83,7 @@ export async function buildPortableActionPackage(
         path: `assets/${asset.id}`,
         name: asset.name,
         mediaType: asset.type,
-        data: await readAsset(asset),
+        data: await readCaptured(asset),
       })),
     ),
   );
@@ -213,6 +224,12 @@ export async function validateActionPackageResources(
   const owned = actionPackageSchema.parse(record);
   const { validatePackageReviewBaselines } = await import("./packageReviewRounds");
   await validatePackageReviewBaselines(owned);
+  const requirementTemplates = new Map<string, Promise<import('./packageTemplateSchema').PackageTemplateV2>>();
+  for (const revision of [...owned.revisions, ...(owned.reviewRounds ?? []).map(round => round.baseline)])
+    if (revision.templateState) {
+      const { resolveConditionalPackageRequirements } = await import('./packageConditionalRequirements');
+      await resolveConditionalPackageRequirements(revision, read, requirementTemplates);
+    }
   const seen = new Map<string, string>();
   for (const asset of packageAssets(owned)) {
     const identity = JSON.stringify(asset);
