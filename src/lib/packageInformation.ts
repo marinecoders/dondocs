@@ -96,6 +96,10 @@ export async function updatePackageInformation(
   if (record.reviewRounds?.some(round => round.ownerPackageId === undefined))
     throw new Error("A reviewer copy cannot change captured package information.");
   const current = getPackageRevision(record);
+  const factIds = new Set(captured?.facts.map(fact => fact.id));
+  const priorFactIds = new Set(current.information?.facts.map(fact => fact.id));
+  if (current.bindings?.items.some(binding => priorFactIds.has(binding.factId) && !factIds.has(binding.factId)))
+    throw new Error("Detach or repair linked fields before removing their package values.");
   if (JSON.stringify(current.information ?? null) === JSON.stringify(captured ?? null))
     throw new Error("Package information already matches this revision.");
   const revision = { ...structuredClone(current), id: newPackageId("revision"), parentId: current.id,

@@ -13,6 +13,8 @@ import { packageRenderProvenanceSchema } from "./packageRenderProvenance";
 import { packageCitationsSchema, type PackageCitations } from "./packageCitationSchema";
 import { MAX_PACKAGE_INFORMATION_HISTORY_BYTES, packageInformationSchema } from "./packageInformation";
 
+import { MAX_PACKAGE_BINDING_HISTORY_BYTES, packageFieldBindingsSchema } from "./packageFieldBindings";
+
 import { supportsReviewComments } from "./reviewCommentTargets";
 import { reviewRoundSchema } from "./reviewRounds";
 import { reviewCommentsSchema } from "./reviewComments";
@@ -119,6 +121,7 @@ export const packageRevisionSchema = z
     outputs: z.array(outputSchema).max(20),
     citations: packageCitationsSchema.optional(),
     information: packageInformationSchema.optional(),
+    bindings: packageFieldBindingsSchema.optional(),
   })
   .strict();
 export type PackageRevision = z.infer<typeof packageRevisionSchema>;
@@ -254,8 +257,13 @@ export const actionPackageSchema = z
   })
   .strict()
   .superRefine((record, ctx) => {
-    let informationBytes = 0;
+    let informationBytes = 0, bindingBytes = 0;
     for (const revision of [...record.revisions, ...(record.reviewRounds ?? []).map(round => round.baseline)]) {
+      if (revision.bindings) bindingBytes += new TextEncoder().encode(JSON.stringify(revision.bindings)).byteLength;
+      if (bindingBytes > MAX_PACKAGE_BINDING_HISTORY_BYTES) {
+        ctx.addIssue({ code: "custom", message: "Retained package field links exceed the combined 8 MB limit." });
+        break;
+      }
       if (revision.information) informationBytes += new TextEncoder().encode(JSON.stringify(revision.information)).byteLength;
       if (informationBytes > MAX_PACKAGE_INFORMATION_HISTORY_BYTES) {
         ctx.addIssue({ code: "custom", message: "Retained package information exceeds the combined 8 MB limit." });
@@ -502,12 +510,13 @@ export async function reviseActionPackage(
 ): Promise<ActionPackage> {
   if (record.archived)
     throw new Error("Reopen this archived package before editing.");
+  const current = getPackageRevision(record);
   const revision: PackageRevision = {
     id: newPackageId("revision"),
     parentId: record.currentRevisionId,
     createdAt: Date.now(),
     members: structuredClone(members).map((member) => {
-      const prior = getPackageRevision(record).members.find(
+      const prior = current.members.find(
         (prior) => prior.id === member.id,
       );
       return prior &&
@@ -518,7 +527,8 @@ export async function reviseActionPackage(
     }),
     outputs: [],
     ...(citations ? { citations: structuredClone(citations) } : {}),
-    ...(getPackageRevision(record).information ? { information: structuredClone(getPackageRevision(record).information) } : {}),
+    ...(current.bindings ? { bindings: current.bindings } : {}),
+    ...(current.information ? { information: current.information } : {}),
   };
   return commitActionPackage(
     record,

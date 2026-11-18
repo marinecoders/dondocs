@@ -155,6 +155,8 @@ export async function capturePackageTemplate(record: ActionPackage, revisionId: 
   signal?.throwIfAborted();
   const revision = actionPackageSchema.parse(record).revisions.find(revision => revision.id === revisionId);
   if (!revision) throw new Error('This package revision is unavailable.');
+  if (revision.bindings?.items.length)
+    throw new Error('Create a clean starter or detach and review linked package values before saving this package as a template.');
   const template: PackageTemplate = { kind: 'dondocs-package-template', version: 1, id: newPackageId('template'),
     name: packageTemplateSchema.shape.name.parse(name), createdAt: Date.now(), members: [] };
   let bytes = jsonSize(template);

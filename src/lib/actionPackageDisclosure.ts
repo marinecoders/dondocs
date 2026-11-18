@@ -12,6 +12,12 @@ import {
 import type { ExportReview } from "./preparedExport";
 import { packageInformationText, type PackageInformation } from "./packageInformation";
 
+import { packageBindingsText, type PackageFieldBindings } from "./packageFieldBindings";
+
+export function reviewPackageBindings(bindings: PackageFieldBindings, policy: PolicyResolution): ExportReview {
+  return reviewPackageText(packageBindingsText(bindings), "Package field links and retained values", policy);
+}
+
 export function reviewPackageInformation(information: PackageInformation, policy: PolicyResolution): ExportReview {
   return reviewPackageText(packageInformationText(information), "Package information and captured sources", policy);
 }
