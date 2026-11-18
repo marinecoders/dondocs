@@ -29,6 +29,7 @@ export const packageFieldReviewApplicationSchema = z.object({
   action: z.enum(['accepted', 'rejected', 'undo']), mode: z.enum(['local', 'shared']),
   proposal: packageFormProposalSchema, before: packageBindingValueSchema, after: packageBindingValueSchema,
   undoOf: receiptIdentity.optional(),
+  resolution: z.object({ expectedCurrent: packageBindingValueSchema, value: z.union([z.string().max(10000), z.boolean()]) }).strict().optional(),
 }).strict().refine(value => (value.action === 'undo') === !!value.undoOf, 'Undo must identify its retained decision.');
 export type PackageFieldReviewApplication = z.infer<typeof packageFieldReviewApplicationSchema>;
 export const packageFormReviewSchema = z.object({

@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.151] — 2026-11-17
+
+### Added
+
+- Bound form-feedback return collection and three-way answer reconciliation that preserves newer edits and requires explicit overlap decisions.
+
 ## [1.3.150] — 2026-11-17
 
 ### Added

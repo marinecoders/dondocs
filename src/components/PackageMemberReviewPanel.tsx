@@ -80,7 +80,7 @@ export function PackageMemberReviewPanel({ record, round, busy, onChange, run, o
         {member.kind === 'native' && member.session.documentCategory === 'forms' && <PackageFormReviewPanel key={`form:${selected}`} member={member} child={child} busy={disabled} onDraftChange={setTypedDirty}
           onSave={async value => { let saved = false; await run(async () => { await publish({ ...child, fieldReview: value }); saved = true; }); return saved; }} />}
         {member.kind === 'native' && member.session.documentCategory === 'forms' && <PackageFormCorrectionPanel key={`decisions:${record.id}:${record.sequence}:${round.id}:${selected}`} record={record} round={round} child={child} busy={disabled || typedDirty} run={run} signal={signal}
-          onApply={next => onChange(next, next.reviewRounds!.find(item => item.id === round.id)!)} />}
+          onApply={next => { setHistory([]); setFuture([]); onChange(next, next.reviewRounds!.find(item => item.id === round.id)!); }} />}
         <PackageMemberComments key={`comments:${selected}`} child={child} busy={disabled || typedDirty} onSave={async mutation => {
           let saved = false; await run(async () => {
           const comments = mutateReviewComments(child.comments, mutation, value => child.nativeRound && member.kind === 'native'

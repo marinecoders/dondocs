@@ -31,7 +31,8 @@ export async function validatePackageFieldReviewApplications(record: ActionPacka
     const left = await inspectPackageFormAnchor(before.members.find(member => member.id === application.memberId), anchor);
     const right = await inspectPackageFormAnchor(after.members.find(member => member.id === application.memberId), anchor);
     if (!sameReviewStoredValue(left.value ?? null, application.before) || !sameReviewStoredValue(right.value ?? null, application.after)
-      || application.action === 'accepted' && (!right.field || !sameReviewStoredValue(application.after, application.proposal.value))
+      || application.action === 'accepted' && (!right.field || !sameReviewStoredValue(application.after, application.resolution?.value ?? application.proposal.value))
+      || application.action === 'accepted' && application.resolution && !sameReviewStoredValue(application.resolution.expectedCurrent, application.before)
       || application.action === 'rejected' && !sameReviewStoredValue(before.members, after.members))
       throw new Error('The form decision does not describe its captured before and after answers.');
   }

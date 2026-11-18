@@ -1,4 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
+import { PackageFormFeedbackImportPanel } from './PackageFormFeedbackImportPanel';
+import { inspectPackageFormReconciliation, type PackageFormReconciliation } from '@/lib/packageFormReconciliation';
 import { Button } from './ui/button';
 import type { ActionPackage, PackageMemberReview, PackageReviewRound } from '@/lib/actionPackages';
 import { applyPreparedPackageFormCorrection, latestPackageFormDecision, preparePackageFormCorrection, preparePackageFormDecisionUndo, type PreparedPackageFormCorrection } from '@/lib/packageFormCorrections';
@@ -13,11 +15,19 @@ export function PackageFormCorrectionPanel({ record, round, child, busy, run, si
   record: ActionPackage; round: PackageReviewRound; child: PackageMemberReview; busy: boolean;
   run(action: () => Promise<void>): Promise<void>; signal?(): AbortSignal | undefined; onApply(record: ActionPackage): void;
 }) {
+  const [inspections, setInspections] = useState<Record<string, PackageFormReconciliation>>({}), [overlaps, setOverlaps] = useState<Record<string, boolean>>({});
   const [mode, setMode] = useState<'local' | 'shared'>('local'), [shared, setShared] = useState('');
   const [choices, setChoices] = useState<PackageUpdateChoices>({}), [prepared, setPrepared] = useState<PreparedPackageFormCorrection | null>(null);
   const [approved, setApproved] = useState(false), [error, setError] = useState('');
   const alive = useRef(false), generation = useRef(0);
   useEffect(() => { alive.current = true; return () => { alive.current = false; }; }, []);
+  useEffect(() => {
+    let current = true;
+    void Promise.all((child.fieldReview?.proposals ?? []).map(async proposal => [proposal.id, await inspectPackageFormReconciliation(record, round.id, child.binding.memberId, proposal)] as const))
+      .then(values => { if (current) setInspections(Object.fromEntries(values)); })
+      .catch(cause => { if (current) setError(cause instanceof Error ? cause.message : 'The latest answers could not be inspected.'); });
+    return () => { current = false; };
+  }, [record, round.id, child]);
   function invalidate() { generation.current++; setPrepared(null); setApproved(false); setError(''); }
   async function perform(action: (current: () => boolean) => Promise<void>) {
     const revision = generation.current;
@@ -27,21 +37,28 @@ export function PackageFormCorrectionPanel({ record, round, child, busy, run, si
   if (round.ownerPackageId !== record.id) return null;
   return <section aria-label="Decide captured form corrections" className="min-w-0 space-y-3 rounded border p-2 sm:p-3">
     <h4 className="font-medium">Decide form corrections</h4>
+    <PackageFormFeedbackImportPanel record={record} roundId={round.id} memberId={child.binding.memberId} busy={busy} run={run} signal={signal} onApply={onApply} />
     {error && <p role="alert" className="break-words text-sm text-destructive">{error}</p>}
     <label className="block text-sm">Correction scope<select aria-label="Form correction scope" className={input} disabled={busy} value={mode} onChange={event => { invalidate(); setMode(event.target.value as typeof mode); }}>
       <option value="local">Correct this field and preserve a local override</option><option value="shared">Review a linked package-value update</option>
     </select></label>
     {mode === 'shared' && <label className="block text-sm">Replacement package value<input aria-label="Replacement package value" className={input} disabled={busy} value={shared} onChange={event => { invalidate(); setShared(event.target.value); }} /><span className="text-xs text-muted-foreground">Use the package value's declared type and date format. Boolean values use true or false.</span></label>}
     {(child.fieldReview?.proposals ?? []).map(proposal => {
+      const inspection = inspections[proposal.id];
       const decision = latestPackageFormDecision(record, round.id, child.binding.memberId, proposal.id);
       return <article key={proposal.id} className="min-w-0 space-y-2 rounded border p-2 text-sm">
-        <p className="break-words font-medium">{proposal.anchor.label}</p><p className="whitespace-pre-wrap break-words">Proposed: {display(proposal.value)}</p>
+        <p className="break-words font-medium">{proposal.anchor.label}</p>
+        <p className="whitespace-pre-wrap break-words">Reviewed: {display(proposal.anchor.context)}</p>
+        {inspection && <><p className="whitespace-pre-wrap break-words">Latest saved: {inspection.current === undefined ? 'Unavailable' : display(inspection.current)}</p>
+          <p className="break-words text-xs text-muted-foreground">{inspection.message}</p>{inspection.currentLabel && inspection.currentLabel !== proposal.anchor.label && <p className="break-words text-xs">Current field location: {inspection.currentLabel}</p>}</>}
+        {inspection?.kind === 'overlap' && !decision && <label className="flex items-start gap-2"><input type="checkbox" disabled={busy} checked={overlaps[proposal.id] ?? false} onChange={event => { invalidate(); setOverlaps(previous => ({ ...previous, [proposal.id]: event.target.checked })); }} />Replace this exact latest saved answer with the proposed answer.</label>}
+        <p className="whitespace-pre-wrap break-words">Proposed: {display(proposal.value)}</p>
         {decision ? <><p>{decision.action === 'accepted' ? 'Accepted' : 'Rejected'} in a saved package revision.</p><Button className={button} variant="outline" disabled={busy || record.currentRevisionId !== decision.revisionId} onClick={() => void perform(async current => {
           const value = await preparePackageFormDecisionUndo(record, decision.id, await getExportDeploymentPolicy()); if (current()) { setPrepared(value); setApproved(false); }
         })}>Review Undo for {proposal.anchor.label}</Button></> : <div className="flex flex-wrap gap-2">
-          {(['accepted', 'rejected'] as const).map(action => <Button key={action} className={button} variant="outline" disabled={busy} onClick={() => void perform(async current => {
+          {(['accepted', 'rejected'] as const).map(action => <Button key={action} className={button} variant="outline" disabled={busy || action === 'accepted' && (!inspection || inspection.kind === 'unavailable' || inspection.kind === 'overlap' && !overlaps[proposal.id])} onClick={() => void perform(async current => {
             const value = await preparePackageFormCorrection(record, round.id, child.binding.memberId, proposal.id, action, await getExportDeploymentPolicy(),
-              { mode, choices, ...(mode === 'shared' ? { sharedValue: proposal.anchor.kind === 'boolean' ? shared === 'true' ? true : shared === 'false' ? false : shared : shared } : {}) }, signal?.());
+              { mode, choices, ...(action === 'accepted' && inspection?.kind === 'overlap' && overlaps[proposal.id] ? { resolution: { expectedCurrent: inspection.current ?? null, value: proposal.value } } : {}), ...(mode === 'shared' ? { sharedValue: proposal.anchor.kind === 'boolean' ? shared === 'true' ? true : shared === 'false' ? false : shared : shared } : {}) }, signal?.());
             if (current()) { setPrepared(value); setApproved(false); }
           })}>{action === 'accepted' ? 'Review acceptance' : 'Review rejection'} for {proposal.anchor.label}</Button>)}
         </div>}
