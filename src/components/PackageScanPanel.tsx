@@ -1,4 +1,4 @@
-import { useEffect, useId, useRef, useState } from 'react';
+import { useEffect, useId, useLayoutEffect, useRef, useState } from 'react';
 import { Document, Page } from 'react-pdf';
 import { HARDENED_PDF_OPTIONS } from './pdf/pdfConfig';
 import { Button } from './ui/button';
@@ -24,19 +24,27 @@ function PackageScanView({ record, revision, disabled, busy, run, signal, isCurr
   const [factLabel, setFactLabel] = useState(''), [excerpt, setExcerpt] = useState(''), [adoption, setAdoption] = useState<PreparedPackageUpdate | null>(null), [adoptedReview, setAdoptedReview] = useState(false);
   const alive = useRef(false), running = useRef(false), generation = useRef(0), dirtyCallback = useRef(onDirtyChange);
   const editable = !disabled && !record.archived && record.currentRevisionId === revision.id && !record.reviewRounds?.some(round => round.ownerPackageId === undefined);
+  const latest = useRef({ editable, signal, isCurrent });
   const textDirty = !!prepared && (!prepared.saved || texts.some((text, index) => text !== prepared.scan.pages[index].text));
   const dirty = textDirty || !!factLabel || !!excerpt || !!adoption;
   const locked = busy || pending;
+  useLayoutEffect(() => { latest.current = { editable, signal, isCurrent }; });
+  useLayoutEffect(() => { if (!editable) { generation.current++; setCorrection(null); setAcknowledged(false); setAdoption(null); setAdoptedReview(false); } }, [editable]);
   useEffect(() => { dirtyCallback.current = onDirtyChange; }, [onDirtyChange]);
   useEffect(() => { alive.current = true; return () => { alive.current = false; dirtyCallback.current?.(false); }; }, []);
   useEffect(() => { onDirtyChange?.(dirty); }, [dirty, onDirtyChange]);
   function invalidate() { generation.current++; setCorrection(null); setAcknowledged(false); setAdoption(null); setAdoptedReview(false); setError(''); }
   async function perform(action: (current: () => boolean) => Promise<void>, writing = false) {
     if (locked || running.current || writing && !editable) return;
-    const captured = generation.current, current = () => alive.current && captured === generation.current && isCurrent() && !signal()?.aborted;
+    const captured = generation.current;
     running.current = true; setPending(true); setError('');
-    try { await run(async () => { if (current()) await action(current); }); }
-    catch (cause) { if (current()) setError(cause instanceof Error ? cause.message : 'The captured evidence could not be processed.'); }
+    try { await run(async () => {
+      const operationSignal = signal(), current = () => alive.current && captured === generation.current && latest.current.isCurrent()
+        && (!writing || latest.current.editable) && latest.current.signal() === operationSignal && !operationSignal?.aborted;
+      try { if (current()) await action(current); }
+      catch (cause) { if (current()) setError(cause instanceof Error ? cause.message : 'The captured evidence could not be processed.'); }
+    }); }
+    catch (cause) { if (alive.current && captured === generation.current && latest.current.isCurrent()) setError(cause instanceof Error ? cause.message : 'The captured evidence could not be processed.'); }
     finally { running.current = false; if (alive.current) { setPending(false); setProgress(null); } }
   }
   const sources = revision.members.filter(member => member.kind !== 'native' && ['application/pdf', 'image/png', 'image/jpeg'].includes(member.original.type));
@@ -65,7 +73,7 @@ function PackageScanView({ record, revision, disabled, busy, run, signal, isCurr
         <details><summary className="cursor-pointer text-xs">Original recognized words</summary><p className="whitespace-pre-wrap break-words text-xs">{prepared.scan.pages[page].recognizedText || "No text recognized on this page."}</p></details>
         <p className="text-xs text-muted-foreground">Recognizer confidence: {Math.round(prepared.scan.pages[page].confidence)}%. Compare the words with the source before using them.</p>
       </div></div>
-      {editable && textDirty && <div className="flex flex-wrap gap-2"><Button className={button} disabled={locked} onClick={() => void perform(async current => { const value = await preparePackageScanCorrection(prepared, texts, await getExportDeploymentPolicy(), signal()); if (current()) { setCorrection(value); setAcknowledged(false); } }, true)}>Review corrected extraction</Button>
+      {textDirty && <div className="flex flex-wrap gap-2">{editable && <Button className={button} disabled={locked} onClick={() => void perform(async current => { const value = await preparePackageScanCorrection(prepared, texts, await getExportDeploymentPolicy(), signal()); if (current()) { setCorrection(value); setAcknowledged(false); } }, true)}>Review corrected extraction</Button>}
         <Button className={button} variant="outline" disabled={locked} onClick={() => { invalidate(); setPrepared(null); setTexts([]); setFactLabel(''); setExcerpt(''); }}>Discard extraction changes</Button></div>}
       {correction && <div className="min-w-0 space-y-2 rounded border p-2 text-sm">{correction.reviews.flatMap(review => [...review.notices, ...review.privacy.findings.map(finding => `${finding.type}: ${finding.value}`)]).map((notice, index) => <p key={index} className="break-words">{notice}</p>)}
         <label className="flex items-start gap-2"><input type="checkbox" disabled={locked} checked={acknowledged} onChange={event => setAcknowledged(event.target.checked)} />I reviewed the exact source, all corrected pages and privacy findings.</label>

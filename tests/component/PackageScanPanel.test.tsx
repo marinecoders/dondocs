@@ -5,7 +5,7 @@ import userEvent from '@testing-library/user-event';
 import { useState } from 'react';
 import { PDFDocument } from 'pdf-lib';
 import { PackageScanPanel } from '@/components/PackageScanPanel';
-import { createActionPackage, getPackageRevision, reviseActionPackage } from '@/lib/actionPackages';
+import { createActionPackage, getPackageRevision, listActionPackages, reviseActionPackage } from '@/lib/actionPackages';
 import { captureOriginalPackageMember } from '@/lib/actionPackageAssets';
 import { recognizeScannedFile } from '@/lib/scannedImport';
 import { resolveExportDeploymentPolicy } from '@/lib/exportDeploymentPolicy';
@@ -57,4 +57,24 @@ it('discards unfinished text and reports parent operation failures without commi
   view.rerender(<PackageScanPanel {...props} run={async () => { throw new Error('Operation unavailable'); }} />);
   await user.click(screen.getByRole('button', { name: 'Recognize captured source' })); expect(await screen.findByRole('alert')).toHaveTextContent('Operation unavailable'); expect(onApply).not.toHaveBeenCalled();
   view.rerender(<PackageScanPanel {...props} disabled />); expect(screen.getByRole('button', { name: 'Recognize captured source' })).toBeDisabled();
+});
+
+it('cancels extraction publication when the parent becomes read-only during save', async () => {
+  const record = await fixture(), user = userEvent.setup(), onApply = vi.fn();
+  const props = { record, revision: getPackageRevision(record), disabled: false, busy: false, run: async (action: () => Promise<void>) => action(), signal: () => undefined, isCurrent: () => true, onApply };
+  const view = render(<PackageScanPanel {...props} />);
+  await user.selectOptions(screen.getByLabelText('Captured scan source'), getPackageRevision(record).members[0].id);
+  await user.click(screen.getByRole('button', { name: 'Recognize captured source' }));
+  await user.click(await screen.findByRole('button', { name: 'Review corrected extraction' }));
+  await user.click(await screen.findByRole('checkbox', { name: /^I reviewed the exact source, all corrected pages/ }));
+  let finish!: (value: typeof policy) => void;
+  vi.mocked(classification.getExportDeploymentPolicy).mockImplementationOnce(() => new Promise(resolve => { finish = resolve; }));
+  await user.click(screen.getByRole('button', { name: 'Save reviewed extraction' }));
+  await waitFor(() => expect(finish).toBeTypeOf('function'));
+  view.rerender(<PackageScanPanel {...props} disabled />); finish(policy);
+  await waitFor(() => expect(screen.getByRole('region', { name: 'Recognize scanned evidence' })).toHaveAttribute('aria-busy', 'false'));
+  expect(onApply).not.toHaveBeenCalled();
+  expect((await listActionPackages()).find(item => item.id === record.id)).toEqual(record);
+  view.rerender(<PackageScanPanel {...props} />);
+  expect(screen.queryByRole('button', { name: 'Save reviewed extraction' })).toBeNull();
 });
