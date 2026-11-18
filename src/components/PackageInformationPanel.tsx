@@ -6,6 +6,7 @@ import { packageFactSchema, packageInformationSchema, type PackageFact, type Pac
 import { listPackageBindingFields, packageBindingTargetKey, type PackageBindingField } from '@/lib/packageBindingTargets';
 import { formatPackageFactForField, suggestPackageFieldValues, type PackageFieldBinding, type PackageFieldBindings, type PackageFieldSuggestion } from '@/lib/packageFieldBindings';
 import { applyPreparedPackageUpdate, preparePackageUpdate, undoPackageUpdate, type PackageUpdateChoice, type PackageUpdateChoices, type PackageUpdateUndo, type PreparedPackageUpdate } from '@/lib/packageUpdates';
+import { focusPackageDestination, matchesPackageDestination, type PackageDestinationRequest } from '@/lib/packageDestinations';
 
 interface FactDraft {
   id: string;
@@ -27,6 +28,7 @@ interface Props {
   isCurrent(): boolean;
   signal(): AbortSignal | undefined;
   onDirtyChange?(dirty: boolean): void;
+  destination?: PackageDestinationRequest;
 }
 const inputClass = 'block w-full rounded border bg-background p-2 text-sm';
 const factKinds: Array<{ kind: PackageFact['kind']; label: string }> = [
@@ -74,8 +76,9 @@ function Source({ source }: { source: PackageFactSource }) {
 }
 
 /** Edits stay local until an exact, reviewed update is committed as a package revision. */
-export function PackageInformationPanel({ record, revision, disabled, busy, run, onApply, isCurrent, signal, onDirtyChange }: Props) {
+export function PackageInformationPanel({ record, revision, disabled, busy, run, onApply, isCurrent, signal, onDirtyChange, destination }: Props) {
   const headingId = useId();
+  const content = useRef<HTMLElement>(null), handledDestination = useRef<number | null>(null);
   const owner = `${record.id}:${record.sequence}:${record.currentRevisionId}:${revision.id}:${record.archived}`;
   const ownerRef = useRef(owner);
   const [draft, setDraft] = useState<InformationDraft>(() => draftFrom(revision));
@@ -100,6 +103,14 @@ export function PackageInformationPanel({ record, revision, disabled, busy, run,
   const dirty = JSON.stringify(draft) !== savedDraft || Object.keys(choices).length > 0;
   const usedTargets = useMemo(() => new Set(draft.bindings.map(binding => `${binding.memberId}:${packageBindingTargetKey(binding.target)}`)), [draft.bindings]);
   const locked = disabled || !editable || busy || pending;
+  useEffect(() => {
+    if (!matchesPackageDestination(destination, record.id, revision.id) || handledDestination.current === destination.requestId) return;
+    const attribute = destination.bindingId ? 'data-package-binding-id' : 'data-package-fact-id';
+    const identity = destination.bindingId ?? destination.factId;
+    if (!identity) return;
+    handledDestination.current = destination.requestId;
+    focusPackageDestination(content.current, attribute, identity);
+  }, [destination, record.id, revision.id]);
   useEffect(() => {
     mounted.current = true;
     return () => { mounted.current = false; dirtyCallback.current?.(false); };
@@ -180,7 +191,7 @@ export function PackageInformationPanel({ record, revision, disabled, busy, run,
     setNotice('Suggestion added to the unapplied draft. Preview changes to review and save it.');
   }
 
-  return <section aria-labelledby={headingId} className="min-w-0 space-y-4 rounded-lg border bg-background p-3 sm:p-4" aria-busy={pending}>
+  return <section ref={content} tabIndex={-1} data-package-panel="information" aria-labelledby={headingId} className="min-w-0 space-y-4 rounded-lg border bg-background p-3 sm:p-4" aria-busy={pending}>
     <div className="space-y-1">
       <h3 id={headingId} className="font-medium">Package information</h3>
       <p className="text-sm text-muted-foreground">Keep shared details here and link only the document fields you choose. Each application saves a new package revision.</p>
@@ -199,7 +210,7 @@ export function PackageInformationPanel({ record, revision, disabled, busy, run,
         const parsedFact = packageFactSchema.safeParse(fact);
         const { targets, more } = matchingTargets(parsedFact.success ? parsedFact.data : undefined, fields, usedTargets, targetSearch[fact.id] ?? '');
         return <fieldset key={fact.id} className="min-w-0 space-y-3 rounded border p-3">
-          <legend className="max-w-full break-words px-1 text-sm font-medium">{fact.label || `Package value ${index + 1}`}</legend>
+          <legend tabIndex={-1} data-package-fact-id={fact.id} className="max-w-full break-words px-1 text-sm font-medium">{fact.label || `Package value ${index + 1}`}</legend>
           <div className="grid min-w-0 gap-3 sm:grid-cols-2">
             <label className="min-w-0 text-sm">Label<input aria-label={`Value label ${index + 1}`} className={inputClass} value={fact.label} maxLength={160} onChange={event => editFact(fact.id, { label: event.target.value })} /></label>
             <label className="min-w-0 text-sm">Kind<select aria-label={`Value kind ${index + 1}`} className={inputClass} value={fact.kind} disabled={saved} onChange={event => editFact(fact.id, { kind: event.target.value as PackageFact['kind'], value: event.target.value === 'boolean' ? false : '', source: { kind: 'entered' } })}>
@@ -235,7 +246,7 @@ export function PackageInformationPanel({ record, revision, disabled, busy, run,
             {links.map(binding => {
               const field = fields.find(value => value.memberId === binding.memberId && packageBindingTargetKey(value.field.target) === packageBindingTargetKey(binding.target));
               const member = revision.members.find(value => value.id === binding.memberId);
-              return <li key={binding.id} className="space-y-1 rounded border p-2">
+              return <li key={binding.id} tabIndex={-1} data-package-binding-id={binding.id} className="space-y-1 rounded border p-2">
                 <p className="break-words">{member?.label ?? 'Unavailable document'} · {field?.field.label ?? ('field' in binding.target ? binding.target.field : binding.target.fieldId)} · {binding.mode === 'override' ? 'Local override' : 'Linked'}</p>
                 <p className="text-xs text-muted-foreground">Last shared value: {displayValue(binding.expectedValue)}{field ? ` · Current field: ${displayValue(field.field.value)}` : ''}</p>
                 <label className="block text-xs">Link decision<select aria-label={`Link decision ${binding.id}`} className={inputClass} value={choices[binding.id] ?? ''} onChange={event => decision(binding.id, event.target.value)}>

@@ -1,4 +1,5 @@
 import { packageRequirementsText, type PackageRequirements } from "./packageRequirementsModel";
+import { packageConsistencyText, type PackageConsistency } from './packageConsistencyModel';
 import { documentTextFields, type DocumentFieldSource } from "./documentFields";
 import type { SerializedSession } from "@/stores/documentStore";
 import { captureChangeReport, prepareChangeReport } from "./changeReport";
@@ -14,6 +15,10 @@ import type { ExportReview } from "./preparedExport";
 import { packageInformationText, type PackageInformation } from "./packageInformation";
 
 import { packageBindingsText, type PackageFieldBindings } from "./packageFieldBindings";
+
+export function reviewPackageConsistency(consistency: PackageConsistency, policy: PolicyResolution): ExportReview {
+  return reviewPackageText(packageConsistencyText(consistency), 'Package relationships and retained exception reasons', policy);
+}
 
 export function reviewPackageRequirements(requirements: PackageRequirements, policy: PolicyResolution): ExportReview {
   return reviewPackageText(packageRequirementsText(requirements), "Package evidence requirements and declared confirmations", policy);

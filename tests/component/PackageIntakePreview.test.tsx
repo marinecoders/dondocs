@@ -1,0 +1,32 @@
+import { render, screen, within } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { expect, it, vi } from 'vitest';
+import { PackageIntakePreview } from '@/components/PackageIntakePreview';
+import type { PreparedConditionalPackage } from '@/lib/packageConditional';
+
+it('names decisions for their human owner while retaining exact keys and requiring a new reviewed preview', async () => {
+  const onMemberChoice = vi.fn(), onAnswerChoice = vi.fn(), onFieldChoice = vi.fn(), onApply = vi.fn();
+  const preview: PreparedConditionalPackage = {
+    packageName: 'Training participation', ready: false, changed: true, reviews: [], issues: ['Decide which document to preserve.'],
+    changes: [{ key: 'opaque-member-key', label: 'Participants · person 2 · Blair · In-person worksheet', state: 'conflict',
+      message: 'This edited document leaves the current branch.', choices: ['keep', 'remove'] }],
+    answerChanges: [{ key: 'opaque-answer-key', label: 'Participants · person 2 · Blair · Location', current: 'Current room', requested: 'New room', state: 'conflict' }],
+    fieldChanges: [{ bindingId: 'opaque-field-key', memberId: 'member', label: 'Blair · In-person worksheet · Location', before: 'Local room', after: 'New room',
+      message: 'A local edit requires a decision.', state: 'conflict', choices: ['keep-local', 'detach'] }],
+  };
+  const user = userEvent.setup();
+  render(<PackageIntakePreview preview={preview} fresh={false} disabled={false} reviewed={false} memberChoices={{}} answerChoices={{}} fieldChoices={{}}
+    onMemberChoice={onMemberChoice} onAnswerChoice={onAnswerChoice} onFieldChoice={onFieldChoice} onReviewed={vi.fn()} onApply={onApply} />);
+  await user.selectOptions(screen.getByRole('combobox', { name: 'Document decision Participants · person 2 · Blair · In-person worksheet · Document 1' }), 'keep');
+  await user.selectOptions(screen.getByRole('combobox', { name: 'Answer decision Participants · person 2 · Blair · Location · Answer 1' }), 'keep-current');
+  await user.selectOptions(screen.getByRole('combobox', { name: 'Field decision Blair · In-person worksheet · Location · Link 1' }), 'keep-local');
+  const field = screen.getByRole('combobox', { name: /^Field decision/ });
+  expect(within(field).queryByRole('option', { name: 'Apply the shared package value' })).toBeNull();
+  expect(within(field).getAllByRole('option')).toHaveLength(3);
+  expect(onMemberChoice).toHaveBeenCalledWith('opaque-member-key', 'keep');
+  expect(onAnswerChoice).toHaveBeenCalledWith('opaque-answer-key', 'keep-current');
+  expect(onFieldChoice).toHaveBeenCalledWith('opaque-field-key', 'keep-local');
+  expect(screen.getByRole('checkbox', { name: /^I reviewed the intake/ })).toBeDisabled();
+  expect(screen.getByRole('button', { name: 'Apply action changes' })).toBeDisabled();
+  expect(onApply).not.toHaveBeenCalled();
+});

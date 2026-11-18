@@ -1,4 +1,5 @@
 import { inspectPackageRequirements } from "./packageRequirements";
+import { inspectPackageConsistency } from './packageConsistency';
 import { packageBindingReadiness } from "./packageFieldBindings";
 import {
   reviewPackageNative,
@@ -6,6 +7,7 @@ import {
   reviewPackageInformation,
   reviewPackageBindings,
   reviewPackageRequirements,
+  reviewPackageConsistency,
   reviewPackageOriginal,
 } from "./actionPackageDisclosure";
 import { APP_VERSION, GIT_SHA } from "./version";
@@ -186,6 +188,13 @@ export async function preparePackageAssembly(
     catch (cause) { error(cause instanceof Error ? cause.message : "Package requirements could not be reviewed."); }
   }
   const requirements = await inspectPackageRequirements(revision, options.includeRetainedDraftText ? "portable" : "pdf", { signal: options.signal });
+  if (revision.consistency) {
+    try { reviews.push({ member: 'Package relationships', review: reviewPackageConsistency(revision.consistency, policy) }); }
+    catch (cause) { error(cause instanceof Error ? cause.message : 'The package relationships could not be reviewed.'); }
+  }
+  for (const finding of (await inspectPackageConsistency(revision, options.signal)).findings) if (['conflict', 'unresolved'].includes(finding.state))
+    findings.push({ message: `${finding.label}: ${finding.message}`, memberId: finding.destinations.find(target => target.memberId)?.memberId,
+      severity: purpose === 'portable' || !finding.required ? 'warning' : 'error' });
   for (const item of requirements.items) if (["missing", "unknown", "invalid"].includes(item.state)) error(`${item.label}: ${item.message}`, item.memberId);
   findings.push(...(await packageBindingReadiness(revision)).map(finding => ({ ...finding, severity: options.includeRetainedDraftText ? "warning" as const : "error" as const })));
   const completeness = (message: string, memberId?: string) => findings.push({ message, memberId, severity: purpose === "portable" ? "warning" as const : "error" as const });
