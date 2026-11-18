@@ -18,9 +18,17 @@ export function PackageEvidencePanel({ record, revision, disabled, busy, run, si
   const lifetime = useRef(false), ownerRef = useRef(owner), previous = useRef(owner), generation = useRef(0), running = useRef(false), dirtyCallback = useRef(onDirtyChange);
   const editable = !disabled && !record.archived && record.currentRevisionId === revision.id && !record.reviewRounds?.some(round => round.ownerPackageId === undefined);
   const latest = useRef({ editable, signal, isCurrent });
+  const editability = useRef(editable);
   const locked = !editable || busy || pending;
   useLayoutEffect(() => { ownerRef.current = owner; dirtyCallback.current = onDirtyChange; latest.current = { editable, signal, isCurrent }; });
-  useLayoutEffect(() => { if (!editable) { generation.current++; setAcknowledged(false); } }, [editable]);
+  useLayoutEffect(() => {
+    if (editability.current === editable) return;
+    editability.current = editable;
+    if (!editable) {
+      const captured = ++generation.current;
+      queueMicrotask(() => { if (lifetime.current && generation.current === captured) setAcknowledged(false); });
+    }
+  }, [editable]);
   useEffect(() => { lifetime.current = true; return () => { lifetime.current = false; dirtyCallback.current?.(false); }; }, []);
   useLayoutEffect(() => {
     if (previous.current === owner) return;
