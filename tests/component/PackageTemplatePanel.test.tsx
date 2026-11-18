@@ -14,6 +14,7 @@ import { useUIStore } from '@/stores/uiStore';
 import { resolveExportDeploymentPolicy } from '@/lib/exportDeploymentPolicy';
 
 const policy = resolveExportDeploymentPolicy({ hostname: 'localhost', environment: { maxLevel: 'unclassified', allowedLevels: ['unclassified'] }, runtime: { status: 'absent' } });
+vi.mock('@/lib/pdfText', () => ({ extractPdfText: vi.fn(async () => '') }));
 vi.mock('@/stores/backupStore', () => ({ scheduleBackup: vi.fn() }));
 vi.mock('@/config/classification', async importOriginal => ({ ...(await importOriginal<typeof import('@/config/classification')>()),
   getExportDeploymentPolicy: async () => policy, getExportDeploymentPolicySync: () => policy }));
@@ -91,4 +92,26 @@ it('reviews versioned declarations on import and leaves creation to conditional 
   await user.upload(within(panel).getByLabelText('Import package template', { exact: true }), new File([JSON.stringify(template)], 'restricted.json', { type: 'application/json' }));
   await waitFor(() => expect(within(dialog).getByRole('alert')).toHaveTextContent(/outside.*configured levels/));
   expect(await listPackageTemplates()).toEqual(stored);
+});
+
+it('inspects PDF background text from inactive versioned branches before template transfer', async () => {
+  const { user, panel, dialog } = await setup();
+  const { fixtureInstance } = await import('../_helpers/formFixture');
+  const { portableResourceDigest } = await import('@/lib/portableResources');
+  const { uint8ArrayToBase64 } = await import('@/lib/encoding');
+  const { extractPdfText } = await import('@/lib/pdfText');
+  const pdf = await PDFDocument.create();pdf.addPage([612, 792]).drawText('SECRET');const bytes = await pdf.save();
+  const form = fixtureInstance();form.answers = {};form.definition.pages[0].sha256 = await portableResourceDigest(new Uint8Array(bytes).buffer);
+  const session = { documentMode: 'compliant', documentCategory: 'forms', docType: 'standard_letter', formType: form.definition.formId, genericForm: form,
+    timestamp: 0, formData: {}, paragraphs: [], references: [], enclosures: [], copyTos: [], distributions: [], kind: 'dondocs-draft', version: 2, documentKind: 'configured-form' };
+  const template = { kind: 'dondocs-package-template', version: 2, id: 'inactive_background', name: 'Background review', createdAt: 0,
+    program: { revision: '1', participantGroups: [], questions: [{ id: 'include', label: 'Include worksheet', kind: 'boolean', required: false }], requirements: [] },
+    members: [{ key: 'main', kind: 'attachment', label: 'Main document', role: 'basic-letter', required: true },
+      { key: 'unused', kind: 'native', label: 'Inactive worksheet', role: 'supporting-document', required: false, when: { op: 'equals', questionId: 'include', value: true },
+        draft: session, pages: { 'page1.pdf': { name: 'page1.pdf', type: 'application/pdf', data: uint8ArrayToBase64(bytes) } } }] };
+  const before = await listPackageTemplates();vi.mocked(extractPdfText).mockResolvedValueOnce('SECRET');
+  await user.upload(within(panel).getByLabelText('Import package template', { exact: true }), new File([JSON.stringify(template)], 'background.json', { type: 'application/json' }));
+  await waitFor(() => expect(within(dialog).getByRole('alert')).toHaveTextContent(/Template background: page1.pdf.*outside.*configured levels/));
+  expect(await listPackageTemplates()).toEqual(before);
+  expect(within(panel).queryByRole('button', { name: 'Import reviewed package template' })).toBeNull();
 });

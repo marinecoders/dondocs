@@ -7,10 +7,10 @@ import { capturePackageTemplate, deletePackageTemplate, exportPackageTemplate, i
   renamePackageTemplate, type PackageTemplate, type TemplateAttachment } from '@/lib/packageTemplateLibrary';
 import { documentTextFields, type DocumentFieldSource } from '@/lib/documentFields';
 import { parseDraftFile } from '@/lib/draftFile';
-import { reviewPackageNative, reviewPackageText } from '@/lib/actionPackageDisclosure';
+import { reviewPackageNative, reviewPackageOriginal, reviewPackageText } from '@/lib/actionPackageDisclosure';
 import { assertRetainedDocumentTextPolicy } from '@/lib/retainedDocumentTextPolicy';
 import { getExportDeploymentPolicy, getExportDeploymentPolicySync } from '@/config/classification';
-import { triggerDownload } from '@/lib/encoding';
+import { base64ToUint8Array, triggerDownload } from '@/lib/encoding';
 import type { PolicyResolution } from '@/lib/exportDeploymentPolicy';
 import type { ExportReview } from '@/lib/preparedExport';
 import { packageTemplateProgramText } from '@/lib/packageTemplateSchema';
@@ -24,12 +24,18 @@ interface Props {
   isCurrent(): boolean;
   onCreate(record: ActionPackage): void;
 }
-function reviewTemplate(template: PackageTemplate, policy: PolicyResolution): ExportReview[] {
+async function reviewTemplate(template: PackageTemplate, policy: PolicyResolution): Promise<ExportReview[]> {
   const reviews = [reviewPackageText([template.name, ...template.members.flatMap(member => [member.label, ...(member.kind === 'native' ? [...Object.values(member.pages).map(page => page.name), ...(member.requiredFiles ?? []).map(file => file.label)] : [])])].join('\n'), 'Package template labels', policy)];
   if (template.version === 2) reviews.push(reviewPackageText(packageTemplateProgramText(template), 'Template questions, conditions and requirements', policy));
+  const reviewedPages = new Set<string>();
   for (const member of template.members) if (member.kind === 'native') {
     const { session } = parseDraftFile(member.draft, false, true);
     reviews.push(reviewPackageNative(session, member.label, policy, member.draft as unknown as DocumentFieldSource));
+    if (template.version === 2) for (const page of Object.values(member.pages)) {
+      if (reviewedPages.has(page.data)) continue;
+      reviewedPages.add(page.data);
+      reviews.push(await reviewPackageOriginal(new Uint8Array(base64ToUint8Array(page.data)).buffer, `Template background: ${page.name}`, policy));
+    }
   }
   return reviews;
 }
@@ -124,7 +130,7 @@ export function PackageTemplatePanel({ record, revisionId, busy, run, signal, is
           const { validatePackageTemplate } = await import('@/lib/packageTemplateLibrary');
           const template = await validatePackageTemplate(JSON.parse(json));
           const policy = await getExportDeploymentPolicy();
-          const reviews = reviewTemplate(template, policy);
+          const reviews = await reviewTemplate(template, policy);
           if (current()) setTransfer({ mode: 'import', template, policy, reviews, json });
         }); }} /></label>
       {selected && <>
@@ -134,7 +140,7 @@ export function PackageTemplatePanel({ record, revisionId, busy, run, signal, is
           <Button variant="outline" onClick={() => void run(async () => { await deletePackageTemplate(selected, signal()); await refresh(); if (current()) { choose(); setNotice('Package template deleted. Existing packages are preserved.'); } })}>Delete template</Button>
           <Button variant="outline" onClick={() => void run(async () => {
             setTransfer(null); setTransferApproved(false);
-            const policy = await getExportDeploymentPolicy(); const reviews = reviewTemplate(selected, policy);
+            const policy = await getExportDeploymentPolicy(); const reviews = await reviewTemplate(selected, policy);
             const json = await exportPackageTemplate(selected);
             if (current()) setTransfer({ mode: 'export', template: selected, policy, reviews, json });
           })}>Review template export</Button>
@@ -168,7 +174,7 @@ export function PackageTemplatePanel({ record, revisionId, busy, run, signal, is
         <div className="flex flex-wrap gap-2"><Button disabled={!transferApproved} onClick={() => void run(async () => {
           const policy = await getExportDeploymentPolicy(); if (!current()) return;
           if (!samePolicy(transfer.policy, policy)) throw new Error('The deployment policy changed. Review the template transfer again.');
-          reviewTemplate(transfer.template, policy);
+          await reviewTemplate(transfer.template, policy);
           for (const member of transfer.template.members) if (member.kind === 'native') assertRetainedDocumentTextPolicy(member.draft as unknown as DocumentFieldSource, policy);
           if (!samePolicy(policy, getExportDeploymentPolicySync()) || !current()) throw new Error('The deployment policy changed. Review the template transfer again.');
           if (transfer.mode === 'import') await refresh(await importPackageTemplate(transfer.json, signal(), () => current() && samePolicy(policy, getExportDeploymentPolicySync())));
