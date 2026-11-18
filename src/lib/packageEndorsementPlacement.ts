@@ -12,7 +12,8 @@ export interface PackageEndorsementMeasurement {
   targetTop?: number;
 }
 function qualified(member: PackageMember): member is NativePackageMember {
-  return member.kind === 'native' && member.session.documentCategory !== 'forms'
+  return member.kind === 'native' && member.session.documentCategory !== 'forms' && member.session.documentMode === 'compliant'
+    && !member.session.paragraphs.some(paragraph => paragraph.figure || paragraph.bodyTable)
     && ['naval_letter', 'same_page_endorsement', 'new_page_endorsement'].includes(member.session.docType)
     && (!member.session.formData.signatureType || member.session.formData.signatureType === 'none')
     && !member.session.formData.signatureImage && !member.session.formData.appendEndorsement

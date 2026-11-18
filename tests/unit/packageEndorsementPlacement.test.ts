@@ -20,3 +20,10 @@ it('measures every visible content pixel while excluding the reserved footer', (
   expect(packageInkBounds(pixels, 612, 792)).toEqual({ top: 694, bottom: 340 });
   expect(packageInkBounds(pixels, 792, 612)).toBeUndefined();
 });
+
+it('uses a new page for custom layouts and unqualified body graphics', () => {
+  const before = member(), next = member(true); next.session.documentMode = 'custom';
+  expect(canMeasurePackageEndorsement(before, next)).toBe(false);
+  next.session.documentMode = 'compliant'; next.session.paragraphs = [{ id: 'figure', text: '', level: 0, figure: { name: 'Synthetic image', type: 'image/png', width: 10, height: 10 } }];
+  expect(canMeasurePackageEndorsement(before, next)).toBe(false);
+});
