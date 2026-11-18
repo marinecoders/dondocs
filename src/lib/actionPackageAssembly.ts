@@ -39,7 +39,6 @@ import { preparePackageRenderInput } from './packageRenderInputs';
 import {
   readPackageAsset,
   readPackageMemberDraft,
-  retainPackageAsset,
   validatePackageOriginalPdf,
 } from "./actionPackageAssets";
 import {
@@ -51,7 +50,8 @@ import {
   type PackageMember,
   packageAssets,
 } from "./actionPackages";
-import { withAttachmentStaging } from "./attachments";
+import { newAttachmentId, withAttachmentStaging } from "./attachments";
+import type { StoredAttachment } from "./documentsDb";
 import { DOC_TYPE_CONFIG } from "@/types/document";
 import { getEditorSections } from "./editorSections";
 import {
@@ -664,6 +664,18 @@ async function renderMemberBytes(memberInput: MemberInput, revisionId: string, p
           );
   return artifact.blob.arrayBuffer();
 }
+export interface PackageGeneratedPdfKey {
+  memberId: string;
+  startingPageNumber: number;
+  docType: 'default' | 'same_page_endorsement' | 'new_page_endorsement';
+}
+export interface PackageAssemblyControls {
+  maximumPages?: number;
+  loadGeneratedPdf?(key: PackageGeneratedPdfKey): Promise<ArrayBuffer | null>;
+  saveGeneratedPdf?(key: PackageGeneratedPdfKey, bytes: ArrayBuffer): Promise<void>;
+  memberCompleted?(progress: { memberId: string; completed: number; total: number }): Promise<void>;
+  commit?(before: ActionPackage, after: ActionPackage, signal: AbortSignal, staged: readonly StoredAttachment[]): Promise<ActionPackage>;
+}
 /** Acknowledgement covers each preserved member's displayed export review and original PDF warnings. */
 export async function assemblePackage(
   prepared: PreparedPackageAssembly,
@@ -671,6 +683,7 @@ export async function assemblePackage(
     waitForReady(timeoutMs: number): Promise<boolean>;
   },
   signal = new AbortController().signal,
+  controls: PackageAssemblyControls = {},
 ): Promise<ActionPackage> {
   const input = preparedAssemblies.get(prepared);
   if (!input || !input.eligible) throw new Error("Resolve package readiness findings before assembly.");
@@ -683,13 +696,24 @@ export async function assemblePackage(
       enclosureNumber = 0;
     let previous: { member: PackageMember; bytes: ArrayBuffer } | undefined;
     const placements: Array<{ memberId: string; placement: 'same-page' | 'new-page'; reason: string }> = [];
+    let completed = 0;
+    const generated = async (memberInput: MemberInput, startingPageNumber: number, docType?: 'same_page_endorsement' | 'new_page_endorsement') => {
+      signal.throwIfAborted();
+      const key: PackageGeneratedPdfKey = { memberId: memberInput.member.id, startingPageNumber, docType: docType ?? 'default' };
+      const cached = await controls.loadGeneratedPdf?.(key);
+      if (cached) return cached;
+      const bytes = await renderMemberBytes(memberInput, input.revisionId, input.policy, startingPageNumber, ports, signal, docType);
+      signal.throwIfAborted();
+      await controls.saveGeneratedPdf?.(key, bytes);
+      return bytes;
+    };
     for (const memberInput of input.inputs) {
       signal.throwIfAborted();
       const { member } = memberInput;
       let bytes: ArrayBuffer;
       if (memberInput.original) bytes = memberInput.original;
       else {
-        bytes = await renderMemberBytes(memberInput, input.revisionId, input.policy, continuationPages + 1, ports, signal,
+        bytes = await generated(memberInput, continuationPages + 1,
           getPackageRevision(input.record, input.revisionId).assembly?.samePageEndorsements && member.role === 'endorsement' ? 'same_page_endorsement' : undefined);
       }
       let shared = false;
@@ -703,11 +727,13 @@ export async function assemblePackage(
           pdf.getPage(pdf.getPageCount() - 1).drawPage(embedded, { x: 0, y: measurement.targetBottom, width: 612, height: measurement.sourceTop - measurement.sourceBottom });
           shared = true;
         } else if (memberInput.snapshot) {
-          bytes = await renderMemberBytes(memberInput, input.revisionId, input.policy, continuationPages + 1, ports, signal, 'new_page_endorsement');
+          bytes = await generated(memberInput, continuationPages + 1, 'new_page_endorsement');
         }
         placements.push({ memberId: member.id, placement: shared ? 'same-page' : 'new-page', reason: measurement.reason });
       }
       const source = await PDFDocument.load(bytes), count = source.getPageCount();
+      if (controls.maximumPages && pdf.getPageCount() + (shared ? 0 : count) > controls.maximumPages)
+        throw new Error(`This assembly exceeds its ${controls.maximumPages}-page memory limit. Use a smaller delivery.`);
       const separate =
         member.role !== "basic-letter" && member.role !== "endorsement";
       if (member.role === "enclosure") enclosureNumber++;
@@ -752,20 +778,21 @@ export async function assemblePackage(
         continuationPages += count - nativeEnclosurePages - Number(shared);
       }
       previous = shared ? undefined : { member, bytes };
+      signal.throwIfAborted();
+      await controls.memberCompleted?.({ memberId: member.id, completed: ++completed, total: input.inputs.length });
     }
     signal.throwIfAborted();
     const planned = await addPackageFrontMatter(pdf, getPackageRevision(input.record, input.revisionId), input.record.name, boundaries);
     pdf = planned.pdf; boundaries = planned.boundaries;
+    if (controls.maximumPages && pdf.getPageCount() > controls.maximumPages)
+      throw new Error(`This assembly including its front matter exceeds its ${controls.maximumPages}-page memory limit.`);
     const navigation = addPackageOutputNavigation(pdf, getPackageRevision(input.record, input.revisionId), boundaries);
     const bytes = new Uint8Array(await pdf.save()).buffer;
     await assertAssemblyPolicyCurrent(input); signal.throwIfAborted();
+    const staged: StoredAttachment = { id: newAttachmentId(), name: `${input.record.name}.pdf`, type: 'application/pdf', size: bytes.byteLength, data: bytes };
     const output = {
       id: newPackageId("output"),
-      asset: await retainPackageAsset(
-        `${input.record.name}.pdf`,
-        "application/pdf",
-        bytes,
-      ),
+      asset: { id: staged.id, name: staged.name, type: staged.type, size: staged.size, sha256: await portableResourceDigest(bytes) },
       createdAt: Date.now(),
       policyIdentity:
         input.policy.status === "ready" ? input.policy.policy.identity : "",
@@ -776,7 +803,7 @@ export async function assemblePackage(
       ...(getPackageRevision(input.record, input.revisionId).assembly ? { assembly: { version: 1 as const, profile: getPackageRevision(input.record, input.revisionId).assembly!.profile, frontMatterPages: planned.frontMatterPages, placements } } : {}),
       signingStatus: "unsigned-assembled-derivative" as const,
     };
-    return commitActionPackage(
+    return (controls.commit ?? ((before, after, operationSignal, assets) => commitActionPackage(before, after, operationSignal, () => assemblyPolicyCurrent(input), assets)))(
       input.record,
       {
         ...input.record,
@@ -788,7 +815,7 @@ export async function assemblePackage(
         ),
       },
       signal,
-      () => assemblyPolicyCurrent(input),
+      [staged],
     );
   });
 }

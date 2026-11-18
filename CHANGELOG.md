@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.164] — 2026-11-17
+
+### Added
+
+- Resumable package PDF assembly with saved member checkpoints, real progress, pause and fresh reviewed resume. Atomic ownership and package checks preserve newer work and prevent duplicate publication.
+
 ## [1.3.163] — 2026-11-17
 
 ### Added

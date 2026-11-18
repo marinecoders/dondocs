@@ -589,8 +589,10 @@ export async function commitActionPackage(
   signal?: AbortSignal,
   isCurrent: () => boolean = () => true,
   stagedAttachments: readonly import("./documentsDb").StoredAttachment[] = [],
+  jobPublish?: import("./packageJobModel").PackageJobPublication,
 ): Promise<ActionPackage> {
   const after = actionPackageSchema.parse(structuredClone(value));
+  const publication = typeof jobPublish === 'function' ? jobPublish : jobPublish && structuredClone(jobPublish);
   const { validateActionPackageResources } = await import(
     "./actionPackageTransfer"
   );
@@ -598,7 +600,7 @@ export async function commitActionPackage(
   const staged = new Map(stagedAttachments.map(asset => [asset.id, asset]));
   await validateActionPackageResources(after, async asset => staged.get(asset.id)?.data ?? readPackageAsset(asset));
   signal?.throwIfAborted();
-  if (!(await idbCompareActionPackage(before, after, () => !signal?.aborted && isCurrent(), stagedAttachments)))
+  if (!(await idbCompareActionPackage(before, after, () => !signal?.aborted && isCurrent(), stagedAttachments, publication)))
     throw new Error(
       "The package changed in another tab or could not be saved. Reopen it and retry; the previous revision is preserved.",
     );
