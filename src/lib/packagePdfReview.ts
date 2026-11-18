@@ -17,7 +17,16 @@ async function source(member: PackageMember, read: ReadAsset) {
   const document = await PDFDocument.load(bytes, { updateMetadata: false });
   if (document.getPageCount() < 1) throw new Error('The captured PDF has no original pages.');
   if (document.getPageCount() > 500) throw new Error('PDF region review supports at most 500 original pages.');
-  const pages: PackagePdfGeometry[] = document.getPages().map(page => packagePdfGeometrySchema.parse({ ...page.getCropBox(), rotation: ((page.getRotation().angle % 360) + 360) % 360 }));
+  const pages: PackagePdfGeometry[] = document.getPages().map(page => {
+    const media = page.getMediaBox(), crop = page.getCropBox();
+    const x = Math.max(media.x, crop.x), y = Math.max(media.y, crop.y);
+    const width = Math.min(media.x + media.width, crop.x + crop.width) - x;
+    const height = Math.min(media.y + media.height, crop.y + crop.height) - y;
+    // PDF.js displays the nonempty crop/media intersection, or the media box
+    // when they do not intersect. The overlay must use that same visible area.
+    const visible = width > 0 && height > 0 ? { x, y, width, height } : media;
+    return packagePdfGeometrySchema.parse({ ...visible, rotation: ((page.getRotation().angle % 360) + 360) % 360 });
+  });
   return { bytes, pages };
 }
 /** Rendering reads preserved bytes; it never annotates or rewrites the signed original. */

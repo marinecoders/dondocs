@@ -5,7 +5,7 @@ import { createActionPackage, listActionPackages, reviseActionPackage } from '@/
 import { captureOriginalPackageMember, readPackageAsset } from '@/lib/actionPackageAssets';
 import { startPackageReview, transitionPackageReview } from '@/lib/packageReviewRounds';
 import { preparePackageReviewMember, savePackageMemberReview } from '@/lib/packageMemberReviews';
-import { addPackagePdfRegionComment, capturePackagePdfRegion, inspectPackagePdfRegion, replyPackagePdfRegion } from '@/lib/packagePdfReview';
+import { addPackagePdfRegionComment, capturePackagePdfRegion, inspectPackagePdfRegion, replyPackagePdfRegion, readPackagePdfReviewSource } from '@/lib/packagePdfReview';
 import { buildPackageReviewerCopy, packageReviewTransferFile, parsePackageReviewTransfer, preparePackageReviewerImport, importPackageReviewerCopy, buildPackageReviewReturn } from '@/lib/packageReviewTransfer';
 import { idbDeleteAttachment, idbCompareActionPackage } from '@/lib/documentsDb';
 import { preparePackagePdfFeedbackImport, applyPreparedPackageFormFeedbackImport } from '@/lib/packageFormFeedbackImport';
@@ -19,6 +19,7 @@ async function fixture() {
   const pdf = await PDFDocument.create(); pdf.addPage([612, 792]).drawText('Synthetic original page one.');
   const second = pdf.addPage([500, 800]); second.setCropBox(20, 30, 300, 600); second.setRotation(degrees(90)); second.drawText('Synthetic rotated page.');
   const bytes = new Uint8Array(await pdf.save()).buffer, member = await captureOriginalPackageMember({ name: 'Synthetic signed original.pdf', data: bytes }, 'enclosure', true);
+  if (member.kind !== 'original') throw new Error('Expected an original PDF fixture.');
   const record = await startPackageReview(await reviseActionPackage(await createActionPackage(`PDF review ${crypto.randomUUID()}`), [member]));
   const round = record.reviewRounds![0], prepared = await preparePackageReviewMember(record, round.id, member.id);
   const anchor = await capturePackagePdfRegion(member, 2, { left: 0.1, top: 0.2, width: 0.3, height: 0.25 });
@@ -96,4 +97,12 @@ it('checks raw multiline PDF region discussion at the transfer policy boundary',
   const { record, round, child, anchor } = await fixture();
   const saved = await savePackageMemberReview(record, round.id, { ...child, pdfReview: addPackagePdfRegionComment(undefined, anchor, 'Alex Example', 'Synthetic note.\n(S) Restricted synthetic note.') });
   await expect(buildPackageReviewReturn(saved, round.id, policy)).rejects.toThrow(/markings|levels/);
+});
+it.each([[-50, 0, 400, 300], [500, 500, 100, 100]])('anchors the displayed media intersection or fallback for crop box %j', async (x, y, width, height) => {
+  const document = await PDFDocument.create(), page = document.addPage([200, 300]);
+  page.setCropBox(x, y, width, height);
+  const member = await captureOriginalPackageMember({ name: 'Oversized crop.pdf', data: new Uint8Array(await document.save()).buffer }, 'enclosure', false);
+  const source = await readPackagePdfReviewSource(member);
+  expect(source.pages[0]).toEqual({ x: 0, y: 0, width: 200, height: 300, rotation: 0 });
+  expect((await capturePackagePdfRegion(member, 1, { left: 0.25, top: 0.25, width: 0.25, height: 0.25 })).geometry).toEqual(source.pages[0]);
 });

@@ -23,6 +23,7 @@ function Review({ initial }: { initial: ActionPackage }) {
 it('saves keyboard-selected original regions and keeps same-page View and Reply controls usable', async () => {
   const pdf = await PDFDocument.create(); pdf.addPage([612, 792]); pdf.addPage([612, 792]);
   const bytes = new Uint8Array(await pdf.save()).buffer, member = await captureOriginalPackageMember({ name: 'Synthetic original.pdf', data: bytes }, 'enclosure', true);
+  if (member.kind !== 'original') throw new Error('Expected an original PDF fixture.');
   let record = await startPackageReview(await reviseActionPackage(await createActionPackage(`PDF UI ${crypto.randomUUID()}`), [member]));
   record = (await preparePackageReviewMember(record, record.reviewRounds![0].id, member.id)).record;
   const user = userEvent.setup(); render(<Review initial={record} />);
