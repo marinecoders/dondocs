@@ -25,11 +25,19 @@ function PackageScanView({ record, revision, disabled, busy, run, signal, isCurr
   const alive = useRef(false), running = useRef(false), generation = useRef(0), dirtyCallback = useRef(onDirtyChange);
   const editable = !disabled && !record.archived && record.currentRevisionId === revision.id && !record.reviewRounds?.some(round => round.ownerPackageId === undefined);
   const latest = useRef({ editable, signal, isCurrent });
+  const editability = useRef(editable);
   const textDirty = !!prepared && (!prepared.saved || texts.some((text, index) => text !== prepared.scan.pages[index].text));
   const dirty = textDirty || !!factLabel || !!excerpt || !!adoption;
   const locked = busy || pending;
   useLayoutEffect(() => { latest.current = { editable, signal, isCurrent }; });
-  useLayoutEffect(() => { if (!editable) { generation.current++; setCorrection(null); setAcknowledged(false); setAdoption(null); setAdoptedReview(false); } }, [editable]);
+  useLayoutEffect(() => {
+    if (editability.current === editable) return;
+    editability.current = editable;
+    if (!editable) {
+      const captured = ++generation.current;
+      queueMicrotask(() => { if (alive.current && generation.current === captured) { setCorrection(null); setAcknowledged(false); setAdoption(null); setAdoptedReview(false); } });
+    }
+  }, [editable]);
   useEffect(() => { dirtyCallback.current = onDirtyChange; }, [onDirtyChange]);
   useEffect(() => { alive.current = true; return () => { alive.current = false; dirtyCallback.current?.(false); }; }, []);
   useEffect(() => { onDirtyChange?.(dirty); }, [dirty, onDirtyChange]);
