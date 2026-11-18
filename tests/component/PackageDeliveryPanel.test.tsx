@@ -66,3 +66,19 @@ it('rechecks policy synchronously after file generation and before starting the 
   expect(download).not.toHaveBeenCalled();
   expect(screen.queryByRole('region', { name: 'Captured delivery contents' })).toBeNull();
 });
+
+it('does not download an already generated delivery after the parent disables the selection', async () => {
+  const record = await fixture(), user = userEvent.setup(), download = vi.spyOn(encoding, 'triggerDownload').mockImplementation(() => {}), onPreparedChange = vi.fn();
+  const props = { record, revision: getPackageRevision(record), disabled: false, busy: false, run: async (action: () => Promise<void>) => action(), signal: () => undefined, isCurrent: () => true, onPreparedChange };
+  const view = render(<PackageDeliveryPanel {...props} />);
+  await user.click(screen.getByRole('button', { name: 'Prepare selected delivery' }));
+  await screen.findByRole('region', { name: 'Captured delivery contents' });
+  await user.click(screen.getByRole('checkbox', { name: /^I reviewed every included document/ }));
+  let release!: () => void;
+  const gate = new Promise<void>(resolve => { release = resolve; }), build = delivery.buildPackageDeliveryFile;
+  vi.spyOn(delivery, 'buildPackageDeliveryFile').mockImplementationOnce(async (...args) => { const json = await build(...args); await gate; return json; });
+  await user.click(screen.getByRole('button', { name: 'Download reviewed delivery package' }));
+  view.rerender(<PackageDeliveryPanel {...props} disabled />); release();
+  await waitFor(() => expect(screen.getByRole('region', { name: 'Recipient delivery' })).toHaveAttribute('aria-busy', 'false'));
+  expect(download).not.toHaveBeenCalled(); expect(onPreparedChange).toHaveBeenLastCalledWith(null);
+});

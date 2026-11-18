@@ -24,7 +24,14 @@ function DeliveryProfile({ record, revision, disabled, busy, ports, run, signal,
   const [reviewCount, setReviewCount] = useState(10), [fileCount, setFileCount] = useState(25);
   const preparedPolicy = useRef<string | undefined>(undefined);
   const mounted = useRef(false), running = useRef(false), generation = useRef(0), callback = useRef(onPreparedChange);
+  const latest = useRef({ disabled, signal, isCurrent });
   useLayoutEffect(() => { callback.current = onPreparedChange; }, [onPreparedChange]);
+  useLayoutEffect(() => { latest.current = { disabled, signal, isCurrent }; });
+  useLayoutEffect(() => {
+    if (!disabled) return;
+    const captured = ++generation.current; preparedPolicy.current = undefined;
+    queueMicrotask(() => { if (mounted.current && generation.current === captured) { setPrepared(null); setApproved(false); callback.current?.(null); } });
+  }, [disabled]);
   useEffect(() => { mounted.current = true; return () => { mounted.current = false; callback.current?.(null); }; }, []);
   useEffect(() => {
     const invalidatePolicy = () => { const policy = getExportDeploymentPolicySync(), identity = policy.status === 'ready' ? JSON.stringify(policy.policy) : '';
@@ -38,7 +45,8 @@ function DeliveryProfile({ record, revision, disabled, busy, ports, run, signal,
     if (locked || running.current) return;
     running.current = true; setPending(true); setError(''); const captured = generation.current;
     try { await run(async () => {
-      const operationSignal = signal(), current = () => mounted.current && generation.current === captured && isCurrent() && signal() === operationSignal && !operationSignal?.aborted;
+      const operationSignal = signal(), current = () => mounted.current && generation.current === captured && !latest.current.disabled
+        && latest.current.isCurrent() && latest.current.signal() === operationSignal && !operationSignal?.aborted;
       try { if (current()) await action(current, operationSignal); }
       catch (cause) { if (current()) { setError(cause instanceof Error ? cause.message : 'Delivery preparation failed.'); setPrepared(null); setApproved(false); callback.current?.(null); } }
     }); } catch (cause) { if (mounted.current && generation.current === captured && isCurrent()) setError(cause instanceof Error ? cause.message : 'The package operation could not start.'); }
