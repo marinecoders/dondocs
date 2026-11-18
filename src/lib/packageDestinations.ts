@@ -31,7 +31,9 @@ export function focusPackageDestination(root: ParentNode | null, attribute: 'dat
     if (parent.tagName === 'DETAILS') (parent as HTMLDetailsElement).open = true;
     if (parent === root) break;
   }
-  target.focus({ preventScroll: true });
+  // Scrolling also lays out rows just inserted for a historical revision. Firefox
+  // can otherwise reject focus until the newly opened content has been laid out.
   target.scrollIntoView?.({ block: 'center', behavior: 'auto' });
-  return true;
+  target.focus({ preventScroll: true });
+  return target.ownerDocument.activeElement === target;
 }

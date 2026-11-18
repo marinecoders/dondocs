@@ -63,3 +63,14 @@ it('opens containing details and scopes literal identifiers to the supplied pane
     expect(matchesPackageDestination({ packageId: 'package', revisionId: 'old', requestId: 1 }, 'package', 'revision')).toBe(false);
   } finally { root.remove(); outside.remove(); }
 });
+
+it('reports rejected browser focus instead of marking the destination handled', () => {
+  const root = document.createElement('div'), target = document.createElement('span');
+  target.tabIndex = -1; target.dataset.packageFactId = 'new-value'; root.append(target); document.body.append(root);
+  const attempted = vi.spyOn(target, 'focus');
+  try {
+    expect(focusPackageDestination(root, 'data-package-fact-id', 'new-value')).toBe(true);
+    target.blur(); attempted.mockImplementation(() => {});
+    expect(focusPackageDestination(root, 'data-package-fact-id', 'new-value')).toBe(false);
+  } finally { root.remove(); }
+});
