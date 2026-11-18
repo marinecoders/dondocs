@@ -68,6 +68,7 @@ import { parseEncryptedShareFile, MAX_ENCRYPTED_SHARE_FILE_BYTES } from "@/lib/e
 import { ShareModal } from "./modals/ShareModal";
 import type { CorrespondenceRendererPorts } from "@/services/exports/correspondence";
 
+const PackageDeliveryPanel = lazy(() => import("./PackageDeliveryPanel").then(module => ({ default: module.PackageDeliveryPanel })));
 const PackageAssemblyPanel = lazy(() => import("./PackageAssemblyPanel").then(module => ({ default: module.PackageAssemblyPanel })));
 const PackageOutputNavigation = lazy(() => import("./PackageOutputNavigation").then(module => ({ default: module.PackageOutputNavigation })));
 const PackageSigningPanel = lazy(() => import("./PackageSigningPanel").then(module => ({ default: module.PackageSigningPanel })));
@@ -1482,6 +1483,13 @@ function PackageDialog({
           <div className="min-w-0 pt-3"><Suspense fallback={<p role="status">Opening package signing…</p>}>
             <PackageSigningPanel record={readRecord} revision={revision} disabled={!editable || typedDirty || starterDirty || intakeDirty || informationDirty || requirementsDirty || consistencyDirty || workDirty || assemblyDirty}
               busy={busy} run={run} onApply={update} destination={destination} onNavigate={followDestination} onDirtyChange={setSigningDirty} signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted} />
+          </Suspense></div>
+        </details>}
+        {record && readRecord && revision && <details className="min-w-0 rounded border p-2 sm:p-3">
+          <summary className="cursor-pointer text-sm font-medium">Recipient delivery</summary>
+          <div className="min-w-0 pt-3"><Suspense fallback={<p role="status">Opening recipient delivery…</p>}>
+            <PackageDeliveryPanel record={record} revision={revision} disabled={pendingPackageEdits} ports={ports}
+              busy={busy} run={run} signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted} />
           </Suspense></div>
         </details>}
         {busy && (

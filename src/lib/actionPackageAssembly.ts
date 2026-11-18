@@ -3,6 +3,7 @@ import { getExportDeploymentPolicy, getExportDeploymentPolicySync } from '@/conf
 import { canMeasurePackageEndorsement, measurePackageEndorsement } from './packageEndorsementPlacement';
 import { addPackageFrontMatter } from './packageFrontMatter';
 import { addPackageOutputNavigation } from './packageOutputNavigation';
+import { MAX_PORTABLE_TOTAL_BYTES, MAX_PORTABLE_RESOURCE_COUNT, portableResourceDigest } from './portableResources';
 import { inspectPackageRequirements } from "./packageRequirements";
 import { inspectPackageConsistency } from './packageConsistency';
 import { packageBindingReadiness } from "./packageFieldBindings";
@@ -32,8 +33,8 @@ import {
   type ReadyExportJob,
 } from "./preparedExport";
 import type { PolicyResolution } from "./exportDeploymentPolicy";
+import { preparePackageRenderInput } from './packageRenderInputs';
 import {
-  preparePackageMember,
   readPackageAsset,
   readPackageMemberDraft,
   retainPackageAsset,
@@ -92,6 +93,7 @@ interface MemberInput {
   snapshot?: DocumentSnapshot;
   templates?: FormExportTemplates;
   original?: ArrayBuffer;
+  assets?: CorrespondenceRendererPorts['assets'];
 }
 export interface PreparedPackageAssembly {
   readonly purpose: "pdf" | "portable";
@@ -107,6 +109,7 @@ interface AssemblyInput {
   policy: PolicyResolution;
   eligible: boolean;
   outputs: Map<string, ArrayBuffer>;
+  read: typeof readPackageAsset;
 }
 const preparedAssemblies = new WeakMap<
   PreparedPackageAssembly,
@@ -154,6 +157,7 @@ export async function preparePackageAssembly(
   policy: PolicyResolution,
   options: {
     reviewOriginal?: typeof reviewPackageOriginal;
+    readAsset?: typeof readPackageAsset;
     signal?: AbortSignal;
     /** Editable transfers preserve original JSON values omitted from normalized PDF input. */
     includeRetainedDraftText?: boolean;
@@ -161,6 +165,15 @@ export async function preparePackageAssembly(
 ): Promise<PreparedPackageAssembly> {
   options.signal?.throwIfAborted();
   const reviewOriginal = options.reviewOriginal ?? reviewPackageOriginal;
+  const capturedReads = new Map<string, { identity: string; bytes: ArrayBuffer }>(); let capturedBytes = 0;
+  const read: typeof readPackageAsset = options.readAsset ? async asset => {
+    const identity = JSON.stringify([asset.name, asset.type, asset.size, asset.sha256]), previous = capturedReads.get(asset.id);
+    if (previous) { if (previous.identity !== identity) throw new Error('Conflicting captured package asset identity.'); return previous.bytes.slice(0); }
+    const bytes = (await options.readAsset!(asset)).slice(0);
+    if (bytes.byteLength !== asset.size || await portableResourceDigest(bytes) !== asset.sha256) throw new Error('The captured package file does not match its saved identity.');
+    if (capturedReads.size >= MAX_PORTABLE_RESOURCE_COUNT || bytes.byteLength > MAX_PORTABLE_TOTAL_BYTES - capturedBytes) throw new Error('The captured package exceeds its bounded resource limits.');
+    capturedBytes += bytes.byteLength; capturedReads.set(asset.id, { identity, bytes }); return bytes.slice(0);
+  } : readPackageAsset;
   const owned = structuredClone(record),
     revision = getPackageRevision(owned, revisionId);
   const linkedEnclosures = new Set(
@@ -181,7 +194,7 @@ export async function preparePackageAssembly(
   if (policy.status !== "ready") error(policy.message);
   if (revision.templateState) {
     const { reviewConditionalPackage, conditionalMembershipFindings } = await import('./packageConditionalSources');
-    try { for (const review of await reviewConditionalPackage(revision, policy)) reviews.push({ member: 'Captured action intake and template', review }); }
+    try { for (const review of await reviewConditionalPackage(revision, policy, read)) reviews.push({ member: 'Captured action intake and template', review }); }
     catch (cause) { error(cause instanceof Error ? cause.message : 'The captured action template could not be reviewed.'); }
     findings.push(...conditionalMembershipFindings(revision).map(finding => ({ ...finding, severity: options.includeRetainedDraftText ? 'warning' as const : 'error' as const })));
   }
@@ -250,7 +263,7 @@ export async function preparePackageAssembly(
   for (const output of revision.outputs) {
     options.signal?.throwIfAborted();
     try {
-      const bytes = await readPackageAsset(output.asset);
+      const bytes = await read(output.asset);
       const pdf = await PDFDocument.load(bytes);
       if (
         pdf.getPageCount() !==
@@ -288,7 +301,7 @@ export async function preparePackageAssembly(
       );
     try {
       if (member.kind === "original") {
-        const original = await readPackageAsset(member.original);
+        const original = await read(member.original);
         await validatePackageOriginalPdf(original);
         reviews.push({
           member: member.label,
@@ -306,7 +319,7 @@ export async function preparePackageAssembly(
         });
         continue;
       }
-      const { draft, reviewed } = await readPackageMemberDraft(member);
+      const { draft, reviewed } = await readPackageMemberDraft(member, read);
       for (const file of [
         ...reviewed.files,
         reviewed.basicLetter,
@@ -321,7 +334,7 @@ export async function preparePackageAssembly(
         reviews.push({ member: `${member.label}: complete retained draft`, review: reviewPackageNative(member.session, `${owned.name}: ${member.label}`, policy, draft as DocumentFieldSource) });
         continue;
       }
-      const { snapshot } = await preparePackageMember(member);
+      const { snapshot, assets } = await preparePackageRenderInput(member, read);
       if (snapshot.documentCategory !== "forms" && snapshot.docType === "business_letter" && snapshot.paragraphs.some(paragraph => paragraph.figure?.type === "application/pdf"))
         error("Business-letter figures require PNG or JPEG images. Convert the PDF figure and save a new package revision.", member.id);
       if (member.role === "endorsement" && !isEndorsement(snapshot.docType))
@@ -468,7 +481,7 @@ export async function preparePackageAssembly(
       if (snapshot.documentCategory === "forms") {
         const pages: Record<string, Uint8Array> = {};
         for (const [file, asset] of Object.entries(member.templates ?? {}))
-          pages[file] = new Uint8Array(await readPackageAsset(asset));
+          pages[file] = new Uint8Array(await read(asset));
         if (!Object.keys(pages).length)
           throw new Error("The exact saved form templates are missing.");
         templates = captureFormExportTemplates(
@@ -489,7 +502,7 @@ export async function preparePackageAssembly(
           options.includeRetainedDraftText ? draft as DocumentFieldSource : undefined,
         ),
       });
-      const input = { member, snapshot, templates },
+      const input = { member, snapshot, templates, assets },
         preparation = prepareMember(input, revisionId, policy);
       inputs.push(input);
       if ("issues" in preparation)
@@ -535,6 +548,7 @@ export async function preparePackageAssembly(
     inputs,
     policy,
     outputs,
+    read,
     eligible: !findings.some((finding) => finding.severity === "error"),
   });
   return result;
@@ -593,6 +607,7 @@ async function renderMemberBytes(memberInput: MemberInput, revisionId: string, p
   startingPageNumber: number, ports: Parameters<typeof assemblePackage>[1], signal: AbortSignal,
   docType?: 'same_page_endorsement' | 'new_page_endorsement'): Promise<ArrayBuffer> {
   const preparation = prepareMember(memberInput, revisionId, policy, startingPageNumber, docType);
+  const renderPorts = memberInput.assets ? { ...ports, assets: memberInput.assets } : ports;
         if ("issues" in preparation)
           throw new Error(preparation.issues.join(" "));
         const ready: ReadyExportJob =
@@ -613,7 +628,7 @@ async function renderMemberBytes(memberInput: MemberInput, revisionId: string, p
               ? await renderPreparedConfiguredForm(ready, signal)
               : ready.job.kind === "builtin-form"
                 ? await renderPreparedBuiltinForm(ready, signal)
-                : await renderPreparedCorrespondence(ready, ports, signal);
+                : await renderPreparedCorrespondence(ready, renderPorts, signal);
         } catch (cause) {
           if (
             !(cause instanceof Error) ||
@@ -621,7 +636,7 @@ async function renderMemberBytes(memberInput: MemberInput, revisionId: string, p
             !(await ports.waitForReady(30_000))
           )
             throw cause;
-          artifact = await renderPreparedCorrespondence(ready, ports, signal);
+          artifact = await renderPreparedCorrespondence(ready, renderPorts, signal);
         }
         if (artifact.completeness !== "complete")
           throw new Error(
@@ -707,7 +722,7 @@ export async function assemblePackage(
       if (!separate) {
         let nativeEnclosurePages = 0;
         if (member.kind === "native") {
-          const { reviewed } = await readPackageMemberDraft(member);
+          const { reviewed } = await readPackageMemberDraft(member, input.read);
           for (const [index, file] of reviewed.files.entries())
             if (file)
               nativeEnclosurePages +=

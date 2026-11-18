@@ -64,3 +64,19 @@ for (const paragraphs of [1, 30]) it.skipIf(!hasPdfToolchain)(`uses measured nat
   expect(text.status).toBe(0); expect(text.stdout).toContain('A. EXAMPLE'); expect(text.stdout).toContain('B. SAMPLE'); expect(text.stdout).toContain('Endorsement synthetic paragraph 1');
   if (process.env.DONDOCS_PACKAGE_ASSEMBLY_EVIDENCE) await writeFile(join(process.env.DONDOCS_PACKAGE_ASSEMBLY_EVIDENCE, `endorsement-${paragraphs}.pdf`), new Uint8Array(bytes));
 }, 120_000);
+
+it.skipIf(!hasPdfToolchain)('renders a recipient delivery from only its selected native member', async () => {
+  const { preparePackageDelivery, copyPreparedPackageDeliveryProjection, readPreparedPackageDeliveryAsset } = await import('@/lib/packageDelivery');
+  const first = await member(false), excluded = await member(true);
+  const source = await reviseActionPackage(await createActionPackage(`Native recipient ${crypto.randomUUID()}`), [first, excluded]);
+  const prepared = await preparePackageDelivery(source, source.currentRevisionId, { label: 'Selected native recipient', purpose: 'recipient', memberIds: [first.id] }, policy,
+    { compile, convertDocx: vi.fn(), waitForReady: async () => true });
+  const selected = getPackageRevision(copyPreparedPackageDeliveryProjection(prepared)).members[0];
+  if (selected.kind !== 'original') throw new Error('Expected rendered recipient PDF.');
+  const bytes = await readPreparedPackageDeliveryAsset(prepared, selected.original), dir = await mkdtemp(join(tmpdir(), 'dondocs-recipient-')), path = join(dir, 'recipient.pdf');
+  await writeFile(path, new Uint8Array(bytes));
+  const text = spawnSync('pdftotext', ['-layout', path, '-'], { encoding: 'utf8' });
+  expect(text.status).toBe(0); expect(text.stdout).toContain('Basic letter synthetic paragraph 1'); expect(text.stdout).not.toContain('Endorsement synthetic');
+  expect(JSON.stringify(copyPreparedPackageDeliveryProjection(prepared))).not.toContain(excluded.id);
+  if (process.env.DONDOCS_PACKAGE_ASSEMBLY_EVIDENCE) await writeFile(join(process.env.DONDOCS_PACKAGE_ASSEMBLY_EVIDENCE, 'recipient-selected-native.pdf'), new Uint8Array(bytes));
+}, 120_000);
