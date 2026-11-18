@@ -20,7 +20,8 @@ const idbGetCurrentId = vi.fn();
 const idbGetMigratedIds = vi.fn();
 const idbSetMigratedIds = vi.fn();
 
-vi.mock('@/lib/documentsDb', () => ({
+vi.mock('@/lib/documentsDb', async importOriginal => ({
+  ...await importOriginal<typeof import('@/lib/documentsDb')>(),
   idbGetAllDocuments: (...args: unknown[]) => idbGetAllDocuments(...args),
   idbWriteDocument: (...args: unknown[]) => idbWriteDocument(...args),
   idbSetCurrentId: (...args: unknown[]) => idbSetCurrentId(...args),
