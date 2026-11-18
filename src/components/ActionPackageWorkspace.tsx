@@ -743,7 +743,7 @@ function PackageDialog({
               <input
                 aria-label="Import editable package"
                 type="file"
-                accept=".json"
+                accept=".json,.zip,application/zip"
                 className="sr-only"
                 disabled={!loaded || busy}
                 onChange={(event) => {
@@ -751,16 +751,17 @@ function PackageDialog({
                   event.target.value = "";
                   if (file)
                     void run(async () => {
+                      if (/\.zip$/i.test(file.name) || file.type === "application/zip") {
+                        const { importPackageDeliveryBundle, MAX_PACKAGE_DELIVERY_BUNDLE_BYTES } = await import("@/lib/packageDeliveryBundle");
+                        if (file.size > MAX_PACKAGE_DELIVERY_BUNDLE_BYTES) throw new Error("Delivery bundles are limited to 200 MB.");
+                        const bytes = new Uint8Array(await file.arrayBuffer()); assertOperationCurrent();
+                        update(await importPackageDeliveryBundle(bytes, operation.current?.signal, () => active.current && !operation.current?.signal.aborted));
+                        return;
+                      }
                       if (file.size > MAX_ENCRYPTED_SHARE_FILE_BYTES)
                         throw new Error(
                           "This package file exceeds the encrypted transfer limit.",
                         );
-                      if (/\.zip$/i.test(file.name) || file.type === "application/zip") {
-                        const bytes = new Uint8Array(await file.arrayBuffer()); assertOperationCurrent();
-                        const { importPackageDeliveryBundle } = await import("@/lib/packageDeliveryBundle");
-                        update(await importPackageDeliveryBundle(bytes, operation.current?.signal, () => active.current && !operation.current?.signal.aborted));
-                        return;
-                      }
                       const json = await file.text();
                       assertOperationCurrent();
                       const value: unknown = JSON.parse(json);
