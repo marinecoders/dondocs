@@ -16,6 +16,7 @@ import {
   reviewPackageRequirements,
   reviewPackageConsistency,
   reviewPackageWork,
+  reviewPackageScans,
   reviewPackageOriginal,
 } from "./actionPackageDisclosure";
 import { APP_VERSION, GIT_SHA } from "./version";
@@ -210,6 +211,10 @@ export async function preparePackageAssembly(
   if (revision.signing) {
     try { for (const review of await reviewPackageSigning(revision.signing, policy)) reviews.push({ member: 'Package signing history', review }); }
     catch (cause) { error(cause instanceof Error ? cause.message : 'Package signing history could not be reviewed.'); }
+  }
+  if (revision.scans) {
+    try { reviews.push({ member: 'Recognized supporting evidence', review: reviewPackageScans(revision.scans, policy) }); }
+    catch (cause) { error(cause instanceof Error ? cause.message : 'Recognized evidence could not be reviewed.'); }
   }
   if (revision.work) {
     try { reviews.push({ member: "Package work", review: reviewPackageWork(revision.work, policy) }); }

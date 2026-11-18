@@ -11,7 +11,7 @@ import { captureLinkedPackageChanges } from './packageLinkedUpdates';
 import { reviewRestoredPackageSources } from './packageRestoredSources';
 import { sameReviewStoredValue, type StoredAttachment } from './documentsDb';
 import { withAttachmentStaging } from './attachments';
-import { reviewPackageBindings, reviewPackageInformation, reviewPackageConsistency, reviewPackageWork, reviewPackageSigningMetadata, reviewPackageText } from './actionPackageDisclosure';
+import { reviewPackageScans, reviewPackageBindings, reviewPackageInformation, reviewPackageConsistency, reviewPackageWork, reviewPackageSigningMetadata, reviewPackageText } from './actionPackageDisclosure';
 import { assertExportDeploymentPolicy, type PolicyResolution } from './exportDeploymentPolicy';
 import type { ExportReview } from './preparedExport';
 import { getExportDeploymentPolicy, getExportDeploymentPolicySync } from '@/config/classification';
@@ -73,6 +73,7 @@ function informationReviews(revision: PackageRevision, policy: PolicyResolution)
     ...(revision.consistency ? [reviewPackageConsistency(revision.consistency, policy)] : []),
     ...(revision.work ? [reviewPackageWork(revision.work, policy)] : []),
     ...(revision.signing ? [reviewPackageSigningMetadata(revision.signing, policy)] : []),
+    ...(revision.scans ? [reviewPackageScans(revision.scans, policy)] : []),
   ];
 }
 async function deploymentGuard(policy: PolicyResolution, signal: AbortSignal | undefined, isCurrent: () => boolean) {

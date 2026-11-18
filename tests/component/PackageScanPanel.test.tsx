@@ -1,0 +1,60 @@
+import 'fake-indexeddb/auto';
+import { afterEach, beforeEach, expect, it, vi } from 'vitest';
+import { cleanup, render, screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { useState } from 'react';
+import { PDFDocument } from 'pdf-lib';
+import { PackageScanPanel } from '@/components/PackageScanPanel';
+import { createActionPackage, getPackageRevision, reviseActionPackage } from '@/lib/actionPackages';
+import { captureOriginalPackageMember } from '@/lib/actionPackageAssets';
+import { recognizeScannedFile } from '@/lib/scannedImport';
+import { resolveExportDeploymentPolicy } from '@/lib/exportDeploymentPolicy';
+import * as classification from '@/config/classification';
+import { useUIStore } from '@/stores/uiStore';
+vi.mock('@/stores/backupStore', () => ({ scheduleBackup: vi.fn() }));
+vi.mock('@/lib/pdfText', () => ({ extractPdfText: vi.fn(async () => '') }));
+vi.mock('@/lib/scannedImport', () => ({ recognizeScannedFile: vi.fn() }));
+vi.mock('react-pdf', () => ({ pdfjs: { GlobalWorkerOptions: {} }, Document: ({ children }: { children: React.ReactNode }) => <div aria-label="Captured PDF renderer">{children}</div>, Page: () => <div>Captured page</div> }));
+const policy = resolveExportDeploymentPolicy({ hostname: 'localhost', environment: { maxLevel: 'unclassified', allowedLevels: ['unclassified'] }, runtime: { status: 'absent' } });
+beforeEach(() => {
+  vi.restoreAllMocks(); useUIStore.setState({ storageHealth: 'ok' });
+  vi.spyOn(classification, 'getExportDeploymentPolicy').mockResolvedValue(policy); vi.spyOn(classification, 'getExportDeploymentPolicySync').mockReturnValue(policy);
+  vi.mocked(recognizeScannedFile).mockReset().mockResolvedValue([{ page: 1, text: 'Synthetic recognized text', confidence: 95, preview: new Blob(['preview']) }]);
+  vi.stubGlobal('ResizeObserver', class { observe() {} disconnect() {} });
+  vi.spyOn(URL, 'createObjectURL').mockReturnValue('blob:synthetic-preview'); vi.spyOn(URL, 'revokeObjectURL').mockImplementation(() => {});
+});
+afterEach(() => { cleanup(); vi.unstubAllGlobals(); });
+async function fixture() { const pdf = await PDFDocument.create(); pdf.addPage([612, 792]); return reviseActionPackage(await createActionPackage(`Scanned UI ${crypto.randomUUID()}`), [await captureOriginalPackageMember({ name: 'Synthetic paper.pdf', data: new Uint8Array(await pdf.save()).buffer }, 'basic-letter', false)]); }
+it('reviews corrections, preserves their source, and adopts only a separately acknowledged excerpt', async () => {
+  const initial = await fixture(), applied = vi.fn(), dirty = vi.fn(), user = userEvent.setup();
+  function Harness() { const [record, setRecord] = useState(initial); return <PackageScanPanel record={record} revision={getPackageRevision(record)} disabled={false} busy={false} run={async action => action()} signal={() => undefined} isCurrent={() => true} onDirtyChange={dirty} onApply={next => { applied(next); setRecord(next); }} />; }
+  render(<Harness />);
+  await user.selectOptions(screen.getByLabelText('Captured scan source'), getPackageRevision(initial).members[0].id);
+  await user.click(screen.getByRole('button', { name: 'Recognize captured source' }));
+  const text = await screen.findByLabelText('Corrected source text'); expect(text).toHaveValue('Synthetic recognized text'); expect(dirty).toHaveBeenLastCalledWith(true);
+  await user.clear(text); await user.type(text, 'User corrected training evidence');
+  await user.click(screen.getByRole('button', { name: 'Review corrected extraction' }));
+  const save = await screen.findByRole('button', { name: 'Save reviewed extraction' }); expect(save).toBeDisabled();
+  await user.click(screen.getByRole('checkbox', { name: /^I reviewed the exact source, all corrected pages/ })); await user.click(save);
+  await waitFor(() => expect(applied).toHaveBeenCalledTimes(1));
+  const saved = applied.mock.calls[0][0], scan = getPackageRevision(saved).scans!.items[0];
+  expect(scan.pages[0].recognizedText).toBe('Synthetic recognized text'); expect(getPackageRevision(saved).information?.facts ?? []).toEqual([]);
+  await user.selectOptions(screen.getByLabelText('Saved extraction'), scan.id); await user.click(screen.getByRole('button', { name: 'Open saved extraction' }));
+  await user.click(await screen.findByText('Adopt a corrected excerpt as a package value', { selector: 'summary' }));
+  await user.type(screen.getByLabelText('Recognized package value label'), 'Training note'); await user.type(screen.getByLabelText('Recognized package value excerpt'), 'training evidence');
+  await user.click(screen.getByRole('button', { name: 'Review recognized package value' }));
+  const adopt = await screen.findByRole('button', { name: 'Adopt reviewed package value' }); expect(adopt).toBeDisabled();
+  await user.click(screen.getByRole('checkbox', { name: /^I reviewed this excerpt/ })); await user.click(adopt);
+  await waitFor(() => expect(applied).toHaveBeenCalledTimes(2));
+  expect(getPackageRevision(applied.mock.calls[1][0]).information!.facts[0]).toMatchObject({ label: 'Training note', value: 'training evidence' });
+});
+it('discards unfinished text and reports parent operation failures without committing', async () => {
+  const record = await fixture(), user = userEvent.setup(), onApply = vi.fn();
+  const props = { record, revision: getPackageRevision(record), disabled: false, busy: false, run: async (action: () => Promise<void>) => action(), signal: () => undefined, isCurrent: () => true, onApply };
+  const view = render(<PackageScanPanel {...props} />);
+  await user.selectOptions(screen.getByLabelText('Captured scan source'), getPackageRevision(record).members[0].id); await user.click(screen.getByRole('button', { name: 'Recognize captured source' }));
+  await user.click(await screen.findByRole('button', { name: 'Discard extraction changes' })); expect(screen.queryByLabelText('Corrected source text')).toBeNull();
+  view.rerender(<PackageScanPanel {...props} run={async () => { throw new Error('Operation unavailable'); }} />);
+  await user.click(screen.getByRole('button', { name: 'Recognize captured source' })); expect(await screen.findByRole('alert')).toHaveTextContent('Operation unavailable'); expect(onApply).not.toHaveBeenCalled();
+  view.rerender(<PackageScanPanel {...props} disabled />); expect(screen.getByRole('button', { name: 'Recognize captured source' })).toBeDisabled();
+});

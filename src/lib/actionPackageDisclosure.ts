@@ -1,4 +1,5 @@
 import { packageSigningText, type PackageSigning } from './packageSigningModel';
+import { packageScansText, type PackageScans } from './packageScanModel';
 import { packageWorkText, type PackageWork } from "./packageWorkModel";
 import { packageRequirementsText, type PackageRequirements } from "./packageRequirementsModel";
 import { packageConsistencyText, type PackageConsistency } from './packageConsistencyModel';
@@ -20,6 +21,10 @@ import { packageBindingsText, type PackageFieldBindings } from "./packageFieldBi
 
 export function reviewPackageSigningMetadata(signing: PackageSigning, policy: PolicyResolution): ExportReview {
   return reviewPackageText(packageSigningText(signing), 'Package signing associations and assignments', policy);
+}
+
+export function reviewPackageScans(scans: PackageScans, policy: PolicyResolution): ExportReview {
+  return reviewPackageText(packageScansText(scans), 'Recognized and corrected evidence, including retained original text', policy);
 }
 
 export function reviewPackageConsistency(consistency: PackageConsistency, policy: PolicyResolution): ExportReview {

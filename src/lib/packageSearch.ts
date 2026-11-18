@@ -1,3 +1,4 @@
+import { packageScanIsCurrent } from './packageScanModel';
 import { actionPackageSchema, getPackageRevision, type ActionPackage, type PackageAsset } from './actionPackages';
 import { readPackageAsset, readPackageMemberDraft } from './actionPackageAssets';
 import { inspectPackageAttachment } from './packageAttachmentCapabilities';
@@ -59,6 +60,12 @@ export async function searchCapturedPackage(input: ActionPackage, revisionId: st
     }
     // Yield between captured members so cancellation and input can be processed.
     await new Promise<void>(resolve => setTimeout(resolve, 0));
+  }
+  for (const scan of revision.scans?.items ?? []) {
+    if (report.limited) break;
+    if (!packageScanIsCurrent(scan, revision)) { report.notices.push(`${scan.memberLabel}: saved recognized text belongs to an earlier source and is excluded from current-member results.`); continue; }
+    try { await read(scan.source); } catch (cause) { signal.throwIfAborted(); report.notices.push(`${scan.memberLabel}: saved recognized text could not be verified: ${cause instanceof Error ? cause.message : "Source unavailable"}`); continue; }
+    for (const page of scan.pages) { add(scan.memberLabel, `Saved corrected source page ${page.page}`, page.text, { section: 'documents', memberId: scan.memberId }); if (report.limited) break; }
   }
   for (const output of revision.outputs) {
     if (report.limited) break;

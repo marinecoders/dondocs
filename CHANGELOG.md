@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.163] — 2026-11-17
+
+### Added
+
+- Local OCR for captured package scans with preserved originals, reviewed page corrections, saved source associations and separate explicit adoption of package values.
+
 ## [1.3.162] — 2026-11-17
 
 ### Added

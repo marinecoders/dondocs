@@ -4,7 +4,7 @@ import { z } from "zod";
 import { getExportDeploymentPolicy, getExportDeploymentPolicySync } from "@/config/classification";
 import { buildPortableActionPackage, importPortableActionPackage, parsePortableActionPackage } from "./actionPackageTransfer";
 import { getPackageRevision, listActionPackages, type ActionPackage } from "./actionPackages";
-import { reviewPackageNative, reviewPackageText, reviewPackageInformation, reviewPackageBindings, reviewPackageRequirements, reviewPackageConsistency, reviewPackageWork } from "./actionPackageDisclosure";
+import { reviewPackageNative, reviewPackageText, reviewPackageInformation, reviewPackageBindings, reviewPackageRequirements, reviewPackageConsistency, reviewPackageWork, reviewPackageScans } from "./actionPackageDisclosure";
 import { sameReviewStoredValue } from "./documentsDb";
 import { validateShareExpiration } from "./sharedSession";
 import { encryptSharePayload, buildShareUrl, MAX_SHARE_URL_LENGTH } from "./shareCrypto";
@@ -86,6 +86,7 @@ async function prepare(json: string, policy: PolicyResolution, expiresAt?: numbe
   ];
   if (revision.bindings) reviews.push({ member: "Package field links", review: reviewPackageBindings(revision.bindings, policy) });
   if (revision.signing) for (const review of await reviewPackageSigning(revision.signing, policy)) reviews.push({ member: 'Package signing history', review });
+  if (revision.scans) reviews.push({ member: 'Recognized supporting evidence', review: reviewPackageScans(revision.scans, policy) });
   if (revision.work) reviews.push({ member: "Package work", review: reviewPackageWork(revision.work, policy) });
   if (revision.requirements) reviews.push({ member: "Package requirements", review: reviewPackageRequirements(revision.requirements, policy) });
   if (revision.consistency) reviews.push({ member: 'Package relationships', review: reviewPackageConsistency(revision.consistency, policy) });

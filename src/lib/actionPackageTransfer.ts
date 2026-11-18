@@ -1,3 +1,4 @@
+import { validatePackageScanSource } from './packageScans';
 import { validatePackageAttachment } from './packageAttachmentCapabilities';
 import { assertPackageRequirementsReady } from "./packageRequirements";
 import { validatePackageDraft } from "./actionPackageDraft";
@@ -257,8 +258,12 @@ export async function validateActionPackageResources(
   }
   const { validateConditionalPackageStates } = await import('./packageConditionalSources');
   await validateConditionalPackageStates(owned, read);
-  const checkedEvidence = new Set<string>();
+  const checkedEvidence = new Set<string>(), checkedScans = new Set<string>();
   for (const revision of [...owned.revisions, ...(owned.reviewRounds ?? []).map(round => round.baseline)]) {
+    for (const scan of revision.scans?.items ?? []) {
+      const identity = `${scan.source.id}:${scan.source.sha256}:${scan.pages.length}`;
+      if (!checkedScans.has(identity)) { await validatePackageScanSource(scan, await read(scan.source)); checkedScans.add(identity); }
+    }
     for (const member of revision.members) {
       if (member.kind === "attachment") {
         const identity = JSON.stringify(member.original);

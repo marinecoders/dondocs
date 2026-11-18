@@ -2,6 +2,7 @@ import { packagePdfReviewSchema } from './packagePdfReviewModel';
 import { packageFieldReviewApplicationSchema, packageFormReviewSchema } from './packageFormReviewModel';
 import { packageSigningSchema, packageSigningAssets, MAX_PACKAGE_SIGNING_HISTORY_BYTES } from './packageSigningModel';
 import { packageOutputDestinationSchema, packageAssemblySettingsSchema, packageAssemblyResultSchema } from './packageAssemblyModel';
+import { packageScansSchema, MAX_PACKAGE_SCAN_HISTORY_BYTES } from './packageScanModel';
 import { MAX_PACKAGE_WORK_HISTORY_BYTES, packageWorkSchema } from "./packageWorkModel";
 import { MAX_PACKAGE_REQUIREMENTS_HISTORY_BYTES, packageRequirementsSchema } from "./packageRequirementsModel";
 import { packageRoles } from "./packageRoles";
@@ -146,6 +147,7 @@ export const packageRevisionSchema = z
     work: packageWorkSchema.optional(),
     signing: packageSigningSchema.optional(),
     assembly: packageAssemblySettingsSchema.optional(),
+    scans: packageScansSchema.optional(),
   })
   .strict();
 export type PackageRevision = z.infer<typeof packageRevisionSchema>;
@@ -288,6 +290,8 @@ export const actionPackageSchema = z
   .strict()
   .superRefine((record, ctx) => {
     let informationBytes = 0, bindingBytes = 0, conditionalBytes = 0, requirementBytes = 0, consistencyBytes = 0, workBytes = 0, signingBytes = 0;
+    const scanHistoryBytes = [...record.revisions, ...(record.reviewRounds ?? []).map(round => round.baseline)].reduce((total, revision) => total + (revision.scans ? new TextEncoder().encode(JSON.stringify(revision.scans)).byteLength : 0), 0);
+    if (scanHistoryBytes > MAX_PACKAGE_SCAN_HISTORY_BYTES) ctx.addIssue({ code: 'custom', message: 'Retained recognized evidence exceeds the 8 MB history limit.' });
     for (const revision of [...record.revisions, ...(record.reviewRounds ?? []).map(round => round.baseline)]) {
       if (revision.signing) {
         signingBytes += new TextEncoder().encode(JSON.stringify(revision.signing)).byteLength;
@@ -565,6 +569,7 @@ export function packageAssets(record: ActionPackage): PackageAsset[] {
     ...revision.outputs.map((output) => output.asset),
     ...(revision.templateState ? [revision.templateState.source] : []),
     ...(revision.signing ? packageSigningAssets(revision.signing) : []),
+    ...(revision.scans?.items.map(scan => scan.source) ?? []),
   ]);
 }
 export function packageDefinitions(records: ActionPackage[]) {
@@ -659,6 +664,7 @@ export async function reviseActionPackage(
     ...(current.work ? { work: current.work } : {}),
     ...(current.signing ? { signing: current.signing } : {}),
     ...(current.assembly ? { assembly: current.assembly } : {}),
+    ...(current.scans ? { scans: current.scans } : {}),
   };
   return commitActionPackage(
     record,
