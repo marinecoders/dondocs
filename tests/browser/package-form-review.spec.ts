@@ -1,6 +1,7 @@
 import { expect, test, type Page, type Locator, type Download } from '@playwright/test';
 import { projectBrowserContextOptions } from '../_helpers/projectBrowserContext';
 import { readFile } from 'node:fs/promises';
+import { PDFDocument, degrees } from 'pdf-lib';
 import type { ActionPackage } from '../../src/lib/actionPackages';
 test.use({ serviceWorkers: 'block', actionTimeout: 15_000 });
 test.setTimeout(120_000);
@@ -204,6 +205,58 @@ for (const width of [1440, 320]) {
       await accept.click(); await saveDecision(dialog);
       await expect.poll(async () => answers(await savedPackage(page, id))).toMatchObject({ requester: 'Returned Reviewer Name', organization: 'Preserved Newer Organization' });
       await page.screenshot({ path: info.outputPath(`returned-form-reconciliation-${width}px.png`) });
+    } finally { await independent.close(); }
+  });
+
+  test(`original PDF regions render, accept pointer and keyboard comments and return exact bytes at ${width}px`, async ({ page, context, browser }, info) => {
+    await page.setViewportSize({ width, height: 900 }); await context.addInitScript(initialize);
+    const dialog = await requestPackage(page, 'Original region review');
+    const pdf = await PDFDocument.create(); pdf.addPage([612, 792]).drawText('Synthetic original first page.', { x: 54, y: 700, size: 12 });
+    const cropped = pdf.addPage([400, 600]); cropped.setCropBox(-20, 30, 500, 500); cropped.setRotation(degrees(90)); cropped.drawText('Synthetic cropped rotated page.', { x: 40, y: 300, size: 12 });
+    const original = Buffer.from(await pdf.save()), filename = 'Synthetic region original.pdf';
+    await dialog.getByLabel('New member role', { exact: true }).selectOption('enclosure');
+    await dialog.getByLabel('Uploaded original is signed (preserve unchanged)', { exact: true }).check();
+    await dialog.getByLabel('Add original PDF', { exact: true }).setInputFiles({ name: filename, mimeType: 'application/pdf', buffer: original });
+    await expect(dialog.getByRole('navigation', { name: 'Package documents', exact: true }).locator('option').filter({ hasText: filename })).toHaveCount(1);
+    await dialog.getByRole('button', { name: 'Start package review', exact: true }).click();
+    const copy = await reviewFile(page, dialog, 'copy'), independent = await browser.newContext({ ...projectBrowserContextOptions(info), viewport: { width, height: 900 }, serviceWorkers: 'block' });
+    try {
+      await independent.addInitScript(initialize); const reviewer = await independent.newPage(); await reviewer.goto(new URL('/', page.url()).href);
+      expect(await reviewer.evaluate(() => navigator.userAgent)).toBe(await page.evaluate(() => navigator.userAgent));
+      expect(await reviewer.evaluate(() => navigator.maxTouchPoints)).toBe(await page.evaluate(() => navigator.maxTouchPoints));
+      const reviewDialog = await importReviewer(reviewer, copy);
+      await reviewDialog.getByRole('navigation', { name: 'Captured review members', exact: true }).getByRole('button', { name: filename, exact: true }).click();
+      const regions = reviewDialog.getByRole('region', { name: 'Original PDF region review', exact: true });
+      await regions.getByLabel('Original PDF page for comment', { exact: true }).selectOption('2');
+      const surface = regions.getByRole('button', { name: 'Draw a region on captured PDF page', exact: true }); await expect(surface).toBeEnabled();
+      await surface.scrollIntoViewIfNeeded(); const bounds = await surface.boundingBox(); if (!bounds) throw new Error('The rendered original page has no geometry.');
+      expect(bounds.width / bounds.height).toBeCloseTo(500 / 400, 1);
+      await reviewer.mouse.move(bounds.x + bounds.width * 0.15, bounds.y + bounds.height * 0.2); await reviewer.mouse.down();
+      await reviewer.mouse.move(bounds.x + bounds.width * 0.55, bounds.y + bounds.height * 0.45, { steps: 5 }); await reviewer.mouse.up();
+      await regions.getByLabel('PDF region reviewer name', { exact: true }).fill('Blair Sample');
+      await regions.getByLabel('PDF region comment', { exact: true }).fill('Pointer-selected exact rotated region.');
+      await regions.getByRole('button', { name: 'Post PDF region comment', exact: true }).click();
+      await expect(regions.getByText('Original page 2 · Open', { exact: true })).toBeVisible();
+      await regions.getByRole('button', { name: 'Reply to PDF region', exact: true }).click();
+      await regions.getByLabel('PDF region comment', { exact: true }).fill('Reply on the same captured page.');
+      await regions.getByRole('button', { name: 'Post PDF region reply', exact: true }).click();
+      await expect(regions.getByLabel('PDF region comment', { exact: true })).toHaveValue('');
+      await regions.getByLabel('Original PDF page for comment', { exact: true }).selectOption('1');
+      for (const [key, value] of Object.entries({ left: '12.5', top: '15', width: '20', height: '10' })) await regions.getByLabel(`PDF region ${key} percent`, { exact: true }).fill(value);
+      await regions.getByLabel('PDF region comment', { exact: true }).fill('Keyboard-selected exact first-page region.');
+      await regions.getByRole('button', { name: 'Post PDF region comment', exact: true }).click();
+      await expect(regions.getByText('Original page 1 · Open', { exact: true })).toBeVisible();
+      const returned = await reviewFile(reviewer, reviewDialog, 'return'), payload = JSON.parse(returned.toString());
+      const round = payload.package.reviewRounds[0], member = round.baseline.members.find((member: { label: string }) => member.label === filename);
+      const comments = round.memberReviews.find((child: { binding: { memberId: string } }) => child.binding.memberId === member.id).pdfReview.comments;
+      expect(comments).toHaveLength(2); expect(comments[0].messages).toHaveLength(2);
+      expect(comments[0].anchor.geometry).toEqual({ x: 0, y: 30, width: 400, height: 500, rotation: 90 });
+      expect(comments[0].anchor.region.left).toBeCloseTo(0.15, 2); expect(comments[0].anchor.region.top).toBeCloseTo(0.2, 2);
+      expect(comments[1].anchor.region).toEqual({ left: 0.125, top: 0.15, width: 0.2, height: 0.1 });
+      const retained = payload.portableResources.entries.find((entry: { path: string }) => entry.path === `assets/${member.original.id}`);
+      expect(Buffer.from(retained.data, 'base64')).toEqual(original);
+      await info.attach('original-region-feedback-return', { body: returned, contentType: 'application/json' });
+      await reviewer.screenshot({ path: info.outputPath(`original-region-review-${width}px.png`) });
     } finally { await independent.close(); }
   });
 }

@@ -224,7 +224,7 @@ export async function validateActionPackageResources(
 ) {
   const owned = actionPackageSchema.parse(record);
   const { validatePackageReviewBaselines } = await import("./packageReviewRounds");
-  await validatePackageReviewBaselines(owned);
+  await validatePackageReviewBaselines(owned, read);
   const requirementTemplates = new Map<string, Promise<import('./packageTemplateSchema').PackageTemplateV2>>();
   for (const revision of [...owned.revisions, ...(owned.reviewRounds ?? []).map(round => round.baseline)])
     if (revision.templateState) {

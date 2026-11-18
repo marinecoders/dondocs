@@ -1,3 +1,4 @@
+import { PackagePdfRegionReviewPanel } from './PackagePdfRegionReviewPanel';
 import { PackageFormCorrectionPanel } from './PackageFormCorrectionPanel';
 import { PackageFormReviewPanel } from './PackageFormReviewPanel';
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
@@ -66,15 +67,18 @@ export function PackageMemberReviewPanel({ record, round, busy, onChange, run, o
       {member.kind === 'native' && member.session.documentCategory !== 'forms' ? <div role="region" aria-label="Captured member text" tabIndex={0} className="max-h-72 overflow-auto space-y-2 whitespace-pre-wrap break-words rounded border p-3 text-sm">
         {availableCommentFields(member.session).map(field => <p key={field.field}><strong>{field.label}: </strong>{field.value}</p>)}
         {member.session.paragraphs.map((paragraph, index) => <p key={paragraph.id ?? index}>{paragraph.text}</p>)}
-      </div> : member.kind === 'original' ? <p className="text-sm">Preserved original PDF · {member.signedOriginal ? 'signed original' : 'original'}. Use Download unchanged original below to inspect its exact pages. Comments do not alter PDF bytes or signatures.</p> : null}
+      </div> : member.kind === 'original' ? <p className="text-sm">Preserved original PDF · {member.signedOriginal ? 'signed original' : 'original'}. The captured pages are available in region review below. Comments do not alter PDF bytes or signatures.</p> : null}
       {member.kind === 'native' && member.session.documentCategory !== 'forms' && !child?.nativeRound && <p className="text-xs text-muted-foreground">This captured format supports whole-member comments. Native correspondence supports field and paragraph replacement proposals.</p>}
+      {member.kind === 'original' && <PackagePdfRegionReviewPanel key={`pdf:${member.id}:${member.original.sha256}`} record={record} round={round} member={member} child={child} busy={busy} readOnly={packageReviewRoundStatus(round) !== 'active' || !child}
+        run={run} signal={signal} onDraftChange={setTypedDirty} onSave={async value => { if (!child) return false; let saved = false; await run(async () => { await publish({ ...child, pdfReview: value }); saved = true; }); return saved; }}
+        onApply={next => { setHistory([]); setFuture([]); onChange(next, next.reviewRounds!.find(item => item.id === round.id)!); }} />}
       {child && <>
         <div className="flex min-w-0 flex-wrap gap-2">
           <Button className="h-auto min-h-9 max-w-full whitespace-normal" variant="outline" disabled={disabled || typedDirty || !history.length} onClick={() => void run(async () => {
-            const previous = history.at(-1)!; await publish({ ...child, comments: previous.comments, fieldReview: child.fieldReview ? { ...child.fieldReview, comments: previous.fieldReview?.comments ?? [] } : previous.fieldReview }, false); setHistory(items => items.slice(0, -1)); setFuture(items => [...items, structuredClone(child)]);
+            const previous = history.at(-1)!; await publish({ ...child, comments: previous.comments, fieldReview: child.fieldReview ? { ...child.fieldReview, comments: previous.fieldReview?.comments ?? [] } : previous.fieldReview, pdfReview: previous.pdfReview }, false); setHistory(items => items.slice(0, -1)); setFuture(items => [...items, structuredClone(child)]);
           })}>Undo member comment</Button>
           <Button className="h-auto min-h-9 max-w-full whitespace-normal" variant="outline" disabled={disabled || typedDirty || !future.length} onClick={() => void run(async () => {
-            const next = future.at(-1)!; await publish({ ...child, comments: next.comments, fieldReview: child.fieldReview ? { ...child.fieldReview, comments: next.fieldReview?.comments ?? [] } : next.fieldReview }, false); setFuture(items => items.slice(0, -1)); setHistory(items => [...items, structuredClone(child)]);
+            const next = future.at(-1)!; await publish({ ...child, comments: next.comments, fieldReview: child.fieldReview ? { ...child.fieldReview, comments: next.fieldReview?.comments ?? [] } : next.fieldReview, pdfReview: next.pdfReview }, false); setFuture(items => items.slice(0, -1)); setHistory(items => [...items, structuredClone(child)]);
           })}>Redo member comment</Button>
         </div>
         {member.kind === 'native' && member.session.documentCategory === 'forms' && <PackageFormReviewPanel key={`form:${selected}`} member={member} child={child} busy={disabled} onDraftChange={setTypedDirty}

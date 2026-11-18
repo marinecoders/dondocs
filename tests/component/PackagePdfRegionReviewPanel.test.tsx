@@ -1,0 +1,50 @@
+import 'fake-indexeddb/auto';
+import { useEffect, useState, type ReactNode } from 'react';
+import { afterEach, beforeEach, expect, it, vi } from 'vitest';
+import { cleanup, render, screen, waitFor, within } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { PDFDocument } from 'pdf-lib';
+import { PackageMemberReviewPanel } from '@/components/PackageMemberReviewPanel';
+import { createActionPackage, listActionPackages, reviseActionPackage, type ActionPackage } from '@/lib/actionPackages';
+import { captureOriginalPackageMember, readPackageAsset } from '@/lib/actionPackageAssets';
+import { startPackageReview } from '@/lib/packageReviewRounds';
+import { preparePackageReviewMember } from '@/lib/packageMemberReviews';
+vi.mock('@/stores/backupStore', () => ({ scheduleBackup: vi.fn() }));
+vi.mock('@/components/SigningPdfPreview', () => ({ SigningPdfPreview: ({ onReadiness, children, page }: { onReadiness(ready: boolean): void; children: ReactNode; page: number }) => {
+  useEffect(() => { onReadiness(true); return () => onReadiness(false); }, [onReadiness]);
+  return <div data-testid="captured-pdf-preview" data-page={page}>{children}</div>;
+} }));
+beforeEach(() => { vi.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockReturnValue({ x: 0, y: 0, left: 0, top: 0, right: 300, bottom: 400, width: 300, height: 400, toJSON: () => ({}) }); });
+afterEach(() => { cleanup(); vi.restoreAllMocks(); });
+function Review({ initial }: { initial: ActionPackage }) {
+  const [record, setRecord] = useState(initial);
+  return <PackageMemberReviewPanel record={record} round={record.reviewRounds![0]} busy={false} run={async action => action()} onChange={setRecord} />;
+}
+it('saves keyboard-selected original regions and keeps same-page View and Reply controls usable', async () => {
+  const pdf = await PDFDocument.create(); pdf.addPage([612, 792]); pdf.addPage([612, 792]);
+  const bytes = new Uint8Array(await pdf.save()).buffer, member = await captureOriginalPackageMember({ name: 'Synthetic original.pdf', data: bytes }, 'enclosure', true);
+  if (member.kind !== 'original') throw new Error('Expected an original PDF fixture.');
+  let record = await startPackageReview(await reviseActionPackage(await createActionPackage(`PDF UI ${crypto.randomUUID()}`), [member]));
+  record = (await preparePackageReviewMember(record, record.reviewRounds![0].id, member.id)).record;
+  const user = userEvent.setup(); render(<Review initial={record} />);
+  await user.click(screen.getByRole('button', { name: member.label }));
+  const panel = await screen.findByRole('region', { name: 'Original PDF region review' });
+  const page = await within(panel).findByLabelText('Original PDF page for comment');
+  await user.selectOptions(page, '2');
+  const left = within(panel).getByLabelText('PDF region left percent'); await user.clear(left); await user.type(left, '12');
+  await user.type(within(panel).getByLabelText('PDF region reviewer name'), 'Alex Example');
+  await user.type(within(panel).getByLabelText('PDF region comment'), 'Check this exact region.');
+  const post = within(panel).getByRole('button', { name: 'Post PDF region comment' }); await waitFor(() => expect(post).toBeEnabled());
+  await user.click(post); await within(panel).findByText('Original page 2 · Open');
+  let saved = (await listActionPackages()).find(item => item.id === record.id)!;
+  expect(saved.reviewRounds![0].memberReviews![0].pdfReview!.comments[0].anchor.region.left).toBe(0.12);
+  expect(await readPackageAsset(member.original)).toEqual(bytes);
+  await user.click(within(panel).getByRole('button', { name: 'View PDF region' }));
+  await user.click(within(panel).getByRole('button', { name: 'Reply to PDF region' }));
+  await user.type(within(panel).getByLabelText('PDF region comment'), 'Reply on the same page.');
+  const reply = within(panel).getByRole('button', { name: 'Post PDF region reply' }); expect(reply).toBeEnabled();
+  await user.click(reply); await waitFor(() => expect(within(panel).getByLabelText('PDF region comment')).toHaveValue(''));
+  saved = (await listActionPackages()).find(item => item.id === record.id)!;
+  expect(saved.reviewRounds![0].memberReviews![0].pdfReview!.comments[0].messages).toHaveLength(2);
+  expect(saved.revisions).toEqual(record.revisions);
+});

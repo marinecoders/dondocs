@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.152] — 2026-11-17
+
+### Added
+
+- Original-PDF region comments bound to exact file bytes, physical pages and displayed geometry, with preserved signatures and portable discussion.
+
 ## [1.3.151] — 2026-11-17
 
 ### Added
