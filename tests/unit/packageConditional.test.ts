@@ -241,10 +241,56 @@ describe('PR8 independent adversarial regressions', () => {
     const on = conditionalPackageAnswers(record); on.values.include = true; on.values.subject = 'Replacement shared answer';
     const plan = await prepareConditionalPackage({ template: source, answers: on, record }, policy);
     expect(plan.issues).toEqual([]);
-    const final = getPackageRevision((await applyPreparedConditionalPackage(plan, policy, true)).record);
+    record = (await applyPreparedConditionalPackage(plan, policy, true)).record;
+    const final = getPackageRevision(record);
     expect(final.members[1]).toEqual(extra);
     expect(final.bindings!.items.some(binding => binding.memberId === extra.id)).toBe(false);
     expect(final.templateState!.instances.find(instance => instance.memberId === extra.id)!.targets![0].initialized).toBe(true);
+    const secondRemoval = conditionalPackageAnswers(record); secondRemoval.values.include = false;
+    record = (await applyPreparedConditionalPackage(await prepareConditionalPackage({ template: source, answers: secondRemoval, record }, policy), policy, true)).record;
+    const secondReturn = conditionalPackageAnswers(record); secondReturn.values.include = true; secondReturn.values.subject = 'Changed after another removal';
+    const secondPlan = await prepareConditionalPackage({ template: source, answers: secondReturn, record }, policy);
+    expect(secondPlan.issues).toEqual([]);
+    const secondFinal = getPackageRevision((await applyPreparedConditionalPackage(secondPlan, policy, true)).record);
+    expect(secondFinal.members[1]).toEqual(extra);
+    expect(secondFinal.bindings!.items.some(binding => binding.memberId === extra.id)).toBe(false);
+  });
+
+  it.each(['apply-package', 'keep-local', 'detach'] as const)('reconciles a reserved historical field after repeated restore cycles with %s', async choice => {
+    const source = template(); source.program.questions[0].required = false;
+    let record = (await applyPreparedConditionalPackage(await prepareConditionalPackage({ template: source, answers: answers(true) }, policy), policy, true)).record;
+    const original = getPackageRevision(record), extra = original.members[1], key = packageTemplateInstanceKey('extra');
+    const off = conditionalPackageAnswers(record); off.values.include = false;
+    record = (await applyPreparedConditionalPackage(await prepareConditionalPackage({ template: source, answers: off, record }, policy), policy, true)).record;
+    const cleared = conditionalPackageAnswers(record); delete cleared.values.subject;
+    const mainLink = getPackageRevision(record).bindings!.items[0];
+    record = (await applyPreparedConditionalPackage(await prepareConditionalPackage({ template: source, answers: cleared, record,
+      fieldChoices: { [mainLink.id]: 'detach' } }, policy), policy, true)).record;
+    const firstRestore = conditionalPackageAnswers(record); firstRestore.values.include = true;
+    record = (await applyPreparedConditionalPackage(await prepareConditionalPackage({ template: source, answers: firstRestore, record }, policy), policy, true)).record;
+    expect(getPackageRevision(record).members[1]).toEqual(extra);
+    expect(getPackageRevision(record).bindings!.items).toEqual([]);
+    expect(getPackageRevision(record).templateState!.instances.find(instance => instance.key === key)!.targets![0].initialized).toBe(false);
+    const secondRemoval = conditionalPackageAnswers(record); secondRemoval.values.include = false;
+    record = (await applyPreparedConditionalPackage(await prepareConditionalPackage({ template: source, answers: secondRemoval, record }, policy), policy, true)).record;
+    const refill = conditionalPackageAnswers(record); refill.values.subject = 'Refilled after two restorations'; refill.values.include = true;
+    const preview = await prepareConditionalPackage({ template: source, answers: refill, record }, policy);
+    expect(preview.ready).toBe(false);
+    const conflict = preview.fieldChanges.find(change => change.memberId === extra.id)!;
+    expect(conflict).toMatchObject({ state: 'conflict', before: 'Training request', after: 'Refilled after two restorations' });
+    expect((await listActionPackages()).find(saved => saved.id === record.id)).toEqual(record);
+    const accepted = await prepareConditionalPackage({ template: source, answers: refill, record,
+      fieldChoices: { [conflict.bindingId]: choice } }, policy);
+    expect(accepted.issues).toEqual([]);
+    const applied = (await applyPreparedConditionalPackage(accepted, policy, true)).record, final = getPackageRevision(applied);
+    const restored = final.members.find(member => member.id === extra.id)!;
+    expect(restored.kind === 'native' && restored.session.formData.subject).toBe(choice === 'apply-package' ? 'Refilled after two restorations' : 'Training request');
+    const binding = final.bindings!.items.find(binding => binding.memberId === extra.id);
+    if (choice === 'detach') expect(binding).toBeUndefined();
+    else expect(binding?.mode).toBe(choice === 'keep-local' ? 'override' : 'linked');
+    expect(final.templateState!.instances.find(instance => instance.key === key)!.targets![0].initialized).toBe(true);
+    expect(applied.revisions.slice(0, -1)).toEqual(record.revisions);
+    expect(getPackageRevision((await parsePortableActionPackage(await buildPortableActionPackage(applied))).record)).toEqual(final);
   });
 
   it('preserves a local historical field override when reconnecting to a replacement fact', async () => {

@@ -497,7 +497,7 @@ export async function prepareConditionalPackage(input: ConditionalPackageInput, 
   for (const instance of state.instances) {
     if (instance.condition !== true) continue;
     const member = ordered.find(member => member.id === instance.memberId);
-    if (!member || member.kind !== 'native' || !current?.members.some(prior => prior.id === member.id)) continue;
+    if (!member || member.kind !== 'native' || !instance.targets?.some(target => !target.initialized)) continue;
     const fields = await listPackageBindingFields(member);
     for (const targetState of instance.targets ?? []) {
       if (targetState.initialized) continue;
