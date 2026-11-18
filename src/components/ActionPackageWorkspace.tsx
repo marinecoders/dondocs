@@ -140,7 +140,7 @@ function PackageDialog({
     if (requirementsDirty) { setError("Save or discard the requirement changes before closing this package."); return; }
     if (starterDirty) { setError("Create or cancel the request starter before closing this package."); return; }
     if (informationDirty) { setError(UNSAVED_PACKAGE_INFORMATION); return; }
-    if (typedDirty) { setError("Save or cancel the typed suggestion before closing this package review."); return; }
+    if (typedDirty) { setError("Save or cancel the unfinished feedback before closing this package review."); return; }
     operation.current?.abort();
     active.current = false;
     onClose();

@@ -68,7 +68,7 @@ export function PackageMemberReviewPanel({ record, round, busy, onChange, run, o
       </div> : member.kind === 'original' ? <p className="text-sm">Preserved original PDF · {member.signedOriginal ? 'signed original' : 'original'}. Use Download unchanged original below to inspect its exact pages. Comments do not alter PDF bytes or signatures.</p> : null}
       {member.kind === 'native' && member.session.documentCategory !== 'forms' && !child?.nativeRound && <p className="text-xs text-muted-foreground">This captured format supports whole-member comments. Native correspondence supports field and paragraph replacement proposals.</p>}
       {child && <>
-        <div className="flex gap-2">
+        <div className="flex min-w-0 flex-wrap gap-2">
           <Button variant="outline" disabled={disabled || typedDirty || !history.length} onClick={() => void run(async () => {
             const previous = history.at(-1)!; await publish({ ...child, comments: previous.comments, fieldReview: previous.fieldReview }, false); setHistory(items => items.slice(0, -1)); setFuture(items => [...items, structuredClone(child)]);
           })}>Undo member comment</Button>
