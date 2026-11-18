@@ -419,7 +419,7 @@ export const actionPackageSchema = z
                 (index
                   ? output.boundaries[index - 1].startPage +
                     output.boundaries[index - 1].pageCount
-                  : 1),
+                  : 1 + (output.assembly?.frontMatterPages ?? 0)),
           )
         )
           ctx.addIssue({

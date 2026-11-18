@@ -1,5 +1,8 @@
 import 'fake-indexeddb/auto';
 import { expect, it, vi } from 'vitest';
+import { captureOriginalPackageMember, readPackageAsset } from '@/lib/actionPackageAssets';
+import { preparePackageAssembly, assemblePackage } from '@/lib/actionPackageAssembly';
+import { buildPortableActionPackage, parsePortableActionPackage } from '@/lib/actionPackageTransfer';
 import { PDFArray, PDFDict, PDFDocument, PDFName, PDFNumber } from 'pdf-lib';
 import type { PackageRevision } from '@/lib/actionPackages';
 import { createActionPackage, getPackageRevision, reviseActionPackage } from '@/lib/actionPackages';
@@ -11,6 +14,7 @@ import { packageInputFingerprint } from '@/lib/packageRenderProvenance';
 import { packageAssemblyInputs } from '@/lib/packageChangeImpactModel';
 import * as classification from '@/config/classification';
 
+vi.mock('@/lib/pdfText', () => ({ extractPdfText: vi.fn(async () => '') }));
 vi.mock('@/stores/backupStore', () => ({ scheduleBackup: vi.fn() }));
 const policy = resolveExportDeploymentPolicy({ hostname: 'localhost', environment: null, runtime: { status: 'absent' } });
 vi.spyOn(classification, 'getExportDeploymentPolicy').mockResolvedValue(policy);
@@ -51,4 +55,18 @@ it('includes assembly settings in PDF and signing/change-impact input identities
   const next = { ...revision, assembly: { ...defaultPackageAssemblySettings(), cover: true } };
   expect(await packageInputFingerprint(next)).not.toBe(await packageInputFingerprint(revision));
   expect(packageAssemblyInputs(next)).not.toEqual(packageAssemblyInputs(revision));
+});
+
+it('assembles and transfers covered output against its real shifted page boundaries', async () => {
+  const original = await PDFDocument.create(); original.addPage([612, 792]); const bytes = new Uint8Array(await original.save()).buffer;
+  let record = await reviseActionPackage(await createActionPackage(`Covered output ${crypto.randomUUID()}`), [await captureOriginalPackageMember({ name: 'Synthetic original.pdf', data: bytes }, 'basic-letter', false)]);
+  record = await updatePackageAssemblySettings(record, { ...defaultPackageAssemblySettings(), cover: true, contents: true }, policy);
+  const assembled = await assemblePackage(await preparePackageAssembly(record, record.currentRevisionId, policy), { compile: vi.fn(), convertDocx: vi.fn(), waitForReady: async () => true });
+  const output = getPackageRevision(assembled).outputs[0];
+  expect((await PDFDocument.load(await readPackageAsset(output.asset))).getPageCount()).toBe(3);
+  expect(output.boundaries[0].startPage).toBe(3);
+  expect(output.navigation![0].startPage).toBe(3);
+  const portable = await parsePortableActionPackage(await buildPortableActionPackage(assembled));
+  expect(getPackageRevision(portable.record).assembly).toEqual(getPackageRevision(assembled).assembly);
+  expect(getPackageRevision(portable.record).outputs[0].boundaries).toEqual(output.boundaries);
 });
