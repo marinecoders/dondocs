@@ -7,9 +7,12 @@ import { createExportGate } from '@/lib/exportController';
 import { createActionPackage, getPackageRevision, listActionPackages, reviseActionPackage } from '@/lib/actionPackages';
 import { updatePackageInformation } from '@/lib/packageInformation';
 import { PDFDocument } from 'pdf-lib';
-import { captureOriginalPackageMember } from '@/lib/actionPackageAssets';
+import { captureOriginalPackageMember, capturePackageMember } from '@/lib/actionPackageAssets';
 import { preparePackageAssembly, assemblePackage } from '@/lib/actionPackageAssembly';
 import { startPackageReview } from '@/lib/packageReviewRounds';
+import { captureDocumentRevision } from '@/lib/capturedDocument';
+import { createBlankSession } from '@/stores/documentStore';
+import { initializePackageCitationTargets, linkPackageCitation, packageCitationOccurrences, savePackageCitations } from '@/lib/packageCitations';
 import { updatePackageWork } from '@/lib/packageWork';
 import { updatePackageConsistency } from '@/lib/packageConsistency';
 import { resolveExportDeploymentPolicy } from '@/lib/exportDeploymentPolicy';
@@ -139,3 +142,24 @@ it('keeps real consistency blockers after manual completion and navigates their 
   await waitFor(() => expect(within(dialog).getByText('Start date', { selector: 'legend' })).toHaveFocus());
   expect((await listActionPackages()).find(item => item.id === record.id)).toEqual(record);
 });
+
+it('follows a removed citation to its exact asynchronously loaded historical identity without enabling edits', async () => {
+  const session = createBlankSession();
+  session.references = [{ letter: 'a', title: 'Synthetic historical authority' }];
+  session.paragraphs = [{ id: 'historical-citation-body', text: 'Use reference (a).', level: 0 }];
+  const member = await capturePackageMember(captureDocumentRevision({ documentId: `source_${crypto.randomUUID()}`, epoch: 0, editSequence: 1, capturedAt: 100 },
+    { ...session, endItems: [], publicationTables: {} }), 'Synthetic historical cited letter', 'basic-letter');
+  let identified = await initializePackageCitationTargets(await reviseActionPackage(await createActionPackage(`Historical citations ${crypto.randomUUID()}`), [member]));
+  const initial = getPackageRevision(identified), target = initial.citations!.targets[0];
+  identified = await linkPackageCitation(identified, (await packageCitationOccurrences(initial))[0].source, target.id);
+  const historical = getPackageRevision(identified), record = await savePackageCitations(identified, { version: 1, targets: [], links: [] });
+  const { dialog, user } = await open(record.id), impact = await compareSaved(dialog, user);
+  await user.click(within(impact).getByText('Citations (2)', { exact: true }));
+  await user.click(within(impact).getByRole('button', { name: 'Inspect citation · Reference target · location 1' }));
+  await waitFor(() => expect(within(dialog).getByLabelText('Package revision', { exact: true })).toHaveValue(historical.id));
+  await waitFor(() => expect(dialog.querySelector(`[data-package-citation-id="${target.id}"]`)).toHaveFocus());
+  expect(within(dialog).queryByRole('button', { name: 'Identify current references and enclosures' })).toBeNull();
+  expect(within(dialog).queryByLabelText('Link to repair')).toBeNull();
+  expect((await listActionPackages()).find(item => item.id === record.id)).toEqual(record);
+});
+
