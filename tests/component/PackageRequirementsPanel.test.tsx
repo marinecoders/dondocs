@@ -1,7 +1,7 @@
 import 'fake-indexeddb/auto';
 import { useState } from 'react';
-import { afterEach, expect, it, vi } from 'vitest';
-import { cleanup, render, screen, waitFor, within } from '@testing-library/react';
+import { afterEach, beforeEach, expect, it, vi } from 'vitest';
+import { act, cleanup, render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { PackageRequirementsPanel } from '@/components/PackageRequirementsPanel';
 import { createActionPackage, getPackageRevision, listActionPackages, reviseActionPackage, type ActionPackage } from '@/lib/actionPackages';
@@ -9,11 +9,17 @@ import { capturePackageMember } from '@/lib/actionPackageAssets';
 import { captureDocumentRevision } from '@/lib/capturedDocument';
 import { createBlankSession } from '@/stores/documentStore';
 import { updatePackageRequirements, type PackageRequirements } from '@/lib/packageRequirements';
+import { prepareConditionalPackage, applyPreparedConditionalPackage } from '@/lib/packageConditional';
+import type { PackageTemplateV2 } from '@/lib/packageTemplateSchema';
+import { buildPortableActionPackage, importPortableActionPackage } from '@/lib/actionPackageTransfer';
+import * as conditionalRequirements from '@/lib/packageConditionalRequirements';
 import { resolveExportDeploymentPolicy } from '@/lib/exportDeploymentPolicy';
+const { currentPolicy } = vi.hoisted(() => ({ currentPolicy: { value: undefined as unknown } }));
 const policy = resolveExportDeploymentPolicy({ hostname: 'localhost', environment: { maxLevel: 'unclassified', allowedLevels: ['unclassified'] }, runtime: { status: 'absent' } });
 vi.mock('@/stores/backupStore', () => ({ scheduleBackup: vi.fn() }));
-vi.mock('@/config/classification', async original => ({ ...await original<typeof import('@/config/classification')>(), getExportDeploymentPolicy: async () => policy, getExportDeploymentPolicySync: () => policy }));
-afterEach(cleanup);
+vi.mock('@/config/classification', async original => ({ ...await original<typeof import('@/config/classification')>(), getExportDeploymentPolicy: async () => currentPolicy.value, getExportDeploymentPolicySync: () => currentPolicy.value }));
+beforeEach(() => { currentPolicy.value = policy; });
+afterEach(() => { cleanup(); vi.restoreAllMocks(); });
 async function fixture(requirements?: PackageRequirements) {
   const session = createBlankSession(); session.formData.subject = 'SYNTHETIC EVIDENCE PANEL';
   const member = await capturePackageMember(captureDocumentRevision({ documentId: 'requirement-panel', epoch: 0, editSequence: 1, capturedAt: 100 }, { ...session, endItems: [], publicationTables: {} }), 'Captured supporting letter', 'basic-letter');
@@ -23,9 +29,9 @@ async function fixture(requirements?: PackageRequirements) {
     { id: 'source-confirmation', label: 'Source checked', kind: 'confirmation', operations: ['review'], condition: 'active' },
   ] }, policy);
 }
-function Harness({ initial }: { initial: ActionPackage }) {
+function Harness({ initial, onDirtyChange }: { initial: ActionPackage; onDirtyChange?(dirty: boolean): void }) {
   const [record, setRecord] = useState(initial), [busy, setBusy] = useState(false);
-  return <PackageRequirementsPanel record={record} revision={getPackageRevision(record)} disabled={false} busy={busy} onApply={setRecord} signal={() => undefined} isCurrent={() => true}
+  return <PackageRequirementsPanel record={record} revision={getPackageRevision(record)} disabled={false} busy={busy} onApply={setRecord} onDirtyChange={onDirtyChange} signal={() => undefined} isCurrent={() => true}
     run={async action => { setBusy(true); try { await action(); } finally { setBusy(false); } }} />;
 }
 it('inspects operation-specific evidence, saves actual assignment and user declaration in a new revision, and never claims approval', async () => {
@@ -83,4 +89,72 @@ it('bounds the requirement editor and preserves unapplied declarations between p
   await user.click(screen.getByRole('button', { name: 'Discard requirement changes' }));
   expect(screen.getByRole('checkbox', { name: 'User declaration for confirmation-0' })).not.toBeChecked();
   await waitFor(() => expect(screen.getByText('Showing saved requirement declarations.')).toBeVisible());
+});
+
+
+it('requires a fresh human review after the deployment changes to another valid policy and preserves the draft', async () => {
+  const initial = await fixture(), user = userEvent.setup(); render(<Harness initial={initial} />);
+  await user.selectOptions(screen.getByLabelText('Evidence for supporting-pdf'), getPackageRevision(initial).members[0].id);
+  await user.click(screen.getByRole('button', { name: 'Review requirement changes' }));
+  await user.click(await screen.findByRole('checkbox', { name: /I reviewed these evidence assignments/ }));
+  currentPolicy.value = resolveExportDeploymentPolicy({ hostname: 'second.example.mil', environment: { maxLevel: 'unclassified', allowedLevels: ['unclassified'] }, runtime: { status: 'absent' } });
+  await user.click(screen.getByRole('button', { name: 'Save requirement changes' }));
+  expect(await screen.findByRole('alert')).toHaveTextContent('Deployment settings changed. Review the requirement changes again.');
+  expect(screen.getByLabelText('Evidence for supporting-pdf')).toHaveValue(getPackageRevision(initial).members[0].id);
+  expect(screen.getByText('Unapplied requirement changes · not saved yet.')).toBeVisible();
+  expect(screen.queryByRole('button', { name: 'Save requirement changes' })).toBeNull();
+  expect((await listActionPackages()).find(record => record.id === initial.id)?.currentRevisionId).toBe(initial.currentRevisionId);
+});
+
+async function legacyConditionalPackage() {
+  const session = createBlankSession(undefined, 'standard_letter');
+  session.formData = { ...session.formData, signatureType: 'none', subject: '', sigFirst: '', sigMiddle: '', sigLast: '', classLevel: 'unclassified' };
+  const template: PackageTemplateV2 = { kind: 'dondocs-package-template', version: 2, id: `legacy-template-${crypto.randomUUID()}`, name: 'Legacy evidence action', createdAt: 0,
+    program: { revision: '1', questions: [{ id: 'subject', label: 'Subject', kind: 'text', required: true }], participantGroups: [],
+      requirements: [{ id: 'supporting-proof', label: 'Supporting proof', kind: 'document', operations: ['pdf'] }] },
+    members: [{ key: 'main', kind: 'native', label: 'Legacy main letter', role: 'basic-letter', required: true,
+      draft: { ...session, timestamp: 0, kind: 'dondocs-draft', version: 2, documentKind: 'correspondence' }, pages: {},
+      links: [{ questionId: 'subject', target: { kind: 'correspondence', docType: 'standard_letter', field: 'subject' }, format: 'field' }] }] };
+  const plan = await prepareConditionalPackage({ template, answers: { version: 1, values: { subject: 'SYNTHETIC LEGACY EVIDENCE' }, groups: {} } }, policy);
+  const original = (await applyPreparedConditionalPackage(plan, policy, true)).record;
+  const envelope = JSON.parse(await buildPortableActionPackage(original));
+  envelope.package.id = `legacy-package-${crypto.randomUUID()}`;
+  for (const revision of envelope.package.revisions) delete revision.requirements;
+  return importPortableActionPackage(JSON.stringify(envelope));
+}
+it('loads effective legacy requirements without dirtying, saves an assignment in a child revision and inspects historical slots read-only', async () => {
+  const initial = await legacyConditionalPackage(), dirty = vi.fn(), user = userEvent.setup();
+  expect(getPackageRevision(initial).requirements).toBeUndefined();
+  const view = render(<Harness initial={initial} onDirtyChange={dirty} />);
+  expect(screen.queryByText('No evidence requirements are declared for this revision.')).toBeNull();
+  const proof = (await screen.findByRole('heading', { name: 'Supporting proof' })).closest('article')!;
+  expect(dirty).not.toHaveBeenCalledWith(true);
+  const select = within(proof).getByRole('combobox');
+  await user.selectOptions(select, getPackageRevision(initial).members[0].id);
+  await user.click(screen.getByRole('button', { name: 'Review requirement changes' }));
+  await user.click(await screen.findByRole('checkbox', { name: /I reviewed these evidence assignments/ }));
+  await user.click(screen.getByRole('button', { name: 'Save requirement changes' }));
+  await screen.findByText('Requirements saved as a new revision. Unresolved evidence remains visible.');
+  const saved = (await listActionPackages()).find(record => record.id === initial.id)!;
+  expect(saved.revisions).toHaveLength(initial.revisions.length + 1);
+  expect(getPackageRevision(saved).requirements?.items.find(item => item.definitionId === 'supporting-proof')).toMatchObject({ memberId: getPackageRevision(initial).members[0].id });
+  expect(saved.revisions[0].requirements).toBeUndefined();
+  view.unmount();
+  render(<PackageRequirementsPanel record={saved} revision={getPackageRevision(initial)} disabled={false} busy={false} onApply={vi.fn()} signal={() => undefined} isCurrent={() => true} run={async action => action()} />);
+  const historical = (await screen.findByRole('heading', { name: 'Supporting proof' })).closest('article')!;
+  expect(within(historical).getByRole('combobox')).toBeDisabled();
+  await user.click(screen.getByRole('button', { name: 'Check evidence requirements' }));
+  await screen.findByText(/PDF assembly requirement checks have unresolved items/);
+});
+it('ignores a legacy requirement load after switching to a different owner', async () => {
+  const legacy = await legacyConditionalPackage(), plain = await createActionPackage(`Plain ${crypto.randomUUID()}`);
+  let complete!: (value: PackageRequirements) => void;
+  vi.spyOn(conditionalRequirements, 'resolveConditionalPackageRequirements').mockImplementationOnce(() => new Promise(resolve => { complete = resolve; }));
+  const props = { disabled: false, busy: false, onApply: vi.fn(), isCurrent: () => true, signal: () => undefined, run: async (action: () => Promise<void>) => action() };
+  const view = render(<PackageRequirementsPanel {...props} record={legacy} revision={getPackageRevision(legacy)} />);
+  expect(screen.getByText('Reading captured requirements…')).toBeVisible();
+  view.rerender(<PackageRequirementsPanel {...props} record={plain} revision={getPackageRevision(plain)} />);
+  await act(async () => { complete({ version: 1, items: [{ id: 'late-old-slot', label: 'Late old evidence', kind: 'document', operations: ['pdf'], condition: 'active' }] }); });
+  expect(screen.queryByRole('heading', { name: 'Late old evidence' })).toBeNull();
+  expect(screen.getByText('No evidence requirements are declared for this revision.')).toBeVisible();
 });
