@@ -286,7 +286,7 @@ it('pages source suggestions with a fixed DOM size and remembers deliberate dest
   let list = await screen.findByRole('list', { name: 'Document suggestions' });
   expect(within(list).getAllByRole('listitem')).toHaveLength(25);
   const destination = screen.getByLabelText('Suggestion destination 1');
-  await user.selectOptions(destination, within(destination).getByRole('option', { name: 'Existing value' }));
+  await user.selectOptions(destination, within(destination).getByRole('option', { name: 'Existing value · Package-wide' }));
   const selected = (destination as HTMLSelectElement).value;
   await user.click(screen.getByRole('button', { name: 'Show more suggestions' }));
   list = screen.getByRole('list', { name: 'Document suggestions' }); expect(within(list).getAllByRole('listitem')).toHaveLength(5);
@@ -296,4 +296,38 @@ it('pages source suggestions with a fixed DOM size and remembers deliberate dest
   expect(screen.getByLabelText('Value 1')).toHaveValue('');
   expect(screen.queryByLabelText('Value 2')).toBeNull();
   expect(within(screen.getByRole('list', { name: 'Document suggestions' })).getAllByRole('listitem')).toHaveLength(25);
+});
+
+
+it('identifies same-label adoption destinations by person and role and updates only the selected fact', async () => {
+  const information: PackageInformation = { version: 1, participants: [
+    { id: 'requester-person', label: 'Requesting Marine', role: 'requester' },
+    { id: 'approver-person', label: 'Approving Officer', role: 'approver' },
+  ], facts: [
+    { id: 'requester-name', label: 'Name', participantId: 'requester-person', kind: 'text', value: 'ORIGINAL REQUESTER', source: { kind: 'entered' } },
+    { id: 'approver-name', label: 'Name', participantId: 'approver-person', kind: 'text', value: 'ORIGINAL APPROVER', source: { kind: 'entered' } },
+    { id: 'package-name', label: 'Name', kind: 'text', value: 'ORIGINAL PACKAGE NAME', source: { kind: 'entered' } },
+  ] };
+  const initial = await updatePackageInformation(await fixture(['CAPTURED APPROVER NAME']), information), user = userEvent.setup();
+  render(<Harness initial={initial} />);
+  await user.click(screen.getByText('Suggestions from documents'));
+  await user.click(screen.getByRole('button', { name: 'Inspect document suggestions' }));
+  const list = await screen.findByRole('list', { name: 'Document suggestions' });
+  const candidate = within(list).getByText(/CAPTURED APPROVER NAME/).closest('li')!;
+  const destination = within(candidate).getByRole('combobox');
+  expect(within(destination).getByRole('option', { name: 'Name · Requesting Marine · requester' })).toHaveValue('requester-name');
+  expect(within(destination).getByRole('option', { name: 'Name · Package-wide' })).toHaveValue('package-name');
+  await user.selectOptions(destination, within(destination).getByRole('option', { name: 'Name · Approving Officer · approver' }));
+  expect(destination).toHaveValue('approver-name');
+  await user.click(within(candidate).getByRole('button', { name: /Adopt suggestion/ }));
+  expect(screen.getByLabelText('Value 1')).toHaveValue('ORIGINAL REQUESTER');
+  expect(screen.getByLabelText('Value 2')).toHaveValue('CAPTURED APPROVER NAME');
+  expect(screen.getByLabelText('Value 3')).toHaveValue('ORIGINAL PACKAGE NAME');
+  expect(getPackageRevision(await saved(initial.id)).information).toEqual(information);
+  await previewAndApply(user);
+  const current = getPackageRevision(await saved(initial.id)).information!;
+  expect(current.facts.find(fact => fact.id === 'requester-name')).toEqual(information.facts[0]);
+  expect(current.facts.find(fact => fact.id === 'approver-name')).toMatchObject({ participantId: 'approver-person', value: 'CAPTURED APPROVER NAME', source: { kind: 'document', label: 'Document 1' } });
+  expect(current.facts.find(fact => fact.id === 'package-name')).toEqual(information.facts[2]);
+  expect(current.participants).toEqual(information.participants);
 });

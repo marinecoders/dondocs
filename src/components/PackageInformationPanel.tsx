@@ -302,7 +302,11 @@ export function PackageInformationPanel({ record, revision, disabled, busy, run,
         <Source source={suggestion.source} />
         <p className="break-all text-xs text-muted-foreground">Captured member revision: {suggestion.memberRevisionId}</p>
         <label className="block text-sm">Adopt into<select aria-label={`Suggestion destination ${index + 1}`} disabled={locked} className={inputClass} value={suggestionTargets[index] ?? ''} onChange={event => setSuggestionTargets({ ...suggestionTargets, [index]: event.target.value })}>
-          <option value="">New package value</option>{draft.facts.filter(fact => fact.kind === suggestion.kind).map(fact => <option key={fact.id} value={fact.id}>{fact.label || 'Unnamed package value'}</option>)}
+          <option value="">New package value</option>{draft.facts.filter(fact => fact.kind === suggestion.kind).map(fact => {
+            const person = draft.participants.find(participant => participant.id === fact.participantId);
+            const owner = fact.participantId ? `${person?.label || 'Unnamed person'} · ${person?.role ?? 'other'}` : 'Package-wide';
+            return <option key={fact.id} value={fact.id}>{fact.label || 'Unnamed package value'} · {owner}</option>;
+          })}
         </select></label>
         <Button variant="outline" disabled={locked || !suggestionTargets[index] && draft.facts.length >= 200} onClick={() => adopt(suggestion, index)}>Adopt suggestion {index + 1}</Button>
       </li>; })}</ul>}
