@@ -35,7 +35,7 @@ export function PackageFormReviewPanel({ member, child, busy, onSave, onDraftCha
     {loading && <p role="status">Reading captured form fields…</p>}
     {!loading && !fields.length && <p className="text-sm">This captured form has no supported scalar fields for precise feedback.</p>}
     <fieldset disabled={locked} className="min-w-0 space-y-2">
-      <label className="block text-sm">Form field<select aria-label="Reviewed form field" className={input} value={target} onChange={event => setTarget(event.target.value)}>
+      <label className="block text-sm">Form field<select aria-label="Reviewed form field" className={input} disabled={!!text} value={target} onChange={event => setTarget(event.target.value)}>
         <option value="">Choose an exact field or row</option>{fields.map(field => <option key={packageBindingTargetKey(field.target)} value={packageBindingTargetKey(field.target)}>{field.label}</option>)}
       </select></label>
       {selected && <p className="whitespace-pre-wrap break-words text-sm">Reviewed answer: {valueText(selected.value)}</p>}

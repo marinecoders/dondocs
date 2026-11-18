@@ -35,3 +35,29 @@ it('posts a field-specific comment through the real package controller and suppo
   saved = (await listActionPackages()).find(item => item.id === record.id)!;
   expect(saved.revisions).toEqual(record.revisions);
 });
+
+it('keeps an unfinished field comment attached to the selected answer until it is saved or cancelled', async () => {
+  const { record, member } = await packageFormFixture(), user = userEvent.setup();
+  render(<Review initial={record} />);
+  await user.click(screen.getByRole('button', { name: member.label }));
+  const panel = await screen.findByRole('region', { name: 'Captured form field feedback' });
+  const target = within(panel).getByLabelText('Reviewed form field');
+  const name = await within(panel).findByRole('option', { name: 'Name' }), decision = within(panel).getByRole('option', { name: 'Decision' });
+  await user.selectOptions(target, name);
+  await user.type(within(panel).getByLabelText('Form comment reviewer name'), 'Alex Example');
+  await user.type(within(panel).getByLabelText('Form field comment'), 'Confirm this exact fictional identifier.');
+  expect(target).toBeDisabled();
+  await user.selectOptions(target, decision);
+  expect(target).toHaveValue((name as HTMLOptionElement).value);
+  await user.click(within(panel).getByRole('button', { name: 'Post form field comment' }));
+  await waitFor(() => expect(within(panel).getByLabelText('Form field comment')).toHaveValue(''));
+  const saved = (await listActionPackages()).find(item => item.id === record.id)!;
+  const anchor = saved.reviewRounds![0].memberReviews![0].fieldReview!.comments[0].anchor;
+  expect(anchor.target.kind === 'configured-form' && anchor.target.fieldId).toBe('name');
+  expect(anchor.context).toBe('000123');
+  await user.selectOptions(target, decision);
+  expect(target).toHaveValue((decision as HTMLOptionElement).value);
+  await user.type(within(panel).getByLabelText('Form field comment'), 'Unsent second comment.');
+  await user.click(within(panel).getByRole('button', { name: 'Cancel form comment' }));
+  expect(target).toBeEnabled();
+});
