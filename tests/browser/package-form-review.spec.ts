@@ -1,4 +1,5 @@
-import { expect, test, type Page, type Locator } from '@playwright/test';
+import { expect, test, type Page, type Locator, type Download } from '@playwright/test';
+import { projectBrowserContextOptions } from '../_helpers/projectBrowserContext';
 import { readFile } from 'node:fs/promises';
 import type { ActionPackage } from '../../src/lib/actionPackages';
 test.use({ serviceWorkers: 'block', actionTimeout: 15_000 });
@@ -111,6 +112,27 @@ function answers(record: ActionPackage) {
   if (member?.kind !== 'native' || !member.session.genericForm) throw new Error('The saved worksheet is unavailable.');
   return member.session.genericForm.answers;
 }
+async function downloaded(download: Download) {
+  expect(await download.failure()).toBeNull(); const path = await download.path(); if (!path) throw new Error('The reviewed file was not downloaded.');
+  return readFile(path);
+}
+async function reviewFile(page: Page, dialog: Locator, mode: 'copy' | 'return') {
+  await dialog.getByRole('button', { name: mode === 'copy' ? 'Prepare package reviewer copy' : 'Prepare package feedback return', exact: true }).click();
+  const transfer = dialog.getByRole('region', { name: 'Portable package reviews', exact: true });
+  await transfer.getByRole('checkbox', { name: /^I reviewed all captured members/ }).check();
+  const download = page.waitForEvent('download');
+  await transfer.getByRole('button', { name: mode === 'copy' ? 'Download package reviewer copy' : 'Download package feedback return', exact: true }).click();
+  return downloaded(await download);
+}
+async function importReviewer(page: Page, bytes: Buffer) {
+  const dialog = await packages(page);
+  await dialog.getByLabel('Import package reviewer copy', { exact: true }).setInputFiles({ name: 'reviewer-copy.json', mimeType: 'application/json', buffer: bytes });
+  const transfer = dialog.getByRole('region', { name: 'Portable package reviews', exact: true });
+  await transfer.getByRole('checkbox', { name: /^I reviewed all captured members/ }).check();
+  await transfer.getByRole('button', { name: 'Import reviewed package reviewer copy', exact: true }).click();
+  await expect(dialog.getByText('Reviewing exact saved package revision', { exact: true })).toBeVisible();
+  return dialog;
+}
 const initialize = () => { localStorage.setItem('browser-test-visitor', 'returning'); };
 
 for (const width of [1440, 320]) {
@@ -142,5 +164,46 @@ for (const width of [1440, 320]) {
     await expect(reopened.getByText('Rejected in a saved package revision.', { exact: true })).toBeVisible();
     await info.attach('saved-form-decisions', { body: JSON.stringify(await savedPackage(page, id), null, 2), contentType: 'application/json' });
     await page.screenshot({ path: info.outputPath(`typed-form-decisions-${width}px.png`) });
+  });
+
+  test(`returned form proposals reconcile newer answers in a fresh reviewer browser at ${width}px`, async ({ page, context, browser }, info) => {
+    await page.setViewportSize({ width, height: 900 }); await context.addInitScript(initialize);
+    const dialog = await requestPackage(page, 'Returned field reconciliation'), id = await dialog.getByLabel('Saved packages', { exact: true }).inputValue();
+    await dialog.getByRole('button', { name: 'Start package review', exact: true }).click();
+    const copy = await reviewFile(page, dialog, 'copy');
+    const independent = await browser.newContext({ ...projectBrowserContextOptions(info), viewport: { width, height: 900 }, serviceWorkers: 'block' });
+    try {
+      await independent.addInitScript(initialize); const reviewer = await independent.newPage(); await reviewer.goto(new URL('/', page.url()).href);
+      expect(await reviewer.evaluate(() => navigator.userAgent)).toBe(await page.evaluate(() => navigator.userAgent));
+      expect(await reviewer.evaluate(() => navigator.maxTouchPoints)).toBe(await page.evaluate(() => navigator.maxTouchPoints));
+      const reviewDialog = await importReviewer(reviewer, copy); await openWorksheet(reviewDialog);
+      await proposeField(reviewDialog, 'Requester', 'Returned Reviewer Name');
+      await proposeField(reviewDialog, 'SSIC', '1600');
+      const returned = await reviewFile(reviewer, reviewDialog, 'return');
+      await openWorksheet(dialog); await proposeField(dialog, 'Requester', 'Newer Owner Name', 'Alex Example');
+      let decisions = dialog.getByRole('region', { name: 'Decide captured form corrections', exact: true });
+      await decisions.getByRole('button', { name: 'Review acceptance for Requester', exact: true }).click(); await saveDecision(dialog);
+      await proposeField(dialog, 'Organization', 'Preserved Newer Organization', 'Alex Example');
+      decisions = dialog.getByRole('region', { name: 'Decide captured form corrections', exact: true });
+      await decisions.getByRole('button', { name: 'Review acceptance for Organization', exact: true }).click(); await saveDecision(dialog);
+      const collect = decisions.locator('details').filter({ has: page.locator('summary', { hasText: /^Collect returned form feedback$/ }) });
+      await collect.locator('summary').click();
+      await collect.getByLabel('Collect form feedback return', { exact: true }).setInputFiles({ name: 'returned-feedback.json', mimeType: 'application/json', buffer: returned });
+      await collect.getByRole('checkbox', { name: /^I reviewed the returned field feedback/ }).check();
+      await collect.getByRole('button', { name: 'Save bound form feedback', exact: true }).click();
+      await expect.poll(async () => answers(await savedPackage(page, id))).toMatchObject({ requester: 'Newer Owner Name', organization: 'Preserved Newer Organization' });
+      const independentField = decisions.locator('article').filter({ hasText: 'Proposed: 1600' });
+      await expect(independentField).toContainText('This exact answer is unchanged');
+      await independentField.getByRole('button', { name: 'Review acceptance for SSIC', exact: true }).click(); await saveDecision(dialog);
+      await expect.poll(async () => answers(await savedPackage(page, id))).toMatchObject({ ssic: '1600', requester: 'Newer Owner Name', organization: 'Preserved Newer Organization' });
+      const remote = decisions.locator('article').filter({ hasText: 'Proposed: Returned Reviewer Name' });
+      const accept = remote.getByRole('button', { name: 'Review acceptance for Requester', exact: true });
+      await expect(accept).toBeDisabled();
+      await expect(remote).toContainText('Latest saved: Newer Owner Name');
+      await remote.getByRole('checkbox', { name: 'Replace this exact latest saved answer with the proposed answer.', exact: true }).check();
+      await accept.click(); await saveDecision(dialog);
+      await expect.poll(async () => answers(await savedPackage(page, id))).toMatchObject({ requester: 'Returned Reviewer Name', organization: 'Preserved Newer Organization' });
+      await page.screenshot({ path: info.outputPath(`returned-form-reconciliation-${width}px.png`) });
+    } finally { await independent.close(); }
   });
 }
