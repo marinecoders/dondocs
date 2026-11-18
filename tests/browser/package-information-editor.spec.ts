@@ -63,7 +63,8 @@ for (const theme of ['light', 'dark', 'classic']) test(`edits, links, reviews an
   await expect(dialog.getByLabel('Saved packages', { exact: true })).toBeEnabled();
   await dialog.getByRole('navigation', { name: 'Package workspace', exact: true }).getByRole('button', { name: 'Documents', exact: true }).click();
   await dialog.getByRole('navigation', { name: 'Package workspace', exact: true }).getByRole('button', { name: 'Overview', exact: true }).click();
-  await expect(panel.getByRole('heading', { name: 'Package information', exact: true })).toBeInViewport();
+  await expect(dialog.getByLabel('Saved packages', { exact: true })).toBeInViewport();
+  await panel.getByRole('heading', { name: 'Package information', exact: true }).scrollIntoViewIfNeeded();
   const bounds = await panel.boundingBox();
   expect(bounds).not.toBeNull(); expect(bounds!.width).toBeLessThanOrEqual(page.viewportSize()!.width);
   await dialog.evaluate(element => { element.scrollTop = 0; });

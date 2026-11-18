@@ -42,6 +42,25 @@ beforeEach(() => {
   useUIStore.setState({ actionPackagesOpen: false, isMobile: false, sidebarCollapsed: false });
 });
 
+it("preserves request intake through close and queued selection until the user cancels it", async () => {
+  const previous = await createActionPackage("Request starter origin");
+  const requested = await createActionPackage("Request starter destination");
+  useUIStore.getState().openActionPackage(previous.id);
+  render(<ActionPackageWorkspace exportGate={createExportGate()} ports={{ compile: vi.fn(), convertDocx: vi.fn(), waitForReady: async () => true }} />);
+  const user = userEvent.setup(), dialog = await screen.findByRole("dialog", { name: "Action packages" });
+  await user.click(await within(dialog).findByRole("button", { name: "Start an administrative request" }));
+  const starter = within(dialog).getByRole("region", { name: "Administrative request starter" });
+  await user.type(within(starter).getByLabelText("Requester", { exact: true }), "Unfinished request");
+  expect(within(dialog).getByLabelText("Saved packages", { exact: true })).toBeDisabled();
+  await user.keyboard("{Escape}");
+  expect(dialog).toBeVisible(); expect(within(starter).getByLabelText("Requester", { exact: true })).toHaveValue("Unfinished request");
+  act(() => useUIStore.getState().openActionPackage(requested.id));
+  expect(within(dialog).getByLabelText("Saved packages", { exact: true })).toHaveValue(previous.id);
+  await user.click(within(starter).getByRole("button", { name: "Cancel request starter" }));
+  await waitFor(() => expect(within(dialog).getByLabelText("Saved packages", { exact: true })).toHaveValue(requested.id));
+  expect((await listActionPackages()).find(record => record.id === previous.id)).toEqual(previous);
+});
+
 it("finishes restoring saved context before accepting a new package name", async () => {
   const remembered = await createActionPackage("Previous package name");
   rememberPackageWorkspaceContext({ version: 1, packageId: remembered.id, revisionId: remembered.currentRevisionId, memberId: null, section: "overview" });
