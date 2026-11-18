@@ -157,3 +157,24 @@ it.each(['template', 'enclosure'])('reviews preserved native %s PDF content befo
   expect(vi.mocked(extractPdfText)).toHaveBeenCalledWith(bytes.buffer);
   expect((await listActionPackages()).find(item => item.id === accepted.id)).toEqual(accepted);
 });
+
+it('rejects an Undo receipt that restores its answer but changes unrelated package metadata', async () => {
+  const { validatePackageFieldReviewApplications } = await import('@/lib/packageFormDecisionValidation');
+  const { owner, round, member, proposal } = await proposed();
+  const accepted = await applyPreparedPackageFormCorrection(await preparePackageFormCorrection(owner, round.id, member.id, proposal.id, 'accepted', policy), policy, true);
+  const restored = await applyPreparedPackageFormCorrection(await preparePackageFormDecisionUndo(accepted, accepted.fieldReviewApplications![0].id, policy), policy, true);
+  await expect(validatePackageFieldReviewApplications(restored)).resolves.toBeUndefined();
+  const forged = structuredClone(restored);
+  forged.revisions.find(revision => revision.id === forged.currentRevisionId)!.information = { version: 1, participants: [], facts: [{ id: 'unexpected', label: 'Unreviewed change during Undo', kind: 'text', value: 'Unexpected package data', source: { kind: 'entered' } }] };
+  await expect(validatePackageFieldReviewApplications(forged)).rejects.toThrow(/undo|restore|decision/i);
+});
+
+it('rejects a saved decision whose proposal differs from the retained reviewer feedback', async () => {
+  const { validatePackageFieldReviewApplications } = await import('@/lib/packageFormDecisionValidation');
+  const { actionPackageSchema } = await import('@/lib/actionPackages');
+  const { owner, round, member, proposal } = await proposed();
+  const accepted = await applyPreparedPackageFormCorrection(await preparePackageFormCorrection(owner, round.id, member.id, proposal.id, 'accepted', policy), policy, true);
+  const forged = structuredClone(accepted); forged.fieldReviewApplications![0].proposal.author = 'Blair Different';
+  expect(actionPackageSchema.safeParse(forged).success).toBe(true);
+  await expect(validatePackageFieldReviewApplications(forged)).rejects.toThrow(/proposal|review|decision/i);
+});
