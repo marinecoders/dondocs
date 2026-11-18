@@ -67,9 +67,11 @@ import { parseEncryptedShareFile, MAX_ENCRYPTED_SHARE_FILE_BYTES } from "@/lib/e
 import { ShareModal } from "./modals/ShareModal";
 import type { CorrespondenceRendererPorts } from "@/services/exports/correspondence";
 
+const PackageInformationPanel = lazy(() => import("./PackageInformationPanel").then(module => ({ default: module.PackageInformationPanel })));
 const PackageTemplatePanel = lazy(() => import("./PackageTemplatePanel").then(module => ({ default: module.PackageTemplatePanel })));
 
 const RECEIVED_PACKAGE_SELECTION = Symbol("received-package-selection");
+const UNSAVED_PACKAGE_INFORMATION = "Apply or discard the package information changes before closing this package.";
 const loadRetainedPdfViewer = () => import("@/components/pdf/PdfViewer");
 const RetainedPdfViewer = lazy(loadRetainedPdfViewer);
 const PackageShareDialog = lazy(() => import("./PackageShareDialog"));
@@ -125,6 +127,7 @@ function PackageDialog({
     operation.current?.signal.throwIfAborted();
   }
   function close() {
+    if (informationDirty) { setError(UNSAVED_PACKAGE_INFORMATION); return; }
     if (typedDirty) { setError("Save or cancel the typed suggestion before closing this package review."); return; }
     operation.current?.abort();
     active.current = false;
@@ -133,7 +136,7 @@ function PackageDialog({
   const [savedWorkspace] = useState(readPackageWorkspaceContext);
   const [workspaceSection, setWorkspaceSection] = useState<PackageWorkspaceSection>(savedWorkspace?.section ?? "overview");
   const [activeMemberId, setActiveMemberId] = useState<string | null>(savedWorkspace?.memberId ?? null);
-  const overviewRef = useRef<HTMLFieldSetElement>(null);
+  const overviewRef = useRef<HTMLDivElement>(null);
   const documentsRef = useRef<HTMLDivElement>(null);
   const reviewRef = useRef<HTMLDivElement>(null);
   const deliveryRef = useRef<HTMLDivElement>(null);
@@ -156,6 +159,10 @@ function PackageDialog({
   const nameLimitId = useId();
   const nameTooLong = name.trim().length > 120;
   const validName = !!name.trim() && !nameTooLong;
+  const [informationDirty, setInformationDirty] = useState(false);
+  useEffect(() => {
+    if (!informationDirty) setError(previous => previous === UNSAVED_PACKAGE_INFORMATION ? "" : previous);
+  }, [informationDirty]);
   const [openedReview, setOpenedReview] = useState<PackageReviewRound | null>(null);
   const [shareOpen, setShareOpen] = useState(false);
   const [encryptedImport, setEncryptedImport] = useState<string | null>(null);
@@ -226,7 +233,7 @@ function PackageDialog({
   const beforeComparisonId = beforeOutputId || revision?.outputs.at(-2)?.id || "";
   const afterComparisonId = afterOutputId || revision?.outputs.at(-1)?.id || "";
   useEffect(() => {
-    if (typedDirty || !requestedPackageId && inventoryLoaded.current) return;
+    if (typedDirty || informationDirty || !requestedPackageId && inventoryLoaded.current) return;
     // A received selection supersedes work captured for the previous package.
     // Abort before loading inventory so late results cannot publish during that read.
     if (requestedPackageId) operation.current?.abort(RECEIVED_PACKAGE_SELECTION);
@@ -266,7 +273,7 @@ function PackageDialog({
     return () => {
       live = false;
     };
-  }, [requestedPackageId, requestedRevisionId, typedDirty, savedWorkspace]);
+  }, [requestedPackageId, requestedRevisionId, typedDirty, informationDirty, savedWorkspace]);
   useEffect(
     () => () => {
       if (pdfUrl) URL.revokeObjectURL(pdfUrl);
@@ -486,7 +493,7 @@ function PackageDialog({
         if (!value) close();
       }}
     >
-      <DialogContent className="sm:max-w-6xl" aria-busy={busy} showCloseButton={!typedDirty}>
+      <DialogContent className="sm:max-w-6xl" aria-busy={busy} showCloseButton={!typedDirty && !informationDirty}>
         <DialogHeader>
           <DialogTitle>Action packages</DialogTitle>
           <DialogDescription>
@@ -495,7 +502,13 @@ function PackageDialog({
           </DialogDescription>
         </DialogHeader>
         <PackageWorkspaceNavigation active={workspaceSection} hasPackage={!!record} disabled={busy || typedDirty} onNavigate={navigate} />
+        <div ref={overviewRef} tabIndex={-1} className="min-w-0 scroll-mt-4 space-y-4">
         {record && revision && <PackageWorkspaceSummary record={record} revision={revision} />}
+        {record && revision && <Suspense fallback={<p role="status">Loading package information…</p>}>
+          <PackageInformationPanel record={record} revision={revision} disabled={!editable || typedDirty} busy={busy} run={run} onApply={update}
+            onDirtyChange={setInformationDirty} signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted} />
+        </Suspense>}
+        </div>
         {error && (
           <p role="alert" className="break-words text-sm text-destructive">
             {error}
@@ -506,8 +519,8 @@ function PackageDialog({
             {notice}
           </p>
         )}
-        <div className="min-w-0 space-y-4">
-        <fieldset ref={overviewRef} tabIndex={-1} disabled={!loaded || busy || typedDirty} className="min-w-0 scroll-mt-4 space-y-4">
+        <fieldset disabled={informationDirty} aria-label="Package documents, review and delivery" className="min-w-0 space-y-4">
+        <fieldset disabled={!loaded || busy || typedDirty} className="min-w-0 scroll-mt-4 space-y-4">
           <legend className="mb-2 text-sm font-medium">Start or open a package</legend>
           <div className="flex flex-wrap items-end gap-2">
             <label className="min-w-0 flex-1 text-sm">
@@ -1257,7 +1270,7 @@ function PackageDialog({
               </fieldset>
             </>
           )}
-        </div>
+        </fieldset>
         {busy && (
           <Button variant="outline" onClick={() => operation.current?.abort()}>
             Cancel operation
