@@ -733,11 +733,11 @@ it('loads and saves new intake through its own busy parent controller without re
   useUIStore.setState({ actionPackagesOpen: true });
   render(<ActionPackageWorkspace exportGate={createExportGate()} ports={{ compile: vi.fn(), convertDocx: vi.fn(), waitForReady: async () => true }} />);
   const dialog = await screen.findByRole('dialog', { name: 'Action packages' });
-  const start = await within(dialog).findByRole('button', { name: 'Start training participation', exact: true });
+  const start = await within(dialog).findByRole('button', { name: 'Start training participation' });
   await waitFor(() => expect(start).toBeEnabled()); await user.click(start);
   const course = await within(dialog).findByLabelText('Course or activity', { exact: true });
   await waitFor(() => expect(course).toBeEnabled()); await user.type(course, 'Synthetic parent busy lifecycle');
-  await user.click(within(dialog).getByRole('button', { name: 'Save intake draft', exact: true }));
+  await user.click(within(dialog).getByRole('button', { name: 'Save intake draft' }));
   await within(dialog).findByText('Intake saved; document changes not applied.', {}, { timeout: 15_000 });
   const saved = (await listActionPackages()).find(record => !before.some(existing => existing.id === record.id));
   expect(saved).toBeDefined(); expect(getPackageRevision(saved!).templateState!.answers.values.course).toBe('Synthetic parent busy lifecycle');
