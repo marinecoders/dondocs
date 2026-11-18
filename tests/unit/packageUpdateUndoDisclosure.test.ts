@@ -56,7 +56,8 @@ it('refuses to restore an edited native PDF enclosure removed by a conditional b
     when: { op: 'equals', questionId: 'include', value: true } });
   let record = (await applyPreparedConditionalPackage(await prepareConditionalPackage({ template, name: 'Conditional Undo source', answers: { version: 1, values: { subject: 'Public training subject', include: true }, groups: {} } }, secret), secret, true)).record;
   const revision = getPackageRevision(record), extra = revision.members[1]; if (extra.kind !== 'native') throw new Error('Expected native member');
-  const session = structuredClone(extra.session); session.enclosures = [{ title: 'Retained synthetic enclosure', file: { name: 'Synthetic retained.pdf', size: data.byteLength, data } }];
+  const session = { ...structuredClone(extra.session), endItems: extra.session.endItems ?? [], publicationTables: extra.session.publicationTables ?? {},
+    enclosures: [{ title: 'Retained synthetic enclosure', file: { name: 'Synthetic retained.pdf', size: data.byteLength, data } }] };
   const edited = await capturePackageMember(captureDocumentRevision({ documentId: 'synthetic-private-source', epoch: 0, editSequence: 1, capturedAt: 1 }, session), extra.label, extra.role, extra);
   record = await reviseActionPackage(record, [revision.members[0], edited]);
   const off = conditionalPackageAnswers(record); off.values.include = false;
