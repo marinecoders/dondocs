@@ -8,12 +8,13 @@ import {
   type PackageFieldBinding, type PackageFieldBindings,
 } from './packageFieldBindings';
 import { patchPackageBindingDraftFields, type PackageBindingPatch, type PackageBindingValue } from './packageBindingTargets';
-import { readPackageAsset, readPackageMemberDraft } from './actionPackageAssets';
+import { readPackageMemberDraft } from './actionPackageAssets';
 import { sameReviewStoredValue, type StoredAttachment } from './documentsDb';
 import { withAttachmentStaging } from './attachments';
 import { portableResourceDigest } from './portableResources';
 import { packageCitationCandidates, packageCitationOccurrences } from './packageCitations';
-import { reviewPackageBindings, reviewPackageInformation, reviewPackageNative, reviewPackageOriginal, reviewPackageText } from './actionPackageDisclosure';
+import { reviewPackageBindings, reviewPackageInformation, reviewPackageNative, reviewPackageText } from './actionPackageDisclosure';
+import { reviewRestoredPackageSources } from './packageRestoredSources';
 import { assertExportDeploymentPolicy, type PolicyResolution } from './exportDeploymentPolicy';
 import type { ExportReview } from './preparedExport';
 import type { DocumentFieldSource } from './documentFields';
@@ -252,24 +253,7 @@ export async function undoPackageUpdate(
   const original = getPackageRevision(retained.before);
   reviewPackageText(retained.before.name, 'Package name', policy);
   informationReviews(original, policy);
-  for (const member of original.members) {
-    signal?.throwIfAborted();
-    if (member.kind === 'original') {
-      await reviewPackageOriginal(await readPackageAsset(member.original), member.label, policy);
-    } else if (member.kind === 'native') {
-      const { draft, reviewed } = await readPackageMemberDraft(member);
-      reviewPackageNative(reviewed.session, member.label, policy, draft as unknown as DocumentFieldSource);
-      for (const file of [...reviewed.files, reviewed.basicLetter,
-        ...reviewed.figures.filter((_, index) => reviewed.session.paragraphs[index]?.figure?.type === 'application/pdf')])
-        if (file) await reviewPackageOriginal(file.data, `${member.label}: ${file.name}`, policy);
-    }
-  }
-  const pages = new Map(original.members.flatMap(member => member.kind === 'native'
-    ? Object.values(member.templates ?? {}).map(asset => [asset.id, asset] as const) : []));
-  for (const page of pages.values()) {
-    signal?.throwIfAborted();
-    await reviewPackageOriginal(await readPackageAsset(page), page.name, policy);
-  }
+  await reviewRestoredPackageSources(original, policy, signal);
   const revision: PackageRevision = { ...structuredClone(original), id: newPackageId('revision'),
     parentId: retained.after.currentRevisionId, createdAt: Date.now(), outputs: [] };
   let record: ActionPackage;
