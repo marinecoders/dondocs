@@ -11,7 +11,16 @@ async function packages(page: Page) {
   if (await drawer.isVisible()) await drawer.getByRole('button', { name: /^Packages(?:\s|$)/ }).click();
   return page.getByRole('dialog', { name: 'Action packages', exact: true });
 }
-async function section(dialog: Locator, title: string) { const summary = dialog.locator('summary').filter({ hasText: new RegExp(`^${title}`) }).first(); const details = summary.locator('..'); if (!await details.getAttribute('open').then(value => value !== null)) await summary.click(); return details; }
+async function section(dialog: Locator, title: string) {
+  await expect(dialog).toHaveAttribute('aria-busy', 'false');
+  await expect(dialog.getByRole('region', { name: 'Action intake', exact: true })).toBeVisible();
+  await expect(dialog.getByRole('region', { name: 'Package information', exact: true })).toBeVisible();
+  const summary = dialog.locator('summary').filter({ hasText: new RegExp(`^${title}`) }).first(), details = summary.locator('..');
+  await summary.scrollIntoViewIfNeeded(); await expect(summary).toBeInViewport();
+  if (await details.getAttribute('open') === null) await summary.click();
+  await expect(details).toHaveAttribute('open', '');
+  return details;
+}
 async function download(page: Page, action: () => Promise<void>) { const pending = page.waitForEvent('download'); await action(); const value = await pending; expect(await value.failure()).toBeNull(); return readFile((await value.path())!); }
 function asset(bytes: Uint8Array, id: string, name: string) { return { id, name, type: 'application/pdf', size: bytes.byteLength, sha256: createHash('sha256').update(bytes).digest('hex') }; }
 async function fixture(png: Buffer, format: 'image' | 'pdf') {
@@ -30,6 +39,9 @@ for (const { theme, width, format } of cases) test(`captured ${format} evidence 
   let dialog = await packages(page);
   await dialog.getByLabel('Import editable package', { exact: true }).setInputFiles({ name: 'evidence.dondocs-package.json', mimeType: 'application/json', buffer: await fixture(png, format) });
   await expect(dialog.getByLabel('Package name', { exact: true })).toHaveValue('Captured evidence exercise');
+  await expect(dialog.getByRole('heading', { name: `1. ${format === 'pdf' ? 'Paper evidence.pdf' : 'Primary letter.pdf'}`, exact: true })).toBeVisible();
+  await expect(dialog.getByRole('heading', { name: '2. Excluded supporting.pdf', exact: true })).toBeVisible();
+  await expect(dialog).toHaveAttribute('aria-busy', 'false');
   const sourceName = format === 'image' ? 'Paper evidence.png' : 'Paper evidence.pdf';
   if (format === 'image') {
     const evidence = await section(dialog, 'Supporting evidence files');
