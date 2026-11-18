@@ -2,7 +2,7 @@ import { useEffect, useId, useLayoutEffect, useRef, useState } from 'react';
 import { PackageDeliveryPreview } from './PackageDeliveryPreview';
 import { Button } from './ui/button';
 import type { ActionPackage, PackageRevision } from '@/lib/actionPackages';
-import { preparePackageDelivery, buildPackageDeliveryFile, type PackageDeliverySelection, type PreparedPackageDelivery } from '@/lib/packageDelivery';
+import { preparePackageDelivery, buildPackageDeliveryFile, assertPackageDeliveryPolicy, type PackageDeliverySelection, type PreparedPackageDelivery } from '@/lib/packageDelivery';
 import { getExportDeploymentPolicy, getExportDeploymentPolicySync } from '@/config/classification';
 import { triggerDownload } from '@/lib/encoding';
 import type { CorrespondenceRendererPorts } from '@/services/exports/correspondence';
@@ -74,7 +74,7 @@ function DeliveryProfile({ record, revision, disabled, busy, ports, run, signal,
       <label className="flex items-start gap-2"><input type="checkbox" checked={approved} disabled={locked} onChange={event => setApproved(event.target.checked)} />I reviewed every included document, original PDF, file and privacy finding for this exact delivery.</label>
       <Button className="h-auto min-h-9 max-w-full whitespace-normal" disabled={locked || !approved} onClick={() => void perform(async (current, operationSignal) => {
         const json = await buildPackageDeliveryFile(prepared, await getExportDeploymentPolicy(), approved, operationSignal, current);
-        if (current()) triggerDownload(new TextEncoder().encode(json), 'selected-delivery.dondocs-package.json', 'application/json');
+        if (current()) { assertPackageDeliveryPolicy(prepared, getExportDeploymentPolicySync()); triggerDownload(new TextEncoder().encode(json), 'selected-delivery.dondocs-package.json', 'application/json'); }
       })}>Download reviewed delivery package</Button>
     </section>}
   </section>;

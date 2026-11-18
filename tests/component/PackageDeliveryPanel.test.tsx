@@ -8,6 +8,8 @@ import { createActionPackage, getPackageRevision, reviseActionPackage } from '@/
 import { captureOriginalPackageMember } from '@/lib/actionPackageAssets';
 import { resolveExportDeploymentPolicy } from '@/lib/exportDeploymentPolicy';
 import * as encoding from '@/lib/encoding';
+import * as delivery from '@/lib/packageDelivery';
+import * as classification from '@/config/classification';
 
 vi.mock('@/stores/backupStore', () => ({ scheduleBackup: vi.fn() }));
 vi.mock('@/lib/pdfText', () => ({ extractPdfText: vi.fn(async () => '') }));
@@ -45,4 +47,22 @@ it('reports parent operation rejection without trapping the controls and invalid
   expect(await screen.findByRole('alert')).toHaveTextContent('Parent unavailable'); expect(screen.getByRole('button', { name: 'Prepare selected delivery' })).toBeEnabled();
   const other = await fixture(); view.rerender(<PackageDeliveryPanel {...props} record={other} revision={getPackageRevision(other)} run={async action => action()} />);
   expect(screen.queryByRole('alert')).toBeNull(); expect(onPreparedChange).toHaveBeenLastCalledWith(null);
+});
+
+it('rechecks policy synchronously after file generation and before starting the browser download', async () => {
+  const record = await fixture(), user = userEvent.setup(), download = vi.spyOn(encoding, 'triggerDownload').mockImplementation(() => {});
+  render(<PackageDeliveryPanel record={record} revision={getPackageRevision(record)} disabled={false} busy={false} run={async action => action()} signal={() => undefined} isCurrent={() => true} />);
+  await user.click(screen.getByRole('button', { name: 'Prepare selected delivery' }));
+  await screen.findByRole('region', { name: 'Captured delivery contents' });
+  await user.click(screen.getByRole('checkbox', { name: /^I reviewed every included document/ }));
+  const build = delivery.buildPackageDeliveryFile;
+  vi.spyOn(delivery, 'buildPackageDeliveryFile').mockImplementationOnce(async (...args) => {
+    const json = await build(...args);
+    vi.spyOn(classification, 'getExportDeploymentPolicySync').mockReturnValue({ status: 'error', message: 'Policy unavailable after generation' });
+    return json;
+  });
+  await user.click(screen.getByRole('button', { name: 'Download reviewed delivery package' }));
+  expect(await screen.findByRole('alert')).toHaveTextContent('Policy unavailable after generation');
+  expect(download).not.toHaveBeenCalled();
+  expect(screen.queryByRole('region', { name: 'Captured delivery contents' })).toBeNull();
 });

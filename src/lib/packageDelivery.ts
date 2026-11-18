@@ -36,13 +36,17 @@ export function selectPackageDeliveryMembers(record: ActionPackage, revisionId: 
     throw new Error('Choose each included document once from this exact saved revision.');
   return structuredClone(revision.members.filter(member => selected.has(member.id)));
 }
+/** Call synchronously immediately before exposing the already generated delivery bytes. */
+export function assertPackageDeliveryPolicy(prepared: PreparedPackageDelivery, policy: PolicyResolution): void {
+  if (identity(policy) !== capture(prepared).policy) throw new Error('Deployment settings changed. Review this delivery again.');
+}
 export async function assertPackageDeliveryCurrent(prepared: PreparedPackageDelivery, policy: PolicyResolution, signal?: AbortSignal, isCurrent: () => boolean = () => true): Promise<void> {
   const owned = capture(prepared); signal?.throwIfAborted();
   if (!isCurrent() || identity(policy) !== owned.policy || identity(await getExportDeploymentPolicy()) !== owned.policy) throw new Error('This delivery or deployment changed. Prepare and review it again.');
   const latest = (await listActionPackages()).find(record => record.id === owned.source.id);
   signal?.throwIfAborted();
   if (!isCurrent() || !sameReviewStoredValue(latest, owned.source)) throw new Error('The saved package changed. Prepare and review this delivery again.');
-  if (identity(getExportDeploymentPolicySync()) !== owned.policy) throw new Error('Deployment settings changed. Review this delivery again.');
+  assertPackageDeliveryPolicy(prepared, getExportDeploymentPolicySync());
 }
 export function copyPreparedPackageDeliveryProjection(prepared: PreparedPackageDelivery): ActionPackage { return structuredClone(capture(prepared).projection); }
 export async function readPreparedPackageDeliveryAsset(prepared: PreparedPackageDelivery, asset: PackageAsset): Promise<ArrayBuffer> {
