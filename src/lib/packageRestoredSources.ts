@@ -1,5 +1,6 @@
 import type { PackageRevision } from './actionPackages';
 import { readPackageAsset, readPackageMemberDraft } from './actionPackageAssets';
+import { reviewPackageAttachment } from './packageAttachmentCapabilities';
 import { reviewPackageNative, reviewPackageOriginal } from './actionPackageDisclosure';
 import type { DocumentFieldSource } from './documentFields';
 import type { PolicyResolution } from './exportDeploymentPolicy';
@@ -17,7 +18,8 @@ export async function reviewRestoredPackageSources(revision: PackageRevision, po
       for (const file of [...reviewed.files, reviewed.basicLetter,
         ...reviewed.figures.filter((_, index) => reviewed.session.paragraphs[index]?.figure?.type === 'application/pdf')])
         if (file) reviews.push(await reviewPackageOriginal(file.data, `${member.label}: ${file.name}`, policy));
-    } else if (member.kind === 'original') reviews.push(await reviewPackageOriginal(await readPackageAsset(member.original), member.label, policy));
+    } else if (member.kind === 'attachment') reviews.push((await reviewPackageAttachment(member.original, await readPackageAsset(member.original), policy, signal)).review);
+    else reviews.push(await reviewPackageOriginal(await readPackageAsset(member.original), member.label, policy));
   }
   const backgrounds = new Map(revision.members.flatMap(member => member.kind === 'native'
     ? Object.values(member.templates ?? {}).map(asset => [asset.id, asset] as const) : []));
