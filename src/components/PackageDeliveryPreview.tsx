@@ -41,7 +41,7 @@ export function PackageDeliveryPreview({ prepared, disabled, run, signal, isCurr
     {preview && <section aria-label="Captured delivery file preview" className="min-w-0 space-y-2 rounded border p-2">
       <p className="break-words font-medium">{preview.file.name}</p>
       <Button variant="outline" size="sm" disabled={disabled || pending} onClick={() => setPreview(undefined)}>Close delivery preview</Button>
-      {preview.url && <div className="h-[28rem] min-w-0 overflow-hidden rounded border"><Suspense fallback={<p role="status">Loading PDF preview…</p>}><PdfViewer pdfUrl={preview.url} documentId={`delivery:${prepared.revisionId}:${preview.file.id}`} showFullscreen={false} toolbarLabel="Captured delivery PDF" /></Suspense></div>}
+      {preview.url && <div className="h-[28rem] min-w-0 overflow-hidden rounded border"><Suspense fallback={<p role="status">Loading PDF preview…</p>}><PdfViewer pdfUrl={preview.url} documentId={`delivery:${prepared.revisionId}:${preview.file.id}`} showFullscreen={false} allowOpenInTab={false} toolbarLabel="Captured delivery PDF" /></Suspense></div>}
       {preview.values && <><p className="text-xs text-muted-foreground">Retained editable values include inactive fields and template declarations.</p>
         <dl className="min-w-0 space-y-2">{preview.values.slice(0, count).map((field, index) => <div key={index} className="rounded border p-2 text-xs"><dt className="break-words font-medium">{field.label}</dt><dd className="whitespace-pre-wrap break-words">{field.text}</dd></div>)}</dl>
         {preview.values.length > count && <Button variant="outline" disabled={disabled || pending} onClick={() => setCount(value => value + 25)}>Show more editable values</Button>}
