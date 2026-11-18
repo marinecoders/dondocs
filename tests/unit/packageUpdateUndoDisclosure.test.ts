@@ -69,7 +69,6 @@ it('refuses to restore an edited native PDF enclosure removed by a conditional b
   await expect(undoConditionalPackage(applied.undo!, unclassified)).rejects.toThrow('configured levels');
   expect((await listActionPackages()).find(item => item.id === applied.record.id)).toEqual(applied.record);
 });
-
 it('checks actual supporting-file text before shared-value Undo under a stricter policy', async () => {
   const initial = await createActionPackage(`Evidence Undo ${crypto.randomUUID()}`);
   const file = { name: 'retained.txt', data: new TextEncoder().encode('Synthetic opening\nSECRET\nSynthetic retained evidence').buffer };
@@ -81,4 +80,5 @@ it('checks actual supporting-file text before shared-value Undo under a stricter
   await expect(undoPackageUpdate(applied.undo, unclassified)).rejects.toThrow('configured levels');
   expect((await listActionPackages()).find(record => record.id === source.id)).toEqual(applied.record);
   expect(await idbGetAllAttachments()).toEqual(before);
+
 });
