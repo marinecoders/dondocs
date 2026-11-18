@@ -284,16 +284,18 @@ export async function validateActionPackageResources(
     }
     for (const output of revision.outputs) {
       const pdf = await PDFDocument.load(await read(output.asset));
-      if (
-        pdf.getPageCount() !==
-        output.boundaries.reduce(
-          (total, boundary) => total + boundary.pageCount,
-          0,
-        )
-      )
-        throw new Error(
-          "The retained PDF does not match its member page boundaries.",
-        );
+      const frontMatter = output.assembly?.frontMatterPages ?? 0;
+      if (frontMatter > pdf.getPageCount()) throw new Error('Retained PDF front matter exceeds its physical pages.');
+      const covered = new Set<number>();
+      for (let number = 1; number <= frontMatter; number++) covered.add(number);
+      for (const boundary of output.boundaries) {
+        if (!revision.members.some(member => member.id === boundary.memberId) || boundary.startPage <= frontMatter
+          || boundary.startPage + boundary.pageCount - 1 > pdf.getPageCount())
+          throw new Error('A retained PDF boundary does not belong to its captured document.');
+        for (let page = boundary.startPage; page < boundary.startPage + boundary.pageCount; page++) covered.add(page);
+      }
+      if (covered.size !== pdf.getPageCount() || [...covered].some(page => page < 1 || page > pdf.getPageCount()))
+        throw new Error('The retained PDF does not match its member page boundaries.');
     }
   }
 }

@@ -1,5 +1,6 @@
 import { reviewPackageSigning } from './packageSigning';
 import { getExportDeploymentPolicy, getExportDeploymentPolicySync } from '@/config/classification';
+import { addPackageFrontMatter } from './packageFrontMatter';
 import { addPackageOutputNavigation } from './packageOutputNavigation';
 import { inspectPackageRequirements } from "./packageRequirements";
 import { inspectPackageConsistency } from './packageConsistency';
@@ -170,6 +171,8 @@ export async function preparePackageAssembly(
     reviews: PreparedPackageAssembly["reviews"] = [],
     inputs: MemberInput[] = [];
   const outputs = new Map<string, ArrayBuffer>();
+  if (purpose === 'pdf' && revision.assembly?.profile === 'forms-led' && !(revision.members[0]?.kind === 'native' && revision.members[0].session.documentCategory === 'forms'))
+    findings.push({ severity: 'error', message: 'The forms-led assembly profile needs a captured native form as its first main document.' });
   const error = (message: string, memberId?: string) =>
     findings.push({ message, memberId, severity: "error" });
   if (policy.status !== "ready") error(policy.message);
@@ -248,10 +251,7 @@ export async function preparePackageAssembly(
       const pdf = await PDFDocument.load(bytes);
       if (
         pdf.getPageCount() !==
-        output.boundaries.reduce(
-          (total, boundary) => total + boundary.pageCount,
-          0,
-        )
+        Math.max(output.assembly?.frontMatterPages ?? 0, ...output.boundaries.map(boundary => boundary.startPage + boundary.pageCount - 1))
       )
         throw new Error(
           "The retained PDF does not match its preserved member boundaries.",
@@ -599,8 +599,8 @@ export async function assemblePackage(
   if (input.purpose !== "pdf") throw new Error("Review PDF assembly requirements before assembling this package.");
   await assertAssemblyPolicyCurrent(input); signal.throwIfAborted();
   return withAttachmentStaging(async () => {
-    const pdf = await PDFDocument.create(),
-      boundaries: PackageBoundary[] = [];
+    let pdf = await PDFDocument.create();
+    let boundaries: PackageBoundary[] = [];
     let continuationPages = 0,
       enclosureNumber = 0;
     for (const memberInput of input.inputs) {
@@ -698,6 +698,8 @@ export async function assemblePackage(
       }
     }
     signal.throwIfAborted();
+    const planned = await addPackageFrontMatter(pdf, getPackageRevision(input.record, input.revisionId), input.record.name, boundaries);
+    pdf = planned.pdf; boundaries = planned.boundaries;
     const navigation = addPackageOutputNavigation(pdf, getPackageRevision(input.record, input.revisionId), boundaries);
     const bytes = new Uint8Array(await pdf.save()).buffer;
     await assertAssemblyPolicyCurrent(input); signal.throwIfAborted();
@@ -715,6 +717,7 @@ export async function assemblePackage(
       provenance: await capturePackageRenderProvenance(getPackageRevision(input.record, input.revisionId)),
       boundaries,
       navigation,
+      ...(getPackageRevision(input.record, input.revisionId).assembly ? { assembly: { version: 1 as const, profile: getPackageRevision(input.record, input.revisionId).assembly!.profile, frontMatterPages: planned.frontMatterPages } } : {}),
       signingStatus: "unsigned-assembled-derivative" as const,
     };
     return commitActionPackage(

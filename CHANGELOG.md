@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.157] — 2026-11-17
+
+### Added
+
+- Revision-owned assembly profiles, optional covers and linked contents planned from actual rendered member lengths without changing member numbering.
+
 ## [1.3.156] — 2026-11-17
 
 ### Added

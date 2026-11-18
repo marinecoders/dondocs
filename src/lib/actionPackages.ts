@@ -1,7 +1,7 @@
 import { packagePdfReviewSchema } from './packagePdfReviewModel';
 import { packageFieldReviewApplicationSchema, packageFormReviewSchema } from './packageFormReviewModel';
 import { packageSigningSchema, packageSigningAssets, MAX_PACKAGE_SIGNING_HISTORY_BYTES } from './packageSigningModel';
-import { packageOutputDestinationSchema } from './packageAssemblyModel';
+import { packageOutputDestinationSchema, packageAssemblySettingsSchema, packageAssemblyResultSchema } from './packageAssemblyModel';
 import { MAX_PACKAGE_WORK_HISTORY_BYTES, packageWorkSchema } from "./packageWorkModel";
 import { MAX_PACKAGE_REQUIREMENTS_HISTORY_BYTES, packageRequirementsSchema } from "./packageRequirementsModel";
 import { packageRoles } from "./packageRoles";
@@ -117,6 +117,7 @@ const outputSchema = z
     provenance: packageRenderProvenanceSchema.optional(),
     boundaries: z.array(boundarySchema).max(100),
     navigation: z.array(packageOutputDestinationSchema).max(100).optional(),
+    assembly: packageAssemblyResultSchema.optional(),
     signingStatus: z.literal("unsigned-assembled-derivative"),
   })
   .strict();
@@ -136,6 +137,7 @@ export const packageRevisionSchema = z
     consistency: packageConsistencySchema.optional(),
     work: packageWorkSchema.optional(),
     signing: packageSigningSchema.optional(),
+    assembly: packageAssemblySettingsSchema.optional(),
   })
   .strict();
 export type PackageRevision = z.infer<typeof packageRevisionSchema>;
@@ -417,7 +419,7 @@ export const actionPackageSchema = z
                 (index
                   ? output.boundaries[index - 1].startPage +
                     output.boundaries[index - 1].pageCount
-                  : 1),
+                  : 1 + (output.assembly?.frontMatterPages ?? 0)),
           )
         )
           ctx.addIssue({
@@ -634,6 +636,7 @@ export async function reviseActionPackage(
     ...(current.consistency ? { consistency: current.consistency } : {}),
     ...(current.work ? { work: current.work } : {}),
     ...(current.signing ? { signing: current.signing } : {}),
+    ...(current.assembly ? { assembly: current.assembly } : {}),
   };
   return commitActionPackage(
     record,
