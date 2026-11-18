@@ -26,6 +26,7 @@ import { comparePackageChangeImpact, type PackageChangeImpact } from './packageC
 import { getExportDeploymentPolicy, getExportDeploymentPolicySync } from '@/config/classification';
 import { assertExportDeploymentPolicy, type PolicyResolution } from './exportDeploymentPolicy';
 import type { ExportReview } from './preparedExport';
+import { reviewPackageAttachment } from './packageAttachmentCapabilities';
 import type { SerializedSession } from '@/stores/documentStore';
 
 export { packageTemplateInstanceKey, readConditionalPackageTemplate };
@@ -473,7 +474,8 @@ export async function prepareConditionalPackage(input: ConditionalPackageInput, 
             bindings.push(restoredLink);
           }
         }
-      } else reviews.push(await reviewPackageOriginal(await readPackageAsset(historical.original), historical.label, policy));
+      } else if (historical.kind === 'attachment') reviews.push((await reviewPackageAttachment(historical.original, await readPackageAsset(historical.original), policy, signal)).review);
+      else reviews.push(await reviewPackageOriginal(await readPackageAsset(historical.original), historical.label, policy));
       selectedMembers.push(own(historical)); instance.suppressed = false;
       clean.set(historical.id, instance.generatedDigest === await memberDigest(historical));
       changes.push({ key: instance.key, label: instance.label, memberId: instance.memberId, state: 'add', message: 'Restore the last captured document, including its local changes and original bytes.' });

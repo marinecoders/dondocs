@@ -18,6 +18,7 @@ import { useUIStore } from '@/stores/uiStore';
 import { fixtureInstance, fixturePage } from '../_helpers/formFixture';
 import { uint8ArrayToBase64 } from '@/lib/encoding';
 import { listPackageBindingFields } from '@/lib/packageBindingTargets';
+import { applyPreparedPackageAttachment, preparePackageAttachment } from '@/lib/packageAttachments';
 
 vi.mock('@/stores/backupStore', () => ({ scheduleBackup: vi.fn(), useBackupStore: { getState: () => ({}) } }));
 vi.mock('@/lib/pdfText', () => ({ extractPdfText: vi.fn(async () => '') }));
@@ -165,6 +166,23 @@ describe('captured conditional package membership', () => {
     const restored = await undoConditionalPackage(undo!, policy);
     expect(restored.revisions.slice(0, -1)).toEqual(applied.revisions); expect(getPackageRevision(restored).members).toEqual(getPackageRevision(record).members);
     await expect(undoConditionalPackage(undo!, policy)).rejects.toThrow(/no longer be undone/);
+  });
+
+  it('reviews restored supporting-file text before Undo under a stricter deployment', async () => {
+    const initial = await create();
+    const permissive = resolveExportDeploymentPolicy({ hostname: 'test.smil.mil', environment: null, runtime: { status: 'absent' } });
+    vi.mocked(classification.getExportDeploymentPolicy).mockResolvedValue(permissive);
+    vi.mocked(classification.getExportDeploymentPolicySync).mockReturnValue(permissive);
+    const file = { name: 'retained.txt', data: new TextEncoder().encode('Synthetic opening\nSECRET\nSynthetic retained evidence').buffer };
+    const record = await applyPreparedPackageAttachment(await preparePackageAttachment(initial, file, permissive), permissive, true);
+    const input = conditionalPackageAnswers(record); input.values.include = true;
+    const applied = await applyPreparedConditionalPackage(await prepareConditionalPackage({ template: template(), answers: input, record }, permissive), permissive, true);
+    const files = await idbGetAllAttachments();
+    vi.mocked(classification.getExportDeploymentPolicy).mockResolvedValue(policy);
+    vi.mocked(classification.getExportDeploymentPolicySync).mockReturnValue(policy);
+    await expect(undoConditionalPackage(applied.undo!, policy)).rejects.toThrow(/markings.*configured levels/);
+    expect((await listActionPackages()).find(item => item.id === record.id)).toEqual(applied.record);
+    expect(await idbGetAllAttachments()).toEqual(files);
   });
 
   it('owns the exact template after library loss and rejects missing source bytes', async () => {
