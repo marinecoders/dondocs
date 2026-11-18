@@ -439,7 +439,24 @@ export async function prepareConditionalPackage(input: ConditionalPackageInput, 
           const fields = await listPackageBindingFields(historical);
           for (const priorLink of priorRevision?.bindings?.items.filter(binding => binding.memberId === historical.id) ?? []) {
             if (bindings.some(binding => binding.id === priorLink.id)) continue;
-            const restoredLink = own(priorLink), field = fields.find(field => packageBindingTargetKey(field.target) === packageBindingTargetKey(restoredLink.target));
+            const restoredLink = own(priorLink);
+            const targetState = instance.targets?.find(target => target.linkId === priorLink.id);
+            const question = targetState && template.program.questions.find(question => question.id === targetState.questionId);
+            const mapping = question && state.facts.find(fact => fact.questionId === question.id
+              && fact.participantId === (question.groupId ? instance.participantId : undefined));
+            const fact = information.facts.find(fact => fact.id === (targetState ? mapping?.factId : priorLink.factId));
+            // A cleared answer must not resurrect its retired fact when an older document returns.
+            // Reserve this formerly linked field for a later answer and an explicit local-value
+            // decision. Genuinely absent historical links stay detached because this loop skips them.
+            if (!fact) {
+              if (targetState) { targetState.linkId = newPackageId('link'); targetState.initialized = false; }
+              continue;
+            }
+            if (fact.id !== restoredLink.factId) {
+              restoredLink.id = newPackageId('link'); restoredLink.factId = fact.id;
+              if (targetState) { targetState.linkId = restoredLink.id; targetState.initialized = true; }
+            }
+            const field = fields.find(field => packageBindingTargetKey(field.target) === packageBindingTargetKey(restoredLink.target));
             if (field && field.value !== restoredLink.expectedValue) { restoredLink.mode = 'override'; restoredLink.expectedValue = field.value; }
             bindings.push(restoredLink);
           }
