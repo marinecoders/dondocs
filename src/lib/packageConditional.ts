@@ -626,7 +626,11 @@ export async function undoConditionalPackage(receipt: ConditionalPackageUndo, po
   if (original.consistency) reviewPackageConsistency(original.consistency, policy);
   if (original.work) reviewPackageWork(original.work, policy);
   if (original.signing) reviewPackageSigningMetadata(original.signing, policy);
-  if (original.scans) reviewPackageScans(original.scans, policy);
+  if (original.scans) {
+    reviewPackageScans(original.scans, policy);
+    const { reviewPackageScanSources } = await import('./packageScans');
+    await reviewPackageScanSources(original.scans, policy, { signal });
+  }
   await reviewRestoredPackageSources(original, policy, signal);
   const revision = { ...own(original), id: newPackageId('revision'), parentId: captured.after.currentRevisionId, createdAt: Date.now(), outputs: [] };
   const record = await guardedCommit(captured.after, buildRecord(captured.after, captured.before.name, revision), [], policy, signal, isCurrent);

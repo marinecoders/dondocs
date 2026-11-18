@@ -1,6 +1,6 @@
 import { actionPackageSchema, commitActionPackage, getPackageRevision, newPackageId, type ActionPackage, type PackageRevision } from './actionPackages';
 import { readPackageAsset, validatePackageOriginalPdf } from './actionPackageAssets';
-import { packageScanSchema, packageScansSchema, packageScansText, packageScanIsCurrent, type PackageScan } from './packageScanModel';
+import { packageScanSchema, packageScansSchema, packageScansText, packageScanIsCurrent, type PackageScan, type PackageScans } from './packageScanModel';
 import type { ScanProgress } from './scannedImport';
 import { inspectRasterImage } from '@/services/docx/imageAssets';
 import { reviewPackageOriginal, reviewPackageText } from './actionPackageDisclosure';
@@ -9,6 +9,8 @@ import type { PolicyResolution } from './exportDeploymentPolicy';
 import { getExportDeploymentPolicy, getExportDeploymentPolicySync } from '@/config/classification';
 import { preparePackageUpdate } from './packageUpdates';
 import { PDFDocument } from 'pdf-lib';
+import { portableResourceDigest } from './portableResources';
+import { reviewPackageAttachment } from './packageAttachmentCapabilities';
 export * from './packageScanModel';
 
 export interface PreparedPackageScan {
@@ -34,6 +36,35 @@ export async function validatePackageScanSource(scan: PackageScan, bytes: ArrayB
     await validatePackageOriginalPdf(bytes);
     if ((await PDFDocument.load(bytes)).getPageCount() !== scan.pages.length) throw new Error('Recognized evidence pages do not match the exact retained source PDF.');
   } else await inspectRasterImage(new Uint8Array(bytes), scan.source.type);
+}
+/** Full-revision restoration and transfer include old sources even after their member is replaced. */
+export async function reviewPackageScanSources(input: PackageScans, policy: PolicyResolution, options: {
+  readAsset?: typeof readPackageAsset; reviewOriginal?: typeof reviewPackageOriginal; signal?: AbortSignal;
+} = {}): Promise<Array<{ member: string; review: ExportReview }>> {
+  const scans = packageScansSchema.parse(structuredClone(input)), read = options.readAsset ?? readPackageAsset;
+  const inspected = new Map<string, { identity: string; pages: number }>();
+  const reviews: Array<{ member: string; review: ExportReview }> = [];
+  for (const scan of scans.items) {
+    options.signal?.throwIfAborted();
+    const identity = JSON.stringify(scan.source), previous = inspected.get(scan.source.id);
+    if (previous) {
+      if (previous.identity !== identity || previous.pages !== scan.pages.length) throw new Error('Conflicting retained scan source identity or page count.');
+      continue;
+    }
+    const bytes = (await read(scan.source)).slice(0);
+    options.signal?.throwIfAborted();
+    if (bytes.byteLength !== scan.source.size || await portableResourceDigest(bytes) !== scan.source.sha256)
+      throw new Error('The retained scan source does not match its captured bytes.');
+    await validatePackageScanSource(scan, bytes);
+    options.signal?.throwIfAborted();
+    const label = `Retained scan source: ${scan.source.name}`;
+    reviews.push({ member: label, review: scan.source.type === 'application/pdf'
+      ? await (options.reviewOriginal ?? reviewPackageOriginal)(bytes, label, policy)
+      : (await reviewPackageAttachment(scan.source, bytes, policy, options.signal)).review });
+    options.signal?.throwIfAborted();
+    inspected.set(scan.source.id, { identity, pages: scan.pages.length });
+  }
+  return reviews;
 }
 export async function preparePackageScan(input: ActionPackage, memberId: string, policy: PolicyResolution, signal = new AbortController().signal,
   progress: (progress: ScanProgress) => void = () => {}): Promise<PreparedPackageScan> {

@@ -215,19 +215,8 @@ export async function preparePackageAssembly(
   if (revision.scans) {
     try {
       reviews.push({ member: 'Recognized supporting evidence', review: reviewPackageScans(revision.scans, policy) });
-      const { validatePackageScanSource } = await import('./packageScans');
-      const inspected = new Set<string>();
-      for (const scan of revision.scans.items) {
-        options.signal?.throwIfAborted();
-        if (inspected.has(scan.source.id)) continue;
-        const bytes = await read(scan.source);
-        await validatePackageScanSource(scan, bytes);
-        const label = `Retained scan source: ${scan.source.name}`;
-        reviews.push({ member: label, review: scan.source.type === 'application/pdf'
-          ? await reviewOriginal(bytes, label, policy)
-          : (await reviewPackageAttachment(scan.source, bytes, policy, options.signal)).review });
-        inspected.add(scan.source.id);
-      }
+      const { reviewPackageScanSources } = await import('./packageScans');
+      reviews.push(...await reviewPackageScanSources(revision.scans, policy, { readAsset: read, reviewOriginal, signal: options.signal }));
     }
     catch (cause) { error(cause instanceof Error ? cause.message : 'Recognized evidence could not be reviewed.'); }
   }

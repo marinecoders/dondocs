@@ -161,6 +161,10 @@ export async function undoPackageUpdate(
   const original = getPackageRevision(retained.before);
   reviewPackageText(retained.before.name, 'Package name', policy);
   informationReviews(original, policy);
+  if (original.scans) {
+    const { reviewPackageScanSources } = await import('./packageScans');
+    await reviewPackageScanSources(original.scans, policy, { signal });
+  }
   await reviewRestoredPackageSources(original, policy, signal);
   const revision: PackageRevision = { ...structuredClone(original), id: newPackageId('revision'),
     parentId: retained.after.currentRevisionId, createdAt: Date.now(), outputs: [] };
