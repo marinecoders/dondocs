@@ -1,9 +1,10 @@
+import { reviewConditionalPackage } from './packageConditionalSources';
 import { actionPackageSchema, commitActionPackage, getPackageRevision, newPackageId, type ActionPackage, type NativePackageMember, type PackageRevision } from './actionPackages';
 import { assertActivePackageReview, openPackageReview } from './packageReviewRounds';
 import { parsePackageReviewReturn, inspectPackageReviewTransfer } from './packageReviewTransfer';
 import { inspectPackageFormAnchor, packageFormFeedbackText, type PackageFormProposal, type PackageFieldReviewApplication } from './packageFormReview';
 import { packageBindingTargetKey, patchPackageBindingDraftFields, type PackageBindingValue } from './packageBindingTargets';
-import { readPackageMemberDraft, readPackageAsset } from './actionPackageAssets';
+import { readPackageMemberDraft } from './actionPackageAssets';
 import { reviewRestoredPackageSources } from './packageRestoredSources';
 import { sameReviewStoredValue, type StoredAttachment } from './documentsDb';
 import { captureLinkedPackageChanges, preserveUnchangedCitations } from './packageLinkedUpdates';
@@ -121,10 +122,7 @@ async function restoredRevisionReviews(revision: PackageRevision, policy: Policy
   const reviews = [reviewPackageText(packageFormFeedbackText({ ...revision,
     members: revision.members.map(member => member.kind === 'native' ? { ...member, session: undefined } : member) }), 'Restored package context', policy)];
   reviews.push(...await reviewRestoredPackageSources(revision, policy));
-  if (revision.templateState) {
-    const raw = JSON.parse(new TextDecoder('utf-8', { fatal: true }).decode(await readPackageAsset(revision.templateState.source)));
-    reviews.push(reviewPackageText(packageFormFeedbackText(raw), 'Restored pinned action template', policy));
-  }
+  if (revision.templateState) reviews.push(...await reviewConditionalPackage(revision, policy));
   if (revision.scans) {
     const { reviewPackageScanSources } = await import('./packageScans');
     reviews.push(...(await reviewPackageScanSources(revision.scans, policy)).map(entry => entry.review));

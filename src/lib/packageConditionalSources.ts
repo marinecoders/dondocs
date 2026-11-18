@@ -15,7 +15,7 @@ import type { DocumentFieldSource } from './documentFields';
 import { sameReviewStoredValue } from './documentsDb';
 
 type Reader = (asset: PackageAsset) => Promise<ArrayBuffer>;
-async function sourceTemplate(state: PackageConditionalState, read: Reader): Promise<PackageTemplateV2> {
+async function sourceTemplate(state: Pick<PackageConditionalState, 'source'>, read: Reader): Promise<PackageTemplateV2> {
   const bytes = await read(state.source);
   if (bytes.byteLength !== state.source.size || await portableResourceDigest(bytes) !== state.source.sha256)
     throw new Error('The captured action template is missing or corrupt.');
@@ -81,6 +81,15 @@ export async function validateConditionalPackageStates(record: ActionPackage, re
     let template = templates.get(state.source.sha256);
     if (!template) { template = sourceTemplate(state, read); templates.set(state.source.sha256, template); }
     stateMatches(await template, state, revision);
+    for (const upgrade of state.upgrades ?? []) {
+      let retained = templates.get(upgrade.source.sha256);
+      if (!retained) { retained = sourceTemplate(upgrade, read); templates.set(upgrade.source.sha256, retained); }
+      const original = await retained;
+      if (original.id !== upgrade.templateId || original.program.revision !== upgrade.templateRevision)
+        throw new Error('A retained template upgrade source does not match its recorded revision.');
+      evaluatePackageTemplateProgram(original.program, upgrade.answers);
+      if (upgrade.appliedAnswers) evaluatePackageTemplateProgram(original.program, upgrade.appliedAnswers);
+    }
   }
 }
 export async function readConditionalPackageTemplate(record: ActionPackage, revisionId = record.currentRevisionId): Promise<PackageTemplateV2> {
@@ -119,8 +128,13 @@ export async function reviewConditionalTemplate(template: PackageTemplateV2, pol
 export async function reviewConditionalPackage(revision: PackageRevision, policy: PolicyResolution, read: Reader = readPackageAsset): Promise<ExportReview[]> {
   if (!revision.templateState) return [];
   const template = await sourceTemplate(revision.templateState, read); stateMatches(template, revision.templateState, revision);
-  return [reviewPackageText(conditionalStateText(revision.templateState), 'Captured intake including retained inactive answers', policy),
+  const reviews = [reviewPackageText(conditionalStateText(revision.templateState), 'Captured intake including retained inactive answers', policy),
     ...await reviewConditionalTemplate(template, policy)];
+  const seen = new Set([revision.templateState.source.sha256]);
+  for (const upgrade of revision.templateState.upgrades ?? []) if (!seen.has(upgrade.source.sha256)) {
+    seen.add(upgrade.source.sha256); reviews.push(...await reviewConditionalTemplate(await sourceTemplate(upgrade, read), policy));
+  }
+  return reviews;
 }
 export function conditionalMembershipFindings(revision: PackageRevision): Array<{ message: string; memberId?: string }> {
   const state = revision.templateState;

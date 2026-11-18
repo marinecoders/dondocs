@@ -157,6 +157,32 @@ it.each(['template', 'enclosure'])('reviews preserved native %s PDF content befo
   expect(vi.mocked(extractPdfText)).toHaveBeenCalledWith(bytes.buffer);
   expect((await listActionPackages()).find(item => item.id === accepted.id)).toEqual(accepted);
 });
+it('reviews archived template source bytes before Undo under a stricter policy after template adoption', async () => {
+  const { maintenanceFixture } = await import('../_helpers/packageTemplateMaintenance');
+  const { prepareConditionalPackage, applyPreparedConditionalPackage, prepareConditionalTemplateUpgrade } = await import('@/lib/packageConditional');
+  const { startPackageReview } = await import('@/lib/packageReviewRounds');
+  const { preparePackageReviewMember } = await import('@/lib/packageMemberReviews');
+  const secret = resolveExportDeploymentPolicy({ hostname: 'localhost', environment: { maxLevel: 'secret', allowedLevels: ['unclassified', 'secret'] }, runtime: { status: 'absent' } });
+  vi.mocked(classification.getExportDeploymentPolicy).mockResolvedValue(secret); vi.mocked(classification.getExportDeploymentPolicySync).mockReturnValue(secret);
+  const template = maintenanceFixture(); template.program.questions[0].label = '(S) Restricted synthetic archived question';
+  const answers = { version: 1 as const, values: { subject: 'Public current value' }, groups: {} };
+  let owner = (await applyPreparedConditionalPackage(await prepareConditionalPackage({ template, name: 'Public current package', answers }, secret), secret, true)).record;
+  const target = structuredClone(template); target.id = 'public_upgrade'; target.program.revision = '3'; target.program.questions[0].label = 'Public current question';
+  owner = (await applyPreparedConditionalPackage(await prepareConditionalTemplateUpgrade({ record: owner, template: target, answers, questionMappings: { subject: 'subject' }, memberMappings: { main: 'main' }, preserveUnmapped: true }, secret), secret, true)).record;
+  const { member } = await packageFormFixture();
+  owner = await reviseActionPackage(owner, [...getPackageRevision(owner).members, member]); owner = await startPackageReview(owner);
+  const round = owner.reviewRounds!.at(-1)!, preparedChild = await preparePackageReviewMember(owner, round.id, member.id); owner = preparedChild.record;
+  const field = (await packageFormReviewFields(member)).find(field => field.target.kind === 'configured-form' && field.target.fieldId === 'name' && !field.target.row)!;
+  const fieldReview = await addPackageFormProposal(member, undefined, await capturePackageFormAnchor(member, field.target), 'Alex Example', '000999');
+  owner = await savePackageMemberReview(owner, round.id, { ...preparedChild.child, fieldReview });
+  const accepted = await applyPreparedPackageFormCorrection(await preparePackageFormCorrection(owner, round.id, member.id, fieldReview.proposals![0].id, 'accepted', secret), secret, true);
+  expect(JSON.stringify(getPackageRevision(owner))).not.toContain('Restricted synthetic archived question');
+  expect(getPackageRevision(owner).templateState!.upgrades).toHaveLength(1);
+  const files = await idbGetAllAttachments();
+  vi.mocked(classification.getExportDeploymentPolicy).mockResolvedValue(policy); vi.mocked(classification.getExportDeploymentPolicySync).mockReturnValue(policy);
+  await expect(preparePackageFormDecisionUndo(accepted, accepted.fieldReviewApplications![0].id, policy)).rejects.toThrow(/marking|levels|deployment/i);
+  expect((await listActionPackages()).find(item => item.id === accepted.id)).toEqual(accepted); expect(await idbGetAllAttachments()).toEqual(files);
+});
 
 it('rejects an Undo receipt that restores its answer but changes unrelated package metadata', async () => {
   const { validatePackageFieldReviewApplications } = await import('@/lib/packageFormDecisionValidation');

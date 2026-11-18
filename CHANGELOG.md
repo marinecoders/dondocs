@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.166] — 2026-11-17
+
+### Added
+
+- Explicit template membership adoption with preserved older sources and answers, separate configured-form migrations, and read-only retained starter asset previews.
+
 ## [1.3.165] — 2026-11-17
 
 ### Added

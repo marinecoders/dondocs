@@ -171,7 +171,8 @@ export function conditionalPackageAnswers(record: ActionPackage, revisionId = re
 }
 function stateFor(template: PackageTemplateV2, source: PackageConditionalState['source'], answers: PackageTemplateAnswers, prior?: PackageConditionalState): PackageConditionalState {
   return { version: 1, source, templateId: template.id, templateRevision: template.program.revision, pending: true, answers: own(answers),
-    appliedAnswers: own(prior?.appliedAnswers ?? prior?.answers ?? emptyAnswers()), facts: own(prior?.facts ?? []), instances: own(prior?.instances ?? []), requirementIds: own(prior?.requirementIds ?? []) };
+    appliedAnswers: own(prior?.appliedAnswers ?? prior?.answers ?? emptyAnswers()), facts: own(prior?.facts ?? []), instances: own(prior?.instances ?? []), requirementIds: own(prior?.requirementIds ?? []),
+    ...(prior?.upgrades ? { upgrades: own(prior.upgrades) } : {}) };
 }
 async function context(input: Pick<ConditionalPackageInput, 'template' | 'answers' | 'record' | 'name'>, attachments: StoredAttachment[]) {
   const template = packageTemplateV2Schema.parse(await validatePackageTemplate(input.template));
@@ -221,6 +222,7 @@ export async function saveConditionalPackageDraft(input: Pick<ConditionalPackage
   if (current?.work) reviewPackageWork(current.work, policy);
   if (current?.signing) reviewPackageSigningMetadata(current.signing, policy);
   if (current?.scans) reviewPackageScans(current.scans, policy);
+  if (current?.templateState?.upgrades?.length) await reviewConditionalPackage(current, policy);
   await reviewConditionalTemplate(template, policy); reviewPackageText(conditionalStateText(state), 'Saved intake draft', policy); reviewPackageText(name, 'Package name', policy);
   const revision: PackageRevision = { ...(current ? own(current) : { members: [], outputs: [] }), id: newPackageId('revision'),
     ...(current ? { parentId: current.id } : {}), createdAt: Date.now(), outputs: [], templateState: state, requirements };
@@ -355,9 +357,16 @@ export function conditionalRequirementSlots(template: PackageTemplateV2, answers
 
 /** Preview known membership and field changes against one exact saved package. No storage writes. */
 export async function prepareConditionalPackage(input: ConditionalPackageInput, policy: PolicyResolution, signal?: AbortSignal): Promise<PreparedConditionalPackage> {
+  return prepareConditionalPackageContext(input, policy, signal);
+}
+interface AdoptedTemplateContext { before: ActionPackage; current: PackageRevision; source: PackageConditionalState['source']; attachments: StoredAttachment[] }
+async function prepareConditionalPackageContext(input: ConditionalPackageInput, policy: PolicyResolution, signal?: AbortSignal, adopted?: AdoptedTemplateContext): Promise<PreparedConditionalPackage> {
   input = capturedInput(input); signal?.throwIfAborted(); const policyKey = identity(policy), attachments: StoredAttachment[] = [];
-  const { template, answers: supplied, before, current, source, name } = await context(input, attachments);
-  const reconciled = reconcile(template, before, supplied, input.answerChoices), answers = reconciled.answers;
+  const { template, answers: supplied, before, current, source, name } = adopted
+    ? { ...adopted, template: input.template, answers: input.answers, name: adopted.before.name } : await context(input, attachments);
+  if (adopted) attachments.push(...adopted.attachments);
+  const reconciliationRecord = adopted ? { ...adopted.before, revisions: adopted.before.revisions.map(item => item.id === adopted.current.id ? adopted.current : item) } : before;
+  const reconciled = reconcile(template, reconciliationRecord, supplied, input.answerChoices), answers = reconciled.answers;
   const evaluation = evaluatePackageTemplateProgram(template.program, answers), issues = [...reconciled.issues,
     ...evaluation.issues.filter(issue => issue.severity === 'error' || issue.code === 'visibility-unknown').map(issue => issue.message)];
   const state = stateFor(template, source, answers, current?.templateState), changes: ConditionalPackageChange[] = [], earlyFields: PackageUpdatePreview[] = [];
@@ -366,6 +375,7 @@ export async function prepareConditionalPackage(input: ConditionalPackageInput, 
     ...(current?.work ? [reviewPackageWork(current.work, policy)] : []),
     ...(current?.signing ? [reviewPackageSigningMetadata(current.signing, policy)] : []),
     ...(current?.scans ? [reviewPackageScans(current.scans, policy)] : [])];
+  if (!adopted && current?.templateState?.upgrades?.length) reviews.push(...await reviewConditionalPackage(current, policy));
   const desired = listConditionalPackageInstances(template, answers);
   const selectedChoices = own(input.memberChoices ?? {}), knownKeys = new Set([...state.instances.map(item => item.key), ...desired.map(item => item.key)]);
   for (const [key, choice] of Object.entries(selectedChoices)) if (!knownKeys.has(key) || !['keep', 'remove', 'restore'].includes(choice)) throw new Error('A document decision does not belong to this action.');
@@ -613,6 +623,97 @@ export async function applyPreparedConditionalPackage(prepared: PreparedConditio
   if (!captured.before) return { record };
   const undo = freeze({ packageId: record.id, appliedRevisionId: record.currentRevisionId });
   reversals.set(undo, { before: captured.before, after: own(record) }); return { record, undo };
+}
+
+export interface ConditionalTemplateUpgradeInput extends ConditionalPackageInput {
+  record: ActionPackage; questionMappings: Readonly<Record<string, string | null>>;
+  memberMappings: Readonly<Record<string, string | null>>; preserveUnmapped: boolean;
+}
+export interface PreparedConditionalTemplateUpgrade extends PreparedConditionalPackage {
+  readonly upgrade: { readonly from: string; readonly to: string; readonly preservedAnswers: number; readonly preservedMembers: number };
+}
+export function mappedConditionalTemplateAnswers(template: PackageTemplateV2, next: PackageTemplateV2, answers: PackageTemplateAnswers, mappings: Readonly<Record<string, string | null>>): PackageTemplateAnswers {
+  const result: PackageTemplateAnswers = { version: 1, values: {}, groups: {} };
+  for (const group of next.program.participantGroups) if (answers.groups[group.id]) result.groups[group.id] = answers.groups[group.id].map(person => ({ ...own(person), answers: {} }));
+  for (const question of template.program.questions) {
+    const id = mappings[question.id]; if (!id) continue;
+    const target = next.program.questions.find(item => item.id === id)!;
+    if (!question.groupId) { const value = answers.values[question.id]; if (value !== undefined) result.values[target.id] = value; }
+    else for (const person of answers.groups[question.groupId] ?? []) {
+      const value = person.answers[question.id], selected = result.groups[target.groupId!]?.find(item => item.id === person.id);
+      if (value !== undefined && selected) selected.answers[target.id] = value;
+    }
+  }
+  return result;
+}
+/** Deliberate membership adoption reuses intake reconciliation. It never replaces existing document bodies. */
+export async function prepareConditionalTemplateUpgrade(input: ConditionalTemplateUpgradeInput, policy: PolicyResolution, signal?: AbortSignal): Promise<PreparedConditionalTemplateUpgrade> {
+  input = capturedInput(input); signal?.throwIfAborted(); identity(policy);
+  if (input.preserveUnmapped !== true) throw new Error('Explicitly preserve unmapped answers, independent documents, local links and history before adopting a template.');
+  const before = actionPackageSchema.parse(own(input.record)); editable(before);
+  const original = getPackageRevision(before), previous = await readConditionalPackageTemplate(before), template = packageTemplateV2Schema.parse(await validatePackageTemplate(input.template));
+  if (original.templateState!.pending) throw new Error('Apply or resolve the saved intake draft before adopting another template.');
+  if (await portableResourceDigest(new TextEncoder().encode(JSON.stringify(template)).buffer) === original.templateState!.source.sha256)
+    throw new Error('This exact template is already captured by the action.');
+  const questionMappings = own(input.questionMappings), memberMappings = own(input.memberMappings);
+  const requireMappings = (known: string[], mappings: Readonly<Record<string, string | null>>, targets: string[]) => {
+    if (Object.keys(mappings).length !== known.length || known.some(id => !Object.hasOwn(mappings, id))
+      || Object.entries(mappings).some(([id, target]) => !known.includes(id) || target !== null && !targets.includes(target)))
+      throw new Error('Choose an explicit mapping or independent preservation for every source declaration.');
+    const selected = Object.values(mappings).filter((value): value is string => value !== null);
+    if (new Set(selected).size !== selected.length) throw new Error('Each source declaration needs a distinct destination.');
+  };
+  requireMappings(previous.program.questions.map(item => item.id), questionMappings, template.program.questions.map(item => item.id));
+  requireMappings(previous.members.map(item => item.key), memberMappings, template.members.map(item => item.key));
+  if (memberMappings[previous.members[0].key] !== template.members[0].key) throw new Error('Map the existing main document to the new main slot; its current text will be preserved.');
+  for (const question of previous.program.questions) if (questionMappings[question.id]) {
+    const target = template.program.questions.find(item => item.id === questionMappings[question.id])!;
+    if (question.kind !== target.kind || question.groupId !== target.groupId) throw new Error('Mapped questions must keep their answer type and participant group. Preserve incompatible answers independently.');
+  }
+  for (const group of previous.program.participantGroups) {
+    const target = template.program.participantGroups.find(item => item.id === group.id);
+    if (target && target.role !== group.role) throw new Error('Existing participants cannot inherit a different role during an upgrade.');
+  }
+  const attachments: StoredAttachment[] = [], source = await stage(attachments, `${template.name}.dondocs-template.json`, 'application/json', new TextEncoder().encode(JSON.stringify(template)).buffer);
+  const current = own(original), prior = current.templateState!;
+  prior.upgrades = [...prior.upgrades ?? [], { id: newPackageId('template-upgrade'), source: own(prior.source), templateId: prior.templateId,
+    templateRevision: prior.templateRevision, answers: own(prior.answers), ...(prior.appliedAnswers ? { appliedAnswers: own(prior.appliedAnswers) } : {}),
+    questionMappings, memberMappings, ...(original.requirements ? { requirements: own(original.requirements) } : {}), createdAt: Date.now() }];
+  prior.source = source as PackageConditionalState['source']; prior.templateId = template.id; prior.templateRevision = template.program.revision;
+  prior.answers = mappedConditionalTemplateAnswers(previous, template, prior.answers, questionMappings);
+  prior.appliedAnswers = mappedConditionalTemplateAnswers(previous, template, prior.appliedAnswers ?? original.templateState!.answers, questionMappings);
+  prior.facts = prior.facts.flatMap(fact => questionMappings[fact.questionId] ? [{ ...fact, questionId: questionMappings[fact.questionId]! }] : []);
+  const instances: PackageConditionalState['instances'] = [];
+  for (const instance of prior.instances) {
+    const key = memberMappings[instance.memberKey]; if (!key) continue;
+    const blueprint = template.members.find(item => item.key === key)!, old = previous.members.find(item => item.key === instance.memberKey)!;
+    if (blueprint.kind !== old.kind || blueprint.repeatGroupId !== old.repeatGroupId) throw new Error('Mapped document slots must keep their kind and participant group. Preserve incompatible documents independently.');
+    const mapped = { ...instance, memberKey: key, key: packageTemplateInstanceKey(key, instance.participantId), required: blueprint.required };
+    const member = current.members.find(item => item.id === mapped.memberId);
+    if (blueprint.kind === 'attachment' && member?.kind === 'attachment') throw new Error('A non-PDF file cannot fill a PDF template slot. Preserve it independently and supply a reviewed PDF.');
+    if (blueprint.kind === 'native' && member?.kind === 'native') {
+      const fields = await listPackageBindingFields(member);
+      mapped.targets = (blueprint.links ?? []).map(link => {
+        const field = fields.find(item => packageBindingTargetKey(item.target) === packageBindingTargetKey(link.target));
+        if (!field) throw new Error('Upgrade this form definition separately before adopting its changed field declaration.');
+        const binding = current.bindings?.items.find(item => item.memberId === member.id && packageBindingTargetKey(item.target) === packageBindingTargetKey(link.target));
+        const fact = prior.facts.find(item => item.questionId === link.questionId && item.participantId === (template.program.questions.find(question => question.id === link.questionId)?.groupId ? mapped.participantId : undefined));
+        if (binding && (binding.factId !== fact?.factId || binding.format !== link.format)) throw new Error('An existing field link controls this value differently. Detach it deliberately before adopting the changed mapping.');
+        return { questionId: link.questionId, target: own(field.target), format: link.format, linkId: binding?.id ?? newPackageId('link'), initialized: false };
+      });
+    } else if (mapped.targets) mapped.targets = mapped.targets.flatMap(target => questionMappings[target.questionId] ? [{ ...target, questionId: questionMappings[target.questionId]! }] : []);
+    instances.push(mapped);
+  }
+  prior.instances = instances;
+  // Existing requirement identities are not reused for a different controlling template.
+  prior.requirementIds = [];
+  const retainedReviews = await reviewConditionalPackage(original, policy);
+  const prepared = await prepareConditionalPackageContext({ ...input, template }, policy, signal, { before, current, source: prior.source, attachments });
+  const captured = plans.get(prepared)!, preservedMembers = original.templateState!.instances.filter(item => !memberMappings[item.memberKey] && original.members.some(member => member.id === item.memberId)).length;
+  const result = freeze({ ...prepared, upgrade: { from: `${previous.name} · ${previous.program.revision}`, to: `${template.name} · ${template.program.revision}`,
+    preservedAnswers: previous.program.questions.filter(item => questionMappings[item.id] === null).length, preservedMembers },
+    reviews: [...retainedReviews, ...prepared.reviews], ...(captured.after && prepared.ready ? { impact: await comparePackageChangeImpact(original, getPackageRevision(captured.after), { reviewRounds: before.reviewRounds, packageId: before.id, signal }) } : {}) });
+  plans.delete(prepared); plans.set(result, captured); return result;
 }
 export async function undoConditionalPackage(receipt: ConditionalPackageUndo, policy: PolicyResolution,
   signal?: AbortSignal, isCurrent: () => boolean = () => true): Promise<ActionPackage> {
