@@ -10,7 +10,7 @@ interface Props {
 const labels = { added: 'Added', removed: 'Removed', changed: 'Changed', moved: 'Moved', 'metadata-only': 'Context changed', renumbered: 'Renumbered', unchanged: 'Unchanged', unknown: 'Needs inspection', unavailable: 'Unavailable' };
 const buttonClass = 'h-auto min-h-9 max-w-full whitespace-normal';
 function destinationLabel(value: PackageImpactDestination): string {
-  return value.bindingId ? 'Inspect linked field' : value.factId ? 'Inspect shared value' : value.requirementId ? 'Inspect requirement'
+  return value.signingId ? 'Inspect signing handoff' : value.bindingId ? 'Inspect linked field' : value.factId ? 'Inspect shared value' : value.requirementId ? 'Inspect requirement'
     : value.citationId ? 'Inspect citation' : value.outputId ? 'Inspect retained PDF' : value.reviewRoundId ? 'Inspect review' : 'Inspect document';
 }
 function ImpactItem({ item, disabled, onNavigate }: { item: PackageImpactItem; disabled: boolean; onNavigate?: Props['onNavigate'] }) {

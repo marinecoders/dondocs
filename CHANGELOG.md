@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.155] — 2026-11-17
+
+### Added
+
+- Historical signing applicability checks with exact handoff destinations, preserved return-file checks and package provenance in unchanged-PDF signing downloads.
+
 ## [1.3.154] — 2026-11-17
 
 ### Added

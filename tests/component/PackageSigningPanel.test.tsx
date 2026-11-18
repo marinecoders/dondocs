@@ -86,6 +86,8 @@ it('keeps historical handoffs inspectable while policy changes invalidate a revi
   await user.click(screen.getByText('Captured signing handoff 1', { selector: 'summary' }));
   await user.click(screen.getByRole('button', { name: 'Review retained handoff 1' }));
   await screen.findByLabelText('Exact retained package handoff PDF');
+  await user.click(screen.getByText('Inspect retained source PDF', { selector: 'summary' }));
+  expect(screen.getByLabelText('Exact retained package signing source PDF')).toBeVisible();
   await user.click(screen.getByRole('checkbox', { name: /^I reviewed every retained source and handoff page/ }));
   vi.mocked(classification.getExportDeploymentPolicy).mockResolvedValue(otherPolicy);
   await user.click(screen.getByRole('button', { name: 'Download exact package signing handoff' }));
@@ -147,4 +149,34 @@ it('reviews and adopts a real associated return, then binds readonly download to
   await user.click(download); await waitFor(() => expect(deliver).toHaveBeenCalledTimes(1));
   expect(deliver.mock.calls[0][0]).toEqual(encoding.base64ToUint8Array(local.returns![0].pdf.data));
   await waitFor(() => expect(release).toHaveBeenCalled());
+});
+
+async function capturedFixture() {
+  const initial = await fixture(), target = signing.packageSigningTargets(getPackageRevision(initial))[0].target;
+  let local = await signing.openPackageSigningSource(await signing.preparePackageSigningSource(initial, initial.currentRevisionId, target, policy), policy, true);
+  local = await createSigningHandoff(await updateSigningFields(local, [{ id: crypto.randomUUID(), signer: 'Alex Example', page: 0, x: 0.2, y: 0.7, width: 0.4, height: 0.08 }]));
+  return signing.capturePackageSigningHandoff(await signing.preparePackageSigningHandoff(initial, initial.currentRevisionId, target, local, local.handoffs![0].id, policy), policy, true);
+}
+it('opens and focuses only a scoped signing destination and navigates to the exact handed source', async () => {
+  const record = await capturedFixture(), revision = getPackageRevision(record), entry = revision.signing!.handoffs[0], onNavigate = vi.fn(), user = userEvent.setup();
+  const destination = { requestId: 1, packageId: 'other-package', revisionId: revision.id, signingId: entry.id };
+  const view = render(<PackageSigningPanel {...props(record)} disabled destination={destination} onNavigate={onNavigate} />);
+  const anchor = view.container.querySelector<HTMLElement>(`[data-package-signing-id="${entry.id}"]`)!;
+  expect(anchor).not.toHaveFocus();
+  view.rerender(<PackageSigningPanel {...props(record)} disabled destination={{ ...destination, requestId: 2, packageId: record.id }} onNavigate={onNavigate} />);
+  await waitFor(() => expect(anchor).toHaveFocus()); expect(anchor.closest('details')).toHaveAttribute('open');
+  await user.click(screen.getByRole('button', { name: 'Inspect handed source revision' }));
+  expect(onNavigate).toHaveBeenCalledWith({ revisionId: entry.sourceRevisionId, section: 'documents', memberId: entry.target.id });
+  expect((await listActionPackages()).find(item => item.id === record.id)).toEqual(record);
+});
+it('discards applicability results from a previously selected package without claiming a new result', async () => {
+  const record = await capturedFixture(), other = await fixture(), result = await signing.inspectPackageSigning(record);
+  let resolve!: (value: Awaited<ReturnType<typeof signing.inspectPackageSigning>>) => void;
+  vi.spyOn(signing, 'inspectPackageSigning').mockReturnValueOnce(new Promise(value => { resolve = value; }));
+  const user = userEvent.setup(), view = render(<PackageSigningPanel {...props(record)} />);
+  await user.click(screen.getByRole('button', { name: 'Check signing applicability' }));
+  view.rerender(<PackageSigningPanel {...props(other)} />);
+  await act(async () => { resolve(result); });
+  await waitFor(() => expect(screen.getByLabelText('Package signing PDF')).toBeEnabled());
+  expect(screen.queryByText(/Checked 1 captured handoff/)).toBeNull();
 });

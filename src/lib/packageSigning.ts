@@ -14,7 +14,8 @@ import { createSigningRecord, importSigningRecord, mergeSigningRecordSnapshot, l
 import { inspectSigningPdf } from './manualSignatureFields';
 import { packageInputFingerprint } from './packageRenderProvenance';
 import { portableResourceDigest } from './portableResources';
-import { packageAssemblyInputs, packageReviewContext } from './packageChangeImpactModel';
+import { packageSigningContextFingerprint, inspectPackageSigningDependency } from './packageSigningContext';
+export { packageSigningContextFingerprint } from './packageSigningContext';
 import type { ExportReview } from './preparedExport';
 export * from './packageSigningModel';
 
@@ -53,15 +54,6 @@ async function guard(before: ActionPackage, policy: PolicyResolution, signal: Ab
     signal?.throwIfAborted();
     const current = getExportDeploymentPolicySync(); return isCurrent() && current.status === 'ready' && JSON.stringify(current.policy) === key;
   };
-}
-export async function packageSigningContextFingerprint(revision: PackageRevision): Promise<string> {
-  // Keep pre-profile captures stable when the assembly helper starts returning a profile wrapper.
-  const captured: unknown = packageAssemblyInputs(revision);
-  const wrapped = captured && typeof captured === 'object' && !Array.isArray(captured) && 'members' in captured ? captured : undefined;
-  const inputs = wrapped ? wrapped.members : captured;
-  const assembly = wrapped && 'assembly' in wrapped ? wrapped.assembly : undefined;
-  return portableResourceDigest(new TextEncoder().encode(JSON.stringify({ inputs, context: packageReviewContext(revision),
-    ...(assembly === undefined ? {} : { assembly }) })).buffer);
 }
 export function packageSigningTargets(revision: PackageRevision): Array<{ target: PackageSigningTarget; label: string }> {
   return [
@@ -207,6 +199,15 @@ export async function validatePackageSigningResources(signing: PackageSigning, r
     }
   }
 }
+/** Disclosure follows the chosen handoff/return, excluding other retained return files. */
+export async function reviewPackageSigningCapture(entry: PackageSigningHandoff, policy: PolicyResolution, returnId?: string, read: ReadAsset = readPackageAsset): Promise<ExportReview[]> {
+  const record = await readPackageSigningRecord(entry, read, returnId), handoff = record.handoffs![0];
+  const reviews = [reviewPackageText(metadataText(record), 'Selected package signing capture', policy),
+    await reviewPackageOriginal(base64ToUint8Array(record.source.data).buffer as ArrayBuffer, record.source.filename, policy),
+    await reviewPackageOriginal(base64ToUint8Array(handoff.pdf.data).buffer as ArrayBuffer, handoff.pdf.filename, policy)];
+  if (returnId) { const returned = record.returns![0].pdf; reviews.push(await reviewPackageOriginal(base64ToUint8Array(returned.data).buffer as ArrayBuffer, returned.filename, policy)); }
+  return reviews;
+}
 export async function reviewPackageSigning(signing: PackageSigning, policy: PolicyResolution, read: ReadAsset = readPackageAsset): Promise<ExportReview[]> {
   const reviews: ExportReview[] = [];
   for (const entry of signing.handoffs) {
@@ -232,7 +233,7 @@ export async function openCapturedPackageSigningRecord(entry: PackageSigningHand
   reviewed: boolean, signal?: AbortSignal, isCurrent: () => boolean = () => true, returnId?: string): Promise<SigningRecord> {
   if (reviewed !== true) throw new Error('Review the exact retained signing record before opening it.');
   const key = policyKey(policy), captured = await readPackageSigningRecord(entry, readPackageAsset, returnId);
-  await reviewPackageSigning({ version: 1, handoffs: [entry] }, policy);
+  await reviewPackageSigningCapture(entry, policy, returnId);
   const fresh = await getExportDeploymentPolicy();
   if (policyKey(fresh) !== key) throw new Error('Deployment settings changed. Review this signing record again.');
   const current = () => { signal?.throwIfAborted(); const active = getExportDeploymentPolicySync(); return isCurrent() && active.status === 'ready' && JSON.stringify(active.policy) === key; };
@@ -310,4 +311,59 @@ export async function applyPackageSigningReturn(prepared: PreparedPackageSigning
       signal, current, [stagedPdf.attachment, stagedMetadata.attachment]);
     returnPlans.delete(prepared); return saved;
   });
+}
+
+export interface PackageSigningFinding {
+  id: string; state: 'inputs-match' | 'changed' | 'unknown'; association: 'exact' | 'historical' | 'unknown';
+  packageContextChanged: boolean; sourceRevisionId: string; message: string;
+  returns: Array<{ id: string; memberId: string; state: 'present' | 'changed' | 'missing'; message: string }>;
+}
+/** Validate retained files and scope current applicability to the exact handed output or original member. */
+export async function inspectPackageSigning(input: ActionPackage, revisionId = input.currentRevisionId, signal?: AbortSignal): Promise<{ findings: PackageSigningFinding[] }> {
+  signal?.throwIfAborted();
+  const record = actionPackageSchema.parse(structuredClone(input)), revision = getPackageRevision(record, revisionId), findings: PackageSigningFinding[] = [];
+  for (const entry of revision.signing?.handoffs ?? []) {
+    signal?.throwIfAborted();
+    const dependency = await inspectPackageSigningDependency(entry, revision);
+    signal?.throwIfAborted();
+    const returns = (entry.returns ?? []).map(returned => {
+      const member = revision.members.find(item => item.id === returned.memberId);
+      const state = !member ? 'missing' as const : member.kind === 'original' && member.original.sha256 === returned.returnedAsset.sha256 ? 'present' as const : 'changed' as const;
+      return { id: returned.id, memberId: returned.memberId, state, message: state === 'present'
+        ? 'The exact associated return remains preserved as an original PDF. Signer authenticity and approval remain unverified.'
+        : 'The applied return member changed or is no longer included. Its captured return bytes remain with the historical handoff.' };
+    });
+    const base = { id: entry.id, packageContextChanged: dependency.packageContextChanged, sourceRevisionId: entry.sourceRevisionId, returns };
+    try {
+      await validatePackageSigningResources({ version: 1, handoffs: [entry] }, readPackageAsset, record.revisions);
+      signal?.throwIfAborted();
+      const source = record.revisions.find(item => item.id === entry.sourceRevisionId);
+      if (!source) { findings.push({ ...base, state: 'unknown', association: 'unknown', message: 'The signing files are preserved, but their source package revision is outside the retained history. Its package applicability cannot be verified here.' }); continue; }
+      await assertTargetProvenance(source, entry.target); signal?.throwIfAborted();
+      const association = entry.sourceRevisionId === revision.id ? 'exact' as const : 'historical' as const;
+      findings.push({ ...base, association, state: dependency.targetState === 'matches' ? 'inputs-match' : 'changed', message: dependency.targetState !== 'matches'
+        ? 'The current target was changed or removed. Keep this exact historical handoff and review a new signing source before using it for the current work.'
+        : entry.target.kind === 'member' && dependency.packageContextChanged
+          ? 'The handed original PDF bytes still match this member. Other package context changed; review that context separately. The original handoff and unverified signer association stay historical.'
+          : 'Recorded document and package-context inputs match this handoff. It stays tied to its exact captured PDF and revision; matching inputs do not authenticate a signer or establish approval.' });
+    } catch (cause) {
+      signal?.throwIfAborted(); findings.push({ ...base, state: 'unknown', association: 'unknown', message: cause instanceof Error
+        ? `Signing applicability is unavailable: ${cause.message}` : 'The exact signing files could not be checked. Inspect the preserved source before relying on the handoff.' });
+    }
+  }
+  signal?.throwIfAborted(); return { findings };
+}
+
+/** Add package provenance to the existing handoff ZIP without changing its frozen PDF. */
+export async function downloadPackageSigningHandoff(entryInput: PackageSigningHandoff): Promise<Uint8Array> {
+  const entry = packageSigningHandoffSchema.parse(structuredClone(entryInput)), record = await readPackageSigningRecord(entry);
+  const { downloadSigningHandoff } = await import('./signingWorkspace'), { default: JSZip } = await import('jszip');
+  const zip = await JSZip.loadAsync(await downloadSigningHandoff(record, entry.handoffId));
+  const manifest = JSON.parse(await zip.file('manifest.json')!.async('string')) as Record<string, unknown>;
+  manifest.package = { id: entry.packageId, revisionId: entry.sourceRevisionId, target: entry.target, sourceSha256: entry.sourceSha256,
+    contextSha256: entry.contextSha256, association: 'exact-captured-revision', signerAuthenticity: 'unverified' };
+  zip.file('manifest.json', JSON.stringify(manifest, null, 2));
+  const readme = await zip.file('README.txt')!.async('string');
+  zip.file('README.txt', `${readme}\nPackage ID: ${entry.packageId}\nCaptured package revision: ${entry.sourceRevisionId}\nThe package association preserves exact saved context; it does not establish signer authenticity or approval.\n`);
+  return zip.generateAsync({ type: 'uint8array', compression: 'DEFLATE' });
 }

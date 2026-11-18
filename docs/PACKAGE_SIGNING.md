@@ -32,3 +32,11 @@ Return to the package, review the retained handoff and select **Refresh associat
 Captured returns remain available under their handoff. Choose a captured returned file and preview it before acknowledging download or reopening it. The viewer identity must match the selected return; selecting a file alone does not make an older preview's review acknowledgement apply to it. Downloads use the existing signing PDF delivery path, including gesture-sensitive browser handling.
 
 A portable package carries each captured return and its exact associated-record snapshot. Reopening a captured return can restore that file into the existing signing workspace. When a newer local signing record already exists, compatible captured handoffs and returns merge additively while preserving current field placements; conflicting identities require resolution. A handoff supports up to ten captured returns, subject to the existing package and signing limits.
+
+## Check historical applicability
+
+Choose **Check signing applicability** to validate the retained files and their recorded package context. A whole-package output becomes historical when document inputs or package context change. An original member can still have matching PDF bytes while other package context changes; the check identifies that distinction. Task completion does not change the result or establish approval.
+
+The check also identifies changed or removed returned-file members. Their original captured PDFs remain preserved. Missing source history or unreadable signing resources produce an explicit unknown result. **Inspect handed source revision** opens the original saved source when that revision is retained. Change-impact reports and next actions link back to the specific handoff for review.
+
+Handoff ZIPs include the package ID, original revision, target and captured checksums in their manifest. They preserve the prepared PDF exactly. Disclosure review follows the selected handoff or return: a source-only handoff does not include or disclose other returned files. Complete editable transfers still inspect every included signing file. These associations describe saved inputs; signer authenticity and approval remain unverified.

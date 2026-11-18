@@ -42,9 +42,9 @@ export function packageWorkText(work: PackageWork): string {
 
 export interface PackageWorkDestination {
   section?: 'overview' | 'documents' | 'review' | 'delivery';
-  panel?: 'information' | 'requirements' | 'intake' | 'consistency' | 'work';
+  panel?: 'information' | 'requirements' | 'intake' | 'consistency' | 'work' | 'signing';
   memberId?: string; requirementId?: string; factId?: string; bindingId?: string;
-  revisionId?: string; outputId?: string; reviewRoundId?: string; citationId?: string;
+  revisionId?: string; outputId?: string; reviewRoundId?: string; citationId?: string; signingId?: string;
 }
 export function resolvePackageTaskTarget(revision: PackageRevision, target: PackageTaskTarget): {
   state: 'available' | 'missing'; label: string; destination?: PackageWorkDestination;

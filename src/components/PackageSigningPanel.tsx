@@ -3,12 +3,13 @@ import { PackageSigningPdfPreview } from './PackageSigningPdfPreview';
 import { Button } from './ui/button';
 import type { ActionPackage, PackageRevision } from '@/lib/actionPackages';
 import { getExportDeploymentPolicy, getExportDeploymentPolicySync } from '@/config/classification';
-import { applyPackageSigningReturn, preparePackageSigningReturn, copyPreparedPackageSigningReturn, capturePackageSigningHandoff, copyPreparedPackageSigningSource, copyPreparedPackageSigningHandoff, getPackageSigningPdf, openPackageSigningSource, openCapturedPackageSigningRecord, packageSigningTargets,
-  preparePackageSigningHandoff, preparePackageSigningSource, readPackageSigningRecord, reviewPackageSigning,
-  type PackageSigningHandoff, type PreparedPackageSigningHandoff, type PreparedPackageSigningSource, type PreparedPackageSigningReturn } from '@/lib/packageSigning';
-import { downloadSigningHandoff, listSigningRecords, type SigningRecord } from '@/lib/signingWorkspace';
+import { downloadPackageSigningHandoff, inspectPackageSigning, applyPackageSigningReturn, preparePackageSigningReturn, copyPreparedPackageSigningReturn, capturePackageSigningHandoff, copyPreparedPackageSigningSource, copyPreparedPackageSigningHandoff, getPackageSigningPdf, openPackageSigningSource, openCapturedPackageSigningRecord, packageSigningTargets,
+  preparePackageSigningHandoff, preparePackageSigningSource, readPackageSigningRecord, reviewPackageSigningCapture,
+  type PackageSigningHandoff, type PreparedPackageSigningHandoff, type PreparedPackageSigningSource, type PreparedPackageSigningReturn, type PackageSigningFinding } from '@/lib/packageSigning';
+import { listSigningRecords, type SigningRecord } from '@/lib/signingWorkspace';
+import { focusPackageDestination, matchesPackageDestination, type PackageDestination, type PackageDestinationRequest } from '@/lib/packageDestinations';
 import { reserveSigningPdfDownload } from '@/utils/signingPdfDownload';
-import { triggerDownload } from '@/lib/encoding';
+import { base64ToUint8Array, triggerDownload } from '@/lib/encoding';
 import type { ExportReview } from '@/lib/preparedExport';
 
 const SigningWorkspace = lazy(() => import('./modals/SigningWorkspace'));
@@ -17,6 +18,7 @@ interface Props {
   run(action: () => Promise<void>): Promise<void>;
   onApply(record: ActionPackage): void; onDirtyChange?(dirty: boolean): void;
   isCurrent(): boolean; signal(): AbortSignal | undefined;
+  destination?: PackageDestinationRequest; onNavigate?(destination: PackageDestination): void;
 }
 const inputClass = 'mt-1 block w-full min-w-0 rounded border bg-background p-2 text-sm';
 const buttonClass = 'h-auto min-h-9 max-w-full whitespace-normal';
@@ -26,12 +28,14 @@ function PrivacyReview({ reviews }: { reviews: readonly ExportReview[] }) {
 }
 
 /** Package associations own captured files; the existing signing editor handles placements and external returns. */
-export function PackageSigningPanel({ record, revision, disabled, busy, run, onApply, onDirtyChange, isCurrent, signal }: Props) {
+export function PackageSigningPanel({ record, revision, disabled, busy, run, onApply, onDirtyChange, isCurrent, signal, destination, onNavigate }: Props) {
   const heading = useId(), owner = `${record.id}:${record.sequence}:${revision.id}:${record.archived}:${disabled}`;
+  const content = useRef<HTMLElement>(null), handledDestination = useRef<number | null>(null);
+  const [inspection, setInspection] = useState<PackageSigningFinding[] | null>(null);
   const [targetKey, setTargetKey] = useState(''), [source, setSource] = useState<PreparedPackageSigningSource | null>(null);
   const [sourceReviewed, setSourceReviewed] = useState(false), [records, setRecords] = useState<SigningRecord[]>([]), [recordId, setRecordId] = useState(''), [handoffId, setHandoffId] = useState('');
   const [handoff, setHandoff] = useState<PreparedPackageSigningHandoff | null>(null), [handoffReviewed, setHandoffReviewed] = useState(false);
-  const [retainedReview, setRetainedReview] = useState<{ entry: PackageSigningHandoff; reviews: ExportReview[]; policyKey: string; bytes: Uint8Array; returnId?: string } | null>(null), [retainedReviewed, setRetainedReviewed] = useState(false);
+  const [retainedReview, setRetainedReview] = useState<{ entry: PackageSigningHandoff; reviews: ExportReview[]; policyKey: string; bytes: Uint8Array; sourceBytes: Uint8Array; returnId?: string } | null>(null), [retainedReviewed, setRetainedReviewed] = useState(false);
   const [returnedRecord, setReturnedRecord] = useState<SigningRecord | null>(null), [returnId, setReturnId] = useState('');
   const [returnedPlan, setReturnedPlan] = useState<PreparedPackageSigningReturn | null>(null), [returnReviewed, setReturnReviewed] = useState(false), [returnMismatch, setReturnMismatch] = useState(false);
   const [capturedReturnId, setCapturedReturnId] = useState('');
@@ -47,10 +51,14 @@ export function PackageSigningPanel({ record, revision, disabled, busy, run, onA
   useLayoutEffect(() => { ownerRef.current = owner; editableRef.current = editable; dirtyCallback.current = onDirtyChange; }, [owner, editable, onDirtyChange]);
   useEffect(() => { mounted.current = true; return () => { mounted.current = false; dirtyCallback.current?.(false); }; }, []);
   useEffect(() => { onDirtyChange?.(dirty); }, [dirty, onDirtyChange]);
+  useEffect(() => {
+    if (!matchesPackageDestination(destination, record.id, revision.id) || !destination.signingId || handledDestination.current === destination.requestId) return;
+    if (focusPackageDestination(content.current, 'data-package-signing-id', destination.signingId)) handledDestination.current = destination.requestId;
+  }, [destination, record.id, revision]);
   useLayoutEffect(() => {
     if (previousOwner.current === owner) return;
     previousOwner.current = owner; generation.current++; setTargetKey(''); setSource(null); setSourceReviewed(false); setRecords([]); setRecordId(''); setHandoffId('');
-    setHandoff(null); setHandoffReviewed(false); setRetainedReview(null); setRetainedReviewed(false); setWorkspaceId(''); setReturnedRecord(null); setReturnId(''); setReturnedPlan(null); setReturnReviewed(false); setReturnMismatch(false); setCapturedReturnId(''); setError(''); setNotice('');
+    setHandoff(null); setHandoffReviewed(false); setRetainedReview(null); setRetainedReviewed(false); setWorkspaceId(''); setInspection(null); setReturnedRecord(null); setReturnId(''); setReturnedPlan(null); setReturnReviewed(false); setReturnMismatch(false); setCapturedReturnId(''); setError(''); setNotice('');
   }, [owner]);
   function discard() {
     generation.current++; setSource(null); setSourceReviewed(false); setRecords([]); setRecordId(''); setHandoffId(''); setHandoff(null); setHandoffReviewed(false); setReturnedPlan(null); setReturnReviewed(false); setReturnMismatch(false); setError('');
@@ -70,11 +78,16 @@ export function PackageSigningPanel({ record, revision, disabled, busy, run, onA
     catch (cause) { if (current()) setError(cause instanceof Error ? cause.message : 'The package signing operation could not start.'); }
     finally { running.current = false; if (mounted.current) setPending(false); }
   }
-  return <section aria-labelledby={heading} aria-busy={pending} className="min-w-0 space-y-3 rounded-lg border bg-background p-2 sm:p-4">
+  return <section ref={content} tabIndex={-1} data-package-panel="signing" aria-labelledby={heading} aria-busy={pending} className="min-w-0 space-y-3 rounded-lg border bg-background p-2 sm:p-4">
     <h3 id={heading} className="font-medium">Package signing</h3>
     <p className="text-sm text-muted-foreground">Prepare an exact saved PDF in the signing workspace, then capture the handoff and its signer assignments with this package.</p>
     <p className="text-xs text-muted-foreground">External signing and certificate checks stay in your signing application. Captured handoffs preserve their original revision and file bytes.</p>
     {!editable && <p className="text-xs text-muted-foreground">Signing associations are read-only in this view.</p>}
+    {!!revision.signing?.handoffs.length && <Button className={buttonClass} variant="outline" disabled={busy || pending || dirty} onClick={() => void perform(async current => {
+      const result = await inspectPackageSigning(record, revision.id, signal()); if (current()) setInspection(result.findings);
+    }, false)}>Check signing applicability</Button>}
+    {inspection && <p role="status" className="text-xs text-muted-foreground">Checked {inspection.length} captured handoff{inspection.length === 1 ? '' : 's'}. File/input matching remains separate from signer authentication and approval.</p>}
+
     {error && <p role="alert" className="break-words text-sm text-destructive">{error}</p>}
     {notice && <p role="status" className="text-sm">{notice}</p>}
     {editable && <fieldset disabled={locked || !!returnedPlan} className="min-w-0 space-y-3">
@@ -125,30 +138,43 @@ export function PackageSigningPanel({ record, revision, disabled, busy, run, onA
         <Button className={buttonClass} variant="outline" onClick={discard}>Discard signing preparation</Button>
       </div>}
     </fieldset>}
-    {(revision.signing?.handoffs ?? []).map((entry, index) => <details key={entry.id} className="min-w-0 rounded border p-2 sm:p-3">
+    {(revision.signing?.handoffs ?? []).map((entry, index) => {
+      const finding = inspection?.find(item => item.id === entry.id);
+      return <details key={entry.id} className="min-w-0 rounded border p-2 sm:p-3">
       <summary className="cursor-pointer break-words text-sm font-medium">Captured signing handoff {index + 1}</summary>
-      <div className="space-y-3 pt-3 text-sm">
+      <div tabIndex={-1} data-package-signing-id={entry.id} className="space-y-3 pt-3 text-sm">
+        {finding && <div className="space-y-2 text-xs">
+          <p className="break-words">{finding.state}: {finding.message}</p>
+          {finding.returns.map(returned => <p key={returned.id} className="break-words">Return {returned.state}: {returned.message}</p>)}
+        </div>}
+        {onNavigate && <Button className={buttonClass} variant="outline" disabled={busy || pending || dirty || !record.revisions.some(item => item.id === entry.sourceRevisionId)}
+          onClick={() => onNavigate({ revisionId: entry.sourceRevisionId, ...(entry.target.kind === 'member'
+            ? { section: 'documents', memberId: entry.target.id } : { section: 'delivery', outputId: entry.target.id }) })}>Inspect handed source revision</Button>}
+        {!record.revisions.some(item => item.id === entry.sourceRevisionId) && <p className="text-xs text-muted-foreground">The original package revision is outside this retained history. The captured signing PDF remains available for inspection.</p>}
         <p className="break-all">Source revision: {entry.sourceRevisionId}</p><p className="break-words">Assigned fields: {entry.signers.join(', ') || 'No assigned signature fields'}</p>
         <p className="break-all text-xs">Exact handoff SHA-256: {entry.pdfs.handoff.sha256}</p>
         {entry.returns?.map((returned, returnIndex) => <p key={returned.id} className="break-words text-xs">Return {returnIndex + 1}: {returned.returnedAsset.name} · {returned.assessment} · associated, signer authenticity unverified</p>)}
         <Button className={buttonClass} variant="outline" disabled={busy || pending || dirty} onClick={() => void perform(async current => {
           const policy = await getExportDeploymentPolicy();
           if (policy.status !== 'ready') throw new Error(policy.message);
-          const reviews = await reviewPackageSigning({ version: 1, handoffs: [entry] }, policy);
-          const pdf = await getPackageSigningPdf(entry);
-          if (current()) { setRetainedReview({ entry, reviews, bytes: pdf.bytes, policyKey: JSON.stringify(policy.policy) }); setRetainedReviewed(false); setReturnedRecord(null); setReturnId(''); setReturnedPlan(null); setCapturedReturnId(''); }
+          const reviews = await reviewPackageSigningCapture(entry, policy);
+          const captured = await readPackageSigningRecord(entry);
+          if (current()) { setRetainedReview({ entry, reviews, bytes: base64ToUint8Array(captured.handoffs![0].pdf.data), sourceBytes: base64ToUint8Array(captured.source.data), policyKey: JSON.stringify(policy.policy) }); setRetainedReviewed(false); setReturnedRecord(null); setReturnId(''); setReturnedPlan(null); setCapturedReturnId(''); }
         }, false)}>Review retained handoff {index + 1}</Button>
       </div>
-    </details>)}
+    </details>; })}
     {retainedReview && <div className="min-w-0 space-y-3 rounded border p-3 text-sm">
       <h4 className="font-medium">{retainedReview.returnId ? 'Exact retained signing return' : 'Exact retained signing handoff'}</h4>{!returnedPlan && <PackageSigningPdfPreview bytes={retainedReview.bytes} label={retainedReview.returnId ? 'Exact retained package return PDF' : 'Exact retained package handoff PDF'} />}<PrivacyReview reviews={retainedReview.reviews} />
+      {!returnedPlan && <details className="min-w-0 rounded border p-2"><summary className="cursor-pointer font-medium">Inspect retained source PDF</summary>
+        <div className="pt-3"><PackageSigningPdfPreview bytes={retainedReview.sourceBytes} label="Exact retained package signing source PDF" /></div>
+      </details>}
       <label className="flex items-start gap-2"><input type="checkbox" disabled={busy || pending || dirty} checked={retainedReviewed} onChange={event => setRetainedReviewed(event.target.checked)} />{retainedReview.returnId ? 'I reviewed this exact retained returned PDF and its unverified association before delivering or reopening it.' : 'I reviewed every retained source and handoff page and its signing metadata.'}</label>
       <div className="flex flex-wrap gap-2">
         <Button className={buttonClass} disabled={busy || pending || dirty || !!retainedReview.returnId || !retainedReviewed} onClick={() => void perform(async current => {
           const policy = await getExportDeploymentPolicy();
           if (policy.status !== 'ready' || JSON.stringify(policy.policy) !== retainedReview.policyKey) throw new Error('Deployment settings changed. Review this retained handoff again.');
-          await reviewPackageSigning({ version: 1, handoffs: [retainedReview.entry] }, policy);
-          const captured = await readPackageSigningRecord(retainedReview.entry), bytes = await downloadSigningHandoff(captured, retainedReview.entry.handoffId);
+          await reviewPackageSigningCapture(retainedReview.entry, policy);
+          const bytes = await downloadPackageSigningHandoff(retainedReview.entry);
           const active = getExportDeploymentPolicySync();
           if (active.status !== 'ready' || JSON.stringify(active.policy) !== retainedReview.policyKey) throw new Error('Deployment settings changed. Review this retained handoff again.');
           if (current()) triggerDownload(bytes, `package-signing-handoff-${retainedReview.entry.handoffId}.zip`, 'application/zip');
@@ -166,7 +192,7 @@ export function PackageSigningPanel({ record, revision, disabled, busy, run, onA
         </select></label>
         <Button className={buttonClass} variant="outline" disabled={busy || pending || dirty || !capturedReturnId} onClick={() => void perform(async current => {
           const policy = await getExportDeploymentPolicy(); if (policy.status !== 'ready') throw new Error(policy.message);
-          const reviews = await reviewPackageSigning({ version: 1, handoffs: [retainedReview.entry] }, policy);
+          const reviews = await reviewPackageSigningCapture(retainedReview.entry, policy, capturedReturnId);
           const pdf = await getPackageSigningPdf(retainedReview.entry, undefined, capturedReturnId);
           if (current()) { setRetainedReview({ ...retainedReview, reviews, bytes: pdf.bytes, policyKey: JSON.stringify(policy.policy), returnId: capturedReturnId }); setRetainedReviewed(false); }
         }, false)}>Preview captured signing return</Button>
@@ -176,7 +202,7 @@ export function PackageSigningPanel({ record, revision, disabled, busy, run, onA
           void perform(async current => {
           const policy = await getExportDeploymentPolicy();
           if (policy.status !== 'ready' || JSON.stringify(policy.policy) !== retainedReview.policyKey) throw new Error('Deployment settings changed. Review this retained return again.');
-          await reviewPackageSigning({ version: 1, handoffs: [retainedReview.entry] }, policy);
+          await reviewPackageSigningCapture(retainedReview.entry, policy, capturedReturnId);
           const pdf = await getPackageSigningPdf(retainedReview.entry, undefined, capturedReturnId), active = getExportDeploymentPolicySync();
           if (active.status !== 'ready' || JSON.stringify(active.policy) !== retainedReview.policyKey) throw new Error('Deployment settings changed. Review this retained return again.');
           if (!current()) return;

@@ -129,6 +129,20 @@ export async function derivePackageNextActions(input: ActionPackage, revisionId 
     add({ id: 'impact-unavailable', kind: 'impact', label: 'Inspect saved change history',
       message: cause instanceof Error ? cause.message : 'Saved change impact could not be compared.', blocking: false, destination: { section: 'overview' } });
   }
+  if (revision.signing) {
+    try {
+      const { inspectPackageSigning } = await import('./packageSigning');
+      for (const finding of (await inspectPackageSigning(record, revision.id, options.signal)).findings)
+        if (finding.state !== 'inputs-match' || finding.packageContextChanged || finding.returns.some(returned => returned.state !== 'present')) add({
+          id: `signing-${finding.id}`, kind: 'impact', label: 'Review signing applicability',
+          message: [finding.message, ...finding.returns.filter(returned => returned.state !== 'present').map(returned => returned.message)].join(' '), blocking: false,
+          destination: { section: 'delivery', panel: 'signing', signingId: finding.id, revisionId: revision.id },
+        });
+    } catch (cause) {
+      options.signal?.throwIfAborted(); add({ id: 'signing-unavailable', kind: 'impact', label: 'Inspect captured signing history',
+        message: cause instanceof Error ? cause.message : 'Signing applicability could not be checked.', blocking: false, destination: { section: 'delivery', panel: 'signing' } });
+    }
+  }
   const activeReviews = (record.reviewRounds ?? []).filter(round => packageReviewRoundStatus(round) === 'active');
   for (const round of activeReviews) add({ id: `review-${round.id}`, kind: 'review', label: 'Inspect an active review',
     message: `${round.label} is tied to saved revision ${round.revisionId.slice(-8)}. Check its returned feedback and applicability.`,
