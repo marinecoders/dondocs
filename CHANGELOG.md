@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.139] — 2026-11-17
+
+### Added
+
+- Reviewed shared-information updates with atomic document changes and guarded Undo.
+
 ## [1.3.138] — 2026-11-17
 
 ### Added
