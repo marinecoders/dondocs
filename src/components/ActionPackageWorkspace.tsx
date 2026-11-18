@@ -270,6 +270,7 @@ function PackageDialog({
     const valid = target.bindingId ? !!binding && (!target.factId || binding.factId === target.factId) && (!target.memberId || binding.memberId === target.memberId)
       : target.factId ? !!selected.information?.facts.some(item => item.id === target.factId)
         : target.requirementId ? !!selected.requirements?.items.some(item => item.id === target.requirementId)
+          : target.signingId ? !!selected.signing?.handoffs.some(item => item.id === target.signingId)
           : target.outputId ? selected.outputs.some(item => item.id === target.outputId)
             : target.citationId ? !!selected.citations && [...selected.citations.targets, ...selected.citations.links].some(item => item.id === target.citationId)
               : target.memberId ? selected.members.some(item => item.id === target.memberId) : true;
@@ -283,7 +284,7 @@ function PackageDialog({
       setSelectedRetainedOutputId(target.outputId); setPrepared(null); setApproved(false); setPdfUrl("");
     }
     if (target.memberId && !target.factId && !target.bindingId && !target.requirementId) setActiveMemberId(target.memberId);
-    const section = target.factId || target.bindingId || target.requirementId || target.panel ? "overview"
+    const section = target.signingId ? "delivery" : target.factId || target.bindingId || target.requirementId ? "overview" : target.panel ? target.section ?? (target.panel === "signing" ? "delivery" : "overview")
       : target.outputId ? "delivery" : target.citationId ? "documents" : target.section ?? (target.memberId ? "documents" : "overview");
     setWorkspaceSection(section);
     setNotice("");
@@ -292,6 +293,7 @@ function PackageDialog({
   useEffect(() => {
     if (!destination || record?.id !== destination.packageId || revision?.id !== destination.revisionId) return;
     if (destination.factId || destination.bindingId || destination.requirementId) return;
+    if (destination.signingId) return; // The signing panel focuses its exact captured handoff.
     if (destination.citationId) return; // Citation identities load asynchronously in their panel.
     if (destination.outputId) { focusPackageDestination(dialogRoot.current, 'data-package-output-id', destination.outputId); return; }
     if (destination.reviewRoundId) { focusPackageDestination(dialogRoot.current, 'data-package-review-id', destination.reviewRoundId); return; }
@@ -1459,7 +1461,7 @@ function PackageDialog({
           <summary className="cursor-pointer text-sm font-medium">Package signing{signingDirty ? " · awaiting capture" : ""}</summary>
           <div className="min-w-0 pt-3"><Suspense fallback={<p role="status">Opening package signing…</p>}>
             <PackageSigningPanel record={readRecord} revision={revision} disabled={!editable || typedDirty || starterDirty || intakeDirty || informationDirty || requirementsDirty || consistencyDirty || workDirty}
-              busy={busy} run={run} onApply={update} onDirtyChange={setSigningDirty} signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted} />
+              busy={busy} run={run} onApply={update} destination={destination} onNavigate={followDestination} onDirtyChange={setSigningDirty} signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted} />
           </Suspense></div>
         </details>}
         {busy && (

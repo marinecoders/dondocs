@@ -1,3 +1,4 @@
+import { comparePackageSigningImpact } from './packageSigningImpact';
 import { getPackageRevision, packageRevisionSchema, packageReviewRoundSchema,
   type ActionPackage, type PackageRevision, type PackageReviewRound } from './actionPackages';
 import { inspectImpactOutputs, inspectImpactReviews } from './packageChangeImpactEvidence';
@@ -89,6 +90,7 @@ export async function comparePackageChangeImpact(beforeInput: PackageRevision, a
   add('citation', 'Citations', compareCitations(before, after));
   add('intake', 'Captured intake', compareMetadata('intake', 'Answers and template revision', before.templateState, after.templateState, 'Saved answers, membership declarations or the pinned action template changed.'));
   add('consistency', 'Consistency rules', compareMetadata('consistency', 'Declared consistency rules and exceptions', before.consistency, after.consistency, 'Consistency declarations or the applicability of an explicit exception changed.'));
+  add('signing', 'Signing handoffs', await comparePackageSigningImpact(before, after, options.signal));
   add('workflow', 'Local work tracking', compareMetadata('workflow', 'Tasks, owners and dates', before.work, after.work, 'Local task metadata changed. This does not change document content or grant approval.'));
   await enrichPackageImpactDependencies(before, after, sections, options.signal);
   for (const section of sections) for (const item of section.items) for (const destination of item.destinations)

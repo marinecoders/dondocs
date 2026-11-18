@@ -1,7 +1,7 @@
 export interface PackageDestination {
   revisionId?: string;
   section?: 'overview' | 'documents' | 'review' | 'delivery';
-  panel?: 'information' | 'requirements' | 'intake' | 'consistency' | 'work';
+  panel?: 'information' | 'requirements' | 'intake' | 'consistency' | 'work' | 'signing';
   factId?: string;
   bindingId?: string;
   memberId?: string;
@@ -9,6 +9,7 @@ export interface PackageDestination {
   outputId?: string;
   reviewRoundId?: string;
   citationId?: string;
+  signingId?: string;
 }
 
 /** A destination belongs to one selected saved revision, including historical views. */
@@ -23,7 +24,7 @@ export function matchesPackageDestination(request: PackageDestinationRequest | u
 }
 
 /** Match attribute values directly so identifiers never become selector expressions. */
-export function focusPackageDestination(root: ParentNode | null, attribute: 'data-package-fact-id' | 'data-package-binding-id' | 'data-package-requirement-id' | 'data-package-citation-id' | 'data-package-output-id' | 'data-package-review-id' | 'data-package-panel', identity: string): boolean {
+export function focusPackageDestination(root: ParentNode | null, attribute: 'data-package-fact-id' | 'data-package-binding-id' | 'data-package-requirement-id' | 'data-package-citation-id' | 'data-package-output-id' | 'data-package-review-id' | 'data-package-signing-id' | 'data-package-panel', identity: string): boolean {
   if (!root) return false;
   const target = [...root.querySelectorAll<HTMLElement>(`[${attribute}]`)].find(element => element.getAttribute(attribute) === identity);
   if (!target) return false;

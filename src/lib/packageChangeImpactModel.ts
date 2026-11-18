@@ -2,11 +2,11 @@ import type { PackageMember, PackageRevision } from './actionPackages';
 import { sameReviewStoredValue } from './documentsDb';
 
 export type PackageImpactState = 'added' | 'removed' | 'changed' | 'moved' | 'metadata-only' | 'renumbered' | 'unchanged' | 'unknown' | 'unavailable';
-export type PackageImpactKind = 'member' | 'fact' | 'participant' | 'binding' | 'requirement' | 'citation' | 'intake' | 'consistency' | 'workflow' | 'output' | 'review';
+export type PackageImpactKind = 'member' | 'fact' | 'participant' | 'binding' | 'requirement' | 'citation' | 'intake' | 'consistency' | 'workflow' | 'output' | 'review' | 'signing';
 export interface PackageImpactDestination {
   revisionId?: string;
   memberId?: string; factId?: string; bindingId?: string; requirementId?: string;
-  citationId?: string; outputId?: string; reviewRoundId?: string;
+  citationId?: string; outputId?: string; reviewRoundId?: string; signingId?: string;
 }
 export interface PackageImpactItem {
   id: string;

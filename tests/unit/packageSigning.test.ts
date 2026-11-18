@@ -192,9 +192,10 @@ it('validates an exact signing source target and output provenance in retained c
 
 it('preserves earlier signing context hashes when assembly inputs gain an optional profile wrapper', async () => {
   const { record } = await fixture(), revision = getPackageRevision(record), original = impactModel.packageAssemblyInputs;
+  const members = (value: typeof revision) => { const result: unknown = original(value); return result && typeof result === 'object' && !Array.isArray(result) && 'members' in result ? result.members : result; };
   const previous = await packageSigningContextFingerprint(revision);
-  const spy = vi.spyOn(impactModel, 'packageAssemblyInputs').mockImplementation(value => ({ members: original(value), assembly: undefined }) as unknown as ReturnType<typeof original>);
+  const spy = vi.spyOn(impactModel, 'packageAssemblyInputs').mockImplementation(value => ({ members: members(value), assembly: undefined }) as unknown as ReturnType<typeof original>);
   expect(await packageSigningContextFingerprint(revision)).toBe(previous);
-  spy.mockImplementation(value => ({ members: original(value), assembly: { version: 1, profile: 'mixed', cover: true } }) as unknown as ReturnType<typeof original>);
+  spy.mockImplementation(value => ({ members: members(value), assembly: { version: 1, profile: 'mixed', cover: true } }) as unknown as ReturnType<typeof original>);
   expect(await packageSigningContextFingerprint(revision)).not.toBe(previous);
 });
