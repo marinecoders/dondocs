@@ -68,6 +68,7 @@ import { parseEncryptedShareFile, MAX_ENCRYPTED_SHARE_FILE_BYTES } from "@/lib/e
 import { ShareModal } from "./modals/ShareModal";
 import type { CorrespondenceRendererPorts } from "@/services/exports/correspondence";
 
+const PackageOutputNavigation = lazy(() => import("./PackageOutputNavigation").then(module => ({ default: module.PackageOutputNavigation })));
 const PackageSigningPanel = lazy(() => import("./PackageSigningPanel").then(module => ({ default: module.PackageSigningPanel })));
 const PackageInformationPanel = lazy(() => import("./PackageInformationPanel").then(module => ({ default: module.PackageInformationPanel })));
 const PackageWorkPanel = lazy(() => import("./PackageWorkPanel").then(module => ({ default: module.PackageWorkPanel })));
@@ -1299,6 +1300,14 @@ function PackageDialog({
                   </>
                 )}
               </div>
+              <Suspense fallback={<p className="text-sm">Opening saved PDF contents…</p>}>
+                <PackageOutputNavigation output={selectedRetainedOutput} revision={revision} disabled={busy || pendingPackageEdits}
+                  onNavigate={followDestination} onOpenPage={(outputId, page) => {
+                    if (busy || pendingPackageEdits || outputId !== selectedRetainedOutput?.id) return;
+                    useUIStore.getState().rememberPreviewPage(`package:${record.id}:${revision.id}:${outputId}`, page);
+                    setPdfUrl(""); void run(() => review("preview"));
+                  }} />
+              </Suspense>
               <PackageCitations key={`citations:${record.id}:${revision.id}`} record={record} revision={revision} editable={editable} destination={destination}
                 onChange={action => void run(async () => update(await action(operation.current?.signal)))} />
               <PackageCitationReorder key={`reorder-${record.id}:${revision.id}:${record.sequence}`} record={record} revision={revision} editable={editable} prepared={citationReorder}
