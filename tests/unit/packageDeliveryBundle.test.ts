@@ -85,3 +85,23 @@ it('recovers selected assets after every originating browser store is empty', as
   if (member.kind !== 'original') throw new Error('Expected recovered original.');
   expect(new Uint8Array(await readPackageAsset(member.original))).toEqual(expected);
 });
+it('rejects forged entry counts before JSZip materializes an unbounded central directory', async () => {
+  const zip = new JSZip();
+  for (let i = 0; i < 300; i++) zip.file(`files/${String(i).padStart(3, '0')}-synthetic.pdf`, new Uint8Array([1]), { createFolders: false });
+  const bytes = await zip.generateAsync({ type: 'uint8array' }), view = new DataView(bytes.buffer);
+  view.setUint16(bytes.length - 14, 4, true); view.setUint16(bytes.length - 12, 4, true);
+  const load = vi.spyOn(JSZip, 'loadAsync');
+  await expect(parsePackageDeliveryBundle(bytes)).rejects.toThrow();
+  expect(load).not.toHaveBeenCalled();
+});
+it('rejects local/central filename disagreement, traversal and overlapping compressed data before loading ZIP entries', async () => {
+  const { prepared } = await fixture(), bundle = await buildPackageDeliveryBundle(prepared, policy, true);
+  const load = vi.spyOn(JSZip, 'loadAsync');
+  const mismatch = bundle.bytes.slice(); mismatch[30] = mismatch[30] === 120 ? 121 : 120;
+  await expect(parsePackageDeliveryBundle(mismatch)).rejects.toThrow(/local entry/); expect(load).not.toHaveBeenCalled();
+  const overlap = bundle.bytes.slice(), view = new DataView(overlap.buffer), directory = view.getUint32(overlap.length - 6, true);
+  view.setUint32(directory + 20, directory, true);
+  await expect(parsePackageDeliveryBundle(overlap)).rejects.toThrow(/local entry/); expect(load).not.toHaveBeenCalled();
+  const hostile = new JSZip(); hostile.file('../manifest.json', '{}', { createFolders: false });
+  await expect(parsePackageDeliveryBundle(await hostile.generateAsync({ type: 'uint8array' }))).rejects.toThrow(/unsafe paths/); expect(load).not.toHaveBeenCalled();
+});

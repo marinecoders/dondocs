@@ -71,6 +71,33 @@ function directoryCount(bytes: Uint8Array): number {
   const count = view.getUint16(offset + 10, true);
   if (!count || count > MAX_PACKAGE_DELIVERY_BUNDLE_FILES || view.getUint16(offset + 8, true) !== count || view.getUint32(offset + 16, true) + view.getUint32(offset + 12, true) !== offset)
     throw new Error('The delivery ZIP has an invalid or unsupported directory.');
+  // JSZip intentionally tolerates EOCD count mismatches. Bound the actual records
+  // before it allocates an object for every central-directory entry.
+  let cursor = view.getUint32(offset + 16, true), expanded = 0;
+  const names = new Set<string>(), decoder = new TextDecoder('utf-8', { fatal: true });
+  for (let index = 0; index < count; index++) {
+    if (cursor + 46 > offset || view.getUint32(cursor, true) !== 0x02014b50) throw new Error('The delivery ZIP has an invalid central directory.');
+    const flags = view.getUint16(cursor + 8, true), method = view.getUint16(cursor + 10, true);
+    const compressed = view.getUint32(cursor + 20, true), uncompressed = view.getUint32(cursor + 24, true);
+    const nameLength = view.getUint16(cursor + 28, true), extraLength = view.getUint16(cursor + 30, true), commentLength = view.getUint16(cursor + 32, true);
+    const local = view.getUint32(cursor + 42, true), end = cursor + 46 + nameLength + extraLength + commentLength;
+    if (flags & 1 || ![0, 8].includes(method) || !nameLength || end > offset || view.getUint16(cursor + 34, true) !== 0
+      || compressed === 0xffffffff || uncompressed > MAX_PACKAGE_FILE_BYTES || local + 30 > view.getUint32(offset + 16, true)
+      || view.getUint32(local, true) !== 0x04034b50) throw new Error('The delivery ZIP uses unsupported entry metadata.');
+    expanded += uncompressed;
+    if (expanded > MAX_PACKAGE_DELIVERY_BUNDLE_BYTES) throw new Error('The delivery ZIP exceeds its expanded byte limits.');
+    const name = decoder.decode(bytes.subarray(cursor + 46, cursor + 46 + nameLength));
+    if (name !== 'manifest.json' && !path.safeParse(name).success || names.has(name)) throw new Error('The delivery ZIP has unlisted, duplicate or unsafe paths.');
+    names.add(name);
+    const localNameLength = view.getUint16(local + 26, true), localExtraLength = view.getUint16(local + 28, true);
+    const dataStart = local + 30 + localNameLength + localExtraLength;
+    if (dataStart + compressed > view.getUint32(offset + 16, true) || localNameLength !== nameLength
+      || view.getUint16(local + 6, true) & 1 || view.getUint16(local + 8, true) !== method
+      || decoder.decode(bytes.subarray(local + 30, local + 30 + localNameLength)) !== name)
+      throw new Error('The delivery ZIP local entry does not match its directory.');
+    cursor = end;
+  }
+  if (cursor !== offset) throw new Error('The delivery ZIP central directory count does not match its actual entries.');
   return count;
 }
 async function inflated(file: JSZip.JSZipObject, limit: number, counter: { bytes: number }, signal?: AbortSignal): Promise<Uint8Array> {
@@ -91,7 +118,7 @@ async function inflated(file: JSZip.JSZipObject, limit: number, counter: { bytes
   const bytes = new Uint8Array(size); let offset = 0; for (const chunk of chunks) { bytes.set(chunk, offset); offset += chunk.byteLength; } return bytes;
 }
 export async function parsePackageDeliveryBundle(input: Uint8Array, signal?: AbortSignal): Promise<{ manifest: PackageDeliveryManifest; packageJson: string }> {
-  signal?.throwIfAborted(); const bytes = input.slice(), count = directoryCount(bytes), zip = await JSZip.loadAsync(bytes);
+  signal?.throwIfAborted(); const count = directoryCount(input), bytes = input.slice(), zip = await JSZip.loadAsync(bytes);
   const entries = Object.values(zip.files);
   if (entries.length !== count || entries.some(file => file.dir || file.unsafeOriginalName && file.unsafeOriginalName !== file.name)) throw new Error('The delivery ZIP has duplicate or unsafe paths.');
   const manifestFile = zip.file('manifest.json'); if (!manifestFile) throw new Error('The delivery ZIP is missing its manifest.');
