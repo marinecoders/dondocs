@@ -755,6 +755,12 @@ function PackageDialog({
                         throw new Error(
                           "This package file exceeds the encrypted transfer limit.",
                         );
+                      if (/\.zip$/i.test(file.name) || file.type === "application/zip") {
+                        const bytes = new Uint8Array(await file.arrayBuffer()); assertOperationCurrent();
+                        const { importPackageDeliveryBundle } = await import("@/lib/packageDeliveryBundle");
+                        update(await importPackageDeliveryBundle(bytes, operation.current?.signal, () => active.current && !operation.current?.signal.aborted));
+                        return;
+                      }
                       const json = await file.text();
                       assertOperationCurrent();
                       const value: unknown = JSON.parse(json);
