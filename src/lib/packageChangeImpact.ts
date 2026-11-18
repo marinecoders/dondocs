@@ -6,7 +6,7 @@ import { compareImpactMembers, freezePackageImpact, impactChanged, impactInputFi
   type ImpactRevision, type PackageChangeImpact, type PackageImpactDestination, type PackageImpactItem, type PackageImpactSection } from './packageChangeImpactModel';
 export type { PackageChangeImpact, PackageImpactDestination, PackageImpactItem, PackageImpactSection, PackageImpactState } from './packageChangeImpactModel';
 
-export interface PackageImpactOptions { reviewRounds?: readonly PackageReviewRound[]; packageId?: string; signal?: AbortSignal }
+export interface PackageImpactOptions { reviewRounds?: readonly PackageReviewRound[]; retainedRevisions?: readonly PackageRevision[]; packageId?: string; signal?: AbortSignal }
 type Identified = { id: string };
 function compareRows<T extends Identified>(before: readonly T[], after: readonly T[], describe: (value: T) => { label: string; destinations: PackageImpactDestination[] }, message: string): PackageImpactItem[] {
   const previous = new Map(before.map(item => [item.id, item])), next = new Map(after.map(item => [item.id, item]));
@@ -48,13 +48,15 @@ function compareCitations(before: PackageRevision, after: PackageRevision): Pack
 export async function comparePackageChangeImpact(beforeInput: PackageRevision, afterInput: PackageRevision, options: PackageImpactOptions = {}): Promise<PackageChangeImpact> {
   options.signal?.throwIfAborted();
   const beforeId = packageRevisionSchema.shape.id.parse(beforeInput.id), afterId = packageRevisionSchema.shape.id.parse(afterInput.id);
-  const roundsInput = options.reviewRounds ?? [];
+  const roundsInput = options.reviewRounds ?? [], retainedInput = options.retainedRevisions ?? [];
+  if (retainedInput.length > 200) throw new Error('Compare at most 200 retained package revisions.');
   if (roundsInput.length > 100) throw new Error('Compare at most 100 recorded package reviews.');
-  if (!impactInputFits([beforeInput, afterInput, roundsInput])) return limitedPackageImpact(beforeId, afterId);
+  if (!impactInputFits([beforeInput, afterInput, roundsInput, retainedInput])) return limitedPackageImpact(beforeId, afterId);
   // Own data synchronously, including sessions accepted through custom validators, before the first checksum await.
-  const captured = structuredClone({ before: beforeInput, after: afterInput, rounds: roundsInput });
+  const captured = structuredClone({ before: beforeInput, after: afterInput, rounds: roundsInput, retained: retainedInput });
   const before: ImpactRevision = packageRevisionSchema.parse(captured.before), after: ImpactRevision = packageRevisionSchema.parse(captured.after);
-  for (const revision of [before, after]) {
+  const retained = captured.retained.map(revision => packageRevisionSchema.parse(revision));
+  for (const revision of [before, after, ...retained]) {
     if (new Set(revision.members.map(member => member.id)).size !== revision.members.length) throw new Error('Duplicate package member identity in comparison.');
     if (new Set(revision.outputs.map(output => output.id)).size !== revision.outputs.length) throw new Error('Duplicate retained PDF identity in comparison.');
   }
@@ -63,7 +65,12 @@ export async function comparePackageChangeImpact(beforeInput: PackageRevision, a
   if (new Set(rounds.map(round => round.id)).size !== rounds.length) throw new Error('Duplicate package review identity.');
   const content = ({ id: _id, parentId: _parent, createdAt: _time, outputs: _outputs, members, ...value }: PackageRevision) => ({ ...value,
     members: members.map(member => member.kind === 'native' && member.source ? { ...member, source: { ...member.source, local: false } } : member) });
-  if (before.id === after.id && !sameImpactValue(content(before), content(after))) throw new Error('A saved revision identity cannot describe two different package states.');
+  const identities = new Map<string, PackageRevision>();
+  for (const revision of [before, after, ...retained]) {
+    const previous = identities.get(revision.id);
+    if (previous && !sameImpactValue(content(previous), content(revision))) throw new Error('A saved revision identity cannot describe two different package states.');
+    identities.set(revision.id, revision);
+  }
   const sections: PackageImpactSection[] = [];
   const add = (kind: PackageImpactSection['kind'], label: string, items: PackageImpactItem[]) => sections.push({ kind, label, items });
   add('member', 'Documents', compareImpactMembers(before, after));
@@ -86,7 +93,7 @@ export async function comparePackageChangeImpact(beforeInput: PackageRevision, a
   await enrichPackageImpactDependencies(before, after, sections, options.signal);
   for (const section of sections) for (const item of section.items) for (const destination of item.destinations)
     destination.revisionId ??= item.state === 'removed' ? before.id : after.id;
-  const [outputs, reviews] = await Promise.all([inspectImpactOutputs(before, after, options.signal), inspectImpactReviews(rounds, after, options.signal)]);
+  const [outputs, reviews] = await Promise.all([inspectImpactOutputs(before, after, retained, options.signal), inspectImpactReviews(rounds, after, options.signal)]);
   add('output', 'Retained PDFs', outputs); add('review', 'Recorded reviews', reviews);
   for (const item of [...outputs, ...reviews]) for (const destination of item.destinations) destination.revisionId = item.capturedRevisionId;
   options.signal?.throwIfAborted();
@@ -94,9 +101,9 @@ export async function comparePackageChangeImpact(beforeInput: PackageRevision, a
   return freezePackageImpact({ version: 1, beforeRevisionId: before.id, afterRevisionId: after.id,
     changed: sections.some(section => !['output', 'review'].includes(section.kind) && section.items.some(impactChanged)), limited: false, sections,
     summary: { changedMembers: byKind('member').filter(item => ['added', 'removed', 'changed', 'metadata-only'].includes(item.state)).length,
-      movedMembers: byKind('member').filter(item => item.state === 'moved').length, changedFacts: byKind('fact').filter(impactChanged).length,
+      movedMembers: byKind('member').filter(item => item.beforePosition !== undefined && item.afterPosition !== undefined && item.beforePosition !== item.afterPosition).length, changedFacts: byKind('fact').filter(impactChanged).length,
       affectedOutputs: outputs.filter(item => ['changed', 'metadata-only'].includes(item.state)).length,
-      affectedReviews: reviews.filter(item => item.state === 'changed').length,
+      affectedReviews: reviews.filter(item => ['changed', 'metadata-only'].includes(item.state)).length,
       unknownEvidence: sections.reduce((count, section) => count + section.items.filter(item => ['unknown', 'unavailable'].includes(item.state)).length, 0) },
     notices: ['This compares captured package records. Saved file bytes are checked when opened or delivered; matching metadata is not a new rendering or approval.'] });
 }
@@ -105,5 +112,5 @@ export async function inspectPackageChangeImpact(record: ActionPackage, beforeRe
   for (const id of [beforeRevisionId, afterRevisionId])
     if (record.revisions.filter(revision => revision.id === id).length !== 1) throw new Error('The exact comparison revision is unavailable or ambiguous.');
   return comparePackageChangeImpact(getPackageRevision(record, beforeRevisionId), getPackageRevision(record, afterRevisionId),
-    { reviewRounds: record.reviewRounds, packageId: record.id, signal });
+    { reviewRounds: record.reviewRounds, retainedRevisions: record.revisions.slice(0, record.revisions.findIndex(revision => revision.id === afterRevisionId) + 1).filter(revision => revision.outputs.length), packageId: record.id, signal });
 }

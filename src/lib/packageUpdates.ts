@@ -114,7 +114,7 @@ export async function preparePackageUpdate(
   const reviews = [reviewPackageText(before.name, 'Package name', policy), ...planned.reviews];
   const after = actionPackageSchema.parse({ ...before, sequence: before.sequence + 1,
     currentRevisionId: revision.id, revisions: [...before.revisions, revision] });
-  const impact = issues.length ? undefined : await comparePackageChangeImpact(current, revision, { reviewRounds: before.reviewRounds, packageId: before.id, signal });
+  const impact = issues.length ? undefined : await comparePackageChangeImpact(current, revision, { reviewRounds: before.reviewRounds, retainedRevisions: before.revisions.filter(item => item.outputs.length), packageId: before.id, signal });
   const prepared = frozen({ packageName: before.name, revisionId: current.id, ready: issues.length === 0,
     changed, changes: structuredClone(changes), issues: [...issues], reviews: structuredClone(reviews), ...(impact ? { impact } : {}) });
   preparations.set(prepared, { before, after, attachments, policy: identity });

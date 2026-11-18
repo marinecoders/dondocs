@@ -39,23 +39,25 @@ export type ImpactRevision = PackageRevision & { work?: unknown };
 export const impactChanged = (item: PackageImpactItem): boolean => !['unchanged', 'unknown', 'unavailable'].includes(item.state);
 export const sameImpactValue = sameReviewStoredValue;
 
-/** Compare captured input digests, not device-local attachment handles or library provenance. */
+/** Retained disclosure metadata matters without treating device-local handles as document edits. */
 export function packageMemberInputs(member: PackageMember) {
+  const asset = ({ name, type, size, sha256 }: { name: string; type: string; size: number; sha256: string }) => ({ name, type, size, sha256 });
   return { kind: member.kind, label: member.label, role: member.role, required: member.required,
-    ...(member.kind === 'original' ? { sha256: member.original.sha256, signedOriginal: member.signedOriginal }
-      : { sha256: member.draft.sha256, templates: Object.entries(member.templates ?? {}).sort(([a], [b]) => a.localeCompare(b)).map(([file, asset]) => [file, asset.sha256]) }) };
+    ...(member.kind === 'original' ? { original: asset(member.original), signedOriginal: member.signedOriginal }
+      : { draft: asset(member.draft), source: member.source && { documentId: member.source.documentId, capturedAt: member.source.capturedAt, editSequence: member.source.editSequence },
+        templates: Object.entries(member.templates ?? {}).sort(([a], [b]) => a.localeCompare(b)).map(([file, value]) => [file, asset(value)]) }) };
 }
 export function packageMemberContent(member: PackageMember) {
   return member.kind === 'original' ? { kind: member.kind, sha256: member.original.sha256 }
     : { kind: member.kind, sha256: member.draft.sha256, templates: Object.entries(member.templates ?? {}).sort(([a], [b]) => a.localeCompare(b)).map(([file, asset]) => [file, asset.sha256]) };
 }
 export function packageAssemblyInputs(revision: PackageRevision) {
-  return revision.members.map(member => ({ id: member.id, ...packageMemberInputs(member) }));
+  return revision.members.map(member => ({ id: member.id, role: member.role, boundaryLabel: !['basic-letter', 'endorsement', 'enclosure'].includes(member.role) ? member.label : undefined, ...packageMemberContent(member) }));
 }
 /** Reviewers receive the package context too; task ownership does not change their captured documents. */
 export function packageReviewContext(revision: ImpactRevision) {
   const sorted = <T extends { id: string }>(items: readonly T[]) => [...items].sort((a, b) => a.id.localeCompare(b.id));
-  return { information: revision.information && { ...revision.information, facts: sorted(revision.information.facts), participants: sorted(revision.information.participants) },
+  return { memberContext: sorted(revision.members).map(member => ({ id: member.id, ...packageMemberInputs(member) })), information: revision.information && { ...revision.information, facts: sorted(revision.information.facts), participants: sorted(revision.information.participants) },
     bindings: revision.bindings && { ...revision.bindings, items: sorted(revision.bindings.items) },
     requirements: revision.requirements && { ...revision.requirements, items: sorted(revision.requirements.items) },
     citations: revision.citations && { ...revision.citations, targets: sorted(revision.citations.targets), links: sorted(revision.citations.links) },
@@ -105,7 +107,7 @@ export function compareImpactMembers(before: PackageRevision, after: PackageRevi
     if (a.member.kind === 'native' && b.member.kind === 'native' && !sameImpactValue(a.member.session, b.member.session))
       return { ...common, state: 'unknown', message: 'The saved document snapshots differ despite matching draft digests. Inspect the retained source before relying on this comparison.' };
     if (!sameImpactValue(packageMemberInputs(a.member), packageMemberInputs(b.member)))
-      return { ...common, state: 'metadata-only', message: 'The label, package role or required-member setting changed; captured content digests match.' };
+      return { ...common, state: 'metadata-only', message: 'Retained names, provenance or package settings changed; captured content digests match.' };
     if (a.index !== b.index) return { ...common, state: 'moved', message: 'Document order changed; its captured content digests match. Assembly numbering and boundaries need a new check.' };
     return { ...common, state: 'unchanged', message: 'Captured document inputs and position match.' };
   });

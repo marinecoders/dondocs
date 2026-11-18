@@ -223,7 +223,7 @@ it('reports a same-byte retained filename change as context while preserving the
   expect((after.members[0] as NativePackageMember).draft.sha256).toBe(first.draft.sha256);
   expect((after.members[0] as NativePackageMember).draft.name).not.toBe(first.draft.name);
   expect(section(report, 'member')[0].state).toBe('metadata-only');
-  expect(section(report, 'review')[0]).toMatchObject({ state: 'changed', capturedRevisionId: before.id, association: 'historical' });
+  expect(section(report, 'review')[0]).toMatchObject({ state: 'metadata-only', capturedRevisionId: before.id, association: 'historical' });
   expect(section(report, 'output')[0]).toMatchObject({ state: 'metadata-only', capturedRevisionId: before.id });
   expect(new Uint8Array(await readPackageAsset(first.draft))).toEqual(new Uint8Array(bytes));
   expect((await listActionPackages())[0].reviewRounds).toEqual(record.reviewRounds);
@@ -242,4 +242,37 @@ it('reports a retained PDF from earlier saved history when neither compared revi
     association: 'historical', destinations: [{ outputId: output.id, revisionId: rendered.id }] })]);
   expect(report.summary.affectedOutputs).toBe(1);
   expect(new Uint8Array(await readPackageAsset(output.asset))).toEqual(new Uint8Array(bytes));
+});
+
+it('limits retained evidence to the selected historical view and keeps retained captures owned before awaits', async () => {
+  let record = await retainedOutput(await fixture());
+  const old = getPackageRevision(record), selectedId = old.id;
+  record = await reviseActionPackage(record, [...old.members].reverse());
+  record = await retainedOutput(record);
+  const historical = await inspectPackageChangeImpact(record, record.revisions[0].id, selectedId);
+  expect(section(historical, 'output').map(item => item.id)).toEqual(old.outputs.map(output => output.id));
+  const current = getPackageRevision(record), after = proposed(current), retained = structuredClone(old);
+  const pending = comparePackageChangeImpact(current, after, { retainedRevisions: [retained] });
+  retained.outputs[0].provenance!.inputSha256 = 'f'.repeat(64);
+  const result = await pending;
+  expect(section(result, 'output').find(item => item.id === old.outputs[0].id)).toMatchObject({ state: 'changed', association: 'historical' });
+  await expect(comparePackageChangeImpact(current, after, { retainedRevisions: Array.from({ length: 201 }, () => old) })).rejects.toThrow(/200 retained/);
+  const conflicting = structuredClone(old); conflicting.members[0].label = 'Conflicting retained identity';
+  await expect(comparePackageChangeImpact(old, proposed(old), { retainedRevisions: [conflicting] })).rejects.toThrow(/saved revision identity/);
+});
+
+it('distinguishes recapture provenance and required settings from assembly inputs and preserves movement counts', async () => {
+  const record = await retainedOutput(await fixture()), before = getPackageRevision(record), after = proposed(before);
+  const member = after.members[0] as NativePackageMember;
+  member.required = !member.required;
+  if (member.source) member.source.capturedAt++;
+  after.members.reverse();
+  const report = await comparePackageChangeImpact(before, after);
+  expect(section(report, 'member').find(item => item.id === member.id)?.state).toBe('metadata-only');
+  expect(report.summary.movedMembers).toBe(2);
+  const retained = section(report, 'output')[0];
+  expect(retained.state).toBe('changed'); expect(retained.movedMemberIds).toHaveLength(2);
+  after.members.reverse();
+  const contextOnly = await comparePackageChangeImpact(before, after);
+  expect(section(contextOnly, 'output')[0].state).toBe('metadata-only');
 });
