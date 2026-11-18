@@ -1,7 +1,9 @@
+import { packageBindingReadiness } from "./packageFieldBindings";
 import {
   reviewPackageNative,
   reviewPackageText,
   reviewPackageInformation,
+  reviewPackageBindings,
   reviewPackageOriginal,
 } from "./actionPackageDisclosure";
 import { APP_VERSION, GIT_SHA } from "./version";
@@ -164,6 +166,11 @@ export async function preparePackageAssembly(
     try { reviews.push({ member: "Package information", review: reviewPackageInformation(revision.information, policy) }); }
     catch (cause) { error(cause instanceof Error ? cause.message : "Package information could not be reviewed."); }
   }
+  if (revision.bindings) {
+    try { reviews.push({ member: "Package field links", review: reviewPackageBindings(revision.bindings, policy) }); }
+    catch (cause) { error(cause instanceof Error ? cause.message : "Package field links could not be reviewed."); }
+  }
+  findings.push(...(await packageBindingReadiness(revision)).map(finding => ({ ...finding, severity: options.includeRetainedDraftText ? "warning" as const : "error" as const })));
   if (!revision.members.length) error("Add a basic letter or main document.");
   findings.push(...await packageCitationReadiness(revision));
   if (
