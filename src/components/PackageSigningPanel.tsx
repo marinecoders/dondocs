@@ -26,7 +26,7 @@ function PrivacyReview({ reviews }: { reviews: readonly ExportReview[] }) {
 
 /** Package associations own captured files; the existing signing editor handles placements and external returns. */
 export function PackageSigningPanel({ record, revision, disabled, busy, run, onApply, onDirtyChange, isCurrent, signal }: Props) {
-  const heading = useId(), owner = `${record.id}:${record.sequence}:${revision.id}:${record.archived}`;
+  const heading = useId(), owner = `${record.id}:${record.sequence}:${revision.id}:${record.archived}:${disabled}`;
   const [targetKey, setTargetKey] = useState(''), [source, setSource] = useState<PreparedPackageSigningSource | null>(null);
   const [sourceReviewed, setSourceReviewed] = useState(false), [records, setRecords] = useState<SigningRecord[]>([]), [recordId, setRecordId] = useState(''), [handoffId, setHandoffId] = useState('');
   const [handoff, setHandoff] = useState<PreparedPackageSigningHandoff | null>(null), [handoffReviewed, setHandoffReviewed] = useState(false);

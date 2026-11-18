@@ -91,3 +91,18 @@ it('keeps historical handoffs inspectable while policy changes invalidate a revi
   await user.click(screen.getByRole('button', { name: 'Download exact package signing handoff' }));
   expect(await screen.findByRole('alert')).toHaveTextContent('Deployment settings changed'); expect(download).not.toHaveBeenCalled();
 });
+
+it('invalidates a reviewed signing preparation when its view becomes read-only without changing package identity', async () => {
+  const record = await fixture(), user = userEvent.setup(), dirty = vi.fn();
+  const view = render(<PackageSigningPanel {...props(record)} onDirtyChange={dirty} />);
+  await user.selectOptions(screen.getByLabelText('Package signing PDF'), JSON.stringify(signing.packageSigningTargets(getPackageRevision(record))[0].target));
+  await user.click(screen.getByRole('button', { name: 'Review signing source' }));
+  await screen.findByLabelText('Exact package signing source PDF');
+  await user.click(screen.getByRole('checkbox', { name: /^I reviewed the exact source PDF/ }));
+  expect(dirty).toHaveBeenLastCalledWith(true);
+  view.rerender(<PackageSigningPanel {...props(record)} disabled onDirtyChange={dirty} />);
+  await waitFor(() => expect(dirty).toHaveBeenLastCalledWith(false));
+  view.rerender(<PackageSigningPanel {...props(record)} onDirtyChange={dirty} />);
+  expect(screen.queryByLabelText('Exact package signing source PDF')).toBeNull();
+  expect(screen.queryByRole('button', { name: 'Open signing workspace for this PDF' })).toBeNull();
+});
