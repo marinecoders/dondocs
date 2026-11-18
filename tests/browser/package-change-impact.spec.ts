@@ -81,6 +81,9 @@ for (const theme of ['light', 'dark', 'classic']) test(`captured impact preserve
   await page.setViewportSize({ width: 320, height: 850 });
   await impact.scrollIntoViewIfNeeded();
   expect(await dialog.evaluate(element => element.scrollWidth <= element.clientWidth + 1)).toBe(true);
+  const itemText = await impact.locator('li:visible').first().locator(':scope > p').nth(1).boundingBox();
+  expect(itemText).not.toBeNull();
+  expect(itemText!.width).toBeGreaterThanOrEqual(160);
   await page.screenshot({ path: info.outputPath(`package-impact-${theme}-mobile.png`) });
   await impact.getByRole('button', { name: 'Inspect shared value · Local routing note · location 1', exact: true }).click();
   await expect(dialog.getByLabel('Package revision', { exact: true })).toHaveValue(firstUpdate);

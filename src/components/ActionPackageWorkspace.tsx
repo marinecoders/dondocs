@@ -580,7 +580,7 @@ function PackageDialog({
         if (!value) close();
       }}
     >
-      <DialogContent ref={dialogRoot} className="sm:max-w-6xl" aria-busy={busy} showCloseButton={!typedDirty && !informationDirty && !starterDirty && !intakeDirty && !requirementsDirty && !consistencyDirty}>
+      <DialogContent ref={dialogRoot} className="p-3 sm:max-w-6xl sm:p-6" aria-busy={busy} showCloseButton={!typedDirty && !informationDirty && !starterDirty && !intakeDirty && !requirementsDirty && !consistencyDirty}>
         <DialogHeader>
           <DialogTitle>Action packages</DialogTitle>
           <DialogDescription>
@@ -776,7 +776,7 @@ function PackageDialog({
             </Suspense>
           </div>
         </details>}
-        {readRecord && revision && <details className="min-w-0 rounded border p-3">
+        {readRecord && revision && <details className="min-w-0 rounded border p-2 sm:p-3">
           <summary className="cursor-pointer text-sm font-medium">Change impact</summary>
           <div className="pt-3"><Suspense fallback={<p role="status">Loading change impact…</p>}>
             <PackageChangeImpactPanel record={readRecord} revision={revision} disabled={pendingPackageEdits} busy={busy} run={run}

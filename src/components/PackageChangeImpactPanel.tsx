@@ -34,7 +34,7 @@ export function PackageChangeImpactPanel({ record, revision, disabled, busy, run
   }, [owner, record, revision]);
   const index = record.revisions.findIndex(item => item.id === revision.id), candidates = index < 1 ? [] : record.revisions.slice(0, index);
   const locked = disabled || busy || pending;
-  return <section aria-labelledby={heading} aria-busy={pending} className="min-w-0 space-y-3 rounded-lg border bg-background p-3 sm:p-4">
+  return <section aria-labelledby={heading} aria-busy={pending} className="min-w-0 space-y-3 rounded-lg border bg-background p-2 sm:p-4">
     <h3 id={heading} className="font-medium">Package change impact</h3>
     <p className="text-sm text-muted-foreground">Compare the selected revision with an earlier saved revision. See affected documents, requirements, references, retained PDFs and recorded reviews.</p>
     {error && <p role="alert" className="break-words text-sm text-destructive">{error}</p>}
