@@ -1485,7 +1485,7 @@ function PackageDialog({
               busy={busy} run={run} onApply={update} destination={destination} onNavigate={followDestination} onDirtyChange={setSigningDirty} signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted} />
           </Suspense></div>
         </details>}
-        {readRecord && revision && <details className="min-w-0 rounded border p-2 sm:p-3">
+        {record && readRecord && revision && <details className="min-w-0 rounded border p-2 sm:p-3">
           <summary className="cursor-pointer text-sm font-medium">Recipient delivery</summary>
           <div className="min-w-0 pt-3"><Suspense fallback={<p role="status">Opening recipient delivery…</p>}>
             <PackageDeliveryPanel record={record} revision={revision} disabled={pendingPackageEdits} ports={ports}
