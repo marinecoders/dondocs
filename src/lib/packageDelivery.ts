@@ -87,7 +87,7 @@ export async function preparePackageDelivery(input: ActionPackage, revisionId: s
   if (inspected.readiness.findings.some(finding => finding.severity === 'error')) throw new Error(inspected.readiness.findings.filter(finding => finding.severity === 'error').map(finding => finding.message).join(' '));
   reviews.push(...inspected.reviews);
   const prepared = freeze({ sourcePackageId: source.id, sourceRevisionId: revisionId, revisionId: revision.id, packageName: selection.label, purpose: selection.purpose,
-    members: members.map(member => ({ id: member.id, label: member.label, kind: member.kind, role: member.role })), files: packageAssets(projection).map(asset => ({ ...asset })),
+    members: members.map(member => ({ id: member.id, label: member.label, kind: member.kind, role: member.role })), files: [...new Map(packageAssets(projection).map(asset => [asset.id, asset])).values()].map(asset => ({ ...asset })),
     excludedMembers: getPackageRevision(source, revisionId).members.length - members.length, reviews,
     notices: ['This delivery is an independent selected-document copy. It carries no package review decisions, task list, signing records, source pointers or earlier revisions.',
       ...(selection.purpose === 'editable' ? ['Editable documents include their retained answers, inactive values, templates and embedded attachments. Review this exact scope before transfer.'] : ['Native members become PDF derivatives. Selected original PDFs keep their original bytes and any signatures; verify those signatures in the original file.']),

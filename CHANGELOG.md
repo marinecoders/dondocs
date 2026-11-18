@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.160] — 2026-11-17
+
+### Added
+
+- Portable selected-delivery ZIPs include a readable index, exact file manifest, preserved originals and recoverable editable package, with bounded checksum-verified import.
+
 ## [1.3.159] — 2026-11-17
 
 ### Added

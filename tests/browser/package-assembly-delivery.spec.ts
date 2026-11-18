@@ -1,5 +1,7 @@
+import { projectBrowserContextOptions } from '../_helpers/projectBrowserContext';
 import { expect, test, type Locator, type Page } from '@playwright/test';
 import { createHash } from 'node:crypto';
+import JSZip from 'jszip';
 import { readFile } from 'node:fs/promises';
 import { PDFArray, PDFDict, PDFDocument, PDFName, PDFNumber, StandardFonts } from 'pdf-lib';
 import { getDocument } from 'pdfjs-dist/legacy/build/pdf.mjs';
@@ -89,3 +91,44 @@ for (const width of [1440, 320]) {
     expect(await dialog.evaluate(element => element.scrollWidth <= element.clientWidth + 1)).toBe(true); await info.attach('public-recipient.pdf', { body: pdfBytes, contentType: 'application/pdf' }); await delivery.scrollIntoViewIfNeeded(); await page.screenshot({ path: info.outputPath(`recipient-${width}px.png`) });
   });
 }
+
+test('delivery ZIP recovers its exact selected original in a fresh browser context', async ({ page, context, browser }, info) => {
+  await context.addInitScript(() => localStorage.setItem('browser-test-visitor', 'returning'));
+  const includedBytes = await pdf('PUBLIC UNCHANGED DELIVERY ORIGINAL'), excludedBytes = await pdf('PRIVATE EXCLUDED SUPPORT');
+  const included = asset('asset_bundle_original', 'Public original.pdf', 'application/pdf', includedBytes), excluded = asset('asset_bundle_excluded', 'PRIVATE support.pdf', 'application/pdf', excludedBytes);
+  const members = [{ kind: 'original', id: 'member_bundle_original', revisionId: 'member_bundle_original_revision', label: 'Public selected original', role: 'basic-letter', required: true, signedOriginal: true, original: included },
+    { kind: 'original', id: 'member_bundle_excluded', revisionId: 'member_bundle_excluded_revision', label: 'PRIVATE excluded support', role: 'enclosure', required: true, signedOriginal: false, original: excluded }];
+  await page.goto('/'); const dialog = await packages(page);
+  await importPackage(dialog, packet('package_bundle_browser', 'PRIVATE source workspace', [{ id: 'revision_bundle_source', createdAt: 1, members, outputs: [] }], 'revision_bundle_source', [resource(included, includedBytes), resource(excluded, excludedBytes)]));
+  await expect(dialog.getByLabel('Package name', { exact: true })).toHaveValue('PRIVATE source workspace');
+  const delivery = await section(dialog, 'Recipient delivery');
+  await delivery.getByLabel('Delivery name', { exact: true }).fill('Public recovered delivery');
+  await delivery.getByLabel('Include PRIVATE excluded support', { exact: true }).uncheck();
+  await delivery.getByRole('button', { name: 'Prepare selected delivery', exact: true }).click();
+  const captured = delivery.getByRole('region', { name: 'Captured delivery contents', exact: true });
+  await expect(captured).toContainText('1 included documents · 1 excluded · 1 captured files');
+  await expect(captured.getByRole('button', { name: 'Download reviewed delivery bundle', exact: true })).toBeDisabled();
+  await captured.getByRole('checkbox', { name: /^I reviewed every included document/ }).check();
+  const bundle = await download(page, () => captured.getByRole('button', { name: 'Download reviewed delivery bundle', exact: true }).click());
+  const zip = await JSZip.loadAsync(bundle), manifest = JSON.parse(await zip.file('manifest.json')!.async('string'));
+  expect(Object.keys(zip.files).sort()).toEqual([...manifest.files.map((file: { path: string }) => file.path), 'manifest.json'].sort());
+  for (const file of manifest.files) expect(sha(await zip.file(file.path)!.async('uint8array'))).toBe(file.sha256);
+  const payload = await zip.file('package.dondocs-package.json')!.async('string');
+  expect(payload).not.toMatch(/PRIVATE|member_bundle_excluded|package_bundle_browser/);
+  expect(await zip.file('index.html')!.async('string')).toContain('Public selected original');
+  const fresh = await browser.newContext({ ...projectBrowserContextOptions(info), baseURL: new URL(page.url()).origin, serviceWorkers: 'block', viewport: { width: 320, height: 950 } });
+  try {
+    await fresh.addInitScript(() => localStorage.setItem('browser-test-visitor', 'returning'));
+    const freshPage = await fresh.newPage(); await freshPage.goto('/'); const recovered = await packages(freshPage);
+    await recovered.getByLabel('Import editable package', { exact: true }).setInputFiles({ name: 'public-delivery.zip', mimeType: 'application/zip', buffer: bundle });
+    await expect(recovered.getByLabel('Package name', { exact: true })).toHaveValue('Public recovered delivery');
+    await expect(recovered.getByRole('button', { name: 'Download unchanged original', exact: true })).toHaveCount(1);
+    await recovered.getByRole('button', { name: 'Download unchanged original', exact: true }).click();
+    await recovered.getByRole('checkbox', { name: /^I reviewed every included member/ }).check();
+    const restoredBytes = await download(freshPage, () => recovered.getByRole('button', { name: 'Download reviewed unchanged original', exact: true }).click());
+    expect(restoredBytes).toEqual(includedBytes);
+    expect(await recovered.evaluate(element => element.scrollWidth <= element.clientWidth + 1)).toBe(true);
+    await info.attach('delivery-recovered-original.pdf', { body: restoredBytes, contentType: 'application/pdf' });
+    await freshPage.screenshot({ path: info.outputPath('delivery-fresh-browser-320px.png') });
+  } finally { await fresh.close(); }
+});

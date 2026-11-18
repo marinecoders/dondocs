@@ -78,5 +78,10 @@ it.skipIf(!hasPdfToolchain)('renders a recipient delivery from only its selected
   const text = spawnSync('pdftotext', ['-layout', path, '-'], { encoding: 'utf8' });
   expect(text.status).toBe(0); expect(text.stdout).toContain('Basic letter synthetic paragraph 1'); expect(text.stdout).not.toContain('Endorsement synthetic');
   expect(JSON.stringify(copyPreparedPackageDeliveryProjection(prepared))).not.toContain(excluded.id);
-  if (process.env.DONDOCS_PACKAGE_ASSEMBLY_EVIDENCE) await writeFile(join(process.env.DONDOCS_PACKAGE_ASSEMBLY_EVIDENCE, 'recipient-selected-native.pdf'), new Uint8Array(bytes));
+  if (process.env.DONDOCS_PACKAGE_ASSEMBLY_EVIDENCE) {
+    await writeFile(join(process.env.DONDOCS_PACKAGE_ASSEMBLY_EVIDENCE, 'recipient-selected-native.pdf'), new Uint8Array(bytes));
+    const { buildPackageDeliveryBundle } = await import('@/lib/packageDeliveryBundle');
+    const bundle = await buildPackageDeliveryBundle(prepared, policy, true);
+    await writeFile(join(process.env.DONDOCS_PACKAGE_ASSEMBLY_EVIDENCE, 'recipient-native-delivery.zip'), bundle.bytes);
+  }
 }, 120_000);

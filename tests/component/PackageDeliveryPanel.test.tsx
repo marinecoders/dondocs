@@ -7,6 +7,8 @@ import { PackageDeliveryPanel } from '@/components/PackageDeliveryPanel';
 import { createActionPackage, getPackageRevision, reviseActionPackage } from '@/lib/actionPackages';
 import { captureOriginalPackageMember } from '@/lib/actionPackageAssets';
 import { resolveExportDeploymentPolicy } from '@/lib/exportDeploymentPolicy';
+import { parsePackageDeliveryBundle } from '@/lib/packageDeliveryBundle';
+import * as deliveryBundle from '@/lib/packageDeliveryBundle';
 import * as encoding from '@/lib/encoding';
 import * as delivery from '@/lib/packageDelivery';
 import * as classification from '@/config/classification';
@@ -35,6 +37,9 @@ it('prepares exact scope, requires review, downloads captured bytes and clears i
   await waitFor(() => expect(download).toHaveBeenCalledTimes(1));
   const payload = JSON.parse(new TextDecoder().decode(download.mock.calls[0][0] as Uint8Array));
   expect(payload.package.revisions[0].members).toHaveLength(1); expect(JSON.stringify(payload.package)).not.toContain('Second excluded.pdf');
+  await user.click(screen.getByRole('button', { name: 'Download reviewed delivery bundle' }));
+  await waitFor(() => expect(download).toHaveBeenCalledTimes(2));
+  const bundle = await parsePackageDeliveryBundle(download.mock.calls[1][0] as Uint8Array); expect(bundle.manifest.members).toHaveLength(1);
   expect(onPreparedChange.mock.calls.some(([value]) => value?.members.length === 1)).toBe(true);
   await user.type(screen.getByLabelText('Delivery name'), ' revised');
   expect(screen.queryByRole('region', { name: 'Captured delivery contents' })).toBeNull(); expect(onPreparedChange).toHaveBeenLastCalledWith(null);
@@ -49,19 +54,28 @@ it('reports parent operation rejection without trapping the controls and invalid
   expect(screen.queryByRole('alert')).toBeNull(); expect(onPreparedChange).toHaveBeenLastCalledWith(null);
 });
 
-it('rechecks policy synchronously after file generation and before starting the browser download', async () => {
+for (const format of ['package', 'bundle'] as const) it(`rechecks policy synchronously after ${format} generation and before starting the browser download`, async () => {
   const record = await fixture(), user = userEvent.setup(), download = vi.spyOn(encoding, 'triggerDownload').mockImplementation(() => {});
   render(<PackageDeliveryPanel record={record} revision={getPackageRevision(record)} disabled={false} busy={false} run={async action => action()} signal={() => undefined} isCurrent={() => true} />);
   await user.click(screen.getByRole('button', { name: 'Prepare selected delivery' }));
   await screen.findByRole('region', { name: 'Captured delivery contents' });
   await user.click(screen.getByRole('checkbox', { name: /^I reviewed every included document/ }));
-  const build = delivery.buildPackageDeliveryFile;
-  vi.spyOn(delivery, 'buildPackageDeliveryFile').mockImplementationOnce(async (...args) => {
-    const json = await build(...args);
-    vi.spyOn(classification, 'getExportDeploymentPolicySync').mockReturnValue({ status: 'error', message: 'Policy unavailable after generation' });
-    return json;
-  });
-  await user.click(screen.getByRole('button', { name: 'Download reviewed delivery package' }));
+  if (format === 'package') {
+    const build = delivery.buildPackageDeliveryFile;
+    vi.spyOn(delivery, 'buildPackageDeliveryFile').mockImplementationOnce(async (...args) => {
+      const json = await build(...args);
+      vi.spyOn(classification, 'getExportDeploymentPolicySync').mockReturnValue({ status: 'error', message: 'Policy unavailable after generation' });
+      return json;
+    });
+  } else {
+    const build = deliveryBundle.buildPackageDeliveryBundle;
+    vi.spyOn(deliveryBundle, 'buildPackageDeliveryBundle').mockImplementationOnce(async (...args) => {
+      const bundle = await build(...args);
+      vi.spyOn(classification, 'getExportDeploymentPolicySync').mockReturnValue({ status: 'error', message: 'Policy unavailable after generation' });
+      return bundle;
+    });
+  }
+  await user.click(screen.getByRole('button', { name: `Download reviewed delivery ${format}` }));
   expect(await screen.findByRole('alert')).toHaveTextContent('Policy unavailable after generation');
   expect(download).not.toHaveBeenCalled();
   expect(screen.queryByRole('region', { name: 'Captured delivery contents' })).toBeNull();
