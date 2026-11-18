@@ -106,3 +106,25 @@ it('restores useful keyboard focus when removing the last unsaved task', async (
   await user.click(screen.getByRole('button', { name: 'Remove task 1' }));
   expect(screen.getByRole('button', { name: 'Add task' })).toHaveFocus();
 });
+it('reports a rejected parent operation and leaves saved-action controls recoverable', async () => {
+  const user = userEvent.setup(), initial = await fixture();
+  render(<PackageWorkPanel record={initial} revision={getPackageRevision(initial)} disabled={false} busy={false}
+    run={async () => { throw new Error('The package operation cannot start.'); }} onApply={vi.fn()} isCurrent={() => true} signal={() => undefined} />);
+  await user.click(screen.getByRole('button', { name: 'Check next actions' }));
+  expect(await screen.findByRole('alert')).toHaveTextContent('The package operation cannot start.');
+  expect(screen.getByRole('button', { name: 'Check next actions' })).toBeEnabled();
+});
+it('discards late saved-action inspection from the previously selected package', async () => {
+  const first = await fixture(), second = await fixture();
+  let release!: (value: nextActions.PackageNextActions) => void;
+  vi.spyOn(nextActions, 'derivePackageNextActions').mockReturnValueOnce(new Promise(resolve => { release = resolve; }));
+  const properties = { disabled: false, busy: false, run: async (action: () => Promise<void>) => action(), onApply: vi.fn(), isCurrent: () => true, signal: () => undefined };
+  const user = userEvent.setup(), view = render(<PackageWorkPanel {...properties} record={first} revision={getPackageRevision(first)} />);
+  await user.click(screen.getByRole('button', { name: 'Check next actions' }));
+  view.rerender(<PackageWorkPanel {...properties} record={second} revision={getPackageRevision(second)} />);
+  await act(async () => { release({ operation: 'pdf', readyForOperation: true, computedBlockers: 0, pendingTasks: 0,
+    actions: [{ id: 'old-ready', kind: 'delivery', label: 'Old package is ready', message: 'This belongs to the previous package.', blocking: false }] }); });
+  await waitFor(() => expect(screen.getByRole('button', { name: 'Check next actions' })).toBeEnabled());
+  expect(screen.queryByText('Old package is ready')).toBeNull();
+  expect(screen.getByText('Check the saved package to find its next action.')).toBeVisible();
+});

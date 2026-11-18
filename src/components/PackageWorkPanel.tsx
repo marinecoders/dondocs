@@ -94,7 +94,11 @@ export function PackageWorkPanel({ record, revision, disabled, busy, run, onAppl
         && !operationSignal?.aborted && signal() === operationSignal && isCurrent();
       try { if (current()) await action(current, operationSignal); }
       catch (cause) { if (current()) { setError(cause instanceof Error ? cause.message : 'The work operation failed.'); setReview(null); setReviewed(false); } }
-    }); } finally { running.current = false; if (mounted.current) setPending(false); }
+    }); } catch (cause) {
+      if (mounted.current && currentOwner.current === capturedOwner && generation.current === capturedGeneration && isCurrent()) {
+        setError(cause instanceof Error ? cause.message : 'The work operation could not start.'); setReview(null); setReviewed(false);
+      }
+    } finally { running.current = false; if (mounted.current) setPending(false); }
   }
   const shown = draft.slice(page * 25, (page + 1) * 25), today = packageWorkToday();
   return <section aria-labelledby={heading} aria-busy={pending} className="min-w-0 space-y-3 rounded-lg border bg-background p-3 sm:p-4">
