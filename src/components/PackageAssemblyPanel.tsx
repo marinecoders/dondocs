@@ -1,4 +1,4 @@
-import { useEffect, useId, useRef, useState } from 'react';
+import { useEffect, useId, useLayoutEffect, useRef, useState } from 'react';
 import { Button } from './ui/button';
 import type { ActionPackage, PackageRevision } from '@/lib/actionPackages';
 import { defaultPackageAssemblySettings, type PackageAssemblySettings } from '@/lib/packageAssemblyModel';
@@ -20,7 +20,15 @@ function AssemblySettings({ record, revision, disabled, busy, run, onApply, onDi
   const mounted = useRef(false), dirtyRef = useRef(onDirtyChange), running = useRef(false);
   const dirty = JSON.stringify(draft) !== JSON.stringify(saved);
   const editable = !disabled && !record.archived && revision.id === record.currentRevisionId && !record.reviewRounds?.some(round => round.ownerPackageId === undefined);
+  const latest = useRef({ editable, signal, isCurrent });
+  const generation = useRef(0);
   const locked = !editable || busy || pending;
+  useLayoutEffect(() => { latest.current = { editable, signal, isCurrent }; });
+  useLayoutEffect(() => {
+    if (editable) return;
+    const captured = ++generation.current;
+    queueMicrotask(() => { if (mounted.current && generation.current === captured) setReviewed(false); });
+  }, [editable]);
   useEffect(() => { dirtyRef.current = onDirtyChange; }, [onDirtyChange]);
   useEffect(() => { mounted.current = true; return () => { mounted.current = false; dirtyRef.current?.(false); }; }, []);
   useEffect(() => { onDirtyChange?.(dirty); }, [dirty, onDirtyChange]);
@@ -43,8 +51,10 @@ function AssemblySettings({ record, revision, disabled, busy, run, onApply, onDi
       <div className="flex flex-wrap gap-2"><Button className="h-auto min-h-9 max-w-full whitespace-normal" disabled={locked || !reviewed} onClick={() => {
         if (running.current) return;
         running.current = true; setPending(true); setError('');
+        const captured = generation.current;
         void run(async () => {
-          const operationSignal = signal(), current = () => mounted.current && isCurrent() && signal() === operationSignal && !operationSignal?.aborted;
+          const operationSignal = signal(), current = () => mounted.current && generation.current === captured && latest.current.editable
+            && latest.current.isCurrent() && latest.current.signal() === operationSignal && !operationSignal?.aborted;
           try {
             const result = await updatePackageAssemblySettings(record, draft, await getExportDeploymentPolicy(), operationSignal, current);
             if (current()) { dirtyRef.current?.(false); onApply(result); }
