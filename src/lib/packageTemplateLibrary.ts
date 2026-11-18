@@ -1,4 +1,3 @@
-import { packageRoles } from './packageRoles';
 import { z } from 'zod';
 import type { SerializedSession } from '@/stores/documentStore';
 import { scheduleBackup } from '@/stores/backupStore';
@@ -19,24 +18,13 @@ export const MAX_PACKAGE_TEMPLATE_BYTES = 12 * 1024 * 1024;
 export const MAX_PACKAGE_TEMPLATES = 20;
 export const MAX_TEMPLATE_ACTION_BYTES = 64 * 1024 * 1024;
 export const MAX_PACKAGE_TEMPLATE_LIBRARY_BYTES = 40 * 1024 * 1024;
-const identity = z.string().min(1).max(100).regex(/^[a-zA-Z0-9_-]+$/);
-const common = { label: z.string().trim().min(1).max(120), role: z.enum(packageRoles), required: z.boolean() };
-const pageSchema = z.object({ name: z.string().min(1).max(255), type: z.literal('application/pdf'), data: z.string().min(1) }).strict();
-const requiredFileSchema = z.discriminatedUnion('kind', [
-  z.object({ kind: z.literal('basic-letter'), label: z.string().min(1).max(120) }).strict(),
-  z.object({ kind: z.literal('enclosure'), index: z.number().int().min(0).max(999), label: z.string().min(1).max(120) }).strict(),
-]);
-type RequiredNativeFile = z.infer<typeof requiredFileSchema>;
-export const packageTemplateSchema = z.object({
-  kind: z.literal('dondocs-package-template'), version: z.literal(1),
-  id: identity, name: z.string().trim().min(1).max(120), createdAt: z.number().int().nonnegative(),
-  members: z.array(z.discriminatedUnion('kind', [
-    z.object({ ...common, kind: z.literal('native'), draft: z.record(z.string(), z.unknown()), pages: z.record(z.string().min(1).max(180), pageSchema), requiredFiles: z.array(requiredFileSchema).max(100).optional() }).strict(),
-    z.object({ ...common, kind: z.literal('attachment') }).strict(),
-  ])).min(1).max(100),
-}).strict();
-export type PackageTemplate = z.infer<typeof packageTemplateSchema>;
-export type PackageTemplateMember = PackageTemplate['members'][number];
+import { packageTemplateSchema, packageTemplateV1Schema, packageTemplatePageSchema as pageSchema,
+  type PackageTemplate, type PackageTemplateV1, type PackageTemplateV2, type PackageTemplateMember, type RequiredNativeFile } from './packageTemplateSchema';
+import { listPackageBindingFields, packageBindingTargetKey } from './packageBindingTargets';
+import { formatPackageFactForField } from './packageFieldBindings';
+import type { PackageFact } from './packageInformation';
+export { packageTemplateSchema } from './packageTemplateSchema';
+export type { PackageTemplate, PackageTemplateV1, PackageTemplateV2, PackageTemplateMember } from './packageTemplateSchema';
 function nativeFileKey(index: number, file: RequiredNativeFile): string {
   return `${index}:${file.kind}${file.kind === 'enclosure' ? `:${file.index}` : ''}`;
 }
@@ -99,12 +87,40 @@ async function pageAsset(page: z.infer<typeof pageSchema>, id: string): Promise<
   const data = bytes.buffer as ArrayBuffer;
   return { asset: { id, name: page.name, type: page.type, size: data.byteLength, sha256: await portableResourceDigest(data) }, data };
 }
+function assertNoTemplatePlaceholders(value: unknown): void {
+  if (typeof value === 'string' && /\{\{[^{}]*\}\}/.test(value)) throw new Error('Version 2 templates use declared questions and field links, not placeholder substitution.');
+  if (Array.isArray(value)) value.forEach(assertNoTemplatePlaceholders);
+  else if (value && typeof value === 'object') Object.values(value).forEach(assertNoTemplatePlaceholders);
+}
+async function qualifyConditionalMember(template: Extract<PackageTemplate, { version: 2 }>, member: Extract<PackageTemplateMember, { kind: 'native' }>, session: SerializedSession): Promise<void> {
+  for (const key of ['sigFirst', 'sigMiddle', 'sigLast'] as const) if (session.formData[key]?.trim())
+    throw new Error('Version 2 starters leave printed signature names for the native document editor.');
+  if (!('links' in member)) return;
+  const fields = new Map((await listPackageBindingFields({ kind: 'native', id: 'template', revisionId: 'template', label: member.label,
+    role: member.role, required: member.required, session, draft: { id: 'draft', name: 'starter.json', type: 'application/json', size: 1, sha256: '0'.repeat(64) } }))
+    .map(field => [packageBindingTargetKey(field.target), field]));
+  for (const link of member.links ?? []) {
+    const field = fields.get(packageBindingTargetKey(link.target));
+    if (!field) throw new Error(`Member ${member.key} links an unavailable, changed or unsupported native field.`);
+    if (field.value !== null && field.value !== '') throw new Error(`Member ${member.key}: linked fields must be empty in a fresh template.`);
+    const question = template.program.questions.find(question => question.id === link.questionId)!;
+    if (field.kind === 'singleChoice' && question.kind !== 'choice') throw new Error('A choice field requires a declared choice question.');
+    const values = question.kind === 'choice' ? question.options!.map(option => option.id)
+      : [question.kind === 'boolean' ? false : question.kind === 'date' ? '2028-02-29' : question.kind === 'decimal' ? '0' : question.kind === 'identifier' ? '0001' : 'Template value'];
+    for (const value of values) formatPackageFactForField({ id: question.id, label: question.label, kind: question.kind === 'choice' ? 'text' : question.kind, value, source: { kind: 'entered' } } as PackageFact, field, link.format);
+  }
+}
+export function validatePackageTemplate(value: PackageTemplateV1): Promise<PackageTemplateV1>;
+export function validatePackageTemplate(value: PackageTemplateV2): Promise<PackageTemplateV2>;
+export function validatePackageTemplate(value: unknown): Promise<PackageTemplate>;
 export async function validatePackageTemplate(value: unknown): Promise<PackageTemplate> {
   const template = boundedTemplate(value);
   validateBackup({ packageTemplates: [template] });
+  if (template.version === 2) assertNoTemplatePlaceholders(template);
   for (const member of template.members) {
     if (member.kind !== 'native') continue;
     const { session } = await validatePackageDraft(member.draft);
+    if (template.version === 2) await qualifyConditionalMember(template, member, session);
     const fileKeys = new Set<string>();
     for (const file of member.requiredFiles ?? []) {
       const key = nativeFileKey(0, file);
@@ -132,6 +148,7 @@ export async function validatePackageTemplate(value: unknown): Promise<PackageTe
   return template;
 }
 export function packageTemplatePlaceholders(template: PackageTemplate): string[] {
+  if (template.version === 2) return [];
   return [...new Set(template.members.flatMap(member => [...detectPlaceholders(member.label), ...(member.kind === 'native'
     ? [...detectSessionPlaceholders(member.draft as unknown as SerializedSession), ...(member.requiredFiles ?? []).flatMap(file => detectPlaceholders(file.label))] : [])]))].sort();
 }
@@ -151,14 +168,14 @@ async function saveTemplate(before: PackageTemplate | null, after: PackageTempla
     throw new Error('The template library changed or could not be saved. Reopen it and retry.');
   scheduleBackup();
 }
-export async function capturePackageTemplate(record: ActionPackage, revisionId: string, name: string, signal?: AbortSignal): Promise<PackageTemplate> {
+export async function capturePackageTemplate(record: ActionPackage, revisionId: string, name: string, signal?: AbortSignal): Promise<PackageTemplateV1> {
   signal?.throwIfAborted();
   const revision = actionPackageSchema.parse(record).revisions.find(revision => revision.id === revisionId);
   if (!revision) throw new Error('This package revision is unavailable.');
   if (revision.bindings?.items.length)
     throw new Error('Create a clean starter or detach and review linked package values before saving this package as a template.');
-  const template: PackageTemplate = { kind: 'dondocs-package-template', version: 1, id: newPackageId('template'),
-    name: packageTemplateSchema.shape.name.parse(name), createdAt: Date.now(), members: [] };
+  const template: PackageTemplateV1 = { kind: 'dondocs-package-template', version: 1, id: newPackageId('template'),
+    name: packageTemplateV1Schema.shape.name.parse(name), createdAt: Date.now(), members: [] };
   let bytes = jsonSize(template);
   const includeBytes = (size: number): void => {
     bytes += size;
@@ -168,7 +185,7 @@ export async function capturePackageTemplate(record: ActionPackage, revisionId: 
   // Reserve guaranteed retained bytes before reading drafts or allocating encoded pages.
   for (const member of revision.members) if (member.kind === 'native')
     for (const asset of Object.values(member.templates ?? {})) includeBytes(Math.ceil(asset.size / 3) * 4);
-  const appendMember = (member: PackageTemplateMember): void => {
+  const appendMember = (member: PackageTemplateV1['members'][number]): void => {
     includeBytes(jsonSize(member) + (template.members.length ? 1 : 0));
     template.members.push(member);
   };
@@ -200,7 +217,7 @@ export async function capturePackageTemplate(record: ActionPackage, revisionId: 
   }
   const bounded = boundedTemplate(template);
   await saveTemplate(null, bounded, signal);
-  return bounded;
+  return bounded as PackageTemplateV1;
 }
 export async function renamePackageTemplate(before: PackageTemplate, name: string, signal?: AbortSignal): Promise<PackageTemplate> {
   const after = boundedTemplate({ ...before, name });
@@ -269,6 +286,7 @@ function bindNativeFile(draft: Record<string, unknown>, requirement: RequiredNat
 /** Required slots and substitutions resolve before the new package is published atomically. */
 export async function instantiatePackageTemplate(input: PackageTemplate, name: string, values: Record<string, string>, attachments: Record<string, TemplateAttachment>, signal?: AbortSignal): Promise<ActionPackage> {
   const template = await validatePackageTemplate(input);
+  if (template.version !== 1) throw new Error('This versioned template requires the conditional intake workflow.');
   name = z.string().trim().min(1).max(120).parse(name);
   const slots = packageTemplateFileSlots(template);
   for (const key of Object.keys(attachments)) if (!slots.some(slot => slot.key === key))

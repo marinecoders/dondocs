@@ -71,3 +71,24 @@ it('requires explicit review for template import and reports malformed files wit
   await within(dialog).findByRole('alert');
   expect(await listPackageTemplates()).toEqual(before);
 });
+
+it('reviews versioned declarations on import and leaves creation to conditional intake', async () => {
+  const { user, panel, dialog } = await setup();
+  const template = { kind: 'dondocs-package-template', version: 2, id: 'conditional', name: 'Declared starter', createdAt: 0,
+    program: { revision: '1', participantGroups: [], questions: [{ id: 'route', label: 'Route', kind: 'text', required: false }], requirements: [] as unknown[] },
+    members: [{ key: 'main', kind: 'attachment', label: 'Main document', role: 'basic-letter', required: true }] };
+  const before = await listPackageTemplates();
+  await user.upload(within(panel).getByLabelText('Import package template', { exact: true }), new File([JSON.stringify(template)], 'conditional.json', { type: 'application/json' }));
+  const approve = await within(panel).findByRole('button', { name: 'Import reviewed package template' });
+  expect(approve).toBeDisabled();expect(await listPackageTemplates()).toEqual(before);
+  await user.click(within(panel).getByRole('checkbox', { name: /I reviewed this template's retained text/ }));await user.click(approve);
+  await within(panel).findByText('Package template imported.');
+  expect(within(panel).getByText(/requires the conditional intake workflow/)).toBeVisible();
+  expect(within(panel).queryByRole('button', { name: 'Create package from template' })).toBeNull();
+  expect(within(panel).queryByLabelText('New action name', { exact: true })).toBeNull();
+  const stored = await listPackageTemplates();expect(stored.find(value => value.name === template.name)?.version).toBe(2);
+  template.program.requirements = [{ id: 'secret_branch', label: 'Evidence', kind: 'document', operations: ['portable'], when: { op: 'equals', questionId: 'route', value: 'SECRET' } }];
+  await user.upload(within(panel).getByLabelText('Import package template', { exact: true }), new File([JSON.stringify(template)], 'restricted.json', { type: 'application/json' }));
+  await waitFor(() => expect(within(dialog).getByRole('alert')).toHaveTextContent(/outside.*configured levels/));
+  expect(await listPackageTemplates()).toEqual(stored);
+});
