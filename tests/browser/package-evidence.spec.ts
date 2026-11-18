@@ -55,7 +55,13 @@ for (const { theme, width, format } of cases) test(`captured ${format} evidence 
   await scans.getByText('Adopt a corrected excerpt as a package value', { exact: true }).click();
   await scans.getByLabel('Recognized package value label', { exact: true }).fill('Confirmed evidence note'); await scans.getByLabel('Recognized package value excerpt', { exact: true }).fill('package evidence excerpt');
   await scans.getByRole('button', { name: 'Review recognized package value', exact: true }).click();
-  await scans.getByRole('checkbox', { name: /^I reviewed this excerpt/ }).check(); await scans.getByRole('button', { name: 'Adopt reviewed package value', exact: true }).click();
+  await scans.getByRole('checkbox', { name: /^I reviewed this excerpt/ }).check();
+  const adopt = scans.getByRole('button', { name: 'Adopt reviewed package value', exact: true });
+  await adopt.click();
+  await expect(adopt).not.toBeVisible();
+  const savedFact = dialog.getByRole('group', { name: 'Confirmed evidence note', exact: true });
+  await expect(savedFact.getByLabel('Value 1', { exact: true })).toHaveValue('package evidence excerpt');
+  await expect(dialog).toHaveAttribute('aria-busy', 'false');
   const search = await section(dialog, 'Search captured package'); await search.getByLabel('Search captured package text', { exact: true }).fill('User corrected'); await search.getByRole('button', { name: 'Search captured text', exact: true }).click(); await expect(search.getByText(/Saved corrected source page 1/).first()).toBeVisible();
   const delivery = await section(dialog, 'Recipient delivery'); await delivery.getByLabel('Delivery name', { exact: true }).fill('Scoped evidence copy');
   await delivery.getByRole('checkbox', { name: 'Include Excluded supporting.pdf', exact: true }).uncheck(); if (format === 'image') await delivery.getByRole('checkbox', { name: 'Include Primary letter.pdf', exact: true }).uncheck();
