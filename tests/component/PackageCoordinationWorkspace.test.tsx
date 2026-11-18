@@ -102,7 +102,7 @@ it('finds an older retained PDF outside the compared pair and opens its exact sa
   const retained = await assemblePackage(prepared, { compile: vi.fn(), convertDocx: vi.fn(), waitForReady: async () => true });
   const captured = getPackageRevision(retained), output = captured.outputs[0];
   const before = await updatePackageInformation(retained, { version: 1, participants: [], facts: [{ id: 'context', label: 'Context', kind: 'text', value: 'First context', source: { kind: 'entered' } }] });
-  const record = await updatePackageInformation(before, { ...getPackageRevision(before).information!, facts: [{ ...getPackageRevision(before).information!.facts[0], value: 'Second context' }] });
+  const record = await updatePackageInformation(before, { ...getPackageRevision(before).information!, facts: [{ ...getPackageRevision(before).information!.facts[0], kind: 'text', value: 'Second context' }] });
   const { dialog, user } = await open(record.id), impact = await compareSaved(dialog, user);
   await user.click(within(impact).getByText('Retained PDFs (1)', { exact: true }));
   await user.click(within(impact).getByRole('button', { name: 'Inspect retained PDF · Retained PDF 1 · location 1' }));
