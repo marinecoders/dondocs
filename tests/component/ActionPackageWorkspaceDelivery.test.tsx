@@ -1,6 +1,6 @@
 import 'fake-indexeddb/auto';
 import { afterEach, beforeEach, expect, it, vi } from 'vitest';
-import { cleanup, render, screen, within, waitFor } from '@testing-library/react';
+import { act, cleanup, render, screen, within, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { PDFDocument } from 'pdf-lib';
 import { ActionPackageWorkspace } from '@/components/ActionPackageWorkspace';
@@ -9,6 +9,7 @@ import { createActionPackage, reviseActionPackage, listActionPackages, getPackag
 import { captureOriginalPackageMember } from '@/lib/actionPackageAssets';
 import { preparePackageAttachment, applyPreparedPackageAttachment } from '@/lib/packageAttachments';
 import { startPackageReview } from '@/lib/packageReviewRounds';
+import * as reviewRounds from '@/lib/packageReviewRounds';
 import { resolveExportDeploymentPolicy, type PolicyResolution } from '@/lib/exportDeploymentPolicy';
 import { useUIStore } from '@/stores/uiStore';
 import { PACKAGE_WORKSPACE_CONTEXT_KEY } from '@/lib/packageWorkspaceContext';
@@ -71,11 +72,26 @@ it('rechecks deployment after the actual editable payload has been built', async
 });
 it('prepares an exact selected delivery while viewing a saved review without mistaking its read projection for a changed owner', async () => {
   const record = await startPackageReview(await fixture(), undefined, 'Captured delivery review'), dialog = await open(record), user = userEvent.setup();
+  const openReview = reviewRounds.openPackageReview;
+  let finishReview!: () => void;
+  const heldReview = new Promise<void>(resolve => { finishReview = resolve; });
+  vi.spyOn(reviewRounds, 'openPackageReview').mockImplementation(async (...args) => {
+    const value = await openReview(...args); await heldReview; return value;
+  });
   await user.click(within(dialog).getByRole('button', { name: 'Open review Captured delivery review' }));
   await user.click(within(dialog).getByText('Recipient delivery', { selector: 'summary' }));
-  await user.click(await within(dialog).findByRole('button', { name: 'Prepare selected delivery' }));
-  await within(dialog).findByRole('region', { name: 'Captured delivery contents' });
+  const prepare = await within(dialog).findByRole('button', { name: 'Prepare selected delivery' });
+  expect(prepare).toBeDisabled();
+  await act(async () => { finishReview(); });
+  await within(dialog).findByText('Reviewing exact saved package revision');
+  await waitFor(() => expect(prepare).toBeEnabled());
+  await user.click(prepare);
+  const contents = await within(dialog).findByRole('region', { name: 'Captured delivery contents' });
+  const source = getPackageRevision(record).members[0];
+  if (source.kind !== 'original') throw new Error('Expected the captured source PDF.');
+  expect(contents).toHaveTextContent(source.original.sha256);
   expect(within(dialog).queryByText(/saved package changed/i)).toBeNull();
+  expect((await listActionPackages()).find(item => item.id === record.id)).toEqual(record);
 });
 it('accepts a real delivery ZIP through the file chooser and recovers its independent selected revision', async () => {
   const record = await fixture(), member = getPackageRevision(record).members[0];
