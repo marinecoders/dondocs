@@ -1,5 +1,5 @@
 import type { NativePackageMember, PackageAsset } from './actionPackages';
-import { preparePackageMember } from './actionPackageAssets';
+import { preparePackageRenderInput } from './packageRenderInputs';
 import { captureDocumentRevision } from './capturedDocument';
 import { captureFormExportTemplates } from './formExportTemplates';
 import { prepareExport, acknowledgePreparedExport } from './preparedExport';
@@ -12,7 +12,7 @@ import { renderPreparedBuiltinForm } from '@/services/exports/builtinForms';
 export async function renderPackageRecipientMember(member: NativePackageMember, policy: PolicyResolution, ports: CorrespondenceRendererPorts & { waitForReady(timeoutMs: number): Promise<boolean> },
   read: (asset: PackageAsset) => Promise<ArrayBuffer>, signal: AbortSignal): Promise<ArrayBuffer> {
   signal.throwIfAborted();
-  const { snapshot } = await preparePackageMember(member, read);
+  const { snapshot, assets } = await preparePackageRenderInput(member, read);
   delete snapshot.reviewComments; delete snapshot.formData.wordSource;
   const captured = captureDocumentRevision({ documentId: member.id, epoch: 0, editSequence: 0, capturedAt: 0 }, snapshot);
   let templates;
@@ -26,7 +26,7 @@ export async function renderPackageRecipientMember(member: NativePackageMember, 
   const ready = prepared.status === 'ready' ? prepared.job : acknowledgePreparedExport(prepared.job);
   if (ready.job.kind === 'correspondence' && !await ports.waitForReady(30_000)) throw new Error('The PDF engine is still starting. Prepare this delivery again when it is ready.');
   const artifact = ready.job.kind === 'configured-form' ? await renderPreparedConfiguredForm(ready, signal)
-    : ready.job.kind === 'builtin-form' ? await renderPreparedBuiltinForm(ready, signal) : await renderPreparedCorrespondence(ready, ports, signal);
+    : ready.job.kind === 'builtin-form' ? await renderPreparedBuiltinForm(ready, signal) : await renderPreparedCorrespondence(ready, { ...ports, assets }, signal);
   if (artifact.completeness !== 'complete') throw new Error(artifact.issues.map(issue => issue.message).join(' '));
   signal.throwIfAborted();
   return artifact.blob.arrayBuffer();

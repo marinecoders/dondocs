@@ -12,6 +12,11 @@ import { updatePackageWork } from '@/lib/packageWork';
 import { startPackageReview } from '@/lib/packageReviewRounds';
 import { resolveExportDeploymentPolicy } from '@/lib/exportDeploymentPolicy';
 import * as classification from '@/config/classification';
+import { idbGetAllAttachments } from '@/lib/documentsDb';
+import type { StoredAttachment } from '@/lib/documentsDb';
+import { persistAttachment } from '@/lib/attachments';
+import { preparePackageRenderInput } from '@/lib/packageRenderInputs';
+import { WORD_IMAGE } from '../_helpers/wordImportFixture';
 
 vi.mock('@/stores/backupStore', () => ({ scheduleBackup: vi.fn() }));
 vi.mock('@/lib/pdfText', () => ({ extractPdfText: vi.fn(async () => '') }));
@@ -64,6 +69,38 @@ it('renders a selected native recipient member through the PDF renderer and expo
   const member = getPackageRevision(copyPreparedPackageDeliveryProjection(prepared)).members[0];
   expect(member.kind).toBe('original'); expect('session' in member).toBe(false); expect('source' in member).toBe(false);
   expect(prepared.files).toHaveLength(1); expect(prepared.files[0].type).toBe('application/pdf');
+});
+it('renders selected embedded files without persisting staging attachments during preparation', async () => {
+  const enclosure = await pdf('Synthetic retained enclosure'), session = createBlankSession();
+  session.formData.subject = 'PRIVATE CAPTURE ONLY';
+  session.enclosures = [{ title: 'Synthetic retained enclosure', hasFile: true, file: { name: 'enclosure.pdf', size: enclosure.byteLength, data: enclosure } }];
+  const main = await capturePackageMember(captureDocumentRevision({ documentId: 'private-embedded', epoch: 0, editSequence: 0, capturedAt: 1 }, { ...session, endItems: [], publicationTables: {} }), 'Selected with enclosure', 'basic-letter');
+  const record = await reviseActionPackage(await createActionPackage(`No staging ${crypto.randomUUID()}`), [main]);
+  const before = await idbGetAllAttachments(), rendered = await pdf('Synthetic main body');
+  const ports = { compile: vi.fn(async () => new Uint8Array(rendered)), convertDocx: vi.fn(), waitForReady: async () => true };
+  const prepared = await preparePackageDelivery(record, record.currentRevisionId, { label: 'Scoped rendering', purpose: 'recipient', memberIds: [main.id] }, policy, ports);
+  expect(await idbGetAllAttachments()).toEqual(before);
+  const output = getPackageRevision(copyPreparedPackageDeliveryProjection(prepared)).members[0];
+  if (output.kind !== 'original') throw new Error('Expected rendered member');
+  expect((await PDFDocument.load(await readPreparedPackageDeliveryAsset(prepared, output.original))).getPageCount()).toBe(2);
+});
+it('renders exact captured figure bytes with private scoped readers and no durable staging', async () => {
+  const bytes = Uint8Array.from(atob(WORD_IMAGE), character => character.charCodeAt(0)), session = createBlankSession();
+  const fileRef = await persistAttachment({ name: 'captured.png', type: 'image/png', size: bytes.byteLength }, bytes.buffer);
+  session.paragraphs = [{ id: 'figure', text: 'Synthetic retained figure.', level: 0, figure: { fileRef, name: 'captured.png', type: 'image/png', placement: 'body' } }];
+  const main = await capturePackageMember(captureDocumentRevision({ documentId: 'private-figure', epoch: 0, editSequence: 0, capturedAt: 1 }, { ...session, endItems: [], publicationTables: {} }), 'Selected figure', 'basic-letter');
+  const record = await reviseActionPackage(await createActionPackage(`Private figures ${crypto.randomUUID()}`), [main]);
+  const before = await idbGetAllAttachments(), input = await preparePackageRenderInput(main), id = input.snapshot.paragraphs[0].figure!.fileRef!.id;
+  let expired!: (id: string) => StoredAttachment;
+  await input.assets.withAssets([id], async read => { expired = read; const owned = read(id); new Uint8Array(owned.data).fill(0); expect(new Uint8Array(read(id).data)).toEqual(bytes); });
+  expect(() => expired(id)).toThrow(/current captured render scope/);
+  await expect(input.assets.withAssets([fileRef.id], async () => undefined)).rejects.toThrow(/outside/);
+  const rendered = await pdf('Synthetic rendered figure member'), compile = vi.fn(async (files: Record<string, string | Uint8Array>) => {
+    expect(Object.values(files).some(value => value instanceof Uint8Array && value.length === bytes.length && value.every((byte, index) => byte === bytes[index]))).toBe(true);
+    return new Uint8Array(rendered);
+  });
+  await preparePackageDelivery(record, record.currentRevisionId, { label: 'Captured figure', purpose: 'recipient', memberIds: [main.id] }, policy, { compile, convertDocx: vi.fn(), waitForReady: async () => true });
+  expect(compile).toHaveBeenCalledTimes(1); expect(await idbGetAllAttachments()).toEqual(before);
 });
 it('requires acknowledgement and rejects stale source, foreign identities, cancellation and changed scope', async () => {
   const { record, main } = await fixture();

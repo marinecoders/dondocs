@@ -33,8 +33,8 @@ import {
   type ReadyExportJob,
 } from "./preparedExport";
 import type { PolicyResolution } from "./exportDeploymentPolicy";
+import { preparePackageRenderInput } from './packageRenderInputs';
 import {
-  preparePackageMember,
   readPackageAsset,
   readPackageMemberDraft,
   retainPackageAsset,
@@ -93,6 +93,7 @@ interface MemberInput {
   snapshot?: DocumentSnapshot;
   templates?: FormExportTemplates;
   original?: ArrayBuffer;
+  assets?: CorrespondenceRendererPorts['assets'];
 }
 export interface PreparedPackageAssembly {
   readonly purpose: "pdf" | "portable";
@@ -333,7 +334,7 @@ export async function preparePackageAssembly(
         reviews.push({ member: `${member.label}: complete retained draft`, review: reviewPackageNative(member.session, `${owned.name}: ${member.label}`, policy, draft as DocumentFieldSource) });
         continue;
       }
-      const { snapshot } = await preparePackageMember(member, read);
+      const { snapshot, assets } = await preparePackageRenderInput(member, read);
       if (snapshot.documentCategory !== "forms" && snapshot.docType === "business_letter" && snapshot.paragraphs.some(paragraph => paragraph.figure?.type === "application/pdf"))
         error("Business-letter figures require PNG or JPEG images. Convert the PDF figure and save a new package revision.", member.id);
       if (member.role === "endorsement" && !isEndorsement(snapshot.docType))
@@ -501,7 +502,7 @@ export async function preparePackageAssembly(
           options.includeRetainedDraftText ? draft as DocumentFieldSource : undefined,
         ),
       });
-      const input = { member, snapshot, templates },
+      const input = { member, snapshot, templates, assets },
         preparation = prepareMember(input, revisionId, policy);
       inputs.push(input);
       if ("issues" in preparation)
@@ -606,6 +607,7 @@ async function renderMemberBytes(memberInput: MemberInput, revisionId: string, p
   startingPageNumber: number, ports: Parameters<typeof assemblePackage>[1], signal: AbortSignal,
   docType?: 'same_page_endorsement' | 'new_page_endorsement'): Promise<ArrayBuffer> {
   const preparation = prepareMember(memberInput, revisionId, policy, startingPageNumber, docType);
+  const renderPorts = memberInput.assets ? { ...ports, assets: memberInput.assets } : ports;
         if ("issues" in preparation)
           throw new Error(preparation.issues.join(" "));
         const ready: ReadyExportJob =
@@ -626,7 +628,7 @@ async function renderMemberBytes(memberInput: MemberInput, revisionId: string, p
               ? await renderPreparedConfiguredForm(ready, signal)
               : ready.job.kind === "builtin-form"
                 ? await renderPreparedBuiltinForm(ready, signal)
-                : await renderPreparedCorrespondence(ready, ports, signal);
+                : await renderPreparedCorrespondence(ready, renderPorts, signal);
         } catch (cause) {
           if (
             !(cause instanceof Error) ||
@@ -634,7 +636,7 @@ async function renderMemberBytes(memberInput: MemberInput, revisionId: string, p
             !(await ports.waitForReady(30_000))
           )
             throw cause;
-          artifact = await renderPreparedCorrespondence(ready, ports, signal);
+          artifact = await renderPreparedCorrespondence(ready, renderPorts, signal);
         }
         if (artifact.completeness !== "complete")
           throw new Error(
