@@ -54,7 +54,8 @@ for (const theme of ['light', 'dark', 'classic']) for (const width of [1440, 320
   review = dialog.getByRole('region', { name: 'Captured form field feedback', exact: true });
   await expect(review.locator('article')).toContainText('Please confirm this exact captured answer.');
   await review.scrollIntoViewIfNeeded();
-  const overflow = await dialog.evaluate(root => [...root.querySelectorAll('*')].filter(element => element.getBoundingClientRect().right > root.getBoundingClientRect().right + 1).slice(0, 12).map(element => ({ tag: element.tagName, classes: element.className, text: element.textContent?.slice(0, 70), width: element.getBoundingClientRect().width })));
-  expect(await dialog.evaluate(element => element.scrollWidth <= element.clientWidth + 1), JSON.stringify(overflow)).toBe(true);
+  const geometry = await dialog.evaluate(root => ({ width: root.clientWidth, scroll: root.scrollWidth, left: root.scrollLeft, rect: root.getBoundingClientRect().width, padding: getComputedStyle(root).paddingRight,
+    children: [...root.querySelectorAll<HTMLElement>('*')].filter(element => element.getClientRects().length && element.scrollWidth > element.clientWidth + 1 && !['INPUT','TEXTAREA','SELECT','OPTION','PRE'].includes(element.tagName)).sort((a,b) => (b.scrollWidth-b.clientWidth)-(a.scrollWidth-a.clientWidth)).slice(0,12).map(element => ({ tag: element.tagName, cls: element.className, width: element.clientWidth, scroll: element.scrollWidth, right: element.getBoundingClientRect().right, text: element.textContent?.slice(0,40) })) }));
+  expect(geometry.scroll <= geometry.width + 1, JSON.stringify(geometry)).toBe(true);
   await page.screenshot({ path: info.outputPath(`form-field-review-${theme}-${width}px.png`) });
 });
