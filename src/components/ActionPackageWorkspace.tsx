@@ -7,7 +7,8 @@ import type { ExportGate } from "@/lib/exportController";
 import { reviewPackageOriginal } from "@/lib/actionPackageDisclosure";
 import type { PackageAsset } from "@/lib/actionPackages";
 import type { SerializedSession } from "@/stores/documentStore";
-import { useEffect, useId, useState, useRef, lazy, Suspense } from "react";
+import { useEffect, useId, useLayoutEffect, useState, useRef, lazy, Suspense } from "react";
+import { focusPackageDestination, type PackageDestination, type PackageDestinationRequest } from "@/lib/packageDestinations";
 import {
   Dialog,
   DialogContent,
@@ -68,6 +69,7 @@ import { ShareModal } from "./modals/ShareModal";
 import type { CorrespondenceRendererPorts } from "@/services/exports/correspondence";
 
 const PackageInformationPanel = lazy(() => import("./PackageInformationPanel").then(module => ({ default: module.PackageInformationPanel })));
+const PackageConsistencyPanel = lazy(() => import("./PackageConsistencyPanel").then(module => ({ default: module.PackageConsistencyPanel })));
 const PackageIntakePanel = lazy(() => import("./PackageIntakePanel").then(module => ({ default: module.PackageIntakePanel })));
 const PackageRequirementsPanel = lazy(() => import("./PackageRequirementsPanel").then(module => ({ default: module.PackageRequirementsPanel })));
 const AdministrativeRequestStarter = lazy(() => import("./AdministrativeRequestStarter").then(module => ({ default: module.AdministrativeRequestStarter })));
@@ -130,6 +132,7 @@ function PackageDialog({
     operation.current?.signal.throwIfAborted();
   }
   function close() {
+    if (consistencyDirty) { setError("Save or discard the relationship changes before closing this package."); return; }
     if (intakeDirty) { setError("Save, apply or discard the intake changes before closing this package."); return; }
     if (requirementsDirty) { setError("Save or discard the requirement changes before closing this package."); return; }
     if (starterDirty) { setError("Create or cancel the request starter before closing this package."); return; }
@@ -143,6 +146,8 @@ function PackageDialog({
   const [workspaceSection, setWorkspaceSection] = useState<PackageWorkspaceSection>(savedWorkspace?.section ?? "overview");
   const [activeMemberId, setActiveMemberId] = useState<string | null>(savedWorkspace?.memberId ?? null);
   const overviewRef = useRef<HTMLDivElement>(null);
+  const dialogRoot = useRef<HTMLDivElement>(null), destinationOwner = useRef(''), destinationSequence = useRef(0);
+  const [destination, setDestination] = useState<PackageDestinationRequest>();
   const documentsRef = useRef<HTMLDivElement>(null);
   const reviewRef = useRef<HTMLDivElement>(null);
   const deliveryRef = useRef<HTMLDivElement>(null);
@@ -168,6 +173,14 @@ function PackageDialog({
   const [informationDirty, setInformationDirty] = useState(false);
   const [starterDirty, setStarterDirty] = useState(false);
   const [intakeDirty, setIntakeDirty] = useState(false), [requirementsDirty, setRequirementsDirty] = useState(false);
+  const [consistencyDirty, setConsistencyDirty] = useState(false);
+  const pendingPackageEdits = typedDirty || informationDirty || starterDirty || intakeDirty || requirementsDirty || consistencyDirty;
+  useEffect(() => {
+    if (!consistencyDirty) setError(previous => previous === "Save or discard the relationship changes before closing this package." ? "" : previous);
+  }, [consistencyDirty]);
+  useEffect(() => {
+    if (!pendingPackageEdits) setError(previous => previous === "Save or discard package edits before following a finding." ? "" : previous);
+  }, [pendingPackageEdits]);
   useEffect(() => {
     if (!intakeDirty) setError(previous => previous === "Save, apply or discard the intake changes before closing this package." ? "" : previous);
   }, [intakeDirty]);
@@ -215,6 +228,40 @@ function PackageDialog({
   const editable =
     !!record && !record.reviewRounds?.some(round => round.ownerPackageId === undefined) && !openedReview && revision?.id === record.currentRevisionId && !record.archived;
   const selectedMember = revision?.members.find(member => member.id === activeMemberId) ?? revision?.members[0];
+  const selectionOwner = `${record?.id ?? ''}:${record?.sequence ?? ''}:${revision?.id ?? ''}:${openedReview?.id ?? ''}`;
+  useLayoutEffect(() => { destinationOwner.current = selectionOwner; }, [selectionOwner]);
+  function followDestination(target: PackageDestination) {
+    if (!active.current || destinationOwner.current !== selectionOwner || !record || !revision) return;
+    if (busy || pendingPackageEdits) { setError("Save or discard package edits before following a finding."); return; }
+    const selected = !target.revisionId || target.revisionId === revision.id ? revision : record.revisions.find(item => item.id === target.revisionId);
+    if (!selected) { setNotice("That saved revision is not included in this package."); return; }
+    const binding = target.bindingId && selected.bindings?.items.find(item => item.id === target.bindingId);
+    const valid = target.bindingId ? !!binding && (!target.factId || binding.factId === target.factId) && (!target.memberId || binding.memberId === target.memberId)
+      : target.factId ? !!selected.information?.facts.some(item => item.id === target.factId)
+        : target.requirementId ? !!selected.requirements?.items.some(item => item.id === target.requirementId)
+          : target.memberId ? selected.members.some(item => item.id === target.memberId) : true;
+    if (!valid) { setNotice("That item is not available in the selected saved revision."); return; }
+    if (selected.id !== revision.id) {
+      setOpenedReview(null); setRevisionId(selected.id); setPrepared(null); setApproved(false); setComparison(null);
+      setRenderComparison(null); setBeforeOutputId(""); setAfterOutputId(""); setPdfUrl("");
+    }
+    if (target.memberId && !target.factId && !target.bindingId && !target.requirementId) setActiveMemberId(target.memberId);
+    const section = target.factId || target.bindingId || target.requirementId || target.panel ? "overview"
+      : target.section ?? (target.memberId ? "documents" : "overview");
+    setWorkspaceSection(section);
+    setNotice("");
+    setDestination({ ...target, section, packageId: record.id, revisionId: selected.id, requestId: ++destinationSequence.current });
+  }
+  useEffect(() => {
+    if (!destination || record?.id !== destination.packageId || revision?.id !== destination.revisionId) return;
+    if (destination.factId || destination.bindingId || destination.requirementId) return;
+    if (destination.panel) { focusPackageDestination(dialogRoot.current, 'data-package-panel', destination.panel); return; }
+    const target = destination.memberId
+      ? document.getElementById(`package-member-${destination.memberId}`)
+      : destination.section === "documents" ? documentsRef.current : destination.section === "review" ? reviewRef.current
+        : destination.section === "delivery" ? deliveryRef.current : overviewRef.current;
+    target?.focus({ preventScroll: true }); target?.scrollIntoView?.({ block: "start" });
+  }, [destination, record?.id, revision?.id]);
   useEffect(() => {
     if (record && revision) rememberPackageWorkspaceContext({ version: 1, packageId: record.id, revisionId: revision.id,
       memberId: selectedMember?.id ?? null, section: workspaceSection });
@@ -250,7 +297,7 @@ function PackageDialog({
   const beforeComparisonId = beforeOutputId || revision?.outputs.at(-2)?.id || "";
   const afterComparisonId = afterOutputId || revision?.outputs.at(-1)?.id || "";
   useEffect(() => {
-    if (typedDirty || informationDirty || starterDirty || intakeDirty || requirementsDirty || !requestedPackageId && inventoryLoaded.current) return;
+    if (typedDirty || informationDirty || starterDirty || intakeDirty || requirementsDirty || consistencyDirty || !requestedPackageId && inventoryLoaded.current) return;
     // A received selection supersedes work captured for the previous package.
     // Abort before loading inventory so late results cannot publish during that read.
     if (requestedPackageId) operation.current?.abort(RECEIVED_PACKAGE_SELECTION);
@@ -290,7 +337,7 @@ function PackageDialog({
     return () => {
       live = false;
     };
-  }, [requestedPackageId, requestedRevisionId, typedDirty, informationDirty, starterDirty, intakeDirty, requirementsDirty, savedWorkspace]);
+  }, [requestedPackageId, requestedRevisionId, typedDirty, informationDirty, starterDirty, intakeDirty, requirementsDirty, consistencyDirty, savedWorkspace]);
   useEffect(
     () => () => {
       if (pdfUrl) URL.revokeObjectURL(pdfUrl);
@@ -298,6 +345,7 @@ function PackageDialog({
     [pdfUrl],
   );
   function select(value: ActionPackage) {
+    setDestination(undefined);
     if (value.id !== selectedId) { setActiveMemberId(null); setWorkspaceSection("overview"); }
     setOpenedReview(null);
     setCitationReorder(null);
@@ -511,7 +559,7 @@ function PackageDialog({
         if (!value) close();
       }}
     >
-      <DialogContent className="sm:max-w-6xl" aria-busy={busy} showCloseButton={!typedDirty && !informationDirty && !starterDirty && !intakeDirty && !requirementsDirty}>
+      <DialogContent ref={dialogRoot} className="sm:max-w-6xl" aria-busy={busy} showCloseButton={!typedDirty && !informationDirty && !starterDirty && !intakeDirty && !requirementsDirty && !consistencyDirty}>
         <DialogHeader>
           <DialogTitle>Action packages</DialogTitle>
           <DialogDescription>
@@ -519,7 +567,7 @@ function PackageDialog({
             revision. Review linked citation reorders before saving a new revision.
           </DialogDescription>
         </DialogHeader>
-        <PackageWorkspaceNavigation active={workspaceSection} hasPackage={!!record} disabled={busy || typedDirty || starterDirty || intakeDirty || requirementsDirty} onNavigate={navigate} />
+        <PackageWorkspaceNavigation active={workspaceSection} hasPackage={!!record} disabled={busy || typedDirty || starterDirty || intakeDirty || requirementsDirty || consistencyDirty} onNavigate={navigate} />
         <div ref={overviewRef} tabIndex={-1} className="min-w-0 scroll-mt-4 space-y-4">
         {record && revision && <PackageWorkspaceSummary record={record} revision={revision} />}
 
@@ -533,7 +581,7 @@ function PackageDialog({
             {notice}
           </p>
         )}
-        <fieldset disabled={!loaded || busy || typedDirty || informationDirty || starterDirty || intakeDirty || requirementsDirty} className="min-w-0 scroll-mt-4 space-y-4">
+        <fieldset disabled={!loaded || busy || typedDirty || informationDirty || starterDirty || intakeDirty || requirementsDirty || consistencyDirty} className="min-w-0 scroll-mt-4 space-y-4">
           <legend className="mb-2 text-sm font-medium">Start or open a package</legend>
           <div className="grid min-w-0 gap-3 sm:grid-cols-2">
           <label className="block text-sm">
@@ -566,6 +614,7 @@ function PackageDialog({
                   className="mt-1 w-full rounded border bg-background p-2"
                   value={revision.id}
                   onChange={(event) => {
+                    setDestination(undefined);
                     setOpenedReview(null);
                     setRevisionId(event.target.value);
                     setPrepared(null);
@@ -598,19 +647,19 @@ function PackageDialog({
           </>}
         </fieldset>
         <Suspense fallback={<p>Loading action intake…</p>}>
-          <PackageIntakePanel record={record} revision={revision ?? undefined} editable={editable} disabled={!loaded || typedDirty || informationDirty || starterDirty || requirementsDirty}
+          <PackageIntakePanel record={record} revision={revision ?? undefined} editable={editable} disabled={!loaded || typedDirty || informationDirty || starterDirty || requirementsDirty || consistencyDirty}
             busy={busy} run={run} onApply={update} onDirtyChange={setIntakeDirty}
             signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted} />
         </Suspense>
         <details className="min-w-0 rounded border p-3">
           <summary className="cursor-pointer text-sm font-medium">Quick request starter{starterDirty ? " · unsaved" : ""}</summary>
         <Suspense fallback={<p>Loading request starter…</p>}>
-          <AdministrativeRequestStarter disabled={!loaded || typedDirty || informationDirty || intakeDirty || requirementsDirty} busy={busy} run={run}
+          <AdministrativeRequestStarter disabled={!loaded || typedDirty || informationDirty || intakeDirty || requirementsDirty || consistencyDirty} busy={busy} run={run}
             signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted}
             onDirtyChange={setStarterDirty} onCreate={value => { update(value); setNotice("Request package created. Review its letter and worksheet before submission."); }} />
         </Suspense>
         </details>
-        <fieldset disabled={!loaded || busy || typedDirty || informationDirty || starterDirty || intakeDirty || requirementsDirty} className="min-w-0 scroll-mt-4 space-y-4">
+        <fieldset disabled={!loaded || busy || typedDirty || informationDirty || starterDirty || intakeDirty || requirementsDirty || consistencyDirty} className="min-w-0 scroll-mt-4 space-y-4">
           <legend className="mb-2 text-sm font-medium">Blank packages, templates and imports</legend>
           <div className="flex flex-wrap items-end gap-2">
             <label className="min-w-0 flex-1 text-sm">
@@ -691,16 +740,28 @@ function PackageDialog({
 
         </fieldset>
         {record && revision && (revision.requirements !== undefined || !!revision.templateState) && <Suspense fallback={<p role="status">Loading evidence requirements…</p>}>
-          <PackageRequirementsPanel record={record} revision={revision} disabled={!editable || typedDirty || starterDirty || intakeDirty || informationDirty}
+          <PackageRequirementsPanel record={record} revision={revision} disabled={!editable || typedDirty || starterDirty || intakeDirty || informationDirty || consistencyDirty}
             busy={busy} run={run} onApply={update} onDirtyChange={setRequirementsDirty}
+            destination={destination}
             signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted} />
         </Suspense>}
+        {record && revision && <details className="min-w-0 rounded border p-3">
+          <summary className="cursor-pointer text-sm font-medium">Consistency checks{consistencyDirty ? " · unsaved changes" : revision.consistency?.rules.length ? ` · ${revision.consistency.rules.length} ${revision.consistency.rules.length === 1 ? 'relationship' : 'relationships'}` : ""}</summary>
+          <div tabIndex={-1} data-package-panel="consistency" className="pt-3">
+            <Suspense fallback={<p role="status">Loading consistency checks…</p>}>
+              <PackageConsistencyPanel record={record} revision={revision} disabled={!editable || typedDirty || starterDirty || intakeDirty || informationDirty || requirementsDirty}
+                busy={busy} run={run} onApply={update} onDirtyChange={setConsistencyDirty} onNavigate={followDestination}
+                signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted} />
+            </Suspense>
+          </div>
+        </details>}
         {record && revision && <Suspense fallback={<p role="status">Loading package information…</p>}>
-          <PackageInformationPanel record={record} revision={revision} disabled={!editable || typedDirty || starterDirty || intakeDirty || requirementsDirty} busy={busy} run={run} onApply={update}
+          <PackageInformationPanel record={record} revision={revision} disabled={!editable || typedDirty || starterDirty || intakeDirty || requirementsDirty || consistencyDirty} busy={busy} run={run} onApply={update}
+            destination={destination}
             onDirtyChange={setInformationDirty} signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted} />
         </Suspense>}
         </div>
-        <fieldset disabled={informationDirty || starterDirty || intakeDirty || requirementsDirty} aria-label="Package documents, review and delivery" className="min-w-0 space-y-4">
+        <fieldset disabled={informationDirty || starterDirty || intakeDirty || requirementsDirty || consistencyDirty} aria-label="Package documents, review and delivery" className="min-w-0 space-y-4">
 
           {record && revision && (
             <>
