@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.138] — 2026-11-17
+
+### Added
+
+- Qualified native field links with explicit overrides and stable repeating-row targets.
+
 ## [1.3.137] — 2026-11-17
 
 ### Added
