@@ -1,4 +1,5 @@
 import { reviewPackageSigning } from './packageSigning';
+import { addPackageOutputNavigation } from './packageOutputNavigation';
 import { inspectPackageRequirements } from "./packageRequirements";
 import { inspectPackageConsistency } from './packageConsistency';
 import { packageBindingReadiness } from "./packageFieldBindings";
@@ -686,6 +687,7 @@ export async function assemblePackage(
       }
     }
     signal.throwIfAborted();
+    const navigation = addPackageOutputNavigation(pdf, getPackageRevision(input.record, input.revisionId), boundaries);
     const bytes = new Uint8Array(await pdf.save()).buffer;
     const output = {
       id: newPackageId("output"),
@@ -700,6 +702,7 @@ export async function assemblePackage(
       renderer: `DonDocs ${APP_VERSION} (${GIT_SHA}); templates ${__LATEX_TEMPLATES_REVISION__}; package-v1; prepared-export-v1; pdf-lib-1.17.1`,
       provenance: await capturePackageRenderProvenance(getPackageRevision(input.record, input.revisionId)),
       boundaries,
+      navigation,
       signingStatus: "unsigned-assembled-derivative" as const,
     };
     return commitActionPackage(

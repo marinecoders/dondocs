@@ -1,6 +1,7 @@
 import { packagePdfReviewSchema } from './packagePdfReviewModel';
 import { packageFieldReviewApplicationSchema, packageFormReviewSchema } from './packageFormReviewModel';
 import { packageSigningSchema, packageSigningAssets, MAX_PACKAGE_SIGNING_HISTORY_BYTES } from './packageSigningModel';
+import { packageOutputDestinationSchema } from './packageAssemblyModel';
 import { MAX_PACKAGE_WORK_HISTORY_BYTES, packageWorkSchema } from "./packageWorkModel";
 import { MAX_PACKAGE_REQUIREMENTS_HISTORY_BYTES, packageRequirementsSchema } from "./packageRequirementsModel";
 import { packageRoles } from "./packageRoles";
@@ -115,6 +116,7 @@ const outputSchema = z
     renderer: z.string().min(1).max(512),
     provenance: packageRenderProvenanceSchema.optional(),
     boundaries: z.array(boundarySchema).max(100),
+    navigation: z.array(packageOutputDestinationSchema).max(100).optional(),
     signingStatus: z.literal("unsigned-assembled-derivative"),
   })
   .strict();

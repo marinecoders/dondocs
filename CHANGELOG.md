@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.156] — 2026-11-17
+
+### Added
+
+- Assembled package PDFs include bookmarks and reader page labels tied to actual member boundaries, with a saved contents view.
+
 ## [1.3.155] — 2026-11-17
 
 ### Added
