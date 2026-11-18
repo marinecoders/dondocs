@@ -598,7 +598,7 @@ function PackageDialog({
           </>}
         </fieldset>
         <Suspense fallback={<p>Loading action intake…</p>}>
-          <PackageIntakePanel record={record} revision={revision ?? undefined} editable={editable} disabled={!loaded || busy || typedDirty || informationDirty || starterDirty || requirementsDirty}
+          <PackageIntakePanel record={record} revision={revision ?? undefined} editable={editable} disabled={!loaded || typedDirty || informationDirty || starterDirty || requirementsDirty}
             busy={busy} run={run} onApply={update} onDirtyChange={setIntakeDirty}
             signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted} />
         </Suspense>
