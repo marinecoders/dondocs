@@ -162,4 +162,3 @@ it('follows a removed citation to its exact asynchronously loaded historical ide
   expect(within(dialog).queryByLabelText('Link to repair')).toBeNull();
   expect((await listActionPackages()).find(item => item.id === record.id)).toEqual(record);
 });
-
