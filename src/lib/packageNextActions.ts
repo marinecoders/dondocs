@@ -13,6 +13,7 @@ import { validateActionPackageResources } from './actionPackageTransfer';
 import { readPackageAsset } from './actionPackageAssets';
 import { reviewPackageWork } from './actionPackageDisclosure';
 import { inspectPackageConsistency } from './packageConsistency';
+import { inspectPackageChangeImpact } from './packageChangeImpact';
 
 export interface PackageNextAction {
   id: string;
@@ -36,20 +37,16 @@ export interface PackageNextActionOptions {
   policy?: PolicyResolution;
   signal?: AbortSignal;
   today?: string;
-  /** Already computed package-impact findings can be composed without re-reading the same resources. */
-  impact?: readonly Pick<PackageNextAction, 'id' | 'label' | 'message' | 'destination'>[];
 }
 
 /** Inspect existing operation prerequisites. Local task status never participates in computed readiness. */
 export async function derivePackageNextActions(input: ActionPackage, revisionId = input.currentRevisionId,
   options: PackageNextActionOptions = {}): Promise<PackageNextActions> {
   const record = actionPackageSchema.parse(structuredClone(input)), revision = getPackageRevision(record, revisionId);
-  options = { ...options, ...(options.impact ? { impact: structuredClone(options.impact) } : {}) };
+  options = { ...options };
   const operation = options.operation ?? 'pdf', today = options.today ?? packageWorkToday();
   if (!['pdf', 'review', 'portable'].includes(operation)) throw new Error('Choose a supported package operation.');
   if (!isPackageWorkDate(today)) throw new Error('Use a real local calendar date for task inspection.');
-  if ((options.impact?.length ?? 0) > 200)
-    throw new Error('Too many coordination findings to inspect.');
   options.signal?.throwIfAborted();
   const policy = options.policy ?? await getExportDeploymentPolicy(), actions: PackageNextAction[] = [];
   const add = (action: PackageNextAction) => {
@@ -110,7 +107,24 @@ export async function derivePackageNextActions(input: ActionPackage, revisionId 
     add({ id: 'inspection-error', kind: 'inspection', label: 'Inspect unavailable package content',
       message: cause instanceof Error ? cause.message : 'The package could not be inspected.', blocking: true, destination: { section: 'delivery' } });
   }
-  for (const finding of options.impact ?? []) add({ ...structuredClone(finding), kind: 'impact', blocking: false });
+  try {
+    // Compare exact saved inputs, including every retained review baseline. Workflow-only edits do not invalidate document reviews.
+    const beforeId = record.revisions.some(candidate => candidate.id === revision.parentId) ? revision.parentId! : revision.id;
+    const impact = await inspectPackageChangeImpact(record, beforeId, revision.id, options.signal);
+    for (const section of impact.sections) if (section.kind === 'output' || section.kind === 'review') {
+      for (const item of section.items) if (['changed', 'metadata-only', 'unknown', 'unavailable'].includes(item.state)) add({
+        id: `impact-${section.kind}-${item.id}`, kind: 'impact', label: `${section.kind === 'review' ? 'Inspect recorded review' : 'Inspect retained PDF'}: ${item.label}`,
+        message: item.message, blocking: false,
+        destination: { section: section.kind === 'review' ? 'review' : 'delivery', ...item.destinations[0] },
+      });
+    }
+    if (impact.limited) add({ id: 'impact-limited', kind: 'impact', label: 'Inspect saved change history',
+      message: impact.notices.join(' '), blocking: false, destination: { section: 'overview' } });
+  } catch (cause) {
+    options.signal?.throwIfAborted();
+    add({ id: 'impact-unavailable', kind: 'impact', label: 'Inspect saved change history',
+      message: cause instanceof Error ? cause.message : 'Saved change impact could not be compared.', blocking: false, destination: { section: 'overview' } });
+  }
   const activeReviews = (record.reviewRounds ?? []).filter(round => packageReviewRoundStatus(round) === 'active');
   for (const round of activeReviews) add({ id: `review-${round.id}`, kind: 'review', label: 'Inspect an active review',
     message: `${round.label} is tied to saved revision ${round.revisionId.slice(-8)}. Check its returned feedback and applicability.`,

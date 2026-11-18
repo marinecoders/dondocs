@@ -189,3 +189,24 @@ it('does not advertise an owning review for archived, historical or reviewer-onl
   expect(inspected.readyForOperation).toBe(false); expect(inspected.actions.some(action => action.id === 'review-copy' && action.blocking)).toBe(true);
   expect(inspected.actions.find(action => action.id === `review-${round.id}`)?.destination).toEqual({ section: 'review', reviewRoundId: round.id, revisionId: round.revisionId });
 });
+
+
+it('derives real review applicability from saved inputs while task-only changes preserve the review', async () => {
+  let record = await startPackageReview(await fixture()); const round = record.reviewRounds![0];
+  record = await updatePackageWork(record, work(), policy);
+  const taskOnly = await derivePackageNextActions(record, undefined, { operation: 'review', policy });
+  expect(taskOnly.readyForOperation).toBe(true);
+  expect(taskOnly.actions.some(action => action.id === `impact-review-${round.id}`)).toBe(false);
+  expect(taskOnly.actions.find(action => action.id === `review-${round.id}`)?.destination?.revisionId).toBe(round.revisionId);
+  const member = getPackageRevision(record).members[0]; if (member.kind !== 'native') throw new Error('Expected native member');
+  const session = createBlankSession(); session.formData.subject = 'CHANGED SYNTHETIC REVIEW INPUT';
+  session.paragraphs = [{ id: 'body', text: 'Newer content requires applicability inspection.', level: 0 }];
+  const changed = await capturePackageMember(captureDocumentRevision({ documentId: 'changed-work-source', epoch: 0, editSequence: 2, capturedAt: 200 },
+    { ...session, endItems: [], publicationTables: {} }), member.label, member.role, member);
+  record = await reviseActionPackage(record, [changed]);
+  const latest = await derivePackageNextActions(record, undefined, { operation: 'review', policy });
+  const action = latest.actions.find(action => action.id === `impact-review-${round.id}`);
+  expect(action).toMatchObject({ kind: 'impact', blocking: false, destination: { section: 'review', revisionId: round.revisionId, reviewRoundId: round.id } });
+  expect(action?.message).toMatch(/document input.*changed/);
+  expect(record.reviewRounds![0]).toEqual(round);
+});

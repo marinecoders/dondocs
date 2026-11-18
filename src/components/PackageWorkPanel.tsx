@@ -3,7 +3,7 @@ import { Button } from './ui/button';
 import type { ActionPackage, PackageRevision } from '@/lib/actionPackages';
 import { newPackageId } from '@/lib/actionPackages';
 import { packageWorkSchema, packageWorkToday, isPackageWorkDate, resolvePackageTaskTarget, updatePackageWork, type PackageTask, type PackageWorkDestination } from '@/lib/packageWork';
-import { derivePackageNextActions, type PackageNextActions, type PackageNextActionOptions } from '@/lib/packageNextActions';
+import { derivePackageNextActions, type PackageNextActions } from '@/lib/packageNextActions';
 import { reviewPackageWork } from '@/lib/actionPackageDisclosure';
 import { getExportDeploymentPolicy, getExportDeploymentPolicySync } from '@/config/classification';
 import type { ExportReview } from '@/lib/preparedExport';
@@ -16,7 +16,6 @@ interface Props {
   onApply(record: ActionPackage): void;
   isCurrent(): boolean; signal(): AbortSignal | undefined; onDirtyChange?(dirty: boolean): void;
   onNavigate?(destination: PackageWorkDestination): void;
-  impact?: PackageNextActionOptions['impact'];
 }
 const inputClass = 'mt-1 block w-full min-w-0 rounded border bg-background p-2 text-sm';
 const buttonClass = 'h-auto min-h-9 max-w-full whitespace-normal';
@@ -38,7 +37,7 @@ const labels = { pdf: 'PDF assembly', review: 'Start review', portable: 'Editabl
 
 /** Local coordination stays separate from the package's computed evidence and document checks. */
 export function PackageWorkPanel({ record, revision, disabled, busy, run, onApply, isCurrent, signal, onDirtyChange,
-  onNavigate, impact }: Props) {
+  onNavigate }: Props) {
   const heading = useId(), owner = `${record.id}:${record.sequence}:${revision.id}:${record.archived}`;
   const [base, setBase] = useState(() => drafts(revision)), [draft, setDraft] = useState(() => drafts(revision));
   const [page, setPage] = useState(0), [actionPage, setActionPage] = useState(0), [operation, setOperation] = useState<PackageRequirementOperation>('pdf');
@@ -188,7 +187,7 @@ export function PackageWorkPanel({ record, revision, disabled, busy, run, onAppl
         const policy = await getExportDeploymentPolicy();
         if (policy.status !== 'ready') throw new Error(policy.message);
         const key = JSON.stringify(policy.policy);
-        const value = await derivePackageNextActions(record, revision.id, { operation, policy, signal: operationSignal, impact });
+        const value = await derivePackageNextActions(record, revision.id, { operation, policy, signal: operationSignal });
         const active = getExportDeploymentPolicySync();
         if (active.status !== 'ready' || JSON.stringify(active.policy) !== key) throw new Error('Deployment settings changed. Check next actions again.');
         if (current()) { inspectionPolicy.current = key; setInspection(value); setActionPage(0); }

@@ -20,6 +20,8 @@ The list prioritizes unresolved package checks, then overdue tasks, active revie
 
 Computed checks come from the existing intake, evidence, consistency, field-link and citation inspectors. PDF and editable-handoff inspection also uses the existing assembly readiness preparation. Missing or corrupt content remains unresolved. A task marked complete never removes those findings.
 
+The explicit check also compares exact saved inputs with retained review baselines and the preceding saved revision. A changed review context or historical PDF offers a link to that exact recorded item. Work-only edits do not require reviewers to repeat unchanged document review.
+
 An active or closed review belongs to its captured revision. Task status and review lifecycle labels do not establish approval, and a retained PDF is not relabeled as a newer document.
 
 Historical revisions and reviewer copies can be inspected but their tasks are read-only. Changing the selected package, revision or deployment settings invalidates an outstanding inspection or reviewed edit. Cancelled, stale and failed saves preserve the prior saved package.
