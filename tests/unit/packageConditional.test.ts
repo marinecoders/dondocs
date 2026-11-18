@@ -167,3 +167,59 @@ describe('captured conditional package membership', () => {
     await expect(buildPortableActionPackage(record)).rejects.toThrow(/missing|corrupt/i);
   });
 });
+
+describe('PR8 independent adversarial regressions', () => {
+  it('does not resurrect an explicitly cleared optional answer when intake resumes', async () => {
+    const source = template(); source.program.questions.find(question => question.id === 'subject')!.required = false;
+    const initial = await applyPreparedConditionalPackage(await prepareConditionalPackage({ template: source, answers: answers() }, policy), policy, true);
+    const cleared = conditionalPackageAnswers(initial.record);delete cleared.values.subject;
+    const plan = await prepareConditionalPackage({ template: source, answers: cleared, record: initial.record }, policy);
+    expect(plan.ready).toBe(true);
+    const applied = await applyPreparedConditionalPackage(plan, policy, true);
+    expect(conditionalPackageAnswers(applied.record).values.subject).toBeUndefined();
+  });
+  it('rejects an applied state that omits a required instance from its exact pinned template', async () => {
+    const source = template();source.members[1].required = true;
+    const { record } = await applyPreparedConditionalPackage(await prepareConditionalPackage({ template: source, answers: answers(true) }, policy), policy, true);
+    const forged = structuredClone(record), revision = forged.revisions.at(-1)!;
+    const id = revision.templateState!.instances.find(instance => instance.memberKey === 'extra')!.memberId;
+    revision.templateState!.instances = revision.templateState!.instances.filter(instance => instance.memberId !== id);
+    revision.members = revision.members.filter(member => member.id !== id);
+    revision.bindings!.items = revision.bindings!.items.filter(binding => binding.memberId !== id);
+    const { validateConditionalPackageStates } = await import('@/lib/packageConditionalSources');
+    const { readPackageAsset } = await import('@/lib/actionPackageAssets');
+    await expect(validateConditionalPackageStates(forged, readPackageAsset)).rejects.toThrow(/instance|required|mapping|missing/i);
+  });
+  it('owns caller evidence bytes and names before asynchronous PDF inspection', async () => {
+    const { PDFDocument } = await import('pdf-lib');
+    const { portableResourceDigest } = await import('@/lib/portableResources');
+    const { extractPdfText } = await import('@/lib/pdfText');
+    const { readPackageAsset } = await import('@/lib/actionPackageAssets');
+    const pdf = await PDFDocument.create();pdf.addPage([612,792]);pdf.setTitle('Reviewed original');const original = new Uint8Array(await pdf.save()).buffer;
+    const replacement = await PDFDocument.create();replacement.addPage([612,792]);replacement.setTitle('Unreviewed replacement');const changed = new Uint8Array(await replacement.save()).buffer;
+    const source = template();source.members.push({ key: 'evidence', kind: 'attachment', label: 'Evidence', role: 'enclosure', required: true });
+    const file = { name: 'reviewed.pdf', data: original, signedOriginal: false };
+    vi.mocked(extractPdfText).mockImplementationOnce(async inspected => {
+      expect(await portableResourceDigest(inspected)).toBe(await portableResourceDigest(original));
+      file.data = changed;file.name = 'replacement.pdf';return 'Synthetic reviewed evidence';
+    });
+    const plan = await prepareConditionalPackage({ template: source, answers: answers(), attachments: { [packageTemplateInstanceKey('evidence')]: file } }, policy);
+    const { record } = await applyPreparedConditionalPackage(plan, policy, true);
+    const member = getPackageRevision(record).members.find(member => member.kind === 'original')!;
+    if(member.kind !== 'original')throw new Error('Expected evidence');
+    expect.soft(member.original.name).toBe('reviewed.pdf');
+    expect.soft(await portableResourceDigest(await readPackageAsset(member.original))).toBe(await portableResourceDigest(original));
+  });
+  it('owns intake answers synchronously before validating the source asynchronously', async () => {
+    const input = answers(), pending = prepareConditionalPackage({ template: template(), answers: input }, policy);
+    input.values.subject = 'Changed by caller before first await completed';
+    const { record } = await applyPreparedConditionalPackage(await pending, policy, true);
+    expect(getPackageRevision(record).templateState?.answers.values.subject).toBe('Training request');
+  });
+  it('undoes a package name changed by its own rename-only plan', async () => {
+    const record = await create(), plan = await prepareConditionalPackage({ template: template(), answers: conditionalPackageAnswers(record), record, name: 'Renamed by intake' }, policy);
+    const applied = await applyPreparedConditionalPackage(plan, policy, true);expect(applied.record.name).toBe('Renamed by intake');
+    const undone = await undoConditionalPackage(applied.undo!, policy);
+    expect(undone.name).toBe(record.name);
+  });
+});
