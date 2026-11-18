@@ -4,12 +4,13 @@ import { parsePackageReviewReturn, inspectPackageReviewTransfer } from './packag
 import { inspectPackageFormAnchor, packageFormFeedbackText, type PackageFormProposal, type PackageFieldReviewApplication } from './packageFormReview';
 import { packageBindingTargetKey, patchPackageBindingDraftFields, type PackageBindingValue } from './packageBindingTargets';
 import { readPackageMemberDraft, readPackageAsset } from './actionPackageAssets';
+import { reviewRestoredPackageSources } from './packageRestoredSources';
 import { sameReviewStoredValue, type StoredAttachment } from './documentsDb';
 import { captureLinkedPackageChanges, preserveUnchangedCitations } from './packageLinkedUpdates';
 import { formatPackageFactForField } from './packageFieldBindings';
 import { packageFactSchema } from './packageInformation';
 import { portableResourceDigest } from './portableResources';
-import { reviewPackageNative, reviewPackageOriginal, reviewPackageText } from './actionPackageDisclosure';
+import { reviewPackageNative, reviewPackageText } from './actionPackageDisclosure';
 import { getExportDeploymentPolicy, getExportDeploymentPolicySync } from '@/config/classification';
 import type { PolicyResolution } from './exportDeploymentPolicy';
 import type { ExportReview } from './preparedExport';
@@ -110,19 +111,7 @@ export async function preparePackageFormCorrection(input: ActionPackage, roundId
 async function restoredRevisionReviews(revision: PackageRevision, policy: PolicyResolution): Promise<ExportReview[]> {
   const reviews = [reviewPackageText(packageFormFeedbackText({ ...revision,
     members: revision.members.map(member => member.kind === 'native' ? { ...member, session: undefined } : member) }), 'Restored package context', policy)];
-  for (const member of revision.members) {
-    if (member.kind === 'native') {
-      const { draft, reviewed } = await readPackageMemberDraft(member);
-      reviews.push(reviewPackageNative(member.session, member.label, policy, draft as typeof member.session));
-      for (const file of [...reviewed.files, reviewed.basicLetter,
-        ...reviewed.figures.filter((_, index) => reviewed.session.paragraphs[index]?.figure?.type === 'application/pdf')])
-        if (file) reviews.push(await reviewPackageOriginal(file.data, `${member.label}: ${file.name}`, policy));
-    } else reviews.push(await reviewPackageOriginal(await readPackageAsset(member.original), member.label, policy));
-  }
-  const templateAssets = new Map(revision.members.flatMap(member => member.kind === 'native'
-    ? Object.values(member.templates ?? {}).map(asset => [asset.id, asset] as const) : []));
-  for (const asset of templateAssets.values())
-    reviews.push(await reviewPackageOriginal(await readPackageAsset(asset), asset.name, policy));
+  reviews.push(...await reviewRestoredPackageSources(revision, policy));
   if (revision.templateState) {
     const raw = JSON.parse(new TextDecoder('utf-8', { fatal: true }).decode(await readPackageAsset(revision.templateState.source)));
     reviews.push(reviewPackageText(packageFormFeedbackText(raw), 'Restored pinned action template', policy));
