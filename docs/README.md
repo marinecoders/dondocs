@@ -17,6 +17,7 @@ Start with the [application README](../README.md) and [output capabilities](CAPA
 
 - [Contributing](CONTRIBUTING.md), [architecture](ARCHITECTURE.md) and [generated project inventory](PROJECT_INVENTORY.md).
 - [Captured package field links](PACKAGE_FIELD_BINDINGS.md): supported targets, conflict states, preserved resources and revision ownership.
+- [Conditional package templates](CONDITIONAL_PACKAGE_TEMPLATES.md): versioned questions, scoped participants, field qualification and transfer rules.
 - [Content templates](CREATING_TEMPLATES.md), [form packages](FORM_TEMPLATES.md), [form model](FORM_MODEL_ANALYSIS.md) and [JSON Schema](form-definition.schema.json).
 - [Test suites](../tests/README.md), [native TeX example](../tex/README.md#building-the-checked-in-example) and [correspondence formatting](CORRESPONDENCE_FORMATTING.md).
 - [Deployment](DEPLOYMENT.md), [managed update delivery](UPDATE_DELIVERY.md) and [form rollout/recovery](FORM_LIBRARY_ROLLOUT.md).
