@@ -120,7 +120,7 @@ it('captures participant context in exceptions, permits packagewide-to-person co
 it('persists declarations through actual portable transfer, fresh storage recovery, member revisions and exact review baselines', async () => {
   let record = await save(await fixture()); const revision = getPackageRevision(record);
   record = await save(record, { ...revision.consistency!, exceptions: [await createPackageConsistencyException(revision, 'same-action', 'Synthetic approved local exception')] });
-  const before = structuredClone(record), json = await buildPortableActionPackage(record), backup = await capturePackageBackup(), assets = await idbGetAllAttachments();
+  const before = structuredClone(record), json = await buildPortableActionPackage(record), backup = await capturePackageBackup(), assets = (await idbGetAllAttachments()) ?? [];
   await clearDb(); const imported = await importPortableActionPackage(json);
   expect(getPackageRevision(imported).consistency).toEqual(getPackageRevision(before).consistency); expect((await inspectPackageConsistency(getPackageRevision(imported))).ready).toBe(true);
   const revised = await reviseActionPackage(imported, [...getPackageRevision(imported).members].reverse());
