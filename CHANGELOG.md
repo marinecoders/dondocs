@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.141] — 2026-11-17
+
+### Added
+
+- An administrative-request starter with a plain-paper letter and editable DonDocs worksheet.
+
 ## [1.3.140] — 2026-11-17
 
 ### Added

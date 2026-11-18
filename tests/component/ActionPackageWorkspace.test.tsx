@@ -42,6 +42,25 @@ beforeEach(() => {
   useUIStore.setState({ actionPackagesOpen: false, isMobile: false, sidebarCollapsed: false });
 });
 
+it("preserves request intake through close and queued selection until the user cancels it", async () => {
+  const previous = await createActionPackage("Request starter origin");
+  const requested = await createActionPackage("Request starter destination");
+  useUIStore.getState().openActionPackage(previous.id);
+  render(<ActionPackageWorkspace exportGate={createExportGate()} ports={{ compile: vi.fn(), convertDocx: vi.fn(), waitForReady: async () => true }} />);
+  const user = userEvent.setup(), dialog = await screen.findByRole("dialog", { name: "Action packages" });
+  await user.click(await within(dialog).findByRole("button", { name: "Start an administrative request" }));
+  const starter = within(dialog).getByRole("region", { name: "Administrative request starter" });
+  await user.type(within(starter).getByLabelText("Requester", { exact: true }), "Unfinished request");
+  expect(within(dialog).getByLabelText("Saved packages", { exact: true })).toBeDisabled();
+  await user.keyboard("{Escape}");
+  expect(dialog).toBeVisible(); expect(within(starter).getByLabelText("Requester", { exact: true })).toHaveValue("Unfinished request");
+  act(() => useUIStore.getState().openActionPackage(requested.id));
+  expect(within(dialog).getByLabelText("Saved packages", { exact: true })).toHaveValue(previous.id);
+  await user.click(within(starter).getByRole("button", { name: "Cancel request starter" }));
+  await waitFor(() => expect(within(dialog).getByLabelText("Saved packages", { exact: true })).toHaveValue(requested.id));
+  expect((await listActionPackages()).find(record => record.id === previous.id)).toEqual(previous);
+});
+
 it("finishes restoring saved context before accepting a new package name", async () => {
   const remembered = await createActionPackage("Previous package name");
   rememberPackageWorkspaceContext({ version: 1, packageId: remembered.id, revisionId: remembered.currentRevisionId, memberId: null, section: "overview" });
@@ -569,4 +588,25 @@ it("validates long package names without discarding a valid full-length Unicode 
   expect(within(dialog).getByRole("button", { name: "Create package" })).toBeEnabled();
   expect(within(dialog).getByRole("button", { name: "Rename" })).toBeEnabled();
   expect((await listActionPackages()).find(value => value.id === record.id)?.name).toBe("Original name");
+});
+
+
+it('reviews and creates a request through its own busy parent controller', async () => {
+  const before = await listActionPackages(), user = userEvent.setup();
+  useUIStore.setState({ actionPackagesOpen: true });
+  render(<ActionPackageWorkspace exportGate={createExportGate()} ports={{ compile: vi.fn(), convertDocx: vi.fn(), waitForReady: async () => true }} />);
+  const dialog = await screen.findByRole('dialog', { name: 'Action packages' });
+  const start = await within(dialog).findByRole('button', { name: 'Start an administrative request' });
+  await waitFor(() => expect(start).toBeEnabled()); await user.click(start);
+  const starter = within(dialog).getByRole('region', { name: 'Administrative request starter' });
+  const fields = { Requester: 'Synthetic Person', Organization: 'Synthetic Unit', Recipient: 'Training Officer', 'Request subject': 'Parent controller lifecycle',
+    'Request date': '2026-11-18', SSIC: '1500', 'Printed signature name': 'S. PERSON', 'Requested action and justification': 'Synthetic request lifecycle verification.' };
+  for (const [label, value] of Object.entries(fields)) await user.type(within(starter).getByLabelText(label, { exact: label !== 'Printed signature name' }), value);
+  await user.click(within(starter).getByRole('button', { name: 'Review request starter' }));
+  await user.click(await within(starter).findByRole('checkbox', { name: /^I reviewed these request details/ }, { timeout: 15_000 }));
+  await user.click(within(starter).getByRole('button', { name: 'Create reviewed request package' }));
+  await within(dialog).findByText('Request package created. Review its letter and worksheet before submission.', {}, { timeout: 15_000 });
+  const saved = (await listActionPackages()).find(record => !before.some(existing => existing.id === record.id));
+  expect(saved).toBeDefined(); expect(getPackageRevision(saved!).members).toHaveLength(2);
+  expect(getPackageRevision(saved!).information!.facts.some(fact => fact.value === fields.Requester)).toBe(true);
 });

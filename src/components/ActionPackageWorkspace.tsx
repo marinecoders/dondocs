@@ -68,6 +68,7 @@ import { ShareModal } from "./modals/ShareModal";
 import type { CorrespondenceRendererPorts } from "@/services/exports/correspondence";
 
 const PackageInformationPanel = lazy(() => import("./PackageInformationPanel").then(module => ({ default: module.PackageInformationPanel })));
+const AdministrativeRequestStarter = lazy(() => import("./AdministrativeRequestStarter").then(module => ({ default: module.AdministrativeRequestStarter })));
 const PackageTemplatePanel = lazy(() => import("./PackageTemplatePanel").then(module => ({ default: module.PackageTemplatePanel })));
 
 const RECEIVED_PACKAGE_SELECTION = Symbol("received-package-selection");
@@ -127,6 +128,7 @@ function PackageDialog({
     operation.current?.signal.throwIfAborted();
   }
   function close() {
+    if (starterDirty) { setError("Create or cancel the request starter before closing this package."); return; }
     if (informationDirty) { setError(UNSAVED_PACKAGE_INFORMATION); return; }
     if (typedDirty) { setError("Save or cancel the typed suggestion before closing this package review."); return; }
     operation.current?.abort();
@@ -160,6 +162,10 @@ function PackageDialog({
   const nameTooLong = name.trim().length > 120;
   const validName = !!name.trim() && !nameTooLong;
   const [informationDirty, setInformationDirty] = useState(false);
+  const [starterDirty, setStarterDirty] = useState(false);
+  useEffect(() => {
+    if (!starterDirty) setError(previous => previous === "Create or cancel the request starter before closing this package." ? "" : previous);
+  }, [starterDirty]);
   useEffect(() => {
     if (!informationDirty) setError(previous => previous === UNSAVED_PACKAGE_INFORMATION ? "" : previous);
   }, [informationDirty]);
@@ -233,7 +239,7 @@ function PackageDialog({
   const beforeComparisonId = beforeOutputId || revision?.outputs.at(-2)?.id || "";
   const afterComparisonId = afterOutputId || revision?.outputs.at(-1)?.id || "";
   useEffect(() => {
-    if (typedDirty || informationDirty || !requestedPackageId && inventoryLoaded.current) return;
+    if (typedDirty || informationDirty || starterDirty || !requestedPackageId && inventoryLoaded.current) return;
     // A received selection supersedes work captured for the previous package.
     // Abort before loading inventory so late results cannot publish during that read.
     if (requestedPackageId) operation.current?.abort(RECEIVED_PACKAGE_SELECTION);
@@ -273,7 +279,7 @@ function PackageDialog({
     return () => {
       live = false;
     };
-  }, [requestedPackageId, requestedRevisionId, typedDirty, informationDirty, savedWorkspace]);
+  }, [requestedPackageId, requestedRevisionId, typedDirty, informationDirty, starterDirty, savedWorkspace]);
   useEffect(
     () => () => {
       if (pdfUrl) URL.revokeObjectURL(pdfUrl);
@@ -493,7 +499,7 @@ function PackageDialog({
         if (!value) close();
       }}
     >
-      <DialogContent className="sm:max-w-6xl" aria-busy={busy} showCloseButton={!typedDirty && !informationDirty}>
+      <DialogContent className="sm:max-w-6xl" aria-busy={busy} showCloseButton={!typedDirty && !informationDirty && !starterDirty}>
         <DialogHeader>
           <DialogTitle>Action packages</DialogTitle>
           <DialogDescription>
@@ -501,14 +507,14 @@ function PackageDialog({
             revision. Review linked citation reorders before saving a new revision.
           </DialogDescription>
         </DialogHeader>
-        <PackageWorkspaceNavigation active={workspaceSection} hasPackage={!!record} disabled={busy || typedDirty} onNavigate={navigate} />
+        <PackageWorkspaceNavigation active={workspaceSection} hasPackage={!!record} disabled={busy || typedDirty || starterDirty} onNavigate={navigate} />
         <div ref={overviewRef} tabIndex={-1} className="min-w-0 scroll-mt-4 space-y-4">
         {record && revision && <PackageWorkspaceSummary record={record} revision={revision} />}
-        {record && revision && <Suspense fallback={<p role="status">Loading package information…</p>}>
-          <PackageInformationPanel record={record} revision={revision} disabled={!editable || typedDirty} busy={busy} run={run} onApply={update}
-            onDirtyChange={setInformationDirty} signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted} />
-        </Suspense>}
-        </div>
+        <Suspense fallback={<p>Loading request starter…</p>}>
+          <AdministrativeRequestStarter disabled={!loaded || typedDirty || informationDirty} busy={busy} run={run}
+            signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted}
+            onDirtyChange={setStarterDirty} onCreate={value => { update(value); setNotice("Request package created. Review its letter and worksheet before submission."); }} />
+        </Suspense>
         {error && (
           <p role="alert" className="break-words text-sm text-destructive">
             {error}
@@ -519,9 +525,69 @@ function PackageDialog({
             {notice}
           </p>
         )}
-        <fieldset disabled={informationDirty} aria-label="Package documents, review and delivery" className="min-w-0 space-y-4">
-        <fieldset disabled={!loaded || busy || typedDirty} className="min-w-0 scroll-mt-4 space-y-4">
+        <fieldset disabled={!loaded || busy || typedDirty || informationDirty || starterDirty} className="min-w-0 scroll-mt-4 space-y-4">
           <legend className="mb-2 text-sm font-medium">Start or open a package</legend>
+          <div className="grid min-w-0 gap-3 sm:grid-cols-2">
+          <label className="block text-sm">
+            Saved packages
+            <select
+              aria-label="Saved packages"
+              className="mt-1 w-full rounded border bg-background p-2"
+              value={selectedId}
+              onChange={(event) => {
+                const found = records.find(
+                  (record) => record.id === event.target.value,
+                );
+                if (found) select(found);
+              }}
+            >
+              <option value="">Choose a package</option>
+              {records.map((record) => (
+                <option value={record.id} key={record.id}>
+                  {record.name}
+                  {record.archived ? " (archived)" : ""}
+                </option>
+              ))}
+            </select>
+          </label>
+          {record && revision && <>
+              <label className="block text-sm">
+                Package revision
+                <select
+                  aria-label="Package revision"
+                  className="mt-1 w-full rounded border bg-background p-2"
+                  value={revision.id}
+                  onChange={(event) => {
+                    setOpenedReview(null);
+                    setRevisionId(event.target.value);
+                    setPrepared(null);
+                    setComparison(null);
+                    setPdfUrl("");
+                    setBeforeOutputId("");
+                    setAfterOutputId("");
+                    setRenderComparison(null);
+                  }}
+                >
+                  {[...record.revisions].reverse().map((revision, index) => (
+                    <option key={revision.id} value={revision.id}>
+                      {record.historyScope === "selected-revision" ? `Saved revision ${revision.id.slice(-8)}` : `Revision ${record.revisions.length - index}`} ·{" "}
+                      {new Date(revision.createdAt).toLocaleString()}
+                      {revision.id === record.currentRevisionId
+                        ? " (current)"
+                        : ""}
+                    </option>
+                  ))}
+                </select>
+              </label>
+          </>}
+          </div>
+          {record && revision && <>
+              <p className="text-xs text-muted-foreground break-all">
+                Revision ID: {revision.id}. Source changes never update captured
+                members automatically. Signed originals remain separate;
+                assembled output has no inherited signature or approval.
+              </p>
+          </>}
           <div className="flex flex-wrap items-end gap-2">
             <label className="min-w-0 flex-1 text-sm">
               Package name
@@ -598,29 +664,15 @@ function PackageDialog({
               onCreate={update} />
           </Suspense>
           </details>
-          <label className="block text-sm">
-            Saved packages
-            <select
-              aria-label="Saved packages"
-              className="mt-1 w-full rounded border bg-background p-2"
-              value={selectedId}
-              onChange={(event) => {
-                const found = records.find(
-                  (record) => record.id === event.target.value,
-                );
-                if (found) select(found);
-              }}
-            >
-              <option value="">Choose a package</option>
-              {records.map((record) => (
-                <option value={record.id} key={record.id}>
-                  {record.name}
-                  {record.archived ? " (archived)" : ""}
-                </option>
-              ))}
-            </select>
-          </label>
+
         </fieldset>
+        {record && revision && <Suspense fallback={<p role="status">Loading package information…</p>}>
+          <PackageInformationPanel record={record} revision={revision} disabled={!editable || typedDirty || starterDirty} busy={busy} run={run} onApply={update}
+            onDirtyChange={setInformationDirty} signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted} />
+        </Suspense>}
+        </div>
+        <fieldset disabled={informationDirty || starterDirty} aria-label="Package documents, review and delivery" className="min-w-0 space-y-4">
+
           {record && revision && (
             <>
               <fieldset disabled={busy || typedDirty} className="min-w-0 space-y-4">
@@ -708,39 +760,6 @@ function PackageDialog({
                   onChange={(next, round) => { update(next); setOpenedReview(round); setRevisionId(round.revisionId); }} />
               </Suspense>}
               <fieldset disabled={busy || typedDirty} className="min-w-0 space-y-4">
-              <label className="block text-sm">
-                Package revision
-                <select
-                  aria-label="Package revision"
-                  className="mt-1 w-full rounded border bg-background p-2"
-                  value={revision.id}
-                  onChange={(event) => {
-                    setOpenedReview(null);
-                    setRevisionId(event.target.value);
-                    setPrepared(null);
-                    setComparison(null);
-                    setPdfUrl("");
-                    setBeforeOutputId("");
-                    setAfterOutputId("");
-                    setRenderComparison(null);
-                  }}
-                >
-                  {[...record.revisions].reverse().map((revision, index) => (
-                    <option key={revision.id} value={revision.id}>
-                      {record.historyScope === "selected-revision" ? `Saved revision ${revision.id.slice(-8)}` : `Revision ${record.revisions.length - index}`} ·{" "}
-                      {new Date(revision.createdAt).toLocaleString()}
-                      {revision.id === record.currentRevisionId
-                        ? " (current)"
-                        : ""}
-                    </option>
-                  ))}
-                </select>
-              </label>
-              <p className="text-xs text-muted-foreground break-all">
-                Revision ID: {revision.id}. Source changes never update captured
-                members automatically. Signed originals remain separate;
-                assembled output has no inherited signature or approval.
-              </p>
               <div ref={documentsRef} tabIndex={-1} className="min-w-0 scroll-mt-4 space-y-4">
               {editable && (
                 <div className="space-y-2 rounded border p-3">
