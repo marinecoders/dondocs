@@ -29,7 +29,6 @@ import * as packageRecords from "@/lib/actionPackages";
 import { PACKAGE_WORKSPACE_CONTEXT_KEY, readPackageWorkspaceContext, rememberPackageWorkspaceContext } from "@/lib/packageWorkspaceContext";
 import { maintainedPackageAction } from "@/lib/maintainedPackageActions";
 import { saveConditionalPackageDraft } from "@/lib/packageConditional";
-import { buildPortableActionPackage, importPortableActionPackage } from "@/lib/actionPackageTransfer";
 
 const policy = resolveExportDeploymentPolicy({
   hostname: "localhost",
@@ -661,6 +660,7 @@ it("mounts stored requirements and fences close, selection, navigation and mutat
   render(<ActionPackageWorkspace exportGate={createExportGate()} ports={{ compile: vi.fn(), convertDocx: vi.fn(), waitForReady: async () => true }} />);
   const user = userEvent.setup(), dialog = await screen.findByRole("dialog", { name: "Action packages" });
   await waitFor(() => expect(within(dialog).getByLabelText("Saved packages", { exact: true })).toHaveValue(initial.id));
+  await user.click(within(dialog).getByText("Quick request starter", { exact: true }));
   const panel = await within(dialog).findByRole("region", { name: "Evidence and requirements" });
   const declaration = within(panel).getByRole("checkbox", { name: /User declaration for Read the supporting record/ });
   const navigation = within(dialog).getByRole("navigation", { name: "Package workspace" });
