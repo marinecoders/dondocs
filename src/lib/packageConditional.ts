@@ -10,6 +10,7 @@ import { packageInformationSchema, type PackageFact, type PackageInformation } f
 import { formatPackageFactForField, resolvePackageFieldBinding, type PackageFieldBinding } from './packageFieldBindings';
 import { listPackageBindingFields, packageBindingTargetKey, patchPackageBindingDraftFields, type PackageBindingTarget } from './packageBindingTargets';
 import { captureLinkedPackageChanges } from './packageLinkedUpdates';
+import { reviewRestoredPackageSources } from './packageRestoredSources';
 import type { PackageUpdateChoices, PackageUpdatePreview } from './packageUpdates';
 import { readPackageAsset, readPackageMemberDraft, validatePackageOriginalPdf } from './actionPackageAssets';
 import { validatePackageDraft } from './actionPackageDraft';
@@ -603,22 +604,7 @@ export async function undoConditionalPackage(receipt: ConditionalPackageUndo, po
   await reviewConditionalPackage(original, policy); reviewPackageText(captured.before.name, 'Package name', policy);
   if (original.information) reviewPackageInformation(original.information, policy);
   if (original.bindings) reviewPackageBindings(original.bindings, policy);
-  for (const member of original.members) {
-    signal?.throwIfAborted();
-    if (member.kind === 'native') {
-      const { draft, reviewed } = await readPackageMemberDraft(member);
-      reviewPackageNative(reviewed.session, member.label, policy, draft as SerializedSession);
-      for (const file of [...reviewed.files, reviewed.basicLetter,
-        ...reviewed.figures.filter((_, index) => reviewed.session.paragraphs[index]?.figure?.type === 'application/pdf')])
-        if (file) await reviewPackageOriginal(file.data, `${member.label}: ${file.name}`, policy);
-    } else await reviewPackageOriginal(await readPackageAsset(member.original), member.label, policy);
-  }
-  const pages = new Map(original.members.flatMap(member => member.kind === 'native'
-    ? Object.values(member.templates ?? {}).map(asset => [asset.id, asset] as const) : []));
-  for (const page of pages.values()) {
-    signal?.throwIfAborted();
-    await reviewPackageOriginal(await readPackageAsset(page), page.name, policy);
-  }
+  await reviewRestoredPackageSources(original, policy, signal);
   const revision = { ...own(original), id: newPackageId('revision'), parentId: captured.after.currentRevisionId, createdAt: Date.now(), outputs: [] };
   const record = await guardedCommit(captured.after, buildRecord(captured.after, captured.before.name, revision), [], policy, signal, isCurrent);
   reversals.delete(receipt); return record;
