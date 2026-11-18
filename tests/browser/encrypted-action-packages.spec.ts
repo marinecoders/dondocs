@@ -73,7 +73,7 @@ test('encrypted package link and file preserve reviewed content across fresh bro
   await modal.getByLabel('New member role', { exact: true }).selectOption('enclosure');
   await modal.getByRole('checkbox', { name: 'Uploaded original is signed (preserve unchanged)', exact: true }).check();
   await modal.getByLabel('Add original PDF', { exact: true }).setInputFiles({ name: 'signed-original.pdf', mimeType: 'application/pdf', buffer: original });
-  await expect(modal.getByText('Signed original PDF', { exact: false })).toBeVisible();
+  await expect(modal.getByText('Original PDF (marked signed)', { exact: false })).toBeVisible();
   await modal.getByRole('button', { name: 'Check readiness and assemble', exact: true }).click();
   await expect(modal.getByRole('heading', { name: 'Package readiness: ready', exact: true })).toBeVisible();
   await modal.getByRole('checkbox', { name: /^I reviewed every included member/ }).check();
@@ -139,7 +139,7 @@ test('encrypted package link and file preserve reviewed content across fresh bro
     await review.getByRole('checkbox', { name: /^I reviewed every included member/ }).check();
     await review.getByRole('button', { name: 'Open reviewed package', exact: true }).click();
     modal = receiver.getByRole('dialog', { name: 'Action packages', exact: true });
-    await expect(modal.getByText('Signed original PDF', { exact: false })).toBeVisible();
+    await expect(modal.getByText('Original PDF (marked signed)', { exact: false })).toBeVisible();
     await modal.getByRole('button', { name: 'Close', exact: true }).click();
     await expect(receiver.getByRole('textbox', { name: 'Subject', exact: true })).toHaveValue('RECEIVER DRAFT PRESERVED');
     await receiver.reload();

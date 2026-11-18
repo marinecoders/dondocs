@@ -1,10 +1,15 @@
-import { expect, it, vi } from 'vitest';
+import { afterEach, beforeEach, expect, it, vi } from 'vitest';
 import fc from 'fast-check';
 import { createBlankSession } from '@/stores/documentStore';
 import type { ReviewRound } from '@/lib/reviewRounds';
 import * as reconciliation from '@/lib/reconcileReviewText';
 import { appendReviewSuggestions, createSelectedTextSuggestion, emptyReviewSuggestionState, inspectReviewSuggestion, inspectReviewSuggestionBatch,
   planReviewSuggestionDecision } from '@/lib/reviewSuggestions';
+
+// Compare alignment correctness with equal time budgets. A scheduler pause can
+// expire an uncached call while the batch legitimately reuses an earlier result.
+beforeEach(() => { vi.spyOn(performance, 'now').mockReturnValue(0); });
+afterEach(() => { vi.restoreAllMocks(); });
 
 function fixture(text: string) {
   const source = createBlankSession();source.paragraphs = [{ id: 'body', text, level: 0 }, { id: 'other', text, level: 0 }];
@@ -70,6 +75,25 @@ it('is equivalent to individual inspections across seeded Unicode scopes and out
         .toEqual(proposals.map(proposal => inspectReviewSuggestion(round, source, proposal)));
     }
   }), { numRuns: 100, seed: 4893026 });
+});
+
+it('keeps the alignment deadline conservative and rechecks writes after a cached inspection', () => {
+  const { source, round, make } = fixture('Begin Alpha é b End.'), proposal = make(3, 5);
+  source.paragraphs[0].text = 'Begin Alpha é b Completed.';
+  const range = { context: round.baseline.session.paragraphs[0].text, start: 3, end: 5 }, current = source.paragraphs[0].text;
+  const now = vi.mocked(performance.now);
+  now.mockReturnValue(40).mockReturnValueOnce(0);
+  expect(reconciliation.reconcileReviewRange(range, current)).toMatchObject({ kind: 'independent', scope: { context: current, start: 3, end: 5 } });
+  now.mockReturnValue(41).mockReturnValueOnce(0);
+  expect(reconciliation.reconcileReviewRange(range, current)).toEqual({ kind: 'ambiguous', currentContext: current });
+
+  now.mockReturnValue(0);
+  const inspected = inspectReviewSuggestionBatch(round, source, [{ proposal }, { proposal }]);
+  expect(inspected.map(changes => changes[0].reconciliation?.kind)).toEqual(['independent', 'independent']);
+  const state = appendReviewSuggestions(round, emptyReviewSuggestionState(round), [proposal]);
+  now.mockReturnValue(41).mockReturnValueOnce(0);
+  const decision = planReviewSuggestionDecision(round, source, state, proposal.id, 'accepted');
+  expect(decision.status).toBe('stale');expect(decision.session).toEqual(source);expect(decision.state.decisions).toHaveLength(0);
 });
 
 it('stops retaining new alignment keys when the batch character budget is exhausted', () => {

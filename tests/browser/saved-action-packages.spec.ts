@@ -192,7 +192,7 @@ for (const theme of ["light", "dark", "classic"]) {
       buffer: original,
     });
     await expect(
-      modal.getByText("Signed original PDF", { exact: false }),
+      modal.getByText("Original PDF (marked signed)", { exact: false }),
     ).toBeVisible();
     await modal
       .getByRole("button", {
@@ -703,9 +703,13 @@ test("maximum-length package names duplicate durably and empty originals cannot 
   await page.goto("/");
   const empty = await PDFDocument.create();
   const emptyBytes = Buffer.from(await empty.save({ addDefaultPage: false }));
+  let previousCopyId: string | undefined;
   for (const name of ["A".repeat(120), "😀".repeat(60)]) {
     let modal = await packages(page);
-    await modal.getByLabel("Package name", { exact: true }).fill(name);
+    if (previousCopyId) await expect(modal.getByLabel("Saved packages", { exact: true })).toHaveValue(previousCopyId);
+    const nameInput = modal.getByLabel("Package name", { exact: true });
+    await nameInput.fill(name);
+    await expect(nameInput).toHaveValue(name);
     await modal.getByRole("button", { name: "Create package", exact: true }).click();
     await expect(modal.getByLabel("Saved packages", { exact: true })).not.toHaveValue("");
     await modal.getByRole("button", { name: "Duplicate", exact: true }).click();
@@ -729,5 +733,24 @@ test("maximum-length package names duplicate durably and empty originals cannot 
     await modal.getByLabel("Saved packages", { exact: true }).selectOption(copiedId);
     await expect(modal.getByRole("heading", { name: /^1\./ })).toHaveCount(0);
     await modal.getByRole("button", { name: "Close", exact: true }).click();
+    await expect(modal).toBeHidden();
+    previousCopyId = copiedId;
   }
+});
+
+
+test("package-name validation preserves Unicode and blocks overlong commits", async ({ page, context }) => {
+  await appearance(context, "light");await page.goto("/");
+  let modal = await packages(page), name = modal.getByLabel("Package name", { exact: true });
+  await name.fill("A".repeat(121));await expect(name).toHaveValue("A".repeat(121));await expect(name).toHaveAttribute("aria-invalid", "true");
+  await expect(modal.getByText("Use a package name of 120 characters or fewer.")).toBeVisible();
+  await expect(modal.getByRole("button", { name: "Create package", exact: true })).toBeDisabled();
+  const unicode = "😀".repeat(60);await name.fill(unicode);await expect(name).toHaveValue(unicode);
+  await modal.getByRole("button", { name: "Create package", exact: true }).click();
+  await expect(modal.getByLabel("Saved packages", { exact: true })).not.toHaveValue("");
+  const id = await modal.getByLabel("Saved packages", { exact: true }).inputValue();
+  await name.fill("B".repeat(121));await expect(modal.getByRole("button", { name: "Rename", exact: true })).toBeDisabled();
+  await page.reload();modal = await packages(page);name = modal.getByLabel("Package name", { exact: true });
+  await expect(name).toHaveValue(unicode);await expect(modal.getByLabel("Saved packages", { exact: true })).toHaveValue(id);
+  await expect(modal.getByLabel("Saved packages", { exact: true }).getByRole("option")).toHaveCount(2);
 });

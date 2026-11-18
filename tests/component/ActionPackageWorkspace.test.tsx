@@ -22,6 +22,7 @@ import { captureDocumentRevision } from "@/lib/capturedDocument";
 import { resolveExportDeploymentPolicy } from "@/lib/exportDeploymentPolicy";
 import * as memberReviews from "@/lib/packageMemberReviews";
 import * as packageRecords from "@/lib/actionPackages";
+import { PACKAGE_WORKSPACE_CONTEXT_KEY, readPackageWorkspaceContext, rememberPackageWorkspaceContext } from "@/lib/packageWorkspaceContext";
 
 const policy = resolveExportDeploymentPolicy({
   hostname: "localhost",
@@ -37,7 +38,68 @@ vi.mock("@/config/classification", async (importOriginal) => ({
 
 beforeEach(() => {
   vi.restoreAllMocks();
+  localStorage.removeItem(PACKAGE_WORKSPACE_CONTEXT_KEY);
   useUIStore.setState({ actionPackagesOpen: false, isMobile: false, sidebarCollapsed: false });
+});
+
+it("finishes restoring saved context before accepting a new package name", async () => {
+  const remembered = await createActionPackage("Previous package name");
+  rememberPackageWorkspaceContext({ version: 1, packageId: remembered.id, revisionId: remembered.currentRevisionId, memberId: null, section: "overview" });
+  let resolveInventory!: (records: typeof remembered[]) => void;
+  vi.spyOn(packageRecords, "listActionPackages").mockImplementation(() => new Promise(resolve => { resolveInventory = resolve; }));
+  useUIStore.setState({ actionPackagesOpen: true });
+  render(<ActionPackageWorkspace exportGate={createExportGate()} ports={{ compile: vi.fn(), convertDocx: vi.fn(), waitForReady: async () => true }} />);
+  const dialog = screen.getByRole("dialog", { name: "Action packages" });
+  const name = within(dialog).getByLabelText("Package name", { exact: true });
+  expect(name).toBeDisabled();
+  await act(async () => resolveInventory([remembered]));
+  await waitFor(() => expect(name).toBeEnabled());
+  expect(name).toHaveValue(remembered.name);
+  const user = userEvent.setup();
+  await user.clear(name);
+  await user.type(name, "New package name");
+  expect(name).toHaveValue("New package name");
+});
+
+it("resumes the saved package revision and selected member after closing and reopening", async () => {
+  const source = createBlankSession();
+  const first = await capturePackageMember(captureDocumentRevision(
+    { documentId: "workspace-first", epoch: 0, editSequence: 1, capturedAt: 100 },
+    { ...source, endItems: [], publicationTables: {} },
+  ), "First workspace member", "basic-letter");
+  const second = { ...structuredClone(first), id: "workspace-second", revisionId: "workspace-second-revision", label: "Second workspace member", role: "supporting-document" as const };
+  const previous = await reviseActionPackage(await createActionPackage("Resumable workspace"), [first, second]);
+  const current = await reviseActionPackage(previous, [first]);
+  const user = userEvent.setup();
+  useUIStore.setState({ actionPackagesOpen: true });
+  const ports = { compile: vi.fn(), convertDocx: vi.fn(), waitForReady: async () => true };
+  const view = render(<ActionPackageWorkspace exportGate={createExportGate()} ports={ports} />);
+  let dialog = screen.getByRole("dialog", { name: "Action packages" });
+  await within(dialog).findByRole("option", { name: current.name });
+  await user.selectOptions(within(dialog).getByLabelText("Saved packages", { exact: true }), current.id);
+  await user.selectOptions(within(dialog).getByLabelText("Package revision", { exact: true }), previous.currentRevisionId);
+  await user.selectOptions(within(dialog).getByLabelText("Document to inspect", { exact: true }), second.id);
+  await waitFor(() => expect(readPackageWorkspaceContext()).toMatchObject({ packageId: current.id, revisionId: previous.currentRevisionId, memberId: second.id, section: "documents" }));
+  view.unmount();
+  render(<ActionPackageWorkspace exportGate={createExportGate()} ports={ports} />);
+  dialog = await screen.findByRole("dialog", { name: "Action packages" });
+  await waitFor(() => expect(within(dialog).getByLabelText("Package revision", { exact: true })).toHaveValue(previous.currentRevisionId));
+  expect(within(dialog).getByLabelText("Saved packages", { exact: true })).toHaveValue(current.id);
+  expect(within(dialog).getByRole("heading", { name: "2. Second workspace member" }).closest("li")).toHaveAttribute("data-selected", "true");
+  expect(within(dialog).getByRole("navigation", { name: "Package workspace" })).toContainElement(within(dialog).getByRole("button", { name: "Documents" }));
+  expect((await listActionPackages()).find(record => record.id === current.id)).toEqual(current);
+});
+
+it("lets explicit received selection supersede remembered package context", async () => {
+  const remembered = await createActionPackage("Previously opened workspace");
+  const requested = await createActionPackage("Explicitly requested workspace");
+  rememberPackageWorkspaceContext({ version: 1, packageId: remembered.id, revisionId: remembered.currentRevisionId, memberId: null, section: "delivery" });
+  useUIStore.getState().openActionPackage(requested.id, requested.currentRevisionId);
+  render(<ActionPackageWorkspace exportGate={createExportGate()} ports={{ compile: vi.fn(), convertDocx: vi.fn(), waitForReady: async () => true }} />);
+  const dialog = await screen.findByRole("dialog", { name: "Action packages" });
+  await waitFor(() => expect(within(dialog).getByLabelText("Saved packages", { exact: true })).toHaveValue(requested.id));
+  expect(within(dialog).getByRole("region", { name: "Selected package" })).toHaveTextContent(requested.name);
+  expect(readPackageWorkspaceContext()?.packageId).toBe(requested.id);
 });
 it("checks retained raw draft text before editable package download while allowing normalized PDF assembly", async () => {
   const source = createBlankSession();
@@ -488,4 +550,23 @@ it("cancels a held package member write before its parent CAS", async () => {
   await act(async () => { release(); await completed; });
   expect((await listActionPackages()).find(value => value.id === record.id)).toEqual(before);
   expect(within(dialog).getByLabelText("Package member comment")).toHaveValue("Cancelled feedback must not commit.");
+});
+
+it("validates long package names without discarding a valid full-length Unicode replacement", async () => {
+  const record = await createActionPackage("Original name");
+  rememberPackageWorkspaceContext({ version: 1, packageId: record.id, revisionId: record.currentRevisionId, memberId: null, section: "overview" });
+  useUIStore.setState({ actionPackagesOpen: true });
+  render(<ActionPackageWorkspace exportGate={createExportGate()} ports={{ compile: vi.fn(), convertDocx: vi.fn(), waitForReady: async () => true }} />);
+  const dialog = screen.getByRole("dialog", { name: "Action packages" }), name = within(dialog).getByLabelText("Package name", { exact: true });
+  await waitFor(() => expect(name).toBeEnabled());
+  const user = userEvent.setup();await user.clear(name);await user.paste("A".repeat(121));
+  expect(name).toHaveValue("A".repeat(121));expect(name).toHaveAttribute("aria-invalid", "true");
+  expect(within(dialog).getByRole("button", { name: "Create package" })).toBeDisabled();
+  expect(within(dialog).getByRole("button", { name: "Rename" })).toBeDisabled();
+  expect(within(dialog).getByText("Use a package name of 120 characters or fewer.")).toBeVisible();
+  await user.clear(name);await user.paste("😀".repeat(60));
+  expect(name).toHaveValue("😀".repeat(60));expect(name).not.toHaveAttribute("aria-invalid");
+  expect(within(dialog).getByRole("button", { name: "Create package" })).toBeEnabled();
+  expect(within(dialog).getByRole("button", { name: "Rename" })).toBeEnabled();
+  expect((await listActionPackages()).find(value => value.id === record.id)?.name).toBe("Original name");
 });
