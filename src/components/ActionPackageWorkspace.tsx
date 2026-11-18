@@ -815,7 +815,7 @@ function PackageDialog({
             onDirtyChange={setInformationDirty} signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted} />
         </Suspense>}
         </div>
-        <fieldset disabled={pendingPackageEdits} aria-label="Package documents, review and delivery" className="min-w-0 space-y-4">
+        <fieldset disabled={informationDirty || starterDirty || intakeDirty || requirementsDirty || consistencyDirty || workDirty} aria-label="Package documents, review and delivery" className="min-w-0 space-y-4">
 
           {record && revision && (
             <>

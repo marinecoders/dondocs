@@ -135,7 +135,7 @@ it('keeps real consistency blockers after manual completion and navigates their 
   await user.click(within(work).getByRole('button', { name: 'Check next actions' }));
   await within(work).findByText(/PDF assembly: [1-9]\d* unresolved checks?/);
   expect(within(work).getByText('Action dates', { selector: 'span', exact: true })).toBeVisible();
-  await user.click(within(work).getByRole('button', { name: 'Open Action dates', exact: true }));
+  await user.click(within(work).getByRole('button', { name: 'Open Action dates' }));
   await waitFor(() => expect(within(dialog).getByText('Start date', { selector: 'legend' })).toHaveFocus());
   expect((await listActionPackages()).find(item => item.id === record.id)).toEqual(record);
 });
