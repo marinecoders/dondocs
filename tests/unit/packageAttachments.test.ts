@@ -179,3 +179,23 @@ it('rejects alternate Office content whose opaque bytes cannot be inventoried', 
   zip.file('word/alternate.bin', '<html><body><p>SECRET</p><script>/* inert synthetic fixture */</script></body></html>');
   await expect(preparePackageAttachment(await packageWithPdf(), { name: 'alternate.docx', data: await zip.generateAsync({ type: 'arraybuffer' }) }, policy)).rejects.toThrow(/alternate|embedded|unsupported/);
 });
+
+it.each(['drawing', 'word-br', 'word-cr'] as const)('preserves explicit %s line breaks before a retained marking', async kind => {
+  const zip = new JSZip(); zip.file('[Content_Types].xml', '<Types/>');
+  if (kind === 'drawing') {
+    zip.file('xl/workbook.xml', '<workbook/>');
+    zip.file('xl/drawings/drawing1.xml', '<a:txBody xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main"><a:p><a:r><a:t>Ordinary synthetic opening</a:t></a:r><a:br/><a:r><a:t>(S) Restricted synthetic line.</a:t></a:r></a:p></a:txBody>');
+  } else zip.file('word/document.xml', `<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:body><w:p><w:r><w:t>Ordinary synthetic opening</w:t><w:${kind === 'word-br' ? 'br' : 'cr'}/><w:t>(S) Restricted synthetic line.</w:t></w:r></w:p></w:body></w:document>`);
+  const incoming = { name: kind === 'drawing' ? 'line-break.xlsx' : 'line-break.docx', data: await zip.generateAsync({ type: 'arraybuffer' }) };
+  expect((await inspectPackageAttachment(incoming)).text).toContain('Ordinary synthetic opening\n(S) Restricted synthetic line.');
+  await expect(preparePackageAttachment(await packageWithPdf(), incoming, policy)).rejects.toThrow(/markings|levels/);
+});
+
+it('keeps distinct Office cells and paragraphs separate from phonetic annotations', async () => {
+  const zip = new JSZip(); zip.file('[Content_Types].xml', '<Types/>'); zip.file('xl/workbook.xml', '<workbook/>');
+  zip.file('xl/sharedStrings.xml', '<sst xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><si><r><t>SE</t></r></si><si><r><t>CRET</t></r></si><si><r><t>Base</t></r><rPh sb="0" eb="4"><t>Pronunciation</t></rPh><r><t> text</t></r></si></sst>');
+  zip.file('xl/drawings/drawing1.xml', '<a:txBody xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main"><a:p><a:r><a:t>SE</a:t></a:r></a:p><a:p><a:r><a:t>CRET</a:t></a:r></a:p></a:txBody>');
+  const incoming = { name: 'distinct.xlsx', data: await zip.generateAsync({ type: 'arraybuffer' }) }, inspection = await inspectPackageAttachment(incoming);
+  expect(inspection.text).not.toContain('SECRET'); expect(inspection.text).toContain('Base text'); expect(inspection.text).toContain('Pronunciation');
+  await expect(preparePackageAttachment(await packageWithPdf(), incoming, policy)).resolves.toMatchObject({ type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+});
