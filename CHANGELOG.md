@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.159] — 2026-11-17
+
+### Added
+
+- Reviewed recipient-PDF and editable delivery scopes capture only selected members and their required files, with independent case identities and explicit privacy review.
+
 ## [1.3.158] — 2026-11-17
 
 ### Added

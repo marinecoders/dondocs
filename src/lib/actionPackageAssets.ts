@@ -68,8 +68,8 @@ export async function validatePackageOriginalPdf(data: ArrayBuffer): Promise<voi
       "An original PDF must contain at least one page. Choose a PDF with pages before adding or restoring this package.",
     );
 }
-export async function readPackageMemberDraft(member: NativePackageMember) {
-  const bytes = await readPackageAsset(member.draft);
+export async function readPackageMemberDraft(member: NativePackageMember, read: typeof readPackageAsset = readPackageAsset) {
+  const bytes = await read(member.draft);
   const draft: unknown = JSON.parse(
     new TextDecoder("utf-8", { fatal: true }).decode(bytes),
   );
@@ -78,13 +78,13 @@ export async function readPackageMemberDraft(member: NativePackageMember) {
     throw new Error(
       `The saved model for ${member.label} does not match its captured native draft.`,
     );
-  await validatePackageMemberTemplates(member, readPackageAsset);
+  await validatePackageMemberTemplates(member, read);
   return { draft, reviewed };
 }
 /** Reuse native draft staging without installing or mutating the active editor. */
-export async function preparePackageMember(member: NativePackageMember) {
-  const { reviewed } = await readPackageMemberDraft(member);
-  await retainPackageMemberTemplates(member, readPackageAsset);
+export async function preparePackageMember(member: NativePackageMember, read: typeof readPackageAsset = readPackageAsset) {
+  const { reviewed } = await readPackageMemberDraft(member, read);
+  await retainPackageMemberTemplates(member, read);
   const prepared = await prepareReviewedDocument(
     reviewed,
     () => true,
