@@ -16,6 +16,8 @@ import { uint8ArrayToBase64 } from '@/lib/encoding';
 import { instantiatePackageTemplate, validatePackageTemplate } from '@/lib/packageTemplateLibrary';
 import { listPackageBindingFields } from '@/lib/packageBindingTargets';
 import { initializePackageCitationTargets, linkPackageCitation, packageCitationOccurrences, resolvePackageCitations } from '@/lib/packageCitations';
+import { startPackageReview } from '@/lib/packageReviewRounds';
+import { buildPackageReviewerCopy, packageReviewTransferFile, parsePackageReviewTransfer } from '@/lib/packageReviewTransfer';
 
 vi.mock('@/stores/backupStore', () => ({ scheduleBackup: vi.fn(), useBackupStore: { getState: () => ({}) } }));
 vi.mock('@/lib/pdfText', () => ({ extractPdfText: vi.fn(async () => '') }));
@@ -70,6 +72,17 @@ beforeEach(async () => {
 });
 
 describe('captured package update plans', () => {
+  it('blocks updates in reviewer copies and preserves exact owner review baselines', async () => {
+    const owner = await startPackageReview(await fixture());
+    const copy = await parsePackageReviewTransfer(await packageReviewTransferFile(await buildPackageReviewerCopy(owner, owner.reviewRounds![0].id, policy), policy));
+    const changes = inputs(copy.record);
+    await expect(preparePackageUpdate(copy.record, changes.information, changes.bindings, {}, policy)).rejects.toThrow(/reviewer copy/);
+    const { record } = await applyPreparedPackageUpdate(await prepare(owner), policy, true);
+    expect(record.reviewRounds).toEqual(owner.reviewRounds);
+    expect(record.reviewRounds![0].baseline.information!.facts[0].value).toBe('Original subject');
+    expect(getPackageRevision(record).information!.facts[0].value).toBe('Updated subject');
+  });
+
   it('previews without writes and applies all member fields as one immutable child revision', async () => {
     const original = await fixture(2), originalJson = JSON.stringify(original), assets = await idbGetAllAttachments();
     const args = inputs(original), planned = await preparePackageUpdate(original, args.information, args.bindings, {}, policy);
