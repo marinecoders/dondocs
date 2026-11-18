@@ -34,3 +34,22 @@ it('discards a prepared file and fences read-only and rejected parent operations
   expect(await screen.findByRole('alert')).toHaveTextContent('Operation unavailable');
   view.rerender(<PackageEvidencePanel {...props} disabled />); expect(screen.getByLabelText('Choose supporting evidence')).toBeDisabled();
 });
+
+it('does not publish a reviewed file after the parent becomes read-only during save', async () => {
+  const record = await createActionPackage(`Evidence read-only ${crypto.randomUUID()}`), user = userEvent.setup(), onApply = vi.fn();
+  const props = { record, revision: getPackageRevision(record), disabled: false, busy: false, run: async (action: () => Promise<void>) => action(), onApply, signal: () => undefined, isCurrent: () => true };
+  const view = render(<PackageEvidencePanel {...props} />);
+  await user.upload(screen.getByLabelText('Choose supporting evidence'), new File(['Synthetic evidence'], 'support.txt', { type: 'text/plain' }));
+  await user.click(await screen.findByRole('checkbox', { name: /^I reviewed this original file/ }));
+  let finish!: (value: typeof policy) => void;
+  vi.mocked(classification.getExportDeploymentPolicy).mockImplementationOnce(() => new Promise(resolve => { finish = resolve; }));
+  await user.click(screen.getByRole('button', { name: 'Add reviewed evidence file' }));
+  await waitFor(() => expect(finish).toBeTypeOf('function'));
+  view.rerender(<PackageEvidencePanel {...props} disabled />);
+  finish(policy);
+  await waitFor(() => expect(screen.getByRole('region', { name: 'Supporting evidence files' })).toHaveAttribute('aria-busy', 'false'));
+  expect(onApply).not.toHaveBeenCalled();
+  expect((await listActionPackages()).find(item => item.id === record.id)).toEqual(record);
+  view.rerender(<PackageEvidencePanel {...props} />);
+  expect(screen.getByRole('checkbox', { name: /^I reviewed this original file/ })).not.toBeChecked();
+});

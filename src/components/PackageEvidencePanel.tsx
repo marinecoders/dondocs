@@ -17,8 +17,10 @@ export function PackageEvidencePanel({ record, revision, disabled, busy, run, si
   const [pending, setPending] = useState(false), [error, setError] = useState('');
   const lifetime = useRef(false), ownerRef = useRef(owner), previous = useRef(owner), generation = useRef(0), running = useRef(false), dirtyCallback = useRef(onDirtyChange);
   const editable = !disabled && !record.archived && record.currentRevisionId === revision.id && !record.reviewRounds?.some(round => round.ownerPackageId === undefined);
+  const latest = useRef({ editable, signal, isCurrent });
   const locked = !editable || busy || pending;
-  useLayoutEffect(() => { ownerRef.current = owner; dirtyCallback.current = onDirtyChange; });
+  useLayoutEffect(() => { ownerRef.current = owner; dirtyCallback.current = onDirtyChange; latest.current = { editable, signal, isCurrent }; });
+  useLayoutEffect(() => { if (!editable) { generation.current++; setAcknowledged(false); } }, [editable]);
   useEffect(() => { lifetime.current = true; return () => { lifetime.current = false; dirtyCallback.current?.(false); }; }, []);
   useLayoutEffect(() => {
     if (previous.current === owner) return;
@@ -28,10 +30,14 @@ export function PackageEvidencePanel({ record, revision, disabled, busy, run, si
   async function perform(action: (current: () => boolean) => Promise<void>) {
     if (locked || running.current) return;
     const capturedOwner = owner, capturedGeneration = generation.current;
-    const current = () => lifetime.current && ownerRef.current === capturedOwner && generation.current === capturedGeneration && isCurrent() && !signal()?.aborted;
     running.current = true; setPending(true); setError('');
-    try { await run(async () => { if (current()) await action(current); }); }
-    catch (cause) { if (current()) setError(cause instanceof Error ? cause.message : 'The supporting file could not be processed.'); }
+    try { await run(async () => {
+      const operationSignal = signal(), current = () => lifetime.current && ownerRef.current === capturedOwner && generation.current === capturedGeneration
+        && latest.current.editable && latest.current.isCurrent() && latest.current.signal() === operationSignal && !operationSignal?.aborted;
+      try { if (current()) await action(current); }
+      catch (cause) { if (current()) setError(cause instanceof Error ? cause.message : 'The supporting file could not be processed.'); }
+    }); }
+    catch (cause) { if (lifetime.current && ownerRef.current === capturedOwner && generation.current === capturedGeneration && latest.current.isCurrent()) setError(cause instanceof Error ? cause.message : 'The supporting file could not be processed.'); }
     finally { running.current = false; if (lifetime.current) setPending(false); }
   }
   return <section aria-labelledby={heading} aria-busy={pending} className="min-w-0 space-y-3 rounded border bg-background p-2 sm:p-4">
