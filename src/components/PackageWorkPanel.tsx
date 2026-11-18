@@ -11,7 +11,7 @@ import type { PackageRequirementOperation } from '@/lib/packageRequirementsModel
 
 interface TaskDraft { id: string; title: string; status: PackageTask['status']; owner: string; dueDate: string; notes: string; target?: PackageTask['target'] }
 interface Props {
-  record: ActionPackage; revision: PackageRevision; disabled: boolean; busy: boolean;
+  record: ActionPackage; revision: PackageRevision; disabled: boolean; busy: boolean; reviewBaseline?: boolean;
   run(action: () => Promise<void>): Promise<void>;
   onApply(record: ActionPackage): void;
   isCurrent(): boolean; signal(): AbortSignal | undefined; onDirtyChange?(dirty: boolean): void;
@@ -37,8 +37,8 @@ const labels = { pdf: 'PDF assembly', review: 'Start review', portable: 'Editabl
 
 /** Local coordination stays separate from the package's computed evidence and document checks. */
 export function PackageWorkPanel({ record, revision, disabled, busy, run, onApply, isCurrent, signal, onDirtyChange,
-  onNavigate }: Props) {
-  const heading = useId(), owner = `${record.id}:${record.sequence}:${revision.id}:${record.archived}`;
+  onNavigate, reviewBaseline = false }: Props) {
+  const heading = useId(), owner = `${record.id}:${record.sequence}:${revision.id}:${record.archived}:${reviewBaseline}`;
   const [base, setBase] = useState(() => drafts(revision)), [draft, setDraft] = useState(() => drafts(revision));
   const [page, setPage] = useState(0), [actionPage, setActionPage] = useState(0), [operation, setOperation] = useState<PackageRequirementOperation>('pdf');
   const [inspection, setInspection] = useState<PackageNextActions | null>(null);
@@ -191,7 +191,7 @@ export function PackageWorkPanel({ record, revision, disabled, busy, run, onAppl
         const policy = await getExportDeploymentPolicy();
         if (policy.status !== 'ready') throw new Error(policy.message);
         const key = JSON.stringify(policy.policy);
-        const value = await derivePackageNextActions(record, revision.id, { operation, policy, signal: operationSignal });
+        const value = await derivePackageNextActions(record, revision.id, { operation, policy, signal: operationSignal, reviewBaseline });
         const active = getExportDeploymentPolicySync();
         if (active.status !== 'ready' || JSON.stringify(active.policy) !== key) throw new Error('Deployment settings changed. Check next actions again.');
         if (current()) { inspectionPolicy.current = key; setInspection(value); setActionPage(0); }
@@ -204,7 +204,7 @@ export function PackageWorkPanel({ record, revision, disabled, busy, run, onAppl
           <p className="whitespace-pre-wrap break-words text-xs text-muted-foreground">{action.message}</p>
           {action.destination && <Button className={buttonClass} variant="outline" size="sm" disabled={busy || pending} onClick={() => {
             if (action.taskId && action.destination?.panel === 'work') {
-              const index = draft.findIndex(task => task.id === action.taskId); if (index >= 0) { focusTask.current = action.taskId; setPage(Math.floor(index / 25)); taskInputs.current.get(action.taskId)?.focus(); }
+              const index = draft.findIndex(task => task.id === action.taskId); if (index >= 0) { focusTask.current = action.taskId; setPage(Math.floor(index / 25)); taskInputs.current.get(action.taskId)?.focus(); return; }
             }
             onNavigate?.(action.destination!);
           }}>Open {action.label}</Button>}

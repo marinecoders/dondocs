@@ -128,3 +128,27 @@ it('discards late saved-action inspection from the previously selected package',
   expect(screen.queryByText('Old package is ready')).toBeNull();
   expect(screen.getByText('Check the saved package to find its next action.')).toBeVisible();
 });
+it('keeps focus on an exact local task instead of sending a generic panel destination', async () => {
+  const initial = await updatePackageWork(await fixture(), { version: 1, tasks: [{ id: 'focus-task', title: 'Inspect this local task', status: 'pending' }] }, policy);
+  const navigate = vi.fn(), user = userEvent.setup();
+  render(<PackageWorkPanel record={initial} revision={getPackageRevision(initial)} disabled={false} busy={false} run={async action => action()}
+    onApply={vi.fn()} isCurrent={() => true} signal={() => undefined} onNavigate={navigate} />);
+  await user.click(screen.getByRole('button', { name: 'Check next actions' }));
+  await user.click(await screen.findByRole('button', { name: 'Open Inspect this local task' }));
+  expect(screen.getByLabelText('Task 1 title')).toHaveFocus();
+  expect(navigate).not.toHaveBeenCalled();
+});
+it('invalidates an outstanding owning inspection when the same revision becomes a review-baseline view', async () => {
+  const initial = await fixture();
+  let release!: (value: nextActions.PackageNextActions) => void;
+  vi.spyOn(nextActions, 'derivePackageNextActions').mockReturnValueOnce(new Promise(resolve => { release = resolve; }));
+  const properties = { record: initial, revision: getPackageRevision(initial), disabled: false, busy: false,
+    run: async (action: () => Promise<void>) => action(), onApply: vi.fn(), isCurrent: () => true, signal: () => undefined };
+  const user = userEvent.setup(), view = render(<PackageWorkPanel {...properties} />);
+  await user.click(screen.getByRole('button', { name: 'Check next actions' }));
+  view.rerender(<PackageWorkPanel {...properties} disabled reviewBaseline />);
+  await act(async () => { release({ operation: 'review', readyForOperation: true, computedBlockers: 0, pendingTasks: 0,
+    actions: [{ id: 'prepare-review', kind: 'delivery', label: 'Prepare a package review', message: 'Old owning inspection.', blocking: false }] }); });
+  await waitFor(() => expect(screen.getByRole('button', { name: 'Check next actions' })).toBeEnabled());
+  expect(screen.queryByText('Prepare a package review')).toBeNull();
+});

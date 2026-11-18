@@ -37,6 +37,8 @@ export interface PackageNextActionOptions {
   policy?: PolicyResolution;
   signal?: AbortSignal;
   today?: string;
+  /** This read-only projection preserves review bytes, not authority to start another owning review. */
+  reviewBaseline?: boolean;
 }
 
 /** Inspect existing operation prerequisites. Local task status never participates in computed readiness. */
@@ -82,6 +84,8 @@ export async function derivePackageNextActions(input: ActionPackage, revisionId 
       destination: { section: 'documents', ...(finding.memberId ? { memberId: finding.memberId } : {}) },
     });
     if (operation === 'review') {
+      if (options.reviewBaseline) add({ id: 'review-baseline', kind: 'review', label: 'Return to the owning package workspace',
+        message: 'This view contains an exact saved review baseline. Use Return to package workspace before starting a new owning review.', blocking: true });
       if (record.archived) add({ id: 'review-archived', kind: 'inspection', label: 'Reopen the owning package',
         message: 'This archived package can be inspected, but must be reopened before starting a review.', blocking: true, destination: { section: 'overview' } });
       if (record.reviewRounds?.some(round => round.ownerPackageId === undefined)) add({ id: 'review-copy', kind: 'review', label: 'Return feedback to the owning package',

@@ -210,3 +210,17 @@ it('derives real review applicability from saved inputs while task-only changes 
   expect(action?.message).toMatch(/document input.*changed/);
   expect(record.reviewRounds![0]).toEqual(round);
 });
+
+it('keeps exact opened review projections separate from authority to start a new owning review', async () => {
+  const owner = await startPackageReview(await fixture()), baseline = owner.reviewRounds![0].baseline;
+  const projection = { ...owner, historyScope: 'selected-revision' as const, currentRevisionId: baseline.id, revisions: [baseline],
+    reviewRounds: undefined, reviewApplications: undefined, workingCopies: undefined };
+  const snapshot = JSON.stringify(projection);
+  const inspected = await derivePackageNextActions(projection, baseline.id, { operation: 'review', policy, reviewBaseline: true });
+  expect(inspected.readyForOperation).toBe(false);
+  expect(inspected.actions.find(action => action.id === 'review-baseline')).toMatchObject({ blocking: true, kind: 'review' });
+  expect(inspected.actions.some(action => action.id === 'prepare-review')).toBe(false);
+  expect(JSON.stringify(projection)).toBe(snapshot);
+  const portable = await derivePackageNextActions(projection, baseline.id, { operation: 'portable', policy, reviewBaseline: true });
+  expect(portable.actions.some(action => action.id === 'review-baseline')).toBe(false);
+});
