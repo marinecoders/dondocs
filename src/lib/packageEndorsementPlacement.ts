@@ -77,8 +77,8 @@ export async function measurePackageEndorsement(previousBytes: ArrayBuffer, next
     const [before, endorsement] = measured;
     if (!before || !endorsement) return fallback('Visible content could not be measured.');
     const targetTop = before.bottom - 24, targetBottom = targetTop - (endorsement.top - endorsement.bottom);
-    if (targetBottom < 54 || targetTop <= targetBottom) return fallback('The complete endorsement does not fit below the preceding signature page content.');
-    return { fits: true, reason: 'The entire unsigned native endorsement fits below measured signature-page content with a 24 pt separation and 54 pt bottom margin.',
+    if (targetBottom < 72 || targetTop <= targetBottom) return fallback('The complete endorsement does not fit below the preceding signature page content.');
+    return { fits: true, reason: 'The entire unsigned native endorsement fits below measured signature-page content with a 24 pt separation and 72 pt bottom margin.',
       previousBottom: before.bottom, sourceTop: endorsement.top, sourceBottom: endorsement.bottom, targetTop, targetBottom };
   } catch { signal.throwIfAborted(); return fallback('PDF geometry could not be qualified; the preserved new-page layout is used.'); }
   finally { clearTimeout(timeout); signal.removeEventListener('abort', stop); await Promise.allSettled(tasks.map(task => task.destroy())); }
