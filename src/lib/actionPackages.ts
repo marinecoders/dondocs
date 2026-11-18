@@ -11,6 +11,7 @@ import {
 import { scheduleBackup } from "@/stores/backupStore";
 import { packageRenderProvenanceSchema } from "./packageRenderProvenance";
 import { packageCitationsSchema, type PackageCitations } from "./packageCitationSchema";
+import { MAX_PACKAGE_INFORMATION_HISTORY_BYTES, packageInformationSchema } from "./packageInformation";
 
 import { supportsReviewComments } from "./reviewCommentTargets";
 import { reviewRoundSchema } from "./reviewRounds";
@@ -117,6 +118,7 @@ export const packageRevisionSchema = z
     members: z.array(packageMemberSchema).max(100),
     outputs: z.array(outputSchema).max(20),
     citations: packageCitationsSchema.optional(),
+    information: packageInformationSchema.optional(),
   })
   .strict();
 export type PackageRevision = z.infer<typeof packageRevisionSchema>;
@@ -252,9 +254,19 @@ export const actionPackageSchema = z
   })
   .strict()
   .superRefine((record, ctx) => {
+    let informationBytes = 0;
+    for (const revision of [...record.revisions, ...(record.reviewRounds ?? []).map(round => round.baseline)]) {
+      if (revision.information) informationBytes += new TextEncoder().encode(JSON.stringify(revision.information)).byteLength;
+      if (informationBytes > MAX_PACKAGE_INFORMATION_HISTORY_BYTES) {
+        ctx.addIssue({ code: "custom", message: "Retained package information exceeds the combined 8 MB limit." });
+        break;
+      }
+    }
     const seen = new Set<string>(),
       memberRevisions = new Map<string, string>(),
-      citationOwners = new Map<string, string>();
+      citationOwners = new Map<string, string>(),
+      informationFacts = new Map<string, string>(),
+      informationParticipants = new Map<string, string>();
     for (const [index, revision] of record.revisions.entries()) {
       if (
         seen.has(revision.id) ||
@@ -267,6 +279,18 @@ export const actionPackageSchema = z
           message: "Invalid package revision lineage.",
         });
       seen.add(revision.id);
+      for (const participant of revision.information?.participants ?? []) {
+        const prior = informationParticipants.get(participant.id);
+        if (prior !== undefined && prior !== participant.role)
+          ctx.addIssue({ code: "custom", message: "A package participant identity changed roles. Create a new participant identity." });
+        informationParticipants.set(participant.id, participant.role);
+      }
+      for (const fact of revision.information?.facts ?? []) {
+        const owner = JSON.stringify([fact.kind, fact.participantId ?? null]);
+        if (informationFacts.has(fact.id) && informationFacts.get(fact.id) !== owner)
+          ctx.addIssue({ code: "custom", message: "A package fact identity changed type or participant. Create a new fact identity." });
+        informationFacts.set(fact.id, owner);
+      }
       for (const target of revision.citations?.targets ?? []) {
         const owner = `${target.kind}:${target.memberId}`;
         if (citationOwners.has(target.id) && citationOwners.get(target.id) !== owner)
@@ -494,6 +518,7 @@ export async function reviseActionPackage(
     }),
     outputs: [],
     ...(citations ? { citations: structuredClone(citations) } : {}),
+    ...(getPackageRevision(record).information ? { information: structuredClone(getPackageRevision(record).information) } : {}),
   };
   return commitActionPackage(
     record,

@@ -10,6 +10,11 @@ import {
   type PolicyResolution,
 } from "./exportDeploymentPolicy";
 import type { ExportReview } from "./preparedExport";
+import { packageInformationText, type PackageInformation } from "./packageInformation";
+
+export function reviewPackageInformation(information: PackageInformation, policy: PolicyResolution): ExportReview {
+  return reviewPackageText(packageInformationText(information), "Package information and captured sources", policy);
+}
 
 /** Portable/native package review includes retained inactive values and discussion text. */
 export function reviewPackageNative(
