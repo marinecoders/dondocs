@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.144] — 2026-11-17
+
+### Added
+
+- Revision-owned evidence requirements and user declarations with separate review, PDF and editable-transfer checks.
+
 ## [1.3.143] — 2026-11-17
 
 ### Added

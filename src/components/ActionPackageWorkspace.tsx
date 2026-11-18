@@ -67,6 +67,7 @@ import { parseEncryptedShareFile, MAX_ENCRYPTED_SHARE_FILE_BYTES } from "@/lib/e
 import { ShareModal } from "./modals/ShareModal";
 import type { CorrespondenceRendererPorts } from "@/services/exports/correspondence";
 
+const PackageRequirementsPanel = lazy(() => import("./PackageRequirementsPanel").then(module => ({ default: module.PackageRequirementsPanel })));
 const PackageInformationPanel = lazy(() => import("./PackageInformationPanel").then(module => ({ default: module.PackageInformationPanel })));
 const AdministrativeRequestStarter = lazy(() => import("./AdministrativeRequestStarter").then(module => ({ default: module.AdministrativeRequestStarter })));
 const PackageTemplatePanel = lazy(() => import("./PackageTemplatePanel").then(module => ({ default: module.PackageTemplatePanel })));
@@ -128,6 +129,7 @@ function PackageDialog({
     operation.current?.signal.throwIfAborted();
   }
   function close() {
+    if (requirementsDirty) { setError("Save or discard the requirement changes before closing this package."); return; }
     if (starterDirty) { setError("Create or cancel the request starter before closing this package."); return; }
     if (informationDirty) { setError(UNSAVED_PACKAGE_INFORMATION); return; }
     if (typedDirty) { setError("Save or cancel the typed suggestion before closing this package review."); return; }
@@ -163,6 +165,10 @@ function PackageDialog({
   const validName = !!name.trim() && !nameTooLong;
   const [informationDirty, setInformationDirty] = useState(false);
   const [starterDirty, setStarterDirty] = useState(false);
+  const [requirementsDirty, setRequirementsDirty] = useState(false);
+  useEffect(() => {
+    if (!requirementsDirty) setError(previous => previous === "Save or discard the requirement changes before closing this package." ? "" : previous);
+  }, [requirementsDirty]);
   useEffect(() => {
     if (!starterDirty) setError(previous => previous === "Create or cancel the request starter before closing this package." ? "" : previous);
   }, [starterDirty]);
@@ -239,7 +245,7 @@ function PackageDialog({
   const beforeComparisonId = beforeOutputId || revision?.outputs.at(-2)?.id || "";
   const afterComparisonId = afterOutputId || revision?.outputs.at(-1)?.id || "";
   useEffect(() => {
-    if (typedDirty || informationDirty || starterDirty || !requestedPackageId && inventoryLoaded.current) return;
+    if (typedDirty || informationDirty || starterDirty || requirementsDirty || !requestedPackageId && inventoryLoaded.current) return;
     // A received selection supersedes work captured for the previous package.
     // Abort before loading inventory so late results cannot publish during that read.
     if (requestedPackageId) operation.current?.abort(RECEIVED_PACKAGE_SELECTION);
@@ -279,7 +285,7 @@ function PackageDialog({
     return () => {
       live = false;
     };
-  }, [requestedPackageId, requestedRevisionId, typedDirty, informationDirty, starterDirty, savedWorkspace]);
+  }, [requestedPackageId, requestedRevisionId, typedDirty, informationDirty, starterDirty, requirementsDirty, savedWorkspace]);
   useEffect(
     () => () => {
       if (pdfUrl) URL.revokeObjectURL(pdfUrl);
@@ -390,6 +396,7 @@ function PackageDialog({
     setOtherReviews([]);
     setApproved(false);
     setPrepared({
+      purpose: "pdf",
       revisionId: revision!.id,
       readiness: { state: "ready", findings: [] },
       reviews: [{ member: member.label, review }],
@@ -499,7 +506,7 @@ function PackageDialog({
         if (!value) close();
       }}
     >
-      <DialogContent className="sm:max-w-6xl" aria-busy={busy} showCloseButton={!typedDirty && !informationDirty && !starterDirty}>
+      <DialogContent className="sm:max-w-6xl" aria-busy={busy} showCloseButton={!typedDirty && !informationDirty && !starterDirty && !requirementsDirty}>
         <DialogHeader>
           <DialogTitle>Action packages</DialogTitle>
           <DialogDescription>
@@ -507,11 +514,11 @@ function PackageDialog({
             revision. Review linked citation reorders before saving a new revision.
           </DialogDescription>
         </DialogHeader>
-        <PackageWorkspaceNavigation active={workspaceSection} hasPackage={!!record} disabled={busy || typedDirty || starterDirty} onNavigate={navigate} />
+        <PackageWorkspaceNavigation active={workspaceSection} hasPackage={!!record} disabled={busy || typedDirty || starterDirty || requirementsDirty} onNavigate={navigate} />
         <div ref={overviewRef} tabIndex={-1} className="min-w-0 scroll-mt-4 space-y-4">
         {record && revision && <PackageWorkspaceSummary record={record} revision={revision} />}
         <Suspense fallback={<p>Loading request starter…</p>}>
-          <AdministrativeRequestStarter disabled={!loaded || typedDirty || informationDirty} busy={busy} run={run}
+          <AdministrativeRequestStarter disabled={!loaded || typedDirty || informationDirty || requirementsDirty} busy={busy} run={run}
             signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted}
             onDirtyChange={setStarterDirty} onCreate={value => { update(value); setNotice("Request package created. Review its letter and worksheet before submission."); }} />
         </Suspense>
@@ -525,7 +532,7 @@ function PackageDialog({
             {notice}
           </p>
         )}
-        <fieldset disabled={!loaded || busy || typedDirty || informationDirty || starterDirty} className="min-w-0 scroll-mt-4 space-y-4">
+        <fieldset disabled={!loaded || busy || typedDirty || informationDirty || starterDirty || requirementsDirty} className="min-w-0 scroll-mt-4 space-y-4">
           <legend className="mb-2 text-sm font-medium">Start or open a package</legend>
           <div className="grid min-w-0 gap-3 sm:grid-cols-2">
           <label className="block text-sm">
@@ -666,12 +673,17 @@ function PackageDialog({
           </details>
 
         </fieldset>
+        {record && revision && (revision.requirements !== undefined || !!revision.templateState) && <Suspense fallback={<p role="status">Loading evidence requirements…</p>}>
+          <PackageRequirementsPanel record={record} revision={revision} disabled={!editable || typedDirty || starterDirty || informationDirty}
+            busy={busy} run={run} onApply={update} onDirtyChange={setRequirementsDirty}
+            signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted} />
+        </Suspense>}
         {record && revision && <Suspense fallback={<p role="status">Loading package information…</p>}>
-          <PackageInformationPanel record={record} revision={revision} disabled={!editable || typedDirty || starterDirty} busy={busy} run={run} onApply={update}
+          <PackageInformationPanel record={record} revision={revision} disabled={!editable || typedDirty || starterDirty || requirementsDirty} busy={busy} run={run} onApply={update}
             onDirtyChange={setInformationDirty} signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted} />
         </Suspense>}
         </div>
-        <fieldset disabled={informationDirty || starterDirty} aria-label="Package documents, review and delivery" className="min-w-0 space-y-4">
+        <fieldset disabled={informationDirty || starterDirty || requirementsDirty} aria-label="Package documents, review and delivery" className="min-w-0 space-y-4">
 
           {record && revision && (
             <>
@@ -1163,7 +1175,7 @@ function PackageDialog({
               {prepared && (
                 <section className="space-y-3 rounded border p-3">
                   <h3 className="font-medium">
-                    Package readiness: {prepared.readiness.state}
+                    {prepared.purpose === "portable" ? "Editable transfer checks" : "Package readiness"}: {prepared.readiness.state}
                   </h3>
                   {[prepared, ...otherReviews].flatMap((result, group) =>
                     result.readiness.findings.map((finding, index) => (

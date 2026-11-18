@@ -84,7 +84,7 @@ async function download(page: Page, prepare: string, deliver: string) {
   });
   await modal.getByRole("button", { name: prepare, exact: true }).click();
   await expect(
-    modal.getByRole("heading", { name: /^Package readiness:/ }),
+    modal.getByRole("heading", { name: prepare === "Export editable package" ? /^Editable transfer checks:/ : /^Package readiness:/ }),
   ).toBeVisible();
   const pending = page.waitForEvent("download");
   await approve(page, deliver);

@@ -1,3 +1,4 @@
+import { MAX_PACKAGE_REQUIREMENTS_HISTORY_BYTES, packageRequirementsSchema } from "./packageRequirementsModel";
 import { packageRoles } from "./packageRoles";
 export { packageRoles } from "./packageRoles";
 import { z } from "zod";
@@ -124,6 +125,7 @@ export const packageRevisionSchema = z
     information: packageInformationSchema.optional(),
     bindings: packageFieldBindingsSchema.optional(),
     templateState: packageConditionalStateSchema.optional(),
+    requirements: packageRequirementsSchema.optional(),
   })
   .strict();
 export type PackageRevision = z.infer<typeof packageRevisionSchema>;
@@ -259,11 +261,15 @@ export const actionPackageSchema = z
   })
   .strict()
   .superRefine((record, ctx) => {
-    let informationBytes = 0, bindingBytes = 0, conditionalBytes = 0;
+    let informationBytes = 0, bindingBytes = 0, conditionalBytes = 0, requirementBytes = 0;
     for (const revision of [...record.revisions, ...(record.reviewRounds ?? []).map(round => round.baseline)]) {
       if (revision.templateState) conditionalBytes += new TextEncoder().encode(JSON.stringify(revision.templateState)).byteLength;
       if (conditionalBytes > MAX_CONDITIONAL_HISTORY_BYTES) {
         ctx.addIssue({ code: 'custom', message: 'Retained conditional intake exceeds the combined 16 MB limit.' }); break;
+      }
+      if (revision.requirements) requirementBytes += new TextEncoder().encode(JSON.stringify(revision.requirements)).byteLength;
+      if (requirementBytes > MAX_PACKAGE_REQUIREMENTS_HISTORY_BYTES) {
+        ctx.addIssue({ code: 'custom', message: 'Retained package requirements exceed the combined 8 MB limit.' }); break;
       }
       if (revision.bindings) bindingBytes += new TextEncoder().encode(JSON.stringify(revision.bindings)).byteLength;
       if (bindingBytes > MAX_PACKAGE_BINDING_HISTORY_BYTES) {
@@ -280,8 +286,14 @@ export const actionPackageSchema = z
       memberRevisions = new Map<string, string>(),
       citationOwners = new Map<string, string>(),
       informationFacts = new Map<string, string>(),
-      informationParticipants = new Map<string, string>();
+      informationParticipants = new Map<string, string>(), requirementIdentities = new Map<string, string>();
     for (const [index, revision] of record.revisions.entries()) {
+      for (const requirement of revision.requirements?.items ?? []) {
+        const identity = JSON.stringify([requirement.kind, requirement.definitionId, requirement.participantId]);
+        const prior = requirementIdentities.get(requirement.id);
+        if (prior !== undefined && prior !== identity) ctx.addIssue({ code: "custom", message: "A requirement identity changed its kind, definition or person." });
+        requirementIdentities.set(requirement.id, identity);
+      }
       if (
         seen.has(revision.id) ||
         (revision.parentId &&
@@ -537,6 +549,7 @@ export async function reviseActionPackage(
     ...(current.bindings ? { bindings: current.bindings } : {}),
     ...(current.templateState ? { templateState: current.templateState } : {}),
     ...(current.information ? { information: current.information } : {}),
+    ...(current.requirements ? { requirements: current.requirements } : {}),
   };
   return commitActionPackage(
     record,

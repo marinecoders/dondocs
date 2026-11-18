@@ -28,6 +28,7 @@ export async function packageInputFingerprint(revision: PackageRevision): Promis
     ...(revision.templateState ? { templateState: revision.templateState } : {}),
     ...(revision.bindings ? { bindings: revision.bindings } : {}),
     ...(revision.information ? { information: revision.information } : {}),
+    ...(revision.requirements ? { requirements: revision.requirements } : {}),
     members: revision.members.map(member => ({
       id: member.id,
       revisionId: member.revisionId,

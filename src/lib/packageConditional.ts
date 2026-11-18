@@ -1,3 +1,4 @@
+import { materializePackageRequirements } from './packageRequirementsModel';
 import { actionPackageSchema, commitActionPackage, getPackageRevision, listActionPackages, newPackageId, packageMemberLabel,
   type ActionPackage, type NativePackageMember, type PackageAsset, type PackageMember, type PackageRevision } from './actionPackages';
 import { packageTemplateV2Schema, type PackageTemplateV2 } from './packageTemplateSchema';
@@ -18,7 +19,7 @@ import { freshParagraphs } from './paragraphIdentity';
 import { sameReviewStoredValue, type StoredAttachment } from './documentsDb';
 import { portableResourceDigest } from './portableResources';
 import { base64ToUint8Array } from './encoding';
-import { reviewPackageBindings, reviewPackageInformation, reviewPackageNative, reviewPackageOriginal, reviewPackageText } from './actionPackageDisclosure';
+import { reviewPackageBindings, reviewPackageInformation, reviewPackageRequirements, reviewPackageNative, reviewPackageOriginal, reviewPackageText } from './actionPackageDisclosure';
 import { withAttachmentStaging } from './attachments';
 import { getExportDeploymentPolicy, getExportDeploymentPolicySync } from '@/config/classification';
 import { assertExportDeploymentPolicy, type PolicyResolution } from './exportDeploymentPolicy';
@@ -209,9 +210,11 @@ export async function saveConditionalPackageDraft(input: Pick<ConditionalPackage
   if (current?.templateState?.pending && sameReviewStoredValue(current.templateState.answers, answers) && name === before?.name)
     throw new Error('This intake draft is already saved.');
   const state = stateFor(template, source, answers, current?.templateState);
+  const requirements = materializePackageRequirements({ version: 1, items: conditionalRequirementSlots(template, answers, state).map(({ key: _key, ...item }) => item) }, current?.requirements);
+  reviewPackageRequirements(requirements, policy);
   await reviewConditionalTemplate(template, policy); reviewPackageText(conditionalStateText(state), 'Saved intake draft', policy); reviewPackageText(name, 'Package name', policy);
   const revision: PackageRevision = { ...(current ? own(current) : { members: [], outputs: [] }), id: newPackageId('revision'),
-    ...(current ? { parentId: current.id } : {}), createdAt: Date.now(), outputs: [], templateState: state };
+    ...(current ? { parentId: current.id } : {}), createdAt: Date.now(), outputs: [], templateState: state, requirements };
   return guardedCommit(before, buildRecord(before, name, revision), attachments, policy, signal, isCurrent);
 }
 
@@ -545,10 +548,11 @@ export async function prepareConditionalPackage(input: ConditionalPackageInput, 
     const fact = information.facts.find(fact => fact.id === mapping.factId);
     if (fact) mapping.appliedValue = fact.value;
   }
-  conditionalRequirementSlots(template, answers, state);
+  const requirements = materializePackageRequirements({ version: 1, items: conditionalRequirementSlots(template, answers, state).map(({ key: _key, ...item }) => item) }, current?.requirements);
+  reviews.push(reviewPackageRequirements(requirements, policy));
   const revision: PackageRevision = { ...(current ? own(current) : { members: [], outputs: [] }), id: newPackageId('revision'),
     ...(current ? { parentId: current.id } : {}), createdAt: Date.now(), members: ordered, information, bindings: { version: 1, items: keptBindings },
-    templateState: packageConditionalStateSchema.parse(state), outputs: [] };
+    templateState: packageConditionalStateSchema.parse(state), requirements, outputs: [] };
   const staged = new Map(attachments.map(asset => [asset.id, asset]));
   const planned = await captureLinkedPackageChanges(current ?? { id: 'initial', createdAt: 0, members: [], outputs: [] }, revision,
     input.fieldChoices ?? {}, policy, signal, async member => {
@@ -604,6 +608,7 @@ export async function undoConditionalPackage(receipt: ConditionalPackageUndo, po
   await reviewConditionalPackage(original, policy); reviewPackageText(captured.before.name, 'Package name', policy);
   if (original.information) reviewPackageInformation(original.information, policy);
   if (original.bindings) reviewPackageBindings(original.bindings, policy);
+  if (original.requirements) reviewPackageRequirements(original.requirements, policy);
   await reviewRestoredPackageSources(original, policy, signal);
   const revision = { ...own(original), id: newPackageId('revision'), parentId: captured.after.currentRevisionId, createdAt: Date.now(), outputs: [] };
   const record = await guardedCommit(captured.after, buildRecord(captured.after, captured.before.name, revision), [], policy, signal, isCurrent);

@@ -1,3 +1,4 @@
+import { packageRequirementsText, type PackageRequirements } from "./packageRequirementsModel";
 import { documentTextFields, type DocumentFieldSource } from "./documentFields";
 import type { SerializedSession } from "@/stores/documentStore";
 import { captureChangeReport, prepareChangeReport } from "./changeReport";
@@ -13,6 +14,10 @@ import type { ExportReview } from "./preparedExport";
 import { packageInformationText, type PackageInformation } from "./packageInformation";
 
 import { packageBindingsText, type PackageFieldBindings } from "./packageFieldBindings";
+
+export function reviewPackageRequirements(requirements: PackageRequirements, policy: PolicyResolution): ExportReview {
+  return reviewPackageText(packageRequirementsText(requirements), "Package evidence requirements and declared confirmations", policy);
+}
 
 export function reviewPackageBindings(bindings: PackageFieldBindings, policy: PolicyResolution): ExportReview {
   return reviewPackageText(packageBindingsText(bindings), "Package field links and retained values", policy);

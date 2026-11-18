@@ -7,7 +7,7 @@ import { comparePreparedPackageOutputs, MAX_PACKAGE_COMPARISON_BYTES, type Packa
 
 vi.mock("@/lib/actionPackageAssembly", () => ({ capturePreparedPackageComparison: vi.fn(), preparePackageAssembly: vi.fn() }));
 const digest = "a".repeat(64);
-const prepared = { revisionId: "revision", readiness: { state: "ready", findings: [] }, reviews: [] } as PreparedPackageAssembly;
+const prepared = { purpose: "pdf", revisionId: "revision", readiness: { state: "ready", findings: [] }, reviews: [] } as PreparedPackageAssembly;
 const evidence = (text = "same", width = 612, hasText = true): PackagePdfEvidence => ({ pages: [{ geometry: [0, 0, width, 792, 0, 1], textSha256: text, layoutSha256: text, hasText }] });
 async function fixture() {
   const revision: PackageRevision = { id: "revision", createdAt: 1, members: [{ id: "member", revisionId: "member-revision", role: "basic-letter", required: true,
