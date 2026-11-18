@@ -13,6 +13,8 @@ import { updatePackageInformation } from '@/lib/packageInformation';
 import { applyPreparedPackageUpdate, preparePackageUpdate, undoPackageUpdate } from '@/lib/packageUpdates';
 import { resolveExportDeploymentPolicy, type PolicyResolution } from '@/lib/exportDeploymentPolicy';
 import { extractPdfText } from '@/lib/pdfText';
+import { applyPreparedPackageAttachment, preparePackageAttachment } from '@/lib/packageAttachments';
+import { idbGetAllAttachments } from '@/lib/documentsDb';
 vi.mock('@/stores/backupStore', () => ({ scheduleBackup: vi.fn() }));
 vi.mock('react-pdf', async () => ({ pdfjs: await import('pdfjs-dist/legacy/build/pdf.mjs') }));
 vi.mock('@/components/pdf/pdfConfig', async () => {
@@ -66,4 +68,17 @@ it('refuses to restore an edited native PDF enclosure removed by a conditional b
   expect(getPackageRevision(applied.record).members).toHaveLength(1); currentPolicy = unclassified;
   await expect(undoConditionalPackage(applied.undo!, unclassified)).rejects.toThrow('configured levels');
   expect((await listActionPackages()).find(item => item.id === applied.record.id)).toEqual(applied.record);
+});
+
+it('checks actual supporting-file text before shared-value Undo under a stricter policy', async () => {
+  const initial = await createActionPackage(`Evidence Undo ${crypto.randomUUID()}`);
+  const file = { name: 'retained.txt', data: new TextEncoder().encode('Synthetic opening\nSECRET\nSynthetic retained evidence').buffer };
+  const attached = await applyPreparedPackageAttachment(await preparePackageAttachment(initial, file, secret), secret, true);
+  const source = await updatePackageInformation(attached, { version: 1, participants: [], facts: [{ id: 'public', label: 'Public fact', kind: 'text', value: 'Before', source: { kind: 'entered' } }] });
+  const information = structuredClone(getPackageRevision(source).information!); information.facts[0].value = 'After';
+  const applied = await applyPreparedPackageUpdate(await preparePackageUpdate(source, information, undefined, {}, secret), secret, true);
+  const before = await idbGetAllAttachments(); currentPolicy = unclassified;
+  await expect(undoPackageUpdate(applied.undo, unclassified)).rejects.toThrow('configured levels');
+  expect((await listActionPackages()).find(record => record.id === source.id)).toEqual(applied.record);
+  expect(await idbGetAllAttachments()).toEqual(before);
 });
