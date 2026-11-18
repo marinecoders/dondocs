@@ -37,14 +37,16 @@ export async function addPackageFrontMatter(body: PDFDocument, revision: Package
     const page = pdf.addPage([612, 792]);
     title.forEach((line, index) => page.drawText(line, { x: 54, y: 660 - index * 27, size: 20, font: bold }));
     page.drawText('Package cover', { x: 54, y: 710, size: 11, font });
-    page.drawText(`${capturedBoundaries.length} captured documents | ${settings.profile} assembly`, { x: 54, y: 570 - title.length * 27, size: 11, font });
+    page.drawText(`${capturedBoundaries.length} captured ${capturedBoundaries.length === 1 ? 'document' : 'documents'} | ${settings.profile} assembly`, { x: 54, y: 570 - title.length * 27, size: 11, font });
     page.drawText('Cover and contents use physical PDF positions. Document numbering stays with each member.', { x: 54, y: 70, size: 9, font });
   }
   const links: Array<{ page: import('pdf-lib').PDFPage; rect: number[]; target: number }> = [];
   for (const [index, plan] of plans.entries()) {
     const page = pdf.addPage([612, 792]);
     page.drawText(plans.length > 1 ? `Contents ${index + 1} of ${plans.length}` : 'Contents', { x: 48, y: 730, size: 18, font: bold });
-    page.drawText('Document                                        PDF page | printed start', { x: 48, y: 703, size: 10, font });
+    page.drawText('Document', { x: 48, y: 703, size: 10, font });
+    page.drawText('PDF page', { x: 492, y: 703, size: 9, font });
+    page.drawText('Printed start', { x: 454, y: 690, size: 8, font });
     let y = 675;
     for (const row of plan) {
       const boundary = boundaries.find(item => item.memberId === row.boundary.memberId)!;
