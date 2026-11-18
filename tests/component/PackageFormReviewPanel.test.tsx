@@ -18,7 +18,7 @@ it('posts a field-specific comment through the real package controller and suppo
   render(<Review initial={record} />);
   await user.click(screen.getByRole('button', { name: member.label }));
   const panel = await screen.findByRole('region', { name: 'Captured form field feedback' });
-  await user.selectOptions(within(panel).getByLabelText('Reviewed form field'), within(panel).getByRole('option', { name: 'Name' }));
+  await user.selectOptions(within(panel).getByLabelText('Reviewed form field'), await within(panel).findByRole('option', { name: 'Name' }));
   await within(panel).findByText('Reviewed answer: 000123');
   await user.type(within(panel).getByLabelText('Form comment reviewer name'), 'Alex Example');
   await user.type(within(panel).getByLabelText('Form field comment'), 'Confirm the fictional identifier.');
