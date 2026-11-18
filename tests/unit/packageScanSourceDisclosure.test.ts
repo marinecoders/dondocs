@@ -79,6 +79,10 @@ it('authenticates supplied scan bytes, validates every page count, and rejects c
   const source = await captureOriginalPackageMember({ name: 'Public source geometry.pdf', data: bytes }, 'basic-letter', false);
   const record = await reviseActionPackage(await createActionPackage(`Source geometry ${crypto.randomUUID()}`), [source]);
   const prepared = await preparePackageScan(record, source.id, secret), scan = prepared.scan;
+  const readAsset = vi.fn(async () => bytes);
+  const reviewed = await reviewPackageScanSources({ version: 1, items: [scan, { ...structuredClone(scan), id: 'second-scan-same-source' }] }, secret, { readAsset });
+  expect(readAsset).toHaveBeenCalledTimes(1); expect(readAsset).toHaveBeenCalledWith(scan.source);
+  expect(reviewed).toHaveLength(1); expect(reviewed[0].member).toContain(scan.source.name);
   const wrong = bytes.slice(0); new Uint8Array(wrong)[0] ^= 1;
   await expect(reviewPackageScanSources({ version: 1, items: [scan] }, secret, { readAsset: async () => wrong })).rejects.toThrow('captured bytes');
   const alteredPages = { ...structuredClone(scan), pages: [...scan.pages, { ...scan.pages[0], page: 2 }] };
