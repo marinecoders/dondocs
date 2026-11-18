@@ -1,5 +1,6 @@
 import { useEffect, useId, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { Button } from './ui/button';
+import { PackageChangeImpactSummary } from './PackageChangeImpactSummary';
 import { getExportDeploymentPolicy, getExportDeploymentPolicySync } from '@/config/classification';
 import { newPackageId, type ActionPackage, type PackageRevision } from '@/lib/actionPackages';
 import { packageFactSchema, packageInformationSchema, type PackageFact, type PackageFactSource, type PackageInformation, type PackageParticipant } from '@/lib/packageInformation';
@@ -338,6 +339,8 @@ export function PackageInformationPanel({ record, revision, disabled, busy, run,
       <h4 className="font-medium">Review package changes</h4>
       <p className="break-all text-xs text-muted-foreground">Based on saved revision {preview.revisionId}. Previous revisions and source documents are preserved.</p>
       {!fresh && <p role="status" className="text-sm">Decisions changed. Preview again before applying.</p>}
+      {preview.impact && <PackageChangeImpactSummary impact={preview.impact} disabled={locked} />}
+      {!preview.impact && !preview.ready && <p className="text-xs text-muted-foreground">Resolve the field decisions and preview again to see complete package impact.</p>}
       {preview.changes.length === 0 && <p className="text-sm">Package information changes only; no linked document fields change.</p>}
       {preview.changes.map(change => <article key={change.bindingId} className="min-w-0 space-y-2 border-t pt-2 text-sm">
         <p className="break-words font-medium">{revision.members.find(member => member.id === change.memberId)?.label ?? 'Unavailable document'} · {change.label}</p>

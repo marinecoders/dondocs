@@ -69,6 +69,7 @@ import { ShareModal } from "./modals/ShareModal";
 import type { CorrespondenceRendererPorts } from "@/services/exports/correspondence";
 
 const PackageInformationPanel = lazy(() => import("./PackageInformationPanel").then(module => ({ default: module.PackageInformationPanel })));
+const PackageChangeImpactPanel = lazy(() => import("./PackageChangeImpactPanel").then(module => ({ default: module.PackageChangeImpactPanel })));
 const PackageConsistencyPanel = lazy(() => import("./PackageConsistencyPanel").then(module => ({ default: module.PackageConsistencyPanel })));
 const PackageIntakePanel = lazy(() => import("./PackageIntakePanel").then(module => ({ default: module.PackageIntakePanel })));
 const PackageRequirementsPanel = lazy(() => import("./PackageRequirementsPanel").then(module => ({ default: module.PackageRequirementsPanel })));
@@ -209,6 +210,7 @@ function PackageDialog({
   const [beforeOutputId, setBeforeOutputId] = useState(""),
     [afterOutputId, setAfterOutputId] = useState(""),
     [renderComparison, setRenderComparison] = useState<PackageRenderComparison | null>(null);
+  const [selectedRetainedOutputId, setSelectedRetainedOutputId] = useState("");
   const [otherReviews, setOtherReviews] = useState<PreparedPackageAssembly[]>(
     [],
   );
@@ -228,26 +230,50 @@ function PackageDialog({
   const editable =
     !!record && !record.reviewRounds?.some(round => round.ownerPackageId === undefined) && !openedReview && revision?.id === record.currentRevisionId && !record.archived;
   const selectedMember = revision?.members.find(member => member.id === activeMemberId) ?? revision?.members[0];
+  const selectedRetainedOutput = selectedRetainedOutputId
+    ? revision?.outputs.find(output => output.id === selectedRetainedOutputId) : revision?.outputs.at(-1);
+  const missingRetainedOutput = !!selectedRetainedOutputId && !selectedRetainedOutput;
   const selectionOwner = `${record?.id ?? ''}:${record?.sequence ?? ''}:${revision?.id ?? ''}:${openedReview?.id ?? ''}`;
   useLayoutEffect(() => { destinationOwner.current = selectionOwner; }, [selectionOwner]);
   function followDestination(target: PackageDestination) {
     if (!active.current || destinationOwner.current !== selectionOwner || !record || !revision) return;
     if (busy || pendingPackageEdits) { setError("Save or discard package edits before following a finding."); return; }
+    if (target.reviewRoundId) {
+      const round = record.reviewRounds?.find(item => item.id === target.reviewRoundId);
+      if (!round || target.revisionId && round.revisionId !== target.revisionId) { setNotice("That exact review is not included in this package."); return; }
+      const owner = selectionOwner;
+      void run(async () => {
+        const latest = (await listActionPackages()).find(item => item.id === record.id);
+        if (!latest) throw new Error("This saved package is unavailable.");
+        const captured = await openPackageReview(latest, round.id);
+        assertOperationCurrent();
+        if (destinationOwner.current !== owner) return;
+        update(latest); setOpenedReview(captured); setRevisionId(captured.revisionId); setWorkspaceSection("review");
+        setDestination({ ...target, section: "review", packageId: latest.id, revisionId: captured.revisionId, requestId: ++destinationSequence.current });
+      });
+      return;
+    }
     const selected = !target.revisionId || target.revisionId === revision.id ? revision : record.revisions.find(item => item.id === target.revisionId);
     if (!selected) { setNotice("That saved revision is not included in this package."); return; }
     const binding = target.bindingId && selected.bindings?.items.find(item => item.id === target.bindingId);
     const valid = target.bindingId ? !!binding && (!target.factId || binding.factId === target.factId) && (!target.memberId || binding.memberId === target.memberId)
       : target.factId ? !!selected.information?.facts.some(item => item.id === target.factId)
         : target.requirementId ? !!selected.requirements?.items.some(item => item.id === target.requirementId)
-          : target.memberId ? selected.members.some(item => item.id === target.memberId) : true;
+          : target.outputId ? selected.outputs.some(item => item.id === target.outputId)
+            : target.citationId ? !!selected.citations && [...selected.citations.targets, ...selected.citations.links].some(item => item.id === target.citationId)
+              : target.memberId ? selected.members.some(item => item.id === target.memberId) : true;
     if (!valid) { setNotice("That item is not available in the selected saved revision."); return; }
     if (selected.id !== revision.id) {
       setOpenedReview(null); setRevisionId(selected.id); setPrepared(null); setApproved(false); setComparison(null);
       setRenderComparison(null); setBeforeOutputId(""); setAfterOutputId(""); setPdfUrl("");
+      setSelectedRetainedOutputId("");
+    }
+    if (target.outputId) {
+      setSelectedRetainedOutputId(target.outputId); setPrepared(null); setApproved(false); setPdfUrl("");
     }
     if (target.memberId && !target.factId && !target.bindingId && !target.requirementId) setActiveMemberId(target.memberId);
     const section = target.factId || target.bindingId || target.requirementId || target.panel ? "overview"
-      : target.section ?? (target.memberId ? "documents" : "overview");
+      : target.outputId ? "delivery" : target.citationId ? "documents" : target.section ?? (target.memberId ? "documents" : "overview");
     setWorkspaceSection(section);
     setNotice("");
     setDestination({ ...target, section, packageId: record.id, revisionId: selected.id, requestId: ++destinationSequence.current });
@@ -255,6 +281,9 @@ function PackageDialog({
   useEffect(() => {
     if (!destination || record?.id !== destination.packageId || revision?.id !== destination.revisionId) return;
     if (destination.factId || destination.bindingId || destination.requirementId) return;
+    if (destination.citationId) return; // Citation identities load asynchronously in their panel.
+    if (destination.outputId) { focusPackageDestination(dialogRoot.current, 'data-package-output-id', destination.outputId); return; }
+    if (destination.reviewRoundId) { focusPackageDestination(dialogRoot.current, 'data-package-review-id', destination.reviewRoundId); return; }
     if (destination.panel) { focusPackageDestination(dialogRoot.current, 'data-package-panel', destination.panel); return; }
     const target = destination.memberId
       ? document.getElementById(`package-member-${destination.memberId}`)
@@ -326,6 +355,7 @@ function PackageDialog({
             setPdfUrl("");
             setBeforeOutputId("");
             setAfterOutputId("");
+            setSelectedRetainedOutputId("");
             setRenderComparison(null);
             useUIStore.getState().clearActionPackageSelection();
           }
@@ -358,6 +388,7 @@ function PackageDialog({
     setApproved(false);
     setBeforeOutputId("");
     setAfterOutputId("");
+    setSelectedRetainedOutputId("");
     setRenderComparison(null);
   }
   function update(value: ActionPackage) {
@@ -413,6 +444,7 @@ function PackageDialog({
   }
   async function review(mode: typeof reviewMode) {
     if (!record || !revision) return;
+    if (mode === "saved" || mode === "preview") requireRetainedOutput();
     if (mode === "compare") {
       if (!beforeComparisonId || !afterComparisonId || beforeComparisonId === afterComparisonId)
         throw new Error("Choose two different retained PDFs from this revision.");
@@ -462,6 +494,12 @@ function PackageDialog({
       URL.createObjectURL(new Blob([bytes], { type: "application/pdf" })),
     );
   }
+  function requireRetainedOutput() {
+    if (!selectedRetainedOutput) throw new Error(selectedRetainedOutputId
+      ? "The selected retained PDF is no longer included in this saved revision. Choose another retained PDF."
+      : "This revision has no retained PDF.");
+    return selectedRetainedOutput;
+  }
   async function deliver() {
     if (!record || !revision || !prepared || !approved) return;
     assertOperationCurrent();
@@ -506,26 +544,17 @@ function PackageDialog({
       setNotice(
         "Editable package downloaded, including the selected revision and its original files.",
       );
-    } else if (reviewMode === "preview") {
-      const output = revision.outputs.at(-1);
-      if (!output) throw new Error("This revision has no retained PDF.");
-      setPdfUrl(
-        URL.createObjectURL(
-          new Blob([copyPreparedPackageOutput(prepared, output.asset.id)], {
-            type: "application/pdf",
-          }),
-        ),
-      );
-    } else if (reviewMode === "saved") {
-      const output = revision.outputs.at(-1);
-      if (!output)
-        throw new Error("This revision has no retained assembled PDF.");
-      triggerDownload(
-        new Uint8Array(copyPreparedPackageOutput(prepared, output.asset.id)),
-        output.asset.name,
-        output.asset.type,
-      );
-      setNotice(`Retained PDF downloaded. SHA-256: ${output.asset.sha256}`);
+    } else if (reviewMode === "preview" || reviewMode === "saved") {
+      const output = requireRetainedOutput();
+      assertPreparedPackagePolicy(prepared, await getExportDeploymentPolicy());
+      assertOperationCurrent();
+      assertPreparedPackagePolicy(prepared, getExportDeploymentPolicySync());
+      const bytes = copyPreparedPackageOutput(prepared, output.asset.id);
+      if (reviewMode === "preview") setPdfUrl(URL.createObjectURL(new Blob([bytes], { type: "application/pdf" })));
+      else {
+        triggerDownload(new Uint8Array(bytes), output.asset.name, output.asset.type);
+        setNotice(`Retained PDF downloaded. SHA-256: ${output.asset.sha256}`);
+      }
     } else {
       const release = exportGate.acquire();
       if (!release)
@@ -545,6 +574,7 @@ function PackageDialog({
       update(updated);
       const output = getPackageRevision(updated, revision.id).outputs.at(-1)!;
       setRevisionId(revision.id);
+      setSelectedRetainedOutputId(output.id);
       await previewAsset(output.asset);
       setNotice(`Assembled PDF retained. SHA-256: ${output.asset.sha256}`);
     }
@@ -559,7 +589,7 @@ function PackageDialog({
         if (!value) close();
       }}
     >
-      <DialogContent ref={dialogRoot} className="sm:max-w-6xl" aria-busy={busy} showCloseButton={!typedDirty && !informationDirty && !starterDirty && !intakeDirty && !requirementsDirty && !consistencyDirty}>
+      <DialogContent ref={dialogRoot} className="p-3 sm:max-w-6xl sm:p-6" aria-busy={busy} showCloseButton={!typedDirty && !informationDirty && !starterDirty && !intakeDirty && !requirementsDirty && !consistencyDirty}>
         <DialogHeader>
           <DialogTitle>Action packages</DialogTitle>
           <DialogDescription>
@@ -617,7 +647,9 @@ function PackageDialog({
                     setDestination(undefined);
                     setOpenedReview(null);
                     setRevisionId(event.target.value);
+                    setSelectedRetainedOutputId("");
                     setPrepared(null);
+                    setApproved(false);
                     setComparison(null);
                     setPdfUrl("");
                     setBeforeOutputId("");
@@ -754,6 +786,13 @@ function PackageDialog({
                 signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted} />
             </Suspense>
           </div>
+        </details>}
+        {readRecord && revision && <details className="min-w-0 rounded border p-2 sm:p-3">
+          <summary className="cursor-pointer text-sm font-medium">Change impact</summary>
+          <div className="pt-3"><Suspense fallback={<p role="status">Loading change impact…</p>}>
+            <PackageChangeImpactPanel record={readRecord} revision={revision} disabled={pendingPackageEdits} busy={busy} run={run}
+              onNavigate={followDestination} signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted} />
+          </Suspense></div>
         </details>}
         {record && revision && <Suspense fallback={<p role="status">Loading package information…</p>}>
           <PackageInformationPanel record={record} revision={revision} disabled={!editable || typedDirty || starterDirty || intakeDirty || requirementsDirty || consistencyDirty} busy={busy} run={run} onApply={update}
@@ -1195,6 +1234,22 @@ function PackageDialog({
                 </section>
               )}
               <div ref={deliveryRef} tabIndex={-1} className="flex scroll-mt-4 flex-wrap gap-2">
+                {(revision.outputs.length > 1 || missingRetainedOutput) && <label className="w-full min-w-0 text-sm sm:max-w-xl">
+                  Retained PDF to open
+                  <select aria-label="Retained PDF to open" disabled={busy || pendingPackageEdits}
+                    className="mt-1 w-full min-w-0 rounded border bg-background p-2"
+                    value={selectedRetainedOutputId || selectedRetainedOutput?.id || ""}
+                    onChange={event => {
+                      if (busy || pendingPackageEdits) return;
+                      setSelectedRetainedOutputId(event.target.value); setPrepared(null); setApproved(false); setPdfUrl(""); setNotice(""); setError("");
+                    }}>
+                    {missingRetainedOutput && <option value={selectedRetainedOutputId}>Selected PDF unavailable</option>}
+                    {revision.outputs.map((output, index) => <option key={output.id} value={output.id}>
+                      Saved PDF {index + 1} · {output.asset.name}{index === revision.outputs.length - 1 ? " (latest)" : ""}
+                    </option>)}
+                  </select>
+                </label>}
+                {missingRetainedOutput && <p role="alert" className="w-full break-words text-sm text-destructive">The selected retained PDF is no longer included in this saved revision. Choose another retained PDF.</p>}
                 <Button disabled={!!openedReview} onClick={() => void run(() => review("assemble"))}>
                   Check readiness and assemble
                 </Button>
@@ -1208,12 +1263,14 @@ function PackageDialog({
                   <>
                     <Button
                       variant="outline"
+                      disabled={!selectedRetainedOutput}
                       onClick={() => void run(() => review("saved"))}
                     >
                       Download retained PDF
                     </Button>
                     <Button
                       variant="outline"
+                      disabled={!selectedRetainedOutput}
                       onClick={() => void run(() => review("preview"))}
                     >
                       Preview retained PDF
@@ -1221,7 +1278,7 @@ function PackageDialog({
                   </>
                 )}
               </div>
-              <PackageCitations key={`citations:${record.id}:${revision.id}`} record={record} revision={revision} editable={editable}
+              <PackageCitations key={`citations:${record.id}:${revision.id}`} record={record} revision={revision} editable={editable} destination={destination}
                 onChange={action => void run(async () => update(await action(operation.current?.signal)))} />
               <PackageCitationReorder key={`reorder-${record.id}:${revision.id}:${record.sequence}`} record={record} revision={revision} editable={editable} prepared={citationReorder}
                 onPrepare={value => void run(() => prepareCitationReorder(value))} onDiscard={() => setCitationReorder(null)}
@@ -1329,7 +1386,7 @@ function PackageDialog({
                 </section>
               )}
               {revision.outputs.map((output) => (
-                <div key={output.id} className="break-all space-y-1 text-xs">
+                <div key={output.id} tabIndex={-1} data-package-output-id={output.id} className="break-all space-y-1 text-xs">
                   <p>
                     Retained output {output.id} · SHA-256 {output.asset.sha256}
                   </p>
@@ -1366,8 +1423,8 @@ function PackageDialog({
                     }
                   >
                     <RetainedPdfViewer
-                      key={`package:${record.id}:${revision.id}:${revision.outputs.at(-1)?.id}`}
-                      documentId={`package:${record.id}:${revision.id}:${revision.outputs.at(-1)?.id}`}
+                      key={`package:${record.id}:${revision.id}:${selectedRetainedOutput?.id}`}
+                      documentId={`package:${record.id}:${revision.id}:${selectedRetainedOutput?.id}`}
                       pdfUrl={pdfUrl}
                       showFullscreen={false}
                       toolbarLabel="Retained package PDF"

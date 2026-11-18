@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
 import { Button } from './ui/button';
+import { PackageChangeImpactSummary } from './PackageChangeImpactSummary';
 import type { PreparedConditionalPackage } from '@/lib/packageConditional';
 import type { PackageUpdateChoice, PackageUpdateChoices } from '@/lib/packageUpdates';
 
@@ -41,6 +42,8 @@ export function PackageIntakePreview({ preview, fresh, disabled, reviewed, membe
       <p className="text-sm text-muted-foreground">Documents change only when you apply this preview. Saved revisions and independent work remain available.</p>
       {!fresh && <p role="status" className="text-sm">Answers or decisions changed. Preview again before applying.</p>}
     </div>
+    {preview.impact && <PackageChangeImpactSummary impact={preview.impact} disabled={disabled} />}
+    {!preview.impact && !preview.ready && <p className="text-xs text-muted-foreground">Complete the outstanding answers or decisions, then preview again for package impact.</p>}
     {!!preview.answerChanges?.length && <section aria-label="Shared answer changes" className="space-y-3">
       <h5 className="text-sm font-medium">Shared answers</h5>
       {preview.answerChanges.slice(0, answerCount).map((change, index) => <article key={change.key} className="min-w-0 space-y-2 border-t pt-2 text-sm">

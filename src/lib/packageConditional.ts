@@ -21,6 +21,7 @@ import { portableResourceDigest } from './portableResources';
 import { base64ToUint8Array } from './encoding';
 import { reviewPackageBindings, reviewPackageInformation, reviewPackageRequirements, reviewPackageNative, reviewPackageOriginal, reviewPackageText, reviewPackageConsistency } from './actionPackageDisclosure';
 import { withAttachmentStaging } from './attachments';
+import { comparePackageChangeImpact, type PackageChangeImpact } from './packageChangeImpact';
 import { getExportDeploymentPolicy, getExportDeploymentPolicySync } from '@/config/classification';
 import { assertExportDeploymentPolicy, type PolicyResolution } from './exportDeploymentPolicy';
 import type { ExportReview } from './preparedExport';
@@ -50,6 +51,7 @@ export interface PreparedConditionalPackage {
   readonly answerChanges: readonly ConditionalAnswerChange[];
   readonly fieldChanges: readonly PackageUpdatePreview[];
   readonly issues: readonly string[]; readonly reviews: readonly ExportReview[];
+  readonly impact?: PackageChangeImpact;
 }
 export interface ConditionalPackageUndo { readonly packageId: string; readonly appliedRevisionId: string }
 interface Capture { before: ActionPackage | null; after?: ActionPackage; attachments: StoredAttachment[]; policy: string }
@@ -583,7 +585,8 @@ export async function prepareConditionalPackage(input: ConditionalPackageInput, 
   const changed = !current || !sameReviewStoredValue({ ...current, id: undefined, parentId: undefined, createdAt: undefined, outputs: [] },
     { ...planned.revision, id: undefined, parentId: undefined, createdAt: undefined, outputs: [] }) || name !== before?.name;
   const prepared = freeze({ packageName: name, ready: !issues.length, changed, changes: own(changes), answerChanges: own(reconciled.changes),
-    fieldChanges: own(fieldChanges), issues: [...issues], reviews: [...own(reviews), ...own(planned.reviews)] });
+    fieldChanges: own(fieldChanges), issues: [...issues], reviews: [...own(reviews), ...own(planned.reviews)],
+    ...(current && !issues.length ? { impact: await comparePackageChangeImpact(current, planned.revision, { reviewRounds: before?.reviewRounds, retainedRevisions: before?.revisions.filter(item => item.outputs.length), packageId: before?.id, signal }) } : {}) });
   plans.set(prepared, { before, after, attachments: [...attachments, ...planned.attachments].filter(asset =>
     after.revisions.some(revision => revision.members.some(member => member.kind === 'native' && (member.draft.id === asset.id || Object.values(member.templates ?? {}).some(template => template.id === asset.id))
       || member.kind === 'original' && member.original.id === asset.id) || revision.templateState?.source.id === asset.id)), policy: policyKey });
