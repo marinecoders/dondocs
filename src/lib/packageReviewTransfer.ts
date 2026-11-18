@@ -71,6 +71,10 @@ export async function parsePackageReviewReturn(json: string, owner: ActionPackag
 export async function inspectPackageReviewTransfer(parsed: Pick<ParsedPackageReviewTransfer, 'record' | 'round' | 'resources'>, policy: PolicyResolution): Promise<ExportReview[]> {
   const { record, round, resources } = parsed;
   const reviews = [reviewPackageReviewMetadata(round, policy), reviewPackageText(`${record.id}\n${record.name}`, 'Package review identity', policy)];
+  if (round.baseline.templateState) {
+    const { reviewConditionalPackage } = await import('./packageConditionalSources');
+    reviews.push(...await reviewConditionalPackage(round.baseline, policy, async asset => resources.get(`assets/${asset.id}`)!.data));
+  }
   for (const member of round.baseline.members) {
     if (member.kind === 'native') {
       const retained = JSON.parse(new TextDecoder('utf-8', { fatal: true }).decode(resources.get(`assets/${member.draft.id}`)!.data));
@@ -103,6 +107,9 @@ async function prepareBuild(input: ActionPackage, roundId: string, mode: 'copy' 
   const before = actionPackageSchema.parse(structuredClone(input));
   const round = await openPackageReview(before, roundId); assertActivePackageReview(round);
   if (mode === 'copy' && round.ownerPackageId !== before.id) throw new Error('Only the owning package can prepare a reviewer copy.');
+  const { conditionalMembershipFindings } = await import('./packageConditionalSources');
+  const incomplete = conditionalMembershipFindings(round.baseline);
+  if (incomplete.length) throw new Error(incomplete.map(finding => finding.message).join(' '));
   const children = await Promise.all(round.baseline.members.map(member => round.memberReviews?.find(child => child.binding.memberId === member.id) ?? createPackageMemberReview(round, member.id)));
   const portableRound = { ...round, ownerPackageId: undefined, memberReviews: children };
   const record = actionPackageSchema.parse({ ...before, archived: false, historyScope: 'selected-revision',

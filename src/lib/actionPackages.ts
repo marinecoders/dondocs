@@ -11,6 +11,7 @@ import {
 import { scheduleBackup } from "@/stores/backupStore";
 import { packageRenderProvenanceSchema } from "./packageRenderProvenance";
 import { packageCitationsSchema, type PackageCitations } from "./packageCitationSchema";
+import { MAX_CONDITIONAL_HISTORY_BYTES, packageConditionalStateSchema } from './packageConditionalState';
 import { MAX_PACKAGE_INFORMATION_HISTORY_BYTES, packageInformationSchema } from "./packageInformation";
 
 import { MAX_PACKAGE_BINDING_HISTORY_BYTES, packageFieldBindingsSchema } from "./packageFieldBindings";
@@ -122,6 +123,7 @@ export const packageRevisionSchema = z
     citations: packageCitationsSchema.optional(),
     information: packageInformationSchema.optional(),
     bindings: packageFieldBindingsSchema.optional(),
+    templateState: packageConditionalStateSchema.optional(),
   })
   .strict();
 export type PackageRevision = z.infer<typeof packageRevisionSchema>;
@@ -257,8 +259,12 @@ export const actionPackageSchema = z
   })
   .strict()
   .superRefine((record, ctx) => {
-    let informationBytes = 0, bindingBytes = 0;
+    let informationBytes = 0, bindingBytes = 0, conditionalBytes = 0;
     for (const revision of [...record.revisions, ...(record.reviewRounds ?? []).map(round => round.baseline)]) {
+      if (revision.templateState) conditionalBytes += new TextEncoder().encode(JSON.stringify(revision.templateState)).byteLength;
+      if (conditionalBytes > MAX_CONDITIONAL_HISTORY_BYTES) {
+        ctx.addIssue({ code: 'custom', message: 'Retained conditional intake exceeds the combined 16 MB limit.' }); break;
+      }
       if (revision.bindings) bindingBytes += new TextEncoder().encode(JSON.stringify(revision.bindings)).byteLength;
       if (bindingBytes > MAX_PACKAGE_BINDING_HISTORY_BYTES) {
         ctx.addIssue({ code: "custom", message: "Retained package field links exceed the combined 8 MB limit." });
@@ -441,6 +447,7 @@ export function packageAssets(record: ActionPackage): PackageAsset[] {
         : [member.draft, ...Object.values(member.templates ?? {})],
     ),
     ...revision.outputs.map((output) => output.asset),
+    ...(revision.templateState ? [revision.templateState.source] : []),
   ]);
 }
 export function packageDefinitions(records: ActionPackage[]) {
@@ -528,6 +535,7 @@ export async function reviseActionPackage(
     outputs: [],
     ...(citations ? { citations: structuredClone(citations) } : {}),
     ...(current.bindings ? { bindings: current.bindings } : {}),
+    ...(current.templateState ? { templateState: current.templateState } : {}),
     ...(current.information ? { information: current.information } : {}),
   };
   return commitActionPackage(

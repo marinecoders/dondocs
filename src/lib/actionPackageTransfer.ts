@@ -229,6 +229,8 @@ export async function validateActionPackageResources(
     )
       throw new Error(`Missing or corrupt package content: ${asset.name}.`);
   }
+  const { validateConditionalPackageStates } = await import('./packageConditionalSources');
+  await validateConditionalPackageStates(owned, read);
   for (const revision of owned.revisions) {
     for (const member of revision.members) {
       if (member.kind === "original") {
