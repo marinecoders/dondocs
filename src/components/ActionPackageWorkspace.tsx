@@ -1,3 +1,4 @@
+import type { PackageSearchScope } from './PackageSearchPanel';
 import { PackageReviewControls } from "./PackageReviewControls";
 import { PackageMemberNavigation, PackageWorkspaceNavigation, PackageWorkspaceSummary } from "./PackageWorkspaceNavigation";
 import { readPackageWorkspaceContext, rememberPackageWorkspaceContext, type PackageWorkspaceSection } from "@/lib/packageWorkspaceContext";
@@ -73,6 +74,7 @@ const PackageDeliveryPanel = lazy(() => import("./PackageDeliveryPanel").then(mo
 const PackageAssemblyPanel = lazy(() => import("./PackageAssemblyPanel").then(module => ({ default: module.PackageAssemblyPanel })));
 const PackageOutputNavigation = lazy(() => import("./PackageOutputNavigation").then(module => ({ default: module.PackageOutputNavigation })));
 const PackageSigningPanel = lazy(() => import("./PackageSigningPanel").then(module => ({ default: module.PackageSigningPanel })));
+const PackageSearchPanel = lazy(() => import("./PackageSearchPanel").then(module => ({ default: module.PackageSearchPanel })));
 const PackageEvidencePanel = lazy(() => import("./PackageEvidencePanel").then(module => ({ default: module.PackageEvidencePanel })));
 const PackageInformationPanel = lazy(() => import("./PackageInformationPanel").then(module => ({ default: module.PackageInformationPanel })));
 const PackageWorkPanel = lazy(() => import("./PackageWorkPanel").then(module => ({ default: module.PackageWorkPanel })));
@@ -198,6 +200,8 @@ function PackageDialog({
     if (!workDirty) setError(previous => previous === "Save or discard the task changes before closing this package." ? "" : previous);
   }, [workDirty]);
   const [evidenceDirty, setEvidenceDirty] = useState(false);
+  const deliverySearchEpoch = useRef(0);
+  const [deliverySearch, setDeliverySearch] = useState<{ owner: string; scope: PackageSearchScope }>();
   useEffect(() => { if (!evidenceDirty) setError(previous => previous === "Add or discard the prepared evidence file before closing this package." ? "" : previous); }, [evidenceDirty]);
   const pendingPackageEdits = evidenceDirty || assemblyDirty || signingDirty || workDirty || typedDirty || informationDirty || starterDirty || intakeDirty || requirementsDirty || consistencyDirty;
   useEffect(() => {
@@ -853,6 +857,14 @@ function PackageDialog({
             destination={destination}
             onDirtyChange={setInformationDirty} signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted} />
         </Suspense>}
+        {readRecord && revision && <details className="min-w-0 rounded border p-2 sm:p-3">
+          <summary className="cursor-pointer text-sm font-medium">Search captured package</summary>
+          <div className="min-w-0 pt-3"><Suspense fallback={<p role="status">Opening captured package search…</p>}>
+            <PackageSearchPanel record={readRecord} revision={revision} disabled={pendingPackageEdits} busy={busy} run={run} onNavigate={followDestination}
+              delivery={deliverySearch?.owner === selectionOwner ? deliverySearch.scope : undefined}
+              signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted} />
+          </Suspense></div>
+        </details>}
         {readRecord && revision && <details className="min-w-0 rounded border p-2 sm:p-3">
           <summary className="cursor-pointer text-sm font-medium">Assembly layout{assemblyDirty ? " · unsaved settings" : ""}</summary>
           <div className="min-w-0 pt-3"><Suspense fallback={<p role="status">Opening assembly settings…</p>}>
@@ -1519,6 +1531,23 @@ function PackageDialog({
           <summary className="cursor-pointer text-sm font-medium">Recipient delivery</summary>
           <div className="min-w-0 pt-3"><Suspense fallback={<p role="status">Opening recipient delivery…</p>}>
             <PackageDeliveryPanel record={record} revision={revision} disabled={pendingPackageEdits} ports={ports}
+              onPreparedChange={prepared => {
+                if (!active.current || destinationOwner.current !== selectionOwner) return;
+                const epoch = ++deliverySearchEpoch.current;
+                if (!prepared) { setDeliverySearch(undefined); return; }
+                if (prepared.sourcePackageId !== record.id || prepared.sourceRevisionId !== revision.id) return;
+                void import("@/lib/packageDelivery").then(({ copyPreparedPackageDeliveryProjection, readPreparedPackageDeliveryAsset, assertPackageDeliveryCurrent }) => {
+                  if (!active.current || deliverySearchEpoch.current !== epoch || destinationOwner.current !== selectionOwner) return;
+                  setDeliverySearch({ owner: selectionOwner, scope: { key: prepared.revisionId, label: prepared.packageName,
+                    record: copyPreparedPackageDeliveryProjection(prepared), revisionId: prepared.revisionId, sourceRevisionId: revision.id,
+                    readAsset: async asset => {
+                      const current = () => active.current && deliverySearchEpoch.current === epoch && destinationOwner.current === selectionOwner;
+                      if (!current()) throw new Error('This captured delivery is no longer selected. Prepare it again.');
+                      await assertPackageDeliveryCurrent(prepared, await getExportDeploymentPolicy(), undefined, current);
+                      return readPreparedPackageDeliveryAsset(prepared, asset);
+                    } } });
+                }).catch(cause => { if (active.current && deliverySearchEpoch.current === epoch && destinationOwner.current === selectionOwner) setError(cause instanceof Error ? cause.message : "Delivery search could not be prepared."); });
+              }}
               busy={busy} run={run} signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted} />
           </Suspense></div>
         </details>}
