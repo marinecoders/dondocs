@@ -14,9 +14,10 @@ export function PackageWorkspaceNavigation({ active, hasPackage, disabled, onNav
   disabled: boolean;
   onNavigate(section: PackageWorkspaceSection): void;
 }) {
-  return <nav aria-label="Package workspace" className="flex min-w-0 flex-wrap gap-1 border-b pb-3">
+  return <nav aria-label="Package workspace" className="grid min-w-0 grid-cols-4 gap-1 border-b pb-3 sm:flex sm:flex-wrap">
     {(Object.keys(sectionLabels) as PackageWorkspaceSection[]).map(section => <Button
       key={section} size="sm" variant={active === section ? 'secondary' : 'ghost'}
+      className="min-w-0 px-1 text-xs sm:px-3 sm:text-sm"
       aria-current={active === section ? 'location' : undefined}
       disabled={disabled || section !== 'overview' && !hasPackage}
       onClick={() => onNavigate(section)}
