@@ -1,5 +1,6 @@
-import { expect, test, type Page } from '@playwright/test';
+import { expect, test, type Page, type Locator } from '@playwright/test';
 import { readFile } from 'node:fs/promises';
+import type { ActionPackage } from '../../src/lib/actionPackages';
 test.use({ serviceWorkers: 'block', actionTimeout: 15_000 });
 test.setTimeout(120_000);
 async function packages(page: Page) {
@@ -59,3 +60,87 @@ for (const theme of ['light', 'dark', 'classic']) for (const width of [1440, 320
   expect(geometry.scroll <= geometry.width + 1, JSON.stringify(geometry)).toBe(true);
   await page.screenshot({ path: info.outputPath(`form-field-review-${theme}-${width}px.png`) });
 });
+
+const worksheetLabel = 'DonDocs request details worksheet';
+async function requestPackage(page: Page, subject: string) {
+  await page.goto('/'); const dialog = await packages(page);
+  await dialog.locator('summary').filter({ hasText: /^Quick request starter/ }).click();
+  const starter = dialog.getByRole('region', { name: 'Administrative request starter', exact: true });
+  await starter.getByRole('button', { name: 'Start an administrative request', exact: true }).click();
+  for (const [label, value] of Object.entries({ Requester: 'Alex Example', Organization: 'Fictional Training Unit', Recipient: 'Training Officer', 'Request subject': subject,
+    'Request date': '2026-11-17', SSIC: '1500', 'Printed signature name': 'A. EXAMPLE', 'Requested action and justification': 'Fictional training request for browser qualification.' }))
+    await starter.getByLabel(label, { exact: label !== 'Printed signature name' }).fill(value);
+  await starter.getByRole('button', { name: 'Review request starter', exact: true }).click();
+  await starter.getByRole('checkbox', { name: /^I reviewed these request details/ }).check();
+  await starter.getByRole('button', { name: 'Create reviewed request package', exact: true }).click();
+  await expect(dialog.getByLabel('Package name', { exact: true })).toHaveValue(`Request: ${subject}`);
+  return dialog;
+}
+async function openWorksheet(dialog: Locator) {
+  await dialog.getByRole('navigation', { name: 'Captured review members', exact: true }).getByRole('button', { name: worksheetLabel, exact: true }).click();
+  return dialog.getByRole('region', { name: 'Captured form field feedback', exact: true });
+}
+async function proposeField(dialog: Locator, label: string, value: string, author = 'Blair Sample') {
+  const fields = dialog.getByRole('region', { name: 'Captured form field feedback', exact: true });
+  await fields.getByLabel('Reviewed form field', { exact: true }).selectOption({ label });
+  await fields.getByLabel('Form comment reviewer name', { exact: true }).fill(author);
+  await fields.getByLabel('Proposed form answer', { exact: true }).fill(value);
+  await fields.getByRole('button', { name: 'Suggest field correction', exact: true }).click();
+  await expect(fields.locator('article').filter({ hasText: `Proposed: ${value}` })).toBeVisible();
+  await expect(fields.getByLabel('Proposed form answer', { exact: true })).toHaveValue('');
+}
+async function saveDecision(dialog: Locator) {
+  const decisions = dialog.getByRole('region', { name: 'Decide captured form corrections', exact: true });
+  const preview = decisions.getByRole('region', { name: 'Reviewed form correction preview', exact: true });
+  await preview.getByRole('checkbox', { name: /^I reviewed this decision/ }).check();
+  await preview.getByRole('button', { name: 'Save reviewed form decision', exact: true }).click();
+  await expect(preview).toHaveCount(0);
+}
+async function savedPackage(page: Page, id: string): Promise<ActionPackage> {
+  return page.evaluate(key => new Promise<ActionPackage>((resolve, reject) => {
+    const opened = indexedDB.open('dondocs'); opened.onerror = () => reject(opened.error);
+    opened.onsuccess = () => {
+      const database = opened.result, request = database.transaction('app', 'readonly').objectStore('app').get(`action-package:${key}`);
+      request.onsuccess = () => { database.close(); resolve(request.result.value); };
+      request.onerror = () => { database.close(); reject(request.error); };
+    };
+  }), id);
+}
+function answers(record: ActionPackage) {
+  const member = record.revisions.find(revision => revision.id === record.currentRevisionId)!.members.find(member => member.label === worksheetLabel);
+  if (member?.kind !== 'native' || !member.session.genericForm) throw new Error('The saved worksheet is unavailable.');
+  return member.session.genericForm.answers;
+}
+const initialize = () => { localStorage.setItem('browser-test-visitor', 'returning'); };
+
+for (const width of [1440, 320]) {
+  test(`typed form correction accepts, rejects and undoes through saved controls at ${width}px`, async ({ page, context }, info) => {
+    await page.setViewportSize({ width, height: 900 }); await context.addInitScript(initialize);
+    const dialog = await requestPackage(page, 'Typed field decisions'), id = await dialog.getByLabel('Saved packages', { exact: true }).inputValue();
+    await dialog.getByRole('button', { name: 'Start package review', exact: true }).click(); await openWorksheet(dialog);
+    const fields = dialog.getByRole('region', { name: 'Captured form field feedback', exact: true });
+    await fields.getByLabel('Reviewed form field', { exact: true }).selectOption({ label: 'Request date' });
+    await fields.getByLabel('Form comment reviewer name', { exact: true }).fill('Blair Sample');
+    await fields.getByLabel('Proposed form answer', { exact: true }).fill('2026-02-30');
+    await fields.getByRole('button', { name: 'Suggest field correction', exact: true }).click();
+    await expect(fields.getByRole('alert')).toContainText('Enter a real date');
+    await fields.getByRole('button', { name: 'Cancel field correction', exact: true }).click();
+    await proposeField(dialog, 'Requester', 'Blair Sample');
+    let decisions = dialog.getByRole('region', { name: 'Decide captured form corrections', exact: true });
+    await decisions.getByRole('button', { name: 'Review acceptance for Requester', exact: true }).click(); await saveDecision(dialog);
+    await expect.poll(async () => answers(await savedPackage(page, id)).requester).toBe('Blair Sample');
+    await expect(decisions.getByText('Accepted in a saved package revision.', { exact: true })).toBeVisible();
+    await decisions.getByRole('button', { name: 'Review Undo for Requester', exact: true }).click(); await saveDecision(dialog);
+    await expect.poll(async () => answers(await savedPackage(page, id)).requester).toBe('Alex Example');
+    await proposeField(dialog, 'Organization', 'Another Fictional Unit');
+    decisions = dialog.getByRole('region', { name: 'Decide captured form corrections', exact: true });
+    await decisions.getByRole('button', { name: 'Review rejection for Organization', exact: true }).click(); await saveDecision(dialog);
+    await expect.poll(async () => answers(await savedPackage(page, id)).organization).toBe('Fictional Training Unit');
+    await expect(decisions.getByText('Rejected in a saved package revision.', { exact: true })).toBeVisible();
+    await page.reload(); const reopened = await packages(page);
+    await reopened.getByRole('button', { name: 'Open review Package review 1', exact: true }).click(); await openWorksheet(reopened);
+    await expect(reopened.getByText('Rejected in a saved package revision.', { exact: true })).toBeVisible();
+    await info.attach('saved-form-decisions', { body: JSON.stringify(await savedPackage(page, id), null, 2), contentType: 'application/json' });
+    await page.screenshot({ path: info.outputPath(`typed-form-decisions-${width}px.png`) });
+  });
+}

@@ -31,7 +31,7 @@ export async function parsePackageReviewTransfer(json: string) {
   const record = payload.package, round = record.reviewRounds?.[0];
   if (!round || record.reviewRounds?.length !== 1 || record.revisions.length !== 1
     || record.historyScope !== 'selected-revision' || record.currentRevisionId !== round.revisionId
-    || record.reviewApplications !== undefined || round.ownerPackageId !== undefined || record.workingCopies !== undefined
+    || record.fieldReviewApplications !== undefined || record.reviewApplications !== undefined || round.ownerPackageId !== undefined || record.workingCopies !== undefined
     || !sameReviewStoredValue(record.revisions[0], round.baseline)
     || record.revisions.some(revision => revision.members.some(member => member.kind === 'native' && member.source?.local)))
     throw new Error('A reviewer copy must contain one exact baseline without local owner or source authority.');
@@ -62,6 +62,10 @@ export async function parsePackageReviewReturn(json: string, owner: ActionPackag
     throw new Error('This feedback belongs to a different exact package round or revision.');
   for (const child of parsed.memberReviews) {
     const retained = round.memberReviews?.find(item => item.binding.memberId === child.binding.memberId);
+    for (const proposal of child.fieldReview?.proposals ?? []) {
+      const existing = retained?.fieldReview?.proposals?.find(item => item.id === proposal.id);
+      if (existing && !sameReviewStoredValue(existing, proposal)) throw new Error('A returned form proposal changed under an existing identity. Create a new proposal.');
+    }
     for (const proposal of child.suggestions?.proposals ?? []) {
       const existing = retained?.suggestions?.proposals.find(item => item.id === proposal.id);
       if (existing && !sameReviewStoredValue(existing, proposal))
@@ -119,7 +123,7 @@ async function prepareBuild(input: ActionPackage, roundId: string, mode: 'copy' 
   const children = await Promise.all(round.baseline.members.map(member => round.memberReviews?.find(child => child.binding.memberId === member.id) ?? createPackageMemberReview(round, member.id)));
   const portableRound = { ...round, ownerPackageId: undefined, memberReviews: children };
   const record = actionPackageSchema.parse({ ...before, archived: false, historyScope: 'selected-revision',
-    revisions: [packageReviewRevision(round.baseline)], currentRevisionId: round.revisionId, workingCopies: undefined, reviewApplications: undefined, reviewRounds: [portableRound] });
+    revisions: [packageReviewRevision(round.baseline)], currentRevisionId: round.revisionId, workingCopies: undefined, reviewApplications: undefined, fieldReviewApplications: undefined, reviewRounds: [portableRound] });
   const assets = [...new Map(packageAssets(record).map(asset => [asset.id, asset])).values()];
   const portableResources = await buildPortableResources(await Promise.all(assets.map(async asset => ({
     path: `assets/${asset.id}`, name: asset.name, mediaType: asset.type, data: await readPackageAsset(asset),

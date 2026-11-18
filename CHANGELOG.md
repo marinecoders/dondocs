@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.150] — 2026-11-17
+
+### Added
+
+- Typed form-answer proposals with reviewed accept/reject decisions, local overrides or explicit package-value updates, and guarded Undo.
+
 ## [1.3.149] — 2026-11-17
 
 ### Added

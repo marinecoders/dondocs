@@ -6,7 +6,10 @@ import userEvent from '@testing-library/user-event';
 import { PackageMemberReviewPanel } from '@/components/PackageMemberReviewPanel';
 import type { ActionPackage } from '@/lib/actionPackages';
 import { listActionPackages } from '@/lib/actionPackages';
+import { resolveExportDeploymentPolicy } from '@/lib/exportDeploymentPolicy';
 import { packageFormFixture } from '../_helpers/packageFormReviewFixture';
+const policy = resolveExportDeploymentPolicy({ hostname: 'localhost', environment: { maxLevel: 'unclassified', allowedLevels: ['unclassified'] }, runtime: { status: 'absent' } });
+vi.mock('@/config/classification', async original => ({ ...await original<typeof import('@/config/classification')>(), getExportDeploymentPolicy: async () => policy, getExportDeploymentPolicySync: () => policy }));
 vi.mock('@/stores/backupStore', () => ({ scheduleBackup: vi.fn() }));
 afterEach(cleanup);
 function Review({ initial }: { initial: ActionPackage }) {
@@ -36,6 +39,33 @@ it('posts a field-specific comment through the real package controller and suppo
   expect(saved.revisions).toEqual(record.revisions);
 });
 
+it('creates a typed proposal, accepts it with reviewed scope and restores its prior answer through Undo', async () => {
+  const { record, member } = await packageFormFixture(), user = userEvent.setup();
+  render(<Review initial={record} />);
+  await user.click(screen.getByRole('button', { name: member.label }));
+  const panel = await screen.findByRole('region', { name: 'Captured form field feedback' });
+  await user.selectOptions(within(panel).getByLabelText('Reviewed form field'), await within(panel).findByRole('option', { name: 'Name' }));
+  await user.type(within(panel).getByLabelText('Form comment reviewer name'), 'Alex Example');
+  await user.type(within(panel).getByLabelText('Proposed form answer'), '000999');
+  await user.click(within(panel).getByRole('button', { name: 'Suggest field correction' }));
+  await screen.findByText('Name · Proposed correction');
+  let decisions = await screen.findByRole('region', { name: 'Decide captured form corrections' });
+  await user.click(within(decisions).getByRole('button', { name: 'Review acceptance for Name' }));
+  await user.click(await within(decisions).findByRole('checkbox', { name: /^I reviewed this decision/ }));
+  await user.click(within(decisions).getByRole('button', { name: 'Save reviewed form decision' }));
+  await screen.findByText('Accepted in a saved package revision.');
+  let saved = (await listActionPackages()).find(item => item.id === record.id)!;
+  let current = saved.revisions.find(revision => revision.id === saved.currentRevisionId)!;
+  expect(current.members[0].kind === 'native' && current.members[0].session.genericForm!.answers.name).toBe('000999');
+  decisions = await screen.findByRole('region', { name: 'Decide captured form corrections' });
+  await user.click(within(decisions).getByRole('button', { name: 'Review Undo for Name' }));
+  await user.click(await within(decisions).findByRole('checkbox', { name: /^I reviewed this decision/ }));
+  await user.click(within(decisions).getByRole('button', { name: 'Save reviewed form decision' }));
+  await waitFor(() => expect(screen.queryByText('Accepted in a saved package revision.')).toBeNull());
+  saved = (await listActionPackages()).find(item => item.id === record.id)!; current = saved.revisions.find(revision => revision.id === saved.currentRevisionId)!;
+  expect(current.members[0].kind === 'native' && current.members[0].session.genericForm!.answers.name).toBe('000123');
+});
+
 it('keeps an unfinished field comment attached to the selected answer until it is saved or cancelled', async () => {
   const { record, member } = await packageFormFixture(), user = userEvent.setup();
   render(<Review initial={record} />);
@@ -60,4 +90,26 @@ it('keeps an unfinished field comment attached to the selected answer until it i
   await user.type(within(panel).getByLabelText('Form field comment'), 'Unsent second comment.');
   await user.click(within(panel).getByRole('button', { name: 'Cancel form comment' }));
   expect(target).toBeEnabled();
+});
+
+it('keeps a typed replacement on its captured field and requires cancellation before selecting another answer', async () => {
+  const { record, member } = await packageFormFixture(), user = userEvent.setup();
+  render(<Review initial={record} />);
+  await user.click(screen.getByRole('button', { name: member.label }));
+  const panel = await screen.findByRole('region', { name: 'Captured form field feedback' });
+  const target = within(panel).getByLabelText('Reviewed form field');
+  const first = await within(panel).findByRole('option', { name: 'A' }), second = within(panel).getByRole('option', { name: 'B' });
+  await user.selectOptions(target, first);
+  await user.type(within(panel).getByLabelText('Form comment reviewer name'), 'Alex Example');
+  await user.selectOptions(within(panel).getByLabelText('Proposed form answer'), 'true');
+  expect(target).toBeDisabled();
+  await user.selectOptions(target, second);
+  expect(target).toHaveValue((first as HTMLOptionElement).value);
+  await user.click(within(panel).getByRole('button', { name: 'Cancel field correction' }));
+  expect(target).toBeEnabled();
+  await user.selectOptions(target, second);
+  expect(within(panel).getByLabelText('Proposed form answer')).toHaveValue('');
+  expect(within(panel).getByRole('button', { name: 'Suggest field correction' })).toBeDisabled();
+  const saved = (await listActionPackages()).find(item => item.id === record.id)!;
+  expect(saved.reviewRounds![0].memberReviews![0].fieldReview?.proposals ?? []).toEqual([]);
 });

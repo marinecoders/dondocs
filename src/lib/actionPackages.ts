@@ -1,4 +1,4 @@
-import { packageFormReviewSchema } from './packageFormReviewModel';
+import { packageFieldReviewApplicationSchema, packageFormReviewSchema } from './packageFormReviewModel';
 import { MAX_PACKAGE_WORK_HISTORY_BYTES, packageWorkSchema } from "./packageWorkModel";
 import { MAX_PACKAGE_REQUIREMENTS_HISTORY_BYTES, packageRequirementsSchema } from "./packageRequirementsModel";
 import { packageRoles } from "./packageRoles";
@@ -260,6 +260,7 @@ export const actionPackageSchema = z
     revisions: z.array(packageRevisionSchema).min(1).max(200),
     reviewRounds: z.array(packageReviewRoundSchema).max(100).optional(),
     reviewApplications: z.array(packageReviewApplicationSchema).max(500).optional(),
+    fieldReviewApplications: z.array(packageFieldReviewApplicationSchema).max(500).optional(),
     workingCopies: z
       .array(
         z.object({ memberId: id, documentId: id, revisionId: id }).strict(),
@@ -413,6 +414,25 @@ export const actionPackageSchema = z
           replacement.id === event.replacementRoundId && replacement.createdAt > round.createdAt
           && replacement.ownerPackageId === round.ownerPackageId)))
         ctx.addIssue({ code: "custom", message: "The package review baseline or replacement is unavailable." });
+    }
+    const fieldApplications = record.fieldReviewApplications ?? [];
+    if (new TextEncoder().encode(JSON.stringify(fieldApplications)).byteLength > 4 * 1024 * 1024)
+      ctx.addIssue({ code: 'custom', message: 'Retained form decisions exceed the combined 4 MB limit.' });
+    const fieldIds = new Set<string>(), undone = new Set<string>(), fieldDecisions = new Set<string>();
+    for (const application of fieldApplications) {
+      const round = rounds.find(round => round.id === application.roundId);
+      const target = fieldApplications.find(prior => prior.id === application.undoOf);
+      const decisionKey = JSON.stringify([application.roundId, application.memberId, application.proposal.id]);
+      if (application.action !== 'undo' && fieldDecisions.has(decisionKey)) ctx.addIssue({ code: 'custom', message: 'A form proposal already has a retained decision.' });
+      if (application.action === 'undo') fieldDecisions.delete(decisionKey); else fieldDecisions.add(decisionKey);
+      if (fieldIds.has(application.id) || !round || round.ownerPackageId !== record.id
+        || !round.members.some(member => member.memberId === application.memberId)
+        || !seen.has(application.beforeRevisionId) || !seen.has(application.revisionId)
+        || application.createdAt < round.createdAt
+        || application.action === 'undo' && (!target || !fieldIds.has(target.id) || target.action === 'undo' || undone.has(target.id)
+          || target.roundId !== application.roundId || target.memberId !== application.memberId || !sameReviewStoredValue(target.proposal, application.proposal)))
+        ctx.addIssue({ code: 'custom', message: 'Invalid exact form decision history.' });
+      fieldIds.add(application.id); if (application.undoOf) undone.add(application.undoOf);
     }
     const applications = record.reviewApplications ?? [];
     if (new TextEncoder().encode(JSON.stringify(applications)).byteLength > 4 * 1024 * 1024)
@@ -632,6 +652,7 @@ export async function duplicateActionPackage(
       workingCopies: undefined,
       reviewRounds: undefined,
       reviewApplications: undefined,
+      fieldReviewApplications: undefined,
     },
     signal,
   );
@@ -650,6 +671,16 @@ export function validPackageTransition(
     after.revisions.length < before.revisions.length
   )
     return false;
+  const previousFields = before.fieldReviewApplications ?? [], fields = after.fieldReviewApplications ?? [];
+  if (fields.length < previousFields.length || fields.length > previousFields.length + 1
+    || !sameReviewStoredValue(previousFields, fields.slice(0, previousFields.length))) return false;
+  if (fields.length > previousFields.length) {
+    const receipt = fields.at(-1)!, round = before.reviewRounds?.find(round => round.id === receipt.roundId);
+    if (before.archived || !round || round.ownerPackageId !== before.id
+      || (round.lifecycle?.events.at(-1)?.state ?? 'active') !== 'active'
+      || receipt.beforeRevisionId !== before.currentRevisionId || receipt.revisionId !== after.currentRevisionId
+      || after.revisions.length !== before.revisions.length + 1 || !sameReviewStoredValue(before.reviewRounds, after.reviewRounds)) return false;
+  }
   const previousApplications = before.reviewApplications ?? [], applications = after.reviewApplications ?? [];
   if (applications.length < previousApplications.length || applications.length > previousApplications.length + 1
     || !sameReviewStoredValue(previousApplications, applications.slice(0, previousApplications.length))) return false;
@@ -674,6 +705,8 @@ export function validPackageTransition(
       const changed = next.memberReviews?.find(value => value.binding.memberId === child.binding.memberId);
       if (!changed || !sameReviewStoredValue({ ...child, comments: undefined, suggestions: undefined, fieldReview: undefined },
         { ...changed, comments: undefined, suggestions: undefined, fieldReview: undefined })) return false;
+      const formProposals = child.fieldReview?.proposals ?? [], incomingForm = changed.fieldReview?.proposals ?? [];
+      if (incomingForm.length < formProposals.length || !sameReviewStoredValue(formProposals, incomingForm.slice(0, formProposals.length))) return false;
       const proposals = child.suggestions?.proposals ?? [], incoming = changed.suggestions?.proposals ?? [];
       if (incoming.length < proposals.length || !sameReviewStoredValue(proposals, incoming.slice(0, proposals.length))) return false;
     }
