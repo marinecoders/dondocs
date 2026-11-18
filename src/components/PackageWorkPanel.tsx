@@ -101,7 +101,7 @@ export function PackageWorkPanel({ record, revision, disabled, busy, run, onAppl
     } finally { running.current = false; if (mounted.current) setPending(false); }
   }
   const shown = draft.slice(page * 25, (page + 1) * 25), today = packageWorkToday();
-  return <section aria-labelledby={heading} aria-busy={pending} className="min-w-0 space-y-3 rounded-lg border bg-background p-3 sm:p-4">
+  return <section aria-labelledby={heading} aria-busy={pending} className="min-w-0 space-y-3 rounded-lg border bg-background p-2 sm:p-4">
     <h3 ref={headingRef} tabIndex={-1} id={heading} className="font-medium">Work and next actions</h3>
     <p className="text-sm text-muted-foreground">Track responsible people and due dates here. Completing a task does not fulfill evidence checks or grant approval.</p>
     <p role="status" className="text-xs text-muted-foreground">{dirty ? 'Unapplied task changes · not saved yet.' : 'Showing saved tasks.'}</p>
@@ -185,7 +185,7 @@ export function PackageWorkPanel({ record, revision, disabled, busy, run, onAppl
     </div>}
     <section aria-label="Computed next actions" className="min-w-0 space-y-3 border-t pt-3">
       <h4 className="font-medium">Next actions</h4>
-      <div className="flex min-w-0 flex-wrap items-end gap-2"><label className="min-w-0 flex-1 text-sm">Operation<select aria-label="Next action operation" className={inputClass} value={operation} disabled={busy || pending || dirty} onChange={event => { invalidate(); setOperation(event.target.value as PackageRequirementOperation); }}>
+      <div className="flex min-w-0 flex-col gap-2 sm:flex-row sm:items-end"><label className="min-w-0 flex-1 text-sm">Operation<select aria-label="Next action operation" className={inputClass} value={operation} disabled={busy || pending || dirty} onChange={event => { invalidate(); setOperation(event.target.value as PackageRequirementOperation); }}>
         <option value="pdf">PDF assembly</option><option value="review">Start review</option><option value="portable">Editable handoff</option>
       </select></label><Button className={buttonClass} variant="outline" disabled={busy || pending || dirty} onClick={() => void perform(async (current, operationSignal) => {
         const policy = await getExportDeploymentPolicy();

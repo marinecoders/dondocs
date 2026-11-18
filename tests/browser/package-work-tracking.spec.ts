@@ -70,6 +70,10 @@ for (const theme of ['light', 'dark', 'classic']) for (const width of [1440, 320
   await work.getByLabel('Task 2 title', { exact: true }).fill('Discard this temporary change');
   await work.getByRole('button', { name: 'Discard task changes', exact: true }).click();
   await expect(work.getByLabel('Task 2 title', { exact: true })).toHaveCount(0);
+  if (width === 320) {
+    const operationBounds = await work.getByLabel('Next action operation', { exact: true }).boundingBox();
+    expect(operationBounds).not.toBeNull(); expect(operationBounds!.width).toBeGreaterThanOrEqual(160);
+  }
   await work.scrollIntoViewIfNeeded();
   expect(await dialog.evaluate(element => element.scrollWidth <= element.clientWidth + 1)).toBe(true);
   await page.screenshot({ path: info.outputPath(`package-work-${theme}-${width}px.png`) });
