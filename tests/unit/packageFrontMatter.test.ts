@@ -65,6 +65,7 @@ it('assembles and transfers covered output against its real shifted page boundar
   const output = getPackageRevision(assembled).outputs[0];
   expect((await PDFDocument.load(await readPackageAsset(output.asset))).getPageCount()).toBe(3);
   expect(output.boundaries[0].startPage).toBe(3);
+  expect((await preparePackageAssembly(assembled, assembled.currentRevisionId, policy)).readiness.findings.filter(item => item.severity === 'error')).toEqual([]);
   expect(output.navigation![0].startPage).toBe(3);
   const portable = await parsePortableActionPackage(await buildPortableActionPackage(assembled));
   expect(getPackageRevision(portable.record).assembly).toEqual(getPackageRevision(assembled).assembly);

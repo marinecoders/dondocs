@@ -251,10 +251,7 @@ export async function preparePackageAssembly(
       const pdf = await PDFDocument.load(bytes);
       if (
         pdf.getPageCount() !==
-        output.boundaries.reduce(
-          (total, boundary) => total + boundary.pageCount,
-          0,
-        )
+        Math.max(output.assembly?.frontMatterPages ?? 0, ...output.boundaries.map(boundary => boundary.startPage + boundary.pageCount - 1))
       )
         throw new Error(
           "The retained PDF does not match its preserved member boundaries.",
