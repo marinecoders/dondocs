@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.146] — 2026-11-17
+
+### Added
+
+- Declared cross-document package relationships with typed checks, precise finding destinations and contextual local exceptions.
+
 ## [1.3.145] — 2026-11-17
 
 ### Added

@@ -2,6 +2,7 @@ import type { ActionPackage, PackageRevision } from './actionPackages';
 import { actionPackageSchema, commitActionPackage, getPackageRevision, newPackageId } from './actionPackages';
 import type { PackageFact } from './packageInformation';
 import { packageInformationSchema } from './packageInformation';
+import { packageFieldBindingsSchema } from './packageFieldBindings';
 import { packageConsistencySchema, packageConsistencyRuleSchema, packageConsistencyExceptionSchema,
   packageConsistencyRuleIdentity, type PackageConsistency, type PackageConsistencyRule, type PackageConsistencyException } from './packageConsistencyModel';
 import { portableResourceDigest } from './portableResources';
@@ -24,8 +25,14 @@ export interface PackageConsistencyFinding {
 }
 export interface PackageConsistencyInspection { ready: boolean; findings: PackageConsistencyFinding[] }
 
-function operands(revision: PackageRevision, rule: PackageConsistencyRule) {
-  const information = revision.information ? packageInformationSchema.parse(revision.information) : undefined;
+type ConsistencyContext = Pick<PackageRevision, 'information' | 'bindings' | 'consistency'>;
+function captureContext(input: PackageRevision): ConsistencyContext {
+  return { information: input.information ? packageInformationSchema.parse(input.information) : undefined,
+    bindings: input.bindings ? packageFieldBindingsSchema.parse(input.bindings) : undefined,
+    consistency: input.consistency ? packageConsistencySchema.parse(input.consistency) : undefined };
+}
+function operands(revision: ConsistencyContext, rule: PackageConsistencyRule) {
+  const information = revision.information;
   const left = information?.facts.find(fact => fact.id === rule.leftFactId), right = information?.facts.find(fact => fact.id === rule.rightFactId);
   const participant = rule.participantId ? information?.participants.find(person => person.id === rule.participantId) : undefined;
   let problem: string | undefined;
@@ -46,13 +53,13 @@ function agrees(rule: PackageConsistencyRule, left: PackageFact, right: PackageF
   if (rule.relation === 'date-on-or-before') return String(left.value) <= String(right.value);
   return left.kind === 'decimal' && right.kind === 'decimal' ? decimal(left.value) === decimal(right.value) : left.value === right.value;
 }
-async function fingerprint(revision: PackageRevision, rule: PackageConsistencyRule): Promise<string> {
+async function fingerprint(revision: ConsistencyContext, rule: PackageConsistencyRule): Promise<string> {
   const { left, right, participant } = operands(revision, rule);
   // Full confirmed context keeps an old reason from silently following changed facts, labels or roles.
   const bytes = new TextEncoder().encode(JSON.stringify({ rule, left: left ?? null, right: right ?? null, participant: participant ?? null })).buffer;
   return portableResourceDigest(bytes);
 }
-function destinations(revision: PackageRevision, rule: PackageConsistencyRule): PackageConsistencyDestination[] {
+function destinations(revision: ConsistencyContext, rule: PackageConsistencyRule): PackageConsistencyDestination[] {
   return [rule.leftFactId, rule.rightFactId].flatMap(factId => {
     const links = revision.bindings?.items.filter(binding => binding.factId === factId) ?? [];
     return links.length ? links.map(binding => ({ factId, memberId: binding.memberId, bindingId: binding.id })) : [{ factId }];
@@ -62,7 +69,7 @@ function destinations(revision: PackageRevision, rule: PackageConsistencyRule): 
 /** Only declared relationships are compared; native local overrides keep their existing field semantics. */
 export async function inspectPackageConsistency(input: PackageRevision, signal?: AbortSignal): Promise<PackageConsistencyInspection> {
   signal?.throwIfAborted();
-  const revision = structuredClone(input), consistency = revision.consistency && packageConsistencySchema.parse(revision.consistency);
+  const revision = captureContext(input), consistency = revision.consistency;
   const findings: PackageConsistencyFinding[] = [];
   for (const rule of consistency?.rules ?? []) {
     signal?.throwIfAborted();
@@ -71,7 +78,7 @@ export async function inspectPackageConsistency(input: PackageRevision, signal?:
     if (problem || !left || !right) {
       findings.push({ ...base, state: 'unresolved', message: problem ?? 'Declared values are unavailable.', ...(exception ? { staleException: true } : {}) }); continue;
     }
-    if (agrees(rule, left, right)) { findings.push({ ...base, state: 'satisfied', message: 'The confirmed package values meet this declared relationship.' }); continue; }
+    if (agrees(rule, left, right)) { findings.push({ ...base, state: 'satisfied', ...(exception ? { staleException: true } : {}), message: 'The confirmed package values meet this declared relationship.' }); continue; }
     const applicable = exception && exception.fingerprint === await fingerprint(revision, rule);
     signal?.throwIfAborted();
     findings.push(applicable ? { ...base, state: 'excepted', exceptionReason: exception.reason,
@@ -84,7 +91,7 @@ export async function inspectPackageConsistency(input: PackageRevision, signal?:
 
 /** Creates a descriptive exception, never an approval or an exception to missing required evidence. */
 export async function createPackageConsistencyException(input: PackageRevision, ruleId: string, reason: string): Promise<PackageConsistencyException> {
-  const revision = structuredClone(input), rule = revision.consistency?.rules.find(rule => rule.id === ruleId);
+  const revision = captureContext(input), rule = revision.consistency?.rules.find(rule => rule.id === ruleId);
   if (!rule) throw new Error('Choose an existing declared relationship.');
   const parsed = packageConsistencyRuleSchema.parse(rule), { left, right, problem } = operands(revision, parsed);
   if (problem || !left || !right) throw new Error('Resolve missing, unanswered or incompatible values before recording an exception.');

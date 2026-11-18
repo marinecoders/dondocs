@@ -212,6 +212,7 @@ export async function saveConditionalPackageDraft(input: Pick<ConditionalPackage
   const state = stateFor(template, source, answers, current?.templateState);
   const requirements = materializePackageRequirements({ version: 1, items: conditionalRequirementSlots(template, answers, state).map(({ key: _key, ...item }) => item) }, current?.requirements);
   reviewPackageRequirements(requirements, policy);
+  if (current?.consistency) reviewPackageConsistency(current.consistency, policy);
   await reviewConditionalTemplate(template, policy); reviewPackageText(conditionalStateText(state), 'Saved intake draft', policy); reviewPackageText(name, 'Package name', policy);
   const revision: PackageRevision = { ...(current ? own(current) : { members: [], outputs: [] }), id: newPackageId('revision'),
     ...(current ? { parentId: current.id } : {}), createdAt: Date.now(), outputs: [], templateState: state, requirements };
@@ -353,7 +354,7 @@ export async function prepareConditionalPackage(input: ConditionalPackageInput, 
     ...evaluation.issues.filter(issue => issue.severity === 'error' || issue.code === 'visibility-unknown').map(issue => issue.message)];
   const state = stateFor(template, source, answers, current?.templateState), changes: ConditionalPackageChange[] = [], earlyFields: PackageUpdatePreview[] = [];
   const reviews = [reviewPackageText(name, 'Package name', policy), reviewPackageText(conditionalStateText(state), 'Action intake and retained answers', policy),
-    ...await reviewConditionalTemplate(template, policy)];
+    ...await reviewConditionalTemplate(template, policy), ...(current?.consistency ? [reviewPackageConsistency(current.consistency, policy)] : [])];
   const desired = listConditionalPackageInstances(template, answers);
   const selectedChoices = own(input.memberChoices ?? {}), knownKeys = new Set([...state.instances.map(item => item.key), ...desired.map(item => item.key)]);
   for (const [key, choice] of Object.entries(selectedChoices)) if (!knownKeys.has(key) || !['keep', 'remove', 'restore'].includes(choice)) throw new Error('A document decision does not belong to this action.');

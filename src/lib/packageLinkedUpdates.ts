@@ -5,7 +5,7 @@ import { readPackageMemberDraft } from './actionPackageAssets';
 import { sameReviewStoredValue, type StoredAttachment } from './documentsDb';
 import { portableResourceDigest } from './portableResources';
 import { packageCitationCandidates, packageCitationOccurrences } from './packageCitations';
-import { reviewPackageBindings, reviewPackageInformation, reviewPackageNative } from './actionPackageDisclosure';
+import { reviewPackageBindings, reviewPackageInformation, reviewPackageConsistency, reviewPackageNative } from './actionPackageDisclosure';
 import type { PolicyResolution } from './exportDeploymentPolicy';
 import type { ExportReview } from './preparedExport';
 import type { DocumentFieldSource } from './documentFields';
@@ -17,7 +17,8 @@ function sameTarget(left: PackageFieldBinding, right: PackageFieldBinding): bool
 }
 function informationReviews(revision: PackageRevision, policy: PolicyResolution): ExportReview[] {
  return [...(revision.information ? [reviewPackageInformation(revision.information,policy)] : []),
-  ...(revision.bindings ? [reviewPackageBindings(revision.bindings,policy)] : [])];
+  ...(revision.bindings ? [reviewPackageBindings(revision.bindings,policy)] : []),
+  ...(revision.consistency ? [reviewPackageConsistency(revision.consistency,policy)] : [])];
 }
 /** Retain exact citation occurrences when only a qualified scalar field changed. */
 export async function preserveUnchangedCitations(revision: PackageRevision): Promise<void> {
