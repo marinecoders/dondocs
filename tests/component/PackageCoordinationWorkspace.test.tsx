@@ -7,9 +7,13 @@ import { createExportGate } from '@/lib/exportController';
 import { createActionPackage, getPackageRevision, listActionPackages, reviseActionPackage } from '@/lib/actionPackages';
 import { updatePackageInformation } from '@/lib/packageInformation';
 import { PDFDocument } from 'pdf-lib';
-import { captureOriginalPackageMember } from '@/lib/actionPackageAssets';
+import { captureOriginalPackageMember, capturePackageMember } from '@/lib/actionPackageAssets';
 import { preparePackageAssembly, assemblePackage } from '@/lib/actionPackageAssembly';
 import { startPackageReview } from '@/lib/packageReviewRounds';
+import { captureDocumentRevision } from '@/lib/capturedDocument';
+import { createBlankSession } from '@/stores/documentStore';
+import { initializePackageCitationTargets, linkPackageCitation, packageCitationOccurrences, savePackageCitations } from '@/lib/packageCitations';
+import { updatePackageWork } from '@/lib/packageWork';
 import { updatePackageConsistency } from '@/lib/packageConsistency';
 import { resolveExportDeploymentPolicy } from '@/lib/exportDeploymentPolicy';
 import { PACKAGE_WORKSPACE_CONTEXT_KEY } from '@/lib/packageWorkspaceContext';
@@ -108,5 +112,53 @@ it('finds an older retained PDF outside the compared pair and opens its exact sa
   await user.click(within(impact).getByRole('button', { name: 'Inspect retained PDF · Retained PDF 1 · location 1' }));
   await waitFor(() => expect(within(dialog).getByLabelText('Package revision', { exact: true })).toHaveValue(captured.id));
   await waitFor(() => expect(dialog.querySelector(`[data-package-output-id="${output.id}"]`)).toHaveFocus());
+  expect((await listActionPackages()).find(item => item.id === record.id)).toEqual(record);
+});
+
+it('preserves unsaved tasks through close and queued package selection until discarded', async () => {
+  const record = await fixture(), other = await createActionPackage(`Other work ${crypto.randomUUID()}`), { dialog, user } = await open(record.id);
+  await user.click(within(dialog).getByText(/^Work and next actions/, { selector: 'summary' }));
+  const work = await within(dialog).findByRole('region', { name: 'Work and next actions' });
+  await user.click(within(work).getByRole('button', { name: 'Add task' }));
+  await user.type(within(work).getByLabelText('Task 1 title'), 'Preserve this unfinished work');
+  expect(within(dialog).getByLabelText('Saved packages', { exact: true })).toBeDisabled();
+  expect(within(dialog).getByRole('button', { name: 'Add shared value' })).toBeDisabled();
+  await user.keyboard('{Escape}'); expect(dialog).toBeVisible();
+  act(() => useUIStore.getState().openActionPackage(other.id));
+  expect(within(work).getByLabelText('Task 1 title')).toHaveValue('Preserve this unfinished work');
+  await user.click(within(work).getByRole('button', { name: 'Discard task changes' }));
+  await waitFor(() => expect(within(dialog).getByLabelText('Saved packages', { exact: true })).toHaveValue(other.id));
+  expect((await listActionPackages()).find(item => item.id === record.id)).toEqual(record);
+});
+it('keeps real consistency blockers after manual completion and navigates their exact value', async () => {
+  const record = await updatePackageWork(await fixture(), { version: 1, tasks: [{ id: 'manual', title: 'Check the dates', status: 'complete' }] }, policy);
+  const { dialog, user } = await open(record.id);
+  await user.click(within(dialog).getByText(/^Work and next actions/, { selector: 'summary' }));
+  const work = await within(dialog).findByRole('region', { name: 'Work and next actions' });
+  await user.click(within(work).getByRole('button', { name: 'Check next actions' }));
+  await within(work).findByText(/PDF assembly: [1-9]\d* unresolved checks?/);
+  expect(within(work).getByText('Action dates', { selector: 'span', exact: true })).toBeVisible();
+  await user.click(within(work).getByRole('button', { name: 'Open Action dates' }));
+  await waitFor(() => expect(within(dialog).getByText('Start date', { selector: 'legend' })).toHaveFocus());
+  expect((await listActionPackages()).find(item => item.id === record.id)).toEqual(record);
+});
+
+it('follows a removed citation to its exact asynchronously loaded historical identity without enabling edits', async () => {
+  const session = createBlankSession();
+  session.references = [{ letter: 'a', title: 'Synthetic historical authority' }];
+  session.paragraphs = [{ id: 'historical-citation-body', text: 'Use reference (a).', level: 0 }];
+  const member = await capturePackageMember(captureDocumentRevision({ documentId: `source_${crypto.randomUUID()}`, epoch: 0, editSequence: 1, capturedAt: 100 },
+    { ...session, endItems: [], publicationTables: {} }), 'Synthetic historical cited letter', 'basic-letter');
+  let identified = await initializePackageCitationTargets(await reviseActionPackage(await createActionPackage(`Historical citations ${crypto.randomUUID()}`), [member]));
+  const initial = getPackageRevision(identified), target = initial.citations!.targets[0];
+  identified = await linkPackageCitation(identified, (await packageCitationOccurrences(initial))[0].source, target.id);
+  const historical = getPackageRevision(identified), record = await savePackageCitations(identified, { version: 1, targets: [], links: [] });
+  const { dialog, user } = await open(record.id), impact = await compareSaved(dialog, user);
+  await user.click(within(impact).getByText('Citations (2)', { exact: true }));
+  await user.click(within(impact).getByRole('button', { name: 'Inspect citation · Reference target · location 1' }));
+  await waitFor(() => expect(within(dialog).getByLabelText('Package revision', { exact: true })).toHaveValue(historical.id));
+  await waitFor(() => expect(dialog.querySelector(`[data-package-citation-id="${target.id}"]`)).toHaveFocus());
+  expect(within(dialog).queryByRole('button', { name: 'Identify current references and enclosures' })).toBeNull();
+  expect(within(dialog).queryByLabelText('Link to repair')).toBeNull();
   expect((await listActionPackages()).find(item => item.id === record.id)).toEqual(record);
 });

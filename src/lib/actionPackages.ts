@@ -1,3 +1,4 @@
+import { MAX_PACKAGE_WORK_HISTORY_BYTES, packageWorkSchema } from "./packageWorkModel";
 import { MAX_PACKAGE_REQUIREMENTS_HISTORY_BYTES, packageRequirementsSchema } from "./packageRequirementsModel";
 import { packageRoles } from "./packageRoles";
 export { packageRoles } from "./packageRoles";
@@ -128,6 +129,7 @@ export const packageRevisionSchema = z
     templateState: packageConditionalStateSchema.optional(),
     requirements: packageRequirementsSchema.optional(),
     consistency: packageConsistencySchema.optional(),
+    work: packageWorkSchema.optional(),
   })
   .strict();
 export type PackageRevision = z.infer<typeof packageRevisionSchema>;
@@ -263,11 +265,15 @@ export const actionPackageSchema = z
   })
   .strict()
   .superRefine((record, ctx) => {
-    let informationBytes = 0, bindingBytes = 0, conditionalBytes = 0, requirementBytes = 0, consistencyBytes = 0;
+    let informationBytes = 0, bindingBytes = 0, conditionalBytes = 0, requirementBytes = 0, consistencyBytes = 0, workBytes = 0;
     for (const revision of [...record.revisions, ...(record.reviewRounds ?? []).map(round => round.baseline)]) {
       if (revision.consistency) consistencyBytes += new TextEncoder().encode(JSON.stringify(revision.consistency)).byteLength;
       if (consistencyBytes > MAX_PACKAGE_CONSISTENCY_HISTORY_BYTES) {
         ctx.addIssue({ code: 'custom', message: 'Retained package consistency declarations exceed the combined 8 MB limit.' }); break;
+      }
+      if (revision.work) workBytes += new TextEncoder().encode(JSON.stringify(revision.work)).byteLength;
+      if (workBytes > MAX_PACKAGE_WORK_HISTORY_BYTES) {
+        ctx.addIssue({ code: "custom", message: "Retained package work exceeds the combined 8 MB limit." }); break;
       }
       if (revision.templateState) conditionalBytes += new TextEncoder().encode(JSON.stringify(revision.templateState)).byteLength;
       if (conditionalBytes > MAX_CONDITIONAL_HISTORY_BYTES) {
@@ -562,6 +568,7 @@ export async function reviseActionPackage(
     ...(current.information ? { information: current.information } : {}),
     ...(current.requirements ? { requirements: current.requirements } : {}),
     ...(current.consistency ? { consistency: current.consistency } : {}),
+    ...(current.work ? { work: current.work } : {}),
   };
   return commitActionPackage(
     record,
