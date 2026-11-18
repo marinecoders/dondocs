@@ -1,4 +1,6 @@
 import { PackageReviewControls } from "./PackageReviewControls";
+import { PackageMemberNavigation, PackageWorkspaceNavigation, PackageWorkspaceSummary } from "./PackageWorkspaceNavigation";
+import { readPackageWorkspaceContext, rememberPackageWorkspaceContext, type PackageWorkspaceSection } from "@/lib/packageWorkspaceContext";
 import { startPackageReview, openPackageReview, transitionPackageReview } from "@/lib/packageReviewRounds";
 import type { PackageReviewRound } from "@/lib/actionPackages";
 import type { ExportGate } from "@/lib/exportController";
@@ -128,6 +130,14 @@ function PackageDialog({
     active.current = false;
     onClose();
   }
+  const [savedWorkspace] = useState(readPackageWorkspaceContext);
+  const [workspaceSection, setWorkspaceSection] = useState<PackageWorkspaceSection>(savedWorkspace?.section ?? "overview");
+  const [activeMemberId, setActiveMemberId] = useState<string | null>(savedWorkspace?.memberId ?? null);
+  const overviewRef = useRef<HTMLFieldSetElement>(null);
+  const documentsRef = useRef<HTMLDivElement>(null);
+  const reviewRef = useRef<HTMLDivElement>(null);
+  const deliveryRef = useRef<HTMLDivElement>(null);
+  const resumed = useRef(false);
   const [original, setOriginal] = useState<{
     asset: PackageAsset;
     bytes: ArrayBuffer;
@@ -177,6 +187,39 @@ function PackageDialog({
   const readRecord: ActionPackage | undefined = record && openedReview ? { ...record, historyScope: "selected-revision", currentRevisionId: openedReview.revisionId, revisions: [openedReview.baseline], reviewRounds: undefined, reviewApplications: undefined, workingCopies: undefined } : record;
   const editable =
     !!record && !record.reviewRounds?.some(round => round.ownerPackageId === undefined) && !openedReview && revision?.id === record.currentRevisionId && !record.archived;
+  const selectedMember = revision?.members.find(member => member.id === activeMemberId) ?? revision?.members[0];
+  useEffect(() => {
+    if (record && revision) rememberPackageWorkspaceContext({ version: 1, packageId: record.id, revisionId: revision.id,
+      memberId: selectedMember?.id ?? null, section: workspaceSection });
+  }, [record, revision, selectedMember?.id, workspaceSection]);
+  useEffect(() => {
+    if (!loaded || resumed.current) return;
+    resumed.current = true;
+    if (!savedWorkspace || requestedPackageId) return;
+    const target = savedWorkspace.section === "documents"
+      ? document.getElementById(`package-member-${savedWorkspace.memberId}`) ?? documentsRef.current
+      : savedWorkspace.section === "delivery" ? deliveryRef.current : savedWorkspace.section === "review" ? reviewRef.current : overviewRef.current;
+    target?.scrollIntoView?.({ block: "start" });
+    target?.focus({ preventScroll: true });
+  }, [loaded, savedWorkspace, requestedPackageId]);
+  function navigate(section: PackageWorkspaceSection) {
+    setWorkspaceSection(section);
+    const target = section === "documents"
+      ? document.getElementById(`package-member-${selectedMember?.id}`) ?? documentsRef.current
+      : section === "delivery" ? deliveryRef.current : section === "review" ? reviewRef.current : overviewRef.current;
+    target?.scrollIntoView?.({ block: "start" });
+    target?.focus({ preventScroll: true });
+  }
+  function inspectMember(memberId: string) {
+    setActiveMemberId(memberId); setWorkspaceSection("documents");
+    const target = document.getElementById(`package-member-${memberId}`);
+    target?.scrollIntoView?.({ block: "start" }); target?.focus({ preventScroll: true });
+  }
+  function rememberMember(memberId: string) {
+    if (!record || !revision) return;
+    setActiveMemberId(memberId); setWorkspaceSection("documents");
+    rememberPackageWorkspaceContext({ version: 1, packageId: record.id, revisionId: revision.id, memberId, section: "documents" });
+  }
   const beforeComparisonId = beforeOutputId || revision?.outputs.at(-2)?.id || "";
   const afterComparisonId = afterOutputId || revision?.outputs.at(-1)?.id || "";
   useEffect(() => {
@@ -191,13 +234,17 @@ function PackageDialog({
           setRecords(records);
           setLoaded(true);
           inventoryLoaded.current = true;
-          const requested = records.find(record => record.id === requestedPackageId);
+          const explicit = records.find(record => record.id === requestedPackageId);
+          const requested = explicit ?? (!requestedPackageId ? records.find(record => record.id === savedWorkspace?.packageId) : undefined);
           if (requested) {
             setOpenedReview(null);
             setSelectedId(requested.id);
             if (requestedRevisionId && !requested.revisions.some(revision => revision.id === requestedRevisionId))
               throw new Error("The reviewed package revision is no longer available. Reopen the share and review it again.");
-            setRevisionId(requestedRevisionId ?? requested.currentRevisionId);
+            const restoredRevision = !explicit && requested.revisions.some(revision => revision.id === savedWorkspace?.revisionId)
+              ? savedWorkspace!.revisionId : requested.currentRevisionId;
+            setRevisionId(requestedRevisionId ?? restoredRevision);
+            if (explicit) { setWorkspaceSection("overview"); setActiveMemberId(null); }
             setName(requested.name);
             setPrepared(null);
             setApproved(false);
@@ -216,7 +263,7 @@ function PackageDialog({
     return () => {
       live = false;
     };
-  }, [requestedPackageId, requestedRevisionId, typedDirty]);
+  }, [requestedPackageId, requestedRevisionId, typedDirty, savedWorkspace]);
   useEffect(
     () => () => {
       if (pdfUrl) URL.revokeObjectURL(pdfUrl);
@@ -224,6 +271,7 @@ function PackageDialog({
     [pdfUrl],
   );
   function select(value: ActionPackage) {
+    if (value.id !== selectedId) { setActiveMemberId(null); setWorkspaceSection("overview"); }
     setOpenedReview(null);
     setCitationReorder(null);
     setSelectedId(value.id);
@@ -435,7 +483,7 @@ function PackageDialog({
         if (!value) close();
       }}
     >
-      <DialogContent className="sm:max-w-4xl" aria-busy={busy} showCloseButton={!typedDirty}>
+      <DialogContent className="sm:max-w-6xl" aria-busy={busy} showCloseButton={!typedDirty}>
         <DialogHeader>
           <DialogTitle>Action packages</DialogTitle>
           <DialogDescription>
@@ -443,6 +491,8 @@ function PackageDialog({
             revision. Review linked citation reorders before saving a new revision.
           </DialogDescription>
         </DialogHeader>
+        <PackageWorkspaceNavigation active={workspaceSection} hasPackage={!!record} disabled={busy || typedDirty} onNavigate={navigate} />
+        {record && revision && <PackageWorkspaceSummary record={record} revision={revision} />}
         {error && (
           <p role="alert" className="break-words text-sm text-destructive">
             {error}
@@ -454,7 +504,8 @@ function PackageDialog({
           </p>
         )}
         <div className="min-w-0 space-y-4">
-        <fieldset disabled={busy || typedDirty} className="min-w-0 space-y-4">
+        <fieldset ref={overviewRef} tabIndex={-1} disabled={!loaded || busy || typedDirty} className="min-w-0 scroll-mt-4 space-y-4">
+          <legend className="mb-2 text-sm font-medium">Start or open a package</legend>
           <div className="flex flex-wrap items-end gap-2">
             <label className="min-w-0 flex-1 text-sm">
               Package name
@@ -605,6 +656,7 @@ function PackageDialog({
                   {record.archived ? "Reopen archived package" : "Archive"}
                 </Button>
               </div>
+              <div ref={reviewRef} tabIndex={-1} className="scroll-mt-4 space-y-4">
               <PackageReviewControls record={record} disabled={busy} opened={openedReview} onExit={() => select(record)}
                 onStart={() => void run(async () => {
                   const next = await startPackageReview(record, revision.id, `Package review ${(record.reviewRounds?.length ?? 0) + 1}`, operation.current?.signal, () => active.current);
@@ -629,6 +681,7 @@ function PackageDialog({
                   signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted}
                   onApply={next => { update(next); setOpenedReview(null); setRevisionId(next.currentRevisionId); }} />
               </Suspense>}
+              </div>
               </fieldset>
               {openedReview && <Suspense fallback={<p>Loading member review…</p>}>
                 <PackageMemberReviewPanel key={openedReview.id} record={record} round={openedReview} busy={busy} run={run} onDraftChange={setTypedDirty} signal={() => operation.current?.signal}
@@ -654,7 +707,7 @@ function PackageDialog({
                 >
                   {[...record.revisions].reverse().map((revision, index) => (
                     <option key={revision.id} value={revision.id}>
-                      Revision {record.revisions.length - index} ·{" "}
+                      {record.historyScope === "selected-revision" ? `Saved revision ${revision.id.slice(-8)}` : `Revision ${record.revisions.length - index}`} ·{" "}
                       {new Date(revision.createdAt).toLocaleString()}
                       {revision.id === record.currentRevisionId
                         ? " (current)"
@@ -668,6 +721,7 @@ function PackageDialog({
                 members automatically. Signed originals remain separate;
                 assembled output has no inherited signature or approval.
               </p>
+              <div ref={documentsRef} tabIndex={-1} className="min-w-0 scroll-mt-4 space-y-4">
               {editable && (
                 <div className="space-y-2 rounded border p-3">
                   <label className="block text-sm">
@@ -750,7 +804,9 @@ function PackageDialog({
                   </p>
                 </div>
               )}
-              <ol className="space-y-3">
+              <div className="grid min-w-0 gap-4 lg:grid-cols-[13rem_minmax(0,1fr)]">
+              <PackageMemberNavigation members={revision.members} selectedId={selectedMember?.id} disabled={busy || typedDirty} onSelect={inspectMember} />
+              <ol className="min-w-0 space-y-3">
                 {revision.members.map((member, index) => {
                   const source =
                     member.kind === "native" &&
@@ -764,7 +820,10 @@ function PackageDialog({
                   return (
                     <li
                       key={member.id}
-                      className="min-w-0 space-y-2 rounded border p-3"
+                      id={`package-member-${member.id}`}
+                      tabIndex={-1}
+                      data-selected={selectedMember?.id === member.id || undefined}
+                      className={`min-w-0 scroll-mt-4 space-y-2 rounded border p-3 ${selectedMember?.id === member.id ? "border-primary/40" : ""}`}
                     >
                       <h3 className="break-words font-medium">
                         {index + 1}. {member.label}
@@ -773,7 +832,7 @@ function PackageDialog({
                         {member.role} ·{" "}
                         {member.kind === "original"
                           ? member.signedOriginal
-                            ? "Signed original PDF"
+                            ? "Original PDF (marked signed)"
                             : "Original PDF"
                           : "Captured native draft"}{" "}
                         · Member revision: {member.revisionId}
@@ -889,6 +948,7 @@ function PackageDialog({
                               variant="outline"
                               onClick={() =>
                                 void run(async () => {
+                                  rememberMember(member.id);
                                   update(
                                     await editPackageMember(
                                       record,
@@ -908,6 +968,7 @@ function PackageDialog({
                                   size="sm"
                                   variant="outline"
                                   onClick={() => {
+                                    rememberMember(member.id);
                                     useDocumentsStore
                                       .getState()
                                       .switchTo(working.documentId);
@@ -967,6 +1028,8 @@ function PackageDialog({
                   );
                 })}
               </ol>
+              </div>
+              </div>
               {comparison && comparedSource && (
                 <section className="space-y-3 rounded border p-3">
                   <h3 className="font-medium">
@@ -1003,7 +1066,7 @@ function PackageDialog({
                   </Button>
                 </section>
               )}
-              <div className="flex flex-wrap gap-2">
+              <div ref={deliveryRef} tabIndex={-1} className="flex scroll-mt-4 flex-wrap gap-2">
                 <Button disabled={!!openedReview} onClick={() => void run(() => review("assemble"))}>
                   Check readiness and assemble
                 </Button>

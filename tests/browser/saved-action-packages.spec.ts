@@ -192,7 +192,7 @@ for (const theme of ["light", "dark", "classic"]) {
       buffer: original,
     });
     await expect(
-      modal.getByText("Signed original PDF", { exact: false }),
+      modal.getByText("Original PDF (marked signed)", { exact: false }),
     ).toBeVisible();
     await modal
       .getByRole("button", {
