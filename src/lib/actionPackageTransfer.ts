@@ -225,6 +225,13 @@ export async function validateActionPackageResources(
   const owned = actionPackageSchema.parse(record);
   const { validatePackageReviewBaselines } = await import("./packageReviewRounds");
   await validatePackageReviewBaselines(owned, read);
+  const { validatePackageSigningResources } = await import('./packageSigning');
+  const seenSigning = new Set<string>();
+  for (const revision of [...owned.revisions, ...(owned.reviewRounds ?? []).map(round => round.baseline)])
+    for (const entry of revision.signing?.handoffs ?? []) {
+      const identity = JSON.stringify(entry);
+      if (!seenSigning.has(identity)) { await validatePackageSigningResources({ version: 1, handoffs: [entry] }, read, owned.revisions); seenSigning.add(identity); }
+    }
   const requirementTemplates = new Map<string, Promise<import('./packageTemplateSchema').PackageTemplateV2>>();
   for (const revision of [...owned.revisions, ...(owned.reviewRounds ?? []).map(round => round.baseline)])
     if (revision.templateState) {

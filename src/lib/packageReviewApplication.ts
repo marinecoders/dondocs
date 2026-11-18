@@ -1,3 +1,4 @@
+import { reviewPackageSigningMetadata } from './actionPackageDisclosure';
 import { assertReviewStructureNewIdsAvailable } from './reviewStructureSuggestions';
 import { paragraphCommentIds } from './paragraphIdentity';
 import type { ReviewStructureTarget } from './reviewStructureSuggestions';
@@ -214,6 +215,7 @@ export async function preparePackageReviewApplication(preview: PackageReviewRetu
     ...(current.requirements ? { requirements: structuredClone(current.requirements) } : {}),
     ...(current.consistency ? { consistency: structuredClone(current.consistency) } : {}),
     ...(current.work ? { work: structuredClone(current.work) } : {}),
+    ...(current.signing ? { signing: structuredClone(current.signing) } : {}),
     ...(current.citations ? { citations: structuredClone(current.citations) } : {}) };
   // Rebind an unchanged known citation identity only when every recorded value except the new member revision still matches.
   if (revision.citations) {
@@ -255,6 +257,7 @@ export async function preparePackageReviewApplication(preview: PackageReviewRetu
     ...(current.information ? [reviewPackageInformation(current.information, policy)] : []),
     ...(current.consistency ? [reviewPackageConsistency(current.consistency, policy)] : []),
     ...(current.work ? [reviewPackageWork(current.work, policy)] : []),
+    ...(current.signing ? [reviewPackageSigningMetadata(current.signing, policy)] : []),
     ...members.flatMap(member => member.kind === 'native' ? [reviewPackageNative(member.session, member.label, policy)] : [])];
   const prepared = Object.freeze({ packageName: owner.name, reviews, plan: structuredClone(plan) });
   preparations.set(prepared, { owner, after, attachments, policy: policyIdentity(policy) }); return prepared;

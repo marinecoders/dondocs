@@ -5,7 +5,7 @@ import { readPackageMemberDraft } from './actionPackageAssets';
 import { sameReviewStoredValue, type StoredAttachment } from './documentsDb';
 import { portableResourceDigest } from './portableResources';
 import { packageCitationCandidates, packageCitationOccurrences } from './packageCitations';
-import { reviewPackageBindings, reviewPackageInformation, reviewPackageConsistency, reviewPackageWork, reviewPackageNative } from './actionPackageDisclosure';
+import { reviewPackageBindings, reviewPackageInformation, reviewPackageConsistency, reviewPackageWork, reviewPackageSigningMetadata, reviewPackageNative } from './actionPackageDisclosure';
 import type { PolicyResolution } from './exportDeploymentPolicy';
 import type { ExportReview } from './preparedExport';
 import type { DocumentFieldSource } from './documentFields';
@@ -19,7 +19,8 @@ function informationReviews(revision: PackageRevision, policy: PolicyResolution)
  return [...(revision.information ? [reviewPackageInformation(revision.information,policy)] : []),
   ...(revision.bindings ? [reviewPackageBindings(revision.bindings,policy)] : []),
   ...(revision.consistency ? [reviewPackageConsistency(revision.consistency,policy)] : []),
-  ...(revision.work ? [reviewPackageWork(revision.work,policy)] : [])];
+  ...(revision.work ? [reviewPackageWork(revision.work,policy)] : []),
+  ...(revision.signing ? [reviewPackageSigningMetadata(revision.signing,policy)] : [])];
 }
 /** Retain exact citation occurrences when only a qualified scalar field changed. */
 export async function preserveUnchangedCitations(revision: PackageRevision): Promise<void> {

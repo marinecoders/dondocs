@@ -1,3 +1,4 @@
+import { packageSigningText, type PackageSigning } from './packageSigningModel';
 import { packageWorkText, type PackageWork } from "./packageWorkModel";
 import { packageRequirementsText, type PackageRequirements } from "./packageRequirementsModel";
 import { packageConsistencyText, type PackageConsistency } from './packageConsistencyModel';
@@ -16,6 +17,10 @@ import type { ExportReview } from "./preparedExport";
 import { packageInformationText, type PackageInformation } from "./packageInformation";
 
 import { packageBindingsText, type PackageFieldBindings } from "./packageFieldBindings";
+
+export function reviewPackageSigningMetadata(signing: PackageSigning, policy: PolicyResolution): ExportReview {
+  return reviewPackageText(packageSigningText(signing), 'Package signing associations and assignments', policy);
+}
 
 export function reviewPackageConsistency(consistency: PackageConsistency, policy: PolicyResolution): ExportReview {
   return reviewPackageText(packageConsistencyText(consistency), 'Package relationships and retained exception reasons', policy);

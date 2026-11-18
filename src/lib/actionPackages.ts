@@ -1,5 +1,6 @@
 import { packagePdfReviewSchema } from './packagePdfReviewModel';
 import { packageFieldReviewApplicationSchema, packageFormReviewSchema } from './packageFormReviewModel';
+import { packageSigningSchema, packageSigningAssets, MAX_PACKAGE_SIGNING_HISTORY_BYTES } from './packageSigningModel';
 import { MAX_PACKAGE_WORK_HISTORY_BYTES, packageWorkSchema } from "./packageWorkModel";
 import { MAX_PACKAGE_REQUIREMENTS_HISTORY_BYTES, packageRequirementsSchema } from "./packageRequirementsModel";
 import { packageRoles } from "./packageRoles";
@@ -132,6 +133,7 @@ export const packageRevisionSchema = z
     requirements: packageRequirementsSchema.optional(),
     consistency: packageConsistencySchema.optional(),
     work: packageWorkSchema.optional(),
+    signing: packageSigningSchema.optional(),
   })
   .strict();
 export type PackageRevision = z.infer<typeof packageRevisionSchema>;
@@ -273,8 +275,15 @@ export const actionPackageSchema = z
   })
   .strict()
   .superRefine((record, ctx) => {
-    let informationBytes = 0, bindingBytes = 0, conditionalBytes = 0, requirementBytes = 0, consistencyBytes = 0, workBytes = 0;
+    let informationBytes = 0, bindingBytes = 0, conditionalBytes = 0, requirementBytes = 0, consistencyBytes = 0, workBytes = 0, signingBytes = 0;
     for (const revision of [...record.revisions, ...(record.reviewRounds ?? []).map(round => round.baseline)]) {
+      if (revision.signing) {
+        signingBytes += new TextEncoder().encode(JSON.stringify(revision.signing)).byteLength;
+        if (revision.signing.handoffs.some(item => item.packageId !== record.id)) ctx.addIssue({ code: 'custom', message: 'A signing handoff belongs to a different package.' });
+      }
+      if (signingBytes > MAX_PACKAGE_SIGNING_HISTORY_BYTES) {
+        ctx.addIssue({ code: 'custom', message: 'Retained package signing metadata exceeds the combined 8 MB limit.' }); break;
+      }
       if (revision.consistency) consistencyBytes += new TextEncoder().encode(JSON.stringify(revision.consistency)).byteLength;
       if (consistencyBytes > MAX_PACKAGE_CONSISTENCY_HISTORY_BYTES) {
         ctx.addIssue({ code: 'custom', message: 'Retained package consistency declarations exceed the combined 8 MB limit.' }); break;
@@ -306,8 +315,21 @@ export const actionPackageSchema = z
       memberRevisions = new Map<string, string>(),
       citationOwners = new Map<string, string>(),
       informationFacts = new Map<string, string>(),
-      informationParticipants = new Map<string, string>(), requirementIdentities = new Map<string, string>(), consistencyIdentities = new Map<string, string>();
+      informationParticipants = new Map<string, string>(), requirementIdentities = new Map<string, string>(), consistencyIdentities = new Map<string, string>(), signingIdentities = new Map<string, string>();
     for (const [index, revision] of record.revisions.entries()) {
+      for (const handoff of revision.signing?.handoffs ?? []) {
+        const source = record.revisions.find(item => item.id === handoff.sourceRevisionId);
+        if (record.historyScope !== 'selected-revision' && !source) ctx.addIssue({ code: 'custom', message: 'The captured signing source revision is unavailable.' });
+        if (source) {
+          const target = handoff.target;
+          const member = target.kind === 'member' ? source.members.find(item => item.id === target.id && item.revisionId === target.revisionId) : undefined;
+          const asset = target.kind === 'output' ? source.outputs.find(item => item.id === target.id)?.asset : member?.kind === 'original' && !member.signedOriginal ? member.original : undefined;
+          if (!sameReviewStoredValue(asset, handoff.pdfs.source)) ctx.addIssue({ code: 'custom', message: 'The exact signing source does not match its captured revision.' });
+        }
+        const identity = JSON.stringify(handoff), previous = signingIdentities.get(handoff.id);
+        if (previous !== undefined && previous !== identity) ctx.addIssue({ code: 'custom', message: 'An exact signing handoff changed under its saved identity.' });
+        signingIdentities.set(handoff.id, identity);
+      }
       for (const rule of revision.consistency?.rules ?? []) {
         const identity = packageConsistencyRuleIdentity(rule), prior = consistencyIdentities.get(rule.id);
         if (prior !== undefined && prior !== identity) ctx.addIssue({ code: 'custom', message: 'A consistency relationship identity changed its values, relation or person.' });
@@ -504,6 +526,7 @@ export function packageAssets(record: ActionPackage): PackageAsset[] {
     ),
     ...revision.outputs.map((output) => output.asset),
     ...(revision.templateState ? [revision.templateState.source] : []),
+    ...(revision.signing ? packageSigningAssets(revision.signing) : []),
   ]);
 }
 export function packageDefinitions(records: ActionPackage[]) {
@@ -596,6 +619,7 @@ export async function reviseActionPackage(
     ...(current.requirements ? { requirements: current.requirements } : {}),
     ...(current.consistency ? { consistency: current.consistency } : {}),
     ...(current.work ? { work: current.work } : {}),
+    ...(current.signing ? { signing: current.signing } : {}),
   };
   return commitActionPackage(
     record,
@@ -653,6 +677,7 @@ export async function duplicateActionPackage(
       archived: false,
       sequence: 0,
       workingCopies: undefined,
+      revisions: record.revisions.map(revision => { const copy = structuredClone(revision); delete copy.signing; return copy; }),
       reviewRounds: undefined,
       reviewApplications: undefined,
       fieldReviewApplications: undefined,

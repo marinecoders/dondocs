@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.153] — 2026-11-17
+
+### Added
+
+- Exact package signing sources and captured handoffs, using the existing signing workspace with preserved PDF bytes, signer assignments and portable package records.
+
 ## [1.3.152] — 2026-11-17
 
 ### Added

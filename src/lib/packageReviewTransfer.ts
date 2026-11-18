@@ -1,3 +1,4 @@
+import { reviewPackageSigning } from './packageSigning';
 import { assertPackageRequirementsReady } from './packageRequirements';
 import { assertPackageConsistencyReady } from './packageConsistency';
 import { z } from 'zod';
@@ -77,6 +78,7 @@ export async function parsePackageReviewReturn(json: string, owner: ActionPackag
 export async function inspectPackageReviewTransfer(parsed: Pick<ParsedPackageReviewTransfer, 'record' | 'round' | 'resources'>, policy: PolicyResolution): Promise<ExportReview[]> {
   const { record, round, resources } = parsed;
   const reviews = [reviewPackageReviewMetadata(round, policy), reviewPackageText(`${record.id}\n${record.name}`, 'Package review identity', policy)];
+  if (round.baseline.signing) reviews.push(...await reviewPackageSigning(round.baseline.signing, policy, async asset => resources.get(`assets/${asset.id}`)!.data));
   if (round.baseline.templateState) {
     const { reviewConditionalPackage } = await import('./packageConditionalSources');
     reviews.push(...await reviewConditionalPackage(round.baseline, policy, async asset => resources.get(`assets/${asset.id}`)!.data));
