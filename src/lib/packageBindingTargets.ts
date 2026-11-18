@@ -85,7 +85,7 @@ function rowFieldLabel(group: string, row: number, label: string): string {
 
 /** Lists the captured member's own answers without reading the active editor or library. */
 export async function listPackageBindingFields(member: PackageMember): Promise<PackageBindingField[]> {
-  if (member.kind === 'original') return [];
+  if (member.kind !== 'native') return [];
   return listSessionFields(member.session);
 }
 async function listSessionFields(session: SerializedSession): Promise<PackageBindingField[]> {

@@ -205,13 +205,13 @@ describe("retained package ownership and transactions", () => {
     expect(
       new Uint8Array(
         await readPackageAsset(
-          original.kind === "original" ? original.original : original.draft,
+          original.kind === "native" ? original.draft : original.original,
         ),
       ),
     ).toEqual(
       new Uint8Array(
         await readPackageAsset(
-          original.kind === "original" ? original.original : original.draft,
+          original.kind === "native" ? original.draft : original.original,
         ),
       ),
     );
@@ -570,7 +570,7 @@ describe("readiness and retained assembly", () => {
     ).toBe(3);
     expect(
       await readPackageAsset(
-        original.kind === "original" ? original.original : original.draft,
+        original.kind === "native" ? original.draft : original.original,
       ),
     ).toEqual(originalBytes);
     const json = await buildPortableActionPackage(assembled);

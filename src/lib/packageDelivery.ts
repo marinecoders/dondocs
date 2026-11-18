@@ -65,7 +65,11 @@ export async function preparePackageDelivery(input: ActionPackage, revisionId: s
     assets.set(item.asset.id, { asset: structuredClone(item.asset), bytes: item.bytes.slice(0) }); };
   for (const selectedMember of selected) {
     signal.throwIfAborted(); if (!isCurrent()) throw new Error('This package selection changed. Prepare its delivery again.');
-    if (selection.purpose === 'editable' && selectedMember.kind === 'native') {
+    if (selectedMember.kind === 'attachment') {
+      const bytes = await readPackageAsset(selectedMember.original);
+      const asset: PackageAsset = { ...structuredClone(selectedMember.original), id: newPackageId('delivery-file') };
+      members.push({ ...structuredClone(selectedMember), revisionId: newPackageId('member-revision'), original: asset }); addAsset({ asset, bytes });
+    } else if (selection.purpose === 'editable' && selectedMember.kind === 'native') {
       const projected = await projectEditableDeliveryMember(selectedMember); members.push(projected.member); addAsset(projected.captured);
       for (const asset of Object.values(selectedMember.templates ?? {})) addAsset({ asset, bytes: await readPackageAsset(asset) });
     } else {
@@ -90,7 +94,7 @@ export async function preparePackageDelivery(input: ActionPackage, revisionId: s
     members: members.map(member => ({ id: member.id, label: member.label, kind: member.kind, role: member.role })), files: [...new Map(packageAssets(projection).map(asset => [asset.id, asset])).values()].map(asset => ({ ...asset })),
     excludedMembers: getPackageRevision(source, revisionId).members.length - members.length, reviews,
     notices: ['This delivery is an independent selected-document copy. It carries no package review decisions, task list, signing records, source pointers or earlier revisions.',
-      ...(selection.purpose === 'editable' ? ['Editable documents include their retained answers, inactive values, templates and embedded attachments. Review this exact scope before transfer.'] : ['Native members become PDF derivatives. Selected original PDFs keep their original bytes and any signatures; verify those signatures in the original file.']),
+      ...(selection.purpose === 'editable' ? ['Editable documents include their retained answers, inactive values, templates and embedded attachments. Review this exact scope before transfer.'] : ['Native members become PDF derivatives. Selected supporting files keep their original formats and bytes; original PDFs keep any signatures; verify those signatures in the original file.']),
       ...inspected.readiness.findings.map(finding => finding.message)] });
   captures.set(prepared, capture(temporary)); await assertPackageDeliveryCurrent(prepared, policy, signal, isCurrent); return prepared;
 }

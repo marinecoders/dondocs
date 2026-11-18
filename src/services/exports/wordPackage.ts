@@ -138,6 +138,14 @@ export async function prepareWordPackage(record: ActionPackage, revisionId: stri
     manifest.members.push({ id: member.id, revisionId: member.revisionId, label: member.label, role: member.role, order: index + 1, required: member.required,
       ...(member.kind === 'native' && member.source ? { source: { capturedAt: member.source.capturedAt, editSequence: member.source.editSequence } } : {}),
       files: [], editableInWord: false, signedOriginal: member.kind === 'original' && member.signedOriginal });
+    if (member.kind === 'attachment') {
+      const bytes = resources.get(`assets/${member.original.id}`)!.data;
+      const { reviewPackageAttachment } = await import('@/lib/packageAttachmentCapabilities');
+      const result = await reviewPackageAttachment(member.original, bytes, policy, signal);
+      reviews.push({ member: member.label, review: result.review }); privacy.push(result.review.privacy);
+      await add(`${folder}/original/${wordPackageFilename(member.original.name)}`, member.original.name, bytes, 'original', 'Unchanged supporting attachment; no Word conversion is claimed.', member);
+      continue;
+    }
     if (member.kind === 'original') {
       const bytes = resources.get(`assets/${member.original.id}`)!.data;
       await PDFDocument.load(bytes.slice(0));

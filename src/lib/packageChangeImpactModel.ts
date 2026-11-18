@@ -43,12 +43,12 @@ export const sameImpactValue = sameReviewStoredValue;
 export function packageMemberInputs(member: PackageMember) {
   const asset = ({ name, type, size, sha256 }: { name: string; type: string; size: number; sha256: string }) => ({ name, type, size, sha256 });
   return { kind: member.kind, label: member.label, role: member.role, required: member.required,
-    ...(member.kind === 'original' ? { original: asset(member.original), signedOriginal: member.signedOriginal }
+    ...(member.kind !== 'native' ? { original: asset(member.original), signedOriginal: member.signedOriginal }
       : { draft: asset(member.draft), source: member.source && { documentId: member.source.documentId, capturedAt: member.source.capturedAt, editSequence: member.source.editSequence },
         templates: Object.entries(member.templates ?? {}).sort(([a], [b]) => a.localeCompare(b)).map(([file, value]) => [file, asset(value)]) }) };
 }
 export function packageMemberContent(member: PackageMember) {
-  return member.kind === 'original' ? { kind: member.kind, sha256: member.original.sha256 }
+  return member.kind !== 'native' ? { kind: member.kind, sha256: member.original.sha256 }
     : { kind: member.kind, sha256: member.draft.sha256, templates: Object.entries(member.templates ?? {}).sort(([a], [b]) => a.localeCompare(b)).map(([file, asset]) => [file, asset.sha256]) };
 }
 export function packageAssemblyInputs(revision: PackageRevision) {

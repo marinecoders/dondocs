@@ -23,10 +23,11 @@ export function PackageMemberReviewPanel({ record, round, busy, onChange, run, o
   onChange(record: ActionPackage, round: PackageReviewRound): void;
   run(action: () => Promise<void>): Promise<void>;
 }) {
-  const [typedDirty, setTypedDirty] = useState(false);
-  useEffect(() => { onDraftChange?.(typedDirty); return () => onDraftChange?.(false); }, [typedDirty, onDraftChange]);
+  const [typedDirty, setTypedDirty] = useState(false), [commentDirty, setCommentDirty] = useState(false);
+  const dirty = typedDirty || commentDirty;
+  useEffect(() => { onDraftChange?.(dirty); return () => onDraftChange?.(false); }, [dirty, onDraftChange]);
   useEffect(() => {
-    if (!typedDirty) return;
+    if (!dirty) return;
     const warn = (event: BeforeUnloadEvent) => { event.preventDefault(); event.returnValue = ''; };
     const guard = (event: KeyboardEvent) => {
       if ((event.ctrlKey || event.metaKey) && (event.key.toLowerCase() === 'k' || event.shiftKey && event.key.toLowerCase() === 't')) {
@@ -35,7 +36,7 @@ export function PackageMemberReviewPanel({ record, round, busy, onChange, run, o
     };
     window.addEventListener('beforeunload', warn); window.addEventListener('keydown', guard, true);
     return () => { window.removeEventListener('beforeunload', warn); window.removeEventListener('keydown', guard, true); };
-  }, [typedDirty]);
+  }, [dirty]);
   const [selected, setSelected] = useState('');
   const [history, setHistory] = useState<PackageMemberReview[]>([]), [future, setFuture] = useState<PackageMemberReview[]>([]);
   const member = round.baseline.members.find(member => member.id === selected);
@@ -55,7 +56,7 @@ export function PackageMemberReviewPanel({ record, round, busy, onChange, run, o
   return <section aria-label="Package member feedback" className="space-y-3 rounded border p-3">
     <h3 className="font-medium">Review captured package members</h3>
     <nav aria-label="Captured review members" className="flex min-w-0 flex-wrap gap-2">
-      {round.baseline.members.map(member => <Button className="h-auto min-h-9 max-w-full whitespace-normal" key={member.id} variant={selected === member.id ? 'secondary' : 'outline'} disabled={busy || typedDirty}
+      {round.baseline.members.map(member => <Button className="h-auto min-h-9 max-w-full whitespace-normal" key={member.id} variant={selected === member.id ? 'secondary' : 'outline'} disabled={busy || dirty}
         onClick={() => void run(async () => {
           if (packageReviewRoundStatus(round) !== 'active') { setSelected(member.id); return; }
           const result = await preparePackageReviewMember(record, round.id, member.id, signal?.(), () => alive.current && currentView.current === view);
@@ -69,23 +70,23 @@ export function PackageMemberReviewPanel({ record, round, busy, onChange, run, o
         {member.session.paragraphs.map((paragraph, index) => <p key={paragraph.id ?? index}>{paragraph.text}</p>)}
       </div> : member.kind === 'original' ? <p className="text-sm">Preserved original PDF · {member.signedOriginal ? 'signed original' : 'original'}. The captured pages are available in region review below. Comments do not alter PDF bytes or signatures.</p> : null}
       {member.kind === 'native' && member.session.documentCategory !== 'forms' && !child?.nativeRound && <p className="text-xs text-muted-foreground">This captured format supports whole-member comments. Native correspondence supports field and paragraph replacement proposals.</p>}
-      {member.kind === 'original' && <PackagePdfRegionReviewPanel key={`pdf:${member.id}:${member.original.sha256}`} record={record} round={round} member={member} child={child} busy={busy} readOnly={packageReviewRoundStatus(round) !== 'active' || !child}
+      {member.kind === 'original' && <PackagePdfRegionReviewPanel key={`pdf:${member.id}:${member.original.sha256}`} record={record} round={round} member={member} child={child} busy={busy || commentDirty} readOnly={packageReviewRoundStatus(round) !== 'active' || !child}
         run={run} signal={signal} onDraftChange={setTypedDirty} onSave={async value => { if (!child) return false; let saved = false; await run(async () => { await publish({ ...child, pdfReview: value }); saved = true; }); return saved; }}
         onApply={next => { setHistory([]); setFuture([]); onChange(next, next.reviewRounds!.find(item => item.id === round.id)!); }} />}
       {child && <>
         <div className="flex min-w-0 flex-wrap gap-2">
-          <Button className="h-auto min-h-9 max-w-full whitespace-normal" variant="outline" disabled={disabled || typedDirty || !history.length} onClick={() => void run(async () => {
+          <Button className="h-auto min-h-9 max-w-full whitespace-normal" variant="outline" disabled={disabled || dirty || !history.length} onClick={() => void run(async () => {
             const previous = history.at(-1)!; await publish({ ...child, comments: previous.comments, fieldReview: child.fieldReview ? { ...child.fieldReview, comments: previous.fieldReview?.comments ?? [] } : previous.fieldReview, pdfReview: previous.pdfReview }, false); setHistory(items => items.slice(0, -1)); setFuture(items => [...items, structuredClone(child)]);
           })}>Undo member comment</Button>
-          <Button className="h-auto min-h-9 max-w-full whitespace-normal" variant="outline" disabled={disabled || typedDirty || !future.length} onClick={() => void run(async () => {
+          <Button className="h-auto min-h-9 max-w-full whitespace-normal" variant="outline" disabled={disabled || dirty || !future.length} onClick={() => void run(async () => {
             const next = future.at(-1)!; await publish({ ...child, comments: next.comments, fieldReview: child.fieldReview ? { ...child.fieldReview, comments: next.fieldReview?.comments ?? [] } : next.fieldReview, pdfReview: next.pdfReview }, false); setFuture(items => items.slice(0, -1)); setHistory(items => [...items, structuredClone(child)]);
           })}>Redo member comment</Button>
         </div>
-        {member.kind === 'native' && member.session.documentCategory === 'forms' && <PackageFormReviewPanel key={`form:${selected}`} member={member} child={child} busy={disabled} onDraftChange={setTypedDirty}
+        {member.kind === 'native' && member.session.documentCategory === 'forms' && <PackageFormReviewPanel key={`form:${selected}`} member={member} child={child} busy={disabled || commentDirty} onDraftChange={setTypedDirty}
           onSave={async value => { let saved = false; await run(async () => { await publish({ ...child, fieldReview: value }); saved = true; }); return saved; }} />}
-        {member.kind === 'native' && member.session.documentCategory === 'forms' && <PackageFormCorrectionPanel key={`decisions:${record.id}:${record.sequence}:${round.id}:${selected}`} record={record} round={round} child={child} busy={disabled || typedDirty} run={run} signal={signal}
+        {member.kind === 'native' && member.session.documentCategory === 'forms' && <PackageFormCorrectionPanel key={`decisions:${record.id}:${record.sequence}:${round.id}:${selected}`} record={record} round={round} child={child} busy={disabled || dirty} run={run} signal={signal}
           onApply={next => { setHistory([]); setFuture([]); onChange(next, next.reviewRounds!.find(item => item.id === round.id)!); }} />}
-        <PackageMemberComments key={`comments:${selected}`} child={child} busy={disabled || typedDirty} onSave={async mutation => {
+        <PackageMemberComments key={`comments:${selected}`} child={child} busy={disabled || typedDirty} onDraftChange={setCommentDirty} onSave={async mutation => {
           let saved = false; await run(async () => {
           const comments = mutateReviewComments(child.comments, mutation, value => child.nativeRound && member.kind === 'native'
             ? captureCommentAnchor(member.session, value.field, value.paragraphId) : value.field || value.paragraphId ? null : { kind: 'document' }, member.kind === 'native' ? member.session : undefined);
@@ -93,7 +94,7 @@ export function PackageMemberReviewPanel({ record, round, busy, onChange, run, o
           await publish({ ...child, comments }); saved = true;
         }); return saved; }} />
         {child.nativeRound && child.suggestions && <ReviewSuggestionsPanel key={`suggestions:${selected}`} onDraftChange={setTypedDirty} round={child.nativeRound} current={child.nativeRound.baseline.session}
-          state={child.suggestions} busy={disabled} owner={false} onDecide={async () => false} onCreate={async proposal => {
+          state={child.suggestions} busy={disabled || commentDirty} owner={false} onDecide={async () => false} onCreate={async proposal => {
             let saved = false;
             await run(async () => { await publish({ ...child, suggestions: appendReviewSuggestions(child.nativeRound!, child.suggestions!, [proposal]) }, false); saved = true; });
             return saved;
@@ -102,10 +103,12 @@ export function PackageMemberReviewPanel({ record, round, busy, onChange, run, o
     </>}
   </section>;
 }
-function PackageMemberComments({ child, busy, onSave }: { child: PackageMemberReview; busy: boolean; onSave(mutation: CommentMutation): Promise<boolean> }) {
+function PackageMemberComments({ child, busy, onSave, onDraftChange }: { child: PackageMemberReview; busy: boolean; onSave(mutation: CommentMutation): Promise<boolean>; onDraftChange?(dirty: boolean): void }) {
   const [target, setTarget] = useState('document'), [author, setAuthor] = useState(''), [text, setText] = useState('');
   const [category, setCategory] = useState<FeedbackCategory>('question');
   const [reply, setReply] = useState<string | null>(null);
+  useEffect(() => { onDraftChange?.(!!text || !!reply); }, [text, reply, onDraftChange]);
+  useEffect(() => () => onDraftChange?.(false), [onDraftChange]);
   const session = child.nativeRound?.baseline.session;
   const fields = session ? availableCommentFields(session) : [], paragraphs = session ? availableCommentParagraphs(session) : [];
   return <section aria-label="Package member comments" className="space-y-3">
@@ -125,11 +128,11 @@ function PackageMemberComments({ child, busy, onSave }: { child: PackageMemberRe
         <FeedbackCategorySelect label="Package comment category" value={category} onChange={setCategory} />
         <label className="block text-sm">{reply ? 'Reply' : 'Comment'}<Textarea aria-label="Package member comment" value={text} maxLength={10000} onChange={event => setText(event.target.value)} /></label>
         <Button className="h-auto min-h-9 max-w-full whitespace-normal" disabled={!author.trim() || !text.trim()} type="submit">{reply ? 'Post member reply' : 'Post member comment'}</Button>
-        {reply && <Button className="h-auto min-h-9 max-w-full whitespace-normal" type="button" variant="outline" onClick={() => setReply(null)}>Cancel reply</Button>}
+        {(text || reply) && <Button className="h-auto min-h-9 max-w-full whitespace-normal" type="button" variant="outline" onClick={() => { setText(''); setReply(null); }}>{reply ? 'Cancel reply' : 'Cancel member comment'}</Button>}
       </fieldset>
     </form>
     {child.comments.threads.map(thread => <article key={thread.id} className="space-y-2 rounded border p-3 text-sm">
-      <p className="font-medium">{session ? describeCommentAnchor(session, thread.anchor).label : 'Whole original PDF'} · {thread.resolved ? 'Resolved' : 'Open'}</p>
+      <p className="font-medium">{session ? describeCommentAnchor(session, thread.anchor).label : 'Whole captured member'} · {thread.resolved ? 'Resolved' : 'Open'}</p>
       {thread.messages.map(message => <div key={message.id}><p className="font-medium break-words">{message.author}</p><p className="whitespace-pre-wrap break-words">{message.text}</p></div>)}
       <Button className="h-auto min-h-9 max-w-full whitespace-normal" disabled={busy} variant="outline" onClick={() => setReply(thread.id)}>Reply to member comment</Button>
       <Button className="h-auto min-h-9 max-w-full whitespace-normal" disabled={busy} variant="outline" onClick={() => void onSave({ kind: 'resolve', threadId: thread.id, resolved: !thread.resolved })}>{thread.resolved ? 'Reopen member comment' : 'Resolve member comment'}</Button>

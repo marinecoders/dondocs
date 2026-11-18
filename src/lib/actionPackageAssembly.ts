@@ -4,6 +4,7 @@ import { canMeasurePackageEndorsement, measurePackageEndorsement } from './packa
 import { addPackageFrontMatter } from './packageFrontMatter';
 import { addPackageOutputNavigation } from './packageOutputNavigation';
 import { MAX_PORTABLE_TOTAL_BYTES, MAX_PORTABLE_RESOURCE_COUNT, portableResourceDigest } from './portableResources';
+import { reviewPackageAttachment, renderPackageAttachment } from './packageAttachmentCapabilities';
 import { inspectPackageRequirements } from "./packageRequirements";
 import { inspectPackageConsistency } from './packageConsistency';
 import { packageBindingReadiness } from "./packageFieldBindings";
@@ -300,6 +301,16 @@ export async function preparePackageAssembly(
         member.id,
       );
     try {
+      if (member.kind === "attachment") {
+        const bytes = await read(member.original);
+        const { inspection, review } = await reviewPackageAttachment(member.original, bytes, policy, options.signal);
+        reviews.push({ member: member.label, review });
+        if (purpose === "pdf") {
+          if (!inspection.canRenderPdf) error(`${member.label}: this supporting format has no qualified PDF conversion. Add a reviewed PDF or use editable handoff.`, member.id);
+          else inputs.push({ member, original: await renderPackageAttachment(member.original, bytes, options.signal) });
+        }
+        continue;
+      }
       if (member.kind === "original") {
         const original = await read(member.original);
         await validatePackageOriginalPdf(original);
