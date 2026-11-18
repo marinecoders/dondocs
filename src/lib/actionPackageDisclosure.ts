@@ -1,3 +1,4 @@
+import { packageWorkText, type PackageWork } from "./packageWorkModel";
 import { packageRequirementsText, type PackageRequirements } from "./packageRequirementsModel";
 import { packageConsistencyText, type PackageConsistency } from './packageConsistencyModel';
 import { documentTextFields, type DocumentFieldSource } from "./documentFields";
@@ -18,6 +19,10 @@ import { packageBindingsText, type PackageFieldBindings } from "./packageFieldBi
 
 export function reviewPackageConsistency(consistency: PackageConsistency, policy: PolicyResolution): ExportReview {
   return reviewPackageText(packageConsistencyText(consistency), 'Package relationships and retained exception reasons', policy);
+}
+
+export function reviewPackageWork(work: PackageWork, policy: PolicyResolution): ExportReview {
+  return reviewPackageText(packageWorkText(work), "Package work, responsible people and deadlines", policy);
 }
 
 export function reviewPackageRequirements(requirements: PackageRequirements, policy: PolicyResolution): ExportReview {

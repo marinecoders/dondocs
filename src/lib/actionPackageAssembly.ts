@@ -8,6 +8,7 @@ import {
   reviewPackageBindings,
   reviewPackageRequirements,
   reviewPackageConsistency,
+  reviewPackageWork,
   reviewPackageOriginal,
 } from "./actionPackageDisclosure";
 import { APP_VERSION, GIT_SHA } from "./version";
@@ -182,6 +183,10 @@ export async function preparePackageAssembly(
   if (revision.bindings) {
     try { reviews.push({ member: "Package field links", review: reviewPackageBindings(revision.bindings, policy) }); }
     catch (cause) { error(cause instanceof Error ? cause.message : "Package field links could not be reviewed."); }
+  }
+  if (revision.work) {
+    try { reviews.push({ member: "Package work", review: reviewPackageWork(revision.work, policy) }); }
+    catch (cause) { error(cause instanceof Error ? cause.message : "Package work could not be reviewed."); }
   }
   if (revision.requirements) {
     try { reviews.push({ member: "Package requirements", review: reviewPackageRequirements(revision.requirements, policy) }); }
