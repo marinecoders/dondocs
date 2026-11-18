@@ -63,7 +63,7 @@ export async function inspectPackageAttachment(file: { name: string; type?: stri
   const entries = await readWordArchive(bytes, signal);
   const required = format === 'docx' ? 'word/document.xml' : 'xl/workbook.xml';
   if (!entries.has('[Content_Types].xml') || !entries.has(required)) throw new Error(`This file is not a valid ${format.toUpperCase()} document.`);
-  const activeType = /vbaProject|activeX|oleObject|macroEnabled|macrosheet/i;
+  const activeType = /vbaProject|activeX|oleObject|macroEnabled|macrosheet|aFChunk/i;
   const types = wordXml(entries.get('[Content_Types].xml'), 'content types');
   if (Array.from(types.getElementsByTagName('*')).some(element => activeType.test(element.getAttribute('ContentType') ?? '')))
     throw new Error('Office evidence with macros, active controls or embedded files is unsupported. Export a reviewed PDF instead.');
@@ -75,8 +75,9 @@ export async function inspectPackageAttachment(file: { name: string; type?: stri
       continue;
     }
     const document = wordXml(value, `supporting file ${path}`);
-    if (Array.from(document.getElementsByTagName('*')).some(element => element.localName === 'Relationship' && activeType.test(element.getAttribute('Type') ?? '')))
-      throw new Error('Office evidence with macros, active controls or embedded files is unsupported. Export a reviewed PDF instead.');
+    if (Array.from(document.getElementsByTagName('*')).some(element => element.localName === 'altChunk'
+      || element.localName === 'Relationship' && activeType.test(element.getAttribute('Type') ?? '')))
+      throw new Error('Office evidence with macros, active controls, alternate content or embedded files is unsupported. Export a reviewed PDF instead.');
   }
   const retained = retainedWordText(entries, (paragraph, view) => readWordParagraphText(paragraph, view, false, () => {}), 2_000_000);
   return { format, type, text: retained.text, canRenderPdf: false,

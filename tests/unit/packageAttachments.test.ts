@@ -170,3 +170,12 @@ it('joins retained DrawingML chart runs before checking spreadsheet markings', a
   expect((await inspectPackageAttachment(incoming)).text).toContain('(S) Restricted synthetic chart.');
   await expect(preparePackageAttachment(await packageWithPdf(), incoming, policy)).rejects.toThrow(/markings|levels/);
 });
+
+it('rejects alternate Office content whose opaque bytes cannot be inventoried', async () => {
+  const zip = new JSZip();
+  zip.file('[Content_Types].xml', '<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Override PartName="/word/alternate.bin" ContentType="text/html"/></Types>');
+  zip.file('word/document.xml', '<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><w:body><w:altChunk r:id="alternate"/></w:body></w:document>');
+  zip.file('word/_rels/document.xml.rels', '<Relationships><Relationship Id="alternate" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/aFChunk" Target="alternate.bin"/></Relationships>');
+  zip.file('word/alternate.bin', '<html><body><p>SECRET</p><script>/* inert synthetic fixture */</script></body></html>');
+  await expect(preparePackageAttachment(await packageWithPdf(), { name: 'alternate.docx', data: await zip.generateAsync({ type: 'arraybuffer' }) }, policy)).rejects.toThrow(/alternate|embedded|unsupported/);
+});
