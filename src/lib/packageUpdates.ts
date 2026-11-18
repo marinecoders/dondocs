@@ -15,6 +15,7 @@ import { reviewPackageBindings, reviewPackageInformation, reviewPackageConsisten
 import { assertExportDeploymentPolicy, type PolicyResolution } from './exportDeploymentPolicy';
 import type { ExportReview } from './preparedExport';
 import { getExportDeploymentPolicy, getExportDeploymentPolicySync } from '@/config/classification';
+import { comparePackageChangeImpact, type PackageChangeImpact } from './packageChangeImpact';
 
 export type PackageUpdateChoice = 'apply-package' | 'keep-local' | 'detach' | 'reconnect';
 export type PackageUpdateChoices = Readonly<Record<string, PackageUpdateChoice>>;
@@ -36,6 +37,7 @@ export interface PreparedPackageUpdate {
   readonly changes: readonly PackageUpdatePreview[];
   readonly issues: readonly string[];
   readonly reviews: readonly ExportReview[];
+  readonly impact?: PackageChangeImpact;
 }
 export interface PackageUpdateUndo { readonly packageId: string; readonly appliedRevisionId: string }
 interface Capture {
@@ -112,8 +114,9 @@ export async function preparePackageUpdate(
   const reviews = [reviewPackageText(before.name, 'Package name', policy), ...planned.reviews];
   const after = actionPackageSchema.parse({ ...before, sequence: before.sequence + 1,
     currentRevisionId: revision.id, revisions: [...before.revisions, revision] });
+  const impact = issues.length ? undefined : await comparePackageChangeImpact(current, revision, { reviewRounds: before.reviewRounds, packageId: before.id, signal });
   const prepared = frozen({ packageName: before.name, revisionId: current.id, ready: issues.length === 0,
-    changed, changes: structuredClone(changes), issues: [...issues], reviews: structuredClone(reviews) });
+    changed, changes: structuredClone(changes), issues: [...issues], reviews: structuredClone(reviews), ...(impact ? { impact } : {}) });
   preparations.set(prepared, { before, after, attachments, policy: identity });
   return prepared;
 }
