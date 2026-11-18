@@ -174,3 +174,9 @@ it('checks shared captured evidence once even when many distinct requirements us
   expect((await inspectPackageRequirements(revision, 'pdf', { readAsset: read })).ready).toBe(true);
   expect(read).toHaveBeenCalledTimes(1);
 });
+
+it('reviews each raw requirement label before publishing a declaration under a stricter deployment policy', async () => {
+  const initial = await fixture();
+  await expect(updatePackageRequirements(initial, requirements(confirmation({ label: '(S) SYNTHETIC RESTRICTED REQUIREMENT' })), policy)).rejects.toThrow('configured levels');
+  expect((await listActionPackages()).find(record => record.id === initial.id)).toEqual(initial);
+});
