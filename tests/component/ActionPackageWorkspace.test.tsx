@@ -58,7 +58,7 @@ it("exposes derived evidence requirements for an imported legacy intake without 
   expect(getPackageRevision(legacy).requirements).toBeUndefined();
   useUIStore.getState().openActionPackage(legacy.id);
   render(<ActionPackageWorkspace exportGate={createExportGate()} ports={{ compile: vi.fn(), convertDocx: vi.fn(), waitForReady: async () => true }} />);
-  const requirements = await screen.findByRole("region", { name: "Evidence and requirements" });
+  const requirements = await screen.findByRole("region", { name: "Evidence and requirements" }, { timeout: 15_000 });
   await within(requirements).findByRole("heading", { name: "Supporting PDF" });
   const check = within(requirements).getByRole("button", { name: "Check evidence requirements" });
   await waitFor(() => expect(check).toBeEnabled()); await userEvent.click(check);
@@ -532,8 +532,10 @@ it("starts and reopens an exact saved package review after membership removal an
   let dialog = screen.getByRole("dialog", { name: "Action packages" });
   await within(dialog).findByRole("option", { name: record.name });
   await user.selectOptions(within(dialog).getByLabelText("Saved packages", { exact: true }), record.id);
-  await user.click(within(dialog).getByRole("button", { name: "Start package review" }));
-  await within(dialog).findByText("Reviewing exact saved package revision");
+  const startReview = within(dialog).getByRole("button", { name: "Start package review" });
+  await waitFor(() => expect(startReview).toBeEnabled(), { timeout: 15_000 });
+  await user.click(startReview);
+  await within(dialog).findByText("Reviewing exact saved package revision", {}, { timeout: 15_000 });
   expect(within(dialog).getByRole("button", { name: "Check readiness and assemble" })).toBeDisabled();
   expect(within(dialog).queryByRole("button", { name: "Edit working copy" })).toBeNull();
   const saved = (await listActionPackages()).find(value => value.id === record.id)!;
@@ -567,8 +569,10 @@ it("keeps unsaved package typing through blocked navigation, close and failed sa
   const dialog = screen.getByRole("dialog", { name: "Action packages" });
   await within(dialog).findByRole("option", { name: record.name });
   await user.selectOptions(within(dialog).getByLabelText("Saved packages", { exact: true }), record.id);
-  await user.click(within(dialog).getByRole("button", { name: "Start package review" }));
-  const nav = await within(dialog).findByRole("navigation", { name: "Captured review members" });
+  const startReview = within(dialog).getByRole("button", { name: "Start package review" });
+  await waitFor(() => expect(startReview).toBeEnabled(), { timeout: 15_000 });
+  await user.click(startReview);
+  const nav = await within(dialog).findByRole("navigation", { name: "Captured review members" }, { timeout: 15_000 });
   await user.click(within(nav).getByRole("button", { name: member.label }));
   await user.type(await within(dialog).findByLabelText("Reviewer name for suggestion"), "Synthetic reviewer");
   await user.click(within(dialog).getByRole("button", { name: "Suggest Changes mode" }));

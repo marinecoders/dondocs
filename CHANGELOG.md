@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.167] — 2026-11-17
+
+### Added
+
+- Independent packages from typed roster rows, with exact per-row files, durable local inputs, separate action reviews and atomic creation receipts for safe resume.
+
 ## [1.3.166] — 2026-11-17
 
 ### Added

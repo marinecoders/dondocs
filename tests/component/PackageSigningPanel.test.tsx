@@ -94,21 +94,6 @@ it('keeps historical handoffs inspectable while policy changes invalidate a revi
   expect(await screen.findByRole('alert')).toHaveTextContent('Deployment settings changed'); expect(download).not.toHaveBeenCalled();
 });
 
-it('invalidates a reviewed signing preparation when its view becomes read-only without changing package identity', async () => {
-  const record = await fixture(), user = userEvent.setup(), dirty = vi.fn();
-  const view = render(<PackageSigningPanel {...props(record)} onDirtyChange={dirty} />);
-  await user.selectOptions(screen.getByLabelText('Package signing PDF'), JSON.stringify(signing.packageSigningTargets(getPackageRevision(record))[0].target));
-  await user.click(screen.getByRole('button', { name: 'Review signing source' }));
-  await screen.findByLabelText('Exact package signing source PDF');
-  await user.click(screen.getByRole('checkbox', { name: /^I reviewed the exact source PDF/ }));
-  expect(dirty).toHaveBeenLastCalledWith(true);
-  view.rerender(<PackageSigningPanel {...props(record)} disabled onDirtyChange={dirty} />);
-  await waitFor(() => expect(dirty).toHaveBeenLastCalledWith(false));
-  view.rerender(<PackageSigningPanel {...props(record)} onDirtyChange={dirty} />);
-  expect(screen.queryByLabelText('Exact package signing source PDF')).toBeNull();
-  expect(screen.queryByRole('button', { name: 'Open signing workspace for this PDF' })).toBeNull();
-});
-
 it('reviews and adopts a real associated return, then binds readonly download to its exact preview', async () => {
   const initial = await fixture(), target = signing.packageSigningTargets(getPackageRevision(initial))[0].target;
   let local = await signing.openPackageSigningSource(await signing.preparePackageSigningSource(initial, initial.currentRevisionId, target, policy), policy, true);
@@ -179,4 +164,18 @@ it('discards applicability results from a previously selected package without cl
   await act(async () => { resolve(result); });
   await waitFor(() => expect(screen.getByLabelText('Package signing PDF')).toBeEnabled());
   expect(screen.queryByText(/Checked 1 captured handoff/)).toBeNull();
+});
+it('invalidates a reviewed signing preparation when its view becomes read-only without changing package identity', async () => {
+  const record = await fixture(), user = userEvent.setup(), dirty = vi.fn();
+  const view = render(<PackageSigningPanel {...props(record)} onDirtyChange={dirty} />);
+  await user.selectOptions(screen.getByLabelText('Package signing PDF'), JSON.stringify(signing.packageSigningTargets(getPackageRevision(record))[0].target));
+  await user.click(screen.getByRole('button', { name: 'Review signing source' }));
+  await screen.findByLabelText('Exact package signing source PDF');
+  await user.click(screen.getByRole('checkbox', { name: /^I reviewed the exact source PDF/ }));
+  expect(dirty).toHaveBeenLastCalledWith(true);
+  view.rerender(<PackageSigningPanel {...props(record)} disabled onDirtyChange={dirty} />);
+  await waitFor(() => expect(dirty).toHaveBeenLastCalledWith(false));
+  view.rerender(<PackageSigningPanel {...props(record)} onDirtyChange={dirty} />);
+  expect(screen.queryByLabelText('Exact package signing source PDF')).toBeNull();
+  expect(screen.queryByRole('button', { name: 'Open signing workspace for this PDF' })).toBeNull();
 });

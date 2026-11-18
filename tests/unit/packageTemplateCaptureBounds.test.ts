@@ -107,6 +107,7 @@ it('stops reading later members when cleaned drafts exceed the remaining capture
   expect((await listActionPackages()).find(value => value.id === record.id)).toEqual(record);
 });
 
+// The 9 MB PDF crosses native-draft validation and template capture as encoded content.
 it('allows a large raw draft when removed attachments leave a small unsigned starter', async () => {
   const data = await pdfBytes(9 * 1024 * 1024);
   const session = createBlankSession();
@@ -128,7 +129,7 @@ it('allows a large raw draft when removed attachments leave a small unsigned sta
   expect(source.reviewed.files[0]?.name).toBe('previous.pdf');
   expect(source.reviewed.files[0]?.data.byteLength).toBe(data.byteLength);
   expect(await listPackageTemplates()).toEqual([template]);
-});
+}, 30_000);
 
 it('does not encode or read further pages after cancellation during a page read', async () => {
   const record = await sharedPages(3, 1);

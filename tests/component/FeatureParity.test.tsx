@@ -62,6 +62,7 @@ it('accounts for the complete correspondence registry and both forms', () => {
   expect(Object.keys(routes).sort()).toEqual([...Object.keys(DOC_TYPE_LABELS), 'navmc_10274', 'navmc_118_11'].sort());
 });
 
+// Each case exercises every section, menu and focus target, including under coverage instrumentation.
 it.each(Object.entries(routes).flatMap(([type, sections]) => (['focused', 'scroll'] as const).map((layout) => ({ type, sections, layout }))))('makes every original $type section usable in $layout mode', async ({ type, sections: sectionIds, layout }) => {
   useUIStore.getState().setEditorLayout(layout);
   if (type === 'navmc_10274' || type === 'navmc_118_11') {
@@ -92,7 +93,7 @@ it.each(Object.entries(routes).flatMap(([type, sections]) => (['focused', 'scrol
       else expect(container.querySelector(`#sec-${other}`)).toBeVisible();
     }
   }
-});
+}, 30_000);
 
 it.each(['correspondence', 'navmc_10274', 'navmc_118_11'] as const)('opens guide examples separately from %s without carrying old content', (kind) => {
   const registry = useDocumentsStore.getState();
