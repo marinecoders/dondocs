@@ -18,7 +18,7 @@ import { packageCitationCandidates, packageCitationOccurrences } from './package
 import { packageCitationReadiness } from './packageCitationRepair';
 import { portableResourceDigest } from './portableResources';
 import { newAttachmentId, withAttachmentStaging } from './attachments';
-import { reviewPackageNative, reviewPackageText, reviewPackageReviewMetadata, reviewPackageInformation, reviewPackageBindings } from './actionPackageDisclosure';
+import { reviewPackageNative, reviewPackageText, reviewPackageReviewMetadata, reviewPackageInformation, reviewPackageBindings, reviewPackageConsistency } from './actionPackageDisclosure';
 import type { PolicyResolution } from './exportDeploymentPolicy';
 import { classificationBannerLevel } from './detectClassification';
 import { classificationRank, deriveOverallClassLevel } from './overallClassification';
@@ -212,6 +212,7 @@ export async function preparePackageReviewApplication(preview: PackageReviewRetu
     ...(current.templateState ? { templateState: structuredClone(current.templateState) } : {}),
     ...(current.information ? { information: structuredClone(current.information) } : {}),
     ...(current.requirements ? { requirements: structuredClone(current.requirements) } : {}),
+    ...(current.consistency ? { consistency: structuredClone(current.consistency) } : {}),
     ...(current.citations ? { citations: structuredClone(current.citations) } : {}) };
   // Rebind an unchanged known citation identity only when every recorded value except the new member revision still matches.
   if (revision.citations) {
@@ -251,6 +252,7 @@ export async function preparePackageReviewApplication(preview: PackageReviewRetu
   const reviews = [...preview.reviews, { ...reviewPackageText('', 'Package citation readiness', policy), notices: readiness.map(item => item.message) }, reviewPackageReviewMetadata(application, policy),
     ...(current.bindings ? [reviewPackageBindings(current.bindings, policy)] : []),
     ...(current.information ? [reviewPackageInformation(current.information, policy)] : []),
+    ...(current.consistency ? [reviewPackageConsistency(current.consistency, policy)] : []),
     ...members.flatMap(member => member.kind === 'native' ? [reviewPackageNative(member.session, member.label, policy)] : [])];
   const prepared = Object.freeze({ packageName: owner.name, reviews, plan: structuredClone(plan) });
   preparations.set(prepared, { owner, after, attachments, policy: policyIdentity(policy) }); return prepared;

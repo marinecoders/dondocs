@@ -2,6 +2,7 @@ import { MAX_PACKAGE_REQUIREMENTS_HISTORY_BYTES, packageRequirementsSchema } fro
 import { packageRoles } from "./packageRoles";
 export { packageRoles } from "./packageRoles";
 import { z } from "zod";
+import { packageConsistencySchema, packageConsistencyRuleIdentity, MAX_PACKAGE_CONSISTENCY_HISTORY_BYTES } from './packageConsistencyModel';
 import type { SerializedSession } from "@/stores/documentStore";
 import { validateBackupSession } from "./backupValidation";
 import {
@@ -126,6 +127,7 @@ export const packageRevisionSchema = z
     bindings: packageFieldBindingsSchema.optional(),
     templateState: packageConditionalStateSchema.optional(),
     requirements: packageRequirementsSchema.optional(),
+    consistency: packageConsistencySchema.optional(),
   })
   .strict();
 export type PackageRevision = z.infer<typeof packageRevisionSchema>;
@@ -261,8 +263,12 @@ export const actionPackageSchema = z
   })
   .strict()
   .superRefine((record, ctx) => {
-    let informationBytes = 0, bindingBytes = 0, conditionalBytes = 0, requirementBytes = 0;
+    let informationBytes = 0, bindingBytes = 0, conditionalBytes = 0, requirementBytes = 0, consistencyBytes = 0;
     for (const revision of [...record.revisions, ...(record.reviewRounds ?? []).map(round => round.baseline)]) {
+      if (revision.consistency) consistencyBytes += new TextEncoder().encode(JSON.stringify(revision.consistency)).byteLength;
+      if (consistencyBytes > MAX_PACKAGE_CONSISTENCY_HISTORY_BYTES) {
+        ctx.addIssue({ code: 'custom', message: 'Retained package consistency declarations exceed the combined 8 MB limit.' }); break;
+      }
       if (revision.templateState) conditionalBytes += new TextEncoder().encode(JSON.stringify(revision.templateState)).byteLength;
       if (conditionalBytes > MAX_CONDITIONAL_HISTORY_BYTES) {
         ctx.addIssue({ code: 'custom', message: 'Retained conditional intake exceeds the combined 16 MB limit.' }); break;
@@ -286,8 +292,13 @@ export const actionPackageSchema = z
       memberRevisions = new Map<string, string>(),
       citationOwners = new Map<string, string>(),
       informationFacts = new Map<string, string>(),
-      informationParticipants = new Map<string, string>(), requirementIdentities = new Map<string, string>();
+      informationParticipants = new Map<string, string>(), requirementIdentities = new Map<string, string>(), consistencyIdentities = new Map<string, string>();
     for (const [index, revision] of record.revisions.entries()) {
+      for (const rule of revision.consistency?.rules ?? []) {
+        const identity = packageConsistencyRuleIdentity(rule), prior = consistencyIdentities.get(rule.id);
+        if (prior !== undefined && prior !== identity) ctx.addIssue({ code: 'custom', message: 'A consistency relationship identity changed its values, relation or person.' });
+        consistencyIdentities.set(rule.id, identity);
+      }
       for (const requirement of revision.requirements?.items ?? []) {
         const identity = JSON.stringify([requirement.kind, requirement.definitionId, requirement.participantId]);
         const prior = requirementIdentities.get(requirement.id);
@@ -550,6 +561,7 @@ export async function reviseActionPackage(
     ...(current.templateState ? { templateState: current.templateState } : {}),
     ...(current.information ? { information: current.information } : {}),
     ...(current.requirements ? { requirements: current.requirements } : {}),
+    ...(current.consistency ? { consistency: current.consistency } : {}),
   };
   return commitActionPackage(
     record,

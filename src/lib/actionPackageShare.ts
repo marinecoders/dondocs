@@ -2,7 +2,7 @@ import { z } from "zod";
 import { getExportDeploymentPolicy, getExportDeploymentPolicySync } from "@/config/classification";
 import { buildPortableActionPackage, importPortableActionPackage, parsePortableActionPackage } from "./actionPackageTransfer";
 import { getPackageRevision, listActionPackages, type ActionPackage } from "./actionPackages";
-import { reviewPackageNative, reviewPackageText, reviewPackageInformation, reviewPackageBindings, reviewPackageRequirements } from "./actionPackageDisclosure";
+import { reviewPackageNative, reviewPackageText, reviewPackageInformation, reviewPackageBindings, reviewPackageRequirements, reviewPackageConsistency } from "./actionPackageDisclosure";
 import { sameReviewStoredValue } from "./documentsDb";
 import { validateShareExpiration } from "./sharedSession";
 import { encryptSharePayload, buildShareUrl, MAX_SHARE_URL_LENGTH } from "./shareCrypto";
@@ -84,6 +84,7 @@ async function prepare(json: string, policy: PolicyResolution, expiresAt?: numbe
   ];
   if (revision.bindings) reviews.push({ member: "Package field links", review: reviewPackageBindings(revision.bindings, policy) });
   if (revision.requirements) reviews.push({ member: "Package requirements", review: reviewPackageRequirements(revision.requirements, policy) });
+  if (revision.consistency) reviews.push({ member: 'Package relationships', review: reviewPackageConsistency(revision.consistency, policy) });
   if (revision.information) reviews.push({ member: "Package information", review: reviewPackageInformation(revision.information, policy) });
   if (revision.templateState) {
     const { reviewConditionalPackage } = await import('./packageConditionalSources');
