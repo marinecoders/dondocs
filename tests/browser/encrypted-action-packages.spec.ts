@@ -78,7 +78,7 @@ test('encrypted package link and file preserve reviewed content across fresh bro
   await expect(modal.getByRole('heading', { name: 'Package readiness: ready', exact: true })).toBeVisible();
   await modal.getByRole('checkbox', { name: /^I reviewed every included member/ }).check();
   await modal.getByRole('button', { name: 'Assemble and retain PDF', exact: true }).click();
-  await expect(modal.getByRole('status')).toContainText('Assembled PDF retained.', { timeout: 60_000 });
+  await expect(modal.getByRole('status').filter({ hasText: 'Assembled PDF retained.' })).toContainText('Assembled PDF retained.', { timeout: 60_000 });
   await modal.getByRole('button', { name: 'Download retained PDF', exact: true }).click();
   await modal.getByRole('checkbox', { name: /^I reviewed every included member/ }).check();
   const retainedPending = page.waitForEvent('download');
