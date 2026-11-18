@@ -20,6 +20,7 @@ import { idbGetAllAttachments, idbCompareActionPackage } from '@/lib/documentsDb
 import { buildBackup, restoreBackup } from '@/lib/backup';
 import { buildPortableActionPackage } from '@/lib/actionPackageTransfer';
 import { useDocumentsStore } from '@/stores/documentsStore';
+import { derivePackageNextActions } from '@/lib/packageNextActions';
 vi.mock('@/stores/backupStore', () => ({ scheduleBackup: vi.fn(), useBackupStore: { getState: () => ({}) } }));
 vi.mock('@/lib/pdfText', () => ({ extractPdfText: async () => 'Synthetic retained PDF' }));
 const policy = resolveExportDeploymentPolicy({ hostname: 'localhost', environment: { maxLevel: 'unclassified', allowedLevels: ['unclassified'] }, runtime: { status: 'absent' } });
@@ -69,6 +70,8 @@ it('creates exactly one revision against latest package, retaining reordering, n
   expect(member.session.reviewComments?.threads[0].messages[0].text).toBe('Synthetic feedback question.');
   expect(await readPackageAsset(original.original)).toEqual(bytes); expect(applied.reviewRounds).toEqual(latest.reviewRounds);
   expect(applied.reviewApplications![0].outcomes[0].suggestions!.decisions[0].action).toBe('accepted');
+  const next = await derivePackageNextActions(applied, undefined, { operation: 'review', policy });
+  expect(next.readyForOperation, JSON.stringify(next.actions)).toBe(true);
   expect((await listActionPackages())[0]).toEqual(applied); expect(useDocumentsStore.getState().docs).toEqual({});
   await expect(applyPreparedPackageReviewApplication(prepared, policy)).rejects.toThrow(/again/);
   await expect(previewPackageReviewReturn(json, applied, round.id, policy)).rejects.toThrow(/already applied/);

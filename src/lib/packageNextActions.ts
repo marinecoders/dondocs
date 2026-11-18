@@ -92,7 +92,7 @@ export async function derivePackageNextActions(input: ActionPackage, revisionId 
       if (revision.work) reviewPackageWork(revision.work, policy);
       if (!revision.members.length) add({ id: 'review-no-documents', kind: 'inspection', label: 'Add a saved document',
         message: 'Add a saved member before starting a package review.', blocking: true, destination: { section: 'documents' } });
-      await validateActionPackageResources({ ...record, historyScope: 'selected-revision', currentRevisionId: revision.id, revisions: [revision], reviewRounds: undefined }, async asset => {
+      await validateActionPackageResources({ ...record, historyScope: 'selected-revision', currentRevisionId: revision.id, revisions: [revision], reviewRounds: undefined, reviewApplications: undefined, workingCopies: undefined }, async asset => {
         options.signal?.throwIfAborted(); const bytes = await readPackageAsset(asset); options.signal?.throwIfAborted(); return bytes;
       });
     } else {
