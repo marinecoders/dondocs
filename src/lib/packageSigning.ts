@@ -185,8 +185,13 @@ export async function validatePackageSigningResources(signing: PackageSigning, r
   for (const entry of signing.handoffs) {
     await readPackageSigningRecord(entry, read);
     const source = revisions.find(revision => revision.id === entry.sourceRevisionId);
-    if (source && await packageSigningContextFingerprint(source) !== entry.contextSha256)
-      throw new Error('The signing handoff context does not match its captured package revision.');
+    if (source) {
+      if (await packageSigningContextFingerprint(source) !== entry.contextSha256)
+        throw new Error('The signing handoff context does not match its captured package revision.');
+      if (!sameReviewStoredValue(targetAsset(source, entry.target), entry.pdfs.source))
+        throw new Error('The exact signing source does not match its captured revision.');
+      await assertTargetProvenance(source, entry.target);
+    }
   }
 }
 export async function reviewPackageSigning(signing: PackageSigning, policy: PolicyResolution, read: ReadAsset = readPackageAsset): Promise<ExportReview[]> {
