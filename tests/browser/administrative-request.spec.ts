@@ -29,6 +29,8 @@ async function exportPackage(page: Page, dialog: Locator) {
   return download(page, () => deliver.click());
 }
 async function createRequest(dialog: Locator, person: string, subject: string, signature: string) {
+  const quick = dialog.locator('summary').filter({ hasText: /^Quick request starter/ });
+  if (!await dialog.getByRole('region', { name: 'Administrative request starter', exact: true }).isVisible()) await quick.click();
   const starter = dialog.getByRole('region', { name: 'Administrative request starter', exact: true });
   await starter.getByRole('button', { name: 'Start an administrative request', exact: true }).click();
   const values = { Requester: person, Organization: 'Fictional Training Unit', Recipient: 'Training Officer', 'Request subject': subject,

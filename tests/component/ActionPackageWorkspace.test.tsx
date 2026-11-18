@@ -27,6 +27,9 @@ import { resolveExportDeploymentPolicy } from "@/lib/exportDeploymentPolicy";
 import * as memberReviews from "@/lib/packageMemberReviews";
 import * as packageRecords from "@/lib/actionPackages";
 import { PACKAGE_WORKSPACE_CONTEXT_KEY, readPackageWorkspaceContext, rememberPackageWorkspaceContext } from "@/lib/packageWorkspaceContext";
+import { maintainedPackageAction } from "@/lib/maintainedPackageActions";
+import { saveConditionalPackageDraft } from "@/lib/packageConditional";
+import { buildPortableActionPackage, importPortableActionPackage } from "@/lib/actionPackageTransfer";
 
 const policy = resolveExportDeploymentPolicy({
   hostname: "localhost",
@@ -46,12 +49,66 @@ beforeEach(() => {
   useUIStore.setState({ actionPackagesOpen: false, isMobile: false, sidebarCollapsed: false });
 });
 
+it("exposes derived evidence requirements for an imported legacy intake without stored requirement declarations", async () => {
+  const original = await saveConditionalPackageDraft({ template: await maintainedPackageAction("administrative-request"),
+    answers: { version: 1, values: { supportingEvidence: true }, groups: {} } }, policy);
+  const portable = JSON.parse(await buildPortableActionPackage(original));
+  portable.package.id = `legacy-intake-${crypto.randomUUID()}`;
+  for (const revision of portable.package.revisions) { delete revision.requirements; revision.templateState.requirementIds = []; }
+  const legacy = await importPortableActionPackage(JSON.stringify(portable));
+  expect(getPackageRevision(legacy).requirements).toBeUndefined();
+  useUIStore.getState().openActionPackage(legacy.id);
+  render(<ActionPackageWorkspace exportGate={createExportGate()} ports={{ compile: vi.fn(), convertDocx: vi.fn(), waitForReady: async () => true }} />);
+  const requirements = await screen.findByRole("region", { name: "Evidence and requirements" });
+  await within(requirements).findByRole("heading", { name: "Supporting PDF" });
+  const check = within(requirements).getByRole("button", { name: "Check evidence requirements" });
+  await waitFor(() => expect(check).toBeEnabled()); await userEvent.click(check);
+  await within(requirements).findByText(/^PDF assembly requirement checks have unresolved items\./);
+  expect((await listActionPackages()).find(record => record.id === legacy.id)).toEqual(legacy);
+});
+
+it("holds new action intake through close and package switching until its changes are discarded", async () => {
+  const origin = await createActionPackage("Conditional intake origin"), destination = await createActionPackage("Conditional intake destination");
+  useUIStore.getState().openActionPackage(origin.id);
+  render(<ActionPackageWorkspace exportGate={createExportGate()} ports={{ compile: vi.fn(), convertDocx: vi.fn(), waitForReady: async () => true }} />);
+  const dialog = await screen.findByRole("dialog", { name: "Action packages" }), user = userEvent.setup();
+  const start = await within(dialog).findByRole("button", { name: "Start training participation" });
+  await waitFor(() => expect(start).toBeEnabled()); await user.click(start);
+  const course = await within(dialog).findByLabelText("Course or activity", { exact: true });
+  await waitFor(() => expect(course).toBeEnabled()); await user.type(course, "Unapplied course title");
+  expect(within(dialog).getByLabelText("Saved packages", { exact: true })).toBeDisabled();
+  await user.keyboard("{Escape}"); expect(dialog).toBeVisible(); expect(course).toHaveValue("Unapplied course title");
+  act(() => useUIStore.getState().openActionPackage(destination.id));
+  expect(within(dialog).getByLabelText("Saved packages", { exact: true })).toHaveValue(origin.id);
+  await user.click(within(dialog).getByRole("button", { name: "Discard intake changes" }));
+  await waitFor(() => expect(within(dialog).getByLabelText("Saved packages", { exact: true })).toHaveValue(destination.id));
+  expect((await listActionPackages()).find(record => record.id === origin.id)).toEqual(origin);
+});
+
+it("distinguishes a native draft with no library source from a known captured source without inventing a capture date", async () => {
+  const blank = await createActionPackage("Generated and captured sources");
+  const captured = await capturePackageMember(captureDocumentRevision({ documentId: "known-source", epoch: 0, editSequence: 0, capturedAt: 1794945600000 }, { ...createBlankSession(), endItems: [], publicationTables: {} }), "Known source", "basic-letter");
+  const generated = { ...structuredClone(captured), id: "generated-native", revisionId: "generated-revision", label: "Generated native", role: "supporting-document" as const };
+  delete generated.source;
+  const record = await reviseActionPackage(blank, [captured, generated]);
+  useUIStore.getState().openActionPackage(record.id);
+  render(<ActionPackageWorkspace exportGate={createExportGate()} ports={{ compile: vi.fn(), convertDocx: vi.fn(), waitForReady: async () => true }} />);
+  const dialog = await screen.findByRole("dialog", { name: "Action packages" });
+  const generatedCard = (await within(dialog).findByRole("heading", { name: "2. Generated native" })).closest("li")!;
+  expect(within(generatedCard).getByText("Source: No library source recorded")).toBeVisible();
+  expect(within(generatedCard).queryByText(/^Source:.*Captured/)).toBeNull();
+  expect(within(generatedCard).queryByText(/foreign provenance/)).toBeNull();
+  const capturedCard = within(dialog).getByRole("heading", { name: "1. Known source" }).closest("li")!;
+  expect(within(capturedCard).getByText(/Source: unavailable; preserved copy retained · Captured/)).toHaveTextContent(new Date(captured.source!.capturedAt).toLocaleString());
+});
+
 it("preserves request intake through close and queued selection until the user cancels it", async () => {
   const previous = await createActionPackage("Request starter origin");
   const requested = await createActionPackage("Request starter destination");
   useUIStore.getState().openActionPackage(previous.id);
   render(<ActionPackageWorkspace exportGate={createExportGate()} ports={{ compile: vi.fn(), convertDocx: vi.fn(), waitForReady: async () => true }} />);
   const user = userEvent.setup(), dialog = await screen.findByRole("dialog", { name: "Action packages" });
+  await user.click(within(dialog).getByText("Quick request starter", { exact: true }));
   await user.click(await within(dialog).findByRole("button", { name: "Start an administrative request" }));
   const starter = within(dialog).getByRole("region", { name: "Administrative request starter" });
   await user.type(within(starter).getByLabelText("Requester", { exact: true }), "Unfinished request");
@@ -677,6 +734,7 @@ it('reviews and creates a request through its own busy parent controller', async
   useUIStore.setState({ actionPackagesOpen: true });
   render(<ActionPackageWorkspace exportGate={createExportGate()} ports={{ compile: vi.fn(), convertDocx: vi.fn(), waitForReady: async () => true }} />);
   const dialog = await screen.findByRole('dialog', { name: 'Action packages' });
+  await user.click(within(dialog).getByText('Quick request starter', { exact: true }));
   const start = await within(dialog).findByRole('button', { name: 'Start an administrative request' });
   await waitFor(() => expect(start).toBeEnabled()); await user.click(start);
   const starter = within(dialog).getByRole('region', { name: 'Administrative request starter' });

@@ -67,8 +67,9 @@ import { parseEncryptedShareFile, MAX_ENCRYPTED_SHARE_FILE_BYTES } from "@/lib/e
 import { ShareModal } from "./modals/ShareModal";
 import type { CorrespondenceRendererPorts } from "@/services/exports/correspondence";
 
-const PackageRequirementsPanel = lazy(() => import("./PackageRequirementsPanel").then(module => ({ default: module.PackageRequirementsPanel })));
 const PackageInformationPanel = lazy(() => import("./PackageInformationPanel").then(module => ({ default: module.PackageInformationPanel })));
+const PackageIntakePanel = lazy(() => import("./PackageIntakePanel").then(module => ({ default: module.PackageIntakePanel })));
+const PackageRequirementsPanel = lazy(() => import("./PackageRequirementsPanel").then(module => ({ default: module.PackageRequirementsPanel })));
 const AdministrativeRequestStarter = lazy(() => import("./AdministrativeRequestStarter").then(module => ({ default: module.AdministrativeRequestStarter })));
 const PackageTemplatePanel = lazy(() => import("./PackageTemplatePanel").then(module => ({ default: module.PackageTemplatePanel })));
 
@@ -129,6 +130,7 @@ function PackageDialog({
     operation.current?.signal.throwIfAborted();
   }
   function close() {
+    if (intakeDirty) { setError("Save, apply or discard the intake changes before closing this package."); return; }
     if (requirementsDirty) { setError("Save or discard the requirement changes before closing this package."); return; }
     if (starterDirty) { setError("Create or cancel the request starter before closing this package."); return; }
     if (informationDirty) { setError(UNSAVED_PACKAGE_INFORMATION); return; }
@@ -165,7 +167,10 @@ function PackageDialog({
   const validName = !!name.trim() && !nameTooLong;
   const [informationDirty, setInformationDirty] = useState(false);
   const [starterDirty, setStarterDirty] = useState(false);
-  const [requirementsDirty, setRequirementsDirty] = useState(false);
+  const [intakeDirty, setIntakeDirty] = useState(false), [requirementsDirty, setRequirementsDirty] = useState(false);
+  useEffect(() => {
+    if (!intakeDirty) setError(previous => previous === "Save, apply or discard the intake changes before closing this package." ? "" : previous);
+  }, [intakeDirty]);
   useEffect(() => {
     if (!requirementsDirty) setError(previous => previous === "Save or discard the requirement changes before closing this package." ? "" : previous);
   }, [requirementsDirty]);
@@ -245,7 +250,7 @@ function PackageDialog({
   const beforeComparisonId = beforeOutputId || revision?.outputs.at(-2)?.id || "";
   const afterComparisonId = afterOutputId || revision?.outputs.at(-1)?.id || "";
   useEffect(() => {
-    if (typedDirty || informationDirty || starterDirty || requirementsDirty || !requestedPackageId && inventoryLoaded.current) return;
+    if (typedDirty || informationDirty || starterDirty || intakeDirty || requirementsDirty || !requestedPackageId && inventoryLoaded.current) return;
     // A received selection supersedes work captured for the previous package.
     // Abort before loading inventory so late results cannot publish during that read.
     if (requestedPackageId) operation.current?.abort(RECEIVED_PACKAGE_SELECTION);
@@ -285,7 +290,7 @@ function PackageDialog({
     return () => {
       live = false;
     };
-  }, [requestedPackageId, requestedRevisionId, typedDirty, informationDirty, starterDirty, requirementsDirty, savedWorkspace]);
+  }, [requestedPackageId, requestedRevisionId, typedDirty, informationDirty, starterDirty, intakeDirty, requirementsDirty, savedWorkspace]);
   useEffect(
     () => () => {
       if (pdfUrl) URL.revokeObjectURL(pdfUrl);
@@ -506,7 +511,7 @@ function PackageDialog({
         if (!value) close();
       }}
     >
-      <DialogContent className="sm:max-w-6xl" aria-busy={busy} showCloseButton={!typedDirty && !informationDirty && !starterDirty && !requirementsDirty}>
+      <DialogContent className="sm:max-w-6xl" aria-busy={busy} showCloseButton={!typedDirty && !informationDirty && !starterDirty && !intakeDirty && !requirementsDirty}>
         <DialogHeader>
           <DialogTitle>Action packages</DialogTitle>
           <DialogDescription>
@@ -514,14 +519,10 @@ function PackageDialog({
             revision. Review linked citation reorders before saving a new revision.
           </DialogDescription>
         </DialogHeader>
-        <PackageWorkspaceNavigation active={workspaceSection} hasPackage={!!record} disabled={busy || typedDirty || starterDirty || requirementsDirty} onNavigate={navigate} />
+        <PackageWorkspaceNavigation active={workspaceSection} hasPackage={!!record} disabled={busy || typedDirty || starterDirty || intakeDirty || requirementsDirty} onNavigate={navigate} />
         <div ref={overviewRef} tabIndex={-1} className="min-w-0 scroll-mt-4 space-y-4">
         {record && revision && <PackageWorkspaceSummary record={record} revision={revision} />}
-        <Suspense fallback={<p>Loading request starter…</p>}>
-          <AdministrativeRequestStarter disabled={!loaded || typedDirty || informationDirty || requirementsDirty} busy={busy} run={run}
-            signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted}
-            onDirtyChange={setStarterDirty} onCreate={value => { update(value); setNotice("Request package created. Review its letter and worksheet before submission."); }} />
-        </Suspense>
+
         {error && (
           <p role="alert" className="break-words text-sm text-destructive">
             {error}
@@ -532,7 +533,7 @@ function PackageDialog({
             {notice}
           </p>
         )}
-        <fieldset disabled={!loaded || busy || typedDirty || informationDirty || starterDirty || requirementsDirty} className="min-w-0 scroll-mt-4 space-y-4">
+        <fieldset disabled={!loaded || busy || typedDirty || informationDirty || starterDirty || intakeDirty || requirementsDirty} className="min-w-0 scroll-mt-4 space-y-4">
           <legend className="mb-2 text-sm font-medium">Start or open a package</legend>
           <div className="grid min-w-0 gap-3 sm:grid-cols-2">
           <label className="block text-sm">
@@ -595,6 +596,22 @@ function PackageDialog({
                 assembled output has no inherited signature or approval.
               </p>
           </>}
+        </fieldset>
+        <Suspense fallback={<p>Loading action intake…</p>}>
+          <PackageIntakePanel record={record} revision={revision ?? undefined} editable={editable} disabled={!loaded || busy || typedDirty || informationDirty || starterDirty || requirementsDirty}
+            busy={busy} run={run} onApply={update} onDirtyChange={setIntakeDirty}
+            signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted} />
+        </Suspense>
+        <details className="min-w-0 rounded border p-3">
+          <summary className="cursor-pointer text-sm font-medium">Quick request starter{starterDirty ? " · unsaved" : ""}</summary>
+        <Suspense fallback={<p>Loading request starter…</p>}>
+          <AdministrativeRequestStarter disabled={!loaded || typedDirty || informationDirty || intakeDirty || requirementsDirty} busy={busy} run={run}
+            signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted}
+            onDirtyChange={setStarterDirty} onCreate={value => { update(value); setNotice("Request package created. Review its letter and worksheet before submission."); }} />
+        </Suspense>
+        </details>
+        <fieldset disabled={!loaded || busy || typedDirty || informationDirty || starterDirty || intakeDirty || requirementsDirty} className="min-w-0 scroll-mt-4 space-y-4">
+          <legend className="mb-2 text-sm font-medium">Blank packages, templates and imports</legend>
           <div className="flex flex-wrap items-end gap-2">
             <label className="min-w-0 flex-1 text-sm">
               Package name
@@ -674,16 +691,16 @@ function PackageDialog({
 
         </fieldset>
         {record && revision && (revision.requirements !== undefined || !!revision.templateState) && <Suspense fallback={<p role="status">Loading evidence requirements…</p>}>
-          <PackageRequirementsPanel record={record} revision={revision} disabled={!editable || typedDirty || starterDirty || informationDirty}
+          <PackageRequirementsPanel record={record} revision={revision} disabled={!editable || typedDirty || starterDirty || intakeDirty || informationDirty}
             busy={busy} run={run} onApply={update} onDirtyChange={setRequirementsDirty}
             signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted} />
         </Suspense>}
         {record && revision && <Suspense fallback={<p role="status">Loading package information…</p>}>
-          <PackageInformationPanel record={record} revision={revision} disabled={!editable || typedDirty || starterDirty || requirementsDirty} busy={busy} run={run} onApply={update}
+          <PackageInformationPanel record={record} revision={revision} disabled={!editable || typedDirty || starterDirty || intakeDirty || requirementsDirty} busy={busy} run={run} onApply={update}
             onDirtyChange={setInformationDirty} signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted} />
         </Suspense>}
         </div>
-        <fieldset disabled={informationDirty || starterDirty || requirementsDirty} aria-label="Package documents, review and delivery" className="min-w-0 space-y-4">
+        <fieldset disabled={informationDirty || starterDirty || intakeDirty || requirementsDirty} aria-label="Package documents, review and delivery" className="min-w-0 space-y-4">
 
           {record && revision && (
             <>
@@ -895,11 +912,10 @@ function PackageDialog({
                             ? source.meta.title
                             : member.source?.local
                               ? "unavailable; preserved copy retained"
-                              : "foreign provenance; no local binding"}{" "}
-                          · Captured{" "}
-                          {new Date(
-                            member.source?.capturedAt ?? 0,
-                          ).toLocaleString()}
+                              : member.source
+                                ? "foreign provenance; no local binding"
+                                : "No library source recorded"}
+                          {member.source && <> · Captured{" "}{new Date(member.source.capturedAt).toLocaleString()}</>}
                         </p>
                       )}
                       {working && (

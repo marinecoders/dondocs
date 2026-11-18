@@ -7,6 +7,13 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.145] — 2026-11-17
+
+### Added
+
+- Contextual package intake with saved partial answers, repeated people, explicit document-change previews and editable transfer.
+- Maintained administrative-request, training-participation and evidence-submission starters using clearly labeled DonDocs worksheets.
+
 ## [1.3.144] — 2026-11-17
 
 ### Added

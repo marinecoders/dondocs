@@ -31,6 +31,7 @@ export interface PreparedAdministrativeRequest {
 }
 interface Capture { record: ActionPackage; attachments: StoredAttachment[]; policy: string }
 const captures = new WeakMap<PreparedAdministrativeRequest, Capture>();
+export const ADMINISTRATIVE_REQUEST_BODY = 'Please consider the request described in the accompanying DonDocs request details worksheet.';
 
 function policyIdentity(policy: PolicyResolution): string {
   if (policy.status !== 'ready') throw new Error(policy.message);
@@ -80,7 +81,7 @@ export async function prepareAdministrativeRequest(
     date: `${Number(date[2])} ${['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][Number(date[1]) - 1]} ${date[0].slice(2)}`,
     sigFirst: '', sigMiddle: '', sigLast: values.signatureName, signatureType: 'none' };
   letter.paragraphs = [{ id: newPackageId('paragraph'), level: 0,
-    text: 'Please consider the request described in the accompanying DonDocs request details worksheet.' }];
+    text: ADMINISTRATIVE_REQUEST_BODY }];
   const members: NativePackageMember[] = [];
   for (const [session, label, role] of [[letter, 'Request letter', 'basic-letter'], [form, 'DonDocs request details worksheet', 'supporting-document']] as const) {
     signal?.throwIfAborted();
