@@ -13,9 +13,11 @@ export function addPackageOutputNavigation(pdf: PDFDocument, revision: PackageRe
   });
   if (new Set(destinations.map(item => item.memberId)).size !== destinations.length)
     throw new Error('A package member has duplicate PDF destinations.');
-  const labels = pdf.context.obj([]);
+  const labels = pdf.context.obj([]), labeledPages = new Set<number>();
   for (const item of destinations) {
     appendPublicationOutline(pdf, item.label, item.startPage - 1);
+    if (labeledPages.has(item.startPage)) continue;
+    labeledPages.add(item.startPage);
     const numeric = item.numbering === 'continuation' && /^[1-9]\d*$/.test(item.firstPageLabel);
     labels.push(PDFNumber.of(item.startPage - 1));
     labels.push(pdf.context.obj(numeric ? { S: PDFName.of('D'), St: Number(item.firstPageLabel) }

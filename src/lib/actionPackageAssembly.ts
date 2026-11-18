@@ -1,5 +1,6 @@
 import { reviewPackageSigning } from './packageSigning';
 import { getExportDeploymentPolicy, getExportDeploymentPolicySync } from '@/config/classification';
+import { canMeasurePackageEndorsement, measurePackageEndorsement } from './packageEndorsementPlacement';
 import { addPackageFrontMatter } from './packageFrontMatter';
 import { addPackageOutputNavigation } from './packageOutputNavigation';
 import { inspectPackageRequirements } from "./packageRequirements";
@@ -117,9 +118,11 @@ function prepareMember(
   revisionId: string,
   policy: PolicyResolution,
   startingPageNumber = 1,
+  docType?: 'same_page_endorsement' | 'new_page_endorsement',
 ) {
   if (!input.snapshot) throw new Error("Missing native package input.");
   const snapshot = structuredClone(input.snapshot);
+  if (docType) snapshot.docType = docType;
   if (input.member.role === "endorsement") {
     snapshot.formData.startingPageNumber = startingPageNumber;
     // The package contains its basic letter as a separate member. Preserve the captured original, but do not append it twice.
@@ -586,35 +589,10 @@ async function assertAssemblyPolicyCurrent(input: AssemblyInput): Promise<void> 
   if (input.policy.status !== 'ready' || current.status !== 'ready' || current.policy.identity !== input.policy.policy.identity || !assemblyPolicyCurrent(input))
     throw new Error('The export policy changed. Review this package assembly again.');
 }
-/** Acknowledgement covers each preserved member's displayed export review and original PDF warnings. */
-export async function assemblePackage(
-  prepared: PreparedPackageAssembly,
-  ports: CorrespondenceRendererPorts & {
-    waitForReady(timeoutMs: number): Promise<boolean>;
-  },
-  signal = new AbortController().signal,
-): Promise<ActionPackage> {
-  const input = preparedAssemblies.get(prepared);
-  if (!input || !input.eligible) throw new Error("Resolve package readiness findings before assembly.");
-  if (input.purpose !== "pdf") throw new Error("Review PDF assembly requirements before assembling this package.");
-  await assertAssemblyPolicyCurrent(input); signal.throwIfAborted();
-  return withAttachmentStaging(async () => {
-    let pdf = await PDFDocument.create();
-    let boundaries: PackageBoundary[] = [];
-    let continuationPages = 0,
-      enclosureNumber = 0;
-    for (const memberInput of input.inputs) {
-      signal.throwIfAborted();
-      const { member } = memberInput;
-      let bytes: ArrayBuffer;
-      if (memberInput.original) bytes = memberInput.original;
-      else {
-        const preparation = prepareMember(
-          memberInput,
-          input.revisionId,
-          input.policy,
-          continuationPages + 1,
-        );
+async function renderMemberBytes(memberInput: MemberInput, revisionId: string, policy: PolicyResolution,
+  startingPageNumber: number, ports: Parameters<typeof assemblePackage>[1], signal: AbortSignal,
+  docType?: 'same_page_endorsement' | 'new_page_endorsement'): Promise<ArrayBuffer> {
+  const preparation = prepareMember(memberInput, revisionId, policy, startingPageNumber, docType);
         if ("issues" in preparation)
           throw new Error(preparation.issues.join(" "));
         const ready: ReadyExportJob =
@@ -649,10 +627,52 @@ export async function assemblePackage(
           throw new Error(
             artifact.issues.map((issue) => issue.message).join(" "),
           );
-        bytes = await artifact.blob.arrayBuffer();
+  return artifact.blob.arrayBuffer();
+}
+/** Acknowledgement covers each preserved member's displayed export review and original PDF warnings. */
+export async function assemblePackage(
+  prepared: PreparedPackageAssembly,
+  ports: CorrespondenceRendererPorts & {
+    waitForReady(timeoutMs: number): Promise<boolean>;
+  },
+  signal = new AbortController().signal,
+): Promise<ActionPackage> {
+  const input = preparedAssemblies.get(prepared);
+  if (!input || !input.eligible) throw new Error("Resolve package readiness findings before assembly.");
+  if (input.purpose !== "pdf") throw new Error("Review PDF assembly requirements before assembling this package.");
+  await assertAssemblyPolicyCurrent(input); signal.throwIfAborted();
+  return withAttachmentStaging(async () => {
+    let pdf = await PDFDocument.create();
+    let boundaries: PackageBoundary[] = [];
+    let continuationPages = 0,
+      enclosureNumber = 0;
+    let previous: { member: PackageMember; bytes: ArrayBuffer } | undefined;
+    const placements: Array<{ memberId: string; placement: 'same-page' | 'new-page'; reason: string }> = [];
+    for (const memberInput of input.inputs) {
+      signal.throwIfAborted();
+      const { member } = memberInput;
+      let bytes: ArrayBuffer;
+      if (memberInput.original) bytes = memberInput.original;
+      else {
+        bytes = await renderMemberBytes(memberInput, input.revisionId, input.policy, continuationPages + 1, ports, signal,
+          getPackageRevision(input.record, input.revisionId).assembly?.samePageEndorsements && member.role === 'endorsement' ? 'same_page_endorsement' : undefined);
       }
-      const source = await PDFDocument.load(bytes),
-        count = source.getPageCount();
+      let shared = false;
+      if (getPackageRevision(input.record, input.revisionId).assembly?.samePageEndorsements && member.role === 'endorsement') {
+        const measurement = previous && canMeasurePackageEndorsement(previous.member, member)
+          ? await measurePackageEndorsement(previous.bytes, bytes, previous.member, member, signal)
+          : { fits: false, reason: 'The preceding member and endorsement are not qualified unsigned native correspondence.' };
+        if (measurement.fits && measurement.sourceTop !== undefined && measurement.sourceBottom !== undefined && measurement.targetBottom !== undefined) {
+          const measuredPdf = await PDFDocument.load(bytes);
+          const embedded = await pdf.embedPage(measuredPdf.getPage(0), { left: 0, right: 612, top: measurement.sourceTop, bottom: measurement.sourceBottom });
+          pdf.getPage(pdf.getPageCount() - 1).drawPage(embedded, { x: 0, y: measurement.targetBottom, width: 612, height: measurement.sourceTop - measurement.sourceBottom });
+          shared = true;
+        } else if (memberInput.snapshot) {
+          bytes = await renderMemberBytes(memberInput, input.revisionId, input.policy, continuationPages + 1, ports, signal, 'new_page_endorsement');
+        }
+        placements.push({ memberId: member.id, placement: shared ? 'same-page' : 'new-page', reason: measurement.reason });
+      }
+      const source = await PDFDocument.load(bytes), count = source.getPageCount();
       const separate =
         member.role !== "basic-letter" && member.role !== "endorsement";
       if (member.role === "enclosure") enclosureNumber++;
@@ -664,9 +684,9 @@ export async function assemblePackage(
             : String(continuationPages + 1);
       boundaries.push({
         memberId: member.id,
-        startPage: pdf.getPageCount() + 1,
+        startPage: pdf.getPageCount() + (shared ? 0 : 1),
         pageCount: count,
-        firstPageLabel: label,
+        firstPageLabel: shared ? String(continuationPages) : label,
         numbering: separate ? "separate" : "continuation",
       });
       const pages = await pdf.copyPages(source, source.getPageIndices());
@@ -674,7 +694,7 @@ export async function assemblePackage(
         member.role === "enclosure"
           ? await pdf.embedFont(StandardFonts.Helvetica)
           : undefined;
-      pages.forEach((page, index) => {
+      if (!shared) pages.forEach((page, index) => {
         pdf.addPage(page);
         if (font)
           page.drawText(`Enclosure (${enclosureNumber}) — ${index + 1}`, {
@@ -694,8 +714,9 @@ export async function assemblePackage(
                 (await PDFDocument.load(file.data)).getPageCount() +
                 (reviewed.session.enclosures[index].hasCoverPage ? 1 : 0);
         }
-        continuationPages += count - nativeEnclosurePages;
+        continuationPages += count - nativeEnclosurePages - Number(shared);
       }
+      previous = shared ? undefined : { member, bytes };
     }
     signal.throwIfAborted();
     const planned = await addPackageFrontMatter(pdf, getPackageRevision(input.record, input.revisionId), input.record.name, boundaries);
@@ -717,7 +738,7 @@ export async function assemblePackage(
       provenance: await capturePackageRenderProvenance(getPackageRevision(input.record, input.revisionId)),
       boundaries,
       navigation,
-      ...(getPackageRevision(input.record, input.revisionId).assembly ? { assembly: { version: 1 as const, profile: getPackageRevision(input.record, input.revisionId).assembly!.profile, frontMatterPages: planned.frontMatterPages } } : {}),
+      ...(getPackageRevision(input.record, input.revisionId).assembly ? { assembly: { version: 1 as const, profile: getPackageRevision(input.record, input.revisionId).assembly!.profile, frontMatterPages: planned.frontMatterPages, placements } } : {}),
       signingStatus: "unsigned-assembled-derivative" as const,
     };
     return commitActionPackage(
