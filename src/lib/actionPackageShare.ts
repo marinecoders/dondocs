@@ -2,7 +2,7 @@ import { z } from "zod";
 import { getExportDeploymentPolicy, getExportDeploymentPolicySync } from "@/config/classification";
 import { buildPortableActionPackage, importPortableActionPackage, parsePortableActionPackage } from "./actionPackageTransfer";
 import { getPackageRevision, listActionPackages, type ActionPackage } from "./actionPackages";
-import { reviewPackageNative, reviewPackageText } from "./actionPackageDisclosure";
+import { reviewPackageNative, reviewPackageText, reviewPackageInformation } from "./actionPackageDisclosure";
 import { sameReviewStoredValue } from "./documentsDb";
 import { validateShareExpiration } from "./sharedSession";
 import { encryptSharePayload, buildShareUrl, MAX_SHARE_URL_LENGTH } from "./shareCrypto";
@@ -82,6 +82,7 @@ async function prepare(json: string, policy: PolicyResolution, expiresAt?: numbe
   const reviews: Array<{ member: string; review: ExportReview }> = [
     { member: "Package name", review: reviewPackageText(record.name, "Package name", policy) },
   ];
+  if (revision.information) reviews.push({ member: "Package information", review: reviewPackageInformation(revision.information, policy) });
   const pdfReviews = new Map<string, ExportReview>();
   const reviewPdf = async (bytes: ArrayBuffer, name: string) => {
     signal.throwIfAborted();

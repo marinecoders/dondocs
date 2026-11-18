@@ -18,7 +18,7 @@ import { packageCitationCandidates, packageCitationOccurrences } from './package
 import { packageCitationReadiness } from './packageCitationRepair';
 import { portableResourceDigest } from './portableResources';
 import { newAttachmentId, withAttachmentStaging } from './attachments';
-import { reviewPackageNative, reviewPackageText, reviewPackageReviewMetadata } from './actionPackageDisclosure';
+import { reviewPackageNative, reviewPackageText, reviewPackageReviewMetadata, reviewPackageInformation } from './actionPackageDisclosure';
 import type { PolicyResolution } from './exportDeploymentPolicy';
 import { classificationBannerLevel } from './detectClassification';
 import { classificationRank, deriveOverallClassLevel } from './overallClassification';
@@ -208,6 +208,7 @@ export async function preparePackageReviewApplication(preview: PackageReviewRetu
     const rewritten = await rewrittenMember(retained, member.session); attachments.push(rewritten.attachment); return rewritten.member;
   }));
   const revision = { id: newPackageId('revision'), parentId: owner.currentRevisionId, createdAt: Date.now(), members, outputs: [],
+    ...(current.information ? { information: structuredClone(current.information) } : {}),
     ...(current.citations ? { citations: structuredClone(current.citations) } : {}) };
   // Rebind an unchanged known citation identity only when every recorded value except the new member revision still matches.
   if (revision.citations) {
@@ -245,6 +246,7 @@ export async function preparePackageReviewApplication(preview: PackageReviewRetu
   }
   const readiness = await packageCitationReadiness(revision);
   const reviews = [...preview.reviews, { ...reviewPackageText('', 'Package citation readiness', policy), notices: readiness.map(item => item.message) }, reviewPackageReviewMetadata(application, policy),
+    ...(current.information ? [reviewPackageInformation(current.information, policy)] : []),
     ...members.flatMap(member => member.kind === 'native' ? [reviewPackageNative(member.session, member.label, policy)] : [])];
   const prepared = Object.freeze({ packageName: owner.name, reviews, plan: structuredClone(plan) });
   preparations.set(prepared, { owner, after, attachments, policy: policyIdentity(policy) }); return prepared;

@@ -1,6 +1,7 @@
 import {
   reviewPackageNative,
   reviewPackageText,
+  reviewPackageInformation,
   reviewPackageOriginal,
 } from "./actionPackageDisclosure";
 import { APP_VERSION, GIT_SHA } from "./version";
@@ -159,6 +160,10 @@ export async function preparePackageAssembly(
   const error = (message: string, memberId?: string) =>
     findings.push({ message, memberId, severity: "error" });
   if (policy.status !== "ready") error(policy.message);
+  if (revision.information) {
+    try { reviews.push({ member: "Package information", review: reviewPackageInformation(revision.information, policy) }); }
+    catch (cause) { error(cause instanceof Error ? cause.message : "Package information could not be reviewed."); }
+  }
   if (!revision.members.length) error("Add a basic letter or main document.");
   findings.push(...await packageCitationReadiness(revision));
   if (
