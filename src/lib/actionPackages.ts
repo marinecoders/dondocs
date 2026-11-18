@@ -327,6 +327,12 @@ export const actionPackageSchema = z
         break;
       }
     }
+    const templateUpgradeIdentities = new Map<string, string>();
+    for (const revision of [...record.revisions, ...(record.reviewRounds ?? []).map(round => round.baseline)]) for (const upgrade of revision.templateState?.upgrades ?? []) {
+      const value = JSON.stringify(upgrade), previous = templateUpgradeIdentities.get(upgrade.id);
+      if (previous !== undefined && previous !== value) ctx.addIssue({ code: 'custom', message: 'A preserved template upgrade changed under its captured identity.' });
+      templateUpgradeIdentities.set(upgrade.id, value);
+    }
     const seen = new Set<string>(),
       memberRevisions = new Map<string, string>(),
       citationOwners = new Map<string, string>(),
@@ -567,7 +573,7 @@ export function packageAssets(record: ActionPackage): PackageAsset[] {
         : [member.draft, ...Object.values(member.templates ?? {})],
     ),
     ...revision.outputs.map((output) => output.asset),
-    ...(revision.templateState ? [revision.templateState.source] : []),
+    ...(revision.templateState ? [revision.templateState.source, ...revision.templateState.upgrades?.map(item => item.source) ?? []] : []),
     ...(revision.signing ? packageSigningAssets(revision.signing) : []),
     ...(revision.scans?.items.map(scan => scan.source) ?? []),
   ]);

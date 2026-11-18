@@ -1,11 +1,18 @@
 import { z } from 'zod';
 import { packageTemplateAnswersSchema } from './packageTemplateProgram';
 import { packageBindingTargetSchema, packageBindingTargetKey } from './packageBindingTargets';
+import { packageRequirementsSchema } from './packageRequirementsModel';
 
 const identity = z.string().min(1).max(100).regex(/^[A-Za-z0-9_-]+$/)
   .refine(value => value !== 'prototype' && !Object.hasOwn(Object.prototype, value), 'Reserved template state identity.');
 const digest = z.string().regex(/^[a-f0-9]{64}$/);
 const label = z.string().trim().min(1).max(160);
+const sourceSchema = z.object({ id: identity, name: z.string().min(1).max(255), type: z.literal('application/json'),
+  size: z.number().int().positive().max(12 * 1024 * 1024), sha256: digest }).strict();
+export const packageTemplateUpgradeSchema = z.object({ id: identity, source: sourceSchema, templateId: identity,
+  templateRevision: z.string().trim().min(1).max(100), answers: packageTemplateAnswersSchema,
+  appliedAnswers: packageTemplateAnswersSchema.optional(), questionMappings: z.record(identity, identity.nullable()),
+  memberMappings: z.record(identity, identity.nullable()), requirements: packageRequirementsSchema.optional(), createdAt: z.number().int().nonnegative() }).strict();
 export function packageTemplateInstanceKey(memberKey: string, participantId?: string): string {
   return JSON.stringify([memberKey, participantId ?? null]);
 }
@@ -16,8 +23,8 @@ export function packageTemplateFactKey(questionId: string, participantId?: strin
 /** Definitions live in one owned immutable asset, rather than being copied into every revision. */
 export const packageConditionalStateSchema = z.object({
   version: z.literal(1),
-  source: z.object({ id: identity, name: z.string().min(1).max(255), type: z.literal('application/json'),
-    size: z.number().int().positive().max(12 * 1024 * 1024), sha256: digest }).strict(),
+  source: sourceSchema,
+  upgrades: z.array(packageTemplateUpgradeSchema).max(10).optional(),
   templateId: identity,
   templateRevision: z.string().trim().min(1).max(100),
   pending: z.boolean(),
@@ -32,6 +39,7 @@ export const packageConditionalStateSchema = z.object({
   requirementIds: z.array(z.object({ key: z.string().min(1).max(260), id: identity }).strict()).max(200),
 }).strict().superRefine((state, context) => {
   const issue = (message: string) => context.addIssue({ code: 'custom', message });
+  if (new Set(state.upgrades?.map(item => item.id)).size !== (state.upgrades?.length ?? 0)) issue('Duplicate captured template upgrade identity.');
   if (new Set(state.facts.map(fact => packageTemplateFactKey(fact.questionId, fact.participantId))).size !== state.facts.length
     || new Set(state.facts.map(fact => fact.factId)).size !== state.facts.length) issue('Duplicate conditional fact mapping.');
   if (new Set(state.instances.map(instance => instance.key)).size !== state.instances.length

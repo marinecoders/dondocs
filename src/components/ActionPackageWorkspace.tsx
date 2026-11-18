@@ -70,6 +70,7 @@ import { parseEncryptedShareFile, MAX_ENCRYPTED_SHARE_FILE_BYTES } from "@/lib/e
 import { ShareModal } from "./modals/ShareModal";
 import type { CorrespondenceRendererPorts } from "@/services/exports/correspondence";
 
+const PackageTemplateUpgradePanel = lazy(() => import("./PackageTemplateUpgradePanel").then(module => ({ default: module.PackageTemplateUpgradePanel })));
 const PackageTemplateMaintenancePanel = lazy(() => import("./PackageTemplateMaintenancePanel").then(module => ({ default: module.PackageTemplateMaintenancePanel })));
 const PackageJobsPanel = lazy(() => import("./PackageJobsPanel").then(module => ({ default: module.PackageJobsPanel })));
 const PackageDeliveryPanel = lazy(() => import("./PackageDeliveryPanel").then(module => ({ default: module.PackageDeliveryPanel })));
@@ -145,6 +146,7 @@ function PackageDialog({
     operation.current?.signal.throwIfAborted();
   }
   function close() {
+    if (upgradeDirty) { setError("Apply or discard template and form upgrade edits before closing this package."); return; }
     if (templateDirty) { setError("Save or discard template editing before closing this workspace."); return; }
     if (scanDirty) { setError("Save or discard scanned-evidence edits before closing this package."); return; }
     if (evidenceDirty) { setError("Add or discard the prepared evidence file before closing this package."); return; }
@@ -212,7 +214,9 @@ function PackageDialog({
   useEffect(() => { if (!scanDirty) setError(previous => previous === "Save or discard scanned-evidence edits before closing this package." ? "" : previous); }, [scanDirty]);
   const [templateDirty, setTemplateDirty] = useState(false);
   useEffect(() => { if (!templateDirty) setError(previous => previous === "Save or discard template editing before closing this workspace." ? "" : previous); }, [templateDirty]);
-  const pendingPackageEdits = templateDirty || scanDirty || evidenceDirty || assemblyDirty || signingDirty || workDirty || typedDirty || informationDirty || starterDirty || intakeDirty || requirementsDirty || consistencyDirty;
+  const [upgradeDirty, setUpgradeDirty] = useState(false);
+  useEffect(() => { if (!upgradeDirty) setError(previous => previous === "Apply or discard template and form upgrade edits before closing this package." ? "" : previous); }, [upgradeDirty]);
+  const pendingPackageEdits = upgradeDirty || templateDirty || scanDirty || evidenceDirty || assemblyDirty || signingDirty || workDirty || typedDirty || informationDirty || starterDirty || intakeDirty || requirementsDirty || consistencyDirty;
   useEffect(() => {
     if (!consistencyDirty) setError(previous => previous === "Save or discard the relationship changes before closing this package." ? "" : previous);
   }, [consistencyDirty]);
@@ -731,14 +735,14 @@ function PackageDialog({
           </>}
         </fieldset>
         <Suspense fallback={<p>Loading action intake…</p>}>
-          <PackageIntakePanel record={record} revision={revision ?? undefined} editable={editable} disabled={!loaded || typedDirty || informationDirty || starterDirty || requirementsDirty || consistencyDirty || workDirty || signingDirty || assemblyDirty || evidenceDirty || scanDirty || templateDirty}
+          <PackageIntakePanel record={record} revision={revision ?? undefined} editable={editable} disabled={!loaded || typedDirty || informationDirty || starterDirty || requirementsDirty || consistencyDirty || workDirty || signingDirty || assemblyDirty || evidenceDirty || scanDirty || templateDirty || upgradeDirty}
             busy={busy} run={run} onApply={update} onDirtyChange={setIntakeDirty}
             signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted} />
         </Suspense>
         <details className="min-w-0 rounded border p-3">
           <summary className="cursor-pointer text-sm font-medium">Quick request starter{starterDirty ? " · unsaved" : ""}</summary>
         <Suspense fallback={<p>Loading request starter…</p>}>
-          <AdministrativeRequestStarter disabled={!loaded || typedDirty || informationDirty || intakeDirty || requirementsDirty || consistencyDirty || workDirty || signingDirty || assemblyDirty || evidenceDirty || scanDirty || templateDirty} busy={busy} run={run}
+          <AdministrativeRequestStarter disabled={!loaded || typedDirty || informationDirty || intakeDirty || requirementsDirty || consistencyDirty || workDirty || signingDirty || assemblyDirty || evidenceDirty || scanDirty || templateDirty || upgradeDirty} busy={busy} run={run}
             signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted}
             onDirtyChange={setStarterDirty} onCreate={value => { update(value); setNotice("Request package created. Review its letter and worksheet before submission."); }} />
         </Suspense>
@@ -833,13 +837,20 @@ function PackageDialog({
         <details className="min-w-0 rounded border p-2 sm:p-3">
           <summary className="cursor-pointer text-sm font-medium">Maintain package templates{templateDirty ? " · editing separate revision" : ""}</summary>
           <div className="min-w-0 pt-3"><Suspense fallback={<p role="status">Opening template maintenance…</p>}>
-            <PackageTemplateMaintenancePanel key={`maintenance:${record?.id ?? "library"}:${revision?.id ?? "none"}`} disabled={!loaded || typedDirty || informationDirty || starterDirty || intakeDirty || requirementsDirty || consistencyDirty || workDirty || signingDirty || assemblyDirty || evidenceDirty || scanDirty}
+            <PackageTemplateMaintenancePanel key={`maintenance:${record?.id ?? "library"}:${revision?.id ?? "none"}`} disabled={!loaded || typedDirty || informationDirty || starterDirty || intakeDirty || requirementsDirty || consistencyDirty || workDirty || signingDirty || assemblyDirty || evidenceDirty || scanDirty || upgradeDirty}
               busy={busy} run={run} onDirtyChange={setTemplateDirty} signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted}
               onSaved={() => setNotice("Separate maintained template saved. Choose it from the action intake template list.")} />
           </Suspense></div>
         </details>
+        {readRecord && revision && <details className="min-w-0 rounded border p-2 sm:p-3">
+          <summary className="cursor-pointer text-sm font-medium">Template and form upgrades{upgradeDirty ? " · awaiting review" : ""}</summary>
+          <div className="min-w-0 pt-3"><Suspense fallback={<p role="status">Opening template and form upgrades…</p>}>
+            <PackageTemplateUpgradePanel record={readRecord} revision={revision} disabled={!editable || typedDirty || informationDirty || starterDirty || intakeDirty || requirementsDirty || consistencyDirty || workDirty || signingDirty || assemblyDirty || evidenceDirty || scanDirty || templateDirty}
+              busy={busy} run={run} onApply={update} onDirtyChange={setUpgradeDirty} signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted} />
+          </Suspense></div>
+        </details>}
         {record && revision && (revision.requirements !== undefined || !!revision.templateState) && <Suspense fallback={<p role="status">Loading evidence requirements…</p>}>
-          <PackageRequirementsPanel record={record} revision={revision} disabled={!editable || typedDirty || starterDirty || intakeDirty || informationDirty || consistencyDirty || workDirty || signingDirty || assemblyDirty || evidenceDirty || scanDirty || templateDirty}
+          <PackageRequirementsPanel record={record} revision={revision} disabled={!editable || typedDirty || starterDirty || intakeDirty || informationDirty || consistencyDirty || workDirty || signingDirty || assemblyDirty || evidenceDirty || scanDirty || templateDirty || upgradeDirty}
             busy={busy} run={run} onApply={update} onDirtyChange={setRequirementsDirty}
             destination={destination}
             signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted} />
@@ -847,7 +858,7 @@ function PackageDialog({
         {readRecord && revision && <details className="min-w-0 rounded border p-2 sm:p-3">
           <summary className="cursor-pointer text-sm font-medium">Work and next actions{workDirty ? " · unsaved changes" : revision.work?.tasks.length ? ` · ${revision.work.tasks.filter(task => task.status === 'pending').length} open` : ""}</summary>
           <div tabIndex={-1} data-package-panel="work" className="pt-3"><Suspense fallback={<p role="status">Loading package work…</p>}>
-            <PackageWorkPanel record={readRecord} revision={revision} reviewBaseline={!!openedReview} disabled={!editable || typedDirty || starterDirty || intakeDirty || informationDirty || requirementsDirty || consistencyDirty || signingDirty || assemblyDirty || evidenceDirty || scanDirty || templateDirty}
+            <PackageWorkPanel record={readRecord} revision={revision} reviewBaseline={!!openedReview} disabled={!editable || typedDirty || starterDirty || intakeDirty || informationDirty || requirementsDirty || consistencyDirty || signingDirty || assemblyDirty || evidenceDirty || scanDirty || templateDirty || upgradeDirty}
               busy={busy} run={run} onApply={update} onDirtyChange={setWorkDirty} onNavigate={followDestination}
               signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted} />
           </Suspense></div>
@@ -856,7 +867,7 @@ function PackageDialog({
           <summary className="cursor-pointer text-sm font-medium">Consistency checks{consistencyDirty ? " · unsaved changes" : revision.consistency?.rules.length ? ` · ${revision.consistency.rules.length} ${revision.consistency.rules.length === 1 ? 'relationship' : 'relationships'}` : ""}</summary>
           <div tabIndex={-1} data-package-panel="consistency" className="pt-3">
             <Suspense fallback={<p role="status">Loading consistency checks…</p>}>
-              <PackageConsistencyPanel record={record} revision={revision} disabled={!editable || typedDirty || starterDirty || intakeDirty || informationDirty || requirementsDirty || workDirty || signingDirty || assemblyDirty || evidenceDirty || scanDirty || templateDirty}
+              <PackageConsistencyPanel record={record} revision={revision} disabled={!editable || typedDirty || starterDirty || intakeDirty || informationDirty || requirementsDirty || workDirty || signingDirty || assemblyDirty || evidenceDirty || scanDirty || templateDirty || upgradeDirty}
                 busy={busy} run={run} onApply={update} onDirtyChange={setConsistencyDirty} onNavigate={followDestination}
                 signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted} />
             </Suspense>
@@ -870,7 +881,7 @@ function PackageDialog({
           </Suspense></div>
         </details>}
         {record && revision && <Suspense fallback={<p role="status">Loading package information…</p>}>
-          <PackageInformationPanel record={record} revision={revision} disabled={!editable || typedDirty || starterDirty || intakeDirty || requirementsDirty || consistencyDirty || workDirty || signingDirty || assemblyDirty || evidenceDirty || scanDirty || templateDirty} busy={busy} run={run} onApply={update}
+          <PackageInformationPanel record={record} revision={revision} disabled={!editable || typedDirty || starterDirty || intakeDirty || requirementsDirty || consistencyDirty || workDirty || signingDirty || assemblyDirty || evidenceDirty || scanDirty || templateDirty || upgradeDirty} busy={busy} run={run} onApply={update}
             destination={destination}
             onDirtyChange={setInformationDirty} signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted} />
         </Suspense>}
@@ -885,30 +896,30 @@ function PackageDialog({
         {readRecord && revision && <details className="min-w-0 rounded border p-2 sm:p-3">
           <summary className="cursor-pointer text-sm font-medium">Assembly layout{assemblyDirty ? " · unsaved settings" : ""}</summary>
           <div className="min-w-0 pt-3"><Suspense fallback={<p role="status">Opening assembly settings…</p>}>
-            <PackageAssemblyPanel record={readRecord} revision={revision} disabled={!editable || typedDirty || starterDirty || intakeDirty || informationDirty || requirementsDirty || consistencyDirty || workDirty || signingDirty || evidenceDirty || scanDirty || templateDirty}
+            <PackageAssemblyPanel record={readRecord} revision={revision} disabled={!editable || typedDirty || starterDirty || intakeDirty || informationDirty || requirementsDirty || consistencyDirty || workDirty || signingDirty || evidenceDirty || scanDirty || templateDirty || upgradeDirty}
               busy={busy} run={run} onApply={update} onDirtyChange={setAssemblyDirty} signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted} />
           </Suspense></div>
         </details>}
         {record && revision && <details className="min-w-0 rounded border p-2 sm:p-3">
           <summary className="cursor-pointer text-sm font-medium">Supporting evidence files{evidenceDirty ? " · awaiting review" : ""}</summary>
           <div className="pt-3"><Suspense fallback={<p role="status">Loading supporting files…</p>}>
-            <PackageEvidencePanel record={record} revision={revision} disabled={!editable || typedDirty || starterDirty || intakeDirty || informationDirty || requirementsDirty || consistencyDirty || workDirty || signingDirty || assemblyDirty || scanDirty || templateDirty}
+            <PackageEvidencePanel record={record} revision={revision} disabled={!editable || typedDirty || starterDirty || intakeDirty || informationDirty || requirementsDirty || consistencyDirty || workDirty || signingDirty || assemblyDirty || scanDirty || templateDirty || upgradeDirty}
               busy={busy} run={run} onApply={update} onDirtyChange={setEvidenceDirty} signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted} />
           </Suspense></div>
         </details>}
         {readRecord && revision && <details className="min-w-0 rounded border p-2 sm:p-3">
           <summary className="cursor-pointer text-sm font-medium">Scanned evidence{scanDirty ? " · unsaved corrections" : ""}</summary>
           <div className="min-w-0 pt-3"><Suspense fallback={<p className="text-sm">Opening scanned evidence…</p>}>
-            <PackageScanPanel record={readRecord} revision={revision} disabled={!editable || typedDirty || starterDirty || intakeDirty || informationDirty || requirementsDirty || consistencyDirty || workDirty || evidenceDirty || signingDirty || assemblyDirty || templateDirty}
+            <PackageScanPanel record={readRecord} revision={revision} disabled={!editable || typedDirty || starterDirty || intakeDirty || informationDirty || requirementsDirty || consistencyDirty || workDirty || evidenceDirty || signingDirty || assemblyDirty || templateDirty || upgradeDirty}
               busy={busy} run={run} onApply={update} onDirtyChange={setScanDirty} signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted} />
           </Suspense></div>
         </details>}
         </div>
-        <fieldset disabled={informationDirty || starterDirty || intakeDirty || requirementsDirty || consistencyDirty || workDirty || signingDirty || assemblyDirty || evidenceDirty || scanDirty || templateDirty} aria-label="Package documents, review and delivery" className="min-w-0 space-y-4">
+        <fieldset disabled={informationDirty || starterDirty || intakeDirty || requirementsDirty || consistencyDirty || workDirty || signingDirty || assemblyDirty || evidenceDirty || scanDirty || templateDirty || upgradeDirty} aria-label="Package documents, review and delivery" className="min-w-0 space-y-4">
 
           {record && revision && (
             <>
-              <fieldset disabled={busy || typedDirty || templateDirty} className="min-w-0 space-y-4">
+              <fieldset disabled={busy || typedDirty || templateDirty || upgradeDirty} className="min-w-0 space-y-4">
               <Button variant="outline" disabled={!!openedReview} onClick={() => setShareOpen(true)}>Share encrypted package</Button>
               <div className="flex flex-wrap gap-2">
                 <Button
@@ -992,7 +1003,7 @@ function PackageDialog({
                 <PackageMemberReviewPanel key={openedReview.id} record={record} round={openedReview} busy={busy} run={run} onDraftChange={setTypedDirty} signal={() => operation.current?.signal}
                   onChange={(next, round) => { update(next); setOpenedReview(round); setRevisionId(round.revisionId); }} />
               </Suspense>}
-              <fieldset disabled={busy || typedDirty || templateDirty} className="min-w-0 space-y-4">
+              <fieldset disabled={busy || typedDirty || templateDirty || upgradeDirty} className="min-w-0 space-y-4">
               <div ref={documentsRef} tabIndex={-1} className="min-w-0 scroll-mt-4 space-y-4">
               {editable && (
                 <div className="space-y-2 rounded border p-3">
@@ -1077,7 +1088,7 @@ function PackageDialog({
                 </div>
               )}
               <div className="grid min-w-0 gap-4 lg:grid-cols-[13rem_minmax(0,1fr)]">
-              <PackageMemberNavigation members={revision.members} selectedId={selectedMember?.id} disabled={busy || typedDirty || templateDirty} onSelect={inspectMember} />
+              <PackageMemberNavigation members={revision.members} selectedId={selectedMember?.id} disabled={busy || typedDirty || templateDirty || upgradeDirty} onSelect={inspectMember} />
               <ol className="min-w-0 space-y-3">
                 {revision.members.map((member, index) => {
                   const source =
@@ -1547,7 +1558,7 @@ function PackageDialog({
         {readRecord && revision && <details className="min-w-0 rounded border p-2 sm:p-3">
           <summary className="cursor-pointer text-sm font-medium">Package signing{signingDirty ? " · awaiting capture" : ""}</summary>
           <div className="min-w-0 pt-3"><Suspense fallback={<p role="status">Opening package signing…</p>}>
-            <PackageSigningPanel record={readRecord} revision={revision} disabled={!editable || typedDirty || starterDirty || intakeDirty || informationDirty || requirementsDirty || consistencyDirty || workDirty || assemblyDirty || evidenceDirty || scanDirty || templateDirty}
+            <PackageSigningPanel record={readRecord} revision={revision} disabled={!editable || typedDirty || starterDirty || intakeDirty || informationDirty || requirementsDirty || consistencyDirty || workDirty || assemblyDirty || evidenceDirty || scanDirty || templateDirty || upgradeDirty}
               busy={busy} run={run} onApply={update} destination={destination} onNavigate={followDestination} onDirtyChange={setSigningDirty} signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted} />
           </Suspense></div>
         </details>}
