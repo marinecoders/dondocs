@@ -43,6 +43,8 @@ export const packageConditionalStateSchema = z.object({
     if (new Set(targets.map(item => item.linkId)).size !== targets.length || new Set(targets.map(item => packageBindingTargetKey(item.target))).size !== targets.length)
       issue('Duplicate conditional field target identity.');
   }
+  const linkIds = state.instances.flatMap(instance => (instance.targets ?? []).map(target => target.linkId));
+  if (new Set(linkIds).size !== linkIds.length) issue('Duplicate conditional field link identity across documents.');
   if (new Set(state.requirementIds.map(requirement => requirement.key)).size !== state.requirementIds.length
     || new Set(state.requirementIds.map(requirement => requirement.id)).size !== state.requirementIds.length) issue('Duplicate conditional requirement mapping.');
   if (new TextEncoder().encode(JSON.stringify(state)).byteLength > 768 * 1024) issue('Conditional intake state exceeds 768 KB.');

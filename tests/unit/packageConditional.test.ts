@@ -439,6 +439,15 @@ describe('PR8 independent adversarial regressions', () => {
     delete instance.targets; delete instance.generatedDigest;
     await expect(importPortableActionPackage(JSON.stringify(envelope))).rejects.toThrow(/native field declarations/);
   });
+  it('rejects duplicate reserved link identities across captured documents before optional answers are supplied', async () => {
+    const source = template(); source.program.questions[0].required = false;
+    const input = answers(true); delete input.values.subject;
+    const { record } = await applyPreparedConditionalPackage(await prepareConditionalPackage({ template: source, answers: input }, policy), policy, true);
+    const envelope = JSON.parse(await buildPortableActionPackage(record)); envelope.package.id = crypto.randomUUID();
+    const instances = envelope.package.revisions[0].templateState.instances;
+    instances[1].targets[0].linkId = instances[0].targets[0].linkId;
+    await expect(importPortableActionPackage(JSON.stringify(envelope))).rejects.toThrow(/Duplicate conditional field link identity/);
+  });
   it('owns caller evidence bytes and names before asynchronous PDF inspection', async () => {
     const { PDFDocument } = await import('pdf-lib');
     const { portableResourceDigest } = await import('@/lib/portableResources');
