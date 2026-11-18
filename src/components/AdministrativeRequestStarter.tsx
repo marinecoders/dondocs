@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Button } from './ui/button';
 import type { ActionPackage } from '@/lib/actionPackages';
 import { administrativeRequestSchema, prepareAdministrativeRequest, createPreparedAdministrativeRequest,
@@ -24,7 +24,12 @@ const labels: Record<keyof AdministrativeRequestInput, string> = {
 export function AdministrativeRequestStarter({ disabled, busy, run, onCreate, signal, isCurrent, onDirtyChange }: Props) {
   const [open, setOpen] = useState(false), [values, setValues] = useState(empty);
   const [prepared, setPrepared] = useState<PreparedAdministrativeRequest | null>(null), [approved, setApproved] = useState(false);
-  const alive = useRef(true), generation = useRef(0);
+  const alive = useRef(true), generation = useRef(0), enabled = useRef(!disabled), wasDisabled = useRef(disabled);
+  useLayoutEffect(() => {
+    enabled.current = !disabled;
+    if (disabled !== wasDisabled.current) { generation.current++; setPrepared(null); setApproved(false); }
+    wasDisabled.current = disabled;
+  }, [disabled]);
   const firstInput = useRef<HTMLInputElement>(null), startButton = useRef<HTMLButtonElement>(null), returnFocus = useRef(false);
   const dirty = Object.values(values).some(value => value.length > 0);
   useEffect(() => { if (open) firstInput.current?.focus(); }, [open]);
@@ -37,7 +42,7 @@ export function AdministrativeRequestStarter({ disabled, busy, run, onCreate, si
     generation.current++; setValues(before => ({ ...before, [key]: value })); setPrepared(null); setApproved(false);
   }
   function reset() { generation.current++; returnFocus.current = true; setValues(empty()); setPrepared(null); setApproved(false); setOpen(false); }
-  function current(version: number) { return alive.current && generation.current === version && isCurrent() && !signal()?.aborted; }
+  function current(version: number) { return alive.current && enabled.current && generation.current === version && isCurrent() && !signal()?.aborted; }
   const findings = prepared ? [...new Set(prepared.reviews.flatMap(review => [
     ...review.notices, ...review.privacy.findings.map(finding => `${finding.type}: ${finding.field}: ${finding.value}`),
   ]))] : [];
