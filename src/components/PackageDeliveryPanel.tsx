@@ -83,7 +83,7 @@ function DeliveryProfile({ record, revision, disabled, busy, ports, run, signal,
       <label className="flex items-start gap-2"><input type="checkbox" checked={approved} disabled={locked} onChange={event => setApproved(event.target.checked)} />I reviewed every included document, original PDF, file and privacy finding for this exact delivery.</label>
       <Button className="h-auto min-h-9 max-w-full whitespace-normal" disabled={locked || !approved} onClick={() => void perform(async (current, operationSignal) => {
         const bundle = await buildPackageDeliveryBundle(prepared, await getExportDeploymentPolicy(), approved, operationSignal, current);
-        if (current()) triggerDownload(bundle.bytes, bundle.filename, 'application/zip');
+        if (current()) { assertPackageDeliveryPolicy(prepared, getExportDeploymentPolicySync()); triggerDownload(bundle.bytes, bundle.filename, 'application/zip'); }
       })}>Download reviewed delivery bundle</Button>
       <Button className="h-auto min-h-9 max-w-full whitespace-normal" variant="outline" disabled={locked || !approved} onClick={() => void perform(async (current, operationSignal) => {
         const json = await buildPackageDeliveryFile(prepared, await getExportDeploymentPolicy(), approved, operationSignal, current);
