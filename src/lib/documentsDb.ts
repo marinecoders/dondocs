@@ -1,3 +1,4 @@
+import { packageJobSchema, validPackageJobTransition, MAX_PACKAGE_JOBS, MAX_PACKAGE_JOB_LIBRARY_BYTES, type PackageJob, type PackageJobPublication } from './packageJobModel';
 import type { DocumentMeta } from '@/stores/documentsStore';
 import type { SerializedSession } from '@/stores/documentStore';
 import { debug } from '@/lib/debug';
@@ -501,7 +502,55 @@ export async function idbDeleteReviewRound(id: string, expectedDigest: string): 
   } catch { return false; }
 }
 
-export async function putBatchOutput(id: string, data: Uint8Array): Promise<boolean> {
+/** Local resumable work uses the existing generic store; no database upgrade. */
+export async function idbReadPackageJobs(): Promise<PackageJob[]> {
+  const records = await run<Array<{ key: string; value: unknown }>>(APP_STORE, 'readonly', store =>
+    store.getAll(IDBKeyRange.bound('package-job:', 'package-job:\uffff'), MAX_PACKAGE_JOBS + 1));
+  if (records.length > MAX_PACKAGE_JOBS) throw new Error('Too many saved package jobs.');
+  return records.map(record => { const job = packageJobSchema.parse(record.value);
+    if (record.key !== `package-job:${job.id}`) throw new Error('The saved package job inventory is corrupt.'); return job; });
+}
+/** The lease and metadata update share the checkpoint's binary write. */
+export async function idbComparePackageJob(before: PackageJob | null, after: PackageJob | null,
+  options: { token?: string; isCurrent?: () => boolean; checkpoint?: { id: string; data: Uint8Array } } = {}): Promise<boolean> {
+  before = before && packageJobSchema.parse(structuredClone(before)); after = after && packageJobSchema.parse(structuredClone(after));
+  if (!before && !after) return false;
+  const expected = before, owned = after, checkpoint = options.checkpoint && { id: options.checkpoint.id, data: options.checkpoint.data.slice() };
+  const additions = owned?.checkpoints.slice(expected?.checkpoints.length ?? 0) ?? [];
+  if (checkpoint ? additions.length !== 1 || additions[0].outputId !== checkpoint.id || additions[0].size !== checkpoint.data.byteLength : additions.length > 0) return false;
+  const key = `package-job:${(owned ?? expected)!.id}`, db = await openDb();
+  return new Promise((resolve, reject) => {
+    const transaction = db.transaction(APP_STORE, 'readwrite'), store = transaction.objectStore(APP_STORE);
+    const inventory = store.getAll(IDBKeyRange.bound('package-job:', 'package-job:\uffff'), MAX_PACKAGE_JOBS + 1);
+    const binary = checkpoint && store.get(`batch:${checkpoint.id}`);
+    let committed = false, pending = 1 + Number(!!binary);
+    const ready = () => {
+      if (--pending) return;
+      try {
+      const records = inventory.result as Array<{ key: string; value: unknown }>;
+      if ((options.isCurrent && !options.isCurrent()) || !sameReviewStoredValue(records.find(entry => entry.key === key)?.value ?? null, expected)
+        || !validPackageJobTransition(expected, owned, options.token)) return;
+      if (binary?.result !== undefined) return;
+      const remaining = records.filter(entry => entry.key !== key).map(entry => packageJobSchema.parse(entry.value));
+      if (owned) remaining.push(owned);
+      const checkpointIds = remaining.flatMap(job => job.checkpoints.map(entry => entry.outputId));
+      if (new Set(checkpointIds).size !== checkpointIds.length) return;
+      if (remaining.length > MAX_PACKAGE_JOBS || remaining.reduce((sum, job) => sum + (job.status === 'complete' ? 0 : job.checkpoints.reduce((size, entry) => size + entry.size, 0)), 0) > MAX_PACKAGE_JOB_LIBRARY_BYTES) return;
+      if (owned) store.put({ key, value: owned });
+      else { store.delete(key); for (const entry of expected!.checkpoints) store.delete(`batch:${entry.outputId}`); }
+      if (checkpoint) store.put({ key: `batch:${checkpoint.id}`, value: checkpoint.data });
+      committed = true;
+      } catch { transaction.abort(); }
+    };
+    inventory.onsuccess = ready; if (binary) binary.onsuccess = ready;
+    transaction.oncomplete = () => resolve(committed);
+    transaction.onerror = () => reject(transaction.error ?? new Error('Package job storage failed.'));
+    transaction.onabort = () => reject(transaction.error ?? new Error('Package job storage was interrupted.'));
+  });
+}
+
+export async function putBatchOutput(id: string, data: Uint8Array, job?: { before: PackageJob; after: PackageJob; token: string; isCurrent: () => boolean }): Promise<boolean> {
+  if (job) return idbComparePackageJob(job.before, job.after, { token: job.token, isCurrent: job.isCurrent, checkpoint: { id, data } });
   try { await run(APP_STORE, 'readwrite', (s) => s.put({ key: `batch:${id}`, value: data })); return true; }
   catch { return false; }
 }
@@ -1410,8 +1459,9 @@ export async function idbReadActionPackages(): Promise<unknown[]> {
     return record.value;
   });
 }
-export async function idbCompareActionPackage(before: import('./actionPackages').ActionPackage | null, after: import('./actionPackages').ActionPackage, isCurrent: () => boolean = () => true, stagedAttachments: readonly StoredAttachment[] = []): Promise<boolean> {
+export async function idbCompareActionPackage(before: import('./actionPackages').ActionPackage | null, after: import('./actionPackages').ActionPackage, isCurrent: () => boolean = () => true, stagedAttachments: readonly StoredAttachment[] = [], jobPublish?: PackageJobPublication): Promise<boolean> {
   try {
+    const publication = typeof jobPublish === 'function' ? jobPublish : jobPublish && structuredClone(jobPublish);
     before = before && structuredClone(before);after = structuredClone(after);
     const { actionPackageSchema, validPackageTransition, packageAssets } = await import('./actionPackages');
     const { validateActionPackageResources } = await import('./actionPackageTransfer');
@@ -1431,14 +1481,30 @@ export async function idbCompareActionPackage(before: import('./actionPackages')
     });
     if (assets.size !== new Set(packageAssets(after).map(asset => asset.id)).size) return false;
     const db = await openDb();
+    // Resource checks may outlast a lease. Freeze a live owner's latest lease
+    // only after those awaits, immediately before opening the write transaction.
+    const job = publication && structuredClone(typeof publication === 'function' ? await publication() : publication);
+    if (job && (!before || !packageJobSchema.safeParse(job.before).success || !packageJobSchema.safeParse(job.after).success
+      || job.before.status !== 'running' || job.after.status !== 'complete' || !validPackageJobTransition(job.before, job.after, job.token)
+      || job.before.packageId !== after.id || !job.after.output)) return false;
+    if (job) {
+      const prior = before!.revisions.find(revision => revision.id === job.before.revisionId);
+      const next = after.revisions.find(revision => revision.id === job.before.revisionId);
+      const output = next?.outputs.find(output => output.id === job.after.output!.id);
+      if (!prior || !next || !output || output.asset.sha256 !== job.after.output!.sha256 || prior.outputs.some(entry => entry.id === output.id)
+        || next.outputs.length !== prior.outputs.length + 1 || after.currentRevisionId !== before!.currentRevisionId) return false;
+    }
     return await new Promise<boolean>((resolve, reject) => {
       const transaction = db.transaction([APP_STORE, ATTACHMENTS_STORE], 'readwrite'), store = transaction.objectStore(APP_STORE);
       const request = store.get(`action-package:${after.id}`);
+      const jobRequest = job && store.get(`package-job:${job.before.id}`);
       const checks = [...assets].map(([id, expected]) => ({ expected, request: transaction.objectStore(ATTACHMENTS_STORE).get(id) }));
-      let committed = false, remaining = checks.length + 1;
+      let committed = false, remaining = checks.length + 1 + Number(!!jobRequest);
       const ready = () => {
         if (--remaining) return;
-        if (!isCurrent() || !sameReviewStoredValue(request.result?.value ?? null, before) || checks.some(check => {
+        try {
+        if (!isCurrent() || job && (!sameReviewStoredValue(jobRequest?.result?.value ?? null, job.before) || !validPackageJobTransition(job.before, job.after, job.token))
+          || !sameReviewStoredValue(request.result?.value ?? null, before) || checks.some(check => {
           if (!staged.has(check.expected.id)) return !sameReviewStoredValue(check.request.result, check.expected);
           const saved = check.request.result as StoredAttachment | undefined;
           return saved !== undefined && !sameReviewStoredValue(
@@ -1446,9 +1512,13 @@ export async function idbCompareActionPackage(before: import('./actionPackages')
             { id: check.expected.id, name: check.expected.name, type: check.expected.type, size: check.expected.size, data: check.expected.data });
         })) return;
         for (const asset of staged.values()) transaction.objectStore(ATTACHMENTS_STORE).put(asset);
-        store.put({ key: `action-package:${after.id}`, value: after });committed = true;
+        store.put({ key: `action-package:${after.id}`, value: after });
+        if (job) { store.put({ key: `package-job:${job.after.id}`, value: job.after });
+          for (const entry of job.before.checkpoints) store.delete(`batch:${entry.outputId}`); }
+        committed = true;
+        } catch { transaction.abort(); }
       };
-      request.onsuccess = ready;checks.forEach(check => { check.request.onsuccess = ready; });
+      request.onsuccess = ready;if (jobRequest) jobRequest.onsuccess = ready;checks.forEach(check => { check.request.onsuccess = ready; });
       transaction.oncomplete = () => resolve(committed);
       transaction.onerror = () => reject(transaction.error);
       transaction.onabort = () => reject(transaction.error);
