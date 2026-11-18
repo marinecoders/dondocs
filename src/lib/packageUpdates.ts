@@ -11,7 +11,7 @@ import { captureLinkedPackageChanges } from './packageLinkedUpdates';
 import { reviewRestoredPackageSources } from './packageRestoredSources';
 import { sameReviewStoredValue, type StoredAttachment } from './documentsDb';
 import { withAttachmentStaging } from './attachments';
-import { reviewPackageBindings, reviewPackageInformation, reviewPackageConsistency, reviewPackageWork, reviewPackageSigningMetadata, reviewPackageText } from './actionPackageDisclosure';
+import { reviewPackageScans, reviewPackageBindings, reviewPackageInformation, reviewPackageConsistency, reviewPackageWork, reviewPackageSigningMetadata, reviewPackageText } from './actionPackageDisclosure';
 import { assertExportDeploymentPolicy, type PolicyResolution } from './exportDeploymentPolicy';
 import type { ExportReview } from './preparedExport';
 import { getExportDeploymentPolicy, getExportDeploymentPolicySync } from '@/config/classification';
@@ -73,6 +73,7 @@ function informationReviews(revision: PackageRevision, policy: PolicyResolution)
     ...(revision.consistency ? [reviewPackageConsistency(revision.consistency, policy)] : []),
     ...(revision.work ? [reviewPackageWork(revision.work, policy)] : []),
     ...(revision.signing ? [reviewPackageSigningMetadata(revision.signing, policy)] : []),
+    ...(revision.scans ? [reviewPackageScans(revision.scans, policy)] : []),
   ];
 }
 async function deploymentGuard(policy: PolicyResolution, signal: AbortSignal | undefined, isCurrent: () => boolean) {
@@ -160,6 +161,10 @@ export async function undoPackageUpdate(
   const original = getPackageRevision(retained.before);
   reviewPackageText(retained.before.name, 'Package name', policy);
   informationReviews(original, policy);
+  if (original.scans) {
+    const { reviewPackageScanSources } = await import('./packageScans');
+    await reviewPackageScanSources(original.scans, policy, { signal });
+  }
   await reviewRestoredPackageSources(original, policy, signal);
   const revision: PackageRevision = { ...structuredClone(original), id: newPackageId('revision'),
     parentId: retained.after.currentRevisionId, createdAt: Date.now(), outputs: [] };

@@ -125,6 +125,10 @@ async function restoredRevisionReviews(revision: PackageRevision, policy: Policy
     const raw = JSON.parse(new TextDecoder('utf-8', { fatal: true }).decode(await readPackageAsset(revision.templateState.source)));
     reviews.push(reviewPackageText(packageFormFeedbackText(raw), 'Restored pinned action template', policy));
   }
+  if (revision.scans) {
+    const { reviewPackageScanSources } = await import('./packageScans');
+    reviews.push(...(await reviewPackageScanSources(revision.scans, policy)).map(entry => entry.review));
+  }
   return reviews;
 }
 export async function preparePackageFormDecisionUndo(input: ActionPackage, decisionId: string, policy: PolicyResolution): Promise<PreparedPackageFormCorrection> {
