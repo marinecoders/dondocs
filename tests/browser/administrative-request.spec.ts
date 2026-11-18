@@ -16,9 +16,17 @@ async function download(page: Page, action: () => Promise<void>) {
   expect(await file.failure()).toBeNull(); return readFile((await file.path())!);
 }
 async function exportPackage(page: Page, dialog: Locator) {
-  await dialog.getByRole('button', { name: 'Export editable package', exact: true }).click();
-  await dialog.getByRole('checkbox', { name: /^I reviewed every included member/ }).check();
-  return download(page, () => dialog.getByRole('button', { name: 'Download reviewed editable package', exact: true }).click());
+  const prepare = dialog.getByRole('button', { name: 'Export editable package', exact: true });
+  await expect(prepare).toBeEnabled(); await prepare.click();
+  await expect(dialog).toHaveAttribute('aria-busy', 'false');
+  const deliver = dialog.getByRole('button', { name: 'Download reviewed editable package', exact: true });
+  await expect(deliver).toBeVisible(); await expect(deliver).toBeDisabled();
+  const acknowledgement = dialog.getByRole('checkbox', { name: /^I reviewed every included member/ });
+  await expect(acknowledgement).not.toBeChecked();
+  await acknowledgement.scrollIntoViewIfNeeded(); await expect(acknowledgement).toBeInViewport();
+  await acknowledgement.check(); await expect(acknowledgement).toBeChecked();
+  await expect(deliver).toBeEnabled();
+  return download(page, () => deliver.click());
 }
 async function createRequest(dialog: Locator, person: string, subject: string, signature: string) {
   const starter = dialog.getByRole('region', { name: 'Administrative request starter', exact: true });
@@ -109,6 +117,8 @@ for (const theme of ['light', 'dark', 'classic']) test(`administrative request l
     const receivedDialog = await openPackages(receivedPage);
     await receivedDialog.getByLabel('Import editable package', { exact: true }).setInputFiles({ name: 'request-package.json', mimeType: 'application/json', buffer: updatedBytes });
     await expect(receivedDialog.getByLabel('Saved packages', { exact: true })).toHaveValue(initial.package.id);
+    await expect(receivedDialog.getByRole('region', { name: 'Package information', exact: true }).getByLabel('Value 4', { exact: true })).toHaveValue('Final training request');
+    await expect(receivedDialog).toHaveAttribute('aria-busy', 'false');
     const transferred = JSON.parse((await exportPackage(receivedPage, receivedDialog)).toString());
     expect(transferred.package.revisions[0].information).toEqual(updatedRevision.information);
     expect(transferred.package.revisions[0].bindings).toEqual(updatedRevision.bindings);
