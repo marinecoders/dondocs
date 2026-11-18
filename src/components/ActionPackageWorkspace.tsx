@@ -232,7 +232,7 @@ function PackageDialog({
     revision = record
       ? openedReview?.baseline ?? getPackageRevision(record, revisionId || record.currentRevisionId)
       : null;
-  const readRecord: ActionPackage | undefined = record && openedReview ? { ...record, historyScope: "selected-revision", currentRevisionId: openedReview.revisionId, revisions: [openedReview.baseline], reviewRounds: undefined, reviewApplications: undefined, workingCopies: undefined } : record;
+  const readRecord: ActionPackage | undefined = record && openedReview ? { ...record, historyScope: "selected-revision", currentRevisionId: openedReview.revisionId, revisions: [openedReview.baseline], reviewRounds: undefined, reviewApplications: undefined, fieldReviewApplications: undefined, workingCopies: undefined } : record;
   const editable =
     !!record && !record.reviewRounds?.some(round => round.ownerPackageId === undefined) && !openedReview && revision?.id === record.currentRevisionId && !record.archived;
   const selectedMember = revision?.members.find(member => member.id === activeMemberId) ?? revision?.members[0];
