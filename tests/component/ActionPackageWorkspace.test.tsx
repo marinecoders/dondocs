@@ -589,3 +589,24 @@ it("validates long package names without discarding a valid full-length Unicode 
   expect(within(dialog).getByRole("button", { name: "Rename" })).toBeEnabled();
   expect((await listActionPackages()).find(value => value.id === record.id)?.name).toBe("Original name");
 });
+
+
+it('reviews and creates a request through its own busy parent controller', async () => {
+  const before = await listActionPackages(), user = userEvent.setup();
+  useUIStore.setState({ actionPackagesOpen: true });
+  render(<ActionPackageWorkspace exportGate={createExportGate()} ports={{ compile: vi.fn(), convertDocx: vi.fn(), waitForReady: async () => true }} />);
+  const dialog = await screen.findByRole('dialog', { name: 'Action packages' });
+  const start = await within(dialog).findByRole('button', { name: 'Start an administrative request' });
+  await waitFor(() => expect(start).toBeEnabled()); await user.click(start);
+  const starter = within(dialog).getByRole('region', { name: 'Administrative request starter' });
+  const fields = { Requester: 'Synthetic Person', Organization: 'Synthetic Unit', Recipient: 'Training Officer', 'Request subject': 'Parent controller lifecycle',
+    'Request date': '2026-11-18', SSIC: '1500', 'Printed signature name': 'S. PERSON', 'Requested action and justification': 'Synthetic request lifecycle verification.' };
+  for (const [label, value] of Object.entries(fields)) await user.type(within(starter).getByLabelText(label, { exact: label !== 'Printed signature name' }), value);
+  await user.click(within(starter).getByRole('button', { name: 'Review request starter' }));
+  await user.click(await within(starter).findByRole('checkbox', { name: /^I reviewed these request details/ }, { timeout: 15_000 }));
+  await user.click(within(starter).getByRole('button', { name: 'Create reviewed request package' }));
+  await within(dialog).findByText('Request package created. Review its letter and worksheet before submission.', {}, { timeout: 15_000 });
+  const saved = (await listActionPackages()).find(record => !before.some(existing => existing.id === record.id));
+  expect(saved).toBeDefined(); expect(getPackageRevision(saved!).members).toHaveLength(2);
+  expect(getPackageRevision(saved!).information!.facts.some(fact => fact.value === fields.Requester)).toBe(true);
+});

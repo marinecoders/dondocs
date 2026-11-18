@@ -511,7 +511,7 @@ function PackageDialog({
         <div ref={overviewRef} tabIndex={-1} className="min-w-0 scroll-mt-4 space-y-4">
         {record && revision && <PackageWorkspaceSummary record={record} revision={revision} />}
         <Suspense fallback={<p>Loading request starter…</p>}>
-          <AdministrativeRequestStarter disabled={!loaded || busy || typedDirty || informationDirty} busy={busy} run={run}
+          <AdministrativeRequestStarter disabled={!loaded || typedDirty || informationDirty} busy={busy} run={run}
             signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted}
             onDirtyChange={setStarterDirty} onCreate={value => { update(value); setNotice("Request package created. Review its letter and worksheet before submission."); }} />
         </Suspense>
