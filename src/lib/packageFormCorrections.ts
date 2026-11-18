@@ -3,13 +3,13 @@ import { assertActivePackageReview, openPackageReview } from './packageReviewRou
 import { parsePackageReviewReturn, inspectPackageReviewTransfer } from './packageReviewTransfer';
 import { inspectPackageFormAnchor, packageFormFeedbackText, type PackageFormProposal, type PackageFieldReviewApplication } from './packageFormReview';
 import { packageBindingTargetKey, patchPackageBindingDraftFields, type PackageBindingValue } from './packageBindingTargets';
-import { readPackageMemberDraft } from './actionPackageAssets';
+import { readPackageMemberDraft, readPackageAsset } from './actionPackageAssets';
 import { sameReviewStoredValue, type StoredAttachment } from './documentsDb';
 import { captureLinkedPackageChanges, preserveUnchangedCitations } from './packageLinkedUpdates';
 import { formatPackageFactForField } from './packageFieldBindings';
 import { packageFactSchema } from './packageInformation';
 import { portableResourceDigest } from './portableResources';
-import { reviewPackageNative, reviewPackageText } from './actionPackageDisclosure';
+import { reviewPackageNative, reviewPackageOriginal, reviewPackageText } from './actionPackageDisclosure';
 import { getExportDeploymentPolicy, getExportDeploymentPolicySync } from '@/config/classification';
 import type { PolicyResolution } from './exportDeploymentPolicy';
 import type { ExportReview } from './preparedExport';
@@ -106,6 +106,22 @@ export async function preparePackageFormCorrection(input: ActionPackage, roundId
   if (!issues.length) preparations.set(prepared, { before: record, after: next, attachments, policy: identity });
   return prepared;
 }
+/** Undo restores a complete saved revision; review every restored input, including downstream values. */
+async function restoredRevisionReviews(revision: PackageRevision, policy: PolicyResolution): Promise<ExportReview[]> {
+  const reviews = [reviewPackageText(packageFormFeedbackText({ ...revision,
+    members: revision.members.map(member => member.kind === 'native' ? { ...member, session: undefined } : member) }), 'Restored package context', policy)];
+  for (const member of revision.members) {
+    if (member.kind === 'native') {
+      const { draft } = await readPackageMemberDraft(member);
+      reviews.push(reviewPackageNative(member.session, member.label, policy, draft as typeof member.session));
+    } else reviews.push(await reviewPackageOriginal(await readPackageAsset(member.original), member.label, policy));
+  }
+  if (revision.templateState) {
+    const raw = JSON.parse(new TextDecoder('utf-8', { fatal: true }).decode(await readPackageAsset(revision.templateState.source)));
+    reviews.push(reviewPackageText(packageFormFeedbackText(raw), 'Restored pinned action template', policy));
+  }
+  return reviews;
+}
 export async function preparePackageFormDecisionUndo(input: ActionPackage, decisionId: string, policy: PolicyResolution): Promise<PreparedPackageFormCorrection> {
   const record = actionPackageSchema.parse(structuredClone(input)), identity = policyKey(policy), receipt = record.fieldReviewApplications?.find(receipt => receipt.id === decisionId);
   if (!receipt || receipt.action === 'undo' || record.fieldReviewApplications?.some(item => item.undoOf === receipt.id)) throw new Error('Choose a current form decision that has not been undone.');
@@ -115,7 +131,7 @@ export async function preparePackageFormDecisionUndo(input: ActionPackage, decis
   const undo: PackageFieldReviewApplication = { ...receipt, id: newPackageId('form-decision'), beforeRevisionId: record.currentRevisionId, revisionId: revision.id,
     createdAt: revision.createdAt, action: 'undo', undoOf: receipt.id, before: receipt.after, after: receipt.before };
   const next = actionPackageSchema.parse({ ...record, sequence: record.sequence + 1, currentRevisionId: revision.id, revisions: [...record.revisions, revision], fieldReviewApplications: [...record.fieldReviewApplications!, undo] });
-  const prepared = freeze({ ready: true, issues: [], changes: [], reviews: [reviewPackageText(packageFormFeedbackText(undo), 'Undo form correction', policy)],
+  const prepared = freeze({ ready: true, issues: [], changes: [], reviews: [reviewPackageText(packageFormFeedbackText(undo), 'Undo form correction', policy), ...await restoredRevisionReviews(revision, policy)],
     proposal: receipt.proposal, before: receipt.after, after: receipt.before, action: 'undo' as const, mode: receipt.mode });
   preparations.set(prepared, { before: record, after: next, attachments: [], policy: identity }); return prepared;
 }

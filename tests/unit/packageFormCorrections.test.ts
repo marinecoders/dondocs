@@ -113,3 +113,21 @@ it('requires deliberate resolution before a shared correction overwrites another
   expect(revision.members.map(item => item.kind === 'native' && item.session.genericForm!.answers.name)).toEqual(['000999', '000444']);
   expect(revision.bindings!.items[1].mode).toBe('override');
 });
+
+it('reviews every restored downstream value before Undo under a stricter deployment policy', async () => {
+  const secret = resolveExportDeploymentPolicy({ hostname: 'localhost', environment: { maxLevel: 'secret', allowedLevels: ['unclassified', 'secret'] }, runtime: { status: 'absent' } });
+  const { owner: initial, round, member, proposal, second } = await linked();
+  if (second.kind !== 'native') throw new Error('Expected synthetic native form.');
+  const source = await readPackageMemberDraft(second), patched = await patchPackageBindingDraftFields(source.draft,
+    [{ target: proposal.anchor.target, expected: '000123', value: 'Synthetic older value\n(S) Restricted synthetic example.' }]);
+  const asset = await retainPackageAsset(second.draft.name, second.draft.type, new TextEncoder().encode(JSON.stringify(patched.draft)).buffer);
+  const owner = await reviseActionPackage(initial, getPackageRevision(initial).members.map(item => item.id === second.id ? { ...second, session: patched.session, draft: asset } : item));
+  vi.mocked(classification.getExportDeploymentPolicy).mockResolvedValue(secret); vi.mocked(classification.getExportDeploymentPolicySync).mockReturnValue(secret);
+  const accepted = await applyPreparedPackageFormCorrection(await preparePackageFormCorrection(owner, round.id, member.id, proposal.id, 'accepted', secret,
+    { mode: 'shared', sharedValue: '000999', choices: { link1: 'apply-package' } }), secret, true);
+  const before = await idbGetAllAttachments();
+  vi.mocked(classification.getExportDeploymentPolicy).mockResolvedValue(policy); vi.mocked(classification.getExportDeploymentPolicySync).mockReturnValue(policy);
+  await expect(preparePackageFormDecisionUndo(accepted, accepted.fieldReviewApplications![0].id, policy)).rejects.toThrow(/marking|levels|deployment/i);
+  expect((await listActionPackages()).find(item => item.id === accepted.id)).toEqual(accepted);
+  expect(await idbGetAllAttachments()).toEqual(before);
+});
