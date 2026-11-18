@@ -162,7 +162,7 @@ describe('PDF viewer × real compiled documents', () => {
     // resolves from the same nested package this test just exercised.
     const workerBytes = readFileSync(join(pdfjsDir, 'build', 'pdf.worker.min.mjs'));
     const vendored = readFileSync(
-      fileURLToPath(new URL('../../public/lib/pdf.worker.min.mjs', import.meta.url))
+      join(dirname(fileURLToPath(import.meta.url)), '..', '..', 'public', 'lib', 'pdf.worker.min.mjs')
     );
     expect(pdfjsVersion).toMatch(/^\d+\.\d+\.\d+$/);
     expect(vendored.equals(workerBytes)).toBe(true);
