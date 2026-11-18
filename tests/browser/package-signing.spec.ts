@@ -1,3 +1,4 @@
+import { projectBrowserContextOptions } from '../_helpers/projectBrowserContext';
 import { expect, test, type Locator, type Page } from '@playwright/test';
 import { createHash } from 'node:crypto';
 import { readFile } from 'node:fs/promises';
@@ -108,16 +109,17 @@ for (const theme of ['light', 'dark', 'classic']) for (const width of [1440, 320
   const add = panel.getByRole('button', { name: 'Add reviewed return in new package revision', exact: true });
   await panel.getByRole('checkbox', { name: /^I reviewed the exact returned PDF/ }).check(); await expect(add).toBeDisabled();
   await panel.getByRole('checkbox', { name: /^I acknowledge the unchanged, differing/ }).check(); await add.click();
+  await expect(add).not.toBeVisible(); await capturedHandoff(panel); await expect(panel.locator('p').filter({ hasText: /Return 1: Synthetic associated return.pdf/ })).toBeVisible();
   await expect(information.getByLabel('Value 1', { exact: true })).toHaveValue('Preserve this newer package work');
   await page.reload(); dialog = await packages(page); panel = await signingPanel(dialog);
-  await capturedHandoff(panel); await expect(panel.getByText(/Return 1: Synthetic associated return.pdf/)).toBeVisible();
+  await capturedHandoff(panel); await expect(panel.locator('p').filter({ hasText: /Return 1: Synthetic associated return.pdf/ })).toBeVisible();
   expect(await dialog.evaluate(element => element.scrollWidth <= element.clientWidth + 1)).toBe(true);
   await panel.scrollIntoViewIfNeeded(); await page.screenshot({ path: info.outputPath(`package-signing-${theme}-${width}px.png`) });
   await dialog.getByRole('button', { name: 'Export editable package', exact: true }).click();
   await dialog.getByRole('checkbox', { name: /^I reviewed every included member/ }).check();
   const portable = await download(page, () => dialog.getByRole('button', { name: 'Download reviewed editable package', exact: true }).click());
   const exported = JSON.parse(portable.toString()); expect(exported.package.revisions[0].members).toHaveLength(2);
-  const receiver = await browser.newContext({ viewport: { width, height: 950 }, serviceWorkers: 'block', userAgent: await page.evaluate(() => navigator.userAgent) });
+  const receiver = await browser.newContext({ ...projectBrowserContextOptions(info), viewport: { width, height: 950 }, serviceWorkers: 'block', userAgent: await page.evaluate(() => navigator.userAgent) });
   try {
     await receiver.addInitScript(() => localStorage.setItem('browser-test-visitor', 'returning'));
     const incoming = await receiver.newPage(); await incoming.goto(baseURL!); const received = await packages(incoming);
