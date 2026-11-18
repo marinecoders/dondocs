@@ -1,3 +1,4 @@
+import { projectBrowserContextOptions } from '../_helpers/projectBrowserContext';
 import { expect, test, type Locator, type Page } from '@playwright/test';
 import { createHash } from 'node:crypto';
 import JSZip from 'jszip';
@@ -115,7 +116,7 @@ test('delivery ZIP recovers its exact selected original in a fresh browser conte
   const payload = await zip.file('package.dondocs-package.json')!.async('string');
   expect(payload).not.toMatch(/PRIVATE|member_bundle_excluded|package_bundle_browser/);
   expect(await zip.file('index.html')!.async('string')).toContain('Public selected original');
-  const fresh = await browser.newContext({ baseURL: new URL(page.url()).origin, serviceWorkers: 'block', viewport: { width: 320, height: 950 } });
+  const fresh = await browser.newContext({ ...projectBrowserContextOptions(info), baseURL: new URL(page.url()).origin, serviceWorkers: 'block', viewport: { width: 320, height: 950 } });
   try {
     await fresh.addInitScript(() => localStorage.setItem('browser-test-visitor', 'returning'));
     const freshPage = await fresh.newPage(); await freshPage.goto('/'); const recovered = await packages(freshPage);
@@ -128,7 +129,6 @@ test('delivery ZIP recovers its exact selected original in a fresh browser conte
     expect(restoredBytes).toEqual(includedBytes);
     expect(await recovered.evaluate(element => element.scrollWidth <= element.clientWidth + 1)).toBe(true);
     await info.attach('delivery-recovered-original.pdf', { body: restoredBytes, contentType: 'application/pdf' });
-    await recovered.getByLabel('Package name', { exact: true }).scrollIntoViewIfNeeded();
     await freshPage.screenshot({ path: info.outputPath('delivery-fresh-browser-320px.png') });
   } finally { await fresh.close(); }
 });
