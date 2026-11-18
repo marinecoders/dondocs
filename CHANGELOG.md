@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.162] — 2026-11-17
+
+### Added
+
+- Search supported captured package text with exact revision destinations, verified file reads and scoped-delivery inventory support.
+
 ## [1.3.161] — 2026-11-17
 
 ### Added
