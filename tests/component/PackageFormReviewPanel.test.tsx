@@ -5,7 +5,11 @@ import { cleanup, render, screen, within, waitFor } from '@testing-library/react
 import userEvent from '@testing-library/user-event';
 import { PackageMemberReviewPanel } from '@/components/PackageMemberReviewPanel';
 import type { ActionPackage } from '@/lib/actionPackages';
-import { listActionPackages } from '@/lib/actionPackages';
+import { getPackageRevision, listActionPackages, reviseActionPackage } from '@/lib/actionPackages';
+import { addPackageFormProposal, capturePackageFormAnchor, packageFormReviewFields } from '@/lib/packageFormReview';
+import { savePackageMemberReview } from '@/lib/packageMemberReviews';
+import { readPackageMemberDraft, retainPackageAsset } from '@/lib/actionPackageAssets';
+import { patchPackageBindingDraftFields } from '@/lib/packageBindingTargets';
 import { resolveExportDeploymentPolicy } from '@/lib/exportDeploymentPolicy';
 import { packageFormFixture } from '../_helpers/packageFormReviewFixture';
 const policy = resolveExportDeploymentPolicy({ hostname: 'localhost', environment: { maxLevel: 'unclassified', allowedLevels: ['unclassified'] }, runtime: { status: 'absent' } });
@@ -64,6 +68,32 @@ it('creates a typed proposal, accepts it with reviewed scope and restores its pr
   await waitFor(() => expect(screen.queryByText('Accepted in a saved package revision.')).toBeNull());
   saved = (await listActionPackages()).find(item => item.id === record.id)!; current = saved.revisions.find(revision => revision.id === saved.currentRevisionId)!;
   expect(current.members[0].kind === 'native' && current.members[0].session.genericForm!.answers.name).toBe('000123');
+});
+
+it('requires an explicit overlap choice before accepting a returned answer over newer saved form work', async () => {
+  const fixture = await packageFormFixture(), user = userEvent.setup();
+  const field = (await packageFormReviewFields(fixture.member)).find(field => field.target.kind === 'configured-form' && field.target.fieldId === 'name')!;
+  const anchor = await capturePackageFormAnchor(fixture.member, field.target);
+  const fieldReview = await addPackageFormProposal(fixture.member, undefined, anchor, 'Alex Example', '000999');
+  let record = await savePackageMemberReview(fixture.record, fixture.round.id, { ...fixture.child, fieldReview });
+  const { draft } = await readPackageMemberDraft(fixture.member), patched = await patchPackageBindingDraftFields(draft, [{ target: field.target, expected: '000123', value: '000555' }]);
+  const asset = await retainPackageAsset(fixture.member.draft.name, fixture.member.draft.type, new TextEncoder().encode(JSON.stringify(patched.draft)).buffer);
+  record = await reviseActionPackage(record, [{ ...fixture.member, draft: asset, session: patched.session }]);
+  render(<Review initial={record} />);
+  await user.click(screen.getByRole('button', { name: fixture.member.label }));
+  const decisions = await screen.findByRole('region', { name: 'Decide captured form corrections' });
+  await within(decisions).findByText(/This answer changed after review/);
+  const accept = within(decisions).getByRole('button', { name: 'Review acceptance for Name' });
+  expect(accept).toBeDisabled();
+  await user.click(within(decisions).getByRole('checkbox', { name: 'Replace this exact latest saved answer with the proposed answer.' }));
+  await user.click(accept);
+  await user.click(await within(decisions).findByRole('checkbox', { name: /^I reviewed this decision/ }));
+  await user.click(within(decisions).getByRole('button', { name: 'Save reviewed form decision' }));
+  await screen.findByText('Accepted in a saved package revision.');
+  const saved = (await listActionPackages()).find(item => item.id === record.id)!;
+  const member = getPackageRevision(saved).members[0];
+  expect(member.kind === 'native' && member.session.genericForm!.answers.name).toBe('000999');
+  expect(saved.fieldReviewApplications![0].resolution).toEqual({ expectedCurrent: '000555', value: '000999' });
 });
 
 it('keeps an unfinished field comment attached to the selected answer until it is saved or cancelled', async () => {

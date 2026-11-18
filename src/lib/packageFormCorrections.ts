@@ -18,6 +18,7 @@ import type { PackageUpdateChoices, PackageUpdatePreview } from './packageUpdate
 
 export interface PackageFormCorrectionOptions {
   mode?: 'local' | 'shared'; sharedValue?: PackageBindingValue; choices?: PackageUpdateChoices; returnedJson?: string;
+  resolution?: { expectedCurrent: PackageBindingValue; value: string | boolean };
 }
 export interface PreparedPackageFormCorrection {
   readonly ready: boolean; readonly issues: readonly string[]; readonly reviews: readonly ExportReview[];
@@ -54,10 +55,13 @@ export async function preparePackageFormCorrection(input: ActionPackage, roundId
   if (!['accepted', 'rejected'].includes(action)) throw new Error('Choose an accept or reject decision.');
   const sourceRound = assertOwner(record, roundId); signal?.throwIfAborted();
   const round = await openPackageReview(record, roundId);
-  let child = round.memberReviews?.find(child => child.binding.memberId === memberId), reviews: ExportReview[] = [];
+  const child = round.memberReviews?.find(child => child.binding.memberId === memberId);
+  let reviews: ExportReview[] = [];
   if (options.returnedJson) {
     const returned = await parsePackageReviewReturn(options.returnedJson, record, roundId);
-    child = returned.memberReviews.find(child => child.binding.memberId === memberId);
+    const incoming = returned.memberReviews.find(child => child.binding.memberId === memberId);
+    if (!child?.fieldReview?.proposals?.some(proposal => proposal.id === proposalId) || !incoming?.fieldReview?.proposals?.some(proposal => proposal.id === proposalId))
+      throw new Error('Collect and save the bound returned feedback before deciding its form proposals.');
     reviews = await inspectPackageReviewTransfer(returned, policy);
   }
   const proposal = child?.fieldReview?.proposals?.find(proposal => proposal.id === proposalId);
@@ -65,6 +69,7 @@ export async function preparePackageFormCorrection(input: ActionPackage, roundId
   if (latestPackageFormDecision(record, roundId, memberId, proposalId)) throw new Error('This form proposal already has a decision. Undo its saved decision deliberately first.');
   const current = getPackageRevision(record), member = current.members.find(member => member.id === memberId);
   const inspection = await inspectPackageFormAnchor(member, proposal.anchor);
+  const desired = options.resolution?.value ?? proposal.value;
   const mode = options.mode ?? 'local';
   if (!['local', 'shared'].includes(mode)) throw new Error('Choose a supported correction scope.');
   let revision: PackageRevision = { ...structuredClone(current), id: newPackageId('revision'), parentId: current.id, createdAt: Math.max(Date.now(), current.createdAt, sourceRound.createdAt), outputs: [] as typeof current.outputs };
@@ -74,22 +79,26 @@ export async function preparePackageFormCorrection(input: ActionPackage, roundId
     if (member?.kind === 'native' && reviewedMember?.kind === 'native' && member.source?.documentId !== reviewedMember.source?.documentId)
       throw new Error('This member now captures another source document. Review the replacement form separately.');
     if (member?.kind !== 'native' || !inspection.field) throw new Error(inspection.label);
-    if (inspection.state !== 'current') throw new Error('The answer changed after review. Reconcile the current value before accepting this proposal.');
+    if (options.resolution && !sameReviewStoredValue(options.resolution.expectedCurrent, inspection.value)) throw new Error('The current answer changed again. Prepare its reconciliation afresh.');
+    if (inspection.state !== 'current' && !sameReviewStoredValue(inspection.value, proposal.value) && !options.resolution) throw new Error('The answer changed after review. Reconcile the current value before accepting this proposal.');
     if (mode === 'local') {
-      const { draft } = await readPackageMemberDraft(member), patched = await patchPackageBindingDraftFields(draft,
-        [{ target: proposal.anchor.target, expected: inspection.value!, value: proposal.value }]);
-      const staged = await stageMember(member, patched.draft, patched.session); attachments.push(staged.attachment);
-      revision.members = revision.members.map(item => item.id === memberId ? staged.member : item);
+      const { draft } = await readPackageMemberDraft(member);
+      reviews.push(reviewPackageNative(member.session, member.label, policy, draft as typeof member.session));
+      if (!sameReviewStoredValue(inspection.value, desired)) {
+        const patched = await patchPackageBindingDraftFields(draft, [{ target: proposal.anchor.target, expected: inspection.value!, value: desired }]);
+        const staged = await stageMember(member, patched.draft, patched.session); attachments.push(staged.attachment);
+        revision.members = revision.members.map(item => item.id === memberId ? staged.member : item);
+        reviews.push(reviewPackageNative(patched.session, member.label, policy, patched.draft as unknown as typeof member.session));
+      }
       if (revision.bindings) revision.bindings.items = revision.bindings.items.map(binding => binding.memberId === memberId
         && packageBindingTargetKey(binding.target) === packageBindingTargetKey(proposal.anchor.target) ? { ...binding, mode: 'override' } : binding);
-      reviews.push(reviewPackageNative(member.session, member.label, policy, draft as typeof member.session), reviewPackageNative(patched.session, member.label, policy, patched.draft as unknown as typeof member.session));
       await preserveUnchangedCitations(revision);
     } else {
       const binding = revision.bindings?.items.find(binding => binding.memberId === memberId && packageBindingTargetKey(binding.target) === packageBindingTargetKey(proposal.anchor.target));
       const fact = revision.information?.facts.find(fact => fact.id === binding?.factId);
       if (!binding || !fact || options.sharedValue === undefined) throw new Error('Choose the linked package value and enter its deliberately reviewed replacement.');
       const nextFact = packageFactSchema.parse({ ...fact, value: options.sharedValue, source: { kind: 'entered' } });
-      if (!sameReviewStoredValue(formatPackageFactForField(nextFact, inspection.field, binding.format), proposal.value))
+      if (!sameReviewStoredValue(formatPackageFactForField(nextFact, inspection.field, binding.format), desired))
         throw new Error('The entered package value does not format to this proposed form answer.');
       revision.information!.facts = revision.information!.facts.map(item => item.id === fact.id ? nextFact : item);
       const result = await captureLinkedPackageChanges(current, revision, { ...options.choices, [binding.id]: 'reconnect' }, policy, signal);
@@ -97,9 +106,9 @@ export async function preparePackageFormCorrection(input: ActionPackage, roundId
     }
   }
   signal?.throwIfAborted();
-  const before = inspection.value ?? null, after = action === 'accepted' ? proposal.value : before;
+  const before = inspection.value ?? null, after = action === 'accepted' ? desired : before;
   const receipt: PackageFieldReviewApplication = { id: newPackageId('form-decision'), roundId, memberId, proposal: structuredClone(proposal),
-    beforeRevisionId: current.id, revisionId: revision.id, createdAt: revision.createdAt, action, mode, before, after };
+    beforeRevisionId: current.id, revisionId: revision.id, createdAt: revision.createdAt, action, mode, before, after, ...(options.resolution && action === 'accepted' ? { resolution: options.resolution } : {}) };
   reviews.push(reviewPackageText(packageFormFeedbackText({ proposal, receipt }), 'Form correction and captured review', policy));
   const next = actionPackageSchema.parse({ ...record, sequence: record.sequence + 1, currentRevisionId: revision.id, revisions: [...record.revisions, revision],
     fieldReviewApplications: [...record.fieldReviewApplications ?? [], receipt] });

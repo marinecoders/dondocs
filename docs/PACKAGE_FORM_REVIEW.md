@@ -21,3 +21,13 @@ Review the captured values, affected fields and privacy findings before **Save r
 **Review Undo** prepares a reversal into another revision. It is available while the decision's revision is still current. Newer work prevents a broad Undo; review another correction instead. Cancelled, stale and changed-policy applications preserve saved state and attachments.
 
 Owner decision history is retained in workspace recovery. Reviewer copies and selected-revision editable packages exclude that owning history, consistent with their existing review-authority boundaries. Form proposals remain in exact reviewer copies and feedback returns. Names and decision labels do not authenticate a reviewer or establish approval.
+
+## Return feedback and reconcile newer answers
+
+The reviewer exports the existing package feedback return. In the owning captured form, expand **Collect returned form feedback**, choose that file and review its contents. **Save bound form feedback** collects the comments and proposals under the exact saved review without changing any current form answer. A return for another package, round, member or captured definition is refused. Changes under an existing proposal identity require a new proposal.
+
+Independent comments and proposals are retained together. If the same comment has different current and returned discussion, choose the version deliberately and prepare the collection again. These discussion choices do not decide form answers.
+
+**Decide form corrections** shows the reviewed, latest saved and proposed answers. An unchanged exact answer can be accepted while preserving unrelated edits and row order. If the answer itself changed, **Review acceptance** stays disabled until the drafter explicitly chooses to replace that exact latest answer. The saved receipt keeps both the expected current answer and the reviewed replacement. If it changes again before save, the package compare-and-swap boundary refuses the stale application.
+
+Deleted or ambiguous rows, replaced source documents and incompatible pinned definitions remain unavailable. They never acquire a different similarly named field. The drafter can reject a proposal while preserving the current form, or edit the form separately and start an appropriate new review.
