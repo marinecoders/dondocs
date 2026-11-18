@@ -604,8 +604,20 @@ export async function undoConditionalPackage(receipt: ConditionalPackageUndo, po
   if (original.information) reviewPackageInformation(original.information, policy);
   if (original.bindings) reviewPackageBindings(original.bindings, policy);
   for (const member of original.members) {
-    if (member.kind === 'native') { const { draft } = await readPackageMemberDraft(member); reviewPackageNative(member.session, member.label, policy, draft as SerializedSession); }
-    else await reviewPackageOriginal(await readPackageAsset(member.original), member.label, policy);
+    signal?.throwIfAborted();
+    if (member.kind === 'native') {
+      const { draft, reviewed } = await readPackageMemberDraft(member);
+      reviewPackageNative(reviewed.session, member.label, policy, draft as SerializedSession);
+      for (const file of [...reviewed.files, reviewed.basicLetter,
+        ...reviewed.figures.filter((_, index) => reviewed.session.paragraphs[index]?.figure?.type === 'application/pdf')])
+        if (file) await reviewPackageOriginal(file.data, `${member.label}: ${file.name}`, policy);
+    } else await reviewPackageOriginal(await readPackageAsset(member.original), member.label, policy);
+  }
+  const pages = new Map(original.members.flatMap(member => member.kind === 'native'
+    ? Object.values(member.templates ?? {}).map(asset => [asset.id, asset] as const) : []));
+  for (const page of pages.values()) {
+    signal?.throwIfAborted();
+    await reviewPackageOriginal(await readPackageAsset(page), page.name, policy);
   }
   const revision = { ...own(original), id: newPackageId('revision'), parentId: captured.after.currentRevisionId, createdAt: Date.now(), outputs: [] };
   const record = await guardedCommit(captured.after, buildRecord(captured.after, captured.before.name, revision), [], policy, signal, isCurrent);
