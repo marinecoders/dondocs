@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.137] — 2026-11-17
+
+### Added
+
+- Typed package information, participants and provenance preserved with each saved revision.
+
 ## [1.3.136] — 2026-11-17
 
 ### Added
