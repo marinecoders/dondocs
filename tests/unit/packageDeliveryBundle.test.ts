@@ -105,3 +105,11 @@ it('rejects local/central filename disagreement, traversal and overlapping compr
   const hostile = new JSZip(); hostile.file('../manifest.json', '{}', { createFolders: false });
   await expect(parsePackageDeliveryBundle(await hostile.generateAsync({ type: 'uint8array' }))).rejects.toThrow(/unsafe paths/); expect(load).not.toHaveBeenCalled();
 });
+it('parses only the supplied byte view and rejects truncated archives before import writes', async () => {
+  const { prepared } = await fixture(), bundle = await buildPackageDeliveryBundle(prepared, policy, true), before = await listActionPackages();
+  const padded = new Uint8Array(bundle.bytes.byteLength + 64); padded.fill(0xff); padded.set(bundle.bytes, 23);
+  const view = padded.subarray(23, 23 + bundle.bytes.byteLength);
+  expect((await parsePackageDeliveryBundle(view)).manifest).toEqual(bundle.manifest);
+  for (const cut of [1, 21, Math.floor(view.byteLength / 2)]) await expect(importPackageDeliveryBundle(view.subarray(0, view.byteLength - cut))).rejects.toThrow();
+  expect(await listActionPackages()).toEqual(before);
+});
