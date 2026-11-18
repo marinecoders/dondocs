@@ -6,6 +6,7 @@ import { reviewPackageRequirements } from '@/lib/actionPackageDisclosure';
 import { captureLegacyConditionalRequirementIds, resolveConditionalPackageRequirements } from '@/lib/packageConditionalRequirements';
 import { getExportDeploymentPolicy } from '@/config/classification';
 import type { ExportReview } from '@/lib/preparedExport';
+import { focusPackageDestination, matchesPackageDestination, type PackageDestinationRequest } from '@/lib/packageDestinations';
 interface Props {
   record: ActionPackage;
   revision: PackageRevision;
@@ -16,18 +17,21 @@ interface Props {
   isCurrent(): boolean;
   signal(): AbortSignal | undefined;
   onDirtyChange?(dirty: boolean): void;
+  destination?: PackageDestinationRequest;
 }
 const inputClass = 'block w-full min-w-0 rounded border bg-background p-2 text-sm';
 const operationLabels: Record<PackageRequirementOperation, string> = { review: 'Review', pdf: 'PDF assembly', portable: 'Editable transfer' };
 
 /** Declared evidence slots remain metadata until the user assigns actual captured package content. */
-export function PackageRequirementsPanel({ record, revision, disabled, busy, run, onApply, isCurrent, signal, onDirtyChange }: Props) {
+export function PackageRequirementsPanel({ record, revision, disabled, busy, run, onApply, isCurrent, signal, onDirtyChange, destination }: Props) {
   const heading = useId(), owner = `${record.id}:${record.sequence}:${revision.id}`;
+  const content = useRef<HTMLElement>(null), handledDestination = useRef<number | null>(null);
   const [base, setBase] = useState<PackageRequirements | undefined>(() => structuredClone(revision.requirements));
   const [draft, setDraft] = useState<PackageRequirements | undefined>(() => structuredClone(revision.requirements));
   const derive = !!revision.templateState && revision.requirements === undefined;
   const [loading, setLoading] = useState(derive);
-  const [operation, setOperation] = useState<PackageRequirementOperation>('pdf'), [page, setPage] = useState(0);
+  const [operation, setOperation] = useState<PackageRequirementOperation>('pdf');
+  const [pagination, setPagination] = useState({ page: 0, requestId: -1 });
   const [inspection, setInspection] = useState<PackageRequirementsInspection | null>(null);
   const [review, setReview] = useState<{ value: ExportReview; policyIdentity: string } | null>(null), [reviewed, setReviewed] = useState(false);
   const [pending, setPending] = useState(false), [error, setError] = useState(''), [notice, setNotice] = useState('');
@@ -38,13 +42,25 @@ export function PackageRequirementsPanel({ record, revision, disabled, busy, run
   const unavailable = derive && base === undefined;
   const locked = !editable || busy || pending || loading || unavailable;
   const dirty = JSON.stringify(draft) !== JSON.stringify(base);
+  const destinationIndex = matchesPackageDestination(destination, record.id, revision.id) && destination.requirementId
+    ? draft?.items.findIndex(item => item.id === destination.requirementId) ?? -1 : -1;
+  const page = destinationIndex >= 0 && destination && pagination.requestId !== destination.requestId
+    ? Math.floor(destinationIndex / 25) : pagination.page;
+  useEffect(() => {
+    if (!matchesPackageDestination(destination, record.id, revision.id) || !destination.requirementId || loading
+      || handledDestination.current === destination.requestId) return;
+    const index = draft?.items.findIndex(item => item.id === destination.requirementId) ?? -1;
+    if (index < 0) { handledDestination.current = destination.requestId; return; }
+    handledDestination.current = destination.requestId;
+    focusPackageDestination(content.current, 'data-package-requirement-id', destination.requirementId);
+  }, [destination, record.id, revision.id, draft, loading, page]);
   useLayoutEffect(() => { currentOwner.current = owner; dirtyCallback.current = onDirtyChange; revisionRef.current = revision; }, [owner, onDirtyChange, revision]);
   useEffect(() => { mounted.current = true; return () => { mounted.current = false; dirtyCallback.current?.(false); }; }, []);
   useEffect(() => { onDirtyChange?.(dirty); }, [dirty, onDirtyChange]);
   useLayoutEffect(() => {
     if (lastOwner.current === owner) return;
     lastOwner.current = owner; generation.current++;
-    setBase(structuredClone(revision.requirements)); setDraft(structuredClone(revision.requirements)); setLoading(!!revision.templateState && revision.requirements === undefined); setInspection(null); setReview(null); setReviewed(false); setPage(0); setError('');
+    setBase(structuredClone(revision.requirements)); setDraft(structuredClone(revision.requirements)); setLoading(!!revision.templateState && revision.requirements === undefined); setInspection(null); setReview(null); setReviewed(false); setPagination({ page: 0, requestId: -1 }); setError('');
     if (ownRevision.current !== revision.id) setNotice('');
     ownRevision.current = null;
   }, [owner, revision]);
@@ -80,7 +96,7 @@ export function PackageRequirementsPanel({ record, revision, disabled, busy, run
     finally { running.current = false; if (mounted.current) setPending(false); }
   }
   const shown = draft?.items.slice(page * 25, (page + 1) * 25) ?? [];
-  return <section aria-labelledby={heading} aria-busy={pending || loading} className="min-w-0 space-y-3 rounded-lg border bg-background p-3 sm:p-4">
+  return <section ref={content} tabIndex={-1} data-package-panel="requirements" aria-labelledby={heading} aria-busy={pending || loading} className="min-w-0 space-y-3 rounded-lg border bg-background p-3 sm:p-4">
     <h3 id={heading} className="font-medium">Evidence and requirements</h3>
     <p className="text-sm text-muted-foreground">Evidence slots are fulfilled by actual captured documents or PDFs. Confirmations record what a user declares; they do not grant approval or independently verify the content.</p>
     <p role="status" className="text-xs text-muted-foreground">{loading ? 'Reading captured requirements…' : unavailable ? 'Captured requirements are unavailable.' : dirty ? 'Unapplied requirement changes · not saved yet.' : 'Showing saved requirement declarations.'}</p>
@@ -96,7 +112,7 @@ export function PackageRequirementsPanel({ record, revision, disabled, busy, run
         const personContext = item.participantId ? `${person?.label ?? intakePerson?.label ?? 'Unavailable person'} · ${person?.role ?? (intakePerson ? 'Intake person' : 'Unknown role')}` : 'Package-wide';
         const controlLabel = `${item.label} · ${personContext} · Requirement ${page * 25 + index + 1}`;
         const finding = inspection?.items.find(finding => finding.id === item.id);
-        return <article key={item.id} className="min-w-0 space-y-2 rounded border p-3">
+        return <article key={item.id} tabIndex={-1} data-package-requirement-id={item.id} className="min-w-0 space-y-2 rounded border p-3">
           <h4 className="break-words text-sm font-medium">{item.label}</h4>
           <p className="break-words text-xs text-muted-foreground">{personContext} · Required for {item.operations.map(value => operationLabels[value]).join(', ')} · {item.condition === 'active' ? 'Active' : item.condition === 'inactive' ? 'Inactive for saved answers' : 'Condition unresolved'}</p>
           {item.kind === 'document' ? <label className="block text-sm">Captured evidence<select aria-label={`Evidence for ${controlLabel}`} className={inputClass} value={item.memberId ?? ''} onChange={event => {
@@ -116,8 +132,8 @@ export function PackageRequirementsPanel({ record, revision, disabled, busy, run
     </fieldset>
     {(draft?.items.length ?? 0) > 25 && <div className="flex flex-wrap items-center gap-2">
       <p className="text-xs">Requirements {page * 25 + 1}–{Math.min((page + 1) * 25, draft!.items.length)} of {draft!.items.length}</p>
-      <Button variant="outline" disabled={busy || pending || page === 0} onClick={() => setPage(value => value - 1)}>Previous requirements</Button>
-      <Button variant="outline" disabled={busy || pending || (page + 1) * 25 >= draft!.items.length} onClick={() => setPage(value => value + 1)}>More requirements</Button>
+      <Button variant="outline" disabled={busy || pending || page === 0} onClick={() => setPagination({ page: page - 1, requestId: destination?.requestId ?? -1 })}>Previous requirements</Button>
+      <Button variant="outline" disabled={busy || pending || (page + 1) * 25 >= draft!.items.length} onClick={() => setPagination({ page: page + 1, requestId: destination?.requestId ?? -1 })}>More requirements</Button>
     </div>}
     <div className="flex min-w-0 flex-col gap-2 sm:flex-row sm:items-end">
       <label className="min-w-0 flex-1 text-sm">Operation to check<select aria-label="Requirement operation" className={inputClass} disabled={busy || pending || loading || unavailable} value={operation} onChange={event => { invalidate(); setOperation(event.target.value as PackageRequirementOperation); }}>

@@ -153,7 +153,7 @@ export function PackageIntakePanel({ record, revision, editable, disabled, busy,
       const selected = await maintainedPackageAction(action.id as MaintainedPackageActionId); if (current(capture)) choose(selected);
     })}>Start {action.name.toLocaleLowerCase()}</Button>
   </article>)}</div>;
-  return <section aria-label="Action intake" className="min-w-0 space-y-4 rounded-lg border bg-background p-3 sm:p-4" aria-busy={pending || loading}>
+  return <section tabIndex={-1} data-package-panel="intake" aria-label="Action intake" className="min-w-0 space-y-4 rounded-lg border bg-background p-3 sm:p-4" aria-busy={pending || loading}>
     <div className="space-y-1">
       <h3 ref={heading} tabIndex={-1} className="break-words font-medium">{template?.name ?? 'Start from an action'}</h3>
       <p className="text-sm text-muted-foreground">General-purpose starters use DonDocs worksheets. Review the requirements for the actual action; these are not official forms.</p>
