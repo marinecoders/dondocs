@@ -149,3 +149,24 @@ it('joins split Word runs within each retained paragraph before checking marking
   expect((await inspectPackageAttachment(incoming)).text).toContain('(S) Restricted synthetic paragraph.');
   await expect(preparePackageAttachment(await packageWithPdf(), incoming, policy)).rejects.toThrow(/markings|levels/);
 });
+
+it.each(['shared', 'inline'] as const)('joins %s spreadsheet rich-text runs before checking retained markings', async kind => {
+  const zip = new JSZip(), namespace = 'http://schemas.openxmlformats.org/spreadsheetml/2006/main';
+  zip.file('[Content_Types].xml', '<Types/>');
+  zip.file('xl/workbook.xml', `<workbook xmlns="${namespace}"/>`);
+  const runs = '<r><t>(</t></r><r><t>S</t></r><r><t>) Restricted synthetic evidence.</t></r>';
+  if (kind === 'shared') zip.file('xl/sharedStrings.xml', `<sst xmlns="${namespace}"><si>${runs}</si></sst>`);
+  else zip.file('xl/worksheets/sheet1.xml', `<worksheet xmlns="${namespace}"><sheetData><row><c t="inlineStr"><is>${runs}</is></c></row></sheetData></worksheet>`);
+  const incoming = { name: 'split-runs.xlsx', data: await zip.generateAsync({ type: 'arraybuffer' }) };
+  expect((await inspectPackageAttachment(incoming)).text).toContain('(S) Restricted synthetic evidence.');
+  await expect(preparePackageAttachment(await packageWithPdf(), incoming, policy)).rejects.toThrow(/markings|levels/);
+});
+
+it('joins retained DrawingML chart runs before checking spreadsheet markings', async () => {
+  const zip = new JSZip(); zip.file('[Content_Types].xml', '<Types/>');
+  zip.file('xl/workbook.xml', '<workbook/>');
+  zip.file('xl/drawings/drawing1.xml', '<a:txBody xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main"><a:p><a:r><a:t>(</a:t></a:r><a:r><a:t>S</a:t></a:r><a:r><a:t>) Restricted synthetic chart.</a:t></a:r></a:p></a:txBody>');
+  const incoming = { name: 'chart-runs.xlsx', data: await zip.generateAsync({ type: 'arraybuffer' }) };
+  expect((await inspectPackageAttachment(incoming)).text).toContain('(S) Restricted synthetic chart.');
+  await expect(preparePackageAttachment(await packageWithPdf(), incoming, policy)).rejects.toThrow(/markings|levels/);
+});

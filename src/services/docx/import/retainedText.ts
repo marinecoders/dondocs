@@ -2,6 +2,24 @@ import { isWord, wordXml, xmlChildren, WORD_IMPORT_LIMITS, WORD_NAMESPACES } fro
 
 type View = 'before' | 'after';
 const CONTENT_TYPES = 'http://schemas.openxmlformats.org/package/2006/content-types';
+const SPREADSHEET_NAMESPACES = new Set(['http://schemas.openxmlformats.org/spreadsheetml/2006/main', 'http://purl.oclc.org/ooxml/spreadsheetml/main']);
+const DRAWING_NAMESPACES = new Set(['http://schemas.openxmlformats.org/drawingml/2006/main', 'http://purl.oclc.org/ooxml/drawingml/main']);
+
+/** Formatting boundaries do not separate the displayed words in Office rich text.
+ * Keep the complete XML inventory below as well, including phonetic/hidden data. */
+function richOfficeText(element: Element): string | undefined {
+  const spreadsheet = SPREADSHEET_NAMESPACES.has(element.namespaceURI ?? '') && ['si', 'is'].includes(element.localName);
+  const drawing = DRAWING_NAMESPACES.has(element.namespaceURI ?? '') && element.localName === 'p';
+  if (!spreadsheet && !drawing) return undefined;
+  const namespace = element.namespaceURI;
+  return xmlChildren(element).map(child => {
+    if (child.namespaceURI !== namespace) return '';
+    if (child.localName === 't') return child.textContent ?? '';
+    if (drawing && child.localName === 'br') return '\n';
+    if (child.localName !== 'r' && !(drawing && child.localName === 'fld')) return '';
+    return xmlChildren(child).filter(run => run.namespaceURI === namespace && run.localName === 't').map(run => run.textContent ?? '').join('');
+  }).join('');
+}
 
 /** Paragraph views deliberately skip foreign objects and incompatible revision
  * branches. Their Word text must not then be suppressed as already inventoried.
@@ -60,6 +78,8 @@ export function retainedWordText(archive: ReadonlyMap<string, Uint8Array>, parag
     assertCompleteInlineInventory(document.documentElement);
     const header = isWord(document.documentElement, 'hdr') || isWord(document.documentElement, 'ftr');
     for (const element of Array.from(document.getElementsByTagName('*'))) {
+      const richText = richOfficeText(element);
+      if (richText !== undefined) retain(richText, header);
       if (isWord(element, 'p')) {
         const before = paragraphText(element, 'before'), after = paragraphText(element, 'after');
         retain(before, header);
