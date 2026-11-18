@@ -551,3 +551,22 @@ it("cancels a held package member write before its parent CAS", async () => {
   expect((await listActionPackages()).find(value => value.id === record.id)).toEqual(before);
   expect(within(dialog).getByLabelText("Package member comment")).toHaveValue("Cancelled feedback must not commit.");
 });
+
+it("validates long package names without discarding a valid full-length Unicode replacement", async () => {
+  const record = await createActionPackage("Original name");
+  rememberPackageWorkspaceContext({ version: 1, packageId: record.id, revisionId: record.currentRevisionId, memberId: null, section: "overview" });
+  useUIStore.setState({ actionPackagesOpen: true });
+  render(<ActionPackageWorkspace exportGate={createExportGate()} ports={{ compile: vi.fn(), convertDocx: vi.fn(), waitForReady: async () => true }} />);
+  const dialog = screen.getByRole("dialog", { name: "Action packages" }), name = within(dialog).getByLabelText("Package name", { exact: true });
+  await waitFor(() => expect(name).toBeEnabled());
+  const user = userEvent.setup();await user.clear(name);await user.paste("A".repeat(121));
+  expect(name).toHaveValue("A".repeat(121));expect(name).toHaveAttribute("aria-invalid", "true");
+  expect(within(dialog).getByRole("button", { name: "Create package" })).toBeDisabled();
+  expect(within(dialog).getByRole("button", { name: "Rename" })).toBeDisabled();
+  expect(within(dialog).getByText("Use a package name of 120 characters or fewer.")).toBeVisible();
+  await user.clear(name);await user.paste("😀".repeat(60));
+  expect(name).toHaveValue("😀".repeat(60));expect(name).not.toHaveAttribute("aria-invalid");
+  expect(within(dialog).getByRole("button", { name: "Create package" })).toBeEnabled();
+  expect(within(dialog).getByRole("button", { name: "Rename" })).toBeEnabled();
+  expect((await listActionPackages()).find(value => value.id === record.id)?.name).toBe("Original name");
+});

@@ -7,7 +7,7 @@ import type { ExportGate } from "@/lib/exportController";
 import { reviewPackageOriginal } from "@/lib/actionPackageDisclosure";
 import type { PackageAsset } from "@/lib/actionPackages";
 import type { SerializedSession } from "@/stores/documentStore";
-import { useEffect, useState, useRef, lazy, Suspense } from "react";
+import { useEffect, useId, useState, useRef, lazy, Suspense } from "react";
 import {
   Dialog,
   DialogContent,
@@ -153,6 +153,9 @@ function PackageDialog({
     [loaded, setLoaded] = useState(false),
     [notice, setNotice] = useState("");
   const [typedDirty, setTypedDirty] = useState(false);
+  const nameLimitId = useId();
+  const nameTooLong = name.trim().length > 120;
+  const validName = !!name.trim() && !nameTooLong;
   const [openedReview, setOpenedReview] = useState<PackageReviewRound | null>(null);
   const [shareOpen, setShareOpen] = useState(false);
   const [encryptedImport, setEncryptedImport] = useState<string | null>(null);
@@ -509,16 +512,19 @@ function PackageDialog({
           <div className="flex flex-wrap items-end gap-2">
             <label className="min-w-0 flex-1 text-sm">
               Package name
+              {/* Native maxlength can drop a full-length Unicode replacement on mobile; validate commits instead. */}
               <input
                 aria-label="Package name"
                 className="mt-1 w-full rounded border bg-background p-2"
-                maxLength={120}
+                aria-invalid={nameTooLong || undefined}
+                aria-describedby={nameTooLong ? nameLimitId : undefined}
                 value={name}
                 onChange={(event) => setName(event.target.value)}
               />
+              {nameTooLong && <span id={nameLimitId} role="status" className="mt-1 block text-xs text-destructive">Use a package name of 120 characters or fewer.</span>}
             </label>
             <Button
-              disabled={!loaded || !name.trim()}
+              disabled={!loaded || !validName}
               onClick={() =>
                 void run(async () =>
                   update(
@@ -609,6 +615,7 @@ function PackageDialog({
               <div className="flex flex-wrap gap-2">
                 <Button
                   variant="outline"
+                  disabled={!validName}
                   onClick={() =>
                     void run(async () =>
                       update(
