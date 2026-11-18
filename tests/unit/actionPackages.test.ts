@@ -81,6 +81,7 @@ const policy = resolveExportDeploymentPolicy({
   environment: { maxLevel: "unclassified", allowedLevels: ["unclassified"] },
   runtime: { status: "absent" },
 });
+vi.mock('@/config/classification', async original => ({ ...await original<typeof import('@/config/classification')>(), getExportDeploymentPolicy: async () => policy, getExportDeploymentPolicySync: () => policy }));
 async function clearDb() {
   const db = await new Promise<IDBDatabase>((resolve, reject) => {
     const request = indexedDB.open("dondocs");

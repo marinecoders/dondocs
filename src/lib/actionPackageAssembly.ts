@@ -1,4 +1,5 @@
 import { reviewPackageSigning } from './packageSigning';
+import { getExportDeploymentPolicy, getExportDeploymentPolicySync } from '@/config/classification';
 import { addPackageOutputNavigation } from './packageOutputNavigation';
 import { inspectPackageRequirements } from "./packageRequirements";
 import { inspectPackageConsistency } from './packageConsistency';
@@ -576,6 +577,15 @@ export function assertPreparedPackagePolicy(prepared: PreparedPackageAssembly, p
     || input.policy.policy.identity !== policy.policy.identity)
     throw new Error("The export policy changed. Review this package operation again.");
 }
+function assemblyPolicyCurrent(input: AssemblyInput): boolean {
+  const current = getExportDeploymentPolicySync();
+  return input.policy.status === 'ready' && current.status === 'ready' && current.policy.identity === input.policy.policy.identity;
+}
+async function assertAssemblyPolicyCurrent(input: AssemblyInput): Promise<void> {
+  const current = await getExportDeploymentPolicy();
+  if (input.policy.status !== 'ready' || current.status !== 'ready' || current.policy.identity !== input.policy.policy.identity || !assemblyPolicyCurrent(input))
+    throw new Error('The export policy changed. Review this package assembly again.');
+}
 /** Acknowledgement covers each preserved member's displayed export review and original PDF warnings. */
 export async function assemblePackage(
   prepared: PreparedPackageAssembly,
@@ -587,6 +597,7 @@ export async function assemblePackage(
   const input = preparedAssemblies.get(prepared);
   if (!input || !input.eligible) throw new Error("Resolve package readiness findings before assembly.");
   if (input.purpose !== "pdf") throw new Error("Review PDF assembly requirements before assembling this package.");
+  await assertAssemblyPolicyCurrent(input); signal.throwIfAborted();
   return withAttachmentStaging(async () => {
     const pdf = await PDFDocument.create(),
       boundaries: PackageBoundary[] = [];
@@ -689,6 +700,7 @@ export async function assemblePackage(
     signal.throwIfAborted();
     const navigation = addPackageOutputNavigation(pdf, getPackageRevision(input.record, input.revisionId), boundaries);
     const bytes = new Uint8Array(await pdf.save()).buffer;
+    await assertAssemblyPolicyCurrent(input); signal.throwIfAborted();
     const output = {
       id: newPackageId("output"),
       asset: await retainPackageAsset(
@@ -717,6 +729,7 @@ export async function assemblePackage(
         ),
       },
       signal,
+      () => assemblyPolicyCurrent(input),
     );
   });
 }
