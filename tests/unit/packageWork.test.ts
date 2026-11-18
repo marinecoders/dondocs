@@ -16,6 +16,8 @@ import { reviewPackageWork } from '@/lib/actionPackageDisclosure';
 import { resolveExportDeploymentPolicy } from '@/lib/exportDeploymentPolicy';
 import * as classification from '@/config/classification';
 import { useUIStore } from '@/stores/uiStore';
+import { updatePackageInformation } from '@/lib/packageInformation';
+import { updatePackageConsistency } from '@/lib/packageConsistency';
 
 vi.mock('@/stores/backupStore', () => ({ scheduleBackup: vi.fn() }));
 vi.mock('@/lib/pdfText', () => ({ extractPdfText: vi.fn(async () => '') }));
@@ -136,18 +138,24 @@ it('keeps manual task completion independent from actual evidence and the select
 
 it('uses local calendar dates, retains same-owner tasks and prioritizes real conflicts over overdue tasks', async () => {
   expect(packageWorkToday(new Date(2026, 10, 18, 0, 1))).toBe('2026-11-18');
+  const timezoneInstant = new Date('2026-11-18T00:01:00Z');
+  vi.spyOn(timezoneInstant, 'getFullYear').mockReturnValue(2026); vi.spyOn(timezoneInstant, 'getMonth').mockReturnValue(10); vi.spyOn(timezoneInstant, 'getDate').mockReturnValue(17);
+  expect(packageWorkToday(timezoneInstant)).toBe('2026-11-17');
   let record = await fixture(); record = await updatePackageWork(record, { version: 1, tasks: [
     work({ id: 'today', title: 'Due today' }).tasks[0], work({ id: 'past', title: 'Already due', dueDate: '2026-11-17' }).tasks[0],
     work({ id: 'other', title: 'Other same-owner task' }).tasks[0],
   ] }, policy);
-  const result = await derivePackageNextActions(record, undefined, { operation: 'review', policy, today: '2026-11-18', consistencyFindings: [
-    { ruleId: 'dates', label: 'Dates', state: 'conflict', required: true, message: 'Start follows end.', destinations: [] },
+  record = await updatePackageInformation(record, { version: 1, participants: [], facts: [
+    { id: 'start', label: 'Start', kind: 'date', value: '2026-11-19', source: { kind: 'entered' } },
+    { id: 'end', label: 'End', kind: 'date', value: '2026-11-18', source: { kind: 'entered' } },
   ] });
+  record = await updatePackageConsistency(record, { version: 1, rules: [
+    { id: 'dates', label: 'Dates', relation: 'date-on-or-before', leftFactId: 'start', rightFactId: 'end', required: true },
+  ], exceptions: [] }, policy);
+  const result = await derivePackageNextActions(record, undefined, { operation: 'review', policy, today: '2026-11-18' });
   expect(result.readyForOperation).toBe(false); expect(result.actions[0].kind, JSON.stringify(result.actions)).toBe('consistency');
   const tasks = result.actions.filter(action => action.kind === 'task'); expect(tasks).toHaveLength(3);
   expect(tasks.find(task => task.taskId === 'today')?.overdue).toBe(false);
   expect(tasks.find(task => task.taskId === 'past')?.overdue).toBe(true);
-  expect((await derivePackageNextActions(record, undefined, { operation: 'portable', policy, consistencyFindings: [
-    { ruleId: 'dates', label: 'Dates', state: 'conflict', required: true, message: 'Start follows end.', destinations: [] },
-  ] })).actions.find(action => action.kind === 'consistency')?.blocking).toBe(false);
+  expect((await derivePackageNextActions(record, undefined, { operation: 'portable', policy })).actions.find(action => action.kind === 'consistency')?.blocking).toBe(false);
 });

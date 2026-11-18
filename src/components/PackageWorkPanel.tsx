@@ -16,7 +16,6 @@ interface Props {
   onApply(record: ActionPackage): void;
   isCurrent(): boolean; signal(): AbortSignal | undefined; onDirtyChange?(dirty: boolean): void;
   onNavigate?(destination: PackageWorkDestination): void;
-  consistencyFindings?: PackageNextActionOptions['consistencyFindings'];
   impact?: PackageNextActionOptions['impact'];
 }
 const inputClass = 'mt-1 block w-full min-w-0 rounded border bg-background p-2 text-sm';
@@ -39,7 +38,7 @@ const labels = { pdf: 'PDF assembly', review: 'Start review', portable: 'Editabl
 
 /** Local coordination stays separate from the package's computed evidence and document checks. */
 export function PackageWorkPanel({ record, revision, disabled, busy, run, onApply, isCurrent, signal, onDirtyChange,
-  onNavigate, consistencyFindings, impact }: Props) {
+  onNavigate, impact }: Props) {
   const heading = useId(), owner = `${record.id}:${record.sequence}:${revision.id}:${record.archived}`;
   const [base, setBase] = useState(() => drafts(revision)), [draft, setDraft] = useState(() => drafts(revision));
   const [page, setPage] = useState(0), [actionPage, setActionPage] = useState(0), [operation, setOperation] = useState<PackageRequirementOperation>('pdf');
@@ -49,6 +48,7 @@ export function PackageWorkPanel({ record, revision, disabled, busy, run, onAppl
   const mounted = useRef(false), currentOwner = useRef(owner), lastOwner = useRef(owner), generation = useRef(0), running = useRef(false);
   const dirtyCallback = useRef(onDirtyChange), focusTask = useRef<string | null>(null), taskInputs = useRef(new Map<string, HTMLInputElement>());
   const inspectionPolicy = useRef<string | undefined>(undefined), reviewedPolicy = useRef<string | undefined>(undefined);
+  const ownRevision = useRef<string | undefined>(undefined);
   const editable = !disabled && !record.archived && revision.id === record.currentRevisionId && !record.reviewRounds?.some(round => round.ownerPackageId === undefined);
   const dirty = JSON.stringify(base) !== JSON.stringify(draft), locked = !editable || busy || pending;
   useLayoutEffect(() => { currentOwner.current = owner; dirtyCallback.current = onDirtyChange; }, [owner, onDirtyChange]);
@@ -69,7 +69,8 @@ export function PackageWorkPanel({ record, revision, disabled, busy, run, onAppl
     if (lastOwner.current === owner) return;
     lastOwner.current = owner; generation.current++;
     inspectionPolicy.current = undefined; reviewedPolicy.current = undefined;
-    const next = drafts(revision); setBase(next); setDraft(structuredClone(next)); setPage(0); setInspection(null); setReview(null); setReviewed(false); setError(''); setNotice('');
+    const next = drafts(revision); setBase(next); setDraft(structuredClone(next)); setPage(0); setInspection(null); setReview(null); setReviewed(false); setError('');
+    if (ownRevision.current !== revision.id) setNotice(''); ownRevision.current = undefined;
   }, [owner, revision]);
   const wasEditable = useRef(editable);
   useLayoutEffect(() => {
@@ -165,6 +166,7 @@ export function PackageWorkPanel({ record, revision, disabled, busy, run, onAppl
           const next = await updatePackageWork(record, proposed(draft), policy, operationSignal, current);
           if (!current()) return;
           const nextDraft = drafts(next.revisions.find(item => item.id === next.currentRevisionId)!);
+          ownRevision.current = next.currentRevisionId;
           setBase(nextDraft); setDraft(structuredClone(nextDraft)); setReview(null); setReviewed(false); setInspection(null);
           dirtyCallback.current?.(false); onApply(next); setNotice('Tasks saved as a new package revision.');
         })}>Save task changes</Button>
@@ -178,7 +180,7 @@ export function PackageWorkPanel({ record, revision, disabled, busy, run, onAppl
         const policy = await getExportDeploymentPolicy();
         if (policy.status !== 'ready') throw new Error(policy.message);
         const key = JSON.stringify(policy.policy);
-        const value = await derivePackageNextActions(record, revision.id, { operation, policy, signal: operationSignal, consistencyFindings, impact });
+        const value = await derivePackageNextActions(record, revision.id, { operation, policy, signal: operationSignal, impact });
         const active = getExportDeploymentPolicySync();
         if (active.status !== 'ready' || JSON.stringify(active.policy) !== key) throw new Error('Deployment settings changed. Check next actions again.');
         if (current()) { inspectionPolicy.current = key; setInspection(value); setActionPage(0); }

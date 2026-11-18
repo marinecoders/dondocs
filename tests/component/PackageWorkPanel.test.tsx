@@ -41,6 +41,7 @@ it('creates, reviews, saves, completes and reloads actual revision-owned task da
   expect(screen.getByRole('button', { name: 'Check next actions' })).toBeDisabled();
   expect(getPackageRevision((await listActionPackages()).find(record => record.id === initial.id)!).work).toBeUndefined();
   await save(user);
+  expect(screen.getByText('Tasks saved as a new package revision.')).toBeVisible();
   const saved = (await listActionPackages()).find(record => record.id === initial.id)!;
   expect(getPackageRevision(saved).work?.tasks[0]).toMatchObject({ title: 'Collect the supporting record', owner: 'Alex Example', dueDate: '2026-11-18', notes: 'Use the reviewed copy.', status: 'pending' });
   expect(getPackageRevision(saved).members).toEqual([]); expect(saved.revisions.slice(0, -1)).toEqual(initial.revisions);

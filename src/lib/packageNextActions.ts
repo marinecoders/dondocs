@@ -12,6 +12,7 @@ import { preparePackageAssembly } from './actionPackageAssembly';
 import { validateActionPackageResources } from './actionPackageTransfer';
 import { readPackageAsset } from './actionPackageAssets';
 import { reviewPackageWork } from './actionPackageDisclosure';
+import { inspectPackageConsistency } from './packageConsistency';
 
 export interface PackageNextAction {
   id: string;
@@ -30,16 +31,11 @@ export interface PackageNextActions {
   computedBlockers: number;
   pendingTasks: number;
 }
-interface ConsistencyFinding {
-  ruleId: string; label: string; state: 'satisfied' | 'conflict' | 'unresolved' | 'excepted'; required: boolean; message: string;
-  destinations: readonly { factId: string; memberId?: string; bindingId?: string }[];
-}
 export interface PackageNextActionOptions {
   operation?: PackageRequirementOperation;
   policy?: PolicyResolution;
   signal?: AbortSignal;
   today?: string;
-  consistencyFindings?: readonly ConsistencyFinding[];
   /** Already computed package-impact findings can be composed without re-reading the same resources. */
   impact?: readonly Pick<PackageNextAction, 'id' | 'label' | 'message' | 'destination'>[];
 }
@@ -48,13 +44,11 @@ export interface PackageNextActionOptions {
 export async function derivePackageNextActions(input: ActionPackage, revisionId = input.currentRevisionId,
   options: PackageNextActionOptions = {}): Promise<PackageNextActions> {
   const record = actionPackageSchema.parse(structuredClone(input)), revision = getPackageRevision(record, revisionId);
-  options = { ...options,
-    ...(options.consistencyFindings ? { consistencyFindings: structuredClone(options.consistencyFindings) } : {}),
-    ...(options.impact ? { impact: structuredClone(options.impact) } : {}) };
+  options = { ...options, ...(options.impact ? { impact: structuredClone(options.impact) } : {}) };
   const operation = options.operation ?? 'pdf', today = options.today ?? packageWorkToday();
   if (!['pdf', 'review', 'portable'].includes(operation)) throw new Error('Choose a supported package operation.');
   if (!isPackageWorkDate(today)) throw new Error('Use a real local calendar date for task inspection.');
-  if ((options.consistencyFindings?.length ?? 0) > 200 || (options.impact?.length ?? 0) > 200)
+  if ((options.impact?.length ?? 0) > 200)
     throw new Error('Too many coordination findings to inspect.');
   options.signal?.throwIfAborted();
   const policy = options.policy ?? await getExportDeploymentPolicy(), actions: PackageNextAction[] = [];
@@ -72,6 +66,11 @@ export async function derivePackageNextActions(input: ActionPackage, revisionId 
   });
   let readinessInspected = true;
   try {
+    for (const finding of (await inspectPackageConsistency(revision, options.signal)).findings) if (['conflict', 'unresolved'].includes(finding.state)) add({
+      id: `consistency-${finding.ruleId}`, kind: 'consistency', label: finding.label, message: `${finding.label}: ${finding.message}`,
+      blocking: finding.required && operation !== 'portable',
+      destination: { section: 'overview', panel: 'consistency', ...(finding.destinations.find(target => target.memberId) ?? finding.destinations[0]) },
+    });
     const requirements = await inspectPackageRequirements(revision, operation, { signal: options.signal });
     for (const finding of requirements.items) if (['missing', 'unknown', 'invalid'].includes(finding.state)) add({
       id: `requirement-${finding.id}`, kind: 'evidence', label: finding.label, message: `${finding.label}: ${finding.message}`, blocking: true,
@@ -105,10 +104,6 @@ export async function derivePackageNextActions(input: ActionPackage, revisionId 
     add({ id: 'inspection-error', kind: 'inspection', label: 'Inspect unavailable package content',
       message: cause instanceof Error ? cause.message : 'The package could not be inspected.', blocking: true, destination: { section: 'delivery' } });
   }
-  for (const finding of options.consistencyFindings ?? []) if (['conflict', 'unresolved'].includes(finding.state)) add({
-    id: `consistency-${finding.ruleId}`, kind: 'consistency', label: finding.label, message: finding.message,
-    blocking: finding.required && operation !== 'portable', destination: { section: 'overview', panel: 'consistency', ...finding.destinations[0] },
-  });
   for (const finding of options.impact ?? []) add({ ...structuredClone(finding), kind: 'impact', blocking: false });
   const activeReviews = (record.reviewRounds ?? []).filter(round => packageReviewRoundStatus(round) === 'active');
   for (const round of activeReviews) add({ id: `review-${round.id}`, kind: 'review', label: 'Inspect an active review',

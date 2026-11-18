@@ -3,7 +3,7 @@ import type { PackageRevision } from './actionPackages';
 
 const identity = z.string().min(1).max(100).regex(/^[A-Za-z0-9_-]+$/)
   .refine(value => value !== 'prototype' && !Object.hasOwn(Object.prototype, value), 'Reserved task identity.');
-const singleLine = z.string().trim().min(1).max(160)
+const singleLine = z.string().trim().min(1, 'Enter a label.').max(160, 'Use 160 characters or fewer.')
   .refine(value => Array.from(value).every(character => character.charCodeAt(0) >= 32 && character.charCodeAt(0) !== 127), 'Use a single-line label.');
 export function isPackageWorkDate(value: string): boolean {
   if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
@@ -17,7 +17,7 @@ export type PackageTaskTarget = z.infer<typeof packageTaskTargetSchema>;
 export const packageTaskSchema = z.object({
   id: identity, title: singleLine, status: z.enum(['pending', 'complete']), owner: singleLine.optional(),
   dueDate: z.string().refine(isPackageWorkDate, 'Use a real date in YYYY-MM-DD format.').optional(),
-  notes: z.string().max(2000).refine(value => Array.from(value).every(character => character.charCodeAt(0) !== 127 && (character.charCodeAt(0) >= 32 || ['\n', '\r', '\t'].includes(character))), 'Unsupported control character.').optional(),
+  notes: z.string().max(2000, 'Use 2,000 characters or fewer.').refine(value => Array.from(value).every(character => character.charCodeAt(0) !== 127 && (character.charCodeAt(0) >= 32 || ['\n', '\r', '\t'].includes(character))), 'Unsupported control character.').optional(),
   target: packageTaskTargetSchema.optional(),
 }).strict();
 export type PackageTask = z.infer<typeof packageTaskSchema>;
@@ -44,6 +44,7 @@ export interface PackageWorkDestination {
   section?: 'overview' | 'documents' | 'review' | 'delivery';
   panel?: 'information' | 'requirements' | 'intake' | 'consistency' | 'work';
   memberId?: string; requirementId?: string; factId?: string; bindingId?: string;
+  revisionId?: string; outputId?: string; reviewRoundId?: string; citationId?: string;
 }
 export function resolvePackageTaskTarget(revision: PackageRevision, target: PackageTaskTarget): {
   state: 'available' | 'missing'; label: string; destination?: PackageWorkDestination;
