@@ -110,7 +110,7 @@ function reconcile(template: PackageTemplateV2, record: ActionPackage | null, an
     if (!question || !fact) continue;
     const key = packageTemplateFactKey(question.id, mapping.participantId); known.add(key);
     if (question.groupId && !next.groups[question.groupId]?.some(person => person.id === mapping.participantId)) continue;
-    const before = answerAt(state!.appliedAnswers ?? state!.answers, question, mapping.participantId), requested = answerAt(next, question, mapping.participantId);
+    const before = mapping.appliedValue ?? answerAt(state!.appliedAnswers ?? state!.answers, question, mapping.participantId), requested = answerAt(next, question, mapping.participantId);
     const person = participantContext(template, next, mapping.participantId, state!.appliedAnswers), label = person ? `${person} · ${question.label}` : question.label;
     if (sameReviewStoredValue(fact.value, before) || sameReviewStoredValue(fact.value, requested)) continue;
     if (sameReviewStoredValue(requested, before) || choices[key] === 'keep-current') {
@@ -121,6 +121,18 @@ function reconcile(template: PackageTemplateV2, record: ActionPackage | null, an
       changes.push({ key, label, before, current: fact.value, requested, state: 'conflict' });
       issues.push(`${label}: choose the current package value or the changed intake answer.`);
     }
+  }
+  for (const people of Object.values(next.groups)) for (const person of people) {
+    const prior = Object.values(state?.appliedAnswers?.groups ?? state?.answers.groups ?? {}).flat().find(prior => prior.id === person.id);
+    const actual = current?.information?.participants.find(participant => participant.id === person.id);
+    if (!prior || !actual) continue;
+    const key = JSON.stringify(['participant-label', person.id]); known.add(key);
+    if (actual.label === prior.label || actual.label === person.label) continue;
+    const requested = person.label, label = `${participantContext(template, next, person.id)} · Person label`;
+    if (requested === prior.label || choices[key] === 'keep-current') {
+      person.label = actual.label; changes.push({ key, label, before: prior.label, current: actual.label, requested, state: 'kept-current' });
+    } else if (choices[key] === 'use-intake') changes.push({ key, label, before: prior.label, current: actual.label, requested, state: 'update' });
+    else { changes.push({ key, label, before: prior.label, current: actual.label, requested, state: 'conflict' }); issues.push(`${label}: choose the current package label or intake label.`); }
   }
   for (const [key, choice] of Object.entries(choices)) if (!known.has(key) || !['keep-current', 'use-intake'].includes(choice))
     throw new Error('An intake answer decision does not belong to this action.');
@@ -134,6 +146,7 @@ export function conditionalPackageAnswers(record: ActionPackage, revisionId = re
   for (const mapping of state.facts) {
     const fact = revision.information?.facts.find(fact => fact.id === mapping.factId);
     if (!fact) continue;
+    if (mapping.appliedValue !== undefined && sameReviewStoredValue(mapping.appliedValue, fact.value)) continue;
     if (!mapping.participantId) {
       if (sameReviewStoredValue(answers.values[mapping.questionId], baseline.values[mapping.questionId])) answers.values[mapping.questionId] = fact.value;
     } else {
@@ -393,24 +406,50 @@ export async function prepareConditionalPackage(input: ConditionalPackageInput, 
     if (instance.condition === 'unknown') { issues.push(`Resolve the branch for ${instance.label}.`); changes.push({ key: instance.key, label: instance.label, memberId: instance.memberId, state: 'unresolved', message: 'This branch needs an explicit answer.' }); continue; }
     if (!instance.condition) {
       if (!existing) continue;
-      if ((!clean.get(existing.id) || existing.kind === 'original') && choice !== 'keep' && choice !== 'remove') {
+      const keptPreviously = current?.templateState?.instances.some(prior => prior.key === instance.key && prior.condition === false);
+      if (keptPreviously && choice !== 'remove') {
+        selectedMembers.push(existing); changes.push({ key: instance.key, label: existing.label, memberId: existing.id, state: 'keep', message: 'Preserve the previously retained local document.' });
+      } else if ((!clean.get(existing.id) || existing.kind === 'original') && choice !== 'keep' && choice !== 'remove') {
         issues.push(`Decide whether to keep or remove ${existing.label}.`);
         changes.push({ key: instance.key, label: existing.label, memberId: existing.id, state: 'conflict', choices: ['keep', 'remove'], message: 'This document was edited or supplied independently and no longer belongs to the selected branch.' });
-      } else if (choice === 'keep') { selectedMembers.push(existing); changes.push({ key: instance.key, label: existing.label, memberId: existing.id, state: 'keep', message: 'Preserve this document outside the current template branch.' }); }
-      else changes.push({ key: instance.key, label: existing.label, memberId: existing.id, state: 'remove', message: 'Remove from the current package; saved history keeps its exact bytes.' });
+      } else if (choice === 'keep') { instance.suppressed = false; selectedMembers.push(existing); changes.push({ key: instance.key, label: existing.label, memberId: existing.id, state: 'keep', message: 'Preserve this document outside the current template branch.' }); }
+      else { instance.suppressed = choice === 'remove'; changes.push({ key: instance.key, label: existing.label, memberId: existing.id, state: 'remove', message: 'Remove from the current package; saved history keeps its exact bytes.' }); }
       continue;
     }
     if (existing) {
       if (input.attachments?.[instance.key]) throw new Error('Review removal of the existing original before replacing it with a new upload.');
       selectedMembers.push(existing); changes.push({ key: instance.key, label: existing.label, memberId: existing.id, state: 'keep', message: 'Keep captured content and local edits.' }); continue;
     }
-    const existed = !!current?.templateState?.instances.some(prior => prior.key === instance.key && prior.generatedDigest);
+    const existed = !!current?.templateState?.instances.some(prior => prior.key === instance.key && prior.generatedDigest && (prior.condition === true || prior.suppressed === true));
     if (existed && choice !== 'restore' && choice !== 'remove') {
       issues.push(`Decide whether to restore ${instance.label}.`);
       changes.push({ key: instance.key, label: instance.label, memberId: instance.memberId, state: 'conflict', choices: ['restore', 'remove'], message: 'This document was removed after creation. Restore it explicitly or keep the slot unfinished.' }); continue;
     }
-    if (choice === 'remove') { changes.push({ key: instance.key, label: instance.label, memberId: instance.memberId, state: 'missing', choices: ['restore', 'remove'], message: 'The removed document stays absent; required evidence remains unresolved.' }); continue; }
-    // Explicit restoration captures new targets; the removed document's orphaned links stay in history.
+    if (choice === 'remove') { instance.suppressed = true; changes.push({ key: instance.key, label: instance.label, memberId: instance.memberId, state: 'missing', choices: ['restore', 'remove'], message: 'The removed document stays absent; required evidence remains unresolved.' }); continue; }
+    const previousInstance = current?.templateState?.instances.find(prior => prior.key === instance.key);
+    const priorRevision = previousInstance?.generatedDigest && !input.attachments?.[instance.key]
+      ? [...(before?.revisions ?? [])].reverse().find(revision => revision.members.some(member => member.id === instance.memberId)) : undefined;
+    const historical = priorRevision?.members.find(member => member.id === instance.memberId);
+    if (historical) {
+      if (historical.kind === 'native') {
+        const { draft } = await readPackageMemberDraft(historical);
+        reviews.push(reviewPackageNative(historical.session, historical.label, policy, draft as SerializedSession));
+        if (previousInstance?.condition === false) {
+          const fields = await listPackageBindingFields(historical);
+          for (const priorLink of priorRevision?.bindings?.items.filter(binding => binding.memberId === historical.id) ?? []) {
+            if (bindings.some(binding => binding.id === priorLink.id)) continue;
+            const restoredLink = own(priorLink), field = fields.find(field => packageBindingTargetKey(field.target) === packageBindingTargetKey(restoredLink.target));
+            if (field && field.value !== restoredLink.expectedValue) { restoredLink.mode = 'override'; restoredLink.expectedValue = field.value; }
+            bindings.push(restoredLink);
+          }
+        }
+      } else reviews.push(await reviewPackageOriginal(await readPackageAsset(historical.original), historical.label, policy));
+      selectedMembers.push(own(historical)); instance.suppressed = false;
+      clean.set(historical.id, instance.generatedDigest === await memberDigest(historical));
+      changes.push({ key: instance.key, label: instance.label, memberId: instance.memberId, state: 'add', message: 'Restore the last captured document, including its local changes and original bytes.' });
+      continue;
+    }
+    // A transferred current-only package may lack removed content; explicit restore can regenerate a native starter.
     for (let index = bindings.length - 1; index >= 0; index--) if (bindings[index].memberId === instance.memberId) bindings.splice(index, 1);
     let member: PackageMember;
     if (blueprint.kind === 'attachment') {
@@ -422,7 +461,7 @@ export async function prepareConditionalPackage(input: ConditionalPackageInput, 
       member = { id: instance.memberId, revisionId: newPackageId('member-revision'), label: instance.label, role: blueprint.role, required: blueprint.required,
         kind: 'original', signedOriginal: file.signedOriginal, original: await stage(attachments, file.name, 'application/pdf', file.data) };
     } else member = await nativeMember(blueprint, instance, template, answers, information, state, attachments, bindings);
-    instance.generatedDigest = await memberDigest(member); clean.set(member.id, true); selectedMembers.push(member);
+    instance.generatedDigest = await memberDigest(member); instance.suppressed = false; clean.set(member.id, true); selectedMembers.push(member);
     changes.push({ key: instance.key, label: instance.label, memberId: instance.memberId, state: 'add', message: 'Add a fresh captured document from this exact template.' });
   }
   if (issues.length) return early();
@@ -480,6 +519,10 @@ export async function prepareConditionalPackage(input: ConditionalPackageInput, 
     }
   }
   state.pending = false; state.appliedAnswers = own(answers);
+  for (const mapping of state.facts) {
+    const fact = information.facts.find(fact => fact.id === mapping.factId);
+    if (fact) mapping.appliedValue = fact.value;
+  }
   conditionalRequirementSlots(template, answers, state);
   const revision: PackageRevision = { ...(current ? own(current) : { members: [], outputs: [] }), id: newPackageId('revision'),
     ...(current ? { parentId: current.id } : {}), createdAt: Date.now(), members: ordered, information, bindings: { version: 1, items: keptBindings },

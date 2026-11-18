@@ -23,7 +23,7 @@ async function sourceTemplate(state: PackageConditionalState, read: Reader): Pro
   if (template.version !== 2) throw new Error('This action requires its exact versioned template.');
   return template;
 }
-function stateMatches(template: PackageTemplateV2, value: PackageConditionalState): void {
+function stateMatches(template: PackageTemplateV2, value: PackageConditionalState, revision: PackageRevision): void {
   const state = packageConditionalStateSchema.parse(value);
   if (template.id !== state.templateId || template.program.revision !== state.templateRevision)
     throw new Error('The captured action template does not match its saved revision.');
@@ -51,7 +51,10 @@ function stateMatches(template: PackageTemplateV2, value: PackageConditionalStat
     const blueprint = template.members.find(member => member.key === instance.memberKey);
     if (!blueprint || !!blueprint.repeatGroupId !== !!instance.participantId || blueprint.required !== instance.required)
       throw new Error('A saved action document does not belong to this template.');
-    if (instance.generatedDigest && blueprint.kind === 'native') {
+    const captured = revision.members.find(member => member.id === instance.memberId);
+    if (captured && (captured.kind === 'native') !== (blueprint.kind === 'native'))
+      throw new Error('A captured action document does not match its declared kind.');
+    if ((instance.generatedDigest || captured?.kind === 'native') && blueprint.kind === 'native') {
       const targets = instance.targets ?? [];
       if (targets.length !== (blueprint.links?.length ?? 0)) throw new Error('The captured action is missing native field declarations.');
       for (const declaration of blueprint.links ?? []) {
@@ -77,13 +80,13 @@ export async function validateConditionalPackageStates(record: ActionPackage, re
     if (!state) continue;
     let template = templates.get(state.source.sha256);
     if (!template) { template = sourceTemplate(state, read); templates.set(state.source.sha256, template); }
-    stateMatches(await template, state);
+    stateMatches(await template, state, revision);
   }
 }
 export async function readConditionalPackageTemplate(record: ActionPackage, revisionId = record.currentRevisionId): Promise<PackageTemplateV2> {
   const state = getPackageRevision(record, revisionId).templateState;
   if (!state) throw new Error('This package has no captured action template.');
-  const template = await sourceTemplate(state, readPackageAsset); stateMatches(template, state); return template;
+  const template = await sourceTemplate(state, readPackageAsset); stateMatches(template, state, getPackageRevision(record, revisionId)); return template;
 }
 
 export async function loadConditionalPackageSource(revision: PackageRevision, read: Reader = readPackageAsset,
@@ -92,7 +95,7 @@ export async function loadConditionalPackageSource(revision: PackageRevision, re
   const state = packageConditionalStateSchema.parse(revision.templateState);
   let retained = templates.get(state.source.sha256);
   if (!retained) { retained = sourceTemplate(state, read); templates.set(state.source.sha256, retained); }
-  const template = await retained; stateMatches(template, state); return { template, state };
+  const template = await retained; stateMatches(template, state, revision); return { template, state };
 }
 /** Include inactive branch text and PDF backgrounds carried by the pinned source in disclosure review. */
 export async function reviewConditionalTemplate(template: PackageTemplateV2, policy: PolicyResolution): Promise<ExportReview[]> {
@@ -115,7 +118,7 @@ export async function reviewConditionalTemplate(template: PackageTemplateV2, pol
 }
 export async function reviewConditionalPackage(revision: PackageRevision, policy: PolicyResolution, read: Reader = readPackageAsset): Promise<ExportReview[]> {
   if (!revision.templateState) return [];
-  const template = await sourceTemplate(revision.templateState, read); stateMatches(template, revision.templateState);
+  const template = await sourceTemplate(revision.templateState, read); stateMatches(template, revision.templateState, revision);
   return [reviewPackageText(conditionalStateText(revision.templateState), 'Captured intake including retained inactive answers', policy),
     ...await reviewConditionalTemplate(template, policy)];
 }
@@ -126,8 +129,8 @@ export function conditionalMembershipFindings(revision: PackageRevision): Array<
   if (state.pending) findings.push({ message: 'Apply the saved intake changes before reviewing or assembling this package.' });
   const applied = state.appliedAnswers ?? state.answers;
   for (const mapping of state.facts) {
-    const value = mapping.participantId ? Object.values(applied.groups).flat().find(person => person.id === mapping.participantId)?.answers[mapping.questionId]
-      : applied.values[mapping.questionId];
+    const value = mapping.appliedValue ?? (mapping.participantId ? Object.values(applied.groups).flat().find(person => person.id === mapping.participantId)?.answers[mapping.questionId]
+      : applied.values[mapping.questionId]);
     const fact = revision.information?.facts.find(fact => fact.id === mapping.factId);
     if (value !== undefined && value !== fact?.value)
       findings.push({ message: `Review the action intake after changing ${fact?.label ?? mapping.questionId} in package information.` });

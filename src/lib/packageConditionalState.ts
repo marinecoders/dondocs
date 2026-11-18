@@ -23,10 +23,11 @@ export const packageConditionalStateSchema = z.object({
   pending: z.boolean(),
   answers: packageTemplateAnswersSchema,
   appliedAnswers: packageTemplateAnswersSchema.optional(),
-  facts: z.array(z.object({ questionId: identity, participantId: identity.optional(), factId: identity }).strict()).max(200),
+  facts: z.array(z.object({ questionId: identity, participantId: identity.optional(), factId: identity,
+    appliedValue: z.union([z.string().max(10000), z.boolean()]).optional() }).strict()).max(200),
   instances: z.array(z.object({ key: z.string().min(1).max(220), memberKey: identity, participantId: identity.optional(),
     memberId: identity, label, required: z.boolean(), condition: z.union([z.boolean(), z.literal('unknown')]),
-    generatedDigest: digest.optional(), targets: z.array(z.object({ questionId: identity, target: packageBindingTargetSchema,
+    generatedDigest: digest.optional(), suppressed: z.boolean().optional(), targets: z.array(z.object({ questionId: identity, target: packageBindingTargetSchema,
       format: z.enum(['field', 'uppercase']), linkId: identity, initialized: z.boolean() }).strict()).max(100).optional() }).strict()).max(100),
   requirementIds: z.array(z.object({ key: z.string().min(1).max(260), id: identity }).strict()).max(200),
 }).strict().superRefine((state, context) => {

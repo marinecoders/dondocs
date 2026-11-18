@@ -11,9 +11,13 @@ import { resolveExportDeploymentPolicy } from '@/lib/exportDeploymentPolicy';
 import * as classification from '@/config/classification';
 import { buildPortableActionPackage, importPortableActionPackage, parsePortableActionPackage } from '@/lib/actionPackageTransfer';
 import { updatePackageInformation } from '@/lib/packageInformation';
-import { capturePackageMember, readPackageMemberDraft } from '@/lib/actionPackageAssets';
+import { capturePackageMember, readPackageMemberDraft, readPackageAsset } from '@/lib/actionPackageAssets';
+import { retainPackageMemberTemplates } from '@/lib/actionPackageTemplates';
 import { captureDocumentRevision } from '@/lib/capturedDocument';
 import { useUIStore } from '@/stores/uiStore';
+import { fixtureInstance, fixturePage } from '../_helpers/formFixture';
+import { uint8ArrayToBase64 } from '@/lib/encoding';
+import { listPackageBindingFields } from '@/lib/packageBindingTargets';
 
 vi.mock('@/stores/backupStore', () => ({ scheduleBackup: vi.fn(), useBackupStore: { getState: () => ({}) } }));
 vi.mock('@/lib/pdfText', () => ({ extractPdfText: vi.fn(async () => '') }));
@@ -106,6 +110,8 @@ describe('captured conditional package membership', () => {
     const { record: retained } = await applyPreparedConditionalPackage(plan, policy, true);
     expect(getPackageRevision(retained).members).toEqual(current.members);
     expect(retained.revisions.slice(0, -1)).toEqual(record.revisions);
+    const unchanged = await prepareConditionalPackage({ template: template(), answers: conditionalPackageAnswers(retained), record: retained }, policy);
+    expect(unchanged.ready).toBe(true); expect(unchanged.changed).toBe(false);
   });
 
   it('does not resurrect a manually deleted managed member until explicitly restored', async () => {
@@ -116,7 +122,7 @@ describe('captured conditional package membership', () => {
     const restored = await prepareConditionalPackage({ template: template(), answers: input, record, memberChoices: { [packageTemplateInstanceKey('extra')]: 'restore' } }, policy);
     const { record: result } = await applyPreparedConditionalPackage(restored, policy, true);
     expect(getPackageRevision(result).members[1].id).toBe(removed.id);
-    expect(getPackageRevision(result).members[1].revisionId).not.toBe(removed.revisionId);
+    expect(getPackageRevision(result).members[1]).toEqual(removed);
   });
 
   it('merges newer information for untouched answers and surfaces overlapping intake edits', async () => {
@@ -183,6 +189,34 @@ describe('PR8 independent adversarial regressions', () => {
     expect(member.kind === 'native' && member.session.formData.subject).toBe('Supplied later');
     expect(getPackageRevision(applied.record).bindings!.items).toHaveLength(1);
   });
+  it('remaps reserved optional row targets to fresh identities and follows the row after an independent reorder', async () => {
+    const source = template(), genericForm = fixtureInstance(), page = await fixturePage();
+    genericForm.answers = {}; genericForm.rows.roster = [{ id: 'first', answers: {} }, { id: 'second', answers: {} }];
+    genericForm.definition.pages[0].sha256 = page.sha256;
+    const session = { ...createBlankSession(), documentCategory: 'forms' as const, formType: 'fixture', genericForm, formData: {}, paragraphs: [] };
+    const fields = await listPackageBindingFields({ kind: 'native', id: 'blueprint', revisionId: 'blueprint', label: 'Worksheet', role: 'basic-letter', required: true, session,
+      draft: { id: 'draft', name: 'draft', type: 'application/json', size: 1, sha256: '0'.repeat(64) } });
+    source.program.questions = [{ id: 'date', label: 'Start date', kind: 'date', required: false }]; source.program.participantGroups = [];
+    source.members = [{ key: 'main', kind: 'native', label: 'Worksheet', role: 'basic-letter', required: true,
+      draft: { ...session, timestamp: 0, kind: 'dondocs-draft', version: 2, documentKind: 'configured-form' },
+      pages: { 'page1.pdf': { name: 'page1.pdf', type: 'application/pdf', data: uint8ArrayToBase64(page.bytes) } },
+      links: [{ questionId: 'date', target: fields.find(field => field.target.kind === 'configured-form' && field.target.fieldId === 'date' && field.target.row?.rowId === 'first')!.target, format: 'field' }] }];
+    let record = (await applyPreparedConditionalPackage(await prepareConditionalPackage({ template: source, answers: { version: 1, values: {}, groups: {} } }, policy), policy, true)).record;
+    const member = getPackageRevision(record).members[0]; if (member.kind !== 'native') throw new Error('Expected worksheet');
+    await retainPackageMemberTemplates(member, readPackageAsset);
+    const firstId = member.session.genericForm!.rows.roster[0].id; expect(firstId).not.toBe('first');
+    const edited = structuredClone((await readPackageMemberDraft(member)).reviewed.session); edited.genericForm!.rows.roster.reverse();
+    const changed = await capturePackageMember(captureDocumentRevision({ documentId: 'row-edit', epoch: 0, editSequence: 1, capturedAt: 100 },
+      { ...edited, endItems: edited.endItems ?? [], publicationTables: edited.publicationTables ?? {} }), member.label, member.role, member);
+    record = await reviseActionPackage(record, [changed]);
+    const input = conditionalPackageAnswers(record); input.values.date = '2028-02-29';
+    const plan = await prepareConditionalPackage({ template: source, answers: input, record }, policy); expect(plan.ready).toBe(true);
+    const result = getPackageRevision((await applyPreparedConditionalPackage(plan, policy, true)).record).members[0];
+    if (result.kind !== 'native') throw new Error('Expected worksheet');
+    expect(result.session.genericForm!.rows.roster.map(row => row.id)).toEqual([member.session.genericForm!.rows.roster[1].id, firstId]);
+    expect(result.session.genericForm!.rows.roster[1].answers.date).toBe('2028-02-29');
+    expect(result.session.genericForm!.rows.roster[0].answers.date).toBeUndefined();
+  });
   it('expands contiguous repeated variants in person order while preserving stable identity keys', async () => {
     const source = template(), repeated = source.members[2];
     source.members.push({ ...structuredClone(repeated), key: 'person_cost', label: 'Person cost worksheet' });
@@ -200,6 +234,36 @@ describe('PR8 independent adversarial regressions', () => {
     const plan = await prepareConditionalPackage({ template: template(), answers: conditionalPackageAnswers(record), record }, policy);
     expect(plan.changed).toBe(false);
     await expect(applyPreparedConditionalPackage(plan, policy, true)).rejects.toThrow(/Resolve and review/);
+  });
+  it('reinstates clean conditional documents automatically when their branch becomes active again', async () => {
+    const first = await create(true), initial = getPackageRevision(first), off = conditionalPackageAnswers(first); off.values.include = false;
+    const second = await applyPreparedConditionalPackage(await prepareConditionalPackage({ template: template(), answers: off, record: first }, policy), policy, true);
+    expect(getPackageRevision(second.record).members).toHaveLength(1);
+    const on = conditionalPackageAnswers(second.record); on.values.include = true;
+    const plan = await prepareConditionalPackage({ template: template(), answers: on, record: second.record }, policy);
+    expect(plan.ready).toBe(true);
+    const third = await applyPreparedConditionalPackage(plan, policy, true);
+    expect(getPackageRevision(third.record).members[1].id).toBe(initial.members[1].id);
+  });
+  it('keeps an explicitly cleared hidden answer empty after its document link is detached', async () => {
+    const source = template(); source.program.questions[0].when = { op: 'equals', questionId: 'include', value: true };
+    const initial = await applyPreparedConditionalPackage(await prepareConditionalPackage({ template: source, answers: answers(true) }, policy), policy, true);
+    const input = conditionalPackageAnswers(initial.record); input.values.include = false; delete input.values.subject;
+    const main = getPackageRevision(initial.record).members[0], binding = getPackageRevision(initial.record).bindings!.items.find(binding => binding.memberId === main.id)!;
+    const plan = await prepareConditionalPackage({ template: source, answers: input, record: initial.record, fieldChoices: { [binding.id]: 'detach' } }, policy);
+    expect(plan.ready).toBe(true);
+    const applied = await applyPreparedConditionalPackage(plan, policy, true);
+    expect(conditionalPackageAnswers(applied.record).values.subject).toBeUndefined();
+  });
+  it('preserves independently corrected person labels when unchanged intake labels are reapplied', async () => {
+    let record = await create(false, ['alex']);
+    const before = getPackageRevision(record), input = structuredClone(before.templateState!.answers), information = structuredClone(before.information!);
+    information.participants[0].label = 'Corrected person label'; record = await updatePackageInformation(record, information);
+    input.values.include = true;
+    const plan = await prepareConditionalPackage({ template: template(), answers: input, record }, policy);
+    expect(plan.ready).toBe(true); expect(plan.answerChanges.some(change => change.state === 'kept-current' && change.requested === 'alex')).toBe(true);
+    const applied = await applyPreparedConditionalPackage(plan, policy, true);
+    expect(getPackageRevision(applied.record).information!.participants[0].label).toBe('Corrected person label');
   });
   it('does not resurrect an explicitly cleared optional answer when intake resumes', async () => {
     const source = template(); source.program.questions.find(question => question.id === 'subject')!.required = false;
@@ -224,6 +288,17 @@ describe('PR8 independent adversarial regressions', () => {
     const { validateConditionalPackageStates } = await import('@/lib/packageConditionalSources');
     const { readPackageAsset } = await import('@/lib/actionPackageAssets');
     await expect(validateConditionalPackageStates(forged, readPackageAsset)).rejects.toThrow(/instance|required|mapping|missing/i);
+  });
+  it('rejects transfer that drops native target declarations together with its generation marker', async () => {
+    const source = template(); source.program.questions[0].required = false;
+    const input = answers(); delete input.values.subject;
+    const { record } = await applyPreparedConditionalPackage(await prepareConditionalPackage({ template: source, answers: input }, policy), policy, true);
+    const envelope = JSON.parse(await buildPortableActionPackage(record));
+    envelope.package.id = crypto.randomUUID();
+    const instance = envelope.package.revisions[0].templateState.instances[0];
+    expect(instance.targets).toHaveLength(1);
+    delete instance.targets; delete instance.generatedDigest;
+    await expect(importPortableActionPackage(JSON.stringify(envelope))).rejects.toThrow(/native field declarations/);
   });
   it('owns caller evidence bytes and names before asynchronous PDF inspection', async () => {
     const { PDFDocument } = await import('pdf-lib');
