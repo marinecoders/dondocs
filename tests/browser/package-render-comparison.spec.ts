@@ -38,7 +38,7 @@ async function download(page: Page, prepare: string, deliver: string) {
   const modal = page.getByRole("dialog", { name: "Action packages", exact: true });
   await modal.getByRole("button", { name: prepare, exact: true }).click();
   await expect(modal).toHaveAttribute("aria-busy", "false", { timeout: 90_000 });
-  await expect(modal.getByRole("heading", { name: /^Package readiness:/ })).toBeVisible();
+  await expect(modal.getByRole("heading", { name: prepare === "Export editable package" ? /^Editable transfer checks:/ : /^Package readiness:/ })).toBeVisible();
   const pending = page.waitForEvent("download");
   await approve(page, deliver);
   return readFile((await (await pending).path())!);
