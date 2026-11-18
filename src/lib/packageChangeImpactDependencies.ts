@@ -1,7 +1,49 @@
 import type { PackageRevision } from './actionPackages';
 import { inspectPackageConsistency } from './packageConsistency';
 import { resolvePackageFieldBinding } from './packageFieldBindings';
+import { resolvePackageCitations } from './packageCitations';
 import { sameImpactValue, type PackageImpactSection } from './packageChangeImpactModel';
+
+/** Exact citation owners can become stale without changing the saved citation declaration. */
+async function enrichCitationDependencies(before: PackageRevision, after: PackageRevision, section: PackageImpactSection, signal?: AbortSignal): Promise<void> {
+  if (!section.items.length) return;
+  signal?.throwIfAborted();
+  let left: Awaited<ReturnType<typeof resolvePackageCitations>>, right: Awaited<ReturnType<typeof resolvePackageCitations>>;
+  try {
+    [left, right] = await Promise.all([resolvePackageCitations(before), resolvePackageCitations(after)]);
+  } catch {
+    signal?.throwIfAborted();
+    // Oversized or unsupported captured citation inputs must not turn into an all-clear or block portable editing.
+    for (const item of section.items) {
+      if (item.state !== 'added' && item.state !== 'removed') item.state = 'unknown';
+      item.message = 'Citation applicability could not be resolved within the supported captured-input limits. Inspect the exact saved citation and document.';
+    }
+    return;
+  }
+  signal?.throwIfAborted();
+  const oldTargets = new Map(left.targets.map(value => [value.target.id, value]));
+  const nextTargets = new Map(right.targets.map(value => [value.target.id, value]));
+  const oldLinks = new Map(left.links.map(value => [value.link.id, value]));
+  const nextLinks = new Map(right.links.map(value => [value.link.id, value]));
+  for (const item of section.items) {
+    const a = oldTargets.get(item.id), b = nextTargets.get(item.id);
+    if (a && b) {
+      if (a.state !== b.state) {
+        item.state = 'changed'; item.message = `The citation target changed from ${a.state} to ${b.state}. Inspect its exact captured owner before using it.`;
+      } else if (a.state === 'current' && a.citationLabel !== b.citationLabel && item.state === 'unchanged') {
+        item.state = 'renumbered'; item.message = `The current citation label changed from (${a.citationLabel}) to (${b.citationLabel}); the saved target identity is preserved.`;
+      } else if (item.state === 'unchanged') item.message = `The captured citation target and its computed ${b.state} applicability match.`;
+      continue;
+    }
+    const previous = oldLinks.get(item.id), next = nextLinks.get(item.id);
+    if (!previous || !next) continue;
+    const context = (link: typeof previous) => ({ state: link.state, sourceState: link.sourceState,
+      labelMatches: link.labelMatches, targetState: link.target.state, citationLabel: link.target.citationLabel });
+    if (!sameImpactValue(context(previous), context(next))) {
+      item.state = 'changed'; item.message = `The linked citation's computed applicability changed from ${previous.state} to ${next.state}. Recheck its source, target and displayed label.`;
+    } else if (item.state === 'unchanged') item.message = `The captured citation occurrence and its computed ${next.state} applicability match.`;
+  }
+}
 
 /** A dependency can change while its declaration remains byte-for-byte identical. */
 export async function enrichPackageImpactDependencies(before: PackageRevision, after: PackageRevision, sections: PackageImpactSection[], signal?: AbortSignal): Promise<void> {
@@ -30,6 +72,7 @@ export async function enrichPackageImpactDependencies(before: PackageRevision, a
     item.message = member.state === 'removed' ? 'The assigned evidence document is no longer included. Review this saved requirement.'
       : 'The assigned evidence document inputs changed. Recheck this requirement against the new captured content.';
   }
+  await enrichCitationDependencies(before, after, sections.find(section => section.kind === 'citation')!, signal);
   const consistency = sections.find(section => section.kind === 'consistency')!;
   if (!before.consistency && !after.consistency) return;
   const [left, right] = await Promise.all([inspectPackageConsistency(before, signal), inspectPackageConsistency(after, signal)]);

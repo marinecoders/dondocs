@@ -3,7 +3,7 @@ import { beforeEach, expect, it, vi } from 'vitest';
 import { PDFDocument } from 'pdf-lib';
 import { createBlankSession } from '@/stores/documentStore';
 import { captureDocumentRevision } from '@/lib/capturedDocument';
-import { capturePackageMember, readPackageAsset, retainPackageAsset } from '@/lib/actionPackageAssets';
+import { captureOriginalPackageMember, capturePackageMember, readPackageAsset, retainPackageAsset } from '@/lib/actionPackageAssets';
 import { commitActionPackage, createActionPackage, getPackageRevision, listActionPackages, reviseActionPackage,
   packageAssets, type ActionPackage, type NativePackageMember, type PackageRevision } from '@/lib/actionPackages';
 import { comparePackageChangeImpact, inspectPackageChangeImpact, type PackageChangeImpact } from '@/lib/packageChangeImpact';
@@ -323,4 +323,27 @@ it('identifies the exact consistency rule when unchanged declarations lose a req
   const report = await comparePackageChangeImpact(before, after), item = section(report, 'consistency')[0];
   expect(item).toMatchObject({ id: 'dates', state: 'changed' });
   expect(item.message).toContain('satisfied to unresolved');
+});
+
+it('distinguishes automatic enclosure renumbering from a stale citing literal after member movement', async () => {
+  const session = createBlankSession(); session.formData.subject = 'Synthetic enclosure order';
+  session.paragraphs = [{ id: 'enclosure-body', text: 'See enclosure (1).', level: 0 }];
+  const nativeMember = await capturePackageMember(captureDocumentRevision({ documentId: 'synthetic-enclosure-source', epoch: 0, editSequence: 1, capturedAt: 100 },
+    { ...session, endItems: [], publicationTables: {} }), 'Synthetic enclosure letter', 'basic-letter');
+  const pdf = await PDFDocument.create(); pdf.addPage(); const data = new Uint8Array(await pdf.save()).buffer;
+  const first = await captureOriginalPackageMember({ name: 'First synthetic enclosure.pdf', data }, 'enclosure', false);
+  const second = await captureOriginalPackageMember({ name: 'Second synthetic enclosure.pdf', data }, 'enclosure', false);
+  let record = await initializePackageCitationTargets(await reviseActionPackage(await createActionPackage('Synthetic enclosure order'), [nativeMember, first, second]));
+  const identified = getPackageRevision(record), target = identified.citations!.targets.find(item => item.memberId === first.id)!;
+  record = await linkPackageCitation(record, (await packageCitationOccurrences(identified))[0].source, target.id);
+  const before = getPackageRevision(record), link = before.citations!.links[0];
+  record = await reviseActionPackage(record, [nativeMember, second, first]);
+  const after = getPackageRevision(record), resolved = await resolvePackageCitations(after);
+  expect(after.citations).toEqual(before.citations);
+  expect(resolved.targets.find(item => item.target.id === target.id)).toMatchObject({ state: 'current', citationLabel: '2' });
+  expect(resolved.links[0]).toMatchObject({ state: 'stale', sourceState: 'current', labelMatches: false });
+  const report = await inspectPackageChangeImpact(record, before.id);
+  expect(section(report, 'citation').find(item => item.id === target.id)).toMatchObject({ state: 'renumbered' });
+  expect(section(report, 'citation').find(item => item.id === link.id)).toMatchObject({ state: 'changed' });
+  expect(report.summary).toMatchObject({ changedMembers: 0, movedMembers: 2 });
 });
