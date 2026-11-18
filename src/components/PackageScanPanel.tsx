@@ -95,8 +95,8 @@ function PackageScanView({ record, revision, disabled, busy, run, signal, isCurr
           <label className="flex items-start gap-2"><input type="checkbox" checked={adoptedReview} disabled={locked} onChange={event => setAdoptedReview(event.target.checked)} />I reviewed this excerpt, its source and package-value changes.</label>
           <Button className={button} disabled={locked || !adoption.ready || !adoptedReview} onClick={() => void perform(async current => { const saved = await applyPreparedPackageUpdate(adoption, await getExportDeploymentPolicy(), adoptedReview, signal(), current); if (current()) { dirtyCallback.current?.(false); onApply(saved.record); } }, true)}>Adopt reviewed package value</Button>
         </div>}
-        {(factLabel || excerpt) && <Button className={button} variant="outline" disabled={locked} onClick={() => { invalidate(); setFactLabel(''); setExcerpt(''); }}>Discard package-value adoption</Button>}
       </div></details>}
+      {(factLabel || excerpt) && <Button className={button} variant="outline" disabled={locked} onClick={() => { invalidate(); setFactLabel(''); setExcerpt(''); }}>Discard package-value adoption</Button>}
     </div>}
   </section>;
 }

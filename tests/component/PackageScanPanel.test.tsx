@@ -8,6 +8,7 @@ import { PackageScanPanel } from '@/components/PackageScanPanel';
 import { createActionPackage, getPackageRevision, listActionPackages, reviseActionPackage } from '@/lib/actionPackages';
 import { captureOriginalPackageMember } from '@/lib/actionPackageAssets';
 import { recognizeScannedFile } from '@/lib/scannedImport';
+import { preparePackageScan, preparePackageScanCorrection, savePreparedPackageScan } from '@/lib/packageScans';
 import { resolveExportDeploymentPolicy } from '@/lib/exportDeploymentPolicy';
 import * as classification from '@/config/classification';
 import { useUIStore } from '@/stores/uiStore';
@@ -77,4 +78,29 @@ it('cancels extraction publication when the parent becomes read-only during save
   expect((await listActionPackages()).find(item => item.id === record.id)).toEqual(record);
   view.rerender(<PackageScanPanel {...props} />);
   expect(screen.queryByRole('button', { name: 'Save reviewed extraction' })).toBeNull();
+});
+
+
+it('lets a read-only view discard an unfinished package-value adoption without changing saved content', async () => {
+  const initial = await fixture(), scan = await preparePackageScan(initial, getPackageRevision(initial).members[0].id, policy);
+  const record = await savePreparedPackageScan(await preparePackageScanCorrection(scan, scan.scan.pages.map(page => page.text), policy), policy, true);
+  const user = userEvent.setup(), dirty = vi.fn(), onApply = vi.fn();
+  const props = { record, revision: getPackageRevision(record), disabled: false, busy: false, run: async (action: () => Promise<void>) => action(),
+    signal: () => undefined, isCurrent: () => true, onApply, onDirtyChange: dirty };
+  const view = render(<PackageScanPanel {...props} />);
+  await user.selectOptions(screen.getByLabelText('Saved extraction'), getPackageRevision(record).scans!.items[0].id);
+  await user.click(screen.getByRole('button', { name: 'Open saved extraction' }));
+  await user.click(await screen.findByText('Adopt a corrected excerpt as a package value', { selector: 'summary' }));
+  await user.type(screen.getByLabelText('Recognized package value label'), 'Synthetic local label');
+  await user.type(screen.getByLabelText('Recognized package value excerpt'), 'Synthetic recognized text');
+  expect(dirty).toHaveBeenLastCalledWith(true);
+  view.rerender(<PackageScanPanel {...props} disabled />);
+  const discard = screen.getByRole('button', { name: 'Discard package-value adoption' });
+  expect(discard).toBeEnabled(); await user.click(discard);
+  expect(dirty).toHaveBeenLastCalledWith(false); expect(screen.getByLabelText('Saved extraction')).toBeEnabled();
+  expect(onApply).not.toHaveBeenCalled(); expect((await listActionPackages()).find(item => item.id === record.id)).toEqual(record);
+  view.rerender(<PackageScanPanel {...props} />);
+  await user.click(screen.getByText('Adopt a corrected excerpt as a package value', { selector: 'summary' }));
+  expect(screen.getByLabelText('Recognized package value label')).toHaveValue('');
+  expect(screen.getByLabelText('Recognized package value excerpt')).toHaveValue('');
 });
