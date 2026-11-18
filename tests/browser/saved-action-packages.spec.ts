@@ -703,8 +703,10 @@ test("maximum-length package names duplicate durably and empty originals cannot 
   await page.goto("/");
   const empty = await PDFDocument.create();
   const emptyBytes = Buffer.from(await empty.save({ addDefaultPage: false }));
+  let previousCopyId: string | undefined;
   for (const name of ["A".repeat(120), "😀".repeat(60)]) {
     let modal = await packages(page);
+    if (previousCopyId) await expect(modal.getByLabel("Saved packages", { exact: true })).toHaveValue(previousCopyId);
     const nameInput = modal.getByLabel("Package name", { exact: true });
     await nameInput.fill(name);
     await expect(nameInput).toHaveValue(name);
@@ -731,6 +733,8 @@ test("maximum-length package names duplicate durably and empty originals cannot 
     await modal.getByLabel("Saved packages", { exact: true }).selectOption(copiedId);
     await expect(modal.getByRole("heading", { name: /^1\./ })).toHaveCount(0);
     await modal.getByRole("button", { name: "Close", exact: true }).click();
+    await expect(modal).toBeHidden();
+    previousCopyId = copiedId;
   }
 });
 
