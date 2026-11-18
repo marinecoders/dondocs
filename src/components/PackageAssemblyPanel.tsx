@@ -44,6 +44,8 @@ function AssemblySettings({ record, revision, disabled, busy, run, onApply, onDi
         <option value="letter-led">Letter-led</option><option value="forms-led">Forms-led</option><option value="mixed">Mixed documents</option>
       </select></label>
       <label className="flex items-start gap-2"><input type="checkbox" checked={draft.cover} onChange={event => change({ cover: event.target.checked })} />Include a package cover</label>
+      <label className="flex items-start gap-2"><input type="checkbox" checked={draft.samePageEndorsements} onChange={event => change({ samePageEndorsements: event.target.checked })} />Fit eligible unsigned endorsements on the preceding signature page</label>
+      <p className="text-xs text-muted-foreground">The complete endorsement must fit below measured content. Unqualified geometry uses a new page; missing fallback fields must be completed before export.</p>
       <label className="flex items-start gap-2"><input type="checkbox" checked={draft.contents} onChange={event => change({ contents: event.target.checked })} />Include linked contents</label>
     </fieldset>
     {dirty && <div className="space-y-3">

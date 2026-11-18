@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.158] — 2026-11-17
+
+### Added
+
+- Qualified unsigned native endorsements can share the measured preceding signature page; long, signed or unmeasurable content uses a new-page fallback with a saved placement explanation.
+
 ## [1.3.157] — 2026-11-17
 
 ### Added

@@ -1,0 +1,66 @@
+import 'fake-indexeddb/auto';
+import { afterEach, beforeAll, expect, it, vi } from 'vitest';
+import { createCanvas, DOMMatrix, ImageData, Path2D } from '@napi-rs/canvas';
+import { resolve } from 'node:path';
+import { mkdtemp, writeFile } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+import { spawnSync } from 'node:child_process';
+import { PDFDocument } from 'pdf-lib';
+import { composeBasicLetterId } from '@/lib/endorsement';
+import { createBlankSession } from '@/stores/documentStore';
+import { captureDocumentRevision } from '@/lib/capturedDocument';
+import { capturePackageMember, readPackageAsset } from '@/lib/actionPackageAssets';
+import { createActionPackage, getPackageRevision, reviseActionPackage } from '@/lib/actionPackages';
+import { preparePackageAssembly, assemblePackage } from '@/lib/actionPackageAssembly';
+import { updatePackageAssemblySettings } from '@/lib/packageAssemblySettings';
+import { defaultPackageAssemblySettings } from '@/lib/packageAssemblyModel';
+import { resolveExportDeploymentPolicy } from '@/lib/exportDeploymentPolicy';
+import { compileGeneratedFixture } from '../_helpers/compileLatex';
+import { hasPdfToolchain, describeToolchainRequirement } from '../_helpers/pdfToolchain';
+
+vi.mock('@/stores/backupStore', () => ({ scheduleBackup: vi.fn() }));
+vi.mock('react-pdf', async () => ({ pdfjs: await import('pdfjs-dist/legacy/build/pdf.mjs') }));
+vi.mock('@/components/pdf/pdfConfig', async () => {
+  const pdfjs = await import('pdfjs-dist/legacy/build/pdf.mjs');
+  pdfjs.GlobalWorkerOptions.workerSrc = resolve('node_modules/pdfjs-dist/legacy/build/pdf.worker.mjs');
+  return { HARDENED_PDF_OPTIONS: { isEvalSupported: false, useSystemFonts: true, disableFontFace: false } };
+});
+const policy = resolveExportDeploymentPolicy({ hostname: 'localhost', environment: null, runtime: { status: 'absent' } });
+vi.mock('@/config/classification', async original => ({ ...await original<typeof import('@/config/classification')>(), getExportDeploymentPolicy: async () => policy, getExportDeploymentPolicySync: () => policy }));
+const restored: Array<() => void> = [];
+beforeAll(() => {
+  Object.assign(globalThis, { DOMMatrix, ImageData, Path2D }); vi.stubGlobal('__RUNTIME_BASE__', '');
+  const original = document.createElement.bind(document);
+  vi.spyOn(document, 'createElement').mockImplementation(((name: string, options?: ElementCreationOptions) => name === 'canvas' ? createCanvas(612, 792) : original(name, options)) as typeof document.createElement);
+});
+afterEach(() => { restored.splice(0).forEach(restore => restore()); });
+async function member(endorsement: boolean, paragraphs = 1) {
+  const session = createBlankSession(); session.docType = endorsement ? 'new_page_endorsement' : 'naval_letter';
+  Object.assign(session.formData, { subject: 'SYNTHETIC PACKAGE ENDORSEMENT', from: 'Training Officer', to: 'Training Director', date: '17 Nov 26', ssic: '1500', serial: '001',
+    sigFirst: endorsement ? 'Blair' : 'Alex', sigMiddle: '', sigLast: endorsement ? 'SAMPLE' : 'EXAMPLE', signatureType: 'none', classLevel: 'unclassified', pageNumbering: 'simple',
+    endorsementOrdinal: 'FIRST', basicLetterId: 'Training Office ltr 1500 of 17 Nov 26', unitLine1: 'FICTIONAL TRAINING UNIT', unitLine2: 'FOR SOFTWARE QUALIFICATION', unitAddress: 'Training location', sealType: 'none' });
+  if (endorsement) session.formData.basicLetterId = composeBasicLetterId({ docType: 'naval_letter', formData: session.formData });
+  session.paragraphs = Array.from({ length: paragraphs }, (_, index) => ({ id: `body-${index}`, text: `${endorsement ? 'Endorsement' : 'Basic letter'} synthetic paragraph ${index + 1}. ${'This training example exercises preserved package content. '.repeat(paragraphs > 1 ? 5 : 1)}`, level: 0 }));
+  return capturePackageMember(captureDocumentRevision({ documentId: `source_${crypto.randomUUID()}`, epoch: 0, editSequence: 1, capturedAt: 1 }, { ...session, endItems: [], publicationTables: {} }), endorsement ? 'Training endorsement' : 'Training letter', endorsement ? 'endorsement' : 'basic-letter');
+}
+async function compile(files: Record<string, string | Uint8Array>) {
+  const text = Object.fromEntries(Object.entries(files).filter((entry): entry is [string, string] => typeof entry[1] === 'string'));
+  const binary = Object.fromEntries(Object.entries(files).filter((entry): entry is [string, Uint8Array] => entry[1] instanceof Uint8Array));
+  const result = await compileGeneratedFixture(text, binary); expect(result.ok, result.logTail).toBe(true); return result.pdfBytes!;
+}
+describeToolchainRequirement('package same-page endorsement');
+for (const paragraphs of [1, 30]) it.skipIf(!hasPdfToolchain)(`uses measured native placement for ${paragraphs} endorsement paragraphs`, async () => {
+  let record = await reviseActionPackage(await createActionPackage(`Native package ${crypto.randomUUID()}`), [await member(false), await member(true, paragraphs)]);
+  record = await updatePackageAssemblySettings(record, { ...defaultPackageAssemblySettings(), samePageEndorsements: true }, policy);
+  const prepared = await preparePackageAssembly(record, record.currentRevisionId, policy);
+  expect(prepared.readiness.findings.filter(finding => finding.severity === 'error')).toEqual([]);
+  const result = await assemblePackage(prepared, { compile, convertDocx: vi.fn(), waitForReady: async () => true });
+  const output = getPackageRevision(result).outputs[0], bytes = await readPackageAsset(output.asset), pdf = await PDFDocument.load(bytes);
+  expect(output.assembly?.placements?.[0].placement, JSON.stringify(output.assembly?.placements)).toBe(paragraphs === 1 ? 'same-page' : 'new-page');
+  expect(pdf.getPageCount()).toBe(paragraphs === 1 ? 1 : output.boundaries.reduce((sum, boundary) => sum + boundary.pageCount, 0));
+  const dir = await mkdtemp(join(tmpdir(), 'dondocs-package-native-')), path = join(dir, `endorsement-${paragraphs}.pdf`); await writeFile(path, new Uint8Array(bytes));
+  const text = spawnSync('pdftotext', ['-layout', path, '-'], { encoding: 'utf8' });
+  expect(text.status).toBe(0); expect(text.stdout).toContain('A. EXAMPLE'); expect(text.stdout).toContain('B. SAMPLE'); expect(text.stdout).toContain('Endorsement synthetic paragraph 1');
+  if (process.env.DONDOCS_PACKAGE_ASSEMBLY_EVIDENCE) await writeFile(join(process.env.DONDOCS_PACKAGE_ASSEMBLY_EVIDENCE, `endorsement-${paragraphs}.pdf`), new Uint8Array(bytes));
+}, 120_000);

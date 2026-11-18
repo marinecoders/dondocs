@@ -19,6 +19,7 @@ export function PackageOutputNavigation({ output, revision, disabled = false, on
     <ol className="min-w-0 space-y-2">{entries.map(entry => <li key={entry.memberId} className="min-w-0 rounded border p-2">
       <p className="break-words font-medium">{entry.label}</p>
       <p className="text-xs">PDF pages {entry.startPage}–{entry.startPage + entry.pageCount - 1} · first printed label {entry.firstPageLabel}</p>
+      {output.assembly?.placements?.find(item => item.memberId === entry.memberId) && <p className="mt-1 break-words text-xs text-muted-foreground">{output.assembly.placements.find(item => item.memberId === entry.memberId)!.reason}</p>}
       <div className="mt-2 flex flex-wrap gap-2">
         {onOpenPage && <Button className="h-auto min-h-9 max-w-full whitespace-normal" variant="outline" size="sm" disabled={disabled} onClick={() => onOpenPage(output.id, entry.startPage)}>Open PDF page {entry.startPage}</Button>}
         {onNavigate && revision.members.some(member => member.id === entry.memberId) && <Button className="h-auto min-h-9 max-w-full whitespace-normal" variant="outline" size="sm" disabled={disabled} onClick={() => onNavigate({ revisionId: revision.id, memberId: entry.memberId, section: 'documents' })}>Inspect {entry.label}</Button>}

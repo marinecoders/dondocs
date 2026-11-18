@@ -409,7 +409,20 @@ export const actionPackageSchema = z
         revision.outputs.length
       )
         ctx.addIssue({ code: "custom", message: "Duplicate output identity." });
-      for (const output of revision.outputs)
+      for (const output of revision.outputs) {
+        const shared = output.assembly?.placements?.filter(item => item.placement === 'same-page') ?? [];
+        if (new Set(output.assembly?.placements?.map(item => item.memberId) ?? []).size !== (output.assembly?.placements?.length ?? 0)
+          || shared.some(item => {
+            const index = revision.members.findIndex(member => member.id === item.memberId);
+            return !revision.assembly?.samePageEndorsements || index < 1 || revision.members[index].kind !== 'native'
+              || revision.members[index].role !== 'endorsement' || revision.members[index - 1].kind !== 'native'
+              || output.boundaries[index]?.pageCount !== 1;
+          })) ctx.addIssue({ code: 'custom', message: 'Invalid shared-page endorsement placement.' });
+        if (output.navigation && (output.navigation.length !== output.boundaries.length || output.navigation.some((item, index) => {
+          const boundary = output.boundaries[index];
+          return !boundary || item.memberId !== boundary.memberId || item.startPage !== boundary.startPage || item.pageCount !== boundary.pageCount
+            || item.numbering !== boundary.numbering || item.firstPageLabel !== boundary.firstPageLabel || item.label !== revision.members[index]?.label;
+        }))) ctx.addIssue({ code: 'custom', message: 'Saved PDF navigation does not match captured member boundaries.' });
         if (
           output.boundaries.length !== revision.members.length ||
           output.boundaries.some(
@@ -418,7 +431,7 @@ export const actionPackageSchema = z
               boundary.startPage !==
                 (index
                   ? output.boundaries[index - 1].startPage +
-                    output.boundaries[index - 1].pageCount
+                    output.boundaries[index - 1].pageCount - (output.assembly?.placements?.some(item => item.memberId === boundary.memberId && item.placement === 'same-page') ? 1 : 0)
                   : 1 + (output.assembly?.frontMatterPages ?? 0)),
           )
         )
@@ -426,6 +439,7 @@ export const actionPackageSchema = z
             code: "custom",
             message: "Invalid output member boundaries.",
           });
+      }
     }
     if (
       record.workingCopies?.some(
