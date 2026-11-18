@@ -73,7 +73,8 @@ it('renders a selected native recipient member through the PDF renderer and expo
 it('renders selected embedded files without persisting staging attachments during preparation', async () => {
   const enclosure = await pdf('Synthetic retained enclosure'), session = createBlankSession();
   session.formData.subject = 'PRIVATE CAPTURE ONLY';
-  session.enclosures = [{ title: 'Synthetic retained enclosure', hasFile: true, file: { name: 'enclosure.pdf', size: enclosure.byteLength, data: enclosure } }];
+  const enclosureRef = await persistAttachment({ name: 'enclosure.pdf', type: 'application/pdf', size: enclosure.byteLength }, enclosure);
+  session.enclosures = [{ title: 'Synthetic retained enclosure', hasFile: true, fileRef: enclosureRef }];
   const main = await capturePackageMember(captureDocumentRevision({ documentId: 'private-embedded', epoch: 0, editSequence: 0, capturedAt: 1 }, { ...session, endItems: [], publicationTables: {} }), 'Selected with enclosure', 'basic-letter');
   const record = await reviseActionPackage(await createActionPackage(`No staging ${crypto.randomUUID()}`), [main]);
   const before = await idbGetAllAttachments(), rendered = await pdf('Synthetic main body');
