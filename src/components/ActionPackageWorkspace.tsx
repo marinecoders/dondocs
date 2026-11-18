@@ -69,6 +69,7 @@ import { ShareModal } from "./modals/ShareModal";
 import type { CorrespondenceRendererPorts } from "@/services/exports/correspondence";
 
 const PackageInformationPanel = lazy(() => import("./PackageInformationPanel").then(module => ({ default: module.PackageInformationPanel })));
+const PackageChangeImpactPanel = lazy(() => import("./PackageChangeImpactPanel").then(module => ({ default: module.PackageChangeImpactPanel })));
 const PackageConsistencyPanel = lazy(() => import("./PackageConsistencyPanel").then(module => ({ default: module.PackageConsistencyPanel })));
 const PackageIntakePanel = lazy(() => import("./PackageIntakePanel").then(module => ({ default: module.PackageIntakePanel })));
 const PackageRequirementsPanel = lazy(() => import("./PackageRequirementsPanel").then(module => ({ default: module.PackageRequirementsPanel })));
@@ -233,13 +234,30 @@ function PackageDialog({
   function followDestination(target: PackageDestination) {
     if (!active.current || destinationOwner.current !== selectionOwner || !record || !revision) return;
     if (busy || pendingPackageEdits) { setError("Save or discard package edits before following a finding."); return; }
+    if (target.reviewRoundId) {
+      const round = record.reviewRounds?.find(item => item.id === target.reviewRoundId);
+      if (!round || target.revisionId && round.revisionId !== target.revisionId) { setNotice("That exact review is not included in this package."); return; }
+      const owner = selectionOwner;
+      void run(async () => {
+        const latest = (await listActionPackages()).find(item => item.id === record.id);
+        if (!latest) throw new Error("This saved package is unavailable.");
+        const captured = await openPackageReview(latest, round.id);
+        assertOperationCurrent();
+        if (destinationOwner.current !== owner) return;
+        update(latest); setOpenedReview(captured); setRevisionId(captured.revisionId); setWorkspaceSection("review");
+        setDestination({ ...target, section: "review", packageId: latest.id, revisionId: captured.revisionId, requestId: ++destinationSequence.current });
+      });
+      return;
+    }
     const selected = !target.revisionId || target.revisionId === revision.id ? revision : record.revisions.find(item => item.id === target.revisionId);
     if (!selected) { setNotice("That saved revision is not included in this package."); return; }
     const binding = target.bindingId && selected.bindings?.items.find(item => item.id === target.bindingId);
     const valid = target.bindingId ? !!binding && (!target.factId || binding.factId === target.factId) && (!target.memberId || binding.memberId === target.memberId)
       : target.factId ? !!selected.information?.facts.some(item => item.id === target.factId)
         : target.requirementId ? !!selected.requirements?.items.some(item => item.id === target.requirementId)
-          : target.memberId ? selected.members.some(item => item.id === target.memberId) : true;
+          : target.outputId ? selected.outputs.some(item => item.id === target.outputId)
+            : target.citationId ? !!selected.citations && [...selected.citations.targets, ...selected.citations.links].some(item => item.id === target.citationId)
+              : target.memberId ? selected.members.some(item => item.id === target.memberId) : true;
     if (!valid) { setNotice("That item is not available in the selected saved revision."); return; }
     if (selected.id !== revision.id) {
       setOpenedReview(null); setRevisionId(selected.id); setPrepared(null); setApproved(false); setComparison(null);
@@ -247,7 +265,7 @@ function PackageDialog({
     }
     if (target.memberId && !target.factId && !target.bindingId && !target.requirementId) setActiveMemberId(target.memberId);
     const section = target.factId || target.bindingId || target.requirementId || target.panel ? "overview"
-      : target.section ?? (target.memberId ? "documents" : "overview");
+      : target.outputId ? "delivery" : target.citationId ? "documents" : target.section ?? (target.memberId ? "documents" : "overview");
     setWorkspaceSection(section);
     setNotice("");
     setDestination({ ...target, section, packageId: record.id, revisionId: selected.id, requestId: ++destinationSequence.current });
@@ -255,6 +273,9 @@ function PackageDialog({
   useEffect(() => {
     if (!destination || record?.id !== destination.packageId || revision?.id !== destination.revisionId) return;
     if (destination.factId || destination.bindingId || destination.requirementId) return;
+    if (destination.citationId) return; // Citation identities load asynchronously in their panel.
+    if (destination.outputId) { focusPackageDestination(dialogRoot.current, 'data-package-output-id', destination.outputId); return; }
+    if (destination.reviewRoundId) { focusPackageDestination(dialogRoot.current, 'data-package-review-id', destination.reviewRoundId); return; }
     if (destination.panel) { focusPackageDestination(dialogRoot.current, 'data-package-panel', destination.panel); return; }
     const target = destination.memberId
       ? document.getElementById(`package-member-${destination.memberId}`)
@@ -755,6 +776,13 @@ function PackageDialog({
             </Suspense>
           </div>
         </details>}
+        {readRecord && revision && <details className="min-w-0 rounded border p-3">
+          <summary className="cursor-pointer text-sm font-medium">Change impact</summary>
+          <div className="pt-3"><Suspense fallback={<p role="status">Loading change impact…</p>}>
+            <PackageChangeImpactPanel record={readRecord} revision={revision} disabled={pendingPackageEdits} busy={busy} run={run}
+              onNavigate={followDestination} signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted} />
+          </Suspense></div>
+        </details>}
         {record && revision && <Suspense fallback={<p role="status">Loading package information…</p>}>
           <PackageInformationPanel record={record} revision={revision} disabled={!editable || typedDirty || starterDirty || intakeDirty || requirementsDirty || consistencyDirty} busy={busy} run={run} onApply={update}
             destination={destination}
@@ -1221,7 +1249,7 @@ function PackageDialog({
                   </>
                 )}
               </div>
-              <PackageCitations key={`citations:${record.id}:${revision.id}`} record={record} revision={revision} editable={editable}
+              <PackageCitations key={`citations:${record.id}:${revision.id}`} record={record} revision={revision} editable={editable} destination={destination}
                 onChange={action => void run(async () => update(await action(operation.current?.signal)))} />
               <PackageCitationReorder key={`reorder-${record.id}:${revision.id}:${record.sequence}`} record={record} revision={revision} editable={editable} prepared={citationReorder}
                 onPrepare={value => void run(() => prepareCitationReorder(value))} onDiscard={() => setCitationReorder(null)}
@@ -1329,7 +1357,7 @@ function PackageDialog({
                 </section>
               )}
               {revision.outputs.map((output) => (
-                <div key={output.id} className="break-all space-y-1 text-xs">
+                <div key={output.id} tabIndex={-1} data-package-output-id={output.id} className="break-all space-y-1 text-xs">
                   <p>
                     Retained output {output.id} · SHA-256 {output.asset.sha256}
                   </p>
