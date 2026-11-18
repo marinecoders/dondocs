@@ -18,6 +18,10 @@ import {
   getPackageRevision,
 } from "@/lib/actionPackages";
 import { capturePackageMember, readPackageMemberDraft, retainPackageAsset } from "@/lib/actionPackageAssets";
+import { updatePackageRequirements } from "@/lib/packageRequirements";
+import { prepareConditionalPackage, applyPreparedConditionalPackage } from "@/lib/packageConditional";
+import type { PackageTemplateV2 } from "@/lib/packageTemplateSchema";
+import { buildPortableActionPackage, importPortableActionPackage } from "@/lib/actionPackageTransfer";
 import { captureDocumentRevision } from "@/lib/capturedDocument";
 import { resolveExportDeploymentPolicy } from "@/lib/exportDeploymentPolicy";
 import * as memberReviews from "@/lib/packageMemberReviews";
@@ -588,6 +592,83 @@ it("validates long package names without discarding a valid full-length Unicode 
   expect(within(dialog).getByRole("button", { name: "Create package" })).toBeEnabled();
   expect(within(dialog).getByRole("button", { name: "Rename" })).toBeEnabled();
   expect((await listActionPackages()).find(value => value.id === record.id)?.name).toBe("Original name");
+});
+
+
+it("mounts stored requirements and fences close, selection, navigation and mutations until discarded", async () => {
+  const initial = await updatePackageRequirements(await createActionPackage("Stored requirements origin"), { version: 1, items: [
+    { id: "read-source", label: "Read the supporting record", kind: "confirmation", condition: "active", operations: ["pdf"] },
+  ] }, policy);
+  const requested = await createActionPackage("Stored requirements destination");
+  useUIStore.getState().openActionPackage(initial.id);
+  render(<ActionPackageWorkspace exportGate={createExportGate()} ports={{ compile: vi.fn(), convertDocx: vi.fn(), waitForReady: async () => true }} />);
+  const user = userEvent.setup(), dialog = await screen.findByRole("dialog", { name: "Action packages" });
+  await waitFor(() => expect(within(dialog).getByLabelText("Saved packages", { exact: true })).toHaveValue(initial.id));
+  const panel = await within(dialog).findByRole("region", { name: "Evidence and requirements" });
+  const declaration = within(panel).getByRole("checkbox", { name: /User declaration for Read the supporting record/ });
+  const navigation = within(dialog).getByRole("navigation", { name: "Package workspace" });
+  expect(within(navigation).getByRole("button", { name: "Documents" })).toBeEnabled();
+  expect(within(dialog).getByRole("button", { name: "Rename" })).toBeEnabled();
+  expect(within(dialog).getByRole("button", { name: "Start an administrative request" })).toBeEnabled();
+  await user.click(declaration);
+  expect(within(panel).getByText("Unapplied requirement changes · not saved yet.")).toBeVisible();
+  expect(within(dialog).getByLabelText("Saved packages", { exact: true })).toBeDisabled();
+  expect(within(dialog).getByLabelText("Package revision", { exact: true })).toBeDisabled();
+  for (const button of within(navigation).getAllByRole("button")) expect(button).toBeDisabled();
+  expect(within(dialog).getByRole("button", { name: "Rename" })).toBeDisabled();
+  expect(within(dialog).getByRole("button", { name: "Archive" })).toBeDisabled();
+  expect(within(dialog).getByRole("button", { name: "Start an administrative request" })).toBeDisabled();
+  expect(within(dialog).getByRole("button", { name: "Add shared value" })).toBeDisabled();
+  await user.keyboard("{Escape}");
+  expect(dialog).toBeVisible(); expect(declaration).toBeChecked();
+  expect(within(dialog).getByRole("alert")).toHaveTextContent("Save or discard the requirement changes before closing this package.");
+  act(() => useUIStore.getState().openActionPackage(requested.id));
+  expect(within(dialog).getByLabelText("Saved packages", { exact: true })).toHaveValue(initial.id);
+  await user.click(within(panel).getByRole("button", { name: "Discard requirement changes" }));
+  await waitFor(() => expect(within(dialog).getByLabelText("Saved packages", { exact: true })).toHaveValue(requested.id));
+  expect((await listActionPackages()).find(record => record.id === initial.id)).toEqual(initial);
+  await user.keyboard("{Escape}"); await waitFor(() => expect(dialog).not.toBeVisible());
+});
+
+it("derives legacy requirement slots through the real Workspace and saves an existing-member assignment", async () => {
+  const session = createBlankSession(undefined, "standard_letter");
+  session.formData = { ...session.formData, signatureType: "none", subject: "", sigFirst: "", sigMiddle: "", sigLast: "", classLevel: "unclassified" };
+  const template: PackageTemplateV2 = { kind: "dondocs-package-template", version: 2, id: `workspace-legacy-${crypto.randomUUID()}`, name: "Workspace legacy evidence", createdAt: 0,
+    program: { revision: "1", questions: [{ id: "subject", label: "Subject", kind: "text", required: true }], participantGroups: [],
+      requirements: [{ id: "supporting-proof", label: "Supporting proof", kind: "document", operations: ["pdf"] }] },
+    members: [{ key: "main", kind: "native", label: "Legacy main letter", role: "basic-letter", required: true,
+      draft: { ...session, timestamp: 0, kind: "dondocs-draft", version: 2, documentKind: "correspondence" }, pages: {},
+      links: [{ questionId: "subject", target: { kind: "correspondence", docType: "standard_letter", field: "subject" }, format: "field" }] }] };
+  const prepared = await prepareConditionalPackage({ template, answers: { version: 1, values: { subject: "SYNTHETIC WORKSPACE EVIDENCE" }, groups: {} } }, policy);
+  const original = (await applyPreparedConditionalPackage(prepared, policy, true)).record;
+  const envelope = JSON.parse(await buildPortableActionPackage(original));
+  envelope.package.id = `workspace-package-${crypto.randomUUID()}`; envelope.package.name = `Imported workspace evidence ${crypto.randomUUID()}`;
+  for (const revision of envelope.package.revisions) delete revision.requirements;
+  const initial = await importPortableActionPackage(JSON.stringify(envelope)), baseline = getPackageRevision(initial);
+  expect(baseline.requirements).toBeUndefined();
+  useUIStore.getState().openActionPackage(initial.id);
+  render(<ActionPackageWorkspace exportGate={createExportGate()} ports={{ compile: vi.fn(), convertDocx: vi.fn(), waitForReady: async () => true }} />);
+  const user = userEvent.setup(), dialog = await screen.findByRole("dialog", { name: "Action packages" });
+  await waitFor(() => expect(within(dialog).getByLabelText("Saved packages", { exact: true })).toHaveValue(initial.id));
+  const panel = await within(dialog).findByRole("region", { name: "Evidence and requirements" });
+  const proof = (await within(panel).findByRole("heading", { name: "Supporting proof" })).closest("article")!;
+  expect(within(dialog).getByLabelText("Saved packages", { exact: true })).toBeEnabled();
+  await user.click(within(panel).getByRole("button", { name: "Check evidence requirements" }));
+  await within(panel).findByText(/PDF assembly requirement checks have unresolved items/);
+  await user.selectOptions(within(proof).getByRole("combobox"), baseline.members[0].id);
+  expect(within(dialog).getByLabelText("Package revision", { exact: true })).toBeDisabled();
+  await user.click(within(panel).getByRole("button", { name: "Review requirement changes" }));
+  await user.click(await within(panel).findByRole("checkbox", { name: /I reviewed these evidence assignments/ }));
+  await user.click(within(panel).getByRole("button", { name: "Save requirement changes" }));
+  await within(panel).findByText("Requirements saved as a new revision. Unresolved evidence remains visible.");
+  const saved = (await listActionPackages()).find(record => record.id === initial.id)!;
+  expect(saved.revisions).toHaveLength(initial.revisions.length + 1);
+  expect(getPackageRevision(saved).requirements?.items.find(item => item.definitionId === "supporting-proof")).toMatchObject({ memberId: baseline.members[0].id });
+  expect(saved.revisions.find(revision => revision.id === baseline.id)?.requirements).toBeUndefined();
+  expect(within(dialog).getByLabelText("Package revision", { exact: true })).toBeEnabled();
+  await user.selectOptions(within(dialog).getByLabelText("Package revision", { exact: true }), baseline.id);
+  const historicalProof = (await within(panel).findByRole("heading", { name: "Supporting proof" })).closest("article")!;
+  expect(within(historicalProof).getByRole("combobox")).toBeDisabled();
 });
 
 
