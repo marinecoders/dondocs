@@ -10,6 +10,12 @@ import { preparePackageUpdate, applyPreparedPackageUpdate, undoPackageUpdate } f
 import { resolveExportDeploymentPolicy } from '@/lib/exportDeploymentPolicy';
 import { buildPortableActionPackage, parsePortableActionPackage } from '@/lib/actionPackageTransfer';
 import { useUIStore } from '@/stores/uiStore';
+import * as classification from '@/config/classification';
+import { fixtureInstance, fixturePage } from '../_helpers/formFixture';
+import { uint8ArrayToBase64 } from '@/lib/encoding';
+import { instantiatePackageTemplate, validatePackageTemplate } from '@/lib/packageTemplateLibrary';
+import { listPackageBindingFields } from '@/lib/packageBindingTargets';
+import { initializePackageCitationTargets, linkPackageCitation, packageCitationOccurrences, resolvePackageCitations } from '@/lib/packageCitations';
 
 vi.mock('@/stores/backupStore', () => ({ scheduleBackup: vi.fn(), useBackupStore: { getState: () => ({}) } }));
 vi.mock('@/lib/pdfText', () => ({ extractPdfText: vi.fn(async () => '') }));
@@ -27,12 +33,16 @@ async function clearDb() {
     tx.oncomplete = () => resolve(); tx.onerror = () => reject(tx.error);
   }); db.close();
 }
-async function fixture(count = 1, local = 'Original subject', mode: 'linked' | 'override' = 'linked') {
+async function fixture(count = 1, local = 'Original subject', mode: 'linked' | 'override' = 'linked', citations = false) {
   const members = [];
   for (let index = 0; index < count; index++) {
     const value = createBlankSession();
     value.formData = { ...value.formData, subject: local, unitLine1: 'FICTIONAL TRAINING UNIT', from: 'Training Office', to: 'Training Officer', sigLast: 'Example', classLevel: 'unclassified' };
     value.paragraphs = [{ id: 'body', text: 'Retain this exact paragraph and identity.', level: 0 }];
+    if (citations) {
+      value.references = [{ letter: 'a', title: 'Training reference' }];
+      value.paragraphs[0].text = 'Follow reference (a).';
+    }
     members.push(await capturePackageMember(captureDocumentRevision({ documentId: `source_${index}`, epoch: 0, editSequence: 1, capturedAt: 100 },
       { ...value, endItems: [], publicationTables: {} }), `Training letter ${index + 1}`, 'basic-letter'));
   }
@@ -52,7 +62,12 @@ async function prepare(record: ActionPackage, value = 'Updated subject', choices
   const { information, bindings } = inputs(record, value);
   return preparePackageUpdate(record, information, bindings, choices, policy);
 }
-beforeEach(async () => { vi.restoreAllMocks(); await createActionPackage('Initialize'); await clearDb(); useUIStore.setState({ storageHealth: 'ok' }); });
+beforeEach(async () => {
+  vi.restoreAllMocks();
+  vi.spyOn(classification, 'getExportDeploymentPolicy').mockResolvedValue(policy);
+  vi.spyOn(classification, 'getExportDeploymentPolicySync').mockReturnValue(policy);
+  await createActionPackage('Initialize'); await clearDb(); useUIStore.setState({ storageHealth: 'ok' });
+});
 
 describe('captured package update plans', () => {
   it('previews without writes and applies all member fields as one immutable child revision', async () => {
@@ -117,6 +132,16 @@ describe('captured package update plans', () => {
     expect(getPackageRevision(record).bindings).toEqual(getPackageRevision(original).bindings);
   });
 
+  it('cannot bypass a saved local override by changing proposed link metadata', async () => {
+    const original = await fixture(1, 'Deliberate exception', 'override'), args = inputs(original);
+    args.bindings.items[0].mode = 'linked';
+    const planned = await preparePackageUpdate(original, args.information, args.bindings, {}, policy);
+    expect(planned.changes[0].state).toBe('override');
+    const { record } = await applyPreparedPackageUpdate(planned, policy, true);
+    expect(getPackageRevision(record).members).toEqual(getPackageRevision(original).members);
+    expect(getPackageRevision(record).bindings!.items[0].mode).toBe('override');
+  });
+
   it('rejects forged previews, retargeted identities, fabricated expected values and unknown decisions', async () => {
     const original = await fixture(), planned = await prepare(original), args = inputs(original);
     await expect(applyPreparedPackageUpdate({ ...planned }, policy, true)).rejects.toThrow(/Prepare and review/);
@@ -159,6 +184,15 @@ describe('captured package update plans', () => {
     expect(await idbGetAllAttachments()).toEqual(assets); expect((await listActionPackages())[0]).toEqual(original);
   });
 
+  it('checks actual deployment policy again inside the final storage guard', async () => {
+    const original = await fixture(), planned = await prepare(original), assets = await idbGetAllAttachments();
+    let checks = 0;
+    vi.mocked(classification.getExportDeploymentPolicySync).mockImplementation(() => ++checks > 2 ? differentPolicy : policy);
+    await expect(applyPreparedPackageUpdate(planned, policy, true)).rejects.toThrow(/Deployment settings changed/);
+    expect(checks).toBeGreaterThan(2);
+    expect(await idbGetAllAttachments()).toEqual(assets); expect((await listActionPackages())[0]).toEqual(original);
+  });
+
   it('undoes as a new revision and keeps saved history even if the returned record was mutated', async () => {
     const original = await fixture(), { record, undo } = await applyPreparedPackageUpdate(await prepare(original), policy, true);
     const history = structuredClone(record.revisions); record.name = 'Caller mutation';
@@ -175,5 +209,45 @@ describe('captured package update plans', () => {
     await expect(undoPackageUpdate({ ...undo }, policy)).rejects.toThrow(/no longer be undone/);
     await applyPreparedPackageUpdate(await prepare(record, 'Newer work'), policy, true);
     await expect(undoPackageUpdate(undo, policy)).rejects.toThrow(/changed after/);
+  });
+
+  it('keeps unchanged citation and paragraph identities current after a header update', async () => {
+    let original = await fixture(1, 'Original subject', 'linked', true);
+    original = await initializePackageCitationTargets(original);
+    const revision = getPackageRevision(original), occurrence = (await packageCitationOccurrences(revision))[0];
+    original = await linkPackageCitation(original, occurrence.source, revision.citations!.targets[0].id);
+    const { record } = await applyPreparedPackageUpdate(await prepare(original), policy, true);
+    const next = getPackageRevision(record), resolved = await resolvePackageCitations(next);
+    expect(resolved.links[0].state).toBe('current');
+    expect(next.citations!.links[0].id).toBe(getPackageRevision(original).citations!.links[0].id);
+    expect(next.citations!.links[0].source.paragraphId).toBe('body');
+    expect(next.citations!.links[0].source.memberRevisionId).not.toBe(occurrence.source.memberRevisionId);
+  });
+
+  it('commits multiple configured answers together with exact identifiers and false intact', async () => {
+    const page = await fixturePage(), instance = fixtureInstance();
+    instance.definition.pages[0].sha256 = page.sha256;
+    const session = { ...createBlankSession(), documentCategory: 'forms' as const, formType: 'fixture', genericForm: instance, timestamp: 0 };
+    const template = await validatePackageTemplate({ kind: 'dondocs-package-template', version: 1, id: 'configured', name: 'Configured action', createdAt: 0,
+      members: [{ kind: 'native', label: 'Configured worksheet', role: 'supporting-document', required: true, draft: session,
+        pages: { 'page1.pdf': { name: 'page1.pdf', type: 'application/pdf', data: uint8ArrayToBase64(page.bytes) } } }] });
+    let original = await instantiatePackageTemplate(template, 'Configured action', {}, {});
+    const current = getPackageRevision(original), member = current.members[0], fields = await listPackageBindingFields(member);
+    const name = fields.find(field => field.label === 'Name')!, flag = fields.find(field => field.label === 'A')!;
+    const revision = { ...current, id: newPackageId('revision'), parentId: current.id,
+      information: { version: 1 as const, participants: [], facts: [
+        { id: 'name', label: 'Identifier', kind: 'identifier' as const, value: '000123', source: { kind: 'entered' as const } },
+        { id: 'flag', label: 'Confirmed', kind: 'boolean' as const, value: true, source: { kind: 'entered' as const } }] },
+      bindings: { version: 1 as const, items: [name, flag].map((field, index) => ({ id: `link_${index}`, memberId: member.id,
+        factId: index ? 'flag' : 'name', target: field.target, expectedValue: field.value, mode: 'linked' as const, format: 'field' as const })) } };
+    original = await commitActionPackage(original, { ...original, sequence: original.sequence + 1, currentRevisionId: revision.id, revisions: [...original.revisions, revision] });
+    const information = structuredClone(revision.information); information.facts[0].value = '000000'; information.facts[1].value = false;
+    const plan = await preparePackageUpdate(original, information, revision.bindings, {}, policy);
+    const result = await applyPreparedPackageUpdate(plan, policy, true), saved = getPackageRevision(result.record).members[0];
+    if (saved.kind !== 'native') throw new Error('Expected configured member');
+    expect(saved.session.genericForm!.answers).toMatchObject({ name: '000000', a: false });
+    expect(saved.session.genericForm!.answerRevision).toBe(1);
+    expect(saved.templates).toEqual(member.kind === 'native' ? member.templates : undefined);
+    expect((await readPackageMemberDraft(saved)).reviewed.session).toEqual(saved.session);
   });
 });

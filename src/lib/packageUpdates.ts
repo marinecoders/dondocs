@@ -17,6 +17,7 @@ import { reviewPackageBindings, reviewPackageInformation, reviewPackageNative, r
 import { assertExportDeploymentPolicy, type PolicyResolution } from './exportDeploymentPolicy';
 import type { ExportReview } from './preparedExport';
 import type { DocumentFieldSource } from './documentFields';
+import { getExportDeploymentPolicy, getExportDeploymentPolicySync } from '@/config/classification';
 
 export type PackageUpdateChoice = 'apply-package' | 'keep-local' | 'detach' | 'reconnect';
 export type PackageUpdateChoices = Readonly<Record<string, PackageUpdateChoice>>;
@@ -74,6 +75,24 @@ function informationReviews(revision: PackageRevision, policy: PolicyResolution)
     ...(revision.information ? [reviewPackageInformation(revision.information, policy)] : []),
     ...(revision.bindings ? [reviewPackageBindings(revision.bindings, policy)] : []),
   ];
+}
+async function deploymentGuard(policy: PolicyResolution, signal: AbortSignal | undefined, isCurrent: () => boolean) {
+  const identity = policyIdentity(policy);
+  if (policyIdentity(await getExportDeploymentPolicy()) !== identity)
+    throw new Error('Deployment settings changed. Review these package updates again.');
+  let failure: unknown;
+  const current = () => {
+    try {
+      signal?.throwIfAborted();
+      if (!isCurrent()) throw new Error('This package update is no longer current.');
+      if (policyIdentity(getExportDeploymentPolicySync()) !== identity)
+        throw new Error('Deployment settings changed. Review these package updates again.');
+      return true;
+    } catch (cause) { failure = cause; return false; }
+  };
+  const assert = () => { if (!current()) throw failure; };
+  assert();
+  return { current, assert, error: () => failure };
 }
 
 /** Retain exact citation occurrences when only a qualified scalar field changed. */
@@ -144,7 +163,7 @@ export async function preparePackageUpdate(
       kept.push(binding); issues.push(`${result.label}: ${result.message}`);
       changes.push({ ...preview, state: 'unavailable', message: result.message }); continue;
     }
-    if (choice === 'keep-local' || binding.mode === 'override' && choice !== 'reconnect' && choice !== 'apply-package') {
+    if (choice === 'keep-local' || (prior?.mode ?? binding.mode) === 'override' && choice !== 'reconnect' && choice !== 'apply-package') {
       kept.push({ ...binding, mode: 'override', expectedValue: result.field.value });
       changes.push({ ...preview, state: 'override', message: 'The deliberate local value is preserved.' }); continue;
     }
@@ -205,9 +224,13 @@ export async function applyPreparedPackageUpdate(
   if (!prepared.ready || !prepared.changed || !reviewed) throw new Error('Resolve and review the proposed package changes before applying them.');
   signal?.throwIfAborted();
   if (!isCurrent()) throw new Error('The package update is no longer current.');
+  const guard = await deploymentGuard(policy, signal, isCurrent);
   const latest = (await listActionPackages()).find(record => record.id === retained.before.id);
+  guard.assert();
   if (!sameReviewStoredValue(latest, retained.before)) throw new Error('The saved package changed. Review its latest revision before applying these updates.');
-  const record = await withAttachmentStaging(() => commitActionPackage(retained.before, retained.after, signal, isCurrent, retained.attachments));
+  let record: ActionPackage;
+  try { record = await withAttachmentStaging(() => commitActionPackage(retained.before, retained.after, signal, guard.current, retained.attachments)); }
+  catch (cause) { throw guard.error() ?? cause; }
   const undo = Object.freeze({ packageId: record.id, appliedRevisionId: record.currentRevisionId });
   reversals.set(undo, { before: retained.before, after: structuredClone(record) }); preparations.delete(prepared);
   return { record, undo };
@@ -222,7 +245,9 @@ export async function undoPackageUpdate(
   if (!retained) throw new Error('This package update can no longer be undone here. Its saved history remains available.');
   signal?.throwIfAborted();
   if (!isCurrent()) throw new Error('This package update is no longer current.');
+  const guard = await deploymentGuard(policy, signal, isCurrent);
   const latest = (await listActionPackages()).find(record => record.id === retained.after.id);
+  guard.assert();
   if (!sameReviewStoredValue(latest, retained.after)) throw new Error('The package changed after these updates. Review its saved history before restoring earlier content.');
   const original = getPackageRevision(retained.before);
   reviewPackageText(retained.before.name, 'Package name', policy);
@@ -233,8 +258,10 @@ export async function undoPackageUpdate(
   }
   const revision: PackageRevision = { ...structuredClone(original), id: newPackageId('revision'),
     parentId: retained.after.currentRevisionId, createdAt: Date.now(), outputs: [] };
-  const record = await withAttachmentStaging(() => commitActionPackage(retained.after,
+  let record: ActionPackage;
+  try { record = await withAttachmentStaging(() => commitActionPackage(retained.after,
     { ...retained.after, sequence: retained.after.sequence + 1, currentRevisionId: revision.id,
-      revisions: [...retained.after.revisions, revision] }, signal, isCurrent));
+      revisions: [...retained.after.revisions, revision] }, signal, guard.current)); }
+  catch (cause) { throw guard.error() ?? cause; }
   reversals.delete(receipt); return record;
 }
