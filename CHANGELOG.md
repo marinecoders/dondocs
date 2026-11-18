@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.143] — 2026-11-17
+
+### Added
+
+- Saved action intake, conditional and repeated package membership, protected local edits and historical restoration.
+
 ## [1.3.142] — 2026-11-17
 
 ### Added
