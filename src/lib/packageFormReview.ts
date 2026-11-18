@@ -1,6 +1,6 @@
 import type { PackageMember, PackageMemberReview, PackageReviewRound } from './actionPackages';
 import { listPackageBindingFields, packageBindingTargetKey, type PackageBindingField, type PackageBindingTarget } from './packageBindingTargets';
-import { packageFormAnchorSchema, packageFormReviewSchema, type PackageFormAnchor, type PackageFormReview } from './packageFormReviewModel';
+import { packageFormAnchorSchema, packageFormReviewSchema, packageFormProposalSchema, type PackageFormProposal, type PackageFormAnchor, type PackageFormReview } from './packageFormReviewModel';
 import { sameReviewStoredValue } from './documentsDb';
 import type { FeedbackCategory } from './reviewFeedback';
 export * from './packageFormReviewModel';
@@ -36,8 +36,23 @@ export async function validatePackageFormFeedback(round: PackageReviewRound, chi
   if (!child.fieldReview) return;
   const member = round.baseline.members.find(member => member.id === child.binding.memberId);
   if (!member || member.kind !== 'native' || member.session.documentCategory !== 'forms') throw new Error('Field feedback requires an exact captured form.');
-  for (const comment of child.fieldReview.comments) {
+  for (const comment of [...child.fieldReview.comments, ...(child.fieldReview.proposals ?? [])]) {
     const found = await capturePackageFormAnchor(member, comment.anchor.target);
     if (!sameReviewStoredValue(found, comment.anchor)) throw new Error('Form feedback does not match the reviewed answer and pinned definition.');
+    if ('value' in comment) {
+      const { patchPackageBindingTarget } = await import('./packageBindingTargets');
+      await patchPackageBindingTarget(member.session, comment.anchor.target, comment.anchor.context, comment.value);
+    }
   }
+}
+
+export async function addPackageFormProposal(member: PackageMember, input: PackageFormReview | undefined, anchor: PackageFormAnchor,
+  author: string, value: string | boolean, reason?: string): Promise<PackageFormReview> {
+  const found = await capturePackageFormAnchor(member, anchor.target);
+  if (!sameReviewStoredValue(found, anchor) || member.kind !== 'native') throw new Error('The proposal must use its exact captured form answer.');
+  const { patchPackageBindingTarget } = await import('./packageBindingTargets');
+  await patchPackageBindingTarget(member.session, anchor.target, anchor.context, value);
+  const proposal: PackageFormProposal = packageFormProposalSchema.parse({ id: crypto.randomUUID(), anchor, author, value, reason, createdAt: new Date().toISOString() });
+  const review = packageFormReviewSchema.parse(structuredClone(input ?? { version: 1, comments: [] }));
+  return packageFormReviewSchema.parse({ ...review, proposals: [...review.proposals ?? [], proposal] });
 }

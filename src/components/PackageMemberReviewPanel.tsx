@@ -1,3 +1,4 @@
+import { PackageFormCorrectionPanel } from './PackageFormCorrectionPanel';
 import { PackageFormReviewPanel } from './PackageFormReviewPanel';
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Button } from './ui/button';
@@ -70,14 +71,16 @@ export function PackageMemberReviewPanel({ record, round, busy, onChange, run, o
       {child && <>
         <div className="flex min-w-0 flex-wrap gap-2">
           <Button className="h-auto min-h-9 max-w-full whitespace-normal" variant="outline" disabled={disabled || typedDirty || !history.length} onClick={() => void run(async () => {
-            const previous = history.at(-1)!; await publish({ ...child, comments: previous.comments, fieldReview: previous.fieldReview }, false); setHistory(items => items.slice(0, -1)); setFuture(items => [...items, structuredClone(child)]);
+            const previous = history.at(-1)!; await publish({ ...child, comments: previous.comments, fieldReview: child.fieldReview ? { ...child.fieldReview, comments: previous.fieldReview?.comments ?? [] } : previous.fieldReview }, false); setHistory(items => items.slice(0, -1)); setFuture(items => [...items, structuredClone(child)]);
           })}>Undo member comment</Button>
           <Button className="h-auto min-h-9 max-w-full whitespace-normal" variant="outline" disabled={disabled || typedDirty || !future.length} onClick={() => void run(async () => {
-            const next = future.at(-1)!; await publish({ ...child, comments: next.comments, fieldReview: next.fieldReview }, false); setFuture(items => items.slice(0, -1)); setHistory(items => [...items, structuredClone(child)]);
+            const next = future.at(-1)!; await publish({ ...child, comments: next.comments, fieldReview: child.fieldReview ? { ...child.fieldReview, comments: next.fieldReview?.comments ?? [] } : next.fieldReview }, false); setFuture(items => items.slice(0, -1)); setHistory(items => [...items, structuredClone(child)]);
           })}>Redo member comment</Button>
         </div>
         {member.kind === 'native' && member.session.documentCategory === 'forms' && <PackageFormReviewPanel key={`form:${selected}`} member={member} child={child} busy={disabled} onDraftChange={setTypedDirty}
           onSave={async value => { let saved = false; await run(async () => { await publish({ ...child, fieldReview: value }); saved = true; }); return saved; }} />}
+        {member.kind === 'native' && member.session.documentCategory === 'forms' && <PackageFormCorrectionPanel key={`decisions:${record.id}:${record.sequence}:${round.id}:${selected}`} record={record} round={round} child={child} busy={disabled || typedDirty} run={run} signal={signal}
+          onApply={next => onChange(next, next.reviewRounds!.find(item => item.id === round.id)!)} />}
         <PackageMemberComments key={`comments:${selected}`} child={child} busy={disabled || typedDirty} onSave={async mutation => {
           let saved = false; await run(async () => {
           const comments = mutateReviewComments(child.comments, mutation, value => child.nativeRound && member.kind === 'native'

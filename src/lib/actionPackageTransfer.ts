@@ -50,6 +50,7 @@ export async function buildPortableActionPackage(
   delete source.workingCopies;
   delete source.reviewRounds;
   delete source.reviewApplications;
+  delete source.fieldReviewApplications;
   const owned = actionPackageSchema.parse({
     ...source,
     historyScope: "selected-revision",

@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Button } from './ui/button';
 import type { PackageMember, PackageMemberReview } from '@/lib/actionPackages';
-import { addPackageFormComment, capturePackageFormAnchor, packageFormReviewFields, type PackageFormReview } from '@/lib/packageFormReview';
+import { addPackageFormComment, addPackageFormProposal, capturePackageFormAnchor, packageFormReviewFields, type PackageFormReview } from '@/lib/packageFormReview';
 import { packageBindingTargetKey, type PackageBindingField } from '@/lib/packageBindingTargets';
 import { FeedbackCategorySelect } from './FeedbackCategorySelect';
 import type { FeedbackCategory } from '@/lib/reviewFeedback';
@@ -16,8 +16,9 @@ export function PackageFormReviewPanel({ member, child, busy, onSave, onDraftCha
 }) {
   const [fields, setFields] = useState<PackageBindingField[]>([]), [target, setTarget] = useState('');
   const [author, setAuthor] = useState(''), [text, setText] = useState(''), [category, setCategory] = useState<FeedbackCategory>('question');
+  const [proposed, setProposed] = useState(''), [proposalDirty, setProposalDirty] = useState(false);
   const [error, setError] = useState(''), [loading, setLoading] = useState(true), [pending, setPending] = useState(false);
-  const alive = useRef(true), dirty = !!text, callback = useRef(onDraftChange);
+  const alive = useRef(true), dirty = !!text || proposalDirty, callback = useRef(onDraftChange);
   useEffect(() => { callback.current = onDraftChange; }, [onDraftChange]);
   useEffect(() => { callback.current?.(dirty); }, [dirty]);
   useEffect(() => { alive.current = true; return () => { alive.current = false; callback.current?.(false); }; }, []);
@@ -52,6 +53,29 @@ export function PackageFormReviewPanel({ member, child, busy, onSave, onDraftCha
       }}>Post form field comment</Button>
         <Button className={button} variant="outline" disabled={!dirty} onClick={() => setText('')}>Cancel form comment</Button></div>
     </fieldset>
+    <section aria-label="Suggest form answer correction" className="min-w-0 space-y-2 border-t pt-3">
+      <h5 className="text-sm font-medium">Suggest an answer correction</h5>
+      <p className="text-xs text-muted-foreground">The drafter reviews this exact typed answer before accepting or rejecting it.</p>
+      {selected && <label className="block text-sm">Proposed answer{selected.kind === 'boolean' || selected.kind === 'singleChoice'
+        ? <select aria-label="Proposed form answer" className={input} disabled={locked} value={proposed} onChange={event => { setProposed(event.target.value); setProposalDirty(true); }}>
+          <option value="">Choose a proposed answer</option>{selected.kind === 'boolean' ? <><option value="true">Yes</option><option value="false">No</option></>
+            : selected.options?.map(option => <option key={option.id} value={option.id}>{option.label}</option>)}
+        </select> : <input aria-label="Proposed form answer" className={input} disabled={locked} value={proposed} onChange={event => { setProposed(event.target.value); setProposalDirty(true); }} />}</label>}
+      <div className="flex flex-wrap gap-2"><Button className={button} disabled={locked || !selected || !author.trim() || !proposalDirty || selected.kind === 'boolean' && !['true', 'false'].includes(proposed)} onClick={() => {
+        if (!selected || pending) return; setPending(true); setError('');
+        void capturePackageFormAnchor(member, selected.target).then(anchor => addPackageFormProposal(member, child.fieldReview, anchor, author, selected.kind === 'boolean' ? proposed === 'true' : proposed))
+          .then(value => onSave(value)).then(saved => { if (alive.current && saved) { setProposalDirty(false); setProposed(''); } })
+          .catch(cause => { if (alive.current) setError(cause instanceof Error ? cause.message : 'The proposed answer could not be saved.'); })
+          .finally(() => { if (alive.current) setPending(false); });
+      }}>Suggest field correction</Button>
+        <Button className={button} variant="outline" disabled={locked || !proposalDirty} onClick={() => { setProposed(''); setProposalDirty(false); }}>Cancel field correction</Button></div>
+      {(child.fieldReview?.proposals ?? []).map(proposal => <article key={proposal.id} className="min-w-0 space-y-1 rounded border p-2 text-sm">
+        <p className="break-words font-medium">{proposal.anchor.label} · Proposed correction</p>
+        <p className="whitespace-pre-wrap break-words">Reviewed: {valueText(proposal.anchor.context)}</p>
+        <p className="whitespace-pre-wrap break-words">Proposed: {valueText(proposal.value)}</p>
+        <p className="break-words text-xs text-muted-foreground">{proposal.author}</p>
+      </article>)}
+    </section>
     {(child.fieldReview?.comments ?? []).map(comment => <article key={comment.id} className="min-w-0 space-y-2 rounded border p-2 text-sm">
       <p className="break-words font-medium">{comment.anchor.label} · {comment.resolved ? 'Resolved' : 'Open'}</p>
       <p className="whitespace-pre-wrap break-words text-xs text-muted-foreground">Reviewed answer: {valueText(comment.anchor.context)}</p>
