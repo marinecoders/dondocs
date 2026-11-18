@@ -162,6 +162,12 @@ export async function preparePackageAssembly(
   const error = (message: string, memberId?: string) =>
     findings.push({ message, memberId, severity: "error" });
   if (policy.status !== "ready") error(policy.message);
+  if (revision.templateState) {
+    const { reviewConditionalPackage, conditionalMembershipFindings } = await import('./packageConditionalSources');
+    try { for (const review of await reviewConditionalPackage(revision, policy)) reviews.push({ member: 'Captured action intake and template', review }); }
+    catch (cause) { error(cause instanceof Error ? cause.message : 'The captured action template could not be reviewed.'); }
+    findings.push(...conditionalMembershipFindings(revision).map(finding => ({ ...finding, severity: options.includeRetainedDraftText ? 'warning' as const : 'error' as const })));
+  }
   if (revision.information) {
     try { reviews.push({ member: "Package information", review: reviewPackageInformation(revision.information, policy) }); }
     catch (cause) { error(cause instanceof Error ? cause.message : "Package information could not be reviewed."); }

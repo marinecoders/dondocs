@@ -84,6 +84,11 @@ async function prepare(json: string, policy: PolicyResolution, expiresAt?: numbe
   ];
   if (revision.bindings) reviews.push({ member: "Package field links", review: reviewPackageBindings(revision.bindings, policy) });
   if (revision.information) reviews.push({ member: "Package information", review: reviewPackageInformation(revision.information, policy) });
+  if (revision.templateState) {
+    const { reviewConditionalPackage } = await import('./packageConditionalSources');
+    for (const review of await reviewConditionalPackage(revision, policy, async asset => resources.get(`assets/${asset.id}`)!.data))
+      reviews.push({ member: 'Captured action intake and template', review });
+  }
   const pdfReviews = new Map<string, ExportReview>();
   const reviewPdf = async (bytes: ArrayBuffer, name: string) => {
     signal.throwIfAborted();

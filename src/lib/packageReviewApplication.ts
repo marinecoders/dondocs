@@ -209,6 +209,7 @@ export async function preparePackageReviewApplication(preview: PackageReviewRetu
   }));
   const revision = { id: newPackageId('revision'), parentId: owner.currentRevisionId, createdAt: Date.now(), members, outputs: [],
     ...(current.bindings ? { bindings: structuredClone(current.bindings) } : {}),
+    ...(current.templateState ? { templateState: structuredClone(current.templateState) } : {}),
     ...(current.information ? { information: structuredClone(current.information) } : {}),
     ...(current.citations ? { citations: structuredClone(current.citations) } : {}) };
   // Rebind an unchanged known citation identity only when every recorded value except the new member revision still matches.

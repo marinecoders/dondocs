@@ -25,6 +25,7 @@ export async function packageInputFingerprint(revision: PackageRevision): Promis
   const input = {
     version: 1,
     revisionId: revision.id,
+    ...(revision.templateState ? { templateState: revision.templateState } : {}),
     ...(revision.bindings ? { bindings: revision.bindings } : {}),
     ...(revision.information ? { information: revision.information } : {}),
     members: revision.members.map(member => ({
