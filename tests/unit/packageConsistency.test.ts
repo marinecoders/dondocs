@@ -12,6 +12,7 @@ import { buildPortableActionPackage, importPortableActionPackage } from '@/lib/a
 import { capturePackageBackup, validatePackageBackup, restorePackageBackup } from '@/lib/actionPackageBackup';
 import { idbGetAllAttachments, idbPutAttachment } from '@/lib/documentsDb';
 import { startPackageReview } from '@/lib/packageReviewRounds';
+import { reviewPayloadDigest } from '@/lib/reviewRounds';
 import { buildPackageReviewerCopy, packageReviewTransferFile, parsePackageReviewTransfer } from '@/lib/packageReviewTransfer';
 import { preparePackageAssembly } from '@/lib/actionPackageAssembly';
 import { useUIStore } from '@/stores/uiStore';
@@ -100,6 +101,8 @@ it('captures a reason for the exact conflict and expires it after changing value
   expect((await inspectPackageConsistency(getPackageRevision(record))).findings[0]).toMatchObject({ state: 'conflict', staleException: true });
   const changedLabel = structuredClone(revision); changedLabel.consistency!.rules[0].label = 'Changed declared relationship';
   expect((await inspectPackageConsistency(changedLabel)).findings[0].staleException).toBe(true);
+  const satisfied = structuredClone(revision); satisfied.information!.facts[1].value = '000123';
+  expect((await inspectPackageConsistency(satisfied)).findings[0]).toMatchObject({ state: 'satisfied', staleException: true });
   const missing = structuredClone(revision); missing.information!.facts.pop();
   expect((await inspectPackageConsistency(missing)).findings[0]).toMatchObject({ state: 'unresolved', staleException: true });
   await expect(createPackageConsistencyException(missing, 'same-action', 'Cannot waive missing input')).rejects.toThrow(/Resolve missing/);
@@ -146,6 +149,18 @@ it('blocks review/PDF only for unresolved required relationships while portable 
   await expect(startPackageReview(optional)).resolves.toHaveProperty('reviewRounds');
 });
 
+it('checks a historical reviewer-copy baseline while keeping an earlier valid round independent from current relationships', async () => {
+  const optional = await save(await fixture(), declarations(rule({ required: false }))), reviewed = await startPackageReview(optional), round = reviewed.reviewRounds![0];
+  const current = await save(reviewed, declarations(rule()));
+  await expect(buildPackageReviewerCopy(current, round.id, policy)).resolves.toHaveProperty('mode', 'copy');
+  const imported = structuredClone(reviewed), old = imported.revisions.find(revision => revision.id === round.revisionId)!;
+  old.consistency!.rules[0].required = true;
+  const invalid = imported.reviewRounds![0]; invalid.baseline.consistency!.rules[0].required = true;
+  invalid.baselineDigest = await reviewPayloadDigest(invalid.baseline);
+  invalid.members = invalid.members.map(binding => ({ ...binding, baselineDigest: invalid.baselineDigest }));
+  await expect(buildPackageReviewerCopy(imported, round.id, policy)).rejects.toThrow(/Shared action identifier/);
+});
+
 it('owns input synchronously, rejects cancelled/stale writes and keeps declarations immutable in saved history', async () => {
   const record = await fixture(), value = declarations(rule()), pending = save(record, value); value.rules[0].label = 'Caller mutation';
   const saved = await pending; expect(getPackageRevision(saved).consistency!.rules[0].label).toBe('Shared action identifier');
@@ -174,4 +189,23 @@ it('includes retained labels and exception reasons in classification/privacy rev
   expect(() => reviewPackageConsistency(value, policy)).toThrow(/outside/);
   await expect(save(record, value)).rejects.toThrow(/outside/);
   expect((await listActionPackages()).find(item => item.id === record.id)).toEqual(record);
+});
+
+it('preserves the exact excepted revision when an actual IndexedDB write aborts', async () => {
+  let record = await save(await fixture());
+  const revision = getPackageRevision(record);
+  const exception = await createPackageConsistencyException(revision, 'same-action', 'Retain this exact deliberate difference.');
+  record = await save(record, { ...revision.consistency!, exceptions: [exception] });
+  const next = structuredClone(getPackageRevision(record).consistency!); next.rules[0].label = 'Reviewed new label';
+  const original = IDBObjectStore.prototype.put;
+  const failingPut = vi.spyOn(IDBObjectStore.prototype, 'put').mockImplementation(function (this: IDBObjectStore, ...args) {
+    const request = original.apply(this, args);
+    if (this.name === 'app') this.transaction.abort();
+    return request;
+  });
+  await expect(save(record, next)).rejects.toThrow(/could not be saved/);
+  failingPut.mockRestore();
+  const stored = (await listActionPackages()).find(item => item.id === record.id)!;
+  expect(stored).toEqual(record);
+  expect((await inspectPackageConsistency(getPackageRevision(stored))).findings[0]).toMatchObject({ state: 'excepted', exceptionReason: exception.reason });
 });

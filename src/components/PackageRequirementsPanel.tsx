@@ -50,9 +50,9 @@ export function PackageRequirementsPanel({ record, revision, disabled, busy, run
     if (!matchesPackageDestination(destination, record.id, revision.id) || !destination.requirementId || loading
       || handledDestination.current === destination.requestId) return;
     const index = draft?.items.findIndex(item => item.id === destination.requirementId) ?? -1;
-    if (index < 0) { handledDestination.current = destination.requestId; return; }
-    handledDestination.current = destination.requestId;
-    focusPackageDestination(content.current, 'data-package-requirement-id', destination.requirementId);
+    if (index < 0) return;
+    if (focusPackageDestination(content.current, 'data-package-requirement-id', destination.requirementId))
+      handledDestination.current = destination.requestId;
   }, [destination, record.id, revision.id, draft, loading, page]);
   useLayoutEffect(() => { currentOwner.current = owner; dirtyCallback.current = onDirtyChange; revisionRef.current = revision; }, [owner, onDirtyChange, revision]);
   useEffect(() => { mounted.current = true; return () => { mounted.current = false; dirtyCallback.current?.(false); }; }, []);

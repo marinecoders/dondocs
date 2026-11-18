@@ -108,9 +108,8 @@ export function PackageInformationPanel({ record, revision, disabled, busy, run,
     const attribute = destination.bindingId ? 'data-package-binding-id' : 'data-package-fact-id';
     const identity = destination.bindingId ?? destination.factId;
     if (!identity) return;
-    handledDestination.current = destination.requestId;
-    focusPackageDestination(content.current, attribute, identity);
-  }, [destination, record.id, revision.id]);
+    if (focusPackageDestination(content.current, attribute, identity)) handledDestination.current = destination.requestId;
+  }, [destination, record.id, revision.id, draft]);
   useEffect(() => {
     mounted.current = true;
     return () => { mounted.current = false; dirtyCallback.current?.(false); };
@@ -284,7 +283,7 @@ export function PackageInformationPanel({ record, revision, disabled, busy, run,
       {fieldErrors.map((message, index) => <p key={index} className="text-xs text-destructive">{message}</p>)}
       {draft.bindings.some(binding => !draft.facts.some(fact => fact.id === binding.factId)) && <div className="space-y-2 rounded border p-2 text-sm">
         <p>Some retained links refer to unavailable package values.</p>
-        {draft.bindings.filter(binding => !draft.facts.some(fact => fact.id === binding.factId)).map(binding => <label key={binding.id} className="block break-words">{binding.id}<select aria-label={`Link decision ${binding.id}`} className={inputClass} value={choices[binding.id] ?? ''} onChange={event => decision(binding.id, event.target.value)}><option value="">Keep retained link</option><option value="detach">Detach and preserve document value</option></select></label>)}
+        {draft.bindings.filter(binding => !draft.facts.some(fact => fact.id === binding.factId)).map(binding => <label key={binding.id} tabIndex={-1} data-package-binding-id={binding.id} className="block break-words">{binding.id}<select aria-label={`Link decision ${binding.id}`} className={inputClass} value={choices[binding.id] ?? ''} onChange={event => decision(binding.id, event.target.value)}><option value="">Keep retained link</option><option value="detach">Detach and preserve document value</option></select></label>)}
       </div>}
     </fieldset>
     <details className="space-y-3 rounded border p-3">
