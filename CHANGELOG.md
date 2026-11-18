@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.136] — 2026-11-17
+
+### Added
+
+- Package Workspace navigation, saved context restoration and compact mobile controls with Unicode-safe naming.
+
 ## [1.3.135] — 2026-11-17
 
 ### Added
