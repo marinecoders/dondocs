@@ -97,6 +97,9 @@ export async function updatePackageRequirements(input: ActionPackage, next: Pack
   if (record.archived || record.reviewRounds?.some(round => round.ownerPackageId === undefined)) throw new Error('Only the current, unarchived owning package can change requirements.');
   const requirements = next === undefined ? undefined : packageRequirementsSchema.parse(structuredClone(next));
   const current = getPackageRevision(record);
+  const legacy = current.templateState && current.requirements === undefined && requirements !== undefined
+    ? await (await import('./packageConditionalRequirements')).captureLegacyConditionalRequirementIds(current, requirements) : undefined;
+  const previous = current.requirements ?? legacy?.requirements;
   if (sameReviewStoredValue(current.requirements, requirements)) throw new Error('Package requirements already match this revision.');
   if (current.requirements) {
     const declaration = (item: PackageRequirement) => item.kind === 'document'
@@ -107,7 +110,7 @@ export async function updatePackageRequirements(input: ActionPackage, next: Pack
   }
   // Definitions are immutable under their identity; assignments and confirmations may change.
   for (const item of requirements?.items ?? []) {
-    const prior = current.requirements?.items.find(value => value.id === item.id);
+    const prior = previous?.items.find(value => value.id === item.id);
     if (prior && (prior.kind !== item.kind || prior.definitionId !== item.definitionId || prior.participantId !== item.participantId)) throw new Error('A requirement identity cannot change its kind, definition or person.');
     if (item.kind === 'document' && item.memberId && item.memberId !== (prior?.kind === 'document' ? prior.memberId : undefined)) {
       const member = current.members.find(member => member.id === item.memberId);
@@ -118,7 +121,7 @@ export async function updatePackageRequirements(input: ActionPackage, next: Pack
   if (requirements) reviewPackageRequirements(requirements, policy);
   const fresh = await getExportDeploymentPolicy();
   if (fresh.status !== 'ready' || JSON.stringify(fresh.policy) !== JSON.stringify(policy.policy)) throw new Error('Deployment settings changed. Review the requirements again.');
-  const revision: PackageRevision = { ...structuredClone(current), id: newPackageId('revision'), parentId: current.id, createdAt: Date.now(), requirements, outputs: [] };
+  const revision: PackageRevision = { ...structuredClone(current), id: newPackageId('revision'), parentId: current.id, createdAt: Date.now(), requirements, ...(legacy ? { templateState: legacy.state } : {}), outputs: [] };
   return commitActionPackage(record, { ...record, sequence: record.sequence + 1, currentRevisionId: revision.id, revisions: [...record.revisions, revision] }, signal, () => {
     const currentPolicy = getExportDeploymentPolicySync();
     return isCurrent() && currentPolicy.status === 'ready' && JSON.stringify(currentPolicy.policy) === JSON.stringify(policy.policy);

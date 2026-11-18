@@ -9,6 +9,7 @@ import { getPackageRevision, reviseActionPackage } from '@/lib/actionPackages';
 import { captureOriginalPackageMember, readPackageAsset } from '@/lib/actionPackageAssets';
 import { buildPortableActionPackage, parsePortableActionPackage, validateActionPackageResources } from '@/lib/actionPackageTransfer';
 import { startPackageReview } from '@/lib/packageReviewRounds';
+import { captureLegacyConditionalRequirementIds, resolveConditionalPackageRequirements } from '@/lib/packageConditionalRequirements';
 import { inspectPackageRequirements, updatePackageRequirements } from '@/lib/packageRequirements';
 import { resolveExportDeploymentPolicy } from '@/lib/exportDeploymentPolicy';
 const { currentPolicy } = vi.hoisted(() => ({ currentPolicy: { value: undefined as unknown } }));
@@ -93,4 +94,12 @@ it('recognizes saved intake people before information is applied without treatin
   const saved = await updatePackageRequirements(record, reqs, policy);
   const inspected = await inspectPackageRequirements(getPackageRevision(saved), 'portable');
   expect(inspected.ready).toBe(true); expect(inspected.items.find(item => item.kind === 'confirmation')?.message).toContain('not an approval');
+});
+
+
+it('keeps already reserved identities when first saving legacy requirement metadata', async () => {
+  const { record } = await create(), legacy = getPackageRevision(record); delete legacy.requirements;
+  const effective = (await resolveConditionalPackageRequirements(legacy))!;
+  const changed = structuredClone(effective); changed.items[0].id = 'changed-existing-requirement';
+  await expect(captureLegacyConditionalRequirementIds(legacy, changed)).rejects.toThrow('identity changed');
 });

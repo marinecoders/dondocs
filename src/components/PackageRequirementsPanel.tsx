@@ -3,7 +3,7 @@ import { Button } from './ui/button';
 import type { ActionPackage, PackageRevision } from '@/lib/actionPackages';
 import { inspectPackageRequirements, updatePackageRequirements, type PackageRequirementOperation, type PackageRequirements, type PackageRequirementsInspection } from '@/lib/packageRequirements';
 import { reviewPackageRequirements } from '@/lib/actionPackageDisclosure';
-import { resolveConditionalPackageRequirements } from '@/lib/packageConditionalRequirements';
+import { captureLegacyConditionalRequirementIds, resolveConditionalPackageRequirements } from '@/lib/packageConditionalRequirements';
 import { getExportDeploymentPolicy } from '@/config/classification';
 import type { ExportReview } from '@/lib/preparedExport';
 interface Props {
@@ -90,14 +90,16 @@ export function PackageRequirementsPanel({ record, revision, disabled, busy, run
     {!loading && !unavailable && !draft?.items.length && <p className="text-sm">No evidence requirements are declared for this revision.</p>}
     <fieldset disabled={locked} className="min-w-0 space-y-3">
       <legend className="sr-only">Evidence assignments and user declarations</legend>
-      {shown.map(item => {
+      {shown.map((item, index) => {
         const person = revision.information?.participants.find(person => person.id === item.participantId);
         const intakePerson = Object.values(revision.templateState?.answers.groups ?? {}).flat().find(person => person.id === item.participantId);
+        const personContext = item.participantId ? `${person?.label ?? intakePerson?.label ?? 'Unavailable person'} · ${person?.role ?? (intakePerson ? 'Intake person' : 'Unknown role')}` : 'Package-wide';
+        const controlLabel = `${item.label} · ${personContext} · Requirement ${page * 25 + index + 1}`;
         const finding = inspection?.items.find(finding => finding.id === item.id);
         return <article key={item.id} className="min-w-0 space-y-2 rounded border p-3">
           <h4 className="break-words text-sm font-medium">{item.label}</h4>
-          <p className="text-xs text-muted-foreground">{item.participantId ? `${person?.label ?? intakePerson?.label ?? 'Unavailable person'} · ${person?.role ?? (intakePerson ? 'Intake person' : 'Unknown role')}` : 'Package-wide'} · Required for {item.operations.map(value => operationLabels[value]).join(', ')} · {item.condition === 'active' ? 'Active' : item.condition === 'inactive' ? 'Inactive for saved answers' : 'Condition unresolved'}</p>
-          {item.kind === 'document' ? <label className="block text-sm">Captured evidence<select aria-label={`Evidence for ${item.id}`} className={inputClass} value={item.memberId ?? ''} onChange={event => {
+          <p className="text-xs text-muted-foreground">{personContext} · Required for {item.operations.map(value => operationLabels[value]).join(', ')} · {item.condition === 'active' ? 'Active' : item.condition === 'inactive' ? 'Inactive for saved answers' : 'Condition unresolved'}</p>
+          {item.kind === 'document' ? <label className="block text-sm">Captured evidence<select aria-label={`Evidence for ${controlLabel}`} className={inputClass} value={item.memberId ?? ''} onChange={event => {
             if (!draft) return;
             const next = { ...item }; if (event.target.value) next.memberId = event.target.value; else delete next.memberId;
             edit({ ...draft, items: draft.items.map(value => value.id === item.id ? next : value) });
@@ -105,7 +107,7 @@ export function PackageRequirementsPanel({ record, revision, disabled, busy, run
             <option value="">Missing evidence · leave slot unassigned</option>
             {item.memberId && !revision.members.some(member => member.id === item.memberId) && <option value={item.memberId}>Unavailable captured document</option>}
             {revision.members.map((member, index) => <option key={member.id} value={member.id}>{index + 1}. {member.label} · {member.kind === 'native' ? 'Editable document' : 'Original PDF'}</option>)}
-          </select></label> : <label className="flex items-start gap-2 text-sm"><input type="checkbox" aria-label={`User declaration for ${item.id}`} checked={item.confirmed === true} onChange={event => {
+          </select></label> : <label className="flex items-start gap-2 text-sm"><input type="checkbox" aria-label={`User declaration for ${controlLabel}`} checked={item.confirmed === true} onChange={event => {
             if (draft) edit({ ...draft, items: draft.items.map(value => value.id === item.id ? { ...item, confirmed: event.target.checked } : value) });
           }} />I confirm: {item.label}. This is my declaration, not an approval.</label>}
           <p className="break-words text-xs">{finding ? `${finding.state}: ${finding.message}` : 'Not checked for the selected operation. Saving an assignment does not establish overall package readiness.'}</p>
@@ -122,7 +124,10 @@ export function PackageRequirementsPanel({ record, revision, disabled, busy, run
         <option value="review">Review</option><option value="pdf">PDF assembly</option><option value="portable">Editable transfer</option>
       </select></label>
       <Button variant="outline" disabled={busy || pending || loading || unavailable} onClick={() => void perform(async current => {
-        const value = await inspectPackageRequirements({ ...revision, requirements: draft }, operation, { signal: signal() });
+        const captured = { ...revision, requirements: draft };
+        const legacy = await captureLegacyConditionalRequirementIds(revision, draft);
+        if (legacy) captured.templateState = legacy.state;
+        const value = await inspectPackageRequirements(captured, operation, { signal: signal() });
         if (current()) setInspection(value);
       })}>Check evidence requirements</Button>
     </div>

@@ -139,7 +139,7 @@ it("checks retained raw draft text before editable package download while allowi
   await within(dialog).findByRole("option", { name: record.name });
   await user.selectOptions(within(dialog).getByLabelText("Saved packages", { exact: true }), record.id);
   await user.click(within(dialog).getByRole("button", { name: "Export editable package" }));
-  await within(dialog).findByRole("heading", { name: "Package readiness: incomplete" });
+  await within(dialog).findByRole("heading", { name: "Editable transfer checks: incomplete" });
   await user.click(within(dialog).getByRole("checkbox", { name: /I reviewed every included member/ }));
   expect(within(dialog).getByRole("button", { name: "Download reviewed editable package" })).toBeDisabled();
   await user.click(within(dialog).getByRole("button", { name: "Check readiness and assemble" }));
