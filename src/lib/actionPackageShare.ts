@@ -1,3 +1,4 @@
+import { reviewPackageSigning } from './packageSigning';
 import { z } from "zod";
 import { getExportDeploymentPolicy, getExportDeploymentPolicySync } from "@/config/classification";
 import { buildPortableActionPackage, importPortableActionPackage, parsePortableActionPackage } from "./actionPackageTransfer";
@@ -83,6 +84,7 @@ async function prepare(json: string, policy: PolicyResolution, expiresAt?: numbe
     { member: "Package name", review: reviewPackageText(record.name, "Package name", policy) },
   ];
   if (revision.bindings) reviews.push({ member: "Package field links", review: reviewPackageBindings(revision.bindings, policy) });
+  if (revision.signing) for (const review of await reviewPackageSigning(revision.signing, policy)) reviews.push({ member: 'Package signing history', review });
   if (revision.work) reviews.push({ member: "Package work", review: reviewPackageWork(revision.work, policy) });
   if (revision.requirements) reviews.push({ member: "Package requirements", review: reviewPackageRequirements(revision.requirements, policy) });
   if (revision.consistency) reviews.push({ member: 'Package relationships', review: reviewPackageConsistency(revision.consistency, policy) });

@@ -1,3 +1,4 @@
+import { reviewPackageSigning } from './packageSigning';
 import { inspectPackageRequirements } from "./packageRequirements";
 import { inspectPackageConsistency } from './packageConsistency';
 import { packageBindingReadiness } from "./packageFieldBindings";
@@ -183,6 +184,10 @@ export async function preparePackageAssembly(
   if (revision.bindings) {
     try { reviews.push({ member: "Package field links", review: reviewPackageBindings(revision.bindings, policy) }); }
     catch (cause) { error(cause instanceof Error ? cause.message : "Package field links could not be reviewed."); }
+  }
+  if (revision.signing) {
+    try { for (const review of await reviewPackageSigning(revision.signing, policy)) reviews.push({ member: 'Package signing history', review }); }
+    catch (cause) { error(cause instanceof Error ? cause.message : 'Package signing history could not be reviewed.'); }
   }
   if (revision.work) {
     try { reviews.push({ member: "Package work", review: reviewPackageWork(revision.work, policy) }); }

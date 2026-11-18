@@ -1,3 +1,4 @@
+import { reviewPackageSigningMetadata } from './actionPackageDisclosure';
 import { materializePackageRequirements } from './packageRequirementsModel';
 import { actionPackageSchema, commitActionPackage, getPackageRevision, listActionPackages, newPackageId, packageMemberLabel,
   type ActionPackage, type NativePackageMember, type PackageAsset, type PackageMember, type PackageRevision } from './actionPackages';
@@ -216,6 +217,7 @@ export async function saveConditionalPackageDraft(input: Pick<ConditionalPackage
   reviewPackageRequirements(requirements, policy);
   if (current?.consistency) reviewPackageConsistency(current.consistency, policy);
   if (current?.work) reviewPackageWork(current.work, policy);
+  if (current?.signing) reviewPackageSigningMetadata(current.signing, policy);
   await reviewConditionalTemplate(template, policy); reviewPackageText(conditionalStateText(state), 'Saved intake draft', policy); reviewPackageText(name, 'Package name', policy);
   const revision: PackageRevision = { ...(current ? own(current) : { members: [], outputs: [] }), id: newPackageId('revision'),
     ...(current ? { parentId: current.id } : {}), createdAt: Date.now(), outputs: [], templateState: state, requirements };
@@ -358,7 +360,8 @@ export async function prepareConditionalPackage(input: ConditionalPackageInput, 
   const state = stateFor(template, source, answers, current?.templateState), changes: ConditionalPackageChange[] = [], earlyFields: PackageUpdatePreview[] = [];
   const reviews = [reviewPackageText(name, 'Package name', policy), reviewPackageText(conditionalStateText(state), 'Action intake and retained answers', policy),
     ...await reviewConditionalTemplate(template, policy), ...(current?.consistency ? [reviewPackageConsistency(current.consistency, policy)] : []),
-    ...(current?.work ? [reviewPackageWork(current.work, policy)] : [])];
+    ...(current?.work ? [reviewPackageWork(current.work, policy)] : []),
+    ...(current?.signing ? [reviewPackageSigningMetadata(current.signing, policy)] : [])];
   const desired = listConditionalPackageInstances(template, answers);
   const selectedChoices = own(input.memberChoices ?? {}), knownKeys = new Set([...state.instances.map(item => item.key), ...desired.map(item => item.key)]);
   for (const [key, choice] of Object.entries(selectedChoices)) if (!knownKeys.has(key) || !['keep', 'remove', 'restore'].includes(choice)) throw new Error('A document decision does not belong to this action.');
@@ -617,6 +620,7 @@ export async function undoConditionalPackage(receipt: ConditionalPackageUndo, po
   if (original.requirements) reviewPackageRequirements(original.requirements, policy);
   if (original.consistency) reviewPackageConsistency(original.consistency, policy);
   if (original.work) reviewPackageWork(original.work, policy);
+  if (original.signing) reviewPackageSigningMetadata(original.signing, policy);
   await reviewRestoredPackageSources(original, policy, signal);
   const revision = { ...own(original), id: newPackageId('revision'), parentId: captured.after.currentRevisionId, createdAt: Date.now(), outputs: [] };
   const record = await guardedCommit(captured.after, buildRecord(captured.after, captured.before.name, revision), [], policy, signal, isCurrent);
