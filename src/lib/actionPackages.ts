@@ -315,7 +315,7 @@ export const actionPackageSchema = z
       memberRevisions = new Map<string, string>(),
       citationOwners = new Map<string, string>(),
       informationFacts = new Map<string, string>(),
-      informationParticipants = new Map<string, string>(), requirementIdentities = new Map<string, string>(), consistencyIdentities = new Map<string, string>(), signingIdentities = new Map<string, string>();
+      informationParticipants = new Map<string, string>(), requirementIdentities = new Map<string, string>(), consistencyIdentities = new Map<string, string>(), signingIdentities = new Map<string, string>(), signingReturnIdentities = new Map<string, string>();
     for (const [index, revision] of record.revisions.entries()) {
       for (const handoff of revision.signing?.handoffs ?? []) {
         const source = record.revisions.find(item => item.id === handoff.sourceRevisionId);
@@ -326,7 +326,19 @@ export const actionPackageSchema = z
           const asset = target.kind === 'output' ? source.outputs.find(item => item.id === target.id)?.asset : member?.kind === 'original' && !member.signedOriginal ? member.original : undefined;
           if (!sameReviewStoredValue(asset, handoff.pdfs.source)) ctx.addIssue({ code: 'custom', message: 'The exact signing source does not match its captured revision.' });
         }
-        const identity = JSON.stringify(handoff), previous = signingIdentities.get(handoff.id);
+        for (const returned of handoff.returns ?? []) {
+          const prior = signingReturnIdentities.get(returned.id), value = JSON.stringify(returned);
+          if (prior !== undefined && prior !== value) ctx.addIssue({ code: 'custom', message: 'An exact signing return changed under its saved identity.' });
+          signingReturnIdentities.set(returned.id, value);
+          const applied = record.revisions.find(item => item.id === returned.appliedRevisionId);
+          if (record.historyScope !== 'selected-revision' && !applied) ctx.addIssue({ code: 'custom', message: 'The signing return application revision is unavailable.' });
+          if (applied) {
+            const member = applied.members.find(item => item.id === returned.memberId);
+            if (member?.kind !== 'original' || !member.signedOriginal || !sameReviewStoredValue(member.original, returned.returnedAsset))
+              ctx.addIssue({ code: 'custom', message: 'The preserved returned PDF does not match its application revision.' });
+          }
+        }
+        const identity = JSON.stringify({ ...handoff, returns: undefined }), previous = signingIdentities.get(handoff.id);
         if (previous !== undefined && previous !== identity) ctx.addIssue({ code: 'custom', message: 'An exact signing handoff changed under its saved identity.' });
         signingIdentities.set(handoff.id, identity);
       }

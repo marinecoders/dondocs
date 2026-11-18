@@ -2,6 +2,7 @@ import 'fake-indexeddb/auto';
 import { afterEach, beforeEach, expect, it, vi } from 'vitest';
 import { PDFDocument } from 'pdf-lib';
 import JSZip from 'jszip';
+import * as impactModel from '@/lib/packageChangeImpactModel';
 import { createActionPackage, getPackageRevision, reviseActionPackage, renameActionPackage, listActionPackages, duplicateActionPackage,
   actionPackageSchema, type ActionPackage } from '@/lib/actionPackages';
 import { captureOriginalPackageMember, readPackageAsset } from '@/lib/actionPackageAssets';
@@ -187,4 +188,13 @@ it('validates an exact signing source target and output provenance in retained c
   const outputEntry = getPackageRevision(captured).signing!.handoffs.at(-1)!, altered = structuredClone(assembly.revisions);
   altered.find(revision => revision.id === outputEntry.sourceRevisionId)!.outputs[0].provenance = undefined;
   await expect(validatePackageSigningResources({ version: 1, handoffs: [outputEntry] }, undefined, altered)).rejects.toThrow('Retain a new PDF');
+});
+
+it('preserves earlier signing context hashes when assembly inputs gain an optional profile wrapper', async () => {
+  const { record } = await fixture(), revision = getPackageRevision(record), original = impactModel.packageAssemblyInputs;
+  const previous = await packageSigningContextFingerprint(revision);
+  const spy = vi.spyOn(impactModel, 'packageAssemblyInputs').mockImplementation(value => ({ members: original(value), assembly: undefined }) as unknown as ReturnType<typeof original>);
+  expect(await packageSigningContextFingerprint(revision)).toBe(previous);
+  spy.mockImplementation(value => ({ members: original(value), assembly: { version: 1, profile: 'mixed', cover: true } }) as unknown as ReturnType<typeof original>);
+  expect(await packageSigningContextFingerprint(revision)).not.toBe(previous);
 });

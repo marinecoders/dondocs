@@ -106,3 +106,45 @@ it('invalidates a reviewed signing preparation when its view becomes read-only w
   expect(screen.queryByLabelText('Exact package signing source PDF')).toBeNull();
   expect(screen.queryByRole('button', { name: 'Open signing workspace for this PDF' })).toBeNull();
 });
+
+it('reviews and adopts a real associated return, then binds readonly download to its exact preview', async () => {
+  const initial = await fixture(), target = signing.packageSigningTargets(getPackageRevision(initial))[0].target;
+  let local = await signing.openPackageSigningSource(await signing.preparePackageSigningSource(initial, initial.currentRevisionId, target, policy), policy, true);
+  local = await createSigningHandoff(await updateSigningFields(local, [{ id: crypto.randomUUID(), signer: 'Alex Example', page: 0, x: 0.2, y: 0.7, width: 0.4, height: 0.08 }]));
+  const saved = await signing.capturePackageSigningHandoff(await signing.preparePackageSigningHandoff(initial, initial.currentRevisionId, target, local, local.handoffs![0].id, policy), policy, true);
+  const workspace = await import('@/lib/signingWorkspace'), encoding = await import('@/lib/encoding');
+  local = await workspace.associateSigningReturn(local, await workspace.prepareSigningReturn(local, local.handoffs![0].id, encoding.base64ToUint8Array(local.handoffs![0].pdf.data), 'Synthetic package return.pdf'), { reviewed: true, acceptedMismatch: true });
+  const applied = vi.fn(), dirty = vi.fn();
+  function Harness() { const [record, setRecord] = useState(saved); return <PackageSigningPanel {...props(record)} onDirtyChange={dirty} onApply={next => { applied(next); setRecord(next); }} />; }
+  const user = userEvent.setup(), view = render(<Harness />);
+  await user.click(screen.getByText('Captured signing handoff 1', { selector: 'summary' }));
+  await user.click(screen.getByRole('button', { name: 'Review retained handoff 1' }));
+  await screen.findByLabelText('Exact retained package handoff PDF');
+  await user.click(screen.getByRole('button', { name: 'Refresh associated signing returns' }));
+  await screen.findByRole('option', { name: /^Return 1: Synthetic package return/ });
+  await user.selectOptions(screen.getByLabelText('Associated package signing return'), local.returns![0].id);
+  await user.click(screen.getByRole('button', { name: 'Review adding return to package' }));
+  await screen.findByLabelText('Returned package PDF to preserve'); expect(dirty).toHaveBeenLastCalledWith(true);
+  const add = screen.getByRole('button', { name: 'Add reviewed return in new package revision' }); expect(add).toBeDisabled();
+  await user.click(screen.getByRole('checkbox', { name: /^I reviewed the exact returned PDF/ })); expect(add).toBeDisabled();
+  await user.click(screen.getByRole('checkbox', { name: /^I acknowledge the unchanged, differing/ })); await user.click(add);
+  await waitFor(() => expect(applied).toHaveBeenCalledTimes(1)); const adopted = applied.mock.calls[0][0] as ActionPackage;
+  expect(getPackageRevision(adopted).members.slice(0, -1)).toEqual(getPackageRevision(saved).members);
+  view.rerender(<PackageSigningPanel {...props(adopted)} disabled />);
+  await user.click(screen.getByText('Captured signing handoff 1', { selector: 'summary' }));
+  await user.click(screen.getByRole('button', { name: 'Review retained handoff 1' }));
+  await screen.findByLabelText('Exact retained package handoff PDF');
+  const receipt = getPackageRevision(adopted).signing!.handoffs[0].returns![0];
+  await user.selectOptions(screen.getByLabelText('Captured package signing return'), receipt.id);
+  const download = screen.getByRole('button', { name: 'Download unchanged captured return' });
+  await user.click(screen.getByRole('checkbox', { name: /^I reviewed every retained source and handoff page/ }));
+  expect(download).toBeDisabled();
+  await user.click(screen.getByRole('button', { name: 'Preview captured signing return' }));
+  await screen.findByLabelText('Exact retained package return PDF'); expect(download).toBeDisabled();
+  await user.click(screen.getByRole('checkbox', { name: /^I reviewed this exact retained returned PDF/ }));
+  const delivery = await import('@/utils/signingPdfDownload'), deliver = vi.fn(async (_bytes: Uint8Array, _filename: string, _current?: () => boolean) => true), release = vi.fn();
+  vi.spyOn(delivery, 'reserveSigningPdfDownload').mockReturnValue({ deliver, release });
+  await user.click(download); await waitFor(() => expect(deliver).toHaveBeenCalledTimes(1));
+  expect(deliver.mock.calls[0][0]).toEqual(encoding.base64ToUint8Array(local.returns![0].pdf.data));
+  await waitFor(() => expect(release).toHaveBeenCalled());
+});

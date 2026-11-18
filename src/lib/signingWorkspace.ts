@@ -204,3 +204,28 @@ export async function associateSigningReturn(input: SigningRecord, candidate: Si
   if (!await idbCompareSigningRecord(owned.before, after, isCurrent)) throw new Error('The return was not saved. Reopen the signing record and review the file again.');
   returnCandidates.delete(candidate);return structuredClone(after);
 }
+
+/** Restore captured handoffs and returns additively while preserving newer local field placement. */
+export async function mergeSigningRecordSnapshot(beforeInput: SigningRecord, snapshotInput: SigningRecord,
+  isCurrent: () => boolean = () => true): Promise<SigningRecord> {
+  const before = await validateSigningRecord(structuredClone(beforeInput)), snapshot = await validateSigningRecord(structuredClone(snapshotInput));
+  if (before.id !== snapshot.id || JSON.stringify(before.source) !== JSON.stringify(snapshot.source)
+    || JSON.stringify(before.sourceRevision) !== JSON.stringify(snapshot.sourceRevision))
+    throw new Error('The captured signing record has a different exact source or identity. Preserve both records.');
+  const handoffs = [...before.handoffs ?? []], returns = [...before.returns ?? []];
+  for (const handoff of snapshot.handoffs ?? []) {
+    const retained = handoffs.find(item => item.id === handoff.id);
+    if (retained && JSON.stringify(retained) !== JSON.stringify(handoff)) throw new Error('A captured signing handoff conflicts with its local identity.');
+    if (!retained) handoffs.push(handoff);
+  }
+  for (const returned of snapshot.returns ?? []) {
+    const retained = returns.find(item => item.id === returned.id);
+    if (retained && JSON.stringify(retained) !== JSON.stringify(returned)) throw new Error('A captured signing return conflicts with its local identity.');
+    if (!retained && !returns.some(item => item.handoffId === returned.handoffId && item.pdf.sha256 === returned.pdf.sha256)) returns.push(returned);
+  }
+  if (!isCurrent()) throw new Error('This signing restore is no longer current.');
+  if (handoffs.length === (before.handoffs?.length ?? 0) && returns.length === (before.returns?.length ?? 0)) return before;
+  const after = await validateSigningRecord({ ...before, revision: crypto.randomUUID(), updatedAt: Date.now(), handoffs, returns });
+  if (!await idbCompareSigningRecord(before, after, isCurrent)) throw new Error('The local signing history changed. Reopen it before restoring captured files.');
+  return structuredClone(after);
+}
