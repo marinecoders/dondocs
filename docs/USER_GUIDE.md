@@ -655,3 +655,5 @@ Missing original targets, changed parents and unsupported formatting cannot be s
 ### Start an action with contextual intake
 
 In **Packages**, choose an administrative request, training participation or evidence submission. These general-purpose starters use DonDocs worksheets. Save partial answers for later, or preview and apply the exact document changes. Repeated people have independent identities; conditional content and evidence requirements follow the reviewed answers. See [action intake](CONDITIONAL_PACKAGE_INTAKE.md) for the full workflow, including local edits, saved templates and editable transfer.
+
+See [maintaining package templates](PACKAGE_TEMPLATE_MAINTENANCE.md) for maintainer editing and scenario validation.

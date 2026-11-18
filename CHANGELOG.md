@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.165] — 2026-11-17
+
+### Added
+
+- Maintainer editing of versioned package questions and field mappings, with real intake scenarios, branch validation and reviewed saves as separate templates.
+
 ## [1.3.164] — 2026-11-17
 
 ### Added

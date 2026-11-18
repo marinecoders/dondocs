@@ -1,0 +1,11 @@
+# Maintaining package templates
+
+Open **Maintain package templates** and choose a maintained or saved versioned starter. **Edit a separate template revision** loads its existing questions, native documents and field targets. Change the template name and revision label, edit question labels and types, and use **Document field mappings** to connect questions to supported empty native fields.
+
+**Conditions, groups and document declarations** exposes the existing typed JSON declarations for conditional questions and membership, repeated people, choice options and operation requirements. Declarations contain no executable expressions. Keep identities stable when preparing a controlled upgrade. Invalid targets, incompatible answers, prior signatures and populated linked fields fail the existing template qualification checks.
+
+Add synthetic intake scenarios and independently choose their expected document instances. The expectation is compared with the evaluated conditions; it is not copied from the actual result. Supply a fresh synthetic PDF when a scenario activates an evidence slot. **Validate template scenarios** runs the same preparation used by normal intake, without saving an action or sample file. A saved maintained template needs complete scenarios, matching expected membership, every question exercised, and both outcomes of each conditional declaration. Up to twelve scenarios and 64 MB of sample files can be checked together.
+
+Review the retained starter text, figures, declarations, mappings and privacy findings before **Save reviewed template revision**. Saving creates a separate library entry; existing packages retain their exact captured template. Sample answers and files are excluded from the library entry. Policy changes, cancellation or a superseded editor require another review. Switching to read-only cancels pending writes and invalidates the scenario review; local declarations remain available to discard. End users continue to select the finished action through the normal intake workflow.
+
+**Inspect retained starter text and assets** opens exact background PDFs and figures before scenario approval. Preview URLs belong to the selected template and close when it changes.
