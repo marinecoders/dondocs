@@ -1,3 +1,4 @@
+import { validatePackageFormFeedback } from './packageFormReview';
 import { actionPackageSchema, commitActionPackage, packageMemberReviewSchema, type ActionPackage, type PackageMemberReview, type PackageReviewBinding, type PackageReviewRound } from './actionPackages';
 import { assertActivePackageReview, assertPackageReviewBinding, getPackageReviewBinding, openPackageReview } from './packageReviewRounds';
 import { reviewPayloadDigest, type ReviewRound } from './reviewRounds';
@@ -27,6 +28,7 @@ export async function createPackageMemberReview(round: PackageReviewRound, membe
 export async function validatePackageMemberReviews(round: PackageReviewRound): Promise<void> {
   for (const child of round.memberReviews ?? []) {
     assertPackageReviewBinding(round, child.binding);
+    await validatePackageFormFeedback(round, child);
     const expected = await createPackageMemberReview(round, child.binding.memberId);
     if (!sameReviewStoredValue(expected.nativeRound, child.nativeRound)) throw new Error('The native child review does not match its exact captured package member.');
     if (child.nativeRound) {

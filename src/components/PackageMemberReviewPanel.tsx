@@ -1,3 +1,4 @@
+import { PackageFormReviewPanel } from './PackageFormReviewPanel';
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Button } from './ui/button';
 import { Input } from './ui/input';
@@ -61,20 +62,22 @@ export function PackageMemberReviewPanel({ record, round, busy, onChange, run, o
     </nav>
     {member && <>
       <h4 className="font-medium break-words">{member.label}</h4>
-      {member.kind === 'native' ? <div role="region" aria-label="Captured member text" tabIndex={0} className="max-h-72 overflow-auto space-y-2 whitespace-pre-wrap break-words rounded border p-3 text-sm">
+      {member.kind === 'native' && member.session.documentCategory !== 'forms' ? <div role="region" aria-label="Captured member text" tabIndex={0} className="max-h-72 overflow-auto space-y-2 whitespace-pre-wrap break-words rounded border p-3 text-sm">
         {availableCommentFields(member.session).map(field => <p key={field.field}><strong>{field.label}: </strong>{field.value}</p>)}
         {member.session.paragraphs.map((paragraph, index) => <p key={paragraph.id ?? index}>{paragraph.text}</p>)}
-      </div> : <p className="text-sm">Preserved original PDF · {member.signedOriginal ? 'signed original' : 'original'}. Use Download unchanged original below to inspect its exact pages. Comments do not alter PDF bytes or signatures.</p>}
-      {member.kind === 'native' && !child?.nativeRound && <p className="text-xs text-muted-foreground">This captured format supports whole-member comments. Native correspondence supports field and paragraph replacement proposals.</p>}
+      </div> : member.kind === 'original' ? <p className="text-sm">Preserved original PDF · {member.signedOriginal ? 'signed original' : 'original'}. Use Download unchanged original below to inspect its exact pages. Comments do not alter PDF bytes or signatures.</p> : null}
+      {member.kind === 'native' && member.session.documentCategory !== 'forms' && !child?.nativeRound && <p className="text-xs text-muted-foreground">This captured format supports whole-member comments. Native correspondence supports field and paragraph replacement proposals.</p>}
       {child && <>
         <div className="flex gap-2">
           <Button variant="outline" disabled={disabled || typedDirty || !history.length} onClick={() => void run(async () => {
-            const previous = history.at(-1)!; await publish({ ...child, comments: previous.comments }, false); setHistory(items => items.slice(0, -1)); setFuture(items => [...items, structuredClone(child)]);
+            const previous = history.at(-1)!; await publish({ ...child, comments: previous.comments, fieldReview: previous.fieldReview }, false); setHistory(items => items.slice(0, -1)); setFuture(items => [...items, structuredClone(child)]);
           })}>Undo member comment</Button>
           <Button variant="outline" disabled={disabled || typedDirty || !future.length} onClick={() => void run(async () => {
-            const next = future.at(-1)!; await publish({ ...child, comments: next.comments }, false); setFuture(items => items.slice(0, -1)); setHistory(items => [...items, structuredClone(child)]);
+            const next = future.at(-1)!; await publish({ ...child, comments: next.comments, fieldReview: next.fieldReview }, false); setFuture(items => items.slice(0, -1)); setHistory(items => [...items, structuredClone(child)]);
           })}>Redo member comment</Button>
         </div>
+        {member.kind === 'native' && member.session.documentCategory === 'forms' && <PackageFormReviewPanel key={`form:${selected}`} member={member} child={child} busy={disabled} onDraftChange={setTypedDirty}
+          onSave={async value => { let saved = false; await run(async () => { await publish({ ...child, fieldReview: value }); saved = true; }); return saved; }} />}
         <PackageMemberComments key={`comments:${selected}`} child={child} busy={disabled || typedDirty} onSave={async mutation => {
           let saved = false; await run(async () => {
           const comments = mutateReviewComments(child.comments, mutation, value => child.nativeRound && member.kind === 'native'

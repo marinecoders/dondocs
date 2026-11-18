@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.149] — 2026-11-17
+
+### Added
+
+- Exact captured-form comments anchored to supported fields and stable row identities, with reviewed context and portable feedback.
+
 ## [1.3.148] — 2026-11-17
 
 ### Added
