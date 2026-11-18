@@ -128,6 +128,7 @@ test('delivery ZIP recovers its exact selected original in a fresh browser conte
     expect(restoredBytes).toEqual(includedBytes);
     expect(await recovered.evaluate(element => element.scrollWidth <= element.clientWidth + 1)).toBe(true);
     await info.attach('delivery-recovered-original.pdf', { body: restoredBytes, contentType: 'application/pdf' });
+    await recovered.getByLabel('Package name', { exact: true }).scrollIntoViewIfNeeded();
     await freshPage.screenshot({ path: info.outputPath('delivery-fresh-browser-320px.png') });
   } finally { await fresh.close(); }
 });
