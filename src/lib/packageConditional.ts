@@ -7,7 +7,7 @@ import { evaluatePackageTemplateCondition, evaluatePackageTemplateProgram, packa
 import { packageConditionalStateSchema, packageTemplateFactKey, packageTemplateInstanceKey, conditionalStateText, type PackageConditionalState } from './packageConditionalState';
 import { readConditionalPackageTemplate, reviewConditionalTemplate, reviewConditionalPackage } from './packageConditionalSources';
 import { packageInformationSchema, type PackageFact, type PackageInformation } from './packageInformation';
-import { formatPackageFactForField, type PackageFieldBinding } from './packageFieldBindings';
+import { formatPackageFactForField, resolvePackageFieldBinding, type PackageFieldBinding } from './packageFieldBindings';
 import { listPackageBindingFields, packageBindingTargetKey, patchPackageBindingDraftFields, type PackageBindingTarget } from './packageBindingTargets';
 import { captureLinkedPackageChanges } from './packageLinkedUpdates';
 import type { PackageUpdateChoices, PackageUpdatePreview } from './packageUpdates';
@@ -379,6 +379,7 @@ export async function prepareConditionalPackage(input: ConditionalPackageInput, 
     for (const binding of bound) if (binding.mode !== 'override' && !['keep-local', 'detach'].includes(input.fieldChoices?.[binding.id] ?? '')) {
       issues.push(`${question.label}: preserve the document value locally or detach its link before clearing this answer.`);
       earlyFields.push({ bindingId: binding.id, memberId: binding.memberId, label: question.label, state: 'conflict', before: binding.expectedValue,
+        choices: ['keep-local', 'detach'],
         message: 'Clearing this intake answer requires an explicit decision about the existing document value.' });
     }
     state.facts = state.facts.filter(fact => fact !== mapping);
@@ -514,8 +515,11 @@ export async function prepareConditionalPackage(input: ConditionalPackageInput, 
     const result = evaluation.questions.find(question => question.questionId === mapping.questionId && question.scope?.participantId === mapping.participantId);
     if (result?.visibility === true || binding.mode === 'override') continue;
     if (!['keep-local', 'detach'].includes(input.fieldChoices?.[binding.id] ?? '')) {
-      issues.push(`${instance.label}: decide whether to preserve or detach the field whose question is now inactive.`);
-      inactiveFields.push({ bindingId: binding.id, memberId: binding.memberId, label: instance.label, state: 'conflict', before: binding.expectedValue, message: 'The controlling question became inactive; existing document content is preserved until an explicit decision.' });
+      const field = await resolvePackageFieldBinding(current, binding);
+      issues.push(`${field.label}: decide whether to preserve or detach the field whose question is now inactive.`);
+      inactiveFields.push({ bindingId: binding.id, memberId: binding.memberId, label: field.label, state: 'conflict',
+        ...(field.field ? { before: field.field.value } : {}), choices: ['keep-local', 'detach'],
+        message: 'The controlling question became inactive; existing document content is preserved until an explicit decision.' });
     }
   }
   state.pending = false; state.appliedAnswers = own(answers);
@@ -547,7 +551,8 @@ export async function prepareConditionalPackage(input: ConditionalPackageInput, 
     if (change.state === 'keep' && oldIndex >= 0 && newIndex >= 0 && oldIndex !== newIndex)
       change.message = `Move from document ${oldIndex + 1} to ${newIndex + 1}; preserve captured content and local edits.`;
   }
-  for (const change of [...planned.changes, ...inactiveFields]) {
+  const fieldChanges = [...new Map([...planned.changes, ...inactiveFields].map(change => [change.bindingId, change])).values()];
+  for (const change of fieldChanges) {
     const instance = state.instances.find(instance => instance.memberId === change.memberId);
     const person = participantContext(template, answers, instance?.participantId, current?.templateState?.appliedAnswers);
     if (person) change.label = `${person} · ${change.label}`;
@@ -555,7 +560,7 @@ export async function prepareConditionalPackage(input: ConditionalPackageInput, 
   const changed = !current || !sameReviewStoredValue({ ...current, id: undefined, parentId: undefined, createdAt: undefined, outputs: [] },
     { ...planned.revision, id: undefined, parentId: undefined, createdAt: undefined, outputs: [] }) || name !== before?.name;
   const prepared = freeze({ packageName: name, ready: !issues.length, changed, changes: own(changes), answerChanges: own(reconciled.changes),
-    fieldChanges: [...own(planned.changes), ...inactiveFields], issues: [...issues], reviews: [...own(reviews), ...own(planned.reviews)] });
+    fieldChanges: own(fieldChanges), issues: [...issues], reviews: [...own(reviews), ...own(planned.reviews)] });
   plans.set(prepared, { before, after, attachments: [...attachments, ...planned.attachments].filter(asset =>
     after.revisions.some(revision => revision.members.some(member => member.kind === 'native' && (member.draft.id === asset.id || Object.values(member.templates ?? {}).some(template => template.id === asset.id))
       || member.kind === 'original' && member.original.id === asset.id) || revision.templateState?.source.id === asset.id)), policy: policyKey });

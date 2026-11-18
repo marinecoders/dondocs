@@ -25,6 +25,7 @@ export interface PackageUpdatePreview {
   state: 'update' | 'unchanged' | 'override' | 'conflict' | 'unavailable' | 'detach';
   before?: PackageBindingValue;
   after?: string | boolean;
+  choices?: readonly PackageUpdateChoice[];
   message: string;
 }
 export interface PreparedPackageUpdate {

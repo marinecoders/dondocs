@@ -255,6 +255,21 @@ describe('PR8 independent adversarial regressions', () => {
     const applied = await applyPreparedConditionalPackage(plan, policy, true);
     expect(conditionalPackageAnswers(applied.record).values.subject).toBeUndefined();
   });
+  it('shows one inactive-field decision with its actual independently edited value', async () => {
+    const source = template(); source.program.questions[0].when = { op: 'equals', questionId: 'include', value: true };
+    let record = (await applyPreparedConditionalPackage(await prepareConditionalPackage({ template: source, answers: answers(true) }, policy), policy, true)).record;
+    const current = getPackageRevision(record), main = current.members[0]; if (main.kind !== 'native') throw new Error('Expected native');
+    const snapshot = { ...main.session, formData: { ...main.session.formData, subject: 'Independent correction' }, endItems: [], publicationTables: {} };
+    const edited = await capturePackageMember(captureDocumentRevision({ documentId: 'edit', epoch: 0, editSequence: 1, capturedAt: 100 }, snapshot), main.label, main.role, main);
+    record = await reviseActionPackage(record, [edited, ...current.members.slice(1)]);
+    const input = conditionalPackageAnswers(record); input.values.include = false;
+    const plan = await prepareConditionalPackage({ template: source, answers: input, record }, policy);
+    const binding = getPackageRevision(record).bindings!.items.find(binding => binding.memberId === main.id)!;
+    const decisions = plan.fieldChanges.filter(change => change.bindingId === binding.id);
+    expect(plan.ready).toBe(false); expect(decisions).toHaveLength(1);
+    expect(decisions[0].before).toBe('Independent correction'); expect(decisions[0].label).toMatch(/Subject/);
+    expect(decisions[0].choices).toEqual(['keep-local', 'detach']);
+  });
   it('preserves independently corrected person labels when unchanged intake labels are reapplied', async () => {
     let record = await create(false, ['alex']);
     const before = getPackageRevision(record), input = structuredClone(before.templateState!.answers), information = structuredClone(before.information!);
