@@ -21,6 +21,8 @@ import { preparePackageUpdate, applyPreparedPackageUpdate } from '@/lib/packageU
 import { createPackageConsistencyException } from '@/lib/packageConsistency';
 import { maintainedPackageAction } from '@/lib/maintainedPackageActions';
 import { prepareConditionalPackage, applyPreparedConditionalPackage } from '@/lib/packageConditional';
+import { initializePackageCitationTargets, linkPackageCitation, packageCitationOccurrences, resolvePackageCitations } from '@/lib/packageCitations';
+import { inspectPackageConsistency } from '@/lib/packageConsistency';
 
 vi.mock('@/stores/backupStore', () => ({ scheduleBackup: vi.fn(), useBackupStore: { getState: () => ({}) } }));
 vi.mock('@/lib/pdfText', () => ({ extractPdfText: vi.fn(async () => '') }));
@@ -275,4 +277,50 @@ it('distinguishes recapture provenance and required settings from assembly input
   after.members.reverse();
   const contextOnly = await comparePackageChangeImpact(before, after);
   expect(section(contextOnly, 'output')[0].state).toBe('metadata-only');
+});
+
+it('reports unchanged citation declarations whose exact captured owners become stale or missing', async () => {
+  const session = createBlankSession(); session.formData.subject = 'Synthetic referenced action';
+  session.references = [{ letter: 'a', title: 'Synthetic training authority' }];
+  session.paragraphs = [{ id: 'citation-body', text: 'Use reference (a).', level: 0 }];
+  const captured = captureDocumentRevision({ documentId: 'synthetic-citation-source', epoch: 0, editSequence: 1, capturedAt: 100 },
+    { ...session, endItems: [], publicationTables: {} });
+  const member = await capturePackageMember(captured, 'Synthetic cited letter', 'basic-letter');
+  let record = await initializePackageCitationTargets(await reviseActionPackage(await createActionPackage('Synthetic citations'), [member]));
+  const identified = getPackageRevision(record), target = identified.citations!.targets[0];
+  record = await linkPackageCitation(record, (await packageCitationOccurrences(identified))[0].source, target.id);
+  const before = getPackageRevision(record), linked = before.citations!.links[0];
+  expect((await resolvePackageCitations(before)).links[0].state).toBe('current');
+  const changedSession = structuredClone(session); changedSession.formData.subject = 'New synthetic captured subject';
+  const updated = await capturePackageMember(captureDocumentRevision({ ...captured.source, editSequence: 2 },
+    { ...changedSession, endItems: [], publicationTables: {} }), member.label, member.role, member);
+  record = await reviseActionPackage(record, [updated]);
+  const after = getPackageRevision(record);
+  expect(after.citations).toEqual(before.citations);
+  expect((await resolvePackageCitations(after)).links[0].state).toBe('stale');
+  const report = await inspectPackageChangeImpact(record, before.id);
+  expect(section(report, 'citation').find(item => item.id === target.id)?.state).not.toBe('unchanged');
+  expect(section(report, 'citation').find(item => item.id === linked.id)).toMatchObject({
+    destinations: [{ revisionId: after.id, memberId: member.id, citationId: linked.id }],
+  });
+  expect(section(report, 'citation').find(item => item.id === linked.id)?.state).not.toBe('unchanged');
+  const missing = await reviseActionPackage(record, []);
+  expect((await resolvePackageCitations(getPackageRevision(missing))).links[0].state).toBe('missing');
+  expect(section(await inspectPackageChangeImpact(missing, after.id), 'citation').every(item => item.state !== 'unchanged')).toBe(true);
+});
+
+it('identifies the exact consistency rule when unchanged declarations lose a required operand', async () => {
+  const record = await fixture();
+  const before = getPackageRevision(record);
+  before.information = { version: 1, participants: [], facts: [
+    { id: 'start', label: 'Start', kind: 'date', value: '2026-11-17', source: { kind: 'entered' } },
+    { id: 'end', label: 'End', kind: 'date', value: '2026-11-20', source: { kind: 'entered' } },
+  ] };
+  before.consistency = { version: 1, rules: [{ id: 'dates', label: 'Chronology', relation: 'date-on-or-before', leftFactId: 'start', rightFactId: 'end', required: true }], exceptions: [] };
+  const after = proposed(before); after.information!.facts.pop();
+  expect((await inspectPackageConsistency(before)).findings[0].state).toBe('satisfied');
+  expect((await inspectPackageConsistency(after)).findings[0].state).toBe('unresolved');
+  const report = await comparePackageChangeImpact(before, after), item = section(report, 'consistency')[0];
+  expect(item).toMatchObject({ id: 'dates', state: 'changed' });
+  expect(item.message).toContain('satisfied to unresolved');
 });
