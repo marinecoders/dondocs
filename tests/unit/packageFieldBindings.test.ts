@@ -106,6 +106,34 @@ describe('qualified native field targets', () => {
     value.genericForm!.rows.roster.pop(); expect((await resolvePackageBindingTarget(value, row.target)).state).toBe('missing');
     value.genericForm!.rows.roster.push({ id: 'second', answers: {} }); expect((await fields(value)).some(field => field.target.kind === 'configured-form' && field.target.row)).toBe(false);
   });
+  it('distinguishes identical repeating answers by group and row while retaining exact target identities', async () => {
+    const value = configured(); value.genericForm!.rows.roster = [{ id: 'first', answers: { grade: 'e1' } }, { id: 'second', answers: { grade: 'e1' } }];
+    const available = await fields(value), rows = available.filter(field => field.target.kind === 'configured-form' && field.target.fieldId === 'grade');
+    expect(rows.map(field => field.label)).toEqual(['Roster · row 1 · Grade', 'Roster · row 2 · Grade']);
+    expect(available.find(field => field.label === 'Name')).toBeDefined();
+    const candidates = (await suggestPackageFieldValues([member(value)])).filter(candidate => candidate.target.kind === 'configured-form' && candidate.target.fieldId === 'grade');
+    expect(candidates.map(candidate => candidate.label)).toEqual(['Training letter: Roster · row 1 · Grade', 'Training letter: Roster · row 2 · Grade']);
+    expect(candidates.map(candidate => candidate.source.kind === 'document' ? candidate.source.field.split(' [')[0] : '')).toEqual(['Roster · row 1 · Grade', 'Roster · row 2 · Grade']);
+    value.genericForm!.rows.roster.reverse();
+    const resolved = await resolvePackageBindingTarget(value, rows[0].target);
+    expect(resolved).toMatchObject({ state: 'current', field: { target: rows[0].target, label: 'Roster · row 2 · Grade' } });
+    const changed = await patchPackageBindingTarget(value, rows[0].target, 'e1', 'e2');
+    expect(changed.genericForm!.rows.roster).toEqual([{ id: 'second', answers: { grade: 'e1' } }, { id: 'first', answers: { grade: 'e2' } }]);
+    const reordered = (await suggestPackageFieldValues([member(value)])).find(candidate => candidate.target.kind === 'configured-form' && candidate.target.row?.rowId === 'first' && candidate.target.fieldId === 'grade')!;
+    expect(reordered.target).toEqual(candidates[0].target);
+    if (reordered.source.kind !== 'document' || candidates[0].source.kind !== 'document') throw new Error('Expected captured document sources.');
+    expect(reordered.source.field.split(' [')[1]).toBe(candidates[0].source.field.split(' [')[1]);
+  });
+  it('bounds repeating field labels and keeps their row ordinal visible in sanitized source descriptions', async () => {
+    const value = configured(); value.genericForm!.rows.roster = [{ id: 'first', answers: { grade: 'e1' } }, { id: 'second', answers: { grade: 'e1' } }];
+    value.genericForm!.definition.rowGroups.roster.title = `\n${'G'.repeat(160)}\u0000`;
+    value.genericForm!.definition.rowGroups.roster.columns.grade.label = `\t${'Field'.repeat(80)}\n`;
+    const available = (await fields(value)).filter(field => field.target.kind === 'configured-form' && field.target.fieldId === 'grade');
+    expect(available.every(field => field.label.length <= 240 && !Array.from(field.label).some(character => character.charCodeAt(0) < 32))).toBe(true);
+    expect(available[0].label.slice(0, 80)).toContain('row 1'); expect(available[1].label.slice(0, 80)).toContain('row 2');
+    const candidates = (await suggestPackageFieldValues([member(value)])).filter(candidate => candidate.target.kind === 'configured-form' && candidate.target.fieldId === 'grade');
+    expect(candidates.every(candidate => candidate.source.kind === 'document' && candidate.source.field.length <= 160)).toBe(true);
+  });
   it('pins definition content even if a publisher reuses the revision labels', async () => {
     const value = configured(), selected = (await fields(value))[0];
     value.genericForm!.definition.fields.name.label = 'Changed name';

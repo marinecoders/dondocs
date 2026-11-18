@@ -76,6 +76,13 @@ function configuredField(target: Extract<PackageBindingTarget, { kind: 'configur
     ...(definition.options ? { options: definition.options.map(({ id, label }) => ({ id, label })) } : {}) };
 }
 
+function rowFieldLabel(group: string, row: number, label: string): string {
+  const clean = (value: string, fallback: string) => Array.from(value,
+    character => character.charCodeAt(0) < 32 || character.charCodeAt(0) === 127 ? ' ' : character).join('').trim() || fallback;
+  // Keep the row ordinal inside the first 80 characters retained in source descriptions.
+  return `${clean(group, 'Rows').slice(0, 60)} · row ${row + 1} · ${clean(label, 'Field')}`.slice(0, 240);
+}
+
 /** Lists the captured member's own answers without reading the active editor or library. */
 export async function listPackageBindingFields(member: PackageMember): Promise<PackageBindingField[]> {
   if (member.kind === 'original') return [];
@@ -103,10 +110,13 @@ async function listSessionFields(session: SerializedSession): Promise<PackageBin
       add(configuredField({ ...base, fieldId }, answer, session.genericForm.answers[fieldId]));
     for (const [groupId, group] of Object.entries(definition.rowGroups)) {
       const rows = session.genericForm.rows[groupId] ?? [];
-      for (const row of rows) {
+      for (const [rowIndex, row] of rows.entries()) {
         if (!identity.safeParse(row.id).success || rows.filter(value => value.id === row.id).length !== 1) continue;
-        for (const [fieldId, answer] of Object.entries(group.columns))
-          add(configuredField({ ...base, fieldId, row: { groupId, rowId: row.id } }, answer, row.answers[fieldId]));
+        for (const [fieldId, answer] of Object.entries(group.columns)) {
+          const value = configuredField({ ...base, fieldId, row: { groupId, rowId: row.id } }, answer, row.answers[fieldId]);
+          if (value) value.label = rowFieldLabel(group.title, rowIndex, answer.label);
+          add(value);
+        }
       }
     }
   } else if (session.formType === 'navmc_10274' && session.forms?.navmc10274) {
