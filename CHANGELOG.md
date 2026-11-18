@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.154] — 2026-11-17
+
+### Added
+
+- Reviewed adoption of exact associated signing returns as preserved supporting originals, with explicit mismatch decisions, portable receipts and newer-work preservation.
+
 ## [1.3.153] — 2026-11-17
 
 ### Added
