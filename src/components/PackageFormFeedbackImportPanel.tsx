@@ -4,6 +4,7 @@ import type { ActionPackage } from '@/lib/actionPackages';
 import { MAX_PACKAGE_FILE_BYTES } from '@/lib/actionPackageTransfer';
 import { preparePackageFormFeedbackImport, applyPreparedPackageFormFeedbackImport, type PreparedPackageFormFeedbackImport } from '@/lib/packageFormFeedbackImport';
 import { getExportDeploymentPolicy } from '@/config/classification';
+import { feedbackCategoryLabel } from '@/lib/reviewFeedback';
 const button = 'h-auto min-h-9 max-w-full whitespace-normal';
 export function PackageFormFeedbackImportPanel({ record, roundId, memberId, busy, run, signal, onApply }: {
   record: ActionPackage; roundId: string; memberId: string; busy: boolean;
@@ -39,7 +40,9 @@ export function PackageFormFeedbackImportPanel({ record, roundId, memberId, busy
       <p>{prepared.comments} field comments · {prepared.proposals} typed proposals</p>
       {prepared.conflicts.map(conflict => <div key={conflict.id} className="min-w-0 space-y-1 rounded border p-2">
         <p className="font-medium break-words">Discussion overlap: {conflict.label}</p>
+        <p className="break-words">Current: {feedbackCategoryLabel(conflict.current.category)} · {conflict.current.resolved ? 'Resolved' : 'Open'}</p>
         <p className="whitespace-pre-wrap break-words">Current: {conflict.current.messages.map(message => `${message.author}: ${message.text}`).join('\n')}</p>
+        <p className="break-words">Returned: {feedbackCategoryLabel(conflict.returned.category)} · {conflict.returned.resolved ? 'Resolved' : 'Open'}</p>
         <p className="whitespace-pre-wrap break-words">Returned: {conflict.returned.messages.map(message => `${message.author}: ${message.text}`).join('\n')}</p>
         <label className="block">Discussion version<select aria-label={`Returned form discussion ${conflict.id}`} className="mt-1 block w-full min-w-0 rounded border bg-background p-2" disabled={busy} value={choices[conflict.id] ?? ''} onChange={event => {
           generation.current++; setApproved(false); const value = event.target.value; const next = { ...choices }; if (value) next[conflict.id] = value as 'current' | 'returned'; else delete next[conflict.id]; setChoices(next);
