@@ -128,17 +128,22 @@ it.each([false, true])('points the backup tour at Settings navigation on mobile=
   expect(useTourStore.getState().active).toBe(false);
 });
 
-it('keeps Tools focused on editing, with Batch and Preview still directly available', async () => {
+it('keeps editing and review in Tools, with Batch and Preview still directly available', async () => {
   const refresh = vi.fn();
+  useUIStore.setState({ proofreadOpen: false });
   render(<TooltipProvider><Header onRefreshPreview={refresh} /></TooltipProvider>);
   expect(screen.getByRole('button', { name: 'Batch' })).toBeVisible();
   expect(screen.getByRole('button', { name: 'Preview' })).toBeVisible();
   await userEvent.click(screen.getByRole('button', { name: 'Document tools' }));
   expect(screen.getAllByRole('menuitem').map((item) => item.textContent)).toEqual([
-    'Formatting…', expect.stringContaining('Undo'), expect.stringContaining('Redo'), expect.stringContaining('Find and replace'), 'Refresh preview', 'Document type guide',
+    'Formatting…', expect.stringContaining('Undo'), expect.stringContaining('Redo'), expect.stringContaining('Find and replace'), 'Refresh preview', 'Proofread current draft', 'Document type guide',
   ]);
   await userEvent.click(screen.getByRole('menuitem', { name: 'Refresh preview' }));
   expect(refresh).toHaveBeenCalledOnce();
+  await userEvent.click(screen.getByRole('button', { name: 'Document tools' }));
+  await userEvent.click(screen.getByRole('menuitem', { name: 'Proofread current draft' }));
+  expect(useUIStore.getState().proofreadOpen).toBe(true);
+  act(() => useUIStore.getState().setProofreadOpen(false));
 });
 
 it.each(['Settings', 'Help'])('returns mobile %s focus to Open workspace after the launcher closes', async (label) => {
