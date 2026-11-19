@@ -96,7 +96,7 @@ for (const theme of ['light', 'dark', 'classic']) for (const width of [1440, 320
   await information.getByLabel('Value label 1', { exact: true }).fill('Newer coordination note');
   await information.getByLabel('Value 1', { exact: true }).fill('Preserve this newer package work');
   await information.getByRole('button', { name: /^(Review changes|Preview package changes)$/ }).click();
-  if (await information.getByRole('checkbox', { name: /^I reviewed the package values, linked field changes/ }).isVisible()) await information.getByRole('checkbox', { name: /^I reviewed the package values, linked field changes/ }).check();
+  await expect(information.getByRole('button', { name: 'Apply package changes', exact: true })).toBeVisible(); if (await information.getByRole('checkbox', { name: /^I reviewed the package values, linked field changes/ }).isVisible()) await information.getByRole('checkbox', { name: /^I reviewed the package values, linked field changes/ }).check();
   await information.getByRole('button', { name: 'Apply package changes', exact: true }).click();
   await expect(information.getByText('Package changes saved as a new revision.', { exact: true })).toBeVisible();
   await capturedHandoff(panel);

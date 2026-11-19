@@ -130,3 +130,19 @@ Validation: the broad package regression passed 108 files / 942 tests. The final
 follow-up passed 3 files / 44 tests, including preview cancellation, recovery and review
 return paths. Lint, TypeScript, production build, release packaging, CDN scan and
 `git diff --check` passed. The final stacked workspace preserves the locally verified implementation.
+
+### Review follow-up · November 18, 2026
+
+- Corrected stale recovery failures, selection after uploads, review-baseline export
+  restrictions, assembly pause controls, and editable transfers of unfinished drafts.
+- Kept Close and Version history reachable at 320 pixels and removed the duplicate
+  main landmark from the dialog.
+- Received encrypted packages leave creation mode and show the normal navigation.
+- PDF assembly waits for a preview to release the renderer. Cancelling that wait
+  leaves the saved package unchanged.
+- The 142 affected Chromium browser scenarios passed, including corrected rechecks.
+  They inspect real PDFs, signed-original bytes, review returns, and saved revisions.
+- The full unit run passed 7,615 tests across 684 files. The later focused review run
+  passed 54 tests, including the added import and renderer-handoff regressions.
+- The intermediate document/review PR retains the existing download controls until
+  the workspace PR enables the new presentation and its browser coverage together.

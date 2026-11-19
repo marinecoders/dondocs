@@ -9,7 +9,7 @@ async function packages(page: Page) {
 async function saveInformation(dialog: Locator) {
   const information = await packageTool(dialog, /^(Details|Package information)$/);
   await information.getByRole('button', { name: /^(Review changes|Preview package changes)$/ }).click();
-  if (await information.getByRole('checkbox', { name: /^I reviewed the package values, linked field changes/ }).isVisible()) await information.getByRole('checkbox', { name: /^I reviewed the package values, linked field changes/ }).check();
+  await expect(information.getByRole('button', { name: 'Apply package changes', exact: true })).toBeVisible(); if (await information.getByRole('checkbox', { name: /^I reviewed the package values, linked field changes/ }).isVisible()) await information.getByRole('checkbox', { name: /^I reviewed the package values, linked field changes/ }).check();
   await information.getByRole('button', { name: 'Apply package changes', exact: true }).click();
   await expect(information.getByText('Package changes saved as a new revision.', { exact: true })).toBeVisible();
 }

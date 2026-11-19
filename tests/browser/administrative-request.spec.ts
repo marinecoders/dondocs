@@ -39,7 +39,7 @@ async function applySubject(dialog: Locator, subject: string, overrideLink?: str
   await information.getByLabel('Value 4', { exact: true }).fill(subject);
   if (overrideLink) await information.getByLabel(`Link decision ${overrideLink}`, { exact: true }).selectOption('keep-local');
   await information.getByRole('button', { name: /^(Review changes|Preview package changes)$/ }).click();
-  if (await information.getByRole('checkbox', { name: /^I reviewed the package values, linked field changes/ }).isVisible()) await information.getByRole('checkbox', { name: /^I reviewed the package values, linked field changes/ }).check();
+  await expect(information.getByRole('button', { name: 'Apply package changes', exact: true })).toBeVisible(); if (await information.getByRole('checkbox', { name: /^I reviewed the package values, linked field changes/ }).isVisible()) await information.getByRole('checkbox', { name: /^I reviewed the package values, linked field changes/ }).check();
   await information.getByRole('button', { name: 'Apply package changes', exact: true }).click();
   await expect(information.getByLabel('Value 4', { exact: true })).toHaveValue(subject);
   await expect(information.getByRole('button', { name: 'Undo package changes', exact: true })).toBeVisible();

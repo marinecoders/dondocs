@@ -894,7 +894,7 @@ it('leaves new-package creation when an encrypted import requests a saved packag
   await within(dialog).findByRole('heading', { name: incoming.name, level: 1 });
   expect(within(dialog).getByRole('navigation', { name: 'Package workspace' })).toBeVisible();
   await workspaceSection(dialog, 'Documents', user);
-  expect(within(dialog).getByRole('heading', { name: 'Documents', exact: true })).toBeVisible();
+  expect(within(dialog).getByRole('heading', { name: 'Documents' })).toBeVisible();
 });
 
 it.each([false, true])('queues PDF assembly behind a preview lease (cancel: %s)', async cancel => {
@@ -905,8 +905,8 @@ it.each([false, true])('queues PDF assembly behind a preview lease (cancel: %s)'
   const dialog = await screen.findByRole('dialog', { name: 'Action packages' });
   await within(dialog).findByRole('heading', { name: record.name, level: 1 });
   await workspaceSection(dialog, 'Delivery', user);
-  await user.click(within(dialog).getByRole('button', { name: 'Prepare PDF', exact: true }));
-  const download = await within(dialog).findByRole('button', { name: 'Download PDF', exact: true });
+  await user.click(within(dialog).getByRole('button', { name: 'Prepare PDF' }));
+  const download = await within(dialog).findByRole('button', { name: 'Download PDF' });
   await waitFor(() => expect(download).toBeEnabled());
   await user.click(download);
   await waitFor(() => expect(within(dialog).getByRole('button', { name: 'Cancel operation' })).toBeVisible());

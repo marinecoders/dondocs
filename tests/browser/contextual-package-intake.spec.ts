@@ -196,7 +196,7 @@ for (const theme of ['light', 'dark', 'classic']) test.describe(theme, () => {
     const courseIndex = revision.information.facts.findIndex((fact: { label: string }) => fact.label === 'Course or activity');
     await information.getByLabel(`Value ${courseIndex + 1}`, { exact: true }).fill('Updated by the package information editor');
     await information.getByRole('button', { name: /^(Review changes|Preview package changes)$/ }).click();
-    if (await information.getByRole('checkbox', { name: /^I reviewed the package values, linked field changes/ }).isVisible()) await information.getByRole('checkbox', { name: /^I reviewed the package values, linked field changes/ }).check();
+    await expect(information.getByRole('button', { name: 'Apply package changes', exact: true })).toBeVisible(); if (await information.getByRole('checkbox', { name: /^I reviewed the package values, linked field changes/ }).isVisible()) await information.getByRole('checkbox', { name: /^I reviewed the package values, linked field changes/ }).check();
     await information.getByRole('button', { name: 'Apply package changes', exact: true }).click();
     panel = await continueIntake(dialog); await showAnswers(panel);
     await expect(panel.getByRole('textbox', { name: 'Course or activity', exact: true })).toHaveValue('Updated by the package information editor');
