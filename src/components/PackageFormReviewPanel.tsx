@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Button } from './ui/button';
 import type { PackageMember, PackageMemberReview } from '@/lib/actionPackages';
 import { addPackageFormComment, addPackageFormProposal, capturePackageFormAnchor, packageFormReviewFields, type PackageFormReview } from '@/lib/packageFormReview';
@@ -19,9 +19,9 @@ export function PackageFormReviewPanel({ member, child, busy, onSave, onDraftCha
   const [proposed, setProposed] = useState(''), [proposalDirty, setProposalDirty] = useState(false);
   const [error, setError] = useState(''), [loading, setLoading] = useState(true), [pending, setPending] = useState(false);
   const alive = useRef(true), dirty = !!text || proposalDirty, callback = useRef(onDraftChange);
-  useEffect(() => { callback.current = onDraftChange; }, [onDraftChange]);
-  useEffect(() => { callback.current?.(dirty); }, [dirty]);
-  useEffect(() => { alive.current = true; return () => { alive.current = false; callback.current?.(false); }; }, []);
+  useLayoutEffect(() => { callback.current = onDraftChange; }, [onDraftChange]);
+  useLayoutEffect(() => { callback.current?.(dirty); }, [dirty]);
+  useLayoutEffect(() => { alive.current = true; return () => { alive.current = false; callback.current?.(false); }; }, []);
   useEffect(() => {
     let current = true;
     void packageFormReviewFields(member).then(value => { if (current) { setFields(value); setLoading(false); } })

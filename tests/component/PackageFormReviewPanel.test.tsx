@@ -1,9 +1,10 @@
 import 'fake-indexeddb/auto';
-import { useState } from 'react';
+import { Profiler, useState } from 'react';
 import { afterEach, expect, it, vi } from 'vitest';
-import { cleanup, render, screen, within, waitFor } from '@testing-library/react';
+import { cleanup, fireEvent, render, screen, within, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { PackageMemberReviewPanel } from '@/components/PackageMemberReviewPanel';
+import { PackageFormReviewPanel } from '@/components/PackageFormReviewPanel';
 import type { ActionPackage } from '@/lib/actionPackages';
 import { getPackageRevision, listActionPackages, reviseActionPackage } from '@/lib/actionPackages';
 import { addPackageFormProposal, capturePackageFormAnchor, packageFormReviewFields } from '@/lib/packageFormReview';
@@ -142,4 +143,38 @@ it('keeps a typed replacement on its captured field and requires cancellation be
   expect(within(panel).getByRole('button', { name: 'Suggest field correction' })).toBeDisabled();
   const saved = (await listActionPackages()).find(item => item.id === record.id)!;
   expect(saved.reviewRounds![0].memberReviews![0].fieldReview?.proposals ?? []).toEqual([]);
+});
+
+it('publishes the unsaved-feedback guard in the same layout commit as the comment', async () => {
+  const { member, child } = await packageFormFixture();
+  let guarded = false;
+  const commits: { text: string; guarded: boolean }[] = [];
+  render(<Profiler id="form-feedback-guard" onRender={() => {
+    const field = screen.queryByLabelText('Form field comment') as HTMLTextAreaElement | null;
+    if (field) commits.push({ text: field.value, guarded });
+  }}><PackageFormReviewPanel member={member} child={child} busy={false} onSave={async () => true} onDraftChange={value => { guarded = value; }} /></Profiler>);
+  const field = await screen.findByLabelText('Form field comment');
+  await waitFor(() => expect(field).toBeEnabled());
+  commits.length = 0;
+  fireEvent.change(field, { target: { value: 'Preserve this unposted feedback.' } });
+  const edited = commits.filter(commit => commit.text === 'Preserve this unposted feedback.');
+  expect(edited.length).toBeGreaterThan(0);
+  expect(edited.every(commit => commit.guarded)).toBe(true);
+});
+
+it('blocks document-navigation shortcuts before an edited review is painted', async () => {
+  const { record, member } = await packageFormFixture(), user = userEvent.setup();
+  const blocked: boolean[] = [];
+  render(<Profiler id="review-navigation-guard" onRender={() => {
+    const field = screen.queryByLabelText('Form field comment') as HTMLTextAreaElement | null;
+    if (field?.value !== 'Keep this feedback.' || !screen.queryByRole('button', { name: member.label })?.hasAttribute('disabled')) return;
+    const shortcut = new KeyboardEvent('keydown', { key: 'k', ctrlKey: true, bubbles: true, cancelable: true });
+    window.dispatchEvent(shortcut); blocked.push(shortcut.defaultPrevented);
+  }}><Review initial={record} /></Profiler>);
+  await user.click(screen.getByRole('button', { name: member.label }));
+  const field = await screen.findByLabelText('Form field comment');
+  await waitFor(() => expect(field).toBeEnabled());
+  fireEvent.change(field, { target: { value: 'Keep this feedback.' } });
+  expect(blocked.length).toBeGreaterThan(0);
+  expect(blocked.every(Boolean)).toBe(true);
 });
