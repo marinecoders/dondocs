@@ -151,3 +151,52 @@ test('filters retained inactive fields and follows a legacy signer into its curr
   await proofread.click();
   await expect(dialog.getByText(/Personal Email Address pattern/)).toHaveCount(0);
 });
+
+test('opens figure alternatives and table footnotes at their own inputs', async ({ page }) => {
+  await page.addInitScript(() => {
+    localStorage.setItem('browser-test-visitor', 'returning');
+    localStorage.setItem('dondocs_ui', JSON.stringify({ version: 1, state: { editorLayout: 'focused', previewVisible: false } }));
+  });
+  await page.goto('/');
+  await page.getByLabel('Import draft file').setInputFiles({ name: 'figure-footnote-review.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify({
+    documentCategory: 'correspondence', documentMode: 'compliant', docType: 'i_type',
+    formData: { date: '19 Nov 26', subject: 'SYNTHETIC FIGURE REVIEW', classLevel: 'unclassified' },
+    paragraphs: [{ id: 'figure-caption', level: 0, text: 'Synthetic caption 123-45-6789', figure: { altText: 'Ordinary description' } },
+      { id: 'figure-alternative', level: 0, text: 'Ordinary caption', figure: { altText: 'Synthetic alternative 321-54-9876' } },
+      { id: 'table-footnote', level: 0, text: 'Ordinary text', tableKey: 'majorItems', tableFootnotes: [{ id: '1', text: 'Synthetic footnote 213-54-9876' }] }],
+    references: [], enclosures: [], copyTos: [], distributions: [], publicationTables: {},
+  })) });
+  await page.getByRole('button', { name: 'Open as new document', exact: true }).click();
+  for (const [title, name] of [
+    ['Social Security Number pattern in Paragraph 1', 'Paragraph 1'],
+    ['Social Security Number pattern in Paragraph 2', 'Alternative text for image 2'],
+    ['Social Security Number pattern in Paragraph 3 footnote 1', 'Table footnote 1'],
+  ]) {
+    await page.getByRole('button', { name: /^Proofread:/ }).click();
+    const dialog = page.getByRole('dialog', { name: 'Proofread', exact: true });
+    await dialog.getByRole('listitem').filter({ has: page.getByText(title, { exact: true }) }).getByRole('button', { name: 'Go to Paragraphs', exact: true }).click();
+    await expect(dialog).toBeHidden();
+    await expect(page.getByRole('textbox', { name, exact: true })).toBeFocused();
+  }
+});
+
+for (const docType of ['sl3', 'sl4']) test(`opens ${docType} stock-list illustration captions at their title input`, async ({ page }) => {
+  await page.addInitScript(() => {
+    localStorage.setItem('browser-test-visitor', 'returning');
+    localStorage.setItem('dondocs_ui', JSON.stringify({ version: 1, state: { editorLayout: 'focused', previewVisible: false } }));
+  });
+  await page.goto('/');
+  await page.getByLabel('Import draft file').setInputFiles({ name: 'stock-caption-review.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify({
+    documentCategory: 'correspondence', documentMode: 'compliant', docType,
+    formData: { date: '19 Nov 26', subject: 'SYNTHETIC STOCK CAPTION', classLevel: 'unclassified' },
+    paragraphs: [{ id: 'stock-caption', referenceId: 'stock-figure', level: 0, text: 'Synthetic caption 123-45-6789', figure: {} }],
+    references: [], enclosures: [], copyTos: [], distributions: [],
+  })) });
+  await page.getByRole('button', { name: 'Open as new document', exact: true }).click();
+  await page.getByRole('button', { name: /^Proofread:/ }).click();
+  const dialog = page.getByRole('dialog', { name: 'Proofread', exact: true });
+  await dialog.getByRole('listitem').filter({ has: page.getByText('Social Security Number pattern in Paragraph 1', { exact: true }) }).getByRole('button', { name: 'Go to Illustrations', exact: true }).click();
+  await expect(dialog).toBeHidden();
+  await expect(page.getByRole('textbox', { name: 'Illustration 1 (unassigned) title', exact: true })).toBeFocused();
+  await expect(page.getByRole('textbox', { name: 'Illustration 1 (unassigned) title', exact: true })).toHaveValue('Synthetic caption 123-45-6789');
+});

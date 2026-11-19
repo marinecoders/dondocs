@@ -107,6 +107,19 @@ describe('existing checks in one proofread inventory', () => {
         { sectionId: 'body', paragraphId: 'rich', paragraphPath: ['bodyTable', 'rows', 1, 1] }]);
   });
 
+  it('preserves the emitted caption, alternative-text and footnote paths', () => {
+    const input = source({ docType: 'i_type', paragraphs: [
+      { id: 'figure', text: 'Caption 123-45-6789', level: 0, figure: { altText: 'Alternative 321-54-9876' } },
+      { id: 'table', text: '', level: 0, tableKey: 'majorItems', tableFootnotes: [{ id: '1', text: 'Footnote 213-54-9876' }] },
+    ] });
+    const fields = documentTextFields(input, 'output').filter(field => /Caption|Alternative|Footnote/.test(field.text));
+    expect(fields.map(field => field.path)).toEqual([
+      ['paragraphs', 0, 'text'], ['paragraphs', 0, 'figure', 'altText'], ['paragraphs', 1, 'tableFootnotes', 0, 'text'],
+    ]);
+    expect(collectProofreadFindings(input).filter(f => f.group === 'privacy').map(f => f.target.paragraphPath))
+      .toEqual([['text'], ['figure', 'altText'], ['tableFootnotes', 0, 'text']]);
+  });
+
   it('retains document-date precision and routes sensitive text to its actual editor section', () => {
     const findings = collectProofreadFindings(source({
       formData: { date: '2026-11-12', unitLine1: 'Synthetic 123-45-6789' },

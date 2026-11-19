@@ -10,7 +10,23 @@ import { DOC_TYPE_CONFIG } from '@/types/document';
 import { useDocumentStore } from '@/stores/documentStore';
 import { PROOFREAD_GROUPS, type ProofreadFinding } from '@/lib/proofread';
 import { Button } from '@/components/ui/button';
+import type { FieldPath } from '@/lib/documentFields';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+
+function paragraphControl(paragraph: HTMLElement | null | undefined, path: FieldPath | undefined): HTMLElement | null {
+  if (!paragraph || !path) return null;
+  if (path[0] === 'header') return paragraph.querySelector<HTMLElement>('[data-paragraph-field="header"]');
+  if (path[0] === 'text') return paragraph.querySelector<HTMLElement>('[data-paragraph-field="text"]');
+  if (path[0] === 'figure' && path[1] === 'altText') return paragraph.querySelector<HTMLElement>('[data-paragraph-field="figure-alt"]');
+  if (path[0] === 'tableFootnotes' && Number.isInteger(path[1]) && Number(path[1]) >= 0 && path[2] === 'text') {
+    return paragraph.querySelector<HTMLElement>(`[data-table-footnote="${path[1]}"]`);
+  }
+  if (path[0] === 'bodyTable' && path[1] === 'rows'
+    && Number.isInteger(path[2]) && Number(path[2]) >= 0 && Number.isInteger(path[3]) && Number(path[3]) >= 0) {
+    return paragraph.querySelector<HTMLElement>(`[data-table-row="${path[2]}"][data-table-column="${path[3]}"]`);
+  }
+  return null;
+}
 
 export function ProofreadModal({ children }: { children?: ReactNode }) {
   const open = useUIStore(s => s.proofreadOpen);
@@ -53,12 +69,7 @@ export function ProofreadModal({ children }: { children?: ReactNode }) {
       const paragraph = next.target.paragraphId
         ? [...section.querySelectorAll<HTMLElement>('[data-paragraph-id]')].find(element => element.dataset.paragraphId === next.target.paragraphId)
         : null;
-      const path = next.target.paragraphPath;
-      const cell = path?.[0] === 'bodyTable' && path[1] === 'rows'
-        && Number.isInteger(path[2]) && Number(path[2]) >= 0 && Number.isInteger(path[3]) && Number(path[3]) >= 0
-        ? paragraph?.querySelector<HTMLElement>(`[data-table-row="${path[2]}"][data-table-column="${path[3]}"]`) : null;
-      const heading = path?.[0] === 'header' ? paragraph?.querySelector<HTMLElement>('[data-paragraph-field="header"]') : null;
-      const destination = field && section.contains(field) ? field : cell ?? heading
+      const destination = field && section.contains(field) ? field : paragraphControl(paragraph, next.target.paragraphPath)
         ?? paragraph?.querySelector<HTMLElement>('[contenteditable="true"]') ?? paragraph?.querySelector<HTMLElement>('textarea,input') ?? section;
       destination.focus({ preventScroll: true });destination.scrollIntoView({ block: 'nearest' });
     }));

@@ -94,4 +94,28 @@ describe('proofread entry and current-draft review', () => {
     await waitFor(() => expect(document.getElementById('jointMemoSeniorSigName')).toHaveFocus());
     expect(document.getElementById('jointMemoSeniorSigName')).toHaveValue('legacy@example.test');
   });
+
+  it('opens a figure alternative and table footnote without selecting their paragraph text', async () => {
+    useDocumentStore.setState({ docType: 'i_type', paragraphs: [
+      { id: 'alternative-owner', text: 'Ordinary caption', level: 0, figure: { altText: 'Synthetic 123-45-6789' } },
+      { id: 'footnote-owner', text: 'Ordinary table text', level: 0, tableKey: 'majorItems', tableFootnotes: [{ id: '1', text: 'Synthetic 321-54-9876' }] },
+    ] });
+    view(true);
+    for (const [title, name] of [['Social Security Number pattern in Paragraph 1', 'Alternative text for image 1'],
+      ['Social Security Number pattern in Paragraph 2 footnote 1', 'Table footnote 1']]) {
+      fireEvent.click(screen.getByRole('button', { name: /^Proofread:/ }));
+      const row = screen.getByText(title, { exact: true }).closest('li')!;
+      fireEvent.click(within(row).getByRole('button', { name: 'Go to Paragraphs' }));
+      await waitFor(() => expect(screen.getByRole('textbox', { name, exact: true })).toHaveFocus());
+    }
+  });
+
+  it.each(['sl3', 'sl4'])('opens the separate %s illustration caption input', async docType => {
+    useDocumentStore.setState({ docType, paragraphs: [{ id: 'stock-caption', referenceId: 'stock-figure', text: 'Synthetic 123-45-6789', level: 0, figure: {} }] });
+    view(true);
+    fireEvent.click(screen.getByRole('button', { name: /^Proofread:/ }));
+    const row = screen.getByText('Social Security Number pattern in Paragraph 1', { exact: true }).closest('li')!;
+    fireEvent.click(within(row).getByRole('button', { name: 'Go to Illustrations' }));
+    await waitFor(() => expect(screen.getByRole('textbox', { name: 'Illustration 1 (unassigned) title', exact: true })).toHaveFocus());
+  });
 });
