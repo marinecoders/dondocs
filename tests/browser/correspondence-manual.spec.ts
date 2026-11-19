@@ -66,7 +66,7 @@ test('opens finding and checklist sources without competing dialogs and retains 
   const draft = {
     documentMode: 'compliant', documentCategory: 'correspondence', docType: 'naval_letter', formType: 'navmc_10274',
     formData: { date: '19 Nov 26', subject: 'SYNTHETIC SOURCE REVIEW.' },
-    paragraphs: [{ level: 0, text: 'Fictional reference-navigation test.' }], references: [], enclosures: [], copyTos: [], distributions: [],
+    paragraphs: [{ level: 0, text: 'The NATO reference is fictional.' }], references: [], enclosures: [], copyTos: [], distributions: [],
   };
   await page.getByLabel('Import draft file').setInputFiles({ name: 'manual-source-synthetic.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(draft)) });
   await page.getByRole('button', { name: 'Open as new document', exact: true }).click();
@@ -80,6 +80,15 @@ test('opens finding and checklist sources without competing dialogs and retains 
   await expect(guide.getByRole('region', { name: 'Manual text page 7-5' })).toContainText('9. Subject Line');
   await page.keyboard.press('Escape');
   await expect(guide).toBeHidden();
+  await expect(proofread).toBeFocused();
+
+  await proofread.click();
+  const acronym = review.getByRole('listitem').filter({ has: page.getByText('Define NATO on first use', { exact: true }) });
+  await acronym.getByRole('button', { name: 'SECNAV M-5216.5 · Ch 2 ¶17', exact: true }).click();
+  const paragraph = guide.getByRole('region', { name: 'Manual text page 2-11' }).locator('mark');
+  await expect(paragraph).toHaveText(/^17\./);
+  await expect(paragraph).toBeInViewport();
+  await page.keyboard.press('Escape');
   await expect(proofread).toBeFocused();
 
   await proofread.click();

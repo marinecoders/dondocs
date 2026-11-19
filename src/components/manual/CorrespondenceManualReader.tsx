@@ -1,7 +1,7 @@
 import { lazy, Suspense, useEffect, useMemo, useRef, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { CORRESPONDENCE_MANUAL as source, findManualMatch, loadManualResource, locateManualPage, parseCorrespondenceManual, searchCorrespondenceManual, type CorrespondenceManual, type ManualLocation } from '@/lib/correspondenceManual';
+import { CORRESPONDENCE_MANUAL as source, findManualMatch, findManualParagraphMatch, loadManualResource, locateManualPage, parseCorrespondenceManual, searchCorrespondenceManual, type CorrespondenceManual, type ManualLocation, type ManualMatch } from '@/lib/correspondenceManual';
 import { useCorrespondenceManualStore } from '@/stores/correspondenceManualStore';
 import { triggerDownload } from '@/lib/encoding';
 
@@ -16,8 +16,8 @@ function scrollToMatch(region: HTMLDivElement | null): void {
   }
 }
 
-function Highlight({ text, query }: { text: string; query: string }) {
-  const match = findManualMatch(text, query);
+function Highlight({ text, query, paragraphMatch }: { text: string; query: string; paragraphMatch?: ManualMatch }) {
+  const match = findManualMatch(text, query) ?? paragraphMatch;
   return !match ? text : <>{text.slice(0, match.start)}<mark className="rounded bg-primary/15 text-foreground">{text.slice(match.start, match.end)}</mark>{text.slice(match.end)}</>;
 }
 
@@ -56,12 +56,15 @@ function ManualContent({ manual, cached, location }: { manual: CorrespondenceMan
 
   useEffect(() => () => pdfAbort.current?.abort(), []);
   useEffect(() => {
-    if (!location.query) return;
+    if (!location.query && !location.paragraph) return;
     scrollToMatch(readingRegion.current);
   }, [location]);
   const result = useMemo(() => searchCorrespondenceManual(manual, searched), [manual, searched]);
   const page = manual.pages[pageNumber - 1];
   const section = manual.sections.find(section => section.id === page?.section);
+  const sourcePage = locateManualPage(manual, location);
+  const paragraphMatch = !searched && location.paragraph && sourcePage.foundParagraph && sourcePage.page === pageNumber
+    ? findManualParagraphMatch(page.text, location.paragraph) : undefined;
   const moveToPage = (number: number, showMatch = false) => {
     setPageNumber(number);
     setShowResults(false);
@@ -132,7 +135,7 @@ function ManualContent({ manual, cached, location }: { manual: CorrespondenceMan
             <Button variant="outline" size="sm" onClick={() => void openPdf()}>View original PDF page {page.number}</Button>
           </div>
           <p className="text-xs text-muted-foreground">Extracted source text, PDF page {page.number} of {source.pages}. Inspect the original page for figures, tables and exact layout.</p>
-          <div ref={readingRegion} role="region" aria-label={`Manual text page ${page.label}`} tabIndex={0} className="max-h-[45dvh] overflow-auto rounded-md border bg-muted/20 p-3 font-mono text-xs leading-relaxed whitespace-pre-wrap break-words focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"><Highlight text={page.text} query={searched} /></div>
+          <div ref={readingRegion} role="region" aria-label={`Manual text page ${page.label}`} tabIndex={0} className="max-h-[45dvh] overflow-auto rounded-md border bg-muted/20 p-3 font-mono text-xs leading-relaxed whitespace-pre-wrap break-words focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"><Highlight text={page.text} query={searched} paragraphMatch={paragraphMatch} /></div>
           <div className="flex flex-wrap justify-between gap-2">
             <Button variant="outline" size="sm" disabled={page.number <= 1} onClick={() => moveToPage(page.number - 1)}>Previous page</Button>
             <Button variant="outline" size="sm" disabled={page.number >= source.pages} onClick={() => moveToPage(page.number + 1)}>Next page</Button>

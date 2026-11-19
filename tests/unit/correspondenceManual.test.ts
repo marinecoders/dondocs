@@ -1,7 +1,7 @@
 import { readFile } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
 import { afterEach, describe, expect, it, vi } from 'vitest';
-import { CORRESPONDENCE_MANUAL as source, findManualMatch, loadManualResource, locateManualPage, parseCorrespondenceManual, searchCorrespondenceManual } from '@/lib/correspondenceManual';
+import { CORRESPONDENCE_MANUAL as source, findManualMatch, findManualParagraphMatch, loadManualResource, locateManualPage, parseCorrespondenceManual, searchCorrespondenceManual } from '@/lib/correspondenceManual';
 
 const bytes = new Uint8Array(await readFile(`public/${source.textPath}`));
 const manual = parseCorrespondenceManual(bytes);
@@ -42,6 +42,17 @@ describe('pinned correspondence manual', () => {
       expect(locateManualPage(manual, location)).toEqual({ page, foundParagraph: true });
       expect(manual.pages[page - 1].text).toContain(text);
     }
+  });
+
+  it('identifies paragraph-only source headings on the actual cited pages', () => {
+    for (const location of [{ chapter: 2, paragraph: '17' }, { chapter: 7, paragraph: '13' }]) {
+      const target = locateManualPage(manual, location), text = manual.pages[target.page - 1].text;
+      const match = findManualParagraphMatch(text, location.paragraph);
+      expect(match).toBeDefined();
+      expect(text.slice(match!.start, match!.end)).toMatch(new RegExp(`^${location.paragraph}\\.`));
+    }
+    expect(findManualParagraphMatch('A reference to paragraph 17. in prose', '17')).toBeUndefined();
+    expect(findManualParagraphMatch('17. Heading', '.*')).toBeUndefined();
   });
 
   it('searches literal case-insensitive phrases across extracted line breaks', () => {

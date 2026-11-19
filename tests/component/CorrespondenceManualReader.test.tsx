@@ -18,6 +18,7 @@ it('opens the real cited page and searches actual source text without changing a
   const user = userEvent.setup();render(<Reader />);
   expect(await screen.findByRole('heading', { name: /Page 2-12/ })).toBeVisible();
   expect(screen.getByRole('region', { name: 'Manual text page 2-12' })).toHaveTextContent('19. Proofreading.');
+  expect(screen.getByRole('region', { name: 'Manual text page 2-12' }).querySelector('mark')).toHaveTextContent('19. Proofreading.');
   expect(screen.getByText(/currentness has not been established/)).toBeVisible();
   await user.type(screen.getByRole('searchbox', { name: 'Search manual' }), 'Are enclosure markings correct?');
   await user.click(screen.getByRole('button', { name: 'Search' }));

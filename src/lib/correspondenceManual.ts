@@ -177,6 +177,16 @@ export function searchCorrespondenceManual(manual: CorrespondenceManual, query: 
   return { results, total };
 }
 
+/** Match an actual numbered heading, rather than a number mentioned in prose. */
+export function findManualParagraphMatch(text: string, paragraph: string): ManualMatch | undefined {
+  if (!/^\d{1,3}(?:\.\d{1,3}){0,2}$/.test(paragraph)) return;
+  const escaped = paragraph.replaceAll('.', '\\.');
+  const heading = new RegExp(`(?:^|\\n)[ \t]*(${escaped}\\.[ \t]+[^\\n]*)`, 'u').exec(text);
+  if (!heading) return;
+  const start = heading.index + heading[0].length - heading[1].length;
+  return { start, end: start + heading[1].length };
+}
+
 export function locateManualPage(manual: CorrespondenceManual, location: ManualLocation): { page: number; foundParagraph: boolean } {
   const chapter = manual.sections.find(chapter => chapter.id === String(location.chapter));
   if (!chapter) {
@@ -187,9 +197,9 @@ export function locateManualPage(manual: CorrespondenceManual, location: ManualL
     return { page: match?.number ?? 1, foundParagraph: !location.paragraph };
   }
   const pages = manual.pages.filter(page => page.section === chapter.id);
-  if (location.paragraph && /^\d{1,3}(?:\.\d{1,3}){0,2}$/.test(location.paragraph)) {
-    const pattern = new RegExp(`(?:^|\\n)\\s*${location.paragraph.replaceAll('.', '\\.')}\\.\\s`, 'u');
-    const target = pages.find(page => pattern.test(page.text));
+  const paragraph = location.paragraph;
+  if (paragraph) {
+    const target = pages.find(page => findManualParagraphMatch(page.text, paragraph));
     if (target) return { page: target.number, foundParagraph: true };
   }
   if (location.query) {
