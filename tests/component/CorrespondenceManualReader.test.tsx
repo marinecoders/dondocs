@@ -1,5 +1,5 @@
 import { readFile } from 'node:fs/promises';
-import { act, render, screen, waitFor } from '@testing-library/react';
+import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { beforeEach, expect, it, vi } from 'vitest';
 import Reader from '@/components/manual/CorrespondenceManualReader';
@@ -58,4 +58,19 @@ it('aborts an outstanding text request on close', () => {
   vi.mocked(loadManualResource).mockImplementation((_kind, value) => { signal = value;return new Promise(() => {}); });
   const { unmount } = render(<Reader />);unmount();
   expect(signal?.aborted).toBe(true);
+});
+
+
+it('does not steal focus chosen after page navigation but before its frame commits', async () => {
+  const frames: FrameRequestCallback[] = [];
+  const frame = vi.spyOn(window, 'requestAnimationFrame').mockImplementation(callback => { frames.push(callback);return frames.length; });
+  try {
+    render(<Reader />);
+    await screen.findByRole('heading', { name: /Page 2-12/ });
+    fireEvent.click(screen.getByRole('button', { name: 'Next page', exact: true }));
+    const search = screen.getByRole('searchbox', { name: 'Search manual' });
+    search.focus();
+    act(() => { for (const callback of frames.splice(0)) callback(0); });
+    expect(search).toHaveFocus();
+  } finally { frame.mockRestore(); }
 });

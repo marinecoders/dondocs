@@ -35,7 +35,8 @@ it('stages manual resources only after use and retains their verified bytes acro
 
   // The worker fetch route uses cacheAsset only when the reader requests text.
   await cacheAsset(references[0], cache, fetcher);
-  const next = { ...manifest, id: 'second', assets: [shell, ...references].map(asset => ({ ...asset, url: asset.url.replace('/first/', '/second/') })) };
+  const next = releaseManifest.parse({ ...manifest, id: 'second', entry: '/releases/second/index.html',
+    assets: [shell, ...references].map(asset => ({ ...asset, url: asset.url.replace('/first/', '/second/') })) });
   expect(await stageAssets(next, cache, fetcher)).toEqual([assetKey(shell), assetKey(references[0])]);
   expect(fetcher).toHaveBeenCalledTimes(2);
   expect(await cache.match(assetKey(references[1]))).toBeUndefined();

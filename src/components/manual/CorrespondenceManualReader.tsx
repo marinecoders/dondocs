@@ -66,24 +66,27 @@ function ManualContent({ manual, cached, location }: { manual: CorrespondenceMan
   const sourcePage = locateManualPage(manual, location);
   const paragraphMatch = !searched && location.paragraph && sourcePage.foundParagraph && sourcePage.page === pageNumber
     ? findManualParagraphMatch(page.text, location.paragraph) : undefined;
-  const moveToPage = (number: number, showMatch = false) => {
-    setPageNumber(number);
-    setShowResults(false);
-    setLocatorMissing(false);
+  const focusReading = (showMatch: boolean) => {
+    const origin = document.activeElement;
     requestAnimationFrame(() => {
+      const focused = document.activeElement;
+      if (focused !== origin && focused !== document.body && focused !== reading.current) return;
       if (readingRegion.current) readingRegion.current.scrollTop = 0;
       if (showMatch) scrollToMatch(readingRegion.current);
       reading.current?.focus({ preventScroll: true });
     });
   };
+  const moveToPage = (number: number, showMatch = false) => {
+    setPageNumber(number);
+    setShowResults(false);
+    setLocatorMissing(false);
+    focusReading(showMatch);
+  };
   const closePdf = () => {
     pdfAbort.current?.abort();
     setPdfOpen(false);
     setPdfError('');
-    requestAnimationFrame(() => {
-      scrollToMatch(readingRegion.current);
-      reading.current?.focus({ preventScroll: true });
-    });
+    focusReading(true);
   };
   const openPdf = async () => {
     setPdfOpen(true);setPdfError('');
