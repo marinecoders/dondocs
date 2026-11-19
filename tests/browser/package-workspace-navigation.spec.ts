@@ -2,6 +2,8 @@ import { openPackageWorkspace, showPackageLibrary, newPackage, importPackage, pa
 import { expect, test } from '@playwright/test';
 import { readFile } from 'node:fs/promises';
 
+type PreviewLayoutDialog = HTMLElement & { previewLayoutProbe?: { heights: number[]; observer: MutationObserver } };
+
 test.use({ serviceWorkers: 'block' });
 test.setTimeout(90_000);
 
@@ -121,3 +123,37 @@ test('phone-sized workspace keeps Close and Version history accessible', async (
   await close.click();
   await expect(dialog).toBeHidden();
 });
+
+for (const width of [1440, 320]) test(`document preview reserves its final height while rendering at ${width}px`, async ({ page }) => {
+  await page.setViewportSize({ width, height: 950 });
+  await page.addInitScript(() => localStorage.setItem('browser-test-visitor', 'returning'));
+  await page.goto('/');
+  const dialog = await openPackageWorkspace(page);
+  const bytes = await readFile(new URL('../fixtures/package-render/baseline-1.3.98.dondocs-package.json', import.meta.url));
+  const fixture = JSON.parse(bytes.toString());
+  await importPackage(dialog, { name: 'preview-layout.json', mimeType: 'application/json', buffer: bytes });
+  const label = `Preview of ${fixture.package.revisions[0].members[0].label}`;
+  await dialog.evaluate((root, label) => {
+    const heights: number[] = [];
+    const observer = new MutationObserver(() => {
+      const preview = [...root.querySelectorAll<HTMLElement>('section[aria-label]')].find(element => element.getAttribute('aria-label') === label);
+      if (!preview?.getClientRects().length || !preview.textContent?.includes('Preparing document preview…')) return;
+      const height = preview.getBoundingClientRect().height;
+      if (height > 0) heights.push(height);
+    });
+    (root as PreviewLayoutDialog).previewLayoutProbe = { heights, observer };
+    observer.observe(root, { childList: true, subtree: true, attributes: true, characterData: true });
+  }, label);
+  await dialog.getByRole('navigation', { name: 'Package workspace', exact: true }).getByRole('button', { name: 'Documents', exact: true }).click();
+  const preview = dialog.getByRole('region', { name: label, exact: true });
+  await expect(preview.locator('canvas').first()).toBeVisible({ timeout: 90_000 });
+  const readyHeight = await preview.evaluate(element => element.getBoundingClientRect().height);
+  const loadingHeights = await dialog.evaluate(root => {
+    const probe = (root as PreviewLayoutDialog).previewLayoutProbe!;
+    probe.observer.disconnect();
+    return probe.heights;
+  });
+  expect(loadingHeights.length).toBeGreaterThan(0);
+  for (const height of loadingHeights) expect(Math.abs(height - readyHeight)).toBeLessThanOrEqual(1);
+});
+
