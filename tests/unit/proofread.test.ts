@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { collectProofreadFindings, type ProofreadFinding, type ProofreadSource } from '@/lib/proofread';
 import { documentTextFields } from '@/lib/documentFields';
 import { detectDocumentTextPII } from '@/services/pii/detector';
+import { generateAllLatexFiles } from '@/services/latex/generator';
 
 function source(patch: Partial<ProofreadSource> = {}): ProofreadSource {
   return { documentCategory: 'correspondence', documentMode: 'compliant', docType: 'naval_letter',
@@ -58,6 +59,8 @@ describe('existing checks in one proofread inventory', () => {
     const input = source({ formData: { classLevel: 'unclassified', cuiControlledBy: 'cui@example.test', classifiedBy: 'authority@example.test',
       customClassification: 'custom@example.test', pocEmail: 'contact@example.test' } });
     expect(collectProofreadFindings(input).filter(f => f.group === 'privacy')).toEqual([]);
+    const rendered = generateAllLatexFiles(input).texFiles['classification.tex'];
+    expect(rendered).not.toMatch(/cui@example|authority@example|custom@example|contact@example/);
     for (const projection of ['output', 'share', 'backup'] as const) {
       expect(detectDocumentTextPII(documentTextFields(input, projection)).findings).toHaveLength(4);
     }
@@ -81,13 +84,19 @@ describe('existing checks in one proofread inventory', () => {
 
   it('omits overridden legacy joint fields and routes a printed fallback to its current memo input', () => {
     const input = source({ docType: 'joint_memorandum', formData: { jointSeniorSigName: 'legacy@example.test',
-      jointMemoSeniorSigName: 'CURRENT SIGNER', jointSeniorFrom: 'hidden@example.test' } });
+      jointMemoSeniorSigName: 'CURRENT SIGNER' } });
     const fields = () => collectProofreadFindings(input).filter(f => f.group === 'privacy').map(f => f.target.field);
     expect(fields()).toEqual([]);
     delete input.formData.jointMemoSeniorSigName;
     expect(fields()).toEqual(['jointMemoSeniorSigName']);
     input.formData.jointMemoSeniorSigName = '';
     expect(fields()).toEqual([]);
+  });
+
+  it('retains joint address metadata still consumed by the PDF renderer', () => {
+    const input = source({ docType: 'joint_memorandum', formData: { jointSeniorFrom: 'printed@example.test' } });
+    expect(Object.values(generateAllLatexFiles(input).texFiles).join('\n')).toContain('printed@example.test');
+    expect(collectProofreadFindings(input).filter(f => f.group === 'privacy').map(f => f.target.field)).toEqual(['jointSeniorFrom']);
   });
 
   it('keeps paragraph heading and table-cell identities in privacy destinations', () => {

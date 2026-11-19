@@ -37,7 +37,7 @@ export function proofreadOutputFields(source: ProofreadSource) {
       if (CLASSIFIED_FIELDS.has(key)) return CLASSIFIED_LEVELS.has(level);
       if (CUI_FIELDS.has(key)) return level === 'cui';
     }
-    if (source.docType === 'joint_memorandum' && key.startsWith('joint') && !key.startsWith('jointMemo')) {
+    if (source.docType === 'joint_memorandum' && MEMO_SIGNER_FIELDS.has(key)) {
       const memoField = MEMO_SIGNER_FIELDS.get(key);
       return !!memoField && source.formData[memoField] == null;
     }
