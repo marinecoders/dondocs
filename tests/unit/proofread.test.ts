@@ -3,6 +3,7 @@ import { collectProofreadFindings, type ProofreadFinding, type ProofreadSource }
 import { documentTextFields } from '@/lib/documentFields';
 import { detectDocumentTextPII } from '@/services/pii/detector';
 import { generateAllLatexFiles } from '@/services/latex/generator';
+import { generateFlatLatex } from '@/services/latex/flat-generator';
 
 function source(patch: Partial<ProofreadSource> = {}): ProofreadSource {
   return { documentCategory: 'correspondence', documentMode: 'compliant', docType: 'naval_letter',
@@ -77,9 +78,11 @@ describe('existing checks in one proofread inventory', () => {
     expect(fields()).toEqual(['customClassification']);
   });
 
-  it('does not flag a discarded invalid contact URL as printed email', () => {
-    const findings = collectProofreadFindings(source({ formData: { classLevel: 'cui', pocEmail: 'https://contact@example.test' } }));
-    expect(findings.filter(f => f.group === 'privacy')).toEqual([]);
+  it('reviews active contact text still printed by Word even when PDF discards it', () => {
+    const input = source({ formData: { classLevel: 'cui', pocEmail: 'https://contact@example.test' } });
+    expect(generateAllLatexFiles(input).texFiles['classification.tex']).not.toContain('contact@example.test');
+    expect(generateFlatLatex(input)).toContain('https://contact@example.test');
+    expect(collectProofreadFindings(input).filter(f => f.group === 'privacy').map(f => f.target.field)).toEqual(['pocEmail']);
   });
 
   it('inspects the rendered ordinary CUI statement once and targets its editable selector', () => {
@@ -114,6 +117,13 @@ describe('existing checks in one proofread inventory', () => {
     const input = source({ formData: { classLevel: 'cui', cuiDistStatement: 'B', distDate: '2026-11-19',
       distReason: 'Administrative or Operational Use', controllingOffice: 'Training Office' } });
     expect(collectProofreadFindings(input).filter(f => f.group === 'privacy')).toEqual([]);
+  });
+
+  it('does not throw while reviewing malformed retained statement metadata', () => {
+    const input = source({ formData: { classLevel: 'cui', cuiDistStatement: { legacy: true } as never } });
+    expect(() => collectProofreadFindings(input)).not.toThrow();
+    input.formData.cuiDistStatement = 'B';input.formData.distDate = { legacy: true } as never;
+    expect(() => collectProofreadFindings(input)).not.toThrow();
   });
 
   it('omits overridden legacy joint fields and routes a printed fallback to its current memo input', () => {

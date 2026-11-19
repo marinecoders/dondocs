@@ -1,6 +1,5 @@
 import { documentTextFields } from './documentFields';
 import { deriveOverallClassLevel } from './overallClassification';
-import { safeUrl } from './url-safety';
 import { documentDistributionStatement } from '@/services/latex/distributionStatement';
 import type { DocumentData } from '@/types/document';
 import type { ProofreadSource } from './proofread';
@@ -33,8 +32,6 @@ export function proofreadOutputFields(source: ProofreadSource) {
     const key = field.path[1];
     if (!publication) {
       if (key === 'cuiDistStatement') return false;
-      if ((key === 'pocEmail' || key === 'classifiedPocEmail')
-        && !safeUrl(field.text.trim().replace(/^mailto:/i, ''))?.startsWith('mailto:')) return false;
       if (key === 'customClassification') return level === 'custom';
       if (CLASSIFIED_FIELDS.has(key)) return CLASSIFIED_LEVELS.has(level);
       if (CUI_FIELDS.has(key)) return level === 'cui';
@@ -49,7 +46,13 @@ export function proofreadOutputFields(source: ProofreadSource) {
   // composed statement containing author-supplied fill-ins, so inspect that
   // visible text once and keep navigation on the actual statement control.
   if (!publication && level === 'cui') {
-    const text = documentDistributionStatement(source.formData);
+    const data = source.formData;
+    const text = documentDistributionStatement({
+      cuiDistStatement: typeof data.cuiDistStatement === 'string' ? data.cuiDistStatement : undefined,
+      distReason: typeof data.distReason === 'string' ? data.distReason : undefined,
+      distDate: typeof data.distDate === 'string' ? data.distDate : undefined,
+      controllingOffice: typeof data.controllingOffice === 'string' ? data.controllingOffice : undefined,
+    });
     if (text.trim()) fields.push({ path: ['formData', 'cuiDistStatement'], role: 'text', label: 'Distribution statement', text });
   }
   return fields;
