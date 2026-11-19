@@ -1,7 +1,7 @@
 # Package workspace redesign
 
-Implementation branch: `feat/package-workspace-redesign`. Local work only. Do not push,
-create PRs, or split commits until the complete workflow has been reviewed locally.
+Implementation is reviewed in PRs #549 (draft recovery), #550 (document editing and
+review transfers), and #551 (package library and workspace navigation).
 
 The approved desktop reference is the package prototype in the current design chat.
 Use the existing DonDocs typography, colors, document renderers, and package services.
@@ -49,7 +49,7 @@ desktop workspace at normal laptop and desktop sizes.
 ## Local verification
 
 - The original checkout was left untouched during implementation and local verification.
-- The functional development app is at http://127.0.0.1:5173/. The earlier HTML prototype remains separate.
+- Browser walkthroughs use an isolated local app with real package services and renderers.
 - Broad package, conditional-action, suggestion and export regression: 108 files, 935 passing tests.
 - Follow-up regression after historical loading and active-answer summary fixes: 6 files, 77 passing tests.
 - Dialog, focus and workspace navigation follow-up: 5 files, 74 passing tests.

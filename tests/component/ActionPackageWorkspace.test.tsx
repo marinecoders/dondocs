@@ -36,6 +36,22 @@ const policy = resolveExportDeploymentPolicy({
   environment: { maxLevel: "unclassified", allowedLevels: ["unclassified"] },
   runtime: { status: "absent" },
 });
+
+it("selects an uploaded document so it can be inspected immediately", async () => {
+  const native = await capturePackageMember(captureDocumentRevision({ documentId: 'existing-member', epoch: 0, editSequence: 0, capturedAt: 100 },
+    { ...createBlankSession(), endItems: [], publicationTables: {} }), 'Existing letter', 'basic-letter');
+  const record = await reviseActionPackage(await createActionPackage('Upload selection fixture'), [native]);
+  useUIStore.getState().openActionPackage(record.id);
+  render(<ActionPackageWorkspace exportGate={createExportGate()} ports={{ compile: vi.fn(), convertDocx: vi.fn(), waitForReady: async () => true }} />);
+  const dialog = await screen.findByRole('dialog', { name: 'Action packages' }), user = userEvent.setup();
+  await within(dialog).findByRole('heading', { name: record.name, level: 1 });
+  await workspaceSection(dialog, 'Documents', user);
+  await expandDetails(dialog, user);
+  const pdf = await PDFDocument.create(); pdf.addPage();
+  await user.upload(within(dialog).getByLabelText('Add original PDF', { exact: true }), new File([new Uint8Array(await pdf.save())], 'New supporting file.pdf', { type: 'application/pdf' }));
+  const heading = await within(dialog).findByRole('heading', { name: '2. New supporting file.pdf' });
+  expect(heading.closest('li')).toHaveAttribute('data-selected', 'true');
+});
 vi.mock("@/stores/backupStore", () => ({ scheduleBackup: vi.fn() }));
 vi.mock("@/config/classification", async (importOriginal) => ({
   ...(await importOriginal<typeof import("@/config/classification")>()),
@@ -664,7 +680,7 @@ it("keeps unsaved package typing through blocked navigation, close and failed sa
   await waitFor(() => expect(startReview).toBeEnabled(), { timeout: 15_000 });
   await user.click(startReview);
   const nav = await within(dialog).findByRole("navigation", { name: "Captured review members" }, { timeout: 15_000 });
-  await within(dialog).findByRole("button", { name: "Download review copy" });
+  await within(dialog).findByRole("button", { name: "Download review copy" }, { timeout: 15_000 });
   await waitFor(() => expect(within(nav).getByRole("button", { name: member.label })).toBeEnabled());
   await user.click(within(nav).getByRole("button", { name: member.label }));
   await user.type(await within(dialog).findByLabelText("Reviewer name for suggestion"), "Synthetic reviewer");
@@ -709,7 +725,7 @@ it("cancels a held package member write before its parent CAS", async () => {
   await workspaceSection(dialog, "Review", user);
   await user.click(within(dialog).getByRole("button", { name: "New review copy" }));
   const nav = await within(dialog).findByRole("navigation", { name: "Captured review members" });
-  await within(dialog).findByRole("button", { name: "Download review copy" });
+  await within(dialog).findByRole("button", { name: "Download review copy" }, { timeout: 15_000 });
   await waitFor(() => expect(within(nav).getByRole("button", { name: member.label })).toBeEnabled());
   await user.click(within(nav).getByRole("button", { name: member.label }));
   await user.type(await within(dialog).findByLabelText("Package comment reviewer name"), "Synthetic reviewer");
@@ -864,4 +880,48 @@ it('reviews and creates a request through its own busy parent controller', async
   const saved = (await listActionPackages()).find(record => !before.some(existing => existing.id === record.id));
   expect(saved).toBeDefined(); expect(getPackageRevision(saved!).members).toHaveLength(2);
   expect(getPackageRevision(saved!).information!.facts.some(fact => fact.value === fields.Requester)).toBe(true);
+});
+
+it('leaves new-package creation when an encrypted import requests a saved package', async () => {
+  const incoming = await createActionPackage('Imported package from creation');
+  const user = userEvent.setup();
+  useUIStore.setState({ actionPackagesOpen: true });
+  render(<ActionPackageWorkspace exportGate={createExportGate()} ports={{ compile: vi.fn(), convertDocx: vi.fn(), waitForReady: async () => true }} />);
+  const dialog = await screen.findByRole('dialog', { name: 'Action packages' });
+  await startNewPackage(dialog, user);
+  expect(within(dialog).getByRole('heading', { name: 'New package', level: 1 })).toBeVisible();
+  act(() => useUIStore.getState().openActionPackage(incoming.id, incoming.currentRevisionId));
+  await within(dialog).findByRole('heading', { name: incoming.name, level: 1 });
+  expect(within(dialog).getByRole('navigation', { name: 'Package workspace' })).toBeVisible();
+  await workspaceSection(dialog, 'Documents', user);
+  expect(within(dialog).getByRole('heading', { name: 'Documents', exact: true })).toBeVisible();
+});
+
+it.each([false, true])('queues PDF assembly behind a preview lease (cancel: %s)', async cancel => {
+  const { record, ports } = await retainedPair(`Queued assembly ${cancel}`);
+  const gate = createExportGate(), releasePreview = gate.acquire()!, user = userEvent.setup();
+  useUIStore.getState().openActionPackage(record.id);
+  render(<TooltipProvider><ActionPackageWorkspace exportGate={gate} ports={ports} /></TooltipProvider>);
+  const dialog = await screen.findByRole('dialog', { name: 'Action packages' });
+  await within(dialog).findByRole('heading', { name: record.name, level: 1 });
+  await workspaceSection(dialog, 'Delivery', user);
+  await user.click(within(dialog).getByRole('button', { name: 'Prepare PDF', exact: true }));
+  const download = await within(dialog).findByRole('button', { name: 'Download PDF', exact: true });
+  await waitFor(() => expect(download).toBeEnabled());
+  await user.click(download);
+  await waitFor(() => expect(within(dialog).getByRole('button', { name: 'Cancel operation' })).toBeVisible());
+  expect(within(dialog).queryByRole('alert')).toBeNull();
+  if (cancel) await user.click(within(dialog).getByRole('button', { name: 'Cancel operation' }));
+  await act(async () => releasePreview());
+  if (cancel) {
+    await within(dialog).findByRole('alert');
+    expect((await listActionPackages()).find(value => value.id === record.id)).toEqual(record);
+  } else {
+    await within(dialog).findByText('PDF downloaded. A copy is kept with this version.', {}, { timeout: 15_000 });
+    const saved = (await listActionPackages()).find(value => value.id === record.id)!;
+    expect(getPackageRevision(saved).outputs).toHaveLength(getPackageRevision(record).outputs.length + 1);
+  }
+  const releaseNext = gate.acquire();
+  expect(releaseNext).not.toBeNull();
+  releaseNext?.();
 });

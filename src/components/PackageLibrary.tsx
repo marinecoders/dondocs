@@ -28,7 +28,7 @@ export function PackageLibrary({ records, loaded, disabled, onOpen, onCreate }: 
           {filtered.map(record => {
             const revision = getPackageRevision(record);
             return <li key={record.id}>
-              <button type="button" disabled={disabled} onClick={() => onOpen(record)}
+              <button type="button" data-package-id={record.id} disabled={disabled} onClick={() => onOpen(record)}
                 className="flex w-full items-center justify-between gap-6 py-5 text-left hover:bg-accent/30 disabled:opacity-50">
                 <span className="min-w-0"><span className="block break-words text-sm font-medium">{record.name}</span>
                   <span className="mt-1 block text-xs text-muted-foreground">{revision.members.length} document{revision.members.length === 1 ? '' : 's'}{record.archived ? ' · Archived' : ''}</span>

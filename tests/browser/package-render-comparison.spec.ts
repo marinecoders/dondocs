@@ -1,3 +1,4 @@
+import { openPackagePreparation, packageSection, choosePackageById, preparePackageExport, packageTool, downloadPackageExport, importPackage as importWorkspacePackage } from './_helpers/packageWorkspace';
 import { expect, test, type BrowserContext, type Page } from "@playwright/test";
 import { createHash } from "node:crypto";
 import { readFile } from "node:fs/promises";
@@ -16,40 +17,31 @@ async function appearance(context: BrowserContext, theme: string) {
   }, theme);
 }
 async function packages(page: Page) {
-  const drawer = page.getByRole("dialog", { name: "Documents", exact: true });
-  if (!(await drawer.isVisible())) await page.getByRole("button", { name: "Open workspace", exact: true })
-    .or(page.getByRole("button", { name: /^Packages(?:\s|$)/ })).first().click();
-  if (await drawer.isVisible()) await drawer.getByRole("button", { name: /^Packages(?:\s|$)/ }).click();
-  return page.getByRole("dialog", { name: "Action packages", exact: true });
+  return openPackagePreparation(page);
 }
 async function importPackage(page: Page, bytes: Buffer) {
   const modal = await packages(page);
-  await modal.getByLabel("Import editable package", { exact: true }).setInputFiles({ name: "synthetic.dondocs-package.json", mimeType: "application/json", buffer: bytes });
+  await importWorkspacePackage(modal, { name: "synthetic.dondocs-package.json", mimeType: "application/json", buffer: bytes });
+  await packageSection(modal, 'Delivery', true);
   await expect(modal).toHaveAttribute("aria-busy", "false", { timeout: 30_000 });
-  await expect(modal.getByRole("button", { name: "Check readiness and assemble", exact: true })).toBeVisible();
+  await expect(modal.getByRole("button", { name: "Prepare PDF", exact: true })).toBeVisible();
   return modal;
 }
 async function approve(page: Page, button: string) {
   const modal = page.getByRole("dialog", { name: "Action packages", exact: true });
-  await modal.getByRole("checkbox", { name: /^I reviewed every included member/ }).check();
+  if (await modal.getByRole("checkbox", { name: /^I reviewed every included member/ }).isVisible()) await modal.getByRole("checkbox", { name: /^I reviewed every included member/ }).check();
   await modal.getByRole("button", { name: button, exact: true }).click();
 }
 async function download(page: Page, prepare: string, deliver: string) {
-  const modal = page.getByRole("dialog", { name: "Action packages", exact: true });
-  await modal.getByRole("button", { name: prepare, exact: true }).click();
-  await expect(modal).toHaveAttribute("aria-busy", "false", { timeout: 90_000 });
-  await expect(modal.getByRole("heading", { name: prepare === "Export editable package" ? /^Editable transfer checks:/ : /^Package readiness:/ })).toBeVisible();
-  const pending = page.waitForEvent("download");
-  await approve(page, deliver);
-  return readFile((await (await pending).path())!);
+  return downloadPackageExport(page, page.getByRole('dialog', { name: 'Action packages', exact: true }), prepare, deliver);
 }
 async function compare(page: Page) {
   const modal = page.getByRole("dialog", { name: "Action packages", exact: true });
   await modal.getByRole("button", { name: "Review PDF comparison", exact: true }).click();
   await expect(modal).toHaveAttribute("aria-busy", "false", { timeout: 90_000 });
-  await expect(modal.getByRole("heading", { name: /^Package readiness:/ })).toBeVisible();
+  await expect(modal.getByRole('button', { name: 'Compare reviewed retained PDFs', exact: true })).toBeEnabled();
   await approve(page, "Compare reviewed retained PDFs");
-  const result = modal.getByRole("region", { name: "Retained PDF comparison", exact: true });
+  const result = await packageTool(modal, "Retained PDF comparison");
   await expect(result).toBeVisible({ timeout: 60_000 });
   return result;
 }
@@ -67,17 +59,17 @@ for (const theme of ["light", "dark", "classic"]) test(`v1.3.98 saved inputs re-
   const originalPacket = JSON.parse(fixture.toString("utf8")), oldOutput = originalPacket.package.revisions[0].outputs[0];
   const originalAsset = originalPacket.package.revisions[0].members.find((member: { kind: string }) => member.kind === "original").original;
   expect(sha(await download(page, "Download retained PDF", "Download reviewed retained PDF"))).toBe(receipt.retainedSha256);
-  await modal.getByRole("button", { name: "Check readiness and assemble", exact: true }).click();
+  await preparePackageExport(modal, 'pdf');
   await expect(modal).toHaveAttribute("aria-busy", "false", { timeout: 90_000 });
-  await expect(modal.getByRole("heading", { name: /^Package readiness: (ready|exported)$/, exact: true })).toBeVisible();
-  await approve(page, "Assemble and retain PDF");
-  await expect(modal.getByRole("status").filter({ hasText: /^Assembled PDF retained\./ })).toContainText("Assembled PDF retained.", { timeout: 90_000 });
+  await expect(modal.getByRole('button', { name: 'Download PDF', exact: true })).toBeEnabled();
+  await approve(page, "Download PDF");
+  await expect(modal.getByRole("status").filter({ hasText: /^PDF downloaded\./ })).toContainText("PDF downloaded. A copy is kept with this version.", { timeout: 90_000 });
   const result = await compare(page);
   await expect(result.getByText("Unavailable for a legacy output", { exact: true })).toBeVisible();
   for (const metric of ["Extracted text", "Text layout", "Page geometry", "Member boundaries and numbering"])
     await expect(result.locator("dt").filter({ hasText: new RegExp(`^${metric}$`) }).locator("+ dd")).toHaveText("Match");
   await expect(result).toContainText("do not establish visual equivalence");
-  const transferred = await download(page, "Export editable package", "Download reviewed editable package"), packet = JSON.parse(transferred.toString("utf8"));
+  const transferred = await download(page, "Export editable package", "Download editable package"), packet = JSON.parse(transferred.toString("utf8"));
   const revision = packet.package.revisions[0];
   expect(revision.id).toBe(receipt.revisionId);
   expect(revision.outputs).toHaveLength(2);
@@ -89,7 +81,7 @@ for (const theme of ["light", "dark", "classic"]) test(`v1.3.98 saved inputs re-
   await info.attach("cross-release-receipt", { body: JSON.stringify({ baseline: receipt.sourceHead, currentVersion: revision.outputs[1].provenance.applicationVersion, beforeSha: oldOutput.asset.sha256, afterSha: revision.outputs[1].asset.sha256, observed: await result.innerText() }, null, 2), contentType: "application/json" });
   await page.reload();
   modal = await packages(page);
-  await modal.getByLabel("Saved packages", { exact: true }).selectOption(packet.package.id);
+  await choosePackageById(modal, packet.package.id);
   await compare(page);
   const fresh = await browser.newContext({ baseURL, serviceWorkers: "block" });
   try {
@@ -98,7 +90,7 @@ for (const theme of ["light", "dark", "classic"]) test(`v1.3.98 saved inputs re-
     await other.goto("/");
     await importPackage(other, transferred);
     await compare(other);
-    const restored = JSON.parse((await download(other, "Export editable package", "Download reviewed editable package")).toString("utf8"));
+    const restored = JSON.parse((await download(other, "Export editable package", "Download editable package")).toString("utf8"));
     expect(sha(resource(restored, oldOutput.asset.id))).toBe(receipt.retainedSha256);
     expect(sha(resource(restored, originalAsset.id))).toBe(receipt.originalSha256);
     expect(sha(await download(other, "Download retained PDF", "Download reviewed retained PDF"))).toBe(revision.outputs[1].asset.sha256);

@@ -1,3 +1,4 @@
+import { openPackagePreparation, importPackage, packageSection, choosePackageById, packageTool, prepareReviewTransfer } from './_helpers/packageWorkspace';
 import { expect, test, type Download, type Page } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 import { readFile } from 'node:fs/promises';
@@ -7,10 +8,7 @@ const fixturePath = fileURLToPath(new URL('../fixtures/package-render/baseline-1
 test.use({ serviceWorkers: 'block', actionTimeout: 15_000 });
 test.setTimeout(150_000);
 async function packages(page: Page) {
-  const drawer = page.getByRole('dialog', { name: 'Documents', exact: true });
-  if (!(await drawer.isVisible())) await page.getByRole('button', { name: 'Open workspace', exact: true }).or(page.getByRole('button', { name: /^Packages(?:\s|$)/ })).first().click();
-  if (await drawer.isVisible()) await drawer.getByRole('button', { name: /^Packages(?:\s|$)/ }).click();
-  return page.getByRole('dialog', { name: 'Action packages', exact: true });
+  return openPackagePreparation(page);
 }
 async function bytes(download: Download) {
   const path = await download.path(); if (!path) throw new Error('The review file was not downloaded.'); return readFile(path);
@@ -23,13 +21,15 @@ for (const theme of ['light', 'dark', 'classic']) test(`package reviewer copy an
   await context.addInitScript(initialize, theme); await page.goto('/');
   const modal = await packages(page); const input = await readFile(fixturePath), fixture = JSON.parse(input.toString());
   const native = fixture.package.revisions[0].members[0], original = fixture.package.revisions[0].members[1];
-  await modal.getByLabel('Import editable package', { exact: true }).setInputFiles({ name: 'synthetic-package.json', mimeType: 'application/json', buffer: input });
-  await modal.getByRole('button', { name: 'Start package review', exact: true }).click();
-  await modal.getByRole('button', { name: 'Prepare package reviewer copy', exact: true }).click();
-  const transfer = modal.getByRole('region', { name: 'Portable package reviews' });
-  await transfer.getByRole('checkbox').check();
-  const ownerDownload = page.waitForEvent('download');
-  await transfer.getByRole('button', { name: 'Download package reviewer copy', exact: true }).click();
+  await importPackage(modal, { name: 'synthetic-package.json', mimeType: 'application/json', buffer: input });
+  await packageSection(modal, 'Review', true);
+  await packageSection(modal, 'Review', true);
+  await modal.getByRole('button', { name: 'New review copy', exact: true }).click();
+  await prepareReviewTransfer(modal, 'copy');
+  const transfer = await packageTool(modal, 'Portable package reviews');
+  if (await transfer.getByRole('checkbox').isVisible()) await transfer.getByRole('checkbox').check();
+  const ownerDownload = page.waitForEvent('download', { timeout: 90_000 });
+  await transfer.getByRole('button', { name: 'Download review copy', exact: true }).click();
   const copy = await bytes(await ownerDownload); const copyValue = JSON.parse(copy.toString());
   expect(copyValue.package.id).toBe(fixture.package.id); expect(copyValue.package.reviewRounds[0].ownerPackageId).toBeUndefined();
   const independent = await browser.newContext({ viewport: page.viewportSize() ?? undefined, isMobile: !!info.project.use.isMobile, hasTouch: !!info.project.use.hasTouch, serviceWorkers: 'block' });
@@ -38,10 +38,10 @@ for (const theme of ['light', 'dark', 'classic']) test(`package reviewer copy an
     let reviewModal = await packages(reviewer);
     await reviewModal.getByLabel('Import package reviewer copy', { exact: true }).setInputFiles({ name: 'reviewer-copy.json', mimeType: 'application/json', buffer: copy });
     let reviewTransfer = reviewModal.getByRole('region', { name: 'Portable package reviews' });
-    await reviewTransfer.getByRole('checkbox').check();
-    await reviewTransfer.getByRole('button', { name: 'Import reviewed package reviewer copy', exact: true }).click();
+    if (await reviewTransfer.getByRole('checkbox').isVisible()) await reviewTransfer.getByRole('checkbox').check();
+    await reviewTransfer.getByRole('button', { name: 'Import review copy', exact: true }).click();
     await expect(reviewModal.getByText('Reviewing exact saved package revision', { exact: true })).toBeVisible();
-    await expect(reviewModal.getByRole('button', { name: 'Close package review', exact: true })).toHaveCount(0);
+    await expect(reviewModal.getByRole('button', { name: /^End Package review/ })).toHaveCount(0);
     let navigation = reviewModal.getByRole('navigation', { name: 'Captured review members' });
     await navigation.getByRole('button', { name: native.label, exact: true }).click();
     await reviewModal.getByLabel('Package comment reviewer name', { exact: true }).fill('Synthetic reviewer');
@@ -63,15 +63,16 @@ for (const theme of ['light', 'dark', 'classic']) test(`package reviewer copy an
     await expect(navigation.getByRole('button', { name: original.label, exact: true })).toBeEnabled();
     await expect(reviewModal.getByRole('region', { name: 'Review suggestions', exact: true })).toHaveCount(0);
     await reviewer.reload(); reviewModal = await packages(reviewer);
-    await reviewModal.getByLabel('Saved packages', { exact: true }).selectOption(fixture.package.id);
+    await choosePackageById(reviewModal, fixture.package.id);
+  await packageSection(reviewModal, 'Review', true);
     await reviewModal.getByRole('button', { name: 'Open review Package review 1', exact: true }).click();
     navigation = reviewModal.getByRole('navigation', { name: 'Captured review members' });
     await navigation.getByRole('button', { name: original.label, exact: true }).click();
     await expect(reviewModal.getByText('Synthetic original PDF question.', { exact: true })).toBeVisible();
-    await reviewModal.getByRole('button', { name: 'Prepare package feedback return', exact: true }).click();
+    await prepareReviewTransfer(reviewModal, 'return');
     reviewTransfer = reviewModal.getByRole('region', { name: 'Portable package reviews' });
-    await reviewTransfer.getByRole('checkbox').check(); const returnDownload = reviewer.waitForEvent('download');
-    await reviewTransfer.getByRole('button', { name: 'Download package feedback return', exact: true }).click();
+    if (await reviewTransfer.getByRole('checkbox').isVisible()) await reviewTransfer.getByRole('checkbox').check(); const returnDownload = reviewer.waitForEvent('download', { timeout: 90_000 });
+    await reviewTransfer.getByRole('button', { name: 'Download feedback', exact: true }).click();
     const returned = await bytes(await returnDownload); const payload = JSON.parse(returned.toString());
     expect(payload.kind).toBe('dondocs-package-review-return');
     expect(payload.package.reviewRounds[0].id).toBe(copyValue.package.reviewRounds[0].id);

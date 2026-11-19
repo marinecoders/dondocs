@@ -31,8 +31,9 @@ export function PackageNextActions({ record, revision, disabled, reviewBaseline,
   return <section aria-label="Package checks" className="space-y-4 border-b pb-6">
     <div className="flex items-center justify-between gap-4">
       <h2 className="text-base font-medium">{error ? 'Package checks unavailable' : result ? blockers.length ? `${blockers.length} item${blockers.length === 1 ? '' : 's'} before PDF` : 'PDF checks complete' : 'Checking package…'}</h2>
-      {result?.readyForOperation && <Button disabled={disabled} onClick={onPrepare}>Review PDF</Button>}
+      {result?.readyForOperation && <Button disabled={disabled || reviewBaseline} onClick={onPrepare}>Review PDF</Button>}
     </div>
+    {reviewBaseline && result?.readyForOperation && <p className="text-sm text-muted-foreground">Return to the current package to prepare a new PDF. Saved PDFs remain available in Delivery.</p>}
     {error && <p role="alert" className="text-sm text-destructive">{error}</p>}
     {blockers.slice(0, expanded ? undefined : 3).map(action => <div key={action.id} className="flex items-start justify-between gap-6 text-sm">
       <p className="min-w-0 break-words">{action.message}</p>

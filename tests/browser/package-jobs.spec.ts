@@ -1,3 +1,4 @@
+import { openPackagePreparation, importPackage, packageSection, expandPackageTools, packageTool } from './_helpers/packageWorkspace';
 import { expect, test, type Locator, type Page } from '@playwright/test';
 import { createHash } from 'node:crypto';
 import { PDFDocument, StandardFonts } from 'pdf-lib';
@@ -30,16 +31,11 @@ async function fixture() {
     archived: false, sequence: 0, currentRevisionId: revisionId, revisions: [{ id: revisionId, createdAt: 100, members, outputs: [] }] }, portableResources: { kind: 'dondocs-resources', version: 1, entries: resources } }));
 }
 async function packages(page: Page) {
-  const drawer = page.getByRole('dialog', { name: 'Documents', exact: true });
-  if (!await drawer.isVisible()) await page.getByRole('button', { name: 'Open workspace', exact: true }).or(page.getByRole('button', { name: /^Packages(?:\s|$)/ })).first().click();
-  if (await drawer.isVisible()) await drawer.getByRole('button', { name: /^Packages(?:\s|$)/ }).click();
-  const dialog = page.getByRole('dialog', { name: 'Action packages', exact: true });
-  await expect(dialog.getByLabel('Import editable package', { exact: true })).toBeEnabled();
-  return dialog;
+  return openPackagePreparation(page);
 }
 async function jobsPanel(dialog: Locator) {
-  const panel = dialog.getByRole('region', { name: 'Resumable PDF assembly', exact: true });
-  if (!await panel.isVisible()) await dialog.locator('summary').filter({ hasText: /^Resumable PDF assembly$/ }).click();
+  const panel = await packageTool(dialog, 'Resumable PDF assembly');
+  if (!await panel.isVisible()) await expandPackageTools(dialog);
   await expect(panel).toBeVisible(); return panel;
 }
 async function jobState(page: Page) {
@@ -58,10 +54,9 @@ for (const theme of ['light', 'dark', 'classic']) for (const width of [1440, 320
   await page.setViewportSize({ width, height: 950 });
   await context.addInitScript(value => { localStorage.setItem('browser-test-visitor', 'returning'); localStorage.setItem('dondocs_ui', JSON.stringify({ version: 1, state: { theme: value, editorLayout: 'focused' } })); }, theme);
   await page.goto('/'); let dialog = await packages(page);
-  await dialog.getByLabel('Import editable package', { exact: true }).setInputFiles({ name: 'resumable-training.json', mimeType: 'application/json', buffer: await fixture() });
-  // Import validates and retains 40 documents before publishing the package.
-  // A cold WebKit runner can finish that work just beyond the default 5 seconds.
-  await expect(dialog.getByLabel('Package name', { exact: true })).toHaveValue('Resumable training package', { timeout: 30_000 });
+  await importPackage(dialog, { name: 'resumable-training.json', mimeType: 'application/json', buffer: await fixture() });
+  await packageSection(dialog, 'Delivery', true);
+  await expect(dialog.getByRole('heading', { name: 'Resumable training package', exact: true, level: 1 })).toBeVisible({ timeout: 30_000 });
   let panel = await jobsPanel(dialog);
   await panel.getByRole('button', { name: 'Review resumable assembly', exact: true }).click();
   const start = panel.getByRole('button', { name: 'Start reviewed assembly', exact: true }); await expect(start).toBeDisabled();

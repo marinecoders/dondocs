@@ -33,10 +33,12 @@
   .package-workspace-main { padding: 24px 20px 40px; }
 }
 @media (max-width: 560px) {
+  .package-workspace-appbar { min-height: 56px; gap: 8px; padding: 10px 12px; }
+  .package-workspace-brand { display: none; }
   .package-workspace-layout { display: flex; flex-direction: column; }
   .package-workspace-sidebar { border-right: 0; border-bottom: 1px solid var(--border); padding: 8px; }
   .package-workspace-sidebar nav { grid-template-columns: repeat(4, minmax(0, 1fr)); }
   .package-workspace-sidebar nav button { padding: 8px 4px; justify-content: center; font-size: 12px; }
-  .package-workspace-history { display: none; }
+  .package-workspace-history { align-self: flex-end; margin-top: 0; min-height: 32px; padding: 4px 8px; }
   .package-workspace-main { flex: 1; min-height: 0; }
 }

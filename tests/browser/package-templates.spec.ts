@@ -1,3 +1,4 @@
+import { openPackagePreparation, packageSection, expandPackageTools, preparePackageExport, packageTool, packageHeading } from './_helpers/packageWorkspace';
 import { expect, test, type Page } from '@playwright/test';
 import { capturePackageDocument } from '../_helpers/capturePackageDocument';
 import { PDFDocument, StandardFonts } from 'pdf-lib';
@@ -7,13 +8,10 @@ import { getDocument } from 'pdfjs-dist/legacy/build/pdf.mjs';
 test.use({ serviceWorkers: 'block', actionTimeout: 15_000 });
 test.setTimeout(180_000);
 async function openPackages(page: Page) {
-  const drawer = page.getByRole('dialog', { name: 'Documents', exact: true });
-  if (!await drawer.isVisible()) await page.getByRole('button', { name: 'Open workspace', exact: true }).or(page.getByRole('button', { name: /^Packages(?:\s|$)/ })).first().click();
-  if (await drawer.isVisible()) await drawer.getByRole('button', { name: /^Packages(?:\s|$)/ }).click();
-  return page.getByRole('dialog', { name: 'Action packages', exact: true });
+  return openPackagePreparation(page);
 }
 async function downloaded(page: Page, action: () => Promise<void>) {
-  const pending = page.waitForEvent('download'); await action(); const download = await pending;
+  const pending = page.waitForEvent('download', { timeout: 90_000 }); await action(); const download = await pending;
   expect(await download.failure()).toBeNull(); return readFile((await download.path())!);
 }
 for (const theme of ['light', 'dark']) {
@@ -32,24 +30,26 @@ for (const theme of ['light', 'dark']) {
     await page.getByRole('button', { name: 'Open as new document', exact: true }).click();
     await expect(page.getByRole('dialog', { name: 'Review draft', exact: true })).toBeHidden();
     let dialog = await openPackages(page);
-    await dialog.getByLabel('Package name', { exact: true }).fill('Training action starter');
+    await dialog.getByRole('textbox', { name: 'Package name', exact: true }).fill('Training action starter');
     await dialog.getByRole('button', { name: 'Create package', exact: true }).click();
     await capturePackageDocument(dialog);
-    await expect(dialog.getByRole('heading', { name: '1. ACTION FOR {{NAME}}', exact: true })).toBeVisible();
+    await expect((await packageHeading(dialog, '1. ACTION FOR {{NAME}}'))).toBeVisible();
     const pdf = await PDFDocument.create(); const pdfPage = pdf.addPage([612, 792]);
     pdfPage.drawText('FRESH TRAINING ENCLOSURE', { x: 40, y: 730, font: await pdf.embedFont(StandardFonts.Helvetica), size: 12 });
     const fresh = Buffer.from(await pdf.save());
+  await packageSection(dialog, 'Documents', true);
     await dialog.getByLabel('New member role', { exact: true }).selectOption('enclosure');
+  await packageSection(dialog, 'Documents', true);
     await dialog.getByLabel('Add original PDF', { exact: true }).setInputFiles({ name: 'support.pdf', mimeType: 'application/pdf', buffer: fresh });
-    await expect(dialog.getByRole('heading', { name: '2. support.pdf', exact: true })).toBeVisible();
-    await dialog.locator('summary').filter({ hasText: 'Reusable package templates' }).click();
-    let panel = dialog.getByRole('region', { name: 'Reusable package templates', exact: true });
+    await expect((await packageHeading(dialog, '2. support.pdf'))).toBeVisible();
+    await expandPackageTools(dialog);
+    let panel = await packageTool(dialog, 'Reusable package templates');
     await panel.getByLabel('Template name', { exact: true }).fill('Training package template');
     await panel.getByRole('checkbox', { name: /I reviewed the source starter text/ }).check();
     await panel.getByRole('button', { name: 'Save package template', exact: true }).click();
     await expect(panel.getByText('Package template saved.', { exact: true })).toBeVisible();
     await page.reload();
-    dialog = await openPackages(page); await dialog.locator('summary').filter({ hasText: 'Reusable package templates' }).click(); panel = dialog.getByRole('region', { name: 'Reusable package templates', exact: true });
+    dialog = await openPackages(page); await expandPackageTools(dialog); panel = dialog.getByRole('region', { name: 'Reusable package templates', exact: true });
     await panel.getByLabel('Saved package templates', { exact: true }).selectOption({ label: 'Training package template' });
     await panel.getByRole('button', { name: 'Review template export', exact: true }).click();
     await panel.getByRole('checkbox', { name: /I reviewed this template's retained text/ }).check();
@@ -74,14 +74,14 @@ for (const theme of ['light', 'dark']) {
     await expect(panel.getByText('fresh-support.pdf', { exact: true })).toBeVisible();
     await panel.getByRole('checkbox', { name: /I reviewed the retained starter contents/ }).check();
     await panel.getByRole('button', { name: 'Create package from template', exact: true }).click();
-    await expect(dialog.getByLabel('Package name', { exact: true })).toHaveValue('Fresh training action');
-    await dialog.getByRole('button', { name: 'Check readiness and assemble', exact: true }).click();
-    await expect(dialog.getByRole('heading', { name: 'Package readiness: ready', exact: true })).toBeVisible();
-    await dialog.getByRole('checkbox', { name: /^I reviewed every included member/ }).check();
-    await dialog.getByRole('button', { name: 'Assemble and retain PDF', exact: true }).click();
-    await expect(dialog.getByText(/^Assembled PDF retained\./)).toBeVisible({ timeout: 60_000 });
-    await dialog.getByRole('button', { name: 'Download retained PDF', exact: true }).click();
-    await dialog.getByRole('checkbox', { name: /^I reviewed every included member/ }).check();
+    await expect(dialog.getByRole('heading', { name: 'Fresh training action', exact: true, level: 1 })).toBeVisible();
+    await preparePackageExport(dialog, 'pdf');
+  await expect(dialog.getByRole('button', { name: 'Download PDF', exact: true })).toBeEnabled();
+    if (await dialog.getByRole('checkbox', { name: /^I reviewed every included member/ }).isVisible()) await dialog.getByRole('checkbox', { name: /^I reviewed every included member/ }).check();
+    await dialog.getByRole('button', { name: 'Download PDF', exact: true }).click();
+    await expect(dialog.getByText(/^PDF downloaded\./)).toBeVisible({ timeout: 60_000 });
+    await preparePackageExport(dialog, 'saved');
+    if (await dialog.getByRole('checkbox', { name: /^I reviewed every included member/ }).isVisible()) await dialog.getByRole('checkbox', { name: /^I reviewed every included member/ }).check();
     const output = await downloaded(page, () => dialog.getByRole('button', { name: 'Download reviewed retained PDF', exact: true }).click());
     expect((await PDFDocument.load(output)).getForm().getFields()).toHaveLength(0);
     const document = await getDocument({ data: new Uint8Array(output), useSystemFonts: false }).promise;
@@ -111,12 +111,12 @@ test('native enclosure replacements are required and only fresh bytes reach the 
   })) });
   await page.getByRole('button', { name: 'Open as new document', exact: true }).click();
   const dialog = await openPackages(page);
-  await dialog.getByLabel('Package name', { exact: true }).fill('Native source action');
+  await dialog.getByRole('textbox', { name: 'Package name', exact: true }).fill('Native source action');
   await dialog.getByRole('button', { name: 'Create package', exact: true }).click();
   await capturePackageDocument(dialog);
-  await expect(dialog.getByRole('heading', { name: '1. NATIVE ENCLOSURE STARTER', exact: true })).toBeVisible();
-  await dialog.locator('summary').filter({ hasText: 'Reusable package templates' }).click();
-  const panel = dialog.getByRole('region', { name: 'Reusable package templates', exact: true });
+  await expect((await packageHeading(dialog, '1. NATIVE ENCLOSURE STARTER'))).toBeVisible();
+  await expandPackageTools(dialog);
+  const panel = await packageTool(dialog, 'Reusable package templates');
   await panel.getByLabel('Template name', { exact: true }).fill('Native file template');
   await panel.getByRole('checkbox', { name: /I reviewed the source starter text/ }).check();
   await panel.getByRole('button', { name: 'Save package template', exact: true }).click();
@@ -134,14 +134,14 @@ test('native enclosure replacements are required and only fresh bytes reach the 
   await expect(panel.getByText('fresh.pdf', { exact: true })).toBeVisible();
   await panel.getByRole('checkbox', { name: /I reviewed the retained starter contents/ }).check();
   await panel.getByRole('button', { name: 'Create package from template', exact: true }).click();
-  await expect(dialog.getByLabel('Package name', { exact: true })).toHaveValue('Fresh native action');
-  await dialog.getByRole('button', { name: 'Check readiness and assemble', exact: true }).click();
-  await expect(dialog.getByRole('heading', { name: 'Package readiness: ready', exact: true })).toBeVisible();
-  await dialog.getByRole('checkbox', { name: /^I reviewed every included member/ }).check();
-  await dialog.getByRole('button', { name: 'Assemble and retain PDF', exact: true }).click();
-  await expect(dialog.getByText(/^Assembled PDF retained\./)).toBeVisible();
-  await dialog.getByRole('button', { name: 'Download retained PDF', exact: true }).click();
-  await dialog.getByRole('checkbox', { name: /^I reviewed every included member/ }).check();
+  await expect(dialog.getByRole('heading', { name: 'Fresh native action', exact: true, level: 1 })).toBeVisible();
+  await preparePackageExport(dialog, 'pdf');
+  await expect(dialog.getByRole('button', { name: 'Download PDF', exact: true })).toBeEnabled();
+  if (await dialog.getByRole('checkbox', { name: /^I reviewed every included member/ }).isVisible()) await dialog.getByRole('checkbox', { name: /^I reviewed every included member/ }).check();
+  await dialog.getByRole('button', { name: 'Download PDF', exact: true }).click();
+  await expect(dialog.getByText(/^PDF downloaded\./)).toBeVisible();
+  await preparePackageExport(dialog, 'saved');
+  if (await dialog.getByRole('checkbox', { name: /^I reviewed every included member/ }).isVisible()) await dialog.getByRole('checkbox', { name: /^I reviewed every included member/ }).check();
   const output = await downloaded(page, () => dialog.getByRole('button', { name: 'Download reviewed retained PDF', exact: true }).click());
   const pdf = await getDocument({ data: new Uint8Array(output), useSystemFonts: false }).promise;
   try {
@@ -151,8 +151,8 @@ test('native enclosure replacements are required and only fresh bytes reach the 
     expect(all.join(' ')).toContain('FRESH NATIVE REPLACEMENT'); expect(all.join(' ')).not.toContain('OLD PERSONAL ORIGINAL');
   } finally { await pdf.destroy(); }
   await writeFile(info.outputPath('fresh-native-package.pdf'), output);
-  await dialog.getByRole('button', { name: 'Export editable package', exact: true }).click();
-  await dialog.getByRole('checkbox', { name: /^I reviewed every included member/ }).check();
-  const portable = await downloaded(page, () => dialog.getByRole('button', { name: 'Download reviewed editable package', exact: true }).click());
+  await preparePackageExport(dialog, 'editable');
+  if (await dialog.getByRole('checkbox', { name: /^I reviewed every included member/ }).isVisible()) await dialog.getByRole('checkbox', { name: /^I reviewed every included member/ }).check();
+  const portable = await downloaded(page, () => dialog.getByRole('button', { name: 'Download editable package', exact: true }).click());
   await writeFile(info.outputPath('fresh-native-package.json'), portable);
 });

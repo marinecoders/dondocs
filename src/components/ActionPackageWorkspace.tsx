@@ -187,7 +187,7 @@ function PackageDialog({
   const [workspaceSection, setWorkspaceSection] = useState<PackageWorkspaceSection>(unfinishedAction ? 'overview' : savedWorkspace?.section ?? "overview");
   const [activeMemberId, setActiveMemberId] = useState<string | null>(savedWorkspace?.memberId ?? null);
   const overviewRef = useRef<HTMLDivElement>(null);
-  const mainScroll = useRef<HTMLElement>(null);
+  const mainScroll = useRef<HTMLDivElement>(null);
   const preparedResultRef = useRef<HTMLDivElement>(null);
   const dialogRoot = useRef<HTMLDivElement>(null), destinationOwner = useRef(''), destinationSequence = useRef(0);
   const [destination, setDestination] = useState<PackageDestinationRequest>();
@@ -426,6 +426,9 @@ function PackageDialog({
           const explicit = records.find(record => record.id === requestedPackageId);
           const requested = explicit ?? (!requestedPackageId && !creating ? records.find(record => record.id === savedWorkspace?.packageId) : undefined);
           if (requested) {
+            setCreating(false);
+            setCreatingAction(false);
+            setLibraryOpen(false);
             setOpenedReview(null);
             setSelectedId(requested.id);
             if (requestedRevisionId && !requested.revisions.some(revision => revision.id === requestedRevisionId))
@@ -549,10 +552,13 @@ function PackageDialog({
     }
   }
   async function modify(members: PackageMember[]) {
-    if (record)
-      update(
-        await reviseActionPackage(record, members, operation.current?.signal),
-      );
+    if (!record) return;
+    const added = members.find(member => !revision?.members.some(previous => previous.id === member.id));
+    update(await reviseActionPackage(record, members, operation.current?.signal));
+    if (added) {
+      setActiveMemberId(added.id);
+      setWorkspaceSection('documents');
+    }
   }
   async function prepareCitationReorder(value: CitationReorderOperation) {
     if (!record) return;
@@ -694,13 +700,10 @@ function PackageDialog({
         setNotice(`Retained PDF downloaded. SHA-256: ${output.asset.sha256}`);
       }
     } else {
-      const release = exportGate.acquire();
-      if (!release)
-        throw new Error(
-          "Another export is still running. Wait for it to finish before assembling this package.",
-        );
+      const release = await exportGate.acquireWhenAvailable(operation.current!.signal);
       let updated: ActionPackage;
       try {
+        assertOperationCurrent();
         updated = await assemblePackage(
           prepared,
           ports,
@@ -725,11 +728,11 @@ function PackageDialog({
   const comparedSource = comparison?.source;
   return <>
     <Dialog open onOpenChange={value => { if (!value) close(); }}>
-      <DialogContent fullscreen showCloseButton={false} ref={dialogRoot} className="package-workspace-dialog" aria-busy={busy}>
+      <DialogContent fullscreen showCloseButton={false} ref={dialogRoot} className="package-workspace-dialog" aria-busy={busy} data-package-id={record?.id} data-revision-id={revision?.id}>
         <DialogHeader className="sr-only"><DialogTitle>Action packages</DialogTitle><DialogDescription>Package documents, review and delivery.</DialogDescription></DialogHeader>
         <div className="package-workspace-appbar">
           <img src={`${import.meta.env.BASE_URL}attachments/marine-coders-logo.svg`} alt="Marine Coders" className="h-7 w-9 object-contain brightness-0 dark:invert" />
-          <span className="text-sm font-semibold">DonDocs</span><span className="text-muted-foreground">/</span>
+          <span className="package-workspace-brand text-sm font-semibold">DonDocs</span><span className="text-muted-foreground">/</span>
           {library ? <span className="text-sm">Packages</span> : <Button variant="ghost" size="sm" aria-label="Back to packages" disabled={busy} onClick={() => { setLibraryOpen(true); setError(''); setNotice(''); }}><ArrowLeft aria-hidden="true" className="size-4" />Packages</Button>}
           <Button variant="ghost" size="sm" className="ml-auto" onClick={close}>Close<X aria-hidden="true" className="size-4" /></Button>
         </div>
@@ -738,7 +741,7 @@ function PackageDialog({
             <PackageWorkspaceNavigation active={workspaceSection} hasPackage={!!record && !library && !creating} disabled={busy || library || creating} onNavigate={navigate} />
             {record && !library && <Button variant="ghost" className="package-workspace-history" onClick={() => setHistoryOpen(true)}>Version history</Button>}
           </aside>
-          <main ref={mainScroll} className="package-workspace-main">
+          <div ref={mainScroll} className="package-workspace-main">
             <div className="package-workspace-content">
               <div className="package-workspace-feedback" aria-live="polite">
                 {error && <p role="alert" className="break-words text-sm text-destructive">{error}</p>}
@@ -855,7 +858,7 @@ function PackageDialog({
             </label>
           </div>
           <Suspense fallback={<p>Loading package review files…</p>}>
-            <PackageReviewTransfer record={record} round={openedReview} busy={busy} run={run} signal={() => operation.current?.signal}
+            <PackageReviewTransfer directDownload record={record} round={openedReview} busy={busy} run={run} signal={() => operation.current?.signal}
               isCurrent={() => active.current && !operation.current?.signal.aborted} onImport={value => {
                 update(value); const round = value.reviewRounds![0]; setOpenedReview(round); setRevisionId(round.revisionId); setWorkspaceSection("review");
               }} />
@@ -1542,14 +1545,10 @@ function PackageDialog({
               busy={busy} run={run} onApply={update} destination={destination} onNavigate={followDestination} onDirtyChange={setSigningDirty} signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted} />
           </Suspense></div>
         </details>}
-{readRecord && revision && <Suspense fallback={<p role="status">Opening saved assembly jobs…</p>}>
-          <PackageJobsPanel record={readRecord} revision={revision} disabled={pendingPackageEdits || !!openedReview} busy={busy} ports={ports} run={run} onApply={update}
-            signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted} />
-        </Suspense>}
 {record && readRecord && revision && <details className="min-w-0 rounded border p-2 sm:p-3">
           <summary className="cursor-pointer text-sm font-medium">Recipient delivery</summary>
           <div className="min-w-0 pt-3"><Suspense fallback={<p role="status">Opening recipient delivery…</p>}>
-            <PackageDeliveryPanel record={record} revision={revision} disabled={pendingPackageEdits} ports={ports}
+            <PackageDeliveryPanel directDownload record={record} revision={revision} disabled={pendingPackageEdits} ports={ports}
               onPreparedChange={prepared => {
                 if (!active.current || destinationOwner.current !== selectionOwner) return;
                 const epoch = ++deliverySearchEpoch.current;
@@ -1571,10 +1570,16 @@ function PackageDialog({
           </Suspense></div>
         </details>}</div></details>
                   </fieldset>
+                  <div hidden={workspaceSection !== 'delivery'} className="mt-7">
+                    {readRecord && revision && <Suspense fallback={<p role="status">Opening saved assembly jobs…</p>}>
+                      <PackageJobsPanel record={readRecord} revision={revision} disabled={pendingPackageEdits || !!openedReview} busy={busy} ports={ports} run={run} onApply={update}
+                        signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted} />
+                    </Suspense>}
+                  </div>
                 </>}
               </div>
             </div>
-          </main>
+          </div>
         </div>
         <Dialog open={historyOpen} onOpenChange={setHistoryOpen}>
           <DialogContent><DialogHeader><DialogTitle>Version history</DialogTitle><DialogDescription>{record?.name}</DialogDescription></DialogHeader>

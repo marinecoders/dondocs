@@ -1,3 +1,5 @@
+import { openPackagePreparation, packageHeading, inspectPackageMember, expandPackageTools, newPackage, showPackageLibrary, packageSection, packageVersion, selectedPackageId, choosePackageById, versionCount, preparePackageExport, downloadPackageExport } from './_helpers/packageWorkspace';
+import { capturePackageDocument } from '../_helpers/capturePackageDocument';
 import { test, expect, type Page, type BrowserContext, type Locator } from "@playwright/test";
 import { PDFDocument, StandardFonts } from "pdf-lib";
 import { createHash } from "node:crypto";
@@ -23,8 +25,7 @@ async function appearance(context: BrowserContext, theme: string) {
   }, theme);
 }
 async function packages(page: Page) {
-  await workspace(page, "Packages");
-  return page.getByRole("dialog", { name: "Action packages", exact: true });
+  return openPackagePreparation(page);
 }
 async function importDraft(page: Page, value: unknown) {
   await page.getByLabel("Import draft file", { exact: true }).setInputFiles({
@@ -32,18 +33,12 @@ async function importDraft(page: Page, value: unknown) {
     mimeType: "application/json",
     buffer: Buffer.from(JSON.stringify(value)),
   });
-  await page
-    .getByRole("button", { name: "Open as new document", exact: true })
-    .click();
+  await page.getByRole("button", { name: "Open as new document", exact: true }).click();
   await expect(page.getByRole("dialog", { name: "Review draft", exact: true })).toBeHidden();
 }
 async function actions(page: Page, name: string | RegExp) {
-  await page
-    .getByRole("button", { name: "Document actions", exact: true })
-    .click();
-  await page
-    .getByRole("menuitem", { name, exact: typeof name === "string" })
-    .click();
+  await page.getByRole("button", { name: "Document actions", exact: true }).click();
+  await page.getByRole("menuitem", { name, exact: typeof name === "string" }).click();
 }
 async function workspace(page: Page, name: string) {
   const label = new RegExp(
@@ -51,11 +46,9 @@ async function workspace(page: Page, name: string) {
   );
   const drawer = page.getByRole("dialog", { name: "Documents", exact: true });
   if (!(await drawer.isVisible()))
-    await page
-      .getByRole("button", { name: "Open workspace", exact: true })
+    await page.getByRole("button", { name: "Open workspace", exact: true })
       .or(page.getByRole("button", { name: label }))
-      .first()
-      .click();
+      .first().click();
   if (await drawer.isVisible())
     await drawer.getByRole("button", { name: label }).click();
 }
@@ -72,23 +65,11 @@ async function approve(page: Page, button: string) {
     name: "Action packages",
     exact: true,
   });
-  await modal
-    .getByRole("checkbox", { name: /^I reviewed every included member/ })
-    .check();
+  if (await modal.getByRole("checkbox", { name: /^I reviewed every included member/ }).isVisible()) await modal.getByRole("checkbox", { name: /^I reviewed every included member/ }).check();
   await modal.getByRole("button", { name: button, exact: true }).click();
 }
 async function download(page: Page, prepare: string, deliver: string) {
-  const modal = page.getByRole("dialog", {
-    name: "Action packages",
-    exact: true,
-  });
-  await modal.getByRole("button", { name: prepare, exact: true }).click();
-  await expect(
-    modal.getByRole("heading", { name: prepare === "Export editable package" ? /^Editable transfer checks:/ : /^Package readiness:/ }),
-  ).toBeVisible();
-  const pending = page.waitForEvent("download");
-  await approve(page, deliver);
-  return readFile((await (await pending).path())!);
+  return downloadPackageExport(page, page.getByRole('dialog', { name: 'Action packages', exact: true }), prepare, deliver);
 }
 async function text(bytes: Uint8Array) {
   const pdf = await getDocument({
@@ -159,15 +140,10 @@ for (const theme of ["light", "dark", "classic"]) {
     };
     await importDraft(page, source);
     let modal = await packages(page);
-    await modal
-      .getByLabel("Package name", { exact: true })
+    await modal.getByRole("textbox", { name: "Package name", exact: true })
       .fill(`Training action ${theme}`);
-    await modal
-      .getByRole("button", { name: "Create package", exact: true })
-      .click();
-    await modal
-      .getByRole("button", { name: "Capture current document", exact: true })
-      .click();
+    await modal.getByRole("button", { name: "Create package", exact: true }).click();
+    await capturePackageDocument(modal);
     // Observe the captured revision before continuing while the initial preview
     // may still be compiling, using the same budget as package actions.
     await expect(
@@ -177,43 +153,26 @@ for (const theme of ["light", "dark", "classic"]) {
       }),
     ).toBeVisible({ timeout: 15_000 });
     const original = await originalPdf();
-    await modal
-      .getByLabel("New member role", { exact: true })
-      .selectOption("enclosure");
-    await modal
-      .getByRole("checkbox", {
-        name: "Uploaded original is signed (preserve unchanged)",
-        exact: true,
-      })
-      .check();
+    await modal.getByLabel("New member role", { exact: true }).selectOption("enclosure");
+    await modal.getByRole("checkbox", { name: "Uploaded original is signed (preserve unchanged)", exact: true }).check();
+  await packageSection(modal, 'Documents', true);
     await modal.getByLabel("Add original PDF", { exact: true }).setInputFiles({
       name: "signed-original.pdf",
       mimeType: "application/pdf",
       buffer: original,
     });
     await expect(
-      modal.getByText("Original PDF (marked signed)", { exact: false }),
+      modal.getByText("Marked signed · original PDF", { exact: true }),
     ).toBeVisible();
-    await modal
-      .getByRole("button", {
-        name: "Check readiness and assemble",
-        exact: true,
-      })
-      .click();
-    await expect(
-      modal.getByRole("heading", {
-        name: "Package readiness: ready",
-        exact: true,
-      }),
-    ).toBeVisible();
-    await approve(page, "Assemble and retain PDF");
-    await expect(modal.getByRole("status").filter({ hasText: "Assembled PDF retained." })).toContainText(
-      "Assembled PDF retained.",
+    await preparePackageExport(modal, 'pdf');
+    await expect(modal.getByRole('button', { name: 'Download PDF', exact: true })).toBeEnabled();
+    await approve(page, "Download PDF");
+    await expect(modal.getByRole("status").filter({ hasText: "PDF downloaded. A copy is kept with this version." })).toContainText(
+      "PDF downloaded. A copy is kept with this version.",
       { timeout: 60_000 },
     );
     await expect(
-      modal
-        .getByRole("region", { name: "Retained package PDF", exact: true })
+      modal.getByRole("region", { name: "Retained package PDF", exact: true })
         .locator('[data-pdf-layer="active"] canvas')
         .first(),
     ).toBeVisible();
@@ -230,7 +189,7 @@ for (const theme of ["light", "dark", "classic"]) {
     const portable = await download(
         page,
         "Export editable package",
-        "Download reviewed editable package",
+        "Download editable package",
       ),
       packet = JSON.parse(portable.toString("utf8"));
     expect(packet.package.revisions).toHaveLength(1);
@@ -259,13 +218,11 @@ for (const theme of ["light", "dark", "classic"]) {
       contentType: "application/pdf",
     });
     // Native editing creates an ordinary, separately named working copy.
-    await modal
-      .getByRole("button", { name: "Edit working copy", exact: true })
-      .click();
+    await inspectPackageMember(modal, selected.members[0].id);
+    await expandPackageTools(modal);
+    await modal.getByRole("button", { name: "Edit document", exact: true }).click();
     await expect(modal).toBeHidden();
-    await page
-      .getByLabel("Document section", { exact: true })
-      .selectOption("addressing");
+    await page.getByLabel("Document section", { exact: true }).selectOption("addressing");
     const workingSubject = page.getByRole("textbox", {
       name: "Subject",
       exact: true,
@@ -276,36 +233,23 @@ for (const theme of ["light", "dark", "classic"]) {
       `WORKING COPY ${theme}`,
     );
     modal = await packages(page);
-    await modal
-      .getByLabel("Saved packages", { exact: true })
-      .selectOption(packet.package.id);
-    await modal
-      .getByRole("button", {
-        name: "Save working copy as new revision",
-        exact: true,
-      })
-      .click();
-    await expect(
-      modal.getByLabel("Package revision", { exact: true }),
-    ).toContainText("Revision 4");
-    await modal
-      .getByRole("button", { name: "Compare newer source", exact: true })
-      .click();
+    await choosePackageById(modal, packet.package.id);
+    await inspectPackageMember(modal, selected.members[0].id);
+    await expandPackageTools(modal);
+    await modal.getByRole("button", { name: "Save working copy as new revision", exact: true }).click();
+    expect(await versionCount(modal)).toBe(4);
+    await modal.getByRole("button", { name: "Compare newer source", exact: true }).click();
     await expect(
       modal.getByText("WORKING COPY " + theme, { exact: true }),
     ).toBeVisible();
-    await modal
-      .getByRole("button", { name: "Cancel comparison", exact: true })
-      .click();
+    await modal.getByRole("button", { name: "Cancel comparison", exact: true }).click();
     await page.keyboard.press("Escape");
     await workspace(page, `TRAINING SOURCE ${theme}`);
     // Finish the drawer's close/focus restoration before editing its source.
     await expect(
       page.getByRole("dialog", { name: "Documents", exact: true }),
     ).toBeHidden();
-    await page
-      .getByLabel("Document section", { exact: true })
-      .selectOption("addressing");
+    await page.getByLabel("Document section", { exact: true }).selectOption("addressing");
     const sourceSubject = page.getByRole("textbox", {
       name: "Subject",
       exact: true,
@@ -320,27 +264,16 @@ for (const theme of ["light", "dark", "classic"]) {
       page.getByText("Checkpoint saved in this browser", { exact: true }),
     ).toBeVisible();
     modal = await packages(page);
-    await modal
-      .getByLabel("Saved packages", { exact: true })
-      .selectOption(packet.package.id);
-    await modal
-      .getByRole("button", { name: "Compare newer source", exact: true })
-      .click();
+    await choosePackageById(modal, packet.package.id);
+    await inspectPackageMember(modal, selected.members[0].id);
+    await expandPackageTools(modal);
+    await modal.getByRole("button", { name: "Compare newer source", exact: true }).click();
     await expect(
       modal.getByText(`NEWER SOURCE ${theme}`, { exact: true }),
     ).toBeVisible();
-    await modal
-      .getByRole("button", {
-        name: "Adopt source as new revision",
-        exact: true,
-      })
-      .click();
-    await expect(
-      modal.getByLabel("Package revision", { exact: true }),
-    ).toContainText("Revision 5");
-    await modal
-      .getByLabel("Package revision", { exact: true })
-      .selectOption(selected.id);
+    await modal.getByRole("button", { name: "Adopt source as new revision", exact: true }).click();
+    expect(await versionCount(modal)).toBe(5);
+    await packageVersion(modal, selected.id);
     expect(
       await download(
         page,
@@ -350,35 +283,26 @@ for (const theme of ["light", "dark", "classic"]) {
     ).toEqual(retained);
     await page.keyboard.press("Escape");
     await workspace(page, `Actions for NEWER SOURCE ${theme}`);
-    await page
-      .getByRole("menuitem", { name: "Move to Trash", exact: true })
-      .click();
+    await page.getByRole("menuitem", { name: "Move to Trash", exact: true }).click();
     await workspace(page, "Trash");
     const trash = page.getByRole("dialog", { name: "Trash", exact: true });
-    await trash
-      .getByRole("button", { name: "Delete permanently", exact: true })
-      .click();
-    await page
-      .getByRole("alertdialog", {
+    await trash.getByRole("button", { name: "Delete permanently", exact: true }).click();
+    await page.getByRole("alertdialog", {
         name: "Permanently delete this document?",
         exact: true,
-      })
-      .getByRole("button", { name: "Delete permanently", exact: true })
-      .click();
+      }).getByRole("button", { name: "Delete permanently", exact: true }).click();
     await trash.getByRole("button", { name: "Close", exact: true }).click();
     await page.reload();
     modal = await packages(page);
-    await modal
-      .getByLabel("Saved packages", { exact: true })
-      .selectOption(packet.package.id);
+    await choosePackageById(modal, packet.package.id);
+    await inspectPackageMember(modal, selected.members[0].id);
+    await expandPackageTools(modal);
     await expect(
       modal.getByText("Source: unavailable; preserved copy retained", {
         exact: false,
       }),
     ).toBeVisible();
-    await modal
-      .getByLabel("Package revision", { exact: true })
-      .selectOption(selected.id);
+    await packageVersion(modal, selected.id);
     expect(
       await download(
         page,
@@ -406,14 +330,14 @@ for (const theme of ["light", "dark", "classic"]) {
       ).toBeVisible();
       await fresh.setOffline(true);
       const freshModal = await packages(restored);
-      await freshModal
-        .getByLabel("Import editable package", { exact: true })
+      await freshModal.getByLabel("Import editable package", { exact: true })
         .setInputFiles({
           name: "retained.dondocs-package.json",
           mimeType: "application/json",
           buffer: portable,
         });
       await expect(freshModal).toHaveAttribute("aria-busy", "false", { timeout: 30_000 });
+      await packageSection(freshModal, 'Documents', true);
       await expect(
         freshModal.getByRole("heading", {
           name: `1. TRAINING SOURCE ${theme}`,
@@ -427,24 +351,17 @@ for (const theme of ["light", "dark", "classic"]) {
           "Download reviewed retained PDF",
         ),
       ).toEqual(retained);
-      await freshModal
-        .getByRole("button", {
-          name: "Download unchanged original",
-          exact: true,
-        })
-        .click();
-      const originalDownload = restored.waitForEvent("download");
+      await packageHeading(freshModal, '2. signed-original.pdf');
+      await freshModal.getByRole("button", { name: "Download unchanged original", exact: true }).click();
+      const originalDownload = restored.waitForEvent("download", { timeout: 90_000 });
       await approve(restored, "Download reviewed unchanged original");
       expect(await readFile((await (await originalDownload).path())!)).toEqual(
         original,
       );
-      await freshModal
-        .getByRole("button", { name: "Edit working copy", exact: true })
-        .click();
+      await inspectPackageMember(freshModal, selected.members[0].id);
+      await freshModal.getByRole("button", { name: "Edit document", exact: true }).click();
       await expect(freshModal).toBeHidden();
-      await restored
-        .getByLabel("Document section", { exact: true })
-        .selectOption("addressing");
+      await restored.getByLabel("Document section", { exact: true }).selectOption("addressing");
       await expect(
         restored.getByRole("textbox", { name: "Subject", exact: true }),
       ).toHaveValue(`TRAINING SOURCE ${theme}`);
@@ -509,31 +426,18 @@ test("configured package survives fresh offline import, native editing, reload a
     },
   });
   let modal = await packages(page);
-  await modal
-    .getByLabel("Package name", { exact: true })
+  await modal.getByRole("textbox", { name: "Package name", exact: true })
     .fill("Configured package");
-  await modal
-    .getByRole("button", { name: "Create package", exact: true })
-    .click();
-  await modal
-    .getByRole("button", { name: "Capture current document", exact: true })
-    .click();
-  await modal
-    .getByRole("button", { name: "Check readiness and assemble", exact: true })
-    .click();
-  await expect(
-    modal.getByRole("heading", {
-      name: "Package readiness: ready",
-      exact: true,
-    }),
-  ).toBeVisible();
-  await approve(page, "Assemble and retain PDF");
-  await expect(modal.getByRole("status").filter({ hasText: "Assembled PDF retained." })).toContainText(
-    "Assembled PDF retained.",
+  await modal.getByRole("button", { name: "Create package", exact: true }).click();
+  await capturePackageDocument(modal);
+  await preparePackageExport(modal, 'pdf');
+  await expect(modal.getByRole('button', { name: 'Download PDF', exact: true })).toBeEnabled();
+  await approve(page, "Download PDF");
+  await expect(modal.getByRole("status").filter({ hasText: "PDF downloaded. A copy is kept with this version." })).toContainText(
+    "PDF downloaded. A copy is kept with this version.",
   );
   await expect(
-    modal
-      .getByRole("region", { name: "Retained package PDF", exact: true })
+    modal.getByRole("region", { name: "Retained package PDF", exact: true })
       .locator('[data-pdf-layer="active"] canvas')
       .first(),
   ).toBeVisible();
@@ -547,7 +451,7 @@ test("configured package survives fresh offline import, native editing, reload a
   const portable = await download(
     page,
     "Export editable package",
-    "Download reviewed editable package",
+    "Download editable package",
   );
   await info.attach("configured-retained-pdf", {
     body: retained,
@@ -572,16 +476,16 @@ test("configured package survives fresh offline import, native editing, reload a
     await prepareOfflineApp(restored, baseURL!);
     await fresh.setOffline(true);
     modal = await packages(restored);
-    await modal
-      .getByLabel("Import editable package", { exact: true })
+    await modal.getByLabel("Import editable package", { exact: true })
       .setInputFiles({
         name: "configured-package.json",
         mimeType: "application/json",
         buffer: portable,
       });
     await expect(modal).toHaveAttribute("aria-busy", "false", { timeout: 30_000 });
+    await packageSection(modal, 'Documents', true);
     await expect(
-      modal.getByRole("button", { name: "Edit working copy", exact: true }),
+      modal.getByRole("button", { name: "Edit document", exact: true }),
     ).toBeVisible();
     expect(
       await download(
@@ -590,9 +494,8 @@ test("configured package survives fresh offline import, native editing, reload a
         "Download reviewed retained PDF",
       ),
     ).toEqual(retained);
-    await modal
-      .getByRole("button", { name: "Edit working copy", exact: true })
-      .click();
+  await packageSection(modal, 'Documents', true);
+    await modal.getByRole("button", { name: "Edit document", exact: true }).click();
     await expect(modal).toBeHidden();
     await editField(
       restored.getByRole("textbox", { name: "Fictional name", exact: true }),
@@ -606,34 +509,16 @@ test("configured package survives fresh offline import, native editing, reload a
       restored.getByRole("textbox", { name: "Fictional name", exact: true }),
     ).toHaveValue("Fictional working form");
     modal = await packages(restored);
-    await modal
-      .getByLabel("Saved packages", { exact: true })
-      .selectOption(JSON.parse(portable.toString("utf8")).package.id);
-    await modal
-      .getByRole("button", {
-        name: "Save working copy as new revision",
-        exact: true,
-      })
-      .click();
-    await modal
-      .getByRole("button", {
-        name: "Check readiness and assemble",
-        exact: true,
-      })
-      .click();
-    await expect(
-      modal.getByRole("heading", {
-        name: "Package readiness: ready",
-        exact: true,
-      }),
-    ).toBeVisible();
-    await approve(restored, "Assemble and retain PDF");
-    await expect(modal.getByRole("status").filter({ hasText: "Assembled PDF retained." })).toContainText(
-      "Assembled PDF retained.",
+    await choosePackageById(modal, JSON.parse(portable.toString("utf8")).package.id);
+    await modal.getByRole("button", { name: "Save working copy as new revision", exact: true }).click();
+    await preparePackageExport(modal, 'pdf');
+    await expect(modal.getByRole('button', { name: 'Download PDF', exact: true })).toBeEnabled();
+    await approve(restored, "Download PDF");
+    await expect(modal.getByRole("status").filter({ hasText: "PDF downloaded. A copy is kept with this version." })).toContainText(
+      "PDF downloaded. A copy is kept with this version.",
     );
     await expect(
-      modal
-        .getByRole("region", { name: "Retained package PDF", exact: true })
+      modal.getByRole("region", { name: "Retained package PDF", exact: true })
         .locator('[data-pdf-layer="active"] canvas')
         .first(),
     ).toBeVisible();
@@ -670,22 +555,25 @@ test("publication PDF figures and long originals survive actual rendering and ed
   };
   await importDraft(page, source);
   const modal = await packages(page);
-  await modal.getByLabel("Package name", { exact: true }).fill("Publication resource regression");
+  await modal.getByRole("textbox", { name: "Package name", exact: true }).fill("Publication resource regression");
   await modal.getByRole("button", { name: "Create package", exact: true }).click();
-  await modal.getByRole("button", { name: "Capture current document", exact: true }).click();
+  await packageSection(modal, 'Documents', true);
+  await capturePackageDocument(modal);
   const originalName = `${"supporting-original-".repeat(8)}.pdf`;
+  await packageSection(modal, 'Documents', true);
   await modal.getByLabel("New member role", { exact: true }).selectOption("supporting-document");
+  await packageSection(modal, 'Documents', true);
   await modal.getByLabel("Add original PDF", { exact: true }).setInputFiles({ name: originalName, mimeType: "application/pdf", buffer: figure });
   await expect(modal.getByRole("heading", { name: /^2\. supporting-original-/ })).toBeVisible();
-  await modal.getByRole("button", { name: "Check readiness and assemble", exact: true }).click();
-  await expect(modal.getByRole("heading", { name: "Package readiness: ready", exact: true })).toBeVisible();
-  await approve(page, "Assemble and retain PDF");
-  await expect(modal.getByRole("status").filter({ hasText: "Assembled PDF retained." })).toContainText("Assembled PDF retained.", { timeout: 60_000 });
+  await preparePackageExport(modal, 'pdf');
+  await expect(modal.getByRole('button', { name: 'Download PDF', exact: true })).toBeEnabled();
+  await approve(page, "Download PDF");
+  await expect(modal.getByRole("status").filter({ hasText: "PDF downloaded. A copy is kept with this version." })).toContainText("PDF downloaded. A copy is kept with this version.", { timeout: 60_000 });
   const rendered = await download(page, "Download retained PDF", "Download reviewed retained PDF");
   const pages = await text(rendered);
   expect(pages.join(" ")).toContain("Preserved PDF diagram");
   expect(pages.filter(value => value.includes("SYNTHETIC ORIGINAL"))).toHaveLength(2);
-  const portable = JSON.parse((await download(page, "Export editable package", "Download reviewed editable package")).toString("utf8"));
+  const portable = JSON.parse((await download(page, "Export editable package", "Download editable package")).toString("utf8"));
   const revision = portable.package.revisions[0];
   expect(revision.members[1].original.name).toBe(originalName);
   expect(revision.members[1].label.length).toBeLessThanOrEqual(120);
@@ -706,31 +594,38 @@ test("maximum-length package names duplicate durably and empty originals cannot 
   let previousCopyId: string | undefined;
   for (const name of ["A".repeat(120), "😀".repeat(60)]) {
     let modal = await packages(page);
-    if (previousCopyId) await expect(modal.getByLabel("Saved packages", { exact: true })).toHaveValue(previousCopyId);
-    const nameInput = modal.getByLabel("Package name", { exact: true });
+    if (previousCopyId) await expect(modal).toHaveAttribute('data-package-id', previousCopyId);
+    await newPackage(modal);
+    await expandPackageTools(modal);
+    const nameInput = modal.getByRole("textbox", { name: "Package name", exact: true });
     await nameInput.fill(name);
     await expect(nameInput).toHaveValue(name);
     await modal.getByRole("button", { name: "Create package", exact: true }).click();
-    await expect(modal.getByLabel("Saved packages", { exact: true })).not.toHaveValue("");
+    expect(await selectedPackageId(modal)).not.toBe('');
+    await packageSection(modal, 'Overview', true);
     await modal.getByRole("button", { name: "Duplicate", exact: true }).click();
-    const input = modal.getByLabel("Package name", { exact: true });
+    await expandPackageTools(modal);
+    const input = modal.getByRole("textbox", { name: "Package name", exact: true });
     await expect(input).toHaveValue(/ copy$/);
     const copiedName = await input.inputValue();
-    const copiedId = await modal.getByLabel("Saved packages", { exact: true }).inputValue();
+    const copiedId = await selectedPackageId(modal);
     expect(copiedName.length).toBeLessThanOrEqual(120);
     expect(Buffer.from(copiedName).toString("utf8")).toBe(copiedName);
     await page.reload();
     modal = await packages(page);
-    await expect(modal.getByRole("option", { name: copiedName, exact: true })).toHaveCount(1);
-    await modal.getByLabel("Saved packages", { exact: true }).selectOption(copiedId);
-    await expect(modal.getByLabel("Package name", { exact: true })).toHaveValue(copiedName);
+    await showPackageLibrary(modal);
+    await expect(modal.locator('button[data-package-id]').filter({ hasText: copiedName })).toHaveCount(1);
+    await choosePackageById(modal, copiedId);
+    await expect(modal.getByRole('heading', { name: copiedName, exact: true, level: 1 })).toBeVisible();
+  await packageSection(modal, 'Documents', true);
     await modal.getByLabel("Add original PDF", { exact: true }).setInputFiles({ name: "empty-original.pdf", mimeType: "application/pdf", buffer: emptyBytes });
     await expect(modal.getByRole("alert")).toContainText(/at least one page/i);
     await expect(modal.getByRole("heading", { name: /^1\./ })).toHaveCount(0);
     await page.reload();
     modal = await packages(page);
-    await expect(modal.getByRole("option", { name: copiedName, exact: true })).toHaveCount(1);
-    await modal.getByLabel("Saved packages", { exact: true }).selectOption(copiedId);
+    await showPackageLibrary(modal);
+    await expect(modal.locator('button[data-package-id]').filter({ hasText: copiedName })).toHaveCount(1);
+    await choosePackageById(modal, copiedId);
     await expect(modal.getByRole("heading", { name: /^1\./ })).toHaveCount(0);
     await modal.getByRole("button", { name: "Close", exact: true }).click();
     await expect(modal).toBeHidden();
@@ -741,16 +636,18 @@ test("maximum-length package names duplicate durably and empty originals cannot 
 
 test("package-name validation preserves Unicode and blocks overlong commits", async ({ page, context }) => {
   await appearance(context, "light");await page.goto("/");
-  let modal = await packages(page), name = modal.getByLabel("Package name", { exact: true });
+  let modal = await packages(page), name = modal.getByRole("textbox", { name: "Package name", exact: true });
   await name.fill("A".repeat(121));await expect(name).toHaveValue("A".repeat(121));await expect(name).toHaveAttribute("aria-invalid", "true");
   await expect(modal.getByText("Use a package name of 120 characters or fewer.")).toBeVisible();
   await expect(modal.getByRole("button", { name: "Create package", exact: true })).toBeDisabled();
   const unicode = "😀".repeat(60);await name.fill(unicode);await expect(name).toHaveValue(unicode);
   await modal.getByRole("button", { name: "Create package", exact: true }).click();
-  await expect(modal.getByLabel("Saved packages", { exact: true })).not.toHaveValue("");
-  const id = await modal.getByLabel("Saved packages", { exact: true }).inputValue();
+  expect(await selectedPackageId(modal)).not.toBe('');
+  const id = await selectedPackageId(modal);
+  await packageSection(modal, 'Overview', true);
   await name.fill("B".repeat(121));await expect(modal.getByRole("button", { name: "Rename", exact: true })).toBeDisabled();
-  await page.reload();modal = await packages(page);name = modal.getByLabel("Package name", { exact: true });
-  await expect(name).toHaveValue(unicode);await expect(modal.getByLabel("Saved packages", { exact: true })).toHaveValue(id);
-  await expect(modal.getByLabel("Saved packages", { exact: true }).getByRole("option")).toHaveCount(2);
+  await page.reload();modal = await packages(page);name = modal.getByRole("textbox", { name: "Package name", exact: true });
+  await packageSection(modal, 'Overview', true);
+  await expect(name).toHaveValue(unicode);await expect(modal).toHaveAttribute('data-package-id', id);
+  await showPackageLibrary(modal); await expect(modal.locator('button[data-package-id]')).toHaveCount(1);
 });

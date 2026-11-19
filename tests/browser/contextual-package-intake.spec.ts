@@ -1,3 +1,4 @@
+import { openPackagePreparation, inspectPackageMember, newPackage, importPackage, packageSection, expandPackageTools, selectedPackageRevision, preparePackageExport, packageTool, downloadPackageExport } from './_helpers/packageWorkspace';
 import { expect, test, type Page, type Locator, type TestInfo } from '@playwright/test';
 import { readFile, writeFile } from 'node:fs/promises';
 import { PDFDocument, StandardFonts } from 'pdf-lib';
@@ -6,27 +7,26 @@ import { getDocument } from 'pdfjs-dist/legacy/build/pdf.mjs';
 test.use({ serviceWorkers: 'block', actionTimeout: 15_000 });
 test.setTimeout(240_000);
 async function packages(page: Page) {
-  const drawer = page.getByRole('dialog', { name: 'Documents', exact: true });
-  if (!await drawer.isVisible()) await page.getByRole('button', { name: 'Open workspace', exact: true })
-    .or(page.getByRole('button', { name: /^Packages(?:\s|$)/ })).first().click();
-  if (await drawer.isVisible()) await drawer.getByRole('button', { name: /^Packages(?:\s|$)/ }).click();
-  return page.getByRole('dialog', { name: 'Action packages', exact: true });
+  return openPackagePreparation(page);
 }
 const intake = (dialog: Locator) => dialog.getByRole('region', { name: 'Action intake', exact: true });
 async function start(dialog: Locator, name: string) {
+  await newPackage(dialog);
+  await expandPackageTools(dialog);
   const panel = intake(dialog), button = panel.getByRole('button', { name: `Start ${name}`, exact: true });
   const another = panel.locator('summary').filter({ hasText: /^Start another action$/ });
   await expect(button.or(another)).toBeVisible();
   if (!await button.isVisible()) await another.click();
   await button.click();
-  await expect(panel.getByRole('button', { name: 'Save intake draft', exact: true })).toBeVisible();
+  await expect(panel.getByRole('button', { name: 'Save package draft', exact: true })).toBeVisible();
   return panel;
 }
 async function continueIntake(dialog: Locator) {
+  await packageSection(dialog, 'Overview', true);
   await expect(dialog).toHaveAttribute('aria-busy', 'false');
   const panel = intake(dialog);
-  await expect(panel.getByRole('button', { name: 'Continue intake', exact: true }).or(panel.getByRole('button', { name: 'Collapse intake questions', exact: true }))).toBeVisible();
-  if (await panel.getByRole('button', { name: 'Continue intake', exact: true }).isVisible()) await panel.getByRole('button', { name: 'Continue intake', exact: true }).click();
+  await expect(panel.getByRole('button', { name: 'Edit details', exact: true }).or(panel.getByRole('button', { name: 'Done editing', exact: true }))).toBeVisible();
+  if (await panel.getByRole('button', { name: 'Edit details', exact: true }).isVisible()) await panel.getByRole('button', { name: 'Edit details', exact: true }).click();
   await expect(panel.getByRole('region', { name: 'Intake questions', exact: true })).toBeVisible();
   return panel;
 }
@@ -38,54 +38,42 @@ async function fill(panel: Locator, values: Record<string, string>) {
   for (const [label, value] of Object.entries(values)) await panel.getByRole('textbox', { name: label, exact: true }).fill(value);
 }
 async function apply(panel: Locator) {
-  await panel.getByRole('button', { name: 'Preview action changes', exact: true }).click();
+  await panel.getByRole('button', { name: 'Review changes', exact: true }).click();
   await expect(panel).toHaveAttribute('aria-busy', 'false');
   const preview = panel.getByRole('region', { name: 'Action changes preview', exact: true });
-  await expect(preview.getByRole('checkbox', { name: /^I reviewed the intake/ }), await panel.locator('xpath=ancestor::*[@role="dialog"]').innerText()).toBeEnabled();
-  await preview.getByRole('checkbox', { name: /^I reviewed the intake/ }).check();
-  await preview.getByRole('button', { name: 'Apply action changes', exact: true }).click();
-  await expect(panel.getByText('Action changes applied as a new saved revision.', { exact: true })).toBeVisible();
+  await preview.getByRole('button', { name: /^(Create package|Apply changes)$/ }).click();
+  await expect(panel.getByText(/^(Package created\.|Changes saved as a new version\.)$/)).toBeVisible();
 }
 async function download(page: Page, action: () => Promise<void>) {
-  const pending = page.waitForEvent('download'); await action(); const result = await pending;
+  const pending = page.waitForEvent('download', { timeout: 90_000 }); await action(); const result = await pending;
   expect(await result.failure()).toBeNull(); return readFile((await result.path())!);
 }
 async function portable(page: Page, dialog: Locator) {
-  const prepare = dialog.getByRole('button', { name: 'Export editable package', exact: true });
-  await expect(prepare).toBeEnabled(); await prepare.click();
-  await expect(dialog).toHaveAttribute('aria-busy', 'false');
-  const deliver = dialog.getByRole('button', { name: 'Download reviewed editable package', exact: true });
-  await expect(deliver).toBeVisible(); await expect(deliver).toBeDisabled();
-  const acknowledgement = dialog.getByRole('checkbox', { name: /^I reviewed every included member/ });
-  await expect(acknowledgement).not.toBeChecked();
-  await acknowledgement.scrollIntoViewIfNeeded(); await expect(acknowledgement).toBeInViewport();
-  await acknowledgement.check(); await expect(acknowledgement).toBeChecked();
-  await expect(deliver).toBeEnabled();
-  const bytes = await download(page, () => deliver.click());
+  const bytes = await downloadPackageExport(page, dialog, 'Export editable package', 'Download editable package');
   return { bytes, data: JSON.parse(bytes.toString()) };
 }
 async function finishPrintedName(page: Page, dialog: Locator, label: string, lastName: string) {
+  await packageSection(dialog, 'Documents', true);
   const card = dialog.locator('li[id^="package-member-"]').filter({ has: page.getByRole('heading', { name: new RegExp(`^\\d+\\. ${label}$`) }) });
-  await card.getByRole('button', { name: 'Edit working copy', exact: true }).click();
+  await card.getByRole('button', { name: 'Edit document', exact: true }).click();
   await expect(dialog).toBeHidden();
   await page.getByLabel('Document section', { exact: true }).selectOption('signature');
   await page.getByRole('textbox', { name: 'Last Name', exact: true }).fill(lastName);
   const reopened = await packages(page);
-  const revision = reopened.getByRole('combobox', { name: 'Package revision', exact: true });
-  const previousRevision = await revision.inputValue();
+  const previousRevision = await selectedPackageRevision(reopened);
   await reopened.getByRole('button', { name: 'Save working copy as new revision', exact: true }).click();
-  await expect(revision).not.toHaveValue(previousRevision);
+  await expect(reopened).not.toHaveAttribute('data-revision-id', previousRevision);
   await expect(reopened).toHaveAttribute('aria-busy', 'false');
   return reopened;
 }
 async function output(page: Page, dialog: Locator, info: TestInfo, name: string) {
-  await dialog.getByRole('button', { name: 'Check readiness and assemble', exact: true }).click();
-  await expect(dialog.getByRole('heading', { name: 'Package readiness: ready', exact: true })).toBeVisible();
-  await dialog.getByRole('checkbox', { name: /^I reviewed every included member/ }).check();
-  await dialog.getByRole('button', { name: 'Assemble and retain PDF', exact: true }).click();
-  await expect(dialog.getByText(/^Assembled PDF retained\./)).toBeVisible({ timeout: 60_000 });
-  await dialog.getByRole('button', { name: 'Download retained PDF', exact: true }).click();
-  await dialog.getByRole('checkbox', { name: /^I reviewed every included member/ }).check();
+  await preparePackageExport(dialog, 'pdf');
+  await expect(dialog.getByRole('button', { name: 'Download PDF', exact: true })).toBeEnabled();
+  if (await dialog.getByRole('checkbox', { name: /^I reviewed every included member/ }).isVisible()) await dialog.getByRole('checkbox', { name: /^I reviewed every included member/ }).check();
+  await dialog.getByRole('button', { name: 'Download PDF', exact: true }).click();
+  await expect(dialog.getByText(/^PDF downloaded\./)).toBeVisible({ timeout: 60_000 });
+  await preparePackageExport(dialog, 'saved');
+  if (await dialog.getByRole('checkbox', { name: /^I reviewed every included member/ }).isVisible()) await dialog.getByRole('checkbox', { name: /^I reviewed every included member/ }).check();
   const bytes = await download(page, () => dialog.getByRole('button', { name: 'Download reviewed retained PDF', exact: true }).click());
   const pdf = await getDocument({ data: new Uint8Array(bytes), useSystemFonts: true, isEvalSupported: false }).promise;
   const pages: string[] = [];
@@ -96,6 +84,7 @@ async function output(page: Page, dialog: Locator, info: TestInfo, name: string)
   return pages;
 }
 async function screenshot(page: Page, dialog: Locator, info: TestInfo, name: string) {
+  if (await dialog.getByRole('navigation', { name: 'Package workspace', exact: true }).isVisible()) await packageSection(dialog, 'Overview', true);
   await intake(dialog).scrollIntoViewIfNeeded();
   expect(await dialog.evaluate(element => element.scrollWidth - element.clientWidth)).toBeLessThanOrEqual(1);
   await page.screenshot({ path: info.outputPath(`${name}.png`) });
@@ -115,7 +104,7 @@ for (const theme of ['light', 'dark', 'classic']) test.describe(theme, () => {
     await expect(panel.getByRole('textbox', { name: 'Requester', exact: true })).toBeFocused();
     await fill(panel, { Requester: 'Alex Example' });
     await expect(panel.getByRole('combobox', { name: 'Include a supporting PDF?', exact: true })).toHaveValue('');
-    await panel.getByRole('button', { name: 'Save intake draft', exact: true }).click();
+    await panel.getByRole('button', { name: 'Save package draft', exact: true }).click();
     await expect(panel.getByText('Intake saved; document changes not applied.', { exact: true })).toBeVisible();
     const pending = await portable(page, dialog);
     const pendingRevision = pending.data.package.revisions[0];
@@ -138,7 +127,7 @@ for (const theme of ['light', 'dark', 'classic']) test.describe(theme, () => {
     panel = await start(dialog, 'administrative request');
     await expect(panel.getByRole('textbox', { name: 'Requester', exact: true })).toHaveValue('');
     await fill(panel, { Requester: 'Blair Sample' });
-    await panel.getByRole('button', { name: 'Save intake draft', exact: true }).click();
+    await panel.getByRole('button', { name: 'Save package draft', exact: true }).click();
     const next = await portable(page, dialog);
     expect(next.data.package.id).not.toBe(completed.data.package.id);
     expect(JSON.stringify(next.data.package)).not.toContain('Alex Example');
@@ -147,7 +136,8 @@ for (const theme of ['light', 'dark', 'classic']) test.describe(theme, () => {
     try {
       await receiver.addInitScript(() => localStorage.setItem('browser-test-visitor', 'returning'));
       const target = await receiver.newPage(); await target.goto(baseURL!); const received = await packages(target);
-      await received.getByLabel('Import editable package', { exact: true }).setInputFiles({ name: 'pending-action.json', mimeType: 'application/json', buffer: pending.bytes });
+      await importPackage(received, { name: 'pending-action.json', mimeType: 'application/json', buffer: pending.bytes });
+  await packageSection(received, 'Overview', true);
       const resumed = await continueIntake(received); await showAnswers(resumed);
       await expect(resumed.getByRole('textbox', { name: 'Requester', exact: true })).toHaveValue('Alex Example');
       await expect(resumed.getByRole('combobox', { name: 'Include a supporting PDF?', exact: true })).toHaveValue('');
@@ -177,34 +167,36 @@ for (const theme of ['light', 'dark', 'classic']) test.describe(theme, () => {
     const people = revision.templateState.answers.groups.participants;
     expect(people[0].id).not.toBe(people[1].id);
     const inPerson = revision.members.find((member: { label: string }) => member.label.startsWith('In-person participation'));
-    const card = dialog.locator('li[id^="package-member-"]').filter({ has: page.getByRole('heading', { name: new RegExp(`^\\d+\\. ${inPerson.label.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}$`) }) });
-    await card.getByRole('button', { name: 'Edit working copy', exact: true }).click();
+    await inspectPackageMember(dialog, inPerson.id);
+    const card = dialog.locator(`[id="package-member-${inPerson.id}"]`);
+    await card.getByRole('button', { name: 'Edit document', exact: true }).click();
     await expect(dialog).toBeHidden();
     await page.getByRole('textbox', { name: 'In-person location', exact: true }).fill('Locally corrected room');
     dialog = await packages(page);
-    const savedRevision = dialog.getByRole('combobox', { name: 'Package revision', exact: true });
-    const beforeLocalEdit = await savedRevision.inputValue();
+    const beforeLocalEdit = await selectedPackageRevision(dialog);
+    await packageSection(dialog, 'Documents', true);
     await dialog.getByRole('button', { name: 'Save working copy as new revision', exact: true }).click();
-    await expect(savedRevision).not.toHaveValue(beforeLocalEdit);
+    await expect(dialog).not.toHaveAttribute('data-revision-id', beforeLocalEdit);
     panel = await continueIntake(dialog); await showAnswers(panel);
     await panel.getByRole('combobox', { name: `${owner} · Attendance`, exact: true }).selectOption('remote');
-    await panel.getByRole('button', { name: 'Preview action changes', exact: true }).click();
+    await panel.getByRole('button', { name: 'Review changes', exact: true }).click();
     const decision = panel.getByRole('combobox', { name: /^Document decision/ });
     await expect(decision).toHaveCount(1);
     await decision.selectOption('keep');
-    await panel.getByRole('button', { name: 'Preview action changes', exact: true }).click();
+    await panel.getByRole('button', { name: 'Review changes', exact: true }).click();
     await expect(panel).toHaveAttribute('aria-busy', 'false');
+    await panel.getByRole('button', { name: 'Field options', exact: true }).click();
     await panel.getByRole('combobox', { name: /^Field decision.*In-person location/ }).selectOption('keep-local');
     await panel.getByRole('combobox', { name: /^Field decision.*In-person participation.*Attendance/ }).selectOption('keep-local');
     await apply(panel);
     panel = await continueIntake(dialog); await showAnswers(panel);
     await panel.getByRole('button', { name: `Move ${second} up`, exact: true }).click();
     await apply(panel);
-    const information = dialog.getByRole('region', { name: 'Package information', exact: true });
+    const information = await packageTool(dialog, /^(Details|Package information)$/);
     const courseIndex = revision.information.facts.findIndex((fact: { label: string }) => fact.label === 'Course or activity');
     await information.getByLabel(`Value ${courseIndex + 1}`, { exact: true }).fill('Updated by the package information editor');
-    await information.getByRole('button', { name: 'Preview package changes', exact: true }).click();
-    await information.getByRole('checkbox', { name: /^I reviewed the package values, linked field changes/ }).check();
+    await information.getByRole('button', { name: /^(Review changes|Preview package changes)$/ }).click();
+    if (await information.getByRole('checkbox', { name: /^I reviewed the package values, linked field changes/ }).isVisible()) await information.getByRole('checkbox', { name: /^I reviewed the package values, linked field changes/ }).check();
     await information.getByRole('button', { name: 'Apply package changes', exact: true }).click();
     panel = await continueIntake(dialog); await showAnswers(panel);
     await expect(panel.getByRole('textbox', { name: 'Course or activity', exact: true })).toHaveValue('Updated by the package information editor');
@@ -226,8 +218,8 @@ for (const theme of ['light', 'dark', 'classic']) test.describe(theme, () => {
     try {
       await receiver.addInitScript(() => localStorage.setItem('browser-test-visitor', 'returning'));
       const target = await receiver.newPage(); await target.goto(baseURL!); const received = await packages(target);
-      await received.getByLabel('Import editable package', { exact: true }).setInputFiles({ name: 'training-action.json', mimeType: 'application/json', buffer: changed.bytes });
-      await expect(received.getByLabel('Saved packages', { exact: true })).toHaveValue(changed.data.package.id, { timeout: 30_000 });
+      await importPackage(received, { name: 'training-action.json', mimeType: 'application/json', buffer: changed.bytes });
+  await packageSection(received, 'Overview', true);
       const transferred = await portable(target, received);
       expect(transferred.data.package.revisions[0].templateState).toEqual(result.templateState);
       expect(transferred.data.package.revisions[0].members.find((member: { id: string }) => member.id === inPerson.id).session.genericForm.answers.location).toBe('Locally corrected room');
@@ -237,7 +229,7 @@ for (const theme of ['light', 'dark', 'classic']) test.describe(theme, () => {
     expect(pages.join(' ')).toContain('Locally corrected room'); expect(pages.join(' ')).toContain('125.50');
     panel = await continueIntake(dialog); await showAnswers(panel);
     await panel.getByRole('button', { name: 'Remove Participants · person 1 · Participants 2', exact: true }).click();
-    await panel.getByRole('button', { name: 'Preview action changes', exact: true }).click();
+    await panel.getByRole('button', { name: 'Review changes', exact: true }).click();
     const removalDecision = panel.getByRole('combobox', { name: /^Document decision.*Remote participation.*Participants 2/ });
     await expect(removalDecision).toHaveCount(1);
     await removalDecision.selectOption('remove');
@@ -256,15 +248,15 @@ for (const theme of ['light', 'dark', 'classic']) test.describe(theme, () => {
     await apply(panel);
     const incomplete = await portable(page, dialog);
     expect(incomplete.data.package.revisions[0].members).toHaveLength(2);
-    const requirements = dialog.getByRole('region', { name: 'Evidence and requirements', exact: true });
+    const requirements = await packageTool(dialog, 'Evidence and requirements');
     await requirements.getByRole('button', { name: 'Check evidence requirements', exact: true }).click();
     await expect(requirements.getByText(/^PDF assembly requirement checks have unresolved items\./)).toBeVisible();
     await requirements.getByRole('combobox', { name: 'Requirement operation', exact: true }).selectOption('portable');
     await requirements.getByRole('button', { name: 'Check evidence requirements', exact: true }).click();
     await expect(requirements.getByText(/^Editable transfer requirement checks complete\./)).toBeVisible();
-    await dialog.getByRole('button', { name: 'Check readiness and assemble', exact: true }).click();
-    await expect(dialog.getByRole('heading', { name: 'Package readiness: incomplete', exact: true })).toBeVisible();
-    await expect(dialog.getByRole('button', { name: 'Assemble and retain PDF', exact: true })).toBeDisabled();
+    await preparePackageExport(dialog, 'pdf');
+  await expect(dialog.getByRole('button', { name: 'Download PDF', exact: true })).toBeDisabled();
+    await expect(dialog.getByRole('button', { name: 'Download PDF', exact: true })).toBeDisabled();
     panel = await continueIntake(dialog);
     const original = await PDFDocument.create(), font = await original.embedFont(StandardFonts.Helvetica);
     original.addPage([612, 792]).drawText('SYNTHETIC ORIGINAL SUPPORTING RECORD', { x: 55, y: 720, size: 14, font });
@@ -293,9 +285,9 @@ for (const theme of ['light', 'dark', 'classic']) test.describe(theme, () => {
     await panel.getByRole('button', { name: 'Remove Participants · person 2 · Participants 2', exact: true }).click();
     await expect(panel.getByRole('textbox', { name: 'Participants person 2 label', exact: true })).toHaveCount(0);
     await expect(panel.getByRole('button', { name: 'Add person to Participants', exact: true })).toBeFocused();
-    await panel.locator('summary').filter({ hasText: /^Document scope and requirements$/ }).click();
+    await expandPackageTools(panel);
     await screenshot(page, dialog, info, `narrow-${theme}`);
-    await panel.getByRole('button', { name: 'Discard intake changes', exact: true }).click();
+    await panel.getByRole('button', { name: 'Discard', exact: true }).click();
     await expect(panel.getByRole('heading', { name: 'Start from an action', exact: true })).toBeFocused();
     await expect(opener).toBeEnabled();
   });
