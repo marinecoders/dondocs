@@ -411,6 +411,12 @@ export function ClassificationSection() {
                   />
                 </div>
 
+                <div className="space-y-2">
+                  <Label htmlFor="customCuiPocEmail">CUI POC email</Label>
+                  <Input id="customCuiPocEmail" type="email" value={formData.pocEmail || ''}
+                    onChange={event => setField('pocEmail', event.target.value)} placeholder="office@example.mil" />
+                </div>
+
                 {!isPublication && (
                   <DistributionStatementField
                     id="customCuiDistStatement"
@@ -568,6 +574,12 @@ export function ClassificationSection() {
                     onChange={(e) => setField('cuiDissemination', e.target.value)}
                     placeholder="e.g., NOFORN, REL TO USA, FVEY"
                   />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="cuiPocEmail">CUI POC email</Label>
+                  <Input id="cuiPocEmail" type="email" value={formData.pocEmail || ''}
+                    onChange={event => setField('pocEmail', event.target.value)} placeholder="office@example.mil" />
                 </div>
 
                 {!isPublication && (
