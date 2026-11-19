@@ -1,6 +1,6 @@
 import { PDFDocument, PDFName } from 'pdf-lib';
 import { debug } from '@/lib/debug';
-import { assertAssemblyPagesReadable, loadAssemblyPdf } from './assemblyPdf';
+import { assertAssemblyPagesReadable, loadAssemblyPdf, type PdfImageCopyReason } from './assemblyPdf';
 
 /**
  * Assemble an endorsement onto the basic letter it endorses.
@@ -69,7 +69,7 @@ function toUint8(data: Uint8Array | ArrayBuffer): Uint8Array {
  */
 export async function validateBasicLetter(
   data: Uint8Array | ArrayBuffer
-): Promise<{ ok: true; pageCount: number; pageImages?: boolean } | { ok: false; error: string }> {
+): Promise<{ ok: true; pageCount: number; pageImages?: boolean; imageCopyReason?: PdfImageCopyReason } | { ok: false; error: string }> {
   const result = await loadBasicLetter(data);
   if ('error' in result) return { ok: false, error: result.error };
   // Copy only a readable unencrypted source or the separate rendered derivative.
@@ -82,7 +82,7 @@ export async function validateBasicLetter(
       error: err instanceof Error ? err.message : 'The PDF’s pages could not be copied (it may be encrypted).',
     };
   }
-  return { ok: true, pageCount: result.pdf.getPageCount(), ...(result.pageImages ? { pageImages: true } : {}) };
+  return { ok: true, pageCount: result.pdf.getPageCount(), ...(result.pageImages ? { pageImages: true, imageCopyReason: result.imageCopyReason } : {}) };
 }
 
 /**
@@ -92,9 +92,9 @@ export async function validateBasicLetter(
  */
 async function loadBasicLetter(
   data: Uint8Array | ArrayBuffer, signal?: AbortSignal
-): Promise<{ pdf: PDFDocument; pageImages: boolean } | { error: string }> {
+): Promise<{ pdf: PDFDocument; pageImages: boolean; imageCopyReason?: PdfImageCopyReason } | { error: string }> {
   try {
-    const { pdf, pageImages } = await loadAssemblyPdf(toUint8(data), signal);
+    const { pdf, pageImages, imageCopyReason } = await loadAssemblyPdf(toUint8(data), signal, { preserveAnnotations: true });
     const pageCount = pdf.getPageCount();
     if (pageCount === 0) return { error: 'The basic-letter PDF has no pages.' };
     for (let i = 0; i < pageCount; i++) {
@@ -104,7 +104,7 @@ async function loadBasicLetter(
       }
     }
     await assertAssemblyPagesReadable(pdf, signal);
-    return { pdf, pageImages };
+    return { pdf, pageImages, imageCopyReason };
   } catch (err) {
     signal?.throwIfAborted();
     return { error: err instanceof Error ? err.message : 'The basic-letter PDF could not be read.' };

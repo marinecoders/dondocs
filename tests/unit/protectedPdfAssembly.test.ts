@@ -1,13 +1,14 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { readFile } from 'node:fs/promises';
-import { PDFDocument, PDFName, PDFRawStream } from 'pdf-lib';
+import { PDFBool, PDFDict, PDFDocument, PDFName, PDFRawStream, PDFString } from 'pdf-lib';
 import { assertAssemblyPagesReadable, inspectAssemblyPdf, loadAssemblyPdf, PROTECTED_PDF_LIMITS } from '@/services/pdf/assemblyPdf';
 import { PDF_RESOURCE_LIMITS } from '@/services/pdf/validatePdfResources';
 import { assembleEndorsement, validateBasicLetter } from '@/services/pdf/assembleEndorsement';
 import { mergeEnclosures } from '@/services/pdf/mergeEnclosures';
+import { addSignatureField } from '@/services/pdf/addSignatureField';
 
 const mocks = vi.hoisted(() => ({ getDocument: vi.fn(), destroy: vi.fn(), cleanup: vi.fn(), cancel: vi.fn(), render: vi.fn() }));
-vi.mock('react-pdf', () => ({ pdfjs: { getDocument: mocks.getDocument } }));
+vi.mock('react-pdf', () => ({ pdfjs: { getDocument: mocks.getDocument, AnnotationType: { WIDGET: 20 }, OPS: { paintImageXObject: 85, paintImageXObjectRepeat: 88 } } }));
 vi.mock('@/components/pdf/pdfConfig', () => ({ HARDENED_PDF_OPTIONS: { isEvalSupported: false } }));
 const fixture = async (name: string) => new Uint8Array(await readFile(`tests/fixtures/permission-pdfs/${name}`));
 
@@ -25,6 +26,18 @@ async function nestedForm(corrupt: boolean): Promise<Uint8Array<ArrayBuffer>> {
   return new Uint8Array(await pdf.save());
 }
 
+async function annotatedPdf(flags = 4, subtype = 'Stamp'): Promise<Uint8Array<ArrayBuffer>> {
+  const pdf = await PDFDocument.create(), page = pdf.addPage([612, 792]);
+  page.drawText('Synthetic annotated source');
+  const appearance = pdf.context.register(pdf.context.flateStream('1 0 0 rg 0 0 300 60 re f', {
+    Type: 'XObject', Subtype: 'Form', BBox: [0, 0, 300, 60], Resources: {},
+  }));
+  page.node.set(PDFName.of('Annots'), pdf.context.obj([pdf.context.register(pdf.context.obj({
+    Type: 'Annot', Subtype: subtype, Rect: [72, 72, 372, 132], AP: { N: appearance }, F: flags,
+  }))]));
+  return new Uint8Array(await pdf.save());
+}
+
 beforeEach(async () => {
   vi.restoreAllMocks();
   Object.values(mocks).forEach(mock => mock.mockReset());
@@ -33,8 +46,9 @@ beforeEach(async () => {
   const png = await fixture('red.png');
   vi.spyOn(HTMLCanvasElement.prototype, 'getContext').mockReturnValue({} as CanvasRenderingContext2D);
   vi.spyOn(HTMLCanvasElement.prototype, 'toBlob').mockImplementation(callback => callback(new Blob([png], { type: 'image/png' })));
-  mocks.getDocument.mockImplementation(() => ({ destroy: mocks.destroy, promise: Promise.resolve({ numPages: 2,
-    getPage: async () => ({ cleanup: mocks.cleanup, getViewport: ({ scale }: { scale: number }) => ({ width: 612 * scale, height: 792 * scale }), render: mocks.render }),
+  mocks.getDocument.mockImplementation(() => ({ destroy: mocks.destroy, promise: Promise.resolve({ getMetadata: async () => ({ info: { IsXFAPresent: false } }), numPages: 2,
+    getPage: async () => ({ getAnnotations: async () => [], cleanup: mocks.cleanup, getOperatorList: async () => ({ fnArray: [], argsArray: [] }),
+      getViewport: ({ scale }: { scale: number }) => ({ width: 612 * scale, height: 792 * scale }), render: mocks.render }),
   }) }));
 });
 
@@ -65,6 +79,173 @@ describe('protected PDF assembly', () => {
     expect(bytes).toEqual(original);
     expect(mocks.getDocument).not.toHaveBeenCalled();
   });
+
+  it('rejects a corrupt JPEG instead of accepting an unreadable scanned page', async () => {
+    const pdf = await PDFDocument.create(), page = pdf.addPage();
+    const image = pdf.context.register(pdf.context.stream(Uint8Array.of(1, 2, 3, 4), {
+      Type: 'XObject', Subtype: 'Image', Width: 2, Height: 2,
+      ColorSpace: 'DeviceRGB', BitsPerComponent: 8, Filter: 'DCTDecode',
+    }));
+    page.node.set(PDFName.of('Resources'), pdf.context.obj({ XObject: { ScannedPage: image } }));
+    page.node.set(PDFName.of('Contents'), pdf.context.register(pdf.context.flateStream('q /ScannedPage Do Q')));
+    const bytes = new Uint8Array(await pdf.save()), original = bytes.slice(), main = await fixture('source.pdf');
+    await expect(inspectAssemblyPdf(bytes)).rejects.toThrow(/JPEG.*unreadable/);
+    expect(await validateBasicLetter(bytes)).toMatchObject({ ok: false });
+    expect((await assembleEndorsement(main, bytes)).ok).toBe(false);
+    expect((await mergeEnclosures(main, [{ number: 1, title: 'Unreadable JPEG', data: bytes.buffer }])).hasErrors).toBe(true);
+    expect(bytes).toEqual(original);
+  });
+
+  it('bounds encoded JPEG dimensions before the decoder can allocate from them', async () => {
+    const { JpegImage } = await import('pdfjs-dist/image_decoders/pdf.image_decoders.mjs');
+    const parse = vi.spyOn(JpegImage.prototype, 'parse');
+    const pdf = await PDFDocument.create(), page = pdf.addPage();
+    // The PDF dictionary claims two pixels; the embedded SOF claims 65,535².
+    const encoded = Uint8Array.of(255, 216, 255, 192, 0, 17, 8, 255, 255, 255, 255, 3,
+      1, 17, 0, 2, 17, 0, 3, 17, 0, 255, 217);
+    const image = pdf.context.register(pdf.context.stream(encoded, {
+      Type: 'XObject', Subtype: 'Image', Width: 2, Height: 2,
+      ColorSpace: 'DeviceRGB', BitsPerComponent: 8, Filter: 'DCTDecode',
+    }));
+    page.node.set(PDFName.of('Resources'), pdf.context.obj({ XObject: { Oversized: image } }));
+    page.node.set(PDFName.of('Contents'), pdf.context.register(pdf.context.flateStream('q /Oversized Do Q')));
+    await expect(inspectAssemblyPdf(new Uint8Array(await pdf.save()))).rejects.toThrow(/JPEG.*preparation limit/);
+    expect(parse).not.toHaveBeenCalled();
+  });
+
+  it('includes padded four-component 4x-sampling coefficient buffers in JPEG admission', async () => {
+    const { JpegImage } = await import('pdfjs-dist/image_decoders/pdf.image_decoders.mjs');
+    const parse = vi.spyOn(JpegImage.prototype, 'parse');
+    const pdf = await PDFDocument.create(), page = pdf.addPage();
+    // 3000² pixels fit a four-byte estimate, but four full-resolution Int16
+    // component buffers with MCU padding exceed the 64 MB stream budget.
+    const encoded = Uint8Array.of(255, 216, 255, 192, 0, 20, 8, 11, 184, 11, 184, 4,
+      1, 68, 0, 2, 68, 0, 3, 68, 0, 4, 68, 0, 255, 217);
+    const image = pdf.context.register(pdf.context.stream(encoded, {
+      Type: 'XObject', Subtype: 'Image', Width: 3000, Height: 3000,
+      ColorSpace: 'DeviceCMYK', BitsPerComponent: 8, Filter: 'DCTDecode',
+    }));
+    page.node.set(PDFName.of('Resources'), pdf.context.obj({ XObject: { Sampled: image } }));
+    page.node.set(PDFName.of('Contents'), pdf.context.register(pdf.context.flateStream('q /Sampled Do Q')));
+    await expect(inspectAssemblyPdf(new Uint8Array(await pdf.save()))).rejects.toThrow(/JPEG.*preparation limit/);
+    expect(parse).not.toHaveBeenCalled();
+  });
+
+  it('rejects failed image dependencies even when the renderer resolves successfully', async () => {
+    mocks.getDocument.mockImplementation(() => ({ destroy: mocks.destroy, promise: Promise.resolve({ getMetadata: async () => ({ info: { IsXFAPresent: false } }), numPages: 1,
+      getPage: async () => ({ getAnnotations: async () => [], cleanup: mocks.cleanup, render: mocks.render,
+        getViewport: ({ scale }: { scale: number }) => ({ width: 612 * scale, height: 792 * scale }),
+        getOperatorList: async () => ({ fnArray: [85], argsArray: [['failed-image', 2, 2]] }),
+        objs: { get: (_id: string, ready: (value: null) => void) => ready(null) },
+      }),
+    }) }));
+    await expect(loadAssemblyPdf(await fixture('owner-aes.pdf'))).rejects.toThrow(/image.*could not be decoded/);
+    expect(mocks.render).toHaveBeenCalledOnce();
+    expect(mocks.cleanup).toHaveBeenCalledOnce();
+    expect(mocks.destroy).toHaveBeenCalledOnce();
+  });
+
+  it('cancels while an image dependency is unresolved and releases the worker', async () => {
+    const waiting = vi.fn();
+    mocks.getDocument.mockImplementation(() => ({ destroy: mocks.destroy, promise: Promise.resolve({ getMetadata: async () => ({ info: { IsXFAPresent: false } }), numPages: 1,
+      getPage: async () => ({ getAnnotations: async () => [], cleanup: mocks.cleanup, render: mocks.render,
+        getViewport: ({ scale }: { scale: number }) => ({ width: 612 * scale, height: 792 * scale }),
+        getOperatorList: async () => ({ fnArray: [85], argsArray: [['pending-image', 2, 2]] }),
+        objs: { get: waiting },
+      }),
+    }) }));
+    const controller = new AbortController();
+    const pending = loadAssemblyPdf(await fixture('owner-aes.pdf'), controller.signal);
+    const rejected = expect(pending).rejects.toMatchObject({ name: 'AbortError' });
+    await vi.waitFor(() => expect(waiting).toHaveBeenCalledOnce());
+    controller.abort();
+    await rejected;
+    expect(mocks.cleanup).toHaveBeenCalledOnce();
+    expect(mocks.destroy).toHaveBeenCalled();
+  });
+
+  it.each([4, 36])('includes printable annotation appearances as images for enclosure embedding (flags %i)', async flags => {
+    const bytes = await annotatedPdf(flags), original = bytes.slice(), main = await fixture('source.pdf');
+    expect(await inspectAssemblyPdf(bytes)).toMatchObject({ pageImages: true, imageCopyReason: 'annotations' });
+    expect((await mergeEnclosures(main, [{ number: 1, title: 'Annotated enclosure', data: bytes.buffer }])).hasErrors).toBe(false);
+    expect(mocks.render).toHaveBeenCalledWith(expect.objectContaining({ intent: 'print' }));
+    expect(bytes).toEqual(original);
+  });
+
+  it.each(['missing', 'needs-update'])('rejects printable form fields with %s appearances before copying or rasterizing', async mode => {
+    const pdf = await PDFDocument.load(await annotatedPdf(4, 'Widget'));
+    const annotation = pdf.context.lookup(pdf.getPage(0).node.Annots()!.get(0), PDFDict);
+    annotation.set(PDFName.of('V'), PDFString.of('Synthetic field value'));
+    if (mode === 'missing') annotation.delete(PDFName.of('AP'));
+    else pdf.catalog.set(PDFName.of('AcroForm'), pdf.context.obj({ NeedAppearances: PDFBool.True }));
+    const bytes = new Uint8Array(await pdf.save()), original = bytes.slice();
+    await expect(inspectAssemblyPdf(bytes)).rejects.toThrow(/cannot verify.*valued printable form field/);
+    expect(await validateBasicLetter(bytes)).toMatchObject({ ok: false, error: expect.stringContaining('flattened PDF') });
+    expect(mocks.getDocument).not.toHaveBeenCalled();
+    expect(bytes).toEqual(original);
+  });
+
+  it('retains real DonDocs unsigned signature fields, including ones without an appearance', async () => {
+    const source = await addSignatureField(await fixture('source.pdf'));
+    for (const removeAppearance of [false, true]) {
+      const pdf = await PDFDocument.load(source);
+      const form = pdf.catalog.lookup(PDFName.of('AcroForm'), PDFDict);
+      form.set(PDFName.of('NeedAppearances'), PDFBool.True);
+      const fields = form.lookup(PDFName.of('Fields')) as import('pdf-lib').PDFArray;
+      const signature = pdf.context.lookup(fields.get(0), PDFDict);
+      if (removeAppearance) signature.delete(PDFName.of('AP'));
+      const bytes = new Uint8Array(await pdf.save());
+      expect(await validateBasicLetter(bytes)).toMatchObject({ ok: true, pageCount: 2 });
+      expect((await assembleEndorsement(await fixture('source.pdf'), bytes)).ok).toBe(true);
+    }
+    expect(mocks.getDocument).not.toHaveBeenCalled();
+  });
+
+  it('detects inherited valued fields but ignores zero-area invisible signature widgets', async () => {
+    const pdf = await PDFDocument.load(await annotatedPdf(4, 'Widget'));
+    const annotation = pdf.context.lookup(pdf.getPage(0).node.Annots()!.get(0), PDFDict);
+    annotation.delete(PDFName.of('AP'));
+    annotation.set(PDFName.of('Parent'), pdf.context.obj({ V: PDFString.of('Inherited value') }));
+    await expect(inspectAssemblyPdf(new Uint8Array(await pdf.save()))).rejects.toThrow(/valued printable form field/);
+    annotation.set(PDFName.of('Rect'), pdf.context.obj([0, 0, 0, 0]));
+    expect(await inspectAssemblyPdf(new Uint8Array(await pdf.save()))).toMatchObject({ pageImages: false });
+    expect(mocks.getDocument).not.toHaveBeenCalled();
+  });
+
+  for (const packets of [false, true]) it(`rejects nonempty XFA form packets before accepting static fallback pages (array ${packets})`, async () => {
+    const pdf = await PDFDocument.load(await fixture('source.pdf'));
+    const stream = pdf.context.register(pdf.context.stream('<xfa>Synthetic form value</xfa>'));
+    pdf.catalog.set(PDFName.of('AcroForm'), pdf.context.obj({ Fields: [],
+      XFA: packets ? ['template', stream] : stream, NeedAppearances: PDFBool.True }));
+    const bytes = new Uint8Array(await pdf.save()), original = bytes.slice();
+    await expect(inspectAssemblyPdf(bytes)).rejects.toThrow(/XFA.*flattened/);
+    expect(await validateBasicLetter(bytes)).toMatchObject({ ok: false, error: expect.stringContaining('XFA') });
+    expect(mocks.getDocument).not.toHaveBeenCalled();
+    expect(bytes).toEqual(original);
+  });
+
+  it('keeps ordinary static AcroForm metadata without XFA or valued widgets supported', async () => {
+    const pdf = await PDFDocument.load(await fixture('source.pdf'));
+    pdf.catalog.set(PDFName.of('AcroForm'), pdf.context.obj({ Fields: [], NeedAppearances: PDFBool.True }));
+    expect(await inspectAssemblyPdf(new Uint8Array(await pdf.save()))).toMatchObject({ pageCount: 2, pageImages: false });
+    expect(mocks.getDocument).not.toHaveBeenCalled();
+  });
+
+  it('keeps printable basic-letter annotations on the vector-copy path', async () => {
+    const bytes = await annotatedPdf(), main = await fixture('source.pdf');
+    expect(await validateBasicLetter(bytes)).toMatchObject({ ok: true, pageCount: 1 });
+    const assembled = await assembleEndorsement(main, bytes);
+    expect(assembled.ok).toBe(true);
+    expect((await PDFDocument.load(assembled.pdfBytes)).getPage(0).node.Annots()?.size()).toBe(1);
+    expect(mocks.getDocument).not.toHaveBeenCalled();
+  });
+
+  for (const [flags, subtype] of [[0, 'Stamp'], [5, 'Stamp'], [6, 'Stamp'], [4, 'Link']] as const) {
+    it(`keeps non-printing, hidden or metadata annotations off the image-copy path (${flags}/${subtype})`, async () => {
+      expect(await inspectAssemblyPdf(await annotatedPdf(flags, subtype))).toMatchObject({ pageImages: false });
+      expect(mocks.getDocument).not.toHaveBeenCalled();
+    });
+  }
 
   it('rejects a corrupt nested Form XObject at every attachment and assembly boundary', async () => {
     const bytes = await nestedForm(true), original = bytes.slice(), main = await fixture('source.pdf');
@@ -160,7 +341,7 @@ describe('protected PDF assembly', () => {
     const images = delivered.context.enumerateIndirectObjects().filter(([, object]) => object instanceof PDFRawStream && object.dict.get(PDFName.of('Subtype'))?.toString() === '/Image');
     expect(images.length).toBeGreaterThanOrEqual(2);
     for (const [options] of mocks.getDocument.mock.calls) {
-      expect(options).toMatchObject({ password: '', isEvalSupported: false, stopAtErrors: true });
+      expect(options).toMatchObject({ password: '', isEvalSupported: false, enableXfa: false, stopAtErrors: true });
       expect(options.data.buffer).not.toBe(source.buffer);
     }
     expect(mocks.render).toHaveBeenCalledTimes(6);
@@ -171,7 +352,7 @@ describe('protected PDF assembly', () => {
 
   it('requires a usable image canvas rather than returning blank protected pages', async () => {
     vi.mocked(HTMLCanvasElement.prototype.getContext).mockReturnValue(null);
-    await expect(loadAssemblyPdf(await fixture('owner-aes.pdf'))).rejects.toThrow(/cannot prepare protected/);
+    await expect(loadAssemblyPdf(await fixture('owner-aes.pdf'))).rejects.toThrow(/cannot prepare PDF/);
     expect(mocks.destroy).toHaveBeenCalledOnce();
     expect(mocks.cleanup).toHaveBeenCalledOnce();
   });
@@ -191,30 +372,32 @@ describe('protected PDF assembly', () => {
   });
 
   it('rejects excessive page counts before rendering', async () => {
-    mocks.getDocument.mockReturnValue({ destroy: mocks.destroy, promise: Promise.resolve({ numPages: PROTECTED_PDF_LIMITS.pages + 1 }) });
+    mocks.getDocument.mockReturnValue({ destroy: mocks.destroy, promise: Promise.resolve({ getMetadata: async () => ({ info: { IsXFAPresent: false } }), numPages: PROTECTED_PDF_LIMITS.pages + 1 }) });
     await expect(loadAssemblyPdf(await fixture('owner-aes.pdf'))).rejects.toThrow(/1–50 pages/);
     expect(mocks.render).not.toHaveBeenCalled();
     expect(mocks.destroy).toHaveBeenCalledOnce();
   });
 
   it('rejects invalid geometry and releases the page and worker', async () => {
-    mocks.getDocument.mockReturnValue({ destroy: mocks.destroy, promise: Promise.resolve({ numPages: 1, getPage: async () => ({ cleanup: mocks.cleanup, getViewport: () => ({ width: Infinity, height: 792 }) }) }) });
+    mocks.getDocument.mockReturnValue({ destroy: mocks.destroy, promise: Promise.resolve({ getMetadata: async () => ({ info: { IsXFAPresent: false } }), numPages: 1, getPage: async () => ({ getAnnotations: async () => [], cleanup: mocks.cleanup, getViewport: () => ({ width: Infinity, height: 792 }) }) }) });
     await expect(loadAssemblyPdf(await fixture('owner-aes.pdf'))).rejects.toThrow(/dimensions/);
     expect(mocks.cleanup).toHaveBeenCalledOnce();
     expect(mocks.destroy).toHaveBeenCalledOnce();
   });
 
   it('keeps the rendered crop and rotation dimensions rather than imposing Letter geometry', async () => {
-    mocks.getDocument.mockReturnValue({ destroy: mocks.destroy, promise: Promise.resolve({ numPages: 1, getPage: async () => ({ cleanup: mocks.cleanup,
-      getViewport: ({ scale }: { scale: number }) => ({ width: 648 * scale, height: 540 * scale }), render: mocks.render }) }) });
+    mocks.getDocument.mockReturnValue({ destroy: mocks.destroy, promise: Promise.resolve({ getMetadata: async () => ({ info: { IsXFAPresent: false } }), numPages: 1, getPage: async () => ({ getAnnotations: async () => [], cleanup: mocks.cleanup,
+      getViewport: ({ scale }: { scale: number }) => ({ width: 648 * scale, height: 540 * scale }),
+      getOperatorList: async () => ({ fnArray: [], argsArray: [] }), render: mocks.render }) }) });
     const { pdf } = await loadAssemblyPdf(await fixture('owner-cropped.pdf'));
     expect(pdf.getPage(0).getSize()).toEqual({ width: 648, height: 540 });
     expect(mocks.cleanup).toHaveBeenCalledOnce();
   });
 
   it('stops at the total decoded page-pixel budget and releases the rejected page', async () => {
-    mocks.getDocument.mockImplementation(() => ({ destroy: mocks.destroy, promise: Promise.resolve({ numPages: 50,
-      getPage: async () => ({ cleanup: mocks.cleanup, getViewport: ({ scale }: { scale: number }) => ({ width: 612 * scale, height: 792 * scale }), render: mocks.render }),
+    mocks.getDocument.mockImplementation(() => ({ destroy: mocks.destroy, promise: Promise.resolve({ getMetadata: async () => ({ info: { IsXFAPresent: false } }), numPages: 50,
+      getPage: async () => ({ getAnnotations: async () => [], cleanup: mocks.cleanup, getOperatorList: async () => ({ fnArray: [], argsArray: [] }),
+        getViewport: ({ scale }: { scale: number }) => ({ width: 612 * scale, height: 792 * scale }), render: mocks.render }),
     }) }));
     await expect(loadAssemblyPdf(await fixture('owner-aes.pdf'))).rejects.toThrow(/preparation limit/);
     expect(mocks.render.mock.calls.length).toBeLessThan(50);

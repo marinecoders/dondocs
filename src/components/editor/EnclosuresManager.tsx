@@ -1,4 +1,4 @@
-import { inspectAssemblyPdf, PROTECTED_PDF_NOTICE } from '@/services/pdf/assemblyPdf';
+import { inspectAssemblyPdf, pdfImageCopyNotice } from '@/services/pdf/assemblyPdf';
 import { captureDocumentTarget, isCurrentDocumentTarget } from '@/stores/documentsStore';
 import { beginDocumentTask, isCurrentDocumentTask } from '@/lib/documentTask';
 import { useCallback, useState } from 'react';
@@ -251,7 +251,7 @@ export function EnclosuresManager() {
       if (!ownsEnclosure()) return;
       const inspection = await inspectAssemblyPdf(data);
       if (!ownsEnclosure()) return;
-      if (inspection.pageImages && !await showAppConfirm({ title: 'Include PDF pages as images?', message: PROTECTED_PDF_NOTICE, confirmLabel: 'Include page images' })) return;
+      if (inspection.pageImages && !await showAppConfirm({ title: 'Include PDF pages as images?', message: pdfImageCopyNotice(inspection.imageCopyReason), confirmLabel: 'Include page images' })) return;
       if (!ownsEnclosure()) return;
       await withAttachmentStaging(async () => {
         if (!ownsEnclosure()) return;
@@ -318,7 +318,7 @@ export function EnclosuresManager() {
       if (!isCurrentDocumentTask(task)) return;
       const inspection = await inspectAssemblyPdf(data);
       if (!isCurrentDocumentTask(task)) return;
-      if (inspection.pageImages && !await showAppConfirm({ title: 'Include PDF pages as images?', message: PROTECTED_PDF_NOTICE, confirmLabel: 'Include page images' })) return;
+      if (inspection.pageImages && !await showAppConfirm({ title: 'Include PDF pages as images?', message: pdfImageCopyNotice(inspection.imageCopyReason), confirmLabel: 'Include page images' })) return;
       if (!isCurrentDocumentTask(task)) return;
       await withAttachmentStaging(async () => {
         if (!isCurrentDocumentTask(task)) return;

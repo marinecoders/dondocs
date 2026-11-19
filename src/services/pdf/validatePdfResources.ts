@@ -1,5 +1,6 @@
 import { decodePDFRawStream, PDFArray, PDFDict, PDFDocument, PDFName, PDFRawStream, PDFRef, PDFStream, type PDFObject, type PDFPage } from 'pdf-lib';
 import { Inflate } from 'pako';
+import { validatePdfJpeg } from './validatePdfJpeg';
 
 export const PDF_RESOURCE_LIMITS = Object.freeze({
   resources: 10_000,
@@ -18,9 +19,10 @@ const FILTER_ALIASES = new Map([
 ].map(([alias, full]) => [PDFName.of(alias), PDFName.of(full)]));
 
 /** Validate compression in reachable page resources without replacing vector
- * content. Native image codecs stay opaque; their encoded bytes are preserved.
+ * content. JPEGs are decode-checked; other native codecs remain opaque. All
+ * native image streams retain their encoded bytes in the assembled vector PDF.
  */
-export function createPdfResourceValidator(pdf: PDFDocument, signal?: AbortSignal): (page: PDFPage) => void {
+export function createPdfResourceValidator(pdf: PDFDocument, signal?: AbortSignal): (page: PDFPage) => Promise<void> {
   const visited = new Set<PDFObject>();
   const deadline = Date.now() + PDF_RESOURCE_LIMITS.milliseconds;
   let decodedBytes = 0;
@@ -29,7 +31,7 @@ export function createPdfResourceValidator(pdf: PDFDocument, signal?: AbortSigna
     if (Date.now() > deadline) throw new Error('PDF resource validation timed out. Split this PDF and try again.');
   };
 
-  const validateStream = (stream: PDFRawStream) => {
+  const validateStream = async (stream: PDFRawStream) => {
     let streamBytes = 0;
     const charge = (size: number) => {
       check();
@@ -54,7 +56,11 @@ export function createPdfResourceValidator(pdf: PDFDocument, signal?: AbortSigna
     for (let index = 0; index < filters.length; index++) {
       const encoding = filters[index];
       if (!(encoding instanceof PDFName)) throw new Error('PDF compression has an invalid filter.');
-      if (stream.dict.lookup(PDFName.of('Subtype')) === PDFName.of('Image') && IMAGE_CODECS.has(encoding.asString()) && index === filters.length - 1) return;
+      if (stream.dict.lookup(PDFName.of('Subtype')) === PDFName.of('Image') && IMAGE_CODECS.has(encoding.asString()) && index === filters.length - 1) {
+        charge(bytes.length);
+        if (encoding === PDFName.of('DCTDecode')) await validatePdfJpeg(bytes, check, charge);
+        return;
+      }
       const retain = index < filters.length - 1;
       const chunks: Uint8Array[] = [];
       let length = 0;
@@ -95,7 +101,7 @@ export function createPdfResourceValidator(pdf: PDFDocument, signal?: AbortSigna
     }
   };
 
-  const visit = (input: PDFObject | undefined, depth: number): void => {
+  const visit = async (input: PDFObject | undefined, depth: number): Promise<void> => {
     check();
     if (!input) return;
     const value = input instanceof PDFRef ? pdf.context.lookup(input) : input;
@@ -104,21 +110,21 @@ export function createPdfResourceValidator(pdf: PDFDocument, signal?: AbortSigna
     if (depth > PDF_RESOURCE_LIMITS.depth || visited.size >= PDF_RESOURCE_LIMITS.resources) throw new Error('PDF resources are too complex. Split this PDF and try again.');
     visited.add(value);
     if (value instanceof PDFStream) {
-      if (value instanceof PDFRawStream) validateStream(value);
-      visit(value.dict, depth + 1);
+      if (value instanceof PDFRawStream) await validateStream(value);
+      await visit(value.dict, depth + 1);
     } else if (value instanceof PDFDict) {
-      for (const [, child] of value.entries()) visit(child, depth + 1);
+      for (const [, child] of value.entries()) await visit(child, depth + 1);
     } else if (value instanceof PDFArray) {
-      for (const child of value.asArray()) visit(child, depth + 1);
+      for (const child of value.asArray()) await visit(child, depth + 1);
     }
   };
 
-  return page => {
-    visit(page.node.Contents(), 0);
-    visit(page.node.Resources(), 0);
+  return async page => {
+    await visit(page.node.Contents(), 0);
+    await visit(page.node.Resources(), 0);
     for (const annotation of page.node.Annots()?.asArray() ?? []) {
       const value = pdf.context.lookup(annotation);
-      if (value instanceof PDFDict) visit(value.get(PDFName.of('AP')), 0);
+      if (value instanceof PDFDict) await visit(value.get(PDFName.of('AP')), 0);
     }
   };
 }

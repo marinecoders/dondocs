@@ -6,6 +6,7 @@
   "include": [
     "tests/types/documentLifecycle.ts",
     "src/types/build-constants.d.ts",
+    "src/types/pdf-image-decoders.d.ts",
     "tests/types/capturedDocument.ts",
     "tests/types/documentFields.ts",
     "tests/types/documentCapabilities.ts",

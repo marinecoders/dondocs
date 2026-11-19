@@ -5,6 +5,17 @@ page 2 has a 90-degree rotation. `source-cropped.pdf` has a 540 × 648 point cro
 `receipt.json` records their SHA-256 digests. `red.png` is the two-pixel rendering
 stand-in used by unit tests; browser checks use the real PDF.js worker.
 `red.jpg` is a synthetic JPEG control for preserved native image encoding.
+`corrupt-image.pdf` contains a deliberately unreadable JPEG stream;
+`corrupt-image-owner-aes.pdf` encrypts that same source with an empty opening
+password and the synthetic owner password below. A real PDF.js render can
+complete while dropping this image, so the application must inspect its decoded
+image dependencies. `printable-stamp.pdf` contains a synthetic red printable
+stamp appearance that page embedding alone would omit.
+`valued-field-missing-appearance-owner-aes.pdf` contains a synthetic text field
+requiring regenerated appearances; it must be rejected rather than flattened
+with an empty value. `xfa-only-owner-aes.pdf` contains synthetic XFA data and
+blank static fallback content; hardened rendering must reject the unsupported
+form. Both use the same empty opening/synthetic owner passwords.
 
 The encrypted PDFs were produced with qpdf from the same source:
 
