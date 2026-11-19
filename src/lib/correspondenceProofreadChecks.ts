@@ -70,17 +70,17 @@ export function additionalProofreadFindings(source: ProofreadSource): ProofreadF
       config.uiMode === 'moa' ? 'moa' : config.uiMode === 'joint' ? 'joint' : 'joint_memo', field,
       { chapter: config.uiMode === 'joint' ? 7 : 10, query: 'signature' }, 'required');
   }
-  if (data.classLevel === 'cui' || data.classLevel === 'custom' && /^CUI(?:$|\/\/)/i.test(data.customClassification ?? '')) {
+  // Custom marking mode renders a banner only, not a CUI designation block.
+  if (data.classLevel === 'cui') {
     for (const [field, label] of [['cuiControlledBy', 'Controlled by'], ['cuiCategory', 'CUI category'], ['pocEmail', 'POC email']] as const) {
       if (!data[field]?.trim()) add(`cui:${field}`, `${label} is empty`,
         'Complete this field in the CUI designation block before delivery. This check assesses field completeness only.',
-        'classification', field === 'pocEmail' ? (data.classLevel === 'custom' ? 'customCuiPocEmail' : 'cuiPocEmail')
-          : data.classLevel === 'custom' ? `custom${field[0].toUpperCase()}${field.slice(1)}` : field, undefined, 'markings');
+        'classification', field === 'pocEmail' ? 'cuiPocEmail' : field, undefined, 'markings');
     }
     if (data.pocEmail?.trim() && !safeUrl(data.pocEmail.trim().replace(/^mailto:/i, ''))?.startsWith('mailto:')) {
       add('cui:poc-email-invalid', 'Review the CUI POC email',
         'Enter a valid contact email. This value cannot be printed as the document’s POC email.',
-        'classification', data.classLevel === 'custom' ? 'customCuiPocEmail' : 'cuiPocEmail', undefined, 'markings');
+        'classification', 'cuiPocEmail', undefined, 'markings');
     }
   }
   if (!(source.documentMode === 'custom' || config.compliance.allowEnclosures)) return findings;

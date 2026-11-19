@@ -73,6 +73,9 @@ describe('additional correspondence proofreading', () => {
     expect(f).toHaveLength(3);expect(f.every(item => item.target.sectionId === 'classification')).toBe(true);
     expect(f.find(item => item.title === 'POC email is empty')?.target.field).toBe('cuiPocEmail');
   });
+  it('does not imply that custom CUI-looking banners print a designation block', () => {
+    expect(ids(draft({ formData: { date: '19 Nov 26', classLevel: 'custom', customClassification: 'CUI//PRVCY' } }))).toEqual([]);
+  });
   it('does not accept a non-email contact that the correspondence renderer would discard', () => {
     const source = draft({ formData: { date: '19 Nov 26', classLevel: 'cui', cuiControlledBy: 'Synthetic office', cuiCategory: 'PRVCY', pocEmail: 'https://example.test' } });
     expect(ids(source)).toEqual(['correspondence:cui:poc-email-invalid']);
