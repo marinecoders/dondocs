@@ -96,7 +96,8 @@ Original, tracked and earlier target text travels with drafts, encrypted shares 
 
 **Proofread** adds advisory checks for missing printed dates, endorsement identifiers,
 each signer in a dual-signature format, subject punctuation and explicit enclosure
-citations. The checks follow the selected document type. Inherited endorsement
+citations, including comma/semicolon lists and numeric ranges. Ambiguous numeric
+clauses ask for manual review. The checks follow the selected document type. Inherited endorsement
 enclosure numbers remain valid. Quoted examples, code and links are excluded from
 the new citation check. A multiline address warning asks for review because a
 wrapped address is not necessarily another addressee. These findings do not change

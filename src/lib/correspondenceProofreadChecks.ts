@@ -1,9 +1,7 @@
 import { DOC_TYPE_CONFIG } from '@/types/document';
 import { documentTextFields } from './documentFields';
 import { enclosureStartNumber, isEndorsement } from './endorsement';
-import { citationProtectedRanges } from './referenceCitations';
-import { maskProtectedRanges } from './protectedCodeRanges';
-import { plainInlineText } from './inlineText';
+import { inspectEnclosureCitations } from './enclosureCitations';
 import { safeUrl } from './url-safety';
 import { unfilled } from './requiredField';
 import { deriveOverallClassLevel } from './overallClassification';
@@ -119,39 +117,18 @@ export function additionalProofreadFindings(source: ProofreadSource): ProofreadF
     field.path[0] === 'paragraphs' || field.path[0] === 'formData'
       && (field.path[1] === 'endorsementBody' || field.path[1] === 'additionalEndorsements' && field.path[3] === 'endorsementBody'));
   for (const field of citationFields) {
-    // Hide literals before removing emphasis. A non-space mask prevents an
-    // invented citation across a quote, such as enclosure "example" (2).
-    const text = plainInlineText(maskProtectedRanges(field.text, citationProtectedRanges(field.text), '\uFFFC'));
-    const seen = new Set<number>();
-    for (const clause of text.matchAll(/\b(?:enclosures?|encls?\.?)\s*(?=\()/gi)) {
-      let cursor = clause.index + clause[0].length;
-      for (;;) {
-        const match = /^\(\s*(\d+)\s*\)/.exec(text.slice(cursor));
-        if (!match) break;
-        const number = Number(match[1]);
-        if (!seen.has(number)
-          && !(isEndorsement(source.docType) && number > 0 && number < start)
-          && (number < start || number >= start + source.enclosures.length)) {
-          seen.add(number);
-          const paragraph = field.path[0] === 'paragraphs' ? source.paragraphs[Number(field.path[1])] : undefined;
-          const extra = field.path[1] === 'additionalEndorsements'
-            ? data.additionalEndorsements?.[Number(field.path[2])] : undefined;
-          const editorId = extra ? additionalEndorsementEditorId(extra.id) : FIRST_ENDORSEMENT_EDITOR_ID;
-          const target = field.path[0] === 'paragraphs'
-            ? { sectionId: 'body', ...(paragraph?.id ? { paragraphId: paragraph.id } : {}), paragraphPath: field.path.slice(2) }
-            : { sectionId: 'signature', field: `${editorId}-body` };
-          findings.push({ id: `correspondence:enclosure-citation:${field.path.join(':')}:${number}`,
-            group: 'references', severity: 'warning', title: `Check enclosure (${number})`,
-            message: 'This explicit citation has no entry in this document’s enclosure list. Confirm its target before delivery.',
-            target,
-            source: { chapter: 7, paragraph: '11', query: 'Enclosures' } });
-        }
-        cursor += match[0].length;
-        const separator = /^(?:\s*,\s*(?:(?:and|or)\s+)?|\s+(?:and|or|&)\s+)(?=\()/i.exec(text.slice(cursor));
-        if (!separator) break;
-        cursor += separator[0].length;
-      }
-    }
+    const paragraph = field.path[0] === 'paragraphs' ? source.paragraphs[Number(field.path[1])] : undefined;
+    const extra = field.path[1] === 'additionalEndorsements'
+      ? data.additionalEndorsements?.[Number(field.path[2])] : undefined;
+    const editorId = extra ? additionalEndorsementEditorId(extra.id) : FIRST_ENDORSEMENT_EDITOR_ID;
+    const target = field.path[0] === 'paragraphs'
+      ? { sectionId: 'body', ...(paragraph?.id ? { paragraphId: paragraph.id } : {}), paragraphPath: field.path.slice(2) }
+      : { sectionId: 'signature', field: `${editorId}-body` };
+    for (const issue of inspectEnclosureCitations(field.text, {
+      first: start, count: source.enclosures.length, inherited: isEndorsement(source.docType),
+    })) findings.push({ id: `correspondence:enclosure-citation:${field.path.join(':')}:${issue.id}`,
+      group: 'references', severity: 'warning', title: issue.title, message: issue.message, target,
+      source: { chapter: 7, paragraph: '11', query: 'Enclosures' } });
   }
   return findings;
 }

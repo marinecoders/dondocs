@@ -141,3 +141,34 @@ test('keeps imported additional endorsement identities distinct from the primary
   await expect(page.locator('#first-endorsement-body')).toHaveValue('Primary endorsement already complete.');
   await page.screenshot({ path: info.outputPath('additional-endorsement-target.png') });
 });
+
+test('checks enclosure ranges and semicolon lists and exposes ambiguous clauses for review', async ({ page }, info) => {
+  await page.addInitScript(() => {
+    localStorage.setItem('browser-test-visitor', 'returning');
+    localStorage.setItem('dondocs_ui', JSON.stringify({ version: 1, state: { editorLayout: 'focused', previewVisible: false } }));
+  });
+  await page.goto('/');
+  for (const [text, title] of [
+    ['See enclosures (1)-(2).', 'Check enclosure range (1)–(2)'],
+    ['See enclosures (1); (2).', 'Check enclosure (2)'],
+    ['See enclosures (1) through (9007199254740991).', 'Check enclosure range (1)–(9007199254740991)'],
+    ['See enclosures (1): (2).', 'Review the enclosure citation'],
+  ]) {
+    const draft = {
+      documentCategory: 'correspondence', documentMode: 'compliant', docType: 'naval_letter', formType: 'navmc_10274',
+      formData: { date: '19 Nov 26', subject: 'SYNTHETIC ENCLOSURE CLAUSE', unitLine1: 'SYNTHETIC TRAINING UNIT', from: 'Synthetic sender', to: 'Synthetic recipient', sigLast: 'EXAMPLE' },
+      paragraphs: [{ id: 'enclosure-clause', level: 0, text }], references: [], enclosures: [{ title: 'Only existing enclosure' }], copyTos: [], distributions: [],
+    };
+    await page.getByLabel('Import draft file').setInputFiles({ name: 'enclosure-clause.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(draft)) });
+    await page.getByRole('button', { name: 'Open as new document', exact: true }).click();
+    await page.getByRole('button', { name: /^Proofread:/ }).click();
+    const dialog = page.getByRole('dialog', { name: 'Proofread', exact: true });
+    const finding = dialog.getByRole('listitem').filter({ has: page.getByText(title, { exact: true }) });
+    await expect(finding).toHaveCount(1);
+    await page.screenshot({ path: info.outputPath(`enclosure-clause-${title.includes('9007') ? 'large' : title.includes('range') ? 'range' : title.includes('Review') ? 'manual' : 'list'}.png`) });
+    await finding.getByRole('button', { name: 'Go to Paragraphs', exact: true }).click();
+    const editor = page.locator('[data-paragraph-id="enclosure-clause"] [contenteditable="true"]');
+    await expect(editor).toBeFocused();
+    await expect(editor).toHaveText(text);
+  }
+});
