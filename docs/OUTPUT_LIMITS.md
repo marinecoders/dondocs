@@ -9,7 +9,8 @@ permission-protected PDF requires confirmation when attached: its assembled page
 are images. Enclosures with printable annotations or form fields also require
 confirmation before their printed appearances are flattened into page images.
 Hidden, invisible and non-printing annotations, and ordinary link metadata, do
-not trigger this conversion. The print view includes printable NoView
+not trigger this conversion. Printable links with saved appearance streams do
+trigger conversion so their graphics are preserved. The print view includes printable NoView
 annotations. Ordinary basic letters retain their vector pages and annotation
 appearances when copied. Selectable text, interactive fields and certificate signatures do not
 carry into that derivative; the exact uploaded original remains in the draft and
@@ -21,7 +22,10 @@ requiring regeneration, must first be saved or printed as a flattened PDF in a
 PDF application. Empty unsigned fields and zero-area signature metadata do not
 trigger that rejection. Encrypted forms can also have appearance metadata that
 cannot be verified; a valued printable field then requires an unprotected,
-flattened copy even when another viewer displays it correctly. PDFs with nonempty XFA packets also require a flattened
+flattened copy even when another viewer displays it correctly. Already-parsed
+indirect form metadata can qualify a saved appearance; encrypted compressed
+metadata remains unsupported when its appearance state cannot be established.
+PDFs with nonempty XFA packets also require a flattened
 copy; the renderer keeps XFA and script execution disabled. Unsupported forms
 are rejected rather than risking blank field values or static fallback pages.
 

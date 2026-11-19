@@ -46,12 +46,13 @@ const FORM_APPEARANCE_ERROR = 'DonDocs cannot verify the saved appearance of a v
 const XFA_ERROR = 'This PDF contains XFA form data that cannot be included reliably. Open it in a PDF application that supports XFA, print a flattened PDF, and attach that copy.';
 
 function inspectFormMetadata(pdf: PDFDocument): { needsAppearances: boolean | undefined } {
-  // Never follow encrypted compressed dictionaries with pdf-lib. PDF.js
-  // rechecks decrypted XFA metadata and printable widgets before rendering.
-  const form = pdf.isEncrypted ? pdf.catalog.get(PDFName.of('AcroForm')) : pdf.catalog.lookup(PDFName.of('AcroForm'));
+  // Context lookup only reads the already-parsed object map. Opaque encrypted
+  // object-stream entries remain unknown; this never decrypts or walks pages.
+  const form = pdf.context.lookup(pdf.catalog.get(PDFName.of('AcroForm')));
   if (!(form instanceof PDFDict)) return { needsAppearances: pdf.catalog.has(PDFName.of('AcroForm')) ? undefined : false };
-  const need = pdf.isEncrypted ? form.get(PDFName.of('NeedAppearances')) : form.lookup(PDFName.of('NeedAppearances'));
-  if (pdf.isEncrypted) return { needsAppearances: need instanceof PDFBool ? need.asBoolean() : need ? undefined : false };
+  const rawNeed = form.get(PDFName.of('NeedAppearances'), true);
+  const need = pdf.context.lookup(rawNeed);
+  if (pdf.isEncrypted) return { needsAppearances: need instanceof PDFBool ? need.asBoolean() : rawNeed === undefined ? false : undefined };
   const xfa = form.lookup(PDFName.of('XFA'));
   if (xfa && xfa !== PDFNull && (!(xfa instanceof PDFArray) || xfa.size() > 0)
     && (!(xfa instanceof PDFStream) || xfa.getContentsSize() > 0)) throw new Error(XFA_ERROR);
@@ -67,7 +68,7 @@ function hasPrintableAnnotations(pdf: PDFDocument, needsAppearances: boolean | u
     const annotation = pdf.context.lookup(reference);
     if (!(annotation instanceof PDFDict)) continue;
     const subtype = annotation.lookup(PDFName.of('Subtype'));
-    if (subtype === PDFName.of('Link') || subtype === PDFName.of('Popup')) continue;
+    if (subtype === PDFName.of('Popup')) continue;
     const flags = annotation.lookupMaybe(PDFName.of('F'), PDFNumber)?.asNumber() ?? 0;
     // NoView affects display, not printing. Invisible and Hidden suppress both.
     if (!(flags & 4) || flags & 3) continue;
@@ -76,12 +77,13 @@ function hasPrintableAnnotations(pdf: PDFDocument, needsAppearances: boolean | u
       const coordinates = Array.from({ length: 4 }, (_, index) => rectangle.lookup(index, PDFNumber).asNumber());
       if (coordinates[0] === coordinates[2] || coordinates[1] === coordinates[3]) continue;
     }
+    const appearances = annotation.lookup(PDFName.of('AP'));
+    const normal = appearances instanceof PDFDict ? appearances.lookup(PDFName.of('N')) : undefined;
+    const state = annotation.lookup(PDFName.of('AS'));
+    const appearance = normal instanceof PDFDict && state instanceof PDFName ? normal.lookup(state) : normal;
+    if (subtype === PDFName.of('Link') && !(appearance instanceof PDFStream)) continue;
     printable = true;
     if (subtype === PDFName.of('Widget')) {
-      const appearances = annotation.lookup(PDFName.of('AP'));
-      const normal = appearances instanceof PDFDict ? appearances.lookup(PDFName.of('N')) : undefined;
-      const state = annotation.lookup(PDFName.of('AS'));
-      const appearance = normal instanceof PDFDict && state instanceof PDFName ? normal.lookup(state) : normal;
       if (hasFieldValue(annotation) && (needsAppearances !== false || !(appearance instanceof PDFStream))) {
         throw new Error(FORM_APPEARANCE_ERROR);
       }

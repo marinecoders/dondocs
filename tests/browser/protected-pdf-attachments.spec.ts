@@ -86,14 +86,25 @@ for (const kind of ['basic letter', 'enclosure'] as const) {
   }
 }
 
-test('printable enclosure annotations explain image copies and retain the original', async ({ page }) => {
+for (const name of ['printable-stamp.pdf', 'printable-link.pdf']) test(`printable enclosure ${name} explains image copies and retains the original`, async ({ page }) => {
   await openSyntheticDraft(page);
-  const fixture = resolve('tests/fixtures/permission-pdfs/printable-stamp.pdf');
+  const fixture = resolve(`tests/fixtures/permission-pdfs/${name}`);
   await page.getByLabel('Upload enclosure PDFs', { exact: true }).last().setInputFiles(fixture);
   const confirm = page.getByRole('alertdialog', { name: 'Include PDF pages as images?', exact: true });
   await expect(confirm).toContainText('printable annotations or form fields');
   await expect(confirm).not.toContainText('permission restrictions');
   await confirm.getByRole('button', { name: 'Include page images', exact: true }).click();
-  await expect(page.getByText('printable-stamp.pdf', { exact: true })).toBeVisible();
+  await expect(page.getByText(name, { exact: true })).toBeVisible();
+  expect((await exportDraft(page)).enclosures[0].file.data).toBe((await readFile(fixture)).toString('base64'));
+});
+
+test('an encrypted filled form with a verifiable saved appearance remains supported', async ({ page }) => {
+  await openSyntheticDraft(page);
+  const fixture = resolve('tests/fixtures/permission-pdfs/owner-saved-field.pdf');
+  await page.getByLabel('Upload enclosure PDFs', { exact: true }).last().setInputFiles(fixture);
+  const confirm = page.getByRole('alertdialog', { name: 'Include PDF pages as images?', exact: true });
+  await expect(confirm).toContainText('permission restrictions');
+  await confirm.getByRole('button', { name: 'Include page images', exact: true }).click();
+  await expect(page.getByText('owner-saved-field.pdf', { exact: true })).toBeVisible();
   expect((await exportDraft(page)).enclosures[0].file.data).toBe((await readFile(fixture)).toString('base64'));
 });

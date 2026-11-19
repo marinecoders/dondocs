@@ -16,6 +16,12 @@ requiring regenerated appearances; it must be rejected rather than flattened
 with an empty value. `xfa-only-owner-aes.pdf` contains synthetic XFA data and
 blank static fallback content; hardened rendering must reject the unsupported
 form. Both use the same empty opening/synthetic owner passwords.
+`owner-saved-field.pdf` contains a synthetic filled field with a saved appearance
+and uncompressed indirect form metadata. `owner-saved-field-opaque.pdf` keeps
+the same content in encrypted object streams; unverifiable appearance metadata
+must fail closed. Both use the passwords above. `printable-link.pdf` contains a
+printable Link annotation with a red appearance stream, distinct from an
+ordinary metadata-only link.
 
 The encrypted PDFs were produced with qpdf from the same source:
 

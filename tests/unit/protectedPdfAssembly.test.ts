@@ -172,6 +172,28 @@ describe('protected PDF assembly', () => {
     expect(bytes).toEqual(original);
   });
 
+  it('preserves printable Link appearances rather than treating them as link metadata', async () => {
+    const bytes = await annotatedPdf(4, 'Link'), original = bytes.slice();
+    expect(await inspectAssemblyPdf(bytes)).toMatchObject({ pageImages: true, imageCopyReason: 'annotations' });
+    expect(mocks.render).toHaveBeenCalledWith(expect.objectContaining({ intent: 'print' }));
+    expect(bytes).toEqual(original);
+  });
+
+  it.each(['owner-saved-field.pdf', 'owner-saved-field-opaque.pdf'])('uses only parsed appearance metadata for encrypted valued fields (%s)', async name => {
+    mocks.getDocument.mockImplementation(() => ({ destroy: mocks.destroy, promise: Promise.resolve({
+      numPages: 1, getMetadata: async () => ({ info: { IsXFAPresent: false } }),
+      getPage: async () => ({ cleanup: mocks.cleanup, render: mocks.render,
+        getAnnotations: async () => [{ annotationType: 20, rect: [30, 250, 330, 290], fieldValue: 'Synthetic saved value', hasAppearance: true }],
+        getOperatorList: async () => ({ fnArray: [], argsArray: [] }),
+        getViewport: ({ scale }: { scale: number }) => ({ width: 400 * scale, height: 400 * scale }),
+      }),
+    }) }));
+    const bytes = await fixture(name), original = bytes.slice();
+    if (name.includes('opaque')) await expect(inspectAssemblyPdf(bytes)).rejects.toThrow(/cannot verify.*valued printable form field/);
+    else expect(await inspectAssemblyPdf(bytes)).toMatchObject({ pageCount: 1, pageImages: true, imageCopyReason: 'permissions' });
+    expect(bytes).toEqual(original);
+  });
+
   it.each(['missing', 'needs-update'])('rejects printable form fields with %s appearances before copying or rasterizing', async mode => {
     const pdf = await PDFDocument.load(await annotatedPdf(4, 'Widget'));
     const annotation = pdf.context.lookup(pdf.getPage(0).node.Annots()!.get(0), PDFDict);
@@ -242,7 +264,9 @@ describe('protected PDF assembly', () => {
 
   for (const [flags, subtype] of [[0, 'Stamp'], [5, 'Stamp'], [6, 'Stamp'], [4, 'Link']] as const) {
     it(`keeps non-printing, hidden or metadata annotations off the image-copy path (${flags}/${subtype})`, async () => {
-      expect(await inspectAssemblyPdf(await annotatedPdf(flags, subtype))).toMatchObject({ pageImages: false });
+      const pdf = await PDFDocument.load(await annotatedPdf(flags, subtype));
+      if (subtype === 'Link') pdf.context.lookup(pdf.getPage(0).node.Annots()!.get(0), PDFDict).delete(PDFName.of('AP'));
+      expect(await inspectAssemblyPdf(new Uint8Array(await pdf.save()))).toMatchObject({ pageImages: false });
       expect(mocks.getDocument).not.toHaveBeenCalled();
     });
   }
