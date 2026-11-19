@@ -2,6 +2,8 @@ import { DOC_TYPE_CONFIG } from '@/types/document';
 import { documentTextFields } from './documentFields';
 import { enclosureStartNumber, isEndorsement } from './endorsement';
 import { citationProtectedRanges } from './referenceCitations';
+import { maskProtectedRanges } from './protectedCodeRanges';
+import { plainInlineText } from './inlineText';
 import { safeUrl } from './url-safety';
 import { unfilled } from './requiredField';
 import { deriveOverallClassLevel } from './overallClassification';
@@ -116,16 +118,17 @@ export function additionalProofreadFindings(source: ProofreadSource): ProofreadF
     field.path[0] === 'paragraphs' || field.path[0] === 'formData'
       && (field.path[1] === 'endorsementBody' || field.path[1] === 'additionalEndorsements' && field.path[3] === 'endorsementBody'));
   for (const field of citationFields) {
-    const protectedSpans = citationProtectedRanges(field.text);
+    // Hide literals before removing emphasis. A non-space mask prevents an
+    // invented citation across a quote, such as enclosure "example" (2).
+    const text = plainInlineText(maskProtectedRanges(field.text, citationProtectedRanges(field.text), '\uFFFC'));
     const seen = new Set<number>();
-    for (const clause of field.text.matchAll(/\b(?:enclosures?|encls?\.?)\s*(?=\()/gi)) {
-      if (protectedSpans.some(([a, b]) => clause.index >= a && clause.index < b)) continue;
+    for (const clause of text.matchAll(/\b(?:enclosures?|encls?\.?)\s*(?=\()/gi)) {
       let cursor = clause.index + clause[0].length;
       for (;;) {
-        const match = /^\(\s*(\d+)\s*\)/.exec(field.text.slice(cursor));
+        const match = /^\(\s*(\d+)\s*\)/.exec(text.slice(cursor));
         if (!match) break;
         const number = Number(match[1]);
-        if (!protectedSpans.some(([a, b]) => cursor >= a && cursor < b) && !seen.has(number)
+        if (!seen.has(number)
           && !(isEndorsement(source.docType) && number > 0 && number < start)
           && (number < start || number >= start + source.enclosures.length)) {
           seen.add(number);
@@ -142,7 +145,7 @@ export function additionalProofreadFindings(source: ProofreadSource): ProofreadF
             source: { chapter: 7, paragraph: '11', query: 'Enclosures' } });
         }
         cursor += match[0].length;
-        const separator = /^(?:\s*,\s*(?:(?:and|or)\s+)?|\s+(?:and|or|&)\s+)(?=\()/i.exec(field.text.slice(cursor));
+        const separator = /^(?:\s*,\s*(?:(?:and|or)\s+)?|\s+(?:and|or|&)\s+)(?=\()/i.exec(text.slice(cursor));
         if (!separator) break;
         cursor += separator[0].length;
       }

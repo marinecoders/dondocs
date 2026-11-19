@@ -136,4 +136,31 @@ describe('additional correspondence proofreading', () => {
     expect(ids(source)).toEqual(['correspondence:signer:jointMemoSeniorSigName']);
   });
 
+  it.each([
+    '**enclosure** (2)', 'enclosure **(2)**', '__enclosure (2)__',
+    '**__enclosure__** *(2)*', String.raw`\textbf{enclosure} (2)`,
+  ])('checks the visible citation through supported emphasis: %s', text => {
+    const source = draft({ paragraphs: [{ id: 'formatted', level: 0, text: `See ${text}.` }], enclosures: [{ title: 'Existing enclosure' }] });
+    const original = structuredClone(source);
+    const findings = additionalProofreadFindings(source);
+    expect(findings.map(f => f.title)).toEqual(['Check enclosure (2)']);
+    expect(findings[0].target).toEqual({ sectionId: 'body', paragraphId: 'formatted' });
+    expect(source).toEqual(original);
+  });
+
+  it.each([
+    '**"enclosure (2)"**', '__`enclosure (2)`__', 'https://example.test/enclosure(2)',
+    'enclosure "example" (2)', 'enclosure `(2)`',
+  ])('does not expose protected text or join across it after emphasis projection: %s', text => {
+    expect(additionalProofreadFindings(draft({ paragraphs: [{ id: 'literal', level: 0, text }], enclosures: [{ title: 'Existing enclosure' }] }))).toEqual([]);
+  });
+
+  it('checks formatted citations in enabled appended text and retains its editor target', () => {
+    const source = draft({ formData: { date: '19 Nov 26', appendEndorsement: true, endorsementBody: 'See **enclosure** (2).' } });
+    expect(additionalProofreadFindings(source).filter(f => f.id.includes('enclosure-citation')).map(f => f.target))
+      .toEqual([{ sectionId: 'signature', field: 'first-endorsement-body' }]);
+    source.formData.appendEndorsement = false;
+    expect(additionalProofreadFindings(source)).toEqual([]);
+  });
+
 });
