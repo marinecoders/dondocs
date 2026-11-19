@@ -1,6 +1,7 @@
-import { useMemo, useState } from 'react';
+import { useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { Button } from './ui/button';
 import { PackageChangeImpactSummary } from './PackageChangeImpactSummary';
+import { ArrowLeft } from 'lucide-react';
 import type { PreparedConditionalPackage } from '@/lib/packageConditional';
 import type { PackageUpdateChoice, PackageUpdateChoices } from '@/lib/packageUpdates';
 
@@ -15,6 +16,7 @@ function display(value: unknown): string {
   return value === undefined || value === null ? 'Unanswered' : value === '' ? 'Empty text' : typeof value === 'boolean' ? value ? 'Yes' : 'No' : String(value);
 }
 interface Props {
+  onBack?(): void;
   preview: PreparedConditionalPackage;
   fresh: boolean;
   disabled: boolean;
@@ -28,22 +30,34 @@ interface Props {
   onReviewed(value: boolean): void;
   onApply(): void;
   applyLabel?: string;
+  directApply?: boolean;
 }
 
 export function PackageIntakePreview({ preview, fresh, disabled, reviewed, memberChoices, answerChoices, fieldChoices,
-  onMemberChoice, onAnswerChoice, onFieldChoice, onReviewed, onApply, applyLabel = 'Apply action changes' }: Props) {
+  onMemberChoice, onAnswerChoice, onFieldChoice, onReviewed, onApply, onBack, applyLabel = 'Apply action changes', directApply = false }: Props) {
   const [memberCount, setMemberCount] = useState(25), [fieldCount, setFieldCount] = useState(25), [reviewCount, setReviewCount] = useState(25);
   const [answerCount, setAnswerCount] = useState(25), [issueCount, setIssueCount] = useState(25);
+  const [showOptions, setShowOptions] = useState(false);
+  const result = useRef<HTMLElement>(null);
+  useLayoutEffect(() => {
+    if (!directApply) return;
+    result.current?.scrollIntoView?.({ block: 'start' }); result.current?.focus({ preventScroll: true });
+  }, [preview, directApply]);
+  const members = directApply ? preview.changes.filter(change => change.state !== 'keep' || !!memberChoices[change.key]) : preview.changes;
+  const removedMembers = new Set(preview.changes.filter(change => change.state === 'remove').map(change => change.memberId));
+  const availableFields = directApply ? preview.fieldChanges.filter(change => change.state !== 'detach' || !removedMembers.has(change.memberId)) : preview.fieldChanges;
+  const fields = directApply && !showOptions ? availableFields.filter(change => change.state !== 'unchanged' || !!fieldChoices[change.bindingId]) : availableFields;
   const findings = useMemo(() => [...new Set(preview.reviews.flatMap(review => [
     ...review.notices, ...review.privacy.findings.map(finding => `${finding.type}: ${finding.field}: ${finding.value}`),
   ]))], [preview]);
-  return <section aria-label="Action changes preview" className="min-w-0 space-y-4 rounded border p-3">
+  return <section ref={result} tabIndex={-1} aria-label="Action changes preview" className="min-w-0 space-y-4 rounded border p-3 outline-none">
+    {onBack && <Button variant="ghost" className="h-auto p-0 text-sm" disabled={disabled} onClick={onBack}><ArrowLeft aria-hidden="true" className="size-4" />Back to details</Button>}
     <div className="space-y-1">
       <h4 className="break-words font-medium">Review changes to {preview.packageName}</h4>
-      <p className="text-sm text-muted-foreground">Documents change only when you apply this preview. Saved revisions and independent work remain available.</p>
+      {!directApply && <p className="text-sm text-muted-foreground">Documents change only when you apply this preview. Saved revisions and independent work remain available.</p>}
       {!fresh && <p role="status" className="text-sm">Answers or decisions changed. Preview again before applying.</p>}
     </div>
-    {preview.impact && <PackageChangeImpactSummary impact={preview.impact} disabled={disabled} />}
+    {preview.impact && <PackageChangeImpactSummary impact={preview.impact} disabled={disabled} compact={directApply} />}
     {!preview.impact && !preview.ready && <p className="text-xs text-muted-foreground">Complete the outstanding answers or decisions, then preview again for package impact.</p>}
     {!!preview.answerChanges?.length && <section aria-label="Shared answer changes" className="space-y-3">
       <h5 className="text-sm font-medium">Shared answers</h5>
@@ -63,9 +77,9 @@ export function PackageIntakePreview({ preview, fresh, disabled, reviewed, membe
       </article>)}
       {preview.answerChanges.length > answerCount && <Button className={buttonClass} variant="outline" disabled={disabled} onClick={() => setAnswerCount(value => value + 25)}>Show more shared answers</Button>}
     </section>}
-    <section aria-label="Document membership changes" className="space-y-3">
-      <h5 className="text-sm font-medium">Documents ({preview.changes.length})</h5>
-      {preview.changes.slice(0, memberCount).map((change, index) => <article key={change.key} className="min-w-0 space-y-2 border-t pt-2 text-sm">
+    {members.length > 0 && <section aria-label="Document membership changes" className="space-y-3">
+      <h5 className="text-sm font-medium">Documents ({members.length})</h5>
+      {members.slice(0, memberCount).map((change, index) => <article key={change.key} className="min-w-0 space-y-2 border-t pt-2 text-sm">
         <p className="break-words font-medium">{change.label}</p><p className="whitespace-pre-wrap break-words">{change.message}</p>
         {!!change.choices?.length && <label className="block">Document decision<select aria-label={`Document decision ${change.label} · Document ${index + 1}`} className={inputClass}
           disabled={disabled} value={memberChoices[change.key] ?? ''} onChange={event => onMemberChoice(change.key, event.target.value ? event.target.value as IntakeMemberChoice : undefined)}>
@@ -74,23 +88,23 @@ export function PackageIntakePreview({ preview, fresh, disabled, reviewed, membe
             : choice === 'keep' ? 'Keep the existing document' : change.choices!.includes('restore') ? 'Keep the document removed' : 'Remove the document from this action'}</option>)}
         </select></label>}
       </article>)}
-      {preview.changes.length > memberCount && <Button className={buttonClass} variant="outline" disabled={disabled} onClick={() => setMemberCount(value => value + 25)}>Show more document changes</Button>}
-    </section>
-    {!!preview.fieldChanges.length && <section aria-label="Linked field changes" className="space-y-3">
-      <h5 className="text-sm font-medium">Linked fields ({preview.fieldChanges.length})</h5>
-      {preview.fieldChanges.slice(0, fieldCount).map((change, index) => <article key={change.bindingId} className="min-w-0 space-y-2 border-t pt-2 text-sm">
-        <p className="break-words font-medium">{change.label}</p><p>{change.message}</p>
+      {members.length > memberCount && <Button className={buttonClass} variant="outline" disabled={disabled} onClick={() => setMemberCount(value => value + 25)}>Show more document changes</Button>}
+    </section>}
+    {availableFields.length > 0 && <section aria-label="Linked field changes" className="space-y-3">
+      <div className="flex items-center justify-between gap-4">{(!directApply || fields.length > 0) && <h5 className="text-sm font-medium">{directApply ? 'Field changes' : 'Linked fields'} ({fields.length})</h5>}{directApply && <Button variant="link" className="h-auto p-0 text-xs" aria-expanded={showOptions} onClick={() => setShowOptions(value => !value)}>Field options</Button>}</div>
+      {fields.slice(0, fieldCount).map((change, index) => <article key={change.bindingId} className="min-w-0 space-y-2 border-t pt-2 text-sm">
+        <p className="break-words font-medium">{change.label}</p>{(!directApply || change.state === 'conflict' || change.state === 'unavailable') && <p>{change.message}</p>}
         <div className="grid min-w-0 gap-2 sm:grid-cols-2">
           <p className="whitespace-pre-wrap break-words">Current document: {display(change.before)}</p>
           <p className="whitespace-pre-wrap break-words">Planned value: {display(change.after)}</p>
         </div>
-        <label className="block">Field decision<select aria-label={`Field decision ${change.label} · Link ${index + 1}`} className={inputClass} disabled={disabled}
+        <label hidden={directApply && !showOptions && change.state !== 'conflict' && change.state !== 'unavailable' && !fieldChoices[change.bindingId]} className="block">Field decision<select aria-label={`Field decision ${change.label} · Link ${index + 1}`} className={inputClass} disabled={disabled}
           value={fieldChoices[change.bindingId] ?? ''} onChange={event => onFieldChoice(change.bindingId, event.target.value ? event.target.value as PackageUpdateChoices[string] : undefined)}>
           <option value="">Keep planned behavior</option>
           {(change.choices ?? allFieldChoices).map(choice => <option key={choice} value={choice}>{fieldChoiceLabels[choice]}</option>)}
         </select></label>
       </article>)}
-      {preview.fieldChanges.length > fieldCount && <Button className={buttonClass} variant="outline" disabled={disabled} onClick={() => setFieldCount(value => value + 25)}>Show more linked fields</Button>}
+      {fields.length > fieldCount && <Button className={buttonClass} variant="outline" disabled={disabled} onClick={() => setFieldCount(value => value + 25)}>Show more linked fields</Button>}
     </section>}
     {preview.issues.length > 0 && <div className="space-y-2"><ul className="list-disc space-y-1 pl-5 text-sm">{preview.issues.slice(0, issueCount).map((issue, index) => <li key={index} className="whitespace-pre-wrap break-words">{issue}</li>)}</ul>
       {preview.issues.length > issueCount && <Button className={buttonClass} variant="outline" disabled={disabled} onClick={() => setIssueCount(value => value + 25)}>Show more unresolved items</Button>}
@@ -100,8 +114,8 @@ export function PackageIntakePreview({ preview, fresh, disabled, reviewed, membe
       {findings.length > reviewCount && <Button className={buttonClass} variant="outline" disabled={disabled} onClick={() => setReviewCount(value => value + 25)}>Show more review findings</Button>}
     </details>}
     {!preview.changed && <p className="text-sm text-muted-foreground">No document or intake changes need applying.</p>}
-    <label className="flex items-start gap-2 text-sm"><input type="checkbox" checked={reviewed} disabled={disabled || !fresh || !preview.ready || !preview.changed}
-      onChange={event => onReviewed(event.target.checked)} />I reviewed the intake, document changes, local decisions and privacy findings.</label>
-    <Button className={buttonClass} disabled={disabled || !fresh || !preview.ready || !preview.changed || !reviewed} onClick={onApply}>{applyLabel}</Button>
+    {!directApply && <label className="flex items-start gap-2 text-sm"><input type="checkbox" checked={reviewed} disabled={disabled || !fresh || !preview.ready || !preview.changed}
+      onChange={event => onReviewed(event.target.checked)} />I reviewed the intake, document changes, local decisions and privacy findings.</label>}
+    <Button className={buttonClass} disabled={disabled || !fresh || !preview.ready || !preview.changed || !directApply && !reviewed} onClick={onApply}>{applyLabel}</Button>
   </section>;
 }

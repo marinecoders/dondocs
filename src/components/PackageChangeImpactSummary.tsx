@@ -6,6 +6,7 @@ interface Props {
   impact: PackageChangeImpact;
   disabled?: boolean;
   onNavigate?(destination: PackageImpactDestination): void;
+  compact?: boolean;
 }
 const labels = { added: 'Added', removed: 'Removed', changed: 'Changed', moved: 'Moved', 'metadata-only': 'Context changed', renumbered: 'Renumbered', unchanged: 'Unchanged', unknown: 'Needs inspection', unavailable: 'Unavailable' };
 const buttonClass = 'h-auto min-h-9 max-w-full whitespace-normal';
@@ -31,11 +32,17 @@ function ImpactItem({ item, disabled, onNavigate }: { item: PackageImpactItem; d
 }
 
 /** Same captured report serves saved-history comparison and privately prepared update previews. */
-export function PackageChangeImpactSummary({ impact, disabled = false, onNavigate }: Props) {
+export function PackageChangeImpactSummary({ impact, disabled = false, onNavigate, compact = false }: Props) {
   const scope = `${impact.beforeRevisionId}:${impact.afterRevisionId}`;
   const [showUnchanged, setShowUnchanged] = useState(false), [pagination, setPagination] = useState<{ scope: string; counts: Record<string, number> }>({ scope, counts: {} });
   const counts = pagination.scope === scope ? pagination.counts : {};
   const summary = impact.summary;
+  if (compact) return <section aria-label="Package impact details" className="space-y-3 text-sm">
+    <p className="font-medium">Updates {summary.changedMembers} document{summary.changedMembers === 1 ? '' : 's'}</p>
+    <ul className="space-y-1 text-muted-foreground">{impact.sections.filter(section => section.kind === 'member').flatMap(section => section.items.filter(item => item.state !== 'unchanged')).map(item => <li key={item.id}>{item.label} · {labels[item.state]}</li>)}</ul>
+    {(summary.affectedOutputs > 0 || summary.affectedReviews > 0) && <p className="text-xs text-muted-foreground">{summary.affectedOutputs} earlier PDF{summary.affectedOutputs === 1 ? '' : 's'} and {summary.affectedReviews} review{summary.affectedReviews === 1 ? '' : 's'} stay tied to their original content.</p>}
+    <details><summary className="cursor-pointer text-xs text-muted-foreground">Full change comparison</summary><div className="mt-3"><PackageChangeImpactSummary impact={impact} disabled={disabled} onNavigate={onNavigate} /></div></details>
+  </section>;
   return <section aria-label="Package impact details" className="min-w-0 space-y-3 rounded border p-2 sm:p-3 text-sm">
     <h4 className="font-medium">What this change affects</h4>
     {impact.limited ? <p role="status">Detailed comparison is unavailable.</p> : <p className="break-words">

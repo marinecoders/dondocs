@@ -32,11 +32,27 @@ async function fixture(subjects: string[] = ['ORIGINAL SUBJECT']) {
   return reviseActionPackage(await createActionPackage('Synthetic package information'), await Promise.all(subjects.map((subject, index) => member(`Document ${index + 1}`, subject))));
 }
 async function saved(id: string) { return (await listActionPackages()).find(value => value.id === id)!; }
-function Harness({ initial, disabled = false, onDirtyChange }: { initial: ActionPackage; disabled?: boolean; onDirtyChange?(dirty: boolean): void }) {
+function Harness({ initial, disabled = false, onDirtyChange, workspace = false }: { initial: ActionPackage; disabled?: boolean; onDirtyChange?(dirty: boolean): void; workspace?: boolean }) {
   const [record, setRecord] = useState(initial), [busy, setBusy] = useState(false);
-  return <PackageInformationPanel record={record} revision={getPackageRevision(record)} disabled={disabled} busy={busy} onDirtyChange={onDirtyChange}
+  return <PackageInformationPanel workspace={workspace} record={record} revision={getPackageRevision(record)} disabled={disabled} busy={busy} onDirtyChange={onDirtyChange}
     isCurrent={() => true} signal={() => undefined} onApply={setRecord} run={async action => { setBusy(true); try { await action(); } finally { setBusy(false); } }} />;
 }
+it('recovers unfinished desktop details without applying them to a newer saved version', async () => {
+  const information: PackageInformation = { version: 1, participants: [], facts: [{ id: 'date', label: 'Action date', kind: 'date', value: '2026-11-18', source: { kind: 'entered' } }] };
+  const initial = await updatePackageInformation(await fixture(), information), user = userEvent.setup();
+  let view = render(<Harness initial={initial} workspace />);
+  const edit = screen.getByRole('button', { name: 'Edit details' }); await waitFor(() => expect(edit).toBeEnabled()); await user.click(edit);
+  const date = screen.getByRole('textbox', { name: 'Action date' }); await user.clear(date); await user.type(date, '2026-02-');
+  await screen.findByText('Draft saved locally · not applied'); view.unmount();
+  view = render(<Harness initial={initial} workspace />);
+  await waitFor(() => expect(screen.getByRole('textbox', { name: 'Action date' })).toHaveValue('2026-02-'));
+  expect(await saved(initial.id)).toEqual(initial); view.unmount();
+  const newer = await updatePackageInformation(initial, { ...information, facts: [{ ...information.facts[0], kind: 'date', value: '2026-12-01' }] });
+  render(<Harness initial={newer} workspace />);
+  const editNew = screen.getByRole('button', { name: 'Edit details' }); await waitFor(() => expect(editNew).toBeEnabled()); await user.click(editNew);
+  expect(screen.getByRole('textbox', { name: 'Action date' })).toHaveValue('2026-12-01');
+  expect(await saved(initial.id)).toEqual(newer);
+});
 async function previewAndApply(user: ReturnType<typeof userEvent.setup>) {
   await user.click(screen.getByRole('button', { name: 'Preview package changes' }));
   const apply = await screen.findByRole('button', { name: 'Apply package changes' });

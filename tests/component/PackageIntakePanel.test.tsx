@@ -10,6 +10,8 @@ import { createActionPackage, getPackageRevision, listActionPackages, type Actio
 import { idbGetAllAttachments } from '@/lib/documentsDb';
 import { resolveExportDeploymentPolicy } from '@/lib/exportDeploymentPolicy';
 import * as classification from '@/config/classification';
+import * as conditional from '@/lib/packageConditional';
+import { maintainedPackageAction } from '@/lib/maintainedPackageActions';
 
 vi.mock('@/stores/backupStore', () => ({ scheduleBackup: vi.fn(), useBackupStore: { getState: () => ({}) } }));
 vi.mock('@/lib/pdfText', () => ({ extractPdfText: vi.fn(async () => '') }));
@@ -24,11 +26,11 @@ beforeEach(async () => {
   const db = await new Promise<IDBDatabase>((resolve, reject) => { const request = indexedDB.open('dondocs'); request.onsuccess = () => resolve(request.result); request.onerror = () => reject(request.error); });
   await new Promise<void>((resolve, reject) => { const tx = db.transaction([...db.objectStoreNames], 'readwrite'); for (const name of db.objectStoreNames) tx.objectStore(name).clear(); tx.oncomplete = () => resolve(); tx.onerror = () => reject(tx.error); }); db.close();
 });
-function Harness({ initial }: { initial?: ActionPackage }) {
+function Harness({ initial, workspace = false }: { initial?: ActionPackage; workspace?: boolean }) {
   const [record, setRecord] = useState(initial), [busy, setBusy] = useState(false), [dirty, setDirty] = useState(false), [error, setError] = useState('');
   const operation = useRef<AbortController | undefined>(undefined);
   return <><AppAlertDialog /><output aria-label="Intake dirty state">{String(dirty)}</output>{error && <p role="alert">{error}</p>}
-    <PackageIntakePanel record={record} revision={record ? getPackageRevision(record) : undefined} editable disabled={false} busy={busy}
+    <PackageIntakePanel workspace={workspace} record={record} revision={record ? getPackageRevision(record) : undefined} editable disabled={false} busy={busy}
       signal={() => operation.current?.signal} isCurrent={() => true} onDirtyChange={setDirty} onApply={setRecord}
       run={async action => { operation.current = new AbortController(); setBusy(true); try { await action(); } catch (cause) { setError(String(cause)); } finally { setBusy(false); } }} />
   </>;
@@ -38,6 +40,46 @@ async function startTraining(user: ReturnType<typeof userEvent.setup>) {
   const field = await screen.findByLabelText('Course or activity', { exact: true });
   await waitFor(() => expect(field).toBeEnabled()); return field;
 }
+it('returns from the desktop preview without losing answers or creating a package', async () => {
+  const user = userEvent.setup(); render(<Harness workspace />);
+  const course = await startTraining(user); await user.type(course, 'Keep this unfinished course');
+  await user.click(screen.getByRole('button', { name: 'Review changes' }));
+  const preview = await screen.findByRole('region', { name: 'Action changes preview' });
+  expect(within(preview).getByRole('button', { name: 'Create package' })).toBeDisabled();
+  const back = within(preview).getByRole('button', { name: 'Back to details' }); await waitFor(() => expect(back).toBeEnabled()); await user.click(back);
+  expect(screen.queryByRole('region', { name: 'Action changes preview' })).toBeNull();
+  expect(screen.getByRole('textbox', { name: 'Course or activity' })).toHaveValue('Keep this unfinished course');
+  expect(await listActionPackages()).toEqual([]);
+});
+it('finishes loading exact intake when edit availability changes during a historical transition', async () => {
+  const template = await maintainedPackageAction('training-participation');
+  const record = await conditional.saveConditionalPackageDraft({ template, answers: { version: 1, values: { course: 'Preserved course' }, groups: {} } }, policy);
+  let finish!: (value: typeof template) => void;
+  const read = vi.spyOn(conditional, 'readConditionalPackageTemplate').mockImplementationOnce(() => new Promise(resolve => { finish = resolve; }));
+  const input = { workspace: true, record, revision: getPackageRevision(record), editable: true, busy: false,
+    run: async (action: () => Promise<void>) => action(), onApply: vi.fn(), signal: () => undefined, isCurrent: () => true };
+  const view = render(<PackageIntakePanel {...input} disabled={false} />);
+  await waitFor(() => expect(read).toHaveBeenCalled());
+  view.rerender(<PackageIntakePanel {...input} editable={false} disabled />);
+  await act(async () => { finish(template); });
+  await waitFor(() => expect(screen.queryByText('Loading the exact saved intake…')).toBeNull());
+  view.rerender(<PackageIntakePanel {...input} disabled={false} />);
+  await waitFor(() => expect(screen.getByLabelText('Course or activity', { exact: true })).toBeEnabled());
+  expect(screen.getByLabelText('Course or activity', { exact: true })).toHaveValue('Preserved course');
+  expect(input.onApply).not.toHaveBeenCalled();
+});
+it('keeps inactive answers out of the desktop summary and displays choice labels', async () => {
+  const template = await maintainedPackageAction('training-participation');
+  const record = await conditional.saveConditionalPackageDraft({ template, answers: { version: 1, values: { course: 'Remote course' }, groups: {
+    participants: [{ id: 'person', label: 'Example', answers: { attendance: 'remote', location: 'Inactive room', includeEstimate: false, estimate: '125.00' } }],
+  } } }, policy);
+  render(<PackageIntakePanel workspace record={record} revision={getPackageRevision(record)} editable disabled={false} busy={false}
+    run={async action => action()} onApply={vi.fn()} signal={() => undefined} isCurrent={() => true} />);
+  const done = await screen.findByRole('button', { name: 'Done editing' }); await waitFor(() => expect(done).toBeEnabled()); await userEvent.click(done);
+  const summary = screen.getByRole('group', { name: 'Details summary' });
+  expect(summary).toHaveTextContent('Remote'); expect(summary).not.toHaveTextContent('Inactive room'); expect(summary).not.toHaveTextContent('125.00');
+  expect(getPackageRevision(record).templateState!.answers.groups.participants[0].answers.estimate).toBe('125.00');
+});
 
 it('returns from an untouched action without saving and focuses the action catalog', async () => {
   const user = userEvent.setup(); render(<Harness />);

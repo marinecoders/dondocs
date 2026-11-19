@@ -1451,6 +1451,31 @@ export async function idbRestoreReviewSuggestions(input: unknown[], inputReceipt
 }
 
 /** Package metadata shares the existing app store and conditional transaction boundary. */
+export async function idbReadPackageEditDraft(scope: string): Promise<unknown | null> {
+  return (await run<{ value: unknown } | undefined>(APP_STORE, 'readonly', store => store.get(`package-edit:${scope}`)))?.value ?? null;
+}
+
+/** Recovery data is separate from committed package content and portable exports. */
+export async function idbComparePackageEditDraft(scope: string, expectedToken: unknown,
+  next: { token: string; value: unknown } | null): Promise<boolean> {
+  const db = await openDb();
+  return new Promise<boolean>((resolve, reject) => {
+    const transaction = db.transaction(APP_STORE, 'readwrite'), store = transaction.objectStore(APP_STORE);
+    let committed = false;
+    const request = store.get(`package-edit:${scope}`);
+    request.onsuccess = () => {
+      const previous = request.result?.value;
+      if (!sameReviewStoredValue(previous?.token ?? null, expectedToken)) return;
+      if (next) store.put({ key: `package-edit:${scope}`, value: next });
+      else store.delete(`package-edit:${scope}`);
+      committed = true;
+    };
+    transaction.oncomplete = () => resolve(committed);
+    transaction.onerror = () => reject(transaction.error ?? new Error('Draft storage failed.'));
+    transaction.onabort = () => reject(transaction.error ?? new Error('Draft storage was interrupted.'));
+  });
+}
+
 export async function idbReadActionPackages(): Promise<unknown[]> {
   const records = await run<Array<{ key: string; value: unknown }>>(APP_STORE, 'readonly', store =>
     store.getAll(IDBKeyRange.bound('action-package:', 'action-package:\uffff')));
