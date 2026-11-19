@@ -13,6 +13,12 @@ On mobile, open the workspace menu for sidebar destinations. Editor **One sectio
 
 Single-signer correspondence shows **formatting suggestions** above the relevant section for saved/imported date formats and extra spaces around a single dotted signature initial. Compare **Current** and **Proposed**, then choose **Apply fix** to change that field only. One **Undo** (`Ctrl/Cmd+Z`) restores the previous value. Inspecting a saved date without editing it preserves its value. Unclear or invalid dates have no Apply button and stay as entered when you leave the field; resolve them with an explicit date or the calendar. Forms, dual-signer documents and publication metadata keep their existing correction tools.
 
+## Proofread a draft
+
+Choose **Proofread** beside the required-fields indicator, **Document tools → Proofread current draft**, or find the command in workspace search. The count combines existing required-field, formatting, paragraph-structure, reference, marking, abbreviation and sensitive-text checks that apply to the current document. Select **Go to** on a finding to open its editor section or affected field. Findings update as you edit; opening the panel does not change the draft. Forms and publications use their own required sections.
+
+An empty list means these checks found nothing to report. It does not certify the document, its attachments or its substance. Sensitive-text checks inspect supported text fields and do not read attached file contents. Existing export checks still run separately.
+
 ## Profiles and reusable templates
 
 Fill in letterhead/sender details, then open **Profiles** in the sidebar (workspace menu on mobile) and choose **New profile**. Name it, review the unit/address and signer fields, and save. Use **Apply** to review changes to the current correspondence draft, or **Edit** to change saved defaults. A profile does not retroactively rewrite previously saved documents.

@@ -104,6 +104,8 @@ interface UIState {
   piiWarningOpen: boolean;
   structureWarningOpen: boolean;
   documentGuideOpen: boolean;
+  proofreadOpen: boolean;
+  setProofreadOpen: (open: boolean) => void;
   /** The Document Guide's active tab, in the store so the activation checklist
    *  can deep-link to a tab before opening it. */
   documentGuideTab: 'finder' | 'browse' | 'examples' | 'features';
@@ -265,6 +267,7 @@ export const useUIStore = create<UIState>()(
       piiWarningOpen: false,
       structureWarningOpen: false,
       documentGuideOpen: false,
+      proofreadOpen: false,
       documentGuideTab: 'browse',
       shareModal: null,
       saveMenuOpen: false,
@@ -293,6 +296,7 @@ export const useUIStore = create<UIState>()(
       setPiiWarningOpen: (open) => set({ piiWarningOpen: open }),
       setStructureWarningOpen: (open) => set({ structureWarningOpen: open }),
       setDocumentGuideOpen: (open) => set({ documentGuideOpen: open }),
+      setProofreadOpen: (proofreadOpen) => set({ proofreadOpen }),
       setDocumentGuideTab: (tab) => set({ documentGuideTab: tab }),
 
       // Documents sidebar - expanded by default on desktop
@@ -389,6 +393,7 @@ export const useUIStore = create<UIState>()(
         findReplaceOpen: false,
         templateLoaderOpen: false,
         documentGuideOpen: false,
+        proofreadOpen: false,
         mobilePreviewOpen: false,
         mobileDocsOpen: false,
         historyDocId: null,
