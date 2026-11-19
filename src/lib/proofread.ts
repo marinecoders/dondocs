@@ -1,7 +1,7 @@
 import type { DocumentSnapshot } from '@/stores/historyStore';
 import { DOC_TYPE_CONFIG } from '@/types/document';
 import { documentOutputConfig } from './documentOutputConfig';
-import { documentTextFields } from './documentFields';
+import { documentTextFields, type FieldPath } from './documentFields';
 import { getEditorSections } from './editorSections';
 import { formattingFindings } from './formattingFindings';
 import { validateParagraphStructure } from './paragraphStructureValidation';
@@ -34,6 +34,54 @@ function key(text: string): string {
   let hash = 2166136261;
   for (let index = 0; index < text.length; index++) hash = Math.imul(hash ^ text.charCodeAt(index), 16777619);
   return (hash >>> 0).toString(36);
+}
+
+/** Route projected text to the editor that owns it; nested publication data has its own outline. */
+function textSection(path: FieldPath, docType: string, has: (id: string) => boolean): string | undefined {
+  const [root, field, nested] = path;
+  const first = (...ids: string[]) => ids.find(has);
+  if (root === 'paragraphs') return first('body', 'sl3-figures', 'sl4-figures');
+  if (root === 'references') return first('references');
+  if (root === 'enclosures') return first('enclosures');
+  if (root === 'copyTos') return first('copyto');
+  if (root === 'distributions') return first('distribution');
+  if (root === 'publicationTables') return first('tables');
+  if (root === 'endItems') return first('sl3-cover', 'sl4-cover', 'cover');
+  if (root !== 'formData' || typeof field !== 'string') return undefined;
+  if (field === 'sl3') {
+    if (nested === 'components' || nested === 'fieldingPlanReference') return 'sl3-inventory';
+    if (nested === 'artwork') return 'sl3-figures';
+    return 'sl3-details';
+  }
+  if (field === 'sl4') {
+    const destinations: Record<string, string> = {
+      rows: 'sl4-parts', cages: 'sl4-cages', revisions: 'sl4-revisions',
+      circuitIndex: 'sl4-indexes', artwork: 'sl4-figures',
+    };
+    return destinations[String(nested)] ?? 'sl4-preface';
+  }
+  if (docType === 'tm_ietm_front_matter') {
+    if (field === 'manualFrontMatter') {
+      if (nested === 'endItems') return 'manual-items';
+      if (nested === 'contentContact' || nested === 'authorityReference') return 'manual-authentication';
+      if (['volumeNotice', 'supplementNotice', 'copyrightCredit', 'governmentRights'].includes(String(nested))) return 'manual-notices';
+      return 'manual-publication';
+    }
+    if (/^(cui|dist)/.test(field) || field === 'pocEmail' || field === 'supersedure') return 'manual-notices';
+    if (/^(unit|sig)/.test(field) || field === 'controllingOffice') return 'manual-authentication';
+    return 'manual-publication';
+  }
+  if (/^(cui|class|customClass|derivedFrom|declassifyOn|distReason|distDate)/.test(field)) return first('classification');
+  if (field.startsWith('joint')) return first('joint_memo', 'joint');
+  if (/^(senior|junior|moa)/.test(field)) return first('moa');
+  if (field === 'endorsementOrdinal') return first('basic');
+  if (/^(sig|endorsement)/.test(field) || ['additionalEndorsements', 'complimentaryClose', 'officeCode', 'pocEmail'].includes(field)) {
+    return first('signature', 'moa', 'joint_memo', 'joint', 'executive', 'classification');
+  }
+  if (field.startsWith('basicLetter')) return first('basic');
+  if (['shortTitle', 'pcn', 'nomenclature', 'controllingOffice', 'supersedure', 'publicationSigningDate', 'publicationClosedDates', 'miCompletionDate'].includes(field)) return first('sl3-cover', 'sl4-cover', 'cover');
+  if (/^unit/.test(field) || field === 'inReplyToText') return first('letterhead', 'sl3-cover', 'sl4-cover', 'cover');
+  return first('addressing', 'executive', 'joint_memo', 'joint', 'moa', 'cover', 'sl3-cover', 'sl4-cover');
 }
 
 /** Collect existing check results. This function never changes a draft or export policy. */
@@ -92,12 +140,11 @@ export function collectProofreadFindings(
   for (const field of documentTextFields(source, 'output').filter(field => field.role === 'text')) {
     const detected = detectDocumentTextPII([field]);
     const root = field.path[0], fieldId = field.path[1];
-    const sectionId = root === 'paragraphs' ? 'body' : root === 'references' ? 'references' : root === 'enclosures' ? 'enclosures'
-      : root === 'copyTos' ? 'copyto' : root === 'distributions' ? 'distribution'
-        : typeof fieldId === 'string' && /^sig/.test(fieldId) ? 'signature' : 'addressing';
-    const destination = has(sectionId) ? sectionId : sections[0]?.id;
+    const destination = textSection(field.path, source.docType, has);
     if (!destination) continue;
-    for (const type of new Set(detected.findings.map(finding => finding.type))) findings.push({ id: `privacy:${key(JSON.stringify(field.path))}:${type}`,
+    const identity = root === 'paragraphs' && typeof fieldId === 'number' && source.paragraphs[fieldId]?.id
+      ? [root, source.paragraphs[fieldId].id, ...field.path.slice(2)] : field.path;
+    for (const type of new Set(detected.findings.map(finding => finding.type))) findings.push({ id: `privacy:${key(JSON.stringify(identity))}:${type}`,
       group: 'privacy', severity: 'warning', title: `${getPIITypeLabel(type)} pattern in ${field.label}`,
       message: 'Review whether this text belongs in the document and its intended delivery. A pattern match is not a determination of sensitive content.',
       target: { sectionId: destination, ...(root === 'formData' && typeof fieldId === 'string' ? { field: fieldId } : {}),

@@ -51,4 +51,25 @@ describe('existing checks in one proofread inventory', () => {
     const findings = collectProofreadFindings(source({ docType: 'mfr', formData: { to: '123-45-6789', subject: 'Record' } }));
     expect(findings.some(f => f.group === 'privacy')).toBe(false);
   });
+
+  it('retains document-date precision and routes sensitive text to its actual editor section', () => {
+    const findings = collectProofreadFindings(source({
+      formData: { date: '2026-11-12', unitLine1: 'Synthetic 123-45-6789' },
+      paragraphs: [{ id: 'sensitive-body', level: 0, text: 'Synthetic 123-45-6789.' }],
+    }));
+    expect(findings.filter(f => f.group === 'privacy').map(f => f.target.sectionId)).toEqual(['letterhead', 'body']);
+    const moved = collectProofreadFindings(source({ paragraphs: [
+      { id: 'new-first', level: 0, text: 'New opening paragraph.' },
+      { id: 'sensitive-body', level: 0, text: 'Synthetic 123-45-6789.' },
+    ] }));
+    expect(moved.find(f => f.target.paragraphId === 'sensitive-body')?.id)
+      .toBe(findings.find(f => f.target.paragraphId === 'sensitive-body')?.id);
+  });
+
+  it('routes publication table text to the table editor rather than its cover', () => {
+    const findings = collectProofreadFindings(source({ docType: 'i_type',
+      publicationTables: { examples: [{ values: { description: 'Synthetic 123-45-6789' } }] } }));
+    expect(findings.filter(f => f.group === 'privacy').map(f => f.target.sectionId)).toEqual(['tables']);
+  });
+
 });
