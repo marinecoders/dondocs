@@ -142,6 +142,8 @@ export async function savePackageWorkingCopy(
       "Open the working copy for the current package revision before saving it.",
     );
   const captured = captureCurrentDocumentRevision();
+  const target = captureDocumentTarget();
+  if (!target) throw new Error('The working copy is no longer open.');
   const updated = await capturePackageMember(
     captured,
     member.label,
@@ -154,6 +156,9 @@ export async function savePackageWorkingCopy(
     record,
     current.members.map((item) => (item.id === member.id ? updated : item)),
     signal,
+    current.citations,
+    () => isCurrentDocumentTarget(target) && !signal?.aborted,
+    copy.documentId,
   );
 }
 export async function adoptPackageSource(

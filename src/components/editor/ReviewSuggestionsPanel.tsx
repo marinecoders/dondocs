@@ -36,7 +36,7 @@ interface Props {
 export function ReviewSuggestionsPanel({ round, current, state, owner, busy, onCreate, onDecide, onDraftChange }: Props) {
   const prefix = useId();
   const [typing, setTyping] = useState(false), [typedDirty, setTypedDirty] = useState(false);
-  useEffect(() => { onDraftChange?.(typedDirty);return () => onDraftChange?.(false); }, [typedDirty, onDraftChange]);
+  useLayoutEffect(() => { onDraftChange?.(typedDirty);return () => onDraftChange?.(false); }, [typedDirty, onDraftChange]);
   const [author, setAuthor] = useState('');
   const [category, setCategory] = useState<FeedbackCategory>('edit');
   const [filter, setFilter] = useState<FeedbackFilter>('all');

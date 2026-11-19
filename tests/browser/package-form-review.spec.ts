@@ -251,7 +251,13 @@ for (const width of [1440, 320]) {
       const comments = round.memberReviews.find((child: { binding: { memberId: string } }) => child.binding.memberId === member.id).pdfReview.comments;
       expect(comments).toHaveLength(2); expect(comments[0].messages).toHaveLength(2);
       expect(comments[0].anchor.geometry).toEqual({ x: 0, y: 30, width: 400, height: 500, rotation: 90 });
-      expect(comments[0].anchor.region.left).toBeCloseTo(0.15, 2); expect(comments[0].anchor.region.top).toBeCloseTo(0.2, 2);
+      // Browser pointer coordinates can round to whole CSS pixels. Compare in
+      // rendered pixels, allowing the stored region's 0.001 quantization too.
+      const drawn = comments[0].anchor.region;
+      expect(Math.abs(drawn.left - 0.15)).toBeLessThanOrEqual(1 / bounds.width + 0.001);
+      expect(Math.abs(drawn.top - 0.2)).toBeLessThanOrEqual(1 / bounds.height + 0.001);
+      expect(Math.abs(drawn.width - 0.4)).toBeLessThanOrEqual(2 / bounds.width + 0.001);
+      expect(Math.abs(drawn.height - 0.25)).toBeLessThanOrEqual(2 / bounds.height + 0.001);
       expect(comments[1].anchor.region).toEqual({ left: 0.125, top: 0.15, width: 0.2, height: 0.1 });
       const retained = payload.portableResources.entries.find((entry: { path: string }) => entry.path === `assets/${member.original.id}`);
       expect(Buffer.from(retained.data, 'base64')).toEqual(original);

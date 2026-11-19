@@ -52,8 +52,8 @@ export function PackageWorkPanel({ record, revision, disabled, busy, run, onAppl
   const editable = !disabled && !record.archived && revision.id === record.currentRevisionId && !record.reviewRounds?.some(round => round.ownerPackageId === undefined);
   const dirty = JSON.stringify(base) !== JSON.stringify(draft), locked = !editable || busy || pending;
   useLayoutEffect(() => { currentOwner.current = owner; dirtyCallback.current = onDirtyChange; }, [owner, onDirtyChange]);
-  useEffect(() => { mounted.current = true; return () => { mounted.current = false; dirtyCallback.current?.(false); }; }, []);
-  useEffect(() => { onDirtyChange?.(dirty); }, [dirty, onDirtyChange]);
+  useLayoutEffect(() => { mounted.current = true; return () => { mounted.current = false; dirtyCallback.current?.(false); }; }, []);
+  useLayoutEffect(() => { onDirtyChange?.(dirty); }, [dirty, onDirtyChange]);
   useEffect(() => {
     const checkPolicy = () => {
       const policy = getExportDeploymentPolicySync(), key = policy.status === 'ready' ? JSON.stringify(policy.policy) : '';

@@ -25,8 +25,8 @@ export function PackageMemberReviewPanel({ record, round, busy, onChange, run, o
 }) {
   const [typedDirty, setTypedDirty] = useState(false), [commentDirty, setCommentDirty] = useState(false);
   const dirty = typedDirty || commentDirty;
-  useEffect(() => { onDraftChange?.(dirty); return () => onDraftChange?.(false); }, [dirty, onDraftChange]);
-  useEffect(() => {
+  useLayoutEffect(() => { onDraftChange?.(dirty); return () => onDraftChange?.(false); }, [dirty, onDraftChange]);
+  useLayoutEffect(() => {
     if (!dirty) return;
     const warn = (event: BeforeUnloadEvent) => { event.preventDefault(); event.returnValue = ''; };
     const guard = (event: KeyboardEvent) => {
@@ -107,8 +107,8 @@ function PackageMemberComments({ child, busy, onSave, onDraftChange }: { child: 
   const [target, setTarget] = useState('document'), [author, setAuthor] = useState(''), [text, setText] = useState('');
   const [category, setCategory] = useState<FeedbackCategory>('question');
   const [reply, setReply] = useState<string | null>(null);
-  useEffect(() => { onDraftChange?.(!!text || !!reply); }, [text, reply, onDraftChange]);
-  useEffect(() => () => onDraftChange?.(false), [onDraftChange]);
+  useLayoutEffect(() => { onDraftChange?.(!!text || !!reply); }, [text, reply, onDraftChange]);
+  useLayoutEffect(() => () => onDraftChange?.(false), [onDraftChange]);
   const session = child.nativeRound?.baseline.session;
   const fields = session ? availableCommentFields(session) : [], paragraphs = session ? availableCommentParagraphs(session) : [];
   return <section aria-label="Package member comments" className="space-y-3">

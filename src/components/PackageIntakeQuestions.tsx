@@ -13,12 +13,13 @@ interface Props {
   busy?: boolean;
   onChange(answers: PackageTemplateAnswers): void;
   focusFirst?: boolean;
+  showAll?: boolean;
 }
 
-export function PackageIntakeQuestions({ program, answers, disabled, busy = false, onChange, focusFirst }: Props) {
+export function PackageIntakeQuestions({ program, answers, disabled, busy = false, onChange, focusFirst, showAll = false }: Props) {
   const validationPrefix = useId();
   const { evaluation, questions, invalidLabels } = useMemo(() => intakeQuestions(program, answers), [program, answers]);
-  const [showAnswered, setShowAnswered] = useState(false), [search, setSearch] = useState(''), [page, setPage] = useState(0);
+  const [showAnswered, setShowAnswered] = useState(showAll), [search, setSearch] = useState(''), [page, setPage] = useState(0);
   const [presented, setPresented] = useState(() => new Set<string>());
   const first = useRef<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement | null>(null), focused = useRef(false);
   const focusTargets = useRef(new Map<string, HTMLElement>()), focusKey = useRef<string | null>(null);
@@ -37,7 +38,7 @@ export function PackageIntakeQuestions({ program, answers, disabled, busy = fals
     onChange({ ...answers, groups: { ...answers.groups, [groupId]: people } });
   }
   return <section aria-label="Intake questions" className="min-w-0 space-y-4">
-    <div className="flex flex-wrap items-center justify-between gap-2">
+    <div hidden={showAll && questions.length <= 12} className="flex flex-wrap items-center justify-between gap-2">
       <p className="text-sm">{remaining} relevant question{remaining === 1 ? '' : 's'} remaining.</p>
       <Button className={buttonClass} variant="outline" disabled={busy} aria-pressed={showAnswered} onClick={() => { setShowAnswered(value => !value); setPresented(new Set()); setPage(0); }}>
         {showAnswered ? 'Show unanswered questions' : 'Show answered questions'}
@@ -78,7 +79,7 @@ export function PackageIntakeQuestions({ program, answers, disabled, busy = fals
           }}>Add person to {groupLabel}</Button>
       </fieldset>;
     })}
-    <label className="block text-sm">Search intake questions<input className={inputClass} value={search} autoComplete="off"
+    <label hidden={showAll && questions.length <= 12} className="block text-sm">Search intake questions<input className={inputClass} value={search} autoComplete="off"
       disabled={busy} onChange={event => { setSearch(event.target.value); setPage(0); }} placeholder="Question or person label" /></label>
     <fieldset disabled={disabled} className="grid min-w-0 gap-3 sm:grid-cols-2">
       <legend className="sr-only">Relevant questions</legend>
@@ -92,7 +93,7 @@ export function PackageIntakeQuestions({ program, answers, disabled, busy = fals
           onChange(withIntakeAnswer(answers, instance, value));
         };
         const ref = (node: HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement | null) => { if (index === 0) first.current = node; };
-        return <label key={item.key} className={`min-w-0 text-sm ${question.kind === 'text' ? 'sm:col-span-2' : ''}`}>
+        return <label key={item.key} className={`min-w-0 text-sm ${question.kind === 'text' && !showAll ? 'sm:col-span-2' : ''}`}>
           {instance.scope && <span className="mb-1 block break-words text-xs text-muted-foreground">{item.label.slice(0, -(item.questionLabel.length + 3))}</span>}
           <span className="font-medium">{item.questionLabel}</span>{question.required && <span className="ml-1 text-xs text-muted-foreground">Required</span>}
           {question.kind === 'boolean' || question.kind === 'choice' ? <select ref={ref} {...accessibility} aria-label={item.label} className={inputClass}

@@ -36,8 +36,8 @@ export function AdministrativeRequestStarter({ disabled, busy, run, onCreate, si
   useEffect(() => {
     if (!open && returnFocus.current && !busy && !disabled) { returnFocus.current = false; startButton.current?.focus(); }
   }, [open, busy, disabled]);
-  useEffect(() => { onDirtyChange?.(dirty); }, [dirty, onDirtyChange]);
-  useEffect(() => { alive.current = true; return () => { alive.current = false; onDirtyChange?.(false); }; }, [onDirtyChange]);
+  useLayoutEffect(() => { onDirtyChange?.(dirty); }, [dirty, onDirtyChange]);
+  useLayoutEffect(() => { alive.current = true; return () => { alive.current = false; onDirtyChange?.(false); }; }, [onDirtyChange]);
   function change(key: keyof AdministrativeRequestInput, value: string) {
     generation.current++; setValues(before => ({ ...before, [key]: value })); setPrepared(null); setApproved(false);
   }

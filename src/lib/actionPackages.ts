@@ -646,6 +646,7 @@ export async function reviseActionPackage(
   signal?: AbortSignal,
   citations: PackageCitations | undefined = getPackageRevision(record).citations,
   isCurrent: () => boolean = () => true,
+  savedWorkingCopyId?: string,
 ): Promise<ActionPackage> {
   if (record.archived)
     throw new Error("Reopen this archived package before editing.");
@@ -683,6 +684,8 @@ export async function reviseActionPackage(
       sequence: record.sequence + 1,
       currentRevisionId: revision.id,
       revisions: [...record.revisions, revision],
+      ...(savedWorkingCopyId ? { workingCopies: record.workingCopies?.map(copy => copy.documentId === savedWorkingCopyId
+        ? { ...copy, revisionId: revision.id } : copy) } : {}),
     },
     signal,
     isCurrent,

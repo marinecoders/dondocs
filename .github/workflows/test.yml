@@ -170,10 +170,10 @@ jobs:
         # Keep the limit close to the observed total so accidental dependencies,
         # test imports, duplicated modules and tree-shaking regressions fail CI.
         run: |
-          # Reviewed feature output measures 6,323,675 bytes across 101 JS chunks.
+          # Reviewed feature output measures 6,389,755 bytes with package draft recovery.
           # The emitted module graph contains no test modules or new runtime dependencies.
           # Keep approximately 1% headroom over measured production JavaScript.
-          BUDGET_BYTES=6386912   # measured output plus 1% headroom
+          BUDGET_BYTES=6453653   # measured output plus 1% headroom
           TOTAL=$(find dist/assets -name "*.js" -exec stat -c %s {} \; | awk '{s+=$1} END {print s+0}')
           echo "Total dist/assets JS: $TOTAL bytes (budget: $BUDGET_BYTES)"
           if [ "$TOTAL" -gt "$BUDGET_BYTES" ]; then
@@ -385,8 +385,9 @@ jobs:
     runs-on: ubuntu-latest
     # Includes setup and complete browser profiles with review/asset workflows.
     # Desktop WebKit uses three shards; Firefox, iPad Safari and both iOS
-    # phone profiles use two to fit complete suites within the per-job budget.
-    timeout-minutes: 75
+    # phone profiles use two. Cold WebKit setup can take 18 minutes before a
+    # complete profile runs for more than an hour, so include both in the budget.
+    timeout-minutes: 120
     strategy:
       fail-fast: false
       matrix:
@@ -463,7 +464,8 @@ jobs:
   accessibility:
     name: accessibility regressions
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    # Allow cold browser setup and the complete accessibility suite.
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
       - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
@@ -488,7 +490,9 @@ jobs:
     name: browser upgrade
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    # A cold three-browser dependency install can consume 20 minutes before
+    # either release build or the complete upgrade checks begin.
+    timeout-minutes: 40
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
       - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6

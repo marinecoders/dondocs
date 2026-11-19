@@ -178,3 +178,32 @@ it('uses sidebar contents when visible and restores focused navigation when coll
   act(() => useUIStore.setState({ sidebarCollapsed: false, isMobile: true }));
   expect(screen.getByRole('combobox', { name: 'Document section' })).toHaveValue('signature');
 });
+
+it('keeps a field focused when a deferred section jump finishes after editing starts', () => {
+  const frames: FrameRequestCallback[] = [];
+  const animation = vi.spyOn(globalThis, 'requestAnimationFrame').mockImplementation(callback => { frames.push(callback); return frames.length; });
+  try {
+    openEditor();
+    selectSection('signature');
+    const lastName = screen.getByRole('textbox', { name: 'Last Name' });
+    act(() => lastName.focus());
+    expect(lastName).toHaveFocus();
+    act(() => { for (const frame of frames.splice(0)) frame(performance.now()); });
+    expect(lastName).toHaveFocus();
+    fireEvent.change(lastName, { target: { value: 'EXAMPLE' } });
+    expect(useDocumentStore.getState().formData.sigLast).toBe('EXAMPLE');
+  } finally { animation.mockRestore(); }
+});
+
+it('preserves another control chosen before deferred section focus runs', () => {
+  const frames: FrameRequestCallback[] = [];
+  const animation = vi.spyOn(globalThis, 'requestAnimationFrame').mockImplementation(callback => { frames.push(callback); return frames.length; });
+  try {
+    openEditor();
+    selectSection('signature');
+    const actions = screen.getByRole('button', { name: 'Document actions' });
+    act(() => actions.focus());
+    act(() => { for (const frame of frames.splice(0)) frame(performance.now()); });
+    expect(actions).toHaveFocus();
+  } finally { animation.mockRestore(); }
+});

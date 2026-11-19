@@ -4,6 +4,18 @@ import { expect, it, vi } from 'vitest';
 import { PackageIntakePreview } from '@/components/PackageIntakePreview';
 import type { PreparedConditionalPackage } from '@/lib/packageConditional';
 
+it('summarizes a removed document without exposing its discarded internal field links', () => {
+  const preview: PreparedConditionalPackage = { packageName: 'Training', ready: true, changed: true, reviews: [], issues: [], answerChanges: [],
+    changes: [{ key: 'cost', memberId: 'cost-member', label: 'Cost estimate', state: 'remove', message: 'Remove this document; saved history preserves it.' }],
+    fieldChanges: [{ bindingId: 'internal-link-id', memberId: 'cost-member', label: 'internal-link-id', state: 'detach', message: 'Link removed.' }] };
+  render(<PackageIntakePreview directApply preview={preview} fresh disabled={false} reviewed={false} memberChoices={{}} answerChoices={{}} fieldChoices={{}}
+    onMemberChoice={vi.fn()} onAnswerChoice={vi.fn()} onFieldChoice={vi.fn()} onReviewed={vi.fn()} onApply={vi.fn()} />);
+  expect(screen.getByText('Cost estimate')).toBeVisible();
+  expect(screen.queryByText('internal-link-id')).toBeNull();
+  expect(screen.queryByRole('region', { name: 'Linked field changes' })).toBeNull();
+  expect(screen.getByRole('button', { name: 'Apply action changes' })).toBeEnabled();
+});
+
 it('names decisions for their human owner while retaining exact keys and requiring a new reviewed preview', async () => {
   const onMemberChoice = vi.fn(), onAnswerChoice = vi.fn(), onFieldChoice = vi.fn(), onApply = vi.fn();
   const preview: PreparedConditionalPackage = {

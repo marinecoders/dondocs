@@ -49,8 +49,8 @@ export function PackageSigningPanel({ record, revision, disabled, busy, run, onA
   const returnedBytes = useMemo(() => returnedPlan ? copyPreparedPackageSigningReturn(returnedPlan) : null, [returnedPlan]);
   const selectedRecord = records.find(item => item.id === recordId), locked = !editable || busy || pending;
   useLayoutEffect(() => { ownerRef.current = owner; editableRef.current = editable; dirtyCallback.current = onDirtyChange; }, [owner, editable, onDirtyChange]);
-  useEffect(() => { mounted.current = true; return () => { mounted.current = false; dirtyCallback.current?.(false); }; }, []);
-  useEffect(() => { onDirtyChange?.(dirty); }, [dirty, onDirtyChange]);
+  useLayoutEffect(() => { mounted.current = true; return () => { mounted.current = false; dirtyCallback.current?.(false); }; }, []);
+  useLayoutEffect(() => { onDirtyChange?.(dirty); }, [dirty, onDirtyChange]);
   useEffect(() => {
     if (!matchesPackageDestination(destination, record.id, revision.id) || !destination.signingId || handledDestination.current === destination.requestId) return;
     if (focusPackageDestination(content.current, 'data-package-signing-id', destination.signingId)) handledDestination.current = destination.requestId;

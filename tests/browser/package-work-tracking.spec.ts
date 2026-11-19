@@ -25,7 +25,10 @@ for (const theme of ['light', 'dark', 'classic']) for (const width of [1440, 320
   await page.goto('/');
   let dialog = await packages(page);
   const bytes = await readFile(new URL('../fixtures/package-render/baseline-1.3.98.dondocs-package.json', import.meta.url));
-  await dialog.getByLabel('Import editable package', { exact: true }).setInputFiles({ name: 'synthetic-work-package.json', mimeType: 'application/json', buffer: bytes });
+  const input = dialog.getByLabel('Import editable package', { exact: true });
+  await expect(input).toBeEnabled();
+  await input.setInputFiles({ name: 'synthetic-work-package.json', mimeType: 'application/json', buffer: bytes });
+  await expect(dialog.getByLabel('Saved packages', { exact: true })).toHaveValue(JSON.parse(bytes.toString()).package.id, { timeout: 30_000 });
   await expect(dialog.getByRole('button', { name: 'Add shared value', exact: true })).toBeEnabled();
   const baseline = await dialog.getByLabel('Package revision', { exact: true }).inputValue();
   await dialog.locator('summary').filter({ hasText: /^Work and next actions/ }).click();

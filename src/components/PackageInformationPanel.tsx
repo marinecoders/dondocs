@@ -1,11 +1,14 @@
 import { useEffect, useId, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { z } from 'zod';
+import { usePackageEditDraft } from '@/hooks/usePackageEditDraft';
+import { packageEditDraftScope } from '@/lib/packageEditDrafts';
 import { Button } from './ui/button';
 import { PackageChangeImpactSummary } from './PackageChangeImpactSummary';
 import { getExportDeploymentPolicy, getExportDeploymentPolicySync } from '@/config/classification';
 import { newPackageId, type ActionPackage, type PackageRevision } from '@/lib/actionPackages';
-import { packageFactSchema, packageInformationSchema, type PackageFact, type PackageFactSource, type PackageInformation, type PackageParticipant } from '@/lib/packageInformation';
+import { packageFactSchema, packageFactSourceSchema, packageParticipantSchema, packageInformationSchema, type PackageFact, type PackageFactSource, type PackageInformation, type PackageParticipant } from '@/lib/packageInformation';
 import { listPackageBindingFields, packageBindingTargetKey, type PackageBindingField } from '@/lib/packageBindingTargets';
-import { formatPackageFactForField, suggestPackageFieldValues, type PackageFieldBinding, type PackageFieldBindings, type PackageFieldSuggestion } from '@/lib/packageFieldBindings';
+import { packageFieldBindingSchema, formatPackageFactForField, suggestPackageFieldValues, type PackageFieldBinding, type PackageFieldBindings, type PackageFieldSuggestion } from '@/lib/packageFieldBindings';
 import { applyPreparedPackageUpdate, preparePackageUpdate, undoPackageUpdate, type PackageUpdateChoice, type PackageUpdateChoices, type PackageUpdateUndo, type PreparedPackageUpdate } from '@/lib/packageUpdates';
 import { focusPackageDestination, matchesPackageDestination, type PackageDestinationRequest } from '@/lib/packageDestinations';
 
@@ -30,8 +33,20 @@ interface Props {
   signal(): AbortSignal | undefined;
   onDirtyChange?(dirty: boolean): void;
   destination?: PackageDestinationRequest;
+  workspace?: boolean;
+  recoverEdits?: boolean;
+  onRecoveryChange?(ready: boolean): void;
 }
 const inputClass = 'block w-full rounded border bg-background p-2 text-sm';
+const recoverySchema = z.object({
+  draft: z.object({
+    facts: z.array(z.object({ id: z.string().min(1).max(100), label: z.string().max(160), participantId: z.string().max(100).optional(),
+      kind: z.enum(['text', 'identifier', 'date', 'decimal', 'boolean']), value: z.union([z.string().max(10000), z.boolean()]), source: packageFactSourceSchema }).strict()).max(200),
+    participants: z.array(packageParticipantSchema.extend({ label: z.string().max(160) })).max(100),
+    bindings: z.array(packageFieldBindingSchema).max(500),
+  }).strict(),
+  choices: z.record(z.string().max(100), z.enum(['apply-package', 'keep-local', 'detach', 'reconnect'])),
+}).strict();
 const factKinds: Array<{ kind: PackageFact['kind']; label: string }> = [
   { kind: 'text', label: 'Text' }, { kind: 'identifier', label: 'Identifier' },
   { kind: 'date', label: 'Date (YYYY-MM-DD)' }, { kind: 'decimal', label: 'Number' }, { kind: 'boolean', label: 'Yes / No' },
@@ -77,14 +92,20 @@ function Source({ source }: { source: PackageFactSource }) {
 }
 
 /** Edits stay local until an exact, reviewed update is committed as a package revision. */
-export function PackageInformationPanel({ record, revision, disabled, busy, run, onApply, isCurrent, signal, onDirtyChange, destination }: Props) {
+export function PackageInformationPanel({ record, revision, disabled, busy, run, onApply, isCurrent, signal, onDirtyChange, destination, workspace = false, recoverEdits = workspace, onRecoveryChange }: Props) {
   const headingId = useId();
   const content = useRef<HTMLElement>(null), handledDestination = useRef<number | null>(null);
+  const previewResult = useRef<HTMLElement>(null);
   const owner = `${record.id}:${record.sequence}:${record.currentRevisionId}:${revision.id}:${record.archived}`;
   const ownerRef = useRef(owner);
   const [draft, setDraft] = useState<InformationDraft>(() => draftFrom(revision));
+  const [editing, setEditing] = useState(false), [advanced, setAdvanced] = useState(false);
   const [choices, setChoices] = useState<PackageUpdateChoices>({});
   const [preview, setPreview] = useState<PreparedPackageUpdate | null>(null);
+  useLayoutEffect(() => {
+    if (!preview || !workspace) return;
+    previewResult.current?.scrollIntoView?.({ block: 'start' }); previewResult.current?.focus({ preventScroll: true });
+  }, [preview, workspace]);
   const [fresh, setFresh] = useState(false), [reviewed, setReviewed] = useState(false);
   const [undo, setUndo] = useState<PackageUpdateUndo | null>(null);
   const [fieldMemberId, setFieldMemberId] = useState(revision.members.find(member => member.kind === 'native')?.id ?? '');
@@ -102,23 +123,36 @@ export function PackageInformationPanel({ record, revision, disabled, busy, run,
   const editable = revision.id === record.currentRevisionId && !record.archived && !record.reviewRounds?.some(round => round.ownerPackageId === undefined);
   const savedDraft = useMemo(() => JSON.stringify(draftFrom(revision)), [revision]);
   const dirty = JSON.stringify(draft) !== savedDraft || Object.keys(choices).length > 0;
+  const recovery = usePackageEditDraft({ scope: packageEditDraftScope(record.id, revision.id, 'information'),
+    value: useMemo(() => ({ draft, choices }), [draft, choices]), dirty, enabled: recoverEdits && editable,
+    restore(value) {
+      const parsed = recoverySchema.safeParse(value);
+      if (!parsed.success) throw new Error('The recovered details need attention. The saved package is unchanged.');
+      setDraft(parsed.data.draft); setChoices(parsed.data.choices); setEditing(true); setNotice('Recovered unapplied edits.');
+    } });
   const usedTargets = useMemo(() => new Set(draft.bindings.map(binding => `${binding.memberId}:${packageBindingTargetKey(binding.target)}`)), [draft.bindings]);
-  const locked = disabled || !editable || busy || pending;
+  const locked = disabled || !editable || busy || pending || recovery.status === 'loading';
+  useLayoutEffect(() => {
+    onRecoveryChange?.(recoverEdits && dirty && recovery.status === 'saved');
+    return () => onRecoveryChange?.(false);
+  }, [onRecoveryChange, recoverEdits, dirty, recovery.status]);
   useEffect(() => {
     if (!matchesPackageDestination(destination, record.id, revision.id) || handledDestination.current === destination.requestId) return;
     const attribute = destination.bindingId ? 'data-package-binding-id' : 'data-package-fact-id';
     const identity = destination.bindingId ?? destination.factId;
     if (!identity) return;
+    if (workspace && !advanced) { queueMicrotask(() => setAdvanced(true)); return; }
     if (focusPackageDestination(content.current, attribute, identity)) handledDestination.current = destination.requestId;
-  }, [destination, record.id, revision.id, draft]);
-  useEffect(() => {
+  }, [destination, record.id, revision.id, draft, workspace, advanced]);
+  useLayoutEffect(() => {
     mounted.current = true;
     return () => { mounted.current = false; dirtyCallback.current?.(false); };
   }, []);
-  useEffect(() => { onDirtyChange?.(dirty); }, [dirty, onDirtyChange]);
+  useLayoutEffect(() => { onDirtyChange?.(dirty); }, [dirty, onDirtyChange]);
   useLayoutEffect(() => {
     if (lastOwner.current === owner) return;
     lastOwner.current = owner; generation.current++;
+    setEditing(false);
     setDraft(draftFrom(revision)); setChoices({}); setPreview(null); setFresh(false); setReviewed(false);
     setFieldMemberId(revision.members.find(member => member.kind === 'native')?.id ?? '');
     setFields([]); setFieldErrors([]); setSuggestions(null); setSuggestionPage(0); setSuggestionTargets({}); setTargetSelections({}); setTargetSearch({}); setError('');
@@ -177,8 +211,14 @@ export function PackageInformationPanel({ record, revision, disabled, busy, run,
     if (value) next[id] = value as PackageUpdateChoice; else delete next[id];
     setChoices(next);
   }
-  function reset() {
+  async function reset() {
+    const captured = owner; setPending(true);
+    try { await recovery.clear(); }
+    catch (cause) { setError(cause instanceof Error ? cause.message : 'The local draft could not be discarded.'); setPending(false); return; }
+    if (!mounted.current) return;
+    if (ownerRef.current !== captured) { setPending(false); return; }
     invalidate(); setDraft(draftFrom(revision)); setChoices({}); setTargetSelections({});
+    setEditing(false); setPending(false);
     setNotice('Unapplied changes discarded. The saved package is unchanged.');
   }
   function adopt(suggestion: PackageFieldSuggestion, index: number) {
@@ -193,14 +233,20 @@ export function PackageInformationPanel({ record, revision, disabled, busy, run,
 
   return <section ref={content} tabIndex={-1} data-package-panel="information" aria-labelledby={headingId} className="min-w-0 space-y-4 rounded-lg border bg-background p-3 sm:p-4" aria-busy={pending}>
     <div className="space-y-1">
-      <h3 id={headingId} className="font-medium">Package information</h3>
-      <p className="text-sm text-muted-foreground">Keep shared details here and link only the document fields you choose. Each application saves a new package revision.</p>
-      <p role="status" className="text-xs text-muted-foreground">{dirty ? 'Unapplied changes · not saved to the package yet.' : 'Showing saved package information.'}</p>
+      <div className="flex items-center justify-between gap-4"><h3 id={headingId} className="font-medium">{workspace ? 'Details' : 'Package information'}</h3>
+        {workspace && editable && !editing && <Button variant="link" size="sm" disabled={locked} onClick={() => setEditing(true)}>Edit details</Button>}
+      </div>
+      {!workspace && <p className="text-sm text-muted-foreground">Keep shared details here and link only the document fields you choose. Each application saves a new package revision.</p>}
+      <p role="status" className="text-xs text-muted-foreground">{workspace ? recovery.status === 'loading' ? 'Checking for unfinished edits…' : dirty ? recovery.status === 'saved' ? 'Draft saved locally · not applied' : recovery.status === 'saving' ? 'Saving draft…' : 'Unapplied edits' : '' : dirty ? 'Unapplied changes · not saved to the package yet.' : 'Showing saved package information.'}</p>
       {!editable && <p className="text-xs text-muted-foreground">Information is read-only in historical, archived and reviewer copies.</p>}
       {disabled && editable && <p className="text-xs text-muted-foreground">Finish the active document edit before changing package information.</p>}
       {notice && <p role="status" className="text-sm">{notice}</p>}
       {error && <p role="alert" className="break-words text-sm text-destructive">{error}</p>}
+      {recovery.error && <div className="space-y-2"><p role="alert" className="break-words text-sm text-destructive">{recovery.error}</p><Button variant="outline" size="sm" disabled={pending} onClick={() => void reset()}>Discard local draft</Button></div>}
     </div>
+    {workspace && (!editing ? <dl className="grid gap-x-8 gap-y-5 sm:grid-cols-2">{draft.facts.map(fact => <div key={fact.id}><dt className="text-xs text-muted-foreground">{fact.label}</dt><dd className="mt-1 break-words text-sm">{displayValue(fact.value)}</dd></div>)}</dl> : <fieldset disabled={locked} className="grid min-w-0 gap-4 sm:grid-cols-2">{draft.facts.map((fact, index) => <label key={fact.id} className="min-w-0 text-sm">{fact.label || `Value ${index + 1}`}{fact.kind === 'boolean' ? <select className={`${inputClass} mt-2`} value={String(fact.value)} onChange={event => editFact(fact.id, { value: event.target.value === 'true', source: { kind: 'entered' } })}><option value="false">No</option><option value="true">Yes</option></select> : <input className={`${inputClass} mt-2`} value={String(fact.value)} maxLength={fact.kind === 'identifier' ? 200 : fact.kind === 'text' ? 10000 : 100} onChange={event => editFact(fact.id, { value: event.target.value, source: { kind: 'entered' } })} />}</label>)}</fieldset>)}
+    {workspace && <Button variant="link" className="h-auto p-0 text-xs" aria-expanded={advanced} onClick={() => setAdvanced(value => !value)}>Field links and other details</Button>}
+    <div hidden={workspace && !advanced} className="space-y-4">
     <fieldset disabled={locked} className="min-w-0 space-y-4">
       <legend className="text-sm font-medium">Shared values</legend>
       {!draft.facts.length && <p className="text-sm text-muted-foreground">No shared values yet. Add one or inspect suggestions from the package documents.</p>}
@@ -327,19 +373,21 @@ export function PackageInformationPanel({ record, revision, disabled, busy, run,
         <Button variant="outline" disabled={locked || (suggestionPage + 1) * 25 >= suggestions.length} onClick={() => setSuggestionPage(value => value + 1)}>Show more suggestions</Button>
       </div>}
     </details>
-    <div className="flex flex-wrap gap-2">
+    </div>
+    <div hidden={workspace && !editing && !dirty && !advanced} className="flex flex-wrap gap-2">
       <Button disabled={locked || !dirty} onClick={() => void perform(async current => {
         const next = snapshots();
         const value = await preparePackageUpdate(record, next.information, next.bindings, choices, await getExportDeploymentPolicy(), signal());
         if (current()) { setPreview(value); setFresh(true); setReviewed(false); }
-      })}>Preview package changes</Button>
-      <Button variant="outline" disabled={locked || !dirty} onClick={reset}>Discard unapplied changes</Button>
+      })}>{workspace ? 'Review changes' : 'Preview package changes'}</Button>
+      <Button variant="outline" disabled={locked || !dirty} onClick={reset}>{workspace ? 'Discard' : 'Discard unapplied changes'}</Button>
     </div>
-    {preview && <section aria-label="Package changes preview" className="min-w-0 space-y-3 rounded border p-3">
+    {preview && <section ref={previewResult} tabIndex={-1} aria-label="Package changes preview" className="min-w-0 space-y-3 rounded border p-3 outline-none">
+      {recoverEdits && <Button variant="ghost" className="h-auto p-0 text-sm" disabled={locked} onClick={() => { setPreview(null); setFresh(false); setReviewed(false); setEditing(true); content.current?.scrollIntoView?.({ block: 'start' }); content.current?.focus({ preventScroll: true }); }}>Back to details</Button>}
       <h4 className="font-medium">Review package changes</h4>
       <p className="break-all text-xs text-muted-foreground">Based on saved revision {preview.revisionId}. Previous revisions and source documents are preserved.</p>
       {!fresh && <p role="status" className="text-sm">Decisions changed. Preview again before applying.</p>}
-      {preview.impact && <PackageChangeImpactSummary impact={preview.impact} disabled={locked} />}
+      {preview.impact && <PackageChangeImpactSummary impact={preview.impact} disabled={locked} compact={workspace} />}
       {!preview.impact && !preview.ready && <p className="text-xs text-muted-foreground">Resolve the field decisions and preview again to see complete package impact.</p>}
       {preview.changes.length === 0 && <p className="text-sm">Package information changes only; no linked document fields change.</p>}
       {preview.changes.map(change => <article key={change.bindingId} className="min-w-0 space-y-2 border-t pt-2 text-sm">
@@ -360,14 +408,15 @@ export function PackageInformationPanel({ record, revision, disabled, busy, run,
         </div>)}
       </div>
       {!preview.changed && <p className="text-sm">No saved changes are needed.</p>}
-      <label className="flex items-start gap-2 text-sm"><input type="checkbox" disabled={locked || !fresh || !preview.ready || !preview.changed} checked={reviewed} onChange={event => setReviewed(event.target.checked)} />I reviewed the package values, linked field changes, local decisions and privacy findings.</label>
-      <Button disabled={locked || !fresh || !preview.ready || !preview.changed || !reviewed} onClick={() => void perform(async current => {
+      {!workspace && <label className="flex items-start gap-2 text-sm"><input type="checkbox" disabled={locked || !fresh || !preview.ready || !preview.changed} checked={reviewed} onChange={event => setReviewed(event.target.checked)} />I reviewed the package values, linked field changes, local decisions and privacy findings.</label>}
+      <Button disabled={locked || !fresh || !preview.ready || !preview.changed || !workspace && !reviewed} onClick={() => void perform(async current => {
         const policy = await getExportDeploymentPolicy();
         const policyCurrent = () => { const value = getExportDeploymentPolicySync(); return current() && value.status === 'ready' && policy.status === 'ready' && JSON.stringify(value.policy) === JSON.stringify(policy.policy); };
-        const result = await applyPreparedPackageUpdate(preview, policy, reviewed, signal(), policyCurrent);
+        const result = await applyPreparedPackageUpdate(preview, policy, workspace || reviewed, signal(), policyCurrent);
         if (!current()) return;
         setUndo(result.undo); setPreview(null); setFresh(false); setReviewed(false); setChoices({});
         setDraft(draftFrom(result.record.revisions.find(value => value.id === result.record.currentRevisionId)!));
+        setEditing(false); void recovery.clear().catch(() => undefined);
         ownRevision.current = result.record.currentRevisionId; dirtyCallback.current?.(false); setNotice('Package changes saved as a new revision.'); onApply(result.record);
       })}>Apply package changes</Button>
     </section>}

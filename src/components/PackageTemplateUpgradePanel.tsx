@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { Button } from './ui/button';
 import { PackageIntakeQuestions } from './PackageIntakeQuestions';
 import { PackageIntakePreview, type IntakeAnswerChoice, type IntakeMemberChoice } from './PackageIntakePreview';
@@ -45,8 +45,8 @@ function PackageTemplateUpgradeEditor({ record, revision, disabled, busy, run, s
     if (previousEditable.current === editable) return;
     previousEditable.current = editable; generation.current++; setPreview(null); setFresh(false); setReviewed(false); setDefinitionPreview(null); setDefinitionReviewed(false);
   }, [editable]);
-  useEffect(() => { alive.current = true; return () => { alive.current = false; callback.current?.(false); }; }, []);
-  useEffect(() => { callback.current?.(!!target); }, [target]);
+  useLayoutEffect(() => { alive.current = true; return () => { alive.current = false; callback.current?.(false); }; }, []);
+  useLayoutEffect(() => { callback.current?.(!!target); }, [target]);
   function invalidate() { generation.current++; setFresh(false); setReviewed(false); setDefinitionPreview(null); setDefinitionReviewed(false); }
   async function perform(action: (current: () => boolean) => Promise<void>) {
     if (locked || running.current) return; running.current = true; setPending(true); setError('');

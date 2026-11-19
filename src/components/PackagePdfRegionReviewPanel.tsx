@@ -28,9 +28,9 @@ export function PackagePdfRegionReviewPanel({ record, round, member, child, busy
   const container = useRef<HTMLDivElement>(null), alive = useRef(false), dirtyCallback = useRef(onDraftChange);
   const drag = useRef<{ x: number; y: number; pointerId: number; previous: typeof initialBox; chosen: boolean } | null>(null);
   const dirty = !!text, locked = busy || pending || readOnly;
-  useEffect(() => { dirtyCallback.current = onDraftChange; }, [onDraftChange]);
-  useEffect(() => { dirtyCallback.current?.(dirty); }, [dirty]);
-  useEffect(() => { alive.current = true; return () => { alive.current = false; dirtyCallback.current?.(false); }; }, []);
+  useLayoutEffect(() => { dirtyCallback.current = onDraftChange; }, [onDraftChange]);
+  useLayoutEffect(() => { dirtyCallback.current?.(dirty); }, [dirty]);
+  useLayoutEffect(() => { alive.current = true; return () => { alive.current = false; dirtyCallback.current?.(false); }; }, []);
   useEffect(() => {
     let current = true;
     void readPackagePdfReviewSource(sourceMember.current).then(value => { if (current) setSource(value); })

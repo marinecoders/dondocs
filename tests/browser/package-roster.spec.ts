@@ -33,6 +33,9 @@ async function packages(page: Page) {
   const dialog = page.getByRole('dialog', { name: 'Action packages', exact: true }); await expect(dialog).toBeVisible(); return dialog;
 }
 async function panel(dialog: Locator, name: string) {
+  // Let the lazy section above these disclosures finish mounting before a
+  // pointer click. Its layout shift can otherwise move a summary mid-click.
+  await expect(dialog.getByRole('region', { name: 'Portable package reviews', exact: true, includeHidden: true })).toBeAttached();
   const region = dialog.getByRole('region', { name, exact: true });
   if (!await region.isVisible()) await dialog.locator('summary').filter({ hasText: new RegExp(`^${name}`) }).first().click();
   await expect(region).toBeVisible(); return region;

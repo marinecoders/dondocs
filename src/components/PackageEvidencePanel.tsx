@@ -29,12 +29,12 @@ export function PackageEvidencePanel({ record, revision, disabled, busy, run, si
       queueMicrotask(() => { if (lifetime.current && generation.current === captured) setAcknowledged(false); });
     }
   }, [editable]);
-  useEffect(() => { lifetime.current = true; return () => { lifetime.current = false; dirtyCallback.current?.(false); }; }, []);
+  useLayoutEffect(() => { lifetime.current = true; return () => { lifetime.current = false; dirtyCallback.current?.(false); }; }, []);
   useLayoutEffect(() => {
     if (previous.current === owner) return;
     previous.current = owner; generation.current++; setPrepared(null); setAcknowledged(false); setError('');
   }, [owner]);
-  useEffect(() => { onDirtyChange?.(prepared !== null); }, [prepared, onDirtyChange]);
+  useLayoutEffect(() => { onDirtyChange?.(prepared !== null); }, [prepared, onDirtyChange]);
   async function perform(action: (current: () => boolean) => Promise<void>) {
     if (locked || running.current) return;
     const capturedOwner = owner, capturedGeneration = generation.current;

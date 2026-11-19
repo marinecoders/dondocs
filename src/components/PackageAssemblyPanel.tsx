@@ -1,4 +1,4 @@
-import { useEffect, useId, useLayoutEffect, useRef, useState } from 'react';
+import { useId, useLayoutEffect, useRef, useState } from 'react';
 import { Button } from './ui/button';
 import type { ActionPackage, PackageRevision } from '@/lib/actionPackages';
 import { defaultPackageAssemblySettings, type PackageAssemblySettings } from '@/lib/packageAssemblyModel';
@@ -29,9 +29,9 @@ function AssemblySettings({ record, revision, disabled, busy, run, onApply, onDi
     const captured = ++generation.current;
     queueMicrotask(() => { if (mounted.current && generation.current === captured) setReviewed(false); });
   }, [editable]);
-  useEffect(() => { dirtyRef.current = onDirtyChange; }, [onDirtyChange]);
-  useEffect(() => { mounted.current = true; return () => { mounted.current = false; dirtyRef.current?.(false); }; }, []);
-  useEffect(() => { onDirtyChange?.(dirty); }, [dirty, onDirtyChange]);
+  useLayoutEffect(() => { dirtyRef.current = onDirtyChange; }, [onDirtyChange]);
+  useLayoutEffect(() => { mounted.current = true; return () => { mounted.current = false; dirtyRef.current?.(false); }; }, []);
+  useLayoutEffect(() => { onDirtyChange?.(dirty); }, [dirty, onDirtyChange]);
   function change(patch: Partial<PackageAssemblySettings>) { setDraft(previous => ({ ...previous, ...patch })); setReviewed(false); setError(''); }
   return <section aria-labelledby={heading} className="min-w-0 space-y-3 rounded border p-2 text-sm sm:p-3" aria-busy={pending}>
     <h3 id={heading} className="font-medium">Assembly layout</h3>

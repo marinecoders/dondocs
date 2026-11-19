@@ -33,7 +33,9 @@ async function packages(page: Page) {
   const drawer = page.getByRole('dialog', { name: 'Documents', exact: true });
   if (!await drawer.isVisible()) await page.getByRole('button', { name: 'Open workspace', exact: true }).or(page.getByRole('button', { name: /^Packages(?:\s|$)/ })).first().click();
   if (await drawer.isVisible()) await drawer.getByRole('button', { name: /^Packages(?:\s|$)/ }).click();
-  const dialog = page.getByRole('dialog', { name: 'Action packages', exact: true }); await expect(dialog).toBeVisible(); return dialog;
+  const dialog = page.getByRole('dialog', { name: 'Action packages', exact: true });
+  await expect(dialog.getByLabel('Import editable package', { exact: true })).toBeEnabled();
+  return dialog;
 }
 async function jobsPanel(dialog: Locator) {
   const panel = dialog.getByRole('region', { name: 'Resumable PDF assembly', exact: true });
@@ -57,7 +59,9 @@ for (const theme of ['light', 'dark', 'classic']) for (const width of [1440, 320
   await context.addInitScript(value => { localStorage.setItem('browser-test-visitor', 'returning'); localStorage.setItem('dondocs_ui', JSON.stringify({ version: 1, state: { theme: value, editorLayout: 'focused' } })); }, theme);
   await page.goto('/'); let dialog = await packages(page);
   await dialog.getByLabel('Import editable package', { exact: true }).setInputFiles({ name: 'resumable-training.json', mimeType: 'application/json', buffer: await fixture() });
-  await expect(dialog.getByLabel('Package name', { exact: true })).toHaveValue('Resumable training package');
+  // Import validates and retains 40 documents before publishing the package.
+  // A cold WebKit runner can finish that work just beyond the default 5 seconds.
+  await expect(dialog.getByLabel('Package name', { exact: true })).toHaveValue('Resumable training package', { timeout: 30_000 });
   let panel = await jobsPanel(dialog);
   await panel.getByRole('button', { name: 'Review resumable assembly', exact: true }).click();
   const start = panel.getByRole('button', { name: 'Start reviewed assembly', exact: true }); await expect(start).toBeDisabled();
@@ -69,11 +73,18 @@ for (const theme of ['light', 'dark', 'classic']) for (const width of [1440, 320
     const observer = new MutationObserver(() => {
       const progress = element.querySelector('progress');
       const pause = [...element.querySelectorAll('button')].find(button => button.textContent === 'Pause assembly');
-      if (progress && Number(progress.getAttribute('value')) > 0 && pause) { observer.disconnect(); pause.click(); }
+      if (progress && Number(progress.getAttribute('value')) > 0 && pause) {
+        observer.disconnect();
+        pause.click();
+        element.setAttribute('data-test-pause-requested', 'true');
+      }
     });
     observer.observe(element, { childList: true, subtree: true, attributes: true, characterData: true });
   });
   await start.click();
+  // A newly created job is initially paused, before its running lease starts.
+  // Observe the actual Pause click before accepting a paused storage record.
+  await expect(panel).toHaveAttribute('data-test-pause-requested', 'true', { timeout: 30_000 });
   await expect.poll(async () => (await jobState(page))[0]?.status).toBe('paused');
   const [paused] = await jobState(page); expect(paused.checkpoints.length).toBeGreaterThan(0); expect(paused.completed).toBeGreaterThan(0); expect(paused.completed).toBeLessThanOrEqual(count);
   const retained = paused.checkpoints[0];
