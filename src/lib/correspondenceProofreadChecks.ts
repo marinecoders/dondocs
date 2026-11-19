@@ -3,6 +3,8 @@ import { documentTextFields } from './documentFields';
 import { enclosureStartNumber, isEndorsement } from './endorsement';
 import { citationProtectedRanges } from './referenceCitations';
 import { safeUrl } from './url-safety';
+import { unfilled } from './requiredField';
+import { deriveOverallClassLevel } from './overallClassification';
 import type { ProofreadFinding, ProofreadSource } from './proofread';
 
 const PUBLICATIONS = new Set(['sl3', 'sl4', 'i_type', 'tm_ietm_front_matter']);
@@ -27,15 +29,17 @@ export function additionalProofreadFindings(source: ProofreadSource): ProofreadF
   const dateFields = config.uiMode === 'moa'
     ? [['seniorDate', 'Senior party date'], ['juniorDate', 'Junior party date']] as const
     : config.uiMode === 'joint'
-      ? [['date', 'Senior command date'], ['jointJuniorDate', 'Junior command date']] as const
+      ? [['jointJuniorDate', 'Junior command date']] as const
       : [['date', 'Document date']] as const;
   const headingSection = config.uiMode === 'moa' ? 'moa'
     : config.uiMode === 'joint' ? 'joint' : config.uiMode === 'joint_memo' ? 'joint_memo'
       : config.uiMode === 'executive' ? 'executive' : 'addressing';
-  for (const [field, label] of dateFields) {
-    if (!data[field]?.trim()) add(`date:${field}`, `${label} is empty`,
+  // Executive dates may be reserved for the signing office (Ch 12).
+  const reviewDates = source.docType !== 'executive_correspondence' && config.uiMode !== 'executive';
+  for (const [field, label] of reviewDates ? dateFields : []) {
+    if (unfilled(data[field])) add(`date:${field}`, `${label} is empty`,
       'Enter the date when it is known, or deliberately leave space for dating at signature.',
-      headingSection, field, { chapter: 2, paragraph: '16', query: 'Dating Correspondence' });
+      headingSection, field, { chapter: 2, paragraph: '16', query: 'Expressing Dates' });
   }
   const subjectField = config.uiMode === 'joint' ? 'jointSubject' : 'subject';
   const subjectPrinted = !config.skipSubject || isEndorsement(source.docType) && data.includeEndorsementSubject;
@@ -48,7 +52,7 @@ export function additionalProofreadFindings(source: ProofreadSource): ProofreadF
     // Match the generator's legacy subject fallback so an older, still printable
     // endorsement is not incorrectly treated as missing its basic-letter ID.
     const legacy = /^(.+?)\s+ENDORSEMENT(?:\s+on\s+(.+))?$/i.exec(data.subject ?? '');
-    if (!data.basicLetterId?.trim() && !legacy?.[2]?.trim()) add('endorsement-id',
+    if (unfilled(data.basicLetterId) && unfilled(legacy?.[2])) add('endorsement-id',
       'Identify the basic letter', 'Enter the identifier of the letter being endorsed.',
       'basic', 'basicLetterId', { chapter: 9, paragraph: '1', query: 'Endorsement Line' });
   }
@@ -65,19 +69,19 @@ export function additionalProofreadFindings(source: ProofreadSource): ProofreadF
       : config.uiMode === 'moa'
         ? [['seniorSigName', 'Senior party signer'], ['juniorSigName', 'Junior party signer']] as const : [];
   for (const [field, label] of signers) {
-    if (!data[field]?.trim()) add(`signer:${field}`, `${label} is empty`,
+    if (unfilled(data[field])) add(`signer:${field}`, `${label} is empty`,
       'Complete the signer for this party. A name does not establish signing authority.',
       config.uiMode === 'moa' ? 'moa' : config.uiMode === 'joint' ? 'joint' : 'joint_memo', field,
       { chapter: config.uiMode === 'joint' ? 7 : 10, query: 'signature' }, 'required');
   }
   // Custom marking mode renders a banner only, not a CUI designation block.
-  if (data.classLevel === 'cui') {
+  if (data.classLevel === 'cui' && deriveOverallClassLevel(data.classLevel, source.paragraphs) === 'cui') {
     for (const [field, label] of [['cuiControlledBy', 'Controlled by'], ['cuiCategory', 'CUI category'], ['pocEmail', 'POC email']] as const) {
-      if (!data[field]?.trim()) add(`cui:${field}`, `${label} is empty`,
+      if (unfilled(data[field])) add(`cui:${field}`, `${label} is empty`,
         'Complete this field in the CUI designation block before delivery. This check assesses field completeness only.',
         'classification', field === 'pocEmail' ? 'cuiPocEmail' : field, undefined, 'markings');
     }
-    if (data.pocEmail?.trim() && !safeUrl(data.pocEmail.trim().replace(/^mailto:/i, ''))?.startsWith('mailto:')) {
+    if (!unfilled(data.pocEmail) && !safeUrl((data.pocEmail ?? '').trim().replace(/^mailto:/i, ''))?.startsWith('mailto:')) {
       add('cui:poc-email-invalid', 'Review the CUI POC email',
         'Enter a valid contact email. This value cannot be printed as the document’s POC email.',
         'classification', 'cuiPocEmail', undefined, 'markings');
@@ -86,7 +90,7 @@ export function additionalProofreadFindings(source: ProofreadSource): ProofreadF
   if (!(source.documentMode === 'custom' || config.compliance.allowEnclosures)) return findings;
   const start = enclosureStartNumber(source.docType, data.startingEnclosureNumber);
   source.enclosures.forEach((enclosure, index) => {
-    if (!enclosure.title.trim()) add(`enclosure-title:${index}`, `Enclosure (${start + index}) needs a title`,
+    if (unfilled(enclosure.title)) add(`enclosure-title:${index}`, `Enclosure (${start + index}) needs a title`,
       'Describe the enclosed document in the enclosure list.', 'enclosures', undefined,
       { chapter: 7, paragraph: '11', query: 'Enclosures' }, 'references');
   });

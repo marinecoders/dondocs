@@ -56,6 +56,10 @@ for (const theme of ['light', 'dark', 'classic']) {
 }
 
 test('opens the CUI contact field in a format without a Signature section', async ({ page }) => {
+  // Synthetic content under the application's supported local deployment override.
+  await page.route('**/classification.config.json*', route => route.fulfill({
+    json: { maxLevel: 'cui', allowedLevels: ['unclassified', 'cui'] },
+  }));
   await page.addInitScript(() => {
     localStorage.setItem('browser-test-visitor', 'returning');
     localStorage.setItem('dondocs_ui', JSON.stringify({ state: { editorLayout: 'focused', previewVisible: false }, version: 1 }));

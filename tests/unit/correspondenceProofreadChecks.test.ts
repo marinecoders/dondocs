@@ -88,4 +88,26 @@ describe('additional correspondence proofreading', () => {
       for (const f of additionalProofreadFindings(source)) expect(sections, `${docType}: ${f.id}`).toContain(f.target.sectionId);
     }
   });
+  it('does not flag executive dates reserved for the signing office', () => {
+    for (const docType of ['executive_correspondence', 'standard_memorandum', 'action_memorandum', 'information_memorandum']) {
+      expect(ids(draft({ docType, formData: {} })).filter(id => id.startsWith('correspondence:date:'))).toEqual([]);
+    }
+  });
+  it('checks only the junior-command date displayed by a joint letter', () => {
+    const source = draft({ docType: 'joint_letter', formData: { jointJuniorDate: '19 Nov 26', jointSeniorSigName: 'SENIOR', jointJuniorSigName: 'JUNIOR' } });
+    expect(ids(source)).toEqual([]);
+  });
+  it('does not treat bracketed starter placeholders as completed dates or signers', () => {
+    expect(ids(draft({ docType: 'moa', formData: { seniorDate: '[DATE]', juniorDate: '[DATE]', seniorSigName: '[SIGNER]', juniorSigName: '[SIGNER]' } })))
+      .toEqual(['correspondence:date:seniorDate', 'correspondence:date:juniorDate', 'correspondence:signer:seniorSigName', 'correspondence:signer:juniorSigName']);
+  });
+  it('treats a placeholder CUI contact as incomplete without a duplicate invalid-email finding', () => {
+    expect(ids(draft({ formData: { date: '19 Nov 26', classLevel: 'cui', cuiControlledBy: 'OFFICE', cuiCategory: 'PRVCY', pocEmail: '[EMAIL]' } })))
+      .toEqual(['correspondence:cui:pocEmail']);
+  });
+  it('does not check a CUI block when higher portions cause a classified block to print', () => {
+    const source = draft({ formData: { date: '19 Nov 26', classLevel: 'cui' }, paragraphs: [{ level: 0, text: 'Synthetic marking test.', portionMarking: 'S' }] });
+    expect(ids(source)).toEqual([]);
+  });
+
 });
