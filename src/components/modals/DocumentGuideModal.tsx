@@ -1,32 +1,7 @@
-import { ManualViewBoundary } from '@/components/manual/ManualViewBoundary';
 import { lazy, Suspense, useState, useMemo } from 'react';
 
-const CorrespondenceManualReader = lazy(() => import('@/components/manual/CorrespondenceManualReader'));
 import { HelpCircle, ChevronDown, ChevronRight, ChevronLeft, FileText, CheckCircle2, Lightbulb, BookOpen, Sparkles, ArrowRight, RotateCcw, Search, Eye, Check, Layers, Users, FolderOpen, Paperclip, PenLine, Link2, Shield, MapPin, File, Briefcase, Mail, ClipboardCheck, ClipboardList, BookMarked, Scale, Award, ScrollText, FileSignature, Star, FolderSync, type LucideIcon } from 'lucide-react';
 
-// Lucide icons for document types / groups / categories, keyed by id — the
-// app uses lucide everywhere else, so the guide should too (the old emoji
-// `icon` fields in documentGuide.ts are no longer rendered).
-const DOC_TYPE_ICONS: Record<string, LucideIcon> = {
-  naval_letter: FileText, standard_letter: File, business_letter: Briefcase,
-  multiple_address_letter: Mail, joint_letter: Users, same_page_endorsement: CheckCircle2,
-  new_page_endorsement: ClipboardCheck, mfr: BookMarked, mf: FileText,
-  plain_paper_memorandum: File, letterhead_memorandum: FileText, decision_memorandum: Scale,
-  executive_memorandum: Award, joint_memorandum: Users, moa: ScrollText, mou: FileSignature,
-  executive_correspondence: Star, navmc_10274: ClipboardList, navmc_118_11: ClipboardList,
-  i_type: BookMarked,
-  tm_ietm_front_matter: BookMarked,
-};
-const GROUP_ICONS: Record<string, LucideIcon> = { correspondence: FileText, forms: ClipboardList };
-const CATEGORY_ICONS: Record<string, LucideIcon> = {
-  Letters: FileText, Endorsements: CheckCircle2, Memoranda: FileText,
-  Agreements: ScrollText, Executive: Star, Forms: ClipboardList,
-};
-
-function DocIcon({ id, className }: { id: string; className?: string }) {
-  const Icon = DOC_TYPE_ICONS[id] ?? FileText;
-  return <Icon className={className ?? 'h-5 w-5 shrink-0 text-muted-foreground'} aria-hidden="true" />;
-}
 import {
   Dialog,
   DialogContent,
@@ -57,6 +32,33 @@ import {
   splitReason,
 } from './documentFinderLogic';
 
+import { ManualViewBoundary } from '@/components/manual/ManualViewBoundary';
+
+const CorrespondenceManualReader = lazy(() => import('@/components/manual/CorrespondenceManualReader'));
+
+// Lucide icons for document types / groups / categories, keyed by id — the
+// app uses lucide everywhere else, so the guide should too (the old emoji
+// `icon` fields in documentGuide.ts are no longer rendered).
+const DOC_TYPE_ICONS: Record<string, LucideIcon> = {
+  naval_letter: FileText, standard_letter: File, business_letter: Briefcase,
+  multiple_address_letter: Mail, joint_letter: Users, same_page_endorsement: CheckCircle2,
+  new_page_endorsement: ClipboardCheck, mfr: BookMarked, mf: FileText,
+  plain_paper_memorandum: File, letterhead_memorandum: FileText, decision_memorandum: Scale,
+  executive_memorandum: Award, joint_memorandum: Users, moa: ScrollText, mou: FileSignature,
+  executive_correspondence: Star, navmc_10274: ClipboardList, navmc_118_11: ClipboardList,
+  i_type: BookMarked,
+  tm_ietm_front_matter: BookMarked,
+};
+const GROUP_ICONS: Record<string, LucideIcon> = { correspondence: FileText, forms: ClipboardList };
+const CATEGORY_ICONS: Record<string, LucideIcon> = {
+  Letters: FileText, Endorsements: CheckCircle2, Memoranda: FileText,
+  Agreements: ScrollText, Executive: Star, Forms: ClipboardList,
+};
+
+function DocIcon({ id, className }: { id: string; className?: string }) {
+  const Icon = DOC_TYPE_ICONS[id] ?? FileText;
+  return <Icon className={className ?? 'h-5 w-5 shrink-0 text-muted-foreground'} aria-hidden="true" />;
+}
 // Document Finder Component
 //
 // A branching interview driven by getNextQuestion(answers). Answers are kept in
