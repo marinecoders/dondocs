@@ -128,4 +128,12 @@ describe('additional correspondence proofreading', () => {
       .toEqual([{ sectionId: 'signature', field: 'first-endorsement-body' }, { sectionId: 'signature', field: 'second-body' }]);
   });
 
+  it('uses the rendered legacy joint-memo signer fallback, preserving explicitly cleared memo names', () => {
+    const source = draft({ docType: 'joint_memorandum', formData: { date: '19 Nov 26',
+      jointSeniorSigName: 'SYNTHETIC SENIOR', jointJuniorSigName: 'SYNTHETIC JUNIOR' } });
+    expect(ids(source)).toEqual([]);
+    source.formData.jointMemoSeniorSigName = '';
+    expect(ids(source)).toEqual(['correspondence:signer:jointMemoSeniorSigName']);
+  });
+
 });

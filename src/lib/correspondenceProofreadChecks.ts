@@ -6,6 +6,7 @@ import { safeUrl } from './url-safety';
 import { unfilled } from './requiredField';
 import { deriveOverallClassLevel } from './overallClassification';
 import { canAppendEndorsement, hasEndorsementContent } from './appendedEndorsement';
+import { jointSignatories } from './signingAuthority';
 import type { ProofreadFinding, ProofreadSource } from './proofread';
 
 const PUBLICATIONS = new Set(['sl3', 'sl4', 'i_type', 'tm_ietm_front_matter']);
@@ -81,8 +82,12 @@ export function additionalProofreadFindings(source: ProofreadSource): ProofreadF
       ? [['jointMemoSeniorSigName', 'Senior command signer'], ['jointMemoJuniorSigName', 'Junior command signer']] as const
       : config.uiMode === 'moa'
         ? [['seniorSigName', 'Senior party signer'], ['juniorSigName', 'Junior party signer']] as const : [];
+  const memoSigners = jointSignatories(data, true);
   for (const [field, label] of signers) {
-    if (unfilled(data[field])) add(`signer:${field}`, `${label} is empty`,
+    const value = config.uiMode === 'joint_memo'
+      ? field === 'jointMemoSeniorSigName' ? memoSigners.seniorName : memoSigners.juniorName
+      : data[field];
+    if (unfilled(value)) add(`signer:${field}`, `${label} is empty`,
       'Complete the signer for this party. A name does not establish signing authority.',
       config.uiMode === 'moa' ? 'moa' : config.uiMode === 'joint' ? 'joint' : 'joint_memo', field,
       { chapter: config.uiMode === 'joint' ? 7 : 10, query: 'signature' }, 'required');
