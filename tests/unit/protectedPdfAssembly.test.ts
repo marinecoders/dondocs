@@ -38,7 +38,7 @@ describe('protected PDF assembly', () => {
     corrupt.addPage().node.set(PDFName.of('Contents'), corrupt.context.register(
       corrupt.context.stream(Uint8Array.of(1, 2, 3, 4), { Filter: 'FlateDecode' }),
     ));
-    const bytes = await corrupt.save(), original = bytes.slice(), main = await fixture('source.pdf');
+    const bytes = new Uint8Array(await corrupt.save()), original = bytes.slice(), main = await fixture('source.pdf');
     await expect(inspectAssemblyPdf(bytes)).rejects.toThrow(/page 1 is unreadable/);
     expect(await validateBasicLetter(bytes)).toMatchObject({ ok: false, error: expect.stringMatching(/page 1 is unreadable/) });
     const assembled = await assembleEndorsement(main, bytes);
