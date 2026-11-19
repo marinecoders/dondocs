@@ -823,7 +823,7 @@ function PackageDialog({
             </label>
           </div>
           <Suspense fallback={<p>Loading package review files…</p>}>
-            <PackageReviewTransfer record={record} round={openedReview} busy={busy} run={run} signal={() => operation.current?.signal}
+            <PackageReviewTransfer directDownload record={record} round={openedReview} busy={busy} run={run} signal={() => operation.current?.signal}
               isCurrent={() => active.current && !operation.current?.signal.aborted} onImport={value => {
                 update(value); const round = value.reviewRounds![0]; setOpenedReview(round); setRevisionId(round.revisionId);
               }} />
@@ -1582,7 +1582,7 @@ function PackageDialog({
         {record && readRecord && revision && <details className="min-w-0 rounded border p-2 sm:p-3">
           <summary className="cursor-pointer text-sm font-medium">Recipient delivery</summary>
           <div className="min-w-0 pt-3"><Suspense fallback={<p role="status">Opening recipient delivery…</p>}>
-            <PackageDeliveryPanel record={record} revision={revision} disabled={pendingPackageEdits} ports={ports}
+            <PackageDeliveryPanel directDownload record={record} revision={revision} disabled={pendingPackageEdits} ports={ports}
               onPreparedChange={prepared => {
                 if (!active.current || destinationOwner.current !== selectionOwner) return;
                 const epoch = ++deliverySearchEpoch.current;

@@ -52,6 +52,7 @@ import { TourOverlay } from '@/components/tour/TourOverlay';
 import { ActivationChecklist } from '@/components/onboarding/ActivationChecklist';
 import { PIIWarningModal } from '@/components/modals/PIIWarningModal';
 import { ActionPackageWorkspace } from '@/components/ActionPackageWorkspace';
+import { PackageWorkingCopyReturn } from '@/components/PackageWorkingCopyReturn';
 import { usePreparedExports } from '@/hooks/usePreparedExports';
 import { createExportGate } from '@/lib/exportController';
 import { ExportMarkingReviewModal } from '@/components/modals/ExportMarkingReviewModal';
@@ -1235,6 +1236,7 @@ function App() {
               updateAvailable={updateAvailable}
             />
 
+            <PackageWorkingCopyReturn />
             <MobileRecents onUpdate={updateAvailable ? promptUpdate : undefined} />
             <VersionHistoryModal />
             <TrashModal />
