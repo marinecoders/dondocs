@@ -8,11 +8,15 @@ import type { ProofreadFinding, ProofreadSource } from './proofread';
 const PUBLICATIONS = new Set(['sl3', 'sl4', 'i_type', 'tm_ietm_front_matter']);
 const SUBJECT_FRAGMENT_TYPES = new Set(['naval_letter', 'standard_letter', 'multiple_address_letter', 'joint_letter', 'new_page_endorsement', 'same_page_endorsement']);
 
+export function supportsCorrespondenceProofread(source: Pick<ProofreadSource, 'documentCategory' | 'docType'>): boolean {
+  return source.documentCategory === 'correspondence' && !PUBLICATIONS.has(source.docType)
+    && Object.hasOwn(DOC_TYPE_CONFIG, source.docType);
+}
+
 /** Additional advisory checks on printed correspondence, without changing a draft
  * or duplicating the existing formatting, readiness and classification engines. */
 export function additionalProofreadFindings(source: ProofreadSource): ProofreadFinding[] {
-  if (source.documentCategory !== 'correspondence' || PUBLICATIONS.has(source.docType)
-    || !Object.hasOwn(DOC_TYPE_CONFIG, source.docType)) return [];
+  if (!supportsCorrespondenceProofread(source)) return [];
   const config = DOC_TYPE_CONFIG[source.docType], data = source.formData;
   const findings: ProofreadFinding[] = [];
   const add = (id: string, title: string, message: string, sectionId: string, field?: string,
@@ -46,13 +50,13 @@ export function additionalProofreadFindings(source: ProofreadSource): ProofreadF
     const legacy = /^(.+?)\s+ENDORSEMENT(?:\s+on\s+(.+))?$/i.exec(data.subject ?? '');
     if (!data.basicLetterId?.trim() && !legacy?.[2]?.trim()) add('endorsement-id',
       'Identify the basic letter', 'Enter the identifier of the letter being endorsed.',
-      'basic', 'basicLetterId', { chapter: 9, paragraph: '2', query: 'Endorsement Line' });
+      'basic', 'basicLetterId', { chapter: 9, paragraph: '1', query: 'Endorsement Line' });
   }
   if (source.docType === 'multiple_address_letter') {
     const addresses = (data.to ?? '').split(/\r?\n/).filter(line => line.trim());
     if (addresses.length > 4) add('multiple-addresses', 'Review the addressee list',
       'The To field has more than four nonempty lines. If these are separate addressees, use the Distribution list. Wrapped address lines need human review.',
-      'addressing', 'to', { chapter: 8, paragraph: '8-2', query: 'Listing Addressees' });
+      'addressing', 'to', { chapter: 8, query: 'Listing Addressees' });
   }
   const signers = config.uiMode === 'joint'
     ? [['jointSeniorSigName', 'Senior command signer'], ['jointJuniorSigName', 'Junior command signer']] as const
