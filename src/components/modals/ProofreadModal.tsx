@@ -53,7 +53,13 @@ export function ProofreadModal({ children }: { children?: ReactNode }) {
       const paragraph = next.target.paragraphId
         ? [...section.querySelectorAll<HTMLElement>('[data-paragraph-id]')].find(element => element.dataset.paragraphId === next.target.paragraphId)
         : null;
-      const destination = field && section.contains(field) ? field : paragraph?.querySelector<HTMLElement>('[contenteditable="true"]') ?? paragraph?.querySelector<HTMLElement>('textarea,input') ?? section;
+      const path = next.target.paragraphPath;
+      const cell = path?.[0] === 'bodyTable' && path[1] === 'rows'
+        && Number.isInteger(path[2]) && Number(path[2]) >= 0 && Number.isInteger(path[3]) && Number(path[3]) >= 0
+        ? paragraph?.querySelector<HTMLElement>(`[data-table-row="${path[2]}"][data-table-column="${path[3]}"]`) : null;
+      const heading = path?.[0] === 'header' ? paragraph?.querySelector<HTMLElement>('[data-paragraph-field="header"]') : null;
+      const destination = field && section.contains(field) ? field : cell ?? heading
+        ?? paragraph?.querySelector<HTMLElement>('[contenteditable="true"]') ?? paragraph?.querySelector<HTMLElement>('textarea,input') ?? section;
       destination.focus({ preventScroll: true });destination.scrollIntoView({ block: 'nearest' });
     }));
   }

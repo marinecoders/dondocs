@@ -1,5 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { collectProofreadFindings, type ProofreadFinding, type ProofreadSource } from '@/lib/proofread';
+import { documentTextFields } from '@/lib/documentFields';
+import { detectDocumentTextPII } from '@/services/pii/detector';
 
 function source(patch: Partial<ProofreadSource> = {}): ProofreadSource {
   return { documentCategory: 'correspondence', documentMode: 'compliant', docType: 'naval_letter',
@@ -50,6 +52,50 @@ describe('existing checks in one proofread inventory', () => {
   it('does not surface a retained inactive field as sensitive output text', () => {
     const findings = collectProofreadFindings(source({ docType: 'mfr', formData: { to: '123-45-6789', subject: 'Record' } }));
     expect(findings.some(f => f.group === 'privacy')).toBe(false);
+  });
+
+  it('omits inactive classification text only from proofreading, preserving broader privacy scans', () => {
+    const input = source({ formData: { classLevel: 'unclassified', cuiControlledBy: 'cui@example.test', classifiedBy: 'authority@example.test',
+      customClassification: 'custom@example.test', pocEmail: 'contact@example.test' } });
+    expect(collectProofreadFindings(input).filter(f => f.group === 'privacy')).toEqual([]);
+    for (const projection of ['output', 'share', 'backup'] as const) {
+      expect(detectDocumentTextPII(documentTextFields(input, projection)).findings).toHaveLength(4);
+    }
+  });
+
+  it('reviews the classification block actually printed at the effective level', () => {
+    const input = source({ formData: { classLevel: 'cui', cuiControlledBy: 'cui@example.test', classifiedBy: 'authority@example.test' } });
+    const fields = () => collectProofreadFindings(input).filter(f => f.group === 'privacy').map(f => f.target.field);
+    expect(fields()).toEqual(['cuiControlledBy']);
+    input.paragraphs = [{ id: 'higher', text: 'Synthetic marking control.', level: 0, portionMarking: 'S' }];
+    expect(fields()).toEqual(['classifiedBy']);
+    input.formData.classLevel = 'custom';
+    input.formData.customClassification = 'custom@example.test';
+    expect(fields()).toEqual(['customClassification']);
+  });
+
+  it('does not flag a discarded invalid contact URL as printed email', () => {
+    const findings = collectProofreadFindings(source({ formData: { classLevel: 'cui', pocEmail: 'https://contact@example.test' } }));
+    expect(findings.filter(f => f.group === 'privacy')).toEqual([]);
+  });
+
+  it('omits overridden legacy joint fields and routes a printed fallback to its current memo input', () => {
+    const input = source({ docType: 'joint_memorandum', formData: { jointSeniorSigName: 'legacy@example.test',
+      jointMemoSeniorSigName: 'CURRENT SIGNER', jointSeniorFrom: 'hidden@example.test' } });
+    const fields = () => collectProofreadFindings(input).filter(f => f.group === 'privacy').map(f => f.target.field);
+    expect(fields()).toEqual([]);
+    delete input.formData.jointMemoSeniorSigName;
+    expect(fields()).toEqual(['jointMemoSeniorSigName']);
+    input.formData.jointMemoSeniorSigName = '';
+    expect(fields()).toEqual([]);
+  });
+
+  it('keeps paragraph heading and table-cell identities in privacy destinations', () => {
+    const input = source({ paragraphs: [{ id: 'rich', text: '', header: 'Synthetic 123-45-6789', level: 0,
+      bodyTable: { headerRows: 1, rows: [['Heading', 'Column'], ['Ordinary', 'Synthetic 321-54-9876']] } }] });
+    expect(collectProofreadFindings(input).filter(f => f.group === 'privacy').map(f => f.target))
+      .toEqual([{ sectionId: 'body', paragraphId: 'rich', paragraphPath: ['header'] },
+        { sectionId: 'body', paragraphId: 'rich', paragraphPath: ['bodyTable', 'rows', 1, 1] }]);
   });
 
   it('retains document-date precision and routes sensitive text to its actual editor section', () => {

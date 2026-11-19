@@ -1,7 +1,7 @@
 import type { DocumentSnapshot } from '@/stores/historyStore';
 import { DOC_TYPE_CONFIG } from '@/types/document';
 import { documentOutputConfig } from './documentOutputConfig';
-import { documentTextFields, type FieldPath } from './documentFields';
+import type { FieldPath } from './documentFields';
 import { getEditorSections } from './editorSections';
 import { formattingFindings } from './formattingFindings';
 import { validateParagraphStructure } from './paragraphStructureValidation';
@@ -9,6 +9,7 @@ import { findUndefinedAcronyms } from './acronyms';
 import { validateClassificationMarkings, validateDistributionFillIns, validateDistributionStatement, validateReasonForStatement } from './classificationValidation';
 import { canReviewReferenceOrder, planFirstCitationOrder } from './referenceCitations';
 import { detectDocumentTextPII, getPIITypeLabel } from '@/services/pii/detector';
+import { proofreadFieldControl, proofreadOutputFields } from './proofreadOutputFields';
 
 export type ProofreadSource = Pick<DocumentSnapshot, 'documentCategory' | 'documentMode' | 'docType' | 'formData' | 'paragraphs' | 'references' | 'enclosures' | 'copyTos' | 'distributions'>
   & Partial<Pick<DocumentSnapshot, 'endItems' | 'publicationTables'>>;
@@ -20,7 +21,7 @@ export interface ProofreadFinding {
   severity: 'error' | 'warning' | 'info';
   title: string;
   message: string;
-  target: { sectionId: string; field?: string; paragraphId?: string };
+  target: { sectionId: string; field?: string; paragraphId?: string; paragraphPath?: FieldPath };
   source?: { chapter: number; paragraph?: string; query?: string };
 }
 
@@ -139,7 +140,7 @@ export function collectProofreadFindings(
       title: 'Review reference order', message: 'The reference list differs from the existing first-citation ordering proposal. Review the before/after changes in References.',
       target: { sectionId: 'references' }, source: { chapter: 7 } });
   }
-  for (const field of documentTextFields(source, 'output').filter(field => field.role === 'text')) {
+  for (const field of proofreadOutputFields(source).filter(field => field.role === 'text')) {
     const detected = detectDocumentTextPII([field]);
     const root = field.path[0], fieldId = field.path[1];
     const destination = textSection(field.path, source.docType, has);
@@ -149,8 +150,8 @@ export function collectProofreadFindings(
     for (const type of new Set(detected.findings.map(finding => finding.type))) findings.push({ id: `privacy:${key(JSON.stringify(identity))}:${type}`,
       group: 'privacy', severity: 'warning', title: `${getPIITypeLabel(type)} pattern in ${field.label}`,
       message: 'Review whether this text belongs in the document and its intended delivery. A pattern match is not a determination of sensitive content.',
-      target: { sectionId: destination, ...(root === 'formData' && typeof fieldId === 'string' ? { field: fieldId } : {}),
-        ...(root === 'paragraphs' && typeof fieldId === 'number' ? { paragraphId: source.paragraphs[fieldId]?.id } : {}) } });
+      target: { sectionId: destination, ...(root === 'formData' && typeof fieldId === 'string' ? { field: proofreadFieldControl(source, fieldId) } : {}),
+        ...(root === 'paragraphs' && typeof fieldId === 'number' ? { paragraphId: source.paragraphs[fieldId]?.id, paragraphPath: field.path.slice(2) } : {}) } });
   }
   const byId = new Map(findings.map(finding => [finding.id, finding]));
   for (const finding of additional) if (has(finding.target.sectionId) && !byId.has(finding.id)) byId.set(finding.id, finding);

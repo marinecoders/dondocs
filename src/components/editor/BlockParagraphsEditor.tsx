@@ -311,6 +311,8 @@ const BlockRow = memo(function BlockRow({
         )}
         {showHeader && (
           <Input
+            aria-label={`Heading for paragraph ${index + 1}`}
+            data-paragraph-field="header"
             value={header || ''}
             autoFocus={!header}
             onChange={(e) => updateParagraph(index, { header: e.target.value })}

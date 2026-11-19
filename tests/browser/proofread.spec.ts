@@ -90,3 +90,64 @@ test('combines existing check groups and links a sensitive-text finding to its o
   await expect(body).toBeFocused();
   await expect(body).toHaveText('Synthetic example 123-45-6789.');
 });
+
+for (const width of [320, 1440]) test(`opens sensitive paragraph headings and table cells at ${width}px`, async ({ page }) => {
+  await page.setViewportSize({ width, height: 900 });
+  await page.addInitScript(() => {
+    localStorage.setItem('browser-test-visitor', 'returning');
+    localStorage.setItem('dondocs_ui', JSON.stringify({ version: 1, state: { editorLayout: 'focused', previewVisible: false } }));
+  });
+  await page.goto('/');
+  await page.getByLabel('Import draft file').setInputFiles({ name: 'rich-proofread.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify({
+    documentMode: 'compliant', documentCategory: 'correspondence', docType: 'naval_letter',
+    formData: { unitLine1: 'SYNTHETIC UNIT', date: '19 Nov 26', subject: 'SYNTHETIC RICH REVIEW', from: 'Training Officer', to: 'Director', sigLast: 'EXAMPLE' },
+    paragraphs: [{ id: 'rich-heading', text: 'Ordinary body text.', header: 'Synthetic 123-45-6789', level: 0 },
+      { id: 'rich-table', text: '', level: 0, bodyTable: { headerRows: 1, rows: [['One', 'Two'], ['Ordinary', 'Synthetic 321-54-9876']] } }],
+    references: [], enclosures: [], copyTos: [], distributions: [],
+  })) });
+  await page.getByRole('button', { name: 'Open as new document', exact: true }).click();
+  const proofread = page.getByRole('button', { name: /^Proofread:/ });
+  for (const [title, name, value] of [
+    ['Social Security Number pattern in Paragraph 1 heading', 'Heading for paragraph 1', 'Synthetic 123-45-6789'],
+    ['Social Security Number pattern in Paragraph 2', 'Table 2, row 2, column 2', 'Synthetic 321-54-9876'],
+  ]) {
+    await proofread.click();
+    const dialog = page.getByRole('dialog', { name: 'Proofread', exact: true });
+    const row = dialog.getByRole('listitem').filter({ has: page.getByText(title, { exact: true }) });
+    await row.getByRole('button', { name: 'Go to Paragraphs', exact: true }).click();
+    await expect(dialog).toBeHidden();
+    await expect(page.getByRole('textbox', { name, exact: true })).toBeFocused();
+    await expect(page.getByRole('textbox', { name, exact: true })).toHaveValue(value);
+  }
+});
+
+test('filters retained inactive fields and follows a legacy signer into its current memo control', async ({ page }) => {
+  await page.addInitScript(() => {
+    localStorage.setItem('browser-test-visitor', 'returning');
+    localStorage.setItem('dondocs_ui', JSON.stringify({ version: 1, state: { editorLayout: 'focused', previewVisible: false } }));
+  });
+  await page.goto('/');
+  await page.getByLabel('Import draft file').setInputFiles({ name: 'joint-proofread.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify({
+    documentMode: 'compliant', documentCategory: 'correspondence', docType: 'joint_memorandum',
+    formData: { date: '19 Nov 26', subject: 'SYNTHETIC JOINT REVIEW', classLevel: 'unclassified',
+      cuiControlledBy: 'cui@example.test', classifiedBy: 'authority@example.test', jointSeniorSigName: 'legacy@example.test',
+      jointMemoSeniorSigName: 'CURRENT SIGNER', jointMemoJuniorSigName: 'JUNIOR' },
+    paragraphs: [{ id: 'joint-review', text: 'Synthetic body text.', level: 0 }], references: [], enclosures: [], copyTos: [], distributions: [],
+  })) });
+  await page.getByRole('button', { name: 'Open as new document', exact: true }).click();
+  const proofread = page.getByRole('button', { name: /^Proofread:/ });
+  await proofread.click();
+  const dialog = page.getByRole('dialog', { name: 'Proofread', exact: true });
+  await expect(dialog.getByText(/pattern in Form: (?:cuiControlledBy|classifiedBy|jointSeniorSigName)/)).toHaveCount(0);
+  await dialog.getByRole('button', { name: 'Done', exact: true }).click();
+  await page.getByRole('combobox', { name: 'Document section', exact: true }).selectOption('joint_memo');
+  const signer = page.locator('#jointMemoSeniorSigName');
+  await signer.fill('current@example.test');
+  await proofread.click();
+  const row = dialog.getByRole('listitem').filter({ has: page.getByText('Personal Email Address pattern in Form: jointMemoSeniorSigName', { exact: true }) });
+  await row.getByRole('button', { name: 'Go to Commands', exact: true }).click();
+  await expect(signer).toBeFocused();
+  await signer.fill('CURRENT SIGNER');
+  await proofread.click();
+  await expect(dialog.getByText(/Personal Email Address pattern/)).toHaveCount(0);
+});

@@ -66,4 +66,32 @@ describe('proofread entry and current-draft review', () => {
     expect(screen.queryByText('Use the date format for this document.')).not.toBeInTheDocument();
     expect(screen.getByRole('dialog', { name: 'Proofread' })).toBeVisible();
   });
+
+  it('focuses the actual paragraph heading and table cell for sensitive-text findings', async () => {
+    useDocumentStore.setState({ formData: { date: '12 Nov 26', subject: 'Synthetic rich review' }, paragraphs: [
+      { id: 'heading-owner', text: 'Ordinary body text.', header: 'Synthetic 123-45-6789', level: 0 },
+      { id: 'table-owner', text: '', level: 0, bodyTable: { headerRows: 1, rows: [['One', 'Two'], ['Ordinary', 'Synthetic 321-54-9876']] } },
+    ] });
+    view(true);
+    for (const [title, name] of [['Social Security Number pattern in Paragraph 1 heading', 'Heading for paragraph 1'],
+      ['Social Security Number pattern in Paragraph 2', 'Table 2, row 2, column 2']]) {
+      fireEvent.click(screen.getByRole('button', { name: /^Proofread:/ }));
+      const row = screen.getByText(title, { exact: true }).closest('li')!;
+      fireEvent.click(within(row).getByRole('button', { name: 'Go to Paragraphs' }));
+      await waitFor(() => expect(screen.getByRole('textbox', { name, exact: true })).toHaveFocus());
+    }
+  });
+
+  it('hides inactive classification findings and opens a printed legacy signer at the memo control', async () => {
+    useDocumentStore.setState({ docType: 'joint_memorandum', formData: { date: '12 Nov 26', subject: 'Synthetic joint review',
+      classLevel: 'unclassified', cuiControlledBy: 'hidden.cui@example.test', classifiedBy: 'hidden.authority@example.test',
+      jointSeniorSigName: 'legacy@example.test', jointMemoJuniorSigName: 'JUNIOR' } });
+    view(true);
+    fireEvent.click(screen.getByRole('button', { name: /^Proofread:/ }));
+    expect(screen.queryByText(/pattern in Form: (?:cuiControlledBy|classifiedBy)/)).not.toBeInTheDocument();
+    const row = screen.getByText('Personal Email Address pattern in Form: jointSeniorSigName', { exact: true }).closest('li')!;
+    fireEvent.click(within(row).getByRole('button', { name: 'Go to Commands' }));
+    await waitFor(() => expect(document.getElementById('jointMemoSeniorSigName')).toHaveFocus());
+    expect(document.getElementById('jointMemoSeniorSigName')).toHaveValue('legacy@example.test');
+  });
 });

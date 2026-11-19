@@ -15,7 +15,7 @@ export function BodyTableEditor({ table, index, onChange }: { table: BodyTable; 
       {table.rows.map((row, rowIndex) => <tr key={rowIndex}>{row.map((cell, column) => {
         const Cell = rowIndex < table.headerRows ? 'th' : 'td';
         return <Cell key={column} className="min-w-28 border border-border p-1" scope={rowIndex < table.headerRows ? 'col' : undefined}>
-          <Textarea aria-label={`Table ${index + 1}, row ${rowIndex + 1}, column ${column + 1}`} value={cell} maxLength={BODY_TABLE_LIMITS.cellCharacters}
+          <Textarea aria-label={`Table ${index + 1}, row ${rowIndex + 1}, column ${column + 1}`} data-table-row={rowIndex} data-table-column={column} value={cell} maxLength={BODY_TABLE_LIMITS.cellCharacters}
             onChange={event => update(table.rows.map((cells, i) => i === rowIndex ? cells.map((text, j) => j === column ? event.target.value : text) : cells))} className="min-h-14 resize-y text-sm" />
         </Cell>;
       })}</tr>)}
