@@ -1,10 +1,13 @@
 import 'fake-indexeddb/auto';
 import { useState } from 'react';
-import { expect, it } from 'vitest';
-import { render, screen, waitFor } from '@testing-library/react';
+import { afterEach, expect, it, vi } from 'vitest';
+import { act, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { usePackageEditDraft } from '@/hooks/usePackageEditDraft';
 import { openPackageEditDraft, packageEditDraftScope } from '@/lib/packageEditDrafts';
+import * as editDrafts from '@/lib/packageEditDrafts';
+
+afterEach(() => vi.restoreAllMocks());
 
 function Editor({ scope, editable = true }: { scope: string; editable?: boolean }) {
   const [text, setText] = useState('');
@@ -36,4 +39,24 @@ it('keeps historical views read-only and does not delete an unreadable recovery 
   expect(screen.getByLabelText('Draft')).toBeDisabled();
   expect(screen.getByLabelText('Draft')).toHaveValue('');
   expect((await openPackageEditDraft(scope)).value).toEqual({ wrong: 'retain for recovery' });
+});
+
+it('keeps a newer recovery write active when an older write fails', async () => {
+  let rejectFirst!: (cause: Error) => void, finishSecond!: () => void;
+  const first = new Promise<void>((_resolve, reject) => { rejectFirst = reject; });
+  const second = new Promise<void>(resolve => { finishSecond = resolve; });
+  const save = vi.fn().mockReturnValueOnce(first).mockReturnValueOnce(second);
+  vi.spyOn(editDrafts, 'openPackageEditDraft').mockResolvedValue({ value: null, error: '', save });
+  const user = userEvent.setup();
+  render(<Editor scope="overlapping-recovery-writes" />);
+  await waitFor(() => expect(screen.getByLabelText('Draft')).toBeEnabled());
+  await user.type(screen.getByLabelText('Draft'), 'ab');
+  expect(save).toHaveBeenCalledTimes(2);
+  await act(async () => rejectFirst(new Error('An earlier write failed')));
+  expect(screen.getByRole('status')).toHaveTextContent('saving');
+  expect(screen.queryByRole('alert')).toBeNull();
+  await act(async () => finishSecond());
+  expect(screen.getByRole('status')).toHaveTextContent('saved');
+  expect(screen.getByLabelText('Draft')).toHaveValue('ab');
+  expect(screen.queryByRole('alert')).toBeNull();
 });

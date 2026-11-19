@@ -54,7 +54,7 @@ export function usePackageEditDraft<T>({ scope, value, dirty, enabled, restore }
     void current.store.save(next === null ? null : valueRef.current).then(() => {
       if (alive.current && session.current === current && revision.current === write) setStatus(next === null ? 'idle' : 'saved');
     }).catch(cause => {
-      if (alive.current && session.current === current) { current.last = null; setStatus('error'); setError(cause instanceof Error ? cause.message : 'Your edits could not be saved for recovery.'); }
+      if (alive.current && session.current === current && revision.current === write) { current.last = null; setStatus('error'); setError(cause instanceof Error ? cause.message : 'Your edits could not be saved for recovery.'); }
     });
   }, [scope, serialized, dirty, enabled, loading]);
   useEffect(() => {
