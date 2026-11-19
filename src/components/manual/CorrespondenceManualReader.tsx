@@ -70,7 +70,10 @@ function ManualContent({ manual, cached, location }: { manual: CorrespondenceMan
     const origin = document.activeElement;
     requestAnimationFrame(() => {
       const focused = document.activeElement;
-      if (focused !== origin && focused !== document.body && focused !== reading.current) return;
+      // Removing a result lets the dialog focus trap restore its container.
+      // That fallback is part of navigation, unlike a newly chosen control.
+      const dialogFallback = origin && !origin.isConnected && focused === reading.current?.closest('[role="dialog"]');
+      if (!dialogFallback && focused !== origin && focused !== document.body && focused !== reading.current) return;
       if (readingRegion.current) readingRegion.current.scrollTop = 0;
       if (showMatch) scrollToMatch(readingRegion.current);
       reading.current?.focus({ preventScroll: true });

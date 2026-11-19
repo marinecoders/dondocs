@@ -74,3 +74,21 @@ it('does not steal focus chosen after page navigation but before its frame commi
     expect(search).toHaveFocus();
   } finally { frame.mockRestore(); }
 });
+
+it('continues reading navigation when the dialog restores focus after removing a result', async () => {
+  const frames: FrameRequestCallback[] = [];
+  const frame = vi.spyOn(window, 'requestAnimationFrame').mockImplementation(callback => { frames.push(callback);return frames.length; });
+  try {
+    render(<div role="dialog" aria-label="Manual guide" tabIndex={-1}><Reader /></div>);
+    await screen.findByRole('heading', { name: /Page 2-12/ });
+    const search = screen.getByRole('searchbox', { name: 'Search manual' });
+    fireEvent.change(search, { target: { value: 'Are enclosure markings correct?' } });
+    fireEvent.submit(search.closest('form')!);
+    const result = screen.getByRole('button', { name: /Page 2-12 · PDF page 28/ });
+    result.focus();fireEvent.click(result);
+    expect(result.isConnected).toBe(false);
+    screen.getByRole('dialog', { name: 'Manual guide' }).focus();
+    act(() => { for (const callback of frames.splice(0)) callback(0); });
+    expect(screen.getByRole('heading', { name: /Page 2-12/ })).toHaveFocus();
+  } finally { frame.mockRestore(); }
+});
