@@ -1,3 +1,4 @@
+import AxeBuilder from '@axe-core/playwright';
 import { test, expect, type Page } from '@playwright/test';
 import { createHash } from 'node:crypto';
 import source from '../../src/data/correspondenceManualSource.json' with { type: 'json' };
@@ -25,6 +26,7 @@ for (const theme of ['light', 'dark', 'classic']) for (const width of [320, 1280
   const guide = await manual(page);
   await expect(guide.getByText(/Reference text saved for offline reading/)).toBeVisible({ timeout: 30_000 });
   expect(requests.some(url => url.endsWith('manual.pdf'))).toBe(false);
+  expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
   await guide.getByRole('searchbox', { name: 'Search manual' }).fill('Are enclosure markings correct?');
   await guide.getByRole('button', { name: 'Search', exact: true }).click();
   await guide.getByRole('button', { name: /Page 2-12 · PDF page 28/ }).click();
@@ -32,6 +34,7 @@ for (const theme of ['light', 'dark', 'classic']) for (const width of [320, 1280
   await expect(guide.getByRole('region', { name: 'Manual text page 2-12' }).locator('mark')).toBeInViewport();
   await guide.getByRole('button', { name: 'View original PDF page 28' }).click();
   await expect(guide.getByLabel('Original manual PDF page 28').locator('canvas')).toBeVisible({ timeout: 30_000 });
+  expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
   await page.screenshot({ path: info.outputPath('manual-original-page28.png') });
   const pending = page.waitForEvent('download');
   await guide.getByRole('button', { name: 'Download original PDF', exact: true }).click();

@@ -25,7 +25,7 @@ export default function ManualSourcePage({ bytes, page, onPage }: { bytes: Uint8
     </div>
     <p className="text-xs text-muted-foreground">Original source page. Use the extracted-text view for text search and reading.</p>
     {error && <p role="alert" className="text-sm text-destructive">This source page could not be rendered. Return to the extracted text or download the original PDF.</p>}
-    <div ref={container} className="min-w-0 overflow-hidden rounded border bg-white" aria-label={`Original manual PDF page ${page}`}>
+    <div ref={container} role="region" className="min-w-0 overflow-hidden rounded border bg-white" aria-label={`Original manual PDF page ${page}`}>
       <Document file={file} loading={<p role="status" className="p-4 text-sm text-black">Loading source PDF…</p>} onLoadError={() => setError(true)}>
         <Page pageNumber={page} width={width} devicePixelRatio={Math.min(devicePixelRatio || 1, 2)} renderTextLayer={false} renderAnnotationLayer={false} onRenderError={() => setError(true)} onRenderSuccess={() => setError(false)} />
       </Document>
