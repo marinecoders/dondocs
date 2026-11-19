@@ -52,4 +52,19 @@ describe('attached endorsements', () => {
     expect(screen.getByRole('region', { name: 'New endorsement' })).toBeInTheDocument();
     expect(within(screen.getByRole('region', { name: 'First endorsement' })).getByLabelText('Endorsement text')).toHaveValue('Original acknowledgement.');
   });
+  it('edits an accepted extra row whose stable ID matches the primary editor namespace', async () => {
+    const user = userEvent.setup();
+    useDocumentStore.getState().setField('additionalEndorsements', [{ id: 'first-endorsement', endorsementSigLast: 'EXTRA' }]);
+    render(<AppendedEndorsementsEditor />);
+    const primary = within(screen.getByRole('region', { name: 'First endorsement' })).getByLabelText('Endorsement text');
+    const extra = within(screen.getByRole('region', { name: 'SECOND endorsement' })).getByLabelText('Endorsement text');
+    expect(primary).toHaveAttribute('id', 'first-endorsement-body');
+    expect(extra).toHaveAttribute('id', 'additional-endorsement-first-endorsement-body');
+    await user.type(extra, 'An independent additional endorsement.');
+    expect(primary).toHaveValue('Original acknowledgement.');
+    expect(useDocumentStore.getState().formData.additionalEndorsements?.[0]).toMatchObject({
+      id: 'first-endorsement', endorsementBody: 'An independent additional endorsement.',
+    });
+  });
+
 });

@@ -8,6 +8,7 @@ import { safeUrl } from './url-safety';
 import { unfilled } from './requiredField';
 import { deriveOverallClassLevel } from './overallClassification';
 import { canAppendEndorsement, hasEndorsementContent } from './appendedEndorsement';
+import { FIRST_ENDORSEMENT_EDITOR_ID, additionalEndorsementEditorId } from './endorsementEditorIds';
 import { jointSignatories } from './signingAuthority';
 import type { ProofreadFinding, ProofreadSource } from './proofread';
 
@@ -62,14 +63,14 @@ export function additionalProofreadFindings(source: ProofreadSource): ProofreadF
   }
   if (data.appendEndorsement && canAppendEndorsement(source.docType)) {
     const entries = [
-      { id: 'first-endorsement', label: 'First endorsement', value: data },
+      { id: 'first-endorsement', editorId: FIRST_ENDORSEMENT_EDITOR_ID, label: 'First endorsement', value: data },
       ...(data.additionalEndorsements ?? []).filter(hasEndorsementContent)
-        .map(entry => ({ id: entry.id, label: 'Additional endorsement', value: entry })),
+        .map(entry => ({ id: `additional:${entry.id}`, editorId: additionalEndorsementEditorId(entry.id), label: 'Additional endorsement', value: entry })),
     ];
     for (const entry of entries) {
       if (unfilled(entry.value.endorsementBody)) add(`endorsement-body:${entry.id}`,
         `${entry.label} needs text`, 'Complete the enabled endorsement text, or remove the endorsement if it is not needed.',
-        'signature', `${entry.id}-body`, { chapter: 9, query: 'Endorsement' }, 'structure');
+        'signature', `${entry.editorId}-body`, { chapter: 9, query: 'Endorsement' }, 'structure');
     }
   }
   if (source.docType === 'multiple_address_letter') {
@@ -133,11 +134,12 @@ export function additionalProofreadFindings(source: ProofreadSource): ProofreadF
           && (number < start || number >= start + source.enclosures.length)) {
           seen.add(number);
           const paragraph = field.path[0] === 'paragraphs' ? source.paragraphs[Number(field.path[1])] : undefined;
-          const endorsement = field.path[1] === 'additionalEndorsements'
-            ? data.additionalEndorsements?.[Number(field.path[2])]?.id : 'first-endorsement';
-          const target: ProofreadFinding['target'] = field.path[0] === 'paragraphs'
-            ? { sectionId: 'body', ...(paragraph?.id ? { paragraphId: paragraph.id } : {}) }
-            : { sectionId: 'signature', field: `${endorsement}-body` };
+          const extra = field.path[1] === 'additionalEndorsements'
+            ? data.additionalEndorsements?.[Number(field.path[2])] : undefined;
+          const editorId = extra ? additionalEndorsementEditorId(extra.id) : FIRST_ENDORSEMENT_EDITOR_ID;
+          const target = field.path[0] === 'paragraphs'
+            ? { sectionId: 'body', ...(paragraph?.id ? { paragraphId: paragraph.id } : {}), paragraphPath: field.path.slice(2) }
+            : { sectionId: 'signature', field: `${editorId}-body` };
           findings.push({ id: `correspondence:enclosure-citation:${field.path.join(':')}:${number}`,
             group: 'references', severity: 'warning', title: `Check enclosure (${number})`,
             message: 'This explicit citation has no entry in this document’s enclosure list. Confirm its target before delivery.',

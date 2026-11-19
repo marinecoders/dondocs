@@ -2,7 +2,8 @@ import { describe, expect, it } from 'vitest';
 import { additionalProofreadFindings } from '@/lib/correspondenceProofreadChecks';
 import { getEditorSections } from '@/lib/editorSections';
 import { DOC_TYPE_CONFIG } from '@/types/document';
-import type { ProofreadSource } from '@/lib/proofread';
+import { collectProofreadFindings, type ProofreadSource } from '@/lib/proofread';
+import { additionalEndorsementsSchema } from '@/lib/endorsementValidation';
 
 function draft(patch: Partial<ProofreadSource> = {}): ProofreadSource {
   return { documentCategory: 'correspondence', documentMode: 'compliant', docType: 'naval_letter',
@@ -113,7 +114,7 @@ describe('additional correspondence proofreading', () => {
   it('reviews only enabled appended endorsements, including populated extra entries', () => {
     const source = draft({ formData: { date: '19 Nov 26', appendEndorsement: true,
       additionalEndorsements: [{ id: 'unused' }, { id: 'second', endorsementSigLast: 'EXAMPLE' }] } });
-    expect(additionalProofreadFindings(source).map(f => f.target.field)).toEqual(['first-endorsement-body', 'second-body']);
+    expect(additionalProofreadFindings(source).map(f => f.target.field)).toEqual(['first-endorsement-body', 'additional-endorsement-second-body']);
     source.formData.appendEndorsement = false;
     expect(ids(source)).toEqual([]);
     source.formData.appendEndorsement = true;
@@ -125,7 +126,7 @@ describe('additional correspondence proofreading', () => {
     const source = draft({ formData: { date: '19 Nov 26', appendEndorsement: true,
       endorsementBody: 'See enclosure (3).', additionalEndorsements: [{ id: 'second', endorsementBody: 'See enclosure (4).' }] } });
     expect(additionalProofreadFindings(source).filter(f => f.id.includes('enclosure-citation')).map(f => f.target))
-      .toEqual([{ sectionId: 'signature', field: 'first-endorsement-body' }, { sectionId: 'signature', field: 'second-body' }]);
+      .toEqual([{ sectionId: 'signature', field: 'first-endorsement-body' }, { sectionId: 'signature', field: 'additional-endorsement-second-body' }]);
   });
 
   it('uses the rendered legacy joint-memo signer fallback, preserving explicitly cleared memo names', () => {
@@ -144,7 +145,7 @@ describe('additional correspondence proofreading', () => {
     const original = structuredClone(source);
     const findings = additionalProofreadFindings(source);
     expect(findings.map(f => f.title)).toEqual(['Check enclosure (2)']);
-    expect(findings[0].target).toEqual({ sectionId: 'body', paragraphId: 'formatted' });
+    expect(findings[0].target).toEqual({ sectionId: 'body', paragraphId: 'formatted', paragraphPath: ['text'] });
     expect(source).toEqual(original);
   });
 
@@ -161,6 +162,30 @@ describe('additional correspondence proofreading', () => {
       .toEqual([{ sectionId: 'signature', field: 'first-endorsement-body' }]);
     source.formData.appendEndorsement = false;
     expect(additionalProofreadFindings(source)).toEqual([]);
+  });
+
+  it('keeps accepted extra IDs distinct from the primary endorsement in findings and editor targets', () => {
+    const entries = [{ id: 'first-endorsement', endorsementSigLast: 'EXTRA' }];
+    expect(additionalEndorsementsSchema.safeParse(entries).success).toBe(true);
+    expect(additionalEndorsementsSchema.safeParse([...entries, ...entries]).success).toBe(false);
+    const source = draft({ formData: { date: '19 Nov 26', appendEndorsement: true, additionalEndorsements: entries } });
+    const original = structuredClone(source);
+    const checks = additionalProofreadFindings(source);
+    const findings = collectProofreadFindings(source, [], checks).filter(f => f.id.includes('endorsement-body'));
+    expect(new Set(findings.map(f => f.id)).size).toBe(2);
+    expect(findings.map(f => f.target.field)).toEqual(['first-endorsement-body', 'additional-endorsement-first-endorsement-body']);
+    expect(source).toEqual(original);
+    source.formData.endorsementBody = 'Primary complete.';
+    source.formData.additionalEndorsements = [{ id: 'first-endorsement', endorsementBody: 'See enclosure (2).' }];
+    expect(additionalProofreadFindings(source).filter(f => f.id.includes('enclosure-citation')).map(f => f.target))
+      .toEqual([{ sectionId: 'signature', field: 'additional-endorsement-first-endorsement-body' }]);
+  });
+
+  it('retains the precise paragraph subfield for citation navigation', () => {
+    const findings = additionalProofreadFindings(draft({
+      paragraphs: [{ id: 'headed', header: '**enclosure** (2)', text: 'Body text.', level: 0 }],
+    }));
+    expect(findings.map(f => f.target)).toEqual([{ sectionId: 'body', paragraphId: 'headed', paragraphPath: ['header'] }]);
   });
 
 });

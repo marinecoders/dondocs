@@ -4,6 +4,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { canAppendEndorsement, ENDORSEMENT_ORDINALS, hasEndorsementContent, type AdditionalEndorsement } from '@/lib/appendedEndorsement';
+import { FIRST_ENDORSEMENT_EDITOR_ID, additionalEndorsementEditorId } from '@/lib/endorsementEditorIds';
 import { useDocumentStore } from '@/stores/documentStore';
 
 type Fields = Omit<AdditionalEndorsement, 'id'>;
@@ -78,7 +79,7 @@ export function AppendedEndorsementsEditor() {
     {formData.appendEndorsement && <div className="space-y-4 ml-6">
       <section aria-label="First endorsement" className="space-y-3">
         <h4 className="text-sm font-medium">FIRST ENDORSEMENT</h4>
-        <EndorsementFields id="first-endorsement" label="First endorsement" value={formData} update={setField}
+        <EndorsementFields id={FIRST_ENDORSEMENT_EDITOR_ID} label="First endorsement" value={formData} update={setField}
           from={formData.from} to={formData.to} />
       </section>
       <p className="text-xs text-muted-foreground">Additional endorsements begin on a new page. Empty drafts are omitted from exports.</p>
@@ -92,7 +93,7 @@ export function AppendedEndorsementsEditor() {
           <Button type="button" variant="ghost" size="sm" aria-label={`Remove ${label}`}
             onClick={() => setField('additionalEndorsements', extra.filter((item) => item.id !== entry.id))}>Remove</Button>
         </div>
-        <EndorsementFields id={entry.id} label={label} value={entry} from={formData.from} to={formData.to}
+        <EndorsementFields id={additionalEndorsementEditorId(entry.id)} label={label} value={entry} from={formData.from} to={formData.to}
           update={(field, value) => setField('additionalEndorsements', extra.map((item) =>
             item.id === entry.id ? { ...item, [field]: value } : item))} />
       </section>;
