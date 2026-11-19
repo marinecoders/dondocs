@@ -24,14 +24,32 @@ export type ExportControllerState =
   | { readonly phase: 'executing'; readonly job: PreparedExportJob; readonly execution: ExportExecutionState }
   | { readonly phase: 'error'; readonly target: ExportTarget; readonly message: string; readonly compileLog?: string; readonly retryable: boolean }
   | { readonly phase: 'success'; readonly job: PreparedExportJob };
-export interface ExportGate { acquire(): (() => void) | null }
+export interface ExportGate {
+  acquire(): (() => void) | null;
+  acquireWhenAvailable(signal: AbortSignal): Promise<() => void>;
+}
 export function createExportGate(): ExportGate {
   let owner: object | undefined;
-  return Object.freeze({ acquire: () => {
+  const waiting = new Set<() => void>();
+  const acquire = () => {
     if (owner) return null;
     const lease = {};owner = lease;
-    return () => { if (owner === lease) owner = undefined; };
-  } });
+    return () => {
+      if (owner !== lease) return;
+      owner = undefined;
+      for (const ready of [...waiting]) ready();
+    };
+  };
+  return Object.freeze({ acquire, acquireWhenAvailable: (signal: AbortSignal) => new Promise<() => void>((resolve, reject) => {
+    const cleanup = () => { waiting.delete(ready); signal.removeEventListener('abort', aborted); };
+    const aborted = () => { cleanup(); reject(signal.reason); };
+    const ready = () => {
+      if (signal.aborted) { aborted(); return; }
+      const release = acquire();
+      if (release) { cleanup(); resolve(release); }
+    };
+    waiting.add(ready); signal.addEventListener('abort', aborted, { once: true }); ready();
+  }) });
 }
 export interface ExportDeliveryLease {
   deliver(artifact: ExportArtifact): Promise<boolean | void>;

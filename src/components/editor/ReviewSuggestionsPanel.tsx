@@ -22,6 +22,7 @@ import {
 } from '@/lib/reviewSuggestions';
 
 interface Props {
+  compact?: boolean;
   round: ReviewRound;
   current: SerializedSession;
   state: ReviewSuggestionState;
@@ -33,10 +34,9 @@ interface Props {
 }
 
 /** The owning workspace supplies the shared persistence/return pipeline. */
-export function ReviewSuggestionsPanel({ round, current, state, owner, busy, onCreate, onDecide, onDraftChange }: Props) {
+export function ReviewSuggestionsPanel({ round, current, state, owner, busy, onCreate, onDecide, onDraftChange, compact = false }: Props) {
   const prefix = useId();
   const [typing, setTyping] = useState(false), [typedDirty, setTypedDirty] = useState(false);
-  useLayoutEffect(() => { onDraftChange?.(typedDirty);return () => onDraftChange?.(false); }, [typedDirty, onDraftChange]);
   const [author, setAuthor] = useState('');
   const [category, setCategory] = useState<FeedbackCategory>('edit');
   const [filter, setFilter] = useState<FeedbackFilter>('all');
@@ -57,6 +57,8 @@ export function ReviewSuggestionsPanel({ round, current, state, owner, busy, onC
   const targets = availableReviewSuggestionTargets(round);
   const baseTarget = targets.find(item => item.key === selected);
   const target = range ? { key: suggestionTargetKey(range), label: 'Selected text', target: range, value: range.context.slice(range.start, range.end) } : baseTarget;
+  const dirty = typedDirty || !typing && !!target && proposed !== target.value;
+  useLayoutEffect(() => { onDraftChange?.(dirty); return () => onDraftChange?.(false); }, [dirty, onDraftChange]);
   const selectable = baseTarget?.target.kind === 'paragraph' ? captureTextRange(round.baseline.session, baseTarget.target.paragraphId, 0, baseTarget.value.length) : null;
   // Alignment can exhaust its comparison budget for each proposal. Local form
   // input does not change the reviewed source or any retained decision.
@@ -103,7 +105,7 @@ export function ReviewSuggestionsPanel({ round, current, state, owner, busy, onC
 
   return <section aria-label="Review suggestions" className="space-y-4">
     <h3 className="font-medium">Suggested replacements</h3>
-    <p className="text-sm text-muted-foreground">Proposals keep the reviewed baseline unchanged. Only its source drafter can accept or reject them. Reviewer names and local decisions are not authenticated approvals.</p>
+    <p className="text-sm text-muted-foreground">{compact ? 'The package owner decides which changes to apply.' : 'Proposals keep the reviewed baseline unchanged. Only its source drafter can accept or reject them. Reviewer names and local decisions are not authenticated approvals.'}</p>
     <p ref={result} role="status" aria-label="Suggestion submission status" tabIndex={-1} className={notice ? 'text-sm' : 'sr-only'}>{notice}</p>
     {error && <p role="alert" className="text-sm text-destructive">{error}</p>}
     <form onSubmit={event => void add(event)} className="space-y-2 rounded-md border p-3">
@@ -150,13 +152,13 @@ export function ReviewSuggestionsPanel({ round, current, state, owner, busy, onC
         </>}
       </fieldset>
     </form>
-    <ParagraphStructureProposalsPanel round={round} author={author} category={category} busy={disabled || typedDirty} proposalCount={state.proposals.length} onCreate={onCreate} />
+    <details open={!compact}><summary hidden={!compact} className="cursor-pointer text-sm">Paragraph and formatting tools</summary><div className="mt-4 space-y-5"><ParagraphStructureProposalsPanel round={round} author={author} category={category} busy={disabled || typedDirty} proposalCount={state.proposals.length} onCreate={onCreate} />
     <ParagraphSplitJoinProposalsPanel round={round} disabled={disabled || typedDirty} quotaFull={state.proposals.length >= REVIEW_SUGGESTION_LIMITS.proposals} onCreate={onCreate} />
 
     <ParagraphMoveProposalsPanel round={round} author={author} category={category} busy={disabled || typedDirty} proposalCount={state.proposals.length} onCreate={onCreate} />
-    <MechanicalReviewProposalsPanel round={round} busy={disabled || typedDirty} proposalCount={state.proposals.length} onCreate={onCreate} />
+    <MechanicalReviewProposalsPanel round={round} busy={disabled || typedDirty} proposalCount={state.proposals.length} onCreate={onCreate} /></div></details>
     {!state.proposals.length && <p className="text-sm text-muted-foreground">No suggested replacements in this review.</p>}
-    <FeedbackCategorySelect label="Filter suggestion category" value={filter} onChange={setFilter} filter />
+    {(!compact || state.proposals.length > 0) && <FeedbackCategorySelect label="Filter suggestion category" value={filter} onChange={setFilter} filter />}
     {inspectedProposals.map(({ proposal, index, decision, acceptance, changes }) => {
       const stale = changes.some(change => change.stale);
       const currentMatches = changes.every(change => change.applied ?? change.current === (acceptance?.resolutions?.find(item => item.changeId === change.id)?.value ?? change.proposed));

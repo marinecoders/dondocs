@@ -3,7 +3,7 @@ import { reviewPackageAttachment } from './packageAttachmentCapabilities';
 import { assertPackageRequirementsReady } from './packageRequirements';
 import { assertPackageConsistencyReady } from './packageConsistency';
 import { z } from 'zod';
-import { actionPackageSchema, commitActionPackage, listActionPackages, newPackageId, packageAssets, packageReviewRevision, type ActionPackage, type PackageAsset } from './actionPackages';
+import { actionPackageSchema, commitActionPackage, listActionPackages, newPackageId, packageAssets, packageReviewRevision, type ActionPackage, type PackageAsset, type PackageReviewRound } from './actionPackages';
 import { openPackageReview, assertActivePackageReview } from './packageReviewRounds';
 import { createPackageMemberReview } from './packageMemberReviews';
 import { canonicalReviewPayload, reviewPayloadDigest } from './reviewRounds';
@@ -107,6 +107,11 @@ export async function inspectPackageReviewTransfer(parsed: Pick<ParsedPackageRev
 }
 export interface PreparedPackageReviewTransfer {
   readonly mode: 'copy' | 'return' | 'import'; readonly reviews: readonly ExportReview[]; readonly packageName: string;
+  readonly contents: readonly { readonly label: string; readonly retainedPdf: boolean }[];
+}
+function transferContents(round: PackageReviewRound) {
+  return Object.freeze([...round.baseline.members.map(member => Object.freeze({ label: member.label, retainedPdf: false })),
+    ...round.baseline.outputs.map(output => Object.freeze({ label: output.asset.name, retainedPdf: true }))]);
 }
 const preparations = new WeakMap<PreparedPackageReviewTransfer, { parsed: ParsedPackageReviewTransfer; json: string; policy: string; before?: ActionPackage }>();
 function policyIdentity(policy: PolicyResolution): string {
@@ -135,7 +140,7 @@ async function prepareBuild(input: ActionPackage, roundId: string, mode: 'copy' 
   const json = JSON.stringify({ kind: mode === 'copy' ? 'dondocs-package-review-copy' : 'dondocs-package-review-return',
     version: 1, id: newPackageId('package-feedback'), createdAt: Date.now(), package: record, portableResources });
   const parsed = await parsePackageReviewTransfer(json);
-  const prepared = Object.freeze({ mode, reviews: await inspectPackageReviewTransfer(parsed, policy), packageName: record.name });
+  const prepared = Object.freeze({ mode, reviews: await inspectPackageReviewTransfer(parsed, policy), packageName: record.name, contents: transferContents(parsed.round) });
   preparations.set(prepared, { parsed, json, policy: policyIdentity(policy), before });
   return prepared;
 }
@@ -145,7 +150,7 @@ export async function preparePackageReviewerImport(json: string, policy: PolicyR
   const parsed = await parsePackageReviewTransfer(json);
   if (parsed.payload.kind !== 'dondocs-package-review-copy') throw new Error('Choose a package reviewer copy. Returned feedback is reviewed by its owning package.');
   if ((await listActionPackages()).some(record => record.id === parsed.record.id)) throw new Error('This package identity already exists locally. Open the reviewer copy in an independent browser; it cannot overwrite or acquire owner authority.');
-  const prepared = Object.freeze({ mode: 'import' as const, reviews: await inspectPackageReviewTransfer(parsed, policy), packageName: parsed.record.name });
+  const prepared = Object.freeze({ mode: 'import' as const, reviews: await inspectPackageReviewTransfer(parsed, policy), packageName: parsed.record.name, contents: transferContents(parsed.round) });
   preparations.set(prepared, { parsed, json, policy: policyIdentity(policy) }); return prepared;
 }
 function checked(prepared: PreparedPackageReviewTransfer, policy: PolicyResolution) {

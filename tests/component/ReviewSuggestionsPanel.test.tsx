@@ -16,6 +16,17 @@ function props() {
   return { round, current, state: emptyReviewSuggestionState(round), owner: true, busy: false,
     onCreate: vi.fn().mockResolvedValue(true), onDecide: vi.fn().mockResolvedValue(true) };
 }
+it('protects a manual replacement draft until it is submitted or cancelled', async () => {
+  const input = props(), onDraftChange = vi.fn(), user = userEvent.setup();
+  render(<ReviewSuggestionsPanel {...input} compact onDraftChange={onDraftChange} />);
+  await user.selectOptions(screen.getByRole('combobox', { name: 'Suggestion target' }), 'field:to');
+  await user.clear(screen.getByRole('textbox', { name: 'Proposed replacement' }));
+  await user.type(screen.getByRole('textbox', { name: 'Proposed replacement' }), 'Unfinished recipient');
+  expect(onDraftChange).toHaveBeenLastCalledWith(true);
+  await user.click(screen.getByRole('button', { name: 'Cancel replacement' }));
+  expect(onDraftChange).toHaveBeenLastCalledWith(false);
+  expect(input.onCreate).not.toHaveBeenCalled();
+});
 it('distinguishes accepted paragraph identities from identical readable move text',()=>{
   const input=props();input.current.paragraphs=[{id:'first',text:'Repeated body.',level:0},{id:'second',text:'Repeated body.',level:0}];
   input.round.baseline.session=structuredClone(input.current);

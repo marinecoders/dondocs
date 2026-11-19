@@ -8,6 +8,19 @@ import { captureExportFormTemplates } from '@/services/exports/formTemplates';
 import { resolveExportDeploymentPolicy } from '@/lib/exportDeploymentPolicy';
 
 const policy = resolveExportDeploymentPolicy({ hostname: 'example.test', environment: null, runtime: { status: 'absent' } });
+it('queues a document preview behind an active render and removes cancelled waiters', async () => {
+  const gate = createExportGate(), release = gate.acquire()!;
+  const cancelled = new AbortController(), next = new AbortController();
+  const abandoned = gate.acquireWhenAvailable(cancelled.signal);
+  const rejected = expect(abandoned).rejects.toThrow('Preview cancelled');
+  cancelled.abort(new Error('Preview cancelled')); await rejected;
+  let acquired = false;
+  const pending = gate.acquireWhenAvailable(next.signal).then(unlock => { acquired = true; return unlock; });
+  await Promise.resolve(); expect(acquired).toBe(false);
+  release(); const unlock = await pending;
+  expect(gate.acquire()).toBeNull(); unlock();
+  const final = gate.acquire(); expect(final).not.toBeNull(); final!();
+});
 function intent(id = 'original', structure = false): ExportIntent {
   return { id, target: 'pdf', filename: `${id}.pdf`, captured: captureDocumentRevision({ documentId: id, epoch: 1, editSequence: 1, capturedAt: 1 }, {
     documentMode: 'compliant', documentCategory: 'correspondence', docType: 'naval_letter', formData: { subject: id },

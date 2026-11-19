@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useLayoutEffect, useRef, useState } from 'react';
 import { StructureReconciliationControls } from './editor/StructureReconciliationControls';
+import { PackageContentFindings } from './PackageExportFindings';
 import type { ReviewReturnConflict } from '@/lib/reviewCommentMerge';
 import { Button } from './ui/button';
 import type { ActionPackage, PackageReviewRound } from '@/lib/actionPackages';
@@ -19,7 +20,8 @@ function DiscussionValue({ value }: { value: ReviewReturnConflict['baseline'] })
   </div>;
 }
 
-export function PackageReviewApplicationPanel({ record, round, busy, run, onApply, isCurrent, signal }: {
+export function PackageReviewApplicationPanel({ record, round, busy, run, onApply, isCurrent, signal, workspace = false }: {
+  workspace?: boolean;
   record: ActionPackage; round: PackageReviewRound; busy: boolean; run(action: () => Promise<void>): Promise<void>;
   onApply(record: ActionPackage): void; isCurrent(): boolean; signal(): AbortSignal | undefined;
 }) {
@@ -27,6 +29,13 @@ export function PackageReviewApplicationPanel({ record, round, busy, run, onAppl
   const [preview, setPreview] = useState<PackageReviewReturnPreview | null>(null), [choices, setChoices] = useState<PackageFeedbackChoices>({});
   const [selectedRanges, setSelectedRanges] = useState<Record<string, { context: string; start: number; end: number }>>({});
   const [plan, setPlan] = useState<PackageReviewApplicationPlan | null>(null), [prepared, setPrepared] = useState<PreparedPackageReviewApplication | null>(null), [approved, setApproved] = useState(false);
+  const planResult = useRef<HTMLDivElement>(null), preparedResult = useRef<HTMLDivElement>(null);
+  const hasPlan = !!plan;
+  useLayoutEffect(() => {
+    if (!workspace) return;
+    const result = prepared ? preparedResult.current : planResult.current;
+    result?.scrollIntoView?.({ block: 'start' }); result?.focus({ preventScroll: true });
+  }, [workspace, hasPlan, prepared]);
   function update(next: PackageFeedbackChoices) {
     setChoices(next); setPrepared(null); setApproved(false);
     setError(null);
@@ -47,7 +56,7 @@ export function PackageReviewApplicationPanel({ record, round, busy, run, onAppl
         if (!isCurrent()) return;
         setPreview(value); setPlan(inspectPackageReviewApplication(value, {}, getExportDeploymentPolicySync()));
       }); }} /></label>
-    {plan && <div className="space-y-4">
+    {plan && <div ref={planResult} tabIndex={-1} className="space-y-4 outline-none">
       {plan.previews.map(member => <article key={member.memberId} className="space-y-2 rounded border p-2">
         <h4 className="font-medium break-words">{member.label} · {member.status}</h4>
         <p className="text-xs break-all">Reviewed member revision: {member.baseline.revisionId}<br />Current member revision: {member.current?.revisionId ?? 'Removed'}</p>
@@ -128,14 +137,14 @@ export function PackageReviewApplicationPanel({ record, round, busy, run, onAppl
         if (isCurrent()) { setPrepared(value); setApproved(false); }
       })}>Review new package revision</Button>
     </div>}
-    {prepared && <div className="space-y-3">
+    {prepared && <div ref={preparedResult} tabIndex={-1} className="space-y-3 outline-none">
       <p className="font-medium">Review the new package revision and retained feedback</p>
-      {prepared.reviews.map((review, index) => <div key={index} className="space-y-1 text-xs">
+      {workspace ? <PackageContentFindings reviews={prepared.reviews.map(review => ({ member: '', review }))} /> : prepared.reviews.map((review, index) => <div key={index} className="space-y-1 text-xs">
         {review.notices.map((notice, index) => <p key={index} className="whitespace-pre-wrap break-words">{notice}</p>)}
         {review.privacy.findings.map((finding, index) => <p key={index} className="whitespace-pre-wrap break-words">{finding.type}: {finding.value}</p>)}
       </div>)}
-      <label className="flex items-start gap-2 text-sm"><input type="checkbox" checked={approved} onChange={event => setApproved(event.target.checked)} />I reviewed the baseline, current content, returned proposals, discussion choices and privacy findings for this new revision.</label>
-      <Button disabled={busy || !approved} onClick={() => void run(async () => {
+      {!workspace && <label className="flex items-start gap-2 text-sm"><input type="checkbox" checked={approved} onChange={event => setApproved(event.target.checked)} />I reviewed the baseline, current content, returned proposals, discussion choices and privacy findings for this new revision.</label>}
+      <Button disabled={busy || !workspace && !approved} onClick={() => void run(async () => {
         const policy = await getExportDeploymentPolicy();
         const result = await applyPreparedPackageReviewApplication(prepared, policy, signal(), () => {
           const sync = getExportDeploymentPolicySync();

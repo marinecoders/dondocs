@@ -14,11 +14,12 @@ interface Props {
   run(action: () => Promise<void>): Promise<void>;
   signal(): AbortSignal | undefined; isCurrent(): boolean;
   onPreparedChange?(prepared: PreparedPackageDelivery | null): void;
+  directDownload?: boolean;
 }
 export function PackageDeliveryPanel(props: Props) {
   return <DeliveryProfile key={`${props.record.id}:${props.record.sequence}:${props.revision.id}`} {...props} />;
 }
-function DeliveryProfile({ record, revision, disabled, busy, ports, run, signal, isCurrent, onPreparedChange }: Props) {
+function DeliveryProfile({ record, revision, disabled, busy, ports, run, signal, isCurrent, onPreparedChange, directDownload = false }: Props) {
   const heading = useId(), [label, setLabel] = useState('Selected documents'), [purpose, setPurpose] = useState<PackageDeliverySelection['purpose']>('recipient');
   const [memberIds, setMemberIds] = useState<string[]>(() => revision.members.map(member => member.id));
   const [prepared, setPrepared] = useState<PreparedPackageDelivery | null>(null), [approved, setApproved] = useState(false), [pending, setPending] = useState(false), [error, setError] = useState('');
@@ -80,13 +81,13 @@ function DeliveryProfile({ record, revision, disabled, busy, ports, run, signal,
       </details>)}
       {prepared.reviews.length > reviewCount && <Button variant="outline" disabled={locked} onClick={() => setReviewCount(value => value + 10)}>Show more delivery reviews</Button>}
       <PackageDeliveryPreview key={prepared.revisionId} prepared={prepared} disabled={locked} run={run} signal={signal} isCurrent={isCurrent} />
-      <label className="flex items-start gap-2"><input type="checkbox" checked={approved} disabled={locked} onChange={event => setApproved(event.target.checked)} />I reviewed every included document, original PDF, file and privacy finding for this exact delivery.</label>
-      <Button className="h-auto min-h-9 max-w-full whitespace-normal" disabled={locked || !approved} onClick={() => void perform(async (current, operationSignal) => {
-        const bundle = await buildPackageDeliveryBundle(prepared, await getExportDeploymentPolicy(), approved, operationSignal, current);
+      {!directDownload && <label className="flex items-start gap-2"><input type="checkbox" checked={approved} disabled={locked} onChange={event => setApproved(event.target.checked)} />I reviewed every included document, original PDF, file and privacy finding for this exact delivery.</label>}
+      <Button className="h-auto min-h-9 max-w-full whitespace-normal" disabled={locked || !directDownload && !approved} onClick={() => void perform(async (current, operationSignal) => {
+        const bundle = await buildPackageDeliveryBundle(prepared, await getExportDeploymentPolicy(), directDownload || approved, operationSignal, current);
         if (current()) { assertPackageDeliveryPolicy(prepared, getExportDeploymentPolicySync()); triggerDownload(bundle.bytes, bundle.filename, 'application/zip'); }
       })}>Download reviewed delivery bundle</Button>
-      <Button className="h-auto min-h-9 max-w-full whitespace-normal" variant="outline" disabled={locked || !approved} onClick={() => void perform(async (current, operationSignal) => {
-        const json = await buildPackageDeliveryFile(prepared, await getExportDeploymentPolicy(), approved, operationSignal, current);
+      <Button className="h-auto min-h-9 max-w-full whitespace-normal" variant="outline" disabled={locked || !directDownload && !approved} onClick={() => void perform(async (current, operationSignal) => {
+        const json = await buildPackageDeliveryFile(prepared, await getExportDeploymentPolicy(), directDownload || approved, operationSignal, current);
         if (current()) { assertPackageDeliveryPolicy(prepared, getExportDeploymentPolicySync()); triggerDownload(new TextEncoder().encode(json), 'selected-delivery.dondocs-package.json', 'application/json'); }
       })}>Download reviewed delivery package</Button>
     </section>}
