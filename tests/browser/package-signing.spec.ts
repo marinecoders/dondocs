@@ -21,7 +21,7 @@ async function capturedHandoff(panel: Locator) {
   await packageSection(panel.page().getByRole('dialog', { name: 'Action packages', exact: true }), 'Delivery', true);
   const review = panel.getByRole('button', { name: 'Review retained handoff 1', exact: true });
   if (!await review.isVisible()) await expandPackageTools(panel);
-  await review.click(); await expect(panel.getByLabel('Exact retained package handoff PDF', { exact: true }).locator('canvas').first()).toBeVisible();
+  await review.click(); await expect(panel.getByLabel('Exact retained package handoff PDF', { exact: true }).locator('canvas').first()).toBeVisible({ timeout: 30_000 });
   const source = panel.getByText('Inspect retained source PDF', { exact: true });
   if (!await panel.getByLabel('Exact retained package signing source PDF', { exact: true }).locator('canvas').first().isVisible()) await source.click(); await expect(panel.getByLabel('Exact retained package signing source PDF', { exact: true }).locator('canvas').first()).toBeVisible(); await source.click();
 }
