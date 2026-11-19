@@ -103,6 +103,9 @@ export async function selectedPackageId(dialog: Locator) {
 }
 
 export async function versionCount(dialog: Locator) {
+  // Read the completed operation's history. Dirty drafts may still leave the
+  // revision picker read-only, so do not require it to be enabled just to count.
+  await expect(dialog).toHaveAttribute('aria-busy', 'false');
   await dialog.getByRole('button', { name: 'Version history', exact: true }).click();
   const history = dialog.page().getByRole('dialog', { name: 'Version history', exact: true });
   const count = await history.getByLabel('Package revision', { exact: true }).getByRole('option').count();
