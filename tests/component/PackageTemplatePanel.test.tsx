@@ -1,3 +1,4 @@
+import { openSavedPackage, expandDetails } from "../helpers/packageWorkspace";
 import 'fake-indexeddb/auto';
 import { beforeEach, expect, it, vi } from 'vitest';
 import { render, screen, within, waitFor } from '@testing-library/react';
@@ -18,7 +19,7 @@ vi.mock('@/lib/pdfText', () => ({ extractPdfText: vi.fn(async () => '') }));
 vi.mock('@/stores/backupStore', () => ({ scheduleBackup: vi.fn() }));
 vi.mock('@/config/classification', async importOriginal => ({ ...(await importOriginal<typeof import('@/config/classification')>()),
   getExportDeploymentPolicy: async () => policy, getExportDeploymentPolicySync: () => policy }));
-beforeEach(() => { useUIStore.setState({ actionPackagesOpen: true, isMobile: false, actionPackageSelectionId: null }); });
+beforeEach(() => { localStorage.clear(); useUIStore.setState({ actionPackagesOpen: true, isMobile: false, actionPackageSelectionId: null }); });
 async function setup() {
   const pdf = await PDFDocument.create(); pdf.addPage([612, 792]); const bytes = await pdf.save();
   const session = createBlankSession(); session.formData.subject = 'Action {{NAME}}';
@@ -30,9 +31,7 @@ async function setup() {
   const user = userEvent.setup();
   render(<ActionPackageWorkspace exportGate={createExportGate()} ports={{ compile: vi.fn(), convertDocx: vi.fn(), waitForReady: async () => true }} />);
   const dialog = screen.getByRole('dialog', { name: 'Action packages' });
-  await within(dialog).findByRole('option', { name: record.name });
-  await user.selectOptions(within(dialog).getByLabelText('Saved packages', { exact: true }), record.id);
-  await user.click(within(dialog).getByText('Reusable package templates', { selector: 'summary' }));
+  await openSavedPackage(dialog, record, user); await expandDetails(dialog, user);
   const panel = await within(dialog).findByRole('region', { name: 'Reusable package templates' });
   await waitFor(() => expect(within(panel).getByLabelText('Template name', { exact: true })).toBeEnabled());
   await user.type(within(panel).getByLabelText('Template name', { exact: true }), `Starter ${crypto.randomUUID()}`);

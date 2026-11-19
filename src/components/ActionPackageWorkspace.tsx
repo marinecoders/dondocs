@@ -1,6 +1,14 @@
 import type { PackageSearchScope } from './PackageSearchPanel';
 import { PackageReviewControls } from "./PackageReviewControls";
-import { PackageMemberNavigation, PackageWorkspaceNavigation, PackageWorkspaceSummary } from "./PackageWorkspaceNavigation";
+import { PackageMemberNavigation, PackageWorkspaceNavigation } from "./PackageWorkspaceNavigation";
+import { PackageLibrary } from "./PackageLibrary";
+import { PackageNextActions } from "./PackageNextActions";
+import { PackageDocumentPreview } from "./PackageDocumentPreview";
+import { PackageExportOptions } from "./PackageExportOptions";
+import { PackageExportFindings } from "./PackageExportFindings";
+import { readPackageNewActionContext } from '@/lib/packageNewActionContext';
+import './package-workspace.css';
+import { ArrowLeft, X } from 'lucide-react';
 import { readPackageWorkspaceContext, rememberPackageWorkspaceContext, type PackageWorkspaceSection } from "@/lib/packageWorkspaceContext";
 import { startPackageReview, openPackageReview, transitionPackageReview } from "@/lib/packageReviewRounds";
 import type { PackageReviewRound } from "@/lib/actionPackages";
@@ -102,6 +110,10 @@ type Ports = CorrespondenceRendererPorts & {
 const PackageMemberReviewPanel = lazy(() => import("./PackageMemberReviewPanel").then(module => ({ default: module.PackageMemberReviewPanel })));
 const PackageReviewApplicationPanel = lazy(() => import("./PackageReviewApplicationPanel").then(module => ({ default: module.PackageReviewApplicationPanel })));
 const PackageReviewTransfer = lazy(() => import("./PackageReviewTransfer").then(module => ({ default: module.PackageReviewTransfer })));
+const packageRoleLabels: Record<PackageMember['role'], string> = {
+  'basic-letter': 'Main letter', endorsement: 'Endorsement', 'coordination-sheet': 'Coordination sheet',
+  'supporting-document': 'Supporting document', enclosure: 'Enclosure',
+};
 
 export function ActionPackageWorkspace({
   ports,
@@ -156,19 +168,27 @@ function PackageDialog({
     if (signingDirty) { setError("Capture or discard the prepared signing changes before closing this package."); return; }
     if (workDirty) { setError("Save or discard the task changes before closing this package."); return; }
     if (consistencyDirty) { setError("Save or discard the relationship changes before closing this package."); return; }
-    if (intakeDirty) { setError("Save, apply or discard the intake changes before closing this package."); return; }
+    if (intakeDirty && !intakeRecoverable) { setError("Save, apply or discard the intake changes before closing this package."); return; }
     if (requirementsDirty) { setError("Save or discard the requirement changes before closing this package."); return; }
     if (starterDirty) { setError("Create or cancel the request starter before closing this package."); return; }
-    if (informationDirty) { setError(UNSAVED_PACKAGE_INFORMATION); return; }
+    if (informationDirty && !informationRecoverable) { setError(UNSAVED_PACKAGE_INFORMATION); return; }
     if (typedDirty) { setError("Save or cancel the unfinished feedback before closing this package review."); return; }
     operation.current?.abort();
     active.current = false;
     onClose();
   }
   const [savedWorkspace] = useState(readPackageWorkspaceContext);
-  const [workspaceSection, setWorkspaceSection] = useState<PackageWorkspaceSection>(savedWorkspace?.section ?? "overview");
+  const [unfinishedAction] = useState(readPackageNewActionContext);
+  const [libraryOpen, setLibraryOpen] = useState(false);
+  const [creating, setCreating] = useState(() => !!unfinishedAction && !useUIStore.getState().actionPackageSelectionId);
+  const [creatingAction, setCreatingAction] = useState(false);
+  const [historyOpen, setHistoryOpen] = useState(false);
+  const [deliveryFormat, setDeliveryFormat] = useState<'pdf' | 'editable'>('pdf');
+  const [workspaceSection, setWorkspaceSection] = useState<PackageWorkspaceSection>(unfinishedAction ? 'overview' : savedWorkspace?.section ?? "overview");
   const [activeMemberId, setActiveMemberId] = useState<string | null>(savedWorkspace?.memberId ?? null);
   const overviewRef = useRef<HTMLDivElement>(null);
+  const mainScroll = useRef<HTMLElement>(null);
+  const preparedResultRef = useRef<HTMLDivElement>(null);
   const dialogRoot = useRef<HTMLDivElement>(null), destinationOwner = useRef(''), destinationSequence = useRef(0);
   const [destination, setDestination] = useState<PackageDestinationRequest>();
   const documentsRef = useRef<HTMLDivElement>(null);
@@ -197,6 +217,7 @@ function PackageDialog({
   const nameTooLong = name.trim().length > 120;
   const validName = !!name.trim() && !nameTooLong;
   const [informationDirty, setInformationDirty] = useState(false);
+  const [informationRecoverable, setInformationRecoverable] = useState(false), [intakeRecoverable, setIntakeRecoverable] = useState(false);
   const [starterDirty, setStarterDirty] = useState(false);
   const [intakeDirty, setIntakeDirty] = useState(false), [requirementsDirty, setRequirementsDirty] = useState(false);
   const [consistencyDirty, setConsistencyDirty] = useState(false);
@@ -239,16 +260,18 @@ function PackageDialog({
   useEffect(() => {
     if (!informationDirty) setError(previous => previous === UNSAVED_PACKAGE_INFORMATION ? "" : previous);
   }, [informationDirty]);
+  useEffect(() => {
+    if (informationRecoverable || intakeRecoverable) setError(previous =>
+      informationRecoverable && previous === UNSAVED_PACKAGE_INFORMATION || intakeRecoverable && previous === 'Save, apply or discard the intake changes before closing this package.' ? '' : previous);
+  }, [informationRecoverable, intakeRecoverable]);
   const [openedReview, setOpenedReview] = useState<PackageReviewRound | null>(null);
+  const [reviewCopyRequest, setReviewCopyRequest] = useState<string | null>(null);
   const [shareOpen, setShareOpen] = useState(false);
   const [encryptedImport, setEncryptedImport] = useState<string | null>(null);
   const requestedPackageId = useUIStore(state => state.actionPackageSelectionId);
   const requestedRevisionId = useUIStore(state => state.actionPackageSelectionRevisionId);
   const inventoryLoaded = useRef(false);
-  const [prepared, setPrepared] = useState<PreparedPackageAssembly | null>(
-      null,
-    ),
-    [approved, setApproved] = useState(false);
+  const [prepared, setPrepared] = useState<PreparedPackageAssembly | null>(null);
   const [reviewMode, setReviewMode] = useState<
     "assemble" | "portable" | "saved" | "preview" | "original" | "compare"
   >("assemble");
@@ -275,6 +298,7 @@ function PackageDialog({
   const editable =
     !!record && !record.reviewRounds?.some(round => round.ownerPackageId === undefined) && !openedReview && revision?.id === record.currentRevisionId && !record.archived;
   const selectedMember = revision?.members.find(member => member.id === activeMemberId) ?? revision?.members[0];
+  const library = libraryOpen || !record && !creating;
   const selectedRetainedOutput = selectedRetainedOutputId
     ? revision?.outputs.find(output => output.id === selectedRetainedOutputId) : revision?.outputs.at(-1);
   const missingRetainedOutput = !!selectedRetainedOutputId && !selectedRetainedOutput;
@@ -311,12 +335,12 @@ function PackageDialog({
               : target.memberId ? selected.members.some(item => item.id === target.memberId) : true;
     if (!valid) { setNotice("That item is not available in the selected saved revision."); return; }
     if (selected.id !== revision.id) {
-      setOpenedReview(null); setRevisionId(selected.id); setPrepared(null); setApproved(false); setComparison(null);
+      setOpenedReview(null); setRevisionId(selected.id); setPrepared(null);  setComparison(null);
       setRenderComparison(null); setBeforeOutputId(""); setAfterOutputId(""); setPdfUrl("");
       setSelectedRetainedOutputId("");
     }
     if (target.outputId) {
-      setSelectedRetainedOutputId(target.outputId); setPrepared(null); setApproved(false); setPdfUrl("");
+      setSelectedRetainedOutputId(target.outputId); setPrepared(null);  setPdfUrl("");
     }
     if (target.memberId && !target.factId && !target.bindingId && !target.requirementId) setActiveMemberId(target.memberId);
     const section = target.signingId ? "delivery" : target.factId || target.bindingId || target.requirementId ? "overview" : target.panel ? target.section ?? (target.panel === "signing" ? "delivery" : "overview")
@@ -350,17 +374,31 @@ function PackageDialog({
     const target = savedWorkspace.section === "documents"
       ? document.getElementById(`package-member-${savedWorkspace.memberId}`) ?? documentsRef.current
       : savedWorkspace.section === "delivery" ? deliveryRef.current : savedWorkspace.section === "review" ? reviewRef.current : overviewRef.current;
-    target?.scrollIntoView?.({ block: "start" });
     target?.focus({ preventScroll: true });
   }, [loaded, savedWorkspace, requestedPackageId]);
   function navigate(section: PackageWorkspaceSection) {
+    setLibraryOpen(false);
     setWorkspaceSection(section);
-    const target = section === "documents"
-      ? document.getElementById(`package-member-${selectedMember?.id}`) ?? documentsRef.current
-      : section === "delivery" ? deliveryRef.current : section === "review" ? reviewRef.current : overviewRef.current;
-    target?.scrollIntoView?.({ block: "start" });
-    target?.focus({ preventScroll: true });
   }
+  function continueEditing() {
+    const panel = rosterDirty ? 'roster' : templateDirty ? 'templates' : upgradeDirty ? 'upgrades'
+      : typedDirty ? 'member-review' : signingDirty ? 'signing' : assemblyDirty ? 'assembly'
+        : evidenceDirty ? 'evidence' : scanDirty ? 'scans' : informationDirty ? 'information'
+          : starterDirty ? 'request-starter' : intakeDirty ? 'intake' : requirementsDirty ? 'requirements'
+            : consistencyDirty ? 'consistency' : 'work';
+    setLibraryOpen(rosterDirty || templateDirty);
+    setWorkspaceSection(typedDirty ? 'review' : signingDirty || assemblyDirty ? 'delivery' : evidenceDirty || scanDirty ? 'documents' : 'overview');
+    requestAnimationFrame(() => {
+      if (active.current) focusPackageDestination(dialogRoot.current, 'data-package-panel', panel);
+    });
+  }
+  useLayoutEffect(() => {
+    mainScroll.current?.scrollTo?.({ top: 0 });
+    if (library) return;
+    const target = workspaceSection === 'documents' ? document.getElementById(`package-member-${selectedMember?.id}`) ?? documentsRef.current
+      : workspaceSection === 'delivery' ? deliveryRef.current : workspaceSection === 'review' ? reviewRef.current : overviewRef.current;
+    target?.focus({ preventScroll: true });
+  }, [workspaceSection, selectedMember?.id, library, selectedId, creating]);
   function inspectMember(memberId: string) {
     setActiveMemberId(memberId); setWorkspaceSection("documents");
     const target = document.getElementById(`package-member-${memberId}`);
@@ -386,7 +424,7 @@ function PackageDialog({
           setLoaded(true);
           inventoryLoaded.current = true;
           const explicit = records.find(record => record.id === requestedPackageId);
-          const requested = explicit ?? (!requestedPackageId ? records.find(record => record.id === savedWorkspace?.packageId) : undefined);
+          const requested = explicit ?? (!requestedPackageId && !creating ? records.find(record => record.id === savedWorkspace?.packageId) : undefined);
           if (requested) {
             setOpenedReview(null);
             setSelectedId(requested.id);
@@ -395,11 +433,12 @@ function PackageDialog({
             const restoredRevision = !explicit && requested.revisions.some(revision => revision.id === savedWorkspace?.revisionId)
               ? savedWorkspace!.revisionId : requested.currentRevisionId;
             setRevisionId(requestedRevisionId ?? restoredRevision);
-            if (explicit) { setWorkspaceSection("overview"); setActiveMemberId(null); }
+            const returningToDocument = explicit && savedWorkspace?.packageId === explicit.id && savedWorkspace.revisionId === requestedRevisionId && savedWorkspace.section === 'documents';
+            if (explicit && !returningToDocument) { setWorkspaceSection("overview"); setActiveMemberId(null); }
             setName(requested.name);
             setPrepared(null);
             setOriginal(null);
-            setApproved(false);
+
             setComparison(null);
             setPdfUrl("");
             setBeforeOutputId("");
@@ -416,14 +455,27 @@ function PackageDialog({
     return () => {
       live = false;
     };
-  }, [requestedPackageId, requestedRevisionId, typedDirty, informationDirty, starterDirty, intakeDirty, requirementsDirty, consistencyDirty, workDirty, pendingPackageEdits, savedWorkspace]);
+  }, [requestedPackageId, requestedRevisionId, typedDirty, informationDirty, starterDirty, intakeDirty, requirementsDirty, consistencyDirty, workDirty, pendingPackageEdits, savedWorkspace, creating]);
   useEffect(
     () => () => {
       if (pdfUrl) URL.revokeObjectURL(pdfUrl);
     },
     [pdfUrl],
   );
+  useLayoutEffect(() => {
+    if (workspaceSection !== 'delivery' || library) return;
+    if (pdfUrl) {
+      mainScroll.current?.scrollTo?.({ top: 0 }); deliveryRef.current?.focus({ preventScroll: true });
+      return;
+    }
+    if (!prepared) return;
+    preparedResultRef.current?.scrollIntoView?.({ block: 'start' });
+    preparedResultRef.current?.focus({ preventScroll: true });
+  }, [prepared, pdfUrl, workspaceSection, library]);
   function select(value: ActionPackage) {
+    setReviewCopyRequest(null);
+    setLibraryOpen(false);
+    setCreating(false);
     setDestination(undefined);
     if (value.id !== selectedId) { setActiveMemberId(null); setWorkspaceSection("overview"); }
     setOpenedReview(null);
@@ -435,11 +487,32 @@ function PackageDialog({
     setOriginal(null);
     setComparison(null);
     setPdfUrl("");
-    setApproved(false);
+
     setBeforeOutputId("");
     setAfterOutputId("");
     setSelectedRetainedOutputId("");
     setRenderComparison(null);
+  }
+  function startNewPackage() {
+    if (busy || pendingPackageEdits) return;
+    operation.current?.abort();
+    setSelectedId(''); setRevisionId(''); setOpenedReview(null);
+    setName(''); setPrepared(null); setPdfUrl(''); setOriginal(null); setComparison(null);
+    setWorkspaceSection('overview'); setLibraryOpen(false); setCreatingAction(false); setCreating(true);
+    setError(''); setNotice('');
+  }
+  function changeRevision(id: string) {
+    if (busy || pendingPackageEdits) return;
+    setDestination(undefined); setOpenedReview(null); setRevisionId(id);
+    setSelectedRetainedOutputId(''); setPrepared(null);  setComparison(null);
+    setPdfUrl(''); setBeforeOutputId(''); setAfterOutputId(''); setRenderComparison(null);
+    setHistoryOpen(false);
+    mainScroll.current?.scrollTo?.({ top: 0 });
+  }
+  function cancelExport() {
+    setPrepared(null); setOriginal(null); setOtherReviews([]); setError(''); setNotice('');
+    setPdfUrl(''); setComparison(null); setRenderComparison(null);
+    mainScroll.current?.scrollTo?.({ top: 0 }); deliveryRef.current?.focus({ preventScroll: true });
   }
   function update(value: ActionPackage) {
     assertOperationCurrent();
@@ -462,7 +535,7 @@ function PackageDialog({
       if (!active.current || controller.signal.reason === RECEIVED_PACKAGE_SELECTION) return;
       if (controller.signal.aborted) {
         setPrepared(null);
-        setApproved(false);
+
       }
       setError(
         controller.signal.aborted
@@ -494,6 +567,8 @@ function PackageDialog({
   }
   async function review(mode: typeof reviewMode) {
     if (!record || !revision) return;
+    setWorkspaceSection('delivery');
+    setDeliveryFormat(mode === 'portable' ? 'editable' : 'pdf');
     if (mode === "saved" || mode === "preview") requireRetainedOutput();
     if (mode === "compare") {
       if (!beforeComparisonId || !afterComparisonId || beforeComparisonId === afterComparisonId)
@@ -511,13 +586,15 @@ function PackageDialog({
       : await preparePackageAssembly(readRecord!, revision.id, policy, { includeRetainedDraftText: mode === "portable" });
     assertOperationCurrent();
     setOtherReviews([]);
+    setPdfUrl('');
     setReviewMode(mode);
     setPrepared(result);
-    setApproved(false);
+
   }
   async function reviewOriginal(
     member: Exclude<PackageMember, { kind: "native" }>,
   ) {
+    setWorkspaceSection('delivery');
     const policy = await getExportDeploymentPolicy();
     if (policy.status !== 'ready') throw new Error(policy.message);
     const bytes = await readPackageAsset(member.original);
@@ -525,10 +602,11 @@ function PackageDialog({
       ? (await (await import("@/lib/packageAttachmentCapabilities")).reviewPackageAttachment(member.original, bytes, policy, operation.current?.signal)).review
       : await reviewPackageOriginal(bytes, `${member.label}: ${member.original.name}`, policy);
     assertOperationCurrent();
+    setPdfUrl('');
     setOriginal({ asset: member.original, bytes, policyIdentity: policy.policy.identity, owner: selectionOwner });
     setReviewMode("original");
     setOtherReviews([]);
-    setApproved(false);
+
     setPrepared({
       purpose: "pdf",
       revisionId: revision!.id,
@@ -549,8 +627,8 @@ function PackageDialog({
       : "This revision has no retained PDF.");
     return selectedRetainedOutput;
   }
-  async function deliver() {
-    if (!record || !revision || !prepared || !approved) return;
+  async function deliver(reviewed: boolean) {
+    if (!record || !revision || !prepared || !reviewed) return;
     assertOperationCurrent();
     if (reviewMode === "compare") {
       assertPreparedPackagePolicy(prepared, await getExportDeploymentPolicy());
@@ -636,122 +714,76 @@ function PackageDialog({
       setRevisionId(revision.id);
       setSelectedRetainedOutputId(output.id);
       await previewAsset(output.asset);
-      setNotice(`Assembled PDF retained. SHA-256: ${output.asset.sha256}`);
+      const bytes = await readPackageAsset(output.asset);
+      assertOperationCurrent(); assertPreparedPackagePolicy(prepared, getExportDeploymentPolicySync());
+      triggerDownload(new Uint8Array(bytes), output.asset.name, output.asset.type);
+      setNotice('PDF downloaded. A copy is kept with this version.');
     }
     setPrepared(null);
-    setApproved(false);
+
   }
   const comparedSource = comparison?.source;
-  return (
-    <><Dialog
-      open
-      onOpenChange={(value) => {
-        if (!value) close();
-      }}
-    >
-      <DialogContent ref={dialogRoot} className="p-3 sm:max-w-6xl sm:p-6" aria-busy={busy} showCloseButton={!pendingPackageEdits}>
-        <DialogHeader>
-          <DialogTitle>Action packages</DialogTitle>
-          <DialogDescription>
-            Preserve editable members, original files and assembled PDFs by
-            revision. Review linked citation reorders before saving a new revision.
-          </DialogDescription>
-        </DialogHeader>
-        <PackageWorkspaceNavigation active={workspaceSection} hasPackage={!!record} disabled={busy || pendingPackageEdits} onNavigate={navigate} />
-        <div ref={overviewRef} tabIndex={-1} className="min-w-0 scroll-mt-4 space-y-4">
-        {record && revision && <PackageWorkspaceSummary record={record} revision={revision} />}
-
-        {error && (
-          <p role="alert" className="break-words text-sm text-destructive">
-            {error}
-          </p>
-        )}
-        {notice && (
-          <p role="status" className="break-all text-sm">
-            {notice}
-          </p>
-        )}
-        <fieldset disabled={!loaded || busy || pendingPackageEdits} className="min-w-0 scroll-mt-4 space-y-4">
-          <legend className="mb-2 text-sm font-medium">Start or open a package</legend>
-          <div className="grid min-w-0 gap-3 sm:grid-cols-2">
-          <label className="block text-sm">
-            Saved packages
-            <select
-              aria-label="Saved packages"
-              className="mt-1 w-full rounded border bg-background p-2"
-              value={selectedId}
-              onChange={(event) => {
-                const found = records.find(
-                  (record) => record.id === event.target.value,
-                );
-                if (found) select(found);
-              }}
-            >
-              <option value="">Choose a package</option>
-              {records.map((record) => (
-                <option value={record.id} key={record.id}>
-                  {record.name}
-                  {record.archived ? " (archived)" : ""}
-                </option>
-              ))}
-            </select>
-          </label>
-          {record && revision && <>
-              <label className="block text-sm">
-                Package revision
-                <select
-                  aria-label="Package revision"
-                  className="mt-1 w-full rounded border bg-background p-2"
-                  value={revision.id}
-                  onChange={(event) => {
-                    setDestination(undefined);
-                    setOpenedReview(null);
-                    setRevisionId(event.target.value);
-                    setSelectedRetainedOutputId("");
-                    setPrepared(null);
-                    setApproved(false);
-                    setComparison(null);
-                    setPdfUrl("");
-                    setBeforeOutputId("");
-                    setAfterOutputId("");
-                    setRenderComparison(null);
-                  }}
-                >
-                  {[...record.revisions].reverse().map((revision, index) => (
-                    <option key={revision.id} value={revision.id}>
-                      {record.historyScope === "selected-revision" ? `Saved revision ${revision.id.slice(-8)}` : `Revision ${record.revisions.length - index}`} ·{" "}
-                      {new Date(revision.createdAt).toLocaleString()}
-                      {revision.id === record.currentRevisionId
-                        ? " (current)"
-                        : ""}
-                    </option>
-                  ))}
-                </select>
-              </label>
-          </>}
-          </div>
-          {record && revision && <>
-              <p className="text-xs text-muted-foreground break-all">
-                Revision ID: {revision.id}. Source changes never update captured
-                members automatically. Signed originals remain separate;
-                assembled output has no inherited signature or approval.
-              </p>
-          </>}
-        </fieldset>
-        <Suspense fallback={<p>Loading action intake…</p>}>
-          <PackageIntakePanel record={record} revision={revision ?? undefined} editable={editable} disabled={!loaded || typedDirty || informationDirty || starterDirty || requirementsDirty || consistencyDirty || workDirty || signingDirty || assemblyDirty || evidenceDirty || scanDirty || templateDirty || upgradeDirty || rosterDirty}
-            busy={busy} run={run} onApply={update} onDirtyChange={setIntakeDirty}
-            signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted} />
-        </Suspense>
-        <details className="min-w-0 rounded border p-3">
-          <summary className="cursor-pointer text-sm font-medium">Quick request starter{starterDirty ? " · unsaved" : ""}</summary>
-        <Suspense fallback={<p>Loading request starter…</p>}>
-          <AdministrativeRequestStarter disabled={!loaded || typedDirty || informationDirty || intakeDirty || requirementsDirty || consistencyDirty || workDirty || signingDirty || assemblyDirty || evidenceDirty || scanDirty || templateDirty || upgradeDirty || rosterDirty} busy={busy} run={run}
-            signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted}
-            onDirtyChange={setStarterDirty} onCreate={value => { update(value); setNotice("Request package created. Review its letter and worksheet before submission."); }} />
-        </Suspense>
+  return <>
+    <Dialog open onOpenChange={value => { if (!value) close(); }}>
+      <DialogContent fullscreen showCloseButton={false} ref={dialogRoot} className="package-workspace-dialog" aria-busy={busy}>
+        <DialogHeader className="sr-only"><DialogTitle>Action packages</DialogTitle><DialogDescription>Package documents, review and delivery.</DialogDescription></DialogHeader>
+        <div className="package-workspace-appbar">
+          <img src={`${import.meta.env.BASE_URL}attachments/marine-coders-logo.svg`} alt="Marine Coders" className="h-7 w-9 object-contain brightness-0 dark:invert" />
+          <span className="text-sm font-semibold">DonDocs</span><span className="text-muted-foreground">/</span>
+          {library ? <span className="text-sm">Packages</span> : <Button variant="ghost" size="sm" aria-label="Back to packages" disabled={busy} onClick={() => { setLibraryOpen(true); setError(''); setNotice(''); }}><ArrowLeft aria-hidden="true" className="size-4" />Packages</Button>}
+          <Button variant="ghost" size="sm" className="ml-auto" onClick={close}>Close<X aria-hidden="true" className="size-4" /></Button>
+        </div>
+        <div className="package-workspace-layout" style={library || creating ? { gridTemplateColumns: 'minmax(0, 1fr)' } : undefined}>
+          <aside hidden={library || creating} className="package-workspace-sidebar">
+            <PackageWorkspaceNavigation active={workspaceSection} hasPackage={!!record && !library && !creating} disabled={busy || library || creating} onNavigate={navigate} />
+            {record && !library && <Button variant="ghost" className="package-workspace-history" onClick={() => setHistoryOpen(true)}>Version history</Button>}
+          </aside>
+          <main ref={mainScroll} className="package-workspace-main">
+            <div className="package-workspace-content">
+              <div className="package-workspace-feedback" aria-live="polite">
+                {error && <p role="alert" className="break-words text-sm text-destructive">{error}</p>}
+                {notice && <p role="status" className="break-words text-sm">{notice}</p>}
+                {busy && <div className="flex items-center justify-between gap-4"><span role="status" className="text-sm">Preparing package content…</span><Button variant="outline" size="sm" onClick={() => operation.current?.abort()}>Cancel operation</Button></div>}
+              </div>
+              <div hidden={!library} className="package-workspace-page">
+                {pendingPackageEdits && <div role="status" className="mb-7 flex flex-wrap items-center justify-between gap-4 rounded-md bg-muted px-4 py-3 text-sm"><span>Finish your edits before opening another package.</span><Button variant="outline" size="sm" onClick={continueEditing}>Continue editing</Button></div>}
+                <PackageLibrary records={records} loaded={loaded} disabled={busy || pendingPackageEdits} onOpen={select} onCreate={startNewPackage} />
+                <details className="mt-10 border-t pt-5"><summary className="text-sm">Advanced</summary><div className="mt-5 space-y-5"><details className="min-w-0 rounded border p-2 sm:p-3">
+          <summary className="cursor-pointer text-sm font-medium">Maintain package templates{templateDirty ? " · editing separate revision" : ""}</summary>
+          <div tabIndex={-1} data-package-panel="templates" className="min-w-0 pt-3"><Suspense fallback={<p role="status">Opening template maintenance…</p>}>
+            <PackageTemplateMaintenancePanel key={`maintenance:${record?.id ?? "library"}:${revision?.id ?? "none"}`} disabled={!loaded || typedDirty || informationDirty || starterDirty || intakeDirty || requirementsDirty || consistencyDirty || workDirty || signingDirty || assemblyDirty || evidenceDirty || scanDirty || upgradeDirty || rosterDirty}
+              busy={busy} run={run} onDirtyChange={setTemplateDirty} signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted}
+              onSaved={() => setNotice("Separate maintained template saved. Choose it from the action intake template list.")} />
+          </Suspense></div>
         </details>
-        <fieldset disabled={!loaded || busy || pendingPackageEdits} className="min-w-0 scroll-mt-4 space-y-4">
+<details className="min-w-0 rounded border p-2 sm:p-3">
+          <summary className="cursor-pointer text-sm font-medium">Packages from a roster{rosterDirty ? " · unsaved inputs" : ""}</summary>
+          <div tabIndex={-1} data-package-panel="roster" className="min-w-0 pt-3"><Suspense fallback={<p role="status">Opening package rosters…</p>}>
+            <PackageRosterPanel disabled={!loaded || typedDirty || informationDirty || starterDirty || intakeDirty || requirementsDirty || consistencyDirty || workDirty || signingDirty || assemblyDirty || evidenceDirty || scanDirty || templateDirty || upgradeDirty}
+              busy={busy} run={run} onDirtyChange={setRosterDirty} signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted}
+              onCreated={created => setRecords(previous => [created, ...previous.filter(item => item.id !== created.id)])}
+              onOpenPackage={created => { update(created); setWorkspaceSection("overview"); requestAnimationFrame(() => { if (active.current) { overviewRef.current?.scrollIntoView({ block: "start" }); overviewRef.current?.focus({ preventScroll: true }); } }); }} />
+          </Suspense></div>
+        </details></div></details>
+              </div>
+              <div hidden={library}>
+                <header className="mb-8">
+                  {!creating && <p className="mb-2 text-xs text-muted-foreground">{openedReview ? 'Review copy' : revision?.templateState ? 'Action package' : 'Package'}</p>}
+                  <h1 className="break-words text-2xl font-semibold tracking-tight">{creating ? 'New package' : record?.name}</h1>
+                  {record && revision && <p className="mt-2 text-xs text-muted-foreground">{record.historyScope === 'selected-revision' ? `Saved revision ${revision.id.slice(-8)}` : `Version ${record.revisions.findIndex(item => item.id === revision.id) + 1}`}{record.archived ? ' · Archived' : revision.id !== record.currentRevisionId ? ' · Historical' : ''}{pendingPackageEdits ? ' · Unapplied edits' : ''}</p>}
+                  {record && revision && revision.id !== record.currentRevisionId && !openedReview && <Button variant="link" className="mt-3 h-auto p-0 text-sm" disabled={busy || pendingPackageEdits} onClick={() => changeRevision(record.currentRevisionId)}><ArrowLeft aria-hidden="true" className="size-4" />Back to current version</Button>}
+                  {record && openedReview && <Button variant="link" className="mt-3 h-auto p-0 text-sm" disabled={busy || pendingPackageEdits} onClick={() => { select(record); mainScroll.current?.scrollTo?.({ top: 0 }); }}><ArrowLeft aria-hidden="true" className="size-4" />Back to current package</Button>}
+                </header>
+                {pendingPackageEdits && <div className="mb-6 flex flex-wrap items-center justify-between gap-4 rounded-md bg-muted px-4 py-3 text-sm" role="status"><span>Apply or discard your edits before preparing files.</span><Button variant="link" size="sm" onClick={continueEditing}>Continue editing</Button></div>}
+                <div ref={overviewRef} role="region" aria-label="Package overview" tabIndex={-1} hidden={workspaceSection !== 'overview'} className="package-workspace-page space-y-7 outline-none">
+                  {record && revision && <PackageNextActions record={readRecord!} revision={revision} disabled={busy || pendingPackageEdits} reviewBaseline={!!openedReview} onNavigate={followDestination} onPrepare={() => void run(() => review('assemble'))} />}
+                  <div hidden={!!record && !revision?.templateState}><Suspense fallback={<p>Loading action intake…</p>}>
+          <PackageIntakePanel workspace resume={creating ? unfinishedAction ?? undefined : undefined} record={record} revision={revision ?? undefined} editable={editable} disabled={!loaded || typedDirty || informationDirty || starterDirty || requirementsDirty || consistencyDirty || workDirty || signingDirty || assemblyDirty || evidenceDirty || scanDirty || templateDirty || upgradeDirty || rosterDirty}
+            busy={busy} run={run} onApply={update} onDirtyChange={setIntakeDirty} onRecoveryChange={setIntakeRecoverable} onNewActionChange={setCreatingAction}
+            signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted} />
+        </Suspense></div>
+                  <div hidden={!creating || creatingAction} className="space-y-7">
+                    <details><summary className="cursor-pointer text-sm font-medium">Blank package, saved templates and imports</summary><div className="mt-5 space-y-5"><fieldset disabled={!loaded || busy || pendingPackageEdits} className="min-w-0 scroll-mt-4 space-y-4">
           <legend className="mb-2 text-sm font-medium">Blank packages, templates and imports</legend>
           <div className="flex flex-wrap items-end gap-2">
             <label className="min-w-0 flex-1 text-sm">
@@ -825,7 +857,7 @@ function PackageDialog({
           <Suspense fallback={<p>Loading package review files…</p>}>
             <PackageReviewTransfer record={record} round={openedReview} busy={busy} run={run} signal={() => operation.current?.signal}
               isCurrent={() => active.current && !operation.current?.signal.aborted} onImport={value => {
-                update(value); const round = value.reviewRounds![0]; setOpenedReview(round); setRevisionId(round.revisionId);
+                update(value); const round = value.reviewRounds![0]; setOpenedReview(round); setRevisionId(round.revisionId); setWorkspaceSection("review");
               }} />
           </Suspense>
           <details className="rounded border p-3">
@@ -837,38 +869,33 @@ function PackageDialog({
           </Suspense>
           </details>
 
-        </fieldset>
-        <details className="min-w-0 rounded border p-2 sm:p-3">
-          <summary className="cursor-pointer text-sm font-medium">Maintain package templates{templateDirty ? " · editing separate revision" : ""}</summary>
-          <div className="min-w-0 pt-3"><Suspense fallback={<p role="status">Opening template maintenance…</p>}>
-            <PackageTemplateMaintenancePanel key={`maintenance:${record?.id ?? "library"}:${revision?.id ?? "none"}`} disabled={!loaded || typedDirty || informationDirty || starterDirty || intakeDirty || requirementsDirty || consistencyDirty || workDirty || signingDirty || assemblyDirty || evidenceDirty || scanDirty || upgradeDirty || rosterDirty}
-              busy={busy} run={run} onDirtyChange={setTemplateDirty} signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted}
-              onSaved={() => setNotice("Separate maintained template saved. Choose it from the action intake template list.")} />
-          </Suspense></div>
-        </details>
-        <details className="min-w-0 rounded border p-2 sm:p-3">
-          <summary className="cursor-pointer text-sm font-medium">Packages from a roster{rosterDirty ? " · unsaved inputs" : ""}</summary>
-          <div className="min-w-0 pt-3"><Suspense fallback={<p role="status">Opening package rosters…</p>}>
-            <PackageRosterPanel disabled={!loaded || typedDirty || informationDirty || starterDirty || intakeDirty || requirementsDirty || consistencyDirty || workDirty || signingDirty || assemblyDirty || evidenceDirty || scanDirty || templateDirty || upgradeDirty}
-              busy={busy} run={run} onDirtyChange={setRosterDirty} signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted}
-              onCreated={created => setRecords(previous => [created, ...previous.filter(item => item.id !== created.id)])}
-              onOpenPackage={created => { update(created); setWorkspaceSection("overview"); requestAnimationFrame(() => { if (active.current) { overviewRef.current?.scrollIntoView({ block: "start" }); overviewRef.current?.focus({ preventScroll: true }); } }); }} />
-          </Suspense></div>
-        </details>
-        {readRecord && revision && <details className="min-w-0 rounded border p-2 sm:p-3">
-          <summary className="cursor-pointer text-sm font-medium">Template and form upgrades{upgradeDirty ? " · awaiting review" : ""}</summary>
-          <div className="min-w-0 pt-3"><Suspense fallback={<p role="status">Opening template and form upgrades…</p>}>
-            <PackageTemplateUpgradePanel record={readRecord} revision={revision} disabled={!editable || typedDirty || informationDirty || starterDirty || intakeDirty || requirementsDirty || consistencyDirty || workDirty || signingDirty || assemblyDirty || evidenceDirty || scanDirty || templateDirty || rosterDirty}
-              busy={busy} run={run} onApply={update} onDirtyChange={setUpgradeDirty} signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted} />
-          </Suspense></div>
-        </details>}
-        {record && revision && (revision.requirements !== undefined || !!revision.templateState) && <Suspense fallback={<p role="status">Loading evidence requirements…</p>}>
+        </fieldset></div></details>
+                    <details><summary className="cursor-pointer text-sm font-medium">Other starters</summary><div tabIndex={-1} data-package-panel="request-starter" className="mt-5"><Suspense fallback={<p>Loading request starter…</p>}>
+          <AdministrativeRequestStarter disabled={!loaded || typedDirty || informationDirty || intakeDirty || requirementsDirty || consistencyDirty || workDirty || signingDirty || assemblyDirty || evidenceDirty || scanDirty || templateDirty || upgradeDirty || rosterDirty} busy={busy} run={run}
+            signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted}
+            onDirtyChange={setStarterDirty} onCreate={value => { update(value); setNotice("Request package created. Review its letter and worksheet before submission."); }} />
+        </Suspense></div></details>
+                  </div>
+                  {record && revision && <details open={!revision.templateState || informationDirty}><summary hidden={!revision.templateState} className="cursor-pointer text-sm">Field links</summary><Suspense fallback={<p role="status">Loading package information…</p>}>
+          <PackageInformationPanel workspace={!revision.templateState} recoverEdits record={record} revision={revision} disabled={!editable || typedDirty || starterDirty || intakeDirty || requirementsDirty || consistencyDirty || workDirty || signingDirty || assemblyDirty || evidenceDirty || scanDirty || templateDirty || upgradeDirty || rosterDirty} busy={busy} run={run} onApply={update}
+            destination={destination}
+            onDirtyChange={setInformationDirty} onRecoveryChange={setInformationRecoverable} signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted} />
+        </Suspense></details>}
+                  {record && revision && (revision.requirements !== undefined || !!revision.templateState) && <details open={requirementsDirty}><summary className="cursor-pointer text-sm">Requirements</summary><div className="mt-4"><Suspense fallback={<p role="status">Loading evidence requirements…</p>}>
           <PackageRequirementsPanel record={record} revision={revision} disabled={!editable || typedDirty || starterDirty || intakeDirty || informationDirty || consistencyDirty || workDirty || signingDirty || assemblyDirty || evidenceDirty || scanDirty || templateDirty || upgradeDirty || rosterDirty}
             busy={busy} run={run} onApply={update} onDirtyChange={setRequirementsDirty}
             destination={destination}
             signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted} />
-        </Suspense>}
-        {readRecord && revision && <details className="min-w-0 rounded border p-2 sm:p-3">
+        </Suspense></div></details>}
+                  {record && revision && <section><div className="mb-4 flex items-center justify-between"><h2 className="text-base font-medium">Documents</h2><Button variant="link" size="sm" onClick={() => navigate('documents')}>Open documents</Button></div><ol className="divide-y">{revision.members.map((member, index) => <li key={member.id} className="flex items-center gap-4 py-4"><span className="text-xs text-muted-foreground">{index + 1}</span><div className="min-w-0 flex-1"><p className="break-words text-sm font-medium">{member.label}</p><p className="mt-1 text-xs text-muted-foreground">{member.kind === 'native' ? member.session.documentCategory === 'forms' ? 'Form' : 'Correspondence' : member.kind === 'original' ? 'Original PDF' : 'Supporting file'}</p></div><Button variant="link" size="sm" onClick={() => inspectMember(member.id)}>Open</Button></li>)}</ol></section>}
+                  <details hidden={!record}><summary className="cursor-pointer text-sm font-medium">Advanced</summary><div className="mt-5 space-y-5">{record && revision && <details className="rounded border p-3"><summary className="cursor-pointer text-sm font-medium">Reusable package templates</summary><fieldset disabled={busy || pendingPackageEdits} className="mt-4"><Suspense fallback={<p>Loading package templates…</p>}><PackageTemplatePanel record={openedReview ? undefined : record} revisionId={revision.id} busy={busy || pendingPackageEdits} run={run} signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted} onCreate={update} /></Suspense></fieldset></details>}{readRecord && revision && <details className="min-w-0 rounded border p-2 sm:p-3">
+          <summary className="cursor-pointer text-sm font-medium">Template and form upgrades{upgradeDirty ? " · awaiting review" : ""}</summary>
+          <div tabIndex={-1} data-package-panel="upgrades" className="min-w-0 pt-3"><Suspense fallback={<p role="status">Opening template and form upgrades…</p>}>
+            <PackageTemplateUpgradePanel record={readRecord} revision={revision} disabled={!editable || typedDirty || informationDirty || starterDirty || intakeDirty || requirementsDirty || consistencyDirty || workDirty || signingDirty || assemblyDirty || evidenceDirty || scanDirty || templateDirty || rosterDirty}
+              busy={busy} run={run} onApply={update} onDirtyChange={setUpgradeDirty} signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted} />
+          </Suspense></div>
+        </details>}
+{readRecord && revision && <details className="min-w-0 rounded border p-2 sm:p-3">
           <summary className="cursor-pointer text-sm font-medium">Work and next actions{workDirty ? " · unsaved changes" : revision.work?.tasks.length ? ` · ${revision.work.tasks.filter(task => task.status === 'pending').length} open` : ""}</summary>
           <div tabIndex={-1} data-package-panel="work" className="pt-3"><Suspense fallback={<p role="status">Loading package work…</p>}>
             <PackageWorkPanel record={readRecord} revision={revision} reviewBaseline={!!openedReview} disabled={!editable || typedDirty || starterDirty || intakeDirty || informationDirty || requirementsDirty || consistencyDirty || signingDirty || assemblyDirty || evidenceDirty || scanDirty || templateDirty || upgradeDirty || rosterDirty}
@@ -876,7 +903,7 @@ function PackageDialog({
               signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted} />
           </Suspense></div>
         </details>}
-        {record && revision && <details className="min-w-0 rounded border p-3">
+{record && revision && <details className="min-w-0 rounded border p-3">
           <summary className="cursor-pointer text-sm font-medium">Consistency checks{consistencyDirty ? " · unsaved changes" : revision.consistency?.rules.length ? ` · ${revision.consistency.rules.length} ${revision.consistency.rules.length === 1 ? 'relationship' : 'relationships'}` : ""}</summary>
           <div tabIndex={-1} data-package-panel="consistency" className="pt-3">
             <Suspense fallback={<p role="status">Loading consistency checks…</p>}>
@@ -886,19 +913,14 @@ function PackageDialog({
             </Suspense>
           </div>
         </details>}
-        {readRecord && revision && <details className="min-w-0 rounded border p-2 sm:p-3">
+{readRecord && revision && <details className="min-w-0 rounded border p-2 sm:p-3">
           <summary className="cursor-pointer text-sm font-medium">Change impact</summary>
           <div className="pt-3"><Suspense fallback={<p role="status">Loading change impact…</p>}>
             <PackageChangeImpactPanel record={readRecord} revision={revision} disabled={pendingPackageEdits} busy={busy} run={run}
               onNavigate={followDestination} signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted} />
           </Suspense></div>
         </details>}
-        {record && revision && <Suspense fallback={<p role="status">Loading package information…</p>}>
-          <PackageInformationPanel record={record} revision={revision} disabled={!editable || typedDirty || starterDirty || intakeDirty || requirementsDirty || consistencyDirty || workDirty || signingDirty || assemblyDirty || evidenceDirty || scanDirty || templateDirty || upgradeDirty || rosterDirty} busy={busy} run={run} onApply={update}
-            destination={destination}
-            onDirtyChange={setInformationDirty} signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted} />
-        </Suspense>}
-        {readRecord && revision && <details className="min-w-0 rounded border p-2 sm:p-3">
+{readRecord && revision && <details className="min-w-0 rounded border p-2 sm:p-3">
           <summary className="cursor-pointer text-sm font-medium">Search captured package</summary>
           <div className="min-w-0 pt-3"><Suspense fallback={<p role="status">Opening captured package search…</p>}>
             <PackageSearchPanel record={readRecord} revision={revision} disabled={pendingPackageEdits} busy={busy} run={run} onNavigate={followDestination}
@@ -906,35 +928,8 @@ function PackageDialog({
               signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted} />
           </Suspense></div>
         </details>}
-        {readRecord && revision && <details className="min-w-0 rounded border p-2 sm:p-3">
-          <summary className="cursor-pointer text-sm font-medium">Assembly layout{assemblyDirty ? " · unsaved settings" : ""}</summary>
-          <div className="min-w-0 pt-3"><Suspense fallback={<p role="status">Opening assembly settings…</p>}>
-            <PackageAssemblyPanel record={readRecord} revision={revision} disabled={!editable || typedDirty || starterDirty || intakeDirty || informationDirty || requirementsDirty || consistencyDirty || workDirty || signingDirty || evidenceDirty || scanDirty || templateDirty || upgradeDirty || rosterDirty}
-              busy={busy} run={run} onApply={update} onDirtyChange={setAssemblyDirty} signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted} />
-          </Suspense></div>
-        </details>}
-        {record && revision && <details className="min-w-0 rounded border p-2 sm:p-3">
-          <summary className="cursor-pointer text-sm font-medium">Supporting evidence files{evidenceDirty ? " · awaiting review" : ""}</summary>
-          <div className="pt-3"><Suspense fallback={<p role="status">Loading supporting files…</p>}>
-            <PackageEvidencePanel record={record} revision={revision} disabled={!editable || typedDirty || starterDirty || intakeDirty || informationDirty || requirementsDirty || consistencyDirty || workDirty || signingDirty || assemblyDirty || scanDirty || templateDirty || upgradeDirty || rosterDirty}
-              busy={busy} run={run} onApply={update} onDirtyChange={setEvidenceDirty} signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted} />
-          </Suspense></div>
-        </details>}
-        {readRecord && revision && <details className="min-w-0 rounded border p-2 sm:p-3">
-          <summary className="cursor-pointer text-sm font-medium">Scanned evidence{scanDirty ? " · unsaved corrections" : ""}</summary>
-          <div className="min-w-0 pt-3"><Suspense fallback={<p className="text-sm">Opening scanned evidence…</p>}>
-            <PackageScanPanel record={readRecord} revision={revision} disabled={!editable || typedDirty || starterDirty || intakeDirty || informationDirty || requirementsDirty || consistencyDirty || workDirty || evidenceDirty || signingDirty || assemblyDirty || templateDirty || upgradeDirty || rosterDirty}
-              busy={busy} run={run} onApply={update} onDirtyChange={setScanDirty} signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted} />
-          </Suspense></div>
-        </details>}
-        </div>
-        <fieldset disabled={informationDirty || starterDirty || intakeDirty || requirementsDirty || consistencyDirty || workDirty || signingDirty || assemblyDirty || evidenceDirty || scanDirty || templateDirty || upgradeDirty || rosterDirty} aria-label="Package documents, review and delivery" className="min-w-0 space-y-4">
-
-          {record && revision && (
-            <>
-              <fieldset disabled={busy || typedDirty || templateDirty || upgradeDirty || rosterDirty} className="min-w-0 space-y-4">
-              <Button variant="outline" disabled={!!openedReview} onClick={() => setShareOpen(true)}>Share encrypted package</Button>
-              <div className="flex flex-wrap gap-2">
+                    {record && revision && <fieldset disabled={busy || pendingPackageEdits} className="space-y-4"><legend className="mb-4 text-sm font-medium">Package settings</legend><label className="block text-sm">Package name<input aria-invalid={nameTooLong || undefined} aria-describedby={nameTooLong ? nameLimitId : undefined} className="mt-2 block w-full rounded border bg-background p-2" value={name} onChange={event => setName(event.target.value)} />{nameTooLong && <span id={nameLimitId} role="status" className="mt-1 block text-xs text-destructive">Use a package name of 120 characters or fewer.</span>}</label><Button variant="outline" disabled={!!openedReview} onClick={() => setShareOpen(true)}>Share encrypted package</Button>
+<div className="flex flex-wrap gap-2">
                 <Button
                   variant="outline"
                   disabled={!validName}
@@ -984,14 +979,19 @@ function PackageDialog({
                 >
                   {record.archived ? "Reopen archived package" : "Archive"}
                 </Button>
-              </div>
-              <div ref={reviewRef} tabIndex={-1} className="scroll-mt-4 space-y-4">
-              <PackageReviewControls record={record} disabled={busy} opened={openedReview} onExit={() => select(record)}
+              </div></fieldset>}
+                  </div></details>
+                </div>
+                {record && revision && <>
+                  <fieldset hidden={workspaceSection !== 'review'} disabled={busy || pendingPackageEdits && !typedDirty} className="package-workspace-page space-y-7">
+                    <h2 className="text-base font-medium">Review</h2>
+                    <div ref={reviewRef} tabIndex={-1} className="scroll-mt-4 space-y-4">
+              <PackageReviewControls workspace record={record} disabled={busy || typedDirty} opened={openedReview} onExit={() => select(record)}
                 onStart={() => void run(async () => {
                   const next = await startPackageReview(record, revision.id, `Package review ${(record.reviewRounds?.length ?? 0) + 1}`, operation.current?.signal, () => active.current);
                   update(next);
                   const round = await openPackageReview(next, next.reviewRounds!.at(-1)!.id);
-                  assertOperationCurrent(); setOpenedReview(round); setRevisionId(round.revisionId);
+                  assertOperationCurrent(); setOpenedReview(round); setRevisionId(round.revisionId); setReviewCopyRequest(round.id);
                 })}
                 onOpen={roundId => void run(async () => {
                   const latest = (await listActionPackages()).find(value => value.id === record.id);
@@ -1006,19 +1006,26 @@ function PackageDialog({
                   assertOperationCurrent(); setOpenedReview(round); setRevisionId(round.revisionId);
                 })} />
               {openedReview?.ownerPackageId === record.id && <Suspense fallback={<p>Loading feedback application…</p>}>
-                <PackageReviewApplicationPanel key={`${record.id}:${record.sequence}:${openedReview.id}`} record={record} round={openedReview} busy={busy} run={run}
+                <PackageReviewApplicationPanel workspace key={`${record.id}:${record.sequence}:${openedReview.id}`} record={record} round={openedReview} busy={busy || typedDirty} run={run}
                   signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted}
                   onApply={next => { update(next); setOpenedReview(null); setRevisionId(next.currentRevisionId); }} />
               </Suspense>}
               </div>
-              </fieldset>
-              {openedReview && <Suspense fallback={<p>Loading member review…</p>}>
-                <PackageMemberReviewPanel key={openedReview.id} record={record} round={openedReview} busy={busy} run={run} onDraftChange={setTypedDirty} signal={() => operation.current?.signal}
+                    {openedReview && <Suspense fallback={<p>Loading member review…</p>}>
+                <PackageMemberReviewPanel workspace key={openedReview.id} record={record} round={openedReview} busy={busy} run={run} onDraftChange={setTypedDirty} signal={() => operation.current?.signal}
                   onChange={(next, round) => { update(next); setOpenedReview(round); setRevisionId(round.revisionId); }} />
               </Suspense>}
-              <fieldset disabled={busy || typedDirty || templateDirty || upgradeDirty || rosterDirty} className="min-w-0 space-y-4">
-              <div ref={documentsRef} tabIndex={-1} className="min-w-0 scroll-mt-4 space-y-4">
-              {editable && (
+                    <Suspense fallback={<p>Loading package review files…</p>}>
+            <PackageReviewTransfer autoPrepareRoundId={reviewCopyRequest} directDownload record={record} round={openedReview} busy={busy || typedDirty} run={run} signal={() => operation.current?.signal}
+              isCurrent={() => active.current && !operation.current?.signal.aborted} onImport={value => {
+                update(value); const round = value.reviewRounds![0]; setOpenedReview(round); setRevisionId(round.revisionId); setWorkspaceSection("review");
+              }} />
+          </Suspense>
+                  </fieldset>
+                  <fieldset hidden={workspaceSection !== 'documents'} disabled={busy || pendingPackageEdits && !evidenceDirty && !scanDirty} className="package-workspace-page space-y-7">
+                    <h2 className="text-base font-medium">Documents</h2>
+                    <div ref={documentsRef} tabIndex={-1} className="min-w-0 scroll-mt-4 space-y-4">
+              <details hidden={!editable}><summary className="cursor-pointer text-sm font-medium">Add documents</summary><div className="mt-4">{editable && (
                 <div className="space-y-2 rounded border p-3">
                   <label className="block text-sm">
                     New member role
@@ -1031,7 +1038,7 @@ function PackageDialog({
                       }
                     >
                       {packageRoles.map((role) => (
-                        <option key={role}>{role}</option>
+                        <option key={role} value={role}>{packageRoleLabels[role]}</option>
                       ))}
                     </select>
                   </label>
@@ -1093,13 +1100,10 @@ function PackageDialog({
                     Uploaded original is signed (preserve unchanged)
                   </label>
                   <p className="text-xs text-muted-foreground">
-                    Existing native correspondence and forms, plus original
-                    PDFs, are supported. Native draft files including embedded
-                    assets: 25 MB each. Portable resources: 75 MB total, 256
-                    entries.
+                    Add the document open in the editor, or upload an original PDF up to 25 MB.
                   </p>
                 </div>
-              )}
+              )}</div></details>
               <div className="grid min-w-0 gap-4 lg:grid-cols-[13rem_minmax(0,1fr)]">
               <PackageMemberNavigation members={revision.members} selectedId={selectedMember?.id} disabled={busy || typedDirty || templateDirty || upgradeDirty || rosterDirty} onSelect={inspectMember} />
               <ol className="min-w-0 space-y-3">
@@ -1117,23 +1121,51 @@ function PackageDialog({
                     <li
                       key={member.id}
                       id={`package-member-${member.id}`}
+                      hidden={selectedMember?.id !== member.id}
                       tabIndex={-1}
                       data-selected={selectedMember?.id === member.id || undefined}
-                      className={`min-w-0 scroll-mt-4 space-y-2 rounded border p-3 ${selectedMember?.id === member.id ? "border-primary/40" : ""}`}
+                      className="package-workspace-member space-y-5 outline-none"
                     >
-                      <h3 className="break-words font-medium">
+<header className="flex items-start justify-between gap-4"><h3 className="break-words font-medium">
                         {index + 1}. {member.label}
-                      </h3>
-                      <p className="break-all text-xs text-muted-foreground">
-                        {member.role} ·{" "}
+                      </h3>{member.kind === 'native' && editable && (<Button
+                              size="sm"
+                              variant="outline"
+                              onClick={() =>
+                                void run(async () => {
+                                  rememberMember(member.id);
+                                  update(
+                                    await editPackageMember(
+                                      record,
+                                      member,
+                                      operation.current?.signal,
+                                    ),
+                                  );
+                                  onClose();
+                                })
+                              }
+                            >
+                              Edit document
+                            </Button>)}</header>
+{working && (
+                        <p className="text-xs">
+                          Working copy:{" "}
+                          {docs[working.documentId]?.meta.title ||
+                            "unavailable"}
+                          . Changes remain outside the saved package until you
+                          save a new revision.
+                        </p>
+                      )}
+<PackageDocumentPreview packageId={record.id} revisionId={revision.id} member={member} active={loaded && !library && workspaceSection === 'documents' && selectedMember?.id === member.id} ports={ports} exportGate={exportGate} />
+<details><summary className="cursor-pointer text-xs text-muted-foreground">Document details</summary><div className="mt-4 space-y-4"><p className="break-all text-xs text-muted-foreground">
+                        {packageRoleLabels[member.role]} ·{" "}
                         {member.kind === "original"
                           ? member.signedOriginal
                             ? "Original PDF (marked signed)"
                             : "Original PDF"
                           : member.kind === "attachment" ? `Supporting file (${member.original.type})` : "Captured native draft"}{" "}
                         · Member revision: {member.revisionId}
-                      </p>
-                      {member.kind === "native" && (
+                      </p>{member.kind === "native" && (
                         <p className="break-all text-xs">
                           Source:{" "}
                           {source && !source.meta.deletedAt
@@ -1145,17 +1177,7 @@ function PackageDialog({
                                 : "No library source recorded"}
                           {member.source && <> · Captured{" "}{new Date(member.source.capturedAt).toLocaleString()}</>}
                         </p>
-                      )}
-                      {working && (
-                        <p className="text-xs">
-                          Working copy:{" "}
-                          {docs[working.documentId]?.meta.title ||
-                            "unavailable"}
-                          . Changes remain outside the saved package until you
-                          save a new revision.
-                        </p>
-                      )}
-                      <div className="flex flex-wrap gap-2">
+                      )}<div className="flex flex-wrap gap-2">
                         {editable && (
                           <>
                             <label className="text-xs">
@@ -1177,7 +1199,7 @@ function PackageDialog({
                                 }
                               >
                                 {packageRoles.filter(role => member.kind !== "attachment" || !["basic-letter", "endorsement"].includes(role)).map((role) => (
-                                  <option key={role}>{role}</option>
+                                  <option key={role} value={role}>{packageRoleLabels[role]}</option>
                                 ))}
                               </select>
                             </label>
@@ -1234,25 +1256,7 @@ function PackageDialog({
                         )}
                         {member.kind === "native" && editable && (
                           <>
-                            <Button
-                              size="sm"
-                              variant="outline"
-                              onClick={() =>
-                                void run(async () => {
-                                  rememberMember(member.id);
-                                  update(
-                                    await editPackageMember(
-                                      record,
-                                      member,
-                                      operation.current?.signal,
-                                    ),
-                                  );
-                                  onClose();
-                                })
-                              }
-                            >
-                              Edit working copy
-                            </Button>
+
                             {working && (
                               <>
                                 <Button
@@ -1314,14 +1318,14 @@ function PackageDialog({
                             Download unchanged original
                           </Button>
                         )}
-                      </div>
-                    </li>
+                      </div></div></details>
+</li>
                   );
                 })}
               </ol>
               </div>
               </div>
-              {comparison && comparedSource && (
+                    {comparison && comparedSource && (
                 <section className="space-y-3 rounded border p-3">
                   <h3 className="font-medium">
                     Compare captured member with library source
@@ -1357,15 +1361,99 @@ function PackageDialog({
                   </Button>
                 </section>
               )}
-              <div ref={deliveryRef} tabIndex={-1} className="flex scroll-mt-4 flex-wrap gap-2">
-                {(revision.outputs.length > 1 || missingRetainedOutput) && <label className="w-full min-w-0 text-sm sm:max-w-xl">
+                    <details><summary className="cursor-pointer text-sm font-medium">Supporting files and document relationships</summary><div className="mt-5 space-y-5">{record && revision && <details className="min-w-0 rounded border p-2 sm:p-3">
+          <summary className="cursor-pointer text-sm font-medium">Supporting evidence files{evidenceDirty ? " · awaiting review" : ""}</summary>
+          <div tabIndex={-1} data-package-panel="evidence" className="pt-3"><Suspense fallback={<p role="status">Loading supporting files…</p>}>
+            <PackageEvidencePanel record={record} revision={revision} disabled={!editable || typedDirty || starterDirty || intakeDirty || informationDirty || requirementsDirty || consistencyDirty || workDirty || signingDirty || assemblyDirty || scanDirty || templateDirty || upgradeDirty || rosterDirty}
+              busy={busy} run={run} onApply={update} onDirtyChange={setEvidenceDirty} signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted} />
+          </Suspense></div>
+        </details>}
+{readRecord && revision && <details className="min-w-0 rounded border p-2 sm:p-3">
+          <summary className="cursor-pointer text-sm font-medium">Scanned evidence{scanDirty ? " · unsaved corrections" : ""}</summary>
+          <div tabIndex={-1} data-package-panel="scans" className="min-w-0 pt-3"><Suspense fallback={<p className="text-sm">Opening scanned evidence…</p>}>
+            <PackageScanPanel record={readRecord} revision={revision} disabled={!editable || typedDirty || starterDirty || intakeDirty || informationDirty || requirementsDirty || consistencyDirty || workDirty || evidenceDirty || signingDirty || assemblyDirty || templateDirty || upgradeDirty || rosterDirty}
+              busy={busy} run={run} onApply={update} onDirtyChange={setScanDirty} signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted} />
+          </Suspense></div>
+        </details>}
+<PackageCitations key={`citations:${record.id}:${revision.id}`} record={record} revision={revision} editable={editable} destination={destination}
+                onChange={action => void run(async () => update(await action(operation.current?.signal)))} />
+<PackageCitationReorder key={`reorder-${record.id}:${revision.id}:${record.sequence}`} record={record} revision={revision} editable={editable} prepared={citationReorder}
+                onPrepare={value => void run(() => prepareCitationReorder(value))} onDiscard={() => setCitationReorder(null)}
+                onChange={action => void run(async () => update(await action(operation.current?.signal)))} /></div></details>
+                  </fieldset>
+                  <fieldset hidden={workspaceSection !== 'delivery'} disabled={busy || pendingPackageEdits && !signingDirty && !assemblyDirty} className="package-workspace-page space-y-7">
+                    <h2 className="text-base font-medium">Export</h2>
+                    <div ref={deliveryRef} tabIndex={-1} className="outline-none">{pdfUrl || prepared && !["assemble", "portable"].includes(reviewMode) ? <Button variant="link" className="h-auto p-0" disabled={busy} onClick={cancelExport}><ArrowLeft aria-hidden="true" className="size-4" />Back to export options</Button> : <PackageExportOptions revision={revision} format={deliveryFormat} disabled={busy || pendingPackageEdits} pdfDisabled={!!openedReview} onFormat={format => { setDeliveryFormat(format); setPrepared(null); setOriginal(null); setPdfUrl(''); setError(''); setNotice(''); }} onPrepare={() => void run(() => review(deliveryFormat === 'pdf' ? 'assemble' : 'portable'))} onOpenDocument={inspectMember} />}</div>
+                    <div ref={preparedResultRef} tabIndex={-1} className="outline-none">{prepared && (
+                <section className="space-y-3 rounded border p-3">
+                  <h3 className="font-medium">
+                    {reviewMode === 'original' ? original?.asset.name : reviewMode === 'saved' || reviewMode === 'preview' ? selectedRetainedOutput?.asset.name : prepared.purpose === "portable" ? "Editable package" : "PDF export"}
+                  </h3>
+
+                  <PackageExportFindings results={[prepared, ...otherReviews]} revision={revision} onNavigate={followDestination} />
+
+                  <div className="flex flex-wrap gap-2"><Button
+                    disabled={
+                      pendingPackageEdits || busy ||
+                      [prepared, ...otherReviews].some((result) =>
+                        ["draft", "incomplete"].includes(
+                          result.readiness.state,
+                        ),
+                      )
+                    }
+                    onClick={() => void run(() => deliver(true))}
+                  >
+                    {reviewMode === "assemble"
+                      ? "Download PDF"
+                      : reviewMode === "portable"
+                        ? "Download editable package"
+                        : reviewMode === "compare"
+                          ? "Compare reviewed retained PDFs"
+                        : reviewMode === "preview"
+                          ? "Preview reviewed retained PDF"
+                          : reviewMode === "original"
+                            ? "Download reviewed unchanged original"
+                            : "Download reviewed retained PDF"}
+                  </Button><Button variant="outline" disabled={busy} onClick={cancelExport}>Cancel export</Button></div>
+                </section>
+              )}</div>
+                    {pdfUrl && (
+                <section
+                  role="region"
+                  aria-label="Retained package PDF"
+                  className="h-[60vh] min-h-64 w-full overflow-hidden rounded border"
+                >
+                  <Suspense
+                    fallback={
+                      <p className="p-3 text-sm">Loading retained PDF…</p>
+                    }
+                  >
+                    <RetainedPdfViewer
+                      key={`package:${record.id}:${revision.id}:${selectedRetainedOutput?.id}`}
+                      documentId={`package:${record.id}:${revision.id}:${selectedRetainedOutput?.id}`}
+                      pdfUrl={pdfUrl}
+                      showFullscreen={false}
+                      toolbarLabel="Retained package PDF"
+                    />
+                  </Suspense>
+                </section>
+              )}
+                    <div hidden={deliveryFormat !== 'pdf'}><Suspense fallback={<p className="text-sm">Opening saved PDF contents…</p>}>
+                <PackageOutputNavigation output={selectedRetainedOutput} revision={revision} disabled={busy || pendingPackageEdits}
+                  onNavigate={followDestination} onOpenPage={(outputId, page) => {
+                    if (busy || pendingPackageEdits || outputId !== selectedRetainedOutput?.id) return;
+                    useUIStore.getState().rememberPreviewPage(`package:${record.id}:${revision.id}:${outputId}`, page);
+                    setPdfUrl(""); void run(() => review("preview"));
+                  }} />
+              </Suspense></div>
+                    <details><summary className="cursor-pointer text-sm font-medium">Saved files</summary><fieldset disabled={busy || pendingPackageEdits} className="mt-5 space-y-5">{(revision.outputs.length > 1 || missingRetainedOutput) && <label className="w-full min-w-0 text-sm sm:max-w-xl">
                   Retained PDF to open
                   <select aria-label="Retained PDF to open" disabled={busy || pendingPackageEdits}
                     className="mt-1 w-full min-w-0 rounded border bg-background p-2"
                     value={selectedRetainedOutputId || selectedRetainedOutput?.id || ""}
                     onChange={event => {
                       if (busy || pendingPackageEdits) return;
-                      setSelectedRetainedOutputId(event.target.value); setPrepared(null); setApproved(false); setPdfUrl(""); setNotice(""); setError("");
+                      setSelectedRetainedOutputId(event.target.value); setPrepared(null);  setPdfUrl(""); setNotice(""); setError("");
                     }}>
                     {missingRetainedOutput && <option value={selectedRetainedOutputId}>Selected PDF unavailable</option>}
                     {revision.outputs.map((output, index) => <option key={output.id} value={output.id}>
@@ -1373,17 +1461,8 @@ function PackageDialog({
                     </option>)}
                   </select>
                 </label>}
-                {missingRetainedOutput && <p role="alert" className="w-full break-words text-sm text-destructive">The selected retained PDF is no longer included in this saved revision. Choose another retained PDF.</p>}
-                <Button disabled={!!openedReview} onClick={() => void run(() => review("assemble"))}>
-                  Check readiness and assemble
-                </Button>
-                <Button
-                  variant="outline"
-                  onClick={() => void run(() => review("portable"))}
-                >
-                  Export editable package
-                </Button>
-                {revision.outputs.length > 0 && (
+{missingRetainedOutput && <p role="alert" className="w-full break-words text-sm text-destructive">The selected retained PDF is no longer included in this saved revision. Choose another retained PDF.</p>}
+{revision.outputs.length > 0 && (
                   <>
                     <Button
                       variant="outline"
@@ -1400,124 +1479,7 @@ function PackageDialog({
                       Preview retained PDF
                     </Button>
                   </>
-                )}
-              </div>
-              <Suspense fallback={<p className="text-sm">Opening saved PDF contents…</p>}>
-                <PackageOutputNavigation output={selectedRetainedOutput} revision={revision} disabled={busy || pendingPackageEdits}
-                  onNavigate={followDestination} onOpenPage={(outputId, page) => {
-                    if (busy || pendingPackageEdits || outputId !== selectedRetainedOutput?.id) return;
-                    useUIStore.getState().rememberPreviewPage(`package:${record.id}:${revision.id}:${outputId}`, page);
-                    setPdfUrl(""); void run(() => review("preview"));
-                  }} />
-              </Suspense>
-              <PackageCitations key={`citations:${record.id}:${revision.id}`} record={record} revision={revision} editable={editable} destination={destination}
-                onChange={action => void run(async () => update(await action(operation.current?.signal)))} />
-              <PackageCitationReorder key={`reorder-${record.id}:${revision.id}:${record.sequence}`} record={record} revision={revision} editable={editable} prepared={citationReorder}
-                onPrepare={value => void run(() => prepareCitationReorder(value))} onDiscard={() => setCitationReorder(null)}
-                onChange={action => void run(async () => update(await action(operation.current?.signal)))} />
-              <WordPackageDownload key={`${record.id}:${revision.id}`} record={readRecord!} revisionId={revision.id} ports={ports} exportGate={exportGate} />
-              {revision.outputs.length > 1 && (
-                <section className="space-y-3 rounded border p-3" aria-label="Compare saved renderings">
-                  <h3 className="font-medium">Compare saved renderings</h3>
-                  <p className="text-sm">Use “Check readiness and assemble” to retain a new rendering of this exact revision, then compare it with an earlier saved PDF. Existing outputs are preserved.</p>
-                  {(["before", "after"] as const).map(side => (
-                    <label className="block text-sm" key={side}>
-                      {side === "before" ? "Earlier retained PDF" : "Later retained PDF"}
-                      <select disabled={busy} className="mt-1 w-full rounded border bg-background p-2"
-                        value={side === "before" ? beforeComparisonId : afterComparisonId}
-                        onChange={event => {
-                          (side === "before" ? setBeforeOutputId : setAfterOutputId)(event.target.value);
-                          setPrepared(null); setApproved(false); setRenderComparison(null);
-                        }}>
-                        {revision.outputs.map((output, index) => <option key={output.id} value={output.id}>Saved PDF {index + 1} · {new Date(output.createdAt).toLocaleString()}</option>)}
-                      </select>
-                    </label>
-                  ))}
-                  <Button variant="outline" disabled={busy || beforeComparisonId === afterComparisonId}
-                    onClick={() => void run(() => review("compare"))}>Review PDF comparison</Button>
-                </section>
-              )}
-              {renderComparison && <PackageRenderComparisonView comparison={renderComparison} />}
-              {prepared && (
-                <section className="space-y-3 rounded border p-3">
-                  <h3 className="font-medium">
-                    {prepared.purpose === "portable" ? "Editable transfer checks" : "Package readiness"}: {prepared.readiness.state}
-                  </h3>
-                  {[prepared, ...otherReviews].flatMap((result, group) =>
-                    result.readiness.findings.map((finding, index) => (
-                      <p
-                        key={`${group}-${index}`}
-                        className="break-words text-sm"
-                      >
-                        {finding.severity === "error"
-                          ? "Required: "
-                          : "Review: "}
-                        {revision.members.find(
-                          (member) => member.id === finding.memberId,
-                        )?.label
-                          ? `${revision.members.find((member) => member.id === finding.memberId)!.label}: `
-                          : ""}
-                        {finding.message}
-                      </p>
-                    )),
-                  )}
-                  {[prepared, ...otherReviews].flatMap((result, group) =>
-                    result.reviews.map((entry, index) => (
-                      <div key={`${group}-${index}`} className="text-sm">
-                        <p className="font-medium">{entry.member}</p>
-                        {entry.review.privacy.findings.map((match, i) => (
-                          <p key={i}>
-                            {match.type}: {match.value}
-                          </p>
-                        ))}
-                        {entry.review.structure.map((finding, i) => (
-                          <p key={i}>{finding.message}</p>
-                        ))}
-                        {entry.review.notices.map((notice, i) => (
-                          <p key={i}>{notice}</p>
-                        ))}
-                        {entry.review.markingReview && (
-                          <p>Review classification markings.</p>
-                        )}
-                      </div>
-                    )),
-                  )}
-                  <label className="flex items-start gap-2 text-sm">
-                    <input
-                      type="checkbox"
-                      checked={approved}
-                      onChange={(event) => setApproved(event.target.checked)}
-                    />
-                    I reviewed every included member, privacy findings,
-                    markings, citations and original PDFs for this operation.
-                    The assembled derivative is unsigned.
-                  </label>
-                  <Button
-                    disabled={
-                      !approved ||
-                      [prepared, ...otherReviews].some((result) =>
-                        ["draft", "incomplete"].includes(
-                          result.readiness.state,
-                        ),
-                      )
-                    }
-                    onClick={() => void run(deliver)}
-                  >
-                    {reviewMode === "assemble"
-                      ? "Assemble and retain PDF"
-                      : reviewMode === "portable"
-                        ? "Download reviewed editable package"
-                        : reviewMode === "compare"
-                          ? "Compare reviewed retained PDFs"
-                        : reviewMode === "preview"
-                          ? "Preview reviewed retained PDF"
-                          : reviewMode === "original"
-                            ? "Download reviewed unchanged original"
-                            : "Download reviewed retained PDF"}
-                  </Button>
-                </section>
-              )}
-              {revision.outputs.map((output) => (
+                )}{revision.outputs.map((output) => (
                 <div key={output.id} tabIndex={-1} data-package-output-id={output.id} className="break-all space-y-1 text-xs">
                   <p>
                     Retained output {output.id} · SHA-256 {output.asset.sha256}
@@ -1542,44 +1504,49 @@ function PackageDialog({
                     </p>
                   ))}
                 </div>
-              ))}
-              {pdfUrl && (
-                <section
-                  role="region"
-                  aria-label="Retained package PDF"
-                  className="h-[60vh] min-h-64 w-full overflow-hidden rounded border"
-                >
-                  <Suspense
-                    fallback={
-                      <p className="p-3 text-sm">Loading retained PDF…</p>
-                    }
-                  >
-                    <RetainedPdfViewer
-                      key={`package:${record.id}:${revision.id}:${selectedRetainedOutput?.id}`}
-                      documentId={`package:${record.id}:${revision.id}:${selectedRetainedOutput?.id}`}
-                      pdfUrl={pdfUrl}
-                      showFullscreen={false}
-                      toolbarLabel="Retained package PDF"
-                    />
-                  </Suspense>
+              ))}</fieldset></details>
+                    <details><summary className="cursor-pointer text-sm font-medium">Other export options</summary><div className="mt-5 space-y-5">{readRecord && revision && <details className="min-w-0 rounded border p-2 sm:p-3">
+          <summary className="cursor-pointer text-sm font-medium">Assembly layout{assemblyDirty ? " · unsaved settings" : ""}</summary>
+          <div tabIndex={-1} data-package-panel="assembly" className="min-w-0 pt-3"><Suspense fallback={<p role="status">Opening assembly settings…</p>}>
+            <PackageAssemblyPanel record={readRecord} revision={revision} disabled={!editable || typedDirty || starterDirty || intakeDirty || informationDirty || requirementsDirty || consistencyDirty || workDirty || signingDirty || evidenceDirty || scanDirty || templateDirty || upgradeDirty || rosterDirty}
+              busy={busy} run={run} onApply={update} onDirtyChange={setAssemblyDirty} signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted} />
+          </Suspense></div>
+        </details>}
+<fieldset disabled={busy || pendingPackageEdits}><WordPackageDownload key={`${record.id}:${revision.id}`} record={readRecord!} revisionId={revision.id} ports={ports} exportGate={exportGate} /></fieldset>
+{revision.outputs.length > 1 && (
+                <section className="space-y-3 rounded border p-3" aria-label="Compare saved renderings">
+                  <h3 className="font-medium">Compare saved renderings</h3>
+                  <p className="text-sm">Download a PDF to save a new rendering of this version, then compare it with an earlier saved PDF.</p>
+                  {(["before", "after"] as const).map(side => (
+                    <label className="block text-sm" key={side}>
+                      {side === "before" ? "Earlier retained PDF" : "Later retained PDF"}
+                      <select disabled={busy || pendingPackageEdits} className="mt-1 w-full rounded border bg-background p-2"
+                        value={side === "before" ? beforeComparisonId : afterComparisonId}
+                        onChange={event => {
+                          (side === "before" ? setBeforeOutputId : setAfterOutputId)(event.target.value);
+                          setPrepared(null);  setRenderComparison(null);
+                        }}>
+                        {revision.outputs.map((output, index) => <option key={output.id} value={output.id}>Saved PDF {index + 1} · {new Date(output.createdAt).toLocaleString()}</option>)}
+                      </select>
+                    </label>
+                  ))}
+                  <Button variant="outline" disabled={busy || pendingPackageEdits || beforeComparisonId === afterComparisonId}
+                    onClick={() => void run(() => review("compare"))}>Review PDF comparison</Button>
                 </section>
               )}
-              </fieldset>
-            </>
-          )}
-        </fieldset>
-        {readRecord && revision && <details className="min-w-0 rounded border p-2 sm:p-3">
+{renderComparison && <PackageRenderComparisonView comparison={renderComparison} />}
+{readRecord && revision && <details className="min-w-0 rounded border p-2 sm:p-3">
           <summary className="cursor-pointer text-sm font-medium">Package signing{signingDirty ? " · awaiting capture" : ""}</summary>
           <div className="min-w-0 pt-3"><Suspense fallback={<p role="status">Opening package signing…</p>}>
             <PackageSigningPanel record={readRecord} revision={revision} disabled={!editable || typedDirty || starterDirty || intakeDirty || informationDirty || requirementsDirty || consistencyDirty || workDirty || assemblyDirty || evidenceDirty || scanDirty || templateDirty || upgradeDirty || rosterDirty}
               busy={busy} run={run} onApply={update} destination={destination} onNavigate={followDestination} onDirtyChange={setSigningDirty} signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted} />
           </Suspense></div>
         </details>}
-        {readRecord && revision && <Suspense fallback={<p role="status">Opening saved assembly jobs…</p>}>
+{readRecord && revision && <Suspense fallback={<p role="status">Opening saved assembly jobs…</p>}>
           <PackageJobsPanel record={readRecord} revision={revision} disabled={pendingPackageEdits || !!openedReview} busy={busy} ports={ports} run={run} onApply={update}
             signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted} />
         </Suspense>}
-        {record && readRecord && revision && <details className="min-w-0 rounded border p-2 sm:p-3">
+{record && readRecord && revision && <details className="min-w-0 rounded border p-2 sm:p-3">
           <summary className="cursor-pointer text-sm font-medium">Recipient delivery</summary>
           <div className="min-w-0 pt-3"><Suspense fallback={<p role="status">Opening recipient delivery…</p>}>
             <PackageDeliveryPanel record={record} revision={revision} disabled={pendingPackageEdits} ports={ports}
@@ -1602,22 +1569,24 @@ function PackageDialog({
               }}
               busy={busy} run={run} signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted} />
           </Suspense></div>
-        </details>}
-        {busy && (
-          <Button variant="outline" onClick={() => operation.current?.abort()}>
-            Cancel operation
-          </Button>
-        )}
-        {busy && (
-          <p role="status">Saving or checking preserved package content…</p>
-        )}
+        </details>}</div></details>
+                  </fieldset>
+                </>}
+              </div>
+            </div>
+          </main>
+        </div>
+        <Dialog open={historyOpen} onOpenChange={setHistoryOpen}>
+          <DialogContent><DialogHeader><DialogTitle>Version history</DialogTitle><DialogDescription>{record?.name}</DialogDescription></DialogHeader>
+            {record && revision && <label className="block text-sm">Package revision<select aria-label="Package revision" value={revision.id} disabled={busy || pendingPackageEdits} className="mt-2 w-full rounded border bg-background p-2" onChange={event => changeRevision(event.target.value)}>{[...record.revisions].reverse().map((item, index) => <option key={item.id} value={item.id}>{record.historyScope === 'selected-revision' ? `Saved revision ${item.id.slice(-8)}` : `Version ${record.revisions.length - index}`} · {new Date(item.createdAt).toLocaleString()}{item.id === record.currentRevisionId ? ' · Current' : ''}</option>)}</select></label>}
+            <p className="text-xs text-muted-foreground">Open Documents or Delivery after choosing a version to inspect its captured content.</p>
+            <Button variant="outline" onClick={() => setHistoryOpen(false)}>Done</Button>
+          </DialogContent>
+        </Dialog>
       </DialogContent>
     </Dialog>
-    {record && revision && shareOpen && <Suspense fallback={<p role="status">Opening package sharing…</p>}>
-      <PackageShareDialog key={`${record.id}:${revision.id}`} record={record} revisionId={revision.id} onClose={() => setShareOpen(false)} />
-    </Suspense>}
-    {encryptedImport && <ShareModal open mode="import" initialPayload={encryptedImport}
-      onOpenChange={open => { if (!open) setEncryptedImport(null); }} />}
-    </>
-  );
+    {record && revision && shareOpen && <Suspense fallback={<p role="status">Opening package sharing…</p>}><PackageShareDialog key={`${record.id}:${revision.id}`} record={record} revisionId={revision.id} onClose={() => setShareOpen(false)} /></Suspense>}
+    {encryptedImport && <ShareModal open mode="import" initialPayload={encryptedImport} onOpenChange={open => { if (!open) setEncryptedImport(null); }} />}
+  </>;
+
 }
