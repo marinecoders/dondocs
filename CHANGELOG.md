@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.172] — 2026-11-19
+
+### Fixed
+
+- Permission-protected PDF attachments retain their visible pages in enclosure and basic-letter assembly through a bounded local image copy. Originals stay unchanged, opening-password files fail clearly, and unreadable attachments prevent completed exports.
+
 ## [1.3.168] — 2026-11-18
 
 ### Fixed
