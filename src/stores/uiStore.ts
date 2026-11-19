@@ -108,7 +108,7 @@ interface UIState {
   setProofreadOpen: (open: boolean) => void;
   /** The Document Guide's active tab, in the store so the activation checklist
    *  can deep-link to a tab before opening it. */
-  documentGuideTab: 'finder' | 'browse' | 'examples' | 'features';
+  documentGuideTab: 'finder' | 'browse' | 'examples' | 'manual' | 'features';
   /** 'share' | 'import' when open, null when closed */
   shareModal: 'share' | 'import' | null;
   /** The header Save dropdown, controlled here so a guided walkthrough can hold

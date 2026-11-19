@@ -1,4 +1,6 @@
-import { useState, useMemo } from 'react';
+import { lazy, Suspense, useState, useMemo } from 'react';
+
+const CorrespondenceManualReader = lazy(() => import('@/components/manual/CorrespondenceManualReader'));
 import { HelpCircle, ChevronDown, ChevronRight, ChevronLeft, FileText, CheckCircle2, Lightbulb, BookOpen, Sparkles, ArrowRight, RotateCcw, Search, Eye, Check, Layers, Users, FolderOpen, Paperclip, PenLine, Link2, Shield, MapPin, File, Briefcase, Mail, ClipboardCheck, ClipboardList, BookMarked, Scale, Award, ScrollText, FileSignature, Star, FolderSync, type LucideIcon } from 'lucide-react';
 
 // Lucide icons for document types / groups / categories, keyed by id — the
@@ -881,16 +883,17 @@ export function DocumentGuideModal() {
             Document Guide
           </DialogTitle>
           <DialogDescription>
-            Find the right document type, learn about formats, or load an example
+            Browse document formats, examples and the correspondence manual
           </DialogDescription>
         </DialogHeader>
 
         <Tabs value={activeTab === 'finder' ? 'browse' : activeTab}
-          onValueChange={(value) => { if (value === 'browse' || value === 'examples' || value === 'features') setActiveTab(value); }}
+          onValueChange={(value) => { if (value === 'browse' || value === 'examples' || value === 'manual' || value === 'features') setActiveTab(value); }}
           className="min-h-0 flex-1 gap-0 overflow-hidden">
-          <TabsList aria-label="Guide topics" className="m-3 grid h-12 w-auto shrink-0 grid-cols-3 rounded-md">
+          <TabsList aria-label="Guide topics" className="m-3 grid h-12 w-auto shrink-0 grid-cols-4 rounded-md">
             <TabsTrigger value="browse" className="min-h-11 border-transparent">Browse</TabsTrigger>
             <TabsTrigger value="examples" className="min-h-11 border-transparent">Examples</TabsTrigger>
+            <TabsTrigger value="manual" className="min-h-11 border-transparent">Manual</TabsTrigger>
             <TabsTrigger value="features" className="min-h-11 border-transparent">Features</TabsTrigger>
           </TabsList>
           <TabsContent value={activeTab === 'finder' ? 'browse' : activeTab} className="min-h-0 flex flex-col overflow-hidden">
@@ -1162,6 +1165,8 @@ export function DocumentGuideModal() {
             )}
           </>
         )}
+
+        {activeTab === 'manual' && documentGuideOpen && <Suspense fallback={<p role="status" className="p-4 text-sm">Opening correspondence manual…</p>}><CorrespondenceManualReader /></Suspense>}
 
         {activeTab === 'examples' && (
           <div className="flex-1 min-h-0 flex flex-col">
