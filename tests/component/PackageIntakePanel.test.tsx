@@ -1,5 +1,5 @@
 import 'fake-indexeddb/auto';
-import { useRef, useState } from 'react';
+import { Profiler, useRef, useState } from 'react';
 import { act, render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { beforeEach, expect, it, vi } from 'vitest';
@@ -192,4 +192,58 @@ it('cancels a held intake draft save when the panel is disabled while keeping lo
   view.rerender(<PackageIntakePanel {...props} disabled />); release(policy); await act(async () => { await completed; });
   expect(await listActionPackages()).toEqual([]); expect(await idbGetAllAttachments()).toEqual([]); expect(props.onApply).not.toHaveBeenCalled();
   view.rerender(<PackageIntakePanel {...props} />); expect(screen.getByLabelText('Course or activity', { exact: true })).toHaveValue('Keep this unsaved fictional course');
+});
+
+it('shows saved-intake loading instead of a new-action catalog from the first frame', async () => {
+  const template = await maintainedPackageAction('training-participation');
+  const record = await conditional.saveConditionalPackageDraft({ template, answers: { version: 1, values: { course: 'Preserved course' }, groups: {} } }, policy);
+  let finish!: (value: typeof template) => void;
+  vi.spyOn(conditional, 'readConditionalPackageTemplate').mockImplementationOnce(() => new Promise(resolve => { finish = resolve; }));
+  const frames: { busy: string | null; catalog: boolean }[] = [];
+  render(<Profiler id="saved-intake-loading" onRender={() => {
+    const panel = screen.queryByRole('region', { name: 'Action intake' });
+    if (panel) frames.push({ busy: panel.getAttribute('aria-busy'), catalog: !!screen.queryByRole('button', { name: 'Start training participation' }) });
+  }}><Harness initial={record} workspace /></Profiler>);
+  expect(frames[0]).toEqual({ busy: 'true', catalog: false });
+  expect(screen.getByText('Loading the exact saved intake…')).toBeVisible();
+  expect(screen.getByRole('heading', { name: 'Details' })).toBeVisible();
+  await act(async () => finish(template));
+  await waitFor(() => expect(screen.getByRole('region', { name: 'Action intake' })).toHaveAttribute('aria-busy', 'false'));
+  expect(screen.getByRole('textbox', { name: 'Course or activity' })).toHaveValue('Preserved course');
+  expect(screen.queryByRole('button', { name: 'Start training participation' })).toBeNull();
+});
+
+it('finishes the loading state after a saved-intake read error without changing the package', async () => {
+  const template = await maintainedPackageAction('training-participation');
+  const record = await conditional.saveConditionalPackageDraft({ template, answers: { version: 1, values: { course: 'Keep the saved intake' }, groups: {} } }, policy);
+  vi.spyOn(conditional, 'readConditionalPackageTemplate').mockRejectedValueOnce(new Error('Saved intake unavailable.'));
+  render(<Harness initial={record} workspace />);
+  expect(await screen.findByRole('alert')).toHaveTextContent('Saved intake unavailable.');
+  await waitFor(() => expect(screen.getByRole('region', { name: 'Action intake' })).toHaveAttribute('aria-busy', 'false'));
+  expect(screen.getByRole('button', { name: 'Start training participation' })).toBeEnabled();
+  expect((await listActionPackages()).find(item => item.id === record.id)).toEqual(record);
+});
+
+it('hides the previous intake from the first frame of a package selection change', async () => {
+  const template = await maintainedPackageAction('training-participation');
+  const first = await conditional.saveConditionalPackageDraft({ template, answers: { version: 1, values: { course: 'First saved course' }, groups: {} } }, policy);
+  const second = await conditional.saveConditionalPackageDraft({ template, answers: { version: 1, values: { course: 'Second saved course' }, groups: {} } }, policy);
+  let finish!: (value: typeof template) => void;
+  const held = new Promise<typeof template>(resolve => { finish = resolve; });
+  vi.spyOn(conditional, 'readConditionalPackageTemplate').mockImplementation(record => record.id === second.id ? held : Promise.resolve(template));
+  const frames: { busy: string | null; course: string | null }[] = [];
+  const panel = (record: ActionPackage) => <Profiler id="intake-owner-transition" onRender={() => {
+    const region = screen.queryByRole('region', { name: 'Action intake' });
+    const course = screen.queryByRole('textbox', { name: 'Course or activity' }) as HTMLTextAreaElement | null;
+    if (region) frames.push({ busy: region.getAttribute('aria-busy'), course: course?.value ?? null });
+  }}><PackageIntakePanel workspace record={record} revision={getPackageRevision(record)} editable disabled={false} busy={false}
+    run={async action => action()} onApply={vi.fn()} signal={() => undefined} isCurrent={() => true} /></Profiler>;
+  const view = render(panel(first));
+  await waitFor(() => expect(screen.getByRole('textbox', { name: 'Course or activity' })).toBeEnabled());
+  expect(screen.getByRole('textbox', { name: 'Course or activity' })).toHaveValue('First saved course');
+  frames.length = 0;
+  view.rerender(panel(second));
+  expect(frames[0]).toEqual({ busy: 'true', course: null });
+  await act(async () => finish(template));
+  await waitFor(() => expect(screen.getByRole('textbox', { name: 'Course or activity' })).toHaveValue('Second saved course'));
 });

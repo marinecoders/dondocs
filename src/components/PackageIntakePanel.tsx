@@ -54,16 +54,20 @@ const recoveredIntake = z.object({
 }).strict();
 
 export function PackageIntakePanel({ record, revision, editable, disabled, busy, run, onApply, signal, isCurrent, onDirtyChange, workspace = false, onRecoveryChange, onNewActionChange, resume }: Props) {
+  const ownerScope = scope(record, revision);
   const [template, setTemplate] = useState<PackageTemplateV2 | null>(null), [answers, setAnswers] = useState(emptyAnswers);
   const [mode, setMode] = useState<'none' | 'new' | 'saved'>('none'), [name, setName] = useState('');
   const [baseline, setBaseline] = useState<{ answers: PackageTemplateAnswers; name: string } | null>(null);
   const [open, setOpen] = useState(false), [focusQuestions, setFocusQuestions] = useState(false), [questionKey, setQuestionKey] = useState(0);
-  const [loading, setLoading] = useState(false), [pending, setPending] = useState(false), [error, setError] = useState(''), [notice, setNotice] = useState('');
+  const [reload, setReload] = useState(0);
+  const [loadState, setLoadState] = useState(() => ({ owner: ownerScope, reload, pending: !!revision?.templateState }));
+  // Hide stale intake before an asynchronous read starts, including reloads.
+  const loading = !!revision?.templateState && (loadState.owner !== ownerScope || loadState.reload !== reload || loadState.pending);
+  const [pending, setPending] = useState(false), [error, setError] = useState(''), [notice, setNotice] = useState('');
   const [loadedOwner, setLoadedOwner] = useState('');
   const [resuming, setResuming] = useState(false);
   const [actionContext, setActionContext] = useState<PackageNewActionContext | null>(null);
   const resumedAction = useRef(false);
-  const [reload, setReload] = useState(0);
   const [preview, setPreview] = useState<PreparedConditionalPackage | null>(null), [fresh, setFresh] = useState(false), [reviewed, setReviewed] = useState(false);
   const [memberChoices, setMemberChoices] = useState<Record<string, IntakeMemberChoice>>({}), [answerChoices, setAnswerChoices] = useState<Record<string, IntakeAnswerChoice>>({});
   const [fieldChoices, setFieldChoices] = useState<PackageUpdateChoices>({}), [attachments, setAttachments] = useState<Record<string, TemplateAttachment>>({});
@@ -80,7 +84,6 @@ export function PackageIntakePanel({ record, revision, editable, disabled, busy,
     wasUnavailable.current = unavailable;
   }, [disabled, unavailable]);
   const heading = useRef<HTMLHeadingElement>(null), returnFocus = useRef(false);
-  const ownerScope = scope(record, revision);
   useLayoutEffect(() => { selectedSource.current = { record, revision }; owner.current = ownerScope; dirtyCallback.current = onDirtyChange; });
   const hasDecisions = Object.keys(memberChoices).length + Object.keys(answerChoices).length + Object.keys(fieldChoices).length > 0;
   const dirty = !!template && (!baseline || name !== baseline.name || !sameReviewStoredValue(answers, baseline.answers)
@@ -137,6 +140,7 @@ export function PackageIntakePanel({ record, revision, editable, disabled, busy,
     if (returnFocus.current && !viewDisabled) { heading.current?.focus(); returnFocus.current = false; }
   }, [questionKey, viewDisabled]);
   useEffect(() => {
+    const setLoading = (pending: boolean) => setLoadState({ owner: ownerScope, reload, pending });
     if (ownScope.current === ownerScope) { ownScope.current = ''; return; }
     const { record, revision } = selectedSource.current;
     ++generation.current;
@@ -199,7 +203,7 @@ export function PackageIntakePanel({ record, revision, editable, disabled, busy,
     void recovery.clear().catch(() => undefined);
     const selected = getPackageRevision(next), nextAnswers = conditionalPackageAnswers(next);
     ownScope.current = scope(next, selected);
-    setLoadedOwner(ownScope.current);
+    setLoadedOwner(ownScope.current); setLoadState({ owner: ownScope.current, reload, pending: false });
     generation.current++; setMode('saved'); setAnswers(nextAnswers); setName(next.name); setBaseline({ answers: structuredClone(nextAnswers), name: next.name });
     setAttachments({}); setAttachmentLabels({}); setPreview(null); setFresh(false); setReviewed(false); setMemberChoices({}); setAnswerChoices({}); setFieldChoices({}); setUndo(receipt ?? null);
     setQuestionKey(value => value + 1); setOpen(!!selected.templateState?.pending); setFocusQuestions(false); returnFocus.current = true;
@@ -253,11 +257,11 @@ export function PackageIntakePanel({ record, revision, editable, disabled, busy,
       const selected = await maintainedPackageAction(action.id as MaintainedPackageActionId); if (current(capture)) choose(selected, action.id);
     })}>Start {action.name.toLocaleLowerCase()}</Button>
   </article>)}</div>;
-  return <section tabIndex={-1} data-package-panel="intake" aria-label="Action intake" className={`min-w-0 space-y-4 ${workspace && mode !== 'saved' ? '' : 'rounded-lg border bg-background p-3 sm:p-4'}`} aria-busy={pending || loading}>
+  return <section tabIndex={-1} data-package-panel="intake" aria-label="Action intake" className={`min-w-0 space-y-4 ${workspace && mode !== 'saved' && !loading ? '' : 'rounded-lg border bg-background p-3 sm:p-4'}`} aria-busy={pending || loading}>
     <div className="space-y-1">
       {mode === 'new' && <Button className={buttonClass} variant="outline" disabled={viewDisabled} onClick={() => void backToActions()}>Back to actions</Button>}
-      <h3 ref={heading} tabIndex={-1} className="break-words font-medium">{workspace && mode === 'saved' ? 'Details' : template?.name ?? 'Start from an action'}</h3>
-      {(!workspace || mode !== 'saved') && <p className="text-sm text-muted-foreground">General-purpose starters use DonDocs worksheets. These are not official forms.</p>}
+      <h3 ref={heading} tabIndex={-1} className="break-words font-medium">{workspace && (mode === 'saved' || loading) ? 'Details' : loading ? 'Action intake' : template?.name ?? 'Start from an action'}</h3>
+      {!loading && (!workspace || mode !== 'saved') && <p className="text-sm text-muted-foreground">General-purpose starters use DonDocs worksheets. These are not official forms.</p>}
       {loading && <p role="status" className="text-sm">Loading the exact saved intake…</p>}
       {!loading && template && <p role="status" className="text-xs text-muted-foreground">{workspace && dirty ? recovery.status === 'saved' ? 'Draft saved locally · not applied' : recovery.status === 'saving' ? 'Saving draft…' : 'Unapplied edits' : workspace && mode === 'new' ? '' : workspace && mode === 'saved' && !needsReconciliation ? '' : dirty ? 'Unapplied intake changes · not saved.' : mode === 'new' ? 'No intake answers changed yet.' : revision?.templateState?.pending
         ? 'Intake saved; document changes not applied.' : "Showing this revision's saved intake and package values."}</p>}
@@ -267,7 +271,7 @@ export function PackageIntakePanel({ record, revision, editable, disabled, busy,
       {recovery.error && <div className="space-y-2"><p role="alert" className="break-words text-sm text-destructive">{recovery.error}</p><Button variant="outline" size="sm" disabled={pending} onClick={() => void discard()}>Discard local draft</Button></div>}
       {view?.error && <p role="alert" className="break-words text-sm text-destructive">{view.error}</p>}
     </div>
-    <div hidden={workspace && mode !== 'none'} className="space-y-4">
+    <div hidden={workspace && (loading || mode !== 'none')} className="space-y-4">
     {!template ? catalog : <details><summary className="cursor-pointer text-sm font-medium">Start another action</summary><div className="pt-3">{catalog}</div></details>}
     <details className="min-w-0 rounded border p-3"><summary className="cursor-pointer text-sm font-medium">Use a saved conditional template</summary>
       <div className="space-y-3 pt-3">
