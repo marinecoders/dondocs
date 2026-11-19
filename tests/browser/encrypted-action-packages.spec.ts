@@ -1,4 +1,4 @@
-import { openPackagePreparation, importPackage, packageSection, choosePackage, preparePackageExport, packageHeading } from './_helpers/packageWorkspace';
+import { expectSelectedPackageMemberKind, openPackagePreparation, importPackage, packageSection, choosePackage, preparePackageExport, packageHeading } from './_helpers/packageWorkspace';
 import { expect, test, type Page } from '@playwright/test';
 import { capturePackageDocument } from '../_helpers/capturePackageDocument';
 import { PDFDocument } from 'pdf-lib';
@@ -73,7 +73,7 @@ test('encrypted package link and file preserve reviewed content across fresh bro
   await modal.getByRole('checkbox', { name: 'Uploaded original is signed (preserve unchanged)', exact: true }).check();
   await packageSection(modal, 'Documents', true);
   await modal.getByLabel('Add original PDF', { exact: true }).setInputFiles({ name: 'signed-original.pdf', mimeType: 'application/pdf', buffer: original });
-  await expect(modal.getByText('Marked signed · original PDF', { exact: true })).toBeVisible();
+  await expectSelectedPackageMemberKind(modal, 'Marked signed · original PDF');
   await preparePackageExport(modal, 'pdf');
   await expect(modal.getByRole('button', { name: 'Download PDF', exact: true })).toBeEnabled();
   if (await modal.getByRole('checkbox', { name: /^I reviewed every included member/ }).isVisible()) await modal.getByRole('checkbox', { name: /^I reviewed every included member/ }).check();
@@ -139,8 +139,8 @@ test('encrypted package link and file preserve reviewed content across fresh bro
     if (await review.getByRole('checkbox', { name: /^I reviewed every included member/ }).isVisible()) await review.getByRole('checkbox', { name: /^I reviewed every included member/ }).check();
     await review.getByRole('button', { name: 'Open reviewed package', exact: true }).click();
     modal = receiver.getByRole('dialog', { name: 'Action packages', exact: true });
-    await packageSection(modal, 'Documents', true);
-    await expect(modal.getByText('Marked signed · original PDF', { exact: true })).toBeVisible();
+    await packageHeading(modal, '2. signed-original.pdf');
+    await expectSelectedPackageMemberKind(modal, 'Marked signed · original PDF');
     await modal.getByRole('button', { name: 'Close', exact: true }).click();
     await expect(receiver.getByRole('textbox', { name: 'Subject', exact: true })).toHaveValue('RECEIVER DRAFT PRESERVED');
     await receiver.reload();

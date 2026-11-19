@@ -214,3 +214,14 @@ export async function preparePackagePdf(dialog: Locator) {
   await dialog.getByRole('button', { name: 'Prepare PDF', exact: true }).click();
   await expect(dialog.getByRole('heading', { name: 'PDF export', exact: true })).toBeVisible();
 }
+
+/** Inspect the selected document through the control shown at this viewport. */
+export async function expectSelectedPackageMemberKind(dialog: Locator, kind: string) {
+  const picker = dialog.getByRole('combobox', { name: 'Document to inspect', exact: true });
+  if (await picker.isVisible()) {
+    await expect(picker.locator('option:checked')).toContainText(kind);
+  } else {
+    const navigation = dialog.getByRole('navigation', { name: 'Package documents', exact: true });
+    await expect(navigation.locator('button[aria-current="true"]')).toContainText(kind);
+  }
+}

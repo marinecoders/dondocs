@@ -1,4 +1,4 @@
-import { openPackagePreparation, packageHeading, inspectPackageMember, expandPackageTools, newPackage, showPackageLibrary, packageSection, packageVersion, selectedPackageId, choosePackageById, versionCount, preparePackageExport, downloadPackageExport } from './_helpers/packageWorkspace';
+import { expectSelectedPackageMemberKind, openPackagePreparation, packageHeading, inspectPackageMember, expandPackageTools, newPackage, showPackageLibrary, packageSection, packageVersion, selectedPackageId, choosePackageById, versionCount, preparePackageExport, downloadPackageExport } from './_helpers/packageWorkspace';
 import { capturePackageDocument } from '../_helpers/capturePackageDocument';
 import { test, expect, type Page, type BrowserContext, type Locator } from "@playwright/test";
 import { PDFDocument, StandardFonts } from "pdf-lib";
@@ -161,9 +161,7 @@ for (const theme of ["light", "dark", "classic"]) {
       mimeType: "application/pdf",
       buffer: original,
     });
-    await expect(
-      modal.getByText("Marked signed · original PDF", { exact: true }),
-    ).toBeVisible();
+    await expectSelectedPackageMemberKind(modal, 'Marked signed · original PDF');
     await preparePackageExport(modal, 'pdf');
     await expect(modal.getByRole('button', { name: 'Download PDF', exact: true })).toBeEnabled();
     await approve(page, "Download PDF");
