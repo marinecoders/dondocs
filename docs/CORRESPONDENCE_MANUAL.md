@@ -17,6 +17,10 @@ the guide. **Download original PDF** saves the complete source file.
 The personal checklist's **Read the manual checklist** button opens chapter 2,
 paragraph 19. Opening a source closes Proofread before opening the guide.
 
+If the optional reader or source viewer cannot load, its error stays inside the
+guide. Close the guide to keep editing; a failed source viewer still offers the
+reference text and the original-file download.
+
 ## Source and edition
 
 The source is the Department of the Navy's *Correspondence Manual*, June 2015,
@@ -42,7 +46,10 @@ physical PDF page 28 (printed page 2-12); the paragraph continues on page 29.
 ## Loading and offline availability
 
 The manual reader, text resource and original PDF are loaded when requested.
-Opening the application alone does not fetch the full manual. The 361,732-byte
+Opening the application alone does not fetch the full manual. Managed release
+preparation also leaves unrequested reference files on demand and retains verified
+reference bytes already used by that release. An older service worker keeps its
+previous staging policy until the updated worker activates. The 361,732-byte
 text resource is separate from the 2,118,392-byte PDF, which is fetched only when
 the original is requested.
 

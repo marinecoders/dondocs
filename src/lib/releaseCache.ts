@@ -34,6 +34,8 @@ export async function stageAssets(manifest: ReleaseManifest, cache: AssetCache, 
     for (const asset of manifest.assets) {
       if (asset.group === 'form') continue;
       const cached = await cache.match(assetKey(asset));
+      // Reference text and its original PDF are optional, like unused OCR cores.
+      if (/\/references\/secnav-m-5216-5\//.test(asset.url) && !cached) continue;
       if (isWordAsset(asset) && !cached && !requireWord) continue;
       // OCR requests are verified/cached by the worker fetch route on first use.
       // Do not make every release download all capability-specific OCR cores.

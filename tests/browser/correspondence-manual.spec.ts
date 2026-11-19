@@ -1,3 +1,4 @@
+import { documentIdentity } from './documentIdentity';
 import AxeBuilder from '@axe-core/playwright';
 import { test, expect, type Page } from '@playwright/test';
 import { createHash } from 'node:crypto';
@@ -107,3 +108,37 @@ test('opens finding and checklist sources without competing dialogs and retains 
   await page.keyboard.press('Escape');
   await expect(guide).toBeHidden();
 });
+
+
+for (const component of ['CorrespondenceManualReader', 'ManualSourcePage']) {
+  test(`keeps the editor usable when ${component} cannot load`, async ({ page }) => {
+    await page.addInitScript(() => {
+      localStorage.setItem('browser-test-visitor', 'returning');
+      localStorage.setItem('dondocs_ui', JSON.stringify({ version: 1, state: { previewVisible: false } }));
+    });
+    let blocked = 0;
+    await page.route(`**/assets/${component}-*.js`, route => { blocked++;return route.abort('failed'); });
+    await page.goto('/');
+    await page.getByRole('combobox', { name: 'Document section' }).selectOption('body');
+    await page.locator('#body-subject').fill('SYNTHETIC RECOVERABLE REFERENCE');
+    const before = await documentIdentity(page);
+    await page.getByRole('button', { name: 'Document tools', exact: true }).click();
+    await page.getByRole('menuitem', { name: 'Document type guide', exact: true }).click();
+    const guide = page.getByRole('dialog', { name: 'Document Guide', exact: true });
+    await guide.getByRole('tab', { name: 'Manual', exact: true }).click();
+    if (component === 'ManualSourcePage') {
+      await guide.getByRole('button', { name: 'View original PDF page 1', exact: true }).click();
+      await expect(guide.getByRole('alert')).toHaveText('The source viewer could not load. Use the reference text or download the original PDF.');
+      await expect(guide.getByRole('button', { name: 'Download original PDF', exact: true })).toBeVisible();
+      await guide.getByRole('button', { name: 'Back to reference text', exact: true }).click();
+      await expect(guide.getByRole('searchbox', { name: 'Search manual' })).toBeVisible();
+    } else {
+      await expect(guide.getByRole('alert')).toHaveText('The manual reader could not load. Reconnect and reload DonDocs to try again.');
+    }
+    expect(blocked).toBeGreaterThan(0);
+    await expect(page.getByRole('heading', { name: 'Something went wrong', exact: true })).toHaveCount(0);
+    await guide.getByRole('button', { name: 'Close', exact: true }).click();
+    await expect(page.locator('#body-subject')).toHaveValue('SYNTHETIC RECOVERABLE REFERENCE');
+    expect(await documentIdentity(page)).toBe(before);
+  });
+}

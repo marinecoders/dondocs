@@ -1,3 +1,4 @@
+import { ManualViewBoundary } from './ManualViewBoundary';
 import { lazy, Suspense, useEffect, useMemo, useRef, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -108,7 +109,9 @@ function ManualContent({ manual, cached, location }: { manual: CorrespondenceMan
         </div>
         {pdfError ? <p role="alert" className="text-sm text-destructive">{pdfError}</p> : pdf ? <>
           <p className="text-xs text-muted-foreground">{pdfCached ? 'Original PDF saved in this browser.' : 'Original PDF is available in this session only.'}</p>
-          <Suspense fallback={<p role="status" className="text-sm">Opening source viewer…</p>}><SourcePage bytes={pdf} page={pageNumber} onPage={setPageNumber} /></Suspense>
+          <ManualViewBoundary fallback={<p role="alert" className="text-sm">The source viewer could not load. Use the reference text or download the original PDF.</p>}>
+            <Suspense fallback={<p role="status" className="text-sm">Opening source viewer…</p>}><SourcePage bytes={pdf} page={pageNumber} onPage={setPageNumber} /></Suspense>
+          </ManualViewBoundary>
         </> : <p role="status" className="text-sm">Loading original PDF…</p>}
       </> : <>
         <form onSubmit={event => { event.preventDefault();setSearched(query.trim());setShowResults(true); }} className="flex items-end gap-2">

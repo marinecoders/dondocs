@@ -382,3 +382,20 @@ for (const source of ['legacy cache', 'unindexed request'] as const) test(`prese
   await expect(page.locator('meta[name="dondocs-release"]')).toHaveAttribute('content', secondId);
   await expect(page.locator('#subject:visible, #body-subject:visible')).toHaveValue('RELEASE CHECKPOINT');
 });
+
+test('keeps the bundled manual on demand during managed startup', async ({ page }) => {
+  await start(page);
+  const manualRequests = () => server.requests.filter(request => request.path.includes('/references/secnav-m-5216-5/'));
+  expect(manualRequests()).toEqual([]);
+  await page.getByRole('button', { name: 'Document tools', exact: true }).click();
+  await page.getByRole('menuitem', { name: 'Document type guide', exact: true }).click();
+  const guide = page.getByRole('dialog', { name: 'Document Guide', exact: true });
+  await guide.getByRole('tab', { name: 'Manual', exact: true }).click();
+  await expect(guide.getByRole('searchbox', { name: 'Search manual' })).toBeVisible();
+  await expect(guide.getByRole('button', { name: 'View original PDF page 1', exact: true })).toBeVisible();
+  expect(manualRequests().some(request => request.path.endsWith('.json'))).toBe(true);
+  expect(manualRequests().some(request => request.path.endsWith('manual.pdf'))).toBe(false);
+  await guide.getByRole('button', { name: 'View original PDF page 1', exact: true }).click();
+  await expect(guide.getByLabel('Original manual PDF page 1').locator('canvas')).toBeVisible({ timeout: 30_000 });
+  expect(manualRequests().some(request => request.path.endsWith('manual.pdf'))).toBe(true);
+});

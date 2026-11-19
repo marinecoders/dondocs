@@ -1,3 +1,4 @@
+import { ManualViewBoundary } from '@/components/manual/ManualViewBoundary';
 import { lazy, Suspense, useState, useMemo } from 'react';
 
 const CorrespondenceManualReader = lazy(() => import('@/components/manual/CorrespondenceManualReader'));
@@ -1166,7 +1167,9 @@ export function DocumentGuideModal() {
           </>
         )}
 
-        {activeTab === 'manual' && documentGuideOpen && <Suspense fallback={<p role="status" className="p-4 text-sm">Opening correspondence manual…</p>}><CorrespondenceManualReader /></Suspense>}
+        {activeTab === 'manual' && documentGuideOpen && <ManualViewBoundary fallback={<p role="alert" className="p-4 text-sm">The manual reader could not load. Reconnect and reload DonDocs to try again.</p>}>
+          <Suspense fallback={<p role="status" className="p-4 text-sm">Opening correspondence manual…</p>}><CorrespondenceManualReader /></Suspense>
+        </ManualViewBoundary>}
 
         {activeTab === 'examples' && (
           <div className="flex-1 min-h-0 flex flex-col">
