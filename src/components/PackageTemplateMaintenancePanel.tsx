@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { Button } from './ui/button';
 import { PackageIntakeQuestions } from './PackageIntakeQuestions';
 import { PackageIntakeScope } from './PackageIntakeScope';
@@ -40,9 +40,9 @@ export function PackageTemplateMaintenancePanel({ disabled, busy, run, signal, i
     if (previousDisabled.current === disabled) return;
     previousDisabled.current = disabled; generation.current++; setPreview(null); setReviewed(false);
   }, [disabled]);
-  useEffect(() => { callback.current = onDirtyChange; }, [onDirtyChange]);
-  useEffect(() => { alive.current = true; return () => { alive.current = false; callback.current?.(false); }; }, []);
-  useEffect(() => { callback.current?.(!!template); }, [template]);
+  useLayoutEffect(() => { callback.current = onDirtyChange; }, [onDirtyChange]);
+  useLayoutEffect(() => { alive.current = true; return () => { alive.current = false; callback.current?.(false); }; }, []);
+  useLayoutEffect(() => { callback.current?.(!!template); }, [template]);
   const program = useMemo((): PackageTemplateProgram | null => { try {
     const value = JSON.parse(programJSON);
     return value && typeof value.revision === 'string' && Array.isArray(value.questions) && value.questions.length <= 100

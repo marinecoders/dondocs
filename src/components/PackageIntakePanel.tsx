@@ -112,12 +112,12 @@ export function PackageIntakePanel({ record, revision, editable, disabled, busy,
   useEffect(() => {
     if (workspace && mode === 'new' && dirty && recovery.status === 'saved' && actionContext) rememberPackageNewActionContext(actionContext);
   }, [workspace, mode, dirty, recovery.status, actionContext]);
-  useEffect(() => {
+  useLayoutEffect(() => {
     onRecoveryChange?.(workspace && dirty && recovery.status === 'saved');
     return () => onRecoveryChange?.(false);
   }, [onRecoveryChange, workspace, dirty, recovery.status]);
-  useEffect(() => { dirtyCallback.current?.(dirty); }, [dirty]);
-  useEffect(() => { alive.current = true; return () => { alive.current = false; dirtyCallback.current?.(false); }; }, []);
+  useLayoutEffect(() => { dirtyCallback.current?.(dirty); }, [dirty]);
+  useLayoutEffect(() => { alive.current = true; return () => { alive.current = false; dirtyCallback.current?.(false); }; }, []);
   useEffect(() => {
     if (!workspace || !resume || record || resumedAction.current) return;
     resumedAction.current = true;

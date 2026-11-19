@@ -1,6 +1,6 @@
 import 'fake-indexeddb/auto';
 import { Profiler, useRef, useState } from 'react';
-import { act, render, screen, waitFor, within } from '@testing-library/react';
+import { act, fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { beforeEach, expect, it, vi } from 'vitest';
 import { PDFDocument } from 'pdf-lib';
@@ -40,6 +40,22 @@ async function startTraining(user: ReturnType<typeof userEvent.setup>) {
   const field = await screen.findByLabelText('Course or activity', { exact: true });
   await waitFor(() => expect(field).toBeEnabled()); return field;
 }
+it('protects an entered intake answer before the edited frame is painted', async () => {
+  let guarded = false;
+  const commits: { answer: string; guarded: boolean }[] = [];
+  render(<Profiler id="intake-exit-guard" onRender={() => {
+    const field = screen.queryByRole('textbox', { name: 'Course or activity' }) as HTMLTextAreaElement | null;
+    if (field) commits.push({ answer: field.value, guarded });
+  }}><PackageIntakePanel editable disabled={false} busy={false}
+    run={async action => action()} onApply={vi.fn()} signal={() => undefined} isCurrent={() => true}
+    onDirtyChange={value => { guarded = value; }} /></Profiler>);
+  const course = await startTraining(userEvent.setup());
+  commits.length = 0;
+  fireEvent.change(course, { target: { value: 'Keep this unsaved course' } });
+  const edited = commits.filter(commit => commit.answer === 'Keep this unsaved course');
+  expect(edited.length).toBeGreaterThan(0);
+  expect(edited.every(commit => commit.guarded)).toBe(true);
+});
 it('returns from the desktop preview without losing answers or creating a package', async () => {
   const user = userEvent.setup(); render(<Harness workspace />);
   const course = await startTraining(user); await user.type(course, 'Keep this unfinished course');

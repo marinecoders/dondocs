@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { Button } from './ui/button';
 import { PackageIntakeQuestions } from './PackageIntakeQuestions';
 import { PackageIntakePreview } from './PackageIntakePreview';
@@ -35,8 +35,8 @@ export function PackageRosterPanel({ disabled, busy, run, signal, isCurrent, onD
     if (disabled && !wasDisabled.current) { generation.current++; queueMicrotask(() => { if (alive.current) { setPreview(null); setInputsReviewed(false); setRowReviewed(false); setPdf(null); } }); }
     wasDisabled.current = disabled;
   }, [disabled]);
-  useEffect(() => { alive.current = true; return () => { alive.current = false; callback.current?.(false); }; }, []);
-  useEffect(() => { callback.current?.(dirty); }, [dirty]);
+  useLayoutEffect(() => { alive.current = true; return () => { alive.current = false; callback.current?.(false); }; }, []);
+  useLayoutEffect(() => { callback.current?.(dirty); }, [dirty]);
   function invalidate() { generation.current++; setPreview(null); setInputsReviewed(false); setRowReviewed(false); setPdf(null); setNotice(''); }
   async function perform(action: (current: () => boolean) => Promise<void>) {
     if (locked || running.current) return; running.current = true; setPending(true); setError('');

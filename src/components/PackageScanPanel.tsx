@@ -38,9 +38,9 @@ function PackageScanView({ record, revision, disabled, busy, run, signal, isCurr
       queueMicrotask(() => { if (alive.current && generation.current === captured) { setCorrection(null); setAcknowledged(false); setAdoption(null); setAdoptedReview(false); } });
     }
   }, [editable]);
-  useEffect(() => { dirtyCallback.current = onDirtyChange; }, [onDirtyChange]);
-  useEffect(() => { alive.current = true; return () => { alive.current = false; dirtyCallback.current?.(false); }; }, []);
-  useEffect(() => { onDirtyChange?.(dirty); }, [dirty, onDirtyChange]);
+  useLayoutEffect(() => { dirtyCallback.current = onDirtyChange; }, [onDirtyChange]);
+  useLayoutEffect(() => { alive.current = true; return () => { alive.current = false; dirtyCallback.current?.(false); }; }, []);
+  useLayoutEffect(() => { onDirtyChange?.(dirty); }, [dirty, onDirtyChange]);
   function invalidate() { generation.current++; setCorrection(null); setAcknowledged(false); setAdoption(null); setAdoptedReview(false); setError(''); }
   async function perform(action: (current: () => boolean) => Promise<void>, writing = false) {
     if (locked || running.current || writing && !editable) return;

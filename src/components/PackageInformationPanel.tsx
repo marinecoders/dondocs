@@ -132,7 +132,7 @@ export function PackageInformationPanel({ record, revision, disabled, busy, run,
     } });
   const usedTargets = useMemo(() => new Set(draft.bindings.map(binding => `${binding.memberId}:${packageBindingTargetKey(binding.target)}`)), [draft.bindings]);
   const locked = disabled || !editable || busy || pending || recovery.status === 'loading';
-  useEffect(() => {
+  useLayoutEffect(() => {
     onRecoveryChange?.(recoverEdits && dirty && recovery.status === 'saved');
     return () => onRecoveryChange?.(false);
   }, [onRecoveryChange, recoverEdits, dirty, recovery.status]);
@@ -144,11 +144,11 @@ export function PackageInformationPanel({ record, revision, disabled, busy, run,
     if (workspace && !advanced) { queueMicrotask(() => setAdvanced(true)); return; }
     if (focusPackageDestination(content.current, attribute, identity)) handledDestination.current = destination.requestId;
   }, [destination, record.id, revision.id, draft, workspace, advanced]);
-  useEffect(() => {
+  useLayoutEffect(() => {
     mounted.current = true;
     return () => { mounted.current = false; dirtyCallback.current?.(false); };
   }, []);
-  useEffect(() => { onDirtyChange?.(dirty); }, [dirty, onDirtyChange]);
+  useLayoutEffect(() => { onDirtyChange?.(dirty); }, [dirty, onDirtyChange]);
   useLayoutEffect(() => {
     if (lastOwner.current === owner) return;
     lastOwner.current = owner; generation.current++;

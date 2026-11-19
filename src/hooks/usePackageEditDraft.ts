@@ -19,16 +19,20 @@ export function usePackageEditDraft<T>({ scope, value, dirty, enabled, restore }
   restore(value: unknown, isCurrent: () => boolean): void | Promise<void>;
 }) {
   type Status = 'loading' | 'idle' | 'saving' | 'saved' | 'error';
-  const [statusState, setStatusState] = useState<{ scope: string; enabled: boolean; value: Status }>(() => ({ scope, enabled, value: enabled ? 'loading' : 'idle' }));
+  const serialized = fingerprint(value);
+  const [statusState, setStatusState] = useState<{ scope: string; enabled: boolean; value: Status; saved: string | null }>(() => ({ scope, enabled, value: enabled ? 'loading' : 'idle', saved: null }));
   const matchesScope = statusState.scope === scope && statusState.enabled === enabled;
   // A new recovery scope is loading before effects run, so its fields cannot
   // briefly accept input and then lose focus when recovery disables them.
-  const status = matchesScope ? statusState.value : enabled ? 'loading' : 'idle';
-  const setStatus = useCallback((value: Status) => setStatusState({ scope, enabled, value }), [scope, enabled]);
+  // Closing is allowed only when the current input is durable. Invalidate a
+  // previous saved status during render, before the next write effect runs.
+  const awaitingWrite = enabled && dirty && (statusState.value === 'idle' || statusState.value === 'saved' && statusState.saved !== serialized);
+  const status = matchesScope ? awaitingWrite ? 'saving' : statusState.value : enabled ? 'loading' : 'idle';
+  const setStatus = useCallback((value: Status, saved: string | null = null) => setStatusState({ scope, enabled, value, saved }), [scope, enabled]);
   const [error, setError] = useState('');
   const restoreRef = useRef(restore), alive = useRef(true), revision = useRef(0);
   const session = useRef<{ scope: string; store: Awaited<ReturnType<typeof openPackageEditDraft>>; last: string | null; blocked: boolean } | null>(null);
-  const serialized = fingerprint(value), valueRef = useRef(value);
+  const valueRef = useRef(value);
   const loading = status === 'loading';
   useLayoutEffect(() => { restoreRef.current = restore; valueRef.current = value; });
   useEffect(() => { alive.current = true; return () => { alive.current = false; }; }, []);
@@ -45,7 +49,7 @@ export function usePackageEditDraft<T>({ scope, value, dirty, enabled, restore }
       if (store.value !== null) await restoreRef.current(store.value, () => current);
       if (!current) return;
       loaded.blocked = false;
-      setStatus(store.value === null ? 'idle' : 'saved');
+      setStatus(store.value === null ? 'idle' : 'saved', loaded.last);
     }).catch(cause => { if (current) { setError(cause instanceof Error ? cause.message : 'Local draft recovery is unavailable.'); setStatus('error'); } });
     return () => { current = false; };
   }, [scope, enabled, setStatus]);
@@ -58,12 +62,12 @@ export function usePackageEditDraft<T>({ scope, value, dirty, enabled, restore }
     const write = ++revision.current;
     queueMicrotask(() => { if (alive.current && session.current === current && revision.current === write) { setStatus('saving'); setError(''); } });
     void current.store.save(next === null ? null : valueRef.current).then(() => {
-      if (alive.current && session.current === current && revision.current === write) setStatus(next === null ? 'idle' : 'saved');
+      if (alive.current && session.current === current && revision.current === write) setStatus(next === null ? 'idle' : 'saved', next);
     }).catch(cause => {
       if (alive.current && session.current === current && revision.current === write) { current.last = null; setStatus('error'); setError(cause instanceof Error ? cause.message : 'Your edits could not be saved for recovery.'); }
     });
   }, [scope, serialized, dirty, enabled, loading, setStatus]);
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!dirty || status !== 'saving' && status !== 'error') return;
     const protect = (event: BeforeUnloadEvent) => { event.preventDefault(); event.returnValue = ''; };
     window.addEventListener('beforeunload', protect);

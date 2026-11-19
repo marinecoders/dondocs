@@ -44,8 +44,8 @@ export function PackageConsistencyPanel({ record, revision, disabled, busy, run,
   const editableRef = useRef(editable);
   const currentPage = Math.min(page, Math.max(0, Math.ceil(draft.rules.length / 25) - 1));
   useLayoutEffect(() => { currentOwner.current = owner; dirtyCallback.current = onDirtyChange; editableRef.current = editable; }, [owner, onDirtyChange, editable]);
-  useEffect(() => { mounted.current = true; return () => { mounted.current = false; dirtyCallback.current?.(false); }; }, []);
-  useEffect(() => { onDirtyChange?.(dirty); }, [dirty, onDirtyChange]);
+  useLayoutEffect(() => { mounted.current = true; return () => { mounted.current = false; dirtyCallback.current?.(false); }; }, []);
+  useLayoutEffect(() => { onDirtyChange?.(dirty); }, [dirty, onDirtyChange]);
   useLayoutEffect(() => {
     if (lastOwner.current === owner) return;
     lastOwner.current = owner; generation.current++;

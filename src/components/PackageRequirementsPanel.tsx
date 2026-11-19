@@ -55,8 +55,8 @@ export function PackageRequirementsPanel({ record, revision, disabled, busy, run
       handledDestination.current = destination.requestId;
   }, [destination, record.id, revision.id, draft, loading, page]);
   useLayoutEffect(() => { currentOwner.current = owner; dirtyCallback.current = onDirtyChange; revisionRef.current = revision; }, [owner, onDirtyChange, revision]);
-  useEffect(() => { mounted.current = true; return () => { mounted.current = false; dirtyCallback.current?.(false); }; }, []);
-  useEffect(() => { onDirtyChange?.(dirty); }, [dirty, onDirtyChange]);
+  useLayoutEffect(() => { mounted.current = true; return () => { mounted.current = false; dirtyCallback.current?.(false); }; }, []);
+  useLayoutEffect(() => { onDirtyChange?.(dirty); }, [dirty, onDirtyChange]);
   useLayoutEffect(() => {
     if (lastOwner.current === owner) return;
     lastOwner.current = owner; generation.current++;

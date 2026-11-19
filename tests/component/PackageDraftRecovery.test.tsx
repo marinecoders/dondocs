@@ -75,3 +75,27 @@ for (const transition of ['enable', 'scope'] as const) it(`reports recovery load
   expect(statuses[0]).toBe('loading');
   await waitFor(() => expect(view.result.current.status).toBe('idle'));
 });
+
+it('does not report newer input as saved before its recovery write finishes', async () => {
+  let finish!: () => void;
+  const save = vi.fn().mockResolvedValueOnce(undefined).mockImplementationOnce(() => new Promise<void>(resolve => { finish = resolve; }));
+  vi.spyOn(editDrafts, 'openPackageEditDraft').mockResolvedValue({ value: null, error: '', save });
+  const statuses: string[] = [];
+  const view = renderHook(({ text }) => {
+    const recovery = usePackageEditDraft({ scope: 'current-saved-content', enabled: true, value: { text }, dirty: !!text, restore() {} });
+    statuses.push(recovery.status);
+    return recovery;
+  }, { initialProps: { text: '' } });
+  await waitFor(() => expect(view.result.current.status).toBe('idle'));
+  statuses.length = 0;
+  view.rerender({ text: 'First saved answer' });
+  expect(statuses[0]).toBe('saving');
+  await waitFor(() => expect(view.result.current.status).toBe('saved'));
+  statuses.length = 0;
+  view.rerender({ text: 'Newer unsaved answer' });
+  expect(statuses[0]).toBe('saving');
+  expect(view.result.current.status).toBe('saving');
+  await act(async () => finish());
+  expect(view.result.current.status).toBe('saved');
+  expect(save).toHaveBeenLastCalledWith({ text: 'Newer unsaved answer' });
+});
