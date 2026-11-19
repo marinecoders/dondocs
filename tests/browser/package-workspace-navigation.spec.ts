@@ -12,6 +12,67 @@ async function openPackages(page: Page) {
   return page.getByRole('dialog', { name: 'Action packages', exact: true });
 }
 
+for (const theme of ['light', 'dark', 'classic']) test.describe(`action navigation in ${theme}`, () => {
+  test.beforeEach(async ({ context }) => {
+    await context.addInitScript(value => {
+      localStorage.setItem('browser-test-visitor', 'returning');
+      localStorage.setItem('dondocs_ui', JSON.stringify({ version: 1, state: { theme: value, editorLayout: 'focused' } }));
+    }, theme);
+  });
+
+  test('untouched action starters support Back, Escape and Close without saving packages', async ({ page }, info) => {
+    await page.goto('/');
+    let dialog = await openPackages(page);
+    const savedCount = await dialog.getByLabel('Saved packages', { exact: true }).getByRole('option').count();
+    for (const action of ['administrative request', 'training participation', 'evidence submission']) {
+      const start = dialog.getByRole('button', { name: `Start ${action}`, exact: true });
+      await start.click();
+      const back = dialog.getByRole('button', { name: 'Back to actions', exact: true });
+      await expect(back).toBeEnabled();
+      if (action === 'administrative request') {
+        await back.scrollIntoViewIfNeeded();
+        await page.screenshot({ path: info.outputPath('package-action-back.png') });
+      }
+      await back.click();
+      await expect(dialog.getByRole('heading', { name: 'Start from an action', exact: true })).toBeFocused();
+      await expect(start).toBeEnabled();
+      await start.click();
+      await expect(back).toBeEnabled();
+      await page.keyboard.press('Escape');
+      await expect(dialog).toBeHidden();
+      dialog = await openPackages(page);
+      await dialog.getByRole('button', { name: `Start ${action}`, exact: true }).click();
+      await expect(dialog.getByRole('button', { name: 'Back to actions', exact: true })).toBeEnabled();
+      await dialog.getByRole('button', { name: 'Close', exact: true }).click();
+      await expect(dialog).toBeHidden();
+      dialog = await openPackages(page);
+      await expect(dialog.getByLabel('Saved packages', { exact: true }).getByRole('option')).toHaveCount(savedCount);
+    }
+  });
+
+  test('edited action answers survive Escape and cancelled Back until discard is confirmed', async ({ page }) => {
+    await page.goto('/');
+    const dialog = await openPackages(page);
+    await dialog.getByRole('button', { name: 'Start administrative request', exact: true }).click();
+    const requester = dialog.getByRole('textbox', { name: 'Requester', exact: true });
+    await requester.fill('Alex Example');
+    await page.keyboard.press('Escape');
+    await expect(dialog).toBeVisible();
+    await expect(requester).toHaveValue('Alex Example');
+    const back = dialog.getByRole('button', { name: 'Back to actions', exact: true });
+    await back.click();
+    const confirmation = page.getByRole('alertdialog', { name: 'Discard intake changes?', exact: true });
+    await confirmation.getByRole('button', { name: 'Cancel', exact: true }).click();
+    await expect(requester).toHaveValue('Alex Example');
+    await back.click();
+    await confirmation.getByRole('button', { name: 'Discard changes', exact: true }).click();
+    await expect(dialog.getByRole('heading', { name: 'Start from an action', exact: true })).toBeFocused();
+    await expect(dialog.getByRole('button', { name: 'Start administrative request', exact: true })).toBeEnabled();
+    await page.keyboard.press('Escape');
+    await expect(dialog).toBeHidden();
+  });
+});
+
 for (const theme of ['light', 'dark', 'classic']) test(`package workspace resumes the exact selected revision and original member in ${theme}`, async ({ page, context }, info) => {
   await context.addInitScript(value => {
     localStorage.setItem('browser-test-visitor', 'returning');

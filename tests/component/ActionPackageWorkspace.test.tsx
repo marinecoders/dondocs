@@ -66,6 +66,21 @@ it("exposes derived evidence requirements for an imported legacy intake without 
   expect((await listActionPackages()).find(record => record.id === legacy.id)).toEqual(legacy);
 });
 
+it("closes an untouched new action with Escape without creating a package", async () => {
+  const before = await listActionPackages();
+  useUIStore.setState({ actionPackagesOpen: true });
+  render(<ActionPackageWorkspace exportGate={createExportGate()} ports={{ compile: vi.fn(), convertDocx: vi.fn(), waitForReady: async () => true }} />);
+  const dialog = await screen.findByRole("dialog", { name: "Action packages" }), user = userEvent.setup();
+  const start = await within(dialog).findByRole("button", { name: "Start training participation" });
+  await waitFor(() => expect(start).toBeEnabled()); await user.click(start);
+  const course = await within(dialog).findByLabelText("Course or activity", { exact: true });
+  await waitFor(() => expect(course).toBeEnabled());
+  expect(within(dialog).getByRole("button", { name: "Close" })).toBeVisible();
+  await user.keyboard("{Escape}");
+  await waitFor(() => expect(dialog).not.toBeVisible());
+  expect(await listActionPackages()).toEqual(before);
+});
+
 it("holds new action intake through close and package switching until its changes are discarded", async () => {
   const origin = await createActionPackage("Conditional intake origin"), destination = await createActionPackage("Conditional intake destination");
   useUIStore.getState().openActionPackage(origin.id);

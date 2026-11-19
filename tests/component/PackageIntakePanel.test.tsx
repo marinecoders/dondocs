@@ -5,6 +5,7 @@ import userEvent from '@testing-library/user-event';
 import { beforeEach, expect, it, vi } from 'vitest';
 import { PDFDocument } from 'pdf-lib';
 import { PackageIntakePanel } from '@/components/PackageIntakePanel';
+import { AppAlertDialog } from '@/components/AppAlertDialog';
 import { createActionPackage, getPackageRevision, listActionPackages, type ActionPackage } from '@/lib/actionPackages';
 import { idbGetAllAttachments } from '@/lib/documentsDb';
 import { resolveExportDeploymentPolicy } from '@/lib/exportDeploymentPolicy';
@@ -26,7 +27,7 @@ beforeEach(async () => {
 function Harness({ initial }: { initial?: ActionPackage }) {
   const [record, setRecord] = useState(initial), [busy, setBusy] = useState(false), [dirty, setDirty] = useState(false), [error, setError] = useState('');
   const operation = useRef<AbortController | undefined>(undefined);
-  return <><output aria-label="Intake dirty state">{String(dirty)}</output>{error && <p role="alert">{error}</p>}
+  return <><AppAlertDialog /><output aria-label="Intake dirty state">{String(dirty)}</output>{error && <p role="alert">{error}</p>}
     <PackageIntakePanel record={record} revision={record ? getPackageRevision(record) : undefined} editable disabled={false} busy={busy}
       signal={() => operation.current?.signal} isCurrent={() => true} onDirtyChange={setDirty} onApply={setRecord}
       run={async action => { operation.current = new AbortController(); setBusy(true); try { await action(); } catch (cause) { setError(String(cause)); } finally { setBusy(false); } }} />
@@ -37,6 +38,34 @@ async function startTraining(user: ReturnType<typeof userEvent.setup>) {
   const field = await screen.findByLabelText('Course or activity', { exact: true });
   await waitFor(() => expect(field).toBeEnabled()); return field;
 }
+
+it('returns from an untouched action without saving and focuses the action catalog', async () => {
+  const user = userEvent.setup(); render(<Harness />);
+  await startTraining(user);
+  expect(screen.getByLabelText('Intake dirty state')).toHaveTextContent('false');
+  expect(screen.getByRole('button', { name: 'Save intake draft' })).toBeEnabled();
+  await user.click(screen.getByRole('button', { name: 'Back to actions' }));
+  expect(screen.getByRole('heading', { name: 'Start from an action' })).toHaveFocus();
+  expect(screen.queryByLabelText('Course or activity', { exact: true })).toBeNull();
+  expect(screen.getByRole('button', { name: 'Start training participation' })).toBeEnabled();
+  expect(await listActionPackages()).toEqual([]);
+});
+
+it('keeps entered answers when returning is cancelled and discards only after confirmation', async () => {
+  const user = userEvent.setup(); render(<Harness />);
+  const course = await startTraining(user); await user.type(course, 'Keep this course until discarded');
+  await user.click(screen.getByRole('button', { name: 'Back to actions' }));
+  let confirmation = screen.getByRole('alertdialog', { name: 'Discard intake changes?' });
+  await user.click(within(confirmation).getByRole('button', { name: 'Cancel' }));
+  expect(course).toHaveValue('Keep this course until discarded');
+  expect(screen.getByLabelText('Intake dirty state')).toHaveTextContent('true');
+  await user.click(screen.getByRole('button', { name: 'Back to actions' }));
+  confirmation = screen.getByRole('alertdialog', { name: 'Discard intake changes?' });
+  await user.click(within(confirmation).getByRole('button', { name: 'Discard changes' }));
+  await waitFor(() => expect(screen.getByRole('heading', { name: 'Start from an action' })).toHaveFocus());
+  expect(screen.getByLabelText('Intake dirty state')).toHaveTextContent('false');
+  expect(await listActionPackages()).toEqual([]);
+});
 
 it('saves and resumes incomplete intake without applying documents, even when owner props are cloned on parent renders', async () => {
   const user = userEvent.setup(), view = render(<Harness />);
