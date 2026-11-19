@@ -1,0 +1,11 @@
+{
+  "source": "Synthetic ReportLab fixture with red source rectangles and two visible page labels; page 2 has 90-degree rotation. qpdf adds encryption. No personal or official content.",
+  "files": {
+    "owner-aes.pdf": "48a73b0b5e5d5e7198534296ae8aacafe6ee5add809eee102f89cb21b9f8c4d3",
+    "owner-rc4.pdf": "5efa15cad26127ebdf666c0dc366db83b867a40b738df877341662fd37e9708e",
+    "source.pdf": "528fe183dd932b0d487d16c003bb2e417b4ac2d98f0273a6e1b1b95fe95e7810",
+    "opening-password.pdf": "ca094a00bf7c3672f0de9d5eb669ecc754c52e0ae3ef71b3799df18f4e57d379",
+    "source-cropped.pdf": "a73562f5a0e2156ff63440f1d6973c367a6fc871997f04c75ce60220ad1457de",
+    "owner-cropped.pdf": "4fb28c989ba42748d5ee50fbb883d6adb3a65896b001c283caef74077fee203e"
+  }
+}

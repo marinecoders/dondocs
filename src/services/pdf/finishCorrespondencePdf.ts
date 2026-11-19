@@ -23,12 +23,12 @@ import { addSignatureField, addDualSignatureFields, type DualSignatureFieldConfi
 export async function assembleBasicLetter(
   pdfBytes: Uint8Array,
   docType: string,
-  formData: Partial<DocumentData>
+  formData: Partial<DocumentData>, signal?: AbortSignal
 ): Promise<{ pdfBytes: Uint8Array; error?: string }> {
   // The gate (new-page only, letter attached) lives in assembleEndorsement.ts
   // where it is unit-tested; see shouldAssembleBasicLetter for the reasoning.
   if (!shouldAssembleBasicLetter(docType, formData)) return { pdfBytes };
-  const result = await assembleEndorsement(pdfBytes, formData.basicLetterFile!.data);
+  const result = await assembleEndorsement(pdfBytes, formData.basicLetterFile!.data, signal);
   return result.ok ? { pdfBytes: result.pdfBytes } : { pdfBytes, error: result.error };
 }
 
@@ -113,16 +113,16 @@ export function getDualSignatoryConfig(formData: Partial<DocumentData>, uiMode: 
 }
 
 /** The same assembly sequence is used by single downloads and batch results. */
-export async function finishCorrespondencePdf(pdf: Uint8Array, docType: string, formData: Partial<DocumentData>, generated: GeneratedFiles, paragraphs: Paragraph[] = [], resolved?: { marking: ClassificationInfo | undefined; referenceDate?: Date }): Promise<{ pdfBytes: Uint8Array; errors: EnclosureError[] }> {
+export async function finishCorrespondencePdf(pdf: Uint8Array, docType: string, formData: Partial<DocumentData>, generated: GeneratedFiles, paragraphs: Paragraph[] = [], resolved?: { marking: ClassificationInfo | undefined; referenceDate?: Date; signal?: AbortSignal }): Promise<{ pdfBytes: Uint8Array; errors: EnclosureError[] }> {
   const config = DOC_TYPE_CONFIG[docType];
   const dualSignature = config?.uiMode === 'moa' || config?.compliance?.dualSignature;
   const positioned = formData.signatureType === 'digital' && dualSignature ? await resolvePublicationDestinations(pdf) : pdf;
-  const assembled = await assembleBasicLetter(positioned, docType, formData);
+  const assembled = await assembleBasicLetter(positioned, docType, formData, resolved?.signal);
   let pdfBytes = assembled.pdfBytes;
   const errors = assembled.error ? [basicLetterError(assembled.error)] : [];
   let lastBasicPageIndex: number | undefined;
   if (generated.enclosures.length || (generated.includeHyperlinks && generated.referenceUrls.length)) {
-    const merged = await mergeEnclosures(pdfBytes, generated.enclosures, resolved ? resolved.marking : publicationMarking(formData, paragraphs), generated.includeHyperlinks, generated.referenceUrls, { enclosureLabel: DOC_TYPE_CONFIG[docType]?.enclosureLabel, ...(DOC_TYPE_CONFIG[docType]?.enclosureLabel === 'footer' ? { header: { line1: formData.shortTitle || '', line2: formatPublicationDate(formData.date || '', resolved?.referenceDate) } } : {}) });
+    const merged = await mergeEnclosures(pdfBytes, generated.enclosures, resolved ? resolved.marking : publicationMarking(formData, paragraphs), generated.includeHyperlinks, generated.referenceUrls, { signal: resolved?.signal, enclosureLabel: DOC_TYPE_CONFIG[docType]?.enclosureLabel, ...(DOC_TYPE_CONFIG[docType]?.enclosureLabel === 'footer' ? { header: { line1: formData.shortTitle || '', line2: formatPublicationDate(formData.date || '', resolved?.referenceDate) } } : {}) });
     pdfBytes = merged.pdfBytes;
     lastBasicPageIndex = merged.basicPageCount !== undefined ? merged.basicPageCount - 1 : undefined;
     if (merged.hasErrors) errors.push(...merged.errors);

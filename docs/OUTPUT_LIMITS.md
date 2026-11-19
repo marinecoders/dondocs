@@ -2,6 +2,23 @@
 
 See the [capability matrix](CAPABILITIES.md) for current format availability.
 
+## Attached PDFs
+
+Basic-letter and enclosure assembly keep ordinary PDFs as PDF pages. A readable
+permission-protected PDF requires confirmation when attached: its assembled pages
+are images. Selectable text, interactive fields and certificate signatures do not
+carry into that derivative; the exact uploaded original remains in the draft and
+portable files. Files requiring an opening password must first be exported as a
+readable copy in a PDF application. Unreadable required content blocks complete
+export rather than being silently omitted.
+
+Protected sources are limited to 25 MB and 50 pages, with at most 40 million source
+image pixels. Preparation uses at most 4 million pixels per page, 32 million pixels
+across the document, 32 MB of encoded page images and 45 seconds. Split a source or
+export an unprotected copy when those limits are reached. These limits apply to
+embedded basic letters and enclosures; standalone original files in packages keep
+their separate validation requirements.
+
 ## Tagged PDF output
 
 **Download → Tagged PDF (experimental)** supports native unclassified Standard and Naval Letters, with explicit table column headers and body-image alternatives. It rejects original/enclosure PDFs, signing fields and other unqualified input. The exporter validates the saved structure and content associations before delivery. Native screen-reader qualification and PDF/UA conformance remain unestablished; see the [tagged PDF guide](TAGGED_PDF.md) for measured scope and limits. Ordinary PDFs and mixed packages have no new accessibility claim.

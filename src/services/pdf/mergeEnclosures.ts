@@ -1,4 +1,5 @@
 import { appendPublicationOutline } from './publicationDestinations';
+import { loadAssemblyPdf } from './assemblyPdf';
 import type { PDFObject } from 'pdf-lib';
 import { PDFDocument, rgb, StandardFonts, PDFPage, PDFName, PDFArray, PDFNumber, PDFRef, PDFRawStream, PDFDict, PDFString, PDFHexString, degrees } from 'pdf-lib';
 import pako from 'pako';
@@ -35,6 +36,7 @@ export interface PublicationHeader {
 }
 
 export interface MergeOptions {
+  signal?: AbortSignal;
   /** Where each enclosure page carries its label. Defaults to the corner. */
   enclosureLabel?: EnclosureLabelStyle;
   /** Right-aligned on the first page of an attached publication document. */
@@ -1101,9 +1103,9 @@ interface ValidatePdfResult {
  * (avoiding a second PDFDocument.load() in addPdfEnclosure — a 5-enclosure
  * doc previously did 11 PDF parses; now it does 6).
  */
-async function validatePdf(data: ArrayBuffer, enclosureNumber: number): Promise<ValidatePdfResult> {
+async function validatePdf(data: ArrayBuffer, enclosureNumber: number, signal?: AbortSignal): Promise<ValidatePdfResult> {
   try {
-    const pdf = await PDFDocument.load(data, { ignoreEncryption: true });
+    const { pdf } = await loadAssemblyPdf(data, signal);
     const pageCount = pdf.getPageCount();
 
     if (pageCount === 0) {
@@ -1120,8 +1122,13 @@ async function validatePdf(data: ArrayBuffer, enclosureNumber: number): Promise<
       }
     }
 
+    // Embedding is deferred by pdf-lib until save. Decode in a disposable
+    // document first so corrupt streams never enter the delivered document.
+    const probe = await PDFDocument.create();
+    for (const page of pdf.getPages()) await (await probe.embedPage(page)).embed();
     return { pdf, error: null };
   } catch (err) {
+    signal?.throwIfAborted();
     const message = err instanceof Error ? err.message : 'Unknown error';
     debug.error('MergeEnclosures', `Enclosure ${enclosureNumber} validation failed:`, message);
     return { pdf: null, error: message };
@@ -1164,6 +1171,7 @@ export async function mergeEnclosures(
 
   // Process each enclosure in order
   for (const enclosure of enclosures) {
+    options.signal?.throwIfAborted();
     try {
       if (labelStyle === 'footer' && enclosure.hasCoverPage) {
         throw new Error('Remove the added enclosure cover page. I-Type enclosures identify the attached document on its first page.');
@@ -1177,7 +1185,7 @@ export async function mergeEnclosures(
         // Validate PDF before attempting to merge. validatePdf returns the
         // loaded PDFDocument on success so addPdfEnclosure can reuse it
         // instead of parsing the same bytes a second time.
-        const { pdf: enclosurePdf, error: validationError } = await validatePdf(enclosure.data, enclosure.number);
+        const { pdf: enclosurePdf, error: validationError } = await validatePdf(enclosure.data, enclosure.number, options.signal);
         if (validationError || !enclosurePdf) {
           debug.error('MergeEnclosures', `Enclosure ${enclosure.number} "${enclosure.title}" failed validation: ${validationError}`);
           errors.push({
@@ -1200,6 +1208,7 @@ export async function mergeEnclosures(
       // Note: Text-only enclosures without hasCoverPage just appear in the enclosure list
       // No placeholder page is created unless explicitly requested via hasCoverPage
     } catch (err) {
+      options.signal?.throwIfAborted();
       const errorMessage = err instanceof Error ? err.message : 'Unknown error';
       debug.error('MergeEnclosures', `Failed to add enclosure ${enclosure.number}:`, err);
       errors.push({
@@ -1244,6 +1253,7 @@ export async function mergeEnclosures(
     createUriLinkAnnotations(mainPdf, refPositions);
   }
 
+  options.signal?.throwIfAborted();
   const pdfBytes = await mainPdf.save();
 
   if (errors.length > 0) {
@@ -1326,6 +1336,8 @@ async function addPdfEnclosure(
       const landscape = visualWidth > visualHeight;
       const outputWidth = publication ? Math.max(landscape ? PAGE_HEIGHT : PAGE_WIDTH, visualWidth) : PAGE_WIDTH;
       const outputHeight = publication ? Math.max(landscape ? PAGE_WIDTH : PAGE_HEIGHT, visualHeight) : PAGE_HEIGHT;
+      const embeddedPage = await mainPdf.embedPage(srcPage);
+      await embeddedPage.embed();
       const page = mainPdf.addPage([outputWidth, outputHeight]);
 
       // Record first page for hyperlink navigation
@@ -1336,8 +1348,6 @@ async function addPdfEnclosure(
       if (classification?.marking) {
         addClassificationMarking(page, classification.marking, helveticaBold, 'top');
       }
-
-      const embeddedPage = await mainPdf.embedPage(srcPage);
 
       // Calculate layout using VISUAL dimensions (after rotation)
       // This ensures the rotated content is sized correctly for our output page
