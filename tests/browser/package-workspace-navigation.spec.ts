@@ -9,7 +9,9 @@ async function openPackages(page: Page) {
   if (!await drawer.isVisible()) await page.getByRole('button', { name: 'Open workspace', exact: true })
     .or(page.getByRole('button', { name: /^Packages(?:\s|$)/ })).first().click();
   if (await drawer.isVisible()) await drawer.getByRole('button', { name: /^Packages(?:\s|$)/ }).click();
-  return page.getByRole('dialog', { name: 'Action packages', exact: true });
+  const dialog = page.getByRole('dialog', { name: 'Action packages', exact: true });
+  await expect(dialog.getByLabel('Saved packages', { exact: true })).toBeEnabled();
+  return dialog;
 }
 
 for (const theme of ['light', 'dark', 'classic']) test.describe(`action navigation in ${theme}`, () => {
