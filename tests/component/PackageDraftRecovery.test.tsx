@@ -1,7 +1,7 @@
 import 'fake-indexeddb/auto';
 import { useState } from 'react';
 import { afterEach, expect, it, vi } from 'vitest';
-import { act, render, screen, waitFor } from '@testing-library/react';
+import { act, render, renderHook, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { usePackageEditDraft } from '@/hooks/usePackageEditDraft';
 import { openPackageEditDraft, packageEditDraftScope } from '@/lib/packageEditDrafts';
@@ -59,4 +59,19 @@ it('keeps a newer recovery write active when an older write fails', async () => 
   expect(screen.getByRole('status')).toHaveTextContent('saved');
   expect(screen.getByLabelText('Draft')).toHaveValue('ab');
   expect(screen.queryByRole('alert')).toBeNull();
+});
+
+for (const transition of ['enable', 'scope'] as const) it(`reports recovery loading immediately on ${transition} changes`, async () => {
+  const statuses: string[] = [];
+  vi.spyOn(editDrafts, 'openPackageEditDraft').mockResolvedValue({ value: null, error: '', save: vi.fn() });
+  const view = renderHook(({ scope, enabled }) => {
+    const recovery = usePackageEditDraft({ scope, enabled, value: {}, dirty: false, restore() {} });
+    statuses.push(recovery.status);
+    return recovery;
+  }, { initialProps: { scope: 'first', enabled: transition !== 'enable' } });
+  await waitFor(() => expect(view.result.current.status).toBe('idle'));
+  statuses.length = 0;
+  view.rerender({ scope: transition === 'scope' ? 'second' : 'first', enabled: true });
+  expect(statuses[0]).toBe('loading');
+  await waitFor(() => expect(view.result.current.status).toBe('idle'));
 });

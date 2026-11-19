@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { openPackageEditDraft } from '@/lib/packageEditDrafts';
 
 const binaryIdentities = new WeakMap<ArrayBuffer | Blob, number>();
@@ -18,7 +18,13 @@ export function usePackageEditDraft<T>({ scope, value, dirty, enabled, restore }
   enabled: boolean;
   restore(value: unknown, isCurrent: () => boolean): void | Promise<void>;
 }) {
-  const [status, setStatus] = useState<'loading' | 'idle' | 'saving' | 'saved' | 'error'>(enabled ? 'loading' : 'idle');
+  type Status = 'loading' | 'idle' | 'saving' | 'saved' | 'error';
+  const [statusState, setStatusState] = useState<{ scope: string; enabled: boolean; value: Status }>(() => ({ scope, enabled, value: enabled ? 'loading' : 'idle' }));
+  const matchesScope = statusState.scope === scope && statusState.enabled === enabled;
+  // A new recovery scope is loading before effects run, so its fields cannot
+  // briefly accept input and then lose focus when recovery disables them.
+  const status = matchesScope ? statusState.value : enabled ? 'loading' : 'idle';
+  const setStatus = useCallback((value: Status) => setStatusState({ scope, enabled, value }), [scope, enabled]);
   const [error, setError] = useState('');
   const restoreRef = useRef(restore), alive = useRef(true), revision = useRef(0);
   const session = useRef<{ scope: string; store: Awaited<ReturnType<typeof openPackageEditDraft>>; last: string | null; blocked: boolean } | null>(null);
@@ -42,7 +48,7 @@ export function usePackageEditDraft<T>({ scope, value, dirty, enabled, restore }
       setStatus(store.value === null ? 'idle' : 'saved');
     }).catch(cause => { if (current) { setError(cause instanceof Error ? cause.message : 'Local draft recovery is unavailable.'); setStatus('error'); } });
     return () => { current = false; };
-  }, [scope, enabled]);
+  }, [scope, enabled, setStatus]);
   useEffect(() => {
     const current = session.current;
     if (!enabled || !current || current.scope !== scope || current.blocked) return;
@@ -56,14 +62,14 @@ export function usePackageEditDraft<T>({ scope, value, dirty, enabled, restore }
     }).catch(cause => {
       if (alive.current && session.current === current && revision.current === write) { current.last = null; setStatus('error'); setError(cause instanceof Error ? cause.message : 'Your edits could not be saved for recovery.'); }
     });
-  }, [scope, serialized, dirty, enabled, loading]);
+  }, [scope, serialized, dirty, enabled, loading, setStatus]);
   useEffect(() => {
     if (!dirty || status !== 'saving' && status !== 'error') return;
     const protect = (event: BeforeUnloadEvent) => { event.preventDefault(); event.returnValue = ''; };
     window.addEventListener('beforeunload', protect);
     return () => window.removeEventListener('beforeunload', protect);
   }, [dirty, status]);
-  return { status, error, clear: async () => {
+  return { status, error: matchesScope ? error : '', clear: async () => {
     const current = session.current;
     if (!current) return;
     setStatus('saving');
