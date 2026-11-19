@@ -56,11 +56,14 @@ export function PackageDocumentPreview({ packageId, revisionId, member, active, 
     return () => { current = false; controller.abort(); if (url) URL.revokeObjectURL(url); setResult(value => value?.owner === owner ? undefined : value); };
   }, [active, member, owner, attempt, exportGate]);
   const shown = result?.owner === owner ? result : undefined;
-  return <section aria-label={`Preview of ${member.label}`} className="min-w-0 space-y-3">
-    {shown?.error ? <div className="space-y-3 rounded-md bg-muted p-5"><p role="alert" className="break-words text-sm">{shown.error}</p><Button variant="outline" size="sm" onClick={() => setAttempt(value => value + 1)}>Retry preview</Button></div>
-      : shown?.url ? shown.image ? <img src={shown.url} alt={member.label} className="mx-auto max-h-[65dvh] max-w-full object-contain" />
-        : <div className="h-[68dvh] min-h-80 overflow-hidden rounded-md border"><Suspense fallback={<p role="status" className="p-5 text-sm">Opening PDF…</p>}><PdfViewer pdfUrl={shown.url} documentId={`package-member:${owner}`} showFullscreen={false} toolbarLabel="Saved document preview" /></Suspense></div>
-        : shown?.text ? <pre className="max-h-[65dvh] overflow-auto whitespace-pre-wrap break-words rounded-md bg-muted p-5 font-sans text-sm">{shown.text.slice(0,20000)}</pre>
-          : active && <p role="status" className="py-12 text-center text-sm text-muted-foreground">Preparing document preview…</p>}
+  return <section aria-label={`Preview of ${member.label}`} className="min-w-0">
+    {/* Keep document controls in place when the asynchronous preview arrives. */}
+    {active && <div className="h-[68dvh] min-h-80 overflow-hidden rounded-md border">
+      {shown?.error ? <div className="h-full space-y-3 overflow-auto bg-muted p-5"><p role="alert" className="break-words text-sm">{shown.error}</p><Button variant="outline" size="sm" onClick={() => setAttempt(value => value + 1)}>Retry preview</Button></div>
+        : shown?.url ? shown.image ? <img src={shown.url} alt={member.label} className="h-full w-full object-contain" />
+          : <Suspense fallback={<p role="status" className="p-5 text-sm">Opening PDF…</p>}><PdfViewer pdfUrl={shown.url} documentId={`package-member:${owner}`} showFullscreen={false} toolbarLabel="Saved document preview" /></Suspense>
+          : shown?.text !== undefined ? <pre className="h-full overflow-auto whitespace-pre-wrap break-words bg-muted p-5 font-sans text-sm">{shown.text.slice(0,20000)}</pre>
+            : <p role="status" className="flex h-full items-center justify-center p-5 text-center text-sm text-muted-foreground">Preparing document preview…</p>}
+    </div>}
   </section>;
 }
