@@ -385,8 +385,9 @@ jobs:
     runs-on: ubuntu-latest
     # Includes setup and complete browser profiles with review/asset workflows.
     # Desktop WebKit uses three shards; Firefox, iPad Safari and both iOS
-    # phone profiles use two to fit complete suites within the per-job budget.
-    timeout-minutes: 75
+    # phone profiles use two. Cold WebKit setup can take 18 minutes before a
+    # complete profile runs for more than an hour, so include both in the budget.
+    timeout-minutes: 120
     strategy:
       fail-fast: false
       matrix:

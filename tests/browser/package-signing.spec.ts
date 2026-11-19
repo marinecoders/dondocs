@@ -22,7 +22,7 @@ async function signingPanel(dialog: Locator) {
 async function capturedHandoff(panel: Locator) {
   const review = panel.getByRole('button', { name: 'Review retained handoff 1', exact: true });
   if (!await review.isVisible()) await panel.locator('summary').filter({ hasText: /^Captured signing handoff 1$/ }).click();
-  await review.click(); await expect(panel.getByLabel('Exact retained package handoff PDF', { exact: true }).locator('canvas').first()).toBeVisible();
+  await review.click(); await expect(panel.getByLabel('Exact retained package handoff PDF', { exact: true }).locator('canvas').first()).toBeVisible({ timeout: 30_000 });
   const source = panel.getByText('Inspect retained source PDF', { exact: true });
   await source.click(); await expect(panel.getByLabel('Exact retained package signing source PDF', { exact: true }).locator('canvas').first()).toBeVisible(); await source.click();
 }
@@ -53,7 +53,8 @@ for (const theme of ['light', 'dark', 'classic']) for (const width of [1440, 320
   let panel = await signingPanel(dialog);
   await panel.getByLabel('Package signing PDF', { exact: true }).selectOption({ label: 'Original PDF: Synthetic signing source.pdf' });
   await panel.getByRole('button', { name: 'Review signing source', exact: true }).click();
-  await expect(panel.getByLabel('Exact package signing source PDF', { exact: true }).locator('canvas').first()).toBeVisible();
+  // The first source review includes cold PDF-worker startup on hosted Firefox.
+  await expect(panel.getByLabel('Exact package signing source PDF', { exact: true }).locator('canvas').first()).toBeVisible({ timeout: 30_000 });
   await panel.getByRole('checkbox', { name: /^I reviewed the exact source PDF/ }).check();
   await panel.getByRole('button', { name: 'Open signing workspace for this PDF', exact: true }).click();
   let workspace = page.getByRole('dialog', { name: 'Signing workspace', exact: true }); await expect(workspace).toBeVisible();

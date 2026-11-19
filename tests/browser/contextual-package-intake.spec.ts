@@ -227,6 +227,7 @@ for (const theme of ['light', 'dark', 'classic']) test.describe(theme, () => {
       await receiver.addInitScript(() => localStorage.setItem('browser-test-visitor', 'returning'));
       const target = await receiver.newPage(); await target.goto(baseURL!); const received = await packages(target);
       await received.getByLabel('Import editable package', { exact: true }).setInputFiles({ name: 'training-action.json', mimeType: 'application/json', buffer: changed.bytes });
+      await expect(received.getByLabel('Saved packages', { exact: true })).toHaveValue(changed.data.package.id, { timeout: 30_000 });
       const transferred = await portable(target, received);
       expect(transferred.data.package.revisions[0].templateState).toEqual(result.templateState);
       expect(transferred.data.package.revisions[0].members.find((member: { id: string }) => member.id === inPerson.id).session.genericForm.answers.location).toBe('Locally corrected room');
