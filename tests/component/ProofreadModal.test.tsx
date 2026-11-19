@@ -79,7 +79,7 @@ describe('proofread entry and current-draft review', () => {
       fireEvent.click(screen.getByRole('button', { name: /^Proofread:/ }));
       const row = screen.getByText(title, { exact: true }).closest('li')!;
       fireEvent.click(within(row).getByRole('button', { name: 'Go to Paragraphs' }));
-      await waitFor(() => expect(screen.getByRole('textbox', { name, exact: true })).toHaveFocus());
+      await waitFor(() => expect(screen.getByRole('textbox', { name })).toHaveFocus());
     }
   });
 
@@ -107,7 +107,7 @@ describe('proofread entry and current-draft review', () => {
       fireEvent.click(screen.getByRole('button', { name: /^Proofread:/ }));
       const row = screen.getByText(title, { exact: true }).closest('li')!;
       fireEvent.click(within(row).getByRole('button', { name: 'Go to Paragraphs' }));
-      await waitFor(() => expect(screen.getByRole('textbox', { name, exact: true })).toHaveFocus());
+      await waitFor(() => expect(screen.getByRole('textbox', { name })).toHaveFocus());
     }
   });
 
@@ -117,7 +117,7 @@ describe('proofread entry and current-draft review', () => {
     fireEvent.click(screen.getByRole('button', { name: /^Proofread:/ }));
     const row = screen.getByText('Social Security Number pattern in Paragraph 1', { exact: true }).closest('li')!;
     fireEvent.click(within(row).getByRole('button', { name: 'Go to Illustrations' }));
-    await waitFor(() => expect(screen.getByRole('textbox', { name: 'Illustration 1 (unassigned) title', exact: true })).toHaveFocus());
+    await waitFor(() => expect(screen.getByRole('textbox', { name: 'Illustration 1 (unassigned) title' })).toHaveFocus());
   });
 
   it('opens the actual selector for a sensitive composed CUI distribution statement', async () => {
@@ -130,7 +130,7 @@ describe('proofread entry and current-draft review', () => {
       fireEvent.click(screen.getByRole('button', { name: /^Proofread:/ }));
       const row = screen.getByText('Social Security Number pattern in Distribution statement', { exact: true }).closest('li')!;
       fireEvent.click(within(row).getByRole('button', { name: 'Go to Classification' }));
-      await waitFor(() => expect(screen.getByRole('combobox', { name: 'Distribution Statement', exact: true })).toHaveFocus());
+      await waitFor(() => expect(screen.getByRole('combobox', { name: 'Distribution Statement' })).toHaveFocus());
       expect(document.getElementById('distReason')).toBeNull();
       expect(document.getElementById('controllingOffice')).toBeNull();
     } finally { restriction.mockRestore(); }
