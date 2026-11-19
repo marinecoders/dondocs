@@ -54,7 +54,7 @@ export function createPdfResourceValidator(pdf: PDFDocument, signal?: AbortSigna
     for (let index = 0; index < filters.length; index++) {
       const encoding = filters[index];
       if (!(encoding instanceof PDFName)) throw new Error('PDF compression has an invalid filter.');
-      if (stream.dict.get(PDFName.of('Subtype')) === PDFName.of('Image') && IMAGE_CODECS.has(encoding.asString()) && index === filters.length - 1) return;
+      if (stream.dict.lookup(PDFName.of('Subtype')) === PDFName.of('Image') && IMAGE_CODECS.has(encoding.asString()) && index === filters.length - 1) return;
       const retain = index < filters.length - 1;
       const chunks: Uint8Array[] = [];
       let length = 0;

@@ -105,7 +105,7 @@ describe('protected PDF assembly', () => {
     expect(bytes).toEqual(original);
   });
 
-  for (const filter of ['DCTDecode', 'DCT']) it(`preserves a real JPEG with ${filter} encoding`, async () => {
+  for (const [filter, indirect] of [['DCTDecode', false], ['DCT', true]] as const) it(`preserves a real JPEG with ${filter} encoding`, async () => {
     const pdf = await PDFDocument.create(), jpeg = await fixture('red.jpg'), main = await fixture('source.pdf');
     const image = await pdf.embedJpg(jpeg);
     pdf.addPage().drawImage(image, { x: 72, y: 72, width: 300, height: 60 });
@@ -113,13 +113,14 @@ describe('protected PDF assembly', () => {
     const stream = pdf.context.lookup(image.ref);
     if (!(stream instanceof PDFRawStream)) throw new Error('The synthetic JPEG stream is missing.');
     stream.dict.set(PDFName.of('Filter'), PDFName.of(filter));
+    if (indirect) stream.dict.set(PDFName.of('Subtype'), pdf.context.register(PDFName.of('Image')));
     const bytes = new Uint8Array(await pdf.save()), original = bytes.slice();
     expect(await inspectAssemblyPdf(bytes)).toEqual({ pageCount: 1, pageImages: false });
     expect((await assembleEndorsement(main, bytes)).ok).toBe(true);
     const merged = await mergeEnclosures(main, [{ number: 1, title: 'JPEG source', data: bytes.buffer }]);
     expect(merged.hasErrors).toBe(false);
     const retained = (await PDFDocument.load(merged.pdfBytes)).context.enumerateIndirectObjects().map(([, object]) => object)
-      .filter((object): object is PDFRawStream => object instanceof PDFRawStream && object.dict.get(PDFName.of('Subtype')) === PDFName.of('Image'));
+      .filter((object): object is PDFRawStream => object instanceof PDFRawStream && object.dict.lookup(PDFName.of('Subtype')) === PDFName.of('Image'));
     expect(retained.some(object => object.getContents().every((value, index) => value === jpeg[index]) && object.getContentsSize() === jpeg.length)).toBe(true);
     expect(bytes).toEqual(original);
   });

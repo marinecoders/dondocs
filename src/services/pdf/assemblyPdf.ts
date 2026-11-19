@@ -60,7 +60,7 @@ function pagePng(canvas: HTMLCanvasElement, signal: AbortSignal): Promise<Blob> 
 function checkImages(pdf: PDFDocument): void {
   let total = 0;
   for (const [, object] of pdf.context.enumerateIndirectObjects()) {
-    if (!(object instanceof PDFRawStream) || object.dict.get(PDFName.of('Subtype'))?.toString() !== '/Image') continue;
+    if (!(object instanceof PDFRawStream) || object.dict.lookup(PDFName.of('Subtype')) !== PDFName.of('Image')) continue;
     const width = object.dict.lookup(PDFName.of('Width'), PDFNumber)?.asNumber() ?? NaN;
     const height = object.dict.lookup(PDFName.of('Height'), PDFNumber)?.asNumber() ?? NaN;
     const pixels = width * height;
