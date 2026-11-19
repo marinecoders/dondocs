@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { readFile } from 'node:fs/promises';
 import { PDFDocument, PDFName, PDFRawStream } from 'pdf-lib';
-import { loadAssemblyPdf, PROTECTED_PDF_LIMITS } from '@/services/pdf/assemblyPdf';
+import { inspectAssemblyPdf, loadAssemblyPdf, PROTECTED_PDF_LIMITS } from '@/services/pdf/assemblyPdf';
 import { assembleEndorsement, validateBasicLetter } from '@/services/pdf/assembleEndorsement';
 import { mergeEnclosures } from '@/services/pdf/mergeEnclosures';
 
@@ -31,6 +31,24 @@ describe('protected PDF assembly', () => {
     expect(loaded.pdf.getPageCount()).toBe(2);
     expect(mocks.getDocument).not.toHaveBeenCalled();
     expect(source).toEqual(original);
+  });
+
+  it('rejects malformed unencrypted page streams before attachment or either assembly path can report success', async () => {
+    const corrupt = await PDFDocument.create();
+    corrupt.addPage().node.set(PDFName.of('Contents'), corrupt.context.register(
+      corrupt.context.stream(Uint8Array.of(1, 2, 3, 4), { Filter: 'FlateDecode' }),
+    ));
+    const bytes = await corrupt.save(), original = bytes.slice(), main = await fixture('source.pdf');
+    await expect(inspectAssemblyPdf(bytes)).rejects.toThrow(/page 1 is unreadable/);
+    expect(await validateBasicLetter(bytes)).toMatchObject({ ok: false, error: expect.stringMatching(/page 1 is unreadable/) });
+    const assembled = await assembleEndorsement(main, bytes);
+    expect(assembled).toMatchObject({ ok: false, error: expect.stringMatching(/page 1 is unreadable/) });
+    expect(assembled.pdfBytes).toBe(main);
+    const merged = await mergeEnclosures(main, [{ number: 1, title: 'Malformed source', data: bytes.buffer }]);
+    expect(merged.hasErrors).toBe(true);
+    expect(merged.errors[0].error).toMatch(/page 1 is unreadable/);
+    expect(bytes).toEqual(original);
+    expect(mocks.getDocument).not.toHaveBeenCalled();
   });
 
   for (const name of ['owner-aes.pdf', 'owner-rc4.pdf']) it(`renders ${name} into separately owned page images on both paths`, async () => {

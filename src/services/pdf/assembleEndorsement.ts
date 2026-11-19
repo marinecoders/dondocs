@@ -1,6 +1,6 @@
 import { PDFDocument, PDFName } from 'pdf-lib';
 import { debug } from '@/lib/debug';
-import { loadAssemblyPdf } from './assemblyPdf';
+import { assertAssemblyPagesReadable, loadAssemblyPdf } from './assemblyPdf';
 
 /**
  * Assemble an endorsement onto the basic letter it endorses.
@@ -103,6 +103,7 @@ async function loadBasicLetter(
         return { error: `Page ${i + 1} of the basic letter is empty or corrupted.` };
       }
     }
+    await assertAssemblyPagesReadable(pdf, signal);
     return { pdf, pageImages };
   } catch (err) {
     signal?.throwIfAborted();

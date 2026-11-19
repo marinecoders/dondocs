@@ -1,5 +1,5 @@
 import { appendPublicationOutline } from './publicationDestinations';
-import { loadAssemblyPdf } from './assemblyPdf';
+import { assertAssemblyPagesReadable, loadAssemblyPdf } from './assemblyPdf';
 import type { PDFObject } from 'pdf-lib';
 import { PDFDocument, rgb, StandardFonts, PDFPage, PDFName, PDFArray, PDFNumber, PDFRef, PDFRawStream, PDFDict, PDFString, PDFHexString, degrees } from 'pdf-lib';
 import pako from 'pako';
@@ -1122,10 +1122,7 @@ async function validatePdf(data: ArrayBuffer, enclosureNumber: number, signal?: 
       }
     }
 
-    // Embedding is deferred by pdf-lib until save. Decode in a disposable
-    // document first so corrupt streams never enter the delivered document.
-    const probe = await PDFDocument.create();
-    for (const page of pdf.getPages()) await (await probe.embedPage(page)).embed();
+    await assertAssemblyPagesReadable(pdf, signal);
     return { pdf, error: null };
   } catch (err) {
     signal?.throwIfAborted();

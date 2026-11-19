@@ -12,6 +12,22 @@ export const PROTECTED_PDF_LIMITS = Object.freeze({
 
 export const PROTECTED_PDF_NOTICE = 'This PDF has permission restrictions. Its pages will be included as images. Selectable text, interactive fields and digital signatures do not carry into that assembled copy. The uploaded original remains unchanged.';
 
+/** Copying a page dictionary does not decode its content streams. Probe those
+ * streams before accepting a source, without contaminating the final document
+ * with pdf-lib's deferred, potentially failing embedded-page resources.
+ */
+export async function assertAssemblyPagesReadable(pdf: PDFDocument, signal?: AbortSignal): Promise<void> {
+  const probe = await PDFDocument.create();
+  for (const [index, page] of pdf.getPages().entries()) {
+    signal?.throwIfAborted();
+    try {
+      await (await probe.embedPage(page)).embed();
+    } catch (cause) {
+      throw new Error(`PDF page ${index + 1} is unreadable. Export a readable copy in your PDF application and attach it again.`, { cause });
+    }
+  }
+}
+
 function bytesOf(data: Uint8Array | ArrayBuffer): Uint8Array {
   // PDF.js may transfer its input buffer to its worker. Never pass the retained source.
   return new Uint8Array(data instanceof Uint8Array ? data : new Uint8Array(data));
@@ -130,5 +146,6 @@ export async function inspectAssemblyPdf(data: Uint8Array | ArrayBuffer): Promis
   const { pdf, pageImages } = await loadAssemblyPdf(data);
   if (!pdf.getPageCount()) throw new Error('The PDF has no pages.');
   for (const page of pdf.getPages()) if (!page.node.get(PDFName.of('Contents'))) throw new Error('The PDF contains an empty or unreadable page.');
+  await assertAssemblyPagesReadable(pdf);
   return { pageCount: pdf.getPageCount(), pageImages };
 }
