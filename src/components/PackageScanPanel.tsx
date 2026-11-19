@@ -106,9 +106,11 @@ function ScanSource({ prepared, page }: { prepared: PreparedPackageScan; page: n
   useEffect(() => { const node = container.current; if (!node) return; const observer = new ResizeObserver(entries => { const measured = entries[0]?.contentRect.width; if (measured && measured > 0) setWidth(Math.floor(measured)); }); observer.observe(node); return () => observer.disconnect(); }, []);
   useEffect(() => { let active = true; const url = URL.createObjectURL(copyPreparedPackageScanSource(prepared)); queueMicrotask(() => { if (active) setSource({ prepared, url }); }); return () => { active = false; URL.revokeObjectURL(url); }; }, [prepared]);
   const url = source?.prepared === prepared ? source.url : '';
-  return <div ref={container} className="min-w-0 space-y-2 overflow-hidden rounded border p-2"><p className="text-sm font-medium">Exact captured source · page {page + 1}</p>
-    {url && <a href={url} target="_blank" rel="noopener noreferrer" className="inline-block text-sm underline underline-offset-2">Open captured scan at full size</a>}
-    {url && (prepared.scan.source.type === 'application/pdf' ? <Document file={url} options={HARDENED_PDF_OPTIONS} loading="Opening captured source…" error="The captured source preview could not be rendered."><Page pageNumber={page + 1} width={width} renderAnnotationLayer={false} renderTextLayer={false} /></Document>
-      : <img src={url} alt={`Captured source: ${prepared.scan.source.name}`} className="max-h-96 max-w-full object-contain" />)}
+  return <div ref={container} className="flex h-96 min-w-0 flex-col gap-2 overflow-hidden rounded border p-2"><p className="shrink-0 text-sm font-medium">Exact captured source · page {page + 1}</p>
+    {url && <a href={url} target="_blank" rel="noopener noreferrer" className="inline-block shrink-0 text-sm underline underline-offset-2">Open captured scan at full size</a>}
+    <div role="region" aria-label="Captured source preview" tabIndex={0} className="min-h-0 flex-1 overflow-auto outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring">
+      {url && (prepared.scan.source.type === 'application/pdf' ? <Document file={url} options={HARDENED_PDF_OPTIONS} loading="Opening captured source…" error="The captured source preview could not be rendered."><Page pageNumber={page + 1} width={width} renderAnnotationLayer={false} renderTextLayer={false} /></Document>
+        : <img src={url} alt={`Captured source: ${prepared.scan.source.name}`} className="h-full max-w-full object-contain" />)}
+    </div>
   </div>;
 }

@@ -4,6 +4,7 @@ import { createHash } from 'node:crypto';
 import { readFile } from 'node:fs/promises';
 import { PDFDocument } from 'pdf-lib';
 import JSZip from 'jszip';
+type ScanLayoutRoot = HTMLElement & { scanLayoutProbe?: { heights: number[]; observer: MutationObserver } };
 test.use({ serviceWorkers: 'block', actionTimeout: 15_000 });
 test.setTimeout(180_000);
 async function packages(page: Page) {
@@ -63,8 +64,35 @@ for (const { theme, width, format } of cases) test(`captured ${format} evidence 
   const save = scans.getByRole('button', { name: 'Save reviewed extraction', exact: true }); await expect(save).toBeDisabled();
   await scans.getByRole('checkbox', { name: /^I reviewed the exact source, all corrected pages/ }).check(); await save.click(); await expect(save).not.toBeVisible();
   await page.reload(); dialog = await packages(page); scans = await section(dialog, 'Scanned evidence');
-  await scans.getByLabel('Saved extraction', { exact: true }).selectOption({ index: 1 }); await scans.getByRole('button', { name: 'Open saved extraction', exact: true }).click();
+  await scans.getByLabel('Saved extraction', { exact: true }).selectOption({ index: 1 });
+  await scans.evaluate(root => {
+    const heights: number[] = [];
+    const observer = new MutationObserver(() => {
+      const heading = [...root.querySelectorAll('p')].find(element => element.textContent === 'Exact captured source · page 1');
+      const source = heading?.parentElement;
+      if (source?.getClientRects().length) heights.push(source.getBoundingClientRect().height);
+    });
+    (root as ScanLayoutRoot).scanLayoutProbe = { heights, observer };
+    observer.observe(root, { childList: true, subtree: true, attributes: true, characterData: true });
+  });
+  await scans.getByRole('button', { name: 'Open saved extraction', exact: true }).click();
   await expect(scans.getByLabel('Corrected source text', { exact: true })).toHaveValue('User corrected package evidence excerpt.');
+  if (format === 'image') await expect(scans.getByRole('img', { name: `Captured source: ${sourceName}`, exact: true })).toBeVisible();
+  else await expect(scans.locator('canvas')).toBeVisible();
+  const readyHeight = await scans.getByText('Exact captured source · page 1', { exact: true }).locator('..').evaluate(element => element.getBoundingClientRect().height);
+  const loadingHeights = await scans.evaluate(root => {
+    const probe = (root as ScanLayoutRoot).scanLayoutProbe!;
+    probe.observer.disconnect();
+    return probe.heights;
+  });
+  expect(loadingHeights.length).toBeGreaterThan(0);
+  for (const height of loadingHeights) expect(Math.abs(height - readyHeight)).toBeLessThanOrEqual(1);
+  if (format === 'pdf' && width === 1440) {
+    const sourcePreview = scans.getByRole('region', { name: 'Captured source preview', exact: true });
+    const before = await sourcePreview.evaluate(element => element.scrollTop);
+    await sourcePreview.press('ArrowDown');
+    await expect.poll(() => sourcePreview.evaluate(element => element.scrollTop)).toBeGreaterThan(before);
+  }
   await scans.getByText('Adopt a corrected excerpt as a package value', { exact: true }).click();
   await scans.getByLabel('Recognized package value label', { exact: true }).fill('Confirmed evidence note'); await scans.getByLabel('Recognized package value excerpt', { exact: true }).fill('package evidence excerpt');
   await scans.getByRole('button', { name: 'Review recognized package value', exact: true }).click();
