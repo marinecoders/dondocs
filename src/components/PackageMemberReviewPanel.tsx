@@ -16,7 +16,8 @@ import { FeedbackCategorySelect } from './FeedbackCategorySelect';
 import type { FeedbackCategory } from '@/lib/reviewFeedback';
 
 /** A package-owned detached view. No document-store activation or autosave occurs. */
-export function PackageMemberReviewPanel({ record, round, busy, onChange, run, onDraftChange, signal }: {
+export function PackageMemberReviewPanel({ record, round, busy, onChange, run, onDraftChange, signal, workspace = false }: {
+  workspace?: boolean;
   signal?: () => AbortSignal | undefined;
   onDraftChange?: (dirty: boolean) => void;
   record: ActionPackage; round: PackageReviewRound; busy: boolean;
@@ -53,7 +54,7 @@ export function PackageMemberReviewPanel({ record, round, busy, onChange, run, o
     if (remember && child) { setHistory(items => [...items, structuredClone(child)]); setFuture([]); }
     onChange(next, next.reviewRounds!.find(value => value.id === round.id)!);
   }
-  return <section aria-label="Package member feedback" className="space-y-3 rounded border p-3">
+  return <section tabIndex={-1} data-package-panel="member-review" aria-label="Package member feedback" className="space-y-3 rounded border p-3">
     <h3 className="font-medium">Review captured package members</h3>
     <nav aria-label="Captured review members" className="flex min-w-0 flex-wrap gap-2">
       {round.baseline.members.map(member => <Button className="h-auto min-h-9 max-w-full whitespace-normal" key={member.id} variant={selected === member.id ? 'secondary' : 'outline'} disabled={busy || dirty}
@@ -74,7 +75,7 @@ export function PackageMemberReviewPanel({ record, round, busy, onChange, run, o
         run={run} signal={signal} onDraftChange={setTypedDirty} onSave={async value => { if (!child) return false; let saved = false; await run(async () => { await publish({ ...child, pdfReview: value }); saved = true; }); return saved; }}
         onApply={next => { setHistory([]); setFuture([]); onChange(next, next.reviewRounds!.find(item => item.id === round.id)!); }} />}
       {child && <>
-        <div className="flex min-w-0 flex-wrap gap-2">
+        <div hidden={workspace && !history.length && !future.length} className="flex min-w-0 flex-wrap gap-2">
           <Button className="h-auto min-h-9 max-w-full whitespace-normal" variant="outline" disabled={disabled || dirty || !history.length} onClick={() => void run(async () => {
             const previous = history.at(-1)!; await publish({ ...child, comments: previous.comments, fieldReview: child.fieldReview ? { ...child.fieldReview, comments: previous.fieldReview?.comments ?? [] } : previous.fieldReview, pdfReview: previous.pdfReview }, false); setHistory(items => items.slice(0, -1)); setFuture(items => [...items, structuredClone(child)]);
           })}>Undo member comment</Button>
@@ -93,7 +94,7 @@ export function PackageMemberReviewPanel({ record, round, busy, onChange, run, o
           if (!comments) throw new Error('Check the comment text, reviewer name and captured target.');
           await publish({ ...child, comments }); saved = true;
         }); return saved; }} />
-        {child.nativeRound && child.suggestions && <ReviewSuggestionsPanel key={`suggestions:${selected}`} onDraftChange={setTypedDirty} round={child.nativeRound} current={child.nativeRound.baseline.session}
+        {child.nativeRound && child.suggestions && <ReviewSuggestionsPanel compact={workspace} key={`suggestions:${selected}`} onDraftChange={setTypedDirty} round={child.nativeRound} current={child.nativeRound.baseline.session}
           state={child.suggestions} busy={disabled || commentDirty} owner={false} onDecide={async () => false} onCreate={async proposal => {
             let saved = false;
             await run(async () => { await publish({ ...child, suggestions: appendReviewSuggestions(child.nativeRound!, child.suggestions!, [proposal]) }, false); saved = true; });

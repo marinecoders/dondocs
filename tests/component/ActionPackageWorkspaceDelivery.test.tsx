@@ -1,3 +1,4 @@
+import { workspaceSection, expandDetails, startNewPackage } from "../helpers/packageWorkspace";
 import 'fake-indexeddb/auto';
 import { afterEach, beforeEach, expect, it, vi } from 'vitest';
 import { act, cleanup, render, screen, within, waitFor } from '@testing-library/react';
@@ -12,7 +13,7 @@ import { startPackageReview } from '@/lib/packageReviewRounds';
 import * as reviewRounds from '@/lib/packageReviewRounds';
 import { resolveExportDeploymentPolicy, type PolicyResolution } from '@/lib/exportDeploymentPolicy';
 import { useUIStore } from '@/stores/uiStore';
-import { PACKAGE_WORKSPACE_CONTEXT_KEY } from '@/lib/packageWorkspaceContext';
+import { readPackageWorkspaceContext } from '@/lib/packageWorkspaceContext';
 import * as encoding from '@/lib/encoding';
 import * as transfers from '@/lib/actionPackageTransfer';
 import { preparePackageDelivery } from '@/lib/packageDelivery';
@@ -25,7 +26,7 @@ const publicPolicy = resolveExportDeploymentPolicy({ hostname: 'localhost', envi
 const secretPolicy = resolveExportDeploymentPolicy({ hostname: 'localhost', environment: { maxLevel: 'secret', allowedLevels: ['unclassified', 'secret'] }, runtime: { status: 'absent' } });
 let policy: PolicyResolution = publicPolicy;
 vi.mock('@/config/classification', async original => ({ ...await original<typeof import('@/config/classification')>(), getExportDeploymentPolicy: async () => policy, getExportDeploymentPolicySync: () => policy }));
-beforeEach(() => { vi.restoreAllMocks(); policy = publicPolicy; localStorage.removeItem(PACKAGE_WORKSPACE_CONTEXT_KEY); useUIStore.setState({ actionPackagesOpen: false, storageHealth: 'ok' }); });
+beforeEach(() => { vi.restoreAllMocks(); policy = publicPolicy; localStorage.clear(); useUIStore.setState({ actionPackagesOpen: false, storageHealth: 'ok' }); });
 afterEach(cleanup);
 async function fixture() {
   const pdf = await PDFDocument.create(); pdf.addPage([612, 792]);
@@ -36,7 +37,7 @@ async function open(record: ActionPackage) {
   useUIStore.getState().openActionPackage(record.id);
   render(<ActionPackageWorkspace exportGate={createExportGate()} ports={{ compile: vi.fn(), convertDocx: vi.fn(), waitForReady: async () => true }} />);
   const dialog = await screen.findByRole('dialog', { name: 'Action packages' });
-  await waitFor(() => expect(within(dialog).getByLabelText('Saved packages', { exact: true })).toHaveValue(record.id));
+  await within(dialog).findByRole('heading', { name: record.name, level: 1 });
   return dialog;
 }
 async function restrictedFixture() {
@@ -44,29 +45,45 @@ async function restrictedFixture() {
   return applyPreparedPackageAttachment(await preparePackageAttachment(await fixture(),
     { name: 'Synthetic retained.txt', data: new TextEncoder().encode('(S) Restricted synthetic retained content.').buffer }, policy), policy, true);
 }
+it('cancels a prepared export and returns to the options without downloading or mutating the package', async () => {
+  const record = await fixture(), dialog = await open(record), user = userEvent.setup();
+  const download = vi.spyOn(encoding, 'triggerDownload').mockImplementation(() => {});
+  await workspaceSection(dialog, 'Delivery', user);
+  await user.click(within(dialog).getByRole('button', { name: 'Editable package' }));
+  await user.click(within(dialog).getByRole('button', { name: 'Prepare editable package' }));
+  await within(dialog).findByRole('button', { name: 'Download editable package' });
+  await user.click(within(dialog).getByRole('button', { name: 'Cancel export' }));
+  expect(within(dialog).queryByRole('button', { name: 'Download editable package' })).toBeNull();
+  expect(within(dialog).getByRole('button', { name: 'Prepare editable package' })).toBeEnabled();
+  expect(download).not.toHaveBeenCalled();
+  expect((await listActionPackages()).find(item => item.id === record.id)).toEqual(record);
+});
 it.each(['original', 'editable'])('rechecks deployment before downloading a previously reviewed %s file', async mode => {
   const record = await restrictedFixture();
   const download = vi.spyOn(encoding, 'triggerDownload').mockImplementation(() => {}), dialog = await open(record), user = userEvent.setup();
   if (mode === 'original') {
+    await workspaceSection(dialog, 'Documents', user);
+    await user.click(within(dialog).getByRole('button', { name: /2\. Synthetic retained.txt/ }));
+    await expandDetails(dialog, user);
     const card = (await within(dialog).findByRole('heading', { name: '2. Synthetic retained.txt' })).closest('li')!;
     await user.click(within(card).getByRole('button', { name: 'Download unchanged original' }));
-  } else await user.click(within(dialog).getByRole('button', { name: 'Export editable package' }));
-  await user.click(await within(dialog).findByRole('checkbox', { name: /^I reviewed every included member, privacy findings/ }));
+  } else { await workspaceSection(dialog, 'Delivery', user); await user.click(within(dialog).getByRole('button', { name: 'Editable package' })); await user.click(within(dialog).getByRole('button', { name: 'Prepare editable package' })); }
+  await within(dialog).findByRole('button', { name: /Download (editable package|reviewed unchanged original)/ });
   policy = publicPolicy;
-  await user.click(within(dialog).getByRole('button', { name: mode === 'original' ? 'Download reviewed unchanged original' : 'Download reviewed editable package' }));
+  await user.click(within(dialog).getByRole('button', { name: mode === 'original' ? 'Download reviewed unchanged original' : 'Download editable package' }));
   await waitFor(() => expect(within(dialog).getByRole('alert')).toHaveTextContent(/policy|deployment|settings|markings|levels/i));
   expect(download).not.toHaveBeenCalled();
 });
 it('rechecks deployment after the actual editable payload has been built', async () => {
   const record = await restrictedFixture(), dialog = await open(record), user = userEvent.setup();
   const download = vi.spyOn(encoding, 'triggerDownload').mockImplementation(() => {});
-  await user.click(within(dialog).getByRole('button', { name: 'Export editable package' }));
-  await user.click(await within(dialog).findByRole('checkbox', { name: /^I reviewed every included member, privacy findings/ }));
+  await workspaceSection(dialog, 'Delivery', user); await user.click(within(dialog).getByRole('button', { name: 'Editable package' })); await user.click(within(dialog).getByRole('button', { name: 'Prepare editable package' }));
+  await within(dialog).findByRole('button', { name: /Download (editable package|reviewed unchanged original)/ });
   const build = transfers.buildPortableActionPackage;
   vi.spyOn(transfers, 'buildPortableActionPackage').mockImplementation(async (...args) => {
     const json = await build(...args); policy = publicPolicy; return json;
   });
-  await user.click(within(dialog).getByRole('button', { name: 'Download reviewed editable package' }));
+  await user.click(within(dialog).getByRole('button', { name: 'Download editable package' }));
   await waitFor(() => expect(within(dialog).getByRole('alert')).toHaveTextContent(/policy|deployment|settings/i));
   expect(download).not.toHaveBeenCalled();
 });
@@ -78,12 +95,15 @@ it('prepares an exact selected delivery while viewing a saved review without mis
   vi.spyOn(reviewRounds, 'openPackageReview').mockImplementation(async (...args) => {
     const value = await openReview(...args); await heldReview; return value;
   });
+  await workspaceSection(dialog, 'Delivery', user); await expandDetails(dialog, user); await workspaceSection(dialog, 'Review', user);
   await user.click(within(dialog).getByRole('button', { name: 'Open review Captured delivery review' }));
-  await user.click(within(dialog).getByText('Recipient delivery', { selector: 'summary' }));
-  const prepare = await within(dialog).findByRole('button', { name: 'Prepare selected delivery' });
+  const deliverySection = within(dialog).getByRole('heading', { name: 'Export', hidden: true }).closest('fieldset')!;
+  const prepare = within(deliverySection).getByRole('button', { name: 'Prepare selected delivery', hidden: true });
+
   expect(prepare).toBeDisabled();
   await act(async () => { finishReview(); });
   await within(dialog).findByText('Reviewing exact saved package revision');
+  await workspaceSection(dialog, 'Delivery', user);
   await waitFor(() => expect(prepare).toBeEnabled());
   await user.click(prepare);
   const contents = await within(dialog).findByRole('region', { name: 'Captured delivery contents' });
@@ -97,27 +117,30 @@ it('accepts a real delivery ZIP through the file chooser and recovers its indepe
   const record = await fixture(), member = getPackageRevision(record).members[0];
   const prepared = await preparePackageDelivery(record, record.currentRevisionId, { label: 'Received selected delivery', purpose: 'recipient', memberIds: [member.id] }, publicPolicy);
   const bundle = await buildPackageDeliveryBundle(prepared, publicPolicy, true), dialog = await open(record), user = userEvent.setup();
+  await startNewPackage(dialog, user); await user.click(within(dialog).getByText('Blank package, saved templates and imports', { exact: true }));
   const input = within(dialog).getByLabelText('Import editable package', { exact: true });
   expect(input.getAttribute('accept')).toContain('.zip');
   await user.upload(input, new File([bundle.bytes.slice().buffer as ArrayBuffer], 'received-delivery.zip', { type: 'application/zip' }));
-  await waitFor(() => expect(within(dialog).getByLabelText('Saved packages', { exact: true })).toHaveValue(bundle.manifest.packageId));
-  expect(within(dialog).getByLabelText('Package name', { exact: true })).toHaveValue('Received selected delivery');
+  await waitFor(() => expect(readPackageWorkspaceContext()?.packageId).toBe(bundle.manifest.packageId));
+  expect(within(dialog).getByRole('heading', { name: 'Received selected delivery', level: 1 })).toBeVisible();
   const records = await listActionPackages(), received = records.find(item => item.id === bundle.manifest.packageId)!;
   expect(received.currentRevisionId).toBe(bundle.manifest.revisionId); expect(getPackageRevision(received).members).toHaveLength(1);
   expect(records.find(item => item.id === record.id)).toEqual(record);
 });
 it('keeps an unfinished whole-member comment editable while blocking close and member switching until cancelled', async () => {
   const record = await startPackageReview(await fixture(), undefined, 'Unfinished feedback review'), dialog = await open(record), user = userEvent.setup();
+  await workspaceSection(dialog, 'Review', user);
   await user.click(within(dialog).getByRole('button', { name: 'Open review Unfinished feedback review' }));
   const members = await within(dialog).findByRole('navigation', { name: 'Captured review members' });
+  await waitFor(() => expect(within(members).getByRole('button', { name: 'Synthetic main.pdf' })).toBeEnabled());
   await user.click(within(members).getByRole('button', { name: 'Synthetic main.pdf' }));
   const comment = await within(dialog).findByLabelText('Package member comment', { exact: true });
   await user.type(comment, 'Unfinished synthetic whole-member feedback.');
   expect(comment).toBeEnabled();
-  expect(within(dialog).getByLabelText('Saved packages', { exact: true })).toBeDisabled();
+  expect(within(dialog).getByRole('button', { name: 'Back to current package' })).toBeDisabled();
   await user.keyboard('{Escape}'); expect(dialog).toBeVisible(); expect(comment).toHaveValue('Unfinished synthetic whole-member feedback.');
   await user.click(within(dialog).getByRole('button', { name: 'Cancel member comment' }));
-  await waitFor(() => expect(within(dialog).getByLabelText('Saved packages', { exact: true })).toBeEnabled());
+  await waitFor(() => expect(within(dialog).getByRole('button', { name: 'Back to current package' })).toBeEnabled());
   expect(comment).toHaveValue('');
   await waitFor(() => expect(within(dialog).queryByText('Save or cancel the unfinished feedback before closing this package review.')).toBeNull());
 });

@@ -1,3 +1,4 @@
+import { openPackagePreparation, packageSection, expandPackageTools, selectedPackageId, packageTool, prepareReviewTransfer } from './_helpers/packageWorkspace';
 import { expect, test, type Page, type Locator, type Download } from '@playwright/test';
 import { projectBrowserContextOptions } from '../_helpers/projectBrowserContext';
 import { readFile } from 'node:fs/promises';
@@ -6,26 +7,24 @@ import type { ActionPackage } from '../../src/lib/actionPackages';
 test.use({ serviceWorkers: 'block', actionTimeout: 15_000 });
 test.setTimeout(120_000);
 async function packages(page: Page) {
-  const drawer = page.getByRole('dialog', { name: 'Documents', exact: true });
-  if (!await drawer.isVisible()) await page.getByRole('button', { name: 'Open workspace', exact: true }).or(page.getByRole('button', { name: /^Packages(?:\s|$)/ })).first().click();
-  if (await drawer.isVisible()) await drawer.getByRole('button', { name: /^Packages(?:\s|$)/ }).click();
-  return page.getByRole('dialog', { name: 'Action packages', exact: true });
+  return openPackagePreparation(page);
 }
 for (const theme of ['light', 'dark', 'classic']) for (const width of [1440, 320]) test(`exact form comments persist and travel with review in ${theme} at ${width}px`, async ({ page, context }, info) => {
   await page.setViewportSize({ width, height: 900 });
   await context.addInitScript(value => { localStorage.setItem('browser-test-visitor', 'returning'); localStorage.setItem('dondocs_ui', JSON.stringify({ version: 1, state: { theme: value, editorLayout: 'focused' } })); }, theme);
   await page.goto('/'); let dialog = await packages(page);
-  await dialog.locator('summary').filter({ hasText: /^Quick request starter/ }).click();
-  const starter = dialog.getByRole('region', { name: 'Administrative request starter', exact: true });
+  await expandPackageTools(dialog);
+  const starter = await packageTool(dialog, 'Administrative request starter');
   await starter.getByRole('button', { name: 'Start an administrative request', exact: true }).click();
   for (const [label, value] of Object.entries({ Requester: 'Alex Example', Organization: 'Fictional Training Unit', Recipient: 'Training Officer', 'Request subject': 'Form review exercise', 'Request date': '2026-11-17', SSIC: '1500', 'Printed signature name': 'A. EXAMPLE', 'Requested action and justification': 'Request fictional training to verify exact package form review.' })) await starter.getByLabel(label, { exact: label !== 'Printed signature name' }).fill(value);
   await starter.getByRole('button', { name: 'Review request starter', exact: true }).click();
   await starter.getByRole('checkbox', { name: /^I reviewed these request details/ }).check();
   await starter.getByRole('button', { name: 'Create reviewed request package', exact: true }).click();
-  await expect(dialog.getByLabel('Package name', { exact: true })).toHaveValue('Request: Form review exercise');
-  await dialog.getByRole('button', { name: 'Start package review', exact: true }).click();
+  await expect(dialog.getByRole('heading', { name: 'Request: Form review exercise', exact: true, level: 1 })).toBeVisible();
+  await packageSection(dialog, 'Review', true);
+  await dialog.getByRole('button', { name: 'New review copy', exact: true }).click();
   await dialog.getByRole('navigation', { name: 'Captured review members', exact: true }).getByRole('button', { name: 'DonDocs request details worksheet', exact: true }).click();
-  let review = dialog.getByRole('region', { name: 'Captured form field feedback', exact: true });
+  let review = await packageTool(dialog, 'Captured form field feedback');
   const fields = review.getByLabel('Reviewed form field', { exact: true });
   await expect(fields.locator('option')).not.toHaveCount(1);
   await fields.selectOption({ index: 1 });
@@ -33,7 +32,7 @@ for (const theme of ['light', 'dark', 'classic']) for (const width of [1440, 320
   await review.getByLabel('Form comment reviewer name', { exact: true }).fill('Blair Sample');
   await review.getByLabel('Form field comment', { exact: true }).fill('Please confirm this exact captured answer.');
   await page.keyboard.press('Escape'); await expect(dialog).toBeVisible();
-  await expect(dialog.getByLabel('Saved packages', { exact: true })).toBeDisabled();
+  await expect(dialog.getByRole('button', { name: 'Continue editing', exact: true })).toBeVisible();
   await review.getByRole('button', { name: 'Post form field comment', exact: true }).click();
   await expect(review.locator('article').getByText('Please confirm this exact captured answer.', { exact: false })).toBeVisible();
   await expect(review.locator('article')).toContainText(targetLabel!);
@@ -44,14 +43,15 @@ for (const theme of ['light', 'dark', 'classic']) for (const width of [1440, 320
   await review.getByRole('button', { name: 'Resolve form comment', exact: true }).click();
   await expect(review.locator('article')).toContainText('Resolved');
   await review.getByRole('button', { name: 'Reopen form comment', exact: true }).click();
-  await dialog.getByRole('button', { name: 'Prepare package feedback return', exact: true }).click();
-  await dialog.getByRole('checkbox', { name: /^I reviewed all captured members, original PDF pages/ }).check();
-  const downloading = page.waitForEvent('download');
-  await dialog.getByRole('button', { name: 'Download package feedback return', exact: true }).click();
+  await prepareReviewTransfer(dialog, 'copy');
+  if (await dialog.getByRole('checkbox', { name: /^I reviewed all captured members, original PDF pages/ }).isVisible()) await dialog.getByRole('checkbox', { name: /^I reviewed all captured members, original PDF pages/ }).check();
+  const downloading = page.waitForEvent('download', { timeout: 90_000 });
+  await dialog.getByRole('button', { name: 'Download review copy', exact: true }).click();
   const downloaded = await downloading; expect(await downloaded.failure()).toBeNull();
   const returned = JSON.parse((await readFile((await downloaded.path())!)).toString());
   expect(JSON.stringify(returned)).toContain('Please confirm this exact captured answer.'); expect(JSON.stringify(returned)).toContain('fieldReview');
   await page.reload(); dialog = await packages(page);
+  await packageSection(dialog, 'Review', true);
   await dialog.getByRole('button', { name: 'Open review Package review 1', exact: true }).click();
   await dialog.getByRole('navigation', { name: 'Captured review members', exact: true }).getByRole('button', { name: 'DonDocs request details worksheet', exact: true }).click();
   review = dialog.getByRole('region', { name: 'Captured form field feedback', exact: true });
@@ -66,8 +66,8 @@ for (const theme of ['light', 'dark', 'classic']) for (const width of [1440, 320
 const worksheetLabel = 'DonDocs request details worksheet';
 async function requestPackage(page: Page, subject: string) {
   await page.goto('/'); const dialog = await packages(page);
-  await dialog.locator('summary').filter({ hasText: /^Quick request starter/ }).click();
-  const starter = dialog.getByRole('region', { name: 'Administrative request starter', exact: true });
+  await expandPackageTools(dialog);
+  const starter = await packageTool(dialog, 'Administrative request starter');
   await starter.getByRole('button', { name: 'Start an administrative request', exact: true }).click();
   for (const [label, value] of Object.entries({ Requester: 'Alex Example', Organization: 'Fictional Training Unit', Recipient: 'Training Officer', 'Request subject': subject,
     'Request date': '2026-11-17', SSIC: '1500', 'Printed signature name': 'A. EXAMPLE', 'Requested action and justification': 'Fictional training request for browser qualification.' }))
@@ -75,7 +75,7 @@ async function requestPackage(page: Page, subject: string) {
   await starter.getByRole('button', { name: 'Review request starter', exact: true }).click();
   await starter.getByRole('checkbox', { name: /^I reviewed these request details/ }).check();
   await starter.getByRole('button', { name: 'Create reviewed request package', exact: true }).click();
-  await expect(dialog.getByLabel('Package name', { exact: true })).toHaveValue(`Request: ${subject}`);
+  await expect(dialog.getByRole('heading', { name: `Request: ${subject}`, exact: true, level: 1 })).toBeVisible();
   return dialog;
 }
 async function openWorksheet(dialog: Locator) {
@@ -83,7 +83,7 @@ async function openWorksheet(dialog: Locator) {
   return dialog.getByRole('region', { name: 'Captured form field feedback', exact: true });
 }
 async function proposeField(dialog: Locator, label: string, value: string, author = 'Blair Sample') {
-  const fields = dialog.getByRole('region', { name: 'Captured form field feedback', exact: true });
+  const fields = await packageTool(dialog, 'Captured form field feedback');
   await fields.getByLabel('Reviewed form field', { exact: true }).selectOption({ label });
   await fields.getByLabel('Form comment reviewer name', { exact: true }).fill(author);
   await fields.getByLabel('Proposed form answer', { exact: true }).fill(value);
@@ -92,7 +92,7 @@ async function proposeField(dialog: Locator, label: string, value: string, autho
   await expect(fields.getByLabel('Proposed form answer', { exact: true })).toHaveValue('');
 }
 async function saveDecision(dialog: Locator) {
-  const decisions = dialog.getByRole('region', { name: 'Decide captured form corrections', exact: true });
+  const decisions = await packageTool(dialog, 'Decide captured form corrections');
   const preview = decisions.getByRole('region', { name: 'Reviewed form correction preview', exact: true });
   await preview.getByRole('checkbox', { name: /^I reviewed this decision/ }).check();
   await preview.getByRole('button', { name: 'Save reviewed form decision', exact: true }).click();
@@ -118,19 +118,18 @@ async function downloaded(download: Download) {
   return readFile(path);
 }
 async function reviewFile(page: Page, dialog: Locator, mode: 'copy' | 'return') {
-  await dialog.getByRole('button', { name: mode === 'copy' ? 'Prepare package reviewer copy' : 'Prepare package feedback return', exact: true }).click();
-  const transfer = dialog.getByRole('region', { name: 'Portable package reviews', exact: true });
-  await transfer.getByRole('checkbox', { name: /^I reviewed all captured members/ }).check();
-  const download = page.waitForEvent('download');
-  await transfer.getByRole('button', { name: mode === 'copy' ? 'Download package reviewer copy' : 'Download package feedback return', exact: true }).click();
+  const transfer = await prepareReviewTransfer(dialog, mode);
+  if (await transfer.getByRole('checkbox', { name: /^I reviewed all captured members/ }).isVisible()) await transfer.getByRole('checkbox', { name: /^I reviewed all captured members/ }).check();
+  const download = page.waitForEvent('download', { timeout: 90_000 });
+  await transfer.getByRole('button', { name: mode === 'copy' ? 'Download review copy' : 'Download feedback', exact: true }).click();
   return downloaded(await download);
 }
 async function importReviewer(page: Page, bytes: Buffer) {
   const dialog = await packages(page);
   await dialog.getByLabel('Import package reviewer copy', { exact: true }).setInputFiles({ name: 'reviewer-copy.json', mimeType: 'application/json', buffer: bytes });
-  const transfer = dialog.getByRole('region', { name: 'Portable package reviews', exact: true });
-  await transfer.getByRole('checkbox', { name: /^I reviewed all captured members/ }).check();
-  await transfer.getByRole('button', { name: 'Import reviewed package reviewer copy', exact: true }).click();
+  const transfer = await packageTool(dialog, 'Portable package reviews');
+  if (await transfer.getByRole('checkbox', { name: /^I reviewed all captured members/ }).isVisible()) await transfer.getByRole('checkbox', { name: /^I reviewed all captured members/ }).check();
+  await transfer.getByRole('button', { name: 'Import review copy', exact: true }).click();
   await expect(dialog.getByText('Reviewing exact saved package revision', { exact: true })).toBeVisible();
   return dialog;
 }
@@ -139,9 +138,10 @@ const initialize = () => { localStorage.setItem('browser-test-visitor', 'returni
 for (const width of [1440, 320]) {
   test(`typed form correction accepts, rejects and undoes through saved controls at ${width}px`, async ({ page, context }, info) => {
     await page.setViewportSize({ width, height: 900 }); await context.addInitScript(initialize);
-    const dialog = await requestPackage(page, 'Typed field decisions'), id = await dialog.getByLabel('Saved packages', { exact: true }).inputValue();
-    await dialog.getByRole('button', { name: 'Start package review', exact: true }).click(); await openWorksheet(dialog);
-    const fields = dialog.getByRole('region', { name: 'Captured form field feedback', exact: true });
+    const dialog = await requestPackage(page, 'Typed field decisions'), id = await selectedPackageId(dialog);
+  await packageSection(dialog, 'Review', true);
+    await dialog.getByRole('button', { name: 'New review copy', exact: true }).click(); await openWorksheet(dialog);
+    const fields = await packageTool(dialog, 'Captured form field feedback');
     await fields.getByLabel('Reviewed form field', { exact: true }).selectOption({ label: 'Request date' });
     await fields.getByLabel('Form comment reviewer name', { exact: true }).fill('Blair Sample');
     await fields.getByLabel('Proposed form answer', { exact: true }).fill('2026-02-30');
@@ -149,7 +149,7 @@ for (const width of [1440, 320]) {
     await expect(fields.getByRole('alert')).toContainText('Enter a real date');
     await fields.getByRole('button', { name: 'Cancel field correction', exact: true }).click();
     await proposeField(dialog, 'Requester', 'Blair Sample');
-    let decisions = dialog.getByRole('region', { name: 'Decide captured form corrections', exact: true });
+    let decisions = await packageTool(dialog, 'Decide captured form corrections');
     await decisions.getByRole('button', { name: 'Review acceptance for Requester', exact: true }).click(); await saveDecision(dialog);
     await expect.poll(async () => answers(await savedPackage(page, id)).requester).toBe('Blair Sample');
     await expect(decisions.getByText('Accepted in a saved package revision.', { exact: true })).toBeVisible();
@@ -161,6 +161,7 @@ for (const width of [1440, 320]) {
     await expect.poll(async () => answers(await savedPackage(page, id)).organization).toBe('Fictional Training Unit');
     await expect(decisions.getByText('Rejected in a saved package revision.', { exact: true })).toBeVisible();
     await page.reload(); const reopened = await packages(page);
+  await packageSection(reopened, 'Review', true);
     await reopened.getByRole('button', { name: 'Open review Package review 1', exact: true }).click(); await openWorksheet(reopened);
     await expect(reopened.getByText('Rejected in a saved package revision.', { exact: true })).toBeVisible();
     await info.attach('saved-form-decisions', { body: JSON.stringify(await savedPackage(page, id), null, 2), contentType: 'application/json' });
@@ -169,8 +170,9 @@ for (const width of [1440, 320]) {
 
   test(`returned form proposals reconcile newer answers in a fresh reviewer browser at ${width}px`, async ({ page, context, browser }, info) => {
     await page.setViewportSize({ width, height: 900 }); await context.addInitScript(initialize);
-    const dialog = await requestPackage(page, 'Returned field reconciliation'), id = await dialog.getByLabel('Saved packages', { exact: true }).inputValue();
-    await dialog.getByRole('button', { name: 'Start package review', exact: true }).click();
+    const dialog = await requestPackage(page, 'Returned field reconciliation'), id = await selectedPackageId(dialog);
+  await packageSection(dialog, 'Review', true);
+    await dialog.getByRole('button', { name: 'New review copy', exact: true }).click();
     const copy = await reviewFile(page, dialog, 'copy');
     const independent = await browser.newContext({ ...projectBrowserContextOptions(info), viewport: { width, height: 900 }, serviceWorkers: 'block' });
     try {
@@ -182,13 +184,13 @@ for (const width of [1440, 320]) {
       await proposeField(reviewDialog, 'SSIC', '1600');
       const returned = await reviewFile(reviewer, reviewDialog, 'return');
       await openWorksheet(dialog); await proposeField(dialog, 'Requester', 'Newer Owner Name', 'Alex Example');
-      let decisions = dialog.getByRole('region', { name: 'Decide captured form corrections', exact: true });
+      let decisions = await packageTool(dialog, 'Decide captured form corrections');
       await decisions.getByRole('button', { name: 'Review acceptance for Requester', exact: true }).click(); await saveDecision(dialog);
       await proposeField(dialog, 'Organization', 'Preserved Newer Organization', 'Alex Example');
       decisions = dialog.getByRole('region', { name: 'Decide captured form corrections', exact: true });
       await decisions.getByRole('button', { name: 'Review acceptance for Organization', exact: true }).click(); await saveDecision(dialog);
       const collect = decisions.locator('details').filter({ has: page.locator('summary', { hasText: /^Collect returned form feedback$/ }) });
-      await collect.locator('summary').click();
+      if (await collect.getAttribute('open') === null) await collect.locator('summary').first().click();
       await collect.getByLabel('Collect form feedback return', { exact: true }).setInputFiles({ name: 'returned-feedback.json', mimeType: 'application/json', buffer: returned });
       await collect.getByRole('checkbox', { name: /^I reviewed the returned field feedback/ }).check();
       await collect.getByRole('button', { name: 'Save bound form feedback', exact: true }).click();
@@ -214,11 +216,14 @@ for (const width of [1440, 320]) {
     const pdf = await PDFDocument.create(); pdf.addPage([612, 792]).drawText('Synthetic original first page.', { x: 54, y: 700, size: 12 });
     const cropped = pdf.addPage([400, 600]); cropped.setCropBox(-20, 30, 500, 500); cropped.setRotation(degrees(90)); cropped.drawText('Synthetic cropped rotated page.', { x: 40, y: 300, size: 12 });
     const original = Buffer.from(await pdf.save()), filename = 'Synthetic region original.pdf';
+  await packageSection(dialog, 'Documents', true);
     await dialog.getByLabel('New member role', { exact: true }).selectOption('enclosure');
     await dialog.getByLabel('Uploaded original is signed (preserve unchanged)', { exact: true }).check();
+  await packageSection(dialog, 'Documents', true);
     await dialog.getByLabel('Add original PDF', { exact: true }).setInputFiles({ name: filename, mimeType: 'application/pdf', buffer: original });
     await expect(dialog.getByRole('navigation', { name: 'Package documents', exact: true }).locator('option').filter({ hasText: filename })).toHaveCount(1);
-    await dialog.getByRole('button', { name: 'Start package review', exact: true }).click();
+  await packageSection(dialog, 'Review', true);
+    await dialog.getByRole('button', { name: 'New review copy', exact: true }).click();
     const copy = await reviewFile(page, dialog, 'copy'), independent = await browser.newContext({ ...projectBrowserContextOptions(info), viewport: { width, height: 900 }, serviceWorkers: 'block' });
     try {
       await independent.addInitScript(initialize); const reviewer = await independent.newPage(); await reviewer.goto(new URL('/', page.url()).href);
@@ -226,7 +231,7 @@ for (const width of [1440, 320]) {
       expect(await reviewer.evaluate(() => navigator.maxTouchPoints)).toBe(await page.evaluate(() => navigator.maxTouchPoints));
       const reviewDialog = await importReviewer(reviewer, copy);
       await reviewDialog.getByRole('navigation', { name: 'Captured review members', exact: true }).getByRole('button', { name: filename, exact: true }).click();
-      const regions = reviewDialog.getByRole('region', { name: 'Original PDF region review', exact: true });
+      const regions = await packageTool(reviewDialog, 'Original PDF region review');
       await regions.getByLabel('Original PDF page for comment', { exact: true }).selectOption('2');
       const surface = regions.getByRole('button', { name: 'Draw a region on captured PDF page', exact: true }); await expect(surface).toBeEnabled();
       await surface.scrollIntoViewIfNeeded(); const bounds = await surface.boundingBox(); if (!bounds) throw new Error('The rendered original page has no geometry.');

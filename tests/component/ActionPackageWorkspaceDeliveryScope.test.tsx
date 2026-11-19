@@ -1,3 +1,4 @@
+import { openSavedPackage, workspaceSection, expandDetails } from "../helpers/packageWorkspace";
 import 'fake-indexeddb/auto';
 import { afterEach, beforeEach, expect, it, vi } from 'vitest';
 import { act, cleanup, render, screen, waitFor, within } from '@testing-library/react';
@@ -36,12 +37,13 @@ it('ignores a late delivery-scope cleanup from the previously selected owner', a
   useUIStore.getState().openActionPackage(first.id);
   render(<ActionPackageWorkspace exportGate={createExportGate()} ports={{ compile: vi.fn(), convertDocx: vi.fn(), waitForReady: async () => true }} />);
   const dialog = await screen.findByRole('dialog', { name: 'Action packages' });
-  await waitFor(() => expect(within(dialog).getByLabelText('Saved packages', { exact: true })).toHaveValue(first.id));
-  await user.click(within(dialog).getByText('Recipient delivery', { selector: 'summary' }));
+  await within(dialog).findByRole('heading', { name: first.name, level: 1 });
+  await workspaceSection(dialog, 'Delivery', user); await expandDetails(dialog, user);
+
   await user.click(await within(dialog).findByRole('button', { name: `Prepare controller scope ${first.name}` }));
   await waitFor(() => expect(screen.getByTestId('controller-delivery-scope')).toHaveTextContent(`${first.name} selected scope`));
   const lateCleanup = controls.callbacks.get(first.id)!;
-  await user.selectOptions(within(dialog).getByLabelText('Saved packages', { exact: true }), second.id);
+  await openSavedPackage(dialog, second, user); await workspaceSection(dialog, 'Delivery', user); await expandDetails(dialog, user);
   await user.click(await within(dialog).findByRole('button', { name: `Prepare controller scope ${second.name}` }));
   await waitFor(() => expect(screen.getByTestId('controller-delivery-scope')).toHaveTextContent(`${second.name} selected scope`));
   act(() => lateCleanup(null));

@@ -1,14 +1,11 @@
+import { openPackagePreparation, importPackage, packageSection, expandPackageTools, packageVersion, selectedPackageRevision, packageTool } from './_helpers/packageWorkspace';
 import { expect, test, type Locator, type Page } from '@playwright/test';
 import { readFile } from 'node:fs/promises';
 
 test.use({ serviceWorkers: 'block', actionTimeout: 15_000 });
 test.setTimeout(120_000);
 async function packages(page: Page) {
-  const drawer = page.getByRole('dialog', { name: 'Documents', exact: true });
-  if (!await drawer.isVisible()) await page.getByRole('button', { name: 'Open workspace', exact: true })
-    .or(page.getByRole('button', { name: /^Packages(?:\s|$)/ })).first().click();
-  if (await drawer.isVisible()) await drawer.getByRole('button', { name: /^Packages(?:\s|$)/ }).click();
-  return page.getByRole('dialog', { name: 'Action packages', exact: true });
+  return openPackagePreparation(page);
 }
 async function saveTasks(work: Locator) {
   await work.getByRole('button', { name: 'Review task changes', exact: true }).click();
@@ -25,14 +22,12 @@ for (const theme of ['light', 'dark', 'classic']) for (const width of [1440, 320
   await page.goto('/');
   let dialog = await packages(page);
   const bytes = await readFile(new URL('../fixtures/package-render/baseline-1.3.98.dondocs-package.json', import.meta.url));
-  const input = dialog.getByLabel('Import editable package', { exact: true });
-  await expect(input).toBeEnabled();
-  await input.setInputFiles({ name: 'synthetic-work-package.json', mimeType: 'application/json', buffer: bytes });
-  await expect(dialog.getByLabel('Saved packages', { exact: true })).toHaveValue(JSON.parse(bytes.toString()).package.id, { timeout: 30_000 });
+  await importPackage(dialog, { name: 'synthetic-work-package.json', mimeType: 'application/json', buffer: bytes });
+  await packageSection(dialog, 'Overview', true);
   await expect(dialog.getByRole('button', { name: 'Add shared value', exact: true })).toBeEnabled();
-  const baseline = await dialog.getByLabel('Package revision', { exact: true }).inputValue();
-  await dialog.locator('summary').filter({ hasText: /^Work and next actions/ }).click();
-  let work = dialog.getByRole('region', { name: 'Work and next actions', exact: true });
+  const baseline = await selectedPackageRevision(dialog);
+  await expandPackageTools(dialog);
+  let work = await packageTool(dialog, 'Work and next actions');
   await work.getByRole('button', { name: 'Add task', exact: true }).click();
   await expect(work.getByLabel('Task 1 title', { exact: true })).toBeFocused();
   await work.getByLabel('Task 1 title', { exact: true }).fill('Coordinate fictional training');
@@ -43,29 +38,29 @@ for (const theme of ['light', 'dark', 'classic']) for (const width of [1440, 320
   await expect(work.getByRole('alert')).toContainText('due date');
   await work.getByLabel('Due date for task 1', { exact: true }).fill('2020-01-01');
   await work.getByLabel('Notes for task 1', { exact: true }).fill('Synthetic coordination note preserved with this package revision.');
-  await expect(dialog.getByLabel('Saved packages', { exact: true })).toBeDisabled();
-  await expect(dialog.getByLabel('Package revision', { exact: true })).toBeDisabled();
+  await expect(dialog.getByRole('button', { name: 'Continue editing', exact: true })).toBeVisible();
+  await expect(dialog.getByRole('button', { name: 'Continue editing', exact: true })).toBeVisible();
   await expect(dialog.getByRole('button', { name: 'Add shared value', exact: true })).toBeDisabled();
   await page.keyboard.press('Escape'); await expect(dialog).toBeVisible();
   await expect(work.getByLabel('Task 1 title', { exact: true })).toHaveValue('Coordinate fictional training');
   await saveTasks(work);
-  const pending = await dialog.getByLabel('Package revision', { exact: true }).inputValue(); expect(pending).not.toBe(baseline);
+  const pending = await selectedPackageRevision(dialog); expect(pending).not.toBe(baseline);
   await work.getByRole('button', { name: 'Check next actions', exact: true }).click();
   const taskAction = work.getByRole('button', { name: 'Open Coordinate fictional training', exact: true });
   await expect(taskAction).toBeVisible(); await taskAction.click();
   await expect(work.getByLabel('Task 1 title', { exact: true })).toBeFocused();
   await expect(work.getByText('Overdue', { exact: true })).toBeVisible();
   await work.getByLabel('Mark task 1 complete', { exact: true }).check(); await saveTasks(work);
-  const complete = await dialog.getByLabel('Package revision', { exact: true }).inputValue(); expect(complete).not.toBe(pending);
+  const complete = await selectedPackageRevision(dialog); expect(complete).not.toBe(pending);
   await page.reload(); dialog = await packages(page);
-  await dialog.locator('summary').filter({ hasText: /^Work and next actions/ }).click();
+  await expandPackageTools(dialog);
   work = dialog.getByRole('region', { name: 'Work and next actions', exact: true });
   await expect(work.getByLabel('Mark task 1 complete', { exact: true })).toBeChecked();
   await expect(work.getByLabel('Responsible person for task 1', { exact: true })).toHaveValue('Alex Example');
-  await dialog.getByLabel('Package revision', { exact: true }).selectOption(pending);
+  await packageVersion(dialog, pending);
   await expect(work.getByLabel('Mark task 1 complete', { exact: true })).not.toBeChecked();
   await expect(work.getByLabel('Task 1 title', { exact: true })).toBeDisabled();
-  await dialog.getByLabel('Package revision', { exact: true }).selectOption(complete);
+  await packageVersion(dialog, complete);
   await work.getByRole('button', { name: 'Check next actions', exact: true }).click();
   await expect(work.getByRole('button', { name: 'Open Prepare PDF assembly', exact: true })).toBeVisible();
   await expect(work.getByRole('button', { name: 'Open Coordinate fictional training', exact: true })).toHaveCount(0);

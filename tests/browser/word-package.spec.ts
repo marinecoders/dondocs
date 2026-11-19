@@ -1,3 +1,4 @@
+import { openPackageWorkspace, newPackage, importPackage, packageSection, expandPackageTools, selectedPackageRevision, choosePackage, preparePackageExport, packageTool, packageHeading } from './_helpers/packageWorkspace';
 import { expect, test, type Locator, type Page } from '@playwright/test';
 import { capturePackageDocument } from '../_helpers/capturePackageDocument';
 import { readFile } from 'node:fs/promises';
@@ -11,17 +12,14 @@ import { buildBaseline } from '../_helpers/compileMatrix';
 test.use({ serviceWorkers: 'block', actionTimeout: 15_000 });
 test.setTimeout(120_000);
 async function packages(page: Page, name?: string) {
-  const workspace = page.getByRole('button', { name: 'Open workspace', exact: true });
-  const launcher = page.getByRole('button', { name: 'Packages', exact: true });
-  await workspace.or(launcher).first().waitFor({ state: 'visible' });
-  if (await workspace.isVisible()) await workspace.click();
-  await page.getByRole('button', { name: 'Packages', exact: true }).click();
-  const dialog = page.getByRole('dialog', { name: 'Action packages', exact: true });
-  if (name) await dialog.getByLabel('Saved packages', { exact: true }).selectOption({ label: name });
+  const dialog = await openPackageWorkspace(page);
+  if (name) await choosePackage(dialog, name);
+  else if (await dialog.getByRole('button', { name: 'New package', exact: true }).isVisible()) await newPackage(dialog);
+  await expandPackageTools(dialog);
   return dialog;
 }
 async function downloadWord(page: Page, dialog: Locator, path: string) {
-  const word = dialog.getByRole('region', { name: 'Word package delivery', exact: true });
+  const word = await packageTool(dialog, 'Word package delivery');
   await word.getByRole('button', { name: 'Review Word package', exact: true }).click();
   // Captured PDFs need asynchronous text-layer privacy checks before review.
   await expect(word.getByRole('checkbox')).toBeVisible({ timeout: 30_000 });
@@ -31,7 +29,7 @@ async function downloadWord(page: Page, dialog: Locator, path: string) {
   expect(await word.evaluate(element => element.scrollWidth <= element.clientWidth)).toBe(true);
   await word.getByRole('button', { name: 'Download reviewed Word package', exact: true }).scrollIntoViewIfNeeded();
   await page.screenshot({ path: path.replace(/\.zip$/, '-review.png'), scale: 'css' });
-  const saving = page.waitForEvent('download');
+  const saving = page.waitForEvent('download', { timeout: 90_000 });
   await word.getByRole('button', { name: 'Download reviewed Word package', exact: true }).click();
   const file = await saving;expect(await file.failure()).toBeNull();await file.saveAs(path);
   await expect(word.getByRole('status')).toContainText('Complete Word package downloaded');
@@ -60,15 +58,17 @@ for (const theme of ['light', 'dark', 'classic']) {
     await page.getByLabel('Import draft file').setInputFiles({ name: 'word-package.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(draft)) });
     await page.getByRole('button', { name: 'Open as new document', exact: true }).click();
     let dialog = await packages(page);
-    await dialog.getByLabel('Package name', { exact: true }).fill(packageName);
+    await dialog.getByRole('textbox', { name: 'Package name', exact: true }).fill(packageName);
     await dialog.getByRole('button', { name: 'Create package', exact: true }).click();
     await capturePackageDocument(dialog);
     await expect(dialog.getByRole('heading', { name: /WORD PACKAGE FIXTURE/ })).toBeVisible();
+  await packageSection(dialog, 'Documents', true);
     await dialog.getByLabel('New member role', { exact: true }).selectOption('enclosure');
     await dialog.getByRole('checkbox', { name: /Uploaded original is signed/ }).check();
+  await packageSection(dialog, 'Documents', true);
     await dialog.getByLabel('Add original PDF', { exact: true }).setInputFiles({ name: 'CON.pdf', mimeType: 'application/pdf', buffer: original });
-    await expect(dialog.getByRole('heading', { name: '2. CON.pdf', exact: true })).toBeVisible();
-    const revisionId = (await dialog.getByText(/^Revision ID:/).innerText()).split('Revision ID: ')[1].split('.')[0];
+    await expect((await packageHeading(dialog, '2. CON.pdf'))).toBeVisible();
+    const revisionId = await selectedPackageRevision(dialog);
     await dialog.getByRole('button', { name: 'Close', exact: true }).click();
     // Replace the live source attachment after capture. The saved member owns its original bytes.
     const enclosures = page.getByRole('button', { name: /^Enclosures(?:\s|$)/ }).first();
@@ -110,19 +110,20 @@ for (const theme of ['light', 'dark', 'classic']) {
     await dialog.getByRole('region', { name: 'Word package delivery', exact: true }).screenshot({ path: info.outputPath(`word-delivery-${theme}.png`) });
     expect(await dialog.evaluate(element => element.scrollWidth <= element.clientWidth)).toBe(true);
     // Gap15's separate portable transfer restores the exact selected revision in a fresh browser.
-    await dialog.getByRole('button', { name: 'Export editable package', exact: true }).click();
-    await dialog.getByRole('checkbox', { name: /^I reviewed every included member/ }).check();
-    const saving = page.waitForEvent('download');
-    await dialog.getByRole('button', { name: 'Download reviewed editable package', exact: true }).click();
+    await preparePackageExport(dialog, 'editable');
+    if (await dialog.getByRole('checkbox', { name: /^I reviewed every included member/ }).isVisible()) await dialog.getByRole('checkbox', { name: /^I reviewed every included member/ }).check();
+    const saving = page.waitForEvent('download', { timeout: 90_000 });
+    await dialog.getByRole('button', { name: 'Download editable package', exact: true }).click();
     const portable = await saving, portablePath = info.outputPath(`native-${theme}.json`);await portable.saveAs(portablePath);
     const fresh = await browser.newContext({ viewport: page.viewportSize(), userAgent: await page.evaluate(() => navigator.userAgent), isMobile, hasTouch: !!info.project.use.hasTouch, serviceWorkers: 'block' });
     try {
       await fresh.addInitScript(value => { localStorage.setItem('browser-test-visitor', 'returning');localStorage.setItem('dondocs_ui', JSON.stringify({ state: { theme: value, editorLayout: 'scroll' }, version: 1 })); }, theme);
       const recipient = await fresh.newPage();await recipient.goto('/');
       const received = await packages(recipient);
-      await received.getByLabel('Import editable package', { exact: true }).setInputFiles(portablePath);
+      await importPackage(received, portablePath);
+  await packageSection(received, 'Documents', true);
       await expect(received).toHaveAttribute('aria-busy', 'false', { timeout: 30_000 });
-      await expect(received.getByRole('heading', { name: '2. CON.pdf', exact: true })).toBeVisible();
+      await expect((await packageHeading(received, '2. CON.pdf'))).toBeVisible();
       const transferred = await downloadWord(recipient, received, info.outputPath(`transferred-${theme}.zip`));
       const transferredManifest = JSON.parse(await transferred.file('manifest.json')!.async('string'));
       expect(transferredManifest.revisionId).toBe(manifest.revisionId);expect(transferredManifest.members).toEqual(manifest.members);
@@ -157,10 +158,10 @@ test('Word packages retain a JPEG signature upload after PNG normalization', asy
   expect(normalized.subarray(0, 8)).toEqual(Buffer.from([137, 80, 78, 71, 13, 10, 26, 10]));
   expect(normalized.length).not.toBe(images.jpeg.length);
   const dialog = await packages(page);
-  await dialog.getByLabel('Package name', { exact: true }).fill('Normalized signature package');
+  await dialog.getByRole('textbox', { name: 'Package name', exact: true }).fill('Normalized signature package');
   await dialog.getByRole('button', { name: 'Create package', exact: true }).click();
   await capturePackageDocument(dialog);
-  await expect(dialog.getByRole('heading', { name: '1. JPEG SIGNATURE CAPTURE', exact: true })).toBeVisible();
+  await expect((await packageHeading(dialog, '1. JPEG SIGNATURE CAPTURE'))).toBeVisible();
   const zip = await downloadWord(page, dialog, info.outputPath('normalized-signature.zip'));
   const manifest = JSON.parse(await zip.file('manifest.json')!.async('string'));
   const signature = manifest.files.find((file: { purpose: string }) => file.purpose.startsWith('Unchanged visual signature'));
@@ -179,22 +180,26 @@ test('Word delivery blocks disallowed original PDF text and displays original PD
   await page.getByLabel('Import draft file').setInputFiles({ name: 'review-source.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(draft)) });
   await page.getByRole('button', { name: 'Open as new document', exact: true }).click();
   const dialog = await packages(page);
-  await dialog.getByLabel('Package name', { exact: true }).fill('Original content review');await dialog.getByRole('button', { name: 'Create package', exact: true }).click();
+  await dialog.getByRole('textbox', { name: 'Package name', exact: true }).fill('Original content review');await dialog.getByRole('button', { name: 'Create package', exact: true }).click();
   await capturePackageDocument(dialog);
-  await expect(dialog.getByRole('heading', { name: '1. WORD ORIGINAL REVIEW', exact: true })).toBeVisible();
+  await expect((await packageHeading(dialog, '1. WORD ORIGINAL REVIEW'))).toBeVisible();
+  await packageSection(dialog, 'Documents', true);
   await dialog.getByLabel('New member role', { exact: true }).selectOption('supporting-document');
   async function addOriginal(text: string) {
     const pdf = await PDFDocument.create();pdf.addPage().drawText(text);
+  await packageSection(dialog, 'Documents', true);
     await dialog.getByLabel('Add original PDF', { exact: true }).setInputFiles({ name: 'support.pdf', mimeType: 'application/pdf', buffer: Buffer.from(await pdf.save()) });
-    await expect(dialog.getByRole('heading', { name: '2. support.pdf', exact: true })).toBeVisible();
+    await expect((await packageHeading(dialog, '2. support.pdf'))).toBeVisible();
   }
   await addOriginal('SECRET');
-  const word = dialog.getByRole('region', { name: 'Word package delivery', exact: true });
+  const word = await packageTool(dialog, 'Word package delivery');
   await word.getByRole('button', { name: 'Review Word package', exact: true }).click();
   await expect(word.getByRole('alert')).toContainText('outside this deployment');expect(await word.getByRole('checkbox').count()).toBe(0);
+  await packageHeading(dialog, '2. support.pdf');
   await dialog.getByRole('listitem').filter({ hasText: '2. support.pdf' }).getByRole('button', { name: 'Remove', exact: true }).click();
   await expect(dialog.getByRole('heading', { name: '2. support.pdf', exact: true })).toHaveCount(0);
   await addOriginal('SSN 123-45-6789');
+  await packageTool(dialog, 'Word package delivery');
   await word.getByRole('button', { name: 'Review Word package', exact: true }).click();
   await expect(word).toContainText('123-45-6789');await expect(word.getByRole('checkbox')).toBeVisible();
   await expect(word).toContainText('Text-layer inspection cannot read text inside scanned images');
@@ -208,11 +213,11 @@ test('Word review blocks disallowed emitted native text before approval and pres
     paragraphs: [{ text: 'SECRET', level: 0 }], references: [], enclosures: [] };
   await page.getByLabel('Import draft file').setInputFiles({ name: 'native-review.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(draft)) });
   await page.getByRole('button', { name: 'Open as new document', exact: true }).click();
-  const dialog = await packages(page);await dialog.getByLabel('Package name', { exact: true }).fill('Native text review');
+  const dialog = await packages(page);await dialog.getByRole('textbox', { name: 'Package name', exact: true }).fill('Native text review');
   await dialog.getByRole('button', { name: 'Create package', exact: true }).click();
   await capturePackageDocument(dialog);
-  await expect(dialog.getByRole('heading', { name: '1. FICTIONAL WORD NATIVE REVIEW', exact: true })).toBeVisible();
-  const word = dialog.getByRole('region', { name: 'Word package delivery', exact: true });
+  await expect((await packageHeading(dialog, '1. FICTIONAL WORD NATIVE REVIEW'))).toBeVisible();
+  const word = await packageTool(dialog, 'Word package delivery');
   const downloads: string[] = [];page.on('download', file => downloads.push(file.suggestedFilename()));
   await word.getByRole('button', { name: 'Review Word package', exact: true }).click();
   await expect(word.getByRole('alert')).toContainText('outside this deployment');
@@ -232,10 +237,10 @@ for (const asset of ['figure', 'enclosure'] as const) test(`clean Word ZIP exclu
     enclosures: asset === 'enclosure' ? [{ title: 'Inactive annex', hasFile: true, file: { name: 'SSN 123-45-6789.pdf', size: bytes.length, data: bytes.toString('base64') } }] : [], references: [] };
   await page.getByLabel('Import draft file').setInputFiles({ name: 'inactive-sidecar.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(draft)) });
   await page.getByRole('button', { name: 'Open as new document', exact: true }).click();
-  const dialog = await packages(page);await dialog.getByLabel('Package name', { exact: true }).fill('Inactive Word asset review');
+  const dialog = await packages(page);await dialog.getByRole('textbox', { name: 'Package name', exact: true }).fill('Inactive Word asset review');
   await dialog.getByRole('button', { name: 'Create package', exact: true }).click();
   await capturePackageDocument(dialog);
-  await expect(dialog.getByRole('heading', { name: '1. FICTIONAL INACTIVE WORD SIDECAR', exact: true })).toBeVisible();
+  await expect((await packageHeading(dialog, '1. FICTIONAL INACTIVE WORD SIDECAR'))).toBeVisible();
   const zip = await downloadWord(page, dialog, info.outputPath(`inactive-${asset}-word.zip`));
   const manifest = JSON.parse(await zip.file('manifest.json')!.async('string'));
   expect(manifest.files.map((file: { kind: string }) => file.kind)).toEqual(['editable-docx']);

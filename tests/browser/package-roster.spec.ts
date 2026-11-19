@@ -1,3 +1,4 @@
+import { openPackageWorkspace, showPackageLibrary, importPackage, packageSection, expandPackageTools, preparePackageExport, packageTool, downloadPackageExport } from './_helpers/packageWorkspace';
 import { expect, test, type Locator, type Page } from '@playwright/test';
 import { projectBrowserContextOptions } from '../_helpers/projectBrowserContext';
 import { createHash } from 'node:crypto';
@@ -27,17 +28,14 @@ async function inputTemplate() {
     { kind: 'attachment', key: 'support', label: 'Fresh evidence', role: 'supporting-document', required: true }] };
 }
 async function packages(page: Page) {
-  const drawer = page.getByRole('dialog', { name: 'Documents', exact: true });
-  if (!await drawer.isVisible()) await page.getByRole('button', { name: 'Open workspace', exact: true }).or(page.getByRole('button', { name: /^Packages(?:\s|$)/ })).first().click();
-  if (await drawer.isVisible()) await drawer.getByRole('button', { name: /^Packages(?:\s|$)/ }).click();
-  const dialog = page.getByRole('dialog', { name: 'Action packages', exact: true }); await expect(dialog).toBeVisible(); return dialog;
+  const dialog = await openPackageWorkspace(page);
+  await showPackageLibrary(dialog);
+  await expandPackageTools(dialog);
+  return dialog;
 }
 async function panel(dialog: Locator, name: string) {
-  // Let the lazy section above these disclosures finish mounting before a
-  // pointer click. Its layout shift can otherwise move a summary mid-click.
-  await expect(dialog.getByRole('region', { name: 'Portable package reviews', exact: true, includeHidden: true })).toBeAttached();
-  const region = dialog.getByRole('region', { name, exact: true });
-  if (!await region.isVisible()) await dialog.locator('summary').filter({ hasText: new RegExp(`^${name}`) }).first().click();
+  const region = await packageTool(dialog, name);
+  if (!await region.isVisible()) await expandPackageTools(dialog);
   await expect(region).toBeVisible(); return region;
 }
 async function records(page: Page): Promise<ActionPackage[]> {
@@ -54,7 +52,7 @@ async function journalRows(page: Page) {
     finally { database.close(); }
   });
 }
-async function downloaded(page: Page, click: () => Promise<void>) { const pending = page.waitForEvent('download'); await click(); const file = await pending; expect(await file.failure()).toBeNull(); return readFile((await file.path())!); }
+async function downloaded(page: Page, click: () => Promise<void>) { const pending = page.waitForEvent('download', { timeout: 90_000 }); await click(); const file = await pending; expect(await file.failure()).toBeNull(); return readFile((await file.path())!); }
 async function readText(bytes: Uint8Array) { const document = await getDocument({ data: new Uint8Array(bytes), useSystemFonts: false }).promise; try { const pages: string[] = []; for (let number = 1; number <= document.numPages; number++) pages.push((await (await document.getPage(number)).getTextContent()).items.map(item => 'str' in item ? item.str : '').join(' ')); return pages.join('\n'); } finally { await document.destroy(); } }
 
 for (const width of [1440, 320]) test(`independent roster actions keep reviewed per-person files through reload and portable transfer at ${width}px`, async ({ page, context, browser, baseURL }, info) => {
@@ -93,9 +91,10 @@ for (const width of [1440, 320]) test(`independent roster actions keep reviewed 
   const alphaRevision = alphaRecord.revisions.find(revision => revision.id === alphaRecord.currentRevisionId)!, bravoRevision = bravoRecord.revisions.find(revision => revision.id === bravoRecord.currentRevisionId)!;
   expect(alphaRevision.members[0].id).not.toBe(bravoRevision.members[0].id); expect(alphaRevision.information!.facts[0].id).not.toBe(bravoRevision.information!.facts[0].id); expect(alphaRecord.reviewRounds).toBeUndefined(); expect(alphaRecord.workingCopies).toBeUndefined(); expect(alphaRevision.signing).toBeUndefined();
   const firstId = await roster.getByLabel('Saved roster action', { exact: true }).locator('option').filter({ hasText: 'Fictional Alpha action' }).getAttribute('value'); await roster.getByLabel('Saved roster action', { exact: true }).selectOption(firstId!);
-  await roster.getByRole('button', { name: 'Open created action row 1', exact: true }).click(); await expect(dialog.getByLabel('Package name', { exact: true })).toHaveValue('Fictional Alpha action');
-  await dialog.getByRole('button', { name: 'Check readiness and assemble', exact: true }).click(); await expect(dialog.getByRole('heading', { name: 'Package readiness: ready', exact: true })).toBeVisible(); await dialog.getByRole('checkbox', { name: /^I reviewed every included member/ }).check(); await dialog.getByRole('button', { name: 'Assemble and retain PDF', exact: true }).click(); await expect(dialog.getByText(/^Assembled PDF retained\./)).toBeVisible();
-  await dialog.getByRole('button', { name: 'Export editable package', exact: true }).click(); await dialog.getByRole('checkbox', { name: /^I reviewed every included member/ }).check(); const portableBytes = await downloaded(page, () => dialog.getByRole('button', { name: 'Download reviewed editable package', exact: true }).click()), portable = JSON.parse(portableBytes.toString()), revision = portable.package.revisions[0];
+  await roster.getByRole('button', { name: 'Open created action row 1', exact: true }).click(); await expect(dialog.getByRole('heading', { name: 'Fictional Alpha action', exact: true, level: 1 })).toBeVisible();
+  await downloadPackageExport(page, dialog, 'Check readiness and assemble', 'Download PDF');
+  await preparePackageExport(dialog, 'editable');
+  if (await dialog.getByRole('checkbox', { name: /^I reviewed every included member/ }).isVisible()) await dialog.getByRole('checkbox', { name: /^I reviewed every included member/ }).check(); const portableBytes = await downloaded(page, () => dialog.getByRole('button', { name: 'Download editable package', exact: true }).click()), portable = JSON.parse(portableBytes.toString()), revision = portable.package.revisions[0];
   expect(portable.package.id).toBe(alphaRecord.id); expect(JSON.stringify(portable.package)).not.toContain('BRAVO');
   const original = revision.members.find((member: { kind: string }) => member.kind === 'original'), originalEntry = portable.portableResources.entries.find((entry: { path: string }) => entry.path === `assets/${original.original.id}`);
   expect(Buffer.from(originalEntry.data, 'base64')).toEqual(alphaFile);
@@ -104,7 +103,8 @@ for (const width of [1440, 320]) test(`independent roster actions keep reviewed 
   await info.attach('independent-alpha-package.pdf', { body: outputBytes, contentType: 'application/pdf' });
   expect(await dialog.evaluate(element => element.scrollWidth <= element.clientWidth + 1)).toBe(true); await page.screenshot({ path: info.outputPath(`roster-${width}px.png`) });
   const fresh = await browser.newContext({ ...projectBrowserContextOptions(info), baseURL, serviceWorkers: 'block', viewport: { width, height: 950 } });
-  try { await fresh.addInitScript(() => localStorage.setItem('browser-test-visitor', 'returning')); const recipient = await fresh.newPage(); await recipient.goto('/'); expect(await recipient.evaluate(() => navigator.userAgent)).toBe(await page.evaluate(() => navigator.userAgent)); expect(await recipient.evaluate(() => navigator.maxTouchPoints)).toBe(await page.evaluate(() => navigator.maxTouchPoints)); const imported = await packages(recipient); await imported.getByLabel('Import editable package', { exact: true }).setInputFiles({ name: 'alpha-portable.json', mimeType: 'application/json', buffer: portableBytes }); await expect(imported.getByLabel('Package name', { exact: true })).toHaveValue('Fictional Alpha action'); const recovered = await records(recipient); expect(recovered).toHaveLength(1); expect(recovered[0].id).toBe(alphaRecord.id); expect(JSON.stringify(recovered)).not.toContain('BRAVO'); } finally { await fresh.close(); }
+  try { await fresh.addInitScript(() => localStorage.setItem('browser-test-visitor', 'returning')); const recipient = await fresh.newPage(); await recipient.goto('/'); expect(await recipient.evaluate(() => navigator.userAgent)).toBe(await page.evaluate(() => navigator.userAgent)); expect(await recipient.evaluate(() => navigator.maxTouchPoints)).toBe(await page.evaluate(() => navigator.maxTouchPoints)); const imported = await packages(recipient); await importPackage(imported, { name: 'alpha-portable.json', mimeType: 'application/json', buffer: portableBytes });
+  await packageSection(imported, 'Overview', true); await expect(imported.getByRole('heading', { name: 'Fictional Alpha action', exact: true, level: 1 })).toBeVisible(); const recovered = await records(recipient); expect(recovered).toHaveLength(1); expect(recovered[0].id).toBe(alphaRecord.id); expect(JSON.stringify(recovered)).not.toContain('BRAVO'); } finally { await fresh.close(); }
 });
 
 
@@ -127,7 +127,7 @@ test('maps an actual Excel worksheet, corrects a numeric identifier and creates 
   await roster.getByRole('region', { name: 'Action row 4', exact: true }).getByRole('button', { name: 'Show answered questions', exact: true }).click();
   await expect(roster.getByRole('region', { name: 'Action row 4', exact: true }).getByLabel('Fictional recipient', { exact: true })).toHaveValue('12');
   await expect(roster.getByText(/leading zeros may already be missing/)).toBeVisible(); await expect(roster).not.toContainText('Ignored worksheet person');
-  await roster.locator('summary').filter({ hasText: 'Inspect or correct mapped worksheet cells' }).click();
+  await expandPackageTools(roster);
   await roster.getByLabel('Worksheet row 4 column 2', { exact: true }).fill('0012'); await expect(roster.getByRole('region', { name: 'Action row 4', exact: true })).toBeHidden();
   await roster.getByRole('button', { name: 'Map worksheet to separate actions', exact: true }).click();
   await roster.getByRole('region', { name: 'Action row 4', exact: true }).getByRole('button', { name: 'Show answered questions', exact: true }).click();

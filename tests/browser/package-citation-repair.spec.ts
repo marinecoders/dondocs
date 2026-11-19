@@ -1,3 +1,4 @@
+import { openPackagePreparation, importPackage, packageSection, packageVersion, choosePackageById, preparePackageExport, packageTool, packageHeading } from './_helpers/packageWorkspace';
 import { test, expect, type Page, type BrowserContext } from "@playwright/test";
 import { capturePackageDocument } from "../_helpers/capturePackageDocument";
 import { PDFDocument, StandardFonts } from "pdf-lib";
@@ -14,10 +15,7 @@ async function appearance(context: BrowserContext, theme: string) {
   }, theme);
 }
 async function packages(page: Page) {
-  const drawer = page.getByRole("dialog", { name: "Documents", exact: true });
-  if (!await drawer.isVisible()) await page.getByRole("button", { name: "Open workspace", exact: true }).or(page.getByRole("button", { name: /^Packages(?:\s|$)/ })).first().click();
-  if (await drawer.isVisible()) await drawer.getByRole("button", { name: /^Packages(?:\s|$)/ }).click();
-  return page.getByRole("dialog", { name: "Action packages", exact: true });
+  return openPackagePreparation(page);
 }
 async function originalPdf(text: string) {
   const pdf = await PDFDocument.create(), page = pdf.addPage();
@@ -26,29 +24,29 @@ async function originalPdf(text: string) {
 }
 async function exportPackage(page: Page) {
   const modal = page.getByRole("dialog", { name: "Action packages", exact: true });
-  await modal.getByRole("button", { name: "Export editable package", exact: true }).click();
+  await preparePackageExport(modal, 'editable');
   await expect(modal).toHaveAttribute("aria-busy", "false", { timeout: 90_000 });
-  await expect(modal.getByRole("heading", { name: /^Editable transfer checks:/ })).toBeVisible();
-  await modal.getByRole("checkbox", { name: /^I reviewed every included member/ }).check();
-  const pending = page.waitForEvent("download");
-  await modal.getByRole("button", { name: "Download reviewed editable package", exact: true }).click();
+  await expect(modal.getByRole('button', { name: 'Download editable package', exact: true })).toBeEnabled();
+  if (await modal.getByRole("checkbox", { name: /^I reviewed every included member/ }).isVisible()) await modal.getByRole("checkbox", { name: /^I reviewed every included member/ }).check();
+  const pending = page.waitForEvent("download", { timeout: 90_000 });
+  await modal.getByRole("button", { name: "Download editable package", exact: true }).click();
   return readFile((await (await pending).path())!);
 }
 async function retainedPdf(page: Page) {
   const modal = page.getByRole("dialog", { name: "Action packages", exact: true });
-  await modal.getByRole("button", { name: "Download retained PDF", exact: true }).click();
-  await modal.getByRole("checkbox", { name: /^I reviewed every included member/ }).check();
-  const pending = page.waitForEvent("download");
+  await preparePackageExport(modal, 'saved');
+  if (await modal.getByRole("checkbox", { name: /^I reviewed every included member/ }).isVisible()) await modal.getByRole("checkbox", { name: /^I reviewed every included member/ }).check();
+  const pending = page.waitForEvent("download", { timeout: 90_000 });
   await modal.getByRole("button", { name: "Download reviewed retained PDF", exact: true }).click();
   return readFile((await (await pending).path())!);
 }
 async function assembledPdf(page: Page) {
   const modal = page.getByRole("dialog", { name: "Action packages", exact: true });
-  await modal.getByRole("button", { name: "Check readiness and assemble", exact: true }).click();
-  await expect(modal.getByRole("heading", { name: /^Package readiness: (ready|exported)$/, exact: true })).toBeVisible();
-  await modal.getByRole("checkbox", { name: /^I reviewed every included member/ }).check();
-  await modal.getByRole("button", { name: "Assemble and retain PDF", exact: true }).click();
-  await expect(modal.getByRole("status").filter({ hasText: /^Assembled PDF retained\. SHA-256: [a-f0-9]{64}$/ })).toBeVisible({ timeout: 90_000 });
+  await preparePackageExport(modal, 'pdf');
+  await expect(modal.getByRole('button', { name: 'Download PDF', exact: true })).toBeEnabled();
+  if (await modal.getByRole("checkbox", { name: /^I reviewed every included member/ }).isVisible()) await modal.getByRole("checkbox", { name: /^I reviewed every included member/ }).check();
+  await modal.getByRole("button", { name: "Download PDF", exact: true }).click();
+  await expect(modal.getByRole("status").filter({ hasText: /^PDF downloaded\./ })).toBeVisible({ timeout: 90_000 });
   return retainedPdf(page);
 }
 async function pdfText(bytes: Buffer) {
@@ -70,36 +68,40 @@ for (const theme of ["light", "dark", "classic"]) {
     })) });
     await page.getByRole("button", { name: "Open as new document", exact: true }).click();
     let modal = await packages(page);
-    await modal.getByLabel("Package name", { exact: true }).fill(`Repair action ${theme}`);
+    await modal.getByRole("textbox", { name: "Package name", exact: true }).fill(`Repair action ${theme}`);
     await modal.getByRole("button", { name: "Create package", exact: true }).click();
     await capturePackageDocument(modal);
-    await expect(modal.getByRole("heading", { name: `1. ${subject}`, exact: true })).toBeVisible();
+    await expect((await packageHeading(modal, `1. ${subject}`))).toBeVisible();
+  await packageSection(modal, 'Documents', true);
     await modal.getByLabel("New member role", { exact: true }).selectOption("enclosure");
     const signed = await originalPdf("SYNTHETIC SIGNED SECOND ORIGINAL - PRESERVE BYTES");
     const originals = [await originalPdf("SYNTHETIC FIRST ENCLOSURE"), signed, await originalPdf("SYNTHETIC THIRD ENCLOSURE")];
     for (let index = 0; index < originals.length; index++) {
       await modal.getByRole("checkbox", { name: "Uploaded original is signed (preserve unchanged)", exact: true }).setChecked(index === 1);
+  await packageSection(modal, 'Documents', true);
       await modal.getByLabel("Add original PDF", { exact: true }).setInputFiles({ name: `training-${index + 1}.pdf`, mimeType: "application/pdf", buffer: originals[index] });
-      await expect(modal.getByRole("heading", { name: `${index + 2}. training-${index + 1}.pdf`, exact: true })).toBeVisible();
+      await expect((await packageHeading(modal, `${index + 2}. training-${index + 1}.pdf`))).toBeVisible();
     }
     await modal.getByRole("button", { name: "Identify current references and enclosures", exact: true }).click();
     await expect(modal.getByText("3 identified targets · 0 linked citations", { exact: true })).toBeVisible();
     await modal.getByLabel("Citation occurrence", { exact: true }).selectOption("0");
     await modal.getByLabel("Citation target", { exact: true }).selectOption({ label: "training-1.pdf · package enclosure (1)" });
     await modal.getByRole("button", { name: "Save citation link", exact: true }).click();
+    await packageSection(modal, 'Documents', true);
     await expect(modal.getByText("3 identified targets · 1 linked citations", { exact: true })).toBeVisible();
     const oldPdf = await assembledPdf(page);
     const before = JSON.parse((await exportPackage(page)).toString("utf8"));
     const oldRevisionId = before.package.currentRevisionId;
-    const item = modal.getByRole("listitem").filter({ has: page.getByRole("heading", { name: "2. training-1.pdf", exact: true }) });
+    const item = modal.getByRole("listitem").filter({ has: (await packageHeading(page, "2. training-1.pdf")) });
     await item.getByRole("button", { name: "Remove", exact: true }).click();
-    const repair = modal.getByRole("region", { name: "Package citation repair", exact: true });
+    const repair = await packageTool(modal, "Package citation repair");
     await expect(repair).toContainText("1 linked citations need repair");
-    await modal.getByRole("button", { name: "Check readiness and assemble", exact: true }).click();
-    await expect(modal.getByRole("heading", { name: "Package readiness: incomplete", exact: true })).toBeVisible();
+    await preparePackageExport(modal, 'pdf');
+  await expect(modal.getByRole('button', { name: 'Download PDF', exact: true })).toBeDisabled();
     await expect(modal).toContainText("repair linked citation");
-    await expect(modal.getByRole("button", { name: "Assemble and retain PDF", exact: true })).toBeDisabled();
+    await expect(modal.getByRole("button", { name: "Download PDF", exact: true })).toBeDisabled();
     const linkId = before.package.revisions[0].citations.links[0].id;
+    await packageSection(modal, 'Documents', true);
     await repair.getByLabel("Link to repair", { exact: true }).selectOption(linkId);
     await repair.getByLabel("Current citation occurrence", { exact: true }).selectOption("0");
     await repair.getByLabel("Replacement citation target", { exact: true }).selectOption({ label: "training-3.pdf · package enclosure (2)" });
@@ -114,16 +116,18 @@ for (const theme of ["light", "dark", "classic"]) {
     expect(await pdfText(oldPdf)).toContain("Enclosure (1)");
     const portable = await exportPackage(page), after = JSON.parse(portable.toString("utf8"));
     expect(after.package.currentRevisionId).not.toBe(oldRevisionId);
-    await modal.getByLabel("Package revision", { exact: true }).selectOption(oldRevisionId);
+    await packageVersion(modal, oldRevisionId);
     expect(sha(await retainedPdf(page))).toBe(sha(oldPdf));
     await page.reload(); modal = await packages(page);
-    await modal.getByLabel("Saved packages", { exact: true }).selectOption(after.package.id);
+    await choosePackageById(modal, after.package.id);
+    await packageSection(modal, 'Documents', true);
     await expect(modal.getByRole("region", { name: "Package citation repair", exact: true })).toContainText("0 linked citations need repair");
     const fresh = await browser.newContext({ baseURL, serviceWorkers: "block", viewport: page.viewportSize() ?? undefined });
     try {
       await appearance(fresh, theme); const receiver = await fresh.newPage(); await receiver.goto("/");
       const received = await packages(receiver);
-      await received.getByLabel("Import editable package", { exact: true }).setInputFiles({ name: "repaired-action.dondocs-package.json", mimeType: "application/json", buffer: portable });
+      await importPackage(received, { name: "repaired-action.dondocs-package.json", mimeType: "application/json", buffer: portable });
+  await packageSection(received, 'Documents', true);
       await expect(received).toHaveAttribute("aria-busy", "false", { timeout: 30_000 });
       await expect(received.getByRole("region", { name: "Package citation repair", exact: true })).toContainText("0 linked citations need repair");
       const returned = JSON.parse((await exportPackage(receiver)).toString("utf8"));

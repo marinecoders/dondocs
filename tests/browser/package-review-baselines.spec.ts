@@ -1,48 +1,51 @@
-import { expect, test, type Page } from '@playwright/test';
+import { openPackageWorkspace, importPackage, packageSection, expandPackageTools, choosePackageById, inspectPackageMember } from './_helpers/packageWorkspace';
+import { expect, test } from '@playwright/test';
 import { readFile } from 'node:fs/promises';
-import { fileURLToPath } from 'node:url';
 
-const fixturePath = fileURLToPath(new URL('../fixtures/package-render/baseline-1.3.98.dondocs-package.json', import.meta.url));
 test.use({ serviceWorkers: 'block', actionTimeout: 15_000 });
 test.setTimeout(120_000);
-async function packages(page: Page) {
-  const drawer = page.getByRole('dialog', { name: 'Documents', exact: true });
-  if (!(await drawer.isVisible())) await page.getByRole('button', { name: 'Open workspace', exact: true })
-    .or(page.getByRole('button', { name: /^Packages(?:\s|$)/ })).first().click();
-  if (await drawer.isVisible()) await drawer.getByRole('button', { name: /^Packages(?:\s|$)/ }).click();
-  return page.getByRole('dialog', { name: 'Action packages', exact: true });
-}
 for (const theme of ['light', 'dark', 'classic']) test(`exact package review survives membership changes and reload in ${theme}`, async ({ page, context }, info) => {
   await context.addInitScript(value => {
     localStorage.setItem('browser-test-visitor', 'returning');
     localStorage.setItem('dondocs_ui', JSON.stringify({ version: 1, state: { theme: value, editorLayout: 'focused' } }));
   }, theme);
   await page.goto('/');
-  let modal = await packages(page);
-  const bytes = await readFile(fixturePath), packet = JSON.parse(bytes.toString('utf8'));
-  const revision = packet.package.revisions[0];
-  await modal.getByLabel('Import editable package', { exact: true }).setInputFiles({ name: 'synthetic-review.dondocs-package.json', mimeType: 'application/json', buffer: bytes });
-  await expect(modal).toHaveAttribute('aria-busy', 'false', { timeout: 30_000 });
-  await expect(modal.getByRole('button', { name: 'Start package review', exact: true })).toBeVisible();
-  await modal.getByRole('button', { name: 'Start package review', exact: true }).click();
-  await expect(modal.getByText('Reviewing exact saved package revision', { exact: true })).toBeVisible();
-  await expect(modal.getByRole('button', { name: 'Check readiness and assemble', exact: true })).toBeDisabled();
-  await expect(modal.getByLabel('Saved package reviews')).toContainText(`${revision.members.length} captured members`);
-  await modal.getByRole('button', { name: 'Return to package workspace', exact: true }).click();
-  const removedLabel = revision.members.at(-1).label;
-  await modal.getByRole('listitem').filter({ has: page.getByRole('heading', { name: `${revision.members.length}. ${removedLabel}`, exact: true }) })
-    .getByRole('button', { name: 'Remove', exact: true }).click();
-  await expect(modal.getByRole('heading', { name: `${revision.members.length}. ${removedLabel}`, exact: true })).toBeHidden();
-  await modal.getByRole('button', { name: 'Open review Package review 1', exact: true }).click();
-  await expect(modal.getByRole('heading', { name: `${revision.members.length}. ${removedLabel}`, exact: true })).toBeVisible();
-  await expect(modal.getByLabel('Package revision', { exact: true })).toHaveValue(revision.id);
+  let dialog = await openPackageWorkspace(page);
+  const bytes = await readFile(new URL('../fixtures/package-render/baseline-1.3.98.dondocs-package.json', import.meta.url));
+  const packet = JSON.parse(bytes.toString('utf8')), revision = packet.package.revisions[0];
+  const original = revision.members.at(-1);
+  await importPackage(dialog, { name: 'synthetic-review.json', mimeType: 'application/json', buffer: bytes });
+  await packageSection(dialog, 'Review');
+  await dialog.getByRole('button', { name: 'New review copy', exact: true }).click();
+  await expect(dialog.getByText('Reviewing exact saved package revision', { exact: true })).toBeVisible();
+  await packageSection(dialog, 'Overview');
+  await expect(dialog.getByRole('button', { name: 'Review PDF', exact: true })).toBeDisabled();
+  await packageSection(dialog, 'Delivery');
+  await expect(dialog.getByRole('button', { name: 'Prepare PDF', exact: true })).toBeDisabled();
+  await dialog.getByRole('button', { name: 'Back to current package', exact: true }).click();
+  await inspectPackageMember(dialog, original.id);
+  const card = dialog.locator(`[id="package-member-${original.id}"]`);
+  await expandPackageTools(card);
+  await card.getByRole('button', { name: 'Remove', exact: true }).click();
+  await expect(card).toHaveCount(0);
+  await packageSection(dialog, 'Review');
+  await dialog.getByRole('button', { name: 'Open review Package review 1', exact: true }).click();
+  await inspectPackageMember(dialog, original.id);
+  await expect(card).toBeVisible();
+  await expect(card.getByRole('button', { name: 'Remove', exact: true })).toHaveCount(0);
+  await expect(dialog).toHaveAttribute('data-revision-id', revision.id);
   await page.reload();
-  modal = await packages(page);
-  await modal.getByLabel('Saved packages', { exact: true }).selectOption(packet.package.id);
-  await modal.getByRole('button', { name: 'Open review Package review 1', exact: true }).click();
-  await expect(modal.getByText('Reviewing exact saved package revision', { exact: true })).toBeVisible();
-  await expect(modal.getByRole('heading', { name: `${revision.members.length}. ${removedLabel}`, exact: true })).toBeVisible();
-  await modal.getByRole('button', { name: 'Close package review', exact: true }).click();
-  await expect(modal.getByRole('button', { name: 'Reopen package review', exact: true })).toBeVisible();
-  await info.attach('exact-package-review', { body: await modal.getByLabel('Saved package reviews').innerText(), contentType: 'text/plain' });
+  dialog = await openPackageWorkspace(page);
+  await choosePackageById(dialog, packet.package.id);
+  await packageSection(dialog, 'Review');
+  await dialog.getByRole('button', { name: 'Open review Package review 1', exact: true }).click();
+  await expect(dialog.getByText('Reviewing exact saved package revision', { exact: true })).toBeVisible();
+  await inspectPackageMember(dialog, original.id);
+  await expect(card).toBeVisible();
+  await packageSection(dialog, 'Review');
+  await dialog.getByRole('button', { name: 'End Package review 1', exact: true }).click();
+  await expect(dialog.getByRole('button', { name: 'Reopen Package review 1', exact: true })).toBeVisible();
+  await dialog.getByRole('button', { name: 'Reopen Package review 1', exact: true }).click();
+  await expect(dialog.getByRole('button', { name: 'End Package review 1', exact: true })).toBeVisible();
+  await page.screenshot({ path: info.outputPath(`package-review-${theme}.png`) });
 });

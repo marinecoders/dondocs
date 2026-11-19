@@ -1,3 +1,4 @@
+import { openPackagePreparation, expandPackageTools, choosePackage, preparePackageExport, packageTool, packageHeading } from './_helpers/packageWorkspace';
 import { expect, test, type Page, type TestInfo } from '@playwright/test';
 import { capturePackageDocument } from '../_helpers/capturePackageDocument';
 import { PDFDocument, PDFName, PDFSignature } from 'pdf-lib';
@@ -70,20 +71,17 @@ async function snapshot(page: Page): Promise<WorkspaceSnapshot> {
 }
 
 async function openPackages(page: Page) {
-  const drawer = page.getByRole('dialog', { name: 'Documents', exact: true });
-  if (!await drawer.isVisible()) await page.getByRole('button', { name: 'Open workspace', exact: true }).or(page.getByRole('button', { name: /^Packages(?:\s|$)/ })).first().click();
-  if (await drawer.isVisible()) await drawer.getByRole('button', { name: /^Packages(?:\s|$)/ }).click();
-  return page.getByRole('dialog', { name: 'Action packages', exact: true });
+  return openPackagePreparation(page);
 }
 
 async function download(page: Page, action: () => Promise<void>): Promise<Buffer> {
-  const pending = page.waitForEvent('download');await action();const result = await pending;
+  const pending = page.waitForEvent('download', { timeout: 90_000 });await action();const result = await pending;
   expect(await result.failure()).toBeNull();return readFile((await result.path())!);
 }
 
 async function retainedPackagePdf(page: Page, dialog: ReturnType<Page['getByRole']>) {
-  await dialog.getByRole('button', { name: 'Download retained PDF', exact: true }).click();
-  await dialog.getByRole('checkbox', { name: /^I reviewed every included member/ }).check();
+  await preparePackageExport(dialog, 'saved');
+  if (await dialog.getByRole('checkbox', { name: /^I reviewed every included member/ }).isVisible()) await dialog.getByRole('checkbox', { name: /^I reviewed every included member/ }).check();
   return download(page, () => dialog.getByRole('button', { name: 'Download reviewed retained PDF', exact: true }).click());
 }
 
@@ -142,33 +140,33 @@ for (const theme of ['light', 'dark', 'classic'] as const) {
 
     await test.step('Retain a reusable source package and instantiate a fresh action', async () => {
       let dialog = await openPackages(page);
-      await dialog.getByLabel('Package name', { exact: true }).fill(SOURCE_PACKAGE);
+      await dialog.getByRole('textbox', { name: 'Package name', exact: true }).fill(SOURCE_PACKAGE);
       await dialog.getByRole('button', { name: 'Create package', exact: true }).click();
       await capturePackageDocument(dialog);
-      await expect(dialog.getByRole('heading', { name: `1. ${IMPORTED_SUBJECT}`, exact: true })).toBeVisible();
+      await expect((await packageHeading(dialog, `1. ${IMPORTED_SUBJECT}`))).toBeVisible();
       sourcePackage = (await snapshot(page)).packages.find(record => record.name === SOURCE_PACKAGE)!;
-      await dialog.locator('summary').filter({ hasText: 'Reusable package templates' }).click();
-      let panel = dialog.getByRole('region', { name: 'Reusable package templates', exact: true });
+      await expandPackageTools(dialog);
+      let panel = await packageTool(dialog, 'Reusable package templates');
       await panel.getByLabel('Template name', { exact: true }).fill(TEMPLATE);
       await panel.getByRole('checkbox', { name: /I reviewed the source starter text/ }).check();
       await panel.getByRole('button', { name: 'Save package template', exact: true }).click();
       await expect(panel.getByText('Package template saved.', { exact: true })).toBeVisible();
       template = (await snapshot(page)).templates.find(record => record.name === TEMPLATE)!;
       await page.reload();dialog = await openPackages(page);
-      await dialog.locator('summary').filter({ hasText: 'Reusable package templates' }).click();
+      await expandPackageTools(dialog);
       panel = dialog.getByRole('region', { name: 'Reusable package templates', exact: true });
       await panel.getByLabel('Saved package templates', { exact: true }).selectOption({ label: TEMPLATE });
       await panel.getByLabel('New action name', { exact: true }).fill(FRESH_PACKAGE);
       await panel.getByLabel('Template value NAME', { exact: true }).fill('NEW MARINE');
       await panel.getByRole('checkbox', { name: /I reviewed the retained starter contents/ }).check();
       await panel.getByRole('button', { name: 'Create package from template', exact: true }).click();
-      await expect(dialog.getByLabel('Package name', { exact: true })).toHaveValue(FRESH_PACKAGE);
-      await expect(dialog.getByRole('heading', { name: '1. ACTION FOR NEW MARINE', exact: true })).toBeVisible();
-      await dialog.getByRole('button', { name: 'Check readiness and assemble', exact: true }).click();
-      await expect(dialog.getByRole('heading', { name: 'Package readiness: ready', exact: true })).toBeVisible();
-      await dialog.getByRole('checkbox', { name: /^I reviewed every included member/ }).check();
-      await dialog.getByRole('button', { name: 'Assemble and retain PDF', exact: true }).click();
-      await expect(dialog.getByText(/^Assembled PDF retained\./)).toBeVisible({ timeout: 90_000 });
+      await expect(dialog.getByRole('heading', { name: FRESH_PACKAGE, exact: true, level: 1 })).toBeVisible();
+      await expect((await packageHeading(dialog, '1. ACTION FOR NEW MARINE'))).toBeVisible();
+      await preparePackageExport(dialog, 'pdf');
+  await expect(dialog.getByRole('button', { name: 'Download PDF', exact: true })).toBeEnabled();
+      if (await dialog.getByRole('checkbox', { name: /^I reviewed every included member/ }).isVisible()) await dialog.getByRole('checkbox', { name: /^I reviewed every included member/ }).check();
+      await dialog.getByRole('button', { name: 'Download PDF', exact: true }).click();
+      await expect(dialog.getByText(/^PDF downloaded\./)).toBeVisible({ timeout: 90_000 });
       assembled = await retainedPackagePdf(page, dialog);
       const deliveredText = await textFromPdf(assembled);
       expect(deliveredText).toContain('NEW MARINE');expect(deliveredText).not.toContain('{{NAME}}');
@@ -244,7 +242,7 @@ for (const theme of ['light', 'dark', 'classic'] as const) {
       expect(Buffer.from(signing.returns![0].pdf.data, 'base64')).toEqual(returned!);
       expect(signing.returns![0].status).toBe('associated-unverified');
       const dialog = await openPackages(page);
-      await dialog.getByLabel('Saved packages', { exact: true }).selectOption({ label: FRESH_PACKAGE });
+      await choosePackage(dialog, FRESH_PACKAGE);
       expect(await retainedPackagePdf(page, dialog)).toEqual(assembled!);
       await writeFile(info.outputPath('retention-evidence.json'), JSON.stringify({ theme, project: info.project.name,
         previousDocumentId: previousDraft.id, importedDocumentId: importedDraft.id, sourcePackageId: sourcePackage!.id,

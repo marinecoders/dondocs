@@ -1,3 +1,4 @@
+import { expandDetails, workspaceSection } from "../helpers/packageWorkspace";
 import 'fake-indexeddb/auto';
 import { afterEach, beforeEach, expect, it, vi } from 'vitest';
 import { act, cleanup, render, screen, waitFor, within } from '@testing-library/react';
@@ -16,14 +17,14 @@ import { initializePackageCitationTargets, linkPackageCitation, packageCitationO
 import { updatePackageWork } from '@/lib/packageWork';
 import { updatePackageConsistency } from '@/lib/packageConsistency';
 import { resolveExportDeploymentPolicy } from '@/lib/exportDeploymentPolicy';
-import { PACKAGE_WORKSPACE_CONTEXT_KEY } from '@/lib/packageWorkspaceContext';
+import { readPackageWorkspaceContext } from '@/lib/packageWorkspaceContext';
 import { useUIStore } from '@/stores/uiStore';
 
 const policy = resolveExportDeploymentPolicy({ hostname: 'localhost', environment: { maxLevel: 'unclassified', allowedLevels: ['unclassified'] }, runtime: { status: 'absent' } });
 vi.mock('@/stores/backupStore', () => ({ scheduleBackup: vi.fn() }));
 vi.mock('@/config/classification', async original => ({ ...await original<typeof import('@/config/classification')>(),
   getExportDeploymentPolicy: async () => policy, getExportDeploymentPolicySync: () => policy }));
-beforeEach(() => { localStorage.removeItem(PACKAGE_WORKSPACE_CONTEXT_KEY); useUIStore.setState({ actionPackagesOpen: false, isMobile: false, sidebarCollapsed: false }); });
+beforeEach(() => { localStorage.clear(); useUIStore.setState({ actionPackagesOpen: false, isMobile: false, sidebarCollapsed: false }); });
 afterEach(() => { cleanup(); vi.restoreAllMocks(); });
 async function fixture() {
   const record = await updatePackageInformation(await createActionPackage(`Coordination ${crypto.randomUUID()}`), { version: 1, participants: [], facts: [
@@ -36,8 +37,9 @@ async function open(id: string) {
   useUIStore.getState().openActionPackage(id);
   render(<ActionPackageWorkspace exportGate={createExportGate()} ports={{ compile: vi.fn(), convertDocx: vi.fn(), waitForReady: async () => true }} />);
   const dialog = await screen.findByRole('dialog', { name: 'Action packages' }), user = userEvent.setup();
-  await waitFor(() => expect(within(dialog).getByLabelText('Saved packages', { exact: true })).toHaveValue(id));
-  await user.click(within(dialog).getByText(/^Consistency checks/));
+  await waitFor(() => expect(readPackageWorkspaceContext()?.packageId).toBe(id));
+  await expandDetails(dialog, user);
+  await user.click(await within(dialog).findByRole('button', { name: 'Field links and other details' }));
   const relationships = await within(dialog).findByRole('region', { name: 'Package relationships' });
   return { dialog, user, relationships };
 }
@@ -56,13 +58,13 @@ it('preserves unsaved relationships through close and queued selection until exp
   const record = await fixture(), other = await createActionPackage(`Other coordination ${crypto.randomUUID()}`), { dialog, user, relationships } = await open(record.id);
   const label = within(relationships).getByRole('textbox', { name: 'Relationship label 1' });
   await user.clear(label); await user.type(label, 'Unapplied relationship name');
-  expect(within(dialog).getByLabelText('Saved packages', { exact: true })).toBeDisabled();
+  expect(within(dialog).getByText('Apply or discard your edits before preparing files.')).toBeVisible();
   expect(within(dialog).getByRole('button', { name: 'Add shared value' })).toBeDisabled();
   await user.keyboard('{Escape}'); expect(dialog).toBeVisible(); expect(label).toHaveValue('Unapplied relationship name');
   act(() => useUIStore.getState().openActionPackage(other.id));
-  expect(within(dialog).getByLabelText('Saved packages', { exact: true })).toHaveValue(record.id);
+  expect(readPackageWorkspaceContext()?.packageId).toBe(record.id);
   await user.click(within(relationships).getByRole('button', { name: 'Discard relationship changes' }));
-  await waitFor(() => expect(within(dialog).getByLabelText('Saved packages', { exact: true })).toHaveValue(other.id));
+  await waitFor(() => expect(readPackageWorkspaceContext()?.packageId).toBe(other.id));
   expect(getPackageRevision((await listActionPackages()).find(item => item.id === record.id)!).consistency).toEqual(getPackageRevision(record).consistency);
 });
 
@@ -71,7 +73,7 @@ async function originalPackage() {
   return reviseActionPackage(await createActionPackage(`Impact ${crypto.randomUUID()}`), [await captureOriginalPackageMember({ name: 'Synthetic retained letter.pdf', data: new Uint8Array(await pdf.save()).buffer }, 'basic-letter', false)]);
 }
 async function compareSaved(dialog: HTMLElement, user: ReturnType<typeof userEvent.setup>, baseline?: string) {
-  await user.click(within(dialog).getByText('Change impact', { selector: 'summary', exact: true }));
+
   const impact = await within(dialog).findByRole('region', { name: 'Package change impact' });
   if (baseline) await user.selectOptions(within(impact).getByLabelText('Change impact baseline'), baseline);
   await user.click(within(impact).getByRole('button', { name: 'Compare saved revisions' }));
@@ -84,7 +86,7 @@ it('follows a removed value to its exact historical revision and focuses the sav
   const { dialog, user } = await open(record.id), impact = await compareSaved(dialog, user, baseline.id);
   await user.click(within(impact).getByText('Shared values (1)', { exact: true }));
   await user.click(within(impact).getByRole('button', { name: 'Inspect shared value · End date · location 1' }));
-  await waitFor(() => expect(within(dialog).getByLabelText('Package revision', { exact: true })).toHaveValue(baseline.id));
+  await waitFor(() => expect(readPackageWorkspaceContext()?.revisionId).toBe(baseline.id));
   await waitFor(() => expect(within(dialog).getByText('End date', { selector: 'legend' })).toHaveFocus());
   expect(within(dialog).getByLabelText('Value 2', { exact: true })).toBeDisabled();
   expect((await listActionPackages()).find(item => item.id === record.id)).toEqual(record);
@@ -98,7 +100,8 @@ it('opens the exact recorded review from impact while preserving the newer draft
   await within(dialog).findByText('Reviewing exact saved package revision');
   await waitFor(() => expect(dialog.querySelector(`[data-package-review-id="${round.id}"]`)).toHaveFocus());
   expect((await listActionPackages()).find(item => item.id === record.id)).toEqual(record);
-  await user.click(within(dialog).getByRole('button', { name: 'Return to package workspace' }));
+  await user.click(within(dialog).getByRole('button', { name: 'Back to current package' }));
+  await workspaceSection(dialog, 'Overview', user);
   await waitFor(() => expect(within(dialog).getByLabelText('Value 1', { exact: true })).toHaveValue('Preserve this newer saved value'));
 });
 it('finds an older retained PDF outside the compared pair and opens its exact saved output', async () => {
@@ -110,30 +113,30 @@ it('finds an older retained PDF outside the compared pair and opens its exact sa
   const { dialog, user } = await open(record.id), impact = await compareSaved(dialog, user);
   await user.click(within(impact).getByText('Retained PDFs (1)', { exact: true }));
   await user.click(within(impact).getByRole('button', { name: 'Inspect retained PDF · Retained PDF 1 · location 1' }));
-  await waitFor(() => expect(within(dialog).getByLabelText('Package revision', { exact: true })).toHaveValue(captured.id));
+  await waitFor(() => expect(readPackageWorkspaceContext()?.revisionId).toBe(captured.id));
   await waitFor(() => expect(dialog.querySelector(`[data-package-output-id="${output.id}"]`)).toHaveFocus());
   expect((await listActionPackages()).find(item => item.id === record.id)).toEqual(record);
 });
 
 it('preserves unsaved tasks through close and queued package selection until discarded', async () => {
   const record = await fixture(), other = await createActionPackage(`Other work ${crypto.randomUUID()}`), { dialog, user } = await open(record.id);
-  await user.click(within(dialog).getByText(/^Work and next actions/, { selector: 'summary' }));
+
   const work = await within(dialog).findByRole('region', { name: 'Work and next actions' });
   await user.click(within(work).getByRole('button', { name: 'Add task' }));
   await user.type(within(work).getByLabelText('Task 1 title'), 'Preserve this unfinished work');
-  expect(within(dialog).getByLabelText('Saved packages', { exact: true })).toBeDisabled();
+  expect(within(dialog).getByText('Apply or discard your edits before preparing files.')).toBeVisible();
   expect(within(dialog).getByRole('button', { name: 'Add shared value' })).toBeDisabled();
   await user.keyboard('{Escape}'); expect(dialog).toBeVisible();
   act(() => useUIStore.getState().openActionPackage(other.id));
   expect(within(work).getByLabelText('Task 1 title')).toHaveValue('Preserve this unfinished work');
   await user.click(within(work).getByRole('button', { name: 'Discard task changes' }));
-  await waitFor(() => expect(within(dialog).getByLabelText('Saved packages', { exact: true })).toHaveValue(other.id));
+  await waitFor(() => expect(readPackageWorkspaceContext()?.packageId).toBe(other.id));
   expect((await listActionPackages()).find(item => item.id === record.id)).toEqual(record);
 });
 it('keeps real consistency blockers after manual completion and navigates their exact value', async () => {
   const record = await updatePackageWork(await fixture(), { version: 1, tasks: [{ id: 'manual', title: 'Check the dates', status: 'complete' }] }, policy);
   const { dialog, user } = await open(record.id);
-  await user.click(within(dialog).getByText(/^Work and next actions/, { selector: 'summary' }));
+
   const work = await within(dialog).findByRole('region', { name: 'Work and next actions' });
   await user.click(within(work).getByRole('button', { name: 'Check next actions' }));
   await within(work).findByText(/PDF assembly: [1-9]\d* unresolved checks?/);
@@ -156,7 +159,7 @@ it('follows a removed citation to its exact asynchronously loaded historical ide
   const { dialog, user } = await open(record.id), impact = await compareSaved(dialog, user);
   await user.click(within(impact).getByText('Citations (2)', { exact: true }));
   await user.click(within(impact).getByRole('button', { name: 'Inspect citation · Reference target · location 1' }));
-  await waitFor(() => expect(within(dialog).getByLabelText('Package revision', { exact: true })).toHaveValue(historical.id));
+  await waitFor(() => expect(readPackageWorkspaceContext()?.revisionId).toBe(historical.id));
   await waitFor(() => expect(dialog.querySelector(`[data-package-citation-id="${target.id}"]`)).toHaveFocus());
   expect(within(dialog).queryByRole('button', { name: 'Identify current references and enclosures' })).toBeNull();
   expect(within(dialog).queryByLabelText('Link to repair')).toBeNull();

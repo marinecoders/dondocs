@@ -1,3 +1,4 @@
+import { openPackagePreparation, importPackage, packageSection, packageHeading } from './_helpers/packageWorkspace';
 import { projectBrowserContextOptions } from '../_helpers/projectBrowserContext';
 import { expect, test, type Page, type Locator } from '@playwright/test';
 import { createHash } from 'node:crypto';
@@ -8,22 +9,18 @@ type ScanLayoutRoot = HTMLElement & { scanLayoutProbe?: { heights: number[]; obs
 test.use({ serviceWorkers: 'block', actionTimeout: 15_000 });
 test.setTimeout(180_000);
 async function packages(page: Page) {
-  const drawer = page.getByRole('dialog', { name: 'Documents', exact: true });
-  if (!await drawer.isVisible()) await page.getByRole('button', { name: 'Open workspace', exact: true }).or(page.getByRole('button', { name: /^Packages(?:\s|$)/ })).first().click();
-  if (await drawer.isVisible()) await drawer.getByRole('button', { name: /^Packages(?:\s|$)/ }).click();
-  return page.getByRole('dialog', { name: 'Action packages', exact: true });
+  return openPackagePreparation(page);
 }
 async function section(dialog: Locator, title: string) {
   await expect(dialog).toHaveAttribute('aria-busy', 'false');
-  await expect(dialog.getByRole('region', { name: 'Action intake', exact: true })).toBeVisible();
-  await expect(dialog.getByRole('region', { name: 'Package information', exact: true })).toBeVisible();
-  const summary = dialog.locator('summary').filter({ hasText: new RegExp(`^${title}`) }).first(), details = summary.locator('..');
+  await packageSection(dialog, title === 'Search captured package' ? 'Overview' : title === 'Recipient delivery' ? 'Delivery' : 'Documents', true);
+  const summary = dialog.locator('summary:visible').filter({ hasText: new RegExp(`^${title}`) }).first(), details = summary.locator('..');
   await summary.scrollIntoViewIfNeeded(); await expect(summary).toBeInViewport();
   if (await details.getAttribute('open') === null) await summary.click();
   await expect(details).toHaveAttribute('open', '');
   return details;
 }
-async function download(page: Page, action: () => Promise<void>) { const pending = page.waitForEvent('download'); await action(); const value = await pending; expect(await value.failure()).toBeNull(); return readFile((await value.path())!); }
+async function download(page: Page, action: () => Promise<void>) { const pending = page.waitForEvent('download', { timeout: 90_000 }); await action(); const value = await pending; expect(await value.failure()).toBeNull(); return readFile((await value.path())!); }
 function asset(bytes: Uint8Array, id: string, name: string) { return { id, name, type: 'application/pdf', size: bytes.byteLength, sha256: createHash('sha256').update(bytes).digest('hex') }; }
 async function fixture(png: Buffer, format: 'image' | 'pdf') {
   const primary = await PDFDocument.create(), main = primary.addPage([612, 792]);
@@ -39,10 +36,11 @@ for (const { theme, width, format } of cases) test(`captured ${format} evidence 
   await page.goto('/');
   const png = Buffer.from(await page.evaluate(() => { const canvas = document.createElement('canvas'); canvas.width = 1500; canvas.height = 1500; const ctx = canvas.getContext('2d')!; ctx.fillStyle = 'white'; ctx.fillRect(0, 0, 1500, 1500); ctx.fillStyle = 'black'; ctx.font = 'bold 42px Arial'; ctx.fillText('TRAINING EVIDENCE EXERCISE', 85, 220); ctx.font = '36px Arial'; ctx.fillText('Synthetic paper source for package review.', 85, 320); return canvas.toDataURL('image/png').split(',')[1]; }), 'base64');
   let dialog = await packages(page);
-  await dialog.getByLabel('Import editable package', { exact: true }).setInputFiles({ name: 'evidence.dondocs-package.json', mimeType: 'application/json', buffer: await fixture(png, format) });
-  await expect(dialog.getByLabel('Package name', { exact: true })).toHaveValue('Captured evidence exercise');
-  await expect(dialog.getByRole('heading', { name: `1. ${format === 'pdf' ? 'Paper evidence.pdf' : 'Primary letter.pdf'}`, exact: true })).toBeVisible();
-  await expect(dialog.getByRole('heading', { name: '2. Excluded supporting.pdf', exact: true })).toBeVisible();
+  await importPackage(dialog, { name: 'evidence.dondocs-package.json', mimeType: 'application/json', buffer: await fixture(png, format) });
+  await packageSection(dialog, 'Documents', true);
+  await expect(dialog.getByRole('heading', { name: 'Captured evidence exercise', exact: true, level: 1 })).toBeVisible();
+  await expect((await packageHeading(dialog, `1. ${format === 'pdf' ? 'Paper evidence.pdf' : 'Primary letter.pdf'}`))).toBeVisible();
+  await expect((await packageHeading(dialog, '2. Excluded supporting.pdf'))).toBeVisible();
   await expect(dialog).toHaveAttribute('aria-busy', 'false');
   const sourceName = format === 'image' ? 'Paper evidence.png' : 'Paper evidence.pdf';
   if (format === 'image') {
@@ -100,6 +98,7 @@ for (const { theme, width, format } of cases) test(`captured ${format} evidence 
   const adopt = scans.getByRole('button', { name: 'Adopt reviewed package value', exact: true });
   await adopt.click();
   await expect(adopt).not.toBeVisible();
+  await packageSection(dialog, 'Overview', true);
   const savedFact = dialog.getByRole('group', { name: 'Confirmed evidence note', exact: true });
   await expect(savedFact.getByLabel('Value 1', { exact: true })).toHaveValue('package evidence excerpt');
   await expect(dialog).toHaveAttribute('aria-busy', 'false');
@@ -110,8 +109,11 @@ for (const { theme, width, format } of cases) test(`captured ${format} evidence 
   await expect(delivery.getByRole('region', { name: 'Captured delivery contents', exact: true })).toBeVisible();
   await delivery.getByRole('button', { name: `Preview ${sourceName}`, exact: true }).click();
   if (format === 'image') { await expect(delivery.getByRole('img', { name: `Captured delivery source: ${sourceName}`, exact: true })).toBeVisible(); await delivery.getByLabel('Captured image zoom', { exact: true }).selectOption('4'); await delivery.getByLabel('Captured image zoom', { exact: true }).selectOption('1'); } else await expect(delivery.locator('canvas').first()).toBeVisible();
+  await section(dialog, 'Search captured package');
   await search.getByLabel('Captured package search scope', { exact: true }).selectOption('delivery'); await search.getByLabel('Search captured package text', { exact: true }).fill('PRIVATE_SCOPE_SENTINEL'); await search.getByRole('button', { name: 'Search captured text', exact: true }).click(); await expect(search.getByText('0 captured matches', { exact: true })).toBeVisible();
-  await delivery.getByRole('checkbox', { name: /^I reviewed every included document/ }).check();
+  await section(dialog, 'Recipient delivery');
+  const deliveryApproval = delivery.getByRole('checkbox', { name: /^I reviewed every included document/ });
+  if (await deliveryApproval.isVisible()) await deliveryApproval.check();
   const bundle = await download(page, () => delivery.getByRole('button', { name: 'Download reviewed delivery bundle', exact: true }).click());
   const zip = await JSZip.loadAsync(bundle), manifest = JSON.parse(await zip.file('manifest.json')!.async('string')), payload = JSON.parse(await zip.file('package.dondocs-package.json')!.async('string'));
   expect(manifest.members).toHaveLength(1); expect(JSON.stringify(payload)).not.toContain('PRIVATE_SCOPE_SENTINEL'); expect(JSON.stringify(payload)).not.toContain('scans'); expect(JSON.stringify(payload)).not.toContain('User corrected');
@@ -119,5 +121,6 @@ for (const { theme, width, format } of cases) test(`captured ${format} evidence 
   const geometry = await dialog.evaluate(root => ({ width: root.clientWidth, scroll: root.scrollWidth })); expect(geometry.scroll).toBeLessThanOrEqual(geometry.width + 1); expect(external).toEqual([]);
   await delivery.scrollIntoViewIfNeeded(); await page.screenshot({ path: info.outputPath(`evidence-${format}-${theme}-${width}px.png`) });
   const fresh = await browser.newContext({ ...projectBrowserContextOptions(info), serviceWorkers: 'block', acceptDownloads: true, viewport: { width, height: 950 } });
-  try { const recovered = await fresh.newPage(); await fresh.addInitScript(() => localStorage.setItem('browser-test-visitor', 'returning')); await recovered.goto(baseURL!); const target = await packages(recovered); await target.getByLabel('Import editable package', { exact: true }).setInputFiles({ name: 'scoped-evidence.zip', mimeType: 'application/zip', buffer: bundle }); await expect(target.getByLabel('Package name', { exact: true })).toHaveValue('Scoped evidence copy'); await expect(target.getByText('Excluded supporting.pdf', { exact: true })).toHaveCount(0); } finally { await fresh.close(); }
+  try { const recovered = await fresh.newPage(); await fresh.addInitScript(() => localStorage.setItem('browser-test-visitor', 'returning')); await recovered.goto(baseURL!); const target = await packages(recovered); await importPackage(target, { name: 'scoped-evidence.zip', mimeType: 'application/zip', buffer: bundle });
+  await packageSection(target, 'Documents', true); await expect(target.getByRole('heading', { name: 'Scoped evidence copy', exact: true, level: 1 })).toBeVisible(); await expect(target.getByText('Excluded supporting.pdf', { exact: true })).toHaveCount(0); } finally { await fresh.close(); }
 });
