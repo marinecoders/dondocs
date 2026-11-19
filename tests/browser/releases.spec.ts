@@ -319,7 +319,8 @@ test('pauses an update during a PDF read and accepts it after the attachment is 
     const waiting = new Promise<void>(resolve => Object.assign(window, { finishFileRead: () => { File.prototype.arrayBuffer = original; resolve(); } }));
     File.prototype.arrayBuffer = async function () { await waiting; return original.call(this); };
   });
-  const pdf = await PDFDocument.create(); pdf.addPage();
+  const pdf = await PDFDocument.create();
+  pdf.addPage().drawText('Synthetic attachment for release checkpoint testing.', { x: 54, y: 720, size: 12 });
   await page.getByLabel('Upload enclosure PDFs', { exact: true }).setInputFiles({ name: 'update-proof.pdf', mimeType: 'application/pdf', buffer: Buffer.from(await pdf.save()) });
   const original = await documentIdentity(page);
   await update.click(); await page.getByRole('button', { name: 'Update Now', exact: true }).click();

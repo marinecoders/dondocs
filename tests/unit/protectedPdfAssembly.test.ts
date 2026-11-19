@@ -1,7 +1,8 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { readFile } from 'node:fs/promises';
 import { PDFDocument, PDFName, PDFRawStream } from 'pdf-lib';
-import { inspectAssemblyPdf, loadAssemblyPdf, PROTECTED_PDF_LIMITS } from '@/services/pdf/assemblyPdf';
+import { assertAssemblyPagesReadable, inspectAssemblyPdf, loadAssemblyPdf, PROTECTED_PDF_LIMITS } from '@/services/pdf/assemblyPdf';
+import { PDF_RESOURCE_LIMITS } from '@/services/pdf/validatePdfResources';
 import { assembleEndorsement, validateBasicLetter } from '@/services/pdf/assembleEndorsement';
 import { mergeEnclosures } from '@/services/pdf/mergeEnclosures';
 
@@ -9,6 +10,20 @@ const mocks = vi.hoisted(() => ({ getDocument: vi.fn(), destroy: vi.fn(), cleanu
 vi.mock('react-pdf', () => ({ pdfjs: { getDocument: mocks.getDocument } }));
 vi.mock('@/components/pdf/pdfConfig', () => ({ HARDENED_PDF_OPTIONS: { isEvalSupported: false } }));
 const fixture = async (name: string) => new Uint8Array(await readFile(`tests/fixtures/permission-pdfs/${name}`));
+
+async function nestedForm(corrupt: boolean): Promise<Uint8Array<ArrayBuffer>> {
+  const pdf = await PDFDocument.create(), page = pdf.addPage([612, 792]);
+  const dictionary = { Type: 'XObject', Subtype: 'Form', BBox: [0, 0, 612, 792], Resources: {} };
+  const inner = pdf.context.register(corrupt
+    ? pdf.context.stream(Uint8Array.of(1, 2, 3, 4), { ...dictionary, Filter: 'FlateDecode' })
+    : pdf.context.flateStream('1 0 0 rg 72 72 300 50 re f', dictionary));
+  const outer = pdf.context.register(pdf.context.flateStream('q /Inner Do Q', {
+    ...dictionary, Resources: { XObject: { Inner: inner } },
+  }));
+  page.node.set(PDFName.of('Resources'), pdf.context.obj({ XObject: { Outer: outer } }));
+  page.node.set(PDFName.of('Contents'), pdf.context.register(pdf.context.flateStream('q /Outer Do Q')));
+  return new Uint8Array(await pdf.save());
+}
 
 beforeEach(async () => {
   vi.restoreAllMocks();
@@ -49,6 +64,84 @@ describe('protected PDF assembly', () => {
     expect(merged.errors[0].error).toMatch(/page 1 is unreadable/);
     expect(bytes).toEqual(original);
     expect(mocks.getDocument).not.toHaveBeenCalled();
+  });
+
+  it('rejects a corrupt nested Form XObject at every attachment and assembly boundary', async () => {
+    const bytes = await nestedForm(true), original = bytes.slice(), main = await fixture('source.pdf');
+    await expect(inspectAssemblyPdf(bytes)).rejects.toThrow(/page 1 is unreadable/);
+    expect(await validateBasicLetter(bytes)).toMatchObject({ ok: false });
+    const assembled = await assembleEndorsement(main, bytes);
+    expect(assembled.ok).toBe(false);
+    expect(assembled.pdfBytes).toBe(main);
+    const merged = await mergeEnclosures(main, [{ number: 1, title: 'Corrupt nested form', data: bytes.buffer }]);
+    expect(merged.hasErrors).toBe(true);
+    expect(merged.errors[0].error).toMatch(/resource is corrupt/);
+    expect(bytes).toEqual(original);
+  });
+
+  it('preserves valid nested Form XObjects as vector content', async () => {
+    const bytes = await nestedForm(false), main = await fixture('source.pdf');
+    expect(await inspectAssemblyPdf(bytes)).toEqual({ pageCount: 1, pageImages: false });
+    const assembled = await assembleEndorsement(main, bytes);
+    expect(assembled.ok).toBe(true);
+    const merged = await mergeEnclosures(main, [{ number: 1, title: 'Valid nested form', data: bytes.buffer }]);
+    expect(merged.hasErrors).toBe(false);
+    const document = await PDFDocument.load(merged.pdfBytes);
+    expect(document.getPageCount()).toBe(3);
+    expect(document.context.enumerateIndirectObjects().some(([, object]) => object instanceof PDFRawStream
+      && object.dict.get(PDFName.of('Subtype')) === PDFName.of('Image'))).toBe(false);
+    expect(mocks.getDocument).not.toHaveBeenCalled();
+  });
+
+  it('accepts legal Flate filter aliases in nested vector resources', async () => {
+    const working = await PDFDocument.load(await nestedForm(false));
+    for (const [, object] of working.context.enumerateIndirectObjects()) {
+      if (object instanceof PDFRawStream && object.dict.get(PDFName.of('Filter')) === PDFName.of('FlateDecode')) object.dict.set(PDFName.of('Filter'), PDFName.of('Fl'));
+    }
+    const bytes = new Uint8Array(await working.save()), original = bytes.slice(), main = await fixture('source.pdf');
+    expect(await inspectAssemblyPdf(bytes)).toEqual({ pageCount: 1, pageImages: false });
+    expect((await assembleEndorsement(main, bytes)).ok).toBe(true);
+    expect((await mergeEnclosures(main, [{ number: 1, title: 'Vector aliases', data: bytes.buffer }])).hasErrors).toBe(false);
+    expect(bytes).toEqual(original);
+  });
+
+  for (const filter of ['DCTDecode', 'DCT']) it(`preserves a real JPEG with ${filter} encoding`, async () => {
+    const pdf = await PDFDocument.create(), jpeg = await fixture('red.jpg'), main = await fixture('source.pdf');
+    const image = await pdf.embedJpg(jpeg);
+    pdf.addPage().drawImage(image, { x: 72, y: 72, width: 300, height: 60 });
+    await pdf.flush();
+    const stream = pdf.context.lookup(image.ref);
+    if (!(stream instanceof PDFRawStream)) throw new Error('The synthetic JPEG stream is missing.');
+    stream.dict.set(PDFName.of('Filter'), PDFName.of(filter));
+    const bytes = new Uint8Array(await pdf.save()), original = bytes.slice();
+    expect(await inspectAssemblyPdf(bytes)).toEqual({ pageCount: 1, pageImages: false });
+    expect((await assembleEndorsement(main, bytes)).ok).toBe(true);
+    const merged = await mergeEnclosures(main, [{ number: 1, title: 'JPEG source', data: bytes.buffer }]);
+    expect(merged.hasErrors).toBe(false);
+    const retained = (await PDFDocument.load(merged.pdfBytes)).context.enumerateIndirectObjects().map(([, object]) => object)
+      .filter((object): object is PDFRawStream => object instanceof PDFRawStream && object.dict.get(PDFName.of('Subtype')) === PDFName.of('Image'));
+    expect(retained.some(object => object.getContents().every((value, index) => value === jpeg[index]) && object.getContentsSize() === jpeg.length)).toBe(true);
+    expect(bytes).toEqual(original);
+  });
+
+  it('stops an expanding compressed resource before accepting it', async () => {
+    const pdf = await PDFDocument.create(), page = pdf.addPage();
+    page.node.set(PDFName.of('Contents'), pdf.context.register(pdf.context.flateStream(new Uint8Array(PDF_RESOURCE_LIMITS.streamBytes + 1))));
+    await expect(assertAssemblyPagesReadable(pdf)).rejects.toThrow(/decoded resources exceed/);
+  });
+
+  it('bounds nested resource traversal and resolves shared resource cycles once', async () => {
+    const pdf = await PDFDocument.create(), page = pdf.addPage();
+    page.drawText('Visible vector content');
+    const resources = page.node.Resources()!;
+    resources.set(PDFName.of('Shared'), pdf.context.register(resources));
+    await pdf.flush();
+    await expect(assertAssemblyPagesReadable(pdf)).resolves.toBeUndefined();
+    let nested = resources;
+    for (let depth = 0; depth <= PDF_RESOURCE_LIMITS.depth; depth++) {
+      const child = pdf.context.obj({});nested.set(PDFName.of('Nested'), child);nested = child;
+    }
+    await expect(assertAssemblyPagesReadable(pdf)).rejects.toThrow(/too complex/);
   });
 
   for (const name of ['owner-aes.pdf', 'owner-rc4.pdf']) it(`renders ${name} into separately owned page images on both paths`, async () => {

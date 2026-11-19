@@ -4,6 +4,7 @@ All content is synthetic. `source.pdf` contains two labeled pages and red shapes
 page 2 has a 90-degree rotation. `source-cropped.pdf` has a 540 × 648 point crop and a 270-degree rotation; `owner-cropped.pdf` encrypts that same source. The files contain no personal or official data.
 `receipt.json` records their SHA-256 digests. `red.png` is the two-pixel rendering
 stand-in used by unit tests; browser checks use the real PDF.js worker.
+`red.jpg` is a synthetic JPEG control for preserved native image encoding.
 
 The encrypted PDFs were produced with qpdf from the same source:
 

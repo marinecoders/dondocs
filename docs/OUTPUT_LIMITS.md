@@ -12,6 +12,14 @@ portable files. Files requiring an opening password must first be exported as a
 readable copy in a PDF application. Unreadable required content blocks complete
 export rather than being silently omitted.
 
+Attached PDFs also receive a bounded compression check of page content, reachable
+resources and annotation appearances. It permits 10,000 resources, 64 levels of
+nesting, eight compression stages, 64 MB of decoded data per stream, 128 MB across
+the document and 15 seconds of validation. These limits apply to ordinary and
+protected sources. Supported compression is checked recursively; native image
+codecs such as JPEG retain their original encoded data and are not certified by
+this structural check. Review the assembled pages before sending them.
+
 Protected sources are limited to 25 MB and 50 pages, with at most 40 million source
 image pixels. Preparation uses at most 4 million pixels per page, 32 million pixels
 across the document, 32 MB of encoded page images and 45 seconds. Split a source or

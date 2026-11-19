@@ -1,4 +1,5 @@
 import { PDFDocument, PDFName, PDFNumber, PDFRawStream } from 'pdf-lib';
+import { createPdfResourceValidator } from './validatePdfResources';
 
 export const PROTECTED_PDF_LIMITS = Object.freeze({
   bytes: 25 * 1024 * 1024,
@@ -18,12 +19,16 @@ export const PROTECTED_PDF_NOTICE = 'This PDF has permission restrictions. Its p
  */
 export async function assertAssemblyPagesReadable(pdf: PDFDocument, signal?: AbortSignal): Promise<void> {
   const probe = await PDFDocument.create();
+  const validateResources = createPdfResourceValidator(pdf, signal);
   for (const [index, page] of pdf.getPages().entries()) {
     signal?.throwIfAborted();
     try {
+      validateResources(page);
       await (await probe.embedPage(page)).embed();
     } catch (cause) {
-      throw new Error(`PDF page ${index + 1} is unreadable. Export a readable copy in your PDF application and attach it again.`, { cause });
+      signal?.throwIfAborted();
+      const detail = cause instanceof Error ? ` ${cause.message}` : '';
+      throw new Error(`PDF page ${index + 1} is unreadable.${detail} Export a readable copy in your PDF application and attach it again.`, { cause });
     }
   }
 }

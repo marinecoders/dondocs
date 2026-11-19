@@ -1,4 +1,5 @@
 import 'fake-indexeddb/auto';
+import { readFile } from 'node:fs/promises';
 import { afterEach, beforeEach, expect, it, vi } from 'vitest';
 import { act, fireEvent, render, screen } from '@testing-library/react';
 import { SignatureSection } from '@/components/editor/SignatureSection';
@@ -16,6 +17,14 @@ import { loadAttachment } from '@/lib/attachments';
 vi.mock('@/lib/attachments', async original => ({ ...await original<typeof import('@/lib/attachments')>(), loadAttachment: vi.fn(), persistAttachment: vi.fn(async () => ({id:'test-blob',name:'owned.pdf',size:1,type:'application/pdf'})) }));
 vi.mock('@/lib/signatureImage', () => ({ loadSignatureAsPngBase64: vi.fn() }));
 vi.mock('@/services/pdf/assembleEndorsement', () => ({ validateBasicLetter: vi.fn(async () => ({ ok: true, pageCount: 4 })) }));
+// Keep the read deferred while exercising the real PDF inspection on valid bytes.
+const originalPdf = new Uint8Array(await readFile('tests/fixtures/permission-pdfs/source.pdf')).buffer;
+const replacementMarker = new TextEncoder().encode('\n% Synthetic newer upload\n');
+const replacementBytes = new Uint8Array(originalPdf.byteLength + replacementMarker.byteLength);
+replacementBytes.set(new Uint8Array(originalPdf));
+replacementBytes.set(replacementMarker, originalPdf.byteLength);
+const newerPdf = replacementBytes.buffer;
+
 function deferred<T>() { let resolve!: (value: T) => void; let reject!: (error: Error) => void; const promise = new Promise<T>((done, fail) => { resolve = done; reject = fail; }); return { promise, resolve, reject }; }
 function mountSignature() {
   useDocumentStore.getState().setField('signatureType', 'image');
@@ -24,9 +33,9 @@ function mountSignature() {
   return view;
 }
 function uploadSignature(name: string) { fireEvent.change(screen.getByLabelText('Upload signature image'), { target: { files: [new File(['image'], name, { type: 'image/png' })] } }); }
-function pendingPdf() {
+function pendingPdf(bytes = originalPdf) {
   const pending = deferred<ArrayBuffer>();
-  const file = new File(['pdf'], 'owned.pdf', { type: 'application/pdf' });
+  const file = new File([bytes], 'owned.pdf', { type: 'application/pdf' });
   Object.defineProperty(file, 'arrayBuffer', { value: () => pending.promise });
   return { ...pending, file };
 }
@@ -75,7 +84,7 @@ it('attaches an enclosure to its original row after reordering', async () => {
   fireEvent.change(screen.getAllByLabelText('Upload enclosure PDFs')[0], { target: { files: [pending.file] } });
   expect(isFileImportInProgress()).toBe(true);
   act(() => useDocumentStore.getState().reorderEnclosures(0, 1));
-  await act(async () => { pending.resolve(new Uint8Array([1]).buffer); await pending.promise; });
+  await act(async () => { pending.resolve(originalPdf); await pending.promise; });
   expect(useDocumentStore.getState().enclosures[0].file).toBeUndefined();
   expect(useDocumentStore.getState().enclosures[1]).toMatchObject({ title: 'First', file: { name: 'owned.pdf' } });
   expect(isFileImportInProgress()).toBe(false);
@@ -88,7 +97,7 @@ it('keeps an enclosure upload when its title is edited before it finishes', asyn
   fireEvent.change(screen.getAllByLabelText('Upload enclosure PDFs')[0], { target: { files: [pending.file] } });
   fireEvent.change(screen.getByLabelText('Enclosure (1) title'), { target: { value: 'Updated title' } });
   act(() => useDocumentStore.getState().reorderEnclosures(0, 1));
-  await act(async () => { pending.resolve(new Uint8Array([1]).buffer); await pending.promise; });
+  await act(async () => { pending.resolve(originalPdf); await pending.promise; });
   expect(useDocumentStore.getState().enclosures[0].file).toBeUndefined();
   expect(useDocumentStore.getState().enclosures[1]).toMatchObject({ title: 'Updated title', file: { name: 'owned.pdf' } });
 });
@@ -97,14 +106,14 @@ it('supersedes an earlier enclosure upload after a title edit', async () => {
   render(<TooltipProvider><EnclosuresManager /></TooltipProvider>);
   fireEvent.click(screen.getByRole('button', { name: /^Enclosures/ }));
   const older = pendingPdf();
-  const newer = pendingPdf();
+  const newer = pendingPdf(newerPdf);
   fireEvent.change(screen.getAllByLabelText('Upload enclosure PDFs')[0], { target: { files: [older.file] } });
   fireEvent.change(screen.getByLabelText('Enclosure (1) title'), { target: { value: 'Updated title' } });
   fireEvent.change(screen.getAllByLabelText('Upload enclosure PDFs')[0], { target: { files: [newer.file] } });
-  await act(async () => { older.resolve(new Uint8Array([1]).buffer); await older.promise; });
+  await act(async () => { older.resolve(originalPdf); await older.promise; });
   expect(useDocumentStore.getState().enclosures[0].file).toBeUndefined();
-  await act(async () => { newer.resolve(new Uint8Array([2]).buffer); await newer.promise; });
-  expect(new Uint8Array(useDocumentStore.getState().enclosures[0].file!.data)).toEqual(new Uint8Array([2]));
+  await act(async () => { newer.resolve(newerPdf); await newer.promise; });
+  expect(new Uint8Array(useDocumentStore.getState().enclosures[0].file!.data)).toEqual(new Uint8Array(newerPdf));
 });
 it('does not install a pending upload after its enclosure file is replaced', async () => {
   useDocumentStore.setState({ enclosures: [{ title: 'First' }] });
@@ -114,7 +123,7 @@ it('does not install a pending upload after its enclosure file is replaced', asy
   fireEvent.change(screen.getAllByLabelText('Upload enclosure PDFs')[0], { target: { files: [pending.file] } });
   const replacement = { name: 'replacement.pdf', size: 1, data: new Uint8Array([2]).buffer };
   act(() => useDocumentStore.getState().updateEnclosure(0, { file: replacement }));
-  await act(async () => { pending.resolve(new Uint8Array([1]).buffer); await pending.promise; });
+  await act(async () => { pending.resolve(originalPdf); await pending.promise; });
   expect(useDocumentStore.getState().enclosures[0].file).toBe(replacement);
 });
 it('does not install a pending upload into a replacement enclosure at the same position', async () => {
@@ -127,7 +136,7 @@ it('does not install a pending upload into a replacement enclosure at the same p
     useDocumentStore.getState().removeEnclosure(0);
     useDocumentStore.getState().addEnclosure('Replacement');
   });
-  await act(async () => { pending.resolve(new Uint8Array([1]).buffer); await pending.promise; });
+  await act(async () => { pending.resolve(originalPdf); await pending.promise; });
   expect(useDocumentStore.getState().enclosures).toEqual([{ title: 'Replacement' }]);
 });
 it('does not attach a basic letter or its numbering to another document', async () => {
@@ -140,7 +149,7 @@ it('does not attach a basic letter or its numbering to another document', async 
   expect(isFileImportInProgress()).toBe(true);
   view.unmount();
   useDocumentsStore.getState().newDocument(); const before = useDocumentStore.getState().formData;
-  await act(async () => { pending.resolve(new Uint8Array([1]).buffer); await pending.promise; });
+  await act(async () => { pending.resolve(originalPdf); await pending.promise; });
   expect(useDocumentStore.getState().formData).toEqual(before);
   expect(isFileImportInProgress()).toBe(false);
 });
@@ -150,7 +159,7 @@ it('finishes a basic-letter upload with its page continuation', async () => {
   render(<TooltipProvider><EndorsementBasicLetterSection /></TooltipProvider>);
   const pending = pendingPdf();
   fireEvent.change(screen.getByLabelText('Upload basic letter PDF'), { target: { files: [pending.file] } });
-  await act(async () => { pending.resolve(new Uint8Array([1]).buffer); await pending.promise; });
+  await act(async () => { pending.resolve(originalPdf); await pending.promise; });
   expect(useDocumentStore.getState().formData.basicLetterFileRef?.id).toBe('test-blob');
   expect(useDocumentStore.getState().formData.startingPageNumber).toBe(5);
 });
@@ -160,7 +169,7 @@ it('ignores a pending enclosure upload after leaving its document', async () => 
   fireEvent.click(screen.getByRole('button', { name: /^Enclosures/ })); const pending = pendingPdf();
   fireEvent.change(screen.getAllByLabelText('Upload enclosure PDFs')[0], { target: { files: [pending.file] } }); view.unmount();
   useDocumentsStore.getState().newDocument(); useDocumentStore.setState({ enclosures: [{ title: 'B row' }] });
-  await act(async () => { pending.resolve(new Uint8Array([1]).buffer); await pending.promise; });
+  await act(async () => { pending.resolve(originalPdf); await pending.promise; });
   expect(useDocumentStore.getState().enclosures).toEqual([{ title: 'B row' }]);
 });
 it('keeps a signature installed by another editor action during conversion', async () => {
@@ -207,18 +216,18 @@ it.each(['enclosure', 'basic-letter'] as const)('keeps an explicit %s upload whe
   const hydration = rehydrateEnclosureFiles(() => isCurrentDocumentScope(scope));
   render(<TooltipProvider>{kind === 'enclosure' ? <EnclosuresManager /> : <EndorsementBasicLetterSection />}</TooltipProvider>);
   if (kind === 'enclosure') fireEvent.click(screen.getByRole('button', { name: /^Enclosures/ }));
-  const upload = pendingPdf();
+  const upload = pendingPdf(newerPdf);
   const input = kind === 'enclosure' ? screen.getAllByLabelText('Upload enclosure PDFs')[0] : screen.getByLabelText('Upload basic letter PDF');
   fireEvent.change(input, { target: { files: [upload.file] } });
 
-  await act(async () => { stored.resolve(new Uint8Array([1]).buffer); await hydration; });
+  await act(async () => { stored.resolve(originalPdf); await hydration; });
   const hydrated = kind === 'enclosure' ? useDocumentStore.getState().enclosures[0].file : useDocumentStore.getState().formData.basicLetterFile;
-  await act(async () => { upload.resolve(new Uint8Array([2]).buffer); await upload.promise; });
+  await act(async () => { upload.resolve(newerPdf); await upload.promise; });
 
   expect(hydrated?.name).toBe('saved.pdf');
   const current = kind === 'enclosure' ? useDocumentStore.getState().enclosures[0].file : useDocumentStore.getState().formData.basicLetterFile;
   expect(current?.name).toBe('owned.pdf');
-  expect(new Uint8Array(current!.data)).toEqual(new Uint8Array([2]));
+  expect(new Uint8Array(current!.data)).toEqual(new Uint8Array(newerPdf));
   expect(isFileImportInProgress()).toBe(false);
 });
 
@@ -226,11 +235,11 @@ it.each([false, true])('keeps another basic-letter replacement while an upload i
   useDocumentStore.getState().setDocType('new_page_endorsement');
   if (saved) useDocumentStore.getState().setField('basicLetterFileRef', { id: 'saved-file', name: 'same.pdf', size: 1, type: 'application/pdf' });
   render(<TooltipProvider><EndorsementBasicLetterSection /></TooltipProvider>);
-  const upload = pendingPdf();
+  const upload = pendingPdf(newerPdf);
   fireEvent.change(screen.getByLabelText('Upload basic letter PDF'), { target: { files: [upload.file] } });
   const replacement = { name: 'same.pdf', size: 1, data: new Uint8Array([3]).buffer };
   act(() => useDocumentStore.getState().setField('basicLetterFile', replacement));
-  await act(async () => { upload.resolve(new Uint8Array([2]).buffer); await upload.promise; });
+  await act(async () => { upload.resolve(newerPdf); await upload.promise; });
   expect(useDocumentStore.getState().formData.basicLetterFile).toBe(replacement);
   expect(isFileImportInProgress()).toBe(false);
 });
