@@ -595,7 +595,7 @@ it("keeps unsaved package typing through blocked navigation, close and failed sa
   await user.type(within(dialog).getByLabelText("Suggested paragraph text"), " Added");
   for (const label of ["Saved packages", "Package revision", "Import package reviewer copy"])
     expect(within(dialog).getByLabelText(label, { exact: true })).toBeDisabled();
-  for (const name of ["Return to package workspace", "Close package review", "Open review Package review 1", "Prepare package reviewer copy", "Prepare package reviewer copy", "Export editable package"])
+  for (const name of ["Return to package workspace", "Close package review", "Open review Package review 1", "Prepare package feedback return", "Prepare package reviewer copy", "Export editable package"])
     expect(within(dialog).getByRole("button", { name })).toBeDisabled();
   expect(within(nav).getByRole("button", { name: member.label })).toBeDisabled();
   expect(within(dialog).getByRole("button", { name: "Save typed suggestion" })).toBeEnabled();
