@@ -13,8 +13,14 @@ import { DOC_TYPE_CONFIG } from '@/types/document';
 import { useDocumentStore } from '@/stores/documentStore';
 import { PROOFREAD_GROUPS, type ProofreadFinding } from '@/lib/proofread';
 import { Button } from '@/components/ui/button';
+import { openCorrespondenceManual } from '@/stores/correspondenceManualStore';
+import type { ManualLocation } from '@/lib/correspondenceManual';
 import type { FieldPath } from '@/lib/documentFields';
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+
+type PendingAction =
+  | { kind: 'editor'; owner: DocumentTarget | null; target: ProofreadFinding['target'] }
+  | { kind: 'manual'; owner: DocumentTarget | null; location: ManualLocation };
 
 function paragraphControl(paragraph: HTMLElement | null | undefined, path: FieldPath | undefined): HTMLElement | null {
   if (!paragraph || !path) return null;
@@ -41,12 +47,24 @@ export function ProofreadModal({ children }: { children?: ReactNode }) {
   const checklist = useProofreadManualChecklist(source, `${documentId ?? 'new'}:${activationEpoch}`);
   // Bind row actions to the revision that produced them, including rapid draft switches.
   const owner = captureDocumentTarget();
-  const pending = useRef<{ owner: DocumentTarget | null; target: ProofreadFinding['target'] } | null>(null);
+  const pending = useRef<PendingAction | null>(null);
 
   function navigate(event: MouseEvent<HTMLButtonElement>) {
     const finding = findings.find(item => item.id === event.currentTarget.dataset.findingId);
     if (!finding) return;
-    pending.current = { owner, target: finding.target };
+    pending.current = { kind: 'editor', owner, target: finding.target };
+    setOpen(false);
+  }
+
+  function navigateSource(event: MouseEvent<HTMLButtonElement>) {
+    const finding = findings.find(item => item.id === event.currentTarget.dataset.findingId);
+    if (!finding?.source) return;
+    pending.current = { kind: 'manual', owner, location: finding.source };
+    setOpen(false);
+  }
+
+  function viewChecklistSource() {
+    pending.current = { kind: 'manual', owner, location: { chapter: 2, paragraph: '19', query: 'Proofreading' } };
     setOpen(false);
   }
 
@@ -55,6 +73,12 @@ export function ProofreadModal({ children }: { children?: ReactNode }) {
     if (!next) return;
     event.preventDefault();
     if (!isCurrentDocumentTarget(next.owner)) return;
+    if (next.kind === 'manual') {
+      // Give the source reader a stable return target after this dialog unmounts.
+      document.querySelector<HTMLElement>('[data-proofread-trigger]')?.focus({ preventScroll: true });
+      openCorrespondenceManual(next.location);
+      return;
+    }
     const state = useDocumentStore.getState();
     const sections = state.documentCategory === 'forms' ? getFormSections(state.formType)
       : getEditorSections(DOC_TYPE_CONFIG[state.docType] ?? DOC_TYPE_CONFIG.naval_letter, state.docType);
@@ -98,14 +122,16 @@ export function ProofreadModal({ children }: { children?: ReactNode }) {
                   <p className="break-words text-sm font-medium">{finding.title}</p>
                   <p className="mt-1 break-words text-sm text-muted-foreground">{finding.message}</p>
                   <div className="mt-2 flex flex-wrap items-center justify-between gap-2">
-                    <span className="text-xs text-muted-foreground">{finding.source ? `SECNAV M-5216.5 · Ch ${finding.source.chapter}${finding.source.paragraph ? ` ¶${finding.source.paragraph}` : ''}` : 'Existing document check'}</span>
+                    {finding.source ? <Button variant="link" size="sm" className="h-auto min-h-10 min-w-0 whitespace-normal px-0 text-left text-xs" data-finding-id={finding.id} onClick={navigateSource}>
+                      {`SECNAV M-5216.5 · Ch ${finding.source.chapter}${finding.source.paragraph ? ` ¶${finding.source.paragraph}` : ''}`}
+                    </Button> : <span className="text-xs text-muted-foreground">Existing document check</span>}
                     <Button size="sm" variant="outline" data-finding-id={finding.id} onClick={navigate} className="min-h-10 shrink-0">Go to {displayedSections.find(section => section.id === finding.target.sectionId)?.label ?? 'editor section'}<ArrowRight className="h-3.5 w-3.5" aria-hidden="true" /></Button>
                   </div>
                 </li>)}
               </ul>
             </section>;
           })}
-        {supportsCorrespondenceProofread(source) && <ProofreadManualChecklist {...checklist} />}
+        {supportsCorrespondenceProofread(source) && <ProofreadManualChecklist {...checklist} onViewSource={viewChecklistSource} />}
         {children}
         <p className="mt-4 text-xs text-muted-foreground">Sensitive-text checks inspect supported text fields. They do not inspect attached file contents or establish that a document is free of sensitive information. Export performs its own review.</p>
       </div>

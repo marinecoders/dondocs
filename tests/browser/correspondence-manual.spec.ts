@@ -56,3 +56,42 @@ for (const theme of ['light', 'dark', 'classic']) for (const width of [320, 1280
   await expect(reopened).toBeHidden();
   await context.setOffline(false);
 });
+
+test('opens finding and checklist sources without competing dialogs and retains keyboard navigation', async ({ page }) => {
+  await page.addInitScript(() => {
+    localStorage.setItem('browser-test-visitor', 'returning');
+    localStorage.setItem('dondocs_ui', JSON.stringify({ version: 1, state: { previewVisible: false } }));
+  });
+  await page.goto('/');
+  const draft = {
+    documentMode: 'compliant', documentCategory: 'correspondence', docType: 'naval_letter', formType: 'navmc_10274',
+    formData: { date: '19 Nov 26', subject: 'SYNTHETIC SOURCE REVIEW.' },
+    paragraphs: [{ level: 0, text: 'Fictional reference-navigation test.' }], references: [], enclosures: [], copyTos: [], distributions: [],
+  };
+  await page.getByLabel('Import draft file').setInputFiles({ name: 'manual-source-synthetic.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(draft)) });
+  await page.getByRole('button', { name: 'Open as new document', exact: true }).click();
+  const proofread = page.getByRole('button', { name: /^Proofread: \d+ findings?$/ });
+  await proofread.click();
+  const review = page.getByRole('dialog', { name: 'Proofread', exact: true });
+  const finding = review.getByRole('listitem').filter({ has: page.getByText('Review subject punctuation', { exact: true }) });
+  await finding.getByRole('button', { name: 'SECNAV M-5216.5 · Ch 7 ¶9', exact: true }).click();
+  const guide = page.getByRole('dialog', { name: 'Document Guide', exact: true });
+  await expect(review).toBeHidden();
+  await expect(guide.getByRole('region', { name: 'Manual text page 7-5' })).toContainText('9. Subject Line');
+  await page.keyboard.press('Escape');
+  await expect(guide).toBeHidden();
+  await expect(proofread).toBeFocused();
+
+  await proofread.click();
+  await review.getByRole('button', { name: 'Read the manual checklist · Ch 2 ¶19', exact: true }).click();
+  await expect(review).toBeHidden();
+  await expect(guide.getByRole('region', { name: 'Manual text page 2-12' })).toContainText('19. Proofreading.');
+  await guide.getByRole('searchbox', { name: 'Search manual' }).fill('Proofreading');
+  await guide.getByRole('button', { name: 'Search', exact: true }).click();
+  const back = guide.getByRole('button', { name: 'Return to reading', exact: true });
+  await back.focus();
+  await page.keyboard.press('Enter');
+  await expect(guide.getByRole('heading', { name: /Page 2-12/ })).toBeFocused();
+  await page.keyboard.press('Escape');
+  await expect(guide).toBeHidden();
+});

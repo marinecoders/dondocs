@@ -120,7 +120,7 @@ function ManualContent({ manual, cached, location }: { manual: CorrespondenceMan
           </select>
         </label>
         {showResults ? <div>
-          <div className="flex flex-wrap items-center justify-between gap-2"><p role="status" className="text-sm">{result.total} matching page{result.total === 1 ? '' : 's'}{result.total > 50 ? '; showing the first 50. Refine your search.' : '.'}</p><Button size="sm" variant="ghost" onClick={() => setShowResults(false)}>Return to reading</Button></div>
+          <div className="flex flex-wrap items-center justify-between gap-2"><p role="status" className="text-sm">{result.total} matching page{result.total === 1 ? '' : 's'}{result.total > 50 ? '; showing the first 50. Refine your search.' : '.'}</p><Button size="sm" variant="ghost" onClick={() => moveToPage(pageNumber)}>Return to reading</Button></div>
           <ul className="mt-2 divide-y" aria-label="Manual search results">{result.results.map(result => <li key={result.page}><button className="w-full rounded-sm px-1 py-3 text-left hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring" onClick={() => moveToPage(result.page, true)}>
             <span className="block text-sm font-medium">Page {result.label} · PDF page {result.page}</span>
             <span className="mt-1 block break-words text-xs text-muted-foreground"><Highlight text={result.excerpt} query={searched} /></span>

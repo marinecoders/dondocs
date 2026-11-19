@@ -13,6 +13,10 @@ page of the unchanged source inside the guide. **Back to reference text** and
 the guide's Close button remain available while that page loads. Escape closes
 the guide. **Download original PDF** saves the complete source file.
 
+**Proofread** findings with a manual citation open that source in this reader.
+The personal checklist's **Read the manual checklist** button opens chapter 2,
+paragraph 19. Opening a source closes Proofread before opening the guide.
+
 ## Source and edition
 
 The source is the Department of the Navy's *Correspondence Manual*, June 2015,
