@@ -883,7 +883,7 @@ export function DocumentGuideModal() {
             Document Guide
           </DialogTitle>
           <DialogDescription>
-            Browse document formats, examples and the correspondence manual
+            Document formats, examples and correspondence guidance
           </DialogDescription>
         </DialogHeader>
 

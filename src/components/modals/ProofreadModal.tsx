@@ -105,9 +105,9 @@ export function ProofreadModal({ children }: { children?: ReactNode }) {
 
   return <Dialog open={open} onOpenChange={value => { if (value) pending.current = null;setOpen(value); }}>
     <DialogContent className="flex max-h-[90dvh] min-w-0 flex-col gap-0 overflow-hidden p-0 sm:max-w-2xl" onCloseAutoFocus={finishNavigation}>
-      <DialogHeader className="shrink-0 border-b px-5 py-4 pr-12">
+      <DialogHeader className="shrink-0 border-b px-5 py-4 pr-12 text-left">
         <DialogTitle className="flex items-center gap-2"><ClipboardCheck className="h-5 w-5" aria-hidden="true" />Proofread</DialogTitle>
-        <DialogDescription>Review the current draft. These checks do not certify its content or change existing export requirements.</DialogDescription>
+        <DialogDescription>Review findings and open the fields that need attention.</DialogDescription>
       </DialogHeader>
       <div className="min-h-0 overflow-y-auto overscroll-contain px-5 py-4">
         <p role="status" aria-atomic="true" className="mb-4 text-sm font-medium">{findings.length} finding{findings.length === 1 ? '' : 's'} to review</p>
@@ -124,7 +124,7 @@ export function ProofreadModal({ children }: { children?: ReactNode }) {
                   <div className="mt-2 flex flex-wrap items-center justify-between gap-2">
                     {finding.source ? <Button variant="link" size="sm" className="h-auto min-h-10 min-w-0 whitespace-normal px-0 text-left text-xs" data-finding-id={finding.id} onClick={navigateSource}>
                       {`SECNAV M-5216.5 · Ch ${finding.source.chapter}${finding.source.paragraph ? ` ¶${finding.source.paragraph}` : ''}`}
-                    </Button> : <span className="text-xs text-muted-foreground">Existing document check</span>}
+                    </Button> : null}
                     <Button size="sm" variant="outline" data-finding-id={finding.id} onClick={navigate} className="min-h-10 shrink-0">Go to {displayedSections.find(section => section.id === finding.target.sectionId)?.label ?? 'editor section'}<ArrowRight className="h-3.5 w-3.5" aria-hidden="true" /></Button>
                   </div>
                 </li>)}
@@ -133,7 +133,7 @@ export function ProofreadModal({ children }: { children?: ReactNode }) {
           })}
         {supportsCorrespondenceProofread(source) && <ProofreadManualChecklist {...checklist} onViewSource={viewChecklistSource} />}
         {children}
-        <p className="mt-4 text-xs text-muted-foreground">Sensitive-text checks inspect supported text fields. They do not inspect attached file contents or establish that a document is free of sensitive information. Export performs its own review.</p>
+        <p className="mt-4 text-xs text-muted-foreground">Text checks cover supported editor fields. Inspect attached files and the final output separately.</p>
       </div>
       <DialogFooter className="shrink-0 border-t px-5 py-3"><Button variant="outline" onClick={() => setOpen(false)}>Done</Button></DialogFooter>
     </DialogContent>
