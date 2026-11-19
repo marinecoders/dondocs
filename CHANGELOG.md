@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.174] — 2026-11-19
+
+### Added
+
+- Document-type-aware correspondence proofreading for dates, subjects, endorsement identifiers, dual signers, CUI designation fields and enclosure citations, plus a source-based personal checklist that clears after draft changes.
+
 ## [1.3.173] — 2026-11-19
 
 ### Added

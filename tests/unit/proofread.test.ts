@@ -196,4 +196,11 @@ describe('existing checks in one proofread inventory', () => {
     expect(findings[0].target).toEqual({ sectionId, field: 'pocEmail' });
   });
 
+  it('routes a dual-format CUI contact pattern to its actual Classification input', () => {
+    const findings = collectProofreadFindings(source({ docType: 'joint_letter',
+      formData: { classLevel: 'cui', pocEmail: 'training-office@example.test' } }));
+    const contact = findings.find(f => f.group === 'privacy' && f.title.includes('pocEmail'));
+    expect(contact?.target).toEqual({ sectionId: 'classification', field: 'cuiPocEmail' });
+  });
+
 });

@@ -78,6 +78,7 @@ function textSection(path: FieldPath, docType: string, has: (id: string) => bool
   // Stock-list publications collect their program-office contact on the cover.
   if (field === 'pocEmail' && (docType === 'sl3' || docType === 'sl4')) return first(`${docType}-cover`);
   if (field === 'endorsementOrdinal') return first('basic');
+  if (field === 'pocEmail') return first('signature', 'classification');
   if (/^(sig|endorsement)/.test(field) || ['additionalEndorsements', 'complimentaryClose', 'officeCode', 'pocEmail'].includes(field)) {
     return first('signature', 'moa', 'joint_memo', 'joint', 'executive', 'classification');
   }
@@ -150,7 +151,7 @@ export function collectProofreadFindings(
     for (const type of new Set(detected.findings.map(finding => finding.type))) findings.push({ id: `privacy:${key(JSON.stringify(identity))}:${type}`,
       group: 'privacy', severity: 'warning', title: `${getPIITypeLabel(type)} pattern in ${field.label}`,
       message: 'Review whether this text belongs in the document and its intended delivery. A pattern match is not a determination of sensitive content.',
-      target: { sectionId: destination, ...(root === 'formData' && typeof fieldId === 'string' ? { field: proofreadFieldControl(source, fieldId) } : {}),
+      target: { sectionId: destination, ...(root === 'formData' && typeof fieldId === 'string' ? { field: fieldId === 'pocEmail' && destination === 'classification' && source.formData.classLevel === 'cui' ? 'cuiPocEmail' : proofreadFieldControl(source, fieldId) } : {}),
         ...(root === 'paragraphs' && typeof fieldId === 'number' ? { paragraphId: source.paragraphs[fieldId]?.id, paragraphPath: field.path.slice(2) } : {}) } });
   }
   const byId = new Map(findings.map(finding => [finding.id, finding]));

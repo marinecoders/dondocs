@@ -54,3 +54,28 @@ for (const theme of ['light', 'dark', 'classic']) {
     await expect(dialog).toBeHidden();
   });
 }
+
+test('opens the CUI contact field in a format without a Signature section', async ({ page }) => {
+  await page.addInitScript(() => {
+    localStorage.setItem('browser-test-visitor', 'returning');
+    localStorage.setItem('dondocs_ui', JSON.stringify({ state: { editorLayout: 'focused', previewVisible: false }, version: 1 }));
+  });
+  await page.goto('/');
+  const draft = {
+    documentMode: 'compliant', documentCategory: 'correspondence', docType: 'joint_letter', formType: 'navmc_10274',
+    formData: { date: '19 Nov 26', jointJuniorDate: '19 Nov 26', jointSubject: 'SYNTHETIC CONTACT CHECK',
+      classLevel: 'cui', cuiControlledBy: 'Synthetic training office', cuiCategory: 'PRVCY' },
+    paragraphs: [{ text: 'Fictional test content.', level: 0 }], references: [], enclosures: [], copyTos: [], distributions: [],
+  };
+  await page.getByLabel('Import draft file').setInputFiles({ name: 'fictional-cui-contact.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(draft)) });
+  await page.getByRole('button', { name: 'Open as new document', exact: true }).click();
+  const proofread = page.getByRole('button', { name: /^Proofread: \d+ findings?$/ });
+  await proofread.click();
+  const dialog = page.getByRole('dialog', { name: 'Proofread', exact: true });
+  const finding = dialog.getByRole('listitem').filter({ has: page.getByText('POC email is empty', { exact: true }) });
+  await finding.getByRole('button', { name: 'Go to Classification', exact: true }).click();
+  await expect(page.locator('#cuiPocEmail')).toBeFocused();
+  await page.locator('#cuiPocEmail').fill('training-office@example.test');
+  await proofread.click();
+  await expect(dialog.getByText('POC email is empty', { exact: true })).toHaveCount(0);
+});
