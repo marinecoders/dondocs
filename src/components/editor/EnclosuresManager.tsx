@@ -114,6 +114,7 @@ function SortableEnclosure({
         {/* Content */}
         <div className="flex-1 space-y-2">
           <Input
+            id={`enclosure-title-${index}`}
             value={enclosure.title}
             onChange={(e) => onUpdateTitle(e.target.value)}
             placeholder="Enclosure title…"

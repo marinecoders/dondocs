@@ -5,6 +5,7 @@ import { citationProtectedRanges } from './referenceCitations';
 import { safeUrl } from './url-safety';
 import { unfilled } from './requiredField';
 import { deriveOverallClassLevel } from './overallClassification';
+import { canAppendEndorsement, hasEndorsementContent } from './appendedEndorsement';
 import type { ProofreadFinding, ProofreadSource } from './proofread';
 
 const PUBLICATIONS = new Set(['sl3', 'sl4', 'i_type', 'tm_ietm_front_matter']);
@@ -56,6 +57,18 @@ export function additionalProofreadFindings(source: ProofreadSource): ProofreadF
       'Identify the basic letter', 'Enter the identifier of the letter being endorsed.',
       'basic', 'basicLetterId', { chapter: 9, paragraph: '1', query: 'Endorsement Line' });
   }
+  if (data.appendEndorsement && canAppendEndorsement(source.docType)) {
+    const entries = [
+      { id: 'first-endorsement', label: 'First endorsement', value: data },
+      ...(data.additionalEndorsements ?? []).filter(hasEndorsementContent)
+        .map(entry => ({ id: entry.id, label: 'Additional endorsement', value: entry })),
+    ];
+    for (const entry of entries) {
+      if (unfilled(entry.value.endorsementBody)) add(`endorsement-body:${entry.id}`,
+        `${entry.label} needs text`, 'Complete the enabled endorsement text, or remove the endorsement if it is not needed.',
+        'signature', `${entry.id}-body`, { chapter: 9, query: 'Endorsement' }, 'structure');
+    }
+  }
   if (source.docType === 'multiple_address_letter') {
     const addresses = (data.to ?? '').split(/\r?\n/).filter(line => line.trim());
     if (addresses.length > 4) add('multiple-addresses', 'Review the addressee list',
@@ -91,10 +104,13 @@ export function additionalProofreadFindings(source: ProofreadSource): ProofreadF
   const start = enclosureStartNumber(source.docType, data.startingEnclosureNumber);
   source.enclosures.forEach((enclosure, index) => {
     if (unfilled(enclosure.title)) add(`enclosure-title:${index}`, `Enclosure (${start + index}) needs a title`,
-      'Describe the enclosed document in the enclosure list.', 'enclosures', undefined,
+      'Describe the enclosed document in the enclosure list.', 'enclosures', `enclosure-title-${index}`,
       { chapter: 7, paragraph: '11', query: 'Enclosures' }, 'references');
   });
-  for (const field of documentTextFields(source, 'output').filter(f => f.path[0] === 'paragraphs')) {
+  const citationFields = documentTextFields(source, 'output').filter(field =>
+    field.path[0] === 'paragraphs' || field.path[0] === 'formData'
+      && (field.path[1] === 'endorsementBody' || field.path[1] === 'additionalEndorsements' && field.path[3] === 'endorsementBody'));
+  for (const field of citationFields) {
     const protectedSpans = citationProtectedRanges(field.text);
     const seen = new Set<number>();
     for (const clause of field.text.matchAll(/\b(?:enclosures?|encls?\.?)\s*(?=\()/gi)) {
@@ -108,11 +124,16 @@ export function additionalProofreadFindings(source: ProofreadSource): ProofreadF
           && !(isEndorsement(source.docType) && number > 0 && number < start)
           && (number < start || number >= start + source.enclosures.length)) {
           seen.add(number);
-          const paragraphIndex = Number(field.path[1]), paragraph = source.paragraphs[paragraphIndex];
+          const paragraph = field.path[0] === 'paragraphs' ? source.paragraphs[Number(field.path[1])] : undefined;
+          const endorsement = field.path[1] === 'additionalEndorsements'
+            ? data.additionalEndorsements?.[Number(field.path[2])]?.id : 'first-endorsement';
+          const target: ProofreadFinding['target'] = field.path[0] === 'paragraphs'
+            ? { sectionId: 'body', ...(paragraph?.id ? { paragraphId: paragraph.id } : {}) }
+            : { sectionId: 'signature', field: `${endorsement}-body` };
           findings.push({ id: `correspondence:enclosure-citation:${field.path.join(':')}:${number}`,
             group: 'references', severity: 'warning', title: `Check enclosure (${number})`,
             message: 'This explicit citation has no entry in this document’s enclosure list. Confirm its target before delivery.',
-            target: { sectionId: 'body', ...(paragraph?.id ? { paragraphId: paragraph.id } : {}) },
+            target,
             source: { chapter: 7, paragraph: '11', query: 'Enclosures' } });
         }
         cursor += match[0].length;

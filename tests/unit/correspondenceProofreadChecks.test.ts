@@ -110,4 +110,22 @@ describe('additional correspondence proofreading', () => {
     expect(ids(source)).toEqual([]);
   });
 
+  it('reviews only enabled appended endorsements, including populated extra entries', () => {
+    const source = draft({ formData: { date: '19 Nov 26', appendEndorsement: true,
+      additionalEndorsements: [{ id: 'unused' }, { id: 'second', endorsementSigLast: 'EXAMPLE' }] } });
+    expect(additionalProofreadFindings(source).map(f => f.target.field)).toEqual(['first-endorsement-body', 'second-body']);
+    source.formData.appendEndorsement = false;
+    expect(ids(source)).toEqual([]);
+    source.formData.appendEndorsement = true;
+    source.docType = 'business_letter';
+    expect(ids(source)).toEqual([]);
+  });
+
+  it('checks explicit enclosure citations in printed appended endorsement text', () => {
+    const source = draft({ formData: { date: '19 Nov 26', appendEndorsement: true,
+      endorsementBody: 'See enclosure (3).', additionalEndorsements: [{ id: 'second', endorsementBody: 'See enclosure (4).' }] } });
+    expect(additionalProofreadFindings(source).filter(f => f.id.includes('enclosure-citation')).map(f => f.target))
+      .toEqual([{ sectionId: 'signature', field: 'first-endorsement-body' }, { sectionId: 'signature', field: 'second-body' }]);
+  });
+
 });
