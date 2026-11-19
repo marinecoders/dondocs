@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.168] — 2026-11-18
+
+### Fixed
+
+- Starting a package action no longer blocks Escape or hides Close before any edits. A Back to actions button returns to the action list, with confirmation before discarding entered answers or selected files.
+
 ## [1.3.167] — 2026-11-17
 
 ### Added

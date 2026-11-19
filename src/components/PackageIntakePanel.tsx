@@ -14,6 +14,7 @@ import { listPackageTemplates, MAX_TEMPLATE_ACTION_BYTES, type TemplateAttachmen
 import type { PackageUpdateChoices } from '@/lib/packageUpdates';
 import { sameReviewStoredValue } from '@/lib/documentsDb';
 import { getExportDeploymentPolicy } from '@/config/classification';
+import { showAppConfirm } from '@/stores/alertStore';
 
 const inputClass = 'mt-1 w-full min-w-0 rounded border bg-background p-2';
 const buttonClass = 'h-auto min-h-9 max-w-full whitespace-normal';
@@ -59,7 +60,7 @@ export function PackageIntakePanel({ record, revision, editable, disabled, busy,
   const ownerScope = scope(record, revision);
   useLayoutEffect(() => { selectedSource.current = { record, revision }; owner.current = ownerScope; dirtyCallback.current = onDirtyChange; });
   const hasDecisions = Object.keys(memberChoices).length + Object.keys(answerChoices).length + Object.keys(fieldChoices).length > 0;
-  const dirty = !!template && (mode === 'new' || !baseline || name !== baseline.name || !sameReviewStoredValue(answers, baseline.answers)
+  const dirty = !!template && (!baseline || name !== baseline.name || !sameReviewStoredValue(answers, baseline.answers)
     || Object.keys(attachments).length > 0 || hasDecisions);
   const viewDisabled = disabled || busy || pending || loading, locked = viewDisabled || mode === 'saved' && !editable;
   useEffect(() => { dirtyCallback.current?.(dirty); }, [dirty]);
@@ -122,7 +123,8 @@ export function PackageIntakePanel({ record, revision, editable, disabled, busy,
     dirtyCallback.current?.(false); onApply(next);
   }
   function choose(value: PackageTemplateV2) {
-    generation.current++; setTemplate(value); setAnswers(freshPackageTemplateAnswers(value.program)); setName(value.name); setMode('new'); setBaseline(null);
+    const initialAnswers = freshPackageTemplateAnswers(value.program);
+    generation.current++; setTemplate(value); setAnswers(initialAnswers); setName(value.name); setMode('new'); setBaseline({ answers: structuredClone(initialAnswers), name: value.name });
     setAttachments({}); setAttachmentLabels({}); setMemberChoices({}); setAnswerChoices({}); setFieldChoices({}); setPreview(null); setFresh(false); setReviewed(false); setUndo(null);
     setOpen(true); setFocusQuestions(true); setQuestionKey(value => value + 1); setNotice(''); setError('');
   }
@@ -133,6 +135,14 @@ export function PackageIntakePanel({ record, revision, editable, disabled, busy,
       if (record && revision?.templateState) { ownScope.current = ''; setReload(value => value + 1); }
     }
     else { setAnswers(structuredClone(baseline.answers)); setName(baseline.name); setOpen(!!revision?.templateState?.pending); setFocusQuestions(false); }
+  }
+  async function backToActions() {
+    if (viewDisabled) return;
+    const capture = token();
+    if (dirty && !await showAppConfirm({ title: 'Discard intake changes?',
+      message: 'Return to the action list and discard the unsaved answers and selected files for this new action?',
+      confirmLabel: 'Discard changes', destructive: true })) return;
+    if (current(capture)) discard();
   }
   function input() {
     if (!template) throw new Error('Choose an action first.');
@@ -155,10 +165,11 @@ export function PackageIntakePanel({ record, revision, editable, disabled, busy,
   </article>)}</div>;
   return <section tabIndex={-1} data-package-panel="intake" aria-label="Action intake" className="min-w-0 space-y-4 rounded-lg border bg-background p-3 sm:p-4" aria-busy={pending || loading}>
     <div className="space-y-1">
+      {mode === 'new' && <Button className={buttonClass} variant="outline" disabled={viewDisabled} onClick={() => void backToActions()}>Back to actions</Button>}
       <h3 ref={heading} tabIndex={-1} className="break-words font-medium">{template?.name ?? 'Start from an action'}</h3>
       <p className="text-sm text-muted-foreground">General-purpose starters use DonDocs worksheets. Review the requirements for the actual action; these are not official forms.</p>
       {loading && <p role="status" className="text-sm">Loading the exact saved intake…</p>}
-      {!loading && template && <p role="status" className="text-sm">{dirty ? 'Unapplied intake changes · not saved.' : revision?.templateState?.pending
+      {!loading && template && <p role="status" className="text-sm">{dirty ? 'Unapplied intake changes · not saved.' : mode === 'new' ? 'No intake answers changed yet.' : revision?.templateState?.pending
         ? 'Intake saved; document changes not applied.' : "Showing this revision's saved intake and package values."}</p>}
       {mode === 'new' && <p className="text-sm text-muted-foreground">New action · creates a separate package with fresh answers.</p>}
       {notice && <p role="status" className="text-sm">{notice}</p>}
@@ -230,7 +241,7 @@ export function PackageIntakePanel({ record, revision, editable, disabled, busy,
         {(Object.keys(attachments).length > 0 || hasDecisions) && <p className="text-xs text-muted-foreground">Selected files and document decisions save with Apply. Save intake draft stores answers only; remove the selected files and clear preview decisions to use it.</p>}
         {hasDecisions && <Button className={buttonClass} variant="outline" disabled={locked} onClick={() => { invalidate(true); }}>Clear preview decisions</Button>}
         <div className="flex flex-wrap gap-2">
-          <Button className={buttonClass} variant="outline" disabled={locked || !dirty || !validShape || Object.keys(attachments).length > 0 || hasDecisions} onClick={() => void perform(async capture => {
+          <Button className={buttonClass} variant="outline" disabled={locked || mode !== 'new' && !dirty || !validShape || Object.keys(attachments).length > 0 || hasDecisions} onClick={() => void perform(async capture => {
             const next = await saveConditionalPackageDraft(input(), await getExportDeploymentPolicy(), capture.signal, () => current(capture));
             if (current(capture)) { accept(next); setNotice(''); }
           })}>Save intake draft</Button>
@@ -239,7 +250,7 @@ export function PackageIntakePanel({ record, revision, editable, disabled, busy,
             const value = await prepareConditionalPackage({ ...input(), attachments, memberChoices, answerChoices, fieldChoices }, await getExportDeploymentPolicy(), capture.signal);
             if (current(capture)) { setPreview(value); setFresh(true); setReviewed(false); }
           })}>Preview action changes</Button>
-          <Button className={buttonClass} variant="outline" disabled={locked || !dirty} onClick={discard}>Discard intake changes</Button>
+          <Button className={buttonClass} variant="outline" disabled={locked || mode !== 'new' && !dirty} onClick={discard}>Discard intake changes</Button>
         </div>
         {preview && <PackageIntakePreview preview={preview} fresh={fresh} disabled={locked} reviewed={reviewed} memberChoices={memberChoices} answerChoices={answerChoices} fieldChoices={fieldChoices}
           onMemberChoice={(key, value) => decide(setMemberChoices, memberChoices, key, value)} onAnswerChoice={(key, value) => decide(setAnswerChoices, answerChoices, key, value)}
