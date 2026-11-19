@@ -1,9 +1,13 @@
 import { expect, test, type Page } from '@playwright/test';
 import { readFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
+import { PROTECTED_PDF_LIMITS } from '../../src/services/pdf/assemblyPdf';
 
 test.use({ serviceWorkers: 'block' });
 test.setTimeout(90_000);
+
+// Image preparation has its own bounded deadline, beyond a simple UI update.
+const pdfPreparation = { timeout: PROTECTED_PDF_LIMITS.milliseconds + 5_000 };
 
 async function exportDraft(page: Page) {
   const saving = page.waitForEvent('download');
@@ -37,7 +41,7 @@ for (const kind of ['basic letter', 'enclosure'] as const) {
     const fixture = resolve('tests/fixtures/permission-pdfs/owner-aes.pdf');
     await upload.setInputFiles(fixture);
     const confirm = page.getByRole('alertdialog', { name: 'Include PDF pages as images?', exact: true });
-    await expect(confirm).toContainText('digital signatures do not carry');
+    await expect(confirm).toContainText('digital signatures do not carry', pdfPreparation);
     await confirm.getByRole('button', { name: 'Cancel', exact: true }).click();
     const cancelled = await exportDraft(page);
     expect(cancelled.formData.basicLetterFile).toBeUndefined();
@@ -73,10 +77,10 @@ for (const kind of ['basic letter', 'enclosure'] as const) {
       await page.getByLabel(label, { exact: true }).first().setInputFiles(resolve(`tests/fixtures/permission-pdfs/${name}`));
       if (kind === 'enclosure') {
         const error = page.getByRole('alertdialog', { name: 'Could not attach PDF', exact: true });
-        await expect(error).toContainText(message);
+        await expect(error).toContainText(message, pdfPreparation);
         await error.getByRole('button', { name: 'OK', exact: true }).click();
       } else {
-        await expect(page.getByRole('alert')).toContainText(message);
+        await expect(page.getByRole('alert')).toContainText(message, pdfPreparation);
       }
       await expect(page.getByRole('alertdialog', { name: 'Include PDF pages as images?', exact: true })).not.toBeVisible();
       const after = await exportDraft(page);
@@ -91,8 +95,8 @@ for (const name of ['printable-stamp.pdf', 'printable-link.pdf']) test(`printabl
   const fixture = resolve(`tests/fixtures/permission-pdfs/${name}`);
   await page.getByLabel('Upload enclosure PDFs', { exact: true }).last().setInputFiles(fixture);
   const confirm = page.getByRole('alertdialog', { name: 'Include PDF pages as images?', exact: true });
-  await expect(confirm).toContainText('printable annotations or form fields');
-  await expect(confirm).not.toContainText('permission restrictions');
+  await expect(confirm).toContainText('printable annotations or form fields', pdfPreparation);
+  await expect(confirm).not.toContainText('permission restrictions', pdfPreparation);
   await confirm.getByRole('button', { name: 'Include page images', exact: true }).click();
   await expect(page.getByText(name, { exact: true })).toBeVisible();
   expect((await exportDraft(page)).enclosures[0].file.data).toBe((await readFile(fixture)).toString('base64'));
@@ -103,7 +107,7 @@ test('an encrypted filled form with a verifiable saved appearance remains suppor
   const fixture = resolve('tests/fixtures/permission-pdfs/owner-saved-field.pdf');
   await page.getByLabel('Upload enclosure PDFs', { exact: true }).last().setInputFiles(fixture);
   const confirm = page.getByRole('alertdialog', { name: 'Include PDF pages as images?', exact: true });
-  await expect(confirm).toContainText('permission restrictions');
+  await expect(confirm).toContainText('permission restrictions', pdfPreparation);
   await confirm.getByRole('button', { name: 'Include page images', exact: true }).click();
   await expect(page.getByText('owner-saved-field.pdf', { exact: true })).toBeVisible();
   expect((await exportDraft(page)).enclosures[0].file.data).toBe((await readFile(fixture)).toString('base64'));
