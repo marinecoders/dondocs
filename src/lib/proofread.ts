@@ -74,6 +74,8 @@ function textSection(path: FieldPath, docType: string, has: (id: string) => bool
   if (/^(cui|class|customClass|derivedFrom|declassifyOn|distReason|distDate)/.test(field)) return first('classification');
   if (field.startsWith('joint')) return first('joint_memo', 'joint');
   if (/^(senior|junior|moa)/.test(field)) return first('moa');
+  // Stock-list publications collect their program-office contact on the cover.
+  if (field === 'pocEmail' && (docType === 'sl3' || docType === 'sl4')) return first(`${docType}-cover`);
   if (field === 'endorsementOrdinal') return first('basic');
   if (/^(sig|endorsement)/.test(field) || ['additionalEndorsements', 'complimentaryClose', 'officeCode', 'pocEmail'].includes(field)) {
     return first('signature', 'moa', 'joint_memo', 'joint', 'executive', 'classification');

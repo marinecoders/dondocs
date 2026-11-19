@@ -72,4 +72,16 @@ describe('existing checks in one proofread inventory', () => {
     expect(findings.filter(f => f.group === 'privacy').map(f => f.target.sectionId)).toEqual(['tables']);
   });
 
+  it.each([
+    ['sl3', 'sl3-cover'],
+    ['sl4', 'sl4-cover'],
+    ['i_type', 'signature'],
+  ])('routes the %s contact finding to its actual %s control section', (docType, sectionId) => {
+    const findings = collectProofreadFindings(source({ docType,
+      formData: { pocEmail: 'synthetic.contact@example.com', classLevel: 'unclassified' },
+    })).filter(finding => finding.group === 'privacy');
+    expect(findings).toHaveLength(1);
+    expect(findings[0].target).toEqual({ sectionId, field: 'pocEmail' });
+  });
+
 });
