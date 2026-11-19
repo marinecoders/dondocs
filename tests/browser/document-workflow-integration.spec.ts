@@ -254,3 +254,38 @@ for (const theme of ['light', 'dark', 'classic'] as const) {
     });
   });
 }
+
+test('section handoff preserves a field selected before deferred navigation completes', async ({ page, context }) => {
+  await context.addInitScript(() => {
+    localStorage.setItem('browser-test-visitor', 'returning');
+    localStorage.setItem('dondocs_ui', JSON.stringify({ version: 1, state: { theme: 'light', editorLayout: 'focused' } }));
+  });
+  await page.goto('/');
+  const sections = page.getByLabel('Document section', { exact: true });
+  await expect(sections).toBeVisible();
+  const frames = await page.evaluateHandle(() => {
+    const request = window.requestAnimationFrame, cancel = window.cancelAnimationFrame;
+    const pending = new Map<number, FrameRequestCallback>();
+    let sequence = 0;
+    window.requestAnimationFrame = callback => { const id = --sequence; pending.set(id, callback); return id; };
+    window.cancelAnimationFrame = id => { if (!pending.delete(id)) cancel.call(window, id); };
+    return { release() {
+      window.requestAnimationFrame = request; window.cancelAnimationFrame = cancel;
+      const callbacks = [...pending.values()]; pending.clear();
+      for (const callback of callbacks) callback(performance.now());
+    } };
+  });
+  try {
+    await sections.selectOption('signature');
+    const lastName = page.getByRole('textbox', { name: 'Last Name', exact: true });
+    await lastName.fill('');
+    await lastName.focus();
+    await frames.evaluate(control => control.release());
+    await expect(lastName).toBeFocused();
+    await lastName.pressSequentially('EXAMPLE');
+    await expect(lastName).toHaveValue('EXAMPLE');
+    await sections.selectOption('body');
+    await sections.selectOption('signature');
+    await expect(lastName).toHaveValue('EXAMPLE');
+  } finally { await frames.evaluate(control => control.release()); await frames.dispose(); }
+});

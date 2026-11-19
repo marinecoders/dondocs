@@ -47,15 +47,20 @@ function FocusedEditor({ documentId }: { documentId: string | null }) {
   const pendingJump = useEditorOutlineStore((s) => s.pendingJump);
   const jumpTo = useCallback((id: string) => {
     if (!sections.some((s) => s.id === id)) return;
+    const focusOrigin = document.activeElement;
     focusSection.current = true;
     jumpPinned.current = true;
     setSection(id);
     useEditorOutlineStore.getState().setActiveId(id);
     // Also focus an already selected section when it is chosen again.
     requestAnimationFrame(() => {
+      if (activeRef.current !== id) return;
+      focusSection.current = false;
       const target = scrollWrapRef.current?.querySelector<HTMLElement>(`#sec-${id}`);
-      // Walkthroughs reveal sections without taking focus from their controls.
-      if (!useTourStore.getState().active) target?.focus({ preventScroll: true });
+      const focused = document.activeElement;
+      // A field or another control chosen after the jump owns its focus.
+      const mayFocus = focused === focusOrigin || focused === document.body;
+      if (!useTourStore.getState().active && mayFocus && !target?.contains(focused)) target?.focus({ preventScroll: true });
       if (scrollMode || pageScroll) target?.scrollIntoView({ block: 'start' });
     });
   }, [sections, scrollMode, pageScroll]);
