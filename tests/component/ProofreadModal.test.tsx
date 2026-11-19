@@ -8,6 +8,7 @@ import { useDocumentStore } from '@/stores/documentStore';
 import { useDocumentsStore } from '@/stores/documentsStore';
 import { useUIStore } from '@/stores/uiStore';
 import { useEditorOutlineStore } from '@/stores/editorOutlineStore';
+import * as domainClassification from '@/lib/domainClassification';
 
 beforeEach(() => {
   Element.prototype.scrollIntoView = vi.fn();
@@ -117,5 +118,21 @@ describe('proofread entry and current-draft review', () => {
     const row = screen.getByText('Social Security Number pattern in Paragraph 1', { exact: true }).closest('li')!;
     fireEvent.click(within(row).getByRole('button', { name: 'Go to Illustrations' }));
     await waitFor(() => expect(screen.getByRole('textbox', { name: 'Illustration 1 (unassigned) title', exact: true })).toHaveFocus());
+  });
+
+  it('opens the actual selector for a sensitive composed CUI distribution statement', async () => {
+    const restriction = vi.spyOn(domainClassification, 'getDomainClassificationRestriction')
+      .mockReturnValue({ maxLevel: 'cui', allowedLevels: ['unclassified', 'cui'] });
+    try {
+      useDocumentStore.setState({ formData: { date: '12 Nov 26', classLevel: 'cui', cuiDistStatement: 'B', distDate: '2026-11-19',
+        distReason: 'Synthetic reason 123-45-6789', controllingOffice: 'Training Office' } });
+      view(true);
+      fireEvent.click(screen.getByRole('button', { name: /^Proofread:/ }));
+      const row = screen.getByText('Social Security Number pattern in Distribution statement', { exact: true }).closest('li')!;
+      fireEvent.click(within(row).getByRole('button', { name: 'Go to Classification' }));
+      await waitFor(() => expect(screen.getByRole('combobox', { name: 'Distribution Statement', exact: true })).toHaveFocus());
+      expect(document.getElementById('distReason')).toBeNull();
+      expect(document.getElementById('controllingOffice')).toBeNull();
+    } finally { restriction.mockRestore(); }
   });
 });

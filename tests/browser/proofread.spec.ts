@@ -200,3 +200,34 @@ for (const docType of ['sl3', 'sl4']) test(`opens ${docType} stock-list illustra
   await expect(page.getByRole('textbox', { name: 'Illustration 1 (unassigned) title', exact: true })).toBeFocused();
   await expect(page.getByRole('textbox', { name: 'Illustration 1 (unassigned) title', exact: true })).toHaveValue('Synthetic caption 123-45-6789');
 });
+
+test('reviews composed CUI statement text through its actual statement selector', async ({ page }) => {
+  await page.route('**/classification.config.json?*', route => route.fulfill({ status: 200, contentType: 'application/json',
+    body: JSON.stringify({ maxLevel: 'cui', allowedLevels: ['unclassified', 'cui'], overrideDomain: '127.0.0.1' }) }));
+  await page.addInitScript(() => {
+    localStorage.setItem('browser-test-visitor', 'returning');
+    localStorage.setItem('dondocs_ui', JSON.stringify({ version: 1, state: { editorLayout: 'focused', previewVisible: false } }));
+  });
+  await page.goto('/');
+  await page.getByLabel('Import draft file').setInputFiles({ name: 'statement-review.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify({
+    documentCategory: 'correspondence', documentMode: 'compliant', docType: 'naval_letter',
+    formData: { date: '19 Nov 26', subject: 'SYNTHETIC STATEMENT REVIEW', classLevel: 'cui', cuiControlledBy: 'Training Office', cuiCategory: 'Privacy',
+      cuiDistStatement: 'B', distDate: '2026-11-19', distReason: 'Synthetic reason 123-45-6789', controllingOffice: 'Synthetic office office@example.test' },
+    paragraphs: [{ id: 'statement-body', text: 'Synthetic statement review.', level: 0, portionMarking: 'CUI' }],
+    references: [], enclosures: [], copyTos: [], distributions: [],
+  })) });
+  await page.getByRole('button', { name: 'Open as new document', exact: true }).click();
+  await page.getByRole('button', { name: /^Proofread:/ }).click();
+  const dialog = page.getByRole('dialog', { name: 'Proofread', exact: true });
+  const ssn = dialog.getByRole('listitem').filter({ has: page.getByText('Social Security Number pattern in Distribution statement', { exact: true }) });
+  await expect(ssn).toHaveCount(1);
+  await expect(dialog.getByText('Personal Email Address pattern in Distribution statement', { exact: true })).toHaveCount(1);
+  await ssn.getByRole('button', { name: 'Go to Classification', exact: true }).click();
+  const statement = page.getByRole('combobox', { name: 'Distribution Statement', exact: true });
+  await expect(statement).toBeFocused();
+  await statement.click();
+  await page.getByRole('option', { name: /^F - Further dissemination/ }).click();
+  await page.getByRole('button', { name: /^Proofread:/ }).click();
+  await expect(dialog.getByText('Social Security Number pattern in Distribution statement', { exact: true })).toHaveCount(0);
+  await expect(dialog.getByText('Personal Email Address pattern in Distribution statement', { exact: true })).toHaveCount(1);
+});

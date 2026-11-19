@@ -1,6 +1,7 @@
 import { documentTextFields } from './documentFields';
 import { deriveOverallClassLevel } from './overallClassification';
 import { safeUrl } from './url-safety';
+import { documentDistributionStatement } from '@/services/latex/distributionStatement';
 import type { DocumentData } from '@/types/document';
 import type { ProofreadSource } from './proofread';
 
@@ -27,10 +28,11 @@ export function proofreadFieldControl(source: ProofreadSource, field: string): s
 export function proofreadOutputFields(source: ProofreadSource) {
   const publication = PUBLICATIONS.has(source.docType);
   const level = deriveOverallClassLevel(source.formData.classLevel, source.paragraphs);
-  return documentTextFields(source, 'output').filter(field => {
+  const fields = documentTextFields(source, 'output').filter(field => {
     if (field.path[0] !== 'formData' || typeof field.path[1] !== 'string') return true;
     const key = field.path[1];
     if (!publication) {
+      if (key === 'cuiDistStatement') return false;
       if ((key === 'pocEmail' || key === 'classifiedPocEmail')
         && !safeUrl(field.text.trim().replace(/^mailto:/i, ''))?.startsWith('mailto:')) return false;
       if (key === 'customClassification') return level === 'custom';
@@ -43,4 +45,12 @@ export function proofreadOutputFields(source: ProofreadSource) {
     }
     return true;
   });
+  // The general projector omits choice controls. This selector prints a
+  // composed statement containing author-supplied fill-ins, so inspect that
+  // visible text once and keep navigation on the actual statement control.
+  if (!publication && level === 'cui') {
+    const text = documentDistributionStatement(source.formData);
+    if (text.trim()) fields.push({ path: ['formData', 'cuiDistStatement'], role: 'text', label: 'Distribution statement', text });
+  }
+  return fields;
 }

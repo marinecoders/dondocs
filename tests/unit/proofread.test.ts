@@ -82,6 +82,40 @@ describe('existing checks in one proofread inventory', () => {
     expect(findings.filter(f => f.group === 'privacy')).toEqual([]);
   });
 
+  it('inspects the rendered ordinary CUI statement once and targets its editable selector', () => {
+    const input = source({ formData: { classLevel: 'cui', cuiDistStatement: 'B', distDate: '2026-11-19',
+      distReason: 'Synthetic reason 123-45-6789', controllingOffice: 'Synthetic office office@example.test' } });
+    expect(generateAllLatexFiles(input).texFiles['classification.tex']).toContain('Synthetic reason 123-45-6789');
+    expect(generateAllLatexFiles(input).texFiles['classification.tex']).toContain('office@example.test');
+    const findings = collectProofreadFindings(input).filter(f => f.group === 'privacy');
+    expect(findings.map(f => f.title)).toEqual(['Social Security Number pattern in Distribution statement',
+      'Personal Email Address pattern in Distribution statement']);
+    expect(findings.map(f => f.target)).toEqual([{ sectionId: 'classification', field: 'cuiDistStatement' }, { sectionId: 'classification', field: 'cuiDistStatement' }]);
+    expect(documentTextFields(input, 'output').find(f => f.path[1] === 'cuiDistStatement')).toBeUndefined();
+  });
+
+  it('does not synthesize statement findings for unclassified, custom or publication output', () => {
+    const input = source({ formData: { classLevel: 'unclassified', cuiDistStatement: 'B', distDate: '2026-11-19',
+      distReason: 'Synthetic reason 123-45-6789', controllingOffice: 'Synthetic office office@example.test' } });
+    const statementFindings = () => collectProofreadFindings(input).filter(f => f.target.field === 'cuiDistStatement');
+    expect(statementFindings()).toEqual([]);
+    input.formData.classLevel = 'custom';input.formData.customClassification = 'CUI';
+    expect(statementFindings()).toEqual([]);
+    input.formData.classLevel = 'cui';
+    for (const docType of ['i_type', 'sl3', 'sl4', 'tm_ietm_front_matter']) {
+      input.docType = docType;
+      expect(statementFindings()).toEqual([]);
+    }
+    input.docType = 'naval_letter';input.paragraphs = [{ id: 'higher', text: 'Synthetic higher marking.', level: 0, portionMarking: 'S' }];
+    expect(statementFindings()).toEqual([]);
+  });
+
+  it('leaves a clean composed distribution statement and determination date unflagged', () => {
+    const input = source({ formData: { classLevel: 'cui', cuiDistStatement: 'B', distDate: '2026-11-19',
+      distReason: 'Administrative or Operational Use', controllingOffice: 'Training Office' } });
+    expect(collectProofreadFindings(input).filter(f => f.group === 'privacy')).toEqual([]);
+  });
+
   it('omits overridden legacy joint fields and routes a printed fallback to its current memo input', () => {
     const input = source({ docType: 'joint_memorandum', formData: { jointSeniorSigName: 'legacy@example.test',
       jointMemoSeniorSigName: 'CURRENT SIGNER' } });
