@@ -67,7 +67,7 @@ it('does not steal focus chosen after page navigation but before its frame commi
   try {
     render(<Reader />);
     await screen.findByRole('heading', { name: /Page 2-12/ });
-    fireEvent.click(screen.getByRole('button', { name: 'Next page', exact: true }));
+    fireEvent.click(screen.getByRole('button', { name: 'Next page' }));
     const search = screen.getByRole('searchbox', { name: 'Search manual' });
     search.focus();
     act(() => { for (const callback of frames.splice(0)) callback(0); });
