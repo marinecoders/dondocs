@@ -18,11 +18,31 @@ async function template(revision = '1') {
     members: [{ key: 'main', kind: 'native', label: 'Synthetic person form', role: 'basic-letter', required: true, draft: { kind: 'dondocs-draft', version: 2, documentKind: 'configured-form', ...session },
       pages: { 'page1.pdf': { name: 'page1.pdf', type: 'application/pdf', data: bytes.toString('base64') } }, links: [{ questionId: 'name', target: { kind: 'configured-form', formId: definition.formId, definitionRevision: revision, templateRevision: digest, definitionSha256: sha(Buffer.from(JSON.stringify(definition))), fieldId: 'name' }, format: 'field' }] }] };
 }
-async function packages(page: Page) { const drawer = page.getByRole('dialog', { name: 'Documents', exact: true }); if (!await drawer.isVisible()) await page.getByRole('button', { name: 'Open workspace', exact: true }).or(page.getByRole('button', { name: /^Packages(?:\s|$)/ })).first().click(); if (await drawer.isVisible()) await drawer.getByRole('button', { name: /^Packages(?:\s|$)/ }).click(); return page.getByRole('dialog', { name: 'Action packages', exact: true }); }
-async function expand(root: Locator, title: string) { const summary = root.locator('summary').filter({ hasText: new RegExp(`^${title}`) }).first(), parent = summary.locator('..'); if (await parent.getAttribute('open') === null) await summary.click(); return parent; }
+async function packages(page: Page) {
+  const drawer = page.getByRole('dialog', { name: 'Documents', exact: true });
+  if (!await drawer.isVisible()) await page.getByRole('button', { name: 'Open workspace', exact: true }).or(page.getByRole('button', { name: /^Packages(?:\s|$)/ })).first().click();
+  if (await drawer.isVisible()) await drawer.getByRole('button', { name: /^Packages(?:\s|$)/ }).click();
+  const dialog = page.getByRole('dialog', { name: 'Action packages', exact: true });
+  await expect(dialog.getByLabel('Saved packages', { exact: true })).toBeEnabled();
+  // These lazy sections precede the template disclosure. Wait for their real
+  // content so its pointer target cannot move during the opening click.
+  for (const name of ['Action intake', 'Portable package reviews', 'Reusable package templates']) {
+    await expect(dialog.getByRole('region', { name, exact: true, includeHidden: true })).toBeAttached();
+  }
+  return dialog;
+}
+async function expand(root: Locator, title: string) {
+  const summary = root.locator('summary').filter({ hasText: new RegExp(`^${title}`) }).first(), parent = summary.locator('..');
+  if (await parent.getAttribute('open') === null) await summary.click();
+  await expect(parent).toHaveAttribute('open', '');
+  return parent;
+}
 async function importTemplate(dialog: Locator, value: Awaited<ReturnType<typeof template>>) {
   const library = await expand(dialog, 'Reusable package templates');
-  await library.getByLabel('Import package template', { exact: true }).setInputFiles({ name: `template-${value.program.revision}.json`, mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(value)) });
+  const input = library.getByLabel('Import package template', { exact: true });
+  await expect(input).toBeVisible();
+  await expect(input).toBeEnabled();
+  await input.setInputFiles({ name: `template-${value.program.revision}.json`, mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(value)) });
   await library.getByRole('checkbox', { name: /^I reviewed this template's retained text/ }).check(); await library.getByRole('button', { name: 'Import reviewed package template', exact: true }).click();
   const selected = library.getByLabel('Saved package templates', { exact: true }); await expect(selected.locator('option:checked')).toHaveText(value.name);
   const id = await selected.inputValue(); expect(id).toMatch(/^template_/); expect(id).not.toBe(value.id); return { ...value, id };
