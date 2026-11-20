@@ -640,12 +640,25 @@
 
     function renderTemplateList() {
       const list = document.getElementById('templateList');
-      list.innerHTML = templates.map(t => `
-        <button class="template-btn" data-id="${t.id}" onclick="loadTemplate('${t.id}')">
-          <span class="name">${t.name}</span>
-          <span class="desc">${t.pages.length} page(s) • ${t.description}</span>
-        </button>
-      `).join('');
+      list.textContent = '';
+      for (const t of templates) {
+        const btn = document.createElement('button');
+        btn.className = 'template-btn';
+        btn.dataset.id = String(t.id ?? '');
+        btn.addEventListener('click', () => loadTemplate(t.id));
+
+        const nameEl = document.createElement('span');
+        nameEl.className = 'name';
+        nameEl.textContent = String(t.name ?? '');
+
+        const descEl = document.createElement('span');
+        descEl.className = 'desc';
+        const pageCount = Array.isArray(t.pages) ? t.pages.length : 0;
+        descEl.textContent = `${pageCount} page(s) • ${String(t.description ?? '')}`;
+
+        btn.append(nameEl, descEl);
+        list.appendChild(btn);
+      }
     }
 
     function setupEventListeners() {
@@ -1345,13 +1358,17 @@
     // BOX MANAGEMENT
     // =========================================================================
     function renameBox(index, name) {
-      boxesByPage[currentPageIndex][index].name = name;
+      const boxes = boxesByPage[currentPageIndex];
+      if (!boxes || !boxes[index]) return;
+      boxes[index].name = name;
       renderBoxes();
       updateOutput();
     }
 
     function deleteBox(index) {
-      boxesByPage[currentPageIndex].splice(index, 1);
+      const boxes = boxesByPage[currentPageIndex];
+      if (!boxes || index < 0 || index >= boxes.length) return;
+      boxes.splice(index, 1);
       renderBoxes();
       renderPageNav();
       updateOutput();

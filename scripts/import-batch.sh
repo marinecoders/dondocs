@@ -60,6 +60,13 @@ while IFS=$'\t' read -r id folder category number || [[ -n "$id" ]]; do
     skipped=$((skipped+1)); continue
   fi
 
+  if [[ ! "$id" =~ ^[A-Za-z0-9._-]+$ ]] || [[ "$id" == *".."* ]]; then
+    echo "[fail-id]   $folder — invalid id: $id"; failed=$((failed+1)); continue
+  fi
+  if [[ ! "$folder" =~ ^[A-Za-z0-9._-]+$ ]] || [[ "$folder" == *".."* ]]; then
+    echo "[fail-dir]  invalid folder: $folder"; failed=$((failed+1)); continue
+  fi
+
   pdf="$CACHE/$id.pdf"
   if [[ ! -s "$pdf" ]]; then
     curl -sf -m 90 -A "$UA" -H 'accept: application/json' "$API/$id/file" -o "$pdf" || true

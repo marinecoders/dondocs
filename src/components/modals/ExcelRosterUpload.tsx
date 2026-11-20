@@ -34,7 +34,9 @@ export function ExcelRosterUpload({ disabled, onMap, onReset, onPendingChange }:
         try {
           const parsed = await readExcelRoster(file);
           if (id !== request.current) return;
-          setRoster(parsed);setFilename(file.name);setHeaderRow(parsed.rows[0].number);setNoHeader(false);
+          setRoster(parsed);setFilename(file.name);
+          if (parsed.rows.length > 0) { setHeaderRow(parsed.rows[0].number); setNoHeader(false); }
+          else { setHeaderRow(1); setNoHeader(true); }
         } catch (err) {
           if (id === request.current) {
             setError(err instanceof Error ? err.message : 'This workbook could not be read. Choose another .xlsx file.');

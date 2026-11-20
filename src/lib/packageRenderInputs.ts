@@ -12,7 +12,12 @@ export async function preparePackageRenderInput(member: NativePackageMember, rea
   const snapshot = prepareSessionState(reviewed.session, supportsReviewComments(reviewed.session));
   const figures = new Map<string, StoredAttachment>();
   if (reviewed.basicLetter) snapshot.formData.basicLetterFile = structuredClone(reviewed.basicLetter);
-  for (const [index, file] of reviewed.files.entries()) if (file) snapshot.enclosures[index].file = structuredClone(file);
+  for (const [index, file] of reviewed.files.entries()) {
+    if (!file) continue;
+    const slot = snapshot.enclosures[index];
+    if (!slot) throw new Error(`The captured enclosure at position ${index + 1} has no matching document slot.`);
+    slot.file = structuredClone(file);
+  }
   for (const [index, file] of reviewed.figures.entries()) {
     if (!file) continue;
     const figure = snapshot.paragraphs[index]?.figure;

@@ -3,6 +3,9 @@ import { FOOTNOTE_REFERENCE_TOKEN, referenceName } from './publicationReferences
 
 /** Remove the note and its citations, renumbering remaining numeric notes together. */
 export function withoutTableFootnote(paragraphs: Paragraph[], tables: Record<string, PublicationTableRow[]>, index: number, noteIndex: number) {
+  if (index < 0 || index >= paragraphs.length) {
+    throw new RangeError(`withoutTableFootnote: paragraph index ${index} out of range`);
+  }
   const paragraph = paragraphs[index];
   const notes = paragraph.tableFootnotes ?? [];
   const remaining = notes.filter((_, i) => i !== noteIndex);

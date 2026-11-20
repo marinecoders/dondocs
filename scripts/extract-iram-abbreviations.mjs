@@ -58,7 +58,7 @@ const ROW = /^(.*?)\.{2,}\s*(\*?[A-Za-z0-9/().\- ]+?)\s*$/;
  *  suffixes, which are distinct terms), and collapse whitespace. */
 function cleanWord(raw) {
   return raw
-    .replace(/\s+-[A-Za-z]+/g, '')
+    .replace(/\s+-(?:ING|INC)\b/gi, '')
     .replace(/\s+/g, ' ')
     .trim();
 }

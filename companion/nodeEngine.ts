@@ -155,6 +155,7 @@ export async function createNodeEngine(): Promise<LatexEngine & { dispose(): Pro
     compileLaTeX: () =>
       new Promise<CompileResult>((resolve, reject) => {
         if (disposed) { reject(new Error('engine disposed')); return; }
+        if (pendingCompile) { reject(new Error('compile already in flight')); return; }
         pendingCompile = resolve;
         compileFailed = reject;
         worker.postMessage({ cmd: 'compilelatex' });

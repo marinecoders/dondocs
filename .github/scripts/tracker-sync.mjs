@@ -56,6 +56,9 @@ export function rowFor(item, { withType }) {
 // Normalise the two shapes GitHub hands us (event payload vs REST list)
 // into the one the mapping functions read.
 export function itemFrom(raw) {
+  if (!raw || typeof raw !== 'object') {
+    throw new Error('tracker-sync: expected an issue or pull_request payload object');
+  }
   const isPr = 'pull_request' in raw || raw.html_url?.includes('/pull/');
   return {
     number: raw.number,

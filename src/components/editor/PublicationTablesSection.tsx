@@ -86,8 +86,9 @@ export function PublicationTablesSection() {
                       paragraph={paragraph}
                       ensureReferenceId={() => {
                         const state = useDocumentStore.getState();
-                        const existing = state.paragraphs[paragraphIndex].referenceId;
-                        if (existing) return existing;
+                        const para = state.paragraphs[paragraphIndex];
+                        if (!para) return '';
+                        if (para.referenceId) return para.referenceId;
                         const id = crypto.randomUUID().replace(/-/g, '').toUpperCase();
                         state.updateParagraph(paragraphIndex, { referenceId: id });
                         return id;

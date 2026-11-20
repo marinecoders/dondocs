@@ -139,7 +139,9 @@ export async function prepareWordPackage(record: ActionPackage, revisionId: stri
       ...(member.kind === 'native' && member.source ? { source: { capturedAt: member.source.capturedAt, editSequence: member.source.editSequence } } : {}),
       files: [], editableInWord: false, signedOriginal: member.kind === 'original' && member.signedOriginal });
     if (member.kind === 'attachment') {
-      const bytes = resources.get(`assets/${member.original.id}`)!.data;
+      const attachmentResource = resources.get(`assets/${member.original.id}`);
+      if (!attachmentResource) throw new Error(`${member.label}: captured attachment asset is missing from this package.`);
+      const bytes = attachmentResource.data;
       const { reviewPackageAttachment } = await import('@/lib/packageAttachmentCapabilities');
       const result = await reviewPackageAttachment(member.original, bytes, policy, signal);
       reviews.push({ member: member.label, review: result.review }); privacy.push(result.review.privacy);
@@ -147,13 +149,17 @@ export async function prepareWordPackage(record: ActionPackage, revisionId: stri
       continue;
     }
     if (member.kind === 'original') {
-      const bytes = resources.get(`assets/${member.original.id}`)!.data;
+      const originalResource = resources.get(`assets/${member.original.id}`);
+      if (!originalResource) throw new Error(`${member.label}: captured original PDF asset is missing from this package.`);
+      const bytes = originalResource.data;
       await PDFDocument.load(bytes.slice(0), { ignoreEncryption: !!options.wordEnclosurePages });
       await reviewOriginal(bytes, member.label);
       await add(`${folder}/original/${wordPackageFilename(member.original.name)}`, member.original.name, bytes, 'original', member.signedOriginal ? 'Unchanged signed original; signature validity must be checked in the original file.' : 'Unchanged original supporting PDF.', member);
       continue;
     }
-    const reviewed = parseDraftFile(JSON.parse(new TextDecoder('utf-8', { fatal: true }).decode(resources.get(`assets/${member.draft.id}`)!.data)), false, true);
+    const draftResource = resources.get(`assets/${member.draft.id}`);
+    if (!draftResource) throw new Error(`${member.label}: captured draft asset is missing from this package.`);
+    const reviewed = parseDraftFile(JSON.parse(new TextDecoder('utf-8', { fatal: true }).decode(draftResource.data)), false, true);
     const capability = documentCapabilities({ ...reviewed.session, documentMode: reviewed.session.documentMode ?? 'compliant' }, { operation: 'export', target: 'docx' });
     if (!capabilityAvailable(capability)) throw new Error(`${member.label}: ${capability.status === 'supported' ? '' : capability.message} Use the editable package export for native forms/publications, or add their original PDF as a supporting member.`);
     const snapshot = prepareSessionState(reviewed.session, true), assets = new Map<string, StoredAttachment>();

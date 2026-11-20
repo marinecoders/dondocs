@@ -108,23 +108,35 @@ jobs:
       - run: npm ci
 
       - name: run cartesian
+        env:
+          INPUT_DOC_TYPE: ${{ inputs.doc-type }}
+          INPUT_PATH: ${{ inputs.path }}
+          INPUT_LIMIT: ${{ inputs.limit }}
+          INPUT_START: ${{ inputs.start }}
+          INPUT_SHARD: ${{ inputs.shard }}
         run: |
-          ARGS=""
-          if [ "${{ inputs.doc-type }}" != "all" ]; then
-            ARGS="$ARGS --doc-type=${{ inputs.doc-type }}"
+          set -euo pipefail
+          ARGS=()
+          if [[ "$INPUT_DOC_TYPE" != "all" ]]; then
+            [[ "$INPUT_DOC_TYPE" =~ ^[A-Za-z0-9_-]+$ ]] || { echo "Invalid doc-type: $INPUT_DOC_TYPE" >&2; exit 1; }
+            ARGS+=("--doc-type=$INPUT_DOC_TYPE")
           fi
-          ARGS="$ARGS --path=${{ inputs.path }}"
-          if [ -n "${{ inputs.limit }}" ]; then
-            ARGS="$ARGS --limit=${{ inputs.limit }}"
+          [[ "$INPUT_PATH" =~ ^[A-Za-z0-9_-]+$ ]] || { echo "Invalid path: $INPUT_PATH" >&2; exit 1; }
+          ARGS+=("--path=$INPUT_PATH")
+          if [[ -n "$INPUT_LIMIT" ]]; then
+            [[ "$INPUT_LIMIT" =~ ^[0-9]+$ ]] || { echo "Invalid limit: $INPUT_LIMIT" >&2; exit 1; }
+            ARGS+=("--limit=$INPUT_LIMIT")
           fi
-          if [ "${{ inputs.start }}" != "0" ]; then
-            ARGS="$ARGS --start=${{ inputs.start }}"
+          if [[ "$INPUT_START" != "0" ]]; then
+            [[ "$INPUT_START" =~ ^[0-9]+$ ]] || { echo "Invalid start: $INPUT_START" >&2; exit 1; }
+            ARGS+=("--start=$INPUT_START")
           fi
-          if [ -n "${{ inputs.shard }}" ]; then
-            ARGS="$ARGS --shard=${{ inputs.shard }}"
+          if [[ -n "$INPUT_SHARD" ]]; then
+            [[ "$INPUT_SHARD" =~ ^[0-9]+/[0-9]+$ ]] || { echo "Invalid shard: $INPUT_SHARD" >&2; exit 1; }
+            ARGS+=("--shard=$INPUT_SHARD")
           fi
-          echo "Cartesian args: $ARGS"
-          npm run test:cartesian -- $ARGS
+          echo "Cartesian args: ${ARGS[*]}"
+          npm run test:cartesian -- "${ARGS[@]}"
 
       - name: upload result CSV + log
         if: always()  # Upload even on failure / timeout

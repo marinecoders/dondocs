@@ -12,10 +12,11 @@
 import { parentPort, workerData } from 'node:worker_threads';
 import { createRequire } from 'node:module';
 import { readFileSync, copyFileSync, mkdtempSync, readdirSync, existsSync, appendFileSync, openSync, readSync, closeSync } from 'node:fs';
-import { join } from 'node:path';
+import { join, resolve, sep } from 'node:path';
 import { tmpdir } from 'node:os';
 
 const LIB = workerData.libDir;
+const LIB_ROOT = resolve(LIB);
 
 // The engine derives a bucket from LaTeX's format code, but the vendored tree
 // files by the code the GENERATOR chose — e.g. it asks for 26/geometry.sty
@@ -71,8 +72,12 @@ globalThis.fetch = async (input, init) => {
   const url = typeof input === 'string' ? input : (input && input.url) || '';
   if (/^https?:/i.test(url)) return realFetch(input, init);
   const rel = url.replace(/^\.?\//, '').split('?')[0];
+  const target = resolve(LIB_ROOT, rel);
+  if (target !== LIB_ROOT && !target.startsWith(LIB_ROOT + sep)) {
+    return new Response(null, { status: 404 });
+  }
   try {
-    const buf = readFileSync(join(LIB, rel));
+    const buf = readFileSync(target);
     return new Response(buf, { status: 200 });
   } catch {
     return new Response(null, { status: 404 });
