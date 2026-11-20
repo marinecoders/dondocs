@@ -5,8 +5,10 @@ import { useDocumentsStore } from '@/stores/documentsStore';
 import { useUIStore } from '@/stores/uiStore';
 import { fixtureInstance } from '../_helpers/formFixture';
 import { portableResourceDigest } from '@/lib/portableResources';
+import { publicationVolumeErrors, resolveVolumeReferences } from '@/lib/publicationVolume';
+import { volumeFixture } from '../_helpers/volumeFixture';
 import { uint8ArrayToBase64 } from '@/lib/encoding';
-import { createBlankSession } from '@/stores/documentStore';
+import { createBlankSession, useDocumentStore } from '@/stores/documentStore';
 import { captureDocumentRevision } from '@/lib/capturedDocument';
 import { capturePackageMember, captureOriginalPackageMember, readPackageMemberDraft } from '@/lib/actionPackageAssets';
 import { createActionPackage, getPackageRevision, listActionPackages, packageAssets, reviseActionPackage } from '@/lib/actionPackages';
@@ -14,6 +16,9 @@ import { idbDeleteAttachment } from '@/lib/documentsDb';
 import { buildBackup, restoreBackup } from '@/lib/backup';
 import { capturePackageTemplate, deletePackageTemplate, exportPackageTemplate, importPackageTemplate, instantiatePackageTemplate,
   listPackageTemplates, packageTemplatePlaceholders, renamePackageTemplate, validatePackageTemplate, validatePackageTemplateLibrary } from '@/lib/packageTemplateLibrary';
+import { prepareConditionalPackage, copyPreparedConditionalPackageRecord } from '@/lib/packageConditional';
+import { resolveExportDeploymentPolicy } from '@/lib/exportDeploymentPolicy';
+import type { PackageTemplateV2 } from '@/lib/packageTemplateSchema';
 
 vi.mock('@/stores/backupStore', () => ({ scheduleBackup: vi.fn(), useBackupStore: { getState: () => ({}) } }));
 async function clearDb() {
@@ -41,6 +46,67 @@ async function fixture() {
 }
 beforeEach(async () => { await listActionPackages(); await clearDb(); useDocumentsStore.setState({ docs: {}, trash: {}, currentId: null, hydrated: true }); useUIStore.setState({ storageHealth: 'ok' }); });
 describe('reusable package starters', () => {
+  it.each(['technical_volume', 'naval_letter'])('freshens internal volume links through conditional intake for %s', async docType => {
+    const source = { ...createBlankSession(), ...volumeFixture(), docType, timestamp: 100 };
+    source.formData.docType = docType;
+    const native = await capturePackageMember(captureDocumentRevision({ documentId: 'conditional-volume', epoch: 0, editSequence: 1, capturedAt: 100 }, source), 'Volume', 'supporting-document');
+    const record = await reviseActionPackage(await createActionPackage('Conditional source'), [native]);
+    const legacy = await capturePackageTemplate(record, record.currentRevisionId, 'Conditional volume');
+    const template: PackageTemplateV2 = { ...legacy, version: 2,
+      program: { revision: '1', questions: [], participantGroups: [], requirements: [] },
+      members: legacy.members.map(member => ({ ...member, role: 'basic-letter', key: 'volume' })) };
+    const policy = resolveExportDeploymentPolicy({ hostname: 'localhost', environment: null, runtime: { status: 'absent' } });
+    const plan = await prepareConditionalPackage({ template, answers: { version: 1, values: {}, groups: {} } }, policy);
+    expect(plan.ready).toBe(true);
+    const copied = getPackageRevision(copyPreparedConditionalPackageRecord(plan).record).members[0];
+    if (copied.kind !== 'native') throw new Error('Expected a copied native volume');
+    expect(copied.session.formData.volume!.chapters[0].id).not.toBe(source.formData.volume!.chapters[0].id);
+    expect(publicationVolumeErrors(copied.session.formData.volume, copied.session.paragraphs)).toEqual([]);
+    expect(resolveVolumeReferences(copied.session.paragraphs[0].text, copied.session.formData.volume!, copied.session.paragraphs)).toContain('2.1.1');
+  });
+  it('preserves retained volume links when a source temporarily uses ordinary correspondence', async () => {
+    const source = { ...createBlankSession(), ...volumeFixture(), docType: 'naval_letter', timestamp: 100 };
+    source.formData.docType = 'naval_letter';
+    source.paragraphs.push({ id: 'new-correspondence', text: 'New ordinary correspondence paragraph.', level: 0 });
+    const before = structuredClone(source);
+    const captured = captureDocumentRevision({ documentId: 'retained-volume-source', epoch: 0, editSequence: 1, capturedAt: 100 }, source);
+    const native = await capturePackageMember(captured, 'Correspondence with retained structure', 'supporting-document');
+    const record = await reviseActionPackage(await createActionPackage('Retained outline'), [native]);
+    const template = await capturePackageTemplate(record, record.currentRevisionId, 'Retained volume starter');
+    expect(packageTemplatePlaceholders(template)).toEqual([]);
+    const created = await instantiatePackageTemplate(template, 'Independent retained action', {}, {});
+    const member = getPackageRevision(created).members[0];
+    if (member.kind !== 'native') throw new Error('Expected native correspondence');
+    expect(member.session.docType).toBe('naval_letter');
+    expect(member.session.formData.volume!.chapters[0].id).not.toBe(source.formData.volume!.chapters[0].id);
+    expect(member.session.paragraphs.map(paragraph => paragraph.id)).not.toContain('checks');
+    expect(member.session.paragraphs.at(-1)?.volumeSectionId).toBeUndefined();
+    expect(resolveVolumeReferences(member.session.paragraphs[0].text, member.session.formData.volume!, member.session.paragraphs)).toContain('2.1.1');
+    useDocumentStore.setState(member.session);
+    useDocumentStore.getState().setDocType('technical_volume');
+    const restored = useDocumentStore.getState();
+    expect(publicationVolumeErrors(restored.formData.volume, restored.paragraphs)).toEqual([]);
+    expect(resolveVolumeReferences(restored.paragraphs[0].text, restored.formData.volume!, restored.paragraphs)).toContain('2.1.1');
+    expect(source).toEqual(before);
+  });
+  it('freshens volume identities and their internal links when creating independent actions', async () => {
+    const source = { ...createBlankSession(), ...volumeFixture(), timestamp: 100 };
+    const captured = captureDocumentRevision({ documentId: 'volume-source', epoch: 0, editSequence: 1, capturedAt: 100 }, source);
+    const native = await capturePackageMember(captured, 'Reference volume', 'supporting-document');
+    const record = await reviseActionPackage(await createActionPackage('Volume source'), [native]);
+    const template = await capturePackageTemplate(record, record.currentRevisionId, 'Volume starter');
+    expect(packageTemplatePlaceholders(template)).toEqual([]);
+    const created = await instantiatePackageTemplate(template, 'Independent volume action', {}, {});
+    const member = getPackageRevision(created).members[0];
+    if (member.kind !== 'native') throw new Error('Expected native volume');
+    expect(member.session.paragraphs.map(paragraph => paragraph.id)).not.toContain('intro');
+    expect(publicationVolumeErrors(member.session.formData.volume, member.session.paragraphs)).toEqual([]);
+    const prose = member.session.paragraphs[0].text;
+    expect(prose).not.toContain('{{VOLREF_checks}}');
+    expect(resolveVolumeReferences(prose, member.session.formData.volume!, member.session.paragraphs)).toContain('2.1.1');
+    expect(source.paragraphs[0].text).toContain('{{VOLREF_checks}}');
+    expect((await readPackageMemberDraft(member)).reviewed.session).toEqual(member.session);
+  });
   it('owns starter bytes, order, roles and fresh attachment requirements after reload', async () => {
     const { record } = await fixture();
     const template = await capturePackageTemplate(record, record.currentRevisionId, 'Reusable action');

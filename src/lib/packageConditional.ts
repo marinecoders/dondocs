@@ -18,6 +18,7 @@ import type { PackageUpdateChoices, PackageUpdatePreview } from './packageUpdate
 import { readPackageAsset, readPackageMemberDraft, validatePackageOriginalPdf } from './actionPackageAssets';
 import { validatePackageDraft } from './actionPackageDraft';
 import { freshParagraphs } from './paragraphIdentity';
+import { freshVolumeContent } from './publicationVolume';
 import { sameReviewStoredValue, type StoredAttachment } from './documentsDb';
 import { portableResourceDigest } from './portableResources';
 import { base64ToUint8Array } from './encoding';
@@ -259,7 +260,12 @@ export function listConditionalPackageInstances(template: PackageTemplateV2, ans
 function freshDraft(input: Record<string, unknown>) {
   const draft = own(input), rows = new Map<string, string>();
   draft.timestamp = Date.now();
-  draft.paragraphs = freshParagraphs((draft.paragraphs ?? []) as SerializedSession['paragraphs']);
+  const session = draft as unknown as SerializedSession;
+  if (session.formData.volume) {
+    const content = freshVolumeContent(session.formData.volume, session.paragraphs, { retained: session.docType !== 'technical_volume' });
+    session.formData.volume = content.volume;
+    draft.paragraphs = content.paragraphs;
+  } else draft.paragraphs = freshParagraphs((draft.paragraphs ?? []) as SerializedSession['paragraphs']);
   const form = draft.genericForm as SerializedSession['genericForm'];
   if (form) {
     form.answerRevision = 0;

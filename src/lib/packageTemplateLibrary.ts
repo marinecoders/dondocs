@@ -10,6 +10,7 @@ import { idbComparePackageTemplate, idbReadPackageTemplates, type StoredAttachme
 import { portableResourceDigest } from './portableResources';
 import { applyPlaceholdersToSession, detectSessionPlaceholders, replacePlaceholders } from './placeholders';
 import { freshParagraphs } from './paragraphIdentity';
+import { freshVolumeContent, VOLUME_REFERENCE_TOKEN } from './publicationVolume';
 import { validateBackup } from './backupValidation';
 import { detectPlaceholders } from './placeholders';
 import { documentTextFields } from './documentFields';
@@ -87,10 +88,14 @@ async function pageAsset(page: z.infer<typeof pageSchema>, id: string): Promise<
   const data = bytes.buffer as ArrayBuffer;
   return { asset: { id, name: page.name, type: page.type, size: data.byteLength, sha256: await portableResourceDigest(data) }, data };
 }
-function assertNoTemplatePlaceholders(value: unknown): void {
-  if (typeof value === 'string' && /\{\{[^{}]*\}\}/.test(value)) throw new Error('Version 2 templates use declared questions and field links, not placeholder substitution.');
-  if (Array.isArray(value)) value.forEach(assertNoTemplatePlaceholders);
-  else if (value && typeof value === 'object') Object.values(value).forEach(assertNoTemplatePlaceholders);
+function assertNoTemplatePlaceholders(value: unknown, volume = false): void {
+  if (typeof value === 'string' && /\{\{[^{}]*\}\}/.test(volume ? value.replace(VOLUME_REFERENCE_TOKEN, '') : value)) throw new Error('Version 2 templates use declared questions and field links, not placeholder substitution.');
+  if (Array.isArray(value)) value.forEach(child => assertNoTemplatePlaceholders(child, volume));
+  else if (value && typeof value === 'object') {
+    const session = value as { docType?: unknown; formData?: { volume?: unknown } };
+    const inVolume = volume || session.docType === 'technical_volume' || session.formData?.volume !== undefined;
+    Object.values(value).forEach(child => assertNoTemplatePlaceholders(child, inVolume));
+  }
 }
 async function qualifyConditionalMember(template: Extract<PackageTemplate, { version: 2 }>, member: Extract<PackageTemplateMember, { kind: 'native' }>, session: SerializedSession): Promise<void> {
   for (const key of ['sigFirst', 'sigMiddle', 'sigLast'] as const) if (session.formData[key]?.trim())
@@ -251,6 +256,11 @@ function freshTemplateDraft(input: Record<string, unknown>): Record<string, unkn
   const draft = { ...input, formData: { ...input.formData as Record<string, unknown> },
     enclosures: (input.enclosures as Array<Record<string, unknown>>).map(enclosure => ({ ...enclosure })),
     timestamp: Date.now(), paragraphs: freshParagraphs((input as unknown as SerializedSession).paragraphs) };
+  const session = input as unknown as SerializedSession;
+  if (session.formData.volume) {
+    const content = freshVolumeContent(session.formData.volume, session.paragraphs, { retained: session.docType !== 'technical_volume' });
+    Object.assign(draft, { formData: { ...session.formData, volume: content.volume }, paragraphs: content.paragraphs });
+  }
   const configured = input.genericForm as SerializedSession['genericForm'];
   if (configured) Object.assign(draft, { genericForm: { ...configured, rows: Object.fromEntries(Object.entries(configured.rows)
     .map(([key, rows]) => [key, rows.map(row => ({ ...row, id: newPackageId('row') }))])) } });
