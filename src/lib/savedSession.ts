@@ -1,3 +1,4 @@
+import { publicationVolumeSchema, validatePublicationVolume, VOLUME_DOC_TYPE } from './publicationVolume';
 import { z } from 'zod';
 import { sessionSchema } from './sharedSession';
 import { additionalEndorsementsSchema } from './endorsementValidation';
@@ -33,6 +34,8 @@ export function parseSavedSession(value: unknown): SerializedSession {
   if (!session.reviewComments?.threads.length) delete session.reviewComments;
   session.paragraphs = ensureParagraphIds(session.paragraphs, paragraphCommentIds(session.reviewComments));
   if (session.formData.additionalEndorsements !== undefined) session.formData.additionalEndorsements = additionalEndorsementsSchema.parse(session.formData.additionalEndorsements);
+  if (session.docType === VOLUME_DOC_TYPE) session.formData.volume = validatePublicationVolume(session.formData.volume, session.paragraphs);
+  else if (session.formData.volume !== undefined) session.formData.volume = publicationVolumeSchema.parse(session.formData.volume);
   if (session.formData.sl3 !== undefined) session.formData.sl3 = sl3Schema.parse(session.formData.sl3);
   if (session.formData.sl4 !== undefined) session.formData.sl4 = sl4Schema.parse(session.formData.sl4);
   if (session.formData.manualFrontMatter !== undefined) session.formData.manualFrontMatter = manualFrontMatterSchema.parse(session.formData.manualFrontMatter);

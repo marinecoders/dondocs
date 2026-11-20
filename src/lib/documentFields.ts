@@ -91,6 +91,7 @@ function active(source: DocumentFieldSource, path: FieldPath, projection: FieldP
   const key = path[1];
   if (key === 'cuiTransmittalNote') return source.formData.classLevel === 'cui'
     && (source.documentMode === 'custom' || config.compliance.allowEnclosures);
+  if (key === 'volume') return source.docType === 'technical_volume';
   if (key === 'wordSource') return ['draft', 'share', 'backup', 'search'].includes(projection);
   if (source.docType === 'mfr' && ['from', 'to', 'via'].includes(key)) return false;
   if (key === 'manualFrontMatter') return source.docType === 'tm_ietm_front_matter';
