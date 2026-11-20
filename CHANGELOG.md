@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.188] — 2026-11-20
+
+### Added
+
+- Qualify full-volume editing, transfer, recovery and browser PDF delivery.
+
 ## [1.3.187] — 2026-11-20
 
 ### Added
