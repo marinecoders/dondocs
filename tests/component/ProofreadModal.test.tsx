@@ -135,4 +135,14 @@ describe('proofread entry and current-draft review', () => {
       expect(document.getElementById('controllingOffice')).toBeNull();
     } finally { restriction.mockRestore(); }
   });
+  it('opens an executive memorandum formatting finding at the actual date input', async () => {
+    useDocumentStore.setState({ docType: 'standard_memorandum' });
+    view(true);
+    fireEvent.click(screen.getByRole('button', { name: /^Proofread:/ }));
+    const row = screen.getAllByRole('listitem').find(item => item.textContent?.includes('Use the date format for this document.'));
+    expect(row).toBeDefined();
+    fireEvent.click(within(row!).getByRole('button', { name: 'Go to Heading' }));
+    await waitFor(() => expect(document.getElementById('date')).toHaveFocus());
+  });
+
 });

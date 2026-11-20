@@ -90,3 +90,28 @@ Paragraph moves and supported edits strictly outside the selection retain the ta
 To deliberately reattach a detached discussion, select its new words and open **Comment on selection**. Choose the existing discussion under **Reattach an existing detached discussion**, review the earlier and new quotes, and choose **Reattach selected discussion**. This retains the same discussion, messages and up to ten earlier targets. A changed draft requires a fresh selection. Returned feedback cannot silently retarget an owner’s existing discussion; keep a rejected incoming file for review or recovery.
 
 Original, tracked and earlier target text travels with drafts, encrypted shares and backups and is included in privacy checks. It remains outside clean PDF, Word and reusable templates. Selected-text comments require DonDocs 1.3.106 or later.
+
+
+## Correspondence proofreading checks
+
+**Proofread** adds advisory checks for missing printed dates, endorsement identifiers,
+each signer in a dual-signature format, subject punctuation and explicit enclosure
+citations, including comma/semicolon lists and numeric ranges. Ambiguous numeric
+clauses ask for manual review. The checks follow the selected document type. Inherited endorsement
+enclosure numbers remain valid. Quoted examples, code and links are excluded from
+the new citation check. A multiline address warning asks for review because a
+wrapped address is not necessarily another addressee. These findings do not change
+export requirements or rewrite the draft.
+
+For CUI, the panel checks the existing designation-block fields for completeness and
+whether the contact email can be printed. The POC email can also be edited in
+**Classification**, including formats without a separate Signature section. A
+completed field is not a determination that a marking or distribution is authorized.
+See the Department of Defense's [designation-block guidance](https://www.dodcui.mil/Home/Marking-Tips-for-CUI-Documents/CUI-Designation-Indicator-Block/).
+
+The personal checklist follows SECNAV M-5216.5 (June 2015, Change 1 of May 2018),
+Chapter 2 paragraph 19: inspect the framework, review language, then read for
+substance. Inspect the actual output for page-layout questions. Checks start
+unchecked and clear after a document edit or draft switch; they are session aids,
+not saved approvals. Forms and technical publications do not use this ordinary
+correspondence checklist.

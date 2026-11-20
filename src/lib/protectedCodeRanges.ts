@@ -1,13 +1,14 @@
 export type ProtectedTextRange = readonly [number, number];
 
 /** Hide protected content without changing UTF-16 offsets or line boundaries. */
-export function maskProtectedRanges(text: string, ranges: readonly ProtectedTextRange[]): string {
+export function maskProtectedRanges(text: string, ranges: readonly ProtectedTextRange[], mask = ' '): string {
+  if (mask.length !== 1) throw new Error('Protected text requires one UTF-16 mask character.');
   let cursor = 0;
   let masked = '';
   for (const [start, end] of [...ranges].sort(([a], [b]) => a - b)) {
     if (end <= cursor) continue;
     masked += text.slice(cursor, Math.max(cursor, start));
-    masked += text.slice(Math.max(cursor, start), end).replace(/[^\r\n]/g, ' ');
+    masked += text.slice(Math.max(cursor, start), end).replace(/[^\r\n]/g, mask);
     cursor = end;
   }
   return masked + text.slice(cursor);

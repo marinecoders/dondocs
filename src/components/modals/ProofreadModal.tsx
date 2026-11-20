@@ -1,6 +1,9 @@
 import { useRef, type MouseEvent, type ReactNode } from 'react';
 import { ArrowRight, ClipboardCheck } from 'lucide-react';
-import { useProofreadFindings } from '@/hooks/useProofreadFindings';
+import { useProofreadReview } from '@/hooks/useProofreadFindings';
+import { useProofreadManualChecklist } from '@/hooks/useProofreadManualChecklist';
+import { ProofreadManualChecklist } from '@/components/ProofreadManualChecklist';
+import { supportsCorrespondenceProofread } from '@/lib/correspondenceProofreadChecks';
 import { useUIStore } from '@/stores/uiStore';
 import { captureDocumentTarget, isCurrentDocumentTarget, useDocumentsStore, type DocumentTarget } from '@/stores/documentsStore';
 import { useEditorSections } from '@/components/layout/editorSections';
@@ -31,10 +34,11 @@ function paragraphControl(paragraph: HTMLElement | null | undefined, path: Field
 export function ProofreadModal({ children }: { children?: ReactNode }) {
   const open = useUIStore(s => s.proofreadOpen);
   const setOpen = useUIStore(s => s.setProofreadOpen);
-  const findings = useProofreadFindings();
+  const { source, findings } = useProofreadReview(open);
   const { sections: displayedSections } = useEditorSections();
-  useDocumentsStore(s => s.currentId);
-  useDocumentsStore(s => s.activationEpoch);
+  const documentId = useDocumentsStore(s => s.currentId);
+  const activationEpoch = useDocumentsStore(s => s.activationEpoch);
+  const checklist = useProofreadManualChecklist(source, `${documentId ?? 'new'}:${activationEpoch}`);
   // Bind row actions to the revision that produced them, including rapid draft switches.
   const owner = captureDocumentTarget();
   const pending = useRef<{ owner: DocumentTarget | null; target: ProofreadFinding['target'] } | null>(null);
@@ -101,6 +105,7 @@ export function ProofreadModal({ children }: { children?: ReactNode }) {
               </ul>
             </section>;
           })}
+        {supportsCorrespondenceProofread(source) && <ProofreadManualChecklist {...checklist} />}
         {children}
         <p className="mt-4 text-xs text-muted-foreground">Sensitive-text checks inspect supported text fields. They do not inspect attached file contents or establish that a document is free of sensitive information. Export performs its own review.</p>
       </div>

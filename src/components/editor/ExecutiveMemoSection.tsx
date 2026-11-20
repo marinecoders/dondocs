@@ -77,10 +77,11 @@ export function ExecutiveMemoSection() {
 
             {/* Date — spelled format per Ch 12 */}
             <div className="space-y-2">
-              <Label htmlFor="exec-date" className="text-sm font-medium">
+              <Label htmlFor="date" className="text-sm font-medium">
                 Date <span className="text-destructive">*</span>
               </Label>
               <DatePicker
+                id="date"
                 value={formData.date || ''}
                 onChange={(value) => setField('date', value)}
                 dateFormat="spelled"
