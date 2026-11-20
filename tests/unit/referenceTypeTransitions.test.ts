@@ -1,3 +1,4 @@
+import { useAlertStore } from '@/stores/alertStore';
 import { describe, expect, it } from 'vitest';
 import { useDocumentStore } from '@/stores/documentStore';
 import { DOC_TYPE_CONFIG } from '@/types/document';
@@ -55,4 +56,21 @@ describe('reference identities across temporarily hidden formal lists', () => {
       ['g', 'https://example.com/alpha'], ['h', 'https://example.com/bravo'],
     ]);
   });
+});
+
+it.each([
+  { tableKey: 'materielRequired' },
+  { publicationSection: 'purpose' as const },
+  { appendix: true },
+  { text: 'See {{PUBREF_P_0123456789ABCDEF0123456789ABCDEF}}.' },
+])('refuses unsupported publication-to-volume conversion without altering saved content: %j', block => {
+  useDocumentStore.getState().resetForm();
+  useAlertStore.setState({ open: false, current: null, queue: [] });
+  useDocumentStore.setState({ docType: 'i_type', formData: { subject: 'Retain original publication' },
+    paragraphs: [{ id: 'source', text: 'Original publication content.', level: 0, ...block }],
+    publicationTables: { materielRequired: [{ values: { name: 'Retain table data' } }] }, references: [], enclosures: [], copyTos: [], distributions: [] });
+  const before = structuredClone(useDocumentStore.getState().getSnapshot());
+  useDocumentStore.getState().setDocType('technical_volume');
+  expect(useDocumentStore.getState().getSnapshot()).toEqual(before);
+  expect(useAlertStore.getState().current).toMatchObject({ title: 'Technical volume conversion needs review', message: expect.stringContaining('cannot be converted automatically') });
 });
