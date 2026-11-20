@@ -1,3 +1,4 @@
+import AxeBuilder from '@axe-core/playwright';
 import { expect, test } from '@playwright/test';
 
 test.use({ serviceWorkers: 'block' });
@@ -29,6 +30,7 @@ for (const theme of ['light', 'dark', 'classic']) {
     const firstCheck = dialog.getByRole('checkbox', { name: 'Inspect the letterhead and its alignment.' });
     await firstCheck.check();
     await expect(dialog.getByText('1 of 15 personal checks completed')).toBeVisible();
+    expect((await new AxeBuilder({ page }).analyze()).violations).toEqual([]);
     await page.screenshot({ path: testInfo.outputPath(`proofread-${theme}.png`), fullPage: true });
     expect(await dialog.evaluate(el => el.scrollWidth <= el.clientWidth + 1)).toBe(true);
 

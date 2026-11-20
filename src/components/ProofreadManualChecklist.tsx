@@ -1,9 +1,11 @@
+import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 
 import { PROOFREAD_MANUAL_CHECKS } from '@/lib/proofreadChecklist';
 
-export function ProofreadManualChecklist({ checked, onCheckedChange }: {
+export function ProofreadManualChecklist({ checked, onCheckedChange, onViewSource }: {
   checked: readonly string[];
+  onViewSource?: () => void;
   onCheckedChange: (id: string, checked: boolean) => void;
 }) {
   return <section aria-labelledby="proofread-manual-title" className="mt-6 border-t pt-5">
@@ -17,6 +19,7 @@ export function ProofreadManualChecklist({ checked, onCheckedChange }: {
         <span>{item.label}</span>
       </label>)}
     </fieldset>)}
+    {onViewSource && <Button variant="link" className="mt-3 h-auto min-h-10 whitespace-normal px-0 text-left text-xs" onClick={onViewSource}>Read the manual checklist · Ch 2 ¶19</Button>}
     <p className="mt-4 text-xs text-muted-foreground">Source: SECNAV M-5216.5, Chapter 2, paragraph 19. Apply the layout requirements of the selected document type.</p>
   </section>;
 }

@@ -1,29 +1,7 @@
-import { useState, useMemo } from 'react';
+import { lazy, Suspense, useState, useMemo } from 'react';
+
 import { HelpCircle, ChevronDown, ChevronRight, ChevronLeft, FileText, CheckCircle2, Lightbulb, BookOpen, Sparkles, ArrowRight, RotateCcw, Search, Eye, Check, Layers, Users, FolderOpen, Paperclip, PenLine, Link2, Shield, MapPin, File, Briefcase, Mail, ClipboardCheck, ClipboardList, BookMarked, Scale, Award, ScrollText, FileSignature, Star, FolderSync, type LucideIcon } from 'lucide-react';
 
-// Lucide icons for document types / groups / categories, keyed by id — the
-// app uses lucide everywhere else, so the guide should too (the old emoji
-// `icon` fields in documentGuide.ts are no longer rendered).
-const DOC_TYPE_ICONS: Record<string, LucideIcon> = {
-  naval_letter: FileText, standard_letter: File, business_letter: Briefcase,
-  multiple_address_letter: Mail, joint_letter: Users, same_page_endorsement: CheckCircle2,
-  new_page_endorsement: ClipboardCheck, mfr: BookMarked, mf: FileText,
-  plain_paper_memorandum: File, letterhead_memorandum: FileText, decision_memorandum: Scale,
-  executive_memorandum: Award, joint_memorandum: Users, moa: ScrollText, mou: FileSignature,
-  executive_correspondence: Star, navmc_10274: ClipboardList, navmc_118_11: ClipboardList,
-  i_type: BookMarked,
-  tm_ietm_front_matter: BookMarked,
-};
-const GROUP_ICONS: Record<string, LucideIcon> = { correspondence: FileText, forms: ClipboardList };
-const CATEGORY_ICONS: Record<string, LucideIcon> = {
-  Letters: FileText, Endorsements: CheckCircle2, Memoranda: FileText,
-  Agreements: ScrollText, Executive: Star, Forms: ClipboardList,
-};
-
-function DocIcon({ id, className }: { id: string; className?: string }) {
-  const Icon = DOC_TYPE_ICONS[id] ?? FileText;
-  return <Icon className={className ?? 'h-5 w-5 shrink-0 text-muted-foreground'} aria-hidden="true" />;
-}
 import {
   Dialog,
   DialogContent,
@@ -54,6 +32,33 @@ import {
   splitReason,
 } from './documentFinderLogic';
 
+import { ManualViewBoundary } from '@/components/manual/ManualViewBoundary';
+
+const CorrespondenceManualReader = lazy(() => import('@/components/manual/CorrespondenceManualReader'));
+
+// Lucide icons for document types / groups / categories, keyed by id — the
+// app uses lucide everywhere else, so the guide should too (the old emoji
+// `icon` fields in documentGuide.ts are no longer rendered).
+const DOC_TYPE_ICONS: Record<string, LucideIcon> = {
+  naval_letter: FileText, standard_letter: File, business_letter: Briefcase,
+  multiple_address_letter: Mail, joint_letter: Users, same_page_endorsement: CheckCircle2,
+  new_page_endorsement: ClipboardCheck, mfr: BookMarked, mf: FileText,
+  plain_paper_memorandum: File, letterhead_memorandum: FileText, decision_memorandum: Scale,
+  executive_memorandum: Award, joint_memorandum: Users, moa: ScrollText, mou: FileSignature,
+  executive_correspondence: Star, navmc_10274: ClipboardList, navmc_118_11: ClipboardList,
+  i_type: BookMarked,
+  tm_ietm_front_matter: BookMarked,
+};
+const GROUP_ICONS: Record<string, LucideIcon> = { correspondence: FileText, forms: ClipboardList };
+const CATEGORY_ICONS: Record<string, LucideIcon> = {
+  Letters: FileText, Endorsements: CheckCircle2, Memoranda: FileText,
+  Agreements: ScrollText, Executive: Star, Forms: ClipboardList,
+};
+
+function DocIcon({ id, className }: { id: string; className?: string }) {
+  const Icon = DOC_TYPE_ICONS[id] ?? FileText;
+  return <Icon className={className ?? 'h-5 w-5 shrink-0 text-muted-foreground'} aria-hidden="true" />;
+}
 // Document Finder Component
 //
 // A branching interview driven by getNextQuestion(answers). Answers are kept in
@@ -881,16 +886,17 @@ export function DocumentGuideModal() {
             Document Guide
           </DialogTitle>
           <DialogDescription>
-            Find the right document type, learn about formats, or load an example
+            Document formats, examples and correspondence guidance
           </DialogDescription>
         </DialogHeader>
 
         <Tabs value={activeTab === 'finder' ? 'browse' : activeTab}
-          onValueChange={(value) => { if (value === 'browse' || value === 'examples' || value === 'features') setActiveTab(value); }}
+          onValueChange={(value) => { if (value === 'browse' || value === 'examples' || value === 'manual' || value === 'features') setActiveTab(value); }}
           className="min-h-0 flex-1 gap-0 overflow-hidden">
-          <TabsList aria-label="Guide topics" className="m-3 grid h-12 w-auto shrink-0 grid-cols-3 rounded-md">
+          <TabsList aria-label="Guide topics" className="m-3 grid h-12 w-auto shrink-0 grid-cols-4 rounded-md">
             <TabsTrigger value="browse" className="min-h-11 border-transparent">Browse</TabsTrigger>
             <TabsTrigger value="examples" className="min-h-11 border-transparent">Examples</TabsTrigger>
+            <TabsTrigger value="manual" className="min-h-11 border-transparent">Manual</TabsTrigger>
             <TabsTrigger value="features" className="min-h-11 border-transparent">Features</TabsTrigger>
           </TabsList>
           <TabsContent value={activeTab === 'finder' ? 'browse' : activeTab} className="min-h-0 flex flex-col overflow-hidden">
@@ -1162,6 +1168,10 @@ export function DocumentGuideModal() {
             )}
           </>
         )}
+
+        {activeTab === 'manual' && documentGuideOpen && <ManualViewBoundary fallback={<p role="alert" className="p-4 text-sm">The manual reader could not load. Reconnect and reload DonDocs to try again.</p>}>
+          <Suspense fallback={<p role="status" className="p-4 text-sm">Opening correspondence manual…</p>}><CorrespondenceManualReader /></Suspense>
+        </ManualViewBoundary>}
 
         {activeTab === 'examples' && (
           <div className="flex-1 min-h-0 flex flex-col">

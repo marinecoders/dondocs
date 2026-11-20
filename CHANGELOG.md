@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.175] — 2026-11-19
+
+### Added
+
+- Search and read the bundled SECNAV correspondence manual in the Document type guide, open original source pages from proofreading findings, and retain verified reference resources for offline reading.
+
 ## [1.3.174] — 2026-11-19
 
 ### Added
