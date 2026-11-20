@@ -238,6 +238,7 @@ export function toStore(input: LetterInput, defaults: CompanionDefaults = {}): G
       cuiCategory: input.classification?.cui?.category ?? '',
       cuiControlledBy: input.classification?.cui?.controlledBy ?? '',
       cuiDissemination: input.classification?.cui?.dissemination ?? '',
+      cuiTransmittalNote: input.classification?.cui?.transmittalNote,
       cuiDistStatement: input.classification?.cui?.distStatement ?? '',
 
       salutation: input.salutation ?? 'Dear Sir or Madam:',
@@ -283,7 +284,7 @@ export function toStore(input: LetterInput, defaults: CompanionDefaults = {}): G
       title: r.title,
       ...(r.url ? { url: r.url } : {}),
     })),
-    enclosures: input.docType === 'tm_ietm_front_matter' ? [] : isTechnicalPublication(input.docType) ? publicationEnclosures(input) : (input.enclosures ?? []).map((e) => ({ title: e.title })),
+    enclosures: input.docType === 'tm_ietm_front_matter' ? [] : isTechnicalPublication(input.docType) ? publicationEnclosures(input) : (input.enclosures ?? []).map((e) => ({ title: e.title, ...(e.marking ? { marking: e.marking } : {}) })),
     copyTos: (input.copyTo ?? []).map((text) => ({ text })),
     distributions: (input.distribution ?? []).map((text) => ({ text })),
   };

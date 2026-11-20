@@ -30,6 +30,8 @@ const MAY_TRAVEL: readonly string[] = ['unclassified', 'cui'];
 function mayHandOff(input: LetterInput): boolean {
   // Attachment bytes cannot travel in the editor's session URL. Do not offer a lossy draft.
   if (input.attachments?.length) return false;
+  // Legacy session URLs cannot require the enclosure-aware reader. Use a complete draft.
+  if (input.enclosures?.some(enclosure => enclosure.marking) || input.classification?.cui?.transmittalNote) return false;
   const { level, custom } = input.classification ?? {};
   if (custom) { return false; }
   return MAY_TRAVEL.includes(deriveOverallClassLevel(level ?? 'unclassified', input.paragraphs ?? []));

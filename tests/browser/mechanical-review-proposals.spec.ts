@@ -171,6 +171,8 @@ for (const theme of ['light', 'dark', 'classic']) test(`existing formatting find
       const backup = await bytes(page, () => settings.getByRole('button', { name: 'Download workspace backup', exact: true }).click());
       const bundle = JSON.parse(backup.toString('utf8'));
       expect(bundle.version).toBe(9);expect(bundle.reviewSuggestions).toHaveLength(1);
+      const savedDocuments = bundle.documents.filter((document: { id: string; session: { formData: { subject?: string } } }) => document.session.formData.subject === 'NEWER AUTHOR SUBJECT');
+      expect(savedDocuments).toHaveLength(1);
       expect(bundle.reviewSuggestions[0].state.decisions.map((item: { action: string }) => item.action)).toEqual(['accepted', 'reversed', 'restored']);
       await settings.getByRole('button', { name: 'Close', exact: true }).click();
       const fresh = await browser.newContext({ serviceWorkers: 'block' });
@@ -182,7 +184,12 @@ for (const theme of ['light', 'dark', 'classic']) test(`existing formatting find
         await expect(restoredSettings.getByRole('status')).toContainText('Restored', { timeout: 15_000 });
         await expect(restoredSettings.getByRole('alert')).toHaveCount(0);
         await restoredSettings.getByRole('button', { name: 'Close', exact: true }).click();await restored.reload();
-        await restored.getByRole('button', { name: /^NEWER AUTHOR SUBJECT · LTR ·/ }).click();
+        // Bind reopening to the preserved document identity and its visible accessible title.
+        const restoredDocument = restored.getByRole('region', { name: 'Workspace sidebar', exact: true })
+          .getByRole('button', { name: /^NEWER AUTHOR SUBJECT(?:\s|$)/ });
+        await expect(restoredDocument).toHaveAttribute('data-doc-id', savedDocuments[0].id);
+        await expect(restoredDocument.getByText('NEWER AUTHOR SUBJECT', { exact: true })).toBeVisible();
+        await restoredDocument.click();
         expectDraft(await draft(restored), true);
         const restoredReview = await chooseRound(restored);
         await expect(restoredReview.getByRole('article', { name: 'Suggestion 1: Formatting corrections (7)', exact: true })).toContainText('Accepted');

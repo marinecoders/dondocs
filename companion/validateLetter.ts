@@ -17,6 +17,8 @@ import { publicationInputErrors } from './publicationInput';
 import { attachmentSchema } from './publicationSchema';
 import { TEMPLATE_FOR, toStore, type CompanionDefaults, type LetterInput } from './letterInput';
 import { DOC_TYPE_CONFIG } from '../src/types/document';
+import { cuiTransmittalIssue, enclosureMarkingLevel, enclosureMarkingSchema, inspectEnclosureMarkings } from '../src/lib/enclosureMarkings';
+import { deriveOverallClassLevel } from '../src/lib/overallClassification';
 import { businessFigureFile } from '../src/lib/figures';
 
 export const DOC_TYPES = [...Object.keys(DOC_TYPE_CONFIG), ...Object.keys(TEMPLATE_FOR)];
@@ -54,6 +56,11 @@ export function validateLetter(body: Partial<LetterInput>, defaults: CompanionDe
     }
   }
   if (problems.some(problem => problem.includes(' must be an array'))) return problems;
+  for (const [index, enclosure] of (body.enclosures ?? []).entries()) {
+    if (enclosure?.marking === undefined) continue;
+    const parsed = enclosureMarkingSchema.safeParse(enclosure.marking);
+    if (!parsed.success || !enclosureMarkingLevel(parsed.data)) problems.push(`enclosures[${index}].marking requires a recognized classification level and bounded banner text.`);
+  }
   for (const file of body.attachments ?? []) if (!attachmentSchema.safeParse(file).success) problems.push('Attachments require bounded PNG, JPEG or PDF metadata and valid base64 bytes.');
   if (Array.isArray(body.paragraphs)) {
     body.paragraphs.forEach((para, i) => {
@@ -117,6 +124,14 @@ export function validateLetter(body: Partial<LetterInput>, defaults: CompanionDe
     return problems;
   }
   if (body.manualFrontMatter) problems.push('Manual front-matter metadata requires docType tm_ietm_front_matter.');
+  if (!problems.length && (body.enclosures?.some(enclosure => enclosure.marking) || body.classification?.cui?.transmittalNote)) {
+    const store = toStore(body as LetterInput, defaults);
+    if (body.classification?.cui?.transmittalNote && (store.formData.classLevel !== 'cui'
+      || !DOC_TYPE_CONFIG[store.docType]?.compliance.allowEnclosures)) problems.push('The CUI enclosure transmittal note requires classification.level cui and a document type with formal enclosures.');
+    problems.push(...inspectEnclosureMarkings({ ...store.formData, classLevel: deriveOverallClassLevel(store.formData.classLevel, store.paragraphs) }, store.enclosures).map(issue => `Enclosure ${issue.index + 1}: ${issue.message}`));
+    const noteIssue = cuiTransmittalIssue(store.formData, store.paragraphs, store.enclosures, store.docType);
+    if (noteIssue) problems.push(noteIssue);
+  }
   if (isTechnicalPublication(body.docType ?? '')) {
     const label = body.docType === 'sl4' ? 'SL-4' : body.docType === 'sl3' ? 'SL-3' : 'I-Type';
     if (body.format === 'docx') problems.push(`${label} export supports PDF only.`);

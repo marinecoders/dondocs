@@ -1,10 +1,11 @@
 import { z } from 'zod';
-import type { DocumentData, Enclosure, EnclosureMarking } from '@/types/document';
-import { CLASSIFICATION_LEVELS, classificationRank } from './overallClassification';
+import type { DocumentData, Enclosure, EnclosureMarking, Paragraph } from '@/types/document';
+import { CLASSIFICATION_LEVELS, classificationRank, deriveOverallClassLevel } from './overallClassification';
 import { CLASSIFICATION_LABELS, classificationBannerLevel } from './detectClassification';
 import type { ClassificationInfo } from '@/services/pdf/mergeEnclosures';
 import type { ClassificationLevel } from './domainClassification';
 import type { PolicyResolution } from './exportDeploymentPolicy';
+import { resolveAppendedEndorsements } from './appendedEndorsement';
 
 /** Missing means inherit; an explicit unclassified value never inherits. */
 export const enclosureMarkingSchema = z.object({
@@ -68,6 +69,8 @@ export function inspectEnclosureMarkings(data: Partial<DocumentData>, enclosures
       message: `The enclosure is declared ${CLASSIFICATION_LABELS[level]}, above the cover marking. Review the cover and enclosure markings before delivery.` }];
     if (marking.classLevel === 'custom' && marking.customClassification?.trim() !== data.customClassification?.trim()) return [{ index, kind: 'custom' as const,
       message: 'The enclosure has a different custom banner. Review its categories and dissemination controls against the cover.' }];
+    if (level === 'cui' && coverLevel !== 'cui' && (controls(marking.cuiCategory).size || controls(marking.cuiDissemination).size)) return [{ index, kind: 'controls' as const,
+      message: 'Review the enclosure CUI categories and dissemination controls against the classified or custom cover. A higher classification level alone does not resolve these controls.' }];
     if (level === 'cui' && coverLevel === 'cui') {
       const missing = [...controls(marking.cuiCategory)].some(value => !controls(cover.cuiCategory).has(value))
         || [...controls(marking.cuiDissemination)].some(value => !controls(cover.cuiDissemination).has(value));
@@ -80,3 +83,16 @@ export function inspectEnclosureMarkings(data: Partial<DocumentData>, enclosures
 
 export const CUI_TRANSMITTAL_NOTE = 'When enclosures are removed, this document is Uncontrolled Unclassified Information.';
 export const CUI_TRANSMITTAL_SOURCE = 'https://www.ecfr.gov/current/title-32/subtitle-B/chapter-XX/part-2002/subpart-B/section-2002.20#p-2002.20(j)';
+
+export function cuiTransmittalIssue(data: Partial<DocumentData>, paragraphs: Paragraph[], enclosures: readonly Pick<Enclosure, 'marking'>[], docType = data.docType ?? 'naval_letter'): string | undefined {
+  if (data.cuiTransmittalNote !== true || data.classLevel !== 'cui') return;
+  const endorsements = resolveAppendedEndorsements(docType, data).flatMap(endorsement => endorsement.paragraphs.map(text => ({ text })));
+  if (deriveOverallClassLevel('unclassified', [...paragraphs, ...endorsements]) !== 'unclassified') return 'The transmittal note conflicts with controlled or classified body, figure or endorsement portions. Remove the note or review the portion declarations.';
+  if (!enclosures.some(enclosure => enclosure.marking === undefined || enclosureMarkingLevel(enclosure.marking) === 'cui')) return 'The transmittal note is enabled without a declared CUI enclosure. Review the enclosure list or remove the note.';
+}
+
+/** The author explicitly confirms the cover-only determination; never alter markings. */
+export function cuiTransmittalNote(data: Partial<DocumentData>, paragraphs: Paragraph[], enclosures: readonly Pick<Enclosure, 'marking'>[], docType = data.docType ?? 'naval_letter'): string | undefined {
+  return data.cuiTransmittalNote === true && data.classLevel === 'cui' && !cuiTransmittalIssue(data, paragraphs, enclosures, docType)
+    ? CUI_TRANSMITTAL_NOTE : undefined;
+}

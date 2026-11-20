@@ -17,7 +17,7 @@ import { detectCapturedPII, mergePIIResults, type PIIDetectionResult } from '@/s
 import { detectBatchPII } from '@/services/pii/batchScan';
 import type { ClassificationInfo } from '@/services/pdf/mergeEnclosures';
 import type { ClassificationLevel } from './domainClassification';
-import { assertEnclosureMarkingPolicy } from './enclosureMarkings';
+import { assertEnclosureMarkingPolicy, cuiTransmittalIssue, inspectEnclosureMarkings } from './enclosureMarkings';
 
 export type ExportTarget = 'pdf' | 'docx' | 'tex';
 const preparedBrand = Symbol('prepared-export');
@@ -129,7 +129,14 @@ export function prepareExport(input: {
     if (output.kind === 'correspondence') {
       assertEnclosureMarkingPolicy(snapshot, input.policy);
       const portions = correspondencePortions(snapshot);
+      const transmittalIssue = cuiTransmittalIssue(snapshot.formData, portions, snapshot.enclosures, snapshot.docType);
+      if (transmittalIssue) return error(transmittalIssue);
       const level = deriveOverallClassLevel(snapshot.formData.classLevel, portions);
+      const enclosureIssues = inspectEnclosureMarkings({ ...snapshot.formData, classLevel: level }, snapshot.enclosures);
+      if (enclosureIssues.length) {
+        notices.push(...enclosureIssues.map(issue => `Enclosure ${issue.index + 1}: ${issue.message}`));
+        markingReview = true;
+      }
       if (level !== 'custom' && classificationRank(level) === undefined) return error('The document has an unknown classification level.');
       const customText = snapshot.formData.customClassification?.trim();
       if (level === 'custom' && !customText) return error('Enter the custom marking before exporting.');

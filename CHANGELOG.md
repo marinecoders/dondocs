@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.179] — 2026-11-20
+
+### Added
+
+- Add enclosure marking controls, cover findings and a confirmed CUI transmittal note.
+
 ## [1.3.178] — 2026-11-20
 
 ### Added

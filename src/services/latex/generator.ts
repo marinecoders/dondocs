@@ -41,6 +41,7 @@ import { hasBodyCaption } from '@/lib/bodyCaption';
 import { formatViaLines } from '@/lib/viaLines';
 import { parse as parseDate, isValid as isValidDate, format as formatDate } from 'date-fns';
 import { deriveOverallClassLevel } from '@/lib/overallClassification';
+import { cuiTransmittalNote } from '@/lib/enclosureMarkings';
 import {
   resolveAppendedEndorsements,
 } from '@/lib/appendedEndorsement';
@@ -1224,6 +1225,7 @@ export function generateClassificationTex(store: DocumentStore, resolvedLevel?: 
 \\setClassification{CUI}
 \\setCUIControlledBy{${escapeLatex(data.cuiControlledBy)}}
 \\setCUICategory{${escapeLatex(data.cuiCategory)}}
+\\setCUITransmittalNote{${escapeLatex(cuiTransmittalNote(data, store.paragraphs, store.enclosures, store.docType) ?? '')}}
 \\setCUIDissemination{${escapeLatex(data.cuiDissemination)}}
 \\setCUIDistStatement{${escapeLatex(isTechnicalPublication(store.docType) ? data.cuiDistStatement : documentDistributionStatement(data))}}
 \\setPOC{${escapeLatex(validatedPocEmail(data.pocEmail))}}

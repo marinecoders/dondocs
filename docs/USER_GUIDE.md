@@ -565,6 +565,39 @@ Signing downloads inspect the included PDF text and metadata against the current
 
 Choose an available output from Download. PDF enclosure merging and digital signature fields are PDF features; Word has [documented limits](OUTPUT_LIMITS.md). A downloaded TeX fragment needs the repository templates/assets to compile as a project.
 
+### Mark individual enclosures
+
+In **Enclosures**, each row has an **Assembled page marking** selector. Leave it
+on **Inherit the letter marking**, or choose an explicit marking for that
+enclosure. Explicit **UNCLASSIFIED** differs from inheritance. Inspect the
+original pages before choosing: DonDocs adds banners to the assembled derivative
+and preserves the original PDF, including its existing markings and signed bytes.
+Marked full-page attachments reserve margins so their content cannot cover the
+added banners.
+
+For a CUI enclosure, enter the categories and dissemination controls needed for
+comparison with the cover. These fields do not invent category codes or replace
+an original designation block. Use **Custom banner** for a complete banner that
+must reproduce category/control text. A custom enclosure banner must have a
+recognized classification level before export or transfer. Deployment restrictions
+apply to each enclosure, including inactive declarations retained in a portable
+copy.
+
+**Proofread** identifies a cover below a declared enclosure level, missing CUI
+category/control coverage, and custom banners needing manual comparison. Its
+finding opens the corresponding enclosure row. Export also presents unresolved
+comparisons for review. These are declaration checks; inspect actual original
+content and consult the responsible marking authority.
+
+When the letter is marked CUI, an optional confirmation adds the cover-only
+transmittal note described in [32 CFR 2002.20(j)](https://www.ecfr.gov/current/title-32/subtitle-B/chapter-XX/part-2002/subpart-B/section-2002.20#p-2002.20(j)).
+Select it only after confirming the letter contains no CUI apart from its
+enclosures. Known controlled body, figure or appended endorsement portions, or a missing declared CUI
+enclosure prevent exporting that note. It does not change classification,
+remove markings, decontrol an original, or establish a release determination.
+Enclosure declarations and the note survive draft transfer, reload and saved
+package capture. Marked draft/share copies require an updated reader.
+
 For a saved action, open **Packages**, select the saved revision, and choose **Review Word package**. Review its captured content, privacy/marking findings and original files, then choose **Download reviewed Word package**. The ZIP contains an editable main DOCX, separate DOCX files for other supported native correspondence, and unchanged original PDFs, enclosures and supported images. `README.txt` identifies the main document; `manifest.json` lists member roles, order, captured member revisions, file sizes and SHA-256 digests. The download uses those captured bytes even if a library source changes later.
 
 Every listed enclosure needs a captured original file. Missing, corrupt or unreadable required content blocks a complete Word package; attach the missing file and save a new package revision. Word packages support native correspondence with existing Word export support and original PDF members. Deliver native forms/publications through the separate editable package export, or add their original PDFs as supporting members. The Word ZIP includes the selected revision’s delivered content and original files; comments, suggestions, older revisions and retained assembled PDFs are excluded.

@@ -36,6 +36,8 @@ import { withAttachmentStaging, persistAttachment } from '@/lib/attachments';
 import { formatFileSize } from '@/lib/utils';
 import type { Enclosure, EnclosurePageStyle } from '@/types/document';
 import { DOC_TYPE_CONFIG } from '@/types/document';
+import { EnclosureMarkingField } from './EnclosureMarkingField';
+import { CUI_TRANSMITTAL_NOTE, CUI_TRANSMITTAL_SOURCE } from '@/lib/enclosureMarkings';
 
 interface SortableEnclosureProps {
   enclosure: Enclosure;
@@ -47,6 +49,7 @@ interface SortableEnclosureProps {
   onUpdatePageStyle: (style: EnclosurePageStyle) => void;
   onUpdateCoverPage: (hasCoverPage: boolean) => void;
   onUpdateCoverDescription: (description: string) => void;
+  onUpdateMarking: (marking: Enclosure['marking']) => void;
 }
 
 function SortableEnclosure({
@@ -59,6 +62,7 @@ function SortableEnclosure({
   onUpdatePageStyle,
   onUpdateCoverPage,
   onUpdateCoverDescription,
+  onUpdateMarking,
 }: SortableEnclosureProps) {
   const isPublication = useDocumentStore((state) => state.docType === 'i_type');
   const {
@@ -121,6 +125,8 @@ function SortableEnclosure({
             aria-label={`Enclosure (${index + 1}) title`}
           />
 
+          <EnclosureMarkingField index={index} marking={enclosure.marking} onChange={onUpdateMarking} />
+
           {/* PDF attachment section */}
           {enclosure.file ? (
             <div className="space-y-2">
@@ -141,12 +147,12 @@ function SortableEnclosure({
                 </Button>
               </div>
               <div className="flex items-center gap-2">
-                <Label className="text-xs text-muted-foreground whitespace-nowrap">Page Style:</Label>
+                <Label htmlFor={`enclosure-page-style-${index}`} className="text-xs text-muted-foreground whitespace-nowrap">Page Style:</Label>
                 <Select
                   value={enclosure.pageStyle || 'border'}
                   onValueChange={(v) => onUpdatePageStyle(v as EnclosurePageStyle)}
                 >
-                  <SelectTrigger className="h-8 text-xs">
+                  <SelectTrigger id={`enclosure-page-style-${index}`} aria-label={`Enclosure (${index + 1}) page style`} className="h-8 text-xs">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -451,10 +457,21 @@ export function EnclosuresManager() {
                       onUpdatePageStyle={(pageStyle) => updateEnclosure(index, { pageStyle })}
                       onUpdateCoverPage={(hasCoverPage) => updateEnclosure(index, { hasCoverPage })}
                       onUpdateCoverDescription={(coverPageDescription) => updateEnclosure(index, { coverPageDescription })}
+                      onUpdateMarking={(marking) => updateEnclosure(index, { marking })}
                     />
                   ))}
                 </SortableContext>
               </DndContext>
+
+              {formData.classLevel === 'cui' && (enclosures.length > 0 || formData.cuiTransmittalNote) && <div className="my-3 space-y-2 rounded-md border border-border p-3">
+                <div className="flex items-start gap-2">
+                  <Checkbox id="cuiTransmittalNote" checked={formData.cuiTransmittalNote === true}
+                    onCheckedChange={checked => setField('cuiTransmittalNote', checked === true)} />
+                  <Label htmlFor="cuiTransmittalNote" className="text-xs leading-relaxed">I have confirmed that this letter contains no CUI apart from its enclosures. Include the transmittal note.</Label>
+                </div>
+                <p className="text-xs text-muted-foreground">{CUI_TRANSMITTAL_NOTE}</p>
+                <a href={CUI_TRANSMITTAL_SOURCE} target="_blank" rel="noopener noreferrer" className="text-xs text-primary underline">Transmittal marking guidance (32 CFR 2002.20(j))</a>
+              </div>}
 
               {enclosures.length === 0 && (
                 <p className="mt-1 mb-2 text-sm text-muted-foreground">
