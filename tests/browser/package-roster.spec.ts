@@ -109,7 +109,12 @@ for (const width of [1440, 320]) test(`independent roster actions keep reviewed 
 
 
 test('maps an actual Excel worksheet, corrects a numeric identifier and creates only the reviewed action', async ({ page }) => {
-  await page.addInitScript(() => localStorage.setItem('browser-test-visitor', 'returning'));
+  await page.addInitScript(() => {
+    localStorage.setItem('browser-test-visitor', 'returning');
+    // Valid metadata identities can contain an unselected row's numeric answer.
+    const randomUUID = crypto.randomUUID.bind(crypto);
+    Object.defineProperty(crypto, 'randomUUID', { value: () => `0013${randomUUID().slice(4)}` });
+  });
   await page.goto('/'); const dialog = await packages(page), templates = await panel(dialog, 'Reusable package templates');
   const source = await inputTemplate(); source.members = source.members.filter(member => member.kind === 'native'); source.program.questions[0].kind = 'identifier';
   await templates.getByLabel('Import package template', { exact: true }).setInputFiles({ name: 'excel-roster-template.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(source)) });
@@ -139,5 +144,14 @@ test('maps an actual Excel worksheet, corrects a numeric identifier and creates 
   await expect.poll(async () => (await journalRows(page)).map(row => row.status)).toEqual(['created', 'pending']);
   const saved = await records(page); expect(saved).toHaveLength(1); const revision = saved[0].revisions[0], main = revision.members[0];
   expect(main.kind).toBe('native'); if (main.kind !== 'native') throw new Error('Expected native form');
-  expect(main.session.genericForm!.answers.name).toBe('0012'); expect(revision.information!.facts[0].value).toBe('0012'); expect(JSON.stringify(saved)).not.toContain('0013');
+  expect(saved.map(record => record.name)).toEqual(['Worksheet Alpha']);
+  expect(revision.members).toHaveLength(1);
+  expect(main.session.genericForm!.answers).toEqual({ name: '0012' });
+  expect(revision.information!.facts.map(fact => fact.value)).toEqual(['0012']);
+  expect(revision.bindings!.items.map(binding => binding.expectedValue)).toEqual(['0012']);
+  const answers = { version: 1, values: { recipient: '0012' }, groups: {} };
+  expect(revision.templateState!.answers).toEqual(answers);
+  expect(revision.templateState!.appliedAnswers).toEqual(answers);
+  expect(JSON.stringify(saved)).not.toContain('Worksheet Bravo');
+  expect(JSON.stringify(saved)).not.toContain('Ignored worksheet person');
 });

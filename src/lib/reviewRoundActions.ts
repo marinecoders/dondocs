@@ -120,7 +120,11 @@ export async function openReviewCopy(input: ReviewedReviewCopy, target = capture
     if (!await idbInstallReviewCopy(record, round, { documentId: id, roundId: round.id, baselineDigest: round.baselineDigest })) {
       throw new Error('The reviewer copy could not be saved completely. Your current draft has not changed.');
     }
-    return openCommittedReviewCopy(prepared, record, target) === 'applied' ? 'applied' : 'stale';
+    const result = openCommittedReviewCopy(prepared, record, target);
+    // The copy is committed, but activation persists its resume identity
+    // separately. Finish that write before the dialog permits a reload.
+    if (result === 'applied') await flushDocumentWrites();
+    return result === 'applied' ? 'applied' : 'stale';
   });
 }
 

@@ -26,7 +26,11 @@ async function compare(dialog: Locator) {
   const panel = await packageTool(dialog, 'Package change impact');
   if (!await panel.isVisible()) await expandPackageTools(dialog);
   await panel.getByRole('button', { name: 'Compare saved revisions', exact: true }).click();
-  return panel.getByRole('region', { name: 'Package impact details', exact: true });
+  // A locator alone does not wait for the asynchronous report or its disclosures.
+  await expect(panel).toHaveAttribute('aria-busy', 'false');
+  const impact = panel.getByRole('region', { name: 'Package impact details', exact: true });
+  await expect(impact).toBeVisible();
+  return impact;
 }
 
 for (const theme of ['light', 'dark', 'classic']) test(`captured impact preserves removed values, older PDF bytes and exact reviews in ${theme}`, async ({ page, context }, info) => {
@@ -91,6 +95,21 @@ for (const theme of ['light', 'dark', 'classic']) test(`captured impact preserve
   await expect(information.getByLabel('Value 2', { exact: true })).toBeDisabled();
 
   await packageVersion(dialog, finalUpdate);
+  // Keep checksum work asynchronous long enough to expose premature disclosure inspection.
+  await page.evaluate(() => {
+    const digest = crypto.subtle.digest.bind(crypto.subtle);
+    let comparisonGate: Promise<void> | undefined;
+    document.addEventListener('click', event => {
+      const button = (event.target as Element).closest('button');
+      if (button?.textContent?.trim() === 'Compare saved revisions') {
+        comparisonGate = new Promise<void>(resolve => setTimeout(resolve, 1500));
+      }
+    }, true);
+    Object.defineProperty(crypto.subtle, 'digest', { configurable: true, value: async (...args: Parameters<SubtleCrypto['digest']>) => {
+      await comparisonGate;
+      return digest(...args);
+    } });
+  });
   impact = await compare(dialog);
   await expandPackageTools(impact);
   await expect(impact.getByText(/This legacy PDF has no recorded input fingerprint/)).toBeVisible();
