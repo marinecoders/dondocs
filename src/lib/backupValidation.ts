@@ -1,3 +1,4 @@
+import { DOC_TYPE_LABELS } from '@/types/document';
 import { reviewCommentsSchema } from './reviewComments';
 import { bodyTableSchema, assertRichBlockShape } from './bodyTable';
 import { wordSourceSchema } from './wordSource';
@@ -7,6 +8,7 @@ import { additionalEndorsementsSchema } from './endorsementValidation';
 import { sl3Schema } from '@/data/techpub/sl3';
 import { parseFormInstance } from '@/services/forms/model';
 import { manualFrontMatterSchema } from '@/data/techpub/manualFrontMatter';
+import { enclosureMarkingSchema } from './enclosureMarkings';
 
 export const MAX_BACKUP_BYTES = 100 * 1024 * 1024;
 const MAX_ITEMS = 100_000;
@@ -67,11 +69,13 @@ function validateForms(value: unknown): void {
 
 export function validateBackupSession(value: unknown) {
   const data = object(value, 'session');
+  if (data.docType === 'technical_volume' && !Object.hasOwn(DOC_TYPE_LABELS, data.docType)) throw new Error('This version of DonDocs cannot read active technical volumes. Update DonDocs before restoring this workspace.');
   if (data.reviewComments !== undefined) reviewCommentsSchema.parse(data.reviewComments);
   for (const key of ['formData', 'publicationTables']) if (data[key] !== undefined) object(data[key], key);
   for (const key of ['enclosures', 'paragraphs', 'references', 'endItems', 'copyTos', 'distributions']) if (data[key] !== undefined && !Array.isArray(data[key])) throw new Error(`Invalid session.${key}`);
   if (Array.isArray(data.paragraphs)) validateParagraphIds(data.paragraphs);
   const formData = data.formData as RecordValue | undefined;
+  if (formData?.cuiTransmittalNote !== undefined && typeof formData.cuiTransmittalNote !== 'boolean') throw new Error('Invalid CUI transmittal confirmation');
   if (formData?.wordSource !== undefined) wordSourceSchema.parse(formData.wordSource);
   if (formData?.additionalEndorsements !== undefined) additionalEndorsementsSchema.parse(formData.additionalEndorsements);
   if (formData?.sl3 !== undefined) sl3Schema.parse(formData.sl3);
@@ -86,6 +90,7 @@ export function validateBackupSession(value: unknown) {
   if (formData?.basicLetterFileRef !== undefined) validateAttachmentReference(formData.basicLetterFileRef);
   for (const entry of (data.enclosures ?? []) as unknown[]) {
     const enclosure = object(entry, 'enclosure');
+    if (enclosure.marking !== undefined) enclosureMarkingSchema.parse(enclosure.marking);
     if (enclosure.fileRef !== undefined) validateAttachmentReference(enclosure.fileRef);
   }
   for (const entry of (data.paragraphs ?? []) as unknown[]) {

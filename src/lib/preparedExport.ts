@@ -17,6 +17,7 @@ import { detectCapturedPII, mergePIIResults, type PIIDetectionResult } from '@/s
 import { detectBatchPII } from '@/services/pii/batchScan';
 import type { ClassificationInfo } from '@/services/pdf/mergeEnclosures';
 import type { ClassificationLevel } from './domainClassification';
+import { assertEnclosureMarkingPolicy } from './enclosureMarkings';
 
 export type ExportTarget = 'pdf' | 'docx' | 'tex';
 const preparedBrand = Symbol('prepared-export');
@@ -126,6 +127,7 @@ export function prepareExport(input: {
     let markingReview = false;
     let marking: ClassificationInfo | undefined;
     if (output.kind === 'correspondence') {
+      assertEnclosureMarkingPolicy(snapshot, input.policy);
       const portions = correspondencePortions(snapshot);
       const level = deriveOverallClassLevel(snapshot.formData.classLevel, portions);
       if (level !== 'custom' && classificationRank(level) === undefined) return error('The document has an unknown classification level.');

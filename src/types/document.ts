@@ -77,6 +77,8 @@ export interface FileRef {
 
 export interface Enclosure {
   title: string;
+  /** Absent inherits the cover; an explicit unclassified value does not. */
+  marking?: EnclosureMarking;
   file?: {
     name: string;
     size: number;
@@ -88,9 +90,18 @@ export interface Enclosure {
   coverPageDescription?: string; // Optional description text for the cover page
 }
 
+export interface EnclosureMarking {
+  classLevel: 'unclassified' | 'cui' | 'confidential' | 'secret' | 'top_secret' | 'top_secret_sci' | 'custom';
+  customClassification?: string;
+  cuiCategory?: string;
+  cuiDissemination?: string;
+}
+
 export type PortionMarking = 'U' | 'CUI' | 'FOUO' | 'C' | 'S' | 'TS';
 
 export interface Paragraph {
+  /** Retained section identity; active volume authoring is admitted separately. */
+  volumeSectionId?: string;
   /** Stable native editing identity, separate from publication cross-references. */
   id?: string;
   referenceId?: string;
@@ -309,6 +320,8 @@ export interface DocumentData {
   cuiControlledBy: string;
   cuiCategory: string;
   cuiDissemination: string;
+  /** Author-confirmed cover-only transmittal wording; never changes source markings. */
+  cuiTransmittalNote?: boolean;
   cuiDistStatement: string;
   /** Fill-ins for Distribution Statements B through F on a technical
    *  publication (DoDI 5230.24): why distribution is restricted, and the date

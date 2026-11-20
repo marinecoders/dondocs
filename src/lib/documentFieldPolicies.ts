@@ -94,7 +94,7 @@ export const DOCUMENT_DATA_FIELD_POLICIES = {
   endorsementSigMiddle: 'text', endorsementSigLast: 'text', endorsementSerial: 'text', endorsementDate: 'document-date',
   classLevel: 'control', customClassification: 'text', classifiedBy: 'text', classificationBasis: 'control',
   derivedFrom: 'text', declassifyOn: 'document-date', classReason: 'text', classifiedPocEmail: 'text',
-  cuiControlledBy: 'text', cuiCategory: 'text', cuiDissemination: 'text', cuiDistStatement: 'control', distReason: 'text', distDate: 'document-date', pocEmail: 'text',
+  cuiControlledBy: 'text', cuiCategory: 'text', cuiDissemination: 'text', cuiTransmittalNote: 'value', cuiDistStatement: 'control', distReason: 'text', distDate: 'document-date', pocEmail: 'text',
   seniorCommandName: 'text', seniorSSIC: 'text', seniorSerial: 'text', seniorDate: 'document-date', seniorSigName: 'text', seniorSigRank: 'text', seniorSigTitle: 'text',
   juniorCommandName: 'text', juniorSSIC: 'text', juniorSerial: 'text', juniorDate: 'document-date', juniorSigName: 'text', juniorSigRank: 'text', juniorSigTitle: 'text', moaSubject: 'text',
   jointSeniorName: 'text', jointSeniorZip: 'text', jointSeniorCode: 'text', jointSeniorFrom: 'text', jointSeniorSigName: 'text', jointSeniorSigTitle: 'text',
@@ -120,6 +120,7 @@ const forms = {
   navmc10274: object(NAVMC_10274_FIELD_POLICIES), navmc11811: object(NAVMC_11811_FIELD_POLICIES), includeCoverPage: 'value',
 } satisfies PoliciesFor<FormSession>;
 const paragraph = {
+  volumeSectionId: 'identity',
   bodyTable: object({ rows: array(array('text')), headerRows: 'value' }),
   id: 'identity',
   referenceId: 'identity', tableFootnotes: array(object({ id: 'identity', text: 'text' } satisfies PoliciesFor<NonNullable<Paragraph['tableFootnotes']>[number]>)), publicationSection: 'control',
@@ -129,6 +130,7 @@ const paragraph = {
 } satisfies PoliciesFor<Paragraph>;
 const reference = { letter: 'control', title: 'text', url: 'text' } satisfies PoliciesFor<Reference>;
 const enclosure = {
+  marking: object({ classLevel: 'control', customClassification: 'text', cuiCategory: 'text', cuiDissemination: 'text' }),
   title: 'text', file: 'asset', fileRef: 'asset', pageStyle: 'control', hasCoverPage: 'value', hasFile: 'value', coverPageDescription: 'text',
 } satisfies PoliciesFor<Enclosure & { hasFile?: boolean }>;
 const tableRow = {

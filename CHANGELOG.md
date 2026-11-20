@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.177] — 2026-11-20
+
+### Added
+
+- Preserve explicit enclosure markings through drafts, transfers and workspace recovery.
+
 ## [1.3.176] — 2026-11-20
 
 ### Changed

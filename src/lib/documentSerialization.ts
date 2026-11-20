@@ -32,6 +32,7 @@ export function serializeDocumentSnapshot(snapshot: DocumentSnapshot, timestamp:
     references: snapshot.references,
     enclosures: snapshot.enclosures.map(enc => ({
       title: enc.title,
+      marking: enc.marking,
       pageStyle: enc.pageStyle,
       hasCoverPage: enc.hasCoverPage,
       coverPageDescription: enc.coverPageDescription,
