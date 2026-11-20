@@ -41,6 +41,8 @@ import { BATCH_PLACEHOLDERS } from '@/lib/constants';
  * Tests can omit these to get a pure-function flavor.
  */
 export interface VariableLookupDeps {
+  /** Resolve structured references without materializing the complete insert menu. */
+  getVariableLabel?: (name: string) => string | undefined;
   /** Returns custom variables registered in the document so far. */
   getCustomVariables?: () => Array<{ name: string; label: string }>;
   /** Side-effect: register a variable name as in-use. */
@@ -74,6 +76,17 @@ export function lineToHtml(line: string, deps: VariableLookupDeps = {}): string 
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;');
 
+  // Stable reference IDs may contain emphasis markers such as paired
+  // underscores. Parse those identities before applying prose formatting.
+  let referencePrefix = 'ZZZVOLUMEREFERENCE';
+  while (html.includes(referencePrefix)) referencePrefix += 'X';
+  const references: string[] = [];
+  html = html.replace(/\{\{VOLREF_[A-Za-z0-9._:-]+\}\}/g, token => {
+    const key = `${referencePrefix}${references.length}ZZZ`;
+    references.push(token);
+    return key;
+  });
+
   html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
   html = html.replace(/(?<!\*)\*([^*]+)\*(?!\*)/g, '<em>$1</em>');
   // A run of 3+ is a fill-in blank. Take it whole, so its last two can't open a marker.
@@ -85,13 +98,16 @@ export function lineToHtml(line: string, deps: VariableLookupDeps = {}): string 
   html = html.replace(/\\textit\{([^{}]*)\}/g, '<em>$1</em>');
   html = html.replace(/\\underline\{([^{}]*)\}/g, '<u>$1</u>');
 
-  html = html.replace(/\{\{([A-Z0-9_]+)\}\}/g, (_, name) => {
+  html = html.replace(new RegExp(`${referencePrefix}(\\d+)ZZZ`, 'g'), (_, index: string) => references[Number(index)]);
+
+  html = html.replace(/\{\{(VOLREF_[A-Za-z0-9._:-]+|[A-Z0-9_]+)\}\}/g, (_, name: string) => {
     const placeholder = BATCH_PLACEHOLDERS.find((p) => p.name === name);
-    const customVars = deps.getCustomVariables?.() ?? [];
-    const customVar = customVars.find((p) => p.name === name);
-    const label = placeholder?.label || customVar?.label || name;
+    const resolvedLabel = deps.getVariableLabel?.(name);
+    const customVar = resolvedLabel ? undefined : deps.getCustomVariables?.().find(item => item.name === name);
+    const label = resolvedLabel || placeholder?.label || customVar?.label || name;
+    const safeLabel = label.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
     deps.addCustomVariable?.(name);
-    return `<span data-type="variable" data-name="${name}" data-label="${label}">@${label}</span>`;
+    return `<span data-type="variable" data-name="${name}" data-label="${safeLabel}">@${safeLabel}</span>`;
   });
 
   return html;

@@ -1,5 +1,6 @@
 import { act, fireEvent, render, screen } from '@testing-library/react';
 import { beforeEach, expect, it } from 'vitest';
+import { VolumeSupplementSection } from '@/components/editor/VolumeSupplementSections';
 import { VolumeDetailsSection, VolumeOutlineSection, VolumeBodySection } from '@/components/editor/VolumeSections';
 import { useDocumentStore } from '@/stores/documentStore';
 import { emptyPublicationVolume, orderedVolumeBlocks } from '@/lib/publicationVolume';
@@ -46,4 +47,41 @@ it('initializes a new volume without borrowing signing state or losing existing 
   render(<VolumeDetailsSection />);
   fireEvent.change(screen.getByLabelText('Volume title'), { target: { value: 'New volume title' } });
   expect(useDocumentStore.getState().formData.subject).toBe('New volume title');
+});
+
+it('inserts stable cross-references through the actual body controls', () => {
+  render(<TooltipProvider><VolumeBodySection /></TooltipProvider>);
+  fireEvent.click(screen.getByRole('button', { name: 'Insert reference in 1.1.1' }));
+  const volume = useDocumentStore.getState().formData.volume!;
+  fireEvent.change(screen.getByLabelText('Reference target'), { target: { value: volume.chapters[0].id } });
+  fireEvent.click(screen.getByRole('button', { name: 'Insert reference at end' }));
+  expect(useDocumentStore.getState().paragraphs[0].text).toBe(`Original content {{VOLREF_${volume.chapters[0].id}}}`);
+});
+
+it('edits glossary and change records independently of body text', () => {
+  const view = render(<VolumeSupplementSection kind="glossary" />);
+  fireEvent.click(screen.getByRole('button', { name: 'Add glossary entry' }));
+  fireEvent.change(screen.getByLabelText('Term 1'), { target: { value: 'System' } });
+  fireEvent.change(screen.getByLabelText('Definition 1'), { target: { value: 'A connected assembly.' } });
+  view.unmount();
+  render(<VolumeSupplementSection kind="changes" />);
+  fireEvent.click(screen.getByRole('button', { name: 'Add change record' }));
+  fireEvent.change(screen.getByLabelText('Change 1 number'), { target: { value: '1' } });
+  fireEvent.change(screen.getByLabelText('Change 1 date'), { target: { value: '2026-11-20' } });
+  fireEvent.change(screen.getByLabelText('Change 1 description'), { target: { value: 'Updated system definition.' } });
+  expect(useDocumentStore.getState().formData.volume).toMatchObject({ glossary: [{ term: 'System', definition: 'A connected assembly.' }], changes: [{ number: '1', date: '2026-11-20', description: 'Updated system definition.' }] });
+  expect(useDocumentStore.getState().paragraphs[0].text).toBe('Original content');
+});
+
+it('bounds mounted editors for a large section and navigates without losing content', () => {
+  const store = useDocumentStore.getState();
+  const sectionId = store.formData.volume!.chapters[0].sections[0].id;
+  store.setVolumeContent(store.formData.volume!, Array.from({ length: 60 }, (_, index) => ({ id: `body-${index}`, volumeSectionId: sectionId, text: `Content ${index + 1}`, level: 0 })));
+  render(<TooltipProvider><VolumeBodySection /></TooltipProvider>);
+  expect(screen.getAllByRole('textbox', { name: /^Text for / })).toHaveLength(25);
+  expect(screen.getByText('Showing 1–25 of 60 blocks')).toBeTruthy();
+  fireEvent.click(screen.getByRole('button', { name: 'Next blocks' }));
+  expect(screen.getByRole('textbox', { name: 'Text for 1.1.26' }).textContent).toBe('Content 26');
+  expect(screen.getByText('Showing 26–50 of 60 blocks')).toBeTruthy();
+  expect(useDocumentStore.getState().paragraphs).toHaveLength(60);
 });

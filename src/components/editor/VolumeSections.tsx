@@ -7,10 +7,11 @@ import { useDocumentStore } from '@/stores/documentStore';
 import { captureDocumentTarget, isCurrentDocumentTarget } from '@/stores/documentsStore';
 import { showAppConfirm } from '@/stores/alertStore';
 import { newParagraphId } from '@/lib/paragraphIdentity';
-import { moveVolumeNode, orderedVolumeBlocks, publicationVolumeErrors, VOLUME_DOC_TYPE, VOLUME_LIMITS, volumeOutline, type PublicationVolume, type VolumeDivision } from '@/lib/publicationVolume';
+import { moveVolumeNode, orderedVolumeBlocks, publicationVolumeErrors, VOLUME_DOC_TYPE, VOLUME_LIMITS, volumeOutline, volumeReferenceTargets, volumeReferenceToken, type PublicationVolume, type VolumeDivision } from '@/lib/publicationVolume';
 import { VariableChipEditor } from '@/components/ui/variable-chip-editor';
 import { StockPublicationGroup } from './StockPublicationGroup';
 import { BodyTableEditor } from './BodyTableEditor';
+import { VolumeFigureEditor } from './VolumeFigureEditor';
 import type { Paragraph } from '@/types/document';
 
 function Field({ label, value, onChange, maxLength = 300 }: { label: string; value: string; onChange: (value: string) => void; maxLength?: number }) {
@@ -52,7 +53,7 @@ export function VolumeOutlineSection() {
     if (!division) return;
     const sectionIds = new Set(sectionId ? [sectionId] : division.sections.map(section => section.id));
     const count = captured.paragraphs.filter(paragraph => sectionIds.has(paragraph.volumeSectionId ?? '')).length;
-    const accepted = await showAppConfirm({ title: sectionId ? 'Remove section?' : 'Remove division?', message: `This removes ${count} body block${count === 1 ? '' : 's'}. References to removed targets must be repaired before export.`, confirmLabel: 'Remove' });
+    const accepted = await showAppConfirm({ title: sectionId ? 'Remove section?' : model.chapters.some(node => node.id === divisionId) ? 'Remove chapter?' : 'Remove appendix?', message: `Remove content from "${division.title}"? This removes ${count} body block${count === 1 ? '' : 's'}. References to removed targets must be repaired before export.`, confirmLabel: 'Remove' });
     const current = useDocumentStore.getState();
     if (!accepted || !isCurrentDocumentTarget(target) || current.formData.volume !== model || current.paragraphs !== captured.paragraphs) return;
     const next = sectionId ? { ...model, chapters: model.chapters.map(node => node.id === divisionId ? { ...node, sections: node.sections.filter(section => section.id !== sectionId) } : node), appendices: model.appendices.map(node => node.id === divisionId ? { ...node, sections: node.sections.filter(section => section.id !== sectionId) } : node) } : { ...model, chapters: model.chapters.filter(node => node.id !== divisionId), appendices: model.appendices.filter(node => node.id !== divisionId) };
@@ -95,16 +96,24 @@ export function VolumeBodySection() {
   const paragraphs = useDocumentStore(store => store.paragraphs);
   const updateParagraph = useDocumentStore(store => store.updateParagraph);
   const [selected, setSelected] = useState('');
+  const [referenceBlock, setReferenceBlock] = useState('');
+  const [referenceTarget, setReferenceTarget] = useState('');
+  const [pageIndex, setPageIndex] = useState(0);
   const selectId = useId();
+  const referenceTargetId = useId();
   if (!volume) return <p role="alert">Select Technical Volume to initialize its outline.</p>;
   const sections = volumeOutline(volume).filter(node => node.kind === 'section');
   const sectionId = sections.some(node => node.id === selected) ? selected : sections[0].id;
   const blocks = orderedVolumeBlocks(volume, paragraphs).filter(block => block.sectionId === sectionId);
-  const addBlock = (table = false) => {
+  const pageSize = 25;
+  const pageCount = Math.max(1, Math.ceil(blocks.length / pageSize));
+  const activePage = Math.min(pageIndex, pageCount - 1);
+  const addBlock = (kind: 'paragraph' | 'table' | 'figure' = 'paragraph') => {
     const store = useDocumentStore.getState();
     if (store.docType !== VOLUME_DOC_TYPE || !store.formData.volume) return;
-    const paragraph: Paragraph = { id: newParagraphId(), text: '', level: 0, volumeSectionId: sectionId, ...(table ? { bodyTable: { rows: [['Heading', 'Heading'], ['', '']], headerRows: 1 } } : {}) };
+    const paragraph: Paragraph = { id: newParagraphId(), text: '', level: 0, volumeSectionId: sectionId, ...(kind === 'table' ? { bodyTable: { rows: [['Heading', 'Heading'], ['', '']], headerRows: 1 } } : kind === 'figure' ? { figure: { placement: 'body' as const, altText: '' } } : {}) };
     store.setVolumeContent(store.formData.volume, [...store.paragraphs, paragraph]);
+    setPageIndex(Math.floor(blocks.length / pageSize));
   };
   const moveBlock = (id: string, delta: number) => {
     const store = useDocumentStore.getState();
@@ -118,18 +127,33 @@ export function VolumeBodySection() {
     store.setVolumeContent(model, body);
   };
   return <div className="space-y-4">
-    <div className="space-y-2"><Label htmlFor={selectId}>Editing section</Label><select id={selectId} className="min-h-11 w-full rounded-md border bg-background p-2 text-sm" value={sectionId} onChange={event => setSelected(event.target.value)}>{sections.map(node => <option key={node.id} value={node.id}>{node.label} {node.title}</option>)}</select></div>
+    <div className="space-y-2"><Label htmlFor={selectId}>Editing section</Label><select id={selectId} className="min-h-11 w-full rounded-md border bg-background p-2 text-sm" value={sectionId} onChange={event => { setSelected(event.target.value); setPageIndex(0); setReferenceBlock(''); }}>{sections.map(node => <option key={node.id} value={node.id}>{node.label} {node.title}</option>)}</select></div>
     {!blocks.length && <p className="rounded-lg border border-dashed p-4 text-sm text-muted-foreground">This section has no content yet. Add a paragraph or table below.</p>}
-    {blocks.map((block, position) => <fieldset key={block.paragraph.id} className="min-w-0 space-y-3 rounded-lg border p-4"><legend className="px-1 text-sm font-medium">{block.label}</legend>
+    {blocks.slice(activePage * pageSize, (activePage + 1) * pageSize).map((block, visiblePosition) => { const position = activePage * pageSize + visiblePosition; return <fieldset key={block.paragraph.id} className="min-w-0 space-y-3 rounded-lg border p-4"><legend className="px-1 text-sm font-medium">{block.label}</legend>
       <Field label={`Heading for ${block.label}`} value={block.paragraph.header ?? ''} onChange={header => updateParagraph(block.index, { header })} />
-      {block.paragraph.bodyTable ? <BodyTableEditor table={block.paragraph.bodyTable} index={block.index} onChange={bodyTable => updateParagraph(block.index, { bodyTable })} /> : <VariableChipEditor ariaLabel={`Text for ${block.label}`} value={block.paragraph.text} onChange={text => updateParagraph(block.index, { text })} placeholder="Write section content" />}
+      {block.paragraph.figure && <VolumeFigureEditor paragraph={block.paragraph} index={block.index} label={block.label} />}
+      {block.paragraph.bodyTable ? <BodyTableEditor table={block.paragraph.bodyTable} index={block.index} onChange={bodyTable => updateParagraph(block.index, { bodyTable })} /> : <VariableChipEditor ariaLabel={`${block.paragraph.figure ? 'Caption' : 'Text'} for ${block.label}`}  value={block.paragraph.text} onChange={text => updateParagraph(block.index, { text })} placeholder="Write section content" />}
       <div className="flex flex-wrap gap-2">
         <Button variant="ghost" size="sm" disabled={!position} onClick={() => moveBlock(block.paragraph.id!, -1)}>Move block up</Button>
         <Button variant="ghost" size="sm" disabled={position === blocks.length - 1} onClick={() => moveBlock(block.paragraph.id!, 1)}>Move block down</Button>
+        {!block.paragraph.bodyTable && <Button variant="ghost" size="sm" onClick={() => { setReferenceBlock(block.paragraph.id!); setReferenceTarget(''); }}>Insert reference in {block.label}</Button>}
         <Button variant="ghost" size="sm" aria-label={`Remove block ${block.label}`} onClick={() => { const store = useDocumentStore.getState(); if (store.formData.volume) store.setVolumeContent(store.formData.volume, store.paragraphs.filter(paragraph => paragraph.id !== block.paragraph.id)); }}><Trash2 className="mr-1 h-4 w-4" />Remove block</Button>
       </div>
-    </fieldset>)}
-    <div className="flex flex-wrap gap-2"><Button variant="outline" disabled={paragraphs.length >= VOLUME_LIMITS.blocks} onClick={() => addBlock()}>Add volume paragraph</Button><Button variant="outline" disabled={paragraphs.length >= VOLUME_LIMITS.blocks} onClick={() => addBlock(true)}>Add volume table</Button></div>
+    </fieldset>; })}
+    {pageCount > 1 && <nav aria-label="Volume content pages" className="flex flex-wrap items-center gap-3"><Button variant="outline" size="sm" disabled={activePage === 0} onClick={() => { setPageIndex(activePage - 1); setReferenceBlock(''); }}>Previous blocks</Button><span className="text-xs text-muted-foreground">Showing {activePage * pageSize + 1}–{Math.min((activePage + 1) * pageSize, blocks.length)} of {blocks.length} blocks</span><Button variant="outline" size="sm" disabled={activePage === pageCount - 1} onClick={() => { setPageIndex(activePage + 1); setReferenceBlock(''); }}>Next blocks</Button></nav>}
+    <div className="flex flex-wrap gap-2"><Button variant="outline" disabled={paragraphs.length >= VOLUME_LIMITS.blocks} onClick={() => addBlock()}>Add volume paragraph</Button><Button variant="outline" disabled={paragraphs.length >= VOLUME_LIMITS.blocks} onClick={() => addBlock('table')}>Add volume table</Button><Button variant="outline" disabled={paragraphs.length >= VOLUME_LIMITS.blocks} onClick={() => addBlock('figure')}>Add volume figure</Button></div>
+    {referenceBlock && paragraphs.some(paragraph => paragraph.id === referenceBlock && paragraph.volumeSectionId === sectionId) && <fieldset className="space-y-3 rounded-lg border p-4"><legend className="px-1 text-sm font-medium">Insert a linked reference</legend>
+      <p className="text-xs text-muted-foreground">Append a reference to this block. Its printed label updates when the target moves.</p>
+      <div className="space-y-2"><Label htmlFor={referenceTargetId}>Reference target</Label><select id={referenceTargetId} className="min-h-11 w-full rounded-md border bg-background p-2" value={referenceTarget} onChange={event => setReferenceTarget(event.target.value)}><option value="">Choose a target</option>{volumeReferenceTargets(volume, paragraphs).filter(target => target.id !== referenceBlock).map(target => <option key={target.id} value={target.id}>{target.label} — {target.title}</option>)}</select></div>
+      <div className="flex flex-wrap gap-2"><Button variant="outline" disabled={!referenceTarget} onClick={() => {
+        const store = useDocumentStore.getState();
+        const index = store.paragraphs.findIndex(paragraph => paragraph.id === referenceBlock && paragraph.volumeSectionId === sectionId);
+        if (index < 0 || !store.formData.volume || !volumeReferenceTargets(store.formData.volume, store.paragraphs).some(target => target.id === referenceTarget)) return;
+        const text = store.paragraphs[index].text;
+        store.updateParagraph(index, { text: `${text}${text && !/\s$/.test(text) ? ' ' : ''}${volumeReferenceToken(referenceTarget)}` });
+        setReferenceBlock('');
+      }}>Insert reference at end</Button><Button variant="ghost" onClick={() => setReferenceBlock('')}>Cancel reference</Button></div>
+    </fieldset>}
     {publicationVolumeErrors(volume, paragraphs).map(error => <p key={error} className="text-xs text-muted-foreground">{error}</p>)}
   </div>;
 }

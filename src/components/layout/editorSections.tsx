@@ -1,3 +1,4 @@
+import { VolumeSupplementSection } from '@/components/editor/VolumeSupplementSections';
 import { VolumeDetailsSection, VolumeOutlineSection, VolumeBodySection } from '@/components/editor/VolumeSections';
 import { publicationVolumeErrors } from '@/lib/publicationVolume';
 import type { DocumentData, EndItem } from '@/types/document';
@@ -342,6 +343,8 @@ export function useDocumentCompleteness(): DocumentCompleteness {
 
 export function renderEditorSection(id: string, config: DocTypeConfig): ReactNode {
   switch (id) {
+    case 'volume-glossary': return <VolumeSupplementSection kind="glossary" />;
+    case 'volume-changes': return <VolumeSupplementSection kind="changes" />;
     case 'volume-details': return <VolumeDetailsSection />;
     case 'volume-outline': return <VolumeOutlineSection />;
     case 'volume-body': return <VolumeBodySection />;

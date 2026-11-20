@@ -48,6 +48,8 @@ export function getEditorSections(config: DocTypeConfig, docType: string): Edito
     { id: 'volume-details', label: 'Publication', icon: BookMarked }, classification,
     { id: 'volume-outline', label: 'Chapters and appendices', icon: List },
     { id: 'volume-body', label: 'Section content', icon: BookOpen },
+    { id: 'volume-glossary', label: 'Glossary', icon: ClipboardList },
+    { id: 'volume-changes', label: 'Record of changes', icon: ClipboardList },
   ];
 
   if (docType === 'tm_ietm_front_matter') return [

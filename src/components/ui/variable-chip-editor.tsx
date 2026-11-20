@@ -1,3 +1,5 @@
+import { volumeReferenceTargets, type PublicationVolume } from '@/lib/publicationVolume';
+import type { Paragraph } from '@/types/document';
 import { getPlainEditorRange, type PlainEditorSelection } from '@/lib/editorTextSelection';
 import { formatShortcut } from '@/lib/platform';
 import { publicationReferences, referenceName } from '@/lib/publicationReferences';
@@ -44,7 +46,7 @@ export function rescanDocumentVariables() {
 
   allTexts.forEach(text => {
     extractVariablesFromText(text).forEach(v => {
-      if (!defaultNames.has(v)) {
+      if (!defaultNames.has(v) && !v.startsWith('PUBREF_') && !v.startsWith('VOLREF_')) {
         usedVars.add(v);
       }
     });
@@ -57,7 +59,7 @@ export function rescanDocumentVariables() {
 
 // Add a custom variable to the store (for immediate suggestion)
 export function addCustomVariable(name: string) {
-  if (name.startsWith('PUBREF_')) return;
+  if (name.startsWith('PUBREF_') || name.startsWith('VOLREF_')) return;
   const upperName = name.toUpperCase();
   const defaultNames: Set<string> = new Set(BATCH_PLACEHOLDERS.map(p => p.name));
   if (!defaultNames.has(upperName)) {
@@ -67,7 +69,7 @@ export function addCustomVariable(name: string) {
 
 // Get all custom variables as VariableItems
 function getCustomVariables(): VariableItem[] {
-  return Array.from(customVariablesStore).filter((name) => !name.startsWith('PUBREF_')).map(name => ({
+  return Array.from(customVariablesStore).filter((name) => !name.startsWith('PUBREF_') && !name.startsWith('VOLREF_')).map(name => ({
     name,
     label: name.replace(/_/g, ' ').toLowerCase().replace(/\b\w/g, c => c.toUpperCase()),
     category: 'Custom',
@@ -75,11 +77,25 @@ function getCustomVariables(): VariableItem[] {
   }));
 }
 
+let volumeReferenceCache: { volume: PublicationVolume; paragraphs: Paragraph[]; targets: Map<string, { id: string; label: string; title: string; destination: string }> } | undefined;
+function currentVolumeReferences() {
+  const state = useDocumentStore.getState();
+  const volume = state.docType === 'technical_volume' ? state.formData.volume : undefined;
+  if (!volume) return undefined;
+  if (volumeReferenceCache?.volume !== volume || volumeReferenceCache.paragraphs !== state.paragraphs) {
+    volumeReferenceCache = { volume, paragraphs: state.paragraphs, targets: new Map(volumeReferenceTargets(volume, state.paragraphs).map(target => [`VOLREF_${target.id}`, target])) };
+  }
+  return volumeReferenceCache.targets;
+}
+
 // Correspondence references insert text; publication references retain a target ID.
 function getCrossReferenceItems(): VariableItem[] {
   const items: VariableItem[] = [];
   try {
     const { references, enclosures, paragraphs, publicationTables, docType } = useDocumentStore.getState();
+    if (docType === 'technical_volume') {
+      for (const [name, target] of currentVolumeReferences() ?? []) items.push({ name, label: target.label, category: 'Cross-reference', example: target.title });
+    }
     if (docType === 'i_type') {
       items.push(...publicationReferences(paragraphs, publicationTables).map((r) => ({
         name: r.name, label: r.label, category: 'Cross-reference',
@@ -163,7 +179,7 @@ export function registerVariablesFromDocument(text: string) {
   const defaultNames: Set<string> = new Set(BATCH_PLACEHOLDERS.map(p => p.name));
   const vars = extractVariablesFromText(text);
   vars.forEach(v => {
-    if (!defaultNames.has(v)) {
+    if (!defaultNames.has(v) && !v.startsWith('PUBREF_') && !v.startsWith('VOLREF_')) {
       customVariablesStore.add(v);
     }
   });
@@ -264,12 +280,13 @@ const VariableNode = Node.create({
       span.appendChild(document.createTextNode(node.attrs.label || node.attrs.name));
 
       const refreshReference = () => {
-        if (!String(node.attrs.name).startsWith('PUBREF_')) return;
-        const target = getCrossReferenceItems().find((item) => item.name === node.attrs.name);
+        const name = String(node.attrs.name);
+        if (!name.startsWith('PUBREF_') && !name.startsWith('VOLREF_')) return;
+        const target = name.startsWith('VOLREF_') ? currentVolumeReferences()?.get(name) : getCrossReferenceItems().find(item => item.name === name);
         span.lastChild!.textContent = target?.label ?? 'Missing reference';
       };
       refreshReference();
-      const unsubscribe = String(node.attrs.name).startsWith('PUBREF_') ? useDocumentStore.subscribe(refreshReference) : undefined;
+      const unsubscribe = (String(node.attrs.name).startsWith('PUBREF_') || String(node.attrs.name).startsWith('VOLREF_')) ? useDocumentStore.subscribe(refreshReference) : undefined;
       return { dom: span, destroy: () => unsubscribe?.() };
     };
   },
@@ -584,7 +601,7 @@ import {
 
 const editorToText = editorToTextPure;
 const textToEditorHtml = (text: string) =>
-  textToEditorHtmlPure(text, { getCustomVariables: () => [...getCustomVariables(), ...getCrossReferenceItems()], addCustomVariable });
+  textToEditorHtmlPure(text, { getVariableLabel: name => name.startsWith('VOLREF_') ? currentVolumeReferences()?.get(name)?.label ?? 'Missing reference' : undefined, getCustomVariables: () => [...getCustomVariables(), ...getCrossReferenceItems()], addCustomVariable });
 
 // Formatting toolbar for the editor
 interface EditorToolbarProps {
