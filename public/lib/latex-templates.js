@@ -455,6 +455,7 @@ const LATEX_TEMPLATES = {
 \\newcommand{\\CUICategory}{}
 \\newcommand{\\CUIDissemination}{}
 \\newcommand{\\CUIDistStatement}{}
+\\newcommand{\\CUITransmittalNote}{}
 
 
 %-----------------------------------------------------------------------------
@@ -498,6 +499,7 @@ const LATEX_TEMPLATES = {
 \\newcommand{\\setCUICategory}[1]{\\renewcommand{\\CUICategory}{#1}}
 \\newcommand{\\setCUIDissemination}[1]{\\renewcommand{\\CUIDissemination}{#1}}
 \\newcommand{\\setCUIDistStatement}[1]{\\renewcommand{\\CUIDistStatement}{#1}}
+\\newcommand{\\setCUITransmittalNote}[1]{\\renewcommand{\\CUITransmittalNote}{#1}}
 
 % Correspondence statements are complete paragraphs, separate from Ref/Encl.
 \\newcommand{\\printCUIDistStatement}{%
@@ -784,6 +786,7 @@ const LATEX_TEMPLATES = {
 % only resolved at expansion time, so this forward reference is safe.
 \\newcommand{\\printPOCLine}{%
     \\ifNotEmpty{\\POCEmail}{POC: \\href{mailto:\\POCEmail}{\\POCEmail}}%
+    \\ifNotEmpty{\\CUITransmittalNote}{\\par\\noindent\\CUITransmittalNote\\par}%
 }
 
 
@@ -2067,6 +2070,7 @@ const LATEX_TEMPLATES = {
         \\par\\vspace{12pt}%
         \\noindent \\textbf{CUI//\\CUICategory}%
         \\printCUIDistStatement%
+        \\ifNotEmpty{\\CUITransmittalNote}{\\par\\noindent\\CUITransmittalNote\\par}%
     \\fi
 }
 
@@ -2427,6 +2431,7 @@ const LATEX_TEMPLATES = {
         \\par\\vspace{12pt}%
         \\noindent \\textbf{CUI//\\CUICategory}%
         \\printCUIDistStatement%
+        \\ifNotEmpty{\\CUITransmittalNote}{\\par\\noindent\\CUITransmittalNote\\par}%
     \\fi
 }
 

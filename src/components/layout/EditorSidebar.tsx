@@ -533,10 +533,11 @@ export function EditorSidebar({ updateAction }: { updateAction?: ReactNode }) {
                             type="button"
                             data-doc-id={m.id}
                             onClick={() => switchTo(m.id)}
+                            aria-labelledby={`sidebar-document-${m.id}`}
                             aria-current={active ? 'true' : undefined}
                             className="flex min-h-10 min-w-0 flex-1 items-center gap-2 rounded-md px-2.5 py-2 text-left outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50"
                           >
-                            <span className="min-w-0 flex-1">
+                            <span id={`sidebar-document-${m.id}`} className="min-w-0 flex-1">
                               <span className={`workspace-document-title text-xs leading-5 text-foreground ${active ? 'font-medium' : ''}`}>
                                 {m.title}
                               </span>

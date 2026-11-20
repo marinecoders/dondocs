@@ -1,3 +1,4 @@
+import { cuiTransmittalNote } from '@/lib/enclosureMarkings';
 import { toTitleCase } from '@/lib/titleCase';
 import { renderBodyTable } from './bodyTable';
 import { assertRichBlockShape } from '@/lib/bodyTable';
@@ -1337,6 +1338,12 @@ function buildSalutation(data: Partial<DocumentData>): string {
   return `${escapeFlat(salutation)}\n\n`;
 }
 
+/** Keep the optional note on the face of Word output, before body content. */
+function buildTransmittalNote(store: DocumentStore): string {
+  const note = cuiTransmittalNote(store.formData, store.paragraphs, store.enclosures, store.docType);
+  return note ? `\\noindent ${escapeFlat(note)}\n\n` : '';
+}
+
 // --- Layout builders (one per uiMode) ---
 
 function buildStandardLayout(store: DocumentStore, config: DocTypeConfig): string {
@@ -1364,6 +1371,7 @@ function buildStandardLayout(store: DocumentStore, config: DocTypeConfig): strin
     store.enclosures,
     enclosureStartNumber(store.docType, store.formData.startingEnclosureNumber)
   );
+  content += buildTransmittalNote(store);
   content += buildBody(store.paragraphs, config, bodyFont(store.formData), bodySizePt(store.formData), store.docType);
   content += buildSignature(data, config, store.docType) + closingEnd(store.docType);
   // Between the signature and Distribution/Copy to — Ch 9 Figure 9-1 puts the
@@ -1416,6 +1424,7 @@ function buildBusinessLayout(store: DocumentStore, config: DocTypeConfig): strin
   }
 
   content += buildFormalLists(store, config);
+  content += buildTransmittalNote(store);
   content += buildBody(store.paragraphs, config, bodyFont(store.formData), bodySizePt(store.formData), store.docType);
   content += buildBusinessSignature(data) + closingEnd(store.docType);
   content += buildDistribution(store.distributions);
@@ -1445,6 +1454,7 @@ function buildMemoLayout(store: DocumentStore, config: DocTypeConfig): string {
     store.enclosures,
     enclosureStartNumber(store.docType, store.formData.startingEnclosureNumber)
   );
+  content += buildTransmittalNote(store);
   content += buildBody(store.paragraphs, config, bodyFont(store.formData), bodySizePt(store.formData), store.docType);
   if (config.hasDecisionBlock) content += buildDecisionBlock();
   content += buildSignature(data, config, store.docType) + closingEnd(store.docType);
@@ -1476,6 +1486,7 @@ Subj:\\hspace{3\\fontdimen2\\font} & ${maybeUnderline(escapeTabularWrapped(data.
     store.enclosures,
     enclosureStartNumber(store.docType, store.formData.startingEnclosureNumber)
   );
+  content += buildTransmittalNote(store);
   content += buildBody(agreementParagraphs(store.paragraphs), config, bodyFont(store.formData), bodySizePt(store.formData), store.docType);
   content += buildDualSignature(data, 'moa') + closingEnd(store.docType);
   content += buildDistribution(store.distributions);
@@ -1499,6 +1510,7 @@ function buildJointLayout(store: DocumentStore, config: DocTypeConfig): string {
     store.enclosures,
     enclosureStartNumber(store.docType, store.formData.startingEnclosureNumber)
   );
+  content += buildTransmittalNote(store);
   content += buildBody(store.paragraphs, config, bodyFont(store.formData), bodySizePt(store.formData), store.docType);
   content += buildDualSignature(data, 'joint') + closingEnd(store.docType);
   content += buildDistribution(store.distributions);
@@ -1550,6 +1562,7 @@ ${trimLastRow(rows)}
     store.enclosures,
     enclosureStartNumber(store.docType, store.formData.startingEnclosureNumber)
   );
+  content += buildTransmittalNote(store);
   content += buildBody(store.paragraphs, config, bodyFont(store.formData), bodySizePt(store.formData), store.docType);
   content += buildDualSignature(data, 'joint_memo') + closingEnd(store.docType);
   content += buildDistribution(store.distributions);
@@ -1603,6 +1616,7 @@ function buildStandardMemorandumLayout(store: DocumentStore, config: DocTypeConf
   content += buildFormalLists(store, config);
 
   // Body paragraphs
+  content += buildTransmittalNote(store);
   content += buildBody(store.paragraphs, config, bodyFont(store.formData), bodySizePt(store.formData), store.docType);
 
   // Signature block (executive style: right half, no close)
@@ -1656,6 +1670,7 @@ function buildActionMemorandumLayout(store: DocumentStore, config: DocTypeConfig
   content += buildFormalLists(store, config);
 
   // Body paragraphs
+  content += buildTransmittalNote(store);
   content += buildBody(store.paragraphs, config, bodyFont(store.formData), bodySizePt(store.formData), store.docType);
 
   // Coordination section
@@ -1714,6 +1729,7 @@ function buildInfoMemorandumLayout(store: DocumentStore, config: DocTypeConfig):
   content += buildFormalLists(store, config);
 
   // Body paragraphs
+  content += buildTransmittalNote(store);
   content += buildBody(store.paragraphs, config, bodyFont(store.formData), bodySizePt(store.formData), store.docType);
 
   // Coordination section

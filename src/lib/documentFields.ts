@@ -89,6 +89,8 @@ function active(source: DocumentFieldSource, path: FieldPath, projection: FieldP
   if (source.docType === 'tm_ietm_front_matter' && ['paragraphs', 'references', 'enclosures', 'copyTos', 'distributions'].includes(String(root))) return false;
   if (root !== 'formData' || typeof path[1] !== 'string') return true;
   const key = path[1];
+  if (key === 'cuiTransmittalNote') return source.formData.classLevel === 'cui'
+    && (source.documentMode === 'custom' || config.compliance.allowEnclosures);
   if (key === 'wordSource') return ['draft', 'share', 'backup', 'search'].includes(projection);
   if (source.docType === 'mfr' && ['from', 'to', 'via'].includes(key)) return false;
   if (key === 'manualFrontMatter') return source.docType === 'tm_ietm_front_matter';

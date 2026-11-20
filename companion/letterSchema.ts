@@ -1,4 +1,5 @@
 import { manualFrontMatterInputSchema } from './manualFrontMatterInput';
+import { enclosureMarkingSchema } from '../src/lib/enclosureMarkings';
 /**
  * The request shape, defined once.
  *
@@ -75,6 +76,7 @@ const classification = z.object({
   cui: z.object({
     category: z.string().optional(), controlledBy: z.string().optional(),
     dissemination: z.string().optional(),
+    transmittalNote: z.boolean().optional().describe('Confirm that the letter contains no CUI apart from its enclosures; add the cover-only transmittal note.'),
     distStatement: z.string().optional().describe('Distribution statement letter A, B, C, D, E or F; expanded to the full DoDI 5230.24 wording in PDF and Word. Omit for none. Full statement text is also accepted and printed as supplied.'),
   }).strict().optional().describe('The CUI designation block. Only read when level is cui.'),
 }).strict();
@@ -136,6 +138,7 @@ export const letterSchema = z.object({
     title: z.string(), url: z.url().optional(),
   }).strict()).optional().describe('Lettered (a), (b) … in the order given.'),
   enclosures: z.array(z.object({ title: z.string(), fileId: z.string().optional(),
+    marking: enclosureMarkingSchema.optional().describe('Optional assembled-page marking. Omitted inherits the letter; explicit unclassified does not.'),
     pageStyle: z.enum(['border', 'fullpage', 'fit']).optional(),
   }).strict()).optional(),
   copyTo: z.array(z.string()).optional(),
