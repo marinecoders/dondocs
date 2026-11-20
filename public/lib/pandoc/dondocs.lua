@@ -423,6 +423,12 @@ local function handle_raw_inline(el)
 
   local text = el.text
 
+  local body_table = text:match("^\\dondocsbodytable%{(%d+)%}$")
+  if body_table then
+    local id = 220000 + tonumber(body_table)
+    return pandoc.RawInline("openxml", '<w:bookmarkStart w:id="' .. id .. '" w:name="DonDocsBodyTable' .. body_table .. '"/><w:bookmarkEnd w:id="' .. id .. '"/>')
+  end
+
   local memo_twips, memo_block = text:match("^\\dondocsmemoindent%{(%d+)%}%{([01])%}$")
   if memo_twips then
     memo_bookmark_id = memo_bookmark_id + 1

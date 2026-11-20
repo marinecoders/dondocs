@@ -1,3 +1,4 @@
+import { bodyTableSchema } from '../src/lib/bodyTable';
 import { MANUAL_DOC_TYPE } from '../src/data/techpub/manualFrontMatter';
 import { manualFrontMatterErrors } from '../src/lib/manualFrontMatterValidation';
 import { manualFrontMatterInputSchema } from './manualFrontMatterInput';
@@ -64,6 +65,7 @@ export function validateLetter(body: Partial<LetterInput>, defaults: CompanionDe
   for (const file of body.attachments ?? []) if (!attachmentSchema.safeParse(file).success) problems.push('Attachments require bounded PNG, JPEG or PDF metadata and valid base64 bytes.');
   if (Array.isArray(body.paragraphs)) {
     body.paragraphs.forEach((para, i) => {
+      if (para?.bodyTable !== undefined && !bodyTableSchema.safeParse(para.bodyTable).success) problems.push(`paragraphs[${i}].bodyTable requires a supported rectangular table and complete column formatting.`);
       if (typeof para?.text !== 'string') { problems.push(`paragraphs[${i}].text must be a string`); }
       if (para?.portionMarking !== undefined && !PORTION_MARKINGS.includes(para.portionMarking)) {
         problems.push(`paragraphs[${i}].portionMarking must be one of ${PORTION_MARKINGS.join(', ')}`);

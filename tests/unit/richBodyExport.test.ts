@@ -16,7 +16,7 @@ describe('native rich block exports', () => {
   it.each(['naval_letter', 'business_letter'])('retains table headings, captions and portion marks in both %s export sources', docType => {
     const pdf = generateBodyTex(source([table], docType)), word = generateFlatLatex(source([table], docType));
     for (const output of [pdf, word]) {
-      for (const text of ['(U)', 'Table heading', 'A deliberate caption', 'Name', 'MARINE', '16 Nov 26']) expect(output).toContain(text);
+      for (const text of ['(U)', 'Table heading', 'A deliberate caption', 'Name', 'MARINE', '16', 'Nov', '26']) expect(output).toContain(text);
       expect(output).toContain('longtable');
       expect(output).toContain('endhead');
     }

@@ -57,9 +57,9 @@ export function publicationInputErrors(input: LetterInput): string[] {
   if (input.docType === 'i_type' && ['SL3', 'SL4'].includes(input.publication?.type ?? '')) errors.push('I-Type requires publication.type MI, SI, TI or LI.');
   if (input.docType === 'sl3' && (input.publication?.tables || input.enclosures?.length || input.paragraphs?.some((p) => !p.figure))) errors.push('SL-3 uses structured inventory data and figure paragraphs, not I-Type tables, body paragraphs or enclosures.');
   for (const [index, paragraph] of (input.paragraphs ?? []).entries()) {
-    const blocks = [paragraph.figure, paragraph.callout, paragraph.procedure, paragraph.appendix, paragraph.tableKey];
+    const blocks = [paragraph.bodyTable, paragraph.figure, paragraph.callout, paragraph.procedure, paragraph.appendix, paragraph.tableKey];
     if (blocks.filter(Boolean).length > 1) {
-      errors.push(`Paragraph ${index + 1}: choose only one of figure, callout, procedure, appendix or table.`);
+      errors.push(`Paragraph ${index + 1}: choose only one of figure, callout, procedure, appendix, configured table or native body table.`);
     }
   }
   for (const [key, rows] of Object.entries(input.publication?.tables ?? {})) {

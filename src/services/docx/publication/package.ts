@@ -18,6 +18,7 @@ export interface ParagraphFormat {
   uppercase?: boolean;
   superscript?: boolean; pageBreakBefore?: boolean; inlineMode?: 'literal' | 'references' | 'rich';
   size?: number; before?: number; after?: number; indent?: number; hanging?: number;
+  breakWords?: boolean;
   keep?: boolean; style?: 'Title' | 'Heading1' | 'Heading2' | 'Heading3';
 }
 export interface WordTextRun {
@@ -37,8 +38,12 @@ export interface WordTableFormat {
   inlineMode?: 'literal' | 'references' | 'rich';
   size?: number;
   headerRows?: number;
+  repeatHeaders?: boolean;
+  borders?: 'grid' | 'outline' | 'none';
+  columnAlignments?: readonly ('left' | 'center' | 'right')[];
   headerSpans?: readonly { column: number; span: number }[];
   minimumRowHeight?: number;
+  breakWords?: boolean;
   rowDestinations?: readonly string[];
 }
 
@@ -76,7 +81,7 @@ function run(value: string, format: ParagraphFormat = {}): string {
 }
 
 export function paragraphRuns(content: string, format: ParagraphFormat = {}): string {
-  return `<w:p><w:pPr>${format.style ? `<w:pStyle w:val="${format.style}"/>` : ''}${format.keep ? '<w:keepNext/>' : ''}${format.pageBreakBefore ? '<w:pageBreakBefore/>' : ''}<w:widowControl/><w:spacing w:before="${(format.before ?? 0) * 20}" w:after="${(format.after ?? 6) * 20}" w:line="240" w:lineRule="auto"/>${format.indent !== undefined ? `<w:ind w:left="${format.indent * 20}"${format.hanging ? ` w:hanging="${format.hanging * 20}"` : ''}/>` : ''}${format.align ? `<w:jc w:val="${format.align}"/>` : ''}</w:pPr>${content || run('')}</w:p>`;
+  return `<w:p><w:pPr>${format.style ? `<w:pStyle w:val="${format.style}"/>` : ''}${format.keep ? '<w:keepNext/>' : ''}${format.pageBreakBefore ? '<w:pageBreakBefore/>' : ''}<w:widowControl/>${format.breakWords ? '<w:wordWrap w:val="0"/>' : ''}<w:spacing w:before="${(format.before ?? 0) * 20}" w:after="${(format.after ?? 6) * 20}" w:line="240" w:lineRule="auto"/>${format.indent !== undefined ? `<w:ind w:left="${format.indent * 20}"${format.hanging ? ` w:hanging="${format.hanging * 20}"` : ''}/>` : ''}${format.align ? `<w:jc w:val="${format.align}"/>` : ''}</w:pPr>${content || run('')}</w:p>`;
 }
 
 export class PublicationWordPackage {
@@ -204,7 +209,7 @@ export class PublicationWordPackage {
       }
       spans.set(merge.column, merge.span);
     }
-    this.add(`<w:tbl><w:tblPr><w:tblW w:w="${widths.reduce((sum, width) => sum + width, 0)}" w:type="dxa"/><w:tblBorders>${['top', 'left', 'bottom', 'right', 'insideH', 'insideV'].map(side => `<w:${side} w:val="single" w:sz="4" w:color="000000"/>`).join('')}</w:tblBorders><w:tblLayout w:type="fixed"/><w:tblCellMar><w:top w:w="40" w:type="dxa"/><w:left w:w="60" w:type="dxa"/><w:bottom w:w="40" w:type="dxa"/><w:right w:w="60" w:type="dxa"/></w:tblCellMar></w:tblPr><w:tblGrid>${widths.map(width => `<w:gridCol w:w="${width}"/>`).join('')}</w:tblGrid>`);
+    this.add(`<w:tbl><w:tblPr><w:tblW w:w="${widths.reduce((sum, width) => sum + width, 0)}" w:type="dxa"/><w:tblBorders>${['top', 'left', 'bottom', 'right', 'insideH', 'insideV'].map(side => `<w:${side} w:val="${options.borders === 'none' || options.borders === 'outline' && side.startsWith('inside') ? 'nil' : 'single'}" w:sz="4" w:color="000000"/>`).join('')}</w:tblBorders><w:tblLayout w:type="fixed"/><w:tblCellMar><w:top w:w="40" w:type="dxa"/><w:left w:w="60" w:type="dxa"/><w:bottom w:w="40" w:type="dxa"/><w:right w:w="60" w:type="dxa"/></w:tblCellMar></w:tblPr><w:tblGrid>${widths.map(width => `<w:gridCol w:w="${width}"/>`).join('')}</w:tblGrid>`);
     for (const [index, row] of [headers, ...rows].entries()) {
       const header = index < (options.headerRows ?? 1);
       const cells: string[] = [];
@@ -212,10 +217,10 @@ export class PublicationWordPackage {
         const span = index === 0 ? spans.get(column) ?? 1 : 1;
         const width = widths.slice(column, column + span).reduce((sum, value) => sum + value, 0);
         const anchor = index > 0 && column === 0 ? this.anchorMarkup(options.rowDestinations?.[index - 1] ?? '') : '';
-        cells.push(`<w:tc><w:tcPr><w:tcW w:w="${width}" w:type="dxa"/>${span > 1 ? `<w:gridSpan w:val="${span}"/>` : ''}<w:vAlign w:val="center"/></w:tcPr>${paragraphRuns(anchor + this.inline(row[column], { bold: header, size: options.size ?? this.fontSize, inlineMode: options.inlineMode ?? 'references' }), { after: 2, before: 2 })}</w:tc>`);
+        cells.push(`<w:tc><w:tcPr><w:tcW w:w="${width}" w:type="dxa"/>${span > 1 ? `<w:gridSpan w:val="${span}"/>` : ''}<w:vAlign w:val="center"/></w:tcPr>${paragraphRuns(anchor + this.inline(row[column], { bold: header, size: options.size ?? this.fontSize, inlineMode: options.inlineMode ?? 'references' }), { after: 2, before: 2, align: options.columnAlignments?.[column] ?? 'left', breakWords: options.breakWords })}</w:tc>`);
         column += span - 1;
       }
-      this.add(`<w:tr><w:trPr>${!header && options.minimumRowHeight ? `<w:trHeight w:val="${Math.round(options.minimumRowHeight * 20)}" w:hRule="atLeast"/>` : ''}${header ? '<w:tblHeader/>' : ''}</w:trPr>${cells.join('')}</w:tr>`);
+      this.add(`<w:tr><w:trPr>${options.minimumRowHeight ? `<w:trHeight w:val="${Math.round(options.minimumRowHeight * 20)}" w:hRule="atLeast"/>` : ''}${header && options.repeatHeaders !== false ? '<w:tblHeader/>' : ''}</w:trPr>${cells.join('')}</w:tr>`);
     }
     this.add(`</w:tbl>${paragraphRuns('', { after: 4 })}`);
   }

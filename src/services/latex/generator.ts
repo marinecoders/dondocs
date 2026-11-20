@@ -1,3 +1,4 @@
+import { bodyTableText, bodyTableLiteral } from './bodyTableText';
 import { toTitleCase } from '@/lib/titleCase';
 import { closingTailStart, hasBottomSignature } from '@/lib/correspondenceClosing';
 import { abbreviatedFullSignatoryName } from '@/lib/signatoryName';
@@ -1033,7 +1034,9 @@ export function generateBodyTex(store: DocumentStore, adapter?: LatexBodyAdapter
       const caption = hasBodyCaption(para) ? `${portionPrefix}${[headerText ? bodyText(headerText) : '', para.text ? bodyText(para.text) : ''].filter(Boolean).join(' ')}` : '';
       if (caption) parts.push(`\\par\\noindent ${adapter?.tableCaption?.(i, caption) ?? caption}\\par\n`);
       parts.push(renderBodyTable(para.bodyTable, (text, row, column, header) => {
-        const cell = text.split('\n').map(line => bodyText(line)).join('\\newline ');
+        const cell = store.docType === 'i_type'
+          ? publicationReferenceText(text, crossReferences, false, (value, protectedTokens) => bodyTableText(value, [], 0, protectedTokens), bodyTableLiteral)
+          : bodyTableText(text);
         return adapter?.tableCell?.(i, row, column, header, cell) ?? cell;
       }, { scope: adapter?.tableScope?.(i) }));
       continue;
