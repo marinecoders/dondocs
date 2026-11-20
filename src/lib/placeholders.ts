@@ -145,11 +145,14 @@ export function applyPlaceholdersToNavmc10274(
 
 /** Detection and replacement share the same editable-text policy. */
 export function detectSessionPlaceholders(session: SerializedSession): string[] {
-  return [...new Set(documentTextFields(session, 'substitution').flatMap(field => detectPlaceholders(field.text)))];
+  const volumeReferences = session.docType === 'technical_volume' || session.formData.volume !== undefined;
+  return [...new Set(documentTextFields(session, 'substitution').flatMap(field => detectPlaceholders(field.text)))]
+    .filter(name => !volumeReferences || !name.startsWith('VOLREF_'));
 }
 
 export function applyPlaceholdersToSession(session: SerializedSession, values: PlaceholderValues): SerializedSession {
-  return mapSessionText(session, field => replacePlaceholders(field.text, values));
+  const substitutions = session.docType === 'technical_volume' || session.formData.volume ? Object.fromEntries(Object.entries(values).filter(([key]) => !key.toUpperCase().startsWith('VOLREF_'))) : values;
+  return mapSessionText(session, field => replacePlaceholders(field.text, substitutions));
 }
 
 function substituteForm(formType: 'navmc_10274' | 'navmc_118_11', forms: FormSession, values: PlaceholderValues): FormSession {

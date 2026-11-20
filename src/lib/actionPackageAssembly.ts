@@ -1,3 +1,4 @@
+import { captureVolumePdfDestinations, restoreVolumePdfLinks } from '@/services/pdf/volumePackageLinks';
 import { reviewPackageSigning } from './packageSigning';
 import { getExportDeploymentPolicy, getExportDeploymentPolicySync } from '@/config/classification';
 import { canMeasurePackageEndorsement, measurePackageEndorsement } from './packageEndorsementPlacement';
@@ -692,6 +693,7 @@ export async function assemblePackage(
   return withAttachmentStaging(async () => {
     let pdf = await PDFDocument.create();
     let boundaries: PackageBoundary[] = [];
+    const volumeDestinations = new Map<string, ReturnType<typeof captureVolumePdfDestinations>>();
     let continuationPages = 0,
       enclosureNumber = 0;
     let previous: { member: PackageMember; bytes: ArrayBuffer } | undefined;
@@ -732,6 +734,8 @@ export async function assemblePackage(
         placements.push({ memberId: member.id, placement: shared ? 'same-page' : 'new-page', reason: measurement.reason });
       }
       const source = await PDFDocument.load(bytes), count = source.getPageCount();
+      if (member.kind === 'native' && member.session.docType === 'technical_volume')
+        volumeDestinations.set(member.id, captureVolumePdfDestinations(source));
       if (controls.maximumPages && pdf.getPageCount() + (shared ? 0 : count) > controls.maximumPages)
         throw new Error(`This assembly exceeds its ${controls.maximumPages}-page memory limit. Use a smaller delivery.`);
       const separate =
@@ -784,6 +788,10 @@ export async function assemblePackage(
     signal.throwIfAborted();
     const planned = await addPackageFrontMatter(pdf, getPackageRevision(input.record, input.revisionId), input.record.name, boundaries);
     pdf = planned.pdf; boundaries = planned.boundaries;
+    for (const boundary of boundaries) {
+      const destinations = volumeDestinations.get(boundary.memberId);
+      if (destinations) restoreVolumePdfLinks(pdf, destinations, boundary.startPage - 1, boundary.pageCount);
+    }
     if (controls.maximumPages && pdf.getPageCount() > controls.maximumPages)
       throw new Error(`This assembly including its front matter exceeds its ${controls.maximumPages}-page memory limit.`);
     const navigation = addPackageOutputNavigation(pdf, getPackageRevision(input.record, input.revisionId), boundaries);

@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.187] — 2026-11-20
+
+### Added
+
+- Preserve captured volume content and assets in reusable and portable packages.
+
 ## [1.3.186] — 2026-11-20
 
 ### Added
