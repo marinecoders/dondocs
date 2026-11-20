@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.181] — 2026-11-20
+
+### Added
+
+- Add native table insertion and preserve supported layout when importing Word tables.
+
 ## [1.3.180] — 2026-11-20
 
 ### Added

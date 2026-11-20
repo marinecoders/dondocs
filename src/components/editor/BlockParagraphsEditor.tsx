@@ -444,7 +444,7 @@ const BlockRow = memo(function BlockRow({
             {figure && <label className="mb-2 block font-sans text-xs text-muted-foreground">Image alternative text
               <Input aria-label={`Alternative text for image ${index + 1}`} data-paragraph-field="figure-alt" maxLength={2_000} value={figure.altText ?? ''} onChange={event => updateParagraph(index, { figure: { ...figure, altText: event.target.value } })} placeholder="Describe the information conveyed by this image" />
             </label>}
-            {bodyTable ? <BodyTableEditor table={bodyTable} index={index} onChange={table => updateParagraph(index, { bodyTable: table })} /> : <VariableChipEditor
+            {bodyTable ? <BodyTableEditor table={bodyTable} index={index} autoFocus={autoFocus} onChange={table => updateParagraph(index, { bodyTable: table })} /> : <VariableChipEditor
               blockMode
               onTextSelectionChange={range => setTextSelection(range ? { range, owner: captureDocumentScope() } : null)}
               ariaLabel={`Paragraph ${index + 1}`}
@@ -734,6 +734,10 @@ export function BlockParagraphsEditor() {
         >
           <Plus className="mr-1.5 h-4 w-4" />
           Add paragraph
+        </Button>
+
+        <Button variant="ghost" size="sm" className="text-xs font-normal" onClick={() => { useDocumentStore.getState().addBodyTable();requestFocus(paragraphs.length); }}>
+          <Plus className="mr-1.5 h-4 w-4" />Add table
         </Button>
 
         {/* Reusable clause library — insert a saved clause or save one. */}
