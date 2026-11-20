@@ -158,6 +158,7 @@ export interface DocumentState {
 
   // Actions - Paragraphs
   addParagraph: (text: string, level: number, afterIndex?: number) => void;
+  addBodyTable: () => void;
   /** Insert several paragraphs (a split paste) after `afterIndex` in one edit. */
   insertParagraphs: (afterIndex: number, texts: string[], level: number) => void;
   updateParagraph: (index: number, updates: Partial<Paragraph>) => void;
@@ -597,6 +598,7 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
   }),
 
   // Paragraphs
+  addBodyTable: () => set(state => ({ paragraphs: [...state.paragraphs, { id: newParagraphId(), text: '', level: 0, bodyTable: { rows: [['Heading', 'Heading'], ['', '']], headerRows: 1 } }] })),
   addParagraph: (text, level, afterIndex) => set((state) => {
     const newPara = { id: newParagraphId(), text, level };
     if (afterIndex !== undefined) {

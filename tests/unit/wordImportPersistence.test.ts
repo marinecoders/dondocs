@@ -81,6 +81,27 @@ describe('rich Word storage and portable ownership', () => {
     expect(new Uint8Array((await loadAttachment(restored.session.formData.wordSource!.fileRef!.id))!)).toEqual(bytes);
   });
 
+  it('retains all table layout controls through complete drafts, encrypted payloads, packages and backup restoration', async () => {
+    const { id } = await imported();
+    const original = useDocumentStore.getState().paragraphs[1].bodyTable!;
+    const layout = { ...original, columnWidths: [25, 75], columnAlignments: ['left', 'right'] as const, borders: 'outline' as const, fontSize: 10 as const, minimumRowHeight: 24, repeatHeaders: false };
+    const formatted = { ...layout, columnAlignments: [...layout.columnAlignments] };
+    useDocumentStore.getState().updateParagraph(1, { bodyTable: formatted });
+    useDocumentsStore.getState().saveCurrent();await flushDocumentWrites();
+    const complete = await parsePortableDraft(await buildDraftFile(), false, true);
+    expect(complete.session.paragraphs[1].bodyTable).toEqual(formatted);
+    const shared = await parseAssetSharePayload(await buildAssetSharePayload(useDocumentStore.getState().getSnapshot(), Date.now()));
+    expect(shared.session.paragraphs[1].bodyTable).toEqual(formatted);
+    const member = await capturePackageMember(captureCurrentDocumentRevision(), 'Formatted table', 'basic-letter');
+    if (member.kind !== 'native') throw new Error('Expected native package member');
+    expect(member.session.paragraphs[1].bodyTable).toEqual(formatted);
+    const backup = await buildBackup();
+    await clearDb();useDocumentsStore.setState({ docs: {}, trash: {}, currentId: null, baseline: null });
+    await restoreBackup(backup);
+    const restored = (await idbGetAllDocuments())!.find(document => document.id === id)!;
+    expect(restored.session.paragraphs[1].bodyTable).toEqual(formatted);
+  });
+
   it('installs an exact non-example sender symbol and no invented signer/authority/contact fields', async () => {
     const source = await wordImportFixture(['5216', 'Ser TRNG/001', '16 Nov 26', 'From: Training Office', 'To: Fictional Marine', 'Subj: EXACT SENDER', '1. Source body.', 'A. EXAMPLE'].map(wordParagraph).join(''));
     const parsed = await parseLetterFile(new File([source.buffer as ArrayBuffer], 'sender-symbol.docx'));

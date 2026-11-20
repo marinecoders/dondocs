@@ -1,3 +1,4 @@
+import { readTableLayout } from './tableLayout';
 import { retainedWordText } from './retainedText';
 import { assertSupportedWordImage } from './imageSupport';
 import { assessWordTrackedChanges, type WordTrackedParagraphEdit } from './readTrackedChanges';
@@ -218,9 +219,10 @@ async function readWord(input: Uint8Array, name: string, signal: AbortSignal | u
       let headerRows = 0;
       for (const row of rows) {
         const properties = wordChildren(row, 'trPr')[0], header = properties && wordChildren(properties, 'tblHeader')[0];
-        if (header && !['0', 'false', 'off'].includes(wordAttribute(header, 'val') ?? '') && headerRows < 3) headerRows++; else break;
+        if (header && !['0', 'false', 'off'].includes(wordAttribute(header, 'val') ?? '')) headerRows++; else break;
       }
-      const table = bodyTableSchema.parse({ rows: cells, headerRows });
+      if (headerRows > 3) notice('This Word table has more than three repeating header rows. Only the first three repeat in the native table; all rows and the original file are retained.');
+      const table = readTableLayout(element, bodyTableSchema.parse({ rows: cells, headerRows: Math.min(headerRows, 3) }), notice);
       const plainRows = rows.map(row => wordChildren(row, 'tc').map(cell => wordChildren(cell, 'p').map(p => paragraphText(p, 'before', false, notice)).join('\n')));
       append({ text: '', level: 0, bodyTable: table }, plainRows.map(row => row.join('\t')).join('\n'), sourceIndex);
       blocks.at(-1)!.tablePlainRows = plainRows;
