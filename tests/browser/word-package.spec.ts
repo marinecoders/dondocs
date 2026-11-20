@@ -22,10 +22,10 @@ async function downloadWord(page: Page, dialog: Locator, path: string) {
   const word = await packageTool(dialog, 'Word package delivery');
   await word.getByRole('button', { name: 'Review Word package', exact: true }).click();
   // Captured PDFs need asynchronous text-layer privacy checks before review.
-  await expect(word.getByRole('checkbox')).toBeVisible({ timeout: 30_000 });
+  await expect(word.getByRole('checkbox', { name: /^I reviewed/ })).toBeVisible({ timeout: 30_000 });
   const accessibility = await new AxeBuilder({ page }).include('[aria-label="Word package delivery"]').analyze();
   expect(accessibility.violations).toEqual([]);
-  await word.getByRole('checkbox').check();
+  await word.getByRole('checkbox', { name: /^I reviewed/ }).check();
   expect(await word.evaluate(element => element.scrollWidth <= element.clientWidth)).toBe(true);
   await word.getByRole('button', { name: 'Download reviewed Word package', exact: true }).scrollIntoViewIfNeeded();
   await page.screenshot({ path: path.replace(/\.zip$/, '-review.png'), scale: 'css' });
@@ -194,14 +194,14 @@ test('Word delivery blocks disallowed original PDF text and displays original PD
   await addOriginal('SECRET');
   const word = await packageTool(dialog, 'Word package delivery');
   await word.getByRole('button', { name: 'Review Word package', exact: true }).click();
-  await expect(word.getByRole('alert')).toContainText('outside this deployment');expect(await word.getByRole('checkbox').count()).toBe(0);
+  await expect(word.getByRole('alert')).toContainText('outside this deployment');expect(await word.getByRole('checkbox', { name: /^I reviewed/ }).count()).toBe(0);
   await packageHeading(dialog, '2. support.pdf');
   await dialog.getByRole('listitem').filter({ hasText: '2. support.pdf' }).getByRole('button', { name: 'Remove', exact: true }).click();
   await expect(dialog.getByRole('heading', { name: '2. support.pdf', exact: true })).toHaveCount(0);
   await addOriginal('SSN 123-45-6789');
   await packageTool(dialog, 'Word package delivery');
   await word.getByRole('button', { name: 'Review Word package', exact: true }).click();
-  await expect(word).toContainText('123-45-6789');await expect(word.getByRole('checkbox')).toBeVisible();
+  await expect(word).toContainText('123-45-6789');await expect(word.getByRole('checkbox', { name: /^I reviewed/ })).toBeVisible();
   await expect(word).toContainText('Text-layer inspection cannot read text inside scanned images');
 });
 
@@ -221,7 +221,7 @@ test('Word review blocks disallowed emitted native text before approval and pres
   const downloads: string[] = [];page.on('download', file => downloads.push(file.suggestedFilename()));
   await word.getByRole('button', { name: 'Review Word package', exact: true }).click();
   await expect(word.getByRole('alert')).toContainText('outside this deployment');
-  await expect(word.getByRole('checkbox')).toHaveCount(0);expect(downloads).toEqual([]);
+  await expect(word.getByRole('checkbox', { name: /^I reviewed/ })).toHaveCount(0);expect(downloads).toEqual([]);
   await word.screenshot({ path: info.outputPath('blocked-native-word-policy.png') });
   await dialog.getByRole('button', { name: 'Close', exact: true }).click();
   await expect(page.getByRole('textbox', { name: 'Paragraph 1', exact: true })).toHaveText('SECRET');

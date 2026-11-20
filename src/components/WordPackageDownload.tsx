@@ -13,6 +13,8 @@ export function WordPackageDownload(props: WordPackageDownloadProps) {
 }
 function WordPackageOperation({ record, revisionId, ports, exportGate }: WordPackageDownloadProps) {
   const [prepared, setPrepared] = useState<PreparedWordPackage | null>(null), [approved, setApproved] = useState(false);
+  const [waitingForExport, setWaitingForExport] = useState(false);
+  const [wordEnclosurePages, setWordEnclosurePages] = useState(false);
   const [busy, setBusy] = useState(false), [message, setMessage] = useState(''), [error, setError] = useState('');
   const operation = useRef<AbortController | null>(null);
   useEffect(() => () => { operation.current?.abort();operation.current = null; }, []);
@@ -23,7 +25,7 @@ function WordPackageOperation({ record, revisionId, ports, exportGate }: WordPac
     setBusy(true);setError('');setMessage('');
     try { await action(owner.signal); }
     catch (cause) { if (!owner.signal.aborted) setError(cause instanceof Error ? cause.message : 'The Word package could not be delivered.'); }
-    finally { if (operation.current === owner) { operation.current = null;setBusy(false);if (owner.signal.aborted) setMessage('Word package cancelled.'); } }
+    finally { if (operation.current === owner) { operation.current = null;setBusy(false);setWaitingForExport(false);if (owner.signal.aborted) setMessage('Word package cancelled.'); } }
   }
   function cancel() {
     operation.current?.abort();
@@ -32,17 +34,18 @@ function WordPackageOperation({ record, revisionId, ports, exportGate }: WordPac
   return <section className="min-w-0 space-y-3 rounded border p-3" aria-label="Word package delivery" aria-busy={busy}>
     <h3 className="font-medium">Word package</h3>
     <p className="text-sm text-muted-foreground">Download the main document and supported native correspondence as editable DOCX files, together with unchanged original supporting files from this saved revision. Every listed enclosure needs its captured file.</p>
+    <label className="flex items-start gap-2 text-sm"><input type="checkbox" disabled={busy} checked={wordEnclosurePages} onChange={event => { setWordEnclosurePages(event.target.checked);setPrepared(null);setApproved(false); }} />Include each native document’s PDF enclosure pages as images in its DOCX. Keep unchanged originals in the package.</label>
     <Button variant="outline" disabled={busy} onClick={() => {
       const captured = structuredClone(record), selectedRevision = revisionId;
       setPrepared(null);setApproved(false);
       void run(async signal => {
         const policy = await getExportDeploymentPolicy();signal.throwIfAborted();
-        const result = await prepareWordPackage(captured, selectedRevision, policy, signal);
+        const result = await prepareWordPackage(captured, selectedRevision, policy, signal, { wordEnclosurePages });
         signal.throwIfAborted();setPrepared(result);
       });
     }}>Review Word package</Button>
     {busy && <Button variant="ghost" onClick={cancel}>Cancel Word package</Button>}
-    {busy && <p role="status" className="text-sm">Preparing captured Word package…</p>}
+    {busy && <p role="status" className="text-sm">{waitingForExport ? 'Waiting for the current export to finish…' : 'Preparing captured Word package…'}</p>}
     {error && <p role="alert" className="break-words text-sm text-destructive">{error}</p>}
     {message && <p role="status" className="break-words text-sm">{message}</p>}
     {prepared && <div className="space-y-3">
@@ -52,8 +55,9 @@ function WordPackageOperation({ record, revisionId, ports, exportGate }: WordPac
       {prepared.limitations.map((limitation, index) => <p key={index} className="text-xs text-muted-foreground">{limitation}</p>)}
       <label className="flex items-start gap-2 text-sm"><input type="checkbox" disabled={busy} checked={approved} onChange={event => setApproved(event.target.checked)} />I reviewed this captured revision, the privacy and marking findings, and every original file’s contents and signing status for Word package delivery.</label>
       <Button disabled={busy || !approved} onClick={() => void run(async signal => {
-        const release = exportGate.acquire();
-        if (!release) throw new Error('Another export is running or waiting for review. Finish or cancel it, then retry this captured Word package.');
+        setWaitingForExport(true);
+        const release = await exportGate.acquireWhenAvailable(signal);
+        setWaitingForExport(false);
         try {
         acknowledgeWordPackage(prepared);
         const result = await renderWordPackage(prepared, ports, signal);

@@ -35,6 +35,7 @@ export const ENDORSEMENT_TYPES = ['same_page_endorsement', 'new_page_endorsement
 /** Return input problems; unexpected validation failures throw a sanitized error. */
 export function validateLetter(body: Partial<LetterInput>, defaults: CompanionDefaults = {}): string[] {
   const problems: string[] = [];
+  if (body.wordEnclosurePages) problems.push('PDF enclosure page images in Word require the browser renderer. Use browser Word export or deliver unchanged originals separately.');
 
   if (!DOC_TYPES.includes(body.docType as string)) {
     problems.push(`unknown docType ${JSON.stringify(body.docType)}; expected one of ${DOC_TYPES.join(', ')}`);

@@ -1,3 +1,4 @@
+import { appendWordEnclosurePages, renderWordEnclosurePages } from '@/services/docx/enclosurePages';
 import type { LatexCompileProfile } from '@/services/latex/renderDocument';
 import { renderTaggedCorrespondence } from '@/services/pdf/accessibility/render';
 import { resolveSignature } from '@/lib/signatureAssets';
@@ -5,7 +6,7 @@ import { copyPreparedDocument, preparedExportMarking, type ReadyExportJob } from
 import { createExportArtifact, type ExportArtifact } from '@/lib/exportExecution';
 import { withAttachmentResources, copyAttachment } from '@/lib/attachmentResources';
 import type { StoredAttachment } from '@/lib/documentsDb';
-import { generateAllLatexFiles } from '@/services/latex/generator';
+import { generateAllLatexFiles, enclosureRenderData } from '@/services/latex/generator';
 import { generateFlatLatex } from '@/services/latex/flat-generator';
 import { loadFigureFiles } from '@/services/latex/figureAssets';
 import { finishCorrespondencePdf } from '@/services/pdf/finishCorrespondencePdf';
@@ -60,11 +61,21 @@ export async function renderPreparedCorrespondence(ready: ReadyExportJob, ports:
     const data = document.formData;
     const figureIds = document.paragraphs.flatMap(paragraph => paragraph.figure?.fileRef ? [paragraph.figure.fileRef.id] : []);
     if (data.signatureType === 'image' && !data.signatureImage?.data && data.signatureImage?.fileRef) figureIds.push(data.signatureImage.fileRef.id);
+    if (ready.job.wordEnclosurePages) for (const enclosure of document.enclosures) if (enclosure.fileRef && !enclosure.file?.data) figureIds.push(enclosure.fileRef.id);
     return (ports.assets ?? storedExportAssets).withAssets(figureIds, async read => {
+      let enclosurePages: Awaited<ReturnType<typeof renderWordEnclosurePages>> = [];
+      if (ready.job.wordEnclosurePages && document.enclosures.length) {
+        for (const enclosure of document.enclosures) if (!enclosure.file?.data && enclosure.fileRef) {
+          const record = read(enclosure.fileRef.id);
+          enclosure.file = { name: record.name, size: record.data.byteLength, data: record.data };
+        }
+        enclosurePages = await renderWordEnclosurePages(enclosureRenderData(document), marking, signal);
+        checkCancellation(signal);
+      }
       if (isTechnicalPublication(document.docType)) {
         const blob = await renderPublicationDocx(document, { readAsset: read }, signal, referenceDate);
         checkCancellation(signal);
-        return createExportArtifact(ready, blob);
+        return createExportArtifact(ready, enclosurePages.length ? await appendWordEnclosurePages(blob, enclosurePages, signal) : blob);
       }
       const mediaFiles = await prepareDocxImages(document, async id => read(id).data);
       checkCancellation(signal);
@@ -78,7 +89,7 @@ export async function renderPreparedCorrespondence(ready: ReadyExportJob, ports:
         startingPageNumber: pageStartNumber(document.docType, data.startingPageNumber),
       }, onDocxProgress ? phase => observeProgress(onDocxProgress, phase) : undefined);
       checkCancellation(signal);
-      return createExportArtifact(ready, blob);
+      return createExportArtifact(ready, enclosurePages.length ? await appendWordEnclosurePages(blob, enclosurePages, signal) : blob);
     });
   }
   if (target === 'tex') {

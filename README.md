@@ -26,7 +26,7 @@ On mobile, open the workspace menu to reach the sidebar tools.
 
 TM/IETM output provides front matter, including cover and authentication pages. For publication fields and examples, see the [technical-publication guide](docs/TECHNICAL_PUBLICATIONS.md). Additional static forms can be added through [reviewed form packages](docs/FORM_TEMPLATES.md).
 
-The [capability matrix](docs/CAPABILITIES.md) lists available operations for each format. Word exports embed supported signature/figure images and safe reference links. Appended PDF pages and PDF signing fields stay separate; saved action packages can deliver DOCXs with unchanged supporting originals and a file manifest. PDF and Word pagination can differ. See [output limits](docs/OUTPUT_LIMITS.md) for details.
+The [capability matrix](docs/CAPABILITIES.md) lists available operations for each format. Word exports embed supported signature/figure images and safe reference links. Word downloads can optionally append PDF enclosure pages as noneditable images. Original files and certificate signatures remain separate; saved action packages can deliver DOCXs with unchanged supporting originals and a file manifest. PDF and Word pagination can differ. Native body tables support column widths, alignment, line styles, repeating headers, text size and minimum row heights. See [output limits](docs/OUTPUT_LIMITS.md) for details.
 
 ## Features
 

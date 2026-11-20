@@ -25,7 +25,7 @@ it.each(['package', 'revision'] as const)('aborts preparation and resets review 
   view.rerender(<WordPackageDownload record={change === 'package' ? record('package_two') : first} revisionId={change === 'revision' ? 'revision_two' : 'revision_one'} ports={ports} exportGate={exportGate} />);
   expect(signal.aborted).toBe(true);
   await act(async () => { finish(); });
-  expect(screen.queryByRole('checkbox')).toBeNull();expect(screen.queryByText(/Captured package:/)).toBeNull();
+  expect(screen.queryByRole('checkbox', { name: /^I reviewed/ })).toBeNull();expect(screen.queryByText(/Captured package:/)).toBeNull();
   expect(screen.getByRole('button', { name: 'Review Word package' })).toBeEnabled();
 });
 
@@ -34,21 +34,21 @@ it('suppresses an in-flight download and its approval after switching the displa
   vi.mocked(renderWordPackage).mockImplementationOnce(() => new Promise(resolve => { finish = () => resolve({ blob: new Blob(['zip']), filename: 'captured.zip', manifest: { revisionId: 'revision_one', measured: { fileCount: 1 } } } as Awaited<ReturnType<typeof renderWordPackage>>); }));
   const first = record(), view = render(<WordPackageDownload record={first} revisionId="revision_one" ports={ports} exportGate={exportGate} />);
   fireEvent.click(screen.getByRole('button', { name: 'Review Word package' }));
-  fireEvent.click(await screen.findByRole('checkbox'));
+  fireEvent.click(await screen.findByRole('checkbox', { name: /^I reviewed/ }));
   fireEvent.click(screen.getByRole('button', { name: 'Download reviewed Word package' }));
   await waitFor(() => expect(renderWordPackage).toHaveBeenCalledOnce());
   const signal = vi.mocked(renderWordPackage).mock.calls[0][2]!;
   view.rerender(<WordPackageDownload record={first} revisionId="revision_two" ports={ports} exportGate={exportGate} />);
   expect(signal.aborted).toBe(true);
   await act(async () => { finish(); });
-  expect(triggerDownload).not.toHaveBeenCalled();expect(screen.queryByRole('checkbox')).toBeNull();
+  expect(triggerDownload).not.toHaveBeenCalled();expect(screen.queryByRole('checkbox', { name: /^I reviewed/ })).toBeNull();
 });
 
 it('waits for cancelled conversion to finish before releasing the shared export gate', async () => {
   let finish!: () => void;
   vi.mocked(renderWordPackage).mockImplementationOnce(() => new Promise(resolve => { finish = () => resolve({ blob: new Blob(['zip']), filename: 'cancelled.zip', manifest: { revisionId: 'revision_one', measured: { fileCount: 1 } } } as Awaited<ReturnType<typeof renderWordPackage>>); }));
   render(<WordPackageDownload record={record()} revisionId="revision_one" ports={ports} exportGate={exportGate} />);
-  fireEvent.click(screen.getByRole('button', { name: 'Review Word package' }));fireEvent.click(await screen.findByRole('checkbox'));
+  fireEvent.click(screen.getByRole('button', { name: 'Review Word package' }));fireEvent.click(await screen.findByRole('checkbox', { name: /^I reviewed/ }));
   fireEvent.click(screen.getByRole('button', { name: 'Download reviewed Word package' }));
   await waitFor(() => expect(renderWordPackage).toHaveBeenCalledOnce());
   fireEvent.click(screen.getByRole('button', { name: 'Cancel Word package' }));
@@ -62,9 +62,25 @@ it('keeps an ordinary export lease from being bypassed by the Word package downl
   const release = exportGate.acquire();
   try {
     render(<WordPackageDownload record={record()} revisionId="revision_one" ports={ports} exportGate={exportGate} />);
-    fireEvent.click(screen.getByRole('button', { name: 'Review Word package' }));fireEvent.click(await screen.findByRole('checkbox'));
+    fireEvent.click(screen.getByRole('button', { name: 'Review Word package' }));fireEvent.click(await screen.findByRole('checkbox', { name: /^I reviewed/ }));
     fireEvent.click(screen.getByRole('button', { name: 'Download reviewed Word package' }));
-    await expect(screen.findByRole('alert')).resolves.toHaveTextContent('Another export is running or waiting for review');
+    await expect(screen.findByText('Waiting for the current export to finish…')).resolves.toBeVisible();
     expect(renderWordPackage).not.toHaveBeenCalled();expect(triggerDownload).not.toHaveBeenCalled();
+    fireEvent.click(screen.getByRole('button', { name: 'Cancel Word package' }));
+    await waitFor(() => expect(screen.getByRole('button', { name: 'Review Word package' })).toBeEnabled());
+    expect(renderWordPackage).not.toHaveBeenCalled();
   } finally { release!(); }
+});
+
+it('continues a reviewed Word package after a preview releases its lease', async () => {
+  const gate = createExportGate(), release = gate.acquire()!;
+  vi.mocked(renderWordPackage).mockResolvedValueOnce({ blob: new Blob(['zip']), filename: 'queued.zip', manifest: { revisionId: 'revision_one', measured: { fileCount: 1 } } } as Awaited<ReturnType<typeof renderWordPackage>>);
+  render(<WordPackageDownload record={record()} revisionId="revision_one" ports={ports} exportGate={gate} />);
+  fireEvent.click(screen.getByRole('button', { name: 'Review Word package' }));fireEvent.click(await screen.findByRole('checkbox', { name: /^I reviewed/ }));
+  fireEvent.click(screen.getByRole('button', { name: 'Download reviewed Word package' }));
+  await screen.findByText('Waiting for the current export to finish…');
+  expect(renderWordPackage).not.toHaveBeenCalled();
+  await act(async () => { release(); });
+  await waitFor(() => expect(triggerDownload).toHaveBeenCalledOnce());
+  expect(renderWordPackage).toHaveBeenCalledOnce();
 });
