@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.185] — 2026-11-20
+
+### Added
+
+- Add stable volume references, figures, glossary and change records.
+
 ## [1.3.184] — 2026-11-20
 
 ### Added
