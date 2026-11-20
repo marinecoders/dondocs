@@ -478,6 +478,7 @@ export function Header({
               <DropdownMenuItem onClick={onRefreshPreview} disabled={isCompiling || !capabilityAvailable(output.preview)} title={output.preview.status === 'supported' ? undefined : output.preview.message}>
                 <RefreshCw className={`h-4 w-4 ${isCompiling ? 'animate-spin' : ''}`} />Refresh preview
               </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => useUIStore.getState().setProofreadOpen(true)}><FileText className="h-4 w-4" />Proofread current draft</DropdownMenuItem>
               <DropdownMenuItem onClick={() => setDocumentGuideOpen(true)}><Compass className="h-4 w-4" />Document type guide</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

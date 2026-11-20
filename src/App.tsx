@@ -16,6 +16,8 @@ import { PANEL_TRANSITION_MS } from '@/lib/panelMotion';
 import { Header } from '@/components/layout/Header';
 import { BetaBanner } from '@/components/BetaBanner';
 import { ReadinessMeter } from '@/components/layout/ReadinessMeter';
+import { ProofreadButton } from '@/components/ProofreadButton';
+import { ProofreadModal } from '@/components/modals/ProofreadModal';
 import { FormPanel } from '@/components/layout/FormPanel';
 import { EditorSidebar } from '@/components/layout/EditorSidebar';
 import { UpdateAvailableButton } from '@/components/layout/UpdateAvailableButton';
@@ -1045,6 +1047,12 @@ function App() {
           onRun: () => useUIStore.getState().setBatchModalOpen(true),
         }] : []),
         {
+          id: 'proofread',
+          label: 'Proofread current draft',
+          icon: FileText,
+          onRun: () => useUIStore.getState().setProofreadOpen(true),
+        },
+        {
           id: 'document-guide',
           label: 'Document type guide',
           icon: Compass,
@@ -1281,6 +1289,7 @@ function App() {
             </main>
             <div role="region" aria-label="Document readiness" className="workspace-reviewbar flex shrink-0 flex-wrap items-center justify-start gap-2 border-t border-border pl-4 pr-20 sm:pl-6 sm:pr-44 py-1.5 text-xs text-muted-foreground">
               <ReadinessMeter />
+              <ProofreadButton />
             </div>
           </div>
           <StorageNotice placement="footer" />
@@ -1313,6 +1322,7 @@ function App() {
       <FindReplaceModal />
       <TemplateLoaderModal />
       <DocumentGuideModal />
+      <ProofreadModal />
       <WelcomeModal />
       <TourOverlay />
       <ActivationChecklist />

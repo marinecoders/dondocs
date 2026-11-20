@@ -322,6 +322,11 @@ function inspectFields(fields: readonly DocumentTextField[]): PIIDetectionResult
   return summarizeFindings(fields.flatMap(scanText));
 }
 
+/** Inspect projected fields while retaining their established date and identity policies. */
+export function detectDocumentTextPII(fields: readonly DocumentTextField[]): PIIDetectionResult {
+  return inspectFields(fields);
+}
+
 export function detectTextPII(fields: readonly { field: string; value: string }[]): PIIDetectionResult {
   return inspectFields(fields.map(({ field, value }, index) => ({ path: ['batchValues', index], text: value, label: field, role: 'text' })));
 }

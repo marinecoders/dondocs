@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.173] — 2026-11-19
+
+### Added
+
+- A unified Proofread panel gathers existing readiness, formatting, paragraph, reference, marking, abbreviation and sensitive-text findings, with a count and navigation to the affected editor fields.
+
 ## [1.3.172] — 2026-11-19
 
 ### Fixed

@@ -311,6 +311,8 @@ const BlockRow = memo(function BlockRow({
         )}
         {showHeader && (
           <Input
+            aria-label={`Heading for paragraph ${index + 1}`}
+            data-paragraph-field="header"
             value={header || ''}
             autoFocus={!header}
             onChange={(e) => updateParagraph(index, { header: e.target.value })}
@@ -440,7 +442,7 @@ const BlockRow = memo(function BlockRow({
               </div>
             )}
             {figure && <label className="mb-2 block font-sans text-xs text-muted-foreground">Image alternative text
-              <Input aria-label={`Alternative text for image ${index + 1}`} maxLength={2_000} value={figure.altText ?? ''} onChange={event => updateParagraph(index, { figure: { ...figure, altText: event.target.value } })} placeholder="Describe the information conveyed by this image" />
+              <Input aria-label={`Alternative text for image ${index + 1}`} data-paragraph-field="figure-alt" maxLength={2_000} value={figure.altText ?? ''} onChange={event => updateParagraph(index, { figure: { ...figure, altText: event.target.value } })} placeholder="Describe the information conveyed by this image" />
             </label>}
             {bodyTable ? <BodyTableEditor table={bodyTable} index={index} onChange={table => updateParagraph(index, { bodyTable: table })} /> : <VariableChipEditor
               blockMode
@@ -465,7 +467,7 @@ const BlockRow = memo(function BlockRow({
             {(footnotes ?? []).map((note, noteIndex) => (
               <div key={note.id} className="flex items-center gap-2">
                 <span className="shrink-0 whitespace-nowrap text-xs text-muted-foreground">Footnote {note.id}</span>
-                <Input className="min-w-0 flex-1 min-h-11 sm:min-h-0" aria-label={`Table footnote ${note.id}`} value={note.text} onChange={(e) => updateParagraph(index, { tableFootnotes: footnotes!.map((n, j) => j === noteIndex ? { ...n, text: e.target.value } : n) })} />
+                <Input className="min-w-0 flex-1 min-h-11 sm:min-h-0" aria-label={`Table footnote ${note.id}`} data-table-footnote={noteIndex} value={note.text} onChange={(e) => updateParagraph(index, { tableFootnotes: footnotes!.map((n, j) => j === noteIndex ? { ...n, text: e.target.value } : n) })} />
                 <Button variant="ghost" size="sm" className="min-h-11 min-w-11 shrink-0 sm:min-h-0 sm:min-w-0" aria-label={`Remove footnote ${note.id}`} onClick={() => useDocumentStore.getState().removeTableFootnote(index, noteIndex)}><Trash2 className="h-3 w-3" /></Button>
               </div>
             ))}

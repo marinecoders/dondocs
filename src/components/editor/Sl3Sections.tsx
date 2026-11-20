@@ -64,6 +64,7 @@ function Field({
   multiline = false,
   placeholder,
   maxLength,
+  paragraphField,
 }: {
   label: string;
   value: string;
@@ -71,6 +72,7 @@ function Field({
   multiline?: boolean;
   placeholder?: string;
   maxLength?: number;
+  paragraphField?: 'text';
 }) {
   return (
     <label className="block min-w-0 space-y-2 text-sm">
@@ -78,6 +80,7 @@ function Field({
       {multiline ? (
         <Textarea
           aria-label={label}
+          data-paragraph-field={paragraphField}
           placeholder={placeholder}
           maxLength={maxLength}
           value={value}
@@ -86,6 +89,7 @@ function Field({
       ) : (
         <Input
           aria-label={label}
+          data-paragraph-field={paragraphField}
           placeholder={placeholder}
           maxLength={maxLength}
           value={value}
@@ -746,10 +750,11 @@ export function Sl3IllustrationsSection({ publication = 'sl3' }: { publication?:
         </select>
       </label>
       {figures.map((p, i) => (
-        <fieldset key={p.referenceId} className="space-y-4 rounded-lg border p-4">
+        <fieldset key={p.referenceId} data-paragraph-id={p.id} className="space-y-4 rounded-lg border p-4">
           <legend className="px-1 text-sm font-medium">{figureLabel(data, p.referenceId, i)}</legend>
           <Field
             label={`${figureLabel(data, p.referenceId, i)} title`}
+            paragraphField="text"
             value={p.text}
             onChange={(text) =>
               updateParagraph(paragraphs.indexOf(p), { text })
