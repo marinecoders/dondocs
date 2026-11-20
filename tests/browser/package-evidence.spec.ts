@@ -7,7 +7,8 @@ import { PDFDocument } from 'pdf-lib';
 import JSZip from 'jszip';
 type ScanLayoutRoot = HTMLElement & { scanLayoutProbe?: { heights: number[]; observer: MutationObserver } };
 test.use({ serviceWorkers: 'block', actionTimeout: 15_000 });
-test.setTimeout(180_000);
+// Recognition, correction, delivery and recovery keep their individual deadlines.
+test.setTimeout(240_000);
 async function packages(page: Page) {
   return openPackagePreparation(page);
 }
@@ -87,9 +88,16 @@ for (const { theme, width, format } of cases) test(`captured ${format} evidence 
   for (const height of loadingHeights) expect(Math.abs(height - readyHeight)).toBeLessThanOrEqual(1);
   if (format === 'pdf' && width === 1440) {
     const sourcePreview = scans.getByRole('region', { name: 'Captured source preview', exact: true });
+    await sourcePreview.scrollIntoViewIfNeeded();
+    // The initially visible canvas can still be waiting for its measured width.
+    await expect.poll(() => sourcePreview.evaluate(element => element.scrollHeight - element.clientHeight)).toBeGreaterThan(0);
     const before = await sourcePreview.evaluate(element => element.scrollTop);
     await sourcePreview.press('ArrowDown');
     await expect.poll(() => sourcePreview.evaluate(element => element.scrollTop)).toBeGreaterThan(before);
+    await sourcePreview.press('End');
+    await expect.poll(() => sourcePreview.evaluate(element => element.scrollHeight - element.clientHeight - element.scrollTop)).toBeLessThanOrEqual(1);
+    await sourcePreview.press('Home');
+    await expect.poll(() => sourcePreview.evaluate(element => element.scrollTop)).toBe(0);
   }
   await scans.getByText('Adopt a corrected excerpt as a package value', { exact: true }).click();
   await scans.getByLabel('Recognized package value label', { exact: true }).fill('Confirmed evidence note'); await scans.getByLabel('Recognized package value excerpt', { exact: true }).fill('package evidence excerpt');
