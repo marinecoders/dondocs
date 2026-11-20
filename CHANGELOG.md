@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.178] — 2026-11-20
+
+### Added
+
+- Render each enclosure with its inherited or explicit marking while preserving original PDFs.
+
 ## [1.3.177] — 2026-11-20
 
 ### Added

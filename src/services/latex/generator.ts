@@ -1282,6 +1282,7 @@ ${isTechnicalPublication(store.docType) ? `\\def\\ITypeClassificationBasis{${dat
 export interface EnclosureData {
   number: number;
   title: string;
+  marking?: Enclosure['marking'];
   data?: ArrayBuffer; // undefined = text-only enclosure (no PDF)
   pageStyle?: 'border' | 'fullpage' | 'fit';
   hasCoverPage?: boolean;
@@ -1349,6 +1350,7 @@ export function generateAllLatexFiles(store: DocumentStore, resolvedLevel?: stri
   const enclosures: EnclosureData[] = store.enclosures.map((encl, i) => ({
     number: enclStart + i,
     title: encl.title || 'Untitled',
+    marking: encl.marking,
     data: encl.file?.data, // undefined if no PDF attached
     pageStyle: encl.pageStyle,
     hasCoverPage: encl.hasCoverPage,

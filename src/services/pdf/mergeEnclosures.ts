@@ -5,10 +5,13 @@ import { PDFDocument, rgb, StandardFonts, PDFPage, PDFName, PDFArray, PDFNumber,
 import pako from 'pako';
 import { debug } from '@/lib/debug';
 import { safeUrl } from '@/lib/url-safety';
+import { enclosureClassification } from '@/lib/enclosureMarkings';
+import type { EnclosureMarking } from '@/types/document';
 
 export interface EnclosureData {
   number: number;
   title: string;
+  marking?: EnclosureMarking;
   data?: ArrayBuffer; // undefined = text-only enclosure (no PDF)
   pageStyle?: 'border' | 'fullpage' | 'fit';
   hasCoverPage?: boolean; // If true, add a cover page before the enclosure content
@@ -1169,13 +1172,14 @@ export async function mergeEnclosures(
   // Process each enclosure in order
   for (const enclosure of enclosures) {
     options.signal?.throwIfAborted();
+    const effectiveClassification = enclosureClassification(enclosure.marking, classification);
     try {
       if (labelStyle === 'footer' && enclosure.hasCoverPage) {
         throw new Error('Remove the added enclosure cover page. I-Type enclosures identify the attached document on its first page.');
       }
       // Add optional cover/placeholder page before the enclosure content
       if (enclosure.hasCoverPage) {
-        addCoverPage(mainPdf, enclosurePageMap, enclosure, helveticaBold, helvetica, classification, labelStyle, options.header);
+        addCoverPage(mainPdf, enclosurePageMap, enclosure, helveticaBold, helvetica, effectiveClassification, labelStyle, options.header);
       }
 
       if (enclosure.data) {
@@ -1191,13 +1195,13 @@ export async function mergeEnclosures(
             error: validationError ?? 'Unknown validation error'
           });
           // Create an error placeholder page
-          addPlaceholderPage(mainPdf, enclosurePageMap, enclosure, helveticaBold, helvetica, true, classification, validationError ?? 'Unknown validation error', labelStyle, options.header);
+          addPlaceholderPage(mainPdf, enclosurePageMap, enclosure, helveticaBold, helvetica, true, effectiveClassification, validationError ?? 'Unknown validation error', labelStyle, options.header);
           continue;
         }
 
         // PDF enclosure — pass the already-loaded PDFDocument so we don't
         // re-parse the same bytes.
-        const result = await addPdfEnclosure(mainPdf, enclosurePageMap, enclosure, enclosurePdf, helveticaBold, helvetica, classification, labelStyle, options.header);
+        const result = await addPdfEnclosure(mainPdf, enclosurePageMap, enclosure, enclosurePdf, helveticaBold, helvetica, effectiveClassification, labelStyle, options.header);
         if (result.error) {
           errors.push(result.error);
         }
@@ -1215,7 +1219,7 @@ export async function mergeEnclosures(
       });
       // Create an error placeholder page only if there was supposed to be PDF content
       if (enclosure.data) {
-        addPlaceholderPage(mainPdf, enclosurePageMap, enclosure, helveticaBold, helvetica, true, classification, errorMessage, labelStyle, options.header);
+        addPlaceholderPage(mainPdf, enclosurePageMap, enclosure, helveticaBold, helvetica, true, effectiveClassification, errorMessage, labelStyle, options.header);
       }
     }
   }
@@ -1351,7 +1355,7 @@ async function addPdfEnclosure(
       const { scale, x, y, drawBorder } = calculatePageLayout(
         visualWidth,
         visualHeight,
-        style, outputWidth, outputHeight, publication
+        style, outputWidth, outputHeight, publication || !!classification?.marking
       );
 
       // ============================================================
@@ -1808,7 +1812,9 @@ function addClassificationMarking(
   font: Awaited<ReturnType<PDFDocument['embedFont']>>,
   position: 'top' | 'bottom'
 ): void {
-  const fontSize = 12;
+  const available = page.getWidth() - 48;
+  const fontSize = Math.min(12, available / Math.max(1, font.widthOfTextAtSize(marking, 1)));
+  if (fontSize < 8) throw new Error('The enclosure banner is too long to print legibly. Shorten the marking before exporting.');
   const textWidth = font.widthOfTextAtSize(marking, fontSize);
 
   const y = position === 'top'
