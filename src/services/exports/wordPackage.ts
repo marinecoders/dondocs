@@ -86,7 +86,7 @@ function scopeAssets(records: Map<string, StoredAttachment>): ExportAssets {
 }
 
 /** Capture one saved revision before review. Subsequent edits, deletions and storage changes cannot alter this operation. */
-export async function prepareWordPackage(record: ActionPackage, revisionId: string, policy: PolicyResolution, signal = new AbortController().signal): Promise<PreparedWordPackage> {
+export async function prepareWordPackage(record: ActionPackage, revisionId: string, policy: PolicyResolution, signal = new AbortController().signal, options: { wordEnclosurePages?: boolean } = {}): Promise<PreparedWordPackage> {
   signal.throwIfAborted();
   if (policy.status !== 'ready') throw new Error(policy.message);
   const revision = getPackageRevision(record, revisionId);
@@ -116,7 +116,7 @@ export async function prepareWordPackage(record: ActionPackage, revisionId: stri
   }
   const manifest: WordPackageManifest = {
     kind: 'dondocs-word-package', version: 1, packageId: owned.id, packageName: owned.name, revisionId: revision.id, capturedAt: revision.createdAt,
-    completeness: 'complete', mainDocument: '', members: [], files: [], limitations: WORD_PACKAGE_LIMITATIONS,
+    completeness: 'complete', mainDocument: '', members: [], files: [], limitations: options.wordEnclosurePages ? ['PDF enclosure pages are included as noneditable images in each applicable DOCX; their original bytes remain separate. Image copies carry no original certificate signature.', ...WORD_PACKAGE_LIMITATIONS.slice(1)] : WORD_PACKAGE_LIMITATIONS,
     limits: { maxPayloadFiles: MAX_WORD_PACKAGE_FILES, maxArchiveBytes: MAX_WORD_PACKAGE_BYTES, maxDocxBytes: MAX_WORD_DOCUMENT_BYTES, maxNativePackageBytes: MAX_PACKAGE_FILE_BYTES, maxOriginalAssetBytes: MAX_PORTABLE_RESOURCE_BYTES, maxPortableResourceBytes: MAX_PORTABLE_TOTAL_BYTES, maxPortableResourceCount: MAX_PORTABLE_RESOURCE_COUNT },
     measured: { fileCount: 0, fileBytes: 0 },
   };
@@ -148,7 +148,7 @@ export async function prepareWordPackage(record: ActionPackage, revisionId: stri
     }
     if (member.kind === 'original') {
       const bytes = resources.get(`assets/${member.original.id}`)!.data;
-      await PDFDocument.load(bytes.slice(0));
+      await PDFDocument.load(bytes.slice(0), { ignoreEncryption: !!options.wordEnclosurePages });
       await reviewOriginal(bytes, member.label);
       await add(`${folder}/original/${wordPackageFilename(member.original.name)}`, member.original.name, bytes, 'original', member.signedOriginal ? 'Unchanged signed original; signature validity must be checked in the original file.' : 'Unchanged original supporting PDF.', member);
       continue;
@@ -159,7 +159,7 @@ export async function prepareWordPackage(record: ActionPackage, revisionId: stri
     const snapshot = prepareSessionState(reviewed.session, true), assets = new Map<string, StoredAttachment>();
     const original = async (data: ArrayBuffer, name: string, type: string, slot: string, purpose: string) => {
       if (type === 'application/pdf') {
-        await PDFDocument.load(data.slice(0));
+        await PDFDocument.load(data.slice(0), { ignoreEncryption: !!options.wordEnclosurePages });
         await reviewOriginal(data, `${member.label}: ${name}`);
       }
       await add(`${folder}/original/${slot}-${wordPackageFilename(name)}`, name, data, 'original', purpose, member);
@@ -189,7 +189,7 @@ export async function prepareWordPackage(record: ActionPackage, revisionId: stri
     const output = copyCapturedDocument(projectRenderedDocument(document)).document;
     for (const field of documentTextFields(output, 'output')) reviewPackageText(field.text, `${member.label}: ${field.label}`, policy);
     const path = `${folder}/${wordPackageFilename(member.label)}.docx`;
-    const preparation = prepareExport({ id: `${captured.id}_${member.revisionId}_word-package`, captured: document, target: 'docx', filename: path.split('/').at(-1)!, policy });
+    const preparation = prepareExport({ id: `${captured.id}_${member.revisionId}_word-package`, captured: document, target: 'docx', ...(options.wordEnclosurePages ? { wordEnclosurePages: true } : {}), filename: path.split('/').at(-1)!, policy });
     if ('issues' in preparation) throw new Error(`${member.label}: ${preparation.issues.join(' ')}`);
     const job = preparation.status === 'ready' ? preparation.job.job : preparation.job, review = copyExportReview(job);
     reviews.push({ member: member.label, review });privacy.push(review.privacy);
@@ -205,7 +205,7 @@ export async function prepareWordPackage(record: ActionPackage, revisionId: stri
   const names = [{ field: 'Package name', value: manifest.packageName }, ...manifest.members.map(member => ({ field: `Member ${member.order} label`, value: member.label })), ...manifest.files.map(file => ({ field: 'Included filename', value: file.name }))];
   reviewPackageText(names.map(field => field.value).join('\n'), 'Word package labels and filenames', policy);
   privacy.push(detectTextPII(names));
-  const result: PreparedWordPackage = Object.freeze({ packageName: owned.name, revisionId: captured.id, privacy: mergePIIResults(privacy), reviews: structuredClone(reviews), limitations: WORD_PACKAGE_LIMITATIONS });
+  const result: PreparedWordPackage = Object.freeze({ packageName: owned.name, revisionId: captured.id, privacy: mergePIIResults(privacy), reviews: structuredClone(reviews), limitations: manifest.limitations });
   preparations.set(result, { manifest, files, words });
   signal.throwIfAborted();
   return result;

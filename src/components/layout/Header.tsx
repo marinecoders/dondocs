@@ -1,3 +1,4 @@
+import { isOutputFieldActive } from '@/lib/documentFields';
 import { saveCheckpoint } from '@/lib/saveCheckpoint';
 import { runFileImport } from '@/lib/fileImports';
 import { DraftIdentity } from './DraftIdentity';
@@ -62,6 +63,7 @@ interface HeaderProps {
   onDownloadTaggedPdf?: () => void;
   onDownloadTex?: () => void;
   onDownloadDocx?: () => void;
+  onDownloadDocxEnclosures?: () => void;
   onDownloadFlatTex?: () => void;
   onRefreshPreview?: () => void;
   isCompiling?: boolean;
@@ -95,6 +97,7 @@ export function Header({
   onDownloadTaggedPdf,
   onDownloadTex,
   onDownloadDocx,
+  onDownloadDocxEnclosures,
   onDownloadFlatTex,
   onRefreshPreview,
   isCompiling,
@@ -103,6 +106,7 @@ export function Header({
   isFormsMode = false,
   updateAvailable = false,
 }: HeaderProps) {
+  const hasEnclosures = useDocumentStore(state => state.enclosures.length > 0 && isOutputFieldActive(state, ['enclosures', 0]));
   const [taggedPdfOpen, setTaggedPdfOpen] = useState(false);
   // One selector per field so Zustand only re-renders on that field's change,
   // not on every store update (this header is ~40 buttons + dropdowns). Setters
@@ -376,6 +380,12 @@ export function Header({
                     )}
                     {isDocxGenerating ? 'Generating Word…' : 'Download Word (.docx)'}
                   </DropdownMenuItem>
+                  {hasEnclosures && onDownloadDocxEnclosures && <>
+                    <DropdownMenuItem onClick={onDownloadDocxEnclosures} disabled={isDocxGenerating}>
+                      <FileText className="h-4 w-4 mr-2" />Word with enclosure page images
+                    </DropdownMenuItem>
+                    <div role="note" className="max-w-64 px-2 py-1 text-xs text-muted-foreground">Enclosure pages become images. Text, interactive fields and certificate signatures are not editable or verified in that copy. Originals remain unchanged.</div>
+                  </>}
                   {output.word.status === 'partial' && <div role="note" className="max-w-64 px-2 py-1 text-xs text-muted-foreground">{output.word.message}</div>}
                 </>
               )}

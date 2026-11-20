@@ -58,7 +58,7 @@ export function resolveCapabilities(subject: CapabilitySubject, request: Capabil
         ? 'This publication supports LaTeX configuration fragments, but not flat LaTeX.'
         : 'This publication exports to PDF.');
     }
-    if (request.target === 'docx') return result('partial', 'word-pdf-features', 'Word embeds one signature image in supported correspondence, with an explicit signer on dual-signer documents, and PNG/JPEG business-letter figures. Dual-signer and information-memo image placement is Word-only. Reference titles with safe URLs remain linked in Word. Merged PDF pages and PDF signing fields require PDF output.');
+    if (request.target === 'docx') return result('partial', 'word-pdf-features', 'Word embeds one signature image in supported correspondence, with an explicit signer on dual-signer documents, and PNG/JPEG business-letter figures. Dual-signer and information-memo image placement is Word-only. Reference titles with safe URLs remain linked in Word. PDF enclosure pages stay separate by default; browser Word export can optionally include them as page images. Certificate signatures and interactive PDF fields remain in the originals.');
     if (request.target === 'tex' && !(request.operation === 'export' && request.texMode === 'flat')) {
       return result('partial', 'tex-configuration-only', 'Exports LaTeX configuration fragments; a standalone project also needs templates and assets.');
     }

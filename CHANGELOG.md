@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.182] — 2026-11-20
+
+### Added
+
+- Optionally include PDF enclosure page images in browser Word exports and packages.
+
 ## [1.3.181] — 2026-11-20
 
 ### Added

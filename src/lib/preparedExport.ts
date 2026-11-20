@@ -30,6 +30,7 @@ export interface PreparedExportJob {
   readonly target: ExportTarget;
   readonly texMode?: 'configuration' | 'flat';
   readonly pdfAccessibility?: 'tagged';
+  readonly wordEnclosurePages?: boolean;
   readonly filename: string;
   readonly policyIdentity: string;
 }
@@ -93,6 +94,7 @@ export function prepareExport(input: {
   readonly target: ExportTarget;
   readonly texMode?: 'configuration' | 'flat';
   readonly pdfAccessibility?: 'tagged';
+  readonly wordEnclosurePages?: boolean;
   readonly filename: string;
   readonly policy: PolicyResolution;
   readonly placeholders?: PlaceholderValues;
@@ -103,6 +105,7 @@ export function prepareExport(input: {
   try {
     assertExportDeploymentPolicy(input.policy.policy);
     if (input.pdfAccessibility !== undefined && (input.target !== 'pdf' || input.pdfAccessibility !== 'tagged')) return error('Invalid tagged PDF export option.');
+    if (input.wordEnclosurePages !== undefined && (typeof input.wordEnclosurePages !== 'boolean' || input.target !== 'docx')) return error('PDF enclosure page images are a Word export option.');
     if (input.texMode !== undefined && (input.target !== 'tex' || !['configuration', 'flat'].includes(input.texMode))) return error('Invalid TeX export mode.');
     if (!input.id.trim() || !input.filename.trim() || /[\\/]/.test(input.filename) || [...input.filename].some(char => char.charCodeAt(0) < 32)) return error('Choose a valid export identity and filename.');
     const capability = capturedCapabilities(input.captured, { operation: 'export', target: input.target, texMode: input.texMode });
@@ -157,6 +160,10 @@ export function prepareExport(input: {
       marking = publicationMarking(snapshot.formData, portions);
       const issues = publicationExportErrors(snapshot, new Date(output.source.capturedAt));
       if (input.target === 'docx') issues.push(...publicationWordExportErrors(snapshot));
+      if (input.wordEnclosurePages && snapshot.enclosures.length) {
+        notices.push('Review every original PDF enclosure for markings and personal information. Enclosure pages will be noneditable images; interactive fields and original certificate signatures do not carry into the Word copy.');
+        markingReview = true;
+      }
       if (issues.length) return Object.freeze({ status: 'error', issues: Object.freeze(issues) });
       output = captureDocumentRevision(output.source, snapshot);
     }
@@ -177,7 +184,7 @@ export function prepareExport(input: {
       ...(input.placeholders ? [detectBatchPII(input.captured, input.placeholders)] : []),
     ]);
     const structure = output.kind === 'correspondence' && !['sl3', 'sl4'].includes(snapshot.docType) ? validateParagraphStructure(snapshot.paragraphs) : [];
-    const job: PreparedExportJob = Object.freeze({ [preparedBrand]: true as const, id: input.id, source: output.source, kind: output.kind, target: input.target, ...(input.pdfAccessibility ? { pdfAccessibility: input.pdfAccessibility } : {}), ...(input.target === 'tex' ? { texMode: input.texMode ?? 'configuration' } : {}), filename: input.filename, policyIdentity: input.policy.policy.identity });
+    const job: PreparedExportJob = Object.freeze({ [preparedBrand]: true as const, id: input.id, source: output.source, kind: output.kind, target: input.target, ...(input.pdfAccessibility ? { pdfAccessibility: input.pdfAccessibility } : {}), ...(input.wordEnclosurePages ? { wordEnclosurePages: true } : {}), ...(input.target === 'tex' ? { texMode: input.texMode ?? 'configuration' } : {}), filename: input.filename, policyIdentity: input.policy.policy.identity });
     prepared.set(job, { captured: output, policy: input.policy.policy, marking, formTemplates: input.formTemplates, review: { privacy, structure, notices, markingReview } });
     return privacy.found || structure.length || markingReview
       ? Object.freeze({ status: 'needs-review', job })

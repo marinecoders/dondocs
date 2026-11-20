@@ -119,6 +119,7 @@ export const letterSchema = z.object({
   // and a second copy is how one door came to accept what the other refused.
   docType: z.enum(DOC_TYPES as [string, ...string[]]),
   format: z.enum(['pdf', 'docx']).optional().describe('Defaults to pdf.'),
+  wordEnclosurePages: z.boolean().optional().describe('PDF page-image Word export requires the browser renderer. The companion rejects true; deliver originals separately.'),
   out: z.string().optional().describe('Filename inside the output root. Defaults to a slug of the subject, numbered if that name is taken. Give out to replace a file.'),
 
   subject: z.string().optional().describe('The Subj: line. Conventionally all caps.'),

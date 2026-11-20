@@ -1310,6 +1310,15 @@ export interface GeneratedFiles {
   figures: { file: string; ref: FileRef }[];
 }
 
+/** Read enclosure output metadata without invoking a document-body renderer. */
+export function enclosureRenderData(store: Pick<DocumentStore, 'docType' | 'formData' | 'enclosures'>): EnclosureData[] {
+  const start = enclosureStartNumber(store.docType, store.formData.startingEnclosureNumber);
+  return store.enclosures.map((enclosure, index) => ({ number: start + index, title: enclosure.title || 'Untitled', data: enclosure.file?.data,
+    pageStyle: enclosure.pageStyle, hasCoverPage: enclosure.hasCoverPage, coverPageDescription: enclosure.coverPageDescription,
+    ...('marking' in enclosure ? { marking: enclosure.marking } : {}),
+  }));
+}
+
 export function generateAllLatexFiles(store: DocumentStore, resolvedLevel?: string, referenceDate = new Date(), bodyAdapter?: LatexBodyAdapter): GeneratedFiles {
   if (store.docType === 'business_letter') {
     let number = 0;
@@ -1351,16 +1360,7 @@ export function generateAllLatexFiles(store: DocumentStore, resolvedLevel?: stri
   // `\enclosure{n}` hyperlink anchor — the merge stamps page markers and
   // resolves "Encl (n)" links by it, so an endorsement's continued numbering
   // has to reach here too.
-  const enclStart = enclosureStartNumber(store.docType, store.formData.startingEnclosureNumber);
-  const enclosures: EnclosureData[] = store.enclosures.map((encl, i) => ({
-    number: enclStart + i,
-    title: encl.title || 'Untitled',
-    marking: encl.marking,
-    data: encl.file?.data, // undefined if no PDF attached
-    pageStyle: encl.pageStyle,
-    hasCoverPage: encl.hasCoverPage,
-    coverPageDescription: encl.coverPageDescription,
-  }));
+  const enclosures = enclosureRenderData(store);
 
   // Convert signature image from base64 to Uint8Array if present
   let signatureImage: Uint8Array | undefined;

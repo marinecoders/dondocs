@@ -203,7 +203,7 @@ function checkImages(pdf: PDFDocument): void {
  * Render that encrypted case, or printable enclosure annotations, to a separate,
  * bounded visual derivative. Basic-letter copies preserve ordinary annotations.
  */
-export async function loadAssemblyPdf(data: Uint8Array | ArrayBuffer, signal?: AbortSignal, options: { preserveAnnotations?: boolean } = {}): Promise<{ pdf: PDFDocument; pageImages: boolean; imageCopyReason?: PdfImageCopyReason }> {
+export async function loadAssemblyPdf(data: Uint8Array | ArrayBuffer, signal?: AbortSignal, options: { preserveAnnotations?: boolean; forcePageImages?: boolean; onPageImage?: (image: { bytes: Uint8Array; width: number; height: number }) => void | Promise<void> } = {}): Promise<{ pdf: PDFDocument; pageImages: boolean; imageCopyReason?: PdfImageCopyReason }> {
   signal?.throwIfAborted();
   const source = bytesOf(data);
   const pdf = await PDFDocument.load(source, { ignoreEncryption: true });
@@ -213,7 +213,7 @@ export async function loadAssemblyPdf(data: Uint8Array | ArrayBuffer, signal?: A
   // encrypted form/annotation metadata after loading it with the empty password.
   const printableAnnotations = !pdf.isEncrypted && hasPrintableAnnotations(pdf, needsAppearances);
   const imageCopyReason = pdf.isEncrypted ? 'permissions' : !options.preserveAnnotations && printableAnnotations ? 'annotations' : undefined;
-  if (!imageCopyReason) return { pdf, pageImages: false };
+  if (!imageCopyReason && !options.forcePageImages) return { pdf, pageImages: false };
   if (source.byteLength > PROTECTED_PDF_LIMITS.bytes) throw new Error('PDF image copies must be 25 MB or smaller. Split this PDF and try again.');
   if (typeof document === 'undefined') throw new Error('This environment cannot prepare PDF page images. Export an unprotected, flattened copy in your PDF application and attach it again.');
   checkImages(pdf);
@@ -263,7 +263,10 @@ export async function loadAssemblyPdf(data: Uint8Array | ArrayBuffer, signal?: A
           const blob = await pagePng(canvas, controller.signal);
           pngBytes += blob.size;
           if (pngBytes > PROTECTED_PDF_LIMITS.pngBytes) throw new Error('PDF page images exceed 32 MB. Split the PDF and try again.');
-          const image = await output.embedPng(await blob.arrayBuffer());
+          const imageBytes = new Uint8Array(await blob.arrayBuffer());
+          await options.onPageImage?.({ bytes: imageBytes, width: base.width, height: base.height });
+          controller.signal.throwIfAborted();
+          const image = await output.embedPng(imageBytes);
           controller.signal.throwIfAborted();
           output.addPage([base.width, base.height]).drawImage(image, { x: 0, y: 0, width: base.width, height: base.height });
         } finally { canvas.width = canvas.height = 0; }
