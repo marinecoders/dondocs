@@ -1,3 +1,5 @@
+import { VolumeDetailsSection, VolumeOutlineSection, VolumeBodySection } from '@/components/editor/VolumeSections';
+import { publicationVolumeErrors } from '@/lib/publicationVolume';
 import type { DocumentData, EndItem } from '@/types/document';
 import { MANUAL_SECTION_IDS } from '@/data/techpub/manualFrontMatter';
 import { manualFrontMatterFindings } from '@/lib/manualFrontMatterValidation';
@@ -82,6 +84,7 @@ export function useEditorSections(): {
  * an export attempt, gated on uiStore.validationVisible.
  */
 interface SectionErrorInput {
+  volume?: DocumentData['volume'];
   manualFrontMatter?: DocumentData['manualFrontMatter'];
   sl3?: DocumentData['sl3'];
   sl4?: DocumentData['sl4'];
@@ -111,6 +114,7 @@ export const ERROR_BEARING_IDS = [
 ] as const;
 
 export function errorBearingIds(config: DocTypeConfig): readonly string[] {
+  if (config === DOC_TYPE_CONFIG.technical_volume) return ['volume-details', 'volume-outline', 'volume-body'];
   if (config === DOC_TYPE_CONFIG.tm_ietm_front_matter) return MANUAL_SECTION_IDS;
   if (config === DOC_TYPE_CONFIG.sl4) return SL4_SECTION_IDS;
   return config === DOC_TYPE_CONFIG.sl3 ? SL3_ERROR_BEARING_IDS : ERROR_BEARING_IDS;
@@ -142,6 +146,7 @@ export function getSectionError(
   config: DocTypeConfig,
   endItems: EndItem[] = [],
 ): boolean {
+  if (config === DOC_TYPE_CONFIG.technical_volume) return id === 'volume-details' ? unfilled(formData.subject) : publicationVolumeErrors(formData.volume, paragraphs as import('@/types/document').Paragraph[]).length > 0;
   if (config === DOC_TYPE_CONFIG.tm_ietm_front_matter) return manualFrontMatterFindings({ docType: 'tm_ietm_front_matter', formData }).some(finding => finding.section === id);
   if (config === DOC_TYPE_CONFIG.sl4) return sl4ExportErrors({ docType: 'sl4', formData, paragraphs: paragraphs as import('@/types/document').Paragraph[], endItems }).some((message) => sl4ErrorSection(message) === id);
   if (config === DOC_TYPE_CONFIG.sl3) return sl3ExportErrors({
@@ -337,6 +342,9 @@ export function useDocumentCompleteness(): DocumentCompleteness {
 
 export function renderEditorSection(id: string, config: DocTypeConfig): ReactNode {
   switch (id) {
+    case 'volume-details': return <VolumeDetailsSection />;
+    case 'volume-outline': return <VolumeOutlineSection />;
+    case 'volume-body': return <VolumeBodySection />;
     case 'manual-publication':
     case 'manual-items':
     case 'manual-notices':

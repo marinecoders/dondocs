@@ -1,3 +1,4 @@
+import { emptyPublicationVolume, freshVolumeContent, validatePublicationVolume, VOLUME_DOC_TYPE, type PublicationVolume } from '@/lib/publicationVolume';
 import { transformRangeComments } from '@/lib/reviewCommentRanges';
 import { hasReviewComments, type ReviewComments } from '@/lib/reviewComments';
 import { persistSignature, resolveSignature } from '@/lib/signatureAssets';
@@ -133,6 +134,9 @@ export interface DocumentState {
   setField: <K extends keyof DocumentData>(key: K, value: DocumentData[K]) => void;
   setFormData: (data: Partial<DocumentData>) => void;
   resetForm: () => void;
+
+  /** Commit a structural volume edit and its body blocks together. */
+  setVolumeContent: (volume: PublicationVolume, paragraphs?: Paragraph[]) => void;
 
   // Actions - Publication tables and end items
   addTableRow: (tableKey: string) => void;
@@ -427,9 +431,34 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
       const patch = safeReferencePatch(plan, state);
       if (!patch) return state;
       const next = documentTypeState(state, type);
+      if (type === VOLUME_DOC_TYPE) {
+        try {
+          const volume = state.formData.volume ?? emptyPublicationVolume();
+          const source = patch.paragraphs ?? state.paragraphs;
+          if (source.some(paragraph => paragraph.tableKey || paragraph.publicationSection || paragraph.appendix
+            || paragraph.tableFootnotes?.length || [paragraph.text, paragraph.header ?? '', ...(paragraph.bodyTable?.rows.flat() ?? [])].some(text => text.includes('{{PUBREF_')))) {
+            throw new Error('This draft contains publication-specific tables, appendices or references that cannot be converted automatically. Keep this draft and create a new technical volume, then move supported content deliberately.');
+          }
+          const firstSection = volume.chapters[0].sections[0].id;
+          const sections = new Set([...volume.chapters, ...volume.appendices].flatMap(node => node.sections.map(section => section.id)));
+          const paragraphs = ensureParagraphIds(source, paragraphCommentIds(state.reviewComments)).map(paragraph => ({ ...paragraph, volumeSectionId: paragraph.volumeSectionId && sections.has(paragraph.volumeSectionId) ? paragraph.volumeSectionId : firstSection }));
+          const owned = validatePublicationVolume(volume, paragraphs);
+          return { ...next, ...patch, formData: { ...next.formData, ...(patch.formData ? { via: patch.formData.via } : {}), volume: owned, signatureType: 'none' }, paragraphs };
+        } catch (error) {
+          showAppAlert({ title: 'Technical volume conversion needs review', message: error instanceof Error ? error.message : 'Keep this draft and create a new technical volume before moving its content.' });
+          return state;
+        }
+      }
       return { ...next, ...patch, formData: { ...next.formData, ...(patch.formData ? { via: patch.formData.via } : {}) } };
     });
   },
+
+  setVolumeContent: (volume, paragraphs) => set(state => {
+    if (state.docType !== VOLUME_DOC_TYPE || state.documentCategory === 'forms') return state;
+    const body = paragraphs ?? state.paragraphs;
+    const owned = validatePublicationVolume(volume, body);
+    return { formData: { ...state.formData, volume: owned }, paragraphs: body };
+  }),
 
   setField: (key, value) => set((state) => {
     const formData = { ...state.formData, [key]: value };
@@ -865,8 +894,10 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
         delete formData.basicLetterFile;
         delete formData.basicLetterFileRef;
       }
+      const freshVolume = data.paragraphs && formData.volume ? freshVolumeContent(formData.volume, migratePortionMarkings(data.paragraphs), { retained: state.docType !== VOLUME_DOC_TYPE }) : undefined;
+      if (freshVolume) formData.volume = freshVolume.volume;
       return {
-        paragraphs: data.paragraphs ? freshParagraphs(migratePortionMarkings(data.paragraphs)) : state.paragraphs,
+        paragraphs: freshVolume?.paragraphs ?? (data.paragraphs ? freshParagraphs(migratePortionMarkings(data.paragraphs)) : state.paragraphs),
         // Re-letter against the incoming start so a loaded endorsement keeps
         // the sequence it was saved with.
         references: data.references
