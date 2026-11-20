@@ -1,6 +1,7 @@
 import { documentTextFields, type DocumentFieldSource } from './documentFields';
 import { retainedTextClassificationLevel } from './detectClassification';
 import { assertExportDeploymentPolicy, type PolicyResolution } from './exportDeploymentPolicy';
+import { assertEnclosureMarkingPolicy } from './enclosureMarkings';
 
 /** The transfer text inventory includes inactive, unknown and definition text.
  * Keep this independent of rendered output and report comparison projections.
@@ -17,5 +18,6 @@ export function assertRetainedTextPolicy(texts: Iterable<string>, policy: Policy
 }
 
 export function assertRetainedDocumentTextPolicy(source: DocumentFieldSource, policy: PolicyResolution): void {
+  assertEnclosureMarkingPolicy(source, policy);
   assertRetainedTextPolicy(documentTextFields(source, 'share', { includeUnknownDataUris: true }).map(field => field.text), policy);
 }
