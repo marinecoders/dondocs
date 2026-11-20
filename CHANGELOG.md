@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.180] — 2026-11-20
+
+### Added
+
+- Extend native table layout controls and share canonical geometry across PDF and Word.
+
 ## [1.3.179] — 2026-11-20
 
 ### Added

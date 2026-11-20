@@ -1,3 +1,4 @@
+import { applyBodyTableLayouts } from './bodyTables';
 /**
  * Pandoc WASM Converter Service
  *
@@ -462,6 +463,7 @@ function perfectLetterheadCentering(xml: string, textWidthTwips: number): Letter
  * was already at the edge of readable; eight would not be.
  */
 export interface DocxConversionOptions {
+  bodyTables?: readonly import('@/lib/bodyTable').BodyTable[];
   /** Captured PNG/JPEG bytes, addressed only by generated attachment paths. */
   mediaFiles?: import('./imageAssets').DocxMedia;
   docType?: string;
@@ -1030,6 +1032,7 @@ export async function postProcessDocx(
     showSubjectOnContinuation,
     pageNumbering,
     startingPageNumber,
+    bodyTables = [],
   }: DocxConversionOptions = {},
 ): Promise<Blob> {
   debug.log('DOCX', `Post-processing DOCX (${(docxBlob.size / 1024).toFixed(1)} KB)`);
@@ -1324,6 +1327,7 @@ export async function postProcessDocx(
     });
   }
 
+  xml = applyBodyTableLayouts(xml, bodyTables);
   zip.file('word/document.xml', xml);
   debug.verbose('DOCX', `Updated document.xml: ${(xml.length / 1024).toFixed(1)} KB`);
 

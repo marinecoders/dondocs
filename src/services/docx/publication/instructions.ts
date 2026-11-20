@@ -9,7 +9,7 @@ import { publicationDate } from '@/lib/timeCompliance';
 import { iTypeDestructionNotice } from '@/lib/iTypeClassification';
 import { format, isValid } from 'date-fns';
 import { figureExtension } from '@/lib/figures';
-import { bodyTableSchema } from '@/lib/bodyTable';
+import { bodyTableSchema, bodyTableTwips } from '@/lib/bodyTable';
 import { imageExtent, inspectRasterImage } from '../imageAssets';
 import { PublicationWordPackage, type SectionFormat, type WordText, type WordTextRun } from './package';
 import { authentication, endItemTable, publicationNotices } from './frontMatter';
@@ -94,9 +94,8 @@ export async function instructionBody(word: PublicationWordPackage, document: Pu
     if (paragraph.bodyTable) {
       const table = bodyTableSchema.parse(paragraph.bodyTable);
       if (paragraph.header || paragraph.text || marking) word.text([literal(marking + (paragraph.header ?? '') + (paragraph.header && paragraph.text ? '. ' : '')), rich(paragraph.text)], { bold: true, keep: true });
-      const widths = table.rows[0].map(() => Math.floor(10080 / table.rows[0].length));
-      widths[widths.length - 1] += 10080 - widths.reduce((sum, width) => sum + width, 0);
-      word.table(table.rows[0], table.rows.slice(1), widths, { headerRows: table.headerRows, inlineMode: 'rich' });
+      const widths = bodyTableTwips(table, 10080);
+      word.table(table.rows[0], table.rows.slice(1), widths, { breakWords: true, headerRows: table.headerRows, repeatHeaders: table.repeatHeaders, borders: table.borders, columnAlignments: table.columnAlignments, size: table.fontSize, ...(table.minimumRowHeight ? { minimumRowHeight: table.minimumRowHeight } : {}), inlineMode: 'rich' });
       continue;
     }
     if (paragraph.appendix) {

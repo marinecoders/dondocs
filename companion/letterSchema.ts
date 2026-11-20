@@ -1,3 +1,4 @@
+import { bodyTableSchema } from '../src/lib/bodyTable';
 import { manualFrontMatterInputSchema } from './manualFrontMatterInput';
 import { enclosureMarkingSchema } from '../src/lib/enclosureMarkings';
 /**
@@ -17,6 +18,7 @@ import { CLASSIFICATION_LEVELS, DOC_TYPES, PORTION_MARKINGS } from './validateLe
 
 export const paragraph = z.object({
   ...publicationParagraph,
+  bodyTable: bodyTableSchema.optional().describe('A native rectangular table with supported layout options.'),
   text: z.string().describe('The paragraph text. Plain prose — numbering is applied for you.'),
   level: z.number().int().min(0).max(7).optional()
     .describe('0 = "1.", 1 = "a.", 2 = "(1)" … through Figure 7-8\'s eight levels. Defaults to 0.'),

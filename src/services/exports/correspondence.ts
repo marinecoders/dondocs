@@ -70,6 +70,7 @@ export async function renderPreparedCorrespondence(ready: ReadyExportJob, ports:
       checkCancellation(signal);
       const blob = await convertDocx(generateFlatLatex(document, resolvedLevel), {
         mediaFiles,
+        bodyTables: document.paragraphs.flatMap(paragraph => paragraph.bodyTable ? [paragraph.bodyTable] : []),
         docType: document.docType, sealType: data.sealType, letterheadColor: data.letterheadColor,
         fontFamily: data.fontFamily, fontSize: data.fontSize, classLevel: resolvedLevel, customClassification: data.customClassification,
         showSubjectOnContinuation: data.showSubjectOnContinuation,

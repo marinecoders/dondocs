@@ -1,3 +1,4 @@
+import { formatBodyTables } from '@/services/docx/bodyTables';
 /**
  * DOCX through the same generators the app uses.
  * Publications use the shared native OOXML renderer and local bundled assets.
@@ -115,7 +116,7 @@ export async function renderDocx(input: LetterInput, defaults: CompanionDefaults
         : reject(new Error(`pandoc exited ${code}: ${stderr}`)))));
     });
 
-    return new Uint8Array(await readFile(join(dir, 'out.docx')));
+    return formatBodyTables(new Uint8Array(await readFile(join(dir, 'out.docx'))), store.paragraphs.flatMap(paragraph => paragraph.bodyTable ? [paragraph.bodyTable] : []));
   } finally {
     // Every conversion used to leave its scratch directory behind. One is
     // nothing; a companion left running for a week is thousands.

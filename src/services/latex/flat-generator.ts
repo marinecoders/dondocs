@@ -685,6 +685,7 @@ function buildBody(paragraphs: Paragraph[], config: DocTypeConfig, font: LabelFo
   let figureNumber = 0;
   let figureAssetIndex = 0;
   let bodyIndex = 0;
+  let bodyTableIndex = 0;
 
   for (let i = 0; i < paragraphs.length; i++) {
     const para = paragraphs[i];
@@ -692,7 +693,7 @@ function buildBody(paragraphs: Paragraph[], config: DocTypeConfig, font: LabelFo
     if (para.bodyTable) {
       const caption = `${para.portionMarking ? `(${para.portionMarking}) ` : ''}${[para.header ? processText(para.header) : '', para.text ? processText(para.text) : ''].filter(Boolean).join(' ')}`;
       if (caption) bodyParts.push(`${caption}\n\n`);
-      bodyParts.push(renderBodyTable(para.bodyTable, text => text.split('\n').map(line => processText(line)).join('\\newline '), { repeatHeaders: false }));
+      bodyParts.push(renderBodyTable(para.bodyTable, text => text.split('\n').map(line => processText(line)).join('\\newline '), { repeatHeaders: false, wordIndex: bodyTableIndex++ }));
       continue;
     }
     if (para.figure) {
@@ -1807,5 +1808,5 @@ export function generateFlatLatex(store: DocumentStore, resolvedLevel?: string, 
 
   tex += '\n\\end{document}\n';
 
-  return tex;
+  return target === 'tex' ? tex.replace(/\\dondocsbodytable\{\d+\}/g, '') : tex;
 }
