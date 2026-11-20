@@ -7,6 +7,17 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.176] — 2026-11-20
+
+### Changed
+
+- Split iOS Chrome browser checks into four jobs and record CI traces on the first retry.
+
+### Fixed
+
+- Save the selected review copy before closing its import dialog, and keep delayed package-question focus from interrupting another field.
+- Wait for completed impact reports and the active iOS PDF delivery tab in browser checks, and open only the signing controls under test.
+
 ## [1.3.175] — 2026-11-19
 
 ### Added

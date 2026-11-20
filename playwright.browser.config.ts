@@ -9,7 +9,13 @@ export default defineConfig({
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 1 : 0,
   failOnFlakyTests: !!process.env.CI,
-  use: { ...base.use, baseURL: 'http://127.0.0.1:4173', reducedMotion: 'reduce' },
+  use: {
+    ...base.use,
+    baseURL: 'http://127.0.0.1:4173',
+    reducedMotion: 'reduce',
+    // Retain local first-failure traces; avoid tracing every successful CI run.
+    trace: process.env.CI ? 'on-first-retry' : 'retain-on-failure',
+  },
   projects: [
     { name: 'chromium', use: { browserName: 'chromium' } },
     { name: 'chrome', use: { browserName: 'chromium', channel: 'chrome' } },

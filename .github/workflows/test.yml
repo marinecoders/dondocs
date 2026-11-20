@@ -383,10 +383,9 @@ jobs:
   browser-flows:
     name: browser flows (${{ matrix.group }})
     runs-on: ubuntu-latest
-    # Includes setup and complete browser profiles with review/asset workflows.
-    # Desktop WebKit and mobile Safari use three shards; Firefox, iPad Safari
-    # and iOS Chrome use two. Cold WebKit setup can take 18 minutes before a
-    # complete profile runs for more than an hour, so include both in the budget.
+    # Include setup and the selected document workflows. Keep iOS Chrome
+    # shards small enough to finish as the suite grows; cold WebKit setup
+    # can take 18 minutes before the tests start.
     timeout-minutes: 120
     strategy:
       fail-fast: false
@@ -436,10 +435,16 @@ jobs:
             projects: --project=mobile-safari --shard=3/3
           - group: mobile-chrome-ios-1
             browsers: webkit
-            projects: --project=mobile-chrome-ios --shard=1/2
+            projects: --project=mobile-chrome-ios --shard=1/4
           - group: mobile-chrome-ios-2
             browsers: webkit
-            projects: --project=mobile-chrome-ios --shard=2/2
+            projects: --project=mobile-chrome-ios --shard=2/4
+          - group: mobile-chrome-ios-3
+            browsers: webkit
+            projects: --project=mobile-chrome-ios --shard=3/4
+          - group: mobile-chrome-ios-4
+            browsers: webkit
+            projects: --project=mobile-chrome-ios --shard=4/4
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
       - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
@@ -450,7 +455,7 @@ jobs:
       - run: bash scripts/ci-use-ubuntu-archive.sh
       - run: npx playwright install --with-deps ${{ matrix.browsers }}
       - run: npm run build
-      - name: verify install and downloads
+      - name: run application browser checks
         run: npm run test:browser -- ${{ matrix.projects }}
         env:
           PLAYWRIGHT_LIST_PRINT_FAILURES_INLINE: '1'

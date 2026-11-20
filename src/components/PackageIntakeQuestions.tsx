@@ -26,6 +26,13 @@ export function PackageIntakeQuestions({ program, answers, disabled, busy = fals
   const [inactiveCount, setInactiveCount] = useState(25);
   useEffect(() => {
     if (!focusFirst || disabled || focused.current || !first.current) return;
+    // Recovery can enable these fields after the user has started editing the
+    // package name. Do not redirect their next keystroke into a question.
+    const active = first.current.ownerDocument.activeElement;
+    if (active?.closest('input, textarea, select, [contenteditable]:not([contenteditable="false"])')) {
+      focused.current = true;
+      return;
+    }
     first.current.focus(); focused.current = true;
   }, [focusFirst, disabled, questions.length]);
   useEffect(() => { if (focusKey.current) { focusTargets.current.get(focusKey.current)?.focus(); focusKey.current = null; } }, [answers]);

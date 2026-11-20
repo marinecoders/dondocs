@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useLayoutEffect, useRef, useState } from 'react';
 import { expect, it, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -11,6 +11,42 @@ const program: PackageTemplateProgram = { revision: '1', requirements: [], parti
   { id: 'details', label: 'Details', kind: 'text', required: true, when: { op: 'equals', questionId: 'include', value: true } },
   { id: 'name', label: 'Name', kind: 'text', required: true, groupId: 'people' },
 ] };
+
+it('keeps focus in a package name field when delayed question autofocus becomes available', () => {
+  function FocusedPackageName() {
+    const input = useRef<HTMLInputElement>(null);
+    useLayoutEffect(() => { input.current?.focus(); }, []);
+    return <>
+      <label>Package name<input ref={input} defaultValue="Current package name" /></label>
+      <PackageIntakeQuestions program={program} answers={freshPackageTemplateAnswers(program)} disabled={false} focusFirst onChange={() => undefined} />
+    </>;
+  }
+  render(<FocusedPackageName />);
+  expect(screen.getByRole('textbox', { name: 'Package name' })).toHaveFocus();
+});
+
+it('focuses the first question when no other field is being edited', () => {
+  render(<PackageIntakeQuestions program={program} answers={freshPackageTemplateAnswers(program)} disabled={false} focusFirst onChange={() => undefined} />);
+  expect(screen.getByRole('textbox', { name: 'Subject' })).toHaveFocus();
+});
+
+it('retains typed package-name input when loading changes intake from disabled to enabled', async () => {
+  const user = userEvent.setup();
+  const answers = freshPackageTemplateAnswers(program);
+  const content = (disabled: boolean) => <>
+    <label>Package name<input defaultValue="Current action" /></label>
+    <PackageIntakeQuestions program={program} answers={answers} disabled={disabled} focusFirst onChange={() => undefined} />
+  </>;
+  const view = render(content(true));
+  const name = screen.getByRole('textbox', { name: 'Package name' });
+  await user.click(name);
+  view.rerender(content(false));
+  expect(name).toHaveFocus();
+  await user.keyboard(' updated');
+  expect(name).toHaveFocus();
+  expect(name).toHaveValue('Current action updated');
+  expect(screen.getByRole('textbox', { name: 'Subject' })).toHaveValue('');
+});
 function Harness({ source = program, initial, disabled = false, capture }: { source?: PackageTemplateProgram; initial?: PackageTemplateAnswers; disabled?: boolean; capture?(value: PackageTemplateAnswers): void }) {
   const [answers, setAnswers] = useState(() => initial ?? freshPackageTemplateAnswers(source));
   return <PackageIntakeQuestions program={source} answers={answers} disabled={disabled} onChange={value => { capture?.(value); setAnswers(value); }} />;

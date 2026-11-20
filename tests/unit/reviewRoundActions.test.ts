@@ -17,6 +17,71 @@ import { base64ToUint8Array } from '@/lib/encoding';
 const png = 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVQIHWP4z8DwHwAFgAI/ScLbtAAAAABJRU5ErkJggg==';
 const pdf = new TextEncoder().encode('%PDF-1.4\nFictional attachment bytes');
 
+it('waits for the review copy resume choice before reporting that it is open', async () => {
+  const round = await startReviewRound('Durable resume choice');
+  const copy = await parseReviewCopy(await buildReviewCopy(round));
+  await flushDocumentWrites();
+  let release!: () => void;
+  const pending = new Promise<void>(resolve => { release = resolve; });
+  const write = database.idbSetCurrentId;
+  let requested: string | null = null;
+  vi.spyOn(database, 'idbSetCurrentId').mockImplementation(async id => {
+    if (id?.startsWith('review-copy_')) { requested = id; await pending; }
+    return write(id);
+  });
+  let opened = false;
+  const opening = openReviewCopy(copy).then(result => { opened = true; return result; });
+  try {
+    await vi.waitFor(() => expect(requested).not.toBeNull());
+    for (let index = 0; index < 10; index++) await Promise.resolve();
+    expect(opened, 'Closing the review dialog must not race the durable resume write.').toBe(false);
+  } finally { release(); }
+  expect(await opening).toBe('applied');
+  expect(await database.idbGetCurrentId()).toBe(useDocumentsStore.getState().currentId);
+});
+
+it('reports a failed resume write while retaining the committed copy and its untouched source', async () => {
+  const round = await startReviewRound('Failed resume choice');
+  const sourceId = useDocumentsStore.getState().currentId!;
+  const source = structuredClone(useDocumentsStore.getState().docs[sourceId]);
+  const copy = await parseReviewCopy(await buildReviewCopy(round));
+  await flushDocumentWrites();
+  const write = database.idbSetCurrentId;
+  vi.spyOn(database, 'idbSetCurrentId').mockImplementation(id => id?.startsWith('review-copy_') ? Promise.resolve(false) : write(id));
+  await expect(openReviewCopy(copy)).rejects.toThrow('saved for reopening');
+  const copyId = useDocumentsStore.getState().currentId!;
+  expect(copyId).toMatch(/^review-copy_/);
+  expect((await database.idbGetAllDocuments())!.some(document => document.id === copyId)).toBe(true);
+  expect((await readReviewCopyLink(copyId))?.roundId).toBe(round.id);
+  expect(useDocumentsStore.getState().docs[sourceId]).toEqual(source);
+});
+
+it('preserves newer navigation and edits while waiting for reviewer-copy activation to become durable', async () => {
+  const round = await startReviewRound('Navigation during resume write');
+  const sourceId = useDocumentsStore.getState().currentId!;
+  const copy = await parseReviewCopy(await buildReviewCopy(round));
+  await flushDocumentWrites();
+  let release!: () => void;
+  const pending = new Promise<void>(resolve => { release = resolve; });
+  const write = database.idbSetCurrentId;
+  let requested = false;
+  vi.spyOn(database, 'idbSetCurrentId').mockImplementation(async id => {
+    if (id?.startsWith('review-copy_')) { requested = true; await pending; }
+    return write(id);
+  });
+  const opening = openReviewCopy(copy);
+  try {
+    await vi.waitFor(() => expect(requested).toBe(true));
+    expect(openExistingDocument(sourceId)).toBe('applied');
+    useDocumentStore.getState().setField('subject', 'Newer source work during review activation');
+  } finally { release(); }
+  expect(await opening).toBe('applied');
+  expect(useDocumentsStore.getState().currentId).toBe(sourceId);
+  expect(await database.idbGetCurrentId()).toBe(sourceId);
+  expect(useDocumentStore.getState().formData.subject).toBe('Newer source work during review activation');
+  expect((await database.idbGetAllDocuments())!.find(document => document.id === sourceId)!.session.formData.subject).toBe('Newer source work during review activation');
+});
+
 beforeEach(() => {
   vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout', 'Date'] });
   useProfileStore.setState({ profiles: {}, selectedProfile: null });

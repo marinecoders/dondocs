@@ -1,4 +1,4 @@
-import { openPackagePreparation, importPackage, packageSection, expandPackageTools, preparePackageExport, packageTool } from './_helpers/packageWorkspace';
+import { openPackageWorkspace, importPackage, packageSection, preparePackageExport } from './_helpers/packageWorkspace';
 import { projectBrowserContextOptions } from '../_helpers/projectBrowserContext';
 import { expect, test, type Locator, type Page } from '@playwright/test';
 import { createHash } from 'node:crypto';
@@ -10,17 +10,32 @@ import { signingPdfDownload } from '../_helpers/signingBrowser';
 test.use({ serviceWorkers: 'block', actionTimeout: 15_000 });
 test.setTimeout(180_000);
 async function packages(page: Page) {
-  return openPackagePreparation(page);
+  return openPackageWorkspace(page);
 }
 async function signingPanel(dialog: Locator) {
-  const panel = await packageTool(dialog, 'Package signing');
-  if (!await panel.isVisible()) await expandPackageTools(dialog);
+  await expect(dialog).toHaveAttribute('aria-busy', 'false', { timeout: 90_000 });
+  await packageSection(dialog, 'Delivery');
+  const retainedPanel = dialog.getByRole('region', { name: 'Package signing', exact: true, includeHidden: true });
+  await expect(retainedPanel).toHaveCount(1);
+  // Open only this tool's disclosure path; unrelated package tools are not
+  // part of the signing workflow and add costly layout work on mobile WebKit.
+  for (const group of await retainedPanel.locator('xpath=ancestor::details').all()) {
+    if (await group.getAttribute('open') === null) await group.locator(':scope > summary').click();
+  }
+  const panel = dialog.getByRole('region', { name: 'Package signing', exact: true });
+  await expect(panel).toBeVisible(); return panel;
+}
+async function informationPanel(dialog: Locator) {
+  await packageSection(dialog, 'Overview');
+  const panel = dialog.getByRole('region', { name: /^(Details|Package information)$/ });
+  const links = panel.getByRole('button', { name: 'Field links and other details', exact: true });
+  if (await links.isVisible() && await links.getAttribute('aria-expanded') === 'false') await links.click();
   await expect(panel).toBeVisible(); return panel;
 }
 async function capturedHandoff(panel: Locator) {
-  await packageSection(panel.page().getByRole('dialog', { name: 'Action packages', exact: true }), 'Delivery', true);
+  await signingPanel(panel.page().getByRole('dialog', { name: 'Action packages', exact: true }));
   const review = panel.getByRole('button', { name: 'Review retained handoff 1', exact: true });
-  if (!await review.isVisible()) await expandPackageTools(panel);
+  if (!await review.isVisible()) await panel.locator('summary').filter({ hasText: /^Captured signing handoff 1$/ }).click();
   await review.click(); await expect(panel.getByLabel('Exact retained package handoff PDF', { exact: true }).locator('canvas').first()).toBeVisible({ timeout: 30_000 });
   const source = panel.getByText('Inspect retained source PDF', { exact: true });
   if (!await panel.getByLabel('Exact retained package signing source PDF', { exact: true }).locator('canvas').first().isVisible()) await source.click(); await expect(panel.getByLabel('Exact retained package signing source PDF', { exact: true }).locator('canvas').first()).toBeVisible(); await source.click();
@@ -48,7 +63,7 @@ for (const theme of ['light', 'dark', 'classic']) for (const width of [1440, 320
   await context.addInitScript(value => { localStorage.setItem('browser-test-visitor', 'returning'); localStorage.setItem('dondocs_ui', JSON.stringify({ version: 1, state: { theme: value, editorLayout: 'focused' } })); }, theme);
   const fixture = await inputPackage(); await page.goto('/'); let dialog = await packages(page);
   await importPackage(dialog, { name: 'synthetic-signing-package.json', mimeType: 'application/json', buffer: fixture.buffer });
-  await packageSection(dialog, 'Delivery', true);
+  await packageSection(dialog, 'Delivery');
   await expect(dialog.getByRole('heading', { name: 'Synthetic signing action', exact: true, level: 1 })).toBeVisible();
   let panel = await signingPanel(dialog);
   await panel.getByLabel('Package signing PDF', { exact: true }).selectOption({ label: 'Original PDF: Synthetic signing source.pdf' });
@@ -91,7 +106,7 @@ for (const theme of ['light', 'dark', 'classic']) for (const width of [1440, 320
   await workspace.getByRole('button', { name: 'Associate returned PDF', exact: true }).click();
   await expect(workspace.getByText('Returned PDF associated with the saved handoff. Signer authenticity and approval remain unverified.', { exact: true })).toBeVisible();
   await workspace.getByRole('button', { name: 'Close', exact: true }).click();
-  const information = await packageTool(dialog, /^(Details|Package information)$/);
+  const information = await informationPanel(dialog);
   await information.getByRole('button', { name: 'Add shared value', exact: true }).click();
   await information.getByLabel('Value label 1', { exact: true }).fill('Newer coordination note');
   await information.getByLabel('Value 1', { exact: true }).fill('Preserve this newer package work');
@@ -111,7 +126,7 @@ for (const theme of ['light', 'dark', 'classic']) for (const width of [1440, 320
   await panel.getByRole('checkbox', { name: /^I reviewed the exact returned PDF/ }).check(); await expect(add).toBeDisabled();
   await panel.getByRole('checkbox', { name: /^I acknowledge the unchanged, differing/ }).check(); await add.click();
   await expect(add).not.toBeVisible(); await capturedHandoff(panel); await expect(panel.locator('p').filter({ hasText: /Return 1: Synthetic associated return.pdf/ })).toBeVisible();
-  await packageSection(dialog, 'Overview', true);
+  await informationPanel(dialog);
   await expect(information.getByLabel('Value 1', { exact: true })).toHaveValue('Preserve this newer package work');
   await page.reload(); dialog = await packages(page); panel = await signingPanel(dialog);
   await capturedHandoff(panel); await expect(panel.locator('p').filter({ hasText: /Return 1: Synthetic associated return.pdf/ })).toBeVisible();
@@ -126,7 +141,7 @@ for (const theme of ['light', 'dark', 'classic']) for (const width of [1440, 320
     await receiver.addInitScript(() => localStorage.setItem('browser-test-visitor', 'returning'));
     const incoming = await receiver.newPage(); await incoming.goto(baseURL!); const received = await packages(incoming);
     await importPackage(received, { name: 'portable-signing-package.json', mimeType: 'application/json', buffer: portable });
-  await packageSection(received, 'Delivery', true);
+  await packageSection(received, 'Delivery');
     await expect(received.getByRole('heading', { name: 'Synthetic signing action', exact: true, level: 1 })).toBeVisible();
     const incomingPanel = await signingPanel(received); await capturedHandoff(incomingPanel);
     await incomingPanel.getByRole('button', { name: 'Check signing applicability', exact: true }).click();
@@ -137,7 +152,7 @@ for (const theme of ['light', 'dark', 'classic']) for (const width of [1440, 320
     await incomingPanel.getByRole('checkbox', { name: /^I reviewed this exact retained returned PDF/ }).check();
     const returned = await signingPdfDownload(incoming, info.project.name, () => incomingPanel.getByRole('button', { name: 'Download unchanged captured return', exact: true }).click());
     expect(returned).toEqual(handoffBytes);
-    await packageSection(received, 'Overview', true);
+    await informationPanel(received);
     await expect(received.getByRole('region', { name: /^(Details|Package information)$/ }).getByLabel('Value 1', { exact: true })).toHaveValue('Preserve this newer package work');
   } finally { await receiver.close(); }
 });
