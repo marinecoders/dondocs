@@ -1,4 +1,5 @@
-import { DOC_TYPE_LABELS } from '@/types/document';
+import { publicationVolumeSchema, validatePublicationVolume, VOLUME_DOC_TYPE } from './publicationVolume';
+import { DOC_TYPE_LABELS, type Paragraph } from '@/types/document';
 import { reviewCommentsSchema } from './reviewComments';
 import { bodyTableSchema, assertRichBlockShape } from './bodyTable';
 import { wordSourceSchema } from './wordSource';
@@ -78,6 +79,8 @@ export function validateBackupSession(value: unknown) {
   if (formData?.cuiTransmittalNote !== undefined && typeof formData.cuiTransmittalNote !== 'boolean') throw new Error('Invalid CUI transmittal confirmation');
   if (formData?.wordSource !== undefined) wordSourceSchema.parse(formData.wordSource);
   if (formData?.additionalEndorsements !== undefined) additionalEndorsementsSchema.parse(formData.additionalEndorsements);
+  if (data.docType === VOLUME_DOC_TYPE) validatePublicationVolume(formData?.volume, (data.paragraphs ?? []) as Paragraph[]);
+  else if (formData?.volume !== undefined) publicationVolumeSchema.parse(formData.volume);
   if (formData?.sl3 !== undefined) sl3Schema.parse(formData.sl3);
   if (formData?.sl4 !== undefined) sl4Schema.parse(formData.sl4);
   if (formData?.manualFrontMatter !== undefined) manualFrontMatterSchema.parse(formData.manualFrontMatter);

@@ -1,3 +1,4 @@
+import type { PublicationVolume } from '@/lib/publicationVolume';
 import type { PublicationSection } from '@/data/techpub/sections';
 import type { ManualFrontMatter } from '@/data/techpub/manualFrontMatter';
 import type { Sl3Data } from '@/data/techpub/sl3';
@@ -173,6 +174,7 @@ export interface Profile {
 }
 
 export interface DocumentData {
+  volume?: PublicationVolume;
   /** Exact source Word file, retained independently of editable imported content. */
   wordSource?: WordSourceMetadata;
   manualFrontMatter?: ManualFrontMatter;

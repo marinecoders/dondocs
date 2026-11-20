@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.183] — 2026-11-20
+
+### Added
+
+- Preserve structured technical-volume outlines and native body identities.
+
 ## [1.3.182] — 2026-11-20
 
 ### Added

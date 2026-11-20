@@ -1,3 +1,4 @@
+import { publicationVolumeSchema, validatePublicationVolume, VOLUME_DOC_TYPE } from './publicationVolume';
 import { sl4Schema } from '@/data/techpub/sl4';
 import { enclosureMarkingSchema } from './enclosureMarkings';
 import { requiresCurrentDocumentReader } from './documentReaderRequirements';
@@ -58,6 +59,7 @@ const expiringEnvelope = z.object({
 }).strict();
 type OrdinaryShare = SerializedSession & { kind: 'dondocs-share'; version: 1 | 2; documentKind: SharedDocumentKind };
 type ExpiringShare = { kind: 'dondocs-share'; version: 3; documentKind: SharedDocumentKind; expiresAt: number; session: SerializedSession };
+// Version 6 belongs to asset shares; current structured text shares use 7.
 type RichShare = { kind: 'dondocs-share'; version: 5 | 7; documentKind: SharedDocumentKind; expiresAt?: number; session: SerializedSession };
 const richShareEnvelope = z.object({ kind: z.literal('dondocs-share'), version: z.union([z.literal(5), z.literal(7)]), documentKind: sharedKind, expiresAt: z.number().optional(), session: z.unknown() }).strict();
 
@@ -125,6 +127,8 @@ export function parseSharedSession(value: unknown): SerializedSession {
   s.paragraphs = ensureParagraphIds(s.paragraphs, paragraphCommentIds(s.reviewComments));
   if (s.formData.signatureImageSigner !== undefined) s.formData.signatureImageSigner = z.enum(['junior', 'senior']).parse(s.formData.signatureImageSigner);
   if (s.formData.additionalEndorsements !== undefined) s.formData.additionalEndorsements = additionalEndorsementsSchema.parse(s.formData.additionalEndorsements);
+  if (s.docType === VOLUME_DOC_TYPE) s.formData.volume = validatePublicationVolume(s.formData.volume, s.paragraphs);
+  else if (s.formData.volume !== undefined) s.formData.volume = publicationVolumeSchema.parse(s.formData.volume);
   if (s.formData.sl3 !== undefined) s.formData.sl3 = sl3Schema.parse(s.formData.sl3);
   if (s.formData.sl4 !== undefined) s.formData.sl4 = sl4Schema.parse(s.formData.sl4);
   if (s.genericForm) {

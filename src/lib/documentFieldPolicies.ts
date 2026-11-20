@@ -1,3 +1,4 @@
+import type { PublicationVolume } from './publicationVolume';
 import type { ReviewComments, CommentThread, CommentMessage, CommentAnchor } from './reviewComments';
 import type { DocumentSnapshot } from '@/stores/historyStore';
 import type { SerializedSession } from '@/stores/documentStore';
@@ -76,8 +77,16 @@ const endorsement = {
   endorsementSerial: 'text', endorsementDate: 'document-date',
 } satisfies PoliciesFor<AdditionalEndorsement>;
 
+const volumeDivision = { id: 'identity', title: 'text', sections: array(object({ id: 'identity', title: 'text' })) } satisfies FieldPolicies;
+const volume = { version: 'control', chapters: array(object(volumeDivision)), appendices: array(object(volumeDivision)),
+  glossary: array(object({ id: 'identity', term: 'text', definition: 'text' })),
+  changes: array(object({ id: 'identity', number: 'text', date: 'document-date', description: 'text' })),
+  includeContents: 'value',
+} satisfies PoliciesFor<PublicationVolume>;
+
 /** Every editable field needs a deliberate text, structure, or exclusion policy. */
 export const DOCUMENT_DATA_FIELD_POLICIES = {
+  volume: object(volume),
   wordSource: object({ name: 'label', sha256: 'identity', fileRef: 'asset', notices: array('text'), retainedText: 'text' }),
   manualFrontMatter: object(manual), publicationSigningDate: 'document-date', publicationClosedDates: 'document-date',
   docType: 'control', fontSize: 'control', fontFamily: 'control', pageNumbering: 'control',
