@@ -7,6 +7,8 @@ import { documentOutputConfig } from '@/lib/documentOutputConfig';
 import { jointSignatories, signatureAuthorityLine, signaturePosition, supportsActingSignature } from '@/lib/signingAuthority';
 import { resolvePageNumbering } from '@/lib/pageNumbering';
 import { generateSl4Body } from './sl4Generator';
+import { generateVolumeBody } from './volumeGenerator';
+import { BREAKABLE_TEXT_COMMANDS } from './bodyTableText';
 import { stockDefinitionText } from './stockPublicationHelpers';
 import { generateManualFrontMatterData, manualPlainText } from './manualFrontMatterGenerator';
 import { emptyManualFrontMatter } from '@/data/techpub/manualFrontMatter';
@@ -28,7 +30,7 @@ import { composeDistributionStatement } from '@/data/techpub/distributionStateme
 import { documentDistributionStatement } from './distributionStatement';
 import { formatPublicationDate } from '@/lib/publicationDate';
 import { withTimeCompliance } from '@/lib/timeCompliance';
-import { businessFigureFile, figureFile } from '@/lib/figures';
+import { businessFigureFile, figureFile, volumeFigureFile } from '@/lib/figures';
 import type { DocumentData, Reference, Enclosure, Paragraph, CopyTo, Distribution, EndItem, PublicationTableRow, CalloutKind, FileRef } from '@/types/document';
 import { base64ToUint8Array } from '@/lib/encoding';
 import { composeBasicLetterId, enclosureStartNumber, pageStartNumber } from '@/lib/endorsement';
@@ -120,6 +122,7 @@ function validatedPocEmail(raw: string | undefined | null): string {
 
 export function generateDocumentTex(store: DocumentStore, referenceDate = new Date()): string {
   const data = store.formData;
+  const metadataText = store.docType === 'technical_volume' ? (value: string | undefined) => bodyTableLiteral(value ?? '') : escapeLatex;
   // config will be used for document-type specific variations
   const config = documentOutputConfig(store.docType, store.documentMode);
   const isMOAMode = config.uiMode === 'moa';
@@ -172,7 +175,7 @@ ${(() => {
   // Also wrap at 57 characters per SECNAV formatting requirements
   const rawSubject = isJointMode ? data.jointSubject : (isMOAMode ? data.moaSubject : data.subject);
   const usesTitleCaseSubject = isExecutiveMode || store.docType === 'executive_correspondence';
-  const formattedSubject = usesTitleCaseSubject
+  const formattedSubject = store.docType === 'technical_volume' ? bodyTableLiteral(rawSubject?.toUpperCase() ?? '') : usesTitleCaseSubject
     ? formatSubjectForLatex(toTitleCase(rawSubject || ''))
     : formatSubjectForLatex(rawSubject?.toUpperCase());
   // Wrap in \uline{} when the user has opted to underline the subject.
@@ -196,7 +199,7 @@ ${(() => {
   const senderSymbol = composeSenderSymbol(data.officeCode, serial);
   tex += `\\setSSIC{${config.ssic ? escapeLatex(ssic) : ''}}
 \\setSerial{${config.ssic ? escapeLatex(senderSymbol) : ''}}
-\\setDocumentDate{${escapeLatex(publicationDate)}}
+\\setDocumentDate{${metadataText(publicationDate)}}
 ${isBusinessLetter ? `\\setBusinessDate{${escapeLatex(docDate)}}` : '% Not a business letter'}
 
 ${data.inReplyTo ? '\\enableInReplyReferTo' : '% No In Reply Refer To'}
@@ -231,7 +234,7 @@ ${data.showSubjectOnContinuation ? `\\setContinuationSubject{${subjectLine}}` : 
 \\setBusinessSalutation{${escapeLatex((data.salutation || 'Dear Sir or Madam:').trim())}}
 \\setBusinessClose{${escapeLatex(data.complimentaryClose || 'Sincerely,')}}
 
-\\setPOC{${escapeLatex(validatedPocEmail(data.pocEmail))}}
+\\setPOC{${metadataText(validatedPocEmail(data.pocEmail))}}
 `;
 
   // Memorandum For: addressee is embedded in the title ("MEMORANDUM FOR [addressee]")
@@ -338,7 +341,7 @@ ${data.showSubjectOnContinuation ? `\\setContinuationSubject{${subjectLine}}` : 
     const signed = parseDate(data.date || '', 'd MMM yy', referenceDate);
     const coverDate = isValidDate(signed) ? formatDate(signed, 'MMMM yyyy').toUpperCase() : '';
     tex += `\\setCoverDate{${escapeLatex(['sl3', 'sl4', 'tm_ietm_front_matter'].includes(store.docType) ? formatPublicationDate(data.date || '', referenceDate).toUpperCase() : coverDate)}}\n`;
-    tex += `\\setShortTitle{${escapeLatex(data.shortTitle || '')}}\n`;
+    tex += `\\setShortTitle{${metadataText(data.shortTitle || '')}}\n`;
     tex += `\\setPCN{${escapeLatex(data.pcn || '')}}\n`;
     tex += `\\setSupersedure{${escapeLatex(data.supersedure || '')}}\n`;
     tex += `\\setTimeCompliance{${escapeLatex((['sl3', 'sl4', 'tm_ietm_front_matter'].includes(store.docType) ? '' : ((data.publicationType ?? 'MI') === 'MI' ? data.miUrgency || 'normal' : 'normal')).toUpperCase())}}\n`;
@@ -354,7 +357,7 @@ ${data.showSubjectOnContinuation ? `\\setContinuationSubject{${subjectLine}}` : 
       ...store.enclosures.map((e, i) => `Enclosure (${i + 1}): ${escapeLatex(e.title || '')}`),
     ];
     tex += `\\setAttachmentList{${attachments.join('\\par\\noindent ')}}\n`;
-    tex += `\\setControllingOffice{${escapeLatex(data.controllingOffice || '')}}\n`;
+    tex += `\\setControllingOffice{${metadataText(data.controllingOffice || '')}}\n`;
     tex += data.exportRestricted ? '\\ExportRestrictedtrue\n' : '\\ExportRestrictedfalse\n';
     const destruction = iTypeDestructionNotice(data, store.paragraphs);
     const noticeText = (value: string, label: string) => ['sl3', 'sl4', 'tm_ietm_front_matter'].includes(store.docType) && value.startsWith(label)
@@ -961,6 +964,7 @@ ${body}\\par
 }
 
 export function generateBodyTex(store: DocumentStore, adapter?: LatexBodyAdapter): string {
+  if (store.docType === 'technical_volume') return generateVolumeBody(store);
   if (store.docType === 'tm_ietm_front_matter') return '';
   if (store.docType === 'sl4') return generateSl4Body(store);
   if (store.docType === 'sl3') return generateSl3Body(store);
@@ -1202,6 +1206,7 @@ export function generateBodyTex(store: DocumentStore, adapter?: LatexBodyAdapter
 
 export function generateClassificationTex(store: DocumentStore, resolvedLevel?: string): string {
   const data = store.formData;
+  const metadataText = store.docType === 'technical_volume' ? (value: string | undefined) => bodyTableLiteral(value ?? '') : escapeLatex;
 
   // Banner reflects the HIGHEST portion marking, not just the document
   // level (SECNAV M-5216.5 / DoDM 5200.01 Vol 2). A CUI document with an
@@ -1226,12 +1231,12 @@ export function generateClassificationTex(store: DocumentStore, resolvedLevel?: 
 %=============================================================================
 
 \\setClassification{CUI}
-\\setCUIControlledBy{${escapeLatex(data.cuiControlledBy)}}
-\\setCUICategory{${escapeLatex(data.cuiCategory)}}
+\\setCUIControlledBy{${metadataText(data.cuiControlledBy)}}
+\\setCUICategory{${metadataText(data.cuiCategory)}}
 \\setCUITransmittalNote{${escapeLatex(cuiTransmittalNote(data, store.paragraphs, store.enclosures, store.docType) ?? '')}}
-\\setCUIDissemination{${escapeLatex(data.cuiDissemination)}}
+\\setCUIDissemination{${metadataText(data.cuiDissemination)}}
 \\setCUIDistStatement{${escapeLatex(isTechnicalPublication(store.docType) ? data.cuiDistStatement : documentDistributionStatement(data))}}
-\\setPOC{${escapeLatex(validatedPocEmail(data.pocEmail))}}
+\\setPOC{${metadataText(validatedPocEmail(data.pocEmail))}}
 `;
   }
 
@@ -1320,6 +1325,7 @@ export function enclosureRenderData(store: Pick<DocumentStore, 'docType' | 'form
 }
 
 export function generateAllLatexFiles(store: DocumentStore, resolvedLevel?: string, referenceDate = new Date(), bodyAdapter?: LatexBodyAdapter): GeneratedFiles {
+  if (store.docType === 'technical_volume') store = { ...store, formData: Object.fromEntries(Object.entries(store.formData).map(([key, value]) => [key, typeof value === 'string' ? value.normalize('NFC') : value])) };
   if (store.docType === 'business_letter') {
     let number = 0;
     for (const paragraph of store.paragraphs) {
@@ -1354,6 +1360,7 @@ export function generateAllLatexFiles(store: DocumentStore, resolvedLevel?: stri
     'body.tex': generateBodyTex(store, bodyAdapter),
     'classification.tex': generateClassificationTex(store, resolvedLevel),
   };
+  if (store.docType === 'technical_volume') texFiles['volume-format.tex'] = BREAKABLE_TEXT_COMMANDS;
 
   // Collect ALL enclosures for JavaScript handling (maintains correct order).
   // The number must match the one printed in the Encl: list and used for the
@@ -1380,7 +1387,7 @@ export function generateAllLatexFiles(store: DocumentStore, resolvedLevel?: stri
     for (const p of store.paragraphs) {
       if (!p.figure || !isTechnicalPublication(store.docType) && store.docType !== 'business_letter' && p.figure.placement !== 'body') continue;
       figureFileIndex++;
-      if (p.figure.fileRef) figures.push({ file: (store.docType === 'business_letter' ? businessFigureFile : figureFile)(figureFileIndex, p.figure.type, p.figure.name, p.figure.fileRef.id), ref: p.figure.fileRef });
+      if (p.figure.fileRef) figures.push({ file: (store.docType === 'business_letter' ? businessFigureFile : store.docType === 'technical_volume' ? volumeFigureFile : figureFile)(figureFileIndex, p.figure.type, p.figure.name, p.figure.fileRef.id), ref: p.figure.fileRef });
     }
   }
   return { texFiles, enclosures, includeHyperlinks: !!store.formData.includeHyperlinks, signatureImage, referenceUrls, figures };

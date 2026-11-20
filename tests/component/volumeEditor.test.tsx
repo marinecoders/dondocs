@@ -2,6 +2,9 @@ import { act, fireEvent, render, screen } from '@testing-library/react';
 import { beforeEach, expect, it } from 'vitest';
 import { VolumeSupplementSection } from '@/components/editor/VolumeSupplementSections';
 import { VolumeDetailsSection, VolumeOutlineSection, VolumeBodySection } from '@/components/editor/VolumeSections';
+import { parseSavedSession } from '@/lib/savedSession';
+import { publicationExportErrors } from '@/lib/publicationPreflight';
+import { loadSharedSession } from '@/stores/documentStore';
 import { useDocumentStore } from '@/stores/documentStore';
 import { emptyPublicationVolume, orderedVolumeBlocks } from '@/lib/publicationVolume';
 import { TooltipProvider } from '@/components/ui/tooltip';
@@ -84,4 +87,16 @@ it('bounds mounted editors for a large section and navigates without losing cont
   expect(screen.getByRole('textbox', { name: 'Text for 1.1.26' }).textContent).toBe('Content 26');
   expect(screen.getByText('Showing 26–50 of 60 blocks')).toBeTruthy();
   expect(useDocumentStore.getState().paragraphs).toHaveLength(60);
+});
+
+it('lets an imported volume explicitly disable an unsupported embedded signature setting', () => {
+  const original = useDocumentStore.getState().getSnapshot();
+  const imported = parseSavedSession({ ...original, formData: { ...original.formData, signatureType: 'digital' } });
+  loadSharedSession(imported);
+  expect(publicationExportErrors(useDocumentStore.getState()).join(' ')).toContain('Select no embedded signature');
+  render(<VolumeDetailsSection />);
+  fireEvent.click(screen.getByRole('button', { name: 'Use no embedded signature' }));
+  expect(useDocumentStore.getState().formData.signatureType).toBe('none');
+  expect(useDocumentStore.getState().paragraphs).toEqual(original.paragraphs);
+  expect(publicationExportErrors(useDocumentStore.getState())).toEqual([]);
 });

@@ -1,7 +1,7 @@
 import { DOC_TYPE_CONFIG, type DocumentData, type DocumentCategory, type DocumentMode } from '@/types/document';
 import { normalizeDate } from './dateFormatting';
 
-const PUBLICATIONS = new Set(['i_type', 'sl3', 'sl4', 'tm_ietm_front_matter']);
+const PUBLICATIONS = new Set(['i_type', 'sl3', 'sl4', 'tm_ietm_front_matter', 'technical_volume']);
 
 export interface FormattingInput {
   documentCategory: DocumentCategory;

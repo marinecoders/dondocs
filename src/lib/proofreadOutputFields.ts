@@ -4,7 +4,7 @@ import { documentDistributionStatement } from '@/services/latex/distributionStat
 import type { DocumentData } from '@/types/document';
 import type { ProofreadSource } from './proofread';
 
-const PUBLICATIONS = new Set(['i_type', 'sl3', 'sl4', 'tm_ietm_front_matter']);
+const PUBLICATIONS = new Set(['i_type', 'sl3', 'sl4', 'tm_ietm_front_matter', 'technical_volume']);
 const CLASSIFIED_LEVELS = new Set(['confidential', 'secret', 'top_secret', 'top_secret_sci']);
 const CLASSIFIED_FIELDS = new Set(['classifiedBy', 'derivedFrom', 'declassifyOn', 'classReason', 'classifiedPocEmail']);
 const CUI_FIELDS = new Set(['cuiControlledBy', 'cuiCategory', 'cuiDissemination', 'pocEmail']);

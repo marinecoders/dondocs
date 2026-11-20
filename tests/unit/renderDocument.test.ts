@@ -14,6 +14,8 @@ import { resolve } from 'node:path';
 import { PDFDocument } from 'pdf-lib';
 import { prepareEngine, compileDocument, LatexCompileError, TAGGED_MAIN_FILE } from '@/services/latex/renderDocument';
 import { DOC_TYPE_CONFIG } from '@/types/document';
+import { generateAllLatexFiles } from '@/services/latex/generator';
+import { volumeFixture } from '../_helpers/volumeFixture';
 import { supportsCorrespondenceSignatureImage } from '@/services/docx/imageAssets';
 import { docxImageFixture } from '../_helpers/docxImageFixture';
 import type { LatexEngine, CompileResult } from '@/services/latex/latexEngine';
@@ -127,7 +129,8 @@ describe('compileDocument', () => {
   });
 
   it.each(Object.keys(DOC_TYPE_CONFIG))('matches signature-image visibility of the actual %s template', docType => {
-    const load = (name: string): string => readFileSync(resolve('tex/templates', `${name}.tex`), 'utf8')
+    const runtime = docType === 'technical_volume' ? generateAllLatexFiles(volumeFixture()).texFiles : {};
+    const load = (name: string): string => String(runtime[`${name}.tex`] ?? readFileSync(resolve('tex/templates', `${name}.tex`), 'utf8'))
       .replace(/^\\input\{([^}]+)\}/gm, (_match, include: string) => load(include));
     const template = load(docType);
     expect(supportsCorrespondenceSignatureImage(docType)).toBe(template.includes('attachments/\\SignatureImage'));

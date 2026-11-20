@@ -5882,6 +5882,83 @@ const LATEX_TEMPLATES = {
   \\fi
 }
 `,
+  'tex/templates/technical_volume.tex': `
+% Structured authoring layout. Issuance/authentication remains a separate decision.
+\\input{volume-format}
+\\renewcommand{\\printLetterhead}{}
+\\renewcommand{\\printReferences}{}
+\\renewcommand{\\printEnclosureList}{}
+\\renewcommand{\\printDistribution}{}
+\\renewcommand{\\printCopyTo}{}
+\\newsavebox{\\dondocsVolumeRunningTitle}
+\\newlength{\\dondocsVolumeHeadExtra}
+\\renewcommand{\\dondocsReserveContHead}{%
+  \\sbox\\dondocsVolumeRunningTitle{\\parbox[b]{\\textwidth}{\\footnotesize\\raggedleft\\ShortTitle}}%
+  \\setlength{\\dondocsVolumeHeadExtra}{\\dimexpr\\ht\\dondocsVolumeRunningTitle+\\dp\\dondocsVolumeRunningTitle-\\headheight\\relax}%
+  \\ifdim\\dondocsVolumeHeadExtra>0pt
+    \\ifdim\\dondocsVolumeHeadExtra>.25\\textheight\\errmessage{DonDocs: the volume running title is too tall; shorten the publication short title}\\fi
+    \\addtolength{\\headheight}{\\dondocsVolumeHeadExtra}%
+    \\addtolength{\\textheight}{-\\dondocsVolumeHeadExtra}%
+  \\fi
+}
+\\renewcommand{\\dondocsFirstPageOffset}{}
+\\newcommand{\\printDateAndTitle}{%
+  \\pagenumbering{gobble}%
+  \\thispagestyle{empty}%
+  \\placeClassificationMarkings
+  \\begin{center}
+    {\\Large\\bfseries\\SubjectLine\\par}
+    \\vspace{18pt}\\ShortTitle\\par
+    \\vspace{12pt}\\DocumentDate\\par
+    \\ifNotEmpty{\\ControllingOffice}{\\vspace{12pt}\\ControllingOffice\\par}
+  \\end{center}
+  \\vspace{18pt}
+  \\ifCUIEnabled
+    \\noindent Controlled by: \\CUIControlledBy\\par
+    \\noindent CUI Categories: \\CUICategory\\par
+    \\noindent Dissemination: \\CUIDissemination\\par
+    \\noindent POC: \\POCEmail\\par
+  \\fi
+  \\clearpage
+}
+\\newcommand{\\printAddressBlock}{}
+\\newcommand{\\printSignature}{}
+\\fancypagestyle{documentpage}{%
+  \\fancyhf{}%
+  \\fancyhead[C]{\\placeClassificationMarkings}%
+  \\fancyhead[R]{\\usebox\\dondocsVolumeRunningTitle}%
+  \\fancyfoot[C]{\\thepage}%
+  \\renewcommand{\\headrulewidth}{0pt}%
+  \\renewcommand{\\footrulewidth}{0pt}%
+}
+\\newcommand{\\dondocsReferenceAnchor}[1]{%
+  \\hypertarget{#1}{}%
+  \\pdfannot width 0pt height 0pt depth 0pt {/Subtype /Link /Border [0 0 0] /NM (#1)}%
+}
+% The offline hyperref compatibility package leaves hyperlink as plain text.
+% Use the PDF primitive so links can wrap while retaining real GoTo actions.
+\\newcommand{\\dondocsReferenceLink}[2]{\\begingroup\\leavevmode
+  \\pdfstartlink attr{/Border [0 0 0]} goto name {#1}%
+  \\color{blue}#2\\pdfendlink\\endgroup}
+\\def\\dondocsVolumeLabelPage#1#2#3\\dondocsVolumeStop{#2}
+\\newcommand{\\dondocsVolumePageReference}[1]{%
+  \\ifcsname r@#1\\endcsname
+    \\expandafter\\expandafter\\expandafter\\dondocsVolumeLabelPage\\csname r@#1\\endcsname\\dondocsVolumeStop
+  \\else ?\\fi}
+\\newcommand{\\dondocsVolumeBookmark}[3]{%
+  \\dondocsReferenceAnchor{#3}%
+  \\begingroup
+    \\pdfstringdef\\dondocsVolumeBookmarkTitle{#2}%
+    \\pdfoutline goto name {#3} count #1 {\\dondocsVolumeBookmarkTitle}%
+  \\endgroup
+}
+\\newcommand{\\dondocsVolumeNeedspace}[1]{%
+  \\par
+  \\ifdim\\pagegoal<\\maxdimen
+    \\ifdim\\dimexpr\\pagegoal-\\pagetotal\\relax<\\dimexpr#1\\relax\\newpage\\fi
+  \\fi
+}
+`,
   'tex/templates/tm_ietm_front_matter.tex': `
 \\input{stock_publication}
 % Keep width measurement out of MakeUppercase's expansion pass.

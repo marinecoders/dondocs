@@ -54,6 +54,12 @@ function manualSection(path: FieldPath): string | undefined {
 }
 
 function correspondenceSection(session: SerializedSession, path: FieldPath, labels: ReadonlyMap<string, string>): string | undefined {
+  if (session.docType === 'technical_volume') {
+    if (path[0] === 'paragraphs') return 'volume-body';
+    if (path[0] === 'formData' && path[1] === 'volume') return path[2] === 'glossary' ? 'volume-glossary' : path[2] === 'changes' ? 'volume-changes' : 'volume-outline';
+    if (path[0] === 'formData' && /^(class|cui|customClassification|pocEmail)/i.test(String(path[1]))) return 'classification';
+    return path[0] === 'formData' ? 'volume-details' : undefined;
+  }
   if (session.docType === 'tm_ietm_front_matter') return manualSection(path);
   const root = String(path[0]);
   if (root === 'formData') {

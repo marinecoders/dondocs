@@ -7,6 +7,7 @@ import type { SerializedSession } from '@/stores/documentStore';
 import { sl3Schema } from '@/data/techpub/sl3';
 import { fixtureInstance } from '../_helpers/formFixture';
 import { emptyManualFrontMatter } from '@/data/techpub/manualFrontMatter';
+import { volumeFixture } from '../_helpers/volumeFixture';
 
 const session = (patch: Partial<SerializedSession> = {}): SerializedSession => ({
   documentMode: 'compliant', documentCategory: 'correspondence', docType: 'naval_letter', formType: 'navmc_10274',
@@ -88,9 +89,10 @@ describe('workspace full-text search', () => {
     expect(fields.some(field => field.text.startsWith('Seal:'))).toBe(false);
   });
   it.each(Object.keys(DOC_TYPE_CONFIG).filter((type) => type !== 'sl3' && type !== 'sl4' && type !== 'tm_ietm_front_matter'))('finds body content and a real section for %s', (docType) => {
-    const fields = sessionSearchFields(session({ docType, paragraphs: [{ text: 'Historic amphibious exercise request', level: 0 }] }));
+    const source = session({ docType, ...(docType === 'technical_volume' ? volumeFixture() : {}), paragraphs: [{ ...(docType === 'technical_volume' ? volumeFixture().paragraphs[0] : {}), text: 'Historic amphibious exercise request', level: 0 }] });
+    const fields = sessionSearchFields(source);
     const match = findSearchMatch(fields, 'amphibious');
-    expect(match?.field.sectionId).toBe('body');
+    expect(match?.field.sectionId).toBe(docType === 'technical_volume' ? 'volume-body' : 'body');
     expect(getEditorSections(DOC_TYPE_CONFIG[docType], docType).some((s) => s.id === match?.field.sectionId)).toBe(true);
     expect(match?.snippet).toContain('amphibious');
   });

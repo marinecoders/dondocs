@@ -2,6 +2,7 @@ import { bodyTableSchema } from '../src/lib/bodyTable';
 import { MANUAL_DOC_TYPE } from '../src/data/techpub/manualFrontMatter';
 import { manualFrontMatterErrors } from '../src/lib/manualFrontMatterValidation';
 import { manualFrontMatterInputSchema } from './manualFrontMatterInput';
+import { publicationVolumeSchema } from '../src/lib/publicationVolume';
 /**
  * What makes a letter request renderable, independent of how it arrived.
  *
@@ -135,6 +136,18 @@ export function validateLetter(body: Partial<LetterInput>, defaults: CompanionDe
     const noteIssue = cuiTransmittalIssue(store.formData, store.paragraphs, store.enclosures, store.docType);
     if (noteIssue) problems.push(noteIssue);
   }
+  if (body.docType === 'technical_volume') {
+    if (body.format === 'docx') problems.push('Technical volumes currently support PDF output.');
+    if (!publicationVolumeSchema.safeParse(body.volume).success) problems.push('Supply a valid volume with chapter and section identities.');
+    if (body.publication || body.references?.length || body.enclosures?.length || body.copyTo?.length || body.distribution?.length || body.signature) problems.push('Technical volumes use volume sections and external package members, without I-Type metadata or embedded signatures.');
+    if (!problems.length) {
+      const input = body as LetterInput;
+      problems.push(...publicationInputErrors(input));
+      if (!problems.length) problems.push(...publicationExportErrors(toStore(input, defaults)));
+    }
+    return problems;
+  }
+  if (body.volume || body.paragraphs?.some(paragraph => paragraph.volumeSectionId)) problems.push('Volume metadata and section bindings require docType technical_volume.');
   if (isTechnicalPublication(body.docType ?? '')) {
     const label = body.docType === 'sl4' ? 'SL-4' : body.docType === 'sl3' ? 'SL-3' : 'I-Type';
     if (body.format === 'docx') problems.push(`${label} export supports PDF only.`);

@@ -12,7 +12,7 @@ const labels: Readonly<Record<string, string>> = {
 };
 export function supportsReviewComments(source: DocumentFieldSource): boolean {
   return source.documentCategory === 'correspondence' && Object.hasOwn(DOC_TYPE_CONFIG, source.docType)
-    && !['i_type', 'sl3', 'sl4', 'tm_ietm_front_matter'].includes(source.docType);
+    && !['i_type', 'sl3', 'sl4', 'tm_ietm_front_matter', 'technical_volume'].includes(source.docType);
 }
 export function commentFieldLabel(field: string): string {
   return Object.hasOwn(labels, field) ? labels[field] : field.replace(/([a-z])([A-Z])/g, '$1 $2').replace(/^./, character => character.toUpperCase());

@@ -21,7 +21,9 @@ import { renderToFile } from '../../companion/renderToFile';
 import { manualRequest } from '../_helpers/manualPacket';
 import { companionPublication } from '../_helpers/companionPublication';
 import { companionSl3 } from '../_helpers/companionSl3';
+import { companionVolume } from '../_helpers/companionVolume';
 import { populatedSl4Input } from '../_helpers/populatedSl4';
+import { pdfTextLayout } from '../_helpers/pdfTextLayout';
 import { DOC_TYPES, FORMATS, formatsFor } from '../../companion/validateLetter';
 
 /** DOCX needs pandoc; PDF does not. Skipping is honest, silence is not. */
@@ -60,7 +62,7 @@ describe('the advertised surface', () => {
     }
 
     const file = await renderToFile(
-      docType === 'tm_ietm_front_matter' ? manualRequest() : docType === 'i_type' ? companionPublication() : docType === 'sl3' ? companionSl3() : docType === 'sl4' ? await populatedSl4Input() : {
+      docType === 'technical_volume' ? companionVolume() : docType === 'tm_ietm_front_matter' ? manualRequest() : docType === 'i_type' ? companionPublication() : docType === 'sl3' ? companionSl3() : docType === 'sl4' ? await populatedSl4Input() : {
         docType,
         format: format as 'pdf' | 'docx',
         out: `${docType}.${format}`,
@@ -78,5 +80,12 @@ describe('the advertised surface', () => {
     // A floor against a "successful" render of nothing: a letterhead-only page
     // is a few kilobytes, a real letter far more.
     expect(bytes.byteLength).toBeGreaterThan(4_000);
+    if (docType === 'technical_volume') {
+      const text = (await pdfTextLayout(bytes)).boxes.map(box => box.text).join(' ');
+      for (const expected of ['QUALIFICATION VOLUME', 'Original introduction.', 'Daily checks', 'READBACK-2', 'Appendix content retained.', 'portable example controller.']) {
+        expect(text).toContain(expected);
+      }
+      expect(text).not.toContain('{{VOLREF_');
+    }
   }, 200_000);
 });

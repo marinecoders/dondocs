@@ -212,7 +212,7 @@ export async function compileGeneratedFixture(texFiles: Record<string, string>, 
   // override them.
 
   let { exitCode, log } = await runPdflatex(workDir, 'main.tex');
-  if (exitCode === 0 && ['sl3', 'sl4'].includes(docType)) {
+  if (exitCode === 0 && ['sl3', 'sl4', 'technical_volume'].includes(docType)) {
     ({ exitCode, log } = await runPdflatex(workDir, 'main.tex'));
   }
   const ok = exitCode === 0;

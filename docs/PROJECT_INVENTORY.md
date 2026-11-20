@@ -4,7 +4,7 @@ Generated with `npm run docs:inventory` from registries, bundled datasets and fi
 
 | Registry | Entries |
 |---|---:|
-| Configured formats (including aliases exposed by the app) | 24 |
+| Configured formats (including aliases exposed by the app) | 25 |
 | Built-in forms | 2 |
 | Content templates | 19 |
 | References | 135 |
@@ -46,6 +46,6 @@ Generated with `npm run docs:inventory` from registries, bundled datasets and fi
 | Cartesian fixtures per matrix format | 1,769,472 |
 | Full Cartesian fixtures per output path | 38,928,384 |
 
-Matrix-excluded configured formats: `sl4`, `tm_ietm_front_matter`. These have dedicated tests; exclusion is not a claim that they are unsupported. Built-in/configured forms also have separate tests. The generic matrix is not the entire integration suite.
+Matrix-excluded configured formats: `sl4`, `tm_ietm_front_matter`, `technical_volume`. These have dedicated tests; exclusion is not a claim that they are unsupported. Built-in/configured forms also have separate tests. The generic matrix is not the entire integration suite.
 
 See [integration tests](../tests/integration/README.md), [Cartesian harness](../tests/cartesian/README.md) and [output capabilities](CAPABILITIES.md).

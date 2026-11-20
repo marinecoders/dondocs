@@ -1,3 +1,4 @@
+import { validatePublicationVolume } from '@/lib/publicationVolume';
 import 'fake-indexeddb/auto';
 import { beforeEach, describe, expect, it } from 'vitest';
 import { render, screen, waitFor, within } from '@testing-library/react';
@@ -18,7 +19,8 @@ describe('workspace category navigation', () => {
     const user = userEvent.setup();
     useDocumentStore.getState().setFormData({ subject: 'Keep this subject', from: 'Keep this sender' });
     const documentId = useDocumentsStore.getState().currentId;
-    const paragraphs = useDocumentStore.getState().paragraphs;
+    const paragraphs = structuredClone(useDocumentStore.getState().paragraphs);
+    let expectedParagraphs = paragraphs;
     render(<DocumentNavigation />);
 
     const selector = screen.getByRole('button', { name: /^Correspondence type:/ });
@@ -31,9 +33,22 @@ describe('workspace category navigation', () => {
       expect(selector).toHaveTextContent(DOC_TYPE_LABELS[type]);
       expect(useDocumentStore.getState().docType).toBe(type);
       expect(useDocumentStore.getState().formData).toMatchObject({ docType: type, subject: 'Keep this subject', from: 'Keep this sender' });
-      expect(useDocumentStore.getState().paragraphs).toEqual(paragraphs);
+      if (type === 'technical_volume') {
+        const volume = useDocumentStore.getState().formData.volume!;
+        const firstSection = volume.chapters[0].sections[0].id;
+        expectedParagraphs = paragraphs.map(paragraph => ({ ...paragraph, volumeSectionId: firstSection }));
+        expect(() => validatePublicationVolume(volume, useDocumentStore.getState().paragraphs)).not.toThrow();
+      }
+      // Entering a volume adds only explicit section ownership; all original
+      // identities, prose and other block fields remain byte-for-byte equal.
+      expect(useDocumentStore.getState().paragraphs).toEqual(expectedParagraphs);
       expect(useDocumentsStore.getState().currentId).toBe(documentId);
     }
+    await user.click(selector);
+    await user.click(screen.getByRole('option', { name: DOC_TYPE_LABELS.naval_letter }));
+    expect(useDocumentStore.getState().paragraphs).toEqual(expectedParagraphs);
+    expect(useDocumentStore.getState().docType).toBe('naval_letter');
+    expect(useDocumentsStore.getState().currentId).toBe(documentId);
   });
 
   it('preserves edits across correspondence and both forms, and resumes the most recent form', async () => {

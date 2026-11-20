@@ -1,5 +1,7 @@
-import { bodyTableSchema } from '../src/lib/bodyTable';
 import { manualFrontMatterInputSchema } from './manualFrontMatterInput';
+import { publicationVolumeSchema } from '../src/lib/publicationVolume';
+import { paragraphIdSchema } from '../src/lib/paragraphIdentity';
+import { bodyTableSchema } from '../src/lib/bodyTable';
 import { enclosureMarkingSchema } from '../src/lib/enclosureMarkings';
 /**
  * The request shape, defined once.
@@ -18,6 +20,8 @@ import { CLASSIFICATION_LEVELS, DOC_TYPES, PORTION_MARKINGS } from './validateLe
 
 export const paragraph = z.object({
   ...publicationParagraph,
+  id: paragraphIdSchema.optional().describe('Stable native body-block identity. Required for technical_volume.'),
+  volumeSectionId: paragraphIdSchema.optional().describe('Stable section ID from volume. Required for technical_volume body blocks.'),
   bodyTable: bodyTableSchema.optional().describe('A native rectangular table with supported layout options.'),
   text: z.string().describe('The paragraph text. Plain prose — numbering is applied for you.'),
   level: z.number().int().min(0).max(7).optional()
@@ -133,6 +137,7 @@ export const letterSchema = z.object({
   originatorCode: z.string().optional(),
 
   manualFrontMatter: manualFrontMatterInputSchema.optional(),
+  volume: publicationVolumeSchema.optional().describe('Complete chapter, appendix, glossary and change-record structure for technical_volume. Body blocks refer to its section IDs.'),
   publication: publicationSchema.optional(),
   attachments: z.array(attachmentSchema).max(32).optional().describe('Publication figure and enclosure files, referenced by ID.'),
   paragraphs: z.array(paragraph).optional(),

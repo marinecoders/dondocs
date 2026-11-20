@@ -20,7 +20,7 @@ export interface DocumentTextField {
 export type DocumentFieldSource = Pick<DocumentSnapshot, 'docType' | 'formData'>
   & Partial<Omit<DocumentSnapshot, 'docType' | 'formData'>>;
 
-const technicalTypes = new Set(['i_type', 'sl3', 'sl4', 'tm_ietm_front_matter']);
+const technicalTypes = new Set(['i_type', 'sl3', 'sl4', 'tm_ietm_front_matter', 'technical_volume']);
 const executiveFields = new Set(['memorandumFor', 'attnLine', 'throughLine', 'coordination', 'preparedBy']);
 const publicationFields = new Set(['publicationSigningDate', 'publicationClosedDates', 'nomenclature', 'publicationType',
   'controllingOffice', 'miUrgency', 'miCompletionDate', 'shortTitle', 'pcn', 'supersedure', 'exportRestricted', 'distReason', 'distDate']);
@@ -91,9 +91,9 @@ function active(source: DocumentFieldSource, path: FieldPath, projection: FieldP
   const key = path[1];
   if (key === 'cuiTransmittalNote') return source.formData.classLevel === 'cui'
     && (source.documentMode === 'custom' || config.compliance.allowEnclosures);
-  if (key === 'volume') return source.docType === 'technical_volume';
   if (key === 'wordSource') return ['draft', 'share', 'backup', 'search'].includes(projection);
   if (source.docType === 'mfr' && ['from', 'to', 'via'].includes(key)) return false;
+  if (key === 'volume') return source.docType === 'technical_volume';
   if (key === 'manualFrontMatter') return source.docType === 'tm_ietm_front_matter';
   if (key === 'sl3' || key === 'sl4') return source.docType === key;
   if (key === 'body' && projection !== 'search') return false;

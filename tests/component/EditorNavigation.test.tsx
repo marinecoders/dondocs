@@ -54,7 +54,8 @@ it.each([
 });
 
 it.each(Object.entries(DOC_TYPE_CONFIG))('renders every %s section in the shared correspondence surface', (docType, config) => {
-  useDocumentStore.setState({ docType });
+  if (docType === 'technical_volume') useDocumentStore.getState().setDocType(docType);
+  else useDocumentStore.setState({ docType });
   const { container } = render(<TooltipProvider><FormPanel /></TooltipProvider>);
   for (const section of getEditorSections(config, docType)) {
     const mounted = container.querySelector(`#sec-${section.id}`);
@@ -64,7 +65,11 @@ it.each(Object.entries(DOC_TYPE_CONFIG))('renders every %s section in the shared
     else expect(mounted).toHaveAttribute('data-field-surface', 'true');
   }
   if (docType === 'sl3' || docType === 'sl4' || docType === 'tm_ietm_front_matter') expect(screen.getByRole('textbox', { name: 'Short title' })).toBeVisible();
-  else expect(screen.getByRole('textbox', { name: 'Paragraph 1' })).toHaveTextContent('Keep this paragraph.');
+  else if (docType === 'technical_volume') {
+    expect(screen.getByRole('textbox', { name: 'Volume title' })).toBeVisible();
+    expect(screen.getByRole('textbox', { name: 'Text for 1.1.1' })).toHaveTextContent('Keep this paragraph.');
+    expect(useDocumentStore.getState().paragraphs[0].volumeSectionId).toBe(useDocumentStore.getState().formData.volume!.chapters[0].sections[0].id);
+  } else expect(screen.getByRole('textbox', { name: 'Paragraph 1' })).toHaveTextContent('Keep this paragraph.');
 });
 
 it('shows one type selector and optional section jumping in Full document', async () => {
