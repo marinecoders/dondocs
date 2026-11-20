@@ -14,6 +14,8 @@ async function manual(page: Page) {
   return guide;
 }
 for (const theme of ['light', 'dark', 'classic']) for (const width of [320, 1280]) test(`manual search, source PDF, offline reopen and Escape in ${theme} at ${width}px`, async ({ page, context }, info) => {
+  // Two axe scans, source rendering and offline reopening share this budget.
+  test.setTimeout(90_000);
   await page.setViewportSize({ width, height: 900 });
   await page.addInitScript(theme => {
     localStorage.setItem('browser-test-visitor', 'returning');
