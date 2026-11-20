@@ -1,18 +1,45 @@
 import { documentIdentity } from './documentIdentity';
 import AxeBuilder from '@axe-core/playwright';
-import { test, expect, type Page } from '@playwright/test';
+import { test, expect, type Locator, type Page } from '@playwright/test';
 import { createHash } from 'node:crypto';
 import source from '../../src/data/correspondenceManualSource.json' with { type: 'json' };
 
 test.use({ serviceWorkers: 'block' });
+async function waitForManualText(guide: Locator) {
+  await expect(guide.getByRole('searchbox', { name: 'Search manual' })).toBeVisible({ timeout: 30_000 });
+}
 async function manual(page: Page) {
   await page.getByRole('button', { name: 'Document tools', exact: true }).click();
   await page.getByRole('menuitem', { name: 'Document type guide', exact: true }).click();
   const guide = page.getByRole('dialog', { name: 'Document Guide', exact: true });
   await guide.getByRole('tab', { name: 'Manual', exact: true }).click();
-  await expect(guide.getByRole('searchbox', { name: 'Search manual' })).toBeVisible();
+  await waitForManualText(guide);
   return guide;
 }
+test('searches verified manual text after a slow resource load and restores the editor launcher', async ({ page, context }) => {
+  test.setTimeout(90_000);
+  await context.addInitScript(() => {
+    localStorage.setItem('browser-test-visitor', 'returning');
+    localStorage.setItem('dondocs_ui', JSON.stringify({ version: 1, state: { theme: 'classic', previewVisible: false } }));
+  });
+  let resourceRequests = 0;
+  await page.route('**/references/**/text-*.json', async route => {
+    resourceRequests++;
+    await new Promise(resolve => setTimeout(resolve, 6_500));
+    await route.continue();
+  });
+  await page.goto('/');
+  const guide = await manual(page);
+  expect(resourceRequests).toBe(1);
+  await guide.getByRole('searchbox', { name: 'Search manual' }).fill('Proofreading');
+  await guide.getByRole('button', { name: 'Search', exact: true }).click();
+  await guide.getByRole('button', { name: /Page 2-12 · PDF page 28/ }).click();
+  await expect(guide.getByRole('region', { name: 'Manual text page 2-12' })).toContainText('19. Proofreading.');
+  await page.keyboard.press('Escape');
+  await expect(guide).toBeHidden();
+  await expect(page.getByRole('button', { name: 'Document tools', exact: true })).toBeFocused();
+});
+
 for (const theme of ['light', 'dark', 'classic']) for (const width of [320, 1280]) test(`manual search, source PDF, offline reopen and Escape in ${theme} at ${width}px`, async ({ page, context }, info) => {
   // Two axe scans, source rendering and offline reopening share this budget.
   test.setTimeout(90_000);
@@ -64,6 +91,7 @@ for (const theme of ['light', 'dark', 'classic']) for (const width of [320, 1280
 });
 
 test('opens finding and checklist sources without competing dialogs and retains keyboard navigation', async ({ page }) => {
+  test.setTimeout(90_000);
   await page.addInitScript(() => {
     localStorage.setItem('browser-test-visitor', 'returning');
     localStorage.setItem('dondocs_ui', JSON.stringify({ version: 1, state: { previewVisible: false } }));
@@ -83,6 +111,7 @@ test('opens finding and checklist sources without competing dialogs and retains 
   await finding.getByRole('button', { name: 'SECNAV M-5216.5 · Ch 7 ¶9', exact: true }).click();
   const guide = page.getByRole('dialog', { name: 'Document Guide', exact: true });
   await expect(review).toBeHidden();
+  await waitForManualText(guide);
   await expect(guide.getByRole('region', { name: 'Manual text page 7-5' })).toContainText('9. Subject Line');
   await page.keyboard.press('Escape');
   await expect(guide).toBeHidden();
@@ -91,6 +120,7 @@ test('opens finding and checklist sources without competing dialogs and retains 
   await proofread.click();
   const acronym = review.getByRole('listitem').filter({ has: page.getByText('Define NATO on first use', { exact: true }) });
   await acronym.getByRole('button', { name: 'SECNAV M-5216.5 · Ch 2 ¶17', exact: true }).click();
+  await waitForManualText(guide);
   const paragraph = guide.getByRole('region', { name: 'Manual text page 2-11' }).locator('mark');
   await expect(paragraph).toHaveText(/^17\./);
   await expect(paragraph).toBeInViewport();
@@ -100,6 +130,7 @@ test('opens finding and checklist sources without competing dialogs and retains 
   await proofread.click();
   await review.getByRole('button', { name: 'Read the manual checklist · Ch 2 ¶19', exact: true }).click();
   await expect(review).toBeHidden();
+  await waitForManualText(guide);
   await expect(guide.getByRole('region', { name: 'Manual text page 2-12' })).toContainText('19. Proofreading.');
   await guide.getByRole('searchbox', { name: 'Search manual' }).fill('Proofreading');
   await guide.getByRole('button', { name: 'Search', exact: true }).click();
@@ -129,6 +160,7 @@ for (const component of ['CorrespondenceManualReader', 'ManualSourcePage']) {
     const guide = page.getByRole('dialog', { name: 'Document Guide', exact: true });
     await guide.getByRole('tab', { name: 'Manual', exact: true }).click();
     if (component === 'ManualSourcePage') {
+      await waitForManualText(guide);
       await guide.getByRole('button', { name: 'View original PDF page 1', exact: true }).click();
       await expect(guide.getByRole('alert')).toHaveText('The source viewer could not load. Use the reference text or download the original PDF.');
       await expect(guide.getByRole('button', { name: 'Download original PDF', exact: true })).toBeVisible();
