@@ -39,8 +39,11 @@ export function MobileRecents({ onUpdate }: { onUpdate?: () => void }) {
   const pendingRename = useRef<{ id: string; name: string } | null>(null);
   const actionButtons = useRef(new Map<string, HTMLButtonElement>());
   const pendingTool = useRef<(() => void) | null>(null);
+  const [handoffPending, setHandoffPending] = useState(false);
   const openTool = (run: () => void) => {
+    if (!open || pendingTool.current) return;
     pendingTool.current = run;
+    setHandoffPending(true);
     setOpen(false);
   };
   const finishRename = (id: string, restoreFocus: boolean) => {
@@ -62,13 +65,14 @@ export function MobileRecents({ onUpdate }: { onUpdate?: () => void }) {
   return (
     <>
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent className="max-w-md gap-0 p-0" onEscapeKeyDown={(event) => {
+        {/* Tool handoffs release the focus scope without waiting for exit animations. */}
+        {!handoffPending && <DialogContent className="max-w-md gap-0 p-0" onEscapeKeyDown={(event) => {
           if (renamingId) { event.preventDefault(); finishRename(renamingId, true); }
         }} onCloseAutoFocus={() => {
           const run = pendingTool.current;
           pendingTool.current = null;
-          // Let this dialog restore focus to Open workspace before the next
-          // tool captures its launcher. The workspace's buttons are unmounting.
+          setHandoffPending(false);
+          // Restore the stable launcher before opening another workspace tool.
           if (run) queueMicrotask(run);
         }}>
           <DialogHeader className="flex-row items-center justify-between space-y-0 border-b border-border px-4 py-3">
@@ -212,7 +216,7 @@ export function MobileRecents({ onUpdate }: { onUpdate?: () => void }) {
               })
             )}
           </ul>
-        </DialogContent>
+        </DialogContent>}
       </Dialog>
     </>
   );

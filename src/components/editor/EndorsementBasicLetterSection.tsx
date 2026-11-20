@@ -1,3 +1,4 @@
+import { showAppConfirm } from '@/stores/alertStore';
 import { beginDocumentTask, isCurrentDocumentTask } from '@/lib/documentTask';
 import { useCallback, useMemo, useState } from 'react';
 import { runFileImport } from '@/lib/fileImports';
@@ -7,6 +8,7 @@ import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { withAttachmentStaging, persistAttachment } from '@/lib/attachments';
 import { validateBasicLetter } from '@/services/pdf/assembleEndorsement';
+import { pdfImageCopyNotice } from '@/services/pdf/assemblyPdf';
 import { formatFileSize } from '@/lib/utils';
 import {
   Select,
@@ -163,6 +165,8 @@ export function EndorsementBasicLetterSection() {
         const check = await validateBasicLetter(data);
         if (!ownsFile()) return;
         if (!check.ok) { setUploadError(check.error); return; }
+        if (check.pageImages && !await showAppConfirm({ title: 'Include PDF pages as images?', message: pdfImageCopyNotice(check.imageCopyReason), confirmLabel: 'Include page images' })) return;
+        if (!ownsFile()) return;
         await withAttachmentStaging(async () => {
           if (!ownsFile()) return;
           const fileRef = await persistAttachment({ name: file.name, size: file.size, type: file.type }, data);

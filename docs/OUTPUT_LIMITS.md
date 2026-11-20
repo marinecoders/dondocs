@@ -2,6 +2,51 @@
 
 See the [capability matrix](CAPABILITIES.md) for current format availability.
 
+## Attached PDFs
+
+Basic-letter and enclosure assembly keep ordinary PDFs as PDF pages. A readable
+permission-protected PDF requires confirmation when attached: its assembled pages
+are images. Enclosures with printable annotations or form fields also require
+confirmation before their printed appearances are flattened into page images.
+Hidden, invisible and non-printing annotations, and ordinary link metadata, do
+not trigger this conversion. Printable links with saved appearance streams do
+trigger conversion so their graphics are preserved. The print view includes printable NoView
+annotations. Ordinary basic letters retain their vector pages and annotation
+appearances when copied. Selectable text, interactive fields and certificate signatures do not
+carry into that derivative; the exact uploaded original remains in the draft and
+portable files. Files requiring an opening password must first be exported as a
+readable copy in a PDF application. Unreadable required content blocks complete
+export rather than being silently omitted.
+Valued printable form widgets without saved appearances, or with appearances
+requiring regeneration, must first be saved or printed as a flattened PDF in a
+PDF application. Empty unsigned fields and zero-area signature metadata do not
+trigger that rejection. Encrypted forms can also have appearance metadata that
+cannot be verified; a valued printable field then requires an unprotected,
+flattened copy even when another viewer displays it correctly. Already-parsed
+indirect form metadata can qualify a saved appearance; encrypted compressed
+metadata remains unsupported when its appearance state cannot be established.
+PDFs with nonempty XFA packets also require a flattened
+copy; the renderer keeps XFA and script execution disabled. Unsupported forms
+are rejected rather than risking blank field values or static fallback pages.
+
+Attached PDFs also receive a bounded compression check of page content, reachable
+resources and annotation appearances. It permits 10,000 resources, 64 levels of
+nesting, eight compression stages, 64 MB of decoded data per stream, 128 MB across
+the document and 15 seconds of validation. These limits apply to ordinary and
+protected sources. Supported compression is checked recursively. JPEG headers
+are bounded before a decode check; their encoded bytes remain unchanged in
+vector copies. Other native image codecs remain opaque on the vector path.
+Image-copy preparation checks per-page decoded image dependencies and rejects
+failed images even if the rendering engine reports the page render complete.
+These checks do not establish visual equivalence. Review assembled pages before sending them.
+
+Sources requiring image copies are limited to 25 MB and 50 pages, with at most 40 million source
+image pixels. Preparation uses at most 4 million pixels per page, 32 million pixels
+across the document, 32 MB of encoded page images and 45 seconds. Split a source or
+export an unprotected, flattened copy when those limits are reached. These limits apply to
+embedded basic letters and enclosures; standalone original files in packages keep
+their separate validation requirements.
+
 ## Tagged PDF output
 
 **Download → Tagged PDF (experimental)** supports native unclassified Standard and Naval Letters, with explicit table column headers and body-image alternatives. It rejects original/enclosure PDFs, signing fields and other unqualified input. The exporter validates the saved structure and content associations before delivery. Native screen-reader qualification and PDF/UA conformance remain unestablished; see the [tagged PDF guide](TAGGED_PDF.md) for measured scope and limits. Ordinary PDFs and mixed packages have no new accessibility claim.

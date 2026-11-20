@@ -127,7 +127,7 @@ export async function renderPreparedCorrespondence(ready: ReadyExportJob, ports:
     checkCancellation(signal);
     if (!pdf) throw new Error('The PDF engine produced no document.');
     reportProgress('pdf-merging-enclosures');
-    const finished = await finishCorrespondencePdf(pdf, document.docType, document.formData, generated, document.paragraphs, { marking, referenceDate });
+    const finished = await finishCorrespondencePdf(pdf, document.docType, document.formData, generated, document.paragraphs, { marking, referenceDate, signal });
     checkCancellation(signal);
     reportProgress('pdf-saving');
     return createExportArtifact(ready, new Blob([new Uint8Array(finished.pdfBytes)], { type: 'application/pdf' }), finished.errors.map(error => ({ message: error.error, asset: error.title })));

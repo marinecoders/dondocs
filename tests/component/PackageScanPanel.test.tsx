@@ -1,6 +1,6 @@
 import 'fake-indexeddb/auto';
 import { afterEach, beforeEach, expect, it, vi } from 'vitest';
-import { cleanup, render, screen, waitFor } from '@testing-library/react';
+import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { useState } from 'react';
 import { PDFDocument } from 'pdf-lib';
@@ -26,6 +26,43 @@ beforeEach(() => {
 });
 afterEach(() => { cleanup(); vi.unstubAllGlobals(); });
 async function fixture() { const pdf = await PDFDocument.create(); pdf.addPage([612, 792]); return reviseActionPackage(await createActionPackage(`Scanned UI ${crypto.randomUUID()}`), [await captureOriginalPackageMember({ name: 'Synthetic paper.pdf', data: new Uint8Array(await pdf.save()).buffer }, 'basic-letter', false)]); }
+it('scrolls the captured source with keyboard controls without taking editor or browser shortcuts', async () => {
+  const record = await fixture(), user = userEvent.setup();
+  render(<PackageScanPanel record={record} revision={getPackageRevision(record)} disabled={false} busy={false}
+    run={async action => action()} signal={() => undefined} isCurrent={() => true} onApply={vi.fn()} />);
+  await user.selectOptions(screen.getByLabelText('Captured scan source'), getPackageRevision(record).members[0].id);
+  await user.click(screen.getByRole('button', { name: 'Recognize captured source' }));
+  const preview = await screen.findByRole('region', { name: 'Captured source preview' });
+  Object.defineProperties(preview, {
+    clientHeight: { configurable: true, value: 310 },
+    scrollHeight: { configurable: true, value: 701 },
+  });
+  const press = (target: HTMLElement, key: string, modifiers: KeyboardEventInit = {}) => {
+    const event = new KeyboardEvent('keydown', { key, bubbles: true, cancelable: true, ...modifiers });
+    fireEvent(target, event);
+    return event.defaultPrevented;
+  };
+  preview.focus();
+  for (const [key, expected, modifiers] of [
+    ['ArrowDown', 80, {}], ['PageDown', 359, {}], ['End', 391, {}], ['ArrowDown', 391, {}],
+    ['ArrowUp', 311, {}], ['PageUp', 32, {}], ['Home', 0, {}], ['ArrowUp', 0, {}],
+    [' ', 279, {}], [' ', 0, { shiftKey: true }],
+  ] as const) {
+    expect(press(preview, key, modifiers)).toBe(true);
+    expect(preview.scrollTop).toBeCloseTo(expected);
+  }
+  for (const modifiers of [{ ctrlKey: true }, { metaKey: true }, { altKey: true }, { shiftKey: true }, { isComposing: true }]) {
+    expect(press(preview, 'ArrowDown', modifiers)).toBe(false);
+    expect(preview.scrollTop).toBe(0);
+  }
+  expect(press(preview, 'Tab')).toBe(false);
+  expect(press(preview, 'Escape')).toBe(false);
+  expect(press(screen.getByLabelText('Corrected source text'), 'ArrowDown')).toBe(false);
+  expect(preview.scrollTop).toBe(0);
+  Object.defineProperty(preview, 'scrollHeight', { configurable: true, value: 250 });
+  expect(press(preview, 'ArrowDown')).toBe(false);
+});
+
 it('reviews corrections, preserves their source, and adopts only a separately acknowledged excerpt', async () => {
   const initial = await fixture(), applied = vi.fn(), dirty = vi.fn(), user = userEvent.setup();
   function Harness() { const [record, setRecord] = useState(initial); return <PackageScanPanel record={record} revision={getPackageRevision(record)} disabled={false} busy={false} run={async action => action()} signal={() => undefined} isCurrent={() => true} onDirtyChange={dirty} onApply={next => { applied(next); setRecord(next); }} />; }

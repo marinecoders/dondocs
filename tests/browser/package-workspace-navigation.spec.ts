@@ -104,6 +104,41 @@ for (const theme of ['light', 'dark', 'classic']) test.describe(`package workspa
   });
 });
 
+test('hands off workspace tools without waiting for exit animations and preserves launcher focus', async ({ page, context }) => {
+  await page.setViewportSize({ width: 320, height: 844 });
+  await context.addInitScript(() => {
+    localStorage.setItem('browser-test-visitor', 'returning');
+    localStorage.setItem('dondocs_ui', JSON.stringify({ version: 1, state: { theme: 'classic', editorLayout: 'focused' } }));
+  });
+  await page.goto('/');
+  const launcher = page.getByRole('button', { name: 'Open workspace', exact: true });
+  await page.addStyleTag({ content: `
+    @keyframes held-workspace-exit { from { opacity: 1; } to { opacity: 0; } }
+    [data-test-delayed-exit="true"][data-state="closed"] {
+      animation: held-workspace-exit 7s linear !important;
+    }
+  ` });
+  for (const tool of [
+    { label: 'Packages', role: 'dialog', name: 'Action packages' },
+    { label: 'Search', role: 'region', name: 'Search workspace' },
+    { label: 'Settings', role: 'dialog', name: 'Settings' },
+  ] as const) {
+    await launcher.click();
+    const drawer = page.getByRole('dialog', { name: 'Documents', exact: true });
+    await expect(drawer).toBeVisible();
+    await expect.poll(() => drawer.evaluate(root => root.contains(document.activeElement))).toBe(true);
+    await drawer.evaluate(root => root.setAttribute('data-test-delayed-exit', 'true'));
+    await drawer.getByRole('button', { name: tool.label, exact: true }).click();
+    const destination = page.getByRole(tool.role, { name: tool.name, exact: true });
+    await expect(destination).toBeVisible();
+    await expect(page.locator('[data-test-delayed-exit="true"]')).toHaveCount(0, { timeout: 12_000 });
+    await expect.poll(() => destination.evaluate(root => root.contains(document.activeElement))).toBe(true);
+    await page.keyboard.press('Escape');
+    await expect(destination).toBeHidden();
+    await expect(launcher).toBeFocused();
+  }
+});
+
 test('phone-sized workspace keeps Close and Version history accessible', async ({ page, context }, info) => {
   await context.addInitScript(() => localStorage.setItem('browser-test-visitor', 'returning'));
   await page.setViewportSize({ width: 320, height: 844 });

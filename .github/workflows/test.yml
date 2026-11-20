@@ -170,10 +170,10 @@ jobs:
         # Keep the limit close to the observed total so accidental dependencies,
         # test imports, duplicated modules and tree-shaking regressions fail CI.
         run: |
-          # Reviewed feature output measures 6,416,200 bytes with the desktop package workspace.
+          # Reviewed output measures 6,567,470 bytes, including PDF.js image validation.
           # The emitted module graph contains no test modules or new runtime dependencies.
           # Keep approximately 1% headroom over measured production JavaScript.
-          BUDGET_BYTES=6480362   # measured output plus 1% headroom
+          BUDGET_BYTES=6633145   # measured output plus 1% headroom
           TOTAL=$(find dist/assets -name "*.js" -exec stat -c %s {} \; | awk '{s+=$1} END {print s+0}')
           echo "Total dist/assets JS: $TOTAL bytes (budget: $BUDGET_BYTES)"
           if [ "$TOTAL" -gt "$BUDGET_BYTES" ]; then
@@ -384,8 +384,8 @@ jobs:
     name: browser flows (${{ matrix.group }})
     runs-on: ubuntu-latest
     # Includes setup and complete browser profiles with review/asset workflows.
-    # Desktop WebKit uses three shards; Firefox, iPad Safari and both iOS
-    # phone profiles use two. Cold WebKit setup can take 18 minutes before a
+    # Desktop WebKit and mobile Safari use three shards; Firefox, iPad Safari
+    # and iOS Chrome use two. Cold WebKit setup can take 18 minutes before a
     # complete profile runs for more than an hour, so include both in the budget.
     timeout-minutes: 120
     strategy:
@@ -427,10 +427,13 @@ jobs:
             projects: --project=ipad-safari --shard=2/2
           - group: mobile-safari-1
             browsers: webkit
-            projects: --project=mobile-safari --shard=1/2
+            projects: --project=mobile-safari --shard=1/3
           - group: mobile-safari-2
             browsers: webkit
-            projects: --project=mobile-safari --shard=2/2
+            projects: --project=mobile-safari --shard=2/3
+          - group: mobile-safari-3
+            browsers: webkit
+            projects: --project=mobile-safari --shard=3/3
           - group: mobile-chrome-ios-1
             browsers: webkit
             projects: --project=mobile-chrome-ios --shard=1/2

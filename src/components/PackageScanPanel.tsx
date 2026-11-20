@@ -1,4 +1,4 @@
-import { useEffect, useId, useLayoutEffect, useRef, useState } from 'react';
+import { useEffect, useId, useLayoutEffect, useRef, useState, type KeyboardEvent } from 'react';
 import { Document, Page } from 'react-pdf';
 import { HARDENED_PDF_OPTIONS } from './pdf/pdfConfig';
 import { Button } from './ui/button';
@@ -100,6 +100,48 @@ function PackageScanView({ record, revision, disabled, busy, run, signal, isCurr
     </div>}
   </section>;
 }
+function scrollCapturedSource(event: KeyboardEvent<HTMLDivElement>) {
+  if (
+    event.target !== event.currentTarget
+    || event.ctrlKey || event.metaKey || event.altKey
+    || event.nativeEvent.isComposing
+    || (event.shiftKey && event.key !== ' ')
+  ) return;
+
+  const source = event.currentTarget;
+  const maximum = source.scrollHeight - source.clientHeight;
+  if (maximum <= 0) return;
+
+  let next: number;
+  switch (event.key) {
+    case 'ArrowDown':
+      next = source.scrollTop + 80;
+      break;
+    case 'ArrowUp':
+      next = source.scrollTop - 80;
+      break;
+    case 'PageDown':
+      next = source.scrollTop + source.clientHeight * 0.9;
+      break;
+    case 'PageUp':
+      next = source.scrollTop - source.clientHeight * 0.9;
+      break;
+    case ' ':
+      next = source.scrollTop + source.clientHeight * 0.9 * (event.shiftKey ? -1 : 1);
+      break;
+    case 'Home':
+      next = 0;
+      break;
+    case 'End':
+      next = maximum;
+      break;
+    default:
+      return;
+  }
+  event.preventDefault();
+  source.scrollTop = Math.max(0, Math.min(maximum, next));
+}
+
 function ScanSource({ prepared, page }: { prepared: PreparedPackageScan; page: number }) {
   const [source, setSource] = useState<{ prepared: PreparedPackageScan; url: string } | null>(null);
   const container = useRef<HTMLDivElement>(null), [width, setWidth] = useState(200);
@@ -108,7 +150,7 @@ function ScanSource({ prepared, page }: { prepared: PreparedPackageScan; page: n
   const url = source?.prepared === prepared ? source.url : '';
   return <div ref={container} className="flex h-96 min-w-0 flex-col gap-2 overflow-hidden rounded border p-2"><p className="shrink-0 text-sm font-medium">Exact captured source · page {page + 1}</p>
     {url && <a href={url} target="_blank" rel="noopener noreferrer" className="inline-block shrink-0 text-sm underline underline-offset-2">Open captured scan at full size</a>}
-    <div role="region" aria-label="Captured source preview" tabIndex={0} className="min-h-0 flex-1 overflow-auto outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring">
+    <div role="region" aria-label="Captured source preview" tabIndex={0} onKeyDown={scrollCapturedSource} className="min-h-0 flex-1 overflow-auto outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-ring">
       {url && (prepared.scan.source.type === 'application/pdf' ? <Document file={url} options={HARDENED_PDF_OPTIONS} loading="Opening captured source…" error="The captured source preview could not be rendered."><Page pageNumber={page + 1} width={width} renderAnnotationLayer={false} renderTextLayer={false} /></Document>
         : <img src={url} alt={`Captured source: ${prepared.scan.source.name}`} className="h-full max-w-full object-contain" />)}
     </div>

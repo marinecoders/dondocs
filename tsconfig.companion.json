@@ -28,5 +28,5 @@
     "paths": { "@/*": ["./src/*"] }
   },
   /* The ambient vite `define` globals the shared app code refers to. */
-  "include": ["companion", "src/types/build-constants.d.ts"]
+  "include": ["companion", "src/types/build-constants.d.ts", "src/types/pdf-image-decoders.d.ts"]
 }

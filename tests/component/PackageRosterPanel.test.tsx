@@ -33,7 +33,12 @@ it('saves independent row inputs, creates one action, reloads and requires fresh
   let create = screen.getByRole('button', { name: 'Create independent package' }); expect(create).toBeDisabled(); await user.click(screen.getByRole('checkbox', { name: /^I reviewed the intake, document changes/ })); await user.click(create);
   await waitFor(() => expect(created).toHaveBeenCalledOnce()); expect((await listActionPackages())).toHaveLength(1); expect(screen.getByRole('checkbox', { name: /^I reviewed the intake, document changes/ })).not.toBeChecked();
   view.unmount(); render(<PackageRosterPanel {...props()} onCreated={created} onOpenPackage={open} />);
-  await user.click(screen.getByRole('button', { name: 'Refresh saved rosters' })); const journal = (await listPackageRosters())[0]; await user.selectOptions(screen.getByLabelText('Saved package roster'), journal.id); await user.click(screen.getByRole('button', { name: 'Resume saved roster review' }));
+  await user.click(screen.getByRole('button', { name: 'Refresh saved rosters' }));
+  const journal = (await listPackageRosters())[0];
+  const savedRosters = screen.getByLabelText('Saved package roster');
+  const savedRoster = await within(savedRosters).findByRole('option', { name: `${journal.name} · 1/2 created` });
+  expect(savedRoster).toHaveValue(journal.id);
+  await user.selectOptions(savedRosters, journal.id); await user.click(screen.getByRole('button', { name: 'Resume saved roster review' }));
   await screen.findByText('Saved inputs reopened. Each remaining action needs a fresh review.'); create = screen.getByRole('button', { name: 'Create independent package' }); expect(create).toBeDisabled();
   await user.click(screen.getByRole('checkbox', { name: /^I reviewed the intake, document changes/ })); await user.click(create); await waitFor(() => expect(created).toHaveBeenCalledTimes(2));
   const packages = await listActionPackages(); expect(packages).toHaveLength(2); expect(packages.map(record => getPackageRevision(record).members[0]).every(member => member.kind === 'native')).toBe(true);

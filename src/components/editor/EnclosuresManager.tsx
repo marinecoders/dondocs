@@ -1,3 +1,4 @@
+import { inspectAssemblyPdf, pdfImageCopyNotice } from '@/services/pdf/assemblyPdf';
 import { captureDocumentTarget, isCurrentDocumentTarget } from '@/stores/documentsStore';
 import { beginDocumentTask, isCurrentDocumentTask } from '@/lib/documentTask';
 import { useCallback, useState } from 'react';
@@ -76,6 +77,7 @@ function SortableEnclosure({
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
+    e.target.value = '';
     if (!file) return;
     if (isPdfFile(file)) {
       onAttachFile(file);
@@ -247,6 +249,10 @@ export function EnclosuresManager() {
     try {
       const data = await file.arrayBuffer();
       if (!ownsEnclosure()) return;
+      const inspection = await inspectAssemblyPdf(data);
+      if (!ownsEnclosure()) return;
+      if (inspection.pageImages && !await showAppConfirm({ title: 'Include PDF pages as images?', message: pdfImageCopyNotice(inspection.imageCopyReason), confirmLabel: 'Include page images' })) return;
+      if (!ownsEnclosure()) return;
       await withAttachmentStaging(async () => {
         if (!ownsEnclosure()) return;
         const fileRef = await persistAttachment({ name: file.name, size: file.size, type: file.type }, data);
@@ -309,6 +315,10 @@ export function EnclosuresManager() {
     try {
       const title = file.name.replace(/\.pdf$/i, '');
       const data = await file.arrayBuffer();
+      if (!isCurrentDocumentTask(task)) return;
+      const inspection = await inspectAssemblyPdf(data);
+      if (!isCurrentDocumentTask(task)) return;
+      if (inspection.pageImages && !await showAppConfirm({ title: 'Include PDF pages as images?', message: pdfImageCopyNotice(inspection.imageCopyReason), confirmLabel: 'Include page images' })) return;
       if (!isCurrentDocumentTask(task)) return;
       await withAttachmentStaging(async () => {
         if (!isCurrentDocumentTask(task)) return;

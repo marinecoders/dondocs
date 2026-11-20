@@ -1,5 +1,6 @@
 import { PDFDocument, PDFName } from 'pdf-lib';
 import { debug } from '@/lib/debug';
+import { assertAssemblyPagesReadable, loadAssemblyPdf, type PdfImageCopyReason } from './assemblyPdf';
 
 /**
  * Assemble an endorsement onto the basic letter it endorses.
@@ -61,20 +62,17 @@ function toUint8(data: Uint8Array | ArrayBuffer): Uint8Array {
 
 /**
  * Validate an uploaded basic letter without assembling it — run at attach time
- * so a corrupt or encrypted PDF is rejected with feedback right in the form,
- * instead of being stored and only failing at export. (The preview deliberately
+ * so an unreadable PDF is rejected with feedback right in the form. Readable
+ * permission-protected PDFs use a separate rendered copy. (The preview deliberately
  * falls back silently on a bad letter to avoid a modal per recompile, so attach
  * is the one place the user reliably sees the problem.)
  */
 export async function validateBasicLetter(
   data: Uint8Array | ArrayBuffer
-): Promise<{ ok: true; pageCount: number } | { ok: false; error: string }> {
+): Promise<{ ok: true; pageCount: number; pageImages?: boolean; imageCopyReason?: PdfImageCopyReason } | { ok: false; error: string }> {
   const result = await loadBasicLetter(data);
   if ('error' in result) return { ok: false, error: result.error };
-  // Dry-run the actual operation assembly performs: loading tolerates an
-  // encrypted body (ignoreEncryption), but copyPages on one throws — without
-  // this, such a file passed attach validation, silently vanished from every
-  // preview, and only failed at export.
+  // Copy only a readable unencrypted source or the separate rendered derivative.
   try {
     const scratch = await PDFDocument.create();
     await scratch.copyPages(result.pdf, result.pdf.getPageIndices());
@@ -84,7 +82,7 @@ export async function validateBasicLetter(
       error: err instanceof Error ? err.message : 'The PDF’s pages could not be copied (it may be encrypted).',
     };
   }
-  return { ok: true, pageCount: result.pdf.getPageCount() };
+  return { ok: true, pageCount: result.pdf.getPageCount(), ...(result.pageImages ? { pageImages: true, imageCopyReason: result.imageCopyReason } : {}) };
 }
 
 /**
@@ -93,12 +91,10 @@ export async function validateBasicLetter(
  * page must carry a content stream (an empty page cannot be copied).
  */
 async function loadBasicLetter(
-  data: Uint8Array | ArrayBuffer
-): Promise<{ pdf: PDFDocument } | { error: string }> {
+  data: Uint8Array | ArrayBuffer, signal?: AbortSignal
+): Promise<{ pdf: PDFDocument; pageImages: boolean; imageCopyReason?: PdfImageCopyReason } | { error: string }> {
   try {
-    // ignoreEncryption matches the enclosure path — a permissions-only password
-    // (common on official PDFs) still copies; a truly encrypted body throws.
-    const pdf = await PDFDocument.load(toUint8(data), { ignoreEncryption: true });
+    const { pdf, pageImages, imageCopyReason } = await loadAssemblyPdf(toUint8(data), signal, { preserveAnnotations: true });
     const pageCount = pdf.getPageCount();
     if (pageCount === 0) return { error: 'The basic-letter PDF has no pages.' };
     for (let i = 0; i < pageCount; i++) {
@@ -107,8 +103,10 @@ async function loadBasicLetter(
         return { error: `Page ${i + 1} of the basic letter is empty or corrupted.` };
       }
     }
-    return { pdf };
+    await assertAssemblyPagesReadable(pdf, signal);
+    return { pdf, pageImages, imageCopyReason };
   } catch (err) {
+    signal?.throwIfAborted();
     return { error: err instanceof Error ? err.message : 'The basic-letter PDF could not be read.' };
   }
 }
@@ -120,9 +118,9 @@ async function loadBasicLetter(
  */
 export async function assembleEndorsement(
   endorsementPdfBytes: Uint8Array,
-  basicLetterData: Uint8Array | ArrayBuffer
+  basicLetterData: Uint8Array | ArrayBuffer, signal?: AbortSignal
 ): Promise<AssembleResult | AssembleFailure> {
-  const basic = await loadBasicLetter(basicLetterData);
+  const basic = await loadBasicLetter(basicLetterData, signal);
   if ('error' in basic) {
     debug.error('AssembleEndorsement', 'Basic letter rejected:', basic.error);
     return { pdfBytes: endorsementPdfBytes, ok: false, error: basic.error };

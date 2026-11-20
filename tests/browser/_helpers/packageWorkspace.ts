@@ -10,7 +10,13 @@ export async function openPackageWorkspace(page: Page) {
   const drawer = page.getByRole('dialog', { name: 'Documents', exact: true });
   if (!await drawer.isVisible()) await page.getByRole('button', { name: 'Open workspace', exact: true })
     .or(page.getByRole('button', { name: /^Packages(?:\s|$)/ })).first().click();
-  if (await drawer.isVisible()) await drawer.getByRole('button', { name: /^Packages(?:\s|$)/ }).click();
+  // Wait for the launcher transition before choosing the mobile or desktop path.
+  await expect(drawer.or(dialog)).toBeVisible();
+  if (await drawer.isVisible()) {
+    // A visible portal can precede its focus scope becoming active after reload.
+    await expect.poll(() => drawer.evaluate(root => root.contains(document.activeElement))).toBe(true);
+    await drawer.getByRole('button', { name: /^Packages(?:\s|$)/ }).click();
+  }
   await expect(dialog).toBeVisible();
   await expect(dialog.getByRole('status').filter({ hasText: /^Loading packages…$/ })).toHaveCount(0);
   return dialog;
