@@ -6,13 +6,14 @@ import { generateBodyTex } from '@/services/latex/generator';
 import { useDocumentStore } from '@/stores/documentStore';
 import { withoutTableFootnote } from '@/lib/tableFootnotes';
 import { publicationNavigation } from '@/services/latex/publicationNavigation';
+import { volumeFixture } from '../_helpers/volumeFixture';
 
 const id = 'ABCDEF0123456789ABCDEF0123456789';
 const target: Paragraph = { level: 0, header: 'Inspection', text: 'Inspect the bracket.', referenceId: id };
 const reference: Paragraph = { level: 0, header: 'Purpose', text: `See {{PUBREF_P_${id}}}.` };
 
 describe('publication references', () => {
-  it.each(Object.keys(DOC_TYPE_CONFIG).filter(type => type !== 'tm_ietm_front_matter' && type !== 'i_type' && type !== 'sl3' && type !== 'sl4'))(
+  it.each(Object.keys(DOC_TYPE_CONFIG).filter(type => !['tm_ietm_front_matter', 'i_type', 'sl3', 'sl4', 'technical_volume'].includes(type)))(
     'does not emit publication tables or footnotes for %s after a format switch', (docType) => {
       const paragraphs = [{ ...target, tableKey: 'materielRequired', tableFootnotes: [{ id: '1', text: 'Publication-only note.' }] }];
       const tables = { materielRequired: [{ values: { description: 'PUBLICATION-ONLY-ITEM' } }] };
@@ -30,6 +31,13 @@ describe('publication references', () => {
       expect(restored).toContain('PUBLICATION-ONLY-ITEM');
     },
   );
+  it('requires deliberate conversion of I-Type tables before volume output without discarding their source', () => {
+    const store = volumeFixture();
+    store.paragraphs[0].tableKey = 'materielRequired';
+    const before = structuredClone(store);
+    expect(() => generateBodyTex(store)).toThrow('native body tables');
+    expect(store).toEqual(before);
+  });
   it('includes printed paragraph labels in bookmarks, including appendices', () => {
     const paragraphs: Paragraph[] = [target, { ...target, level: 1 }, { level: 0, appendix: true, header: 'Data', text: '' }, target];
     const navigation = publicationNavigation(paragraphs);

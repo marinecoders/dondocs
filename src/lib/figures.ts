@@ -11,13 +11,13 @@ export const figureExtension = (mime: string | undefined, name: string | undefin
 export const figureFile = (n: number, mime?: string, name?: string, id?: string): string =>
   `attachments/figure-${n}${id ? '-' + Array.from(id).map((c) => c.codePointAt(0)!.toString(16).padStart(6, '0')).join('') : ''}.${figureExtension(mime, name)}`;
 
-/** Business letters also accept request attachment IDs, which can exceed a
- * native filename after hex expansion. Keep ordinary cache identities intact
- * and encode longer IDs reversibly, without truncation or digest collisions. */
-export function businessFigureFile(n: number, mime?: string, name?: string, id?: string): string {
-  if (mime && !['image/png', 'image/jpeg', 'application/pdf'].includes(mime)) throw new Error('Business-letter figures require PNG or JPEG images.');
+/** Transport attachment IDs can exceed a native filename after hex expansion.
+ * Keep ordinary cache identities intact and encode longer IDs reversibly,
+ * without truncation or digest collisions. */
+function boundedFigureFile(kind: string, n: number, mime?: string, name?: string, id?: string): string {
+  if (mime && !['image/png', 'image/jpeg', 'application/pdf'].includes(mime)) throw new Error(`${kind} figures require PNG or JPEG images.`);
   if (id !== undefined) {
-    try { encodeURIComponent(id); } catch { throw new Error('Business-letter PDF figure IDs must contain valid Unicode.'); }
+    try { encodeURIComponent(id); } catch { throw new Error(`${kind} PDF figure IDs must contain valid Unicode.`); }
   }
   const existing = figureFile(n, mime, name, id);
   if (existing.length <= 240) return existing;
@@ -30,8 +30,15 @@ export function businessFigureFile(n: number, mime?: string, name?: string, id?:
   }
   if (bits) encoded += alphabet[(value << (5 - bits)) & 31];
   const path = `attachments/figure-${n}-x${encoded}.${figureExtension(mime, name)}`;
-  if (path.length > 240) throw new Error('Use a shorter business-letter PDF figure attachment ID.');
+  if (path.length > 240) throw new Error(`Use a shorter ${kind.toLowerCase()} PDF figure attachment ID.`);
   return path;
+}
+
+export function businessFigureFile(n: number, mime?: string, name?: string, id?: string): string {
+  return boundedFigureFile('Business-letter', n, mime, name, id);
+}
+export function volumeFigureFile(n: number, mime?: string, name?: string, id?: string): string {
+  return boundedFigureFile('Volume', n, mime, name, id);
 }
 
 /** A figure prints at text width, or narrower when its height would pass 5in. */

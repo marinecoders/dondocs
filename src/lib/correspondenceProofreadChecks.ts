@@ -10,7 +10,7 @@ import { FIRST_ENDORSEMENT_EDITOR_ID, additionalEndorsementEditorId } from './en
 import { jointSignatories } from './signingAuthority';
 import type { ProofreadFinding, ProofreadSource } from './proofread';
 
-const PUBLICATIONS = new Set(['sl3', 'sl4', 'i_type', 'tm_ietm_front_matter']);
+const PUBLICATIONS = new Set(['sl3', 'sl4', 'i_type', 'tm_ietm_front_matter', 'technical_volume']);
 const SUBJECT_FRAGMENT_TYPES = new Set(['naval_letter', 'standard_letter', 'multiple_address_letter', 'joint_letter', 'new_page_endorsement', 'same_page_endorsement']);
 
 export function supportsCorrespondenceProofread(source: Pick<ProofreadSource, 'documentCategory' | 'docType'>): boolean {

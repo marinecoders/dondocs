@@ -104,6 +104,11 @@ function applyLatexSymbolFallback(text: string): string {
   return out;
 }
 
+/** New output families must report text the bundled PDF fonts would discard. */
+export function containsUnsupportedLatexText(text: string): boolean {
+  return [...new Set(text.normalize('NFC'))].some(character => applyLatexSymbolFallback(character) === '');
+}
+
 /**
  * Escape special LaTeX characters (with placeholder support)
  */

@@ -46,7 +46,7 @@ const labels: Record<string, string> = {
   actionNo: 'Action number', ssicFileNo: 'SSIC / file number', orgStation: 'Organization / station', natureOfAction: 'Nature of action',
   lastName: 'Last name', firstName: 'First name', middleName: 'Middle name', edipi: 'EDIPI', entryDate: 'Entry date', box11: 'SRB page number',
 };
-const unsupportedTypes = new Set(['i_type', 'sl3', 'sl4', 'tm_ietm_front_matter']);
+const unsupportedTypes = new Set(['i_type', 'sl3', 'sl4', 'tm_ietm_front_matter', 'technical_volume']);
 function scalar(value: unknown): value is string | boolean {
   return typeof value === 'boolean' || typeof value === 'string' && value.length <= 10000;
 }

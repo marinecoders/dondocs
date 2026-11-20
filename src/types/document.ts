@@ -101,7 +101,7 @@ export interface EnclosureMarking {
 export type PortionMarking = 'U' | 'CUI' | 'FOUO' | 'C' | 'S' | 'TS';
 
 export interface Paragraph {
-  /** Retained section identity; active volume authoring is admitted separately. */
+  /** Owning section of a structured technical volume; body assets remain native. */
   volumeSectionId?: string;
   /** Stable native editing identity, separate from publication cross-references. */
   id?: string;
@@ -665,6 +665,13 @@ export const DOC_TYPE_CONFIG: Record<string, DocTypeConfig> = {
       authority: 'MCO 5215.17D / MIL-STD-38784C', ref: '§4.9.1' },
     compliance: DEFAULT_COMPLIANCE,
   },
+  technical_volume: {
+    letterhead: false, ssic: false, fromTo: false, via: false, memoHeader: false,
+    signature: 'full', uiMode: 'memo', pdfOnly: true,
+    regulations: { fontSize: '10pt', fontSizeOptions: ['10pt', '11pt', '12pt'], fontFamily: 'times',
+      authority: 'Structured volume authoring', ref: 'Chapters and appendices' },
+    compliance: { ...DEFAULT_COMPLIANCE, numberedParagraphs: false, allowReferences: false, allowEnclosures: false },
+  },
   i_type: {
     letterhead: false, ssic: false, fromTo: false, via: false, memoHeader: false,
     signature: 'full', uiMode: 'memo', showSignatureRankTitle: true, topSpacing: '1in',
@@ -701,6 +708,7 @@ export const DOC_TYPE_LABELS: Record<string, string> = {
   action_memorandum: 'Action Memorandum',
   information_memorandum: 'Information Memorandum',
   tm_ietm_front_matter: 'TM/IETM Cover and Signature Pages',
+  technical_volume: 'Technical Volume',
   i_type: 'I-Type Instruction (MI/SI/TI/LI)',
   sl3: 'SL-3 Components List',
   sl4: 'SL-4 Repair Parts List',
@@ -734,6 +742,7 @@ export const DOC_TYPE_CHIP: Record<string, string> = {
   information_memorandum: 'MEMO',
   i_type: 'I-TYPE',
   tm_ietm_front_matter: 'TM/IETM',
+  technical_volume: 'VOL',
   sl3: 'SL-3',
   sl4: 'SL-4',
 };
@@ -769,6 +778,6 @@ export const DOC_TYPE_CATEGORIES: { category: string; types: string[] }[] = [
   },
   {
     category: 'Technical Publications',
-    types: ['i_type', 'sl3', 'sl4', 'tm_ietm_front_matter'],
+    types: ['i_type', 'sl3', 'sl4', 'tm_ietm_front_matter', 'technical_volume'],
   },
 ];

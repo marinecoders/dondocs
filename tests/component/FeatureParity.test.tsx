@@ -17,6 +17,7 @@ import { TourOverlay } from '@/components/tour/TourOverlay';
 import { useUIStore } from '@/stores/uiStore';
 import { EXAMPLE_DOCUMENTS } from '@/data/exampleDocuments';
 import { DOC_TYPE_LABELS } from '@/types/document';
+import { volumeFixture } from '../_helpers/volumeFixture';
 
 // Inventory checked against the pre-redesign editor at 7993269f. Deliberately
 // independent of getEditorSections: removing a production route must fail here.
@@ -43,6 +44,7 @@ const routes: Record<string, string> = {
   action_memorandum: 'executive classification body copyto distribution signature',
   information_memorandum: 'executive classification body copyto distribution',
   tm_ietm_front_matter: 'manual-publication manual-items manual-notices manual-authentication',
+  technical_volume: 'volume-details classification volume-outline volume-body volume-glossary volume-changes',
   i_type: 'cover classification body tables enclosures signature',
   sl4: 'sl4-cover classification sl4-preface sl4-cages sl4-parts sl4-figures sl4-indexes sl4-revisions signature',
   sl3: 'sl3-cover classification sl3-details sl3-inventory sl3-figures signature',
@@ -69,6 +71,7 @@ it.each(Object.entries(routes).flatMap(([type, sections]) => (['focused', 'scrol
     useDocumentStore.setState({ documentCategory: 'forms', formType: type });
   } else useDocumentStore.setState({ documentCategory: 'correspondence', docType: type });
   if (type === 'i_type') useDocumentStore.setState({ paragraphs: [{ text: '', level: 0, header: 'Materiel Required', tableKey: 'materielRequired' }] });
+  if (type === 'technical_volume') useDocumentStore.setState(volumeFixture());
   const { container } = render(<TooltipProvider><FormPanel /></TooltipProvider>);
   const expected = sectionIds.split(' ');
   const picker = screen.queryByRole('combobox', { name: 'Document section' });

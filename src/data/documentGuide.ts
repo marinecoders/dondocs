@@ -10,6 +10,12 @@ export interface DocumentTypeGuide {
 }
 
 export const DOCUMENT_TYPE_GUIDES: DocumentTypeGuide[] = [
+  { id: 'technical_volume', name: 'Technical Volume', category: 'Technical Publications',
+    summary: 'Author a complete structured volume with chapters, appendices and linked contents.',
+    whenToUse: ['Prepare a multi-chapter document with stable internal references and retained supporting assets'],
+    keyFeatures: ['Chapter and section outline', 'Native tables and figures', 'Identity-based references', 'Glossary and change records', 'Unclassified or CUI PDF output'],
+    commonExamples: ['Equipment operating guide', 'Unit reference volume'],
+    reference: 'Structured authoring layout; issuance, authentication, classified output and Word qualification remain separate' },
   { id: 'tm_ietm_front_matter', name: 'TM / IETM Cover and Signature Pages', category: 'Technical Publications',
     summary: 'Publication covers and authentication pages for technical manuals and related publications.',
     whenToUse: ['Prepare the front matter for a TM, IETM, user manual, supplement, COTS manual, QRG or RPSTL'],

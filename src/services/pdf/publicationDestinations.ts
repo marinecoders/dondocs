@@ -5,7 +5,8 @@ import { PDFArray, PDFHexString, PDFDict, PDFDocument, PDFName, PDFNumber, PDFSt
 export async function resolvePublicationDestinations(bytes: Uint8Array, manualFrontMatter = false): Promise<Uint8Array> {
   const pdf = await PDFDocument.load(bytes);
   const anchors = new Map<string, PDFArray>();
-  for (const page of pdf.getPages()) {
+  const volumeLabels = new Map<number, { S?: string; P?: ReturnType<typeof PDFString.of>; St?: number }>();
+  for (const [pageIndex, page] of pdf.getPages().entries()) {
     const annotations = page.node.Annots();
     if (!annotations) continue;
     for (let i = annotations.size() - 1; i >= 0; i--) {
@@ -14,15 +15,23 @@ export async function resolvePublicationDestinations(bytes: Uint8Array, manualFr
       const name = annotation.lookup(PDFName.of('NM'));
       if (!(name instanceof PDFString)) continue;
       const id = name.decodeText();
-      if (!/^(?:itype|sl3|sl4|manual)\./.test(id) && !/^dondocs\.signature\.(?:junior|senior)$/.test(id)) continue;
+      if (!/^(?:itype|sl3|sl4|manual|volume)\./.test(id) && !/^dondocs\.signature\.(?:junior|senior)$/.test(id)) continue;
       const rect = annotation.lookup(PDFName.of('Rect'), PDFArray);
       const x = rect.lookup(0, PDFNumber).asNumber();
       const y = rect.lookup(3, PDFNumber).asNumber();
       anchors.set(name.decodeText(), pdf.context.obj([page.ref, PDFName.of('XYZ'), x, y, null]));
+      if (/^volume\.pages\.(?:front|body|glossary|[A-Z])$/.test(id)) {
+        const part = id.slice('volume.pages.'.length);
+        volumeLabels.set(pageIndex, part === 'front' ? { S: 'r', St: 1 } : part === 'body' ? { S: 'D', St: 1 } : { S: 'D', P: PDFString.of((part === 'glossary' ? 'GL' : part) + '-'), St: 1 });
+      }
       annotations.remove(i);
     }
   }
   if (manualFrontMatter) pdf.catalog.set(PDFName.of('PageLabels'), pdf.context.obj({ Nums: [0, { S: 'D', P: PDFString.of('T-'), St: 1 }, pdf.getPageCount() - 1, { S: 'D', St: 1 }] }));
+  if (volumeLabels.size) {
+    const entries = [...volumeLabels].sort(([a], [b]) => a - b);
+    pdf.catalog.set(PDFName.of('PageLabels'), pdf.context.obj({ Nums: [0, { P: PDFString.of('Cover') }, ...entries.flatMap(([page, label]) => [page, label])] }));
+  }
   if (!anchors.size) return manualFrontMatter ? pdf.save() : bytes;
   let names = pdf.catalog.lookup(PDFName.of('Names'));
   if (!(names instanceof PDFDict)) {

@@ -149,12 +149,12 @@ async function runCompile(
   let result = await engine.compileLaTeX();
   // Resolve stock-list page references and custom page totals from this draft,
   // rather than auxiliary data left behind by the previous draft.
-  if (result.status === 0 && typeof files['document.tex'] === 'string' && (/\\setDocumentType\{(?:sl3|sl4)\}/.test(files['document.tex']) || files['document.tex'].includes('\\setPageNumberStyle{xofy}'))) {
+  if (result.status === 0 && typeof files['document.tex'] === 'string' && (/\\setDocumentType\{(?:sl3|sl4|technical_volume)\}/.test(files['document.tex']) || files['document.tex'].includes('\\setPageNumberStyle{xofy}'))) {
     result = await engine.compileLaTeX();
   }
 
   if (result.status === 0 && result.pdf) {
-    return typeof files['document.tex'] === 'string' && /\\setDocumentType\{(?:i_type|sl3|sl4|tm_ietm_front_matter)\}/.test(files['document.tex'])
+    return typeof files['document.tex'] === 'string' && /\\setDocumentType\{(?:i_type|sl3|sl4|tm_ietm_front_matter|technical_volume)\}/.test(files['document.tex'])
       ? resolvePublicationDestinations(result.pdf, files['document.tex'].includes('\\setDocumentType{tm_ietm_front_matter}')) : result.pdf;
   }
   throw new LatexCompileError(result.status, result.log ?? '');

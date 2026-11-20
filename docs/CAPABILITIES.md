@@ -45,6 +45,7 @@ Compliant and Custom are application modes. Both have the same operation availab
 | SL-3 Components List | supported | unsupported | partial | unsupported | supported | supported | supported |
 | SL-4 Repair Parts List | supported | unsupported | partial | unsupported | supported | supported | supported |
 | TM/IETM Cover and Signature Pages | supported | unsupported | partial | unsupported | supported | supported | supported |
+| Technical Volume | supported | unsupported | partial | unsupported | supported | supported | supported |
 | I-Type Instruction (MI/SI/TI/LI) | supported | unsupported | partial | unsupported | supported | supported | supported |
 | NAVMC 10274 - Administrative Action | supported | unsupported | unsupported | unsupported | supported | supported | supported |
 | NAVMC 118 (11) - Administrative Remarks (6105) | supported | unsupported | unsupported | unsupported | supported | supported | supported |

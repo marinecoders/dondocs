@@ -34,6 +34,10 @@ export function VolumeDetailsSection() {
       <Field label="Volume title" value={formData.subject ?? ''} onChange={value => setField('subject', value)} />
       <div className="grid gap-4 sm:grid-cols-2"><Field label="Publication short title" value={formData.shortTitle ?? ''} onChange={value => setField('shortTitle', value)} /><Field label="Publication date" value={formData.date ?? ''} onChange={value => setField('date', value)} /></div>
       <Field label="Controlling office" value={formData.controllingOffice ?? ''} onChange={value => setField('controllingOffice', value)} />
+      {formData.signatureType && formData.signatureType !== 'none' && <div className="space-y-2 rounded-md border p-3">
+        <p className="text-sm text-muted-foreground">This draft includes an embedded signature setting. Technical volumes export without embedded signatures.</p>
+        <Button variant="outline" onClick={() => setField('signatureType', 'none')}>Use no embedded signature</Button>
+      </div>}
     </StockPublicationGroup>
   </div>;
 }

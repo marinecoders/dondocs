@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.186] — 2026-11-20
+
+### Added
+
+- Enable complete volume PDF authoring with linked contents, stable references and validated companion input.
+
 ## [1.3.185] — 2026-11-20
 
 ### Added

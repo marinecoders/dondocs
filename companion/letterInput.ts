@@ -270,6 +270,7 @@ export function toStore(input: LetterInput, defaults: CompanionDefaults = {}): G
       classificationBasis: input.classification?.basis,
       ...publicationFields(input),
       ...manualFrontMatterFields(input),
+      ...(input.docType === 'technical_volume' ? { volume: input.volume, signatureType: 'none' as const } : {}),
     },
 
     paragraphs: input.docType === 'tm_ietm_front_matter' ? [] : isTechnicalPublication(input.docType) || input.docType === 'business_letter' ? publicationParagraphs(input) :

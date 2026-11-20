@@ -301,7 +301,7 @@ const handle = serveStdio(() => {
         ? `Draft a document of type "${type}" with DonDocs.`
         : 'Draft naval correspondence with DonDocs. Ask me which document type fits before writing; dondocs_letter lists them in its docType enum.',
       isTechnicalPublication(type ?? '')
-        ? 'Start from the appropriate technical-publication template. Ask for publication metadata, the effective date, issuing command, signer and missing technical content. Technical publications have no From/To lines. Render with dondocs_letter as PDF after completing the publication fields.'
+        ? type === 'technical_volume' ? 'Ask for the title and chapter/section outline. Use stable identities for structure and body blocks. Technical volumes prepare unclassified or CUI PDF content; signing and issuance are separate.' : 'Start from the appropriate technical-publication template. Ask for publication metadata, the effective date, issuing command, signer and missing technical content. Technical publications have no From/To lines. Render with dondocs_letter as PDF after completing the publication fields.'
         : template
         ? `Start from the "${template.name}" template attached below: keep its structure, fill each bracketed placeholder from what I tell you, and ask for the From and To lines and anything else it needs that I have not given.`
         : 'Ask me for the From and To lines, the subject, and what the letter needs to say, then write the paragraphs.',
@@ -310,7 +310,7 @@ const handle = serveStdio(() => {
         ? ['Ask me for the endorsement ordinal (FIRST, SECOND ...) and the identification of the letter being endorsed, and pass them as endorsement.ordinal and endorsement.basicLetterId; the render is refused without them.']
         : []),
       isTechnicalPublication(type ?? '')
-        ? type === 'tm_ietm_front_matter' ? 'Use manualFrontMatter for the publication subtype, identifiers, equipment end items, dates, release markings and authentication. Leave publication and correspondence paragraphs absent. Export as PDF.' : 'Use publication.type MI, TI, SI or LI for I-Type; SL3 for SL-3 with publication.sl3; SL4 for SL-4 with publication.sl4. The same publication checks as the web editor apply before PDF export.'
+        ? type === 'technical_volume' ? 'Pass volume with version 1, chapters/sections, appendices, glossary, changes and includeContents. Every paragraph needs id and volumeSectionId. Use {{VOLREF_id}} for an internal reference. Leave publication, manualFrontMatter, signatures and formal enclosure/reference lists absent. Export PDF.' : type === 'tm_ietm_front_matter' ? 'Use manualFrontMatter for the publication subtype, identifiers, equipment end items, dates, release markings and authentication. Leave publication and correspondence paragraphs absent. Export as PDF.' : 'Use publication.type MI, TI, SI or LI for I-Type; SL3 for SL-3 with publication.sl3; SL4 for SL-4 with publication.sl4. The same publication checks as the web editor apply before PDF export.'
         : `Render with dondocs_letter${type ? ` using docType "${type}"` : ''}; its result says how to show me the file.`,
     ].join(' ');
     return {

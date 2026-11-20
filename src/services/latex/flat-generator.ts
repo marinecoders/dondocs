@@ -1756,6 +1756,7 @@ function buildInfoMemorandumLayout(store: DocumentStore, config: DocTypeConfig):
  * URL escaping; standalone source exports request the native TeX target.
  */
 export function generateFlatLatex(store: DocumentStore, resolvedLevel?: string, target: 'docx' | 'tex' = 'docx'): string {
+  if (store.docType === 'technical_volume') throw new Error('Technical volumes currently support PDF and configuration fragments, not Word or flat LaTeX.');
   store = { ...store, referenceLinkTarget: target };
   if (store.docType === 'tm_ietm_front_matter') throw new Error('TM/IETM front matter supports PDF only.');
   const data = store.formData;

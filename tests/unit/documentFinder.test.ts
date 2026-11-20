@@ -54,6 +54,7 @@ const highIds = new Set(
 );
 
 const AUTHORITIES: Record<string, string> = {
+  technical_volume: 'Structured authoring layout',
   naval_letter: 'Ch 7', standard_letter: 'Ch 7', business_letter: 'Ch 11',
   multiple_address_letter: 'Ch 8', joint_letter: 'Ch 7', joint_memorandum: 'Ch 7',
   same_page_endorsement: 'Ch 9', new_page_endorsement: 'Ch 9',
@@ -119,6 +120,11 @@ describe('document finder — result invariants', () => {
     expect(Object.keys(AUTHORITIES).sort()).toEqual([...ALL_IDS].sort());
     for (const r of everyResult) {
       const { cite } = splitReason(r.reason);
+      if (r.docType === 'technical_volume') {
+        expect(cite).toBeNull();
+        expect(r.reason).toContain('complete body as chapters and appendices');
+        continue;
+      }
       if (r.confidence === 'high' || cite !== null) {
         expect(cite, `${r.docType}: ${r.reason}`).toBe(AUTHORITIES[r.docType]);
       }

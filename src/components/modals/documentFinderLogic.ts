@@ -218,6 +218,7 @@ export function getRecommendations(answers: Record<string, string>): FinderResul
   }
   if (category === 'manual') {
     add('tm_ietm_front_matter', 'high', 'Per MCO 5215.17D: prepare cover and authentication pages for a technical manual or related publication.');
+    add('technical_volume', 'high', 'Write the complete body as chapters and appendices, with linked contents, native tables and figures.');
     return top3();
   }
   if (category === 'techpub') {
