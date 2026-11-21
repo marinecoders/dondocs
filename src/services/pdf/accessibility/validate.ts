@@ -32,7 +32,7 @@ export async function validateGeneratedTaggedPdf(input: Uint8Array): Promise<Tag
   if (pdf.catalog.has(NAME('AcroForm'))) fail('forms are outside the qualified format.');
   const annotations = new Map<string, { ref: PDFRef; annotation: PDFDict; pageIndex: number; key: number }>();
   for (const [pageIndex, page] of pages.entries()) for (const value of page.node.Annots()?.asArray() ?? []) {
-    const link = readTaggedLink(context, value);
+    const link = readTaggedLink(context, value, page);
     const key = link.annotation.lookup(NAME('StructParent'), PDFNumber).asNumber();
     if (annotations.size >= 5000 || annotations.has(link.ref.toString()) || !Number.isSafeInteger(key) || key !== pages.length + annotations.size
       || link.annotation.get(NAME('P'))?.toString() !== page.ref.toString() || link.annotation.has(NAME('DDTagLink')) || link.annotation.has(NAME('DDTagId'))) fail('link annotation ownership or structure key is invalid.');

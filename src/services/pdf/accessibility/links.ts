@@ -1,4 +1,4 @@
-import { PDFArray, PDFDict, PDFHexString, PDFName, PDFNumber, PDFRef, PDFString, type PDFContext } from 'pdf-lib';
+import { PDFArray, PDFDict, PDFHexString, PDFName, PDFNumber, PDFRef, PDFString, type PDFContext, type PDFPage } from 'pdf-lib';
 import { safeUrl } from '@/lib/url-safety';
 
 /** PDF URI actions use an ASCII URI, with international host/path characters
@@ -10,7 +10,7 @@ export function taggedReferenceUrl(value: string | undefined): string | null {
 
 /** Only external, explicit URI actions are admitted; no scripts, file launches,
  * additional actions, form widgets or inferred source associations. */
-export function readTaggedLink(context: PDFContext, value: unknown): { ref: PDFRef; annotation: PDFDict; uri: string } {
+export function readTaggedLink(context: PDFContext, value: unknown, page: PDFPage): { ref: PDFRef; annotation: PDFDict; uri: string } {
   if (!(value instanceof PDFRef)) throw new Error('Tagged link annotations must be indirect objects.');
   const annotation = context.lookup(value, PDFDict);
   const name = PDFName.of;
@@ -27,5 +27,17 @@ export function readTaggedLink(context: PDFContext, value: unknown): { ref: PDFR
   if (rect.size() !== 4 || rect.asArray().some(n => !(n instanceof PDFNumber) || !Number.isFinite(n.asNumber()))
     || rect.lookup(2, PDFNumber).asNumber() <= rect.lookup(0, PDFNumber).asNumber()
     || rect.lookup(3, PDFNumber).asNumber() <= rect.lookup(1, PDFNumber).asNumber()) throw new Error('Tagged link rectangle is invalid.');
+  // Annotation rectangles use the unrotated page coordinate system. Require
+  // the complete interactive area inside both the media and visible crop box;
+  // a small tolerance permits pdfTeX's decimal rounding at a page edge.
+  const media = page.getMediaBox(); const crop = page.getCropBox();
+  const left = Math.max(media.x, crop.x); const bottom = Math.max(media.y, crop.y);
+  const right = Math.min(media.x + media.width, crop.x + crop.width);
+  const top = Math.min(media.y + media.height, crop.y + crop.height);
+  if (![left, bottom, right, top].every(Number.isFinite) || right <= left || top <= bottom
+    || rect.lookup(2, PDFNumber).asNumber() <= left || rect.lookup(3, PDFNumber).asNumber() <= bottom
+    || rect.lookup(0, PDFNumber).asNumber() >= right || rect.lookup(1, PDFNumber).asNumber() >= top
+    || rect.lookup(0, PDFNumber).asNumber() < left - 1 || rect.lookup(1, PDFNumber).asNumber() < bottom - 1
+    || rect.lookup(2, PDFNumber).asNumber() > right + 1 || rect.lookup(3, PDFNumber).asNumber() > top + 1) throw new Error('Tagged link rectangle is outside its visible page bounds.');
   return { ref: value, annotation, uri };
 }

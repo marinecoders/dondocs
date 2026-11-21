@@ -147,7 +147,7 @@ export async function finishTaggedPdf(input: Uint8Array, sourcePlan: PdfTaggingP
   for (const [pageIndex, page] of pdf.getPages().entries()) {
     for (const value of page.node.Annots()?.asArray() ?? []) {
       if (seenAnnotations.size >= 5000) throw new Error('Too many tagged link annotations.');
-      const { ref, annotation, uri } = readTaggedLink(context, value);
+      const { ref, annotation, uri } = readTaggedLink(context, value, page);
       if (seenAnnotations.has(ref.toString())) throw new Error('A tagged annotation occurs more than once.');
       seenAnnotations.add(ref.toString());
       const identity = annotation.lookupMaybe(PDFName.of('DDTagLink'), PDFHexString)?.asString();

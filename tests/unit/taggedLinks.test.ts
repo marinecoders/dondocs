@@ -64,6 +64,17 @@ describe('tagged external reference links', () => {
     if (kind === 'action') annotation.lookup(name('A'), PDFDict).set(name('Next'), pdf.context.obj({ S: 'JavaScript' }));
     await expect(validateGeneratedTaggedPdf(await pdf.save())).rejects.toThrow();
   });
+  it.each(['outside', 'cropped', 'partly outside', 'outside within tolerance'] as const)('rejects inaccessible interactive rectangles: %s', async kind => {
+    for (const finished of [false, true]) {
+      const pdf = await PDFDocument.load(finished ? await output() : await fixture());
+      if (kind === 'outside') link(pdf).set(name('Rect'), pdf.context.obj([-1000, -1000, -900, -900]));
+      if (kind === 'outside within tolerance') link(pdf).set(name('Rect'), pdf.context.obj([-0.8, 690, -0.2, 710]));
+      if (kind === 'partly outside') link(pdf).set(name('Rect'), pdf.context.obj([-50, 690, 200, 710]));
+      if (kind === 'cropped') pdf.getPage(0).setCropBox(300, 0, 200, 800);
+      const bytes = await pdf.save();
+      await expect(finished ? validateGeneratedTaggedPdf(bytes) : finishTaggedPdf(bytes, plan)).rejects.toThrow(/visible page bounds/);
+    }
+  });
   it('rejects painted Link nodes without an annotation', async () => {
     const pdf = await PDFDocument.load(await fixture());
     for (const page of pdf.getPages()) page.node.delete(name('Annots'));
