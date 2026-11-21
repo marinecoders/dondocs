@@ -10,10 +10,11 @@ import { verifyPublicationWordInputs } from '../../scripts/publication-word-rece
 const directories: string[] = [];
 afterEach(async () => { await Promise.all(directories.splice(0).map(path => rm(path, { recursive: true, force: true }))); });
 const hash = (value: string) => createHash('sha256').update(value).digest('hex');
-function manifest() {
-  return { kind: 'publication-word-qualification-inputs', family: 'manual', rendererSources: [{ path: 'package.json', sha256: hash('unused') }],
-    fixtures: publicationWordFixtures().filter(fixture => fixture.name.startsWith('manual-')).map(fixture => ({ name: fixture.name,
-      markers: fixture.markers, sourceSha256: hash(`${JSON.stringify(fixture.source, null, 2)}\n`), docxSha256: hash('unused'), assets: [] })) };
+function manifest(family = 'manual') {
+  return { kind: 'publication-word-qualification-inputs', family, rendererSources: [{ path: 'package.json', sha256: hash('unused') }],
+    fixtures: publicationWordFixtures().filter(fixture => fixture.name.startsWith(`${family}-`)).map(fixture => ({ name: fixture.name,
+      markers: fixture.markers, sourceSha256: hash(`${JSON.stringify(fixture.source, null, 2)}\n`), docxSha256: hash('unused'),
+      assets: Object.entries(fixture.assetFiles ?? {}).map(([id, sourceFile]) => ({ id, sourceFile, sha256: hash('unused') })) })) };
 }
 async function verify(value: ReturnType<typeof manifest>) {
   const path = await mkdtemp(join(tmpdir(), 'publication-word-receipt-')); directories.push(path);
@@ -34,5 +35,15 @@ describe('publication family receipt scope', () => {
     await expect(verify(weakened)).rejects.toThrow('retained source or required markers changed');
     const source = manifest(); source.fixtures[0].sourceSha256 = hash('changed source');
     await expect(verify(source)).rejects.toThrow('retained source or required markers changed');
+  });
+
+  it.each(['missing', 'extra', 'duplicate', 'path'] as const)('rejects a %s image inventory independently of the retained module graph', async change => {
+    const value = manifest('sl4');
+    const original = value.fixtures[0].assets[0];
+    if (change === 'missing') value.fixtures[0].assets = [];
+    if (change === 'extra') value.fixtures[0].assets.push({ ...original, id: 'unexpected' });
+    if (change === 'duplicate') value.fixtures[0].assets.push(original);
+    if (change === 'path') value.fixtures[0].assets[0] = { ...original, sourceFile: 'public/attachments/usmc-seal.png' };
+    await expect(verify(value)).rejects.toThrow('source asset inventory is incomplete or changed');
   });
 });

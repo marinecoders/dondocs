@@ -24,6 +24,11 @@ export async function verifyPublicationWordInputs(directory: string) {
   }
   for (const fixture of manifest.fixtures) {
     const original = expected.find(candidate => candidate.name === fixture.name)!;
+    const expectedAssets = Object.entries(original.assetFiles ?? {});
+    if (fixture.assets.length !== expectedAssets.length || new Set(fixture.assets.map(asset => asset.id)).size !== fixture.assets.length
+      || expectedAssets.some(([id, path]) => !fixture.assets.some(asset => asset.id === id && asset.sourceFile === path))) {
+      throw new Error(`${fixture.name}: the source asset inventory is incomplete or changed. Regenerate its inputs.`);
+    }
     if (JSON.stringify(fixture.markers) !== JSON.stringify(original.markers)
       || fixture.sourceSha256 !== createHash('sha256').update(`${JSON.stringify(original.source, null, 2)}\n`).digest('hex')) {
       throw new Error(`${fixture.name}: the retained source or required markers changed. Regenerate its inputs.`);
@@ -35,7 +40,7 @@ export async function verifyPublicationWordInputs(directory: string) {
       if (hash(await readFile(asset.sourceFile)) !== asset.sha256) throw new Error(`${fixture.name}/${asset.id}: source image digest mismatch.`);
     }
   }
-  await verifyPublicationWordSources(manifest.rendererSources, await publicationWordInputPaths(manifest.fixtures.flatMap(fixture => fixture.assets.map(asset => asset.sourceFile))));
+  await verifyPublicationWordSources(manifest.rendererSources, await publicationWordInputPaths(expected.flatMap(fixture => Object.values(fixture.assetFiles ?? {}))));
   return manifest;
 }
 
