@@ -1,0 +1,14 @@
+/* Public guides remain readable without application JavaScript. */
+:root { color-scheme: light dark; font: 1rem/1.65 system-ui, sans-serif; }
+body { max-width: 48rem; margin: auto; padding: 2rem; color: #18212b; background: #fafafa; }
+a { color: #1856a0; text-underline-offset: 0.2em; }
+a:focus-visible { outline: 3px solid currentColor; outline-offset: 4px; }
+nav { display: flex; flex-wrap: wrap; gap: 1rem; }
+h1 { line-height: 1.2; }
+section { margin-block: 2rem; }
+footer { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid #8895a3; }
+@media (prefers-color-scheme: dark) {
+  body { color: #e3e9ef; background: #141b23; }
+  a { color: #9dc5fa; }
+}
+@media (max-width: 30rem) { body { padding: 1rem; } }
