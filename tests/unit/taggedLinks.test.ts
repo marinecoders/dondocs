@@ -55,7 +55,7 @@ describe('tagged external reference links', () => {
     await expect(finishTaggedPdf(await pdf.save(), plan)).rejects.toThrow(/plain URI/);
     await expect(finishTaggedPdf(await fixture('javascript:alert(1)'), plan)).rejects.toThrow(/unsafe/);
   });
-  it.each([1, 2, 32])('rejects invisible link annotation flags: %s', async flags => {
+  it.each([1, 2, 32, 256])('rejects invisible link annotation flags: %s', async flags => {
     for (const finished of [false, true]) {
       const pdf = await PDFDocument.load(finished ? await output() : await fixture());
       link(pdf).set(name('F'), PDFNumber.of(flags));
