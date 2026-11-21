@@ -2,9 +2,33 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { MobilePreviewModal } from '@/components/modals/MobilePreviewModal';
 import { useUIStore } from '@/stores/uiStore';
-vi.mock('@/components/pdf/PdfViewer', () => ({ default: () => <div>PDF page</div> }));
+vi.mock('@/components/pdf/PdfViewer', () => ({ default: ({ onDownloadPdf, allowOpenInTab }: { onDownloadPdf?: () => void; allowOpenInTab?: boolean }) => <div>PDF page{onDownloadPdf && <button onClick={onDownloadPdf}>Download PDF</button>}{allowOpenInTab && <button>Open PDF</button>}</div> }));
 beforeEach(() => { useUIStore.setState({ mobilePreviewOpen: true }); });
 describe('mobile preview', () => {
+  it('withholds delivery during an engine reset without exposing the internal signal', () => {
+    render(<MobilePreviewModal pdfUrl="blob:previous" isCompiling={false} error="ENGINE_RESET_NEEDED" onDownloadPdf={vi.fn()} />);
+    expect(screen.getByText('PDF page')).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: /^Download/ })).toBeNull();
+    expect(screen.queryByRole('button', { name: 'Open PDF' })).toBeNull();
+    expect(screen.queryByText(/ENGINE_RESET_NEEDED/)).toBeNull();
+    expect(screen.getByRole('status')).toHaveTextContent('Updating preview');
+  });
+  it('retains the last preview during compilation and exposes stale errors', () => {
+    const props = { pdfUrl: 'blob:preview', isCompiling: false, error: null as string | null, onDownloadPdf: vi.fn() };
+    const { rerender } = render(<MobilePreviewModal {...props} />);
+    const page = screen.getByText('PDF page');
+    rerender(<MobilePreviewModal {...props} isCompiling />);
+    expect(screen.getByText('PDF page')).toBe(page);
+    expect(screen.getByRole('status')).toHaveTextContent('Updating preview');
+    expect(screen.queryByRole('button', { name: 'Download PDF' })).toBeNull();
+    expect(screen.queryByRole('button', { name: 'Open PDF' })).toBeNull();
+    rerender(<MobilePreviewModal {...props} error="Broken reference" />);
+    expect(screen.getByText('PDF page')).toBe(page);
+    expect(screen.getByRole('alert')).toHaveTextContent('Broken reference');
+    expect(screen.queryByRole('button', { name: 'Download PDF' })).toBeNull();
+    rerender(<MobilePreviewModal {...props} />);
+    expect(screen.getByRole('button', { name: 'Download PDF' })).toBeInTheDocument();
+  });
   it('downloads through the complete export action, not the displayed preview bytes', () => {
     const download = vi.fn();
     render(<MobilePreviewModal pdfUrl="blob:preview" isCompiling={false} error={null} onDownloadPdf={download} />);
