@@ -9,6 +9,7 @@ const ENTRY_POINTS = [
   'tests/_helpers/publicationWordQualification.ts',
   'scripts/generate-publication-word.mts',
   'scripts/verify-publication-word.mts',
+  'scripts/qualify-publication-word.mts',
   'vitest.config.ts',
 ];
 const STATIC_INPUTS = ['package.json', 'package-lock.json', 'tsconfig.json', 'tsconfig.app.json', 'public/attachments/usmc-seal.png'];

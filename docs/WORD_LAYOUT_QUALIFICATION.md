@@ -123,3 +123,5 @@ Microsoft Word qualification or a claim of PDF/Word pagination parity.
 The production-browser Word test also downloads the Times 12 pt and Courier
 10 pt fixtures and checks their actual saved continuation headers and body
 markers. Native Word checks for these expanded cases remain pending.
+
+Publication families have a separate [source-bound print verification workflow](PUBLICATION_WORD_QUALIFICATION.md). Their fixtures include manual continuations, controlled notices, square inventory sheets, artwork and long instruction tables. Those measurements do not enable a publication family or substitute for its remaining native Word checks.

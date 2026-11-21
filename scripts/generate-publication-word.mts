@@ -37,5 +37,5 @@ for (const fixture of fixtures) {
   receipts.push({ name: fixture.name, docxSha256: sha256(bytes), sourceSha256, bytes: bytes.byteLength, markers: fixture.markers,
     assets: [...assets].map(([id, bytes]) => ({ id, sha256: sha256(bytes), sourceFile: assetFiles[id] })) });
 }
-await writeFile(join(output, 'manifest.json'), JSON.stringify({ kind: 'publication-word-qualification-inputs', ref: execFileSync('git', ['rev-parse', 'HEAD'], { encoding: 'utf8' }).trim(), rendererSources, dirtyDiffSha256: sha256(execFileSync('git', ['diff', 'HEAD'], { encoding: 'utf8' })), pipeline: 'production-native-ooxml', generatedAt: new Date().toISOString(), fixtures: receipts }, null, 2));
+await writeFile(join(output, 'manifest.json'), JSON.stringify({ kind: 'publication-word-qualification-inputs', family, ref: execFileSync('git', ['rev-parse', 'HEAD'], { encoding: 'utf8' }).trim(), rendererSources, dirtyDiffSha256: sha256(execFileSync('git', ['diff', 'HEAD'], { encoding: 'utf8' })), pipeline: 'production-native-ooxml', generatedAt: new Date().toISOString(), fixtures: receipts }, null, 2));
 console.log(JSON.stringify({ directory: output, fixtures: receipts }, null, 2));

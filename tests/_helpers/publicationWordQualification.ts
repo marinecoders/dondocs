@@ -49,6 +49,9 @@ export function publicationWordFixtures(): PublicationWordFixture[] {
     { level: 0, appendix: true, header: 'Inspection record', text: 'APPENDIX INTRODUCTION' },
     { level: 0, text: 'APPENDIX CONTENT' });
   rich.publicationTables.majorItems = [{ values: { description: 'SUPPORT BRACKET', nsn: '1005-01-566-1100', tamcn: 'A02557G', id: '12345A' } }];
+  const dense = structuredClone(rich);
+  dense.paragraphs.splice(dense.paragraphs.length - 2, 0, { level: 1, header: 'Inspection measurements', text: 'Retain every row across continuation pages.',
+    bodyTable: { rows: [['MEASUREMENT', 'RESULT'], ...Array.from({ length: 48 }, (_, index) => [`MEASUREMENT-${index + 1}`, `RESULT-${index + 1}: ${'Synthetic inspection measurement with a wrapped result. '.repeat(3)}`])], headerRows: 1, repeatHeaders: true } });
   const sl3 = stockWordSource(), wide = stockWordSource();
   wide.formData.sl3!.orientation = 'landscape';
   wide.formData.sl3!.showFigureReference = true;
@@ -65,6 +68,7 @@ export function publicationWordFixtures(): PublicationWordFixture[] {
     { name: 'sl3-wide', source: wide, markers: ['COMPONENT, Training 001', 'MODEL-WIDE', 'SYNTHETIC FIELDING PLAN', 'INVENTORIED BY'] },
     { name: 'sl4-parts', source: sl4, markers: ['PART I', 'PART II', 'PART III', 'PART IV', 'Control Box, Training'], assetFiles: { 'sl4-artwork': 'tests/fixtures/publication-word/diagram.png' } },
     ...instructions,
+    { name: 'instruction-long-table', source: dense, markers: [...Array.from({ length: 48 }, (_, index) => `MEASUREMENT-${index + 1}`), 'RESULT-48:', 'APPENDIX CONTENT'], assetFiles: { 'qualification-image': 'public/attachments/usmc-seal.png' } },
     { name: 'instruction-rich', source: rich, markers: ['SUPPORT BRACKET', 'INSPECTION', 'CALIBRATION', 'Controller inspection drawing', 'APPENDIX INTRODUCTION', 'APPENDIX CONTENT'], assetFiles: { 'qualification-image': 'public/attachments/usmc-seal.png' } },
   ];
 }
