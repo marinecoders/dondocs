@@ -24,8 +24,8 @@ async function reviews(page: Page) {
 async function readyPreviewForAccessibility(page: Page) {
   const preview = page.locator('.workspace-preview');
   if (!await preview.isVisible()) return;
-  await expect(preview.locator(':scope > [aria-live="polite"]'))
-    .toHaveText('Compilation complete', { timeout: 60_000 });
+  await expect(preview)
+    .toHaveAttribute('data-preview-state', 'ready', { timeout: 60_000 });
   const pageNumber = preview.locator('input[aria-label="Page number"]');
   await expect(pageNumber).toBeEnabled({ timeout: 30_000 });
   await expect(pageNumber).toHaveCSS('opacity', '1');

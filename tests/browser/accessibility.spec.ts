@@ -12,7 +12,7 @@ async function scan(page: Page, info: TestInfo, state: string) {
 async function previewReady(page: Page, projectName: string) {
   if (projectName !== 'desktop') return;
   const preview = page.locator('.workspace-preview');
-  await expect(preview.locator(':scope > [aria-live="polite"]')).toHaveText('Compilation complete', { timeout: 60_000 });
+  await expect(preview).toHaveAttribute('data-preview-state', 'ready', { timeout: 60_000 });
   const pageNumber = preview.getByRole('textbox', { name: 'Page number', exact: true });
   await expect(pageNumber).toBeEnabled({ timeout: 30_000 });
   await expect(pageNumber).toHaveCSS('opacity', '1');
