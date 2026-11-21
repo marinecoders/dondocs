@@ -71,6 +71,8 @@ export function ReviewReturnControls({ disabled, onBusyChange }: { disabled: boo
   const [pendingSave, setPendingSave] = useState(false);
   const [finished, setFinished] = useState(false);
   const [savedWordRows, setSavedWord] = useState<ReviewReturnReceipt[]>([]);
+  const [savedWordIssue, setSavedWordIssue] = useState<{ documentId: string; message: string } | null>(null);
+  const [savedWordEpoch, setSavedWordEpoch] = useState(0);
   const active = useRef(true), running = useRef(false), feedback = useRef<HTMLParagraphElement>(null);
   useLayoutEffect(() => { if (notice) feedback.current?.focus(); }, [notice]);
   useEffect(() => {
@@ -85,11 +87,13 @@ export function ReviewReturnControls({ disabled, onBusyChange }: { disabled: boo
   }, [documentId]);
   useEffect(() => {
     let active = true;
-    if (documentId) void listRetainedWordReturns(documentId).then(receipts => { if (active) setSavedWord(receipts); })
-      .catch(() => { if (active) setError('Saved Word returns could not be read. Check browser storage and reopen this review.'); });
+    if (documentId) void listRetainedWordReturns(documentId).then(receipts => {
+      if (active) { setSavedWord(receipts);setSavedWordIssue(null); }
+    }).catch(() => { if (active) setSavedWordIssue({ documentId, message: 'Saved Word returns could not be read. Check browser storage and retry.' }); });
     return () => { active = false; };
-  }, [documentId, finished, pendingSave]);
+  }, [documentId, finished, pendingSave, savedWordEpoch]);
   const savedWord = savedWordRows.filter(receipt => receipt.documentId === documentId);
+  const savedWordError = savedWordIssue?.documentId === documentId ? savedWordIssue.message : '';
   const working = disabled || busy;
   async function run(operation: () => Promise<void>) {
     if (disabled || running.current) return;
@@ -203,6 +207,10 @@ export function ReviewReturnControls({ disabled, onBusyChange }: { disabled: boo
       setIncoming(null);setIncomingWord(null);setIncomingValue(null);setPlan(null);setChoices({});setOutdated(false);setError('');
     }}>Cancel feedback import</Button>}
     {incomingValue !== null && !finished && !pendingSave && <Button variant="ghost" disabled={working} onClick={() => void run(() => inspect(incomingValue))}>Review against current draft again</Button>}
+    {savedWordError && <div className="space-y-2 rounded-md border p-3" aria-label="Saved Word return recovery">
+      <p role="alert" className="text-sm text-destructive">{savedWordError}</p>
+      <Button variant="outline" size="sm" disabled={working} onClick={() => setSavedWordEpoch(value => value + 1)}>Retry saved Word returns</Button>
+    </div>}
     {savedWord.length > 0 && <details className="space-y-2 text-sm"><summary className="cursor-pointer font-medium">Saved Word returns ({savedWord.length})</summary>
       <p className="text-muted-foreground">Original files include Word comments, deleted text and metadata. Full workspace backups retain them; ordinary draft exports do not.</p>
       <ul className="space-y-2">{savedWord.map(receipt => <li key={`${receipt.roundId}:${receipt.returnId}`} className="flex min-w-0 flex-wrap items-center gap-2">

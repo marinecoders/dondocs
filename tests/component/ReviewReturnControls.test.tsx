@@ -2,11 +2,13 @@ import { useState } from 'react';
 import { beforeEach, expect, it, vi } from 'vitest';
 import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
 import { ReviewReturnControls } from '@/components/ReviewReturnControls';
+import { listRetainedWordReturns } from '@/lib/retainedWordReturns';
 import { readReviewCopyLink } from '@/lib/reviewRounds';
 import { applyReviewReturn, downloadReviewReturn, prepareReviewReturnExport, prepareReviewReturnImport, reviewReturnPlan } from '@/lib/reviewReturnActions';
 import { flushPendingReviewWrites } from '@/stores/documentsStore';
 import { detectTextPII } from '@/services/pii/detector';
 
+vi.mock('@/lib/retainedWordReturns', () => ({ listRetainedWordReturns: vi.fn(), downloadRetainedWordReturn: vi.fn() }));
 vi.mock('@/lib/reviewRounds', async original => ({ ...await original<typeof import('@/lib/reviewRounds')>(), readReviewCopyLink: vi.fn() }));
 vi.mock('@/lib/reviewReturnActions', () => ({ applyReviewReturn: vi.fn(), downloadReviewReturn: vi.fn(), prepareReviewReturnExport: vi.fn(),
   prepareReviewReturnImport: vi.fn(), reviewReturnPlan: vi.fn(), reviewReturnTargetLabel: () => 'Detached paragraph' }));
@@ -25,6 +27,7 @@ function upload() {
 }
 beforeEach(() => {
   vi.clearAllMocks();
+  vi.mocked(listRetainedWordReturns).mockResolvedValue([]);
   vi.mocked(readReviewCopyLink).mockResolvedValue({ documentId: 'owner', roundId: 'review', baselineDigest: 'a'.repeat(64) });
   vi.mocked(prepareReviewReturnExport).mockResolvedValue({ ...safety, roundLabel: 'November letter', comments } as unknown as Awaited<ReturnType<typeof prepareReviewReturnExport>>);
   vi.mocked(prepareReviewReturnImport).mockResolvedValue(prepared as unknown as Awaited<ReturnType<typeof prepareReviewReturnImport>>);
