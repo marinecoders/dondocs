@@ -5,6 +5,7 @@ export interface PreviewSource {
   sectionId: string;
   text: string;
   paragraphId?: string;
+  fieldId?: string;
 }
 
 export function normalizePreviewText(text: string): string {
