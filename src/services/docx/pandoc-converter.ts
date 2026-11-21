@@ -807,7 +807,7 @@ export function extractSubjectFromDocument(xml: string): string {
     [...fragment.matchAll(/<w:t(?:\s[^>]*)?>([^<]*)<\/w:t>|<w:(?:br|cr|tab)\b[^>]*\/>|<\/w:p>/g)]
       .map(match => match[1] ?? ' ')
       .join(''),
-  ).replace(/\s+/g, ' ').trim();
+  ).replace(/[ \t\r\n]+/g, ' ').trim();
 
   for (const row of xml.match(/<w:tr\b[^>]*>[\s\S]*?<\/w:tr>/g) || []) {
     const [label, value] = row.match(/<w:tc\b[^>]*>[\s\S]*?<\/w:tc>/g) || [];
