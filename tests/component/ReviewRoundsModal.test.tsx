@@ -75,7 +75,7 @@ it('keeps failed return-file reads separate from review inventory errors and ret
   render(<ReviewRoundsModal open onOpenChange={vi.fn()} />);
   expect(await screen.findByText('Saved Word returns could not be read. Check browser storage and retry.')).toBeVisible();
   expect(await screen.findByText('Saved reviews could not be read completely. Retry before creating or sending a reviewer copy.')).toBeVisible();
-  fireEvent.click(screen.getByRole('button', { name: 'Retry saved Word returns', exact: true }));
+  fireEvent.click(screen.getByRole('button', { name: 'Retry saved Word returns' }));
   await waitFor(() => expect(screen.queryByText('Saved Word returns could not be read. Check browser storage and retry.')).not.toBeInTheDocument());
   expect(screen.getByText('Saved reviews could not be read completely. Retry before creating or sending a reviewer copy.')).toBeVisible();
   expect(listRetainedWordReturns).toHaveBeenCalledTimes(2);
