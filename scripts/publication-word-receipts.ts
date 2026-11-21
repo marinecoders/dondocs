@@ -43,4 +43,3 @@ export async function verifyPublicationWordInputs(directory: string) {
   await verifyPublicationWordSources(manifest.rendererSources, await publicationWordInputPaths(expected.flatMap(fixture => Object.values(fixture.assetFiles ?? {}))));
   return manifest;
 }
-
