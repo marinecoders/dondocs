@@ -88,7 +88,9 @@ function headerContent(root: Element, relations: Map<string, unknown>): HeaderTo
     const normalized = normalizedField(instruction);
     // Only pagination fields with ordinary numeric/Roman cached results are
     // dynamic. DOCPROPERTY, REF and other results remain reviewed content.
-    const pagination = /^(?:PAGE|NUMPAGES|SECTIONPAGES)(?:\s+\\\*\s+(?:MERGEFORMAT|Arabic|roman|ROMAN|alphabetic|ALPHABETIC))*$/i.test(normalized);
+    // Whitespace is normalized above. Keep each case-insensitive alternative
+    // unique so repeated switches cannot create exponential backtracking.
+    const pagination = /^(?:PAGE|NUMPAGES|SECTIONPAGES)(?: \\\* (?:MERGEFORMAT|Arabic|roman|alphabetic))*$/i.test(normalized);
     const pageResult = result.every(token => typeof token === 'string' && /^[\s\dIVXLCDMivxlcdm-]*$/.test(token));
     return { field: normalized, ...(pagination && pageResult ? {} : { result }) };
   };

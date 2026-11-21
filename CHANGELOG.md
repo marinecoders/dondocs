@@ -14,6 +14,7 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 - Confine companion asset reads to the vendor directory, including TeX lookups and symlinks, and settle interrupted or overlapping compile requests.
 - Validate export resources and PDF anchors while preserving volume navigation and optional Word enclosure pages.
 - Harden workflow arguments and form-import validation, and avoid inserting footnotes without a current target.
+- Prevent repeated Word pagination-field switches from causing excessive backtracking during review import.
 
 ## [1.3.188] — 2026-11-20
 

@@ -31,6 +31,26 @@ describe('Word review header/footer content bindings', () => {
     const bytes = await wordImportFixture('<w:p><w:fldSimple w:instr="DOCPROPERTY DifferentSource">' + wordRun('Unchanged native text') + '</w:fldSimple></w:p>');
     await expect(wordReviewStaticDigest(bytes)).rejects.toThrow('Body Word fields require manual review');
   });
+  it.each([
+    'PAGE \\* Arabic',
+    'NUMPAGES \\* ROMAN',
+    'SECTIONPAGES \\* alphabetic',
+    'pAgE \\* mErGeFoRmAt \\* RoMaN',
+    ' \tPAGE\t\\*\tROMAN\n',
+  ])('retains dynamic pagination cache behavior for %j', async instruction => {
+    const bytes = await wordImportFixture(wordParagraph('Body'), { 'word/header1.xml': wrap(`<w:p><w:fldSimple w:instr="${instruction}">${wordRun('1')}</w:fldSimple></w:p>`) });
+    const original = await wordReviewStaticDigest(bytes);
+    expect(await wordReviewStaticDigest(await changed(bytes, 'word/header1.xml', xml => xml.replace(wordRun('1'), wordRun('99'))))).toBe(original);
+  });
+  it.each([
+    'PAGE' + ' \\* roman'.repeat(12) + 'x',
+    'PAGE \\* unknown',
+    'NUMPAGES \\*',
+  ])('keeps unsupported pagination results bound to review for %j', async instruction => {
+    const bytes = await wordImportFixture(wordParagraph('Body'), { 'word/header1.xml': wrap(`<w:p><w:fldSimple w:instr="${instruction}">${wordRun('1')}</w:fldSimple></w:p>`) });
+    const original = await wordReviewStaticDigest(bytes);
+    expect(await wordReviewStaticDigest(await changed(bytes, 'word/header1.xml', xml => xml.replace(wordRun('1'), wordRun('99'))))).not.toBe(original);
+  });
   it('binds each image occurrence to its actual resource, permitting harmless relationship-ID rewrites', async () => {
     const image = Uint8Array.from(atob(WORD_IMAGE), char => char.charCodeAt(0)), chunk = new Uint8Array(18), view = new DataView(chunk.buffer);
     view.setUint32(0, 6);chunk.set(new TextEncoder().encode('tEXtk\0test'), 4);view.setUint32(14, crc32(chunk.subarray(4, 14)));
