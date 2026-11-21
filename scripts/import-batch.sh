@@ -38,6 +38,12 @@ while IFS=$'\t' read -r id folder category number || [[ -n "$id" ]]; do
   # empty tab-delimited field and shifts every later column left.
   [[ "$category" == "-" ]] && category=""
   formwarn=0  # harvest and preparation can both warn; the form still counts once
+  if [[ ! "$id" =~ ^[A-Za-z0-9._-]+$ ]] || [[ "$id" == *".."* ]]; then
+    echo "[fail-id]   $folder — invalid id: $id"; failed=$((failed+1)); continue
+  fi
+  if [[ ! "$folder" =~ ^[A-Za-z0-9._-]+$ ]] || [[ "$folder" == *".."* ]]; then
+    echo "[fail-dir]  invalid folder: $folder"; failed=$((failed+1)); continue
+  fi
   if [[ -f "public/templates/$folder/boxes.json" ]] || row_flag "$folder" builtin; then
     echo "[protected] $folder — hand-built form; refusing to re-import"
     skipped=$((skipped+1)); continue
@@ -58,13 +64,6 @@ while IFS=$'\t' read -r id folder category number || [[ -n "$id" ]]; do
     [[ ! -d "public/templates/$folder" ]] && { skipped=$((skipped+1)); continue; }
   elif [[ $exists -eq 1 ]]; then
     skipped=$((skipped+1)); continue
-  fi
-
-  if [[ ! "$id" =~ ^[A-Za-z0-9._-]+$ ]] || [[ "$id" == *".."* ]]; then
-    echo "[fail-id]   $folder — invalid id: $id"; failed=$((failed+1)); continue
-  fi
-  if [[ ! "$folder" =~ ^[A-Za-z0-9._-]+$ ]] || [[ "$folder" == *".."* ]]; then
-    echo "[fail-dir]  invalid folder: $folder"; failed=$((failed+1)); continue
   fi
 
   pdf="$CACHE/$id.pdf"

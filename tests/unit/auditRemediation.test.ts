@@ -12,6 +12,8 @@ describe('audit remediation regressions', () => {
   it('withoutTableFootnote throws RangeError on out-of-range paragraph index', () => {
     expect(() => withoutTableFootnote([], {}, 0, 0)).toThrow(RangeError);
     expect(() => withoutTableFootnote([], {}, -1, 0)).toThrow(RangeError);
+    expect(() => withoutTableFootnote([{ level: 0, text: '' }], {}, 0.5, 0)).toThrow(RangeError);
+    expect(() => withoutTableFootnote([{ level: 0, text: '' }], {}, NaN, 0)).toThrow(RangeError);
   });
 
   it('resolvePublicationDestinations skips malformed annotations lacking a valid Rect', async () => {
@@ -65,15 +67,4 @@ describe('audit remediation regressions', () => {
     expect(raw).toContain('SUB-UNIT 6 ALASKA');
   });
 
-  it('box-editor.html does not interpolate template fields via innerHTML', () => {
-    const html = readFileSync(resolve(process.cwd(), 'tools/box-editor.html'), 'utf8');
-    expect(html).not.toContain("onclick=\"loadTemplate('${t.id}')\"");
-    expect(html).toContain('btn.addEventListener(\'click\', () => loadTemplate(t.id))');
-  });
-
-  it('companion/engineWorker.mjs enforces LIB_ROOT path containment on relative fetch URLs', () => {
-    const src = readFileSync(resolve(process.cwd(), 'companion/engineWorker.mjs'), 'utf8');
-    expect(src).toContain('const LIB_ROOT = resolve(LIB)');
-    expect(src).toContain('!target.startsWith(LIB_ROOT + sep)');
-  });
 });

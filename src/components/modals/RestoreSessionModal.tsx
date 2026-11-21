@@ -129,15 +129,8 @@ export function RestoreSessionModal() {
       .join(' ');
   };
 
-  const handleOpenChange = (nextOpen: boolean) => {
-    if (!nextOpen) resumeSessionSaves();
-    setOpen(nextOpen);
-  };
-
-  useEffect(() => () => { resumeSessionSaves(); }, []);
-
   return (
-    <Dialog open={open} onOpenChange={handleOpenChange}>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent className="sm:max-w-md w-[calc(100vw-2rem)] max-h-[90vh] flex flex-col">
         <DialogHeader className="min-w-0 flex-shrink-0">
           <DialogTitle className="flex items-center gap-2 min-w-0">

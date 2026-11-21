@@ -11,47 +11,63 @@
 // reaches for and then loads it unmodified.
 import { parentPort, workerData } from 'node:worker_threads';
 import { createRequire } from 'node:module';
-import { readFileSync, copyFileSync, mkdtempSync, readdirSync, existsSync, appendFileSync, openSync, readSync, closeSync } from 'node:fs';
+import { readFileSync, copyFileSync, mkdtempSync, readdirSync, realpathSync, appendFileSync, openSync, readSync, closeSync } from 'node:fs';
 import { join, resolve, sep } from 'node:path';
 import { tmpdir } from 'node:os';
 
 const LIB = workerData.libDir;
-const LIB_ROOT = resolve(LIB);
+const LIB_ROOT = realpathSync(LIB);
+const insideLibrary = path => path === LIB_ROOT || path.startsWith(LIB_ROOT + sep);
+
+/** Check both the requested path and symlink destination before any read. */
+function localAssetPath(path) {
+  const target = resolve(LIB_ROOT, path);
+  if (!insideLibrary(target)) return null;
+  try {
+    const physical = realpathSync(target);
+    return insideLibrary(physical) ? physical : null;
+  } catch { return null; }
+}
 
 // The engine derives a bucket from LaTeX's format code, but the vendored tree
 // files by the code the GENERATOR chose — e.g. it asks for 26/geometry.sty
 // (cls/clo) while the file sits in 27 (sty). Index the tree by basename once so
 // a lookup resolves regardless of which bucket the request names.
-const TEX_ROOT = join(LIB, 'texlive', 'pdftex');
+const TEX_ROOT = localAssetPath('texlive/pdftex');
 const byName = new Map();
-if (existsSync(TEX_ROOT)) {
+if (TEX_ROOT) {
   for (const bucket of readdirSync(TEX_ROOT)) {
-    const dir = join(TEX_ROOT, bucket);
+    const dir = localAssetPath(join(TEX_ROOT, bucket));
+    if (!dir) continue;
     try {
       for (const f of readdirSync(dir)) if (!byName.has(f)) byName.set(f, join(dir, f));
     } catch { /* not a directory */ }
   }
 }
 function findTexFile(relPath) {
+  if (!insideLibrary(resolve(LIB_ROOT, relPath))) return null;
   // The vendored tree carries saved 404 pages under real font names — a bare
   // "cmmi8" that is 402 bytes of HTML sits next to the genuine cmmi8.tfm. The
   // engine rejects those itself and caches the name as missing, so a candidate
   // is only usable if it is not one of them.
-  const usable = (p) => {
-    if (!p || !existsSync(p)) return false;
-    const fd = openSync(p, 'r');
-    const buf = Buffer.alloc(15);
-    try { readSync(fd, buf, 0, 15, 0); } finally { closeSync(fd); }
-    return !/<!doctype|<html/i.test(buf.toString('latin1'));
-  };
   const base = relPath.split('/').pop();
-  const candidates = [join(LIB, relPath), byName.get(base)];
+  const candidates = [resolve(LIB_ROOT, relPath), byName.get(base)];
   // kpathsea strips the extension for font lookups — it asks for "ptmr7t",
   // the tree holds "ptmr7t.tfm".
   for (const ext of ['.tfm', '.vf', '.pfb', '.enc', '.fd', '.sty', '.cls', '.def', '.cfg']) {
     candidates.push(byName.get(base + ext));
   }
-  return candidates.find(usable) || null;
+  for (const candidate of candidates) {
+    const file = candidate && localAssetPath(candidate);
+    if (!file) continue;
+    try {
+      const fd = openSync(file, 'r');
+      const buf = Buffer.alloc(15);
+      try { readSync(fd, buf, 0, 15, 0); } finally { closeSync(fd); }
+      if (!/<!doctype|<html/i.test(buf.toString('latin1'))) return file;
+    } catch { /* A missing or unreadable candidate can use the next fallback. */ }
+  }
+  return null;
 }
 
 
@@ -72,10 +88,8 @@ globalThis.fetch = async (input, init) => {
   const url = typeof input === 'string' ? input : (input && input.url) || '';
   if (/^https?:/i.test(url)) return realFetch(input, init);
   const rel = url.replace(/^\.?\//, '').split('?')[0];
-  const target = resolve(LIB_ROOT, rel);
-  if (target !== LIB_ROOT && !target.startsWith(LIB_ROOT + sep)) {
-    return new Response(null, { status: 404 });
-  }
+  const target = localAssetPath(rel);
+  if (!target) return new Response(null, { status: 404 });
   try {
     const buf = readFileSync(target);
     return new Response(buf, { status: 200 });

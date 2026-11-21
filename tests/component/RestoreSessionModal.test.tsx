@@ -7,6 +7,7 @@
  * restore-race; the fix shipped in fix/restore-race).
  */
 import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { StrictMode } from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { RestoreSessionModal } from '@/components/modals/RestoreSessionModal';
@@ -47,6 +48,21 @@ beforeEach(() => {
 });
 
 describe('RestoreSessionModal', () => {
+  it('keeps autosave suspended while a StrictMode prompt remains open', async () => {
+    vi.mocked(store.hasSavedSession).mockReturnValue(true);
+    vi.mocked(store.getSavedSession).mockReturnValue(SESSION as ReturnType<typeof store.getSavedSession>);
+    render(<StrictMode><RestoreSessionModal /></StrictMode>);
+    expect(await screen.findByRole('dialog')).toBeInTheDocument();
+    expect(store.resumeSessionSaves).not.toHaveBeenCalled();
+  });
+
+  it('does not release an autosave suspension when it never opened', () => {
+    vi.mocked(store.hasSavedSession).mockReturnValue(false);
+    const { unmount } = render(<RestoreSessionModal />);
+    unmount();
+    expect(store.resumeSessionSaves).not.toHaveBeenCalled();
+  });
+
   it('stays closed when there is no saved session', () => {
     vi.mocked(store.hasSavedSession).mockReturnValue(false);
     render(<RestoreSessionModal />);
