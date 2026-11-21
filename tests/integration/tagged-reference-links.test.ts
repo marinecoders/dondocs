@@ -12,11 +12,11 @@ import { hasPdfToolchain } from '../_helpers/pdfToolchain';
 
 const name = PDFName.of;
 describe.skipIf(!hasPdfToolchain)('native tagged reference link output', () => {
-  it('compiles actual wrapped URI annotations and preserves page rendering through finishing', async () => {
+  it.each([1, 6])('compiles actual wrapped URI annotations and preserves page rendering (%i references)', async referenceCount => {
     const source: TaggedCorrespondenceSource = {
       docType: 'standard_letter', formData: { subject: 'TAGGED REFERENCE TRAINING', date: '21 Nov 26', from: 'Training Marine', to: 'Training Office', signatureType: 'none', includeHyperlinks: true },
       paragraphs: [{ id: 'purpose', level: 0, text: 'Follow reference (a) for the training source.' }],
-      references: [{ letter: 'a', title: Array(14).fill('Training reference with a deliberately wrapped title').join(' '), url: 'https://example.test/reference?chapter=1&section=2' }],
+      references: Array.from({ length: referenceCount }, (_, index) => ({ letter: String.fromCharCode(97 + index), title: Array(referenceCount === 1 ? 14 : 36).fill('Training reference with a deliberately wrapped title').join(' '), url: `https://example.test/reference?chapter=${index + 1}&section=2` })),
       enclosures: [], copyTos: [], distributions: [],
     };
     const prepared = prepareTaggedCorrespondence(source);
@@ -31,8 +31,12 @@ describe.skipIf(!hasPdfToolchain)('native tagged reference link output', () => {
     const annotations = pdf.getPages().flatMap(page => page.node.Annots()?.asArray() ?? []);
     expect(annotations.length).toBeGreaterThan(1);
     const elements = pdf.context.enumerateIndirectObjects().map(([, object]) => object).filter((object): object is PDFDict => object instanceof PDFDict && object.get(name('S')) === name('Link'));
-    expect(elements).toHaveLength(1);
-    expect(elements[0].lookup(name('K'), PDFArray).asArray().filter(child => pdf.context.lookup(child, PDFDict).get(name('Type')) === name('OBJR'))).toHaveLength(annotations.length);
+    expect(elements).toHaveLength(referenceCount);
+    if (referenceCount > 1) {
+      expect(pdf.getPageCount()).toBeGreaterThan(1);
+      expect(elements.some(element => new Set(element.lookup(name('K'), PDFArray).asArray().map(child => pdf.context.lookup(child, PDFDict).get(name('Pg'))?.toString())).size > 1)).toBe(true);
+    }
+    expect(elements.flatMap(element => element.lookup(name('K'), PDFArray).asArray().filter(child => pdf.context.lookup(child, PDFDict).get(name('Type')) === name('OBJR')))).toHaveLength(annotations.length);
     const inputPath = join(compiled.workDir, 'main.pdf'); const outputPath = join(compiled.workDir, 'tagged.pdf');
     await writeFile(outputPath, result.bytes);
     for (const [path, prefix] of [[inputPath, 'before'], [outputPath, 'after']]) {
