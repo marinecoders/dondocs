@@ -6,7 +6,7 @@ The Word file is unencrypted. Its reviewer names, dates, bookmarks and custom XM
 
 Return the edited `.docx` through **Import feedback return** in the original draft’s review workspace. Inspect the suggested replacements, discussions, handling markings and privacy findings. **Import reviewed feedback** adds pending native suggestions and discussions. It does not replace the current letter body. Accept or reject suggestions through **Suggested edits for this review**. Independent newer text outside an unambiguous selected replacement is preserved. Overlapping edits require the existing explicit current-range reconciliation. Accepting text and importing discussions use the ordinary native Undo/Redo history. Importing the same returned file again does not repeat it, including after Undo; Word metadata-only saves can produce a separate returned-file identity.
 
-Keep the returned Word file separately. The workspace saves converted native feedback and its import receipt; it does not retain that returned file or all of its Word metadata.
+Imported returns retain their original Word file alongside the converted feedback. Expand **Saved Word returns** to download an original. Use a full workspace backup to transfer the originals and review history; ordinary draft exports exclude them.
 
 Comments attach to exact native text only when the complete before-view selection matches. Otherwise their Word quote remains visible with a paragraph or document discussion anchor. Native discussions already present when the baseline was saved remain present even though the Word file does not carry their editable native identities.
 
@@ -23,3 +23,11 @@ A review DOCX is limited to 20 MB. Its complete native baseline is limited to 32
 The permanent tests cover actual DOCX packages, local IndexedDB receipts, changed-source reconciliation, comments, exact resource ownership, cancellation and failed delivery. The browser workflow uses the production converter and downloaded Word files. Files modified by the test harness establish the supported package/parser workflow; they do not establish Microsoft Word’s save behavior. A native Microsoft Word edit/save/reopen round trip remains required before describing this feature as qualified in Word. Publication Word layout qualification is a separate gate in [the layout guide](WORD_LAYOUT_QUALIFICATION.md).
 
 Tests: `wordReviewIdentity.test.ts`, `wordReviewBaseline.test.ts`, `wordReviewStaticContent.test.ts`, `wordReviewAssets.test.ts`, `wordReviewExport.test.ts`, `wordReviewHandoffStorage.test.ts`, `wordReviewReturn.test.ts`, `WordReviewControls.test.tsx`, and `word-review-return.spec.ts`.
+
+## Retained returned originals
+
+Importing matched Word feedback now saves the exact returned DOCX as a separate local asset on its review receipt. It does not replace the current draft or the initial imported Word source. Saved Word returns in Review rounds lets the owner download these original bytes after reload; downloads recheck ownership, file identity and the current deployment policy. These originals can contain comments, deleted text and metadata that are absent from the clean draft. The import privacy scan includes the complete retained Word text inventory.
+
+Full workspace backups carrying returned originals use version 17. Backup creation requires each original; restore validates its digest and retained text before installing records. An ordinary draft JSON, native feedback return or reviewer copy does not include these originals. Legacy imported returns have no retained original and are not retroactively upgraded by reopening a duplicate file. Deleting the review baseline also removes its return associations.
+
+Native Microsoft Word edit/save/reopen and actual returned-review qualification remain pending. Generated or harness-modified DOCX fixtures do not establish native Word save behavior.

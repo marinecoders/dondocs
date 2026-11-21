@@ -21,6 +21,7 @@ import { getPendingDeleteSessions, useDocumentsStore } from '@/stores/documentsS
 import { isRestoreInProgress } from '@/lib/backup';
 import { debug } from '@/lib/debug';
 import { attachmentSweepCheckpoint, withAttachmentSweep } from '@/lib/attachments';
+import { readReviewReturnReceipts } from './reviewReturns';
 import { listReviewRounds } from './reviewRounds';
 import { formTemplateAttachmentId } from './formTemplateAssets';
 
@@ -87,6 +88,7 @@ async function collectKnownAttachmentIds(): Promise<Set<string> | null> {
       for (const asset of packageAssets(record)) live.add(asset.id);
       for (const revision of [...record.revisions, ...(record.reviewRounds ?? []).map(round => round.baseline)]) for (const member of revision.members) if (member.kind === 'native') collectSessionRefs(member.session, live);
     }
+    for (const receipt of await readReviewReturnReceipts()) if (receipt.wordSource) live.add(receipt.wordSource.fileRef.id);
     for (const round of await listReviewRounds()) collectSessionRefs(round.baseline.session, live);
   } catch {
     // A missing or unreadable pin inventory is never proof that its files are orphaned.
