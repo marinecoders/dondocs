@@ -1,3 +1,4 @@
+import { sourcesOnPage, type PreviewSource } from '@/lib/previewSources';
 import {
   forwardRef,
   useCallback,
@@ -39,6 +40,8 @@ export interface PdfPageLayerHandle {
 }
 
 interface PdfPageLayerProps {
+  sources?: readonly PreviewSource[];
+  onNavigateSource?: (source: PreviewSource) => void;
   url: string;
   gen: number;
   pageWidth: number;
@@ -75,10 +78,11 @@ interface PdfPageLayerProps {
  * the viewer inside iOS's canvas memory budget.
  */
 export const PdfPageLayer = forwardRef<PdfPageLayerHandle, PdfPageLayerProps>(function PdfPageLayer(
-  { url, gen, pageWidth, dprCap, visible, initialScrollTop = 0, initialPage = 1, initialAnchor, fadingOut = false, thumbPortalTarget, currentPage, onDocMeta, onPageInView, onLoaded, onReady, onFailed },
+  { sources = [], onNavigateSource, url, gen, pageWidth, dprCap, visible, initialScrollTop = 0, initialPage = 1, initialAnchor, fadingOut = false, thumbPortalTarget, currentPage, onDocMeta, onPageInView, onLoaded, onReady, onFailed },
   ref
 ) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const [pageTexts, setPageTexts] = useState<Record<number, string>>({});
   const [numPages, setNumPages] = useState(0);
   const [sizes, setSizes] = useState<PdfPageSize[]>([]);
   const aspects = sizes.map((size) => size.width / size.height);
@@ -351,11 +355,28 @@ export const PdfPageLayer = forwardRef<PdfPageLayerHandle, PdfPageLayerProps>(fu
                 style={{ top: p.top }}
               >
                 <div
-                  className="bg-white shadow-md ring-1 ring-black/5 dark:ring-white/10"
+                  className="relative bg-white shadow-md ring-1 ring-black/5 dark:ring-white/10"
                   style={{ width: p.width, height: p.height }}
                 >
+                  {visible && onNavigateSource && sourcesOnPage(pageTexts[i] ?? '', sources).length > 0 && (
+                    <details className="absolute right-2 top-2 z-10 max-w-[min(18rem,90%)] rounded-md border bg-background/95 text-foreground shadow-sm">
+                      <summary className="cursor-pointer px-3 py-2 text-xs focus-visible:outline focus-visible:outline-2">Edit page {i + 1} source</summary>
+                      <div className="flex max-h-48 flex-col overflow-auto border-t p-1">
+                        {sourcesOnPage(pageTexts[i] ?? '', sources).map(source => <button key={source.id} type="button" className="rounded px-3 py-2 text-left text-xs hover:bg-muted focus-visible:bg-muted" onClick={() => onNavigateSource(source)}>{source.label}</button>)}
+                      </div>
+                    </details>
+                  )}
                   {inWindow && (
                     <Page
+                      onLoadSuccess={page => {
+                        const sequence = loadSequence.current;
+                        if (sources.length === 0) return;
+                        void page.getTextContent().then(content => {
+                          if (sequence !== loadSequence.current) return;
+                          const text = content.items.map(item => 'str' in item ? item.str : '').join(' ');
+                          setPageTexts(previous => ({ ...previous, [i]: text }));
+                        }).catch(() => { /* Unreadable pages keep ordinary PDF navigation. */ });
+                      }}
                       pageNumber={i + 1}
                       width={p.width}
                       devicePixelRatio={dprCap}
