@@ -11,7 +11,7 @@
 // reaches for and then loads it unmodified.
 import { parentPort, workerData } from 'node:worker_threads';
 import { createRequire } from 'node:module';
-import { readFileSync, copyFileSync, mkdtempSync, readdirSync, realpathSync, appendFileSync, openSync, readSync, closeSync } from 'node:fs';
+import { readFileSync, copyFileSync, mkdtempSync, readdirSync, realpathSync, openSync, readSync, closeSync } from 'node:fs';
 import { join, resolve, sep } from 'node:path';
 import { tmpdir } from 'node:os';
 
