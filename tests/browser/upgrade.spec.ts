@@ -256,7 +256,7 @@ test('upgraded browser bypasses cached pre-TM templates and compiles TM/IETM onl
 
   async function downloadManual() {
     await expect(page.locator('.workspace-preview [title="Document preview"]').first()).toBeAttached({ timeout: 60_000 });
-    await expect(page.locator('.workspace-preview [aria-live="polite"]')).toHaveText('Compilation complete', { timeout: 60_000 });
+    await expect(page.locator('.workspace-preview')).toHaveAttribute('data-preview-state', 'ready', { timeout: 60_000 });
     await expect(page.locator('.workspace-preview').getByText('of 2', { exact: true })).toBeAttached({ timeout: 60_000 });
     const downloading = page.waitForEvent('download');
     await page.getByRole('button', { name: 'Download', exact: true }).click();

@@ -43,7 +43,9 @@ export function PreviewPanel({ pdfUrl, isCompiling, isWarmingUp = false, preview
   }, [isCompiling]);
 
   // Filter out engine reset message - it's not a user-facing error
-  const displayError = error === 'ENGINE_RESET_NEEDED' ? null : error;
+  const engineResetNeeded = error === 'ENGINE_RESET_NEEDED';
+  const displayError = engineResetNeeded ? null : error;
+  const previewState = isCompiling || isWarmingUp || engineResetNeeded ? 'loading' : displayError ? 'error' : pdfUrl ? 'ready' : 'idle';
 
   // The document header opens the full-screen preview on mobile.
   if (isMobile) return null;
@@ -61,9 +63,9 @@ export function PreviewPanel({ pdfUrl, isCompiling, isWarmingUp = false, preview
   </>;
 
   return (
-    <div className="workspace-preview relative flex h-full flex-col">
+    <div className="workspace-preview relative flex h-full flex-col" data-preview-state={previewState}>
       <div aria-live="polite" aria-atomic="true" className="sr-only">
-        {isWarmingUp ? 'Warming up the typesetter, one-time setup…' : isCompiling ? 'Compiling document…' : 'Compilation complete'}
+        {previewState === 'loading' ? (isWarmingUp || engineResetNeeded ? 'Loading the typesetter…' : 'Updating preview…') : displayError ? (pdfUrl ? 'Preview is out of date. Check the generation error.' : 'Preview could not be generated.') : pdfUrl ? 'Preview ready. Review the exported file before sending.' : 'Waiting for document content.'}
       </div>
       {!pdfUrl && <div className="flex h-12 shrink-0 items-center gap-2 px-4 text-xs text-muted-foreground">{previewLabel}</div>}
       {isCompiling && <div className="pointer-events-none absolute inset-x-0 top-[46px] z-10 h-0.5 overflow-hidden" aria-hidden="true">
@@ -127,7 +129,7 @@ export function PreviewPanel({ pdfUrl, isCompiling, isWarmingUp = false, preview
                     <Loader2 className="h-10 w-10 animate-spin text-primary" />
                     <p className="text-sm font-medium">Warming up the typesetter…</p>
                     <p className="max-w-[19rem] text-center text-xs text-muted-foreground">
-                      One-time setup — the LaTeX engine loads into your browser. Everything runs locally, and this won&apos;t happen again.
+                      The typesetter loads into your browser for local processing. Loading time depends on cached resources and your connection.
                     </p>
                   </>
                 ) : (
@@ -144,7 +146,7 @@ export function PreviewPanel({ pdfUrl, isCompiling, isWarmingUp = false, preview
                   <p className="max-w-xs text-center text-xs text-muted-foreground">
                     {isFormsMode
                       ? 'Pick a form and start filling it in on the left — the filled form renders here as you type.'
-                      : 'Fill in the Subject and body on the left — the formatted letter renders here as you type.'}
+                      : 'Start editing on the left — your formatted document appears here as you type.'}
                   </p>
                 </>
               )}
