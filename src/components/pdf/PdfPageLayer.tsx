@@ -40,6 +40,7 @@ export interface PdfPageLayerHandle {
 }
 
 interface PdfPageLayerProps {
+  onSourcesInView?: (sources: PreviewSource[]) => void;
   sources?: readonly PreviewSource[];
   onNavigateSource?: (source: PreviewSource) => void;
   url: string;
@@ -78,12 +79,18 @@ interface PdfPageLayerProps {
  * the viewer inside iOS's canvas memory budget.
  */
 export const PdfPageLayer = forwardRef<PdfPageLayerHandle, PdfPageLayerProps>(function PdfPageLayer(
-  { sources = [], onNavigateSource, url, gen, pageWidth, dprCap, visible, initialScrollTop = 0, initialPage = 1, initialAnchor, fadingOut = false, thumbPortalTarget, currentPage, onDocMeta, onPageInView, onLoaded, onReady, onFailed },
+  { sources = [], onNavigateSource, onSourcesInView, url, gen, pageWidth, dprCap, visible, initialScrollTop = 0, initialPage = 1, initialAnchor, fadingOut = false, thumbPortalTarget, currentPage, onDocMeta, onPageInView, onLoaded, onReady, onFailed },
   ref
 ) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [pageTexts, setPageTexts] = useState<Record<number, string>>({});
+  const pageSources = useMemo(() => new Map(
+    Object.entries(pageTexts).map(([index, text]) => [Number(index), sourcesOnPage(text, sources)]),
+  ), [pageTexts, sources]);
   const [numPages, setNumPages] = useState(0);
+  useEffect(() => {
+    if (visible && currentPage && onSourcesInView) onSourcesInView(pageSources.get(currentPage - 1) ?? []);
+  }, [visible, currentPage, pageSources, onSourcesInView]);
   const [sizes, setSizes] = useState<PdfPageSize[]>([]);
   const aspects = sizes.map((size) => size.width / size.height);
   const loadSequence = useRef(0);
@@ -358,11 +365,11 @@ export const PdfPageLayer = forwardRef<PdfPageLayerHandle, PdfPageLayerProps>(fu
                   className="relative bg-white shadow-md ring-1 ring-black/5 dark:ring-white/10"
                   style={{ width: p.width, height: p.height }}
                 >
-                  {visible && onNavigateSource && sourcesOnPage(pageTexts[i] ?? '', sources).length > 0 && (
+                  {visible && onNavigateSource && (pageSources.get(i)?.length ?? 0) > 0 && (
                     <details className="absolute right-2 top-2 z-10 max-w-[min(18rem,90%)] rounded-md border bg-background/95 text-foreground shadow-sm">
                       <summary className="cursor-pointer px-3 py-2 text-xs focus-visible:outline focus-visible:outline-2">Edit page {i + 1} source</summary>
                       <div className="flex max-h-48 flex-col overflow-auto border-t p-1">
-                        {sourcesOnPage(pageTexts[i] ?? '', sources).map(source => <button key={source.id} type="button" className="rounded px-3 py-2 text-left text-xs hover:bg-muted focus-visible:bg-muted" onClick={() => onNavigateSource(source)}>{source.label}</button>)}
+                        {(pageSources.get(i) ?? []).map(source => <button key={source.id} type="button" className="rounded px-3 py-2 text-left text-xs hover:bg-muted focus-visible:bg-muted" onClick={() => onNavigateSource(source)}>{source.label}</button>)}
                       </div>
                     </details>
                   )}
