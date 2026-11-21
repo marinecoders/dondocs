@@ -33,6 +33,8 @@ export function MobilePreviewModal({ pdfUrl, isCompiling, error, onDownloadPdf, 
 
   // Filter out engine reset message — it's not a user-facing error.
   const displayError = error === 'ENGINE_RESET_NEEDED' ? null : error;
+  const isUpdating = isCompiling || error === 'ENGINE_RESET_NEEDED';
+  const canDeliver = !!pdfUrl && !isUpdating && !error;
 
   const handleOpenLogs = () => {
     setLogEnabled(true);
@@ -65,7 +67,7 @@ export function MobilePreviewModal({ pdfUrl, isCompiling, error, onDownloadPdf, 
       >
         <DialogTitle className="font-semibold text-sm">PDF preview</DialogTitle>
         <div className="flex items-center gap-1">
-          {pdfUrl && !isCompiling && !displayError && (
+          {canDeliver && (
             <Button variant="default" size="sm" onClick={handleDownload} className="h-11 px-3">
               <Download className="h-4 w-4 mr-1.5" />
               Download
@@ -87,8 +89,8 @@ export function MobilePreviewModal({ pdfUrl, isCompiling, error, onDownloadPdf, 
       </div>
 
       {/* Content */}
-      <div className="flex-1 min-h-0">
-        {isCompiling && (
+      <div className="relative flex-1 min-h-0">
+        {isUpdating && !pdfUrl && (
           <div className="flex flex-col items-center justify-center h-full gap-4">
             <div className="relative">
               <FileText className="h-16 w-16 text-muted-foreground/30" />
@@ -101,7 +103,7 @@ export function MobilePreviewModal({ pdfUrl, isCompiling, error, onDownloadPdf, 
           </div>
         )}
 
-        {displayError && !pdfUrl && !isCompiling && (
+        {displayError && !pdfUrl && !isUpdating && (
           <div className="flex flex-col items-center justify-center h-full gap-4 p-4">
             <AlertCircle className="h-16 w-16 text-destructive/70" />
             <div className="text-center">
@@ -116,9 +118,14 @@ export function MobilePreviewModal({ pdfUrl, isCompiling, error, onDownloadPdf, 
         )}
 
         {/* The modal is already full-screen — hide the redundant fullscreen control. */}
-        {pdfUrl && !isCompiling && <PdfViewer key={documentId} documentId={documentId} pdfUrl={pdfUrl} showFullscreen={false} onDownloadPdf={handleDownload} />}
+        {pdfUrl && <div className="h-full">
+          <PdfViewer key={documentId} documentId={documentId} pdfUrl={pdfUrl} showFullscreen={false} allowOpenInTab={canDeliver} onDownloadPdf={canDeliver ? handleDownload : undefined} />
+          {(isUpdating || displayError) && <div className="absolute inset-x-0 bottom-0 max-h-[40%] overflow-y-auto break-words border-t bg-background/95 p-3 text-sm" role={isUpdating ? 'status' : 'alert'}>
+            {isUpdating ? 'Updating preview… The previous version remains visible.' : `Preview is out of date. ${displayError}`}
+          </div>}
+        </div>}
 
-        {!pdfUrl && !displayError && !isCompiling && (
+        {!pdfUrl && !displayError && !isUpdating && (
           <div className="flex flex-col items-center justify-center h-full gap-4">
             <FileText className="h-16 w-16 text-muted-foreground/30" />
             <div className="text-center">
