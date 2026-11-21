@@ -72,7 +72,8 @@ export const BACKUP_KIND = 'dondocs-backup';
 // these fields) still restores cleanly.
 // v13 preserves reusable package starters, including their exact form pages.
 // v16 requires readers that preserve enclosure markings, formatted tables and volumes.
-export const BACKUP_VERSION = 16;
+// v17 retains exact returned Word review originals on their import receipts.
+export const BACKUP_VERSION = 17;
 const LIBRARY_KIND = 'dondocs-library'; // legacy docs-only file
 function supportedWorkspaceVersion(version: unknown, minimum: number): boolean {
   return typeof version === 'number' && Number.isSafeInteger(version) && version >= minimum && version <= BACKUP_VERSION;
@@ -381,8 +382,12 @@ async function serializeBackup(): Promise<string> {
   if (entries.some(hasUnresolvedEnclosure)) throw new Error('An enclosure file is missing its saved reference. The backup was not created.');
   const formTemplates = await capturePortableFormTemplates([...configuredDefinitions(entries), ...packageDefinitions(actionPackages)]);
   const sharedTemplateIds = new Set((formTemplates?.portableResources.entries ?? []).map(entry => formTemplateAttachmentId(entry.sha256)));
-  const ids = [...new Set([...collectAttachmentIds(entries), ...actionPackages.flatMap(record => packageAssets(record).map(asset => asset.id))])].filter(id => !sharedTemplateIds.has(id));
+  const ids = [...new Set([...collectAttachmentIds(entries), ...actionPackages.flatMap(record => packageAssets(record).map(asset => asset.id)), ...reviewReturns.flatMap(receipt => receipt.wordSource ? [receipt.wordSource.fileRef.id] : [])])].filter(id => !sharedTemplateIds.has(id));
   return withAttachmentResources(ids, async resources => {
+    for (const receipt of reviewReturns) if (receipt.wordSource) {
+      const { validateWordSourceFile } = await import('./wordSourceResources');
+      await validateWordSourceFile(copyAttachment(resources, receipt.wordSource.fileRef.id), receipt.wordSource);
+    }
     const attachments = ids.map(id => {
       const record = copyAttachment(resources, id);
       return { ...record, data: uint8ArrayToBase64(arrayBufferToUint8Array(record.data)) };
@@ -395,14 +400,14 @@ async function serializeBackup(): Promise<string> {
       .flatMap(revision => revision.members.flatMap(member => member.kind === 'native' ? [member.session] : [])));
     const starterSessions = packageTemplates.flatMap(template => template.members.flatMap(member => member.kind === 'native' ? [member.draft as unknown as import('@/stores/documentStore').SerializedSession] : []));
     const rich = [...entries.map(entry => (entry as { session?: import('@/stores/documentStore').SerializedSession }).session ?? {}), ...packageSessions, ...starterSessions].some(hasRichBody);
-    const bundle: BackupBundle = { ...captured, version: markedBackupSessions(entries, actionPackages, packageTemplates) ? 16 : reviewRounds.some(round => round.wordHandoffs?.length) ? 15 : rich ? 14 : packageTemplates.length ? 13 : actionPackages.length ? 12 : formTemplates ? 11 : reviewSuggestions.length || reviewSuggestionWrites.length ? reviewSuggestions.some(record => record.state.version === 2) ? 10 : 9 : reviewReturns.length ? 8 : withReviews ? 7 : withComments ? 6 : 5, documents: docs, snapshots, attachments, ...(actionPackages.length ? { actionPackages } : {}), ...(packageTemplates.length ? { packageTemplates } : {}),
+    const bundle: BackupBundle = { ...captured, version: reviewReturns.some(receipt => receipt.wordSource) ? 17 : markedBackupSessions(entries, actionPackages, packageTemplates) ? 16 : reviewRounds.some(round => round.wordHandoffs?.length) ? 15 : rich ? 14 : packageTemplates.length ? 13 : actionPackages.length ? 12 : formTemplates ? 11 : reviewSuggestions.length || reviewSuggestionWrites.length ? reviewSuggestions.some(record => record.state.version === 2) ? 10 : 9 : reviewReturns.length ? 8 : withReviews ? 7 : withComments ? 6 : 5, documents: docs, snapshots, attachments, ...(actionPackages.length ? { actionPackages } : {}), ...(packageTemplates.length ? { packageTemplates } : {}),
       ...formTemplates,
       ...(withReviews ? { reviewRounds, reviewCopies } : {}), ...(reviewReturns.length ? { reviewReturns } : {}),
       ...(reviewSuggestions.length || reviewSuggestionWrites.length ? { reviewSuggestions, reviewSuggestionWrites } : {}) };
     // Apply the recovery complexity and key guards before claiming an export is restorable.
     validateBackup({ ...bundle });
     const json = JSON.stringify(bundle);
-    if ((formTemplates || actionPackages.length || packageTemplates.length) && new TextEncoder().encode(json).byteLength > MAX_BACKUP_BYTES) throw new Error('This complete workspace backup exceeds the 100 MB JSON import limit. Export separate draft copies before transferring it.');
+    if ((formTemplates || actionPackages.length || packageTemplates.length || reviewReturns.some(receipt => receipt.wordSource)) && new TextEncoder().encode(json).byteLength > MAX_BACKUP_BYTES) throw new Error('This complete workspace backup exceeds the 100 MB JSON import limit. Export separate draft copies before transferring it.');
     return json;
   });
 }
@@ -467,6 +472,7 @@ async function runRestore(json: string, canReplaceForms: () => boolean): Promise
     throw new Error('Review return receipts require a version 8 or newer workspace backup.');
   }
   const reviewReturns = ((parsed.reviewReturns ?? []) as unknown[]).map(value => reviewReturnReceiptSchema.parse(value));
+  if (reviewReturns.some(receipt => receipt.wordSource) && !supportedWorkspaceVersion(parsed.version, 17)) throw new Error('Returned Word originals require workspace backup version 17.');
   if (new Set(reviewReturns.map(receipt => `${receipt.roundId}:${receipt.returnId}`)).size !== reviewReturns.length
     || reviewReturns.some(receipt => !reviewRounds.some(round => round.id === receipt.roundId
       && round.baselineDigest === receipt.baselineDigest && round.ownerDocumentId === receipt.documentId))) {
@@ -507,6 +513,12 @@ async function runRestore(json: string, canReplaceForms: () => boolean): Promise
     const bytes = base64ToUint8Array(a.data);
     if (typeof a.size !== 'number' || a.size !== bytes.byteLength) throw new Error(`Attachment ${a.id} has an invalid size`);
     decoded.set(a.id, bytes.buffer as ArrayBuffer);
+  }
+  for (const receipt of reviewReturns) if (receipt.wordSource) {
+    const data = decoded.get(receipt.wordSource.fileRef.id);
+    if (!data) throw new Error('A returned Word original is missing from the backup. Nothing was restored.');
+    const { validateWordSourceFile } = await import('./wordSourceResources');
+    await validateWordSourceFile({ data }, receipt.wordSource);
   }
   if (parsed.actionPackages !== undefined && (kind !== BACKUP_KIND || !supportedWorkspaceVersion(parsed.version, 12))) throw new Error('Saved packages require a version 12 workspace backup.');
   if (parsed.actionPackages !== undefined && !Array.isArray(parsed.actionPackages)) throw new Error('Invalid package recovery inventory.');
@@ -712,11 +724,11 @@ async function runRestore(json: string, canReplaceForms: () => boolean): Promise
       issues.push(`Review records were not restored: ${cause instanceof Error ? cause.message : 'Review recovery failed.'}`);
     }
   }
-  if (reviewReturns.length && (reviewRoundsRestored === undefined
+  if (reviewReturns.length && (reviewReturns.some(receipt => receipt.wordSource && !available.has(receipt.wordSource.fileRef.id)) || reviewRoundsRestored === undefined
     || !await idbRestoreReviewReturns(reviewReturns, incomingDocuments as StoredDocument[]))) {
     issues.push('Review return receipts were not restored because their owning review or saved discussion revision differs. Keep the backup file.');
   }
-  if ((reviewSuggestions.length || reviewSuggestionWrites.length) && (reviewRoundsRestored === undefined
+  if ((reviewSuggestions.length || reviewSuggestionWrites.length) && (reviewReturns.some(receipt => receipt.wordSource && !available.has(receipt.wordSource.fileRef.id)) || reviewRoundsRestored === undefined
     || !await idbRestoreReviewSuggestions(reviewSuggestions, reviewSuggestionWrites, incomingDocuments as StoredDocument[]))) {
     issues.push('Suggested edits and decisions were not restored because their review, source revision or local history differs. Keep the backup file.');
   }

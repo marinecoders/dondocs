@@ -9,7 +9,7 @@ import { resolveExportDeploymentPolicy } from '@/lib/exportDeploymentPolicy';
 import { useDocumentStore } from '@/stores/documentStore';
 import { captureDocumentScope, changeDocumentHistory, commitCurrentDocument, flushDocumentWrites, openExistingDocument, useDocumentsStore } from '@/stores/documentsStore';
 import { buildReviewCopy, openReviewCopy, parseReviewCopy, startReviewRound } from '@/lib/reviewRoundActions';
-import { idbAddReviewRound, idbAppendWordHandoff, idbDeleteReviewRound, idbReadReviewSuggestions } from '@/lib/documentsDb';
+import { idbGetAllAttachments, idbDeleteAttachment, idbAddReviewRound, idbAppendWordHandoff, idbDeleteReviewRound, idbReadReviewSuggestions } from '@/lib/documentsDb';
 import { readReviewRound } from '@/lib/reviewRounds';
 import { buildBackup, restoreBackup } from '@/lib/backup';
 import { buildWordReviewHandoff } from '@/lib/wordReviewBaseline';
@@ -17,6 +17,11 @@ import { readWordDocument } from '@/services/docx/import/readWord';
 import { stampWordReviewIdentity } from '@/services/docx/review/identity';
 import { prepareWordReviewReturn, applyWordReviewReturn } from '@/lib/wordReviewReturn';
 import { decideReviewSuggestion } from '@/lib/reviewSuggestionActions';
+import { readReviewReturnReceipts } from '@/lib/reviewReturns';
+import * as encoding from '@/lib/encoding';
+import * as attachments from '@/lib/attachments';
+import { listRetainedWordReturns, downloadRetainedWordReturn } from '@/lib/retainedWordReturns';
+import { collectLiveAttachmentIds } from '@/lib/attachmentGc';
 import { reviewSuggestionRecordSchema } from '@/lib/reviewSuggestionWrites';
 
 vi.mock('@/config/classification', async original => ({ ...await original<typeof import('@/config/classification')>(), getExportDeploymentPolicy: vi.fn() }));
@@ -57,6 +62,85 @@ async function returned(tagged: Uint8Array, options: { comments?: boolean; track
 }
 
 describe('returned Word feedback through native review', () => {
+  it('retains an owned original, keeps duplicate import idempotent and restores its exact bytes from backup', async () => {
+    const { round, tagged } = await fixture(), bytes = await returned(tagged, { tracked: true });
+    const expected = bytes.slice(), prepared = await prepareWordReviewReturn(bytes, 'original-return.docx');
+    bytes.fill(0);
+    expect(await applyWordReviewReturn(prepared, {})).toBe('committed');
+    const receipt = (await listRetainedWordReturns(round.ownerDocumentId!))[0];
+    expect(receipt.wordSource?.name).toBe('original-return.docx');
+    const fileRef = receipt.wordSource!.fileRef;
+    expect((await collectLiveAttachmentIds())?.has(fileRef.id)).toBe(true);
+    expect(new Uint8Array((await idbGetAllAttachments())!.find(file => file.id === fileRef.id)!.data)).toEqual(expected);
+    const count = (await idbGetAllAttachments())!.length;
+    const duplicate = await prepareWordReviewReturn(expected, 'renamed.docx');
+    expect(await applyWordReviewReturn(duplicate, {})).toBe('already-imported');
+    expect((await idbGetAllAttachments())!.length).toBe(count);
+    const backup = await buildBackup(), parsed = JSON.parse(backup);
+    expect(parsed.version).toBe(17);
+    expect(parsed.attachments.some((file: { id: string }) => file.id === fileRef.id)).toBe(true);
+    expect(await idbDeleteReviewRound(round.id, round.baselineDigest)).toBe(true);
+    await idbDeleteAttachment(fileRef.id);
+    const result = await restoreBackup(backup);
+    expect(result.issues ?? []).toEqual([]);
+    expect((await readReviewReturnReceipts()).find(item => item.returnId === receipt.returnId)).toEqual(receipt);
+    expect(new Uint8Array((await idbGetAllAttachments())!.find(file => file.id === fileRef.id)!.data)).toEqual(expected);
+    expect(await idbDeleteReviewRound(round.id, round.baselineDigest)).toBe(true);
+  });
+  it('refuses recovery with missing, changed or down-versioned returned originals', async () => {
+    const { round, tagged } = await fixture(), prepared = await prepareWordReviewReturn(await returned(tagged), 'return.docx');
+    expect(await applyWordReviewReturn(prepared, {})).toBe('committed');
+    const backup = JSON.parse(await buildBackup());
+    const receipt = backup.reviewReturns.find((item: { roundId: string }) => item.roundId === round.id);
+    const missing = structuredClone(backup);
+    missing.attachments = missing.attachments.filter((item: { id: string }) => item.id !== receipt.wordSource.fileRef.id);
+    await expect(restoreBackup(JSON.stringify(missing))).rejects.toThrow('Word original is missing');
+    const changed = structuredClone(backup);
+    changed.reviewReturns.find((item: { roundId: string }) => item.roundId === round.id).wordSource.retainedText = 'forged inventory';
+    await expect(restoreBackup(JSON.stringify(changed))).rejects.toThrow('identity');
+    await expect(restoreBackup(JSON.stringify({ ...backup, version: 16 }))).rejects.toThrow('version 17');
+    await idbDeleteAttachment(receipt.wordSource.fileRef.id);
+    await expect(buildBackup()).rejects.toThrow();
+    expect(await idbDeleteReviewRound(round.id, round.baselineDigest)).toBe(true);
+  });
+  it('does not record feedback when its original cannot be saved, and can retry the prepared import', async () => {
+    const { round, tagged } = await fixture(), prepared = await prepareWordReviewReturn(await returned(tagged), 'retry.docx');
+    const persist = vi.spyOn(attachments, 'persistAttachment').mockRejectedValueOnce(new Error('Storage full'));
+    await expect(applyWordReviewReturn(prepared, {})).rejects.toThrow('Storage full');
+    persist.mockRestore();
+    expect(await listRetainedWordReturns(round.ownerDocumentId!)).toEqual([]);
+    expect(await idbReadReviewSuggestions(round.ownerDocumentId!, round.id)).toBeNull();
+    expect(await applyWordReviewReturn(prepared, {})).toBe('committed');
+    expect(await idbDeleteReviewRound(round.id, round.baselineDigest)).toBe(true);
+  });
+  it('checks saved-original ownership and current policy before download', async () => {
+    const { round, tagged } = await fixture(), bytes = await returned(tagged);
+    const prepared = await prepareWordReviewReturn(bytes, 'download.docx');
+    expect(await applyWordReviewReturn(prepared, {})).toBe('committed');
+    const receipt = (await listRetainedWordReturns(round.ownerDocumentId!))[0];
+    const download = vi.spyOn(encoding, 'triggerDownload').mockImplementation(() => {});
+    try {
+      await downloadRetainedWordReturn(round.id, receipt.returnId);
+      expect(download).toHaveBeenCalledWith(bytes, 'download.docx', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document');
+      download.mockClear();
+      vi.mocked(getExportDeploymentPolicy).mockResolvedValueOnce({ status: 'error', message: 'Policy unavailable' });
+      await expect(downloadRetainedWordReturn(round.id, receipt.returnId)).rejects.toThrow('Policy unavailable');
+      expect(download).not.toHaveBeenCalled();
+      useDocumentsStore.getState().newDocument();
+      await expect(downloadRetainedWordReturn(round.id, receipt.returnId)).rejects.toThrow('does not belong');
+      expect(download).not.toHaveBeenCalled();
+    } finally { download.mockRestore(); }
+    expect(await idbDeleteReviewRound(round.id, round.baselineDigest)).toBe(true);
+  });
+  it('includes retained-only Word metadata in privacy findings before import', async () => {
+    const { round, tagged } = await fixture(), zip = await JSZip.loadAsync(await returned(tagged));
+    zip.file('docProps/core.xml', '<core><title>Synthetic identifier 123-45-6789</title></core>');
+    const prepared = await prepareWordReviewReturn(await zip.generateAsync({ type: 'uint8array' }), 'metadata.docx');
+    expect(prepared.native.privacy.found).toBe(false);
+    expect(prepared.privacy.found).toBe(true);
+    expect(prepared.privacy.findings.some(finding => finding.value === '123-45-6789')).toBe(true);
+    expect(await idbDeleteReviewRound(round.id, round.baselineDigest)).toBe(true);
+  });
   it.each(['owned', 'received'] as const)('recovers actual issued Word authority from a full backup beside an older %s baseline', async kind => {
     const { round, tagged } = await fixture(), saved = (await readReviewRound(round.id))!;
     const publicCopy = await parseReviewCopy(await buildReviewCopy(saved)), backup = await buildBackup();

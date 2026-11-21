@@ -13,6 +13,9 @@ import { applyReviewReturn, createCheckedReviewReturn, prepareReviewReturnImport
 import type { ReviewReturnChoice } from './reviewCommentMerge';
 import type { PolicyResolution } from './exportDeploymentPolicy';
 import type { ReviewReturn } from './reviewReturns';
+import { persistAttachment, withAttachmentStaging } from './attachments';
+import { detectTextPII, type PIIDetectionResult } from '@/services/pii/detector';
+import type { WordSourceMetadata } from './wordSource';
 
 function current(target: DocumentTarget | null): asserts target is DocumentTarget {
   if (!target || !isCurrentDocumentTarget(target)) throw new Error('The draft changed. Review the returned Word file again.');
@@ -87,8 +90,9 @@ export interface PreparedWordReviewReturn {
   readonly name: string;
   readonly sha256: string;
   readonly notices: readonly string[];
+  readonly privacy: PIIDetectionResult;
 }
-const preparedReturns = new WeakMap<PreparedWordReviewReturn, { target: DocumentTarget; retainedText: string; name: string; policyIdentity: string; roundId: string; handoffId: string; receiptDigest: string }>();
+const preparedReturns = new WeakMap<PreparedWordReviewReturn, { target: DocumentTarget; retainedText: string; name: string; policyIdentity: string; roundId: string; handoffId: string; receiptDigest: string; started?: boolean; source: { bytes: Uint8Array; metadata: Omit<WordSourceMetadata, 'fileRef'> } }>();
 export async function prepareWordReviewReturn(bytes: Uint8Array, name: string, signal?: AbortSignal): Promise<PreparedWordReviewReturn> {
   const target = captureDocumentTarget();current(target);
   const imported = await readWordDocument(bytes, name, signal);current(target);
@@ -100,10 +104,12 @@ export async function prepareWordReviewReturn(bytes: Uint8Array, name: string, s
   const payload = await buildWordReviewReturn(round, identity, imported, target.scope.documentId, policy, signal);current(target);
   const native = await prepareReviewReturnImport(payload);current(target);signal?.throwIfAborted();
   const result: PreparedWordReviewReturn = Object.freeze({ native, name: imported.source.name, sha256: imported.source.sha256,
+    privacy: detectTextPII([{ field: 'Returned Word file name', value: imported.source.name }, { field: 'Returned Word original', value: imported.source.retainedText }]),
     notices: Object.freeze(['Only matched body text and comments become native feedback. Word page layout and unsupported formatting are not applied; supported bold, italic and underline use native text formatting; structural, field, table, image and header/footer content changes require manual review.',
       'Word authors, dates and markers are unverified. Newer draft text stays in place; imported text edits remain pending suggestions.',
-      'Keep the returned Word file separately. DonDocs saves converted feedback and its receipt, not the original returned file or all of its Word metadata.', ...imported.notices]) });
+      'Importing retains the exact returned Word file, including its comments, deleted text and metadata. It is available in Saved Word returns and included in a full workspace backup; ordinary draft exports do not include it.', ...imported.notices]) });
   preparedReturns.set(result, { target, retainedText: imported.source.retainedText, name: imported.source.name, policyIdentity: policy.policy.identity,
+    source: { bytes: imported.source.bytes.slice(), metadata: { name: imported.source.name, sha256: imported.source.sha256, retainedText: imported.source.retainedText, notices: imported.notices.slice(0, 30).map(notice => notice.slice(0, 1_000)) } },
     roundId: round.id, handoffId: identity.locator.handoffId, receiptDigest: await reviewPayloadDigest(round.wordHandoffs!.find(item => item.id === identity.locator.handoffId)!) });
   current(target);signal?.throwIfAborted();
   return result;
@@ -123,5 +129,15 @@ export async function applyWordReviewReturn(prepared: PreparedWordReviewReturn, 
   const receipt = round?.wordHandoffs?.find(item => item.id === owned.handoffId);
   if (!round || round.ownerDocumentId !== owned.target.scope.documentId || !receipt || await reviewPayloadDigest(receipt) !== owned.receiptDigest) throw new Error('The locally issued Word handoff is no longer available or changed. Review the file again.');
   current(owned.target);
-  return applyReviewReturn(prepared.native, choices);
+  if (prepared.native.alreadyImported) return applyReviewReturn(prepared.native, choices);
+  return withAttachmentStaging(async () => {
+    if (owned.started) throw new Error('This Word return has already been applied. Review the file again to check its saved state.');
+    owned.started = true;
+    let fileRef: NonNullable<WordSourceMetadata['fileRef']>;
+    try { fileRef = await persistAttachment({ name: owned.name, size: owned.source.bytes.byteLength,
+      type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' }, new Uint8Array(owned.source.bytes).buffer);
+    } catch (error) { owned.started = false;throw error; }
+    current(owned.target);
+    return applyReviewReturn(prepared.native, choices, { ...owned.source.metadata, fileRef });
+  });
 }

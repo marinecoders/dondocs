@@ -4,7 +4,8 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useDocumentsStore, flushPendingReviewWrites } from '@/stores/documentsStore';
 import { readReviewCopyLink } from '@/lib/reviewRounds';
-import { MAX_REVIEW_RETURN_BYTES } from '@/lib/reviewReturns';
+import { MAX_REVIEW_RETURN_BYTES, type ReviewReturnReceipt } from '@/lib/reviewReturns';
+import { listRetainedWordReturns, downloadRetainedWordReturn } from '@/lib/retainedWordReturns';
 import { type CommentMessage, type CommentThread, type ReviewComments } from '@/lib/reviewComments';
 import { type ReviewCommentMerge, type ReviewReturnChoice, type ReviewReturnConflict } from '@/lib/reviewCommentMerge';
 import {
@@ -69,6 +70,9 @@ export function ReviewReturnControls({ disabled, onBusyChange }: { disabled: boo
   const [outdated, setOutdated] = useState(false);
   const [pendingSave, setPendingSave] = useState(false);
   const [finished, setFinished] = useState(false);
+  const [savedWordRows, setSavedWord] = useState<ReviewReturnReceipt[]>([]);
+  const [savedWordIssue, setSavedWordIssue] = useState<{ documentId: string; message: string } | null>(null);
+  const [savedWordEpoch, setSavedWordEpoch] = useState(0);
   const active = useRef(true), running = useRef(false), feedback = useRef<HTMLParagraphElement>(null);
   useLayoutEffect(() => { if (notice) feedback.current?.focus(); }, [notice]);
   useEffect(() => {
@@ -81,6 +85,15 @@ export function ReviewReturnControls({ disabled, onBusyChange }: { disabled: boo
       .catch(() => { if (current) setError('The reviewer association could not be read. Retry after checking browser storage.'); });
     return () => { current = false; };
   }, [documentId]);
+  useEffect(() => {
+    let active = true;
+    if (documentId) void listRetainedWordReturns(documentId).then(receipts => {
+      if (active) { setSavedWord(receipts);setSavedWordIssue(null); }
+    }).catch(() => { if (active) setSavedWordIssue({ documentId, message: 'Saved Word returns could not be read. Check browser storage and retry.' }); });
+    return () => { active = false; };
+  }, [documentId, finished, pendingSave, savedWordEpoch]);
+  const savedWord = savedWordRows.filter(receipt => receipt.documentId === documentId);
+  const savedWordError = savedWordIssue?.documentId === documentId ? savedWordIssue.message : '';
   const working = disabled || busy;
   async function run(operation: () => Promise<void>) {
     if (disabled || running.current) return;
@@ -158,7 +171,7 @@ export function ReviewReturnControls({ disabled, onBusyChange }: { disabled: boo
       <p>Current draft handling: {incoming.currentMarking}. Letter fields, body text and attachments will be kept.</p>
       {incoming.customMarkings.map(marking => <p key={marking} className="whitespace-pre-wrap [overflow-wrap:anywhere]">{marking}</p>)}
       {incoming.notices.map(notice => <p key={notice}>{notice}</p>)}
-      {incoming.privacy.found && <p className="text-warning">Returned text may contain sensitive information: {[...new Set(incoming.privacy.findings.map(finding => getPIITypeLabel(finding.type)))].join(', ')}.</p>}
+      {(incomingWord?.privacy ?? incoming.privacy).found && <p className="text-warning">Returned text may contain sensitive information: {[...new Set((incomingWord?.privacy ?? incoming.privacy).findings.map(finding => getPIITypeLabel(finding.type)))].join(', ')}.</p>}
       {incoming.alreadyImported ? <p role="status">This return has already been imported. Opening the same file will not apply it again, including after Undo.</p> : <>
         <p>{plan.addedThreads} new, {plan.changedThreads} changed and {plan.removedThreads} removed discussions.</p>
         {plan.removedThreads > 0 && <p className="text-warning">This return removes discussions that were unchanged in the current draft. Review the proposed result before importing.</p>}
@@ -194,6 +207,20 @@ export function ReviewReturnControls({ disabled, onBusyChange }: { disabled: boo
       setIncoming(null);setIncomingWord(null);setIncomingValue(null);setPlan(null);setChoices({});setOutdated(false);setError('');
     }}>Cancel feedback import</Button>}
     {incomingValue !== null && !finished && !pendingSave && <Button variant="ghost" disabled={working} onClick={() => void run(() => inspect(incomingValue))}>Review against current draft again</Button>}
+    {savedWordError && <div className="space-y-2 rounded-md border p-3" aria-label="Saved Word return recovery">
+      <p role="alert" className="text-sm text-destructive">{savedWordError}</p>
+      <Button variant="outline" size="sm" disabled={working} onClick={() => setSavedWordEpoch(value => value + 1)}>Retry saved Word returns</Button>
+    </div>}
+    {savedWord.length > 0 && <details className="space-y-2 text-sm"><summary className="cursor-pointer font-medium">Saved Word returns ({savedWord.length})</summary>
+      <p className="text-muted-foreground">Original files include Word comments, deleted text and metadata. Full workspace backups retain them; ordinary draft exports do not.</p>
+      <ul className="space-y-2">{savedWord.map(receipt => <li key={`${receipt.roundId}:${receipt.returnId}`} className="flex min-w-0 flex-wrap items-center gap-2">
+        <span className="min-w-0 break-all">{receipt.wordSource!.name}</span>
+        <Button variant="outline" size="sm" disabled={working} onClick={() => void run(async () => {
+          await downloadRetainedWordReturn(receipt.roundId, receipt.returnId);
+          if (active.current) announce('Original Word return sent to browser downloads.');
+        })}>Download original Word return</Button>
+      </li>)}</ul>
+    </details>}
     {busy && <p role="status" className="text-sm">Checking or saving feedback…</p>}
   </section>;
 }

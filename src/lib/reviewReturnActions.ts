@@ -176,7 +176,7 @@ export function reviewReturnTargetLabel(prepared: PreparedReviewReturnImport, th
   return owned && thread ? describeCommentAnchor(owned.session, thread.anchor).label : 'Discussion';
 }
 
-export async function applyReviewReturn(prepared: PreparedReviewReturnImport, choices: Readonly<Record<string, ReviewReturnChoice>>): Promise<'committed' | 'pending' | 'stale' | 'invalid' | 'already-imported'> {
+export async function applyReviewReturn(prepared: PreparedReviewReturnImport, choices: Readonly<Record<string, ReviewReturnChoice>>, wordSource?: import('./wordSource').WordSourceMetadata): Promise<'committed' | 'pending' | 'stale' | 'invalid' | 'already-imported'> {
   const owned = imports.get(prepared);
   if (!owned || owned.started) throw new Error('This return has already been applied. Prepare it again to check its saved state.');
   current(owned.target);
@@ -189,7 +189,7 @@ export async function applyReviewReturn(prepared: PreparedReviewReturnImport, ch
   if (plan.status !== 'ready') throw new Error('Choose how to resolve every conflicting discussion before importing.');
   const receipt = reviewReturnReceiptSchema.parse({ kind: 'dondocs-review-return-receipt', version: 1,
     roundId: owned.round.id, baselineDigest: owned.round.baselineDigest, documentId: owned.target.scope.documentId,
-    returnId: owned.payload.id, returnDigest: owned.digest, importedAt: Date.now() });
+    returnId: owned.payload.id, returnDigest: owned.digest, importedAt: Date.now(), ...(wordSource ? { wordSource } : {}) });
   owned.started = true;
   if (owned.payload.version === 2) {
     const before = owned.suggestions ?? null;

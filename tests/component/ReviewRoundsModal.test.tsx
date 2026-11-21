@@ -1,6 +1,7 @@
 import { StrictMode } from 'react';
 import { beforeEach, expect, it, vi } from 'vitest';
 import { act, fireEvent, render, screen, waitFor, within } from '@testing-library/react';
+import { listRetainedWordReturns } from '@/lib/retainedWordReturns';
 import { ReviewRoundsModal } from '@/components/modals/ReviewRoundsModal';
 import { listReviewRounds, type ReviewRound } from '@/lib/reviewRounds';
 import { buildReviewCopy, downloadReviewCopy, prepareReviewCopyExport } from '@/lib/reviewRoundActions';
@@ -14,6 +15,7 @@ import userEvent from '@testing-library/user-event';
 import { loadReviewSuggestionWorkspace } from '@/lib/reviewSuggestionActions';
 import { decisionSummaryFixture } from '../_helpers/decisionSummaryFixture';
 
+vi.mock('@/lib/retainedWordReturns', async actual => ({ ...await actual<typeof import('@/lib/retainedWordReturns')>(), listRetainedWordReturns: vi.fn(async () => []) }));
 vi.mock('@/lib/reviewRounds', async actual => ({ ...await actual<typeof import('@/lib/reviewRounds')>(), listReviewRounds: vi.fn(), readReviewCopyLink: vi.fn(async () => null) }));
 vi.mock('@/lib/reviewRoundActions', async actual => ({ ...await actual<typeof import('@/lib/reviewRoundActions')>(),
   initialReviewLabel: () => 'Current letter', buildReviewCopy: vi.fn(), prepareReviewCopyExport: vi.fn(), downloadReviewCopy: vi.fn() }));
@@ -35,6 +37,7 @@ beforeEach(() => {
   vi.clearAllMocks();
   useDocumentsStore.setState({ docs: {}, trash: {}, currentId: 'different-current-document' });
   useDocumentStore.setState({ documentCategory: 'correspondence', docType: 'naval_letter' });
+  vi.mocked(listRetainedWordReturns).mockResolvedValue([]);
   vi.mocked(listReviewRounds).mockResolvedValue([structuredClone(round)]);
   vi.mocked(buildReviewCopy).mockResolvedValue(envelope);
   vi.mocked(prepareReviewCopyExport).mockReturnValue(prepared);
@@ -64,6 +67,33 @@ it('does not turn a failed inventory read into an empty successful review list',
   expect(screen.queryByRole('button', { name: 'Start review from current draft' })).not.toBeInTheDocument();
   fireEvent.click(screen.getByRole('button', { name: 'Retry saved reviews' }));
   await waitFor(() => expect(screen.getByText('Retained letter')).toBeVisible());
+});
+
+it('keeps failed return-file reads separate from review inventory errors and retries them independently', async () => {
+  vi.mocked(listReviewRounds).mockRejectedValueOnce(new Error('Review inventory unavailable'));
+  vi.mocked(listRetainedWordReturns).mockRejectedValueOnce(new Error('Word returns unavailable'));
+  render(<ReviewRoundsModal open onOpenChange={vi.fn()} />);
+  expect(await screen.findByText('Saved Word returns could not be read. Check browser storage and retry.')).toBeVisible();
+  expect(await screen.findByText('Saved reviews could not be read completely. Retry before creating or sending a reviewer copy.')).toBeVisible();
+  fireEvent.click(screen.getByRole('button', { name: 'Retry saved Word returns' }));
+  await waitFor(() => expect(screen.queryByText('Saved Word returns could not be read. Check browser storage and retry.')).not.toBeInTheDocument());
+  expect(screen.getByText('Saved reviews could not be read completely. Retry before creating or sending a reviewer copy.')).toBeVisible();
+  expect(listRetainedWordReturns).toHaveBeenCalledTimes(2);
+});
+
+it('does not replace a feedback import error when a background Word-return read fails later', async () => {
+  let failRead!: (error: Error) => void;
+  vi.mocked(listRetainedWordReturns).mockReturnValueOnce(new Promise((_resolve, reject) => { failRead = reject; }));
+  render(<ReviewRoundsModal open onOpenChange={vi.fn()} />);
+  await screen.findByText('Retained letter');
+  fireEvent.change(screen.getByLabelText('Import feedback return', { exact: true }), {
+    target: { files: [new File(['not JSON'], 'invalid-return.json', { type: 'application/json' })] },
+  });
+  const importError = 'Choose a readable feedback return JSON file exported by DonDocs.';
+  expect(await screen.findByText(importError)).toBeVisible();
+  await act(async () => failRead(new Error('Delayed Word inventory failure')));
+  expect(await screen.findByText('Saved Word returns could not be read. Check browser storage and retry.')).toBeVisible();
+  expect(screen.getByText(importError)).toBeVisible();
 });
 
 it('still exposes retained native review copies while a form is active', async () => {

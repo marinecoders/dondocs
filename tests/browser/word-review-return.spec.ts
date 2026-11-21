@@ -87,6 +87,8 @@ for (const theme of ['light', 'dark', 'classic']) {
     await expect(modal.getByRole('region', { name: 'Returned suggested replacements', exact: true })).toContainText('reviewed');
     await modal.getByRole('button', { name: 'Import reviewed feedback', exact: true }).click();
     await expect(modal.getByText(/^Feedback imported\./)).toBeVisible({ timeout: 30_000 });
+    await modal.getByText('Saved Word returns (1)', { exact: true }).click();
+    expect(await download(page, () => modal.getByRole('button', { name: 'Download original Word return', exact: true }).click())).toEqual(returned);
     await modal.getByLabel('Review for suggested edits', { exact: true }).selectOption({ label: `Word exact baseline ${theme}` });
     await modal.getByRole('button', { name: 'Accept suggestion', exact: true }).click();
     await expect(modal.getByText('Review change saved.', { exact: true })).toBeVisible({ timeout: 30_000 });
@@ -100,7 +102,11 @@ for (const theme of ['light', 'dark', 'classic']) {
     expect(draft.reviewComments.threads[0].anchor).toMatchObject({ kind: 'range', paragraphId: 'word-return-body' });
     expect(draft.reviewComments.threads[0].messages[0].text).toContain('Please check this exact word.');
     await writeFile(info.outputPath(`native-result-${theme}.json`), JSON.stringify(draft, null, 2));
-    modal = await reviews(page);await modal.getByLabel('Import feedback return', { exact: true }).setInputFiles({ name: 'same.docx', mimeType: TYPE, buffer: returned });
+    await page.reload();
+    modal = await reviews(page);
+    await modal.getByText('Saved Word returns (1)', { exact: true }).click();
+    expect(await download(page, () => modal.getByRole('button', { name: 'Download original Word return', exact: true }).click())).toEqual(returned);
+    await modal.getByLabel('Import feedback return', { exact: true }).setInputFiles({ name: 'same.docx', mimeType: TYPE, buffer: returned });
     await expect(modal.getByText(/This return has already been imported/)).toBeVisible({ timeout: 30_000 });
     const unmarked = await JSZip.loadAsync(returned);unmarked.remove('customXml/dondocs-word-review.xml');
     await modal.getByLabel('Import feedback return', { exact: true }).setInputFiles({ name: 'missing-identity.docx', mimeType: TYPE, buffer: await unmarked.generateAsync({ type: 'nodebuffer' }) });

@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { wordSourceSchema } from './wordSource';
 import { reviewCommentsSchema, type ReviewComments } from './reviewComments';
 import { canonicalReviewPayload, reviewDigestSchema, reviewPayloadDigest, reviewRoundIdSchema } from './reviewRounds';
 import { reviewSuggestionSchema } from './reviewSuggestions';
@@ -25,6 +26,7 @@ export const reviewReturnReceiptSchema = z.object({
   roundId: reviewRoundIdSchema, baselineDigest: reviewDigestSchema,
   returnId: reviewReturnIdSchema, returnDigest: reviewDigestSchema,
   documentId: z.string().min(1).max(200), importedAt: timestamp,
+  wordSource: wordSourceSchema.extend({ fileRef: wordSourceSchema.shape.fileRef.unwrap() }).optional(),
 }).strict();
 export type ReviewReturnReceipt = z.infer<typeof reviewReturnReceiptSchema>;
 
