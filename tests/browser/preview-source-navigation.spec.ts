@@ -13,6 +13,8 @@ test('rendered paragraph links focus the matching live editor', async ({ page })
   const source = page.getByText('Edit page 1 source', { exact: true });
   await expect(source).toBeVisible({ timeout: 90_000 });
   await source.click();
+  await page.getByRole('button', { name: 'Subject', exact: true }).click();
+  await expect(page.getByRole('textbox', { name: 'Subject', exact: true })).toBeFocused();
   await page.getByRole('button', { name: 'Paragraph 1', exact: true }).click();
   await expect(paragraph).toBeFocused();
   await expect(paragraph).toHaveText('This unique paragraph verifies navigation from the rendered PDF to the live editor.');

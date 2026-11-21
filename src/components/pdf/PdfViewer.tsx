@@ -16,6 +16,7 @@ import { PdfPageLayer, type PdfPageLayerHandle } from './PdfPageLayer';
 import { PdfViewerToolbar } from './PdfViewerToolbar';
 
 export interface PdfViewerProps {
+  onSourcesInView?: (sources: PreviewSource[]) => void;
   sources?: readonly PreviewSource[];
   onNavigateSource?: (source: PreviewSource) => void;
   pdfUrl: string;
@@ -48,7 +49,7 @@ export interface PdfViewerProps {
  *   3. the old gen N layer sticks around ~180ms with a fade-out class (skipped
  *      under prefers-reduced-motion), then unmounts.
  */
-export default function PdfViewer({ sources, onNavigateSource, pdfUrl, className, showFullscreen = true, documentId, onDownloadPdf, toolbarLabel, allowOpenInTab = true }: PdfViewerProps) {
+export default function PdfViewer({ onSourcesInView, sources, onNavigateSource, pdfUrl, className, showFullscreen = true, documentId, onDownloadPdf, toolbarLabel, allowOpenInTab = true }: PdfViewerProps) {
   const rootRef = useRef<HTMLDivElement>(null);
   // The column the pages actually live in — this is what fit modes must track
   // (it shrinks when the thumbnail rail opens; the root does not).
@@ -314,6 +315,7 @@ export default function PdfViewer({ sources, onNavigateSource, pdfUrl, className
           state.active && (
             <PdfPageLayer
               key={state.active.gen}
+              onSourcesInView={state.active.url === pdfUrl ? onSourcesInView : undefined}
               sources={sources}
               onNavigateSource={state.active.url === pdfUrl ? onNavigateSource : undefined}
               ref={activeLayerRef}
