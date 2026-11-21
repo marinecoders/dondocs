@@ -1,4 +1,4 @@
-import { openPackageWorkspace, importPackage, packageSection, preparePackageExport } from './_helpers/packageWorkspace';
+import { openPackageWorkspace, importPackage, packageSection } from './_helpers/packageWorkspace';
 import { projectBrowserContextOptions } from '../_helpers/projectBrowserContext';
 import { expect, test, type Locator, type Page } from '@playwright/test';
 import { createHash } from 'node:crypto';
@@ -132,7 +132,10 @@ for (const theme of ['light', 'dark', 'classic']) for (const width of [1440, 320
   await capturedHandoff(panel); await expect(panel.locator('p').filter({ hasText: /Return 1: Synthetic associated return.pdf/ })).toBeVisible();
   expect(await dialog.evaluate(element => element.scrollWidth <= element.clientWidth + 1)).toBe(true);
   await panel.scrollIntoViewIfNeeded(); await page.screenshot({ path: info.outputPath(`package-signing-${theme}-${width}px.png`) });
-  await preparePackageExport(dialog, 'editable');
+  await packageSection(dialog, 'Delivery');
+  await dialog.getByRole('button', { name: 'Editable package', exact: true }).click();
+  await dialog.getByRole('button', { name: 'Prepare editable package', exact: true }).click();
+  await expect(dialog.getByRole('button', { name: 'Cancel export', exact: true })).toBeVisible();
   if (await dialog.getByRole('checkbox', { name: /^I reviewed every included member/ }).isVisible()) await dialog.getByRole('checkbox', { name: /^I reviewed every included member/ }).check();
   const portable = await download(page, () => dialog.getByRole('button', { name: 'Download editable package', exact: true }).click());
   const exported = JSON.parse(portable.toString()); expect(exported.package.revisions[0].members).toHaveLength(2);
