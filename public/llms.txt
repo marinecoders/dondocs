@@ -1,0 +1,8 @@
+# DonDocs
+
+Browser-based naval correspondence, forms and package workspace.
+
+- [Application](https://dondocs.marines.dev/): Supported document workflows.
+- [Source and documentation](https://github.com/marinecoders/dondocs): Output support, setup and limitations.
+
+Automatic checks do not replace review by the drafter and approving authority. Browser storage is not a backup.
