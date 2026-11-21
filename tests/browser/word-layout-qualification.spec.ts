@@ -4,9 +4,40 @@ import { join } from 'node:path';
 import { createHash } from 'node:crypto';
 import JSZip from 'jszip';
 import { wordLayoutFixtures } from '../_helpers/wordLayoutQualification';
+import { wordContinuationFixtures } from '../_helpers/wordContinuationFixtures';
 
 test.use({ serviceWorkers: 'block' });
 test.setTimeout(120_000);
+
+for (const fixture of wordContinuationFixtures().filter(item => ['continuation-times-12pt', 'continuation-courier-10pt'].includes(item.name))) {
+  test(`preserves escaped continuation subjects through browser Word export: ${fixture.name}`, async ({ page }, info) => {
+    await page.addInitScript(() => {
+      localStorage.setItem('browser-test-visitor', 'returning');
+      localStorage.setItem('dondocs_ui', JSON.stringify({ state: { theme: 'light', editorLayout: 'scroll' }, version: 1 }));
+    });
+    await page.goto('/');
+    await page.getByLabel('Import draft file').setInputFiles({ name: `${fixture.name}.json`, mimeType: 'application/json',
+      buffer: Buffer.from(JSON.stringify({ ...fixture.store, documentCategory: 'correspondence', documentMode: 'compliant' })) });
+    await page.getByRole('button', { name: 'Open as new document', exact: true }).click();
+    await page.getByRole('button', { name: 'Download', exact: true }).click();
+    const saving = page.waitForEvent('download');
+    await page.getByRole('menuitem', { name: 'Download Word (.docx)', exact: true }).click();
+    const download = await saving;
+    expect(await download.failure()).toBeNull();
+    const path = info.outputPath(`${fixture.name}.docx`);
+    await download.saveAs(path);
+    const zip = await JSZip.loadAsync(await readFile(path));
+    const header = await zip.file('word/header2.xml')!.async('string');
+    const text = await page.evaluate(xml => {
+      const dom = new DOMParser().parseFromString(xml, 'application/xml');
+      if (dom.querySelector('parsererror')) throw new Error('Invalid continuation header XML');
+      return [...dom.getElementsByTagNameNS('http://schemas.openxmlformats.org/wordprocessingml/2006/main', 't')].map(node => node.textContent).join('');
+    }, header);
+    expect(text).toBe(`Subj:  ${fixture.store.formData.subject}`);
+    const body = await zip.file('word/document.xml')!.async('string');
+    for (const marker of fixture.markers) expect(body.match(new RegExp(`\\b${marker}\\b`, 'g')), marker).toHaveLength(1);
+  });
+}
 
 test('exports the deep layout fixture through the browser Word pipeline', async ({ page }, info) => {
   const fixture = (await wordLayoutFixtures()).find(item => item.name === 'naval-deep')!;

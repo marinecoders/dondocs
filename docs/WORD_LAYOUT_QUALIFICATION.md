@@ -86,3 +86,40 @@ The manifest keeps the browser filename and source digest separate from the nati
 - Exact line wrapping and general page-for-page parity remain open. These four examples are a bounded measurement set.
 - Publication DOCX, rich Word import, and independent images for both parties remain separate capabilities.
 - Browser Word downloads have their own production-browser tests; a native Pandoc pass does not substitute for WASM conversion coverage.
+
+## Continued subjects: extended coverage
+
+The continuation-header reader now decodes XML entities before writing a fresh
+header. Previously, a subject containing `R&D` became the visible text
+`R&amp;D` on later pages. Explicit breaks and tabs could also concatenate or
+drop words, and attributes on subject table cells prevented recovery of the
+subject value. Focused negative regressions reproduce all three failures.
+
+Six long-letter fixtures cover Times and Courier at 10, 11 and 12 points with
+wrapped subjects, ampersands, angle brackets and literal entity-like text.
+Generate their exact DOCXs and source receipts outside the repository:
+
+```sh
+DONDOCS_WORD_CONTINUATION_ARTIFACTS=/absolute/path/continuation \
+  npm run test:integration -- tests/integration/word-continuation-layout.test.ts
+```
+
+Print those exact DOCXs using the renderer being evaluated, retaining each PDF
+as `<fixture-name>.pdf` in another directory. Then check retained source digests,
+every body marker, subject text on every page, Letter page size and text bounds:
+
+```sh
+DONDOCS_WORD_CONTINUATION_ARTIFACTS=/absolute/path/continuation \
+DONDOCS_WORD_CONTINUATION_PRINTS=/absolute/path/printed \
+  npm run test:integration -- tests/integration/word-continuation-layout.test.ts
+```
+
+The print-check mode does not regenerate or overwrite the retained DOCX sources.
+Inspect rendered pages visually as well; text bounds cannot establish every
+aspect of layout. All six fixtures passed these checks after actual LibreOffice
+printing on 21 November 2026. This is separate renderer evidence, not a new
+Microsoft Word qualification or a claim of PDF/Word pagination parity.
+
+The production-browser Word test also downloads the Times 12 pt and Courier
+10 pt fixtures and checks their actual saved continuation headers and body
+markers. Native Word checks for these expanded cases remain pending.

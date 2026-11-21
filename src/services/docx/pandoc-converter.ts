@@ -800,14 +800,17 @@ async function injectHeadersAndFooters(
 const SUBJECT_LABELS = ['Subj:', 'SUBJECT:'];
 
 export function extractSubjectFromDocument(xml: string): string {
-  const textOf = (fragment: string) =>
-    (fragment.match(/<w:t[^>]*>([^<]*)</g) || [])
-      .map(m => m.replace(/^<w:t[^>]*>/, '').replace(/<$/, ''))
-      .join('')
-      .trim();
+  // Read only text nodes: a loose `w:t` prefix also matches w:tab and can
+  // consume the following text run. Decode once because page furniture will
+  // escape this plain text again when writing the continuation header.
+  const textOf = (fragment: string) => decodeXmlText(
+    [...fragment.matchAll(/<w:t(?:\s[^>]*)?>([^<]*)<\/w:t>|<w:(?:br|cr|tab)\b[^>]*\/>|<\/w:p>/g)]
+      .map(match => match[1] ?? ' ')
+      .join(''),
+  ).replace(/\s+/g, ' ').trim();
 
-  for (const row of xml.match(/<w:tr[\s\S]*?<\/w:tr>/g) || []) {
-    const [label, value] = row.match(/<w:tc>[\s\S]*?<\/w:tc>/g) || [];
+  for (const row of xml.match(/<w:tr\b[^>]*>[\s\S]*?<\/w:tr>/g) || []) {
+    const [label, value] = row.match(/<w:tc\b[^>]*>[\s\S]*?<\/w:tc>/g) || [];
     if (!label || !value) continue;
     const labelText = textOf(label);
     if (SUBJECT_LABELS.includes(labelText)) return `${labelText}  ${textOf(value)}`;
