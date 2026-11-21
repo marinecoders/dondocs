@@ -249,16 +249,22 @@ export async function convertDocxToPlainText(bytes: Uint8Array): Promise<string>
   return result.stdout ?? '';
 }
 
-// Decode the five predefined XML entities. Order matters: "&amp;" is decoded
-// LAST so an input like "&amp;lt;" resolves to the literal "&lt;" rather than
-// being double-unescaped into "<".
+const XML_TEXT_ENTITIES: Readonly<Record<string, string>> = {
+  lt: '<', gt: '>', quot: '"', apos: "'", amp: '&',
+};
+
+// Decode one XML layer, including decimal/hexadecimal character references.
+// A single pass keeps both "&amp;lt;" and "&#38;lt;" as literal "&lt;".
 function decodeXmlText(s: string): string {
-  return s
-    .replace(/&lt;/g, '<')
-    .replace(/&gt;/g, '>')
-    .replace(/&quot;/g, '"')
-    .replace(/&apos;/g, "'")
-    .replace(/&amp;/g, '&');
+  return s.replace(/&(lt|gt|quot|apos|amp|#\d+|#x[0-9a-fA-F]+);/g, (entity, reference: string) => {
+    if (!reference.startsWith('#')) return XML_TEXT_ENTITIES[reference] ?? entity;
+    const hexadecimal = reference.startsWith('#x');
+    const point = Number.parseInt(reference.slice(hexadecimal ? 2 : 1), hexadecimal ? 16 : 10);
+    const valid = point === 9 || point === 10 || point === 13
+      || point >= 0x20 && point <= 0xD7FF || point >= 0xE000 && point <= 0xFFFD
+      || point >= 0x10000 && point <= 0x10FFFF;
+    return valid ? String.fromCodePoint(point) : entity;
+  });
 }
 
 /**
@@ -800,14 +806,17 @@ async function injectHeadersAndFooters(
 const SUBJECT_LABELS = ['Subj:', 'SUBJECT:'];
 
 export function extractSubjectFromDocument(xml: string): string {
-  const textOf = (fragment: string) =>
-    (fragment.match(/<w:t[^>]*>([^<]*)</g) || [])
-      .map(m => m.replace(/^<w:t[^>]*>/, '').replace(/<$/, ''))
-      .join('')
-      .trim();
+  // Read only text nodes: a loose `w:t` prefix also matches w:tab and can
+  // consume the following text run. Decode once because page furniture will
+  // escape this plain text again when writing the continuation header.
+  const textOf = (fragment: string) => decodeXmlText(
+    [...fragment.matchAll(/<w:t(?:\s[^>]*)?>([^<]*)<\/w:t>|<w:(?:br|cr|tab)\b[^>]*\/>|<\/w:p>/g)]
+      .map(match => match[1] ?? ' ')
+      .join(''),
+  ).replace(/[ \t\r\n]+/g, ' ').trim();
 
-  for (const row of xml.match(/<w:tr[\s\S]*?<\/w:tr>/g) || []) {
-    const [label, value] = row.match(/<w:tc>[\s\S]*?<\/w:tc>/g) || [];
+  for (const row of xml.match(/<w:tr\b[^>]*>[\s\S]*?<\/w:tr>/g) || []) {
+    const [label, value] = row.match(/<w:tc\b[^>]*>[\s\S]*?<\/w:tc>/g) || [];
     if (!label || !value) continue;
     const labelText = textOf(label);
     if (SUBJECT_LABELS.includes(labelText)) return `${labelText}  ${textOf(value)}`;

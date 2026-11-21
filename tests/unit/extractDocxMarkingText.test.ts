@@ -20,6 +20,11 @@ async function makeDocx(files: Record<string, string>): Promise<Uint8Array> {
 }
 
 describe('extractDocxMarkingText', () => {
+  it('recovers numerically encoded header markings without recursively decoding literal text', async () => {
+    const bytes = await makeDocx({ 'word/header1.xml': `<w:hdr>${para(['S&#69;CR&#x45;T &#38;lt;EXAMPLE&#38;gt;'])}</w:hdr>` });
+    expect(await extractDocxMarkingText(bytes)).toBe('SECRET &lt;EXAMPLE&gt;');
+  });
+
   it('pulls the banner from header and footer, one line each', async () => {
     const bytes = await makeDocx({
       'word/document.xml': `<w:document><w:body>${para(['Body text only.'])}</w:body></w:document>`,
