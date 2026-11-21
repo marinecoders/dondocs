@@ -1,0 +1,19 @@
+import { test, expect } from '@playwright/test';
+test.use({ serviceWorkers: 'block' });
+test.skip(({ isMobile }) => !!isMobile, 'Source links currently belong to the desktop editor preview.');
+test('rendered paragraph links focus the matching live editor', async ({ page }) => {
+  test.setTimeout(120_000);
+  await page.addInitScript(() => localStorage.setItem('browser-test-visitor', 'returning'));
+  await page.goto('/');
+  await page.getByRole('textbox', { name: 'Subject', exact: true }).fill('PREVIEW SOURCE TEST');
+  const paragraph = page.getByRole('textbox', { name: 'Paragraph 1', exact: true });
+  await paragraph.fill('This unique paragraph verifies navigation from the rendered PDF to the live editor.');
+  const toggle = page.getByRole('button', { name: 'Preview', exact: true });
+  if (await toggle.getAttribute('aria-pressed') !== 'true') await toggle.click();
+  const source = page.getByText('Edit page 1 source', { exact: true });
+  await expect(source).toBeVisible({ timeout: 90_000 });
+  await source.click();
+  await page.getByRole('button', { name: 'Paragraph 1', exact: true }).click();
+  await expect(paragraph).toBeFocused();
+  await expect(paragraph).toHaveText('This unique paragraph verifies navigation from the rendered PDF to the live editor.');
+});

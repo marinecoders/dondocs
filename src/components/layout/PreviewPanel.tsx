@@ -1,3 +1,4 @@
+import { usePreviewSources } from '@/hooks/usePreviewSources';
 import { isOutputFieldActive } from '@/lib/documentFields';
 import { lazy, Suspense, useEffect } from 'react';
 import { Loader2, AlertCircle, Eye, Paperclip } from 'lucide-react';
@@ -24,6 +25,7 @@ interface PreviewPanelProps {
 }
 
 export function PreviewPanel({ pdfUrl, isCompiling, isWarmingUp = false, previewEnhanced = false, error, documentId, onDownloadPdf }: PreviewPanelProps) {
+  const navigation = usePreviewSources(isCompiling || !!error);
   // Individual selectors avoid re-rendering for unrelated UI-store updates.
   const isMobile = useUIStore((s) => s.isMobile);
   const fullQualityPreview = useUIStore((s) => s.fullQualityPreview);
@@ -74,7 +76,7 @@ export function PreviewPanel({ pdfUrl, isCompiling, isWarmingUp = false, preview
           <>
             <Suspense fallback={null /* the mat behind is already painted */}>
               <div className="absolute inset-0" title="Document preview">
-                <PdfViewer key={documentId} documentId={documentId} pdfUrl={pdfUrl} onDownloadPdf={onDownloadPdf} toolbarLabel={previewLabel} />
+                <PdfViewer sources={navigation.sources} onNavigateSource={navigation.navigate} key={documentId} documentId={documentId} pdfUrl={pdfUrl} onDownloadPdf={onDownloadPdf} toolbarLabel={previewLabel} />
               </div>
             </Suspense>
             {/* While recompiling, the stale PDF stays visible and unobscured —
