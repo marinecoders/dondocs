@@ -68,6 +68,19 @@ beforeEach(() => {
 const LAZY_TIMEOUT = { timeout: 5000 };
 
 describe('PreviewPanel — compile-error reporting', () => {
+  it('does not announce a retained PDF as ready during engine recovery', () => {
+    const { container } = renderPanel({ pdfUrl: 'blob:previous', error: 'ENGINE_RESET_NEEDED' });
+    expect(container.querySelector('.workspace-preview')).toHaveAttribute('data-preview-state', 'loading');
+    expect(screen.queryByText('Preview ready. Review the exported file before sending.')).toBeNull();
+    expect(screen.getByText('Loading the typesetter…')).toBeInTheDocument();
+  });
+  it('announces an idle preview honestly and explains repeat loading', () => {
+    const { rerender } = renderPanel({ pdfUrl: null });
+    expect(screen.queryByText('Compilation complete')).not.toBeInTheDocument();
+    expect(screen.getByText('Waiting for document content.')).toBeInTheDocument();
+    rerender(<PreviewPanel pdfUrl={null} isCompiling isWarmingUp error={null} onDownloadPdf={() => {}} />);
+    expect(screen.getByText(/Loading time depends on cached resources/)).toBeInTheDocument();
+  });
   it('preserves the rendered viewer across desktop preview toggles', async () => {
     renderPanel({ pdfUrl: 'blob:test/retained' });
     const document = await screen.findByTestId('doc:blob:test/retained', undefined, LAZY_TIMEOUT);

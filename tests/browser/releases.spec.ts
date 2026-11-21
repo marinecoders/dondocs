@@ -39,7 +39,7 @@ async function start(page: Page) {
   await page.addInitScript(() => localStorage.setItem('dondocs-welcome-shown', '3.0'));
   await page.goto(server.origin);
   await ready(page, firstId);
-  await expect(page.getByText('Compilation complete', { exact: true })).toBeAttached({ timeout: 60000 });
+  await expect(page.getByText(/^(?:Compilation complete|Preview ready\. Review the exported file before sending\.)$/)).toBeAttached({ timeout: 60000 });
   const subject = page.locator('#subject:visible, #body-subject:visible');
   await subject.fill('RELEASE CHECKPOINT');
   await expect(subject).toHaveValue('RELEASE CHECKPOINT');
@@ -207,7 +207,7 @@ test('updates only the accepting tab and reopens the staged release offline', as
   await ready(page, firstId);
   const other = await context.newPage(); await other.goto(server.origin);
   await expect(other.locator('#subject:visible, #body-subject:visible')).toHaveValue('RELEASE CHECKPOINT');
-  await expect(other.getByText('Compilation complete', { exact: true })).toBeAttached({ timeout: 60000 });
+  await expect(other.getByText(/^(?:Compilation complete|Preview ready\. Review the exported file before sending\.)$/)).toBeAttached({ timeout: 60000 });
   const original = await documentIdentity(page);
   root = resolve(second!);
   await other.bringToFront(); await other.evaluate(() => window.dispatchEvent(new Event('focus')));
@@ -300,7 +300,7 @@ test('preserves settings changed in a draft that is not yet in Recents', async (
   root = resolve(second!); await page.evaluate(() => window.dispatchEvent(new Event('focus')));
   const update = page.getByRole('button', { name: 'Update Available', exact: true });
   await expect(update).toBeVisible({ timeout: 120000 });
-  await expect(page.getByText('Compilation complete', { exact: true })).toBeAttached({ timeout: 60000 });
+  await expect(page.getByText(/^(?:Compilation complete|Preview ready\. Review the exported file before sending\.)$/)).toBeAttached({ timeout: 60000 });
   await page.locator('#unitLine1').fill('SETTINGS ONLY UNIT');
   await update.click(); await page.getByRole('button', { name: 'Update Now', exact: true }).click();
   await expect(page.locator('meta[name="dondocs-release"]')).toHaveAttribute('content', secondId);
@@ -313,7 +313,7 @@ test('pauses an update during a PDF read and accepts it after the attachment is 
   root = resolve(second!); await page.evaluate(() => window.dispatchEvent(new Event('focus')));
   const update = page.getByRole('button', { name: 'Update Available', exact: true });
   await expect(update).toBeVisible({ timeout: 120000 });
-  await expect(page.getByText('Compilation complete', { exact: true })).toBeAttached({ timeout: 60000 });
+  await expect(page.getByText(/^(?:Compilation complete|Preview ready\. Review the exported file before sending\.)$/)).toBeAttached({ timeout: 60000 });
   await page.evaluate(() => {
     const original = File.prototype.arrayBuffer;
     const waiting = new Promise<void>(resolve => Object.assign(window, { finishFileRead: () => { File.prototype.arrayBuffer = original; resolve(); } }));
@@ -330,7 +330,7 @@ test('pauses an update during a PDF read and accepts it after the attachment is 
   await page.evaluate(() => (window as unknown as { finishFileRead(): void }).finishFileRead());
   await expect(page.getByText('update-proof.pdf', { exact: true }).first()).toBeVisible();
   await expect(page.locator('[title^="Saved "]')).toBeVisible({ timeout: 15000 });
-  await expect(page.getByText('Compilation complete', { exact: true })).toBeAttached({ timeout: 60000 });
+  await expect(page.getByText(/^(?:Compilation complete|Preview ready\. Review the exported file before sending\.)$/)).toBeAttached({ timeout: 60000 });
   await page.evaluate(() => {
     const original = IDBDatabase.prototype.transaction;
     IDBDatabase.prototype.transaction = function (...args) {
@@ -375,7 +375,7 @@ for (const source of ['legacy cache', 'unindexed request'] as const) test(`prese
   const word = manifest.assets.filter(asset => /\/pandoc\.wasm(?:\.part\d+|\.manifest\.json)?$/.test(asset.url));
   expect(word.length).toBeGreaterThan(1);
   expect(word.every(asset => server.requests.some(request => request.path === asset.url && request.status === 200))).toBe(true);
-  await expect(page.getByText('Compilation complete', { exact: true })).toBeAttached({ timeout: 60000 });
+  await expect(page.getByText(/^(?:Compilation complete|Preview ready\. Review the exported file before sending\.)$/)).toBeAttached({ timeout: 60000 });
   for (const asset of word) server.faults.set(asset.url, { status: 503 });
   await context.setOffline(true);
   await update.click(); await page.getByRole('button', { name: 'Update Now', exact: true }).click();
