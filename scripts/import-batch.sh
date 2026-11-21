@@ -38,6 +38,14 @@ while IFS=$'\t' read -r id folder category number || [[ -n "$id" ]]; do
   # empty tab-delimited field and shifts every later column left.
   [[ "$category" == "-" ]] && category=""
   formwarn=0  # harvest and preparation can both warn; the form still counts once
+  if [[ ! "$id" =~ ^[A-Za-z0-9._-]+$ ]] || [[ "$id" == "." || "$id" == *".."* ]]; then
+    echo "[fail-id]   $folder — invalid id: $id"; failed=$((failed+1)); continue
+  fi
+  # Generated source folders include spaces and punctuation. Require one path
+  # component, matching form_paths.py, rather than restricting display names.
+  if [[ -z "$folder" || "$folder" == "." || "$folder" == ".." || "$folder" == */* || "$folder" == *\\* || "$folder" =~ [[:cntrl:]] ]]; then
+    echo "[fail-dir]  invalid folder: $folder"; failed=$((failed+1)); continue
+  fi
   if [[ -f "public/templates/$folder/boxes.json" ]] || row_flag "$folder" builtin; then
     echo "[protected] $folder — hand-built form; refusing to re-import"
     skipped=$((skipped+1)); continue

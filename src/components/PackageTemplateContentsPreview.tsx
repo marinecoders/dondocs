@@ -29,7 +29,7 @@ export function PackageTemplateContentsPreview({ template, disabled = false }: {
     const captured = template, version = generation.current; setPending(true); setError('');
     try {
       await validatePackageTemplate(structuredClone(captured));
-      if (alive.current && enabled.current && source.current === captured && generation.current === version) setSelected({ template: captured, label, type, bytes: base64ToUint8Array(encoded.replace(/^data:image\/(?:png|jpeg);base64,/, '')) });
+      if (alive.current && enabled.current && source.current === captured && generation.current === version) setSelected({ template: captured, label, type, bytes: base64ToUint8Array(encoded.replace(/^data:(?:image\/(?:png|jpeg)|application\/pdf);base64,/, '')) });
     } catch (cause) { if (alive.current && source.current === captured) setError(cause instanceof Error ? cause.message : 'The template asset could not be opened.'); }
     finally { running.current = false; if (alive.current) setPending(false); }
   }

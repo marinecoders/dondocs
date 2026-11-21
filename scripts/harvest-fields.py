@@ -407,6 +407,8 @@ def harvest_xfa(reader: PdfReader, page_height: float) -> dict[int, list[dict]]:
 def supported_xfa_root(xml: str):
     import xml.etree.ElementTree as ET
 
+    if re.search(r"<!(?:DOCTYPE|ENTITY)\b", xml, re.IGNORECASE):
+        raise ValueError("Unsupported XFA XML declaration: DOCTYPE/ENTITY is not allowed")
     xml = re.sub(r'\sxmlns="[^"]+"', "", xml, count=1)
     root = ET.fromstring(xml)
     unsupported = [el.tag for el in root.iter() if el.tag in ("script", "calculate", "validate") or el.get("layout") in ("tb", "lr-tb", "rl-tb", "table") or el.get("open") == "multiSelect"]

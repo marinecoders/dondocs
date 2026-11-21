@@ -9,6 +9,7 @@ export async function saveCheckpoint(): Promise<boolean> {
   const scope = captureDocumentScope();
   try {
     const captured = captureCurrentDocumentRevision();
+    if (scope && !isCurrentDocumentScope(scope)) return false;
     localStorage.setItem(STORAGE_KEYS.DOCUMENT, JSON.stringify(copyCapturedSession(captured)));
     return !!await commitCurrentDocument();
   } catch {

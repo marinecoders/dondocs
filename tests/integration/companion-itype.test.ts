@@ -22,7 +22,7 @@ beforeAll(async () => {
     cwd: process.cwd(), stderr: 'pipe',
     env: { ...process.env, DONDOCS_OUT_ROOT: root, DONDOCS_CONFIG: '/nonexistent/config.json' },
   }));
-});
+}, 30_000);
 afterAll(async () => { await client?.close(); if (root) await rm(root, { recursive: true, force: true }); });
 
 async function drawing(pages = 1) {

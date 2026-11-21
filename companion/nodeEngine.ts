@@ -136,13 +136,20 @@ export async function createNodeEngine(): Promise<LatexEngine & { dispose(): Pro
     if (msg?.pdf && pendingCompile) {
       pendingCompile({ status: 0, pdf: new Uint8Array(msg.pdf), log: msg.log ?? '' });
       pendingCompile = compileFailed = null;
-    } else if (msg?.log && msg?.status !== undefined && pendingCompile) {
+    } else if (typeof msg?.log === 'string' && msg.status !== undefined && pendingCompile) {
       // A non-zero status with a log is a failed compile, not a transport error.
       pendingCompile({ status: msg.status, log: msg.log });
       pendingCompile = compileFailed = null;
     }
   });
-  worker.on('error', (err) => { compileFailed?.(err); pendingCompile = compileFailed = null; });
+  const failWorker = (error: Error) => {
+    ready = false;
+    disposed = true;
+    compileFailed?.(error);
+    pendingCompile = compileFailed = null;
+  };
+  worker.on('error', failWorker);
+  worker.on('exit', code => failWorker(new Error(`engine worker exited (${code})`)));
 
   return {
     isReady: () => ready,
@@ -155,12 +162,14 @@ export async function createNodeEngine(): Promise<LatexEngine & { dispose(): Pro
     compileLaTeX: () =>
       new Promise<CompileResult>((resolve, reject) => {
         if (disposed) { reject(new Error('engine disposed')); return; }
+        if (pendingCompile) { reject(new Error('compile already in flight')); return; }
         pendingCompile = resolve;
         compileFailed = reject;
         worker.postMessage({ cmd: 'compilelatex' });
       }),
     dispose: async () => {
       disposed = true;
+      ready = false;
       // Settle a compile in flight so its caller's chain finishes.
       compileFailed?.(new Error('engine disposed'));
       pendingCompile = compileFailed = null;

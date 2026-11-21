@@ -328,8 +328,8 @@ export function useDocumentCompleteness(): DocumentCompleteness {
       if (instance?.definition.formId === formType) {
         const d = instance.definition;
         const errors = formErrorSections(instance);
-        const required = d.sections.filter(s => s.fields.some(key => d.fields[key].requiredAt === 'export')).map(s => s.id);
-        for (const [key, group] of Object.entries(d.rowGroups)) if (instance.rows[key]?.length && Object.values(group.columns).some(f => f.requiredAt === 'export')) required.push(key);
+        const required = d.sections.filter(s => s.fields.some(key => d.fields[key]?.requiredAt === 'export')).map(s => s.id);
+        for (const [key, group] of Object.entries(d.rowGroups ?? {})) if (instance.rows[key]?.length && Object.values(group.columns).some(f => f.requiredAt === 'export')) required.push(key);
         if (!required.length && !errors.length) return { required: 0, complete: 0, ratio: 1, isReady: true, missing: [] };
         return completenessFrom([...new Set([...required, ...errors])], key => errors.includes(key));
       }

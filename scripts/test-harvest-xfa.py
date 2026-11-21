@@ -71,6 +71,16 @@ try:
     raise AssertionError("flowed XFA must require manual review")
 except ValueError as exc:
     assert "Unsupported XFA" in str(exc)
+for declaration in (
+    '<!DOCTYPE template [<!ENTITY note "expanded">]>',
+    '<!DOCTYPE template SYSTEM "file:///not-a-real-dondocs-file">',
+    '<!ENTITY note "expanded">',
+):
+    try:
+        parse_xfa_template(declaration + TEMPLATE, PAGE_H)
+        raise AssertionError("XFA declarations must be rejected before parsing")
+    except ValueError as exc:
+        assert "DOCTYPE/ENTITY is not allowed" in str(exc)
 pages = parse_xfa_template(TEMPLATE, PAGE_H)
 
 check(list(pages) == [1], f"expected exactly page 1, got {list(pages)}")

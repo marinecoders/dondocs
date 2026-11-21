@@ -20,7 +20,7 @@ export function PackageCitationReorder({ record, revision, editable, prepared, o
   const [memberId, setMemberId] = useState(natives[0]?.id ?? ""), [kind, setKind] = useState<"references" | "enclosures">("references");
   const [draftOrder, setDraftOrder] = useState<number[] | null>(null), [approved, setApproved] = useState<PreparedPackageCitationReorder | null>(null);
   const member = natives.find(member => member.id === memberId);
-  const items = member?.kind === "native" ? member.session[kind] : [];
+  const items = member?.kind === "native" ? (member.session[kind] ?? []) : [];
   const order = draftOrder ?? items.map((_, index) => index);
   const reviewed = prepared?.packageId === record.id && prepared.sequence === record.sequence && prepared.revisionId === revision.id ? prepared : null;
   function reset() { setDraftOrder(null); setApproved(null); onDiscard(); }

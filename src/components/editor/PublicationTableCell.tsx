@@ -26,7 +26,9 @@ export function PublicationTableCell({ value, label, paragraph, onChange, ensure
     {!!paragraph.tableFootnotes?.length && <select aria-label={`Add footnote to ${label}`} value="" className="w-full text-xs"
       onChange={(e) => {
         if (!e.target.value) return;
-        const token = `{{${referenceName('N', ensureReferenceId(), e.target.value)}}}`;
+        const referenceId = ensureReferenceId();
+        if (!referenceId) return;
+        const token = `{{${referenceName('N', referenceId, e.target.value)}}}`;
         if (!tokens.includes(token)) onChange(value + token);
       }}>
       <option value="">Add footnote</option>

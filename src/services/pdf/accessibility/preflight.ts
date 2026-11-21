@@ -19,7 +19,7 @@ export function taggedCorrespondenceIssues(source: TaggedCorrespondenceSource, r
       const parsed = bodyTableSchema.safeParse(p.bodyTable);
       if (!parsed.success || !p.bodyTable.headerRows || p.bodyTable.headerRows >= p.bodyTable.rows.length
         || p.bodyTable.rows.slice(0, p.bodyTable.headerRows).some(row => row.some(cell => !cell.trim()))) issues.push('Tagged tables need a valid rectangular body with nonempty column headers and at least one data row.');
-      if (parsed.success && (p.bodyTable.rows[0].length > 6 || p.bodyTable.rows.some(row => row.reduce((sum, cell) => sum + cell.length, 0) > 1200 || row.some(cell => cell.length > 400)))) issues.push('Tagged tables currently support up to 6 columns, 400 characters per cell and 1200 per row. Split dense tables before tagged export.');
+      if (parsed.success && p.bodyTable.rows.length > 0 && (p.bodyTable.rows[0].length > 6 || p.bodyTable.rows.some(row => row.reduce((sum, cell) => sum + cell.length, 0) > 1200 || row.some(cell => cell.length > 400)))) issues.push('Tagged tables currently support up to 6 columns, 400 characters per cell and 1200 per row. Split dense tables before tagged export.');
     }
     if (p.figure && (p.figure.placement !== 'body' || !p.figure.fileRef || !['image/png', 'image/jpeg'].includes(p.figure.type ?? '') || !p.figure.altText?.trim() || p.figure.altText.length > 2000)) issues.push('Tagged body images need an attached PNG or JPEG and meaningful alternative text.');
     if ((p.figure || p.bodyTable) && (p.level !== 0 || (source.paragraphs[index + 1]?.level ?? 0) !== 0)) issues.push('Tagged tables and images must stand between top-level paragraphs.');

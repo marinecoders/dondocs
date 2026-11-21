@@ -77,8 +77,11 @@ async function oversizedPost(url: string, contentLength = true) {
     req.setTimeout(10_000, () => req.destroy(new Error('oversized upload response timed out')));
     void (async () => {
       const chunk = Buffer.alloc(64 * 1024, 'x');
-      for (let sent = 0; sent < 16_100_000 && !responding;) {
-        const part = chunk.subarray(0, Math.min(chunk.length, 16_100_000 - sent));
+      // One byte above the cap proves early refusal without extra writes racing
+      // the server's Connection: close response.
+      const uploadSize = 16_000_001;
+      for (let sent = 0; sent < uploadSize && !responding;) {
+        const part = chunk.subarray(0, Math.min(chunk.length, uploadSize - sent));
         sent += part.length;
         await new Promise<void>((done, fail) => req.write(part, (error) => error ? fail(error) : done()));
       }

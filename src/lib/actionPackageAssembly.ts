@@ -723,7 +723,7 @@ export async function assemblePackage(
         const measurement = previous && canMeasurePackageEndorsement(previous.member, member)
           ? await measurePackageEndorsement(previous.bytes, bytes, previous.member, member, signal)
           : { fits: false, reason: 'The preceding member and endorsement are not qualified unsigned native correspondence.' };
-        if (measurement.fits && measurement.sourceTop !== undefined && measurement.sourceBottom !== undefined && measurement.targetBottom !== undefined) {
+        if (measurement.fits && measurement.sourceTop !== undefined && measurement.sourceBottom !== undefined && measurement.targetBottom !== undefined && measurement.sourceTop > measurement.sourceBottom) {
           const measuredPdf = await PDFDocument.load(bytes);
           const embedded = await pdf.embedPage(measuredPdf.getPage(0), { left: 0, right: 612, top: measurement.sourceTop, bottom: measurement.sourceBottom });
           pdf.getPage(pdf.getPageCount() - 1).drawPage(embedded, { x: 0, y: measurement.targetBottom, width: 612, height: measurement.sourceTop - measurement.sourceBottom });

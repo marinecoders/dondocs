@@ -16,9 +16,13 @@ export async function resolvePublicationDestinations(bytes: Uint8Array, manualFr
       if (!(name instanceof PDFString)) continue;
       const id = name.decodeText();
       if (!/^(?:itype|sl3|sl4|manual|volume)\./.test(id) && !/^dondocs\.signature\.(?:junior|senior)$/.test(id)) continue;
-      const rect = annotation.lookup(PDFName.of('Rect'), PDFArray);
-      const x = rect.lookup(0, PDFNumber).asNumber();
-      const y = rect.lookup(3, PDFNumber).asNumber();
+      const rect = annotation.lookup(PDFName.of('Rect'));
+      if (!(rect instanceof PDFArray) || rect.size() < 4) continue;
+      const xNum = rect.lookup(0);
+      const yNum = rect.lookup(3);
+      if (!(xNum instanceof PDFNumber) || !(yNum instanceof PDFNumber)) continue;
+      const x = xNum.asNumber();
+      const y = yNum.asNumber();
       anchors.set(name.decodeText(), pdf.context.obj([page.ref, PDFName.of('XYZ'), x, y, null]));
       if (/^volume\.pages\.(?:front|body|glossary|[A-Z])$/.test(id)) {
         const part = id.slice('volume.pages.'.length);

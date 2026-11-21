@@ -49,7 +49,8 @@ it("selects an uploaded document so it can be inspected immediately", async () =
   await expandDetails(dialog, user);
   const pdf = await PDFDocument.create(); pdf.addPage();
   await user.upload(within(dialog).getByLabelText('Add original PDF', { exact: true }), new File([new Uint8Array(await pdf.save())], 'New supporting file.pdf', { type: 'application/pdf' }));
-  const heading = await within(dialog).findByRole('heading', { name: '2. New supporting file.pdf' });
+  await waitFor(() => expect(dialog).toHaveAttribute('aria-busy', 'false'), { timeout: 5000 });
+  const heading = within(dialog).getByRole('heading', { name: '2. New supporting file.pdf' });
   expect(heading.closest('li')).toHaveAttribute('data-selected', 'true');
 });
 vi.mock("@/stores/backupStore", () => ({ scheduleBackup: vi.fn() }));
