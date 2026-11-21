@@ -1,15 +1,17 @@
+import { readTaggedLink, taggedReferenceUrl } from './links';
 import { TAGGED_PDF_STRUCTURE_LIMITS } from './limits';
 import { PDFArray, PDFDict, PDFDocument, PDFHexString, PDFName, PDFNumber, PDFRawStream, type PDFRef } from 'pdf-lib';
 import { Inflate } from 'pako';
 import { byteString, byteStringBytes, readPdfContent, type PdfContentOperation } from './contentStream';
 import { createRasterDecodeBudget, fingerprintPdfRaster, TAGGED_RASTER_LIMITS, type PdfRasterBinding } from './raster';
 
-export type PdfSemanticRole = 'Document' | 'Sect' | 'P' | 'H1' | 'H2' | 'H3' | 'H4' | 'H5' | 'H6' | 'L' | 'LI' | 'Lbl' | 'LBody' | 'Table' | 'TR' | 'TH' | 'TD' | 'Figure' | 'Caption' | 'Span';
+export type PdfSemanticRole = 'Document' | 'Sect' | 'P' | 'H1' | 'H2' | 'H3' | 'H4' | 'H5' | 'H6' | 'L' | 'LI' | 'Lbl' | 'LBody' | 'Table' | 'TR' | 'TH' | 'TD' | 'Figure' | 'Caption' | 'Span' | 'Link';
 export interface PdfSemanticNode {
   id: number;
   role: PdfSemanticRole;
   children?: readonly PdfSemanticNode[];
   altText?: string;
+  linkUrl?: string;
   columnHeader?: boolean;
   repeatAsArtifact?: boolean;
   allowEmpty?: boolean;
@@ -34,7 +36,7 @@ const PAINT = new Set(['Tj', 'TJ', "'", '"', 'Do', 'sh', 'S', 's', 'f', 'F', 'f*
 const EXISTING_MARKED = new Set(['BMC', 'BDC', 'EMC']);
 const MAX_BYTES = 32 * 1024 * 1024;
 const MAX_NODES = TAGGED_PDF_STRUCTURE_LIMITS.nodes;
-const ROLES = new Set(('Document Sect P H1 H2 H3 H4 H5 H6 L LI Lbl LBody Table TR TH TD Figure Caption Span').split(' '));
+const ROLES = new Set(('Document Sect P H1 H2 H3 H4 H5 H6 L LI Lbl LBody Table TR TH TD Figure Caption Span Link').split(' '));
 
 function marker(operation: PdfContentOperation, nonce: string): { id: number; begin: boolean } | undefined {
   if (operation.operator !== 'DP' || operation.operands[0]?.kind !== 'name' || operation.operands[0].value !== 'DDTag') return;
@@ -59,6 +61,7 @@ export function validatePdfTaggingPlan(plan: PdfTaggingPlan): Map<number, PdfSem
     if (!ROLES.has(node.role)) throw new Error('Unsupported tagged PDF semantic role.');
     if (node.altText !== undefined && (typeof node.altText !== 'string' || node.altText.length > 2000)) throw new Error('Invalid tagged PDF alternative text.');
     if (node.role === 'Figure' && (!node.altText?.trim() || node.altText.length > 2000)) throw new Error('Every meaningful figure requires alternative text.');
+    if ((node.role === 'Link') !== (node.linkUrl !== undefined) || (node.linkUrl !== undefined && (node.linkUrl.length > 8192 || taggedReferenceUrl(node.linkUrl) !== node.linkUrl))) throw new Error('Every tagged Link needs an explicit safe source URI.');
     if (node.repeatAsArtifact && node.role !== 'TH') throw new Error('Only repeated table headers can become structural-repeat artifacts.');
     if (node.allowEmpty && node.role !== 'TD') throw new Error('Only an explicitly empty table data cell may omit painted content.');
     nodes.set(node.id, node);
@@ -76,6 +79,7 @@ export async function finishTaggedPdf(input: Uint8Array, sourcePlan: PdfTaggingP
   validatePdfTaggingPlan(sourcePlan);
   if ((sourcePlan.artifactIds?.length ?? 0) > MAX_NODES) throw new Error('Too many tagged PDF artifacts.');
   const copyNode = (node: PdfSemanticNode): PdfSemanticNode => ({ id: node.id, role: node.role,
+    ...(node.linkUrl === undefined ? {} : { linkUrl: node.linkUrl }),
     ...(node.altText === undefined ? {} : { altText: node.altText }),
     ...(node.columnHeader ? { columnHeader: true } : {}),
     ...(node.repeatAsArtifact ? { repeatAsArtifact: true } : {}),
@@ -119,14 +123,18 @@ export async function finishTaggedPdf(input: Uint8Array, sourcePlan: PdfTaggingP
     const ref = context.register(element);
     refs.set(node.id, ref);
     elements.set(node.id, element);
-    if (node.altText) element.set(PDFName.of('Alt'), PDFHexString.fromText(node.altText));
+    if (node.altText || node.linkUrl) element.set(PDFName.of('Alt'), PDFHexString.fromText(node.altText || node.linkUrl!));
     if (node.columnHeader) element.set(PDFName.of('A'), context.obj({ O: 'Table', Scope: 'Column' }));
     const children = (node.children ?? []).map(child => create(child, ref));
     if (children.length) element.set(PDFName.of('K'), context.obj(children));
     return ref;
   };
   document.set(PDFName.of('K'), context.obj(plan.nodes.map(node => create(node, documentRef))));
-  const parentNumbers: (number | PDFArray)[] = [];
+  const parentNumbers: (number | PDFArray | PDFRef)[] = [];
+  const annotationParents: (number | PDFRef)[] = [];
+  const linkObjects = new Map<number, { ref: PDFRef; pageRef: PDFRef; page: number }[]>();
+  const seenAnnotations = new Set<string>();
+  let annotationKey = pdf.getPageCount();
   const stack: number[] = [];
   const repeatedArtifactScopes = new Set<number>();
   const seen = new Set<number>();
@@ -137,7 +145,24 @@ export async function finishTaggedPdf(input: Uint8Array, sourcePlan: PdfTaggingP
   let associatedChunks = 0;
   let artifactChunks = 0;
   for (const [pageIndex, page] of pdf.getPages().entries()) {
-    if (page.node.Annots()?.size()) throw new Error('Page annotations are not qualified for this tagged export.');
+    for (const value of page.node.Annots()?.asArray() ?? []) {
+      if (seenAnnotations.size >= 5000) throw new Error('Too many tagged link annotations.');
+      const { ref, annotation, uri } = readTaggedLink(context, value);
+      if (seenAnnotations.has(ref.toString())) throw new Error('A tagged annotation occurs more than once.');
+      seenAnnotations.add(ref.toString());
+      const identity = annotation.lookupMaybe(PDFName.of('DDTagLink'), PDFHexString)?.asString();
+      const id = annotation.lookupMaybe(PDFName.of('DDTagId'), PDFNumber)?.asNumber();
+      const node = id === undefined ? undefined : nodes.get(id);
+      if (identity !== plan.nonce || id === undefined || node?.role !== 'Link' || node.linkUrl !== uri) throw new Error('Link annotation does not match its owned source.');
+      if (annotation.has(PDFName.of('StructParent'))) throw new Error('Preexisting annotation structure is not qualified.');
+      annotation.delete(PDFName.of('DDTagLink')); annotation.delete(PDFName.of('DDTagId'));
+      annotation.set(PDFName.of('StructParent'), PDFNumber.of(annotationKey));
+      annotation.set(PDFName.of('P'), page.ref);
+      annotation.set(PDFName.of('Contents'), PDFHexString.fromText(node.altText || uri));
+      annotationParents.push(annotationKey++, refs.get(id)!);
+      const objects = linkObjects.get(id) ?? [];
+      objects.push({ ref, pageRef: page.ref, page: pageIndex }); linkObjects.set(id, objects);
+    }
     const contents = page.node.Contents();
     const entries = contents instanceof PDFArray ? contents.asArray() : contents ? [contents] : [];
     if (!entries.length || entries.length > 64) throw new Error('Unexpected tagged PDF page streams.');
@@ -280,7 +305,12 @@ export async function finishTaggedPdf(input: Uint8Array, sourcePlan: PdfTaggingP
     if (node.children?.length && chunks.length) throw new Error('Mixed container and painted content requires an explicit child sequence.');
     if (!node.children?.length) {
       if (!chunks.length && !node.allowEmpty) throw new Error('A tagged PDF structure leaf has no painted content.');
-      elements.get(id)!.set(PDFName.of('K'), context.obj(chunks.map(item => context.obj({ Type: 'MCR', Pg: item.pageRef, MCID: item.mcid }))));
+      const objects = linkObjects.get(id) ?? [];
+      if (node.role === 'Link' && (!objects.length || objects.some(object => !chunks.some(chunk => chunk.page === object.page)) || chunks.some(chunk => !objects.some(object => object.page === chunk.page)))) throw new Error('Tagged link annotations do not cover their painted source pages.');
+      elements.get(id)!.set(PDFName.of('K'), context.obj([
+        ...chunks.map(item => context.obj({ Type: 'MCR', Pg: item.pageRef, MCID: item.mcid })),
+        ...objects.map(item => context.obj({ Type: 'OBJR', Pg: item.pageRef, Obj: item.ref })),
+      ]));
       // Expose figure page context without changing its marked-content references.
       const figurePage = chunks[0];
       if (node.role === 'Figure' && figurePage && chunks.every(item => item.page === figurePage.page)) {
@@ -290,8 +320,8 @@ export async function finishTaggedPdf(input: Uint8Array, sourcePlan: PdfTaggingP
   }
   for (const id of imageBindings.keys()) if (!usedImages.has(id)) throw new Error('An expected source raster was not painted in the tagged PDF.');
   structure.set(PDFName.of('K'), context.obj([documentRef]));
-  structure.set(PDFName.of('ParentTree'), context.register(context.obj({ Nums: parentNumbers })));
-  structure.set(PDFName.of('ParentTreeNextKey'), PDFNumber.of(pdf.getPageCount()));
+  structure.set(PDFName.of('ParentTree'), context.register(context.obj({ Nums: [...parentNumbers, ...annotationParents] })));
+  structure.set(PDFName.of('ParentTreeNextKey'), PDFNumber.of(annotationKey));
   pdf.catalog.set(PDFName.of('StructTreeRoot'), structureRef);
   pdf.catalog.set(PDFName.of('MarkInfo'), context.obj({ Marked: true, Suspects: false }));
   pdf.catalog.set(PDFName.of('Lang'), PDFHexString.fromText(plan.language));

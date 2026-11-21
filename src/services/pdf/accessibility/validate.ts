@@ -1,3 +1,4 @@
+import { readTaggedLink } from './links';
 import { PDFArray, PDFBool, PDFDict, PDFDocument, PDFHexString, PDFName, PDFNumber, PDFRawStream, PDFRef, PDFString } from 'pdf-lib';
 import { byteString, readPdfContent } from './contentStream';
 import { inflateBounded } from './raster';
@@ -17,7 +18,7 @@ export interface TaggedPdfValidation {
 const NAME = (name: string) => PDFName.of(name);
 const PAINT = new Set(['Tj', 'TJ', "'", '"', 'Do', 'sh', 'S', 's', 'f', 'F', 'f*', 'B', 'B*', 'b', 'b*']);
 const MAX_BYTES = 32 * 1024 * 1024;
-const ROLES = new Set('Document Sect P H1 H2 H3 H4 H5 H6 L LI Lbl LBody Table TR TH TD Figure Caption Span'.split(' '));
+const ROLES = new Set('Document Sect P H1 H2 H3 H4 H5 H6 L LI Lbl LBody Table TR TH TD Figure Caption Span Link'.split(' '));
 function fail(message: string): never { throw new Error(`Tagged PDF validation failed: ${message}`); }
 
 /** Read back the saved bytes, independently of the source manifest and writer's
@@ -28,7 +29,17 @@ export async function validateGeneratedTaggedPdf(input: Uint8Array): Promise<Tag
   const pdf = await PDFDocument.load(new Uint8Array(input)); const context = pdf.context;
   const pages = pdf.getPages();
   if (!pages.length || pages.length > 100) fail('page count is outside the generated format limit.');
-  if (pdf.catalog.has(NAME('AcroForm')) || pages.some(page => (page.node.Annots()?.size() ?? 0) > 0)) fail('forms and annotations are outside the qualified format.');
+  if (pdf.catalog.has(NAME('AcroForm'))) fail('forms are outside the qualified format.');
+  const annotations = new Map<string, { ref: PDFRef; annotation: PDFDict; pageIndex: number; key: number }>();
+  for (const [pageIndex, page] of pages.entries()) for (const value of page.node.Annots()?.asArray() ?? []) {
+    const link = readTaggedLink(context, value);
+    const key = link.annotation.lookup(NAME('StructParent'), PDFNumber).asNumber();
+    if (annotations.size >= 5000 || annotations.has(link.ref.toString()) || !Number.isSafeInteger(key) || key !== pages.length + annotations.size
+      || link.annotation.get(NAME('P'))?.toString() !== page.ref.toString() || link.annotation.has(NAME('DDTagLink')) || link.annotation.has(NAME('DDTagId'))) fail('link annotation ownership or structure key is invalid.');
+    const description = link.annotation.lookup(NAME('Contents'));
+    if (!(description instanceof PDFString || description instanceof PDFHexString) || !description.decodeText().trim()) fail('link description is missing.');
+    annotations.set(link.ref.toString(), { ...link, pageIndex, key });
+  }
   if (!pdf.getTitle()?.trim()) fail('document title is missing.');
   const language = pdf.catalog.lookup(NAME('Lang'));
   if (!(language instanceof PDFString || language instanceof PDFHexString) || !/^[A-Za-z]{2,3}(?:-[A-Za-z0-9]{2,8})*$/.test(language.decodeText())) fail('document language is missing or invalid.');
@@ -39,7 +50,7 @@ export async function validateGeneratedTaggedPdf(input: Uint8Array): Promise<Tag
   const rootRef = pdf.catalog.get(NAME('StructTreeRoot'));
   if (!(rootRef instanceof PDFRef)) fail('structure root must be an indirect object.');
   const parentNumbers = tree.lookup(NAME('ParentTree'), PDFDict).lookup(NAME('Nums'), PDFArray);
-  if (parentNumbers.size() !== pages.length * 2) fail('parent number tree does not match the pages.');
+  if (parentNumbers.size() !== (pages.length + annotations.size) * 2) fail('parent number tree does not match the pages.');
   const parentArrays = pages.map((page, index) => {
     if (page.node.lookup(NAME('StructParents'), PDFNumber).asNumber() !== index || page.node.lookup(NAME('Tabs'), PDFName) !== NAME('S')) fail('page structure keys or tab order differ from their generated order.');
     if (parentNumbers.lookup(index * 2, PDFNumber).asNumber() !== index) fail('parent number tree keys are not contiguous.');
@@ -47,6 +58,7 @@ export async function validateGeneratedTaggedPdf(input: Uint8Array): Promise<Tag
     if (values.size() > 50_000) fail('page parent array is excessive.');
     return values;
   });
+  const usedAnnotations = new Set<string>();
   const expected = new Map<string, PDFRef>(); const visited = new Set<string>();
   let elements = 0; let figures = 0; let headers = 0; let headingLevel = 0;
   const walk = (ref: PDFRef, parent: PDFRef, depth: number) => {
@@ -77,7 +89,8 @@ export async function validateGeneratedTaggedPdf(input: Uint8Array): Promise<Tag
       headers++;
     }
     const children = element.lookup(NAME('K'), PDFArray);
-    let structureChildren = 0; let markedChildren = 0;
+    let structureChildren = 0; let markedChildren = 0; let objectChildren = 0;
+    const linkPages = new Set<string>();
     if (!children.size() && role !== 'TD') fail('non-data structure element is empty.');
     for (const child of children.asArray()) {
       const object = context.lookup(child, PDFDict);
@@ -88,6 +101,20 @@ export async function validateGeneratedTaggedPdf(input: Uint8Array): Promise<Tag
         if (!['Document', 'Sect', 'L', 'LI', 'LBody', 'Table', 'TR'].includes(role) || (allowedChildren[role] && !allowedChildren[role].includes(childRole))) fail('semantic container has an invalid child role.');
         structureChildren++;
         walk(child, ref, depth + 1);
+      } else if (object.lookup(NAME('Type'), PDFName) === NAME('OBJR')) {
+        const obj = object.get(NAME('Obj'));
+        const annotation = obj instanceof PDFRef ? annotations.get(obj.toString()) : undefined;
+        if (role !== 'Link' || !annotation || usedAnnotations.has(annotation.ref.toString())
+          || object.get(NAME('Pg'))?.toString() !== pages[annotation.pageIndex].ref.toString()
+          || parentNumbers.lookup(annotation.key * 2, PDFNumber).asNumber() !== annotation.key
+          || parentNumbers.get(annotation.key * 2 + 1)?.toString() !== ref.toString()) fail('link object reference has no unique annotation backlink.');
+        const alternative = element.lookup(NAME('Alt'));
+        const description = annotation.annotation.lookup(NAME('Contents'));
+        if (!(alternative instanceof PDFString || alternative instanceof PDFHexString) || !alternative.decodeText().trim()
+          || !(description instanceof PDFString || description instanceof PDFHexString) || description.decodeText() !== alternative.decodeText()) fail('link description differs from its logical alternative.');
+        usedAnnotations.add(annotation.ref.toString());
+        linkPages.add(pages[annotation.pageIndex].ref.toString());
+        objectChildren++;
       } else {
         markedChildren++;
         if (object.lookup(NAME('Type'), PDFName) !== NAME('MCR')) fail('structure child is neither an element nor a content reference.');
@@ -102,6 +129,7 @@ export async function validateGeneratedTaggedPdf(input: Uint8Array): Promise<Tag
         expected.set(key, ref);
       }
     }
+    if (role === 'Link' && (!markedChildren || !objectChildren || linkPages.size !== markedPages.size || [...linkPages].some(page => !markedPages.has(page)))) fail('link annotations do not cover their marked text pages.');
     if (structureChildren && markedChildren) fail('generated container mixes child elements with direct painted content.');
     if (pageHint && (markedPages.size !== 1 || !markedPages.has(pageHint.toString()))) fail('figure page context does not match its marked content.');
   };
@@ -110,6 +138,8 @@ export async function validateGeneratedTaggedPdf(input: Uint8Array): Promise<Tag
   const documentRef = roots.get(0) as PDFRef;
   if (context.lookup(documentRef, PDFDict).lookup(NAME('S'), PDFName) !== NAME('Document')) fail('root element is not a document.');
   walk(documentRef, rootRef, 0);
+  if (usedAnnotations.size !== annotations.size) fail('an annotation is missing from the structure tree.');
+  if (tree.lookup(NAME('ParentTreeNextKey'), PDFNumber).asNumber() !== pages.length + annotations.size) fail('next parent-tree key is invalid.');
   let decoded = 0; let associated = 0; let artifacts = 0; let painted = 0;
   for (const [pageIndex, page] of pages.entries()) {
     const contents = page.node.Contents();

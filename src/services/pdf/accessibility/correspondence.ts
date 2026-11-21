@@ -1,3 +1,4 @@
+import { taggedReferenceUrl } from './links';
 import mainTemplate from '../../../../tex/main.tex?raw';
 import navalTemplate from '../../../../tex/templates/naval_letter.tex?raw';
 import standardTemplate from '../../../../tex/templates/standard_letter.tex?raw';
@@ -97,8 +98,10 @@ export function prepareTaggedCorrespondence(source: TaggedCorrespondenceSource, 
   if (source.references.length) {
     wrapMacro('ReferenceLabel', top('H2').id);
     const list = top('L');
-    list.children = source.references.map(() => {
-      const label = node('Lbl'); const paragraph = node('P');
+    list.children = source.references.map(reference => {
+      const label = node('Lbl'); const url = fields.includeHyperlinks ? taggedReferenceUrl(reference.url) : null;
+      const paragraph = node(url ? 'Link' : 'P');
+      if (url) { paragraph.linkUrl = url; paragraph.altText = reference.title.trim(); }
       references.push({ label: label.id, body: paragraph.id });
       return node('LI', [label, node('LBody', [paragraph])]);
     });
@@ -223,7 +226,19 @@ export function prepareTaggedCorrespondence(source: TaggedCorrespondenceSource, 
   };
   const generated = generateAllLatexFiles(source, resolvedLevel, referenceDate, adapter);
   const files: Record<string, string | Uint8Array> = { ...generated.texFiles };
-  if (source.references.length) files['references.tex'] = source.references.map((reference, index) => `\\dondocsEntry{${wrap(references[index].label, `(${escapeLatex(reference.letter)})`)}}{${wrap(references[index].body, escapeLatex(reference.title))}}`).join('\n');
+  // Only the explicitly projected reference-title links are qualified here.
+  // Body citation hyperlinks remain plain text rather than unowned annotations.
+  if (typeof files['flags.tex'] === 'string') files['flags.tex'] = files['flags.tex'].replaceAll('\\setHyperlinksEnabled', '');
+  if (source.references.length) files['references.tex'] = source.references.map((reference, index) => {
+    const id = references[index].body;
+    const url = fields.includeHyperlinks ? taggedReferenceUrl(reference.url) : null;
+    const hex = url ? Array.from(new TextEncoder().encode(url), byte => byte.toString(16).padStart(2, '0')).join('') : '';
+    const title = escapeLatex(reference.title);
+    // Explicit pdfTeX links carry an export-nonce/id pair. The finisher accepts
+    // no other annotations and binds each URI back to this immutable plan.
+    const body = url ? `\\pdfstartlink attr{/Border [0 0 0] /DDTagLink <${nonce}> /DDTagId ${id}} user{/Subtype /Link /A << /S /URI /URI <${hex}> >>}${title}\\pdfendlink` : title;
+    return `\\dondocsEntry{${wrap(references[index].label, `(${escapeLatex(reference.letter)})`)}}{${wrap(id, body)}}`;
+  }).join('\n');
   if (distribution) files['distribution-config.tex'] = distribution;
   if (copyTo) files['copyto-config.tex'] = copyTo;
   const footerStart = mainSource.indexOf('\\newcommand{\\smartPageNumber}');
