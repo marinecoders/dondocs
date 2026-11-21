@@ -16,6 +16,10 @@ export function readTaggedLink(context: PDFContext, value: unknown, page: PDFPag
   const name = PDFName.of;
   if (annotation.lookup(name('Subtype'), PDFName) !== name('Link') || annotation.has(name('AA')) || annotation.has(name('Dest'))
     || annotation.has(name('AP')) || annotation.has(name('FS'))) throw new Error('Only plain URI link annotations are supported in tagged output.');
+  const flags = annotation.lookupMaybe(name('F'), PDFNumber)?.asNumber() ?? 0;
+  if (!Number.isSafeInteger(flags) || flags < 0 || flags > 1023 || (flags & (1 | 2 | 32)) !== 0 || annotation.has(name('OC'))) {
+    throw new Error('Tagged link annotations must remain visible without optional-content conditions.');
+  }
   const action = annotation.lookup(name('A'), PDFDict);
   if (action.lookup(name('S'), PDFName) !== name('URI') || action.has(name('Next')) || action.has(name('IsMap'))) throw new Error('Unsupported tagged PDF link action.');
   const raw = action.lookup(name('URI'));

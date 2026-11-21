@@ -55,6 +55,22 @@ describe('tagged external reference links', () => {
     await expect(finishTaggedPdf(await pdf.save(), plan)).rejects.toThrow(/plain URI/);
     await expect(finishTaggedPdf(await fixture('javascript:alert(1)'), plan)).rejects.toThrow(/unsafe/);
   });
+  it.each([1, 2, 32])('rejects invisible link annotation flags: %s', async flags => {
+    for (const finished of [false, true]) {
+      const pdf = await PDFDocument.load(finished ? await output() : await fixture());
+      link(pdf).set(name('F'), PDFNumber.of(flags));
+      const bytes = await pdf.save();
+      await expect(finished ? validateGeneratedTaggedPdf(bytes) : finishTaggedPdf(bytes, plan)).rejects.toThrow(/visible/);
+    }
+  });
+  it('rejects links whose visibility depends on optional content', async () => {
+    for (const finished of [false, true]) {
+      const pdf = await PDFDocument.load(finished ? await output() : await fixture());
+      link(pdf).set(name('OC'), pdf.context.obj({ Type: 'OCG', Name: PDFString.of('Hidden layer') }));
+      const bytes = await pdf.save();
+      await expect(finished ? validateGeneratedTaggedPdf(bytes) : finishTaggedPdf(bytes, plan)).rejects.toThrow(/visible/);
+    }
+  });
   it.each(['orphan', 'backlink', 'description', 'action'] as const)('rejects saved annotation corruption: %s', async kind => {
     const pdf = await PDFDocument.load(await output());
     const annotation = link(pdf);
