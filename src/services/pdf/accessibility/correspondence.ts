@@ -1,6 +1,7 @@
 import { taggedReferenceUrl } from './links';
 import mainTemplate from '../../../../tex/main.tex?raw';
 import navalTemplate from '../../../../tex/templates/naval_letter.tex?raw';
+import multipleAddressTemplate from '../../../../tex/templates/multiple_address_letter.tex?raw';
 import standardTemplate from '../../../../tex/templates/standard_letter.tex?raw';
 import { generateAllLatexFiles, type GeneratedFiles, type LatexBodyAdapter } from '@/services/latex/generator';
 import { TAGGED_MAIN_FILE } from '@/services/latex/renderDocument';
@@ -19,7 +20,7 @@ export interface TaggedCorrespondencePreparation {
   files: Record<string, string | Uint8Array>;
   generated: GeneratedFiles;
   plan: PdfTaggingPlan;
-  qualification: 'standard-letter' | 'naval-letter';
+  qualification: NonNullable<ReturnType<typeof taggedLayout>>;
 }
 export interface TaggedCorrespondenceOptions {
   language?: string;
@@ -30,7 +31,7 @@ type InlinePart = Parameters<LatexBodyAdapter['inline']>[1];
 interface MutableNode extends Omit<PdfSemanticNode, 'children'> { children?: MutableNode[] }
 
 export { taggedCorrespondenceIssues } from './preflight';
-import { taggedCorrespondenceIssues, taggedNavalLetterhead } from './preflight';
+import { taggedCorrespondenceIssues, taggedLetterhead, taggedLayout } from './preflight';
 
 function replaceOnce(source: string, target: string, replacement: string): string {
   if (!source.includes(target) || source.indexOf(target) !== source.lastIndexOf(target)) throw new Error('The tagged PDF template contract changed. Requalify this layout before export.');
@@ -55,10 +56,12 @@ export function prepareTaggedCorrespondence(source: TaggedCorrespondenceSource, 
       + `\\renewcommand{\\${name}}{${wrap(id, `\\csname DDOriginal${name}\\endcsname`)}}`);
   };
   const fields = source.formData;
-  let format = source.docType === 'naval_letter' ? navalTemplate : standardTemplate;
+  const qualification = taggedLayout(source.docType)!;
+  let format = qualification === 'naval-letter' ? navalTemplate
+    : qualification === 'multiple-address-letter' ? multipleAddressTemplate : standardTemplate;
   let mainSource = mainTemplate;
   let sealId: number | undefined;
-  const letterhead = taggedNavalLetterhead(source);
+  const letterhead = taggedLetterhead(source);
   if (letterhead === 'full') {
     if (!options.seal) throw new Error('Prepare the exact decorative letterhead seal before tagged export.');
     sealId = nextId++;
@@ -87,9 +90,11 @@ export function prepareTaggedCorrespondence(source: TaggedCorrespondenceSource, 
   const from = top('P').id;
   format = replaceOnce(format, 'From:\\hspace{2\\fontdimen2\\font}', wrap(from, 'From:\\hspace{2\\fontdimen2\\font}'));
   wrapMacro('FromLine', from);
-  const to = top('P').id;
-  format = replaceOnce(format, 'To:\\hspace{6\\fontdimen2\\font}', wrap(to, 'To:\\hspace{6\\fontdimen2\\font}'));
-  wrapMacro('ToLine', to);
+  if (qualification !== 'multiple-address-letter' || fields.to?.trim()) {
+    const to = top('P').id;
+    format = replaceOnce(format, 'To:\\hspace{6\\fontdimen2\\font}', wrap(to, 'To:\\hspace{6\\fontdimen2\\font}'));
+    wrapMacro('ToLine', to);
+  }
   if (fields.via?.trim()) {
     const via = top('P').id;
     const rows = formatViaLines(fields.via).map((line, index) => `\\tabularnewline ${index ? '' : wrap(via, 'Via:\\hspace{5\\fontdimen2\\font}')} & ${wrap(via, formatAddressForLatex(line))}`);
@@ -184,11 +189,15 @@ export function prepareTaggedCorrespondence(source: TaggedCorrespondenceSource, 
   const authority = signatureAuthorityLine(fields, supportsActing);
   const actingTitle = fields.acting && supportsActing && DOC_TYPE_CONFIG[source.docType].showSignatureRankTitle === false
     ? signaturePosition(fields, DOC_TYPE_CONFIG[source.docType]) : '';
-  if (hasSigner || authority || actingTitle) {
+  const printedRank = qualification === 'multiple-address-letter' && fields.sigRank?.trim();
+  const printedTitle = qualification === 'multiple-address-letter' && fields.sigTitle?.trim();
+  if (hasSigner || authority || actingTitle || printedRank || printedTitle) {
     const signature = top('P').id;
     if (hasSigner) { wrapMacro('SignatoryAbbrev', signature); wrapMacro('SignatoryName', signature); }
     if (authority) wrapMacro('ByDirection', signature);
     if (actingTitle) wrapMacro('ActingTitle', signature);
+    if (printedRank) wrapMacro('SignatoryRank', signature);
+    if (printedTitle) wrapMacro('SignatoryTitle', signature);
   }
   const listRows = (title: string, rows: readonly { text: string }[], macroName: string): string | undefined => {
     if (!rows.length) return;
@@ -251,9 +260,9 @@ export function prepareTaggedCorrespondence(source: TaggedCorrespondenceSource, 
   const footer = mainSource.slice(footerStart, footerEnd);
   let main = mainSource.slice(0, footerStart) + footer.replace(/\\thepage(?:\\ of \\getpagerefnumber\{LastPage\})?/g, text => wrap(-1, text)) + mainSource.slice(footerEnd);
   main = replaceOnce(main, '\\ContinuationLabel\\hspace{3\\fontdimen2\\font} & \\ContinuationSubject', `${wrap(-1, '\\ContinuationLabel\\hspace{3\\fontdimen2\\font}')} & ${wrap(-1, '\\ContinuationSubject')}`);
-  main = replaceOnce(main, '\\input{\\DocumentType}', `\\input{dondocs-tagged-${source.docType === 'naval_letter' ? 'naval-letter' : 'standard-letter'}}`);
+  main = replaceOnce(main, '\\input{\\DocumentType}', `\\input{dondocs-tagged-${qualification}}`);
   main = replaceOnce(main, '\\dondocsReserveContHead\n', `${macros.join('\n')}\n\\dondocsReserveContHead\n`);
   files[TAGGED_MAIN_FILE] = main;
-  files[`dondocs-tagged-${source.docType === 'naval_letter' ? 'naval-letter' : 'standard-letter'}.tex`] = format;
-  return { files, generated, plan, qualification: source.docType === 'naval_letter' ? 'naval-letter' : 'standard-letter' };
+  files[`dondocs-tagged-${qualification}.tex`] = format;
+  return { files, generated, plan, qualification };
 }

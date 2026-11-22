@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.216] — 2026-11-21
+
+### Added
+
+- Export experimental tagged PDFs for Multiple Address Letters, including distribution-only addressing.
+
 ## [1.3.215] — 2026-11-21
 
 ### Changed

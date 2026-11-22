@@ -1,12 +1,14 @@
 # Tagged PDF export
 
-Choose **Download → Tagged PDF (experimental)** for a native, unclassified Standard Letter or Naval Letter. This creates a separate PDF from the captured draft. The ordinary preview, ordinary PDF download, signing workspace and package exports keep their existing behavior.
+Choose **Download → Tagged PDF (experimental)** for a native, unclassified Standard, Naval or Multiple Address Letter. Use full, title-only or preprinted letterhead where the letter format offers it. Multiple Address Letters can identify recipients in To, Distribution or both.
+
+In a package, open **Recipient delivery** and select **Tag supported native letter PDFs (experimental)**. Recipients receive individual tagged letters and the exact original files you selected. Each original retains its existing accessibility. Remove an unsupported native document from the selection or prepare an ordinary delivery.
 
 This is experimental output. Native screen-reader qualification and PDF/UA conformance have **not** been established. Searchable text, passing interface accessibility checks, and the presence of tags alone do not establish either result. Review the exported reading order in the PDF reader your recipients will use.
 
 ## Included structure
 
-The exported PDF contains a real document structure tree and page-local marked-content associations. It includes English (`en-US`) language metadata, a document title, subject and body headings, paragraph lists, reference lists with optional external title links, typed signature text, Copy to and Distribution entries. First-page letterhead text is included. Repeated continuation subjects and page numbers are artifacts. The decorative naval seal is an artifact bound to its exact source pixels.
+The exported PDF contains a real document structure tree and page-local marked-content associations. It includes English (`en-US`) language metadata, a document title, subject and body headings, paragraph lists, reference lists with optional external title links, typed signature text, Copy to and Distribution entries. First-page letterhead text is included. Repeated continuation subjects and page numbers are artifacts. The decorative seal is an artifact bound to its exact source pixels.
 
 Native body tables use explicit column header rows and data cells. A header repeated visually on a continuation page appears only once in the logical structure. Empty data cells remain explicit structure elements. Body PNG/JPEG images need authored alternative text, separately from any visible caption. Alternative text is not inferred from pixels or generated from a filename.
 
@@ -14,10 +16,10 @@ The exporter compares each painted image resource with the captured raster's dec
 
 ## Current boundaries
 
-- Native Standard Letters and Naval Letters only, with 1–200 body blocks and at most 250,000 characters across body text, table cells and alternatives.
+- Native Standard, Naval and Multiple Address Letters with 1–200 body blocks and at most 250,000 characters across body text, table cells and alternatives.
 - Unclassified content only. Classification and handling banners need their own qualification before this option can include them.
 - Tables require nonempty column headers and at least one data row. Limits are 6 columns, 100 rows, 400 characters per cell and 1,200 per row. Split dense or unusually tall rows, and inspect the visible result.
-- Body images must be retained PNG or JPEG files with meaningful alternative text. Limits are 10 MiB and 4 megapixels per image, 4,096 pixels per side, 32 MiB of distinct image sources and 8 megapixels of distinct source-image decoding per export. At most 20 painted rasters are included, counting the naval seal. Animated/interlaced PNGs, compressed PNG metadata, embedded color profiles and unqualified PDF image resources are rejected with an error.
+- Body images must be retained PNG or JPEG files with meaningful alternative text. Limits are 10 MiB and 4 megapixels per image, 4,096 pixels per side, 32 MiB of distinct image sources and 8 megapixels of distinct source-image decoding per export. At most 20 painted rasters are included, counting any decorative seal. Animated/interlaced PNGs, compressed PNG metadata, embedded color profiles and unqualified PDF image resources are rejected with an error.
 - With reference hyperlinks enabled, safe external reference-title URLs receive Link structure and annotation backlinks. Wrapped titles can have multiple annotations belonging to one logical link. Body citation hyperlinks remain plain text in this experimental export. Enabled URLs must be safe and at most 8,192 characters; linked titles are limited to 2,000 characters. Invalid links stop export.
 - Appended endorsements, signature images, digital signature widgets, original PDFs and enclosures are not included. Export the native letter separately from those originals. A mixed package is not represented as fully tagged or accessible.
 - Signed originals, signing handoffs and returned files are never retagged or rewritten through this option.
