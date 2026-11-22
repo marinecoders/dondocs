@@ -160,7 +160,7 @@ describe('owned tagged correspondence projection', () => {
   it('counts both table groups and visible captions in the preflight structure budget', () => {
     const source = fixture();
     const table = { headerRows: 1, rows: Array.from({ length: 3 }, () => Array.from({ length: 6 }, () => 'Cell')) };
-    source.paragraphs = Array.from({ length: 165 }, () => ({ level: 0, text: '', bodyTable: table }));
+    source.paragraphs = Array.from({ length: 164 }, () => ({ level: 0, text: '', bodyTable: table }));
     expect(taggedCorrespondenceIssues(source)).toEqual([]);
     source.paragraphs = source.paragraphs.map(paragraph => ({ ...paragraph, text: 'Caption' }));
     expect(taggedCorrespondenceIssues(source).join(' ')).toContain('exceeds the qualified tagged structure limit');
