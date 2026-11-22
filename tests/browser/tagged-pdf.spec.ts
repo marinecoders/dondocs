@@ -8,11 +8,11 @@ import { docxImageFixture } from '../_helpers/docxImageFixture';
 test.use({ serviceWorkers: 'block', actionTimeout: 15_000 });
 test.setTimeout(180_000);
 test.beforeEach(async ({ page }) => { await page.addInitScript(() => localStorage.setItem('browser-test-visitor', 'returning')); });
-async function importLetter(page: Page, subject: string, text: string, docType = 'standard_letter', original = false) {
+async function importLetter(page: Page, subject: string, text: string, docType = 'standard_letter', original = false, linkedReference = false) {
   await page.getByLabel('Import draft file', { exact: true }).setInputFiles({ name: 'letter.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify({
     documentCategory: 'correspondence', documentMode: 'custom', docType,
-    formData: { subject, from: 'Training Marine', to: 'Training Office', unitLine1: 'TRAINING COMMAND', date: '16 Nov 26', signatureType: 'none', classLevel: 'unclassified' },
-    paragraphs: [{ id: 'training-body', level: 0, header: 'Purpose', text }], references: [], enclosures: original ? [{ title: 'Original signed PDF' }] : [], copyTos: [], distributions: [],
+    formData: { subject, from: 'Training Marine', to: 'Training Office', unitLine1: 'TRAINING COMMAND', date: '16 Nov 26', signatureType: 'none', classLevel: 'unclassified', includeHyperlinks: linkedReference },
+    paragraphs: [{ id: 'training-body', level: 0, header: 'Purpose', text }], references: linkedReference ? [{ letter: 'a', title: 'Training reference for the supported tagged external link.', url: 'https://example.test/training?chapter=1&section=2' }] : [], enclosures: original ? [{ title: 'Original signed PDF' }] : [], copyTos: [], distributions: [],
   })) });
   const review = page.getByRole('dialog', { name: 'Review draft', exact: true });
   await review.getByRole('button', { name: 'Open as new document', exact: true }).click();
@@ -190,3 +190,31 @@ test('cancels an owned actual worker job then exports a different fresh document
   const text = await textOf(output); expect(text).toContain('FOLLOWING NORMAL SUBJECT'); expect(text).toContain('FOLLOWING NORMAL BODY'); expect(text).not.toContain('CANCELLED TAGGED');
   await info.attach('following-normal.pdf', { body: output, contentType: 'application/pdf' });
 });
+
+for (const docType of ['standard_letter', 'naval_letter']) {
+  test(`exports source-bound external reference links for ${docType}`, async ({ page }, info) => {
+    await page.goto('/');
+    await importLetter(page, 'LINKED TAGGED TRAINING', 'Use reference (a) for the retained training source.', docType, false, true);
+    await warmEngine(page);
+    const dialog = await taggedDialog(page);
+    const output = await downloadBrowserPdf(page, info.project.name, () => dialog.getByRole('button', { name: 'Export tagged PDF', exact: true }).click());
+    const pdf = await PDFDocument.load(output);
+    const annotations = pdf.getPages().flatMap(page => page.node.Annots()?.asArray() ?? []);
+    expect(annotations.length).toBeGreaterThan(0);
+    for (const value of annotations) {
+      const annotation = pdf.context.lookup(value, PDFDict);
+      expect(annotation.get(PDFName.of('Subtype'))).toBe(PDFName.of('Link'));
+      const uri = annotation.lookup(PDFName.of('A'), PDFDict).lookup(PDFName.of('URI'));
+      expect(uri instanceof PDFString || uri instanceof PDFHexString ? uri.decodeText() : '').toBe('https://example.test/training?chapter=1&section=2');
+      expect(annotation.has(PDFName.of('StructParent'))).toBe(true);
+    }
+    const reader = await getDocument({ data: new Uint8Array(output), useSystemFonts: false }).promise;
+    try {
+      const page = await reader.getPage(1);
+      const structure = await page.getStructTree();
+      expect(JSON.stringify(structure)).toContain('Link');
+      expect((await page.getAnnotations()).some(annotation => annotation.url === 'https://example.test/training?chapter=1&section=2')).toBe(true);
+    } finally { await reader.destroy(); }
+    await info.attach(`${docType}-tagged-reference.pdf`, { body: output, contentType: 'application/pdf' });
+  });
+}

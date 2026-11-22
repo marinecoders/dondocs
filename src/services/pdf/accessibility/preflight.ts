@@ -1,3 +1,4 @@
+import { taggedReferenceUrl } from './links';
 import { bodyTableSchema } from '@/lib/bodyTable';
 import { resolveAppendedEndorsements } from '@/lib/appendedEndorsement';
 import type { TaggedCorrespondenceSource } from './correspondence';
@@ -27,7 +28,8 @@ export function taggedCorrespondenceIssues(source: TaggedCorrespondenceSource, r
   if (source.paragraphs.some(p => !p.bodyTable && !p.figure && !p.text.trim() && !p.header?.trim())) issues.push('Remove empty body paragraphs before tagged export.');
   if (source.paragraphs.some((p, index) => !Number.isInteger(p.level) || p.level < 0 || p.level > 5 || (!index && p.level !== 0)
     || (index > 0 && p.level > source.paragraphs[index - 1].level + 1))) issues.push('Correct the paragraph hierarchy before tagged export.');
-  if (source.references.some(ref => ref.url?.trim())) issues.push('Linked references need annotation qualification before tagged export.');
+  if (source.formData.includeHyperlinks && source.references.some(ref => ref.url?.trim() && (!taggedReferenceUrl(ref.url) || taggedReferenceUrl(ref.url)!.length > 8192))) issues.push('Correct unsafe or excessively long reference URLs before tagged export.');
+  if (source.formData.includeHyperlinks && source.references.some(ref => ref.url?.trim() && ref.title.length > 2000)) issues.push('Tagged linked reference titles must be at most 2000 characters.');
   if (source.references.some(ref => !ref.letter.trim() || !ref.title.trim())) issues.push('Complete reference labels and titles before tagged export.');
   if (source.copyTos.some(row => !row.text.trim()) || source.distributions.some(row => !row.text.trim())) issues.push('Remove empty Copy to and Distribution entries before tagged export.');
   if (source.paragraphs.filter(p => p.figure).length > (source.docType === 'naval_letter' ? 19 : 20)) issues.push('Tagged output supports at most 20 painted raster images, including the naval seal.');

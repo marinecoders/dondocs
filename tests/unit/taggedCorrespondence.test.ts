@@ -37,6 +37,16 @@ describe('owned tagged correspondence projection', () => {
     expect(roles).toContain('LBody');
   });
 
+  it('projects enabled external reference titles as links while disabled URLs remain plain text', () => {
+    const source = fixture(); source.references[0].url = 'https://example.test/a?x=(value)&q=%7Bsafe%7D';
+    expect(flatten(prepareTaggedCorrespondence(source).plan.nodes).some(node => node.role === 'Link')).toBe(false);
+    source.formData.includeHyperlinks = true;
+    const prepared = prepareTaggedCorrespondence(source);
+    expect(flatten(prepared.plan.nodes).find(node => node.role === 'Link')).toMatchObject({ linkUrl: source.references[0].url, altText: 'Training reference' });
+    expect(prepared.files['references.tex']).toContain('\\pdfstartlink attr{');
+    expect(prepared.files['flags.tex']).not.toContain('\\setHyperlinksEnabled');
+  });
+
   it('finishes an independent plan and TeX source before a later document mutation', () => {
     const source = fixture();
     const result = prepareTaggedCorrespondence(source);
@@ -62,7 +72,7 @@ describe('owned tagged correspondence projection', () => {
     ['classification', (source: TaggedCorrespondenceSource) => { source.formData.classLevel = 'cui'; }],
     ['portion marking', (source: TaggedCorrespondenceSource) => { source.paragraphs[0].portionMarking = 'S'; }],
     ['enclosure', (source: TaggedCorrespondenceSource) => { source.enclosures.push({ title: 'Original PDF' }); }],
-    ['hyperlink', (source: TaggedCorrespondenceSource) => { source.references[0].url = 'https://example.com'; }],
+    ['unsafe hyperlink', (source: TaggedCorrespondenceSource) => { source.formData.includeHyperlinks = true; source.references[0].url = 'javascript:alert(1)'; }],
     ['empty row', (source: TaggedCorrespondenceSource) => { source.paragraphs.push({ text: '', level: 0 }); }],
     ['hierarchy jump', (source: TaggedCorrespondenceSource) => { source.paragraphs[1].level = 3; }],
     ['headerless table', (source: TaggedCorrespondenceSource) => { source.paragraphs[0].bodyTable = { rows: [['Header'], ['Value']], headerRows: 0 }; }],
