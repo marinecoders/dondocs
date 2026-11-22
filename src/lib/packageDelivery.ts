@@ -15,12 +15,12 @@ import { renderPackageRecipientMember } from './packageNativeDelivery';
 import type { CorrespondenceRendererPorts } from '@/services/exports/correspondence';
 
 export const packageDeliverySelectionSchema = z.object({ label: z.string().trim().min(1).max(120).refine(value => Array.from(value).every(character => character.charCodeAt(0) >= 32 && character.charCodeAt(0) !== 127), 'Use a single-line delivery label.'),
-  purpose: z.enum(['recipient', 'editable']), memberIds: z.array(z.string().min(1).max(100)).min(1).max(100) }).strict();
+  purpose: z.enum(['recipient', 'editable']), taggedNativePdfs: z.boolean().optional(), memberIds: z.array(z.string().min(1).max(100)).min(1).max(100) }).strict();
 export type PackageDeliverySelection = z.infer<typeof packageDeliverySelectionSchema>;
 export interface PackageDeliveryFile { id: string; name: string; type: string; size: number; sha256: string }
 export interface PreparedPackageDelivery {
   readonly sourcePackageId: string; readonly sourceRevisionId: string; readonly revisionId: string;
-  readonly packageName: string; readonly purpose: PackageDeliverySelection['purpose'];
+  readonly packageName: string; readonly purpose: PackageDeliverySelection['purpose']; readonly taggedAssetIds: readonly string[];
   readonly members: ReadonlyArray<{ id: string; label: string; kind: PackageMember['kind']; role: PackageMember['role'] }>;
   readonly files: readonly PackageDeliveryFile[]; readonly excludedMembers: number;
   readonly reviews: ReadonlyArray<{ member: string; review: ExportReview }>; readonly notices: readonly string[];
@@ -58,6 +58,11 @@ export async function preparePackageDelivery(input: ActionPackage, revisionId: s
   ports?: CorrespondenceRendererPorts & { waitForReady(timeoutMs: number): Promise<boolean> }, signal = new AbortController().signal, isCurrent: () => boolean = () => true): Promise<PreparedPackageDelivery> {
   signal.throwIfAborted(); const source = actionPackageSchema.parse(structuredClone(input)), selection = packageDeliverySelectionSchema.parse(structuredClone(selectionInput)), policyKey = identity(policy);
   const selected = selectPackageDeliveryMembers(source, revisionId, selection.memberIds), assets = new Map<string, CapturedDeliveryAsset>(), members: PackageMember[] = [], reviews: Array<{ member: string; review: ExportReview }> = [];
+  const taggedNativePdfs = selection.taggedNativePdfs === true;
+  if (taggedNativePdfs && (selection.purpose !== 'recipient' || !selected.some(member => member.kind === 'native'))) {
+    throw new Error('Select a native letter to prepare a recipient delivery with tagged PDFs.');
+  }
+  const taggedAssetIds: string[] = [];
   reviews.push({ member: 'Delivery name', review: reviewPackageText(selection.label, 'Delivery name', policy) });
   let capturedBytes = 0;
   const addAsset = (item: CapturedDeliveryAsset) => { const existing = assets.get(item.asset.id); if (existing && !sameReviewStoredValue(existing.asset, item.asset)) throw new Error('Conflicting delivery file identity.');
@@ -75,26 +80,32 @@ export async function preparePackageDelivery(input: ActionPackage, revisionId: s
     } else {
       let bytes: ArrayBuffer, name: string, signedOriginal = false;
       if (selectedMember.kind === 'original') { bytes = await readPackageAsset(selectedMember.original); name = selectedMember.original.name; signedOriginal = selectedMember.signedOriginal; }
-      else { if (!ports) throw new Error('The PDF renderer is required for native recipient documents.'); bytes = await renderPackageRecipientMember(selectedMember, policy, ports, readPackageAsset, signal); name = `document-${members.length + 1}.pdf`; }
+      else {
+        if (!ports) throw new Error('The PDF renderer is required for native recipient documents.');
+        bytes = await renderPackageRecipientMember(selectedMember, policy, ports, readPackageAsset, signal, taggedNativePdfs ? 'tagged' : undefined);
+        name = `document-${members.length + 1}${taggedNativePdfs ? '-tagged' : ''}.pdf`;
+      }
       await PDFDocument.load(bytes.slice(0)); signal.throwIfAborted();
       const asset: PackageAsset = { id: newPackageId('delivery-file'), name, type: 'application/pdf', size: bytes.byteLength, sha256: await portableResourceDigest(bytes) };
+      if (taggedNativePdfs && selectedMember.kind === 'native') taggedAssetIds.push(asset.id);
       members.push({ id: selectedMember.id, revisionId: newPackageId('member-revision'), label: selectedMember.label, role: selectedMember.role, required: selectedMember.required, kind: 'original', signedOriginal, original: asset }); addAsset({ asset, bytes });
     }
   }
   const revision = { id: newPackageId('revision'), createdAt: Date.now(), members, outputs: [] };
   const projection = actionPackageSchema.parse({ kind: 'dondocs-action-package-record', version: 1, id: newPackageId('package'), historyScope: 'selected-revision', name: selection.label,
     archived: false, sequence: 0, currentRevisionId: revision.id, revisions: [revision] });
-  const temporary: PreparedPackageDelivery = { sourcePackageId: source.id, sourceRevisionId: revisionId, revisionId: revision.id, packageName: selection.label, purpose: selection.purpose, members: [], files: [], excludedMembers: 0, reviews: [], notices: [] };
+  const temporary: PreparedPackageDelivery = { sourcePackageId: source.id, sourceRevisionId: revisionId, revisionId: revision.id, packageName: selection.label, purpose: selection.purpose, taggedAssetIds, members: [], files: [], excludedMembers: 0, reviews: [], notices: [] };
   captures.set(temporary, { source, projection, assets, policy: policyKey });
   const read = (asset: PackageAsset) => readPreparedPackageDeliveryAsset(temporary, asset);
   const inspected = await preparePackageAssembly(projection, revision.id, policy, { includeRetainedDraftText: true, signal, readAsset: read });
   if (inspected.readiness.findings.some(finding => finding.severity === 'error')) throw new Error(inspected.readiness.findings.filter(finding => finding.severity === 'error').map(finding => finding.message).join(' '));
   reviews.push(...inspected.reviews);
-  const prepared = freeze({ sourcePackageId: source.id, sourceRevisionId: revisionId, revisionId: revision.id, packageName: selection.label, purpose: selection.purpose,
+  const prepared = freeze({ sourcePackageId: source.id, sourceRevisionId: revisionId, revisionId: revision.id, packageName: selection.label, purpose: selection.purpose, taggedAssetIds,
     members: members.map(member => ({ id: member.id, label: member.label, kind: member.kind, role: member.role })), files: [...new Map(packageAssets(projection).map(asset => [asset.id, asset])).values()].map(asset => ({ ...asset })),
     excludedMembers: getPackageRevision(source, revisionId).members.length - members.length, reviews,
     notices: ['This delivery is an independent selected-document copy. It carries no package review decisions, task list, signing records, source pointers or earlier revisions.',
       ...(selection.purpose === 'editable' ? ['Editable documents include their retained answers, inactive values, templates and embedded attachments. Review this exact scope before transfer.'] : ['Native members become PDF derivatives. Selected supporting files keep their original formats and bytes; original PDFs keep any signatures; verify those signatures in the original file.']),
+      ...(taggedNativePdfs ? ['Native letters are separate experimental tagged PDFs. Original attachments retain their existing accessibility and are kept unchanged.'] : []),
       ...inspected.readiness.findings.map(finding => finding.message)] });
   captures.set(prepared, capture(temporary)); await assertPackageDeliveryCurrent(prepared, policy, signal, isCurrent); return prepared;
 }

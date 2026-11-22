@@ -1,4 +1,5 @@
-import { openPackagePreparation, packageSection, expandPackageTools, preparePackageExport, packageTool, importPackage as importWorkspacePackage } from './_helpers/packageWorkspace';
+import { capturePackageDocument } from '../_helpers/capturePackageDocument';
+import { openPackagePreparation, packageSection, expandPackageTools, preparePackageExport, packageTool, newBlankPackage, importPackage as importWorkspacePackage } from './_helpers/packageWorkspace';
 import { projectBrowserContextOptions } from '../_helpers/projectBrowserContext';
 import { expect, test, type Locator, type Page } from '@playwright/test';
 import { createHash } from 'node:crypto';
@@ -131,4 +132,47 @@ test('delivery ZIP recovers its exact selected original in a fresh browser conte
     await info.attach('delivery-recovered-original.pdf', { body: restoredBytes, contentType: 'application/pdf' });
     await freshPage.screenshot({ path: info.outputPath('delivery-fresh-browser-320px.png') });
   } finally { await fresh.close(); }
+});
+
+test('downloads separate tagged letters with unchanged originals', async ({ page, context }) => {
+  await context.addInitScript(() => localStorage.setItem('browser-test-visitor', 'returning'));
+  const support = await pdf('ORIGINAL SUPPORT');
+  const session = {
+    documentMode: 'compliant', documentCategory: 'correspondence', docType: 'naval_letter',
+    formData: { subject: 'SYNTHETIC TAGGED DELIVERY', from: 'Training Office', to: 'Training Staff',
+      date: '21 Nov 26', letterheadMode: 'preprinted', signatureType: 'none', classLevel: 'unclassified' },
+    paragraphs: [{ id: 'p1', level: 0, text: 'Review the separately retained original.' }],
+    references: [], enclosures: [], copyTos: [], distributions: [], endItems: [], publicationTables: {}, timestamp: 0,
+  };
+  await page.goto('/');
+  await page.getByLabel('Import draft file').setInputFiles({
+    name: 'Training draft.json', mimeType: 'application/json',
+    buffer: Buffer.from(JSON.stringify({ kind: 'dondocs-draft', version: 7, documentKind: 'correspondence', ...session })),
+  });
+  await page.getByRole('button', { name: 'Open as new document', exact: true }).click();
+  await expect(page.getByRole('dialog', { name: 'Review draft', exact: true })).toBeHidden();
+  const dialog = await packages(page);
+  await newBlankPackage(dialog, 'Tagged delivery training');
+  await capturePackageDocument(dialog);
+  await dialog.getByLabel('New member role', { exact: true }).selectOption('enclosure');
+  await dialog.getByLabel('Add original PDF', { exact: true }).setInputFiles({ name: 'Original.pdf', mimeType: 'application/pdf', buffer: support });
+  await expect(dialog.getByRole('heading', { name: /Original\.pdf/i }).first()).toBeVisible();
+  const delivery = await section(dialog, 'Recipient delivery');
+  await delivery.getByRole('checkbox', { name: /^Tag supported native letter PDFs/ }).check();
+  await delivery.getByRole('button', { name: 'Prepare selected delivery', exact: true }).click();
+  const rendered = delivery.getByRole('region', { name: 'Captured delivery contents', exact: true });
+  await expect(rendered.or(delivery.getByRole('alert'))).toBeVisible({ timeout: 90_000 });
+  await expect(delivery.getByRole('alert')).toHaveCount(0);
+  await expect(rendered).toContainText('document-1-tagged.pdf');
+  const bytes = await download(page, () => rendered.getByRole('button', { name: 'Download reviewed delivery bundle', exact: true }).click());
+  const zip = await JSZip.loadAsync(bytes);
+  const manifest = JSON.parse(await zip.file('manifest.json')!.async('string')) as { files: { name: string; path: string }[] };
+  const taggedPath = manifest.files.find(file => file.name === 'document-1-tagged.pdf')?.path;
+  const originalPath = manifest.files.find(file => file.name === 'Original.pdf')?.path;
+  expect(taggedPath).toBeDefined();
+  expect(originalPath).toBeDefined();
+  const tagged = await PDFDocument.load(await zip.file(taggedPath!)!.async('uint8array'));
+  expect(tagged.catalog.has(PDFName.of('StructTreeRoot'))).toBe(true);
+  expect(await zip.file(originalPath!)!.async('nodebuffer')).toEqual(support);
+  expect(await zip.file('index.html')!.async('string')).toContain('Original files retain their existing accessibility.');
 });
