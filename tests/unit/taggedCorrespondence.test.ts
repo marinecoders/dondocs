@@ -82,6 +82,16 @@ describe('owned tagged correspondence projection', () => {
     expect(() => prepareTaggedCorrespondence(source)).toThrow();
   });
 
+  it('blocks memo text that disappears in the PDF font projection during preflight', () => {
+    const source = fixture();
+    source.docType = 'plain_paper_memorandum';
+    source.paragraphs[0].header = '\u200b';
+    expect(taggedCorrespondenceIssues(source)).toContain('Replace paragraph or table text that the PDF fonts cannot display before tagged export.');
+    source.paragraphs[0].header = 'Visible heading';
+    source.formData.subject = '\u200b';
+    expect(taggedCorrespondenceIssues(source)).toContain('Complete the subject, date, From and To fields before tagged export.');
+  });
+
   it('projects real table header scope, repeated-header artifacts and empty data cells', () => {
     const source = fixture();
     source.paragraphs = [{ level: 0, text: 'Roster', bodyTable: { rows: [['Name', 'Date'], ['Pat', '']], headerRows: 1 } }, { level: 0, text: 'After table.' }];

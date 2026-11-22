@@ -122,8 +122,8 @@ it.skipIf(!hasPdfToolchain)('delivers separately tagged native letters alongside
   const links = Array.from(index.getElementsByTagName('a'));
   const taggedEntry = links.find(link => link.getAttribute('href') === tagged!.path)?.parentElement;
   const originalEntry = links.find(link => link.getAttribute('href') === source!.path)?.parentElement;
-  expect(taggedEntry?.textContent).toContain('Experimental tagged letter PDF');
-  expect(originalEntry?.textContent).not.toContain('Experimental tagged letter PDF');
+  expect(taggedEntry?.textContent).toContain('Experimental tagged correspondence PDF');
+  expect(originalEntry?.textContent).not.toContain('Experimental tagged correspondence PDF');
   await expect(preparePackageDelivery(record, record.currentRevisionId, { ...selection, memberIds: [unsupported.id] }, policy, ports))
     .rejects.toThrow(/Training endorsement: Tagged PDF currently supports/);
 }, 120_000);
