@@ -21,6 +21,7 @@ export function PackageDeliveryPanel(props: Props) {
 }
 function DeliveryProfile({ record, revision, disabled, busy, ports, run, signal, isCurrent, onPreparedChange, directDownload = false }: Props) {
   const heading = useId(), [label, setLabel] = useState('Selected documents'), [purpose, setPurpose] = useState<PackageDeliverySelection['purpose']>('recipient');
+  const [taggedNativePdfs, setTaggedNativePdfs] = useState(false);
   const [memberIds, setMemberIds] = useState<string[]>(() => revision.members.map(member => member.id));
   const [prepared, setPrepared] = useState<PreparedPackageDelivery | null>(null), [approved, setApproved] = useState(false), [pending, setPending] = useState(false), [error, setError] = useState('');
   const [reviewCount, setReviewCount] = useState(10), [fileCount, setFileCount] = useState(25);
@@ -43,6 +44,8 @@ function DeliveryProfile({ record, revision, disabled, busy, ports, run, signal,
   }, []);
   function invalidate() { generation.current++; preparedPolicy.current = undefined; setPrepared(null); setApproved(false); setError(''); callback.current?.(null); }
   const locked = disabled || busy || pending;
+  const canTagNativePdfs = purpose === 'recipient'
+    && revision.members.some(member => member.kind === 'native' && memberIds.includes(member.id));
   async function perform(action: (current: () => boolean, operationSignal?: AbortSignal) => Promise<void>) {
     if (locked || running.current) return;
     running.current = true; setPending(true); setError(''); const captured = generation.current;
@@ -62,10 +65,15 @@ function DeliveryProfile({ record, revision, disabled, busy, ports, run, signal,
       <label className="block">Delivery name<input aria-label="Delivery name" className="mt-1 block w-full min-w-0 rounded border bg-background p-2" maxLength={120} value={label} onChange={event => { invalidate(); setLabel(event.target.value); }} /></label>
       <label className="block">Delivery purpose<select aria-label="Delivery purpose" className="mt-1 block w-full min-w-0 rounded border bg-background p-2" value={purpose} onChange={event => { invalidate(); setPurpose(event.target.value as typeof purpose); }}><option value="recipient">Recipient files</option><option value="editable">Editable handoff</option></select></label>
       <p className="text-xs text-muted-foreground">Recipient copies render selected native documents as PDFs and preserve other files in their original formats. Editable handoffs include their full retained answers and embedded attachments.</p>
+      {canTagNativePdfs &&
+        <label className="flex items-start gap-2">
+          <input type="checkbox" checked={taggedNativePdfs} onChange={event => { invalidate(); setTaggedNativePdfs(event.target.checked); }} />
+          <span>Tag supported native letter PDFs (experimental)<span className="block text-xs text-muted-foreground">Logical reading order and table headings are included. Original files keep their existing accessibility.</span></span>
+        </label>}
       <div className="min-w-0 space-y-2">{revision.members.map(member => <label key={member.id} className="flex items-start gap-2 break-words"><input type="checkbox" checked={memberIds.includes(member.id)} onChange={event => { invalidate(); setMemberIds(previous => event.target.checked ? [...previous, member.id] : previous.filter(id => id !== member.id)); }} />Include {member.label}</label>)}</div>
       <Button className="h-auto min-h-9 max-w-full whitespace-normal" disabled={!label.trim() || !memberIds.length} onClick={() => void perform(async (current, operationSignal) => {
         const policy = await getExportDeploymentPolicy();
-        const value = await preparePackageDelivery(record, revision.id, { label, purpose, memberIds }, policy, ports, operationSignal, current);
+        const value = await preparePackageDelivery(record, revision.id, { label, purpose, memberIds, taggedNativePdfs: canTagNativePdfs && taggedNativePdfs }, policy, ports, operationSignal, current);
         if (current()) { preparedPolicy.current = policy.status === 'ready' ? JSON.stringify(policy.policy) : undefined; setPrepared(value); setApproved(false); setReviewCount(10); setFileCount(25); callback.current?.(value); }
       })}>Prepare selected delivery</Button>
     </fieldset>
