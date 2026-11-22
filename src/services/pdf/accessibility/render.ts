@@ -1,3 +1,4 @@
+import { taggedNavalLetterhead } from './preflight';
 import { RUNTIME_BASE } from '@/lib/releasePaths';
 import { prepareTaggedCorrespondence, taggedCorrespondenceIssues, type TaggedCorrespondenceSource } from './correspondence';
 import { createRasterBindingSession, TAGGED_RASTER_LIMITS, type PdfRasterBinding } from './raster';
@@ -65,7 +66,7 @@ export async function renderTaggedCorrespondence(source: TaggedCorrespondenceSou
   }
   let seal: PdfRasterBinding | undefined;
   let sealResource: { filename: string; bytes: Uint8Array } | undefined;
-  if (source.docType === 'naval_letter') {
+  if (taggedNavalLetterhead(source) === 'full') {
     const filename = `${source.formData.sealType || 'dow'}-seal${source.formData.letterheadColor === 'black' ? '-bw' : ''}.png`;
     const data = await (options.loadSeal ?? loadTaggedSeal)(filename, options.signal);
     check();
