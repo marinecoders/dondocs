@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.215] — 2026-11-21
+
+### Changed
+
+- Compare continued letter DOCX prints against matching native PDFs across Times and Courier font sizes.
+
 ## [1.3.214] — 2026-11-21
 
 ### Added

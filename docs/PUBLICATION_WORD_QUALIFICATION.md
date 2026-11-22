@@ -56,3 +56,17 @@ linked contents and cross-references resolve in the target Word environment.
 Make a synthetic change, save, close, reopen and confirm content, images and
 links survive. Repeat for each proposed family and target environment before
 changing its capability. A family with a pending check remains disabled.
+
+
+## November 2026 LibreOffice run
+
+Twelve freshly generated DOCXs produced 71 pages in LibreOffice Writer
+26.8.0.0 alpha. The measured checks passed for technical-manual front matter,
+I-Type instructions, SL-3 and SL-4, including the long instruction table.
+The native Microsoft Word edit, save, reopen and field-update checks remain
+pending for all four families. Keep their publication DOCX capabilities gated.
+
+Use the issued review copy workflow only with an editor qualified to preserve
+its review markers. A LibreOffice DOCX resave of a synthetic issued review
+copy preserved its paragraph bookmark and removed its custom XML review
+identity. DonDocs requires the identity to match the retained issue receipt.
