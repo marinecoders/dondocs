@@ -461,14 +461,19 @@ async function retainedPair(name: string) {
 it('leaves a retained PDF preview without changing the package or losing export options', async () => {
   const { record, ports } = await retainedPair('PDF preview return'), user = userEvent.setup();
   useUIStore.getState().openActionPackage(record.id);
-  render(<ActionPackageWorkspace exportGate={createExportGate()} ports={ports} />);
+  render(
+    <TooltipProvider>
+      <ActionPackageWorkspace exportGate={createExportGate()} ports={ports} />
+    </TooltipProvider>,
+  );
   const dialog = await screen.findByRole('dialog', { name: 'Action packages' });
   await within(dialog).findByRole('heading', { name: record.name, level: 1 });
   await workspaceSection(dialog, 'Delivery', user); await expandDetails(dialog, user);
   await user.click(within(dialog).getByRole('button', { name: 'Preview retained PDF' }));
   const preview = await within(dialog).findByRole('button', { name: 'Preview reviewed retained PDF' });
   await waitFor(() => expect(preview).toBeEnabled()); await user.click(preview);
-  await within(dialog).findByRole('region', { name: 'Retained package PDF' });
+  const retainedPreview = await within(dialog).findByRole('region', { name: 'Retained package PDF' });
+  await within(retainedPreview).findByRole('button', { name: 'Zoom out' }, { timeout: 5000 });
   expect(within(dialog).queryByRole('button', { name: 'Prepare PDF' })).toBeNull();
   await user.click(within(dialog).getByRole('button', { name: 'Back to export options' }));
   expect(within(dialog).queryByRole('region', { name: 'Retained package PDF' })).toBeNull();
