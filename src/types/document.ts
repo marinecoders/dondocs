@@ -366,6 +366,8 @@ export interface DocumentData {
   jointJuniorSigTitle: string;
   jointJuniorFrom: string;
   jointCommonLocation: string;
+  /** Optional middle cosigner, qualified for three-command joint letters. */
+  jointAdditionalCommands?: import('@/lib/jointLetterCommands').JointLetterCommand[];
   jointTo: string;
   jointSubject: string;
 

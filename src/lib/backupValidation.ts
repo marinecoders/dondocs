@@ -1,3 +1,4 @@
+import { jointAdditionalCommandsSchema } from './jointLetterCommands';
 import { publicationVolumeSchema, validatePublicationVolume, VOLUME_DOC_TYPE } from './publicationVolume';
 import { DOC_TYPE_LABELS, type Paragraph } from '@/types/document';
 import { reviewCommentsSchema } from './reviewComments';
@@ -78,6 +79,7 @@ export function validateBackupSession(value: unknown) {
   const formData = data.formData as RecordValue | undefined;
   if (formData?.cuiTransmittalNote !== undefined && typeof formData.cuiTransmittalNote !== 'boolean') throw new Error('Invalid CUI transmittal confirmation');
   if (formData?.wordSource !== undefined) wordSourceSchema.parse(formData.wordSource);
+  if (formData?.jointAdditionalCommands !== undefined) jointAdditionalCommandsSchema.parse(formData.jointAdditionalCommands);
   if (formData?.additionalEndorsements !== undefined) additionalEndorsementsSchema.parse(formData.additionalEndorsements);
   if (data.docType === VOLUME_DOC_TYPE) validatePublicationVolume(formData?.volume, (data.paragraphs ?? []) as Paragraph[]);
   else if (formData?.volume !== undefined) publicationVolumeSchema.parse(formData.volume);

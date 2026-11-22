@@ -1,3 +1,4 @@
+import { additionalJointCommands, emptyJointCommand, type JointLetterCommand } from '@/lib/jointLetterCommands';
 import { WordSignatureImage } from './WordSignatureImage';
 import { ActingCheckbox } from './SigningCapacityField';
 import { EditorGuidance } from './EditorGuidance';
@@ -22,7 +23,24 @@ import { type UnitInfo } from '@/data/unitDirectory';
 import type { SignatureType } from '@/types/document';
 
 export function JointLetterSection() {
-  const { formData, setField } = useDocumentStore();
+  const { formData, setField, setFormData } = useDocumentStore();
+  const additional = additionalJointCommands(formData)[0];
+  const updateAdditional = (patch: Partial<JointLetterCommand>) => {
+    if (additional) setField('jointAdditionalCommands', [{ ...additional, ...patch }]);
+  };
+  const swapJuniorAndAdditional = () => {
+    if (!additional) return;
+    setFormData({
+      jointJuniorName: additional.name, jointJuniorZip: additional.location, jointJuniorCode: additional.code,
+      jointJuniorSSIC: additional.ssic, jointJuniorSerial: additional.serial, jointJuniorDate: additional.date,
+      jointJuniorFrom: additional.from, jointJuniorSigName: additional.signatureName,
+      jointJuniorSigTitle: additional.signatureTitle, juniorActing: additional.acting,
+      jointAdditionalCommands: [{ ...additional, name: formData.jointJuniorName || '', location: formData.jointJuniorZip || '',
+        code: formData.jointJuniorCode || '', ssic: formData.jointJuniorSSIC || '', serial: formData.jointJuniorSerial || '',
+        date: formData.jointJuniorDate || '', from: formData.jointJuniorFrom || '',
+        signatureName: formData.jointJuniorSigName || '', signatureTitle: formData.jointJuniorSigTitle || '', acting: !!formData.juniorActing }],
+    });
+  };
   const [seniorUnitModalOpen, setSeniorUnitModalOpen] = useState(false);
   const [juniorUnitModalOpen, setJuniorUnitModalOpen] = useState(false);
   const [juniorSSICModalOpen, setJuniorSSICModalOpen] = useState(false);
@@ -68,8 +86,7 @@ export function JointLetterSection() {
               <EditorGuidance title="Joint letter guidance">
                 <p className="font-medium">Per SECNAV M-5216.5 Ch 2:</p>
                 <p className="text-xs mt-1">
-                  A joint letter is signed by two commanding officers from different organizations.
-                  Both letterheads appear side-by-side. The junior command provides the SSIC, serial, and date.
+                  Joint letters coordinate two or three commands. Command titles are stacked, senior first. Each command has its own identification block; the senior command signs last on the right.
                 </p>
               </EditorGuidance>
 
@@ -111,13 +128,13 @@ export function JointLetterSection() {
         </AccordionItem>
       </Accordion>
 
-      {/* Senior Command (Left Side) */}
+      {/* Senior command stays at the top and signs last. */}
       <Accordion type="single" collapsible defaultValue="senior-letterhead">
         <AccordionItem value="senior-letterhead">
           <AccordionTrigger data-field-group>
             <div className="flex items-center gap-2">
               <span>Senior command letterhead</span>
-              <span className="text-xs text-muted-foreground font-normal">(Left Side)</span>
+              <span className="text-xs text-muted-foreground font-normal">(Top · signs last)</span>
             </div>
           </AccordionTrigger>
           <AccordionContent>
@@ -156,7 +173,7 @@ export function JointLetterSection() {
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="jointSeniorCode">ZIP/Code</Label>
+                  <Label htmlFor="jointSeniorCode">Command code</Label>
                   <Input
                     id="jointSeniorCode"
                     value={formData.jointSeniorCode || ''}
@@ -208,13 +225,13 @@ export function JointLetterSection() {
         </AccordionItem>
       </Accordion>
 
-      {/* Junior Command (Right Side) */}
+      {/* Junior command signs first, at the left. */}
       <Accordion type="single" collapsible defaultValue="junior-letterhead">
         <AccordionItem value="junior-letterhead">
           <AccordionTrigger data-field-group>
             <div className="flex items-center gap-2">
               <span>Junior command letterhead</span>
-              <span className="text-xs text-muted-foreground font-normal">(Right Side - Provides SSIC)</span>
+              <span className="text-xs text-muted-foreground font-normal">(Signs first · left)</span>
             </div>
           </AccordionTrigger>
           <AccordionContent>
@@ -253,7 +270,7 @@ export function JointLetterSection() {
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="jointJuniorCode">ZIP/Code</Label>
+                  <Label htmlFor="jointJuniorCode">Command code</Label>
                   <Input
                     id="jointJuniorCode"
                     value={formData.jointJuniorCode || ''}
@@ -349,6 +366,46 @@ export function JointLetterSection() {
         </AccordionItem>
       </Accordion>
 
+      <div className="space-y-3 border-t pt-4">
+        <p className="text-xs text-muted-foreground">Two or three commands are supported. The senior command stays first in the letterhead and last in signing order.</p>
+        {!additional ? (
+          <Button type="button" variant="outline" onClick={() => setField('jointAdditionalCommands', [emptyJointCommand()])}>Add third command</Button>
+        ) : (
+          <Accordion type="single" collapsible defaultValue="additional-command">
+            <AccordionItem value="additional-command">
+              <AccordionTrigger>Third command · middle signature</AccordionTrigger>
+              <AccordionContent>
+                <div className="editor-field-groups pt-2">
+                  <p className="text-xs text-muted-foreground">The third command appears between the junior and senior signatures. Three commands is the current limit.</p>
+                  {([
+                    ['name', 'Command name'], ['location', 'City, state and ZIP'], ['code', 'Command code'],
+                    ['ssic', 'SSIC'], ['serial', 'Serial'], ['from', 'From line'],
+                    ['signatureName', 'Signatory name'], ['signatureTitle', 'Signatory title'],
+                  ] as const).map(([field, label]) => (
+                    <div className="space-y-2" key={field}>
+                      <Label htmlFor={`joint-additional-${field}`}>{label}</Label>
+                      {field === 'signatureTitle' ? <Textarea id={`joint-additional-${field}`} value={additional[field]} rows={2} onChange={event => updateAdditional({ [field]: event.target.value })} /> :
+                        <Input id={`joint-additional-${field}`} value={additional[field]} onChange={event => updateAdditional({ [field]: event.target.value })} />}
+                    </div>
+                  ))}
+                  <div className="space-y-2">
+                    <Label htmlFor="joint-additional-date">Date</Label>
+                    <DatePicker id="joint-additional-date" value={additional.date} onChange={date => updateAdditional({ date })} />
+                  </div>
+                  <ActingCheckbox id="joint-additional-acting" checked={additional.acting} onCheckedChange={acting => updateAdditional({ acting })} />
+                  <div className="flex flex-wrap gap-2">
+                    <Button type="button" variant="outline" size="sm" onClick={swapJuniorAndAdditional}>Swap with junior command</Button>
+                    <Button type="button" variant="outline" size="sm" onClick={() => setField('jointAdditionalCommands', [])}>Remove third command</Button>
+                  </div>
+                  <p className="text-xs text-muted-foreground">Three-command letters use typed signatures. For digital signing, add fields to the exported PDF through signing handoff.</p>
+                  {formData.signatureType && formData.signatureType !== 'none' && <p role="alert" className="text-sm text-destructive">Choose Typed Only below before exporting this three-command letter.</p>}
+                </div>
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
+        )}
+      </div>
+
       {/* Signature Options */}
       <Accordion type="single" collapsible defaultValue="signature-options">
         <AccordionItem value="signature-options">
@@ -359,12 +416,12 @@ export function JointLetterSection() {
                 <p className="font-medium">Per SECNAV M-5216.5 Ch 7:</p>
                 <p className="text-xs mt-1">
                   The junior command signs FIRST (left side), then the senior command signs LAST (right side).
-                  Both signatures use the same style selected below.
+                  The additional command, when present, signs in the middle.
                 </p>
               </EditorGuidance>
 
               <div className="space-y-3">
-                <p className="text-xs text-muted-foreground">Choose the style for both signatories.</p>
+                <p className="text-xs text-muted-foreground">Choose a signature style. Three-command letters support typed signatures.</p>
                 <div className="grid grid-cols-2 gap-2">
                   <Button
                     type="button"
@@ -379,6 +436,7 @@ export function JointLetterSection() {
                   </Button>
                   <Button
                     type="button"
+                    disabled={!!additional}
                     aria-pressed={formData.signatureType === 'digital'}
                     variant={formData.signatureType === 'digital' ? 'default' : 'outline'}
                     size="sm"
@@ -391,11 +449,11 @@ export function JointLetterSection() {
                 </div>
 
                 <p className="text-xs text-muted-foreground">
-                  {(formData.signatureType || 'none') === 'none' && 'Just typed names and titles for both signatories.'}
+                  {(formData.signatureType || 'none') === 'none' && 'Typed names and titles for all signatories.'}
                   {formData.signatureType === 'digital' && 'Creates empty signature fields above BOTH signatory blocks for CAC/PKI digital signing.'}
                 </p>
 
-                {formData.signatureType === 'digital' && (
+                {formData.signatureType === 'digital' && !additional && (
                   <div className="border rounded-lg p-4 bg-muted/30 border-border">
                     <div className="flex items-start gap-3">
                       <Shield className="h-5 w-5 text-primary mt-0.5" />
@@ -424,7 +482,7 @@ export function JointLetterSection() {
           </AccordionContent>
         </AccordionItem>
       </Accordion>
-      <WordSignatureImage dual />
+      {!additional && <WordSignatureImage dual />}
     </>
   );
 }

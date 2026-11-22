@@ -1,3 +1,4 @@
+import { additionalJointCommands, assertJointLetterCommandSupport } from '@/lib/jointLetterCommands';
 import { bodyTableText, bodyTableLiteral } from './bodyTableText';
 import { toTitleCase } from '@/lib/titleCase';
 import { closingTailStart, hasBottomSignature } from '@/lib/correspondenceClosing';
@@ -597,7 +598,29 @@ ${signatureConfigTex}
 // Resolve the fields exposed by each joint editor, preserving legacy sessions.
 function generateJointLetterSignatoryTex(store: DocumentStore): string {
   const data = store.formData;
+  assertJointLetterCommandSupport(store.docType, data);
+  const middle = store.docType === 'joint_letter' ? additionalJointCommands(data)[0] : undefined;
+  const middleFields = middle ? {
+    MiddleCommandName: middle.name.toUpperCase(), MiddleCommandZip: middle.location, MiddleCommandCode: middle.code,
+    MiddleSSIC: middle.ssic, MiddleSerial: composeSenderSymbol(undefined, middle.serial), MiddleDate: middle.date,
+    MiddleFromLine: middle.from, MiddleSignatoryName: middle.signatureName.toUpperCase(),
+    MiddleSignatoryTitle: middle.signatureTitle, MiddleByDirection: middle.acting ? 'Acting' : '',
+  } : undefined;
   const signers = jointSignatories(data, store.docType === 'joint_memorandum');
+  const middleConfig = middleFields ? [
+    BREAKABLE_TEXT_COMMANDS,
+    '\\providecommand{\\JointCommandCount}{3}',
+    ...Object.entries({ ...middleFields,
+      ThreeJuniorSignature: signers.juniorName.toUpperCase(), ThreeSeniorSignature: signers.seniorName.toUpperCase(),
+      ThreeJuniorTitle: signers.juniorTitle, ThreeSeniorTitle: signers.seniorTitle,
+    }).map(([key, value]) => `\\providecommand{\\${key}}{${bodyTableLiteral(value)}}`),
+    ...Object.entries({
+      JuniorCommandCode: data.jointJuniorCode || '', JuniorSSIC: data.jointJuniorSSIC || '',
+      JuniorSerial: composeSenderSymbol(undefined, data.jointJuniorSerial), JuniorDate: data.jointJuniorDate || '',
+      SeniorCommandCode: data.jointSeniorCode || '', DocumentSSIC: data.ssic || '',
+      DocumentSerial: composeSenderSymbol(data.officeCode, data.serial), DocumentDate: data.date || '',
+    }).map(([key, value]) => `\\renewcommand{\\${key}}{${bodyTableLiteral(value)}}`),
+  ].join('\n') : '';
   const signatureType = data.signatureType || 'none';
 
   // Digital signature field for dual signatures
@@ -653,6 +676,7 @@ function generateJointLetterSignatoryTex(store: DocumentStore): string {
 % Common location (appears in letterhead)
 \\renewcommand{\\CommonLocation}{${escapeLatex(data.jointCommonLocation)}}
 
+${middleConfig}
 ${signatureConfigTex}
 `;
 }

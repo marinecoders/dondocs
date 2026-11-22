@@ -109,6 +109,8 @@ export const DOCUMENT_DATA_FIELD_POLICIES = {
   jointSeniorName: 'text', jointSeniorZip: 'text', jointSeniorCode: 'text', jointSeniorFrom: 'text', jointSeniorSigName: 'text', jointSeniorSigTitle: 'text',
   jointJuniorName: 'text', jointJuniorZip: 'text', jointJuniorCode: 'text', jointJuniorSSIC: 'text', jointJuniorSerial: 'text', jointJuniorDate: 'document-date',
   jointJuniorSigName: 'text', jointJuniorSigTitle: 'text', jointJuniorFrom: 'text', jointCommonLocation: 'text', jointTo: 'text', jointSubject: 'text',
+  jointAdditionalCommands: array(object({ id: 'identity', name: 'text', location: 'text', code: 'text', ssic: 'text',
+    serial: 'text', date: 'document-date', from: 'text', signatureName: 'text', signatureTitle: 'text', acting: 'control' })),
   jointMemoSeniorFrom: 'text', jointMemoSeniorSigName: 'text', jointMemoSeniorSigTitle: 'text', jointMemoJuniorFrom: 'text', jointMemoJuniorSigName: 'text', jointMemoJuniorSigTitle: 'text',
   body: 'text', inReplyTo: 'value', inReplyToText: 'text', includeHyperlinks: 'value', showSubjectOnContinuation: 'value',
   includeEndorsementSubject: 'value', underlineSubject: 'value', salutation: 'text', complimentaryClose: 'text',

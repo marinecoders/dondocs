@@ -1,4 +1,5 @@
 import { taggedCorrespondenceIssues } from '@/services/pdf/accessibility/preflight';
+import { jointLetterCommandIssues } from './jointLetterCommands';
 import { projectRenderedDocument, correspondencePortions } from './renderedDocument';
 import { validateAnswers, diagnosticText } from '@/services/forms/model';
 import { copyFormExportTemplates, type FormExportTemplates } from './formExportTemplates';
@@ -130,6 +131,8 @@ export function prepareExport(input: {
     let markingReview = false;
     let marking: ClassificationInfo | undefined;
     if (output.kind === 'correspondence') {
+      const jointIssues = jointLetterCommandIssues(snapshot.docType, snapshot.formData);
+      if (jointIssues.length) return error(jointIssues.join(' '));
       assertEnclosureMarkingPolicy(snapshot, input.policy);
       const portions = correspondencePortions(snapshot);
       const transmittalIssue = cuiTransmittalIssue(snapshot.formData, portions, snapshot.enclosures, snapshot.docType);

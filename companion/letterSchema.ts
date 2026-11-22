@@ -109,6 +109,7 @@ const party = z.object({
 const parties = z.object({
   senior: party,
   junior: party,
+  additional: z.array(party).max(1).optional().describe('Joint letters only: optional third command, placed in the middle signature column. Typed signatures only.'),
   commonLocation: z.string().optional().describe('Joint letters: a shared location line, e.g. "Washington, D.C.".'),
 }).strict();
 

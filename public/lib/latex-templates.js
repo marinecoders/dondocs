@@ -3200,6 +3200,7 @@ const LATEX_TEMPLATES = {
 }
 `,
   'tex/templates/joint_letter.tex': `
+\\providecommand{\\JointCommandCount}{2}
 %=============================================================================
 %
 %                       JOINT LETTER FORMAT MODULE
@@ -3250,6 +3251,9 @@ const LATEX_TEMPLATES = {
         \\fontsize{10pt}{11pt}\\selectfont\\textbf{DEPARTMENT OF THE NAVY}}\\\\[6pt]
         {\\fontsize{8pt}{9pt}\\selectfont
             \\MakeUppercase{\\SeniorCommandName} (\\SeniorCommandZip)\\\\
+            \\ifnum\\JointCommandCount=3 %
+                \\MiddleCommandName (\\MiddleCommandZip)\\\\%
+            \\fi%
             \\MakeUppercase{\\JuniorCommandName} (\\JuniorCommandZip)%
             \\ifdefempty{\\CommonLocation}{}{\\\\
             \\MakeUppercase{\\CommonLocation}}%
@@ -3269,6 +3273,25 @@ const LATEX_TEMPLATES = {
 \\newcommand{\\printDateAndTitle}{%
     % Dual ID symbols - side by side
     \\noindent
+    \\ifnum\\JointCommandCount=3
+    \\begin{tabular}[t]{@{}p{2in}@{\\hfill}p{2in}@{\\hfill}p{2in}@{}}
+\\begin{minipage}[t]{1.95in}\\raggedright
+\\optionalLine{\\JuniorCommandCode}%
+\\optionalLine{\\JuniorSSIC}%
+\\optionalLine{\\JuniorSerial}%
+\\optionalField{\\JuniorDate}\\end{minipage} &
+\\begin{minipage}[t]{1.95in}\\raggedright
+\\optionalLine{\\MiddleCommandCode}%
+\\optionalLine{\\MiddleSSIC}%
+\\optionalLine{\\MiddleSerial}%
+\\optionalField{\\MiddleDate}\\end{minipage} &
+\\begin{minipage}[t]{1.95in}\\raggedright
+\\optionalLine{\\SeniorCommandCode}%
+\\optionalLine{\\DocumentSSIC}%
+\\optionalLine{\\DocumentSerial}%
+\\optionalField{\\DocumentDate}\\end{minipage}
+\\end{tabular}
+    \\else
     \\begin{tabular}[t]{@{}p{3in}@{\\hfill}p{3in}@{}}
         % Junior command (LEFT) - signs FIRST
         \\begin{tabular}[t]{@{}l@{}}
@@ -3286,6 +3309,7 @@ const LATEX_TEMPLATES = {
             \\optionalField{\\DocumentDate}%
         \\end{tabular}
     \\end{tabular}
+    \\fi
     \\par\\vspace{12pt}%
     %
     % JOINT LETTER designation
@@ -3307,6 +3331,7 @@ const LATEX_TEMPLATES = {
     \\def\\@viarows{\\ViaRows}%
     \\begin{tabular}[t]{@{}l@{}p{5.75in}@{}}%
         From:\\hspace{2\\fontdimen2\\font} & \\SeniorFromLine\\tabularnewline
+              \\ifnum\\JointCommandCount=3 & \\MiddleFromLine\\tabularnewline\\fi
               & \\JuniorFromLine\\tabularnewline
         To:\\hspace{6\\fontdimen2\\font} & \\ToLine\\ifdefempty{\\ToLineTwo}{}{\\tabularnewline & \\ToLineTwo}\\ifdefempty{\\ToLineThree}{}{\\tabularnewline & \\ToLineThree}\\ifdefempty{\\ToLineFour}{}{\\tabularnewline & \\ToLineFour}%
         \\@viarows
@@ -3350,6 +3375,25 @@ const LATEX_TEMPLATES = {
 \\newcommand{\\printSignature}{%
     \\par\\vspace{48pt}%
     \\noindent
+    \\ifnum\\JointCommandCount=3
+    \\begin{tabular}[t]{@{}p{2in}@{\\hfill}p{2in}@{\\hfill}p{2in}@{}}
+\\begin{minipage}[t]{1.95in}\\raggedright
+\\ThreeJuniorSignature\\par
+\\ThreeJuniorTitle\\par
+\\JuniorByDirection
+\\end{minipage} &
+\\begin{minipage}[t]{1.95in}\\raggedright
+\\MiddleSignatoryName\\par
+\\MiddleSignatoryTitle\\par
+\\MiddleByDirection
+\\end{minipage} &
+\\begin{minipage}[t]{1.95in}\\raggedright
+\\ThreeSeniorSignature\\par
+\\ThreeSeniorTitle\\par
+\\ByDirection
+\\end{minipage}
+\\end{tabular}
+    \\else
     \\begin{tabular}[t]{@{}p{3in}@{\\hfill}p{3in}@{}}
         % Junior command signature (LEFT) - signs FIRST
         \\begin{minipage}[t]{2.5in}
@@ -3367,6 +3411,7 @@ const LATEX_TEMPLATES = {
             \\ByDirection
         \\end{minipage}
     \\end{tabular}
+    \\fi
 }
 
 
