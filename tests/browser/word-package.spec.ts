@@ -148,7 +148,7 @@ test('Word packages retain a JPEG signature upload after PNG normalization', asy
   await page.getByLabel('Import draft file').setInputFiles({ name: 'signature-source.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(draft)) });
   await page.getByRole('button', { name: 'Open as new document', exact: true }).click();
   await expect(page.getByRole('dialog', { name: 'Review draft', exact: true })).toBeHidden();
-  const upload = page.getByRole('radio', { name: 'Upload Image', exact: true });
+  const upload = page.getByRole('radio', { name: 'Image', exact: true });
   if (!await upload.isVisible()) await page.getByRole('button', { name: /^Signature Block/ }).click();
   await upload.click();
   await page.getByLabel('Upload signature image', { exact: true }).setInputFiles({ name: 'uploaded-signature.jpg', mimeType: 'image/jpeg', buffer: images.jpeg });

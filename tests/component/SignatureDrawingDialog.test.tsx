@@ -61,6 +61,20 @@ it('ignores a secondary pointer without disturbing the current stroke', () => {
   expect(screen.getByRole('button', { name: 'Use signature' })).toBeEnabled();
 });
 
+it('shows the keyboard pen position before starting a stroke and hides it on blur', () => {
+  render(<SignatureDrawingDialog open onOpenChange={vi.fn()} onUse={vi.fn()} />);
+  const area = screen.getByRole('application', { name: 'Signature drawing area' });
+  fireEvent.focus(area);
+  expect(area.querySelector('circle[stroke="#2563eb"]')).toHaveAttribute('cx', '400');
+  expect(area.querySelector('circle[stroke="#2563eb"]')).toHaveAttribute('fill', 'none');
+  fireEvent.keyDown(area, { key: 'ArrowRight' });
+  expect(area.querySelector('circle[stroke="#2563eb"]')).toHaveAttribute('cx', '408');
+  fireEvent.keyDown(area, { key: ' ' });
+  expect(area.querySelector('circle[stroke="#2563eb"]')).toHaveAttribute('fill', '#2563eb');
+  fireEvent.blur(area);
+  expect(area.querySelector('circle[stroke="#2563eb"]')).toBeNull();
+});
+
 it('previews an isolated pen dot that is retained beside a valid signature', () => {
   render(<SignatureDrawingDialog open onOpenChange={vi.fn()} onUse={vi.fn()} />);
   const area = screen.getByRole('application', { name: 'Signature drawing area' });

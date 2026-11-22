@@ -30,6 +30,7 @@ import type { DocTypeConfig, SignatureImage, SignatureType } from '@/types/docum
 import { ALL_SERVICE_RANKS, formatRank } from '@/data/ranks';
 import { getOfficeCode, OFFICE_CODES } from '@/data/officeCodes';
 import { OfficeCodeLookupModal } from '@/components/modals/OfficeCodeLookupModal';
+import { DrawSignatureButton } from './DrawSignatureButton';
 
 // Convert base64 to data URL for display
 function base64ToDataUrl(base64: string, mimeType: string): string {
@@ -66,7 +67,7 @@ interface SignatureSectionProps {
 // a screen reader announces "1 of 3" and keyboard users arrow between them.
 const SIGNATURE_STYLES = [
   { value: 'none', Icon: Type, label: 'Typed Only' },
-  { value: 'image', Icon: PenLine, label: 'Upload Image' },
+  { value: 'image', Icon: PenLine, label: 'Image' },
   { value: 'digital', Icon: Shield, label: 'Digital Field' },
 ] as const;
 
@@ -86,6 +87,7 @@ export function SignatureSection({ config }: SignatureSectionProps) {
   const localOfficeCodeEdit = useRef<string | null>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [officeCodeModalOpen, setOfficeCodeModalOpen] = useState(false);
+  const drawingOwner = useMemo(() => ({ docType, image: formData.signatureImage, style: formData.signatureType }), [docType, formData.signatureImage, formData.signatureType]);
 
   // Re-derive the rank-input mode when sigRank changes externally (e.g. a
   // profile load). It's bidirectional: the user can also toggle it below, so it
@@ -126,7 +128,7 @@ export function SignatureSection({ config }: SignatureSectionProps) {
   const handleSignatureUpload = useCallback((file: File) => runFileImport(async () => {
     if (!isImageFile(file)) {
       showAppAlert({ title: 'Image files only', message: rejectedFilesMessage([file], 'image') });
-      return;
+      return false;
     }
     // Bound upload size before decoding and storing the owned asset.
     if (file.size > FILE_LIMITS.MAX_SIGNATURE_SIZE_MB * 1024 * 1024) {
@@ -134,7 +136,7 @@ export function SignatureSection({ config }: SignatureSectionProps) {
         title: 'Image too large',
         message: `That signature image is too large (max ${FILE_LIMITS.MAX_SIGNATURE_SIZE_MB} MB). Please use a smaller file.`,
       });
-      return;
+      return false;
     }
 
     const originalDocumentType = useDocumentStore.getState().docType;
@@ -155,15 +157,15 @@ export function SignatureSection({ config }: SignatureSectionProps) {
       try {
         base64 = await loadSignatureAsPngBase64(file);
       } catch (err) {
-        if (!ownsSignature()) return;
+        if (!ownsSignature()) return false;
         showAppAlert({
           title: "Couldn't read that image",
           message: err instanceof Error ? err.message : 'Please try a different file.',
         });
-        return;
+        return false;
       }
 
-      if (!ownsSignature()) return;
+      if (!ownsSignature()) return false;
       const signatureImage: SignatureImage = {
         name: file.name,
         size: file.size,
@@ -171,12 +173,15 @@ export function SignatureSection({ config }: SignatureSectionProps) {
       };
 
       try {
-        await withAttachmentStaging(async () => {
+        return await withAttachmentStaging(async () => {
           const owned = await persistSignature(signatureImage);
-          if (ownsSignature()) useDocumentStore.getState().setFormData({ signatureImage: owned });
+          if (!ownsSignature()) return false;
+          useDocumentStore.getState().setFormData({ signatureImage: owned });
+          return true;
         });
       } catch (error) {
         if (ownsSignature()) showAppAlert({ title: 'Signature could not be saved', message: error instanceof Error ? error.message : 'Check browser storage and retry.' });
+        return false;
       }
     } finally {
       stopObservingLayout();
@@ -266,7 +271,7 @@ export function SignatureSection({ config }: SignatureSectionProps) {
               </p>
               <ul className="text-xs mt-2 space-y-1 list-disc list-inside">
                 <li><strong>Typed Only:</strong> Name, rank, and title printed below signature line</li>
-                <li><strong>Upload Image:</strong> Overlay a scanned signature above the typed block</li>
+                <li><strong>Image:</strong> Upload or draw a signature above the typed block</li>
                 <li><strong>Digital Field:</strong> Creates an empty field for CAC/PIV signing in Adobe</li>
                 <li><strong>By Direction:</strong> Sign under delegated authority</li>
                 <li><strong>Acting:</strong> Sign as an authorized temporary replacement</li>
@@ -551,13 +556,18 @@ export function SignatureSection({ config }: SignatureSectionProps) {
                   {/* Description based on selection */}
                   <p className="text-xs text-muted-foreground">
                     {(formData.signatureType || 'none') === 'none' && 'Just your typed name and rank.'}
-                    {formData.signatureType === 'image' && 'Upload an image of your handwritten signature.'}
+                    {formData.signatureType === 'image' && 'Upload or draw an image of your handwritten signature.'}
                     {formData.signatureType === 'digital' && 'Creates an empty signature field for CAC/PKI digital signing.'}
                   </p>
 
               {/* Image Upload - only show when 'image' is selected */}
               {formData.signatureType === 'image' && (
                 <>
+                  <DrawSignatureButton owner={drawingOwner} resource="signature-image" onFile={handleSignatureUpload}
+                    isCurrent={() => {
+                      const state = useDocumentStore.getState();
+                      return state.docType === drawingOwner.docType && state.formData.signatureImage === drawingOwner.image && state.formData.signatureType === drawingOwner.style;
+                    }} />
                   {formData.signatureImage ? (
                     <div className="space-y-2">
                       <div className="relative border rounded-lg p-4 bg-secondary/30">
