@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.211] — 2026-11-21
+
+### Added
+
+- Verify unchanged returned PDFs locally against explicit signing and timestamp trust roots.
+
 ## [1.3.189] — 2026-11-20
 
 ### Fixed
