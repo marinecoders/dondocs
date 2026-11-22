@@ -18,7 +18,7 @@ const libreOffice = process.env.DONDOCS_CORRESPONDENCE_PRINT_LIBREOFFICE;
 const hasPandoc = spawnSync('pandoc', ['--version']).status === 0;
 const exec = (command: string, args: string[]) => execFileSync(command, args, { encoding: 'utf8', timeout: 60_000, maxBuffer: 16 * 1024 * 1024 });
 
-function measured(path: string, width: number, height: number, markers: string[], heightTolerance = 0.05) {
+function measured(path: string, width: number, height: number, markers: string[], heightTolerance = 0.05, headers: readonly string[] = []) {
   const tree = new DOMParser().parseFromString(exec('pdftotext', ['-bbox-layout', path, '-']), 'application/xml');
   const pages = Array.from(tree.getElementsByTagName('page'));
   expect(pages.length).toBeGreaterThan(0);
@@ -49,24 +49,35 @@ function measured(path: string, width: number, height: number, markers: string[]
     expect(point.right).toBeLessThanOrEqual(width - 70);
     return point;
   });
-  return { pages: pages.length, paper, positions };
+  const headerPositions = headers.map(header => words.filter(word => word.text === header));
+  return { pages: pages.length, paper, positions, headerPositions };
 }
 
 describe.skipIf(!libreOffice)('measured correspondence in native PDF and LibreOffice', () => {
   beforeAll(() => {
     expect(hasPdfToolchain && hasPandoc, 'Native PDF, Pandoc and Poppler are required for this opted-in renderer run.').toBe(true);
   });
-  it.each(['5x7', '7x9', 'joint'] as const)('%s retains source paper dimensions and required content', async name => {
+  it.each(['5x7', '7x9', 'joint', 'long-table'] as const)('%s retains source paper dimensions and required content', async name => {
     const directory = process.env.DONDOCS_CORRESPONDENCE_PRINT_DIR ?? await mkdtemp(join(tmpdir(), 'dondocs-correspondence-print-'));
     await mkdir(directory, { recursive: true });
-    const store = name === 'joint' ? jointLetterFixture(true) : buildBaseline('executive_correspondence');
+    const store = name === 'joint' ? jointLetterFixture(true)
+      : buildBaseline(name === 'long-table' ? 'naval_letter' : 'executive_correspondence');
     const width = name === '5x7' ? 360 : name === '7x9' ? 504 : 612;
     const height = name === '5x7' ? 504 : name === '7x9' ? 648 : 792;
     let markers: string[];
+    const tableHeaders = ['TABLEIDENTIFIER', 'TABLEDISPOSITION'] as const;
+    const rowMarkers = Array.from({ length: 64 }, (_, index) => [`ROWPROBE${index}`, `RESULTPROBE${index}`] as const);
     if (name === 'joint') {
       Object.assign(store.formData, { jointJuniorSigName: 'JUNIORSIGN', jointSeniorSigName: 'SENIORSIGN' });
       store.formData.jointAdditionalCommands![0].signatureName = 'MIDDLESIGN';
       markers = ['JUNIORSIGN', 'MIDDLESIGN', 'SENIORSIGN'];
+    } else if (name === 'long-table') {
+      Object.assign(store.formData, { fontFamily: 'courier', fontSize: '11pt' });
+      markers = rowMarkers.flat();
+      store.paragraphs = [{ id: 'long-table', text: '', level: 0, bodyTable: {
+        rows: [[...tableHeaders], ...rowMarkers.map(([row, result]) => [row, `${result} Synthetic disposition.`])],
+        headerRows: 1, repeatHeaders: true, columnWidths: [28, 72], columnAlignments: ['left', 'left'],
+      } }];
     } else {
       Object.assign(store.formData, { stationerySize: name, letterheadMode: 'preprinted', subject: '',
         date: '', to: '', signatureType: 'none', fontFamily: 'times', fontSize: '12pt' });
@@ -79,7 +90,9 @@ describe.skipIf(!libreOffice)('measured correspondence in native PDF and LibreOf
     expect(native.ok, native.logTail).toBe(true);
     const docx = await compileDocxFixture(store);
     expect(docx.ok, docx.log).toBe(true);
-    const supported = await postProcessDocx(new Blob([new Uint8Array(docx.docxBytes!)]), { ...store.formData, docType: store.docType });
+    const supported = await postProcessDocx(new Blob([new Uint8Array(docx.docxBytes!)]), {
+      ...store.formData, docType: store.docType, bodyTables: store.paragraphs.flatMap(paragraph => paragraph.bodyTable ? [paragraph.bodyTable] : []),
+    });
     // Convert the just-generated file in its own directory so retained evidence
     // from another invocation cannot masquerade as a successful fresh print.
     const renderDir = await mkdtemp(join(directory, `${name}-`));
@@ -102,10 +115,11 @@ describe.skipIf(!libreOffice)('measured correspondence in native PDF and LibreOf
     const profile = pathToFileURL(join(renderDir, 'libreoffice-profile')).href;
     exec(libreOffice!, [`-env:UserInstallation=${profile}`, '--headless', '--convert-to', 'pdf', '--outdir', renderDir, inputPath]);
     expect(exec('pdfinfo', [printedPath])).toMatch(/^Producer:\s+LibreOffice/m);
-    const nativeMetrics = measured(nativePath, width, height, markers);
+    const headers = name === 'long-table' ? tableHeaders : [];
+    const nativeMetrics = measured(nativePath, width, height, markers, 0.05, headers);
     // This LibreOffice build rounds 7×9 height to about 649.16 pt. The
     // DOCX and native PDF checks above still require the authored dimensions.
-    const wordMetrics = measured(printedPath, width, height, markers, name === '7x9' ? 1.25 : 0.1);
+    const wordMetrics = measured(printedPath, width, height, markers, name === '7x9' ? 1.25 : 0.1, headers);
     if (name === 'joint') {
       for (const metrics of [nativeMetrics, wordMetrics]) {
         const [junior, middle, senior] = metrics.positions;
@@ -115,6 +129,30 @@ describe.skipIf(!libreOffice)('measured correspondence in native PDF and LibreOf
         expect(middle.right).toBeLessThan(senior.left);
         expect(Math.abs(middle.top - junior.top)).toBeLessThan(2);
         expect(Math.abs(senior.top - junior.top)).toBeLessThan(2);
+      }
+    } else if (name === 'long-table') {
+      for (const metrics of [nativeMetrics, wordMetrics]) {
+        const rowPages = [...new Set(metrics.positions.map(point => point.page))];
+        expect(rowPages.length).toBeGreaterThan(1);
+        const [rowHeaders, resultHeaders] = metrics.headerPositions;
+        for (const headerPositions of [rowHeaders, resultHeaders]) {
+          expect(headerPositions.map(point => point.page)).toEqual(rowPages);
+        }
+        for (let index = 0; index < metrics.positions.length; index += 2) {
+          const [row, result] = metrics.positions.slice(index, index + 2);
+          const headerIndex = rowPages.indexOf(row.page);
+          const left = rowHeaders[headerIndex], right = resultHeaders[headerIndex];
+          expect(left.bottom).toBeLessThan(row.top);
+          expect(right.bottom).toBeLessThan(result.top);
+          expect(left.right).toBeLessThan(right.left);
+          expect(row.right).toBeLessThan(result.left);
+          expect(result.page).toBe(row.page);
+          expect(Math.abs(row.top - result.top)).toBeLessThan(2);
+          if (index > 0) {
+            const previous = metrics.positions[index - 2];
+            expect(row.page > previous.page || (row.page === previous.page && row.top > previous.top)).toBe(true);
+          }
+        }
       }
     } else {
       expect(nativeMetrics.pages).toBeGreaterThan(1);
