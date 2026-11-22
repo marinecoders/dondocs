@@ -1401,7 +1401,7 @@ function buildRecipientAddress(data: Partial<DocumentData>): string {
   // Recipient address as a single block with line breaks (not separate paragraphs)
   // Matches PDF template which uses \\ within \BusinessRecipientAddress
   const escaped = lines.map(l => escapeFlat(l.trim()));
-  return `${escaped.join(' \\\\\n')}\n\n`;
+  return `${latexLineBreaks(escaped.join('\n'))}\n\n`;
 }
 
 function buildSalutation(data: Partial<DocumentData>): string {

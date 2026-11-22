@@ -6,7 +6,7 @@ Generated with `npm run docs:inventory` from registries, bundled datasets and fi
 |---|---:|
 | Configured formats (including aliases exposed by the app) | 25 |
 | Built-in forms | 2 |
-| Content templates | 19 |
+| Content templates | 24 |
 | References | 135 |
 | Units | 3,140 |
 | Office codes | 74 |
@@ -17,6 +17,11 @@ Generated with `npm run docs:inventory` from registries, bundled datasets and fi
 | ID | Name | Format |
 |---|---|---|
 | `tm-ietm-cover-signature` | TM/IETM Cover and Signature Pages | `tm_ietm_front_matter` |
+| `executive-interim-response` | Interim Response | `executive_correspondence` |
+| `executive-congressional-interim` | Congressional Interim Response | `executive_correspondence` |
+| `executive-congressional-response` | Congressional Response | `executive_correspondence` |
+| `executive-secnav-flag-stock` | SECNAV Flag Stationery — Preprinted 7 × 9 | `executive_correspondence` |
+| `executive-cno-flag-stock` | CNO Flag Stationery — Preprinted 5 × 7 | `executive_correspondence` |
 | `pft-waiver` | PFT/CFT Waiver Request | `naval_letter` |
 | `humanitarian-transfer` | Humanitarian/Hardship Transfer Request | `naval_letter` |
 | `award-nam` | Award Recommendation (NAM) | `naval_letter` |

@@ -1,3 +1,4 @@
+import { manualResourceUrl } from '@/lib/correspondenceManual';
 import { useState, useMemo, useRef } from 'react';
 import { FileText, FolderOpen, Search, Check, Save, Trash2, Star } from 'lucide-react';
 import {
@@ -193,6 +194,12 @@ export function TemplateLoaderModal() {
           {selectedSession && (
             <details key={selectedUserId ?? selectedTemplate?.id} className="border-b bg-muted/30 p-4 text-sm">
               <summary className="cursor-pointer font-medium">Preview: {selectedUserId ? userTemplates[selectedUserId]?.name : selectedTemplate?.name}</summary>
+              {selectedTemplate && <p className="mt-2 text-muted-foreground">{selectedTemplate.description}</p>}
+              {selectedTemplate?.manualFigure && <a
+                className="mt-2 inline-block underline underline-offset-2 text-primary"
+                href={`${manualResourceUrl('pdf')}#page=${selectedTemplate.manualFigure.pdfPage}`}
+                target="_blank" rel="noopener noreferrer"
+              >Read SECNAV M-5216.5 figure {selectedTemplate.manualFigure.number}</a>}
               <div className="mt-3"><SessionPreview session={selectedSession} /></div>
               <p className="mt-2 text-xs text-muted-foreground">Opens as a new document. Your current one stays in Recents.</p>
             </details>
