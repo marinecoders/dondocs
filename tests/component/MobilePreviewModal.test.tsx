@@ -2,7 +2,8 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { MobilePreviewModal } from '@/components/modals/MobilePreviewModal';
 import { useUIStore } from '@/stores/uiStore';
-vi.mock('@/components/pdf/PdfViewer', () => ({ default: ({ onDownloadPdf, allowOpenInTab }: { onDownloadPdf?: () => void; allowOpenInTab?: boolean }) => <div>PDF page{onDownloadPdf && <button onClick={onDownloadPdf}>Download PDF</button>}{allowOpenInTab && <button>Open PDF</button>}</div> }));
+import { useDocumentStore } from '@/stores/documentStore';
+vi.mock('@/components/pdf/PdfViewer', () => ({ default: ({ onDownloadPdf, allowOpenInTab, navigationControls }: { onDownloadPdf?: () => void; allowOpenInTab?: boolean; navigationControls?: React.ReactNode }) => <div>PDF page{navigationControls}{onDownloadPdf && <button onClick={onDownloadPdf}>Download PDF</button>}{allowOpenInTab && <button>Open PDF</button>}</div> }));
 beforeEach(() => { useUIStore.setState({ mobilePreviewOpen: true }); });
 describe('mobile preview', () => {
   it('withholds delivery during an engine reset without exposing the internal signal', () => {
@@ -42,4 +43,13 @@ describe('mobile preview', () => {
     expect(screen.queryByRole('button', { name: 'Download' })).not.toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Close preview' })).toBeInTheDocument();
   });
+});
+
+it('explains limited source navigation on mobile without disabling PDF delivery', () => {
+  useUIStore.setState({ isMobile: true });
+  useDocumentStore.setState({ docType: 'naval_letter', documentCategory: 'correspondence', enclosures: [],
+    paragraphs: Array.from({ length: 513 }, (_, index) => ({ id: `large-${index}`, level: 0, text: `Unique source paragraph ${index}.` })) });
+  render(<MobilePreviewModal pdfUrl="blob:large" isCompiling={false} error={null} onDownloadPdf={vi.fn()} />);
+  expect(screen.getByText('Source navigation is unavailable for this large document.')).toBeVisible();
+  expect(screen.getByRole('button', { name: /^Download$/ })).toBeEnabled();
 });

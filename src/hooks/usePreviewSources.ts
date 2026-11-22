@@ -1,3 +1,4 @@
+import { canAppendEndorsement } from '@/lib/appendedEndorsement';
 import { ambiguousEndorsementBodySources } from '@/lib/previewSourceProvenance';
 import { useUIStore } from '@/stores/uiStore';
 import { isOutputFieldActive } from '@/lib/documentFields';
@@ -6,7 +7,7 @@ import { useDocumentStore } from '@/stores/documentStore';
 import { captureDocumentTarget, isCurrentDocumentTarget } from '@/stores/documentsStore';
 import { useEditorOutlineStore } from '@/stores/editorOutlineStore';
 import { useEditorSections } from '@/components/layout/editorSections';
-import type { PreviewSource } from '@/lib/previewSources';
+import { previewSourcesWithinBudget, type PreviewSource } from '@/lib/previewSources';
 
 /** Source controls are opt-in on the live editor preview, never package/review PDFs. */
 export function usePreviewSources(disabled: boolean, mobileSurface = false) {
@@ -36,8 +37,8 @@ export function usePreviewSources(disabled: boolean, mobileSurface = false) {
   const supportsBody = category !== 'forms' && sections.some(section => section.id === 'body');
   const hasImportedPages = (docType.endsWith('_endorsement') && !!(formData.basicLetterFile || formData.basicLetterFileRef))
     || (isOutputFieldActive(useDocumentStore.getState(), ['enclosures']) && enclosures.some(enclosure => enclosure.file || enclosure.fileRef));
-  const sources = useMemo<PreviewSource[]>(() => {
-    if (category === 'forms' || hasImportedPages) return [];
+  const sourceInventory = useMemo(() => {
+    if (category === 'forms' || hasImportedPages) return { sources: [] as PreviewSource[], navigationLimited: false };
     const state = { ...useDocumentStore.getState(), docType };
     const fields = [
       ['subject', 'Subject', 'addressing'], ['from', 'From', 'addressing'], ['to', 'To', 'addressing'],
@@ -49,13 +50,47 @@ export function usePreviewSources(disabled: boolean, mobileSurface = false) {
       return typeof text === 'string' && text.trim().length >= 12 && sections.some(section => section.id === sectionId) && isOutputFieldActive(state, ['formData', fieldId])
         ? [{ id: `field:${fieldId}`, fieldId, sectionId, label, text }] : [];
     });
-    const ambiguous = ambiguousEndorsementBodySources(docType, formData, paragraphs);
     if (supportsBody) for (const [index, paragraph] of paragraphs.entries()) {
-      if (paragraph.id && paragraph.text && !ambiguous.has(paragraph.id)) anchors.push({ id: paragraph.id, paragraphId: paragraph.id, sectionId: 'body', label: `Paragraph ${index + 1}`, text: paragraph.text });
+      if (paragraph.id && paragraph.text) anchors.push({ id: paragraph.id, paragraphId: paragraph.id, sectionId: 'body', label: `Paragraph ${index + 1}`, text: paragraph.text });
     }
-    return anchors;
+    // Competing native prose must fit the budget before provenance normalizes it.
+    const endorsementCharacters = canAppendEndorsement(docType) && formData.appendEndorsement
+      ? (formData.endorsementBody?.length ?? 0) + (formData.additionalEndorsements ?? []).reduce((sum, item) => sum + (item.endorsementBody?.length ?? 0), 0) : 0;
+    const navigationLimited = !previewSourcesWithinBudget(anchors, endorsementCharacters);
+    if (navigationLimited) return { sources: [] as PreviewSource[], navigationLimited };
+    const ambiguous = ambiguousEndorsementBodySources(docType, formData, paragraphs);
+    return { sources: anchors.filter(source => !source.paragraphId || !ambiguous.has(source.paragraphId)), navigationLimited };
   }, [paragraphs, supportsBody, formData, docType, category, sections, hasImportedPages]);
-  const [follow, setFollow] = useState(false);
+  const { sources, navigationLimited } = sourceInventory;
+  const [followMode, setFollowMode] = useState<'off' | 'editor' | 'preview'>('off');
+  const follow = followMode === 'preview' && !navigationLimited;
+  const [editorSelection, setEditorSelection] = useState<{ source: PreviewSource; owner: ReturnType<typeof captureDocumentTarget> } | null>(null);
+  // Crossing the limit ends the session; shrinking the document must not
+  // revive a previous selection or restart a cancelled PDF search.
+  if (navigationLimited && editorSelection !== null) setEditorSelection(null);
+  if (navigationLimited && followMode !== 'off') setFollowMode('off');
+  useEffect(() => {
+    if (!enabled || mobileSurface || followMode !== 'editor') return;
+    const select = (event: Event) => {
+      const target = event.target;
+      if (!(target instanceof Element) || !target.closest('.workspace-editor')) return;
+      const paragraphId = target.closest<HTMLElement>('[data-paragraph-id]')?.dataset.paragraphId;
+      const field = target.closest('[id]');
+      const source = sources.find(item => item.paragraphId ? item.paragraphId === paragraphId : item.fieldId === field?.id);
+      if (source) setEditorSelection({ source, owner: captureDocumentTarget() });
+    };
+    document.addEventListener('focusin', select);
+    document.addEventListener('pointerup', select);
+    return () => {
+      document.removeEventListener('focusin', select);
+      document.removeEventListener('pointerup', select);
+    };
+  }, [enabled, followMode, mobileSurface, sources]);
+  const sourceToReveal = enabled && followMode === 'editor' && editorSelection
+    && isCurrentDocumentTarget(editorSelection.owner)
+    ? sources.find(source => source.id === editorSelection.source.id && source.text === editorSelection.source.text) : undefined;
+  const changeFollowMode = (mode: typeof followMode) => { setEditorSelection(null); setFollowMode(mode); };
+  const pauseEditorFollow = () => setEditorSelection(null);
   const owner = captureDocumentTarget();
   function followSources(visible: PreviewSource[]) {
     if (!active.current || !follow || !enabled || !isCurrentDocumentTarget(owner)) return;
@@ -101,5 +136,5 @@ export function usePreviewSources(disabled: boolean, mobileSurface = false) {
     event.preventDefault();
     focus();
   }
-  return { sources, hasImportedPages, sourceSubject: formData.subject ?? '', follow, setFollow, followSources, onMobileCloseAutoFocus, navigate: enabled ? navigate : undefined };
+  return { sources, hasImportedPages, navigationLimited, sourceSubject: formData.subject ?? '', follow, setFollow: (value: boolean) => changeFollowMode(value ? 'preview' : 'off'), followMode, changeFollowMode, sourceToReveal, pauseEditorFollow, followSources, onMobileCloseAutoFocus, navigate: enabled && !navigationLimited ? navigate : undefined };
 }

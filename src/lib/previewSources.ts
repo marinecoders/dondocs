@@ -8,6 +8,20 @@ export interface PreviewSource {
   fieldId?: string;
 }
 
+export const PREVIEW_SOURCE_LIMITS = { count: 512, sourceCharacters: 250_000, pages: 128, pageCharacters: 500_000 } as const;
+
+/** Check raw sizes before normalization or pairwise source comparisons. */
+export function previewSourcesWithinBudget(sources: readonly PreviewSource[], additionalCharacters = 0): boolean {
+  if (sources.length > PREVIEW_SOURCE_LIMITS.count) return false;
+  let characters = additionalCharacters;
+  if (characters > PREVIEW_SOURCE_LIMITS.sourceCharacters) return false;
+  for (const source of sources) {
+    characters += source.text.length;
+    if (characters > PREVIEW_SOURCE_LIMITS.sourceCharacters) return false;
+  }
+  return true;
+}
+
 export function normalizePreviewText(text: string): string {
   return text.normalize('NFKC').toLocaleLowerCase('en-US').replace(/\s+/gu, ' ').trim();
 }
@@ -37,6 +51,7 @@ function containsWholeText(container: string, text: string): boolean {
 }
 
 export function sourcesOnPage(text: string, sources: readonly PreviewSource[]): PreviewSource[] {
+  if (!previewSourcesWithinBudget(sources) || text.length > PREVIEW_SOURCE_LIMITS.pageCharacters) return [];
   const page = normalizePreviewText(text);
   if (!page) return [];
   const normalized = sources.map(source => ({ source, key: normalizePreviewText(source.text) }));
@@ -55,7 +70,15 @@ export function sourcesOnPage(text: string, sources: readonly PreviewSource[]): 
  * Unknown banners, missing pages, short fragments and repeated text fail closed.
  */
 export function sourcesAcrossPages(pageTexts: Readonly<Record<number, string>>, sources: readonly PreviewSource[], subject = ''): Map<number, PreviewSource[]> {
-  const pages = new Map(Object.entries(pageTexts).map(([page, text]) => [Number(page), normalizePreviewText(text)]));
+  const entries = Object.entries(pageTexts);
+  const empty = () => new Map<number, PreviewSource[]>(entries.map(([page]) => [Number(page), []]));
+  if (!previewSourcesWithinBudget(sources) || entries.length > PREVIEW_SOURCE_LIMITS.pages) return empty();
+  let characters = 0;
+  for (const [, text] of entries) {
+    characters += text.length;
+    if (characters > PREVIEW_SOURCE_LIMITS.pageCharacters) return empty();
+  }
+  const pages = new Map(entries.map(([page, text]) => [Number(page), normalizePreviewText(text)]));
   const result = new Map([...pages].map(([page, text]) => [page, sourcesOnPage(text, sources)]));
   const whole = new Set([...result.values()].flat());
   const keys = sources.map(source => normalizePreviewText(source.text));
@@ -115,11 +138,13 @@ export function sourcesAcrossPages(pageTexts: Readonly<Record<number, string>>, 
  * baseline and position before matching; rotated text is deliberately withheld. */
 export function previewPageText(items: readonly ({ str: string; transform: number[] } | object)[]): string {
   const text = items.filter((item): item is { str: string; transform: number[] } =>
-    'str' in item && 'transform' in item && Array.isArray(item.transform)
-    && item.transform.length >= 6 && Math.abs(item.transform[1]) < 0.01 && Math.abs(item.transform[2]) < 0.01);
+    'str' in item && typeof item.str === 'string' && 'transform' in item && Array.isArray(item.transform)
+    && item.transform.length >= 6 && item.transform.every(Number.isFinite)
+    && Math.abs(item.transform[1]) < 0.01 && Math.abs(item.transform[2]) < 0.01);
   const rows: { y: number; items: typeof text }[] = [];
   for (const item of text.sort((a, b) => b.transform[5] - a.transform[5])) {
-    const row = rows.find(candidate => Math.abs(candidate.y - item.transform[5]) < 2);
+    const previous = rows.at(-1);
+    const row = previous && Math.abs(previous.y - item.transform[5]) < 2 ? previous : undefined;
     if (row) row.items.push(item);
     else rows.push({ y: item.transform[5], items: [item] });
   }

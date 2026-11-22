@@ -10,6 +10,42 @@ vi.mock('@/stores/editorOutlineStore', () => ({ useEditorOutlineStore: { getStat
 beforeEach(() => { useUIStore.setState({ previewVisible: true, isMobile: false }); useDocumentStore.setState({ enclosures: [], docType: 'naval_letter', formData: { ...useDocumentStore.getState().formData, appendEndorsement: false, basicLetterFile: undefined, basicLetterFileRef: undefined } }); });
 afterEach(() => { vi.unstubAllGlobals(); guards.current = true; guards.jump.mockClear(); });
 describe('preview navigation', () => {
+  it('follows explicit editor selection, pauses on manual PDF navigation and ignores typing', () => {
+    useDocumentStore.setState({ documentCategory: 'correspondence', paragraphs: [{ id: 'selected', text: 'A uniquely worded source paragraph', level: 0 }] });
+    const editor = document.createElement('div'); editor.className = 'workspace-editor';
+    const row = document.createElement('div'); row.dataset.paragraphId = 'selected';
+    const field = document.createElement('textarea'); row.append(field); editor.append(row); document.body.append(editor);
+    const { result, rerender } = renderHook(({ disabled }) => usePreviewSources(disabled), { initialProps: { disabled: false } });
+    act(() => field.focus());
+    expect(result.current.sourceToReveal).toBeUndefined();
+    act(() => result.current.changeFollowMode('editor'));
+    act(() => field.dispatchEvent(new Event('pointerup', { bubbles: true })));
+    expect(result.current.sourceToReveal?.id).toBe('selected');
+    expect(field).toHaveFocus();
+    act(() => result.current.pauseEditorFollow());
+    act(() => field.dispatchEvent(new Event('input', { bubbles: true })));
+    expect(result.current.sourceToReveal).toBeUndefined();
+    act(() => field.dispatchEvent(new Event('pointerup', { bubbles: true })));
+    expect(result.current.sourceToReveal?.id).toBe('selected');
+    guards.current = false;
+    rerender({ disabled: false });
+    expect(result.current.sourceToReveal).toBeUndefined();
+    guards.current = true;
+    rerender({ disabled: true });
+    expect(result.current.sourceToReveal).toBeUndefined();
+    editor.remove();
+  });
+
+  it('withholds source links from assembled documents containing uploaded PDFs', () => {
+    useDocumentStore.setState({ docType: 'naval_letter', documentCategory: 'correspondence', paragraphs: [{ id: 'p1', text: 'A uniquely worded native paragraph', level: 0 }], enclosures: [{ title: 'Quoted material', fileRef: { id: 'file', name: 'enclosure.pdf', size: 100, type: 'application/pdf' } }] });
+    const { result } = renderHook(() => usePreviewSources(false));
+    expect(result.current.hasImportedPages).toBe(true);
+    expect(result.current.sources).toEqual([]);
+    act(() => useDocumentStore.setState({ enclosures: [], docType: 'new_page_endorsement', formData: { ...useDocumentStore.getState().formData, basicLetterFileRef: { id: 'basic', name: 'basic.pdf', size: 100, type: 'application/pdf' } } }));
+    expect(result.current.hasImportedPages).toBe(true);
+    expect(result.current.sources).toEqual([]);
+  });
+
   it('hands off mobile source focus after the preview dialog unmounts', () => {
     const frames: FrameRequestCallback[] = [];
     vi.stubGlobal('requestAnimationFrame', (callback: FrameRequestCallback) => { frames.push(callback); return frames.length; });
@@ -140,4 +176,51 @@ it('withholds only body sources repeated in active native endorsements', () => {
   act(() => useDocumentStore.setState({ formData: { ...useDocumentStore.getState().formData, appendEndorsement: true,
     endorsementBody: 'Independent first endorsement.', additionalEndorsements: [{ id: 'second', endorsementBody: repeated }] } }));
   expect(result.current.sources.map(source => source.id)).toEqual(['unique']);
+});
+
+it('withholds navigation and following above the document budget and restores them for ordinary drafts', () => {
+  useDocumentStore.setState({ documentCategory: 'correspondence', paragraphs: Array.from({ length: 513 }, (_, index) => ({ id: `large-${index}`, level: 0, text: `Unique paragraph ${index} belongs to a large draft.` })) });
+  const { result } = renderHook(() => usePreviewSources(false));
+  expect(result.current.navigationLimited).toBe(true);
+  expect(result.current.sources).toEqual([]);
+  expect(result.current.navigate).toBeUndefined();
+  act(() => result.current.changeFollowMode('preview'));
+  expect(result.current.follow).toBe(false);
+  act(() => useDocumentStore.setState({ paragraphs: [{ id: 'small', level: 0, text: 'A unique paragraph in a small ordinary document.' }] }));
+  expect(result.current.navigationLimited).toBe(false);
+  expect(result.current.sources).toHaveLength(1);
+  expect(result.current.navigate).toBeTypeOf('function');
+});
+
+it('does not revive an editor selection after crossing and returning below the source limit', () => {
+  const paragraph = { id: 'selected-limit', level: 0, text: 'A uniquely selected paragraph before the document becomes large.' };
+  useDocumentStore.setState({ documentCategory: 'correspondence', paragraphs: [paragraph] });
+  const editor = document.createElement('div'); editor.className = 'workspace-editor';
+  const row = document.createElement('div'); row.dataset.paragraphId = paragraph.id;
+  const field = document.createElement('textarea'); row.append(field); editor.append(row); document.body.append(editor);
+  const { result } = renderHook(() => usePreviewSources(false));
+  act(() => result.current.changeFollowMode('editor'));
+  act(() => field.focus());
+  expect(result.current.sourceToReveal?.id).toBe(paragraph.id);
+  act(() => useDocumentStore.setState({ paragraphs: [paragraph, ...Array.from({ length: 512 }, (_, index) => ({ ...paragraph, id: `extra-${index}` }))] }));
+  expect(result.current.followMode).toBe('off');
+  expect(result.current.sourceToReveal).toBeUndefined();
+  act(() => useDocumentStore.setState({ paragraphs: [paragraph] }));
+  expect(result.current.navigationLimited).toBe(false);
+  expect(result.current.followMode).toBe('off');
+  expect(result.current.sourceToReveal).toBeUndefined();
+  editor.remove();
+});
+
+it('budgets competing endorsement prose before source normalization and restores inactive navigation', () => {
+  useDocumentStore.setState({ documentCategory: 'correspondence', docType: 'naval_letter', paragraphs: [
+    { id: 'native-budget', text: 'A short and distinct main-letter paragraph.', level: 0 },
+  ], formData: { ...useDocumentStore.getState().formData, appendEndorsement: true,
+    endorsementBody: 'x'.repeat(250_001), additionalEndorsements: [] } });
+  const { result } = renderHook(() => usePreviewSources(false));
+  expect(result.current.navigationLimited).toBe(true);
+  expect(result.current.sources).toEqual([]);
+  act(() => useDocumentStore.getState().setField('appendEndorsement', false));
+  expect(result.current.navigationLimited).toBe(false);
+  expect(result.current.sources.map(source => source.id)).toEqual(['native-budget']);
 });
