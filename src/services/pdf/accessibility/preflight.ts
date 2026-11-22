@@ -7,6 +7,7 @@ import type { TaggedCorrespondenceSource } from './correspondence';
  * a tagged request must stop rather than silently return an ordinary PDF. */
 export function taggedCorrespondenceIssues(source: TaggedCorrespondenceSource, resolvedLevel = source.formData.classLevel ?? 'unclassified'): string[] {
   const issues: string[] = [];
+  if (source.docType === 'naval_letter' && ['title-only', 'preprinted'].includes(source.formData.letterheadMode ?? 'full')) issues.push('Tagged PDF requires full naval letterhead. Export a standard PDF for title-only or preprinted stationery.');
   if (!['standard_letter', 'naval_letter'].includes(source.docType)) issues.push('Tagged PDF currently supports standard and naval letters. Other document layouts need separate qualification.');
   if (resolvedLevel !== 'unclassified' || source.paragraphs.some(p => (p.portionMarking && p.portionMarking !== 'U') || (p.figure?.portionMarking && p.figure.portionMarking !== 'U'))) issues.push('Classification and handling banners are not yet qualified for tagged output.');
   if (source.enclosures.length || source.formData.basicLetterFile || source.formData.basicLetterFileRef) issues.push('Tagged output cannot include original PDFs or enclosures. Export the native letter separately.');

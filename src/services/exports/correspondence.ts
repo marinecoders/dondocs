@@ -1,3 +1,5 @@
+import { resolveLetterheadMode } from '@/lib/letterheadMode';
+import { DOC_TYPE_CONFIG } from '@/types/document';
 import { appendWordEnclosurePages, renderWordEnclosurePages } from '@/services/docx/enclosurePages';
 import type { LatexCompileProfile } from '@/services/latex/renderDocument';
 import { renderTaggedCorrespondence } from '@/services/pdf/accessibility/render';
@@ -83,6 +85,7 @@ export async function renderPreparedCorrespondence(ready: ReadyExportJob, ports:
         mediaFiles,
         bodyTables: document.paragraphs.flatMap(paragraph => paragraph.bodyTable ? [paragraph.bodyTable] : []),
         docType: document.docType, sealType: data.sealType, letterheadColor: data.letterheadColor,
+        letterheadMode: resolveLetterheadMode(DOC_TYPE_CONFIG[document.docType], data),
         fontFamily: data.fontFamily, fontSize: data.fontSize, classLevel: resolvedLevel, customClassification: data.customClassification,
         showSubjectOnContinuation: data.showSubjectOnContinuation,
         pageNumbering: resolvePageNumbering(document.docType, document.documentMode, data.pageNumbering),

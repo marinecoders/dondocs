@@ -1,4 +1,5 @@
 import { additionalJointCommands, assertJointLetterCommandSupport } from '@/lib/jointLetterCommands';
+import { resolveLetterheadMode } from '@/lib/letterheadMode';
 import { cuiTransmittalNote } from '@/lib/enclosureMarkings';
 import { toTitleCase } from '@/lib/titleCase';
 import { renderBodyTable } from './bodyTable';
@@ -308,6 +309,7 @@ function buildPreamble(data: Partial<DocumentData>): string {
 % Keep Word layout markers inert when this intermediate file is compiled as TeX.
 % Deferring definitions preserves them for pandoc's raw-command Lua filter.
 \\AtBeginDocument{%
+\\providecommand{\\dondocstitleletterhead}{}%
 \\providecommand{\\dondocsaddressbreak}{\\newline}%
 \\providecommand{\\dondocshangindent}[1]{}%
 \\providecommand{\\dondocsfirstindent}[1]{}%
@@ -376,7 +378,19 @@ function buildPageNumbering(docType: string, data: Partial<DocumentData>): strin
 }
 
 /** Centered letterhead using tabularX (pandoc renders center alignment in DOCX) */
-function buildLetterhead(data: Partial<DocumentData>): string {
+function buildLetterhead(data: Partial<DocumentData>, config: DocTypeConfig): string {
+  const mode = resolveLetterheadMode(config, data);
+  if (mode === 'preprinted') return '\\vspace{90pt}\n\n';
+  if (mode === 'title-only') {
+    const color = data.letterheadColor === 'black' ? 'black' : 'navyblue';
+    return `\\noindent
+\\begin{tabularx}{\\textwidth}{@{}XcX@{}}
+ & \\dondocstitleletterhead{}\\textcolor{${color}}{\\textbf{${escapeTabular(data.unitLine1)}}} & \\\\
+\\end{tabularx}
+
+\\vspace{77pt}
+`;
+  }
   const dept = getDepartmentName(data.department);
   const unit1 = escapeTabular(data.unitLine1);
   const unit2 = data.unitLine2?.trim() ? escapeTabular(data.unitLine2) : '';
@@ -782,7 +796,7 @@ function buildAppendedEndorsement(store: DocumentStore): string {
     .map((row) => ` & ${escapeTabular(row)} \\\\`)
     .join('\n');
 
-  return `${ack.ordinal !== 'FIRST' ? `\\newpage\n\n${buildLetterhead(store.formData)}\n` : '\\vspace{24pt}\n\n\\dondocsackstart\n'}
+  return `${ack.ordinal !== 'FIRST' ? `\\newpage\n\n${buildLetterhead(store.formData, documentOutputConfig(store.docType, store.documentMode))}\n` : '\\vspace{24pt}\n\n\\dondocsackstart\n'}
 \\noindent
 \\rule{\\textwidth}{0.5pt}
 
@@ -1390,7 +1404,7 @@ function buildStandardLayout(store: DocumentStore, config: DocTypeConfig): strin
     content += buildEndorsementHeader(store.docType, data);
   }
 
-  if (config.letterhead) content += buildLetterhead(data);
+  if (config.letterhead) content += buildLetterhead(data, config);
   // Multiple address letter: date block is left-aligned (PDF's \hfill at paragraph boundary is a no-op)
   const ssicAlignRight = store.docType !== 'multiple_address_letter';
   if (config.ssic) content += buildSSICBlock(data, ssicAlignRight);
@@ -1427,7 +1441,7 @@ function buildBusinessLayout(store: DocumentStore, config: DocTypeConfig): strin
     content += `\\vspace*{${config.topSpacing}}\n`;
   }
 
-  if (config.letterhead) content += buildLetterhead(data);
+  if (config.letterhead) content += buildLetterhead(data, config);
 
   // ID symbols block: SSIC/Serial/Date right-aligned per SECNAV Ch 11
   // PDF template uses \begin{tabular}[t]{@{}l@{}} with \optionalLine for SSIC/Serial
@@ -1476,7 +1490,7 @@ function buildMemoLayout(store: DocumentStore, config: DocTypeConfig): string {
     content += `\\vspace*{${config.topSpacing}}\n`;
   }
 
-  if (config.letterhead) content += buildLetterhead(data);
+  if (config.letterhead) content += buildLetterhead(data, config);
   if (config.ssic) content += buildSSICBlock(data);
   if (config.memoHeader) {
     content += buildMemoHeader(config, data);
@@ -1503,7 +1517,7 @@ function buildMOALayout(store: DocumentStore, config: DocTypeConfig): string {
   const data = store.formData;
   let content = '';
 
-  if (config.letterhead) content += buildLetterhead(data);
+  if (config.letterhead) content += buildLetterhead(data, config);
   content += buildMOASSICBlock(data);
   content += buildMOATitle(data, store.docType);
 

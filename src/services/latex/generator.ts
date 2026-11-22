@@ -1,4 +1,5 @@
 import { additionalJointCommands, assertJointLetterCommandSupport } from '@/lib/jointLetterCommands';
+import { resolveLetterheadMode } from '@/lib/letterheadMode';
 import { bodyTableText, bodyTableLiteral } from './bodyTableText';
 import { toTitleCase } from '@/lib/titleCase';
 import { closingTailStart, hasBottomSignature } from '@/lib/correspondenceClosing';
@@ -423,6 +424,7 @@ export function generateLetterheadTex(store: DocumentStore): string {
 
 % Letterhead color: blue (default) or black
 \\setLetterheadColor{${data.letterheadColor || 'blue'}}
+${resolveLetterheadMode(documentOutputConfig(store.docType, store.documentMode), data) === 'full' ? '' : `\\setLetterheadMode{${resolveLetterheadMode(documentOutputConfig(store.docType, store.documentMode), data)}}`}
 
 \\setLetterhead
     {${line1}}

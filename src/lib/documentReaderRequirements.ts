@@ -21,10 +21,20 @@ export function requiresCurrentDocumentReader(source: ReaderSource): boolean {
   });
 }
 
-/** Formats older readers would silently drop or render on the wrong stationery. */
-export function requiresExtendedCorrespondenceReader(source: ReaderSource): boolean {
+/** Each shipped renderer capability owns distinct portable reader revisions. */
+export const CORRESPONDENCE_READERS = {
+  joint: { draft: 6, share: 9, assets: 10, backup: 18 },
+  letterhead: { draft: 7, share: 11, assets: 12, backup: 19 },
+} as const;
+
+export function correspondenceReaderRequirement(source: ReaderSource) {
   const data = source.formData;
-  return Array.isArray(data?.jointAdditionalCommands) && data.jointAdditionalCommands.length > 0
-    || data?.letterheadMode === 'title-only' || data?.letterheadMode === 'preprinted'
-    || data?.stationerySize === '7x9' || data?.stationerySize === '5x7';
+  if (data?.letterheadMode === 'title-only' || data?.letterheadMode === 'preprinted') return CORRESPONDENCE_READERS.letterhead;
+  if (Array.isArray(data?.jointAdditionalCommands) && data.jointAdditionalCommands.length > 0) return CORRESPONDENCE_READERS.joint;
+  return undefined;
+}
+
+/** Retained inactive fields still need a reader that can preserve their meaning. */
+export function requiresExtendedCorrespondenceReader(source: ReaderSource): boolean {
+  return correspondenceReaderRequirement(source) !== undefined;
 }

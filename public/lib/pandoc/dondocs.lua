@@ -1,3 +1,4 @@
+local title_letterhead_id = 230000
 -- Copyright (c) 2026 Roberto Chiofalo.
 -- SPDX-License-Identifier: AGPL-3.0-only
 -- See LICENSE and THIRD_PARTY_LICENSES.md at the project root.
@@ -422,6 +423,11 @@ local function handle_raw_inline(el)
   if el.format ~= "latex" then return nil end
 
   local text = el.text
+
+  if text:match("^\\dondocstitleletterhead%{%}$") then
+    title_letterhead_id = title_letterhead_id + 1
+    return pandoc.RawInline("openxml", '<w:bookmarkStart w:id="' .. title_letterhead_id .. '" w:name="DonDocsTitleLetterhead' .. title_letterhead_id .. '"/><w:bookmarkEnd w:id="' .. title_letterhead_id .. '"/>')
+  end
 
   local body_table = text:match("^\\dondocsbodytable%{(%d+)%}$")
   if body_table then

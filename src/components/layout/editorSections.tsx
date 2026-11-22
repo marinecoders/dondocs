@@ -1,3 +1,4 @@
+import { resolveLetterheadMode } from '@/lib/letterheadMode';
 import { VolumeSupplementSection } from '@/components/editor/VolumeSupplementSections';
 import { VolumeDetailsSection, VolumeOutlineSection, VolumeBodySection } from '@/components/editor/VolumeSections';
 import { publicationVolumeErrors } from '@/lib/publicationVolume';
@@ -96,6 +97,7 @@ interface SectionErrorInput {
   publicationSigningDate?: string;
   controllingOffice?: string;
   pocEmail?: string;
+  letterheadMode?: 'full' | 'title-only' | 'preprinted';
   unitLine1?: string;
   from?: string;
   to?: string;
@@ -157,7 +159,7 @@ export function getSectionError(
     case 'letterhead':
       // Don't flag a missing letterhead when the doc type allows plain paper
       // (optionalLetterhead, e.g. MFR/MF per SECNAV Ch. 10).
-      return config.letterhead === true && !config.optionalLetterhead && unfilled(formData.unitLine1);
+      return config.letterhead === true && !config.optionalLetterhead && resolveLetterheadMode(config, formData) !== 'preprinted' && unfilled(formData.unitLine1);
     case 'addressing': {
       // Only flag fields the doc type actually exposes. "From" renders only for
       // fromTo types; "To" renders for fromTo OR the business-letter

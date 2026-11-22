@@ -1,4 +1,4 @@
-import { requiresExtendedCorrespondenceReader } from './documentReaderRequirements';
+import { correspondenceReaderRequirement } from './documentReaderRequirements';
 import { z } from 'zod';
 import type { DocumentSnapshot } from '@/stores/historyStore';
 import type { SerializedSession } from '@/stores/documentStore';
@@ -23,7 +23,7 @@ const bindingSchema = z.discriminatedUnion('slot', [
   z.object({ slot: z.literal('form-signature'), index, path }).strict(),
 ]);
 type Binding = z.infer<typeof bindingSchema>;
-const envelopeSchema = z.object({ kind: z.literal('dondocs-share'), version: z.union([z.literal(4), z.literal(6), z.literal(10)]),
+const envelopeSchema = z.object({ kind: z.literal('dondocs-share'), version: z.union([z.literal(4), z.literal(6), z.literal(10), z.literal(12)]),
   documentKind: z.enum(['correspondence', 'builtin-form', 'configured-form']),
   expiresAt: z.number().int().positive().max(8_640_000_000_000_000).optional(),
   draft: z.record(z.string(), z.unknown()), resources: z.unknown(), bindings: z.array(bindingSchema).max(256),
@@ -38,7 +38,7 @@ function kind(session: SerializedSession): SharedDocumentKind {
   return session.documentCategory === 'forms' ? session.genericForm ? 'configured-form' : 'builtin-form' : 'correspondence';
 }
 export function isAssetShare(value: unknown): boolean {
-  return !!value && typeof value === 'object' && 'kind' in value && value.kind === 'dondocs-share' && 'version' in value && (value.version === 4 || value.version === 6 || value.version === 10);
+  return !!value && typeof value === 'object' && 'kind' in value && value.kind === 'dondocs-share' && 'version' in value && (value.version === 4 || value.version === 6 || value.version === 10 || value.version === 12);
 }
 export function hasShareAssets(snapshot: DocumentSnapshot): boolean {
   return !!(snapshot.documentCategory === 'forms' && snapshot.genericForm || snapshot.formData.signatureImage || snapshot.formData.basicLetterFile || snapshot.formData.basicLetterFileRef || snapshot.formData.wordSource
@@ -148,7 +148,7 @@ export async function buildAssetSharePayload(snapshot: DocumentSnapshot, timesta
   if (!inputs.length && !templates) return expiresAt === undefined ? createSharedPayload(session) : createSharedPayload(session, expiresAt);
   const resources = await buildPortableResources(inputs);
   if (templates) resources.entries.push(...templates.entries);
-  const envelope: AssetShareEnvelope = { kind: 'dondocs-share', version: requiresExtendedCorrespondenceReader(session) ? 10 : hasRichBody(session) ? 6 : 4, documentKind: kind(session),
+  const envelope: AssetShareEnvelope = { kind: 'dondocs-share', version: correspondenceReaderRequirement(session)?.assets ?? (hasRichBody(session) ? 6 : 4), documentKind: kind(session),
     ...(expiresAt === undefined ? {} : { expiresAt }), draft, resources, bindings };
   await parseAssetSharePayload(envelope);
   return envelope;
@@ -161,8 +161,9 @@ export async function parseAssetSharePayload(value: unknown): Promise<ReviewedDr
   const envelope = result.data;
   validateAssetShareExpiration(envelope);
   const raw = envelope.draft, rawForm = object(raw.formData);
-  if (requiresExtendedCorrespondenceReader(raw as unknown as SerializedSession) && envelope.version !== 10) throw new Error('These document assets require a version 10 share.');
-  if (hasRichBody(raw as unknown as SerializedSession) && ![6, 10].includes(envelope.version)) throw new Error('Rich document assets require a version 6 share.');
+  const required = correspondenceReaderRequirement(raw as unknown as SerializedSession);
+  if (required && envelope.version < required.assets) throw new Error(`These document assets require a version ${required.assets} share.`);
+  if (hasRichBody(raw as unknown as SerializedSession) && envelope.version < 6) throw new Error('Rich document assets require a version 6 share.');
   if (raw.portableResources !== undefined) throw new Error('Shared templates must use the single resource manifest.');
   if (envelope.documentKind === 'configured-form' && raw.portableFormTemplates === undefined) throw new Error('This configured-form share is missing its exact templates.');
   if (rawForm.basicLetterFileRef !== undefined || rawForm.wordSource && object(rawForm.wordSource).fileRef !== undefined || rawForm.signatureImage && object(rawForm.signatureImage).fileRef !== undefined

@@ -69,7 +69,7 @@ describe('three-command joint correspondence', () => {
     expect(validateLetter({ ...input, parties: { ...input.parties!, additional: [{ ...party, from: '' }] } })).toEqual([expect.stringContaining('From line')]);
   });
   it('requires the new reader even when another document type retains these fields', () => {
-    for (const formData of [{ jointAdditionalCommands: additionalJointCommands(jointLetterFixture().formData) }, { letterheadMode: 'title-only' }, { letterheadMode: 'preprinted' }, { stationerySize: '7x9' }, { stationerySize: '5x7' }]) {
+    for (const formData of [{ jointAdditionalCommands: additionalJointCommands(jointLetterFixture().formData) }, { letterheadMode: 'title-only' }, { letterheadMode: 'preprinted' }]) {
       expect(requiresExtendedCorrespondenceReader({ docType: 'naval_letter', formData })).toBe(true);
     }
     expect(requiresExtendedCorrespondenceReader({ formData: { letterheadMode: 'full', stationerySize: 'letter', jointAdditionalCommands: [] } })).toBe(false);

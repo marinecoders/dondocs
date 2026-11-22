@@ -1,7 +1,7 @@
 import { publicationVolumeSchema, validatePublicationVolume, VOLUME_DOC_TYPE } from './publicationVolume';
 import { sl4Schema } from '@/data/techpub/sl4';
 import { enclosureMarkingSchema } from './enclosureMarkings';
-import { requiresCurrentDocumentReader, requiresExtendedCorrespondenceReader } from './documentReaderRequirements';
+import { requiresCurrentDocumentReader, requiresExtendedCorrespondenceReader, correspondenceReaderRequirement } from './documentReaderRequirements';
 import { jointAdditionalCommandsSchema } from './jointLetterCommands';
 import { additionalEndorsementsSchema } from './endorsementValidation';
 import { sl3Schema } from '@/data/techpub/sl3';
@@ -51,7 +51,7 @@ export type SharedDocumentKind = 'correspondence' | 'builtin-form' | 'configured
 const sharedKind = z.enum(['correspondence', 'builtin-form', 'configured-form']);
 const envelope = z.discriminatedUnion('kind', [
   z.object({ kind: z.literal('dondocs-share'), version: z.union([z.literal(1), z.literal(2)]), documentKind: sharedKind }),
-  z.object({ kind: z.literal('dondocs-draft'), version: z.union([z.literal(2), z.literal(3), z.literal(4), z.literal(5), z.literal(6)]), documentKind: sharedKind })
+  z.object({ kind: z.literal('dondocs-draft'), version: z.union([z.literal(2), z.literal(3), z.literal(4), z.literal(5), z.literal(6), z.literal(7)]), documentKind: sharedKind })
     .refine(value => value.version !== 3 || value.documentKind === 'configured-form'),
 ]);
 const expiringEnvelope = z.object({
@@ -61,8 +61,8 @@ const expiringEnvelope = z.object({
 type OrdinaryShare = SerializedSession & { kind: 'dondocs-share'; version: 1 | 2; documentKind: SharedDocumentKind };
 type ExpiringShare = { kind: 'dondocs-share'; version: 3; documentKind: SharedDocumentKind; expiresAt: number; session: SerializedSession };
 // Version 6 belongs to asset shares; current structured text shares use 7.
-type RichShare = { kind: 'dondocs-share'; version: 5 | 7 | 9; documentKind: SharedDocumentKind; expiresAt?: number; session: SerializedSession };
-const richShareEnvelope = z.object({ kind: z.literal('dondocs-share'), version: z.union([z.literal(5), z.literal(7), z.literal(9)]), documentKind: sharedKind, expiresAt: z.number().optional(), session: z.unknown() }).strict();
+type RichShare = { kind: 'dondocs-share'; version: 5 | 7 | 9 | 11; documentKind: SharedDocumentKind; expiresAt?: number; session: SerializedSession };
+const richShareEnvelope = z.object({ kind: z.literal('dondocs-share'), version: z.union([z.literal(5), z.literal(7), z.literal(9), z.literal(11)]), documentKind: sharedKind, expiresAt: z.number().optional(), session: z.unknown() }).strict();
 
 /** UTC epoch milliseconds; the receiving device rejects at the exact deadline. */
 export function validateShareExpiration(expiresAt: number, now = Date.now()): void {
@@ -81,7 +81,7 @@ export function createSharedPayload(session: SerializedSession, expiresAt?: numb
   const owned = projectSharedSession(parseSharedSession(session));
   if (hasRichBody(owned) || requiresCurrentDocumentReader(owned) || requiresExtendedCorrespondenceReader(owned)) {
     if (expiresAt !== undefined) validateShareExpiration(expiresAt);
-    return { kind: 'dondocs-share', version: requiresExtendedCorrespondenceReader(owned) ? 9 : requiresCurrentDocumentReader(owned) ? 7 : 5, documentKind: documentKind(owned), session: owned, ...(expiresAt !== undefined ? { expiresAt } : {}) };
+    return { kind: 'dondocs-share', version: correspondenceReaderRequirement(owned)?.share ?? (requiresCurrentDocumentReader(owned) ? 7 : 5), documentKind: documentKind(owned), session: owned, ...(expiresAt !== undefined ? { expiresAt } : {}) };
   }
   if (expiresAt !== undefined) {
     validateShareExpiration(expiresAt);
@@ -94,13 +94,14 @@ export function createSharedPayload(session: SerializedSession, expiresAt?: numb
 
 /** Validate before touching the recipient's current document. */
 export function parseSharedSession(value: unknown): SerializedSession {
-  if (value && typeof value === 'object' && 'kind' in value && value.kind === 'dondocs-share' && 'version' in value && (value.version === 5 || value.version === 7 || value.version === 9)) {
+  if (value && typeof value === 'object' && 'kind' in value && value.kind === 'dondocs-share' && 'version' in value && (value.version === 5 || value.version === 7 || value.version === 9 || value.version === 11)) {
     const envelope = richShareEnvelope.parse(value);
     if (envelope.expiresAt !== undefined) validateShareExpiration(envelope.expiresAt);
     const raw = envelope.session;
     if (!raw || typeof raw !== 'object' || ['kind', 'documentKind', 'expiresAt', 'version'].some(key => key in raw)) throw new Error('This rich share format is unsupported.');
     const session = parseSharedSession(raw);
-    if (requiresExtendedCorrespondenceReader(session) && envelope.version !== 9) throw new Error('These document features require a version 9 share.');
+    const required = correspondenceReaderRequirement(session);
+    if (required && envelope.version < required.share) throw new Error(`These document features require a version ${required.share} share.`);
     if (documentKind(session) !== envelope.documentKind) throw new Error('The shared document kind does not match its contents.');
     return session;
   }
@@ -112,7 +113,8 @@ export function parseSharedSession(value: unknown): SerializedSession {
     // Only one envelope is allowed. Avoid recursive or hidden restrictions.
     if (!source || typeof source !== 'object' || ['kind', 'documentKind', 'expiresAt', 'version'].some(key => key in source)) throw new Error('This share format is unsupported.');
     const session = parseSharedSession(source);
-    if (requiresExtendedCorrespondenceReader(session)) throw new Error('These document features require a version 9 share.');
+    const required = correspondenceReaderRequirement(session);
+    if (required) throw new Error(`These document features require a version ${required.share} share.`);
     if (parsed.data.documentKind !== documentKind(session)) throw new Error('The shared document kind does not match its contents.');
     validateShareExpiration(parsed.data.expiresAt);
     return session;
@@ -123,15 +125,17 @@ export function parseSharedSession(value: unknown): SerializedSession {
   const result = sessionSchema.safeParse(structuredClone(value));
   if (!result.success) throw new Error('This link does not contain a supported DonDocs document.');
   const s = result.data;
-  const extendedDraft = metadata?.success && metadata.data.kind === 'dondocs-draft' && metadata.data.version === 6;
-  if (requiresExtendedCorrespondenceReader(s) && value && typeof value === 'object' && 'version' in value && !extendedDraft) {
-    throw new Error('These document features require a version 6 draft or version 9 share.');
+  const required = correspondenceReaderRequirement(s);
+  const draftVersion = metadata?.success && metadata.data.kind === 'dondocs-draft' ? metadata.data.version : 0;
+  if (required && value && typeof value === 'object' && 'version' in value && draftVersion < required.draft) {
+    throw new Error(`These document features require a version ${required.draft} draft or version ${required.share} share.`);
   }
   if (!s.reviewComments?.threads.length) delete s.reviewComments;
   if (hasReviewComments(s) && metadata?.success && metadata.data.version === 1) {
     throw new Error('Comments require a version 2 review-aware share. Ask the sender to create a current copy.');
   }
   s.paragraphs = ensureParagraphIds(s.paragraphs, paragraphCommentIds(s.reviewComments));
+  if (s.formData.letterheadMode !== undefined) s.formData.letterheadMode = z.enum(['full', 'title-only', 'preprinted']).parse(s.formData.letterheadMode);
   if (s.formData.signatureImageSigner !== undefined) s.formData.signatureImageSigner = z.enum(['junior', 'senior']).parse(s.formData.signatureImageSigner);
   if (s.formData.jointAdditionalCommands !== undefined) s.formData.jointAdditionalCommands = jointAdditionalCommandsSchema.parse(s.formData.jointAdditionalCommands);
   if (s.formData.additionalEndorsements !== undefined) s.formData.additionalEndorsements = additionalEndorsementsSchema.parse(s.formData.additionalEndorsements);
@@ -162,7 +166,8 @@ export function parseSharedSession(value: unknown): SerializedSession {
 
 /** Older readers reject comment-bearing drafts instead of silently removing review data. */
 export function draftEnvelope(session: SerializedSession) {
-  if (requiresExtendedCorrespondenceReader(session)) return { kind: 'dondocs-draft' as const, version: 6 as const, documentKind: documentKind(session) };
+  const required = correspondenceReaderRequirement(session);
+  if (required) return { kind: 'dondocs-draft' as const, version: required.draft, documentKind: documentKind(session) };
   if (requiresCurrentDocumentReader(session)) return { kind: 'dondocs-draft' as const, version: 5 as const, documentKind: documentKind(session) };
   if (hasRichBody(session)) return { kind: 'dondocs-draft' as const, version: 4 as const, documentKind: documentKind(session) };
   return hasReviewComments(session) ? { kind: 'dondocs-draft' as const, version: 2 as const, documentKind: documentKind(session) } : { version: '1.1' };

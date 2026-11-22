@@ -1,3 +1,4 @@
+import { resolveLetterheadMode } from './letterheadMode';
 import type { DocumentSnapshot } from '@/stores/historyStore';
 import type { SerializedSession } from '@/stores/documentStore';
 import { DOC_TYPE_CONFIG } from '@/types/document';
@@ -98,7 +99,12 @@ function active(source: DocumentFieldSource, path: FieldPath, projection: FieldP
   if (key === 'sl3' || key === 'sl4') return source.docType === key;
   if (key === 'body' && projection !== 'search') return false;
   if (publicationFields.has(key)) return technical;
-  if (letterheadFields.has(key)) return config.letterhead || technical;
+  if (letterheadFields.has(key)) {
+    const mode = resolveLetterheadMode(config, source.formData);
+    if (mode === 'preprinted') return key === 'inReplyToText';
+    if (mode === 'title-only') return ['unitLine1', 'letterheadColor', 'inReplyToText'].includes(key);
+    return config.letterhead || technical;
+  }
   if (key === 'seniorActing' || key === 'juniorActing') return ['moa', 'joint', 'joint_memo'].includes(config.uiMode);
   if (/^(senior|junior)/.test(key) || key === 'moaSubject') return config.uiMode === 'moa';
   if (key === 'jointAdditionalCommands') return source.docType === 'joint_letter';

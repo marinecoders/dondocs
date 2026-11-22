@@ -41,6 +41,7 @@ export const unit = z.object({
     .describe('The heading: UNITED STATES MARINE CORPS, DEPARTMENT OF THE NAVY, or DEPARTMENT OF DEFENSE. Defaults to usmc.'),
   seal: z.enum(['dow', 'dod']).optional(),
   letterheadColor: z.enum(['blue', 'black']).optional(),
+  letterheadMode: z.enum(['full', 'title-only', 'preprinted']).optional(),
 }).strict();
 
 export const signature = z.object({

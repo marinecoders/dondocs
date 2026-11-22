@@ -1,3 +1,4 @@
+import { resolveLetterheadMode, supportsLetterheadModes, type LetterheadMode } from '@/lib/letterheadMode';
 import { useState, useEffect, useRef } from 'react';
 import { Building2, Info } from 'lucide-react';
 import { Input } from '@/components/ui/input';
@@ -40,7 +41,8 @@ export function LetterheadSection() {
   const validationVisible = useUIStore((s) => s.validationVisible);
   // Mirror getSectionError('letterhead'): only a required (non-optional)
   // letterhead flags a missing unit name.
-  const unitNameRequired = config.letterhead === true && !config.optionalLetterhead;
+  const mode = resolveLetterheadMode(config, formData);
+  const unitNameRequired = config.letterhead === true && !config.optionalLetterhead && mode !== 'preprinted';
   const unitNameInvalid = validationVisible && unitNameRequired && unfilled(formData.unitLine1);
 
   // Structured address fields mirror formData.unitAddress (the persisted
@@ -123,6 +125,30 @@ export function LetterheadSection() {
               <p className="-mt-1 text-xs text-muted-foreground">
                 Unit name, address, seal, and color that appear at the top of the page.
               </p>
+              {supportsLetterheadModes(config) && (
+                <div className="space-y-2">
+                  <Label htmlFor="letterhead-mode">Letterhead style</Label>
+                  <Select value={mode} onValueChange={value => setField('letterheadMode', value as LetterheadMode)}>
+                    <SelectTrigger id="letterhead-mode"><SelectValue /></SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="full">Full letterhead</SelectItem>
+                      <SelectItem value="title-only">Title only</SelectItem>
+                      <SelectItem value="preprinted">Preprinted stationery</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <p className="text-xs text-muted-foreground">
+                    {mode === 'preprinted' ? 'Leaves the letterhead area blank. Print on your authorized preprinted stock; the downloaded file contains no letterhead artwork.' : mode === 'title-only' ? 'Prints only the unit title. Your full letterhead details remain saved.' : 'Prints the seal, department, unit and address.'}
+                  </p>
+                </div>
+              )}
+              {mode === 'title-only' && <div className="space-y-2">
+                <Label htmlFor="title-letterhead-color">Title color</Label>
+                <Select value={formData.letterheadColor || 'blue'} onValueChange={value => setField('letterheadColor', value as 'blue' | 'black')}>
+                  <SelectTrigger id="title-letterhead-color"><SelectValue /></SelectTrigger>
+                  <SelectContent><SelectItem value="blue">Blue</SelectItem><SelectItem value="black">Black</SelectItem></SelectContent>
+                </Select>
+              </div>}
+              {mode === 'full' && <>
               {/* Responsive row: the editor column width is independent of the
                   viewport (collapsible sidebar + resizable preview), so flex-wrap
                   lets it wrap rather than overflow at a narrow column. */}
@@ -224,10 +250,11 @@ export function LetterheadSection() {
                 </div>
               </div>
 
-              <div className="space-y-2">
+              </>}
+              {mode !== 'preprinted' && <div className="space-y-2">
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <Label htmlFor="unitLine1">
-                    Unit Name{unitNameRequired && <span className="text-destructive"> *</span>}
+                    {mode === 'title-only' ? 'Title' : 'Unit Name'}{unitNameRequired && <span className="text-destructive"> *</span>}
                   </Label>
                   <Button
                     type="button"
@@ -253,8 +280,9 @@ export function LetterheadSection() {
                     Unit name is required.
                   </p>
                 )}
-              </div>
+              </div>}
 
+              {mode === 'full' && <>
               <div className="space-y-2">
                 <Label htmlFor="unitLine2">Unit Name (Line 2, if needed)</Label>
                 <Input
@@ -346,6 +374,7 @@ export function LetterheadSection() {
                   </div>
                 </div>
               </div>
+              </>}
             </div>
           </AccordionContent>
       </AccordionItem>
