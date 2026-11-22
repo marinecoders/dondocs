@@ -182,9 +182,11 @@ export async function prepareWordPackage(record: ActionPackage, revisionId: stri
     for (const [offset, file] of reviewed.figures.entries()) if (file && isOutputFieldActive(snapshot, ['paragraphs', offset, 'figure'])) {
       const figure = snapshot.paragraphs[offset].figure!;
       const id = `figure-${offset}`;
-      figure.fileRef = { id, name: file.name, type: figure.type || 'image/png', size: file.data.byteLength };
+      const extension = figureExtension(figure.type, file.name);
+      const type = figure.type || (extension === 'jpg' ? 'image/jpeg' : extension === 'pdf' ? 'application/pdf' : 'image/png');
+      figure.fileRef = { id, name: file.name, type, size: file.data.byteLength };
       assets.set(id, { ...figure.fileRef, data: file.data.slice(0) });
-      await original(file.data, file.name, figure.type || 'image/png', `figure-${String(offset + 1).padStart(3, '0')}`, 'Unchanged captured figure image.');
+      await original(file.data, file.name, type, `figure-${String(offset + 1).padStart(3, '0')}`, 'Unchanged captured figure image.');
     }
     const signature = snapshot.formData.signatureImage;
     if (snapshot.formData.signatureType === 'image' && supportsWordSignatureImage(snapshot.docType) && signature?.data) {

@@ -180,6 +180,31 @@ describe('publication Word output', () => {
     expect(JSON.stringify(document)).toBe(before);
     expect(await zip.file('word/media/image2.png')!.async('uint8array')).toEqual(image);
   });
+  it('renders volume citations beside bare URLs and inside other link labels', async () => {
+    const document = volumeFixture();
+    document.paragraphs[0].text = 'Review https://example.test/manual{{VOLREF_checks}} or [read {{VOLREF_checks}}](https://example.test/index).';
+    const blob = await renderPublicationDocx(document, { readAsset: noAsset }, new AbortController().signal, referenceDate);
+    const zip = await JSZip.loadAsync(await blob.arrayBuffer());
+    const xml = await zip.file('word/document.xml')!.async('string');
+    const relationships = await zip.file('word/_rels/document.xml.rels')!.async('string');
+    expect(xml).toMatch(/>https:\/\/example\.test\/manual<\/w:t><\/w:r><\/w:hyperlink>[^]*?<w:hyperlink w:anchor="[^"]+">/);
+    expect(xml).toContain('>read 2.1.1</w:t>');
+    expect(xml).not.toContain('{{VOLREF_');
+    expect(relationships).toContain('Target="https://example.test/manual"');
+    expect(relationships).toContain('Target="https://example.test/index"');
+    expect(relationships).not.toContain('{{VOLREF_');
+  });
+  it('exports a legacy figure whose JPEG metadata is on the retained file reference', async () => {
+    const document = volumeFixture();
+    const image = Uint8Array.from(await readFile('tests/fixtures/images/business-figure-baseline.jpg'));
+    const ref = { id: 'legacy-jpeg', name: 'drawing.jpg', type: 'image/jpeg', size: image.length };
+    document.paragraphs[0].figure = { fileRef: ref };
+    const blob = await renderPublicationDocx(document, {
+      readAsset: () => ({ ...ref, data: image.buffer }),
+    }, new AbortController().signal, referenceDate);
+    const zip = await JSZip.loadAsync(await blob.arrayBuffer());
+    expect(await zip.file('word/media/image1.jpg')!.async('uint8array')).toEqual(image);
+  });
   it('uppercases warning text while retaining a case-sensitive destination', async () => {
     const word = new PublicationWordPackage(new AbortController().signal, 12);
     word.text('Read https://example.test/CaseSensitive before work.', { uppercase: true });

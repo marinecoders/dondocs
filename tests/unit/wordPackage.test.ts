@@ -1,4 +1,5 @@
 import 'fake-indexeddb/auto';
+import { readFile } from 'node:fs/promises';
 import { expect, it, vi } from 'vitest';
 import JSZip from 'jszip';
 import { PDFDocument } from 'pdf-lib';
@@ -127,7 +128,11 @@ it('blocks incomplete publication drafts and unresolved export policy', async ()
 });
 
 it('delivers a captured technical volume as editable Word with the original supporting PDF', async () => {
-  const { record, original } = await fixture(volumeFixture());
+  const volume = volumeFixture();
+  const jpeg = Uint8Array.from(await readFile('tests/fixtures/images/business-figure-baseline.jpg'));
+  const fileRef = await persistAttachment({ name: 'diagram.jpg', type: 'image/jpeg', size: jpeg.length }, jpeg.buffer);
+  volume.paragraphs[0].figure = { fileRef };
+  const { record, original, support } = await fixture(volume);
   const prepared = await prepareWordPackage(record, record.currentRevisionId, policy);
   acknowledgeWordPackage(prepared);
   const convertDocx = vi.fn(ports.convertDocx);
@@ -140,8 +145,9 @@ it('delivers a captured technical volume as editable Word with the original supp
   expect(xml).toContain('QUALIFICATION VOLUME');
   expect(xml).toContain('<w:tbl>');
   expect(xml).toContain('READBACK-2');
-  const support = result.manifest.files.find(file => file.kind === 'original')!;
-  expect(await archive.file(support.path)!.async('uint8array')).toEqual(new Uint8Array(original));
+  expect(await docx.file('word/media/image1.jpg')!.async('uint8array')).toEqual(jpeg);
+  const retained = result.manifest.files.find(file => file.memberId === support.id && file.kind === 'original')!;
+  expect(await archive.file(retained.path)!.async('uint8array')).toEqual(new Uint8Array(original));
 });
 
 it('scans included names and content while leaving comments, hidden fields and old revisions outside Word delivery', async () => {

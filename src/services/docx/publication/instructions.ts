@@ -34,7 +34,7 @@ export async function publicationFigure(word: PublicationWordPackage, paragraph:
   const figure = paragraph.figure;
   if (!figure?.fileRef) throw new Error('Reattach the publication figure before Word export.');
   if (figure.type && !['image/png', 'image/jpeg', 'application/pdf'].includes(figure.type)) throw new Error('Word publication figures require PNG or JPEG.');
-  const extension = figureExtension(figure.type, figure.name);
+  const extension = figureExtension(figure.type || figure.fileRef.type, figure.name || figure.fileRef.name);
   if (extension !== 'png' && extension !== 'jpg') throw new Error('Word publication figures require PNG or JPEG. Keep the original PDF separately or attach a raster copy.');
   word.check();
   const record = ports.readAsset(figure.fileRef.id);

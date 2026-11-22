@@ -18,7 +18,7 @@ export function publicationWordExportErrors(document: { docType: string; paragra
     if (paragraph.bodyTable && !bodyTableSchema.safeParse(paragraph.bodyTable).success) errors.push(`Paragraph ${index + 1} contains an invalid Word body table.`);
     const figure = paragraph.figure;
     if (!figure) continue;
-    if (figure.type === 'application/pdf' || figure.fileRef?.type === 'application/pdf' || figureExtension(figure.type, figure.name ?? figure.fileRef?.name) === 'pdf') {
+    if (figure.type === 'application/pdf' || figure.fileRef?.type === 'application/pdf' || figureExtension(figure.type || figure.fileRef?.type, figure.name || figure.fileRef?.name) === 'pdf') {
       errors.push(`Figure ${index + 1}: Word publication figures require PNG or JPEG. Keep the original PDF separately or attach a raster copy.`);
     } else if (figure.type && !['image/png', 'image/jpeg'].includes(figure.type)) errors.push(`Figure ${index + 1}: Word publication figures require PNG or JPEG.`);
   }

@@ -49,7 +49,11 @@ export interface WordTableFormat {
   rowDestinations?: readonly string[];
 }
 
-const INLINE_TOKEN = /\{\{(?:PUBREF_[A-Z0-9_]+|VOLREF_[A-Z0-9._:-]+)\}\}|\[[^\]\n]+\]\(https?:\/\/[^\s)]+\)|https?:\/\/[^\s<>]+|[\w.+-]+@[\w.-]+\.[A-Za-z]{2,}|\*\*|\*|__/gi;
+const PUBLICATION_REFERENCE = /\{\{(?:PUBREF_[A-Z0-9_]+|VOLREF_[A-Za-z0-9._:-]+)\}\}/g;
+const EXTERNAL_LINK = /\[([^\]\n]+)\]\((https?:\/\/(?:(?!\{\{(?:PUBREF_|VOLREF_))[^\s)])+)\)/i;
+const BARE_URL = /https?:\/\/(?:(?!\{\{(?:PUBREF_|VOLREF_))[^\s<>])+/i;
+const INLINE_TOKEN = new RegExp([PUBLICATION_REFERENCE, EXTERNAL_LINK, BARE_URL,
+  /[\w.+-]+@[\w.-]+\.[A-Za-z]{2,}|\*\*|\*|__/].map(token => token.source).join('|'), 'gi');
 const EMPHASIS_MARKERS = new Set(['**', '*', '__']);
 function emphasisEnd(value: string, start: number, marker: string): { start: number; end: number } | undefined {
   const stack = [marker], tokens = new RegExp(INLINE_TOKEN.source, 'gi');
@@ -159,6 +163,11 @@ export class PublicationWordPackage {
     });
   }
   inline(value: string, format: ParagraphFormat = {}): string { return this.formattedInline(value, format, 0); }
+  private referenceTarget(token: string) {
+    const target = this.targets.get(token.slice(2, -2));
+    if (!target) throw new Error('A Word publication reference has no target. Reinsert the reference before export.');
+    return target;
+  }
   private formattedInline(value: string, format: ParagraphFormat, depth: number): string {
     this.check();
     if (depth > 16) throw new Error('The publication contains inline formatting nested too deeply.');
@@ -180,16 +189,18 @@ export class PublicationWordPackage {
         continue;
       }
       if ((token.startsWith('{{PUBREF_') || token.startsWith('{{VOLREF_')) && format.inlineMode !== undefined && format.inlineMode !== 'literal') {
-        const target = this.targets.get(token.slice(2, -2));
-        if (!target) throw new Error('A Word publication reference has no target. Reinsert the reference before export.');
+        const target = this.referenceTarget(token);
         output.push(`<w:hyperlink w:anchor="${target.anchor}">${run(target.label, { ...format, superscript: target.note })}</w:hyperlink>`);
         continue;
       }
-      const link = /^\[([^\]\n]+)\]\((https?:\/\/[^\s)]+)\)$/i.exec(token);
-      if (link && format.inlineMode !== undefined && format.inlineMode !== 'literal') {
+      const link = EXTERNAL_LINK.exec(token);
+      if (link?.[0] === token && format.inlineMode !== undefined && format.inlineMode !== 'literal') {
         const href = safeUrl(link[2]);
         if (href) {
-          output.push(`<w:hyperlink r:id="${this.relationship('hyperlink', href, true)}">${run(link[1], { ...format, underline: true })}</w:hyperlink>`);
+          // A Word hyperlink cannot contain another hyperlink. Use the current
+          // reference label as display text so the outer link retains its URL.
+          const label = link[1].replace(PUBLICATION_REFERENCE, reference => this.referenceTarget(reference).label);
+          output.push(`<w:hyperlink r:id="${this.relationship('hyperlink', href, true)}">${run(label, { ...format, underline: true })}</w:hyperlink>`);
           continue;
         }
       }
