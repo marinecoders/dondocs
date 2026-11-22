@@ -4,6 +4,8 @@ const WORD_NS = 'http://schemas.openxmlformats.org/wordprocessingml/2006/main';
 
 export type PublicationWordRenderer = 'microsoft-word' | 'libreoffice';
 export interface PublicationPageSize { width: number; height: number }
+const navigationHeadings = new Set(['TABLE OF CONTENTS', 'LIST OF ILLUSTRATIONS', 'LIST OF TABLES']);
+interface ContentsEntry { section: string; label: string; format: 'roman' | 'decimal' }
 
 const elements = (parent: Document | Element, name: string): Element[] => Array.from(parent.getElementsByTagName(name));
 // A narrow printed model-number column may wrap MODEL-WIDE after its hyphen.
@@ -89,7 +91,7 @@ export function inspectPublicationWordRender(input: {
 /** Check the exact OOXML used for the print. A rendered page can contain the
  * expected text even when the Word contents links or page fields are broken.
  */
-export function inspectPublicationWordNavigation(documentXml: string): { bookmarks: number; internalLinks: number; pageReferences: number } {
+export function inspectPublicationWordNavigation(documentXml: string): { bookmarks: number; internalLinks: number; pageReferences: number; contentsEntries: ContentsEntry[] } {
   const ns = WORD_NS;
   const document = parseXml(documentXml);
   if (document.documentElement.namespaceURI !== ns || document.documentElement.localName !== 'document') {
@@ -105,8 +107,10 @@ export function inspectPublicationWordNavigation(documentXml: string): { bookmar
   };
   let internalLinks = 0, pageReferences = 0;
   const targets: string[] = [];
-  const anchorsByParagraph = new Map<Element, string[]>();
-  const fields: { paragraph: Element; anchor: string }[] = [];
+  const linksByParagraph = new Map<Element, { anchor: string; label: string }[]>();
+  const fields: { paragraph: Element; anchor: string; section: string; format: ContentsEntry['format'] }[] = [];
+  const paragraphText = (node: Element) => normalize(Array.from(node.getElementsByTagNameNS(ns, 't'), content => content.textContent ?? '').join(''));
+  let section: string | undefined;
   const containingParagraph = (node: Element): Element | null => {
     const parent = node.parentNode;
     if (parent?.nodeType !== 1) return null;
@@ -114,7 +118,13 @@ export function inspectPublicationWordNavigation(documentXml: string): { bookmar
     return element.namespaceURI === ns && element.localName === 'p' ? element : null;
   };
   for (const node of Array.from(body.getElementsByTagNameNS(ns, '*'))) {
-    if (node.localName === 'bookmarkStart') {
+    if (node.localName === 'p' && node.parentNode === body) {
+      const style = node.getElementsByTagNameNS(ns, 'pStyle').item(0)?.getAttributeNS(ns, 'val') ?? '';
+      if (/^Heading[1-3]$/.test(style)) {
+        const heading = paragraphText(node);
+        section = navigationHeadings.has(heading) ? heading : undefined;
+      }
+    } else if (node.localName === 'bookmarkStart') {
       const name = node.getAttributeNS(ns, 'name'), id = bookmarkId(node);
       if (!name || id === null || foldedNames.has(name.toLowerCase()) || starts.has(id)) {
         throw new Error('The publication has missing or duplicate Word bookmark identities.');
@@ -133,9 +143,10 @@ export function inspectPublicationWordNavigation(documentXml: string): { bookmar
         internalLinks++;
         const paragraph = containingParagraph(node);
         if (paragraph) {
-          const anchors = anchorsByParagraph.get(paragraph) ?? [];
-          anchors.push(name);
-          anchorsByParagraph.set(paragraph, anchors);
+          const links = linksByParagraph.get(paragraph) ?? [];
+          const label = paragraphText(node);
+          links.push({ anchor: name, label });
+          linksByParagraph.set(paragraph, links);
         }
       }
     } else if (node.localName === 'fldSimple') {
@@ -143,11 +154,12 @@ export function inspectPublicationWordNavigation(documentXml: string): { bookmar
       if (/^PAGEREF\b/i.test(instruction)) {
         const name = /^PAGEREF\s+([A-Za-z_][A-Za-z0-9_]*)(?=\s|$)/i.exec(instruction)?.[1];
         const paragraph = containingParagraph(node);
-        if (!name || !paragraph) {
+        const format = /(?:^|\s)\\\*\s+(roman|Arabic)(?=\s|$)/.exec(instruction)?.[1];
+        if (!name || !paragraph || !format || !section) {
           throw new Error('The publication has a malformed Word PAGEREF field.');
         }
         targets.push(name);
-        fields.push({ paragraph, anchor: name });
+        fields.push({ paragraph, anchor: name, section, format: format === 'roman' ? 'roman' : 'decimal' });
         pageReferences++;
       }
     }
@@ -157,12 +169,63 @@ export function inspectPublicationWordNavigation(documentXml: string): { bookmar
     if (!names.has(target)) throw new Error(`The publication has an unresolved Word bookmark target: ${target}.`);
   }
   const paired = new Set<Element>();
-  for (const { paragraph, anchor } of fields) {
-    const links = anchorsByParagraph.get(paragraph);
-    if (links?.length !== 1 || links[0] !== anchor || paired.has(paragraph)) {
+  const contentsEntries: ContentsEntry[] = [];
+  for (const { paragraph, anchor, section, format } of fields) {
+    const links = linksByParagraph.get(paragraph);
+    if (links?.length !== 1 || links[0].anchor !== anchor || paired.has(paragraph)) {
       throw new Error(`The publication contents link and its Word PAGEREF field disagree: ${anchor}.`);
     }
+    const { label } = links[0];
+    if (!label) throw new Error(`The publication contents row has no label: ${anchor}.`);
+    contentsEntries.push({ section, label, format });
     paired.add(paragraph);
   }
-  return { bookmarks: names.size, internalLinks, pageReferences };
+  return { bookmarks: names.size, internalLinks, pageReferences, contentsEntries };
+}
+
+/** Measure the printed contents labels independently of the DOCX field code.
+ * Unknown rows require inspection of the printed pages.
+ */
+export function inspectPrintedContentsLabels(layoutText: string, entries: readonly ContentsEntry[]) {
+  const labels = new Map<string, string[]>();
+  const keyFor = (section: string, label: string) => JSON.stringify([section, label]);
+  for (const page of layoutText.split('\f')) {
+    let section: string | undefined;
+    let foundRow = false;
+    for (const raw of page.split(/\r?\n/)) {
+      const line = raw.trim();
+      const heading = normalize(line);
+      if (navigationHeadings.has(heading)) {
+        section = heading;
+        foundRow = false;
+      } else if (section && (line || foundRow)) {
+        const match = /^(.+?)(?:\.\s*){3,}(.*?)\s*$/u.exec(line);
+        if (!match) {
+          section = undefined;
+          continue;
+        }
+        const key = keyFor(section, normalize(match[1]));
+        const values = labels.get(key) ?? [];
+        values.push(match[2]);
+        labels.set(key, values);
+        foundRow = true;
+      }
+    }
+  }
+
+  const counts = new Map<string, number>();
+  for (const { section, label } of entries) {
+    const key = keyFor(section, label);
+    counts.set(key, (counts.get(key) ?? 0) + 1);
+  }
+  return entries.map(entry => {
+    const key = keyFor(entry.section, entry.label);
+    const printed = labels.get(key) ?? [];
+    if (!printed.length) return { ...entry, printed, result: 'missing' } as const;
+    if (printed.length !== 1 || counts.get(key) !== 1) return { ...entry, printed, result: 'ambiguous' } as const;
+    const value = printed[0];
+    const correctFormat = entry.format === 'decimal' ? /^[1-9][0-9]*$/.test(value)
+      : !!value && /^m{0,3}(?:cm|cd|d?c{0,3})(?:xc|xl|l?x{0,3})(?:ix|iv|v?i{0,3})$/.test(value);
+    return { ...entry, printed, result: correctFormat ? 'matches-format' : 'wrong-format' } as const;
+  });
 }
