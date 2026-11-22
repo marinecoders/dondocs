@@ -10,6 +10,7 @@ export interface PublicationWordFixture {
   name: string;
   source: PublicationWordSource;
   markers: string[];
+  expectedPageReferences?: number;
   assetFiles?: Record<string, string>;
 }
 
@@ -64,9 +65,9 @@ export function publicationWordFixtures(): PublicationWordFixture[] {
     { name: 'manual-standard', source: normal, markers: ['PORTABLE TEST EQUIPMENT', 'TEST-001', 'MODEL-1', 'DISTRIBUTION STATEMENT A', 'A. SAMPLE'] },
     { name: 'manual-continuation', source: continuation, markers: ['INTERACTIVE CONTROLLER MAINTENANCE', 'END ITEM CONTINUATION', 'TEST-009', 'MODEL-9', 'A. SAMPLE'] },
     { name: 'manual-controlled', source: controlled, markers: ['Controlled by:', 'DISTRIBUTION STATEMENT C', 'DESTRUCTION NOTICE', 'Copyright 2026 Example Company.', 'TEST-007', 'A. SAMPLE'] },
-    { name: 'sl3-portrait', source: sl3, markers: ['COMPONENT, Training 001', 'COMPONENTS INVENTORY', 'INVENTORIED BY'] },
-    { name: 'sl3-wide', source: wide, markers: ['COMPONENT, Training 001', 'MODEL-WIDE', 'SYNTHETIC FIELDING PLAN', 'INVENTORIED BY'] },
-    { name: 'sl4-parts', source: sl4, markers: ['PART I', 'PART II', 'PART III', 'PART IV', 'Control Box, Training'], assetFiles: { 'sl4-artwork': 'tests/fixtures/publication-word/diagram.png' } },
+    { name: 'sl3-portrait', expectedPageReferences: 8, source: sl3, markers: ['COMPONENT, Training 001', 'COMPONENTS INVENTORY', 'INVENTORIED BY'] },
+    { name: 'sl3-wide', expectedPageReferences: 8, source: wide, markers: ['COMPONENT, Training 001', 'MODEL-WIDE', 'SYNTHETIC FIELDING PLAN', 'INVENTORIED BY'] },
+    { name: 'sl4-parts', expectedPageReferences: 16, source: sl4, markers: ['PART I', 'PART II', 'PART III', 'PART IV', 'Control Box, Training'], assetFiles: { 'sl4-artwork': 'tests/fixtures/publication-word/diagram.png' } },
     ...instructions,
     { name: 'instruction-long-table', source: dense, markers: [...Array.from({ length: 48 }, (_, index) => `MEASUREMENT-${index + 1}`), 'RESULT-48:', 'APPENDIX CONTENT'], assetFiles: { 'qualification-image': 'public/attachments/usmc-seal.png' } },
     { name: 'instruction-rich', source: rich, markers: ['SUPPORT BRACKET', 'INSPECTION', 'CALIBRATION', 'Controller inspection drawing', 'APPENDIX INTRODUCTION', 'APPENDIX CONTENT'], assetFiles: { 'qualification-image': 'public/attachments/usmc-seal.png' } },
