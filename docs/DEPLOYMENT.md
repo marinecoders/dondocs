@@ -43,6 +43,23 @@ Managed builds use `DONDOCS_RELEASE_BUILD=1`; preparation requires the complete 
 
 Before rollout/rollback, follow [form recovery guidance](FORM_LIBRARY_ROLLOUT.md), preserve origin and old pinned form assets, and rehearse the previous-to-candidate storage upgrade. Native device acceptance is distinct from Playwright emulation.
 
+## Consolidating the public DonDocs addresses
+
+The public canonical address is `https://dondocs.marines.dev/`. Browser storage
+belongs to its original origin. While `https://dondocs.usmc.dev/` still serves
+the editor, its migration notice opens **Settings → Backup & restore** locally
+and offers the primary address in a separate tab. Rehearse downloading a
+workspace backup on the old address and restoring it on the primary address
+with a synthetic draft and retained attachments before changing routing.
+
+A future Cloudflare zone redirect should match only `dondocs.usmc.dev`, use
+HTTP 301, and retain the incoming path and query. Keep the destination free of
+a fragment so browsers can carry over existing shared-draft fragments. Preserve
+a documented recovery path on the old origin for users who still need backups. Check
+the root and an extensionless guide on both addresses after cutover. Verify
+the canonical property and submit its sitemap in Google Search Console.
+Capture indexing and query evidence there. See [Cloudflare Single Redirects](https://developers.cloudflare.com/rules/url-forwarding/single-redirects/settings/).
+
 ## Distribution
 
 Retain AGPL/source information and all applicable component notices. See [LICENSING.md](LICENSING.md), [THIRD_PARTY_LICENSES.md](../THIRD_PARTY_LICENSES.md) and the generated `SOURCE.txt` in packaged outputs. Serving your own deployment also means operating its HTTPS, headers, update history and backups.

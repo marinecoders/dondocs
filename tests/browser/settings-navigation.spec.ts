@@ -1,4 +1,6 @@
 import { test, expect, type Page } from '@playwright/test';
+import { readFile } from 'node:fs/promises';
+import { PDFDocument } from 'pdf-lib';
 
 test.use({ serviceWorkers: 'block' });
 
@@ -68,6 +70,66 @@ test('Help and search still open Settings directly at backups', async ({ page })
   await expect(page.getByRole('heading', { name: 'Backup & restore', exact: true })).toBeFocused();
   await expectBackupControls(page);
   await expect(page.getByRole('dialog', { name: 'Search workspace', exact: true })).toBeHidden();
+});
+
+test('the older public address supports backup before moving to the primary address', async ({ page, context, request, baseURL }) => {
+  // Serve the production build under two isolated browser origins.
+  await context.addInitScript(() => localStorage.setItem('browser-test-visitor', 'returning'));
+  await context.route(/^https:\/\/dondocs\.(?:usmc|marines)\.dev\//, async route => {
+    const source = new URL(route.request().url());
+    // Preview compilation is outside this flow and would keep asset fetches
+    // alive across the origin switch and browser teardown.
+    if (source.pathname.startsWith('/lib/texlive/')) return route.abort();
+    const response = await request.get(new URL(source.pathname + source.search, baseURL).href);
+    await route.fulfill({ response });
+  });
+  await page.goto('https://dondocs.usmc.dev/?migration=test');
+  const notice = page.getByRole('complementary', { name: 'DonDocs address change' });
+  const title = 'SYNTHETIC ORIGIN MIGRATION';
+  const pdf = await PDFDocument.create();
+  pdf.addPage().drawText('Synthetic supporting PDF');
+  const asset = Buffer.from(await pdf.save());
+  const assetData = asset.toString('base64');
+  const draft = {
+    documentMode: 'custom', documentCategory: 'correspondence', docType: 'naval_letter',
+    formData: { subject: title }, paragraphs: [{ id: 'migration', text: 'Retain this draft.', level: 0 }],
+    references: [], copyTos: [], distributions: [],
+    enclosures: [{ title: 'Synthetic enclosure', file: { name: 'support.pdf', size: asset.length, data: assetData } }],
+  };
+  await page.getByLabel('Import draft file').setInputFiles({
+    name: 'migration.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(draft)),
+  });
+  await page.getByRole('button', { name: 'Open as new document', exact: true }).click();
+  await notice.getByRole('button', { name: 'Back up workspace', exact: true }).click();
+  const settings = page.getByRole('dialog', { name: 'Settings', exact: true });
+  await expect(settings.getByRole('heading', { name: 'Backup & restore', exact: true })).toBeFocused();
+  const pending = page.waitForEvent('download');
+  await settings.getByRole('button', { name: 'Download workspace backup', exact: true }).click();
+  const backup = await readFile((await (await pending).path())!);
+  expect(backup.toString()).toContain(title);
+  expect(backup.toString()).toContain(assetData);
+  await settings.getByRole('button', { name: 'Close', exact: true }).click();
+
+  const primaryTab = context.waitForEvent('page');
+  await notice.getByRole('link', { name: 'Open dondocs.marines.dev' }).click();
+  const primary = await primaryTab;
+  await expect(primary).toHaveURL('https://dondocs.marines.dev/?migration=test');
+  await expect(primary.getByRole('button', { name: 'Document actions', exact: true })).toBeVisible();
+  await openWorkspaceTool(primary, 'Settings');
+  await expect(primary.getByRole('complementary', { name: 'DonDocs address change' })).toHaveCount(0);
+  const primarySettings = primary.getByRole('dialog', { name: 'Settings', exact: true });
+  await primarySettings.getByLabel('Backup file', { exact: true }).setInputFiles({
+    name: 'migration-backup.json', mimeType: 'application/json', buffer: backup,
+  });
+  await expect(primarySettings.getByRole('status')).toContainText('Restored 1 doc');
+  await expect(primarySettings.getByRole('alert')).toHaveCount(0);
+  const restoredDownload = primary.waitForEvent('download');
+  await primarySettings.getByRole('button', { name: 'Download workspace backup', exact: true }).click();
+  const restored = await readFile((await (await restoredDownload).path())!, 'utf8');
+  expect(restored).toContain(title);
+  expect(restored).toContain(assetData);
+  await Promise.all([page.close(), primary.close()]);
+  await context.unrouteAll({ behavior: 'ignoreErrors' });
 });
 
 test('backup tour highlights workspace navigation rather than document actions', async ({ page }, testInfo) => {

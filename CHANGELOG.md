@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.231] — 2026-11-22
+
+### Added
+
+- Offer a workspace backup before users move from the older DonDocs address.
+
 ## [1.3.217] — 2026-11-21
 
 ### Fixed

@@ -74,6 +74,7 @@ import { AppAlertDialog } from '@/components/AppAlertDialog';
 import { StorageNotice } from '@/components/StorageNotice';
 import { ConnectivityModal } from '@/components/modals/ConnectivityModal';
 import { BackupNotice } from '@/components/BackupNotice';
+import { LegacyHostNotice } from '@/components/LegacyHostNotice';
 import { InstallNotice } from '@/components/InstallNotice';
 import { probeStorageHealth, requestPersistentStorage } from '@/lib/documentsDb';
 import { useUIStore } from '@/stores/uiStore';
@@ -1230,6 +1231,7 @@ function App() {
         <div className="workspace-column flex flex-1 min-w-0 flex-col overflow-hidden">
           <StorageNotice placement="header" />
           <ConnectivityModal />
+          <LegacyHostNotice />
           <BackupNotice />
           <InstallNotice />
           {commandPaletteOpen && <CommandPalette open presentation="workspace" onClose={() => setCommandPaletteOpen(false)} groups={commandGroups} />}
