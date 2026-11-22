@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { spawnSync } from 'node:child_process';
 import { readFile, readdir, writeFile } from 'node:fs/promises';
 import { join } from 'node:path';
-import { PDFDict, PDFDocument, PDFName } from 'pdf-lib';
+import { PDFArray, PDFDict, PDFDocument, PDFName } from 'pdf-lib';
 import { renderTaggedCorrespondence } from '@/services/pdf/accessibility/render';
 import { validateGeneratedTaggedPdf } from '@/services/pdf/accessibility/validate';
 import { generateAllLatexFiles } from '@/services/latex/generator';
@@ -33,8 +33,8 @@ describe.skipIf(!hasPdfToolchain)('tagged correspondence layouts', () => {
         inReplyTo: true, ...(isMemo ? { ssic: '5216', serial: 'TEST', via: 'First Office\nSecond Office', showSubjectOnContinuation: true, pageNumbering: 'simple' } : {}), sigFirst: 'Alex', sigLast: 'Example', sigRank: 'Captain', sigTitle: 'Training Officer' },
       paragraphs: [
         { level: 0, text: 'Review the table below.' },
-        { level: 0, text: 'Training table', bodyTable: { rows: [['Role', 'Activity'],
-          ...Array.from({ length: 48 }, (_, index) => [`ROW${index}`, 'Training review'])], headerRows: 1 } },
+        { level: 0, text: 'Training table', bodyTable: { rows: [['Role', 'Activity'], ['Assignment', 'Status'],
+          ...Array.from({ length: 48 }, (_, index) => [`ROW${index}`, 'Training review'])], headerRows: 2 } },
       ],
       references: [], enclosures: [], distributions: distribute ? [{ text: 'Distribution Staff' }] : [], copyTos: [{ text: 'Training Copy' }],
     };
@@ -59,9 +59,25 @@ describe.skipIf(!hasPdfToolchain)('tagged correspondence layouts', () => {
         return result.pdfBytes!;
       },
     });
-    expect((await validateGeneratedTaggedPdf(tagged)).associatedChunks).toBeGreaterThan(98);
+    const validation = await validateGeneratedTaggedPdf(tagged);
+    expect(validation.associatedChunks).toBeGreaterThan(98);
+    expect(validation.columnHeaders).toBe(4);
+    const pdf = await PDFDocument.load(tagged);
+    const table = pdf.context.enumerateIndirectObjects().map(([, object]) => object).find(object =>
+      object instanceof PDFDict && object.get(PDFName.of('S')) === PDFName.of('Table')) as PDFDict;
+    const groups = table.lookup(PDFName.of('K'), PDFArray);
+    expect(groups.size()).toBe(2);
+    for (const [index, role, count] of [[0, 'THead', 2], [1, 'TBody', 48]] as const) {
+      const group = groups.lookup(index, PDFDict);
+      expect(group.get(PDFName.of('S'))).toBe(PDFName.of(role));
+      expect(group.lookup(PDFName.of('K'), PDFArray).size()).toBe(count);
+    }
     const taggedPath = join(normal.workDir, 'tagged.pdf');
     await writeFile(taggedPath, tagged);
+    const logical = spawnSync('pdfinfo', ['-struct-text', taggedPath], { encoding: 'utf8' });
+    expect(logical.status, logical.stderr).toBe(0);
+    expect(logical.stdout).toMatch(/THead[\s\S]+"Role"[\s\S]+"Activity"[\s\S]+"Assignment"[\s\S]+"Status"[\s\S]+TBody[\s\S]+"ROW0"[\s\S]+"ROW47"/);
+    expect(logical.stdout.match(/"Assignment"/g)).toHaveLength(1);
     const measured = spawnSync('pdftotext', [taggedPath, '-'], { encoding: 'utf8' });
     expect(measured.status, measured.stderr).toBe(0);
     expect(measured.stdout.includes('SYNTHETIC TITLE')).toBe(!plainMemo && letterheadMode !== 'preprinted');
@@ -71,10 +87,6 @@ describe.skipIf(!hasPdfToolchain)('tagged correspondence layouts', () => {
     if (isMemo) {
       expect(measured.stdout).toMatch(/MEMORANDUM[\s\S]+From:[\s\S]+To:[\s\S]+Via:[\s\S]+First Office[\s\S]+Second Office[\s\S]+Subj:/);
       expect(measured.stdout.includes('5216')).toBe(!plainMemo);
-      const pdf = await PDFDocument.load(tagged);
-      const headers = pdf.context.enumerateIndirectObjects().map(([, object]) => object).filter(object =>
-        object instanceof PDFDict && object.get(PDFName.of('S')) === PDFName.of('TH'));
-      expect(headers).toHaveLength(2);
     }
     for (const [file, prefix] of [['main.pdf', 'original'], ['tagged.pdf', 'tagged']]) {
       const rendered = spawnSync('pdftoppm', ['-r', '72', '-png', join(normal.workDir, file), join(normal.workDir, prefix)], { encoding: 'utf8' });

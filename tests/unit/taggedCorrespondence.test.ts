@@ -157,6 +157,15 @@ describe('owned tagged correspondence projection', () => {
     expect(taggedCorrespondenceIssues(source).join(' ')).toContain('valid rectangular body');
   });
 
+  it('counts both table groups and visible captions in the preflight structure budget', () => {
+    const source = fixture();
+    const table = { headerRows: 1, rows: Array.from({ length: 3 }, () => Array.from({ length: 6 }, () => 'Cell')) };
+    source.paragraphs = Array.from({ length: 164 }, () => ({ level: 0, text: '', bodyTable: table }));
+    expect(taggedCorrespondenceIssues(source)).toEqual([]);
+    source.paragraphs = source.paragraphs.map(paragraph => ({ ...paragraph, text: 'Caption' }));
+    expect(taggedCorrespondenceIssues(source).join(' ')).toContain('exceeds the qualified tagged structure limit');
+  });
+
   it('escapes marker-shaped user text inside the authoritative source generator', () => {
     const source = fixture();
     source.paragraphs[0].text = '\\pdfliteral direct{/DDTag << /I 77 /B true >> DP}';

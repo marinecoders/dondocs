@@ -3,6 +3,7 @@ import { resolveLetterheadMode } from '@/lib/letterheadMode';
 import { DOC_TYPE_CONFIG } from '@/types/document';
 import { escapeLatex } from '@/services/latex/escaper';
 import { bodyTableSchema } from '@/lib/bodyTable';
+import { hasBodyCaption } from '@/lib/bodyCaption';
 import { resolveAppendedEndorsements } from '@/lib/appendedEndorsement';
 import type { TaggedCorrespondenceSource } from './correspondence';
 
@@ -67,7 +68,7 @@ export function taggedCorrespondenceIssues(source: TaggedCorrespondenceSource, r
   if (source.paragraphs.filter(p => p.figure).length > (taggedLetterhead(source) === 'full' ? 19 : 20)) issues.push('Tagged output supports at most 20 painted raster images, including the naval seal.');
   const estimate = 40 + source.references.length * 4 + (source.copyTos.length + source.distributions.length) * 3 + source.paragraphs.reduce((sum, paragraph) => {
     const table = bodyTableSchema.safeParse(paragraph.bodyTable);
-    return sum + (table.success ? table.data.rows.length * (table.data.rows[0].length + 1) + 3 : paragraph.figure ? 3 : 7);
+    return sum + (table.success ? table.data.rows.length * (table.data.rows[0].length + 1) + 3 + Number(hasBodyCaption(paragraph)) : paragraph.figure ? 3 : 7);
   }, 0);
   if (estimate > 4000) issues.push('The document exceeds the qualified tagged structure limit. Split large tables or lists into separate documents.');
   const chars = source.paragraphs.reduce((sum, p) => sum + p.text.length + (p.header?.length ?? 0) + (bodyTableSchema.safeParse(p.bodyTable).data?.rows.reduce((total, row) => total + row.reduce((length, cell) => length + cell.length, 0), 0) ?? 0) + (p.figure?.altText?.length ?? 0), 0);

@@ -143,8 +143,9 @@ export function prepareTaggedCorrespondence(source: TaggedCorrespondenceSource, 
       const caption = hasBodyCaption(paragraph) ? top('Caption').id : undefined;
       const cells: number[][] = [];
       const table = top('Table');
-      table.children = paragraph.bodyTable.rows.map((row, rowIndex) => {
-        const header = rowIndex < paragraph.bodyTable!.headerRows;
+      const { rows, headerRows } = paragraph.bodyTable;
+      const taggedRows = rows.map((row, rowIndex) => {
+        const header = rowIndex < headerRows;
         const children = row.map(cell => {
           const value = node(header ? 'TH' : 'TD');
           if (header) { value.columnHeader = true; value.repeatAsArtifact = true; }
@@ -154,6 +155,7 @@ export function prepareTaggedCorrespondence(source: TaggedCorrespondenceSource, 
         cells.push(children.map(value => value.id));
         return node('TR', children);
       });
+      table.children = [node('THead', taggedRows.slice(0, headerRows)), node('TBody', taggedRows.slice(headerRows))];
       const frame = nextId++; artifactIds.push(frame);
       tables.set(index, { cells, caption, frame });
       continue;
