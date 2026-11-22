@@ -174,7 +174,7 @@ export function prepareExport(input: {
       output = captureDocumentRevision(output.source, snapshot);
     }
     if (input.pdfAccessibility === 'tagged') {
-      if (output.kind !== 'correspondence') return error('Tagged PDF currently supports native standard, naval and multiple-address letters, not form originals.');
+      if (output.kind !== 'correspondence') return error('Tagged PDF requires supported native correspondence.');
       const issues = taggedCorrespondenceIssues(snapshot);
       if (issues.length) return Object.freeze({ status: 'error', issues: Object.freeze(issues) });
       notices.push('Tagged output is experimental. English (en-US), document tags, reading order, table column headers and image alternatives are included. Native screen-reader qualification and PDF/UA conformance have not been established.');

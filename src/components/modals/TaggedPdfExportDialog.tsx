@@ -14,12 +14,12 @@ export function TaggedPdfExportDialog({ open, onOpenChange, onExport, disabled }
   const source = useDocumentStore();
   // Advisory only: the export controller captures and validates again on Export.
   const projected = copyCapturedDocument(projectRenderedDocument(captureDocumentRevision({ documentId: 'tagged-preflight', epoch: 0, editSequence: 0, capturedAt: 0 }, source.getSnapshot())));
-  const issues = projected.kind === 'correspondence' ? taggedCorrespondenceIssues(projected.document) : ['Tagged PDF supports native letters, not original form PDFs.'];
+  const issues = projected.kind === 'correspondence' ? taggedCorrespondenceIssues(projected.document) : ['Tagged PDF requires supported native correspondence.'];
   return <Dialog open={open} onOpenChange={onOpenChange}>
     <DialogContent>
       <DialogHeader>
         <DialogTitle>Export tagged PDF</DialogTitle>
-        <DialogDescription>Experimental output for native unclassified standard, naval and multiple-address letters. The PDF includes document tags and logical reading order; native screen-reader qualification and PDF/UA conformance have not been established.</DialogDescription>
+        <DialogDescription>Experimental output for native unclassified standard, naval and multiple-address letters and plain-paper memorandums. The PDF includes document tags and logical reading order; native screen-reader qualification and PDF/UA conformance have not been established.</DialogDescription>
       </DialogHeader>
       <div className="space-y-3 text-sm">
         <p>Language: English (United States). Headings, lists, table column headers and image alternatives come from this draft. Check the exported reading order with your intended reader before distribution.</p>

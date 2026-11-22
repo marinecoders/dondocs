@@ -68,7 +68,7 @@ function DeliveryProfile({ record, revision, disabled, busy, ports, run, signal,
       {canTagNativePdfs &&
         <label className="flex items-start gap-2">
           <input type="checkbox" checked={taggedNativePdfs} onChange={event => { invalidate(); setTaggedNativePdfs(event.target.checked); }} />
-          <span>Tag supported native letter PDFs (experimental)<span className="block text-xs text-muted-foreground">Logical reading order and table headings are included. Original files keep their existing accessibility.</span></span>
+          <span>Tag supported correspondence PDFs (experimental)<span className="block text-xs text-muted-foreground">Logical reading order and table headings are included. Original files keep their existing accessibility.</span></span>
         </label>}
       <div className="min-w-0 space-y-2">{revision.members.map(member => <label key={member.id} className="flex items-start gap-2 break-words"><input type="checkbox" checked={memberIds.includes(member.id)} onChange={event => { invalidate(); setMemberIds(previous => event.target.checked ? [...previous, member.id] : previous.filter(id => id !== member.id)); }} />Include {member.label}</label>)}</div>
       <Button className="h-auto min-h-9 max-w-full whitespace-normal" disabled={!label.trim() || !memberIds.length} onClick={() => void perform(async (current, operationSignal) => {

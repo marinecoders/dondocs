@@ -60,7 +60,7 @@ export async function preparePackageDelivery(input: ActionPackage, revisionId: s
   const selected = selectPackageDeliveryMembers(source, revisionId, selection.memberIds), assets = new Map<string, CapturedDeliveryAsset>(), members: PackageMember[] = [], reviews: Array<{ member: string; review: ExportReview }> = [];
   const taggedNativePdfs = selection.taggedNativePdfs === true;
   if (taggedNativePdfs && (selection.purpose !== 'recipient' || !selected.some(member => member.kind === 'native'))) {
-    throw new Error('Select a native letter to prepare a recipient delivery with tagged PDFs.');
+    throw new Error('Select supported correspondence to prepare a recipient delivery with tagged PDFs.');
   }
   const taggedAssetIds: string[] = [];
   reviews.push({ member: 'Delivery name', review: reviewPackageText(selection.label, 'Delivery name', policy) });
@@ -105,7 +105,7 @@ export async function preparePackageDelivery(input: ActionPackage, revisionId: s
     excludedMembers: getPackageRevision(source, revisionId).members.length - members.length, reviews,
     notices: ['This delivery is an independent selected-document copy. It carries no package review decisions, task list, signing records, source pointers or earlier revisions.',
       ...(selection.purpose === 'editable' ? ['Editable documents include their retained answers, inactive values, templates and embedded attachments. Review this exact scope before transfer.'] : ['Native members become PDF derivatives. Selected supporting files keep their original formats and bytes; original PDFs keep any signatures; verify those signatures in the original file.']),
-      ...(taggedNativePdfs ? ['Native letters are separate experimental tagged PDFs. Original attachments retain their existing accessibility and are kept unchanged.'] : []),
+      ...(taggedNativePdfs ? ['Supported correspondence is delivered as separate experimental tagged PDFs. Original attachments retain their existing accessibility and are kept unchanged.'] : []),
       ...inspected.readiness.findings.map(finding => finding.message)] });
   captures.set(prepared, capture(temporary)); await assertPackageDeliveryCurrent(prepared, policy, signal, isCurrent); return prepared;
 }

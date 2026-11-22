@@ -2,6 +2,7 @@ import { taggedReferenceUrl } from './links';
 import mainTemplate from '../../../../tex/main.tex?raw';
 import navalTemplate from '../../../../tex/templates/naval_letter.tex?raw';
 import multipleAddressTemplate from '../../../../tex/templates/multiple_address_letter.tex?raw';
+import plainPaperMemoTemplate from '../../../../tex/templates/plain_paper_memorandum.tex?raw';
 import standardTemplate from '../../../../tex/templates/standard_letter.tex?raw';
 import { generateAllLatexFiles, type GeneratedFiles, type LatexBodyAdapter } from '@/services/latex/generator';
 import { TAGGED_MAIN_FILE } from '@/services/latex/renderDocument';
@@ -14,6 +15,13 @@ import { signatureAuthorityLine, signaturePosition, supportsActingSignature } fr
 import { DOC_TYPE_CONFIG } from '@/types/document';
 import type { PdfRasterBinding } from './raster';
 import { validatePdfTaggingPlan, type PdfSemanticNode, type PdfSemanticRole, type PdfTaggingPlan } from './taggedPdf';
+
+const templates = {
+  'standard-letter': standardTemplate,
+  'naval-letter': navalTemplate,
+  'multiple-address-letter': multipleAddressTemplate,
+  'plain-paper-memorandum': plainPaperMemoTemplate,
+};
 
 export type TaggedCorrespondenceSource = Parameters<typeof generateAllLatexFiles>[0];
 export interface TaggedCorrespondencePreparation {
@@ -57,8 +65,8 @@ export function prepareTaggedCorrespondence(source: TaggedCorrespondenceSource, 
   };
   const fields = source.formData;
   const qualification = taggedLayout(source.docType)!;
-  let format = qualification === 'naval-letter' ? navalTemplate
-    : qualification === 'multiple-address-letter' ? multipleAddressTemplate : standardTemplate;
+  let format = templates[qualification];
+  const plainPaperMemo = qualification === 'plain-paper-memorandum';
   let mainSource = mainTemplate;
   let sealId: number | undefined;
   const letterhead = taggedLetterhead(source);
@@ -80,13 +88,18 @@ export function prepareTaggedCorrespondence(source: TaggedCorrespondenceSource, 
     const title = '\\textbf{\\UnitName}';
     mainSource = replaceOnce(mainSource, title, `\\textbf{${wrap(top('P').id, '\\UnitName')}}`);
   }
-  if (fields.inReplyTo) {
+  if (fields.inReplyTo && !plainPaperMemo) {
     const id = top('P').id;
     format = replaceOnce(format, '{\\fontsize{5pt}{6pt}\\selectfont IN REPLY REFER TO}', wrap(id, '{\\fontsize{5pt}{6pt}\\selectfont IN REPLY REFER TO}'));
   }
-  if (fields.ssic?.trim()) wrapMacro('DocumentSSIC', top('P').id);
-  if (composeSenderSymbol(fields.officeCode, fields.serial).trim()) wrapMacro('DocumentSerial', top('P').id);
+  if (!plainPaperMemo) {
+    if (fields.ssic?.trim()) wrapMacro('DocumentSSIC', top('P').id);
+    if (composeSenderSymbol(fields.officeCode, fields.serial).trim()) wrapMacro('DocumentSerial', top('P').id);
+  }
   wrapMacro('DocumentDate', top('P').id);
+  if (plainPaperMemo) {
+    format = replaceOnce(format, '\\noindent MEMORANDUM\n', `\\noindent ${wrap(top('P').id, 'MEMORANDUM')}\n`);
+  }
   const from = top('P').id;
   format = replaceOnce(format, 'From:\\hspace{2\\fontdimen2\\font}', wrap(from, 'From:\\hspace{2\\fontdimen2\\font}'));
   wrapMacro('FromLine', from);
