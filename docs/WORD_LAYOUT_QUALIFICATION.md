@@ -146,3 +146,16 @@ the rendered Word headers and margins across every continuation page.
 The six pairs passed with native pdfTeX and LibreOffice Writer. Pagination
 and font metrics depend on the renderer. Repeat the print checks in the Word
 environment you intend to qualify.
+
+## Long tables in correspondence
+
+Set `DONDOCS_CORRESPONDENCE_PRINT_LIBREOFFICE` to a LibreOffice executable and
+run `npm run test:integration -- tests/integration/word-correspondence-print.test.ts`.
+Set `DONDOCS_CORRESPONDENCE_PRINT_DIR` to retain the exact files and their
+layout measurements in a chosen directory.
+
+The Courier 11 pt naval-letter fixture has 64 body rows and a repeating
+header. Native pdfTeX and LibreOffice Writer 26.8.0.0 alpha each printed three
+pages, with the table spanning the first two. Both retained the two independently identified cells in every row, in order
+and within the paper bounds. Both column headings were repeated above the
+rows on each table page. The same checks in Microsoft Word remain pending.
