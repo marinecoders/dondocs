@@ -11,6 +11,7 @@ const TAGGED_LAYOUTS = {
   naval_letter: 'naval-letter',
   multiple_address_letter: 'multiple-address-letter',
   plain_paper_memorandum: 'plain-paper-memorandum',
+  letterhead_memorandum: 'letterhead-memorandum',
 } as const;
 
 export function taggedLayout(docType: string): typeof TAGGED_LAYOUTS[keyof typeof TAGGED_LAYOUTS] | undefined {
@@ -18,9 +19,8 @@ export function taggedLayout(docType: string): typeof TAGGED_LAYOUTS[keyof typeo
 }
 
 export function taggedLetterhead(source: TaggedCorrespondenceSource) {
-  const layout = taggedLayout(source.docType);
-  return layout === 'naval-letter' || layout === 'multiple-address-letter'
-    ? resolveLetterheadMode(DOC_TYPE_CONFIG[source.docType], source.formData) : null;
+  const config = DOC_TYPE_CONFIG[source.docType];
+  return taggedLayout(source.docType) && config?.letterhead ? resolveLetterheadMode(config, source.formData) : null;
 }
 
 /** Conservative, visible support boundaries. Unsupported source stays editable;
@@ -30,7 +30,7 @@ export function taggedCorrespondenceIssues(source: TaggedCorrespondenceSource, r
   // A stored nonblank value can disappear completely in the PDF font
   // projection (for example a zero-width paste or an unsupported glyph).
   const paintsText = (text?: string) => !!text?.trim() && !!escapeLatex(text).trim();
-  if (!taggedLayout(source.docType)) issues.push('Tagged PDF currently supports standard, naval and multiple-address letters and plain-paper memorandums. Other document layouts need separate qualification.');
+  if (!taggedLayout(source.docType)) issues.push('Tagged PDF currently supports standard, naval and multiple-address letters and plain-paper and letterhead memorandums. Other document layouts need separate qualification.');
   if (resolvedLevel !== 'unclassified' || source.paragraphs.some(p => (p.portionMarking && p.portionMarking !== 'U') || (p.figure?.portionMarking && p.figure.portionMarking !== 'U'))) issues.push('Classification and handling banners are not yet qualified for tagged output.');
   if (source.enclosures.length || source.formData.basicLetterFile || source.formData.basicLetterFileRef) issues.push('Tagged output cannot include original PDFs or enclosures. Export the native document separately.');
   if (source.formData.signatureType && source.formData.signatureType !== 'none') issues.push('Signature images and digital signature fields need separate tagged-output qualification.');
