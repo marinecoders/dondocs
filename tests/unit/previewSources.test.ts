@@ -68,3 +68,10 @@ it('removes only positioned numeric footers, preserving body numbers and unknown
   expect(previewPageText([item('54', 54)])).toBe('54');
   expect(previewPageText([item('CUI', 36), item('99', -1)])).toBe('CUI 99');
 });
+
+it('orders many text rows and withholds rotated or invalid coordinates', () => {
+  const items = Array.from({ length: 400 }, (_, index) => ({ str: `line${index}`, transform: [12, 0, 0, 12, 70, 5000 - index * 12] }));
+  const rotated = { str: 'rotated', transform: [0, 12, -12, 0, 70, 7000] };
+  const invalid = { str: 'invalid', transform: [12, 0, 0, 12, Number.NaN, 6000] };
+  expect(previewPageText([...items].reverse().concat([rotated, invalid]))).toBe(items.map(item => item.str).join(' '));
+});

@@ -1,4 +1,4 @@
-import { previewPageText, sourcesAcrossPages, type PreviewSource } from '@/lib/previewSources';
+import { PREVIEW_SOURCE_LIMITS, previewPageText, sourcesAcrossPages, type PreviewSource } from '@/lib/previewSources';
 import {
   forwardRef,
   useCallback,
@@ -40,6 +40,7 @@ export interface PdfPageLayerHandle {
 }
 
 interface PdfPageLayerProps {
+  sourceToReveal?: PreviewSource;
   onSourcesInView?: (sources: PreviewSource[]) => void;
   sources?: readonly PreviewSource[];
   sourceSubject?: string;
@@ -80,7 +81,7 @@ interface PdfPageLayerProps {
  * the viewer inside iOS's canvas memory budget.
  */
 export const PdfPageLayer = forwardRef<PdfPageLayerHandle, PdfPageLayerProps>(function PdfPageLayer(
-  { sources = [], sourceSubject = '', onNavigateSource, onSourcesInView, url, gen, pageWidth, dprCap, visible, initialScrollTop = 0, initialPage = 1, initialAnchor, fadingOut = false, thumbPortalTarget, currentPage, onDocMeta, onPageInView, onLoaded, onReady, onFailed },
+  { sourceToReveal, sources = [], sourceSubject = '', onNavigateSource, onSourcesInView, url, gen, pageWidth, dprCap, visible, initialScrollTop = 0, initialPage = 1, initialAnchor, fadingOut = false, thumbPortalTarget, currentPage, onDocMeta, onPageInView, onLoaded, onReady, onFailed },
   ref
 ) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -202,6 +203,33 @@ export const PdfPageLayer = forwardRef<PdfPageLayerHandle, PdfPageLayerProps>(fu
     onPageInView,
   ]);
 
+  // Only an explicit editor selection starts this bounded text-only search.
+  // No canvas work, editor focus or response to keystrokes is involved.
+  useEffect(() => {
+    const read = textReader.current;
+    if (!visible || !sourceToReveal || !read || !numPages || !layout.length) return;
+    let cancelled = false;
+    const sequence = loadSequence.current;
+    void (async () => {
+      const measured: Record<number, string> = {};
+      for (let index = 0; index < Math.min(numPages, PREVIEW_SOURCE_LIMITS.pages); index++) {
+        if (cancelled || sequence !== loadSequence.current) return;
+        measured[index] = await read(index);
+        if (cancelled || sequence !== loadSequence.current) return;
+        const matches = sourcesAcrossPages(measured, sources, sourceSubject);
+        const destination = [...matches].find(([, found]) => found.includes(sourceToReveal));
+        if (destination) {
+          scrollToPage(destination[0], false);
+          return;
+        }
+        // Cached text promises can resolve in one microtask chain. Yield so
+        // manual navigation and the effect's cancellation can run between batches.
+        if ((index + 1) % 8 === 0) await new Promise<void>(resolve => setTimeout(resolve, 0));
+      }
+    })().catch(() => { /* Unreadable text leaves the user's PDF position alone. */ });
+    return () => { cancelled = true; };
+  }, [visible, sourceToReveal, numPages, layout.length, sources, sourceSubject, scrollToPage]);
+
   useImperativeHandle(
     ref,
     () => ({
@@ -317,10 +345,14 @@ export const PdfPageLayer = forwardRef<PdfPageLayerHandle, PdfPageLayerProps>(fu
         loading={null}
         error={null}
         onLoadSuccess={(doc) => {
-          textReader.current = async index => {
-            const page = await doc.getPage(index + 1);
-            const content = await page.getTextContent();
-            return previewPageText(content.items);
+          const textCache = new Map<number, Promise<string>>();
+          textReader.current = index => {
+            let pending = textCache.get(index);
+            if (!pending) {
+              pending = doc.getPage(index + 1).then(page => page.getTextContent()).then(content => previewPageText(content.items));
+              textCache.set(index, pending);
+            }
+            return pending;
           };
           const sequence = ++loadSequence.current;
           // Resolve dimensions before rendering/restoring: a temporary Letter

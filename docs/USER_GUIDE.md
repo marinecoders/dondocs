@@ -696,3 +696,11 @@ Missing original targets, changed parents and unsupported formatting cannot be s
 In **Packages**, choose an administrative request, training participation or evidence submission. These general-purpose starters use DonDocs worksheets. Save partial answers for later, or preview and apply the exact document changes. Repeated people have independent identities; conditional content and evidence requirements follow the reviewed answers. See [action intake](CONDITIONAL_PACKAGE_INTAKE.md) for the full workflow, including local edits, saved templates and editable transfer.
 
 See [maintaining package templates](PACKAGE_TEMPLATE_MAINTENANCE.md) for maintainer editing and scenario validation.
+
+### Navigate between the preview and editor
+
+In a native document preview, open **Edit page N source** and select a field or paragraph. On a phone, this closes the preview and returns focus to that editor field. Links appear only when the rendered text identifies a unique source; short, ambiguous or changed text may have no link. Complete plain-text paragraphs can also be matched across up to four adjacent pages when only known subject headers and page numbers intervene.
+
+On desktop, **Preview following** defaults to off. **Follow editor** reveals the PDF page for a field or paragraph you select without moving editor focus. Searching is limited to the first 128 pages. Source navigation supports up to 512 candidate paragraphs/fields and 250,000 source characters. Matching stops beyond 128 measured pages or 500,000 measured text characters; larger documents keep ordinary PDF navigation. Scrolling or using PDF controls pauses following until you select an editor field again; typing does not restart it. **Follow paragraphs** scrolls the open Paragraphs section with the preview and pauses while an editor field has focus.
+
+Source navigation is withheld when uploaded enclosure or basic-letter PDFs are included because those pages have no reliable native editor mapping. Ordinary page navigation, zoom and export remain available. Package and review PDFs do not offer these live-editor links.

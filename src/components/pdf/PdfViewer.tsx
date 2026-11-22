@@ -16,6 +16,9 @@ import { PdfPageLayer, type PdfPageLayerHandle } from './PdfPageLayer';
 import { PdfViewerToolbar } from './PdfViewerToolbar';
 
 export interface PdfViewerProps {
+  navigationControls?: React.ReactNode;
+  sourceToReveal?: PreviewSource;
+  onManualNavigation?: () => void;
   onSourcesInView?: (sources: PreviewSource[]) => void;
   sources?: readonly PreviewSource[];
   sourceSubject?: string;
@@ -50,7 +53,7 @@ export interface PdfViewerProps {
  *   3. the old gen N layer sticks around ~180ms with a fade-out class (skipped
  *      under prefers-reduced-motion), then unmounts.
  */
-export default function PdfViewer({ onSourcesInView, sources, sourceSubject, onNavigateSource, pdfUrl, className, showFullscreen = true, documentId, onDownloadPdf, toolbarLabel, allowOpenInTab = true }: PdfViewerProps) {
+export default function PdfViewer({ navigationControls, sourceToReveal, onManualNavigation, onSourcesInView, sources, sourceSubject, onNavigateSource, pdfUrl, className, showFullscreen = true, documentId, onDownloadPdf, toolbarLabel, allowOpenInTab = true }: PdfViewerProps) {
   const rootRef = useRef<HTMLDivElement>(null);
   // The column the pages actually live in — this is what fit modes must track
   // (it shrinks when the thumbnail rail opens; the root does not).
@@ -259,6 +262,9 @@ export default function PdfViewer({ onSourcesInView, sources, sourceSubject, onN
   return (
     <div
       ref={rootRef}
+      onPointerDownCapture={onManualNavigation}
+      onWheelCapture={onManualNavigation}
+      onKeyDownCapture={onManualNavigation}
       className={cn(
         'pdf-viewer flex h-full flex-col bg-[color-mix(in_oklab,var(--muted)_60%,var(--background))]',
         className
@@ -287,6 +293,7 @@ export default function PdfViewer({ onSourcesInView, sources, sourceSubject, onN
         downloadLabel="Download PDF"
         fullscreen={showFullscreen && fullscreen.available ? fullscreen : null}
       />
+      {navigationControls && <div className="shrink-0 border-b border-border/60 px-3 py-1 text-muted-foreground">{navigationControls}</div>}
       <div className="flex min-h-0 flex-1">
         {thumbsOpen && (docMeta?.numPages ?? 0) >= 2 && (
           <div
@@ -316,6 +323,7 @@ export default function PdfViewer({ onSourcesInView, sources, sourceSubject, onN
           state.active && (
             <PdfPageLayer
               key={state.active.gen}
+              sourceToReveal={state.active.url === pdfUrl ? sourceToReveal : undefined}
               onSourcesInView={state.active.url === pdfUrl ? onSourcesInView : undefined}
               sources={sources}
               sourceSubject={sourceSubject}

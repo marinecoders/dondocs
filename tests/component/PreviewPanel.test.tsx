@@ -38,6 +38,7 @@ vi.mock('react-pdf', async () => {
 import { PreviewPanel } from '@/components/layout/PreviewPanel';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { useUIStore } from '@/stores/uiStore';
+import { useDocumentStore } from '@/stores/documentStore';
 
 function renderPanel(props: Partial<React.ComponentProps<typeof PreviewPanel>>) {
   return render(
@@ -119,4 +120,13 @@ describe('PreviewPanel — compile-error reporting', () => {
     await waitFor(() => expect(screen.getByTestId('doc:blob:test/clean')).toBeTruthy(), LAZY_TIMEOUT);
     expect(screen.queryByRole('alert')).toBeNull();
   });
+});
+
+it('explains the large-document navigation limit while preserving the PDF toolbar', async () => {
+  useDocumentStore.setState({ docType: 'naval_letter', documentCategory: 'correspondence', enclosures: [],
+    paragraphs: Array.from({ length: 513 }, (_, index) => ({ id: `large-${index}`, level: 0, text: `Unique source paragraph ${index}.` })) });
+  renderPanel({ pdfUrl: 'blob:large' });
+  expect(await screen.findByText('Source navigation is unavailable for this large document.')).toBeVisible();
+  expect(screen.queryByLabelText('Preview following')).not.toBeInTheDocument();
+  expect(screen.getByRole('button', { name: /^Download PDF$/ })).toBeEnabled();
 });

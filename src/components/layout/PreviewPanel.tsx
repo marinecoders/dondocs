@@ -50,11 +50,17 @@ export function PreviewPanel({ pdfUrl, isCompiling, isWarmingUp = false, preview
   // The document header opens the full-screen preview on mobile.
   if (isMobile) return null;
 
+  const navigationControls = navigation.hasImportedPages ? <p className="text-xs">Source navigation is unavailable when attached PDFs are included.</p> : navigation.navigationLimited ? <p className="text-xs">Source navigation is unavailable for this large document.</p> : navigation.sources.length > 0 && <label className="inline-flex items-center gap-1 text-[11px]" title="Follow editor selection or scroll the open Paragraphs section with the preview. PDF navigation pauses editor following until you select another field. Typing never moves editor focus.">
+      <span>Preview following</span>
+      <select aria-label="Preview following" value={navigation.followMode} onChange={event => navigation.changeFollowMode(event.target.value as 'off' | 'editor' | 'preview')} className="h-8 max-w-40 rounded border bg-background px-1 py-1 text-foreground focus-visible:outline focus-visible:outline-2">
+        <option value="off">Follow: off</option>
+        <option value="editor">Follow editor</option>
+        <option value="preview">Follow paragraphs</option>
+      </select>
+    </label>;
+
   const previewLabel = <>
     <span>Preview</span>
-    {navigation.sources.length > 0 && <label className="inline-flex items-center gap-1 text-[11px]" title="Scroll the open Paragraphs section with the preview. Pauses while editing a field.">
-      <input type="checkbox" checked={navigation.follow} onChange={event => navigation.setFollow(event.target.checked)} />Follow paragraphs
-    </label>}
     {isCompiling && <Loader2 className="h-3 w-3 animate-spin" aria-hidden="true" />}
     {enclosureCount > 0 && !fullQualityPreview && !previewEnhanced && <span
       className="inline-flex items-center gap-1 text-[11px]"
@@ -81,7 +87,7 @@ export function PreviewPanel({ pdfUrl, isCompiling, isWarmingUp = false, preview
           <>
             <Suspense fallback={null /* the mat behind is already painted */}>
               <div className="absolute inset-0" title="Document preview">
-                <PdfViewer onSourcesInView={navigation.followSources} sources={navigation.sources} sourceSubject={navigation.sourceSubject} onNavigateSource={navigation.navigate} key={documentId} documentId={documentId} pdfUrl={pdfUrl} onDownloadPdf={onDownloadPdf} toolbarLabel={previewLabel} />
+                <PdfViewer navigationControls={navigationControls} sourceToReveal={navigation.sourceToReveal} onManualNavigation={navigation.pauseEditorFollow} onSourcesInView={navigation.followSources} sources={navigation.sources} sourceSubject={navigation.sourceSubject} onNavigateSource={navigation.navigate} key={documentId} documentId={documentId} pdfUrl={pdfUrl} onDownloadPdf={onDownloadPdf} toolbarLabel={previewLabel} />
               </div>
             </Suspense>
             {/* While recompiling, the stale PDF stays visible and unobscured —
