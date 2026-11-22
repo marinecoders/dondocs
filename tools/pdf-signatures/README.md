@@ -21,7 +21,8 @@ over a prior revision can pass only if its later changes are permitted. Unknown
 formats or inconclusive differences require review.
 
 Add local DER CRLs with `--crl` and OCSP responses with `--ocsp`. Use
-`--require-revocation` when policy requires revocation evidence. Without this
+`--require-revocation` when policy requires revocation evidence. A confirmed revocation is reported
+as invalid and includes the verifier's trust finding. Without this
 switch a passing check may lack revocation evidence. The verifier validates trust
 at the current verification time. Archived long-term validation and an
 organization's determination of signer authority remain separate.
