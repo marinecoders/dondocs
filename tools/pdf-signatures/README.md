@@ -32,3 +32,10 @@ policy and at least one document signer is verified. It exits 1 for unsigned
 PDFs, timestamp-only PDFs or signatures requiring review, and 2 when it cannot
 read the inputs. A document timestamp supplies evidence about time. Reports contain signature field names and certificate
 fingerprints. Handle them with the associated source material.
+
+Save the verifier's standard output as a JSON file to review it in DonDocs.
+Open the retained PDF in Signing or in the package's signing panel and choose
+**Review a signature verification report**. The browser computes the digest of
+the retained PDF and displays a matching report for that session. It treats the
+report as evidence supplied by the user. Review reports from a verifier and
+trust configuration you control.

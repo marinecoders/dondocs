@@ -1,4 +1,5 @@
 import { lazy, Suspense, useEffect, useId, useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { SignatureVerificationReport } from './SignatureVerificationReport';
 import { PackageSigningPdfPreview } from './PackageSigningPdfPreview';
 import { Button } from './ui/button';
 import type { ActionPackage, PackageRevision } from '@/lib/actionPackages';
@@ -39,6 +40,7 @@ export function PackageSigningPanel({ record, revision, disabled, busy, run, onA
   const [returnedRecord, setReturnedRecord] = useState<SigningRecord | null>(null), [returnId, setReturnId] = useState('');
   const [returnedPlan, setReturnedPlan] = useState<PreparedPackageSigningReturn | null>(null), [returnReviewed, setReturnReviewed] = useState(false), [returnMismatch, setReturnMismatch] = useState(false);
   const [capturedReturnId, setCapturedReturnId] = useState('');
+  const previewMatchesSelection = !retainedReview?.returnId || retainedReview.returnId === capturedReturnId;
   const [workspaceId, setWorkspaceId] = useState(''), [pending, setPending] = useState(false), [error, setError] = useState(''), [notice, setNotice] = useState('');
   const ownerRef = useRef(owner), previousOwner = useRef(owner), generation = useRef(0), mounted = useRef(false), running = useRef(false), dirtyCallback = useRef(onDirtyChange);
   const editable = !disabled && !record.archived && revision.id === record.currentRevisionId && !record.reviewRounds?.some(round => round.ownerPackageId === undefined);
@@ -164,28 +166,31 @@ export function PackageSigningPanel({ record, revision, disabled, busy, run, onA
       </div>
     </details>; })}
     {retainedReview && <div className="min-w-0 space-y-3 rounded border p-3 text-sm">
-      <h4 className="font-medium">{retainedReview.returnId ? 'Exact retained signing return' : 'Exact retained signing handoff'}</h4>{!returnedPlan && <PackageSigningPdfPreview bytes={retainedReview.bytes} label={retainedReview.returnId ? 'Exact retained package return PDF' : 'Exact retained package handoff PDF'} />}<PrivacyReview reviews={retainedReview.reviews} />
-      {!returnedPlan && <details className="min-w-0 rounded border p-2"><summary className="cursor-pointer font-medium">Inspect retained source PDF</summary>
-        <div className="pt-3"><PackageSigningPdfPreview bytes={retainedReview.sourceBytes} label="Exact retained package signing source PDF" /></div>
-      </details>}
-      <label className="flex items-start gap-2"><input type="checkbox" disabled={busy || pending || dirty} checked={retainedReviewed} onChange={event => setRetainedReviewed(event.target.checked)} />{retainedReview.returnId ? 'I reviewed this exact retained returned PDF and its unverified association before delivering or reopening it.' : 'I reviewed every retained source and handoff page and its signing metadata.'}</label>
-      <div className="flex flex-wrap gap-2">
-        <Button className={buttonClass} disabled={busy || pending || dirty || !!retainedReview.returnId || !retainedReviewed} onClick={() => void perform(async current => {
-          const policy = await getExportDeploymentPolicy();
-          if (policy.status !== 'ready' || JSON.stringify(policy.policy) !== retainedReview.policyKey) throw new Error('Deployment settings changed. Review this retained handoff again.');
-          await reviewPackageSigningCapture(retainedReview.entry, policy);
-          const bytes = await downloadPackageSigningHandoff(retainedReview.entry);
-          const active = getExportDeploymentPolicySync();
-          if (active.status !== 'ready' || JSON.stringify(active.policy) !== retainedReview.policyKey) throw new Error('Deployment settings changed. Review this retained handoff again.');
-          if (current()) triggerDownload(bytes, `package-signing-handoff-${retainedReview.entry.handoffId}.zip`, 'application/zip');
-        }, false)}>Download exact package signing handoff</Button>
-        {editable && <Button className={buttonClass} variant="outline" disabled={busy || pending || dirty || !!retainedReview.returnId || !retainedReviewed} onClick={() => void perform(async current => {
-          const policy = await getExportDeploymentPolicy();
-          if (policy.status !== 'ready' || JSON.stringify(policy.policy) !== retainedReview.policyKey) throw new Error('Deployment settings changed. Review this retained handoff again.');
-          const opened = await openCapturedPackageSigningRecord(retainedReview.entry, policy, retainedReviewed, signal(), current);
-          if (current()) setWorkspaceId(opened.id);
-        })}>Open captured signing workspace</Button>}
-      </div>
+      {previewMatchesSelection ? <>
+        <h4 className="font-medium">{retainedReview.returnId ? 'Exact retained signing return' : 'Exact retained signing handoff'}</h4>{!returnedPlan && <PackageSigningPdfPreview bytes={retainedReview.bytes} label={retainedReview.returnId ? 'Exact retained package return PDF' : 'Exact retained package handoff PDF'} />}<PrivacyReview reviews={retainedReview.reviews} />
+        {!returnedPlan && <details className="min-w-0 rounded border p-2"><summary className="cursor-pointer font-medium">Inspect retained source PDF</summary>
+          <div className="pt-3"><PackageSigningPdfPreview bytes={retainedReview.sourceBytes} label="Exact retained package signing source PDF" /></div>
+        </details>}
+        <label className="flex items-start gap-2"><input type="checkbox" disabled={busy || pending || dirty} checked={retainedReviewed} onChange={event => setRetainedReviewed(event.target.checked)} />{retainedReview.returnId ? 'I reviewed this exact retained returned PDF and its unverified association before delivering or reopening it.' : 'I reviewed every retained source and handoff page and its signing metadata.'}</label>
+        <div className="flex flex-wrap gap-2">
+          <Button className={buttonClass} disabled={busy || pending || dirty || !!retainedReview.returnId || !retainedReviewed} onClick={() => void perform(async current => {
+            const policy = await getExportDeploymentPolicy();
+            if (policy.status !== 'ready' || JSON.stringify(policy.policy) !== retainedReview.policyKey) throw new Error('Deployment settings changed. Review this retained handoff again.');
+            await reviewPackageSigningCapture(retainedReview.entry, policy);
+            const bytes = await downloadPackageSigningHandoff(retainedReview.entry);
+            const active = getExportDeploymentPolicySync();
+            if (active.status !== 'ready' || JSON.stringify(active.policy) !== retainedReview.policyKey) throw new Error('Deployment settings changed. Review this retained handoff again.');
+            if (current()) triggerDownload(bytes, `package-signing-handoff-${retainedReview.entry.handoffId}.zip`, 'application/zip');
+          }, false)}>Download exact package signing handoff</Button>
+          {editable && <Button className={buttonClass} variant="outline" disabled={busy || pending || dirty || !!retainedReview.returnId || !retainedReviewed} onClick={() => void perform(async current => {
+            const policy = await getExportDeploymentPolicy();
+            if (policy.status !== 'ready' || JSON.stringify(policy.policy) !== retainedReview.policyKey) throw new Error('Deployment settings changed. Review this retained handoff again.');
+            const opened = await openCapturedPackageSigningRecord(retainedReview.entry, policy, retainedReviewed, signal(), current);
+            if (current()) setWorkspaceId(opened.id);
+          })}>Open captured signing workspace</Button>}
+        </div>
+        {retainedReview.returnId && !returnedPlan && <SignatureVerificationReport key={retainedReview.returnId} readPdf={() => retainedReview.bytes} />}
+      </> : <p role="status">Choose and preview a retained return to review its PDF and verification report.</p>}
       {!!retainedReview.entry.returns?.length && <div className="space-y-3 border-t pt-3">
         <label className="block">Captured returned file<select aria-label="Captured package signing return" className={inputClass} disabled={busy || pending || dirty} value={capturedReturnId} onChange={event => { generation.current++; setCapturedReturnId(event.target.value); setRetainedReviewed(false); }}>
           <option value="">Choose a preserved returned PDF</option>{retainedReview.entry.returns.map((returned, index) => <option key={returned.id} value={returned.id}>Return {index + 1}: {returned.returnedAsset.name}</option>)}
