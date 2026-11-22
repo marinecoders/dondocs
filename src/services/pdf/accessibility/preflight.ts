@@ -1,13 +1,18 @@
 import { taggedReferenceUrl } from './links';
+import { resolveLetterheadMode } from '@/lib/letterheadMode';
+import { DOC_TYPE_CONFIG } from '@/types/document';
 import { bodyTableSchema } from '@/lib/bodyTable';
 import { resolveAppendedEndorsements } from '@/lib/appendedEndorsement';
 import type { TaggedCorrespondenceSource } from './correspondence';
+
+export function taggedNavalLetterhead(source: TaggedCorrespondenceSource) {
+  return source.docType === 'naval_letter' ? resolveLetterheadMode(DOC_TYPE_CONFIG.naval_letter, source.formData) : null;
+}
 
 /** Conservative, visible support boundaries. Unsupported source stays editable;
  * a tagged request must stop rather than silently return an ordinary PDF. */
 export function taggedCorrespondenceIssues(source: TaggedCorrespondenceSource, resolvedLevel = source.formData.classLevel ?? 'unclassified'): string[] {
   const issues: string[] = [];
-  if (source.docType === 'naval_letter' && ['title-only', 'preprinted'].includes(source.formData.letterheadMode ?? 'full')) issues.push('Tagged PDF requires full naval letterhead. Export a standard PDF for title-only or preprinted stationery.');
   if (!['standard_letter', 'naval_letter'].includes(source.docType)) issues.push('Tagged PDF currently supports standard and naval letters. Other document layouts need separate qualification.');
   if (resolvedLevel !== 'unclassified' || source.paragraphs.some(p => (p.portionMarking && p.portionMarking !== 'U') || (p.figure?.portionMarking && p.figure.portionMarking !== 'U'))) issues.push('Classification and handling banners are not yet qualified for tagged output.');
   if (source.enclosures.length || source.formData.basicLetterFile || source.formData.basicLetterFileRef) issues.push('Tagged output cannot include original PDFs or enclosures. Export the native letter separately.');
@@ -33,7 +38,7 @@ export function taggedCorrespondenceIssues(source: TaggedCorrespondenceSource, r
   if (source.formData.includeHyperlinks && source.references.some(ref => ref.url?.trim() && ref.title.length > 2000)) issues.push('Tagged linked reference titles must be at most 2000 characters.');
   if (source.references.some(ref => !ref.letter.trim() || !ref.title.trim())) issues.push('Complete reference labels and titles before tagged export.');
   if (source.copyTos.some(row => !row.text.trim()) || source.distributions.some(row => !row.text.trim())) issues.push('Remove empty Copy to and Distribution entries before tagged export.');
-  if (source.paragraphs.filter(p => p.figure).length > (source.docType === 'naval_letter' ? 19 : 20)) issues.push('Tagged output supports at most 20 painted raster images, including the naval seal.');
+  if (source.paragraphs.filter(p => p.figure).length > (taggedNavalLetterhead(source) === 'full' ? 19 : 20)) issues.push('Tagged output supports at most 20 painted raster images, including the naval seal.');
   const estimate = 40 + source.references.length * 4 + (source.copyTos.length + source.distributions.length) * 3 + source.paragraphs.reduce((sum, paragraph) => {
     const table = bodyTableSchema.safeParse(paragraph.bodyTable);
     return sum + (table.success ? table.data.rows.length * (table.data.rows[0].length + 1) + 3 : paragraph.figure ? 3 : 7);

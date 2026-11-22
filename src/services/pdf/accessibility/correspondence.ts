@@ -30,7 +30,7 @@ type InlinePart = Parameters<LatexBodyAdapter['inline']>[1];
 interface MutableNode extends Omit<PdfSemanticNode, 'children'> { children?: MutableNode[] }
 
 export { taggedCorrespondenceIssues } from './preflight';
-import { taggedCorrespondenceIssues } from './preflight';
+import { taggedCorrespondenceIssues, taggedNavalLetterhead } from './preflight';
 
 function replaceOnce(source: string, target: string, replacement: string): string {
   if (!source.includes(target) || source.indexOf(target) !== source.lastIndexOf(target)) throw new Error('The tagged PDF template contract changed. Requalify this layout before export.');
@@ -58,7 +58,8 @@ export function prepareTaggedCorrespondence(source: TaggedCorrespondenceSource, 
   let format = source.docType === 'naval_letter' ? navalTemplate : standardTemplate;
   let mainSource = mainTemplate;
   let sealId: number | undefined;
-  if (source.docType === 'naval_letter') {
+  const letterhead = taggedNavalLetterhead(source);
+  if (letterhead === 'full') {
     if (!options.seal) throw new Error('Prepare the exact decorative letterhead seal before tagged export.');
     sealId = nextId++;
     mainSource = replaceOnce(mainSource, '\\includegraphics[width=1in]{attachments/\\SealFile}', wrap(sealId, '\\includegraphics[width=1in]{attachments/\\SealFile}'));
@@ -72,6 +73,9 @@ export function prepareTaggedCorrespondence(source: TaggedCorrespondenceSource, 
     for (const [index, macro] of ['UnitName', 'UnitLineTwo', 'UnitLineThree', 'UnitLineFour'].entries()) {
       if (unitLines[index]?.trim()) mainSource = replaceOnce(mainSource, `\\textcolor{\\LetterheadColor}{\\${macro}}`, `\\textcolor{\\LetterheadColor}{${wrap(top('P').id, `\\${macro}`)}}`);
     }
+  } else if (letterhead === 'title-only' && fields.unitLine1?.trim()) {
+    const title = '\\textbf{\\UnitName}';
+    mainSource = replaceOnce(mainSource, title, `\\textbf{${wrap(top('P').id, '\\UnitName')}}`);
   }
   if (fields.inReplyTo) {
     const id = top('P').id;
