@@ -1,10 +1,10 @@
 import { expect, test, type Page } from '@playwright/test';
-import { mkdir, readFile, writeFile } from 'node:fs/promises';
+import { mkdir, mkdtemp, readFile, writeFile } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
 import { pathToFileURL } from 'node:url';
 import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
-import { join } from 'node:path';
+import { join, resolve } from 'node:path';
 import JSZip from 'jszip';
 import { DOMParser, XMLSerializer } from '@xmldom/xmldom';
 import { closeReviewRounds } from '../_helpers/closeReviewRounds';
@@ -13,6 +13,32 @@ import { replaceParagraphText } from '../_helpers/replaceParagraphText';
 const W = 'http://schemas.openxmlformats.org/wordprocessingml/2006/main';
 const TYPE = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
 const libreOffice = process.env.DONDOCS_WORD_REVIEW_LIBREOFFICE;
+const nativeWordDirectory = process.env.DONDOCS_NATIVE_WORD_REVIEW_DIR;
+const nativeWordVersion = process.env.DONDOCS_NATIVE_WORD_REVIEW_VERSION;
+const digest = (bytes: Uint8Array) => createHash('sha256').update(bytes).digest('hex');
+
+async function awaitNativeWordReturn(original: Buffer) {
+  if (!nativeWordVersion?.trim()) throw new Error('Set DONDOCS_NATIVE_WORD_REVIEW_VERSION to the tested Word version.');
+  const root = resolve(nativeWordDirectory!);
+  await mkdir(root, { recursive: true });
+  const directory = await mkdtemp(join(root, 'review-'));
+  const issuedPath = join(directory, 'issued.docx');
+  const returnedPath = join(directory, 'returned.docx');
+  await writeFile(issuedPath, original, { flag: 'wx' });
+  console.log(`Open ${issuedPath} in Microsoft Word. Save and reopen a copy, then move the closed file to ${returnedPath}.`);
+  let returned: Buffer | undefined;
+  await expect.poll(async () => {
+    try {
+      returned = await readFile(returnedPath);
+    } catch (error) {
+      if ((error as NodeJS.ErrnoException).code !== 'ENOENT') throw error;
+    }
+    return returned !== undefined;
+  }, { timeout: 600_000, intervals: [1000], message: 'The Word operator has not provided a saved return.' }).toBe(true);
+  expect(digest(await readFile(issuedPath))).toBe(digest(original));
+  expect(digest(returned!)).not.toBe(digest(original));
+  return returned!;
+}
 const body = 'Review this old word and keep the suffix.';
 test.use({ serviceWorkers: 'block', actionTimeout: 15_000 });
 test.setTimeout(240_000);
@@ -41,8 +67,19 @@ async function reviewerChanges(bytes: Uint8Array) {
   const next = text.parentNode.nextSibling;
   for (const element of [make('commentRangeStart', '72'), deletion, make('commentRangeEnd', '72'), insertion, run(after)]) paragraph.insertBefore(element, next);
   zip.file('word/document.xml', new XMLSerializer().serializeToString(xml));
+  // An editor can move a custom XML part and retarget its relationship.
+  const issuedPart = 'customXml/dondocs-word-review.xml';
+  const savedPart = 'customXml/item12.xml';
+  const identity = zip.file(issuedPart);
+  if (!identity || zip.file(savedPart)) throw new Error('The issued fixture has unexpected review XML parts.');
+  zip.file(savedPart, await identity.async('uint8array'));
+  zip.remove(issuedPart);
   const R = 'http://schemas.openxmlformats.org/package/2006/relationships', C = 'http://schemas.openxmlformats.org/package/2006/content-types';
   const rels = new DOMParser().parseFromString(await zip.file('word/_rels/document.xml.rels')!.async('string'), 'application/xml');
+  const reviewRelation = Array.from(rels.getElementsByTagNameNS(R, 'Relationship')).find(element =>
+    element.getAttribute('Target') === `../${issuedPart}`);
+  if (!reviewRelation) throw new Error('The issued fixture has no review XML relationship.');
+  reviewRelation.setAttribute('Target', `../${savedPart}`);
   const commentRelations = Array.from(rels.getElementsByTagNameNS(R, 'Relationship')).filter(element => element.getAttribute('Type')?.endsWith('/comments'));
   if (commentRelations.length > 1) throw new Error('The issued fixture already has ambiguous comments relationships.');
   const commentsPath = commentRelations.length ? new URL(commentRelations[0].getAttribute('Target')!, 'https://fixture.invalid/word/document.xml').pathname.slice(1) : 'word/comments.xml';
@@ -57,6 +94,10 @@ async function reviewerChanges(bytes: Uint8Array) {
   commentText.textContent = 'Please check this exact word.';commentRun.appendChild(commentText);content.appendChild(commentRun);comment.appendChild(content);comments.documentElement.appendChild(comment);
   zip.file(commentsPath, new XMLSerializer().serializeToString(comments));zip.file('word/_rels/document.xml.rels', new XMLSerializer().serializeToString(rels));
   const types = new DOMParser().parseFromString(await zip.file('[Content_Types].xml')!.async('string'), 'application/xml');
+  const reviewOverride = Array.from(types.getElementsByTagNameNS(C, 'Override')).find(element =>
+    element.getAttribute('PartName') === `/${issuedPart}`);
+  if (!reviewOverride) throw new Error('The issued fixture has no review XML content type.');
+  reviewOverride.setAttribute('PartName', `/${savedPart}`);
   if (!Array.from(types.getElementsByTagNameNS(C, 'Override')).some(element => element.getAttribute('PartName') === `/${commentsPath}`)) {
     const type = types.createElementNS(C, 'Override');type.setAttribute('PartName', `/${commentsPath}`);type.setAttribute('ContentType', 'application/vnd.openxmlformats-officedocument.wordprocessingml.comments+xml');types.documentElement.appendChild(type);
   }
@@ -65,6 +106,8 @@ async function reviewerChanges(bytes: Uint8Array) {
 }
 for (const theme of ['light', 'dark', 'classic']) {
   test(`issued Word return preserves newer work and native review history in ${theme}`, async ({ page, context }, info) => {
+    const native = Boolean(nativeWordDirectory) && theme === 'light';
+    if (native) test.setTimeout(780_000);
     await context.addInitScript(value => {
       localStorage.setItem('browser-test-visitor', 'returning');localStorage.setItem('dondocs_ui', JSON.stringify({ version: 1, state: { theme: value, editorLayout: 'scroll' } }));
     }, theme);
@@ -81,7 +124,7 @@ for (const theme of ['light', 'dark', 'classic']) {
     const original = await download(page, () => modal.getByRole('button', { name: 'Download Word review copy', exact: true }).click());
     await expect(modal.getByText(/Word review copy sent to browser downloads/)).toBeVisible({ timeout: 120_000 });
     const zip = await JSZip.loadAsync(original);expect(zip.file('customXml/dondocs-word-review.xml')).not.toBeNull();
-    const returned = await reviewerChanges(original);
+    const returned = native ? await awaitNativeWordReturn(original) : await reviewerChanges(original);
     await writeFile(info.outputPath(`issued-${theme}.docx`), original);await writeFile(info.outputPath(`returned-${theme}.docx`), returned);
     await closeReviewRounds(modal);
     await replaceParagraphText(page.getByRole('textbox', { name: 'Paragraph 1', exact: true }), body.replace('suffix.', 'newer suffix.'));
@@ -114,7 +157,16 @@ for (const theme of ['light', 'dark', 'classic']) {
     expect(await download(page, () => modal.getByRole('button', { name: 'Download original Word return', exact: true }).click())).toEqual(returned);
     await modal.getByLabel('Import feedback return', { exact: true }).setInputFiles({ name: 'same.docx', mimeType: TYPE, buffer: returned });
     await expect(modal.getByText(/This return has already been imported/)).toBeVisible({ timeout: 30_000 });
-    if (libreOffice && theme === 'light') {
+    if (native) {
+      await info.attach('microsoft-word-review-return', { body: JSON.stringify({
+        operatorReportedVersion: nativeWordVersion,
+        platform: process.platform,
+        issuedSha256: digest(original),
+        returnedSha256: digest(returned),
+        reconciledNewerDraft: true,
+      }, null, 2), contentType: 'application/json' });
+    }
+    if (libreOffice && theme === 'light' && !native) {
       const output = info.outputPath('libreoffice');
       await mkdir(output, { recursive: true });
       const path = info.outputPath(`returned-${theme}.docx`);
@@ -139,9 +191,11 @@ for (const theme of ['light', 'dark', 'classic']) {
       await expect(modal.getByText('Saved Word returns (1)', { exact: true })).toBeVisible();
       expect(await download(page, () => modal.getByRole('button', { name: 'Download original Word return', exact: true }).click())).toEqual(returned);
     }
-    const unmarked = await JSZip.loadAsync(returned);unmarked.remove('customXml/dondocs-word-review.xml');
+    // The issued copy has a known identity part. A real Word return can rename it.
+    const unmarked = await JSZip.loadAsync(original);
+    unmarked.remove('customXml/dondocs-word-review.xml');
     await modal.getByLabel('Import feedback return', { exact: true }).setInputFiles({ name: 'missing-identity.docx', mimeType: TYPE, buffer: await unmarked.generateAsync({ type: 'nodebuffer' }) });
-    await expect(modal.getByRole('alert')).toContainText(/review identity|review marker|matching|locator|missing|review copy/i, { timeout: 30_000 });
+    await expect(modal.getByRole('alert')).toContainText('no single intact DonDocs review identity', { timeout: 30_000 });
     await page.screenshot({ path: info.outputPath(`word-return-${theme}.png`), fullPage: true });
     await closeReviewRounds(modal);await expect(paragraph).toHaveText('Review this reviewed word and keep the newer suffix.');
   });
