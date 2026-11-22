@@ -5,6 +5,7 @@ import JSZip from 'jszip';
 import { PDFDocument } from 'pdf-lib';
 import { utils, write } from 'xlsx';
 import { getDocument } from 'pdfjs-dist/legacy/build/pdf.mjs';
+import { instructionWordSource } from '../_helpers/publicationWordQualification';
 
 test.use({ serviceWorkers: 'block' });
 test.setTimeout(120_000);
@@ -310,6 +311,27 @@ test('PDF export delivers a readable file containing the latest editor content',
   await expectPdfExport(page, testInfo.project.name, exportPdf, /browser-export-verification\.pdf$/, [SUBJECT, BODY]);
   await expect(page.getByRole('dialog')).toHaveCount(0, { timeout: 10_000 });
   await expect(page.getByRole('textbox', { name: 'Subject', exact: true })).toHaveValue(SUBJECT);
+});
+
+test('I-Type PDF download resolves a table citation without opening batch generation', async ({ page }, info) => {
+  const source = instructionWordSource();
+  const referenceId = 'A'.repeat(32);
+  source.paragraphs[0].text = `Inspect using {{PUBREF_T_${referenceId}}}.`;
+  source.paragraphs[1].text = source.paragraphs[1].text.replace('office@example.mil', 'office@usmc.mil');
+  source.paragraphs.push({ level: 0, referenceId, tableKey: 'majorItems', header: 'Major Items Affected', text: '' });
+  source.publicationTables.majorItems = [{ values: {
+    description: 'TRAINING COMPONENT', nsn: '1005-01-566-1100', tamcn: 'A02557G', id: '12345A',
+  } }];
+  await page.goto('/');
+  await page.getByLabel('Import draft file').setInputFiles({
+    name: 'instruction-with-citation.json', mimeType: 'application/json',
+    buffer: Buffer.from(JSON.stringify({ ...source, documentCategory: 'correspondence', documentMode: 'compliant',
+      references: [], copyTos: [], enclosures: [] })),
+  });
+  await page.getByRole('button', { name: 'Open as new document', exact: true }).click();
+  const exportPdf = await preparePdfExport(page);
+  await expectPdfExport(page, info.project.name, exportPdf, /\.pdf$/, ['Inspect using table 1.', 'TRAINING COMPONENT']);
+  await expect(page.getByRole('dialog', { name: 'Batch generation', exact: true })).toHaveCount(0);
 });
 
 test('built-in form downloads a readable PDF and hides inapplicable Word exports', async ({ page }, testInfo) => {
