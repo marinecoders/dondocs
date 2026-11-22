@@ -49,7 +49,7 @@ their separate validation requirements.
 
 ## Tagged PDF output
 
-**Download → Tagged PDF (experimental)** supports native unclassified Standard and Naval Letters, with explicit table column headers and body-image alternatives. It rejects original/enclosure PDFs, signing fields and other unqualified input. The exporter validates the saved structure and content associations before delivery. Native screen-reader qualification and PDF/UA conformance remain unestablished; see the [tagged PDF guide](TAGGED_PDF.md) for measured scope and limits. Ordinary PDFs and mixed packages have no new accessibility claim.
+**Download → Tagged PDF (experimental)** supports native unclassified Standard, Naval and Multiple Address Letters, with explicit table column headers and body-image alternatives. It rejects original/enclosure PDFs, signing fields and other unqualified input. The exporter validates the saved structure and content associations before delivery. Native screen-reader qualification and PDF/UA conformance remain unestablished; see the [tagged PDF guide](TAGGED_PDF.md) for measured scope and limits. Recipient ZIPs can include separate tagged letters and unchanged original files.
 
 ## Word output
 
