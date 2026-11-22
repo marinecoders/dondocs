@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.212] — 2026-11-21
+
+### Added
+
+- Add an optional certificate-authenticated approval service with ordered assignments and a durable revision-bound decision history.
+
 ## [1.3.211] — 2026-11-21
 
 ### Added
