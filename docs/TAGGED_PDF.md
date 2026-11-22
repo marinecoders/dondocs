@@ -10,7 +10,7 @@ This is experimental output. Native screen-reader qualification and PDF/UA confo
 
 The exported PDF contains a real document structure tree and page-local marked-content associations. It includes English (`en-US`) language metadata, a document title, subject and body headings, paragraph lists, reference lists with optional external title links, typed signature text, Copy to and Distribution entries. First-page letterhead text is included. Repeated continuation subjects and page numbers are artifacts. The decorative seal is an artifact bound to its exact source pixels.
 
-Native body tables use explicit column header rows and data cells. A header repeated visually on a continuation page appears only once in the logical structure. Empty data cells remain explicit structure elements. Body PNG/JPEG images need authored alternative text, separately from any visible caption. Alternative text is not inferred from pixels or generated from a filename.
+Native body tables have separate logical header and body groups, explicit column header cells, and data cells in authored row order. A header repeated visually on a continuation page appears only once in the logical structure. Empty data cells remain explicit structure elements. Body PNG/JPEG images need authored alternative text, separately from any visible caption. Alternative text is not inferred from pixels or generated from a filename.
 
 The exporter compares each painted image resource with the captured raster's decoded RGB/alpha samples, or exact JPEG data. An unsupported resource or a mismatch stops the export. Equal image dimensions are insufficient.
 

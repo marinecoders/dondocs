@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { PDFArray, PDFDict, PDFDocument, PDFName, PDFNumber, PDFRawStream, StandardFonts, decodePDFRawStream } from 'pdf-lib';
+import { PDFArray, PDFDict, PDFDocument, PDFName, PDFNumber, PDFRawStream, PDFRef, StandardFonts, decodePDFRawStream } from 'pdf-lib';
 import { finishTaggedPdf } from '@/services/pdf/accessibility/taggedPdf';
 import { validateGeneratedTaggedPdf } from '@/services/pdf/accessibility/validate';
 import { byteString, readPdfContent } from '@/services/pdf/accessibility/contentStream';
@@ -44,7 +44,7 @@ describe('saved tagged PDF readback validation', () => {
     await expect(validateGeneratedTaggedPdf(await pdf.save())).rejects.toThrow(/associated marked content has no painted operation/);
   });
 
-  it('preserves genuinely empty table data cells with no associated marked-content chunk', async () => {
+  it('preserves empty data cells and rejects damaged table groups, column counts, or scope', async () => {
     const pdf = await PDFDocument.create(); const page = pdf.addPage(); const font = await pdf.embedFont(StandardFonts.Helvetica);
     const nonce = 'b'.repeat(32);
     const point = (id: number, begin: boolean) => `/DDTag << /N <${nonce}> /I ${id} /B ${begin} >> DP\n`;
@@ -52,10 +52,32 @@ describe('saved tagged PDF readback validation', () => {
     page.node.set(name('Contents'), pdf.context.register(pdf.context.flateStream(point(2, true)
       + 'BT /F1 12 Tf 40 700 Td (Column header) Tj ET\n' + point(2, false) + point(4, true) + point(4, false))));
     const output = await finishTaggedPdf(await pdf.save(), { nonce, title: 'Empty native table cell', language: 'en-US', nodes: [{ id: 0, role: 'Table', children: [
-      { id: 1, role: 'TR', children: [{ id: 2, role: 'TH', columnHeader: true }] },
-      { id: 3, role: 'TR', children: [{ id: 4, role: 'TD', allowEmpty: true }] },
+      { id: 5, role: 'THead', children: [{ id: 1, role: 'TR', children: [{ id: 2, role: 'TH', columnHeader: true }] }] },
+      { id: 6, role: 'TBody', children: [{ id: 3, role: 'TR', children: [{ id: 4, role: 'TD', allowEmpty: true }] }] },
     ] }] });
     await expect(validateGeneratedTaggedPdf(output.bytes)).resolves.toMatchObject({ associatedChunks: 1, columnHeaders: 1 });
+    const damaged = await PDFDocument.load(output.bytes);
+    const tree = damaged.catalog.lookup(name('StructTreeRoot'), PDFDict);
+    const root = tree.lookup(name('K'), PDFArray).lookup(0, PDFDict);
+    const table = root.lookup(name('K'), PDFArray).lookup(0, PDFDict).lookup(name('K'), PDFArray);
+    const header = table.get(0)!;
+    table.set(0, table.get(1)!);
+    table.set(1, header);
+    await expect(validateGeneratedTaggedPdf(await damaged.save())).rejects.toThrow(/groups are out of order/);
+    table.set(1, table.get(0)!);
+    table.set(0, header);
+
+    const bodyRows = table.lookup(1, PDFDict).lookup(name('K'), PDFArray);
+    const bodyRow = bodyRows.get(0) as PDFRef;
+    const cells = bodyRows.lookup(0, PDFDict).lookup(name('K'), PDFArray);
+    cells.push(damaged.context.register(damaged.context.obj({ Type: 'StructElem', S: 'TD', P: bodyRow, K: [] })));
+    await expect(validateGeneratedTaggedPdf(await damaged.save())).rejects.toThrow(/number of cells/);
+    cells.remove(1);
+
+    const headerRows = table.lookup(0, PDFDict).lookup(name('K'), PDFArray);
+    const headerCell = headerRows.lookup(0, PDFDict).lookup(name('K'), PDFArray).lookup(0, PDFDict);
+    headerCell.lookup(name('A'), PDFDict).set(name('O'), name('Layout'));
+    await expect(validateGeneratedTaggedPdf(await damaged.save())).rejects.toThrow(/header scope/);
   });
 
   it('rejects orphaned page MCIDs and unscoped painted operators', async () => {

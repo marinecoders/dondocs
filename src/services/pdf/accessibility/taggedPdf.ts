@@ -5,7 +5,7 @@ import { Inflate } from 'pako';
 import { byteString, byteStringBytes, readPdfContent, type PdfContentOperation } from './contentStream';
 import { createRasterDecodeBudget, fingerprintPdfRaster, TAGGED_RASTER_LIMITS, type PdfRasterBinding } from './raster';
 
-export type PdfSemanticRole = 'Document' | 'Sect' | 'P' | 'H1' | 'H2' | 'H3' | 'H4' | 'H5' | 'H6' | 'L' | 'LI' | 'Lbl' | 'LBody' | 'Table' | 'TR' | 'TH' | 'TD' | 'Figure' | 'Caption' | 'Span' | 'Link';
+export type PdfSemanticRole = 'Document' | 'Sect' | 'P' | 'H1' | 'H2' | 'H3' | 'H4' | 'H5' | 'H6' | 'L' | 'LI' | 'Lbl' | 'LBody' | 'Table' | 'THead' | 'TBody' | 'TR' | 'TH' | 'TD' | 'Figure' | 'Caption' | 'Span' | 'Link';
 export interface PdfSemanticNode {
   id: number;
   role: PdfSemanticRole;
@@ -36,7 +36,7 @@ const PAINT = new Set(['Tj', 'TJ', "'", '"', 'Do', 'sh', 'S', 's', 'f', 'F', 'f*
 const EXISTING_MARKED = new Set(['BMC', 'BDC', 'EMC']);
 const MAX_BYTES = 32 * 1024 * 1024;
 const MAX_NODES = TAGGED_PDF_STRUCTURE_LIMITS.nodes;
-const ROLES = new Set(('Document Sect P H1 H2 H3 H4 H5 H6 L LI Lbl LBody Table TR TH TD Figure Caption Span Link').split(' '));
+const ROLES = new Set('Document Sect P H1 H2 H3 H4 H5 H6 L LI Lbl LBody Table THead TBody TR TH TD Figure Caption Span Link'.split(' '));
 
 function marker(operation: PdfContentOperation, nonce: string): { id: number; begin: boolean } | undefined {
   if (operation.operator !== 'DP' || operation.operands[0]?.kind !== 'name' || operation.operands[0].value !== 'DDTag') return;

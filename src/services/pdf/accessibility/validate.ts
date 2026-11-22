@@ -18,7 +18,15 @@ export interface TaggedPdfValidation {
 const NAME = (name: string) => PDFName.of(name);
 const PAINT = new Set(['Tj', 'TJ', "'", '"', 'Do', 'sh', 'S', 's', 'f', 'F', 'f*', 'B', 'B*', 'b', 'b*']);
 const MAX_BYTES = 32 * 1024 * 1024;
-const ROLES = new Set('Document Sect P H1 H2 H3 H4 H5 H6 L LI Lbl LBody Table TR TH TD Figure Caption Span Link'.split(' '));
+const ROLES = new Set('Document Sect P H1 H2 H3 H4 H5 H6 L LI Lbl LBody Table THead TBody TR TH TD Figure Caption Span Link'.split(' '));
+const REQUIRED_PARENTS: Record<string, readonly string[]> = {
+  LI: ['L'], Lbl: ['LI'], LBody: ['LI'], THead: ['Table'], TBody: ['Table'], TR: ['THead', 'TBody'], TH: ['TR'], TD: ['TR'],
+};
+const ALLOWED_CHILDREN: Record<string, readonly string[]> = {
+  L: ['LI'], LI: ['Lbl', 'LBody'], Table: ['THead', 'TBody'], THead: ['TR'], TBody: ['TR'], TR: ['TH', 'TD'],
+};
+const CONTAINERS = new Set(['Document', 'Sect', 'LBody', ...Object.keys(ALLOWED_CHILDREN)]);
+const TABLE_CONTAINERS = new Set(['Table', 'THead', 'TBody', 'TR']);
 function fail(message: string): never { throw new Error(`Tagged PDF validation failed: ${message}`); }
 
 /** Read back the saved bytes, independently of the source manifest and writer's
@@ -61,19 +69,19 @@ export async function validateGeneratedTaggedPdf(input: Uint8Array): Promise<Tag
   const usedAnnotations = new Set<string>();
   const expected = new Map<string, PDFRef>(); const visited = new Set<string>();
   let elements = 0; let figures = 0; let headers = 0; let headingLevel = 0;
-  const walk = (ref: PDFRef, parent: PDFRef, depth: number) => {
+  const walk = (ref: PDFRef, parent: PDFRef, depth: number, parentRole?: string, inheritedGrid?: { columns?: number }) => {
     if (depth > TAGGED_PDF_STRUCTURE_LIMITS.planDepth + 1 || ++elements > TAGGED_PDF_STRUCTURE_LIMITS.nodes + 1 || visited.has(ref.toString())) fail('structure contains a cycle, duplicate or excessive depth.');
     visited.add(ref.toString());
     const element = context.lookup(ref, PDFDict);
     if (element.lookup(NAME('Type'), PDFName) !== NAME('StructElem') || element.get(NAME('P'))?.toString() !== parent.toString()) fail('structure element parent link is invalid.');
     const role = element.lookup(NAME('S'), PDFName).decodeText();
     if (!ROLES.has(role)) fail('unknown semantic role.');
+    const tableGrid = role === 'Table' ? {} : inheritedGrid;
     const pageHint = element.get(NAME('Pg'));
     if (pageHint !== undefined && (role !== 'Figure' || !(pageHint instanceof PDFRef))) fail('figure page context is invalid.');
     const markedPages = new Set<string>();
-    const parentRole = parent === rootRef ? undefined : context.lookup(parent, PDFDict).lookup(NAME('S'), PDFName).decodeText();
-    const requiredParent: Record<string, string> = { LI: 'L', Lbl: 'LI', LBody: 'LI', TR: 'Table', TH: 'TR', TD: 'TR' };
-    if (requiredParent[role] && requiredParent[role] !== parentRole) fail('list or table role has an invalid semantic parent.');
+    const permittedParents = REQUIRED_PARENTS[role];
+    if (permittedParents && !permittedParents.includes(parentRole ?? '')) fail('list or table role has an invalid semantic parent.');
     if (/^H[1-6]$/.test(role)) {
       const level = Number(role.slice(1));
       if (level > headingLevel + 1) fail('logical heading levels skip an ancestor.');
@@ -85,11 +93,14 @@ export async function validateGeneratedTaggedPdf(input: Uint8Array): Promise<Tag
       figures++;
     }
     if (role === 'TH') {
-      if (element.lookup(NAME('A'), PDFDict).lookup(NAME('Scope'), PDFName) !== NAME('Column')) fail('table column header scope is missing.');
+      const attributes = element.lookup(NAME('A'), PDFDict);
+      if (attributes.lookup(NAME('O'), PDFName) !== NAME('Table')
+        || attributes.lookup(NAME('Scope'), PDFName) !== NAME('Column')) fail('table column header scope is missing.');
       headers++;
     }
     const children = element.lookup(NAME('K'), PDFArray);
     let structureChildren = 0; let markedChildren = 0; let objectChildren = 0;
+    const tableChildren: string[] = [];
     const linkPages = new Set<string>();
     if (!children.size() && role !== 'TD') fail('non-data structure element is empty.');
     for (const child of children.asArray()) {
@@ -97,10 +108,14 @@ export async function validateGeneratedTaggedPdf(input: Uint8Array): Promise<Tag
       if (object.lookup(NAME('Type'), PDFName) === NAME('StructElem')) {
         if (!(child instanceof PDFRef)) fail('structure children must be indirect objects.');
         const childRole = object.lookup(NAME('S'), PDFName).decodeText();
-        const allowedChildren: Record<string, readonly string[]> = { L: ['LI'], LI: ['Lbl', 'LBody'], Table: ['TR'], TR: ['TH', 'TD'] };
-        if (!['Document', 'Sect', 'L', 'LI', 'LBody', 'Table', 'TR'].includes(role) || (allowedChildren[role] && !allowedChildren[role].includes(childRole))) fail('semantic container has an invalid child role.');
+        const allowedChildren = ALLOWED_CHILDREN[role];
+        if (!CONTAINERS.has(role) || (allowedChildren && !allowedChildren.includes(childRole))) fail('semantic container has an invalid child role.');
+        if (role === 'TR' && ((parentRole === 'THead' && childRole !== 'TH') || (parentRole === 'TBody' && childRole !== 'TD'))) {
+          fail('table cell role does not match its row group.');
+        }
+        if (role === 'Table') tableChildren.push(childRole);
         structureChildren++;
-        walk(child, ref, depth + 1);
+        walk(child, ref, depth + 1, role, tableGrid);
       } else if (object.lookup(NAME('Type'), PDFName) === NAME('OBJR')) {
         const obj = object.get(NAME('Obj'));
         const annotation = obj instanceof PDFRef ? annotations.get(obj.toString()) : undefined;
@@ -130,6 +145,14 @@ export async function validateGeneratedTaggedPdf(input: Uint8Array): Promise<Tag
       }
     }
     if (role === 'Link' && (!markedChildren || !objectChildren || linkPages.size !== markedPages.size || [...linkPages].some(page => !markedPages.has(page)))) fail('link annotations do not cover their marked text pages.');
+    if (role === 'Table' && (tableChildren.length !== 2 || tableChildren[0] !== 'THead' || tableChildren[1] !== 'TBody')) {
+      fail('table header and body groups are out of order or incomplete.');
+    }
+    if (TABLE_CONTAINERS.has(role) && markedChildren) fail('a table container cannot directly hold painted content.');
+    if (role === 'TR' && tableGrid) {
+      if (tableGrid.columns !== undefined && structureChildren !== tableGrid.columns) fail('table rows disagree on the number of cells.');
+      tableGrid.columns = structureChildren;
+    }
     if (structureChildren && markedChildren) fail('generated container mixes child elements with direct painted content.');
     if (pageHint && (markedPages.size !== 1 || !markedPages.has(pageHint.toString()))) fail('figure page context does not match its marked content.');
   };
