@@ -11,12 +11,13 @@ import { FILE_LIMITS } from '@/lib/constants';
 import { showAppAlert } from '@/stores/alertStore';
 import { isImageFile, rejectedFilesMessage } from '@/lib/fileFilter';
 import type { FormSignatureBlock, SignatureStyle } from '@/types/signature';
+import { DrawSignatureButton } from './DrawSignatureButton';
 
 /**
  * Per-signer style control shared by both NAVMC forms: choose how one signature
  * block signs — Typed (name only), Image (a scanned signature drawn in the gap),
  * or Digital (an empty CAC field signed later in Acrobat) — and, for Image,
- * upload the scan. Mirrors the naval letter's three-way choice so all three
+ * upload or draw an image. Mirrors the naval letter's three-way choice so all three
  * document surfaces feel the same.
  */
 export function SignatureStylePicker({
@@ -49,7 +50,7 @@ export function SignatureStylePicker({
     (file: File) => runFileImport(async () => {
       if (!isImageFile(file)) {
         showAppAlert({ title: 'Image files only', message: rejectedFilesMessage([file], 'image') });
-        return;
+        return false;
       }
       // Stored base64 in the persisted form state — cap the size like the letter.
       if (file.size > FILE_LIMITS.MAX_SIGNATURE_SIZE_MB * 1024 * 1024) {
@@ -57,22 +58,25 @@ export function SignatureStylePicker({
           title: 'Image too large',
           message: `That signature image is too large (max ${FILE_LIMITS.MAX_SIGNATURE_SIZE_MB} MB). Please use a smaller file.`,
         });
-        return;
+        return false;
       }
       const task = beginDocumentTask(block);
       try {
         const image = await loadSignatureAsPngBase64(file);
-        if (!isCurrentDocumentTask(task) || latestBlock.current !== block) return;
-        await withAttachmentStaging(async () => {
+        if (!isCurrentDocumentTask(task) || latestBlock.current !== block) return false;
+        return await withAttachmentStaging(async () => {
           const owned = await persistSignature({ name: file.name, size: file.size, data: image });
-          if (isCurrentDocumentTask(task) && latestBlock.current === block) onChange({ style: 'image', image, imageRef: owned.fileRef });
+          if (!isCurrentDocumentTask(task) || latestBlock.current !== block) return false;
+          onChange({ style: 'image', image, imageRef: owned.fileRef });
+          return true;
         });
       } catch (err) {
-        if (!isCurrentDocumentTask(task) || latestBlock.current !== block) return;
+        if (!isCurrentDocumentTask(task) || latestBlock.current !== block) return false;
         showAppAlert({
           title: "Couldn't read that image",
           message: err instanceof Error ? err.message : 'Please try a different file.',
         });
+        return false;
       }
     }),
     [onChange, block]
@@ -85,7 +89,7 @@ export function SignatureStylePicker({
           <TabsTrigger value="typed" aria-label={`Signature block ${index + 1}: typed name only`}>
             <Type className="mr-1.5 h-3.5 w-3.5" /> Typed
           </TabsTrigger>
-          <TabsTrigger value="image" aria-label={`Signature block ${index + 1}: upload a scanned signature`}>
+          <TabsTrigger value="image" aria-label={`Signature block ${index + 1}: upload or draw a signature`}>
             <PenLine className="mr-1.5 h-3.5 w-3.5" /> Image
           </TabsTrigger>
           <TabsTrigger value="digital" aria-label={`Signature block ${index + 1}: add a digital CAC signature field`}>
@@ -95,7 +99,8 @@ export function SignatureStylePicker({
       </Tabs>
 
       {style === 'image' && (
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
+          <DrawSignatureButton owner={block} resource={block} isCurrent={() => latestBlock.current === block} onFile={handleUpload} />
           <input
             ref={fileRef}
             aria-label={`Upload signature for block ${index + 1}`}

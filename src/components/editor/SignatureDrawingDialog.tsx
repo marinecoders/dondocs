@@ -24,6 +24,7 @@ function SignatureDrawingSession({ onOpenChange, onUse }: Omit<SignatureDrawingD
   const [error, setError] = useState('');
   const [cursor, setCursor] = useState<SignaturePoint>({ x: 400, y: 200 });
   const [keyboardDrawing, setKeyboardDrawing] = useState(false);
+  const [keyboardFocused, setKeyboardFocused] = useState(false);
   const pointer = useRef<number | null>(null);
   const points = useRef(0);
   const request = useRef(0);
@@ -88,7 +89,7 @@ function SignatureDrawingSession({ onOpenChange, onUse }: Omit<SignatureDrawingD
         aria-disabled={busy} className="aspect-[2/1] w-full touch-none rounded-md border border-border bg-white outline-none focus-visible:ring-2 focus-visible:ring-ring"
         onPointerDown={event => {
           if (busy || pointer.current !== null || event.button !== 0) return;
-          event.preventDefault(); setKeyboardDrawing(false);
+          event.preventDefault(); setKeyboardDrawing(false); setKeyboardFocused(false);
           if (start(signaturePoint(event.clientX, event.clientY, event.currentTarget.getBoundingClientRect()))) {
             pointer.current = event.pointerId;
             event.currentTarget.setPointerCapture(event.pointerId);
@@ -103,10 +104,12 @@ function SignatureDrawingSession({ onOpenChange, onUse }: Omit<SignatureDrawingD
         }}
         onPointerCancel={event => { if (pointer.current === event.pointerId) finish(); }}
         onLostPointerCapture={event => { if (pointer.current === event.pointerId) finish(); }}
-        onBlur={() => { if (keyboardDrawing) finish(); }}
+        onFocus={() => setKeyboardFocused(true)}
+        onBlur={() => { setKeyboardFocused(false); if (keyboardDrawing) finish(); }}
         onKeyDown={event => {
           if (busy || pointer.current !== null) return;
           if (event.key === ' ') {
+            setKeyboardFocused(true);
             event.preventDefault();
             if (event.repeat) return;
             if (keyboardDrawing) finish(); else if (start(cursor)) setKeyboardDrawing(true);
@@ -114,23 +117,23 @@ function SignatureDrawingSession({ onOpenChange, onUse }: Omit<SignatureDrawingD
           }
           const delta = KEY_DIRECTIONS[event.key];
           if (!delta) return;
-          event.preventDefault();
+          setKeyboardFocused(true); event.preventDefault();
           const next = { x: Math.max(0, Math.min(800, cursor.x + delta[0])), y: Math.max(0, Math.min(400, cursor.y + delta[1])) };
           setCursor(next); if (keyboardDrawing) append(next);
         }}>
         {strokes.map((stroke, index) => stroke.length === 1
           ? <circle key={index} cx={stroke[0].x} cy={stroke[0].y} r={SIGNATURE_DRAWING.lineWidth / 2} fill="#000" />
           : <polyline key={index} points={stroke.map(point => `${point.x},${point.y}`).join(' ')} fill="none" stroke="#000" strokeWidth={SIGNATURE_DRAWING.lineWidth} strokeLinecap="round" strokeLinejoin="round" />)}
-        {keyboardDrawing && <circle cx={cursor.x} cy={cursor.y} r="9" fill="none" stroke="#2563eb" strokeWidth="3" />}
+        {keyboardFocused && <circle cx={cursor.x} cy={cursor.y} r="9" fill={keyboardDrawing ? '#2563eb' : 'none'} stroke="#2563eb" strokeWidth="3" />}
       </svg>
       <div className="flex flex-wrap gap-2">
-        <Button type="button" variant="outline" size="sm" disabled={busy || !strokes.length} onClick={undo}><Undo2 className="mr-1.5 size-4" />Undo stroke</Button>
-        <Button type="button" variant="outline" size="sm" disabled={busy || !strokes.length} onClick={() => { finish(); points.current = 0; drawing.current = []; setStrokes([]); setError(''); }}><Trash2 className="mr-1.5 size-4" />Clear drawing</Button>
+        <Button type="button" variant="outline" size="sm" className="min-h-11" disabled={busy || !strokes.length} onClick={undo}><Undo2 className="mr-1.5 size-4" />Undo stroke</Button>
+        <Button type="button" variant="outline" size="sm" className="min-h-11" disabled={busy || !strokes.length} onClick={() => { finish(); points.current = 0; drawing.current = []; setStrokes([]); setError(''); }}><Trash2 className="mr-1.5 size-4" />Clear drawing</Button>
       </div>
       {error && <p role="alert" className="text-sm text-destructive">{error}</p>}
       <DialogFooter>
-        <Button type="button" variant="outline" onClick={() => { request.current++; onOpenChange(false); }}>Cancel</Button>
-        <Button type="button" disabled={busy || keyboardDrawing || !hasSignatureDrawing(strokes)} onClick={() => void saveDrawing()}>{busy ? 'Saving signature…' : 'Use signature'}</Button>
+        <Button type="button" variant="outline" className="min-h-11" onClick={() => { request.current++; onOpenChange(false); }}>Cancel</Button>
+        <Button type="button" className="min-h-11" disabled={busy || keyboardDrawing || !hasSignatureDrawing(strokes)} onClick={() => void saveDrawing()}>{busy ? 'Saving signature…' : 'Use signature'}</Button>
       </DialogFooter>
     </DialogContent>
   </Dialog>;

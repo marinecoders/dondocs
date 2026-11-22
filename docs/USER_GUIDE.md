@@ -35,6 +35,12 @@ Open a draft's **History** to inspect/compare or restore a prior snapshot. The r
 
 History and change reports follow shared paragraph identities through reordering. A moved paragraph has a separate **Movement** item; its text or formatting edits stay attached to that paragraph. Insertions and deletions do not turn every shifted paragraph into rewritten prose. Position changes and automatic renumbering are described separately, and moves show one minimum reordering consistent with the snapshots, rather than a record of individual editing gestures. Older versions without unique shared identities explicitly fall back to positional comparison. Other repeated rows, including configured-form rows, remain positional. Internal paragraph identities are not printed in comparisons or reports.
 
+## Draw a signature image
+
+Where image signatures are supported, choose the image style and **Draw signature**. Draw with a finger, stylus or mouse, then choose **Use signature**. **Undo stroke** removes the last stroke; **Clear drawing** starts over. Keyboard users can focus the drawing area, move with arrow keys and press Space to start or finish a stroke. An empty drawing cannot be saved. **Cancel** keeps any existing signature image.
+
+Drawings use the same saved assets and outputs as uploaded PNG signatures. The separate Word signature image remains Word-only, and dual-signer documents require choosing its signer first. A drawn image is not a certificate signature; use the existing digital CAC field workflow when a certificate is required. Drawing does not change a document's default signing style or enable image signatures in formats that require digital authentication.
+
 ## Portable draft files and imports
 
 Use **Document actions → Export draft (.json)** for an editable portable copy, and the corresponding import action to open one. Draft JSON is **unencrypted**, can embed resolved assets, and does not run the pre-export PII/PHI review used by rendered downloads. Inspect it before transferring it.
