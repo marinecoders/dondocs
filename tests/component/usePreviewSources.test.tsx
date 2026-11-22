@@ -7,9 +7,41 @@ const guards = vi.hoisted(() => ({ current: true, jump: vi.fn() }));
 vi.mock('@/components/layout/editorSections', () => ({ useEditorSections: () => ({ sections: [{ id: 'body' }] }) }));
 vi.mock('@/stores/documentsStore', () => ({ captureDocumentTarget: () => ({}), isCurrentDocumentTarget: () => guards.current }));
 vi.mock('@/stores/editorOutlineStore', () => ({ useEditorOutlineStore: { getState: () => ({ jump: guards.jump }) } }));
-beforeEach(() => useUIStore.setState({ previewVisible: true, isMobile: false }));
+beforeEach(() => { useUIStore.setState({ previewVisible: true, isMobile: false }); useDocumentStore.setState({ enclosures: [], docType: 'naval_letter', formData: { ...useDocumentStore.getState().formData, appendEndorsement: false, basicLetterFile: undefined, basicLetterFileRef: undefined } }); });
 afterEach(() => { vi.unstubAllGlobals(); guards.current = true; guards.jump.mockClear(); });
 describe('preview navigation', () => {
+  it('hands off mobile source focus after the preview dialog unmounts', () => {
+    const frames: FrameRequestCallback[] = [];
+    vi.stubGlobal('requestAnimationFrame', (callback: FrameRequestCallback) => { frames.push(callback); return frames.length; });
+    useUIStore.setState({ isMobile: true, mobilePreviewOpen: true });
+    useDocumentStore.setState({ documentCategory: 'correspondence', paragraphs: [{ id: 'mobile-source', text: 'Unique mobile source paragraph', level: 0 }] });
+    const section = document.createElement('section'); section.id = 'sec-body';
+    const row = document.createElement('div'); row.dataset.paragraphId = 'mobile-source';
+    const field = document.createElement('textarea'); row.append(field); section.append(row); document.body.append(section);
+    const { result, unmount } = renderHook(() => usePreviewSources(false, true));
+    const close = result.current.onMobileCloseAutoFocus;
+    act(() => result.current.navigate?.(result.current.sources[0]));
+    expect(useUIStore.getState().mobilePreviewOpen).toBe(false);
+    expect(document.activeElement).not.toBe(field);
+    unmount();
+    const event = new Event('closeAutoFocus', { cancelable: true });
+    close(event);
+    while (frames.length) frames.shift()!(0);
+    expect(event.defaultPrevented).toBe(true);
+    expect(field).toHaveFocus();
+    section.remove();
+  });
+
+  it('does not focus a mobile source after the draft changes', () => {
+    useUIStore.setState({ isMobile: true, mobilePreviewOpen: true });
+    useDocumentStore.setState({ documentCategory: 'correspondence', paragraphs: [{ id: 'mobile-source', text: 'Unique mobile source paragraph', level: 0 }] });
+    const { result } = renderHook(() => usePreviewSources(false, true));
+    act(() => result.current.navigate?.(result.current.sources[0]));
+    guards.current = false;
+    result.current.onMobileCloseAutoFocus(new Event('closeAutoFocus', { cancelable: true }));
+    expect(guards.jump).not.toHaveBeenCalled();
+  });
+
   it('only navigates current sources in an enabled draft', () => {
     const { result, rerender } = renderHook(({ disabled }) => usePreviewSources(disabled), { initialProps: { disabled: false } });
     act(() => useDocumentStore.setState({ documentCategory: 'correspondence', paragraphs: [{ id: 'p1', text: 'A paragraph with unique wording', level: 0 }] }));
@@ -80,4 +112,32 @@ describe('preview navigation', () => {
     const { result } = renderHook(() => usePreviewSources(false));
     expect(result.current.sources).toEqual([]);
   });
+});
+
+it('withholds source links when original PDFs can repeat native text', () => {
+  useDocumentStore.setState({ documentCategory: 'correspondence', paragraphs: [{ id: 'native', text: 'A distinct original native paragraph.', level: 0 }],
+    enclosures: [{ title: 'Original', fileRef: { id: 'attachment', name: 'original.pdf', type: 'application/pdf', size: 100 } }] });
+  const { result } = renderHook(() => usePreviewSources(false));
+  expect(result.current.hasImportedPages).toBe(true);
+  expect(result.current.sources).toEqual([]);
+  act(() => useDocumentStore.setState({ enclosures: [], docType: 'new_page_endorsement', formData: {
+    ...useDocumentStore.getState().formData, basicLetterFileRef: { id: 'basic', name: 'basic.pdf', type: 'application/pdf', size: 100 },
+  } }));
+  expect(result.current.hasImportedPages).toBe(true);
+  expect(result.current.sources).toEqual([]);
+});
+
+it('withholds only body sources repeated in active native endorsements', () => {
+  const repeated = 'The participating commands approve these shared training arrangements.';
+  useDocumentStore.setState({ documentCategory: 'correspondence', paragraphs: [
+    { id: 'repeated', text: repeated, level: 0 }, { id: 'unique', text: 'This distinct main-letter paragraph stays navigable.', level: 0 },
+  ], formData: { ...useDocumentStore.getState().formData, from: 'Training Sender', to: 'Training Recipient',
+    appendEndorsement: true, endorsementBody: repeated.toUpperCase(), additionalEndorsements: [] } });
+  const { result } = renderHook(() => usePreviewSources(false));
+  expect(result.current.sources.map(source => source.id)).toEqual(['unique']);
+  act(() => useDocumentStore.getState().setField('appendEndorsement', false));
+  expect(result.current.sources.map(source => source.id)).toEqual(['repeated', 'unique']);
+  act(() => useDocumentStore.setState({ formData: { ...useDocumentStore.getState().formData, appendEndorsement: true,
+    endorsementBody: 'Independent first endorsement.', additionalEndorsements: [{ id: 'second', endorsementBody: repeated }] } }));
+  expect(result.current.sources.map(source => source.id)).toEqual(['unique']);
 });

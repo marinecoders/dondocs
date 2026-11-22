@@ -367,9 +367,9 @@ export const PdfPageLayer = forwardRef<PdfPageLayerHandle, PdfPageLayerProps>(fu
                 >
                   {visible && onNavigateSource && (pageSources.get(i)?.length ?? 0) > 0 && (
                     <details className="absolute right-2 top-2 z-10 max-w-[min(18rem,90%)] rounded-md border bg-background/95 text-foreground shadow-sm">
-                      <summary className="cursor-pointer px-3 py-2 text-xs focus-visible:outline focus-visible:outline-2">Edit page {i + 1} source</summary>
+                      <summary className="min-h-11 cursor-pointer px-3 py-2 text-xs focus-visible:outline focus-visible:outline-2">Edit page {i + 1} source</summary>
                       <div className="flex max-h-48 flex-col overflow-auto border-t p-1">
-                        {(pageSources.get(i) ?? []).map(source => <button key={source.id} type="button" className="rounded px-3 py-2 text-left text-xs hover:bg-muted focus-visible:bg-muted" onClick={() => onNavigateSource(source)}>{source.label}</button>)}
+                        {(pageSources.get(i) ?? []).map(source => <button key={source.id} type="button" className="min-h-11 rounded px-3 py-2 text-left text-xs hover:bg-muted focus-visible:bg-muted" onClick={() => onNavigateSource(source)}>{source.label}</button>)}
                       </div>
                     </details>
                   )}

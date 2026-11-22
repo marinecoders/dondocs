@@ -1,3 +1,4 @@
+import { usePreviewSources } from '@/hooks/usePreviewSources';
 import { X, Loader2, AlertCircle, ScrollText, Download, FileText } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useUIStore } from '@/stores/uiStore';
@@ -35,6 +36,7 @@ export function MobilePreviewModal({ pdfUrl, isCompiling, error, onDownloadPdf, 
   const displayError = error === 'ENGINE_RESET_NEEDED' ? null : error;
   const isUpdating = isCompiling || error === 'ENGINE_RESET_NEEDED';
   const canDeliver = !!pdfUrl && !isUpdating && !error;
+  const navigation = usePreviewSources(!canDeliver, true);
 
   const handleOpenLogs = () => {
     setLogEnabled(true);
@@ -56,7 +58,7 @@ export function MobilePreviewModal({ pdfUrl, isCompiling, error, onDownloadPdf, 
     // Close controls render behind the clock/dynamic island in a standalone
     // install, and the viewer's bottom edge sits under the home indicator.
     <Dialog open={mobilePreviewOpen} onOpenChange={setMobilePreviewOpen}>
-    <DialogContent showCloseButton={false} aria-describedby={undefined}
+    <DialogContent showCloseButton={false} aria-describedby={undefined} onCloseAutoFocus={navigation.onMobileCloseAutoFocus}
       className="fixed inset-0 left-0 top-0 z-50 h-dvh max-h-none w-screen max-w-none sm:max-w-none translate-x-0 translate-y-0 bg-background flex flex-col rounded-none border-0 p-0 gap-0"
       style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}
     >
@@ -119,7 +121,7 @@ export function MobilePreviewModal({ pdfUrl, isCompiling, error, onDownloadPdf, 
 
         {/* The modal is already full-screen — hide the redundant fullscreen control. */}
         {pdfUrl && <div className="h-full">
-          <PdfViewer key={documentId} documentId={documentId} pdfUrl={pdfUrl} showFullscreen={false} allowOpenInTab={canDeliver} onDownloadPdf={canDeliver ? handleDownload : undefined} />
+          <PdfViewer sources={navigation.sources} onNavigateSource={navigation.navigate} key={documentId} documentId={documentId} pdfUrl={pdfUrl} showFullscreen={false} allowOpenInTab={canDeliver} onDownloadPdf={canDeliver ? handleDownload : undefined} />
           {(isUpdating || displayError) && <div className="absolute inset-x-0 bottom-0 max-h-[40%] overflow-y-auto break-words border-t bg-background/95 p-3 text-sm" role={isUpdating ? 'status' : 'alert'}>
             {isUpdating ? 'Updating preview… The previous version remains visible.' : `Preview is out of date. ${displayError}`}
           </div>}
