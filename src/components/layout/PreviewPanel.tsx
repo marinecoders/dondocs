@@ -81,7 +81,7 @@ export function PreviewPanel({ pdfUrl, isCompiling, isWarmingUp = false, preview
           <>
             <Suspense fallback={null /* the mat behind is already painted */}>
               <div className="absolute inset-0" title="Document preview">
-                <PdfViewer onSourcesInView={navigation.followSources} sources={navigation.sources} onNavigateSource={navigation.navigate} key={documentId} documentId={documentId} pdfUrl={pdfUrl} onDownloadPdf={onDownloadPdf} toolbarLabel={previewLabel} />
+                <PdfViewer onSourcesInView={navigation.followSources} sources={navigation.sources} sourceSubject={navigation.sourceSubject} onNavigateSource={navigation.navigate} key={documentId} documentId={documentId} pdfUrl={pdfUrl} onDownloadPdf={onDownloadPdf} toolbarLabel={previewLabel} />
               </div>
             </Suspense>
             {/* While recompiling, the stale PDF stays visible and unobscured —

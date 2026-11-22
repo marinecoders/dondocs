@@ -46,3 +46,24 @@ for (const theme of ['light', 'dark', 'classic']) {
     await expect(dialog).not.toBeVisible();
   });
 }
+
+test('links a complete long paragraph from its continuation page', async ({ page, isMobile }) => {
+  test.setTimeout(120_000);
+  await page.addInitScript(() => {
+    localStorage.setItem('browser-test-visitor', 'returning');
+    localStorage.setItem('dondocs_ui', JSON.stringify({ state: { theme: 'light', editorLayout: 'scroll' }, version: 1 }));
+  });
+  await page.goto('/');
+  await page.getByRole('textbox', { name: 'Subject', exact: true }).fill('CROSS PAGE SOURCE');
+  const paragraph = page.getByRole('textbox', { name: 'Paragraph 1', exact: true });
+  const text = Array.from({ length: 80 }, (_, index) => `Sourceword${index} provides clear unique training directions for the next exercise.`).join(' ');
+  await paragraph.fill(text);
+  const preview = page.getByRole('button', { name: 'Preview', exact: true });
+  if (isMobile || await preview.getAttribute('aria-pressed') !== 'true') await preview.click();
+  await expect(page.getByText('Edit page 1 source', { exact: true })).toBeVisible({ timeout: 90_000 });
+  await page.getByRole('button', { name: 'Next page', exact: true }).click();
+  await page.getByText('Edit page 2 source', { exact: true }).click();
+  await page.getByRole('button', { name: 'Paragraph 1', exact: true }).click();
+  await expect(paragraph).toBeFocused();
+  await expect(paragraph).toHaveText(text);
+});

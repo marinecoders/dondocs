@@ -1,4 +1,4 @@
-import { sourcesOnPage, type PreviewSource } from '@/lib/previewSources';
+import { previewPageText, sourcesAcrossPages, type PreviewSource } from '@/lib/previewSources';
 import {
   forwardRef,
   useCallback,
@@ -42,6 +42,7 @@ export interface PdfPageLayerHandle {
 interface PdfPageLayerProps {
   onSourcesInView?: (sources: PreviewSource[]) => void;
   sources?: readonly PreviewSource[];
+  sourceSubject?: string;
   onNavigateSource?: (source: PreviewSource) => void;
   url: string;
   gen: number;
@@ -79,14 +80,12 @@ interface PdfPageLayerProps {
  * the viewer inside iOS's canvas memory budget.
  */
 export const PdfPageLayer = forwardRef<PdfPageLayerHandle, PdfPageLayerProps>(function PdfPageLayer(
-  { sources = [], onNavigateSource, onSourcesInView, url, gen, pageWidth, dprCap, visible, initialScrollTop = 0, initialPage = 1, initialAnchor, fadingOut = false, thumbPortalTarget, currentPage, onDocMeta, onPageInView, onLoaded, onReady, onFailed },
+  { sources = [], sourceSubject = '', onNavigateSource, onSourcesInView, url, gen, pageWidth, dprCap, visible, initialScrollTop = 0, initialPage = 1, initialAnchor, fadingOut = false, thumbPortalTarget, currentPage, onDocMeta, onPageInView, onLoaded, onReady, onFailed },
   ref
 ) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [pageTexts, setPageTexts] = useState<Record<number, string>>({});
-  const pageSources = useMemo(() => new Map(
-    Object.entries(pageTexts).map(([index, text]) => [Number(index), sourcesOnPage(text, sources)]),
-  ), [pageTexts, sources]);
+  const pageSources = useMemo(() => sourcesAcrossPages(pageTexts, sources, sourceSubject), [pageTexts, sources, sourceSubject]);
   const [numPages, setNumPages] = useState(0);
   useEffect(() => {
     if (visible && currentPage && onSourcesInView) onSourcesInView(pageSources.get(currentPage - 1) ?? []);
@@ -94,6 +93,8 @@ export const PdfPageLayer = forwardRef<PdfPageLayerHandle, PdfPageLayerProps>(fu
   const [sizes, setSizes] = useState<PdfPageSize[]>([]);
   const aspects = sizes.map((size) => size.width / size.height);
   const loadSequence = useRef(0);
+  const textReader = useRef<((page: number) => Promise<string>) | null>(null);
+  const requestedTextPages = useRef(new Set<number>());
   useEffect(
     () => () => {
       loadSequence.current++;
@@ -316,6 +317,11 @@ export const PdfPageLayer = forwardRef<PdfPageLayerHandle, PdfPageLayerProps>(fu
         loading={null}
         error={null}
         onLoadSuccess={(doc) => {
+          textReader.current = async index => {
+            const page = await doc.getPage(index + 1);
+            const content = await page.getTextContent();
+            return previewPageText(content.items);
+          };
           const sequence = ++loadSequence.current;
           // Resolve dimensions before rendering/restoring: a temporary Letter
           // stack otherwise paints the wrong window for wide inventory pages.
@@ -375,14 +381,20 @@ export const PdfPageLayer = forwardRef<PdfPageLayerHandle, PdfPageLayerProps>(fu
                   )}
                   {inWindow && (
                     <Page
-                      onLoadSuccess={page => {
+                      onLoadSuccess={() => {
                         const sequence = loadSequence.current;
-                        if (sources.length === 0) return;
-                        void page.getTextContent().then(content => {
-                          if (sequence !== loadSequence.current) return;
-                          const text = content.items.map(item => 'str' in item ? item.str : '').join(' ');
-                          setPageTexts(previous => ({ ...previous, [i]: text }));
-                        }).catch(() => { /* Unreadable pages keep ordinary PDF navigation. */ });
+                        const read = textReader.current;
+                        if (!sources.length || !read) return;
+                        // Read neighboring text without painting extra canvases. A
+                        // complete four-page paragraph can then resolve while its
+                        // first page is visible, within a bounded virtual window.
+                        for (let index = Math.max(0, i - 3); index <= Math.min(numPages - 1, i + 3); index++) {
+                          if (requestedTextPages.current.has(index)) continue;
+                          requestedTextPages.current.add(index);
+                          void read(index).then(text => {
+                            if (sequence === loadSequence.current) setPageTexts(previous => ({ ...previous, [index]: text }));
+                          }).catch(() => { /* Unreadable pages keep ordinary PDF navigation. */ });
+                        }
                       }}
                       pageNumber={i + 1}
                       width={p.width}
