@@ -57,26 +57,34 @@ describe.skipIf(!libreOffice)('measured correspondence in native PDF and LibreOf
   beforeAll(() => {
     expect(hasPdfToolchain && hasPandoc, 'Native PDF, Pandoc and Poppler are required for this opted-in renderer run.').toBe(true);
   });
-  it.each(['5x7', '7x9', 'joint', 'long-table'] as const)('%s retains source paper dimensions and required content', async name => {
+  it.each(['5x7', '7x9', 'joint', 'long-table', 'aligned-table'] as const)('%s retains source paper dimensions and required content', async name => {
     const directory = process.env.DONDOCS_CORRESPONDENCE_PRINT_DIR ?? await mkdtemp(join(tmpdir(), 'dondocs-correspondence-print-'));
     await mkdir(directory, { recursive: true });
+    const alignedTable = name === 'aligned-table';
+    const isTable = alignedTable || name === 'long-table';
     const store = name === 'joint' ? jointLetterFixture(true)
-      : buildBaseline(name === 'long-table' ? 'naval_letter' : 'executive_correspondence');
+      : buildBaseline(isTable ? 'naval_letter' : 'executive_correspondence');
     const width = name === '5x7' ? 360 : name === '7x9' ? 504 : 612;
     const height = name === '5x7' ? 504 : name === '7x9' ? 648 : 792;
     let markers: string[];
-    const tableHeaders = ['TABLEIDENTIFIER', 'TABLEDISPOSITION'] as const;
-    const rowMarkers = Array.from({ length: 64 }, (_, index) => [`ROWPROBE${index}`, `RESULTPROBE${index}`] as const);
+    const firstHeaders = ['TABLEIDENTIFIER', 'TABLEDISPOSITION'] as const;
+    const secondHeaders = ['ROWSUBHEADER', 'RESULTSUBHEADER'] as const;
+    const tableHeaders = alignedTable ? [...firstHeaders, ...secondHeaders] : firstHeaders;
+    const rowMarkers = Array.from({ length: 64 }, (_, index) =>
+      [`ROWPROBE${index}`, `RESULTPROBE${index}${alignedTable ? 'X'.repeat(index % 8) : ''}`] as const);
     if (name === 'joint') {
       Object.assign(store.formData, { jointJuniorSigName: 'JUNIORSIGN', jointSeniorSigName: 'SENIORSIGN' });
       store.formData.jointAdditionalCommands![0].signatureName = 'MIDDLESIGN';
       markers = ['JUNIORSIGN', 'MIDDLESIGN', 'SENIORSIGN'];
-    } else if (name === 'long-table') {
+    } else if (isTable) {
       Object.assign(store.formData, { fontFamily: 'courier', fontSize: '11pt' });
       markers = rowMarkers.flat();
       store.paragraphs = [{ id: 'long-table', text: '', level: 0, bodyTable: {
-        rows: [[...tableHeaders], ...rowMarkers.map(([row, result]) => [row, `${result} Synthetic disposition.`])],
-        headerRows: 1, repeatHeaders: true, columnWidths: [28, 72], columnAlignments: ['left', 'left'],
+        rows: [[...firstHeaders], ...(alignedTable ? [[...secondHeaders]] : []),
+          ...rowMarkers.map(([row, result]) => [row, alignedTable ? result : `${result} Synthetic disposition.`])],
+        headerRows: alignedTable ? 2 : 1, repeatHeaders: true,
+        columnWidths: alignedTable ? [45, 55] : [28, 72],
+        columnAlignments: alignedTable ? ['left', 'right'] : ['left', 'left'],
       } }];
     } else {
       Object.assign(store.formData, { stationerySize: name, letterheadMode: 'preprinted', subject: '',
@@ -115,7 +123,7 @@ describe.skipIf(!libreOffice)('measured correspondence in native PDF and LibreOf
     const profile = pathToFileURL(join(renderDir, 'libreoffice-profile')).href;
     exec(libreOffice!, [`-env:UserInstallation=${profile}`, '--headless', '--convert-to', 'pdf', '--outdir', renderDir, inputPath]);
     expect(exec('pdfinfo', [printedPath])).toMatch(/^Producer:\s+LibreOffice/m);
-    const headers = name === 'long-table' ? tableHeaders : [];
+    const headers = isTable ? tableHeaders : [];
     const nativeMetrics = measured(nativePath, width, height, markers, 0.05, headers);
     // This LibreOffice build rounds 7×9 height to about 649.16 pt. The
     // DOCX and native PDF checks above still require the authored dimensions.
@@ -130,18 +138,30 @@ describe.skipIf(!libreOffice)('measured correspondence in native PDF and LibreOf
         expect(Math.abs(middle.top - junior.top)).toBeLessThan(2);
         expect(Math.abs(senior.top - junior.top)).toBeLessThan(2);
       }
-    } else if (name === 'long-table') {
+    } else if (isTable) {
       for (const metrics of [nativeMetrics, wordMetrics]) {
         const rowPages = [...new Set(metrics.positions.map(point => point.page))];
         expect(rowPages.length).toBeGreaterThan(1);
-        const [rowHeaders, resultHeaders] = metrics.headerPositions;
-        for (const headerPositions of [rowHeaders, resultHeaders]) {
+        const [rowHeaders, resultHeaders, rowSubheaders, resultSubheaders] = metrics.headerPositions;
+        for (const headerPositions of metrics.headerPositions) {
           expect(headerPositions.map(point => point.page)).toEqual(rowPages);
+        }
+        if (alignedTable) {
+          for (const [index, header] of rowHeaders.entries()) {
+            expect(header.bottom).toBeLessThan(rowSubheaders[index].top);
+            expect(resultHeaders[index].bottom).toBeLessThan(resultSubheaders[index].top);
+          }
+          const resultCells = metrics.positions.filter((_, index) => index % 2 === 1);
+          const rightEdges = resultCells.map(point => point.right);
+          const leftEdges = resultCells.map(point => point.left);
+          expect(Math.max(...rightEdges) - Math.min(...rightEdges)).toBeLessThan(2);
+          expect(Math.max(...leftEdges) - Math.min(...leftEdges)).toBeGreaterThan(25);
         }
         for (let index = 0; index < metrics.positions.length; index += 2) {
           const [row, result] = metrics.positions.slice(index, index + 2);
           const headerIndex = rowPages.indexOf(row.page);
-          const left = rowHeaders[headerIndex], right = resultHeaders[headerIndex];
+          const left = (alignedTable ? rowSubheaders : rowHeaders)[headerIndex];
+          const right = (alignedTable ? resultSubheaders : resultHeaders)[headerIndex];
           expect(left.bottom).toBeLessThan(row.top);
           expect(right.bottom).toBeLessThan(result.top);
           expect(left.right).toBeLessThan(right.left);
