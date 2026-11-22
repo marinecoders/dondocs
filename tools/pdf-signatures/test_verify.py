@@ -65,6 +65,7 @@ class PdfVerificationTest(unittest.TestCase):
         logging.disable(logging.CRITICAL)
         cls.addClassCleanup(logging.disable, logging.NOTSET)
         root_key, root_name, cls.root = identity("Synthetic CA")
+        cls.root_key, cls.root_name = root_key, root_name
         _, _, cls.other_root = identity("Different synthetic CA")
         key, _, cert = identity("Synthetic document signer", (root_key, root_name))
         tsa_key, _, tsa = identity("Synthetic time source", (root_key, root_name), tsa=True)
@@ -164,6 +165,21 @@ class PdfVerificationTest(unittest.TestCase):
         first = self.check(output.getvalue())["signatures"][0]
         self.assertEqual(first["state"], "invalid")
         self.assertFalse(first["permittedChanges"])
+
+    def test_local_crl_distinguishes_good_revoked_and_missing_evidence(self):
+        signed = self.signed()
+        now = datetime.now(timezone.utc)
+        crl = (x509.CertificateRevocationListBuilder().issuer_name(self.root_name)
+               .last_update(now - timedelta(minutes=2)).next_update(now + timedelta(days=1)))
+        good = crl.sign(self.root_key, hashes.SHA256()).public_bytes(serialization.Encoding.DER)
+        self.assertEqual(self.check(signed, crls=[good], require_revocation=True)["state"], "verified")
+        revoked = (x509.RevokedCertificateBuilder().serial_number(self.signer.signing_cert.serial_number)
+                   .revocation_date(now - timedelta(minutes=1)).build())
+        bad = crl.add_revoked_certificate(revoked).sign(self.root_key, hashes.SHA256()).public_bytes(serialization.Encoding.DER)
+        result = self.check(signed, crls=[bad], require_revocation=True)["signatures"][0]
+        self.assertTrue(result["certificateRevoked"])
+        self.assertTrue(result["digestMatches"])
+        self.assertEqual(result["state"], "invalid")
 
     def test_revocation_requirement_is_fail_closed(self):
         result = self.check(self.signed(), require_revocation=True)

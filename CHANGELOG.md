@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.217] — 2026-11-21
+
+### Fixed
+
+- Distinguish confirmed PDF signing certificate revocation from missing trust evidence.
+
 ## [1.3.216] — 2026-11-21
 
 ### Added

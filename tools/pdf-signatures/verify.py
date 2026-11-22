@@ -40,6 +40,8 @@ def timestamp_report(status):
         "time": status.timestamp.isoformat(),
         "signatureIntact": status.intact and status.valid,
         "trusted": status.trusted,
+        "trustProblem": status.trust_problem_indic.standard_name if status.trust_problem_indic else None,
+        "revoked": status.revoked,
     }
 
 
@@ -63,8 +65,8 @@ def inspect_signature(signature, context, tsa_context):
         SignatureCoverageLevel.ENTIRE_FILE, SignatureCoverageLevel.ENTIRE_REVISION,
     }
     invalid_signature = not status.intact or not status.valid or not covers_revision
-    invalid_timestamp = any(not item["signatureIntact"] for item in timestamps)
-    if invalid_signature or invalid_timestamp or status.docmdp_ok is False:
+    invalid_timestamp = any(item["revoked"] or not item["signatureIntact"] for item in timestamps)
+    if invalid_signature or invalid_timestamp or status.docmdp_ok is False or status.revoked:
         state = "invalid"
     elif status.coverage == SignatureCoverageLevel.ENTIRE_REVISION and status.docmdp_ok is not True:
         state = "inconclusive"
@@ -82,6 +84,8 @@ def inspect_signature(signature, context, tsa_context):
         "cryptographicSignatureValid": status.valid,
         "certificateSha256": sha256(status.signing_cert.dump()).hexdigest(),
         "certificateTrustedAtVerificationTime": status.trusted,
+        "certificateTrustProblem": status.trust_problem_indic.standard_name if status.trust_problem_indic else None,
+        "certificateRevoked": status.revoked,
         "coverage": status.coverage.name.lower() if status.coverage is not None else None,
         "laterChanges": status.modification_level.name.lower() if status.modification_level is not None else None,
         "permittedChanges": status.docmdp_ok,
