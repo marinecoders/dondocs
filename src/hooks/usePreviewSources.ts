@@ -101,5 +101,5 @@ export function usePreviewSources(disabled: boolean, mobileSurface = false) {
     event.preventDefault();
     focus();
   }
-  return { sources, hasImportedPages, follow, setFollow, followSources, onMobileCloseAutoFocus, navigate: enabled ? navigate : undefined };
+  return { sources, hasImportedPages, sourceSubject: formData.subject ?? '', follow, setFollow, followSources, onMobileCloseAutoFocus, navigate: enabled ? navigate : undefined };
 }
