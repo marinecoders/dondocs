@@ -121,7 +121,18 @@ export function MobilePreviewModal({ pdfUrl, isCompiling, error, onDownloadPdf, 
 
         {/* The modal is already full-screen — hide the redundant fullscreen control. */}
         {pdfUrl && <div className="h-full">
-          <PdfViewer navigationControls={navigation.navigationLimited ? <p className="text-xs">Source navigation is unavailable for this large document.</p> : undefined} sources={navigation.sources} sourceSubject={navigation.sourceSubject} onNavigateSource={navigation.navigate} key={documentId} documentId={documentId} pdfUrl={pdfUrl} showFullscreen={false} allowOpenInTab={canDeliver} onDownloadPdf={canDeliver ? handleDownload : undefined} />
+          <PdfViewer
+            key={documentId}
+            documentId={documentId}
+            pdfUrl={pdfUrl}
+            showFullscreen={false}
+            allowOpenInTab={canDeliver}
+            onDownloadPdf={canDeliver ? handleDownload : undefined}
+            sourceNavigationMessage={navigation.unavailableMessage}
+            sources={navigation.sources}
+            sourceSubject={navigation.sourceSubject}
+            onNavigateSource={navigation.navigate}
+          />
           {(isUpdating || displayError) && <div className="absolute inset-x-0 bottom-0 max-h-[40%] overflow-y-auto break-words border-t bg-background/95 p-3 text-sm" role={isUpdating ? 'status' : 'alert'}>
             {isUpdating ? 'Updating preview… The previous version remains visible.' : `Preview is out of date. ${displayError}`}
           </div>}

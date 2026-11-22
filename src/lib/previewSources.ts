@@ -8,6 +8,8 @@ export interface PreviewSource {
   fieldId?: string;
 }
 
+export type PreviewFollowMode = 'off' | 'editor' | 'preview';
+
 export const PREVIEW_SOURCE_LIMITS = { count: 512, sourceCharacters: 250_000, pages: 128, pageCharacters: 500_000 } as const;
 
 /** Check raw sizes before normalization or pairwise source comparisons. */

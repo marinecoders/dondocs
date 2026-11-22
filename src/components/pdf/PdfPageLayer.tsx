@@ -39,12 +39,20 @@ export interface PdfPageLayerHandle {
   restoreScrollAnchor: (anchor: PdfScrollAnchor) => void;
 }
 
+export interface PdfSourceMatches {
+  generation: number;
+  inventory: readonly PreviewSource[];
+  byPage: ReadonlyMap<number, readonly PreviewSource[]>;
+}
+
+const EMPTY_SOURCES: readonly PreviewSource[] = [];
+
 interface PdfPageLayerProps {
   sourceToReveal?: PreviewSource;
   onSourcesInView?: (sources: PreviewSource[]) => void;
   sources?: readonly PreviewSource[];
   sourceSubject?: string;
-  onNavigateSource?: (source: PreviewSource) => void;
+  onSourceMatches?: (matches: PdfSourceMatches) => void;
   url: string;
   gen: number;
   pageWidth: number;
@@ -81,13 +89,16 @@ interface PdfPageLayerProps {
  * the viewer inside iOS's canvas memory budget.
  */
 export const PdfPageLayer = forwardRef<PdfPageLayerHandle, PdfPageLayerProps>(function PdfPageLayer(
-  { sourceToReveal, sources = [], sourceSubject = '', onNavigateSource, onSourcesInView, url, gen, pageWidth, dprCap, visible, initialScrollTop = 0, initialPage = 1, initialAnchor, fadingOut = false, thumbPortalTarget, currentPage, onDocMeta, onPageInView, onLoaded, onReady, onFailed },
+  { sourceToReveal, sources = EMPTY_SOURCES, sourceSubject = '', onSourceMatches, onSourcesInView, url, gen, pageWidth, dprCap, visible, initialScrollTop = 0, initialPage = 1, initialAnchor, fadingOut = false, thumbPortalTarget, currentPage, onDocMeta, onPageInView, onLoaded, onReady, onFailed },
   ref
 ) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [pageTexts, setPageTexts] = useState<Record<number, string>>({});
   const pageSources = useMemo(() => sourcesAcrossPages(pageTexts, sources, sourceSubject), [pageTexts, sources, sourceSubject]);
   const [numPages, setNumPages] = useState(0);
+  useEffect(() => {
+    if (visible) onSourceMatches?.({ generation: gen, inventory: sources, byPage: pageSources });
+  }, [visible, gen, sources, pageSources, onSourceMatches]);
   useEffect(() => {
     if (visible && currentPage && onSourcesInView) onSourcesInView(pageSources.get(currentPage - 1) ?? []);
   }, [visible, currentPage, pageSources, onSourcesInView]);
@@ -403,14 +414,6 @@ export const PdfPageLayer = forwardRef<PdfPageLayerHandle, PdfPageLayerProps>(fu
                   className="relative bg-white shadow-md ring-1 ring-black/5 dark:ring-white/10"
                   style={{ width: p.width, height: p.height }}
                 >
-                  {visible && onNavigateSource && (pageSources.get(i)?.length ?? 0) > 0 && (
-                    <details className="absolute right-2 top-2 z-10 max-w-[min(18rem,90%)] rounded-md border bg-background/95 text-foreground shadow-sm">
-                      <summary className="min-h-11 cursor-pointer px-3 py-2 text-xs focus-visible:outline focus-visible:outline-2">Edit page {i + 1} source</summary>
-                      <div className="flex max-h-48 flex-col overflow-auto border-t p-1">
-                        {(pageSources.get(i) ?? []).map(source => <button key={source.id} type="button" className="min-h-11 rounded px-3 py-2 text-left text-xs hover:bg-muted focus-visible:bg-muted" onClick={() => onNavigateSource(source)}>{source.label}</button>)}
-                      </div>
-                    </details>
-                  )}
                   {inWindow && (
                     <Page
                       onLoadSuccess={() => {

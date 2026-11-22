@@ -12,11 +12,12 @@ import { usePdfDocumentSwap, type DocSlot } from './usePdfDocumentSwap';
 import type { PdfScrollAnchor } from './pdfMath';
 import { usePdfZoom } from './usePdfZoom';
 import { useFullscreen } from './useFullscreen';
-import { PdfPageLayer, type PdfPageLayerHandle } from './PdfPageLayer';
-import { PdfViewerToolbar } from './PdfViewerToolbar';
+import { PdfPageLayer, type PdfPageLayerHandle, type PdfSourceMatches } from './PdfPageLayer';
+import { PdfViewerToolbar, type PreviewFollow } from './PdfViewerToolbar';
 
 export interface PdfViewerProps {
-  navigationControls?: React.ReactNode;
+  follow?: PreviewFollow;
+  sourceNavigationMessage?: string;
   sourceToReveal?: PreviewSource;
   onManualNavigation?: () => void;
   onSourcesInView?: (sources: PreviewSource[]) => void;
@@ -53,8 +54,13 @@ export interface PdfViewerProps {
  *   3. the old gen N layer sticks around ~180ms with a fade-out class (skipped
  *      under prefers-reduced-motion), then unmounts.
  */
-export default function PdfViewer({ navigationControls, sourceToReveal, onManualNavigation, onSourcesInView, sources, sourceSubject, onNavigateSource, pdfUrl, className, showFullscreen = true, documentId, onDownloadPdf, toolbarLabel, allowOpenInTab = true }: PdfViewerProps) {
+export default function PdfViewer({ follow, sourceNavigationMessage, sourceToReveal, onManualNavigation, onSourcesInView, sources, sourceSubject, onNavigateSource, pdfUrl, className, showFullscreen = true, documentId, onDownloadPdf, toolbarLabel, allowOpenInTab = true }: PdfViewerProps) {
   const rootRef = useRef<HTMLDivElement>(null);
+  const [menuContainer, setMenuContainer] = useState<HTMLDivElement | null>(null);
+  const setRoot = useCallback((node: HTMLDivElement | null) => {
+    rootRef.current = node;
+    setMenuContainer(node);
+  }, []);
   // The column the pages actually live in — this is what fit modes must track
   // (it shrinks when the thumbnail rail opens; the root does not).
   const contentRef = useRef<HTMLDivElement>(null);
@@ -69,6 +75,7 @@ export default function PdfViewer({ navigationControls, sourceToReveal, onManual
   const [docMeta, setDocMeta] = useState<{ numPages: number; baseWidth: number; baseAspect: number } | null>(null);
   const [initialPage] = useState(() => documentId ? useUIStore.getState().documentPositions[documentId]?.previewPage ?? 1 : 1);
   const [pageInView, setPageInView] = useState(initialPage);
+  const [sourceMatches, setSourceMatches] = useState<PdfSourceMatches>();
   const [loadFailed, setLoadFailed] = useState(false);
   // The active layer's scroll position at the moment an incoming document was
   // staged — the hidden layer pre-renders around it. Captured in an effect
@@ -258,10 +265,23 @@ export default function PdfViewer({ navigationControls, sourceToReveal, onManual
   }
 
   const showFading = fadingSlot && fadingSlot.gen !== (state.active?.gen ?? -1);
+  const currentPdf = state.active?.url === pdfUrl;
+  const canNavigateSource = currentPdf && !!onNavigateSource;
+  const pageSources = canNavigateSource && sourceMatches
+    && sourceMatches.generation === state.active?.gen && sourceMatches.inventory === sources
+    ? sourceMatches.byPage.get(pageInView - 1) ?? [] : [];
+
+  function editSource(source: PreviewSource) {
+    if (fullscreen.isFullscreen) {
+      void document.exitFullscreen().then(() => onNavigateSource?.(source)).catch(() => {});
+    } else {
+      onNavigateSource?.(source);
+    }
+  }
 
   return (
     <div
-      ref={rootRef}
+      ref={setRoot}
       onPointerDownCapture={onManualNavigation}
       onWheelCapture={onManualNavigation}
       onKeyDownCapture={onManualNavigation}
@@ -292,8 +312,14 @@ export default function PdfViewer({ navigationControls, sourceToReveal, onManual
         onDownload={onDownloadPdf}
         downloadLabel="Download PDF"
         fullscreen={showFullscreen && fullscreen.available ? fullscreen : null}
+        menuContainer={menuContainer}
+        follow={follow}
+        sourceNavigation={sources?.length || sourceNavigationMessage ? {
+          sources: pageSources,
+          message: sourceNavigationMessage ?? (!canNavigateSource ? 'Source links are available when the preview is current.' : undefined),
+          onEdit: editSource,
+        } : undefined}
       />
-      {navigationControls && <div className="shrink-0 border-b border-border/60 px-3 py-1 text-muted-foreground">{navigationControls}</div>}
       <div className="flex min-h-0 flex-1">
         {thumbsOpen && (docMeta?.numPages ?? 0) >= 2 && (
           <div
@@ -327,7 +353,7 @@ export default function PdfViewer({ navigationControls, sourceToReveal, onManual
               onSourcesInView={state.active.url === pdfUrl ? onSourcesInView : undefined}
               sources={sources}
               sourceSubject={sourceSubject}
-              onNavigateSource={state.active.url === pdfUrl ? onNavigateSource : undefined}
+              onSourceMatches={canNavigateSource ? setSourceMatches : undefined}
               ref={activeLayerRef}
               url={state.active.url}
               gen={state.active.gen}
