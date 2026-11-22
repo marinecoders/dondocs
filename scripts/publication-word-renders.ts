@@ -1,5 +1,5 @@
 import { DOMParser } from '@xmldom/xmldom';
-import { PDFArray, PDFDict, PDFDocument, PDFName, PDFNumber } from 'pdf-lib';
+import { PDFArray, PDFDict, PDFDocument, PDFHexString, PDFName, PDFNumber, PDFRef, PDFString, type PDFObject } from 'pdf-lib';
 
 const WORD_NS = 'http://schemas.openxmlformats.org/wordprocessingml/2006/main';
 
@@ -236,6 +236,41 @@ export function inspectPrintedContentsLabels(layoutText: string, entries: readon
 
 type PrintedContentsRow = ReturnType<typeof inspectPrintedContentsLabels>[number];
 
+const pdfKey = (key: string) => PDFName.of(key);
+
+/** Index the document's destination name tree once. Treat duplicate entries
+ * as ambiguous and visit each node once even if a print has a cyclic tree. */
+function publicationNamedDestinations(pdf: PDFDocument): ReadonlyMap<string, PDFObject | undefined> {
+  const result = new Map<string, PDFObject | undefined>();
+  const names = pdf.catalog.lookup(pdfKey('Names'));
+  const root = names instanceof PDFDict ? names.lookup(pdfKey('Dests')) : undefined;
+  if (!(root instanceof PDFDict)) return result;
+  const pending = [root];
+  const seen = new Set<PDFDict>();
+  while (pending.length) {
+    const node = pending.pop()!;
+    if (seen.has(node)) continue;
+    seen.add(node);
+    const entries = node.lookup(pdfKey('Names'));
+    if (entries instanceof PDFArray) {
+      for (let index = 0; index + 1 < entries.size(); index += 2) {
+        const key = entries.lookup(index);
+        if (!(key instanceof PDFString || key instanceof PDFHexString)) continue;
+        const name = key.decodeText();
+        result.set(name, result.has(name) ? undefined : entries.lookup(index + 1));
+      }
+    }
+    const children = node.lookup(pdfKey('Kids'));
+    if (children instanceof PDFArray) {
+      for (let index = 0; index < children.size(); index++) {
+        const child = children.lookup(index);
+        if (child instanceof PDFDict && !seen.has(child)) pending.push(child);
+      }
+    }
+  }
+  return result;
+}
+
 /** Bind each unambiguous printed row to a PDF link and read its target's visible
  * footer. A missing link or footer remains a review finding, never a match. */
 export async function inspectPublicationContentsDestinations(
@@ -247,7 +282,7 @@ export async function inspectPublicationContentsDestinations(
   const pdfPages = pdf.getPages();
   const pages = elements(parseXml(boundingBoxes), 'page');
   if (pages.length !== pdfPages.length) throw new Error('Contents destination inspection requires bounds for every printed page.');
-  const name = (key: string) => PDFName.of(key);
+  const name = pdfKey;
   const bounds = (node: Element, key: string) => node.hasAttribute(key) ? Number(node.getAttribute(key)) : Number.NaN;
   const lines = pages.map(page => elements(page, 'line').map(line => ({
     text: normalize(elements(line, 'word').map(word => word.textContent ?? '').join(' ')),
@@ -280,14 +315,26 @@ export async function inspectPublicationContentsDestinations(
     return rows.filter(({ text, top }) => top >= height - 48 && (decimalLabel.test(text) || (!!text && romanLabel.test(text))));
   });
   const pageIndexByRef = new Map(pdfPages.map((page, index) => [page.ref.toString(), index]));
+  const named = publicationNamedDestinations(pdf);
+  const legacy = pdf.catalog.lookup(name('Dests'));
   const links = pdfPages.map((page, index) => {
     if (!supportedGeometry[index]) return [];
     return (page.node.Annots()?.asArray() ?? []).flatMap(ref => {
       const annotation = pdf.context.lookupMaybe(ref, PDFDict);
       if (annotation?.get(name('Subtype')) !== name('Link')) return [];
-      const action = annotation.lookupMaybe(name('A'), PDFDict);
-      const destination = annotation.lookup(name('Dest')) ?? (action?.get(name('S')) === name('GoTo') ? action.lookup(name('D')) : undefined);
-      const targetPage = destination instanceof PDFArray ? pageIndexByRef.get(destination.get(0)?.toString() ?? '') : undefined;
+      const action = annotation.lookup(name('A'));
+      let destination = annotation.lookup(name('Dest'));
+      if (action !== undefined) {
+        destination = !destination && action instanceof PDFDict && action.lookup(name('S')) === name('GoTo')
+          ? action.lookup(name('D')) : undefined;
+      }
+      if (destination instanceof PDFName || destination instanceof PDFString || destination instanceof PDFHexString) {
+        destination = destination instanceof PDFName && legacy instanceof PDFDict && legacy.has(destination)
+          ? legacy.lookup(destination) : named.get(destination.decodeText());
+      }
+      if (destination instanceof PDFDict) destination = destination.lookup(name('D'));
+      const pageRef = destination instanceof PDFArray ? destination.get(0) : undefined;
+      const targetPage = pageRef instanceof PDFRef ? pageIndexByRef.get(pageRef.toString()) : undefined;
       const rect = annotation.lookupMaybe(name('Rect'), PDFArray);
       if (rect?.size() !== 4) return [];
       const top = page.getHeight() - (rect.lookupMaybe(3, PDFNumber)?.asNumber() ?? Number.NaN);

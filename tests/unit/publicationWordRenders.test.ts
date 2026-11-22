@@ -1,6 +1,6 @@
 // @vitest-environment node
 import { describe, expect, it } from 'vitest';
-import { PDFDocument, PDFName } from 'pdf-lib';
+import { PDFDocument, PDFName, PDFString } from 'pdf-lib';
 import { inspectPrintedContentsLabels, inspectPublicationContentsDestinations, inspectPublicationWordNavigation, inspectPublicationWordRender, publicationWordPageSizes } from '../../scripts/publication-word-renders';
 
 const xml = '<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:sectPr><w:pgSz w:w="12240" w:h="15840"/></w:sectPr><w:sectPr><w:pgSz w:w="15840" w:h="15840"/></w:sectPr></w:document>';
@@ -98,13 +98,24 @@ describe('publication printed contents', () => {
     expect(inspectPrintedContentsLabels(listing, entries).map(row => row.result)).toEqual(['missing', 'matches-format']);
   });
 
-  it.each(['direct', 'action'] as const)('compares the printed value with the footer on the %s PDF link target', async kind => {
+  it.each(['direct', 'action', 'name tree', 'legacy name'] as const)('compares the printed value with the footer on the %s PDF link target', async kind => {
     const pdf = await PDFDocument.create();
     const contents = pdf.addPage([612, 792]);
     const target = pdf.addPage([612, 792]);
     const destination = pdf.context.register(pdf.context.obj([target.ref, 'Fit']));
-    const link = pdf.context.register(pdf.context.obj({ Subtype: 'Link', Rect: [54, 670, 115, 688],
-      ...(kind === 'direct' ? { Dest: destination } : { A: { S: 'GoTo', D: destination } }),
+    const anchor = 'preface-link';
+    const namedEntry = PDFString.of(anchor);
+    if (kind === 'name tree') {
+      pdf.catalog.set(PDFName.of('Names'), pdf.context.obj({
+        Dests: { Kids: [pdf.context.register(pdf.context.obj({ Names: [namedEntry, { D: destination }] }))] },
+      }));
+    }
+    if (kind === 'legacy name') pdf.catalog.set(PDFName.of('Dests'), pdf.context.obj({ [anchor]: destination }));
+    const link = pdf.context.register(pdf.context.obj({
+      Subtype: 'Link', Rect: [54, 670, 115, 688],
+      ...(kind === 'direct' ? { Dest: destination }
+        : kind === 'legacy name' ? { Dest: PDFName.of(anchor) }
+          : { A: { S: 'GoTo', D: kind === 'name tree' ? namedEntry : destination } }),
     }));
     contents.node.set(PDFName.of('Annots'), pdf.context.obj([link]));
     const heading = '<line><word>TABLE OF CONTENTS</word></line>';
