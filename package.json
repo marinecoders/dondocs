@@ -1,7 +1,7 @@
 {
   "name": "dondocs",
   "private": true,
-  "version": "1.3.218",
+  "version": "1.3.219",
   "description": "Browser-based SECNAV M-5216.5 naval correspondence and forms generator.",
   "type": "module",
   "scripts": {
@@ -45,7 +45,8 @@
     "docs:capabilities": "vite-node --config vitest.config.ts scripts/generate-capabilities.mts",
     "docs:inventory": "vite-node --config vitest.config.ts scripts/generate-doc-inventory.mts",
     "docs:check": "npm run docs:capabilities -- --check && npm run docs:inventory -- --check && vite-node --config vitest.config.ts scripts/check-documentation.mts",
-    "check:ci-actions": "node --test scripts/check-ci-actions.test.mjs && node scripts/check-ci-actions.mjs"
+    "check:ci-actions": "node --test scripts/check-ci-actions.test.mjs && node scripts/check-ci-actions.mjs",
+    "companion:interchange": "vite-node --config vitest.config.ts companion/interchange.ts"
   },
   "overrides": {
     "serialize-javascript": "^7.0.5",
