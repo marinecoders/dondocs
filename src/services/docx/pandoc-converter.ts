@@ -20,7 +20,7 @@ import { applyBodyTableLayouts } from './bodyTables';
  */
 
 import JSZip from 'jszip';
-import { LAYOUT, layoutToMetadata } from './layout-config';
+import { getDocxFontName, LAYOUT, layoutToMetadata } from './layout-config';
 import { debug } from '@/lib/debug';
 import { RUNTIME_BASE } from '@/lib/releasePaths';
 
@@ -318,15 +318,6 @@ async function fetchSealImage(sealType?: string, letterheadColor?: string): Prom
     throw new Error(`Failed to fetch seal image ${filename}: ${response.status}`);
   }
   return { path: filename, blob: await response.blob() };
-}
-
-/** Map font family identifier to DOCX font name */
-function getDocxFontName(fontFamily: string): string {
-  switch (fontFamily) {
-    case 'courier': return 'Courier New';
-    case 'times':
-    default: return 'Times New Roman';
-  }
 }
 
 /** Map fontSize string (e.g. '12pt') to OOXML half-points (e.g. 24) */

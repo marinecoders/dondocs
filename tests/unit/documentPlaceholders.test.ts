@@ -30,6 +30,22 @@ it('detects exactly the fields it can replace, including headings, distributions
   expect(source.timestamp).toBe(result.timestamp);
 });
 
+it('keeps linked publication citations out of batch detection and substitutions in prose and tables', () => {
+  const source = session();
+  source.formData = {};
+  source.distributions = [];
+  source.endItems = [];
+  const tableReference = `PUBREF_T_${'A'.repeat(32)}`;
+  const paragraphReference = `PUBREF_P_${'B'.repeat(32)}`;
+  source.paragraphs = [{ text: `See {{${tableReference}}} for {{EQUIPMENT}}.`, level: 0 }];
+  source.publicationTables = { parts: [{ values: { description: `In {{${paragraphReference}}}` } }] };
+
+  expect(detectSessionPlaceholders(source)).toEqual(['EQUIPMENT']);
+  const result = applyPlaceholdersToSession(source, { EQUIPMENT: 'training kit', [tableReference]: 'wrong table', [paragraphReference]: 'wrong paragraph' });
+  expect(result.paragraphs[0].text).toBe(`See {{${tableReference}}} for training kit.`);
+  expect(result.publicationTables).toEqual(source.publicationTables);
+});
+
 it('replaces configured free-text answers and repeated rows without changing options or booleans', () => {
   const source = session();
   const form = fixtureInstance();

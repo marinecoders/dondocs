@@ -19,12 +19,12 @@ export class ImageInputError extends Error {
  * memoranda, dual-signer layouts and publications retain it only as draft data. */
 export function supportsCorrespondenceSignatureImage(docType: string): boolean {
   return Object.hasOwn(DOC_TYPE_CONFIG, docType) && DOC_TYPE_CONFIG[docType].signature !== 'dual'
-    && !['information_memorandum', 'i_type', 'sl3', 'sl4', 'tm_ietm_front_matter', 'technical_volume'].includes(docType);
+    && docType !== 'information_memorandum' && !DOC_TYPE_CONFIG[docType].publication;
 }
 /** Word supports a single retained signature image, with explicit party selection
  * for a dual-signer document. PDF template support remains separate above. */
 export function supportsWordSignatureImage(docType: string): boolean {
-  return Object.hasOwn(DOC_TYPE_CONFIG, docType) && !DOC_TYPE_CONFIG[docType].pdfOnly;
+  return Object.hasOwn(DOC_TYPE_CONFIG, docType) && !DOC_TYPE_CONFIG[docType].publication;
 }
 
 export function assertWordSignatureSigner(source: DocxImageSource): void {

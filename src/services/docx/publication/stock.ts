@@ -105,8 +105,9 @@ export async function sl3Body(word: PublicationWordPackage, document: Publicatio
     ...items.flatMap((item, index) => item.figureId ? [{ name: `PUBREF_SL3_ITEM_${index}`, label: String(index + 1), destination: `sl3.figure.${figures.indexOf(item.figureId) + 1}` }] : []),
   ]);
   word.heading('TABLE OF CONTENTS');
-  word.navigation('AUTHENTICATION', 'itype.authentication', 'lowerRoman');
-  for (const [index, [label, destination]] of sections.entries()) word.navigation(label, destination, index < 4 ? 'lowerRoman' : 'decimal');
+  // Some Word-compatible renderers ignore Roman numbering on PAGEREF fields.
+  word.navigation('AUTHENTICATION', 'itype.authentication', 'link-only');
+  for (const [index, [label, destination]] of sections.entries()) word.navigation(label, destination, index < 4 ? 'link-only' : 'decimal');
   if (figures.length) {
     word.heading('LIST OF ILLUSTRATIONS', 1, { newPage: true });
     for (const [index, id] of figures.entries()) word.navigation(`Figure ${index + 1}. ${figureParagraph(document, id).text}`, `sl3.figure.${index + 1}`);
@@ -184,8 +185,8 @@ export async function sl4Body(word: PublicationWordPackage, document: Publicatio
     ...parts.flatMap(part => part.figureId ? [{ name: `PUBREF_SL4_ITEM_FIGURE_${part.itemNumber}`, label: String(part.itemNumber), destination: `sl4.figure.${figures.indexOf(part.figureId) + 1}` }] : []),
   ]);
   word.heading('TABLE OF CONTENTS');
-  word.navigation('AUTHENTICATION', 'itype.authentication', 'lowerRoman');
-  for (const [index, label] of sections.entries()) word.navigation(label, `sl4.section.${index}`, index < 4 ? 'lowerRoman' : 'decimal');
+  word.navigation('AUTHENTICATION', 'itype.authentication', 'link-only');
+  for (const [index, label] of sections.entries()) word.navigation(label, `sl4.section.${index}`, index < 4 ? 'link-only' : 'decimal');
   word.heading(sections[0], 1, { newPage: true, destination: 'sl4.section.0' });
   word.table(['Revision No.', 'Date', 'Title or Brief Description', 'Entered By'], data.revisions.length ? data.revisions.map(revision => [revision.revision, sl4LongDate(revision.date), marker(document, revision.portionMarking) + revision.description, revision.enteredBy]) : Array.from({ length: 6 }, () => ['', '', '', '']), weights(SL4_TABLE_GRIDS.revisions, 10080));
   word.heading('PREFACE', 1, { newPage: true, destination: 'sl4.section.1' });

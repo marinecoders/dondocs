@@ -401,7 +401,7 @@ const handle = serveStdio(() => {
     {
       title: 'Write a document',
       description:
-        'Render SECNAV M-5216.5 correspondence, every letter, memorandum, endorsement and agreement type the app defines (see the docType enum), to a PDF or DOCX file. I-Type MI/TI/SI/LI and SL-3/SL-4 publications require publication metadata; TM/IETM front matter requires manualFrontMatter metadata. All support PDF only and use the web editor’s export checks. '
+        'Render SECNAV M-5216.5 correspondence and technical publications to a PDF or DOCX file. I-Type MI/TI/SI/LI and SL-3/SL-4 require publication metadata, TM/IETM front matter requires manualFrontMatter metadata, and technical_volume requires volume metadata. Publication DOCX uses the native Word renderer. '
         + 'Formatting, letterhead, seal, paragraph numbering and the signature block are handled for you; supply content only. '
         + 'Returns the path to the written file, not the document itself; the result says how to show the file to the user. '
         + `Files are written under ${ROOT}. `
@@ -481,7 +481,7 @@ const handle = serveStdio(() => {
 // stderr, never stdout — stdout belongs to the protocol.
 console.error(`dondocs MCP server ready; writing under ${ROOT}`);
 void systemPandocVersion().then((v) => {
-  if (!v) { console.error('  docx unavailable: pandoc is not on PATH (pdf is unaffected)'); }
+  if (!v) { console.error('  correspondence docx unavailable: pandoc is not on PATH (publication docx and pdf are unaffected)'); }
   else if (v !== VENDORED_PANDOC) { console.error(`  docx uses system pandoc ${v}; the app vendors ${VENDORED_PANDOC}`); }
 });
 

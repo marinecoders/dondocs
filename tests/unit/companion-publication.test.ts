@@ -26,14 +26,15 @@ it('applies machine defaults before publication validation', () => {
   expect(validateLetter(input).join(' ')).toMatch(/Issuing command|Signatory/);
 });
 
-it('rejects incomplete publication data, incompatible distribution and DOCX', () => {
+it('checks incomplete publication data and incompatible distribution for both export formats', () => {
   const input = companionPublication();
   input.publication!.pcn = '';
   input.publication!.exportRestricted = true;
   expect(validateLetter(input).join(' ')).toMatch(/PCN/);
   expect(validateLetter(input).join(' ')).toMatch(/export-control/);
   input.format = 'docx';
-  expect(validateLetter(input)).toContain('I-Type export supports PDF only.');
+  expect(validateLetter(input).join(' ')).toMatch(/PCN/);
+  expect(validateLetter({ ...companionPublication(), format: 'docx' })).toEqual([]);
 });
 
 it('retains structured paragraphs, table rows and authentication fields', () => {

@@ -1,4 +1,5 @@
 import 'fake-indexeddb/auto';
+import { readFile } from 'node:fs/promises';
 import { expect, it, vi } from 'vitest';
 import JSZip from 'jszip';
 import { PDFDocument } from 'pdf-lib';
@@ -13,6 +14,7 @@ import { idbDeleteAttachment, idbPutAttachment } from '@/lib/documentsDb';
 import { portableResourceDigest } from '@/lib/portableResources';
 import { resolveExportDeploymentPolicy } from '@/lib/exportDeploymentPolicy';
 import { acknowledgeWordPackage, prepareWordPackage, renderWordPackage, wordPackageFilename, MAX_WORD_PACKAGE_BYTES, MAX_WORD_DOCUMENT_BYTES } from '@/services/exports/wordPackage';
+import { volumeFixture } from '../_helpers/volumeFixture';
 import type { DocumentSnapshot } from '@/stores/historyStore';
 import { prepareSessionState } from '@/stores/documentStore';
 import type { CorrespondenceRendererPorts } from '@/services/exports/correspondence';
@@ -118,11 +120,34 @@ it('suppresses the archive after cancellation during Word conversion and rejects
   await expect(prepareWordPackage(record, record.currentRevisionId, policy, cancelled.signal)).rejects.toMatchObject({ name: 'AbortError' });
 });
 
-it('blocks unsupported Word formats and policy without adding format claims', async () => {
+it('blocks incomplete publication drafts and unresolved export policy', async () => {
   const { record } = await fixture({ docType: 'i_type' });
-  await expect(prepareWordPackage(record, record.currentRevisionId, policy)).rejects.toThrow('editable package');
+  await expect(prepareWordPackage(record, record.currentRevisionId, policy)).rejects.toThrow(/short title|PCN|nomenclature/i);
   const valid = await fixture();
   await expect(prepareWordPackage(valid.record, valid.record.currentRevisionId, { status: 'not-ready', message: 'Policy loading' })).rejects.toThrow('Policy loading');
+});
+
+it('delivers a captured technical volume as editable Word with the original supporting PDF', async () => {
+  const volume = volumeFixture();
+  const jpeg = Uint8Array.from(await readFile('tests/fixtures/images/business-figure-baseline.jpg'));
+  const fileRef = await persistAttachment({ name: 'diagram.jpg', type: 'image/jpeg', size: jpeg.length }, jpeg.buffer);
+  volume.paragraphs[0].figure = { fileRef };
+  const { record, original, support } = await fixture(volume);
+  const prepared = await prepareWordPackage(record, record.currentRevisionId, policy);
+  acknowledgeWordPackage(prepared);
+  const convertDocx = vi.fn(ports.convertDocx);
+  const result = await renderWordPackage(prepared, { ...ports, convertDocx });
+  expect(convertDocx).not.toHaveBeenCalled();
+  expect(result.manifest.members[0]).toMatchObject({ editableInWord: true });
+  const archive = await JSZip.loadAsync(await result.blob.arrayBuffer());
+  const docx = await JSZip.loadAsync(await archive.file(result.manifest.mainDocument)!.async('uint8array'));
+  const xml = await docx.file('word/document.xml')!.async('string');
+  expect(xml).toContain('QUALIFICATION VOLUME');
+  expect(xml).toContain('<w:tbl>');
+  expect(xml).toContain('READBACK-2');
+  expect(await docx.file('word/media/image1.jpg')!.async('uint8array')).toEqual(jpeg);
+  const retained = result.manifest.files.find(file => file.memberId === support.id && file.kind === 'original')!;
+  expect(await archive.file(retained.path)!.async('uint8array')).toEqual(new Uint8Array(original));
 });
 
 it('scans included names and content while leaving comments, hidden fields and old revisions outside Word delivery', async () => {

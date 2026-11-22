@@ -3,8 +3,8 @@
   "name": "dondocs",
   "display_name": "DonDocs",
   "version": "0.0.0",
-  "description": "Render supported naval correspondence to PDF or Word, and technical publications to PDF, using local resources.",
-  "long_description": "DonDocs provides configured correspondence, I-Type, SL-3, SL-4 and TM/IETM front-matter layouts. The assistant supplies reviewed content and the companion writes final files to the selected output folder. Machine defaults and temporary render files use separate locations. PDF rendering uses bundled resources; Word needs pandoc on PATH. Cards and file presentation depend on the host. The optional browser handoff opens the configured web editor.",
+  "description": "Render supported naval correspondence and technical publications to PDF or Word using local resources.",
+  "long_description": "DonDocs provides configured correspondence, I-Type, SL-3, SL-4, TM/IETM front matter and Technical Volume layouts. The assistant supplies reviewed content and the companion writes final files to the selected output folder. Machine defaults and temporary render files use separate locations. PDF and publication Word rendering use bundled resources. Correspondence Word export needs Pandoc on PATH. Cards and file presentation depend on the host. The optional browser handoff opens the configured web editor.",
   "author": {
     "name": "Marine Coders",
     "url": "https://github.com/marinecoders"
@@ -64,7 +64,7 @@
   "tools": [
     {
       "name": "dondocs_letter",
-      "description": "Render supported correspondence to PDF/Word, or technical publications to PDF"
+      "description": "Render supported correspondence and technical publications to PDF or Word"
     },
     {
       "name": "dondocs_unit_lookup",

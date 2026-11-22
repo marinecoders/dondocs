@@ -32,7 +32,7 @@ for (const fixture of manifest.fixtures) {
   const zip = await JSZip.loadAsync(docx);
   const xml = await zip.file('word/document.xml')?.async('string');
   if (!xml) throw new Error(`${fixture.name}: the source has no Word document part.`);
-  const { contentsEntries, ...navigation } = inspectPublicationWordNavigation(xml);
+  const { contentsEntries, linkOnlyEntries, ...navigation } = inspectPublicationWordNavigation(xml);
   if (navigation.pageReferences !== expectedPageReferences.get(fixture.name)) {
     throw new Error(`${fixture.name}: the publication has missing or additional contents page fields.`);
   }
@@ -44,7 +44,7 @@ for (const fixture of manifest.fixtures) {
     boundingBoxes, markers: fixture.markers, pageSizes: publicationWordPageSizes(xml) });
   const printedContentsLabels = contentsEntries.length
     ? await inspectPublicationContentsDestinations(bytes, boundingBoxes,
-      inspectPrintedContentsLabels(command('pdftotext', ['-layout', '-', '-'], bytes), contentsEntries)) : [];
+      inspectPrintedContentsLabels(command('pdftotext', ['-layout', '-', '-'], bytes), contentsEntries, linkOnlyEntries), linkOnlyEntries) : [];
   receipts.push({ name: fixture.name, sourceSha256: fixture.sourceSha256, docxSha256: fixture.docxSha256,
     printedPdfSha256: digest(bytes), ...inspection, navigation, printedContentsLabels });
 }

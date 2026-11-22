@@ -132,7 +132,7 @@ export const LETTER_TEMPLATES: LetterTemplate[] = [
 
 ### Document Types
 
-The `docType` field determines the document format. Use the [generated capability matrix](CAPABILITIES.md) for configured formats and supported outputs. Technical publications are PDF-only; built-in/configured forms use their own authoring pipeline.
+The `docType` field determines the document format. Use the [generated capability matrix](CAPABILITIES.md) for configured formats and supported outputs. Technical publications use structured PDF and Word renderers. Built-in and configured forms use their own PDF authoring pipeline.
 
 | docType | Description |
 |---------|-------------|

@@ -16,7 +16,7 @@ A streaming CLI enumerates combinations for the matrix's configured formats and 
 | Signature type | None, digital | 2 |
 | Boolean flags | All combinations of 12 flags | 4,096 |
 
-`6 × 3 × 2 × 3 × 2 × 2 × 4,096 = 1,769,472` fixtures per matrix format. Multiply by the current matrix-format count in the [inventory](../../docs/PROJECT_INVENTORY.md). SL-4, TM/IETM and forms have dedicated tests outside this generic matrix. Internal conversion checks do not imply an advertised Word export for PDF-only formats.
+`6 × 3 × 2 × 3 × 2 × 2 × 4,096 = 1,769,472` fixtures per matrix format. Multiply by the current matrix-format count in the [inventory](../../docs/PROJECT_INVENTORY.md). SL-4, TM/IETM and forms have dedicated tests outside this generic matrix. Native publication Word renderers have dedicated coverage.
 
 ## Bounded checks
 

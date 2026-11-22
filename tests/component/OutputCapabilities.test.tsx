@@ -19,10 +19,12 @@ it('offers supported letter formats and explains the configuration-fragment limi
   expect(screen.getAllByRole('note').some(note => note.textContent?.includes('configuration fragments'))).toBe(true);
   expect(screen.getAllByRole('note').some(note => note.textContent?.includes('interactive PDF fields remain in the originals'))).toBe(true);
 });
-it('offers publication configuration fragments while withholding unsupported Word and flat output', async () => {
+it('offers publication Word and configuration fragments in the download menu', async () => {
   useDocumentStore.setState({ docType: 'sl3' });await menu();
   expect(screen.getByRole('menuitem', { name: 'Download LaTeX' })).toBeEnabled();
-  expect(screen.queryByRole('menuitem', { name: /Word|Flat LaTeX/ })).not.toBeInTheDocument();
+  expect(screen.getByRole('menuitem', { name: 'Download Word (.docx)' })).toBeEnabled();
+  expect(screen.queryByRole('menuitem', { name: /Flat LaTeX/ })).not.toBeInTheDocument();
+  expect(screen.getAllByRole('note').some(note => note.textContent?.includes('Editable publication output'))).toBe(true);
 });
 it('offers configured-form roster mapping while keeping individual PDF output available', async () => {
   const form = fixtureInstance();form.definition.pages[0].sha256 = (await fixturePage()).sha256;useDocumentStore.setState({ documentCategory: 'forms', formType: form.definition.formId, genericForm: form });

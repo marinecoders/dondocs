@@ -1,7 +1,7 @@
 import type { DocumentSnapshot } from '@/stores/historyStore';
 import type { StoredAttachment } from '@/lib/documentsDb';
 import { RUNTIME_BASE } from '@/lib/releasePaths';
-import { publicationExportErrors } from '@/lib/publicationPreflight';
+import { isTechnicalPublication, publicationExportErrors } from '@/lib/publicationPreflight';
 import { publicationWordExportErrors } from '@/lib/publicationWordPreflight';
 import { publicationMarking } from '@/lib/publicationMarking';
 import { inspectRasterImage } from '../imageAssets';
@@ -15,6 +15,7 @@ import { sl4Portions } from '@/data/techpub/sl4';
 import { deriveOverallClassLevel } from '@/lib/overallClassification';
 import { formatPublicationDate } from '@/lib/publicationDate';
 import type { SectionFormat } from './package';
+import { volumeWord } from './volume';
 
 export type PublicationWordSource = Pick<DocumentSnapshot, 'docType' | 'formData' | 'paragraphs' | 'endItems' | 'publicationTables'>
   & { enclosures?: readonly { title: string }[] };
@@ -32,26 +33,29 @@ async function loadPublicationSeal(signal: AbortSignal): Promise<Uint8Array> {
   return bytes;
 }
 
-/** Publication content uses native Word paragraphs, tables and sections. It does
- * not share correspondence's flat-LaTeX conversion or embed original PDF pages.
- * The prepared export owner retains the source and its attachment lease.
+/** Render native publication paragraphs, tables and sections from the
+ * prepared source and its retained attachment lease.
  */
 export async function renderPublicationDocx(document: PublicationWordSource, ports: PublicationWordPorts, signal: AbortSignal, referenceDate: Date): Promise<Blob> {
-  if (!['tm_ietm_front_matter', 'i_type', 'sl3', 'sl4'].includes(document.docType)) throw new Error('This publication family does not have a Word renderer.');
-  const errors = [...publicationWordExportErrors(document), ...publicationExportErrors(document, referenceDate)];
+  if (!isTechnicalPublication(document.docType)) throw new Error('This publication family does not have a Word renderer.');
+  const errors = [...publicationWordExportErrors(document), ...publicationExportErrors(document, referenceDate, 'docx')];
   if (errors.length) throw new Error(errors.join('\n'));
   const portions = [...document.paragraphs,
     ...(document.docType === 'sl3' && document.formData.sl3 ? sl3Portions(document.formData.sl3) : []),
     ...(document.docType === 'sl4' && document.formData.sl4 ? sl4Portions(document.formData.sl4, document.paragraphs) : []),
   ];
   document = { ...document, formData: { ...document.formData, docType: document.docType, classLevel: deriveOverallClassLevel(document.formData.classLevel, portions) } };
-  const word = new PublicationWordPackage(signal, document.docType === 'i_type' ? 12 : 10);
+  const isVolume = document.docType === 'technical_volume';
+  const fontSize = document.docType === 'i_type' || isVolume && document.formData.fontSize === '12pt'
+    ? 12 : isVolume && document.formData.fontSize === '11pt' ? 11 : 10;
+  const word = new PublicationWordPackage(signal, fontSize, isVolume ? document.formData.fontFamily : undefined);
   const marking = publicationMarking(document.formData, portions);
   const manual = document.formData.manualFrontMatter;
   const title = [document.formData.shortTitle, document.docType === 'tm_ietm_front_matter' && manual?.volume ? `VOLUME ${manual.volume}${manual.volumes ? ` OF ${manual.volumes}` : ''}` : ''].filter(Boolean).join('\n');
-  const section: SectionFormat = { title, ...(document.docType === 'i_type' ? { bannerSize: 10, outerFurniture: true } : { pageNumberAlign: 'right' }), ...(document.docType === 'sl3' || document.docType === 'sl4' ? { leftTitle: formatPublicationDate(document.formData.date ?? '', referenceDate).toUpperCase(), bannerSize: 14 } : {}), marking: document.docType !== 'i_type' && marking?.level === 'cui' && document.formData.cuiDissemination?.trim()
+  const section: SectionFormat = { title, ...(document.docType === 'i_type' ? { bannerSize: 10, outerFurniture: true } : { pageNumberAlign: isVolume ? 'center' : 'right' }), ...(document.docType === 'sl3' || document.docType === 'sl4' ? { leftTitle: formatPublicationDate(document.formData.date ?? '', referenceDate).toUpperCase(), bannerSize: 14 } : {}), marking: document.docType !== 'i_type' && !isVolume && marking?.level === 'cui' && document.formData.cuiDissemination?.trim()
     ? `${marking.marking}//${document.formData.cuiDissemination.trim()}` : marking?.marking };
   word.check();
+  if (isVolume) return word.finish(await volumeWord(word, document, ports, section, referenceDate));
   const seal = await (ports.loadSeal ?? loadPublicationSeal)(signal);
   word.check();
   if (document.docType === 'i_type') {

@@ -1,5 +1,7 @@
 import JSZip from 'jszip';
 import { safeUrl } from '@/lib/url-safety';
+import { bodyTableTwips, type BodyTable } from '@/lib/bodyTable';
+import { getDocxFontName } from '../layout-config';
 
 const W = 'http://schemas.openxmlformats.org/wordprocessingml/2006/main';
 const R = 'http://schemas.openxmlformats.org/officeDocument/2006/relationships';
@@ -47,7 +49,11 @@ export interface WordTableFormat {
   rowDestinations?: readonly string[];
 }
 
-const INLINE_TOKEN = /\{\{PUBREF_[A-Z0-9_]+\}\}|\[[^\]\n]+\]\(https?:\/\/[^\s)]+\)|https?:\/\/[^\s<>]+|[\w.+-]+@[\w.-]+\.[A-Za-z]{2,}|\*\*|\*|__/gi;
+const PUBLICATION_REFERENCE = /\{\{(?:PUBREF_[A-Z0-9_]+|VOLREF_[A-Za-z0-9._:-]+)\}\}/g;
+const EXTERNAL_LINK = /\[([^\]\n]+)\]\((https?:\/\/(?:(?!\{\{(?:PUBREF_|VOLREF_))[^\s)])+)\)/i;
+const BARE_URL = /https?:\/\/(?:(?!\{\{(?:PUBREF_|VOLREF_))[^\s<>])+/i;
+const INLINE_TOKEN = new RegExp([PUBLICATION_REFERENCE, EXTERNAL_LINK, BARE_URL,
+  /[\w.+-]+@[\w.-]+\.[A-Za-z]{2,}|\*\*|\*|__/].map(token => token.source).join('|'), 'gi');
 const EMPHASIS_MARKERS = new Set(['**', '*', '__']);
 function emphasisEnd(value: string, start: number, marker: string): { start: number; end: number } | undefined {
   const stack = [marker], tokens = new RegExp(INLINE_TOKEN.source, 'gi');
@@ -99,8 +105,13 @@ export class PublicationWordPackage {
   private readonly destinations = new Map<string, string>();
   private readonly signal: AbortSignal;
   private readonly fontSize: number;
+  private readonly fontName: string;
 
-  constructor(signal: AbortSignal, fontSize: 10 | 12 = 10) { this.signal = signal; this.fontSize = fontSize; }
+  constructor(signal: AbortSignal, fontSize: 10 | 11 | 12 = 10, fontFamily?: string) {
+    this.signal = signal;
+    this.fontSize = fontSize;
+    this.fontName = getDocxFontName(fontFamily);
+  }
   get abortSignal(): AbortSignal { return this.signal; }
   check(): void { if (this.signal.aborted) throw new Error('Export cancelled.'); }
   add(value: string): void {
@@ -134,12 +145,29 @@ export class PublicationWordPackage {
     const id = this.nextId++;
     return `<w:bookmarkStart w:id="${id}" w:name="${anchor}"/><w:bookmarkEnd w:id="${id}"/>`;
   }
-  navigation(label: string, destination: string, numbering: 'decimal' | 'lowerRoman' = 'decimal'): void {
+  navigation(label: string, destination: string, numbering: 'decimal' | 'link-only' = 'decimal', indent?: number): void {
     const anchor = this.destinations.get(destination);
     if (!anchor) throw new Error('A publication contents entry has no target.');
-    this.add(`<w:p><w:pPr><w:tabs><w:tab w:val="right" w:leader="dot" w:pos="10080"/></w:tabs><w:spacing w:after="100"/></w:pPr><w:hyperlink w:anchor="${anchor}">${run(label)}</w:hyperlink><w:r><w:tab/></w:r><w:fldSimple w:instr=" PAGEREF ${anchor} \\h \\* ${numbering === 'lowerRoman' ? 'roman' : 'Arabic'} ">${run('')}</w:fldSimple></w:p>`);
+    const link = `<w:hyperlink w:anchor="${anchor}">${run(label, { underline: true })}</w:hyperlink>`;
+    if (numbering === 'link-only') {
+      this.add(paragraphRuns(link, { after: 5, indent }));
+      return;
+    }
+    this.add(`<w:p><w:pPr><w:tabs><w:tab w:val="right" w:leader="dot" w:pos="10080"/></w:tabs><w:spacing w:after="100"/></w:pPr>${link}<w:r><w:tab/></w:r><w:fldSimple w:instr=" PAGEREF ${anchor} \\h \\* Arabic ">${run('')}</w:fldSimple></w:p>`);
+  }
+  bodyTable(table: BodyTable): void {
+    const [header, ...rows] = table.rows;
+    this.table(header, rows, bodyTableTwips(table, 10080), {
+      breakWords: true, headerRows: table.headerRows, repeatHeaders: table.repeatHeaders, borders: table.borders,
+      columnAlignments: table.columnAlignments, size: table.fontSize, minimumRowHeight: table.minimumRowHeight, inlineMode: 'rich',
+    });
   }
   inline(value: string, format: ParagraphFormat = {}): string { return this.formattedInline(value, format, 0); }
+  private referenceTarget(token: string) {
+    const target = this.targets.get(token.slice(2, -2));
+    if (!target) throw new Error('A Word publication reference has no target. Reinsert the reference before export.');
+    return target;
+  }
   private formattedInline(value: string, format: ParagraphFormat, depth: number): string {
     this.check();
     if (depth > 16) throw new Error('The publication contains inline formatting nested too deeply.');
@@ -160,17 +188,19 @@ export class PublicationWordPackage {
         } else output.push(run(token, format));
         continue;
       }
-      if (token.startsWith('{{PUBREF_') && format.inlineMode !== undefined && format.inlineMode !== 'literal') {
-        const target = this.targets.get(token.slice(2, -2));
-        if (!target) throw new Error('A Word publication reference has no target. Reinsert the reference before export.');
+      if ((token.startsWith('{{PUBREF_') || token.startsWith('{{VOLREF_')) && format.inlineMode !== undefined && format.inlineMode !== 'literal') {
+        const target = this.referenceTarget(token);
         output.push(`<w:hyperlink w:anchor="${target.anchor}">${run(target.label, { ...format, superscript: target.note })}</w:hyperlink>`);
         continue;
       }
-      const link = /^\[([^\]\n]+)\]\((https?:\/\/[^\s)]+)\)$/i.exec(token);
-      if (link && format.inlineMode !== undefined && format.inlineMode !== 'literal') {
+      const link = EXTERNAL_LINK.exec(token);
+      if (link?.[0] === token && format.inlineMode !== undefined && format.inlineMode !== 'literal') {
         const href = safeUrl(link[2]);
         if (href) {
-          output.push(`<w:hyperlink r:id="${this.relationship('hyperlink', href, true)}">${run(link[1], { ...format, underline: true })}</w:hyperlink>`);
+          // A Word hyperlink cannot contain another hyperlink. Use the current
+          // reference label as display text so the outer link retains its URL.
+          const label = link[1].replace(PUBLICATION_REFERENCE, reference => this.referenceTarget(reference).label);
+          output.push(`<w:hyperlink r:id="${this.relationship('hyperlink', href, true)}">${run(label, { ...format, underline: true })}</w:hyperlink>`);
           continue;
         }
       }
@@ -271,7 +301,7 @@ export class PublicationWordPackage {
     this.add(this.sectionProperties(format));
     this.zip.file('word/document.xml', `${XML}<w:document xmlns:w="${W}" xmlns:r="${R}" xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing" xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" xmlns:pic="http://schemas.openxmlformats.org/drawingml/2006/picture"><w:body>${this.body.join('')}</w:body></w:document>`);
     const styles = ['Title', 'Heading1', 'Heading2', 'Heading3'].map((name, index) => `<w:style w:type="paragraph" w:styleId="${name}"><w:name w:val="${name}"/><w:basedOn w:val="Normal"/><w:next w:val="Normal"/><w:pPr><w:keepNext/><w:outlineLvl w:val="${Math.max(0, index - 1)}"/></w:pPr><w:rPr><w:b/><w:sz w:val="${index === 0 ? 28 : 20}"/></w:rPr></w:style>`).join('');
-    this.zip.file('word/styles.xml', `${XML}<w:styles xmlns:w="${W}"><w:docDefaults><w:rPrDefault><w:rPr><w:rFonts w:ascii="Times New Roman" w:hAnsi="Times New Roman" w:eastAsia="Times New Roman" w:cs="Times New Roman"/><w:sz w:val="${this.fontSize * 2}"/><w:lang w:val="en-US"/></w:rPr></w:rPrDefault><w:pPrDefault><w:pPr><w:spacing w:after="120" w:line="240" w:lineRule="auto"/></w:pPr></w:pPrDefault></w:docDefaults><w:style w:type="paragraph" w:default="1" w:styleId="Normal"><w:name w:val="Normal"/></w:style>${styles}</w:styles>`);
+    this.zip.file('word/styles.xml', `${XML}<w:styles xmlns:w="${W}"><w:docDefaults><w:rPrDefault><w:rPr><w:rFonts w:ascii="${this.fontName}" w:hAnsi="${this.fontName}" w:eastAsia="${this.fontName}" w:cs="${this.fontName}"/><w:sz w:val="${this.fontSize * 2}"/><w:lang w:val="en-US"/></w:rPr></w:rPrDefault><w:pPrDefault><w:pPr><w:spacing w:after="120" w:line="240" w:lineRule="auto"/></w:pPr></w:pPrDefault></w:docDefaults><w:style w:type="paragraph" w:default="1" w:styleId="Normal"><w:name w:val="Normal"/></w:style>${styles}</w:styles>`);
     this.zip.file('word/settings.xml', `${XML}<w:settings xmlns:w="${W}"><w:zoom w:percent="100"/><w:defaultTabStop w:val="720"/>${this.hasOuterFurniture ? '<w:evenAndOddHeaders/>' : ''}<w:updateFields w:val="true"/><w:compat><w:compatSetting w:name="compatibilityMode" w:uri="http://schemas.microsoft.com/office/word" w:val="15"/></w:compat></w:settings>`);
     this.relationship('styles', 'styles.xml'); this.relationship('settings', 'settings.xml');
     this.zip.file('word/_rels/document.xml.rels', `${XML}<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">${this.relationships.join('')}</Relationships>`);

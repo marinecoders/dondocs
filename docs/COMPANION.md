@@ -1,6 +1,6 @@
 # The DonDocs companion
 
-The companion creates documents locally through HTTP or MCP. It uses the application's document generators and packaged PDF engine; Word conversion uses system Pandoc. Correspondence supports PDF and Word. Technical publications support PDF only.
+The companion creates documents locally through HTTP or MCP. It uses the application's document generators and packaged PDF engine; Correspondence and technical publications support PDF and Word. Correspondence Word conversion uses system Pandoc. Publications use a native DOCX writer.
 
 Choose HTTP for scripts and clients that can send requests, or MCP for a host that launches local tool servers. Examples below use fictional training content.
 
@@ -40,7 +40,7 @@ A successful response has `ok: true`, contract version `v`, and a `files` array 
 
 Install `pandoc` on PATH for Word output. `/health` reports its version, the browser-vendored version and whether they match. Different versions can produce different Word output. PDF does not require system Pandoc or a native TeX installation.
 
-Single-signer correspondence can supply `signature.imageFileId`, referencing a PNG entry in the request's `attachments` array. The image is embedded in PDF and Word as a visual handwritten signature, not a certificate signature. For dual-signer Word output, also set `signature.imageSigner` to `junior` or `senior`; the shared image is never duplicated across both blocks. Information-memorandum Word output places it beside the FROM sender. These two placements are Word-only and PDF requests reject them. Only one uploaded signature per document is supported. Image attachment IDs and signer assignment are request-specific and are not accepted in machine signature defaults. Business-letter paragraphs can use `figure.fileId` to reference a PNG or JPEG attachment; their text becomes the numbered caption. Other correspondence figure families and publication Word output remain unsupported. Missing, unreadable or unused attachments are reported, and Word images are limited to 10 MB and 40 megapixels each.
+Single-signer correspondence can supply `signature.imageFileId`, referencing a PNG entry in the request's `attachments` array. The image is embedded in PDF and Word as a visual handwritten signature, not a certificate signature. For dual-signer Word output, also set `signature.imageSigner` to `junior` or `senior`; the shared image is never duplicated across both blocks. Information-memorandum Word output places it beside the FROM sender. These two placements are Word-only and PDF requests reject them. Only one uploaded signature per document is supported. Image attachment IDs and signer assignment are request-specific and are not accepted in machine signature defaults. Business-letter paragraphs can use `figure.fileId` to reference a PNG or JPEG attachment; their text becomes the numbered caption. Publication Word export accepts PNG and JPEG figures in the supported publication profiles. Other correspondence figure families remain unsupported. Missing, unreadable or unused attachments are reported, and Word images are limited to 10 MB and 40 megapixels each.
 
 ## Using it from an MCP client
 
@@ -171,8 +171,9 @@ publications; built-in and configured forms use the browser's form workflow.
 | Executive | `standard_memorandum` (alias `memorandum`), `action_memorandum`, `information_memorandum` | standard memo: `attnLine`, `throughLine`; info/action memo: `coordination`, `preparedBy` (supported PDF and DOCX layouts) |
 | Endorsements | `same_page_endorsement`, `new_page_endorsement` | `endorsement: { ordinal, basicLetterId }` |
 | Two-party | `joint_letter`, `joint_memorandum`, `moa`, `mou` | `parties: { senior, junior }` |
-| I-Type / stock lists | `i_type`, `sl3`, `sl4` | `publication`, structured paragraphs/tables, optional `attachments`; PDF only |
-| Manual front matter | `tm_ietm_front_matter` | `manualFrontMatter`; PDF only, no correspondence body |
+| I-Type / stock lists | `i_type`, `sl3`, `sl4` | `publication`, structured paragraphs/tables, optional `attachments`; PDF and Word |
+| Technical Volume | `technical_volume` | `volume`, stable section and block IDs, optional raster figures; PDF and Word |
+| Manual front matter | `tm_ietm_front_matter` | `manualFrontMatter`; PDF and Word, with no correspondence body |
 
 Correspondence fields print only where the selected format uses them; retained
 `from`/`to` values do not become an MFR addressing block. Correspondence dates

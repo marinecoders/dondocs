@@ -177,7 +177,9 @@ async function serializeDraft(session: SerializedSession, live: DocumentSnapshot
     if (!paragraph.figure) return paragraph;
     const { fileRef, ...figure } = paragraph.figure;
     const packed = await pack(undefined, fileRef);
-    return { ...paragraph, figure: { ...figure, data: packed?.data } };
+    return { ...paragraph, figure: {
+      ...figure, name: figure.name || packed?.name, type: figure.type || fileRef?.type, data: packed?.data,
+    } };
   }));
   return { ...draftEnvelope(session), ...session, paragraphs, enclosures, ...(wordSourceFile ? { wordSourceFile } : {}), formData: { ...formData, basicLetterFile: await pack(live.formData.basicLetterFile, basicLetterFileRef) } };
 }

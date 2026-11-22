@@ -27,9 +27,9 @@ it('accepts SL-4 through both transports and uses the same body and preflight', 
   expect(store.formData.sl4).toEqual(value.publication!.sl4);
   expect(generateAllLatexFiles(store).texFiles['body.tex']).toContain('sl4.part.5');
 });
-it('refuses DOCX, a mismatched type and I-Type content on SL-4', async () => {
+it('refuses PDF figures in DOCX and rejects mixed SL-4 input', async () => {
   const value = await input();
-  expect(validateLetter({ ...value, format: 'docx' }).join(' ')).toContain('SL-4 export supports PDF only');
+  expect(validateLetter({ ...value, format: 'docx' }).join(' ')).toContain('Word publication figures require PNG or JPEG');
   value.publication!.type = 'SL3';
   expect(validateLetter(value).join(' ')).toContain('publication.type SL4');
   value.publication!.type = 'SL4';

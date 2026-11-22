@@ -22,7 +22,7 @@ export type CapabilitySubject = { readonly documentMode: DocumentMode } & (
 export type CapabilityReason =
   | 'invalid-request' | 'invalid-subject' | 'invalid-mode' | 'unknown-document-type' | 'unknown-form-type'
   | 'definition-not-loaded' | 'definition-load-failed' | 'invalid-definition' | 'definition-mismatch'
-  | 'pdf-only' | 'word-pdf-features' | 'configured-form-batch' | 'tex-configuration-only' | 'share-separate-assets';
+  | 'pdf-only' | 'word-pdf-features' | 'word-publication-features' | 'configured-form-batch' | 'tex-configuration-only' | 'share-separate-assets';
 
 export type CapabilityResult =
   | { readonly status: 'supported' }
@@ -53,10 +53,11 @@ export function resolveCapabilities(subject: CapabilitySubject, request: Capabil
     if (typeof subject.docType !== 'string' || !Object.hasOwn(DOC_TYPE_CONFIG, subject.docType)) {
       return result('invalid-data', 'unknown-document-type', 'Choose a supported document type.');
     }
-    if ((request.target === 'docx' || request.target === 'tex' && request.operation === 'export' && request.texMode === 'flat') && DOC_TYPE_CONFIG[subject.docType].pdfOnly) {
-      return result('unsupported', 'pdf-only', request.target === 'tex'
-        ? 'This publication supports LaTeX configuration fragments, but not flat LaTeX.'
-        : 'This publication exports to PDF.');
+    if (DOC_TYPE_CONFIG[subject.docType].publication) {
+      if (request.target === 'tex' && request.operation === 'export' && request.texMode === 'flat') {
+        return result('unsupported', 'tex-configuration-only', 'This publication uses LaTeX configuration fragments. The flat LaTeX export is unavailable.');
+      }
+      if (request.target === 'docx') return result('partial', 'word-publication-features', 'Editable publication output supports native text, tables and PNG/JPEG figures where the format includes them. Pagination depends on the Word renderer. Publication signing and original PDF graphics use the separate PDF workflow.');
     }
     if (request.target === 'docx') return result('partial', 'word-pdf-features', 'Word embeds one signature image in supported correspondence, with an explicit signer on dual-signer documents, and PNG/JPEG business-letter figures. Dual-signer and information-memo image placement is Word-only. Reference titles with safe URLs remain linked in Word. PDF enclosure pages stay separate by default; browser Word export can optionally include them as page images. Certificate signatures and interactive PDF fields remain in the originals.');
     if (request.target === 'tex' && !(request.operation === 'export' && request.texMode === 'flat')) {

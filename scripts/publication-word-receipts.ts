@@ -10,7 +10,7 @@ const digest = z.string().regex(/^[a-f0-9]{64}$/);
 const sourcePath = z.string().regex(/^(?:(?:src|tests|scripts|public|companion|tex|docs)\/[a-zA-Z0-9_./-]+|package(?:-lock)?\.json|tsconfig(?:\.[a-z]+)?\.json|vitest\.config\.ts)$/).refine(path => !path.split('/').includes('..'));
 const manifestSchema = z.object({
   kind: z.literal('publication-word-qualification-inputs'),
-  family: z.enum(['all', 'manual', 'instruction', 'sl3', 'sl4']),
+  family: z.enum(['all', 'manual', 'instruction', 'sl3', 'sl4', 'volume']),
   rendererSources: z.array(z.object({ path: sourcePath, sha256: digest })).min(1),
   fixtures: z.array(z.object({ name: z.string().regex(/^[a-z0-9-]+$/), markers: z.array(z.string().min(1)).min(1), docxSha256: digest, sourceSha256: digest,
     assets: z.array(z.object({ id: z.string(), sourceFile: sourcePath, sha256: digest })).default([]) })).min(1),

@@ -1,5 +1,6 @@
 // @vitest-environment node
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
+import JSZip from 'jszip';
 import { Client } from '@modelcontextprotocol/client';
 import { StdioClientTransport } from '@modelcontextprotocol/client/stdio';
 import { mkdtemp, readFile, readdir, rm } from 'node:fs/promises';
@@ -69,18 +70,33 @@ describe('I-Type over MCP', () => {
     expect((await readdir(root)).filter((name) => name.startsWith('complete'))).toEqual(['complete.pdf']);
   });
 
-  it('refuses incomplete metadata and unsupported DOCX without writing', async () => {
+  it('rejects incomplete metadata and PDF-only figures in Word without writing', async () => {
     const input = companionPublication();
     input.out = 'refused.pdf';
     input.publication!.pcn = '';
     const result = await client.callTool({ name: 'dondocs_letter', arguments: input });
     expect(result.isError).toBe(true);
     expect(JSON.stringify(result.content)).toContain('PCN');
-    const docx = await client.callTool({ name: 'dondocs_letter', arguments: { ...companionPublication(), format: 'docx', out: 'refused.docx' } });
+    const wordInput = { ...companionPublication(), format: 'docx' as const, out: 'refused.docx' };
+    wordInput.attachments = [{ id: 'drawing', name: 'drawing.pdf', mimeType: 'application/pdf', dataBase64: await drawing() }];
+    wordInput.paragraphs = [...(wordInput.paragraphs ?? []), { text: 'Bracket drawing', figure: { fileId: 'drawing' } }];
+    const docx = await client.callTool({ name: 'dondocs_letter', arguments: wordInput });
     expect(docx.isError).toBe(true);
-    expect(JSON.stringify(docx.content)).toContain('PDF only');
+    expect(JSON.stringify(docx.content)).toContain('PNG or JPEG');
     expect(await readdir(root)).not.toContain('refused.pdf');
     expect(await readdir(root)).not.toContain('refused.docx');
+  });
+
+  it('writes a native editable Word instruction through MCP', async () => {
+    const input = { ...companionPublication('TI'), format: 'docx' as const, out: 'instruction.docx' };
+    const result = await client.callTool({ name: 'dondocs_letter', arguments: input });
+    expect(result.isError, JSON.stringify(result.content)).not.toBe(true);
+    const path = (result.structuredContent as { path: string }).path;
+    const zip = await JSZip.loadAsync(await readFile(path));
+    const xml = await zip.file('word/document.xml')!.async('string');
+    expect(xml).toContain('TI 12345A-26/1');
+    expect(xml).toContain('SUPPORT BRACKET');
+    expect(xml).toContain('<w:tbl>');
   });
 });
 

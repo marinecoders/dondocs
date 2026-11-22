@@ -98,7 +98,7 @@ it('excludes retained correspondence lists from SL-4 output and privacy inspecti
   expect(copyCapturedDocument(captured).document.enclosures).toHaveLength(1);
 });
 
-it.each(['i_type', 'sl3', 'sl4', 'tm_ietm_front_matter'])('rejects unsupported flat publication export before issuing a job: %s', docType => {
+it.each(['i_type', 'sl3', 'sl4', 'tm_ietm_front_matter', 'technical_volume'])('rejects unsupported flat publication export before issuing a job: %s', docType => {
   const data = docType === 'tm_ietm_front_matter' ? snapshot(manualPacket()) : snapshot({ docType });
   expect(prepareExport({ ...request(data), target: 'tex', texMode: 'flat', filename: 'publication.tex' })).toMatchObject({ status: 'error', issues: [expect.stringContaining('flat LaTeX')] });
 });

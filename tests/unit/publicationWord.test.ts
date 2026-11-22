@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { readFile } from 'node:fs/promises';
 import JSZip from 'jszip';
+import { volumeFixture } from '../_helpers/volumeFixture';
 import { manualPacket } from '../_helpers/manualPacket';
 import { renderPublicationDocx, type PublicationWordSource } from '@/services/docx/publication';
 import { PublicationWordPackage } from '@/services/docx/publication/package';
@@ -49,6 +50,25 @@ describe('publication Word output', () => {
     }
     expect(await result.zip.file('word/footer1.xml')!.async('string')).not.toContain('PAGE');
     expect(await result.zip.file('word/footer2.xml')!.async('string')).toContain('T-');
+  });
+  it('keeps volume typography and CUI banners on every section, with Word-only Unicode intact', async () => {
+    const document = volumeFixture();
+    Object.assign(document.formData, {
+      fontFamily: 'courier', fontSize: '11pt', classLevel: 'cui', cuiControlledBy: 'Example Command',
+      cuiCategory: 'CTI', cuiDissemination: 'FEDCON', pocEmail: 'sample@example.usmc.mil',
+    });
+    document.paragraphs[0].text += ' Training label: 試験.';
+    const blob = await renderPublicationDocx(document, { readAsset: noAsset, loadSeal: noAsset }, new AbortController().signal, referenceDate);
+    const zip = await JSZip.loadAsync(await blob.arrayBuffer());
+    expect(await zip.file('word/styles.xml')!.async('string')).toContain('w:ascii="Courier New"');
+    expect(await zip.file('word/styles.xml')!.async('string')).toContain('<w:sz w:val="22"/>');
+    const xml = await zip.file('word/document.xml')!.async('string');
+    expect(text(xml)).toContain('Training label: 試験.');
+    expect(text(xml)).toContain('Controlled by: Example Command');
+    for (let section = 1; section <= 5; section++) {
+      expect(await zip.file(`word/header${section}.xml`)!.async('string')).toContain('>CUI</w:t>');
+      expect(await zip.file(`word/footer${section}.xml`)!.async('string')).toContain('>CUI</w:t>');
+    }
   });
   it('rejects incomplete data before loading seal or writing a document', async () => {
     const document = source(); document.formData.shortTitle = '';
@@ -159,6 +179,31 @@ describe('publication Word output', () => {
     expect(text(xml)).not.toContain('Figure 2.');
     expect(JSON.stringify(document)).toBe(before);
     expect(await zip.file('word/media/image2.png')!.async('uint8array')).toEqual(image);
+  });
+  it('renders volume citations beside bare URLs and inside other link labels', async () => {
+    const document = volumeFixture();
+    document.paragraphs[0].text = 'Review https://example.test/manual{{VOLREF_checks}} or [read {{VOLREF_checks}}](https://example.test/index).';
+    const blob = await renderPublicationDocx(document, { readAsset: noAsset }, new AbortController().signal, referenceDate);
+    const zip = await JSZip.loadAsync(await blob.arrayBuffer());
+    const xml = await zip.file('word/document.xml')!.async('string');
+    const relationships = await zip.file('word/_rels/document.xml.rels')!.async('string');
+    expect(xml).toMatch(/>https:\/\/example\.test\/manual<\/w:t><\/w:r><\/w:hyperlink>[^]*?<w:hyperlink w:anchor="[^"]+">/);
+    expect(xml).toContain('>read 2.1.1</w:t>');
+    expect(xml).not.toContain('{{VOLREF_');
+    expect(relationships).toContain('Target="https://example.test/manual"');
+    expect(relationships).toContain('Target="https://example.test/index"');
+    expect(relationships).not.toContain('{{VOLREF_');
+  });
+  it('exports a legacy figure whose JPEG metadata is on the retained file reference', async () => {
+    const document = volumeFixture();
+    const image = Uint8Array.from(await readFile('tests/fixtures/images/business-figure-baseline.jpg'));
+    const ref = { id: 'legacy-jpeg', name: 'drawing.jpg', type: 'image/jpeg', size: image.length };
+    document.paragraphs[0].figure = { fileRef: ref };
+    const blob = await renderPublicationDocx(document, {
+      readAsset: () => ({ ...ref, data: image.buffer }),
+    }, new AbortController().signal, referenceDate);
+    const zip = await JSZip.loadAsync(await blob.arrayBuffer());
+    expect(await zip.file('word/media/image1.jpg')!.async('uint8array')).toEqual(image);
   });
   it('uppercases warning text while retaining a case-sensitive destination', async () => {
     const word = new PublicationWordPackage(new AbortController().signal, 12);

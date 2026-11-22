@@ -42,18 +42,19 @@ Compliant and Custom are application modes. Both have the same operation availab
 | Standard Memorandum (HqDON) | supported | partial | partial | supported | supported | supported | supported |
 | Action Memorandum | supported | partial | partial | supported | supported | supported | supported |
 | Information Memorandum | supported | partial | partial | supported | supported | supported | supported |
-| SL-3 Components List | supported | unsupported | partial | unsupported | supported | supported | supported |
-| SL-4 Repair Parts List | supported | unsupported | partial | unsupported | supported | supported | supported |
-| TM/IETM Cover and Signature Pages | supported | unsupported | partial | unsupported | supported | supported | supported |
-| Technical Volume | supported | unsupported | partial | unsupported | supported | supported | supported |
-| I-Type Instruction (MI/SI/TI/LI) | supported | unsupported | partial | unsupported | supported | supported | supported |
+| SL-3 Components List | supported | partial | partial | unsupported | supported | supported | supported |
+| SL-4 Repair Parts List | supported | partial | partial | unsupported | supported | supported | supported |
+| TM/IETM Cover and Signature Pages | supported | partial | partial | unsupported | supported | supported | supported |
+| Technical Volume | supported | partial | partial | unsupported | supported | supported | supported |
+| I-Type Instruction (MI/SI/TI/LI) | supported | partial | partial | unsupported | supported | supported | supported |
 | NAVMC 10274 - Administrative Action | supported | unsupported | unsupported | unsupported | supported | supported | supported |
 | NAVMC 118 (11) - Administrative Remarks (6105) | supported | unsupported | unsupported | unsupported | supported | supported | supported |
 | Configured form (valid definition loaded) | supported | unsupported | unsupported | unsupported | supported | supported | supported |
 
 ## Partial operations and readiness
 
-- Word embeds one PNG signature image in supported correspondence and PNG/JPEG figures in business letters. Dual-signer documents require explicit junior or senior image assignment; the other block stays unsigned. Information-memorandum images appear with the FROM sender. Those two image placements are Word-only. Reference titles with safe URLs remain linked in Word; the hyperlink checkbox controls PDF links separately. Publication Word output remains unsupported. PDF enclosure pages stay separate by default; browser Word export can optionally include them as page images. Certificate signatures and interactive PDF fields remain in the originals. Word and PDF use separate layout engines; pagination can differ.
+- Word embeds one PNG signature image in supported correspondence and PNG/JPEG figures in business letters. Dual-signer documents require explicit junior or senior image assignment; the other block stays unsigned. Information-memorandum images appear with the FROM sender. Those two image placements are Word-only. Reference titles with safe URLs remain linked in Word; the hyperlink checkbox controls PDF links separately. PDF enclosure pages stay separate by default; browser Word export can optionally include them as page images. Certificate signatures and interactive PDF fields remain in the originals. Word and PDF use separate layout engines; pagination can differ.
+- SL-3, SL-4, I-Type instructions, TM/IETM front matter and Technical Volumes export editable Word files. Use PNG or JPEG for figures in Word. Stock-list front-matter entries and Technical Volume contents link to their headings. Those entries omit page numbers. Check publication layout in the receiving Word environment before release.
 - Normal TeX downloads contain configuration fragments, including distribution and copy-to content. They need templates and assets to form a standalone project. Flat TeX is the Pandoc input dialect.
 - Share links transfer a draft snapshot, including retained fields that may not appear in the current rendered format. Current native handoffs include required attachments and signature images; configured-form handoffs include exact blank template pages. Copies beyond the reliable link limit use encrypted files. Older links may require separately available assets. Review the [sharing workflow](USER_GUIDE.md#password-protected-sharing) before transfer.
 - Configured forms must load a valid, matching definition with a SHA-256 checksum for every template page before preview, PDF export, or sharing. Missing or failed definition loads report not-ready; invalid definitions report invalid-data. Configured-form batches support text, identifier, date, decimal, boolean, single-choice and multiple-selection fields. Multiple selections use reviewed JSON arrays of option IDs or unique labels. Repeating groups use reviewed JSON arrays of typed row objects, limited by printed capacity and documented row/input budgets; signing fields stay blank. Each job retains its exact definition and verified template pages before rendering.
@@ -89,4 +90,4 @@ This table covers letters, endorsements, memoranda and agreements. Each cell lis
 | Action Memorandum | no / no / no | yes / yes / yes |
 | Information Memorandum | no / no / no | yes / yes / yes |
 
-Technical publications use their own content models: I-Type instructions, structured SL-3/SL-4 stock lists, and TM/IETM cover and authentication pages. The general correspondence flags do not describe those models. SL-3/SL-4 templates suppress ordinary formal reference and enclosure lists. SL-4 and TM/IETM output also exclude retained correspondence body and list fields, including in Custom mode. See [technical publications](TECHNICAL_PUBLICATIONS.md).
+Technical publications use their own content models: I-Type instructions, structured SL-3/SL-4 stock lists, TM/IETM cover and authentication pages, and full Technical Volumes. The general correspondence flags do not describe those models. SL-3/SL-4 templates suppress ordinary formal reference and enclosure lists. SL-4 and TM/IETM output also exclude retained correspondence body and list fields, including in Custom mode. See [technical publications](TECHNICAL_PUBLICATIONS.md).

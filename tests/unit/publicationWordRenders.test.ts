@@ -49,7 +49,7 @@ describe('publication Word navigation', () => {
     <z:bookmarkStart z:name="publication_1" z:id="1"/><z:bookmarkEnd z:id="1"/></z:p></z:body></z:document>`;
 
   it('binds the contents link and its field to the actual named bookmark', () => {
-    expect(inspectPublicationWordNavigation(source)).toEqual({ bookmarks: 1, internalLinks: 1, pageReferences: 1,
+    expect(inspectPublicationWordNavigation(source)).toEqual({ bookmarks: 1, internalLinks: 1, pageReferences: 1, linkOnlyEntries: [],
       contentsEntries: [{ section: 'TABLE OF CONTENTS', label: 'PREFACE', format: 'roman' }] });
   });
 

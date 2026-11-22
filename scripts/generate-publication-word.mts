@@ -9,7 +9,7 @@ import { publicationWordInputPaths, publicationWordSourceDigests } from './publi
 const directory = process.argv[2];
 if (!directory) throw new Error('Usage: vite-node --config vitest.config.ts scripts/generate-publication-word.mts OUTPUT_DIRECTORY');
 const family = process.argv[3] ?? 'all';
-if (!['all', 'manual', 'instruction', 'sl3', 'sl4'].includes(family)) throw new Error('Choose all, manual, instruction, sl3 or sl4 fixtures.');
+if (!['all', 'manual', 'instruction', 'sl3', 'sl4', 'volume'].includes(family)) throw new Error('Choose all, manual, instruction, sl3, sl4 or volume fixtures.');
 const fixtures = publicationWordFixtures().filter(fixture => family === 'all' || fixture.name.startsWith(`${family}-`));
 if (!fixtures.length) throw new Error('No fixtures are available for this publication family.');
 const output = resolve(directory);

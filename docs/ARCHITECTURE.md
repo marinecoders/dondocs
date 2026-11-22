@@ -16,7 +16,7 @@ editor/store state
 
 Async exports must not reread the live editor after capturing a revision. Ownership/revision checks keep a later edit or document switch from receiving the previous operation's save/review/result. Preview is a separate, captured operation and can omit expensive finishing features; a download from preview still uses the canonical export route.
 
-Correspondence PDF generates TeX fragments and uses the packaged SwiftLaTeX **pdfTeX** engine. Word uses flat TeX plus Pandoc and DOCX post-processing. They share content/layout rules but have separate engines and pagination. PDF finishing handles supported links, enclosure assembly and signature fields. Technical-publication families add structured preflight/rendering and are PDF-only.
+Correspondence PDF generates TeX fragments and uses the packaged SwiftLaTeX **pdfTeX** engine. Word uses flat TeX plus Pandoc and DOCX post-processing. They share content/layout rules but have separate engines and pagination. PDF finishing handles supported links, enclosure assembly and signature fields. Technical publications use structured preflight and a separate native DOCX writer.
 
 Word package delivery in `src/services/exports/wordPackage.ts` captures one saved action-package revision through the existing portable resource validator. It renders approved correspondence through the ordinary prepared Word path with operation-owned image resources, preserves separate original bytes and emits a measured digest manifest. `WordPackageDownload` owns revision-scoped review/cancellation; ordinary clean PDF/DOCX exports retain their existing path.
 

@@ -21,6 +21,7 @@
 
 import type { FormSession, Navmc11811Data, NavmcForm10274Data } from '@/stores/formStore';
 import type { SerializedSession } from '@/stores/documentStore';
+import { DOC_TYPE_CONFIG } from '@/types/document';
 import { documentTextFields, mapSessionText } from './documentFields';
 
 /**
@@ -143,15 +144,20 @@ export function applyPlaceholdersToNavmc10274(
   }, values).navmc10274!;
 }
 
+function isPublicationReference(session: SerializedSession, name: string): boolean {
+  if (name.startsWith('VOLREF_')) return session.docType === 'technical_volume' || session.formData.volume !== undefined;
+  return name.startsWith('PUBREF_') && session.documentCategory === 'correspondence'
+    && Object.hasOwn(DOC_TYPE_CONFIG, session.docType) && DOC_TYPE_CONFIG[session.docType].publication === true;
+}
+
 /** Detection and replacement share the same editable-text policy. */
 export function detectSessionPlaceholders(session: SerializedSession): string[] {
-  const volumeReferences = session.docType === 'technical_volume' || session.formData.volume !== undefined;
   return [...new Set(documentTextFields(session, 'substitution').flatMap(field => detectPlaceholders(field.text)))]
-    .filter(name => !volumeReferences || !name.startsWith('VOLREF_'));
+    .filter(name => !isPublicationReference(session, name));
 }
 
 export function applyPlaceholdersToSession(session: SerializedSession, values: PlaceholderValues): SerializedSession {
-  const substitutions = session.docType === 'technical_volume' || session.formData.volume ? Object.fromEntries(Object.entries(values).filter(([key]) => !key.toUpperCase().startsWith('VOLREF_'))) : values;
+  const substitutions = Object.fromEntries(Object.entries(values).filter(([key]) => !isPublicationReference(session, key.toUpperCase())));
   return mapSessionText(session, field => replacePlaceholders(field.text, substitutions));
 }
 

@@ -13,7 +13,7 @@ describe('SL-3 document authoring', () => {
       DOC_TYPE_CATEGORIES.find((c) => c.category === 'Technical Publications')
         ?.types,
     ).toContain('sl3');
-    expect(DOC_TYPE_CONFIG.sl3.pdfOnly).toBe(true);
+    expect(DOC_TYPE_CONFIG.sl3.publication).toBe(true);
     expect(
       getEditorSections(DOC_TYPE_CONFIG.sl3, 'sl3').map((s) => s.id),
     ).toContain('sl3-inventory');
