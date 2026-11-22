@@ -710,3 +710,11 @@ In a native document preview, open **Edit page N source** and select a field or 
 On desktop, **Preview following** defaults to off. **Follow editor** reveals the PDF page for a field or paragraph you select without moving editor focus. Searching is limited to the first 128 pages. Source navigation supports up to 512 candidate paragraphs/fields and 250,000 source characters. Matching stops beyond 128 measured pages or 500,000 measured text characters; larger documents keep ordinary PDF navigation. Scrolling or using PDF controls pauses following until you select an editor field again; typing does not restart it. **Follow paragraphs** scrolls the open Paragraphs section with the preview and pauses while an editor field has focus.
 
 Source navigation is withheld when uploaded enclosure or basic-letter PDFs are included because those pages have no reliable native editor mapping. Ordinary page navigation, zoom and export remain available. Package and review PDFs do not offer these live-editor links.
+
+### Returning a Word review copy
+
+Keep the issued DOCX and edit it in place. A file saved through another editor
+or copied into a new document may lose the markers tying the Word edits to the
+saved DonDocs revision. If a return has lost its review identity, open it as a
+separate draft or use it for manual comparison. Export a fresh Word review
+copy when you need another matched return.
