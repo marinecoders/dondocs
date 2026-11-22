@@ -70,3 +70,17 @@ Use the issued review copy workflow only with an editor qualified to preserve
 its review markers. A LibreOffice DOCX resave of a synthetic issued review
 copy preserved its paragraph bookmark and removed its custom XML review
 identity. DonDocs requires the identity to match the retained issue receipt.
+
+## Check printed contents labels
+
+The measured receipt now lists the page-label format requested by each linked
+contents row and the label extracted from the corresponding headed list in
+the actual print. Review rows
+reported as missing, ambiguous or wrong-format. This check covers printed
+label formats. Confirm each label's value and link destination in the renderer.
+
+A fresh 12-document LibreOffice run found 15 wrong-format entries across both
+SL-3 fixtures and the SL-4 fixture. For example, the SL-3 portrait contents
+printed `PREFACE … 3` while the target page footer used `iii`. The affected
+source fields requested lowercase Roman labels. Native Word field update,
+layout and edit/save qualification remain pending.

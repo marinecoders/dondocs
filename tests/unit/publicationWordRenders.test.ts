@@ -1,6 +1,6 @@
 // @vitest-environment node
 import { describe, expect, it } from 'vitest';
-import { inspectPublicationWordNavigation, inspectPublicationWordRender, publicationWordPageSizes } from '../../scripts/publication-word-renders';
+import { inspectPrintedContentsLabels, inspectPublicationWordNavigation, inspectPublicationWordRender, publicationWordPageSizes } from '../../scripts/publication-word-renders';
 
 const xml = '<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:sectPr><w:pgSz w:w="12240" w:h="15840"/></w:sectPr><w:sectPr><w:pgSz w:w="15840" w:h="15840"/></w:sectPr></w:document>';
 const input = () => ({ renderer: 'microsoft-word' as const, metadata: 'Creator: Word\nProducer: macOS\n',
@@ -43,12 +43,13 @@ describe('publication target-renderer measurements', () => {
 
 describe('publication Word navigation', () => {
   const ns = 'http://schemas.openxmlformats.org/wordprocessingml/2006/main';
-  const source = `<z:document xmlns:z="${ns}"><z:body><z:p><z:hyperlink z:anchor="publication_1"/>
-    <z:fldSimple z:instr=" PAGEREF publication_1 \\h "/></z:p><z:p>
+  const source = `<z:document xmlns:z="${ns}"><z:body><z:p><z:pPr><z:pStyle z:val="Heading1"/></z:pPr><z:r><z:t>TABLE OF CONTENTS</z:t></z:r></z:p><z:p><z:hyperlink z:anchor="publication_1"><z:r><z:t>PREFACE</z:t></z:r></z:hyperlink>
+    <z:fldSimple z:instr=" PAGEREF publication_1 \\h \\* roman "/></z:p><z:p>
     <z:bookmarkStart z:name="publication_1" z:id="1"/><z:bookmarkEnd z:id="1"/></z:p></z:body></z:document>`;
 
   it('binds the contents link and its field to the actual named bookmark', () => {
-    expect(inspectPublicationWordNavigation(source)).toEqual({ bookmarks: 1, internalLinks: 1, pageReferences: 1 });
+    expect(inspectPublicationWordNavigation(source)).toEqual({ bookmarks: 1, internalLinks: 1, pageReferences: 1,
+      contentsEntries: [{ section: 'TABLE OF CONTENTS', label: 'PREFACE', format: 'roman' }] });
   });
 
   it('rejects different existing destinations for a contents link and its page reference', () => {
@@ -56,7 +57,7 @@ describe('publication Word navigation', () => {
     const withSecond = source.replace('</z:body>', extra + '</z:body>');
     expect(() => inspectPublicationWordNavigation(withSecond.replace('PAGEREF publication_1', 'PAGEREF publication_2')))
       .toThrow('link and its Word PAGEREF field disagree');
-    expect(() => inspectPublicationWordNavigation(source.replace('<z:hyperlink z:anchor="publication_1"/>', '')))
+    expect(() => inspectPublicationWordNavigation(source.replace('<z:hyperlink z:anchor="publication_1"><z:r><z:t>PREFACE</z:t></z:r></z:hyperlink>', '')))
       .toThrow('link and its Word PAGEREF field disagree');
   });
 
@@ -66,5 +67,33 @@ describe('publication Word navigation', () => {
     expect(() => inspectPublicationWordNavigation(source.replace('<z:bookmarkEnd z:id="1"/>', ''))).toThrow('unmatched Word bookmark start');
     const extra = '<z:bookmarkStart z:name="PUBLICATION_1" z:id="2"/><z:bookmarkEnd z:id="2"/>';
     expect(() => inspectPublicationWordNavigation(source.replace('</z:body>', extra + '</z:body>'))).toThrow('duplicate Word bookmark');
+  });
+});
+
+describe('publication printed contents', () => {
+  const entries = [
+    { section: 'TABLE OF CONTENTS', label: 'PREFACE', format: 'roman' },
+    { section: 'LIST OF TABLES', label: 'Table 1. Inventory', format: 'decimal' },
+  ] as const;
+
+  it('reads the renderer output rather than assuming it obeys PAGEREF', () => {
+    const before = 'TABLE OF CONTENTS\nPREFACE.................3\n\nLIST OF TABLES\nTable 1. Inventory . . . . . 9';
+    expect(inspectPrintedContentsLabels(before, entries).map(row => row.result)).toEqual(['wrong-format', 'matches-format']);
+    const corrected = before.replace('...3', '...iii');
+    expect(inspectPrintedContentsLabels(corrected, entries).map(row => row.result)).toEqual(['matches-format', 'matches-format']);
+  });
+
+  it('flags unresolved fields and duplicate labels for inspection', () => {
+    expect(inspectPrintedContentsLabels('TABLE OF CONTENTS\nPREFACE.......\nPREFACE........i', entries).map(row => row.result))
+      .toEqual(['ambiguous', 'missing']);
+    expect(inspectPrintedContentsLabels('TABLE OF CONTENTS\nPREFACE.......Error! Bookmark not defined.', entries)[0].result).toBe('wrong-format');
+    expect(inspectPrintedContentsLabels('TABLE OF CONTENTS\nPREFACE........ii', [entries[0], entries[0]]).map(row => row.result))
+      .toEqual(['ambiguous', 'ambiguous']);
+  });
+
+  it('keeps later body rows and rows under another heading out of the contents section', () => {
+    const listing = 'TABLE OF CONTENTS\nAUTHENTICATION.......i\n\nPREFACE.......iv\f'
+      + 'PREFACE........vi\n\nLIST OF TABLES\nPREFACE.........ix\nTable 1. Inventory.......9';
+    expect(inspectPrintedContentsLabels(listing, entries).map(row => row.result)).toEqual(['missing', 'matches-format']);
   });
 });
