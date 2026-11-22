@@ -100,3 +100,9 @@ configured assignment roles. The organization defines those roles and decides
 which documents may be routed. Database administrators retain administrative
 control over the journal. A journal entry is a workflow decision about a
 specific artifact and does not apply a PDF signature.
+
+In the browser, **Download approval history** reads the journal again over
+the authenticated connection. The JSON copy includes the exact saved revision,
+PDF SHA-256, service origin, and the identity, certificate fingerprint and
+server timestamp of each event. Keep that copy alongside the PDF or editable
+package. The live service remains the source for the current route status.

@@ -9,17 +9,61 @@ const assignmentsSchema = z.array(assignment).min(1).max(12);
 const revision = z.object({ packageId: id, revisionId: id, artifactSha256: sha256 });
 const session = z.object({ id, canRequest: z.boolean(), canApprove: z.boolean() });
 const sequence = z.number().int().positive().max(213);
-const event = z.object({
+const event = {
   routeId: approvalRouteId, sequence, actorId: id, occurredAt: z.iso.datetime(),
-  action: z.enum(['request', 'approve', 'return', 'delegate', 'cancel']),
-});
+  certificateFingerprint: z.string().regex(/^(?:[0-9A-F]{2}:){31}[0-9A-F]{2}$/),
+};
+const stage = z.number().int().min(1).max(12);
+const historyEvent = z.discriminatedUnion('action', [
+  z.object({ ...event, action: z.literal('request'), revision, assignments: z.array(assignment).min(1).max(12) }),
+  z.object({ ...event, action: z.literal('approve'), stage, artifactSha256: sha256 }),
+  z.object({ ...event, action: z.literal('return'), stage, artifactSha256: sha256 }),
+  z.object({ ...event, action: z.literal('delegate'), stage, assignee: id }),
+  z.object({ ...event, action: z.literal('cancel'), stage }),
+]);
 const route = z.object({
   id: approvalRouteId, revision, status: z.enum(['pending', 'approved', 'returned', 'cancelled']), sequence,
-  activeAssignment: assignment.extend({ stage: z.number().int().min(1).max(12) }).nullable(),
-  history: z.array(event).min(1).max(213),
-}).refine(value => value.history.length === value.sequence && value.history[0].action === 'request'
-  && (value.status === 'pending') === Boolean(value.activeAssignment)
-  && value.history.every((entry, index) => entry.sequence === index + 1 && entry.routeId === value.id));
+  activeAssignment: assignment.extend({ stage }).nullable(),
+  history: z.array(historyEvent).min(1).max(213),
+}).refine(value => {
+  const [request, ...events] = value.history;
+  if (request?.action !== 'request' || !request.assignments.length || value.history.length !== value.sequence
+    || request.revision.packageId !== value.revision.packageId || request.revision.revisionId !== value.revision.revisionId
+    || request.revision.artifactSha256 !== value.revision.artifactSha256
+    || request.assignments.some(item => item.assignee === request.actorId)
+    || value.history.some((entry, index) => entry.sequence !== index + 1 || entry.routeId !== value.id)) return false;
+
+  let status: 'pending' | 'approved' | 'returned' | 'cancelled' = 'pending';
+  let stage = 0;
+  let assignee = request.assignments[stage].assignee;
+  for (const entry of events) {
+    if (status !== 'pending' || entry.action === 'request' || entry.stage !== stage + 1) return false;
+    if (entry.action === 'delegate' || entry.action === 'cancel') {
+      if (entry.actorId !== request.actorId) return false;
+      if (entry.action === 'cancel') {
+        status = 'cancelled';
+      } else {
+        if (entry.assignee === request.actorId || entry.assignee === assignee) return false;
+        assignee = entry.assignee;
+      }
+    } else {
+      if (entry.actorId !== assignee || entry.artifactSha256 !== value.revision.artifactSha256) return false;
+      if (entry.action === 'return') {
+        status = 'returned';
+      } else if (++stage === request.assignments.length) {
+        status = 'approved';
+      } else {
+        assignee = request.assignments[stage].assignee;
+      }
+    }
+  }
+
+  if (value.status !== status) return false;
+  const active = value.activeAssignment;
+  return status === 'pending'
+    ? active?.stage === stage + 1 && active.assignee === assignee && active.dueAt === request.assignments[stage].dueAt
+    : active === null;
+});
 
 export type ApprovalBinding = z.infer<typeof revision>;
 export type ApprovalRoute = z.infer<typeof route>;
