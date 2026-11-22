@@ -1,3 +1,6 @@
+import { formatLetterheadStyles } from '@/services/docx/letterheadStyling';
+import { resolveLetterheadMode, supportsLetterheadModes } from '@/lib/letterheadMode';
+import { DOC_TYPE_CONFIG } from '@/types/document';
 import { formatBodyTables } from '@/services/docx/bodyTables';
 /**
  * DOCX through the same generators the app uses.
@@ -24,7 +27,7 @@ import { formatBodyTables } from '@/services/docx/bodyTables';
  * end of a confusing stack.
  */
 import { spawn } from 'node:child_process';
-import { mkdtemp, writeFile, readFile, rm } from 'node:fs/promises';
+import { mkdtemp, writeFile, readFile, copyFile, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { generateFlatLatex } from '@/services/latex/flat-generator';
@@ -82,9 +85,16 @@ export async function renderDocx(input: LetterInput, defaults: CompanionDefaults
   }
   const media = await prepareDocxImages(store, async id => Buffer.from(attachment(input, id).dataBase64, 'base64'));
   const tex = generateFlatLatex(store as never);
+  const config = DOC_TYPE_CONFIG[store.docType];
+  const letterheadMode = resolveLetterheadMode(config, store.formData);
+  const usesLetterhead = supportsLetterheadModes(config);
   const dir = await mkdtemp(join(tmpdir(), 'dondocs-companion-'));
 
   try {
+    if (usesLetterhead && letterheadMode === 'full') {
+      const seal = `${store.formData.sealType === 'dod' ? 'dod' : 'dow'}-seal${store.formData.letterheadColor === 'black' ? '-bw' : ''}.png`;
+      await copyFile(join(ATTACHMENTS, seal), join(dir, seal));
+    }
     if (Object.keys(media).length) {
       for (const [path, bytes] of Object.entries(media)) await writeFile(join(dir, path), bytes);
     }
@@ -117,7 +127,10 @@ export async function renderDocx(input: LetterInput, defaults: CompanionDefaults
         : reject(new Error(`pandoc exited ${code}: ${stderr}`)))));
     });
 
-    return formatBodyTables(new Uint8Array(await readFile(join(dir, 'out.docx'))), store.paragraphs.flatMap(paragraph => paragraph.bodyTable ? [paragraph.bodyTable] : []));
+    const bytes = new Uint8Array(await readFile(join(dir, 'out.docx')));
+    const styled = usesLetterhead && letterheadMode !== 'preprinted'
+      ? await formatLetterheadStyles(bytes, store.formData.letterheadColor) : bytes;
+    return formatBodyTables(styled, store.paragraphs.flatMap(paragraph => paragraph.bodyTable ? [paragraph.bodyTable] : []));
   } finally {
     // Every conversion used to leave its scratch directory behind. One is
     // nothing; a companion left running for a week is thousands.

@@ -1169,7 +1169,18 @@ const LATEX_TEMPLATES = {
 %                           LETTERHEAD PRINTING
 %=============================================================================
 
+\\newcommand{\\LetterheadMode}{full}
+\\newcommand{\\setLetterheadMode}[1]{\\renewcommand{\\LetterheadMode}{#1}}
 \\newcommand{\\printLetterhead}{%
+    \\ifthenelse{\\equal{\\LetterheadMode}{preprinted}}{%
+        \\vspace*{0.16in}% Preserve the full-letterhead body origin.
+    }{\\ifthenelse{\\equal{\\LetterheadMode}{title-only}}{%
+        \\begin{textblock*}{\\textwidth}(1in, 0.625in)%
+            \\centering\\fontsize{10pt}{11pt}\\selectfont
+            \\textcolor{\\LetterheadColor}{\\textbf{\\UnitName}}%
+        \\end{textblock*}%
+        \\vspace*{0.16in}%
+    }{%
     \\begin{textblock*}{1in}(0.5in, 0.5in)%
         \\IfFileExists{attachments/\\SealFile}{%
             \\includegraphics[width=1in]{attachments/\\SealFile}%
@@ -1207,6 +1218,7 @@ const LATEX_TEMPLATES = {
     % Text area starts at ~1.02in (top=1in + headheight=15pt + headsep=12pt)
     % 0.16in ≈ 12pt ≈ one line gap from letterhead bottom to SSIC block
     \\vspace*{0.16in}%  % One line below letterhead area
+    }}%
 }
 
 

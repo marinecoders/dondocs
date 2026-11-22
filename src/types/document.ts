@@ -200,6 +200,7 @@ export interface DocumentData {
   startingEnclosureNumber?: number;
 
   // Letterhead
+  letterheadMode?: 'full' | 'title-only' | 'preprinted';
   department: string;
   unitLine1: string;
   unitLine2: string;

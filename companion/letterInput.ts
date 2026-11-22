@@ -50,6 +50,7 @@ export interface UnitInput {
   /** dow | dod — which seal is drawn. */
   seal?: string;
   letterheadColor?: 'blue' | 'black';
+  letterheadMode?: 'full' | 'title-only' | 'preprinted';
 }
 
 export interface SignatureInput {
@@ -191,6 +192,7 @@ export function toStore(input: LetterInput, defaults: CompanionDefaults = {}): G
       seal: unit.seal ?? 'dow',
       sealType: unit.seal ?? 'dow',
       letterheadColor: unit.letterheadColor ?? 'blue',
+      ...(unit.letterheadMode ? { letterheadMode: unit.letterheadMode } : {}),
 
       ssic,
       serial,
