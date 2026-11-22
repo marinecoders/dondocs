@@ -79,7 +79,7 @@ test('exports edited imported Word tables and images through the tagged native p
   await info.attach('imported-word-tagged.pdf', { body: output, contentType: 'application/pdf' });
 });
 
-for (const docType of ['standard_letter', 'naval_letter', 'multiple_address_letter', 'plain_paper_memorandum']) {
+for (const docType of ['standard_letter', 'naval_letter', 'multiple_address_letter', 'plain_paper_memorandum', 'letterhead_memorandum']) {
   test(`exports actual structured ${docType} content and blocks an unsupported original attachment`, async ({ page }, info) => {
     await page.goto('/');
     await importLetter(page, 'TAGGED TRAINING LETTER', Array.from({ length: 45 }, (_, i) => `Training sentence ${i + 1} retains meaningful **bold** text across line wraps and page boundaries.`).join(' '), docType);
@@ -191,7 +191,7 @@ test('cancels an owned actual worker job then exports a different fresh document
   await info.attach('following-normal.pdf', { body: output, contentType: 'application/pdf' });
 });
 
-for (const docType of ['standard_letter', 'naval_letter', 'multiple_address_letter', 'plain_paper_memorandum']) {
+for (const docType of ['standard_letter', 'naval_letter', 'multiple_address_letter', 'plain_paper_memorandum', 'letterhead_memorandum']) {
   test(`exports source-bound external reference links for ${docType}`, async ({ page }, info) => {
     await page.goto('/');
     await importLetter(page, 'LINKED TAGGED TRAINING', 'Use reference (a) for the retained training source.', docType, false, true);

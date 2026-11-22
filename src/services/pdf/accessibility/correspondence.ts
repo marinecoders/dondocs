@@ -2,6 +2,7 @@ import { taggedReferenceUrl } from './links';
 import mainTemplate from '../../../../tex/main.tex?raw';
 import navalTemplate from '../../../../tex/templates/naval_letter.tex?raw';
 import multipleAddressTemplate from '../../../../tex/templates/multiple_address_letter.tex?raw';
+import letterheadMemoTemplate from '../../../../tex/templates/letterhead_memorandum.tex?raw';
 import plainPaperMemoTemplate from '../../../../tex/templates/plain_paper_memorandum.tex?raw';
 import standardTemplate from '../../../../tex/templates/standard_letter.tex?raw';
 import { generateAllLatexFiles, type GeneratedFiles, type LatexBodyAdapter } from '@/services/latex/generator';
@@ -21,6 +22,7 @@ const templates = {
   'naval-letter': navalTemplate,
   'multiple-address-letter': multipleAddressTemplate,
   'plain-paper-memorandum': plainPaperMemoTemplate,
+  'letterhead-memorandum': letterheadMemoTemplate,
 };
 
 export type TaggedCorrespondenceSource = Parameters<typeof generateAllLatexFiles>[0];
@@ -97,7 +99,7 @@ export function prepareTaggedCorrespondence(source: TaggedCorrespondenceSource, 
     if (composeSenderSymbol(fields.officeCode, fields.serial).trim()) wrapMacro('DocumentSerial', top('P').id);
   }
   wrapMacro('DocumentDate', top('P').id);
-  if (plainPaperMemo) {
+  if (plainPaperMemo || qualification === 'letterhead-memorandum') {
     format = replaceOnce(format, '\\noindent MEMORANDUM\n', `\\noindent ${wrap(top('P').id, 'MEMORANDUM')}\n`);
   }
   const from = top('P').id;

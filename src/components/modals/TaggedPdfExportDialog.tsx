@@ -19,7 +19,7 @@ export function TaggedPdfExportDialog({ open, onOpenChange, onExport, disabled }
     <DialogContent>
       <DialogHeader>
         <DialogTitle>Export tagged PDF</DialogTitle>
-        <DialogDescription>Experimental output for native unclassified standard, naval and multiple-address letters and plain-paper memorandums. The PDF includes document tags and logical reading order; native screen-reader qualification and PDF/UA conformance have not been established.</DialogDescription>
+        <DialogDescription>Experimental output for native unclassified standard, naval and multiple-address letters and plain-paper and letterhead memorandums. The PDF includes document tags and logical reading order; native screen-reader qualification and PDF/UA conformance have not been established.</DialogDescription>
       </DialogHeader>
       <div className="space-y-3 text-sm">
         <p>Language: English (United States). Headings, lists, table column headers and image alternatives come from this draft. Check the exported reading order with your intended reader before distribution.</p>

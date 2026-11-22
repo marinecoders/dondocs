@@ -19,9 +19,13 @@ describe.skipIf(!hasPdfToolchain)('tagged correspondence layouts', () => {
     { docType: 'multiple_address_letter', letterheadMode: 'full', to: 'Training Officers', distribute: true },
     { docType: 'plain_paper_memorandum', letterheadMode: 'preprinted', to: 'Training Officers', distribute: false },
     { docType: 'plain_paper_memorandum', letterheadMode: 'full', to: 'Training Officers', distribute: true },
+    { docType: 'letterhead_memorandum', letterheadMode: 'full', to: 'Training Officers', distribute: false },
+    { docType: 'letterhead_memorandum', letterheadMode: 'title-only', to: 'Training Officers', distribute: false },
+    { docType: 'letterhead_memorandum', letterheadMode: 'preprinted', to: 'Training Officers', distribute: true },
   ] as const)('preserves printed content for $docType on $letterheadMode stock', async ({ docType, letterheadMode, to, distribute }) => {
-    const isMemo = docType === 'plain_paper_memorandum';
-    const sealRequired = letterheadMode === 'full' && !isMemo;
+    const plainMemo = docType === 'plain_paper_memorandum';
+    const isMemo = plainMemo || docType === 'letterhead_memorandum';
+    const sealRequired = letterheadMode === 'full' && !plainMemo;
     const source: Parameters<typeof renderTaggedCorrespondence>[0] = {
       docType,
       formData: { date: '21 Nov 26', subject: 'TAGGED STATIONERY', from: 'Training Staff', to,
@@ -60,13 +64,13 @@ describe.skipIf(!hasPdfToolchain)('tagged correspondence layouts', () => {
     await writeFile(taggedPath, tagged);
     const measured = spawnSync('pdftotext', [taggedPath, '-'], { encoding: 'utf8' });
     expect(measured.status, measured.stderr).toBe(0);
-    expect(measured.stdout.includes('SYNTHETIC TITLE')).toBe(!isMemo && letterheadMode !== 'preprinted');
+    expect(measured.stdout.includes('SYNTHETIC TITLE')).toBe(!plainMemo && letterheadMode !== 'preprinted');
     expect(measured.stdout.includes('UNIT ADDRESS')).toBe(sealRequired);
     expect(measured.stdout.includes('Distribution Staff')).toBe(distribute);
     expect(measured.stdout.includes('To:')).toBe(!!to);
     if (isMemo) {
       expect(measured.stdout).toMatch(/MEMORANDUM[\s\S]+From:[\s\S]+To:[\s\S]+Via:[\s\S]+First Office[\s\S]+Second Office[\s\S]+Subj:/);
-      expect(measured.stdout).not.toContain('5216');
+      expect(measured.stdout.includes('5216')).toBe(!plainMemo);
       const pdf = await PDFDocument.load(tagged);
       const headers = pdf.context.enumerateIndirectObjects().map(([, object]) => object).filter(object =>
         object instanceof PDFDict && object.get(PDFName.of('S')) === PDFName.of('TH'));
