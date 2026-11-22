@@ -1,3 +1,4 @@
+import { executiveTemplates } from './executive';
 import { emptyManualFrontMatter } from '@/data/techpub/manualFrontMatter';
 import type { LetterTemplate } from './types';
 
@@ -40,6 +41,7 @@ export const LETTER_TEMPLATES: LetterTemplate[] = [
   { id: 'tm-ietm-cover-signature', name: 'TM/IETM Cover and Signature Pages', category: 'Technical Publications',
     description: 'Cover, end-item continuation and authentication pages for a technical publication',
     docType: 'tm_ietm_front_matter', subject: '', paragraphs: [], manualFrontMatter: emptyManualFrontMatter() },
+  ...executiveTemplates,
   // Personnel
   pftWaiver,
   humanitarianTransfer,

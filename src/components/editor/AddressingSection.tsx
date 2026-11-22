@@ -501,7 +501,8 @@ export function AddressingSection({ config }: AddressingSectionProps) {
                 id="subject"
                 value={formData.subject || ''}
                 onValueChange={(v) => setField('subject', v)}
-                aria-invalid={validationVisible && unfilled(formData.subject) ? true : undefined}
+                aria-invalid={validationVisible && config.uiMode !== 'business' && unfilled(formData.subject) ? true : undefined}
+                aria-describedby={config.uiMode === 'business' ? 'subject-optional' : undefined}
                 placeholder={
                   isEndorsement
                     ? 'Subject of the basic letter being endorsed…'
@@ -509,6 +510,7 @@ export function AddressingSection({ config }: AddressingSectionProps) {
                 }
                 className="uppercase"
               />
+              {config.uiMode === 'business' && <p id="subject-optional" className="text-xs text-muted-foreground">A subject line is optional for this letter format.</p>}
             </div>
 
             {isSamePageEndorsement && (

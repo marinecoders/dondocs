@@ -19,6 +19,14 @@ export interface TemplateReference {
 }
 
 export interface LetterTemplate {
+  /** Built-in correspondence defaults; never contains signer identity or binary assets. */
+  correspondenceDefaults?: {
+    fontSize?: '12pt'; fontFamily?: 'times';
+    stationerySize?: 'letter' | '7x9' | '5x7';
+    letterheadMode?: 'full' | 'title-only' | 'preprinted';
+    to?: string; salutation?: string; complimentaryClose?: string;
+  };
+  manualFigure?: { number: string; pdfPage: number };
   manualFrontMatter?: ManualFrontMatter;
   id: string;
   name: string;

@@ -37,6 +37,13 @@ export const templateResult = templateSummary.extend({
   })),
   publicationType: z.enum(['MI', 'SI', 'TI', 'LI']).optional(),
   manualFrontMatter: manualFrontMatterSchema.optional(),
+  correspondenceDefaults: z.object({
+    fontSize: z.literal('12pt').optional(), fontFamily: z.literal('times').optional(),
+    stationerySize: z.enum(['letter', '7x9', '5x7']).optional(),
+    letterheadMode: z.enum(['full', 'title-only', 'preprinted']).optional(),
+    to: z.string().optional(), salutation: z.string().optional(), complimentaryClose: z.string().optional(),
+  }).optional(),
+  manualFigure: z.object({ number: z.string(), pdfPage: z.number().int().positive() }).optional(),
   references: z.array(z.object({ letter: z.string(), title: z.string(), url: z.string().optional() })).optional(),
   ssic: z.string().optional(),
 }) satisfies z.ZodType<LetterTemplate>;

@@ -23,7 +23,7 @@ import { publicationReferences, FOOTNOTE_REFERENCE_TOKEN, type PublicationRefere
 import { iTypeDestructionNotice } from '@/lib/iTypeClassification';
 import { publicationReferenceText } from './publicationReferenceText';
 import { publicationNavigation, navigationTex } from './publicationNavigation';
-import { escapeLatex, escapeLatexUrl, keepTypedSpaces, processBodyText, formatSubjectForLatex, formatAddressForLatex } from './escaper';
+import { escapeLatex, escapeLatexUrl, keepTypedSpaces, latexLineBreaks, processBodyText, formatSubjectForLatex, formatAddressForLatex } from './escaper';
 import { composeSenderSymbol } from './senderSymbol';
 import { tableSpec } from '@/data/techpub/tables';
 import { renderBodyTable } from './bodyTable';
@@ -226,11 +226,11 @@ ${data.includeEndorsementSubject ? '\\enableEndorsementSubject' : '% Endorsement
 ${isBusinessLetter ? `% Business letter: format recipient address as block with line breaks
 % Split by newlines (handle both \\n and \\r\\n), escape each line, join with \\\\
 \\setBusinessRecipientAddress{${
-  (toLine || '')
+  latexLineBreaks((toLine || '')
     .split(/\r?\n/)
     .filter(line => line.trim())
     .map(line => escapeLatex(line.trim()))
-    .join('\\\\\n')
+    .join('\n'))
 }}` : `\\setTo
     {${formatAddressForLatex(toLine)}}
     {}{}{}{}`}
