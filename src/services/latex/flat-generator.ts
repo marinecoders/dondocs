@@ -1,3 +1,4 @@
+import { correspondenceStationery, assertStationerySupport } from '@/lib/stationery';
 import { additionalJointCommands, assertJointLetterCommandSupport } from '@/lib/jointLetterCommands';
 import { resolveLetterheadMode } from '@/lib/letterheadMode';
 import { cuiTransmittalNote } from '@/lib/enclosureMarkings';
@@ -288,7 +289,8 @@ function getFontPackage(fontFamily: string): string {
   }
 }
 
-function buildPreamble(data: Partial<DocumentData>): string {
+function buildPreamble(data: Partial<DocumentData>, docType: string): string {
+  const stock = correspondenceStationery(docType, data);
   const fontSize = data.fontSize || '12pt';
   const fontFamily = data.fontFamily || 'times';
 
@@ -299,7 +301,7 @@ function buildPreamble(data: Partial<DocumentData>): string {
     : ''; // black is a built-in color
 
   return `\\documentclass[${fontSize}]{article}
-\\usepackage[margin=1in]{geometry}
+\\usepackage[margin=1in${stock.small ? `,paperwidth=${stock.width}in,paperheight=${stock.height}in` : ''}]{geometry}
 \\usepackage{fancyhdr}
 \\usepackage{tabularx}
 \\usepackage{graphicx}
@@ -684,7 +686,7 @@ function bodySizePt(data: Partial<DocumentData> | undefined): number {
   return parseFloat(data?.fontSize || '12pt') || 12;
 }
 
-function buildBody(paragraphs: Paragraph[], config: DocTypeConfig, font: LabelFont, fontSizePt: number, docType: string): string {
+function buildBody(paragraphs: Paragraph[], config: DocTypeConfig, font: LabelFont, fontSizePt: number, docType: string, mediaWidth = 6.5, mediaHeight = 5): string {
   if (paragraphs.length === 0) return '';
 
   // Figures have their own caption sequence. Exclude them from both body
@@ -717,7 +719,7 @@ function buildBody(paragraphs: Paragraph[], config: DocTypeConfig, font: LabelFo
       if (!para.figure.fileRef) throw new Error(`Figure ${number} has no image. Choose a PNG or JPEG before exporting Word.`);
       const path = docxFigureFile(++figureAssetIndex, para.figure.type, para.figure.name);
       if (/\.pdf$/i.test(path)) throw new Error(`Figure ${number} is a PDF. Choose a PNG or JPEG for Word export.`);
-      const extent = imageExtent(para.figure.width ?? 0, para.figure.height ?? 0, 6.5, 5);
+      const extent = imageExtent(para.figure.width ?? 0, para.figure.height ?? 0, mediaWidth, mediaHeight);
       const mark = para.figure.portionMarking ?? para.portionMarking;
       const graphic = `\\includegraphics[width=${extent.width.toFixed(4)}in,height=${extent.height.toFixed(4)}in,alt={${escapeFlat(para.figure.altText || para.text || `Figure ${number}`)}}]{${path}}`;
       const title = `${para.portionMarking ? `(${para.portionMarking}) ` : ''}${para.text}`;
@@ -881,7 +883,27 @@ ${rows}
 
 /** Business letter signature (centered with complimentary close)
  * Per SECNAV Ch 11, Para 11-10-12: close and signature block centered */
-function buildBusinessSignature(data: Partial<DocumentData>): string {
+function buildBusinessSignature(data: Partial<DocumentData>, smallWidth?: number): string {
+  if (smallWidth) {
+    const columns = `@{}p{${smallWidth / 2}in}@{}p{${smallWidth / 2}in}@{}`;
+    const lines = [buildFullName(data.sigFirst, data.sigMiddle, data.sigLast), data.sigRank || '', data.sigTitle || '', signatureAuthorityLine(data)].filter(Boolean);
+    const rows = lines.map(value => String.raw` & ${escapeTabularWrapped(value)} \\`);
+    if (data.signatureType === 'image') rows.unshift(String.raw` & ${signatureGraphic(data)} \\`);
+    if (!rows.length) rows.push(String.raw` & \\`);
+    return String.raw`\vspace{24pt}
+\noindent
+\begin{tabular}{${columns}}
+ & ${escapeTabularWrapped(data.complimentaryClose || 'Sincerely,')} \\
+\end{tabular}
+
+\vspace{48pt}
+\noindent
+\begin{tabular}{${columns}}
+${trimLastRow(rows)}
+\end{tabular}
+
+`;
+  }
   const name = buildFullName(data.sigFirst, data.sigMiddle, data.sigLast);
   const close = escapeTabular(data.complimentaryClose || 'Sincerely,');
 
@@ -1434,14 +1456,20 @@ function buildStandardLayout(store: DocumentStore, config: DocTypeConfig): strin
 
 function buildBusinessLayout(store: DocumentStore, config: DocTypeConfig): string {
   const data = store.formData;
+  const stock = correspondenceStationery(store.docType, data);
   let content = '';
 
   // Executive correspondence (Ch 12) needs 2" top margin (1" geometry + 1" vspace)
-  if (config.topSpacing) {
+  if (config.topSpacing && !stock.small) {
     content += `\\vspace*{${config.topSpacing}}\n`;
   }
 
-  if (config.letterhead) content += buildLetterhead(data, config);
+  if (stock.small) {
+    content += data.letterheadMode === 'title-only'
+      ? `\\noindent\\hfill\n\\begin{tabular}{@{}c@{}}\n\\dondocstitleletterhead{}${escapeTabularWrapped(data.unitLine1 || '')} \\\\
+\\end{tabular}\\hfill\\mbox{}\n\n\\vspace{12pt}\n`
+      : '\\vspace{12pt}\n\n';
+  } else if (config.letterhead) content += buildLetterhead(data, config);
 
   // ID symbols block: SSIC/Serial/Date right-aligned per SECNAV Ch 11
   // PDF template uses \begin{tabular}[t]{@{}l@{}} with \optionalLine for SSIC/Serial
@@ -1455,7 +1483,10 @@ function buildBusinessLayout(store: DocumentStore, config: DocTypeConfig): strin
   if (idRows.length > 0) {
     const mappedRows = idRows.map(item => `${item} \\\\`);
     // No trailing \vspace{12pt} — buildRecipientAddress (or pre-salutation space) provides the gap
-    content += `\\noindent\n\\begin{tabular}{@{}l@{}}\n${trimLastRow(mappedRows)}\n\\end{tabular}\n\n`;
+    const column = stock.small ? stock.size === '7x9' ? 'c' : 'r' : 'l';
+    const leading = stock.small ? '\\hfill ' : '';
+    const trailing = stock.size === '7x9' ? '\\hfill\\mbox{}' : '';
+    content += `\\noindent${leading}\n\\begin{tabular}{@{}${column}@{}}\n${trimLastRow(mappedRows)}\n\\end{tabular}${trailing}\n\n`;
   }
 
   content += buildRecipientAddress(data);
@@ -1474,8 +1505,8 @@ function buildBusinessLayout(store: DocumentStore, config: DocTypeConfig): strin
 
   content += buildFormalLists(store, config);
   content += buildTransmittalNote(store);
-  content += buildBody(store.paragraphs, config, bodyFont(store.formData), bodySizePt(store.formData), store.docType);
-  content += buildBusinessSignature(data) + closingEnd(store.docType);
+  content += buildBody(store.paragraphs, config, bodyFont(store.formData), bodySizePt(store.formData), store.docType, stock.textWidth, Math.min(5, stock.textHeight - 1));
+  content += buildBusinessSignature(data, stock.small ? stock.textWidth : undefined) + closingEnd(store.docType);
   content += buildDistribution(store.distributions);
   content += buildCopyTo(store.copyTos);
 
@@ -1813,7 +1844,8 @@ export function generateFlatLatex(store: DocumentStore, resolvedLevel?: string, 
 
   let tex = '';
 
-  tex += buildPreamble(data);
+  assertStationerySupport(store.docType, { ...data, ...(resolvedLevel ? { classLevel: resolvedLevel } : {}) }, store.paragraphs, store.documentMode);
+  tex += buildPreamble(data, store.docType);
   tex += buildClassificationHeaders(data, store.paragraphs, resolvedLevel);
   tex += buildPageNumbering(store.docType, data);
   tex += '\n\\begin{document}\n\n';

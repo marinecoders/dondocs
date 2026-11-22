@@ -1138,12 +1138,25 @@
 
 \newcommand{\placeClassificationMarkings}{%
     \ifClassificationEnabled
+        \ifnum\SmallStationery=1
+            \setbox0=\hbox{\ClassificationMarking}%
+            \ifdim\wd0>\textwidth
+                \errmessage{DonDocs: the classification banner is too wide for this stationery; use Letter stock or a shorter authorized marking}%
+            \fi
+            \begin{textblock*}{\textwidth}(1in, 0.25in)%
+                \centering\ClassificationMarking
+            \end{textblock*}%
+            \begin{textblock*}{\textwidth}(1in, \dimexpr\paperheight-0.25in\relax)%
+                \centering\ClassificationMarking
+            \end{textblock*}%
+        \else
         \begin{textblock*}{6.5in}(1in, 0.25in)%
             \centering\ClassificationMarking
         \end{textblock*}%
         \begin{textblock*}{6.5in}(1in, 10.75in)%
             \centering\ClassificationMarking
         \end{textblock*}%
+        \fi
     \fi
 }
 
@@ -1707,6 +1720,8 @@
 %=============================================================================
 
 
+\InputIfFileExists{stationery.tex}{}{}
+\providecommand{\SmallStationery}{0}
 \begin{document}
 
 

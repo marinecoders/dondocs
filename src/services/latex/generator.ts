@@ -1,3 +1,4 @@
+import { correspondenceStationery, assertStationerySupport } from '@/lib/stationery';
 import { additionalJointCommands, assertJointLetterCommandSupport } from '@/lib/jointLetterCommands';
 import { resolveLetterheadMode } from '@/lib/letterheadMode';
 import { bodyTableText, bodyTableLiteral } from './bodyTableText';
@@ -122,8 +123,19 @@ function validatedPocEmail(raw: string | undefined | null): string {
   return '';
 }
 
+/** Loaded in the preamble, before geometry finalizes the PDF media box. */
+export function generateStationeryTex(store: Pick<DocumentStore, 'docType' | 'formData'>): string {
+  assertStationerySupport(store.docType, store.formData);
+  const stock = correspondenceStationery(store.docType, store.formData);
+  return stock.small ? `\\def\\SmallStationery{1}
+\\def\\StationeryDateAlignment{${stock.size === '7x9' ? 'center' : 'right'}}
+\\geometry{paperwidth=${stock.width}in,paperheight=${stock.height}in,top=1in,bottom=1in,left=1in,right=1in}
+` : '\\def\\SmallStationery{0}\n';
+}
+
 export function generateDocumentTex(store: DocumentStore, referenceDate = new Date()): string {
   const data = store.formData;
+  assertStationerySupport(store.docType, data, store.paragraphs, store.documentMode);
   const metadataText = store.docType === 'technical_volume' ? (value: string | undefined) => bodyTableLiteral(value ?? '') : escapeLatex;
   // config will be used for document-type specific variations
   const config = documentOutputConfig(store.docType, store.documentMode);
@@ -1076,7 +1088,8 @@ export function generateBodyTex(store: DocumentStore, adapter?: LatexBodyAdapter
       const file = (store.docType === 'business_letter' ? businessFigureFile : figureFile)(++figureFileIndex, para.figure.type, para.figure.name, para.figure.fileRef.id);
       const graphicMark = para.figure.portionMarking ?? para.portionMarking;
       const caption = hasBodyCaption(para) ? `${portionPrefix}${[headerText ? bodyText(headerText) : '', para.text ? bodyText(para.text) : ''].filter(Boolean).join(' ')}` : '';
-      const graphic = `\\includegraphics[width=\\textwidth,height=5in,keepaspectratio]{${file}}`;
+      const stock = correspondenceStationery(store.docType, store.formData);
+      const graphic = `\\includegraphics[width=\\textwidth,height=${Math.min(5, stock.textHeight - 1)}in,keepaspectratio]{${file}}`;
       const mark = graphicMark ? `(${escapeLatex(graphicMark)})` : '';
       const tagFigure = (part: 'image' | 'caption' | 'mark', latex: string) => adapter?.figure?.(i, part, latex) ?? latex;
       parts.push(`\\par\\vspace{12pt}\\begin{center}${mark ? `${tagFigure('mark', mark)}\\\\*` : ''}${tagFigure('image', graphic)}${caption ? '\\\\[6pt]' + tagFigure('caption', caption) : ''}\\end{center}\n`);
@@ -1231,6 +1244,7 @@ export function generateBodyTex(store: DocumentStore, adapter?: LatexBodyAdapter
 }
 
 export function generateClassificationTex(store: DocumentStore, resolvedLevel?: string): string {
+  assertStationerySupport(store.docType, { ...store.formData, ...(resolvedLevel ? { classLevel: resolvedLevel } : {}) }, store.paragraphs, store.documentMode);
   const data = store.formData;
   const metadataText = store.docType === 'technical_volume' ? (value: string | undefined) => bodyTableLiteral(value ?? '') : escapeLatex;
 
@@ -1374,6 +1388,7 @@ export function generateAllLatexFiles(store: DocumentStore, resolvedLevel?: stri
   if (store.docType === 'sl3' && store.formData.sl3) store = { ...store, paragraphs: [...store.paragraphs, ...sl3Portions(store.formData.sl3)] };
   // Files are written to root level to match \input{} paths in latex-templates.js
   const texFiles: Record<string, string> = {
+    'stationery.tex': generateStationeryTex(store),
     'document.tex': generateDocumentTex(store, referenceDate),
     'letterhead.tex': generateLetterheadTex(store),
     'signatory.tex': generateSignatoryTex(store),

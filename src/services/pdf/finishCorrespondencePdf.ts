@@ -1,3 +1,4 @@
+import { correspondenceStationery } from '@/lib/stationery';
 import { resolvePublicationDestinations } from './publicationDestinations';
 import { publicationMarking } from '@/lib/publicationMarking';
 import { formatPublicationDate } from '@/lib/publicationDate';
@@ -116,7 +117,8 @@ export function getDualSignatoryConfig(formData: Partial<DocumentData>, uiMode: 
 export async function finishCorrespondencePdf(pdf: Uint8Array, docType: string, formData: Partial<DocumentData>, generated: GeneratedFiles, paragraphs: Paragraph[] = [], resolved?: { marking: ClassificationInfo | undefined; referenceDate?: Date; signal?: AbortSignal }): Promise<{ pdfBytes: Uint8Array; errors: EnclosureError[] }> {
   const config = DOC_TYPE_CONFIG[docType];
   const dualSignature = config?.uiMode === 'moa' || config?.compliance?.dualSignature;
-  const positioned = formData.signatureType === 'digital' && dualSignature ? await resolvePublicationDestinations(pdf) : pdf;
+  const stock = correspondenceStationery(docType, formData);
+  const positioned = formData.signatureType === 'digital' && (dualSignature || stock.small) ? await resolvePublicationDestinations(pdf) : pdf;
   const assembled = await assembleBasicLetter(positioned, docType, formData, resolved?.signal);
   let pdfBytes = assembled.pdfBytes;
   const errors = assembled.error ? [basicLetterError(assembled.error)] : [];
@@ -130,7 +132,7 @@ export async function finishCorrespondencePdf(pdf: Uint8Array, docType: string, 
   if (formData.signatureType === 'digital') {
     pdfBytes = dualSignature
       ? await addDualSignatureFields(pdfBytes, { ...getDualSignatoryConfig(formData, config?.uiMode), lastBasicPageIndex, requireTemplateAnchors: true })
-      : await addSignatureField(pdfBytes, { ...getSignatoryConfig(formData), lastBasicPageIndex });
+      : await addSignatureField(pdfBytes, { ...getSignatoryConfig(formData), ...(stock.small ? { width: Math.min(144, stock.textWidth * 36), requireTemplateAnchor: true } : {}), lastBasicPageIndex });
   }
   return { pdfBytes, errors };
 }

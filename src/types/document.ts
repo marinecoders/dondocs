@@ -200,6 +200,7 @@ export interface DocumentData {
   startingEnclosureNumber?: number;
 
   // Letterhead
+  stationerySize?: import('@/lib/stationery').StationerySize;
   letterheadMode?: 'full' | 'title-only' | 'preprinted';
   department: string;
   unitLine1: string;

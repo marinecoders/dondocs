@@ -1,3 +1,4 @@
+import { stationeryIssues } from '../src/lib/stationery';
 import { jointLetterCommandIssues } from '../src/lib/jointLetterCommands';
 import { bodyTableSchema } from '../src/lib/bodyTable';
 import { MANUAL_DOC_TYPE } from '../src/data/techpub/manualFrontMatter';
@@ -107,6 +108,13 @@ export function validateLetter(body: Partial<LetterInput>, defaults: CompanionDe
   // like it worked.
   if (!body.paragraphs?.length && !body.subject) {
     problems.push('nothing to render: supply at least a subject or one paragraph');
+  }
+  if (body.unit?.stationerySize && body.unit.stationerySize !== 'letter') {
+    if (body.docType !== 'executive_correspondence') problems.push('Small stationery is supported only for executive_correspondence.');
+    else if (!problems.length) {
+      const store = toStore(body as LetterInput, defaults);
+      problems.push(...stationeryIssues(body.docType, store.formData, store.paragraphs));
+    }
   }
   if (body.parties?.additional?.length) {
     if (body.docType !== 'joint_letter') problems.push('Additional commands are supported only for joint letters.');

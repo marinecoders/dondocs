@@ -1,3 +1,4 @@
+import { stationeryIssues } from './stationery';
 import { taggedCorrespondenceIssues } from '@/services/pdf/accessibility/preflight';
 import { jointLetterCommandIssues } from './jointLetterCommands';
 import { projectRenderedDocument, correspondencePortions } from './renderedDocument';
@@ -131,6 +132,8 @@ export function prepareExport(input: {
     let markingReview = false;
     let marking: ClassificationInfo | undefined;
     if (output.kind === 'correspondence') {
+      const stockIssues = stationeryIssues(snapshot.docType, snapshot.formData, snapshot.paragraphs, snapshot.documentMode);
+      if (stockIssues.length) return error(stockIssues.join(' '));
       const jointIssues = jointLetterCommandIssues(snapshot.docType, snapshot.formData);
       if (jointIssues.length) return error(jointIssues.join(' '));
       assertEnclosureMarkingPolicy(snapshot, input.policy);

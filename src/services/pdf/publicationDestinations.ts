@@ -15,7 +15,7 @@ export async function resolvePublicationDestinations(bytes: Uint8Array, manualFr
       const name = annotation.lookup(PDFName.of('NM'));
       if (!(name instanceof PDFString)) continue;
       const id = name.decodeText();
-      if (!/^(?:itype|sl3|sl4|manual|volume)\./.test(id) && !/^dondocs\.signature\.(?:junior|senior)$/.test(id)) continue;
+      if (!/^(?:itype|sl3|sl4|manual|volume)\./.test(id) && !/^dondocs\.signature\.(?:single|junior|senior)$/.test(id)) continue;
       const rect = annotation.lookup(PDFName.of('Rect'));
       if (!(rect instanceof PDFArray) || rect.size() < 4) continue;
       const xNum = rect.lookup(0);

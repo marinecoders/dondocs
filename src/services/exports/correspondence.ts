@@ -85,6 +85,7 @@ export async function renderPreparedCorrespondence(ready: ReadyExportJob, ports:
         mediaFiles,
         bodyTables: document.paragraphs.flatMap(paragraph => paragraph.bodyTable ? [paragraph.bodyTable] : []),
         docType: document.docType, sealType: data.sealType, letterheadColor: data.letterheadColor,
+        stationerySize: data.stationerySize,
         letterheadMode: resolveLetterheadMode(DOC_TYPE_CONFIG[document.docType], data),
         fontFamily: data.fontFamily, fontSize: data.fontSize, classLevel: resolvedLevel, customClassification: data.customClassification,
         showSubjectOnContinuation: data.showSubjectOnContinuation,

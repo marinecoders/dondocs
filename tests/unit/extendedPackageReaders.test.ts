@@ -52,7 +52,7 @@ for (const feature of ['third command', 'title-only', 'preprinted', 'small stati
     const native = await capturePackageMember(captureDocumentRevision({ documentId: 'source', epoch: 0, editSequence: 1, capturedAt: 123 },
       { ...session, endItems: [], publicationTables: {} }), 'Reader-qualified letter', 'basic-letter');
     const { draft } = await readPackageMemberDraft(native);
-    const draftVersion = feature === 'third command' ? 6 : 7;
+    const draftVersion = feature === 'third command' ? 6 : feature === 'small stationery' ? 8 : 7;
     const readerMessage = new RegExp(`version ${draftVersion}`);
     expect(draft).toMatchObject({ kind: 'dondocs-draft', version: draftVersion });
     await expect(validatePackageDraft({ ...(draft as object), version: 5 })).rejects.toThrow(readerMessage);

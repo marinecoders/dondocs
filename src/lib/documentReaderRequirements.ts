@@ -25,10 +25,12 @@ export function requiresCurrentDocumentReader(source: ReaderSource): boolean {
 export const CORRESPONDENCE_READERS = {
   joint: { draft: 6, share: 9, assets: 10, backup: 18 },
   letterhead: { draft: 7, share: 11, assets: 12, backup: 19 },
+  stationery: { draft: 8, share: 13, assets: 14, backup: 20 },
 } as const;
 
 export function correspondenceReaderRequirement(source: ReaderSource) {
   const data = source.formData;
+  if (data?.stationerySize === '7x9' || data?.stationerySize === '5x7') return CORRESPONDENCE_READERS.stationery;
   if (data?.letterheadMode === 'title-only' || data?.letterheadMode === 'preprinted') return CORRESPONDENCE_READERS.letterhead;
   if (Array.isArray(data?.jointAdditionalCommands) && data.jointAdditionalCommands.length > 0) return CORRESPONDENCE_READERS.joint;
   return undefined;
