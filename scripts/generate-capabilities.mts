@@ -59,7 +59,8 @@ addRow('Configured form (valid definition loaded)', {
   } },
 });
 lines.push('', '## Partial operations and readiness', '',
-  '- Word embeds one PNG signature image in supported correspondence and PNG/JPEG figures in business letters. Dual-signer documents require explicit junior or senior image assignment; the other block stays unsigned. Information-memorandum images appear with the FROM sender. Those two image placements are Word-only. Reference titles with safe URLs remain linked in Word; the hyperlink checkbox controls PDF links separately. Publication Word output remains unsupported. PDF enclosure pages stay separate by default; browser Word export can optionally include them as page images. Certificate signatures and interactive PDF fields remain in the originals. Word and PDF use separate layout engines; pagination can differ.',
+  '- Word embeds one PNG signature image in supported correspondence and PNG/JPEG figures in business letters. Dual-signer documents require explicit junior or senior image assignment; the other block stays unsigned. Information-memorandum images appear with the FROM sender. Those two image placements are Word-only. Reference titles with safe URLs remain linked in Word; the hyperlink checkbox controls PDF links separately. PDF enclosure pages stay separate by default; browser Word export can optionally include them as page images. Certificate signatures and interactive PDF fields remain in the originals. Word and PDF use separate layout engines; pagination can differ.',
+  '- SL-3, SL-4, I-Type instructions, TM/IETM front matter and Technical Volumes export editable Word files. Use PNG or JPEG for figures in Word. Stock-list front-matter entries and Technical Volume contents link to their headings. Those entries omit page numbers. Check publication layout in the receiving Word environment before release.',
   '- Normal TeX downloads contain configuration fragments, including distribution and copy-to content. They need templates and assets to form a standalone project. Flat TeX is the Pandoc input dialect.',
   '- Share links transfer a draft snapshot, including retained fields that may not appear in the current rendered format. Current native handoffs include required attachments and signature images; configured-form handoffs include exact blank template pages. Copies beyond the reliable link limit use encrypted files. Older links may require separately available assets. Review the [sharing workflow](USER_GUIDE.md#password-protected-sharing) before transfer.',
   '- Configured forms must load a valid, matching definition with a SHA-256 checksum for every template page before preview, PDF export, or sharing. Missing or failed definition loads report not-ready; invalid definitions report invalid-data. Configured-form batches support text, identifier, date, decimal, boolean, single-choice and multiple-selection fields. Multiple selections use reviewed JSON arrays of option IDs or unique labels. Repeating groups use reviewed JSON arrays of typed row objects, limited by printed capacity and documented row/input budgets; signing fields stay blank. Each job retains its exact definition and verified template pages before rendering.',
@@ -70,15 +71,15 @@ lines.push('', '## Partial operations and readiness', '',
   'This table covers letters, endorsements, memoranda and agreements. Each cell lists **numbered paragraphs / formal references / formal enclosures** for rendered output. The values come from the same configuration used by the editor and renderers.', '',
   '| Document | Compliant mode | Custom mode |', '|---|---|---|');
 for (const docType of Object.keys(DOC_TYPE_CONFIG)) {
-  // PDF-only publications use dedicated content models and template overrides.
-  if (DOC_TYPE_CONFIG[docType].pdfOnly) continue;
+  // Technical publications use dedicated content models and template overrides.
+  if (DOC_TYPE_CONFIG[docType].publication) continue;
   const flags = (mode: 'compliant' | 'custom') => {
     const c = documentOutputConfig(docType, mode).compliance;
     return [c.numberedParagraphs, c.allowReferences, c.allowEnclosures].map(value => value ? 'yes' : 'no').join(' / ');
   };
   lines.push(`| ${DOC_TYPE_LABELS[docType] ?? docType} | ${flags('compliant')} | ${flags('custom')} |`);
 }
-lines.push('', 'Technical publications use their own content models: I-Type instructions, structured SL-3/SL-4 stock lists, and TM/IETM cover and authentication pages. The general correspondence flags do not describe those models. SL-3/SL-4 templates suppress ordinary formal reference and enclosure lists. SL-4 and TM/IETM output also exclude retained correspondence body and list fields, including in Custom mode. See [technical publications](TECHNICAL_PUBLICATIONS.md).');
+lines.push('', 'Technical publications use their own content models: I-Type instructions, structured SL-3/SL-4 stock lists, TM/IETM cover and authentication pages, and full Technical Volumes. The general correspondence flags do not describe those models. SL-3/SL-4 templates suppress ordinary formal reference and enclosure lists. SL-4 and TM/IETM output also exclude retained correspondence body and list fields, including in Custom mode. See [technical publications](TECHNICAL_PUBLICATIONS.md).');
 const content = lines.join('\n') + '\n';
 const path = new URL('../docs/CAPABILITIES.md', import.meta.url);
 if (process.argv.includes('--check')) {

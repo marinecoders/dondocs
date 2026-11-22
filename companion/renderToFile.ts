@@ -91,7 +91,7 @@ export async function renderToFile(
     }, RENDER_TIMEOUT_MS);
   });
   const bytes = await Promise.race([
-    format === 'pdf' ? renderPdf(input, defaults, { signal: abort.signal }) : renderDocx(input, defaults),
+    format === 'pdf' ? renderPdf(input, defaults, { signal: abort.signal }) : renderDocx(input, defaults, abort.signal),
     deadline,
   ]).finally(() => clearTimeout(timer));
   let target = named ?? root;

@@ -7,7 +7,7 @@ export const manualFrontMatterInputSchema = manualFrontMatterSchema.extend({
   signingDate: z.string(), closedDates: z.string().optional(), controllingOffice: z.string(),
   supersedure: z.string().optional(), exportRestricted: z.boolean().optional(),
   distribution: z.object({ statement: z.enum(['A', 'B', 'C', 'D', 'E', 'F']), reason: z.string().optional(), date: z.string().optional() }).strict(),
-}).strict().describe('TM/IETM cover and authentication metadata. PDF only; supply subject as the long title, date as d MMM yy, and unit/signature as the issuer and authorized signer.');
+}).strict().describe('TM/IETM cover and authentication metadata. Supply subject as the long title, date as d MMM yy, and unit/signature as the issuer and authorized signer.');
 
 export function manualFrontMatterFields(input: { docType: string; manualFrontMatter?: z.infer<typeof manualFrontMatterInputSchema> }): Partial<DocumentData> {
   if (input.docType !== MANUAL_DOC_TYPE || !input.manualFrontMatter) return {};

@@ -1,6 +1,6 @@
 # DonDocs for MCP
 
-Install the `.mcpb` file in a client that accepts MCP bundles. The companion renders supported naval correspondence to PDF/Word and technical publications to PDF. PDF rendering uses bundled resources; Word additionally requires `pandoc` on PATH. Source/build tooling has separate requirements from the bundle's declared Node runtime.
+Install the `.mcpb` file in a client that accepts MCP bundles. The companion renders supported naval correspondence and technical publications to PDF or Word. Correspondence Word export requires `pandoc` on PATH. Publication Word and PDF exports use bundled resources. Source/build tooling has separate requirements from the bundle's declared Node runtime.
 
 The assistant receives these tools:
 
@@ -9,7 +9,7 @@ The assistant receives these tools:
 - `dondocs_template_list` / `dondocs_template_get`: find and read content templates.
 - `dondocs_save_defaults`: save unit/signer/SSIC/originator defaults after collecting the necessary values.
 
-Templates/defaults are also available as resources, with the `draft_letter` prompt. Ask to set up DonDocs defaults before drafting, or provide the needed values for each request. The [companion guide](https://github.com/marinecoders/dondocs/blob/main/docs/COMPANION.md) describes the schemas, formats and validation; [publication examples](https://github.com/marinecoders/dondocs/blob/main/docs/TECHNICAL_PUBLICATIONS.md) cover the PDF-only families.
+Templates/defaults are also available as resources, with the `draft_letter` prompt. Ask to set up DonDocs defaults before drafting, or provide the needed values for each request. The [companion guide](https://github.com/marinecoders/dondocs/blob/main/docs/COMPANION.md) describes the schemas, formats and validation; [publication examples](https://github.com/marinecoders/dondocs/blob/main/docs/TECHNICAL_PUBLICATIONS.md) cover the technical publication families.
 
 ## Files and host support
 

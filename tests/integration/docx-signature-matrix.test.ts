@@ -10,7 +10,7 @@ import { ALL_DOC_TYPES, buildBaseline } from '../_helpers/compileMatrix';
 import { docxImageFixture } from '../_helpers/docxImageFixture';
 
 const hasPandoc = spawnSync('pandoc', ['--version']).status === 0;
-const supported = ALL_DOC_TYPES.filter(type => !DOC_TYPE_CONFIG[type].pdfOnly
+const supported = ALL_DOC_TYPES.filter(type => !DOC_TYPE_CONFIG[type].publication
   && !['i_type', 'sl3', 'sl4', 'tm_ietm_front_matter'].includes(type));
 
 describe.skipIf(!hasPandoc)('signature image preservation across Word layouts', () => {

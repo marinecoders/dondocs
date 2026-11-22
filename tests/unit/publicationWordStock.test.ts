@@ -35,7 +35,9 @@ describe('stock publication Word output', () => {
     expect(xml).toContain('w:hRule="atLeast"');
     expect(xml).not.toContain('w:hRule="exact"');
     expect(xml).toContain(' PAGEREF publication_');
-    expect(xml).toContain('\\* roman');
+    expect(xml).toContain('w:fmt="lowerRoman"');
+    expect(xml).toMatch(/<w:hyperlink [^>]+>[\s\S]*?>PREFACE<\/w:t><\/w:r><\/w:hyperlink><\/w:p>/);
+    expect(xml).not.toContain('\\* roman');
     expect(xml).toContain('\\* Arabic');
     expect(xml).not.toContain('{{PUBREF_');
     expect(await zip.file('word/header4.xml')!.async('string')).toContain('END ITEM NOMENCLATURE: TOOL KIT, TRAINING');

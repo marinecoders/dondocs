@@ -17,6 +17,7 @@ import { publicationVolumeSchema } from '../src/lib/publicationVolume';
  * HTTP, and MCP gets argument types from its published schema.
  */
 import { publicationExportErrors, isTechnicalPublication } from '../src/lib/publicationPreflight';
+import { publicationWordExportErrors } from '../src/lib/publicationWordPreflight';
 import { publicationInputErrors } from './publicationInput';
 import { attachmentSchema } from './publicationSchema';
 import { TEMPLATE_FOR, toStore, type CompanionDefaults, type LetterInput } from './letterInput';
@@ -27,13 +28,20 @@ import { businessFigureFile } from '../src/lib/figures';
 
 export const DOC_TYPES = [...Object.keys(DOC_TYPE_CONFIG), ...Object.keys(TEMPLATE_FOR)];
 export const FORMATS = ['pdf', 'docx'];
-export const formatsFor = (docType: string): string[] => isTechnicalPublication(docType) ? ['pdf'] : FORMATS;
+export const formatsFor = (docType: string): string[] => DOC_TYPES.includes(docType) ? FORMATS : [];
 /** The levels the generator marks; anything else renders unmarked. */
 export const CLASSIFICATION_LEVELS = ['unclassified', 'cui', 'confidential', 'secret', 'top_secret', 'top_secret_sci'];
 /** Paragraph portion marks, placed in the .tex as given, so nothing else may pass. */
 export const PORTION_MARKINGS = ['U', 'CUI', 'FOUO', 'C', 'S', 'TS'] as const;
 /** The types whose heading is the ordinal and the letter being endorsed. */
 export const ENDORSEMENT_TYPES = ['same_page_endorsement', 'new_page_endorsement'];
+
+function technicalExportIssues(input: LetterInput, defaults: CompanionDefaults): string[] {
+  const source = toStore(input, defaults);
+  const issues = publicationExportErrors(source, undefined, input.format ?? 'pdf');
+  if (input.format === 'docx') issues.push(...publicationWordExportErrors(source));
+  return issues;
+}
 
 /** Return input problems; unexpected validation failures throw a sanitized error. */
 export function validateLetter(body: Partial<LetterInput>, defaults: CompanionDefaults = {}): string[] {
@@ -124,7 +132,6 @@ export function validateLetter(body: Partial<LetterInput>, defaults: CompanionDe
   if (problems.length) return problems;
 
   if (body.docType === MANUAL_DOC_TYPE) {
-    if (body.format === 'docx') problems.push('TM/IETM front matter supports PDF only.');
     if (!body.date?.trim()) problems.push('TM/IETM front matter requires an explicit publication date.');
     const parsed = manualFrontMatterInputSchema.safeParse(body.manualFrontMatter);
     if (!parsed.success) problems.push('Supply valid manualFrontMatter metadata, including a supported subtype.');
@@ -151,20 +158,18 @@ export function validateLetter(body: Partial<LetterInput>, defaults: CompanionDe
     if (noteIssue) problems.push(noteIssue);
   }
   if (body.docType === 'technical_volume') {
-    if (body.format === 'docx') problems.push('Technical volumes currently support PDF output.');
     if (!publicationVolumeSchema.safeParse(body.volume).success) problems.push('Supply a valid volume with chapter and section identities.');
     if (body.publication || body.references?.length || body.enclosures?.length || body.copyTo?.length || body.distribution?.length || body.signature) problems.push('Technical volumes use volume sections and external package members, without I-Type metadata or embedded signatures.');
     if (!problems.length) {
       const input = body as LetterInput;
       problems.push(...publicationInputErrors(input));
-      if (!problems.length) problems.push(...publicationExportErrors(toStore(input, defaults)));
+      if (!problems.length) problems.push(...technicalExportIssues(input, defaults));
     }
     return problems;
   }
   if (body.volume || body.paragraphs?.some(paragraph => paragraph.volumeSectionId)) problems.push('Volume metadata and section bindings require docType technical_volume.');
   if (isTechnicalPublication(body.docType ?? '')) {
     const label = body.docType === 'sl4' ? 'SL-4' : body.docType === 'sl3' ? 'SL-3' : 'I-Type';
-    if (body.format === 'docx') problems.push(`${label} export supports PDF only.`);
     if (!body.publication) problems.push(`${label} export requires publication metadata.`);
     if (body.classification?.cui?.distStatement && body.publication
       && body.classification.cui.distStatement !== body.publication.distribution.statement) {
@@ -174,7 +179,7 @@ export function validateLetter(body: Partial<LetterInput>, defaults: CompanionDe
       try {
         const input = body as LetterInput;
         problems.push(...publicationInputErrors(input));
-        if (!problems.length) problems.push(...publicationExportErrors(toStore(input, defaults)));
+        if (!problems.length) problems.push(...technicalExportIssues(input, defaults));
       } catch (error) {
         console.error('  publication validation failed:', error);
         throw new Error('Could not validate publication metadata. Check the companion logs for details.', { cause: error });

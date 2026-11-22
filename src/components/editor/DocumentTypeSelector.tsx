@@ -42,7 +42,7 @@ export function DocumentTypeSelector() {
           <p className="text-xs text-muted-foreground">
             {isCompliant
               ? isPublication
-                ? docType === 'technical_volume' ? 'Author chapters, appendices, tables and figures with linked PDF contents. Issuance and authentication remain separate.' : docType === 'tm_ietm_front_matter' ? 'Create publication covers and authentication pages using MCO 5215.17D, MIL-STD-38784C and the supplied template.' : docType === 'sl4' ? 'Create illustrated repair parts lists with linked indexes and digital authentication.' : docType === 'sl3' ? 'Formats SL-3 components lists using MCO 5215.17D, MIL-STD-38784C and the supplied template.' : 'Formats I-Type publications for compliance with MIL-DTL-28999D(MC) and MIL-STD-38784C.'
+                ? docType === 'technical_volume' ? 'Author chapters, appendices, tables and figures with linked contents in PDF and Word.' : docType === 'tm_ietm_front_matter' ? 'Create publication covers and authentication pages using MCO 5215.17D, MIL-STD-38784C and the supplied template.' : docType === 'sl4' ? 'Create illustrated repair parts lists with linked indexes and digital authentication.' : docType === 'sl3' ? 'Formats SL-3 components lists using MCO 5215.17D, MIL-STD-38784C and the supplied template.' : 'Formats I-Type publications for compliance with MIL-DTL-28999D(MC) and MIL-STD-38784C.'
                 : 'Strictly adheres to SECNAV M-5216.5 formatting requirements.'
               : 'Customize fonts and formatting to your preferences.'}
           </p>

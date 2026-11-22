@@ -164,7 +164,7 @@ export function prepareExport(input: {
       }
       snapshot.formData.classLevel = level;
       marking = publicationMarking(snapshot.formData, portions);
-      const issues = publicationExportErrors(snapshot, new Date(output.source.capturedAt));
+      const issues = publicationExportErrors(snapshot, new Date(output.source.capturedAt), input.target === 'docx' ? 'docx' : 'pdf');
       if (input.target === 'docx') issues.push(...publicationWordExportErrors(snapshot));
       if (input.wordEnclosurePages && snapshot.enclosures.length) {
         notices.push('Review every original PDF enclosure for markings and personal information. Enclosure pages will be noneditable images; interactive fields and original certificate signatures do not carry into the Word copy.');

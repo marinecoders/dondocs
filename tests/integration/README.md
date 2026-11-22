@@ -37,7 +37,7 @@ Toolchain probes differ by file. Some mark affected cases skipped locally; dedic
 | `docx-compile.test.ts` | The same builder through system Pandoc; valid, nonempty DOCX. |
 | `differential.test.ts` | Curated PDF/Word pairs; extracted input tokens survive both paths. |
 
-The [generated inventory](../../docs/PROJECT_INVENTORY.md#compile-fixture-builders) gives exact current format, pairwise, smoke and Cartesian counts. The generic builder currently omits SL-4 and TM/IETM; their dedicated files cover their structured profiles. Internal generator coverage does not advertise a Word UI/API for PDF-only publication families. See [product capabilities](../../docs/CAPABILITIES.md).
+The [generated inventory](../../docs/PROJECT_INVENTORY.md#compile-fixture-builders) gives exact current format, pairwise, smoke and Cartesian counts. The generic builder currently omits SL-4 and TM/IETM; their dedicated files cover their structured profiles. Native publication Word renderers have dedicated coverage. See [product capabilities](../../docs/CAPABILITIES.md).
 
 ```text
 compileLatex.ts  → captured TestStore → generated TeX → pdflatex → PDF

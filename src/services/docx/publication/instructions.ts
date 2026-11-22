@@ -9,7 +9,6 @@ import { publicationDate } from '@/lib/timeCompliance';
 import { iTypeDestructionNotice } from '@/lib/iTypeClassification';
 import { format, isValid } from 'date-fns';
 import { figureExtension } from '@/lib/figures';
-import { bodyTableSchema, bodyTableTwips } from '@/lib/bodyTable';
 import { imageExtent, inspectRasterImage } from '../imageAssets';
 import { PublicationWordPackage, type SectionFormat, type WordText, type WordTextRun } from './package';
 import { authentication, endItemTable, publicationNotices } from './frontMatter';
@@ -92,10 +91,8 @@ export async function instructionBody(word: PublicationWordPackage, document: Pu
     word.check();
     const marking = paragraph.portionMarking ? `(${paragraph.portionMarking}) ` : '';
     if (paragraph.bodyTable) {
-      const table = bodyTableSchema.parse(paragraph.bodyTable);
       if (paragraph.header || paragraph.text || marking) word.text([literal(marking + (paragraph.header ?? '') + (paragraph.header && paragraph.text ? '. ' : '')), rich(paragraph.text)], { bold: true, keep: true });
-      const widths = bodyTableTwips(table, 10080);
-      word.table(table.rows[0], table.rows.slice(1), widths, { breakWords: true, headerRows: table.headerRows, repeatHeaders: table.repeatHeaders, borders: table.borders, columnAlignments: table.columnAlignments, size: table.fontSize, ...(table.minimumRowHeight ? { minimumRowHeight: table.minimumRowHeight } : {}), inlineMode: 'rich' });
+      word.bodyTable(paragraph.bodyTable);
       continue;
     }
     if (paragraph.appendix) {

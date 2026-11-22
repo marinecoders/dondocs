@@ -19,14 +19,14 @@ describe('volume companion contract', () => {
     expect(store.formData.volume).toEqual(input.volume);
     expect(store.paragraphs).toEqual(input.paragraphs);
     expect(generateAllLatexFiles(store).texFiles['body.tex']).toContain('\\dondocsReferenceAnchor{volume.node.limits}');
-    expect(formatsFor(input.docType)).toEqual(['pdf']);
-    expect(resolveCapabilities({ kind: 'correspondence', documentMode: 'compliant', docType: input.docType }, { operation: 'export', target: 'docx' }).status).toBe('unsupported');
+    expect(formatsFor(input.docType)).toEqual(['pdf', 'docx']);
+    expect(resolveCapabilities({ kind: 'correspondence', documentMode: 'compliant', docType: input.docType }, { operation: 'export', target: 'docx' }).status).toBe('partial');
+    expect(validateLetter({ ...input, format: 'docx' })).toEqual([]);
   });
-  it('rejects orphan sections, incompatible metadata and unsupported output without discarding it', () => {
+  it('rejects orphan sections, incompatible metadata, and extra enclosure content', () => {
     const input = request();
     input.paragraphs![0].volumeSectionId = 'deleted';
     expect(validateLetter(input).join(' ')).toContain('not assigned');
-    expect(validateLetter({ ...request(), format: 'docx' }).join(' ')).toContain('PDF output');
     expect(validateLetter({ ...request(), docType: 'naval_letter' }).join(' ')).toContain('require docType technical_volume');
     expect(validateLetter({ ...request(), enclosures: [{ title: 'Unrendered' }] }).join(' ')).toContain('external package members');
   });

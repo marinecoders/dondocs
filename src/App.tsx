@@ -1031,7 +1031,6 @@ function App() {
           kbd: formatShortcut('mod D'),
           onRun: () => commandDownloadTriggers.pdf(),
         }] : []),
-        // Publication types are delivered as PDF (see DocTypeConfig.pdfOnly).
         ...(!capabilityAvailable(outputCapabilities.word) ? [] : [{
           id: 'download-docx',
           label: 'Download Word (.docx)',

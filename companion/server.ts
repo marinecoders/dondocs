@@ -47,7 +47,7 @@ server.listen(PORT, '127.0.0.1', () => {
   console.log(`DonDocs companion on http://127.0.0.1:${PORT}  (loopback only, v${CONTRACT})`);
   console.log(`  writing under ${ROOT}`);
   void systemPandocVersion().then((v) => {
-    if (!v) { console.warn('  docx unavailable: pandoc is not on PATH (pdf is unaffected)'); }
+    if (!v) { console.warn('  correspondence docx unavailable: pandoc is not on PATH (publication docx and pdf are unaffected)'); }
     else if (v !== VENDORED_PANDOC) { console.warn(`  docx uses system pandoc ${v}; the app vendors ${VENDORED_PANDOC} — output may differ`); }
   });
   const unit = defaults.unit?.name ?? defaults.unit?.line1;

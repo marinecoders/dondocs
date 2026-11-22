@@ -8,6 +8,7 @@ import { captureDocumentRevision, copyCapturedDocument } from '@/lib/capturedDoc
 import { projectRenderedDocument } from '@/lib/renderedDocument';
 import { documentTextFields, isOutputFieldActive } from '@/lib/documentFields';
 import { figureExtension } from '@/lib/figures';
+import { supportsReviewComments } from '@/lib/reviewCommentTargets';
 import { prepareSessionState } from '@/stores/documentStore';
 import { acknowledgePreparedExport, copyExportReview, prepareExport, type ExportReview, type PreparedExportJob } from '@/lib/preparedExport';
 import { portableResourceDigest, MAX_PORTABLE_RESOURCE_BYTES, MAX_PORTABLE_TOTAL_BYTES, MAX_PORTABLE_RESOURCE_COUNT } from '@/lib/portableResources';
@@ -161,8 +162,8 @@ export async function prepareWordPackage(record: ActionPackage, revisionId: stri
     if (!draftResource) throw new Error(`${member.label}: captured draft asset is missing from this package.`);
     const reviewed = parseDraftFile(JSON.parse(new TextDecoder('utf-8', { fatal: true }).decode(draftResource.data)), false, true);
     const capability = documentCapabilities({ ...reviewed.session, documentMode: reviewed.session.documentMode ?? 'compliant' }, { operation: 'export', target: 'docx' });
-    if (!capabilityAvailable(capability)) throw new Error(`${member.label}: ${capability.status === 'supported' ? '' : capability.message} Use the editable package export for native forms/publications, or add their original PDF as a supporting member.`);
-    const snapshot = prepareSessionState(reviewed.session, true), assets = new Map<string, StoredAttachment>();
+    if (!capabilityAvailable(capability)) throw new Error(`${member.label}: ${capability.status === 'supported' ? '' : capability.message} Use the editable package export for native forms, or add their original PDF as a supporting member.`);
+    const snapshot = prepareSessionState(reviewed.session, supportsReviewComments(reviewed.session)), assets = new Map<string, StoredAttachment>();
     const original = async (data: ArrayBuffer, name: string, type: string, slot: string, purpose: string) => {
       if (type === 'application/pdf') {
         await PDFDocument.load(data.slice(0), { ignoreEncryption: !!options.wordEnclosurePages });

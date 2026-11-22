@@ -40,6 +40,7 @@ import { toStore, type CompanionDefaults, type LetterInput } from './letterInput
 import { RENDER_TIMEOUT_MS } from './limits';
 import { LIB, ATTACHMENTS } from './assets';
 import { renderPublicationDocx } from '@/services/docx/publication';
+import { isTechnicalPublication } from '@/lib/publicationPreflight';
 import { sl3FigureIds } from '@/data/techpub/sl3';
 import { sl4FigureIds } from '@/data/techpub/sl4';
 import { prepareDocxImages } from '@/services/docx/imageAssets';
@@ -71,10 +72,14 @@ export async function systemPandocVersion(): Promise<string | null> {
  */
 const PANDOC_TIMEOUT_MS = RENDER_TIMEOUT_MS;
 
-export async function renderDocx(input: LetterInput, defaults: CompanionDefaults = {}): Promise<Uint8Array> {
+export async function renderDocx(
+  input: LetterInput,
+  defaults: CompanionDefaults = {},
+  signal = new AbortController().signal,
+): Promise<Uint8Array> {
   if (input.wordEnclosurePages) throw new Error('PDF enclosure page images in Word require the browser renderer. Deliver unchanged originals separately.');
   const store = toStore(input, defaults);
-  if (['tm_ietm_front_matter', 'i_type', 'sl3', 'sl4'].includes(store.docType)) {
+  if (isTechnicalPublication(store.docType)) {
     const stock = store.docType === 'sl3' ? store.formData.sl3 : store.docType === 'sl4' ? store.formData.sl4 : undefined;
     const figures = new Set(store.docType === 'sl3' && store.formData.sl3 ? sl3FigureIds(store.formData.sl3) : store.docType === 'sl4' && store.formData.sl4 ? sl4FigureIds(store.formData.sl4) : []);
     if (stock?.artwork.some(artwork => figures.has(artwork.figureId) && artwork.labels.length)) throw new Error('Labelled stock artwork is not supported by companion Word export. Use the browser Word export or PDF.');
@@ -85,7 +90,7 @@ export async function renderDocx(input: LetterInput, defaults: CompanionDefaults
         return { id, name: file.name, type: file.mimeType, size: bytes.byteLength, data: bytes.buffer };
       },
       renderArtwork: async () => { throw new Error('Labelled stock artwork is not supported by companion Word export. Use the browser Word export or PDF.'); },
-    }, new AbortController().signal, new Date());
+    }, signal, new Date());
     return new Uint8Array(await result.arrayBuffer());
   }
   const media = await prepareDocxImages(store, async id => Buffer.from(attachment(input, id).dataBase64, 'base64'));

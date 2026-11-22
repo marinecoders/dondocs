@@ -20,9 +20,9 @@ it.each(['compliant', 'custom'] as const)('supports correspondence PDF, DOCX, pr
     expect(resolveCapabilities({ ...letter, documentMode }, request)).toMatchObject(request.target === 'docx' ? { status: 'partial', reason: 'word-pdf-features' } : { status: 'supported' });
   }
 });
-it.each(['sl3', 'sl4', 'i_type', 'tm_ietm_front_matter'])('uses the existing PDF-only configuration for %s', docType => {
+it.each(['sl3', 'sl4', 'i_type', 'tm_ietm_front_matter', 'technical_volume'])('offers PDF and native DOCX for %s', docType => {
   expect(resolveCapabilities({ ...letter, docType }, pdf).status).toBe('supported');
-  expect(resolveCapabilities({ ...letter, docType }, word)).toMatchObject({ status: 'unsupported', reason: 'pdf-only' });
+  expect(resolveCapabilities({ ...letter, docType }, word)).toMatchObject({ status: 'partial', reason: 'word-publication-features' });
 });
 it.each(['navmc_10274', 'navmc_118_11'])('limits built-in %s output to PDF while retaining batch support', formType => {
   const form = { kind: 'builtin-form', documentMode: 'compliant', formType } as const;
@@ -97,9 +97,9 @@ it('rejects captured form definitions that the default page loader cannot render
   expect(capturedCapabilities(captured, pdf)).toMatchObject({ status: 'invalid-data', reason: 'invalid-definition' });
 });
 
-it('distinguishes configuration fragments from flat TeX and applies PDF-only limits to flat output', () => {
+it('keeps technical publication LaTeX as configuration fragments', () => {
   expect(resolveCapabilities(letter, { operation: 'export', target: 'tex', texMode: 'flat' })).toEqual({ status: 'supported' });
-  expect(resolveCapabilities({ ...letter, docType: 'sl3' }, { operation: 'export', target: 'tex', texMode: 'flat' })).toMatchObject({ status: 'unsupported', reason: 'pdf-only' });
+  expect(resolveCapabilities({ ...letter, docType: 'sl3' }, { operation: 'export', target: 'tex', texMode: 'flat' })).toMatchObject({ status: 'unsupported', reason: 'tex-configuration-only' });
   expect(resolveCapabilities({ ...letter, docType: 'sl3' }, { operation: 'export', target: 'tex', texMode: 'configuration' })).toMatchObject({ status: 'partial', reason: 'tex-configuration-only' });
 });
 

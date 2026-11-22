@@ -161,10 +161,10 @@ async function handleRequest(
             matchesApp: pandoc === VENDORED_PANDOC,
             note: pandoc === VENDORED_PANDOC
               ? undefined
-              : 'DOCX is converted by the system pandoc, not the build the app vendors; output may differ from a browser export.',
+              : 'Correspondence DOCX uses system Pandoc, so output may differ from a browser export. Publications use the native Word renderer.',
           }
         : { pandoc: null, vendoredByApp: VENDORED_PANDOC, matchesApp: false,
-            note: 'pandoc is not installed, so docx requests will fail. pdf is unaffected.' },
+            note: 'Install Pandoc for correspondence DOCX. Publication DOCX and PDF are available independently.' },
       // Derived from the schema MCP publishes, not restated. The two lists were
       // hand-maintained and disagreed in both directions.
       accepts: acceptedFields(),

@@ -216,10 +216,10 @@ describe("SL-3 production export", () => {
     input.publication!.sl3!.artwork[0].labels[0].x = 0;
     await expect(renderToFile(input, {}, root)).rejects.toThrow("Illustration label crosses the left edge");
   }, 60000);
-  it("rejects DOCX and incomplete SL-3 data before rendering", () => {
+  it("supports DOCX and rejects incomplete SL-3 data before rendering", () => {
     const input = companionSl3();
     input.format = "docx";
-    expect(validateLetter(input)).toContain("SL-3 export supports PDF only.");
+    expect(validateLetter(input)).toEqual([]);
     input.format = "pdf";
     input.publication!.sl3 = undefined;
     expect(validateLetter(input).join(" ")).toContain("publication.sl3");

@@ -2,7 +2,7 @@
 
 [Documentation index](README.md) · [Output capabilities](CAPABILITIES.md) · [Companion contract](COMPANION.md)
 
-These formats produce **PDF only**. They use structured publication metadata and preflight checks, rather than only a letter's From/To/Subject. Preflight checks incomplete or contradictory inputs; it does not assign publication numbers, approve distribution or establish signing authority.
+These formats export **PDF and editable Word (.docx)**. Structured metadata and preflight checks flag incomplete or contradictory inputs. Publication numbers, distribution approvals and signing authority come from the issuing authority.
 
 ## Choose a family
 
@@ -11,6 +11,7 @@ These formats produce **PDF only**. They use structured publication metadata and
 | I-Type (`i_type`) | Modification (MI), Technical (TI), Supply (SI) or Lubrication (LI) Instruction | Ordered sections, paragraphs, fixed tables, figures, callouts and procedures. |
 | SL-3 (`sl3`) | Standalone components-list extract | Structured inventory, category/parent relationships, notes, figures and source references. |
 | SL-4 (`sl4`) | Standalone repair-parts list | Structured parts/CAGE data, illustration assignments, indexes and revision information. |
+| Technical Volume (`technical_volume`) | Full-volume authoring | Chapters, sections, appendices, editable tables, figures, glossary, change history and linked cross-references. |
 | TM/IETM front matter (`tm_ietm_front_matter`) | Cover and authentication packet for the selected manual subtype | Publication, equipment, notices/rights and signing metadata. Does not author a complete TM, interactive manual or body work packages. |
 
 Choose a format in the correspondence picker, or load the matching technical template from **Templates**. Template bracket prompts are authoring reminders and must be replaced; they are not approved publication data. The generated [inventory](PROJECT_INVENTORY.md) lists the current template IDs.
@@ -22,7 +23,9 @@ Choose a format in the correspondence picker, or load the matching technical tem
 3. Complete the issuing entity/address, authorized signer/title and controlling office. Use the format's authentication controls; publication signing cannot be delegated merely by selecting a correspondence “by direction” option.
 4. Select the actual distribution determination and fill its required reason/date/office fields. CUI/export-control choices must agree with distribution and applicable notices. Statement A conflicts with controlled/export-restricted information; a selector is not release approval.
 5. Complete the family-specific sections below. Replace remaining prompts/variables and resolve the preflight messages, which direct you to the relevant sections.
-6. Review the full PDF, including cover, notices, authentication, tables and figures. Sign the final PDF externally in a compatible signing application.
+6. Use **Download → Download Word (.docx)** to deliver an editable copy. Use **Download PDF** for the fixed layout. Review the cover, notices, authentication, tables and figures in the distributed version. Sign the final PDF externally in a compatible application.
+
+Word uses its own pagination. Stock-list front-matter contents and Technical Volume contents provide clickable destinations without page numbers. For figures in Word, use PNG or JPEG and keep any original PDF figure separately. See [Word qualification](PUBLICATION_WORD_QUALIFICATION.md) for tested environments.
 
 I-Type uses Times 12 pt; SL-3, SL-4 and the supported TM/IETM profile use Times 10 pt. The prepared renderer sets/checks the family-specific profile. Custom correspondence settings do not remove these publication requirements.
 

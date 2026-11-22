@@ -444,7 +444,7 @@ export interface DocTypeConfig {
   topSpacing?: string;                 // extra top spacing (e.g., '1in') for non-letterhead docs
   subjectPrefix?: string;              // prefix before subject in body (e.g., 'SUBJECT: ')
   hasDecisionBlock?: boolean;          // default false — true adds APPROVE/DISAPPROVE block
-  pdfOnly?: boolean;                   // default false — true offers no DOCX (the PDF is the delivery medium)
+  publication?: true;                  // Uses the native publication renderers and content model.
   enclosureLabel?: 'corner' | 'footer'; // default 'corner' — "Enclosure (1)" bottom right (SECNAV);
                                        // 'footer' — "Enclosure 1" centred above the page number (MIL-STD-38784C)
   // Optional field indicators — shown in compliant mode to note "not required" per SECNAV
@@ -649,7 +649,7 @@ export const DOC_TYPE_CONFIG: Record<string, DocTypeConfig> = {
   sl3: {
     letterhead: false, ssic: false, fromTo: false, via: false, memoHeader: false,
     signature: 'full', uiMode: 'memo', showSignatureRankTitle: true, topSpacing: '1in',
-    pdfOnly: true,
+    publication: true,
     regulations: { fontSize: '10pt', fontSizeOptions: ['10pt'], fontFamily: 'times', fontFamilyRequired: true,
       authority: 'MCO 5215.17D / MIL-STD-38784C', ref: 'SL-3' },
     compliance: DEFAULT_COMPLIANCE,
@@ -657,21 +657,21 @@ export const DOC_TYPE_CONFIG: Record<string, DocTypeConfig> = {
   sl4: {
     letterhead: false, ssic: false, fromTo: false, via: false, memoHeader: false,
     signature: 'full', uiMode: 'memo', showSignatureRankTitle: true, topSpacing: '1in',
-    pdfOnly: true,
+    publication: true,
     regulations: { fontSize: '10pt', fontSizeOptions: ['10pt'], fontFamily: 'times', fontFamilyRequired: true,
       authority: 'MCO 5215.17D / MIL-STD-38784C', ref: 'SL-4' },
     compliance: DEFAULT_COMPLIANCE,
   },
   tm_ietm_front_matter: {
     letterhead: false, ssic: false, fromTo: false, via: false, memoHeader: false,
-    signature: 'full', uiMode: 'memo', showSignatureRankTitle: true, topSpacing: '1in', pdfOnly: true,
+    signature: 'full', uiMode: 'memo', showSignatureRankTitle: true, topSpacing: '1in', publication: true,
     regulations: { fontSize: '10pt', fontSizeOptions: ['10pt'], fontFamily: 'times', fontFamilyRequired: true,
       authority: 'MCO 5215.17D / MIL-STD-38784C', ref: '§4.9.1' },
     compliance: DEFAULT_COMPLIANCE,
   },
   technical_volume: {
     letterhead: false, ssic: false, fromTo: false, via: false, memoHeader: false,
-    signature: 'full', uiMode: 'memo', pdfOnly: true,
+    signature: 'full', uiMode: 'memo', publication: true,
     regulations: { fontSize: '10pt', fontSizeOptions: ['10pt', '11pt', '12pt'], fontFamily: 'times',
       authority: 'Structured volume authoring', ref: 'Chapters and appendices' },
     compliance: { ...DEFAULT_COMPLIANCE, numberedParagraphs: false, allowReferences: false, allowEnclosures: false },
@@ -679,7 +679,7 @@ export const DOC_TYPE_CONFIG: Record<string, DocTypeConfig> = {
   i_type: {
     letterhead: false, ssic: false, fromTo: false, via: false, memoHeader: false,
     signature: 'full', uiMode: 'memo', showSignatureRankTitle: true, topSpacing: '1in',
-    pdfOnly: true,
+    publication: true,
     enclosureLabel: 'footer',
     regulations: {
       fontSize: '12pt', fontSizeOptions: ['12pt'], fontFamily: 'times', fontFamilyRequired: true,

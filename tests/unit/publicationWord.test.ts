@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { readFile } from 'node:fs/promises';
 import JSZip from 'jszip';
+import { volumeFixture } from '../_helpers/volumeFixture';
 import { manualPacket } from '../_helpers/manualPacket';
 import { renderPublicationDocx, type PublicationWordSource } from '@/services/docx/publication';
 import { PublicationWordPackage } from '@/services/docx/publication/package';
@@ -49,6 +50,25 @@ describe('publication Word output', () => {
     }
     expect(await result.zip.file('word/footer1.xml')!.async('string')).not.toContain('PAGE');
     expect(await result.zip.file('word/footer2.xml')!.async('string')).toContain('T-');
+  });
+  it('keeps volume typography and CUI banners on every section, with Word-only Unicode intact', async () => {
+    const document = volumeFixture();
+    Object.assign(document.formData, {
+      fontFamily: 'courier', fontSize: '11pt', classLevel: 'cui', cuiControlledBy: 'Example Command',
+      cuiCategory: 'CTI', cuiDissemination: 'FEDCON', pocEmail: 'sample@example.usmc.mil',
+    });
+    document.paragraphs[0].text += ' Training label: 試験.';
+    const blob = await renderPublicationDocx(document, { readAsset: noAsset, loadSeal: noAsset }, new AbortController().signal, referenceDate);
+    const zip = await JSZip.loadAsync(await blob.arrayBuffer());
+    expect(await zip.file('word/styles.xml')!.async('string')).toContain('w:ascii="Courier New"');
+    expect(await zip.file('word/styles.xml')!.async('string')).toContain('<w:sz w:val="22"/>');
+    const xml = await zip.file('word/document.xml')!.async('string');
+    expect(text(xml)).toContain('Training label: 試験.');
+    expect(text(xml)).toContain('Controlled by: Example Command');
+    for (let section = 1; section <= 5; section++) {
+      expect(await zip.file(`word/header${section}.xml`)!.async('string')).toContain('>CUI</w:t>');
+      expect(await zip.file(`word/footer${section}.xml`)!.async('string')).toContain('>CUI</w:t>');
+    }
   });
   it('rejects incomplete data before loading seal or writing a document', async () => {
     const document = source(); document.formData.shortTitle = '';

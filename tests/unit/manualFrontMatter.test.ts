@@ -121,10 +121,10 @@ describe('manual front matter', () => {
     const request = manualRequest();
     expect(validateLetter(letterSchema.parse(request))).toEqual([]);
     expect(toStore(request).formData.manualFrontMatter).toEqual(manualPacket().formData.manualFrontMatter);
-    expect(formatsFor(request.docType)).toEqual(['pdf']);
+    expect(formatsFor(request.docType)).toEqual(['pdf', 'docx']);
     expect(letterSchema.safeParse({ ...request, manualFrontMatter: { ...request.manualFrontMatter, subtype: 'digital_application' } }).success).toBe(false);
     expect(letterSchema.safeParse({ ...request, manualFrontMatter: { ...request.manualFrontMatter, pnc: 'typo' } }).success).toBe(false);
-    expect(validateLetter({ ...request, format: 'docx' }).join(' ')).toContain('PDF only');
+    expect(validateLetter({ ...request, format: 'docx' })).toEqual([]);
     expect(validateLetter({ ...request, paragraphs: [{ text: 'unprinted text' }] }).join(' ')).toContain('without body paragraphs');
     expect(validateLetter({ ...request, docType: 'naval_letter' }).join(' ')).toContain('requires docType');
   });

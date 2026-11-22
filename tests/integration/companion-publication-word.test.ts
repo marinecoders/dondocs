@@ -1,6 +1,11 @@
 /** @vitest-environment node */
 import { expect, it, vi } from 'vitest';
 import JSZip from 'jszip';
+import { mkdtemp, readFile, rm } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+import { renderToFile } from '../../companion/renderToFile';
+import { companionVolume } from '../_helpers/companionVolume';
 import { renderDocx } from '../../companion/renderDocx';
 import { companionPublication } from '../_helpers/companionPublication';
 
@@ -34,7 +39,6 @@ it('renders actual TM front matter and SL-3 structured inventory through the sha
 });
 
 it('retains actual SL-4 raster bytes and rejects companion-only unsupported label preparation', async () => {
-  const { readFile } = await import('node:fs/promises');
   const { companionSl3 } = await import('../_helpers/companionSl3');
   const { stockWordSource } = await import('../_helpers/publicationWordQualification');
   const source = stockWordSource('sl4'), input = companionSl3();
@@ -50,4 +54,31 @@ it('retains actual SL-4 raster bytes and rejects companion-only unsupported labe
   input.publication.sl4!.artwork[0].lettering = 'labels';
   input.publication.sl4!.artwork[0].labels = [{ id: 'label-one', text: '1', x: 50, y: 50 }];
   await expect(renderDocx({ ...input, format: 'docx' })).rejects.toThrow('Labelled stock artwork is not supported by companion Word export');
+});
+
+it('writes an editable technical volume with resolved links and original artwork through the companion', async () => {
+  const input = companionVolume();
+  input.volume!.chapters.reverse();
+  const artwork = await readFile('tests/fixtures/publication-word/diagram.png');
+  input.attachments = [{ id: 'volume-art', name: 'diagram.png', mimeType: 'image/png', dataBase64: artwork.toString('base64') }];
+  input.paragraphs = [
+    ...(input.paragraphs ?? []),
+    { id: 'diagram', volumeSectionId: 'section-data', text: 'Training diagram', figure: { fileId: 'volume-art' } },
+  ];
+  const root = await mkdtemp(join(tmpdir(), 'dondocs-companion-volume-'));
+  try {
+    const output = await renderToFile({ ...input, format: 'docx', out: 'technical-volume.docx' }, {}, root);
+    expect(output).toMatchObject({ format: 'docx', out: 'technical-volume.docx' });
+    const zip = await JSZip.loadAsync(await readFile(output.path));
+    const xml = await zip.file('word/document.xml')!.async('string');
+    expect(xml).toContain('Chapter 1. ');
+    expect(xml).toMatch(/Continue with .*?<w:hyperlink w:anchor="publication_\d+">.*?>1\.1\.1</);
+    expect(xml).toContain('READBACK-2');
+    expect(xml).toContain('<w:tblHeader/>');
+    expect(await zip.file('word/footer5.xml')!.async('string')).toContain('GL-');
+    expect(xml).not.toContain('{{VOLREF_');
+    expect(await zip.file('word/media/image1.png')!.async('nodebuffer')).toEqual(artwork);
+  } finally {
+    await rm(root, { recursive: true, force: true });
+  }
 });

@@ -6,7 +6,9 @@ const WORD_NS = 'http://schemas.openxmlformats.org/wordprocessingml/2006/main';
 export type PublicationWordRenderer = 'microsoft-word' | 'libreoffice';
 export interface PublicationPageSize { width: number; height: number }
 const navigationHeadings = new Set(['TABLE OF CONTENTS', 'LIST OF ILLUSTRATIONS', 'LIST OF TABLES']);
-interface ContentsEntry { section: string; label: string; format: 'roman' | 'decimal' }
+interface ContentsRow { section: string; label: string }
+interface ContentsEntry extends ContentsRow { format: 'roman' | 'decimal' }
+const contentsKey = ({ section, label }: ContentsRow): string => JSON.stringify([section, label]);
 const contentsRow = /^(.+?)(?:\.\s*){3,}(.*?)\s*$/u;
 const decimalLabel = /^[1-9][0-9]*$/;
 const romanLabel = /^m{0,3}(?:cm|cd|d?c{0,3})(?:xc|xl|l?x{0,3})(?:ix|iv|v?i{0,3})$/;
@@ -85,7 +87,7 @@ export function inspectPublicationWordRender(input: {
   }
   const text = normalize(words.map(word => word.textContent ?? '').join(' '));
   if (!text) throw new Error('The publication render has no searchable text.');
-  if (/\{\{PUBREF_/i.test(text)) throw new Error('The publication render contains an unresolved cross-reference.');
+  if (/\{\{(?:PUBREF|VOLREF)_/i.test(text)) throw new Error('The publication render contains an unresolved cross-reference.');
   for (const marker of input.markers) {
     if (!normalize(marker) || !containsMarker(text, normalize(marker))) throw new Error(`The publication render lost required content: ${marker}`);
   }
@@ -95,7 +97,7 @@ export function inspectPublicationWordRender(input: {
 /** Check the exact OOXML used for the print. A rendered page can contain the
  * expected text even when the Word contents links or page fields are broken.
  */
-export function inspectPublicationWordNavigation(documentXml: string): { bookmarks: number; internalLinks: number; pageReferences: number; contentsEntries: ContentsEntry[] } {
+export function inspectPublicationWordNavigation(documentXml: string): { bookmarks: number; internalLinks: number; pageReferences: number; contentsEntries: ContentsEntry[]; linkOnlyEntries: ContentsRow[] } {
   const ns = WORD_NS;
   const document = parseXml(documentXml);
   if (document.documentElement.namespaceURI !== ns || document.documentElement.localName !== 'document') {
@@ -112,6 +114,7 @@ export function inspectPublicationWordNavigation(documentXml: string): { bookmar
   let internalLinks = 0, pageReferences = 0;
   const targets: string[] = [];
   const linksByParagraph = new Map<Element, { anchor: string; label: string }[]>();
+  const navigationLinks: { paragraph: Element; section: string; label: string }[] = [];
   const fields: { paragraph: Element; anchor: string; section: string; format: ContentsEntry['format'] }[] = [];
   const paragraphText = (node: Element) => normalize(Array.from(node.getElementsByTagNameNS(ns, 't'), content => content.textContent ?? '').join(''));
   let section: string | undefined;
@@ -151,6 +154,9 @@ export function inspectPublicationWordNavigation(documentXml: string): { bookmar
           const label = paragraphText(node);
           links.push({ anchor: name, label });
           linksByParagraph.set(paragraph, links);
+          if (section && paragraph.parentNode === body && label && label === paragraphText(paragraph)) {
+            navigationLinks.push({ paragraph, section, label });
+          }
         }
       }
     } else if (node.localName === 'fldSimple') {
@@ -184,15 +190,17 @@ export function inspectPublicationWordNavigation(documentXml: string): { bookmar
     contentsEntries.push({ section, label, format });
     paired.add(paragraph);
   }
-  return { bookmarks: names.size, internalLinks, pageReferences, contentsEntries };
+  const linkOnlyEntries = navigationLinks.filter(({ paragraph }) => !paired.has(paragraph))
+    .map(({ section, label }) => ({ section, label }));
+  return { bookmarks: names.size, internalLinks, pageReferences, contentsEntries, linkOnlyEntries };
 }
 
 /** Measure the printed contents labels independently of the DOCX field code.
  * Unknown rows require inspection of the printed pages.
  */
-export function inspectPrintedContentsLabels(layoutText: string, entries: readonly ContentsEntry[]) {
+export function inspectPrintedContentsLabels(layoutText: string, entries: readonly ContentsEntry[], linkOnlyEntries: readonly ContentsRow[] = []) {
   const labels = new Map<string, { value: string; page: number }[]>();
-  const keyFor = (section: string, label: string) => JSON.stringify([section, label]);
+  const linkOnly = new Set(linkOnlyEntries.map(contentsKey));
   for (const [pageIndex, page] of layoutText.split('\f').entries()) {
     let section: string | undefined;
     let foundRow = false;
@@ -205,10 +213,11 @@ export function inspectPrintedContentsLabels(layoutText: string, entries: readon
       } else if (section && (line || foundRow)) {
         const match = contentsRow.exec(line);
         if (!match) {
+          if (linkOnly.has(contentsKey({ section, label: heading }))) continue;
           section = undefined;
           continue;
         }
-        const key = keyFor(section, normalize(match[1]));
+        const key = contentsKey({ section, label: normalize(match[1]) });
         const values = labels.get(key) ?? [];
         values.push({ value: match[2], page: pageIndex + 1 });
         labels.set(key, values);
@@ -219,11 +228,11 @@ export function inspectPrintedContentsLabels(layoutText: string, entries: readon
 
   const counts = new Map<string, number>();
   for (const { section, label } of entries) {
-    const key = keyFor(section, label);
+    const key = contentsKey({ section, label });
     counts.set(key, (counts.get(key) ?? 0) + 1);
   }
   return entries.map(entry => {
-    const key = keyFor(entry.section, entry.label);
+    const key = contentsKey(entry);
     const observations = labels.get(key) ?? [];
     const printed = observations.map(({ value }) => value);
     if (!printed.length) return { ...entry, printed, result: 'missing' } as const;
@@ -277,6 +286,7 @@ export async function inspectPublicationContentsDestinations(
   pdfBytes: Uint8Array,
   boundingBoxes: string,
   contents: readonly PrintedContentsRow[],
+  linkOnlyEntries: readonly ContentsRow[] = [],
 ) {
   const pdf = await PDFDocument.load(pdfBytes);
   const pdfPages = pdf.getPages();
@@ -289,6 +299,7 @@ export async function inspectPublicationContentsDestinations(
     top: bounds(line, 'yMin'), bottom: bounds(line, 'yMax'),
     left: bounds(line, 'xMin'), right: bounds(line, 'xMax'),
   })));
+  const linkOnly = new Set(linkOnlyEntries.map(contentsKey));
   const contentsRows = lines.map(rows => {
     let section: string | undefined;
     return rows.flatMap(row => {
@@ -299,6 +310,7 @@ export async function inspectPublicationContentsDestinations(
       if (!row.text || !section) return [];
       const match = contentsRow.exec(row.text);
       if (!match) {
+        if (linkOnly.has(contentsKey({ section, label: row.text }))) return [];
         section = undefined;
         return [];
       }

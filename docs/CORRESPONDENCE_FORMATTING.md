@@ -52,7 +52,7 @@ Word keep rules end before copy/distribution blocks. Action/information memorand
 
 ## Business-letter figures
 
-In a Custom business letter, choose **Figure** from a paragraph's block menu, enter its caption and upload a PNG or JPEG. PDF and Word retain the image, graphic portion marking and numbered caption. Existing figures remain part of the letter when switching modes. Word fits each image within 6.5 by 5 inches while preserving its aspect ratio and embeds the bytes and caption as alternative text. Missing or unreadable images stop Word export rather than producing an incomplete file. Other publication figures retain their existing PDF-only output boundary.
+In a Custom business letter, choose **Figure** from a paragraph's block menu, enter its caption and upload a PNG or JPEG. PDF and Word retain the image, graphic portion marking and numbered caption. Existing figures remain part of the letter when switching modes. Word fits each image within 6.5 by 5 inches while preserving its aspect ratio and embeds the bytes and caption as alternative text. Missing or unreadable images stop Word export rather than producing an incomplete file. See [technical publications](TECHNICAL_PUBLICATIONS.md) for figures in publication exports.
 
 ## Endorsement continuation
 

@@ -22,9 +22,9 @@ beforeEach(() => {
   useDocumentStore.setState({ ...sl4Fixture(), documentCategory: 'correspondence' });
 });
 describe('SL-4 complete publication integration', () => {
-  it('registers every dedicated section and PDF-only export', () => {
+  it('registers every dedicated section and the publication layout', () => {
     expect(DOC_TYPE_CATEGORIES.find((entry) => entry.category === 'Technical Publications')!.types).toContain('sl4');
-    expect(DOC_TYPE_CONFIG.sl4.pdfOnly).toBe(true);
+    expect(DOC_TYPE_CONFIG.sl4.publication).toBe(true);
     expect(getEditorSections(DOC_TYPE_CONFIG.sl4, 'sl4').map((section) => section.id)).toEqual(['sl4-cover', 'classification', 'sl4-preface', 'sl4-cages', 'sl4-parts', 'sl4-figures', 'sl4-indexes', 'sl4-revisions', 'signature']);
     expect(publicationExportErrors(sl4Fixture())).toEqual([]);
   });

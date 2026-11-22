@@ -1,6 +1,9 @@
 import { expect, test } from '@playwright/test';
 import { readFile, writeFile } from 'node:fs/promises';
 import sharp from 'sharp';
+import JSZip from 'jszip';
+import { DOMParser } from '@xmldom/xmldom';
+import { publicationWordFixtures } from '../_helpers/publicationWordQualification';
 import AxeBuilder from '@axe-core/playwright';
 import { getDocument } from 'pdfjs-dist/legacy/build/pdf.mjs';
 import { signingPdfDownload } from '../_helpers/signingBrowser';
@@ -82,5 +85,75 @@ for (const [theme, width] of [['light', 1440], ['dark', 390], ['classic', 1024]]
       }
       expect(links).toBeGreaterThanOrEqual(7);
     } finally { await task.destroy(); }
+  });
+}
+
+const publicationWordCases = new Set(['manual-standard', 'instruction-ti', 'sl3-portrait', 'sl4-parts', 'volume-structured']);
+const publicationContactFields: Partial<Record<string, string>> = { sl3: 'Form: pocEmail', sl4: 'Form: pocEmail', i_type: 'Paragraph 2' };
+const wordNamespace = 'http://schemas.openxmlformats.org/wordprocessingml/2006/main';
+
+for (const fixture of publicationWordFixtures().filter(({ name }) => publicationWordCases.has(name))) {
+  test(`downloads editable Word for the ${fixture.name} publication`, async ({ page }, info) => {
+    await page.addInitScript(() => localStorage.setItem('browser-test-visitor', 'returning'));
+    await page.goto('/');
+    const source = structuredClone(fixture.source);
+    const expectedImages = new Map<string, Buffer>();
+    const paragraphs = await Promise.all(source.paragraphs.map(async paragraph => {
+      const ref = paragraph.figure?.fileRef;
+      const path = ref && fixture.assetFiles?.[ref.id];
+      if (!ref || !path) return paragraph;
+      const bytes = await readFile(path);
+      expectedImages.set(ref.name, bytes);
+      return { ...paragraph, figure: { ...paragraph.figure, fileRef: undefined, name: ref.name, data: bytes.toString('base64') } };
+    }));
+    await page.getByLabel('Import draft file').setInputFiles({
+      name: `${fixture.name}.json`, mimeType: 'application/json',
+      buffer: Buffer.from(JSON.stringify({ ...source, paragraphs, references: [], enclosures: [], copyTos: [],
+        documentCategory: 'correspondence', documentMode: 'compliant' })),
+    });
+    const open = page.getByRole('button', { name: 'Open as new document', exact: true });
+    await expect(open).toBeVisible({ timeout: 10_000 });
+    await open.click();
+    await page.getByRole('button', { name: 'Download', exact: true }).click();
+    const word = page.getByRole('menuitem', { name: 'Download Word (.docx)', exact: true });
+    await expect(word).toBeEnabled();
+    const pending = page.waitForEvent('download', { timeout: 30_000 });
+    await word.click();
+    const emailLocation = publicationContactFields[source.docType];
+    if (emailLocation) {
+      const privacy = page.getByRole('dialog', { name: 'Potential PII/PHI Detected', exact: true });
+      await expect(privacy).toBeVisible();
+      await expect(privacy).toContainText(emailLocation);
+      await privacy.getByRole('button', { name: 'Download Anyway', exact: true }).click();
+    }
+    const download = await pending;
+    expect(download.suggestedFilename()).toMatch(/\.docx$/);
+    expect(await download.failure()).toBeNull();
+    const output = info.outputPath(`${fixture.name}.docx`);
+    await download.saveAs(output);
+
+    const zip = await JSZip.loadAsync(await readFile(output));
+    const xml = await zip.file('word/document.xml')!.async('string');
+    const document = new DOMParser().parseFromString(xml, 'application/xml');
+    const nodes = (name: string) => Array.from(document.getElementsByTagNameNS(wordNamespace, name));
+    const visible = nodes('p').map(paragraph => Array.from(paragraph.getElementsByTagNameNS(wordNamespace, 't'),
+      node => node.textContent).join('')).join(' ');
+    for (const marker of fixture.markers) expect(visible).toContain(marker);
+    expect(nodes('tbl').length).toBeGreaterThan(0);
+    expect(visible).not.toMatch(/\{\{(?:PUBREF|VOLREF)_/);
+    const destinations = new Set(nodes('bookmarkStart').map(bookmark => bookmark.getAttributeNS(wordNamespace, 'name')));
+    for (const link of nodes('hyperlink')) {
+      const anchor = link.getAttributeNS(wordNamespace, 'anchor');
+      if (anchor) expect(destinations.has(anchor)).toBe(true);
+    }
+    if (fixture.name === 'volume-structured') {
+      expect(destinations.size).toBeGreaterThanOrEqual(7);
+      expect(nodes('tblHeader')).toHaveLength(1);
+      expect(xml).toContain('descr="Training illustration with two outlines"');
+    }
+    if (expectedImages.size) {
+      const images = await Promise.all(zip.file(/^word\/media\/.*\.(png|jpe?g)$/).map(file => file.async('nodebuffer')));
+      for (const [name, bytes] of expectedImages) expect(images.some(image => image.equals(bytes)), name).toBe(true);
+    }
   });
 }
