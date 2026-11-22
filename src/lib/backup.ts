@@ -1,6 +1,6 @@
 import { listPackageTemplates, validatePackageTemplateLibrary, restorePackageTemplates, type PackageTemplate } from './packageTemplateLibrary';
 import { hasRichBody } from './bodyTable';
-import { requiresCurrentDocumentReader } from './documentReaderRequirements';
+import { requiresCurrentDocumentReader, requiresExtendedCorrespondenceReader } from './documentReaderRequirements';
 import { capturePackageBackup, validatePackageBackup, restorePackageBackup } from './actionPackageBackup';
 import { formTemplateAttachmentId } from './formTemplateAssets';
 import { packageAssets, packageDefinitions, actionPackageSchema, type ActionPackage } from './actionPackages';
@@ -73,19 +73,20 @@ export const BACKUP_KIND = 'dondocs-backup';
 // v13 preserves reusable package starters, including their exact form pages.
 // v16 requires readers that preserve enclosure markings, formatted tables and volumes.
 // v17 retains exact returned Word review originals on their import receipts.
-export const BACKUP_VERSION = 17;
+// v18 preserves three-command letters and extended correspondence stationery.
+export const BACKUP_VERSION = 18;
 const LIBRARY_KIND = 'dondocs-library'; // legacy docs-only file
 function supportedWorkspaceVersion(version: unknown, minimum: number): boolean {
   return typeof version === 'number' && Number.isSafeInteger(version) && version >= minimum && version <= BACKUP_VERSION;
 }
 
-function markedBackupSessions(entries: unknown[], records: ActionPackage[], templates: PackageTemplate[]): boolean {
+function markedBackupSessions(entries: unknown[], records: ActionPackage[], templates: PackageTemplate[], predicate = requiresCurrentDocumentReader): boolean {
   const packageSessions = records.flatMap(record => [...record.revisions, ...(record.reviewRounds ?? []).map(round => round.baseline)]
     .flatMap(revision => revision.members.flatMap(member => member.kind === 'native' ? [member.session] : [])));
   const templateSessions = templates.flatMap(template => template.members.flatMap(member => member.kind === 'native'
     ? [member.draft as unknown as import('@/stores/documentStore').SerializedSession] : []));
   return [...entries.map(entry => (entry as { session?: import('@/stores/documentStore').SerializedSession }).session ?? {}),
-    ...packageSessions, ...templateSessions].some(requiresCurrentDocumentReader);
+    ...packageSessions, ...templateSessions].some(predicate);
 }
 
 /** An enclosure blob embedded in the bundle; `data` is base64 of the raw bytes. */
@@ -400,7 +401,7 @@ async function serializeBackup(): Promise<string> {
       .flatMap(revision => revision.members.flatMap(member => member.kind === 'native' ? [member.session] : [])));
     const starterSessions = packageTemplates.flatMap(template => template.members.flatMap(member => member.kind === 'native' ? [member.draft as unknown as import('@/stores/documentStore').SerializedSession] : []));
     const rich = [...entries.map(entry => (entry as { session?: import('@/stores/documentStore').SerializedSession }).session ?? {}), ...packageSessions, ...starterSessions].some(hasRichBody);
-    const bundle: BackupBundle = { ...captured, version: reviewReturns.some(receipt => receipt.wordSource) ? 17 : markedBackupSessions(entries, actionPackages, packageTemplates) ? 16 : reviewRounds.some(round => round.wordHandoffs?.length) ? 15 : rich ? 14 : packageTemplates.length ? 13 : actionPackages.length ? 12 : formTemplates ? 11 : reviewSuggestions.length || reviewSuggestionWrites.length ? reviewSuggestions.some(record => record.state.version === 2) ? 10 : 9 : reviewReturns.length ? 8 : withReviews ? 7 : withComments ? 6 : 5, documents: docs, snapshots, attachments, ...(actionPackages.length ? { actionPackages } : {}), ...(packageTemplates.length ? { packageTemplates } : {}),
+    const bundle: BackupBundle = { ...captured, version: markedBackupSessions([...entries, ...reviewRounds.map(round => round.baseline)], actionPackages, packageTemplates, requiresExtendedCorrespondenceReader) ? 18 : reviewReturns.some(receipt => receipt.wordSource) ? 17 : markedBackupSessions(entries, actionPackages, packageTemplates) ? 16 : reviewRounds.some(round => round.wordHandoffs?.length) ? 15 : rich ? 14 : packageTemplates.length ? 13 : actionPackages.length ? 12 : formTemplates ? 11 : reviewSuggestions.length || reviewSuggestionWrites.length ? reviewSuggestions.some(record => record.state.version === 2) ? 10 : 9 : reviewReturns.length ? 8 : withReviews ? 7 : withComments ? 6 : 5, documents: docs, snapshots, attachments, ...(actionPackages.length ? { actionPackages } : {}), ...(packageTemplates.length ? { packageTemplates } : {}),
       ...formTemplates,
       ...(withReviews ? { reviewRounds, reviewCopies } : {}), ...(reviewReturns.length ? { reviewReturns } : {}),
       ...(reviewSuggestions.length || reviewSuggestionWrites.length ? { reviewSuggestions, reviewSuggestionWrites } : {}) };
@@ -541,6 +542,10 @@ async function runRestore(json: string, canReplaceForms: () => boolean): Promise
     ...Object.values((parsed.snapshots ?? {}) as Record<string, unknown[]>).flat(), ...Object.values(incomingTemplates),
     ...reviewRounds.map(round => round.baseline)], packageRecords, packageTemplates)
     && (kind !== BACKUP_KIND || !supportedWorkspaceVersion(parsed.version, 16))) throw new Error('These document features require workspace backup version 16.');
+  if (markedBackupSessions([...(parsed.documents ?? []) as unknown[],
+    ...Object.values((parsed.snapshots ?? {}) as Record<string, unknown[]>).flat(), ...Object.values(incomingTemplates),
+    ...reviewRounds.map(round => round.baseline)], packageRecords, packageTemplates, requiresExtendedCorrespondenceReader)
+    && (kind !== BACKUP_KIND || !supportedWorkspaceVersion(parsed.version, 18))) throw new Error('These document features require workspace backup version 18.');
   const hasFormTemplates = parsed.portableFormTemplates !== undefined || parsed.portableResources !== undefined;
   if (hasFormTemplates && (kind !== BACKUP_KIND || !supportedWorkspaceVersion(parsed.version, 11))
     || supportedWorkspaceVersion(parsed.version, 11) && formDefinitions.length > 0 && !hasFormTemplates) throw new Error('Portable form templates require a complete version 11 workspace backup.');

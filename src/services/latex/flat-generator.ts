@@ -1,3 +1,4 @@
+import { additionalJointCommands, assertJointLetterCommandSupport } from '@/lib/jointLetterCommands';
 import { cuiTransmittalNote } from '@/lib/enclosureMarkings';
 import { toTitleCase } from '@/lib/titleCase';
 import { renderBodyTable } from './bodyTable';
@@ -900,6 +901,17 @@ ${trimLastRow(sigRows.map(r => ` & ${r} & \\\\`))}
  * MOA/MOU: overscored (horizontal rule above name) per SECNAV M-5216.5 Fig 10-5
  * Joint/Joint Memo: no overscoring per Ch 7 Fig 7-4 */
 function buildDualSignature(data: Partial<DocumentData>, variant: 'moa' | 'joint' | 'joint_memo'): string {
+  if (variant === 'joint' && additionalJointCommands(data).length) {
+    assertJointLetterCommandSupport('joint_letter', data);
+    const middle = additionalJointCommands(data)[0];
+    const signers = jointSignatories(data, false);
+    const rows = [
+      [signers.juniorName.toUpperCase(), middle.signatureName.toUpperCase(), signers.seniorName.toUpperCase()],
+      [signers.juniorTitle, middle.signatureTitle, signers.seniorTitle],
+      [data.juniorActing ? 'Acting' : '', middle.acting ? 'Acting' : '', data.seniorActing ? 'Acting' : ''],
+    ];
+    return '\\vspace{48pt}\n' + threeCommandTable(rows);
+  }
   // juniorRank/seniorRank only populate in the 'moa' branch (joint variants
   // don't carry rank); default to '' so the rank-row rendering below still
   // works on joint variants. juniorName/Title and seniorName/Title are
@@ -1218,11 +1230,22 @@ function buildEndorsementHeader(docType: string, data: Partial<DocumentData>): s
   return `${endorsementLine}\n\n\\vspace{12pt}\n`;
 }
 
+/** All three-column blocks share command order: junior, additional, senior. */
+function threeCommandTable(rows: string[][], escaped = false): string {
+  const lines = rows.map(row => row.map(value => escaped ? value : escapeTabularWrapped(value)).join(' & ') + ' \\\\');
+  return `\\noindent
+\\begin{tabular}{@{}p{2in}@{\\hfill}p{2in}@{\\hfill}p{2in}@{}}
+${trimLastRow(lines)}
+\\end{tabular}
+
+`;
+}
+
 /** Joint letterhead: centered stacked layout using tabularX.
  * Per SECNAV M-5216.5 Ch 7 Figure 7-4: Plain bond with typed command titles.
  * DEPARTMENT OF THE NAVY header, then senior command (top), junior command (below),
  * with optional common location. Matches the PDF template's joint_letter.tex layout. */
-function buildJointLetterhead(data: Partial<DocumentData>): string {
+function buildJointLetterhead(data: Partial<DocumentData>, additional = false): string {
   // Joint letterheads are always black — per SECNAV M-5216.5 Ch 7 Fig 7-4,
   // joint letters use plain bond paper with typed (not printed/colored) command titles.
   // The joint letter UI has no color picker, so letterheadColor is irrelevant here.
@@ -1238,6 +1261,8 @@ function buildJointLetterhead(data: Partial<DocumentData>): string {
     : '';
 
   if (seniorLine) lines.push(`{\\fontsize{8pt}{9pt}\\selectfont ${seniorLine}}`);
+  const middle = additional ? additionalJointCommands(data)[0] : undefined;
+  if (middle?.name) lines.push(`{\\fontsize{8pt}{9pt}\\selectfont ${escapeTabular(middle.name.toUpperCase())}${middle.location ? ` (${escapeTabular(middle.location)})` : ''}}`);
   if (juniorLine) lines.push(`{\\fontsize{8pt}{9pt}\\selectfont ${juniorLine}}`);
 
   // Common location (e.g., "CAMP LEJEUNE, NC 28542")
@@ -1263,7 +1288,7 @@ function buildJointLetterhead(data: Partial<DocumentData>): string {
  * Senior command Code/SSIC/Serial/Date on RIGHT.
  * PDF template uses DocumentSSIC/DocumentSerial/DocumentDate for senior side,
  * which map to data.ssic/data.serial/data.date. */
-function buildJointSSICBlock(data: Partial<DocumentData>): string {
+function buildJointSSICBlock(data: Partial<DocumentData>, additional = false): string {
   // Junior command on LEFT (signs first)
   const leftItems: string[] = [];
   if (data.jointJuniorCode) leftItems.push(escapeTabular(data.jointJuniorCode));
@@ -1283,6 +1308,13 @@ function buildJointSSICBlock(data: Partial<DocumentData>): string {
   if (jointSeniorSymbol) rightItems.push(escapeTabular(jointSeniorSymbol));
   if (data.date) rightItems.push(escapeTabular(data.date));
 
+  const middle = additional ? additionalJointCommands(data)[0] : undefined;
+  if (middle) {
+    const middleItems = [middle.code, middle.ssic, composeSenderSymbol(undefined, middle.serial), middle.date].filter(Boolean);
+    return threeCommandTable(Array.from({ length: Math.max(leftItems.length, middleItems.length, rightItems.length) }, (_, index) =>
+      // Existing side items are already escaped.
+      [leftItems[index] || '', escapeTabular(middleItems[index] || ''), rightItems[index] || '']), true);
+  }
   const maxRows = Math.max(leftItems.length, rightItems.length);
   const rows: string[] = [];
   for (let i = 0; i < maxRows; i++) {
@@ -1303,6 +1335,8 @@ function buildJointAddressBlock(data: Partial<DocumentData>): string {
   const rows: string[] = [];
 
   if (data.jointSeniorFrom) rows.push(`From:\\hspace{2\\fontdimen2\\font} & ${escapeTabularWrapped(data.jointSeniorFrom)} \\\\`);
+  const middle = additionalJointCommands(data)[0];
+  if (middle?.from) rows.push(` & ${escapeTabularWrapped(middle.from)} \\\\`);
   if (data.jointJuniorFrom) rows.push(` & ${escapeTabularWrapped(data.jointJuniorFrom)} \\\\`);
   if (data.jointTo) rows.push(`To:\\hspace{6\\fontdimen2\\font} & ${escapeTabularWrapped(data.jointTo)} \\\\`);
   if (data.jointSubject) {
@@ -1500,8 +1534,9 @@ function buildJointLayout(store: DocumentStore, config: DocTypeConfig): string {
   const data = store.formData;
   let content = '';
 
-  content += buildJointLetterhead(data);
-  content += buildJointSSICBlock(data);
+  assertJointLetterCommandSupport('joint_letter', data);
+  content += buildJointLetterhead(data, true);
+  content += buildJointSSICBlock(data, true);
   // "JOINT LETTER" designation per SECNAV M-5216.5 Ch 7 Fig 7-4
   // 12pt before (matches PDF \par\vspace{12pt}), 12pt after (matches \\[12pt])
   content += '\\vspace{12pt}\n\\noindent JOINT LETTER\n\n\\vspace{12pt}\n';

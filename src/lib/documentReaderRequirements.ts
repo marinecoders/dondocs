@@ -3,7 +3,7 @@ import { requiresEnclosureMarkingReader } from './enclosureMarkings';
 
 interface ReaderSource {
   docType?: string;
-  formData?: Pick<Partial<DocumentData>, 'cuiTransmittalNote'> & { volume?: unknown };
+  formData?: Pick<Partial<DocumentData>, 'cuiTransmittalNote'> & { volume?: unknown; jointAdditionalCommands?: unknown; letterheadMode?: unknown; stationerySize?: unknown };
   enclosures?: readonly Pick<Enclosure, 'marking'>[];
   paragraphs?: readonly unknown[];
 }
@@ -19,4 +19,12 @@ export function requiresCurrentDocumentReader(source: ReaderSource): boolean {
     const table = paragraph.bodyTable as Record<string, unknown>;
     return TABLE_LAYOUT_FIELDS.some(key => Object.hasOwn(table, key) && table[key] !== undefined);
   });
+}
+
+/** Formats older readers would silently drop or render on the wrong stationery. */
+export function requiresExtendedCorrespondenceReader(source: ReaderSource): boolean {
+  const data = source.formData;
+  return Array.isArray(data?.jointAdditionalCommands) && data.jointAdditionalCommands.length > 0
+    || data?.letterheadMode === 'title-only' || data?.letterheadMode === 'preprinted'
+    || data?.stationerySize === '7x9' || data?.stationerySize === '5x7';
 }

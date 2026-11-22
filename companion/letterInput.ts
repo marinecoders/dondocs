@@ -131,6 +131,7 @@ export function templateFor(docType: string): string {
 function partyFields(input: LetterInput): Record<string, unknown> {
   const p = input.parties;
   if (!p) { return {}; }
+  if (p.additional?.length && input.docType !== 'joint_letter') throw new Error('Additional commands are supported only for joint letters.');
   const s = p.senior, j = p.junior;
   return {
     // joint_letter / joint_memorandum
@@ -141,6 +142,7 @@ function partyFields(input: LetterInput): Record<string, unknown> {
     jointJuniorCode: j.code ?? '', jointJuniorZip: j.zip ?? '',
     jointJuniorSSIC: j.ssic ?? '', jointJuniorSerial: j.serial ?? '', jointJuniorDate: j.date ?? '',
     jointJuniorSigName: j.signature?.name ?? '', jointJuniorSigTitle: j.signature?.title ?? '',
+    ...(p.additional?.length ? { jointAdditionalCommands: p.additional.map((command, index) => ({ id: `joint-additional-${index}`, name: command.name, location: command.zip ?? '', code: command.code ?? '', ssic: command.ssic ?? '', serial: command.serial ?? '', date: command.date ?? '', from: command.from ?? '', signatureName: command.signature?.name ?? '', signatureTitle: command.signature?.title ?? '', acting: false })) } : {}),
     jointCommonLocation: p.commonLocation ?? '',
     // moa / mou
     seniorCommandName: s.name, juniorCommandName: j.name,

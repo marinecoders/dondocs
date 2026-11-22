@@ -101,6 +101,7 @@ function active(source: DocumentFieldSource, path: FieldPath, projection: FieldP
   if (letterheadFields.has(key)) return config.letterhead || technical;
   if (key === 'seniorActing' || key === 'juniorActing') return ['moa', 'joint', 'joint_memo'].includes(config.uiMode);
   if (/^(senior|junior)/.test(key) || key === 'moaSubject') return config.uiMode === 'moa';
+  if (key === 'jointAdditionalCommands') return source.docType === 'joint_letter';
   if (key.startsWith('jointMemo')) return config.uiMode === 'joint_memo';
   if (key.startsWith('joint')) return config.uiMode === 'joint' || config.uiMode === 'joint_memo';
   if (executiveFields.has(key)) return config.uiMode === 'executive';

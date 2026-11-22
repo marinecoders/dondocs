@@ -1,3 +1,4 @@
+import { jointLetterCommandIssues } from '../src/lib/jointLetterCommands';
 import { bodyTableSchema } from '../src/lib/bodyTable';
 import { MANUAL_DOC_TYPE } from '../src/data/techpub/manualFrontMatter';
 import { manualFrontMatterErrors } from '../src/lib/manualFrontMatterValidation';
@@ -106,6 +107,11 @@ export function validateLetter(body: Partial<LetterInput>, defaults: CompanionDe
   // like it worked.
   if (!body.paragraphs?.length && !body.subject) {
     problems.push('nothing to render: supply at least a subject or one paragraph');
+  }
+  if (body.parties?.additional?.length) {
+    if (body.docType !== 'joint_letter') problems.push('Additional commands are supported only for joint letters.');
+    else if (body.signature?.imageFileId) problems.push('Three-command joint letters support typed signatures only.');
+    else if (!problems.length) problems.push(...jointLetterCommandIssues('joint_letter', toStore(body as LetterInput, defaults).formData));
   }
   if (problems.length) return problems;
 
