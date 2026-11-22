@@ -78,6 +78,7 @@ export function validateBackupSession(value: unknown) {
   if (Array.isArray(data.paragraphs)) validateParagraphIds(data.paragraphs);
   const formData = data.formData as RecordValue | undefined;
   if (formData?.cuiTransmittalNote !== undefined && typeof formData.cuiTransmittalNote !== 'boolean') throw new Error('Invalid CUI transmittal confirmation');
+  if (formData?.stationerySize !== undefined && !['letter', '7x9', '5x7'].includes(formData.stationerySize as string)) throw new Error('Invalid stationery size');
   if (formData?.letterheadMode !== undefined && (typeof formData.letterheadMode !== 'string' || !['full', 'title-only', 'preprinted'].includes(formData.letterheadMode))) throw new Error('Invalid letterhead mode');
   if (formData?.wordSource !== undefined) wordSourceSchema.parse(formData.wordSource);
   if (formData?.jointAdditionalCommands !== undefined) jointAdditionalCommandsSchema.parse(formData.jointAdditionalCommands);

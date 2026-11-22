@@ -1,3 +1,4 @@
+import { stationeryIssues, type StationerySize } from '@/lib/stationery';
 import { resolveLetterheadMode, supportsLetterheadModes, type LetterheadMode } from '@/lib/letterheadMode';
 import { useState, useEffect, useRef } from 'react';
 import { Building2, Info } from 'lucide-react';
@@ -32,7 +33,7 @@ import {
 } from '@/lib/unitAddress';
 
 export function LetterheadSection() {
-  const { formData, setField, docType, documentMode } = useDocumentStore();
+  const { formData, paragraphs, setField, setFormData, docType, documentMode } = useDocumentStore();
   const [unitModalOpen, setUnitModalOpen] = useState(false);
   const config = DOC_TYPE_CONFIG[docType] || DOC_TYPE_CONFIG.naval_letter;
   const isCompliant = documentMode === 'compliant';
@@ -125,13 +126,27 @@ export function LetterheadSection() {
               <p className="-mt-1 text-xs text-muted-foreground">
                 Unit name, address, seal, and color that appear at the top of the page.
               </p>
+              {docType === 'executive_correspondence' && <div className="space-y-2">
+                <Label htmlFor="stationery-size">Stationery size</Label>
+                <Select value={formData.stationerySize || 'letter'} onValueChange={value => setFormData({ stationerySize: value as StationerySize,
+                  ...(value !== 'letter' ? { letterheadMode: 'preprinted', fontFamily: 'times', fontSize: '12pt' } : {}) })}>
+                  <SelectTrigger id="stationery-size"><SelectValue /></SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="letter">US Letter · 8.5 × 11 in</SelectItem>
+                    <SelectItem value="7x9">Flag stationery · 7 × 9 in</SelectItem>
+                    <SelectItem value="5x7">Flag stationery · 5 × 7 in</SelectItem>
+                  </SelectContent>
+                </Select>
+                {stationeryIssues(docType, formData, paragraphs, documentMode).map(issue => <p key={issue} role="alert" className="text-sm text-destructive">{issue}</p>)}
+                <p className="text-xs text-muted-foreground">Small sizes use 1-inch margins and 12pt Times New Roman. Selecting one chooses preprinted stock; title-only is also supported. Check alignment on your authorized stock before printing.</p>
+              </div>}
               {supportsLetterheadModes(config) && (
                 <div className="space-y-2">
                   <Label htmlFor="letterhead-mode">Letterhead style</Label>
                   <Select value={mode} onValueChange={value => setField('letterheadMode', value as LetterheadMode)}>
                     <SelectTrigger id="letterhead-mode"><SelectValue /></SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="full">Full letterhead</SelectItem>
+                      <SelectItem value="full" disabled={docType === 'executive_correspondence' && !!formData.stationerySize && formData.stationerySize !== 'letter'}>Full letterhead</SelectItem>
                       <SelectItem value="title-only">Title only</SelectItem>
                       <SelectItem value="preprinted">Preprinted stationery</SelectItem>
                     </SelectContent>

@@ -40,6 +40,7 @@ export function parseSavedSession(value: unknown): SerializedSession {
   if (session.formData.sl3 !== undefined) session.formData.sl3 = sl3Schema.parse(session.formData.sl3);
   if (session.formData.sl4 !== undefined) session.formData.sl4 = sl4Schema.parse(session.formData.sl4);
   if (session.formData.manualFrontMatter !== undefined) session.formData.manualFrontMatter = manualFrontMatterSchema.parse(session.formData.manualFrontMatter);
+  if (session.formData.stationerySize !== undefined) session.formData.stationerySize = z.enum(['letter', '7x9', '5x7']).parse(session.formData.stationerySize);
   if (session.formData.letterheadMode !== undefined) session.formData.letterheadMode = z.enum(['full', 'title-only', 'preprinted']).parse(session.formData.letterheadMode);
   if (session.formData.signatureImageSigner !== undefined) session.formData.signatureImageSigner = z.enum(['junior', 'senior']).parse(session.formData.signatureImageSigner);
   if (session.formData.jointAdditionalCommands !== undefined) session.formData.jointAdditionalCommands = jointAdditionalCommandsSchema.parse(session.formData.jointAdditionalCommands);

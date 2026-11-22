@@ -73,8 +73,8 @@ export const BACKUP_KIND = 'dondocs-backup';
 // v13 preserves reusable package starters, including their exact form pages.
 // v16 requires readers that preserve enclosure markings, formatted tables and volumes.
 // v17 retains exact returned Word review originals on their import receipts.
-// v18 preserves three-command letters; v19 adds letterhead modes.
-export const BACKUP_VERSION = 19;
+// v18 preserves three-command letters; v19 adds letterhead modes; v20 adds small stationery.
+export const BACKUP_VERSION = 20;
 const LIBRARY_KIND = 'dondocs-library'; // legacy docs-only file
 function supportedWorkspaceVersion(version: unknown, minimum: number): boolean {
   return typeof version === 'number' && Number.isSafeInteger(version) && version >= minimum && version <= BACKUP_VERSION;

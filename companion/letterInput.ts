@@ -50,6 +50,7 @@ export interface UnitInput {
   /** dow | dod — which seal is drawn. */
   seal?: string;
   letterheadColor?: 'blue' | 'black';
+  stationerySize?: import('@/lib/stationery').StationerySize;
   letterheadMode?: 'full' | 'title-only' | 'preprinted';
 }
 
@@ -168,6 +169,7 @@ export function toStore(input: LetterInput, defaults: CompanionDefaults = {}): G
   const sig = { ...defaults.signature, ...input.signature };
   const signatureFile = input.signature?.imageFileId ? attachment(input, input.signature.imageFileId) : undefined;
   const docType = templateFor(input.docType);
+  if (input.unit?.stationerySize && input.unit.stationerySize !== 'letter' && docType !== 'executive_correspondence') throw new Error('Small stationery is supported only for executive_correspondence.');
   // The senior party's identifying block outranks the plain fields: joint
   // documents read the senior column from data.ssic/serial/date (generator.ts
   // 110-112) while agreements read seniorSSIC/seniorSerial/seniorDate, so the
@@ -192,6 +194,7 @@ export function toStore(input: LetterInput, defaults: CompanionDefaults = {}): G
       seal: unit.seal ?? 'dow',
       sealType: unit.seal ?? 'dow',
       letterheadColor: unit.letterheadColor ?? 'blue',
+      ...(unit.stationerySize ? { stationerySize: unit.stationerySize } : {}),
       ...(unit.letterheadMode ? { letterheadMode: unit.letterheadMode } : {}),
 
       ssic,

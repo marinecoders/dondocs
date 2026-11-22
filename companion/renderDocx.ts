@@ -1,6 +1,11 @@
 import { formatLetterheadStyles } from '@/services/docx/letterheadStyling';
 import { resolveLetterheadMode, supportsLetterheadModes } from '@/lib/letterheadMode';
 import { DOC_TYPE_CONFIG } from '@/types/document';
+import { formatParagraphIndents } from '@/services/docx/paragraphIndents';
+import { formatPageFurniture, getClassificationMarking } from '@/services/docx/pageFurniture';
+import { deriveOverallClassLevel } from '@/lib/overallClassification';
+import { formatSmallStationery } from '@/services/docx/stationery';
+import { correspondenceStationery } from '@/lib/stationery';
 import { formatBodyTables } from '@/services/docx/bodyTables';
 /**
  * DOCX through the same generators the app uses.
@@ -130,7 +135,16 @@ export async function renderDocx(input: LetterInput, defaults: CompanionDefaults
     const bytes = new Uint8Array(await readFile(join(dir, 'out.docx')));
     const styled = usesLetterhead && letterheadMode !== 'preprinted'
       ? await formatLetterheadStyles(bytes, store.formData.letterheadColor) : bytes;
-    return formatBodyTables(styled, store.paragraphs.flatMap(paragraph => paragraph.bodyTable ? [paragraph.bodyTable] : []));
+    const indented = await formatParagraphIndents(styled);
+    const tables = store.paragraphs.flatMap(paragraph => paragraph.bodyTable ? [paragraph.bodyTable] : []);
+    const stock = correspondenceStationery(store.docType, store.formData);
+    const formatted = await (stock.small ? formatSmallStationery(indented, stock, tables) : formatBodyTables(indented, tables));
+    const marking = getClassificationMarking(deriveOverallClassLevel(store.formData.classLevel, store.paragraphs), store.formData.customClassification);
+    // Wire headers last: their section references must precede page geometry.
+    return marking ? formatPageFurniture(formatted, {
+      marking, continuationSubject: '', wantsPageNumbers: false, startPage: 1,
+      fontSizePt: parseInt(store.formData.fontSize || '12pt', 10) || 12,
+    }) : formatted;
   } finally {
     // Every conversion used to leave its scratch directory behind. One is
     // nothing; a companion left running for a week is thousands.

@@ -1155,12 +1155,25 @@ const LATEX_TEMPLATES = {
 
 \\newcommand{\\placeClassificationMarkings}{%
     \\ifClassificationEnabled
+        \\ifnum\\SmallStationery=1
+            \\setbox0=\\hbox{\\ClassificationMarking}%
+            \\ifdim\\wd0>\\textwidth
+                \\errmessage{DonDocs: the classification banner is too wide for this stationery; use Letter stock or a shorter authorized marking}%
+            \\fi
+            \\begin{textblock*}{\\textwidth}(1in, 0.25in)%
+                \\centering\\ClassificationMarking
+            \\end{textblock*}%
+            \\begin{textblock*}{\\textwidth}(1in, \\dimexpr\\paperheight-0.25in\\relax)%
+                \\centering\\ClassificationMarking
+            \\end{textblock*}%
+        \\else
         \\begin{textblock*}{6.5in}(1in, 0.25in)%
             \\centering\\ClassificationMarking
         \\end{textblock*}%
         \\begin{textblock*}{6.5in}(1in, 10.75in)%
             \\centering\\ClassificationMarking
         \\end{textblock*}%
+        \\fi
     \\fi
 }
 
@@ -1724,6 +1737,8 @@ const LATEX_TEMPLATES = {
 %=============================================================================
 
 
+\\InputIfFileExists{stationery.tex}{}{}
+\\providecommand{\\SmallStationery}{0}
 \\begin{document}
 
 
@@ -2530,6 +2545,41 @@ const LATEX_TEMPLATES = {
     \\renewcommand{\\headrulewidth}{0pt}%
     \\renewcommand{\\footrulewidth}{0pt}%
 }
+
+% Small flag stock uses the same text area geometry on every sheet. Artwork is
+% confined to page1; succeeding pages remain plain stock (Ch12-3 paragraph1a).
+\\ifnum\\SmallStationery=1
+    \\renewcommand{\\printLetterhead}{%
+        \\ifthenelse{\\equal{\\LetterheadMode}{title-only}}{%
+            \\begin{center}{\\fontsize{10pt}{11pt}\\selectfont\\textcolor{\\LetterheadColor}{\\textbf{\\UnitName}}}\\end{center}%
+            \\vspace{12pt}%
+        }{\\vspace*{0.16in}}%
+    }
+    \\renewcommand{\\printDateAndTitle}{%
+        \\ifthenelse{\\equal{\\StationeryDateAlignment}{center}}{%
+            {\\centering\\BusinessDate\\par}%
+        }{\\noindent\\makebox[\\textwidth][r]{\\BusinessDate}\\par}%
+        \\vspace{12pt}%
+    }
+    \\renewcommand{\\printSignature}{%
+        \\par\\vspace{24pt}\\noindent\\hfill
+        \\begin{minipage}[t]{0.5\\textwidth}\\raggedright
+            \\BusinessClose\\par\\vspace{48pt}%
+            \\ifHasDigitalSigField\\DigitalSignatureBox\\else
+                \\ifNotEmpty{\\SignatureImage}{%
+                    \\IfFileExists{attachments/\\SignatureImage}{%
+                        \\includegraphics[width=1.5in,height=0.5in,keepaspectratio]{attachments/\\SignatureImage}\\par
+                    }{}%
+                }%
+            \\fi
+            \\dondocsSignatureAnchor{single}%
+            \\ifNotEmptyElse{\\SignatoryAbbrev}{\\SignatoryAbbrev\\par}{\\SignatoryName\\par}%
+            \\optionalLine{\\SignatoryRank}%
+            \\optionalLine{\\SignatoryTitle}%
+            \\optionalField{\\ByDirection}%
+        \\end{minipage}\\par
+    }
+\\fi
 `,
   'tex/templates/executive_memorandum.tex': `
 % Executive memorandum is the Chapter 12 standard memorandum alias.

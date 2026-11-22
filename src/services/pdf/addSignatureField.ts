@@ -4,6 +4,8 @@ import { PDFDocument, PDFName, PDFDict, PDFArray, PDFString, PDFHexString, PDFNu
  * Signature field configuration
  */
 export interface SignatureFieldConfig {
+  /** Fail closed when a layout requires an exact template-owned slot. */
+  requireTemplateAnchor?: boolean;
   /** Field name (must be unique in the document) */
   name?: string;
   /** Width of signature field in points */
@@ -335,7 +337,7 @@ function calculateFallbackPosition(
 
 /** Template-owned signature slots take priority over ambiguous printed names. */
 function templateSignaturePosition(pdfDoc: PDFDocument, lastPageIndex: number, role: 'single' | 'junior' | 'senior') {
-  const destinationName = role === 'single' ? 'itype.signature' : `dondocs.signature.${role}`;
+  const destinationNames = role === 'single' ? ['itype.signature', 'dondocs.signature.single'] : [`dondocs.signature.${role}`];
   const label = role === 'single' ? 'I-Type' : role;
   const documentKind = role === 'single' ? 'publication' : 'basic document';
   const names = pdfDoc.catalog.lookup(PDFName.of('Names'));
@@ -349,8 +351,8 @@ function templateSignaturePosition(pdfDoc: PDFDocument, lastPageIndex: number, r
         const key = entries.lookup(i);
         if (!(key instanceof PDFString || key instanceof PDFHexString)) continue;
         const name = key.decodeText();
-        if (role === 'single' ? name === 'itype.authentication' : /^dondocs\.signature\.(?:junior|senior)$/.test(name)) required = true;
-        if (name === destinationName) signature = entries.lookup(i + 1, PDFArray);
+        if (role === 'single' ? name === 'itype.authentication' || name === 'dondocs.signature.single' : /^dondocs\.signature\.(?:junior|senior)$/.test(name)) required = true;
+        if (destinationNames.includes(name) && (!signature || name === 'dondocs.signature.single')) signature = entries.lookup(i + 1, PDFArray);
       }
     }
     const children = node.lookup(PDFName.of('Kids'));
@@ -463,7 +465,7 @@ export async function addSignatureField(
   } = config;
 
   // Find position (text-based or calculated fallback)
-  const position = findSignatoryPosition(pdfDoc, signatoryName, 'single', config.lastBasicPageIndex);
+  const position = findSignatoryPosition(pdfDoc, signatoryName, 'single', config.lastBasicPageIndex, config.requireTemplateAnchor);
 
   console.log(`[addSignatureField] Using position: page ${position.pageIndex + 1}, x=${position.x}, y=${position.y}`);
 

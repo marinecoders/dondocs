@@ -23,7 +23,7 @@ const bindingSchema = z.discriminatedUnion('slot', [
   z.object({ slot: z.literal('form-signature'), index, path }).strict(),
 ]);
 type Binding = z.infer<typeof bindingSchema>;
-const envelopeSchema = z.object({ kind: z.literal('dondocs-share'), version: z.union([z.literal(4), z.literal(6), z.literal(10), z.literal(12)]),
+const envelopeSchema = z.object({ kind: z.literal('dondocs-share'), version: z.union([z.literal(4), z.literal(6), z.literal(10), z.literal(12), z.literal(14)]),
   documentKind: z.enum(['correspondence', 'builtin-form', 'configured-form']),
   expiresAt: z.number().int().positive().max(8_640_000_000_000_000).optional(),
   draft: z.record(z.string(), z.unknown()), resources: z.unknown(), bindings: z.array(bindingSchema).max(256),
@@ -38,7 +38,7 @@ function kind(session: SerializedSession): SharedDocumentKind {
   return session.documentCategory === 'forms' ? session.genericForm ? 'configured-form' : 'builtin-form' : 'correspondence';
 }
 export function isAssetShare(value: unknown): boolean {
-  return !!value && typeof value === 'object' && 'kind' in value && value.kind === 'dondocs-share' && 'version' in value && (value.version === 4 || value.version === 6 || value.version === 10 || value.version === 12);
+  return !!value && typeof value === 'object' && 'kind' in value && value.kind === 'dondocs-share' && 'version' in value && (value.version === 4 || value.version === 6 || value.version === 10 || value.version === 12 || value.version === 14);
 }
 export function hasShareAssets(snapshot: DocumentSnapshot): boolean {
   return !!(snapshot.documentCategory === 'forms' && snapshot.genericForm || snapshot.formData.signatureImage || snapshot.formData.basicLetterFile || snapshot.formData.basicLetterFileRef || snapshot.formData.wordSource
