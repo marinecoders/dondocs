@@ -96,8 +96,10 @@ export async function validateGeneratedTaggedPdf(input: Uint8Array): Promise<Tag
       const attributes = element.lookup(NAME('A'), PDFDict);
       if (attributes.lookup(NAME('O'), PDFName) !== NAME('Table')
         || attributes.lookup(NAME('Scope'), PDFName) !== NAME('Column')) fail('table column header scope is missing.');
+      if (attributes.keys().length !== 2) fail('table header has unsupported cell attributes.');
       headers++;
     }
+    if (role === 'TD' && element.has(NAME('A'))) fail('table data cell has unsupported cell attributes.');
     const children = element.lookup(NAME('K'), PDFArray);
     let structureChildren = 0; let markedChildren = 0; let objectChildren = 0;
     const tableChildren: string[] = [];

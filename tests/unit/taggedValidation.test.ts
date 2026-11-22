@@ -44,7 +44,7 @@ describe('saved tagged PDF readback validation', () => {
     await expect(validateGeneratedTaggedPdf(await pdf.save())).rejects.toThrow(/associated marked content has no painted operation/);
   });
 
-  it('preserves empty data cells and rejects damaged table groups, column counts, or scope', async () => {
+  it('preserves empty data cells and rejects damaged table groups, column counts, scope, or cell attributes', async () => {
     const pdf = await PDFDocument.create(); const page = pdf.addPage(); const font = await pdf.embedFont(StandardFonts.Helvetica);
     const nonce = 'b'.repeat(32);
     const point = (id: number, begin: boolean) => `/DDTag << /N <${nonce}> /I ${id} /B ${begin} >> DP\n`;
@@ -76,8 +76,15 @@ describe('saved tagged PDF readback validation', () => {
 
     const headerRows = table.lookup(0, PDFDict).lookup(name('K'), PDFArray);
     const headerCell = headerRows.lookup(0, PDFDict).lookup(name('K'), PDFArray).lookup(0, PDFDict);
-    headerCell.lookup(name('A'), PDFDict).set(name('O'), name('Layout'));
+    const attributes = headerCell.lookup(name('A'), PDFDict);
+    attributes.set(name('O'), name('Layout'));
     await expect(validateGeneratedTaggedPdf(await damaged.save())).rejects.toThrow(/header scope/);
+    attributes.set(name('O'), name('Table'));
+    attributes.set(name('ColSpan'), PDFNumber.of(2));
+    await expect(validateGeneratedTaggedPdf(await damaged.save())).rejects.toThrow(/unsupported cell attributes/);
+    attributes.delete(name('ColSpan'));
+    cells.lookup(0, PDFDict).set(name('A'), damaged.context.obj({ O: 'Table', RowSpan: 2 }));
+    await expect(validateGeneratedTaggedPdf(await damaged.save())).rejects.toThrow(/unsupported cell attributes/);
   });
 
   it('rejects orphaned page MCIDs and unscoped painted operators', async () => {
