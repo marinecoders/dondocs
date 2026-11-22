@@ -9,6 +9,7 @@ import JSZip from 'jszip';
 import { DOMParser, XMLSerializer } from '@xmldom/xmldom';
 import { closeReviewRounds } from '../_helpers/closeReviewRounds';
 import { replaceParagraphText } from '../_helpers/replaceParagraphText';
+import { nativeWordReturnMetadata } from '../_helpers/nativeWordReturn';
 
 const W = 'http://schemas.openxmlformats.org/wordprocessingml/2006/main';
 const TYPE = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
@@ -125,6 +126,7 @@ for (const theme of ['light', 'dark', 'classic']) {
     await expect(modal.getByText(/Word review copy sent to browser downloads/)).toBeVisible({ timeout: 120_000 });
     const zip = await JSZip.loadAsync(original);expect(zip.file('customXml/dondocs-word-review.xml')).not.toBeNull();
     const returned = native ? await awaitNativeWordReturn(original) : await reviewerChanges(original);
+    const nativeMetadata = native ? await nativeWordReturnMetadata(returned) : null;
     await writeFile(info.outputPath(`issued-${theme}.docx`), original);await writeFile(info.outputPath(`returned-${theme}.docx`), returned);
     await closeReviewRounds(modal);
     await replaceParagraphText(page.getByRole('textbox', { name: 'Paragraph 1', exact: true }), body.replace('suffix.', 'newer suffix.'));
@@ -159,8 +161,9 @@ for (const theme of ['light', 'dark', 'classic']) {
     await expect(modal.getByText(/This return has already been imported/)).toBeVisible({ timeout: 30_000 });
     if (native) {
       await info.attach('microsoft-word-review-return', { body: JSON.stringify({
+        ...nativeMetadata,
         operatorReportedVersion: nativeWordVersion,
-        platform: process.platform,
+        testHostPlatform: process.platform,
         issuedSha256: digest(original),
         returnedSha256: digest(returned),
         reconciledNewerDraft: true,
@@ -178,6 +181,7 @@ for (const theme of ['light', 'dark', 'classic']) {
       const resavedZip = await JSZip.loadAsync(resaved);
       expect(version).toMatch(/^LibreOffice/);
       expect(resaved).not.toEqual(returned);
+      await expect(nativeWordReturnMetadata(resaved)).rejects.toThrow('do not identify Microsoft Word');
       expect(await resavedZip.file('word/document.xml')!.async('string')).toContain('reviewed');
       const customParts = resavedZip.file(/^customXml\/[^/]+\.xml$/i);
       const customXml = await Promise.all(customParts.map(part => part.async('string')));

@@ -55,4 +55,7 @@ still present. Close it again and move it to the printed return path.
 DonDocs imports those bytes directly. The test checks the tracked replacement,
 anchored comment, preservation of newer draft edits, Undo/Redo and the retained
 original after reload. Keep the issued and returned copies together with the test
-results and the operator's record of the Word version and reopen check.
+results and the operator's record of the Word version and reopen check. The
+receipt includes the registered application properties from the returned DOCX alongside
+the operator's version. The application metadata is corroboration for the
+operator's observation.
