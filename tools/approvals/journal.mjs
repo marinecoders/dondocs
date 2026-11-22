@@ -173,5 +173,9 @@ export function openJournal(filename, actors) {
       throw error;
     }
   }
-  return { start, read, act, close: () => db.close(), actorForCertificate: fingerprint => certificateOwners.get(fingerprint) };
+  function session(actorId) {
+    const { id, canRequest, canApprove } = requireActor(actorId);
+    return { id, canRequest, canApprove };
+  }
+  return { start, read, act, session, close: () => db.close(), actorForCertificate: fingerprint => certificateOwners.get(fingerprint) };
 }

@@ -1450,6 +1450,29 @@ export async function idbRestoreReviewSuggestions(input: unknown[], inputReceipt
   } catch { return false; }
 }
 
+/** Reserve the same request ID across reloads and concurrent tabs before sending it. */
+export async function idbReservePackageApprovalRequest(digest: string): Promise<unknown> {
+  const db = await openDb();
+  const key = `package-approval-request:${digest}`;
+  return new Promise((resolve, reject) => {
+    const transaction = db.transaction(APP_STORE, 'readwrite');
+    const store = transaction.objectStore(APP_STORE);
+    const request = store.get(key);
+    let requestId: unknown;
+    request.onsuccess = () => {
+      if (request.result) {
+        requestId = request.result.value;
+      } else {
+        requestId = crypto.randomUUID();
+        store.add({ key, value: requestId });
+      }
+    };
+    transaction.oncomplete = () => resolve(requestId);
+    transaction.onerror = () => reject(transaction.error ?? new Error('The approval request ID could not be saved.'));
+    transaction.onabort = () => reject(transaction.error ?? new Error('Saving the approval request ID was interrupted.'));
+  });
+}
+
 /** Package metadata shares the existing app store and conditional transaction boundary. */
 export async function idbReadPackageEditDraft(scope: string): Promise<unknown | null> {
   return (await run<{ value: unknown } | undefined>(APP_STORE, 'readonly', store => store.get(`package-edit:${scope}`)))?.value ?? null;
