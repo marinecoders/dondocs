@@ -1,6 +1,7 @@
 // @vitest-environment node
 import { describe, expect, it } from 'vitest';
-import { inspectPrintedContentsLabels, inspectPublicationWordNavigation, inspectPublicationWordRender, publicationWordPageSizes } from '../../scripts/publication-word-renders';
+import { PDFDocument, PDFName } from 'pdf-lib';
+import { inspectPrintedContentsLabels, inspectPublicationContentsDestinations, inspectPublicationWordNavigation, inspectPublicationWordRender, publicationWordPageSizes } from '../../scripts/publication-word-renders';
 
 const xml = '<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:sectPr><w:pgSz w:w="12240" w:h="15840"/></w:sectPr><w:sectPr><w:pgSz w:w="15840" w:h="15840"/></w:sectPr></w:document>';
 const input = () => ({ renderer: 'microsoft-word' as const, metadata: 'Creator: Word\nProducer: macOS\n',
@@ -95,5 +96,41 @@ describe('publication printed contents', () => {
     const listing = 'TABLE OF CONTENTS\nAUTHENTICATION.......i\n\nPREFACE.......iv\f'
       + 'PREFACE........vi\n\nLIST OF TABLES\nPREFACE.........ix\nTable 1. Inventory.......9';
     expect(inspectPrintedContentsLabels(listing, entries).map(row => row.result)).toEqual(['missing', 'matches-format']);
+  });
+
+  it.each(['direct', 'action'] as const)('compares the printed value with the footer on the %s PDF link target', async kind => {
+    const pdf = await PDFDocument.create();
+    const contents = pdf.addPage([612, 792]);
+    const target = pdf.addPage([612, 792]);
+    const destination = pdf.context.register(pdf.context.obj([target.ref, 'Fit']));
+    const link = pdf.context.register(pdf.context.obj({ Subtype: 'Link', Rect: [54, 670, 115, 688],
+      ...(kind === 'direct' ? { Dest: destination } : { A: { S: 'GoTo', D: destination } }),
+    }));
+    contents.node.set(PDFName.of('Annots'), pdf.context.obj([link]));
+    const heading = '<line><word>TABLE OF CONTENTS</word></line>';
+    const row = '<line xMin="54" xMax="558" yMin="107" yMax="119"><word>PREFACE........iii</word></line>';
+    const bounds = `<doc><page>${heading}${row}</page>`
+      + '<page><line yMin="753" yMax="765"><word>iv</word></line></page></doc>';
+    const rows = inspectPrintedContentsLabels('TABLE OF CONTENTS\nPREFACE........iii', [entries[0]]);
+    expect(rows[0]).toMatchObject({ printedPage: 1 });
+    expect(await inspectPublicationContentsDestinations(await pdf.save(), bounds, rows)).toEqual([
+      { ...rows[0], destinationCheck: 'differs', destinationPage: 2, destinationLabel: 'iv' },
+    ]);
+    expect(await inspectPublicationContentsDestinations(await pdf.save(), bounds.replace('>iv<', '>iii<'), rows))
+      .toEqual([{ ...rows[0], destinationCheck: 'matches', destinationPage: 2, destinationLabel: 'iii' }]);
+    target.node.set(PDFName.of('Annots'), pdf.context.obj([link]));
+    const otherPage = `<doc><page>${heading}</page><page>${heading}${row}<line yMin="753" yMax="765"><word>iii</word></line></page></doc>`;
+    expect(await inspectPublicationContentsDestinations(await pdf.save(), otherPage, rows))
+      .toEqual([{ ...rows[0], destinationCheck: 'unresolved' }]);
+    expect(await inspectPublicationContentsDestinations(await pdf.save(), bounds.replace('TABLE OF CONTENTS', 'LIST OF TABLES'), rows))
+      .toEqual([{ ...rows[0], destinationCheck: 'unresolved' }]);
+    const external = pdf.context.register(pdf.context.obj({ Subtype: 'Link', Rect: [54, 670, 115, 688],
+      A: { S: 'URI' } }));
+    contents.node.set(PDFName.of('Annots'), pdf.context.obj([link, external]));
+    expect(await inspectPublicationContentsDestinations(await pdf.save(), bounds, rows))
+      .toEqual([{ ...rows[0], destinationCheck: 'unresolved' }]);
+    contents.node.delete(PDFName.of('Annots'));
+    expect(await inspectPublicationContentsDestinations(await pdf.save(), bounds, rows))
+      .toEqual([{ ...rows[0], destinationCheck: 'unresolved' }]);
   });
 });

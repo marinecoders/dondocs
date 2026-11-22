@@ -73,11 +73,12 @@ identity. DonDocs requires the identity to match the retained issue receipt.
 
 ## Check printed contents labels
 
-The measured receipt now lists the page-label format requested by each linked
-contents row and the label extracted from the corresponding headed list in
-the actual print. Review rows
-reported as missing, ambiguous or wrong-format. This check covers printed
-label formats. Confirm each label's value and link destination in the renderer.
+The measured receipt lists the requested page-label format, the label printed
+in the contents, and the footer at the PDF link's destination. Review rows
+with missing or ambiguous labels, incorrect formats, mismatched values, or
+unresolved destinations. Use a PDF export that preserves internal links when
+the print route omits them. Confirm link destinations against the intended
+headings in the renderer.
 
 A fresh 12-document LibreOffice run found 15 wrong-format entries across both
 SL-3 fixtures and the SL-4 fixture. For example, the SL-3 portrait contents

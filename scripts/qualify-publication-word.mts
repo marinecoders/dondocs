@@ -5,7 +5,7 @@ import { execFileSync } from 'node:child_process';
 import JSZip from 'jszip';
 import { publicationWordFixtures } from '../tests/_helpers/publicationWordQualification';
 import { verifyPublicationWordInputs } from './publication-word-receipts';
-import { inspectPrintedContentsLabels, inspectPublicationWordNavigation, inspectPublicationWordRender, publicationWordPageSizes, type PublicationWordRenderer } from './publication-word-renders';
+import { inspectPrintedContentsLabels, inspectPublicationContentsDestinations, inspectPublicationWordNavigation, inspectPublicationWordRender, publicationWordPageSizes, type PublicationWordRenderer } from './publication-word-renders';
 
 const [directory, renderer, version] = process.argv.slice(2);
 if (!directory || !['microsoft-word', 'libreoffice'].includes(renderer) || !version?.trim() || process.argv.length !== 5) {
@@ -39,10 +39,12 @@ for (const fixture of manifest.fixtures) {
   const path = join(output, `${fixture.name}-${renderer}.pdf`);
   const bytes = await readPrint(path);
   const metadata = command('pdfinfo', ['-'], bytes);
+  const boundingBoxes = command('pdftotext', ['-bbox-layout', '-', '-'], bytes);
   const inspection = inspectPublicationWordRender({ renderer: renderer as PublicationWordRenderer, metadata,
-    boundingBoxes: command('pdftotext', ['-bbox', '-', '-'], bytes), markers: fixture.markers, pageSizes: publicationWordPageSizes(xml) });
+    boundingBoxes, markers: fixture.markers, pageSizes: publicationWordPageSizes(xml) });
   const printedContentsLabels = contentsEntries.length
-    ? inspectPrintedContentsLabels(command('pdftotext', ['-layout', '-', '-'], bytes), contentsEntries) : [];
+    ? await inspectPublicationContentsDestinations(bytes, boundingBoxes,
+      inspectPrintedContentsLabels(command('pdftotext', ['-layout', '-', '-'], bytes), contentsEntries)) : [];
   receipts.push({ name: fixture.name, sourceSha256: fixture.sourceSha256, docxSha256: fixture.docxSha256,
     printedPdfSha256: digest(bytes), ...inspection, navigation, printedContentsLabels });
 }
@@ -69,6 +71,7 @@ try {
   await rm(staging, { recursive: true, force: true });
 }
 const findings = receipts.flatMap(receipt => receipt.printedContentsLabels
-  .filter(row => row.result !== 'matches-format').map(row => `${receipt.name}: ${row.label} (${row.result})`));
+  .filter(row => row.result !== 'matches-format' || row.destinationCheck !== 'matches')
+  .map(row => `${receipt.name}: ${row.label} (format: ${row.result}; destination: ${row.destinationCheck})`));
 console.log(`Measured ${receipts.length} ${renderer} publication prints. Contents label findings: ${findings.length}.`);
 for (const finding of findings) console.log(finding);
