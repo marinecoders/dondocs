@@ -50,6 +50,12 @@ header {
     Access-Control-Allow-Origin *
 }
 
+# Match the canonical public guide URLs used by Cloudflare Pages and the sitemap.
+@publicGuide path_regexp ^/guides/[a-z0-9-]+$
+handle @publicGuide {
+    try_files {path}.html =404
+}
+
 # SPA fallback - everything else goes to index.html
 handle {
     try_files {path} /index.html

@@ -3,6 +3,7 @@
 Browser-based naval correspondence, forms and package workspace.
 
 - [Application](https://dondocs.marines.dev/): Supported document workflows.
+- [Correspondence workflow guides](https://dondocs.marines.dev/guides/): Naval letters, Marine Corps forms, SSIC lookup, endorsements and packages.
 - [Source and documentation](https://github.com/marinecoders/dondocs): Output support, setup and limitations.
 
 Automatic checks do not replace review by the drafter and approving authority. Browser storage is not a backup.
