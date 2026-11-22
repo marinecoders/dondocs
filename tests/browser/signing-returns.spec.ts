@@ -47,6 +47,23 @@ test('associates a returned PDF, preserves its bytes through reload and transfer
   await expect(dialog.getByText(/Return 1: Returned.pdf · associated, signer authenticity unverified/)).toBeVisible();
   await page.reload();const reopened = await openSigning(page);
   await reopened.getByRole('button', { name: 'Preview saved return 1', exact: true }).click();
+  await reopened.getByText('Review a signature verification report', { exact: true }).click();
+  const report = {
+    kind: 'dondocs-pdf-signature-verification', version: 1, verifier: 'pyHanko', verifierVersion: '0.32.0',
+    checkedAt: '2026-11-21T10:15:07.872130+00:00', trustAnchorSha256: ['a'.repeat(64)],
+    timestampTrustAnchorSha256: [], revocationEvidenceSha256: [], requireRevocationEvidence: false,
+    signatures: [{ field: 'Synthetic signature field', state: 'inconclusive' }], state: 'review-required',
+  };
+  const reportPicker = reopened.getByLabel('Verification report (JSON)', { exact: true });
+  const uploadReport = (pdf: Buffer) => reportPicker.setInputFiles({
+    name: 'report.json', mimeType: 'application/json',
+    buffer: Buffer.from(JSON.stringify({ ...report, fileSha256: createHash('sha256').update(pdf).digest('hex') })),
+  });
+  await uploadReport(handoff);
+  await expect(reopened.getByRole('alert')).toHaveText('This verification report belongs to different PDF bytes.');
+  await uploadReport(bytes);
+  await expect(reopened.getByRole('status').filter({ hasText: 'Imported report' })).toHaveText(/One or more signatures need review/);
+  await expect(reopened.getByText('Synthetic signature field · Inconclusive', { exact: true })).toBeVisible();
   await reopened.getByRole('checkbox', { name: /^I reviewed this retained returned PDF/ }).check();
   expect(await signingPdfDownload(page, info.project.name, () => reopened.getByRole('button', { name: 'Download unchanged returned PDF', exact: true }).click())).toEqual(bytes);
   await reopened.getByRole('checkbox', { name: /^I reviewed every page,/ }).check();

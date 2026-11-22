@@ -152,9 +152,28 @@ for (const theme of ['light', 'dark', 'classic']) for (const width of [1440, 320
     await incomingPanel.getByLabel('Captured package signing return', { exact: true }).selectOption({ index: 1 });
     await incomingPanel.getByRole('button', { name: 'Preview captured signing return', exact: true }).click();
     await expect(incomingPanel.getByLabel('Exact retained package return PDF', { exact: true }).locator('canvas').first()).toBeVisible();
+    await incomingPanel.getByText('Review a signature verification report', { exact: true }).click();
+    const signatureReport = {
+      kind: 'dondocs-pdf-signature-verification', version: 1, verifier: 'pyHanko', verifierVersion: '0.32.0',
+      checkedAt: '2026-11-21T10:15:07Z', fileSha256: manifest.pdfSha256,
+      trustAnchorSha256: ['a'.repeat(64)], timestampTrustAnchorSha256: [], revocationEvidenceSha256: [],
+      requireRevocationEvidence: false, signatures: [], state: 'unsigned',
+    };
+    await incomingPanel.getByLabel('Verification report (JSON)', { exact: true }).setInputFiles({
+      name: 'verification.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(signatureReport)),
+    });
+    await expect(incomingPanel.getByRole('status').filter({ hasText: 'Imported report' })).toHaveText(/No signatures found/);
     await incomingPanel.getByRole('checkbox', { name: /^I reviewed this exact retained returned PDF/ }).check();
     const returned = await signingPdfDownload(incoming, info.project.name, () => incomingPanel.getByRole('button', { name: 'Download unchanged captured return', exact: true }).click());
     expect(returned).toEqual(handoffBytes);
+    const returnPicker = incomingPanel.getByLabel('Captured package signing return', { exact: true });
+    await returnPicker.selectOption('');
+    await expect(incomingPanel.getByText('Review a signature verification report', { exact: true })).toHaveCount(0);
+    await expect(incomingPanel.getByLabel('Exact retained package return PDF', { exact: true })).toHaveCount(0);
+    await expect(incomingPanel.getByRole('button', { name: 'Download unchanged captured return', exact: true })).toBeDisabled();
+    await returnPicker.selectOption({ index: 1 });
+    await expect(incomingPanel.getByRole('button', { name: 'Download unchanged captured return', exact: true })).toBeDisabled();
+
     await informationPanel(received);
     await expect(received.getByRole('region', { name: /^(Details|Package information)$/ }).getByLabel('Value 1', { exact: true })).toHaveValue('Preserve this newer package work');
   } finally { await receiver.close(); }

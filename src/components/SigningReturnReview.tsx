@@ -5,6 +5,7 @@ import { base64ToUint8Array } from '@/lib/encoding';
 import { MAX_SIGNING_PDF_BYTES } from '@/lib/manualSignatureFields';
 import { associateSigningReturn, prepareSigningReturn, signingErrorMessage, type SigningRecord, type SigningReturnCandidate } from '@/lib/signingWorkspace';
 import { reserveSigningPdfDownload } from '@/utils/signingPdfDownload';
+import { SignatureVerificationReport } from '@/components/SignatureVerificationReport';
 import { confirmSigningDisclosure } from '@/components/signingDisclosure';
 
 function RetainedSigningPreview({ data, label }: { data: string; label: string }) {
@@ -105,6 +106,7 @@ export function SigningReturnReview({ record, onSaved }: { record: SigningRecord
     </div>)}
     {retained && <div className="space-y-3">
       <RetainedSigningPreview data={retained.pdf.data} label="Retained returned PDF" />
+      <SignatureVerificationReport key={retained.id} readPdf={() => base64ToUint8Array(retained.pdf.data)} />
       <label className="flex items-start gap-2 text-sm"><input type="checkbox" checked={retainedReviewed} onChange={event => setRetainedReviewed(event.target.checked)} />I reviewed this retained returned PDF before downloading its unchanged bytes.</label>
       <Button disabled={busy || !retainedReviewed} onClick={downloadRetained}>Download unchanged returned PDF</Button>
     </div>}
