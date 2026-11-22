@@ -1,5 +1,10 @@
 import { expect, test, type Page } from '@playwright/test';
-import { readFile, writeFile } from 'node:fs/promises';
+import { mkdir, readFile, writeFile } from 'node:fs/promises';
+import { createHash } from 'node:crypto';
+import { pathToFileURL } from 'node:url';
+import { execFile } from 'node:child_process';
+import { promisify } from 'node:util';
+import { join } from 'node:path';
 import JSZip from 'jszip';
 import { DOMParser, XMLSerializer } from '@xmldom/xmldom';
 import { closeReviewRounds } from '../_helpers/closeReviewRounds';
@@ -7,6 +12,7 @@ import { replaceParagraphText } from '../_helpers/replaceParagraphText';
 
 const W = 'http://schemas.openxmlformats.org/wordprocessingml/2006/main';
 const TYPE = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+const libreOffice = process.env.DONDOCS_WORD_REVIEW_LIBREOFFICE;
 const body = 'Review this old word and keep the suffix.';
 test.use({ serviceWorkers: 'block', actionTimeout: 15_000 });
 test.setTimeout(240_000);
@@ -108,6 +114,31 @@ for (const theme of ['light', 'dark', 'classic']) {
     expect(await download(page, () => modal.getByRole('button', { name: 'Download original Word return', exact: true }).click())).toEqual(returned);
     await modal.getByLabel('Import feedback return', { exact: true }).setInputFiles({ name: 'same.docx', mimeType: TYPE, buffer: returned });
     await expect(modal.getByText(/This return has already been imported/)).toBeVisible({ timeout: 30_000 });
+    if (libreOffice && theme === 'light') {
+      const output = info.outputPath('libreoffice');
+      await mkdir(output, { recursive: true });
+      const path = info.outputPath(`returned-${theme}.docx`);
+      const run = promisify(execFile);
+      const version = (await run(libreOffice, ['--version'], { timeout: 30_000 })).stdout.trim();
+      const profile = pathToFileURL(info.outputPath('libreoffice-profile')).href;
+      await run(libreOffice, [`-env:UserInstallation=${profile}`, '--headless', '--convert-to', 'docx:Office Open XML Text', '--outdir', output, path], { timeout: 60_000 });
+      const resaved = await readFile(join(output, `returned-${theme}.docx`));
+      const resavedZip = await JSZip.loadAsync(resaved);
+      expect(version).toMatch(/^LibreOffice/);
+      expect(resaved).not.toEqual(returned);
+      expect(await resavedZip.file('word/document.xml')!.async('string')).toContain('reviewed');
+      const customParts = resavedZip.file(/^customXml\/[^/]+\.xml$/i);
+      const customXml = await Promise.all(customParts.map(part => part.async('string')));
+      expect(customXml.join('\n'), 'The selected renderer kept review identity and requires its own return qualification.').not.toContain('urn:dondocs:word-review:1');
+      const digest = (bytes: Buffer) => createHash('sha256').update(bytes).digest('hex');
+      await info.attach('word-resave-evidence.json', { body: JSON.stringify({
+        version, issuedSha256: digest(original), originalReturnSha256: digest(returned), resavedSha256: digest(resaved),
+      }, null, 2), contentType: 'application/json' });
+      await modal.getByLabel('Import feedback return', { exact: true }).setInputFiles({ name: 'libreoffice-resaved.docx', mimeType: TYPE, buffer: resaved });
+      await expect(modal.getByRole('alert')).toContainText('no single intact DonDocs review identity');
+      await expect(modal.getByText('Saved Word returns (1)', { exact: true })).toBeVisible();
+      expect(await download(page, () => modal.getByRole('button', { name: 'Download original Word return', exact: true }).click())).toEqual(returned);
+    }
     const unmarked = await JSZip.loadAsync(returned);unmarked.remove('customXml/dondocs-word-review.xml');
     await modal.getByLabel('Import feedback return', { exact: true }).setInputFiles({ name: 'missing-identity.docx', mimeType: TYPE, buffer: await unmarked.generateAsync({ type: 'nodebuffer' }) });
     await expect(modal.getByRole('alert')).toContainText(/review identity|review marker|matching|locator|missing|review copy/i, { timeout: 30_000 });

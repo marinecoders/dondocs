@@ -28,7 +28,7 @@ export function WordReviewControls({ rounds, disabled, onSaved, onBusyChange, ga
   useEffect(() => { owner.activate();return () => owner.dispose(); }, [owner]);
   return <section aria-label="Word review handoff" aria-busy={held} className="space-y-3 rounded-md border p-3">
     <h3 className="text-sm font-medium">Review in Word</h3>
-    <p className="text-sm text-muted-foreground">Send the exact saved revision as an editable Word file. Return it below to review body-text suggestions and comments without replacing newer draft work. Keep this browser’s baseline or a workspace backup; editable Word markers cannot recover missing local authority.</p>
+    <p className="text-sm text-muted-foreground">Send the exact saved revision as an editable Word file. Return it below to review body-text suggestions and comments without replacing newer draft work. Keep this browser’s baseline or a workspace backup. Edit the issued DOCX in place and keep that file for return; converting it or copying the contents into a fresh file can remove its review markers.</p>
     <p className="text-xs text-muted-foreground">Word layout changes are excluded. Paragraph moves, splits, joins, field, table, image and header/footer content changes require manual review. Reviewer names and dates are unverified.</p>
     <Label className="block space-y-1">Saved Word review baseline
       <select aria-label="Saved Word review baseline" className="block w-full min-w-0 rounded border bg-background p-2 text-sm" disabled={disabled || held || !available.length}
