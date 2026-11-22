@@ -1,4 +1,5 @@
 import { DOMParser } from '@xmldom/xmldom';
+import { PDFArray, PDFDict, PDFDocument, PDFHexString, PDFName, PDFNumber, PDFRef, PDFString, type PDFObject } from 'pdf-lib';
 
 const WORD_NS = 'http://schemas.openxmlformats.org/wordprocessingml/2006/main';
 
@@ -6,6 +7,9 @@ export type PublicationWordRenderer = 'microsoft-word' | 'libreoffice';
 export interface PublicationPageSize { width: number; height: number }
 const navigationHeadings = new Set(['TABLE OF CONTENTS', 'LIST OF ILLUSTRATIONS', 'LIST OF TABLES']);
 interface ContentsEntry { section: string; label: string; format: 'roman' | 'decimal' }
+const contentsRow = /^(.+?)(?:\.\s*){3,}(.*?)\s*$/u;
+const decimalLabel = /^[1-9][0-9]*$/;
+const romanLabel = /^m{0,3}(?:cm|cd|d?c{0,3})(?:xc|xl|l?x{0,3})(?:ix|iv|v?i{0,3})$/;
 
 const elements = (parent: Document | Element, name: string): Element[] => Array.from(parent.getElementsByTagName(name));
 // A narrow printed model-number column may wrap MODEL-WIDE after its hyphen.
@@ -187,9 +191,9 @@ export function inspectPublicationWordNavigation(documentXml: string): { bookmar
  * Unknown rows require inspection of the printed pages.
  */
 export function inspectPrintedContentsLabels(layoutText: string, entries: readonly ContentsEntry[]) {
-  const labels = new Map<string, string[]>();
+  const labels = new Map<string, { value: string; page: number }[]>();
   const keyFor = (section: string, label: string) => JSON.stringify([section, label]);
-  for (const page of layoutText.split('\f')) {
+  for (const [pageIndex, page] of layoutText.split('\f').entries()) {
     let section: string | undefined;
     let foundRow = false;
     for (const raw of page.split(/\r?\n/)) {
@@ -199,14 +203,14 @@ export function inspectPrintedContentsLabels(layoutText: string, entries: readon
         section = heading;
         foundRow = false;
       } else if (section && (line || foundRow)) {
-        const match = /^(.+?)(?:\.\s*){3,}(.*?)\s*$/u.exec(line);
+        const match = contentsRow.exec(line);
         if (!match) {
           section = undefined;
           continue;
         }
         const key = keyFor(section, normalize(match[1]));
         const values = labels.get(key) ?? [];
-        values.push(match[2]);
+        values.push({ value: match[2], page: pageIndex + 1 });
         labels.set(key, values);
         foundRow = true;
       }
@@ -220,12 +224,142 @@ export function inspectPrintedContentsLabels(layoutText: string, entries: readon
   }
   return entries.map(entry => {
     const key = keyFor(entry.section, entry.label);
-    const printed = labels.get(key) ?? [];
+    const observations = labels.get(key) ?? [];
+    const printed = observations.map(({ value }) => value);
     if (!printed.length) return { ...entry, printed, result: 'missing' } as const;
     if (printed.length !== 1 || counts.get(key) !== 1) return { ...entry, printed, result: 'ambiguous' } as const;
     const value = printed[0];
-    const correctFormat = entry.format === 'decimal' ? /^[1-9][0-9]*$/.test(value)
-      : !!value && /^m{0,3}(?:cm|cd|d?c{0,3})(?:xc|xl|l?x{0,3})(?:ix|iv|v?i{0,3})$/.test(value);
-    return { ...entry, printed, result: correctFormat ? 'matches-format' : 'wrong-format' } as const;
+    const correctFormat = entry.format === 'decimal' ? decimalLabel.test(value) : !!value && romanLabel.test(value);
+    return { ...entry, printed, printedPage: observations[0].page, result: correctFormat ? 'matches-format' : 'wrong-format' } as const;
+  });
+}
+
+type PrintedContentsRow = ReturnType<typeof inspectPrintedContentsLabels>[number];
+
+const pdfKey = (key: string) => PDFName.of(key);
+
+/** Index the document's destination name tree once. Treat duplicate entries
+ * as ambiguous and visit each node once even if a print has a cyclic tree. */
+function publicationNamedDestinations(pdf: PDFDocument): ReadonlyMap<string, PDFObject | undefined> {
+  const result = new Map<string, PDFObject | undefined>();
+  const names = pdf.catalog.lookup(pdfKey('Names'));
+  const root = names instanceof PDFDict ? names.lookup(pdfKey('Dests')) : undefined;
+  if (!(root instanceof PDFDict)) return result;
+  const pending = [root];
+  const seen = new Set<PDFDict>();
+  while (pending.length) {
+    const node = pending.pop()!;
+    if (seen.has(node)) continue;
+    seen.add(node);
+    const entries = node.lookup(pdfKey('Names'));
+    if (entries instanceof PDFArray) {
+      for (let index = 0; index + 1 < entries.size(); index += 2) {
+        const key = entries.lookup(index);
+        if (!(key instanceof PDFString || key instanceof PDFHexString)) continue;
+        const name = key.decodeText();
+        result.set(name, result.has(name) ? undefined : entries.lookup(index + 1));
+      }
+    }
+    const children = node.lookup(pdfKey('Kids'));
+    if (children instanceof PDFArray) {
+      for (let index = 0; index < children.size(); index++) {
+        const child = children.lookup(index);
+        if (child instanceof PDFDict && !seen.has(child)) pending.push(child);
+      }
+    }
+  }
+  return result;
+}
+
+/** Bind each unambiguous printed row to a PDF link and read its target's visible
+ * footer. A missing link or footer remains a review finding, never a match. */
+export async function inspectPublicationContentsDestinations(
+  pdfBytes: Uint8Array,
+  boundingBoxes: string,
+  contents: readonly PrintedContentsRow[],
+) {
+  const pdf = await PDFDocument.load(pdfBytes);
+  const pdfPages = pdf.getPages();
+  const pages = elements(parseXml(boundingBoxes), 'page');
+  if (pages.length !== pdfPages.length) throw new Error('Contents destination inspection requires bounds for every printed page.');
+  const name = pdfKey;
+  const bounds = (node: Element, key: string) => node.hasAttribute(key) ? Number(node.getAttribute(key)) : Number.NaN;
+  const lines = pages.map(page => elements(page, 'line').map(line => ({
+    text: normalize(elements(line, 'word').map(word => word.textContent ?? '').join(' ')),
+    top: bounds(line, 'yMin'), bottom: bounds(line, 'yMax'),
+    left: bounds(line, 'xMin'), right: bounds(line, 'xMax'),
+  })));
+  const contentsRows = lines.map(rows => {
+    let section: string | undefined;
+    return rows.flatMap(row => {
+      if (navigationHeadings.has(row.text)) {
+        section = row.text;
+        return [];
+      }
+      if (!row.text || !section) return [];
+      const match = contentsRow.exec(row.text);
+      if (!match) {
+        section = undefined;
+        return [];
+      }
+      return [{ ...row, section, label: normalize(match[1]), value: match[2] }];
+    });
+  });
+  const supportedGeometry = pdfPages.map(page => {
+    const media = page.getMediaBox();
+    return page.getRotation().angle % 360 === 0 && media.x === 0 && media.y === 0;
+  });
+  const footers = lines.map((rows, page) => {
+    if (!supportedGeometry[page]) return [];
+    const height = pdfPages[page].getHeight();
+    return rows.filter(({ text, top }) => top >= height - 48 && (decimalLabel.test(text) || (!!text && romanLabel.test(text))));
+  });
+  const pageIndexByRef = new Map(pdfPages.map((page, index) => [page.ref.toString(), index]));
+  const named = publicationNamedDestinations(pdf);
+  const legacy = pdf.catalog.lookup(name('Dests'));
+  const links = pdfPages.map((page, index) => {
+    if (!supportedGeometry[index]) return [];
+    return (page.node.Annots()?.asArray() ?? []).flatMap(ref => {
+      const annotation = pdf.context.lookupMaybe(ref, PDFDict);
+      if (annotation?.get(name('Subtype')) !== name('Link')) return [];
+      const action = annotation.lookup(name('A'));
+      let destination = annotation.lookup(name('Dest'));
+      if (action !== undefined) {
+        destination = !destination && action instanceof PDFDict && action.lookup(name('S')) === name('GoTo')
+          ? action.lookup(name('D')) : undefined;
+      }
+      if (destination instanceof PDFName || destination instanceof PDFString || destination instanceof PDFHexString) {
+        destination = destination instanceof PDFName && legacy instanceof PDFDict && legacy.has(destination)
+          ? legacy.lookup(destination) : named.get(destination.decodeText());
+      }
+      if (destination instanceof PDFDict) destination = destination.lookup(name('D'));
+      const pageRef = destination instanceof PDFArray ? destination.get(0) : undefined;
+      const targetPage = pageRef instanceof PDFRef ? pageIndexByRef.get(pageRef.toString()) : undefined;
+      const rect = annotation.lookupMaybe(name('Rect'), PDFArray);
+      if (rect?.size() !== 4) return [];
+      const top = page.getHeight() - (rect.lookupMaybe(3, PDFNumber)?.asNumber() ?? Number.NaN);
+      const bottom = page.getHeight() - (rect.lookupMaybe(1, PDFNumber)?.asNumber() ?? Number.NaN);
+      const left = rect.lookupMaybe(0, PDFNumber)?.asNumber() ?? Number.NaN;
+      const right = rect.lookupMaybe(2, PDFNumber)?.asNumber() ?? Number.NaN;
+      return top < bottom && left < right ? [{ targetPage, top, bottom, left, right }] : [];
+    });
+  });
+  return contents.map(entry => {
+    if (!('printedPage' in entry)) return { ...entry, destinationCheck: 'unresolved' } as const;
+    const [printed] = entry.printed;
+    const page = entry.printedPage - 1;
+    const label = normalize(entry.label);
+    const matches = contentsRows[page]?.filter(row => row.section === entry.section && row.label === label && row.value === printed) ?? [];
+    if (matches.length !== 1) return { ...entry, destinationCheck: 'unresolved' } as const;
+    const [row] = matches;
+    const midpoint = (row.top + row.bottom) / 2;
+    const targets = [...new Set(links[page].filter(link =>
+      midpoint >= link.top && midpoint <= link.bottom && row.left <= link.right && row.right >= link.left).map(link => link.targetPage))];
+    if (targets.length !== 1 || targets[0] === undefined) return { ...entry, destinationCheck: 'unresolved' } as const;
+    const [target] = targets;
+    const [footer] = footers[target].length === 1 ? footers[target] : [];
+    if (!footer) return { ...entry, destinationPage: target + 1, destinationCheck: 'unresolved' } as const;
+    return { ...entry, destinationPage: target + 1, destinationLabel: footer.text,
+      destinationCheck: footer.text === printed ? 'matches' : 'differs' } as const;
   });
 }
