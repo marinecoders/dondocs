@@ -7,11 +7,37 @@ import { DOMParser } from '@xmldom/xmldom';
 import JSZip from 'jszip';
 import { postProcessDocx } from '@/services/docx/pandoc-converter';
 import { compileDocxFixture } from '../_helpers/compileDocx';
+import { compileGeneratedFixture } from '../_helpers/compileLatex';
+import { generateAllLatexFiles } from '@/services/latex/generator';
+import { hasPdfToolchain } from '../_helpers/pdfToolchain';
 import { wordContinuationFixtures } from '../_helpers/wordContinuationFixtures';
 
 const hasPandoc = spawnSync('pandoc', ['--version']).status === 0;
 const digest = (bytes: Uint8Array) => createHash('sha256').update(bytes).digest('hex');
 const renderedDirectory = process.env.DONDOCS_WORD_CONTINUATION_PRINTS;
+const compareNative = process.env.DONDOCS_WORD_CONTINUATION_COMPARE_NATIVE === '1';
+
+function inspectPrintedPdf(path: string, markers: string[]) {
+  const printed = spawnSync('pdftotext', ['-bbox-layout', path, '-'], { encoding: 'utf8' });
+  expect(printed.status, printed.stderr).toBe(0);
+  const xml = new DOMParser().parseFromString(printed.stdout, 'application/xml');
+  const pages = Array.from(xml.getElementsByTagName('page'));
+  expect(pages.length).toBeGreaterThan(1);
+  const words = Array.from(xml.getElementsByTagName('word'));
+  for (const marker of markers) expect(words.filter(word => word.textContent === marker), marker).toHaveLength(1);
+  for (const page of pages) {
+    const width = Number(page.getAttribute('width')), height = Number(page.getAttribute('height'));
+    expect(width).toBeCloseTo(612, 0);
+    expect(height).toBeCloseTo(792, 0);
+    for (const word of Array.from(page.getElementsByTagName('word'))) {
+      const coordinates = ['xMin', 'yMin', 'xMax', 'yMax'].map(attribute => Number(word.getAttribute(attribute) ?? Number.NaN));
+      const [left, top, right, bottom] = coordinates;
+      expect(coordinates.every(Number.isFinite) && left >= -1 && top >= -1
+        && right >= left && bottom >= top && right <= width + 1 && bottom <= height + 1, word.textContent ?? '').toBe(true);
+    }
+  }
+  return pages;
+}
 
 describe('continued Word letters', () => {
   it('requires Pandoc in CI instead of silently skipping layout coverage', () => {
@@ -40,10 +66,20 @@ describe('continued Word letters', () => {
     if (directory) {
       await mkdir(directory, { recursive: true });
       await writeFile(join(directory, `${fixture.name}.docx`), bytes);
+      let nativePdfSha256: string | undefined;
+      if (compareNative) {
+        expect(hasPdfToolchain, 'Native comparison requires pdfTeX and Poppler').toBe(true);
+        const native = await compileGeneratedFixture(generateAllLatexFiles(fixture.store).texFiles, {}, fixture.store.docType);
+        expect(native.ok, native.logTail).toBe(true);
+        const nativePath = join(directory, `${fixture.name}-native.pdf`);
+        await writeFile(nativePath, native.pdfBytes!);
+        inspectPrintedPdf(nativePath, fixture.markers);
+        nativePdfSha256 = digest(native.pdfBytes!);
+      }
       await writeFile(join(directory, `${fixture.name}.json`), JSON.stringify({ name: fixture.name,
         pipeline: 'native-pandoc', sha256: digest(bytes), subject: fixture.store.formData.subject,
         fontFamily: fixture.store.formData.fontFamily, fontSize: fixture.store.formData.fontSize,
-        markers: fixture.markers, nativeWordQualification: 'pending' }, null, 2));
+        markers: fixture.markers, nativePdfSha256, nativeWordQualification: 'pending' }, null, 2));
     }
   });
 });
@@ -62,16 +98,13 @@ describe.skipIf(!renderedDirectory)('externally rendered Word continuation fixtu
     // Record the renderer honestly: LibreOffice printing is useful additional
     // coverage and never substitutes for native Microsoft Word qualification.
     expect(metadata.stdout).toMatch(/Creator:\s+(?:Writer|Word)\b/);
-    const printed = spawnSync('pdftotext', ['-bbox-layout', pdf, '-'], { encoding: 'utf8' });
-    expect(printed.status, printed.stderr).toBe(0);
-    const xml = new DOMParser().parseFromString(printed.stdout, 'application/xml');
-    const pages = Array.from(xml.getElementsByTagName('page'));
-    expect(pages.length).toBeGreaterThan(1);
-    const words = Array.from(xml.getElementsByTagName('word'));
-    for (const marker of fixture.markers) expect(words.filter(word => word.textContent === marker), marker).toHaveLength(1);
+    const pages = inspectPrintedPdf(pdf, fixture.markers);
+    if (compareNative) {
+      const nativePath = join(directory, `${fixture.name}-native.pdf`);
+      expect(receipt.nativePdfSha256).toBe(digest(await readFile(nativePath)));
+      inspectPrintedPdf(nativePath, fixture.markers);
+    }
     for (const [index, page] of pages.entries()) {
-      expect(Number(page.getAttribute('width'))).toBeCloseTo(612, 0);
-      expect(Number(page.getAttribute('height'))).toBeCloseTo(792, 0);
       const pageWords = Array.from(page.getElementsByTagName('word'));
       const text = pageWords.map(word => word.textContent).join(' ');
       expect(text, `Subject missing or corrupted on page ${index + 1}`).toContain(fixture.store.formData.subject);

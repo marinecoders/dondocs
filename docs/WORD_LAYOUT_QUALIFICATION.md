@@ -125,3 +125,24 @@ The production-browser Word test also downloads the Times 12 pt and Courier
 markers. Native Word checks for these expanded cases remain pending.
 
 Publication families have a separate [source-bound print verification workflow](PUBLICATION_WORD_QUALIFICATION.md). Their fixtures include manual continuations, controlled notices, square inventory sheets, artwork and long instruction tables. Those measurements do not enable a publication family or substitute for its remaining native Word checks.
+
+
+## Continuation fonts and sizes
+
+Set `DONDOCS_WORD_CONTINUATION_COMPARE_NATIVE=1` and
+`DONDOCS_WORD_CONTINUATION_ARTIFACTS` to a fresh directory, then run:
+
+```sh
+npm run test:integration -- tests/integration/word-continuation-layout.test.ts
+```
+
+This generates native PDF and DOCX pairs for Times and Courier at 10, 11 and
+12 pt, with exact source digests. Print each retained DOCX into the selected
+renderer and name the print `continuation-FONT-SIZE.pdf`. Run the same test
+with `DONDOCS_WORD_CONTINUATION_PRINTS` pointing to those prints. It checks
+marker retention and page bounds independently in both outputs, and measures
+the rendered Word headers and margins across every continuation page.
+
+The six pairs passed with native pdfTeX and LibreOffice Writer. Pagination
+and font metrics depend on the renderer. Repeat the print checks in the Word
+environment you intend to qualify.
