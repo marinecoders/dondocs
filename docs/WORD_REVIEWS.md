@@ -31,3 +31,28 @@ Importing matched Word feedback now saves the exact returned DOCX as a separate 
 Full workspace backups carrying returned originals use version 17. Backup creation requires each original; restore validates its digest and retained text before installing records. An ordinary draft JSON, native feedback return or reviewer copy does not include these originals. Legacy imported returns have no retained original and are not retroactively upgraded by reopening a duplicate file. Deleting the review baseline also removes its return associations.
 
 Native Microsoft Word edit/save/reopen and actual returned-review qualification remain pending. Generated or harness-modified DOCX fixtures do not establish native Word save behavior.
+
+
+## Run a native Word return
+
+Use an activated Microsoft Word installation and a test-only directory. Build
+the application, then run the light-theme Chromium workflow:
+
+```sh
+npm run build
+DONDOCS_NATIVE_WORD_REVIEW_DIR=/absolute/path/word-return \
+DONDOCS_NATIVE_WORD_REVIEW_VERSION=16.105.3 \
+  npm run test:browser -- word-review-return.spec.ts --project=chromium --grep 'return preserves.*light'
+```
+
+The test prints the path to the freshly issued copy and waits up to ten minutes
+for the closed return. Open the issued copy in Word, turn on Track Changes,
+select `old` in the body paragraph and leave the comment
+`Please check this exact word.` on that selection. Replace `old` with `reviewed`.
+Save a separate DOCX, close it, reopen it in Word and confirm both edits are
+still present. Close it again and move it to the printed return path.
+
+DonDocs imports those bytes directly. The test checks the tracked replacement,
+anchored comment, preservation of newer draft edits, Undo/Redo and the retained
+original after reload. Keep the issued and returned copies together with the test
+results and the operator's record of the Word version and reopen check.
