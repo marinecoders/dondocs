@@ -1,4 +1,5 @@
 import type { PackageSearchScope } from './PackageSearchPanel';
+import { configuredApprovalOrigin } from '@/lib/packageApprovalOrigin';
 import { PackageReviewControls } from "./PackageReviewControls";
 import { PackageMemberNavigation, PackageWorkspaceNavigation } from "./PackageWorkspaceNavigation";
 import { PackageLibrary } from "./PackageLibrary";
@@ -78,6 +79,9 @@ import { parseEncryptedShareFile, MAX_ENCRYPTED_SHARE_FILE_BYTES } from "@/lib/e
 import { ShareModal } from "./modals/ShareModal";
 import type { CorrespondenceRendererPorts } from "@/services/exports/correspondence";
 
+const PackageApprovalPanel = import.meta.env.VITE_DONDOCS_APPROVAL_ORIGIN
+  ? lazy(() => import("./PackageApprovalPanel").then(module => ({ default: module.PackageApprovalPanel })))
+  : null;
 const PackageRosterPanel = lazy(() => import("./PackageRosterPanel").then(module => ({ default: module.PackageRosterPanel })));
 const PackageTemplateUpgradePanel = lazy(() => import("./PackageTemplateUpgradePanel").then(module => ({ default: module.PackageTemplateUpgradePanel })));
 const PackageTemplateMaintenancePanel = lazy(() => import("./PackageTemplateMaintenancePanel").then(module => ({ default: module.PackageTemplateMaintenancePanel })));
@@ -1008,6 +1012,13 @@ function PackageDialog({
                   const round = await openPackageReview(next, roundId);
                   assertOperationCurrent(); setOpenedReview(round); setRevisionId(round.revisionId);
                 })} />
+              {PackageApprovalPanel && configuredApprovalOrigin && !openedReview && <details className="min-w-0 rounded border p-3">
+                <summary className="cursor-pointer text-sm font-medium">Approvals</summary>
+                <div className="pt-3"><Suspense fallback={<p role="status">Opening approvals…</p>}>
+                  <PackageApprovalPanel key={`${record.id}:${revision.id}:${record.sequence}`} packageId={record.id} revision={revision}
+                    origin={configuredApprovalOrigin} canStart={editable} disabled={busy || pendingPackageEdits} />
+                </Suspense></div>
+              </details>}
               {openedReview?.ownerPackageId === record.id && <Suspense fallback={<p>Loading feedback application…</p>}>
                 <PackageReviewApplicationPanel workspace key={`${record.id}:${record.sequence}:${openedReview.id}`} record={record} round={openedReview} busy={busy || typedDirty} run={run}
                   signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted}

@@ -46,6 +46,28 @@ The previous fingerprints remain in the history. Back up the SQLite database
 using a consistent SQLite backup that includes committed WAL changes. Restrict
 database and service configuration access to the service operator.
 
+## Use the browser workspace
+
+For an approved deployment, add the exact HTTPS DonDocs origin to the
+service's `browserOrigins` allowlist and build that DonDocs installation with
+`VITE_DONDOCS_APPROVAL_ORIGIN=https://approvals.example.test:7713`. The
+approval service still requires a provisioned client certificate. An empty
+allowlist keeps the service available to authenticated non-browser clients.
+
+In a saved package, assemble and retain the PDF in **Delivery**. In
+**Review → Approvals**, connect to the service, select that exact PDF, and
+enter the ordered approver identities. Send the returned route ID and saved
+PDF using the approved channel. Include the editable package for the saved
+revision when participants need to open it on another device. A participant
+with that revision can enter the route ID to inspect and act on it. An unconfirmed
+request can be found by its route ID. In the same browser workspace, retry
+with the original assignments and due dates to reuse its ID, even after reload
+or in another tab. Start from a new saved revision when the work changes.
+
+The browser sends identifiers, assignments, and the PDF checksum. PDF bytes
+stay in the workspace. The service authorizes each decision, delegation,
+and cancellation. Choose historical revisions to inspect their own routes.
+
 ## Route a saved revision
 
 1. Export the exact package revision and compute SHA-256 on the retained

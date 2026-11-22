@@ -8,8 +8,11 @@ const MAX_REQUEST_BYTES = 8192;
 const routePath = /^\/approvals\/([0-9a-f-]{36})$/;
 
 async function readJson(request) {
-  if (request.headers['content-type']?.split(';', 1)[0] !== 'application/json') {
-    throw new ApprovalError(415, 'Send an application/json request.');
+  // An allowlisted browser uses a simple CORS request so its TLS client
+  // certificate can be selected on the actual request across browser engines.
+  const expectedType = request.headers.origin ? 'text/plain' : 'application/json';
+  if (request.headers['content-type']?.split(';', 1)[0] !== expectedType) {
+    throw new ApprovalError(415, 'Unsupported approval request content type.');
   }
   const length = Number(request.headers['content-length']);
   if (!Number.isSafeInteger(length) || length < 1 || length > MAX_REQUEST_BYTES) {
@@ -38,17 +41,31 @@ function send(response, status, data) {
   response.end(JSON.stringify(data));
 }
 
-export function createApprovalServer({ journal, key, cert, ca, crl }) {
+const browserOrigin = z.url().refine(value => {
+  const url = new URL(value);
+  return url.protocol === 'https:' && url.origin === value;
+}, 'Use an exact HTTPS browser origin without a trailing slash.');
+
+export function createApprovalServer({ journal, key, cert, ca, crl, browserOrigins = [] }) {
+  const allowedOrigins = new Set(z.array(browserOrigin).max(8).parse(browserOrigins));
   return createServer({ key, cert, ca, crl, requestCert: true, rejectUnauthorized: true,
     minVersion: 'TLSv1.2', requestTimeout: 10_000, headersTimeout: 5000, maxHeaderSize: 8192,
   }, async (request, response) => {
     try {
-      if (request.headers.origin) throw new ApprovalError(403, 'Use the authenticated approval client.');
+      const origin = request.headers.origin;
+      response.setHeader('Vary', 'Origin');
+      if (origin !== undefined) {
+        if (!allowedOrigins.has(origin)) throw new ApprovalError(403, 'This browser origin is not authorized.');
+        response.setHeader('Access-Control-Allow-Origin', origin);
+        response.setHeader('Access-Control-Allow-Credentials', 'true');
+      }
       const peer = request.socket.getPeerCertificate();
       const actor = request.socket.authorized && journal.actorForCertificate(peer.fingerprint256);
       if (!actor) throw new ApprovalError(403, 'This certificate is not provisioned.');
       const match = routePath.exec(request.url ?? '');
-      if (request.method === 'POST' && request.url === '/approvals') {
+      if (request.method === 'GET' && request.url === '/approvals/session') {
+        send(response, 200, journal.session(actor));
+      } else if (request.method === 'POST' && request.url === '/approvals') {
         send(response, 201, journal.start(actor, await readJson(request)));
       } else if (match && request.method === 'GET') {
         send(response, 200, journal.read(actor, match[1]));
@@ -74,6 +91,7 @@ const configSchema = z.object({
   crl: z.string().min(1).optional(),
   port: z.number().int().min(1).max(65535).default(7713),
   host: z.string().min(1).default('127.0.0.1'),
+  browserOrigins: z.array(browserOrigin).max(8).default([]),
 }).strict();
 
 if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
@@ -86,7 +104,7 @@ if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) 
     readFile(config.key), readFile(config.cert), readFile(config.ca), config.crl && readFile(config.crl),
   ]);
   const journal = openJournal(config.database, identities);
-  const server = createApprovalServer({ journal, key, cert, ca, crl });
+  const server = createApprovalServer({ journal, key, cert, ca, crl, browserOrigins: config.browserOrigins });
   server.setTimeout(10_000, socket => socket.destroy());
   server.listen(config.port, config.host, () => console.log(`Approval service listening on ${config.host}:${config.port}`));
 }
