@@ -1,4 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
+import { PackageApprovalHistory } from './PackageApprovalHistory';
+import { triggerDownload } from '@/lib/encoding';
 import { Button } from '@/components/ui/button';
 import { readPackageAsset } from '@/lib/actionPackageAssets';
 import { reservePackageApprovalRequest } from '@/lib/packageApprovalRequests';
@@ -97,6 +99,17 @@ export function PackageApprovalPanel({ packageId, revision, origin, canStart, di
       : action === 'delegate' ? { action, expectedSequence, assignee: replacement.trim() } : { action, expectedSequence }, signal), route.id, signal);
   }
 
+  async function downloadHistory(signal: AbortSignal) {
+    if (!route || !output) return;
+    await readPackageAsset(output.asset);
+    signal.throwIfAborted();
+    const result = await client.read(route.id, signal);
+    showRoute(result, route.id, signal);
+    const report = { kind: 'dondocs-approval-history', version: 1, approvalService: origin,
+      retrievedAt: new Date().toISOString(), route: result };
+    triggerDownload(new TextEncoder().encode(JSON.stringify(report, null, 2)), `approval-${result.id}.json`, 'application/json');
+  }
+
   const requester = route?.history[0].actorId;
   const mayManage = route?.status === 'pending' && requester === session?.id && session?.canRequest;
   const mayDecide = route?.status === 'pending' && route.activeAssignment?.assignee === session?.id && session?.canApprove;
@@ -128,6 +141,8 @@ export function PackageApprovalPanel({ packageId, revision, origin, canStart, di
         {route ? <div className="space-y-2 rounded border p-3">
           <p role="status">Approval status <strong>{route.status}</strong></p>
           {route.activeAssignment && <p>Stage {route.activeAssignment.stage} · {route.activeAssignment.assignee}{route.activeAssignment.dueAt ? ` · Due ${new Date(route.activeAssignment.dueAt).toLocaleString()}` : ''}</p>}
+          <PackageApprovalHistory route={route} />
+          <Button variant="outline" className={buttonClass} onClick={() => void run(downloadHistory)}>Download approval history</Button>
           {mayManage && <div className="space-y-2">
             <label className="block">New assignee
               <input className={fieldClass} maxLength={100} value={replacement} onChange={event => setReplacement(event.target.value)} />
