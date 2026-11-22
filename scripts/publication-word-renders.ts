@@ -1,5 +1,7 @@
 import { DOMParser } from '@xmldom/xmldom';
 
+const WORD_NS = 'http://schemas.openxmlformats.org/wordprocessingml/2006/main';
+
 export type PublicationWordRenderer = 'microsoft-word' | 'libreoffice';
 export interface PublicationPageSize { width: number; height: number }
 
@@ -29,7 +31,10 @@ function parseXml(source: string): Document {
 /** Read every section's geometry, including the square SL-3 inventory sheets. */
 export function publicationWordPageSizes(documentXml: string): PublicationPageSize[] {
   const document = parseXml(documentXml);
-  const sizes = elements(document, 'w:pgSz').map(page => ({ width: Number(page.getAttribute('w:w')) / 20, height: Number(page.getAttribute('w:h')) / 20 }));
+  const sizes = Array.from(document.getElementsByTagNameNS(WORD_NS, 'pgSz'), page => ({
+    width: Number(page.getAttributeNS(WORD_NS, 'w')) / 20,
+    height: Number(page.getAttributeNS(WORD_NS, 'h')) / 20,
+  }));
   if (!sizes.length || sizes.some(size => !Number.isFinite(size.width) || !Number.isFinite(size.height) || size.width <= 0 || size.height <= 0)) {
     throw new Error('The publication Word source has invalid page geometry.');
   }
@@ -79,4 +84,85 @@ export function inspectPublicationWordRender(input: {
     if (!normalize(marker) || !containsMarker(text, normalize(marker))) throw new Error(`The publication render lost required content: ${marker}`);
   }
   return { pages: pages.length, words: words.length };
+}
+
+/** Check the exact OOXML used for the print. A rendered page can contain the
+ * expected text even when the Word contents links or page fields are broken.
+ */
+export function inspectPublicationWordNavigation(documentXml: string): { bookmarks: number; internalLinks: number; pageReferences: number } {
+  const ns = WORD_NS;
+  const document = parseXml(documentXml);
+  if (document.documentElement.namespaceURI !== ns || document.documentElement.localName !== 'document') {
+    throw new Error('The publication has an invalid Word document root.');
+  }
+  const bodies = document.getElementsByTagNameNS(ns, 'body');
+  const body = bodies.item(0);
+  if (!body || bodies.length !== 1) throw new Error('The publication navigation has no Word body.');
+  const names = new Set<string>(), foldedNames = new Set<string>(), starts = new Set<string>(), active = new Set<string>();
+  const bookmarkId = (node: Element) => {
+    const raw = node.getAttributeNS(ns, 'id');
+    return raw !== null && /^\d{1,10}$/.test(raw) && Number(raw) <= 2_147_483_647 ? String(Number(raw)) : null;
+  };
+  let internalLinks = 0, pageReferences = 0;
+  const targets: string[] = [];
+  const anchorsByParagraph = new Map<Element, string[]>();
+  const fields: { paragraph: Element; anchor: string }[] = [];
+  const containingParagraph = (node: Element): Element | null => {
+    const parent = node.parentNode;
+    if (parent?.nodeType !== 1) return null;
+    const element = parent as Element;
+    return element.namespaceURI === ns && element.localName === 'p' ? element : null;
+  };
+  for (const node of Array.from(body.getElementsByTagNameNS(ns, '*'))) {
+    if (node.localName === 'bookmarkStart') {
+      const name = node.getAttributeNS(ns, 'name'), id = bookmarkId(node);
+      if (!name || id === null || foldedNames.has(name.toLowerCase()) || starts.has(id)) {
+        throw new Error('The publication has missing or duplicate Word bookmark identities.');
+      }
+      names.add(name);
+      foldedNames.add(name.toLowerCase());
+      starts.add(id);
+      active.add(id);
+    } else if (node.localName === 'bookmarkEnd') {
+      const id = bookmarkId(node);
+      if (id === null || !active.delete(id)) throw new Error('The publication has an unmatched Word bookmark end.');
+    } else if (node.localName === 'hyperlink') {
+      const name = node.getAttributeNS(ns, 'anchor');
+      if (name) {
+        targets.push(name);
+        internalLinks++;
+        const paragraph = containingParagraph(node);
+        if (paragraph) {
+          const anchors = anchorsByParagraph.get(paragraph) ?? [];
+          anchors.push(name);
+          anchorsByParagraph.set(paragraph, anchors);
+        }
+      }
+    } else if (node.localName === 'fldSimple') {
+      const instruction = node.getAttributeNS(ns, 'instr')?.trim() ?? '';
+      if (/^PAGEREF\b/i.test(instruction)) {
+        const name = /^PAGEREF\s+([A-Za-z_][A-Za-z0-9_]*)(?=\s|$)/i.exec(instruction)?.[1];
+        const paragraph = containingParagraph(node);
+        if (!name || !paragraph) {
+          throw new Error('The publication has a malformed Word PAGEREF field.');
+        }
+        targets.push(name);
+        fields.push({ paragraph, anchor: name });
+        pageReferences++;
+      }
+    }
+  }
+  if (active.size) throw new Error('The publication has an unmatched Word bookmark start.');
+  for (const target of targets) {
+    if (!names.has(target)) throw new Error(`The publication has an unresolved Word bookmark target: ${target}.`);
+  }
+  const paired = new Set<Element>();
+  for (const { paragraph, anchor } of fields) {
+    const links = anchorsByParagraph.get(paragraph);
+    if (links?.length !== 1 || links[0] !== anchor || paired.has(paragraph)) {
+      throw new Error(`The publication contents link and its Word PAGEREF field disagree: ${anchor}.`);
+    }
+    paired.add(paragraph);
+  }
+  return { bookmarks: names.size, internalLinks, pageReferences };
 }
