@@ -1,3 +1,4 @@
+import { usesDlaLetterhead } from '@/lib/dlaLetterhead';
 import { taggedReferenceUrl } from './links';
 import { resolveLetterheadMode } from '@/lib/letterheadMode';
 import { DOC_TYPE_CONFIG } from '@/types/document';
@@ -28,6 +29,7 @@ export function taggedLetterhead(source: TaggedCorrespondenceSource) {
  * a tagged request must stop rather than silently return an ordinary PDF. */
 export function taggedCorrespondenceIssues(source: TaggedCorrespondenceSource, resolvedLevel = source.formData.classLevel ?? 'unclassified'): string[] {
   const issues: string[] = [];
+  if (usesDlaLetterhead(source.docType, source.formData)) issues.push('DLA letterhead uses standard PDF output.');
   // A stored nonblank value can disappear completely in the PDF font
   // projection (for example a zero-width paste or an unsupported glyph).
   const paintsText = (text?: string) => !!text?.trim() && !!escapeLatex(text).trim();

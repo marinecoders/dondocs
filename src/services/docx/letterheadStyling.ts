@@ -15,7 +15,7 @@ const TITLE_LETTERHEAD_MARKER = /<w:bookmarkStart\b[^>]*\bw:name="DonDocsTitleLe
  * Bold runs (<w:b/>) get 10pt (20 half-points); non-bold get 8pt (16 half-points).
  * All runs in the letterhead table get the letterhead color.
  */
-export function applyLetterheadStyling(xml: string, colorHex: string, firstTableOffset = 0): string {
+export function applyLetterheadStyling(xml: string, colorHex: string, firstTableOffset = 0, dla = false): string {
   // Find the first <w:tbl> in the document using index-based search
   // to correctly handle nested tables (the lazy regex approach can
   // stop at an inner </w:tbl> instead of the outer one).
@@ -55,8 +55,9 @@ export function applyLetterheadStyling(xml: string, colorHex: string, firstTable
   // or joint (text-only but contains "DEPARTMENT" in the text content).
   const hasDrawing = tblInner.includes('<w:drawing>') || tblInner.includes('<wp:inline>');
   const hasDeptText = tblInner.includes('DEPARTMENT');
+  const isDlaTable = dla && tblInner.includes('DEFENSE LOGISTICS AGENCY');
   const isTitleOnly = TITLE_LETTERHEAD_MARKER.test(tblInner);
-  if (!hasDrawing && !hasDeptText && !isTitleOnly) {
+  if (!hasDrawing && !hasDeptText && !isTitleOnly && !isDlaTable) {
     return xml;
   }
 
@@ -64,7 +65,7 @@ export function applyLetterheadStyling(xml: string, colorHex: string, firstTable
   // Ch 7 Fig 7-4, joint letters use plain bond with typed command titles. The joint letter
   // UI has no color picker, so the stored letterheadColor is a stale value from a previous
   // doc type. Override to black for joint letterheads.
-  const isJointLetterhead = !hasDrawing && hasDeptText && !isTitleOnly;
+  const isJointLetterhead = !hasDrawing && hasDeptText && !isTitleOnly && !isDlaTable;
   if (isJointLetterhead) {
     colorHex = '000000';
   }
@@ -79,24 +80,33 @@ export function applyLetterheadStyling(xml: string, colorHex: string, firstTable
       if (!runContent.includes('<w:t')) return `<w:r>${runContent}</w:r>`;
 
       const isBold = runContent.includes('<w:b') && !runContent.includes('<w:b w:val="0"');
-      const sizeHp = isTitleOnly || isBold ? 20 : 16; // 10pt = 20hp, 8pt = 16hp
+      const sizeHp = dla ? (isBold ? 24 : 20) : isTitleOnly || isBold ? 20 : 16; // 10pt = 20hp, 8pt = 16hp
+
+      const font = dla ? '<w:rFonts w:ascii="Copperplate Gothic Light" w:hAnsi="Copperplate Gothic Light"/>' : '';
 
       // Build the run properties we need to inject
       const colorProp = `<w:color w:val="${colorHex}"/>`;
       const sizeProp = `<w:sz w:val="${sizeHp}"/><w:szCs w:val="${sizeHp}"/>`;
 
-      if (runContent.includes('<w:rPr>')) {
-        // Run already has properties — inject color and size into existing rPr
-        runContent = runContent.replace(
-          /<w:rPr>([\s\S]*?)<\/w:rPr>/,
-          `<w:rPr>$1${colorProp}${sizeProp}</w:rPr>`
-        );
+      if (dla) {
+        // Preserve Word's rPr ordering and make the layout pass idempotent.
+        runContent = runContent.replace(/<w:rPr\s*\/>/g, '');
+        if (runContent.includes('<w:rPr>')) {
+          runContent = runContent.replace(/<w:rPr>([\s\S]*?)<\/w:rPr>/, (_, properties: string) => {
+            const clean = properties.replace(/<w:(?:rFonts|color|sz|szCs)\b[^>]*\/>/g, '');
+            const withFont = clean.replace(/^(<w:rStyle\b[^>]*\/>)?/, '$1' + font);
+            const colorTail = /<w:(?:spacing|w|kern|position|sz|szCs|highlight|u|effect|bdr|shd|fitText|vertAlign|rtl|cs|em|lang|eastAsianLayout|specVanish|oMath|rPrChange)\b/;
+            const sizeTail = /<w:(?:highlight|u|effect|bdr|shd|fitText|vertAlign|rtl|cs|em|lang|eastAsianLayout|specVanish|oMath|rPrChange)\b/;
+            const next = colorTail.test(withFont) ? withFont.replace(colorTail, colorProp + '$&') : withFont + colorProp;
+            return '<w:rPr>' + (sizeTail.test(next) ? next.replace(sizeTail, sizeProp + '$&') : next + sizeProp) + '</w:rPr>';
+          });
+        } else {
+          runContent = runContent.replace(/(<w:t)/, '<w:rPr>' + font + colorProp + sizeProp + '</w:rPr>$1');
+        }
+      } else if (runContent.includes('<w:rPr>')) {
+        runContent = runContent.replace(/<w:rPr>([\s\S]*?)<\/w:rPr>/, '<w:rPr>$1' + colorProp + sizeProp + '</w:rPr>');
       } else {
-        // No existing rPr — create one before the text
-        runContent = runContent.replace(
-          /(<w:t)/,
-          `<w:rPr>${colorProp}${sizeProp}</w:rPr>$1`
-        );
+        runContent = runContent.replace(/(<w:t)/, '<w:rPr>' + colorProp + sizeProp + '</w:rPr>$1');
       }
 
       return `<w:r>${runContent}</w:r>`;
@@ -133,7 +143,7 @@ interface LetterheadResult {
   hasLetterheadSeal: boolean;  // true if a letterhead table with seal image was found
 }
 
-export function perfectLetterheadCentering(xml: string, textWidthTwips: number): LetterheadResult {
+export function perfectLetterheadCentering(xml: string, textWidthTwips: number, dla = false): LetterheadResult {
   // Find the first table in the document
   const firstTblMatch = xml.match(/<w:tbl>([\s\S]*?)<\/w:tbl>/);
   if (!firstTblMatch) return { xml, hasLetterheadSeal: false };
@@ -209,14 +219,37 @@ export function perfectLetterheadCentering(xml: string, textWidthTwips: number):
     (match) => {
       cellIndex++;
       if (cellIndex === 2) {
+        if (dla) return '<w:tc><w:tcPr><w:tcMar><w:top w:w="120" w:type="dxa"/></w:tcMar><w:vAlign w:val="top"/></w:tcPr>';
         return '<w:tc><w:tcPr><w:vAlign w:val="center"/></w:tcPr>';
       }
       return match;
     }
   );
 
+  let sealParagraph = '';
+  if (dla) {
+    // DLA stationery fixes the seal at 0.5 in from the top and left edges.
+    // A row minimum reserves room for the floating seal and lets long text grow.
+    tblContent = tblContent.replace(/(<w:tr\b[^>]*>\s*)(?:<w:trPr\s*\/>|<w:trPr>([\s\S]*?)<\/w:trPr>)?/, (_, row: string, properties?: string) => {
+      const height = '<w:trHeight w:val="1440" w:hRule="atLeast"/>';
+      const existing = (properties ?? '').replace(/<w:trHeight\b[^>]*\/>/g, '');
+      return row + '<w:trPr>' + existing + height + '</w:trPr>';
+    });
+    tblContent = tblContent.replace(/<w:drawing><wp:inline\b[^>]*>([\s\S]*?)<\/wp:inline><\/w:drawing>/, (_, content: string) => {
+      const size = 'cx="914400" cy="914400"';
+      const graphic = content.replace(/<(wp:extent|a:ext)\s+cx="\d+"\s+cy="\d+"\s*\/>/g, '<$1 ' + size + '/>')
+        .replace(/(<wp:docPr\b)/, '<wp:wrapNone/>$1');
+      const anchor = '<wp:anchor distT="0" distB="0" distL="0" distR="0" simplePos="0" relativeHeight="0" behindDoc="0" locked="0" layoutInCell="0" allowOverlap="1">'
+        + '<wp:simplePos x="0" y="0"/><wp:positionH relativeFrom="page"><wp:posOffset>457200</wp:posOffset></wp:positionH>'
+        + '<wp:positionV relativeFrom="page"><wp:posOffset>457200</wp:posOffset></wp:positionV>' + graphic + '</wp:anchor>';
+      sealParagraph = '<w:p><w:pPr><w:spacing w:before="0" w:after="0" w:line="1" w:lineRule="exact"/></w:pPr>'
+        + '<w:r><w:drawing>' + anchor + '</w:drawing></w:r></w:p>';
+      return '';
+    });
+  }
+
   // Apply table content changes
-  xml = xml.replace(firstTblMatch[1], tblContent);
+  xml = xml.replace(firstTblMatch[0], () => sealParagraph + '<w:tbl>' + tblContent + '</w:tbl>');
 
   // Note: No vertical spacer paragraph is needed after the letterhead table.
   // The page top margin is reduced to 720 twips (0.5in) so the seal starts at

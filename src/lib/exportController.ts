@@ -145,7 +145,7 @@ export function createExportController(ports: ExportControllerPorts) {
       const review = copyExportReview(result.job);
       operation.stages = [
         ...(review.structure.length ? ['structure' as const] : []),
-        ...(review.markingReview ? ['marking' as const] : []),
+        ...(review.markingReview || review.layoutReview ? ['marking' as const] : []),
         ...(review.privacy.found ? ['privacy' as const] : []),
       ];
       publish({ phase: 'review', job: result.job, stage: operation.stages[0] });

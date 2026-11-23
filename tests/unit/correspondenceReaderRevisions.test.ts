@@ -56,12 +56,38 @@ it('gives letterhead requirements priority over a retained third command', () =>
 
 it('rejects future portable formats instead of accepting unknown renderer capabilities', async () => {
   const source = createBlankSession();
-  const draft = { ...source, kind: 'dondocs-draft', documentKind: 'correspondence', version: 9 };
+  const draft = { ...source, kind: 'dondocs-draft', documentKind: 'correspondence', version: 10 };
   expect(() => parseDraftFile(draft)).toThrow('unsupported');
-  expect(() => parseSharedSession({ kind: 'dondocs-share', version: 15, documentKind: 'correspondence', session: source })).toThrow('unsupported');
-  await expect(parseSharedDocument({ kind: 'dondocs-share', version: 16, documentKind: 'correspondence', draft: source })).rejects.toThrow('unsupported');
-  await expect(restoreBackup(JSON.stringify({ kind: 'dondocs-backup', version: 21, documents: [] }))).rejects.toThrow('Unsupported backup version');
+  expect(() => parseSharedSession({ kind: 'dondocs-share', version: 17, documentKind: 'correspondence', session: source })).toThrow('unsupported');
+  await expect(parseSharedDocument({ kind: 'dondocs-share', version: 18, documentKind: 'correspondence', draft: source })).rejects.toThrow('unsupported');
+  await expect(restoreBackup(JSON.stringify({ kind: 'dondocs-backup', version: 22, documents: [] }))).rejects.toThrow('Unsupported backup version');
   expect(draftEnvelope(source)).toEqual({ version: '1.1' });
+});
+
+it('keeps DLA stationery on draft, link, attachment and backup round trips', async () => {
+  const source = createBlankSession(undefined, 'business_letter');
+  Object.assign(source.formData, { letterheadStandard: 'dla', signatureType: 'none' });
+  const snapshot = { ...source, endItems: [], publicationTables: {} };
+  const draft = await buildDraftFileFromSnapshot(snapshot, 123);
+  expect(draft).toMatchObject({ kind: 'dondocs-draft', version: 9 });
+  expect(parseDraftFile(draft).session.formData.letterheadStandard).toBe('dla');
+  expect(() => parseDraftFile({ ...(draft as object), version: 8 })).toThrow('version 9 draft');
+  const shared = createSharedPayload(source);
+  expect(shared.version).toBe(15);
+  expect(parseSharedSession(shared).formData.letterheadStandard).toBe('dla');
+  expect(() => parseSharedSession({ ...shared, version: 13 })).toThrow('version 15 share');
+  const pdf = await PDFDocument.create(); pdf.addPage(); const data = new Uint8Array(await pdf.save()).buffer;
+  const withAsset = { ...snapshot, enclosures: [{ title: 'Support', file: { name: 'support.pdf', size: data.byteLength, data } }] };
+  const assets = await buildAssetSharePayload(withAsset, 123);
+  expect(assets).toMatchObject({ version: 16 });
+  expect((await parseSharedDocument(assets)).session.formData.letterheadStandard).toBe('dla');
+  await expect(parseSharedDocument({ ...assets, version: 14 })).rejects.toThrow('version 16 share');
+  const retained = { ...source, docType: 'naval_letter', formData: { ...source.formData, docType: 'naval_letter' } };
+  useDocumentsStore.setState({ docs: { letter: { meta: { id: 'letter', title: 'Retained DLA setting', docType: 'naval_letter', updatedAt: 1 }, session: retained } } });
+  const backup = JSON.parse(await buildBackup());
+  expect(backup.version).toBe(21);
+  await expect(restoreBackup(JSON.stringify({ ...backup, version: 20 }))).rejects.toThrow('version 21');
+  await expect(restoreBackup(JSON.stringify(backup))).resolves.toHaveProperty('documents');
 });
 
 for (const size of ['7x9', '5x7']) {

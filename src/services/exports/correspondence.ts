@@ -1,5 +1,6 @@
 import { directiveContinuation } from '@/lib/directiveFormats';
 import { coordinationTable, isStaffPaper } from '@/lib/staffPapers';
+import { usesDlaLetterhead } from '@/lib/dlaLetterhead';
 import { resolveLetterheadMode } from '@/lib/letterheadMode';
 import { DOC_TYPE_CONFIG } from '@/types/document';
 import { appendWordEnclosurePages, renderWordEnclosurePages } from '@/services/docx/enclosurePages';
@@ -81,13 +82,15 @@ export async function renderPreparedCorrespondence(ready: ReadyExportJob, ports:
         checkCancellation(signal);
         return createExportArtifact(ready, enclosurePages.length ? await appendWordEnclosurePages(blob, enclosurePages, signal) : blob);
       }
+      const dlaLetterhead = usesDlaLetterhead(document.docType, data);
       const mediaFiles = await prepareDocxImages(document, async id => read(id).data);
       checkCancellation(signal);
       const blob = await convertDocx(generateFlatLatex(document, resolvedLevel), {
         mediaFiles,
         bodyTables: document.docType === 'coordination_page' ? [coordinationTable(data)]
           : document.paragraphs.flatMap(paragraph => paragraph.bodyTable ? [paragraph.bodyTable] : []),
-        docType: document.docType, sealType: data.sealType, letterheadColor: data.letterheadColor,
+        docType: document.docType, sealType: dlaLetterhead ? 'dod' : data.sealType,
+        letterheadColor: data.letterheadColor, dlaLetterhead,
         stationerySize: data.stationerySize,
         letterheadMode: resolveLetterheadMode(DOC_TYPE_CONFIG[document.docType], data),
         fontFamily: data.fontFamily, fontSize: data.fontSize, classLevel: resolvedLevel, customClassification: data.customClassification,

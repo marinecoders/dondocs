@@ -40,10 +40,9 @@ describe('getEditorSections — false-positive section fixes', () => {
     expect(ids('action_memorandum')).toContain('signature');
   });
 
-  it('mfr drops letterhead/copy-to/distribution and labels the heading "Heading"', () => {
+  it('mfr exposes optional letterhead, drops copy-to/distribution and labels the heading "Heading"', () => {
     const x = ids('mfr');
-    expect(x).toEqual(['addressing', 'classification', 'body', 'references', 'enclosures', 'signature']);
-    expect(x).not.toContain('letterhead');
+    expect(x).toEqual(['letterhead', 'addressing', 'classification', 'body', 'references', 'enclosures', 'signature']);
     expect(x).not.toContain('copyto');
     expect(x).not.toContain('distribution');
     expect(labelOf('mfr', 'addressing')).toBe('Heading');

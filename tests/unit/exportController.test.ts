@@ -1,6 +1,6 @@
 import { expect, it, vi } from 'vitest';
-import { captureDocumentRevision, copyCapturedSession } from '@/lib/capturedDocument';
-import { copyPreparedDocument, type ReadyExportJob } from '@/lib/preparedExport';
+import { captureDocumentRevision, copyCapturedSession, copyCapturedDocument } from '@/lib/capturedDocument';
+import { copyExportReview, copyPreparedDocument, type ReadyExportJob } from '@/lib/preparedExport';
 import { createExportArtifact, type ExportArtifact } from '@/lib/exportExecution';
 import { createExportController, createExportGate, type ExportIntent } from '@/lib/exportController';
 import { fixtureInstance } from '../_helpers/formFixture';
@@ -180,4 +180,51 @@ it('rejects unsupported flat publication output before resource loading and does
   expect(app.controller.retry()).toBe(false);
   expect(app.release).toHaveBeenCalledTimes(1);
   const release = app.gate.acquire();expect(release).not.toBeNull();release?.();
+});
+
+it('pauses a DLA PDF download for the substitute font notice', async () => {
+  const app = setup();
+  const source = intent();
+  const document = copyCapturedDocument(source.captured).document;
+  const captured = captureDocumentRevision(source.captured.source, {
+    ...document, docType: 'business_letter', documentMode: 'custom', formData: { subject: 'Synthetic letter', letterheadStandard: 'dla' },
+    paragraphs: [{ text: 'Sample content.', level: 0 }],
+  });
+  app.controller.request({ ...source, captured });
+  await vi.waitFor(() => expect(app.controller.getState().phase).toBe('review'));
+  const review = app.controller.getState();
+  if (review.phase !== 'review') throw new Error('Review missing');
+  expect(copyExportReview(review.job)).toMatchObject({ layoutReview: true, markingReview: false,
+    notices: [expect.stringContaining('Use approved DLA stationery')] });
+  expect(app.render).not.toHaveBeenCalled();
+  app.controller.confirm(review.job, review.stage);
+  await vi.waitFor(() => expect(app.controller.getState().phase).toBe('success'));
+  expect(app.render).toHaveBeenCalledTimes(1);
+});
+
+it('requires preprinted stock for a Compliant DLA export', async () => {
+  const app = setup();
+  const source = intent();
+  const document = copyCapturedDocument(source.captured).document;
+  for (const letterheadMode of ['full', 'title-only'] as const) {
+    const captured = captureDocumentRevision(source.captured.source, {
+      ...document, docType: 'business_letter', formData: { letterheadStandard: 'dla', letterheadMode },
+      paragraphs: [{ text: 'Sample content.', level: 0 }],
+    });
+    app.controller.request({ ...source, captured });
+    await vi.waitFor(() => expect(app.controller.getState()).toMatchObject({
+      phase: 'error', message: expect.stringContaining('approved preprinted DLA stationery'),
+    }));
+  }
+  expect(app.render).not.toHaveBeenCalled();
+  const captured = captureDocumentRevision(source.captured.source, {
+    ...document, docType: 'business_letter', formData: { subject: 'Synthetic letter', letterheadStandard: 'dla', letterheadMode: 'preprinted' },
+    paragraphs: [{ text: 'Sample content.', level: 0 }],
+  });
+  app.controller.request({ ...source, captured });
+  await vi.waitFor(() => {
+    const state = app.controller.getState();
+    expect(state.phase, state.phase === 'error' ? state.message : undefined).toBe('success');
+  });
+  expect(app.render).toHaveBeenCalledTimes(1);
 });

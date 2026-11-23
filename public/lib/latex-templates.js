@@ -1184,6 +1184,28 @@ const LATEX_TEMPLATES = {
 
 \\newcommand{\\LetterheadMode}{full}
 \\newcommand{\\setLetterheadMode}[1]{\\renewcommand{\\LetterheadMode}{#1}}
+\\newif\\ifDlaLetterhead
+\\newcommand{\\enableDlaLetterhead}{\\DlaLetterheadtrue}
+\\newsavebox{\\DlaLetterheadText}
+\\newcommand{\\printDlaLetterheadText}{%
+    \\sbox{\\DlaLetterheadText}{\\parbox[t]{4in}{%
+        \\centering\\fontfamily{ptm}\\selectfont
+        \\fontsize{12pt}{13pt}\\selectfont
+        \\textcolor{\\LetterheadColor}{\\textbf{DEFENSE LOGISTICS AGENCY}}\\\\
+        \\fontsize{10pt}{10.5pt}\\selectfont
+        \\textcolor{\\LetterheadColor}{\\UnitName}%
+        \\ifdefempty{\\UnitLineTwo}{}{\\\\\\textcolor{\\LetterheadColor}{\\UnitLineTwo}}%
+        \\ifdefempty{\\UnitLineThree}{}{\\\\\\textcolor{\\LetterheadColor}{\\UnitLineThree}}%
+        \\ifdefempty{\\UnitLineFour}{}{\\\\\\textcolor{\\LetterheadColor}{\\UnitLineFour}}%
+    }}%
+    \\begin{textblock*}{4in}(2.25in, 0.625in)%
+        \\noindent\\usebox{\\DlaLetterheadText}%
+    \\end{textblock*}%
+    % Reserve extra depth when a long activity or address wraps.
+    \\ifdim\\dimexpr\\ht\\DlaLetterheadText+\\dp\\DlaLetterheadText\\relax>52pt
+        \\vspace*{\\dimexpr\\ht\\DlaLetterheadText+\\dp\\DlaLetterheadText-52pt\\relax}%
+    \\fi
+}
 \\newcommand{\\printLetterhead}{%
     \\ifthenelse{\\equal{\\LetterheadMode}{preprinted}}{%
         \\vspace*{0.16in}% Preserve the full-letterhead body origin.
@@ -1203,6 +1225,9 @@ const LATEX_TEMPLATES = {
             }%
         }%
     \\end{textblock*}%
+    \\ifDlaLetterhead
+        \\printDlaLetterheadText
+    \\else
     \\begin{textblock*}{4in}(2.25in, 0.625in)%
         \\centering
         % Per SECNAV M-5216.5 App C \\S2a (Computer Generated Letterhead):
@@ -1227,6 +1252,7 @@ const LATEX_TEMPLATES = {
         \\textcolor{\\LetterheadColor}{\\UnitLineThree}\\\\
         \\textcolor{\\LetterheadColor}{\\UnitLineFour}
     \\end{textblock*}%
+    \\fi
     % Spacing: Letterhead ends ~0.975in from top (0.625in start + ~0.35in content)
     % Text area starts at ~1.02in (top=1in + headheight=15pt + headsep=12pt)
     % 0.16in ≈ 12pt ≈ one line gap from letterhead bottom to SSIC block

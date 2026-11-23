@@ -74,18 +74,23 @@ export function prepareTaggedCorrespondence(source: TaggedCorrespondenceSource, 
   const letterhead = taggedLetterhead(source);
   if (letterhead === 'full') {
     if (!options.seal) throw new Error('Prepare the exact decorative letterhead seal before tagged export.');
+    const start = mainSource.indexOf('\\newcommand{\\printLetterhead}');
+    const end = mainSource.indexOf('\n}\n', start);
+    if (start < 0 || end < 0) throw new Error('The tagged PDF letterhead contract changed.');
+    let letterheadSource = mainSource.slice(start, end);
     sealId = nextId++;
-    mainSource = replaceOnce(mainSource, '\\includegraphics[width=1in]{attachments/\\SealFile}', wrap(sealId, '\\includegraphics[width=1in]{attachments/\\SealFile}'));
+    letterheadSource = replaceOnce(letterheadSource, '\\includegraphics[width=1in]{attachments/\\SealFile}', wrap(sealId, '\\includegraphics[width=1in]{attachments/\\SealFile}'));
     const department = top('P').id;
     for (const text of ['DEPARTMENT OF THE NAVY', 'DEPARTMENT OF DEFENSE', 'UNITED STATES MARINE CORPS']) {
-      mainSource = replaceOnce(mainSource, `\\textbf{${text}}`, `\\textbf{${wrap(department, text)}}`);
+      letterheadSource = replaceOnce(letterheadSource, `\\textbf{${text}}`, `\\textbf{${wrap(department, text)}}`);
     }
     const address = splitAddressForLetterhead(fields.unitAddress || '');
     const line2 = !!fields.unitLine2?.trim();
     const unitLines = [fields.unitLine1, line2 ? fields.unitLine2 : address.line1, line2 ? address.line1 : address.line2, line2 ? address.line2 : ''];
     for (const [index, macro] of ['UnitName', 'UnitLineTwo', 'UnitLineThree', 'UnitLineFour'].entries()) {
-      if (unitLines[index]?.trim()) mainSource = replaceOnce(mainSource, `\\textcolor{\\LetterheadColor}{\\${macro}}`, `\\textcolor{\\LetterheadColor}{${wrap(top('P').id, `\\${macro}`)}}`);
+      if (unitLines[index]?.trim()) letterheadSource = replaceOnce(letterheadSource, `\\textcolor{\\LetterheadColor}{\\${macro}}`, `\\textcolor{\\LetterheadColor}{${wrap(top('P').id, `\\${macro}`)}}`);
     }
+    mainSource = mainSource.slice(0, start) + letterheadSource + mainSource.slice(end);
   } else if (letterhead === 'title-only' && fields.unitLine1?.trim()) {
     const title = '\\textbf{\\UnitName}';
     mainSource = replaceOnce(mainSource, title, `\\textbf{${wrap(top('P').id, '\\UnitName')}}`);

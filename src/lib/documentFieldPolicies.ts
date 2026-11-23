@@ -95,6 +95,7 @@ export const DOCUMENT_DATA_FIELD_POLICIES = {
   directiveNumber: 'text', directiveCancellation: 'text', directiveChangeNumber: 'text', directiveReports: 'text',
   staffApprovedBy: 'text', staffDecisionOptions: 'text', staffDecisionOfficials: 'text', staffDecisionStyle: 'control', coordinationLayout: 'control', coordinationComments: 'text',
   coordinationEntries: array(object({ office: 'text', contact: 'text', phone: 'text', date: 'document-date', position: 'text' })),
+  letterheadStandard: 'control',
   ssic: 'text', serial: 'text', date: 'document-date', from: 'text', to: 'text', via: 'text', subject: 'text',
   nomenclature: 'text', sl3: object(sl3), sl4: object(sl4), publicationType: 'control', controllingOffice: 'text',
   miUrgency: 'control', miCompletionDate: 'document-date', shortTitle: 'text', pcn: 'text', supersedure: 'text', exportRestricted: 'value',
