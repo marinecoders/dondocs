@@ -1,3 +1,4 @@
+import { saveGeneratedPdf } from './generatedPdfMetadata';
 import { loadTemplatePage } from './loadTemplatePage';
 import { resolveFormSignatures } from '@/lib/signatureAssets';
 import { PDFDocument, rgb } from 'pdf-lib';
@@ -692,7 +693,7 @@ export async function generateNavmc10274Pdf(
     }
   }
 
-  return pdfDoc.save();
+  return saveGeneratedPdf(pdfDoc);
 }
 
 /**

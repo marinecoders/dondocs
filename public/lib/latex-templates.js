@@ -204,7 +204,20 @@ const LATEX_TEMPLATES = {
 
 \\usepackage{hyperref}
 
+% Native hyperref writes PDF metadata. The bundled SwiftLaTeX stub does not.
+\\makeatletter
+\\@ifundefined{@pdfcreator}{%
+    \\ifdefined\\pdfinfo
+        \\pdfinfo{/Creator (DonDocs) /Producer (\\pdfescapestring{DonDocs (pdfTeX)})}%
+    \\fi
+}{}
+\\makeatother
+
+\\ifdefined\\pdftexversion
+    \\hypersetup{pdfproducer={DonDocs (pdfTeX)}}%
+\\fi
 \\hypersetup{
+    pdfcreator  = {DonDocs},
     colorlinks  = true,
     linkcolor   = blue,
     urlcolor    = blue,

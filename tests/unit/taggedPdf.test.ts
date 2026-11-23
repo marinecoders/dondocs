@@ -25,16 +25,21 @@ async function fixture(options: { wrongNonce?: boolean; missingEnd?: boolean; un
 }
 
 describe('genuine tagged PDF finishing', () => {
-  it('writes a Unicode XMP title and language without declaring conformance', async () => {
+  it('keeps PDF information and XMP branding consistent without declaring conformance', async () => {
     const title = 'Training & <examples> – résumé';
     const { bytes } = await finishTaggedPdf(await fixture(), { ...plan(), title });
-    const pdf = await PDFDocument.load(bytes);
+    const pdf = await PDFDocument.load(bytes, { updateMetadata: false });
     const metadata = pdf.catalog.lookup(PDFName.of('Metadata'));
     if (!(metadata instanceof PDFRawStream)) throw new Error('Expected a saved XMP metadata stream.');
     expect(metadata.dict.get(PDFName.of('Type'))).toBe(PDFName.of('Metadata'));
     expect(metadata.dict.get(PDFName.of('Subtype'))).toBe(PDFName.of('XML'));
     const text = new TextDecoder().decode(metadata.getContents());
     expect(pdf.getTitle()).toBe(title);
+    expect(pdf.getCreator()).toBe('DonDocs');
+    expect(pdf.getProducer()).toBe('DonDocs (pdf-lib)');
+    expect(pdf.getAuthor()).toBeUndefined();
+    expect(text).toContain('<xmp:CreatorTool>DonDocs</xmp:CreatorTool>');
+    expect(text).toContain('<pdf:Producer>DonDocs (pdf-lib)</pdf:Producer>');
     expect(text).toContain('Training &amp; &lt;examples&gt; – résumé');
     expect(text).toContain('<dc:language><rdf:Bag><rdf:li>en-US</rdf:li>');
     expect(text).not.toContain('pdfuaid');

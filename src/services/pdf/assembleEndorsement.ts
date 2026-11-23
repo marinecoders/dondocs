@@ -1,3 +1,4 @@
+import { saveGeneratedPdf } from './generatedPdfMetadata';
 import { PDFDocument, PDFName } from 'pdf-lib';
 import { debug } from '@/lib/debug';
 import { assertAssemblyPagesReadable, loadAssemblyPdf, type PdfImageCopyReason } from './assemblyPdf';
@@ -129,6 +130,8 @@ export async function assembleEndorsement(
   try {
     const endorsement = await PDFDocument.load(endorsementPdfBytes);
     const out = await PDFDocument.create();
+    const author = endorsement.getAuthor();
+    if (author !== undefined) out.setAuthor(author);
 
     const basicPages = await out.copyPages(basic.pdf, basic.pdf.getPageIndices());
     for (const page of basicPages) out.addPage(page);
@@ -136,7 +139,7 @@ export async function assembleEndorsement(
     const endorsementPages = await out.copyPages(endorsement, endorsement.getPageIndices());
     for (const page of endorsementPages) out.addPage(page);
 
-    const pdfBytes = await out.save();
+    const pdfBytes = await saveGeneratedPdf(out);
     return { pdfBytes, basicLetterPageCount: basic.pdf.getPageCount(), ok: true };
   } catch (err) {
     const error = err instanceof Error ? err.message : 'Assembly failed.';

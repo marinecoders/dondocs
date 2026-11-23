@@ -1,3 +1,4 @@
+import { saveGeneratedPdf } from '../generatedPdfMetadata';
 import { taggedXmp } from './xmp';
 import { readTaggedLink, taggedReferenceUrl } from './links';
 import { TAGGED_PDF_STRUCTURE_LIMITS } from './limits';
@@ -331,6 +332,6 @@ export async function finishTaggedPdf(input: Uint8Array, sourcePlan: PdfTaggingP
   pdf.catalog.set(PDFName.of('Metadata'), context.register(context.stream(new TextEncoder().encode(taggedXmp(plan.title, plan.language)), {
     Type: 'Metadata', Subtype: 'XML',
   })));
-  const bytes = await pdf.save({ useObjectStreams: false });
+  const bytes = await saveGeneratedPdf(pdf, { useObjectStreams: false });
   return { bytes, pageCount: pdf.getPageCount(), associatedChunks, artifactChunks, contentPages: Object.fromEntries([...content].map(([id, chunks]) => [id, [...new Set(chunks.map(item => item.page))]])) };
 }

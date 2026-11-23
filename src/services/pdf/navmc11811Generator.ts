@@ -1,6 +1,7 @@
+import { saveGeneratedPdf } from './generatedPdfMetadata';
 import { loadTemplatePage } from './loadTemplatePage';
 import { resolveFormSignatures } from '@/lib/signatureAssets';
-import { PDFDocument, rgb } from 'pdf-lib';
+import { PDFDocument, PDFName, rgb } from 'pdf-lib';
 import { wrapTextForForm } from './textWrap';
 import { assertInstalledFontText, embedPdfFont } from './fonts';
 
@@ -382,7 +383,10 @@ export async function generateNavmc11811Pdf(
     await appendSignatureBlocks(pdfDoc, page, font, FONT_SIZE, sigBlocks, col, startY, { n: 1 });
   }
 
-  return pdfDoc.save();
+  // The template's XMP identifies the original form-building tool and file ID.
+  // Keep the title, subject and author in the info dictionary on this new export.
+  pdfDoc.catalog.delete(PDFName.of('Metadata'));
+  return saveGeneratedPdf(pdfDoc);
 }
 
 // =============================================================================

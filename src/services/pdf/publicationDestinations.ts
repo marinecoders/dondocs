@@ -1,3 +1,4 @@
+import { saveGeneratedPdf } from './generatedPdfMetadata';
 import { PDFArray, PDFHexString, PDFDict, PDFDocument, PDFName, PDFNumber, PDFString } from 'pdf-lib';
 
 /** Resolve template anchors from page annotations before signing or merging.
@@ -36,7 +37,7 @@ export async function resolvePublicationDestinations(bytes: Uint8Array, manualFr
     const entries = [...volumeLabels].sort(([a], [b]) => a - b);
     pdf.catalog.set(PDFName.of('PageLabels'), pdf.context.obj({ Nums: [0, { P: PDFString.of('Cover') }, ...entries.flatMap(([page, label]) => [page, label])] }));
   }
-  if (!anchors.size) return manualFrontMatter ? pdf.save() : bytes;
+  if (!anchors.size) return manualFrontMatter ? saveGeneratedPdf(pdf) : bytes;
   let names = pdf.catalog.lookup(PDFName.of('Names'));
   if (!(names instanceof PDFDict)) {
     names = pdf.context.obj({});
@@ -59,7 +60,7 @@ export async function resolvePublicationDestinations(bytes: Uint8Array, manualFr
   for (const [name, destination] of anchors) entries.set(name, destination);
   const sorted = [...entries].sort(([a], [b]) => a < b ? -1 : a > b ? 1 : 0);
   (names as PDFDict).set(PDFName.of('Dests'), pdf.context.obj({ Names: sorted.flatMap(([name, destination]) => [PDFString.of(name), destination]) }));
-  return pdf.save();
+  return saveGeneratedPdf(pdf);
 }
 
 export function appendPublicationOutline(pdf: PDFDocument, title: string, pageIndex: number): void {

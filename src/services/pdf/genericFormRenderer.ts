@@ -1,3 +1,4 @@
+import { saveGeneratedPdf } from './generatedPdfMetadata';
 import { templatePageGeometry, assertFormGeometry } from '@/services/forms/geometry';
 import type { FormDiagnostic } from '@/services/forms/model';
 import { formAssetUrl } from '@/lib/releasePaths';
@@ -259,5 +260,5 @@ export async function renderFormPdf(
     });
   }
 
-  return doc.save();
+  return saveGeneratedPdf(doc);
 }

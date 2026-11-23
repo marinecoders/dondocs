@@ -1,3 +1,4 @@
+import { saveGeneratedPdf } from '@/services/pdf/generatedPdfMetadata';
 import { PDFDocument } from 'pdf-lib';
 import { assertInstalledFontText, embedPdfFont } from '@/services/pdf/fonts';
 import type { PackageAsset } from './actionPackages';
@@ -125,5 +126,5 @@ export async function renderPackageAttachment(asset: PackageAsset, bytes: ArrayB
       lines.slice(start, start + 54).forEach((line, index) => page.drawText(line, { x: 36, y: 756 - index * lineHeight, size, font }));
     }
   }
-  signal?.throwIfAborted(); return new Uint8Array(await document.save()).buffer;
+  signal?.throwIfAborted(); return new Uint8Array(await saveGeneratedPdf(document)).buffer;
 }
