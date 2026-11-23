@@ -101,6 +101,7 @@ export class PublicationWordPackage {
   private sections = 0;
   private pictures = 0;
   private hasOuterFurniture = false;
+  private hasContentsPageFields = false;
   private readonly targets = new Map<string, { label: string; anchor: string; note: boolean }>();
   private readonly destinations = new Map<string, string>();
   private readonly signal: AbortSignal;
@@ -153,6 +154,7 @@ export class PublicationWordPackage {
       this.add(paragraphRuns(link, { after: 5, indent }));
       return;
     }
+    this.hasContentsPageFields = true;
     this.add(`<w:p><w:pPr><w:tabs><w:tab w:val="right" w:leader="dot" w:pos="10080"/></w:tabs><w:spacing w:after="100"/></w:pPr>${link}<w:r><w:tab/></w:r><w:fldSimple w:instr=" PAGEREF ${anchor} \\h \\* Arabic ">${run('')}</w:fldSimple></w:p>`);
   }
   bodyTable(table: BodyTable): void {
@@ -302,7 +304,7 @@ export class PublicationWordPackage {
     this.zip.file('word/document.xml', `${XML}<w:document xmlns:w="${W}" xmlns:r="${R}" xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing" xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" xmlns:pic="http://schemas.openxmlformats.org/drawingml/2006/picture"><w:body>${this.body.join('')}</w:body></w:document>`);
     const styles = ['Title', 'Heading1', 'Heading2', 'Heading3'].map((name, index) => `<w:style w:type="paragraph" w:styleId="${name}"><w:name w:val="${name}"/><w:basedOn w:val="Normal"/><w:next w:val="Normal"/><w:pPr><w:keepNext/><w:outlineLvl w:val="${Math.max(0, index - 1)}"/></w:pPr><w:rPr><w:b/><w:sz w:val="${index === 0 ? 28 : 20}"/></w:rPr></w:style>`).join('');
     this.zip.file('word/styles.xml', `${XML}<w:styles xmlns:w="${W}"><w:docDefaults><w:rPrDefault><w:rPr><w:rFonts w:ascii="${this.fontName}" w:hAnsi="${this.fontName}" w:eastAsia="${this.fontName}" w:cs="${this.fontName}"/><w:sz w:val="${this.fontSize * 2}"/><w:lang w:val="en-US"/></w:rPr></w:rPrDefault><w:pPrDefault><w:pPr><w:spacing w:after="120" w:line="240" w:lineRule="auto"/></w:pPr></w:pPrDefault></w:docDefaults><w:style w:type="paragraph" w:default="1" w:styleId="Normal"><w:name w:val="Normal"/></w:style>${styles}</w:styles>`);
-    this.zip.file('word/settings.xml', `${XML}<w:settings xmlns:w="${W}"><w:zoom w:percent="100"/><w:defaultTabStop w:val="720"/>${this.hasOuterFurniture ? '<w:evenAndOddHeaders/>' : ''}<w:updateFields w:val="true"/><w:compat><w:compatSetting w:name="compatibilityMode" w:uri="http://schemas.microsoft.com/office/word" w:val="15"/></w:compat></w:settings>`);
+    this.zip.file('word/settings.xml', `${XML}<w:settings xmlns:w="${W}"><w:zoom w:percent="100"/><w:defaultTabStop w:val="720"/>${this.hasOuterFurniture ? '<w:evenAndOddHeaders/>' : ''}${this.hasContentsPageFields ? '<w:updateFields w:val="true"/>' : ''}<w:compat><w:compatSetting w:name="compatibilityMode" w:uri="http://schemas.microsoft.com/office/word" w:val="15"/></w:compat></w:settings>`);
     this.relationship('styles', 'styles.xml'); this.relationship('settings', 'settings.xml');
     this.zip.file('word/_rels/document.xml.rels', `${XML}<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">${this.relationships.join('')}</Relationships>`);
     this.zip.file('_rels/.rels', `${XML}<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="${R}/officeDocument" Target="word/document.xml"/></Relationships>`);

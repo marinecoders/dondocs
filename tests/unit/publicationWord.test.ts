@@ -251,7 +251,7 @@ describe('publication Word output', () => {
     const { zip, xml } = await output(document);
     const settings = await zip.file('word/settings.xml')!.async('string');
     expect(settings).toContain('<w:evenAndOddHeaders/>');
-    expect(settings.indexOf('evenAndOddHeaders')).toBeLessThan(settings.indexOf('updateFields'));
+    expect(settings).not.toContain('updateFields');
     for (const [suffix, edge] of [['', 'right'], ['-even', 'left']]) {
       const header = await zip.file(`word/header2${suffix}.xml`)!.async('string');
       const footer = await zip.file(`word/footer2${suffix}.xml`)!.async('string');
