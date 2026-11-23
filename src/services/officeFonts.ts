@@ -32,6 +32,7 @@ export const OFFICE_FONT_FACES = Object.values(families).flatMap(({ name, faces 
 );
 
 export const OFFICE_FONT_URL = '/__local_office_fonts/';
+export const OFFICE_FONT_CONTENT_TYPE = 'application/octet-stream';
 export const OFFICE_FONT_ENCODING = 'office-8r.enc';
 export const OFFICE_FONT_UNICODE = 'office-glyphtounicode.tex';
 export const OFFICE_FONT_FILES = [
@@ -66,8 +67,12 @@ export function loadLocalOfficeFonts(): Promise<OfficeFontSource> | undefined {
   if (!import.meta.env?.DEV || import.meta.env.VITE_LOCAL_OFFICE_FONTS !== '1') return undefined;
   localSource ??= Promise.all(OFFICE_FONT_FILES.map(async filename => {
     const response = await fetch(OFFICE_FONT_URL + filename);
-    if (!response.ok) throw new Error(`Could not load local PDF font asset ${filename}.`);
-    return [filename, new Uint8Array(await response.arrayBuffer())] as const;
+    const error = `Could not load local PDF font asset ${filename}.`;
+    const contentType = response.headers.get('content-type')?.split(';')[0].trim().toLowerCase();
+    if (!response.ok || contentType !== OFFICE_FONT_CONTENT_TYPE) throw new Error(error);
+    const bytes = new Uint8Array(await response.arrayBuffer());
+    if (!bytes.byteLength) throw new Error(error);
+    return [filename, bytes] as const;
   })).then(entries => new OfficeFontSource(Object.fromEntries(entries) as OfficeFontAssets)).catch(error => {
     localSource = undefined;
     throw error;

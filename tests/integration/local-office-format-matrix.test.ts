@@ -21,7 +21,7 @@ import { captureExportFormTemplates } from '@/services/exports/formTemplates';
 import { renderPreparedBuiltinForm } from '@/services/exports/builtinForms';
 import { compileDocument, LatexCompileError, prepareEngine } from '@/services/latex/renderDocument';
 import { validateGeneratedTaggedPdf } from '@/services/pdf/accessibility/validate';
-import { loadLocalOfficeFonts, OFFICE_FONT_URL, type OfficeFontAssets, type OfficeFontSource } from '@/services/officeFonts';
+import { loadLocalOfficeFonts, OFFICE_FONT_CONTENT_TYPE, OFFICE_FONT_URL, type OfficeFontAssets, type OfficeFontSource } from '@/services/officeFonts';
 import { inspectPackageAttachment, renderPackageAttachment } from '@/lib/packageAttachmentCapabilities';
 import { supportsDlaLetterhead } from '@/lib/dlaLetterhead';
 import { computeNavmc11811Fit } from '@/services/pdf/navmc11811Generator';
@@ -101,7 +101,7 @@ describe.skipIf(!enabled)('local Office font PDF format matrix', () => {
       const path = decodeURI(String(input));
       if (path.startsWith(OFFICE_FONT_URL)) {
         const name = path.slice(OFFICE_FONT_URL.length);
-        return new Response(new Uint8Array(fontAssets[name as keyof OfficeFontAssets]));
+        return new Response(new Uint8Array(fontAssets[name as keyof OfficeFontAssets]), { headers: { 'Content-Type': OFFICE_FONT_CONTENT_TYPE } });
       }
       if (path.startsWith('/templates/') || path.startsWith('/attachments/')) {
         return new Response(new Uint8Array(await readFile('public' + path)));

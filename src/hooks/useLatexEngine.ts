@@ -22,6 +22,7 @@ declare global {
 
 interface PdfTeXEngine {
   loadEngine(): Promise<void>;
+  closeWorker(): void;
   isReady(): boolean;
   writeMemFSFile(path: string, content: string | Uint8Array): void;
   makeMemFSFolder(path: string): void;
@@ -89,6 +90,7 @@ export function useLatexEngine() {
     debug.time('EngineInit');
     debug.group('Engine', 'LaTeX Engine Initialization');
 
+    let engine: PdfTeXEngine | undefined;
     try {
       setState((s) => ({ ...s, isLoading: true, error: null }));
 
@@ -126,9 +128,10 @@ export function useLatexEngine() {
         throw new Error('PdfTeXEngine not loaded - check if /lib/PdfTeXEngine.js exists');
       }
 
+      const officeFonts = await loadLocalOfficeFonts();
       debug.log('Engine', 'Initializing LaTeX engine...');
       debug.time('EngineLoad');
-      const engine = new window.PdfTeXEngine();
+      engine = new window.PdfTeXEngine();
       await engine.loadEngine();
       debug.timeEnd('EngineLoad');
 
@@ -171,7 +174,7 @@ export function useLatexEngine() {
         fonts,
         templates: window.LATEX_TEMPLATES,
         seals,
-        officeFonts: await loadLocalOfficeFonts(),
+        officeFonts,
       });
       debug.timeEnd('PreloadPackages');
       debug.log('Engine', 'Filesystem prepared', {
@@ -194,6 +197,7 @@ export function useLatexEngine() {
         lastCompileLog: null,
       });
     } catch (err) {
+      engine?.closeWorker();
       debug.error('Engine', 'Failed to initialize LaTeX engine', err);
       debug.groupEnd();
       initStartedRef.current = false; // Allow retry

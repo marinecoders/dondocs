@@ -1,6 +1,6 @@
 import { defineConfig, mergeConfig, type ViteDevServer } from 'vite';
 import base from './vite.config.ts';
-import { OFFICE_FONT_URL } from './src/services/officeFonts.ts';
+import { OFFICE_FONT_CONTENT_TYPE, OFFICE_FONT_URL } from './src/services/officeFonts.ts';
 import { readLocalOfficeFontAssets } from './scripts/localOfficeFontAssets.ts';
 
 export default defineConfig(({ command, isPreview }) => {
@@ -21,7 +21,7 @@ export default defineConfig(({ command, isPreview }) => {
             res.statusCode = 403;
             return res.end();
           }
-          res.setHeader('Content-Type', 'application/octet-stream');
+          res.setHeader('Content-Type', OFFICE_FONT_CONTENT_TYPE);
           res.setHeader('Cross-Origin-Resource-Policy', 'same-origin');
           res.setHeader('Cache-Control', 'no-store');
           return res.end(asset);
