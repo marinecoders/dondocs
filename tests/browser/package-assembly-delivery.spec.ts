@@ -56,7 +56,10 @@ for (const width of [1440, 320]) {
     if (await dialog.getByRole('checkbox', { name: /^I reviewed every included member/ }).isVisible()) await dialog.getByRole('checkbox', { name: /^I reviewed every included member/ }).check();
     await preparePackageExport(dialog, 'saved');
     const bytes = await download(page, () => dialog.getByRole('button', { name: 'Download reviewed retained PDF', exact: true }).click());
-    const output = await PDFDocument.load(bytes); expect(output.getPageCount()).toBe(5);
+    const output = await PDFDocument.load(bytes, { updateMetadata: false });
+    expect(output.getPageCount()).toBe(5);
+    expect(output.getCreator()).toBe('DonDocs');
+    expect(output.getProducer()).toBe('DonDocs (pdf-lib)');
     const outlines = output.catalog.lookup(PDFName.of('Outlines'), PDFDict), first = outlines.lookup(PDFName.of('First'), PDFDict), last = outlines.lookup(PDFName.of('Last'), PDFDict);
     expect(first.lookup(PDFName.of('Dest'), PDFArray).get(0)).toEqual(output.getPage(2).ref); expect(last.lookup(PDFName.of('Dest'), PDFArray).get(0)).toEqual(output.getPage(4).ref);
     const labels = output.catalog.lookup(PDFName.of('PageLabels'), PDFDict).lookup(PDFName.of('Nums'), PDFArray); expect(labels.lookup(0, PDFNumber).asNumber()).toBe(2); expect(labels.lookup(2, PDFNumber).asNumber()).toBe(4);

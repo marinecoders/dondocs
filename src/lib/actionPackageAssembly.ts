@@ -1,3 +1,4 @@
+import { saveGeneratedPdf } from '@/services/pdf/generatedPdfMetadata';
 import { directiveIssues } from './directiveFormats';
 import { isStaffPaper, staffPaperIssues } from './staffPapers';
 import { projectCapturedOutput } from './documentFields';
@@ -804,7 +805,7 @@ export async function assemblePackage(
     if (controls.maximumPages && pdf.getPageCount() > controls.maximumPages)
       throw new Error(`This assembly including its front matter exceeds its ${controls.maximumPages}-page memory limit.`);
     const navigation = addPackageOutputNavigation(pdf, getPackageRevision(input.record, input.revisionId), boundaries);
-    const bytes = new Uint8Array(await pdf.save()).buffer;
+    const bytes = new Uint8Array(await saveGeneratedPdf(pdf)).buffer;
     await assertAssemblyPolicyCurrent(input); signal.throwIfAborted();
     const staged: StoredAttachment = { id: newAttachmentId(), name: `${input.record.name}.pdf`, type: 'application/pdf', size: bytes.byteLength, data: bytes };
     const output = {

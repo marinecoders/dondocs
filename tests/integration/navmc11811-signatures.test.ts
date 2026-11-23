@@ -81,7 +81,13 @@ describe('NAVMC 118(11) signature blocks', () => {
         { statement: '', name: 'C. D. WITNESS', style: 'digital' },
       ],
     });
-    const doc = await PDFDocument.load(bytes);
+    const doc = await PDFDocument.load(bytes, { updateMetadata: false });
+    const original = await PDFDocument.load(await readFile(TPL), { updateMetadata: false });
+    expect(doc.getCreator()).toBe('DonDocs');
+    expect(doc.getProducer()).toBe('DonDocs (pdf-lib)');
+    expect(doc.getAuthor()).toBe(original.getAuthor());
+    expect(doc.catalog.has(PDFName.of('Metadata'))).toBe(false);
+    expect(original.catalog.has(PDFName.of('Metadata'))).toBe(true);
     const t = text(bytes);
 
     expect(t).toMatch(/A\. B\. COUNSELOR/); // typed name printed

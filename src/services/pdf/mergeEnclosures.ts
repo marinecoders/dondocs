@@ -1,3 +1,4 @@
+import { saveGeneratedPdf } from './generatedPdfMetadata';
 import { appendPublicationOutline } from './publicationDestinations';
 import { assertAssemblyPagesReadable, loadAssemblyPdf } from './assemblyPdf';
 import type { PDFObject } from 'pdf-lib';
@@ -1268,7 +1269,7 @@ export async function mergeEnclosures(
   }
 
   options.signal?.throwIfAborted();
-  const pdfBytes = await mainPdf.save();
+  const pdfBytes = await saveGeneratedPdf(mainPdf);
 
   if (errors.length > 0) {
     debug.warn('MergeEnclosures', `Completed with ${errors.length} enclosure error(s):`, errors);

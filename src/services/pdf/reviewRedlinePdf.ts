@@ -1,3 +1,4 @@
+import { saveGeneratedPdf } from './generatedPdfMetadata';
 import { PDFDocument, rgb } from 'pdf-lib';
 import { embedPdfFont } from './fonts';
 import { compareText, type TextSegment } from '@/lib/textChanges';
@@ -180,7 +181,7 @@ export async function generateReviewRedlinePdf(data: RedlineContent, cancelled: 
   if (!context) throw new Error('This browser cannot render the redline PDF. Use a browser with canvas support.');
   const measure = (text: string, size: number) => { context.font = `${size * 2}px ${REVIEW_FONT}`;return context.measureText(text).width / 2; };
   const pdf = await PDFDocument.create();
-  pdf.setTitle(`REVIEW COPY - ${data.roundLabel}`);pdf.setSubject('Captured proposed edits, paragraph movement, decisions and discussions');pdf.setCreator('DonDocs');pdf.setLanguage('en');
+  pdf.setTitle(`REVIEW COPY - ${data.roundLabel}`);pdf.setSubject('Captured proposed edits, paragraph movement, decisions and discussions');pdf.setLanguage('en');
   const font = await embedPdfFont(pdf, 'helvetica');
   const widths = new Map(Array.from({ length: 95 }, (_, i) => [String.fromCharCode(i + 32), font.widthOfTextAtSize(String.fromCharCode(i + 32), 1)]));
   const advance = (text: string, size: number) => Array.from(text).reduce((sum, char) => sum + widths.get(char)!, 0) * size;
@@ -216,7 +217,7 @@ export async function generateReviewRedlinePdf(data: RedlineContent, cancelled: 
     // Yield between pages so cancellation and document switches can invalidate export.
     await new Promise(resolve => setTimeout(resolve, 0));
   }
-  assertActive();const bytes = await pdf.save();assertActive();
+  assertActive();const bytes = await saveGeneratedPdf(pdf);assertActive();
   if (bytes.byteLength > REDLINE_LIMITS.bytes) throw new Error('This redline exceeds the 40 MB PDF limit. Export a smaller review round.');
   return bytes;
 }

@@ -15,8 +15,9 @@ import {
 } from '@/services/pdf/assembleEndorsement';
 
 /** A PDF whose pages each carry a unique word, so order is checkable. */
-async function makePdf(words: string[]): Promise<Uint8Array> {
+async function makePdf(words: string[], author?: string): Promise<Uint8Array> {
   const doc = await PDFDocument.create();
+  if (author) doc.setAuthor(author);
   const font = await doc.embedFont(StandardFonts.Helvetica);
   for (const word of words) {
     const page = doc.addPage([612, 792]);
@@ -33,8 +34,9 @@ async function pageCount(bytes: Uint8Array): Promise<number> {
 
 describe('assembleEndorsement', () => {
   it('puts the basic letter first and the endorsement after', async () => {
-    const letter = await makePdf(['LETTER-1', 'LETTER-2', 'LETTER-3']);
-    const endorsement = await makePdf(['ENDORSEMENT']);
+    const letter = await makePdf(['LETTER-1', 'LETTER-2', 'LETTER-3'], 'Basic Letter Author');
+    const retained = letter.slice();
+    const endorsement = await makePdf(['ENDORSEMENT'], 'Endorsement Author');
 
     const result = await assembleEndorsement(endorsement, letter);
 
@@ -42,7 +44,12 @@ describe('assembleEndorsement', () => {
     if (!result.ok) return;
     expect(result.basicLetterPageCount).toBe(3);
     // 3 letter pages + 1 endorsement page.
-    expect(await pageCount(result.pdfBytes)).toBe(4);
+    const output = await PDFDocument.load(result.pdfBytes, { updateMetadata: false });
+    expect(output.getPageCount()).toBe(4);
+    expect(output.getCreator()).toBe('DonDocs');
+    expect(output.getProducer()).toBe('DonDocs (pdf-lib)');
+    expect(output.getAuthor()).toBe('Endorsement Author');
+    expect(letter).toEqual(retained);
   });
 
   // Page counts alone can't see a reversed concatenation — a flip once slipped

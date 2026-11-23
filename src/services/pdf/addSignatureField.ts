@@ -1,3 +1,4 @@
+import { saveGeneratedPdf } from './generatedPdfMetadata';
 import { PDFDocument, PDFName, PDFDict, PDFArray, PDFString, PDFHexString, PDFNumber, PDFRawStream, decodePDFRawStream } from 'pdf-lib';
 
 /**
@@ -521,7 +522,7 @@ export async function addSignatureField(
 
   console.log(`[addSignatureField] ✓ Signature field "${name}" added at Rect=[${position.x}, ${position.y}, ${position.x + width}, ${position.y + height}]`);
 
-  return await pdfDoc.save();
+  return saveGeneratedPdf(pdfDoc);
 }
 
 /**
@@ -636,5 +637,5 @@ export async function addDualSignatureFields(
   console.log(`  Junior: page ${juniorPosition.pageIndex + 1}, Rect=[${juniorPosition.x}, ${juniorPosition.y}, ${juniorPosition.x + width}, ${juniorPosition.y + height}]`);
   console.log(`  Senior: page ${seniorPosition.pageIndex + 1}, Rect=[${seniorPosition.x}, ${seniorPosition.y}, ${seniorPosition.x + width}, ${seniorPosition.y + height}]`);
 
-  return await pdfDoc.save();
+  return saveGeneratedPdf(pdfDoc);
 }

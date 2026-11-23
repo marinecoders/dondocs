@@ -308,7 +308,11 @@ test('PDF export delivers a readable file containing the latest editor content',
   // Wait for real SwiftLaTeX output and exercise the mobile preview's download
   // control on phones/tablets, or the header's Download PDF menu on desktop.
   const exportPdf = await preparePdfExport(page);
-  await expectPdfExport(page, testInfo.project.name, exportPdf, /browser-export-verification\.pdf$/, [SUBJECT, BODY]);
+  const bytes = await expectPdfExport(page, testInfo.project.name, exportPdf, /browser-export-verification\.pdf$/, [SUBJECT, BODY]);
+  const document = await PDFDocument.load(bytes, { updateMetadata: false });
+  expect(document.getCreator()).toBe('DonDocs');
+  expect(document.getProducer()).toBe('DonDocs (pdfTeX)');
+  expect(document.getAuthor()).toBeUndefined();
   await expect(page.getByRole('dialog')).toHaveCount(0, { timeout: 10_000 });
   await expect(page.getByRole('textbox', { name: 'Subject', exact: true })).toHaveValue(SUBJECT);
 });
@@ -338,7 +342,10 @@ test('built-in form downloads a readable PDF and hides inapplicable Word exports
   await start(page);
   await page.getByRole('button', { name: 'Forms', exact: true }).click();
   const exportPdf = await preparePdfExport(page);
-  await expectPdfExport(page, testInfo.project.name, exportPdf, /^NAVMC-10274-.*\.pdf$/);
+  const bytes = await expectPdfExport(page, testInfo.project.name, exportPdf, /^NAVMC-10274-.*\.pdf$/);
+  const document = await PDFDocument.load(bytes, { updateMetadata: false });
+  expect(document.getCreator()).toBe('DonDocs');
+  expect(document.getProducer()).toBe('DonDocs (pdf-lib)');
   await expect(page.getByRole('dialog')).toHaveCount(0, { timeout: 10_000 });
   await page.getByRole('button', { name: 'Download', exact: true }).click();
   await expect(page.getByRole('menuitem', { name: 'Download Word (.docx)', exact: true })).toHaveCount(0);
