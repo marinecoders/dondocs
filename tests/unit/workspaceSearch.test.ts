@@ -88,13 +88,31 @@ describe('workspace full-text search', () => {
     expect(fields.map(field => field.text)).toContain('usmc/dow training');
     expect(fields.some(field => field.text.startsWith('Seal:'))).toBe(false);
   });
-  it.each(Object.keys(DOC_TYPE_CONFIG).filter((type) => type !== 'sl3' && type !== 'sl4' && type !== 'tm_ietm_front_matter'))('finds body content and a real section for %s', (docType) => {
+  it.each(Object.keys(DOC_TYPE_CONFIG).filter(type => !['sl3', 'sl4', 'tm_ietm_front_matter', 'coordination_page'].includes(type)))('finds body content and a real section for %s', (docType) => {
     const source = session({ docType, ...(docType === 'technical_volume' ? volumeFixture() : {}), paragraphs: [{ ...(docType === 'technical_volume' ? volumeFixture().paragraphs[0] : {}), text: 'Historic amphibious exercise request', level: 0 }] });
     const fields = sessionSearchFields(source);
     const match = findSearchMatch(fields, 'amphibious');
     expect(match?.field.sectionId).toBe(docType === 'technical_volume' ? 'volume-body' : 'body');
     expect(getEditorSections(DOC_TYPE_CONFIG[docType], docType).some((s) => s.id === match?.field.sectionId)).toBe(true);
     expect(match?.snippet).toContain('amphibious');
+  });
+  it('searches editable coordination fields and skips retained paragraphs', () => {
+    const fields = sessionSearchFields(session({ docType: 'coordination_page', formData: {
+      coordinationLayout: 'hqmc', subject: 'Harbor training',
+      coordinationEntries: [{ office: 'Operations', contact: '', phone: '', date: '', position: '' }],
+      coordinationComments: 'Reserve an exercise berth',
+    }, paragraphs: [{ text: 'Retained hidden body', level: 0 }] }));
+    for (const query of ['harbor', 'operations', 'berth']) {
+      expect(findSearchMatch(fields, query)?.field.sectionId).toBe('staff-paper');
+    }
+    expect(findSearchMatch(fields, 'hidden')).toBeUndefined();
+  });
+  it('routes staff-paper details and directive numbers to their visible sections', () => {
+    const paper = sessionSearchFields(session({ docType: 'information_paper', formData: { preparedBy: 'Synthetic author' } }));
+    expect(findSearchMatch(paper, 'author')?.field.sectionId).toBe('staff-paper');
+    const directive = sessionSearchFields(session({ docType: 'marine_corps_order', formData: { directiveNumber: '5215.7', officeCode: 'SPONSOR-TEST' } }));
+    expect(findSearchMatch(directive, '5215.7')?.field.sectionId).toBe('directive');
+    expect(findSearchMatch(directive, 'SPONSOR-TEST')?.field.sectionId).toBe('directive');
   });
   it('searches both forms, including signature statements, without indexing images or unrelated forms', () => {
     const fields = sessionSearchFields(session({ documentCategory: 'forms', forms: { includeCoverPage: false,

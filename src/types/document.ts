@@ -784,6 +784,14 @@ export const DOC_TYPE_LABELS: Record<string, string> = {
  * MOA …) so a document package stops being a wall of identical file icons.
  */
 export const DOC_TYPE_CHIP: Record<string, string> = {
+  marine_corps_order: 'MCO',
+  marine_corps_bulletin: 'MCBUL',
+  secnav_instruction: 'SECNAVINST',
+  secnav_notice: 'SECNAVNOTE',
+  change_transmittal: 'CHG',
+  position_decision_paper: 'PDP',
+  information_paper: 'IP',
+  coordination_page: 'COORD',
   naval_letter: 'LTR',
   standard_letter: 'LTR',
   business_letter: 'BL',

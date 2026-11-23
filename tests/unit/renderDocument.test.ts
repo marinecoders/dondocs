@@ -14,7 +14,8 @@ import { resolve } from 'node:path';
 import { PDFDocument } from 'pdf-lib';
 import { prepareEngine, compileDocument, LatexCompileError, TAGGED_MAIN_FILE } from '@/services/latex/renderDocument';
 import { DOC_TYPE_CONFIG } from '@/types/document';
-import { generateAllLatexFiles } from '@/services/latex/generator';
+import { generateAllLatexFiles, generateDocumentTex } from '@/services/latex/generator';
+import { useDocumentStore } from '@/stores/documentStore';
 import { volumeFixture } from '../_helpers/volumeFixture';
 import { supportsCorrespondenceSignatureImage } from '@/services/docx/imageAssets';
 import { docxImageFixture } from '../_helpers/docxImageFixture';
@@ -130,9 +131,11 @@ describe('compileDocument', () => {
 
   it.each(Object.keys(DOC_TYPE_CONFIG))('matches signature-image visibility of the actual %s template', docType => {
     const runtime = docType === 'technical_volume' ? generateAllLatexFiles(volumeFixture()).texFiles : {};
+    const document = generateDocumentTex({ ...useDocumentStore.getState(), docType });
+    const templateName = /\\(?:long\\)?def\\CorrespondenceTemplate\{([^}]+)\}/.exec(document)?.[1] ?? docType;
     const load = (name: string): string => String(runtime[`${name}.tex`] ?? readFileSync(resolve('tex/templates', `${name}.tex`), 'utf8'))
       .replace(/^\\input\{([^}]+)\}/gm, (_match, include: string) => load(include));
-    const template = load(docType);
+    const template = load(templateName);
     expect(supportsCorrespondenceSignatureImage(docType)).toBe(template.includes('attachments/\\SignatureImage'));
   });
 

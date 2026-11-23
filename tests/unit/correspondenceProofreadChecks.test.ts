@@ -94,6 +94,16 @@ describe('additional correspondence proofreading', () => {
       expect(ids(draft({ docType, formData: {} })).filter(id => id.startsWith('correspondence:date:'))).toEqual([]);
     }
   });
+  it.each(['position_decision_paper', 'information_paper'])('points to the editable date on %s', docType => {
+    const findings = additionalProofreadFindings(draft({ docType, formData: {} }));
+    expect(findings.find(finding => finding.id === 'correspondence:date:date')?.target)
+      .toEqual({ sectionId: 'staff-paper', field: 'admin-date' });
+  });
+  it('skips retained dates and enclosures on coordination pages', () => {
+    expect(additionalProofreadFindings(draft({
+      docType: 'coordination_page', documentMode: 'custom', formData: {}, enclosures: [{ title: '' }],
+    }))).toEqual([]);
+  });
   it('checks only the junior-command date displayed by a joint letter', () => {
     const source = draft({ docType: 'joint_letter', formData: { jointJuniorDate: '19 Nov 26', jointSeniorSigName: 'SENIOR', jointJuniorSigName: 'JUNIOR' } });
     expect(ids(source)).toEqual([]);

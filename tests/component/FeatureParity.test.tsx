@@ -22,7 +22,16 @@ import { volumeFixture } from '../_helpers/volumeFixture';
 // Inventory checked against the pre-redesign editor at 7993269f. Deliberately
 // independent of getEditorSections: removing a production route must fail here.
 const standard = 'addressing classification body references enclosures copyto distribution signature';
+const directive = `letterhead directive ${standard}`;
 const routes: Record<string, string> = {
+  marine_corps_order: directive,
+  marine_corps_bulletin: directive,
+  secnav_instruction: directive,
+  secnav_notice: directive,
+  change_transmittal: directive,
+  position_decision_paper: 'staff-paper classification body references',
+  information_paper: 'staff-paper classification body',
+  coordination_page: 'staff-paper classification',
   naval_letter: `letterhead ${standard}`,
   standard_letter: standard,
   business_letter: `letterhead ${standard}`,
@@ -30,7 +39,7 @@ const routes: Record<string, string> = {
   joint_letter: 'joint classification body references enclosures copyto distribution',
   same_page_endorsement: `basic ${standard}`,
   new_page_endorsement: `letterhead basic ${standard}`,
-  mfr: 'addressing classification body references enclosures signature',
+  mfr: 'letterhead addressing classification body references enclosures signature',
   mf: `letterhead ${standard}`,
   plain_paper_memorandum: standard,
   letterhead_memorandum: `letterhead ${standard}`,

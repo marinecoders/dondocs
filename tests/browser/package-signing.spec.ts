@@ -14,7 +14,10 @@ async function packages(page: Page) {
 }
 async function signingPanel(dialog: Locator) {
   await expect(dialog).toHaveAttribute('aria-busy', 'false', { timeout: 90_000 });
-  await packageSection(dialog, 'Delivery');
+  const delivery = dialog.getByRole('navigation', { name: 'Package workspace', exact: true })
+    .getByRole('button', { name: 'Delivery', exact: true });
+  await expect(delivery).toBeEnabled();
+  if (await delivery.getAttribute('aria-current') !== 'location') await delivery.click();
   const retainedPanel = dialog.getByRole('region', { name: 'Package signing', exact: true, includeHidden: true });
   await expect(retainedPanel).toHaveCount(1);
   // Open only this tool's disclosure path; unrelated package tools are not
@@ -60,7 +63,7 @@ async function inputPackage() {
 
 for (const theme of ['light', 'dark', 'classic']) for (const width of [1440, 320]) test(`exact package signing and reviewed returns preserve newer work in ${theme} at ${width}px`, async ({ page, context, browser, baseURL }, info) => {
   await page.setViewportSize({ width, height: 950 });
-  await context.addInitScript(value => { localStorage.setItem('browser-test-visitor', 'returning'); localStorage.setItem('dondocs_ui', JSON.stringify({ version: 1, state: { theme: value, editorLayout: 'focused' } })); }, theme);
+  await context.addInitScript(value => { localStorage.setItem('browser-test-visitor', 'returning'); localStorage.setItem('dondocs_ui', JSON.stringify({ version: 1, state: { theme: value, editorLayout: 'focused', previewVisible: false } })); }, theme);
   const fixture = await inputPackage(); await page.goto('/'); let dialog = await packages(page);
   await importPackage(dialog, { name: 'synthetic-signing-package.json', mimeType: 'application/json', buffer: fixture.buffer });
   await packageSection(dialog, 'Delivery');
