@@ -1,3 +1,4 @@
+import { isDirective } from '@/lib/directiveFormats';
 import { resolvePageNumbering, usesSecnavLetterNumbering } from '@/lib/pageNumbering';
 import { Shield, Settings2 } from 'lucide-react';
 import { Label } from '@/components/ui/label';
@@ -43,7 +44,9 @@ export function DocumentTypeSelector() {
             {isCompliant
               ? isPublication
                 ? docType === 'technical_volume' ? 'Author chapters, appendices, tables and figures with linked contents in PDF and Word.' : docType === 'tm_ietm_front_matter' ? 'Create publication covers and authentication pages using MCO 5215.17D, MIL-STD-38784C and the supplied template.' : docType === 'sl4' ? 'Create illustrated repair parts lists with linked indexes and digital authentication.' : docType === 'sl3' ? 'Formats SL-3 components lists using MCO 5215.17D, MIL-STD-38784C and the supplied template.' : 'Formats I-Type publications for compliance with MIL-DTL-28999D(MC) and MIL-STD-38784C.'
-                : 'Strictly adheres to SECNAV M-5216.5 formatting requirements.'
+                : isDirective(docType)
+                  ? 'Uses the layout from ' + config.regulations.authority + '.'
+                  : 'Strictly adheres to SECNAV M-5216.5 formatting requirements.'
               : 'Customize fonts and formatting to your preferences.'}
           </p>
         </div>
@@ -97,7 +100,8 @@ export function DocumentTypeSelector() {
                     : `${config.regulations.fontSize} font size`}
                 </div>
                 <div>
-                  <span className="font-medium">Recommended:</span> Times New Roman
+                  <span className="font-medium">{config.regulations.fontFamilyRequired ? 'Required:' : 'Recommended:'}</span>{' '}
+                  {config.regulations.fontFamily === 'courier' ? 'Courier New' : 'Times New Roman'}
                 </div>
               </div>
             </div>

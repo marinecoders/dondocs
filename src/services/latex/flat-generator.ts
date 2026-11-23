@@ -1,3 +1,5 @@
+import { directiveAuthorityRows, directiveFormatting, isDirective, isMarineDirective } from '@/lib/directiveFormats';
+import { directiveLayout } from './directiveLayout';
 import { correspondenceStationery, assertStationerySupport } from '@/lib/stationery';
 import { additionalJointCommands, assertJointLetterCommandSupport } from '@/lib/jointLetterCommands';
 import { resolveLetterheadMode } from '@/lib/letterheadMode';
@@ -439,15 +441,17 @@ function buildLetterhead(data: Partial<DocumentData>, config: DocTypeConfig): st
 }
 
 /** Right-aligned SSIC/Serial/Date block using tabularX */
-function buildSSICBlock(data: Partial<DocumentData>, alignRight = true): string {
+function buildSSICBlock(data: Partial<DocumentData>, alignRight = true, directive?: ReturnType<typeof directiveLayout>): string {
   const items: string[] = [];
   // Heads the sender's symbols, as in the PDF (SECNAV M-5216.5 ¶7-2.3, App C ¶3.a).
-  if (data.inReplyTo) items.push('IN REPLY REFER TO');
-  if (data.ssic) items.push(escapeTabular(data.ssic));
+  if (!directive && data.inReplyTo) items.push('IN REPLY REFER TO');
+  if (directive?.cancellation) items.push(directive.cancellation);
+  if (directive?.reference) items.push(directive.reference);
+  if (!directive && data.ssic) items.push(escapeTabular(data.ssic));
   // The originator's code shares this line with the serial, so compose the two
   // the way the PDF path does — otherwise Word and PDF disagree about the
   // sender's symbols (SECNAV M-5216.5 Ch 7 para 2a(2)).
-  const senderSymbol = composeSenderSymbol(data.officeCode, data.serial);
+  const senderSymbol = directive ? data.officeCode : composeSenderSymbol(data.officeCode, data.serial);
   if (senderSymbol) items.push(escapeTabular(senderSymbol));
   if (data.date) items.push(escapeTabular(data.date));
 
@@ -1429,7 +1433,9 @@ function buildStandardLayout(store: DocumentStore, config: DocTypeConfig): strin
   if (config.letterhead) content += buildLetterhead(data, config);
   // Multiple address letter: date block is left-aligned (PDF's \hfill at paragraph boundary is a no-op)
   const ssicAlignRight = store.docType !== 'multiple_address_letter';
-  if (config.ssic) content += buildSSICBlock(data, ssicAlignRight);
+  const directive = directiveLayout(store.docType, data, escapeFlat);
+  if (config.ssic) content += buildSSICBlock(data, ssicAlignRight, directive);
+  if (directive) content += '\\noindent\\underline{' + directive.designation + '}\\par\n\n\\vspace{12pt}\n\n';
 
   // New-page endorsement: header comes AFTER letterhead/SSIC per SECNAV spec
   if (store.docType === 'new_page_endorsement') {
@@ -1437,11 +1443,16 @@ function buildStandardLayout(store: DocumentStore, config: DocTypeConfig): strin
   }
 
   content += buildAddressBlock(data, config);
+  if (directive) {
+    const authority = directiveAuthorityRows(data).map(([label, value]) => label + ' ' + escapeFlat(value));
+    if (authority.length) content += '\\vspace{12pt}\n\\noindent ' + authority.join('\\newline\n') + '\\par\n\n';
+  }
   content += buildReferences(store.references, false, store.referenceLinkTarget);
   content += buildEnclosures(
     store.enclosures,
     enclosureStartNumber(store.docType, store.formData.startingEnclosureNumber)
   );
+  if (directive?.reports) content += '\\vspace{12pt}\n\\noindent Reports Required: ' + directive.reports + '\\par\n\n';
   content += buildTransmittalNote(store);
   content += buildBody(store.paragraphs, config, bodyFont(store.formData), bodySizePt(store.formData), store.docType);
   content += buildSignature(data, config, store.docType) + closingEnd(store.docType);
@@ -1840,6 +1851,11 @@ export function generateFlatLatex(store: DocumentStore, resolvedLevel?: string, 
     throw new Error('This publication uses configuration fragments and a native Word renderer.');
   }
   store = { ...store, referenceLinkTarget: target };
+  if (isDirective(store.docType)) store = { ...store, formData: {
+    ...directiveFormatting(store.docType, store.documentMode, store.formData),
+    to: isMarineDirective(store.docType) ? 'Distribution List' : '', via: '', showSubjectOnContinuation: false,
+    appendEndorsement: false, additionalEndorsements: undefined,
+  } };
   const data = store.formData;
   const config = documentOutputConfig(store.docType, store.documentMode);
 
@@ -1887,7 +1903,7 @@ export function generateFlatLatex(store: DocumentStore, resolvedLevel?: string, 
   }
 
   tex += buildCUIBlock(data);
-  tex += buildClassifiedBlock(data);
+  if (!isDirective(store.docType)) tex += buildClassifiedBlock(data);
 
   tex += '\n\\end{document}\n';
 

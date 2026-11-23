@@ -10,6 +10,26 @@ export interface DocumentTypeGuide {
 }
 
 export const DOCUMENT_TYPE_GUIDES: DocumentTypeGuide[] = [
+  { id: 'marine_corps_order', name: 'Marine Corps Order', category: 'Directives',
+    summary: 'Draft a continuing Marine Corps policy or procedure.',
+    whenToUse: ['Issue standing command policy'], keyFeatures: ['Order designation', 'Reports required block'],
+    commonExamples: ['Standing administrative procedure'], reference: 'MCO 5215.1K, chapters 1–2' },
+  { id: 'marine_corps_bulletin', name: 'Marine Corps Bulletin', category: 'Directives',
+    summary: 'Draft a temporary or one-time Marine Corps directive.',
+    whenToUse: ['Issue a time-limited requirement'], keyFeatures: ['Bulletin designation', 'Cancellation line', 'Reports required block'],
+    commonExamples: ['One-time reporting requirement'], reference: 'MCO 5215.1K, chapter 3' },
+  { id: 'secnav_instruction', name: 'SECNAV Instruction', category: 'Directives',
+    summary: 'Draft continuing Department of the Navy policy.',
+    whenToUse: ['Prepare a SECNAV instruction for review'], keyFeatures: ['Instruction designation', '12-point Courier New in Compliant mode'],
+    commonExamples: ['Standing Department of the Navy policy'], reference: 'SECNAV M-5215.1, chapter 3 and appendix D' },
+  { id: 'secnav_notice', name: 'SECNAV Notice', category: 'Directives',
+    summary: 'Draft temporary Department of the Navy policy or direction.',
+    whenToUse: ['Prepare a short-term directive'], keyFeatures: ['Notice designation', 'Cancellation line'],
+    commonExamples: ['Temporary administrative requirement'], reference: 'SECNAV M-5215.1, chapter 5 and appendix D' },
+  { id: 'change_transmittal', name: 'Change Transmittal', category: 'Directives',
+    summary: 'Prepare the numbered cover document for a change to a SECNAV issuance.',
+    whenToUse: ['Send revised material for an existing directive'], keyFeatures: ['Original directive identifier', 'Numbered change designation'],
+    commonExamples: ['Cover sheet for replacement pages'], reference: 'SECNAV M-5215.1, chapter 7' },
   { id: 'technical_volume', name: 'Technical Volume', category: 'Technical Publications',
     summary: 'Author a complete structured volume with chapters, appendices and linked contents.',
     whenToUse: ['Prepare a multi-chapter document with stable internal references and retained supporting assets'],
@@ -612,6 +632,7 @@ export const GUIDE_CATEGORIES = [
   { id: 'Memoranda', name: 'Memoranda', description: 'Internal communication formats', group: 'correspondence' },
   { id: 'Agreements', name: 'Agreements', description: 'Formal agreements between parties', group: 'correspondence' },
   { id: 'Executive', name: 'Executive', description: 'Senior-level correspondence', group: 'correspondence' },
+  { id: 'Directives', name: 'Directives', description: 'Orders, bulletins and issuances', group: 'correspondence' },
   // Forms categories
   { id: 'Forms', name: 'NAVMC Forms', description: 'Marine Corps forms', group: 'forms' },
   // Technical publications

@@ -1,3 +1,4 @@
+import { DIRECTIVE_TYPES } from '@/lib/directiveFormats';
 import type { PublicationVolume } from '@/lib/publicationVolume';
 import type { PublicationSection } from '@/data/techpub/sections';
 import type { ManualFrontMatter } from '@/data/techpub/manualFrontMatter';
@@ -202,6 +203,10 @@ export interface DocumentData {
   // Letterhead
   stationerySize?: import('@/lib/stationery').StationerySize;
   letterheadMode?: 'full' | 'title-only' | 'preprinted';
+  directiveNumber?: string;
+  directiveCancellation?: string;
+  directiveChangeNumber?: string;
+  directiveReports?: string;
   department: string;
   unitLine1: string;
   unitLine2: string;
@@ -501,7 +506,24 @@ const EXECUTIVE_COMPLIANCE = {
   dateFormat: 'spelled' as const,  // Executive uses spelled date
 };
 
+const DIRECTIVE_CONFIG: DocTypeConfig = {
+  letterhead: true, ssic: true, fromTo: true, via: false, memoHeader: false,
+  signature: 'abbrev', uiMode: 'standard', showSignatureRankTitle: false,
+  regulations: { fontSize: '12pt', fontSizeOptions: ['10pt', '12pt'], fontFamily: 'courier', fontFamilyRequired: true, authority: 'MCO 5215.1K', ref: 'Chapters 1–3' },
+  compliance: DEFAULT_COMPLIANCE,
+};
+
+const SECNAV_DIRECTIVE_CONFIG: DocTypeConfig = {
+  ...DIRECTIVE_CONFIG,
+  regulations: { fontSize: '12pt', fontFamily: 'courier', fontFamilyRequired: true, authority: 'SECNAV M-5215.1', ref: 'Appendix D' },
+};
+
 export const DOC_TYPE_CONFIG: Record<string, DocTypeConfig> = {
+  marine_corps_order: DIRECTIVE_CONFIG,
+  marine_corps_bulletin: DIRECTIVE_CONFIG,
+  secnav_instruction: SECNAV_DIRECTIVE_CONFIG,
+  secnav_notice: SECNAV_DIRECTIVE_CONFIG,
+  change_transmittal: SECNAV_DIRECTIVE_CONFIG,
   naval_letter: {
     letterhead: true, ssic: true, fromTo: true, via: true, memoHeader: false, signature: 'abbrev', uiMode: 'standard',
     showSignatureRankTitle: false, // Per SECNAV Ch 7 ¶14a(2): abbreviated name only, NO rank, NO title
@@ -691,6 +713,11 @@ export const DOC_TYPE_CONFIG: Record<string, DocTypeConfig> = {
 
 // Labels for document types visible in the UI
 export const DOC_TYPE_LABELS: Record<string, string> = {
+  marine_corps_order: 'Marine Corps Order',
+  marine_corps_bulletin: 'Marine Corps Bulletin',
+  secnav_instruction: 'SECNAV Instruction',
+  secnav_notice: 'SECNAV Notice',
+  change_transmittal: 'Change Transmittal',
   naval_letter: 'Naval Letter (on letterhead)',
   standard_letter: 'Standard Letter (plain paper)',
   business_letter: 'Business Letter',
@@ -779,6 +806,10 @@ export const DOC_TYPE_CATEGORIES: { category: string; types: string[] }[] = [
   {
     category: 'Executive',
     types: ['executive_correspondence', 'standard_memorandum', 'action_memorandum', 'information_memorandum'],
+  },
+  {
+    category: 'Directives',
+    types: [...DIRECTIVE_TYPES],
   },
   {
     category: 'Technical Publications',

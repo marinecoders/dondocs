@@ -55,6 +55,8 @@ const highIds = new Set(
 
 const AUTHORITIES: Record<string, string> = {
   technical_volume: 'Structured authoring layout',
+  marine_corps_order: 'MCO 5215.1K', marine_corps_bulletin: 'MCO 5215.1K',
+  secnav_instruction: 'SECNAV M-5215.1', secnav_notice: 'SECNAV M-5215.1', change_transmittal: 'SECNAV M-5215.1',
   naval_letter: 'Ch 7', standard_letter: 'Ch 7', business_letter: 'Ch 11',
   multiple_address_letter: 'Ch 8', joint_letter: 'Ch 7', joint_memorandum: 'Ch 7',
   same_page_endorsement: 'Ch 9', new_page_endorsement: 'Ch 9',

@@ -1,3 +1,5 @@
+import { directiveAddressIssues, directiveFormatting, directiveIssues, isDirective } from '@/lib/directiveFormats';
+import { DirectiveDetailsSection } from '@/components/editor/DirectiveDetailsSection';
 import { resolveLetterheadMode } from '@/lib/letterheadMode';
 import { VolumeSupplementSection } from '@/components/editor/VolumeSupplementSections';
 import { VolumeDetailsSection, VolumeOutlineSection, VolumeBodySection } from '@/components/editor/VolumeSections';
@@ -85,7 +87,7 @@ export function useEditorSections(): {
  * [SUBJECT]); there's no positive "complete" counterpart. Surfaced only after
  * an export attempt, gated on uiStore.validationVisible.
  */
-interface SectionErrorInput {
+interface SectionErrorInput extends Pick<Partial<DocumentData>, 'docType' | 'directiveNumber' | 'directiveChangeNumber' | 'directiveCancellation' | 'officeCode'> {
   volume?: DocumentData['volume'];
   manualFrontMatter?: DocumentData['manualFrontMatter'];
   sl3?: DocumentData['sl3'];
@@ -113,7 +115,7 @@ interface SectionErrorInput {
  * Keep in lockstep with the cases in getSectionError below.
  */
 export const ERROR_BEARING_IDS = [
-  'letterhead', 'addressing', 'body', 'signature', 'executive', 'joint_memo', 'sl3-cover',
+  'letterhead', 'addressing', 'body', 'signature', 'executive', 'joint_memo', 'sl3-cover', 'directive',
 ] as const;
 
 export function errorBearingIds(config: DocTypeConfig): readonly string[] {
@@ -156,11 +158,13 @@ export function getSectionError(
     docType: 'sl3', formData, paragraphs: paragraphs as import('@/types/document').Paragraph[], endItems,
   }).some((message) => sl3ErrorSection(message) === id);
   switch (id) {
+    case 'directive': return directiveIssues(formData.docType ?? '', formData).length > 0;
     case 'letterhead':
       // Don't flag a missing letterhead when the doc type allows plain paper
       // (optionalLetterhead, e.g. MFR/MF per SECNAV Ch. 10).
       return config.letterhead === true && !config.optionalLetterhead && resolveLetterheadMode(config, formData) !== 'preprinted' && unfilled(formData.unitLine1);
     case 'addressing': {
+      if (isDirective(formData.docType ?? '')) return directiveAddressIssues(formData).length > 0;
       // Only flag fields the doc type actually exposes. "From" renders only for
       // fromTo types; "To" renders for fromTo OR the business-letter
       // recipientAddress block. MFR / memos-for-the-record (fromTo:false, no
@@ -171,7 +175,7 @@ export function getSectionError(
       // "To" also carries the Memorandum For addressee — the doc type renders a
       // dedicated required field for its "MEMORANDUM FOR [addressee]" title line.
       const toError =
-        config.fromTo || config.recipientAddress || config.memoTitle === 'MEMORANDUM FOR'
+        (config.fromTo || config.recipientAddress || config.memoTitle === 'MEMORANDUM FOR')
           ? unfilled(formData.to)
           : false;
       return fromError || toError || (config.uiMode !== 'business' && unfilled(formData.subject));
@@ -311,6 +315,8 @@ export function configFormCompleteness(
 export function useDocumentCompleteness(): DocumentCompleteness {
   const { sections, config, isFormsMode, formType } = useEditorSections();
   const formData = useDocumentStore((s) => s.formData);
+  const docType = useDocumentStore((s) => s.docType);
+  const documentMode = useDocumentStore((s) => s.documentMode);
   const paragraphs = useDocumentStore((s) => s.paragraphs);
   const endItems = useDocumentStore((s) => s.endItems);
   const navmc10274 = useFormStore((s) => s.navmc10274);
@@ -338,9 +344,9 @@ export function useDocumentCompleteness(): DocumentCompleteness {
       return completenessFrom([], () => false);
     }
     const required = ids.filter((id) => errorBearingIds(config).includes(id));
-    const missing = new Set(missingEditorSections(required, formData, paragraphs, config, endItems));
+    const missing = new Set(missingEditorSections(required, directiveFormatting(docType, documentMode, formData), paragraphs, config, endItems));
     return completenessFrom(required, (id) => missing.has(id));
-  }, [idKey, isFormsMode, formType, navmc10274, navmc11811, formData, paragraphs, config, instance, endItems]);
+  }, [idKey, isFormsMode, formType, navmc10274, navmc11811, formData, docType, documentMode, paragraphs, config, instance, endItems]);
 }
 
 export function renderEditorSection(id: string, config: DocTypeConfig): ReactNode {
@@ -361,6 +367,8 @@ export function renderEditorSection(id: string, config: DocTypeConfig): ReactNod
     case 'sl4-figures': return <Sl4IllustrationsSection />;
     case 'sl4-indexes': return <Sl4IndexesSection />;
     case 'sl4-revisions': return <Sl4RevisionsSection />;
+    case 'directive':
+      return <DirectiveDetailsSection />;
     case 'letterhead':
       return <LetterheadSection />;
     case 'addressing':

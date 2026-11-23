@@ -277,7 +277,7 @@ export function prepareTaggedCorrespondence(source: TaggedCorrespondenceSource, 
   const footer = mainSource.slice(footerStart, footerEnd);
   let main = mainSource.slice(0, footerStart) + footer.replace(/\\thepage(?:\\ of \\getpagerefnumber\{LastPage\})?/g, text => wrap(-1, text)) + mainSource.slice(footerEnd);
   main = replaceOnce(main, '\\ContinuationLabel\\hspace{3\\fontdimen2\\font} & \\ContinuationSubject', `${wrap(-1, '\\ContinuationLabel\\hspace{3\\fontdimen2\\font}')} & ${wrap(-1, '\\ContinuationSubject')}`);
-  main = replaceOnce(main, '\\input{\\DocumentType}', `\\input{dondocs-tagged-${qualification}}`);
+  main = replaceOnce(main, '\\input{\\CorrespondenceTemplate}', `\\input{dondocs-tagged-${qualification}}`);
   main = replaceOnce(main, '\\dondocsReserveContHead\n', `${macros.join('\n')}\n\\dondocsReserveContHead\n`);
   files[TAGGED_MAIN_FILE] = main;
   files[`dondocs-tagged-${qualification}.tex`] = format;

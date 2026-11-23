@@ -1,3 +1,4 @@
+import { isDirective } from '../src/lib/directiveFormats';
 import { stationeryIssues } from '../src/lib/stationery';
 import { jointLetterCommandIssues } from '../src/lib/jointLetterCommands';
 import { bodyTableSchema } from '../src/lib/bodyTable';
@@ -26,7 +27,11 @@ import { cuiTransmittalIssue, enclosureMarkingLevel, enclosureMarkingSchema, ins
 import { deriveOverallClassLevel } from '../src/lib/overallClassification';
 import { businessFigureFile } from '../src/lib/figures';
 
-export const DOC_TYPES = [...Object.keys(DOC_TYPE_CONFIG), ...Object.keys(TEMPLATE_FOR)];
+// Administrative fields currently enter through the browser document editor.
+export const DOC_TYPES = [
+  ...Object.keys(DOC_TYPE_CONFIG).filter(type => !isDirective(type)),
+  ...Object.keys(TEMPLATE_FOR),
+];
 export const FORMATS = ['pdf', 'docx'];
 export const formatsFor = (docType: string): string[] => DOC_TYPES.includes(docType) ? FORMATS : [];
 /** The levels the generator marks; anything else renders unmarked. */

@@ -1,3 +1,4 @@
+import { directiveAddressIssues, directiveAuthorityIssues, directiveIssues, isDirective, isSecnavDirective } from './directiveFormats';
 import { stationeryIssues } from './stationery';
 import { taggedCorrespondenceIssues } from '@/services/pdf/accessibility/preflight';
 import { jointLetterCommandIssues } from './jointLetterCommands';
@@ -132,6 +133,22 @@ export function prepareExport(input: {
     let markingReview = false;
     let marking: ClassificationInfo | undefined;
     if (output.kind === 'correspondence') {
+      if (isDirective(snapshot.docType)) {
+        const formatIssues = [...directiveIssues(snapshot.docType, snapshot.formData), ...directiveAddressIssues(snapshot.formData)];
+        if (isSecnavDirective(snapshot.docType) && snapshot.documentMode === 'compliant' && input.target !== 'pdf') {
+          formatIssues.push('Compliant SECNAV issuance requires fixed-layout PDF so DonDocs can verify the page limit. Use Custom mode for an editable draft.');
+        }
+        if (snapshot.docType === 'change_transmittal' && input.target === 'pdf') {
+          if (snapshot.documentMode === 'compliant' && !snapshot.enclosures.length) formatIssues.push('Attach the approved replacement pages before exporting the change transmittal.');
+          if (snapshot.enclosures.some(item => item.hasCoverPage || (!item.file?.data && !item.fileRef))) {
+            formatIssues.push('Each replacement must have an attached PDF and no generated enclosure cover.');
+          }
+        }
+        if (snapshot.docType === 'change_transmittal' && input.wordEnclosurePages) {
+          formatIssues.push('Use PDF output to carry replacement pages with their original numbering.');
+        }
+        if (formatIssues.length) return error(formatIssues.join(' '));
+      }
       const stockIssues = stationeryIssues(snapshot.docType, snapshot.formData, snapshot.paragraphs, snapshot.documentMode);
       if (stockIssues.length) return error(stockIssues.join(' '));
       const jointIssues = jointLetterCommandIssues(snapshot.docType, snapshot.formData);
@@ -157,6 +174,12 @@ export function prepareExport(input: {
         markingReview = true;
       }
       const effectiveLevel = classificationRank(portionLevel)! > classificationRank(selectedLevel)! ? portionLevel : selectedLevel;
+      if (isDirective(snapshot.docType) && level === 'custom' && (classificationBannerLevel(customText!) === null || effectiveLevel !== selectedLevel)) {
+        return error('Use a recognized directive banner that covers the highest portion marking.');
+      }
+      if (isSecnavDirective(snapshot.docType) && ['top_secret', 'top_secret_sci'].includes(effectiveLevel)) {
+        return error('The SECNAV directives system excludes Top Secret material.');
+      }
       if (!input.policy.policy.allowedLevels.includes(effectiveLevel)) return error(`The prepared ${effectiveLevel.replaceAll('_', ' ').toUpperCase()} marking is outside this deployment's configured levels.`);
       if (level === 'custom' && classificationRank(portionLevel)! > classificationRank(selectedLevel)!) {
         notices.push('Review the custom banner against the higher portion markings.');
@@ -165,6 +188,7 @@ export function prepareExport(input: {
       snapshot.formData.classLevel = level;
       marking = publicationMarking(snapshot.formData, portions);
       const issues = publicationExportErrors(snapshot, new Date(output.source.capturedAt), input.target === 'docx' ? 'docx' : 'pdf');
+      if (isDirective(snapshot.docType)) issues.push(...directiveAuthorityIssues(snapshot.formData));
       if (input.target === 'docx') issues.push(...publicationWordExportErrors(snapshot));
       if (input.wordEnclosurePages && snapshot.enclosures.length) {
         notices.push('Review every original PDF enclosure for markings and personal information. Enclosure pages will be noneditable images; interactive fields and original certificate signatures do not carry into the Word copy.');

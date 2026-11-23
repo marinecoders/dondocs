@@ -46,6 +46,11 @@ function continuationSubjectParagraph(line: string, spaceBefore: number): string
     + `<w:r><w:t xml:space="preserve">${escapeXmlText(line)}</w:t></w:r></w:p>`;
 }
 
+function directiveParagraph(line: string, alignment: 'left' | 'right'): string {
+  return '<w:p><w:pPr><w:jc w:val="' + alignment + '"/></w:pPr>'
+    + '<w:r><w:t xml:space="preserve">' + escapeXmlText(line) + '</w:t></w:r></w:p>';
+}
+
 /**
  * A centered PAGE field — ¶7-17: "Center page numbers 1/2 inch from the bottom
  * edge, starting with the number 2." The 1/2 inch is the sectPr's w:footer
@@ -83,6 +88,7 @@ interface HeaderFooterParts {
   /** Page 2 onward. */
   defaultHeader: string[];
   defaultFooter: string[];
+  evenHeader?: string[];
 }
 
 /**
@@ -100,6 +106,7 @@ function planHeadersAndFooters(
   numberFirstPage: boolean,
   fontSizePt: number,
   pageNumbering?: string,
+  directive?: PageFurniture['directiveContinuation'],
 ): HeaderFooterParts {
   const marked = marking ? [markingParagraph(marking)] : [];
   const number = wantsPageNumbers ? [pageNumberParagraph(pageNumbering)] : [];
@@ -109,9 +116,10 @@ function planHeadersAndFooters(
     // opening sheet continues someone else's sequence and Fig 9-2 numbers it.
     // Same split the PDF templates make between their `firstpage` styles.
     firstFooter: [...marked, ...(numberFirstPage ? number : [])],
+    evenHeader: directive?.alternate ? [...marked, ...directive.lines.map(line => directiveParagraph(line, 'left'))] : undefined,
     defaultHeader: [
       ...marked,
-      ...(continuationSubject
+      ...(directive ? directive.lines.map(line => directiveParagraph(line, 'right')) : continuationSubject
         ? [
             continuationSubjectParagraph(continuationSubject, subjectSpaceBefore(!!marking, fontSizePt)),
             // ¶7-16: "Continue the text beginning on the second line below the
@@ -182,6 +190,7 @@ export interface PageFurniture {
    * the text because the label varies by document type.
    */
   continuationSubject: string;
+  directiveContinuation?: { lines: readonly string[]; alternate: boolean };
   /** Number pages 2+. */
   wantsPageNumbers: boolean;
   /** First page's number; above 1 also numbers page 1 (Ch 9 Fig 9-2). */
@@ -226,6 +235,7 @@ export async function applyPageFurniture(
       furniture.startPage > 1 || !!furniture.numberFirstPage,
       furniture.fontSizePt,
       furniture.pageNumbering,
+      furniture.directiveContinuation,
     ),
     furniture.startPage,
   );
@@ -253,6 +263,17 @@ async function injectHeadersAndFooters(
     { name: 'footer1.xml', tag: 'ftr', refTag: 'footerReference', type: 'first', rel: 'rIdFtrFirst', body: parts.firstFooter },
     { name: 'footer2.xml', tag: 'ftr', refTag: 'footerReference', type: 'default', rel: 'rIdFtrDefault', body: parts.defaultFooter },
   ];
+
+  if (parts.evenHeader) {
+    files.splice(2, 0, { name: 'header3.xml', tag: 'hdr', refTag: 'headerReference', type: 'even', rel: 'rIdHdrEven', body: parts.evenHeader });
+    files.push({ name: 'footer3.xml', tag: 'ftr', refTag: 'footerReference', type: 'even', rel: 'rIdFtrEven', body: parts.defaultFooter });
+    const settings = await zip.file('word/settings.xml')?.async('string');
+    if (settings) {
+      const laterSetting = /<w:(?:bookFoldRevPrinting|bookFoldPrinting|bookFoldPrintingSheets|drawingGridHorizontalSpacing|compat|rsids|themeFontLang)\b|<\/w:settings>/;
+      const withoutEven = settings.replace(/<w:evenAndOddHeaders\b[^>]*\/>/, '');
+      zip.file('word/settings.xml', withoutEven.replace(laterSetting, '<w:evenAndOddHeaders/>$&'));
+    }
+  }
 
   for (const f of files) {
     zip.file(`word/${f.name}`, wrap(f.tag, f.body));

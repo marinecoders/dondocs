@@ -1,3 +1,4 @@
+import { directiveContinuation } from '@/lib/directiveFormats';
 import { resolveLetterheadMode } from '@/lib/letterheadMode';
 import { DOC_TYPE_CONFIG } from '@/types/document';
 import { appendWordEnclosurePages, renderWordEnclosurePages } from '@/services/docx/enclosurePages';
@@ -89,6 +90,7 @@ export async function renderPreparedCorrespondence(ready: ReadyExportJob, ports:
         letterheadMode: resolveLetterheadMode(DOC_TYPE_CONFIG[document.docType], data),
         fontFamily: data.fontFamily, fontSize: data.fontSize, classLevel: resolvedLevel, customClassification: data.customClassification,
         showSubjectOnContinuation: data.showSubjectOnContinuation,
+        directiveContinuation: directiveContinuation(document.docType, data),
         pageNumbering: resolvePageNumbering(document.docType, document.documentMode, data.pageNumbering),
         startingPageNumber: pageStartNumber(document.docType, data.startingPageNumber),
       }, onDocxProgress ? phase => observeProgress(onDocxProgress, phase) : undefined);

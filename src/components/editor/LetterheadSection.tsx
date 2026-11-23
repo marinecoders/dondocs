@@ -1,3 +1,4 @@
+import { isSecnavDirective } from '@/lib/directiveFormats';
 import { stationeryIssues, type StationerySize } from '@/lib/stationery';
 import { resolveLetterheadMode, supportsLetterheadModes, type LetterheadMode } from '@/lib/letterheadMode';
 import { useState, useEffect, useRef } from 'react';
@@ -42,8 +43,10 @@ export function LetterheadSection() {
   const validationVisible = useUIStore((s) => s.validationVisible);
   // Mirror getSectionError('letterhead'): only a required (non-optional)
   // letterhead flags a missing unit name.
-  const mode = resolveLetterheadMode(config, formData);
-  const unitNameRequired = config.letterhead === true && !config.optionalLetterhead && mode !== 'preprinted';
+  const secnavLetterhead = isCompliant && isSecnavDirective(docType);
+  const selectedMode = resolveLetterheadMode(config, formData);
+  const mode = secnavLetterhead && selectedMode === 'title-only' ? 'full' : selectedMode;
+  const unitNameRequired = config.letterhead === true && !config.optionalLetterhead && mode !== 'preprinted' && !secnavLetterhead;
   const unitNameInvalid = validationVisible && unitNameRequired && unfilled(formData.unitLine1);
 
   // Structured address fields mirror formData.unitAddress (the persisted
@@ -147,12 +150,12 @@ export function LetterheadSection() {
                     <SelectTrigger id="letterhead-mode"><SelectValue /></SelectTrigger>
                     <SelectContent>
                       <SelectItem value="full" disabled={docType === 'executive_correspondence' && !!formData.stationerySize && formData.stationerySize !== 'letter'}>Full letterhead</SelectItem>
-                      <SelectItem value="title-only">Title only</SelectItem>
+                      {!secnavLetterhead && <SelectItem value="title-only">Title only</SelectItem>}
                       <SelectItem value="preprinted">Preprinted stationery</SelectItem>
                     </SelectContent>
                   </Select>
                   <p className="text-xs text-muted-foreground">
-                    {mode === 'preprinted' ? 'Leaves the letterhead area blank. Print on your authorized preprinted stock; the downloaded file contains no letterhead artwork.' : mode === 'title-only' ? 'Prints only the unit title. Your full letterhead details remain saved.' : 'Prints the seal, department, unit and address.'}
+                    {mode === 'preprinted' ? 'Leaves the letterhead area blank. Print on your authorized preprinted stock; the downloaded file contains no letterhead artwork.' : secnavLetterhead ? 'Prints the Department of the Navy, Office of the Secretary letterhead.' : mode === 'title-only' ? 'Prints only the unit title. Your full letterhead details remain saved.' : 'Prints the seal, department, unit and address.'}
                   </p>
                 </div>
               )}
@@ -163,7 +166,7 @@ export function LetterheadSection() {
                   <SelectContent><SelectItem value="blue">Blue</SelectItem><SelectItem value="black">Black</SelectItem></SelectContent>
                 </Select>
               </div>}
-              {mode === 'full' && <>
+              {mode === 'full' && !secnavLetterhead && <>
               {/* Responsive row: the editor column width is independent of the
                   viewport (collapsible sidebar + resizable preview), so flex-wrap
                   lets it wrap rather than overflow at a narrow column. */}
@@ -266,7 +269,7 @@ export function LetterheadSection() {
               </div>
 
               </>}
-              {mode !== 'preprinted' && <div className="space-y-2">
+              {mode !== 'preprinted' && !secnavLetterhead && <div className="space-y-2">
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <Label htmlFor="unitLine1">
                     {mode === 'title-only' ? 'Title' : 'Unit Name'}{unitNameRequired && <span className="text-destructive"> *</span>}
@@ -297,7 +300,7 @@ export function LetterheadSection() {
                 )}
               </div>}
 
-              {mode === 'full' && <>
+              {mode === 'full' && !secnavLetterhead && <>
               <div className="space-y-2">
                 <Label htmlFor="unitLine2">Unit Name (Line 2, if needed)</Label>
                 <Input

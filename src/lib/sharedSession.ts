@@ -1,3 +1,4 @@
+import { directiveFields } from './directiveFields';
 import { publicationVolumeSchema, validatePublicationVolume, VOLUME_DOC_TYPE } from './publicationVolume';
 import { sl4Schema } from '@/data/techpub/sl4';
 import { enclosureMarkingSchema } from './enclosureMarkings';
@@ -25,6 +26,10 @@ export const sessionSchema = z.object({
   formType: z.string().default('navmc_10274'),
   genericForm: z.unknown().optional(),
   formData: z.record(z.string(), z.unknown()).superRefine((data, context) => {
+    const administrative = directiveFields.safeParse(data);
+    if (!administrative.success) {
+      for (const issue of administrative.error.issues) context.addIssue({ code: 'custom', path: issue.path, message: issue.message });
+    }
     if (data.cuiTransmittalNote !== undefined && typeof data.cuiTransmittalNote !== 'boolean') context.addIssue({
       code: 'custom', path: ['cuiTransmittalNote'], message: 'Invalid CUI transmittal confirmation',
     });
