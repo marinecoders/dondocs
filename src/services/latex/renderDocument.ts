@@ -1,6 +1,7 @@
 import { resolvePublicationDestinations } from '../pdf/publicationDestinations';
 import { validateFigureFiles } from './figureAssets';
 import { ImageInputError, inspectRasterImage, supportsCorrespondenceSignatureImage } from '../docx/imageAssets';
+import { OFFICE_FONT_ENCODING, OFFICE_FONT_FACES, OFFICE_FONT_FILES, OFFICE_FONT_UNICODE, type OfficeFontSource } from '../officeFonts';
 /**
  * The LaTeX compile sequence, held once.
  *
@@ -33,6 +34,8 @@ export interface EngineAssets {
   templates?: Record<string, string>;
   /** Seal images keyed by bare filename; written under `attachments/`. */
   seals?: Record<string, Uint8Array>;
+  /** Exact operating-system fonts for the optional loopback development server. */
+  officeFonts?: OfficeFontSource;
 }
 
 /**
@@ -43,6 +46,22 @@ export interface EngineAssets {
 const NULL_STUB = '% null stub file - prevents 404 errors\n\\endinput\n';
 const NULL_PATHS = ['null', 'null.tex'];
 const NULL_FORMATS = [0, 10, 26, 27, 32, 39];
+const officeFontEngines = new WeakSet<LatexEngine>();
+
+function officeFontMain(content: string): string {
+  return content.replace('\\usepackage{times}', `\\usepackage{times}\n\\usepackage[T1]{fontenc}\n\\input{${OFFICE_FONT_UNICODE}}\n\\pdfgentounicode=1`)
+    .replace('\\fontsize{12pt}{14.4pt}\\selectfont', '\\fontsize{12bp}{14.4pt}\\selectfont');
+}
+
+function officeFontMap(original: string): string {
+  let map = original;
+  for (const { metric, postScriptName, program } of OFFICE_FONT_FACES) {
+    const entry = new RegExp(`^${metric} .+$`, 'm');
+    if (!entry.test(map)) throw new Error(`The PDF font map is missing ${metric}.`);
+    map = map.replace(entry, `${metric} ${postScriptName} " TeXBase1Encoding ReEncodeFont " <${OFFICE_FONT_ENCODING} <${program}`);
+  }
+  return map;
+}
 
 /**
  * Populate a freshly-loaded engine. Synchronous on purpose: every call posts a
@@ -55,7 +74,13 @@ export function prepareEngine(engine: LatexEngine, assets: EngineAssets): void {
   }
 
   for (const pkg of assets.packages ?? []) {
-    engine.preloadTexliveFile(pkg.format, pkg.filename, pkg.content);
+    const content = assets.officeFonts && pkg.filename === 'pdftex.map' && typeof pkg.content === 'string'
+      ? officeFontMap(pkg.content) : pkg.content;
+    engine.preloadTexliveFile(pkg.format, pkg.filename, content);
+    if (assets.officeFonts && pkg.format === 28 && ['t1pcr.fd', 't1ptm.fd'].includes(pkg.filename)) {
+      // The browser looks up LaTeX font definitions through the TeX input format.
+      engine.preloadTexliveFile(26, pkg.filename, content);
+    }
   }
   for (const font of assets.fonts ?? []) {
     engine.preloadTexliveFile(font.format, font.filename, font.content);
@@ -68,7 +93,17 @@ export function prepareEngine(engine: LatexEngine, assets: EngineAssets): void {
   }
 
   for (const [path, content] of Object.entries(assets.templates ?? {})) {
-    engine.writeMemFSFile(stripTemplatePrefix(path), content);
+    const filename = stripTemplatePrefix(path);
+    engine.writeMemFSFile(filename, filename === LATEX.MAIN_FILE && assets.officeFonts ? officeFontMain(content) : content);
+  }
+
+  if (assets.officeFonts) {
+    officeFontEngines.add(engine);
+    for (const filename of OFFICE_FONT_FILES) {
+      const bytes = assets.officeFonts.read(filename);
+      if (filename.endsWith('.vf')) engine.preloadTexliveFile(33, filename, bytes);
+      else engine.writeMemFSFile(filename, bytes);
+    }
   }
 
   // Also on the filesystem, in case a preload lookup misses.
@@ -139,7 +174,8 @@ async function runCompile(
   }
 
   for (const [path, content] of Object.entries(files)) {
-    engine.writeMemFSFile(path, content);
+    engine.writeMemFSFile(path, path === TAGGED_MAIN_FILE && typeof content === 'string' && officeFontEngines.has(engine)
+      ? officeFontMain(content) : content);
   }
 
   if (profile !== 'standard' && profile !== 'tagged-correspondence') throw new Error('Unknown PDF compilation profile.');

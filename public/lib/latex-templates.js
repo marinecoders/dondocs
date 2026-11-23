@@ -2453,6 +2453,8 @@ const LATEX_TEMPLATES = {
 % Date format: Month spelled out, day in numerals, comma, full year
 
 \\newcommand{\\printDateAndTitle}{%
+    % Keep the left-aligned date below the seal on generated letterhead.
+    \\ifthenelse{\\equal{\\LetterheadMode}{full}}{\\vspace*{12pt}}{}%
     \\noindent
     \\begin{tabular}[t]{@{}l@{}}
         \\BusinessDate% Use civilian date format (January 5, 2015)

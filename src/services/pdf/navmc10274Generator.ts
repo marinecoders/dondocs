@@ -2,7 +2,7 @@ import { loadTemplatePage } from './loadTemplatePage';
 import { resolveFormSignatures } from '@/lib/signatureAssets';
 import { PDFDocument, rgb } from 'pdf-lib';
 import { wrapTextForForm } from './textWrap';
-import { embedPdfFont } from './fonts';
+import { assertInstalledFontText, embedPdfFont } from './fonts';
 
 // NAVMC 10274 - Administrative Action
 // This generator loads the official form templates and overlays text
@@ -23,6 +23,7 @@ function drawTextWithHighlights(
   font: Awaited<ReturnType<typeof PDFDocument.prototype.embedFont>>,
   fontSize: number
 ) {
+  assertInstalledFontText(font, text);
   // Split text into segments (plain text and placeholders)
   const segments: { text: string; isPlaceholder: boolean }[] = [];
   let lastIndex = 0;

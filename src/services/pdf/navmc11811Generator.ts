@@ -2,7 +2,7 @@ import { loadTemplatePage } from './loadTemplatePage';
 import { resolveFormSignatures } from '@/lib/signatureAssets';
 import { PDFDocument, rgb } from 'pdf-lib';
 import { wrapTextForForm } from './textWrap';
-import { embedPdfFont } from './fonts';
+import { assertInstalledFontText, embedPdfFont } from './fonts';
 
 // NAVMC 118(11) - Administrative Remarks (Page 11 / 6105)
 // This generator loads the official form template and overlays text
@@ -23,6 +23,7 @@ function drawTextWithHighlights(
   font: Awaited<ReturnType<typeof PDFDocument.prototype.embedFont>>,
   fontSize: number
 ) {
+  assertInstalledFontText(font, text);
   // Split text into segments (plain text and placeholders)
   const segments: { text: string; isPlaceholder: boolean }[] = [];
   let lastIndex = 0;
@@ -413,9 +414,10 @@ export interface Navmc11811Fit {
 // document's font is reused for every measurement.
 let measurementFontPromise: Promise<PDFFont> | null = null;
 function measurementFont(): Promise<PDFFont> {
-  measurementFontPromise ??= PDFDocument.create().then((doc) =>
-    embedPdfFont(doc, 'times')
-  );
+  measurementFontPromise ??= PDFDocument.create().then(doc => embedPdfFont(doc, 'times')).catch(error => {
+    measurementFontPromise = null;
+    throw error;
+  });
   return measurementFontPromise;
 }
 
@@ -428,6 +430,8 @@ function measurementFont(): Promise<PDFFont> {
  */
 export async function computeNavmc11811Fit(data: Navmc11811Data): Promise<Navmc11811Fit> {
   const font = await measurementFont();
+  assertInstalledFontText(font, data.remarksText ?? '');
+  assertInstalledFontText(font, data.remarksTextRight ?? '');
 
   const leftLines = data.remarksText
     ? wrapText(data.remarksText, FIELDS.remarks.maxWidth, font, FONT_SIZE).length

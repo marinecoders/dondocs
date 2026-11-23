@@ -3,6 +3,7 @@ import { debug } from '@/lib/debug';
 import { base64ToUint8Array } from '@/lib/encoding';
 import { LATEX } from '@/lib/constants';
 import { compileDocument, prepareEngine, LatexCompileError, type LatexCompileProfile } from '@/services/latex/renderDocument';
+import { loadLocalOfficeFonts } from '@/services/officeFonts';
 import { htmlResponseIndex } from '@/services/latex/logDiagnostics';
 import { RUNTIME_BASE } from '@/lib/releasePaths';
 
@@ -170,6 +171,7 @@ export function useLatexEngine() {
         fonts,
         templates: window.LATEX_TEMPLATES,
         seals,
+        officeFonts: await loadLocalOfficeFonts(),
       });
       debug.timeEnd('PreloadPackages');
       debug.log('Engine', 'Filesystem prepared', {
