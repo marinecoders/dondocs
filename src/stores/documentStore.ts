@@ -297,7 +297,7 @@ function publicationFont(docType: string, mode: DocumentMode, data: Partial<Docu
     ? { ...data, fontFamily: 'times', fontSize: ['sl3', 'sl4'].includes(docType) ? '10pt' : '12pt' } : data;
 }
 
-function documentTypeState(state: Pick<DocumentState, 'documentMode' | 'formData' | 'references'>, type: string) {
+function documentTypeState(state: Pick<DocumentState, 'docType' | 'documentMode' | 'formData' | 'references'>, type: string) {
     const config = DOC_TYPE_CONFIG[type] || DOC_TYPE_CONFIG.naval_letter;
     // In compliant mode, always apply the regulation fonts and date format
     if (state.documentMode === 'compliant') {
@@ -310,10 +310,13 @@ function documentTypeState(state: Pick<DocumentState, 'documentMode' | 'formData
       const allowedSizes = config.regulations.fontSizeOptions || [config.regulations.fontSize];
       const currentSize = state.formData.fontSize || '12pt';
       const newFontSize = allowedSizes.includes(currentSize) ? currentSize : config.regulations.fontSize;
-      // Font family: enforce if required (Ch 12 exec docs), otherwise keep user's choice
-      const newFontFamily = config.regulations.fontFamilyRequired
+      // A font required by the previous type should yield to the new type's default.
+      const previousRegulations = DOC_TYPE_CONFIG[state.docType]?.regulations;
+      const currentFamily = state.formData.fontFamily;
+      const wasRequiredFont = previousRegulations?.fontFamilyRequired && currentFamily === previousRegulations.fontFamily;
+      const newFontFamily = config.regulations.fontFamilyRequired || wasRequiredFont
         ? config.regulations.fontFamily
-        : (state.formData.fontFamily || config.regulations.fontFamily);
+        : (currentFamily || config.regulations.fontFamily);
 
       return {
         docType: type,
@@ -1143,7 +1146,7 @@ export function serializeSession(state: DocumentState): SerializedSession {
 export function createBlankSession(formType?: FormType, docType = 'naval_letter'): SerializedSession {
   const category = formType ? 'forms' : 'correspondence';
   const administrative = isDirective(docType) || isStaffPaper(docType);
-  const configured = documentTypeState({ documentMode: 'compliant', formData: structuredClone(DEFAULT_FORM_DATA), references: structuredClone(DEFAULT_REFERENCES) }, docType);
+  const configured = documentTypeState({ docType, documentMode: 'compliant', formData: structuredClone(DEFAULT_FORM_DATA), references: structuredClone(DEFAULT_REFERENCES) }, docType);
   return {
     documentMode: 'compliant', documentCategory: category, docType,
     formType: formType ?? 'navmc_10274',
