@@ -14,7 +14,10 @@ async function packages(page: Page) {
 }
 async function signingPanel(dialog: Locator) {
   await expect(dialog).toHaveAttribute('aria-busy', 'false', { timeout: 90_000 });
-  await packageSection(dialog, 'Delivery');
+  const delivery = dialog.getByRole('navigation', { name: 'Package workspace', exact: true })
+    .getByRole('button', { name: 'Delivery', exact: true });
+  await expect(delivery).toBeEnabled();
+  if (await delivery.getAttribute('aria-current') !== 'location') await delivery.click();
   const retainedPanel = dialog.getByRole('region', { name: 'Package signing', exact: true, includeHidden: true });
   await expect(retainedPanel).toHaveCount(1);
   // Open only this tool's disclosure path; unrelated package tools are not
