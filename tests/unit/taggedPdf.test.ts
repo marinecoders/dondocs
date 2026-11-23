@@ -25,6 +25,21 @@ async function fixture(options: { wrongNonce?: boolean; missingEnd?: boolean; un
 }
 
 describe('genuine tagged PDF finishing', () => {
+  it('writes a Unicode XMP title and language without declaring conformance', async () => {
+    const title = 'Training & <examples> – résumé';
+    const { bytes } = await finishTaggedPdf(await fixture(), { ...plan(), title });
+    const pdf = await PDFDocument.load(bytes);
+    const metadata = pdf.catalog.lookup(PDFName.of('Metadata'));
+    if (!(metadata instanceof PDFRawStream)) throw new Error('Expected a saved XMP metadata stream.');
+    expect(metadata.dict.get(PDFName.of('Type'))).toBe(PDFName.of('Metadata'));
+    expect(metadata.dict.get(PDFName.of('Subtype'))).toBe(PDFName.of('XML'));
+    const text = new TextDecoder().decode(metadata.getContents());
+    expect(pdf.getTitle()).toBe(title);
+    expect(text).toContain('Training &amp; &lt;examples&gt; – résumé');
+    expect(text).toContain('<dc:language><rdf:Bag><rdf:li>en-US</rdf:li>');
+    expect(text).not.toContain('pdfuaid');
+  });
+
   it('associates one semantic paragraph across pages with page-local MCIDs and artifact footers', async () => {
     const original = await fixture();
     const before = original.slice();

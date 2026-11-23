@@ -1,3 +1,4 @@
+import { taggedXmp } from './xmp';
 import { readTaggedLink } from './links';
 import { PDFArray, PDFBool, PDFDict, PDFDocument, PDFHexString, PDFName, PDFNumber, PDFRawStream, PDFRef, PDFString } from 'pdf-lib';
 import { byteString, readPdfContent } from './contentStream';
@@ -48,9 +49,18 @@ export async function validateGeneratedTaggedPdf(input: Uint8Array): Promise<Tag
     if (!(description instanceof PDFString || description instanceof PDFHexString) || !description.decodeText().trim()) fail('link description is missing.');
     annotations.set(link.ref.toString(), { ...link, pageIndex, key });
   }
-  if (!pdf.getTitle()?.trim()) fail('document title is missing.');
+  const title = pdf.getTitle();
+  if (!title?.trim()) fail('document title is missing.');
+  const metadata = pdf.catalog.lookup(NAME('Metadata'));
+  if (!(metadata instanceof PDFRawStream) || metadata.dict.get(NAME('Type')) !== NAME('Metadata') || metadata.dict.get(NAME('Subtype')) !== NAME('XML')) {
+    fail('the document is missing its XMP metadata stream.');
+  }
   const language = pdf.catalog.lookup(NAME('Lang'));
   if (!(language instanceof PDFString || language instanceof PDFHexString) || !/^[A-Za-z]{2,3}(?:-[A-Za-z0-9]{2,8})*$/.test(language.decodeText())) fail('document language is missing or invalid.');
+  if (metadata.dict.has(NAME('Filter')) || metadata.getContentsSize() > 16384
+    || new TextDecoder().decode(metadata.getContents()) !== taggedXmp(title, language.decodeText())) {
+    fail('the XMP title or language is inconsistent with the document.');
+  }
   const info = pdf.catalog.lookup(NAME('MarkInfo'), PDFDict);
   if (info.lookup(NAME('Marked'), PDFBool) !== PDFBool.True || info.lookupMaybe(NAME('Suspects'), PDFBool) === PDFBool.True) fail('marked document metadata is inconsistent.');
   if (pdf.catalog.lookup(NAME('ViewerPreferences'), PDFDict).lookup(NAME('DisplayDocTitle'), PDFBool) !== PDFBool.True) fail('the viewer is not configured to display the document title.');

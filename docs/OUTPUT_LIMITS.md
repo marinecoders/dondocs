@@ -49,7 +49,7 @@ their separate validation requirements.
 
 ## Tagged PDF output
 
-**Download → Tagged PDF (experimental)** supports native unclassified Standard, Naval and Multiple Address Letters and Plain-Paper and Letterhead Memorandums, with explicit table column headers and body-image alternatives. It rejects original/enclosure PDFs, signing fields and other unqualified input. The exporter validates the saved structure and content associations before delivery. Native screen-reader qualification and PDF/UA conformance remain unestablished; see the [tagged PDF guide](TAGGED_PDF.md) for measured scope and limits. Recipient ZIPs can include separate tagged PDFs and unchanged original files.
+**Download → Tagged PDF (experimental)** supports unclassified correspondence with explicit table column headers and body-image alternatives. The [tagged PDF guide](TAGGED_PDF.md) lists the supported formats, including Memorandum for the Record and Memorandum For. The exporter validates the saved structure and content associations before delivery. Native screen-reader qualification and PDF/UA conformance remain unestablished. Recipient ZIPs can include separate tagged PDFs and unchanged original files.
 
 ## Word output
 

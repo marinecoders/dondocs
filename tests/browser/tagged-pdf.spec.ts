@@ -79,20 +79,26 @@ test('exports edited imported Word tables and images through the tagged native p
   await info.attach('imported-word-tagged.pdf', { body: output, contentType: 'application/pdf' });
 });
 
-for (const docType of ['standard_letter', 'naval_letter', 'multiple_address_letter', 'plain_paper_memorandum', 'letterhead_memorandum']) {
+const taggedTypes = ['standard_letter', 'naval_letter', 'multiple_address_letter', 'plain_paper_memorandum', 'letterhead_memorandum', 'mfr', 'mf'];
+
+for (const docType of taggedTypes) {
   test(`exports actual structured ${docType} content and blocks an unsupported original attachment`, async ({ page }, info) => {
     await page.goto('/');
     await importLetter(page, 'TAGGED TRAINING LETTER', Array.from({ length: 45 }, (_, i) => `Training sentence ${i + 1} retains meaningful **bold** text across line wraps and page boundaries.`).join(' '), docType);
     await warmEngine(page);
     const dialog = await taggedDialog(page);
-    await expect(dialog).toContainText('native screen-reader qualification and PDF/UA conformance have not been established');
+    await expect(dialog).toContainText(/native screen-reader qualification and PDF\/UA conformance have not been established/i);
     const output = await downloadBrowserPdf(page, info.project.name, () => dialog.getByRole('button', { name: 'Export tagged PDF', exact: true }).click());
     const pdf = await PDFDocument.load(output);
     expect(pdf.getPageCount()).toBeGreaterThan(1);
     expect(pdf.getTitle()).toBe('TAGGED TRAINING LETTER');
     const tree = pdf.catalog.lookup(PDFName.of('StructTreeRoot'), PDFDict);
     expect(tree.lookup(PDFName.of('ParentTree'), PDFDict).lookup(PDFName.of('Nums'), PDFArray).size()).toBe(pdf.getPageCount() * 2);
-    expect(await textOf(output)).toContain('Training sentence 45');
+    const text = await textOf(output);
+    expect(text).toContain('Training sentence 45');
+    if (docType === 'mfr') expect(text).toContain('MEMORANDUM FOR THE RECORD');
+    if (docType === 'mf') expect(text).toContain('MEMORANDUM FOR Training Office');
+    if (docType === 'mfr' || docType === 'mf') expect(text).not.toContain('Training Marine');
     await info.attach(`${docType}-tagged.pdf`, { body: output, contentType: 'application/pdf' });
     await page.getByRole('button', { name: 'Download', exact: true }).click({ trial: true });
     // An original PDF is a separate package member, never silently retagged.
@@ -191,7 +197,7 @@ test('cancels an owned actual worker job then exports a different fresh document
   await info.attach('following-normal.pdf', { body: output, contentType: 'application/pdf' });
 });
 
-for (const docType of ['standard_letter', 'naval_letter', 'multiple_address_letter', 'plain_paper_memorandum', 'letterhead_memorandum']) {
+for (const docType of taggedTypes) {
   test(`exports source-bound external reference links for ${docType}`, async ({ page }, info) => {
     await page.goto('/');
     await importLetter(page, 'LINKED TAGGED TRAINING', 'Use reference (a) for the retained training source.', docType, false, true);
