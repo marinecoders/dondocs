@@ -48,6 +48,28 @@ afterAll(async () => {
 
 const MATRIX = DOC_TYPES.flatMap((docType) => formatsFor(docType).map((format) => [docType, format] as const));
 
+async function sl4SurfaceInput(format: 'pdf' | 'docx') {
+  const input = await populatedSl4Input();
+  if (format === 'pdf') return input;
+  const artwork = (await readFile('tests/fixtures/publication-word/diagram.png')).toString('base64');
+  return {
+    ...input,
+    publication: input.publication && {
+      ...input.publication,
+      sl4: input.publication.sl4 && {
+        ...input.publication.sl4,
+        artwork: input.publication.sl4.artwork?.map((entry) => ({ ...entry, lettering: 'none' as const, labels: [] })),
+      },
+    },
+    attachments: input.attachments?.map((att) => ({
+      ...att,
+      name: att.name.replace(/\.pdf$/i, '.png'),
+      mimeType: 'image/png' as const,
+      dataBase64: artwork,
+    })),
+  };
+}
+
 describe('the advertised surface', () => {
   it('advertises at least one docType and one format', () => {
     expect(DOC_TYPES.length).toBeGreaterThan(0);
@@ -61,15 +83,26 @@ describe('the advertised surface', () => {
       return;
     }
 
-    const file = await renderToFile(
-      docType === 'technical_volume' ? companionVolume() : docType === 'tm_ietm_front_matter' ? manualRequest() : docType === 'i_type' ? companionPublication() : docType === 'sl3' ? companionSl3() : docType === 'sl4' ? await populatedSl4Input() : {
+    const typedFormat = format as 'pdf' | 'docx';
+    const baseInput =
+      docType === 'technical_volume' ? companionVolume()
+      : docType === 'tm_ietm_front_matter' ? manualRequest()
+      : docType === 'i_type' ? companionPublication()
+      : docType === 'sl3' ? companionSl3()
+      : docType === 'sl4' ? await sl4SurfaceInput(typedFormat)
+      : {
         docType,
-        format: format as 'pdf' | 'docx',
-        out: `${docType}.${format}`,
         subject: `SURFACE CHECK ${docType.toUpperCase()}`,
         from: 'Commanding Officer, Test Unit',
         to: 'Commanding General, Test Command',
         paragraphs: [{ text: 'Every advertised combination is expected to produce a real document.' }],
+      };
+
+    const file = await renderToFile(
+      {
+        ...baseInput,
+        format: typedFormat,
+        out: `${docType}.${typedFormat}`,
       } as never,
       defaults,
       root,
@@ -80,7 +113,7 @@ describe('the advertised surface', () => {
     // A floor against a "successful" render of nothing: a letterhead-only page
     // is a few kilobytes, a real letter far more.
     expect(bytes.byteLength).toBeGreaterThan(4_000);
-    if (docType === 'technical_volume') {
+    if (docType === 'technical_volume' && format === 'pdf') {
       const text = (await pdfTextLayout(bytes)).boxes.map(box => box.text).join(' ');
       for (const expected of ['QUALIFICATION VOLUME', 'Original introduction.', 'Daily checks', 'READBACK-2', 'Appendix content retained.', 'portable example controller.']) {
         expect(text).toContain(expected);
