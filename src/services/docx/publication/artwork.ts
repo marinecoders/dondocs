@@ -1,3 +1,5 @@
+import { documentFontName } from '../../fonts';
+
 export interface ArtworkLabel { text: string; x: number; y: number }
 interface Extent { width: number; height: number }
 
@@ -31,7 +33,7 @@ export async function flattenPublicationArtwork(bytes: Uint8Array, extent: Exten
     check();
     context.fillStyle = 'white'; context.fillRect(0, 0, canvas.width, canvas.height);
     context.drawImage(bitmap, 0, 0, canvas.width, canvas.height);
-    context.font = '18px "Times New Roman", serif';
+    context.font = `18px "${documentFontName('times')}", serif`;
     context.fillStyle = 'black'; context.textAlign = 'center'; context.textBaseline = 'alphabetic';
     for (const label of labels) {
       check();

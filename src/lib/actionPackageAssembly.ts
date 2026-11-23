@@ -28,7 +28,8 @@ import type { DocumentFieldSource } from "./documentFields";
 import { resolvePackageCitations } from "./packageCitations";
 
 import { packageCitationReadiness } from "./packageCitationRepair";
-import { PDFDocument, StandardFonts } from "pdf-lib";
+import { PDFDocument } from "pdf-lib";
+import { embedPdfFont } from "@/services/pdf/fonts";
 import { captureDocumentRevision, copyCapturedDocument } from "./capturedDocument";
 import { captureFormExportTemplates } from "./formExportTemplates";
 import {
@@ -769,7 +770,7 @@ export async function assemblePackage(
       const pages = await pdf.copyPages(source, source.getPageIndices());
       const font =
         member.role === "enclosure"
-          ? await pdf.embedFont(StandardFonts.Helvetica)
+          ? await embedPdfFont(pdf, "helvetica")
           : undefined;
       if (!shared) pages.forEach((page, index) => {
         pdf.addPage(page);

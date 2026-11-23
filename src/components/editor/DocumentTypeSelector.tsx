@@ -9,6 +9,7 @@ import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useDocumentStore } from '@/stores/documentStore';
 import { DOC_TYPE_CONFIG, type DocumentMode } from '@/types/document';
 import { Badge } from '@/components/ui/badge';
+import { documentFontName } from '@/services/fonts';
 
 export function DocumentTypeSelector() {
   const {
@@ -105,7 +106,7 @@ export function DocumentTypeSelector() {
                 </div>
                 <div>
                   <span className="font-medium">{config.regulations.fontFamilyRequired ? 'Required:' : 'Recommended:'}</span>{' '}
-                  {config.regulations.fontFamily === 'courier' ? 'Courier New' : 'Times New Roman'}
+                  {documentFontName(config.regulations.fontFamily)}
                 </div>
               </div>
             </div>
@@ -138,8 +139,8 @@ export function DocumentTypeSelector() {
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="times">Times New Roman</SelectItem>
-                    <SelectItem value="courier">Courier New</SelectItem>
+                    <SelectItem value="times">{documentFontName('times')}</SelectItem>
+                    <SelectItem value="courier">{documentFontName('courier')}</SelectItem>
                   </SelectContent>
                 </Select>
               </div>

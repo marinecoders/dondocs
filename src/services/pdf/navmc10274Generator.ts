@@ -1,7 +1,8 @@
 import { loadTemplatePage } from './loadTemplatePage';
 import { resolveFormSignatures } from '@/lib/signatureAssets';
-import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';
+import { PDFDocument, rgb } from 'pdf-lib';
 import { wrapTextForForm } from './textWrap';
+import { embedPdfFont } from './fonts';
 
 // NAVMC 10274 - Administrative Action
 // This generator loads the official form templates and overlays text
@@ -517,7 +518,7 @@ export async function generateNavmc10274Pdf(
   const page2 = pdfDoc.getPage(page2Index);
 
   // Embed font - Use Times Roman to match official government forms
-  const font = await pdfDoc.embedFont(StandardFonts.TimesRoman);
+  const font = await embedPdfFont(pdfDoc, 'times');
 
   // Track if we need page 3 for overflow
   let needsPage3 = false;

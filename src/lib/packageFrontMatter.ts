@@ -1,4 +1,5 @@
-import { PDFDocument, PDFFont, PDFName, PDFString, StandardFonts } from 'pdf-lib';
+import { PDFDocument, PDFFont, PDFName, PDFString } from 'pdf-lib';
+import { embedPdfFont } from '@/services/pdf/fonts';
 import type { PackageBoundary, PackageRevision } from './actionPackages';
 import { defaultPackageAssemblySettings } from './packageAssemblyModel';
 
@@ -18,7 +19,7 @@ export async function addPackageFrontMatter(body: PDFDocument, revision: Package
   capturedBoundaries: readonly PackageBoundary[]): Promise<{ pdf: PDFDocument; boundaries: PackageBoundary[]; frontMatterPages: number }> {
   const settings = revision.assembly ?? defaultPackageAssemblySettings();
   if (!settings.cover && !settings.contents) return { pdf: body, boundaries: structuredClone([...capturedBoundaries]), frontMatterPages: 0 };
-  const pdf = await PDFDocument.create(), font = await pdf.embedFont(StandardFonts.Helvetica), bold = await pdf.embedFont(StandardFonts.HelveticaBold);
+  const pdf = await PDFDocument.create(), font = await embedPdfFont(pdf, 'helvetica'), bold = await embedPdfFont(pdf, 'helvetica', 'bold');
   let title: string[], rows: Array<{ lines: string[]; boundary: PackageBoundary }>;
   try {
     title = lines(packageName, bold, 20, 500);

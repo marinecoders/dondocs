@@ -1,4 +1,5 @@
-import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';
+import { PDFDocument, rgb } from 'pdf-lib';
+import { embedPdfFont } from '@/services/pdf/fonts';
 import { compileFormDefinition, type AnswerField, type FormDefinition } from '@/services/forms/model';
 import { portableResourceDigest } from './portableResources';
 
@@ -10,8 +11,8 @@ async function worksheet(id: string, title: string, fields: readonly WorksheetFi
   const document = await PDFDocument.create();
   document.setCreationDate(new Date(0)); document.setModificationDate(new Date(0));
   document.setCreator('DonDocs'); document.setProducer('DonDocs'); document.setTitle(title);
-  const page = document.addPage([612, 792]), font = await document.embedFont(StandardFonts.Helvetica);
-  const bold = await document.embedFont(StandardFonts.HelveticaBold);
+  const page = document.addPage([612, 792]), font = await embedPdfFont(document, 'helvetica');
+  const bold = await embedPdfFont(document, 'helvetica', 'bold');
   page.drawText(title, { x: 48, y: 748, font: bold, size: 17 });
   page.drawText('General-purpose DonDocs worksheet. Not an official form.', { x: 48, y: 728, font, size: 10 });
   let top = 690;
