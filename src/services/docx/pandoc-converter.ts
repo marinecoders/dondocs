@@ -755,7 +755,7 @@ export async function postProcessDocx(
     });
   }
 
-  xml = applyBodyTableLayouts(xml, bodyTables, TARGET_TEXT_WIDTH);
+  xml = applyBodyTableLayouts(xml, bodyTables, TARGET_TEXT_WIDTH, docType === 'coordination_page');
   zip.file('word/document.xml', xml);
   debug.verbose('DOCX', `Updated document.xml: ${(xml.length / 1024).toFixed(1)} KB`);
 

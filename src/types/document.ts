@@ -1,4 +1,5 @@
 import { DIRECTIVE_TYPES } from '@/lib/directiveFormats';
+import { STAFF_PAPER_TYPES } from '@/lib/staffPapers';
 import type { PublicationVolume } from '@/lib/publicationVolume';
 import type { PublicationSection } from '@/data/techpub/sections';
 import type { ManualFrontMatter } from '@/data/techpub/manualFrontMatter';
@@ -174,6 +175,14 @@ export interface Profile {
   signatureType?: SignatureType;
 }
 
+export interface CoordinationEntry {
+  office: string;
+  contact: string;
+  phone: string;
+  date: string;
+  position: string;
+}
+
 export interface DocumentData {
   volume?: PublicationVolume;
   /** Exact source Word file, retained independently of editable imported content. */
@@ -207,6 +216,13 @@ export interface DocumentData {
   directiveCancellation?: string;
   directiveChangeNumber?: string;
   directiveReports?: string;
+  staffApprovedBy?: string;
+  staffDecisionOptions?: string;
+  staffDecisionOfficials?: string;
+  staffDecisionStyle?: 'single' | 'choose_one' | 'independent';
+  coordinationEntries?: CoordinationEntry[];
+  coordinationComments?: string;
+  coordinationLayout?: 'secnav' | 'hqmc';
   department: string;
   unitLine1: string;
   unitLine2: string;
@@ -518,12 +534,25 @@ const SECNAV_DIRECTIVE_CONFIG: DocTypeConfig = {
   regulations: { fontSize: '12pt', fontFamily: 'courier', fontFamilyRequired: true, authority: 'SECNAV M-5215.1', ref: 'Appendix D' },
 };
 
+const STAFF_PAPER_CONFIG: DocTypeConfig = {
+  letterhead: false, ssic: false, fromTo: false, via: false, memoHeader: false, signature: 'abbrev', uiMode: 'memo',
+  regulations: { fontSize: '12pt', fontFamily: 'times', authority: 'MCO 5216.20B', ref: 'Chapter 13, section 10' },
+  compliance: { ...DEFAULT_COMPLIANCE, allowReferences: false, allowEnclosures: false },
+};
+
 export const DOC_TYPE_CONFIG: Record<string, DocTypeConfig> = {
   marine_corps_order: DIRECTIVE_CONFIG,
   marine_corps_bulletin: DIRECTIVE_CONFIG,
   secnav_instruction: SECNAV_DIRECTIVE_CONFIG,
   secnav_notice: SECNAV_DIRECTIVE_CONFIG,
   change_transmittal: SECNAV_DIRECTIVE_CONFIG,
+  position_decision_paper: { ...STAFF_PAPER_CONFIG, compliance: { ...STAFF_PAPER_CONFIG.compliance, allowReferences: true } },
+  information_paper: STAFF_PAPER_CONFIG,
+  coordination_page: {
+    ...STAFF_PAPER_CONFIG,
+    regulations: { ...STAFF_PAPER_CONFIG.regulations, authority: 'SECNAV M-5216.5 / MCO 5216.20B', ref: 'Figures 12-13 / 13-8' },
+    compliance: { ...STAFF_PAPER_CONFIG.compliance, numberedParagraphs: false },
+  },
   naval_letter: {
     letterhead: true, ssic: true, fromTo: true, via: true, memoHeader: false, signature: 'abbrev', uiMode: 'standard',
     showSignatureRankTitle: false, // Per SECNAV Ch 7 ¶14a(2): abbreviated name only, NO rank, NO title
@@ -718,6 +747,9 @@ export const DOC_TYPE_LABELS: Record<string, string> = {
   secnav_instruction: 'SECNAV Instruction',
   secnav_notice: 'SECNAV Notice',
   change_transmittal: 'Change Transmittal',
+  position_decision_paper: 'HQMC Position/Decision Paper',
+  information_paper: 'HQMC Information Paper',
+  coordination_page: 'Coordination Page',
   naval_letter: 'Naval Letter (on letterhead)',
   standard_letter: 'Standard Letter (plain paper)',
   business_letter: 'Business Letter',
@@ -810,6 +842,10 @@ export const DOC_TYPE_CATEGORIES: { category: string; types: string[] }[] = [
   {
     category: 'Directives',
     types: [...DIRECTIVE_TYPES],
+  },
+  {
+    category: 'Staff Papers',
+    types: [...STAFF_PAPER_TYPES],
   },
   {
     category: 'Technical Publications',

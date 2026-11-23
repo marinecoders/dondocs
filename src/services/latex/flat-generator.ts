@@ -1,5 +1,7 @@
 import { directiveAuthorityRows, directiveFormatting, isDirective, isMarineDirective } from '@/lib/directiveFormats';
 import { directiveLayout } from './directiveLayout';
+import { isStaffPaper } from '@/lib/staffPapers';
+import { staffPaperLayout } from './staffPaperLayout';
 import { correspondenceStationery, assertStationerySupport } from '@/lib/stationery';
 import { additionalJointCommands, assertJointLetterCommandSupport } from '@/lib/jointLetterCommands';
 import { resolveLetterheadMode } from '@/lib/letterheadMode';
@@ -1867,7 +1869,14 @@ export function generateFlatLatex(store: DocumentStore, resolvedLevel?: string, 
   tex += buildPageNumbering(store.docType, data);
   tex += '\n\\begin{document}\n\n';
 
-  switch (config.uiMode) {
+  if (isStaffPaper(store.docType)) {
+    const staff = staffPaperLayout(store.docType, data, escapeFlat, target === 'docx');
+    tex += staff.heading;
+    if (config.compliance.allowReferences) tex += buildReferences(store.references, false, target);
+    tex += store.docType === 'coordination_page' ? staff.body
+      : buildBody(store.paragraphs, config, bodyFont(data), bodySizePt(data), store.docType);
+    tex += staff.closing;
+  } else switch (config.uiMode) {
     case 'standard':
       tex += buildStandardLayout(store, config);
       break;

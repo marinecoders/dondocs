@@ -2,20 +2,21 @@ import { BREAKABLE_TEXT_COMMANDS } from './bodyTableText';
 import { bodyTableSchema, bodyTableWidths, type BodyTable } from '@/lib/bodyTable';
 
 /** One geometry calculation feeds the PDF source and the Word conversion source. */
-export function renderBodyTable(input: BodyTable, renderCell: (text: string, row: number, column: number, header: boolean) => string, options: { repeatHeaders?: boolean; wordIndex?: number; scope?: { begin: string; end: string } } = {}): string {
+export function renderBodyTable(input: BodyTable, renderCell: (text: string, row: number, column: number, header: boolean) => string, options: { repeatHeaders?: boolean; wordIndex?: number; headerStyle?: 'underline'; scope?: { begin: string; end: string } } = {}): string {
   const table = bodyTableSchema.parse(input), columns = table.rows[0].length;
   const border = table.borders ?? 'grid';
   const rules = border === 'grid' ? columns + 1 : border === 'outline' ? 2 : 0;
   const alignments = { left: 'raggedright', center: 'centering', right: 'raggedleft' };
   const specifications = bodyTableWidths(table, 1).map((share, column) => {
     const width = `\\dimexpr${share.toFixed(6)}\\textwidth-2\\tabcolsep-${(rules / columns).toFixed(6)}\\arrayrulewidth\\relax`;
-    return `>{\\${alignments[table.columnAlignments?.[column] ?? 'left']}\\arraybackslash}p{${width}}`;
+    // Pandoc otherwise treats leading cell digits as an argument to this command.
+    return `>{\\${alignments[table.columnAlignments?.[column] ?? 'left']}\\arraybackslash${options.repeatHeaders === false ? '{}' : ''}}p{${width}}`;
   });
   // Measure the tallest cell of each header row once per emitted head group.
   // Body rows receive the remaining page height; semantic adapters are not rerun.
   const row = (cells: string[], index: number) => cells.map((cell, column) => {
     let text = renderCell(cell, index, column, index < table.headerRows);
-    if (index < table.headerRows) text = `\\textbf{${text}}`;
+    if (index < table.headerRows) text = `\\${options.headerStyle === 'underline' ? 'underline' : 'textbf'}{${text}}`;
     if (column === 0 && table.minimumRowHeight) text = `\\rule{0pt}{${table.minimumRowHeight}pt}${text}`;
     if (index === 0 && column === 0 && options.wordIndex !== undefined) text = `\\dondocsbodytable{${options.wordIndex}}${text}`;
     if (options.repeatHeaders !== false) {

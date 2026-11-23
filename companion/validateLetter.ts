@@ -1,4 +1,5 @@
 import { isDirective } from '../src/lib/directiveFormats';
+import { isStaffPaper } from '../src/lib/staffPapers';
 import { stationeryIssues } from '../src/lib/stationery';
 import { jointLetterCommandIssues } from '../src/lib/jointLetterCommands';
 import { bodyTableSchema } from '../src/lib/bodyTable';
@@ -29,7 +30,7 @@ import { businessFigureFile } from '../src/lib/figures';
 
 // Administrative fields currently enter through the browser document editor.
 export const DOC_TYPES = [
-  ...Object.keys(DOC_TYPE_CONFIG).filter(type => !isDirective(type)),
+  ...Object.keys(DOC_TYPE_CONFIG).filter(type => !isDirective(type) && !isStaffPaper(type)),
   ...Object.keys(TEMPLATE_FOR),
 ];
 export const FORMATS = ['pdf', 'docx'];

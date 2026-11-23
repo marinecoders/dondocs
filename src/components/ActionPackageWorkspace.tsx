@@ -1,3 +1,5 @@
+import { captureDocumentRevision } from '@/lib/capturedDocument';
+import { createBlankSession, prepareSessionState } from '@/stores/documentStore';
 import type { PackageSearchScope } from './PackageSearchPanel';
 import { configuredApprovalOrigin } from '@/lib/packageApprovalOrigin';
 import { PackageReviewControls } from "./PackageReviewControls";
@@ -1072,6 +1074,16 @@ function PackageDialog({
                       }
                     >
                       Capture current document
+                    </Button>
+                    <Button variant="outline" onClick={() => void run(async () => {
+                      const session = createBlankSession(undefined, 'coordination_page');
+                      const captured = captureDocumentRevision({
+                        documentId: crypto.randomUUID(), epoch: 0, editSequence: 0, capturedAt: session.timestamp,
+                      }, prepareSessionState(session));
+                      const member = await capturePackageMember(captured, 'Coordination page', 'coordination-sheet');
+                      await modify([...revision.members, member]);
+                    })}>
+                      Add coordination page
                     </Button>
                     <label className="cursor-pointer rounded border p-2 text-sm">
                       Add original PDF

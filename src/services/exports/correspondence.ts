@@ -1,4 +1,5 @@
 import { directiveContinuation } from '@/lib/directiveFormats';
+import { coordinationTable, isStaffPaper } from '@/lib/staffPapers';
 import { resolveLetterheadMode } from '@/lib/letterheadMode';
 import { DOC_TYPE_CONFIG } from '@/types/document';
 import { appendWordEnclosurePages, renderWordEnclosurePages } from '@/services/docx/enclosurePages';
@@ -63,7 +64,7 @@ export async function renderPreparedCorrespondence(ready: ReadyExportJob, ports:
     reportProgress('docx-preparing');
     const data = document.formData;
     const figureIds = document.paragraphs.flatMap(paragraph => paragraph.figure?.fileRef ? [paragraph.figure.fileRef.id] : []);
-    if (data.signatureType === 'image' && !data.signatureImage?.data && data.signatureImage?.fileRef) figureIds.push(data.signatureImage.fileRef.id);
+    if (!isStaffPaper(document.docType) && data.signatureType === 'image' && !data.signatureImage?.data && data.signatureImage?.fileRef) figureIds.push(data.signatureImage.fileRef.id);
     if (ready.job.wordEnclosurePages) for (const enclosure of document.enclosures) if (enclosure.fileRef && !enclosure.file?.data) figureIds.push(enclosure.fileRef.id);
     return (ports.assets ?? storedExportAssets).withAssets(figureIds, async read => {
       let enclosurePages: Awaited<ReturnType<typeof renderWordEnclosurePages>> = [];
@@ -84,7 +85,8 @@ export async function renderPreparedCorrespondence(ready: ReadyExportJob, ports:
       checkCancellation(signal);
       const blob = await convertDocx(generateFlatLatex(document, resolvedLevel), {
         mediaFiles,
-        bodyTables: document.paragraphs.flatMap(paragraph => paragraph.bodyTable ? [paragraph.bodyTable] : []),
+        bodyTables: document.docType === 'coordination_page' ? [coordinationTable(data)]
+          : document.paragraphs.flatMap(paragraph => paragraph.bodyTable ? [paragraph.bodyTable] : []),
         docType: document.docType, sealType: data.sealType, letterheadColor: data.letterheadColor,
         stationerySize: data.stationerySize,
         letterheadMode: resolveLetterheadMode(DOC_TYPE_CONFIG[document.docType], data),

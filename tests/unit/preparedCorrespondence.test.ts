@@ -328,3 +328,36 @@ it('requires authority fields for the classification derived from directive port
   expect(prepare(formData)).toMatchObject({ status: 'error', issues: ['Enter a valid declassification date.'] });
   expect(prepare({ ...formData, declassifyOn: '20500228' }).status).toMatch(/^(ready|needs-review)$/);
 });
+
+it('blocks incomplete staff forms and drops retained signature assets during export', async () => {
+  const source = useDocumentStore.getState().getSnapshot();
+  const policy = resolveExportDeploymentPolicy({ hostname: 'example.test', environment: null, runtime: { status: 'absent' } });
+  const correspondence = { ...source, documentCategory: 'correspondence' as const, paragraphs: [], enclosures: [], references: [] };
+  const capture = (docType: string, formData: DocumentSnapshot['formData']) =>
+    captureDocumentRevision({ documentId: docType, epoch: 1, editSequence: 1, capturedAt: 1 }, { ...correspondence, docType, formData });
+  const missingOffice = capture('coordination_page', {
+    coordinationEntries: [{ office: '', contact: 'Casey Example', date: '', phone: '', position: '' }],
+  });
+  expect(prepareExport({ captured: missingOffice, policy, target: 'docx', id: 'coordination', filename: 'coordination.docx' })).toMatchObject({
+    status: 'error', issues: [expect.stringContaining('Enter an office name')],
+  });
+  const missingChoice = capture('position_decision_paper', {
+    officeCode: 'OPS', date: '12 Sep 27', subject: 'Staffing', preparedBy: 'Casey Example', staffDecisionStyle: 'choose_one',
+    staffDecisionOptions: 'A single choice',
+  });
+  expect(prepareExport({ captured: missingChoice, policy, target: 'pdf', id: 'decision', filename: 'decision.pdf' })).toMatchObject({
+    status: 'error', issues: [expect.stringContaining('Enter at least two choices')],
+  });
+
+  const staff = ready('docx', { ...correspondence, docType: 'information_paper', formData: {
+    officeCode: 'OPS', date: '12 Sep 27', subject: 'Staff update', preparedBy: 'Casey Example', signatureType: 'image',
+    signatureImage: { name: 'retained.png', size: 1, data: '', fileRef: { id: 'stale', name: 'retained.png', type: 'image/png', size: 1 } },
+  } });
+  const adapters = ports(await pdf());
+  adapters.assets = { withAssets: async (ids, operation) => {
+    expect(ids).toEqual([]);
+    return operation(() => { throw new Error('No signature asset belongs to this staff paper.'); });
+  } };
+  await renderPreparedCorrespondence(staff, adapters, new AbortController().signal);
+  expect(adapters.convertDocx).toHaveBeenCalledOnce();
+});

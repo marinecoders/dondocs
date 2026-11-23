@@ -1,4 +1,5 @@
 import { directiveFont, isDirective } from '@/lib/directiveFormats';
+import { isStaffPaper } from '@/lib/staffPapers';
 import { emptyPublicationVolume, freshVolumeContent, validatePublicationVolume, VOLUME_DOC_TYPE, type PublicationVolume } from '@/lib/publicationVolume';
 import { transformRangeComments } from '@/lib/reviewCommentRanges';
 import { hasReviewComments, type ReviewComments } from '@/lib/reviewComments';
@@ -1141,7 +1142,7 @@ export function serializeSession(state: DocumentState): SerializedSession {
 /** Build a blank document without changing the active workspace. */
 export function createBlankSession(formType?: FormType, docType = 'naval_letter'): SerializedSession {
   const category = formType ? 'forms' : 'correspondence';
-  const administrative = isDirective(docType);
+  const administrative = isDirective(docType) || isStaffPaper(docType);
   const configured = documentTypeState({ documentMode: 'compliant', formData: structuredClone(DEFAULT_FORM_DATA), references: structuredClone(DEFAULT_REFERENCES) }, docType);
   return {
     documentMode: 'compliant', documentCategory: category, docType,
@@ -1149,7 +1150,7 @@ export function createBlankSession(formType?: FormType, docType = 'naval_letter'
     formData: category === 'forms' ? {} : administrative ? { ...configured.formData, subject: '', from: '', to: '', preparedBy: '' } : configured.formData,
     references: category === 'forms' || administrative ? [] : configured.references,
     enclosures: category === 'forms' || administrative ? [] : structuredClone(DEFAULT_ENCLOSURES),
-    paragraphs: category === 'forms' ? [] : freshParagraphs(administrative ? [{ text: '', level: 0 }] : structuredClone(DEFAULT_PARAGRAPHS)),
+    paragraphs: category === 'forms' || docType === 'coordination_page' ? [] : freshParagraphs(administrative ? [{ text: '', level: 0 }] : structuredClone(DEFAULT_PARAGRAPHS)),
     copyTos: category === 'forms' || administrative ? [] : [{ text: 'G-3/5' }, { text: 'G-4' }, { text: 'Regimental S-3' }],
     distributions: [], endItems: [], publicationTables: {}, timestamp: Date.now(),
     ...(category === 'forms' ? { forms: prepareFormSession(formType!) } : {}),

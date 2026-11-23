@@ -27,6 +27,9 @@ Compliant and Custom are application modes. Both have the same operation availab
 | SECNAV Instruction | supported | partial | partial | supported | supported | supported | supported |
 | SECNAV Notice | supported | partial | partial | supported | supported | supported | supported |
 | Change Transmittal | supported | partial | partial | supported | supported | supported | supported |
+| HQMC Position/Decision Paper | supported | partial | partial | supported | supported | supported | supported |
+| HQMC Information Paper | supported | partial | partial | supported | supported | supported | supported |
+| Coordination Page | supported | partial | partial | supported | supported | supported | supported |
 | Naval Letter (on letterhead) | supported | partial | partial | supported | supported | supported | supported |
 | Standard Letter (plain paper) | supported | partial | partial | supported | supported | supported | supported |
 | Business Letter | supported | partial | partial | supported | supported | supported | supported |
@@ -79,6 +82,9 @@ This table covers letters, endorsements, memoranda and agreements. Each cell lis
 | SECNAV Instruction | yes / yes / yes | yes / yes / yes |
 | SECNAV Notice | yes / yes / yes | yes / yes / yes |
 | Change Transmittal | yes / yes / yes | yes / yes / yes |
+| HQMC Position/Decision Paper | yes / yes / no | yes / yes / no |
+| HQMC Information Paper | yes / no / no | yes / no / no |
+| Coordination Page | no / no / no | no / no / no |
 | Naval Letter (on letterhead) | yes / yes / yes | yes / yes / yes |
 | Standard Letter (plain paper) | yes / yes / yes | yes / yes / yes |
 | Business Letter | no / no / no | yes / yes / yes |

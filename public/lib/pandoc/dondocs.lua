@@ -393,7 +393,7 @@ local function handle_raw_block(el)
   end
 
   -- \rule{\textwidth}{0.5pt} → horizontal rule (OpenXML paragraph border)
-  if text:match("^\\rule%{\\textwidth%}%{[%d%.]+pt%}%s*$") then
+  if text:match("^\\dondocscoordinationdivider%s*$") or text:match("^\\rule%{\\textwidth%}%{[%d%.]+pt%}%s*$") then
     local xml = '<w:p><w:pPr>'
       .. '<w:pBdr><w:bottom w:val="single" w:sz="4" w:space="1" w:color="auto"/></w:pBdr>'
       .. '<w:spacing w:before="0" w:after="0" w:line="20" w:lineRule="exact"/>'
