@@ -11,7 +11,7 @@ afterEach(() => { cleanup(); useDocumentStore.setState(original); });
 it('states the real qualification boundary and requests an explicit tagged export', async () => {
   const onExport = vi.fn(); const onOpenChange = vi.fn();
   render(<TaggedPdfExportDialog open onOpenChange={onOpenChange} onExport={onExport} />);
-  expect(screen.getByRole('dialog', { name: 'Export tagged PDF' })).toHaveTextContent('native screen-reader qualification and PDF/UA conformance have not been established');
+  expect(screen.getByRole('dialog', { name: 'Export tagged PDF' })).toHaveTextContent(/native screen-reader qualification and PDF\/UA conformance have not been established/i);
   expect(screen.getByText(/Language: English/)).toBeVisible();
   await userEvent.setup().click(screen.getByRole('button', { name: 'Export tagged PDF' }));
   expect(onOpenChange).toHaveBeenCalledWith(false); expect(onExport).toHaveBeenCalledOnce();

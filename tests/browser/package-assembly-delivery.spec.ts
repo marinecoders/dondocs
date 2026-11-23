@@ -134,7 +134,7 @@ test('delivery ZIP recovers its exact selected original in a fresh browser conte
   } finally { await fresh.close(); }
 });
 
-for (const docType of ['naval_letter', 'plain_paper_memorandum', 'letterhead_memorandum']) {
+for (const docType of ['naval_letter', 'plain_paper_memorandum', 'letterhead_memorandum', 'mfr', 'mf']) {
   test(`downloads a tagged ${docType} with unchanged originals`, async ({ page, context }, info) => {
     await context.addInitScript(() => localStorage.setItem('browser-test-visitor', 'returning'));
     const support = await pdf('ORIGINAL SUPPORT');

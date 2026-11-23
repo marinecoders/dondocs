@@ -1,6 +1,6 @@
 # Tagged PDF export
 
-Choose **Download → Tagged PDF (experimental)** for a native, unclassified Standard, Naval or Multiple Address Letter, or a Plain-Paper or Letterhead Memorandum. Use full, title-only or preprinted letterhead where the letter format offers it. Multiple Address Letters can identify recipients in To, Distribution or both.
+Choose **Download → Tagged PDF (experimental)** for a native, unclassified Standard, Naval or Multiple Address Letter, Plain-Paper or Letterhead Memorandum, Memorandum for the Record, or Memorandum For. Use full, title-only or preprinted letterhead where the format offers it. Multiple Address Letters can identify recipients in To, Distribution or both.
 
 In a package, open **Recipient delivery** and select **Tag supported correspondence PDFs (experimental)**. Recipients receive individual tagged PDFs and the exact original files you selected. Each original retains its existing accessibility. Remove an unsupported native document from the selection or prepare an ordinary delivery.
 
@@ -8,7 +8,7 @@ This is experimental output. Native screen-reader qualification and PDF/UA confo
 
 ## Included structure
 
-The exported PDF contains a real document structure tree and page-local marked-content associations. It includes English (`en-US`) language metadata, a document title, subject and body headings, paragraph lists, reference lists with optional external title links, typed signature text, Copy to and Distribution entries. First-page letterhead text is included. Repeated continuation subjects and page numbers are artifacts. The decorative seal is an artifact bound to its exact source pixels.
+The exported PDF contains a document structure tree and page-local marked-content associations. It records the document title and English (`en-US`) language in XMP metadata. The structure includes subject and body headings, paragraph lists, reference lists with optional external title links, typed signature text, Copy to and Distribution entries. First-page letterhead text is included. Repeated continuation subjects and page numbers are artifacts. The decorative seal is an artifact bound to its exact source pixels.
 
 Native body tables have separate logical header and body groups, explicit column header cells, and data cells in authored row order. A header repeated visually on a continuation page appears only once in the logical structure. Empty data cells remain explicit structure elements. Body PNG/JPEG images need authored alternative text, separately from any visible caption. Alternative text is not inferred from pixels or generated from a filename.
 
@@ -16,7 +16,7 @@ The exporter compares each painted image resource with the captured raster's dec
 
 ## Current boundaries
 
-- Native Standard, Naval and Multiple Address Letters and Plain-Paper and Letterhead Memorandums with 1–200 body blocks and at most 250,000 characters across body text, table cells and alternatives.
+- Supported letters and memorandums with 1–200 body blocks and at most 250,000 characters across body text, table cells and alternatives.
 - Unclassified content only. Classification and handling banners need their own qualification before this option can include them.
 - Tables require nonempty column headers and at least one data row. Limits are 6 columns, 100 rows, 400 characters per cell and 1,200 per row. Split dense or unusually tall rows, and inspect the visible result.
 - Body images must be retained PNG or JPEG files with meaningful alternative text. Limits are 10 MiB and 4 megapixels per image, 4,096 pixels per side, 32 MiB of distinct image sources and 8 megapixels of distinct source-image decoding per export. At most 20 painted rasters are included, counting any decorative seal. Animated/interlaced PNGs, compressed PNG metadata, embedded color profiles and unqualified PDF image resources are rejected with an error.

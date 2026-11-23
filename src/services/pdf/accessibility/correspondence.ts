@@ -2,6 +2,8 @@ import { taggedReferenceUrl } from './links';
 import mainTemplate from '../../../../tex/main.tex?raw';
 import navalTemplate from '../../../../tex/templates/naval_letter.tex?raw';
 import multipleAddressTemplate from '../../../../tex/templates/multiple_address_letter.tex?raw';
+import memorandumForTemplate from '../../../../tex/templates/mf.tex?raw';
+import memorandumForRecordTemplate from '../../../../tex/templates/mfr.tex?raw';
 import letterheadMemoTemplate from '../../../../tex/templates/letterhead_memorandum.tex?raw';
 import plainPaperMemoTemplate from '../../../../tex/templates/plain_paper_memorandum.tex?raw';
 import standardTemplate from '../../../../tex/templates/standard_letter.tex?raw';
@@ -23,6 +25,8 @@ const templates = {
   'multiple-address-letter': multipleAddressTemplate,
   'plain-paper-memorandum': plainPaperMemoTemplate,
   'letterhead-memorandum': letterheadMemoTemplate,
+  'memorandum-for-record': memorandumForRecordTemplate,
+  'memorandum-for': memorandumForTemplate,
 };
 
 export type TaggedCorrespondenceSource = Parameters<typeof generateAllLatexFiles>[0];
@@ -69,6 +73,8 @@ export function prepareTaggedCorrespondence(source: TaggedCorrespondenceSource, 
   const qualification = taggedLayout(source.docType)!;
   let format = templates[qualification];
   const plainPaperMemo = qualification === 'plain-paper-memorandum';
+  const memorandumForRecord = qualification === 'memorandum-for-record';
+  const memorandumFor = qualification === 'memorandum-for';
   let mainSource = mainTemplate;
   let sealId: number | undefined;
   const letterhead = taggedLetterhead(source);
@@ -95,11 +101,11 @@ export function prepareTaggedCorrespondence(source: TaggedCorrespondenceSource, 
     const title = '\\textbf{\\UnitName}';
     mainSource = replaceOnce(mainSource, title, `\\textbf{${wrap(top('P').id, '\\UnitName')}}`);
   }
-  if (fields.inReplyTo && !plainPaperMemo) {
+  if (fields.inReplyTo && !plainPaperMemo && !memorandumForRecord) {
     const id = top('P').id;
     format = replaceOnce(format, '{\\fontsize{5pt}{6pt}\\selectfont IN REPLY REFER TO}', wrap(id, '{\\fontsize{5pt}{6pt}\\selectfont IN REPLY REFER TO}'));
   }
-  if (!plainPaperMemo) {
+  if (!plainPaperMemo && !memorandumForRecord) {
     if (fields.ssic?.trim()) wrapMacro('DocumentSSIC', top('P').id);
     if (composeSenderSymbol(fields.officeCode, fields.serial).trim()) wrapMacro('DocumentSerial', top('P').id);
   }
@@ -107,18 +113,26 @@ export function prepareTaggedCorrespondence(source: TaggedCorrespondenceSource, 
   if (plainPaperMemo || qualification === 'letterhead-memorandum') {
     format = replaceOnce(format, '\\noindent MEMORANDUM\n', `\\noindent ${wrap(top('P').id, 'MEMORANDUM')}\n`);
   }
-  const from = top('P').id;
-  format = replaceOnce(format, 'From:\\hspace{2\\fontdimen2\\font}', wrap(from, 'From:\\hspace{2\\fontdimen2\\font}'));
-  wrapMacro('FromLine', from);
-  if (qualification !== 'multiple-address-letter' || fields.to?.trim()) {
-    const to = top('P').id;
-    format = replaceOnce(format, 'To:\\hspace{6\\fontdimen2\\font}', wrap(to, 'To:\\hspace{6\\fontdimen2\\font}'));
-    wrapMacro('ToLine', to);
-  }
-  if (fields.via?.trim()) {
-    const via = top('P').id;
-    const rows = formatViaLines(fields.via).map((line, index) => `\\tabularnewline ${index ? '' : wrap(via, 'Via:\\hspace{5\\fontdimen2\\font}')} & ${wrap(via, formatAddressForLatex(line))}`);
-    macros.push(`\\setViaRows{${rows.join('\n')}}`);
+  if (memorandumForRecord) {
+    const title = 'MEMORANDUM FOR THE RECORD';
+    format = replaceOnce(format, '        ' + title, '        ' + wrap(top('P').id, title));
+  } else if (memorandumFor) {
+    const title = 'MEMORANDUM FOR \\MemorandumForAddressee';
+    format = replaceOnce(format, '\\noindent ' + title, '\\noindent ' + wrap(top('P').id, title));
+  } else {
+    const from = top('P').id;
+    format = replaceOnce(format, 'From:\\hspace{2\\fontdimen2\\font}', wrap(from, 'From:\\hspace{2\\fontdimen2\\font}'));
+    wrapMacro('FromLine', from);
+    if (qualification !== 'multiple-address-letter' || fields.to?.trim()) {
+      const to = top('P').id;
+      format = replaceOnce(format, 'To:\\hspace{6\\fontdimen2\\font}', wrap(to, 'To:\\hspace{6\\fontdimen2\\font}'));
+      wrapMacro('ToLine', to);
+    }
+    if (fields.via?.trim()) {
+      const via = top('P').id;
+      const rows = formatViaLines(fields.via).map((line, index) => `\\tabularnewline ${index ? '' : wrap(via, 'Via:\\hspace{5\\fontdimen2\\font}')} & ${wrap(via, formatAddressForLatex(line))}`);
+      macros.push(`\\setViaRows{${rows.join('\n')}}`);
+    }
   }
   const subject = top('H1').id;
   format = replaceOnce(format, 'Subj:\\hspace{3\\fontdimen2\\font}', wrap(subject, 'Subj:\\hspace{3\\fontdimen2\\font}'));
@@ -211,8 +225,9 @@ export function prepareTaggedCorrespondence(source: TaggedCorrespondenceSource, 
   const authority = signatureAuthorityLine(fields, supportsActing);
   const actingTitle = fields.acting && supportsActing && DOC_TYPE_CONFIG[source.docType].showSignatureRankTitle === false
     ? signaturePosition(fields, DOC_TYPE_CONFIG[source.docType]) : '';
-  const printedRank = qualification === 'multiple-address-letter' && fields.sigRank?.trim();
-  const printedTitle = qualification === 'multiple-address-letter' && fields.sigTitle?.trim();
+  const printsRankAndTitle = qualification === 'multiple-address-letter' || memorandumForRecord || memorandumFor;
+  const printedRank = printsRankAndTitle && fields.sigRank?.trim();
+  const printedTitle = printsRankAndTitle && fields.sigTitle?.trim();
   if (hasSigner || authority || actingTitle || printedRank || printedTitle) {
     const signature = top('P').id;
     if (hasSigner) { wrapMacro('SignatoryAbbrev', signature); wrapMacro('SignatoryName', signature); }

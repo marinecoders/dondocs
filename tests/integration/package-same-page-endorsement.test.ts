@@ -125,5 +125,5 @@ it.skipIf(!hasPdfToolchain)('delivers separately tagged native letters alongside
   expect(taggedEntry?.textContent).toContain('Experimental tagged correspondence PDF');
   expect(originalEntry?.textContent).not.toContain('Experimental tagged correspondence PDF');
   await expect(preparePackageDelivery(record, record.currentRevisionId, { ...selection, memberIds: [unsupported.id] }, policy, ports))
-    .rejects.toThrow(/Training endorsement: Tagged PDF currently supports/);
+    .rejects.toThrow(/Training endorsement: This document layout does not support tagged PDF/);
 }, 120_000);

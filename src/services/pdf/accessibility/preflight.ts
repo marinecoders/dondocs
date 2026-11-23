@@ -14,6 +14,8 @@ const TAGGED_LAYOUTS = {
   multiple_address_letter: 'multiple-address-letter',
   plain_paper_memorandum: 'plain-paper-memorandum',
   letterhead_memorandum: 'letterhead-memorandum',
+  mfr: 'memorandum-for-record',
+  mf: 'memorandum-for',
 } as const;
 
 export function taggedLayout(docType: string): typeof TAGGED_LAYOUTS[keyof typeof TAGGED_LAYOUTS] | undefined {
@@ -33,16 +35,24 @@ export function taggedCorrespondenceIssues(source: TaggedCorrespondenceSource, r
   // A stored nonblank value can disappear completely in the PDF font
   // projection (for example a zero-width paste or an unsupported glyph).
   const paintsText = (text?: string) => !!text?.trim() && !!escapeLatex(text).trim();
-  if (!taggedLayout(source.docType)) issues.push('Tagged PDF currently supports standard, naval and multiple-address letters and plain-paper and letterhead memorandums. Other document layouts need separate qualification.');
+  if (!taggedLayout(source.docType)) issues.push('This document layout does not support tagged PDF.');
   if (resolvedLevel !== 'unclassified' || source.paragraphs.some(p => (p.portionMarking && p.portionMarking !== 'U') || (p.figure?.portionMarking && p.figure.portionMarking !== 'U'))) issues.push('Classification and handling banners are not yet qualified for tagged output.');
   if (source.enclosures.length || source.formData.basicLetterFile || source.formData.basicLetterFileRef) issues.push('Tagged output cannot include original PDFs or enclosures. Export the native document separately.');
   if (source.formData.signatureType && source.formData.signatureType !== 'none') issues.push('Signature images and digital signature fields need separate tagged-output qualification.');
   if (resolveAppendedEndorsements(source.docType, source.formData).length) issues.push('Appended endorsements are not yet qualified for tagged output.');
-  const hasRecipients = paintsText(source.formData.to) || source.docType === 'multiple_address_letter' && source.distributions.length;
-  if (!paintsText(source.formData.subject) || !paintsText(source.formData.from) || !hasRecipients || !paintsText(source.formData.date)) {
-    issues.push(source.docType === 'multiple_address_letter'
-      ? 'Complete the subject, date, From and either To or Distribution before tagged export.'
-      : 'Complete the subject, date, From and To fields before tagged export.');
+  const { subject, date, from, to } = source.formData;
+  if (source.docType === 'mfr') {
+    if (!paintsText(subject) || !paintsText(date)) issues.push('Complete the subject and date before tagged export.');
+  } else if (source.docType === 'mf') {
+    if (!paintsText(subject) || !paintsText(date) || !paintsText(to)) issues.push('Complete the subject, date and memorandum addressee before tagged export.');
+  } else {
+    const multipleAddress = source.docType === 'multiple_address_letter';
+    const hasRecipients = paintsText(to) || multipleAddress && source.distributions.length > 0;
+    if (!paintsText(subject) || !paintsText(date) || !paintsText(from) || !hasRecipients) {
+      issues.push(multipleAddress
+        ? 'Complete the subject, date, From and either To or Distribution before tagged export.'
+        : 'Complete the subject, date, From and To fields before tagged export.');
+    }
   }
   if (!source.paragraphs.length || source.paragraphs.length > 200) issues.push('Tagged correspondence requires between 1 and 200 body paragraphs.');
   if (source.paragraphs.some(p => p.tableKey || p.callout || p.procedure || p.appendix)) issues.push('Publication blocks need their tagged-output qualification.');

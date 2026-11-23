@@ -20,6 +20,21 @@ describe('saved tagged PDF readback validation', () => {
       associatedChunks: 2, artifactChunks: 1, paintedOperations: 3, figures: 0, columnHeaders: 0, conformance: 'PDF/UA not established' });
   });
 
+  it('rejects a generated PDF whose XMP metadata is missing', async () => {
+    const pdf = await PDFDocument.load(await fixture());
+    pdf.catalog.delete(name('Metadata'));
+    await expect(validateGeneratedTaggedPdf(await pdf.save())).rejects.toThrow(/XMP metadata/);
+  });
+
+  it('rejects XMP that disagrees with the saved document title or language', async () => {
+    const pdf = await PDFDocument.load(await fixture());
+    pdf.setTitle('Changed document title');
+    await expect(validateGeneratedTaggedPdf(await pdf.save())).rejects.toThrow(/XMP title or language/);
+    pdf.setTitle('Training document');
+    pdf.setLanguage('fr');
+    await expect(validateGeneratedTaggedPdf(await pdf.save())).rejects.toThrow(/XMP title or language/);
+  });
+
   it('rejects a damaged ParentTree backlink even when marked metadata remains present', async () => {
     const pdf = await PDFDocument.load(await fixture());
     const tree = pdf.catalog.lookup(name('StructTreeRoot'), PDFDict);
