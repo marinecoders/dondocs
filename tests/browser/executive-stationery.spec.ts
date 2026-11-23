@@ -1,7 +1,31 @@
-import { expect, test } from '@playwright/test';
+import { expect, test, type Page } from '@playwright/test';
 import { readFile } from 'node:fs/promises';
 import JSZip from 'jszip';
 import { PDFDocument } from 'pdf-lib';
+
+async function downloadPdf(page: Page, projectName: string) {
+  await page.getByRole('button', { name: 'Download', exact: true }).click();
+  const pdfItem = page.getByRole('menuitem', { name: /^Download PDF/ });
+  if (projectName === 'mobile-chrome-ios') {
+    const opening = page.waitForEvent('popup');
+    await pdfItem.click();
+    const popup = await opening;
+    try {
+      const saving = popup.waitForEvent('download');
+      await popup.getByRole('link', { name: 'Download PDF', exact: true }).click();
+      const file = await saving;
+      expect(await file.failure()).toBeNull();
+      return await readFile((await file.path())!);
+    } finally {
+      await popup.close();
+    }
+  }
+  const saving = page.waitForEvent('download', { timeout: 120_000 });
+  await pdfItem.click();
+  const file = await saving;
+  expect(await file.failure()).toBeNull();
+  return readFile((await file.path())!);
+}
 
 test.use({ serviceWorkers: 'block', actionTimeout: 20_000 });
 test.setTimeout(240_000);
@@ -29,12 +53,7 @@ test('changes executive stock deliberately and exports actual paper sizes withou
     await page.getByLabel('Stationery size', { exact: true }).click();
     await page.getByRole('option', { name: label, exact: true }).click();
     await expect(page.getByLabel('Letterhead style', { exact: true })).toContainText('Preprinted stationery');
-    await page.getByRole('button', { name: 'Download', exact: true }).click();
-    const savingPdf = page.waitForEvent('download', { timeout: 120_000 });
-    await page.getByRole('menuitem', { name: /^Download PDF/ }).click();
-    const pdf = await savingPdf;
-    expect(await pdf.failure()).toBeNull();
-    const pdfBytes = await readFile((await pdf.path())!);
+    const pdfBytes = await downloadPdf(page, info.project.name);
     await info.attach(`${width}-stock.pdf`, { body: pdfBytes, contentType: 'application/pdf' });
     expect((await PDFDocument.load(pdfBytes)).getPage(0).getSize()).toEqual({ width, height });
     if (width === 360) {
