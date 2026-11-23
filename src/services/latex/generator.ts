@@ -1,3 +1,5 @@
+import { directiveAuthorityRows, directiveContinuation, directiveFormatting, isDirective, isMarineDirective } from '@/lib/directiveFormats';
+import { directiveLayout } from './directiveLayout';
 import { correspondenceStationery, assertStationerySupport } from '@/lib/stationery';
 import { additionalJointCommands, assertJointLetterCommandSupport } from '@/lib/jointLetterCommands';
 import { resolveLetterheadMode } from '@/lib/letterheadMode';
@@ -134,7 +136,7 @@ export function generateStationeryTex(store: Pick<DocumentStore, 'docType' | 'fo
 }
 
 export function generateDocumentTex(store: DocumentStore, referenceDate = new Date()): string {
-  const data = store.formData;
+  const data = directiveFormatting(store.docType, store.documentMode, store.formData);
   assertStationerySupport(store.docType, data, store.paragraphs, store.documentMode);
   const metadataText = store.docType === 'technical_volume' ? (value: string | undefined) => bodyTableLiteral(value ?? '') : escapeLatex;
   // config will be used for document-type specific variations
@@ -181,7 +183,7 @@ ${(() => {
 
   // Joint letter and joint memo share the same joint* fields
   const fromLine = store.docType === 'mfr' ? '' : isJointMode ? data.jointSeniorFrom : data.from;
-  const toLine = store.docType === 'mfr' ? '' : isJointMode ? data.jointTo : data.to;
+  const toLine = isDirective(store.docType) ? (isMarineDirective(store.docType) ? 'Distribution List' : '') : store.docType === 'mfr' ? '' : isJointMode ? data.jointTo : data.to;
   // Subject line casing per SECNAV M-5216.5:
   //   Executive types (Ch 12 ¶2l): Title Case (NOT ALL CAPS)
   //   This applies to all executive uiMode types AND executive_correspondence
@@ -210,8 +212,21 @@ ${(() => {
   // The originator's code lives on this line too, fused with the serial when
   // there is one (SECNAV M-5216.5 Ch 7 para 2a(2)). It used to be collected and
   // never printed.
-  const senderSymbol = composeSenderSymbol(data.officeCode, serial);
-  tex += `\\setSSIC{${config.ssic ? escapeLatex(ssic) : ''}}
+  const directive = directiveLayout(store.docType, data, value => escapeLatex(value));
+  const continuationHeading = directive ? directive.reference : data.showSubjectOnContinuation ? subjectLine : '';
+  const senderSymbol = directive ? data.officeCode : composeSenderSymbol(data.officeCode, serial);
+  if (directive) {
+    tex += '\\def\\CorrespondenceTemplate{naval_letter}\n';
+    tex += '\\def\\DirectiveDesignation{' + directive.designation + '}\n';
+    const authority = directiveAuthorityRows(data).map(([label, value]) => label + ' ' + escapeLatex(value));
+    tex += '\\def\\DirectiveAuthority{' + authority.join('\\newline ') + '}\n';
+    tex += '\\def\\DirectiveCancellation{' + directive.cancellation + '}\n';
+    tex += '\\def\\DirectiveReports{' + directive.reports + '}\n';
+    if (!isMarineDirective(store.docType)) tex += '\\def\\DirectiveFromOnly{}\n';
+    const continuation = directiveContinuation(store.docType, data);
+    if (continuation?.alternate) tex += '\\def\\DirectiveAlternate{}\n';
+  }
+  tex += `\\setSSIC{${directive ? directive.reference : config.ssic ? escapeLatex(ssic) : ''}}
 \\setSerial{${config.ssic ? escapeLatex(senderSymbol) : ''}}
 \\setDocumentDate{${metadataText(publicationDate)}}
 ${isBusinessLetter ? `\\setBusinessDate{${escapeLatex(docDate)}}` : '% Not a business letter'}
@@ -243,7 +258,7 @@ ${data.via?.trim() ? (() => {
 
 \\setSubject{${subjectLine}}
 ${['standard_memorandum', 'executive_memorandum'].includes(store.docType) ? `\\setReferenceLabel{${store.references.length > 1 ? 'Reference(s)' : 'Reference'}:\\hspace{1em}}` : ''}
-${data.showSubjectOnContinuation ? `\\setContinuationSubject{${subjectLine}}` : '% Continuation subject disabled'}
+${continuationHeading ? `\\setContinuationSubject{${continuationHeading}}` : '% Continuation heading disabled'}
 
 \\setBusinessSalutation{${escapeLatex((data.salutation || 'Dear Sir or Madam:').trim())}}
 \\setBusinessClose{${escapeLatex(data.complimentaryClose || 'Sincerely,')}}
@@ -404,7 +419,7 @@ ${data.showSubjectOnContinuation ? `\\setContinuationSubject{${subjectLine}}` : 
 }
 
 export function generateLetterheadTex(store: DocumentStore): string {
-  const data = store.formData;
+  const data = directiveFormatting(store.docType, store.documentMode, store.formData);
 
   // Split `unitAddress` into letterhead lines 3 and 4 via the shared
   // helper (single source of truth — flat-generator.ts uses the same).
@@ -1365,6 +1380,9 @@ export function enclosureRenderData(store: Pick<DocumentStore, 'docType' | 'form
 }
 
 export function generateAllLatexFiles(store: DocumentStore, resolvedLevel?: string, referenceDate = new Date(), bodyAdapter?: LatexBodyAdapter): GeneratedFiles {
+  if (isDirective(store.docType)) store = { ...store, formData: {
+    ...store.formData, via: '', inReplyTo: false, appendEndorsement: false, additionalEndorsements: undefined,
+  } };
   if (store.docType === 'technical_volume') store = { ...store, formData: Object.fromEntries(Object.entries(store.formData).map(([key, value]) => [key, typeof value === 'string' ? value.normalize('NFC') : value])) };
   if (store.docType === 'business_letter') {
     let number = 0;

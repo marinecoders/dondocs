@@ -98,10 +98,10 @@ function runPandoc(
 
 export async function compileDocxFixture(store: TestStore): Promise<DocxCompileResult> {
   const tex = generateFlatLatex(store);
-  return compileGeneratedDocxFixture(tex, store.formData);
+  return compileGeneratedDocxFixture(tex, { ...store.formData, docType: store.docType });
 }
 
-export async function compileGeneratedDocxFixture(tex: string, data: { fontFamily?: string; fontSize?: string } = {}, media: Readonly<Record<string, Uint8Array>> = {}): Promise<DocxCompileResult> {
+export async function compileGeneratedDocxFixture(tex: string, data: { fontFamily?: string; fontSize?: string; docType?: string } = {}, media: Readonly<Record<string, Uint8Array>> = {}): Promise<DocxCompileResult> {
 
   const workDir = await mkdtemp(join(tmpdir(), 'dondocs-docx-'));
   const inputFile = join(workDir, 'flat.tex');
@@ -119,7 +119,7 @@ export async function compileGeneratedDocxFixture(tex: string, data: { fontFamil
     ...layoutToMetadata(LAYOUT, {
       family: data.fontFamily,
       sizePt: parseInt(String(data.fontSize || '12pt'), 10) || 12,
-    }),
+    }, data.docType),
     'font-size-pt': String(parseInt(data.fontSize || '12pt', 10) || 12),
   };
 

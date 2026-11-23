@@ -1,3 +1,4 @@
+import { directiveIssues } from './directiveFormats';
 import { captureVolumePdfDestinations, restoreVolumePdfLinks } from '@/services/pdf/volumePackageLinks';
 import { reviewPackageSigning } from './packageSigning';
 import { getExportDeploymentPolicy, getExportDeploymentPolicySync } from '@/config/classification';
@@ -441,6 +442,7 @@ export async function preparePackageAssembly(
       if (isEndorsement(snapshot.docType) && member.role !== "endorsement")
         error("A native endorsement must use the endorsement role.", member.id);
       if (snapshot.documentCategory !== "forms") {
+        for (const message of directiveIssues(snapshot.docType, snapshot.formData)) error(message, member.id);
         const config = DOC_TYPE_CONFIG[snapshot.docType];
         if (!config)
           throw new Error("This native document type is unsupported.");

@@ -1,3 +1,4 @@
+import { isDirective } from '@/lib/directiveFormats';
 import { Building2, Send, Shield, List, BookOpen, Paperclip, User, Users, Layers, PenLine, Hash, ClipboardList, CornerDownRight, BookMarked, Table, type LucideIcon } from 'lucide-react';
 import type { DocTypeConfig, FormType } from '@/types/document';
 
@@ -86,6 +87,7 @@ export function getEditorSections(config: DocTypeConfig, docType: string): Edito
       return [
         ...(config.letterhead ? [{ id: 'letterhead', label: 'Letterhead', icon: Building2 }] : []),
         ...(isEndorsement ? [{ id: 'basic', label: 'Basic Letter', icon: CornerDownRight }] : []),
+        ...(isDirective(docType) ? [{ id: 'directive', label: 'Directive details', icon: Hash }] : []),
         { id: 'addressing', label: 'Addressing', icon: Send },
         classification,
         body,

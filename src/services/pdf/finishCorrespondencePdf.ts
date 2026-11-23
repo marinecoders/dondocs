@@ -1,3 +1,5 @@
+import { PDFDocument } from 'pdf-lib';
+import { directiveContinuation, isSecnavDirective, SECNAV_DIRECTIVE_PAGE_LIMIT } from '@/lib/directiveFormats';
 import { correspondenceStationery } from '@/lib/stationery';
 import { resolvePublicationDestinations } from './publicationDestinations';
 import { publicationMarking } from '@/lib/publicationMarking';
@@ -115,6 +117,10 @@ export function getDualSignatoryConfig(formData: Partial<DocumentData>, uiMode: 
 
 /** The same assembly sequence is used by single downloads and batch results. */
 export async function finishCorrespondencePdf(pdf: Uint8Array, docType: string, formData: Partial<DocumentData>, generated: GeneratedFiles, paragraphs: Paragraph[] = [], resolved?: { marking: ClassificationInfo | undefined; referenceDate?: Date; signal?: AbortSignal }): Promise<{ pdfBytes: Uint8Array; errors: EnclosureError[] }> {
+  const secnav = isSecnavDirective(docType);
+  if (secnav && (await PDFDocument.load(pdf)).getPageCount() > SECNAV_DIRECTIVE_PAGE_LIMIT) {
+    throw new Error('SECNAV directives may contain at most five pages of text, including the signature block and excluding attachments. Shorten the directive or move supporting material to an enclosure.');
+  }
   const config = DOC_TYPE_CONFIG[docType];
   const dualSignature = config?.uiMode === 'moa' || config?.compliance?.dualSignature;
   const stock = correspondenceStationery(docType, formData);
@@ -124,7 +130,18 @@ export async function finishCorrespondencePdf(pdf: Uint8Array, docType: string, 
   const errors = assembled.error ? [basicLetterError(assembled.error)] : [];
   let lastBasicPageIndex: number | undefined;
   if (generated.enclosures.length || (generated.includeHyperlinks && generated.referenceUrls.length)) {
-    const merged = await mergeEnclosures(pdfBytes, generated.enclosures, resolved ? resolved.marking : publicationMarking(formData, paragraphs), generated.includeHyperlinks, generated.referenceUrls, { signal: resolved?.signal, enclosureLabel: DOC_TYPE_CONFIG[docType]?.enclosureLabel, ...(DOC_TYPE_CONFIG[docType]?.enclosureLabel === 'footer' ? { header: { line1: formData.shortTitle || '', line2: formatPublicationDate(formData.date || '', resolved?.referenceDate) } } : {}) });
+    const replacement = docType === 'change_transmittal';
+    const [line1, line2] = secnav ? directiveContinuation(docType, formData)?.lines ?? [] : [];
+    const header = secnav && !replacement && line1 ? { line1, line2: line2 ?? '' }
+      : config?.enclosureLabel === 'footer' ? {
+        line1: formData.shortTitle ?? '', line2: formatPublicationDate(formData.date ?? '', resolved?.referenceDate),
+      } : undefined;
+    const merged = await mergeEnclosures(pdfBytes, generated.enclosures,
+      resolved ? resolved.marking : publicationMarking(formData, paragraphs),
+      generated.includeHyperlinks, generated.referenceUrls, {
+        signal: resolved?.signal, preserveReplacementPages: replacement,
+        enclosureLabel: secnav && !replacement ? 'directive' : config?.enclosureLabel, header,
+      });
     pdfBytes = merged.pdfBytes;
     lastBasicPageIndex = merged.basicPageCount !== undefined ? merged.basicPageCount - 1 : undefined;
     if (merged.hasErrors) errors.push(...merged.errors);

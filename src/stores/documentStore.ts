@@ -1,3 +1,4 @@
+import { directiveFont, isDirective } from '@/lib/directiveFormats';
 import { emptyPublicationVolume, freshVolumeContent, validatePublicationVolume, VOLUME_DOC_TYPE, type PublicationVolume } from '@/lib/publicationVolume';
 import { transformRangeComments } from '@/lib/reviewCommentRanges';
 import { hasReviewComments, type ReviewComments } from '@/lib/reviewComments';
@@ -286,6 +287,7 @@ const DEFAULT_REFERENCES = EXAMPLE_REFERENCES;
 const DEFAULT_PARAGRAPHS = EXAMPLE_PARAGRAPHS;
 
 function publicationFont(docType: string, mode: DocumentMode, data: Partial<DocumentData>): Partial<DocumentData> {
+  if (isDirective(docType)) return directiveFont(docType, mode, data);
   if (data.manualFrontMatter !== undefined) data = { ...data, manualFrontMatter: manualFrontMatterSchema.parse(data.manualFrontMatter) };
   if (docType === 'tm_ietm_front_matter') return { ...data, fontFamily: 'times', fontSize: '10pt', signatureType: 'digital' };
   if (data.sl3 !== undefined) data = { ...data, sl3: sl3Schema.parse(data.sl3) };
@@ -1139,15 +1141,16 @@ export function serializeSession(state: DocumentState): SerializedSession {
 /** Build a blank document without changing the active workspace. */
 export function createBlankSession(formType?: FormType, docType = 'naval_letter'): SerializedSession {
   const category = formType ? 'forms' : 'correspondence';
+  const administrative = isDirective(docType);
   const configured = documentTypeState({ documentMode: 'compliant', formData: structuredClone(DEFAULT_FORM_DATA), references: structuredClone(DEFAULT_REFERENCES) }, docType);
   return {
     documentMode: 'compliant', documentCategory: category, docType,
     formType: formType ?? 'navmc_10274',
-    formData: category === 'forms' ? {} : configured.formData,
-    references: category === 'forms' ? [] : configured.references,
-    enclosures: category === 'forms' ? [] : structuredClone(DEFAULT_ENCLOSURES),
-    paragraphs: category === 'forms' ? [] : freshParagraphs(structuredClone(DEFAULT_PARAGRAPHS)),
-    copyTos: category === 'forms' ? [] : [{ text: 'G-3/5' }, { text: 'G-4' }, { text: 'Regimental S-3' }],
+    formData: category === 'forms' ? {} : administrative ? { ...configured.formData, subject: '', from: '', to: '', preparedBy: '' } : configured.formData,
+    references: category === 'forms' || administrative ? [] : configured.references,
+    enclosures: category === 'forms' || administrative ? [] : structuredClone(DEFAULT_ENCLOSURES),
+    paragraphs: category === 'forms' ? [] : freshParagraphs(administrative ? [{ text: '', level: 0 }] : structuredClone(DEFAULT_PARAGRAPHS)),
+    copyTos: category === 'forms' || administrative ? [] : [{ text: 'G-3/5' }, { text: 'G-4' }, { text: 'Regimental S-3' }],
     distributions: [], endItems: [], publicationTables: {}, timestamp: Date.now(),
     ...(category === 'forms' ? { forms: prepareFormSession(formType!) } : {}),
   };

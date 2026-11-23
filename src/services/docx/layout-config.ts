@@ -1,3 +1,4 @@
+import { isDirective } from '@/lib/directiveFormats';
 /**
  * SECNAV M-5216.5 Layout Configuration
  *
@@ -112,16 +113,19 @@ export const LAYOUT: LayoutProportions = {
 export function layoutToMetadata(
   layout: LayoutProportions = LAYOUT,
   font?: { family?: string; sizePt?: number },
+  docType?: string,
 ): Record<string, string> {
   // Sized to the chosen face when one is known; the stored proportion is the
   // Times fallback for callers that have no font to hand.
   const addrLabel = font ? addressLabelFraction(font.family, font.sizePt) : layout.address.labelCol;
+  // A SECNAV transmittal code in 12pt Courier is wider than the usual SSIC column.
+  const ssic = isDirective(docType ?? '') ? { leftCol: 0.58, rightCol: 0.42 } : layout.ssic;
   return {
     'lh-seal': layout.letterhead.sealCol.toFixed(3),
     'lh-center': layout.letterhead.centerCol.toFixed(3),
     'lh-spacer': layout.letterhead.spacerCol.toFixed(3),
-    'ssic-left': layout.ssic.leftCol.toFixed(3),
-    'ssic-right': layout.ssic.rightCol.toFixed(3),
+    'ssic-left': ssic.leftCol.toFixed(3),
+    'ssic-right': ssic.rightCol.toFixed(3),
     'addr-label': addrLabel.toFixed(3),
     'addr-content': (1 - addrLabel).toFixed(3),
     'ref-caption': referenceCaptionFraction(false, font?.family, font?.sizePt).toFixed(3),

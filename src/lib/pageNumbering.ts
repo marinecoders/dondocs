@@ -1,3 +1,4 @@
+import { isDirective } from './directiveFormats';
 import type { DocumentMode } from '@/types/document';
 
 const SECNAV_LETTERS = new Set([
@@ -5,7 +6,7 @@ const SECNAV_LETTERS = new Set([
 ]);
 
 export function usesSecnavLetterNumbering(docType: string): boolean {
-  return SECNAV_LETTERS.has(docType);
+  return SECNAV_LETTERS.has(docType) || isDirective(docType);
 }
 
 /** Chapter 7 paragraph 17 and Figure 9-2: plain continuation numbers.

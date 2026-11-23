@@ -1,3 +1,4 @@
+import { directiveHasCancellation, isDirective, isMarineDirective } from './directiveFormats';
 import { resolveLetterheadMode } from './letterheadMode';
 import type { DocumentSnapshot } from '@/stores/historyStore';
 import type { SerializedSession } from '@/stores/documentStore';
@@ -90,6 +91,11 @@ function active(source: DocumentFieldSource, path: FieldPath, projection: FieldP
   if (source.docType === 'tm_ietm_front_matter' && ['paragraphs', 'references', 'enclosures', 'copyTos', 'distributions'].includes(String(root))) return false;
   if (root !== 'formData' || typeof path[1] !== 'string') return true;
   const key = path[1];
+  if (isDirective(source.docType) && ['ssic', 'serial', 'via', 'to', 'inReplyTo', 'inReplyToText', 'showSubjectOnContinuation'].includes(key)) return false;
+  if (key === 'directiveNumber') return isDirective(source.docType);
+  if (key === 'directiveCancellation') return directiveHasCancellation(source.docType);
+  if (key === 'directiveChangeNumber') return source.docType === 'change_transmittal';
+  if (key === 'directiveReports') return isMarineDirective(source.docType);
   if (key === 'stationerySize') return source.docType === 'executive_correspondence';
   if (key === 'cuiTransmittalNote') return source.formData.classLevel === 'cui'
     && (source.documentMode === 'custom' || config.compliance.allowEnclosures);

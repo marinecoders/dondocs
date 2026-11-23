@@ -223,3 +223,108 @@ it.each(['joint_letter', 'joint_memorandum'])('preserves both Acting designation
   await renderPreparedCorrespondence(ready('docx', patch), adapters, new AbortController().signal);
   expect(adapters.convertDocx).toHaveBeenCalledWith(expect.stringContaining('Acting & Acting'), expect.any(Object), undefined);
 });
+
+it('blocks incomplete directives before PDF, Word and TeX output', () => {
+  const source = useDocumentStore.getState().getSnapshot();
+  const captured = captureDocumentRevision({ documentId: 'missing-directive', epoch: 1, editSequence: 1, capturedAt: 1 }, {
+    ...source, docType: 'change_transmittal', documentCategory: 'correspondence',
+    formData: { docType: 'change_transmittal', directiveNumber: 'SECNAVINST 5215.1E', directiveChangeNumber: '2.5' },
+    paragraphs: [{ text: 'Replace the referenced material.', level: 0 }], enclosures: [], references: [],
+  });
+  const policy = resolveExportDeploymentPolicy({ hostname: 'example.test', environment: null, runtime: { status: 'absent' } });
+  for (const target of ['pdf', 'docx', 'tex'] as const) {
+    expect(prepareExport({ captured, policy, target, id: 'directive', filename: 'directive.' + target })).toMatchObject({
+      status: 'error', issues: [expect.stringContaining('Enter a positive whole change number.')],
+    });
+  }
+});
+
+it.each(['', '31 Feb 27'])('blocks directive exports with an invalid issue date (%s)', date => {
+  const source = useDocumentStore.getState().getSnapshot();
+  const captured = captureDocumentRevision({ documentId: 'directive-date', epoch: 1, editSequence: 1, capturedAt: 1 }, {
+    ...source, docType: 'marine_corps_order', documentCategory: 'correspondence',
+    formData: { docType: 'marine_corps_order', directiveNumber: '5215.1K', officeCode: 'AR', date,
+      from: 'Commandant of the Marine Corps', subject: 'Directives' },
+    paragraphs: [{ text: 'Document body.', level: 0 }], enclosures: [], references: [],
+  });
+  const policy = resolveExportDeploymentPolicy({ hostname: 'example.test', environment: null, runtime: { status: 'absent' } });
+  for (const target of ['pdf', 'docx', 'tex'] as const) {
+    expect(prepareExport({ captured, policy, target, id: 'directive', filename: 'directive.' + target })).toMatchObject({
+      status: 'error', issues: ['Enter a valid directive issue date.'],
+    });
+  }
+});
+
+it('enforces the SECNAV text-page limit before replacement pages are assembled', async () => {
+  const replacement = await PDFDocument.create();
+  const originalPage = replacement.addPage([501, 731]);
+  originalPage.drawText('Original replacement page 17');
+  const bytes = new Uint8Array(await replacement.save());
+  const patch: Partial<DocumentSnapshot> = {
+    docType: 'change_transmittal', documentMode: 'compliant', documentCategory: 'correspondence',
+    formData: { directiveNumber: 'SECNAVINST 5215.1E', directiveChangeNumber: '2', officeCode: 'ADMIN',
+      date: '12 Sep 27', from: 'Secretary of the Navy', subject: 'Synthetic directive',
+      classLevel: 'unclassified' },
+    paragraphs: [{ level: 0, text: 'Replace original page 17.' }], references: [],
+    enclosures: [{ title: 'Revised page 17', file: { name: 'page-17.pdf', size: bytes.byteLength, data: bytes.buffer } }],
+    copyTos: [], distributions: [],
+  };
+  const job = ready('pdf', patch);
+  const artifact = await renderPreparedCorrespondence(job, ports(await pdf(5)), new AbortController().signal);
+  const combined = await PDFDocument.load(await artifact.blob.arrayBuffer());
+  expect(combined.getPageCount()).toBe(6);
+  expect(combined.getPage(5).getSize()).toEqual({ width: 501, height: 731 });
+  await expect(renderPreparedCorrespondence(job, ports(await pdf(6)), new AbortController().signal))
+    .rejects.toThrow('at most five pages');
+  const invalid = new Uint8Array([0, 1, 2]);
+  const broken = ready('pdf', { ...patch, enclosures: [{ title: 'Broken replacement', file: {
+    name: 'broken.pdf', size: invalid.byteLength, data: invalid.buffer,
+  } }] });
+  await expect(renderPreparedCorrespondence(broken, ports(await pdf()), new AbortController().signal))
+    .rejects.toThrow('could not be assembled');
+});
+
+it('requires compliant transmittal attachments and keeps editable SECNAV drafts in Custom mode', () => {
+  const document = { ...useDocumentStore.getState().getSnapshot(), docType: 'change_transmittal',
+    documentMode: 'compliant' as const, documentCategory: 'correspondence' as const,
+    formData: { directiveNumber: 'SECNAVINST 5215.1E', directiveChangeNumber: '1', officeCode: 'ADMIN',
+      date: '12 Sep 27', from: 'Secretary of the Navy', subject: 'Synthetic directive' },
+    paragraphs: [{ level: 0, text: 'Replace the corresponding sheets.' }], enclosures: [], references: [],
+  };
+  const source = { documentId: 'directive-delivery', epoch: 0, editSequence: 0, capturedAt: 1 };
+  const policy = resolveExportDeploymentPolicy({ hostname: 'example.test', environment: null, runtime: { status: 'absent' } });
+  const captured = captureDocumentRevision(source, document);
+  expect(prepareExport({ captured, policy, target: 'pdf', id: 'verify', filename: 'change.pdf' })).toMatchObject({
+    status: 'error', issues: [expect.stringContaining('Attach the approved replacement pages')],
+  });
+  expect(prepareExport({ captured, policy, target: 'docx', id: 'verify', filename: 'change.docx' })).toMatchObject({
+    status: 'error', issues: [expect.stringContaining('Use Custom mode for an editable draft')],
+  });
+  const custom = captureDocumentRevision(source, { ...document, documentMode: 'custom' });
+  expect(prepareExport({ captured: custom, policy, target: 'docx', id: 'verify', filename: 'change.docx' }).status)
+    .toMatch(/^(ready|needs-review)$/);
+});
+
+it('requires authority fields for the classification derived from directive portions', () => {
+  const policy = resolveExportDeploymentPolicy({ hostname: 'example.test',
+    environment: { maxLevel: 'top_secret_sci', allowedLevels: [...CLASSIFICATION_LEVELS] }, runtime: { status: 'absent' } });
+  const source = { documentId: 'directive-markings', epoch: 1, editSequence: 1, capturedAt: 1 };
+  const document: DocumentSnapshot = {
+    ...useDocumentStore.getState().getSnapshot(), documentCategory: 'correspondence', documentMode: 'compliant', docType: 'secnav_instruction',
+    formData: { directiveNumber: '5215.1E', officeCode: 'ADMIN', from: 'Secretary of the Navy',
+      date: '12 Sep 27', subject: 'Synthetic directive', classLevel: 'unclassified' },
+    paragraphs: [{ level: 0, text: 'Synthetic marked content.', portionMarking: 'S' }], enclosures: [],
+  };
+  const prepare = (formData: DocumentSnapshot['formData']) => prepareExport({
+    captured: captureDocumentRevision(source, { ...document, formData }), policy, target: 'pdf', id: 'markings', filename: 'directive.pdf',
+  });
+  expect(prepare(document.formData)).toMatchObject({ status: 'error', issues: expect.arrayContaining([
+    'Select the classification basis.', 'Enter the classification authority.',
+  ]) });
+  const formData: DocumentSnapshot['formData'] = {
+    ...document.formData, classificationBasis: 'derivative', classifiedBy: 'Synthetic Authority',
+    derivedFrom: 'Synthetic record', declassifyOn: '20500230',
+  };
+  expect(prepare(formData)).toMatchObject({ status: 'error', issues: ['Enter a valid declassification date.'] });
+  expect(prepare({ ...formData, declassifyOn: '20500228' }).status).toMatch(/^(ready|needs-review)$/);
+});

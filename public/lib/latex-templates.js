@@ -1768,7 +1768,8 @@ const LATEX_TEMPLATES = {
 %   - formats/business_letter.tex
 %=============================================================================
 
-\\input{\\DocumentType}
+\\providecommand{\\CorrespondenceTemplate}{\\DocumentType}
+\\input{\\CorrespondenceTemplate}
 
 
 %=============================================================================
@@ -1802,6 +1803,10 @@ const LATEX_TEMPLATES = {
 \\printAddressBlock
 \\printReferences
 \\printEnclosureList
+\\providecommand{\\DirectiveReports}{}
+\\ifdefempty{\\DirectiveReports}{}{%
+    \\par\\vspace{12pt}\\noindent Reports Required: \\DirectiveReports\\par
+}
 
 
 %=============================================================================
@@ -4682,6 +4687,8 @@ const LATEX_TEMPLATES = {
 %              SSIC / SERIAL / DATE BLOCK (Right-aligned, raggedleft)
 %=============================================================================
 
+\\providecommand{\\DirectiveCancellation}{}
+\\providecommand{\\DirectiveDesignation}{}
 \\newcommand{\\printDateAndTitle}{%
     \\begingroup
     \\applyDocumentFontSize
@@ -4694,12 +4701,16 @@ const LATEX_TEMPLATES = {
         \\ifInReplyEnabled
             {\\fontsize{5pt}{6pt}\\selectfont IN REPLY REFER TO}\\\\
         \\fi
+        \\ifdefempty{\\DirectiveCancellation}{}{\\DirectiveCancellation\\\\}%
         \\ifdefempty{\\DocumentSSIC}{}{\\DocumentSSIC\\\\}%
         \\ifdefempty{\\DocumentSerial}{}{\\DocumentSerial\\\\}%
         \\DocumentDate
     \\end{tabular}
     \\endgroup
     \\par\\vspace{12pt}%
+    \\ifdefempty{\\DirectiveDesignation}{}{%
+        \\noindent\\uline{\\DirectiveDesignation}\\par\\vspace{12pt}%
+    }%
 }
 
 
@@ -4723,10 +4734,12 @@ const LATEX_TEMPLATES = {
     \\def\\@viarows{\\ViaRows}%
     \\begin{tabular}[t]{@{}l@{}p{5.75in}@{}}%
         From:\\hspace{2\\fontdimen2\\font} & \\FromLine\\ifdefempty{\\FromLineTwo}{}{\\tabularnewline & \\FromLineTwo}\\ifdefempty{\\FromLineThree}{}{\\tabularnewline & \\FromLineThree}\\ifdefempty{\\FromLineFour}{}{\\tabularnewline & \\FromLineFour}\\tabularnewline%
-        To:\\hspace{6\\fontdimen2\\font} & \\ToLine\\ifdefempty{\\ToLineTwo}{}{\\tabularnewline & \\ToLineTwo}\\ifdefempty{\\ToLineThree}{}{\\tabularnewline & \\ToLineThree}\\ifdefempty{\\ToLineFour}{}{\\tabularnewline & \\ToLineFour}%
-        \\@viarows
-        % \\noalign, not \\\\[12pt]: the optional space is swallowed when the row above wraps
-        \\tabularnewline\\noalign{\\vskip 12pt}%
+        \\ifdefined\\DirectiveFromOnly\\else
+            To:\\hspace{6\\fontdimen2\\font} & \\ToLine\\ifdefempty{\\ToLineTwo}{}{\\tabularnewline & \\ToLineTwo}\\ifdefempty{\\ToLineThree}{}{\\tabularnewline & \\ToLineThree}\\ifdefempty{\\ToLineFour}{}{\\tabularnewline & \\ToLineFour}%
+            \\@viarows\\tabularnewline%
+        \\fi
+        % Keep this as \\noalign: row spacing must survive a wrapped address.
+        \\noalign{\\vskip 12pt}%
         Subj:\\hspace{3\\fontdimen2\\font} & \\SubjectLine%
     \\end{tabular}%
     \\endgroup
@@ -4742,6 +4755,9 @@ const LATEX_TEMPLATES = {
     \\fi
     %
     % Classified block
+    \\ifdefined\\DirectiveAuthority
+        \\ifdefempty{\\DirectiveAuthority}{}{\\par\\vspace{12pt}\\noindent\\DirectiveAuthority\\par}%
+    \\else
     \\ifClassifiedEnabled
         \\par\\vspace{12pt}
         \\noindent Classified by: \\ClassifiedBy\\\\
@@ -4749,6 +4765,7 @@ const LATEX_TEMPLATES = {
         Reason: \\ClassificationReason\\\\
         Declassify on: \\DeclassifyOn\\\\
         \\printPOCLine
+    \\fi
     \\fi
 }
 \\makeatother
@@ -4809,6 +4826,22 @@ const LATEX_TEMPLATES = {
     \\fancyfoot[C]{\\smartPageNumber}%  % No page number on first page
     \\renewcommand{\\headrulewidth}{0pt}%
     \\renewcommand{\\footrulewidth}{0pt}%
+}
+
+\\ifdefempty{\\DirectiveDesignation}{}{%
+    \\renewcommand{\\printContinuationSubject}{%
+        \\ifdefempty{\\ContinuationSubject}{}{%
+            \\parbox[t]{\\textwidth}{%
+                \\applyDocumentFontSize
+                \\raggedleft
+                \\ifdefined\\DirectiveAlternate
+                    \\ifodd\\value{page}\\else\\raggedright\\fi
+                \\fi
+                \\ContinuationSubject
+                \\ifdefempty{\\DocumentDate}{}{\\par\\DocumentDate}%
+            }%
+        }%
+    }%
 }
 
 \\fancypagestyle{documentpage}{%

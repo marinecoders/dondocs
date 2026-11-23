@@ -92,6 +92,7 @@ export const DOCUMENT_DATA_FIELD_POLICIES = {
   docType: 'control', fontSize: 'control', fontFamily: 'control', pageNumbering: 'control',
   startingPageNumber: 'value', startingReferenceLetter: 'control', startingEnclosureNumber: 'value',
   stationerySize: 'control', letterheadMode: 'control', department: 'control', unitLine1: 'text', unitLine2: 'text', unitAddress: 'text', sealType: 'control', letterheadColor: 'control',
+  directiveNumber: 'text', directiveCancellation: 'text', directiveChangeNumber: 'text', directiveReports: 'text',
   ssic: 'text', serial: 'text', date: 'document-date', from: 'text', to: 'text', via: 'text', subject: 'text',
   nomenclature: 'text', sl3: object(sl3), sl4: object(sl4), publicationType: 'control', controllingOffice: 'text',
   miUrgency: 'control', miCompletionDate: 'document-date', shortTitle: 'text', pcn: 'text', supersedure: 'text', exportRestricted: 'value',

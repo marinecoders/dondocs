@@ -30,9 +30,9 @@ export interface EnclosureError {
   kind?: 'enclosure' | 'basicLetter';
 }
 
-export type EnclosureLabelStyle = 'corner' | 'footer';
+export type EnclosureLabelStyle = 'corner' | 'footer' | 'directive';
 
-/** Source-document identification on the first enclosure page. */
+/** Source-document identification drawn in the enclosure header. */
 export interface PublicationHeader {
   line1: string;
   line2: string;
@@ -42,7 +42,8 @@ export interface MergeOptions {
   signal?: AbortSignal;
   /** Where each enclosure page carries its label. Defaults to the corner. */
   enclosureLabel?: EnclosureLabelStyle;
-  /** Right-aligned on the first page of an attached publication document. */
+  preserveReplacementPages?: boolean;
+  /** Right-aligned on publication or directive enclosures. */
   header?: PublicationHeader;
 }
 
@@ -1162,8 +1163,10 @@ export async function mergeEnclosures(
 
   // Load the main document
   const mainPdf = await PDFDocument.load(mainPdfBytes);
-  const helveticaBold = await mainPdf.embedFont(labelStyle === 'footer' ? StandardFonts.TimesRomanBold : StandardFonts.HelveticaBold);
-  const helvetica = await mainPdf.embedFont(labelStyle === 'footer' ? StandardFonts.TimesRoman : StandardFonts.Helvetica);
+  const helveticaBold = await mainPdf.embedFont(labelStyle === 'directive' ? StandardFonts.Courier
+    : labelStyle === 'footer' ? StandardFonts.TimesRomanBold : StandardFonts.HelveticaBold);
+  const helvetica = await mainPdf.embedFont(labelStyle === 'directive' ? StandardFonts.Courier
+    : labelStyle === 'footer' ? StandardFonts.TimesRoman : StandardFonts.Helvetica);
 
   // Record the number of pages in the main document BEFORE adding enclosures
   const mainPageCount = mainPdf.getPageCount();
@@ -1174,6 +1177,15 @@ export async function mergeEnclosures(
     options.signal?.throwIfAborted();
     const effectiveClassification = enclosureClassification(enclosure.marking, classification);
     try {
+      if (options.preserveReplacementPages) {
+        if (!enclosure.data || enclosure.hasCoverPage) throw new Error('Attach the replacement PDF without a generated enclosure cover.');
+        const { pdf, error } = await validatePdf(enclosure.data, enclosure.number, options.signal);
+        if (!pdf) throw new Error(error ?? 'Replacement PDF is unreadable.');
+        const pages = await mainPdf.copyPages(pdf, pdf.getPageIndices());
+        recordEnclosurePage(enclosurePageMap, enclosure.number, mainPdf.getPageCount());
+        pages.forEach(page => mainPdf.addPage(page));
+        continue;
+      }
       if (labelStyle === 'footer' && enclosure.hasCoverPage) {
         throw new Error('Remove the added enclosure cover page. I-Type enclosures identify the attached document on its first page.');
       }
@@ -1211,6 +1223,7 @@ export async function mergeEnclosures(
     } catch (err) {
       options.signal?.throwIfAborted();
       const errorMessage = err instanceof Error ? err.message : 'Unknown error';
+      if (options.preserveReplacementPages) throw new Error(`Replacement “${enclosure.title}” could not be assembled. ${errorMessage}`, { cause: err });
       debug.error('MergeEnclosures', `Failed to add enclosure ${enclosure.number}:`, err);
       errors.push({
         enclosureNumber: enclosure.number,
@@ -1333,10 +1346,10 @@ async function addPdfEnclosure(
         throw new Error(`Page ${i + 1} has no content stream (empty or malformed page)`);
       }
 
-      const publication = labelStyle === 'footer';
+      const reserveHeading = labelStyle !== 'corner';
       const landscape = visualWidth > visualHeight;
-      const outputWidth = publication ? Math.max(landscape ? PAGE_HEIGHT : PAGE_WIDTH, visualWidth) : PAGE_WIDTH;
-      const outputHeight = publication ? Math.max(landscape ? PAGE_WIDTH : PAGE_HEIGHT, visualHeight) : PAGE_HEIGHT;
+      const outputWidth = reserveHeading ? Math.max(landscape ? PAGE_HEIGHT : PAGE_WIDTH, visualWidth) : PAGE_WIDTH;
+      const outputHeight = reserveHeading ? Math.max(landscape ? PAGE_WIDTH : PAGE_HEIGHT, visualHeight) : PAGE_HEIGHT;
       const embeddedPage = await mainPdf.embedPage(srcPage);
       await embeddedPage.embed();
       const page = mainPdf.addPage([outputWidth, outputHeight]);
@@ -1355,7 +1368,7 @@ async function addPdfEnclosure(
       const { scale, x, y, drawBorder } = calculatePageLayout(
         visualWidth,
         visualHeight,
-        style, outputWidth, outputHeight, publication || !!classification?.marking
+        style, outputWidth, outputHeight, reserveHeading || !!classification?.marking
       );
 
       // ============================================================
@@ -1412,12 +1425,12 @@ async function addPdfEnclosure(
       // Add enclosure label at bottom right
       if (labelStyle !== 'footer' || i === 0) {
         addEnclosureLabel(page, enclosure.number, helveticaBold, labelStyle);
-        if (header) addPublicationHeader(page, helveticaBold, header);
+        if (header) addEnclosureHeader(page, helveticaBold, header, labelStyle);
       }
 
       // Publications number every page; correspondence numbers multi-page enclosures.
       if (pageCount > 1 || labelStyle === 'footer') {
-        addPageNumber(page, i + 1, helveticaBold, labelStyle === 'footer' ? 12 : 10, labelStyle === 'footer');
+        addPageNumber(page, i + 1, helveticaBold, labelStyle === 'corner' ? 10 : 12, labelStyle === 'footer');
       }
 
       // Add classification marking at bottom
@@ -1643,7 +1656,7 @@ function addPlaceholderPage(
 
   // Add enclosure label at bottom right
   addEnclosureLabel(page, enclosure.number, helveticaBold, labelStyle);
-  if (header) addPublicationHeader(page, helveticaBold, header);
+  if (header) addEnclosureHeader(page, helveticaBold, header, labelStyle);
 
   // Add classification marking at bottom
   if (classification?.marking) {
@@ -1730,7 +1743,7 @@ function addCoverPage(
 
   // Add enclosure label at bottom right
   addEnclosureLabel(page, enclosure.number, helveticaBold, labelStyle);
-  if (header) addPublicationHeader(page, helveticaBold, header);
+  if (header) addEnclosureHeader(page, helveticaBold, header, labelStyle);
 
   // Add classification marking at bottom
   if (classification?.marking) {
@@ -1738,12 +1751,16 @@ function addCoverPage(
   }
 }
 
-/** DTL 3.1.8.1 identifies the attached source document on its first page. */
-function addPublicationHeader(page: PDFPage, font: Awaited<ReturnType<PDFDocument['embedFont']>>, header: PublicationHeader): void {
-  const fontSize = 10;
-  const line = header.line1;
-  const width = font.widthOfTextAtSize(line, fontSize);
-  page.drawText(line, { x: page.getWidth() - MARGIN - width, y: page.getHeight() - 58, size: fontSize, font, color: rgb(0, 0, 0) });
+function addEnclosureHeader(page: PDFPage, font: Awaited<ReturnType<PDFDocument['embedFont']>>, header: PublicationHeader, style: EnclosureLabelStyle): void {
+  const directive = style === 'directive';
+  const size = directive ? 12 : 10;
+  const top = page.getHeight() - (directive ? MARGIN : 58);
+  const lines = directive ? [header.line1, header.line2] : [header.line1];
+  lines.forEach((text, index) => {
+    if (!text) return;
+    const width = font.widthOfTextAtSize(text, size);
+    page.drawText(text, { x: page.getWidth() - MARGIN - width, y: top - index * 14, size, font, color: rgb(0, 0, 0) });
+  });
 }
 
 /**
@@ -1756,7 +1773,7 @@ function addEnclosureLabel(
   font: Awaited<ReturnType<PDFDocument['embedFont']>>,
   style: EnclosureLabelStyle = 'corner'
 ): void {
-  const fontSize = 10;
+  const fontSize = style === 'directive' ? 12 : 10;
   if (style === 'footer') {
     const labelText = `Enclosure (${enclosureNumber})`;
     const textWidth = font.widthOfTextAtSize(labelText, fontSize);
@@ -1774,7 +1791,7 @@ function addEnclosureLabel(
 
   page.drawText(labelText, {
     x: page.getWidth() - MARGIN - textWidth, // Right-aligned with 1 inch margin
-    y: MARGIN - 18, // Below the 1 inch margin (0.25 inch from bottom margin)
+    y: style === 'directive' ? 36 : MARGIN - 18,
     size: fontSize,
     font,
     color: rgb(0, 0, 0),

@@ -1751,7 +1751,8 @@
 %   - formats/business_letter.tex
 %=============================================================================
 
-\input{\DocumentType}
+\providecommand{\CorrespondenceTemplate}{\DocumentType}
+\input{\CorrespondenceTemplate}
 
 
 %=============================================================================
@@ -1785,6 +1786,10 @@
 \printAddressBlock
 \printReferences
 \printEnclosureList
+\providecommand{\DirectiveReports}{}
+\ifdefempty{\DirectiveReports}{}{%
+    \par\vspace{12pt}\noindent Reports Required: \DirectiveReports\par
+}
 
 
 %=============================================================================

@@ -1,3 +1,4 @@
+import { isDirective } from '@/lib/directiveFormats';
 import { Input } from '@/components/ui/input';
 import { DatePicker } from '@/components/ui/date-picker';
 import { Label } from '@/components/ui/label';
@@ -419,6 +420,19 @@ export function ClassificationSection() {
                   />
                 )}
 
+                {isDirective(docType) && <div className="space-y-2">
+                  <Label htmlFor="customClassificationBasis">Classification basis</Label>
+                  <Select value={formData.classificationBasis ?? ''} onValueChange={(value) => {
+                    if (value === 'original' || value === 'derivative') setField('classificationBasis', value);
+                  }}>
+                    <SelectTrigger id="customClassificationBasis"><SelectValue placeholder="Select basis" /></SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="derivative">Derivative classification</SelectItem>
+                      <SelectItem value="original">Original classification</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>}
+
                 <div className="space-y-2">
                   <Label htmlFor="customClassifiedBy">Classified By</Label>
                   <Input
@@ -593,7 +607,7 @@ export function ClassificationSection() {
               <div className="editor-field-groups p-3 rounded-md border bg-muted/30">
                 <p className="text-sm font-medium text-destructive">Classified Configuration</p>
 
-                {isPublication && <div className="space-y-2">
+                {(isPublication || isDirective(docType)) && <div className="space-y-2">
                   <Label htmlFor="classificationBasis">Classification basis</Label>
                   <Select value={formData.classificationBasis ?? ''} onValueChange={(v) => { if (v === 'original' || v === 'derivative') setField('classificationBasis', v); }}>
                     <SelectTrigger id="classificationBasis"><SelectValue placeholder="Select basis" /></SelectTrigger>

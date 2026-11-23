@@ -1,6 +1,6 @@
 import { applyIndentMarkers, applyMemoAddressIndents } from './paragraphIndents';
 export { applyIndentMarkers, applyMemoAddressIndents } from './paragraphIndents';
-import { applyPageFurniture, getClassificationMarking } from './pageFurniture';
+import { applyPageFurniture, getClassificationMarking, type PageFurniture } from './pageFurniture';
 export { applyPageFurniture } from './pageFurniture';
 export type { PageFurniture } from './pageFurniture';
 import { correspondenceStationery, type StationerySize } from '@/lib/stationery';
@@ -367,6 +367,7 @@ export interface DocxConversionOptions {
   customClassification?: string;
   /** Repeat "Subj:" at the top of pages 2+ — SECNAV M-5216.5 ¶7-16. */
   showSubjectOnContinuation?: boolean;
+  directiveContinuation?: PageFurniture['directiveContinuation'];
   /** 'none' | 'simple' | 'xofy'; custom totals include the first page. */
   pageNumbering?: string;
   /**
@@ -452,6 +453,7 @@ export async function postProcessDocx(
     classLevel,
     customClassification,
     showSubjectOnContinuation,
+    directiveContinuation,
     pageNumbering,
     startingPageNumber,
     bodyTables = [],
@@ -740,10 +742,11 @@ export async function postProcessDocx(
     'DOCX',
     `Step 6b: marking="${classMarking || 'none'}" continuationSubj="${continuationSubject || 'none'}" pageNumbers=${wantsPageNumbers}`,
   );
-  if (classMarking || continuationSubject || wantsPageNumbers) {
+  if (classMarking || continuationSubject || directiveContinuation || wantsPageNumbers) {
     xml = await applyPageFurniture(zip, xml, {
       marking: classMarking,
       continuationSubject,
+      directiveContinuation,
       wantsPageNumbers,
       startPage: Math.max(1, Math.trunc(startingPageNumber || 1)),
       numberFirstPage: docType === 'new_page_endorsement' || pageNumbering === 'xofy',
@@ -1029,7 +1032,7 @@ export async function convertLatexToDocx(
     ...layoutToMetadata(LAYOUT, {
       family: fontFamily,
       sizePt: parseInt(fontSize || '12pt', 10) || 12,
-    }),
+    }, docOptions.docType),
     // Pass font size (in pt) so the Lua filter can scale \baselineskip spacing
     'font-size-pt': String(parseInt(fontSize || '12pt', 10) || 12),
   };

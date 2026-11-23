@@ -1,3 +1,4 @@
+import { directiveFormatting } from './directiveFormats';
 import { captureDocumentRevision, copyCapturedDocument, type CapturedDocument } from './capturedDocument';
 import { projectCapturedOutput } from './documentFields';
 import { deriveOverallClassLevel } from './overallClassification';
@@ -17,6 +18,7 @@ export function projectRenderedDocument(captured: CapturedDocument): CapturedDoc
   const projected = projectCapturedOutput(captured);
   const content = copyCapturedDocument(projected);
   if (content.kind !== 'correspondence') return projected;
+  content.document.formData = directiveFormatting(content.document.docType, content.document.documentMode, content.document.formData);
   content.document.formData.classLevel = deriveOverallClassLevel(content.document.formData.classLevel, correspondencePortions(content.document));
   return captureDocumentRevision(projected.source, content.document);
 }

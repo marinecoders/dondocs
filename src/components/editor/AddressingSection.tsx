@@ -1,3 +1,4 @@
+import { directiveDateInvalid, isDirective, isMarineDirective } from '@/lib/directiveFormats';
 import { useState, useMemo, useCallback } from 'react';
 import {
   DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors, type DragEndEvent, } from '@dnd-kit/core';
@@ -133,6 +134,7 @@ export function AddressingSection({ config }: AddressingSectionProps) {
   };
 
   // Check compliance requirements for business letters
+  const directive = isDirective(docType);
   const isCompliantMode = documentMode === 'compliant';
   const requiresSalutation = isCompliantMode && config.compliance.requiresSalutation;
   const dateFormat = isCompliantMode ? config.compliance.dateFormat : 'military';
@@ -229,9 +231,9 @@ export function AddressingSection({ config }: AddressingSectionProps) {
           </AccordionTrigger>
           <AccordionContent>
             <div className="editor-field-groups pt-2">
-              <p className="text-xs text-muted-foreground -mt-1">From, To, Via, Subject, and identifying symbols.</p>
+              <p className="text-xs text-muted-foreground -mt-1">{directive ? "Issuing authority, date and subject." : "From, To, Via, Subject, and identifying symbols."}</p>
               {/* Date Only - for business letters (no SSIC/Serial) */}
-              {config.dateOnly && (
+              {(config.dateOnly || directive) && (
                 <div className="space-y-2">
                   <Label htmlFor="date">Date</Label>
                   <DatePicker
@@ -239,13 +241,14 @@ export function AddressingSection({ config }: AddressingSectionProps) {
                     value={formData.date || ''}
                     onChange={(value) => setField('date', value)}
                     dateFormat={dateFormat}
+                    aria-invalid={directive && validationVisible && directiveDateInvalid(formData.date) ? true : undefined}
                   />
                 </div>
               )}
 
               {/* SSIC / Serial / Date - for standard documents */}
               {/* Always show when not dateOnly; gray out SSIC/Serial when config.ssic is false */}
-              {!config.dateOnly && (
+              {!config.dateOnly && !directive && (
                 <>
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4 border-b border-border pb-4">
                   <div className={`space-y-2 ${!config.ssic ? 'opacity-50 pointer-events-none select-none' : ''}`}>
@@ -386,31 +389,36 @@ export function AddressingSection({ config }: AddressingSectionProps) {
                     placeholder="Commanding Officer… (type @ for variables)"
                   />
                 </div>
-                <div className="space-y-2">
-                  <Label htmlFor="to">To</Label>
-                  <div className="flex gap-2">
-                    <div className="flex-1">
-                      <InputWithVariables
-                        id="to"
-                        value={formData.to || ''}
-                        onValueChange={(v) => setField('to', v)}
-                        aria-invalid={validationVisible && unfilled(formData.to) ? true : undefined}
-                        placeholder="Commanding General… (type @ for variables)"
-                      />
+                {directive && isMarineDirective(docType) && (
+                  <div className="space-y-2"><Label htmlFor="to">To</Label><Input id="to" value="Distribution List" readOnly /></div>
+                )}
+                {!directive && (
+                  <div className="space-y-2">
+                    <Label htmlFor="to">To</Label>
+                    <div className="flex gap-2">
+                      <div className="flex-1">
+                        <InputWithVariables
+                          id="to"
+                          value={formData.to || ''}
+                          onValueChange={(v) => setField('to', v)}
+                          aria-invalid={validationVisible && unfilled(formData.to) ? true : undefined}
+                          placeholder="Commanding General… (type @ for variables)"
+                        />
+                      </div>
+                      <IconTip label="Look up a unit">
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="icon"
+                          onClick={() => setUnitLookup('to')}
+                          className="shrink-0"
+                        >
+                          <Building2 className="h-4 w-4" />
+                        </Button>
+                      </IconTip>
                     </div>
-                    <IconTip label="Look up a unit">
-                      <Button
-                        type="button"
-                        variant="ghost"
-                        size="icon"
-                        onClick={() => setUnitLookup('to')}
-                        className="shrink-0"
-                      >
-                        <Building2 className="h-4 w-4" />
-                      </Button>
-                    </IconTip>
                   </div>
-                </div>
+                )}
               </div>
             )}
 
@@ -546,7 +554,7 @@ export function AddressingSection({ config }: AddressingSectionProps) {
             </div>
 
             {/* Continuation page subject - only show for doc types with subject */}
-            {!config?.skipSubject && (
+            {!directive && !config?.skipSubject && (
               <div className="flex items-center space-x-2 pt-1">
                 <Checkbox
                   id="showSubjectOnContinuation"

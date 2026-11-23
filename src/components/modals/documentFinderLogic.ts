@@ -34,12 +34,24 @@ export const QUESTIONS: Record<string, Question> = {
     options: [
       { label: 'A letter, memo, or other written correspondence', value: 'correspondence', help: 'Anything sent to a command, person, or business.' },
       { label: 'A headquarters memorandum (HqDON / OSD)', value: 'headquarters', help: 'Standard, Action, or Information Memorandum under Chapter 12.' },
+      { label: 'An order, bulletin, or SECNAV directive', value: 'directives' },
       { label: 'A Marine Corps personnel / service-record form', value: 'usmc_form', help: 'Page 11 (NAVMC 118(11)) or an administrative-action form. Marine Corps only.' },
       { label: 'A record of a counseling, event, or decision for the file', value: 'record', help: 'No one receives it — it just goes in the file.' },
       { label: 'An equipment components inventory (SL-3)', value: 'components', help: 'Components, accessories, illustrations and inventory sheets for an end item.' },
       { label: 'An equipment repair parts list (SL-4)', value: 'repair_parts', help: 'Parts in breakdown order with illustrations and ordering cross-references.' },
       { label: 'Technical manual cover and authentication pages (TM / IETM)', value: 'manual', help: 'Front matter for a technical manual or related publication.' },
       { label: 'A technical publication directing work on fielded equipment', value: 'techpub', help: 'A Modification, Supply, Technical, or Lubrication Instruction (MI/SI/TI/LI), issued under a PCN.' },
+    ],
+  },
+  directivePurpose: {
+    id: 'directivePurpose',
+    question: 'Which kind of directive are you preparing?',
+    options: [
+      { label: 'Standing Marine Corps policy', value: 'marine_corps_order' },
+      { label: 'Temporary or one-time Marine Corps direction', value: 'marine_corps_bulletin' },
+      { label: 'Continuing SECNAV policy', value: 'secnav_instruction' },
+      { label: 'Temporary SECNAV direction', value: 'secnav_notice' },
+      { label: 'A numbered change to an existing SECNAV directive', value: 'change_transmittal' },
     ],
   },
   headquartersPurpose: {
@@ -128,6 +140,7 @@ export const QUESTIONS: Record<string, Question> = {
 // declarative here so the flow stays readable; getNextQuestion does the walk.
 export const FLOW: { id: string; ask: (a: Record<string, string>) => boolean }[] = [
   { id: 'category', ask: () => true },
+  { id: 'directivePurpose', ask: (a) => a.category === 'directives' },
   { id: 'headquartersPurpose', ask: (a) => a.category === 'headquarters' },
   { id: 'formType', ask: (a) => a.category === 'usmc_form' },
   { id: 'recipient', ask: (a) => a.category === 'correspondence' },
@@ -153,6 +166,14 @@ export interface FinderResult {
   confidence: 'high' | 'medium';
   reason: string;
 }
+
+const DIRECTIVE_REASONS: Record<string, string> = {
+  marine_corps_order: 'Per MCO 5215.1K: use an order for continuing Marine Corps policy.',
+  marine_corps_bulletin: 'Per MCO 5215.1K: use a bulletin for temporary or one-time Marine Corps direction.',
+  secnav_instruction: 'Per SECNAV M-5215.1: use an instruction for continuing SECNAV policy.',
+  secnav_notice: 'Per SECNAV M-5215.1: use a notice for temporary SECNAV direction.',
+  change_transmittal: 'Per SECNAV M-5215.1: use a change transmittal to send revised pages of an existing directive.',
+};
 
 // Maps a finder interview to recommended document types. Ordered, early-return
 // rules — the FIRST matching rule wins, so rule order is load-bearing (e.g. R5
@@ -223,6 +244,13 @@ export function getRecommendations(answers: Record<string, string>): FinderResul
   }
   if (category === 'techpub') {
     add('i_type', 'high', 'Per MCO 5215.17D: an I-Type instruction (MI/SI/TI/LI) directs a modification, supply, technical, or lubrication action on fielded equipment');
+    return top3();
+  }
+
+  if (category === 'directives') {
+    const purpose = answers.directivePurpose;
+    const type = Object.hasOwn(DIRECTIVE_REASONS, purpose) ? purpose : 'marine_corps_order';
+    add(type, 'high', DIRECTIVE_REASONS[type]);
     return top3();
   }
 
