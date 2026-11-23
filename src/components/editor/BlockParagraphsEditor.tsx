@@ -634,7 +634,7 @@ export function BlockParagraphsEditor() {
   const config = DOC_TYPE_CONFIG[docType] || DOC_TYPE_CONFIG.naval_letter;
   // Only hide this shortcut when a visible heading edits the same subject field.
   const subjectInHeading = getEditorSections(config, docType).some((section) =>
-    ['addressing', 'executive', 'joint_memo'].includes(section.id));
+    ['addressing', 'executive', 'joint_memo', 'staff-paper'].includes(section.id));
   const hideBodySubject = editorLayout === 'scroll' && subjectInHeading;
   const disableNumbered = documentMode === 'compliant' && !config.compliance.numberedParagraphs;
 

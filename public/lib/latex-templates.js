@@ -5377,6 +5377,37 @@ const LATEX_TEMPLATES = {
   \\fi
 }
 `,
+  'tex/templates/staff_paper.tex': `
+% HQMC staff papers and executive coordination pages.
+\\renewcommand{\\printLetterhead}{}
+\\newcommand{\\printDateAndTitle}{\\StaffPaperHeading}
+\\newcommand{\\printAddressBlock}{%
+    \\ifCUIEnabled
+        \\par\\vspace{12pt}
+        \\noindent Controlled by: \\CUIControlledBy\\\\
+        CUI Category: \\CUICategory\\\\
+        Limited Dissemination Control: \\CUIDissemination\\\\
+        \\printPOCLine%
+        \\printCUIDistStatement%
+    \\fi
+    \\ifClassifiedEnabled
+        \\par\\vspace{12pt}
+        \\noindent Classified by: \\ClassifiedBy\\\\
+        Derived from: \\DerivedFrom\\\\
+        Reason: \\ClassificationReason\\\\
+        Declassify on: \\DeclassifyOn\\\\
+        \\printPOCLine
+    \\fi
+}
+\\newcommand{\\printSignature}{\\StaffPaperClosing}
+\\fancypagestyle{documentpage}{%
+    \\fancyhf{}%
+    \\fancyhead[C]{\\placeClassificationMarkings}%
+    \\fancyfoot[C]{\\smartPageNumber}%
+    \\renewcommand{\\headrulewidth}{0pt}%
+    \\renewcommand{\\footrulewidth}{0pt}%
+}
+`,
   'tex/templates/standard_letter.tex': `
 %=============================================================================
 %

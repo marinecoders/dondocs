@@ -1,4 +1,5 @@
 import { isDirective } from '@/lib/directiveFormats';
+import { isStaffPaper } from '@/lib/staffPapers';
 import { resolvePageNumbering, usesSecnavLetterNumbering } from '@/lib/pageNumbering';
 import { Shield, Settings2 } from 'lucide-react';
 import { Label } from '@/components/ui/label';
@@ -44,7 +45,7 @@ export function DocumentTypeSelector() {
             {isCompliant
               ? isPublication
                 ? docType === 'technical_volume' ? 'Author chapters, appendices, tables and figures with linked contents in PDF and Word.' : docType === 'tm_ietm_front_matter' ? 'Create publication covers and authentication pages using MCO 5215.17D, MIL-STD-38784C and the supplied template.' : docType === 'sl4' ? 'Create illustrated repair parts lists with linked indexes and digital authentication.' : docType === 'sl3' ? 'Formats SL-3 components lists using MCO 5215.17D, MIL-STD-38784C and the supplied template.' : 'Formats I-Type publications for compliance with MIL-DTL-28999D(MC) and MIL-STD-38784C.'
-                : isDirective(docType)
+                : isDirective(docType) || isStaffPaper(docType)
                   ? 'Uses the layout from ' + config.regulations.authority + '.'
                   : 'Strictly adheres to SECNAV M-5216.5 formatting requirements.'
               : 'Customize fonts and formatting to your preferences.'}

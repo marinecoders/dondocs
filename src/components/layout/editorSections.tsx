@@ -1,5 +1,7 @@
 import { directiveAddressIssues, directiveFormatting, directiveIssues, isDirective } from '@/lib/directiveFormats';
 import { DirectiveDetailsSection } from '@/components/editor/DirectiveDetailsSection';
+import { staffPaperIssues } from '@/lib/staffPapers';
+import { StaffPaperDetailsSection } from '@/components/editor/StaffPaperDetailsSection';
 import { resolveLetterheadMode } from '@/lib/letterheadMode';
 import { VolumeSupplementSection } from '@/components/editor/VolumeSupplementSections';
 import { VolumeDetailsSection, VolumeOutlineSection, VolumeBodySection } from '@/components/editor/VolumeSections';
@@ -87,7 +89,8 @@ export function useEditorSections(): {
  * [SUBJECT]); there's no positive "complete" counterpart. Surfaced only after
  * an export attempt, gated on uiStore.validationVisible.
  */
-interface SectionErrorInput extends Pick<Partial<DocumentData>, 'docType' | 'directiveNumber' | 'directiveChangeNumber' | 'directiveCancellation' | 'officeCode'> {
+interface SectionErrorInput extends Pick<Partial<DocumentData>, 'docType' | 'directiveNumber' | 'directiveChangeNumber' | 'directiveCancellation' | 'officeCode'
+  | 'preparedBy' | 'staffDecisionStyle' | 'staffDecisionOptions' | 'staffDecisionOfficials' | 'coordinationEntries' | 'coordinationLayout'> {
   volume?: DocumentData['volume'];
   manualFrontMatter?: DocumentData['manualFrontMatter'];
   sl3?: DocumentData['sl3'];
@@ -115,7 +118,7 @@ interface SectionErrorInput extends Pick<Partial<DocumentData>, 'docType' | 'dir
  * Keep in lockstep with the cases in getSectionError below.
  */
 export const ERROR_BEARING_IDS = [
-  'letterhead', 'addressing', 'body', 'signature', 'executive', 'joint_memo', 'sl3-cover', 'directive',
+  'letterhead', 'addressing', 'body', 'signature', 'executive', 'joint_memo', 'sl3-cover', 'directive', 'staff-paper',
 ] as const;
 
 export function errorBearingIds(config: DocTypeConfig): readonly string[] {
@@ -159,6 +162,7 @@ export function getSectionError(
   }).some((message) => sl3ErrorSection(message) === id);
   switch (id) {
     case 'directive': return directiveIssues(formData.docType ?? '', formData).length > 0;
+    case 'staff-paper': return staffPaperIssues(formData.docType ?? '', formData).length > 0;
     case 'letterhead':
       // Don't flag a missing letterhead when the doc type allows plain paper
       // (optionalLetterhead, e.g. MFR/MF per SECNAV Ch. 10).
@@ -369,6 +373,8 @@ export function renderEditorSection(id: string, config: DocTypeConfig): ReactNod
     case 'sl4-revisions': return <Sl4RevisionsSection />;
     case 'directive':
       return <DirectiveDetailsSection />;
+    case 'staff-paper':
+      return <StaffPaperDetailsSection />;
     case 'letterhead':
       return <LetterheadSection />;
     case 'addressing':

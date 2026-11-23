@@ -1,4 +1,6 @@
 import { directiveIssues } from './directiveFormats';
+import { isStaffPaper, staffPaperIssues } from './staffPapers';
+import { projectCapturedOutput } from './documentFields';
 import { captureVolumePdfDestinations, restoreVolumePdfLinks } from '@/services/pdf/volumePackageLinks';
 import { reviewPackageSigning } from './packageSigning';
 import { getExportDeploymentPolicy, getExportDeploymentPolicySync } from '@/config/classification';
@@ -27,7 +29,7 @@ import { resolvePackageCitations } from "./packageCitations";
 
 import { packageCitationReadiness } from "./packageCitationRepair";
 import { PDFDocument, StandardFonts } from "pdf-lib";
-import { captureDocumentRevision } from "./capturedDocument";
+import { captureDocumentRevision, copyCapturedDocument } from "./capturedDocument";
 import { captureFormExportTemplates } from "./formExportTemplates";
 import {
   prepareExport,
@@ -301,7 +303,7 @@ export async function preparePackageAssembly(
     endorsementCount = 0;
   const basic = revision.members[0];
   const basicSession = basic?.kind === "native" ? basic.session : null;
-  let previousSession = basicSession;
+  let previousSnapshot: DocumentSnapshot | null = null;
   for (const member of revision.members) {
     options.signal?.throwIfAborted();
     if (member.role !== "basic-letter" && member.role !== "endorsement")
@@ -331,7 +333,7 @@ export async function preparePackageAssembly(
         });
         if (member.role === "endorsement") {
           endorsementCount++;
-          previousSession = null;
+          previousSnapshot = null;
         }
         inputs.push({ member, original });
         findings.push({
@@ -356,7 +358,14 @@ export async function preparePackageAssembly(
         reviews.push({ member: `${member.label}: complete retained draft`, review: reviewPackageNative(member.session, `${owned.name}: ${member.label}`, policy, draft as DocumentFieldSource) });
         continue;
       }
-      const { snapshot, assets } = await preparePackageRenderInput(member, read);
+      const { snapshot: retainedSnapshot, assets } = await preparePackageRenderInput(member, read);
+      // Readiness and PDF page counts must use the same sections that render.
+      const snapshot = retainedSnapshot.documentCategory !== 'forms' && isStaffPaper(retainedSnapshot.docType)
+        ? copyCapturedDocument(projectCapturedOutput(captureDocumentRevision({
+          documentId: member.revisionId, epoch: 0, editSequence: 0, capturedAt: member.session.timestamp,
+        }, retainedSnapshot))).document
+        : retainedSnapshot;
+      if (member.role === "basic-letter") previousSnapshot = snapshot;
       if (snapshot.documentCategory !== "forms" && snapshot.docType === "business_letter" && snapshot.paragraphs.some(paragraph => paragraph.figure?.type === "application/pdf"))
         error("Business-letter figures require PNG or JPEG images. Convert the PDF figure and save a new package revision.", member.id);
       if (member.role === "endorsement" && !isEndorsement(snapshot.docType))
@@ -380,7 +389,7 @@ export async function preparePackageAssembly(
         if (
           !basicSession ||
           basicSession.documentCategory === "forms" ||
-          !previousSession
+          !previousSnapshot
         )
           error(
             "This native endorsement chain cannot be verified. Use a native basic letter and a contiguous native endorsement chain.",
@@ -405,14 +414,14 @@ export async function preparePackageAssembly(
             );
           const expectedReference =
             referenceStartIndex(
-              previousSession.docType,
-              previousSession.formData.startingReferenceLetter,
-            ) + previousSession.references.length;
+              previousSnapshot.docType,
+              previousSnapshot.formData.startingReferenceLetter,
+            ) + previousSnapshot.references.length;
           const expectedEnclosure =
             enclosureStartNumber(
-              previousSession.docType,
-              previousSession.formData.startingEnclosureNumber,
-            ) + previousSession.enclosures.length;
+              previousSnapshot.docType,
+              previousSnapshot.formData.startingEnclosureNumber,
+            ) + previousSnapshot.enclosures.length;
           if (
             snapshot.references.length &&
             referenceStartIndex(
@@ -437,12 +446,13 @@ export async function preparePackageAssembly(
             );
         }
         endorsementCount++;
-        previousSession = member.session;
+        previousSnapshot = snapshot;
       }
       if (isEndorsement(snapshot.docType) && member.role !== "endorsement")
         error("A native endorsement must use the endorsement role.", member.id);
       if (snapshot.documentCategory !== "forms") {
         for (const message of directiveIssues(snapshot.docType, snapshot.formData)) error(message, member.id);
+        for (const message of staffPaperIssues(snapshot.docType, snapshot.formData)) error(message, member.id);
         const config = DOC_TYPE_CONFIG[snapshot.docType];
         if (!config)
           throw new Error("This native document type is unsupported.");
@@ -773,14 +783,10 @@ export async function assemblePackage(
       });
       if (!separate) {
         let nativeEnclosurePages = 0;
-        if (member.kind === "native") {
-          const { reviewed } = await readPackageMemberDraft(member, input.read);
-          for (const [index, file] of reviewed.files.entries())
-            if (file)
-              nativeEnclosurePages +=
-                (await PDFDocument.load(file.data)).getPageCount() +
-                (reviewed.session.enclosures[index].hasCoverPage ? 1 : 0);
-        }
+        for (const enclosure of memberInput.snapshot?.enclosures ?? [])
+          if (enclosure.file)
+            nativeEnclosurePages +=
+              (await PDFDocument.load(enclosure.file.data)).getPageCount() + Number(!!enclosure.hasCoverPage);
         continuationPages += count - nativeEnclosurePages - Number(shared);
       }
       previous = shared ? undefined : { member, bytes };

@@ -1,4 +1,5 @@
 import { directiveAddressIssues, directiveAuthorityIssues, directiveIssues, isDirective, isSecnavDirective } from './directiveFormats';
+import { staffPaperIssues } from './staffPapers';
 import { stationeryIssues } from './stationery';
 import { taggedCorrespondenceIssues } from '@/services/pdf/accessibility/preflight';
 import { jointLetterCommandIssues } from './jointLetterCommands';
@@ -149,6 +150,8 @@ export function prepareExport(input: {
         }
         if (formatIssues.length) return error(formatIssues.join(' '));
       }
+      const staffIssues = staffPaperIssues(snapshot.docType, snapshot.formData);
+      if (staffIssues.length) return error(staffIssues.join(' '));
       const stockIssues = stationeryIssues(snapshot.docType, snapshot.formData, snapshot.paragraphs, snapshot.documentMode);
       if (stockIssues.length) return error(stockIssues.join(' '));
       const jointIssues = jointLetterCommandIssues(snapshot.docType, snapshot.formData);

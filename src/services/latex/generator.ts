@@ -1,5 +1,7 @@
 import { directiveAuthorityRows, directiveContinuation, directiveFormatting, isDirective, isMarineDirective } from '@/lib/directiveFormats';
 import { directiveLayout } from './directiveLayout';
+import { isStaffPaper } from '@/lib/staffPapers';
+import { staffPaperLayout } from './staffPaperLayout';
 import { correspondenceStationery, assertStationerySupport } from '@/lib/stationery';
 import { additionalJointCommands, assertJointLetterCommandSupport } from '@/lib/jointLetterCommands';
 import { resolveLetterheadMode } from '@/lib/letterheadMode';
@@ -225,6 +227,12 @@ ${(() => {
     if (!isMarineDirective(store.docType)) tex += '\\def\\DirectiveFromOnly{}\n';
     const continuation = directiveContinuation(store.docType, data);
     if (continuation?.alternate) tex += '\\def\\DirectiveAlternate{}\n';
+  }
+  if (isStaffPaper(store.docType)) {
+    const staff = staffPaperLayout(store.docType, data, value => escapeLatex(value));
+    tex += '\\long\\def\\CorrespondenceTemplate{staff_paper}\n';
+    tex += '\\long\\def\\StaffPaperHeading{' + staff.heading + '}\n';
+    tex += '\\long\\def\\StaffPaperClosing{' + staff.closing + '}\n';
   }
   tex += `\\setSSIC{${directive ? directive.reference : config.ssic ? escapeLatex(ssic) : ''}}
 \\setSerial{${config.ssic ? escapeLatex(senderSymbol) : ''}}
@@ -1383,6 +1391,10 @@ export function generateAllLatexFiles(store: DocumentStore, resolvedLevel?: stri
   if (isDirective(store.docType)) store = { ...store, formData: {
     ...store.formData, via: '', inReplyTo: false, appendEndorsement: false, additionalEndorsements: undefined,
   } };
+  if (isStaffPaper(store.docType)) store = {
+    ...store, paragraphs: store.docType === 'coordination_page' ? [] : store.paragraphs,
+    enclosures: [], copyTos: [], distributions: [], formData: { ...store.formData, appendEndorsement: false, additionalEndorsements: undefined },
+  };
   if (store.docType === 'technical_volume') store = { ...store, formData: Object.fromEntries(Object.entries(store.formData).map(([key, value]) => [key, typeof value === 'string' ? value.normalize('NFC') : value])) };
   if (store.docType === 'business_letter') {
     let number = 0;
@@ -1416,7 +1428,9 @@ export function generateAllLatexFiles(store: DocumentStore, resolvedLevel?: stri
     'encl-config.tex': generateEnclosuresTex(store),
     'copyto-config.tex': generateCopyToTex(store),
     'distribution-config.tex': generateDistributionTex(store),
-    'body.tex': generateBodyTex(store, bodyAdapter),
+    'body.tex': store.docType === 'coordination_page'
+      ? staffPaperLayout(store.docType, store.formData, value => escapeLatex(value)).body
+      : generateBodyTex(store, bodyAdapter),
     'classification.tex': generateClassificationTex(store, resolvedLevel),
   };
   if (store.docType === 'technical_volume') texFiles['volume-format.tex'] = BREAKABLE_TEXT_COMMANDS;

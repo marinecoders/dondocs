@@ -35,6 +35,7 @@ export const QUESTIONS: Record<string, Question> = {
       { label: 'A letter, memo, or other written correspondence', value: 'correspondence', help: 'Anything sent to a command, person, or business.' },
       { label: 'A headquarters memorandum (HqDON / OSD)', value: 'headquarters', help: 'Standard, Action, or Information Memorandum under Chapter 12.' },
       { label: 'An order, bulletin, or SECNAV directive', value: 'directives' },
+      { label: 'A staff paper or coordination page', value: 'staff_papers' },
       { label: 'A Marine Corps personnel / service-record form', value: 'usmc_form', help: 'Page 11 (NAVMC 118(11)) or an administrative-action form. Marine Corps only.' },
       { label: 'A record of a counseling, event, or decision for the file', value: 'record', help: 'No one receives it — it just goes in the file.' },
       { label: 'An equipment components inventory (SL-3)', value: 'components', help: 'Components, accessories, illustrations and inventory sheets for an end item.' },
@@ -52,6 +53,15 @@ export const QUESTIONS: Record<string, Question> = {
       { label: 'Continuing SECNAV policy', value: 'secnav_instruction' },
       { label: 'Temporary SECNAV direction', value: 'secnav_notice' },
       { label: 'A numbered change to an existing SECNAV directive', value: 'change_transmittal' },
+    ],
+  },
+  staffPaperPurpose: {
+    id: 'staffPaperPurpose',
+    question: 'What does the paper need to do?',
+    options: [
+      { label: 'Present a position and request a decision', value: 'position_decision_paper' },
+      { label: 'Provide facts for a meeting or briefing', value: 'information_paper' },
+      { label: 'Record staff coordination and concurrence', value: 'coordination_page' },
     ],
   },
   headquartersPurpose: {
@@ -141,6 +151,7 @@ export const QUESTIONS: Record<string, Question> = {
 export const FLOW: { id: string; ask: (a: Record<string, string>) => boolean }[] = [
   { id: 'category', ask: () => true },
   { id: 'directivePurpose', ask: (a) => a.category === 'directives' },
+  { id: 'staffPaperPurpose', ask: (a) => a.category === 'staff_papers' },
   { id: 'headquartersPurpose', ask: (a) => a.category === 'headquarters' },
   { id: 'formType', ask: (a) => a.category === 'usmc_form' },
   { id: 'recipient', ask: (a) => a.category === 'correspondence' },
@@ -173,6 +184,12 @@ const DIRECTIVE_REASONS: Record<string, string> = {
   secnav_instruction: 'Per SECNAV M-5215.1: use an instruction for continuing SECNAV policy.',
   secnav_notice: 'Per SECNAV M-5215.1: use a notice for temporary SECNAV direction.',
   change_transmittal: 'Per SECNAV M-5215.1: use a change transmittal to send revised pages of an existing directive.',
+};
+
+const STAFF_PAPER_REASONS: Record<string, string> = {
+  position_decision_paper: 'Per MCO 5216.20B: explain an issue, recommend a position and record the decision.',
+  information_paper: 'Per MCO 5216.20B: prepare concise facts for a meeting or briefing.',
+  coordination_page: 'Per SECNAV M-5216.5: record the offices consulted and their positions in an executive correspondence package.',
 };
 
 // Maps a finder interview to recommended document types. Ordered, early-return
@@ -251,6 +268,13 @@ export function getRecommendations(answers: Record<string, string>): FinderResul
     const purpose = answers.directivePurpose;
     const type = Object.hasOwn(DIRECTIVE_REASONS, purpose) ? purpose : 'marine_corps_order';
     add(type, 'high', DIRECTIVE_REASONS[type]);
+    return top3();
+  }
+
+  if (category === 'staff_papers') {
+    const purpose = answers.staffPaperPurpose;
+    const type = Object.hasOwn(STAFF_PAPER_REASONS, purpose) ? purpose : 'information_paper';
+    add(type, 'high', STAFF_PAPER_REASONS[type]);
     return top3();
   }
 

@@ -1,4 +1,5 @@
 import { isDirective } from '@/lib/directiveFormats';
+import { isStaffPaper } from '@/lib/staffPapers';
 import { Building2, Send, Shield, List, BookOpen, Paperclip, User, Users, Layers, PenLine, Hash, ClipboardList, CornerDownRight, BookMarked, Table, type LucideIcon } from 'lucide-react';
 import type { DocTypeConfig, FormType } from '@/types/document';
 
@@ -61,6 +62,12 @@ export function getEditorSections(config: DocTypeConfig, docType: string): Edito
   ];
 
   if (docType === 'i_type') return [{ id: 'cover', label: 'Cover', icon: BookMarked }, classification, body, { id: 'tables', label: 'Tables', icon: Table }, enclosures, signature];
+
+  if (isStaffPaper(docType)) {
+    const details = { id: 'staff-paper', label: docType === 'coordination_page' ? 'Coordination' : 'Paper details', icon: ClipboardList };
+    return docType === 'coordination_page' ? [details, classification]
+      : [details, classification, body, ...(docType === 'position_decision_paper' ? [references] : [])];
+  }
 
   switch (config.uiMode) {
     case 'moa':

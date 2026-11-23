@@ -4,6 +4,7 @@ import { DOMMatrix, ImageData, Path2D } from '@napi-rs/canvas';
 import { resolve } from 'node:path';
 import { PDFDocument, StandardFonts } from 'pdf-lib';
 import { createBlankSession } from '@/stores/documentStore';
+import { composeBasicLetterId } from '@/lib/endorsement';
 import { captureDocumentRevision } from '@/lib/capturedDocument';
 import { captureOriginalPackageMember, capturePackageMember } from '@/lib/actionPackageAssets';
 import { createActionPackage, getPackageRevision, listActionPackages, reviseActionPackage } from '@/lib/actionPackages';
@@ -67,4 +68,53 @@ it('keeps the final synchronous policy guard inside the package compare-and-swap
     expect(checks).toBe(4);
     expect(getPackageRevision((await listActionPackages()).find(value => value.id === record.id)!).outputs).toEqual([]);
   } finally { guard.mockRestore(); }
+});
+
+it('ignores hidden letter citations when a coordination page is assembled', async () => {
+  const base = createBlankSession(undefined, 'coordination_page');
+  const snapshot = { ...base, endItems: [], publicationTables: {},
+    formData: { ...base.formData, classLevel: 'unclassified' as const, coordinationEntries: [
+      { office: 'Operations', contact: '', phone: '', date: '', position: 'Concur' },
+    ] },
+    paragraphs: [{ id: 'retained-letter', text: 'See enclosure (99).', level: 0 }],
+  };
+  const document = captureDocumentRevision({ documentId: 'coordination', epoch: 0, editSequence: 0, capturedAt: 1 }, snapshot);
+  const coordination = await capturePackageMember(document, 'Coordination page', 'coordination-sheet');
+  const main = await captureOriginalPackageMember({ name: 'Main document.pdf', data: await markedPdf() }, 'basic-letter', false);
+  const record = await reviseActionPackage(await createActionPackage(`Coordination ${crypto.randomUUID()}`), [main, coordination]);
+  const prepared = await preparePackageAssembly(record, record.currentRevisionId, secret);
+  expect(prepared.readiness.findings.filter(finding => finding.severity === 'error')).toEqual([]);
+  const doc = await PDFDocument.create();
+  doc.addPage().drawText('COORDINATION PAGE');
+  const bytes = await doc.save();
+  const assembled = await assemblePackage(prepared, { compile: async () => bytes, convertDocx: vi.fn(), waitForReady: async () => true });
+  expect(getPackageRevision(assembled).outputs[0]?.boundaries.map(b => b.startPage)).toEqual([1, 2]);
+});
+
+it('continues endorsement numbering from the rendered staff paper', async () => {
+  const bytes = await markedPdf();
+  const doc = await PDFDocument.create();
+  doc.addPage().drawText('SYNTHETIC OUTPUT');
+  const rendered = await doc.save();
+  const visibleEnclosure = new Uint8Array(rendered).buffer;
+  const source = createBlankSession(undefined, 'information_paper');
+  const snapshot = { ...source, endItems: [], publicationTables: {}, formData: {
+    ...source.formData, officeCode: 'ADMIN', date: '17 Nov 26', subject: 'Staff briefing', preparedBy: 'Example Author',
+  }, paragraphs: [{ text: 'Staff briefing content.', level: 0 }], enclosures: [{
+    title: 'Retained letter attachment', file: { data: bytes, name: 'retained.pdf', size: bytes.byteLength },
+  }] };
+  const main = await capturePackageMember(captureDocumentRevision({ documentId: 'staff-paper', epoch: 0, editSequence: 0, capturedAt: 1 }, snapshot), 'Staff briefing', 'basic-letter');
+  const endorsement = createBlankSession(undefined, 'new_page_endorsement');
+  Object.assign(endorsement.formData, { endorsementOrdinal: 'FIRST', basicLetterId: composeBasicLetterId(snapshot),
+    from: 'Training Office', to: 'Training Director', subject: 'Staff briefing', sigLast: 'Example', unitLine1: 'FICTIONAL UNIT', startingEnclosureNumber: 1 });
+  const end = await capturePackageMember(captureDocumentRevision({ documentId: 'endorsement', epoch: 0, editSequence: 0, capturedAt: 1 }, {
+    ...endorsement, endItems: [], publicationTables: {}, references: [], paragraphs: [{ text: 'See enclosure (1).', level: 0 }],
+    enclosures: [{ title: 'Visible enclosure', file: { data: visibleEnclosure, name: 'visible.pdf', size: visibleEnclosure.byteLength } }],
+  }), 'Endorsement', 'endorsement');
+  const record = await reviseActionPackage(await createActionPackage(`Staff briefing ${crypto.randomUUID()}`), [main, end]);
+  const prepared = await preparePackageAssembly(record, record.currentRevisionId, secret);
+  expect(prepared.readiness.findings.filter(finding => finding.severity === 'error')).toEqual([]);
+  const assembled = await assemblePackage(prepared, { compile: async () => rendered, convertDocx: vi.fn(), waitForReady: async () => true });
+  const boundaries = getPackageRevision(assembled).outputs[0]?.boundaries;
+  expect(boundaries?.map(boundary => [boundary.startPage, boundary.firstPageLabel, boundary.pageCount])).toEqual([[1, '1', 1], [2, '2', 2]]);
 });

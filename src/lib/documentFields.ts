@@ -1,4 +1,5 @@
 import { directiveHasCancellation, isDirective, isMarineDirective } from './directiveFormats';
+import { isStaffPaper } from './staffPapers';
 import { resolveLetterheadMode } from './letterheadMode';
 import type { DocumentSnapshot } from '@/stores/historyStore';
 import type { SerializedSession } from '@/stores/documentStore';
@@ -80,6 +81,11 @@ function active(source: DocumentFieldSource, path: FieldPath, projection: FieldP
   if (!config) throw new Error(`Unknown document type: ${source.docType}`);
   if (source.documentMode !== 'custom' && root === 'references' && !config.compliance.allowReferences) return false;
   if (source.documentMode !== 'custom' && root === 'enclosures' && !config.compliance.allowEnclosures) return false;
+  if (isStaffPaper(source.docType)) {
+    if (['copyTos', 'distributions', 'enclosures'].includes(String(root))) return false;
+    if (root === 'paragraphs' && source.docType === 'coordination_page') return false;
+    if (root === 'references' && source.docType !== 'position_decision_paper') return false;
+  }
   const technical = technicalTypes.has(source.docType);
   if (root === 'paragraphs' && path[2] === 'figure' && projection !== 'search') return technical || source.docType === 'business_letter' || typeof path[1] === 'number' && source.paragraphs?.[path[1]]?.figure?.placement === 'body';
   if (root === 'endItems') return technical && source.docType !== 'tm_ietm_front_matter';
@@ -96,6 +102,15 @@ function active(source: DocumentFieldSource, path: FieldPath, projection: FieldP
   if (key === 'directiveCancellation') return directiveHasCancellation(source.docType);
   if (key === 'directiveChangeNumber') return source.docType === 'change_transmittal';
   if (key === 'directiveReports') return isMarineDirective(source.docType);
+  if (isStaffPaper(source.docType) && /^(?:sig|from$|to$|via$|acting|byDirection|ssic$|serial$|inReplyTo)/.test(key)) return false;
+  if (source.docType === 'coordination_page' && ['officeCode', 'date'].includes(key)) return false;
+  if (key === 'staffApprovedBy' || key === 'staffDecisionStyle' || key === 'staffDecisionOfficials') return source.docType === 'position_decision_paper';
+  if (key === 'staffDecisionOptions') return source.docType === 'position_decision_paper' && !!source.formData.staffDecisionStyle && source.formData.staffDecisionStyle !== 'single';
+  if (key === 'coordinationLayout' || key === 'coordinationEntries') return source.docType === 'coordination_page'
+    && (path[3] !== 'phone' || source.formData.coordinationLayout !== 'hqmc');
+  if (key === 'coordinationComments') return source.docType === 'coordination_page' && source.formData.coordinationLayout === 'hqmc';
+  if (key === 'preparedBy' && isStaffPaper(source.docType)) return source.docType !== 'coordination_page';
+  if (key === 'subject' && source.docType === 'coordination_page') return source.formData.coordinationLayout === 'hqmc';
   if (key === 'stationerySize') return source.docType === 'executive_correspondence';
   if (key === 'cuiTransmittalNote') return source.formData.classLevel === 'cui'
     && (source.documentMode === 'custom' || config.compliance.allowEnclosures);
