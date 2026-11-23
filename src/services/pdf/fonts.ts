@@ -13,7 +13,8 @@ const standardFonts = {
 const installedFontCoverage = new WeakMap<PDFFont, ReadonlySet<number>>();
 
 export async function embedPdfFont(pdf: PDFDocument, family: keyof typeof standardFonts, style: PdfFontStyle = 'regular') {
-  if (family !== 'helvetica') {
+  // Keep the installed-font parser out of the production bundle.
+  if (import.meta.env.DEV && family !== 'helvetica') {
     const source = await loadLocalOfficeFonts();
     if (source) {
       const { default: fontkit } = await import('@pdf-lib/fontkit');

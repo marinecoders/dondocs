@@ -69,6 +69,10 @@ it.each(Object.entries(DOC_TYPE_CONFIG))('renders every %s section in the shared
     expect(screen.getByRole('textbox', { name: 'Volume title' })).toBeVisible();
     expect(screen.getByRole('textbox', { name: 'Text for 1.1.1' })).toHaveTextContent('Keep this paragraph.');
     expect(useDocumentStore.getState().paragraphs[0].volumeSectionId).toBe(useDocumentStore.getState().formData.volume!.chapters[0].sections[0].id);
+  } else if (docType === 'coordination_page') {
+    expect(screen.getByRole('combobox', { name: 'Layout' })).toBeVisible();
+    expect(screen.getByRole('button', { name: 'Add coordinating office' })).toBeVisible();
+    expect(screen.queryByRole('textbox', { name: 'Paragraph 1' })).not.toBeInTheDocument();
   } else expect(screen.getByRole('textbox', { name: 'Paragraph 1' })).toHaveTextContent('Keep this paragraph.');
 });
 

@@ -8,6 +8,7 @@ import { deriveOverallClassLevel } from './overallClassification';
 import { canAppendEndorsement, hasEndorsementContent } from './appendedEndorsement';
 import { FIRST_ENDORSEMENT_EDITOR_ID, additionalEndorsementEditorId } from './endorsementEditorIds';
 import { jointSignatories } from './signingAuthority';
+import { isStaffPaper } from './staffPapers';
 import type { ProofreadFinding, ProofreadSource } from './proofread';
 
 const PUBLICATIONS = new Set(['sl3', 'sl4', 'i_type', 'tm_ietm_front_matter', 'technical_volume']);
@@ -23,6 +24,7 @@ export function supportsCorrespondenceProofread(source: Pick<ProofreadSource, 'd
 export function additionalProofreadFindings(source: ProofreadSource): ProofreadFinding[] {
   if (!supportsCorrespondenceProofread(source)) return [];
   const config = DOC_TYPE_CONFIG[source.docType], data = source.formData;
+  const staffPaper = isStaffPaper(source.docType);
   const findings: ProofreadFinding[] = [];
   const add = (id: string, title: string, message: string, sectionId: string, field?: string,
     reference?: ProofreadFinding['source'], group: ProofreadFinding['group'] = 'formatting') => {
@@ -34,15 +36,15 @@ export function additionalProofreadFindings(source: ProofreadSource): ProofreadF
     : config.uiMode === 'joint'
       ? [['jointJuniorDate', 'Junior command date']] as const
       : [['date', 'Document date']] as const;
-  const headingSection = config.uiMode === 'moa' ? 'moa'
+  const headingSection = staffPaper ? 'staff-paper' : config.uiMode === 'moa' ? 'moa'
     : config.uiMode === 'joint' ? 'joint' : config.uiMode === 'joint_memo' ? 'joint_memo'
       : config.uiMode === 'executive' ? 'executive' : 'addressing';
   // Executive dates may be reserved for the signing office (Ch 12).
-  const reviewDates = source.docType !== 'executive_correspondence' && config.uiMode !== 'executive';
+  const reviewDates = source.docType !== 'coordination_page' && source.docType !== 'executive_correspondence' && config.uiMode !== 'executive';
   for (const [field, label] of reviewDates ? dateFields : []) {
     if (unfilled(data[field])) add(`date:${field}`, `${label} is empty`,
       'Enter the date when it is known, or deliberately leave space for dating at signature.',
-      headingSection, field, { chapter: 2, paragraph: '16', query: 'Expressing Dates' });
+      headingSection, staffPaper ? 'admin-date' : field, { chapter: 2, paragraph: '16', query: 'Expressing Dates' });
   }
   const subjectField = config.uiMode === 'joint' ? 'jointSubject' : 'subject';
   const subjectPrinted = !config.skipSubject || isEndorsement(source.docType) && data.includeEndorsementSubject;
@@ -106,7 +108,7 @@ export function additionalProofreadFindings(source: ProofreadSource): ProofreadF
         'classification', 'cuiPocEmail', undefined, 'markings');
     }
   }
-  if (!(source.documentMode === 'custom' || config.compliance.allowEnclosures)) return findings;
+  if (staffPaper || !(source.documentMode === 'custom' || config.compliance.allowEnclosures)) return findings;
   const start = enclosureStartNumber(source.docType, data.startingEnclosureNumber);
   source.enclosures.forEach((enclosure, index) => {
     if (unfilled(enclosure.title)) add(`enclosure-title:${index}`, `Enclosure (${start + index}) needs a title`,
