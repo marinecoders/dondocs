@@ -1,5 +1,5 @@
 import { PDFDocument } from 'pdf-lib';
-import { embedPdfFont } from '@/services/pdf/fonts';
+import { assertInstalledFontText, embedPdfFont } from '@/services/pdf/fonts';
 import type { PackageAsset } from './actionPackages';
 import { inspectRasterImage } from '@/services/docx/imageAssets';
 import { readWordArchive, wordXml } from '@/services/docx/import/archive';
@@ -54,7 +54,11 @@ export async function inspectPackageAttachment(file: { name: string; type?: stri
     let canRenderPdf = format === 'txt' && text.length <= 50_000;
     if (canRenderPdf) {
       const document = await PDFDocument.create(), font = await embedPdfFont(document, 'courier');
-      try { font.encodeText(text.replace(/[\r\n\t]/g, ' ')); } catch { canRenderPdf = false; }
+      const printable = text.replace(/[\r\n\t]/g, ' ');
+      try {
+        assertInstalledFontText(font, printable);
+        font.encodeText(printable);
+      } catch { canRenderPdf = false; }
     }
     signal?.throwIfAborted();
     return { format, type, text, canRenderPdf, notice: canRenderPdf
@@ -111,8 +115,9 @@ export async function renderPackageAttachment(asset: PackageAsset, bytes: ArrayB
     const font = await embedPdfFont(document, 'courier'), size = 10, lineHeight = 13;
     const lines = inspection.text.replace(/\r\n?/g, '\n').replace(/\t/g, '    ').split('\n').flatMap(line => {
       const result: string[] = [];
-      while (line.length > 85) { result.push(line.slice(0, 85)); line = line.slice(85); }
-      result.push(line); return result;
+      const characters = Array.from(line);
+      for (let start = 0; start < characters.length; start += 85) result.push(characters.slice(start, start + 85).join(''));
+      return result.length ? result : [''];
     });
     if (Math.ceil(lines.length / 54) > 100) throw new Error('Text evidence needs more than 100 PDF pages. Split the source file.');
     for (let start = 0; start < lines.length; start += 54) {

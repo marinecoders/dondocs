@@ -2,7 +2,7 @@ import { appendPublicationOutline } from './publicationDestinations';
 import { assertAssemblyPagesReadable, loadAssemblyPdf } from './assemblyPdf';
 import type { PDFObject } from 'pdf-lib';
 import { PDFDocument, rgb, PDFPage, PDFName, PDFArray, PDFNumber, PDFRef, PDFRawStream, PDFDict, PDFString, PDFHexString, degrees } from 'pdf-lib';
-import { embedPdfFont } from './fonts';
+import { assertInstalledFontText, embedPdfFont } from './fonts';
 import pako from 'pako';
 import { debug } from '@/lib/debug';
 import { safeUrl } from '@/lib/url-safety';
@@ -1576,6 +1576,7 @@ function addPlaceholderPage(
   // Add title in center
   const titleFontSize = 16;
   const title = enclosure.title;
+  assertInstalledFontText(helveticaBold, title);
   const titleWidth = helveticaBold.widthOfTextAtSize(title, titleFontSize);
 
   page.drawText(title, {
@@ -1603,6 +1604,7 @@ function addPlaceholderPage(
 
   // Add error details if provided (wrapped to fit page width)
   if (errorDetails) {
+    assertInstalledFontText(helvetica, errorDetails);
     const detailFontSize = 9;
     const maxWidth = PAGE_WIDTH - 2 * MARGIN;
     const lineHeight = 12;
@@ -1690,6 +1692,7 @@ function addCoverPage(
   // Add title in center (slightly higher to leave room for description)
   const titleFontSize = 18;
   const title = enclosure.title;
+  assertInstalledFontText(helveticaBold, title);
   const titleWidth = helveticaBold.widthOfTextAtSize(title, titleFontSize);
 
   page.drawText(title, {
@@ -1702,6 +1705,7 @@ function addCoverPage(
 
   // Add description if provided
   if (enclosure.coverPageDescription) {
+    assertInstalledFontText(helvetica, enclosure.coverPageDescription);
     const descFontSize = 12;
     const lineHeight = 16;
     const maxWidth = PAGE_WIDTH - 2 * MARGIN;
@@ -1758,6 +1762,7 @@ function addEnclosureHeader(page: PDFPage, font: Awaited<ReturnType<PDFDocument[
   const lines = directive ? [header.line1, header.line2] : [header.line1];
   lines.forEach((text, index) => {
     if (!text) return;
+    assertInstalledFontText(font, text);
     const width = font.widthOfTextAtSize(text, size);
     page.drawText(text, { x: page.getWidth() - MARGIN - width, y: top - index * 14, size, font, color: rgb(0, 0, 0) });
   });
@@ -1829,6 +1834,7 @@ function addClassificationMarking(
   font: Awaited<ReturnType<PDFDocument['embedFont']>>,
   position: 'top' | 'bottom'
 ): void {
+  assertInstalledFontText(font, marking);
   const available = page.getWidth() - 48;
   const fontSize = Math.min(12, available / Math.max(1, font.widthOfTextAtSize(marking, 1)));
   if (fontSize < 8) throw new Error('The enclosure banner is too long to print legibly. Shorten the marking before exporting.');
