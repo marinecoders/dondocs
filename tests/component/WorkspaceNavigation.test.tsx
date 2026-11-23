@@ -136,7 +136,7 @@ it('keeps editing and review in Tools, with Batch and Preview still directly ava
   expect(screen.getByRole('button', { name: 'Preview' })).toBeVisible();
   await userEvent.click(screen.getByRole('button', { name: 'Document tools' }));
   expect(screen.getAllByRole('menuitem').map((item) => item.textContent)).toEqual([
-    'Formatting…', expect.stringContaining('Undo'), expect.stringContaining('Redo'), expect.stringContaining('Find and replace'), 'Refresh preview', 'Proofread current draft', 'Document type guide',
+    'Formatting…', expect.stringContaining('Undo'), expect.stringContaining('Redo'), expect.stringContaining('Find and replace'), 'Refresh preview', 'Proofread current draft', 'Document type guide', 'Draft an AMHS message…',
   ]);
   await userEvent.click(screen.getByRole('menuitem', { name: 'Refresh preview' }));
   expect(refresh).toHaveBeenCalledOnce();
