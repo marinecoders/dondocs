@@ -223,6 +223,7 @@ export interface DocumentData {
   coordinationEntries?: CoordinationEntry[];
   coordinationComments?: string;
   coordinationLayout?: 'secnav' | 'hqmc';
+  letterheadStandard?: 'don' | 'dla';
   department: string;
   unitLine1: string;
   unitLine2: string;

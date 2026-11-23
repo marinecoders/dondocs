@@ -33,6 +33,9 @@ export const sessionSchema = z.object({
         for (const issue of administrative.error.issues) context.addIssue({ code: 'custom', path: issue.path, message: issue.message });
       }
     }
+    if (data.letterheadStandard !== undefined && data.letterheadStandard !== 'don' && data.letterheadStandard !== 'dla') context.addIssue({
+      code: 'custom', path: ['letterheadStandard'], message: 'Invalid letterhead format',
+    });
     if (data.cuiTransmittalNote !== undefined && typeof data.cuiTransmittalNote !== 'boolean') context.addIssue({
       code: 'custom', path: ['cuiTransmittalNote'], message: 'Invalid CUI transmittal confirmation',
     });
@@ -59,7 +62,7 @@ export type SharedDocumentKind = 'correspondence' | 'builtin-form' | 'configured
 const sharedKind = z.enum(['correspondence', 'builtin-form', 'configured-form']);
 const envelope = z.discriminatedUnion('kind', [
   z.object({ kind: z.literal('dondocs-share'), version: z.union([z.literal(1), z.literal(2)]), documentKind: sharedKind }),
-  z.object({ kind: z.literal('dondocs-draft'), version: z.union([z.literal(2), z.literal(3), z.literal(4), z.literal(5), z.literal(6), z.literal(7), z.literal(8)]), documentKind: sharedKind })
+  z.object({ kind: z.literal('dondocs-draft'), version: z.union([z.literal(2), z.literal(3), z.literal(4), z.literal(5), z.literal(6), z.literal(7), z.literal(8), z.literal(9)]), documentKind: sharedKind })
     .refine(value => value.version !== 3 || value.documentKind === 'configured-form'),
 ]);
 const expiringEnvelope = z.object({
@@ -69,8 +72,8 @@ const expiringEnvelope = z.object({
 type OrdinaryShare = SerializedSession & { kind: 'dondocs-share'; version: 1 | 2; documentKind: SharedDocumentKind };
 type ExpiringShare = { kind: 'dondocs-share'; version: 3; documentKind: SharedDocumentKind; expiresAt: number; session: SerializedSession };
 // Version 6 belongs to asset shares; current structured text shares use 7.
-type RichShare = { kind: 'dondocs-share'; version: 5 | 7 | 9 | 11 | 13; documentKind: SharedDocumentKind; expiresAt?: number; session: SerializedSession };
-const richShareEnvelope = z.object({ kind: z.literal('dondocs-share'), version: z.union([z.literal(5), z.literal(7), z.literal(9), z.literal(11), z.literal(13)]), documentKind: sharedKind, expiresAt: z.number().optional(), session: z.unknown() }).strict();
+type RichShare = { kind: 'dondocs-share'; version: 5 | 7 | 9 | 11 | 13 | 15; documentKind: SharedDocumentKind; expiresAt?: number; session: SerializedSession };
+const richShareEnvelope = z.object({ kind: z.literal('dondocs-share'), version: z.union([z.literal(5), z.literal(7), z.literal(9), z.literal(11), z.literal(13), z.literal(15)]), documentKind: sharedKind, expiresAt: z.number().optional(), session: z.unknown() }).strict();
 
 /** UTC epoch milliseconds; the receiving device rejects at the exact deadline. */
 export function validateShareExpiration(expiresAt: number, now = Date.now()): void {
@@ -102,7 +105,7 @@ export function createSharedPayload(session: SerializedSession, expiresAt?: numb
 
 /** Validate before touching the recipient's current document. */
 export function parseSharedSession(value: unknown): SerializedSession {
-  if (value && typeof value === 'object' && 'kind' in value && value.kind === 'dondocs-share' && 'version' in value && (value.version === 5 || value.version === 7 || value.version === 9 || value.version === 11 || value.version === 13)) {
+  if (value && typeof value === 'object' && 'kind' in value && value.kind === 'dondocs-share' && 'version' in value && (value.version === 5 || value.version === 7 || value.version === 9 || value.version === 11 || value.version === 13 || value.version === 15)) {
     const envelope = richShareEnvelope.parse(value);
     if (envelope.expiresAt !== undefined) validateShareExpiration(envelope.expiresAt);
     const raw = envelope.session;

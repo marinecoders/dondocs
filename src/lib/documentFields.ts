@@ -1,5 +1,6 @@
 import { directiveHasCancellation, isDirective, isMarineDirective } from './directiveFormats';
 import { isStaffPaper } from './staffPapers';
+import { hasDlaStationery, usesDlaLetterhead } from './dlaLetterhead';
 import { resolveLetterheadMode } from './letterheadMode';
 import type { DocumentSnapshot } from '@/stores/historyStore';
 import type { SerializedSession } from '@/stores/documentStore';
@@ -111,6 +112,8 @@ function active(source: DocumentFieldSource, path: FieldPath, projection: FieldP
   if (key === 'coordinationComments') return source.docType === 'coordination_page' && source.formData.coordinationLayout === 'hqmc';
   if (key === 'preparedBy' && isStaffPaper(source.docType)) return source.docType !== 'coordination_page';
   if (key === 'subject' && source.docType === 'coordination_page') return source.formData.coordinationLayout === 'hqmc';
+  if (usesDlaLetterhead(source.docType, source.formData) && ['department', 'sealType'].includes(key)) return false;
+  if (key === 'letterheadStandard') return hasDlaStationery(source.docType, source.formData);
   if (key === 'stationerySize') return source.docType === 'executive_correspondence';
   if (key === 'cuiTransmittalNote') return source.formData.classLevel === 'cui'
     && (source.documentMode === 'custom' || config.compliance.allowEnclosures);

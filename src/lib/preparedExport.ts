@@ -1,5 +1,6 @@
 import { directiveAddressIssues, directiveAuthorityIssues, directiveIssues, isDirective, isSecnavDirective } from './directiveFormats';
 import { staffPaperIssues } from './staffPapers';
+import { hasDlaStationery } from './dlaLetterhead';
 import { stationeryIssues } from './stationery';
 import { taggedCorrespondenceIssues } from '@/services/pdf/accessibility/preflight';
 import { jointLetterCommandIssues } from './jointLetterCommands';
@@ -44,6 +45,7 @@ export interface ExportReview {
   structure: ParagraphStructureFinding[];
   notices: string[];
   markingReview: boolean;
+  layoutReview?: true;
 }
 interface PreparedContent {
   captured: CapturedDocument;
@@ -132,6 +134,9 @@ export function prepareExport(input: {
     const snapshot = copyCapturedDocument(output).document;
     const notices: string[] = capability.status === 'partial' && input.texMode !== 'flat' ? [capability.message] : [];
     let markingReview = false;
+    const generatedDla = output.kind === 'correspondence' && hasDlaStationery(snapshot.docType, snapshot.formData)
+      && snapshot.formData.letterheadMode !== 'preprinted';
+    const layoutReview = generatedDla && snapshot.documentMode === 'custom';
     let marking: ClassificationInfo | undefined;
     if (output.kind === 'correspondence') {
       if (isDirective(snapshot.docType)) {
@@ -152,6 +157,10 @@ export function prepareExport(input: {
       }
       const staffIssues = staffPaperIssues(snapshot.docType, snapshot.formData);
       if (staffIssues.length) return error(staffIssues.join(' '));
+      if (generatedDla && snapshot.documentMode !== 'custom') {
+        return error('Choose approved preprinted DLA stationery for Compliant export. Generated DLA letterhead is available in Custom mode for drafts.');
+      }
+      if (layoutReview) notices.push('Generated DLA letterhead is a draft. Use approved DLA stationery for official correspondence.');
       const stockIssues = stationeryIssues(snapshot.docType, snapshot.formData, snapshot.paragraphs, snapshot.documentMode);
       if (stockIssues.length) return error(stockIssues.join(' '));
       const jointIssues = jointLetterCommandIssues(snapshot.docType, snapshot.formData);
@@ -218,8 +227,8 @@ export function prepareExport(input: {
     ]);
     const structure = output.kind === 'correspondence' && !['sl3', 'sl4'].includes(snapshot.docType) ? validateParagraphStructure(snapshot.paragraphs) : [];
     const job: PreparedExportJob = Object.freeze({ [preparedBrand]: true as const, id: input.id, source: output.source, kind: output.kind, target: input.target, ...(input.pdfAccessibility ? { pdfAccessibility: input.pdfAccessibility } : {}), ...(input.wordEnclosurePages ? { wordEnclosurePages: true } : {}), ...(input.target === 'tex' ? { texMode: input.texMode ?? 'configuration' } : {}), filename: input.filename, policyIdentity: input.policy.policy.identity });
-    prepared.set(job, { captured: output, policy: input.policy.policy, marking, formTemplates: input.formTemplates, review: { privacy, structure, notices, markingReview } });
-    return privacy.found || structure.length || markingReview
+    prepared.set(job, { captured: output, policy: input.policy.policy, marking, formTemplates: input.formTemplates, review: { privacy, structure, notices, markingReview, ...(layoutReview ? { layoutReview: true } : {}) } });
+    return privacy.found || structure.length || markingReview || layoutReview
       ? Object.freeze({ status: 'needs-review', job })
       : Object.freeze({ status: 'ready', job: acknowledgePreparedExport(job) });
   } catch (cause) { return error(cause instanceof Error ? cause.message : 'The document could not be prepared.'); }

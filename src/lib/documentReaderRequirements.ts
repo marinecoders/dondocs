@@ -3,7 +3,7 @@ import { requiresEnclosureMarkingReader } from './enclosureMarkings';
 
 interface ReaderSource {
   docType?: string;
-  formData?: Pick<Partial<DocumentData>, 'cuiTransmittalNote'> & { volume?: unknown; jointAdditionalCommands?: unknown; letterheadMode?: unknown; stationerySize?: unknown };
+  formData?: Pick<Partial<DocumentData>, 'cuiTransmittalNote'> & { volume?: unknown; jointAdditionalCommands?: unknown; letterheadMode?: unknown; stationerySize?: unknown; letterheadStandard?: unknown };
   enclosures?: readonly Pick<Enclosure, 'marking'>[];
   paragraphs?: readonly unknown[];
 }
@@ -26,10 +26,13 @@ export const CORRESPONDENCE_READERS = {
   joint: { draft: 6, share: 9, assets: 10, backup: 18 },
   letterhead: { draft: 7, share: 11, assets: 12, backup: 19 },
   stationery: { draft: 8, share: 13, assets: 14, backup: 20 },
+  dla: { draft: 9, share: 15, assets: 16, backup: 21 },
 } as const;
 
 export function correspondenceReaderRequirement(source: ReaderSource) {
   const data = source.formData;
+  // Keep the DLA selection even while a different document layout is active.
+  if (data?.letterheadStandard === 'dla') return CORRESPONDENCE_READERS.dla;
   if (data?.stationerySize === '7x9' || data?.stationerySize === '5x7') return CORRESPONDENCE_READERS.stationery;
   if (data?.letterheadMode === 'title-only' || data?.letterheadMode === 'preprinted') return CORRESPONDENCE_READERS.letterhead;
   if (Array.isArray(data?.jointAdditionalCommands) && data.jointAdditionalCommands.length > 0) return CORRESPONDENCE_READERS.joint;

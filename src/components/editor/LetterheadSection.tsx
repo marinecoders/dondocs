@@ -1,4 +1,5 @@
 import { isSecnavDirective } from '@/lib/directiveFormats';
+import { hasDlaStationery, supportsDlaLetterhead, usesDlaLetterhead } from '@/lib/dlaLetterhead';
 import { stationeryIssues, type StationerySize } from '@/lib/stationery';
 import { resolveLetterheadMode, supportsLetterheadModes, type LetterheadMode } from '@/lib/letterheadMode';
 import { useState, useEffect, useRef } from 'react';
@@ -46,6 +47,7 @@ export function LetterheadSection() {
   const secnavLetterhead = isCompliant && isSecnavDirective(docType);
   const selectedMode = resolveLetterheadMode(config, formData);
   const mode = secnavLetterhead && selectedMode === 'title-only' ? 'full' : selectedMode;
+  const dla = usesDlaLetterhead(docType, formData);
   const unitNameRequired = config.letterhead === true && !config.optionalLetterhead && mode !== 'preprinted' && !secnavLetterhead;
   const unitNameInvalid = validationVisible && unitNameRequired && unfilled(formData.unitLine1);
 
@@ -159,6 +161,23 @@ export function LetterheadSection() {
                   </p>
                 </div>
               )}
+              {supportsDlaLetterhead(docType) && (
+                <div className="space-y-2">
+                  <Label htmlFor="letterhead-standard">Letterhead format</Label>
+                  <Select value={formData.letterheadStandard ?? 'don'}
+                    onValueChange={value => setField('letterheadStandard', value === 'dla' ? 'dla' : 'don')}>
+                    <SelectTrigger id="letterhead-standard"><SelectValue /></SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="don">Department of the Navy</SelectItem>
+                      <SelectItem value="dla">Defense Logistics Agency</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  {hasDlaStationery(docType, formData) && mode !== 'preprinted' && <div className="space-y-2">
+                    <p className="text-xs text-muted-foreground">Compliant export uses approved preprinted DLA stationery. Generated letterhead is available for drafts in Custom mode.</p>
+                    <Button type="button" size="sm" variant="outline" onClick={() => setField('letterheadMode', 'preprinted')}>Use preprinted stationery</Button>
+                  </div>}
+                </div>
+              )}
               {mode === 'title-only' && <div className="space-y-2">
                 <Label htmlFor="title-letterhead-color">Title color</Label>
                 <Select value={formData.letterheadColor || 'blue'} onValueChange={value => setField('letterheadColor', value as 'blue' | 'black')}>
@@ -187,7 +206,7 @@ export function LetterheadSection() {
                       </HelpTip>
                     </Label>
                     <Select
-                      value={formData.sealType || 'dow'}
+                      disabled={dla} value={dla ? 'dod' : formData.sealType || 'dow'}
                       onValueChange={(v) => setField('sealType', v)}
                     >
                       <SelectTrigger id="letterhead-seal" className="w-full">
@@ -233,13 +252,14 @@ export function LetterheadSection() {
                 <div className="space-y-2 min-w-0 hidden sm:block sm:grow sm:basis-48">
                   <Label htmlFor="letterhead-department">Department / Service</Label>
                   <Select
-                    value={formData.department || 'usmc'}
+                    disabled={dla} value={dla ? 'dla' : formData.department || 'usmc'}
                     onValueChange={(v) => setField('department', v)}
                   >
                     <SelectTrigger id="letterhead-department" className="w-full">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
+                      {dla && <SelectItem value="dla">Defense Logistics Agency</SelectItem>}
                       <SelectItem value="usmc">United States Marine Corps</SelectItem>
                       <SelectItem value="navy">Department of the Navy</SelectItem>
                       <SelectItem value="dod">Department of Defense</SelectItem>
@@ -252,13 +272,14 @@ export function LetterheadSection() {
                 <div className="space-y-2 min-w-0 sm:hidden">
                   <Label htmlFor="letterhead-department-mobile">Department</Label>
                   <Select
-                    value={formData.department || 'usmc'}
+                    disabled={dla} value={dla ? 'dla' : formData.department || 'usmc'}
                     onValueChange={(v) => setField('department', v)}
                   >
                     <SelectTrigger id="letterhead-department-mobile" className="w-full">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
+                      {dla && <SelectItem value="dla">Defense Logistics Agency</SelectItem>}
                       <SelectItem value="usmc">USMC</SelectItem>
                       <SelectItem value="navy">Navy</SelectItem>
                       <SelectItem value="dod">DoD</SelectItem>

@@ -1348,6 +1348,7 @@ function App() {
         open={preparedExports.state.phase === 'review' && preparedExports.state.stage === 'marking'}
         filename={preparedExports.state.phase === 'review' ? preparedExports.state.job.filename : ''}
         notices={preparedExports.review?.notices ?? []}
+        layoutReview={preparedExports.review?.layoutReview}
         onProceed={preparedExports.confirm}
         onCancel={preparedExports.cancelReview}
       />

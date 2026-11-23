@@ -360,6 +360,7 @@ export interface DocxConversionOptions {
   sealType?: string;
   letterheadColor?: string;
   stationerySize?: StationerySize;
+  dlaLetterhead?: boolean;
   letterheadMode?: import('@/lib/letterheadMode').LetterheadMode;
   fontFamily?: string;
   fontSize?: string;
@@ -449,6 +450,7 @@ export async function postProcessDocx(
     fontSize = '12pt',
     letterheadColor,
     letterheadMode,
+    dlaLetterhead,
     stationerySize,
     classLevel,
     customClassification,
@@ -554,7 +556,7 @@ export async function postProcessDocx(
   // few-twip asymmetry. We detect the letterhead table (first table with
   // a drawing) and force exact gridCol values from our layout config.
   const letterheadResult = letterheadMode === 'preprinted' || letterheadMode === 'title-only'
-    ? { xml, hasLetterheadSeal: false } : perfectLetterheadCentering(xml, TARGET_TEXT_WIDTH);
+    ? { xml, hasLetterheadSeal: false } : perfectLetterheadCentering(xml, TARGET_TEXT_WIDTH, dlaLetterhead);
   xml = letterheadResult.xml;
   const hasLetterheadSeal = letterheadResult.hasLetterheadSeal;
 
@@ -666,7 +668,7 @@ export async function postProcessDocx(
   // w:color in the DOCX writer, so we apply these in post-processing.
   const colorHex = getLetterheadColorHex(letterheadColor);
   debug.log('DOCX', `Step 6: Applying letterhead styling (color=#${colorHex})`);
-  if (letterheadMode !== 'preprinted') xml = applyLetterheadStyling(xml, colorHex);
+  if (letterheadMode !== 'preprinted') xml = applyLetterheadStyling(xml, colorHex, 0, dlaLetterhead);
 
   // --- 6+. Fix seal image dimensions ---
   // The DoW/DoD seal PNGs have transparent padding (~8%) around the artwork.
@@ -676,7 +678,7 @@ export async function postProcessDocx(
   // \includegraphics[width=1.09in] but pandoc converts this to EMU using the
   // image's native DPI, which may not produce the correct output size.
   // Force the DOCX extent to exactly 1.09in = 996696 EMU.
-  {
+  if (!dlaLetterhead) {
     const SEAL_EMU = Math.round(1.09 * 914400); // 996696
     const old914 = xml.match(/<wp:extent cx="914400"/);
     if (old914) {

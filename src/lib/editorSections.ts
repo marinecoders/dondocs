@@ -19,13 +19,11 @@ export function getEditorSections(config: DocTypeConfig, docType: string): Edito
   const distribution = { id: 'distribution', label: 'Distribution', icon: Layers };
   const signature = { id: 'signature', label: 'Signature', icon: PenLine };
 
-  // MFR (Memorandum for the Record): a plain-paper record memo — no letterhead,
-  // a simple "Heading" in place of From/To addressing, and no copy-to or
-  // distribution (SECNAV M-5216.5 Ch 10 ¶1). Gated on the docType, not the
-  // shared uiMode:'memo' (which also covers the From/To memo types that keep
-  // the full section set).
+  // MFR allows plain paper or optional letterhead and uses a simple heading
+  // with no From/To addressing or distribution (SECNAV M-5216.5 Ch 10 ¶1).
   if (docType === 'mfr') {
     return [
+      { id: 'letterhead', label: 'Letterhead', icon: Building2 },
       { id: 'addressing', label: 'Heading', icon: Send },
       classification,
       body,

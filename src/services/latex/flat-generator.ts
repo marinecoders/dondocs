@@ -2,6 +2,7 @@ import { directiveAuthorityRows, directiveFormatting, isDirective, isMarineDirec
 import { directiveLayout } from './directiveLayout';
 import { isStaffPaper } from '@/lib/staffPapers';
 import { staffPaperLayout } from './staffPaperLayout';
+import { usesDlaLetterhead } from '@/lib/dlaLetterhead';
 import { correspondenceStationery, assertStationerySupport } from '@/lib/stationery';
 import { additionalJointCommands, assertJointLetterCommandSupport } from '@/lib/jointLetterCommands';
 import { resolveLetterheadMode } from '@/lib/letterheadMode';
@@ -384,7 +385,7 @@ function buildPageNumbering(docType: string, data: Partial<DocumentData>): strin
 }
 
 /** Centered letterhead using tabularX (pandoc renders center alignment in DOCX) */
-function buildLetterhead(data: Partial<DocumentData>, config: DocTypeConfig): string {
+function buildLetterhead(data: Partial<DocumentData>, config: DocTypeConfig, docType: string): string {
   const mode = resolveLetterheadMode(config, data);
   if (mode === 'preprinted') return '\\vspace{90pt}\n\n';
   if (mode === 'title-only') {
@@ -397,16 +398,18 @@ function buildLetterhead(data: Partial<DocumentData>, config: DocTypeConfig): st
 \\vspace{77pt}
 `;
   }
-  const dept = getDepartmentName(data.department);
-  const unit1 = escapeTabular(data.unitLine1);
-  const unit2 = data.unitLine2?.trim() ? escapeTabular(data.unitLine2) : '';
+  const dla = usesDlaLetterhead(docType, data);
+  const dept = dla ? 'DEFENSE LOGISTICS AGENCY' : getDepartmentName(data.department);
+  const line = (value?: string) => escapeTabular(dla ? value?.toUpperCase() : value);
+  const unit1 = line(data.unitLine1);
+  const unit2 = data.unitLine2?.trim() ? line(data.unitLine2) : '';
 
   // Split `unitAddress` into letterhead lines via the shared helper
   // (single source of truth — generator.ts uses the same).
   const { line1: addr1, line2: addr2 } = splitAddressForLetterhead(data.unitAddress || '');
 
   // Determine seal filename: {sealType}-seal{-bw if black}.png
-  const sealType = data.sealType || 'dow';
+  const sealType = dla ? 'dod' : data.sealType || 'dow';
   const bwSuffix = data.letterheadColor === 'black' ? '-bw' : '';
   const sealFile = `${sealType}-seal${bwSuffix}.png`;
 
@@ -421,11 +424,15 @@ function buildLetterhead(data: Partial<DocumentData>, config: DocTypeConfig): st
   // flattens nested tables into separate blocks, breaking the 3-column layout.
   // Font size commands: \fontsize{size}{baselineskip}\selectfont
   const lines: string[] = [];
-  lines.push(`{\\fontsize{10pt}{11pt}\\selectfont\\textcolor{${color}}{\\textbf{${dept}}}}`);
-  lines.push(`{\\fontsize{8pt}{9pt}\\selectfont\\textcolor{${color}}{${unit1}}}`);
-  if (unit2) lines.push(`{\\fontsize{8pt}{9pt}\\selectfont\\textcolor{${color}}{${unit2}}}`);
-  lines.push(`{\\fontsize{8pt}{9pt}\\selectfont\\textcolor{${color}}{${escapeTabular(addr1)}}}`);
-  if (addr2) lines.push(`{\\fontsize{8pt}{9pt}\\selectfont\\textcolor{${color}}{${escapeTabular(addr2)}}}`);
+  const headingSize = dla ? '12pt' : '10pt';
+  const headingBaseline = dla ? '13pt' : '11pt';
+  const detailSize = dla ? '10pt' : '8pt';
+  const detailBaseline = dla ? '10.5pt' : '9pt';
+  lines.push(`{\\fontsize{${headingSize}}{${headingBaseline}}\\selectfont\\textcolor{${color}}{\\textbf{${dept}}}}`);
+  lines.push(`{\\fontsize{${detailSize}}{${detailBaseline}}\\selectfont\\textcolor{${color}}{${unit1}}}`);
+  if (unit2) lines.push(`{\\fontsize{${detailSize}}{${detailBaseline}}\\selectfont\\textcolor{${color}}{${unit2}}}`);
+  lines.push(`{\\fontsize{${detailSize}}{${detailBaseline}}\\selectfont\\textcolor{${color}}{${line(addr1)}}}`);
+  if (addr2) lines.push(`{\\fontsize{${detailSize}}{${detailBaseline}}\\selectfont\\textcolor{${color}}{${line(addr2)}}}`);
   const centerContent = lines.join(' \\newline\n');
 
   // 3-column layout: seal | centered org text | right spacer (mirrors seal width)
@@ -804,7 +811,7 @@ function buildAppendedEndorsement(store: DocumentStore): string {
     .map((row) => ` & ${escapeTabular(row)} \\\\`)
     .join('\n');
 
-  return `${ack.ordinal !== 'FIRST' ? `\\newpage\n\n${buildLetterhead(store.formData, documentOutputConfig(store.docType, store.documentMode))}\n` : '\\vspace{24pt}\n\n\\dondocsackstart\n'}
+  return `${ack.ordinal !== 'FIRST' ? `\\newpage\n\n${buildLetterhead(store.formData, documentOutputConfig(store.docType, store.documentMode), store.docType)}\n` : '\\vspace{24pt}\n\n\\dondocsackstart\n'}
 \\noindent
 \\rule{\\textwidth}{0.5pt}
 
@@ -1432,7 +1439,7 @@ function buildStandardLayout(store: DocumentStore, config: DocTypeConfig): strin
     content += buildEndorsementHeader(store.docType, data);
   }
 
-  if (config.letterhead) content += buildLetterhead(data, config);
+  if (config.letterhead) content += buildLetterhead(data, config, store.docType);
   // Multiple address letter: date block is left-aligned (PDF's \hfill at paragraph boundary is a no-op)
   const ssicAlignRight = store.docType !== 'multiple_address_letter';
   const directive = directiveLayout(store.docType, data, escapeFlat);
@@ -1482,7 +1489,7 @@ function buildBusinessLayout(store: DocumentStore, config: DocTypeConfig): strin
       ? `\\noindent\\hfill\n\\begin{tabular}{@{}c@{}}\n\\dondocstitleletterhead{}${escapeTabularWrapped(data.unitLine1 || '')} \\\\
 \\end{tabular}\\hfill\\mbox{}\n\n\\vspace{12pt}\n`
       : '\\vspace{12pt}\n\n';
-  } else if (config.letterhead) content += buildLetterhead(data, config);
+  } else if (config.letterhead) content += buildLetterhead(data, config, store.docType);
 
   // ID symbols block: SSIC/Serial/Date right-aligned per SECNAV Ch 11
   // PDF template uses \begin{tabular}[t]{@{}l@{}} with \optionalLine for SSIC/Serial
@@ -1534,7 +1541,7 @@ function buildMemoLayout(store: DocumentStore, config: DocTypeConfig): string {
     content += `\\vspace*{${config.topSpacing}}\n`;
   }
 
-  if (config.letterhead) content += buildLetterhead(data, config);
+  if (config.letterhead) content += buildLetterhead(data, config, store.docType);
   if (config.ssic) content += buildSSICBlock(data);
   if (config.memoHeader) {
     content += buildMemoHeader(config, data);
@@ -1561,7 +1568,7 @@ function buildMOALayout(store: DocumentStore, config: DocTypeConfig): string {
   const data = store.formData;
   let content = '';
 
-  if (config.letterhead) content += buildLetterhead(data, config);
+  if (config.letterhead) content += buildLetterhead(data, config, store.docType);
   content += buildMOASSICBlock(data);
   content += buildMOATitle(data, store.docType);
 
