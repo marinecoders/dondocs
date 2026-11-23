@@ -1,6 +1,6 @@
 // @vitest-environment happy-dom
 import { describe, it, expect, vi, beforeAll, beforeEach } from 'vitest';
-import { act, render, screen, waitFor } from '@testing-library/react';
+import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
 
 // Same react-pdf stub as PdfViewer.test — the panel lazy-loads the viewer.
 vi.mock('react-pdf', async () => {
@@ -126,7 +126,9 @@ it('explains the large-document navigation limit while preserving the PDF toolba
   useDocumentStore.setState({ docType: 'naval_letter', documentCategory: 'correspondence', enclosures: [],
     paragraphs: Array.from({ length: 513 }, (_, index) => ({ id: `large-${index}`, level: 0, text: `Unique source paragraph ${index}.` })) });
   renderPanel({ pdfUrl: 'blob:large' });
+  const edit = await screen.findByRole('button', { name: 'Edit in draft' });
+  fireEvent.keyDown(edit, { key: 'Enter' });
   expect(await screen.findByText('Source navigation is unavailable for this large document.')).toBeVisible();
-  expect(screen.queryByLabelText('Preview following')).not.toBeInTheDocument();
+  expect(screen.queryByRole('button', { name: /^Follow$/ })).not.toBeInTheDocument();
   expect(screen.getByRole('button', { name: /^Download PDF$/ })).toBeEnabled();
 });

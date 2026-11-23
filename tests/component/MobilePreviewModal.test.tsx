@@ -3,7 +3,7 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import { MobilePreviewModal } from '@/components/modals/MobilePreviewModal';
 import { useUIStore } from '@/stores/uiStore';
 import { useDocumentStore } from '@/stores/documentStore';
-vi.mock('@/components/pdf/PdfViewer', () => ({ default: ({ onDownloadPdf, allowOpenInTab, navigationControls }: { onDownloadPdf?: () => void; allowOpenInTab?: boolean; navigationControls?: React.ReactNode }) => <div>PDF page{navigationControls}{onDownloadPdf && <button onClick={onDownloadPdf}>Download PDF</button>}{allowOpenInTab && <button>Open PDF</button>}</div> }));
+vi.mock('@/components/pdf/PdfViewer', () => ({ default: ({ onDownloadPdf, allowOpenInTab, sourceNavigationMessage }: { onDownloadPdf?: () => void; allowOpenInTab?: boolean; sourceNavigationMessage?: string }) => <div>PDF page{sourceNavigationMessage && <p>{sourceNavigationMessage}</p>}{onDownloadPdf && <button onClick={onDownloadPdf}>Download PDF</button>}{allowOpenInTab && <button>Open PDF</button>}</div> }));
 beforeEach(() => { useUIStore.setState({ mobilePreviewOpen: true }); });
 describe('mobile preview', () => {
   it('withholds delivery during an engine reset without exposing the internal signal', () => {

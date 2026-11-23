@@ -7,7 +7,7 @@ import { useDocumentStore } from '@/stores/documentStore';
 import { captureDocumentTarget, isCurrentDocumentTarget } from '@/stores/documentsStore';
 import { useEditorOutlineStore } from '@/stores/editorOutlineStore';
 import { useEditorSections } from '@/components/layout/editorSections';
-import { previewSourcesWithinBudget, type PreviewSource } from '@/lib/previewSources';
+import { previewSourcesWithinBudget, type PreviewFollowMode, type PreviewSource } from '@/lib/previewSources';
 
 /** Source controls are opt-in on the live editor preview, never package/review PDFs. */
 export function usePreviewSources(disabled: boolean, mobileSurface = false) {
@@ -62,7 +62,7 @@ export function usePreviewSources(disabled: boolean, mobileSurface = false) {
     return { sources: anchors.filter(source => !source.paragraphId || !ambiguous.has(source.paragraphId)), navigationLimited };
   }, [paragraphs, supportsBody, formData, docType, category, sections, hasImportedPages]);
   const { sources, navigationLimited } = sourceInventory;
-  const [followMode, setFollowMode] = useState<'off' | 'editor' | 'preview'>('off');
+  const [followMode, setFollowMode] = useState<PreviewFollowMode>('off');
   const follow = followMode === 'preview' && !navigationLimited;
   const [editorSelection, setEditorSelection] = useState<{ source: PreviewSource; owner: ReturnType<typeof captureDocumentTarget> } | null>(null);
   // Crossing the limit ends the session; shrinking the document must not
@@ -136,5 +136,8 @@ export function usePreviewSources(disabled: boolean, mobileSurface = false) {
     event.preventDefault();
     focus();
   }
-  return { sources, hasImportedPages, navigationLimited, sourceSubject: formData.subject ?? '', follow, setFollow: (value: boolean) => changeFollowMode(value ? 'preview' : 'off'), followMode, changeFollowMode, sourceToReveal, pauseEditorFollow, followSources, onMobileCloseAutoFocus, navigate: enabled && !navigationLimited ? navigate : undefined };
+  const unavailableMessage = hasImportedPages
+    ? 'Source navigation is unavailable when attached PDFs are included.'
+    : navigationLimited ? 'Source navigation is unavailable for this large document.' : undefined;
+  return { sources, hasImportedPages, navigationLimited, unavailableMessage, sourceSubject: formData.subject ?? '', follow, setFollow: (value: boolean) => changeFollowMode(value ? 'preview' : 'off'), followMode, changeFollowMode, sourceToReveal, pauseEditorFollow, followSources, onMobileCloseAutoFocus, navigate: enabled && !navigationLimited ? navigate : undefined };
 }
