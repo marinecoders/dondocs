@@ -1,4 +1,5 @@
-import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';
+import { PDFDocument, rgb } from 'pdf-lib';
+import { embedPdfFont } from '@/services/pdf/fonts';
 import { compileFormDefinition, type FormDefinition } from '@/services/forms/model';
 import { portableResourceDigest } from './portableResources';
 
@@ -18,8 +19,8 @@ export async function administrativeRequestWorksheet(): Promise<{ definition: Fo
   pdf.setCreationDate(new Date(0)); pdf.setModificationDate(new Date(0));
   pdf.setProducer('DonDocs'); pdf.setCreator('DonDocs');
   pdf.setTitle('DonDocs request details worksheet');
-  const page = pdf.addPage([612, 792]), font = await pdf.embedFont(StandardFonts.Helvetica);
-  const bold = await pdf.embedFont(StandardFonts.HelveticaBold);
+  const page = pdf.addPage([612, 792]), font = await embedPdfFont(pdf, 'helvetica');
+  const bold = await embedPdfFont(pdf, 'helvetica', 'bold');
   page.drawText('DonDocs request details worksheet', { x: 48, y: 748, font: bold, size: 17 });
   page.drawText('General request starter. Supporting worksheet, not an official form.', { x: 48, y: 728, font, size: 10 });
   for (const field of fields) {

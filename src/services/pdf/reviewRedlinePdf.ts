@@ -1,4 +1,5 @@
-import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';
+import { PDFDocument, rgb } from 'pdf-lib';
+import { embedPdfFont } from './fonts';
 import { compareText, type TextSegment } from '@/lib/textChanges';
 import { REVIEW_FONT, assertRedlineGlyphs, drawReviewUnicodeLine } from './reviewUnicodeLine';
 import type { reviewDecisionSummaryPdfContent } from '@/lib/reviewDecisionSummary';
@@ -180,7 +181,7 @@ export async function generateReviewRedlinePdf(data: RedlineContent, cancelled: 
   const measure = (text: string, size: number) => { context.font = `${size * 2}px ${REVIEW_FONT}`;return context.measureText(text).width / 2; };
   const pdf = await PDFDocument.create();
   pdf.setTitle(`REVIEW COPY - ${data.roundLabel}`);pdf.setSubject('Captured proposed edits, paragraph movement, decisions and discussions');pdf.setCreator('DonDocs');pdf.setLanguage('en');
-  const font = await pdf.embedFont(StandardFonts.Helvetica);
+  const font = await embedPdfFont(pdf, 'helvetica');
   const widths = new Map(Array.from({ length: 95 }, (_, i) => [String.fromCharCode(i + 32), font.widthOfTextAtSize(String.fromCharCode(i + 32), 1)]));
   const advance = (text: string, size: number) => Array.from(text).reduce((sum, char) => sum + widths.get(char)!, 0) * size;
   const pages = layoutRedline(blocks, (text, size) => /^[\x20-\x7e]*$/.test(text) ? advance(text, size) : measure(text, size));

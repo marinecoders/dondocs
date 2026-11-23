@@ -1,7 +1,8 @@
 import { appendPublicationOutline } from './publicationDestinations';
 import { assertAssemblyPagesReadable, loadAssemblyPdf } from './assemblyPdf';
 import type { PDFObject } from 'pdf-lib';
-import { PDFDocument, rgb, StandardFonts, PDFPage, PDFName, PDFArray, PDFNumber, PDFRef, PDFRawStream, PDFDict, PDFString, PDFHexString, degrees } from 'pdf-lib';
+import { PDFDocument, rgb, PDFPage, PDFName, PDFArray, PDFNumber, PDFRef, PDFRawStream, PDFDict, PDFString, PDFHexString, degrees } from 'pdf-lib';
+import { embedPdfFont } from './fonts';
 import pako from 'pako';
 import { debug } from '@/lib/debug';
 import { safeUrl } from '@/lib/url-safety';
@@ -1163,10 +1164,9 @@ export async function mergeEnclosures(
 
   // Load the main document
   const mainPdf = await PDFDocument.load(mainPdfBytes);
-  const helveticaBold = await mainPdf.embedFont(labelStyle === 'directive' ? StandardFonts.Courier
-    : labelStyle === 'footer' ? StandardFonts.TimesRomanBold : StandardFonts.HelveticaBold);
-  const helvetica = await mainPdf.embedFont(labelStyle === 'directive' ? StandardFonts.Courier
-    : labelStyle === 'footer' ? StandardFonts.TimesRoman : StandardFonts.Helvetica);
+  const labelFamily = labelStyle === 'directive' ? 'courier' : labelStyle === 'footer' ? 'times' : 'helvetica';
+  const helveticaBold = await embedPdfFont(mainPdf, labelFamily, labelStyle === 'directive' ? 'regular' : 'bold');
+  const helvetica = await embedPdfFont(mainPdf, labelFamily);
 
   // Record the number of pages in the main document BEFORE adding enclosures
   const mainPageCount = mainPdf.getPageCount();

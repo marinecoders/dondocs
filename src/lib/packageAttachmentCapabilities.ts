@@ -1,4 +1,5 @@
-import { PDFDocument, StandardFonts } from 'pdf-lib';
+import { PDFDocument } from 'pdf-lib';
+import { embedPdfFont } from '@/services/pdf/fonts';
 import type { PackageAsset } from './actionPackages';
 import { inspectRasterImage } from '@/services/docx/imageAssets';
 import { readWordArchive, wordXml } from '@/services/docx/import/archive';
@@ -52,7 +53,7 @@ export async function inspectPackageAttachment(file: { name: string; type?: stri
       throw new Error('Text evidence must be UTF-8 without unsupported control characters.');
     let canRenderPdf = format === 'txt' && text.length <= 50_000;
     if (canRenderPdf) {
-      const document = await PDFDocument.create(), font = await document.embedFont(StandardFonts.Courier);
+      const document = await PDFDocument.create(), font = await embedPdfFont(document, 'courier');
       try { font.encodeText(text.replace(/[\r\n\t]/g, ' ')); } catch { canRenderPdf = false; }
     }
     signal?.throwIfAborted();
@@ -107,7 +108,7 @@ export async function renderPackageAttachment(asset: PackageAsset, bytes: ArrayB
     const width = image.width * scale, height = image.height * scale;
     page.drawImage(image, { x: (612 - width) / 2, y: (792 - height) / 2, width, height });
   } else {
-    const font = await document.embedFont(StandardFonts.Courier), size = 10, lineHeight = 13;
+    const font = await embedPdfFont(document, 'courier'), size = 10, lineHeight = 13;
     const lines = inspection.text.replace(/\r\n?/g, '\n').replace(/\t/g, '    ').split('\n').flatMap(line => {
       const result: string[] = [];
       while (line.length > 85) { result.push(line.slice(0, 85)); line = line.slice(85); }

@@ -1,7 +1,8 @@
 import { loadTemplatePage } from './loadTemplatePage';
 import { resolveFormSignatures } from '@/lib/signatureAssets';
-import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';
+import { PDFDocument, rgb } from 'pdf-lib';
 import { wrapTextForForm } from './textWrap';
+import { embedPdfFont } from './fonts';
 
 // NAVMC 118(11) - Administrative Remarks (Page 11 / 6105)
 // This generator loads the official form template and overlays text
@@ -315,7 +316,7 @@ export async function generateNavmc11811Pdf(
   const page = pdfDoc.getPage(0);
 
   // Embed fonts - Use Times Roman to match official government forms
-  const font = await pdfDoc.embedFont(StandardFonts.TimesRoman);
+  const font = await embedPdfFont(pdfDoc, 'times');
   const FONT_SIZE = 10;
 
   // Fill in NAME field (left-aligned, with placeholder highlighting)
@@ -413,7 +414,7 @@ export interface Navmc11811Fit {
 let measurementFontPromise: Promise<PDFFont> | null = null;
 function measurementFont(): Promise<PDFFont> {
   measurementFontPromise ??= PDFDocument.create().then((doc) =>
-    doc.embedFont(StandardFonts.TimesRoman)
+    embedPdfFont(doc, 'times')
   );
   return measurementFontPromise;
 }

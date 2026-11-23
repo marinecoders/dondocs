@@ -16,9 +16,7 @@ import { isDirective } from '@/lib/directiveFormats';
 
 export const TEXT_WIDTH_IN = 6.5;
 
-export function getDocxFontName(fontFamily?: string): string {
-  return fontFamily === 'courier' ? 'Courier New' : 'Times New Roman';
-}
+export { documentFontName as getDocxFontName } from '../fonts';
 
 export interface LayoutProportions {
   /** 3-col letterhead: seal | centered org text | right spacer */

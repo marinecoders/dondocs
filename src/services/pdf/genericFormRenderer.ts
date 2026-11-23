@@ -1,7 +1,8 @@
 import { templatePageGeometry, assertFormGeometry } from '@/services/forms/geometry';
 import type { FormDiagnostic } from '@/services/forms/model';
 import { formAssetUrl } from '@/lib/releasePaths';
-import { PDFDocument, StandardFonts, rgb, pushGraphicsState, popGraphicsState, concatTransformationMatrix } from 'pdf-lib';
+import { PDFDocument, rgb, pushGraphicsState, popGraphicsState, concatTransformationMatrix } from 'pdf-lib';
+import { embedPdfFont } from './fonts';
 import { calculateTextPosition } from './extractFormFields';
 import { wrapTextForForm } from './textWrap';
 import {
@@ -112,7 +113,7 @@ export async function renderFormPdf(
   rows = structuredClone(rows);
   overflow = { ...overflow };
   const doc = await PDFDocument.create();
-  const font = await doc.embedFont(StandardFonts.Helvetica);
+  const font = await embedPdfFont(doc, 'helvetica');
   type Page = ReturnType<typeof doc.addPage>;
   type Font = typeof font;
 
