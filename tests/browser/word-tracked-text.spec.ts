@@ -27,7 +27,7 @@ for (const theme of ['light', 'dark', 'classic'] as const) test(`Word tracked te
   const errors: string[] = []; page.on('pageerror', error => errors.push(error.message));
   await page.addInitScript(value => {
     localStorage.setItem('browser-test-visitor', 'returning');
-    localStorage.setItem('dondocs_ui', JSON.stringify({ version: 1, state: { theme: value, editorLayout: 'scroll' } }));
+    localStorage.setItem('dondocs_ui', JSON.stringify({ version: 1, state: { theme: value, editorLayout: 'scroll', previewVisible: false } }));
   }, theme);
   await page.goto('/');
   await page.getByRole('textbox', { name: 'Subject', exact: true }).fill('PRIOR TRACKED DRAFT');

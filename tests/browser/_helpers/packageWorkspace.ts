@@ -52,7 +52,8 @@ export async function openPackagePreparation(page: Page) {
 }
 
 export async function packageSection(dialog: Locator, section: 'Overview' | 'Documents' | 'Review' | 'Delivery', advanced = false) {
-  await dialog.getByRole('navigation', { name: 'Package workspace', exact: true }).getByRole('button', { name: section, exact: true }).click();
+  const target = dialog.getByRole('navigation', { name: 'Package workspace', exact: true }).getByRole('button', { name: section, exact: true });
+  if (await target.getAttribute('aria-current') !== 'location') await target.click();
   if (advanced) await expandPackageTools(dialog);
 }
 

@@ -110,8 +110,9 @@ describe('workspace full-text search', () => {
   it('routes staff-paper details and directive numbers to their visible sections', () => {
     const paper = sessionSearchFields(session({ docType: 'information_paper', formData: { preparedBy: 'Synthetic author' } }));
     expect(findSearchMatch(paper, 'author')?.field.sectionId).toBe('staff-paper');
-    const directive = sessionSearchFields(session({ docType: 'marine_corps_order', formData: { directiveNumber: '5215.7' } }));
+    const directive = sessionSearchFields(session({ docType: 'marine_corps_order', formData: { directiveNumber: '5215.7', officeCode: 'SPONSOR-TEST' } }));
     expect(findSearchMatch(directive, '5215.7')?.field.sectionId).toBe('directive');
+    expect(findSearchMatch(directive, 'SPONSOR-TEST')?.field.sectionId).toBe('directive');
   });
   it('searches both forms, including signature statements, without indexing images or unrelated forms', () => {
     const fields = sessionSearchFields(session({ documentCategory: 'forms', forms: { includeCoverPage: false,

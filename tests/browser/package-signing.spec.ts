@@ -60,7 +60,7 @@ async function inputPackage() {
 
 for (const theme of ['light', 'dark', 'classic']) for (const width of [1440, 320]) test(`exact package signing and reviewed returns preserve newer work in ${theme} at ${width}px`, async ({ page, context, browser, baseURL }, info) => {
   await page.setViewportSize({ width, height: 950 });
-  await context.addInitScript(value => { localStorage.setItem('browser-test-visitor', 'returning'); localStorage.setItem('dondocs_ui', JSON.stringify({ version: 1, state: { theme: value, editorLayout: 'focused' } })); }, theme);
+  await context.addInitScript(value => { localStorage.setItem('browser-test-visitor', 'returning'); localStorage.setItem('dondocs_ui', JSON.stringify({ version: 1, state: { theme: value, editorLayout: 'focused', previewVisible: false } })); }, theme);
   const fixture = await inputPackage(); await page.goto('/'); let dialog = await packages(page);
   await importPackage(dialog, { name: 'synthetic-signing-package.json', mimeType: 'application/json', buffer: fixture.buffer });
   await packageSection(dialog, 'Delivery');

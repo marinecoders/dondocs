@@ -84,7 +84,7 @@ function correspondenceSection(session: SerializedSession, path: FieldPath, labe
     const heading = ['moa', 'joint', 'joint_memo', 'executive', 'addressing', 'cover', 'sl3-cover', 'sl4-cover'].find(id => labels.has(id));
     if (/^(class|cui|customClassification|derivedFrom|declassifyOn|pocEmail)/i.test(key)) return 'classification';
     if (isStaffPaper(session.docType) && /^(subject$|date$|officeCode$|preparedBy$|staff[A-Z]|coordination[A-Z])/.test(key)) return 'staff-paper';
-    if (labels.has('directive') && /^directive[A-Z]/.test(key)) return 'directive';
+    if (labels.has('directive') && (key === 'officeCode' || /^directive[A-Z]/.test(key))) return 'directive';
     if (/^(department|unit|seal|letterhead|inReplyTo)/.test(key)) return ['sl4-cover', 'sl3-cover', 'cover', 'letterhead'].find(id => labels.has(id));
     if (key === 'additionalEndorsements' || /^(sig|acting|seniorActing|juniorActing|byDirection|officeCode|complimentaryClose|endorsement(Sig|Body|From|To|Date|Serial))/.test(key)) return labels.has('signature') ? 'signature' : heading;
     if (/^(basicLetter|endorsementOrdinal)/.test(key)) return 'basic';
