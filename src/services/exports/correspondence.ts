@@ -13,6 +13,8 @@ import { copyPreparedDocument, preparedExportMarking, type ReadyExportJob } from
 import { createExportArtifact, type ExportArtifact } from '@/lib/exportExecution';
 import { withAttachmentResources, copyAttachment } from '@/lib/attachmentResources';
 import type { StoredAttachment } from '@/lib/documentsDb';
+import type { DocumentSnapshot } from '@/stores/historyStore';
+import type { ClassificationInfo } from '@/services/pdf/mergeEnclosures';
 import { generateAllLatexFiles, enclosureRenderData } from '@/services/latex/generator';
 import { generateFlatLatex } from '@/services/latex/flat-generator';
 import { loadFigureFiles } from '@/services/latex/figureAssets';
@@ -52,12 +54,11 @@ export async function renderPreparedCorrespondence(ready: ReadyExportJob, ports:
   const captured = copyPreparedDocument(ready);
   if (captured.kind !== 'correspondence') throw new Error('This renderer accepts correspondence jobs.');
   const document = captured.document;
-  if (ready.job.target !== 'docx' && document.formData.signatureType === 'image' && supportsCorrespondenceSignatureImage(document.docType)) document.formData.signatureImage = await resolveSignature(document.formData.signatureImage);
   const referenceDate = new Date(ready.job.source.capturedAt);
   const { target, texMode } = ready.job;
   const marking = preparedExportMarking(ready);
   const resolvedLevel = document.formData.classLevel ?? 'unclassified';
-  const { compile, convertDocx, onProgress, onDocxProgress } = ports;
+  const { convertDocx, onProgress, onDocxProgress } = ports;
   const reportProgress = (phase: CorrespondenceRenderPhase) => {
     observeProgress(onProgress, phase);
     checkCancellation(signal);
@@ -109,11 +110,36 @@ export async function renderPreparedCorrespondence(ready: ReadyExportJob, ports:
     });
   }
   if (target === 'tex') {
+    if (document.formData.signatureType === 'image' && supportsCorrespondenceSignatureImage(document.docType)) document.formData.signatureImage = await resolveSignature(document.formData.signatureImage);
     const text = texMode === 'flat' ? generateFlatLatex(document, resolvedLevel, 'tex')
       : `% DonDocs configuration fragments. Templates and binary assets are transferred separately.\n% Captured: ${new Date(ready.job.source.capturedAt).toISOString()}\n\n`
         + Object.entries(generateAllLatexFiles(document, resolvedLevel, referenceDate).texFiles).map(([name, contents]) => `% ===== ${name} =====\n${contents}`).join('\n');
     return createExportArtifact(ready, new Blob([text], { type: 'text/plain' }));
   }
+  const { pdfBytes, errors } = await renderCorrespondencePdf(document, {
+    referenceDate, marking, tagged: ready.job.pdfAccessibility === 'tagged',
+  }, ports, signal);
+  return createExportArtifact(ready, new Blob([new Uint8Array(pdfBytes)], { type: 'application/pdf' }),
+    errors.map(error => ({ message: error.error, asset: error.title })));
+}
+
+/** Render an owned correspondence snapshot. Delivery and review remain with
+ * the caller, so the same PDF pipeline can also render a draft for printing. */
+export async function renderCorrespondencePdf(
+  document: DocumentSnapshot,
+  { referenceDate, marking, tagged }: { referenceDate: Date; marking?: ClassificationInfo; tagged?: boolean },
+  ports: Pick<CorrespondenceRendererPorts, 'compile' | 'assets' | 'onProgress'>,
+  signal: AbortSignal,
+): ReturnType<typeof finishCorrespondencePdf> {
+  const { compile, onProgress } = ports;
+  const reportProgress = (phase: CorrespondenceRenderPhase) => {
+    observeProgress(onProgress, phase);
+    checkCancellation(signal);
+  };
+  if (document.formData.signatureType === 'image' && supportsCorrespondenceSignatureImage(document.docType)) {
+    document.formData.signatureImage = await resolveSignature(document.formData.signatureImage);
+  }
+  const resolvedLevel = document.formData.classLevel ?? 'unclassified';
   const ids = new Set<string>();
   if (document.docType === 'new_page_endorsement' && document.formData.basicLetterFileRef && !document.formData.basicLetterFile?.data) ids.add(document.formData.basicLetterFileRef.id);
   for (const enclosure of document.enclosures) if (enclosure.fileRef && !enclosure.file?.data) ids.add(enclosure.fileRef.id);
@@ -121,10 +147,10 @@ export async function renderPreparedCorrespondence(ready: ReadyExportJob, ports:
   const assets = ports.assets ?? storedExportAssets;
   return assets.withAssets([...ids], async read => {
     checkCancellation(signal);
-    if (ready.job.pdfAccessibility === 'tagged') {
+    if (tagged) {
       const bytes = await renderTaggedCorrespondence(document, { referenceDate, signal, read, compile, onCompiling: () => reportProgress('pdf-compiling') });
       reportProgress('pdf-saving');
-      return createExportArtifact(ready, new Blob([new Uint8Array(bytes)], { type: 'application/pdf' }));
+      return { pdfBytes: bytes, errors: [] };
     }
     if (document.docType === 'new_page_endorsement' && document.formData.basicLetterFileRef && !document.formData.basicLetterFile?.data) {
       const ref = document.formData.basicLetterFileRef;
@@ -158,6 +184,6 @@ export async function renderPreparedCorrespondence(ready: ReadyExportJob, ports:
     const finished = await finishCorrespondencePdf(pdf, document.docType, document.formData, generated, document.paragraphs, { marking, referenceDate, signal });
     checkCancellation(signal);
     reportProgress('pdf-saving');
-    return createExportArtifact(ready, new Blob([new Uint8Array(finished.pdfBytes)], { type: 'application/pdf' }), finished.errors.map(error => ({ message: error.error, asset: error.title })));
+    return finished;
   });
 }
