@@ -5,6 +5,7 @@ import { projectRenderedDocument } from '@/lib/renderedDocument';
 import { finishCorrespondencePdf } from '@/services/pdf/finishCorrespondencePdf';
 import { documentCapabilities, capabilityAvailable } from '@/lib/documentCapabilities';
 import { useOutputCapabilities } from '@/hooks/useOutputCapabilities';
+import { useStarterExamples } from '@/hooks/useStarterExamples';
 import type { DocumentSnapshot } from '@/stores/historyStore';
 import { saveCheckpoint } from '@/lib/saveCheckpoint';
 import { usePageScrollLayout } from '@/hooks/usePageScrollLayout';
@@ -191,6 +192,8 @@ function App() {
   const enclosures = useDocumentStore((s) => s.enclosures);
   const paragraphs = useDocumentStore((s) => s.paragraphs);
   const copyTos = useDocumentStore((s) => s.copyTos);
+  const starterExamples = useStarterExamples(workspaceReady, docType, formData, copyTos);
+  const hiddenStarterSections = starterExamples.hiddenSections;
   const distributions = useDocumentStore((s) => s.distributions);
   const endItems = useDocumentStore((s) => s.endItems);
   const publicationTables = useDocumentStore((s) => s.publicationTables);
@@ -209,7 +212,8 @@ function App() {
   useInstallPrompt();
   const isInstalled = useInstallStore((s) => s.isInstalled);
 
-  const [pdfUrl, setPdfUrl] = useState<string | null>(null);
+  const [pdfPreview, setPdfPreview] = useState<{ url: string; hasHints: boolean } | null>(null);
+  const pdfUrl = pdfPreview?.url;
   const [formPdfUrl, setFormPdfUrl] = useState<string | null>(null);
   const [pdfDocumentId, setPdfDocumentId] = useState<string | null>(null);
   const [formPdfDocumentId, setFormPdfDocumentId] = useState<string | null>(null);
@@ -235,10 +239,10 @@ function App() {
   const formCompileTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const isResettingRef = useRef(false);
   // Idle-time full-quality preview upgrade. When fullQualityPreview is off
-  // (default, for responsiveness), the resting preview is upgraded to match the
-  // download — enclosures merged, signature fields added — once the user goes
-  // idle. previewGenRef stamps each compile so a stale idle pass never swaps in
-  // an out-of-date PDF; the idle handle is cancelled when a newer compile starts.
+  // (default, for responsiveness), the resting preview gets its enclosures and
+  // signature fields once the user goes idle. previewGenRef stamps each compile
+  // so an earlier pass cannot replace the current PDF. A new compile cancels
+  // the existing idle handle.
   const [previewEnhanced, setPreviewEnhanced] = useState(false);
   const previewGenRef = useRef(0);
   const idleEnhanceRef = useRef<number | null>(null);
@@ -409,12 +413,10 @@ function App() {
 
   // Compile PDF
   // Upgrade a base preview PDF to full quality — merge enclosures + hyperlink
-  // annotations, then add signature fields — reusing the exact export pipeline so
-  // the resting preview equals the download. Regenerates from the passed store so
-  // it's safe to run detached (at idle). Returns the enhanced bytes.
+  // annotations, then add signature fields using the same finishing steps as
+  // export. Both preview passes keep the hints from the captured compile.
   const enhancePreviewPdf = useCallback(
-    async (pdfBytes: Uint8Array, currentStore: DocumentSnapshot, referenceDate: Date): Promise<Uint8Array> => {
-      const generated = generateAllLatexFiles(currentStore, currentStore.formData.classLevel, referenceDate);
+    async (pdfBytes: Uint8Array, currentStore: DocumentSnapshot, referenceDate: Date, generated: GeneratedFiles): Promise<Uint8Array> => {
       const finished = await finishCorrespondencePdf(pdfBytes, currentStore.docType, currentStore.formData, generated, currentStore.paragraphs, { marking: publicationMarking(currentStore.formData, currentStore.paragraphs), referenceDate });
       if (finished.errors.length) throw new Error(finished.errors.map(issue => `${issue.title}: ${issue.error}`).join('; '));
       return finished.pdfBytes;
@@ -453,7 +455,8 @@ function App() {
       const captured = projectRenderedDocument(captureCurrentDocumentRevision());
       const currentStore = copyCapturedDocument(captured).document;
       const referenceDate = new Date(captured.source.capturedAt);
-      const { texFiles, enclosures: generatedEnclosures, includeHyperlinks, signatureImage, referenceUrls, figures } = generateAllLatexFiles(currentStore, currentStore.formData.classLevel, referenceDate);
+      const generated = generateAllLatexFiles(currentStore, currentStore.formData.classLevel, referenceDate, undefined, { previewHints: true, hiddenStarterSections });
+      const { texFiles, enclosures: generatedEnclosures, includeHyperlinks, signatureImage, referenceUrls, figures } = generated;
 
       // Build files object including signature image if present
       const files: Record<string, string | Uint8Array> = { ...texFiles };
@@ -480,7 +483,7 @@ function App() {
         // the base letter is shown now (fast) and upgraded to full quality once
         // the user is idle (see below), so per-keystroke previews stay cheap.
         if (fullQualityPreview && hasEnhancements) {
-          pdfBytes = await enhancePreviewPdf(pdfBytes, currentStore, referenceDate);
+          pdfBytes = await enhancePreviewPdf(pdfBytes, currentStore, referenceDate, generated);
         }
         if (!isCurrentDocumentTarget(target) || gen !== previewGenRef.current) return;
 
@@ -498,7 +501,7 @@ function App() {
 
         const blob = new Blob([new Uint8Array(pdfBytes)], { type: 'application/pdf' });
         const url = URL.createObjectURL(blob);
-        setPdfUrl(url);
+        setPdfPreview({ url, hasHints: !!generated.hasPreviewHints });
         setPdfDocumentId(previewDocumentId);
         setRenderedCorrespondence(target);
         setPreviewEnhanced(fullQualityPreview && hasEnhancements);
@@ -509,24 +512,24 @@ function App() {
         lastShownCompileErrorRef.current = null;
 
         // Not full-quality but there's more to show: upgrade the resting preview
-        // to match the download once the browser is idle. Guarded by the compile
-        // generation so it can only ever run after the user has stopped editing.
+        // with export-quality finishing once the browser is idle. The compile
+        // generation keeps an earlier edit from replacing the current preview.
         if (!fullQualityPreview && hasEnhancements) {
           const runIdleEnhance = () => {
             idleEnhanceRef.current = null;
             if (!isCurrentDocumentTarget(target) || gen !== previewGenRef.current) return; // a newer compile superseded us
-            void enhancePreviewPdf(basePdfBytes, currentStore, referenceDate)
+            void enhancePreviewPdf(basePdfBytes, currentStore, referenceDate, generated)
               .then((enhanced) => {
                 if (!isCurrentDocumentTarget(target) || gen !== previewGenRef.current) return; // went stale during the async work
                 const enhancedUrl = URL.createObjectURL(
                   new Blob([new Uint8Array(enhanced)], { type: 'application/pdf' })
                 );
-                setPdfUrl((prev) => {
+                setPdfPreview((prev) => {
                   // Deferred like the resting-compile revocation above: the
                   // viewer may be mid-load on `prev` when the enhanced swap
                   // lands.
-                  if (prev) setTimeout(() => URL.revokeObjectURL(prev), 5000);
-                  return enhancedUrl;
+                  if (prev) setTimeout(() => URL.revokeObjectURL(prev.url), 5000);
+                  return { url: enhancedUrl, hasHints: !!generated.hasPreviewHints };
                 });
                 setPreviewEnhanced(true);
               })
@@ -565,7 +568,7 @@ function App() {
     }
     // documentStore is read via getState() inside, so it's not a dep; only the
     // values closed over are. pdfUrl is captured for revocation.
-  }, [isReady, compile, pdfUrl, addLogDirect, fullQualityPreview, enhancePreviewPdf, cancelIdleEnhance]);
+  }, [isReady, compile, pdfUrl, addLogDirect, fullQualityPreview, enhancePreviewPdf, cancelIdleEnhance, hiddenStarterSections]);
 
   // Auto-open the compile-error modal when a new error (different message than
   // the last one shown) appears, so a persistent error doesn't re-pop every
@@ -630,6 +633,7 @@ function App() {
     endItems,
     publicationTables,
     fullQualityPreview,
+    hiddenStarterSections,
   ]);
 
   // Form PDF preview state. Templates load async, so cache them.
@@ -794,7 +798,8 @@ function App() {
 
   const currentPreviewUrl = documentCategory === 'forms'
     ? (formPdfDocumentId === currentDocId ? formPdfUrl : null)
-    : (pdfDocumentId === currentDocId ? pdfUrl : null);
+    : (pdfDocumentId === currentDocId ? pdfUrl ?? null : null);
+  const previewHasHints = documentCategory !== 'forms' && !!pdfPreview?.hasHints;
 
   // Global keyboard shortcuts
   useEffect(() => {
@@ -839,8 +844,10 @@ function App() {
       // Ctrl/Cmd + P - Print (trigger browser print on the PDF)
       if (isMod && e.key === 'p') {
         e.preventDefault();
-        if (currentPreviewUrl) {
-          // Print the active document's preview, including NAVMC forms.
+        if (previewHasHints) {
+          requestExport('pdf', undefined, 'print');
+        } else if (currentPreviewUrl) {
+          // Print the active document's clean preview, including NAVMC forms.
           const printWindow = window.open(currentPreviewUrl, '_blank');
           if (printWindow) {
             // { once: true } so the listener auto-removes after firing,
@@ -904,6 +911,8 @@ function App() {
     updating,
     handleDownloadPdf,
     currentPreviewUrl,
+    previewHasHints,
+    requestExport,
     setTemplateLoaderOpen,
     setReferenceLibraryOpen,
     setFindReplaceOpen,
@@ -1259,7 +1268,14 @@ function App() {
 
             <main id={commandPaletteOpen ? undefined : 'main-content'} ref={mainContainerRef} className="workspace-main flex flex-1 min-w-0 overflow-hidden">
               {/* Form Panel - takes remaining space when preview is visible */}
-              <div className="workspace-form-panel min-w-0 flex-1 overflow-hidden">
+              <div className="workspace-form-panel min-w-0 flex-1 overflow-hidden" onInput={event => {
+                // Buffered and shared fields need the editor's input event to identify the edit.
+                if (!(event.target instanceof HTMLInputElement)) return;
+                const section = event.target.closest<HTMLElement>('[data-preview-input-category]')?.dataset.previewInputCategory;
+                if (section === 'letterhead' || section === 'senderSymbols' || section === 'addressing' || section === 'signature') {
+                  starterExamples.onCategoryInput(section);
+                }
+              }}>
                 <FormPanel />
               </div>
 
@@ -1285,6 +1301,8 @@ function App() {
                     documentId={currentDocId ?? undefined}
                     onDownloadPdf={handleDownloadPdf}
                     pdfUrl={currentPreviewUrl}
+                    hasHints={previewHasHints}
+                    starterExamples={documentCategory === 'forms' ? undefined : starterExamples}
                     isCompiling={previewBusy}
                     isWarmingUp={documentCategory === 'forms' ? false : !isReady}
                     previewEnhanced={documentCategory === 'forms' ? true : previewEnhanced}
@@ -1315,6 +1333,8 @@ function App() {
           <MobilePreviewModal
             documentId={currentDocId ?? undefined}
             pdfUrl={currentPreviewUrl}
+            hasHints={previewHasHints}
+            starterExamples={documentCategory === 'forms' ? undefined : starterExamples}
             isCompiling={previewBusy}
             error={documentCategory === 'forms' ? formError : (compileError || engineError)}
             onDownloadPdf={handleDownloadPdf}

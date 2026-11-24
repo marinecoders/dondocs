@@ -108,13 +108,13 @@ export function validatePublicationVolume(value: unknown, paragraphs: readonly V
   if (characters > VOLUME_LIMITS.characters) throw new Error('The volume exceeds the supported body text limit.');
   return volume;
 }
-export function publicationVolumeErrors(value: unknown, paragraphs: readonly Paragraph[]): string[] {
+export function publicationVolumeErrors(value: unknown, paragraphs: readonly Paragraph[], options?: { allowEmptyContent?: boolean }): string[] {
   let volume: PublicationVolume;
   try { volume = validatePublicationVolume(value, paragraphs); }
   catch (error) { return [error instanceof Error ? error.message : 'Invalid publication volume.']; }
   const errors: string[] = [];
   if (volumeOutline(volume).some(node => !node.title.trim())) errors.push('Give every chapter, appendix and section a title.');
-  if (!paragraphs.some(paragraph => paragraph.text.trim() || paragraph.bodyTable || paragraph.figure)) errors.push('Add content to the volume.');
+  if (!options?.allowEmptyContent && !paragraphs.some(paragraph => paragraph.text.trim() || paragraph.bodyTable || paragraph.figure)) errors.push('Add content to the volume.');
   const targets = new Set(volumeReferenceTargets(volume, paragraphs).map(target => target.id));
   const texts = [...volumeOutline(volume).map(node => node.title), ...paragraphs.flatMap(paragraph => [paragraph.text, paragraph.header ?? '', ...(paragraph.bodyTable?.rows.flat() ?? [])]), ...volume.glossary.flatMap(entry => [entry.term, entry.definition]), ...volume.changes.flatMap(entry => [entry.number, entry.date, entry.description])];
   if (texts.some(text => text.includes('{{PUBREF_'))) errors.push('Replace older publication references using the volume reference picker.');

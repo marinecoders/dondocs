@@ -5,9 +5,9 @@ import { bodyTableLiteral } from './bodyTableText';
 
 type Escape = (value: string) => string;
 
-export function staffPaperLayout(docType: string, data: Partial<DocumentData>, escape: Escape, word = false) {
+export function staffPaperLayout(docType: string, data: Partial<DocumentData>, escape: Escape, word = false, hints?: Partial<Record<'subject' | 'date' | 'officeCode' | 'preparedBy', string>>) {
   const center = (value: string) => '\\noindent\\begin{tabularx}{\\textwidth}{@{}XcX@{}} & ' + value + ' & \\\\ \\end{tabularx}\n\n';
-  const line = (label: string, value?: string) => value?.trim() ? '\\noindent ' + label + ' ' + escape(value.trim()) + '\\par\n\n' : '';
+  const line = (label: string, value?: string, hint?: string) => hint || value?.trim() ? '\\noindent ' + label + ' ' + (hint || escape(value?.trim() ?? '')) + '\\par\n\n' : '';
 
   if (docType === 'coordination_page') {
     const hqmc = data.coordinationLayout === 'hqmc';
@@ -15,7 +15,7 @@ export function staffPaperLayout(docType: string, data: Partial<DocumentData>, e
       word ? text => text.split('\n').map(escape).join('\\newline ') : text => bodyTableLiteral(text),
       { ...(word ? { repeatHeaders: false, wordIndex: 0 } : {}), ...(!hqmc ? { headerStyle: 'underline' as const } : {}) });
     const body = word ? table : '{\\setlength{\\parskip}{0pt}\n' + table + '}\n';
-    const heading = center('COORDINATION PAGE') + (hqmc ? line('Subj:', data.subject?.toUpperCase()) : '');
+    const heading = center('COORDINATION PAGE') + (hqmc ? line('Subj:', data.subject?.toUpperCase(), hints?.subject) : '');
     const comments = hqmc ? (data.coordinationComments ?? '').trim().split('\n').filter(Boolean) : [];
     const divider = word ? '\\dondocscoordinationdivider' : '\\noindent\\rule{\\textwidth}{0.4pt}';
     const closing = comments.length
@@ -25,11 +25,11 @@ export function staffPaperLayout(docType: string, data: Partial<DocumentData>, e
   }
 
   const decision = docType === 'position_decision_paper';
-  const meta = [data.officeCode, data.date].flatMap(value => value?.trim() ? [escape(value.trim())] : []);
+  const meta = [hints?.officeCode || escape(data.officeCode?.trim() ?? ''), hints?.date || escape(data.date?.trim() ?? '')].filter(Boolean);
   const top = meta.length ? '\\noindent\\begin{tabularx}{\\textwidth}{@{}Xr@{}}\n' + meta.map(value => ' & ' + value + ' \\\\').join('\n')
     + '\n\\end{tabularx}\n\n' : '';
-  const heading = top + center(decision ? 'POSITION/DECISION PAPER' : 'INFORMATION PAPER') + line('Subject:', data.subject?.toUpperCase());
-  const attribution = line('Prepared by:', data.preparedBy) + (decision ? line('Approved by:', data.staffApprovedBy) : '');
+  const heading = top + center(decision ? 'POSITION/DECISION PAPER' : 'INFORMATION PAPER') + line('Subject:', data.subject?.toUpperCase(), hints?.subject);
+  const attribution = line('Prepared by:', data.preparedBy, hints?.preparedBy) + (decision ? line('Approved by:', data.staffApprovedBy) : '');
   let closing = '\\par\\vspace{12pt}\n\n' + attribution;
   if (!decision) return { heading, body: '', closing };
   closing += '\\vspace{12pt}\n\n';

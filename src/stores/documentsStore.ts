@@ -39,7 +39,7 @@ import {
   type DocumentState,
 } from './documentStore';
 import { useUIStore } from './uiStore';
-import { useProfileStore } from './profileStore';
+import { isStarterProfile, useProfileStore } from './profileStore';
 import { canonicalizeUnitAddress } from '@/lib/unitAddress';
 import { migratePortionMarkings } from '@/lib/paragraphUtils';
 import { ensureParagraphIds, paragraphCommentIds } from '@/lib/paragraphIdentity';
@@ -351,7 +351,10 @@ export function restoreSavedDocument(): TransitionOutcome {
 function createCorrespondenceSession(docType = 'naval_letter'): SerializedSession {
   const session = createBlankSession(undefined, docType);
   const { selectedProfile, profiles } = useProfileStore.getState();
-  if (selectedProfile && profiles[selectedProfile]) session.formData = { ...session.formData, ...profileFormPatch(profiles[selectedProfile]) };
+  const profile = selectedProfile ? profiles[selectedProfile] : undefined;
+  if (selectedProfile && profile && !isStarterProfile(selectedProfile, profile)) {
+    session.formData = { ...session.formData, ...profileFormPatch(profile) };
+  }
   return session;
 }
 
@@ -518,11 +521,9 @@ export function isMeaningful(s: SerializedSession): boolean {
 
 // A fingerprint of the *content* fields a user actually fills — what the letter
 // says and who it's addressed to / copied to — excluding document configuration
-// (letterhead, From, SSIC, serial, date, signature, font, doc-type). The starter
-// document ships with demo references and copy-tos, so "has a copy-to" can't mean
-// "has work"; instead we diff these fields against the doc's starting baseline, so
-// only fields the USER changed from that starting point count. Review feedback
-// is user work even when the draft itself still contains starter text.
+// (letterhead, From, SSIC, serial, date, signature, font, doc-type). Compare
+// against the document's starting baseline, so only fields the author changed
+// count. Review feedback is user work even when the draft is blank.
 function contentFingerprint(s: SerializedSession): string {
   if (s.documentCategory === 'forms' && s.genericForm) return JSON.stringify(s.genericForm);
   if (s.documentCategory === 'forms') return JSON.stringify(s.forms ?? {});
@@ -643,7 +644,7 @@ export function sameContent(a: SerializedSession, b: SerializedSession): boolean
 /**
  * Seed the live document with the selected profile's letterhead, signatory, and
  * signature. Applied to a freshly-reset blank so "New document" starts from the
- * user's profile rather than the demo default. Shared by App's first-load seed
+ * user's profile rather than blank content fields. Shared by App's first-load seed
  * and newDocument/remove's blank fallback.
  */
 /**
@@ -657,7 +658,7 @@ export function profileFormPatch(profile: Profile) {
   // A profile with no signer must NOT blank the document's existing signature —
   // that left new docs unsigned (and, before the \printSignature guard, crashed
   // the compile). Only overwrite the signature block when the profile carries a
-  // signer; otherwise the doc keeps DEFAULT_FORM_DATA's signatory or its own.
+  // signer; otherwise the document keeps its own signatory.
   const hasSigner = !!(profile.sigFirst?.trim() || profile.sigLast?.trim());
   return {
     department: profile.department,
@@ -1624,6 +1625,7 @@ export const useDocumentsStore = create<DocumentsState>((set, get) => ({
       const trash = { ...get().trash };
       if (matches(trash[id])) delete trash[id];
       set({ trash });
+      useUIStore.getState().forgetStarterExampleEdits(id);
       broadcastDocs({ type: 'delete', id });
       scheduleBackup();
       void import('@/lib/attachmentGc')
@@ -1664,6 +1666,9 @@ export const useDocumentsStore = create<DocumentsState>((set, get) => ({
       updatedAt: Date.now(),
     };
     const dup: DocumentEntry = { meta, session: entry.session };
+    useUIStore.getState().rememberStarterExampleEdits(id, []);
+    const edits = useUIStore.getState().starterExampleEdits[id];
+    if (edits?.length) useUIStore.getState().rememberStarterExampleEdits(copyId, edits);
     set({ docs: { ...docs, [copyId]: dup } });
     persistEntry(dup);
     debug.log('Documents', 'Duplicated document', { from: id, to: copyId });

@@ -209,9 +209,9 @@ describe('documentsStore — registry state machine', () => {
     expect(state.currentId).not.toBe('doc-only');
     expect(state.currentId).not.toBeNull();
     expect(Object.keys(state.docs)).toHaveLength(0);
-    // The live document is a fresh blank correspondence doc (placeholder subject).
+    // The live document is a fresh blank correspondence draft.
     expect(useDocumentStore.getState().documentCategory).toBe('correspondence');
-    expect(useDocumentStore.getState().formData.subject).toBe('[SUBJECT]');
+    expect(useDocumentStore.getState().formData.subject).toBe('');
   });
 
   it('6. renameDocument overrides the auto title and survives a later autosave', () => {

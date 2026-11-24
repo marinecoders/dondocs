@@ -21,7 +21,10 @@ it.each(['enclosure', 'basic-letter'] as const)('requires fresh embedded %s byte
   const freshPdf = await PDFDocument.create(); freshPdf.addPage([612, 792]); freshPdf.setTitle('FRESH REPLACEMENT'); const freshData = new Uint8Array(await freshPdf.save()).buffer;
   const session = createBlankSession(); session.documentMode = 'custom';
   if (kind === 'basic-letter') session.docType = 'new_page_endorsement';
-  session.formData = { ...session.formData, subject: 'Reusable embedded file action', from: 'Training Office', to: 'Training Officer', sigLast: 'EXAMPLE', signatureType: 'none' };
+  session.formData = {
+    ...session.formData, subject: 'Reusable embedded file action', from: 'Training Office', to: 'Training Officer',
+    unitLine1: 'Training Command', ssic: '5216', date: '23 Nov 26', sigLast: 'EXAMPLE', signatureType: 'none',
+  };
   const mainSnapshot = { ...session, docType: 'naval_letter', endItems: [], publicationTables: {}, paragraphs: [{ id: 'main', text: 'Fictional training main letter.', level: 0 }], enclosures: [] };
   const main = await capturePackageMember(captureDocumentRevision({ documentId: 'main_source', capturedAt: 100, editSequence: 1, epoch: 0 }, mainSnapshot), 'Main letter', 'basic-letter');
   if (kind === 'basic-letter') session.formData = { ...session.formData, basicLetterId: composeBasicLetterId(mainSnapshot), endorsementOrdinal: 'FIRST' };

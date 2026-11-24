@@ -1,28 +1,10 @@
 import { create } from 'zustand';
 import { createJSONStorage, persist } from 'zustand/middleware';
 import { compressedLocalStorage } from '@/lib/compressedStorage';
+import { STARTER_PROFILE, STARTER_PROFILE_NAME } from '@/data/starterCorrespondence';
 import type { Profile } from '@/types/document';
 
-// The default profile every new user starts on. Signature fields are blank so
-// each user fills in their own.
-const DEFAULT_PROFILE_NAME = 'Marine Innovation Unit';
-
-const DEFAULT_PROFILES: Record<string, Profile> = {
-  [DEFAULT_PROFILE_NAME]: {
-    department: 'usmc',
-    unitLine1: 'MARINE INNOVATION UNIT',
-    unitLine2: 'MARINE FORCES RESERVE',
-    unitAddress: '10 MCDONALD STREET, NEWBURGH, NY 12550',
-    ssic: '5216',
-    from: 'Commanding Officer, Marine Innovation Unit',
-    sigFirst: '',
-    sigMiddle: '',
-    sigLast: '',
-    sigRank: '',
-    sigTitle: 'Commanding Officer',
-    pocEmail: '',
-  },
-};
+const DEFAULT_PROFILES: Record<string, Profile> = { [STARTER_PROFILE_NAME]: STARTER_PROFILE };
 
 // Defaults shipped by earlier builds and since removed. An upgrader who never
 // touched one still has it in their persisted profiles (merge spreads them
@@ -46,14 +28,16 @@ const RETIRED_DEFAULTS: Record<string, Profile> = {
   },
 };
 
-function isUnmodifiedRetiredDefault(name: string, profile: Profile): boolean {
-  const seed = RETIRED_DEFAULTS[name];
-  if (!seed) return false;
+function matchesProfileSeed(profile: Profile, seed: Profile): boolean {
   const keys = new Set([...Object.keys(seed), ...Object.keys(profile)]) as Set<keyof Profile>;
   for (const k of keys) {
     if ((seed[k] ?? '') !== (profile[k] ?? '')) return false;
   }
   return true;
+}
+
+export function isStarterProfile(name: string, profile: Profile): boolean {
+  return name === STARTER_PROFILE_NAME && matchesProfileSeed(profile, STARTER_PROFILE);
 }
 
 interface ProfileState {
@@ -77,8 +61,7 @@ export const useProfileStore = create<ProfileState>()(
   persist(
     (set, get) => ({
       profiles: { ...DEFAULT_PROFILES },
-      // New users start on the default profile (MIU), not "No Profile".
-      selectedProfile: DEFAULT_PROFILE_NAME,
+      selectedProfile: null,
       hiddenDefaults: [],
 
       addProfile: (name, profile) => set((state) => ({
@@ -139,7 +122,7 @@ export const useProfileStore = create<ProfileState>()(
         // on upgrade — but never one the user edited, reused, or has selected.
         const persistedProfiles = { ...(persisted?.profiles || {}) };
         for (const [name, profile] of Object.entries(persistedProfiles)) {
-          if (name !== persisted?.selectedProfile && isUnmodifiedRetiredDefault(name, profile)) {
+          if (name !== persisted?.selectedProfile && RETIRED_DEFAULTS[name] && matchesProfileSeed(profile, RETIRED_DEFAULTS[name])) {
             delete persistedProfiles[name];
           }
         }

@@ -312,7 +312,6 @@ export function LetterheadSection() {
                   onChange={(e) => setField('unitLine1', e.target.value)}
                   aria-invalid={unitNameInvalid ? true : undefined}
                   aria-describedby={unitNameInvalid ? 'unitLine1-error' : undefined}
-                  placeholder="e.g., HEADQUARTERS UNITED STATES MARINE CORPS"
                 />
                 {unitNameInvalid && (
                   <p id="unitLine1-error" role="alert" className="text-xs text-destructive">
@@ -328,11 +327,10 @@ export function LetterheadSection() {
                   id="unitLine2"
                   value={formData.unitLine2 || ''}
                   onChange={(e) => setField('unitLine2', e.target.value)}
-                  placeholder="Only for very long unit names"
                 />
               </div>
 
-              <div className="space-y-2">
+              <div className="space-y-2" data-preview-input-category="letterhead">
                 <Label>Address</Label>
                 <div className="grid grid-cols-1 sm:grid-cols-6 gap-2">
                   <div className="sm:col-span-6 space-y-1">
@@ -346,7 +344,6 @@ export function LetterheadSection() {
                       id="addressStreet"
                       value={addressParts.street}
                       onChange={(e) => updateAddressPart('street', e.target.value)}
-                      placeholder="e.g., PSC BOX 8050"
                     />
                   </div>
 
@@ -361,7 +358,6 @@ export function LetterheadSection() {
                       id="addressCity"
                       value={addressParts.city}
                       onChange={(e) => updateAddressPart('city', e.target.value)}
-                      placeholder="e.g., CHERRY POINT"
                     />
                   </div>
 
@@ -382,7 +378,6 @@ export function LetterheadSection() {
                           e.target.value.toUpperCase().slice(0, 2)
                         )
                       }
-                      placeholder="NC"
                       maxLength={2}
                       className="uppercase"
                       autoCapitalize="characters"
@@ -405,7 +400,6 @@ export function LetterheadSection() {
                       // ("#####-####"); `pattern` alone never fires without a
                       // native submit, which this form doesn't do.
                       onChange={(e) => updateAddressPart('zip', e.target.value.replace(/[^0-9-]/g, '').slice(0, 10))}
-                      placeholder="28533-0050"
                       maxLength={10}
                       inputMode="numeric"
                       pattern={'[0-9\\-]*'}

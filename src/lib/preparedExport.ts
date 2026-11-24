@@ -1,3 +1,4 @@
+import { assertAppendedEndorsementsAddressed } from './appendedEndorsement';
 import { directiveAddressIssues, directiveAuthorityIssues, directiveIssues, isDirective, isSecnavDirective } from './directiveFormats';
 import { staffPaperIssues } from './staffPapers';
 import { hasDlaStationery } from './dlaLetterhead';
@@ -139,6 +140,7 @@ export function prepareExport(input: {
     const layoutReview = generatedDla && snapshot.documentMode === 'custom';
     let marking: ClassificationInfo | undefined;
     if (output.kind === 'correspondence') {
+      assertAppendedEndorsementsAddressed(snapshot.docType, snapshot.formData);
       if (isDirective(snapshot.docType)) {
         const formatIssues = [...directiveIssues(snapshot.docType, snapshot.formData), ...directiveAddressIssues(snapshot.formData)];
         if (isSecnavDirective(snapshot.docType) && snapshot.documentMode === 'compliant' && input.target !== 'pdf') {

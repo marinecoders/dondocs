@@ -543,7 +543,7 @@ export function Header({
             <AlertDialogDescription>
               {isFormsMode
                 ? 'This clears all fields and signatures in the active form. Other documents are unchanged.'
-                : 'This clears all document content including addressing, signature, paragraphs, references, enclosures, and copy-tos. Your document type, letterhead and font settings are preserved. The date is set to today and other document options reset.'}
+                : 'This clears all document content including addressing, signature, paragraphs, references, enclosures, and copy-tos. Document settings return to the Naval Letter defaults.'}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>

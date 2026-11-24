@@ -14,8 +14,9 @@ import { BodyTableEditor } from './BodyTableEditor';
 import { VolumeFigureEditor } from './VolumeFigureEditor';
 import type { Paragraph } from '@/types/document';
 
-function Field({ label, value, onChange, maxLength = 300 }: { label: string; value: string; onChange: (value: string) => void; maxLength?: number }) {
-  const id = useId();
+function Field({ fieldId, label, value, onChange, maxLength = 300 }: { fieldId?: string; label: string; value: string; onChange: (value: string) => void; maxLength?: number }) {
+  const generatedId = useId();
+  const id = fieldId ?? generatedId;
   return <div className="min-w-0 space-y-2"><Label htmlFor={id}>{label}</Label><Input id={id} className="min-h-11" maxLength={maxLength} value={value} onChange={event => onChange(event.target.value)} /></div>;
 }
 function updateVolume(transform: (volume: PublicationVolume) => PublicationVolume) {
@@ -31,7 +32,7 @@ export function VolumeDetailsSection() {
   const setField = useDocumentStore(store => store.setField);
   return <div className="space-y-5">
     <StockPublicationGroup title="Technical volume" description="Write a structured volume with chapters and appendices. PDF output supports unclassified and CUI content. This authoring tool does not authenticate or approve a publication.">
-      <Field label="Volume title" value={formData.subject ?? ''} onChange={value => setField('subject', value)} />
+      <Field fieldId="volume-title" label="Volume title" value={formData.subject ?? ''} onChange={value => setField('subject', value)} />
       <div className="grid gap-4 sm:grid-cols-2"><Field label="Publication short title" value={formData.shortTitle ?? ''} onChange={value => setField('shortTitle', value)} /><Field label="Publication date" value={formData.date ?? ''} onChange={value => setField('date', value)} /></div>
       <Field label="Controlling office" value={formData.controllingOffice ?? ''} onChange={value => setField('controllingOffice', value)} />
       {formData.signatureType && formData.signatureType !== 'none' && <div className="space-y-2 rounded-md border p-3">

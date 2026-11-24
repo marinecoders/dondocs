@@ -4,6 +4,7 @@ import { lazy, Suspense, useEffect } from 'react';
 import { Loader2, AlertCircle, Eye, Paperclip } from 'lucide-react';
 import { useUIStore } from '@/stores/uiStore';
 import { useDocumentStore } from '@/stores/documentStore';
+import type { StarterExamplesControl } from '@/lib/previewHints';
 
 // The in-app viewer (react-pdf + pdf.js) is its own chunk: the desktop shell
 // stays pdf.js-free until a preview actually exists. The warm-up effect below
@@ -12,6 +13,8 @@ const PdfViewer = lazy(() => import('@/components/pdf/PdfViewer'));
 
 interface PreviewPanelProps {
   pdfUrl: string | null;
+  hasHints?: boolean;
+  starterExamples?: StarterExamplesControl;
   isCompiling: boolean;
   /** The one-time in-browser LaTeX engine boot (distinct from a routine
    *  recompile) — the slowest, most anxious wait, so it gets its own copy. */
@@ -24,8 +27,8 @@ interface PreviewPanelProps {
   onDownloadPdf: () => void;
 }
 
-export function PreviewPanel({ pdfUrl, isCompiling, isWarmingUp = false, previewEnhanced = false, error, documentId, onDownloadPdf }: PreviewPanelProps) {
-  const navigation = usePreviewSources(isCompiling || !!error);
+export function PreviewPanel({ pdfUrl, hasHints = false, starterExamples, isCompiling, isWarmingUp = false, previewEnhanced = false, error, documentId, onDownloadPdf }: PreviewPanelProps) {
+  const navigation = usePreviewSources(isCompiling || !!error, false, starterExamples?.hiddenSections);
   // Individual selectors avoid re-rendering for unrelated UI-store updates.
   const isMobile = useUIStore((s) => s.isMobile);
   const fullQualityPreview = useUIStore((s) => s.fullQualityPreview);
@@ -77,11 +80,13 @@ export function PreviewPanel({ pdfUrl, isCompiling, isWarmingUp = false, preview
         {pdfUrl && (
           <>
             <Suspense fallback={null /* the mat behind is already painted */}>
-              <div className="absolute inset-0" title="Document preview">
+              <div className="absolute inset-0" title="Document preview" data-preview-hints={hasHints || undefined}>
                 <PdfViewer
                   key={documentId}
                   documentId={documentId}
                   pdfUrl={pdfUrl}
+                  allowOpenInTab={!hasHints}
+                  starterExamples={starterExamples}
                   toolbarLabel={previewLabel}
                   onDownloadPdf={onDownloadPdf}
                   follow={navigation.sources.length > 0 ? { mode: navigation.followMode, onChange: navigation.changeFollowMode } : undefined}

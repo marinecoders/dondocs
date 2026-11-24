@@ -94,7 +94,6 @@ export function MOASection() {
                   id="moaSubject"
                   value={formData.moaSubject || ''}
                   onChange={(e) => setField('moaSubject', e.target.value)}
-                  placeholder="SUBJECT LINE IN ALL CAPS"
                   className="uppercase"
                 />
               </div>
@@ -192,7 +191,6 @@ export function MOASection() {
                       id="seniorSigName"
                       value={formData.seniorSigName || ''}
                       onChange={(e) => setField('seniorSigName', e.target.value)}
-                      placeholder="JOHN A. SMITH"
                       className="uppercase"
                     />
                   </div>
@@ -343,7 +341,6 @@ export function MOASection() {
                       id="juniorSigName"
                       value={formData.juniorSigName || ''}
                       onChange={(e) => setField('juniorSigName', e.target.value)}
-                      placeholder="JANE B. DOE"
                       className="uppercase"
                     />
                   </div>

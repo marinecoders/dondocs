@@ -80,9 +80,9 @@ function SortableViaItem({ id, index, value, onChange, onRemove, onLookup, canRe
         ({index + 1})
       </Badge>
       <Input
+        aria-label={`Via addressee ${index + 1}`}
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        placeholder="Commanding Officer, 6th Marine Regiment"
         className="flex-1"
       />
       <IconTip label="Look up a unit">
@@ -234,10 +234,11 @@ export function AddressingSection({ config }: AddressingSectionProps) {
               <p className="text-xs text-muted-foreground -mt-1">{directive ? "Issuing authority, date and subject." : "From, To, Via, Subject, and identifying symbols."}</p>
               {/* Date Only - for business letters (no SSIC/Serial) */}
               {(config.dateOnly || directive) && (
-                <div className="space-y-2">
+                <div className="space-y-2" data-preview-input-category={config.dateOnly ? 'addressing' : undefined}>
                   <Label htmlFor="date">Date</Label>
                   <DatePicker
                     id="date"
+                    placeholder=""
                     value={formData.date || ''}
                     onChange={(value) => setField('date', value)}
                     dateFormat={dateFormat}
@@ -262,7 +263,6 @@ export function AddressingSection({ config }: AddressingSectionProps) {
                         id="ssic"
                         value={formData.ssic || ''}
                         onChange={(e) => setField('ssic', e.target.value)}
-                        placeholder="5216"
                         className="flex-1"
                       />
                       <IconTip label="Browse SSIC codes">
@@ -287,13 +287,13 @@ export function AddressingSection({ config }: AddressingSectionProps) {
                     id="serial"
                     value={formData.serial || ''}
                     onChange={(e) => setField('serial', e.target.value)}
-                    placeholder="001"
                   />
                 </div>
-                <div className="space-y-2">
+                <div className="space-y-2" data-preview-input-category="senderSymbols">
                   <Label htmlFor="date">Date</Label>
                   <DatePicker
                     id="date"
+                    placeholder=""
                     value={formData.date || ''}
                     onChange={(value) => setField('date', value)}
                     dateFormat={dateFormat}
@@ -332,7 +332,6 @@ export function AddressingSection({ config }: AddressingSectionProps) {
                       value={formData.to || ''}
                       onValueChange={(v) => setField('to', v)}
                       aria-invalid={validationVisible && unfilled(formData.to) ? true : undefined}
-                      placeholder="Distribution List, or the receiving office/official"
                     />
                   </div>
                   <IconTip label="Look up a unit">
@@ -362,7 +361,6 @@ export function AddressingSection({ config }: AddressingSectionProps) {
                   value={formData.to || ''}
                   onChange={(e) => setField('to', e.target.value)}
                   aria-invalid={validationVisible && unfilled(formData.to) ? true : undefined}
-                  placeholder="Mr. John Smith&#10;Director of Operations&#10;ABC Company&#10;123 Main Street&#10;City, State ZIP"
                   className="min-h-[100px]"
                   rows={5}
                 />
@@ -386,7 +384,6 @@ export function AddressingSection({ config }: AddressingSectionProps) {
                     value={formData.from || ''}
                     onValueChange={(v) => setField('from', v)}
                     aria-invalid={validationVisible && unfilled(formData.from) ? true : undefined}
-                    placeholder="Commanding Officer… (type @ for variables)"
                   />
                 </div>
                 {directive && isMarineDirective(docType) && (
@@ -402,7 +399,6 @@ export function AddressingSection({ config }: AddressingSectionProps) {
                           value={formData.to || ''}
                           onValueChange={(v) => setField('to', v)}
                           aria-invalid={validationVisible && unfilled(formData.to) ? true : undefined}
-                          placeholder="Commanding General… (type @ for variables)"
                         />
                       </div>
                       <IconTip label="Look up a unit">
@@ -473,19 +469,17 @@ export function AddressingSection({ config }: AddressingSectionProps) {
               </div>
             )}
 
-            {/* Salutation - Required for business letters in compliant mode */}
-            {requiresSalutation && (
+            {config.compliance.requiresSalutation && (
               <div className="space-y-2">
-                <Label htmlFor="salutation">Salutation<RequiredMark /></Label>
+                <Label htmlFor="salutation">Salutation{requiresSalutation && <RequiredMark />}</Label>
                 <Input
                   id="salutation"
                   value={formData.salutation || ''}
                   onChange={(e) => setField('salutation', e.target.value)}
-                  placeholder="Dear Sir or Madam:"
-                  aria-invalid={validationVisible && unfilled(formData.salutation) ? true : undefined}
-                  aria-describedby={validationVisible && unfilled(formData.salutation) ? 'salutation-error' : undefined}
+                  aria-invalid={requiresSalutation && validationVisible && unfilled(formData.salutation) ? true : undefined}
+                  aria-describedby={requiresSalutation && validationVisible && unfilled(formData.salutation) ? 'salutation-error' : undefined}
                 />
-                {validationVisible && unfilled(formData.salutation) && (
+                {requiresSalutation && validationVisible && unfilled(formData.salutation) && (
                   <p id="salutation-error" role="alert" className="text-xs text-destructive flex items-center gap-1">
                     <AlertCircle className="h-3 w-3" />
                     Per SECNAV M-5216.5 Ch 11: Business letters require a salutation
@@ -511,11 +505,6 @@ export function AddressingSection({ config }: AddressingSectionProps) {
                 onValueChange={(v) => setField('subject', v)}
                 aria-invalid={validationVisible && config.uiMode !== 'business' && unfilled(formData.subject) ? true : undefined}
                 aria-describedby={config.uiMode === 'business' ? 'subject-optional' : undefined}
-                placeholder={
-                  isEndorsement
-                    ? 'Subject of the basic letter being endorsed…'
-                    : 'SUBJECT LINE… (type @ for variables)'
-                }
                 className="uppercase"
               />
               {config.uiMode === 'business' && <p id="subject-optional" className="text-xs text-muted-foreground">A subject line is optional for this letter format.</p>}

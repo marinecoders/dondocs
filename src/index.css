@@ -761,3 +761,9 @@ body[data-panel-resizing="true"] :is(.workspace-sidebar-panel, .workspace-previe
 @media (max-width: 639px), (any-pointer: coarse) {
   .workspace-editor [data-field-surface] :is([data-slot="input"], [data-slot="select-trigger"], [data-slot="tabs-trigger"], select) { min-height: 44px; }
 }
+
+@media print {
+  [data-preview-hints] {
+    display: none !important;
+  }
+}

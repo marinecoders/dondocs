@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.248] — 2026-11-23
+
+### Added
+
+- Show editable hints and starter examples in correspondence previews. Editing a category clears its optional examples while required hints remain until filled.
+
 ## [1.3.217] — 2026-11-21
 
 ### Fixed

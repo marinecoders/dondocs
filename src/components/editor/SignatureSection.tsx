@@ -281,18 +281,16 @@ export function SignatureSection({ config }: SignatureSectionProps) {
         </AccordionTrigger>
         <AccordionContent>
           <div className="editor-field-groups pt-2">
-            {/* Complimentary Close - Required for business letters in compliant mode */}
-            {requiresComplimentaryClose && (
+            {config.compliance.requiresComplimentaryClose && (
               <div className="space-y-2">
-                <Label htmlFor="complimentaryClose">Complimentary Close<RequiredMark /></Label>
+                <Label htmlFor="complimentaryClose">Complimentary Close{requiresComplimentaryClose && <RequiredMark />}</Label>
                 <Input
                   id="complimentaryClose"
                   value={formData.complimentaryClose || ''}
                   onChange={(e) => setField('complimentaryClose', e.target.value)}
-                  placeholder="Sincerely,"
-                  className={!formData.complimentaryClose?.trim() ? 'border-destructive' : ''}
+                  className={requiresComplimentaryClose && !formData.complimentaryClose?.trim() ? 'border-destructive' : ''}
                 />
-                {!formData.complimentaryClose?.trim() && (
+                {requiresComplimentaryClose && !formData.complimentaryClose?.trim() && (
                   <p className="text-xs text-destructive flex items-center gap-1">
                     <AlertCircle className="h-3 w-3" />
                     Per SECNAV M-5216.5 Ch 11: Business letters require a complimentary close
@@ -309,7 +307,6 @@ export function SignatureSection({ config }: SignatureSectionProps) {
                   id="sigFirst"
                   value={formData.sigFirst || ''}
                   onChange={(e) => setField('sigFirst', e.target.value)}
-                  placeholder="John"
                 />
               </div>
               <div className="space-y-2">
@@ -318,7 +315,6 @@ export function SignatureSection({ config }: SignatureSectionProps) {
                   id="sigMiddle"
                   value={formData.sigMiddle || ''}
                   onChange={(e) => setField('sigMiddle', e.target.value)}
-                  placeholder="A."
                   maxLength={3}
                 />
               </div>
@@ -329,7 +325,6 @@ export function SignatureSection({ config }: SignatureSectionProps) {
                   value={formData.sigLast || ''}
                   onChange={(e) => setField('sigLast', e.target.value)}
                   aria-invalid={validationVisible && unfilled(formData.sigLast) ? true : undefined}
-                  placeholder="Doe"
                 />
               </div>
             </div>
@@ -500,10 +495,10 @@ export function SignatureSection({ config }: SignatureSectionProps) {
                   <Label htmlFor="pocEmail">POC Email</Label>
                   <Input
                     id="pocEmail"
+                    data-preview-input-category="signature"
                   type="email"
                   value={formData.pocEmail || ''}
                   onChange={(e) => setField('pocEmail', e.target.value)}
-                  placeholder="john.doe@usmc.mil"
                 />
               </div>
             </TabsContent>

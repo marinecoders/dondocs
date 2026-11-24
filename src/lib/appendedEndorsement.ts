@@ -69,7 +69,7 @@ export function endorsementTexts(data: AppendedEndorsementData): string[] {
     .flatMap((entry) => ENDORSEMENT_TEXT_FIELDS.map((field) => entry[field] ?? ''));
 }
 
-export function hasEndorsementContent(entry: AdditionalEndorsement): boolean {
+export function hasEndorsementContent(entry: AppendedEndorsementData): boolean {
   return ENDORSEMENT_TEXT_FIELDS.some((field) => {
     const value = entry[field];
     return typeof value === 'string' && value.trim() !== '';
@@ -138,16 +138,34 @@ export function appendedEndorsementSigner(data: AppendedEndorsementData): string
   );
 }
 
-export function resolveAppendedEndorsements(docType: string, data: AppendedEndorsementData) {
+function appendedEndorsementInputs(docType: string, data: AppendedEndorsementData): AppendedEndorsementData[] {
   if (!data.appendEndorsement || !canAppendEndorsement(docType)) return [];
-  const entries: AppendedEndorsementData[] = [data, ...(data.additionalEndorsements ?? []).filter(hasEndorsementContent).map((entry) => ({
+  return [data, ...(data.additionalEndorsements ?? []).filter(hasEndorsementContent).map((entry) => ({
     ...entry, appendEndorsement: true, from: data.from, to: data.to,
   }))];
-  return entries.flatMap((entry, index) => {
+}
+
+function appendedEndorsementOrdinal(index: number): string {
+  return ENDORSEMENT_ORDINALS[index] ?? `${index + 1}TH`;
+}
+
+/** An incomplete opening may disappear in the live preview while it is being filled. */
+export function assertAppendedEndorsementsAddressed(docType: string, data: AppendedEndorsementData): void {
+  const entries = appendedEndorsementInputs(docType, data);
+  for (const [index, entry] of entries.entries()) {
+    if ((entries.length > 1 || hasEndorsementContent(entry)) && !resolveAppendedEndorsement(docType, entry)) {
+      const ordinal = appendedEndorsementOrdinal(index).toLowerCase();
+      throw new Error(`Enter From and To for the ${ordinal} endorsement or complete the basic letter's addressees.`);
+    }
+  }
+}
+
+export function resolveAppendedEndorsements(docType: string, data: AppendedEndorsementData) {
+  return appendedEndorsementInputs(docType, data).flatMap((entry, index) => {
     const endorsement = resolveAppendedEndorsement(docType, entry);
     return endorsement ? [{
       ...endorsement,
-      ordinal: ENDORSEMENT_ORDINALS[index] ?? `${index + 1}TH`,
+      ordinal: appendedEndorsementOrdinal(index),
       signer: appendedEndorsementSigner(entry),
     }] : [];
   });

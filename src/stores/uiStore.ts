@@ -4,6 +4,7 @@ import { persist, createJSONStorage } from 'zustand/middleware';
 import { safeLocalStorage } from '@/lib/compressedStorage';
 import type { StorageHealth } from '@/lib/documentsDb';
 import type { ZoomMode } from '@/components/pdf/pdfMath';
+import { STARTER_EXAMPLE_SECTIONS, type StarterExampleSection } from '@/lib/previewHints';
 import { resolveTheme, type Theme } from '@/lib/appearance';
 
 export type EditorLayout = 'focused' | 'scroll';
@@ -50,6 +51,22 @@ function getSystemTheme(): 'dark' | 'light' {
     return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
   }
   return 'light'; // Fallback for SSR or unsupported browsers
+}
+
+export const starterExampleEditsKey = (id: string) => `dondocs_preview_edits:${id}`;
+
+function checkedStarterExampleEdits(value: unknown): StarterExampleSection[] {
+  return Array.isArray(value) ? STARTER_EXAMPLE_SECTIONS.filter(section => value.includes(section)) : [];
+}
+
+export function parseStarterExampleEdits(value: string): StarterExampleSection[] {
+  try { return checkedStarterExampleEdits(JSON.parse(value)); }
+  catch { return []; }
+}
+
+function storedStarterExampleEdits(id: string): StarterExampleSection[] {
+  const value = safeLocalStorage.getItem(starterExampleEditsKey(id));
+  return typeof value === 'string' ? parseStarterExampleEdits(value) : [];
 }
 
 interface UIState {
@@ -179,6 +196,9 @@ interface UIState {
   documentPositions: Record<string, { top: number; section: string | null; previewPage?: number; layout?: EditorLayout }>;
   rememberPosition: (id: string, top: number, section: string | null) => void;
   rememberPreviewPage: (id: string, page: number) => void;
+  starterExampleEdits: Record<string, readonly StarterExampleSection[]>;
+  rememberStarterExampleEdits: (id: string, sections: readonly StarterExampleSection[]) => void;
+  forgetStarterExampleEdits: (id: string) => void;
   trashOpen: boolean;
   setTrashOpen: (open: boolean) => void;
   historyDocId: string | null;
@@ -219,7 +239,7 @@ interface UIState {
 
 export const useUIStore = create<UIState>()(
   persist(
-    (set) => ({
+    (set, get) => ({
       editorLayout: 'focused',
       setEditorLayout: (editorLayout) => set({ editorLayout }),
       // Theme - detect system preference for first-time users
@@ -343,6 +363,26 @@ export const useUIStore = create<UIState>()(
         positions[id] = { ...(s.documentPositions[id] ?? { top: 0, section: null }), previewPage: Math.max(1, Math.floor(page)) };
         return { documentPositions: Object.fromEntries(Object.entries(positions).slice(-200)) };
       }),
+      starterExampleEdits: {},
+      rememberStarterExampleEdits: (id, sections) => {
+        const before = get().starterExampleEdits[id] ?? [];
+        const saved = storedStarterExampleEdits(id);
+        const next = STARTER_EXAMPLE_SECTIONS.filter(section =>
+          before.includes(section) || saved.includes(section) || sections.includes(section));
+        if (sections.length && next.some(section => !saved.includes(section))) {
+          safeLocalStorage.setItem(starterExampleEditsKey(id), JSON.stringify(next));
+        }
+        if (next.some(section => !before.includes(section))) {
+          set(s => ({ starterExampleEdits: { ...s.starterExampleEdits, [id]: next } }));
+        }
+      },
+      forgetStarterExampleEdits: id => {
+        safeLocalStorage.removeItem(starterExampleEditsKey(id));
+        if (!get().starterExampleEdits[id]) return;
+        const next = { ...get().starterExampleEdits };
+        delete next[id];
+        set({ starterExampleEdits: next });
+      },
       trashOpen: false,
       setTrashOpen: (open) => set({ trashOpen: open }),
       historyDocId: null,
@@ -414,6 +454,22 @@ export const useUIStore = create<UIState>()(
       },
       // Guarded storage so a boot-time set() can't throw under blocked site data.
       storage: createJSONStorage(() => safeLocalStorage),
+      merge: (persisted, current) => {
+        const { starterExampleEdits, ...preferences } = (persisted ?? {}) as Partial<UIState>;
+        // Move preview history from the old shared settings entry to one key
+        // per draft so unrelated settings writes in other tabs cannot erase it.
+        const migrated = { ...current.starterExampleEdits };
+        for (const [id, value] of Object.entries(starterExampleEdits ?? {})) {
+          const legacy = checkedStarterExampleEdits(value);
+          if (!legacy.length) continue;
+          const saved = storedStarterExampleEdits(id);
+          const sections = STARTER_EXAMPLE_SECTIONS.filter(section =>
+            saved.includes(section) || legacy.includes(section) || migrated[id]?.includes(section));
+          safeLocalStorage.setItem(starterExampleEditsKey(id), JSON.stringify(sections));
+          migrated[id] = sections;
+        }
+        return { ...current, ...preferences, starterExampleEdits: migrated };
+      },
       partialize: (state) => ({
         documentPositions: state.documentPositions,
         theme: state.theme,

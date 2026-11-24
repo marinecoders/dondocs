@@ -11,9 +11,12 @@ import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 // iOS, a bare react-pdf scroll on Android): its page virtualization and DPR
 // cap keep canvas memory inside iOS budgets, so one implementation serves all.
 import PdfViewer from '@/components/pdf/PdfViewer';
+import type { StarterExamplesControl } from '@/lib/previewHints';
 
 interface MobilePreviewModalProps {
   pdfUrl: string | null;
+  hasHints?: boolean;
+  starterExamples?: StarterExamplesControl;
   isCompiling: boolean;
   error: string | null;
   onDownloadPdf: () => void;
@@ -26,7 +29,7 @@ interface MobilePreviewModalProps {
  * renders), which brings zoom, page navigation, and the flicker-free
  * recompile swap to mobile.
  */
-export function MobilePreviewModal({ pdfUrl, isCompiling, error, onDownloadPdf, documentId }: MobilePreviewModalProps) {
+export function MobilePreviewModal({ pdfUrl, hasHints = false, starterExamples, isCompiling, error, onDownloadPdf, documentId }: MobilePreviewModalProps) {
   // Individual selectors — modal only re-renders on its own flag changing.
   const mobilePreviewOpen = useUIStore((s) => s.mobilePreviewOpen);
   const setMobilePreviewOpen = useUIStore((s) => s.setMobilePreviewOpen);
@@ -36,7 +39,7 @@ export function MobilePreviewModal({ pdfUrl, isCompiling, error, onDownloadPdf, 
   const displayError = error === 'ENGINE_RESET_NEEDED' ? null : error;
   const isUpdating = isCompiling || error === 'ENGINE_RESET_NEEDED';
   const canDeliver = !!pdfUrl && !isUpdating && !error;
-  const navigation = usePreviewSources(!canDeliver, true);
+  const navigation = usePreviewSources(!canDeliver, true, starterExamples?.hiddenSections);
 
   const handleOpenLogs = () => {
     setLogEnabled(true);
@@ -58,7 +61,7 @@ export function MobilePreviewModal({ pdfUrl, isCompiling, error, onDownloadPdf, 
     // Close controls render behind the clock/dynamic island in a standalone
     // install, and the viewer's bottom edge sits under the home indicator.
     <Dialog open={mobilePreviewOpen} onOpenChange={setMobilePreviewOpen}>
-    <DialogContent showCloseButton={false} aria-describedby={undefined} onCloseAutoFocus={navigation.onMobileCloseAutoFocus}
+    <DialogContent data-preview-hints={hasHints || undefined} showCloseButton={false} aria-describedby={undefined} onCloseAutoFocus={navigation.onMobileCloseAutoFocus}
       className="fixed inset-0 left-0 top-0 z-50 h-dvh max-h-none w-screen max-w-none sm:max-w-none translate-x-0 translate-y-0 bg-background flex flex-col rounded-none border-0 p-0 gap-0"
       style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}
     >
@@ -126,7 +129,8 @@ export function MobilePreviewModal({ pdfUrl, isCompiling, error, onDownloadPdf, 
             documentId={documentId}
             pdfUrl={pdfUrl}
             showFullscreen={false}
-            allowOpenInTab={canDeliver}
+            allowOpenInTab={canDeliver && !hasHints}
+            starterExamples={starterExamples}
             onDownloadPdf={canDeliver ? handleDownload : undefined}
             sourceNavigationMessage={navigation.unavailableMessage}
             sources={navigation.sources}

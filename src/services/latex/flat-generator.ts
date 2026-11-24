@@ -12,7 +12,7 @@ import { renderBodyTable } from './bodyTable';
 import { assertRichBlockShape } from '@/lib/bodyTable';
 import { closingTailStart, hasBottomSignature } from '@/lib/correspondenceClosing';
 import { resolveParagraphLayout, paragraphHasLabel } from './paragraphLayout';
-import { documentOutputConfig } from '@/lib/documentOutputConfig';
+import { documentOutputConfig, jointMemoHeading } from '@/lib/documentOutputConfig';
 /**
  * Flat LaTeX Generator for Pandoc DOCX Conversion
  *
@@ -39,9 +39,7 @@ import { LAYOUT, TEXT_WIDTH_IN } from '@/services/docx/layout-config';
 import { composeBasicLetterId, enclosureStartNumber, pageStartNumber } from '@/lib/endorsement';
 import { paragraphMark, delimitParagraphMark, isUnderlinedLevel } from './paragraphLabel';
 import { ancestorLabelsPerParagraph, headquartersAddressIndentIn, type LabelFont } from './subparagraphIndent';
-import {
-  resolveAppendedEndorsements,
-} from '@/lib/appendedEndorsement';
+import { assertAppendedEndorsementsAddressed, resolveAppendedEndorsements } from '@/lib/appendedEndorsement';
 import { splitAddressForLetterhead } from '@/lib/unitAddress';
 import { formatViaLines } from '@/lib/viaLines';
 import { deriveOverallClassLevel } from '@/lib/overallClassification';
@@ -906,7 +904,7 @@ function buildBusinessSignature(data: Partial<DocumentData>, smallWidth?: number
     return String.raw`\vspace{24pt}
 \noindent
 \begin{tabular}{${columns}}
- & ${escapeTabularWrapped(data.complimentaryClose || 'Sincerely,')} \\
+ & ${escapeTabularWrapped(data.complimentaryClose?.trim() || '')} \\
 \end{tabular}
 
 \vspace{48pt}
@@ -918,7 +916,7 @@ ${trimLastRow(rows)}
 `;
   }
   const name = buildFullName(data.sigFirst, data.sigMiddle, data.sigLast);
-  const close = escapeTabular(data.complimentaryClose || 'Sincerely,');
+  const close = escapeTabular(data.complimentaryClose?.trim() || '');
 
   // Build centered signature rows
   const sigRows: string[] = [];
@@ -1418,8 +1416,8 @@ function buildRecipientAddress(data: Partial<DocumentData>): string {
 }
 
 function buildSalutation(data: Partial<DocumentData>): string {
-  const salutation = data.salutation || 'Dear Sir or Madam:';
-  return `${escapeFlat(salutation)}\n\n`;
+  const salutation = data.salutation?.trim();
+  return salutation ? `${escapeFlat(salutation)}\n\n` : '';
 }
 
 /** Keep the optional note on the face of Word output, before body content. */
@@ -1622,6 +1620,7 @@ function buildJointLayout(store: DocumentStore, config: DocTypeConfig): string {
 
 function buildJointMemoLayout(store: DocumentStore, config: DocTypeConfig): string {
   const data = store.formData;
+  const { subject, to } = jointMemoHeading(data);
   let content = '';
 
   // Joint memorandum uses the same centered DON header as joint letter
@@ -1638,14 +1637,14 @@ function buildJointMemoLayout(store: DocumentStore, config: DocTypeConfig): stri
     const rows: string[] = [];
     if (data.jointSeniorFrom) rows.push(`From: & ${escapeTabularWrapped(data.jointSeniorFrom)} \\\\`);
     if (data.jointJuniorFrom) rows.push(` & ${escapeTabularWrapped(data.jointJuniorFrom)} \\\\`);
-    if (data.jointTo) rows.push(`To: & ${escapeTabularWrapped(data.jointTo)} \\\\`);
+    if (to) rows.push(`To: & ${escapeTabularWrapped(to)} \\\\`);
     // 12pt space before Subj (matches PDF's \tabularnewline[12pt] in templates)
     // Use explicit empty spacer row because pandoc ignores \\[12pt] row spacing
-    if (data.jointSubject) {
+    if (subject) {
       if (rows.length > 0) {
         rows.push(`& \\\\`);
       }
-      rows.push(`Subj: & ${maybeUnderline(escapeTabularWrapped(data.jointSubject?.toUpperCase()), data.underlineSubject)} \\\\`);
+      rows.push(`Subj: & ${maybeUnderline(escapeTabularWrapped(subject?.toUpperCase()), data.underlineSubject)} \\\\`);
     }
 
     if (rows.length > 0) {
@@ -1870,6 +1869,7 @@ export function generateFlatLatex(store: DocumentStore, resolvedLevel?: string, 
 
   let tex = '';
 
+  assertAppendedEndorsementsAddressed(store.docType, data);
   assertStationerySupport(store.docType, { ...data, ...(resolvedLevel ? { classLevel: resolvedLevel } : {}) }, store.paragraphs, store.documentMode);
   tex += buildPreamble(data, store.docType);
   tex += buildClassificationHeaders(data, store.paragraphs, resolvedLevel);

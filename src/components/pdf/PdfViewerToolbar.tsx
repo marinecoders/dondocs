@@ -33,6 +33,7 @@ import {
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { cn } from '@/lib/utils';
 import type { PreviewFollowMode, PreviewSource } from '@/lib/previewSources';
+import type { StarterExamplesControl } from '@/lib/previewHints';
 
 export interface PreviewFollow {
   mode: PreviewFollowMode;
@@ -67,6 +68,7 @@ interface PdfViewerToolbarProps {
   menuContainer?: HTMLElement | null;
   sourceNavigation?: DraftSourceNavigation;
   follow?: PreviewFollow;
+  starterExamples?: StarterExamplesControl;
   className?: string;
 }
 
@@ -213,15 +215,17 @@ export function PdfViewerToolbar({
   fullscreen,
   menuContainer,
   follow,
+  starterExamples,
   sourceNavigation,
   className,
 }: PdfViewerToolbarProps) {
   const toolbarRef = useRef<HTMLDivElement>(null);
   const pagingControlsRef = useRef<HTMLDivElement>(null);
   const zoomControlsRef = useRef<HTMLDivElement>(null);
+  const wideActionsRef = useRef<HTMLDivElement>(null);
   const [overflowOpen, setOverflowOpen] = useState(false);
   const [followOpen, setFollowOpen] = useState(false);
-  const [overflowControls, setOverflowControls] = useState({ paging: false, zoom: false });
+  const [overflowControls, setOverflowControls] = useState({ paging: false, zoom: false, actions: true });
   useEffect(() => {
     const toolbar = toolbarRef.current;
     if ((!overflowOpen && !followOpen) || !toolbar) return;
@@ -339,7 +343,7 @@ export function PdfViewerToolbar({
 
       {/* Wide enough for the whole row: the fit modes and the document actions
           sit out in the open. */}
-      <div className={cn('hidden shrink-0 items-center gap-1', wideActions)}>
+      <div ref={wideActionsRef} className={cn('hidden shrink-0 items-center gap-1', wideActions)}>
         <ToolButton label="Fit width" onClick={onZoomFitWidth} pressed={fitMode === 'width'}>
           <MoveHorizontal className="h-4 w-4" />
         </ToolButton>
@@ -380,12 +384,13 @@ export function PdfViewerToolbar({
 
       {/* The portaled menu takes the paging and zoom groups only when the
           toolbar has hidden them. Page entry and Edit in draft stay visible. */}
-      <div className={narrowActions}>
+      <div className={starterExamples ? 'shrink-0' : narrowActions}>
         <DropdownMenu open={overflowOpen} onOpenChange={(open) => {
           if (open) {
             setOverflowControls({
               paging: pagingControlsRef.current?.offsetWidth === 0,
               zoom: zoomControlsRef.current?.offsetWidth === 0,
+              actions: wideActionsRef.current?.offsetWidth === 0,
             });
           }
           setOverflowOpen(open);
@@ -402,7 +407,13 @@ export function PdfViewerToolbar({
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" container={menuContainer}>
-            {follow && (
+            {starterExamples && (
+              <DropdownMenuCheckboxItem checked={starterExamples.checked} onCheckedChange={starterExamples.onChange}>
+                Show starter examples
+              </DropdownMenuCheckboxItem>
+            )}
+            {starterExamples && overflowControls.actions && <DropdownMenuSeparator />}
+            {follow && overflowControls.actions && (
               <>
                 <DropdownMenuSub>
                   <DropdownMenuSubTrigger
@@ -440,33 +451,35 @@ export function PdfViewerToolbar({
                 <DropdownMenuItem onSelect={onZoomIn}><ZoomIn aria-hidden="true" /> Zoom in</DropdownMenuItem>
               </>
             )}
-            {/* Checkbox items, so the active fit mode still reads as selected
-                the way the buttons' pressed fill does. */}
-            <DropdownMenuCheckboxItem checked={fitMode === 'width'} onSelect={onZoomFitWidth}>
-              Fit width
-            </DropdownMenuCheckboxItem>
-            <DropdownMenuCheckboxItem checked={fitMode === 'page'} onSelect={onZoomFitPage}>
-              Fit page
-            </DropdownMenuCheckboxItem>
-            <DropdownMenuSeparator />
-            {fullscreen && (
-              <DropdownMenuItem onSelect={fullscreen.toggle}>
-                {fullscreen.isFullscreen ? (
-                  <Minimize2 className="h-4 w-4" aria-hidden="true" />
-                ) : (
-                  <Maximize2 className="h-4 w-4" aria-hidden="true" />
-                )}
-                {fullscreen.isFullscreen ? 'Exit fullscreen' : 'Fullscreen'}
-              </DropdownMenuItem>
-            )}
-            {onDownload && <DropdownMenuItem onSelect={onDownload}>
-              <Download className="h-4 w-4" aria-hidden="true" />
-              {downloadLabel}
-            </DropdownMenuItem>}
-            {onOpenInTab && <DropdownMenuItem onSelect={onOpenInTab}>
-              <ExternalLink className="h-4 w-4" aria-hidden="true" />
-              Open in browser tab
-            </DropdownMenuItem>}
+            {overflowControls.actions && <>
+              {/* Checkbox items, so the active fit mode still reads as selected
+                  the way the buttons' pressed fill does. */}
+              <DropdownMenuCheckboxItem checked={fitMode === 'width'} onSelect={onZoomFitWidth}>
+                Fit width
+              </DropdownMenuCheckboxItem>
+              <DropdownMenuCheckboxItem checked={fitMode === 'page'} onSelect={onZoomFitPage}>
+                Fit page
+              </DropdownMenuCheckboxItem>
+              <DropdownMenuSeparator />
+              {fullscreen && (
+                <DropdownMenuItem onSelect={fullscreen.toggle}>
+                  {fullscreen.isFullscreen ? (
+                    <Minimize2 className="h-4 w-4" aria-hidden="true" />
+                  ) : (
+                    <Maximize2 className="h-4 w-4" aria-hidden="true" />
+                  )}
+                  {fullscreen.isFullscreen ? 'Exit fullscreen' : 'Fullscreen'}
+                </DropdownMenuItem>
+              )}
+              {onDownload && <DropdownMenuItem onSelect={onDownload}>
+                <Download className="h-4 w-4" aria-hidden="true" />
+                {downloadLabel}
+              </DropdownMenuItem>}
+              {onOpenInTab && <DropdownMenuItem onSelect={onOpenInTab}>
+                <ExternalLink className="h-4 w-4" aria-hidden="true" />
+                Open in browser tab
+              </DropdownMenuItem>}
+            </>}
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
