@@ -12,7 +12,6 @@ import { parseFormInstance } from '@/services/forms/model';
 import { manualFrontMatterSchema } from '@/data/techpub/manualFrontMatter';
 import { enclosureMarkingSchema } from './enclosureMarkings';
 
-export const MAX_BACKUP_BYTES = 100 * 1024 * 1024;
 const MAX_ITEMS = 100_000;
 type RecordValue = Record<string, unknown>;
 function object(value: unknown, label: string): RecordValue {

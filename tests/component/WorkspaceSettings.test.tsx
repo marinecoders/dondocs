@@ -13,7 +13,7 @@ vi.mock('@/lib/backupDownload', () => ({ downloadWorkspaceBackup: vi.fn() }));
 beforeEach(() => {
   vi.mocked(downloadWorkspaceBackup).mockReset();
   useUIStore.setState({ settingsOpen: false, helpOpen: false, settingsSection: 'appearance', theme: 'light', density: 'comfortable' });
-  useBackupStore.setState({ status: 'unsupported', fileName: null, fileMissing: false });
+  useBackupStore.setState({ status: 'unsupported', fileName: null, fileMissing: false, setupError: null });
 });
 
 describe('workspace settings and help', () => {
@@ -21,7 +21,7 @@ describe('workspace settings and help', () => {
     useUIStore.getState().setSettingsOpen(true, 'backup');
     render(<SettingsModal />);
     expect(screen.getByText(/Automatic file backup is unavailable/)).toHaveAttribute('data-tour', 'backup-auto');
-    expect(screen.queryByRole('button', { name: 'Choose auto-backup file' })).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'Choose auto-backup folder' })).not.toBeInTheDocument();
   });
 
   it('offers exactly three appearances and persists the choice', async () => {
@@ -43,7 +43,7 @@ describe('workspace settings and help', () => {
     useUIStore.getState().setSettingsOpen(true, 'backup');
     render(<SettingsModal />);
     expect(screen.getByRole('heading', { name: 'Backup & restore' })).toHaveFocus();
-    expect(screen.queryByRole('button', { name: 'Choose auto-backup file' })).not.toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: 'Choose auto-backup folder' })).not.toBeInTheDocument();
     await userEvent.click(screen.getByRole('button', { name: 'Download workspace backup' }));
     expect(await screen.findByRole('alert')).toHaveTextContent('Saved documents could not be read');
     expect(screen.queryByRole('status')).not.toBeInTheDocument();

@@ -802,7 +802,7 @@ const POWER_FEATURES: PowerFeature[] = [
       {
         target: '[data-tour="backup-auto"]',
         title: 'Automatic file backups',
-        body: 'Desktop Chrome and Edge can mirror registry saves to a backup file. Other store changes alone do not trigger a write. Reconnect permission when prompted, or use Download workspace backup.',
+        body: 'Choose a folder to mirror registry saves to a backup file in desktop Chrome or Edge. Other store changes alone do not trigger a write. Reconnect permission when prompted, or use Download workspace backup.',
         action: openBackupSettings,
       },
     ],

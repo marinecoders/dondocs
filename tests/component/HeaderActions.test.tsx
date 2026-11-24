@@ -14,6 +14,7 @@ import { useDocumentsStore } from '@/stores/documentsStore';
 import { idbGetSnapshots } from '@/lib/documentsDb';
 import { STORAGE_KEYS } from '@/lib/constants';
 import { downloadWorkspaceBackup } from '@/lib/backupDownload';
+import { MAX_BACKUP_BYTES } from '@/lib/backupSize';
 
 vi.mock('@/lib/backupDownload', () => ({ downloadWorkspaceBackup: vi.fn() }));
 
@@ -102,7 +103,9 @@ describe('document action error feedback', () => {
   it('reports backup file read failures instead of failing silently', async () => {
     renderHeader();
     act(() => useUIStore.getState().setSettingsOpen(true, 'backup'));
-    fireEvent.change(screen.getByLabelText('Backup file'), { target: { files: [{ text: async () => { throw new Error('File unavailable'); } }] } });
+    const file = new File(['{}'], 'unavailable-backup.json', { type: 'application/json' });
+    vi.spyOn(file, 'text').mockRejectedValue(new Error('File unavailable'));
+    fireEvent.change(screen.getByLabelText('Backup file'), { target: { files: [file] } });
     expect(await screen.findByRole('alert')).toHaveTextContent('File unavailable');
     expect(useDocumentStore.getState().formData.subject).toBe('Keep my draft');
   });
@@ -213,9 +216,9 @@ it('rejects oversized backups before reading their contents in Settings', async 
   renderHeader();
   act(() => useUIStore.getState().setSettingsOpen(true, 'backup'));
   const file = new File(['{}'], 'large-backup.json', { type: 'application/json' });
-  Object.defineProperty(file, 'size', { value: 100 * 1024 * 1024 + 1 });
+  Object.defineProperty(file, 'size', { value: MAX_BACKUP_BYTES + 1 });
   const read = vi.spyOn(file, 'text');
   fireEvent.change(screen.getByLabelText('Backup file'), { target: { files: [file] } });
-  expect(await screen.findByRole('alert')).toHaveTextContent('import limit is 100 MB');
+  expect(await screen.findByRole('alert')).toHaveTextContent('100 MiB restore limit');
   expect(read).not.toHaveBeenCalled();
 });

@@ -3,7 +3,7 @@ import { useBackupStore } from '@/stores/backupStore';
 
 describe('backupStore', () => {
   it('reports unsupported where the File System Access API is absent (test env)', () => {
-    // No window.showSaveFilePicker in the test environment.
+    // No window.showDirectoryPicker in the test environment.
     expect(useBackupStore.getState().status).toBe('unsupported');
   });
 

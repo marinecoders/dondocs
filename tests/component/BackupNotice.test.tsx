@@ -2,6 +2,7 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { BackupNotice } from '@/components/BackupNotice';
+import { useUIStore } from '@/stores/uiStore';
 import { useBackupStore, type BackupStatus } from '@/stores/backupStore';
 
 function setStatus(
@@ -17,6 +18,7 @@ beforeEach(() => {
     status: 'off',
     fileName: null,
     fileMissing: false,
+    setupError: null,
     reconnect: vi.fn(async () => {}),
     setupBackup: vi.fn(async () => {}),
     writeNow: vi.fn(async () => {}),
@@ -47,7 +49,7 @@ describe('BackupNotice', () => {
     render(<BackupNotice />);
     // A failed write silently stales the backup — announce it assertively.
     expect(screen.getByRole('alert').textContent).toContain("can't find");
-    fireEvent.click(screen.getByRole('button', { name: 'Choose file' }));
+    fireEvent.click(screen.getByRole('button', { name: 'Choose folder' }));
     expect(useBackupStore.getState().setupBackup).toHaveBeenCalledOnce();
   });
 
@@ -57,9 +59,19 @@ describe('BackupNotice', () => {
     setStatus('error', 'dondocs-library.json', false);
     render(<BackupNotice />);
     expect(screen.getByRole('alert').textContent).toContain("couldn't write");
-    expect(screen.queryByRole('button', { name: 'Choose file' })).toBeNull();
+    expect(screen.queryByRole('button', { name: 'Choose folder' })).toBeNull();
     fireEvent.click(screen.getByRole('button', { name: 'Try again' }));
     expect(useBackupStore.getState().writeNow).toHaveBeenCalledOnce();
+    expect(useBackupStore.getState().setupBackup).not.toHaveBeenCalled();
+  });
+
+  it('routes an oversized mirror to recovery options instead of a new destination', () => {
+    useUIStore.getState().setSettingsOpen(false);
+    setStatus('too-large');
+    render(<BackupNotice />);
+    expect(screen.getByRole('alert')).toHaveTextContent('100 MiB restore limit');
+    fireEvent.click(screen.getByRole('button', { name: 'Backup options' }));
+    expect(useUIStore.getState()).toMatchObject({ settingsOpen: true, settingsSection: 'backup' });
     expect(useBackupStore.getState().setupBackup).not.toHaveBeenCalled();
   });
 
