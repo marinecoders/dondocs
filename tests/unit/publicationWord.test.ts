@@ -153,6 +153,21 @@ describe('publication Word output', () => {
     expect((last.match(/<w:tblHeader\/>/g) ?? []).length).toBe(headerRows);
     expect((last.match(/<w:b\/>/g) ?? []).length).toBe(headerRows * 2);
   });
+  it('retains the extended cell and row settings in native publication Word output', async () => {
+    const document = instructionWordSource();
+    document.paragraphs.push({ level: 1, text: '', bodyTable: {
+      rows: [['TABLEHEADER', 'DETAILHEADER'], ['TABLEBODY', 'DETAILBODY']], headerRows: 1,
+      borders: 'columns', wrap: false, minimumRowHeight: 18, rowHeights: [null, 38],
+    } });
+    const { xml } = await output(document);
+    const table = xml.match(/<w:tbl>[\s\S]*?<\/w:tbl>/g)!.at(-1)!;
+    expect(table.match(/<w:noWrap\/><w:tcFitText\/>/g)).toHaveLength(4);
+    expect(table.match(/<w:tcBorders><w:bottom w:val="single"/g)).toHaveLength(2);
+    expect(table).toContain('<w:insideV w:val="single"');
+    expect(table).toContain('<w:trHeight w:val="760" w:hRule="atLeast"/>');
+    document.paragraphs.at(-1)!.bodyTable!.rows[1][0] = '[Insert table content]';
+    await expect(output(document)).rejects.toThrow('Replace the remaining template prompts');
+  });
   it('rejects invalid generic header counts and inapplicable imported content in front-matter profiles', async () => {
     const word = new PublicationWordPackage(new AbortController().signal);
     for (const headerRows of [-1, 1.5, 3]) expect(() => word.table(['Header'], [['Cell']], [10080], { headerRows })).toThrow('header count');

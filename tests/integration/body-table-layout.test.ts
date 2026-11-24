@@ -115,3 +115,42 @@ describe('narrow table cell content', () => {
     expect(result.errors.join(' ') + result.logTail).toContain('table row is too tall');
   });
 });
+
+describe('extended table formatting', () => {
+  const advanced: BodyTable = {
+    rows: [['Identifier', 'Description'], ['LONGSTART LONG FINISH\nAUTHOREDLINE', 'ADJACENTCOL'], ['LASTROW', 'Content']],
+    headerRows: 1, borders: 'columns', wrap: false, rowHeights: [null, 46, 0], minimumRowHeight: 18, columnWidths: [18, 82],
+  };
+
+  it.skipIf(!hasPdfToolchain)('prints unbroken fitted lines, explicit breaks, and the authored row minimum without collisions', async () => {
+    const body = renderBodyTable(advanced, text => bodyTableText(text));
+    const tex = '\\documentclass{article}\n\\usepackage[letterpaper,margin=1in]{geometry}\n\\usepackage{longtable,array,graphicx}\n\\begin{document}\n' + body + '\\end{document}';
+    const result = await compileGeneratedFixture({ 'main.tex': tex });
+    expect(result.ok, result.logTail).toBe(true);
+    const extracted = spawnSync('pdftotext', ['-bbox-layout', join(result.workDir, 'main.pdf'), '-'], { encoding: 'utf8' });
+    expect(extracted.status).toBe(0);
+    const xml = new DOMParser().parseFromString(extracted.stdout, 'text/xml');
+    const words = Array.from(xml.getElementsByTagName('word'));
+    const point = (label: string, coordinate: string) => Number(words.find(word => word.textContent === label)?.getAttribute(coordinate) ?? NaN);
+    expect(point('LONGSTART', 'yMin')).toBeCloseTo(point('FINISH', 'yMin'), 1);
+    expect(point('AUTHOREDLINE', 'yMin')).toBeGreaterThan(point('FINISH', 'yMax'));
+    expect(point('FINISH', 'xMax')).toBeLessThan(point('ADJACENTCOL', 'xMin'));
+    expect(point('LASTROW', 'yMin') - point('Identifier', 'yMin')).toBeGreaterThan(64);
+  });
+
+  it('writes no-wrap, varied minimums, and just the outer, vertical, and header rules to actual Word cells', async () => {
+    const body = renderBodyTable(advanced, text => text.split('\n').join('\\newline '), { repeatHeaders: false, wordIndex: 0 });
+    const compiled = await compileGeneratedDocxFixture('\\documentclass{article}\n\\begin{document}\n' + body + '\\end{document}');
+    expect(compiled.ok, compiled.log).toBe(true);
+    const bytes = await formatBodyTables(compiled.docxBytes!, [advanced]);
+    const zip = await JSZip.loadAsync(bytes), xml = await zip.file('word/document.xml')!.async('string');
+    expect(xml).toContain('<w:insideH w:val="nil"');
+    expect(xml).toContain('<w:insideV w:val="single"');
+    expect(xml.match(/<w:noWrap\/><w:tcFitText\/>/g)).toHaveLength(6);
+    expect(xml.match(/<w:tcBorders><w:bottom w:val="single"/g)).toHaveLength(2);
+    expect(xml.match(/<w:trHeight w:val="\d+" w:hRule="atLeast"\/>/g)).toEqual([
+      '<w:trHeight w:val="360" w:hRule="atLeast"/>', '<w:trHeight w:val="920" w:hRule="atLeast"/>',
+    ]);
+    expect(xml).toMatch(/LONGSTART LONG FINISH.*<w:br\s*\/>.*AUTHOREDLINE/s);
+  });
+});

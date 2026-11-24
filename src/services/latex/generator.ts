@@ -1142,12 +1142,12 @@ export function generateBodyTex(store: DocumentStore, adapter?: LatexBodyAdapter
     if (para.bodyTable) {
       const caption = hasBodyCaption(para) ? `${portionPrefix}${[headerText ? bodyText(headerText) : '', para.text ? bodyText(para.text) : ''].filter(Boolean).join(' ')}` : '';
       if (caption) parts.push(`\\par\\noindent ${adapter?.tableCaption?.(i, caption) ?? caption}\\par\n`);
-      parts.push(renderBodyTable(para.bodyTable, (text, row, column, header) => {
-        const cell = store.docType === 'i_type'
-          ? publicationReferenceText(text, crossReferences, false, (value, protectedTokens) => bodyTableText(value, [], 0, protectedTokens), bodyTableLiteral)
-          : bodyTableText(text);
-        return adapter?.tableCell?.(i, row, column, header, cell) ?? cell;
-      }, { scope: adapter?.tableScope?.(i) }));
+      parts.push(renderBodyTable(para.bodyTable, text => store.docType === 'i_type'
+        ? publicationReferenceText(text, crossReferences, false, (value, protectedTokens) => bodyTableText(value, [], 0, protectedTokens), bodyTableLiteral)
+        : bodyTableText(text), {
+        scope: adapter?.tableScope?.(i),
+        cellAdapter: adapter?.tableCell ? (row, column, header, cell) => adapter.tableCell!(i, row, column, header, cell) : undefined,
+      }));
       continue;
     }
     if (para.figure?.placement === 'body') {

@@ -1,6 +1,7 @@
 import JSZip from 'jszip';
 import { safeUrl } from '@/lib/url-safety';
-import { bodyTableTwips, type BodyTable } from '@/lib/bodyTable';
+import { bodyTableRowHeight, bodyTableTwips, type BodyTable } from '@/lib/bodyTable';
+import { wordTableBorders, wordTableCellFormatting } from '../tableFormatting';
 import { getDocxFontName } from '../layout-config';
 
 const W = 'http://schemas.openxmlformats.org/wordprocessingml/2006/main';
@@ -41,7 +42,9 @@ export interface WordTableFormat {
   size?: number;
   headerRows?: number;
   repeatHeaders?: boolean;
-  borders?: 'grid' | 'outline' | 'none';
+  borders?: BodyTable['borders'];
+  wrap?: boolean;
+  rowHeights?: BodyTable['rowHeights'];
   columnAlignments?: readonly ('left' | 'center' | 'right')[];
   headerSpans?: readonly { column: number; span: number }[];
   minimumRowHeight?: number;
@@ -161,7 +164,7 @@ export class PublicationWordPackage {
     const [header, ...rows] = table.rows;
     this.table(header, rows, bodyTableTwips(table, 10080), {
       breakWords: true, headerRows: table.headerRows, repeatHeaders: table.repeatHeaders, borders: table.borders,
-      columnAlignments: table.columnAlignments, size: table.fontSize, minimumRowHeight: table.minimumRowHeight, inlineMode: 'rich',
+      columnAlignments: table.columnAlignments, size: table.fontSize, minimumRowHeight: table.minimumRowHeight, rowHeights: table.rowHeights, wrap: table.wrap, inlineMode: 'rich',
     });
   }
   inline(value: string, format: ParagraphFormat = {}): string { return this.formattedInline(value, format, 0); }
@@ -228,7 +231,7 @@ export class PublicationWordPackage {
   table(headers: readonly string[], rows: readonly (readonly string[])[], widths: readonly number[], options: WordTableFormat = {}): void {
     if (!widths.length || widths.some(width => !Number.isInteger(width) || width <= 0) || headers.length !== widths.length || rows.some(row => row.length !== widths.length)) throw new Error('The publication contains an invalid Word table.');
     if (options.headerRows !== undefined && (!Number.isInteger(options.headerRows) || options.headerRows < 0 || options.headerRows > rows.length + 1)) throw new Error('The Word table header count is invalid.');
-    if (options.minimumRowHeight !== undefined && (!Number.isFinite(options.minimumRowHeight) || options.minimumRowHeight <= 0 || options.minimumRowHeight > 720)) throw new Error('The Word table row height is invalid.');
+    if (options.minimumRowHeight !== undefined && (!Number.isFinite(options.minimumRowHeight) || options.minimumRowHeight < 0 || options.minimumRowHeight > 720)) throw new Error('The Word table row height is invalid.');
     if (options.rowDestinations && options.rowDestinations.length !== rows.length) throw new Error('The Word table row targets are incomplete.');
     if (options.headerSpans?.length && options.headerRows === 0) throw new Error('A merged table header needs a header row.');
     const spans = new Map<number, number>();
@@ -241,18 +244,21 @@ export class PublicationWordPackage {
       }
       spans.set(merge.column, merge.span);
     }
-    this.add(`<w:tbl><w:tblPr><w:tblW w:w="${widths.reduce((sum, width) => sum + width, 0)}" w:type="dxa"/><w:tblBorders>${['top', 'left', 'bottom', 'right', 'insideH', 'insideV'].map(side => `<w:${side} w:val="${options.borders === 'none' || options.borders === 'outline' && side.startsWith('inside') ? 'nil' : 'single'}" w:sz="4" w:color="000000"/>`).join('')}</w:tblBorders><w:tblLayout w:type="fixed"/><w:tblCellMar><w:top w:w="40" w:type="dxa"/><w:left w:w="60" w:type="dxa"/><w:bottom w:w="40" w:type="dxa"/><w:right w:w="60" w:type="dxa"/></w:tblCellMar></w:tblPr><w:tblGrid>${widths.map(width => `<w:gridCol w:w="${width}"/>`).join('')}</w:tblGrid>`);
+    this.add(`<w:tbl><w:tblPr><w:tblW w:w="${widths.reduce((sum, width) => sum + width, 0)}" w:type="dxa"/>${wordTableBorders(options.borders)}<w:tblLayout w:type="fixed"/><w:tblCellMar><w:top w:w="40" w:type="dxa"/><w:left w:w="60" w:type="dxa"/><w:bottom w:w="40" w:type="dxa"/><w:right w:w="60" w:type="dxa"/></w:tblCellMar></w:tblPr><w:tblGrid>${widths.map(width => `<w:gridCol w:w="${width}"/>`).join('')}</w:tblGrid>`);
     for (const [index, row] of [headers, ...rows].entries()) {
-      const header = index < (options.headerRows ?? 1);
+      const headerRows = options.headerRows ?? 1;
+      const header = index < headerRows;
+      const minimum = bodyTableRowHeight(options, index);
+      const cellLayout = wordTableCellFormatting(options.borders, index, headerRows, rows.length + 1, options.wrap);
       const cells: string[] = [];
       for (let column = 0; column < row.length; column++) {
         const span = index === 0 ? spans.get(column) ?? 1 : 1;
         const width = widths.slice(column, column + span).reduce((sum, value) => sum + value, 0);
         const anchor = index > 0 && column === 0 ? this.anchorMarkup(options.rowDestinations?.[index - 1] ?? '') : '';
-        cells.push(`<w:tc><w:tcPr><w:tcW w:w="${width}" w:type="dxa"/>${span > 1 ? `<w:gridSpan w:val="${span}"/>` : ''}<w:vAlign w:val="center"/></w:tcPr>${paragraphRuns(anchor + this.inline(row[column], { bold: header, size: options.size ?? this.fontSize, inlineMode: options.inlineMode ?? 'references' }), { after: 2, before: 2, align: options.columnAlignments?.[column] ?? 'left', breakWords: options.breakWords })}</w:tc>`);
+        cells.push(`<w:tc><w:tcPr><w:tcW w:w="${width}" w:type="dxa"/>${span > 1 ? `<w:gridSpan w:val="${span}"/>` : ''}${cellLayout}<w:vAlign w:val="center"/></w:tcPr>${paragraphRuns(anchor + this.inline(row[column], { bold: header, size: options.size ?? this.fontSize, inlineMode: options.inlineMode ?? 'references' }), { after: 2, before: 2, align: options.columnAlignments?.[column] ?? 'left', breakWords: options.breakWords })}</w:tc>`);
         column += span - 1;
       }
-      this.add(`<w:tr><w:trPr>${options.minimumRowHeight ? `<w:trHeight w:val="${Math.round(options.minimumRowHeight * 20)}" w:hRule="atLeast"/>` : ''}${header && options.repeatHeaders !== false ? '<w:tblHeader/>' : ''}</w:trPr>${cells.join('')}</w:tr>`);
+      this.add(`<w:tr><w:trPr>${minimum ? `<w:trHeight w:val="${Math.round(minimum * 20)}" w:hRule="atLeast"/>` : ''}${header && options.repeatHeaders !== false ? '<w:tblHeader/>' : ''}</w:trPr>${cells.join('')}</w:tr>`);
     }
     this.add(`</w:tbl>${paragraphRuns('', { after: 4 })}`);
   }

@@ -23,6 +23,12 @@ interface Publication {
 }
 
 /** Export checks for incomplete or contradictory data; these do not confer release approval. */
+/** Match authored strings rather than the syntax of serialized arrays. */
+function containsTemplatePrompt(value: unknown): boolean {
+  if (typeof value === 'string') return /\[[A-Za-z][^\]\n]{1,250}\]|\{\{[^}]+\}\}|INSERT LONG TITLE HERE/.test(value);
+  return value !== null && typeof value === 'object' && Object.values(value).some(containsTemplatePrompt);
+}
+
 export function iTypeExportErrors(store: Publication, referenceDate = new Date()): string[] {
   if (store.docType !== 'i_type') return [];
   const d = store.formData;
@@ -80,7 +86,19 @@ export function iTypeExportErrors(store: Publication, referenceDate = new Date()
   const fields = [d.shortTitle, d.pcn, d.nomenclature, d.subject, d.unitLine1, d.unitLine2, d.unitAddress,
     d.sigFirst, d.sigMiddle, d.sigLast, d.sigTitle, d.controllingOffice, d.pocEmail, d.supersedure,
     d.classifiedBy, d.derivedFrom, d.classReason, d.declassifyOn, d.customClassification];
-  const content = JSON.stringify({ fields, paragraphs: paragraphs.map((p) => ({ ...p, text: referenceFreeText(p.text), tableFootnotes: p.tableFootnotes?.map((n) => ({ ...n, text: referenceFreeText(n.text) })) })), endItems: store.endItems, tables: Object.fromEntries(Object.entries(store.publicationTables ?? {}).map(([key, rows]) => [key, rows.map((r) => ({ ...r, values: Object.fromEntries(Object.entries(r.values).map(([column, value]) => [column, referenceFreeText(value)])) }))])) });
-  if (/\[[A-Za-z][^\]\n]{1,250}\]|\{\{[^}]+\}\}|INSERT LONG TITLE HERE/.test(content)) errors.push('Replace the remaining template prompts and variables before export.');
+  const content = {
+    fields,
+    paragraphs: paragraphs.map(paragraph => ({
+      ...paragraph,
+      text: referenceFreeText(paragraph.text),
+      tableFootnotes: paragraph.tableFootnotes?.map(note => ({ ...note, text: referenceFreeText(note.text) })),
+    })),
+    endItems: store.endItems,
+    tables: Object.values(store.publicationTables ?? {}).map(rows => rows.map(row => ({
+      ...row,
+      values: Object.values(row.values).map(referenceFreeText),
+    }))),
+  };
+  if (containsTemplatePrompt(content)) errors.push('Replace the remaining template prompts and variables before export.');
   return [...new Set(errors)];
 }

@@ -9,9 +9,12 @@ export const bodyTableSchema = z.object({
   /** Percentages of the usable table width; five percent keeps cells printable. */
   columnWidths: z.array(z.number().finite().min(5).max(100)).min(1).max(BODY_TABLE_LIMITS.columns).optional(),
   columnAlignments: z.array(z.enum(['left', 'center', 'right'])).min(1).max(BODY_TABLE_LIMITS.columns).optional(),
-  borders: z.enum(['grid', 'outline', 'none']).optional(),
+  borders: z.enum(['grid', 'outline', 'columns', 'none']).optional(),
+  wrap: z.boolean().optional(),
   fontSize: z.union([z.literal(10), z.literal(11), z.literal(12)]).optional(),
   minimumRowHeight: z.number().finite().min(0).max(144).optional(),
+  /** Null inherits the table-wide minimum; zero explicitly removes it. */
+  rowHeights: z.array(z.number().finite().min(0).max(144).nullable()).min(1).max(BODY_TABLE_LIMITS.rows).optional(),
   repeatHeaders: z.boolean().optional(),
 }).strict().superRefine((table, context) => {
   const columns = table.rows[0]?.length ?? 0;
@@ -23,6 +26,9 @@ export const bodyTableSchema = z.object({
   }
   if ([table.columnWidths, table.columnAlignments].some(values => values && values.length !== columns)) {
     context.addIssue({ code: 'custom', message: 'Column formatting must match every table column.' });
+  }
+  if (table.rowHeights && table.rowHeights.length !== table.rows.length) {
+    context.addIssue({ code: 'custom', message: 'Row heights must match every table row.' });
   }
   if (table.columnWidths && Math.abs(table.columnWidths.reduce((sum, value) => sum + value, 0) - 100) > 0.001) {
     context.addIssue({ code: 'custom', message: 'Column widths must total 100 percent.' });
@@ -66,6 +72,27 @@ export function resizeBodyTableColumn(table: BodyTable, column: number, percent:
   const weights = widths.map((width, index) => index === column ? 0 : Math.max(0, width - 5));
   const total = weights.reduce((sum, width) => sum + width, 0);
   return { ...table, columnWidths: widths.map((_, index) => index === column ? selected : 5 + free * (total ? weights[index] / total : 1 / (widths.length - 1))) };
+}
+
+export function fitBodyTableColumn(table: BodyTable, column: number): BodyTable {
+  return resizeBodyTableColumn(table, column, autofitBodyTable(table).columnWidths![column]);
+}
+
+/** A divider changes the two adjacent widths and preserves every other column. */
+export function resizeBodyTableBoundary(table: BodyTable, boundary: number, percent: number): BodyTable {
+  const widths = table.columnWidths ? [...table.columnWidths] : bodyTableWidths(table);
+  if (!Number.isInteger(boundary) || boundary < 0 || boundary >= widths.length - 1 || !Number.isFinite(percent)) {
+    throw new Error('Choose a valid table boundary.');
+  }
+  const pairWidth = widths[boundary] + widths[boundary + 1];
+  const left = Math.max(5, Math.min(pairWidth - 5, percent));
+  widths[boundary] = left;
+  widths[boundary + 1] = pairWidth - left;
+  return { ...table, columnWidths: widths };
+}
+
+export function bodyTableRowHeight(table: Pick<BodyTable, 'minimumRowHeight' | 'rowHeights'>, row: number): number | undefined {
+  return table.rowHeights?.[row] ?? table.minimumRowHeight;
 }
 
 export function assertRichBlockShape(paragraph: { bodyTable?: unknown; figure?: { placement?: string }; tableKey?: unknown; callout?: unknown; procedure?: unknown; appendix?: unknown }): void {
