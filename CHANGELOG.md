@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.277] — 2026-11-23
+
+### Added
+
+- Search the Marine Corps supplement, copy a citation, and keep the exact source page beside the editor.
+
 ## [1.3.276] — 2026-11-23
 
 ### Added

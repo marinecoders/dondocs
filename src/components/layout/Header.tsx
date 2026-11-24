@@ -35,6 +35,7 @@ import {
 } from '@/components/ui/alert-dialog';
 import { showAppAlert } from '@/stores/alertStore';
 import { useUIStore } from '@/stores/uiStore';
+import { toggleWorkspacePreview, useCorrespondenceManualStore } from '@/stores/correspondenceManualStore';
 import { useDocumentStore, getSerializedSession } from '@/stores/documentStore';
 import { useFormStore } from '@/stores/formStore';
 import { detectSessionPlaceholders } from '@/lib/placeholders';
@@ -129,8 +130,8 @@ export function Header({
   const isMobile = useUIStore((s) => s.isMobile);
   const previewVisible = useUIStore((s) => s.previewVisible);
   const mobilePreviewOpen = useUIStore((s) => s.mobilePreviewOpen);
-  const previewOpen = isMobile ? mobilePreviewOpen : previewVisible;
-  const togglePreview = useUIStore((s) => s.togglePreview);
+  const referenceDock = useCorrespondenceManualStore((s) => !!s.dock);
+  const previewOpen = isMobile ? mobilePreviewOpen : previewVisible && !referenceDock;
   // Actions only, no document-state subscription. The handlers below read the
   // full document via useDocumentStore.getState() at call time, so Header
   // doesn't re-render per keystroke.
@@ -340,7 +341,7 @@ export function Header({
           aria-label="Preview" aria-pressed={isMobile ? undefined : previewOpen}
           aria-haspopup={isMobile ? 'dialog' : undefined} aria-expanded={isMobile ? previewOpen : undefined}
           data-active={previewOpen}
-          onClick={() => isMobile ? useUIStore.getState().setMobilePreviewOpen(true) : togglePreview()}
+          onClick={() => isMobile ? useUIStore.getState().setMobilePreviewOpen(true) : toggleWorkspacePreview()}
         ><PanelRight className="h-4 w-4 sm:hidden" /><span className="hidden sm:inline">Preview</span></Button>
           {/* Download dropdown - always visible but compact on smaller screens */}
           <DropdownMenu>

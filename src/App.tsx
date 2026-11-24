@@ -33,6 +33,8 @@ import { ResizableDivider } from '@/components/layout/ResizableDivider';
 import { ProfileManager } from '@/components/modals/ProfileManager';
 import { ProfileModal } from '@/components/modals/ProfileModal';
 import { ReferenceLibraryModal } from '@/components/modals/ReferenceLibraryModal';
+import { toggleWorkspacePreview, useCorrespondenceManualStore } from '@/stores/correspondenceManualStore';
+const ReferenceDock = lazy(() => import('@/components/manual/ReferenceDock'));
 // MobilePreviewModal renders the shared in-app PdfViewer (react-pdf + pdf.js),
 // which Rollup emits as its own chunk because the desktop panel dynamically
 // imports the same component — one pdf.js copy for both surfaces. The modal
@@ -160,6 +162,7 @@ function App() {
   // Gate the lazy MobilePreviewModal; chunk fetches on first open only.
   const mobilePreviewOpen = useUIStore((s) => s.mobilePreviewOpen);
   const previewVisible = useUIStore((s) => s.previewVisible);
+  const referenceDock = useCorrespondenceManualStore((state) => !!state.dock);
   const previewWidth = useUIStore((s) => s.previewWidth);
   const setPreviewVisible = useUIStore((s) => s.setPreviewVisible);
   const setPreviewWidth = useUIStore((s) => s.setPreviewWidth);
@@ -169,7 +172,6 @@ function App() {
   const setReferenceLibraryOpen = useUIStore((s) => s.setReferenceLibraryOpen);
   const setShareModal = useUIStore((s) => s.setShareModal);
   const shareModal = useUIStore((s) => s.shareModal);
-  const togglePreview = useUIStore((s) => s.togglePreview);
   const closeAllModals = useUIStore((s) => s.closeAllModals);
   const fullQualityPreview = useUIStore((s) => s.fullQualityPreview);
   const commandPaletteOpen = useUIStore((s) => s.commandPaletteOpen);
@@ -874,7 +876,7 @@ function App() {
       // Ctrl/Cmd + E - Toggle Preview
       if (isMod && e.key === 'e') {
         e.preventDefault();
-        togglePreview();
+        toggleWorkspacePreview();
         return;
       }
 
@@ -904,7 +906,6 @@ function App() {
     setTemplateLoaderOpen,
     setReferenceLibraryOpen,
     setFindReplaceOpen,
-    togglePreview,
   ]);
 
   // Keep the latest download triggers in the module-level holder so the
@@ -1135,9 +1136,9 @@ function App() {
         })),
         {
           id: 'toggle-preview',
-          label: `${(isMobile ? mobilePreviewOpen : previewVisible) ? 'Hide' : 'Show'} preview`,
+          label: `${(isMobile ? mobilePreviewOpen : previewVisible && !referenceDock) ? 'Hide' : 'Show'} preview`,
           icon: PanelRight,
-          onRun: () => useUIStore.getState().togglePreview(),
+          onRun: toggleWorkspacePreview,
         },
         {
           id: 'manage-profiles',
@@ -1190,7 +1191,7 @@ function App() {
     groups.push({ label: 'Insert', items: insertItems });
 
     return groups;
-  }, [outputCapabilities, outlineSections, allDocs, currentDocId, isInstalled, userTemplates, documentCategory, genericForm, isMobile, mobilePreviewOpen, previewVisible, formCatalog]);
+  }, [outputCapabilities, outlineSections, allDocs, currentDocId, isInstalled, userTemplates, documentCategory, genericForm, isMobile, mobilePreviewOpen, previewVisible, referenceDock, formCatalog]);
 
   if (!workspaceReady) {
     return <main className="flex h-screen-dvh flex-col items-center justify-center gap-3 bg-background text-foreground">
@@ -1271,7 +1272,7 @@ function App() {
               {/* The outer slot closes; its full-width contents stay mounted and
                   slide out without squeezing the PDF or resetting its position. */}
               <div
-                className="workspace-preview-panel flex min-w-0 shrink-0 overflow-hidden"
+                className={`workspace-preview-panel flex min-w-0 shrink-0 overflow-hidden${referenceDock ? ' lg:!hidden' : ''}`}
                 data-open={previewVisible && !isMobile}
                 aria-hidden={!previewVisible || isMobile}
                 inert={!previewVisible || isMobile}
@@ -1299,6 +1300,9 @@ function App() {
                   />
                 </div>
               </div>
+              {referenceDock && <Suspense fallback={<p role="status" className="hidden border-l p-4 text-sm lg:block">Opening reference…</p>}>
+                <ReferenceDock />
+              </Suspense>}
             </main>
             <div role="region" aria-label="Document readiness" className="workspace-reviewbar flex shrink-0 flex-wrap items-center justify-start gap-2 border-t border-border pl-4 pr-20 sm:pl-6 sm:pr-44 py-1.5 text-xs text-muted-foreground">
               <ReadinessMeter />

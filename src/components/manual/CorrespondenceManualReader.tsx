@@ -2,8 +2,8 @@ import { ManualViewBoundary } from './ManualViewBoundary';
 import { lazy, Suspense, useEffect, useMemo, useRef, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { CORRESPONDENCE_MANUAL as source, findManualMatch, findManualParagraphMatch, loadManualResource, locateManualPage, parseCorrespondenceManual, searchCorrespondenceManual, type CorrespondenceManual, type ManualLocation, type ManualMatch } from '@/lib/correspondenceManual';
-import { useCorrespondenceManualStore } from '@/stores/correspondenceManualStore';
+import { CORRESPONDENCE_MANUAL, MANUAL_SOURCES, findManualMatch, findManualParagraphMatch, loadManualResource, locateManualPage, parseCorrespondenceManual, searchCorrespondenceManual, type CorrespondenceManual, type ManualLocation, type ManualMatch, type ManualSource } from '@/lib/correspondenceManual';
+import { openReferenceBesideDraft, useCorrespondenceManualStore } from '@/stores/correspondenceManualStore';
 import { triggerDownload } from '@/lib/encoding';
 
 const SourcePage = lazy(() => import('./ManualSourcePage'));
@@ -22,40 +22,74 @@ function Highlight({ text, query, paragraphMatch }: { text: string; query: strin
   return !match ? text : <>{text.slice(0, match.start)}<mark className="rounded bg-primary/15 text-foreground">{text.slice(match.start, match.end)}</mark>{text.slice(match.end)}</>;
 }
 
-export default function CorrespondenceManualReader() {
+export default function CorrespondenceManualReader({ besideDraft = false }: { besideDraft?: boolean }) {
   const request = useCorrespondenceManualStore(state => state.request);
   const location = useCorrespondenceManualStore(state => state.location);
+  const dock = useCorrespondenceManualStore(state => state.dock);
+  return besideDraft && dock
+    ? <ReferenceReader key={`${dock.sourceId}:${dock.page}:${dock.showPdf}`} initialSource={dock.sourceId} location={{ page: dock.page }} besideDraft startInPdf={dock.showPdf} />
+    : <ReferenceReader key={request} location={location} />;
+}
+
+function ReferenceReader({ initialSource = CORRESPONDENCE_MANUAL.id, location, besideDraft = false, startInPdf = false }:
+  { initialSource?: string; location: ManualLocation; besideDraft?: boolean; startInPdf?: boolean }) {
+  const [sourceId, setSourceId] = useState(initialSource);
+  const source = MANUAL_SOURCES.find(entry => entry.id === sourceId) ?? CORRESPONDENCE_MANUAL;
+  const keepLocation = source.id === initialSource;
+  return <>
+    <label className="block shrink-0 px-4 pb-3 text-sm">Reference publication
+      <select className="mt-1 block w-full rounded-md border bg-background px-2 py-2" value={source.id} onChange={event => setSourceId(event.target.value)}>
+        {MANUAL_SOURCES.map(entry => <option key={entry.id} value={entry.id}>{entry.shortTitle}</option>)}
+      </select>
+    </label>
+    <LoadedReference key={source.id} source={source} location={keepLocation ? location : {}} besideDraft={besideDraft} startInPdf={keepLocation && startInPdf} />
+  </>;
+}
+
+function LoadedReference({ source, location, besideDraft, startInPdf }:
+  { source: ManualSource; location: ManualLocation; besideDraft: boolean; startInPdf: boolean }) {
   const [manual, setManual] = useState<CorrespondenceManual>();
   const [error, setError] = useState('');
   const [retry, setRetry] = useState(0);
   const [cached, setCached] = useState(false);
   useEffect(() => {
     const controller = new AbortController();
-    loadManualResource('text', controller.signal).then(result => {
-      const parsed = parseCorrespondenceManual(result.bytes);
+    loadManualResource('text', controller.signal, source).then(result => {
+      const parsed = parseCorrespondenceManual(result.bytes, source);
       controller.signal.throwIfAborted();setManual(parsed);setCached(result.cached);setError('');
     }).catch(error => { if (!controller.signal.aborted) setError(error instanceof Error ? error.message : 'The manual could not be loaded.'); });
     return () => controller.abort();
-  }, [retry]);
+  }, [retry, source]);
   if (!manual) return <div className="p-4">{error ? <><p role="alert" className="text-sm text-destructive">{error}</p><Button className="mt-3" variant="outline" onClick={() => { setError('');setRetry(value => value + 1); }}>Retry manual</Button></> : <p role="status" className="text-sm text-muted-foreground">Loading correspondence manual…</p>}</div>;
-  return <ManualContent key={request} manual={manual} cached={cached} location={location} />;
+  return <ManualContent manual={manual} cached={cached} location={location} source={source} besideDraft={besideDraft} startInPdf={startInPdf} />;
 }
 
-function ManualContent({ manual, cached, location }: { manual: CorrespondenceManual; cached: boolean; location: ManualLocation }) {
+function ManualContent({ manual, cached, location, source, besideDraft, startInPdf }:
+  { manual: CorrespondenceManual; cached: boolean; location: ManualLocation; source: ManualSource; besideDraft: boolean; startInPdf: boolean }) {
   const [pageNumber, setPageNumber] = useState(() => locateManualPage(manual, location).page);
   const [query, setQuery] = useState(location.query?.slice(0, 160) ?? '');
   const [searched, setSearched] = useState(location.query?.slice(0, 160) ?? '');
   const [showResults, setShowResults] = useState(false);
   const [locatorMissing, setLocatorMissing] = useState(() => !locateManualPage(manual, location).foundParagraph);
-  const [pdfOpen, setPdfOpen] = useState(false);
+  const [pdfOpen, setPdfOpen] = useState(startInPdf);
   const [pdf, setPdf] = useState<Uint8Array>();
   const [pdfError, setPdfError] = useState('');
   const [pdfCached, setPdfCached] = useState(false);
-  const pdfAbort = useRef<AbortController | null>(null);
+  const [pdfAttempt, setPdfAttempt] = useState(0);
+  const [copyStatus, setCopyStatus] = useState('');
   const reading = useRef<HTMLHeadingElement>(null);
   const readingRegion = useRef<HTMLDivElement>(null);
 
-  useEffect(() => () => pdfAbort.current?.abort(), []);
+  useEffect(() => {
+    if (!pdfOpen || pdf) return;
+    const controller = new AbortController();
+    void loadManualResource('pdf', controller.signal, source).then(resource => {
+      if (!controller.signal.aborted) { setPdf(resource.bytes); setPdfCached(resource.cached); }
+    }).catch(error => {
+      if (!controller.signal.aborted) setPdfError(error instanceof Error ? error.message : 'The original PDF could not be loaded.');
+    });
+    return () => controller.abort();
+  }, [pdf, pdfAttempt, pdfOpen, source]);
   useEffect(() => {
     if (!location.query && !location.paragraph) return;
     scrollToMatch(readingRegion.current);
@@ -83,22 +117,22 @@ function ManualContent({ manual, cached, location }: { manual: CorrespondenceMan
     setPageNumber(number);
     setShowResults(false);
     setLocatorMissing(false);
+    setCopyStatus('');
     focusReading(showMatch);
   };
   const closePdf = () => {
-    pdfAbort.current?.abort();
     setPdfOpen(false);
     setPdfError('');
     focusReading(true);
   };
-  const openPdf = async () => {
-    setPdfOpen(true);setPdfError('');
-    if (pdf) return;
-    pdfAbort.current?.abort();const controller = new AbortController();pdfAbort.current = controller;
+  const copyCitation = async () => {
+    const citation = `${source.shortTitle}, ${source.edition}, PDF page ${pageNumber}.`;
     try {
-      const resource = await loadManualResource('pdf', controller.signal);
-      if (!controller.signal.aborted) { setPdf(resource.bytes);setPdfCached(resource.cached); }
-    } catch (error) { if (!controller.signal.aborted) setPdfError(error instanceof Error ? error.message : 'The original PDF could not be loaded.'); }
+      await navigator.clipboard.writeText(citation);
+      setCopyStatus('Citation copied.');
+    } catch {
+      setCopyStatus(citation);
+    }
   };
 
   return <section aria-label="Correspondence manual" className="min-h-0 flex-1 overflow-y-auto px-4 pb-4">
@@ -108,15 +142,24 @@ function ManualContent({ manual, cached, location }: { manual: CorrespondenceMan
         <p className="text-xs text-muted-foreground">{source.edition}. Bundled reference edition; currentness has not been established.</p>
         <p className="mt-1 text-xs text-muted-foreground">{cached ? 'Reference text saved for offline reading in this browser.' : 'Reference text is available in this session; persistent offline storage is unavailable.'}</p>
       </div>
+      <div className="flex flex-wrap items-center gap-2">
+        <Button size="sm" variant="outline" onClick={() => void copyCitation()}>Copy citation</Button>
+        {!besideDraft && <Button className="hidden lg:inline-flex" size="sm" variant="outline" onClick={() =>
+          openReferenceBesideDraft({ sourceId: source.id, page: pageNumber, showPdf: pdfOpen })
+        }>Read beside draft</Button>}
+        {copyStatus && <span role="status" className="text-xs text-muted-foreground">{copyStatus}</span>}
+      </div>
       {pdfOpen ? <>
         <div className="flex flex-wrap gap-2">
           <Button size="sm" variant="outline" onClick={closePdf}>Back to reference text</Button>
-          {pdf && <Button size="sm" variant="outline" onClick={() => triggerDownload(new Blob([new Uint8Array(pdf)], { type: 'application/pdf' }), 'SECNAV-M-5216.5-CH1.pdf')}>Download original PDF</Button>}
+          {pdf && <Button size="sm" variant="outline" onClick={() => triggerDownload(new Blob([new Uint8Array(pdf)], { type: 'application/pdf' }),
+            source.id === CORRESPONDENCE_MANUAL.id ? 'SECNAV-M-5216.5-CH1.pdf' : 'MCO-5216.20B-CH4.pdf'
+          )}>Download original PDF</Button>}
         </div>
-        {pdfError ? <p role="alert" className="text-sm text-destructive">{pdfError}</p> : pdf ? <>
+        {pdfError ? <><p role="alert" className="text-sm text-destructive">{pdfError}</p><Button size="sm" variant="outline" onClick={() => { setPdfError(''); setPdfAttempt(value => value + 1); }}>Retry source PDF</Button></> : pdf ? <>
           <p className="text-xs text-muted-foreground">{pdfCached ? 'Original PDF saved in this browser.' : 'Original PDF is available in this session only.'}</p>
           <ManualViewBoundary fallback={<p role="alert" className="text-sm">The source viewer could not load. Use the reference text or download the original PDF.</p>}>
-            <Suspense fallback={<p role="status" className="text-sm">Opening source viewer…</p>}><SourcePage bytes={pdf} page={pageNumber} onPage={setPageNumber} /></Suspense>
+            <Suspense fallback={<p role="status" className="text-sm">Opening source viewer…</p>}><SourcePage bytes={pdf} page={pageNumber} pageCount={source.pages} onPage={moveToPage} /></Suspense>
           </ManualViewBoundary>
         </> : <p role="status" className="text-sm">Loading original PDF…</p>}
       </> : <>
@@ -141,7 +184,7 @@ function ManualContent({ manual, cached, location }: { manual: CorrespondenceMan
           {locatorMissing && <p role="status" className="text-sm text-muted-foreground">The requested paragraph locator was not found. The chapter is open for inspection.</p>}
           <div className="flex flex-wrap items-center justify-between gap-2">
             <h3 ref={reading} tabIndex={-1} className="text-sm font-semibold outline-none">{section?.title} · Page {page.label}</h3>
-            <Button variant="outline" size="sm" onClick={() => void openPdf()}>View original PDF page {page.number}</Button>
+            <Button variant="outline" size="sm" onClick={() => setPdfOpen(true)}>View original PDF page {page.number}</Button>
           </div>
           <p className="text-xs text-muted-foreground">Extracted source text, PDF page {page.number} of {source.pages}. Inspect the original page for figures, tables and exact layout.</p>
           <div ref={readingRegion} role="region" aria-label={`Manual text page ${page.label}`} tabIndex={0} className="max-h-[45dvh] overflow-auto rounded-md border bg-muted/20 p-3 font-mono text-xs leading-relaxed whitespace-pre-wrap break-words focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"><Highlight text={page.text} query={searched} paragraphMatch={paragraphMatch} /></div>
@@ -151,7 +194,7 @@ function ManualContent({ manual, cached, location }: { manual: CorrespondenceMan
           </div>
         </>}
       </>}
-      <p className="border-t pt-3 text-xs text-muted-foreground"><a href={source.sourceUrl} target="_blank" rel="noopener noreferrer" className="underline underline-offset-2">Issuing-site source PDF</a> · Search reads text extracted from this unchanged PDF.</p>
+      <p className="border-t pt-3 text-xs text-muted-foreground"><a href={source.sourceUrl} target="_blank" rel="noopener noreferrer" className="underline underline-offset-2">Issuing-site source{source.id === CORRESPONDENCE_MANUAL.id && ' PDF'}</a> · Search reads text extracted from this unchanged PDF.</p>
     </div>
   </section>;
 }

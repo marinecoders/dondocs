@@ -1,7 +1,10 @@
 import { z } from 'zod';
-import source from '@/data/correspondenceManualSource.json';
+import secnav from '@/data/correspondenceManualSource.json';
+import mco from '@/data/mcoCorrespondenceManualSource.json';
 
-export const CORRESPONDENCE_MANUAL = Object.freeze(source);
+export const CORRESPONDENCE_MANUAL = Object.freeze(secnav);
+export const MANUAL_SOURCES = [CORRESPONDENCE_MANUAL, Object.freeze(mco)] as const;
+export type ManualSource = typeof MANUAL_SOURCES[number];
 const section = z.object({
   id: z.string().max(10),
   title: z.string().max(120),
@@ -16,19 +19,19 @@ const page = z.object({
 });
 const manualSchema = z.object({
   schema: z.literal(1),
-  sourceSha256: z.literal(source.sourceSha256),
-  sections: z.array(section).length(18),
-  pages: z.array(page).length(source.pages),
+  sourceSha256: z.string(),
+  sections: z.array(section).min(1),
+  pages: z.array(page),
 });
 
 export type CorrespondenceManual = z.infer<typeof manualSchema>;
-export interface ManualLocation { chapter?: number; paragraph?: string; query?: string }
+export interface ManualLocation { chapter?: number; paragraph?: string; query?: string; page?: number }
 export interface ManualMatch { start: number; end: number }
 export interface ManualSearchResult { page: number; label: string; section: string; excerpt: string }
 const CACHE = 'dondocs-correspondence-manual-v1';
 
 /** The source and text are versioned together; saved drafts never enter this cache. */
-export function manualResourceUrl(kind: 'text' | 'pdf'): string {
+export function manualResourceUrl(kind: 'text' | 'pdf', source: ManualSource = CORRESPONDENCE_MANUAL): string {
   const path = kind === 'text' ? source.textPath : source.pdfPath;
   return new URL(`${import.meta.env.BASE_URL || '/'}${path}`, location.origin).href;
 }
@@ -38,7 +41,7 @@ async function digest(bytes: Uint8Array): Promise<string> {
   return Array.from(new Uint8Array(hash), n => n.toString(16).padStart(2, '0')).join('');
 }
 
-async function verifiedBytes(response: Response, kind: 'text' | 'pdf', signal: AbortSignal): Promise<Uint8Array> {
+async function verifiedBytes(response: Response, kind: 'text' | 'pdf', signal: AbortSignal, source: ManualSource): Promise<Uint8Array> {
   const expected = kind === 'text' ? source.textBytes : source.pdfBytes;
   if (!response.ok || Number(response.headers.get('Content-Length')) > expected) {
     throw new Error('The bundled manual resource is unavailable.');
@@ -75,7 +78,7 @@ async function verifiedBytes(response: Response, kind: 'text' | 'pdf', signal: A
   return bytes;
 }
 
-export async function loadManualResource(kind: 'text' | 'pdf', signal: AbortSignal): Promise<{ bytes: Uint8Array; cached: boolean }> {
+export async function loadManualResource(kind: 'text' | 'pdf', signal: AbortSignal, source: ManualSource = CORRESPONDENCE_MANUAL): Promise<{ bytes: Uint8Array; cached: boolean }> {
   const hash = kind === 'text' ? `${source.textSha256}.json` : `${source.sourceSha256}.pdf`;
   // Content-based keys let application releases reuse an unchanged reference.
   const cacheKey = new URL(`/__dd_manual/${hash}`, location.origin).href;
@@ -88,7 +91,7 @@ export async function loadManualResource(kind: 'text' | 'pdf', signal: AbortSign
     const saved = await cache.match(cacheKey).catch(() => undefined);
     if (saved) {
       try {
-        return { bytes: await verifiedBytes(saved, kind, signal), cached: true };
+        return { bytes: await verifiedBytes(saved, kind, signal, source), cached: true };
       } catch {
         signal.throwIfAborted();
         await cache.delete(cacheKey).catch(() => {});
@@ -96,8 +99,8 @@ export async function loadManualResource(kind: 'text' | 'pdf', signal: AbortSign
     }
   }
 
-  const response = await fetch(manualResourceUrl(kind), { signal, credentials: 'same-origin', redirect: 'error' });
-  const bytes = await verifiedBytes(response, kind, signal);
+  const response = await fetch(manualResourceUrl(kind, source), { signal, credentials: 'same-origin', redirect: 'error' });
+  const bytes = await verifiedBytes(response, kind, signal, source);
   let cached = false;
   if (cache) {
     try {
@@ -113,8 +116,12 @@ export async function loadManualResource(kind: 'text' | 'pdf', signal: AbortSign
   return { bytes, cached };
 }
 
-export function parseCorrespondenceManual(bytes: Uint8Array): CorrespondenceManual {
+export function parseCorrespondenceManual(bytes: Uint8Array, source: ManualSource = CORRESPONDENCE_MANUAL): CorrespondenceManual {
   const data = manualSchema.parse(JSON.parse(new TextDecoder('utf-8', { fatal: true }).decode(bytes)));
+  const sectionCount = source.id === CORRESPONDENCE_MANUAL.id ? 18 : 4;
+  if (data.sourceSha256 !== source.sourceSha256 || data.pages.length !== source.pages || data.sections.length !== sectionCount) {
+    throw new Error('The extracted text does not match this reference edition.');
+  }
   if (data.sections[0].firstPage !== 1 || data.sections.at(-1)?.lastPage !== source.pages) {
     throw new Error('Invalid manual chapter range.');
   }
@@ -188,6 +195,9 @@ export function findManualParagraphMatch(text: string, paragraph: string): Manua
 }
 
 export function locateManualPage(manual: CorrespondenceManual, location: ManualLocation): { page: number; foundParagraph: boolean } {
+  if (Number.isInteger(location.page) && location.page! >= 1 && location.page! <= manual.pages.length) {
+    return { page: location.page!, foundParagraph: !location.paragraph };
+  }
   const chapter = manual.sections.find(chapter => chapter.id === String(location.chapter));
   if (!chapter) {
     const query = location.query;
