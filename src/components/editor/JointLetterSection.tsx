@@ -393,8 +393,7 @@ export function JointLetterSection() {
                     <Button type="button" variant="outline" size="sm" onClick={swapJuniorAndAdditional}>Swap with junior command</Button>
                     <Button type="button" variant="outline" size="sm" onClick={() => setField('jointAdditionalCommands', [])}>Remove third command</Button>
                   </div>
-                  <p className="text-xs text-muted-foreground">Three-command letters use typed signatures. For digital signing, add fields to the exported PDF through signing handoff.</p>
-                  {formData.signatureType && formData.signatureType !== 'none' && <p role="alert" className="text-sm text-destructive">Choose Typed Only below before exporting this three-command letter.</p>}
+                  {formData.signatureType === 'image' && <p role="alert" className="text-sm text-destructive">Choose Typed Only or Digital Fields below before exporting this three-command letter.</p>}
                 </div>
               </AccordionContent>
             </AccordionItem>
@@ -417,7 +416,6 @@ export function JointLetterSection() {
               </EditorGuidance>
 
               <div className="space-y-3">
-                <p className="text-xs text-muted-foreground">Choose a signature style. Three-command letters support typed signatures.</p>
                 <div className="grid grid-cols-2 gap-2">
                   <Button
                     type="button"
@@ -432,7 +430,6 @@ export function JointLetterSection() {
                   </Button>
                   <Button
                     type="button"
-                    disabled={!!additional}
                     aria-pressed={formData.signatureType === 'digital'}
                     variant={formData.signatureType === 'digital' ? 'default' : 'outline'}
                     size="sm"
@@ -446,20 +443,19 @@ export function JointLetterSection() {
 
                 <p className="text-xs text-muted-foreground">
                   {(formData.signatureType || 'none') === 'none' && 'Typed names and titles for all signatories.'}
-                  {formData.signatureType === 'digital' && 'Creates empty signature fields above BOTH signatory blocks for CAC/PKI digital signing.'}
+                  {formData.signatureType === 'digital' && 'Adds an empty signature field above each signatory for CAC/PKI signing.'}
                 </p>
 
-                {formData.signatureType === 'digital' && !additional && (
+                {formData.signatureType === 'digital' && (
                   <div className="border rounded-lg p-4 bg-muted/30 border-border">
                     <div className="flex items-start gap-3">
                       <Shield className="h-5 w-5 text-primary mt-0.5" />
                       <div className="space-y-1">
                         <p className="text-sm font-medium text-foreground">
-                          Dual Digital Signature Fields
+                          Digital Signature Fields
                         </p>
                         <p className="text-xs text-muted-foreground">
-                          Empty signature fields will be placed above BOTH signatory blocks.
-                          After downloading, you can digitally sign using:
+                          After downloading, sign with your PDF signing application.
                         </p>
                         <ul className="text-xs text-muted-foreground list-disc list-inside mt-2 space-y-1">
                           <li>Adobe Acrobat with CAC/PIV</li>
@@ -467,7 +463,7 @@ export function JointLetterSection() {
                           <li>Other digital signature tools</li>
                         </ul>
                         <p className="text-xs text-muted-foreground mt-2 pt-2 border-t border-border">
-                          <strong>Signing Order:</strong> Junior signatory signs first (left), then Senior signatory (right).
+                          The junior command signs first{additional ? ', then the middle command' : ''}. The senior command signs last.
                         </p>
                       </div>
                     </div>

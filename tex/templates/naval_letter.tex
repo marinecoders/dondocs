@@ -133,6 +133,7 @@
         \fi
         % Required: Use abbreviated format (J. M. LASTNAME) if set, otherwise full name
         % Only print name line if there's actually a name
+        \ifdefempty{\AppendedEndorsements}{}{\dondocsSignatureAnchor{single}}%
         \ifdefempty{\SignatoryAbbrev}{%
             \ifdefempty{\SignatoryName}{}{\MakeUppercase{\SignatoryName}\\}%
         }{\SignatoryAbbrev\\}%

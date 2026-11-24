@@ -1015,12 +1015,14 @@
         To:\hspace{6\fontdimen2\font} & \AckTo
     \end{tabular}\par\vspace{12pt}%
 }
-\newcommand{\printAckBodyAndSignature}{%
+\newcommand{\printAckBodyAndSignature}[1]{%
     % Minipages reset paragraph alignment. Keep wrapped acknowledgement text
     % left-aligned so justification cannot stretch or shrink its word spaces.
     {\raggedright\clubpenalty=10000\widowpenalty=10000\AckBody\par}%
     \nopagebreak[4]\vspace{3\baselineskip}\nopagebreak[4]%
-    \noindent\hspace*{3.25in}\AckSignature\par
+    \noindent\hspace*{3.25in}%
+    \ifdefempty{\AckSignature}{}{\dondocsSignatureAnchor{endorsement.#1}}%
+    \AckSignature\par
 }
 \newsavebox{\AckHeadingBox}
 \newcommand{\printAckHeading}[1]{%
@@ -1041,7 +1043,7 @@
     \end{tabular}\par\vspace{12pt}%
     % Long endorsements must remain breakable; a page-sized minipage clips
     % both paragraphs and the signature outside the printable page.
-    \printAckBodyAndSignature
+    \printAckBodyAndSignature{#1}%
 }
 \newcommand{\renderAppendedEndorsement}[7]{%
     \begingroup
@@ -1061,7 +1063,7 @@
                 \printAckDate{0}%
                 \noindent #1 ENDORSEMENT\par\vspace{12pt}%
                 \printAckAddresses
-                \printAckBodyAndSignature
+                \printAckBodyAndSignature{#1}%
             \end{minipage}}%
             \dimen0=\dimexpr\pagegoal-\pagetotal\relax
             \ifdim\dimen0>\textheight \dimen0=\textheight\fi

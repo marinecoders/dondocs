@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.253] — 2026-11-23
+
+### Added
+
+- Place automatic signature fields for supported three-command letters, appointment acknowledgments, and appended endorsements.
+
 ## [1.3.252] — 2026-11-23
 
 ### Fixed

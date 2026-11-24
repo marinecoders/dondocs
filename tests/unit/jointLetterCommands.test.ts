@@ -37,12 +37,13 @@ describe('three-command joint correspondence', () => {
     expect(() => additionalJointCommands({ jointAdditionalCommands: [command, { ...command, id: 'fourth' }] })).toThrow();
     expect(() => validateBackupSession({ ...session(), formData: { jointAdditionalCommands: [command, command] } })).toThrow();
     expect(() => additionalJointCommands({ jointAdditionalCommands: [{ ...command, name: 'a'.repeat(257) }] })).toThrow();
-    for (const signatureType of ['digital', 'image'] as const) {
-      fixture.formData.signatureType = signatureType;
-      expect(() => assertJointLetterCommandSupport('joint_letter', fixture.formData)).toThrow(/typed signatures only/);
-      expect(() => generateAllLatexFiles(fixture)).toThrow(/typed signatures only/);
-      expect(() => generateFlatLatex(fixture)).toThrow(/typed signatures only/);
-    }
+    fixture.formData.signatureType = 'digital';
+    expect(generateAllLatexFiles(fixture).texFiles['signatory.tex']).toContain('\\setDigitalSignatureField');
+    expect(generateFlatLatex(fixture)).toContain('C. MIDDLE');
+    fixture.formData.signatureType = 'image';
+    expect(() => assertJointLetterCommandSupport('joint_letter', fixture.formData)).toThrow(/typed signatures and digital PDF fields/);
+    expect(() => generateAllLatexFiles(fixture)).toThrow(/typed signatures and digital PDF fields/);
+    expect(() => generateFlatLatex(fixture)).toThrow(/typed signatures and digital PDF fields/);
     expect(jointLetterCommandIssues('joint_letter', { jointAdditionalCommands: [{ ...command, from: '' }] })).toEqual([expect.stringContaining('From line')]);
   });
   it('does not activate retained third-command fields on a joint memorandum', () => {

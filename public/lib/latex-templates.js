@@ -1032,12 +1032,14 @@ const LATEX_TEMPLATES = {
         To:\\hspace{6\\fontdimen2\\font} & \\AckTo
     \\end{tabular}\\par\\vspace{12pt}%
 }
-\\newcommand{\\printAckBodyAndSignature}{%
+\\newcommand{\\printAckBodyAndSignature}[1]{%
     % Minipages reset paragraph alignment. Keep wrapped acknowledgement text
     % left-aligned so justification cannot stretch or shrink its word spaces.
     {\\raggedright\\clubpenalty=10000\\widowpenalty=10000\\AckBody\\par}%
     \\nopagebreak[4]\\vspace{3\\baselineskip}\\nopagebreak[4]%
-    \\noindent\\hspace*{3.25in}\\AckSignature\\par
+    \\noindent\\hspace*{3.25in}%
+    \\ifdefempty{\\AckSignature}{}{\\dondocsSignatureAnchor{endorsement.#1}}%
+    \\AckSignature\\par
 }
 \\newsavebox{\\AckHeadingBox}
 \\newcommand{\\printAckHeading}[1]{%
@@ -1058,7 +1060,7 @@ const LATEX_TEMPLATES = {
     \\end{tabular}\\par\\vspace{12pt}%
     % Long endorsements must remain breakable; a page-sized minipage clips
     % both paragraphs and the signature outside the printable page.
-    \\printAckBodyAndSignature
+    \\printAckBodyAndSignature{#1}%
 }
 \\newcommand{\\renderAppendedEndorsement}[7]{%
     \\begingroup
@@ -1078,7 +1080,7 @@ const LATEX_TEMPLATES = {
                 \\printAckDate{0}%
                 \\noindent #1 ENDORSEMENT\\par\\vspace{12pt}%
                 \\printAckAddresses
-                \\printAckBodyAndSignature
+                \\printAckBodyAndSignature{#1}%
             \\end{minipage}}%
             \\dimen0=\\dimexpr\\pagegoal-\\pagetotal\\relax
             \\ifdim\\dimen0>\\textheight \\dimen0=\\textheight\\fi
@@ -3528,17 +3530,17 @@ const LATEX_TEMPLATES = {
     \\ifnum\\JointCommandCount=3
     \\begin{tabular}[t]{@{}p{2in}@{\\hfill}p{2in}@{\\hfill}p{2in}@{}}
 \\begin{minipage}[t]{1.95in}\\raggedright
-\\ThreeJuniorSignature\\par
+\\dondocsSignatureAnchor{junior}\\ThreeJuniorSignature\\par
 \\ThreeJuniorTitle\\par
 \\JuniorByDirection
 \\end{minipage} &
 \\begin{minipage}[t]{1.95in}\\raggedright
-\\MiddleSignatoryName\\par
+\\dondocsSignatureAnchor{middle}\\MiddleSignatoryName\\par
 \\MiddleSignatoryTitle\\par
 \\MiddleByDirection
 \\end{minipage} &
 \\begin{minipage}[t]{1.95in}\\raggedright
-\\ThreeSeniorSignature\\par
+\\dondocsSignatureAnchor{senior}\\ThreeSeniorSignature\\par
 \\ThreeSeniorTitle\\par
 \\ByDirection
 \\end{minipage}
@@ -4884,6 +4886,7 @@ const LATEX_TEMPLATES = {
         \\fi
         % Required: Use abbreviated format (J. M. LASTNAME) if set, otherwise full name
         % Only print name line if there's actually a name
+        \\ifdefempty{\\AppendedEndorsements}{}{\\dondocsSignatureAnchor{single}}%
         \\ifdefempty{\\SignatoryAbbrev}{%
             \\ifdefempty{\\SignatoryName}{}{\\MakeUppercase{\\SignatoryName}\\\\}%
         }{\\SignatoryAbbrev\\\\}%
@@ -5067,6 +5070,7 @@ const LATEX_TEMPLATES = {
             }%
         \\fi
         % Required: Name only (abbreviated format preferred)
+        \\dondocsSignatureAnchor{single}%
         \\ifNotEmptyElse{\\SignatoryAbbrev}{\\SignatoryAbbrev\\\\}{\\ifNotEmpty{\\SignatoryName}{\\MakeUppercase{\\SignatoryName}\\\\}}%
         % Optional title when acting for an official who signs by title
         \\optionalLine{\\ActingTitle}%
@@ -5401,6 +5405,7 @@ const LATEX_TEMPLATES = {
             }%
         \\fi
         % Required: Name only (abbreviated format preferred)
+        \\dondocsSignatureAnchor{single}%
         \\ifNotEmptyElse{\\SignatoryAbbrev}{\\SignatoryAbbrev\\\\}{\\ifNotEmpty{\\SignatoryName}{\\MakeUppercase{\\SignatoryName}\\\\}}%
         % Optional title when acting for an official who signs by title
         \\optionalLine{\\ActingTitle}%
@@ -5647,6 +5652,7 @@ const LATEX_TEMPLATES = {
         \\fi
         % Required: Use abbreviated format (J. M. LASTNAME) if set, otherwise full name
         % Only print name line if there's actually a name
+        \\ifdefempty{\\AppendedEndorsements}{}{\\dondocsSignatureAnchor{single}}%
         \\ifdefempty{\\SignatoryAbbrev}{%
             \\ifdefempty{\\SignatoryName}{}{\\MakeUppercase{\\SignatoryName}\\\\}%
         }{\\SignatoryAbbrev\\\\}%

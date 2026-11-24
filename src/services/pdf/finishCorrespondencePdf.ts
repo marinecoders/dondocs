@@ -4,13 +4,15 @@ import { correspondenceStationery } from '@/lib/stationery';
 import { resolvePublicationDestinations } from './publicationDestinations';
 import { publicationMarking } from '@/lib/publicationMarking';
 import { formatPublicationDate } from '@/lib/publicationDate';
+import { resolveAppendedEndorsements } from '@/lib/appendedEndorsement';
+import { isEndorsement } from '@/lib/endorsement';
 import { jointSignatories } from '@/lib/signingAuthority';
 import { abbreviatedFullSignatoryName } from '@/lib/signatoryName';
 import { DOC_TYPE_CONFIG, type DocumentData, type Paragraph } from '@/types/document';
 import type { GeneratedFiles } from '@/services/latex/generator';
 import { mergeEnclosures, type ClassificationInfo, type EnclosureError } from './mergeEnclosures';
 import { assembleEndorsement, shouldAssembleBasicLetter } from './assembleEndorsement';
-import { addSignatureField, addDualSignatureFields, type DualSignatureFieldConfig, type SignatureFieldConfig } from './addSignatureField';
+import { addSignatureField, addDualSignatureFields, addTemplateSignatureFields, type DualSignatureFieldConfig, type SignatureFieldConfig, type TemplateSignatureField } from './addSignatureField';
 
 /**
  * Assemble the uploaded basic letter ahead of a compiled endorsement, so the
@@ -27,12 +29,14 @@ export async function assembleBasicLetter(
   pdfBytes: Uint8Array,
   docType: string,
   formData: Partial<DocumentData>, signal?: AbortSignal
-): Promise<{ pdfBytes: Uint8Array; error?: string }> {
+): Promise<{ pdfBytes: Uint8Array; prependedPageCount: number; error?: string }> {
   // The gate (new-page only, letter attached) lives in assembleEndorsement.ts
   // where it is unit-tested; see shouldAssembleBasicLetter for the reasoning.
-  if (!shouldAssembleBasicLetter(docType, formData)) return { pdfBytes };
+  if (!shouldAssembleBasicLetter(docType, formData)) return { pdfBytes, prependedPageCount: 0 };
   const result = await assembleEndorsement(pdfBytes, formData.basicLetterFile!.data, signal);
-  return result.ok ? { pdfBytes: result.pdfBytes } : { pdfBytes, error: result.error };
+  return result.ok
+    ? { pdfBytes: result.pdfBytes, prependedPageCount: result.basicLetterPageCount }
+    : { pdfBytes, prependedPageCount: 0, error: result.error };
 }
 
 /** An EnclosureError-shaped entry so a failed basic-letter assembly surfaces in
@@ -115,6 +119,26 @@ export function getDualSignatoryConfig(formData: Partial<DocumentData>, uiMode: 
   };
 }
 
+function positionedSignatureFields(docType: string, data: Partial<DocumentData>): TemplateSignatureField[] {
+  if (data.signatureType !== 'digital') return [];
+  if (docType === 'joint_letter' && data.jointAdditionalCommands?.length) {
+    return [
+      { role: 'junior', name: 'JuniorSignature', width: 132 },
+      { role: 'middle', name: 'MiddleSignature', width: 132 },
+      { role: 'senior', name: 'SeniorSignature', width: 132 },
+    ];
+  }
+  const endorsements = resolveAppendedEndorsements(docType, data);
+  if (!isEndorsement(docType) && !endorsements.length) return [];
+  return [
+    { role: 'single', name: 'Signature1' },
+    ...endorsements.filter(endorsement => endorsement.signer).map(({ ordinal }): TemplateSignatureField => ({
+      role: `endorsement.${ordinal}`,
+      name: `${ordinal[0]}${ordinal.slice(1).toLowerCase()}EndorsementSignature`,
+    })),
+  ];
+}
+
 /** The same assembly sequence is used by single downloads and batch results. */
 export async function finishCorrespondencePdf(pdf: Uint8Array, docType: string, formData: Partial<DocumentData>, generated: GeneratedFiles, paragraphs: Paragraph[] = [], resolved?: { marking: ClassificationInfo | undefined; referenceDate?: Date; signal?: AbortSignal }): Promise<{ pdfBytes: Uint8Array; errors: EnclosureError[] }> {
   const secnav = isSecnavDirective(docType);
@@ -124,9 +148,12 @@ export async function finishCorrespondencePdf(pdf: Uint8Array, docType: string, 
   const config = DOC_TYPE_CONFIG[docType];
   const dualSignature = config?.uiMode === 'moa' || config?.compliance?.dualSignature;
   const stock = correspondenceStationery(docType, formData);
-  const positioned = formData.signatureType === 'digital' && (dualSignature || stock.small) ? await resolvePublicationDestinations(pdf) : pdf;
-  const assembled = await assembleBasicLetter(positioned, docType, formData, resolved?.signal);
-  let pdfBytes = assembled.pdfBytes;
+  const templateFields = positionedSignatureFields(docType, formData);
+  const assembled = await assembleBasicLetter(pdf, docType, formData, resolved?.signal);
+  const signing = templateFields.length ? { firstGeneratedPage: assembled.prependedPageCount,
+    roles: templateFields.map(({ role }) => role) } : undefined;
+  let pdfBytes = formData.signatureType === 'digital' && (templateFields.length || dualSignature || stock.small)
+    ? await resolvePublicationDestinations(assembled.pdfBytes, false, signing) : assembled.pdfBytes;
   const errors = assembled.error ? [basicLetterError(assembled.error)] : [];
   let lastBasicPageIndex: number | undefined;
   if (generated.enclosures.length || (generated.includeHyperlinks && generated.referenceUrls.length)) {
@@ -146,7 +173,9 @@ export async function finishCorrespondencePdf(pdf: Uint8Array, docType: string, 
     lastBasicPageIndex = merged.basicPageCount !== undefined ? merged.basicPageCount - 1 : undefined;
     if (merged.hasErrors) errors.push(...merged.errors);
   }
-  if (formData.signatureType === 'digital') {
+  if (templateFields.length) {
+    pdfBytes = await addTemplateSignatureFields(pdfBytes, templateFields, assembled.prependedPageCount, lastBasicPageIndex);
+  } else if (formData.signatureType === 'digital') {
     pdfBytes = dualSignature
       ? await addDualSignatureFields(pdfBytes, { ...getDualSignatoryConfig(formData, config?.uiMode), lastBasicPageIndex, requireTemplateAnchors: true })
       : await addSignatureField(pdfBytes, { ...getSignatoryConfig(formData), ...(stock.small ? { width: Math.min(144, stock.textWidth * 36), requireTemplateAnchor: true } : {}), lastBasicPageIndex });

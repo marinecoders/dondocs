@@ -3,11 +3,15 @@ import { PDFArray, PDFHexString, PDFDict, PDFDocument, PDFName, PDFNumber, PDFSt
 
 /** Resolve template anchors from page annotations before signing or merging.
  * SwiftLaTeX does not reliably preserve the destinations on their actual pages. */
-export async function resolvePublicationDestinations(bytes: Uint8Array, manualFrontMatter = false): Promise<Uint8Array> {
+export async function resolvePublicationDestinations(bytes: Uint8Array, manualFrontMatter = false,
+  signing?: { firstGeneratedPage: number; roles: readonly string[] },
+): Promise<Uint8Array> {
   const pdf = await PDFDocument.load(bytes);
   const anchors = new Map<string, PDFArray>();
   const volumeLabels = new Map<number, { S?: string; P?: ReturnType<typeof PDFString.of>; St?: number }>();
   for (const [pageIndex, page] of pdf.getPages().entries()) {
+    // Prepended uploads are never a source of template destinations.
+    if (pageIndex < (signing?.firstGeneratedPage ?? 0)) continue;
     const annotations = page.node.Annots();
     if (!annotations) continue;
     for (let i = annotations.size() - 1; i >= 0; i--) {
@@ -16,7 +20,8 @@ export async function resolvePublicationDestinations(bytes: Uint8Array, manualFr
       const name = annotation.lookup(PDFName.of('NM'));
       if (!(name instanceof PDFString)) continue;
       const id = name.decodeText();
-      if (!/^(?:itype|sl3|sl4|manual|volume)\./.test(id) && !/^dondocs\.signature\.(?:single|junior|senior)$/.test(id)) continue;
+      const signature = /^dondocs\.signature\.(?:single|junior|middle|senior|endorsement\.[A-Z0-9]+)$/.test(id);
+      if (!signature && !/^(?:itype|sl3|sl4|manual|volume)\./.test(id)) continue;
       const rect = annotation.lookup(PDFName.of('Rect'));
       if (!(rect instanceof PDFArray) || rect.size() < 4) continue;
       const xNum = rect.lookup(0);
@@ -24,12 +29,18 @@ export async function resolvePublicationDestinations(bytes: Uint8Array, manualFr
       if (!(xNum instanceof PDFNumber) || !(yNum instanceof PDFNumber)) continue;
       const x = xNum.asNumber();
       const y = yNum.asNumber();
-      anchors.set(name.decodeText(), pdf.context.obj([page.ref, PDFName.of('XYZ'), x, y, null]));
+      if (signature && anchors.has(id)) throw new Error('The PDF contains duplicate signature locations. Regenerate the document before signing.');
+      anchors.set(id, pdf.context.obj([page.ref, PDFName.of('XYZ'), x, y, null]));
       if (/^volume\.pages\.(?:front|body|glossary|[A-Z])$/.test(id)) {
         const part = id.slice('volume.pages.'.length);
         volumeLabels.set(pageIndex, part === 'front' ? { S: 'r', St: 1 } : part === 'body' ? { S: 'D', St: 1 } : { S: 'D', P: PDFString.of((part === 'glossary' ? 'GL' : part) + '-'), St: 1 });
       }
       annotations.remove(i);
+    }
+  }
+  for (const role of signing?.roles ?? []) {
+    if (!anchors.has(`dondocs.signature.${role}`)) {
+      throw new Error(`The ${role} signature location is missing. Regenerate the PDF before signing.`);
     }
   }
   if (manualFrontMatter) pdf.catalog.set(PDFName.of('PageLabels'), pdf.context.obj({ Nums: [0, { S: 'D', P: PDFString.of('T-'), St: 1 }, pdf.getPageCount() - 1, { S: 'D', St: 1 }] }));
