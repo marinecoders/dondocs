@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.265] — 2026-11-23
+
+### Added
+
+- Review and insert dictation into an existing paragraph with Undo and preserved line breaks.
+
 ## [1.3.264] — 2026-11-23
 
 ### Added

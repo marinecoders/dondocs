@@ -1,3 +1,4 @@
+import { appendDictatedText, type DictatedParagraph } from '@/lib/paragraphDictation';
 import { directiveFont, isDirective } from '@/lib/directiveFormats';
 import { emptyPublicationVolume, freshVolumeContent, validatePublicationVolume, VOLUME_DOC_TYPE, type PublicationVolume } from '@/lib/publicationVolume';
 import { transformRangeComments } from '@/lib/reviewCommentRanges';
@@ -23,7 +24,7 @@ import { useHistoryStore } from './historyStore';
 import type { DocumentSnapshot } from './historyStore';
 import { useUIStore } from './uiStore';
 import { debug } from '@/lib/debug';
-import { STORAGE_KEYS} from '@/lib/constants';
+import { PARAGRAPH, STORAGE_KEYS } from '@/lib/constants';
 import { compressedParse, compressedStringify } from '@/lib/compressedStorage';
 import { referenceStartIndex } from '@/lib/endorsement';
 import { referenceLetterAt, referenceLetterIndex, reLetterReferences } from '@/lib/referenceLetters';
@@ -167,6 +168,7 @@ export interface DocumentState {
   /** Insert several paragraphs (a split paste) after `afterIndex` in one edit. */
   insertParagraphs: (afterIndex: number, texts: string[], level: number) => void;
   updateParagraph: (index: number, updates: Partial<Paragraph>) => void;
+  applyDictation: (paragraphId: string, baseline: string, parts: readonly DictatedParagraph[]) => boolean;
   removeTableFootnote: (index: number, noteIndex: number) => void;
   removeParagraph: (index: number) => void;
   reorderParagraphs: (fromIndex: number, toIndex: number) => void;
@@ -646,6 +648,25 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
     const reviewComments = before && after ? transformRangeComments(state.reviewComments, before, after) : state.reviewComments;
     return { paragraphs, reviewComments };
   }),
+
+  applyDictation: (paragraphId, baseline, parts) => {
+    const state = get();
+    const index = state.paragraphs.findIndex(paragraph => paragraph.id === paragraphId);
+    const before = state.paragraphs[index];
+    if (!before || before.text !== baseline || before.figure || before.bodyTable || !parts[0]) return false;
+    const text = appendDictatedText(before.text, parts[0].text);
+    const extra = parts.slice(1);
+    if (extra.length > 50 || text.length > 50_000 || extra.some(part => !part.text || part.text.length > 50_000)) return false;
+    if (text === before.text && !extra.length) return false;
+    const paragraphs = [...state.paragraphs];
+    const after = { ...before, text };
+    paragraphs[index] = after;
+    const end = paragraphSubtreeEnd(paragraphs, index);
+    paragraphs.splice(end, 0, ...extra.map(part => ({ id: newParagraphId(), text: part.text,
+      level: Math.min(before.level + Number(part.indent), PARAGRAPH.MAX_DEPTH) })));
+    set({ paragraphs, reviewComments: text === before.text ? state.reviewComments : transformRangeComments(state.reviewComments, before, after) });
+    return true;
+  },
 
   // Removing a paragraph can leave a following sub-paragraph stranded too deep
   // under its new predecessor, so re-normalize the nesting after the filter.

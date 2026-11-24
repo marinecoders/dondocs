@@ -1,3 +1,4 @@
+import { ParagraphDictationButton } from './ParagraphDictationButton';
 import { captureDocumentScope, type DocumentScope } from '@/stores/documentsStore';
 import type { PlainEditorSelection } from '@/lib/editorTextSelection';
 import { beginDocumentTask, isCurrentDocumentTask } from '@/lib/documentTask';
@@ -9,6 +10,7 @@ import { runFileImport } from '@/lib/fileImports';
 import { Label } from '@/components/ui/label';
 import { useUIStore } from '@/stores/uiStore';
 import { getEditorSections } from '@/lib/editorSections';
+import { deriveOverallClassLevel } from '@/lib/overallClassification';
 import { unfilled } from '@/lib/requiredField';
 import { PUBLICATION_SECTIONS, publicationSection, type PublicationSection } from '@/data/techpub/sections';
 import { memo, useCallback, useMemo, useState } from 'react';
@@ -111,6 +113,7 @@ interface BlockRowProps {
   showPortionMarking: boolean;
   showBlockKind: boolean;
   allowBusinessFigure: boolean;
+  allowDictation: boolean;
   callout: CalloutKind | undefined;
   procedure: boolean | undefined;
   appendix: boolean | undefined;
@@ -139,6 +142,7 @@ const BlockRow = memo(function BlockRow({
   showPortionMarking,
   showBlockKind,
   allowBusinessFigure,
+  allowDictation,
   callout,
   procedure,
   appendix,
@@ -561,6 +565,7 @@ const BlockRow = memo(function BlockRow({
               <ArrowDown className="h-3.5 w-3.5" />
             </Button>
           </IconTip>
+          {allowDictation && paragraphId && !bodyTable && !figure && <ParagraphDictationButton paragraphId={paragraphId} index={index} />}
           <ParagraphCommentsButton paragraphId={paragraphId} index={index} selection={textSelection?.range} selectionOwner={textSelection?.owner} />
           <div className="flex-1" />
           <span className="mr-0.5 text-2xs text-muted-foreground tnum">{countWords(text)} w</span>
@@ -591,6 +596,7 @@ const BlockRow = memo(function BlockRow({
 export function BlockParagraphsEditor() {
   const documentMode = useDocumentStore((s) => s.documentMode);
   const docType = useDocumentStore((s) => s.docType);
+  const documentCategory = useDocumentStore(s => s.documentCategory);
   const editorLayout = useUIStore((s) => s.editorLayout);
   const subject = useDocumentStore((s) => s.formData.subject);
   const setField = useDocumentStore((s) => s.setField);
@@ -628,6 +634,9 @@ export function BlockParagraphsEditor() {
   );
 
   const showPortionMarking = !!classLevel && classLevel !== 'unclassified';
+  const allowDictation = useMemo(() => documentCategory === 'correspondence'
+    && !['i_type', 'technical_volume', 'tm_ietm_front_matter', 'sl3', 'sl4'].includes(docType)
+    && deriveOverallClassLevel(classLevel, paragraphs) === 'unclassified', [documentCategory, docType, classLevel, paragraphs]);
   // Only a technical publication has callouts and steps.
   const showBlockKind = docType === 'i_type';
   const allowBusinessFigure = docType === 'business_letter' && documentMode === 'custom';
@@ -708,6 +717,7 @@ export function BlockParagraphsEditor() {
               showPortionMarking={showPortionMarking}
               showBlockKind={showBlockKind}
               allowBusinessFigure={allowBusinessFigure}
+            allowDictation={allowDictation}
               callout={p.callout}
               procedure={p.procedure}
               appendix={p.appendix}
