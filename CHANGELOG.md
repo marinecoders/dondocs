@@ -7,6 +7,13 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.279] — 2026-11-23
+
+### Fixed
+
+- Qualify Word packaging, offline Word, package assembly, print output, and saved GENADMIN drafts reliably across browser profiles.
+- Give managed release qualification enough time for cold browser setup and hosting checks.
+
 ## [1.3.278] — 2026-11-23
 
 ### Fixed
