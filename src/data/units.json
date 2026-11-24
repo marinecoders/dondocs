@@ -1982,7 +1982,12 @@
       "service": "USMC",
       "ruc": "13101",
       "uic": "M13100",
-      "parentUnit": "3D MARINE DIVISION"
+      "parentUnit": "3D MARINE DIVISION",
+      "formerNames": ["3d Marine Regiment", "3rd Marine Regiment", "3d Marines", "3rd Marines"],
+      "sources": [
+        "https://www.3rdmlr.marines.mil/",
+        "https://www.marines.mil/News/News-Display/Article/3565304/3d-mlr-paves-the-way-with-force-design-capabilities/"
+      ]
     },
     {
       "name": "3D MAR RDR BN MRR MARFORSOC",
@@ -8561,6 +8566,39 @@
       "service": "USMC",
       "ruc": "33950",
       "uic": "MS3950"
+    },
+    {
+      "name": "FLEET READINESS CENTER EAST",
+      "abbrev": "FRCE",
+      "address": "PSC BOX 8021\nCHERRY POINT, NC 28533-0021",
+      "type": "unit",
+      "service": "USN",
+      "uic": "N65923",
+      "sources": [
+        "https://www.navair.navy.mil/frce/contact-us",
+        "https://www.navair.navy.mil/foia/contact"
+      ]
+    },
+    {
+      "name": "FLEET READINESS CENTER SOUTHEAST",
+      "abbrev": "FRCSE",
+      "address": "PO BOX 16\nJACKSONVILLE, FL 32212-0016",
+      "type": "unit",
+      "service": "USN",
+      "uic": "N65886",
+      "sources": ["https://www.navair.navy.mil/foia/contact"]
+    },
+    {
+      "name": "FLEET READINESS CENTER SOUTHWEST",
+      "abbrev": "FRCSW",
+      "address": "PO BOX 357058\nSAN DIEGO, CA 92135-7058",
+      "type": "unit",
+      "service": "USN",
+      "uic": "N65888",
+      "sources": [
+        "https://frcsw.navair.navy.mil/Contact-Us/",
+        "https://www.navair.navy.mil/foia/contact"
+      ]
     },
     {
       "name": "FORCE RECON CO 1ST RECON BN 1ST MARDIV",
@@ -20442,6 +20480,18 @@
       "service": "USN"
     },
     {
+      "name": "NAVAL INFORMATION WARFARE SYSTEMS COMMAND",
+      "abbrev": "NAVWAR",
+      "address": "4301 PACIFIC HIGHWAY\nSAN DIEGO, CA 92110-3127",
+      "type": "headquarters",
+      "service": "USN",
+      "uic": "35333",
+      "sources": [
+        "https://www.navwar.navy.mil/Contact/",
+        "https://www.secnav.navy.mil/doni/SECNAV%20Manuals/REF%20C%20Administrative%20Organization%20of%20the%20Shore%20Commands%20under%20the%20Command%20of%20SECNAV%20And%20CNO%2001%20June%202026.pdf"
+      ]
+    },
+    {
       "name": "NAVAL POSTGRADUATE SCHOOL",
       "abbrev": "NPS",
       "mcc": "",
@@ -20449,6 +20499,18 @@
       "type": "school",
       "service": "USN",
       "parentUnit": "TRAINING AND EDUCATION COMMAND"
+    },
+    {
+      "name": "NAVAL SAFETY COMMAND",
+      "abbrev": "NAVSAFECOM",
+      "address": "375 A STREET\nNORFOLK, VA 23511-4399",
+      "type": "headquarters",
+      "service": "USN",
+      "uic": "63393",
+      "sources": [
+        "https://navalsafetycommand.navy.mil/Portals/100/Documents/NAVSAFECOM-Magazine-Subscription-Request-Form1.pdf",
+        "https://www.secnav.navy.mil/doni/SECNAV%20Manuals/REF%20C%20Administrative%20Organization%20of%20the%20Shore%20Commands%20under%20the%20Command%20of%20SECNAV%20And%20CNO%2001%20June%202026.pdf"
+      ]
     },
     {
       "name": "NAVAL SPECIAL WARFARE COMMAND",

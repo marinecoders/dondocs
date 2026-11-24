@@ -20,6 +20,7 @@ import {
 import {
   formatUnitAddress,
   loadUnitDirectory,
+  searchUnitDirectory,
   type UnitInfo,
 } from '@/data/unitDirectory';
 
@@ -43,21 +44,7 @@ export function UnitLookupModal({ open, onOpenChange, onSelect }: UnitLookupModa
       return { mode: 'categories' as const, categories: database.UNIT_CATEGORIES };
     }
 
-    const searchLower = search.toLowerCase();
-    const matchedUnits = database.ALL_UNITS.filter(
-      (unit) =>
-        unit.name.toLowerCase().includes(searchLower) ||
-        unit.abbrev?.toLowerCase().includes(searchLower) ||
-        unit.parentUnit?.toLowerCase().includes(searchLower) ||
-        unit.mcc?.includes(search) ||
-        unit.address.toLowerCase().includes(searchLower) ||
-        unit.city?.toLowerCase().includes(searchLower) ||
-        unit.state?.toLowerCase().includes(searchLower) ||
-        unit.type?.toLowerCase().includes(searchLower) ||
-        unit.service?.toLowerCase().includes(searchLower)
-    );
-
-    return { mode: 'search' as const, units: matchedUnits };
+    return { mode: 'search' as const, units: searchUnitDirectory(database.ALL_UNITS, search) };
   }, [search, database]);
 
   const handleSelect = (unit: UnitInfo) => {
@@ -103,7 +90,7 @@ export function UnitLookupModal({ open, onOpenChange, onSelect }: UnitLookupModa
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
             aria-label="Search unit directory"
-            placeholder="Search by unit name, abbreviation, MCC, or location…"
+            placeholder="Search by name, MCC, RUC, UIC, or location"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="pl-9 pr-9"
@@ -126,8 +113,8 @@ export function UnitLookupModal({ open, onOpenChange, onSelect }: UnitLookupModa
         <p className="text-sm text-muted-foreground">
           {status === 'error' ? 'Unit directory unavailable' : !database
             ? 'Loading unit directory…'
-            : search
-              ? `${totalResults.toLocaleString()} units found`
+            : filteredResults?.mode === 'search'
+              ? `${totalResults.toLocaleString()} ${totalResults === 1 ? 'unit' : 'units'} found`
               : 'Browse or search military units'}
         </p>
 
@@ -210,7 +197,7 @@ export function UnitLookupModal({ open, onOpenChange, onSelect }: UnitLookupModa
         </div>
 
         <div className="shrink-0 text-xs text-muted-foreground border-t pt-3 flex flex-wrap gap-2 justify-between">
-          <span>Click a unit to populate letterhead information</span>
+          <span>Select a unit to apply its details</span>
           {database && (
             <span>v{database.UNIT_DATABASE_INFO.version} • {database.UNIT_DATABASE_INFO.lastUpdated}</span>
           )}
@@ -234,6 +221,7 @@ function UnitCard({
 }) {
   return (
     <button
+      type="button"
       onClick={() => onSelect(unit)}
       className={`w-full text-left p-3 rounded-lg border hover:border-primary hover:bg-accent/50 transition-colors ${
         compact ? 'p-2' : 'p-3'
@@ -250,9 +238,6 @@ function UnitCard({
                 {unit.service}
               </Badge>
             )}
-            {unit.mcc && (
-              <span className="text-xs text-muted-foreground">MCC: {unit.mcc}</span>
-            )}
           </div>
           <p className={`text-foreground truncate ${compact ? 'text-sm' : 'text-sm mt-1'}`}>
             {unit.name}
@@ -262,8 +247,18 @@ function UnitCard({
               {unit.parentUnit}
             </p>
           )}
+          {unit.formerNames?.[0] && (
+            <p className="text-xs text-muted-foreground">Formerly {unit.formerNames[0]}</p>
+          )}
         </div>
       </div>
+      {(unit.mcc || unit.ruc || unit.uic) && (
+        <div className="mt-1.5 flex flex-wrap gap-x-3 gap-y-1 text-xs tabular-nums text-muted-foreground">
+          {unit.mcc && <span>MCC {unit.mcc}</span>}
+          {unit.ruc && <span>RUC {unit.ruc}</span>}
+          {unit.uic && <span>UIC {unit.uic}</span>}
+        </div>
+      )}
       <div className="flex items-center gap-1.5 mt-1.5 text-xs text-muted-foreground">
         <MapPin className="h-3 w-3 flex-shrink-0" />
         <span className="truncate">{formatUnitAddress(unit)}</span>

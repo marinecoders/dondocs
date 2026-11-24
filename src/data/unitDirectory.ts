@@ -13,6 +13,9 @@ export interface UnitInfo {
   abbrev?: string;
   parentUnit?: string;  // Higher command for letterhead line 2 (e.g., "1ST MARINE DIVISION")
   mcc?: string;
+  ruc?: string;
+  uic?: string;
+  formerNames?: string[];
   address: string;
   type?: string;
   service?: string;
@@ -27,6 +30,34 @@ export interface UnitInfo {
 export interface UnitCategory {
   name: string;
   units: UnitInfo[];
+}
+
+const identifierFields = ['mcc', 'ruc', 'uic'] as const;
+type IdentifierField = (typeof identifierFields)[number];
+
+/** Put exact code matches first while retaining every matching directory row. */
+export function searchUnitDirectory(units: readonly UnitInfo[], query: string): UnitInfo[] {
+  const normalized = query.trim().toLowerCase();
+  if (!normalized) return [];
+
+  const qualified = /^(mcc|ruc|uic)(?:\s*:\s*|\s+)([a-z0-9]+)$/.exec(normalized);
+  const fields = qualified ? [qualified[1] as IdentifierField] : identifierFields;
+  const value = qualified?.[2] ?? normalized;
+  const exact: UnitInfo[] = [];
+  const other: UnitInfo[] = [];
+
+  for (const unit of units) {
+    const codes = fields.map(field => unit[field]?.toLowerCase());
+    if (codes.includes(value)) {
+      exact.push(unit);
+    } else if (codes.some(code => code?.includes(value)) || (!qualified &&
+      [unit.name, unit.abbrev, unit.parentUnit, unit.address, unit.city, unit.state, unit.type, unit.service,
+        ...(unit.formerNames ?? [])].some(field => field?.toLowerCase().includes(value)))) {
+      other.push(unit);
+    }
+  }
+
+  return [...exact, ...other];
 }
 
 // Format full address for display

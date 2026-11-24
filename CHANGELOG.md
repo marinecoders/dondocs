@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.260] — 2026-11-23
+
+### Added
+
+- Retain and expose supported activity identifiers in the unit directory and search.
+
 ## [1.3.259] — 2026-11-23
 
 ### Fixed
