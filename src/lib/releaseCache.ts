@@ -1,6 +1,21 @@
-import type { ReleaseAsset, ReleaseManifest } from './releases';
+import { releaseManifest, type ReleaseAsset, type ReleaseManifest } from './releases';
+
+export const RELEASE_FILES_CACHE = 'dondocs-release-files-v1';
+export const RELEASE_META_CACHE = 'dondocs-release-meta-v1';
+export const releaseStateKey = (id: string) => `/__dd_release/${id}`;
 
 export const assetKey = (asset: ReleaseAsset) => `/__dd_asset/${asset.sha256}`;
+export async function getPreparedReleaseAsset(id: string, url: string, storage: Pick<CacheStorage, 'match'> = caches): Promise<Response | undefined> {
+  const state = await storage.match(releaseStateKey(id), { cacheName: RELEASE_META_CACHE });
+  if (!state) return undefined;
+  const manifest = releaseManifest.safeParse((await state.json()).manifest);
+  if (!manifest.success || manifest.data.id !== id) return undefined;
+  const asset = manifest.data.assets.find(candidate => candidate.url === url);
+  if (!asset) return undefined;
+  const response = await storage.match(assetKey(asset), { cacheName: RELEASE_FILES_CACHE });
+  if (response?.headers.get('Content-Length') === String(asset.size)) return response;
+}
+
 type AssetCache = Pick<Cache, 'match' | 'put' | 'delete'>;
 export const isWordAsset = (asset: Pick<ReleaseAsset, 'url'>) => /\/pandoc\.wasm(?:\.part\d+|\.manifest\.json)?$/.test(asset.url);
 

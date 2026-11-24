@@ -1,7 +1,7 @@
 // @vitest-environment node
 import { expect, it, vi } from 'vitest';
 import { createHash } from 'node:crypto';
-import { assetKey, cacheAsset, stageAssets, hasCachedWord } from '@/lib/releaseCache';
+import { assetKey, cacheAsset, stageAssets, hasCachedWord, getPreparedReleaseAsset, RELEASE_FILES_CACHE, RELEASE_META_CACHE, releaseStateKey } from '@/lib/releaseCache';
 import type { ReleaseAsset, ReleaseManifest } from '@/lib/releases';
 
 function cache() {
@@ -63,4 +63,22 @@ it('keeps unused OCR runtime assets on demand during immutable release preparati
   const subsequent = await stageAssets(manifest([app, worker, core, model]), store, fetcher);
   expect(subsequent).toContain(assetKey(worker));
   expect(fetcher).toHaveBeenCalledTimes(2);
+});
+
+it('reads the exact prepared asset by its content key without the service worker intercepting requests', async () => {
+  const files = cache(), meta = cache();
+  const path = '/releases/test/assets/dictionary.txt';
+  const wordList = asset(path, 'dictionary');
+  const entry = asset('/releases/test/index.html', 'entry');
+  const storage = {
+    match: (request: RequestInfo | URL, options?: MultiCacheQueryOptions) => {
+      expect([RELEASE_META_CACHE, RELEASE_FILES_CACHE]).toContain(options?.cacheName);
+      return (options?.cacheName === RELEASE_META_CACHE ? meta : files).match(request);
+    },
+  };
+  await expect(getPreparedReleaseAsset('test', path, storage)).resolves.toBeUndefined();
+  await meta.put(releaseStateKey('test'), Response.json({ manifest: manifest([entry, wordList]) }));
+  await files.put(assetKey(wordList), new Response('dictionary', { headers: { 'Content-Length': String(wordList.size) } }));
+  await expect(getPreparedReleaseAsset('test', '/releases/other/assets/dictionary.txt', storage)).resolves.toBeUndefined();
+  expect(await (await getPreparedReleaseAsset('test', path, storage))?.text()).toBe('dictionary');
 });

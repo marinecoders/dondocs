@@ -37,10 +37,49 @@ function paragraphControl(paragraph: HTMLElement | null | undefined, path: Field
   return null;
 }
 
+function selectFindingText(element: HTMLElement, selection: ProofreadFinding['target']['textSelection']) {
+  if (!selection) return;
+  const input = element instanceof HTMLInputElement || element instanceof HTMLTextAreaElement;
+  if (!input && !element.isContentEditable) return;
+  const value = input ? element.value : element.textContent ?? '';
+  const { text, offset } = selection;
+  // A rich control can flatten line breaks differently from the saved text.
+  // A unique literal match remains safe when the projected offset has shifted.
+  let start = offset;
+  if (value.slice(offset, offset + text.length) !== text) {
+    start = value.indexOf(text);
+    if (start < 0 || value.indexOf(text, start + text.length) >= 0) return;
+  }
+  if (input) {
+    if (element instanceof HTMLTextAreaElement || /^(?:text|search|tel|url|password)$/.test(element.type)) {
+      element.setSelectionRange(start, start + text.length);
+    }
+    return;
+  }
+  const range = document.createRange();
+  const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT);
+  let cursor = 0, foundStart = false;
+  for (let node = walker.nextNode(); node; node = walker.nextNode()) {
+    const end = cursor + (node.textContent?.length ?? 0);
+    if (!foundStart && start < end) {
+      range.setStart(node, start - cursor);
+      foundStart = true;
+    }
+    if (foundStart && start + text.length <= end) {
+      range.setEnd(node, start + text.length - cursor);
+      const current = document.getSelection();
+      current?.removeAllRanges();
+      current?.addRange(range);
+      return;
+    }
+    cursor = end;
+  }
+}
+
 export function ProofreadModal({ children }: { children?: ReactNode }) {
   const open = useUIStore(s => s.proofreadOpen);
   const setOpen = useUIStore(s => s.setProofreadOpen);
-  const { source, findings } = useProofreadReview(open);
+  const { source, findings, spellingStatus } = useProofreadReview(open);
   const { sections: displayedSections } = useEditorSections();
   const documentId = useDocumentsStore(s => s.currentId);
   const activationEpoch = useDocumentsStore(s => s.activationEpoch);
@@ -99,7 +138,9 @@ export function ProofreadModal({ children }: { children?: ReactNode }) {
         : null;
       const destination = field && section.contains(field) ? field : paragraphControl(paragraph, next.target.paragraphPath)
         ?? paragraph?.querySelector<HTMLElement>('[contenteditable="true"]') ?? paragraph?.querySelector<HTMLElement>('textarea,input') ?? section;
-      destination.focus({ preventScroll: true });destination.scrollIntoView({ block: 'nearest' });
+      destination.focus({ preventScroll: true });
+      selectFindingText(destination, next.target.textSelection);
+      destination.scrollIntoView({ block: 'nearest' });
     }));
   }
 
@@ -111,6 +152,7 @@ export function ProofreadModal({ children }: { children?: ReactNode }) {
       </DialogHeader>
       <div className="min-h-0 overflow-y-auto overscroll-contain px-5 py-4">
         <p role="status" aria-atomic="true" className="mb-4 text-sm font-medium">{findings.length} finding{findings.length === 1 ? '' : 's'} to review</p>
+        {spellingStatus === 'unavailable' && <p role="status" className="mb-4 text-sm text-muted-foreground">Spelling is unavailable. Reopen Proofread to try again.</p>}
         {findings.length === 0 ? <p className="rounded-lg border bg-muted/30 p-4 text-sm">No findings from the available checks. Review the content, attachments and completed output before sending.</p>
           : Object.entries(PROOFREAD_GROUPS).map(([group, label]) => {
             const items = findings.filter(finding => finding.group === group);

@@ -1,4 +1,6 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo, useSyncExternalStore } from 'react';
+import { useUIStore } from '@/stores/uiStore';
+import { getSpellingDictionary, loadSpellingDictionary, spellingFindings, subscribeToSpellingDictionary, supportsLocalSpelling } from '@/lib/correspondenceSpelling';
 import { useDocumentStore } from '@/stores/documentStore';
 import { useDocumentCompleteness, useEditorSections } from '@/components/layout/editorSections';
 import { collectProofreadFindings, type ProofreadSource } from '@/lib/proofread';
@@ -24,12 +26,18 @@ export function useProofreadSource(): ProofreadSource {
 
 export function useProofreadReview(enabled = true) {
   const source = useProofreadSource();
+  const panelOpen = useUIStore(s => s.proofreadOpen);
+  const dictionary = useSyncExternalStore(subscribeToSpellingDictionary, getSpellingDictionary);
+  const checksSpelling = supportsLocalSpelling(source);
+  useEffect(() => {
+    if (panelOpen && checksSpelling) void loadSpellingDictionary();
+  }, [panelOpen, checksSpelling]);
   const { missing } = useDocumentCompleteness();
   const { sections } = useEditorSections();
   const findings = useMemo(() => enabled
-    ? collectProofreadFindings(source, sections.filter(section => missing.includes(section.id)), additionalProofreadFindings(source))
-    : [], [enabled, source, missing, sections]);
-  return { source, findings };
+    ? collectProofreadFindings(source, sections.filter(section => missing.includes(section.id)), [...additionalProofreadFindings(source), ...(dictionary.entries ? spellingFindings(source, dictionary.entries) : [])])
+    : [], [enabled, source, missing, sections, dictionary]);
+  return { source, findings, spellingStatus: checksSpelling ? dictionary.status : undefined };
 }
 
 export function useProofreadFindings() {
