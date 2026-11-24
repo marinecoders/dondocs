@@ -105,10 +105,8 @@ export function prepareTaggedCorrespondence(source: TaggedCorrespondenceSource, 
     const id = top('P').id;
     format = replaceOnce(format, '{\\fontsize{5pt}{6pt}\\selectfont IN REPLY REFER TO}', wrap(id, '{\\fontsize{5pt}{6pt}\\selectfont IN REPLY REFER TO}'));
   }
-  if (!memorandumForRecord) {
-    if (fields.ssic?.trim()) wrapMacro('DocumentSSIC', top('P').id);
-    if (composeSenderSymbol(fields.officeCode, fields.serial).trim()) wrapMacro('DocumentSerial', top('P').id);
-  }
+  if (fields.ssic?.trim()) wrapMacro('DocumentSSIC', top('P').id);
+  if (composeSenderSymbol(fields.officeCode, fields.serial).trim()) wrapMacro('DocumentSerial', top('P').id);
   wrapMacro('DocumentDate', top('P').id);
   if (plainPaperMemo || qualification === 'letterhead-memorandum') {
     format = replaceOnce(format, '\\noindent MEMORANDUM\n', `\\noindent ${wrap(top('P').id, 'MEMORANDUM')}\n`);
