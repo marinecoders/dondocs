@@ -4119,6 +4119,8 @@ const LATEX_TEMPLATES = {
 %=============================================================================
 
 \\newcommand{\\printDateAndTitle}{%
+    \\ifdefempty{\\DocumentSSIC}{}{\\hfill \\DocumentSSIC\\par}%
+    \\ifdefempty{\\DocumentSerial}{}{\\hfill \\DocumentSerial\\par}%
     \\hfill \\DocumentDate\\par
     \\vspace{12pt}%
     \\begin{center}

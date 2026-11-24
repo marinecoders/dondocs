@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.266] — 2026-11-23
+
+### Fixed
+
+- Render supported memorandum identifiers consistently in PDF and Word.
+
 ## [1.3.265] — 2026-11-23
 
 ### Added
