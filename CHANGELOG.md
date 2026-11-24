@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.263] — 2026-11-23
+
+### Added
+
+- Add supported standard and business window-envelope layouts and verify their output geometry.
+
 ## [1.3.262] — 2026-11-23
 
 ### Added

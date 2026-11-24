@@ -6,6 +6,7 @@ import { escapeLatex } from '@/services/latex/escaper';
 import { bodyTableSchema } from '@/lib/bodyTable';
 import { hasBodyCaption } from '@/lib/bodyCaption';
 import { resolveAppendedEndorsements } from '@/lib/appendedEndorsement';
+import { windowEnvelopeLayout } from '@/lib/windowEnvelope';
 import type { TaggedCorrespondenceSource } from './correspondence';
 
 const TAGGED_LAYOUTS = {
@@ -31,6 +32,7 @@ export function taggedLetterhead(source: TaggedCorrespondenceSource) {
  * a tagged request must stop rather than silently return an ordinary PDF. */
 export function taggedCorrespondenceIssues(source: TaggedCorrespondenceSource, resolvedLevel = source.formData.classLevel ?? 'unclassified'): string[] {
   const issues: string[] = [];
+  if (windowEnvelopeLayout(source.docType, source.formData)) issues.push('Use standard PDF for the window-envelope layout. Tagged geometry has separate qualification.');
   if (usesDlaLetterhead(source.docType, source.formData)) issues.push('DLA letterhead uses standard PDF output.');
   // A stored nonblank value can disappear completely in the PDF font
   // projection (for example a zero-width paste or an unsupported glyph).

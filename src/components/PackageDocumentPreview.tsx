@@ -32,7 +32,7 @@ export function PackageDocumentPreview({ packageId, revisionId, member, active, 
       let bytes: ArrayBuffer, type: string, text: string | undefined;
       if (member.kind === 'native') {
         const release = await exportGate.acquireWhenAvailable(controller.signal);
-        try { bytes = await renderPackageRecipientMember(member, policy, latestPorts.current, readPackageAsset, controller.signal); }
+        try { ({ bytes } = await renderPackageRecipientMember(member, policy, latestPorts.current, readPackageAsset, controller.signal)); }
         finally { release(); }
         type = 'application/pdf';
       } else {

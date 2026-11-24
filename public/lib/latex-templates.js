@@ -1855,9 +1855,13 @@ const LATEX_TEMPLATES = {
 \\printLetterhead
 % Ensure font size is applied before address blocks
 \\applyDocumentFontSize
-\\printDateAndTitle
-\\checkAddressBlockFits
-\\printAddressBlock
+\\ifdefined\\dondocsWindowOpening
+    \\dondocsWindowOpening
+\\else
+    \\printDateAndTitle
+    \\checkAddressBlockFits
+    \\printAddressBlock
+\\fi
 \\printReferences
 \\printEnclosureList
 \\providecommand{\\DirectiveReports}{}

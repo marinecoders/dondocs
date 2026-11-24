@@ -4,6 +4,7 @@ import { documentOutputConfig } from './documentOutputConfig';
 import { plainInlineText } from './inlineText';
 import type { ProofreadFinding, ProofreadSource } from './proofread';
 import { getPreparedReleaseAsset } from './releaseCache';
+import { windowEnvelopeLayout } from './windowEnvelope';
 
 const operationalTerms = new Set([
   'afteraction', 'aircrew', 'airfield', 'airframes', 'billeting', 'cybersecurity', 'encl',
@@ -107,7 +108,9 @@ export function spellingFindings(source: ProofreadSource, entries: ReadonlySet<s
     }
   };
   const config = documentOutputConfig(source.docType, source.documentMode);
-  if (config.uiMode === 'joint') {
+  if (windowEnvelopeLayout(source.docType, source.formData) === 'salutation') {
+    scan(source.formData.salutation, 'the salutation', { sectionId: 'addressing', field: 'salutation' }, 'salutation');
+  } else if (config.uiMode === 'joint') {
     scan(source.formData.jointSubject, 'the subject', { sectionId: 'joint', field: 'jointSubject' }, 'joint-subject');
   } else if (!config.skipSubject && ['business', 'standard', 'memo'].includes(config.uiMode)) {
     scan(source.formData.subject, 'the subject', { sectionId: 'addressing', field: 'subject' }, 'subject');

@@ -25,6 +25,7 @@ import { IconTip } from '@/components/ui/icon-tip';
 import { useDocumentStore } from '@/stores/documentStore';
 import { useUIStore } from '@/stores/uiStore';
 import { unfilled } from '@/lib/requiredField';
+import { windowEnvelopeAddress, windowEnvelopeLayout } from '@/lib/windowEnvelope';
 import { RequiredMark } from '@/components/ui/required-mark';
 import { SSICLookupModal } from '@/components/modals/SSICLookupModal';
 import { UnitLookupModal } from '@/components/modals/UnitLookupModal';
@@ -115,6 +116,9 @@ export function AddressingSection({ config }: AddressingSectionProps) {
   const { formData, setField, documentMode } = useDocumentStore();
   const docType = useDocumentStore((s) => s.docType);
   const isBusinessLetter = docType === 'business_letter';
+  const windowMode = windowEnvelopeLayout(docType, formData);
+  const windowEligible = docType === 'naval_letter' || docType === 'business_letter';
+  const windowLines = windowMode ? windowEnvelopeAddress(formData.to).length : 0;
   const validationVisible = useUIStore((s) => s.validationVisible);
   const [ssicModalOpen, setSSICModalOpen] = useState(false);
   // Unit-directory lookup target: 'to' | a Via row index | null (closed). One
@@ -137,7 +141,8 @@ export function AddressingSection({ config }: AddressingSectionProps) {
   // Check compliance requirements for business letters
   const directive = isDirective(docType);
   const isCompliantMode = documentMode === 'compliant';
-  const requiresSalutation = isCompliantMode && config.compliance.requiresSalutation;
+  const showSalutation = windowMode === 'salutation' || (windowMode !== 'subject' && config.compliance.requiresSalutation);
+  const requiresSalutation = showSalutation && (windowMode === 'salutation' || isCompliantMode);
   const dateFormat = isCompliantMode || isBusinessLetter ? config.compliance.dateFormat : 'military';
   const isSSICOptional = isCompliantMode && config.optionalSSIC;
 
@@ -233,8 +238,20 @@ export function AddressingSection({ config }: AddressingSectionProps) {
           <AccordionContent>
             <div className="editor-field-groups pt-2">
               <p className="text-xs text-muted-foreground -mt-1">{directive ? "Issuing authority, date and subject." : "From, To, Via, Subject, and identifying symbols."}</p>
+              {windowEligible && <div className="space-y-2 rounded-md border p-3">
+                <div className="flex items-center gap-2">
+                  <Checkbox id="windowEnvelope" checked={!!windowMode} onCheckedChange={checked => setField('windowEnvelope', checked === true ? docType === 'naval_letter' ? 'standard' : 'salutation' : undefined)} />
+                  <Label htmlFor="windowEnvelope">Window-envelope layout</Label>
+                </div>
+                {windowMode && <p className="text-xs text-muted-foreground">Use up to five lines for the mailing address. Confirm the fit on an actual-size print before mailing.</p>}
+                {windowMode && docType === 'business_letter' && <div className="flex items-center gap-2">
+                  <Checkbox id="windowEnvelopeSubject" checked={windowMode === 'subject'} onCheckedChange={checked => setField('windowEnvelope', checked === true ? 'subject' : 'salutation')} />
+                  <Label htmlFor="windowEnvelopeSubject">Use the subject in place of the salutation</Label>
+                </div>}
+                {windowMode === 'standard' && !!formData.via?.trim() && <p role="alert" className="text-xs text-destructive">Remove Via routing before exporting for a window envelope.</p>}
+              </div>}
               {/* Formats that use a standalone date field */}
-              {(config.dateOnly || directive) && (
+              {((config.dateOnly && !windowMode) || directive) && (
                 <div className="space-y-2" data-preview-input-category={config.dateOnly ? 'addressing' : undefined}>
                   <Label htmlFor="date">Date</Label>
                   <DatePicker
@@ -250,13 +267,13 @@ export function AddressingSection({ config }: AddressingSectionProps) {
 
               {/* SSIC / Serial / Date - for standard documents */}
               {/* Always show when not dateOnly; gray out SSIC/Serial when config.ssic is false */}
-              {!config.dateOnly && !directive && (
+              {(!config.dateOnly || windowMode) && !directive && (
                 <>
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4 border-b border-border pb-4">
-                  <div className={`space-y-2 ${!config.ssic ? 'opacity-50 pointer-events-none select-none' : ''}`}>
+                  <div className={`space-y-2 ${!config.ssic && !windowMode ? 'opacity-50 pointer-events-none select-none' : ''}`}>
                     <Label htmlFor="ssic">
                       SSIC
-                      {!config.ssic && <span className="text-xs font-normal text-muted-foreground ml-1">(N/A)</span>}
+                      {!config.ssic && !windowMode && <span className="text-xs font-normal text-muted-foreground ml-1">(N/A)</span>}
                       {config.ssic && isSSICOptional && <span className="text-xs font-normal text-muted-foreground ml-1">(optional)</span>}
                     </Label>
                     <div className="flex gap-2">
@@ -278,10 +295,10 @@ export function AddressingSection({ config }: AddressingSectionProps) {
                       </IconTip>
                     </div>
                   </div>
-                <div className={`space-y-2 ${!config.ssic ? 'opacity-50 pointer-events-none select-none' : ''}`}>
+                <div className={`space-y-2 ${!config.ssic && !windowMode ? 'opacity-50 pointer-events-none select-none' : ''}`}>
                   <Label htmlFor="serial">
                     Serial
-                    {!config.ssic && <span className="text-xs font-normal text-muted-foreground ml-1">(N/A)</span>}
+                    {!config.ssic && !windowMode && <span className="text-xs font-normal text-muted-foreground ml-1">(N/A)</span>}
                     {config.ssic && isCompliantMode && <span className="text-xs font-normal text-muted-foreground ml-1">(optional)</span>}
                   </Label>
                   <Input
@@ -303,7 +320,7 @@ export function AddressingSection({ config }: AddressingSectionProps) {
               </div>
 
               {/* In Reply Refer To */}
-              {!isBusinessLetter && <div className={`space-y-2 ${!config.ssic ? 'opacity-50 pointer-events-none select-none' : ''}`}>
+              {!isBusinessLetter && !windowMode && <div className={`space-y-2 ${!config.ssic ? 'opacity-50 pointer-events-none select-none' : ''}`}>
                 <div className="flex items-center gap-2">
                   <Checkbox
                     id="inReplyTo"
@@ -354,26 +371,26 @@ export function AddressingSection({ config }: AddressingSectionProps) {
             )}
 
             {/* Recipient Address - for business letters (multi-line address block) */}
-            {config.recipientAddress && (
+              {(config.recipientAddress || windowMode === 'standard') && (
               <div className="space-y-2">
-                <Label htmlFor="to">Recipient Address</Label>
+                <Label htmlFor="to">{windowMode ? 'Mailing address' : 'Recipient Address'}</Label>
                 <Textarea
                   id="to"
                   value={formData.to || ''}
                   onChange={(e) => setField('to', e.target.value)}
-                  aria-invalid={validationVisible && unfilled(formData.to) ? true : undefined}
+                  aria-invalid={windowLines > 5 || validationVisible && unfilled(formData.to) ? true : undefined}
                   className="min-h-[100px]"
                   rows={5}
                 />
                 <p className="text-xs text-muted-foreground flex items-center gap-1">
                   <AlertCircle className="h-3 w-3" />
-                  Each line in this field will appear on a separate line in the PDF
+                  {windowMode ? `${windowLines} of 5 mailing address lines` : 'Each line in this field will appear on a separate line in the PDF'}
                 </p>
               </div>
             )}
 
             {/* From / To */}
-            {config.fromTo && (
+            {config.fromTo && windowMode !== 'standard' && (
               // Full-width stacked (From over To), matching the design — command
               // names are long, so each gets its own row rather than a cramped
               // two-up grid.
@@ -420,7 +437,7 @@ export function AddressingSection({ config }: AddressingSectionProps) {
             )}
 
             {/* Via */}
-            {config.via && (
+            {config.via && (windowMode !== 'standard' || !!formData.via?.trim()) && (
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
                   <Label>Via</Label>
@@ -470,20 +487,21 @@ export function AddressingSection({ config }: AddressingSectionProps) {
               </div>
             )}
 
-            {config.compliance.requiresSalutation && (
+            {showSalutation && (
               <div className="space-y-2">
                 <Label htmlFor="salutation">Salutation{requiresSalutation && <RequiredMark />}</Label>
                 <Input
                   id="salutation"
                   value={formData.salutation || ''}
                   onChange={(e) => setField('salutation', e.target.value)}
+                  aria-required={requiresSalutation || undefined}
                   aria-invalid={requiresSalutation && validationVisible && unfilled(formData.salutation) ? true : undefined}
                   aria-describedby={requiresSalutation && validationVisible && unfilled(formData.salutation) ? 'salutation-error' : undefined}
                 />
                 {requiresSalutation && validationVisible && unfilled(formData.salutation) && (
                   <p id="salutation-error" role="alert" className="text-xs text-destructive flex items-center gap-1">
                     <AlertCircle className="h-3 w-3" />
-                    Per SECNAV M-5216.5 Ch 11: Business letters require a salutation
+                    {windowMode === 'salutation' ? 'Enter the salutation printed in this layout.' : 'Per SECNAV M-5216.5 Ch 11: Business letters require a salutation'}
                   </p>
                 )}
               </div>
@@ -504,11 +522,12 @@ export function AddressingSection({ config }: AddressingSectionProps) {
                 id="subject"
                 value={formData.subject || ''}
                 onValueChange={(v) => setField('subject', v)}
-                aria-invalid={validationVisible && config.uiMode !== 'business' && unfilled(formData.subject) ? true : undefined}
+                aria-required={windowMode === 'subject' || undefined}
+                aria-invalid={validationVisible && (config.uiMode !== 'business' || windowMode === 'subject') && unfilled(formData.subject) ? true : undefined}
                 aria-describedby={config.uiMode === 'business' ? 'subject-optional' : undefined}
                 className="uppercase"
               />
-              {config.uiMode === 'business' && <p id="subject-optional" className="text-xs text-muted-foreground">A subject line is optional for this letter format.</p>}
+              {config.uiMode === 'business' && <p id="subject-optional" className="text-xs text-muted-foreground">{windowMode === 'salutation' ? 'The window-envelope layout is set to print the salutation.' : windowMode === 'subject' ? 'The subject replaces the salutation in this layout.' : 'A subject line is optional for this letter format.'}</p>}
             </div>
 
             {isSamePageEndorsement && (

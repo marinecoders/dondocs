@@ -35,6 +35,14 @@ async function fixture(text: string) {
   const renderer = { compile: vi.fn(), convertDocx: vi.fn(async () => new Blob([new Uint8Array(bytes)])) };
   return { round, gate, renderer, deliver, busy, saved, bytes };
 }
+it('explains why a saved window-envelope baseline uses DonDocs review', async () => {
+  useDocumentStore.getState().setField('windowEnvelope', 'standard');
+  const app = await fixture('Synthetic window-envelope letter');
+  render(<WordReviewControls gate={app.gate} renderer={app.renderer} rounds={[app.round]} disabled={false} onSaved={app.saved} onBusyChange={app.busy} />);
+  expect(screen.getByText(/Use a DonDocs review copy for this saved revision/)).toBeVisible();
+  expect(screen.getByRole('button', { name: 'Download Word review copy' })).toBeDisabled();
+  expect(app.renderer.convertDocx).not.toHaveBeenCalled();
+});
 it('requires a privacy approval and works after the React strict-mode lifecycle check', async () => {
   const app = await fixture('Fictional SSN 123-45-6789');
   render(<StrictMode><WordReviewControls gate={app.gate} renderer={app.renderer} rounds={[app.round]} disabled={false} onSaved={app.saved} onBusyChange={app.busy} /></StrictMode>);

@@ -13,6 +13,7 @@ import { canAppendEndorsement, hasEndorsementContent } from './appendedEndorseme
 import { FIRST_ENDORSEMENT_EDITOR_ID, additionalEndorsementEditorId } from './endorsementEditorIds';
 import { jointSignatories } from './signingAuthority';
 import { isStaffPaper } from './staffPapers';
+import { windowEnvelopeLayout } from './windowEnvelope';
 import type { ProofreadFinding, ProofreadSource } from './proofread';
 
 const PUBLICATIONS = new Set(['sl3', 'sl4', 'i_type', 'tm_ietm_front_matter', 'technical_volume']);
@@ -70,7 +71,7 @@ export function additionalProofreadFindings(source: ProofreadSource, catalog?: R
       headingSection, subjectField, { chapter: 7, paragraph: '9', query: 'Subject Line' }, 'acronyms');
   }
   const standardAddress = STANDARD_ADDRESS_TYPES.has(source.docType);
-  if (standardAddress && config.fromTo) {
+  if (standardAddress && config.fromTo && windowEnvelopeLayout(source.docType, data) !== 'standard') {
     const toField = config.uiMode === 'joint' ? 'jointTo' : 'to';
     const to = data[toField] ?? '';
     if (/\(\s*(?:\d+|Code\s+[A-Z][A-Z0-9-]*)\s*\)/i.test(to)) add('to-office-code', 'Review the To-line office code',

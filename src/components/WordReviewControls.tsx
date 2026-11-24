@@ -8,6 +8,7 @@ import { copyExportReview } from '@/lib/preparedExport';
 import { reviewRoundStatus, type ReviewRound } from '@/lib/reviewRounds';
 import { useDocumentsStore } from '@/stores/documentsStore';
 import { supportsWordProofread } from '@/lib/correspondenceProofreadChecks';
+import { WINDOW_ENVELOPE_WORD_REVIEW_LIMIT, windowEnvelopeLayout } from '@/lib/windowEnvelope';
 
 export interface WordReviewExportOptions { gate: ExportGate; renderer: CorrespondenceRendererPorts }
 interface Props extends WordReviewExportOptions {
@@ -25,6 +26,8 @@ export function WordReviewControls({ rounds, disabled, onSaved, onBusyChange, ga
   const state = useSyncExternalStore(owner.controller.subscribe, owner.controller.getState, owner.controller.getState);
   const held = state.phase === 'preparing' || state.phase === 'executing' || state.phase === 'review';
   const selected = available.find(round => round.id === selectedId) ?? available[0];
+  const baseline = selected?.baseline.session;
+  const windowEnvelope = baseline && windowEnvelopeLayout(baseline.docType, baseline.formData);
   const canIncludeProofread = selected && supportsWordProofread(selected.baseline.session);
   const includeProofread = !!canIncludeProofread && proofreadRoundId === selected?.id;
   const review = state.phase === 'review' ? copyExportReview(state.job) : null;
@@ -41,14 +44,15 @@ export function WordReviewControls({ rounds, disabled, onSaved, onBusyChange, ga
         {available.map(round => <option key={round.id} value={round.id}>{round.label} · {new Date(round.createdAt).toLocaleString()}</option>)}
       </select>
     </Label>
-    {canIncludeProofread && (
+    {windowEnvelope && <p className="text-sm text-muted-foreground">{WINDOW_ENVELOPE_WORD_REVIEW_LIMIT}</p>}
+    {canIncludeProofread && !windowEnvelope && (
       <label className="flex items-start gap-2 text-sm">
         <input type="checkbox" className="mt-1" checked={includeProofread} disabled={disabled || held}
           onChange={event => setProofreadRoundId(event.target.checked ? selected?.id : undefined)} />
         Include Proofread comments on body paragraphs
       </label>
     )}
-    <div className="flex flex-wrap gap-2"><Button variant="outline" className="h-auto min-h-9 max-w-full whitespace-normal text-left" disabled={disabled || held || !selected} onClick={() => {
+    <div className="flex flex-wrap gap-2"><Button variant="outline" className="h-auto min-h-9 max-w-full whitespace-normal text-left" disabled={disabled || held || !selected || !!windowEnvelope} onClick={() => {
       setError('');try { if (!owner.request(selected!, includeProofread)) setError('Another export is running or awaiting review. Finish or cancel it, then retry.'); }
       catch (cause) { setError(cause instanceof Error ? cause.message : 'The Word review could not be prepared.'); }
     }}>Download Word review copy</Button>

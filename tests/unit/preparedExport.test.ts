@@ -15,6 +15,28 @@ function snapshot(patch: Partial<DocumentSnapshot> = {}): DocumentSnapshot {
 }
 function request(data = snapshot()) { return { id: 'export-one', captured: captureDocumentRevision(source, data), target: 'pdf' as const, filename: 'original.pdf', policy }; }
 
+it.each(['pdf', 'docx', 'tex'] as const)('rejects an incomplete authored endorsement before %s export', target => {
+  const data = snapshot({ formData: { appendEndorsement: true, endorsementBody: 'I acknowledge the directions.' } });
+  expect(prepareExport({ ...request(data), target })).toMatchObject({
+    status: 'error', issues: [expect.stringContaining('Enter From and To for the first endorsement')],
+  });
+  data.formData.from = 'Training Command';
+  data.formData.to = 'Training Officer';
+  expect(prepareExport({ ...request(data), target })).toMatchObject({ status: 'ready' });
+});
+
+it('reviews window-envelope mailing conditions and blocks a changed address or marked content', () => {
+  const formData = { windowEnvelope: 'standard' as const, unitLine1: 'TRAINING COMMAND', subject: 'TRAINING', to: 'DIRECTOR\nQUANTICO VA 22134' };
+  const data = snapshot({ formData });
+  const result = prepareExport(request(data));
+  expect(result.status).toBe('needs-review');
+  if (result.status !== 'needs-review') throw new Error('Expected window-envelope mailing review');
+  expect(copyExportReview(result.job)).toMatchObject({ layoutReview: true, notices: expect.arrayContaining([expect.stringContaining('actual size')]) });
+  expect(prepareExport({ ...request(data), target: 'tex', texMode: 'flat' })).toMatchObject({ status: 'error' });
+  expect(prepareExport(request({ ...data, formData: { ...formData, via: 'Intermediate Command' } }))).toMatchObject({ status: 'error', issues: [expect.stringContaining('Via routing')] });
+  expect(prepareExport(request({ ...data, paragraphs: [{ text: 'Portioned body', level: 0, portionMarking: 'CUI' }] }))).toMatchObject({ status: 'error', issues: [expect.stringContaining('unclassified')] });
+});
+
 it('substitutes before privacy inspection and excludes inactive-format text', () => {
   const input = request(snapshot({ formData: { subject: '{{NAME}}', seniorCommandName: 'SSN 456-67-8912' }, paragraphs: [{ text: '{{IDENTIFIER}}', level: 0 }] }));
   const values = { NAME: 'Resolved', IDENTIFIER: 'SSN 123-45-6789' };
@@ -167,14 +189,4 @@ it('does not gate unclassified output on inactive legacy CUI fields', () => {
   expect(prepareExport(request(snapshot({
     formData: { classLevel: 'unclassified', cuiCategory: 'Privacy', cuiDissemination: 'NOFRN' },
   })))).toMatchObject({ status: 'ready' });
-});
-
-it.each(['pdf', 'docx', 'tex'] as const)('rejects an incomplete authored endorsement before %s export', target => {
-  const data = snapshot({ formData: { appendEndorsement: true, endorsementBody: 'I acknowledge the directions.' } });
-  expect(prepareExport({ ...request(data), target })).toMatchObject({
-    status: 'error', issues: [expect.stringContaining('Enter From and To for the first endorsement')],
-  });
-  data.formData.from = 'Training Command';
-  data.formData.to = 'Training Officer';
-  expect(prepareExport({ ...request(data), target })).toMatchObject({ status: 'ready' });
 });

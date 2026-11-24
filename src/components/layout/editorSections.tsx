@@ -103,6 +103,8 @@ interface SectionErrorInput extends Pick<Partial<DocumentData>, 'docType' | 'dir
   controllingOffice?: string;
   pocEmail?: string;
   letterheadMode?: 'full' | 'title-only' | 'preprinted';
+  windowEnvelope?: import('@/lib/windowEnvelope').WindowEnvelopeLayout;
+  salutation?: string;
   unitLine1?: string;
   from?: string;
   to?: string;
@@ -175,14 +177,16 @@ export function getSectionError(
       // recipientAddress) show neither, so requiring them stamped a permanent,
       // unclearable error dot on the Heading section; business letters (no From)
       // got the same on the From check.
-      const fromError = config.fromTo ? unfilled(formData.from) : false;
+      const fromError = config.fromTo && !(config === DOC_TYPE_CONFIG.naval_letter && formData.windowEnvelope === 'standard') ? unfilled(formData.from) : false;
       // "To" also carries the Memorandum For addressee — the doc type renders a
       // dedicated required field for its "MEMORANDUM FOR [addressee]" title line.
       const toError =
         (config.fromTo || config.recipientAddress || config.memoTitle === 'MEMORANDUM FOR')
           ? unfilled(formData.to)
           : false;
-      return fromError || toError || (config.uiMode !== 'business' && unfilled(formData.subject));
+      const headingError = config === DOC_TYPE_CONFIG.business_letter && formData.windowEnvelope === 'salutation'
+        ? unfilled(formData.salutation) : (config.uiMode !== 'business' || config === DOC_TYPE_CONFIG.business_letter && formData.windowEnvelope === 'subject') && unfilled(formData.subject);
+      return fromError || toError || headingError;
     }
     case 'body':
       return !paragraphs.some((p) => !unfilled(p.text));

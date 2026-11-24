@@ -6,6 +6,7 @@ export type { PageFurniture } from './pageFurniture';
 import { correspondenceStationery, type StationerySize } from '@/lib/stationery';
 import { applyLetterheadStyling, perfectLetterheadCentering } from './letterheadStyling';
 import { applyBodyTableLayouts } from './bodyTables';
+import { applyWindowEnvelopeSpacing } from './windowEnvelope';
 /**
  * Pandoc WASM Converter Service
  *
@@ -637,6 +638,7 @@ export async function postProcessDocx(
   //   - WITHOUT seal: 1440 twips (1.0in) standard margin per SECNAV Ch 7 ¶1.
   // Side/bottom margins = 1440 twips (1in) in all cases.
   const topMargin = stock.small ? 1440 : hasLetterheadSeal || letterheadMode === 'title-only' || letterheadMode === 'preprinted' ? 720 : 1440;
+  xml = applyWindowEnvelopeSpacing(xml, hasLetterheadSeal, topMargin / 20);
   debug.log('DOCX', `Step 5: Enforcing US Letter page geometry (${topMargin / 1440}in top, 1in sides)${hasLetterheadSeal ? ' — seal detected, 0.5in top' : ''}`);
   const PG_SZ = `<w:pgSz w:w="${Math.round(stock.width * 1440)}" w:h="${Math.round(stock.height * 1440)}" w:orient="portrait"/>`;
   const PG_MAR = `<w:pgMar w:top="${topMargin}" w:right="1440" w:bottom="1440" w:left="1440" w:header="720" w:footer="720" w:gutter="0"/>`;

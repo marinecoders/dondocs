@@ -36,6 +36,10 @@ export const sessionSchema = z.object({
     if (data.letterheadStandard !== undefined && data.letterheadStandard !== 'don' && data.letterheadStandard !== 'dla') context.addIssue({
       code: 'custom', path: ['letterheadStandard'], message: 'Invalid letterhead format',
     });
+    if (data.windowEnvelope !== undefined && data.windowEnvelope !== 'standard'
+      && data.windowEnvelope !== 'salutation' && data.windowEnvelope !== 'subject') context.addIssue({
+      code: 'custom', path: ['windowEnvelope'], message: 'Invalid window-envelope layout',
+    });
     if (data.cuiTransmittalNote !== undefined && typeof data.cuiTransmittalNote !== 'boolean') context.addIssue({
       code: 'custom', path: ['cuiTransmittalNote'], message: 'Invalid CUI transmittal confirmation',
     });

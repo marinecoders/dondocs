@@ -39,6 +39,12 @@ describe('additional correspondence proofreading', () => {
     source.formData.includeEndorsementSubject = true;
     expect(ids(source)).toContain('correspondence:subject-period');
   });
+  it('applies To-line checks only while the letter uses a labeled To line', () => {
+    const source = draft({ formData: { date: '19 Nov 26', to: 'Captain Example\n100 Example Road' } });
+    expect(ids(source)).toContain('correspondence:to-named-person');
+    source.formData.windowEnvelope = 'standard';
+    expect(ids(source)).not.toContain('correspondence:to-named-person');
+  });
   it('accepts the same legacy endorsement identification as the renderer', () => {
     expect(ids(draft({ docType: 'new_page_endorsement', formData: { date: '19 Nov 26', subject: 'FIRST ENDORSEMENT on Synthetic source letter' } })))
       .not.toContain('correspondence:endorsement-id');

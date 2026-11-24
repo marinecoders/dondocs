@@ -45,6 +45,17 @@ async function finish(app: Awaited<ReturnType<typeof fixture>>, phase = 'success
 function free(app: Awaited<ReturnType<typeof fixture>>) { const release = app.gate.acquire();expect(release).not.toBeNull();release?.(); }
 
 describe('owned Word review export', () => {
+  it('stops a saved window-envelope review before asking for export approval or rendering', async () => {
+    useDocumentStore.getState().setField('windowEnvelope', 'standard');
+    const app = await fixture();
+    useDocumentStore.getState().setField('windowEnvelope', undefined);
+    expect(() => app.owner.request(app.round)).toThrow('Word review returns do not support window-envelope opening fields');
+    expect(app.owner.controller.getState().phase).toBe('idle');
+    expect(app.convertDocx).not.toHaveBeenCalled();
+    expect((await readReviewRound(app.round.id))?.wordHandoffs).toBeUndefined();
+    free(app);
+    app.owner.dispose();
+  });
   it('exports and locally retains exactly the saved baseline despite newer pre-existing editor work', async () => {
     const app = await fixture();useDocumentStore.getState().updateParagraph(0, { text: 'Newer current draft work' });
     expect(app.owner.request(app.round)).toBe(true);await finish(app);

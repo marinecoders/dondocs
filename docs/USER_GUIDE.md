@@ -19,6 +19,14 @@ Open **Tools → Draft a formal email** to prepare an editable plain-text messag
 
 Use this draft with the release authority, official email address and file-copy procedures required by your activity. Request receipt in the message when required. Follow [SECNAV M-5216.5, Chapter 4, paragraph 4-2.2](https://www.secnav.navy.mil/doni/SECNAV%20Manuals1/5216.5%20%20CH-1.pdf#page=33).
 
+## Window-envelope letters
+
+In **Document Information**, enable **Window-envelope layout** on a Naval Letter (on letterhead) or a Business Letter. Enter the complete mailing address on up to five lines, within the left half of the page. The naval layout omits From and To labels and requires you to clear Via routing. The business layout starts the address on line 16 and gives line 25 to the salutation or subject. Use complete DonDocs letterhead or approved preprinted stock.
+
+Download the regular PDF or editable Word document. Review the mailing notice, print at actual size, then fold and check the address in the envelope. For the naval letter, verify at least ⅛ inch of clearance around the entire address as the sheet shifts. Follow the separate envelope and mailing rules in [SECNAV M-5216.5 §2-2.2c and Figures 7-3 and 11-4](https://www.secnav.navy.mil/doni/SECNAV%20Manuals1/5216.5%20%20CH-1.pdf#page=65).
+
+Use DonDocs review copies for window-envelope drafts. The editable Word download supports normal editing and printing. DonDocs review rounds handle returned edits for these drafts.
+
 ## Proofread a draft
 
 Choose **Proofread** beside the required-fields indicator, **Document tools → Proofread current draft**, or find the command in workspace search. The count combines existing required-field, formatting, paragraph-structure, reference, marking, abbreviation and sensitive-text checks that apply to the current document. Select **Go to** on a finding to open its editor section or affected field. Findings update as you edit; opening the panel does not change the draft. Forms and publications use their own required sections.

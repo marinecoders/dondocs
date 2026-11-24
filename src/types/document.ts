@@ -212,6 +212,7 @@ export interface DocumentData {
   // Letterhead
   stationerySize?: import('@/lib/stationery').StationerySize;
   letterheadMode?: 'full' | 'title-only' | 'preprinted';
+  windowEnvelope?: import('@/lib/windowEnvelope').WindowEnvelopeLayout;
   directiveNumber?: string;
   directiveCancellation?: string;
   directiveChangeNumber?: string;

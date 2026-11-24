@@ -91,7 +91,7 @@ export const DOCUMENT_DATA_FIELD_POLICIES = {
   manualFrontMatter: object(manual), publicationSigningDate: 'document-date', publicationClosedDates: 'document-date',
   docType: 'control', fontSize: 'control', fontFamily: 'control', pageNumbering: 'control',
   startingPageNumber: 'value', startingReferenceLetter: 'control', startingEnclosureNumber: 'value',
-  stationerySize: 'control', letterheadMode: 'control', department: 'control', unitLine1: 'text', unitLine2: 'text', unitAddress: 'text', sealType: 'control', letterheadColor: 'control',
+  stationerySize: 'control', letterheadMode: 'control', windowEnvelope: 'control', department: 'control', unitLine1: 'text', unitLine2: 'text', unitAddress: 'text', sealType: 'control', letterheadColor: 'control',
   directiveNumber: 'text', directiveCancellation: 'text', directiveChangeNumber: 'text', directiveReports: 'text',
   staffApprovedBy: 'text', staffDecisionOptions: 'text', staffDecisionOfficials: 'text', staffDecisionStyle: 'control', coordinationLayout: 'control', coordinationComments: 'text',
   coordinationEntries: array(object({ office: 'text', contact: 'text', phone: 'text', date: 'document-date', position: 'text' })),

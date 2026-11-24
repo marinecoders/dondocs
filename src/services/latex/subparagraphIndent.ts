@@ -73,6 +73,16 @@ export function labelWidthMilliEm(label: string, font: LabelFont): number {
   return total;
 }
 
+/** Conservative raw-text width for fixed layout. Unknown glyphs reserve a full em. */
+export function textWidthMilliEm(text: string, font: LabelFont): number {
+  let width = 0;
+  for (const character of text) {
+    const known = TIMES[character] ?? TIMES[character.normalize('NFD').replace(/\p{M}/gu, '')];
+    width += font === 'courier' && /^[ -~]$/.test(character) ? COURIER_ADVANCE : known ?? 1000;
+  }
+  return width;
+}
+
 /** Chapter 12: address runovers/ATTN begin beneath the title's third character. */
 export function headquartersAddressIndentIn(addressee: string, font: LabelFont, size: number): number {
   const prefix = 'MEMORANDUM FOR ' + Array.from(addressee.trim()).slice(0, 2).join('');
