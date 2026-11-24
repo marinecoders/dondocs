@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.249] — 2026-11-23
+
+### Added
+
+- Flag possible misspellings with a bundled offline dictionary and report when spelling is unavailable.
+
 ## [1.3.248] — 2026-11-23
 
 ### Added

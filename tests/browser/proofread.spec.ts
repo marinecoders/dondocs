@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test';
+import { checkOfflineSpelling } from './offlineSpelling';
 
 test.use({ serviceWorkers: 'block' });
 
@@ -230,4 +231,38 @@ test('reviews composed CUI statement text through its actual statement selector'
   await page.getByRole('button', { name: /^Proofread:/ }).click();
   await expect(dialog.getByText('Social Security Number pattern in Distribution statement', { exact: true })).toHaveCount(0);
   await expect(dialog.getByText('Personal Email Address pattern in Distribution statement', { exact: true })).toHaveCount(1);
+});
+
+test('reports unavailable spelling without dropping other checks and can retry', async ({ page }) => {
+  const wordList = '**/assets/english-us-*.txt';
+  await page.route(wordList, route => route.abort());
+  await page.addInitScript(() => localStorage.setItem('browser-test-visitor', 'returning'));
+  await page.goto('/');
+  const draft = {
+    documentCategory: 'correspondence', documentMode: 'compliant', docType: 'naval_letter',
+    formData: { subject: 'SPELLING CHECK', date: '2026-11-12' },
+    paragraphs: [{ id: 'spelling-retry', level: 0, text: 'The ship recieved the file.' }],
+    references: [], enclosures: [], copyTos: [], distributions: [],
+  };
+  await page.getByLabel('Import draft file').setInputFiles({ name: 'spelling-retry.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(draft)) });
+  await page.getByRole('button', { name: 'Open as new document', exact: true }).click();
+  const proofread = page.getByRole('button', { name: /^Proofread:/ });
+  await proofread.click();
+  const dialog = page.getByRole('dialog', { name: 'Proofread', exact: true });
+  await expect(dialog.getByText('Spelling is unavailable. Reopen Proofread to try again.', { exact: true })).toBeVisible();
+  await expect(dialog.getByText('Use the date format for this document.', { exact: true })).toBeVisible();
+  await dialog.getByRole('button', { name: 'Done', exact: true }).click();
+  await page.unroute(wordList);
+  await proofread.click();
+  await expect(dialog.getByText('Check spelling: recieved', { exact: true })).toBeVisible();
+  await expect(dialog.getByText('Spelling is unavailable. Reopen Proofread to try again.', { exact: true })).toBeHidden();
+});
+
+test.describe('offline spelling', () => {
+  test.use({ serviceWorkers: 'allow' });
+
+  test('loads the installed word list before the first Proofread use and selects the misspelled text while offline', async ({ page, context }) => {
+    test.setTimeout(120_000);
+    await checkOfflineSpelling(page, context);
+  });
 });

@@ -341,6 +341,7 @@ export default defineConfig({
         // precached so offline + subsequent loads stay fast.
         globPatterns: [
           'classification.config.json',
+          'assets/english-us-*.txt',
           '**/*.{js,css,ico,png,svg,woff,woff2}',
           '{LICENSE,THIRD_PARTY_LICENSES,LICENSING,SOURCE}.txt',
         ],

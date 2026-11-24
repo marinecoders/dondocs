@@ -1,10 +1,8 @@
 /// <reference lib="webworker" />
 import { releaseManifest, releaseId, manifestUrl, type ReleaseManifest, type ReleaseAsset } from './lib/releases';
-import { assetKey, cacheAsset, stageAssets, isWordAsset, hasCachedWord } from './lib/releaseCache';
+import { assetKey, cacheAsset, stageAssets, isWordAsset, hasCachedWord, RELEASE_FILES_CACHE as FILES, RELEASE_META_CACHE as META, releaseStateKey as stateKey } from './lib/releaseCache';
 declare const self: ServiceWorkerGlobalScope;
 
-const FILES = 'dondocs-release-files-v1', META = 'dondocs-release-meta-v1';
-const stateKey = (id: string) => `/__dd_release/${id}`;
 const CURRENT = '/__dd_current';
 const WORD_USED = '/__dd_word_used';
 const POLICY_CACHE = 'deployment-policy-v1';

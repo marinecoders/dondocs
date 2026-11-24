@@ -18,18 +18,18 @@ export type ProofreadSource = Pick<DocumentSnapshot, 'documentCategory' | 'docum
 
 export interface ProofreadFinding {
   id: string;
-  group: 'required' | 'formatting' | 'structure' | 'references' | 'markings' | 'acronyms' | 'privacy';
+  group: 'required' | 'formatting' | 'structure' | 'references' | 'markings' | 'acronyms' | 'privacy' | 'spelling';
   /** Describes the finding, not a new export gate. Existing validators retain their authority. */
   severity: 'error' | 'warning' | 'info';
   title: string;
   message: string;
-  target: { sectionId: string; field?: string; paragraphId?: string; paragraphPath?: FieldPath };
+  target: { sectionId: string; field?: string; paragraphId?: string; paragraphPath?: FieldPath; textSelection?: { text: string; offset: number } };
   source?: { chapter: number; paragraph?: string; query?: string };
 }
 
 export const PROOFREAD_GROUPS: Readonly<Record<ProofreadFinding['group'], string>> = {
   required: 'Required fields', formatting: 'Formatting', structure: 'Paragraph structure',
-  references: 'References', markings: 'Markings', acronyms: 'Abbreviations', privacy: 'Sensitive text',
+  references: 'References', markings: 'Markings', acronyms: 'Abbreviations', spelling: 'Spelling', privacy: 'Sensitive text',
 };
 
 /** Stable local keys without retaining document text in DOM identifiers. */

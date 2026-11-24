@@ -17,6 +17,7 @@ other separately licensed assets.
 | pandoc.js interface | `public/lib/pandoc/pandoc.js` | MIT (Tweag I/O Limited and John MacFarlane) |
 | browser_wasi_shim | `public/lib/pandoc/wasi-shim.js` (bundled from `@bjorn3/browser_wasi_shim`) | MIT OR Apache-2.0 |
 | PDF.js worker | `public/lib/pdf.worker.min.mjs` (synced from `react-pdf`'s pdfjs-dist by `scripts/sync-pdf-worker.mjs`) | Apache-2.0 (Mozilla) |
+| English Speller Database, US word list (rel-2026.02.25) | `src/data/spelling/english-us.txt` | Kevin Atkinson and upstream contributors. Full notices in `public/licenses/english-speller-database.txt`. |
 
 ## Notes
 

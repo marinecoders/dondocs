@@ -170,8 +170,7 @@ jobs:
         # Keep the limit close to the observed total so accidental dependencies,
         # test imports, duplicated modules and tree-shaking regressions fail CI.
         run: |
-          # Starter examples and PDF hit areas bring the measured build to about 6.83 MB.
-          BUDGET_BYTES=6840000
+          BUDGET_BYTES=6950000
           TOTAL=$(find dist/assets -name "*.js" -exec stat -c %s {} \; | awk '{s+=$1} END {print s+0}')
           echo "Total dist/assets JS: $TOTAL bytes (budget: $BUDGET_BYTES)"
           if [ "$TOTAL" -gt "$BUDGET_BYTES" ]; then
