@@ -223,8 +223,11 @@ export default function AmhsMessageDialog({
               {field('contactName', 'Name')}
               {field('contactRank', 'Rank or title')}
               {field('contactOffice', 'Contact office')}
-              {field('contactDetails', 'Phone or email', { help: 'Enter a phone number, DSN number, or email address.' })}
+              {field('contactDetails', 'Commercial phone', { optional: true })}
+              {field('contactDsn', 'DSN number', { optional: true })}
+              {field('contactEmail', 'Email address', { optional: true })}
             </div>
+            <p className="mt-2 text-xs text-muted-foreground">Provide at least one way to contact this person.</p>
           </fieldset>
           <details className="rounded-md border p-3">
             <summary className="cursor-pointer text-sm font-medium">Office routing and references (optional)</summary>
