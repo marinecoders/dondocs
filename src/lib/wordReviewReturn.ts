@@ -116,7 +116,7 @@ export async function prepareWordReviewReturn(bytes: Uint8Array, name: string, s
   const policy = await getExportDeploymentPolicy(undefined, true);current(target);
   if (policy.status !== 'ready') throw new Error(policy.message);
   const payload = await buildWordReviewReturn(round, identity, imported, target.scope.documentId, policy, signal);current(target);
-  const native = await prepareReviewReturnImport(payload);current(target);signal?.throwIfAborted();
+  const native = await prepareReviewReturnImport(payload, { source: 'word' });current(target);signal?.throwIfAborted();
   const result: PreparedWordReviewReturn = Object.freeze({ native, name: imported.source.name, sha256: imported.source.sha256,
     privacy: detectTextPII([{ field: 'Returned Word file name', value: imported.source.name }, { field: 'Returned Word original', value: imported.source.retainedText }]),
     notices: Object.freeze(['Only matched body text and comments become native feedback. Word page layout and unsupported formatting are not applied; supported bold, italic and underline use native text formatting; structural, field, table, image and header/footer content changes require manual review.',

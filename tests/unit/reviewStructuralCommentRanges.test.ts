@@ -58,4 +58,14 @@ describe('explicit accepted structural comment mappings', () => {
     expect(mapStructuralRangeComments(comments(), [{ ...before, text: 'changed' }], after, spans)!.threads[0].anchor).toMatchObject({ detached: true });
     expect(mapStructuralRangeComments(comments(), [before], after, [...spans, spans[0]])!.threads[0].anchor).toMatchObject({ detached: true });
   });
+
+  it('maps only unambiguous, unaffected selections from a Word return', () => {
+    const newer = { ...source, paragraphs: [{ ...before, text: 'Left revised right words.' }] };
+    const returned = comments();
+    const ordinary = normalizeReturnedRangeComments(source, newer, returned)!;
+    expect(ordinary.threads[1].anchor).toMatchObject({ detached: true });
+    const word = normalizeReturnedRangeComments(source, newer, returned, true)!;
+    expect(resolveTextRange(newer, word.threads[1].anchor as never)).toMatchObject({ status: 'current', text: 'right' });
+    expect(word.threads[2].anchor).toMatchObject({ detached: true });
+  });
 });

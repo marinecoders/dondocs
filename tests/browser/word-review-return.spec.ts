@@ -253,6 +253,13 @@ for (const theme of ['light', 'dark', 'classic']) {
     const draft = JSON.parse((await download(page, () => actions(page, 'Export draft (.json)'))).toString('utf8'));
     expect(draft.reviewComments.threads[0].anchor).toMatchObject({ kind: 'range', paragraphId: 'word-return-body' });
     expect(draft.reviewComments.threads[0].messages[0].text).toContain('Please check this exact word.');
+    if (native) {
+      const anchor = draft.reviewComments.threads[0].anchor;
+      expect(anchor.detached).toBeUndefined();
+      expect(anchor.context.slice(anchor.start, anchor.end)).toBe('word');
+      expect(anchor.tracking?.context).toBe('Review this reviewed word and keep the newer suffix.');
+      expect(anchor.tracking.context.slice(anchor.tracking.start, anchor.tracking.end)).toBe('word');
+    }
     await writeFile(info.outputPath(`native-result-${theme}.json`), JSON.stringify(draft, null, 2));
     await page.reload();
     modal = await reviews(page);

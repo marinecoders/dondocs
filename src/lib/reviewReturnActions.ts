@@ -11,7 +11,7 @@ import { captureChangeReport, prepareChangeReport } from './changeReport';
 import type { PolicyResolution } from './exportDeploymentPolicy';
 import { triggerDownload } from './encoding';
 import { describeCommentAnchor, supportsReviewComments } from './reviewCommentTargets';
-import { mergeReturnedComments, type ReviewCommentMerge, type ReviewReturnChoice } from './reviewCommentMerge';
+import { mergeReturnedComments, ReviewCommentMergeLimitError, type ReviewCommentMerge, type ReviewReturnChoice } from './reviewCommentMerge';
 import { assertActiveReviewRound, readReviewCopyLink, readReviewRound, type ReviewRound } from './reviewRounds';
 import {
   createReviewReturn, createSuggestionReviewReturn, parseReviewReturn, readReviewReturnReceipt, reviewReturnDigest,
@@ -53,7 +53,23 @@ interface OwnedReturn {
   suggestions?: ReviewSuggestionState | null;
 }
 const exports = new WeakMap<PreparedReviewReturnExport, OwnedReturn>();
-const imports = new WeakMap<PreparedReviewReturnImport, OwnedReturn & { digest: string; started: boolean }>();
+const imports = new WeakMap<PreparedReviewReturnImport, OwnedReturn & { digest: string; started: boolean; normalizedComments: ReviewReturn['comments']; wordReturn: boolean }>();
+
+function mergeImportComments(
+  baseline: SerializedSession, current: SerializedSession, returned: ReviewReturn['comments'],
+  normalized: ReviewReturn['comments'], wordReturn: boolean, choices?: Readonly<Record<string, ReviewReturnChoice>>,
+) {
+  try {
+    return mergeReturnedComments(baseline.reviewComments, current.reviewComments, normalized, choices);
+  } catch (error) {
+    if (!(error instanceof ReviewCommentMergeLimitError) || !wordReturn
+      || !normalized?.threads.some(thread => thread.anchor.kind === 'range' && thread.anchor.tracking)) throw error;
+    // Extra tracked context is useful, but can push otherwise valid feedback
+    // over the document limit. Keep the discussion with its original quote.
+    return mergeReturnedComments(baseline.reviewComments, current.reviewComments,
+      normalizeReturnedRangeComments(baseline, current, returned), choices);
+  }
+}
 
 function currentCapture(): { target: DocumentTarget; session: SerializedSession } {
   const target = captureDocumentTarget(), session = structuredClone(getSerializedSession());
@@ -131,7 +147,7 @@ export function downloadReviewReturn(prepared: PreparedReviewReturnExport): void
     `dondocs-review-return-${new Date(owned.payload.createdAt).toISOString().slice(0, 10)}.json`, 'application/json');
 }
 
-export async function prepareReviewReturnImport(value: unknown): Promise<PreparedReviewReturnImport> {
+export async function prepareReviewReturnImport(value: unknown, options?: { source: 'word' }): Promise<PreparedReviewReturnImport> {
   const captured = currentCapture(), payload = parseReviewReturn(value);
   if (hasPendingReviewWrites(captured.target.scope.documentId)) await flushPendingReviewWrites(captured.target.scope.documentId);
   current(captured.target);
@@ -149,8 +165,10 @@ export async function prepareReviewReturnImport(value: unknown): Promise<Prepare
   const policy = await getExportDeploymentPolicy(undefined, true);
   current(captured.target);
   const checked = safety(round, payload, policy);
+  const wordReturn = options?.source === 'word';
+  const normalizedComments = previous ? undefined : normalizeReturnedRangeComments(round.baseline.session, captured.session, payload.comments, wordReturn);
   const plan = previous ? { status: 'ready' as const, comments: captured.session.reviewComments, conflicts: [], changedThreads: 0, addedThreads: 0, removedThreads: 0 }
-    : mergeReturnedComments(round.baseline.session.reviewComments, captured.session.reviewComments, normalizeReturnedRangeComments(round.baseline.session, captured.session, payload.comments));
+    : mergeImportComments(round.baseline.session, captured.session, payload.comments, normalizedComments, wordReturn);
   const local = prepareChangeReport(captureChangeReport(
     { label: 'Current captured draft', title: 'Current draft', session: captured.session },
     { label: 'Proposed discussions', title: 'Current draft', session: { ...captured.session, reviewComments: plan.comments } },
@@ -158,7 +176,7 @@ export async function prepareReviewReturnImport(value: unknown): Promise<Prepare
   ), policy);
   const result: PreparedReviewReturnImport = Object.freeze({ [importBrand]: true as const, roundLabel: round.label, createdAt: payload.createdAt,
     currentMarking: local.marking, alreadyImported: previous !== null, comments: structuredClone(payload.comments), proposals: structuredClone(payload.version === 2 ? payload.proposals : []), plan: structuredClone(plan), ...checked });
-  imports.set(result, { ...captured, round: structuredClone(round), payload, digest, suggestions, started: false });
+  imports.set(result, { ...captured, round: structuredClone(round), payload, digest, suggestions, normalizedComments, wordReturn, started: false });
   return result;
 }
 
@@ -166,12 +184,12 @@ export function reviewReturnPlan(prepared: PreparedReviewReturnImport, choices: 
   const owned = imports.get(prepared);
   if (!owned || owned.started || prepared.alreadyImported) throw new Error('Prepare the return again before applying it.');
   current(owned.target);
-  return mergeReturnedComments(owned.round.baseline.session.reviewComments, owned.session.reviewComments, normalizeReturnedRangeComments(owned.round.baseline.session, owned.session, owned.payload.comments), choices);
+  return mergeImportComments(owned.round.baseline.session, owned.session, owned.payload.comments, owned.normalizedComments, owned.wordReturn, choices);
 }
 
 export function reviewReturnTargetLabel(prepared: PreparedReviewReturnImport, threadId: string): string {
   const owned = imports.get(prepared);
-  const thread = owned && [owned.session.reviewComments, owned.payload.comments, owned.round.baseline.session.reviewComments]
+  const thread = owned && [owned.session.reviewComments, prepared.plan.comments, owned.normalizedComments, owned.payload.comments, owned.round.baseline.session.reviewComments]
     .flatMap(comments => comments?.threads ?? []).find(thread => thread.id === threadId);
   return owned && thread ? describeCommentAnchor(owned.session, thread.anchor).label : 'Discussion';
 }

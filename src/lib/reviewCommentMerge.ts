@@ -21,6 +21,8 @@ export interface ReviewCommentMerge {
   removedThreads: number;
 }
 
+export class ReviewCommentMergeLimitError extends Error {}
+
 const equal = (a: unknown, b: unknown): boolean => JSON.stringify(a) === JSON.stringify(b);
 const anchorIdentity = (anchor: CommentThread['anchor']) => anchor.kind === 'range'
   ? { kind: anchor.kind, paragraphId: anchor.paragraphId, docType: anchor.docType, context: anchor.context, start: anchor.start, end: anchor.end } : anchor;
@@ -116,7 +118,7 @@ export function mergeReturnedComments(
   }
   // Combined inputs can exceed limits or collide even when each input is valid alone.
   const parsed = reviewCommentsSchema.safeParse({ version: reviewCommentsVersion(merged), threads: merged });
-  if (!parsed.success) throw new Error('The combined comments exceed the supported limits or contain conflicting identifiers. No comments were imported.');
+  if (!parsed.success) throw new ReviewCommentMergeLimitError('The combined comments exceed the supported limits or contain conflicting identifiers. No comments were imported.');
   const result = byId(parsed.data.threads);
   return {
     status: conflicts.some(conflict => !conflict.choice) ? 'conflict' : 'ready',
