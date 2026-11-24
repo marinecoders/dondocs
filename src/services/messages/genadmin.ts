@@ -20,12 +20,14 @@ export interface GenadminDraft {
   contactRank: string;
   contactOffice: string;
   contactDetails: string;
+  contactDsn: string;
+  contactEmail: string;
   remarks: string;
 }
 
 export const EMPTY_GENADMIN_DRAFT: GenadminDraft = {
   from: '', to: '', info: '', ssic: '', originator: '', office: '', month: '', subject: '',
-  passTo: '', references: '', contactName: '', contactRank: '', contactOffice: '', contactDetails: '',
+  passTo: '', references: '', contactName: '', contactRank: '', contactOffice: '', contactDetails: '', contactDsn: '', contactEmail: '',
   remarks: '',
 };
 
@@ -44,22 +46,34 @@ const SEVEN_DIGIT_PHONE = /^\d{3}[ .-]?\d{4}$/;
 const TEN_DIGIT_PHONE = /^(?:\(\d{3}\)|\d{3})[ .-]?\d{3}[ .-]?\d{4}$/;
 const INTERNATIONAL_PHONE = /^\+[1-9]\d*(?:[ .-]\d+)*$/;
 
-function isContact(value: string): boolean {
-  const phone = value.replace(/^(?:TEL|COMM) *: */, '');
+function isContactEmail(value: string): boolean {
   const email = value.replace(/^EMAIL *: */, '').replace('(AT)', '@');
-  if (email.includes('@')) {
-    const [local, domain] = email.split('@');
-    return EMAIL.safeParse(email).success && local.length <= 64
-      && !local.startsWith('.') && !local.endsWith('.') && !local.includes('..') && domain.includes('.');
-  }
-  const dsn = /^DSN(?: +| *: *)(.+)$/.exec(phone);
-  if (dsn) return SEVEN_DIGIT_PHONE.test(dsn[1]) || TEN_DIGIT_PHONE.test(dsn[1]);
+  const [local, domain] = email.split('@');
+  return EMAIL.safeParse(email).success && local.length <= 64
+    && !local.startsWith('.') && !local.endsWith('.') && !local.includes('..') && domain.includes('.');
+}
+
+const DSN_PREFIX = /^DSN(?: *: *| +)/;
+function isDsnNumber(value: string): boolean {
+  const number = value.replace(DSN_PREFIX, '');
+  return SEVEN_DIGIT_PHONE.test(number) || TEN_DIGIT_PHONE.test(number);
+}
+
+function isCommercialPhone(value: string): boolean {
+  const phone = value.replace(/^(?:TEL|COMM) *: */, '');
   if (SEVEN_DIGIT_PHONE.test(phone) || TEN_DIGIT_PHONE.test(phone)) return true;
   if (/^\+?1[ .-]?/.test(phone) && TEN_DIGIT_PHONE.test(phone.replace(/^\+?1[ .-]?/, ''))) return true;
   if (!INTERNATIONAL_PHONE.test(phone)) return false;
   const digits = phone.replace(/\D/g, '');
   // A +1 number still needs a complete North American number.
   return digits[0] !== '1' && digits.length >= 7 && digits.length <= 15;
+}
+
+export function splitLegacyGenadminContact(value: string): Pick<GenadminDraft, 'contactDetails' | 'contactDsn' | 'contactEmail'> {
+  const phone = value.trim().replace(/^(?:TEL|COMM) *: */i, '');
+  if (/^DSN(?:\s|:)/i.test(phone)) return { contactDetails: '', contactDsn: phone, contactEmail: '' };
+  if (/^EMAIL\s*:|@|\(AT\)/i.test(value.trim())) return { contactDetails: '', contactDsn: '', contactEmail: value };
+  return { contactDetails: value, contactDsn: '', contactEmail: '' };
 }
 
 function isAddress(value: string): boolean {
@@ -89,9 +103,11 @@ function isReferenceDate(value: string): boolean {
 /** Renders a local GENADMIN administrative draft using the NETC sample layout. */
 export function prepareGenadmin(draft: GenadminDraft): DraftResult {
   const issues: Issues = {};
-  const header = (field: Field, label: string) => {
+  const header = (field: Field, label: string, required = true) => {
     const value = normalize(draft[field]);
-    if (!value) issues[field] = 'Enter ' + label + '.';
+    if (!value) {
+      if (required) issues[field] = 'Enter ' + label + '.';
+    }
     else if (draft[field].length > GENADMIN_LIMITS.line || !HEADER_VALUE.test(value) || value.includes('/')) {
       issues[field] = 'Use one plain-text line without slashes.';
     }
@@ -135,11 +151,18 @@ export function prepareGenadmin(draft: GenadminDraft): DraftResult {
   const contactName = header('contactName', 'the contact name');
   const contactRank = header('contactRank', 'the contact rank or title');
   const contactOffice = header('contactOffice', 'the contact office');
-  const contact = header('contactDetails', 'a phone number or email');
-  if (contact && !issues.contactDetails && !isContact(contact)) {
-    issues.contactDetails = 'Enter one phone number, DSN number, or email address.';
+  const contact = header('contactDetails', 'a commercial phone number', false);
+  const dsn = header('contactDsn', 'a DSN number', false);
+  const email = header('contactEmail', 'an email address', false);
+  if (!contact && !dsn && !email) issues.contactDetails = 'Enter a commercial phone number, DSN number, or email address.';
+  if (contact && !issues.contactDetails && !isCommercialPhone(contact)) {
+    issues.contactDetails = 'Enter a complete commercial phone number.';
   }
-  const contactDetails = contact.replaceAll('@', '(AT)');
+  if (dsn && !issues.contactDsn && !isDsnNumber(dsn)) issues.contactDsn = 'Enter a complete DSN number.';
+  if (email && !issues.contactEmail && !isContactEmail(email)) issues.contactEmail = 'Enter a complete email address.';
+  const contactDetails = [...new Set([
+    contact, dsn && `DSN ${dsn.replace(DSN_PREFIX, '')}`, email.replace(/^EMAIL *: */, ''),
+  ].filter(Boolean).map(value => value.replaceAll('@', '(AT)')))];
 
   const remarks = normalize(draft.remarks);
   if (!remarks) issues.remarks = 'Enter the remarks.';
@@ -167,6 +190,6 @@ export function prepareGenadmin(draft: GenadminDraft): DraftResult {
     const narrative = refs.map(([title], index) => 'REF ' + String.fromCharCode(65 + index) + ' IS ' + title + '.');
     output.push((refs.length === 1 ? 'AMPN/' : 'NARR/') + narrative.join('\n') + '//');
   }
-  output.push('POC/' + [contactName, contactRank, contactOffice, contactDetails].join('/') + '//', 'RMKS/' + remarks + '//');
+  output.push('POC/' + [contactName, contactRank, contactOffice, ...contactDetails].join('/') + '//', 'RMKS/' + remarks + '//');
   return { text: output.join('\n') + '\n' };
 }

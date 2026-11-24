@@ -1,6 +1,7 @@
-import { EMPTY_GENADMIN_DRAFT, GENADMIN_LIMITS, type GenadminDraft } from './genadmin';
+import { EMPTY_GENADMIN_DRAFT, GENADMIN_LIMITS, splitLegacyGenadminContact, type GenadminDraft } from './genadmin';
 
 const STORAGE_KEY = 'dondocs.genadminDraft';
+const STORAGE_VERSION = 2;
 const fields = Object.keys(EMPTY_GENADMIN_DRAFT) as (keyof GenadminDraft)[];
 const listFields: ReadonlySet<keyof GenadminDraft> = new Set(['to', 'info', 'passTo', 'references']);
 
@@ -20,16 +21,19 @@ export function readGenadminDraft(): StoredGenadminDraft {
     raw = localStorage.getItem(STORAGE_KEY);
     if (raw) {
       const record = JSON.parse(raw);
-      if (record?.version === 1 && record.draft && typeof record.draft === 'object') {
+      if ((record?.version === 1 || record?.version === STORAGE_VERSION) && record.draft && typeof record.draft === 'object') {
+        const legacy = record.version === 1;
         const draft = { ...EMPTY_GENADMIN_DRAFT };
         for (const field of fields) {
           const value: unknown = record.draft[field];
+          if (legacy && (field === 'contactDsn' || field === 'contactEmail') && value === undefined) continue;
           if (typeof value !== 'string' || value.length > genadminDraftFieldLimit(field)) {
             return { raw, draft: EMPTY_GENADMIN_DRAFT };
           }
           draft[field] = value;
         }
-        return { raw, draft };
+        const legacyContact = legacy && !Object.hasOwn(record.draft, 'contactDsn') && !Object.hasOwn(record.draft, 'contactEmail');
+        return { raw, draft: legacyContact ? { ...draft, ...splitLegacyGenadminContact(draft.contactDetails) } : draft };
       }
     }
   } catch {
@@ -50,7 +54,7 @@ export async function writeGenadminDraft(previous: StoredGenadminDraft, draft: G
     if (previous.raw !== null && previous.draft === EMPTY_GENADMIN_DRAFT) {
       throw new Error('The saved draft could not be read. Discard the saved copy before saving your new draft.');
     }
-    const raw = JSON.stringify({ version: 1, draft });
+    const raw = JSON.stringify({ version: STORAGE_VERSION, draft });
     localStorage.setItem(STORAGE_KEY, raw);
     return { raw, draft };
   };

@@ -42,29 +42,30 @@ test('validates, previews and downloads an AMHS draft without replacing the acti
     ['Name', 'Pat Example'],
     ['Rank or title', 'LT'],
     ['Contact office', 'Training Office'],
-    ['Phone or email', 'pat@example.invalid'],
+    ['Commercial phone', '202-555-0100'],
     ['Remarks', '1. Please review the April schedule.\n\n2. Send corrections by Friday.'],
   ]) {
     await dialog.getByLabel(label, { exact: true }).fill(value);
   }
-  const contact = dialog.getByLabel('Phone or email', { exact: true });
+  const contact = dialog.getByLabel('Commercial phone', { exact: true });
   await contact.fill('ABC123XYZ');
   const attemptedDownloads: string[] = [];
   page.on('download', event => attemptedDownloads.push(event.suggestedFilename()));
   await download.click();
   await expect(contact).toBeFocused();
-  await expect(dialog.getByText('Enter one phone number, DSN number, or email address.', { exact: true })).toBeVisible();
+  await expect(dialog.getByText('Enter a complete commercial phone number.', { exact: true })).toBeVisible();
   await expect(dialog.getByLabel('Message preview')).toHaveValue('');
   for (const [value, printed] of [
-    ['(202) 555-0100', '(202) 555-0100'], ['DSN 555-0100', 'DSN 555-0100'],
-    ['TEL: DSN 555-0100', 'TEL: DSN 555-0100'], ['COMM: (202) 555-0100', 'COMM: (202) 555-0100'],
-    ['Email: pat@example.invalid', 'EMAIL: PAT(AT)EXAMPLE.INVALID'],
-    ['pat@example.invalid', 'PAT(AT)EXAMPLE.INVALID'],
+    ['(202) 555-0100', '(202) 555-0100'], ['TEL: 202-555-0100', 'TEL: 202-555-0100'],
+    ['COMM: (202) 555-0100', 'COMM: (202) 555-0100'],
   ]) {
     await contact.fill(value);
     expect(await dialog.getByLabel('Message preview').inputValue()).toContain(`TRAINING OFFICE/${printed}//`);
   }
   expect(attemptedDownloads).toEqual([]);
+  await contact.fill('COMM: (202) 555-0100');
+  await dialog.getByLabel('DSN number', { exact: true }).fill('555-0101');
+  await dialog.getByLabel('Email address', { exact: true }).fill('pat@example.invalid');
 
   await dialog.getByText('Office routing and references (optional)', { exact: true }).click();
   const references = dialog.getByLabel('Document references');
@@ -74,10 +75,12 @@ test('validates, previews and downloads an AMHS draft without replacing the acti
   await expect(references).toBeFocused();
   await references.fill('Training guide | 30APR2026');
   const preview = await dialog.getByLabel('Message preview').inputValue();
+  expect(preview).toContain('POC/PAT EXAMPLE/LT/TRAINING OFFICE/COMM: (202) 555-0100/DSN 555-0101/PAT(AT)EXAMPLE.INVALID//');
   expect(preview).toContain('MSGID/GENADMIN/TRAINING OFFICE/N7/APR//');
   expect(preview).toContain('REF/A/DOC/TRAINING GUIDE/\n30APR2026//\nAMPN/REF A IS TRAINING GUIDE.//');
   expect(preview).toContain('RMKS/1. Please review the April schedule.\n\n2. Send corrections by Friday.//');
   await dialog.getByRole('button', { name: 'Save draft', exact: true }).click();
+  await expect(dialog.getByRole('status')).toHaveText('Saved in this browser');
   await page.keyboard.press('Escape');
   await expect(dialog).toBeHidden();
   await expect(tools).toBeFocused();
@@ -116,6 +119,8 @@ test('saves an unfinished GENADMIN locally, restores it after reload and support
   await open();
   await subject.fill('Saved GENADMIN');
   await remarks.fill('An unfinished message.');
+  await dialog.getByLabel('DSN number', { exact: true }).fill('555-0163');
+  await dialog.getByLabel('Email address', { exact: true }).fill('persisted@example.invalid');
   await expect(dialog.getByRole('status')).toHaveText('Unsaved changes');
   await page.keyboard.press('Escape');
   const confirmClose = page.getByRole('alertdialog', { name: 'Save this draft before closing?' });
@@ -132,6 +137,8 @@ test('saves an unfinished GENADMIN locally, restores it after reload and support
   await expect(subject).toHaveValue('Saved GENADMIN');
   await expect(remarks).toHaveValue('An unfinished message.');
   await expect(dialog.getByRole('status')).toHaveText('Saved in this browser');
+  await expect(dialog.getByLabel('DSN number', { exact: true })).toHaveValue('555-0163');
+  await expect(dialog.getByLabel('Email address', { exact: true })).toHaveValue('persisted@example.invalid');
 
   await subject.fill('Discard this edit');
   await page.keyboard.press('Escape');
@@ -196,7 +203,7 @@ test('reopens the latest saved GENADMIN and protects edits from another tab', as
 });
 
 test('preserves an unreadable saved copy until deliberate discard and retains new editor text', async ({ page }) => {
-  const newer = JSON.stringify({ version: 2, draft: { subject: 'Created by a later app version' } });
+  const newer = JSON.stringify({ version: 3, draft: { subject: 'Created by a later app version' } });
   await page.addInitScript(raw => {
     localStorage.setItem('browser-test-visitor', 'returning');
     localStorage.setItem('dondocs.genadminDraft', raw);

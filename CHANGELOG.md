@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.276] — 2026-11-23
+
+### Added
+
+- Enter commercial phone, DSN, and email separately and migrate previously saved contact values.
+
 ## [1.3.275] — 2026-11-23
 
 ### Added

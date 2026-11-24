@@ -13,7 +13,7 @@ const complete = {
   contactName: 'Pat Example',
   contactRank: 'Lt',
   contactOffice: 'training office',
-  contactDetails: 'pat@example.invalid',
+  contactEmail: 'pat@example.invalid',
   remarks: '1. Please review the training schedule.\r\n\r\n2.\tSend comments by Friday.',
 };
 
@@ -39,17 +39,29 @@ describe('prepareGenadmin', () => {
     ['(202) 555-0100', '(202) 555-0100'],
     ['+1 (202) 555-0100', '+1 (202) 555-0100'],
     ['+44 20 7946 0958', '+44 20 7946 0958'],
-    ['dsn: 555-0100', 'DSN: 555-0100'],
-    ['DSN (312) 555-0100', 'DSN (312) 555-0100'],
     ['555-0100', '555-0100'],
-    ['pat+mail@example.invalid', 'PAT+MAIL(AT)EXAMPLE.INVALID'],
-    ['pat(at)us.navy.mil', 'PAT(AT)US.NAVY.MIL'],
     ['TEL: (202) 555-0100', 'TEL: (202) 555-0100'],
     ['COMM: 202-555-0100', 'COMM: 202-555-0100'],
-    ['TEL: DSN 555-0100', 'TEL: DSN 555-0100'],
-    ['Email: pat@example.invalid', 'EMAIL: PAT(AT)EXAMPLE.INVALID'],
   ])('accepts a complete contact value %s', (contactDetails, printed) => {
-    expect(prepareGenadmin({ ...complete, contactDetails }).text).toContain(`TRAINING OFFICE/${printed}//`);
+    expect(prepareGenadmin({ ...complete, contactEmail: '', contactDetails }).text).toContain(`TRAINING OFFICE/${printed}//`);
+  });
+
+  it('renders commercial, DSN and email channels as separate POC fields', () => {
+    expect(prepareGenadmin({ ...complete, contactDetails: 'TEL: (202) 555-0100',
+      contactDsn: '555-0101', contactEmail: 'pat@example.invalid' }).text)
+      .toContain('POC/PAT EXAMPLE/LT/TRAINING OFFICE/TEL: (202) 555-0100/DSN 555-0101/PAT(AT)EXAMPLE.INVALID//');
+    expect(prepareGenadmin({ ...complete, contactDetails: '', contactEmail: '', contactDsn: 'DSN: 555-0101' }).text)
+      .toContain('POC/PAT EXAMPLE/LT/TRAINING OFFICE/DSN 555-0101//');
+  });
+
+  it.each(['pat(at)example', 'pat@example..invalid', 'pat..example@example.invalid', 'pat@-example.invalid'])('rejects an invalid value in the email field %s', contactEmail => {
+    expect(prepareGenadmin({ ...complete, contactEmail }).issues?.contactEmail).toBe('Enter a complete email address.');
+  });
+
+  it('validates additional channels independently', () => {
+    const result = prepareGenadmin({ ...complete, contactDsn: 'office', contactEmail: '(202) 555-0100' });
+    expect(result.issues).toEqual({ contactDsn: 'Enter a complete DSN number.', contactEmail: 'Enter a complete email address.' });
+    expect(result.text).toBeUndefined();
   });
 
   it.each([
@@ -60,7 +72,7 @@ describe('prepareGenadmin', () => {
     'TEL: ABC123XYZ', 'EMAIL: 202-555-0100', 'COMM: pat@example.invalid',
   ])('rejects an incomplete or mixed contact value %s', contactDetails => {
     expect(prepareGenadmin({ ...complete, contactDetails })).toEqual({
-      issues: { contactDetails: 'Enter one phone number, DSN number, or email address.' },
+      issues: { contactDetails: 'Enter a complete commercial phone number.' },
     });
   });
 
