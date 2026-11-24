@@ -11,6 +11,7 @@ import { uint8ArrayToBase64 } from './encoding';
 export const MAX_SHARE_PLAINTEXT_BYTES = 110 * 1024 * 1024;
 export const MAX_ENCRYPTED_SHARE_LENGTH = 140 * 1024 * 1024;
 export const MAX_SHARE_URL_LENGTH = 8000;
+export const MIN_NEW_SHARE_PASSWORD_LENGTH = 15;
 
 const LEGACY_PBKDF2_ITERATIONS = 120_000;
 const V2_PBKDF2_ITERATIONS = 600_000;
@@ -47,6 +48,18 @@ function base64urlDecode(str: string): Uint8Array<ArrayBuffer> {
   return bytes;
 }
 
+export function newSharePasswordError(password: string): string | undefined {
+  const characters = [...password.trim()];
+  if (!characters.length) return 'Password is required';
+  if (characters.length < MIN_NEW_SHARE_PASSWORD_LENGTH || new Set(characters).size < 2) {
+    return `Set a password of at least ${MIN_NEW_SHARE_PASSWORD_LENGTH} characters or generate a random one.`;
+  }
+}
+
+export function generateSharePassword(): string {
+  return base64urlEncode(crypto.getRandomValues(new Uint8Array(16)));
+}
+
 async function deriveKey(password: string, salt: Uint8Array<ArrayBuffer>, iterations: number): Promise<CryptoKey> {
   const enc = new TextEncoder();
   const keyMaterial = await crypto.subtle.importKey(
@@ -75,9 +88,8 @@ async function deriveKey(password: string, salt: Uint8Array<ArrayBuffer>, iterat
  * Returns a versioned token suitable for use in a URL fragment.
  */
 export async function encryptSharePayload(data: object, password: string): Promise<string> {
-  if (!password || password.length < 1) {
-    throw new Error('Password is required');
-  }
+  const passwordError = newSharePasswordError(password);
+  if (passwordError) throw new Error(passwordError);
   const enc = new TextEncoder();
   // Compress the JSON before encryption. Session payloads are highly
   // repetitive (LaTeX templates, repeated field names, form labels) and

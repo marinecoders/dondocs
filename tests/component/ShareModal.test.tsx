@@ -26,7 +26,8 @@ import { openSessionAsNew, hasPendingReviewWrites, flushPendingReviewWrites, isC
 import { fixtureInstance } from '../_helpers/formFixture';
 import * as encoding from '@/lib/encoding';
 
-vi.mock('@/lib/shareCrypto', () => ({
+vi.mock('@/lib/shareCrypto', async importOriginal => ({
+  ...(await importOriginal<typeof import('@/lib/shareCrypto')>()),
   encryptSharePayload: vi.fn(),
   decryptSharePayload: vi.fn(),
   buildShareUrl: vi.fn((p: string) => `https://dondocs.app/#s=${p}`),
@@ -100,7 +101,7 @@ describe('ShareModal — share mode', () => {
     render(<ShareModal open mode="share" onOpenChange={() => {}} />);
     expect(screen.getByRole('dialog')).toBeVisible();
     expect(screen.getByRole('alert')).toHaveTextContent('Review feedback is not saved yet.');
-    await user.type(screen.getByLabelText('Password for this link'), 'password');
+    await user.type(screen.getByLabelText('Password for this link'), 'synthetic-password');
     expect(screen.getByRole('button', { name: 'Generate link' })).toBeDisabled();
     await user.click(screen.getByRole('button', { name: 'Retry preparing document' }));
     expect(flushPendingReviewWrites).toHaveBeenCalledOnce();
@@ -136,7 +137,7 @@ describe('ShareModal — share mode', () => {
     vi.mocked(flushPendingReviewWrites).mockImplementation(() => new Promise(resolve => { finish = resolve; }));
     vi.mocked(encryptSharePayload).mockResolvedValue('TOKEN');
     render(<ShareModal open mode="share" onOpenChange={() => {}} />);
-    await user.type(screen.getByLabelText('Password for this link'), 'password');
+    await user.type(screen.getByLabelText('Password for this link'), 'synthetic-password');
     await user.click(screen.getByRole('button', { name: 'Generate link' }));
     expect(flushPendingReviewWrites).toHaveBeenCalledOnce();expect(encryptSharePayload).not.toHaveBeenCalled();
     await act(async () => { finish(); });
@@ -147,7 +148,7 @@ describe('ShareModal — share mode', () => {
     vi.mocked(hasPendingReviewWrites).mockReturnValue(true);
     vi.mocked(flushPendingReviewWrites).mockRejectedValue(new Error('Review feedback is not saved yet.'));
     render(<ShareModal open mode="share" onOpenChange={() => {}} />);
-    await user.type(screen.getByLabelText('Password for this link'), 'password');
+    await user.type(screen.getByLabelText('Password for this link'), 'synthetic-password');
     await user.click(screen.getByRole('button', { name: 'Generate link' }));
     expect(screen.getByRole('alert')).toHaveTextContent('Review feedback is not saved yet.');expect(encryptSharePayload).not.toHaveBeenCalled();
   });
@@ -158,10 +159,10 @@ describe('ShareModal — share mode', () => {
     vi.spyOn(Date, 'now').mockReturnValue(now);
     vi.mocked(encryptSharePayload).mockResolvedValue('EXPIRING');
     render(<ShareModal open mode="share" onOpenChange={vi.fn()} />);
-    await user.type(screen.getByLabelText('Password for this link'), 'password');
+    await user.type(screen.getByLabelText('Password for this link'), 'synthetic-password');
     await user.selectOptions(screen.getByLabelText('Link expiration'), 'day');
     await user.click(screen.getByRole('button', { name: /generate link/i }));
-    expect(encryptSharePayload).toHaveBeenCalledWith(expect.objectContaining({ version: 3, expiresAt: now + 86_400_000, session: expect.objectContaining({ documentMode: 'compliant' }) }), 'password');
+    expect(encryptSharePayload).toHaveBeenCalledWith(expect.objectContaining({ version: 3, expiresAt: now + 86_400_000, session: expect.objectContaining({ documentMode: 'compliant' }) }), 'synthetic-password');
     expect(screen.getByText(/Expires .*Requires an updated/)).toBeVisible();
     await user.selectOptions(screen.getByLabelText('Link expiration'), 'none');
     expect(screen.queryByDisplayValue('https://dondocs.app/#s=EXPIRING')).not.toBeInTheDocument();
@@ -178,7 +179,7 @@ describe('ShareModal — share mode', () => {
     let finish!: (value: string) => void;
     vi.mocked(encryptSharePayload).mockImplementationOnce(() => new Promise(resolve => { finish = resolve; }));
     render(<ShareModal open mode="share" onOpenChange={vi.fn()} />);
-    await user.type(screen.getByLabelText('Password for this link'), 'password');
+    await user.type(screen.getByLabelText('Password for this link'), 'synthetic-password');
     await user.selectOptions(screen.getByLabelText('Link expiration'), 'hour');
     await user.click(screen.getByRole('button', { name: /generate link/i }));
     expect(screen.getByLabelText('Link expiration')).toBeDisabled();
@@ -194,12 +195,30 @@ describe('ShareModal — share mode', () => {
     vi.mocked(encryptSharePayload).mockResolvedValue('FIRST');
     render(<ShareModal open mode="share" onOpenChange={vi.fn()} />);
     const password = screen.getByLabelText('Password for this link');
-    await user.type(password, 'first-password');
+    await user.type(password, 'first-fixture-password');
     await user.click(screen.getByRole('button', { name: /generate link/i }));
     expect(screen.getByRole('textbox', { name: 'Share link (copied to clipboard)' })).toBeVisible();
     await user.type(password, '-changed');
     expect(screen.queryByRole('textbox', { name: /Share link/ })).not.toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'Generate link' })).toBeEnabled();
+  });
+
+  it('rejects a short new password and can generate a usable password locally', async () => {
+    const user = userEvent.setup();
+    stubClipboard();
+    vi.mocked(encryptSharePayload).mockResolvedValue('GENERATED_LINK');
+    render(<ShareModal open mode="share" onOpenChange={vi.fn()} />);
+    const password = screen.getByLabelText('Password for this link');
+    await user.type(password, 'x');
+    await user.click(screen.getByRole('button', { name: 'Generate link' }));
+    expect(screen.getByRole('alert')).toHaveTextContent('at least 15 characters');
+    expect(encryptSharePayload).not.toHaveBeenCalled();
+    await user.click(screen.getByRole('button', { name: 'Generate password' }));
+    expect(password).toHaveAttribute('type', 'text');
+    const generated = (password as HTMLInputElement).value;
+    expect(generated).toMatch(/^[A-Za-z0-9_-]{22}$/);
+    await user.click(screen.getByRole('button', { name: 'Generate link' }));
+    expect(encryptSharePayload).toHaveBeenCalledWith(expect.any(Object), generated);
   });
 
   it('keeps clipboard delivery owned until a manual copy finishes', async () => {
@@ -208,7 +227,7 @@ describe('ShareModal — share mode', () => {
     vi.mocked(encryptSharePayload).mockResolvedValue('FIRST');
     render(<ShareModal open mode="share" onOpenChange={vi.fn()} />);
     const password = screen.getByLabelText('Password for this link');
-    await user.type(password, 'test-password');
+    await user.type(password, 'test-share-password');
     await user.click(screen.getByRole('button', { name: /generate link/i }));
     let finish!: () => void;
     writeText.mockImplementationOnce(() => new Promise<void>(resolve => { finish = resolve; }));
@@ -229,7 +248,7 @@ describe('ShareModal — share mode', () => {
       vi.mocked(encryptSharePayload).mockResolvedValueOnce('FIRST').mockResolvedValueOnce('SECOND');
       render(<ShareModal open mode="share" onOpenChange={vi.fn()} />);
       const password = screen.getByLabelText('Password for this link');
-      fireEvent.change(password, { target: { value: 'first-password' } });
+      fireEvent.change(password, { target: { value: 'first-fixture-password' } });
       await act(async () => { fireEvent.click(screen.getByRole('button', { name: /generate link/i })); });
       act(() => { vi.advanceTimersByTime(1500); });
       fireEvent.change(password, { target: { value: 'changed-password' } });
@@ -250,7 +269,7 @@ describe('ShareModal — share mode', () => {
       formData: {}, paragraphs: [], copyTos: [], references: [], enclosures: [], distributions: [], timestamp: 0,
     });
     render(<ShareModal open mode="share" onOpenChange={vi.fn()} />);
-    await user.type(screen.getByLabelText('Password for this link'), 'test-password');
+    await user.type(screen.getByLabelText('Password for this link'), 'test-share-password');
     await user.click(screen.getByRole('button', { name: /generate link/i }));
     expect(screen.getByRole('alert')).toHaveTextContent('invalid or uses an unsupported version');
     expect(encryptSharePayload).not.toHaveBeenCalled();
@@ -267,14 +286,14 @@ describe('ShareModal — share mode', () => {
     vi.mocked(getSerializedSessionForShare).mockReturnValueOnce(structuredClone(snapshot));
     vi.mocked(encryptSharePayload).mockResolvedValue('REVIEWED');
     render(<ShareModal open mode="share" onOpenChange={vi.fn()} />);
-    await user.type(screen.getByLabelText('Password for this link'), 'test-password');
+    await user.type(screen.getByLabelText('Password for this link'), 'test-share-password');
     await user.click(screen.getByRole('button', { name: /generate link/i }));
 
     expect(encryptSharePayload).not.toHaveBeenCalled();
     expect(screen.getByRole('button', { name: 'Share anyway' })).toBeVisible();
     // The editor now returns a different document, while the modal owns this snapshot.
     await user.click(screen.getByRole('button', { name: 'Share anyway' }));
-    expect(encryptSharePayload).toHaveBeenCalledWith(expect.objectContaining({ ...snapshot, kind: 'dondocs-share', version: 1, documentKind: 'correspondence', formData: expect.objectContaining(snapshot.formData) }), 'test-password');
+    expect(encryptSharePayload).toHaveBeenCalledWith(expect.objectContaining({ ...snapshot, kind: 'dondocs-share', version: 1, documentKind: 'correspondence', formData: expect.objectContaining(snapshot.formData) }), 'test-share-password');
     expect(getSerializedSessionForShare).toHaveBeenCalledTimes(1);
   });
 
@@ -285,10 +304,10 @@ describe('ShareModal — share mode', () => {
 
     render(<ShareModal open mode="share" onOpenChange={vi.fn()} />);
 
-    await user.type(screen.getByLabelText('Password for this link'), 'hunter2');
+    await user.type(screen.getByLabelText('Password for this link'), 'synthetic-long-password');
     await user.click(screen.getByRole('button', { name: /generate link/i }));
 
-    expect(encryptSharePayload).toHaveBeenCalledWith(expect.objectContaining({ ...vi.mocked(getSerializedSessionForShare).mock.results[0].value, kind: 'dondocs-share', version: 1, documentKind: 'correspondence', formData: expect.any(Object) }), 'hunter2');
+    expect(encryptSharePayload).toHaveBeenCalledWith(expect.objectContaining({ ...vi.mocked(getSerializedSessionForShare).mock.results[0].value, kind: 'dondocs-share', version: 1, documentKind: 'correspondence', formData: expect.any(Object) }), 'synthetic-long-password');
     expect(buildShareUrl).toHaveBeenCalledWith('ENCRYPTED');
     expect(writeText).toHaveBeenCalledWith('https://dondocs.app/#s=ENCRYPTED');
     expect(getSerializedSessionForShare).toHaveBeenCalledTimes(1);
@@ -307,7 +326,7 @@ describe('ShareModal — share mode', () => {
     vi.mocked(encryptSharePayload).mockResolvedValue('ENCRYPTED');
     if (stage === 'initial copy') writeText.mockRejectedValueOnce(new Error('Clipboard denied'));
     render(<ShareModal open mode="share" onOpenChange={vi.fn()} />);
-    await user.type(screen.getByLabelText('Password for this link'), 'test-password');
+    await user.type(screen.getByLabelText('Password for this link'), 'test-share-password');
     await user.click(screen.getByRole('button', { name: /generate link/i }));
     if (stage === 'copy again') {
       writeText.mockRejectedValueOnce(new Error('Clipboard denied'));
@@ -330,9 +349,9 @@ describe('ShareModal — import mode', () => {
     render(<ShareModal open mode="import" onOpenChange={() => {}} />);
     await user.upload(screen.getByLabelText('Encrypted share file'), new File([JSON.stringify({ kind: 'dondocs-encrypted-share', version: 1, payload: 'FILETOKEN' })], 'shared.json', { type: 'application/json' }));
     expect(await screen.findByText('Selected: shared.json')).toBeVisible();
-    await user.type(screen.getByLabelText('Password'), 'synthetic-password');
+    await user.type(screen.getByLabelText('Password'), 'password');
     await user.click(screen.getByRole('button', { name: 'Decrypt and review' }));
-    expect(decryptSharePayload).toHaveBeenCalledWith('FILETOKEN', 'synthetic-password');
+    expect(decryptSharePayload).toHaveBeenCalledWith('FILETOKEN', 'password');
     expect(await screen.findByRole('button', { name: 'Open as new document' })).toBeVisible();
   });
   it('clears a previous selected file when its replacement is invalid', async () => {
@@ -344,7 +363,7 @@ describe('ShareModal — import mode', () => {
     await user.upload(input, new File(['{"version":99}'], 'invalid.json', { type: 'application/json' }));
     expect(await screen.findByRole('alert')).toHaveTextContent('Choose an encrypted share file');
     expect(screen.queryByText('Selected: first.json')).not.toBeInTheDocument();
-    await user.type(screen.getByLabelText('Password'), 'synthetic-password');
+    await user.type(screen.getByLabelText('Password'), 'password');
     expect(screen.getByRole('button', { name: 'Decrypt and review' })).toBeDisabled();
   });
   it('ignores a file read completing after the import dialog was reopened', async () => {

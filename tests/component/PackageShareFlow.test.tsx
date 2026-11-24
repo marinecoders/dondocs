@@ -69,7 +69,7 @@ it("requires explicit content review before encrypting and offers usable file fa
 it("does not deliver an encrypted copy after its delivery policy or deadline is rejected", async () => {
   const user = userEvent.setup();render(<PackageShareDialog record={record} revisionId="selected-revision" onClose={vi.fn()} />);
   await screen.findByText("Synthetic reviewed package");
-  await user.type(screen.getByLabelText("Package password"), "password");
+  await user.type(screen.getByLabelText("Package password"), "synthetic-password");
   await user.click(screen.getByRole("checkbox", { name: /^I reviewed every included member/ }));
   await user.click(screen.getByRole("button", { name: "Generate encrypted package" }));
   await screen.findByRole("button", { name: "Download encrypted package file" });
@@ -79,7 +79,7 @@ it("does not deliver an encrypted copy after its delivery policy or deadline is 
 });
 
 async function decryptReview(user: ReturnType<typeof userEvent.setup>) {
-  await user.type(screen.getByLabelText("Password", { exact: true }), "password");
+  await user.type(screen.getByLabelText("Password", { exact: true }), "synthetic-password");
   await user.click(screen.getByRole("button", { name: "Decrypt and review" }));
   await screen.findByRole("dialog", { name: "Review shared action package" });
 }

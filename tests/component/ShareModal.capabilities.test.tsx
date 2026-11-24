@@ -13,7 +13,8 @@ import { useFormStore } from "@/stores/formStore";
 import * as classificationConfig from "@/config/classification";
 import { resolveExportDeploymentPolicy } from "@/lib/exportDeploymentPolicy";
 
-vi.mock("@/lib/shareCrypto", () => ({
+vi.mock("@/lib/shareCrypto", async importOriginal => ({
+  ...(await importOriginal<typeof import("@/lib/shareCrypto")>()),
   encryptSharePayload: vi.fn(async () => "TOKEN"),
   buildShareUrl: (token: string) => `https://example.test/#s=${token}`,
   parseShareUrl: vi.fn(),
@@ -29,7 +30,7 @@ async function generate() {
     value: { writeText: vi.fn(async () => {}) },
     configurable: true,
   });
-  await user.type(screen.getByLabelText("Password for this link"), "password");
+  await user.type(screen.getByLabelText("Password for this link"), "synthetic-password");
   await user.click(screen.getByRole("button", { name: "Generate link" }));
   return user;
 }
@@ -92,7 +93,7 @@ it("checks and encrypts the captured configured form after privacy approval desp
       }),
       resources: expect.objectContaining({ entries: [expect.objectContaining({ sha256: page.sha256 })] }),
     }),
-    "password",
+    "synthetic-password",
   ));
   expect(
     await screen.findByRole("textbox", { name: "Share link (copied to clipboard)" }),
@@ -152,7 +153,7 @@ it("requires privacy approval for retained legacy image-like text before encrypt
   await user.click(screen.getByRole("button", { name: "Share anyway" }));
   await waitFor(() => expect(encryptSharePayload).toHaveBeenCalledExactlyOnceWith(
     expect.objectContaining({ version: 4, draft: expect.objectContaining({ formData: expect.objectContaining({ legacy }) }) }),
-    "password",
+    "synthetic-password",
   ));
 });
 
