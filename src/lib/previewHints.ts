@@ -6,6 +6,7 @@ import { isStaffPaper } from './staffPapers';
 import { resolveLetterheadMode } from './letterheadMode';
 import { jointSignatories } from './signingAuthority';
 import { splitAddressForLetterhead } from './unitAddress';
+import { windowEnvelopeLayout } from './windowEnvelope';
 import type { CopyTo, Distribution, DocumentData, DocumentMode, Paragraph } from '@/types/document';
 
 export const PREVIEW_HINT_URL = 'https://dondocs.invalid/preview-hint/';
@@ -80,7 +81,8 @@ export function starterExampleText({ docType, formData, copyTos }: StarterExampl
     const value = formData[field];
     return typeof value === 'string' ? value : '';
   });
-  // Business formats have a date in Addressing and no Sender Symbols block.
+  // Standalone dates belong to Addressing. Dates grouped with identifiers
+  // follow the Sender Symbols category.
   const config = documentOutputConfig(docType);
   if (section === (config.dateOnly || config.uiMode === 'executive' || config.uiMode === 'joint_memo' ? 'addressing' : 'senderSymbols')) {
     values.push(formData.date ?? '');
@@ -133,8 +135,10 @@ export function getPreviewHints({ docType, documentMode, formData, paragraphs, c
   distributions?: readonly Distribution[];
 }, referenceDate = new Date(), hiddenSections?: readonly StarterExampleSection[]): PreviewHints {
   const config = documentOutputConfig(docType, documentMode);
-  const dateExample = format(referenceDate, documentMode !== 'custom' && config.compliance.dateFormat === 'spelled' ? 'MMMM d, yyyy' : 'd MMM yy');
   const data = directiveFormatting(docType, documentMode, formData);
+  const envelope = windowEnvelopeLayout(docType, data);
+  const spelledDate = envelope ? envelope !== 'standard' : documentMode !== 'custom' && config.compliance.dateFormat === 'spelled';
+  const dateExample = format(referenceDate, spelledDate ? 'MMMM d, yyyy' : 'd MMM yy');
   const hints: PreviewHints = {};
   const showExamples = (section: StarterExampleSection) => !hiddenSections?.includes(section);
   const add = (key: keyof DocumentData, text: string, label: string, sectionId = 'addressing', fieldId: string = key, value = data[key]) => {
@@ -226,12 +230,13 @@ export function getPreviewHints({ docType, documentMode, formData, paragraphs, c
         }
       }
     }
-    if (config.fromTo && docType !== 'mfr') add('from', previewExamples.from, 'From');
+    if (config.fromTo && docType !== 'mfr' && envelope !== 'standard') add('from', previewExamples.from, 'From');
     const usesDistributionInsteadOfTo = docType === 'multiple_address_letter' && distributions?.some(row => row.text.trim());
     if ((!isDirective(docType) && config.fromTo && !usesDistributionInsteadOfTo) || config.recipientAddress || docType === 'mf') {
-      add('to', previewExamples.to, config.recipientAddress ? 'Recipient address' : 'To');
+      add('to', previewExamples.to, envelope ? 'Mailing address' : config.recipientAddress ? 'Recipient address' : 'To');
     }
-    if ((!config.skipSubject || data.includeEndorsementSubject) && (config.uiMode !== 'business' || showExamples('addressing'))) subject();
+    const regularSubject = (!config.skipSubject || data.includeEndorsementSubject) && (config.uiMode !== 'business' || showExamples('addressing'));
+    if (envelope === 'subject' || envelope === 'standard' || !envelope && regularSubject) subject();
     add('date', dateExample, 'Date');
     if (docType === 'new_page_endorsement' || (docType === 'same_page_endorsement' && (data.includeEndorsementSubject || showExamples('basic')))) {
       const legacy = /^(.+?)\s+ENDORSEMENT(?:\s+on\s+(.+))?$/i.exec(data.subject ?? '');
@@ -257,7 +262,9 @@ export function getPreviewHints({ docType, documentMode, formData, paragraphs, c
     }
     if (config.uiMode === 'business') {
       const compliant = documentMode !== 'custom';
-      if ((compliant && config.compliance.requiresSalutation) || showExamples('addressing')) add('salutation', previewExamples.salutation, 'Salutation');
+      if (envelope === 'salutation' || !envelope && ((compliant && config.compliance.requiresSalutation) || showExamples('addressing'))) {
+        add('salutation', previewExamples.salutation, 'Salutation');
+      }
       if ((compliant && config.compliance.requiresComplimentaryClose) || showExamples('signature')) add('complimentaryClose', previewExamples.close, 'Complimentary close', 'signature');
     }
     signature();

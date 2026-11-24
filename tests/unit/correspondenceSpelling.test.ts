@@ -20,4 +20,11 @@ describe('local correspondence spelling', () => {
     expect(spellingFindings(draft, dictionary)).toEqual([]);
     expect(spellingFindings({ ...source('Teh ship.'), documentCategory: 'forms' }, dictionary)).toEqual([]);
   });
+  it('checks the printed opening of a window-envelope business letter', () => {
+    const draft: ProofreadSource = { ...source('The ship.'), docType: 'business_letter',
+      formData: { subject: 'Teh ship', salutation: 'Dear Recieved:', windowEnvelope: 'salutation' } };
+    expect(spellingFindings(draft, dictionary).map(finding => finding.target.field)).toEqual(['salutation']);
+    draft.formData.windowEnvelope = 'subject';
+    expect(spellingFindings(draft, dictionary).map(finding => finding.target.field)).toEqual(['subject']);
+  });
 });

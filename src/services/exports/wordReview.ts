@@ -7,6 +7,7 @@ import { idbAppendWordHandoff } from '@/lib/documentsDb';
 import { assertActiveReviewRound, parseReviewRound, type ReviewRound } from '@/lib/reviewRounds';
 import { assertRetainedDocumentTextPolicy, assertRetainedTextPolicy } from '@/lib/retainedDocumentTextPolicy';
 import { buildWordReviewHandoff } from '@/lib/wordReviewBaseline';
+import { WINDOW_ENVELOPE_WORD_REVIEW_LIMIT, windowEnvelopeLayout } from '@/lib/windowEnvelope';
 import { readWordDocument, WORD_DOCUMENT_TYPE } from '@/services/docx/import/readWord';
 import { stampWordReviewIdentity } from '@/services/docx/review/identity';
 import { issuedProofreadCommentDigest } from '@/services/docx/review/proofreadComments';
@@ -110,6 +111,8 @@ export function createWordReviewExport(ports: WordReviewExportPorts) {
       const round = parseReviewRound(roundInput), target = captureDocumentTarget();
       if (!active || !target || !round.ownerDocumentId || round.ownerDocumentId !== target.scope.documentId) throw new Error('Open the original native draft that owns this review first.');
       assertActiveReviewRound(round);
+      const session = round.baseline.session;
+      if (windowEnvelopeLayout(session.docType, session.formData)) throw new Error(WINDOW_ENVELOPE_WORD_REVIEW_LIMIT);
       const previous = operation, id = crypto.randomUUID();
       operation = { id, round, target };
       const captured = captureDocumentRevision({ documentId: target.scope.documentId, epoch: target.scope.epoch,

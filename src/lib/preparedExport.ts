@@ -1,10 +1,10 @@
-import { assertAppendedEndorsementsAddressed } from './appendedEndorsement';
 import { directiveAddressIssues, directiveAuthorityIssues, directiveIssues, isDirective, isSecnavDirective } from './directiveFormats';
 import { staffPaperIssues } from './staffPapers';
 import { hasDlaStationery } from './dlaLetterhead';
 import { stationeryIssues } from './stationery';
 import { taggedCorrespondenceIssues } from '@/services/pdf/accessibility/preflight';
 import { jointLetterCommandIssues } from './jointLetterCommands';
+import { assertAppendedEndorsementsAddressed } from './appendedEndorsement';
 import { supportsWordProofread } from './correspondenceProofreadChecks';
 import { projectRenderedDocument, correspondencePortions } from './renderedDocument';
 import { validateAnswers, diagnosticText } from '@/services/forms/model';
@@ -26,6 +26,7 @@ import type { ClassificationInfo } from '@/services/pdf/mergeEnclosures';
 import type { ClassificationLevel } from './domainClassification';
 import { assertEnclosureMarkingPolicy, cuiTransmittalIssue, inspectEnclosureMarkings } from './enclosureMarkings';
 import { normalizeCuiRegistryMarkings } from './cuiRegistryMarkings';
+import { WINDOW_ENVELOPE_MAILING_NOTICE, windowEnvelopeLayout, windowEnvelopeProblems } from './windowEnvelope';
 
 export type ExportTarget = 'pdf' | 'docx' | 'tex';
 const preparedBrand = Symbol('prepared-export');
@@ -145,7 +146,8 @@ export function prepareExport(input: {
     let markingReview = false;
     const generatedDla = output.kind === 'correspondence' && hasDlaStationery(snapshot.docType, snapshot.formData)
       && snapshot.formData.letterheadMode !== 'preprinted';
-    const layoutReview = generatedDla && snapshot.documentMode === 'custom';
+    const windowEnvelope = output.kind === 'correspondence' && windowEnvelopeLayout(snapshot.docType, snapshot.formData);
+    const layoutReview = generatedDla && snapshot.documentMode === 'custom' || !!windowEnvelope;
     let marking: ClassificationInfo | undefined;
     if (output.kind === 'correspondence') {
       assertAppendedEndorsementsAddressed(snapshot.docType, snapshot.formData);
@@ -170,7 +172,15 @@ export function prepareExport(input: {
       if (generatedDla && snapshot.documentMode !== 'custom') {
         return error('Choose approved preprinted DLA stationery for Compliant export. Generated DLA letterhead is available in Custom mode for drafts.');
       }
-      if (layoutReview) notices.push('Generated DLA letterhead is a draft. Use approved DLA stationery for official correspondence.');
+      if (generatedDla && snapshot.documentMode === 'custom') notices.push('Generated DLA letterhead is a draft. Use approved DLA stationery for official correspondence.');
+      if (windowEnvelope) {
+        if (input.target === 'tex' && input.texMode === 'flat') return error('Use configuration LaTeX for the window-envelope layout.');
+        const problems = windowEnvelopeProblems(snapshot.docType, snapshot.formData, correspondencePortions(snapshot), snapshot.enclosures);
+        if (problems.length) return error(problems.join(' '));
+        notices.push(WINDOW_ENVELOPE_MAILING_NOTICE);
+        if (windowEnvelope === 'standard') notices.push('Use a GSA general-purpose window envelope and verify at least ⅛ inch clearance around the full address.');
+        else notices.push('Use a number 10 window envelope for a business letter.');
+      }
       const stockIssues = stationeryIssues(snapshot.docType, snapshot.formData, snapshot.paragraphs, snapshot.documentMode);
       if (stockIssues.length) return error(stockIssues.join(' '));
       const jointIssues = jointLetterCommandIssues(snapshot.docType, snapshot.formData);

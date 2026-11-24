@@ -5,9 +5,11 @@ import userEvent from '@testing-library/user-event';
 import { PDFDocument } from 'pdf-lib';
 import { PackageDeliveryPanel } from '@/components/PackageDeliveryPanel';
 import { createActionPackage, getPackageRevision, reviseActionPackage } from '@/lib/actionPackages';
-import { captureOriginalPackageMember } from '@/lib/actionPackageAssets';
+import { captureOriginalPackageMember, capturePackageMember } from '@/lib/actionPackageAssets';
+import { captureDocumentRevision } from '@/lib/capturedDocument';
 import { resolveExportDeploymentPolicy } from '@/lib/exportDeploymentPolicy';
 import { parsePackageDeliveryBundle } from '@/lib/packageDeliveryBundle';
+import { createBlankSession } from '@/stores/documentStore';
 import * as deliveryBundle from '@/lib/packageDeliveryBundle';
 import * as encoding from '@/lib/encoding';
 import * as delivery from '@/lib/packageDelivery';
@@ -43,6 +45,53 @@ it('prepares exact scope, requires review, downloads captured bytes and clears i
   expect(onPreparedChange.mock.calls.some(([value]) => value?.members.length === 1)).toBe(true);
   await user.type(screen.getByLabelText('Delivery name'), ' revised');
   expect(screen.queryByRole('region', { name: 'Captured delivery contents' })).toBeNull(); expect(onPreparedChange).toHaveBeenLastCalledWith(null);
+});
+
+it('holds direct recipient downloads for the captured letter’s envelope mailing review', async () => {
+  const session = createBlankSession();
+  Object.assign(session.formData, {
+    windowEnvelope: 'standard', to: 'TRAINING OFFICE\nQUANTICO VA 22134', subject: 'WINDOW DELIVERY',
+    date: '23 Nov 26', unitLine1: 'TRAINING COMMAND', fontFamily: 'times', fontSize: '12pt', via: '',
+  });
+  const member = await capturePackageMember(captureDocumentRevision({ documentId: 'window-letter', epoch: 0, editSequence: 0, capturedAt: 0 },
+    { ...session, endItems: [], publicationTables: {} }), 'Window letter', 'basic-letter');
+  const record = await reviseActionPackage(await createActionPackage(`Window delivery ${crypto.randomUUID()}`), [member]);
+  const pdf = await PDFDocument.create();
+  pdf.addPage();
+  const bytes = await pdf.save();
+  const ports = { compile: vi.fn(async () => bytes), convertDocx: vi.fn(), waitForReady: async () => true };
+  const user = userEvent.setup(), onPreparedChange = vi.fn(), download = vi.spyOn(encoding, 'triggerDownload').mockImplementation(() => {});
+  render(<PackageDeliveryPanel record={record} revision={getPackageRevision(record)} disabled={false} busy={false} run={async action => action()} signal={() => undefined} isCurrent={() => true} directDownload ports={ports} onPreparedChange={onPreparedChange} />);
+  await user.click(screen.getByRole('button', { name: 'Prepare selected delivery' }));
+  const contents = await screen.findByRole('region', { name: 'Captured delivery contents' });
+  expect(contents).toHaveTextContent(/Print at actual size and check that the complete address stays visible when folded and shifted/);
+  expect(contents).toHaveTextContent(/⅛ inch clearance/);
+  const prepared = onPreparedChange.mock.lastCall?.[0];
+  expect(prepared.sourceRevisionId).toBe(record.currentRevisionId);
+  expect(prepared.reviews).toContainEqual(expect.objectContaining({ member: 'Window letter', review: expect.objectContaining({ layoutReview: true }) }));
+  expect(ports.compile).toHaveBeenCalledTimes(1);
+  const packageButton = screen.getByRole('button', { name: 'Download reviewed delivery package' });
+  const bundleButton = screen.getByRole('button', { name: 'Download reviewed delivery bundle' });
+  expect(packageButton).toBeDisabled();
+  expect(bundleButton).toBeDisabled();
+  await expect(delivery.buildPackageDeliveryFile(prepared, policy, false)).rejects.toThrow(/Review every/);
+
+  await user.click(screen.getByRole('checkbox', { name: /^I reviewed the layout notices/ }));
+  await user.click(packageButton);
+  await waitFor(() => expect(download).toHaveBeenCalledTimes(1));
+  const payload = JSON.parse(new TextDecoder().decode(download.mock.calls[0][0] as Uint8Array));
+  expect(payload.package.revisions[0].members).toEqual([expect.objectContaining({ label: 'Window letter', kind: 'original' })]);
+  expect(JSON.stringify(payload.package)).not.toContain(record.id);
+  await user.click(bundleButton);
+  await waitFor(() => expect(download).toHaveBeenCalledTimes(2));
+  const bundle = await parsePackageDeliveryBundle(download.mock.calls[1][0] as Uint8Array);
+  expect(bundle.manifest.members).toHaveLength(1);
+
+  await user.type(screen.getByLabelText('Delivery name'), ' edited');
+  await user.click(screen.getByRole('button', { name: 'Prepare selected delivery' }));
+  await screen.findByRole('region', { name: 'Captured delivery contents' });
+  expect(screen.getByRole('checkbox', { name: /^I reviewed the layout notices/ })).not.toBeChecked();
+  expect(screen.getByRole('button', { name: 'Download reviewed delivery bundle' })).toBeDisabled();
 });
 it('reports parent operation rejection without trapping the controls and invalidates old scope on package switch', async () => {
   const record = await fixture(), user = userEvent.setup(), onPreparedChange = vi.fn();

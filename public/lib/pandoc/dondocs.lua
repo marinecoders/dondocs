@@ -321,10 +321,20 @@ local function spacing_para(twips)
   return pandoc.RawBlock("openxml", xml)
 end
 
+local function window_row_bookmark(text)
+  local top, indent = text:match("^\\dondocswindowrow%{(%d+)%}%{(%d+)%}%s*$")
+  if not top then return nil end
+  local id = 230000 + tonumber(top)
+  return '<w:bookmarkStart w:id="' .. id .. '" w:name="DonDocsWindowRow' .. top .. 'I' .. indent .. '"/><w:bookmarkEnd w:id="' .. id .. '"/>'
+end
+
 local function handle_raw_block(el)
   if el.format ~= "latex" then return nil end
 
   local text = el.text
+
+  local window_row = window_row_bookmark(text)
+  if window_row then return pandoc.RawBlock("openxml", '<w:p>' .. window_row .. '</w:p>') end
 
   if text:match("^\\dondocssignatureend%s*$") then
     return pandoc.RawBlock("openxml", '<w:p><w:pPr><w:spacing w:before="0" w:after="0" w:line="1" w:lineRule="exact"/></w:pPr><w:bookmarkStart w:id="110001" w:name="DonDocsSignatureEnd"/><w:bookmarkEnd w:id="110001"/></w:p>')
@@ -428,6 +438,9 @@ local function handle_raw_inline(el)
   if el.format ~= "latex" then return nil end
 
   local text = el.text
+
+  local window_row = window_row_bookmark(text)
+  if window_row then return pandoc.RawInline("openxml", window_row) end
 
   if text:match("^\\dondocstitleletterhead%{%}$") then
     title_letterhead_id = title_letterhead_id + 1

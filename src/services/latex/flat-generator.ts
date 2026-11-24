@@ -7,6 +7,7 @@ import { correspondenceStationery, assertStationerySupport } from '@/lib/station
 import { additionalJointCommands, assertJointLetterCommandSupport } from '@/lib/jointLetterCommands';
 import { resolveLetterheadMode } from '@/lib/letterheadMode';
 import { cuiTransmittalNote } from '@/lib/enclosureMarkings';
+import { windowEnvelopeLayout, windowEnvelopeRows, type WindowEnvelopeLayout } from '@/lib/windowEnvelope';
 import { toTitleCase } from '@/lib/titleCase';
 import { renderBodyTable } from './bodyTable';
 import { assertRichBlockShape } from '@/lib/bodyTable';
@@ -384,7 +385,7 @@ function buildPageNumbering(docType: string, data: Partial<DocumentData>): strin
 }
 
 /** Centered letterhead using tabularX (pandoc renders center alignment in DOCX) */
-function buildLetterhead(data: Partial<DocumentData>, config: DocTypeConfig, docType: string): string {
+function buildLetterhead(data: Partial<DocumentData>, config: DocTypeConfig, docType: string, trailingSpace = true): string {
   const mode = resolveLetterheadMode(config, data);
   if (mode === 'preprinted') return '\\vspace{90pt}\n\n';
   if (mode === 'title-only') {
@@ -444,7 +445,7 @@ function buildLetterhead(data: Partial<DocumentData>, config: DocTypeConfig, doc
 \\includegraphics[width=1.09in]{${sealFile}} & ${centerContent} & \\\\
 \\end{tabularx}
 
-\\vspace{12pt}
+${trailingSpace ? '\\vspace{12pt}' : ''}
 `;
 }
 
@@ -1431,6 +1432,17 @@ function buildTransmittalNote(store: DocumentStore): string {
   return note ? `\\noindent ${escapeFlat(note)}\n\n` : '';
 }
 
+function buildWindowEnvelopeOpening(store: DocumentStore, config: DocTypeConfig, window: WindowEnvelopeLayout): string {
+  const data = store.formData;
+  const rows = windowEnvelopeRows(window, data);
+  const letterhead = data.letterheadMode === 'preprinted' ? '' : buildLetterhead(data, config, store.docType, false);
+  const underline = data.underlineSubject && window !== 'salutation';
+  return letterhead + rows.map(({ top, text, kind, indent = 0 }) => {
+    const value = escapeFlat(text);
+    return `\\dondocswindowrow{${top}}{${indent}}${kind === 'heading' ? maybeUnderline(value, underline) : value}\n\n`;
+  }).join('');
+}
+
 // --- Layout builders (one per uiMode) ---
 
 function buildStandardLayout(store: DocumentStore, config: DocTypeConfig): string {
@@ -1442,11 +1454,13 @@ function buildStandardLayout(store: DocumentStore, config: DocTypeConfig): strin
     content += buildEndorsementHeader(store.docType, data);
   }
 
-  if (config.letterhead) content += buildLetterhead(data, config, store.docType);
+  const window = windowEnvelopeLayout(store.docType, data);
+  if (window) content += buildWindowEnvelopeOpening(store, config, window);
+  else if (config.letterhead) content += buildLetterhead(data, config, store.docType);
   // Multiple address letter: date block is left-aligned (PDF's \hfill at paragraph boundary is a no-op)
   const ssicAlignRight = store.docType !== 'multiple_address_letter';
   const directive = directiveLayout(store.docType, data, escapeFlat);
-  if (config.ssic) content += buildSSICBlock(data, ssicAlignRight, directive);
+  if (!window && config.ssic) content += buildSSICBlock(data, ssicAlignRight, directive);
   if (directive) content += '\\noindent\\underline{' + directive.designation + '}\\par\n\n\\vspace{12pt}\n\n';
 
   // New-page endorsement: header comes AFTER letterhead/SSIC per SECNAV spec
@@ -1454,7 +1468,7 @@ function buildStandardLayout(store: DocumentStore, config: DocTypeConfig): strin
     content += buildEndorsementHeader(store.docType, data);
   }
 
-  content += buildAddressBlock(data, config);
+  if (!window) content += buildAddressBlock(data, config);
   if (directive) {
     const authority = directiveAuthorityRows(data).map(([label, value]) => label + ' ' + escapeFlat(value));
     if (authority.length) content += '\\vspace{12pt}\n\\noindent ' + authority.join('\\newline\n') + '\\par\n\n';
@@ -1511,6 +1525,7 @@ function buildBusinessLayout(store: DocumentStore, config: DocTypeConfig): strin
   const data = store.formData;
   const stock = correspondenceStationery(store.docType, data);
   const isBusinessLetter = store.docType === 'business_letter';
+  const window = windowEnvelopeLayout(store.docType, data);
   let content = '';
 
   // Executive correspondence (Ch 12) needs 2" top margin (1" geometry + 1" vspace)
@@ -1518,7 +1533,8 @@ function buildBusinessLayout(store: DocumentStore, config: DocTypeConfig): strin
     content += `\\vspace*{${config.topSpacing}}\n`;
   }
 
-  if (stock.small) {
+  if (window) content += buildWindowEnvelopeOpening(store, config, window);
+  else if (stock.small) {
     content += data.letterheadMode === 'title-only'
       ? `\\noindent\\hfill\n\\begin{tabular}{@{}c@{}}\n\\dondocstitleletterhead{}${escapeTabularWrapped(data.unitLine1 || '')} \\\\
 \\end{tabular}\\hfill\\mbox{}\n\n\\vspace{12pt}\n`
@@ -1529,7 +1545,7 @@ function buildBusinessLayout(store: DocumentStore, config: DocTypeConfig): strin
   const idRows = isBusinessLetter
     ? Object.values(businessLetterIdentification(data)).filter(Boolean).map(escapeTabular)
     : [config.ssic ? data.ssic : '', config.ssic ? data.serial : '', data.date].filter(Boolean).map(escapeTabular);
-  if (idRows.length > 0) {
+  if (!window && idRows.length > 0) {
     const mappedRows = idRows.map(item => `${item} \\\\`);
     // No trailing \vspace{12pt} — buildRecipientAddress (or pre-salutation space) provides the gap
     const column = stock.small ? stock.size === '7x9' ? 'c' : 'r' : 'l';
@@ -1538,14 +1554,14 @@ function buildBusinessLayout(store: DocumentStore, config: DocTypeConfig): strin
     content += `\\noindent${leading}\n\\begin{tabular}{@{}${column}@{}}\n${trimLastRow(mappedRows)}\n\\end{tabular}${trailing}\n\n`;
   }
 
-  content += buildRecipientAddress(data);
+  if (!window) content += buildRecipientAddress(data);
 
   // Salutation — SECNAV Ch 11, Para 11-6
-  content += buildSalutation(data);
+  if (!window) content += buildSalutation(data);
 
   // Optional subject line — SECNAV Ch 11, Para 11-7
   // Executive correspondence (Ch 12) uses Title Case, other business letters use ALL CAPS
-  if (data.subject && config.subjectPrefix) {
+  if (!window && data.subject && config.subjectPrefix) {
     const subjectText = store.docType === 'executive_correspondence'
       ? toTitleCase(data.subject)
       : data.subject.toUpperCase();
@@ -1894,6 +1910,7 @@ export function generateFlatLatex(store: DocumentStore, resolvedLevel?: string, 
   if (store.docType === 'technical_volume' || store.docType === 'tm_ietm_front_matter') {
     throw new Error('This publication uses configuration fragments and a native Word renderer.');
   }
+  if (target === 'tex' && windowEnvelopeLayout(store.docType, store.formData)) throw new Error('Use configuration LaTeX for the window-envelope layout.');
   store = { ...store, referenceLinkTarget: target, wordProofreadBookmarks: target === 'docx' ? wordProofreadBookmarks : undefined };
   if (isDirective(store.docType)) store = { ...store, formData: {
     ...directiveFormatting(store.docType, store.documentMode, store.formData),

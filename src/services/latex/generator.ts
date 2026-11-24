@@ -56,6 +56,8 @@ import { formatViaLines } from '@/lib/viaLines';
 import { parse as parseDate, isValid as isValidDate, format as formatDate } from 'date-fns';
 import { deriveOverallClassLevel } from '@/lib/overallClassification';
 import { cuiTransmittalNote } from '@/lib/enclosureMarkings';
+import { windowEnvelopeLayout, windowEnvelopeRows } from '@/lib/windowEnvelope';
+import { windowEnvelopeTex } from './windowEnvelope';
 import { assertAppendedEndorsementsAddressed, resolveAppendedEndorsements } from '@/lib/appendedEndorsement';
 
 interface DocumentStore {
@@ -236,6 +238,31 @@ ${(() => {
     const number = previewHint(hints, 'serial', escapeLatex(serial?.trim()));
     const prefix = hints.serial ? '\\PreviewHint{Ser}' : 'Ser';
     senderSymbol = `${prefix} ${code}\\PreviewHint{/}${number}`;
+  }
+
+  const windowEnvelope = windowEnvelopeLayout(store.docType, data);
+  if (windowEnvelope) {
+    // Measure the displayed values for the fixed slots. Only the preview
+    // uses this copy of the data, and field links are inserted after escaping.
+    const slotData = hints ? {
+      ...data,
+      ssic: hints.ssic?.text ?? data.ssic,
+      officeCode: hints.officeCode?.text ?? data.officeCode,
+      serial: hints.serial?.text ?? data.serial,
+      date: hints.date?.text ?? data.date,
+      to: hints.to?.text ?? data.to,
+      salutation: hints.salutation?.text ?? data.salutation,
+      subject: hints.subject?.text ?? data.subject,
+    } : data;
+    const rows = windowEnvelopeRows(windowEnvelope, slotData);
+    tex += windowEnvelopeTex(rows, ({ text, field }) => {
+      if (field === 'senderSymbol') return senderSymbol;
+      if (field === 'subject' && hints?.subject) {
+        const label = windowEnvelope === 'standard' ? 'Subj:' : 'SUBJECT:';
+        return label + '  ' + previewHint(hints, field, '');
+      }
+      return previewHint(hints, field, escapeLatex(text));
+    }, data.underlineSubject && windowEnvelope !== 'salutation');
   }
   if (directive) {
     tex += '\\def\\CorrespondenceTemplate{naval_letter}\n';

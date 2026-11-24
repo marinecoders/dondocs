@@ -37,6 +37,26 @@ async function renderedHintKeys(docType: string, texFiles: Record<string, string
 }
 
 describe.skipIf(!hasPdfToolchain)('compiled preview hints', () => {
+  it.each([
+    ['naval_letter', 'standard', 'subject'],
+    ['business_letter', 'salutation', 'salutation'],
+    ['business_letter', 'subject', 'subject'],
+  ] as const)('renders opening hints for %s in %s mode', async (docType, layout, heading) => {
+    const draft = createBlankSession(undefined, docType);
+    draft.formData = { ...draft.formData, windowEnvelope: layout, underlineSubject: heading === 'subject' };
+    const render = (previewHints: boolean, hiddenStarterSections?: readonly StarterExampleSection[]) =>
+      generateAllLatexFiles(draft, undefined, previewDate, undefined, { previewHints, hiddenStarterSections }).texFiles;
+
+    const initial = await renderedHintKeys(docType, render(true));
+    expect(initial).toEqual(expect.arrayContaining(['ssic', 'serial', 'officecode', 'date', 'to', heading]));
+    expect(initial).not.toContain('from');
+    expect(initial).not.toContain(heading === 'subject' ? 'salutation' : 'subject');
+    const edited = await renderedHintKeys(docType, render(true, ['senderSymbols', 'addressing']));
+    expect(edited).toEqual(expect.arrayContaining(['ssic', 'date', 'to', heading]));
+    expect(edited).not.toContain('serial');
+    expect(await renderedHintKeys(docType, render(false))).toEqual([]);
+  });
+
   async function compile(docType: string, previewHints: boolean) {
     const source = {
       docType, documentMode: 'compliant' as const, formData: { sigLast: '', subject: '' },

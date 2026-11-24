@@ -2,6 +2,7 @@ import { directiveHasCancellation, isDirective, isMarineDirective } from './dire
 import { isStaffPaper } from './staffPapers';
 import { hasDlaStationery, usesDlaLetterhead } from './dlaLetterhead';
 import { resolveLetterheadMode } from './letterheadMode';
+import { windowEnvelopeLayout } from './windowEnvelope';
 import type { DocumentSnapshot } from '@/stores/historyStore';
 import type { SerializedSession } from '@/stores/documentStore';
 import { DOC_TYPE_CONFIG } from '@/types/document';
@@ -98,6 +99,11 @@ function active(source: DocumentFieldSource, path: FieldPath, projection: FieldP
   if (source.docType === 'tm_ietm_front_matter' && ['paragraphs', 'references', 'enclosures', 'copyTos', 'distributions'].includes(String(root))) return false;
   if (root !== 'formData' || typeof path[1] !== 'string') return true;
   const key = path[1];
+  const envelopeLayout = windowEnvelopeLayout(source.docType, source.formData);
+  if (key === 'windowEnvelope') return !!envelopeLayout;
+  if (projection === 'output' && (envelopeLayout === 'standard' && key === 'from'
+    || envelopeLayout === 'subject' && key === 'salutation'
+    || envelopeLayout === 'salutation' && (key === 'subject' || key === 'showSubjectOnContinuation'))) return false;
   if (isDirective(source.docType) && ['ssic', 'serial', 'via', 'to', 'inReplyTo', 'inReplyToText', 'showSubjectOnContinuation'].includes(key)) return false;
   if (key === 'directiveNumber') return isDirective(source.docType);
   if (key === 'directiveCancellation') return directiveHasCancellation(source.docType);

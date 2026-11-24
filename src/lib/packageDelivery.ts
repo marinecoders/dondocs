@@ -63,6 +63,7 @@ export async function preparePackageDelivery(input: ActionPackage, revisionId: s
     throw new Error('Select supported correspondence to prepare a recipient delivery with tagged PDFs.');
   }
   const taggedAssetIds: string[] = [];
+  const layoutNotices = new Set<string>();
   reviews.push({ member: 'Delivery name', review: reviewPackageText(selection.label, 'Delivery name', policy) });
   let capturedBytes = 0;
   const addAsset = (item: CapturedDeliveryAsset) => { const existing = assets.get(item.asset.id); if (existing && !sameReviewStoredValue(existing.asset, item.asset)) throw new Error('Conflicting delivery file identity.');
@@ -82,7 +83,12 @@ export async function preparePackageDelivery(input: ActionPackage, revisionId: s
       if (selectedMember.kind === 'original') { bytes = await readPackageAsset(selectedMember.original); name = selectedMember.original.name; signedOriginal = selectedMember.signedOriginal; }
       else {
         if (!ports) throw new Error('The PDF renderer is required for native recipient documents.');
-        bytes = await renderPackageRecipientMember(selectedMember, policy, ports, readPackageAsset, signal, taggedNativePdfs ? 'tagged' : undefined);
+        const rendered = await renderPackageRecipientMember(selectedMember, policy, ports, readPackageAsset, signal, taggedNativePdfs ? 'tagged' : undefined);
+        bytes = rendered.bytes;
+        if (rendered.layoutReview) {
+          reviews.push({ member: selectedMember.label, review: rendered.layoutReview });
+          rendered.layoutReview.notices.forEach(notice => layoutNotices.add(notice));
+        }
         name = `document-${members.length + 1}${taggedNativePdfs ? '-tagged' : ''}.pdf`;
       }
       await PDFDocument.load(bytes.slice(0)); signal.throwIfAborted();
@@ -106,6 +112,7 @@ export async function preparePackageDelivery(input: ActionPackage, revisionId: s
     notices: ['This delivery is an independent selected-document copy. It carries no package review decisions, task list, signing records, source pointers or earlier revisions.',
       ...(selection.purpose === 'editable' ? ['Editable documents include their retained answers, inactive values, templates and embedded attachments. Review this exact scope before transfer.'] : ['Native members become PDF derivatives. Selected supporting files keep their original formats and bytes; original PDFs keep any signatures; verify those signatures in the original file.']),
       ...(taggedNativePdfs ? ['Supported correspondence is delivered as separate experimental tagged PDFs. Original attachments retain their existing accessibility and are kept unchanged.'] : []),
+      ...layoutNotices,
       ...inspected.readiness.findings.map(finding => finding.message)] });
   captures.set(prepared, capture(temporary)); await assertPackageDeliveryCurrent(prepared, policy, signal, isCurrent); return prepared;
 }

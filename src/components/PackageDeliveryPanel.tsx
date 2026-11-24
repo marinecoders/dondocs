@@ -44,6 +44,9 @@ function DeliveryProfile({ record, revision, disabled, busy, ports, run, signal,
   }, []);
   function invalidate() { generation.current++; preparedPolicy.current = undefined; setPrepared(null); setApproved(false); setError(''); callback.current?.(null); }
   const locked = disabled || busy || pending;
+  const requiresLayoutReview = prepared?.purpose === 'recipient' && prepared.reviews.some(({ review }) => review.layoutReview);
+  const requiresApproval = !directDownload || requiresLayoutReview;
+  const acknowledged = !requiresApproval || approved;
   const canTagNativePdfs = purpose === 'recipient'
     && revision.members.some(member => member.kind === 'native' && memberIds.includes(member.id));
   async function perform(action: (current: () => boolean, operationSignal?: AbortSignal) => Promise<void>) {
@@ -89,13 +92,15 @@ function DeliveryProfile({ record, revision, disabled, busy, ports, run, signal,
       </details>)}
       {prepared.reviews.length > reviewCount && <Button variant="outline" disabled={locked} onClick={() => setReviewCount(value => value + 10)}>Show more delivery reviews</Button>}
       <PackageDeliveryPreview key={prepared.revisionId} prepared={prepared} disabled={locked} run={run} signal={signal} isCurrent={isCurrent} />
-      {!directDownload && <label className="flex items-start gap-2"><input type="checkbox" checked={approved} disabled={locked} onChange={event => setApproved(event.target.checked)} />I reviewed every included document, original PDF, file and privacy finding for this exact delivery.</label>}
-      <Button className="h-auto min-h-9 max-w-full whitespace-normal" disabled={locked || !directDownload && !approved} onClick={() => void perform(async (current, operationSignal) => {
-        const bundle = await buildPackageDeliveryBundle(prepared, await getExportDeploymentPolicy(), directDownload || approved, operationSignal, current);
+      {requiresApproval && <label className="flex items-start gap-2"><input type="checkbox" checked={approved} disabled={locked} onChange={event => setApproved(event.target.checked)} />
+        {requiresLayoutReview ? 'I reviewed the layout notices and every included document, original PDF, file and privacy finding for this exact delivery.' : 'I reviewed every included document, original PDF, file and privacy finding for this exact delivery.'}
+      </label>}
+      <Button className="h-auto min-h-9 max-w-full whitespace-normal" disabled={locked || !acknowledged} onClick={() => void perform(async (current, operationSignal) => {
+        const bundle = await buildPackageDeliveryBundle(prepared, await getExportDeploymentPolicy(), acknowledged, operationSignal, current);
         if (current()) { assertPackageDeliveryPolicy(prepared, getExportDeploymentPolicySync()); triggerDownload(bundle.bytes, bundle.filename, 'application/zip'); }
       })}>Download reviewed delivery bundle</Button>
-      <Button className="h-auto min-h-9 max-w-full whitespace-normal" variant="outline" disabled={locked || !directDownload && !approved} onClick={() => void perform(async (current, operationSignal) => {
-        const json = await buildPackageDeliveryFile(prepared, await getExportDeploymentPolicy(), directDownload || approved, operationSignal, current);
+      <Button className="h-auto min-h-9 max-w-full whitespace-normal" variant="outline" disabled={locked || !acknowledged} onClick={() => void perform(async (current, operationSignal) => {
+        const json = await buildPackageDeliveryFile(prepared, await getExportDeploymentPolicy(), acknowledged, operationSignal, current);
         if (current()) { assertPackageDeliveryPolicy(prepared, getExportDeploymentPolicySync()); triggerDownload(new TextEncoder().encode(json), 'selected-delivery.dondocs-package.json', 'application/json'); }
       })}>Download reviewed delivery package</Button>
     </section>}
