@@ -312,7 +312,7 @@ function getSealFilename(sealType?: string, letterheadColor?: string): string {
 
 async function fetchSealImage(sealType?: string, letterheadColor?: string): Promise<{ path: string; blob: Blob }> {
   const filename = getSealFilename(sealType, letterheadColor);
-  const url = `${BASE_PATH}attachments/${filename}`;
+  const url = `${import.meta.env.BASE_URL}attachments/${filename}`;
   const response = await fetch(url);
   if (!response.ok) {
     throw new Error(`Failed to fetch seal image ${filename}: ${response.status}`);

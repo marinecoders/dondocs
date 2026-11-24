@@ -42,6 +42,8 @@
     <!-- Prevent theme flash by applying correct theme before first paint -->
     <script>
       (function() {
+        // Configure the browser schema runtime before any module can initialize it.
+        globalThis.__zod_globalConfig = Object.assign(globalThis.__zod_globalConfig || {}, { jitless: true });
         var theme = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
         try {
           var stored = JSON.parse(localStorage.getItem('dondocs_ui') || '{}');
