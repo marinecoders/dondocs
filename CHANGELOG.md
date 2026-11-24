@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.251] — 2026-11-23
+
+### Fixed
+
+- Apply the deployed content and framing policies to editor entry points and support the authorized recovery route.
+
 ## [1.3.250] — 2026-11-23
 
 ### Added
