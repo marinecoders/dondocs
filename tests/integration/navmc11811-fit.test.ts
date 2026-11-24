@@ -22,6 +22,7 @@ import {
   computeNavmc11811Fit,
   type Navmc11811Data,
 } from '@/services/pdf/navmc11811Generator';
+import { useFormStore } from '@/stores/formStore';
 import { hasPdfToolchain, describeToolchainRequirement } from '../_helpers/pdfToolchain';
 
 const toolchain = hasPdfToolchain;
@@ -91,6 +92,19 @@ describe('NAVMC 118(11) column fit', () => {
     expect(fit.left.truncated).toBe(0);
     expect(fit.left.spillover).toBe(0);
     expect(fit.right.lines).toBe(0);
+  });
+
+  it.skipIf(!toolchain)('fits the demo rebuttal advice and election above the Marine signature', async () => {
+    const demo = useFormStore.getInitialState().navmc11811;
+    const fit = await computeNavmc11811Fit(demo);
+    expect(fit.left.truncated).toBe(0);
+    expect(fit.left.spillover).toBe(0);
+
+    const bytes = await generateNavmc11811Pdf(demo, readFileSync(TEMPLATE));
+    const text = pdfText(bytes).replace(/\s+/g, ' ');
+    expect(text).toContain('written rebuttal within 5 working days after acknowledging this entry');
+    expect(text).toContain('filed on the document side of my service record');
+    expect(text).toMatch(/I choose not to submit a rebuttal\. J\. M\. DOE/);
   });
 
   it('reports close-out spillover when text + date + signatures exceed the left column', async () => {

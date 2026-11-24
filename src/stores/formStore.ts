@@ -306,12 +306,15 @@ J. A. SMITH, SSgt, USMC`,
   remarksTextRight: '',
   entryDate: formatMilitaryDate(new Date()),
   box11: '01',
-  // A 6105 is authenticated by the counselor and the counseled Marine; the
-  // acknowledgement wording is the user's to set (MCO 1610.7 / IRAM).
+  // This synthetic adverse entry uses the acknowledgment-based wording from
+  // the IRAM §4006.2e sample and records the example Marine's election.
   signatureBlocks: [
     { statement: '', name: 'J. A. SMITH', style: 'typed' },
     {
-      statement: 'I have been counseled this date and understand this entry.',
+      statement: 'I have been counseled this date and understand this entry. '
+        + 'I was advised that I may submit a written rebuttal within 5 working days after acknowledging this entry. '
+        + 'Any rebuttal I submit will be filed on the document side of my service record. '
+        + 'I choose not to submit a rebuttal.',
       name: 'J. M. DOE',
       style: 'typed',
     },
