@@ -9,10 +9,13 @@ async function openWork(dialog: Locator) {
   const overview = dialog.getByRole('region', { name: 'Package overview', exact: true });
   const advanced = overview.locator('summary').filter({ hasText: /^Advanced$/ });
   await expect(advanced).toBeVisible();
-  if (await advanced.locator('..').getAttribute('open') === null) await advanced.click();
+  const advancedDisclosure = advanced.locator('..');
+  // Activate the disclosure without relying on the restored scroll position.
+  if (await advancedDisclosure.getAttribute('open') === null) await advanced.press('Enter');
+  await expect(advancedDisclosure).toHaveJSProperty('open', true);
   const summary = overview.locator('summary').filter({ hasText: /^Work and next actions(?: ·|$)/ });
   await expect(summary).toBeVisible();
-  if (await summary.locator('..').getAttribute('open') === null) await summary.click();
+  if (await summary.locator('..').getAttribute('open') === null) await summary.press('Enter');
   const work = dialog.getByRole('region', { name: 'Work and next actions', exact: true });
   await expect(work).toBeVisible();
   return work;
@@ -38,7 +41,8 @@ for (const theme of ['light', 'dark', 'classic']) for (const width of [1440, 320
   const details = dialog.getByRole('region', { name: 'Details', exact: true });
   const fields = details.getByRole('button', { name: 'Field links and other details', exact: true });
   await expect(fields).toBeVisible();
-  if (await fields.getAttribute('aria-expanded') === 'false') await fields.click();
+  if (await fields.getAttribute('aria-expanded') === 'false') await fields.press('Enter');
+  await expect(fields).toHaveAttribute('aria-expanded', 'true');
   const addValue = details.getByRole('button', { name: 'Add shared value', exact: true });
   await expect(addValue).toBeEnabled();
   await work.getByRole('button', { name: 'Add task', exact: true }).click();
@@ -66,6 +70,7 @@ for (const theme of ['light', 'dark', 'classic']) for (const width of [1440, 320
   const complete = await selectedPackageRevision(dialog); expect(complete).not.toBe(pending);
   await page.reload();
   dialog = await openPackageWorkspace(page);
+  await expect(dialog).toHaveAttribute('data-revision-id', complete);
   work = await openWork(dialog);
   await expect(work.getByLabel('Mark task 1 complete', { exact: true })).toBeChecked();
   await expect(work.getByLabel('Responsible person for task 1', { exact: true })).toHaveValue('Alex Example');
