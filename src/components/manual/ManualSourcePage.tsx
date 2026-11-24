@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { CORRESPONDENCE_MANUAL as source } from '@/lib/correspondenceManual';
 import '@/components/pdf/pdfConfig';
 
-export default function ManualSourcePage({ bytes, page, onPage }: { bytes: Uint8Array; page: number; onPage(page: number): void }) {
+export default function ManualSourcePage({ bytes, page, onPage, pageCount = source.pages }: { bytes: Uint8Array; page: number; onPage(page: number): void; pageCount?: number }) {
   const container = useRef<HTMLDivElement>(null);
   const [width, setWidth] = useState(260);
   const [error, setError] = useState(false);
@@ -20,8 +20,8 @@ export default function ManualSourcePage({ bytes, page, onPage }: { bytes: Uint8
   return <div className="min-w-0 space-y-3">
     <div className="flex flex-wrap items-center justify-between gap-2">
       <Button size="sm" variant="outline" disabled={page <= 1} onClick={() => onPage(page - 1)}>Previous PDF page</Button>
-      <span className="text-xs text-muted-foreground">PDF page {page} of {source.pages}</span>
-      <Button size="sm" variant="outline" disabled={page >= source.pages} onClick={() => onPage(page + 1)}>Next PDF page</Button>
+      <span className="text-xs text-muted-foreground">PDF page {page} of {pageCount}</span>
+      <Button size="sm" variant="outline" disabled={page >= pageCount} onClick={() => onPage(page + 1)}>Next PDF page</Button>
     </div>
     <p className="text-xs text-muted-foreground">Original source page. Use the extracted-text view for text search and reading.</p>
     {error && <p role="alert" className="text-sm text-destructive">This source page could not be rendered. Return to the extracted text or download the original PDF.</p>}

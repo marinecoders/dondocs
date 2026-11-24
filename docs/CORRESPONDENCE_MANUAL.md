@@ -1,11 +1,17 @@
 # Searchable correspondence manual
 
 Open **Document tools → Document type guide → Manual** to read or search the
-bundled SECNAV M-5216.5. Search matches literal phrases without regard to case
+bundled SECNAV M-5216.5 or MCO 5216.20B. Search matches literal phrases without regard to case
 and treats line breaks as spaces. Results identify both the printed page and
 the physical PDF page. Chapter and appendix navigation covers all 159 pages,
 including the source index. Searches show at most 50 matching pages; refine a
 broad phrase to narrow them.
+
+Choose **MCO 5216.20B** from **Reference publication** for the Marine Corps
+supplement with Administrative Change 4, dated 29 September 2025. **Copy
+citation** includes the edition and physical PDF page. On a wide screen,
+**Read beside draft** keeps the selected source and exact page open next to
+the editor. [Marine Corps publication entry](https://www.marines.mil/News/Publications/MCPEL/Electronic-Library-Display/Article/2795618/mco-521620b-wadmin-ch-4/)
 
 The reading view contains extracted source text. It does not reproduce the
 layout of figures or tables. **View original PDF page** opens the corresponding

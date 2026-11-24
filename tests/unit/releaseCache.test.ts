@@ -103,3 +103,15 @@ it('reads the exact prepared asset by its content key without the service worker
   await expect(getPreparedReleaseAsset('test', '/releases/other/assets/dictionary.txt', storage)).resolves.toBeUndefined();
   expect(await (await getPreparedReleaseAsset('test', path, storage))?.text()).toBe('dictionary');
 });
+
+it('does not fetch unused reference resources and retains those already requested', async () => {
+  const store = cache();
+  const text = asset('/releases/new/references/mco-5216-20b/hash/text.json', 'reference text');
+  const pdf = asset('/releases/new/references/mco-5216-20b/hash/manual.pdf', 'reference PDF');
+  const fetcher = vi.fn<typeof fetch>(async () => new Response('reference text', { headers: { 'Content-Type': 'text/javascript' } }));
+  expect(await stageAssets(manifest([text, pdf]), store, fetcher)).toEqual([]);
+  expect(fetcher).not.toHaveBeenCalled();
+  await cacheAsset(text, store, fetcher);
+  expect(await stageAssets(manifest([text, pdf]), store, fetcher)).toEqual([assetKey(text)]);
+  expect(fetcher).toHaveBeenCalledOnce();
+});

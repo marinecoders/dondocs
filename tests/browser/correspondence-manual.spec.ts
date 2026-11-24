@@ -16,6 +16,36 @@ async function manual(page: Page) {
   await waitForManualText(guide);
   return guide;
 }
+
+test('opens the exact Marine Corps reference page beside the editable draft', async ({ page, context }, info) => {
+  test.skip(info.project.name !== 'chromium', 'Clipboard contents are inspected in desktop Chromium.');
+  await page.setViewportSize({ width: 1440, height: 1000 });
+  await context.grantPermissions(['clipboard-read', 'clipboard-write']);
+  await page.addInitScript(() => localStorage.setItem('browser-test-visitor', 'returning'));
+  await page.goto('/');
+  const guide = await manual(page);
+  await guide.getByLabel('Reference publication').selectOption({ label: 'MCO 5216.20B' });
+  await guide.getByRole('searchbox', { name: 'Search manual' }).fill('When guidance cannot be found');
+  await guide.getByRole('button', { name: 'Search', exact: true }).click();
+  await guide.getByRole('button', { name: /PDF page 17/ }).click();
+  await guide.getByRole('button', { name: 'Copy citation', exact: true }).click();
+  await expect(guide.getByRole('status').filter({ hasText: 'Citation copied.' })).toBeVisible();
+  expect(await page.evaluate(() => navigator.clipboard.readText())).toContain('MCO 5216.20B, 10 March 2016, Administrative Change 4 (29 September 2025), PDF page 17.');
+  await guide.getByRole('button', { name: 'View original PDF page 17' }).click();
+  await expect(guide.getByLabel('Original manual PDF page 17').locator('canvas')).toBeVisible({ timeout: 30_000 });
+  await guide.getByRole('button', { name: 'Read beside draft' }).click();
+  await expect(guide).toBeHidden();
+  const dock = page.getByRole('complementary', { name: 'Reference beside draft' });
+  await expect(dock.getByLabel('Original manual PDF page 17').locator('canvas')).toBeVisible({ timeout: 30_000 });
+  await page.getByRole('textbox', { name: 'Subject', exact: true }).fill('EDIT WITH REFERENCE OPEN');
+  await expect(dock.getByLabel('Original manual PDF page 17')).toBeVisible();
+  const preview = page.getByRole('button', { name: 'Preview', exact: true });
+  await expect(preview).toHaveAttribute('aria-pressed', 'false');
+  await preview.click();
+  await expect(dock).toBeHidden();
+  await expect(preview).toHaveAttribute('aria-pressed', 'true');
+  await expect(page.getByRole('textbox', { name: 'Subject', exact: true })).toHaveValue('EDIT WITH REFERENCE OPEN');
+});
 test('searches verified manual text after a slow resource load and restores the editor launcher', async ({ page, context }) => {
   test.setTimeout(90_000);
   await context.addInitScript(() => {
