@@ -203,7 +203,10 @@ test('keeps draft editing reachable as the preview toolbar narrows', async ({ pa
   await follow.click({ timeout: 90_000 });
   await expect(page.getByRole('menuitemradio', { name: 'Off', exact: true })).toBeChecked();
   await page.keyboard.press('Escape');
+  await expect(page.getByRole('menu')).toBeHidden();
   const divider = page.getByRole('separator', { name: /Resize preview panel/ });
+  await divider.focus();
+  await expect(divider).toBeFocused();
   for (let step = 0; step < 8; step++) await divider.press('ArrowRight');
   await expect(divider).toHaveAttribute('aria-valuenow', '20');
   await expect(follow).not.toBeVisible();

@@ -13,6 +13,7 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 - Qualify Word packaging, offline Word, package assembly, print output, and saved GENADMIN drafts reliably across browser profiles.
 - Give managed release qualification enough time for cold browser setup and hosting checks.
+- Apply consecutive preview resize keys even when the preview is still rendering.
 
 ## [1.3.278] — 2026-11-23
 

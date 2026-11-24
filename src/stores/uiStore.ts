@@ -1,3 +1,4 @@
+import type { SetStateAction } from 'react';
 import type { DocumentWriteReceipt } from '@/lib/documentWrites';
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
@@ -86,7 +87,7 @@ interface UIState {
   previewWidth: number; // percentage (0-100)
   togglePreview: () => void;
   setPreviewVisible: (visible: boolean) => void;
-  setPreviewWidth: (width: number) => void;
+  setPreviewWidth: (width: SetStateAction<number>) => void;
   /** Shared by document/form previews, including across viewer remounts. */
   pdfZoomMode: ZoomMode;
   setPdfZoomMode: (mode: ZoomMode | ((previous: ZoomMode) => ZoomMode)) => void;
@@ -257,7 +258,9 @@ export const useUIStore = create<UIState>()(
         ? { mobilePreviewOpen: !state.mobilePreviewOpen }
         : { previewVisible: !state.previewVisible }),
       setPreviewVisible: (visible) => set({ previewVisible: visible }),
-      setPreviewWidth: (width) => set({ previewWidth: Math.max(20, Math.min(80, width)) }),
+      setPreviewWidth: (width) => set((state) => ({
+        previewWidth: Math.max(20, Math.min(80, typeof width === 'function' ? width(state.previewWidth) : width)),
+      })),
       pdfZoomMode: { kind: 'fit-width' },
       setPdfZoomMode: (mode) => set((state) => ({
         pdfZoomMode: typeof mode === 'function' ? mode(state.pdfZoomMode) : mode,
