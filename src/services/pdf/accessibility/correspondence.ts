@@ -105,7 +105,7 @@ export function prepareTaggedCorrespondence(source: TaggedCorrespondenceSource, 
     const id = top('P').id;
     format = replaceOnce(format, '{\\fontsize{5pt}{6pt}\\selectfont IN REPLY REFER TO}', wrap(id, '{\\fontsize{5pt}{6pt}\\selectfont IN REPLY REFER TO}'));
   }
-  if (!plainPaperMemo && !memorandumForRecord) {
+  if (!memorandumForRecord) {
     if (fields.ssic?.trim()) wrapMacro('DocumentSSIC', top('P').id);
     if (composeSenderSymbol(fields.officeCode, fields.serial).trim()) wrapMacro('DocumentSerial', top('P').id);
   }

@@ -5147,7 +5147,9 @@ const LATEX_TEMPLATES = {
 % "MEMORANDUM" at left margin (not "MEMORANDUM FOR THE RECORD")
 
 \\newcommand{\\printDateAndTitle}{%
-    \\vspace*{1in}%  % Date on line 6 per SECNAV Ch 10, Para 3.b
+    \\vspace*{1in}%  % Identification begins on line 6 per SECNAV Ch 10, Para 3.b
+    \\ifdefempty{\\DocumentSSIC}{}{\\hfill \\DocumentSSIC\\par}%
+    \\ifdefempty{\\DocumentSerial}{}{\\hfill \\DocumentSerial\\par}%
     \\hfill \\DocumentDate\\par
     \\vspace{12pt}%
     \\noindent MEMORANDUM

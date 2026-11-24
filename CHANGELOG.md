@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.255] — 2026-11-23
+
+### Added
+
+- Render the optional standard subject identification code and office code in plain-paper memorandums.
+
 ## [1.3.254] — 2026-11-23
 
 ### Fixed

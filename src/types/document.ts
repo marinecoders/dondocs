@@ -622,7 +622,7 @@ export const DOC_TYPE_CONFIG: Record<string, DocTypeConfig> = {
     compliance: DEFAULT_COMPLIANCE,
   },
   plain_paper_memorandum: {
-    letterhead: false, ssic: false, fromTo: true, via: false, memoHeader: true, signature: 'abbrev', uiMode: 'memo',
+    letterhead: false, ssic: true, optionalSSIC: true, fromTo: true, via: false, memoHeader: true, signature: 'abbrev', uiMode: 'memo',
     showSignatureRankTitle: false, signatureSpacing: '36pt', memoTitle: 'MEMORANDUM', topSpacing: '1in',
     regulations: { fontSize: '12pt', fontSizeOptions: ['10pt', '11pt', '12pt'], fontFamily: 'times', ref: 'Ch 10 ¶3' },
     compliance: DEFAULT_COMPLIANCE,
