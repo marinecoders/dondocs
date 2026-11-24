@@ -35,7 +35,7 @@ it('maps untouched selected comments and detaches a rewritten citation through r
   [order[0], order[26]] = [order[26], order[0]];
   const prepared = await preparePackageCitationReorder(record, { kind: 'references', memberId: native.id, order }, policy);
   const changed = await applyPackageCitationReorder(prepared), member = currentNative(changed);
-  expect(member.session.paragraphs[0].text).toBe('Prefix reference (a0) Suffix.');
+  expect(member.session.paragraphs[0].text).toBe('Prefix reference (aa) Suffix.');
   const threads = member.session.reviewComments!.threads;
   expect(resolveTextRange(member.session, threads[0].anchor as NonNullable<ReturnType<typeof captureTextRange>>)).toMatchObject({ status: 'current', start: 0, end: 6, text: 'Prefix' });
   expect(resolveTextRange(member.session, threads[2].anchor as NonNullable<ReturnType<typeof captureTextRange>>)).toMatchObject({ status: 'current', start: 22, end: 28, text: 'Suffix' });

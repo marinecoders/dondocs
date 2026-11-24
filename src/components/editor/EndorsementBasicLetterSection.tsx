@@ -430,11 +430,11 @@ export function EndorsementBasicLetterSection() {
                     value={formData.startingReferenceLetter || ''}
                     onChange={(e) => setField('startingReferenceLetter', e.target.value.trim().toLowerCase())}
                     placeholder="a"
-                    maxLength={1}
+                    maxLength={12}
                     aria-describedby="startingReferenceLetter-hint"
                   />
                   <p id="startingReferenceLetter-hint" className="sr-only">
-                    A single letter, a through z.
+                    The first new reference label, such as g or aa.
                   </p>
                 </div>
 

@@ -336,8 +336,7 @@ export function convertRichTextToLatex(text: string): string {
 
   // Also support "reference (a)" -> \ref{a} for document references
   // Note: \ref{} in our LaTeX template creates clickable links to references
-  result = result.replace(/[Rr]eference\s*\(([a-zA-Z])\)/g, '\\reflink{$1}');
-  result = result.replace(/[Rr]ef\s*\(([a-zA-Z])\)/g, '\\reflink{$1}');
+  result = result.replace(/\bref(?:erence)?\s*\(([a-z]+|a\d+)\)/gi, (_match, label: string) => `\\reflink{${label.toLowerCase()}}`);
 
   return result;
 }

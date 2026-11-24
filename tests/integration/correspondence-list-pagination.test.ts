@@ -9,8 +9,53 @@ import { postProcessDocx } from '@/services/docx/pandoc-converter';
 import { getDocument } from 'pdfjs-dist/legacy/build/pdf.mjs';
 import { generateAllLatexFiles } from '@/services/latex/generator';
 import { finishCorrespondencePdf } from '@/services/pdf/finishCorrespondencePdf';
+import { referenceLetterAt } from '@/lib/referenceLetters';
+import { continuationReferenceLetter, referenceStartIndex } from '@/lib/endorsement';
 
 describe('native correspondence list pagination', () => {
+  it.each(['naval_letter', 'new_page_endorsement'] as const)('%s prints (aa) and (ab) in PDF and Word', async type => {
+    const store = buildBaseline(type);
+    const start = type === 'new_page_endorsement' ? continuationReferenceLetter(26) : undefined;
+    store.formData.startingReferenceLetter = start;
+    store.formData.includeHyperlinks = true;
+    store.formData.signatureType = 'none';
+    const url = 'https://example.mil/reference-27';
+    const offset = referenceStartIndex(type, start);
+    store.references = Array.from({ length: 28 - offset }, (_, i) => ({
+      letter: referenceLetterAt(i + offset), title: `Reference test ${i + offset + 1}`,
+      ...(i + offset === 26 ? { url } : {}),
+    }));
+    store.enclosures = [];
+    store.paragraphs = [
+      { level: 0, text: 'Review reference (aa) before issuing the training notice.' },
+      { level: 0, text: '', bodyTable: { rows: [['Training action', 'Reference (AA)']], headerRows: 0 } },
+    ];
+    const pdf = await compileFixture(store);
+    expect(pdf.ok, pdf.logTail).toBe(true);
+    const final = await finishCorrespondencePdf(pdf.pdfBytes!, type, store.formData, generateAllLatexFiles(store));
+    const { boxes } = await pdfTextLayout(final.pdfBytes);
+    expect(boxes.map(box => box.text).join(' ')).toMatch(/\(aa\)\s+Reference test 27.*\(ab\)\s+Reference test 28/);
+    const document = await getDocument({ data: final.pdfBytes.slice(), useSystemFonts: false }).promise;
+    try {
+      const tableRow = boxes.find(box => box.text.includes('Training action'))!;
+      expect(tableRow).toBeDefined();
+      let matches = 0, linkedTableRow = false;
+      for (let index = 1; index <= document.numPages; index++) {
+        const links = (await (await document.getPage(index)).getAnnotations()).filter(annotation => annotation.url === url);
+        matches += links.length;
+        if (index === tableRow.page) linkedTableRow = links.some(({ rect }) => rect[1] < tableRow.top && rect[3] > tableRow.bottom);
+      }
+      expect(matches).toBeGreaterThanOrEqual(3);
+      expect(linkedTableRow).toBe(true);
+    } finally {
+      await document.destroy();
+    }
+    const docx = await compileDocxFixture(store);
+    expect(docx.ok, docx.log).toBe(true);
+    const { value } = await mammoth.extractRawText({ buffer: Buffer.from(docx.docxBytes!) });
+    expect(value).toMatch(/\(aa\)\s+Reference test 27[\s\S]*\(ab\)\s+Reference test 28/);
+  }, 60_000);
+
   it.each(['standard_memorandum', 'executive_memorandum'] as const)('%s preserves single-reference URI actions in the final native PDF', async type => {
     const store = buildBaseline(type);
     const url = 'https://example.mil/my_reference?section=2&name=training%20plan#overview';

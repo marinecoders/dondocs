@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { planFirstCitationOrder, planReferenceChange, scanReferenceCitations, type ReferenceSource } from '@/lib/referenceCitations';
+import { referenceLetterAt } from '@/lib/referenceLetters';
 import { useDocumentStore } from '@/stores/documentStore';
 
 function source(text = 'Follow reference (b), then reference (a).'): ReferenceSource {
@@ -60,6 +61,30 @@ describe('citation discovery and reference plans', () => {
   ])('blocks ambiguous clauses instead of applying a partial rewrite: %s', text => {
     expect(planReferenceChange(source(text), [1, 0]).blockers.length).toBeGreaterThan(0);
   });
+  it.each([
+    'Use reference (aa) through ab.',
+    'Use reference (aa) – ab before signing.',
+    'Use reference (aa) to ab.',
+    'Use reference (aa), ab.',
+    'Use reference (aa) and ab.',
+    'Use reference (aa), and ab.',
+    'Use reference ab.',
+  ])('requires a decision before changing a bare continued label: %s', text => {
+    const state = source(text);
+    state.references = Array.from({ length: 28 }, (_, index) => ({ letter: referenceLetterAt(index), title: `Source ${index + 1}` }));
+    const order = state.references.map((_, index) => index);
+    [order[26], order[27]] = [order[27], order[26]];
+    expect(planReferenceChange(state, order).blockers.join(' ')).toMatch(/review|explicit/i);
+  });
+  it('accepts prose after a continued citation even when short words are reference labels', () => {
+    const state = source('Use reference (aa) to be consistent, and consult reference (ab) through the portal.');
+    state.references = Array.from({ length: 60 }, (_, index) => ({ letter: referenceLetterAt(index), title: `Source ${index + 1}` }));
+    const order = state.references.map((_, index) => index);
+    [order[26], order[27]] = [order[27], order[26]];
+    const plan = planReferenceChange(state, order);
+    expect(plan.blockers).toEqual([]);
+    expect(plan.patch.paragraphs?.[0].text).toBe('Use reference (ab) to be consistent, and consult reference (aa) through the portal.');
+  });
   it('does not change unrelated designators, URLs or titles containing citation-like text', () => {
     const state = source('Paragraph (b) follows reference (b). https://example.com/(b)');
     state.references[0].title = 'Reference (b) in another letter';
@@ -82,14 +107,15 @@ describe('citation discovery and reference plans', () => {
     state.formData.additionalEndorsements = [{ id: 'extra', endorsementBody: 'Use reference (a).' }];
     expect(planReferenceChange(state, [1, 0]).blockers.join(' ')).toContain('outside the supported');
   });
-  it('handles existing a0/a1 labels without inventing alphabetic labels', () => {
+  it('relabels existing a0 entries and rewrites citations in a single reviewed patch', () => {
     const state = source('Use references (a0) and (z).');
     state.docType = 'same_page_endorsement'; state.formData = { startingReferenceLetter: 'z' };
     state.references = state.references.map((ref, index) => ({ ...ref, letter: index ? 'a0' : 'z' }));
     state.copyTos = []; state.distributions = [];
     const plan = planFirstCitationOrder(state);
     expect(plan.blockers).toEqual([]);
-    expect(plan.patch.paragraphs?.[0].text).toBe('Use references (z) and (a0).');
+    expect(plan.patch.paragraphs?.[0].text).toBe('Use references (z) and (aa).');
+    expect(plan.references.map(ref => ref.letter)).toEqual(['z', 'aa']);
   });
   it('rejects duplicate labels, invalid orders and inherited/local collisions', () => {
     const state = source(); state.references[1].letter = 'a';
@@ -103,6 +129,13 @@ describe('citation discovery and reference plans', () => {
 });
 
 describe('store paths that reletter references', () => {
+  it('adds the next label after a pasted nonzero sequence and preserves legacy targets', () => {
+    useDocumentStore.setState({
+      ...source('Use reference (a0).'), formData: {}, references: [{ letter: 'z', title: 'First' }, { letter: 'a0', title: 'Second' }],
+    });
+    useDocumentStore.getState().addReference('Third');
+    expect(useDocumentStore.getState().references.map(ref => ref.letter)).toEqual(['z', 'a0', 'ab']);
+  });
   it('preserves basic and endorsement citation targets through manual reorder', () => {
     for (const [type, start, citation] of [['naval_letter', 'a', 'b'], ['same_page_endorsement', 'g', 'h']]) {
       useDocumentStore.setState({ ...source(`Follow reference (${citation}).`), docType: type,

@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.254] — 2026-11-23
+
+### Fixed
+
+- Use consistent continued reference labels in the editor, imports, and exported documents.
+
 ## [1.3.253] — 2026-11-23
 
 ### Added

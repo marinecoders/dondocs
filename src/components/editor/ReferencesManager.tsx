@@ -1,6 +1,7 @@
 import { captureDocumentScope, isCurrentDocumentScope, type DocumentScope } from '@/stores/documentsStore';
 import { reviewReferenceChange, type ReviewedReferenceChange } from '@/lib/applyReferenceChange';
 import { canReviewReferenceOrder } from '@/lib/referenceCitations';
+import { isLegacyReferenceLetter } from '@/lib/referenceLetters';
 import { ReferenceChangePreview } from './ReferenceChangePreview';
 import { memo, useCallback, useState } from 'react';
 import {
@@ -273,6 +274,8 @@ export function ReferencesManager() {
               )}
 
               <div className="flex flex-wrap gap-2 mt-2">
+                {references.some(ref => isLegacyReferenceLetter(ref.letter)) && <Button
+                  variant="outline" size="sm" onClick={() => review(references.map((_, index) => index))}>Review reference labels</Button>}
                 {references.length > 1 && canReviewReferenceOrder(useDocumentStore.getState()) && <Button
                   variant="outline" size="sm" onClick={() => review()}>Review first-citation order</Button>}
                 <Button

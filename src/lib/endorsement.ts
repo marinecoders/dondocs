@@ -8,6 +8,8 @@
  * so composing this by hand is exactly the error-prone step this removes.
  */
 
+import { referenceLetterAt, referenceLetterIndex } from './referenceLetters';
+
 // A structural subset of SerializedSession — accepting a loose shape keeps this a
 // leaf module (no dependency on the document store's types).
 export interface BasicLetterLike {
@@ -65,9 +67,7 @@ export function isEndorsement(docType: string): boolean {
  */
 export function referenceStartIndex(docType: string, startingLetter?: string): number {
   if (!isEndorsement(docType)) return 0;
-  const letter = (startingLetter ?? '').trim().toLowerCase();
-  if (!/^[a-z]$/.test(letter)) return 0;
-  return letter.charCodeAt(0) - 97;
+  return referenceLetterIndex(startingLetter ?? '') ?? 0;
 }
 
 /**
@@ -103,14 +103,11 @@ export function pageStartNumber(docType: string, startingPageNumber?: number): n
  * the source is itself an endorsement), so endorsing an endorsement keeps
  * counting rather than resetting.
  *
- * Returns '' when the source adds nothing to continue, or when the next
- * letter runs past 'z' — startingReferenceLetter holds a single a–z letter,
- * so past that there is nothing representable to suggest.
+ * Returns an empty string when the source adds nothing to continue.
  */
 export function continuationReferenceLetter(count: number, startIndex = 0): string {
-  if (!Number.isInteger(count) || count <= 0) return '';
-  const next = startIndex + count;
-  return next < 26 ? String.fromCharCode(97 + next) : '';
+  if (!Number.isSafeInteger(count) || count <= 0 || !Number.isSafeInteger(startIndex) || startIndex < 0) return '';
+  return referenceLetterAt(startIndex + count);
 }
 
 /**

@@ -32,6 +32,8 @@ describe('referenceStartIndex', () => {
     // The reg's own example: basic ran to (f), so this one starts at (g).
     expect(referenceStartIndex('same_page_endorsement', 'g')).toBe(6);
     expect(referenceStartIndex('new_page_endorsement', 'z')).toBe(25);
+    expect(referenceStartIndex('new_page_endorsement', 'aa')).toBe(26);
+    expect(referenceStartIndex('new_page_endorsement', 'a1')).toBe(27);
   });
 
   it('tolerates case and surrounding whitespace', () => {
@@ -45,8 +47,8 @@ describe('referenceStartIndex', () => {
     expect(referenceStartIndex('mfr', 'g')).toBe(0);
   });
 
-  it('falls back to 0 for anything that is not a single a–z letter', () => {
-    for (const bad of [undefined, '', '  ', '1', 'aa', '(g)', '?']) {
+  it('falls back to 0 for unsupported labels', () => {
+    for (const bad of [undefined, '', '  ', '1', '(g)', '?']) {
       expect(referenceStartIndex('same_page_endorsement', bad)).toBe(0);
     }
   });
@@ -94,10 +96,11 @@ describe('continuationReferenceLetter', () => {
     expect(continuationReferenceLetter(1.5)).toBe('');
   });
 
-  it('returns "" past (z) — the field holds a single letter', () => {
+  it('continues beyond (z), including when an earlier endorsement starts at (aa)', () => {
     expect(continuationReferenceLetter(25)).toBe('z');
-    expect(continuationReferenceLetter(26)).toBe('');
-    expect(continuationReferenceLetter(20, 10)).toBe('');
+    expect(continuationReferenceLetter(26)).toBe('aa');
+    expect(continuationReferenceLetter(20, 10)).toBe('ae');
+    expect(continuationReferenceLetter(1, 26)).toBe('ab');
   });
 });
 

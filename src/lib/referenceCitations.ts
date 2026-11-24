@@ -2,7 +2,7 @@ import type { DocumentSnapshot } from '@/stores/historyStore';
 import { DOC_TYPE_CONFIG } from '@/types/document';
 import { documentTextFields, type DocumentTextField, type FieldPath } from './documentFields';
 import { referenceStartIndex } from './endorsement';
-import { referenceLetterAt } from './referenceLetters';
+import { referenceLetterAt, referenceLetterIndex } from './referenceLetters';
 import { maskProtectedRanges, protectedCodeRanges } from './protectedCodeRanges';
 
 export type ReferenceSource = Pick<DocumentSnapshot,
@@ -31,9 +31,24 @@ export function citationProtectedRanges(text: string): Array<[number, number]> {
   return protectedSpans;
 }
 
+/** A short bare label remains suspect. Longer words need either a known
+ * label or a nearby continuation ordinal, and a plausible clause boundary. */
+function bareReferenceLabel(text: string, known?: ReadonlySet<string>, previous?: string, explicitRange = false): boolean {
+  const match = /^([a-z][a-z0-9]*)(?=$|[\s.,;:!?)\]])/i.exec(text);
+  if (!match) return false;
+  const label = match[1].toLowerCase();
+  if (/^[a-z](?:\d+)?$/.test(label)) return true;
+  const index = referenceLetterIndex(label);
+  if (index === undefined) return false;
+  const previousIndex = previous ? referenceLetterIndex(previous) : undefined;
+  const nearby = previousIndex !== undefined && index >= 26 && Math.abs(index - previousIndex) <= 26;
+  const terminal = /^[ \t]*(?:$|[.,;:!?)\]\r\n]|(?:and|or)\s+\()/i.test(text.slice(match[0].length));
+  return Boolean((known?.has(label) || nearby) && (terminal || explicitRange));
+}
+
 /** Only explicit, parenthesized ref/reference clauses are editable. A bare (a)
  * is also a paragraph designator, so it is never evidence of a citation. */
-export function scanReferenceCitations(text: string): CitationScan {
+export function scanReferenceCitations(text: string, knownLabels?: ReadonlySet<string>): CitationScan {
   const citations: Citation[] = [];
   const issues: string[] = [];
   const protectedSpans = citationProtectedRanges(text);
@@ -42,7 +57,7 @@ export function scanReferenceCitations(text: string): CitationScan {
     let cursor = match.index + match[0].length;
     const first = /^\(\s*([a-z][a-z0-9]*)\s*\)/i.exec(text.slice(cursor));
     if (!first) {
-      if (text[cursor] === '(' || /^[a-z](?:\d+)?(?:\s|[.,;:]|$)/i.test(text.slice(cursor))) {
+      if (text[cursor] === '(' || bareReferenceLabel(text.slice(cursor), knownLabels)) {
         issues.push('Use explicit citations such as reference (a); review this unsupported citation clause.');
       }
       continue;
@@ -55,13 +70,19 @@ export function scanReferenceCitations(text: string): CitationScan {
       } else citations.push({ start, end: start + token[1].length, letter: token[1].toLowerCase() });
       cursor += token[0].length;
       const suffix = text.slice(cursor);
-      if (/^\s*(?:[-–—]|through\b|to\b)\s*(?:\(|[a-z](?:\d+)?\b)/i.test(suffix)) {
+      const range = /^\s*([-–—]|through\b|to\b)\s*/i.exec(suffix);
+      const rangeValue = range ? suffix.slice(range[0].length) : '';
+      if (range && (rangeValue.startsWith('(')
+          || bareReferenceLabel(rangeValue, knownLabels, token[1], range[1].toLowerCase() !== 'to'))) {
         issues.push('A reference range needs manual review. Expand it into individual citations before changing reference letters.');
         break;
       }
       const separator = /^(?:\s*,\s*(?:(?:and|or)\s+)?|\s+(?:and|or|&)\s+)(?=\()/i.exec(suffix);
       if (!separator) {
-        if (/^\s*(?:(?:[,;]|and\b|or\b|&)\s*(?:\(|[a-z](?:\d+)?\b)|\([a-z][a-z0-9]*\))/i.test(suffix)) {
+        const list = /^\s*(?:[,;]\s*(?:(?:and|or)\s+)?|(?:and\b|or\b|&)\s*)/i.exec(suffix);
+        const item = list ? suffix.slice(list[0].length) : '';
+        if ((list && (item.startsWith('(') || bareReferenceLabel(item, knownLabels, token[1])))
+            || /^\s*\([a-z][a-z0-9]*\)/i.test(suffix)) {
           issues.push('A reference list has unsupported separators or unparenthesized labels. Use explicit individual citations before changing reference letters.');
         }
         break;
@@ -102,7 +123,8 @@ function editableField(field: DocumentTextField): boolean {
     || field.path[0] === 'formData' && field.path[1] === 'via');
 }
 function inherited(letter: string, offset: number): boolean {
-  return /^[a-z]$/.test(letter) && letter.charCodeAt(0) - 97 < offset;
+  const index = referenceLetterIndex(letter);
+  return index !== undefined && index < offset;
 }
 function replaceAtPath<T extends object>(source: T, path: FieldPath, text: string): T {
   const result = (Array.isArray(source) ? [...source] : { ...source }) as T;
@@ -125,6 +147,7 @@ export function planReferenceChange(source: ReferenceSource, order: readonly num
     ? [{ ...source.references[index], letter: referenceLetterAt(position + offset) }] : []);
   const mapping = new Map(order.map((index, position) => [source.references[index]?.letter.toLowerCase(), references[position]?.letter]));
   const oldLabels = source.references.map(ref => ref.letter.toLowerCase());
+  const knownLabels = new Set(oldLabels);
   if (new Set(oldLabels).size !== oldLabels.length || oldLabels.some(letter => !/^[a-z][a-z0-9]*$/.test(letter))) {
     blockers.push('Reference labels are duplicated or unsupported. Correct the list before changing its order.');
   }
@@ -137,8 +160,9 @@ export function planReferenceChange(source: ReferenceSource, order: readonly num
   // must restore the same citation targets, including endorsement offsets.
   if (changed && canTrackReferenceCitations(source)) {
     const oldOffset = referenceStartIndex(source.docType, source.formData.startingReferenceLetter);
+    const newIndices = new Set(references.map(ref => referenceLetterIndex(ref.letter)));
     for (const field of citationFields(source)) {
-      const scan = scanReferenceCitations(field.text);
+      const scan = scanReferenceCitations(field.text, knownLabels);
       blockers.push(...scan.issues.map(issue => `${field.label}: ${issue}`));
       for (const marker of field.text.matchAll(/\(\s*([a-z][a-z0-9]*)\s*\)/gi)) {
         const start = marker.index + marker[0].indexOf(marker[1]);
@@ -147,7 +171,7 @@ export function planReferenceChange(source: ReferenceSource, order: readonly num
         if (/(?:paragraphs?|paras?\.?|subparagraphs?|sections?|enclosures?|portions?)\s*$/i.test(before)) continue;
         if (/(?:https?:\/\/|mailto:)\S*$/i.test(before)) continue;
         const label = marker[1].toLowerCase();
-        if (inherited(label, oldOffset) && references.some(ref => ref.letter === label)) {
+        if (inherited(label, oldOffset) && newIndices.has(referenceLetterIndex(label))) {
           blockers.push(`${field.label}: bare (${marker[1]}) may cite an inherited reference that would overlap the new local sequence. Identify its target before changing reference letters.`);
         }
         if (oldLabels.includes(marker[1].toLowerCase()) || /^(?:[a-z]{1,2}|a\d+)$/i.test(marker[1]) && !inherited(marker[1].toLowerCase(), oldOffset)) {
@@ -159,7 +183,7 @@ export function planReferenceChange(source: ReferenceSource, order: readonly num
         const local = oldLabels.includes(citation.letter);
         const next = mapping.get(citation.letter);
         if (!local && inherited(citation.letter, oldOffset)) {
-          if (references.some(ref => ref.letter === citation.letter)) blockers.push(`${field.label}: inherited reference (${citation.letter}) would overlap the new local sequence. Keep inherited and local letters separate.`);
+          if (newIndices.has(referenceLetterIndex(citation.letter))) blockers.push(`${field.label}: inherited reference (${citation.letter}) would overlap the new local sequence. Keep inherited and local letters separate.`);
           continue;
         }
         if (!local) { blockers.push(`${field.label}: reference (${citation.letter}) is not in this list. Identify its target before changing reference letters.`); continue; }
@@ -187,10 +211,11 @@ export function planFirstCitationOrder(source: ReferenceSource): ReferenceChange
   const order: number[] = [];
   const blockers: string[] = [];
   const offset = referenceStartIndex(source.docType, source.formData.startingReferenceLetter);
+  const knownLabels = new Set(source.references.map(ref => ref.letter.toLowerCase()));
   const fields = citationFields(source).filter(bodyField).sort((a, b) => Number(a.path[1]) - Number(b.path[1])
     || (a.path[2] === 'header' ? -1 : b.path[2] === 'header' ? 1 : 0));
   for (const field of fields) {
-    const scan = scanReferenceCitations(field.text);
+    const scan = scanReferenceCitations(field.text, knownLabels);
     blockers.push(...scan.issues.map(issue => `${field.label}: ${issue}`));
     for (const citation of scan.citations) {
       const index = source.references.findIndex(ref => ref.letter.toLowerCase() === citation.letter);
