@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.273] — 2026-11-23
+
+### Fixed
+
+- Validate the complete phone, DSN, or email value in the unclassified message draft.
+
 ## [1.3.272] — 2026-11-23
 
 ### Changed

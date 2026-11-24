@@ -1,3 +1,5 @@
+import { z } from 'zod';
+
 export const GENADMIN_FORMAT_SOURCE =
   'https://www.netc.navy.mil/Portals/46/NETC/staff%20inst/23001G.pdf';
 
@@ -37,6 +39,28 @@ const MULTILINE_VALUE = /^[ -~\n]*$/;
 const ADDRESS = /^[A-Za-z0-9 .&(),'-]+$/;
 const OFFICE_CODE = /^[A-Z0-9-]+$/;
 const ROUTING_PREFIX = /^(?:FM|TO|INFO|UNCLAS|BT)(?: |$)/i;
+const EMAIL = z.email({ pattern: z.regexes.html5Email });
+const SEVEN_DIGIT_PHONE = /^\d{3}[ .-]?\d{4}$/;
+const TEN_DIGIT_PHONE = /^(?:\(\d{3}\)|\d{3})[ .-]?\d{3}[ .-]?\d{4}$/;
+const INTERNATIONAL_PHONE = /^\+[1-9]\d*(?:[ .-]\d+)*$/;
+
+function isContact(value: string): boolean {
+  const phone = value.replace(/^(?:TEL|COMM) *: */, '');
+  const email = value.replace(/^EMAIL *: */, '').replace('(AT)', '@');
+  if (email.includes('@')) {
+    const [local, domain] = email.split('@');
+    return EMAIL.safeParse(email).success && local.length <= 64
+      && !local.startsWith('.') && !local.endsWith('.') && !local.includes('..') && domain.includes('.');
+  }
+  const dsn = /^DSN(?: +| *: *)(.+)$/.exec(phone);
+  if (dsn) return SEVEN_DIGIT_PHONE.test(dsn[1]) || TEN_DIGIT_PHONE.test(dsn[1]);
+  if (SEVEN_DIGIT_PHONE.test(phone) || TEN_DIGIT_PHONE.test(phone)) return true;
+  if (/^\+?1[ .-]?/.test(phone) && TEN_DIGIT_PHONE.test(phone.replace(/^\+?1[ .-]?/, ''))) return true;
+  if (!INTERNATIONAL_PHONE.test(phone)) return false;
+  const digits = phone.replace(/\D/g, '');
+  // A +1 number still needs a complete North American number.
+  return digits[0] !== '1' && digits.length >= 7 && digits.length <= 15;
+}
 
 function isAddress(value: string): boolean {
   return ADDRESS.test(value) && /[A-Z0-9]/i.test(value) && !ROUTING_PREFIX.test(value);
@@ -111,11 +135,11 @@ export function prepareGenadmin(draft: GenadminDraft): DraftResult {
   const contactName = header('contactName', 'the contact name');
   const contactRank = header('contactRank', 'the contact rank or title');
   const contactOffice = header('contactOffice', 'the contact office');
-  const contactDetails = header('contactDetails', 'a phone number or email').replaceAll('@', '(AT)');
-  if (contactDetails && !issues.contactDetails
-    && !/\d{3}/.test(contactDetails) && !/[^\s]+\(AT\)[^\s]+/.test(contactDetails)) {
-    issues.contactDetails = 'Enter a phone number or email address.';
+  const contact = header('contactDetails', 'a phone number or email');
+  if (contact && !issues.contactDetails && !isContact(contact)) {
+    issues.contactDetails = 'Enter one phone number, DSN number, or email address.';
   }
+  const contactDetails = contact.replaceAll('@', '(AT)');
 
   const remarks = normalize(draft.remarks);
   if (!remarks) issues.remarks = 'Enter the remarks.';
