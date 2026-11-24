@@ -11,6 +11,7 @@ import { configSchema } from '../companion/defaults';
 import { parseDraftFile } from '../src/lib/draftFile';
 import { exampleSession } from '../src/lib/exampleSession';
 import { EXAMPLE_DOCUMENTS } from '../src/data/exampleDocuments';
+import { resolveCapabilities } from '../src/lib/documentCapabilities';
 import { DOC_TYPE_CONFIG, FORM_TYPE_LABELS } from '../src/types/document';
 import { DOCUMENT_TYPE_GUIDES } from '../src/data/documentGuide';
 import { LETTER_TEMPLATES } from '../src/data/templates';
@@ -24,6 +25,21 @@ function check(label: string, work: () => void) {
 check('form schema', () => {
   const generated = JSON.stringify(z.toJSONSchema(formDefinitionSchema), null, 2) + '\n';
   if (read('docs/form-definition.schema.json') !== generated) throw new Error('stale; regenerate with npm run form-package -- schema docs/form-definition.schema.json');
+});
+
+check('README technical publication outputs', () => {
+  const publicationTypes = Object.keys(DOC_TYPE_CONFIG).filter(type => DOC_TYPE_CONFIG[type].publication);
+  const hasOutput = (docType: string, target: 'pdf' | 'docx') => {
+    const { status } = resolveCapabilities({ kind: 'correspondence', docType, documentMode: 'compliant' }, { operation: 'export', target });
+    return status === 'supported' || status === 'partial';
+  };
+  const formats: string[] = [];
+  for (const [target, label] of [['pdf', 'PDF'], ['docx', 'editable Word']] as const) {
+    const count = publicationTypes.filter(type => hasOutput(type, target)).length;
+    if (count) formats.push(count === publicationTypes.length ? label : `${label} for some formats`);
+  }
+  const output = read('README.md').match(/^\| Technical publications \| [^|\n]+ \| ([^|\n]+) \|$/m)?.[1];
+  if (output !== formats.join(', ')) throw new Error(`expected “${formats.join(', ')}” in the document types table; see docs/CAPABILITIES.md`);
 });
 
 // A scoped repository checker: inline/reference destinations, GitHub-style

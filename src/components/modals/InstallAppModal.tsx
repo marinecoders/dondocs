@@ -152,8 +152,9 @@ export function InstallAppModal() {
             Install DonDocs
           </DialogTitle>
           <DialogDescription>
-            Installs straight from this page — no app store, no account, and
-            nothing leaves your device. You get a real app icon.
+            Install from this page without an app store or account.
+            Document editing and browser exports run on your device.
+            The public DonDocs site uses Cloudflare Web Analytics.
           </DialogDescription>
         </DialogHeader>
         {body}
