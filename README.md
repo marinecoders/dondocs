@@ -2,7 +2,7 @@
 
 [![AGPL v3 License](https://img.shields.io/badge/License-AGPL_v3-blue.svg)](LICENSE)
 
-Write naval correspondence, prepare technical publications and fill service forms in your browser. DonDocs handles the layout and produces PDFs, with Word export for correspondence. Layouts are based on SECNAV M-5216.5 and the applicable Marine Corps guidance listed in the [reference guide](docs/REFERENCES.md).
+Write naval correspondence, prepare technical publications and fill service forms in your browser. DonDocs handles the layout and produces PDFs, with editable Word export for correspondence and technical publications. Layouts are based on SECNAV M-5216.5 and the applicable Marine Corps guidance listed in the [reference guide](docs/REFERENCES.md).
 
 [Open DonDocs](https://dondocs.marines.dev) · [User guide](docs/USER_GUIDE.md) · [Documentation](docs/README.md)
 
@@ -21,7 +21,7 @@ On mobile, open the workspace menu to reach the sidebar tools.
 | Family | Examples | Output |
 |---|---|---|
 | Correspondence | Naval and business letters, memoranda, endorsements, MOA/MOU and executive formats | PDF, Word |
-| Technical publications | I-Type MI/TI/SI/LI, SL-3, SL-4 and TM/IETM front matter | PDF |
+| Technical publications | I-Type MI/TI/SI/LI, SL-3, SL-4, TM/IETM front matter and Technical Volumes | PDF, editable Word |
 | Built-in forms | NAVMC 10274 and NAVMC 118(11) | PDF |
 
 TM/IETM output provides front matter, including cover and authentication pages. For publication fields and examples, see the [technical-publication guide](docs/TECHNICAL_PUBLICATIONS.md). Additional static forms can be added through [reviewed form packages](docs/FORM_TEMPLATES.md).
@@ -43,9 +43,9 @@ Use `Ctrl/Cmd+K` to find commands. **Help → Keyboard shortcuts** lists the oth
 
 Drafts autosave in this browser and appear in **Recents**. Search, pin, rename or duplicate a draft, and use **History** to compare or restore earlier revisions. Removed drafts go to **Trash** until you restore or permanently delete them.
 
-**Save checkpoint** keeps a manual local copy. Export a draft JSON file to move an editable document to another browser, or create a password-protected share link for a text snapshot. Share links omit attachments and signature images, cannot be revoked, and do not change when you edit the original.
+**Save checkpoint** keeps a manual local copy. Export a draft JSON file to move an editable document to another browser, or create a password-protected share link for a snapshot. Current native shares include required attachments, figures and signature images. Configured-form shares include the exact blank template pages. If a copy exceeds the link limit, download an encrypted share file. Shared snapshots cannot be revoked or updated after sending. See [password-protected sharing](docs/USER_GUIDE.md#password-protected-sharing).
 
-Workspace backups include saved documents, Trash, history, profiles, snippets, user templates and referenced assets. Batch jobs/results, UI preferences and blank form PDFs are excluded. Draft and backup JSON files are unencrypted. Before restoring, read the [merge and replacement rules](docs/STORAGE.md#backups).
+Workspace backups include saved documents, Trash, history, profiles, snippets, user templates and referenced assets. For saved configured forms, they also include the form definitions and exact blank template pages. Batch jobs and results, UI preferences and the app's bundled built-in form PDFs are excluded. Draft and backup JSON files are unencrypted. Before restoring, read the [merge and replacement rules](docs/STORAGE.md#backups).
 
 Browser storage can be cleared or evicted. Keep an external backup of work you need to retain.
 

@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.272] — 2026-11-23
+
+### Changed
+
+- Clarify which assets are shared or backed up and describe supported Word exports and installation behavior.
+
 ## [1.3.271] — 2026-11-23
 
 ### Added

@@ -123,6 +123,22 @@ test('a fresh offline recipient opens native assets from an encrypted file witho
   await expect(outgoing.locator('#generated-share-link')).toBeVisible();
   const link = await outgoing.locator('#generated-share-link').inputValue();
   expect(link.length).toBeLessThanOrEqual(8000);
+  const linkRecipient = await browser.newContext({ serviceWorkers: 'block', viewport: page.viewportSize()!,
+    userAgent: await page.evaluate(() => navigator.userAgent), isMobile: !!testInfo.project.use.isMobile,
+    hasTouch: !!testInfo.project.use.hasTouch });
+  try {
+    await linkRecipient.addInitScript(() => localStorage.setItem('browser-test-visitor', 'returning'));
+    const receiving = await linkRecipient.newPage();
+    await receiving.goto(link);
+    const incoming = receiving.getByRole('dialog', { name: 'Open shared document', exact: true });
+    await incoming.getByLabel('Password', { exact: true }).fill('synthetic-password');
+    await incoming.getByRole('button', { name: 'Decrypt and review', exact: true }).click();
+    await expect(incoming).toContainText('attachments passed their size, type and checksum checks');
+    await incoming.getByRole('button', { name: 'Open as new document', exact: true }).click();
+    await expect(incoming).toBeHidden();
+    const restored = await exportDraft(receiving);
+    expect(Buffer.from(restored.enclosures[0].file.data, 'base64')).toEqual(bytes);
+  } finally { await linkRecipient.close(); }
   const pending = page.waitForEvent('download');
   await outgoing.getByRole('button', { name: 'Download encrypted share file', exact: true }).click();
   const filePath = testInfo.outputPath('offline-encrypted-share.json');

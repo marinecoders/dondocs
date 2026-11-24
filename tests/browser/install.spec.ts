@@ -68,6 +68,8 @@ test('Help install opens usable browser-specific instructions without a native p
   await openInstallFromHelp(page);
   const dialog = installDialog(page);
   await expect(dialog).toBeVisible();
+  await expect(dialog).toContainText('Document editing and browser exports run on your device.');
+  await expect(dialog).toContainText('The public DonDocs site uses Cloudflare Web Analytics.');
   const project = testInfo.project.name;
   if (project === 'firefox') {
     await expect(dialog).toContainText('keep using it right here');
