@@ -11,7 +11,8 @@ export function templateSession(template: LetterTemplate, profile: Partial<Docum
   const body = volume ? freshVolumeContent(volume, template.paragraphs.map(paragraph => ({ ...paragraph, volumeSectionId: volume.chapters[0].sections[0].id }))) : undefined;
   return {
     documentMode: 'compliant', documentCategory: 'correspondence', docType: template.docType, formType: 'navmc_10274',
-    formData: { fontSize: '12pt', fontFamily: 'times', pageNumbering: 'none', ...profile, ...(template.docType === 'executive_correspondence' ? template.correspondenceDefaults : {}), docType: template.docType,
+    formData: { fontSize: '12pt', fontFamily: 'times', pageNumbering: 'none',
+      ...(template.useProfileDefaults === false ? {} : profile), ...template.correspondenceDefaults, docType: template.docType,
       ...(body ? { volume: body.volume, signatureType: 'none' as const } : {}),
       ...(template.publicationType ? { publicationType: template.publicationType } : {}),
       ...(template.manualFrontMatter ? { manualFrontMatter: structuredClone(template.manualFrontMatter), signatureType: 'digital' as const, fontSize: '10pt' } : {}),

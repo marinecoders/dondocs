@@ -22,10 +22,13 @@ export interface LetterTemplate {
   /** Built-in correspondence defaults; never contains signer identity or binary assets. */
   correspondenceDefaults?: {
     fontSize?: '12pt'; fontFamily?: 'times';
+    pageNumbering?: 'simple';
     stationerySize?: 'letter' | '7x9' | '5x7';
     letterheadMode?: 'full' | 'title-only' | 'preprinted';
-    to?: string; salutation?: string; complimentaryClose?: string;
+    from?: string; to?: string; salutation?: string; complimentaryClose?: string;
   };
+  /** A personal statement starts without command profile fields. */
+  useProfileDefaults?: false;
   manualFigure?: { number: string; pdfPage: number };
   manualFrontMatter?: ManualFrontMatter;
   id: string;

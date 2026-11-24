@@ -7,6 +7,7 @@ import {
   pftWaiver,
   humanitarianTransfer,
 } from './personnel';
+import { page11Rebuttal } from './personnel/page-11-rebuttal';
 
 // Awards
 import {
@@ -45,6 +46,7 @@ export const LETTER_TEMPLATES: LetterTemplate[] = [
   // Personnel
   pftWaiver,
   humanitarianTransfer,
+  page11Rebuttal,
   // Awards
   awardNam,
   awardLoa,
