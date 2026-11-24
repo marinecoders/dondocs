@@ -35,6 +35,35 @@ describe('prepareGenadmin', () => {
     ].join('\n') });
   });
 
+  it.each([
+    ['(202) 555-0100', '(202) 555-0100'],
+    ['+1 (202) 555-0100', '+1 (202) 555-0100'],
+    ['+44 20 7946 0958', '+44 20 7946 0958'],
+    ['dsn: 555-0100', 'DSN: 555-0100'],
+    ['DSN (312) 555-0100', 'DSN (312) 555-0100'],
+    ['555-0100', '555-0100'],
+    ['pat+mail@example.invalid', 'PAT+MAIL(AT)EXAMPLE.INVALID'],
+    ['pat(at)us.navy.mil', 'PAT(AT)US.NAVY.MIL'],
+    ['TEL: (202) 555-0100', 'TEL: (202) 555-0100'],
+    ['COMM: 202-555-0100', 'COMM: 202-555-0100'],
+    ['TEL: DSN 555-0100', 'TEL: DSN 555-0100'],
+    ['Email: pat@example.invalid', 'EMAIL: PAT(AT)EXAMPLE.INVALID'],
+  ])('accepts a complete contact value %s', (contactDetails, printed) => {
+    expect(prepareGenadmin({ ...complete, contactDetails }).text).toContain(`TRAINING OFFICE/${printed}//`);
+  });
+
+  it.each([
+    'ABC123XYZ', 'call 202-555-0100', '202-555-0100 ASAP', '555-010', 'DSN555-0100',
+    'DSN: 555', '+1 555-0100', '+0044 20 7946 0958', 'pat(at)example', 'pat@example..invalid',
+    'pat..example@example.invalid', 'pat@-example.invalid', 'pat@example.invalid. extra',
+    'pat@example.invalid 202-555-0100',
+    'TEL: ABC123XYZ', 'EMAIL: 202-555-0100', 'COMM: pat@example.invalid',
+  ])('rejects an incomplete or mixed contact value %s', contactDetails => {
+    expect(prepareGenadmin({ ...complete, contactDetails })).toEqual({
+      issues: { contactDetails: 'Enter one phone number, DSN number, or email address.' },
+    });
+  });
+
   it('places optional routing and references in source order and selects AMPN or NARR', () => {
     const draft = {
       ...complete, info: 'record office quantico va\nliaison quantico va',

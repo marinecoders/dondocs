@@ -47,6 +47,25 @@ test('validates, previews and downloads an AMHS draft without replacing the acti
   ]) {
     await dialog.getByLabel(label, { exact: true }).fill(value);
   }
+  const contact = dialog.getByLabel('Phone or email', { exact: true });
+  await contact.fill('ABC123XYZ');
+  const attemptedDownloads: string[] = [];
+  page.on('download', event => attemptedDownloads.push(event.suggestedFilename()));
+  await download.click();
+  await expect(contact).toBeFocused();
+  await expect(dialog.getByText('Enter one phone number, DSN number, or email address.', { exact: true })).toBeVisible();
+  await expect(dialog.getByLabel('Message preview')).toHaveValue('');
+  for (const [value, printed] of [
+    ['(202) 555-0100', '(202) 555-0100'], ['DSN 555-0100', 'DSN 555-0100'],
+    ['TEL: DSN 555-0100', 'TEL: DSN 555-0100'], ['COMM: (202) 555-0100', 'COMM: (202) 555-0100'],
+    ['Email: pat@example.invalid', 'EMAIL: PAT(AT)EXAMPLE.INVALID'],
+    ['pat@example.invalid', 'PAT(AT)EXAMPLE.INVALID'],
+  ]) {
+    await contact.fill(value);
+    expect(await dialog.getByLabel('Message preview').inputValue()).toContain(`TRAINING OFFICE/${printed}//`);
+  }
+  expect(attemptedDownloads).toEqual([]);
+
   await dialog.getByText('Office routing and references (optional)', { exact: true }).click();
   const references = dialog.getByLabel('Document references');
   await references.fill('Training guide | 31APR2026');

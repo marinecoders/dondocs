@@ -119,7 +119,7 @@ export default function AmhsMessageDialog({
               {field('contactName', 'Name')}
               {field('contactRank', 'Rank or title')}
               {field('contactOffice', 'Contact office')}
-              {field('contactDetails', 'Phone or email')}
+              {field('contactDetails', 'Phone or email', { help: 'Enter a phone number, DSN number, or email address.' })}
             </div>
           </fieldset>
           <details className="rounded-md border p-3">
