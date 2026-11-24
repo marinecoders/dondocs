@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { readFile } from 'node:fs/promises';
-import { PDFBool, PDFDict, PDFDocument, PDFName, PDFRawStream, PDFString } from 'pdf-lib';
+import { degrees, PDFBool, PDFDict, PDFDocument, PDFName, PDFRawStream, PDFString } from 'pdf-lib';
 import { assertAssemblyPagesReadable, inspectAssemblyPdf, loadAssemblyPdf, PROTECTED_PDF_LIMITS } from '@/services/pdf/assemblyPdf';
 import { PDF_RESOURCE_LIMITS } from '@/services/pdf/validatePdfResources';
 import { assembleEndorsement, validateBasicLetter } from '@/services/pdf/assembleEndorsement';
@@ -38,6 +38,13 @@ async function annotatedPdf(flags = 4, subtype = 'Stamp'): Promise<Uint8Array<Ar
   return new Uint8Array(await pdf.save());
 }
 
+function mockPdfJsPages(numPages: number) {
+  mocks.getDocument.mockImplementation(() => ({ destroy: mocks.destroy, promise: Promise.resolve({ getMetadata: async () => ({ info: { IsXFAPresent: false } }), numPages,
+    getPage: async () => ({ getAnnotations: async () => [], cleanup: mocks.cleanup, getOperatorList: async () => ({ fnArray: [], argsArray: [] }),
+      getViewport: ({ scale }: { scale: number }) => ({ width: 612 * scale, height: 792 * scale }), render: mocks.render }),
+  }) }));
+}
+
 beforeEach(async () => {
   vi.restoreAllMocks();
   Object.values(mocks).forEach(mock => mock.mockReset());
@@ -46,10 +53,7 @@ beforeEach(async () => {
   const png = await fixture('red.png');
   vi.spyOn(HTMLCanvasElement.prototype, 'getContext').mockReturnValue({} as CanvasRenderingContext2D);
   vi.spyOn(HTMLCanvasElement.prototype, 'toBlob').mockImplementation(callback => callback(new Blob([png], { type: 'image/png' })));
-  mocks.getDocument.mockImplementation(() => ({ destroy: mocks.destroy, promise: Promise.resolve({ getMetadata: async () => ({ info: { IsXFAPresent: false } }), numPages: 2,
-    getPage: async () => ({ getAnnotations: async () => [], cleanup: mocks.cleanup, getOperatorList: async () => ({ fnArray: [], argsArray: [] }),
-      getViewport: ({ scale }: { scale: number }) => ({ width: 612 * scale, height: 792 * scale }), render: mocks.render }),
-  }) }));
+  mockPdfJsPages(2);
 });
 
 describe('protected PDF assembly', () => {
@@ -207,7 +211,7 @@ describe('protected PDF assembly', () => {
     expect(bytes).toEqual(original);
   });
 
-  it('retains real DonDocs unsigned signature fields, including ones without an appearance', async () => {
+  it('keeps vector content when an imported unsigned DonDocs widget has nothing to print', async () => {
     const source = await addSignatureField(await fixture('source.pdf'));
     for (const removeAppearance of [false, true]) {
       const pdf = await PDFDocument.load(source);
@@ -218,7 +222,9 @@ describe('protected PDF assembly', () => {
       if (removeAppearance) signature.delete(PDFName.of('AP'));
       const bytes = new Uint8Array(await pdf.save());
       expect(await validateBasicLetter(bytes)).toMatchObject({ ok: true, pageCount: 2 });
-      expect((await assembleEndorsement(await fixture('source.pdf'), bytes)).ok).toBe(true);
+      const assembled = await assembleEndorsement(await fixture('source.pdf'), bytes);
+      expect(assembled.ok).toBe(true);
+      expect((await PDFDocument.load(assembled.pdfBytes)).getPage(0).node.Annots()?.size() ?? 0).toBe(0);
     }
     expect(mocks.getDocument).not.toHaveBeenCalled();
   });
@@ -253,13 +259,16 @@ describe('protected PDF assembly', () => {
     expect(mocks.getDocument).not.toHaveBeenCalled();
   });
 
-  it('keeps printable basic-letter annotations on the vector-copy path', async () => {
-    const bytes = await annotatedPdf(), main = await fixture('source.pdf');
-    expect(await validateBasicLetter(bytes)).toMatchObject({ ok: true, pageCount: 1 });
+  it('renders printable basic-letter annotations as a separate static derivative', async () => {
+    mockPdfJsPages(1);
+    const bytes = await annotatedPdf(), main = await fixture('source.pdf'), original = bytes.slice();
+    expect(await validateBasicLetter(bytes)).toMatchObject({ ok: true, pageCount: 1, pageImages: true, imageCopyReason: 'annotations' });
     const assembled = await assembleEndorsement(main, bytes);
     expect(assembled.ok).toBe(true);
-    expect((await PDFDocument.load(assembled.pdfBytes)).getPage(0).node.Annots()?.size()).toBe(1);
-    expect(mocks.getDocument).not.toHaveBeenCalled();
+    const output = await PDFDocument.load(assembled.pdfBytes);
+    expect(output.getPage(0).node.Annots()?.size() ?? 0).toBe(0);
+    expect(mocks.render).toHaveBeenCalledWith(expect.objectContaining({ intent: 'print' }));
+    expect(bytes).toEqual(original);
   });
 
   for (const [flags, subtype] of [[0, 'Stamp'], [5, 'Stamp'], [6, 'Stamp'], [4, 'Link']] as const) {
@@ -270,6 +279,47 @@ describe('protected PDF assembly', () => {
       expect(mocks.getDocument).not.toHaveBeenCalled();
     });
   }
+
+  it('copies visual page geometry without imported annotation objects', async () => {
+    const upload = await PDFDocument.load(await annotatedPdf(0));
+    const page = upload.getPage(0);
+    page.setRotation(degrees(90));
+    page.setCropBox(12, 18, 450, 650);
+    const original = new Uint8Array(await upload.save());
+    const owned = original.slice();
+    const main = await addSignatureField(await fixture('source.pdf'));
+    const enclosure = { number: 1, title: 'Reviewed attachment', data: owned.buffer };
+    const results = [
+      { result: await assembleEndorsement(main, owned), sourcePage: 0, preservesGeometry: true },
+      { result: await mergeEnclosures(main, [enclosure]), sourcePage: 2, preservesGeometry: false },
+      { result: await mergeEnclosures(main, [enclosure], undefined, false, [], { preserveReplacementPages: true }), sourcePage: 2, preservesGeometry: true },
+    ];
+    for (const { result, sourcePage, preservesGeometry } of results) {
+      const pdf = await PDFDocument.load(result.pdfBytes);
+      expect(pdf.getPageCount()).toBe(3);
+      const copied = pdf.getPage(sourcePage);
+      expect(copied.node.Annots()?.size() ?? 0).toBe(0);
+      expect(pdf.context.enumerateIndirectObjects().some(([, object]) => object instanceof PDFDict
+        && object.lookup(PDFName.of('Subtype')) === PDFName.of('Stamp'))).toBe(false);
+      if (preservesGeometry) {
+        expect(copied.getRotation().angle).toBe(90);
+        expect(copied.getCropBox()).toEqual({ x: 12, y: 18, width: 450, height: 650 });
+      }
+      expect(pdf.getPages().some(outputPage => (outputPage.node.Annots()?.size() ?? 0) > 0)).toBe(true);
+    }
+    expect(await PDFDocument.load(owned).then(pdf => pdf.getPage(0).node.Annots()?.size())).toBe(1);
+    expect(owned).toEqual(original);
+    expect(mocks.getDocument).not.toHaveBeenCalled();
+  });
+
+  it('rejects a file descriptor where the visual resource graph should contain page data', async () => {
+    const pdf = await PDFDocument.load(await fixture('source.pdf'));
+    const resource = pdf.context.register(pdf.context.obj({ Type: 'Filespec' }));
+    pdf.getPage(0).node.Resources()!.set(PDFName.of('SyntheticResource'), resource);
+    const bytes = new Uint8Array(await pdf.save()), original = bytes.slice();
+    await expect(inspectAssemblyPdf(bytes)).rejects.toThrow(/unsupported interactive page resources/);
+    expect(bytes).toEqual(original);
+  });
 
   it('rejects a corrupt nested Form XObject at every attachment and assembly boundary', async () => {
     const bytes = await nestedForm(true), original = bytes.slice(), main = await fixture('source.pdf');
