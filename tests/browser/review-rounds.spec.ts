@@ -88,9 +88,16 @@ for (const theme of ['light', 'dark', 'classic']) {
     await closeReviewRounds(modal);
 
     await page.getByLabel('Document section', { exact: true }).selectOption('addressing');
+    const subject = page.getByRole('textbox', { name: 'Subject', exact: true });
     for (let index = 0; index < 11; index++) {
-      await page.getByRole('textbox', { name: 'Subject', exact: true }).fill(`LATER AUTHOR WORK ${theme} ${index}`);
+      const title = `LATER AUTHOR WORK ${theme} ${index}`;
+      await subject.press('ControlOrMeta+a');
+      await subject.pressSequentially(title);
+      await subject.blur();
+      await expect(subject).toHaveValue(title);
+      await expect(page.getByRole('button', { name: title, exact: true })).toBeVisible();
       await actions(page, /^Save checkpoint/);
+      await expect(page.getByRole('menu')).toBeHidden();
     }
     await expect.poll(async () => page.evaluate(async id => {
       const db = await new Promise<IDBDatabase>((resolve, reject) => { const request = indexedDB.open('dondocs');request.onsuccess = () => resolve(request.result);request.onerror = () => reject(request.error); });

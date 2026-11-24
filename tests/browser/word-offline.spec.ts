@@ -117,11 +117,12 @@ test('keeps Word resources off the PDF path and exports actual DOCX after offlin
     expect(xml).toContain(subject);
     expect(xml).toContain(paragraph);
 
-    // Firefox can leave an existing document offline after emulated
-    // reconnection. Keep this context's cache, then open a fresh online tab.
-    await page.close();
+    // Firefox needs a fresh document after reconnection. Keep a tab open
+    // during the handoff in Chromium, where Edge can exit with its last tab.
+    if (browserName === 'firefox') await page.close();
     await context.setOffline(false);
     const repairPage = await context.newPage();
+    if (!page.isClosed()) await page.close();
     // Suspend background repair before the updater starts so that Settings
     // fetches the evicted part on demand through the real worker.
     if (installedRelease) await repairPage.addInitScript(() => {
