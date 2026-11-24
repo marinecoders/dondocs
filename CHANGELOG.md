@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.264] — 2026-11-23
+
+### Added
+
+- Provide a rebuttal starter with reviewed structure and preserve its defaults in the companion.
+
 ## [1.3.263] — 2026-11-23
 
 ### Added

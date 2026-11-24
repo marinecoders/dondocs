@@ -1,4 +1,11 @@
-import { captureDocumentTarget, isCurrentDocumentTarget } from '@/stores/documentsStore';
+import {
+  captureDocumentScope,
+  captureDocumentTarget,
+  commitCurrentDocument,
+  isCurrentDocumentScope,
+  isCurrentDocumentTarget,
+  openSessionAsNew,
+} from '@/stores/documentsStore';
 import { useEffect, useState } from 'react';
 import { Trash2, AlertTriangle } from 'lucide-react';
 import { Label } from '@/components/ui/label';
@@ -23,7 +30,9 @@ import type { FormSignatureBlock } from '@/types/signature';
 import { useProfileStore } from '@/stores/profileStore';
 import { abbreviatedSignatoryName } from '@/lib/signatoryName';
 import { standardSignaturePair } from '@/lib/signaturePresets';
-import { showAppConfirm } from '@/stores/alertStore';
+import { showAppAlert, showAppConfirm } from '@/stores/alertStore';
+import { page11Rebuttal } from '@/data/templates/personnel/page-11-rebuttal';
+import { templateSession } from '@/lib/templateSession';
 import {
   computeNavmc11811Fit,
   type Navmc11811Fit,
@@ -53,6 +62,28 @@ const COMMON_FORM_VARS = ['NAME', 'DATE'];
 
 export function Form11811Section() {
   const { navmc11811, setNavmc11811Field } = useFormStore();
+  const [openingRebuttal, setOpeningRebuttal] = useState(false);
+  const startRebuttal = async () => {
+    const scope = captureDocumentScope();
+    if (!scope || openingRebuttal) return;
+    setOpeningRebuttal(true);
+    try {
+      const receipt = await commitCurrentDocument();
+      if (!receipt || !isCurrentDocumentScope(scope)) return;
+      if (openSessionAsNew(templateSession(page11Rebuttal)) !== 'applied') {
+        throw new Error("Couldn't open the rebuttal draft. Try again.");
+      }
+    } catch (error) {
+      if (isCurrentDocumentScope(scope)) {
+        showAppAlert({
+          title: "Couldn't start the rebuttal",
+          message: error instanceof Error ? error.message : 'Try again with the Page 11 open.',
+        });
+      }
+    } finally {
+      setOpeningRebuttal(false);
+    }
+  };
   // The counselor's initials + SURNAME from the active profile — the counselor
   // is usually the person at the app, so offer their name as a one-click fill
   // (never written silently), the same as the AA form's originator.
@@ -291,6 +322,9 @@ export function Form11811Section() {
               The form is a single page — text does not flow between columns, and
               anything past a column&apos;s last printed line is left off the PDF.
             </p>
+            <Button type="button" variant="outline" size="sm" disabled={openingRebuttal} onClick={startRebuttal}>
+              {openingRebuttal ? 'Saving Page 11…' : 'Save and start rebuttal'}
+            </Button>
           </AccordionContent>
         </AccordionItem>
 

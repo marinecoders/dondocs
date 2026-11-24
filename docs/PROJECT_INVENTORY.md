@@ -6,7 +6,7 @@ Generated with `npm run docs:inventory` from registries, bundled datasets and fi
 |---|---:|
 | Configured formats (including aliases exposed by the app) | 33 |
 | Built-in forms | 2 |
-| Content templates | 24 |
+| Content templates | 25 |
 | References | 135 |
 | Units | 3,145 |
 | Office codes | 74 |
@@ -24,6 +24,7 @@ Generated with `npm run docs:inventory` from registries, bundled datasets and fi
 | `executive-cno-flag-stock` | CNO Flag Stationery — Preprinted 5 × 7 | `executive_correspondence` |
 | `pft-waiver` | PFT/CFT Waiver Request | `naval_letter` |
 | `humanitarian-transfer` | Humanitarian/Hardship Transfer Request | `naval_letter` |
+| `page-11-rebuttal` | Page 11 Rebuttal | `standard_letter` |
 | `award-nam` | Award Recommendation (NAM) | `naval_letter` |
 | `award-loa` | Letter of Appreciation | `naval_letter` |
 | `command-interest` | Command Interest Letter | `naval_letter` |
