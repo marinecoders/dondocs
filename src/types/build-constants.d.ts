@@ -16,3 +16,7 @@ declare const __LATEX_TEMPLATES_REVISION__: string;
 declare const __RUNTIME_BASE__: string;
 declare const __RELEASE_ID__: string;
 interface Window { __DD_WORKSPACE_READY__?: boolean }
+
+declare const __PANDOC_FILES__: readonly { name: string; bytes: number }[];
+declare const __PANDOC_CACHE__: string;
+declare const __APP_SHELL_CACHE__: string;

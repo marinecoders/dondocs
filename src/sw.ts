@@ -1,6 +1,6 @@
 /// <reference lib="webworker" />
 import { releaseManifest, releaseId, manifestUrl, type ReleaseManifest, type ReleaseAsset } from './lib/releases';
-import { assetKey, cacheAsset, stageAssets, isWordAsset, hasCachedWord, RELEASE_FILES_CACHE as FILES, RELEASE_META_CACHE as META, releaseStateKey as stateKey } from './lib/releaseCache';
+import { assetKey, cacheAsset, stageAssets, isWordAsset, isWordEngineAsset, hasCachedWord, cachedWordBytes, RELEASE_FILES_CACHE as FILES, RELEASE_META_CACHE as META, releaseStateKey as stateKey } from './lib/releaseCache';
 declare const self: ServiceWorkerGlobalScope;
 
 const CURRENT = '/__dd_current';
@@ -30,14 +30,23 @@ async function loadAssets() {
   loaded ??= readyReleases().then(states => { for (const state of states) remember(state.manifest); });
   await loaded;
 }
-async function isReady(id: string): Promise<boolean> {
-  const meta = await caches.open(META), fileCache = await caches.open(FILES);
-  const response = await meta.match(stateKey(releaseId.parse(id)));
-  if (!response) return false;
+async function readPreparedRelease(id: string): Promise<ReadyRelease | undefined> {
+  const response = await (await caches.open(META)).match(stateKey(releaseId.parse(id)));
+  if (!response) return undefined;
   const state = await response.json() as ReadyRelease;
-  releaseManifest.parse(state.manifest);
-  for (const key of state.required) if (!await fileCache.match(key)) return false;
+  state.manifest = releaseManifest.parse(state.manifest);
+  return state;
+}
+
+async function hasRequiredAssets(state: ReadyRelease, fileCache: Cache, includeWord: boolean): Promise<boolean> {
+  const optional = includeWord ? new Set<string>() : new Set(state.manifest.assets.filter(isWordAsset).map(assetKey));
+  for (const key of state.required) if (!optional.has(key) && !await fileCache.match(key)) return false;
   return true;
+}
+
+async function isReady(id: string, includeWord = true): Promise<boolean> {
+  const state = await readPreparedRelease(id);
+  return !!state && await hasRequiredAssets(state, await caches.open(FILES), includeWord);
 }
 async function readManifest(id?: string): Promise<ReleaseManifest> {
   if (id) {
@@ -56,7 +65,7 @@ function prepare(manifest: ReleaseManifest): Promise<void> {
     let requireWord = !!await meta.match(WORD_USED) || await hasCachedWord((await readyReleases()).map(state => state.manifest), fileCache);
     // Keep the capability across the initial transition from Workbox's URL-keyed cache.
     if (!requireWord) for (const name of await caches.keys()) {
-      if (name.startsWith('pandoc-wasm-') && (await (await caches.open(name)).keys()).some(key => isWordAsset({ url: new URL(key.url).pathname }))) { requireWord = true; break; }
+      if (name.startsWith('pandoc-wasm-') && (await (await caches.open(name)).keys()).some(key => isWordEngineAsset({ url: new URL(key.url).pathname }))) { requireWord = true; break; }
     }
     if (requireWord) await meta.put(WORD_USED, new Response('1'));
     const required = await stageAssets(manifest, fileCache, fetch, requireWord);
@@ -108,6 +117,13 @@ self.addEventListener('message', event => {
         const manifest = await readManifest(); await prepare(manifest);
         await (await caches.open(META)).put(CURRENT, Response.json({ id: manifest.id }));
         port.postMessage({ protocol: 1, manifest }); return;
+      } else if (type === 'GET_OFFLINE_OUTPUT_STATUS') {
+        const state = await readPreparedRelease(id);
+        const files = await caches.open(FILES);
+        const pdf = !!state && await hasRequiredAssets(state, files, false);
+        const wordBytes = state ? await cachedWordBytes(state.manifest, files) : 0;
+        port.postMessage({ protocol: 1, canPrepare: !!state, pdf, wordBytes });
+        return;
       } else if (type !== 'IS_RELEASE_READY') throw new Error('Unsupported release request');
       port.postMessage({ protocol: 1, ready: id ? await isReady(id) : true });
     } catch (error) { port.postMessage({ protocol: 1, error: error instanceof Error ? error.message : String(error) }); }
@@ -148,7 +164,10 @@ self.addEventListener('fetch', event => {
       try {
         const id = url.pathname.match(/^\/releases\/([^/]+)\/index.html$/)?.[1] || url.searchParams.get('appRelease');
         let manifest: ReleaseManifest;
-        if (id) { manifest = await readManifest(releaseId.parse(id)); await prepare(manifest); }
+        if (id) {
+          manifest = await readManifest(releaseId.parse(id));
+          if (!await isReady(id, false)) await prepare(manifest);
+        }
         else {
           try {
             const response = await fetch(event.request, { signal: AbortSignal.timeout(5000) });
@@ -160,7 +179,7 @@ self.addEventListener('fetch', event => {
             manifest = await readManifest((await current.json() as { id: string }).id);
           }
         }
-        if (!await isReady(manifest.id)) throw new Error('Release is incomplete offline');
+        if (!await isReady(manifest.id, false)) throw new Error('Release is incomplete offline');
         const entry = manifest.assets.find(asset => asset.url === manifest.entry)!;
         return await cacheAsset(entry, await caches.open(FILES));
       } catch {
@@ -172,8 +191,9 @@ self.addEventListener('fetch', event => {
   if (/^\/(?:releases|runtimes|templates)\//.test(url.pathname)) event.respondWith((async () => {
     await loadAssets();
     const asset = assets.get(url.pathname);
-    if (isWordAsset({ url: url.pathname })) await (await caches.open(META)).put(WORD_USED, new Response('1'));
-    return asset ? cacheAsset(asset, await caches.open(FILES)) : fetch(event.request);
+    const response = asset ? await cacheAsset(asset, await caches.open(FILES)) : await fetch(event.request);
+    if (response.ok && isWordEngineAsset({ url: url.pathname })) await (await caches.open(META)).put(WORD_USED, new Response('1'));
+    return response;
   })());
 });
 

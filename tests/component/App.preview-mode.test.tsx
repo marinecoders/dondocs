@@ -19,7 +19,6 @@ vi.mock('@/services/formCatalog', () => {
   const catalog: never[] = [];
   return { useFormCatalog: () => catalog };
 });
-vi.mock('@/hooks/usePandocIdlePrefetch', () => ({ usePandocIdlePrefetch() {} }));
 vi.mock('@/components/layout/FormPanel', () => ({ FormPanel: () => null }));
 vi.mock('@/components/layout/Header', () => ({
   Header: ({ onRefreshPreview }: { onRefreshPreview?: () => void }) => <button onClick={onRefreshPreview}>Refresh preview</button>,

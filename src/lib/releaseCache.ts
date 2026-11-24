@@ -17,11 +17,22 @@ export async function getPreparedReleaseAsset(id: string, url: string, storage: 
 }
 
 type AssetCache = Pick<Cache, 'match' | 'put' | 'delete'>;
-export const isWordAsset = (asset: Pick<ReleaseAsset, 'url'>) => /\/pandoc\.wasm(?:\.part\d+|\.manifest\.json)?$/.test(asset.url);
+export const isWordAsset = (asset: Pick<ReleaseAsset, 'url'>) => /\/lib\/pandoc\//.test(asset.url);
+export const isWordEngineAsset = (asset: Pick<ReleaseAsset, 'url'>) => /\/pandoc\.wasm(?:\.part\d+|\.manifest\.json)?$/.test(asset.url);
+
+export async function cachedWordBytes(manifest: ReleaseManifest, cache: Pick<Cache, 'match'>): Promise<number> {
+  let bytes = 0;
+  for (const asset of manifest.assets) {
+    if (!isWordAsset(asset)) continue;
+    const response = await cache.match(assetKey(asset));
+    if (response?.headers.get('Content-Length') === String(asset.size)) bytes += asset.size;
+  }
+  return bytes;
+}
 
 export async function hasCachedWord(manifests: ReleaseManifest[], cache: Pick<Cache, 'match'>): Promise<boolean> {
   for (const manifest of manifests) for (const asset of manifest.assets) {
-    if (isWordAsset(asset) && await cache.match(assetKey(asset))) return true;
+    if (isWordEngineAsset(asset) && await cache.match(assetKey(asset))) return true;
   }
   return false;
 }

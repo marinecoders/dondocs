@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { SettingsModal } from '@/components/modals/SettingsModal';
 import { HelpModal } from '@/components/modals/HelpModal';
@@ -42,12 +42,13 @@ describe('workspace settings and help', () => {
     vi.mocked(downloadWorkspaceBackup).mockRejectedValue(new Error('Saved documents could not be read'));
     useUIStore.getState().setSettingsOpen(true, 'backup');
     render(<SettingsModal />);
-    expect(screen.getByRole('heading', { name: 'Backup & restore' })).toHaveFocus();
-    expect(screen.queryByRole('button', { name: 'Choose auto-backup folder' })).not.toBeInTheDocument();
-    await userEvent.click(screen.getByRole('button', { name: 'Download workspace backup' }));
-    expect(await screen.findByRole('alert')).toHaveTextContent('Saved documents could not be read');
-    expect(screen.queryByRole('status')).not.toBeInTheDocument();
-    expect(screen.getByRole('button', { name: 'Download workspace backup' })).toBeEnabled();
+    const backup = within(screen.getByRole('region', { name: 'Backup & restore' }));
+    expect(backup.getByRole('heading', { name: 'Backup & restore' })).toHaveFocus();
+    expect(backup.queryByRole('button', { name: 'Choose auto-backup folder' })).not.toBeInTheDocument();
+    await userEvent.click(backup.getByRole('button', { name: 'Download workspace backup' }));
+    expect(await backup.findByRole('alert')).toHaveTextContent('Saved documents could not be read');
+    expect(backup.queryByRole('status')).not.toBeInTheDocument();
+    expect(backup.getByRole('button', { name: 'Download workspace backup' })).toBeEnabled();
   });
   it('offers reconnect when backup permissions expire', async () => {
     const reconnect = vi.fn().mockResolvedValue(undefined);

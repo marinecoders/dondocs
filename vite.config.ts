@@ -46,16 +46,23 @@ const LATEX_TEMPLATES_REVISION = createHash('sha256')
 // the pinned version rotates to a brand-new cache — a returning client can
 // never reassemble a mix of old cached parts and new network parts. 'dev' when
 // the manifest isn't staged yet (e.g. dev without a prior vendor run).
-const PANDOC_VERSION = (() => {
+const PANDOC_DIRECTORY = path.resolve(__dirname, 'public/lib/pandoc');
+const PANDOC_BUILD = (() => {
   try {
-    const m = JSON.parse(
-      fs.readFileSync(path.resolve(__dirname, 'public/lib/pandoc/pandoc.wasm.manifest.json'), 'utf-8')
-    );
-    return typeof m.version === 'string' ? m.version : 'dev';
-  } catch {
-    return 'dev';
+    const manifest = JSON.parse(fs.readFileSync(path.join(PANDOC_DIRECTORY, 'pandoc.wasm.manifest.json'), 'utf-8')) as {
+      version: string; parts: string[];
+    };
+    const files = ['pandoc.js', 'wasi-shim.js', 'reference.docx', 'dondocs.lua', 'pandoc.wasm.manifest.json', ...manifest.parts];
+    return {
+      files: files.map(name => ({ name, bytes: fs.statSync(path.join(PANDOC_DIRECTORY, name)).size })),
+      cacheName: `pandoc-wasm-cache-${manifest.version}`,
+    };
+  } catch (error) {
+    if (RELEASE_BUILD) throw error;
+    return { files: [], cacheName: 'pandoc-wasm-cache-dev' };
   }
 })();
+const APP_SHELL_CACHE = `dondocs-app-shell-${GIT_SHA || BUILD_TIME.replace(/[:.]/g, '-')}`;
 
 // Inject version metadata into index.html as <meta> tags so deployed version
 // can be verified without running JS (e.g., `curl site.com | grep dondocs-version`).
@@ -237,6 +244,9 @@ export default defineConfig({
     __LATEX_TEMPLATES_REVISION__: JSON.stringify(LATEX_TEMPLATES_REVISION),
     __RUNTIME_BASE__: JSON.stringify(RELEASE_BUILD ? `/runtimes/${RUNTIME_REVISION}/` : ''),
     __RELEASE_ID__: JSON.stringify(RELEASE_ID),
+    __PANDOC_FILES__: JSON.stringify(PANDOC_BUILD.files),
+    __PANDOC_CACHE__: JSON.stringify(PANDOC_BUILD.cacheName),
+    __APP_SHELL_CACHE__: JSON.stringify(APP_SHELL_CACHE),
   },
   plugins: [
     react(),
@@ -350,7 +360,7 @@ export default defineConfig({
         // into every offline install via the png glob; they runtime-cache on
         // demand instead (form-templates rule below), the same lesson as the
         // lib/** exclusion (SW-1).
-        globIgnores: ['templates/**', 'lib/ocr/**'],
+        globIgnores: ['templates/**', 'lib/ocr/**', 'lib/pandoc/**'],
         // Don't fall back to a precached index.html — we want NetworkFirst.
         navigateFallback: null,
         // Precache critical TeX files to ensure they're always available
@@ -440,7 +450,7 @@ export default defineConfig({
             urlPattern: ({ request }) => request.mode === 'navigate',
             handler: 'NetworkFirst',
             options: {
-              cacheName: `dondocs-app-shell-${GIT_SHA || BUILD_TIME.replace(/[:.]/g, '-')}`,
+              cacheName: APP_SHELL_CACHE,
               // Do NOT add fetchOptions here: workbox silently DROPS
               // fetchOptions for navigation requests (StrategyHandler.fetch,
               // workbox#1796 — fetch(navRequest, init) throws, so it passes
@@ -543,13 +553,18 @@ export default defineConfig({
             urlPattern: /\/lib\/pandoc\/.*/,
             handler: 'CacheFirst',
             options: {
-              cacheName: `pandoc-wasm-cache-${PANDOC_VERSION}`,
-              expiration: {
-                // manifest + 3 parts + dondocs.lua + reference.docx = 6 live
-                // entries (pandoc.js and wasi-shim.js are precached).
-                maxEntries: 10,
-                maxAgeSeconds: 60 * 60 * 24 * 90, // 90 days
-              },
+              cacheName: PANDOC_BUILD.cacheName,
+              cacheableResponse: { statuses: [200] },
+              expiration: { maxEntries: 16 },
+              plugins: [{
+                // A fresh ES module URL retries a failed evaluation, but its
+                // bytes are still the same loader the offline cache prepared.
+                cacheKeyWillBeUsed: async ({ request }) => {
+                  const url = new URL(request.url);
+                  if (url.pathname.endsWith('/pandoc.js')) url.searchParams.delete('retry');
+                  return url.href;
+                },
+              }],
             },
           },
         ],

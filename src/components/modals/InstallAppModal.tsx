@@ -84,7 +84,7 @@ export function InstallAppModal() {
         items={[
           <>Tap the <strong>Share</strong> button <ShareGlyph /> in {d.isChromeIOS ? 'Chrome' : 'Safari'}&apos;s toolbar.</>,
           <>Scroll down and tap <strong>Add to Home Screen</strong>.</>,
-          <>Tap <strong>Add</strong>. DonDocs opens full-screen from its own icon, ready offline.</>,
+          <>Tap <strong>Add</strong>. DonDocs opens full-screen from its own icon.</>,
         ]}
       />
     );
@@ -110,7 +110,7 @@ export function InstallAppModal() {
         items={[
           <>Open the browser&apos;s <strong>⋮</strong> menu.</>,
           <>Tap <strong>Add to Home screen</strong> (or <strong>Install app</strong>).</>,
-          <>Confirm. DonDocs opens full-screen from its own icon, ready offline.</>,
+          <>Confirm. DonDocs opens full-screen from its own icon.</>,
         ]}
       />
     );
@@ -120,7 +120,7 @@ export function InstallAppModal() {
         items={[
           <>Look for the <strong>install icon</strong> <MonitorDown className="inline h-4 w-4 align-text-bottom text-primary" aria-hidden /> at the right end of the address bar.</>,
           <>Or open the browser menu and choose <strong>Install DonDocs…</strong> (sometimes under &quot;Cast, save and share&quot;).</>,
-          <>Confirm. DonDocs opens in its own window, ready offline.</>,
+          <>Confirm. DonDocs opens in its own window.</>,
         ]}
       />
     );
@@ -153,11 +153,11 @@ export function InstallAppModal() {
           </DialogTitle>
           <DialogDescription>
             Installs straight from this page — no app store, no account, and
-            nothing leaves your device. You get a real app icon and one-tap
-            offline access.
+            nothing leaves your device. You get a real app icon.
           </DialogDescription>
         </DialogHeader>
         {body}
+        <p className="text-sm text-muted-foreground">Before going offline, open Settings → Offline exports to check PDF readiness and prepare Word if you need it.</p>
       </DialogContent>
     </Dialog>
   );

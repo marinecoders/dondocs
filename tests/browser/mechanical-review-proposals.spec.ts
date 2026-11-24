@@ -30,8 +30,8 @@ async function readyPreviewForAccessibility(page: Page) {
   await expect(pageNumber).toBeEnabled({ timeout: 30_000 });
   await expect(pageNumber).toHaveCSS('opacity', '1');
 }
-async function bytes(page: Page, start: () => Promise<unknown>) {
-  const pending = page.waitForEvent('download');await start();
+async function bytes(page: Page, start: () => Promise<unknown>, timeout?: number) {
+  const pending = page.waitForEvent('download', { timeout });await start();
   const download = await pending;expect(await download.failure()).toBeNull();return readFile((await download.path())!);
 }
 async function draft(page: Page) {
@@ -152,7 +152,7 @@ for (const theme of ['light', 'dark', 'classic']) test(`existing formatting find
     if (theme === 'light' && info.project.name === 'chromium') {
       const word = await bytes(page, async () => {
         await page.getByRole('button', { name: 'Download', exact: true }).click();await page.getByRole('menuitem', { name: 'Download Word (.docx)', exact: true }).click();
-      });
+      }, 90_000);
       const zip = await JSZip.loadAsync(word), xml = await zip.file('word/document.xml')!.async('string');
       expect(xml).toContain('5 November 2026');expect(xml).toContain('NOTAL');expect(xml).not.toContain('123-45-6789');expect(xml).not.toContain(payload.proposals[0].id);
       const pdfBytes = await bytes(page, async () => {
@@ -181,8 +181,9 @@ for (const theme of ['light', 'dark', 'classic']) test(`existing formatting find
         await restored.getByRole('button', { name: 'Settings', exact: true }).click();
         const restoredSettings = restored.getByRole('dialog', { name: 'Settings', exact: true });
         await restored.getByLabel('Backup file', { exact: true }).setInputFiles({ name: 'formatting-backup.json', mimeType: 'application/json', buffer: backup });
-        await expect(restoredSettings.getByRole('status')).toContainText('Restored', { timeout: 15_000 });
-        await expect(restoredSettings.getByRole('alert')).toHaveCount(0);
+        const backupSection = restoredSettings.getByRole('region', { name: 'Backup & restore', exact: true });
+        await expect(backupSection.getByRole('status')).toContainText('Restored', { timeout: 15_000 });
+        await expect(backupSection.getByRole('alert')).toHaveCount(0);
         await restoredSettings.getByRole('button', { name: 'Close', exact: true }).click();await restored.reload();
         // Bind reopening to the preserved document identity and its visible accessible title.
         const restoredDocument = restored.getByRole('region', { name: 'Workspace sidebar', exact: true })
