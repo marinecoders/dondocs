@@ -15,7 +15,7 @@ import { copyAttachment, withAttachmentResources } from './attachmentResources';
 import { listReviewRounds, parseReviewRound, reviewCopyLinkSchema, type ReviewRound, type ReviewCopyLink } from './reviewRounds';
 import { buildReviewCopy } from './reviewRoundActions';
 import { capturePortableFormTemplates, validatePortableFormTemplates, retainPortableFormTemplates, type PortableFormTemplateBundle } from '@/services/forms/portableTemplates';
-import type { FormDefinition } from '@/services/forms/model';
+import { compileFormDefinition, type FormDefinition } from '@/services/forms/model';
 /**
  * Full-account backup: one downloadable file that captures EVERYTHING a user
  * has, not just their documents.
@@ -36,7 +36,7 @@ import { lastWriteFailed } from '@/lib/compressedStorage';
 import { validateBackup, validateBackupSession } from './backupValidation';
 import { assertBackupRestoreSize, exceedsBackupByteLimit, WorkspaceBackupTooLargeError } from './backupSize';
 import type { Profile } from '@/types/document';
-import { captureDocumentTarget, isCurrentDocumentTarget, useDocumentsStore, exportLibrary, importLibrary, validateLibraryDocuments } from '@/stores/documentsStore';
+import { captureDocumentTarget, isCurrentDocumentTarget, useDocumentsStore, exportLibrary, importLibrary, validateLibraryDocuments, type DocumentEntry } from '@/stores/documentsStore';
 import { useDocumentStore } from '@/stores/documentStore';
 import { useProfileStore } from '@/stores/profileStore';
 import { useFormStore, FORMS_PERSIST_KEY, normalizeNavmc10274, normalizeNavmc11811 } from '@/stores/formStore';
@@ -45,6 +45,7 @@ import { useUserTemplatesStore, type UserTemplate } from '@/stores/userTemplates
 import { useRoutingStore, sanitizeOverrides } from '@/stores/routingStore';
 import {
   idbPutAttachment,
+  idbGetAllDocuments,
   idbGetSnapshots,
   idbSetSnapshots,
   MAX_SNAPSHOTS,
@@ -471,7 +472,77 @@ export async function restoreBackupFile(file: Blob): Promise<RestoreResult> {
   try { return await restoreWithTarget(await file.text(), canReplaceForms); } finally { restoresInProgress--; }
 }
 
+export interface WorkspaceBackupReview {
+  documents: Array<{ id: string; title: string; inTrash: boolean; outcome: 'add' | 'update' | 'keep' | 'unavailable' }>;
+  collections: string[];
+  hasLiveFormBuffers: boolean;
+  apply(documentId?: string): Promise<RestoreResult>;
+}
+
+/** Inspect the exact file with the same preflight used by Restore. This path
+ * does not retain attachments, publish documents or change preferences. */
+export async function reviewWorkspaceBackup(file: Blob): Promise<WorkspaceBackupReview> {
+  assertBackupRestoreSize(file.size);
+  const canReplaceForms = captureFormReplacement();
+  const backup = await prepareBackupRestore(await file.text());
+  const saved = await idbGetAllDocuments();
+  if (saved === null) throw new Error('Could not read the current library to review this backup.');
+  const local = new Map(saved.map(entry => [entry.id, entry.meta?.updatedAt ?? 0]));
+  const registry = useDocumentsStore.getState();
+  for (const { meta } of [...Object.values(registry.docs), ...Object.values(registry.trash)]) {
+    local.set(meta.id, Math.max(local.get(meta.id) ?? 0, meta.updatedAt));
+  }
+  const entries = (backup.parsed.documents ?? []) as DocumentEntry[];
+  const unavailable = new Set<string>();
+  for (const id of collectAttachmentIds(entries)) {
+    const localAttachment = await readAttachment(id);
+    const incoming = backup.decoded.get(id);
+    if (localAttachment.status === 'found'
+      ? incoming && !sameAttachmentBytes(incoming, localAttachment.attachment.data)
+      : localAttachment.status !== 'missing' || !incoming) unavailable.add(id);
+  }
+  const documents = entries.map(entry => {
+    const { meta } = entry;
+    const previous = local.get(meta.id);
+    const blocked = hasUnresolvedEnclosure(entry) || collectAttachmentIds([entry]).some(id => unavailable.has(id));
+    const outcome = blocked ? 'unavailable' : previous === undefined ? 'add' : previous >= (meta.updatedAt ?? 0) ? 'keep' : 'update';
+    const title = typeof meta.name === 'string' && meta.name.trim()
+      ? meta.name : typeof meta.title === 'string' && meta.title.trim() ? meta.title : 'Untitled document';
+    return { id: meta.id, title, inTrash: !!meta.deletedAt, outcome } as const;
+  });
+  const { parsed, reviewRounds, reviewCopies, actionPackages, packageTemplates } = backup;
+  const forms = parsed.forms as BackupBundle['forms'] | undefined;
+  const collections = [
+    parsed.snapshots && Object.keys(parsed.snapshots).length ? 'Version history' : '',
+    reviewRounds.length || reviewCopies.length ? 'Saved reviews' : '',
+    parsed.profiles ? 'Profiles' : '',
+    parsed.snippets ? 'Snippets' : '',
+    parsed.userTemplates ? 'Templates' : '',
+    forms ? 'Form fields' : '',
+    parsed.routingOverrides && Object.keys(parsed.routingOverrides).length ? 'Routing overrides' : '',
+    actionPackages.length ? 'Saved actions' : '',
+    packageTemplates.length ? 'Action starters' : '',
+  ].filter(Boolean);
+  return {
+    documents, collections, hasLiveFormBuffers: !!(forms?.navmc10274 || forms?.navmc11811 || typeof forms?.includeCoverPage === 'boolean'),
+    async apply(documentId) {
+      if (documentId !== undefined && documents.find(document => document.id === documentId)?.outcome === 'unavailable') {
+        throw new Error('A required file is unavailable. Choose a complete backup before restoring this document.');
+      }
+      const selected = documentId === undefined ? backup : selectRestoreDocument(backup, documentId);
+      restoresInProgress++;
+      try {
+        return await withAttachmentStaging(() => applyBackupRestore(selected, canReplaceForms));
+      } finally { restoresInProgress--; }
+    },
+  };
+}
+
 async function runRestore(json: string, canReplaceForms: () => boolean): Promise<RestoreResult> {
+  return applyBackupRestore(await prepareBackupRestore(json), canReplaceForms);
+}
+
+async function prepareBackupRestore(json: string) {
   const { kind, parsed } = classifyBackup(json);
 
   if (kind === LIBRARY_KIND) parsed.documents = parsed.docs;
@@ -571,6 +642,35 @@ async function runRestore(json: string, canReplaceForms: () => boolean): Promise
   const packageDecoded = new Map(decoded);
   for (const form of formTemplates) for (const page of form.definition.pages) packageDecoded.set(formTemplateAttachmentId(page.sha256!), new Uint8Array(form.pages[page.file]).buffer);
   const actionPackages = await validatePackageBackup(packageRecords, packageDecoded);
+  return { parsed, decoded, formTemplates, actionPackages, packageTemplates, incomingTemplates,
+    reviewRounds, reviewCopies, reviewReturns, reviewSuggestions, reviewSuggestionWrites };
+}
+
+type PreparedBackupRestore = Awaited<ReturnType<typeof prepareBackupRestore>>;
+
+function selectRestoreDocument(backup: PreparedBackupRestore, id: string): PreparedBackupRestore {
+  const document = ((backup.parsed.documents ?? []) as DocumentEntry[]).find(entry => entry.meta.id === id && !entry.meta.deletedAt);
+  if (!document) throw new Error('This document is unavailable in the reviewed backup.');
+  const history = (backup.parsed.snapshots as Record<string, DocSnapshot[]> | undefined)?.[id] ?? [];
+  const entries = [document, ...history];
+  const referenced = new Set(collectAttachmentIds(entries));
+  const definitions = new Set(configuredDefinitions(entries).map(definition => JSON.stringify(compileFormDefinition(definition))));
+  return {
+    parsed: {
+      documents: [document],
+      snapshots: history.length ? { [id]: history } : undefined,
+      attachments: ((backup.parsed.attachments ?? []) as BackupAttachment[]).filter(file => referenced.has(file.id)),
+    },
+    decoded: backup.decoded,
+    formTemplates: backup.formTemplates.filter(form => definitions.has(JSON.stringify(form.definition))),
+    incomingTemplates: {},
+    actionPackages: [], packageTemplates: [], reviewRounds: [], reviewCopies: [], reviewReturns: [], reviewSuggestions: [], reviewSuggestionWrites: [],
+  };
+}
+
+async function applyBackupRestore(backup: PreparedBackupRestore, canReplaceForms: () => boolean): Promise<RestoreResult> {
+  const { parsed, decoded, formTemplates, actionPackages, packageTemplates, incomingTemplates,
+    reviewRounds, reviewCopies, reviewReturns, reviewSuggestions, reviewSuggestionWrites } = backup;
   // Verified page staging precedes every document, profile, answer and history write.
   if (!await retainPortableFormTemplates(formTemplates)) throw new Error('Portable form templates could not be retained. Nothing was restored.');
   const issues: string[] = [];
@@ -650,7 +750,7 @@ async function runRestore(json: string, canReplaceForms: () => boolean): Promise
 
   // Snippets: add by id.
   let snippetsAdded = 0;
-  if (!persistCategory('Snippets', () => {
+  if (parsed.snippets !== undefined && !persistCategory('Snippets', () => {
     useSnippetsStore.setState((s) => {
       const { merged, added } = mergeById(s.snippets, parsed.snippets as Snippet[] | undefined);
       snippetsAdded = added;
@@ -663,7 +763,7 @@ async function runRestore(json: string, canReplaceForms: () => boolean): Promise
   const readyTemplates = Object.fromEntries(await Promise.all(Object.entries(incomingTemplates)
     .filter(([, entry]) => complete(entry))
     .map(async ([id, entry]) => [id, { ...entry, session: await materializeSignatureFallbacks(entry.session) }] as const)));
-  if (!persistCategory('Templates', () => {
+  if (parsed.userTemplates !== undefined && !persistCategory('Templates', () => {
     useUserTemplatesStore.setState((s) => {
       const { merged, added } = mergeRecord(s.templates, readyTemplates);
       templatesAdded = added;

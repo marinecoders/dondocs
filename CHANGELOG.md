@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.275] — 2026-11-23
+
+### Added
+
+- Review documents, file availability, and included collections before restoring a workspace or selected document.
+
 ## [1.3.274] — 2026-11-23
 
 ### Added

@@ -97,7 +97,13 @@ If another tab changes the same document, DonDocs can report a conflict and keep
 
 Open **Settings → Backup & restore** and choose **Download workspace backup**. Keep the JSON file in a location appropriate for its contents: it is **unencrypted** and includes embedded referenced assets. It does not run pre-export text screening.
 
-Before **Restore from backup**, review the per-section policy:
+**Restore from backup** opens a preview before it changes the workspace. Review
+the documents and included collections, then confirm **Restore workspace** or
+select one document and choose **Restore selected document**. A selected
+document includes its history and required files. Workspace preferences, saved
+review rounds and other documents remain in place.
+
+The full workspace restore follows this policy.
 
 | Section | Restore behavior |
 |---|---|

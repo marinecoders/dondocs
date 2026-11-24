@@ -122,9 +122,10 @@ async function workspaceBackup(page: Page) {
 async function restoreWorkspace(page: Page, bytes: Buffer) {
   await workspace(page, 'Settings');const settings = page.getByRole('dialog', { name: 'Settings', exact: true });
   await settings.getByLabel('Backup file', { exact: true }).setInputFiles({ name: 'workspace.json', mimeType: 'application/json', buffer: bytes });
+  await settings.getByRole('button', { name: 'Restore workspace', exact: true }).click();
   await expect(settings.getByRole('region', { name: 'Backup & restore', exact: true }).getByRole('status')).toContainText('review baseline', { timeout: 15_000 });
   await expect(settings.getByRole('button', { name: 'Restore from backup', exact: true })).toBeEnabled({ timeout: 15_000 });
-  await expect(settings.getByRole('alert')).toHaveCount(0);
+  await expect(settings.getByRole('region', { name: 'Backup & restore', exact: true }).getByRole('alert')).toHaveCount(0);
   await settings.getByRole('button', { name: 'Close', exact: true }).click();
 }
 
