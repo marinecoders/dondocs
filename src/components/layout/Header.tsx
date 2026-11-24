@@ -1,4 +1,5 @@
 import { isOutputFieldActive } from '@/lib/documentFields';
+import { supportsWordProofread } from '@/lib/correspondenceProofreadChecks';
 import { saveCheckpoint } from '@/lib/saveCheckpoint';
 import { runFileImport } from '@/lib/fileImports';
 import { DraftIdentity } from './DraftIdentity';
@@ -66,6 +67,7 @@ interface HeaderProps {
   onDownloadTex?: () => void;
   onDownloadDocx?: () => void;
   onDownloadDocxEnclosures?: () => void;
+  onDownloadDocxProofread?: () => void;
   onDownloadFlatTex?: () => void;
   onRefreshPreview?: () => void;
   isCompiling?: boolean;
@@ -100,6 +102,7 @@ export function Header({
   onDownloadTex,
   onDownloadDocx,
   onDownloadDocxEnclosures,
+  onDownloadDocxProofread,
   onDownloadFlatTex,
   onRefreshPreview,
   isCompiling,
@@ -109,6 +112,7 @@ export function Header({
   updateAvailable = false,
 }: HeaderProps) {
   const hasEnclosures = useDocumentStore(state => state.enclosures.length > 0 && isOutputFieldActive(state, ['enclosures', 0]));
+  const canExportWordProofread = useDocumentStore(supportsWordProofread);
   const [taggedPdfOpen, setTaggedPdfOpen] = useState(false);
   const [amhsOpen, setAmhsOpen] = useState<boolean>();
   const [formalEmailOpen, setFormalEmailOpen] = useState<boolean>();
@@ -384,6 +388,11 @@ export function Header({
                     )}
                     {isDocxGenerating ? 'Generating Word…' : 'Download Word (.docx)'}
                   </DropdownMenuItem>
+                  {canExportWordProofread && onDownloadDocxProofread && (
+                    <DropdownMenuItem onClick={onDownloadDocxProofread} disabled={isDocxGenerating}>
+                      <FileText className="h-4 w-4 mr-2" />Word with Proofread comments
+                    </DropdownMenuItem>
+                  )}
                   {hasEnclosures && onDownloadDocxEnclosures && <>
                     <DropdownMenuItem onClick={onDownloadDocxEnclosures} disabled={isDocxGenerating}>
                       <FileText className="h-4 w-4 mr-2" />Word with enclosure page images

@@ -141,7 +141,10 @@ export function collectProofreadFindings(
   if (has('body')) {
     if (config.compliance.numberedParagraphs) for (const finding of validateParagraphStructure(source.paragraphs)) findings.push({
       id: `structure:${key(finding.message)}`, group: 'structure', severity: 'warning', title: 'Check paragraph structure',
-      message: finding.message, target: { sectionId: 'body' }, source: { chapter: 7, paragraph: '13' },
+      message: finding.message, target: { sectionId: 'body',
+        ...(finding.paragraphIndex !== undefined ? { paragraphId: source.paragraphs[finding.paragraphIndex]?.id } : {}),
+      },
+      source: { chapter: 7, paragraph: '13' },
     });
     const body = source.paragraphs.map(paragraph => paragraph.text ?? '').join('\n');
     for (const finding of findUndefinedAcronyms(body, { strict: source.docType === 'i_type' })) {

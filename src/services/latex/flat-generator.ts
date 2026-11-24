@@ -51,6 +51,7 @@ import { assertWordSignatureSigner, docxFigureFile, imageExtent, signatureExtent
 interface DocumentStore {
   docType: string;
   referenceLinkTarget?: 'docx' | 'tex';
+  wordProofreadBookmarks?: ReadonlyMap<string, number>;
   documentMode?: import('@/types/document').DocumentMode;
   formData: Partial<DocumentData>;
   references: Reference[];
@@ -697,7 +698,9 @@ function bodySizePt(data: Partial<DocumentData> | undefined): number {
   return parseFloat(data?.fontSize || '12pt') || 12;
 }
 
-function buildBody(paragraphs: Paragraph[], config: DocTypeConfig, font: LabelFont, fontSizePt: number, docType: string, mediaWidth = 6.5, mediaHeight = 5): string {
+function buildBody(store: DocumentStore, config: DocTypeConfig, paragraphs = store.paragraphs, mediaWidth = 6.5, mediaHeight = 5): string {
+  const { docType, formData } = store;
+  const font = bodyFont(formData), fontSizePt = bodySizePt(formData);
   if (paragraphs.length === 0) return '';
 
   // Figures have their own caption sequence. Exclude them from both body
@@ -769,7 +772,9 @@ function buildBody(paragraphs: Paragraph[], config: DocTypeConfig, font: LabelFo
     const indent = blockIndent || layout.firstLineIndentIn;
     const macro = blockIndent ? 'dondocsindent' : 'dondocsfirstindent';
     const indentCmd = indent > 0 ? `\\${macro}{${indent.toFixed(2)}in}` : '';
-    bodyParts.push(`${spacing}\n${indentCmd}${i === tailStart ? '\\dondocsclosingtail{}' : ''}${label ? `${label}~~` : ''}${paraText}\n\n`);
+    const commentIndex = para.id ? store.wordProofreadBookmarks?.get(para.id) : undefined;
+    const commentMarker = commentIndex === undefined ? '' : `\\dondocsproofread{${commentIndex}}`;
+    bodyParts.push(`${spacing}\n${indentCmd}${commentMarker}${i === tailStart ? '\\dondocsclosingtail{}' : ''}${label ? `${label}~~` : ''}${paraText}\n\n`);
   }
 
   return bodyParts.join('');
@@ -1461,7 +1466,7 @@ function buildStandardLayout(store: DocumentStore, config: DocTypeConfig): strin
   );
   if (directive?.reports) content += '\\vspace{12pt}\n\\noindent Reports Required: ' + directive.reports + '\\par\n\n';
   content += buildTransmittalNote(store);
-  content += buildBody(store.paragraphs, config, bodyFont(store.formData), bodySizePt(store.formData), store.docType);
+  content += buildBody(store, config);
   content += buildSignature(data, config, store.docType) + closingEnd(store.docType);
   // Between the signature and Distribution/Copy to — Ch 9 Figure 9-1 puts the
   // "Copy to:" block last on the sheet, below the endorsement.
@@ -1551,7 +1556,7 @@ function buildBusinessLayout(store: DocumentStore, config: DocTypeConfig): strin
     ? (config.compliance.allowReferences ? buildReferences(store.references, false, store.referenceLinkTarget) : '')
     : buildFormalLists(store, config);
   content += buildTransmittalNote(store);
-  content += buildBody(store.paragraphs, config, bodyFont(store.formData), bodySizePt(store.formData), store.docType, stock.textWidth, Math.min(5, stock.textHeight - 1));
+  content += buildBody(store, config, store.paragraphs, stock.textWidth, Math.min(5, stock.textHeight - 1));
   content += buildBusinessSignature(data, stock.small ? stock.textWidth : undefined) + closingEnd(store.docType);
   if (isBusinessLetter) content += buildBusinessNotations(store);
   content += buildDistribution(store.distributions);
@@ -1582,7 +1587,7 @@ function buildMemoLayout(store: DocumentStore, config: DocTypeConfig): string {
     enclosureStartNumber(store.docType, store.formData.startingEnclosureNumber)
   );
   content += buildTransmittalNote(store);
-  content += buildBody(store.paragraphs, config, bodyFont(store.formData), bodySizePt(store.formData), store.docType);
+  content += buildBody(store, config);
   if (config.hasDecisionBlock) content += buildDecisionBlock();
   content += buildSignature(data, config, store.docType) + closingEnd(store.docType);
   content += buildDistribution(store.distributions);
@@ -1614,7 +1619,7 @@ Subj:\\hspace{3\\fontdimen2\\font} & ${maybeUnderline(escapeTabularWrapped(data.
     enclosureStartNumber(store.docType, store.formData.startingEnclosureNumber)
   );
   content += buildTransmittalNote(store);
-  content += buildBody(agreementParagraphs(store.paragraphs), config, bodyFont(store.formData), bodySizePt(store.formData), store.docType);
+  content += buildBody(store, config, agreementParagraphs(store.paragraphs));
   content += buildDualSignature(data, 'moa') + closingEnd(store.docType);
   content += buildDistribution(store.distributions);
   content += buildCopyTo(store.copyTos);
@@ -1639,7 +1644,7 @@ function buildJointLayout(store: DocumentStore, config: DocTypeConfig): string {
     enclosureStartNumber(store.docType, store.formData.startingEnclosureNumber)
   );
   content += buildTransmittalNote(store);
-  content += buildBody(store.paragraphs, config, bodyFont(store.formData), bodySizePt(store.formData), store.docType);
+  content += buildBody(store, config);
   content += buildDualSignature(data, 'joint') + closingEnd(store.docType);
   content += buildDistribution(store.distributions);
   content += buildCopyTo(store.copyTos);
@@ -1692,7 +1697,7 @@ ${trimLastRow(rows)}
     enclosureStartNumber(store.docType, store.formData.startingEnclosureNumber)
   );
   content += buildTransmittalNote(store);
-  content += buildBody(store.paragraphs, config, bodyFont(store.formData), bodySizePt(store.formData), store.docType);
+  content += buildBody(store, config);
   content += buildDualSignature(data, 'joint_memo') + closingEnd(store.docType);
   content += buildDistribution(store.distributions);
   content += buildCopyTo(store.copyTos);
@@ -1746,7 +1751,7 @@ function buildStandardMemorandumLayout(store: DocumentStore, config: DocTypeConf
 
   // Body paragraphs
   content += buildTransmittalNote(store);
-  content += buildBody(store.paragraphs, config, bodyFont(store.formData), bodySizePt(store.formData), store.docType);
+  content += buildBody(store, config);
 
   // Signature block (executive style: right half, no close)
   content += buildSignature(data, config, store.docType) + closingEnd(store.docType);
@@ -1800,7 +1805,7 @@ function buildActionMemorandumLayout(store: DocumentStore, config: DocTypeConfig
 
   // Body paragraphs
   content += buildTransmittalNote(store);
-  content += buildBody(store.paragraphs, config, bodyFont(store.formData), bodySizePt(store.formData), store.docType);
+  content += buildBody(store, config);
 
   // Coordination section
   if (data.coordination?.trim()) {
@@ -1859,7 +1864,7 @@ function buildInfoMemorandumLayout(store: DocumentStore, config: DocTypeConfig):
 
   // Body paragraphs
   content += buildTransmittalNote(store);
-  content += buildBody(store.paragraphs, config, bodyFont(store.formData), bodySizePt(store.formData), store.docType);
+  content += buildBody(store, config);
 
   // Coordination section
   if (data.coordination?.trim()) {
@@ -1883,11 +1888,13 @@ function buildInfoMemorandumLayout(store: DocumentStore, config: DocTypeConfig):
  * constructs that pandoc can convert to DOCX. The default preserves Pandoc
  * URL escaping; standalone source exports request the native TeX target.
  */
-export function generateFlatLatex(store: DocumentStore, resolvedLevel?: string, target: 'docx' | 'tex' = 'docx'): string {
+export function generateFlatLatex(store: DocumentStore, resolvedLevel?: string, target: 'docx' | 'tex' = 'docx',
+  wordProofreadBookmarks?: ReadonlyMap<string, number>,
+): string {
   if (store.docType === 'technical_volume' || store.docType === 'tm_ietm_front_matter') {
     throw new Error('This publication uses configuration fragments and a native Word renderer.');
   }
-  store = { ...store, referenceLinkTarget: target };
+  store = { ...store, referenceLinkTarget: target, wordProofreadBookmarks: target === 'docx' ? wordProofreadBookmarks : undefined };
   if (isDirective(store.docType)) store = { ...store, formData: {
     ...directiveFormatting(store.docType, store.documentMode, store.formData),
     to: isMarineDirective(store.docType) ? 'Distribution List' : '', via: '', showSubjectOnContinuation: false,
@@ -1910,7 +1917,7 @@ export function generateFlatLatex(store: DocumentStore, resolvedLevel?: string, 
     tex += staff.heading;
     if (config.compliance.allowReferences) tex += buildReferences(store.references, false, target);
     tex += store.docType === 'coordination_page' ? staff.body
-      : buildBody(store.paragraphs, config, bodyFont(data), bodySizePt(data), store.docType);
+      : buildBody(store, config);
     tex += staff.closing;
   } else switch (config.uiMode) {
     case 'standard':

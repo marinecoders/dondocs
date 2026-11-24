@@ -26,6 +26,10 @@ export function supportsCorrespondenceProofread(source: Pick<ProofreadSource, 'd
     && Object.hasOwn(DOC_TYPE_CONFIG, source.docType);
 }
 
+export function supportsWordProofread(source: Pick<ProofreadSource, 'documentCategory' | 'docType'>): boolean {
+  return source.docType !== 'coordination_page' && supportsCorrespondenceProofread(source);
+}
+
 /** Additional advisory checks on printed correspondence, without changing a draft
  * or duplicating the existing formatting, readiness and classification engines. */
 export function additionalProofreadFindings(source: ProofreadSource, catalog?: ReadonlySet<string>): ProofreadFinding[] {

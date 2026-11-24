@@ -9,6 +9,7 @@ import { assertRetainedDocumentTextPolicy, assertRetainedTextPolicy } from '@/li
 import { buildWordReviewHandoff } from '@/lib/wordReviewBaseline';
 import { readWordDocument, WORD_DOCUMENT_TYPE } from '@/services/docx/import/readWord';
 import { stampWordReviewIdentity } from '@/services/docx/review/identity';
+import { issuedProofreadCommentDigest } from '@/services/docx/review/proofreadComments';
 import { prepareSessionState } from '@/stores/documentStore';
 import { captureDocumentTarget, isCurrentDocumentTarget, type DocumentTarget } from '@/stores/documentsStore';
 import { scheduleBackup } from '@/stores/backupStore';
@@ -75,6 +76,13 @@ export function createWordReviewExport(ports: WordReviewExportPorts) {
       const bytes = new Uint8Array(await artifact.blob.arrayBuffer());
       assertCurrent(owned, signal);
       const imported = await readWordDocument(bytes, ready.job.filename, signal);
+      let issuedProofreadComments: string[] = [];
+      if (ready.job.wordProofreadComments) {
+        issuedProofreadComments = await Promise.all(imported.comments.flatMap(comment => {
+          const digest = issuedProofreadCommentDigest(comment);
+          return digest ? [digest] : [];
+        }));
+      }
       const id = crypto.randomUUID(), createdAt = Math.max(Date.now(), owned.round.createdAt);
       const plan = await buildWordReviewHandoff(owned.round, imported, { id, createdAt, docxSha256: imported.source.sha256 }, signal);
       const tagged = await stampWordReviewIdentity(bytes, { handoffId: id, roundId: owned.round.id, baselineDigest: owned.round.baselineDigest }, plan.sourceIndexes, signal);
@@ -85,7 +93,9 @@ export function createWordReviewExport(ports: WordReviewExportPorts) {
       assertCurrent(owned, signal);
       if (latestPolicy.status !== 'ready' || latestPolicy.policy.identity !== ready.job.policyIdentity) throw new Error('The deployment policy changed. Prepare and review this Word copy again.');
       assertRetainedTextPolicy([imported.source.name, imported.source.retainedText], latestPolicy);
-      const saved = await idbAppendWordHandoff(owned.round, { ...plan.receipt, docxSha256: digest }, () => active && operation === owned && !signal.aborted && isCurrentDocumentTarget(owned.target));
+      const saved = await idbAppendWordHandoff(owned.round, { ...plan.receipt, docxSha256: digest,
+        ...(issuedProofreadComments.length ? { issuedProofreadComments } : {}),
+      }, () => active && operation === owned && !signal.aborted && isCurrentDocumentTarget(owned.target));
       if (!saved) throw new Error('The review baseline changed or its Word locator could not be saved. No copy was delivered.');
       owned.round = saved;
       scheduleBackup();
@@ -96,7 +106,7 @@ export function createWordReviewExport(ports: WordReviewExportPorts) {
   });
   return Object.freeze({
     controller,
-    request(roundInput: ReviewRound): boolean {
+    request(roundInput: ReviewRound, wordProofreadComments = false): boolean {
       const round = parseReviewRound(roundInput), target = captureDocumentTarget();
       if (!active || !target || !round.ownerDocumentId || round.ownerDocumentId !== target.scope.documentId) throw new Error('Open the original native draft that owns this review first.');
       assertActiveReviewRound(round);
@@ -104,7 +114,8 @@ export function createWordReviewExport(ports: WordReviewExportPorts) {
       operation = { id, round, target };
       const captured = captureDocumentRevision({ documentId: target.scope.documentId, epoch: target.scope.epoch,
         editSequence: target.editSequence, capturedAt: round.baseline.ts }, prepareSessionState(round.baseline.session, true));
-      const accepted = controller.request({ id, captured, target: 'docx', filename: `dondocs-word-review-${round.id}.docx` });
+      const accepted = controller.request({ id, captured, target: 'docx', ...(wordProofreadComments ? { wordProofreadComments } : {}),
+        filename: `dondocs-word-review-${round.id}.docx` });
       if (!accepted) operation = previous;
       return accepted;
     },

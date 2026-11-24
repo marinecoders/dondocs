@@ -440,6 +440,12 @@ local function handle_raw_inline(el)
     return pandoc.RawInline("openxml", '<w:bookmarkStart w:id="' .. id .. '" w:name="DonDocsBodyTable' .. body_table .. '"/><w:bookmarkEnd w:id="' .. id .. '"/>')
   end
 
+  local proofread = text:match("^\\dondocsproofread%{(%d+)%}$")
+  if proofread then
+    local id = 230000 + tonumber(proofread)
+    return pandoc.RawInline("openxml", '<w:bookmarkStart w:id="' .. id .. '" w:name="DonDocsProofread' .. proofread .. '"/><w:bookmarkEnd w:id="' .. id .. '"/>')
+  end
+
   local memo_twips, memo_block = text:match("^\\dondocsmemoindent%{(%d+)%}%{([01])%}$")
   if memo_twips then
     memo_bookmark_id = memo_bookmark_id + 1

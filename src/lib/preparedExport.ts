@@ -5,6 +5,7 @@ import { hasDlaStationery } from './dlaLetterhead';
 import { stationeryIssues } from './stationery';
 import { taggedCorrespondenceIssues } from '@/services/pdf/accessibility/preflight';
 import { jointLetterCommandIssues } from './jointLetterCommands';
+import { supportsWordProofread } from './correspondenceProofreadChecks';
 import { projectRenderedDocument, correspondencePortions } from './renderedDocument';
 import { validateAnswers, diagnosticText } from '@/services/forms/model';
 import { copyFormExportTemplates, type FormExportTemplates } from './formExportTemplates';
@@ -38,6 +39,7 @@ export interface PreparedExportJob {
   readonly texMode?: 'configuration' | 'flat';
   readonly pdfAccessibility?: 'tagged';
   readonly wordEnclosurePages?: boolean;
+  readonly wordProofreadComments?: boolean;
   readonly filename: string;
   readonly policyIdentity: string;
 }
@@ -103,6 +105,7 @@ export function prepareExport(input: {
   readonly texMode?: 'configuration' | 'flat';
   readonly pdfAccessibility?: 'tagged';
   readonly wordEnclosurePages?: boolean;
+  readonly wordProofreadComments?: boolean;
   readonly filename: string;
   readonly policy: PolicyResolution;
   readonly placeholders?: PlaceholderValues;
@@ -114,11 +117,15 @@ export function prepareExport(input: {
     assertExportDeploymentPolicy(input.policy.policy);
     if (input.pdfAccessibility !== undefined && (input.target !== 'pdf' || input.pdfAccessibility !== 'tagged')) return error('Invalid tagged PDF export option.');
     if (input.wordEnclosurePages !== undefined && (typeof input.wordEnclosurePages !== 'boolean' || input.target !== 'docx')) return error('PDF enclosure page images are a Word export option.');
+    if (input.wordProofreadComments !== undefined && (typeof input.wordProofreadComments !== 'boolean' || input.target !== 'docx')) return error('Proofread comments are a Word export option.');
     if (input.texMode !== undefined && (input.target !== 'tex' || !['configuration', 'flat'].includes(input.texMode))) return error('Invalid TeX export mode.');
     if (!input.id.trim() || !input.filename.trim() || /[\\/]/.test(input.filename) || [...input.filename].some(char => char.charCodeAt(0) < 32)) return error('Choose a valid export identity and filename.');
     const capability = capturedCapabilities(input.captured, { operation: 'export', target: input.target, texMode: input.texMode });
     if (capability.status !== 'supported' && capability.status !== 'partial') return error(capability.message);
     const original = copyCapturedDocument(input.captured);
+    if (input.wordProofreadComments && (original.kind !== 'correspondence' || !supportsWordProofread(original.document))) {
+      return error('Proofread comments require an editable correspondence body.');
+    }
     if (original.kind !== 'correspondence') {
       if (!input.formTemplates || input.formTemplates.kind !== original.kind || input.formTemplates.formType !== original.document.formType) return error('Capture the selected form templates before export.');
       const pages = copyFormExportTemplates(input.formTemplates);
@@ -235,7 +242,7 @@ export function prepareExport(input: {
       ...(input.placeholders ? [detectBatchPII(input.captured, input.placeholders)] : []),
     ]);
     const structure = output.kind === 'correspondence' && !['sl3', 'sl4'].includes(snapshot.docType) ? validateParagraphStructure(snapshot.paragraphs) : [];
-    const job: PreparedExportJob = Object.freeze({ [preparedBrand]: true as const, id: input.id, source: output.source, kind: output.kind, target: input.target, ...(input.pdfAccessibility ? { pdfAccessibility: input.pdfAccessibility } : {}), ...(input.wordEnclosurePages ? { wordEnclosurePages: true } : {}), ...(input.target === 'tex' ? { texMode: input.texMode ?? 'configuration' } : {}), filename: input.filename, policyIdentity: input.policy.policy.identity });
+    const job: PreparedExportJob = Object.freeze({ [preparedBrand]: true as const, id: input.id, source: output.source, kind: output.kind, target: input.target, ...(input.pdfAccessibility ? { pdfAccessibility: input.pdfAccessibility } : {}), ...(input.wordEnclosurePages ? { wordEnclosurePages: true } : {}), ...(input.wordProofreadComments ? { wordProofreadComments: true } : {}), ...(input.target === 'tex' ? { texMode: input.texMode ?? 'configuration' } : {}), filename: input.filename, policyIdentity: input.policy.policy.identity });
     prepared.set(job, { captured: output, policy: input.policy.policy, marking, formTemplates: input.formTemplates, review: { privacy, structure, notices, markingReview, ...(layoutReview ? { layoutReview: true } : {}) } });
     return privacy.found || structure.length || markingReview || layoutReview
       ? Object.freeze({ status: 'needs-review', job })

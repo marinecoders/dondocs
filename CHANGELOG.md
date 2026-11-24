@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.262] — 2026-11-23
+
+### Added
+
+- Offer a Word copy with anchored proofreading comments and recognize edited returns without duplicating generated notes.
+
 ## [1.3.261] — 2026-11-23
 
 ### Added
