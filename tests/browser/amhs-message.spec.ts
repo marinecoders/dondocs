@@ -129,6 +129,8 @@ test('saves an unfinished GENADMIN locally, restores it after reload and support
   await expect(remarks).toHaveValue('An unfinished message.');
   await dialog.getByRole('button', { name: 'Close', exact: true }).click();
   await confirmClose.getByRole('button', { name: 'Save and close', exact: true }).click();
+  // The confirmation hides the editor from accessibility queries while the write is pending.
+  await expect(confirmClose).toBeHidden();
   await expect(dialog).toBeHidden();
 
   await page.reload();

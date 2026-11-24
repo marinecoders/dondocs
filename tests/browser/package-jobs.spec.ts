@@ -1,4 +1,4 @@
-import { openPackagePreparation, importPackage, packageSection, expandPackageTools, packageTool } from './_helpers/packageWorkspace';
+import { openPackageWorkspace, importPackage, packageSection } from './_helpers/packageWorkspace';
 import { expect, test, type Locator, type Page } from '@playwright/test';
 import { createHash } from 'node:crypto';
 import { PDFDocument, StandardFonts } from 'pdf-lib';
@@ -30,13 +30,14 @@ async function fixture() {
   return Buffer.from(JSON.stringify({ kind: 'dondocs-action-package', version: 1, package: { kind: 'dondocs-action-package-record', version: 1, id: packageId, historyScope: 'selected-revision', name: 'Resumable training package',
     archived: false, sequence: 0, currentRevisionId: revisionId, revisions: [{ id: revisionId, createdAt: 100, members, outputs: [] }] }, portableResources: { kind: 'dondocs-resources', version: 1, entries: resources } }));
 }
-async function packages(page: Page) {
-  return openPackagePreparation(page);
-}
 async function jobsPanel(dialog: Locator) {
-  const panel = await packageTool(dialog, 'Resumable PDF assembly');
-  if (!await panel.isVisible()) await expandPackageTools(dialog);
-  await expect(panel).toBeVisible(); return panel;
+  await packageSection(dialog, 'Delivery');
+  const summary = dialog.locator('summary').filter({ hasText: /^Resumable PDF assembly$/ });
+  await expect(summary).toBeVisible();
+  if (await summary.locator('..').getAttribute('open') === null) await summary.click();
+  const panel = dialog.getByRole('region', { name: 'Resumable PDF assembly', exact: true });
+  await expect(panel).toBeVisible();
+  return panel;
 }
 async function jobState(page: Page) {
   return page.evaluate(async id => {
@@ -53,9 +54,8 @@ async function jobState(page: Page) {
 for (const theme of ['light', 'dark', 'classic']) for (const width of [1440, 320]) test(`real configured package assembly pauses, reloads and resumes after fresh review in ${theme} at ${width}px`, async ({ page, context }, info) => {
   await page.setViewportSize({ width, height: 950 });
   await context.addInitScript(value => { localStorage.setItem('browser-test-visitor', 'returning'); localStorage.setItem('dondocs_ui', JSON.stringify({ version: 1, state: { theme: value, editorLayout: 'focused' } })); }, theme);
-  await page.goto('/'); let dialog = await packages(page);
+  await page.goto('/'); let dialog = await openPackageWorkspace(page);
   await importPackage(dialog, { name: 'resumable-training.json', mimeType: 'application/json', buffer: await fixture() });
-  await packageSection(dialog, 'Delivery', true);
   await expect(dialog.getByRole('heading', { name: 'Resumable training package', exact: true, level: 1 })).toBeVisible({ timeout: 30_000 });
   let panel = await jobsPanel(dialog);
   await panel.getByRole('button', { name: 'Review resumable assembly', exact: true }).click();
@@ -89,7 +89,7 @@ for (const theme of ['light', 'dark', 'classic']) for (const width of [1440, 320
     finally { database.close(); }
   }, retained.outputId);
   const checkpoint = Buffer.from(retainedBytes); expect(checkpoint.length).toBe(retained.size); expect(sha(checkpoint)).toBe(retained.sha256); expect((await PDFDocument.load(checkpoint)).getPageCount()).toBe(1);
-  await page.reload(); dialog = await packages(page); panel = await jobsPanel(dialog);
+  await page.reload(); dialog = await openPackageWorkspace(page); panel = await jobsPanel(dialog);
   await panel.getByRole('button', { name: 'Review saved job', exact: true }).click();
   const resume = panel.getByRole('button', { name: 'Resume reviewed assembly', exact: true }); await expect(resume).toBeDisabled();
   await expect(panel.getByRole('checkbox', { name: /^I reviewed every captured document/ })).not.toBeChecked();
@@ -111,7 +111,7 @@ for (const theme of ['light', 'dark', 'classic']) for (const width of [1440, 320
   await info.attach('resumed-package.pdf', { body: output, contentType: 'application/pdf' });
   expect(await dialog.evaluate(element => element.scrollWidth <= element.clientWidth + 1)).toBe(true);
   await panel.scrollIntoViewIfNeeded(); await page.screenshot({ path: info.outputPath(`resumable-package-${theme}-${width}px.png`) });
-  await page.reload(); dialog = await packages(page); panel = await jobsPanel(dialog);
+  await page.reload(); dialog = await openPackageWorkspace(page); panel = await jobsPanel(dialog);
   await expect(panel.getByRole('button', { name: 'Review saved job', exact: true })).toHaveCount(0);
   await expect(panel.getByText(`complete · ${count} of ${count} documents`, { exact: true })).toBeVisible();
 });

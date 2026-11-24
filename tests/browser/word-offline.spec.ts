@@ -1,5 +1,5 @@
 import { test, expect, type Page } from '@playwright/test';
-import { readFile } from 'node:fs/promises';
+import { readdir, readFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import JSZip from 'jszip';
 import { startUpgradeServer } from './upgradeServer';
@@ -10,8 +10,10 @@ const isWord = (url: string) => /\/lib\/pandoc\//.test(url);
 
 async function openSettings(page: Page) {
   const workspace = page.getByRole('button', { name: 'Open workspace', exact: true });
+  const settings = page.getByRole('button', { name: 'Settings', exact: true });
+  await expect(workspace.or(settings).first()).toBeVisible();
   if (await workspace.isVisible()) await workspace.click();
-  await page.getByRole('button', { name: 'Settings', exact: true }).click();
+  await settings.click();
   return page.getByRole('region', { name: 'Offline exports', exact: true });
 }
 
@@ -30,7 +32,9 @@ test('keeps Word resources off the PDF path and exports actual DOCX after offlin
   // Use desktop browser projects for PDF downloads and service-worker restart.
   test.skip(test.info().project.name.startsWith('mobile') || test.info().project.name.startsWith('ipad'), 'Desktop offline export workflow.');
   const packagedBuild = process.env.RELEASE_BUILD_A;
-  const server = packagedBuild && await startUpgradeServer({ root: () => resolve(packagedBuild) });
+  // Firefox can still fetch from the origin through a service worker after setOffline.
+  const build = packagedBuild ?? (browserName === 'firefox' ? 'dist' : undefined);
+  const server = build && await startUpgradeServer({ root: () => resolve(build) });
   try {
     const url = server ? server.origin : '/';
     const wordRequests: string[] = [];
@@ -69,9 +73,11 @@ test('keeps Word resources off the PDF path and exports actual DOCX after offlin
     await page.keyboard.press('Escape');
 
     // Firefox's offline emulation does not reliably stop service-worker fetches.
-    if (server && packagedBuild && browserName === 'firefox') {
-      const manifest = JSON.parse(await readFile(resolve(packagedBuild, 'release.json'), 'utf8')) as { assets: { url: string }[] };
-      for (const asset of manifest.assets.filter(asset => isWord(asset.url))) server.faults.set(asset.url, { status: 503 });
+    if (server && browserName === 'firefox') {
+      const wordPaths = packagedBuild
+        ? (JSON.parse(await readFile(resolve(packagedBuild, 'release.json'), 'utf8')) as { assets: { url: string }[] }).assets.map(asset => asset.url).filter(isWord)
+        : (await readdir(resolve('dist/lib/pandoc'))).map(file => `/lib/pandoc/${file}`);
+      for (const path of wordPaths) server.faults.set(path, { status: 503 });
     }
     await context.setOffline(true);
     await download(page, 'Word (.docx)');
