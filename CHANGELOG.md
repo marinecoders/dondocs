@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.274] — 2026-11-23
+
+### Added
+
+- Save and discard one local message draft and preserve newer or unreadable saved data.
+
 ## [1.3.273] — 2026-11-23
 
 ### Fixed

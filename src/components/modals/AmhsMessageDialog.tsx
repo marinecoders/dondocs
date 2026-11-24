@@ -1,6 +1,10 @@
-import { useId, useRef, useState, type ChangeEvent, type FormEvent } from 'react';
+import { useEffect, useId, useRef, useState, type ChangeEvent, type FormEvent } from 'react';
 import { flushSync } from 'react-dom';
 import { Download } from 'lucide-react';
+import {
+  AlertDialog, AlertDialogCancel, AlertDialogContent, AlertDialogDescription,
+  AlertDialogFooter, AlertDialogHeader, AlertDialogTitle,
+} from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
@@ -10,10 +14,10 @@ import { triggerDownload } from '@/lib/encoding';
 import {
   EMPTY_GENADMIN_DRAFT,
   GENADMIN_FORMAT_SOURCE,
-  GENADMIN_LIMITS,
   prepareGenadmin,
   type GenadminDraft,
 } from '@/services/messages/genadmin';
+import { genadminDraftFieldLimit, readGenadminDraft, writeGenadminDraft } from '@/services/messages/genadminDraftStorage';
 
 type Field = keyof GenadminDraft;
 
@@ -31,12 +35,95 @@ export default function AmhsMessageDialog({
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }) {
-  const [draft, setDraft] = useState(EMPTY_GENADMIN_DRAFT);
+  const [saved, setSaved] = useState(readGenadminDraft);
+  const [draft, setDraft] = useState(saved.draft);
+  const [draftPrompt, setDraftPrompt] = useState<'close' | 'discard' | null>(null);
+  const [storageError, setStorageError] = useState('');
+  const [storageBusy, setStorageBusy] = useState(false);
   const [reviewed, setReviewed] = useState(false);
   const [downloadError, setDownloadError] = useState(false);
   const prefix = useId();
   const title = useRef<HTMLHeadingElement>(null);
   const result = prepareGenadmin(draft);
+
+  const hasContent = Object.values(draft).some(value => value.length > 0);
+  const unreadable = saved.raw !== null && saved.draft === EMPTY_GENADMIN_DRAFT;
+  const dirty = (Object.keys(draft) as Field[]).some(field => saved.draft[field] !== draft[field]);
+  useEffect(() => {
+    if (!open || !dirty) return;
+    const protectDraft = (event: BeforeUnloadEvent) => {
+      event.preventDefault();
+      event.returnValue = '';
+    };
+    window.addEventListener('beforeunload', protectDraft);
+    return () => window.removeEventListener('beforeunload', protectDraft);
+  }, [open, dirty]);
+
+  useEffect(() => {
+    if (!open || dirty || storageBusy) return;
+    let current = true;
+    const refresh = () => {
+      if (!current) return;
+      const latest = readGenadminDraft();
+      if (latest.raw === saved.raw) return;
+      setSaved(latest);
+      setDraft(latest.draft);
+    };
+    queueMicrotask(refresh);
+    window.addEventListener('storage', refresh);
+    return () => {
+      current = false;
+      window.removeEventListener('storage', refresh);
+    };
+  }, [open, dirty, storageBusy, saved.raw]);
+
+  function changeOpen(nextOpen: boolean) {
+    if (storageBusy) return;
+    setStorageError('');
+    if (!nextOpen && dirty) {
+      setDraftPrompt('close');
+      return;
+    }
+    onOpenChange(nextOpen);
+  }
+
+  async function saveDraft() {
+    setStorageBusy(true);
+    try {
+      setSaved(await writeGenadminDraft(saved, hasContent ? draft : null));
+      if (draftPrompt === 'close') onOpenChange(false);
+      setDraftPrompt(null);
+      setStorageError('');
+    } catch (error) {
+      setStorageError(error instanceof Error && !(error instanceof DOMException)
+        ? error.message : 'The draft could not be saved in this browser.');
+    } finally {
+      setStorageBusy(false);
+    }
+  }
+
+  async function discardDraft() {
+    if (draftPrompt === 'close') {
+      setDraft(saved.draft);
+      onOpenChange(false);
+    } else {
+      setStorageBusy(true);
+      try {
+        if (saved.raw !== null) setSaved(await writeGenadminDraft(saved, null));
+      } catch (error) {
+        setStorageError(error instanceof Error && !(error instanceof DOMException)
+          ? error.message : 'The saved draft could not be removed in this browser.');
+        return;
+      } finally {
+        setStorageBusy(false);
+      }
+      if (!unreadable) setDraft(EMPTY_GENADMIN_DRAFT);
+    }
+    setReviewed(false);
+    setDownloadError(false);
+    setStorageError('');
+    setDraftPrompt(null);
+  }
 
   function field(name: Field, label: string, options: FieldOptions = {}) {
     const id = prefix + '-' + name;
@@ -46,8 +133,8 @@ export default function AmhsMessageDialog({
       name,
       value: draft[name],
       placeholder: options.placeholder,
-      maxLength: name === 'remarks' ? GENADMIN_LIMITS.remarks
-        : options.rows ? GENADMIN_LIMITS.list : GENADMIN_LIMITS.line,
+      maxLength: genadminDraftFieldLimit(name),
+      disabled: storageBusy,
       required: !options.optional,
       'aria-invalid': !!error,
       'aria-describedby': [options.help && id + '-help', error && id + '-error'].filter(Boolean).join(' ') || undefined,
@@ -88,7 +175,7 @@ export default function AmhsMessageDialog({
   }
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
+    <Dialog open={open} onOpenChange={changeOpen}>
       <DialogContent
         className="sm:max-w-3xl"
         onOpenAutoFocus={event => {
@@ -98,8 +185,25 @@ export default function AmhsMessageDialog({
       >
         <DialogHeader className="pr-9 text-left">
           <DialogTitle ref={title} tabIndex={-1}>AMHS message draft</DialogTitle>
-          <DialogDescription>Prepare an unclassified GENADMIN for review by your message center. This draft stays in the current tab until you reload or close it.</DialogDescription>
+          <DialogDescription>Prepare an unclassified GENADMIN for review by your message center. Save draft keeps one unfinished message in this browser. It is stored separately from your correspondence and workspace backups.</DialogDescription>
         </DialogHeader>
+        <div className="flex flex-wrap items-center justify-between gap-2 rounded-md border px-3 py-2">
+          <p role="status" className="text-sm text-muted-foreground">
+            {storageBusy ? 'Updating local draft…'
+              : dirty ? 'Unsaved changes'
+              : saved.raw === null ? 'No local draft saved'
+              : unreadable ? 'Saved draft could not be read'
+              : 'Saved in this browser'}
+          </p>
+          {storageError && !draftPrompt && <p role="alert" className="basis-full text-sm text-destructive">{storageError}</p>}
+          <div className="flex flex-wrap gap-2">
+            <Button type="button" variant="outline" disabled={storageBusy || !dirty} onClick={() => void saveDraft()}>Save draft</Button>
+            <Button type="button" variant="ghost" disabled={storageBusy || (!hasContent && saved.raw === null)} onClick={() => {
+              setStorageError('');
+              setDraftPrompt('discard');
+            }}>{unreadable ? 'Discard saved copy' : 'Discard draft'}</Button>
+          </div>
+        </div>
         <form noValidate onSubmit={download} className="min-w-0 space-y-4">
           <div className="grid gap-4 sm:grid-cols-2">
             {field('from', 'From address', { help: 'Use the command’s plain-language address.' })}
@@ -142,10 +246,30 @@ export default function AmhsMessageDialog({
           {downloadError && <p role="alert" className="text-sm text-destructive">The download could not start. You can copy the preview or try again.</p>}
           <div className="flex flex-wrap items-center justify-between gap-3">
             <a href={GENADMIN_FORMAT_SOURCE} target="_blank" rel="noreferrer" className="text-sm text-primary underline underline-offset-2">Navy GENADMIN format example</a>
-            <Button type="submit"><Download aria-hidden="true" />Download text</Button>
+            <Button type="submit" disabled={storageBusy}><Download aria-hidden="true" />Download text</Button>
           </div>
         </form>
       </DialogContent>
+      <AlertDialog open={draftPrompt !== null} onOpenChange={nextOpen => {
+        if (!nextOpen && !storageBusy) { setDraftPrompt(null); setStorageError(''); }
+      }}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>{draftPrompt === 'close' ? 'Save this draft before closing?'
+              : unreadable ? 'Discard the unreadable saved copy?' : 'Discard this message draft?'}</AlertDialogTitle>
+            <AlertDialogDescription>{draftPrompt === 'close'
+              ? 'Keep your edits in this browser or close without saving them.'
+              : unreadable ? 'This removes the unreadable copy from this browser. You can then save your current edits.'
+              : 'This clears the current message and removes its saved copy from this browser.'}</AlertDialogDescription>
+          </AlertDialogHeader>
+          {storageError && <p role="alert" className="text-sm text-destructive">{storageError}</p>}
+          <AlertDialogFooter>
+            <AlertDialogCancel disabled={storageBusy}>Keep editing</AlertDialogCancel>
+            <Button variant="destructive" disabled={storageBusy} onClick={() => void discardDraft()}>{draftPrompt === 'close' ? 'Discard changes' : unreadable ? 'Discard saved copy' : 'Discard draft'}</Button>
+            {draftPrompt === 'close' && <Button disabled={storageBusy} onClick={() => void saveDraft()}>Save and close</Button>}
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </Dialog>
   );
 }
