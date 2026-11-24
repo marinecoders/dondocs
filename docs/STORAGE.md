@@ -580,9 +580,9 @@ bytes cannot be reconstructed. A code rollback does not downgrade stored documen
 Ordinary links use an additive `dondocs-share` envelope with `version: 1` and a
 `documentKind` discriminator for correspondence, built-in forms, or configured
 forms. The established document fields remain at the top level so earlier
-clients with the corresponding document reader can still read them. New readers
-also accept unversioned legacy links and reject unknown envelope versions or a
-kind that does not match the contents before opening a new document.
+document readers can process legacy copies. The inner reader rejects unknown
+document envelope versions or a kind that does not match the contents before
+opening a new document.
 
 Links include form answers and repeated rows, but omit binary images and local
 asset handles. Configured forms require access to their PDF templates. Very old
@@ -596,6 +596,21 @@ Optional expiration requires DonDocs 1.3.74 and the `dondocs-share` version 3 en
 Version 3 nests the document under `session` rather than leaving required document fields at the top level. Version 1/2 envelope readers reject the unsupported version; earlier flat-session readers fail required document validation instead of silently dropping the deadline. No separate `minReader` field is used. Deadlines on legacy, version 1/2 or draft envelopes are rejected by current readers. Without expiration, ordinary and comment-bearing shares keep versions 1 and 2 respectively. The nested document uses the same form, review-model and asset-projection validation as other shares.
 
 Expiration is an import check based on the recipient’s local clock. There is no trusted time server, hosted revocation, deletion of already imported copies, or protection against a password holder extracting the plaintext independently. Changing the device clock or using a modified reader can bypass this client check. Imported documents have no continuing expiration policy.
+
+### Encrypted share transport
+
+New document and action package shares use a `v2.` token prefix followed by
+unpadded base64url of the 16-byte salt, 12-byte IV, and AES-256-GCM ciphertext
+with its 16-byte tag. The prefix is authenticated as additional data. Version 2
+uses a fixed 600,000 PBKDF2-HMAC-SHA256 iterations. Tokens cannot supply their
+own iteration counts. The token works in either an `s=` URL fragment or the
+existing version 1 encrypted-share JSON file wrapper. Recipients need a client
+that supports this token format to open newly issued copies.
+
+Previously issued unprefixed tokens still open with 120,000 PBKDF2-HMAC-SHA256
+iterations, including those that stored raw JSON instead of compressed JSON.
+The token prefix determines which parameters the reader uses. An unsupported
+version is rejected, and authentication failure ends the attempt.
 
 ### Encrypted action package format
 

@@ -32,6 +32,19 @@ async function review(page: Page, link: string) {
   return dialog;
 }
 
+test('opens a legacy encrypted letter from the URL fragment', async ({ page }) => {
+  // A synthetic draft encrypted independently with the original unprefixed codec.
+  const token = 'QEFCQ0RFRkdISUpLTE1OT1BRUlNUVVZXWFlaW63Y3ZGi-RR5KTHiTKRc19dQZ11mS4n1j8sqrGpW9cyxDT-7jZa60IjPqeM3eV97s8qhZwQYAu1fjtUKNOiP4l-n5JxzB5goFJLKRfIN7r7ljcdwv8xgcFQAbvXNR9D4t12KnWAtRekcLCUg2IL_S1o-SqdgC0kDYRb0XhgCL1awmziVrMYrIwaEoOIVNruk0c4JKHaUlVaREEmVYF6VedsqgpJHvfVhv2ZYj_-BQA4J-ij-DFdVkTbSTkxR1aTgrhLvFrDE3v1xFXX7M76SzqKEubU';
+  await page.addInitScript(() => localStorage.setItem('browser-test-visitor', 'returning'));
+  await page.goto(`/#s=${token}`);
+  const dialog = page.getByRole('dialog', { name: 'Open shared document', exact: true });
+  await dialog.getByLabel('Password', { exact: true }).fill('synthetic-password');
+  await dialog.getByRole('button', { name: 'Decrypt and review', exact: true }).click();
+  await expect(dialog).toContainText('SYNTHETIC LEGACY LETTER');
+  await dialog.getByRole('button', { name: 'Open as new document', exact: true }).click();
+  await expect(page.getByRole('textbox', { name: 'Subject', exact: true })).toHaveValue('SYNTHETIC LEGACY LETTER');
+});
+
 for (const theme of ['light', 'dark', 'classic']) {
   test(`expiration protects import while ordinary shares remain usable in ${theme}`, async ({ page }, testInfo) => {
     await page.addInitScript(value => {
@@ -54,6 +67,7 @@ for (const theme of ['light', 'dark', 'classic']) {
     const output = dialog.locator('#generated-share-link');
     await expect(output).toBeVisible();
     const expiringLink = await output.inputValue();
+    expect(new URL(expiringLink).hash).toMatch(/^#s=v2\./);
     await expect(dialog).toContainText('Requires an updated DonDocs reader.');
     expect(await dialog.evaluate(element => element.scrollWidth <= element.clientWidth)).toBe(true);
     await output.scrollIntoViewIfNeeded();

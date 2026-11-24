@@ -16,13 +16,11 @@
  *      but we pin it down here so a future refactor that swaps GCM for
  *      a non-AEAD mode (e.g. CBC) fails CI loudly.
  *
- * Slow-test discipline: PBKDF2 is intentionally expensive (~120k
- * iterations) so encrypt/decrypt is ~50–100 ms per call. We cap
- * `numRuns` at 10 — the property is highly redundant per call and a
- * single failure is enough to flag a regression. Parallelizing across
- * multiple workers (vitest pools by default) keeps wall time tolerable.
+ * PBKDF2 is intentionally expensive. Use one real encryption/decryption per
+ * case unless the case compares two ciphertexts.
  */
-import { describe, it, expect } from 'vitest';
+import { afterEach, describe, it, expect, vi } from 'vitest';
+import { parseEncryptedShareFile, serializeEncryptedShareFile } from '@/lib/encryptedShareFile';
 import {
   encryptSharePayload,
   decryptSharePayload,
@@ -30,6 +28,22 @@ import {
   parseShareUrl,
   SHARE_HASH_PREFIX,
 } from '@/lib/shareCrypto';
+
+// Independently generated with the original byte layout and PBKDF2 cost,
+// using Node's cipher API plus zlib for the compressed fixture.
+const legacyShares = [
+  {
+    compressed: false,
+    token: 'AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGyImYp_vknPlZS8RuF85-zO9P2YvpVN2MRm3ioHJ10D63GaQVb7Wp2ieqzLMqrA87rsdvAvHpTjacMntc4ccCIdCkjZASnTf',
+  },
+  {
+    compressed: true,
+    token: 'ICEiIyQlJicoKSorLC0uLzAxMjM0NTY3ODk6O3uk9wS9S7cp3EZgq9dxEGCY8vB80-FSNOiTddJQGoUE_VLzaBiPaVBnP8gMdRVuN4qOf_vlxUciGamRkB5Fhg_tl7vOilLK7rjtBBDryQ',
+  },
+];
+const legacyPassword = 'legacy-fixture-passphrase';
+
+afterEach(() => vi.restoreAllMocks());
 
 describe('encryptSharePayload + decryptSharePayload', () => {
   it('round-trips a simple object', async () => {
@@ -63,10 +77,15 @@ describe('encryptSharePayload + decryptSharePayload', () => {
     expect(decrypted).toEqual({});
   });
 
-  it('decrypt with wrong password throws', async () => {
+  it('fails v2 authentication without re-deriving a key', async () => {
     const encrypted = await encryptSharePayload({ x: 1 }, 'right');
+    const deriveKey = vi.spyOn(crypto.subtle, 'deriveKey');
     await expect(decryptSharePayload(encrypted, 'wrong')).rejects.toThrow(
       /Wrong password or invalid share link/
+    );
+    expect(deriveKey).toHaveBeenCalledExactlyOnceWith(
+      expect.objectContaining({ name: 'PBKDF2', iterations: 600_000, hash: 'SHA-256' }),
+      expect.anything(), expect.anything(), false, ['encrypt', 'decrypt'],
     );
   });
 
@@ -93,12 +112,32 @@ describe('encryptSharePayload + decryptSharePayload', () => {
   });
 
   it('decrypt of a too-short payload throws', async () => {
-    // Below SALT(16) + IV(12) + 1 = 29 bytes raw, base64url-encoded
-    // works out to ~40 chars. Anything shorter can't possibly be a
-    // valid payload — should throw at base64 decode OR at the length
-    // check inside the function. Either way, MUST throw, MUST NOT
-    // return partial data.
-    await expect(decryptSharePayload('short', 'pw')).rejects.toThrow();
+    const deriveKey = vi.spyOn(crypto.subtle, 'deriveKey');
+    // A salt, IV and 15 tag bytes are still one byte short of a GCM envelope.
+    const tooShort = 'A'.repeat(58);
+    await expect(decryptSharePayload(tooShort, 'pw')).rejects.toThrow(/Invalid share link/);
+    await expect(decryptSharePayload(`v2.${tooShort}`, 'pw')).rejects.toThrow(/Invalid share link/);
+    expect(deriveKey).not.toHaveBeenCalled();
+  });
+
+  it('rejects malformed or unknown versions before deriving a key', async () => {
+    const deriveKey = vi.spyOn(crypto.subtle, 'deriveKey');
+    const token = legacyShares[0].token;
+    for (const malformed of ['v2.', `v2.v2.${token}`, `v3.${token}`, `v2.600001.${token}`, `v2.${token}\n`]) {
+      await expect(decryptSharePayload(malformed, legacyPassword)).rejects.toThrow(/Invalid share link/);
+    }
+    expect(deriveKey).not.toHaveBeenCalled();
+  });
+
+  it('cannot use the legacy key to open a token labeled v2', async () => {
+    await expect(decryptSharePayload(`v2.${legacyShares[0].token}`, legacyPassword)).rejects.toThrow(/Wrong password/);
+  });
+
+  it.each(legacyShares)('opens a previously issued token with compressed=$compressed', async ({ compressed, token }) => {
+    const received = compressed
+      ? parseEncryptedShareFile(JSON.stringify({ kind: 'dondocs-encrypted-share', version: 1, payload: token }))
+      : parseShareUrl(`https://example.com/#s=${token}`);
+    expect(await decryptSharePayload(received!, legacyPassword)).toEqual({ subject: 'Synthetic legacy share', compressed });
   });
 
   it('two encryptions of the same data produce different ciphertexts (random salt + IV)', async () => {
@@ -114,10 +153,18 @@ describe('encryptSharePayload + decryptSharePayload', () => {
     expect(await decryptSharePayload(b, 'pw')).toEqual({ x: 1 });
   });
 
-  it('encrypted output is URL-safe (base64url, no `+`, `/`, or `=` padding)', async () => {
-    const encrypted = await encryptSharePayload({ x: 1 }, 'pw');
-    expect(encrypted).not.toMatch(/[+/=]/);
-    expect(encrypted).toMatch(/^[A-Za-z0-9_-]+$/);
+  it('authenticates the v2 prefix and shares one URL-safe token in both delivery formats', async () => {
+    const encrypt = vi.spyOn(crypto.subtle, 'encrypt');
+    const data = { subject: 'Synthetic current share' };
+    const encrypted = await encryptSharePayload(data, 'pw');
+    expect(encrypted).toMatch(/^v2\.[A-Za-z0-9_-]+$/);
+    expect(encrypt).toHaveBeenCalledWith(expect.objectContaining({
+      name: 'AES-GCM', additionalData: new TextEncoder().encode('v2.'),
+    }), expect.anything(), expect.anything());
+    const file = serializeEncryptedShareFile(encrypted);
+    const received = parseEncryptedShareFile(new TextDecoder().decode(file));
+    expect(received).toBe(parseShareUrl(buildShareUrl(encrypted)));
+    expect(await decryptSharePayload(received, 'pw')).toEqual(data);
   });
 });
 

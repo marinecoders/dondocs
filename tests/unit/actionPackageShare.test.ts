@@ -9,7 +9,7 @@ import { createActionPackage, reviseActionPackage, renameActionPackage, listActi
 import { preparePackageShare, prepareReceivedPackageShare, encryptPreparedPackageShare, packageShareDelivery,
   importPreparedPackageShare, type EncryptedPackageShare } from "@/lib/actionPackageShare";
 import { parseEncryptedShareFile } from "@/lib/encryptedShareFile";
-import { decryptSharePayload } from "@/lib/shareCrypto";
+import { decryptSharePayload, parseShareUrl } from "@/lib/shareCrypto";
 import { resolveExportDeploymentPolicy } from "@/lib/exportDeploymentPolicy";
 import * as database from "@/lib/documentsDb";
 
@@ -99,8 +99,9 @@ it("encrypts one exact selected revision, preserves original bytes and installs 
   const selected = record.currentRevisionId;
   const prepared = await preparePackageShare(newer, selected, policy);
   const encrypted = await encryptPreparedPackageShare(prepared, "synthetic-password");
-  expect(encrypted.url).toContain("#s=");
+  expect(encrypted.url).toContain("#s=v2.");
   const { data, payload } = await decoded(encrypted);
+  expect(parseShareUrl(encrypted.url!)).toBe(payload);
   await expect(decryptSharePayload(payload, "wrong-password")).rejects.toThrow(/Wrong password/);
   const envelope = data as { kind: string; package: { package: { revisions: unknown[]; currentRevisionId: string; workingCopies?: unknown } } };
   expect(envelope.kind).toBe("dondocs-action-package-share");
@@ -127,7 +128,8 @@ it("offers encrypted-file fallback for a package exceeding the URL budget", asyn
   const { record } = await fixture(true);
   const encrypted = await encryptPreparedPackageShare(await preparePackageShare(record, record.currentRevisionId, policy), "synthetic-password");
   expect(encrypted.url).toBeNull();
-  const { data } = await decoded(encrypted);
+  const { data, payload } = await decoded(encrypted);
+  expect(payload).toMatch(/^v2\./);
   expect((await prepareReceivedPackageShare(data, policy)).name).toBe("Training action");
 });
 
