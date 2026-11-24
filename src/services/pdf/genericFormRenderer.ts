@@ -4,6 +4,7 @@ import type { FormDiagnostic } from '@/services/forms/model';
 import { formAssetUrl } from '@/lib/releasePaths';
 import { PDFDocument, rgb, pushGraphicsState, popGraphicsState, concatTransformationMatrix } from 'pdf-lib';
 import { embedPdfFont } from './fonts';
+import { retainImportedPageContent } from './importedPageContent';
 import { calculateTextPosition } from './extractFormFields';
 import { wrapTextForForm } from './textWrap';
 import {
@@ -124,6 +125,7 @@ export async function renderFormPdf(
     const src = await PDFDocument.load(bytes);
     if (src.getPageCount() !== 1) throw new Error('Each template asset must contain exactly one page.');
     templatePageGeometry(src.getPage(0));
+    retainImportedPageContent(src);
     const [copied] = await doc.copyPages(src, [0]);
     pages.push(doc.addPage(copied));
   }

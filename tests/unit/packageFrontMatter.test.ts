@@ -3,7 +3,7 @@ import { expect, it, vi } from 'vitest';
 import { captureOriginalPackageMember, readPackageAsset } from '@/lib/actionPackageAssets';
 import { preparePackageAssembly, assemblePackage } from '@/lib/actionPackageAssembly';
 import { buildPortableActionPackage, parsePortableActionPackage } from '@/lib/actionPackageTransfer';
-import { PDFArray, PDFDict, PDFDocument, PDFName, PDFNumber } from 'pdf-lib';
+import { PDFArray, PDFDict, PDFDocument, PDFName, PDFNumber, PDFString } from 'pdf-lib';
 import type { PackageRevision } from '@/lib/actionPackages';
 import { createActionPackage, getPackageRevision, reviseActionPackage } from '@/lib/actionPackages';
 import { addPackageFrontMatter } from '@/lib/packageFrontMatter';
@@ -58,12 +58,24 @@ it('includes assembly settings in PDF and signing/change-impact input identities
 });
 
 it('assembles and transfers covered output against its real shifted page boundaries', async () => {
-  const original = await PDFDocument.create(); original.addPage([612, 792]); const bytes = new Uint8Array(await original.save()).buffer;
-  let record = await reviseActionPackage(await createActionPackage(`Covered output ${crypto.randomUUID()}`), [await captureOriginalPackageMember({ name: 'Synthetic original.pdf', data: bytes }, 'basic-letter', false)]);
+  const original = await PDFDocument.create();
+  const originalPage = original.addPage([612, 792]);
+  originalPage.drawText('Retained letter');
+  originalPage.node.addAnnot(original.context.register(original.context.obj({
+    Type: 'Annot', Subtype: 'Text', Rect: [72, 72, 110, 110], Contents: PDFString.of('Non-printing original note'),
+  })));
+  const originalBytes = new Uint8Array(await original.save()).buffer;
+  const captured = await captureOriginalPackageMember({ name: 'Synthetic original.pdf', data: originalBytes }, 'basic-letter', false);
+  if (captured.kind !== 'original') throw new Error('Expected an original PDF member.');
+  let record = await reviseActionPackage(await createActionPackage(`Covered output ${crypto.randomUUID()}`), [captured]);
   record = await updatePackageAssemblySettings(record, { ...defaultPackageAssemblySettings(), cover: true, contents: true }, policy);
   const assembled = await assemblePackage(await preparePackageAssembly(record, record.currentRevisionId, policy), { compile: vi.fn(), convertDocx: vi.fn(), waitForReady: async () => true });
   const output = getPackageRevision(assembled).outputs[0];
-  expect((await PDFDocument.load(await readPackageAsset(output.asset))).getPageCount()).toBe(3);
+  const delivered = await PDFDocument.load(await readPackageAsset(output.asset));
+  expect(delivered.getPageCount()).toBe(3);
+  expect(delivered.getPage(2).node.Annots()?.size() ?? 0).toBe(0);
+  expect(delivered.getPage(1).node.Annots()?.size()).toBe(1);
+  expect(new Uint8Array(await readPackageAsset(captured.original))).toEqual(new Uint8Array(originalBytes));
   expect(output.boundaries[0].startPage).toBe(3);
   expect((await preparePackageAssembly(assembled, assembled.currentRevisionId, policy)).readiness.findings.filter(item => item.severity === 'error')).toEqual([]);
   expect(output.navigation![0].startPage).toBe(3);

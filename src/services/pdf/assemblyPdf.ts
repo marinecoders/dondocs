@@ -1,6 +1,7 @@
 import { PDFArray, PDFBool, PDFDict, PDFDocument, PDFHexString, PDFName, PDFNull, PDFNumber, PDFRawStream, PDFStream, PDFString } from 'pdf-lib';
 import type { PDFPageProxy } from 'pdfjs-dist';
 import { createPdfResourceValidator } from './validatePdfResources';
+import { retainImportedPageContent } from './importedPageContent';
 
 export const PROTECTED_PDF_LIMITS = Object.freeze({
   bytes: 25 * 1024 * 1024,
@@ -82,12 +83,19 @@ function hasPrintableAnnotations(pdf: PDFDocument, needsAppearances: boolean | u
     const state = annotation.lookup(PDFName.of('AS'));
     const appearance = normal instanceof PDFDict && state instanceof PDFName ? normal.lookup(state) : normal;
     if (subtype === PDFName.of('Link') && !(appearance instanceof PDFStream)) continue;
-    printable = true;
     if (subtype === PDFName.of('Widget')) {
-      if (hasFieldValue(annotation) && (needsAppearances !== false || !(appearance instanceof PDFStream))) {
+      const hasValue = hasFieldValue(annotation);
+      if (hasValue && (needsAppearances !== false || !(appearance instanceof PDFStream))) {
         throw new Error(FORM_APPEARANCE_ERROR);
       }
+      // DonDocs' empty signature widget has a no-op normal appearance.
+      // Keep underlying vector content when the widget has nothing to print.
+      if (!hasValue && annotation.lookup(PDFName.of('FT')) === PDFName.of('Sig')
+        && (!(appearance instanceof PDFStream)
+          || (appearance instanceof PDFRawStream && !appearance.dict.has(PDFName.of('Filter'))
+            && appearance.getContentsSize() === 3 && appearance.getContentsString() === 'q Q'))) continue;
     }
+    printable = true;
   }
   return printable;
 }
@@ -200,10 +208,10 @@ function checkImages(pdf: PDFDocument): void {
 
 /** pdf-lib does not decrypt streams when ignoreEncryption is set. A document
  * that opens without a user password can still produce silently blank copies.
- * Render that encrypted case, or printable enclosure annotations, to a separate,
- * bounded visual derivative. Basic-letter copies preserve ordinary annotations.
+ * Render that encrypted case, or printable upload annotations, to a separate,
+ * bounded visual derivative. Vector copies retain page content and geometry.
  */
-export async function loadAssemblyPdf(data: Uint8Array | ArrayBuffer, signal?: AbortSignal, options: { preserveAnnotations?: boolean; forcePageImages?: boolean; onPageImage?: (image: { bytes: Uint8Array; width: number; height: number }) => void | Promise<void> } = {}): Promise<{ pdf: PDFDocument; pageImages: boolean; imageCopyReason?: PdfImageCopyReason }> {
+export async function loadAssemblyPdf(data: Uint8Array | ArrayBuffer, signal?: AbortSignal, options: { forcePageImages?: boolean; onPageImage?: (image: { bytes: Uint8Array; width: number; height: number }) => void | Promise<void> } = {}): Promise<{ pdf: PDFDocument; pageImages: boolean; imageCopyReason?: PdfImageCopyReason }> {
   signal?.throwIfAborted();
   const source = bytesOf(data);
   const pdf = await PDFDocument.load(source, { ignoreEncryption: true });
@@ -212,8 +220,11 @@ export async function loadAssemblyPdf(data: Uint8Array | ArrayBuffer, signal?: A
   // pdf-lib cannot decrypt compressed page dictionaries. Let PDF.js inspect
   // encrypted form/annotation metadata after loading it with the empty password.
   const printableAnnotations = !pdf.isEncrypted && hasPrintableAnnotations(pdf, needsAppearances);
-  const imageCopyReason = pdf.isEncrypted ? 'permissions' : !options.preserveAnnotations && printableAnnotations ? 'annotations' : undefined;
-  if (!imageCopyReason && !options.forcePageImages) return { pdf, pageImages: false };
+  const imageCopyReason = pdf.isEncrypted ? 'permissions' : printableAnnotations ? 'annotations' : undefined;
+  if (!imageCopyReason && !options.forcePageImages) {
+    retainImportedPageContent(pdf, signal);
+    return { pdf, pageImages: false };
+  }
   if (source.byteLength > PROTECTED_PDF_LIMITS.bytes) throw new Error('PDF image copies must be 25 MB or smaller. Split this PDF and try again.');
   if (typeof document === 'undefined') throw new Error('This environment cannot prepare PDF page images. Export an unprotected, flattened copy in your PDF application and attach it again.');
   checkImages(pdf);

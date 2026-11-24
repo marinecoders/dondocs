@@ -3,6 +3,7 @@ import { directiveIssues } from './directiveFormats';
 import { isStaffPaper, staffPaperIssues } from './staffPapers';
 import { projectCapturedOutput } from './documentFields';
 import { captureVolumePdfDestinations, restoreVolumePdfLinks } from '@/services/pdf/volumePackageLinks';
+import { loadAssemblyPdf } from '@/services/pdf/assemblyPdf';
 import { reviewPackageSigning } from './packageSigning';
 import { getExportDeploymentPolicy, getExportDeploymentPolicySync } from '@/config/classification';
 import { canMeasurePackageEndorsement, measurePackageEndorsement } from './packageEndorsementPlacement';
@@ -341,7 +342,7 @@ export async function preparePackageAssembly(
         findings.push({
           memberId: member.id,
           severity: "warning",
-          message: `${member.label}: review the original PDF content and signing status. The assembled derivative is unsigned.`,
+          message: `${member.label}: review the original PDF content and signing status. The assembled derivative is unsigned. Imported links and interactive fields are omitted, and printable annotations may be included as page images.`,
         });
         continue;
       }
@@ -747,7 +748,8 @@ export async function assemblePackage(
         }
         placements.push({ memberId: member.id, placement: shared ? 'same-page' : 'new-page', reason: measurement.reason });
       }
-      const source = await PDFDocument.load(bytes), count = source.getPageCount();
+      const source = member.kind === 'original' ? (await loadAssemblyPdf(bytes, signal)).pdf : await PDFDocument.load(bytes);
+      const count = source.getPageCount();
       if (member.kind === 'native' && member.session.docType === 'technical_volume')
         volumeDestinations.set(member.id, captureVolumePdfDestinations(source));
       if (controls.maximumPages && pdf.getPageCount() + (shared ? 0 : count) > controls.maximumPages)

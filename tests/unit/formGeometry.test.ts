@@ -1,5 +1,5 @@
 import { expect, it } from 'vitest';
-import { PDFDocument, degrees } from 'pdf-lib';
+import { PDFDocument, PDFString, degrees } from 'pdf-lib';
 import { renderFormPdf } from '@/services/pdf/genericFormRenderer';
 import { formGeometryIssues, templatePageGeometry } from '@/services/forms/geometry';
 import type { FormConfig } from '@/types/formConfig';
@@ -9,6 +9,17 @@ async function page() { const doc = await PDFDocument.create();doc.addPage([100,
 it('rejects impossible geometry against the actual page even for an empty answer', async () => {
   const cfg = config();cfg.fields.name.box.left = 101;
   await expect(renderFormPdf(cfg, {}, {}, async () => (await page()).save())).rejects.toThrow('fields.name');
+});
+it('draws form answers onto a template derivative without the original annotation', async () => {
+  const source = await page();
+  source.getPage(0).node.addAnnot(source.context.register(source.context.obj({
+    Type: 'Annot', Subtype: 'Text', Rect: [12, 12, 18, 18], Contents: PDFString.of('Original note'),
+  })));
+  const bytes = await source.save(), original = bytes.slice();
+  const output = await PDFDocument.load(await renderFormPdf(config(), { name: 'TEST' }, {}, async () => bytes));
+  expect(templatePageGeometry(output.getPage(0))).toEqual({ width: 100, height: 100 });
+  expect(output.getPage(0).node.Annots()?.size() ?? 0).toBe(0);
+  expect(bytes).toEqual(original);
 });
 it.each([90, 180, 270])('requires normalization of a %s-degree source instead of misplacing overlay text', async angle => {
   const doc = await page();doc.getPage(0).setRotation(degrees(angle));

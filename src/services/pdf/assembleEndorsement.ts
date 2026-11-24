@@ -95,7 +95,7 @@ async function loadBasicLetter(
   data: Uint8Array | ArrayBuffer, signal?: AbortSignal
 ): Promise<{ pdf: PDFDocument; pageImages: boolean; imageCopyReason?: PdfImageCopyReason } | { error: string }> {
   try {
-    const { pdf, pageImages, imageCopyReason } = await loadAssemblyPdf(toUint8(data), signal, { preserveAnnotations: true });
+    const { pdf, pageImages, imageCopyReason } = await loadAssemblyPdf(toUint8(data), signal);
     const pageCount = pdf.getPageCount();
     if (pageCount === 0) return { error: 'The basic-letter PDF has no pages.' };
     for (let i = 0; i < pageCount; i++) {

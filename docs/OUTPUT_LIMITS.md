@@ -4,19 +4,19 @@ See the [capability matrix](CAPABILITIES.md) for current format availability.
 
 ## Attached PDFs
 
-Basic-letter and enclosure assembly keep ordinary PDFs as PDF pages. A readable
-permission-protected PDF requires confirmation when attached: its assembled pages
-are images. Enclosures with printable annotations or form fields also require
-confirmation before their printed appearances are flattened into page images.
-Hidden, invisible and non-printing annotations, and ordinary link metadata, do
-not trigger this conversion. Printable links with saved appearance streams do
-trigger conversion so their graphics are preserved. The print view includes printable NoView
-annotations. Ordinary basic letters retain their vector pages and annotation
-appearances when copied. Selectable text, interactive fields and certificate signatures do not
-carry into that derivative; the exact uploaded original remains in the draft and
-portable files. Files requiring an opening password must first be exported as a
-readable copy in a PDF application. Unreadable required content blocks complete
-export rather than being silently omitted.
+Basic-letter, replacement-page, enclosure, and package assembly copy the
+visual page content of ordinary uploaded PDFs. Imported links, interactive
+fields, actions and attachments stay with the retained original. Readable
+permission-protected basic letters and enclosures use a separate page-image
+derivative, as do uploads with printable annotation or field appearances. The
+editor prompts when attaching such a basic letter or enclosure. The print view includes printable
+NoView annotations and visible decorations on printable links. Hidden,
+invisible and non-printing annotations and ordinary link metadata leave the
+vector path available. Page-image copies lose selectable text. Every assembled
+copy is a new unsigned document. The exact uploaded original remains
+available separately. Export a readable copy in a PDF application before
+attaching a file that requires an opening password. Unreadable required content
+blocks a complete export.
 Valued printable form widgets without saved appearances, or with appearances
 requiring regeneration, must first be saved or printed as a flattened PDF in a
 PDF application. Empty unsigned fields and zero-area signature metadata do not
