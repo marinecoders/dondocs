@@ -8,7 +8,7 @@ import { useUIStore, type DensityMode } from '@/stores/uiStore';
 import { backupAction, DEFAULT_BACKUP_FILE_NAME, useBackupStore } from '@/stores/backupStore';
 import { downloadWorkspaceBackup } from '@/lib/backupDownload';
 import { BACKUP_SIZE_RECOVERY } from '@/lib/backupSize';
-import { restoreBackupFile, summarizeRestore } from '@/lib/backup';
+import { reviewWorkspaceBackup, summarizeRestore, type WorkspaceBackupReview } from '@/lib/backup';
 
 function BackupPreferences() {
   const backup = useBackupStore();
@@ -16,6 +16,10 @@ function BackupPreferences() {
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
+  const [review, setReview] = useState<WorkspaceBackupReview>();
+  const [selection, setSelection] = useState('');
+  const restorable = review?.documents.filter(doc => !doc.inTrash && doc.outcome !== 'unavailable') ?? [];
+  const unavailable = review?.documents.filter(doc => doc.outcome === 'unavailable').length ?? 0;
   const action = backupAction(backup.status, backup.fileMissing);
   const canChooseFolder = action === 'setup' || backup.status === 'error';
   const run = async (operation: () => Promise<void>, success?: string) => {
@@ -30,7 +34,16 @@ function BackupPreferences() {
     const file = event.target.files?.[0];
     event.target.value = '';
     if (file) void run(async () => {
-      const result = await restoreBackupFile(file);
+      setReview(undefined);
+      setSelection('');
+      setReview(await reviewWorkspaceBackup(file));
+    });
+  };
+  const applyRestore = () => {
+    if (!review) return;
+    void run(async () => {
+      const result = await review.apply(selection || undefined);
+      setReview(undefined);
       const summary = summarizeRestore(result);
       if (result.issues?.length || result.documents.issues?.length) setError(summary);
       else setMessage(summary);
@@ -54,10 +67,39 @@ function BackupPreferences() {
       {(backup.status === 'connected' || backup.status === 'too-large') && <Button variant="ghost" disabled={busy} onClick={() => void run(backup.disable)}>Turn off auto-backup</Button>}
       <Button data-tour="backup-export" variant="outline" disabled={busy} onClick={() => void run(downloadWorkspaceBackup, 'Backup download started. Keep the downloaded file in a safe location.')}>Download workspace backup</Button>
       <Button data-tour="backup-restore" variant="outline" disabled={busy} onClick={() => input.current?.click()}>Restore from backup</Button>
-      <input ref={input} type="file" accept=".json,application/json" className="hidden" aria-label="Backup file" onChange={restore} />
+      <input ref={input} type="file" accept=".json,application/json" className="hidden" aria-label="Backup file" disabled={busy} onChange={restore} />
     </div>
     {canChooseFolder && <p id="backup-destination" className="text-xs text-muted-foreground">Auto-backup writes {backup.fileName ?? DEFAULT_BACKUP_FILE_NAME} in the selected folder and uses a new name if another file already has that name.</p>}
     {backup.setupError && <p role="alert" className="text-sm text-destructive">{backup.setupError}</p>}
+    {review && <section aria-label="Restore preview" className="space-y-3 rounded-md border p-3 text-sm">
+      <h3 className="font-medium">Review backup before restoring</h3>
+      <p aria-live="polite">
+        {review.documents.filter(doc => doc.outcome === 'add').length} to add,{' '}
+        {review.documents.filter(doc => doc.outcome === 'update').length} to update,{' '}
+        {review.documents.filter(doc => doc.outcome === 'keep').length} with same or newer local copies.
+      </p>
+      {unavailable > 0 && <p>{unavailable} {unavailable === 1 ? 'document has' : 'documents have'} missing or conflicting files.</p>}
+      {review.documents.length > 0 && <ul className="max-h-32 space-y-1 overflow-y-auto rounded-md bg-muted/40 p-2">
+        {review.documents.map(doc => <li key={doc.id} className="break-words">
+          {doc.title} · {doc.outcome === 'add' ? 'Add' : doc.outcome === 'update' ? 'Update from backup' : doc.outcome === 'keep' ? 'Keep local copy' : 'Files unavailable'}{doc.inTrash && ' · Trash'}
+        </li>)}
+      </ul>}
+      {restorable.length > 0 && <label className="block">
+        What to restore
+        <select value={selection} disabled={busy} onChange={event => setSelection(event.target.value)} className="mt-1 block w-full rounded-md border bg-background px-2 py-1">
+          <option value="">Full workspace</option>
+          {restorable.map(doc => <option key={doc.id} value={doc.id}>{doc.title}</option>)}
+        </select>
+      </label>}
+      {selection ? <p className="text-muted-foreground">Includes this document, its version history and required files. Newer local content is kept.</p> : <>
+        {review.collections.length > 0 && <p className="text-muted-foreground">The full restore also includes {review.collections.join(', ')}.</p>}
+        {review.hasLiveFormBuffers && <p>Full restore can replace live NAVMC form fields.</p>}
+      </>}
+      <div className="flex flex-wrap gap-2">
+        <Button type="button" disabled={busy} onClick={applyRestore}>{selection ? 'Restore selected document' : 'Restore workspace'}</Button>
+        <Button type="button" variant="ghost" disabled={busy} onClick={() => setReview(undefined)}>Cancel restore</Button>
+      </div>
+    </section>}
     <p className="text-xs text-muted-foreground">Backups are unencrypted JSON with documents, Trash, history, saved review baselines, profiles, templates and referenced files. Batch jobs/results and UI preferences are excluded. Download batch results separately. Restore keeps newer saved document versions but replaces included live NAVMC buffers; incoming routing overrides win matching keys. Current backups include library-form answers, definitions and exact blank PDF pages for offline restoration. Older backups may need a connection to retrieve their template pages.</p>
     {message && <p role="status" className="text-sm">{message}</p>}
     {error && <p role="alert" className="text-sm text-destructive">{error}</p>}

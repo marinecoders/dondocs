@@ -422,6 +422,7 @@ test('restoring an older backup keeps another tab’s newer edit and restores at
   await other.locator('#subject:visible, #body-subject:visible').fill('NEWER THAN BACKUP');
   await expect(async () => expect(JSON.stringify((await readSaved(other)).documents)).toContain('NEWER THAN BACKUP')).toPass({ timeout: 15_000 });
   await page.getByLabel('Backup file', { exact: true }).setInputFiles(backupPath);
+  await page.getByRole('button', { name: 'Restore workspace', exact: true }).click();
   await expect(page.getByRole('status').filter({ hasText: /Restored 0 docs.*kept 1 newer/ })).toBeVisible();
   await other.reload();
   await expect(other.locator('#subject:visible, #body-subject:visible')).toHaveValue('NEWER THAN BACKUP');

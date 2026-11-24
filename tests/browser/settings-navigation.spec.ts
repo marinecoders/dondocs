@@ -165,6 +165,56 @@ test('auto-backup keeps an existing file intact and writes updates to the new mi
   expect(savedFiles[1]).toContain('BACKUP SAFETY TEST');
 });
 
+test('reviews a backup without writing and restores only the selected document and its PDF', async ({ page }) => {
+  const pdf = await PDFDocument.create();
+  pdf.addPage();
+  const bytes = Buffer.from(await pdf.save());
+  const draft = (id: string, title: string) => ({
+    meta: { id, title, updatedAt: 1, docType: 'naval_letter' },
+    session: { documentCategory: 'correspondence', documentMode: 'compliant', docType: 'naval_letter',
+      formData: { subject: title }, paragraphs: [], references: [], enclosures: [
+        { number: 1, title: 'Retained PDF', hasFile: true, fileRef: { id: `pdf-${id}`, name: 'source.pdf', size: bytes.length } },
+      ] },
+  });
+  const file = { name: 'preview-backup.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify({
+    kind: 'dondocs-backup', version: 5, documents: [
+      draft('keep-this', 'Selected restore'), draft('leave-out', 'Unselected restore'), draft('missing', 'Incomplete backup document'),
+    ],
+    attachments: ['keep-this', 'leave-out'].map(id => ({ id: `pdf-${id}`, name: 'source.pdf', type: 'application/pdf', size: bytes.length, data: bytes.toString('base64') })),
+    routingOverrides: { 'OTHER UNIT': 'Incoming example' },
+  })) };
+  await openWorkspaceTool(page, 'Settings');
+  const settings = page.getByRole('region', { name: 'Backup & restore', exact: true });
+  const preview = settings.getByRole('region', { name: 'Restore preview', exact: true });
+  const stored = async (storeName: 'documents' | 'attachments', key: string) => page.evaluate(({ storeName, key }) => new Promise<boolean>((resolve, reject) => {
+    const request = indexedDB.open('dondocs');
+    request.onerror = () => reject(request.error);
+    request.onsuccess = () => {
+      const db = request.result;
+      const item = db.transaction(storeName).objectStore(storeName).get(key);
+      item.onsuccess = () => { db.close(); resolve(!!item.result); };
+      item.onerror = () => { db.close(); reject(item.error); };
+    };
+  }), { storeName, key });
+  await settings.getByLabel('Backup file').setInputFiles(file);
+  await expect(preview).toContainText('2 to add');
+  await expect(preview).toContainText('Incomplete backup document · Files unavailable');
+  await expect(preview.getByRole('option', { name: 'Incomplete backup document' })).toHaveCount(0);
+  await expect(preview).toContainText('Routing overrides');
+  expect(await stored('documents', 'keep-this')).toBe(false);
+  expect(await stored('attachments', 'pdf-keep-this')).toBe(false);
+  await preview.getByRole('button', { name: 'Cancel restore' }).click();
+  await expect(preview).toBeHidden();
+  await settings.getByLabel('Backup file').setInputFiles(file);
+  await preview.getByLabel('What to restore').selectOption('keep-this');
+  await preview.getByRole('button', { name: 'Restore selected document' }).click();
+  await expect(settings.getByRole('status')).toContainText('Restored 1 doc');
+  expect(await stored('documents', 'keep-this')).toBe(true);
+  expect(await stored('attachments', 'pdf-keep-this')).toBe(true);
+  expect(await stored('documents', 'leave-out')).toBe(false);
+  expect(await stored('attachments', 'pdf-leave-out')).toBe(false);
+});
+
 test('workspace backup downloads a restorable PDF enclosure and refuses an oversized collection', async ({ page, browser }, info) => {
   test.skip(info.project.name !== 'chromium', 'The full-size IndexedDB fixture is exercised in the desktop Chromium job.');
   test.setTimeout(90_000);
@@ -191,6 +241,7 @@ test('workspace backup downloads a restorable PDF enclosure and refuses an overs
     await openWorkspaceTool(receiving, 'Settings');
     const restore = receiving.getByRole('region', { name: 'Backup & restore', exact: true });
     await restore.getByLabel('Backup file').setInputFiles(path);
+    await restore.getByRole('button', { name: 'Restore workspace', exact: true }).click();
     await expect(restore.getByRole('status')).toContainText(/Restored .*1 attachment/);
     const restored = await receiving.evaluate(async id => {
       const db = await new Promise<IDBDatabase>((resolve, reject) => {

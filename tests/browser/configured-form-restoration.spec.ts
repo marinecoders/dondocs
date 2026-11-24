@@ -124,6 +124,7 @@ for (const theme of ['light', 'dark', 'classic']) for (const mode of ['draft', '
         await workspace(restored, 'Settings');await restored.getByLabel('Backup file', { exact: true }).setInputFiles({ name: 'portable-backup.json', mimeType: 'application/json', buffer: backup });
         const modal = restored.getByRole('dialog', { name: 'Settings', exact: true });
         const backupSection = modal.getByRole('region', { name: 'Backup & restore', exact: true });
+        await modal.getByRole('button', { name: 'Restore workspace', exact: true }).click();
         await expect(backupSection.getByRole('status')).toContainText('doc', { timeout: 15_000 });
         await expect(backupSection.getByRole('alert')).toHaveCount(0);
         await modal.getByRole('button', { name: 'Close', exact: true }).click();await workspace(restored, source.definition.label);

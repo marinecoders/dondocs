@@ -182,6 +182,7 @@ for (const theme of ['light', 'dark', 'classic']) test(`existing formatting find
         const restoredSettings = restored.getByRole('dialog', { name: 'Settings', exact: true });
         await restored.getByLabel('Backup file', { exact: true }).setInputFiles({ name: 'formatting-backup.json', mimeType: 'application/json', buffer: backup });
         const backupSection = restoredSettings.getByRole('region', { name: 'Backup & restore', exact: true });
+        await restoredSettings.getByRole('button', { name: 'Restore workspace', exact: true }).click();
         await expect(backupSection.getByRole('status')).toContainText('Restored', { timeout: 15_000 });
         await expect(backupSection.getByRole('alert')).toHaveCount(0);
         await restoredSettings.getByRole('button', { name: 'Close', exact: true }).click();await restored.reload();
