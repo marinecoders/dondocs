@@ -13,6 +13,12 @@ On mobile, open the workspace menu for sidebar destinations. Editor **One sectio
 
 Single-signer correspondence shows **formatting suggestions** above the relevant section for saved/imported date formats and extra spaces around a single dotted signature initial. Compare **Current** and **Proposed**, then choose **Apply fix** to change that field only. One **Undo** (`Ctrl/Cmd+Z`) restores the previous value. Inspecting a saved date without editing it preserves its value. Unclear or invalid dates have no Apply button and stay as entered when you leave the field; resolve them with an explicit date or the calendar. Forms, dual-signer documents and publication metadata keep their existing correction tools.
 
+## Draft a formal naval email
+
+Open **Tools → Draft a formal email** to prepare an editable plain-text message in naval-letter format. Fill in the typed letterhead, SSIC, assigned serial, date, addressees, subject, body, complimentary closing and the signer’s actual authority. The preview adds `/s/` to the typed signature. **Copy email text** and **Download text** use the same preview. The draft stays in its browser tab until reload or close.
+
+Use this draft with the release authority, official email address and file-copy procedures required by your activity. Request receipt in the message when required. Follow [SECNAV M-5216.5, Chapter 4, paragraph 4-2.2](https://www.secnav.navy.mil/doni/SECNAV%20Manuals1/5216.5%20%20CH-1.pdf#page=33).
+
 ## Proofread a draft
 
 Choose **Proofread** beside the required-fields indicator, **Document tools → Proofread current draft**, or find the command in workspace search. The count combines existing required-field, formatting, paragraph-structure, reference, marking, abbreviation and sensitive-text checks that apply to the current document. Select **Go to** on a finding to open its editor section or affected field. Findings update as you edit; opening the panel does not change the draft. Forms and publications use their own required sections.
