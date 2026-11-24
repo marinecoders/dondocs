@@ -22,6 +22,15 @@ describe('supported Word table formatting import', () => {
     expect(result.blocks.find(block => block.paragraph.bodyTable)?.paragraph.bodyTable).toEqual({ rows: [['Name', 'Description']], headerRows: 1, columnWidths: [25, 75], columnAlignments: ['right', 'center'], borders: 'outline', fontSize: 10, minimumRowHeight: 24 });
     expect(result.source.bytes).toEqual(bytes);
   });
+  it('retains columns borders, individual row heights and no-wrap from editable Word cells', async () => {
+    const borders = ['top', 'left', 'bottom', 'right', 'insideH', 'insideV'].map(side => `<w:${side} w:val="${side === 'insideH' ? 'nil' : 'single'}"/>`).join('');
+    const header = cells.replaceAll('<w:tc>', '<w:tc><w:tcPr><w:noWrap/><w:tcFitText/></w:tcPr>');
+    const body = header.replace('<w:tblHeader/>', '').replace('w:val="480"', 'w:val="960"');
+    const bytes = await wordImportFixture(`<w:tbl><w:tblPr><w:tblBorders>${borders}</w:tblBorders></w:tblPr>${header}${body}</w:tbl>`);
+    const result = await readWordDocument(bytes, 'columns.docx');
+    expect(result.blocks[0].paragraph.bodyTable).toMatchObject({ headerRows: 1, borders: 'columns', wrap: false, rowHeights: [24, 48] });
+    expect(result.source.bytes).toEqual(bytes);
+  });
   it('reports repeated headers beyond the supported count without losing any row', async () => {
     const bytes = await wordImportFixture(`<w:tbl>${cells.repeat(4)}</w:tbl>`);
     const result = await readWordDocument(bytes, 'four-headers.docx');

@@ -154,3 +154,68 @@ test('Word enclosure images preserve table text beyond the PDF font set', async 
   const xml = await zip.file('word/document.xml')!.async('string');
   expect(xml).toContain('訓練');expect(xml).toContain('DonDocsEnclosurePage1');
 });
+
+test('directly resizes and fits table columns, and keeps the saved formatting in both downloads', async ({ page }, info) => {
+  await open(page, 'light', false);
+  await page.getByRole('button', { name: 'Add table', exact: true }).click();
+  const table = page.getByRole('group', { name: 'Table in paragraph 2', exact: true });
+  const cell = table.getByRole('textbox', { name: 'Table 2, row 2, column 1', exact: true });
+  await cell.fill('LONGSTART readable training line LONGEND\nNEWLINEPROBE');
+  const divider = table.getByRole('slider', { name: 'Resize divider after column 1', exact: true });
+  await divider.focus();
+  await divider.press('ArrowRight');
+  await expect(divider).toHaveAttribute('aria-valuenow', '51');
+  if (!info.project.use.hasTouch) {
+    const position = (await divider.boundingBox())!;
+    const x = position.x + position.width / 2, y = position.y + position.height / 2;
+    await page.mouse.move(x, y);
+    await page.mouse.down();
+    await page.mouse.move(x + 28, y, { steps: 4 });
+    await page.mouse.up();
+    expect(Number(await divider.getAttribute('aria-valuenow'))).toBeGreaterThan(51);
+  }
+  await table.getByText('Table formatting', { exact: true }).click();
+  await table.getByRole('button', { name: 'Fit column to text (table 2, column 2)', exact: true }).click();
+  const fitted = Number(await divider.getAttribute('aria-valuenow'));
+  expect(fitted).toBeGreaterThan(58);
+  await table.getByLabel('Lines for table 2', { exact: true }).selectOption('columns');
+  await table.getByLabel('Wrap cell text', { exact: true }).uncheck();
+  await expect(cell).toHaveAttribute('wrap', 'off');
+  await table.getByText('Per-row minimum heights', { exact: true }).click();
+  const noMinimum = table.getByLabel('Row 1 (pt)', { exact: true });
+  await expect(noMinimum).toHaveValue('');
+  await noMinimum.fill('0');
+  await noMinimum.press('Enter');
+  const tableMinimum = table.getByLabel('Minimum row height for table 2', { exact: true });
+  await tableMinimum.fill('24');
+  await tableMinimum.press('Enter');
+  await expect(noMinimum).toHaveValue('0');
+  const height = table.getByLabel('Row 2 (pt)', { exact: true });
+  await height.fill('42');
+  await height.press('Enter');
+  await table.getByRole('button', { name: 'Add table row', exact: true }).click();
+  const saved = (await draft(page)).paragraphs[1].bodyTable;
+  expect(saved).toMatchObject({ borders: 'columns', wrap: false, minimumRowHeight: 24, rowHeights: [0, 42, null] });
+  await page.reload();
+  await expect(cell).toHaveValue('LONGSTART readable training line LONGEND\nNEWLINEPROBE');
+  expect((await draft(page)).paragraphs[1].bodyTable).toEqual(saved);
+
+  const xml = await (await JSZip.loadAsync(await word(page, false))).file('word/document.xml')!.async('string');
+  expect(xml).toContain('<w:noWrap/><w:tcFitText/>');
+  expect(xml).toContain('<w:insideV w:val="single"');
+  expect(xml).toContain('<w:trHeight w:val="840" w:hRule="atLeast"/>');
+  const preview = page.getByRole('button', { name: 'Preview', exact: true });
+  const mobile = await preview.getAttribute('aria-haspopup') === 'dialog';
+  await preview.click();
+  await expect(page.locator('[data-pdf-layer="active"] canvas').first()).toBeVisible({ timeout: 60_000 });
+  if (mobile) await page.getByRole('button', { name: 'Close preview', exact: true }).click();
+  const bytes = await downloadBrowserPdf(page, info.project.name, async () => {
+    await page.getByRole('button', { name: 'Download', exact: true }).click();
+    await page.getByRole('menuitem', { name: /^Download PDF/ }).click();
+  });
+  const pdf = await getDocument({ data: new Uint8Array(bytes), useSystemFonts: false }).promise;
+  try {
+    const items = (await (await pdf.getPage(1)).getTextContent()).items;
+    expect(items.map(item => 'str' in item ? item.str : '').join(' ')).toMatch(/LONGSTART readable training line LONGEND\s+NEWLINEPROBE/);
+  } finally { await pdf.destroy(); }
+});

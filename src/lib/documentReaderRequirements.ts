@@ -7,7 +7,7 @@ interface ReaderSource {
   enclosures?: readonly Pick<Enclosure, 'marking'>[];
   paragraphs?: readonly unknown[];
 }
-const TABLE_LAYOUT_FIELDS = ['columnWidths', 'columnAlignments', 'borders', 'fontSize', 'minimumRowHeight', 'repeatHeaders'] as const;
+const TABLE_LAYOUT_FIELDS = ['columnWidths', 'columnAlignments', 'borders', 'fontSize', 'minimumRowHeight', 'rowHeights', 'wrap', 'repeatHeaders'] as const;
 
 /** Require the same reader for retained data even after switching document type. */
 export function requiresCurrentDocumentReader(source: ReaderSource): boolean {

@@ -1,5 +1,6 @@
 import JSZip from 'jszip';
-import { bodyTableSchema, bodyTableTwips, type BodyTable } from '@/lib/bodyTable';
+import { bodyTableRowHeight, bodyTableSchema, bodyTableTwips, type BodyTable } from '@/lib/bodyTable';
+import { wordTableBorders, wordTableCellFormatting } from './tableFormatting';
 
 /** Pandoc emits a leading raw marker as its own cell paragraph. Keep its
  * bookmark and first-paragraph style without adding a visible blank line. */
@@ -24,16 +25,15 @@ export function applyBodyTableLayouts(xml: string, tables: readonly BodyTable[],
     if (!input || seen.has(index)) throw new Error('The Word table layout does not match its captured source.');
     seen.add(index);
     const table = bodyTableSchema.parse(input), widths = bodyTableTwips(table, textWidth);
-    const borders = table.borders ?? 'grid';
-    const borderXml = `<w:tblBorders>${['top', 'left', 'bottom', 'right', 'insideH', 'insideV'].map(side =>
-      `<w:${side} w:val="${borders === 'none' || borders === 'outline' && side.startsWith('inside') ? 'nil' : 'single'}" w:sz="4" w:color="000000"/>`).join('')}</w:tblBorders>`;
-    let result = original.replace(/<w:tblPr>[\s\S]*?<\/w:tblPr>/, `<w:tblPr><w:tblW w:w="${textWidth}" w:type="dxa"/>${borderXml}<w:tblLayout w:type="fixed"/><w:tblCellMar><w:top w:w="40" w:type="dxa"/><w:left w:w="60" w:type="dxa"/><w:bottom w:w="40" w:type="dxa"/><w:right w:w="60" w:type="dxa"/></w:tblCellMar></w:tblPr>`);
+    let result = original.replace(/<w:tblPr>[\s\S]*?<\/w:tblPr>/, `<w:tblPr><w:tblW w:w="${textWidth}" w:type="dxa"/>${wordTableBorders(table.borders)}<w:tblLayout w:type="fixed"/><w:tblCellMar><w:top w:w="40" w:type="dxa"/><w:left w:w="60" w:type="dxa"/><w:bottom w:w="40" w:type="dxa"/><w:right w:w="60" w:type="dxa"/></w:tblCellMar></w:tblPr>`);
     result = result.replace(/<w:tblGrid>[\s\S]*?<\/w:tblGrid>/, `<w:tblGrid>${widths.map(width => `<w:gridCol w:w="${width}"/>`).join('')}</w:tblGrid>`);
     let row = 0;
     result = result.replace(/<w:tr\b[^>]*>[\s\S]*?<\/w:tr>/g, tr => {
       const current = row++;
       let cell = 0;
-      const properties = `<w:trPr>${keepRowsTogether ? '<w:cantSplit/>' : ''}${table.minimumRowHeight ? `<w:trHeight w:val="${Math.round(table.minimumRowHeight * 20)}" w:hRule="atLeast"/>` : ''}${current < table.headerRows && table.repeatHeaders !== false ? '<w:tblHeader/>' : ''}</w:trPr>`;
+      const minimum = bodyTableRowHeight(table, current);
+      const cellLayout = wordTableCellFormatting(table.borders, current, table.headerRows, table.rows.length, table.wrap);
+      const properties = `<w:trPr>${keepRowsTogether ? '<w:cantSplit/>' : ''}${minimum ? `<w:trHeight w:val="${Math.round(minimum * 20)}" w:hRule="atLeast"/>` : ''}${current < table.headerRows && table.repeatHeaders !== false ? '<w:tblHeader/>' : ''}</w:trPr>`;
       const cells = tr.replace(/<w:trPr>[\s\S]*?<\/w:trPr>|<w:trPr\s*\/>/g, '').replace(/<w:tc\b[^>]*>[\s\S]*?<\/w:tc>/g, tc => {
         const column = cell++;
         if (column >= widths.length) throw new Error('The Word table contains unexpected columns.');
@@ -60,7 +60,7 @@ export function applyBodyTableLayouts(xml: string, tables: readonly BodyTable[],
           });
           return paragraph;
         });
-        return content.replace(/(<w:tc\b[^>]*>)/, `$1<w:tcPr><w:tcW w:w="${widths[column]}" w:type="dxa"/><w:vAlign w:val="top"/></w:tcPr>`);
+        return content.replace(/(<w:tc\b[^>]*>)/, `$1<w:tcPr><w:tcW w:w="${widths[column]}" w:type="dxa"/>${cellLayout}<w:vAlign w:val="top"/></w:tcPr>`);
       });
       if (cell !== widths.length) throw new Error('The Word table is missing a captured column.');
       return cells.replace(/(<w:tr\b[^>]*>)/, `$1${properties}`);

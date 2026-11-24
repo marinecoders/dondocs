@@ -16,6 +16,16 @@ export function readTableLayout(element: Element, input: BodyTable, notice: (mes
     } else notice('This Word table has incomplete column widths; native columns use equal widths.');
   }
   const rows = wordChildren(element, 'tr');
+  const wrapping = rows.flatMap(row => wordChildren(row, 'tc').map(cell => {
+    const properties = wordChildren(cell, 'tcPr')[0];
+    if (!properties) return false;
+    return ['noWrap', 'tcFitText'].some(name => {
+      const option = wordChildren(properties, name)[0];
+      return option && !['0', 'off', 'false'].includes(wordAttribute(option, 'val') ?? '');
+    });
+  }));
+  if (wrapping.length && wrapping.every(Boolean)) table.wrap = false;
+  else if (wrapping.some(Boolean)) notice('Mixed Word cell wrapping uses the native table default; the original file retains individual cell settings.');
   const alignments = Array.from({ length: count }, (_, column) => rows.map(row => {
     const cell = wordChildren(row, 'tc')[column];
     return cell ? wordChildren(cell, 'p').map(paragraph => {
@@ -39,6 +49,7 @@ export function readTableLayout(element: Element, input: BodyTable, notice: (mes
     const off = (value: string | undefined) => value === 'none' || value === 'nil';
     if (values.every(off)) table.borders = 'none';
     else if (values.slice(0, 4).every(value => value === 'single') && values.slice(4).every(off)) table.borders = 'outline';
+    else if (values.slice(0, 4).every(value => value === 'single') && off(values[4]) && values[5] === 'single') table.borders = 'columns';
     else if (!values.every(value => value === 'single')) notice('Custom table borders use the native grid; the original file retains their exact line styles.');
   }
   const runs = wordDescendants(element, 'r').filter(run => wordDescendants(run, 't').some(text => text.textContent));
@@ -51,9 +62,15 @@ export function readTableLayout(element: Element, input: BodyTable, notice: (mes
   else if (sizes.some(size => size !== undefined)) notice('Mixed, inherited or unsupported table text sizes use the document size; the original file retains their exact typography.');
   const heights = rows.map(row => {
     const props = wordChildren(row, 'trPr')[0], height = props && wordChildren(props, 'trHeight')[0];
-    return height ? { points: Number(wordAttribute(height, 'val')) / 20, rule: wordAttribute(height, 'hRule') } : undefined;
+    const rule = height && wordAttribute(height, 'hRule');
+    return height && rule !== 'auto' ? { points: Number(wordAttribute(height, 'val')) / 20, rule } : undefined;
   });
-  if (heights.length && heights.every(height => height && height.rule !== 'exact' && height.points === heights[0]?.points && height.points > 0 && height.points <= 144)) table.minimumRowHeight = heights[0]!.points;
-  else if (heights.some(height => height !== undefined)) notice('Variable or fixed Word row heights become content-expanding native rows; the original file retains their geometry.');
+  if (heights.some(height => height && (height.rule === 'exact' || !Number.isFinite(height.points) || height.points < 0 || height.points > 144))) {
+    notice('Fixed or unsupported Word row heights become content-expanding native rows; the original file retains their geometry.');
+  } else if (heights.length && heights.every(height => height && height.points === heights[0]?.points && height.points > 0)) {
+    table.minimumRowHeight = heights[0]!.points;
+  } else if (heights.some(height => height !== undefined)) {
+    table.rowHeights = heights.map(height => height?.points ?? null);
+  }
   return bodyTableSchema.parse(table);
 }

@@ -136,7 +136,7 @@ const forms = {
 } satisfies PoliciesFor<FormSession>;
 const paragraph = {
   volumeSectionId: 'identity',
-  bodyTable: object({ rows: array(array('text')), headerRows: 'value', columnWidths: array('value'), columnAlignments: array('control'), borders: 'control', fontSize: 'value', minimumRowHeight: 'value', repeatHeaders: 'value' } satisfies PoliciesFor<NonNullable<Paragraph['bodyTable']>>),
+  bodyTable: object({ rows: array(array('text')), headerRows: 'value', columnWidths: array('value'), columnAlignments: array('control'), borders: 'control', fontSize: 'value', minimumRowHeight: 'value', rowHeights: array('value'), wrap: 'value', repeatHeaders: 'value' } satisfies PoliciesFor<NonNullable<Paragraph['bodyTable']>>),
   id: 'identity',
   referenceId: 'identity', tableFootnotes: array(object({ id: 'identity', text: 'text' } satisfies PoliciesFor<NonNullable<Paragraph['tableFootnotes']>[number]>)), publicationSection: 'control',
   text: 'text', level: 'value', header: 'text', tableKey: 'identity', tableIdentifierMode: 'control', callout: 'control',

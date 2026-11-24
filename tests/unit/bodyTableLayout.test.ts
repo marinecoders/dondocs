@@ -3,7 +3,7 @@ import { projectRenderedDocument } from '@/lib/renderedDocument';
 import { createBlankSession } from '@/stores/documentStore';
 import { mapCapturedText } from '@/lib/documentFields';
 import { describe, expect, it } from 'vitest';
-import { bodyTableSchema, bodyTableWidths, bodyTableTwips, resizeBodyTableColumn, autofitBodyTable, type BodyTable } from '@/lib/bodyTable';
+import { bodyTableRowHeight, bodyTableSchema, bodyTableWidths, bodyTableTwips, fitBodyTableColumn, resizeBodyTableBoundary, resizeBodyTableColumn, autofitBodyTable, type BodyTable } from '@/lib/bodyTable';
 import { renderBodyTable } from '@/services/latex/bodyTable';
 import { applyBodyTableLayouts } from '@/services/docx/bodyTables';
 
@@ -39,8 +39,23 @@ describe('body table layout', () => {
     expect(tex).toContain('\\rule{0pt}{24pt}'); expect(tex).toContain('\\endfirsthead\n\\endhead');
     expect(tex.match(/A longer readable text description/g)).toHaveLength(1);
   });
+  it('resizes adjacent columns while preserving the rest and can fit a single column', () => {
+    const table = { rows: [['Larger first column', 'B', 'C']], headerRows: 0, columnWidths: [30, 35, 35] };
+    expect(resizeBodyTableBoundary(table, 0, 90).columnWidths).toEqual([60, 5, 35]);
+    expect(resizeBodyTableBoundary(table, 1, 0).columnWidths).toEqual([30, 5, 65]);
+    expect(fitBodyTableColumn(table, 0).columnWidths![0]).toBeGreaterThan(55);
+    expect(table.columnWidths).toEqual([30, 35, 35]);
+  });
+  it('inherits each row minimum, accepts an explicit zero, and rejects malformed overrides', () => {
+    const table = { ...source, minimumRowHeight: 18, rowHeights: [null, 0] };
+    expect(bodyTableRowHeight(table, 0)).toBe(18);
+    expect(bodyTableRowHeight(table, 1)).toBe(0);
+    for (const rowHeights of [[8], [Infinity, 5], [144.1, 0], [-1, 144], [1, 2, 3]]) {
+      expect(bodyTableSchema.safeParse({ ...source, rowHeights }).success).toBe(false);
+    }
+  });
   it('retains every layout control through substitution and the real output projection', () => {
-    const table: BodyTable = { ...source, columnWidths: [25, 75], columnAlignments: ['right', 'center'], borders: 'outline', fontSize: 10, minimumRowHeight: 24, repeatHeaders: false };
+    const table: BodyTable = { ...source, columnWidths: [25, 75], columnAlignments: ['right', 'center'], borders: 'columns', fontSize: 10, minimumRowHeight: 24, rowHeights: [null, 42], wrap: false, repeatHeaders: false };
     const captured = captureDocumentRevision({ documentId: 'layout', epoch: 0, editSequence: 1, capturedAt: 1 }, { ...createBlankSession(), endItems: [], publicationTables: {}, paragraphs: [{ text: '', level: 0, bodyTable: table }] });
     const projected = copyCapturedDocument(projectRenderedDocument(mapCapturedText(captured, field => field.text))).document;
     expect(projected.paragraphs[0].bodyTable).toEqual(table);
