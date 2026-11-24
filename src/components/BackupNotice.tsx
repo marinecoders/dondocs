@@ -1,16 +1,22 @@
 import { useState } from 'react';
 import { AlertTriangle, X } from 'lucide-react';
+import { WORKSPACE_BACKUP_TOO_LARGE } from '@/lib/backupSize';
 import { backupAction, useBackupStore, type BackupStatus } from '@/stores/backupStore';
+import { useUIStore } from '@/stores/uiStore';
 
 /** What each repair says. The choice of which is made in the store. */
 const NOTICE_COPY = {
+  options: {
+    message: `Auto-backup is paused. ${WORKSPACE_BACKUP_TOO_LARGE}`,
+    actionLabel: 'Backup options',
+  },
   reconnect: {
     message: 'Auto-backup is paused — reconnect to keep your synced backup current.',
     actionLabel: 'Reconnect',
   },
   setup: {
     message: "Auto-backup can't find your backup file — it may have been moved or deleted.",
-    actionLabel: 'Choose file',
+    actionLabel: 'Choose folder',
   },
   // Naming the usual culprit beats a retry button on its own: on Windows this is
   // nearly always ransomware protection standing between the browser and that
@@ -39,20 +45,24 @@ export function BackupNotice() {
   const setupBackup = useBackupStore((s) => s.setupBackup);
   const writeNow = useBackupStore((s) => s.writeNow);
   const fileMissing = useBackupStore((s) => s.fileMissing);
+  const setupError = useBackupStore((s) => s.setupError);
   // Per-status dismissal: hiding the "needs-permission" strip shouldn't also
   // suppress a later, different "error" — mirrors StorageNotice's per-level rule.
   const [dismissedStatus, setDismissedStatus] = useState<BackupStatus | null>(null);
 
-  const action = backupAction(status, fileMissing);
-  // 'off' has an action — set one up — but no business interrupting anyone.
-  if (!action || status === 'off' || status === dismissedStatus) return null;
+  const action = setupError ? 'options' : backupAction(status, fileMissing);
+  if (!action || (status === 'off' && !setupError) || status === dismissedStatus) return null;
 
   const { message, actionLabel } = NOTICE_COPY[action];
-  const onAction = { reconnect, setup: setupBackup, retry: writeNow }[action];
+  const onAction = {
+    reconnect,
+    setup: setupBackup,
+    retry: writeNow,
+    options: () => useUIStore.getState().setSettingsOpen(true, 'backup'),
+  }[action];
 
-  // A failed write means the backup is silently stale — announce it assertively;
-  // a permission drop on relaunch is expected and stays polite.
-  const role = status === 'error' ? 'alert' : 'status';
+  // A failed write means the backup is stale. A permission drop on relaunch stays polite.
+  const role = status === 'error' || status === 'too-large' || setupError ? 'alert' : 'status';
 
   return (
     <div
@@ -61,7 +71,7 @@ export function BackupNotice() {
     >
       <AlertTriangle className="mt-0.5 h-3.5 w-3.5 shrink-0 text-warning" />
       <p className="min-w-0 flex-1">
-        {message}
+        {setupError ?? message}
         {fileName ? <span className="text-muted-foreground"> ({fileName})</span> : null}
       </p>
       <button

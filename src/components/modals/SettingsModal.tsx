@@ -4,9 +4,9 @@ import { THEMES } from '@/lib/appearance';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { useUIStore, type DensityMode } from '@/stores/uiStore';
-import { backupAction, useBackupStore } from '@/stores/backupStore';
+import { backupAction, DEFAULT_BACKUP_FILE_NAME, useBackupStore } from '@/stores/backupStore';
 import { downloadWorkspaceBackup } from '@/lib/backupDownload';
-import { MAX_BACKUP_BYTES } from '@/lib/backupValidation';
+import { BACKUP_SIZE_RECOVERY } from '@/lib/backupSize';
 import { restoreBackupFile, summarizeRestore } from '@/lib/backup';
 
 function BackupPreferences() {
@@ -16,6 +16,7 @@ function BackupPreferences() {
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
   const action = backupAction(backup.status, backup.fileMissing);
+  const canChooseFolder = action === 'setup' || backup.status === 'error';
   const run = async (operation: () => Promise<void>, success?: string) => {
     setBusy(true);
     setMessage('');
@@ -28,7 +29,6 @@ function BackupPreferences() {
     const file = event.target.files?.[0];
     event.target.value = '';
     if (file) void run(async () => {
-      if (file.size > MAX_BACKUP_BYTES) throw new Error('The import limit is 100 MB. Keep the backup file; nothing was changed.');
       const result = await restoreBackupFile(file);
       const summary = summarizeRestore(result);
       if (result.issues?.length || result.documents.issues?.length) setError(summary);
@@ -40,22 +40,23 @@ function BackupPreferences() {
       {backup.status === 'connected' ? `Auto-backup file: ${backup.fileName ?? 'Connected'}.`
         : backup.status === 'needs-permission' ? 'Auto-backup needs permission to write to your file again.'
         : backup.status === 'error' ? 'Auto-backup could not write your latest changes. Your backup may be out of date.'
+        : backup.status === 'too-large' ? BACKUP_SIZE_RECOVERY
         : backup.status === 'unsupported' ? 'This browser supports manual backup downloads. Automatic file backup is unavailable.'
         : 'Your work is stored in this browser. Keep an external backup to recover it if browser storage is cleared.'}
     </p>
     <div className="flex flex-wrap gap-2">
-      {action && <Button data-tour="backup-auto" variant="outline" disabled={busy} onClick={() => void run(action === 'reconnect' ? backup.reconnect : action === 'setup' ? backup.setupBackup : backup.writeNow)}>
-        {action === 'reconnect' ? 'Reconnect auto-backup' : action === 'setup' ? 'Choose auto-backup file' : 'Retry auto-backup'}
+      {action && <Button data-tour="backup-auto" variant="outline" disabled={busy} aria-describedby={action === 'setup' ? 'backup-destination' : undefined} onClick={() => void run(action === 'reconnect' ? backup.reconnect : action === 'setup' ? backup.setupBackup : backup.writeNow)}>
+        {action === 'reconnect' ? 'Reconnect auto-backup' : action === 'setup' ? 'Choose auto-backup folder' : 'Retry auto-backup'}
       </Button>}
-      {backup.status === 'error' && <Button variant="outline" disabled={busy} onClick={() => void run(backup.setupBackup)}>Choose a different backup file</Button>}
-      {backup.status === 'connected' && <>
-        <Button data-tour="backup-auto" variant="outline" disabled={busy} onClick={() => void run(backup.writeNow)}>Update backup file</Button>
-        <Button variant="ghost" disabled={busy} onClick={() => void run(backup.disable)}>Turn off auto-backup</Button>
-      </>}
+      {backup.status === 'error' && action !== 'setup' && <Button variant="outline" disabled={busy} aria-describedby="backup-destination" onClick={() => void run(backup.setupBackup)}>Choose a different backup folder</Button>}
+      {backup.status === 'connected' && <Button data-tour="backup-auto" variant="outline" disabled={busy} onClick={() => void run(backup.writeNow)}>Update backup file</Button>}
+      {(backup.status === 'connected' || backup.status === 'too-large') && <Button variant="ghost" disabled={busy} onClick={() => void run(backup.disable)}>Turn off auto-backup</Button>}
       <Button data-tour="backup-export" variant="outline" disabled={busy} onClick={() => void run(downloadWorkspaceBackup, 'Backup download started. Keep the downloaded file in a safe location.')}>Download workspace backup</Button>
       <Button data-tour="backup-restore" variant="outline" disabled={busy} onClick={() => input.current?.click()}>Restore from backup</Button>
       <input ref={input} type="file" accept=".json,application/json" className="hidden" aria-label="Backup file" onChange={restore} />
     </div>
+    {canChooseFolder && <p id="backup-destination" className="text-xs text-muted-foreground">Auto-backup writes {backup.fileName ?? DEFAULT_BACKUP_FILE_NAME} in the selected folder and uses a new name if another file already has that name.</p>}
+    {backup.setupError && <p role="alert" className="text-sm text-destructive">{backup.setupError}</p>}
     <p className="text-xs text-muted-foreground">Backups are unencrypted JSON with documents, Trash, history, saved review baselines, profiles, templates and referenced files. Batch jobs/results and UI preferences are excluded. Download batch results separately. Restore keeps newer saved document versions but replaces included live NAVMC buffers; incoming routing overrides win matching keys. Current backups include library-form answers, definitions and exact blank PDF pages for offline restoration. Older backups may need a connection to retrieve their template pages.</p>
     {message && <p role="status" className="text-sm">{message}</p>}
     {error && <p role="alert" className="text-sm text-destructive">{error}</p>}

@@ -1,6 +1,7 @@
 import { useEffect, useReducer } from 'react';
 import { Check, Loader2, AlertCircle, FolderSync, HardDrive } from 'lucide-react';
 import { useUIStore } from '@/stores/uiStore';
+import { BACKUP_SIZE_RECOVERY } from '@/lib/backupSize';
 import { backupAction, useBackupStore, type BackupStatus } from '@/stores/backupStore';
 import { IconTip } from '@/components/ui/icon-tip';
 
@@ -154,9 +155,11 @@ function backupFix(
     case 'setup':
       return status === 'off'
         ? { run: actions.setupBackup, label: 'set up auto-backup' }
-        : { run: actions.setupBackup, label: 'choose a new backup file' };
+        : { run: actions.setupBackup, label: 'choose a new backup folder' };
     case 'retry':
       return { run: actions.writeNow, label: 'try backing up again' };
+    case 'options':
+      return { run: async () => useUIStore.getState().setSettingsOpen(true, 'backup'), label: 'backup options' };
     default:
       return null; // 'connected' | 'unsupported'
   }
@@ -171,9 +174,10 @@ function localOnlyHint(status: BackupStatus, fileMissing: boolean): string {
   if (status === 'needs-permission') {
     return `${where} Auto-backup is paused until you re-grant access to its file.`;
   }
+  if (status === 'too-large') return `${where} ${BACKUP_SIZE_RECOVERY}`;
   if (status === 'error') {
     return fileMissing
-      ? `${where} Auto-backup can't find its file — pick a new one.`
+      ? `${where} Auto-backup can't find its file. Choose a folder to recreate it.`
       : `${where} Auto-backup couldn't write to its file — something may be blocking access to that folder.`;
   }
   return `${where} Set up auto-backup to mirror them to a file outside it.`;

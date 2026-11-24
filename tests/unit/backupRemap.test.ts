@@ -1,13 +1,14 @@
 /**
- * Re-picking a backup file is the step users complain about, so the two things
+ * Re-picking a backup folder is the step users complain about, so the two things
  * that make it painless are pinned here: the picker is told where the last file
  * lived, and a stalled mirror only sends someone back to the picker when a new
  * file is genuinely what they need.
  */
 import { describe, it, expect, vi } from 'vitest';
-import { backupAction, isFileMissing, pickFile } from '@/stores/backupStore';
+import { backupAction, isFileMissing, pickBackupDirectory } from '@/stores/backupStore';
 
 const handle = (name: string) => ({ name, kind: 'file' }) as unknown as FileSystemFileHandle;
+const directory = { name: 'Backups', kind: 'directory' };
 
 describe('backupAction', () => {
   it('re-grants on the file we already have when only permission lapsed', () => {
@@ -32,30 +33,28 @@ describe('backupAction', () => {
   });
 });
 
-describe('pickFile', () => {
-  it('opens where the last file lived and keeps its name', async () => {
-    const picker = vi.fn().mockResolvedValue(handle('mine.json'));
+describe('pickBackupDirectory', () => {
+  it('opens in the last backup folder with write permission', async () => {
+    const picker = vi.fn().mockResolvedValue(directory);
     const previous = handle('mine.json');
 
-    await pickFile(picker, previous);
+    await pickBackupDirectory(picker, previous);
 
     const opts = picker.mock.calls[0][0];
     expect(opts.startIn).toBe(previous);
-    // Carrying the name forward re-targets the same file instead of quietly
-    // starting a second one beside it.
-    expect(opts.suggestedName).toBe('mine.json');
+    expect(opts.mode).toBe('readwrite');
     // <=32 chars of [A-Za-z0-9_-], or the browser throws TypeError.
     expect(opts.id).toMatch(/^[A-Za-z0-9_-]{1,32}$/);
   });
 
   it('still asks the browser to remember the folder when no handle survived', async () => {
-    const picker = vi.fn().mockResolvedValue(handle('dondocs-backup.json'));
+    const picker = vi.fn().mockResolvedValue(directory);
 
-    await pickFile(picker, null);
+    await pickBackupDirectory(picker, null);
 
     const opts = picker.mock.calls[0][0];
     expect(opts.id).toMatch(/^[A-Za-z0-9_-]{1,32}$/);
-    expect(opts.suggestedName).toBe('dondocs-backup.json');
+    expect(opts.mode).toBe('readwrite');
     expect(opts).not.toHaveProperty('startIn');
   });
 
@@ -64,11 +63,11 @@ describe('pickFile', () => {
     const picker = vi
       .fn()
       .mockRejectedValueOnce(new TypeError("Failed to read the 'startIn' property"))
-      .mockResolvedValueOnce(handle('mine.json'));
+      .mockResolvedValueOnce(directory);
 
-    const result = await pickFile(picker, handle('mine.json'));
+    const result = await pickBackupDirectory(picker, handle('mine.json'));
 
-    expect(result.name).toBe('mine.json');
+    expect(result).toBe(directory);
     expect(picker).toHaveBeenCalledTimes(2);
     expect(picker.mock.calls[1][0]).not.toHaveProperty('startIn');
   });
@@ -77,7 +76,7 @@ describe('pickFile', () => {
     const abort = Object.assign(new Error('aborted'), { name: 'AbortError' });
     const picker = vi.fn().mockRejectedValue(abort);
 
-    await expect(pickFile(picker, handle('mine.json'))).rejects.toThrow('aborted');
+    await expect(pickBackupDirectory(picker, handle('mine.json'))).rejects.toThrow('aborted');
     expect(picker).toHaveBeenCalledTimes(1);
   });
 });

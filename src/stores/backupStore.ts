@@ -5,12 +5,13 @@ import {
   idbClearBackupHandle,
 } from '@/lib/documentsDb';
 import { buildBackup } from '@/lib/backup';
+import { WorkspaceBackupTooLargeError } from '@/lib/backupSize';
 import { useOnboardingStore } from '@/stores/onboardingStore';
 import { debug } from '@/lib/debug';
 
 /**
- * Synced backup file (File System Access API). The user picks a file once; its
- * handle is persisted in IndexedDB (handles are structured-cloneable) so the
+ * Synced backup file (File System Access API). The user picks a folder once.
+ * The file handle is persisted in IndexedDB so the
  * link survives reloads and restarts. Every registry save is mirrored to that
  * file, so it's always the latest copy — drop it in a synced folder for
  * cross-machine backup, all without a server.
@@ -24,13 +25,14 @@ import { debug } from '@/lib/debug';
  * "Download workspace backup" export remains the fallback. Browsers require a fresh
  * user gesture to re-grant write access after a full restart ('needs-permission').
  * 'error' = the file can't be written (moved/deleted/locked/disk-full) or the
- * account can't be read — surfaced instead of silently letting the mirror go
- * stale; later saves keep retrying and a success flips back to 'connected'.
+ * account can't be read. 'too-large' preserves the previous file when the new
+ * snapshot exceeds the restore limit. Both surface a stale mirror, and a
+ * later successful save flips the status back to 'connected'.
  */
-export type BackupStatus = 'off' | 'connected' | 'needs-permission' | 'error' | 'unsupported';
+export type BackupStatus = 'off' | 'connected' | 'needs-permission' | 'error' | 'too-large' | 'unsupported';
 
-/** The three ways a stalled mirror can be restarted. */
-type BackupAction = 'reconnect' | 'setup' | 'retry';
+/** The recovery action shown alongside the mirror status. */
+type BackupAction = 'reconnect' | 'setup' | 'retry' | 'options';
 
 /**
  * Which one this situation actually calls for. Kept here, and pure, so the
@@ -47,11 +49,16 @@ export function backupAction(status: BackupStatus, fileMissing: boolean): Backup
   if (status === 'needs-permission') return 'reconnect';
   if (status === 'off') return 'setup';
   if (status === 'error') return fileMissing ? 'setup' : 'retry';
+  if (status === 'too-large') return 'options';
   return null; // 'connected' has nothing to fix; 'unsupported' has no way out.
 }
 
+function canMirror(status: BackupStatus): boolean {
+  return status === 'connected' || status === 'error' || status === 'too-large';
+}
+
 const isSupported =
-  typeof window !== 'undefined' && typeof (window as unknown as { showSaveFilePicker?: unknown }).showSaveFilePicker === 'function'
+  typeof window !== 'undefined' && typeof (window as unknown as { showDirectoryPicker?: unknown }).showDirectoryPicker === 'function'
   && typeof navigator !== 'undefined' && typeof navigator.locks?.request === 'function';
 
 type PermState = 'granted' | 'denied' | 'prompt';
@@ -81,6 +88,7 @@ async function buildBackupJson(): Promise<string | null> {
   try {
     return await buildBackup();
   } catch (err) {
+    if (err instanceof WorkspaceBackupTooLargeError) throw err;
     debug.error('Backup', 'account read failed — skipped backup write', err);
     return null;
   }
@@ -123,35 +131,41 @@ async function writeToHandle(handle: FileSystemFileHandle, json: string, current
  *  when we no longer hold a handle. Must be <=32 chars of [A-Za-z0-9_-]. */
 const PICKER_ID = 'dondocs-backup';
 
-/**
- * Re-picking a backup file should land where the last one lived. `startIn` with
- * a file handle opens that file's own folder, and carrying its name forward
- * means a re-pick targets the same file instead of quietly starting a second
- * one alongside it. `id` covers the case where the handle is gone: the browser
- * remembers the directory itself.
- *
- * The hints are an optimization, never a gate — if a browser rejects one, the
- * user still gets a picker.
- */
-export async function pickFile(
-  picker: (o: unknown) => Promise<FileSystemFileHandle>,
-  previous: FileSystemFileHandle | null
-): Promise<FileSystemFileHandle> {
-  const base = {
-    id: PICKER_ID,
-    suggestedName: previous?.name ?? 'dondocs-backup.json',
-    types: [{ description: 'DonDocs backup', accept: { 'application/json': ['.json'] } }],
-  };
-  if (!previous) return picker(base);
+export const DEFAULT_BACKUP_FILE_NAME = 'dondocs-backup.json';
+
+type DirectoryPicker = (options: { id: string; mode: 'readwrite'; startIn?: FileSystemFileHandle }) => Promise<FileSystemDirectoryHandle>;
+
+export async function pickBackupDirectory(picker: DirectoryPicker, previous: FileSystemFileHandle | null): Promise<FileSystemDirectoryHandle> {
+  const options = { id: PICKER_ID, mode: 'readwrite' } as const;
+  // Start in the parent folder of a previously connected file when possible.
+  if (!previous) return picker(options);
   try {
-    return await picker({ ...base, startIn: previous });
-  } catch (err) {
-    // The user closing the dialog is an answer; anything else means the hint
-    // itself was refused, so ask again without it.
-    if ((err as Error)?.name === 'AbortError') throw err;
-    debug.error('Backup', 'picker rejected startIn; retrying without it', err);
-    return picker(base);
+    return await picker({ ...options, startIn: previous });
+  } catch (error) {
+    if ((error as Error)?.name === 'AbortError') throw error;
+    debug.error('Backup', 'directory picker rejected startIn; retrying without it', error);
+    return picker(options);
   }
+}
+
+async function openBackupDestination(directory: FileSystemDirectoryHandle, previous: FileSystemFileHandle | null, current: () => boolean) {
+  const preferredName = previous?.name ?? DEFAULT_BACKUP_FILE_NAME;
+  const extension = preferredName.match(/\.json$/i)?.[0] ?? '';
+  const stem = preferredName.slice(0, preferredName.length - extension.length);
+  for (let index = 1; index <= 100; index++) {
+    if (!current()) return null;
+    const name = index === 1 ? preferredName : `${stem}-${index}${extension}`;
+    let existing: FileSystemFileHandle;
+    try {
+      existing = await directory.getFileHandle(name);
+    } catch (error) {
+      if ((error as Error).name === 'TypeMismatchError') continue;
+      if ((error as Error).name !== 'NotFoundError') throw error;
+      return current() ? directory.getFileHandle(name, { create: true }) : null;
+    }
+    if (previous && await previous.isSameEntry(existing)) return existing;
+  }
+  throw new Error('This folder has too many backups with the same name. Choose another folder.');
 }
 
 // The live handle lives outside the store (not serializable UI state).
@@ -160,6 +174,7 @@ let backupWrites = 0;
 export function isBackupWriteInProgress(): boolean { return backupWrites > 0; }
 let handleGeneration = 0;
 let setupRequest = 0;
+let registrySaveGeneration = 0;
 const pendingMirrorRequests = new Set<AbortController>();
 
 function advanceHandleGeneration(): number {
@@ -171,6 +186,21 @@ function advanceHandleGeneration(): number {
 // One mirror owns file writes, including handles that alias the same file.
 let pendingWrite: Promise<void> = Promise.resolve();
 
+function queueMirrorOperation(current: () => boolean, run: () => Promise<void>): Promise<void> {
+  backupWrites++;
+  const request = new AbortController();
+  pendingMirrorRequests.add(request);
+  const operation = pendingWrite.then(() => {
+    if (!current()) return;
+    return navigator.locks.request('dondocs-backup-mirror', { mode: 'exclusive', signal: request.signal }, async () => {
+      pendingMirrorRequests.delete(request);
+      if (current()) await run();
+    });
+  }).finally(() => { pendingMirrorRequests.delete(request); backupWrites--; });
+  pendingWrite = operation.catch(() => {});
+  return operation;
+}
+
 interface BackupState {
   status: BackupStatus;
   fileName: string | null;
@@ -179,9 +209,10 @@ interface BackupState {
    *  lift — never assumed from the write error alone. */
   fileMissing: boolean;
   lastBackupAt: number | null;
+  setupError: string | null;
   /** On app load: reconnect a previously-chosen file from IndexedDB. */
   init: () => Promise<void>;
-  /** User gesture: choose a file to auto-back-up to, then seed it. */
+  /** User gesture: choose a destination folder, then seed and link its file. */
   setupBackup: () => Promise<void>;
   /** User gesture: re-grant write access after a restart. */
   reconnect: () => Promise<void>;
@@ -196,6 +227,7 @@ export const useBackupStore = create<BackupState>((set, get) => ({
   fileName: null,
   fileMissing: false,
   lastBackupAt: null,
+  setupError: null,
 
   init: async () => {
     if (!isSupported) return;
@@ -211,21 +243,37 @@ export const useBackupStore = create<BackupState>((set, get) => ({
   setupBackup: async () => {
     if (!isSupported) return;
     const request = ++setupRequest;
+    const current = () => request === setupRequest;
+    const previous = handleRef;
+    set({ setupError: null });
     try {
-      const picker = (window as unknown as {
-        showSaveFilePicker: (o: unknown) => Promise<FileSystemFileHandle>;
-      }).showSaveFilePicker;
-      const handle = await pickFile(picker, handleRef);
-      if (request !== setupRequest) return;
-      const generation = advanceHandleGeneration();
-      handleRef = handle;
-      await idbSetBackupHandle(handle);
-      if (generation !== handleGeneration) return;
-      set({ fileName: handle.name, status: 'connected', fileMissing: false });
-      await get().writeNow();
-    } catch (err) {
-      // AbortError = the user dismissed the file picker; that's not a failure.
-      if ((err as Error)?.name !== 'AbortError') debug.error('Backup', 'setup failed', err);
+      const picker = (window as unknown as { showDirectoryPicker: DirectoryPicker }).showDirectoryPicker.bind(window);
+      // Opening a Save file picker can truncate an existing file. A directory
+      // picker keeps the user gesture and leaves the destination unchanged.
+      const directory = await pickBackupDirectory(picker, previous);
+      if (!current()) return;
+      await queueMirrorOperation(current, async () => {
+        const capturedGeneration = registrySaveGeneration;
+        const json = await buildBackup();
+        if (!current()) return;
+        const handle = await openBackupDestination(directory, previous, current);
+        if (!handle || !current()) return;
+        await writeToHandle(handle, json, current);
+        if (!current()) return;
+        if (!await idbSetBackupHandle(handle)) {
+          throw new Error('The backup file was saved, but this browser could not link it for automatic updates. Try again.');
+        }
+        if (!current()) return;
+        advanceHandleGeneration();
+        handleRef = handle;
+        set({ fileName: handle.name, status: 'connected', fileMissing: false, lastBackupAt: Date.now() });
+        useOnboardingStore.getState().markComplete('first_backup');
+        if (capturedGeneration !== registrySaveGeneration) scheduleBackup();
+      });
+    } catch (error) {
+      if (!current() || (error as Error)?.name === 'AbortError') return;
+      set({ setupError: error instanceof Error ? error.message : 'Could not set up auto-backup. Try again.' });
+      debug.error('Backup', 'setup failed', error);
     }
   },
 
@@ -252,62 +300,56 @@ export const useBackupStore = create<BackupState>((set, get) => ({
     handleRef = null;
     await idbClearBackupHandle();
     if (generation !== handleGeneration) return;
-    set({ status: isSupported ? 'off' : 'unsupported', fileName: null, lastBackupAt: null, fileMissing: false });
+    set({ status: isSupported ? 'off' : 'unsupported', fileName: null, lastBackupAt: null, fileMissing: false, setupError: null });
   },
 
   writeNow: () => {
     const status = get().status;
     const handle = handleRef;
     const generation = handleGeneration;
-    if ((status !== 'connected' && status !== 'error') || !handle) return Promise.resolve();
-    backupWrites++;
-    const request = new AbortController();
-    pendingMirrorRequests.add(request);
+    if (!canMirror(status) || !handle) return Promise.resolve();
     const current = () => generation === handleGeneration && handleRef === handle;
-    const operation = pendingWrite.then(() => {
-      if (!current()) return;
-      return navigator.locks.request('dondocs-backup-mirror', { mode: 'exclusive', signal: request.signal }, async () => {
-        pendingMirrorRequests.delete(request);
+    return queueMirrorOperation(current, async () => {
+      try {
+        const perm = await queryPerm(handle);
         if (!current()) return;
-        try {
-          const perm = await queryPerm(handle);
-          if (!current()) return;
-          if (perm !== 'granted') { set({ status: 'needs-permission' }); return; }
-          const json = await buildBackupJson();
-          if (!current()) return;
-          if (json === null) { set({ status: 'error', fileMissing: false }); return; }
-          await writeToHandle(handle, json, current);
-          if (!current()) return;
-          set({ lastBackupAt: Date.now(), status: 'connected', fileMissing: false });
-          useOnboardingStore.getState().markComplete('first_backup');
-        } catch (error) {
-          if (!current()) return;
-          const name = (error as Error)?.name;
-          if (name === 'NotAllowedError' || name === 'SecurityError') set({ status: 'needs-permission', fileMissing: false });
-          else {
-            const fileMissing = await isFileMissing(handle);
-            if (current()) set({ status: 'error', fileMissing });
-          }
-          debug.error('Backup', 'write failed', error);
+        if (perm !== 'granted') { set({ status: 'needs-permission' }); return; }
+        const json = await buildBackupJson();
+        if (!current()) return;
+        if (json === null) { set({ status: 'error', fileMissing: false }); return; }
+        await writeToHandle(handle, json, current);
+        if (!current()) return;
+        set({ lastBackupAt: Date.now(), status: 'connected', fileMissing: false });
+        useOnboardingStore.getState().markComplete('first_backup');
+      } catch (error) {
+        if (!current()) return;
+        if (error instanceof WorkspaceBackupTooLargeError) {
+          set({ status: 'too-large', fileMissing: false });
+          return;
         }
-      });
+        const name = (error as Error)?.name;
+        if (name === 'NotAllowedError' || name === 'SecurityError') set({ status: 'needs-permission', fileMissing: false });
+        else {
+          const fileMissing = await isFileMissing(handle);
+          if (current()) set({ status: 'error', fileMissing });
+        }
+        debug.error('Backup', 'write failed', error);
+      }
     }).catch(error => {
-      if (request.signal.aborted) return;
-      if (current()) set({ status: 'error', fileMissing: false });
+      if (!current()) return;
+      set({ status: 'error', fileMissing: false });
       debug.error('Backup', 'could not acquire mirror ownership', error);
-    }).finally(() => { pendingMirrorRequests.delete(request); backupWrites--; });
-    pendingWrite = operation.catch(() => {});
-    return operation;
+    });
   },
 }));
 
 // Debounced auto-backup, teed off every registry save (see documentsStore).
 let backupTimer: ReturnType<typeof setTimeout> | null = null;
 export function scheduleBackup(): void {
+  registrySaveGeneration++;
   const status = useBackupStore.getState().status;
-  // Keep scheduling through 'error' so a transient fault (file briefly locked
-  // by a sync client, disk momentarily full) heals on the next save.
-  if (status !== 'connected' && status !== 'error') return;
+  // Keep scheduling so a transient fault or a workspace reduced in size can recover.
+  if (!canMirror(status)) return;
   if (backupTimer) clearTimeout(backupTimer);
   backupTimer = setTimeout(() => {
     void useBackupStore.getState().writeNow();

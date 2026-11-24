@@ -87,11 +87,11 @@ describe('SaveStatus', () => {
 
   it('explains the failure the same way the button repairs it', async () => {
     // A tooltip saying "something is blocking access" above a button labelled
-    // "choose a new backup file" tells the user two different stories about one
+    // "choose a new backup folder" tells the user two different stories about one
     // state. The hint has to follow the same fact the action does.
     useBackupStore.setState({ status: 'error', fileMissing: true });
     const { rerender } = render(<TooltipProvider><SaveStatus /></TooltipProvider>);
-    fireEvent.focus(screen.getByRole('button', { name: /choose a new backup file/i }));
+    fireEvent.focus(screen.getByRole('button', { name: /choose a new backup folder/i }));
     expect((await screen.findByRole('tooltip')).textContent).toMatch(/can't find its file/i);
 
     useBackupStore.setState({ status: 'error', fileMissing: false });

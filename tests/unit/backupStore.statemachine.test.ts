@@ -1,7 +1,7 @@
 // @vitest-environment happy-dom
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 
-// backupStore reads `isSupported` (window.showSaveFilePicker) at module load, so
+// backupStore reads `isSupported` (window.showDirectoryPicker) at module load, so
 // each test re-imports it after stubbing the API. documentsDb is mocked because
 // a real FileSystemFileHandle isn't structured-cloneable through IndexedDB.
 let backupHandle: FakeHandle | null = null;
@@ -27,6 +27,7 @@ interface FakeHandle {
   writes: string[];
   queryPermission: (o: { mode: string }) => Promise<string>;
   requestPermission: (o: { mode: string }) => Promise<string>;
+  isSameEntry: (other: FakeHandle) => Promise<boolean>;
   createWritable: () => Promise<{ write: (d: string) => Promise<void>; close: () => Promise<void> }>;
   /** Asked after a failed write to tell a missing file from a refused one. */
   getFile: () => Promise<unknown>;
@@ -38,6 +39,7 @@ function makeHandle(perm: FakeHandle['perm'] = 'granted', name = 'dondocs-librar
     perm,
     writes: [],
     queryPermission: async () => h.perm,
+    isSameEntry: async other => h === other,
     requestPermission: async () => {
       h.perm = 'granted';
       return 'granted';
@@ -53,9 +55,18 @@ function makeHandle(perm: FakeHandle['perm'] = 'granted', name = 'dondocs-librar
   return h;
 }
 
-async function loadStore(picker?: unknown) {
+async function loadStore(
+  picker?: (options: unknown) => Promise<FakeHandle>,
+  selectFile: (handle: FakeHandle, name: string, options?: { create: boolean }) => Promise<FakeHandle> = async (handle, _name, options) => {
+    if (options?.create) return handle;
+    throw new DOMException('File missing', 'NotFoundError');
+  },
+) {
   vi.resetModules();
-  (window as unknown as { showSaveFilePicker?: unknown }).showSaveFilePicker = picker;
+  (window as unknown as { showDirectoryPicker?: unknown }).showDirectoryPicker = picker && (async (options: unknown) => {
+    const handle = await picker(options);
+    return { getFileHandle: (name: string, fileOptions?: { create: boolean }) => selectFile(handle, name, fileOptions) };
+  });
   return (await import('@/stores/backupStore')).useBackupStore;
 }
 
@@ -87,14 +98,126 @@ describe('backupStore permission state machine', () => {
     expect(store.getState().status).toBe('needs-permission');
   });
 
-  it('setupBackup picks a file, connects, and seeds it once', async () => {
+  it('setupBackup picks a folder, seeds its backup file, and connects once', async () => {
     const handle = makeHandle('granted');
     const picker = vi.fn(async () => handle);
     const store = await loadStore(picker);
     await store.getState().setupBackup();
-    expect(picker).toHaveBeenCalledTimes(1);
+    expect(picker).toHaveBeenCalledExactlyOnceWith({ id: 'dondocs-backup', mode: 'readwrite' });
     expect(store.getState().status).toBe('connected');
     expect(handle.writes).toHaveLength(1); // seeded on connect
+  });
+
+  it('never opens the destructive Save picker or touches an existing file when setup exceeds the restore limit', async () => {
+    const handle = makeHandle();
+    const chooseFolder = vi.fn(async () => handle);
+    const selectFile = vi.fn(async () => handle);
+    const savePicker = vi.fn();
+    vi.stubGlobal('showSaveFilePicker', savePicker);
+    const store = await loadStore(chooseFolder, selectFile);
+    const { WorkspaceBackupTooLargeError } = await import('@/lib/backupSize');
+    buildBackup.mockRejectedValueOnce(new WorkspaceBackupTooLargeError());
+
+    await store.getState().setupBackup();
+
+    expect(chooseFolder).toHaveBeenCalledOnce();
+    expect(savePicker).not.toHaveBeenCalled();
+    expect(selectFile).not.toHaveBeenCalled();
+    expect(setHandle).not.toHaveBeenCalled();
+    expect(handle.writes).toHaveLength(0);
+    expect(store.getState()).toMatchObject({ status: 'off', fileName: null, lastBackupAt: null });
+    expect(store.getState().setupError).toContain('100 MiB restore limit');
+  });
+
+  it('creates a distinct mirror beside an unrelated backup and a directory with a backup filename', async () => {
+    const existing = makeHandle('granted', 'dondocs-backup.json');
+    const fresh = makeHandle('granted', 'dondocs-backup-3.json');
+    const selectFile = vi.fn(async (_handle: FakeHandle, name: string, options?: { create: boolean }) => {
+      if (name === existing.name) return existing;
+      if (name === 'dondocs-backup-2.json') throw new DOMException('Directory here', 'TypeMismatchError');
+      if (name === fresh.name && options?.create) return fresh;
+      throw new DOMException('File missing', 'NotFoundError');
+    });
+    const store = await loadStore(vi.fn(async () => fresh), selectFile);
+    await store.getState().setupBackup();
+
+    expect(existing.writes).toEqual([]);
+    expect(fresh.writes).toHaveLength(1);
+    expect(setHandle).toHaveBeenCalledExactlyOnceWith(fresh);
+    expect(store.getState()).toMatchObject({ status: 'connected', fileName: fresh.name });
+  });
+
+  it('reuses a linked file when the selected folder contains that same file', async () => {
+    const linked = makeHandle();
+    backupHandle = linked;
+    const selectFile = vi.fn(async () => linked);
+    const store = await loadStore(vi.fn(async () => linked), selectFile);
+    await store.getState().init();
+    await store.getState().setupBackup();
+
+    expect(selectFile).toHaveBeenCalledExactlyOnceWith(linked, linked.name, undefined);
+    expect(linked.writes).toHaveLength(1);
+  });
+
+  it('registers a replacement only after its validated snapshot has been written successfully', async () => {
+    const previous = makeHandle('granted', 'prior-backup.json');
+    const replacement = makeHandle('granted', previous.name);
+    backupHandle = previous;
+    const abort = vi.fn(async () => {});
+    replacement.createWritable = async () => ({
+      write: async () => { throw new Error('Disk full'); },
+      close: async () => {},
+      abort,
+    });
+    const selectFile = vi.fn(async (_handle: FakeHandle, _name: string, options?: { create: boolean }) => {
+      if (options?.create) return replacement;
+      throw new DOMException('File missing', 'NotFoundError');
+    });
+    const store = await loadStore(vi.fn(async () => replacement), selectFile);
+    await store.getState().init();
+    await store.getState().setupBackup();
+
+    expect(selectFile.mock.calls).toEqual([
+      [replacement, previous.name, undefined],
+      [replacement, previous.name, { create: true }],
+    ]);
+    expect(abort).toHaveBeenCalledOnce();
+    expect(setHandle).not.toHaveBeenCalled();
+    expect(store.getState()).toMatchObject({ status: 'connected', fileName: previous.name, setupError: 'Disk full' });
+    await store.getState().writeNow();
+    expect(previous.writes).toHaveLength(1);
+    expect(replacement.writes).toHaveLength(0);
+  });
+
+  it('writes the validated seed and leaves it intact when a newer workspace becomes oversized', async () => {
+    vi.useFakeTimers();
+    try {
+      const handle = makeHandle();
+      let entered!: () => void;
+      let release!: (handle: FakeHandle) => void;
+      const waiting = new Promise<void>(resolve => { entered = resolve; });
+      const file = new Promise<FakeHandle>(resolve => { release = resolve; });
+      const store = await loadStore(vi.fn(async () => handle), (_handle, _name, options) => {
+        if (!options?.create) throw new DOMException('File missing', 'NotFoundError');
+        entered();
+        return file;
+      });
+      const { WorkspaceBackupTooLargeError } = await import('@/lib/backupSize');
+      const { scheduleBackup } = await import('@/stores/backupStore');
+      const seed = '{"kind":"dondocs-backup","version":5,"documents":[]}';
+      buildBackup.mockResolvedValueOnce(seed).mockRejectedValueOnce(new WorkspaceBackupTooLargeError());
+
+      const connecting = store.getState().setupBackup();
+      await waiting;
+      expect(store.getState()).toMatchObject({ status: 'off', fileName: null });
+      scheduleBackup();
+      release(handle);
+      await connecting;
+      expect(handle.writes).toEqual([seed]);
+      await vi.advanceTimersByTimeAsync(1_500);
+      expect(store.getState().status).toBe('too-large');
+      expect(handle.writes).toEqual([seed]);
+    } finally { vi.useRealTimers(); }
   });
 
   it('mirrors a full-account backup bundle, not a docs-only library', async () => {
@@ -119,6 +242,26 @@ describe('backupStore permission state machine', () => {
     expect(store.getState().status).toBe('error');
     expect(handle.writes).toHaveLength(seededWrites); // no overwrite
     expect(store.getState().lastBackupAt).toBe(before); // no fake success stamp
+  });
+
+  it('keeps the last good mirror and its timestamp when the new workspace exceeds the restore limit', async () => {
+    const handle = makeHandle();
+    const store = await loadStore(vi.fn(async () => handle));
+    await store.getState().setupBackup();
+    const previous = handle.writes[0];
+    const previousTimestamp = store.getState().lastBackupAt;
+    const createWritable = vi.spyOn(handle, 'createWritable');
+    const { WorkspaceBackupTooLargeError } = await import('@/lib/backupSize');
+    buildBackup.mockRejectedValueOnce(new WorkspaceBackupTooLargeError());
+
+    await store.getState().writeNow();
+
+    expect(createWritable).not.toHaveBeenCalled();
+    expect(handle.writes).toEqual([previous]);
+    expect(store.getState()).toMatchObject({ status: 'too-large', fileMissing: false, lastBackupAt: previousTimestamp });
+    await store.getState().writeNow();
+    expect(store.getState().status).toBe('connected');
+    expect(createWritable).toHaveBeenCalledOnce();
   });
 
   it('writeNow flips to needs-permission when permission was revoked between saves', async () => {
@@ -276,7 +419,8 @@ it('reports lock acquisition failure without opening or acknowledging a file', a
   vi.stubGlobal('navigator', { locks: { request: async () => { throw new Error('Lock denied'); } } });
   const handle = makeHandle(), store = await loadStore(vi.fn(async () => handle));
   await expect(store.getState().setupBackup()).resolves.toBeUndefined();
-  expect(handle.writes).toEqual([]); expect(store.getState().status).toBe('error'); expect(store.getState().lastBackupAt).toBeNull();
+  expect(handle.writes).toEqual([]);
+  expect(store.getState()).toMatchObject({ status: 'off', setupError: 'Lock denied', lastBackupAt: null });
 });
 
 it('preserves startup reconnection when a concurrent file picker is cancelled', async () => {

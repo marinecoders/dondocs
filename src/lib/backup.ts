@@ -33,7 +33,8 @@ import type { FormDefinition } from '@/services/forms/model';
  * localStorage/IndexedDB) — no network, air-gap safe.
  */
 import { lastWriteFailed } from '@/lib/compressedStorage';
-import { validateBackup, validateBackupSession, MAX_BACKUP_BYTES } from './backupValidation';
+import { validateBackup, validateBackupSession } from './backupValidation';
+import { assertBackupRestoreSize, exceedsBackupByteLimit, WorkspaceBackupTooLargeError } from './backupSize';
 import type { Profile } from '@/types/document';
 import { captureDocumentTarget, isCurrentDocumentTarget, useDocumentsStore, exportLibrary, importLibrary, validateLibraryDocuments } from '@/stores/documentsStore';
 import { useDocumentStore } from '@/stores/documentStore';
@@ -286,7 +287,7 @@ export function mergeSnapshots(
 
 /** Parse + shape-check a backup file; returns the discriminated kind. */
 export function classifyBackup(json: string): { kind: string; parsed: Record<string, unknown> } {
-  if (json.length > MAX_BACKUP_BYTES) throw new Error('Backup exceeds the 100 MB import limit');
+  assertBackupRestoreSize(json);
   let parsed: unknown;
   try {
     parsed = JSON.parse(json);
@@ -399,8 +400,11 @@ async function serializeBackup(): Promise<string> {
       const { validateWordSourceFile } = await import('./wordSourceResources');
       await validateWordSourceFile(copyAttachment(resources, receipt.wordSource.fileRef.id), receipt.wordSource);
     }
+    let encodedAttachmentBytes = 0;
     const attachments = ids.map(id => {
       const record = copyAttachment(resources, id);
+      encodedAttachmentBytes += 4 * Math.ceil(record.data.byteLength / 3);
+      if (exceedsBackupByteLimit(encodedAttachmentBytes)) throw new WorkspaceBackupTooLargeError();
       return { ...record, data: uint8ArrayToBase64(arrayBufferToUint8Array(record.data)) };
     });
     const withComments = docs.some(doc => hasReviewComments((doc as { session: import('@/stores/documentStore').SerializedSession }).session))
@@ -418,7 +422,7 @@ async function serializeBackup(): Promise<string> {
     // Apply the recovery complexity and key guards before claiming an export is restorable.
     validateBackup({ ...bundle });
     const json = JSON.stringify(bundle);
-    if ((formTemplates || actionPackages.length || packageTemplates.length || reviewReturns.some(receipt => receipt.wordSource)) && new TextEncoder().encode(json).byteLength > MAX_BACKUP_BYTES) throw new Error('This complete workspace backup exceeds the 100 MB JSON import limit. Export separate draft copies before transferring it.');
+    if (exceedsBackupByteLimit(json)) throw new WorkspaceBackupTooLargeError();
     return json;
   });
 }
@@ -461,6 +465,7 @@ async function restoreWithTarget(json: string, canReplaceForms: () => boolean): 
 }
 
 export async function restoreBackupFile(file: Blob): Promise<RestoreResult> {
+  assertBackupRestoreSize(file.size);
   const canReplaceForms = captureFormReplacement();
   restoresInProgress++;
   try { return await restoreWithTarget(await file.text(), canReplaceForms); } finally { restoresInProgress--; }
