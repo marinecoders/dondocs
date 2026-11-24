@@ -154,7 +154,7 @@ describe('additional correspondence proofreading', () => {
     const source = draft({ paragraphs: [{ id: 'formatted', level: 0, text: `See ${text}.` }], enclosures: [{ title: 'Existing enclosure' }] });
     const original = structuredClone(source);
     const findings = additionalProofreadFindings(source);
-    expect(findings.map(f => f.title)).toEqual(['Check enclosure (2)']);
+    expect(findings.map(f => f.title)).toEqual(['Check enclosure (2)', 'Review uncited enclosure (1)']);
     expect(findings[0].target).toEqual({ sectionId: 'body', paragraphId: 'formatted', paragraphPath: ['text'] });
     expect(source).toEqual(original);
   });
@@ -163,7 +163,7 @@ describe('additional correspondence proofreading', () => {
     '**"enclosure (2)"**', '__`enclosure (2)`__', 'https://example.test/enclosure(2)',
     'enclosure "example" (2)', 'enclosure `(2)`',
   ])('does not expose protected text or join across it after emphasis projection: %s', text => {
-    expect(additionalProofreadFindings(draft({ paragraphs: [{ id: 'literal', level: 0, text }], enclosures: [{ title: 'Existing enclosure' }] }))).toEqual([]);
+    expect(additionalProofreadFindings(draft({ paragraphs: [{ id: 'literal', level: 0, text }], enclosures: [{ title: 'Existing enclosure' }] }))).toEqual([expect.objectContaining({ id: 'correspondence:uncited-enclosure:0' })]);
   });
 
   it('checks formatted citations in enabled appended text and retains its editor target', () => {
@@ -198,4 +198,31 @@ describe('additional correspondence proofreading', () => {
     expect(findings.map(f => f.target)).toEqual([{ sectionId: 'body', paragraphId: 'headed', paragraphPath: ['header'] }]);
   });
 
+});
+
+
+describe('scoped manual checks', () => {
+  it('checks known subject acronyms, To lines, catalog entries, and serial designators only where printed', () => {
+    const formData = { date: '19 Nov 26', to: 'Mr. John Example (55)', subject: 'NATO EXERCISE',
+      ssic: '99999', classLevel: 'secret' as const, serial: 'N01/C123' };
+    const catalog = new Set(['5216']);
+    const findings = additionalProofreadFindings(draft({ formData }), catalog);
+    expect(findings.map(f => f.id)).toEqual(['correspondence:subject-acronym', 'correspondence:to-office-code',
+      'correspondence:to-named-person', 'correspondence:ssic-catalog', 'correspondence:serial-mark']);
+    expect(additionalProofreadFindings(draft({ docType: 'business_letter', formData }), catalog)).toEqual([]);
+    expect(additionalProofreadFindings(draft({ formData: { ...formData, subject: 'EXERCISE MEETING',
+      to: 'Commanding Officer (Code 55)\nUSS EXAMPLE (CVN 74)', ssic: '5216', serial: 'N01/S123' } }), catalog)).toEqual([]);
+    expect(ids(draft({ formData: { ...formData, ssic: '5X16', serial: 'WPC 123', to: '(Code N01)' } })))
+      .toEqual(expect.arrayContaining(['correspondence:ssic-catalog', 'correspondence:word-processing-center-id', 'correspondence:to-office-code']));
+  });
+
+  it('audits explicit citations and honors protected markup and enclosure ranges', () => {
+    const source = draft({ paragraphs: [{ id: 'p', level: 0, text: 'See **reference (a)** and enclosures (1)–(2). Sample: `reference (b)`.' }],
+      references: [{ letter: 'a', title: 'First source' }, { letter: 'b', title: 'Second source' }],
+      enclosures: ['First', 'Second', 'Third'].map(title => ({ title })) });
+    expect(additionalProofreadFindings(source).map(f => [f.id, f.target.field])).toEqual([
+      ['correspondence:uncited-reference:1', 'reference-title-1'], ['correspondence:uncited-enclosure:2', 'enclosure-title-2'],
+    ]);
+    expect(ids({ ...source, paragraphs: [] })).toEqual([]);
+  });
 });

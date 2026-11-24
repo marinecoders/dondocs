@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.258] — 2026-11-23
+
+### Added
+
+- Flag applicable addressing, references, enclosures, identifiers, and subject issues.
+
 ## [1.3.257] — 2026-11-23
 
 ### Fixed

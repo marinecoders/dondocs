@@ -1,4 +1,8 @@
 import { DOC_TYPE_CONFIG } from '@/types/document';
+import { documentOutputConfig } from './documentOutputConfig';
+import { canReviewReferenceOrder, citationProtectedRanges, scanReferenceCitations } from './referenceCitations';
+import { plainInlineText } from './inlineText';
+import { maskProtectedRanges } from './protectedCodeRanges';
 import { documentTextFields } from './documentFields';
 import { enclosureStartNumber, isEndorsement } from './endorsement';
 import { inspectEnclosureCitations } from './enclosureCitations';
@@ -12,7 +16,10 @@ import { isStaffPaper } from './staffPapers';
 import type { ProofreadFinding, ProofreadSource } from './proofread';
 
 const PUBLICATIONS = new Set(['sl3', 'sl4', 'i_type', 'tm_ietm_front_matter', 'technical_volume']);
-const SUBJECT_FRAGMENT_TYPES = new Set(['naval_letter', 'standard_letter', 'multiple_address_letter', 'joint_letter', 'new_page_endorsement', 'same_page_endorsement']);
+const STANDARD_ADDRESS_TYPES = new Set(['naval_letter', 'standard_letter', 'multiple_address_letter', 'joint_letter', 'new_page_endorsement', 'same_page_endorsement']);
+// Known naval terms keep all-caps English words such as MEETING out of this check.
+const SUBJECT_ACRONYM = /\b(?:NATO|USMC|USN|USCG|USAF|DOD|HQMC|NROTC|ROTC|MCCDC|MCRC|MARCORSYSCOM|MAGTF|MEF|MARDIV|MARFORCOM|MARFORPAC|COMNAVSURFOR|COMNAVAIRFOR|SSIC|EDIPI|NJP|POAM)\b/i;
+const CLASSIFIED_SERIAL_MARK = new Map([['confidential', 'C'], ['secret', 'S'], ['top_secret', 'TS']]);
 
 export function supportsCorrespondenceProofread(source: Pick<ProofreadSource, 'documentCategory' | 'docType'>): boolean {
   return source.documentCategory === 'correspondence' && !PUBLICATIONS.has(source.docType)
@@ -21,9 +28,9 @@ export function supportsCorrespondenceProofread(source: Pick<ProofreadSource, 'd
 
 /** Additional advisory checks on printed correspondence, without changing a draft
  * or duplicating the existing formatting, readiness and classification engines. */
-export function additionalProofreadFindings(source: ProofreadSource): ProofreadFinding[] {
+export function additionalProofreadFindings(source: ProofreadSource, catalog?: ReadonlySet<string>): ProofreadFinding[] {
   if (!supportsCorrespondenceProofread(source)) return [];
-  const config = DOC_TYPE_CONFIG[source.docType], data = source.formData;
+  const config = documentOutputConfig(source.docType, source.documentMode), data = source.formData;
   const staffPaper = isStaffPaper(source.docType);
   const findings: ProofreadFinding[] = [];
   const add = (id: string, title: string, message: string, sectionId: string, field?: string,
@@ -48,10 +55,46 @@ export function additionalProofreadFindings(source: ProofreadSource): ProofreadF
   }
   const subjectField = config.uiMode === 'joint' ? 'jointSubject' : 'subject';
   const subjectPrinted = !config.skipSubject || isEndorsement(source.docType) && data.includeEndorsementSubject;
-  if (subjectPrinted && SUBJECT_FRAGMENT_TYPES.has(source.docType) && /\.\s*$/.test(data[subjectField] ?? '')) {
+  if (subjectPrinted && STANDARD_ADDRESS_TYPES.has(source.docType) && /\.\s*$/.test(data[subjectField] ?? '')) {
     add('subject-period', 'Review subject punctuation',
       'The subject is normally a sentence fragment. Check whether its final period belongs in this subject.',
       headingSection, subjectField, { chapter: 7, paragraph: '9', query: 'Subject Line' });
+  }
+  if (subjectPrinted && STANDARD_ADDRESS_TYPES.has(source.docType) && SUBJECT_ACRONYM.test(data[subjectField] ?? '')) {
+    add('subject-acronym', 'Review acronyms in the subject',
+      'Spell out acronyms in standard correspondence subjects. If replying, check the manual before changing the incoming subject.',
+      headingSection, subjectField, { chapter: 7, paragraph: '9', query: 'Subject Line' }, 'acronyms');
+  }
+  const standardAddress = STANDARD_ADDRESS_TYPES.has(source.docType);
+  if (standardAddress && config.fromTo) {
+    const toField = config.uiMode === 'joint' ? 'jointTo' : 'to';
+    const to = data[toField] ?? '';
+    if (/\(\s*(?:\d+|Code\s+[A-Z][A-Z0-9-]*)\s*\)/i.test(to)) add('to-office-code', 'Review the To-line office code',
+      'Write Code before a numeric office code. Omit Code before an office code that starts with a letter.',
+      headingSection, toField, { chapter: 7, paragraph: '7', query: 'To: Line' });
+    if (/(?:^|[,(]\s*|\bAttn:?\s+)(?:Mr\.?|Mrs\.?|Ms\.?|Miss|Dr\.?|Capt\.?|Captain|Lt\.?|Lieutenant|Maj\.?|Major|Col\.?|Colonel|Sgt\.?|Sergeant)\s+(?!Major\b|General\b|of\b)[\p{L}][\p{L}.'’-]*(?:\s+[\p{L}][\p{L}.'’-]*)?(?=\s*(?:[,;()\n]|$))/imu.test(to)) {
+      add('to-named-person', 'Review the named To-line addressee',
+        'Use the activity head, title or office code where possible. A named recipient may cause misrouting after personnel turnover.',
+        headingSection, toField, { chapter: 7, paragraph: '7', query: 'To: Line' });
+    }
+  }
+  if (standardAddress && config.ssic && config.uiMode !== 'joint') {
+    const code = data.ssic?.trim() ?? '';
+    if (/^WPC(?:[- ]+\d+)\s*$/i.test(data.serial?.trim() ?? '')) add('word-processing-center-id',
+      'Confirm who assigned the document number',
+      'If a word processing center assigned this number, keep it on the file copy and leave it out of the letter identification block.',
+      headingSection, 'serial', { chapter: 7, paragraph: '3', query: 'Unauthorized Identification Symbols' });
+    if (!unfilled(code) && (!/^\d{4,5}$/.test(code) || catalog && !catalog.has(code))) {
+      add('ssic-catalog', 'Review the SSIC', /^\d{4,5}$/.test(code)
+        ? 'This code is absent from the DonDocs catalog. Confirm the current code and that it fits the subject.'
+        : 'Enter the four- or five-digit subject identification code. Confirm the correct code in the catalog.',
+      headingSection, 'ssic', { chapter: 7, paragraph: '3', query: 'Standard Subject Identification Code' });
+    }
+    const requiredMark = CLASSIFIED_SERIAL_MARK.get(deriveOverallClassLevel(data.classLevel, source.paragraphs));
+    const serialMark = /\/\s*(TS|S|C)?\s*\d+\s*$/i.exec(data.serial ?? '');
+    if (requiredMark && serialMark && serialMark[1]?.toUpperCase() !== requiredMark) add('serial-mark',
+      'Review the serial classification letter', `Check whether the serial uses ${requiredMark} between the slash and its number for the document’s overall marking.`,
+      headingSection, 'serial', { chapter: 7, paragraph: '3', query: 'Classified Markings' }, 'markings');
   }
   if (isEndorsement(source.docType)) {
     // Match the generator's legacy subject fallback so an older, still printable
@@ -108,16 +151,38 @@ export function additionalProofreadFindings(source: ProofreadSource): ProofreadF
         'classification', 'cuiPocEmail', undefined, 'markings');
     }
   }
-  if (staffPaper || !(source.documentMode === 'custom' || config.compliance.allowEnclosures)) return findings;
+  if (staffPaper) return findings;
+  // Only prose that will print can satisfy the reference or enclosure check.
+  const citationFields = documentTextFields(source, 'output').filter(field =>
+    field.path[0] === 'paragraphs' || field.path[0] === 'formData'
+      && (field.path[1] === 'endorsementBody' || field.path[1] === 'additionalEndorsements' && field.path[3] === 'endorsementBody'));
+  const prose = citationFields.filter(field => field.role === 'text' && field.text.trim());
+  if (canReviewReferenceOrder(source) && source.references.length && prose.length) {
+    const scans = prose.map(field => scanReferenceCitations(plainInlineText(maskProtectedRanges(field.text, citationProtectedRanges(field.text), '\uFFFC'))));
+    if (scans.every(scan => !scan.issues.length)) {
+      const mentioned = new Set(scans.flatMap(scan => scan.citations.map(citation => citation.letter)));
+      source.references.forEach((reference, index) => {
+        const label = reference.letter.toLowerCase();
+        if (label && !unfilled(reference.title) && !mentioned.has(label)) add(`uncited-reference:${index}`,
+          `Review uncited reference (${label})`, 'No explicit mention was found in the printed body. Cite the reference or review whether it belongs in the list.',
+          'references', `reference-title-${index}`, { chapter: 7, paragraph: '10', query: 'Reference Line' }, 'references');
+      });
+    }
+  }
+  if (!(source.documentMode === 'custom' || config.compliance.allowEnclosures)) return findings;
   const start = enclosureStartNumber(source.docType, data.startingEnclosureNumber);
+  const mentionedEnclosures = new Set<number>();
+  const recordEnclosures = (first: number, last: number) => {
+    for (let index = Math.max(0, first - start); index <= Math.min(last - start, source.enclosures.length - 1); index++) {
+      mentionedEnclosures.add(index);
+    }
+  };
+  let ambiguousEnclosure = false;
   source.enclosures.forEach((enclosure, index) => {
     if (unfilled(enclosure.title)) add(`enclosure-title:${index}`, `Enclosure (${start + index}) needs a title`,
       'Describe the enclosed document in the enclosure list.', 'enclosures', `enclosure-title-${index}`,
       { chapter: 7, paragraph: '11', query: 'Enclosures' }, 'references');
   });
-  const citationFields = documentTextFields(source, 'output').filter(field =>
-    field.path[0] === 'paragraphs' || field.path[0] === 'formData'
-      && (field.path[1] === 'endorsementBody' || field.path[1] === 'additionalEndorsements' && field.path[3] === 'endorsementBody'));
   for (const field of citationFields) {
     const paragraph = field.path[0] === 'paragraphs' ? source.paragraphs[Number(field.path[1])] : undefined;
     const extra = field.path[1] === 'additionalEndorsements'
@@ -128,9 +193,18 @@ export function additionalProofreadFindings(source: ProofreadSource): ProofreadF
       : { sectionId: 'signature', field: `${editorId}-body` };
     for (const issue of inspectEnclosureCitations(field.text, {
       first: start, count: source.enclosures.length, inherited: isEndorsement(source.docType),
-    })) findings.push({ id: `correspondence:enclosure-citation:${field.path.join(':')}:${issue.id}`,
-      group: 'references', severity: 'warning', title: issue.title, message: issue.message, target,
-      source: { chapter: 7, paragraph: '11', query: 'Enclosures' } });
+    }, recordEnclosures)) {
+      ambiguousEnclosure ||= issue.id.startsWith('manual:');
+      findings.push({ id: `correspondence:enclosure-citation:${field.path.join(':')}:${issue.id}`,
+        group: 'references', severity: 'warning', title: issue.title, message: issue.message, target,
+        source: { chapter: 7, paragraph: '11', query: 'Enclosures' } });
+    }
   }
+  if (!ambiguousEnclosure && prose.length) source.enclosures.forEach((enclosure, index) => {
+    const label = start + index;
+    if (!unfilled(enclosure.title) && !mentionedEnclosures.has(index)) add(`uncited-enclosure:${index}`,
+      `Review uncited enclosure (${label})`, 'No explicit mention was found in the printed body. Check whether the enclosure should be cited.',
+      'enclosures', `enclosure-title-${index}`, { chapter: 7, paragraph: '11', query: 'Enclosures' }, 'references');
+  });
   return findings;
 }
