@@ -139,7 +139,11 @@ describe.skipIf(!hasPdfToolchain)('compiled preview hints', () => {
       const config = DOC_TYPE_CONFIG[docType];
       const optionalByCategory: Record<StarterExampleSection, string[]> = {
         letterhead: [...(config.optionalLetterhead ? ['unitLine1'] : []), 'unitLine2', 'unitAddress', 'addressLocality'],
-        senderSymbols: ['serial', ...(config.ssic && !isDirective(docType) ? ['officeCode'] : [])],
+        senderSymbols: [
+          'serial',
+          ...(config.optionalSSIC ? ['ssic'] : []),
+          ...(config.ssic && !isDirective(docType) ? ['officeCode'] : []),
+        ],
         addressing: config.uiMode === 'business' ? ['subject', ...(documentMode === 'custom' ? ['salutation'] : [])] : [],
         signature: ['sigFirst', 'sigMiddle', 'sigRank', ...(docType === 'tm_ietm_front_matter' ? [] : ['sigTitle']),
           ...(documentMode === 'custom' ? ['complimentaryClose'] : [])],

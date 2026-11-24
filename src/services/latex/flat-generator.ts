@@ -1569,7 +1569,7 @@ function buildMemoLayout(store: DocumentStore, config: DocTypeConfig): string {
   }
 
   if (config.letterhead) content += buildLetterhead(data, config, store.docType);
-  if (config.ssic) content += buildSSICBlock(data);
+  if (config.ssic) content += buildSSICBlock(store.docType === 'plain_paper_memorandum' ? { ...data, inReplyTo: false } : data);
   if (config.memoHeader) {
     content += buildMemoHeader(config, data);
     // 12pt after memo title (matches PDF's \par\vspace{12pt} in letterhead_memorandum.tex)

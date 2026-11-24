@@ -86,7 +86,7 @@ describe.skipIf(!hasPdfToolchain)('tagged correspondence layouts', () => {
     expect(measured.stdout.includes('To:')).toBe(!!to);
     if (isMemo) {
       expect(measured.stdout).toMatch(/MEMORANDUM[\s\S]+From:[\s\S]+To:[\s\S]+Via:[\s\S]+First Office[\s\S]+Second Office[\s\S]+Subj:/);
-      expect(measured.stdout.includes('5216')).toBe(!plainMemo);
+      expect(measured.stdout).toContain('5216');
     }
     for (const [file, prefix] of [['main.pdf', 'original'], ['tagged.pdf', 'tagged']]) {
       const rendered = spawnSync('pdftoppm', ['-r', '72', '-png', join(normal.workDir, file), join(normal.workDir, prefix)], { encoding: 'utf8' });
