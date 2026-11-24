@@ -85,7 +85,7 @@ export function ExecutiveMemoSection() {
                 value={formData.date || ''}
                 onChange={(value) => setField('date', value)}
                 dateFormat="spelled"
-                placeholder="January 5, 2026"
+                placeholder=""
               />
               <p className="text-xs text-muted-foreground">Spelled format per Ch 12 (e.g., January 5, 2026)</p>
             </div>
@@ -113,9 +113,6 @@ export function ExecutiveMemoSection() {
                 id="exec-memo-for"
                 value={formData.memorandumFor || ''}
                 onChange={(e) => setField('memorandumFor', e.target.value)}
-                placeholder={isStandardMemo
-                  ? 'Secretary of the Navy\nATTN: Office of the Judge Advocate General (Code 10)'
-                  : 'Secretary of the Navy'}
                 rows={2}
                 className="resize-none"
               />
@@ -184,9 +181,6 @@ export function ExecutiveMemoSection() {
                 id="exec-from"
                 value={formData.from || ''}
                 onChange={(e) => setField('from', e.target.value)}
-                placeholder={isInfoMemo
-                  ? 'Under Secretary of the Navy (signed and dated here)'
-                  : 'Assistant Secretary of the Navy (Manpower and Reserve Affairs)'}
               />
               {isInfoMemo && (
                 <p className="text-xs text-muted-foreground">
@@ -216,7 +210,6 @@ export function ExecutiveMemoSection() {
                 value={formData.subject || ''}
                 onChange={(e) => setField('subject', e.target.value)}
                 aria-invalid={validationVisible && unfilled(formData.subject) ? true : undefined}
-                placeholder="Quarterly Report on Personnel Readiness"
               />
               <p className="text-xs text-muted-foreground">
                 Title Case per Ch 12 ¶2l (not ALL CAPS like standard correspondence)

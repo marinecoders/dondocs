@@ -45,7 +45,7 @@ export function JointMemoSection() {
                   id="date"
                   value={formData.date || ''}
                   onChange={(value) => setField('date', value)}
-                  placeholder="15 Jan 26"
+                  placeholder=""
                 />
               </div>
 
@@ -56,7 +56,6 @@ export function JointMemoSection() {
                   id="to"
                   value={formData.to || ''}
                   onChange={(e) => setField('to', e.target.value)}
-                  placeholder="e.g., Commandant of the Marine Corps"
                 />
               </div>
 
@@ -68,7 +67,6 @@ export function JointMemoSection() {
                   value={formData.subject || ''}
                   onChange={(e) => setField('subject', e.target.value)}
                   aria-invalid={validationVisible && unfilled(formData.subject) ? true : undefined}
-                  placeholder="SUBJECT LINE IN ALL CAPS"
                   className="uppercase"
                 />
                 <div className="flex items-center space-x-2 pt-1">
@@ -114,7 +112,6 @@ export function JointMemoSection() {
                   id="jointMemoSeniorSigName"
                   value={signers.seniorName}
                   onChange={(e) => setField('jointMemoSeniorSigName', e.target.value)}
-                  placeholder="J. A. SMITH"
                   className="uppercase"
                 />
               </div>
@@ -163,7 +160,6 @@ export function JointMemoSection() {
                   id="jointMemoJuniorSigName"
                   value={signers.juniorName}
                   onChange={(e) => setField('jointMemoJuniorSigName', e.target.value)}
-                  placeholder="T. R. JONES"
                   className="uppercase"
                 />
               </div>

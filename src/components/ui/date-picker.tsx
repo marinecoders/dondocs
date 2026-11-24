@@ -69,7 +69,7 @@ export function DatePicker({
   'aria-invalid': invalid,
 }: DatePickerProps) {
   // Use format-appropriate placeholder if not provided
-  const displayPlaceholder = placeholder || getPlaceholder(dateFormat)
+  const displayPlaceholder = placeholder ?? getPlaceholder(dateFormat)
   const [open, setOpen] = React.useState(false)
   const [inputValue, setInputValue] = React.useState(value || "")
 

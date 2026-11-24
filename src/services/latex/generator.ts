@@ -5,13 +5,15 @@ import { staffPaperLayout } from './staffPaperLayout';
 import { usesDlaLetterhead } from '@/lib/dlaLetterhead';
 import { correspondenceStationery, assertStationerySupport } from '@/lib/stationery';
 import { additionalJointCommands, assertJointLetterCommandSupport } from '@/lib/jointLetterCommands';
+import { getPreviewHints, isPreviewBodyParagraph, PREVIEW_HINT_URL, previewCopyTo, type PreviewHints, type StarterExampleSection } from '@/lib/previewHints';
+import { unfilled } from '@/lib/requiredField';
 import { resolveLetterheadMode } from '@/lib/letterheadMode';
 import { bodyTableText, bodyTableLiteral } from './bodyTableText';
 import { toTitleCase } from '@/lib/titleCase';
 import { closingTailStart, hasBottomSignature } from '@/lib/correspondenceClosing';
 import { abbreviatedFullSignatoryName } from '@/lib/signatoryName';
 import { resolveParagraphLayout, paragraphHasLabel } from './paragraphLayout';
-import { documentOutputConfig } from '@/lib/documentOutputConfig';
+import { documentOutputConfig, jointMemoHeading } from '@/lib/documentOutputConfig';
 import { jointSignatories, signatureAuthorityLine, signaturePosition, supportsActingSignature } from '@/lib/signingAuthority';
 import { resolvePageNumbering } from '@/lib/pageNumbering';
 import { generateSl4Body } from './sl4Generator';
@@ -53,9 +55,7 @@ import { formatViaLines } from '@/lib/viaLines';
 import { parse as parseDate, isValid as isValidDate, format as formatDate } from 'date-fns';
 import { deriveOverallClassLevel } from '@/lib/overallClassification';
 import { cuiTransmittalNote } from '@/lib/enclosureMarkings';
-import {
-  resolveAppendedEndorsements,
-} from '@/lib/appendedEndorsement';
+import { assertAppendedEndorsementsAddressed, resolveAppendedEndorsements } from '@/lib/appendedEndorsement';
 
 interface DocumentStore {
   docType: string;
@@ -138,7 +138,14 @@ export function generateStationeryTex(store: Pick<DocumentStore, 'docType' | 'fo
 ` : '\\def\\SmallStationery{0}\n';
 }
 
-export function generateDocumentTex(store: DocumentStore, referenceDate = new Date()): string {
+function previewHint(hints: PreviewHints | undefined, key: keyof PreviewHints, fallback: string, format = (value: string) => value): string {
+  const hint = hints?.[key];
+  if (!hint) return fallback;
+  const url = PREVIEW_HINT_URL + key.toLowerCase();
+  return latexLineBreaks(format(hint.text).split('\n').map(line => `\\PreviewHintLink{${url}}{${escapeLatex(line)}}`).join('\n'));
+}
+
+export function generateDocumentTex(store: DocumentStore, referenceDate = new Date(), hints?: PreviewHints): string {
   const data = directiveFormatting(store.docType, store.documentMode, store.formData);
   assertStationerySupport(store.docType, data, store.paragraphs, store.documentMode);
   const metadataText = store.docType === 'technical_volume' ? (value: string | undefined) => bodyTableLiteral(value ?? '') : escapeLatex;
@@ -185,14 +192,15 @@ ${(() => {
   const isBusinessLetter = config.uiMode === 'business';
 
   // Joint letter and joint memo share the same joint* fields
+  const memoHeading = config.uiMode === 'joint_memo' ? jointMemoHeading(data) : undefined;
   const fromLine = store.docType === 'mfr' ? '' : isJointMode ? data.jointSeniorFrom : data.from;
-  const toLine = isDirective(store.docType) ? (isMarineDirective(store.docType) ? 'Distribution List' : '') : store.docType === 'mfr' ? '' : isJointMode ? data.jointTo : data.to;
+  const toLine = isDirective(store.docType) ? (isMarineDirective(store.docType) ? 'Distribution List' : '') : store.docType === 'mfr' ? '' : config.uiMode === 'joint' ? data.jointTo : memoHeading ? memoHeading.to : data.to;
   // Subject line casing per SECNAV M-5216.5:
   //   Executive types (Ch 12 ¶2l): Title Case (NOT ALL CAPS)
   //   This applies to all executive uiMode types AND executive_correspondence
   //   All other types: ALL CAPS
   // Also wrap at 57 characters per SECNAV formatting requirements
-  const rawSubject = isJointMode ? data.jointSubject : (isMOAMode ? data.moaSubject : data.subject);
+  const rawSubject = config.uiMode === 'joint' ? data.jointSubject : memoHeading ? memoHeading.subject : isMOAMode ? data.moaSubject : data.subject;
   const usesTitleCaseSubject = isExecutiveMode || store.docType === 'executive_correspondence';
   const formattedSubject = store.docType === 'technical_volume' ? bodyTableLiteral(rawSubject?.toUpperCase() ?? '') : usesTitleCaseSubject
     ? formatSubjectForLatex(toTitleCase(rawSubject || ''))
@@ -200,9 +208,9 @@ ${(() => {
   // Wrap in \uline{} when the user has opted to underline the subject.
   // \uline is provided by the `ulem` package (already loaded in the template)
   // and handles multi-line subjects correctly via \newline breaks.
-  const subjectLine = data.underlineSubject
-    ? `\\uline{${formattedSubject}}`
-    : formattedSubject;
+  const subjectKey = config.uiMode === 'joint' ? 'jointSubject' : isMOAMode ? 'moaSubject' : 'subject';
+  const subjectLine = previewHint(hints, subjectKey, data.underlineSubject
+    ? `\\uline{${formattedSubject}}` : formattedSubject);
 
   // `\enableInReplyReferTo` is a boolean toggle defined in main.tex —
   // flips `\ifInReplyEnabled` which the templates use to render the
@@ -216,47 +224,60 @@ ${(() => {
   // there is one (SECNAV M-5216.5 Ch 7 para 2a(2)). It used to be collected and
   // never printed.
   const directive = directiveLayout(store.docType, data, value => escapeLatex(value));
-  const continuationHeading = directive ? directive.reference : data.showSubjectOnContinuation ? subjectLine : '';
-  const senderSymbol = directive ? data.officeCode : composeSenderSymbol(data.officeCode, serial);
+  const continuationHeading = directive ? directive.reference : data.showSubjectOnContinuation && !hints?.[subjectKey] ? subjectLine : '';
+  let senderSymbol = escapeLatex(composeSenderSymbol(data.officeCode, serial));
+  if (directive) {
+    senderSymbol = previewHint(hints, 'officeCode', escapeLatex(data.officeCode));
+  } else if (hints?.officeCode || hints?.serial) {
+    const code = previewHint(hints, 'officeCode', escapeLatex(data.officeCode?.trim()));
+    const number = previewHint(hints, 'serial', escapeLatex(serial?.trim()));
+    const prefix = hints.serial ? '\\PreviewHint{Ser}' : 'Ser';
+    senderSymbol = `${prefix} ${code}\\PreviewHint{/}${number}`;
+  }
   if (directive) {
     tex += '\\def\\CorrespondenceTemplate{naval_letter}\n';
-    tex += '\\def\\DirectiveDesignation{' + directive.designation + '}\n';
+    tex += '\\def\\DirectiveDesignation{' + (hints?.directiveChangeNumber ? directive.designation + ' ' + previewHint(hints, 'directiveChangeNumber', '') : previewHint(hints, 'directiveNumber', directive.designation)) + '}\n';
     const authority = directiveAuthorityRows(data).map(([label, value]) => label + ' ' + escapeLatex(value));
     tex += '\\def\\DirectiveAuthority{' + authority.join('\\newline ') + '}\n';
-    tex += '\\def\\DirectiveCancellation{' + directive.cancellation + '}\n';
+    tex += '\\def\\DirectiveCancellation{' + previewHint(hints, 'directiveCancellation', directive.cancellation) + '}\n';
     tex += '\\def\\DirectiveReports{' + directive.reports + '}\n';
     if (!isMarineDirective(store.docType)) tex += '\\def\\DirectiveFromOnly{}\n';
     const continuation = directiveContinuation(store.docType, data);
     if (continuation?.alternate) tex += '\\def\\DirectiveAlternate{}\n';
   }
   if (isStaffPaper(store.docType)) {
-    const staff = staffPaperLayout(store.docType, data, value => escapeLatex(value));
+    const staff = staffPaperLayout(store.docType, data, value => escapeLatex(value), false, hints && {
+      subject: previewHint(hints, 'subject', ''),
+      date: previewHint(hints, 'date', ''),
+      officeCode: previewHint(hints, 'officeCode', ''),
+      preparedBy: previewHint(hints, 'preparedBy', ''),
+    });
     tex += '\\long\\def\\CorrespondenceTemplate{staff_paper}\n';
     tex += '\\long\\def\\StaffPaperHeading{' + staff.heading + '}\n';
     tex += '\\long\\def\\StaffPaperClosing{' + staff.closing + '}\n';
   }
-  tex += `\\setSSIC{${directive ? directive.reference : config.ssic ? escapeLatex(ssic) : ''}}
-\\setSerial{${config.ssic ? escapeLatex(senderSymbol) : ''}}
-\\setDocumentDate{${metadataText(publicationDate)}}
-${isBusinessLetter ? `\\setBusinessDate{${escapeLatex(docDate)}}` : '% Not a business letter'}
+  tex += `\\setSSIC{${directive ? directive.reference : config.ssic ? previewHint(hints, 'ssic', escapeLatex(ssic)) : ''}}
+\\setSerial{${config.ssic ? senderSymbol : ''}}
+\\setDocumentDate{${previewHint(hints, 'date', metadataText(publicationDate))}}
+${isBusinessLetter ? `\\setBusinessDate{${previewHint(hints, 'date', escapeLatex(docDate))}}` : '% Not a business letter'}
 
 ${data.inReplyTo ? '\\enableInReplyReferTo' : '% No In Reply Refer To'}
 ${data.includeEndorsementSubject ? '\\enableEndorsementSubject' : '% Endorsement subject omitted (Ch 9)'}
 
 \\setFrom
-    {${formatAddressForLatex(fromLine)}}
+    {${previewHint(hints, 'from', formatAddressForLatex(fromLine))}}
     {}{}{}
 
 ${isBusinessLetter ? `% Business letter: format recipient address as block with line breaks
 % Split by newlines (handle both \\n and \\r\\n), escape each line, join with \\\\
 \\setBusinessRecipientAddress{${
-  latexLineBreaks((toLine || '')
+  previewHint(hints, 'to', latexLineBreaks((toLine || '')
     .split(/\r?\n/)
     .filter(line => line.trim())
     .map(line => escapeLatex(line.trim()))
-    .join('\n'))
+    .join('\n')))
 }}` : `\\setTo
-    {${formatAddressForLatex(toLine)}}
+    {${previewHint(hints, config.uiMode === 'joint' ? 'jointTo' : 'to', formatAddressForLatex(toLine))}}
     {}{}{}{}`}
 
 ${data.via?.trim() ? (() => {
@@ -269,16 +290,16 @@ ${data.via?.trim() ? (() => {
 ${['standard_memorandum', 'executive_memorandum'].includes(store.docType) ? `\\setReferenceLabel{${store.references.length > 1 ? 'Reference(s)' : 'Reference'}:\\hspace{1em}}` : ''}
 ${continuationHeading ? `\\setContinuationSubject{${continuationHeading}}` : '% Continuation heading disabled'}
 
-\\setBusinessSalutation{${escapeLatex((data.salutation || 'Dear Sir or Madam:').trim())}}
-\\setBusinessClose{${escapeLatex(data.complimentaryClose || 'Sincerely,')}}
+\\setBusinessSalutation{${previewHint(hints, 'salutation', escapeLatex(data.salutation?.trim()))}}
+\\setBusinessClose{${previewHint(hints, 'complimentaryClose', escapeLatex(data.complimentaryClose?.trim()))}}
 
 \\setPOC{${metadataText(validatedPocEmail(data.pocEmail))}}
 `;
 
   // Memorandum For: addressee is embedded in the title ("MEMORANDUM FOR [addressee]")
   // The 'to' field holds the addressee text (e.g., "All Department Heads")
-  if (store.docType === 'mf' && data.to) {
-    tex += `\\setMemorandumForAddressee{${escapeLatex(data.to)}}\n`;
+  if (store.docType === 'mf' && (data.to || hints?.to)) {
+    tex += `\\setMemorandumForAddressee{${previewHint(hints, 'to', escapeLatex(data.to))}}\n`;
   }
 
   // Executive memo fields (standard_memorandum, action_memorandum, information_memorandum)
@@ -286,7 +307,7 @@ ${continuationHeading ? `\\setContinuationSubject{${continuationHeading}}` : '% 
   if (isExecutiveMode) {
     // Standard memo + Action memo: \setMemorandumForAddressee
     if (config.headquartersMemo || store.docType === 'action_memorandum') {
-      tex += `\\setMemorandumForAddressee{${config.headquartersMemo ? formatAddressForLatex(data.memorandumFor) : escapeLatex(data.memorandumFor)}}\n`;
+      tex += `\\setMemorandumForAddressee{${previewHint(hints, 'memorandumFor', config.headquartersMemo ? formatAddressForLatex(data.memorandumFor) : escapeLatex(data.memorandumFor))}}\n`;
       if (config.headquartersMemo) {
         tex += `\\setMemoAddressLead{${escapeLatex(Array.from(data.memorandumFor?.trim() ?? '').slice(0, 2).join(''))}}\n`;
         tex += `\\setMemoAttention{${formatAddressForLatex(data.attnLine)}}\n`;
@@ -296,13 +317,13 @@ ${continuationHeading ? `\\setContinuationSubject{${continuationHeading}}` : '% 
 
     // Action memo: \setActionFrom (FROM line in address block)
     if (store.docType === 'action_memorandum') {
-      tex += `\\setActionFrom{${escapeLatex(data.from)}}\n`;
+      tex += `\\setActionFrom{${previewHint(hints, 'from', escapeLatex(data.from))}}\n`;
     }
 
     // Information memo: \setInfoMemoFor, \setInfoMemoFrom, \setInfoMemoCoordination, \setInfoMemoPreparedBy
     if (store.docType === 'information_memorandum') {
-      tex += `\\setInfoMemoFor{${escapeLatex(data.memorandumFor)}}\n`;
-      tex += `\\setInfoMemoFrom{${escapeLatex(data.from)}}\n`;
+      tex += `\\setInfoMemoFor{${previewHint(hints, 'memorandumFor', escapeLatex(data.memorandumFor))}}\n`;
+      tex += `\\setInfoMemoFrom{${previewHint(hints, 'from', escapeLatex(data.from))}}\n`;
       if (data.coordination) {
         tex += `\\setInfoMemoCoordination{${escapeLatex(data.coordination)}}\n`;
       }
@@ -343,14 +364,14 @@ ${continuationHeading ? `\\setContinuationSubject{${continuationHeading}}` : '% 
     if (ordinal) {
       tex += `\\renewcommand{\\EndorsementOrdinal}{${escapeLatex(ordinal)}}\n`;
     }
-    if (basicLetterId) {
-      tex += `\\renewcommand{\\BasicLetterID}{${escapeLatex(basicLetterId)}}\n`;
+    if (basicLetterId || hints?.basicLetterId) {
+      tex += `\\renewcommand{\\BasicLetterID}{${previewHint(hints, 'basicLetterId', escapeLatex(basicLetterId))}}\n`;
     }
     // Always set serial and date for same-page endorsement, regardless
     // of whether ordinal was found via structured field or subject parse.
     if (store.docType === 'same_page_endorsement') {
       tex += `\\renewcommand{\\EndorsementSerial}{${escapeLatex(data.serial || '')}}\n`;
-      tex += `\\renewcommand{\\EndorsementDate}{${escapeLatex(data.date || '')}}\n`;
+      tex += `\\renewcommand{\\EndorsementDate}{${previewHint(hints, 'date', escapeLatex(data.date || ''))}}\n`;
     }
   }
 
@@ -370,7 +391,7 @@ ${continuationHeading ? `\\setContinuationSubject{${continuationHeading}}` : '% 
         : ' & & & ';
     }).join(['sl3', 'sl4', 'tm_ietm_front_matter'].includes(store.docType) ? ' \\\\ ' : ' \\\\ \\hline ');
     if (store.docType === 'sl4') tex += `\\def\\slFourTamcns{${[...new Set(items.map((item) => item.tamcn).filter(Boolean))].map(escapeLatex).join(', ')}}\n`;
-    tex += `\\setNomenclature{${escapeLatex(data.nomenclature || '')}}\n`;
+    tex += `\\setNomenclature{${previewHint(hints, 'nomenclature', escapeLatex(data.nomenclature || ''))}}\n`;
     tex += `\\setEndItemRows{${rows}}\n`;
     tex += overflow ? '\\EndItemOverflowtrue\n' : '\\EndItemOverflowfalse\n';
     // The cover header carries the anticipated month and year of signature
@@ -379,8 +400,8 @@ ${continuationHeading ? `\\setContinuationSubject{${continuationHeading}}` : '% 
     const signed = parseDate(data.date || '', 'd MMM yy', referenceDate);
     const coverDate = isValidDate(signed) ? formatDate(signed, 'MMMM yyyy').toUpperCase() : '';
     tex += `\\setCoverDate{${escapeLatex(['sl3', 'sl4', 'tm_ietm_front_matter'].includes(store.docType) ? formatPublicationDate(data.date || '', referenceDate).toUpperCase() : coverDate)}}\n`;
-    tex += `\\setShortTitle{${metadataText(data.shortTitle || '')}}\n`;
-    tex += `\\setPCN{${escapeLatex(data.pcn || '')}}\n`;
+    tex += `\\setShortTitle{${previewHint(hints, 'shortTitle', metadataText(data.shortTitle || ''))}}\n`;
+    tex += `\\setPCN{${previewHint(hints, 'pcn', escapeLatex(data.pcn || ''))}}\n`;
     tex += `\\setSupersedure{${escapeLatex(data.supersedure || '')}}\n`;
     tex += `\\setTimeCompliance{${escapeLatex((['sl3', 'sl4', 'tm_ietm_front_matter'].includes(store.docType) ? '' : ((data.publicationType ?? 'MI') === 'MI' ? data.miUrgency || 'normal' : 'normal')).toUpperCase())}}\n`;
     // The type names itself on the cover and the authentication page; only a
@@ -423,11 +444,15 @@ ${continuationHeading ? `\\setContinuationSubject{${continuationHeading}}` : '% 
     }
   }
 
-  if (store.docType === 'tm_ietm_front_matter') tex += generateManualFrontMatterData(data, referenceDate);
+  if (store.docType === 'tm_ietm_front_matter') tex += generateManualFrontMatterData(data, referenceDate, hints && {
+    subject: previewHint(hints, 'subject', ''),
+    nomenclature: previewHint(hints, 'nomenclature', ''),
+    pcn: previewHint(hints, 'pcn', ''),
+  });
   return tex;
 }
 
-export function generateLetterheadTex(store: DocumentStore): string {
+export function generateLetterheadTex(store: DocumentStore, hints?: PreviewHints): string {
   const data = directiveFormatting(store.docType, store.documentMode, store.formData);
 
   // Split `unitAddress` into letterhead lines 3 and 4 via the shared
@@ -437,17 +462,19 @@ export function generateLetterheadTex(store: DocumentStore): string {
   );
 
   // Check if unit line 2 has content
-  const hasLine2 = !!data.unitLine2?.trim();
+  const hasLine2 = !!data.unitLine2?.trim() || !!hints?.unitLine2;
 
   // When line 2 is empty, shift content up to eliminate the gap
   // Line 2 empty: UnitName, Address1, Address2, (empty)
   // Line 2 has content: UnitName, UnitLine2, Address1, Address2
   const dla = usesDlaLetterhead(store.docType, data);
   const line = (value?: string) => escapeLatex(dla ? value?.toUpperCase() : value);
-  const line1 = line(data.unitLine1);
-  const line2 = hasLine2 ? line(data.unitLine2) : line(addressLine1);
-  const line3 = hasLine2 ? line(addressLine1) : line(addressLine2);
-  const line4 = hasLine2 ? line(addressLine2) : '';
+  const line1 = previewHint(hints, 'unitLine1', line(data.unitLine1));
+  const street = previewHint(hints, 'unitAddress', line(addressLine1));
+  const locality = previewHint(hints, 'addressLocality', line(addressLine2));
+  const line2 = hasLine2 ? previewHint(hints, 'unitLine2', line(data.unitLine2)) : street;
+  const line3 = hasLine2 ? street : locality;
+  const line4 = hasLine2 ? locality : '';
 
   return `%=============================================================================
 % LETTERHEAD CONFIGURATION - Generated by dondocs
@@ -479,38 +506,33 @@ function capitalizeWord(word: string | undefined): string {
   return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase();
 }
 
-export function generateSignatoryTex(store: DocumentStore): string {
+export function generateSignatoryTex(store: DocumentStore, hints?: PreviewHints): string {
   const data = store.formData;
   const signatureText = (value?: string) => store.docType === 'tm_ietm_front_matter' ? manualPlainText(value ?? '') : escapeLatex(value);
   const config = documentOutputConfig(store.docType, store.documentMode);
 
   // Check if this is a dual-signature document (MOA/MOU)
   if (config.uiMode === 'moa') {
-    return generateMOASignatoryTex(store);
+    return generateMOASignatoryTex(store, hints);
   }
 
   // Check if this is a joint letter or joint memorandum (dual letterheads and signatures)
   if (config.uiMode === 'joint' || config.uiMode === 'joint_memo') {
-    return generateJointLetterSignatoryTex(store);
+    return generateJointLetterSignatoryTex(store, hints);
   }
 
   // Properly capitalize names: First Middle LAST
   const firstName = capitalizeWord(data.sigFirst);
   const middleName = capitalizeWord(data.sigMiddle);
   const lastName = data.sigLast?.toUpperCase() || '';
-
-  const fullName = [firstName, middleName, lastName]
-    .filter(Boolean)
-    .join(' ');
-
-  // Abbreviated format: F. M. LASTNAME
-  const abbrevName = [
-    firstName ? `${firstName[0].toUpperCase()}.` : '',
-    middleName ? `${middleName[0].toUpperCase()}.` : '',
-    lastName,
-  ]
-    .filter(Boolean)
-    .join(' ');
+  const initial = (name: string) => name ? `${name[0].toUpperCase()}.` : '';
+  const fullName = signatureText([firstName, middleName, lastName].filter(Boolean).join(' '));
+  const abbrevName = signatureText([initial(firstName), initial(middleName), lastName].filter(Boolean).join(' '));
+  const renderedLastName = previewHint(hints, 'sigLast', signatureText(lastName));
+  const renderedName = (fallback: string, format: (value: string) => string) => hints?.sigFirst || hints?.sigMiddle || hints?.sigLast
+    ? [previewHint(hints, 'sigFirst', signatureText(format(firstName)), format),
+      previewHint(hints, 'sigMiddle', signatureText(format(middleName)), format), renderedLastName].filter(Boolean).join(' ')
+    : fallback;
 
   // The cached template names this general authority slot ByDirection. Keep
   // that interface while rendering Acting as its own mutually exclusive line.
@@ -564,12 +586,12 @@ export function generateSignatoryTex(store: DocumentStore): string {
 \\setSignatory
     {${escapeLatex(firstName)}}
     {${escapeLatex(middleName)}}
-    {${escapeLatex(lastName)}}
-    {${escapeLatex(data.sigRank)}}
-    {${signatureText(data.sigTitle)}}
+    {${previewHint(hints, 'sigLast', escapeLatex(lastName))}}
+    {${previewHint(hints, 'sigRank', escapeLatex(data.sigRank))}}
+    {${previewHint(hints, 'sigTitle', signatureText(data.sigTitle))}}
 
-\\setSignatoryName{${signatureText(fullName)}}
-\\setSignatoryAbbrev{${signatureText(abbrevName)}}
+\\setSignatoryName{${renderedName(fullName, value => value)}}
+\\setSignatoryAbbrev{${renderedName(abbrevName, initial)}}
 
 ${byDirectionTex}
 ${actingTitleTex}
@@ -583,7 +605,7 @@ ${signatureConfigTex}
 
 // Generate MOA/MOU specific signatory configuration (dual signatures)
 // Uses ONLY commands that exist in the original cached template
-function generateMOASignatoryTex(store: DocumentStore): string {
+function generateMOASignatoryTex(store: DocumentStore, hints?: PreviewHints): string {
   const data = store.formData;
   const signatureType = data.signatureType || 'none';
 
@@ -617,8 +639,8 @@ function generateMOASignatoryTex(store: DocumentStore): string {
     {${escapeLatex(seniorLastName)}}
     {${escapeLatex(data.seniorSigRank)}}
     {${escapeLatex(data.seniorSigTitle)}}
-\\setSignatoryName{${escapeLatex(seniorFullName)}}
-\\setSignatoryAbbrev{${escapeLatex(seniorAbbrev)}}
+\\setSignatoryName{${previewHint(hints, 'seniorSigName', escapeLatex(seniorFullName))}}
+\\setSignatoryAbbrev{${previewHint(hints, 'seniorSigName', escapeLatex(seniorAbbrev))}}
 \\setByDirection{${data.seniorActing ? 'Acting' : ''}}
 
 % Junior Command (Signs First - Left Side) - uses Junior-prefixed fields
@@ -626,7 +648,7 @@ function generateMOASignatoryTex(store: DocumentStore): string {
 \\renewcommand{\\JuniorSSIC}{${escapeLatex(data.juniorSSIC)}}
 \\renewcommand{\\JuniorSerial}{${escapeLatex(composeSenderSymbol(undefined, data.juniorSerial))}}
 \\renewcommand{\\JuniorDate}{${escapeLatex(data.juniorDate)}}
-\\renewcommand{\\JuniorSignatoryName}{${escapeLatex(juniorAbbrev)}}
+\\renewcommand{\\JuniorSignatoryName}{${previewHint(hints, 'juniorSigName', escapeLatex(juniorAbbrev))}}
 \\renewcommand{\\JuniorSignatoryRank}{${escapeLatex(data.juniorSigRank)}}
 \\renewcommand{\\JuniorSignatoryTitle}{${escapeLatex(data.juniorSigTitle)}}
 \\renewcommand{\\JuniorByDirection}{${data.juniorActing ? 'Acting' : ''}}
@@ -637,14 +659,17 @@ ${signatureConfigTex}
 
 // Generate Joint Letter / Joint Memorandum specific configuration
 // Resolve the fields exposed by each joint editor, preserving legacy sessions.
-function generateJointLetterSignatoryTex(store: DocumentStore): string {
+function generateJointLetterSignatoryTex(store: DocumentStore, hints?: PreviewHints): string {
   const data = store.formData;
   assertJointLetterCommandSupport(store.docType, data);
+  const memo = store.docType === 'joint_memorandum';
+  const seniorSignerKey = memo ? 'jointMemoSeniorSigName' : 'jointSeniorSigName';
+  const juniorSignerKey = memo ? 'jointMemoJuniorSigName' : 'jointJuniorSigName';
   const middle = store.docType === 'joint_letter' ? additionalJointCommands(data)[0] : undefined;
   const middleFields = middle ? {
     MiddleCommandName: middle.name.toUpperCase(), MiddleCommandZip: middle.location, MiddleCommandCode: middle.code,
     MiddleSSIC: middle.ssic, MiddleSerial: composeSenderSymbol(undefined, middle.serial), MiddleDate: middle.date,
-    MiddleFromLine: middle.from, MiddleSignatoryName: middle.signatureName.toUpperCase(),
+    MiddleFromLine: middle.from,
     MiddleSignatoryTitle: middle.signatureTitle, MiddleByDirection: middle.acting ? 'Acting' : '',
   } : undefined;
   const signers = jointSignatories(data, store.docType === 'joint_memorandum');
@@ -652,9 +677,11 @@ function generateJointLetterSignatoryTex(store: DocumentStore): string {
     BREAKABLE_TEXT_COMMANDS,
     '\\providecommand{\\JointCommandCount}{3}',
     ...Object.entries({ ...middleFields,
-      ThreeJuniorSignature: signers.juniorName.toUpperCase(), ThreeSeniorSignature: signers.seniorName.toUpperCase(),
       ThreeJuniorTitle: signers.juniorTitle, ThreeSeniorTitle: signers.seniorTitle,
     }).map(([key, value]) => `\\providecommand{\\${key}}{${bodyTableLiteral(value)}}`),
+    `\\providecommand{\\ThreeJuniorSignature}{${previewHint(hints, juniorSignerKey, bodyTableLiteral(signers.juniorName.toUpperCase()))}}`,
+    `\\providecommand{\\MiddleSignatoryName}{${previewHint(hints, 'jointMiddleSigner', bodyTableLiteral(middle?.signatureName.toUpperCase() ?? ''))}}`,
+    `\\providecommand{\\ThreeSeniorSignature}{${previewHint(hints, seniorSignerKey, bodyTableLiteral(signers.seniorName.toUpperCase()))}}`,
     ...Object.entries({
       JuniorCommandCode: data.jointJuniorCode || '', JuniorSSIC: data.jointJuniorSSIC || '',
       JuniorSerial: composeSenderSymbol(undefined, data.jointJuniorSerial), JuniorDate: data.jointJuniorDate || '',
@@ -698,8 +725,8 @@ function generateJointLetterSignatoryTex(store: DocumentStore): string {
     {${escapeLatex(seniorLastName)}}
     {}
     {${escapeLatex(signers.seniorTitle)}}
-\\setSignatoryName{${escapeLatex(seniorFullName)}}
-\\setSignatoryAbbrev{${escapeLatex(seniorAbbrev)}}
+\\setSignatoryName{${previewHint(hints, seniorSignerKey, escapeLatex(seniorFullName))}}
+\\setSignatoryAbbrev{${previewHint(hints, seniorSignerKey, escapeLatex(seniorAbbrev))}}
 \\setByDirection{${data.seniorActing ? 'Acting' : ''}}
 
 % Junior Command (Left Side - Signs First)
@@ -710,7 +737,7 @@ function generateJointLetterSignatoryTex(store: DocumentStore): string {
 \\renewcommand{\\JuniorSerial}{${escapeLatex(composeSenderSymbol(undefined, data.jointJuniorSerial))}}
 \\renewcommand{\\JuniorDate}{${escapeLatex(data.jointJuniorDate)}}
 \\renewcommand{\\JuniorFromLine}{${escapeLatex(data.jointJuniorFrom)}}
-\\renewcommand{\\JuniorSignatoryName}{${escapeLatex(juniorFullName.toUpperCase())}}
+\\renewcommand{\\JuniorSignatoryName}{${previewHint(hints, juniorSignerKey, escapeLatex(juniorFullName.toUpperCase()))}}
 \\renewcommand{\\JuniorSignatoryTitle}{${escapeLatex(signers.juniorTitle)}}
 \\renewcommand{\\JuniorByDirection}{${data.juniorActing ? 'Acting' : ''}}
 
@@ -804,10 +831,14 @@ ${store.enclosures
 `;
 }
 
-export function generateCopyToTex(store: DocumentStore): string {
+export function generateCopyToTex(store: DocumentStore, hints?: PreviewHints): string {
   // A format switch retains letter recipients in state for switching back.
   // I-Type publications carry their own authentication/distribution pages.
-  if (store.docType === 'i_type' || store.copyTos.length === 0) {
+  const showExamples = previewCopyTo.some(([key]) => hints?.[key]);
+  const recipients = showExamples
+    ? previewCopyTo.map(([key]) => previewHint(hints, key, ''))
+    : store.copyTos.filter(recipient => !hints || recipient.text.trim()).map(recipient => escapeLatex(recipient.text));
+  if (store.docType === 'i_type' || recipients.length === 0) {
     return '% No copy-to recipients\n';
   }
 
@@ -816,12 +847,12 @@ export function generateCopyToTex(store: DocumentStore): string {
   // below the 'Copy to:' line", which is how the manual renders it in all five
   // of its own Ch 7 examples. A tabular put the first addressee beside the
   // label and all of them 47pt in from the margin.
-  const rows = ['    \\noindent Copy to:\\par']
-    .concat(store.copyTos.map((ct) => `    \\noindent ${escapeLatex(ct.text)}\\par`));
+  const label = showExamples ? '\\PreviewHint{Copy to:}' : 'Copy to:';
+  const rows = [label, ...recipients].map(row => `    \\noindent ${row}\\par`);
 
   return `%=============================================================================
 % COPY TO - Generated by dondocs
-% Count: ${store.copyTos.length} recipients
+% Count: ${recipients.length} recipients
 %=============================================================================
 
 \\setHasCopyTo
@@ -831,19 +862,20 @@ ${rows.join('\n')}
 `;
 }
 
-export function generateDistributionTex(store: DocumentStore): string {
-  if (store.docType === 'i_type' || !store.distributions || store.distributions.length === 0) {
+export function generateDistributionTex(store: DocumentStore, preview = false): string {
+  const recipients = preview ? store.distributions?.filter(row => row.text.trim()) : store.distributions;
+  if (store.docType === 'i_type' || !recipients?.length) {
     return '% No distribution recipients\n';
   }
 
   // Same shape as the copy-to block: 15c ends "Use this format for the
   // 'Distribution:' lines as well."
   const rows = ['    \\noindent Distribution:\\par']
-    .concat(store.distributions.map((d) => `    \\noindent ${escapeLatex(d.text)}\\par`));
+    .concat(recipients.map((d) => `    \\noindent ${escapeLatex(d.text)}\\par`));
 
   return `%=============================================================================
 % DISTRIBUTION - Generated by dondocs
-% Count: ${store.distributions.length} recipients
+% Count: ${recipients.length} recipients
 %=============================================================================
 
 \\setHasDistribution
@@ -1028,8 +1060,8 @@ ${body}\\par
 `;
 }
 
-export function generateBodyTex(store: DocumentStore, adapter?: LatexBodyAdapter): string {
-  if (store.docType === 'technical_volume') return generateVolumeBody(store);
+export function generateBodyTex(store: DocumentStore, adapter?: LatexBodyAdapter, hints?: PreviewHints): string {
+  if (store.docType === 'technical_volume') return generateVolumeBody(store, { allowEmptyContent: hints !== undefined });
   if (store.docType === 'tm_ietm_front_matter') return '';
   if (store.docType === 'sl4') return generateSl4Body(store);
   if (store.docType === 'sl3') return generateSl3Body(store);
@@ -1039,6 +1071,14 @@ export function generateBodyTex(store: DocumentStore, adapter?: LatexBodyAdapter
   const config = documentOutputConfig(store.docType, store.documentMode);
   if (config.uiMode === 'moa') {
     store = { ...store, paragraphs: agreementParagraphs(store.paragraphs) };
+  }
+  let hintIndex = -1;
+  if (hints?.body) {
+    hintIndex = store.paragraphs.findIndex(paragraph => isPreviewBodyParagraph(paragraph) && unfilled(paragraph.text));
+    if (hintIndex < 0) {
+      hintIndex = 0;
+      store = { ...store, paragraphs: [{ level: 0, text: '' }, ...store.paragraphs] };
+    }
   }
   const crossReferences = publicationReferences(store.paragraphs, store.publicationTables);
   const bodyText = store.docType === 'i_type' ? (text: string) => publicationReferenceText(text, crossReferences) : processBodyText;
@@ -1200,7 +1240,8 @@ export function generateBodyTex(store: DocumentStore, adapter?: LatexBodyAdapter
     // MARCORSYSCOM template); correspondence does not.
     const tag = (part: 'label' | 'heading' | 'body', latex: string) => adapter?.inline(i, part, latex) ?? latex;
     const shownLabel = store.docType === 'i_type' && label ? `\\textbf{${label}}` : label;
-    const labelGap = shownLabel ? `${tag('label', shownLabel)}~~` : '';
+    const renderedLabel = i === hintIndex && !headerText && shownLabel ? `\\PreviewHint{${shownLabel}}` : shownLabel;
+    const labelGap = renderedLabel ? `${tag('label', renderedLabel)}~~` : '';
 
     // The period belongs to the sentence the heading introduces, not to the
     // heading — so a heading that introduces nothing does not get one. ¶13d
@@ -1209,7 +1250,7 @@ export function generateBodyTex(store: DocumentStore, adapter?: LatexBodyAdapter
     // headings, 69 are bare ("14. Signature Line", "a. General"), and the ones
     // carrying a period are sentence fragments rather than headings. The
     // Adjutant master template states it outright: "1. Format" — no period.
-    const headingDot = para.text.trim() ? '.' : '';
+    const headingDot = para.text.trim() || i === hintIndex ? '.' : '';
 
     // Authors type the period themselves out of habit, and the generator adds
     // its own, so "Format." printed as "Format..". Drop a trailing one — the
@@ -1217,7 +1258,7 @@ export function generateBodyTex(store: DocumentStore, adapter?: LatexBodyAdapter
     // in an abbreviation, which is the rarer case by far.
     const formattedHeader = headerText ? toTitleCase(headerText.replace(/\.$/, '')) : '';
     const renderedHeader = headerText ? tag('heading', `${underlineWords(escapeLatex(formattedHeader))}${headingDot}`) : '';
-    const renderedBody = tag('body', `${portionPrefix}${bodyText(para.text)}`);
+    const renderedBody = tag('body', `${portionPrefix}${i === hintIndex ? previewHint(hints, 'body', '') : bodyText(para.text)}`);
 
     if (store.docType === 'i_type' && para.tableKey && store.publicationTables?.[para.tableKey]?.length) {
       parts.push(generatePublicationTable(para.tableKey, store.publicationTables[para.tableKey], navigation.get(`itype.table.${i}`)?.title || headerText || '', true, crossReferences, para.tableIdentifierMode));
@@ -1377,6 +1418,7 @@ export interface GeneratedFiles {
   includeHyperlinks: boolean;
   signatureImage?: Uint8Array; // PNG data for signature image
   referenceUrls: ReferenceUrlData[]; // URLs for reference hyperlinks
+  hasPreviewHints?: boolean;
   /** Figure images to place, by the file the body names and the attachment
    *  that holds the bytes. The caller loads and supplies them. */
   figures: { file: string; ref: FileRef }[];
@@ -1391,7 +1433,9 @@ export function enclosureRenderData(store: Pick<DocumentStore, 'docType' | 'form
   }));
 }
 
-export function generateAllLatexFiles(store: DocumentStore, resolvedLevel?: string, referenceDate = new Date(), bodyAdapter?: LatexBodyAdapter): GeneratedFiles {
+export function generateAllLatexFiles(store: DocumentStore, resolvedLevel?: string, referenceDate = new Date(), bodyAdapter?: LatexBodyAdapter, options?: { previewHints?: boolean; hiddenStarterSections?: readonly StarterExampleSection[] }): GeneratedFiles {
+  const hints = options?.previewHints && !bodyAdapter ? getPreviewHints(store, referenceDate, options.hiddenStarterSections) : undefined;
+  if (!hints) assertAppendedEndorsementsAddressed(store.docType, store.formData);
   if (isDirective(store.docType)) store = { ...store, formData: {
     ...store.formData, via: '', inReplyTo: false, appendEndorsement: false, additionalEndorsements: undefined,
   } };
@@ -1423,18 +1467,18 @@ export function generateAllLatexFiles(store: DocumentStore, resolvedLevel?: stri
   // Files are written to root level to match \input{} paths in latex-templates.js
   const texFiles: Record<string, string> = {
     'stationery.tex': generateStationeryTex(store),
-    'document.tex': generateDocumentTex(store, referenceDate),
-    'letterhead.tex': generateLetterheadTex(store),
-    'signatory.tex': generateSignatoryTex(store),
+    'document.tex': generateDocumentTex(store, referenceDate, hints),
+    'letterhead.tex': generateLetterheadTex(store, hints),
+    'signatory.tex': generateSignatoryTex(store, hints),
     'flags.tex': generateFlagsTex(store),
     'references.tex': generateReferencesTex(store),
     'reference-urls.tex': generateReferenceUrlsTex(store),
     'encl-config.tex': generateEnclosuresTex(store),
-    'copyto-config.tex': generateCopyToTex(store),
-    'distribution-config.tex': generateDistributionTex(store),
+    'copyto-config.tex': generateCopyToTex(store, hints),
+    'distribution-config.tex': generateDistributionTex(store, hints !== undefined),
     'body.tex': store.docType === 'coordination_page'
       ? staffPaperLayout(store.docType, store.formData, value => escapeLatex(value)).body
-      : generateBodyTex(store, bodyAdapter),
+      : generateBodyTex(store, bodyAdapter, hints),
     'classification.tex': generateClassificationTex(store, resolvedLevel),
   };
   if (store.docType === 'technical_volume') texFiles['volume-format.tex'] = BREAKABLE_TEXT_COMMANDS;
@@ -1467,5 +1511,5 @@ export function generateAllLatexFiles(store: DocumentStore, resolvedLevel?: stri
       if (p.figure.fileRef) figures.push({ file: (store.docType === 'business_letter' ? businessFigureFile : store.docType === 'technical_volume' ? volumeFigureFile : figureFile)(figureFileIndex, p.figure.type, p.figure.name, p.figure.fileRef.id), ref: p.figure.fileRef });
     }
   }
-  return { texFiles, enclosures, includeHyperlinks: !!store.formData.includeHyperlinks, signatureImage, referenceUrls, figures };
+  return { texFiles, enclosures, includeHyperlinks: !!store.formData.includeHyperlinks, signatureImage, referenceUrls, figures, ...(hints ? { hasPreviewHints: Object.keys(hints).length > 0 } : {}) };
 }

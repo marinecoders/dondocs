@@ -628,6 +628,11 @@ it("discards an active comparison when a received package selects another revisi
 
 it("starts and reopens an exact saved package review after membership removal and dialog reload", async () => {
   const source = createBlankSession();
+  source.formData = {
+    ...source.formData, unitLine1: "Training Command", ssic: "5216", date: "23 Nov 26",
+    from: "Training Office", to: "Training Officer", subject: "PACKAGE REVIEW TRAINING", sigLast: "EXAMPLE",
+  };
+  source.paragraphs = [{ id: "package-review-body", level: 0, text: "This fixture verifies exact package review." }];
   const member = await capturePackageMember(captureDocumentRevision(
     { documentId: "review-package-source", epoch: 0, editSequence: 1, capturedAt: 100 },
     { ...source, endItems: [], publicationTables: {} },

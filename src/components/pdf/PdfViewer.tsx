@@ -14,9 +14,11 @@ import { usePdfZoom } from './usePdfZoom';
 import { useFullscreen } from './useFullscreen';
 import { PdfPageLayer, type PdfPageLayerHandle, type PdfSourceMatches } from './PdfPageLayer';
 import { PdfViewerToolbar, type PreviewFollow } from './PdfViewerToolbar';
+import type { StarterExamplesControl } from '@/lib/previewHints';
 
 export interface PdfViewerProps {
   follow?: PreviewFollow;
+  starterExamples?: StarterExamplesControl;
   sourceNavigationMessage?: string;
   sourceToReveal?: PreviewSource;
   onManualNavigation?: () => void;
@@ -54,7 +56,7 @@ export interface PdfViewerProps {
  *   3. the old gen N layer sticks around ~180ms with a fade-out class (skipped
  *      under prefers-reduced-motion), then unmounts.
  */
-export default function PdfViewer({ follow, sourceNavigationMessage, sourceToReveal, onManualNavigation, onSourcesInView, sources, sourceSubject, onNavigateSource, pdfUrl, className, showFullscreen = true, documentId, onDownloadPdf, toolbarLabel, allowOpenInTab = true }: PdfViewerProps) {
+export default function PdfViewer({ follow, starterExamples, sourceNavigationMessage, sourceToReveal, onManualNavigation, onSourcesInView, sources, sourceSubject, onNavigateSource, pdfUrl, className, showFullscreen = true, documentId, onDownloadPdf, toolbarLabel, allowOpenInTab = true }: PdfViewerProps) {
   const rootRef = useRef<HTMLDivElement>(null);
   const [menuContainer, setMenuContainer] = useState<HTMLDivElement | null>(null);
   const setRoot = useCallback((node: HTMLDivElement | null) => {
@@ -314,6 +316,7 @@ export default function PdfViewer({ follow, sourceNavigationMessage, sourceToRev
         fullscreen={showFullscreen && fullscreen.available ? fullscreen : null}
         menuContainer={menuContainer}
         follow={follow}
+        starterExamples={starterExamples}
         sourceNavigation={sources?.length || sourceNavigationMessage ? {
           sources: pageSources,
           message: sourceNavigationMessage ?? (!canNavigateSource ? 'Source links are available when the preview is current.' : undefined),
@@ -354,6 +357,7 @@ export default function PdfViewer({ follow, sourceNavigationMessage, sourceToRev
               sources={sources}
               sourceSubject={sourceSubject}
               onSourceMatches={canNavigateSource ? setSourceMatches : undefined}
+              onNavigateHint={canNavigateSource ? editSource : undefined}
               ref={activeLayerRef}
               url={state.active.url}
               gen={state.active.gen}

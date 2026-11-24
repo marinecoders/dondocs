@@ -30,3 +30,38 @@ it('reclaims a failed anchor URL and removes the anchor', async () => {
   const lease = openBrowserExportDelivery('tex');await expect(lease.deliver(artifact('tex'))).rejects.toThrow('Blocked');lease.release();
   expect(revoke).toHaveBeenCalledExactlyOnceWith('blob:export');expect(document.querySelector('a')).toBeNull();
 });
+
+it('prints the delivered PDF artifact and keeps its tab open', async () => {
+  vi.useFakeTimers();
+  const printWindow = {
+    closed: false, close: vi.fn(), opener: window,
+    location: { replace: vi.fn() }, print: vi.fn(), addEventListener: vi.fn(),
+  };
+  vi.spyOn(window, 'open').mockReturnValue(printWindow as unknown as Window);
+  const create = vi.spyOn(URL, 'createObjectURL').mockReturnValue('blob:clean-export');
+  const revoke = vi.spyOn(URL, 'revokeObjectURL').mockImplementation(() => {});
+  const lease = openBrowserExportDelivery('pdf', true);
+  const pdf = artifact('pdf');
+
+  expect(await lease.deliver(pdf)).toBe(true);
+  expect(create).toHaveBeenCalledExactlyOnceWith(pdf.blob);
+  expect(printWindow.location.replace).toHaveBeenCalledExactlyOnceWith('blob:clean-export');
+  const [event, print] = printWindow.addEventListener.mock.calls[0];
+  expect(event).toBe('load');
+  print();
+  expect(printWindow.print).toHaveBeenCalledOnce();
+  lease.release();
+  expect(printWindow.close).not.toHaveBeenCalled();
+  vi.runAllTimers();
+  expect(revoke).toHaveBeenCalledExactlyOnceWith('blob:clean-export');
+});
+
+it('uses the normal clean PDF download when the print popup is blocked', async () => {
+  vi.spyOn(window, 'open').mockReturnValue(null);
+  mocks.download.mockResolvedValue(true);
+  const lease = openBrowserExportDelivery('pdf', true);
+  const pdf = artifact('pdf');
+
+  expect(await lease.deliver(pdf)).toBe(true);
+  expect(mocks.download).toHaveBeenCalledExactlyOnceWith(pdf.blob, pdf.job.filename, null);
+});

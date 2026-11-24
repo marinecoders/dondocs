@@ -58,6 +58,7 @@ function useSl3(publication: 'sl3' | 'sl4' = 'sl3') {
 }
 
 function Field({
+  id,
   label,
   value,
   onChange,
@@ -66,6 +67,7 @@ function Field({
   maxLength,
   paragraphField,
 }: {
+  id?: string;
   label: string;
   value: string;
   onChange: (value: string) => void;
@@ -79,6 +81,7 @@ function Field({
       <span className="font-medium">{label}</span>
       {multiline ? (
         <Textarea
+          id={id}
           aria-label={label}
           data-paragraph-field={paragraphField}
           placeholder={placeholder}
@@ -88,6 +91,7 @@ function Field({
         />
       ) : (
         <Input
+          id={id}
           aria-label={label}
           data-paragraph-field={paragraphField}
           placeholder={placeholder}
@@ -148,12 +152,12 @@ export function Sl3CoverSection({ publication = 'sl3' }: { publication?: 'sl3' |
       </p>
       <EditorGroup title="Publication identity">
         <div className="sl3-field-grid">
-          <Field label="Short title" value={store.formData.shortTitle ?? ''}
+          <Field id="sl3-short-title" label="Short title" value={store.formData.shortTitle ?? ''}
             placeholder={`${label}-12345A`} onChange={(v) => store.setField('shortTitle', v)} />
-          <Field label="PCN" value={store.formData.pcn ?? ''}
+          <Field id="sl3-pcn" label="PCN" value={store.formData.pcn ?? ''}
             placeholder="123 123450 00" onChange={(v) => store.setField('pcn', v)} />
         </div>
-        <Field label="Long title" value={store.formData.subject ?? ''}
+        <Field id="sl3-subject" label="Long title" value={store.formData.subject ?? ''}
           placeholder={publication === 'sl4' ? 'REPAIR PARTS LIST FOR…' : 'COMPONENTS LIST FOR…'} onChange={(v) => store.setField('subject', v)} multiline />
         <Field label="End item nomenclature" value={store.formData.nomenclature ?? ''}
           onChange={(v) => store.setField('nomenclature', v)} />

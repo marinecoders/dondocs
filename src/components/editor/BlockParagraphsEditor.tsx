@@ -451,7 +451,7 @@ const BlockRow = memo(function BlockRow({
               autoFocus={autoFocus}
               value={text}
               onChange={(t) => updateParagraph(index, { text: t })}
-              placeholder={figure ? 'Figure title…' : 'Type your paragraph…  ⏎ new · ⇥ indent · @ insert'}
+              placeholder={figure ? 'Figure title…' : ''}
               onEnterBlock={onEnter}
               onIndentBlock={disableIndent ? undefined : () => indentParagraph(index)}
               onOutdentBlock={disableIndent ? undefined : () => outdentParagraph(index)}
@@ -727,6 +727,7 @@ export function BlockParagraphsEditor() {
           variant="ghost"
           size="sm"
           className="text-xs font-normal"
+          id="add-body-paragraph"
           onClick={() => {
             addParagraph('', 0, paragraphs.length - 1);
             requestFocus(paragraphs.length);

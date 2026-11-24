@@ -362,7 +362,11 @@ test('Word export runs Pandoc WASM and downloads a valid DOCX with editor conten
 
 test('additional endorsements and bottom page numbers reach both downloaded formats', async ({ page }, testInfo) => {
   await start(page);
-  await page.getByRole('combobox', { name: 'Document section', exact: true }).selectOption('signature');
+  const section = page.getByRole('combobox', { name: 'Document section', exact: true });
+  await section.selectOption('addressing');
+  await page.getByRole('textbox', { name: 'From', exact: true }).fill('Training Command');
+  await page.getByRole('textbox', { name: 'To', exact: true }).fill('Training Officer');
+  await section.selectOption('signature');
   const enabled = page.getByRole('checkbox', { name: 'Add an acknowledgement endorsement' });
   await enabled.check();
   await page.getByRole('region', { name: 'First endorsement', exact: true })

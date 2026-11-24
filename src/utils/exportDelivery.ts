@@ -6,8 +6,8 @@ import { downloadPdfBlob, preOpenWindowForIOS } from './downloadPdf';
 /** Reserve iOS's PDF tab in the initiating gesture. Each attempt owns its
  * unused tab; delivered URLs and tabs transfer to the browser download utility.
  */
-export function openBrowserExportDelivery(target: ExportTarget): ExportDeliveryLease {
-  let prepared = target === 'pdf' ? preOpenWindowForIOS() : null;
+export function openBrowserExportDelivery(target: ExportTarget, print = false): ExportDeliveryLease {
+  let prepared = target === 'pdf' ? (print ? window.open('', '_blank') : preOpenWindowForIOS()) : null;
   let released = false;
   let used = false;
   const closeUnused = () => {
@@ -20,6 +20,21 @@ export function openBrowserExportDelivery(target: ExportTarget): ExportDeliveryL
       used = true;
       if (target === 'pdf') {
         try {
+          if (print && prepared && !prepared.closed) {
+            const printWindow = prepared;
+            const url = URL.createObjectURL(artifact.blob);
+            try {
+              printWindow.opener = null;
+              printWindow.location.replace(url);
+              printWindow.addEventListener('load', () => printWindow.print(), { once: true });
+              prepared = null;
+              setTimeout(() => URL.revokeObjectURL(url), 60_000);
+              return true;
+            } catch {
+              URL.revokeObjectURL(url);
+              closeUnused();
+            }
+          }
           const delivered = await downloadPdfBlob(artifact.blob, artifact.job.filename, prepared);
           if (delivered) prepared = null;
           return delivered;

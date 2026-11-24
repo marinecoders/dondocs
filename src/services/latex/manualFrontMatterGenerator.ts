@@ -42,7 +42,7 @@ export function manualLinkedText(text: string): string {
   return result + manualPlainText(text.slice(cursor));
 }
 
-export function generateManualFrontMatterData(data: Partial<DocumentData>, referenceDate = new Date()): string {
+export function generateManualFrontMatterData(data: Partial<DocumentData>, referenceDate = new Date(), hints?: Partial<Record<'subject' | 'nomenclature' | 'pcn', string>>): string {
   const m = data.manualFrontMatter ?? emptyManualFrontMatter();
   const [coverType, authenticationType] = manualType(m.subtype);
   const hasTechnicalHeading = coverType.includes('TECHNICAL MANUAL');
@@ -55,12 +55,12 @@ export function generateManualFrontMatterData(data: Partial<DocumentData>, refer
   const label = (heading: string, value: string) => `\\textbf{\\uline{${escapeLatex(heading)}}}: ${manualLinkedText(value)}`;
   const notice = (value: string) => value.trim() ? `\\noindent ${manualLinkedText(value.trim())}\\par\\vspace{6bp}\n` : '';
   return [
-    `\\setSubject{${manualPlainText(data.subject ?? '')}}`,
-    `\\setNomenclature{${manualPlainText(data.nomenclature ?? '')}}`,
+    `\\setSubject{${hints?.subject || manualPlainText(data.subject ?? '')}}`,
+    `\\setNomenclature{${hints?.nomenclature || manualPlainText(data.nomenclature ?? '')}}`,
     `\\setControllingOffice{${manualPlainText(data.controllingOffice ?? '')}}`,
     `\\setPOC{${escapeLatex(data.pocEmail ?? '')}}`,
     `\\def\\ManualControlOffice{${manualPlainText([...new Set([data.cuiControlledBy, data.controllingOffice].filter(Boolean))].join(', '))}}`,
-    `\\setPCN{${escapeLatex((data.pcn ?? '').replace(/\s/g, '').replace(/^(\d{3})(\d{6})(\d{2})$/, '$1 $2 $3'))}}`,
+    `\\setPCN{${hints?.pcn || escapeLatex((data.pcn ?? '').replace(/\s/g, '').replace(/^(\d{3})(\d{6})(\d{2})$/, '$1 $2 $3'))}}`,
     `\\setPublicationTypeName{${escapeLatex(coverType)}}`,
     `\\def\\ManualCoverHeading{${escapeLatex(hasTechnicalHeading ? coverType : 'TECHNICAL MANUAL')}}`,
     `\\def\\ManualCoverKind{${escapeLatex(hasTechnicalHeading ? '' : coverType)}}`,

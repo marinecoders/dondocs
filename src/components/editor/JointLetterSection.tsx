@@ -108,7 +108,6 @@ export function JointLetterSection() {
                   id="jointTo"
                   value={formData.jointTo || ''}
                   onChange={(e) => setField('jointTo', e.target.value)}
-                  placeholder="e.g., See Distribution"
                 />
               </div>
 
@@ -119,7 +118,6 @@ export function JointLetterSection() {
                   id="jointSubject"
                   value={formData.jointSubject || ''}
                   onChange={(e) => setField('jointSubject', e.target.value)}
-                  placeholder="SUBJECT LINE IN ALL CAPS"
                   className="uppercase"
                 />
               </div>
@@ -202,7 +200,6 @@ export function JointLetterSection() {
                       id="jointSeniorSigName"
                       value={formData.jointSeniorSigName || ''}
                       onChange={(e) => setField('jointSeniorSigName', e.target.value)}
-                      placeholder="J. A. SMITH"
                       className="uppercase"
                     />
                   </div>
@@ -343,7 +340,6 @@ export function JointLetterSection() {
                       id="jointJuniorSigName"
                       value={formData.jointJuniorSigName || ''}
                       onChange={(e) => setField('jointJuniorSigName', e.target.value)}
-                      placeholder="T. R. JONES"
                       className="uppercase"
                     />
                   </div>

@@ -1,3 +1,5 @@
+import { previewHintKey } from '@/lib/previewHints';
+import type { PDFPageProxy } from 'pdfjs-dist';
 import { PREVIEW_SOURCE_LIMITS, previewPageText, sourcesAcrossPages, type PreviewSource } from '@/lib/previewSources';
 import {
   forwardRef,
@@ -47,12 +49,36 @@ export interface PdfSourceMatches {
 
 const EMPTY_SOURCES: readonly PreviewSource[] = [];
 
+interface HintHit {
+  key: string;
+  left: number;
+  top: number;
+  width: number;
+  height: number;
+}
+
+async function readHintHits(page: PDFPageProxy): Promise<HintHit[]> {
+  const viewport = page.getViewport({ scale: 1 });
+  const annotations: { url?: string; rect?: number[] }[] = await page.getAnnotations();
+  return annotations.flatMap(({ url, rect }) => {
+    const key = previewHintKey(url);
+    if (!key || rect?.length !== 4 || !rect.every(Number.isFinite)) return [];
+    const [x1, y1, x2, y2] = viewport.convertToViewportRectangle(rect);
+    return [{
+      key,
+      left: 100 * Math.min(x1, x2) / viewport.width, top: 100 * Math.min(y1, y2) / viewport.height,
+      width: 100 * Math.abs(x1 - x2) / viewport.width, height: 100 * Math.abs(y1 - y2) / viewport.height,
+    }];
+  });
+}
+
 interface PdfPageLayerProps {
   sourceToReveal?: PreviewSource;
   onSourcesInView?: (sources: PreviewSource[]) => void;
   sources?: readonly PreviewSource[];
   sourceSubject?: string;
   onSourceMatches?: (matches: PdfSourceMatches) => void;
+  onNavigateHint?: (source: PreviewSource) => void;
   url: string;
   gen: number;
   pageWidth: number;
@@ -89,12 +115,23 @@ interface PdfPageLayerProps {
  * the viewer inside iOS's canvas memory budget.
  */
 export const PdfPageLayer = forwardRef<PdfPageLayerHandle, PdfPageLayerProps>(function PdfPageLayer(
-  { sourceToReveal, sources = EMPTY_SOURCES, sourceSubject = '', onSourceMatches, onSourcesInView, url, gen, pageWidth, dprCap, visible, initialScrollTop = 0, initialPage = 1, initialAnchor, fadingOut = false, thumbPortalTarget, currentPage, onDocMeta, onPageInView, onLoaded, onReady, onFailed },
+  { sourceToReveal, sources = EMPTY_SOURCES, sourceSubject = '', onSourceMatches, onSourcesInView, onNavigateHint, url, gen, pageWidth, dprCap, visible, initialScrollTop = 0, initialPage = 1, initialAnchor, fadingOut = false, thumbPortalTarget, currentPage, onDocMeta, onPageInView, onLoaded, onReady, onFailed },
   ref
 ) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [pageTexts, setPageTexts] = useState<Record<number, string>>({});
-  const pageSources = useMemo(() => sourcesAcrossPages(pageTexts, sources, sourceSubject), [pageTexts, sources, sourceSubject]);
+  const [hintHits, setHintHits] = useState<Record<number, HintHit[]>>({});
+  const hintReader = useRef<((index: number) => Promise<HintHit[]>) | null>(null);
+  const hintSources = useMemo(() => new Map(sources.flatMap(source => source.hintKey ? [[source.hintKey, source] as const] : [])), [sources]);
+  const pageSources = useMemo(() => {
+    const matches = sourcesAcrossPages(pageTexts, sources, sourceSubject);
+    for (const [index, hits] of Object.entries(hintHits)) {
+      const page = Number(index);
+      const hints = hits.flatMap(hit => hintSources.get(hit.key) ?? []);
+      if (hints.length) matches.set(page, [...new Set([...(matches.get(page) ?? []), ...hints])]);
+    }
+    return matches;
+  }, [pageTexts, sources, sourceSubject, hintHits, hintSources]);
   const [numPages, setNumPages] = useState(0);
   useEffect(() => {
     if (visible) onSourceMatches?.({ generation: gen, inventory: sources, byPage: pageSources });
@@ -299,6 +336,18 @@ export const PdfPageLayer = forwardRef<PdfPageLayerHandle, PdfPageLayerProps>(fu
     setScrollTop(el.scrollTop);
   }, [layout, visible, scrollTop]);
 
+  const canReadHints = visible && !!onNavigateHint && hintSources.size > 0;
+  useEffect(() => {
+    const read = hintReader.current;
+    if (!canReadHints || !numPages || !read) return;
+    let current = true;
+    const indexes = Array.from({ length: Math.max(0, Math.min(last, numPages - 1) - first + 1) }, (_, offset) => first + offset);
+    void Promise.all(indexes.map(async index => [index, await read(index).catch(() => [])] as const)).then(entries => {
+      if (current) setHintHits(Object.fromEntries(entries));
+    });
+    return () => { current = false; };
+  }, [canReadHints, numPages, first, last]);
+
   const handleScroll = useCallback(() => {
     if (!visible) return;
     if (rafRef.current !== null) return;
@@ -357,6 +406,15 @@ export const PdfPageLayer = forwardRef<PdfPageLayerHandle, PdfPageLayerProps>(fu
         error={null}
         onLoadSuccess={(doc) => {
           const textCache = new Map<number, Promise<string>>();
+          const hintCache = new Map<number, Promise<HintHit[]>>();
+          hintReader.current = index => {
+            let pending = hintCache.get(index);
+            if (!pending) {
+              pending = doc.getPage(index + 1).then(readHintHits);
+              hintCache.set(index, pending);
+            }
+            return pending;
+          };
           textReader.current = index => {
             let pending = textCache.get(index);
             if (!pending) {
@@ -458,6 +516,14 @@ export const PdfPageLayer = forwardRef<PdfPageLayerHandle, PdfPageLayerProps>(fu
                       }}
                     />
                   )}
+                  {visible && inWindow && onNavigateHint && (hintHits[i] ?? []).map((hit, index) => {
+                    const source = hintSources.get(hit.key);
+                    return source && <button key={index} type="button"
+                      aria-label={`Edit ${source.label}`} title={`Edit ${source.label}`}
+                      className="absolute z-10 cursor-pointer rounded-sm hover:ring-1 hover:ring-primary/50 focus-visible:outline-2 focus-visible:outline-primary"
+                      style={{ left: `${hit.left}%`, top: `${hit.top}%`, width: `${hit.width}%`, height: `${hit.height}%` }}
+                      onClick={() => onNavigateHint(source)} />;
+                  })}
                 </div>
               </div>
             );

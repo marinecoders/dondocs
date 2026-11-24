@@ -129,3 +129,13 @@ it('reviews actual manual items while retaining replaced item data only in the d
   if (actual.status !== 'needs-review') throw new Error('Actual manual item privacy must be reviewed');
   expect(copyExportReview(actual.job).privacy.findings).toEqual(expect.arrayContaining([expect.objectContaining({ type: 'SSN', value: '123-45-6789' })]));
 });
+
+it.each(['pdf', 'docx', 'tex'] as const)('rejects an incomplete authored endorsement before %s export', target => {
+  const data = snapshot({ formData: { appendEndorsement: true, endorsementBody: 'I acknowledge the directions.' } });
+  expect(prepareExport({ ...request(data), target })).toMatchObject({
+    status: 'error', issues: [expect.stringContaining('Enter From and To for the first endorsement')],
+  });
+  data.formData.from = 'Training Command';
+  data.formData.to = 'Training Officer';
+  expect(prepareExport({ ...request(data), target })).toMatchObject({ status: 'ready' });
+});

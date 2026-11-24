@@ -6,6 +6,7 @@ export interface PreviewSource {
   text: string;
   paragraphId?: string;
   fieldId?: string;
+  hintKey?: string;
 }
 
 export type PreviewFollowMode = 'off' | 'editor' | 'preview';

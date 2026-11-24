@@ -1,5 +1,4 @@
 import { directiveFont, isDirective } from '@/lib/directiveFormats';
-import { isStaffPaper } from '@/lib/staffPapers';
 import { emptyPublicationVolume, freshVolumeContent, validatePublicationVolume, VOLUME_DOC_TYPE, type PublicationVolume } from '@/lib/publicationVolume';
 import { transformRangeComments } from '@/lib/reviewCommentRanges';
 import { hasReviewComments, type ReviewComments } from '@/lib/reviewComments';
@@ -222,35 +221,35 @@ function safeReferencePatch(plan: ReferenceChange, state: DocumentState): Partia
   return { ...plan.patch, reviewComments };
 }
 
-// Example form data for first-time visitors (one-time mode / no profile selected)
-const EXAMPLE_FORM_DATA: Partial<DocumentData> = {
+// Blank content and formatting defaults for a new correspondence draft.
+const DEFAULT_FORM_DATA: Partial<DocumentData> = {
   docType: 'naval_letter',
   fontSize: '12pt',
   fontFamily: 'times',
   pageNumbering: 'simple',
-  // Letterhead - Example unit info for demo
+  // Letterhead
   department: 'usmc',
-  unitLine1: '1ST BATTALION, 6TH MARINES',
-  unitLine2: '2D MARINE DIVISION, II MEF',
-  unitAddress: 'PSC BOX 20123, CAMP LEJEUNE, NC 28542-0123',
+  unitLine1: '',
+  unitLine2: '',
+  unitAddress: '',
   sealType: 'dow',
   letterheadColor: 'blue',
   // Document identification
-  ssic: '1000',
-  serial: '0123',
-  date: formatMilitaryDate(new Date()),
+  ssic: '',
+  serial: '',
+  date: '',
   // Addressing
-  from: 'Commanding Officer, 1st Battalion, 6th Marines',
-  to: '[RECIPIENT]',
+  from: '',
+  to: '',
   via: '',
-  subject: '[SUBJECT]',
+  subject: '',
   // Signature
-  sigFirst: 'John',
-  sigMiddle: 'A',
-  sigLast: 'DOE',
-  sigRank: 'Lieutenant Colonel',
-  sigTitle: 'Commanding Officer',
-  officeCode: 'S-3',
+  sigFirst: '',
+  sigMiddle: '',
+  sigLast: '',
+  sigRank: '',
+  sigTitle: '',
+  officeCode: '',
   acting: false,
   actingTitle: '',
   seniorActing: false,
@@ -260,32 +259,18 @@ const EXAMPLE_FORM_DATA: Partial<DocumentData> = {
   // Classification
   classLevel: 'unclassified',
   customClassification: '',
-  pocEmail: 'john.doe@usmc.mil',
+  pocEmail: '',
   // Hyperlinks - default to OFF (no hyperlinks)
   includeHyperlinks: false,
   // Subject underline - default to OFF
   underlineSubject: false,
   includeEndorsementSubject: false,
   // Business letter fields
-  salutation: 'Dear Sir or Madam:',
-  complimentaryClose: 'Sincerely,',
+  salutation: '',
+  complimentaryClose: '',
 };
 
-// Example references for demo document (empty for clean start)
-const EXAMPLE_REFERENCES: Reference[] = [];
-
-// Example paragraphs for demo document (short and simple)
-const EXAMPLE_PARAGRAPHS: Paragraph[] = [
-  { text: '[Your content here. Click "Templates" to load a pre-built letter format.]', level: 0 },
-];
-
-// Default enclosures (empty - user adds as needed)
-const DEFAULT_ENCLOSURES: Enclosure[] = [];
-
-// Use example data as initial defaults (will be overwritten if profile is selected)
-const DEFAULT_FORM_DATA = EXAMPLE_FORM_DATA;
-const DEFAULT_REFERENCES = EXAMPLE_REFERENCES;
-const DEFAULT_PARAGRAPHS = EXAMPLE_PARAGRAPHS;
+const DEFAULT_PARAGRAPHS: Paragraph[] = [{ text: '', level: 0 }];
 
 function publicationFont(docType: string, mode: DocumentMode, data: Partial<DocumentData>): Partial<DocumentData> {
   if (isDirective(docType)) return directiveFont(docType, mode, data);
@@ -305,7 +290,7 @@ function documentTypeState(state: Pick<DocumentState, 'docType' | 'documentMode'
       const newDateFormat = config.compliance.dateFormat;
       const convertedDate = state.formData.date
         ? convertDateFormat(state.formData.date, newDateFormat)
-        : formatMilitaryDate(new Date());
+        : '';
       // Font size: keep current if within allowed range, otherwise snap to default
       const allowedSizes = config.regulations.fontSizeOptions || [config.regulations.fontSize];
       const currentSize = state.formData.fontSize || '12pt';
@@ -371,16 +356,12 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
   formType: 'navmc_10274',
   genericForm: undefined,
   formData: { ...DEFAULT_FORM_DATA },
-  references: [...DEFAULT_REFERENCES],
+  references: [],
   endItems: [],
   publicationTables: {},
-  enclosures: [...DEFAULT_ENCLOSURES],
+  enclosures: [],
   paragraphs: freshParagraphs(DEFAULT_PARAGRAPHS),
-  copyTos: [
-    { text: 'G-3/5' },
-    { text: 'G-4' },
-    { text: 'Regimental S-3' },
-  ],
+  copyTos: [],
   distributions: [],
 
   setDocumentCategory: (category) => {
@@ -468,6 +449,11 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
 
   setField: (key, value) => set((state) => {
     const formData = { ...state.formData, [key]: value };
+    // Joint memos use the shared editor fields with legacy joint render fields.
+    if (state.docType === 'joint_memorandum') {
+      if (key === 'subject') formData.jointSubject = formData.subject;
+      if (key === 'to') formData.jointTo = formData.to;
+    }
     if (key === 'publicationType' && value !== 'MI') {
       formData.miUrgency = 'normal';
       formData.miCompletionDate = '';
@@ -509,17 +495,13 @@ export const useDocumentStore = create<DocumentState>((set, get) => ({
     documentMode: 'compliant',
     docType: 'naval_letter',
     formData: { ...DEFAULT_FORM_DATA },
-    references: [...DEFAULT_REFERENCES],
+    references: [],
     endItems: [],
     publicationTables: {},
     genericForm: undefined,
-    enclosures: [...DEFAULT_ENCLOSURES],
+    enclosures: [],
     paragraphs: freshParagraphs(DEFAULT_PARAGRAPHS),
-    copyTos: [
-      { text: 'G-3/5' },
-      { text: 'G-4' },
-      { text: 'Regimental S-3' },
-    ],
+    copyTos: [],
     distributions: [],
     });
   },
@@ -1145,16 +1127,15 @@ export function serializeSession(state: DocumentState): SerializedSession {
 /** Build a blank document without changing the active workspace. */
 export function createBlankSession(formType?: FormType, docType = 'naval_letter'): SerializedSession {
   const category = formType ? 'forms' : 'correspondence';
-  const administrative = isDirective(docType) || isStaffPaper(docType);
-  const configured = documentTypeState({ docType, documentMode: 'compliant', formData: structuredClone(DEFAULT_FORM_DATA), references: structuredClone(DEFAULT_REFERENCES) }, docType);
+  const configured = documentTypeState({ docType, documentMode: 'compliant', formData: structuredClone(DEFAULT_FORM_DATA), references: [] }, docType);
   return {
     documentMode: 'compliant', documentCategory: category, docType,
     formType: formType ?? 'navmc_10274',
-    formData: category === 'forms' ? {} : administrative ? { ...configured.formData, subject: '', from: '', to: '', preparedBy: '' } : configured.formData,
-    references: category === 'forms' || administrative ? [] : configured.references,
-    enclosures: category === 'forms' || administrative ? [] : structuredClone(DEFAULT_ENCLOSURES),
-    paragraphs: category === 'forms' || docType === 'coordination_page' ? [] : freshParagraphs(administrative ? [{ text: '', level: 0 }] : structuredClone(DEFAULT_PARAGRAPHS)),
-    copyTos: category === 'forms' || administrative ? [] : [{ text: 'G-3/5' }, { text: 'G-4' }, { text: 'Regimental S-3' }],
+    formData: category === 'forms' ? {} : configured.formData,
+    references: configured.references,
+    enclosures: [],
+    paragraphs: category === 'forms' || docType === 'coordination_page' ? [] : freshParagraphs(DEFAULT_PARAGRAPHS),
+    copyTos: [],
     distributions: [], endItems: [], publicationTables: {}, timestamp: Date.now(),
     ...(category === 'forms' ? { forms: prepareFormSession(formType!) } : {}),
   };

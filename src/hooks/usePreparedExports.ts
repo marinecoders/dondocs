@@ -32,7 +32,7 @@ export function usePreparedExports({ isReady, gate, compile, waitForReady, setPr
   const engineReady = useRef(isReady);
   useLayoutEffect(() => { engineReady.current = isReady; }, [isReady]);
   const [owner] = useState(() => {
-    let signingIntent: string | null = null;
+    let deliveryIntent: { id: string; purpose: 'signing' | 'print' } | null = null;
     let viewActive = true;
     let timer: ReturnType<typeof setTimeout> | undefined;
     const owner = createExportController({
@@ -40,14 +40,14 @@ export function usePreparedExports({ isReady, gate, compile, waitForReady, setPr
       resolvePolicy: retry => getExportDeploymentPolicy(undefined, retry),
       captureResources: captureExportFormTemplates,
       openDelivery: target => {
-        const signingId = target === 'pdf' ? signingIntent : null;
-        if (!signingId) return openBrowserExportDelivery(target);
+        const signingId = target === 'pdf' && deliveryIntent?.purpose === 'signing' ? deliveryIntent.id : null;
+        if (!signingId) return openBrowserExportDelivery(target, deliveryIntent?.purpose === 'print');
         let released = false;
         return {
           deliver: async artifact => {
             if (released || artifact.job.id !== signingId) throw new Error('This signing capture is no longer available.');
             const { retainSigningExport } = await import('@/services/exports/signingDelivery');
-            await retainSigningExport(artifact, () => viewActive && !released && signingIntent === signingId);
+            await retainSigningExport(artifact, () => viewActive && !released && deliveryIntent?.id === signingId);
             return true;
           },
           release: () => { released = true; },
@@ -93,7 +93,7 @@ export function usePreparedExports({ isReady, gate, compile, waitForReady, setPr
       },
       onCleanupIssue: error => { console.warn('Export delivery cleanup failed:', error); },
     });
-    return { controller: owner, getSigningIntent: () => signingIntent, setSigningIntent: (id: string | null) => { signingIntent = id; }, activate: () => { viewActive = true; }, deactivate: () => {
+    return { controller: owner, getDeliveryIntent: () => deliveryIntent, setDeliveryIntent: (intent: typeof deliveryIntent) => { deliveryIntent = intent; }, activate: () => { viewActive = true; }, deactivate: () => {
       viewActive = false;
       if (timer) { clearTimeout(timer);timer = undefined; }
       useUIStore.getState().setPiiWarningOpen(false);
@@ -104,7 +104,7 @@ export function usePreparedExports({ isReady, gate, compile, waitForReady, setPr
   const state = useSyncExternalStore(controller.subscribe, controller.getState, controller.getState);
   useEffect(() => { owner.activate();return () => { owner.deactivate();controller.cancel(); }; }, [controller, owner]);
   const review = useMemo(() => state.phase === 'review' ? copyExportReview(state.job) : null, [state]);
-  const request = useCallback((target: ExportTarget, texMode?: 'configuration' | 'flat', purpose?: 'signing' | 'tagged' | 'word-enclosures') => {
+  const request = useCallback((target: ExportTarget, texMode?: 'configuration' | 'flat', purpose?: 'signing' | 'tagged' | 'word-enclosures' | 'print') => {
     try {
       const captured = captureCurrentDocumentRevision();
       const session = copyCapturedSession(captured);
@@ -115,10 +115,10 @@ export function usePreparedExports({ isReady, gate, compile, waitForReady, setPr
           : `NAVMC-118-11-${safe(session.forms?.navmc11811?.lastName || 'Marine')}-${safe(session.forms?.navmc11811?.entryDate || 'entry')}.pdf`
         : captured.kind === 'configured-form' ? `${safe(session.genericForm!.definition.formId)}-form.pdf` : correspondenceFilename(target, session);
       const id = [...crypto.getRandomValues(new Uint32Array(4))].map(part => part.toString(16)).join('-');
-      const previous = owner.getSigningIntent();
-      owner.setSigningIntent(purpose === 'signing' && target === 'pdf' ? id : null);
+      const previous = owner.getDeliveryIntent();
+      owner.setDeliveryIntent((purpose === 'signing' || purpose === 'print') && target === 'pdf' ? { id, purpose } : null);
       const accepted = controller.request({ id, captured, target, texMode, ...(purpose === 'word-enclosures' ? { wordEnclosurePages: true } : {}), ...(purpose === 'tagged' ? { pdfAccessibility: 'tagged' as const } : {}), filename: purpose === 'word-enclosures' ? filename.replace(/\.docx$/i, '-with-enclosures.docx') : target === 'tex' && texMode === 'flat' ? 'correspondence-flat.tex' : purpose === 'tagged' ? filename.replace(/\.pdf$/i, '-tagged.pdf') : filename });
-      if (!accepted) owner.setSigningIntent(previous);
+      if (!accepted) owner.setDeliveryIntent(previous);
       return accepted;
     } catch (error) {
       setProgress({ kind: 'error', target, title: 'Export could not be captured', message: exportErrorMessage(error), retryable: false });

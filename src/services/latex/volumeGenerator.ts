@@ -35,9 +35,9 @@ export function volumeText(text: string, targets: ReadonlyMap<string, { label: s
 }
 
 /** Shared preview/export body; figures keep their source-array asset indices. */
-export function generateVolumeBody(source: VolumeSource): string {
+export function generateVolumeBody(source: VolumeSource, options?: { allowEmptyContent?: boolean }): string {
   const volume = validatePublicationVolume(source.formData.volume, source.paragraphs);
-  const errors = publicationVolumeErrors(volume, source.paragraphs);
+  const errors = publicationVolumeErrors(volume, source.paragraphs, options);
   errors.push(...volumeOutputTextErrors(source));
   if (errors.length) throw new Error(errors.join(' '));
   const outline = volumeOutline(volume);

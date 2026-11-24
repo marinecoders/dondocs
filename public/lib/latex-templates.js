@@ -180,6 +180,7 @@ const LATEX_TEMPLATES = {
 
 \\usepackage{graphicx}
 \\usepackage{xcolor}
+\\newcommand{\\PreviewHint}[1]{\\textcolor{black!30}{#1}}
 
 
 %-----------------------------------------------------------------------------
@@ -203,6 +204,16 @@ const LATEX_TEMPLATES = {
 %-----------------------------------------------------------------------------
 
 \\usepackage{hyperref}
+% The live preview's fixed hint links are handled by the in-app viewer.
+\\DeclareRobustCommand{\\PreviewHintLink}[2]{%
+    \\leavevmode
+    \\ifdefined\\pdfstartlink
+        \\pdfstartlink attr{/Border [0 0 0]} user{/Subtype /Link /A << /S /URI /URI (#1) >>}%
+        \\PreviewHint{#2}\\pdfendlink
+    \\else
+        \\href{#1}{\\PreviewHint{#2}}%
+    \\fi
+}
 
 % Native hyperref writes PDF metadata. The bundled SwiftLaTeX stub does not.
 \\makeatletter

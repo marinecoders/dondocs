@@ -42,6 +42,7 @@ export function CopyToManager() {
             {copyTos.map((ct, index) => (
               <div key={index} className="editor-recipient-row flex items-center gap-2 border-b border-border py-1">
                 <Input
+                  id={`copyto-recipient-${index + 1}`}
                   value={ct.text}
                   onChange={(e) => updateCopyTo(index, e.target.value)}
                   placeholder="Recipient…"
@@ -60,6 +61,7 @@ export function CopyToManager() {
             ))}
 
             <Button
+              id="copyto-add"
               variant="ghost"
               size="sm"
               className="mt-2 text-xs font-normal"
