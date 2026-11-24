@@ -56,6 +56,24 @@ async function exported(): Promise<ReviewReturn> {
 }
 
 describe('captured review-return actions', () => {
+  it('keeps a Word comment detached when a mapped context would exceed the combined limit', async () => {
+    const { owner } = await fixture({ paragraphId: 'range-reviewed' });
+    const range = captureTextRange(useDocumentStore.getState(), 'range-reviewed', 9, 14)!;
+    expect(applyCommentMutation(reviewCommentMutation({ kind: 'add', range, author: 'Reviewer', text: 'Review this exact word.' }))).toBe('applied');
+    const payload = await exported();
+    useDocumentsStore.getState().switchTo(owner);
+    useDocumentStore.getState().updateParagraph(0, { text: range.context + 'a'.repeat(12_000) });
+    useDocumentStore.setState({ reviewComments: {
+      version: 1,
+      threads: Array.from({ length: 19 }, () => note('a'.repeat(9_999)).threads[0]),
+    } });
+    const prepared = await prepareReviewReturnImport(payload, { source: 'word' });
+    expect(prepared.plan.addedThreads).toBe(1);
+    expect(prepared.plan.comments?.threads.find(thread => thread.id === payload.comments?.threads[0].id)?.anchor)
+      .toMatchObject({ ...range, detached: true });
+    expect(await applyReviewReturn(prepared, {})).toBe('committed');
+  });
+
   it('preserves deletion of an unchanged returned discussion after owner paragraph edits', async () => {
     const context = 'Reviewed plain paragraph.', paragraphId = 'range-reviewed';
     const comments: ReviewComments = { version: 3, threads: [{ id: crypto.randomUUID(),

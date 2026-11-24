@@ -19,9 +19,10 @@ export function transformRangeComments(comments: ReviewComments | undefined, bef
 
 /** A reviewer copy's runtime offsets never authorize attachment in the owner's
  * draft. New range discussions must originate in the exact reviewed baseline.
- * An owner paragraph changed since then stays detached for deliberate review. */
+ * Word returns can map an unchanged selection through one unambiguous owner
+ * edit. The source paragraph identity still has to match the baseline. */
 export function normalizeReturnedRangeComments(baseline: DocumentFieldSource, current: DocumentFieldSource,
-  returned: ReviewComments | undefined): ReviewComments | undefined {
+  returned: ReviewComments | undefined, mapIndependentWordEdit = false): ReviewComments | undefined {
   if (!returned) return returned;
   const known = new Map(baseline.reviewComments?.threads.map(thread => [thread.id, thread]) ?? []);
   const sameTarget = (left: CommentThread, right: CommentThread): boolean => {
@@ -38,7 +39,7 @@ export function normalizeReturnedRangeComments(baseline: DocumentFieldSource, cu
     }
     return captured;
   };
-  return { ...returned, threads: returned.threads.map(thread => {
+  const normalized = { ...returned, threads: returned.threads.map(thread => {
     if (thread.anchor.kind !== 'range') return thread;
     const previous = known.get(thread.id);
     if (previous) {
@@ -53,8 +54,15 @@ export function normalizeReturnedRangeComments(baseline: DocumentFieldSource, cu
     }
     const anchor = original(thread.anchor);
     for (const previous of thread.anchorHistory ?? []) original(previous.anchor);
-    return { ...thread, anchor: resolveTextRange(current, anchor).status === 'current' ? anchor : { ...anchor, detached: true as const } };
+    const resolved = resolveTextRange(current, anchor);
+    if (resolved.status === 'current') return { ...thread, anchor };
+    const mapped = mapIndependentWordEdit && current.docType === anchor.docType && resolved.paragraph
+      ? transformTextRangeForText(anchor, anchor.context, resolved.paragraph.text)
+      : { ...anchor, detached: true as const };
+    return { ...thread, anchor: mapped };
   }) };
+  return mapIndependentWordEdit && !reviewCommentsSchema.safeParse(normalized).success
+    ? normalizeReturnedRangeComments(baseline, current, returned) : normalized;
 }
 
 export interface StructuralRangeSpan {

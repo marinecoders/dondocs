@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.278] — 2026-11-23
+
+### Fixed
+
+- Keep unambiguous Word comment highlights attached through independent edits and verify the native review return.
+
 ## [1.3.277] — 2026-11-23
 
 ### Added
