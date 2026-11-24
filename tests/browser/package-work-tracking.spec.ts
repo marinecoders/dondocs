@@ -1,11 +1,21 @@
-import { openPackagePreparation, importPackage, packageSection, expandPackageTools, packageVersion, selectedPackageRevision, packageTool } from './_helpers/packageWorkspace';
-import { expect, test, type Locator, type Page } from '@playwright/test';
+import { openPackageWorkspace, importPackage, packageSection, packageVersion, selectedPackageRevision } from './_helpers/packageWorkspace';
+import { expect, test, type Locator } from '@playwright/test';
 import { readFile } from 'node:fs/promises';
 
 test.use({ serviceWorkers: 'block', actionTimeout: 15_000 });
 test.setTimeout(120_000);
-async function packages(page: Page) {
-  return openPackagePreparation(page);
+async function openWork(dialog: Locator) {
+  await packageSection(dialog, 'Overview');
+  const overview = dialog.getByRole('region', { name: 'Package overview', exact: true });
+  const advanced = overview.locator('summary').filter({ hasText: /^Advanced$/ });
+  await expect(advanced).toBeVisible();
+  if (await advanced.locator('..').getAttribute('open') === null) await advanced.click();
+  const summary = overview.locator('summary').filter({ hasText: /^Work and next actions(?: ·|$)/ });
+  await expect(summary).toBeVisible();
+  if (await summary.locator('..').getAttribute('open') === null) await summary.click();
+  const work = dialog.getByRole('region', { name: 'Work and next actions', exact: true });
+  await expect(work).toBeVisible();
+  return work;
 }
 async function saveTasks(work: Locator) {
   await work.getByRole('button', { name: 'Review task changes', exact: true }).click();
@@ -20,14 +30,17 @@ for (const theme of ['light', 'dark', 'classic']) for (const width of [1440, 320
     localStorage.setItem('dondocs_ui', JSON.stringify({ version: 1, state: { theme: value, editorLayout: 'focused' } }));
   }, theme);
   await page.goto('/');
-  let dialog = await packages(page);
+  let dialog = await openPackageWorkspace(page);
   const bytes = await readFile(new URL('../fixtures/package-render/baseline-1.3.98.dondocs-package.json', import.meta.url));
   await importPackage(dialog, { name: 'synthetic-work-package.json', mimeType: 'application/json', buffer: bytes });
-  await packageSection(dialog, 'Overview', true);
-  await expect(dialog.getByRole('button', { name: 'Add shared value', exact: true })).toBeEnabled();
   const baseline = await selectedPackageRevision(dialog);
-  await expandPackageTools(dialog);
-  let work = await packageTool(dialog, 'Work and next actions');
+  let work = await openWork(dialog);
+  const details = dialog.getByRole('region', { name: 'Details', exact: true });
+  const fields = details.getByRole('button', { name: 'Field links and other details', exact: true });
+  await expect(fields).toBeVisible();
+  if (await fields.getAttribute('aria-expanded') === 'false') await fields.click();
+  const addValue = details.getByRole('button', { name: 'Add shared value', exact: true });
+  await expect(addValue).toBeEnabled();
   await work.getByRole('button', { name: 'Add task', exact: true }).click();
   await expect(work.getByLabel('Task 1 title', { exact: true })).toBeFocused();
   await work.getByLabel('Task 1 title', { exact: true }).fill('Coordinate fictional training');
@@ -39,8 +52,7 @@ for (const theme of ['light', 'dark', 'classic']) for (const width of [1440, 320
   await work.getByLabel('Due date for task 1', { exact: true }).fill('2020-01-01');
   await work.getByLabel('Notes for task 1', { exact: true }).fill('Synthetic coordination note preserved with this package revision.');
   await expect(dialog.getByRole('button', { name: 'Continue editing', exact: true })).toBeVisible();
-  await expect(dialog.getByRole('button', { name: 'Continue editing', exact: true })).toBeVisible();
-  await expect(dialog.getByRole('button', { name: 'Add shared value', exact: true })).toBeDisabled();
+  await expect(addValue).toBeDisabled();
   await page.keyboard.press('Escape'); await expect(dialog).toBeVisible();
   await expect(work.getByLabel('Task 1 title', { exact: true })).toHaveValue('Coordinate fictional training');
   await saveTasks(work);
@@ -52,9 +64,9 @@ for (const theme of ['light', 'dark', 'classic']) for (const width of [1440, 320
   await expect(work.getByText('Overdue', { exact: true })).toBeVisible();
   await work.getByLabel('Mark task 1 complete', { exact: true }).check(); await saveTasks(work);
   const complete = await selectedPackageRevision(dialog); expect(complete).not.toBe(pending);
-  await page.reload(); dialog = await packages(page);
-  await expandPackageTools(dialog);
-  work = dialog.getByRole('region', { name: 'Work and next actions', exact: true });
+  await page.reload();
+  dialog = await openPackageWorkspace(page);
+  work = await openWork(dialog);
   await expect(work.getByLabel('Mark task 1 complete', { exact: true })).toBeChecked();
   await expect(work.getByLabel('Responsible person for task 1', { exact: true })).toHaveValue('Alex Example');
   await packageVersion(dialog, pending);

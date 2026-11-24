@@ -117,10 +117,14 @@ test('keeps Word resources off the PDF path and exports actual DOCX after offlin
     expect(xml).toContain(subject);
     expect(xml).toContain(paragraph);
 
-    // On the next navigation, suspend background repair before the release
-    // updater starts. Settings still queries the real worker and fetches the
-    // evicted part when the user starts manual preparation.
-    if (installedRelease) await page.addInitScript(() => {
+    // Firefox can leave an existing document offline after emulated
+    // reconnection. Keep this context's cache, then open a fresh online tab.
+    await page.close();
+    await context.setOffline(false);
+    const repairPage = await context.newPage();
+    // Suspend background repair before the updater starts so that Settings
+    // fetches the evicted part on demand through the real worker.
+    if (installedRelease) await repairPage.addInitScript(() => {
       const postMessage = ServiceWorker.prototype.postMessage;
       ServiceWorker.prototype.postMessage = function (message: { type?: string }, transfer?: Transferable[] | StructuredSerializeOptions) {
         if (message?.type === 'PREPARE_RELEASE' || message?.type === 'CHECK_RELEASE') {
@@ -129,29 +133,35 @@ test('keeps Word resources off the PDF path and exports actual DOCX after offlin
         Reflect.apply(postMessage, this, [message, transfer]);
       };
     });
-    await page.evaluate(async () => {
+    await repairPage.goto(server && installedRelease ? `${server.origin}/releases/${installedRelease}/index.html` : url);
+    await expect(repairPage.getByRole('textbox', { name: 'Subject', exact: true })).toHaveValue(subject);
+    await expect.poll(() => repairPage.evaluate(() => navigator.onLine)).toBe(true);
+    const evicted = await repairPage.evaluate(async () => {
       if (document.querySelector('meta[name="dondocs-release"]')) {
         const releaseId = document.querySelector<HTMLMetaElement>('meta[name="dondocs-release"]')!.content;
         const state = await (await caches.open('dondocs-release-meta-v1')).match(`/__dd_release/${releaseId}`);
         const manifest = (await state!.json()).manifest as { assets: { url: string; sha256: string }[] };
         const part = manifest.assets.find(asset => asset.url.endsWith('/pandoc.wasm.part0'))!;
-        await (await caches.open('dondocs-release-files-v1')).delete(`/__dd_asset/${part.sha256}`);
-      } else {
-        for (const name of await caches.keys()) {
-          if (name.startsWith('pandoc-wasm-cache-')) await (await caches.open(name)).delete('/lib/pandoc/pandoc.wasm.part0');
+        return (await caches.open('dondocs-release-files-v1')).delete(`/__dd_asset/${part.sha256}`);
+      }
+      const part = '/lib/pandoc/pandoc.wasm.part0';
+      let removed = false;
+      for (const name of await caches.keys()) {
+        if (name.startsWith('pandoc-wasm-cache-')) {
+          const deleted = await (await caches.open(name)).delete(part);
+          removed = deleted || removed;
         }
       }
+      return removed;
     });
-    if (server && installedRelease) await page.goto(`${server.origin}/releases/${installedRelease}/index.html`);
-    else await page.reload();
-    await expect(page.getByRole('textbox', { name: 'Subject', exact: true })).toHaveValue(subject);
-    exports = await openSettings(page);
+    expect(evicted).toBe(true);
+    exports = await openSettings(repairPage);
     await expect(exports.getByRole('status').first()).toHaveText('Ready offline');
     await expect(exports.getByRole('status').last()).toHaveText('Not ready offline');
 
     // Pause the missing Wasm part so the preceding cached assets have had
     // time to report progress. Most resources are still prepared.
-    await page.evaluate(() => {
+    await repairPage.evaluate(() => {
       const originalFetch = window.fetch;
       window.fetch = (...args) => {
         if (String(args[0]).endsWith('/pandoc.wasm.part0')) {
@@ -163,19 +173,18 @@ test('keeps Word resources off the PDF path and exports actual DOCX after offlin
         return originalFetch(...args);
       };
     });
-    await context.setOffline(false);
     const estimate = exports.getByText(/MB to download for Word exports/);
     await expect(estimate).toBeVisible();
     const sizeLabel = await estimate.innerText();
     const downloadEstimate = Number.parseFloat(sizeLabel);
     await exports.getByRole('button', { name: 'Prepare Word offline' }).click();
     try {
-      await expect(page.locator('html')).toHaveAttribute('data-word-retry-paused', 'yes', { timeout: 45_000 });
+      await expect(repairPage.locator('html')).toHaveAttribute('data-word-retry-paused', 'yes', { timeout: 45_000 });
       const progress = exports.getByRole('progressbar', { name: 'Word resources downloaded' });
       await expect.poll(async () => progress.evaluate((element: HTMLProgressElement) => (element.max - element.value) / 1_000_000))
         .toBeLessThanOrEqual(downloadEstimate + 0.1);
     } finally {
-      await page.evaluate(() => window.dispatchEvent(new Event('resume-word-test')));
+      await repairPage.evaluate(() => window.dispatchEvent(new Event('resume-word-test')));
     }
     await expect(exports.getByRole('status').last()).toHaveText('Ready offline', { timeout: 90_000 });
   } finally {
