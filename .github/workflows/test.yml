@@ -262,10 +262,9 @@ jobs:
     # Current builder totals live in generated docs/PROJECT_INVENTORY.md.
     name: compile matrix (LaTeX + DOCX)
     runs-on: ubuntu-latest
-    # The full matrix takes about 8 minutes. A slow but progressing archive
-    # download can add 12 minutes, so budget for both setup and verification.
-    # APT still has bounded transport retries and read timeouts.
-    timeout-minutes: 25
+    # Cold TeX downloads can take 25 minutes before the matrix gets to run.
+    # Budget for setup and verification with APT transport retries still bounded.
+    timeout-minutes: 45
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
 

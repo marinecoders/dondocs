@@ -36,10 +36,10 @@ class AptTransportTests(unittest.TestCase):
         )
 
     def test_mirror_priorities_use_https_without_http_fallbacks(self):
-        path = self.write("apt-mirrors.txt", "# Ubuntu mirrors\nhttp://azure.archive.ubuntu.com/ubuntu priority:1\nhttps://archive.ubuntu.com/ubuntu priority:2\n")
+        path = self.write("apt-mirrors.txt", "# Ubuntu mirrors\nhttp://us-east-2.ec2.archive.ubuntu.com/ubuntu priority:1\nhttp://azure.archive.ubuntu.com/ubuntu priority:2\nhttps://archive.ubuntu.com/ubuntu priority:3\n")
         result = self.configure()
         self.assertEqual(result.returncode, 0, result.stderr)
-        self.assertEqual(path.read_text(), "# Ubuntu mirrors\nhttps://archive.ubuntu.com/ubuntu priority:1\nhttps://archive.ubuntu.com/ubuntu priority:2\n")
+        self.assertEqual(path.read_text(), "# Ubuntu mirrors\nhttps://archive.ubuntu.com/ubuntu priority:1\nhttps://archive.ubuntu.com/ubuntu priority:2\nhttps://archive.ubuntu.com/ubuntu priority:3\n")
 
     def test_security_ports_and_country_mirrors_keep_their_paths(self):
         path = self.write("apt-mirrors-security.txt", "http://security.ubuntu.com/ubuntu priority:1\nhttp://ports.ubuntu.com/ubuntu-ports priority:2\nhttp://us.archive.ubuntu.com/ubuntu priority:3\n")
