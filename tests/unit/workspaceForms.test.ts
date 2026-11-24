@@ -59,9 +59,9 @@ describe('independent NAVMC documents', () => {
     expect(JSON.stringify(shared)).not.toContain('Unrelated');
     expect(shared.forms?.navmc10274?.signatureBlocks[0].image).toBeUndefined();
     expect(local.forms?.navmc10274?.signatureBlocks[0].image).toBeDefined();
-    const encrypted = await encryptSharePayload(shared, 'test password');
+    const encrypted = await encryptSharePayload(shared, 'synthetic test password');
     await expect(decryptSharePayload(encrypted, 'wrong password')).rejects.toThrow();
-    const incoming = parseSharedSession(await decryptSharePayload(encrypted, 'test password'));
+    const incoming = parseSharedSession(await decryptSharePayload(encrypted, 'synthetic test password'));
     useDocumentsStore.getState().newDocument('navmc_10274');
     loadSharedSession(incoming);
     expect(useFormStore.getState().navmc10274.natureOfAction).toBe('Recipient content');

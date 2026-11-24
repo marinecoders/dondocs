@@ -111,3 +111,38 @@ for (const theme of ['light', 'dark', 'classic']) {
     await expect(page.getByRole('textbox', { name: 'Subject', exact: true })).toHaveValue('CURRENT DRAFT PRESERVED');
   });
 }
+
+test('rejects a weak new share password and opens a link with an app-generated password', async ({ page }) => {
+  await page.addInitScript(() => {
+    localStorage.setItem('browser-test-visitor', 'returning');
+    localStorage.setItem('dondocs_ui', JSON.stringify({ version: 1, state: { editorLayout: 'scroll', previewVisible: false } }));
+  });
+  await page.goto('/');
+  await page.getByLabel('Import draft file').setInputFiles({ name: 'generated-share-password.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify({
+    documentMode: 'compliant', documentCategory: 'correspondence', docType: 'naval_letter',
+    formData: { subject: 'GENERATED PASSWORD FIXTURE' }, paragraphs: [{ text: 'Synthetic password policy training.', level: 0 }], references: [], enclosures: [], copyTos: [],
+  })) });
+  await page.getByRole('button', { name: 'Open as new document', exact: true }).click();
+  let dialog = await share(page);
+  const passwordInput = dialog.getByLabel('Password for this link');
+  await passwordInput.fill('weak');
+  await dialog.getByRole('button', { name: 'Generate link', exact: true }).click();
+  await expect(dialog.getByText('Set a password of at least 15 characters or generate a random one.')).toBeVisible();
+  await expect(dialog.locator('#generated-share-link')).toHaveCount(0);
+  await dialog.getByRole('button', { name: 'Generate password', exact: true }).click();
+  const password = await passwordInput.inputValue();
+  expect(password).toMatch(/^[A-Za-z0-9_-]{22}$/);
+  await dialog.getByRole('button', { name: 'Generate link', exact: true }).click();
+  const link = await dialog.locator('#generated-share-link').inputValue();
+  await dialog.getByRole('button', { name: 'Cancel', exact: true }).click();
+  await page.getByRole('button', { name: 'Document actions', exact: true }).click();
+  await page.getByRole('menuitem', { name: 'Open from share link', exact: true }).click();
+  dialog = page.getByRole('dialog', { name: 'Open shared document', exact: true });
+  await dialog.getByLabel('Share link', { exact: true }).fill(link);
+  await dialog.getByLabel('Password', { exact: true }).fill(password);
+  await dialog.getByRole('button', { name: 'Decrypt and review', exact: true }).click();
+  await expect(dialog).toContainText('GENERATED PASSWORD FIXTURE');
+  await dialog.getByRole('button', { name: 'Open as new document', exact: true }).click();
+  await expect(dialog).toBeHidden();
+  await expect(page.getByRole('textbox', { name: 'Subject', exact: true })).toHaveValue('GENERATED PASSWORD FIXTURE');
+});

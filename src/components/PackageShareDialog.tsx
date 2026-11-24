@@ -3,12 +3,14 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { NewSharePasswordField } from "./NewSharePasswordField";
 import { PackageShareReview } from "./PackageShareReview";
 import { getExportDeploymentPolicy } from "@/config/classification";
 import type { ActionPackage } from "@/lib/actionPackages";
 import { preparePackageShare, encryptPreparedPackageShare, packageShareDelivery,
   type PreparedPackageShare, type EncryptedPackageShare } from "@/lib/actionPackageShare";
 import { triggerDownload } from "@/lib/encoding";
+import { newSharePasswordError } from "@/lib/shareCrypto";
 
 type Props = { record: ActionPackage; revisionId: string; onClose(): void };
 
@@ -68,17 +70,16 @@ function PackageShareDialogContent({ record, revisionId, onClose }: Props) {
               <option value="day">24 hours after generation</option><option value="week">7 days after generation</option>
             </select>
           </div>
-          {!generated && <div className="space-y-1">
-            <Label htmlFor="package-share-password">Package password</Label>
-            <Input id="package-share-password" type="password" autoComplete="new-password" value={password}
-              onChange={event => setPassword(event.target.value)} />
-          </div>}
+          {!generated && <NewSharePasswordField id="package-share-password" label="Package password"
+            value={password} onChange={setPassword} disabled={busy} />}
           <label className="flex items-start gap-2 text-sm"><input type="checkbox" checked={approved}
             onChange={event => { setApproved(event.target.checked); if (!event.target.checked) setGenerated(null); }} />
             I reviewed every included member, original file, privacy finding and classification marking for this encrypted package.
           </label>
           {!generated && <Button disabled={!prepared || !approved || !password.trim()} onClick={() => void run(async () => {
             if (!prepared) return;
+            const passwordError = newSharePasswordError(password);
+            if (passwordError) throw new Error(passwordError);
             const duration = ({ hour: 3_600_000, day: 86_400_000, week: 604_800_000 } as Record<string, number>)[expiration];
             const encrypted = await encryptPreparedPackageShare(prepared, password, duration === undefined ? undefined : Date.now() + duration);
             if (!alive.current) return;

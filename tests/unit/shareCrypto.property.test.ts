@@ -24,6 +24,8 @@ import { parseEncryptedShareFile, serializeEncryptedShareFile } from '@/lib/encr
 import {
   encryptSharePayload,
   decryptSharePayload,
+  generateSharePassword,
+  newSharePasswordError,
   buildShareUrl,
   parseShareUrl,
   SHARE_HASH_PREFIX,
@@ -48,8 +50,8 @@ afterEach(() => vi.restoreAllMocks());
 describe('encryptSharePayload + decryptSharePayload', () => {
   it('round-trips a simple object', async () => {
     const data = { hello: 'world', n: 42 };
-    const encrypted = await encryptSharePayload(data, 'pw1234');
-    const decrypted = await decryptSharePayload(encrypted, 'pw1234');
+    const encrypted = await encryptSharePayload(data, 'synthetic fixture password');
+    const decrypted = await decryptSharePayload(encrypted, 'synthetic fixture password');
     expect(decrypted).toEqual(data);
   });
 
@@ -72,13 +74,13 @@ describe('encryptSharePayload + decryptSharePayload', () => {
   });
 
   it('round-trips an empty object', async () => {
-    const encrypted = await encryptSharePayload({}, 'password');
-    const decrypted = await decryptSharePayload(encrypted, 'password');
+    const encrypted = await encryptSharePayload({}, 'synthetic object password');
+    const decrypted = await decryptSharePayload(encrypted, 'synthetic object password');
     expect(decrypted).toEqual({});
   });
 
   it('fails v2 authentication without re-deriving a key', async () => {
-    const encrypted = await encryptSharePayload({ x: 1 }, 'right');
+    const encrypted = await encryptSharePayload({ x: 1 }, 'synthetic correct password');
     const deriveKey = vi.spyOn(crypto.subtle, 'deriveKey');
     await expect(decryptSharePayload(encrypted, 'wrong')).rejects.toThrow(
       /Wrong password or invalid share link/
@@ -90,7 +92,7 @@ describe('encryptSharePayload + decryptSharePayload', () => {
   });
 
   it('decrypt with a tampered ciphertext throws (AES-GCM authenticated)', async () => {
-    const encrypted = await encryptSharePayload({ x: 1 }, 'pw');
+    const encrypted = await encryptSharePayload({ x: 1 }, 'synthetic test password');
     // Flip a byte in the middle of the encrypted payload (not the salt
     // or IV — those would just produce a wrong key, which already
     // throws). The middle bytes are inside the ciphertext, so AES-GCM's
@@ -98,13 +100,28 @@ describe('encryptSharePayload + decryptSharePayload', () => {
     const mid = Math.floor(encrypted.length / 2);
     const flipChar = encrypted[mid] === 'A' ? 'B' : 'A';
     const tampered = encrypted.slice(0, mid) + flipChar + encrypted.slice(mid + 1);
-    await expect(decryptSharePayload(tampered, 'pw')).rejects.toThrow(
+    await expect(decryptSharePayload(tampered, 'synthetic test password')).rejects.toThrow(
       /Wrong password or invalid share link/
     );
   });
 
   it('encrypt with empty password throws', async () => {
     await expect(encryptSharePayload({}, '')).rejects.toThrow(/Password is required/);
+  });
+
+  it('requires a sufficiently long new password and supports generated passwords', async () => {
+    for (const value of ['x', '  four words  ', 'aaaaaaaaaaaaaaaa', '🌊🌊🌊🌊🌊🌊🌊🌊']) {
+      await expect(encryptSharePayload({}, value)).rejects.toThrow(/at least 15 characters/);
+    }
+    const password = generateSharePassword();
+    expect(password).toMatch(/^[A-Za-z0-9_-]{22}$/);
+    expect(newSharePasswordError(password)).toBeUndefined();
+    expect(await decryptSharePayload(await encryptSharePayload({ generated: true }, password), password)).toEqual({ generated: true });
+  });
+
+  it('opens a previously issued synthetic link with a one-character password', async () => {
+    const legacy = 'AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaG9XryHYv33Q8i_FcWS0xpMthmsNS-WoXqofsq6OfpU4';
+    expect(await decryptSharePayload(legacy, 'x')).toEqual({ legacy: true });
   });
 
   it('decrypt with empty password throws', async () => {
@@ -145,18 +162,18 @@ describe('encryptSharePayload + decryptSharePayload', () => {
     // produce different ciphertexts — a basic "not deterministic"
     // sanity check. If two calls produced the same output, the
     // encryption wouldn't be IND-CPA secure.
-    const a = await encryptSharePayload({ x: 1 }, 'pw');
-    const b = await encryptSharePayload({ x: 1 }, 'pw');
+    const a = await encryptSharePayload({ x: 1 }, 'synthetic test password');
+    const b = await encryptSharePayload({ x: 1 }, 'synthetic test password');
     expect(a).not.toBe(b);
     // Both still decrypt to the same data.
-    expect(await decryptSharePayload(a, 'pw')).toEqual({ x: 1 });
-    expect(await decryptSharePayload(b, 'pw')).toEqual({ x: 1 });
+    expect(await decryptSharePayload(a, 'synthetic test password')).toEqual({ x: 1 });
+    expect(await decryptSharePayload(b, 'synthetic test password')).toEqual({ x: 1 });
   });
 
   it('authenticates the v2 prefix and shares one URL-safe token in both delivery formats', async () => {
     const encrypt = vi.spyOn(crypto.subtle, 'encrypt');
     const data = { subject: 'Synthetic current share' };
-    const encrypted = await encryptSharePayload(data, 'pw');
+    const encrypted = await encryptSharePayload(data, 'synthetic v2 password');
     expect(encrypted).toMatch(/^v2\.[A-Za-z0-9_-]+$/);
     expect(encrypt).toHaveBeenCalledWith(expect.objectContaining({
       name: 'AES-GCM', additionalData: new TextEncoder().encode('v2.'),
@@ -164,7 +181,7 @@ describe('encryptSharePayload + decryptSharePayload', () => {
     const file = serializeEncryptedShareFile(encrypted);
     const received = parseEncryptedShareFile(new TextDecoder().decode(file));
     expect(received).toBe(parseShareUrl(buildShareUrl(encrypted)));
-    expect(await decryptSharePayload(received, 'pw')).toEqual(data);
+    expect(await decryptSharePayload(received, 'synthetic v2 password')).toEqual(data);
   });
 });
 

@@ -20,11 +20,13 @@ import {
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { NewSharePasswordField } from '@/components/NewSharePasswordField';
 import {
   encryptSharePayload,
   decryptSharePayload,
   buildShareUrl,
   parseShareUrl,
+  newSharePasswordError,
   MAX_SHARE_URL_LENGTH,
 } from '@/lib/shareCrypto';
 import { parseEncryptedShareFile, serializeEncryptedShareFile, MAX_ENCRYPTED_SHARE_FILE_BYTES } from '@/lib/encryptedShareFile';
@@ -196,8 +198,9 @@ function ShareModalContent({
     if (working) return;
     setError(null);
     setPiiFindings(null);
-    if (!password.trim()) {
-      setError('Please set a password');
+    const passwordError = newSharePasswordError(password);
+    if (passwordError) {
+      setError(passwordError);
       return;
     }
     if (!canShareSnapshot()) return;
@@ -411,25 +414,21 @@ function ShareModalContent({
             </p>
           )}
 
-          {!received && !receivedPackage && <div data-tour="share-password" className="space-y-2">
-            <Label htmlFor="share-password">
-              {isImport ? 'Password' : 'Password for this link'}
-            </Label>
-            <Input
+          {!received && !receivedPackage && <div data-tour="share-password">
+            {isImport ? <div className="space-y-2">
+              <Label htmlFor="share-password">Password</Label>
+              <Input
               id="share-password"
               type="password"
-              placeholder={isImport ? 'Enter password' : 'Set a password'}
+              placeholder="Enter password"
               value={password}
               onChange={(e) => changePassword(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter') {
-                  if (isImport) handleImport();
-                  else handleGenerateLink();
-                }
-              }}
-              autoComplete={isImport ? 'current-password' : 'new-password'}
+              onKeyDown={(e) => { if (e.key === 'Enter') handleImport(); }}
+              autoComplete="current-password"
               disabled={working}
-            />
+              />
+            </div> : <NewSharePasswordField id="share-password" label="Password for this link" value={password}
+              onChange={changePassword} onSubmit={handleGenerateLink} disabled={working} />}
           </div>}
 
           {!isImport && shareLink && (
