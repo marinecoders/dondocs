@@ -118,6 +118,7 @@ export const DOCUMENT_DATA_FIELD_POLICIES = {
   jointMemoSeniorFrom: 'text', jointMemoSeniorSigName: 'text', jointMemoSeniorSigTitle: 'text', jointMemoJuniorFrom: 'text', jointMemoJuniorSigName: 'text', jointMemoJuniorSigTitle: 'text',
   body: 'text', inReplyTo: 'value', inReplyToText: 'text', includeHyperlinks: 'value', showSubjectOnContinuation: 'value',
   includeEndorsementSubject: 'value', underlineSubject: 'value', salutation: 'text', complimentaryClose: 'text',
+  businessEnclosuresCountOnly: 'value', businessSeparateMailing: 'text',
   memorandumFor: 'text', attnLine: 'text', throughLine: 'text', coordination: 'text', preparedBy: 'text',
 } satisfies PoliciesFor<DocumentData>;
 

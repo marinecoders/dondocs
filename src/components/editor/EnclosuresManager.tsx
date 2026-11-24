@@ -228,6 +228,7 @@ export function EnclosuresManager() {
   // Get compliance settings
   const config = DOC_TYPE_CONFIG[docType] || DOC_TYPE_CONFIG.naval_letter;
   const isCompliantMode = documentMode === 'compliant';
+  const businessLetter = docType === 'business_letter';
   const enclosuresNotAllowed = isCompliantMode && !config.compliance.allowEnclosures;
 
   const sensors = useSensors(
@@ -415,6 +416,19 @@ export function EnclosuresManager() {
             )}
 
             <div className={enclosuresNotAllowed ? 'opacity-50 pointer-events-none select-none' : ''}>
+              {businessLetter && <div className="space-y-3 mb-3 pb-3 border-b border-border">
+                <div className="space-y-2">
+                  <Label htmlFor="businessSeparateMailing">Separate mailing</Label>
+                  <Input id="businessSeparateMailing" value={formData.businessSeparateMailing ?? ''}
+                    onChange={event => setField('businessSeparateMailing', event.target.value)} />
+                  <p className="text-xs text-muted-foreground">Briefly describe material sent separately. This adds a notation to the letter.</p>
+                </div>
+                {enclosures.length > 0 && <div className="flex items-center gap-2">
+                  <Checkbox id="businessEnclosuresCountOnly" checked={formData.businessEnclosuresCountOnly ?? false}
+                    onCheckedChange={checked => setField('businessEnclosuresCountOnly', checked === true)} />
+                  <Label htmlFor="businessEnclosuresCountOnly" className="text-sm font-normal cursor-pointer">List the enclosure count only</Label>
+                </div>}
+              </div>}
               {/* Hyperlinks toggle — simplified to a single line; the full
                   explanation lives in the help tip. */}
               {enclosures.length > 0 && (

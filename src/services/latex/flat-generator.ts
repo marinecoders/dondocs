@@ -34,6 +34,7 @@ import { agreementParagraphs } from './agreementLayout';
 import { jointSignatories, signatureAuthorityLine, signaturePosition, supportsActingSignature } from '@/lib/signingAuthority';
 import type { DocumentData, Reference, Enclosure, Paragraph, CopyTo, Distribution, DocTypeConfig } from '@/types/document';
 import { composeSenderSymbol } from './senderSymbol';
+import { businessLetterClosing, businessLetterIdentification } from './businessLetter';
 import { keepTypedSpaces, latexLineBreaks, wrapAddressLines } from './escaper';
 import { LAYOUT, TEXT_WIDTH_IN } from '@/services/docx/layout-config';
 import { composeBasicLetterId, enclosureStartNumber, pageStartNumber } from '@/lib/endorsement';
@@ -1472,9 +1473,40 @@ function buildStandardLayout(store: DocumentStore, config: DocTypeConfig): strin
   return content;
 }
 
+function businessNotationTable(label: string, entries: string[], columnWidth: number): string {
+  const rows = entries.map((entry, index) => `${index === 0 ? label : ''} & ${entry} \\\\`);
+  return `\\vspace{12pt}
+\\noindent
+\\begin{tabular}{@{}p{${columnWidth}in}@{}p{${TEXT_WIDTH_IN - columnWidth}in}@{}}
+${trimLastRow(rows)}
+\\end{tabular}
+
+`;
+}
+
+function buildBusinessNotations(store: DocumentStore): string {
+  const count = store.enclosures.length;
+  const closing = businessLetterClosing(store.formData, count);
+  let content = '';
+  if (count > 0 && closing.countOnly) {
+    content += `\\vspace{12pt}\n\\noindent Enclosures (${count})\n\n`;
+  } else if (count > 0) {
+    const entries = store.enclosures.map(({ title }, index) => {
+      const description = escapeTabular(title || 'Untitled');
+      return count > 1 ? `${ENTRY_HANG}${index + 1}.~~${description}` : description;
+    });
+    content += businessNotationTable(`${closing.label}:`, entries, 0.9);
+  }
+  if (closing.separateMailing) {
+    content += businessNotationTable('Separate Mailing:', [escapeTabular(closing.separateMailing)], 1.3);
+  }
+  return content;
+}
+
 function buildBusinessLayout(store: DocumentStore, config: DocTypeConfig): string {
   const data = store.formData;
   const stock = correspondenceStationery(store.docType, data);
+  const isBusinessLetter = store.docType === 'business_letter';
   let content = '';
 
   // Executive correspondence (Ch 12) needs 2" top margin (1" geometry + 1" vspace)
@@ -1489,15 +1521,10 @@ function buildBusinessLayout(store: DocumentStore, config: DocTypeConfig): strin
       : '\\vspace{12pt}\n\n';
   } else if (config.letterhead) content += buildLetterhead(data, config, store.docType);
 
-  // ID symbols block: SSIC/Serial/Date right-aligned per SECNAV Ch 11
-  // PDF template uses \begin{tabular}[t]{@{}l@{}} with \optionalLine for SSIC/Serial
-  // Only include SSIC/Serial when config enables them (prevents stale formData leaking)
-  // Use tabularx with right-aligned column for proper width control in DOCX
-  // (plain \noindent text caused date truncation in pandoc output)
-  const idRows: string[] = [];
-  if (config.ssic && data.ssic) idRows.push(escapeTabular(data.ssic));
-  if (config.ssic && data.serial) idRows.push(escapeTabular(data.serial));
-  if (data.date) idRows.push(escapeTabular(data.date));
+  // Chapter 11's prose puts the sender symbols flush left.
+  const idRows = isBusinessLetter
+    ? Object.values(businessLetterIdentification(data)).filter(Boolean).map(escapeTabular)
+    : [config.ssic ? data.ssic : '', config.ssic ? data.serial : '', data.date].filter(Boolean).map(escapeTabular);
   if (idRows.length > 0) {
     const mappedRows = idRows.map(item => `${item} \\\\`);
     // No trailing \vspace{12pt} — buildRecipientAddress (or pre-salutation space) provides the gap
@@ -1521,10 +1548,13 @@ function buildBusinessLayout(store: DocumentStore, config: DocTypeConfig): strin
     content += `${config.subjectPrefix}${escapeFlat(subjectText)}\n\n`;
   }
 
-  content += buildFormalLists(store, config);
+  content += isBusinessLetter
+    ? (config.compliance.allowReferences ? buildReferences(store.references, false, store.referenceLinkTarget) : '')
+    : buildFormalLists(store, config);
   content += buildTransmittalNote(store);
   content += buildBody(store.paragraphs, config, bodyFont(store.formData), bodySizePt(store.formData), store.docType, stock.textWidth, Math.min(5, stock.textHeight - 1));
   content += buildBusinessSignature(data, stock.small ? stock.textWidth : undefined) + closingEnd(store.docType);
+  if (isBusinessLetter) content += buildBusinessNotations(store);
   content += buildDistribution(store.distributions);
   content += buildCopyTo(store.copyTos);
 

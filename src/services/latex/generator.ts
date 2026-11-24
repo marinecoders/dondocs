@@ -32,6 +32,7 @@ import { publicationReferenceText } from './publicationReferenceText';
 import { publicationNavigation, navigationTex } from './publicationNavigation';
 import { escapeLatex, escapeLatexUrl, keepTypedSpaces, latexLineBreaks, processBodyText, formatSubjectForLatex, formatAddressForLatex } from './escaper';
 import { composeSenderSymbol } from './senderSymbol';
+import { businessLetterClosing, businessLetterIdentification } from './businessLetter';
 import { tableSpec } from '@/data/techpub/tables';
 import { renderBodyTable } from './bodyTable';
 import { assertRichBlockShape } from '@/lib/bodyTable';
@@ -224,8 +225,10 @@ ${(() => {
   // there is one (SECNAV M-5216.5 Ch 7 para 2a(2)). It used to be collected and
   // never printed.
   const directive = directiveLayout(store.docType, data, value => escapeLatex(value));
-  const continuationHeading = directive ? directive.reference : data.showSubjectOnContinuation && !hints?.[subjectKey] ? subjectLine : '';
-  let senderSymbol = escapeLatex(composeSenderSymbol(data.officeCode, serial));
+  const business = store.docType === 'business_letter' ? businessLetterIdentification(data) : undefined;
+  const repeatSubject = data.showSubjectOnContinuation && (!business || store.documentMode === 'custom');
+  const continuationHeading = directive ? directive.reference : repeatSubject && !hints?.[subjectKey] ? subjectLine : '';
+  let senderSymbol = escapeLatex(business?.sender ?? composeSenderSymbol(data.officeCode, serial));
   if (directive) {
     senderSymbol = previewHint(hints, 'officeCode', escapeLatex(data.officeCode));
   } else if (hints?.officeCode || hints?.serial) {
@@ -256,10 +259,10 @@ ${(() => {
     tex += '\\long\\def\\StaffPaperHeading{' + staff.heading + '}\n';
     tex += '\\long\\def\\StaffPaperClosing{' + staff.closing + '}\n';
   }
-  tex += `\\setSSIC{${directive ? directive.reference : config.ssic ? previewHint(hints, 'ssic', escapeLatex(ssic)) : ''}}
+  tex += `\\setSSIC{${directive ? directive.reference : config.ssic ? previewHint(hints, 'ssic', escapeLatex(business?.ssic ?? ssic)) : ''}}
 \\setSerial{${config.ssic ? senderSymbol : ''}}
 \\setDocumentDate{${previewHint(hints, 'date', metadataText(publicationDate))}}
-${isBusinessLetter ? `\\setBusinessDate{${previewHint(hints, 'date', escapeLatex(docDate))}}` : '% Not a business letter'}
+${isBusinessLetter ? `\\setBusinessDate{${previewHint(hints, 'date', escapeLatex(business?.date ?? docDate))}}` : '% Not a business letter'}
 
 ${data.inReplyTo ? '\\enableInReplyReferTo' : '% No In Reply Refer To'}
 ${data.includeEndorsementSubject ? '\\enableEndorsementSubject' : '% Endorsement subject omitted (Ch 9)'}
@@ -295,6 +298,14 @@ ${continuationHeading ? `\\setContinuationSubject{${continuationHeading}}` : '% 
 
 \\setPOC{${metadataText(validatedPocEmail(data.pocEmail))}}
 `;
+
+  if (business) {
+    const closing = businessLetterClosing(data, store.enclosures.length);
+    tex += `\\def\\BusinessEnclosureLabel{${closing.label}}
+\\def\\BusinessSeparateMailing{${escapeLatex(closing.separateMailing)}}
+${closing.countOnly ? '\\def\\BusinessEnclosureCountOnly{}' : ''}
+`;
+  }
 
   // Memorandum For: addressee is embedded in the title ("MEMORANDUM FOR [addressee]")
   // The 'to' field holds the addressee text (e.g., "All Department Heads")

@@ -1,4 +1,5 @@
 import { directiveContinuation } from '@/lib/directiveFormats';
+import { businessLetterContinuation } from '@/services/latex/businessLetter';
 import { coordinationTable, isStaffPaper } from '@/lib/staffPapers';
 import { usesDlaLetterhead } from '@/lib/dlaLetterhead';
 import { resolveLetterheadMode } from '@/lib/letterheadMode';
@@ -94,7 +95,8 @@ export async function renderPreparedCorrespondence(ready: ReadyExportJob, ports:
         stationerySize: data.stationerySize,
         letterheadMode: resolveLetterheadMode(DOC_TYPE_CONFIG[document.docType], data),
         fontFamily: data.fontFamily, fontSize: data.fontSize, classLevel: resolvedLevel, customClassification: data.customClassification,
-        showSubjectOnContinuation: data.showSubjectOnContinuation,
+        showSubjectOnContinuation: data.showSubjectOnContinuation && (document.docType !== 'business_letter' || document.documentMode === 'custom'),
+        businessIdentification: businessLetterContinuation(document.docType, data),
         directiveContinuation: directiveContinuation(document.docType, data),
         pageNumbering: resolvePageNumbering(document.docType, document.documentMode, data.pageNumbering),
         startingPageNumber: pageStartNumber(document.docType, data.startingPageNumber),

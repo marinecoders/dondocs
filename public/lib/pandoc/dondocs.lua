@@ -197,10 +197,13 @@ local function apply_table(tbl)
   local ncols = #tbl.colspecs
   local new_colspecs = {}
   local executive_caption = nil
+  local business_caption_width = nil
   for _, body in ipairs(tbl.bodies) do
     for _, row in ipairs(body.body) do
       if #row.cells == 2 then
         local label = pandoc.utils.stringify(row.cells[1].contents)
+        if label == "Enclosure:" or label == "Enclosures:" then business_caption_width = 0.9 / 6.5 end
+        if label == "Separate Mailing:" then business_caption_width = 1.3 / 6.5 end
         if label == "Reference:" or label == "Reference(s):" or label == "SUBJECT:" or label == "FOR:" or label == "FROM:" then executive_caption = label end
       end
     end
@@ -218,7 +221,9 @@ local function apply_table(tbl)
     local align1 = tbl.colspecs[1][1]
     local align2 = tbl.colspecs[2][1]
 
-    if executive_caption then
+    if business_caption_width then
+      new_colspecs = {{align1, business_caption_width}, {align2, 1 - business_caption_width}}
+    elseif executive_caption then
       local width = executive_caption == "Reference(s):" and L.refs_caption or L.ref_caption
       new_colspecs = {{align1, width}, {align2, 1 - width}}
     elseif is_letterhead_table(tbl) then

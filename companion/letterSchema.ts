@@ -167,6 +167,8 @@ export const letterSchema = z.object({
 
   salutation: z.string().optional().describe('Business letters. Defaults to "Dear Sir or Madam:".'),
   complimentaryClose: z.string().optional().describe('Business letters. Defaults to "Sincerely,".'),
+  businessSeparateMailing: z.string().optional().describe('Business letters: brief description of material mailed separately.'),
+  businessEnclosuresCountOnly: z.boolean().optional().describe('Business letters: list the enclosure count instead of titles.'),
   attnLine: z.string().optional().describe('standard_memorandum (alias memorandum), DOCX output only: an ATTN line.'),
   throughLine: z.string().optional().describe('standard_memorandum (alias memorandum), DOCX output only: a THROUGH line, printed in capitals.'),
   inReplyTo: z.boolean().optional().describe('Standard letters: print the "In Reply Refer To" line.'),

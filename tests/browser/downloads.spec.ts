@@ -460,3 +460,58 @@ for (const resource of ['reference.docx', 'pandoc.wasm.manifest.json']) {
     await expect(page.getByRole('textbox', { name: 'Subject', exact: true })).toHaveValue(SUBJECT);
   });
 }
+
+test('business letters export sender symbols and closing notations from the editor', async ({ page }, info) => {
+  await page.goto('/');
+  const draft = {
+    documentMode: 'compliant', documentCategory: 'correspondence', docType: 'business_letter', formType: 'navmc_10274',
+    formData: {
+      date: 'November 18, 2026', ssic: '5630', officeCode: 'N43', serial: '081', classLevel: 'unclassified',
+      unitLine1: 'SYNTHETIC TRAINING UNIT', subject: 'BUSINESS LETTER LAYOUT CHECK',
+      to: 'Training recipient', sigLast: 'CLOSINGSIGNATURE', showSubjectOnContinuation: true,
+    },
+    paragraphs: Array.from({ length: 75 }, (_, index) => ({ id: `body-${index}`, level: 0,
+      text: `BODYPROBE${index} contains a fictional training line for verification of multi-page correspondence.`,
+    })),
+    references: [], enclosures: [{ title: 'Training outline' }], copyTos: [{ text: 'Training coordinator' }], distributions: [],
+  };
+  await page.getByLabel('Import draft file').setInputFiles({
+    name: 'business-letter-layout.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(draft)),
+  });
+  await page.getByRole('button', { name: 'Open as new document', exact: true }).click();
+  await expect(page.getByRole('dialog', { name: 'Review draft', exact: true })).toBeHidden();
+  const section = page.getByRole('combobox', { name: 'Document section', exact: true });
+  await section.selectOption('addressing');
+  await expect(page.locator('#ssic')).toHaveValue('5630');
+  await expect(page.locator('#serial')).toHaveValue('081');
+  await expect(page.getByLabel('Show subject line on continuation pages')).toHaveCount(0);
+  await section.selectOption('enclosures');
+  await page.getByLabel('Separate mailing', { exact: true }).fill('Separate course guide & agenda');
+
+  const pending = page.waitForEvent('download');
+  await chooseExport(page, 'Download Word (.docx)');
+  const word = await pending;
+  await word.saveAs(info.outputPath('chapter-11.docx'));
+  const zip = await JSZip.loadAsync(await downloadBytes(word), { checkCRC32: true });
+  const content = await zip.file('word/document.xml')!.async('string');
+  expect(content).toMatch(/5630.*Ser N43\/081.*November 18, 2026.*BODYPROBE74.*CLOSINGSIGNATURE.*Enclosure:.*Training outline.*Separate Mailing:.*Separate course guide &amp; agenda.*Copy to:/s);
+  const continuation = await zip.file('word/header2.xml')!.async('string');
+  expect(continuation).toMatch(/5630.*Ser N43\/081.*November 18, 2026/s);
+  expect(continuation).not.toContain('BUSINESS LETTER LAYOUT CHECK');
+  expect(await zip.file('word/footer1.xml')!.async('string')).not.toContain(' PAGE ');
+  expect(await zip.file('word/footer2.xml')!.async('string')).toContain(' PAGE ');
+
+  const pdf = await expectPdfExport(page, info.project.name, await preparePdfExport(page), /\.pdf$/i, [
+    '5630', 'Ser N43/081', 'November 18, 2026', 'Enclosure: Training outline', 'Separate Mailing: Separate course guide & agenda',
+  ]);
+  const parsed = await getDocument({ data: new Uint8Array(pdf), useSystemFonts: false }).promise;
+  try {
+    expect(parsed.numPages).toBeGreaterThanOrEqual(3);
+    const secondPage = await (await parsed.getPage(2)).getTextContent();
+    const text = secondPage.items.map(item => 'str' in item ? item.str : '').join(' ');
+    expect(text).toMatch(/5630.*Ser N43\/081.*November 18, 2026/);
+    expect(text).not.toContain('BUSINESS LETTER LAYOUT CHECK');
+  } finally {
+    await parsed.destroy();
+  }
+});

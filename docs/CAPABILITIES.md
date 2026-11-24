@@ -87,7 +87,7 @@ This table covers letters, endorsements, memoranda and agreements. Each cell lis
 | Coordination Page | no / no / no | no / no / no |
 | Naval Letter (on letterhead) | yes / yes / yes | yes / yes / yes |
 | Standard Letter (plain paper) | yes / yes / yes | yes / yes / yes |
-| Business Letter | no / no / no | yes / yes / yes |
+| Business Letter | no / no / yes | yes / yes / yes |
 | Multiple Address Letter | yes / yes / yes | yes / yes / yes |
 | Joint Letter | yes / yes / yes | yes / yes / yes |
 | Same-Page Endorsement | yes / yes / yes | yes / yes / yes |

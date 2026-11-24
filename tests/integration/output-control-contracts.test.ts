@@ -39,9 +39,9 @@ describe('output control contracts', () => {
     const output = await outputs(fixture('business_letter', 'custom'));
     for (const text of Object.values(output)) { expect(text).toContain('HIDDEN TO VALUE');expect(text).toContain('Recipient second line');expect(text).toContain('CUSTOM REFERENCE');expect(text).toContain('CUSTOM ENCLOSURE');expect(text).toMatch(/1\.\s*Numbered body/); }
   }, 180_000);
-  it.skipIf(!hasPdfToolchain)('omits disabled formal business lists in compliant mode in both formats', async () => {
+  it.skipIf(!hasPdfToolchain)('retains business closing enclosures and omits formal references in compliant mode', async () => {
     const output = await outputs(fixture('business_letter', 'compliant'));
-    for (const text of Object.values(output)) { expect(text).toContain('HIDDEN TO VALUE');expect(text).toContain('Recipient second line');expect(text).not.toContain('CUSTOM REFERENCE');expect(text).not.toContain('CUSTOM ENCLOSURE');expect(text).not.toMatch(/1\.\s*Numbered body/); }
+    for (const text of Object.values(output)) { expect(text).toContain('HIDDEN TO VALUE');expect(text).toContain('Recipient second line');expect(text).not.toContain('CUSTOM REFERENCE');expect(text).toMatch(/Enclosure:\s+CUSTOM ENCLOSURE/);expect(text).not.toMatch(/1\.\s*Numbered body/); }
   }, 180_000);
   for (const docType of ['standard_memorandum', 'action_memorandum', 'information_memorandum']) {
     for (const mode of ['compliant', 'custom'] as const) {

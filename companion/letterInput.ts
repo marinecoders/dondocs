@@ -250,12 +250,14 @@ export function toStore(input: LetterInput, defaults: CompanionDefaults = {}): G
 
       salutation: input.salutation ?? 'Dear Sir or Madam:',
       complimentaryClose: input.complimentaryClose ?? 'Sincerely,',
+      businessSeparateMailing: input.businessSeparateMailing,
+      businessEnclosuresCountOnly: input.businessEnclosuresCountOnly,
       attnLine: input.attnLine ?? '',
       throughLine: input.throughLine ?? '',
       inReplyTo: input.inReplyTo ?? false,
       coordination: input.coordination ?? '',
       preparedBy: input.preparedBy ?? '',
-      pageNumbering: input.pageNumbering ?? 'none',
+      pageNumbering: input.pageNumbering ?? (docType === 'business_letter' ? 'simple' : 'none'),
 
       // Endorsements: the generator can also parse these out of a subject like
       // "FIRST ENDORSEMENT on ...", so these are the explicit form.

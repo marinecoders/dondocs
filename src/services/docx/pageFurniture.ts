@@ -99,17 +99,16 @@ interface HeaderFooterParts {
  * titlePg without giving page 1 its own marked header would silently strip the
  * marking from the first page of every classified letter.
  */
-function planHeadersAndFooters(
-  marking: string,
-  continuationSubject: string,
-  wantsPageNumbers: boolean,
-  numberFirstPage: boolean,
-  fontSizePt: number,
-  pageNumbering?: string,
-  directive?: PageFurniture['directiveContinuation'],
-): HeaderFooterParts {
+function planHeadersAndFooters(furniture: PageFurniture): HeaderFooterParts {
+  const { marking, businessIdentification, continuationSubject, wantsPageNumbers, pageNumbering, fontSizePt, directiveContinuation: directive } = furniture;
   const marked = marking ? [markingParagraph(marking)] : [];
   const number = wantsPageNumbers ? [pageNumberParagraph(pageNumbering)] : [];
+  const numberFirstPage = furniture.startPage > 1 || furniture.numberFirstPage;
+  const businessHeader = businessIdentification?.length ? [
+    ...businessIdentification.map((line, index) => continuationSubjectParagraph(line, index > 0 ? 0 : fontSizePt * (marking ? 20 : 40))),
+    ...(continuationSubject ? [continuationSubjectParagraph(continuationSubject, 0)] : []),
+    EMPTY_PARAGRAPH,
+  ] : undefined;
   return {
     firstHeader: [...marked],
     // ¶7-17 leaves a letter's first page unnumbered, but an endorsement's
@@ -119,7 +118,7 @@ function planHeadersAndFooters(
     evenHeader: directive?.alternate ? [...marked, ...directive.lines.map(line => directiveParagraph(line, 'left'))] : undefined,
     defaultHeader: [
       ...marked,
-      ...(directive ? directive.lines.map(line => directiveParagraph(line, 'right')) : continuationSubject
+      ...(directive ? directive.lines.map(line => directiveParagraph(line, 'right')) : businessHeader ?? (continuationSubject
         ? [
             continuationSubjectParagraph(continuationSubject, subjectSpaceBefore(!!marking, fontSizePt)),
             // ¶7-16: "Continue the text beginning on the second line below the
@@ -127,7 +126,7 @@ function planHeadersAndFooters(
             // letterhead document, so this empty line IS the blank one.
             EMPTY_PARAGRAPH,
           ]
-        : []),
+        : [])),
     ],
     // Marking first, then the number below it — mirrors the PDF, where the
     // marking is \fancyfoot[C] on its own line above \thepage.
@@ -190,6 +189,7 @@ export interface PageFurniture {
    * the text because the label varies by document type.
    */
   continuationSubject: string;
+  businessIdentification?: readonly string[];
   directiveContinuation?: { lines: readonly string[]; alternate: boolean };
   /** Number pages 2+. */
   wantsPageNumbers: boolean;
@@ -228,15 +228,7 @@ export async function applyPageFurniture(
   return injectHeadersAndFooters(
     zip,
     xml,
-    planHeadersAndFooters(
-      furniture.marking,
-      furniture.continuationSubject,
-      furniture.wantsPageNumbers,
-      furniture.startPage > 1 || !!furniture.numberFirstPage,
-      furniture.fontSizePt,
-      furniture.pageNumbering,
-      furniture.directiveContinuation,
-    ),
+    planHeadersAndFooters(furniture),
     furniture.startPage,
   );
 }
