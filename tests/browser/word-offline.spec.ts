@@ -117,6 +117,18 @@ test('keeps Word resources off the PDF path and exports actual DOCX after offlin
     expect(xml).toContain(subject);
     expect(xml).toContain(paragraph);
 
+    // On the next navigation, suspend background repair before the release
+    // updater starts. Settings still queries the real worker and fetches the
+    // evicted part when the user starts manual preparation.
+    if (installedRelease) await page.addInitScript(() => {
+      const postMessage = ServiceWorker.prototype.postMessage;
+      ServiceWorker.prototype.postMessage = function (message: { type?: string }, transfer?: Transferable[] | StructuredSerializeOptions) {
+        if (message?.type === 'PREPARE_RELEASE' || message?.type === 'CHECK_RELEASE') {
+          throw new Error('Background update paused during manual retry');
+        }
+        Reflect.apply(postMessage, this, [message, transfer]);
+      };
+    });
     await page.evaluate(async () => {
       if (document.querySelector('meta[name="dondocs-release"]')) {
         const releaseId = document.querySelector<HTMLMetaElement>('meta[name="dondocs-release"]')!.content;
@@ -140,17 +152,6 @@ test('keeps Word resources off the PDF path and exports actual DOCX after offlin
     // Pause the missing Wasm part so the preceding cached assets have had
     // time to report progress. Most resources are still prepared.
     await page.evaluate(() => {
-      // Let Settings exercise the manual retry before the release check
-      // can repair the same cache in the background on reconnect.
-      if (document.querySelector('meta[name="dondocs-release"]')) {
-        const postMessage = ServiceWorker.prototype.postMessage;
-        ServiceWorker.prototype.postMessage = function (message: { type?: string }, transfer?: Transferable[] | StructuredSerializeOptions) {
-          if (message?.type === 'PREPARE_RELEASE' || message?.type === 'CHECK_RELEASE') {
-            throw new Error('Background update paused during manual retry');
-          }
-          Reflect.apply(postMessage, this, [message, transfer]);
-        };
-      }
       const originalFetch = window.fetch;
       window.fetch = (...args) => {
         if (String(args[0]).endsWith('/pandoc.wasm.part0')) {
@@ -163,7 +164,9 @@ test('keeps Word resources off the PDF path and exports actual DOCX after offlin
       };
     });
     await context.setOffline(false);
-    const sizeLabel = await exports.getByText(/MB to download for Word exports/).innerText();
+    const estimate = exports.getByText(/MB to download for Word exports/);
+    await expect(estimate).toBeVisible();
+    const sizeLabel = await estimate.innerText();
     const downloadEstimate = Number.parseFloat(sizeLabel);
     await exports.getByRole('button', { name: 'Prepare Word offline' }).click();
     try {
@@ -176,7 +179,6 @@ test('keeps Word resources off the PDF path and exports actual DOCX after offlin
     }
     await expect(exports.getByRole('status').last()).toHaveText('Ready offline', { timeout: 90_000 });
   } finally {
-    await context.setOffline(false);
     if (server) await server.close();
   }
 });

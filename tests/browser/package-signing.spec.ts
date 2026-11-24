@@ -62,6 +62,9 @@ async function inputPackage() {
 }
 
 for (const theme of ['light', 'dark', 'classic']) for (const width of [1440, 320]) test(`exact package signing and reviewed returns preserve newer work in ${theme} at ${width}px`, async ({ page, context, browser, baseURL }, info) => {
+  // Hosted mobile WebKit at the wide viewport can spend over three minutes
+  // rendering the retained PDFs and stepping through both browser contexts.
+  if (info.project.use.isMobile && browser.browserType().name() === 'webkit' && width === 1440) test.setTimeout(360_000);
   await page.setViewportSize({ width, height: 950 });
   await context.addInitScript(value => { localStorage.setItem('browser-test-visitor', 'returning'); localStorage.setItem('dondocs_ui', JSON.stringify({ version: 1, state: { theme: value, editorLayout: 'focused', previewVisible: false } })); }, theme);
   const fixture = await inputPackage(); await page.goto('/'); let dialog = await packages(page);

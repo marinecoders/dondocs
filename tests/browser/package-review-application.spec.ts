@@ -76,9 +76,11 @@ for (const theme of ['light', 'dark', 'classic']) test(`returned package feedbac
     await expect(reviewModal.getByText('Suggestion submitted to this review.', { exact: true })).toBeVisible();
     await navigation.getByRole('button', { name: original.label, exact: true }).click();
     await expect(reviewModal.getByText(/Comments do not alter PDF bytes or signatures/)).toBeVisible();
-    await reviewModal.getByLabel('Package comment reviewer name', { exact: true }).fill('Synthetic reviewer');
-    await reviewModal.getByLabel('Package member comment', { exact: true }).fill('Synthetic original PDF question.');
-    await reviewModal.getByRole('button', { name: 'Post member comment', exact: true }).click();
+    await expect(reviewModal.getByRole('button', { name: 'Draw a region on captured PDF page', exact: true })).toBeEnabled({ timeout: 30_000 });
+    const comments = reviewModal.getByRole('region', { name: 'Package member comments', exact: true });
+    await comments.getByLabel('Package comment reviewer name', { exact: true }).fill('Synthetic reviewer');
+    await comments.getByLabel('Package member comment', { exact: true }).fill('Synthetic original PDF question.');
+    await comments.getByRole('button', { name: 'Post member comment', exact: true }).click();
     await expect(reviewModal.getByText('Synthetic original PDF question.', { exact: true })).toBeVisible();
     await expect(navigation.getByRole('button', { name: original.label, exact: true })).toBeEnabled();
     await expect(reviewModal.getByRole('region', { name: 'Review suggestions', exact: true })).toHaveCount(0);
