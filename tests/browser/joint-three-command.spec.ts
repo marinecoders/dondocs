@@ -1,7 +1,9 @@
 import { expect, test } from '@playwright/test';
 import { readFile } from 'node:fs/promises';
 import JSZip from 'jszip';
+import { PDFDocument, PDFSignature } from 'pdf-lib';
 import { jointLetterFixture } from '../_helpers/jointLetterFixture';
+import { downloadBrowserPdf } from '../_helpers/downloadBrowserPdf';
 
 // Exercises the editor and real browser Word engine, not a store-only harness.
 test.use({ serviceWorkers: 'block', actionTimeout: 15_000 });
@@ -20,7 +22,7 @@ test('adds, reorders and saves three-command correspondence, then returns to two
   await page.getByLabel('From line', { exact: true }).last().fill('Commanding Officer, Middle Command');
   await page.getByLabel('Signatory name', { exact: true }).fill('C. MIDDLE');
   await page.getByLabel('Signatory title', { exact: true }).fill('Deputy Commander');
-  await expect(page.getByRole('button', { name: 'Digital Fields (PKI)', exact: true })).toBeDisabled();
+  await expect(page.getByRole('button', { name: 'Digital Fields (PKI)', exact: true })).toBeEnabled();
   await page.getByRole('button', { name: 'Swap with junior command', exact: true }).click();
   await expect(page.getByLabel('Command name', { exact: true })).toHaveValue('JUNIOR COMMAND');
   await expect(page.getByLabel('Signatory name', { exact: true })).toHaveValue('B. JUNIOR');
@@ -46,6 +48,21 @@ test('adds, reorders and saves three-command correspondence, then returns to two
   expect(xml).toContain('C. MIDDLE'); expect(xml).toContain('Deputy Commander');
   expect(xml.indexOf('B. JUNIOR')).toBeLessThan(xml.indexOf('C. MIDDLE'));
   expect(xml.indexOf('C. MIDDLE')).toBeLessThan(xml.indexOf('A. SENIOR'));
+
+  await page.getByRole('button', { name: 'Digital Fields (PKI)', exact: true }).click();
+  await page.getByRole('button', { name: 'Download', exact: true }).click();
+  const pdfBytes = await downloadBrowserPdf(page, info.project.name,
+    () => page.getByRole('menuitem', { name: /^Download PDF(?:\s|$)/ }).click());
+  await info.attach('three-command-signer-fields.pdf', { body: pdfBytes, contentType: 'application/pdf' });
+  const pdf = await PDFDocument.load(pdfBytes);
+  const signatures = pdf.getForm().getFields().filter(field => field instanceof PDFSignature);
+  expect(signatures.map(field => field.getName())).toEqual(['JuniorSignature', 'MiddleSignature', 'SeniorSignature']);
+  const widgets = signatures.map(field => field.acroField.getWidgets()[0]);
+  expect(new Set(widgets.map(widget => widget.P()?.toString())).size).toBe(1);
+  const [junior, middle, senior] = widgets.map(widget => widget.getRectangle());
+  expect(junior.x + junior.width).toBeLessThan(middle.x);
+  expect(middle.x + middle.width).toBeLessThan(senior.x);
+
   await page.getByRole('button', { name: 'Remove third command', exact: true }).click();
   await expect(page.getByRole('button', { name: 'Add third command', exact: true })).toBeVisible();
   await expect(page.getByRole('button', { name: 'Digital Fields (PKI)', exact: true })).toBeEnabled();

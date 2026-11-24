@@ -1,4 +1,5 @@
 import { saveGeneratedPdf } from './generatedPdfMetadata';
+import { addSignatureFieldToPage } from './signatureFieldCore';
 import { PDFDocument, PDFName, PDFDict, PDFArray, PDFString, PDFHexString, PDFNumber, PDFRawStream, decodePDFRawStream } from 'pdf-lib';
 
 /**
@@ -336,8 +337,10 @@ function calculateFallbackPosition(
   return { x, y };
 }
 
+type SignatureRole = 'single' | 'junior' | 'middle' | 'senior' | `endorsement.${string}`;
+
 /** Template-owned signature slots take priority over ambiguous printed names. */
-function templateSignaturePosition(pdfDoc: PDFDocument, lastPageIndex: number, role: 'single' | 'junior' | 'senior') {
+function templateSignaturePosition(pdfDoc: PDFDocument, lastPageIndex: number, role: SignatureRole, firstPageIndex = 0) {
   const destinationNames = role === 'single' ? ['itype.signature', 'dondocs.signature.single'] : [`dondocs.signature.${role}`];
   const label = role === 'single' ? 'I-Type' : role;
   const documentKind = role === 'single' ? 'publication' : 'basic document';
@@ -368,12 +371,50 @@ function templateSignaturePosition(pdfDoc: PDFDocument, lastPageIndex: number, r
   }
   const pageRef = signature.get(0).toString();
   const pageIndex = pdfDoc.getPages().findIndex((page) => page.ref.toString() === pageRef);
-  if (pageIndex < 0 || pageIndex > lastPageIndex) throw new Error(`The ${label} signature location is outside the ${documentKind}.`);
+  if (pageIndex < firstPageIndex || pageIndex > lastPageIndex) throw new Error(`The ${label} signature location is outside the ${documentKind}.`);
   return {
     pageIndex,
     x: signature.lookup(2, PDFNumber).asNumber() + SIGNATURE_FIELD_X_OFFSET,
     y: signature.lookup(3, PDFNumber).asNumber() + SIGNATURE_FIELD_OFFSET,
   };
+}
+
+export interface TemplateSignatureField {
+  role: SignatureRole;
+  name: string;
+  width?: number;
+}
+
+/** Add fields only at the template's generated locations. */
+export async function addTemplateSignatureFields(
+  bytes: Uint8Array,
+  fields: readonly TemplateSignatureField[],
+  firstPageIndex: number,
+  lastPageIndex?: number,
+): Promise<Uint8Array> {
+  const pdf = await PDFDocument.load(bytes);
+  const names = new Set(pdf.getForm().getFields().map(field => field.getName()));
+  const positions = fields.map(({ name, role, width = DEFAULT_CONFIG.width }) => {
+    if (names.has(name)) throw new Error('The PDF already contains a signature field with the same name.');
+    names.add(name);
+    const position = templateSignaturePosition(pdf, lastPageIndex ?? pdf.getPageCount() - 1, role, firstPageIndex);
+    if (!position) throw new Error(`The ${role} signature location is missing. Regenerate the PDF before signing.`);
+    const { x, y, pageIndex } = position;
+    const page = pdf.getPage(pageIndex);
+    const rect: [number, number, number, number] = [x, y, x + width, y + DEFAULT_CONFIG.height];
+    const fits = [page.getCropBox(), page.getMediaBox()].every(box =>
+      x >= box.x && y >= box.y && rect[2] <= box.x + box.width && rect[3] <= box.y + box.height);
+    if (!fits) throw new Error(`The ${role} signature field does not fit on the page. Adjust the layout or place the field manually.`);
+    return { rect, page, name };
+  });
+  for (const [index, { rect, page, name }] of positions.entries()) {
+    if (positions.slice(0, index).some(({ page: priorPage, rect: prior }) =>
+      priorPage === page && rect[0] < prior[2] && rect[1] < prior[3] && rect[2] > prior[0] && rect[3] > prior[1])) {
+      throw new Error('Signature fields overlap. Adjust the layout or place the fields manually.');
+    }
+    addSignatureFieldToPage(pdf, page, rect, name);
+  }
+  return saveGeneratedPdf(pdf, { updateFieldAppearances: false });
 }
 
 function findSignatoryPosition(

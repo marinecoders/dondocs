@@ -571,6 +571,8 @@ Signing downloads inspect the included PDF text and metadata against the current
 
 Choose an available output from Download. PDF enclosure merging and digital signature fields are PDF features; Word has [documented limits](OUTPUT_LIMITS.md). A downloaded TeX fragment needs the repository templates/assets to compile as a project.
 
+Choose **Digital Fields (PKI)** on a three-command joint letter to place empty PDF signature fields above the junior, middle and senior signers. The **Digital Field** option places an empty field on a standalone endorsement or above each named signer on a letter with appended endorsements. Choose **Typed Only** if you prefer to place fields manually in the signing workspace.
+
 ### Mark individual enclosures
 
 In **Enclosures**, each row has an **Assembled page marking** selector. Leave it

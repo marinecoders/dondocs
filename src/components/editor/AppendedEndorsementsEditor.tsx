@@ -83,6 +83,9 @@ export function AppendedEndorsementsEditor() {
           from={formData.from} to={formData.to} />
       </section>
       <p className="text-xs text-muted-foreground">Additional endorsements begin on a new page. Empty drafts are omitted from exports.</p>
+      {formData.signatureType === 'digital' && (
+        <p className="text-xs text-muted-foreground">Enter each signer’s name to include their digital signature field in the PDF.</p>
+      )}
       {extra.map((entry, index) => {
         const ordinal = ENDORSEMENT_ORDINALS[1 + extra.slice(0, index).filter(hasEndorsementContent).length];
         const label = hasEndorsementContent(entry) ? `${ordinal} endorsement` : 'New endorsement';

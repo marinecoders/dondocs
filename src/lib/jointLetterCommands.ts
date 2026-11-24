@@ -28,7 +28,7 @@ export function jointLetterCommandIssues(docType: string, data: Partial<Document
   if (!parsed.success) return ['Joint letter command data is invalid. Only one additional command is supported.'];
   if (!parsed.data.length) return [];
   const issues: string[] = [];
-  if (data.signatureType && data.signatureType !== 'none') issues.push('Three-command joint letters support typed signatures only. Choose Typed Only; add signing fields to the exported PDF through the signing handoff.');
+  if (data.signatureType === 'image') issues.push('Three-command joint letters support typed signatures and digital PDF fields. Choose one of those signature styles before exporting.');
   const command = parsed.data[0];
   if (requireComplete && (!command.name.trim() || !command.from.trim() || !command.signatureName.trim())) {
     issues.push('Complete the additional command name, From line and signatory name before exporting.');
