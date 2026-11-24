@@ -153,7 +153,7 @@ for (const theme of ['light', 'dark', 'classic']) {
       const restored = await second.newPage();await restored.goto(baseURL!);
       await workspace(restored, 'Settings');
       await restored.getByLabel('Backup file', { exact: true }).setInputFiles({ name: 'workspace-review.json', mimeType: 'application/json', buffer: backup });
-      await expect(restored.getByRole('dialog', { name: 'Settings', exact: true }).getByRole('status')).toContainText('review baseline', { timeout: 15_000 });
+      await expect(restored.getByRole('region', { name: 'Backup & restore', exact: true }).getByRole('status')).toContainText('review baseline', { timeout: 15_000 });
       await restored.getByRole('dialog', { name: 'Settings', exact: true }).getByRole('button', { name: 'Close', exact: true }).click();
       const recovered = await reviews(restored);
       expect(JSON.parse((await downloadCopy(restored)).toString('utf8'))).toEqual(packet);

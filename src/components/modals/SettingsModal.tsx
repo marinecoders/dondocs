@@ -1,5 +1,6 @@
 import { useRef, useState, type ChangeEvent } from 'react';
 import { Settings } from 'lucide-react';
+import { OfflineExportPreferences } from './OfflineExportPreferences';
 import { THEMES } from '@/lib/appearance';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
@@ -109,6 +110,10 @@ export function SettingsModal() {
       <section className="border-t pt-4 space-y-3" aria-labelledby="settings-preview">
         <h3 ref={previewHeading} id="settings-preview" tabIndex={-1} className="font-medium scroll-mt-4">Preview</h3>
         <label className="flex min-h-11 items-start gap-3 text-sm"><input className="mt-1 h-4 w-4 accent-primary" type="checkbox" checked={fullQualityPreview} onChange={(e) => useUIStore.getState().setFullQualityPreview(e.target.checked)} /><span><span className="block font-medium">Full-quality preview</span><span className="text-muted-foreground">Include enclosures, hyperlinks and signatures. Larger documents take longer to render.</span></span></label>
+      </section>
+      <section className="border-t pt-4 space-y-3" aria-labelledby="settings-offline-exports">
+        <h3 id="settings-offline-exports" className="font-medium">Offline exports</h3>
+        <OfflineExportPreferences />
       </section>
       <section className="border-t pt-4 space-y-3" aria-labelledby="settings-backup">
         <h3 ref={backupHeading} id="settings-backup" tabIndex={-1} className="font-medium scroll-mt-4">Backup & restore</h3>

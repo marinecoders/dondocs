@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.271] — 2026-11-23
+
+### Added
+
+- Download Word resources on request and show PDF and Word offline readiness independently.
+
 ## [1.3.270] — 2026-11-23
 
 ### Fixed

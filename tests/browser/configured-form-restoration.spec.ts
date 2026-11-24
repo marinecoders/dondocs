@@ -123,7 +123,9 @@ for (const theme of ['light', 'dark', 'classic']) for (const mode of ['draft', '
       else {
         await workspace(restored, 'Settings');await restored.getByLabel('Backup file', { exact: true }).setInputFiles({ name: 'portable-backup.json', mimeType: 'application/json', buffer: backup });
         const modal = restored.getByRole('dialog', { name: 'Settings', exact: true });
-        await expect(modal.getByRole('status')).toContainText('doc', { timeout: 15_000 });await expect(modal.getByRole('alert')).toHaveCount(0);
+        const backupSection = modal.getByRole('region', { name: 'Backup & restore', exact: true });
+        await expect(backupSection.getByRole('status')).toContainText('doc', { timeout: 15_000 });
+        await expect(backupSection.getByRole('alert')).toHaveCount(0);
         await modal.getByRole('button', { name: 'Close', exact: true }).click();await workspace(restored, source.definition.label);
       }
       await expect(restored.getByRole('textbox', { name: 'Fictional name', exact: true })).toHaveValue('Fictional retained');

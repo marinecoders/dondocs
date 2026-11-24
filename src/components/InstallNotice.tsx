@@ -37,7 +37,7 @@ export function InstallNotice() {
     >
       <MonitorDown className="h-3.5 w-3.5 shrink-0 text-primary" aria-hidden />
       <p className="min-w-0 flex-1">
-        Install DonDocs for offline, one-tap access.{' '}
+        Install DonDocs for one-tap access.{' '}
         <span className="text-muted-foreground">No app store — it installs from this page.</span>
       </p>
       <button

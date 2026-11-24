@@ -127,7 +127,7 @@ export function ActivationChecklist() {
       ? [
           {
             title: 'Install the app',
-            sub: 'One-tap offline access from its own icon',
+            sub: 'Open DonDocs from its own icon',
             done: isInstalled,
             action: () => void promptInstall(),
           } satisfies ChecklistRow,

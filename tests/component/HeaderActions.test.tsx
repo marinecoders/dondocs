@@ -138,11 +138,12 @@ describe('document action error feedback', () => {
     vi.mocked(downloadWorkspaceBackup).mockRejectedValueOnce(new Error('Storage unavailable')).mockResolvedValueOnce(undefined);
     renderHeader();
     act(() => useUIStore.getState().setSettingsOpen(true, 'backup'));
-    expect(screen.getByRole('heading', { name: 'Backup & restore' })).toHaveFocus();
-    await userEvent.click(screen.getByRole('button', { name: 'Download workspace backup' }));
-    expect(await screen.findByRole('alert')).toHaveTextContent('Storage unavailable');
-    await userEvent.click(screen.getByRole('button', { name: 'Download workspace backup' }));
-    const feedback = await within(screen.getByRole('dialog', { name: 'Settings' })).findByRole('status');
+    const backup = within(screen.getByRole('region', { name: 'Backup & restore' }));
+    expect(backup.getByRole('heading', { name: 'Backup & restore' })).toHaveFocus();
+    await userEvent.click(backup.getByRole('button', { name: 'Download workspace backup' }));
+    expect(await backup.findByRole('alert')).toHaveTextContent('Storage unavailable');
+    await userEvent.click(backup.getByRole('button', { name: 'Download workspace backup' }));
+    const feedback = await backup.findByRole('status');
     expect(feedback).toHaveTextContent('Backup download started');
     expect(feedback).toBeVisible();
     expect(feedback).not.toHaveClass('sr-only');

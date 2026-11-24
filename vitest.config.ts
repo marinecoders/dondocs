@@ -32,6 +32,9 @@ export default defineConfig({
     __LATEX_TEMPLATES_REVISION__: JSON.stringify('test'),
     __RUNTIME_BASE__: JSON.stringify(''),
     __RELEASE_ID__: JSON.stringify(''),
+    __PANDOC_FILES__: JSON.stringify([]),
+    __PANDOC_CACHE__: JSON.stringify('pandoc-wasm-cache-test'),
+    __APP_SHELL_CACHE__: JSON.stringify('dondocs-app-shell-test'),
   },
   resolve: {
     alias: {

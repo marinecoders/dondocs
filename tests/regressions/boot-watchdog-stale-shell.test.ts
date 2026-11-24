@@ -364,7 +364,8 @@ describe('boot watchdog — cross-file couplings', () => {
     // vite.config.ts names the runtime cache `dondocs-app-shell-<build>`; the
     // watchdog deletes by prefix. Renaming one without the other makes
     // recovery silently stop cleaning the poisoned cache.
-    expect(viteConfig).toMatch(new RegExp(`cacheName:\\s*\`${SHELL_CACHE_PREFIX}-`));
+    expect(viteConfig).toMatch(new RegExp(`const APP_SHELL_CACHE = \`${SHELL_CACHE_PREFIX}-`));
+    expect(viteConfig).toMatch(/cacheName:\s*APP_SHELL_CACHE\b/);
     expect(extractWatchdogSource()).toContain(`'${SHELL_CACHE_PREFIX}'`);
   });
 });

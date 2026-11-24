@@ -1,7 +1,7 @@
 import { test, expect, type Page } from '@playwright/test';
 
 const installDialog = (page: Page) => page.getByRole('dialog', { name: 'Install DonDocs', exact: true });
-const installBanner = (page: Page) => page.getByRole('status').filter({ hasText: 'Install DonDocs for offline' });
+const installBanner = (page: Page) => page.getByRole('status').filter({ hasText: 'Install DonDocs for one-tap access' });
 
 test.beforeEach(async ({ page }) => {
   await page.addInitScript(() => {

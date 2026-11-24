@@ -30,7 +30,6 @@ vi.mock('@/services/exports/formTemplates', async original => {
 });
 vi.mock('@/utils/exportDelivery', () => ({ openBrowserExportDelivery: () => ({ deliver: mocks.deliver, release: mocks.release }) }));
 vi.mock('@/services/formCatalog', () => { const catalog: never[] = [];return { useFormCatalog: () => catalog }; });
-vi.mock('@/hooks/usePandocIdlePrefetch', () => ({ usePandocIdlePrefetch() {} }));
 vi.mock('@/components/layout/FormPanel', () => ({ FormPanel: () => null }));
 vi.mock('@/components/layout/Header', () => ({ Header: ({ onDownloadPdf, onDownloadTex, onDownloadFlatTex }: Record<string, () => void>) => <>
   <button onClick={onDownloadPdf}>Export captured PDF</button>

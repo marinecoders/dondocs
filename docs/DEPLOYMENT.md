@@ -33,7 +33,7 @@ Build-time classification variables must be set in the builder's environment bef
 
 Stage npm dependencies and the complete successfully built `dist/` while connected. Retain required vendor/TeX assets and the exact immutable configured-form revisions used by saved documents. The web app's postbuild guard rejects known CDN references in built assets; it is not proof that every optional action is network-free. The developer-only box editor separately loads cdnjs resources unless adapted to local assets.
 
-Before disconnecting, open/install the app, exercise required exports and cache each configured form with **Save for offline use**. Test reopening and exporting under the intended network restrictions. Preserve external document backups and filled PDFs; browser caches can be evicted. This workflow does not qualify SIPR/JWICS or any other classified environment.
+Before disconnecting, reopen the app and check **Settings → Offline exports**. Word resources download on the first Word export that needs them or when you choose **Prepare Word offline**. Check PDF and Word readiness, exercise the exports you need, and cache each configured form with **Save for offline use**. Test reopening and exporting under the intended network restrictions. Preserve external document backups and filled PDFs; browser caches can be evicted. This workflow does not qualify SIPR/JWICS or any other classified environment.
 
 ## Managed immutable updates
 

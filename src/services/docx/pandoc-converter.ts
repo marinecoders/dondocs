@@ -23,9 +23,7 @@ import { applyWindowEnvelopeSpacing } from './windowEnvelope';
 import JSZip from 'jszip';
 import { getDocxFontName, LAYOUT, layoutToMetadata } from './layout-config';
 import { debug } from '@/lib/debug';
-import { RUNTIME_BASE } from '@/lib/releasePaths';
-
-const BASE_PATH = RUNTIME_BASE;
+import { wordAssetUrl } from '@/lib/offlineOutputs';
 
 interface PandocModule {
   convert: (
@@ -80,7 +78,7 @@ async function loadPandocModule(): Promise<PandocModule> {
   // build time — air-gap safe, no CDN). It lives in public/ and must NOT go
   // through Vite's transform pipeline.
   // We construct a full absolute URL so the browser loads it directly.
-  const moduleUrl = new URL(`${BASE_PATH}lib/pandoc/pandoc.js`, window.location.origin);
+  const moduleUrl = new URL(wordAssetUrl('pandoc.js'), window.location.origin);
   // Browsers cache a rejected module evaluation, including a failed top-level
   // WASM fetch. A fresh URL lets an explicit retry evaluate the loader again.
   if (failedModuleLoads) moduleUrl.searchParams.set('retry', String(failedModuleLoads));
@@ -97,7 +95,7 @@ async function loadPandocModule(): Promise<PandocModule> {
 }
 
 export function pandocSupportFileUrl(filename: string, buildTime = __BUILD_TIME__): string {
-  return `${BASE_PATH}lib/pandoc/${filename}?v=${encodeURIComponent(buildTime)}`;
+  return wordAssetUrl(filename, buildTime);
 }
 
 async function fetchSupportFile(filename: string): Promise<Blob> {
@@ -175,10 +173,11 @@ async function ensureLoaded(
         debug.log('DOCX', 'Pandoc WASM ready');
         return mod;
       } catch (error) {
-        // A transient support-file failure must not poison every later export
-        // in this tab. Let Retry (or the first export after a failed idle
-        // prefetch) fetch the missing resources again.
+        // A transient support-file failure must not poison every later export.
         loadPromise = null;
+        if (typeof navigator !== 'undefined' && !navigator.onLine) {
+          throw new Error('Word resources are unavailable offline. Reconnect and prepare Word in Settings → Offline exports, then retry.', { cause: error });
+        }
         throw error;
       } finally {
         cleanup();
@@ -187,33 +186,6 @@ async function ensureLoaded(
   }
 
   return loadPromise;
-}
-
-/**
- * Prefetch the pandoc WASM module + support files during browser idle time.
- *
- * Populates the in-memory singleton, the browser's HTTP cache, and the
- * workbox runtime cache (90-day CacheFirst — see vite.config.ts) so that
- * the FIRST user-initiated DOCX export feels instant rather than a 5-15s
- * wait for the ~58 MB WASM download.
- *
- * Safe to call multiple times — `ensureLoaded` short-circuits via the
- * singleton + in-flight loadPromise. Errors are swallowed; a persistent
- * loading failure surfaces later when the user actually exports DOCX.
- *
- * Should be gated on connection type by the caller (see
- * `usePandocIdlePrefetch`) so we don't burn cellular data for users who
- * never export DOCX.
- */
-export async function prefetchPandocModule(): Promise<void> {
-  try {
-    await ensureLoaded();
-    debug.log('DOCX', 'Idle prefetch: pandoc WASM cached for next DOCX export');
-  } catch (err) {
-    // Don't surface to user -- the actual export call will retry and
-    // produce a real error then, with proper UI feedback.
-    debug.verbose('DOCX', 'Idle prefetch failed (will retry on first export)', err);
-  }
 }
 
 /**

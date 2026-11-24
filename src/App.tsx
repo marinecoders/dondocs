@@ -123,7 +123,6 @@ import {
 import { useLogStore } from '@/stores/logStore';
 import { useLatexEngine, useServiceWorker, useInstallPrompt, promptInstall } from '@/hooks';
 import { useInstallStore } from '@/stores/installStore';
-import { usePandocIdlePrefetch } from '@/hooks/usePandocIdlePrefetch';
 import { generateAllLatexFiles, type GeneratedFiles } from '@/services/latex/generator';
 import { loadAttachment } from '@/lib/attachments';
 import { generateNavmc10274Pdf, loadNavmc10274Templates } from '@/services/pdf/navmc10274Generator';
@@ -150,9 +149,6 @@ async function addFigureFiles(files: Record<string, string | Uint8Array>, figure
 function App() {
   const pageScroll = usePageScrollLayout();
   const formCatalog = useFormCatalog();
-  // Prefetch the Pandoc WASM module (~58 MB) during browser idle time so the
-  // first DOCX export skips the download wait. Skips slow/data-saver connections.
-  usePandocIdlePrefetch();
 
   // Individual selectors so Zustand only re-renders App on the specific field's
   // change, not on every store update. Setters are stable, so selecting them is free.

@@ -1,7 +1,7 @@
 // @vitest-environment node
 import { expect, it, vi } from 'vitest';
 import { createHash } from 'node:crypto';
-import { assetKey, cacheAsset, stageAssets, hasCachedWord, getPreparedReleaseAsset, RELEASE_FILES_CACHE, RELEASE_META_CACHE, releaseStateKey } from '@/lib/releaseCache';
+import { assetKey, cacheAsset, stageAssets, hasCachedWord, cachedWordBytes, getPreparedReleaseAsset, RELEASE_FILES_CACHE, RELEASE_META_CACHE, releaseStateKey } from '@/lib/releaseCache';
 import type { ReleaseAsset, ReleaseManifest } from '@/lib/releases';
 
 function cache() {
@@ -16,12 +16,33 @@ function asset(url: string, body: string, group: ReleaseAsset['group'] = 'shell'
 }
 const manifest = (assets: ReleaseAsset[]): ReleaseManifest => ({ schema: 1, id: 'test', version: 'test', createdAt: '2026-11-07T00:00:00.000Z', dataFormat: 1, workerProtocol: 1, entry: '/releases/test/index.html', assets });
 
-it('deduplicates verified bytes and does not download an unused Word engine', async () => {
+it('deduplicates verified bytes and keeps all unused Word files off the PDF-only path', async () => {
   const store = cache(), one = asset('/releases/one/app.js', 'same'), two = asset('/releases/two/app.js', 'same');
+  const wordAssets = ['pandoc.js', 'wasi-shim.js', 'reference.docx', 'dondocs.lua', 'pandoc.wasm.manifest.json', 'pandoc.wasm.part0']
+    .map(file => asset(`/runtimes/test/lib/pandoc/${file}`, file, 'runtime'));
   const fetcher = vi.fn<typeof fetch>(async () => new Response('same', { headers: { 'Content-Type': 'text/javascript' } }));
-  await cacheAsset(one, store, fetcher); await cacheAsset(two, store, fetcher);
-  const keys = await stageAssets(manifest([two, asset('/runtimes/test/lib/pandoc/pandoc.wasm.part0', 'unused', 'runtime')]), store, fetcher);
-  expect(fetcher).toHaveBeenCalledOnce(); expect(keys).toEqual([assetKey(one)]);
+  await cacheAsset(one, store, fetcher);
+  await cacheAsset(two, store, fetcher);
+  const keys = await stageAssets(manifest([two, ...wordAssets]), store, fetcher);
+  expect(fetcher).toHaveBeenCalledOnce();
+  expect(keys).toEqual([assetKey(one)]);
+});
+
+it('counts only matching prepared Word resources after a cache eviction', async () => {
+  const store = cache();
+  const loader = asset('/runtimes/test/lib/pandoc/pandoc.js', 'loader', 'runtime');
+  const part = asset('/runtimes/test/lib/pandoc/pandoc.wasm.part0', 'some bytes', 'runtime');
+  const pdf = asset('/runtimes/test/lib/swiftlatexpdftex.js', 'renderer', 'runtime');
+  const release = manifest([loader, part, pdf]);
+  for (const resource of [loader, part, pdf]) {
+    await store.put(assetKey(resource), new Response('', { headers: { 'Content-Length': String(resource.size) } }));
+  }
+  expect(await cachedWordBytes(release, store)).toBe(loader.size + part.size);
+  await store.delete(assetKey(part));
+  expect(await cachedWordBytes(release, store)).toBe(loader.size);
+  expect(await hasCachedWord([release], store)).toBe(false);
+  await store.put(assetKey(part), new Response('', { headers: { 'Content-Length': '1' } }));
+  expect(await cachedWordBytes(release, store)).toBe(loader.size);
 });
 
 it('removes partial staging after a failed fetch while preserving a working release', async () => {
