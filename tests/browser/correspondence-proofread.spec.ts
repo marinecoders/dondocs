@@ -198,3 +198,35 @@ test('opens CUI designation controls when a body portion determines the overall 
   await page.getByRole('button', { name: /^Proofread:/ }).click();
   await expect(dialog.getByText('Verify CUI markings', { exact: true })).toHaveCount(0);
 });
+
+test('checks a typed SSIC locally and links an uncited reference to its title', async ({ page }) => {
+  await page.addInitScript(() => {
+    localStorage.setItem('browser-test-visitor', 'returning');
+    localStorage.setItem('dondocs_ui', JSON.stringify({ version: 1, state: { editorLayout: 'focused', previewVisible: false } }));
+  });
+  await page.goto('/');
+  const draft = {
+    documentCategory: 'correspondence', documentMode: 'compliant', docType: 'naval_letter', formType: 'navmc_10274',
+    formData: { date: '19 Nov 26', subject: 'NATO EXERCISE', ssic: '99999', from: 'Commanding Officer', to: 'Mr. John Example (55)' },
+    paragraphs: [{ level: 0, text: 'This is a synthetic training fixture.' }],
+    references: [{ letter: 'a', title: 'Training reference' }], enclosures: [{ title: 'Sample enclosure' }], copyTos: [], distributions: [],
+  };
+  await page.getByLabel('Import draft file').setInputFiles({ name: 'scoped-rules.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(draft)) });
+  await page.getByRole('button', { name: 'Open as new document', exact: true }).click();
+  const button = page.getByRole('button', { name: /^Proofread:/ });
+  await button.click();
+  const dialog = page.getByRole('dialog', { name: 'Proofread', exact: true });
+  for (const title of ['Review acronyms in the subject', 'Review the To-line office code', 'Review the named To-line addressee', 'Review the SSIC', 'Review uncited enclosure (1)']) {
+    await expect(dialog.getByText(title, { exact: true })).toBeVisible();
+  }
+  const reference = dialog.getByRole('listitem').filter({ hasText: 'Review uncited reference (a)' });
+  await reference.getByRole('button', { name: 'Go to References' }).click();
+  await expect(page.getByRole('textbox', { name: 'Reference (a) title' })).toBeFocused();
+  await button.click();
+  await dialog.getByRole('listitem').filter({ hasText: 'Review the SSIC' }).getByRole('button', { name: 'Go to Addressing' }).click();
+  const ssic = page.locator('#ssic');
+  await expect(ssic).toBeFocused();
+  await ssic.fill('5216');
+  await button.click();
+  await expect(dialog.getByText('Review the SSIC', { exact: true })).toHaveCount(0);
+});

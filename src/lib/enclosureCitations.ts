@@ -12,6 +12,7 @@ export interface EnclosureCitationIssue {
 export function inspectEnclosureCitations(
   input: string,
   list: { first: number; count: number; inherited: boolean },
+  onCitation?: (first: number, last: number) => void,
 ): EnclosureCitationIssue[] {
   // A non-space mask prevents inventing a citation across a protected literal,
   // such as enclosure "example" (2), when native emphasis is removed.
@@ -35,6 +36,7 @@ export function inspectEnclosureCitations(
       manual(position, 'This enclosure range runs backward.');
       return;
     }
+    onCitation?.(first, last);
     const missing = first < minimum ? first : last > maximum ? Math.max(first, maximum + 1) : undefined;
     if (missing === undefined) return;
     const id = range ? `range:${first}:${last}` : String(first);
