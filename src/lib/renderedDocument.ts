@@ -6,7 +6,7 @@ import { sl3Portions } from '@/data/techpub/sl3';
 import { sl4Portions } from '@/data/techpub/sl4';
 import type { DocumentSnapshot } from '@/stores/historyStore';
 
-export function correspondencePortions(document: DocumentSnapshot) {
+export function correspondencePortions(document: Pick<DocumentSnapshot, 'docType' | 'formData' | 'paragraphs'> & Partial<DocumentSnapshot>) {
   return [...document.paragraphs,
     ...(document.docType === 'sl3' && document.formData.sl3 ? sl3Portions(document.formData.sl3) : []),
     ...(document.docType === 'sl4' && document.formData.sl4 ? sl4Portions(document.formData.sl4, document.paragraphs) : []),

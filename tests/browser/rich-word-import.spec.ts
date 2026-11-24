@@ -130,18 +130,10 @@ for (const theme of ['light', 'dark', 'classic'] as const) {
     }
     await page.getByLabel('Graphic portion marking', { exact: true }).selectOption('CUI');
     await page.getByRole('textbox', { name: 'Controlled By', exact: true }).fill('Fictional Training Office');
-    const category = page.getByRole('combobox', { name: 'CUI Category', exact: true });
-    const otherCategory = page.getByRole('option', { name: 'Other', exact: true });
-    if (info.project.use.hasTouch) {
-      await category.tap();
-      await otherCategory.tap();
-    } else {
-      await category.click();
-      await otherCategory.click();
-    }
-    await expect(category).toHaveText('Other');
-    await expect(category).toHaveAttribute('aria-expanded', 'false');
-    await expect(page.getByRole('listbox')).toBeHidden();
+    const category = page.getByLabel('CUI categories', { exact: true });
+    await category.fill('General Privacy');
+    await expect(category).toHaveValue('General Privacy');
+    await expect(category).toHaveAttribute('aria-invalid', 'false');
 
     const word = await download(page, async () => {
       await page.getByRole('button', { name: 'Download', exact: true }).click();

@@ -5,6 +5,8 @@ import { businessLetterContinuation } from '@/services/latex/businessLetter';
 import { formatParagraphIndents } from '@/services/docx/paragraphIndents';
 import { formatPageFurniture, getClassificationMarking } from '@/services/docx/pageFurniture';
 import { deriveOverallClassLevel } from '@/lib/overallClassification';
+import { normalizeCuiRegistryMarkings } from '@/lib/cuiRegistryMarkings';
+import { correspondencePortions } from '@/lib/renderedDocument';
 import { formatSmallStationery } from '@/services/docx/stationery';
 import { correspondenceStationery } from '@/lib/stationery';
 import { formatBodyTables } from '@/services/docx/bodyTables';
@@ -80,6 +82,9 @@ export async function renderDocx(
 ): Promise<Uint8Array> {
   if (input.wordEnclosurePages) throw new Error('PDF enclosure page images in Word require the browser renderer. Deliver unchanged originals separately.');
   const store = toStore(input, defaults);
+  if (deriveOverallClassLevel(store.formData.classLevel, correspondencePortions(store)) === 'cui') {
+    store.formData = normalizeCuiRegistryMarkings(store.formData);
+  }
   if (isTechnicalPublication(store.docType)) {
     const stock = store.docType === 'sl3' ? store.formData.sl3 : store.docType === 'sl4' ? store.formData.sl4 : undefined;
     const figures = new Set(store.docType === 'sl3' && store.formData.sl3 ? sl3FigureIds(store.formData.sl3) : store.docType === 'sl4' && store.formData.sl4 ? sl4FigureIds(store.formData.sl4) : []);

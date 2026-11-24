@@ -52,8 +52,7 @@ export async function renderPublicationDocx(document: PublicationWordSource, por
   const marking = publicationMarking(document.formData, portions);
   const manual = document.formData.manualFrontMatter;
   const title = [document.formData.shortTitle, document.docType === 'tm_ietm_front_matter' && manual?.volume ? `VOLUME ${manual.volume}${manual.volumes ? ` OF ${manual.volumes}` : ''}` : ''].filter(Boolean).join('\n');
-  const section: SectionFormat = { title, ...(document.docType === 'i_type' ? { bannerSize: 10, outerFurniture: true } : { pageNumberAlign: isVolume ? 'center' : 'right' }), ...(document.docType === 'sl3' || document.docType === 'sl4' ? { leftTitle: formatPublicationDate(document.formData.date ?? '', referenceDate).toUpperCase(), bannerSize: 14 } : {}), marking: document.docType !== 'i_type' && !isVolume && marking?.level === 'cui' && document.formData.cuiDissemination?.trim()
-    ? `${marking.marking}//${document.formData.cuiDissemination.trim()}` : marking?.marking };
+  const section: SectionFormat = { title, ...(document.docType === 'i_type' ? { bannerSize: 10, outerFurniture: true } : { pageNumberAlign: isVolume ? 'center' : 'right' }), ...(document.docType === 'sl3' || document.docType === 'sl4' ? { leftTitle: formatPublicationDate(document.formData.date ?? '', referenceDate).toUpperCase(), bannerSize: 14 } : {}), marking: marking?.marking };
   word.check();
   if (isVolume) return word.finish(await volumeWord(word, document, ports, section, referenceDate));
   const seal = await (ports.loadSeal ?? loadPublicationSeal)(signal);

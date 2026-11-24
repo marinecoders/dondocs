@@ -122,7 +122,7 @@ describe('SL-3 completed-field spacing', () => {
           .map((w) => w.top),
       );
       const headerWords = lastWords.filter(
-        (w) => w.top < captionTop && !['CUI//NOFORN'].includes(w.text),
+        (w) => w.top < captionTop && w.text !== 'CUI',
       );
       expect(
         captionTop - Math.max(...headerWords.map((w) => w.bottom)),

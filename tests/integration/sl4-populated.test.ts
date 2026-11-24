@@ -89,9 +89,9 @@ it.each(['cui', 'secret'] as const)('fits synthetic %s markings, cover overflow 
   expect(layout.collisions).toEqual([]);
   expect(layout.boxes.filter(box => box.left < 17.5 || box.right > pdf.getPage(box.page - 1).getWidth() - 17.5
     || box.bottom < 17.5 || box.top > pdf.getPage(box.page - 1).getHeight() - 17.5)).toEqual([]);
-  const banner = level === 'cui' ? 'CUI//NOFORN' : 'SECRET';
+  const banner = level === 'cui' ? 'CUI' : 'SECRET';
   for (let page = 1; page <= pdf.getPageCount(); page++) {
-    expect(layout.boxes.filter(box => box.page === page && box.text.includes(banner)).length, `page ${page}`).toBeGreaterThanOrEqual(2);
+    expect(layout.boxes.filter(box => box.page === page && box.text === banner).length, `page ${page}`).toBeGreaterThanOrEqual(2);
   }
   const words = pdfWordBoxes(bytes);
   expect(words.some(word => word.text === '7' && word.page === 2)).toBe(true);

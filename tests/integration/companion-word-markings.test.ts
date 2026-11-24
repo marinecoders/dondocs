@@ -3,6 +3,7 @@ import { describe, expect, it } from 'vitest';
 import { spawnSync } from 'node:child_process';
 import JSZip from 'jszip';
 import { renderDocx } from '../../companion/renderDocx';
+import { renderPdf } from '../../companion/render';
 import type { LetterInput } from '../../companion/letterInput';
 
 const hasPandoc = spawnSync('pandoc', ['--version']).status === 0;
@@ -41,4 +42,13 @@ describe.skipIf(!hasPandoc)('companion Word classification banners', () => {
     }
     expect(xml).toContain('Training paragraph 25.');
   });
+});
+
+it.each([renderPdf, renderDocx])('rejects unrecognized CUI controls before invoking the companion renderer', async render => {
+  const input: LetterInput = {
+    docType: 'naval_letter', subject: 'SYNTHETIC TRAINING DOCUMENT',
+    classification: { level: 'cui', cui: { category: 'PRVCY', dissemination: 'NOFRN' } },
+    paragraphs: [{ text: 'Fictional public training text.' }],
+  };
+  await expect(render(input)).rejects.toThrow('Review CUI dissemination controls');
 });

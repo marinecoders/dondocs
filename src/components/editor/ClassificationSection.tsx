@@ -19,7 +19,9 @@ import {
 import { useEffect, useMemo, useState } from 'react';
 import { getClassificationConfig } from '@/config/classification';
 import { validateClassificationMarkings, validateDistributionStatement, validateDistributionFillIns, validateReasonForStatement } from '@/lib/classificationValidation';
+import { deriveOverallClassLevel } from '@/lib/overallClassification';
 import { reasonsFor } from '@/data/techpub/distributionStatements';
+import { CuiRegistryFields } from './CuiRegistryFields';
 
 // Official CNSI/ISOO banner colors (EO 13526, 32 CFR 2001/2002, DoDM 5200.01,
 // CAPCO Register, ISOO directive). Hex codes match the dodcui.mil/ISOO table:
@@ -188,8 +190,9 @@ export function ClassificationSection() {
   // Show classified warning/fields only for actual classified levels (not custom)
   const isClassified = ['confidential', 'secret', 'top_secret', 'top_secret_sci'].includes(classLevel);
 
-  // Show CUI fields only for actual CUI level (not custom)
-  const isCUI = classLevel === 'cui';
+  const overallLevel = useMemo(() => deriveOverallClassLevel(classLevel, paragraphs), [classLevel, paragraphs]);
+  const cuiFromPortions = classLevel === 'unclassified' && overallLevel === 'cui' && domainRestriction.allowedLevels.includes('cui');
+  const isCUI = classLevel === 'cui' || cuiFromPortions;
 
   const isCustom = classLevel === 'custom';
 
@@ -542,10 +545,10 @@ export function ClassificationSection() {
               </div>
             )}
 
-            {/* CUI fields, shown only when CUI is the selected level. */}
             {isCUI && (
               <div className="editor-field-groups p-3 rounded-md border bg-muted/30">
                 <p className={`text-sm font-medium ${CUI_TEXT_COLOR}`}>CUI Configuration</p>
+                {cuiFromPortions && <p className="text-xs text-muted-foreground">A paragraph marking makes the overall document CUI.</p>}
 
                 <div className="space-y-2">
                   <Label htmlFor="cuiControlledBy">Controlled By</Label>
@@ -557,32 +560,7 @@ export function ClassificationSection() {
                   />
                 </div>
 
-                <div className="space-y-2">
-                  <Label htmlFor="cuiCategory">CUI Category</Label>
-                  <Select
-                    value={formData.cuiCategory || ''}
-                    onValueChange={(v) => setField('cuiCategory', v)}
-                  >
-                    <SelectTrigger id="cuiCategory">
-                      <SelectValue placeholder="Select category…" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {CUI_CATEGORIES.map((cat) => (
-                        <SelectItem key={cat} value={cat}>{cat}</SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="cuiDissemination">Dissemination Controls</Label>
-                  <Input
-                    id="cuiDissemination"
-                    value={formData.cuiDissemination || ''}
-                    onChange={(e) => setField('cuiDissemination', e.target.value)}
-                    placeholder="e.g., NOFORN, REL TO USA, FVEY"
-                  />
-                </div>
+                <CuiRegistryFields categoryId="cuiCategory" controlId="cuiDissemination" values={formData} onChange={setField} />
 
                 <div className="space-y-2">
                   <Label htmlFor="cuiPocEmail">CUI POC email</Label>

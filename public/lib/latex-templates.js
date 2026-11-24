@@ -533,6 +533,14 @@ const LATEX_TEMPLATES = {
     }%
 }
 
+\\newcommand{\\printCUIDesignation}{%
+    \\noindent Controlled by: \\CUIControlledBy\\\\
+    CUI Category: \\CUICategory\\\\
+    Limited Dissemination Control: \\CUIDissemination\\\\
+    \\printPOCLine%
+    \\printCUIDistStatement%
+}
+
 
 %-----------------------------------------------------------------------------
 % Classified Field Setters
@@ -2154,8 +2162,7 @@ const LATEX_TEMPLATES = {
     % CUI block (if enabled)
     \\ifCUIEnabled
         \\par\\vspace{12pt}%
-        \\noindent \\textbf{CUI//\\CUICategory}%
-        \\printCUIDistStatement%
+        \\printCUIDesignation%
         \\ifNotEmpty{\\CUITransmittalNote}{\\par\\noindent\\CUITransmittalNote\\par}%
     \\fi
 }
@@ -2546,8 +2553,7 @@ const LATEX_TEMPLATES = {
     % CUI block (if enabled)
     \\ifCUIEnabled
         \\par\\vspace{12pt}%
-        \\noindent \\textbf{CUI//\\CUICategory}%
-        \\printCUIDistStatement%
+        \\printCUIDesignation%
         \\ifNotEmpty{\\CUITransmittalNote}{\\par\\noindent\\CUITransmittalNote\\par}%
     \\fi
 }
@@ -4832,11 +4838,7 @@ const LATEX_TEMPLATES = {
     % CUI block
     \\ifCUIEnabled
         \\par\\vspace{12pt}
-        \\noindent Controlled by: \\CUIControlledBy\\\\
-        CUI Category: \\CUICategory\\\\
-        Limited Dissemination Control: \\CUIDissemination\\\\
-        \\printPOCLine%
-        \\printCUIDistStatement%
+        \\printCUIDesignation%
     \\fi
     %
     % Classified block
@@ -5898,8 +5900,8 @@ const LATEX_TEMPLATES = {
     \\begin{textblock*}{\\paperwidth}(0in,\\dimexpr\\paperheight-0.7in\\relax)\\centering{\\fontsize{14}{16}\\selectfont\\bfseries\\slThreeControlMarking}\\end{textblock*}%
   \\fi
 }
-% Include the author's dissemination control on every CUI banner.
-\\newcommand{\\slThreeControlMarking}{\\ClassificationMarking\\ifCUIEnabled\\ifNotEmpty{\\CUIDissemination}{//\\CUIDissemination}\\fi}
+% DoDI 5200.48 uses a generic CUI banner and puts controls in the designation block.
+\\newcommand{\\slThreeControlMarking}{\\ClassificationMarking}
 % Measure the multi-line inventory header before assigning its text area.
 \\newcommand{\\slThreeInventoryHeader}{\\parbox{\\textwidth}{\\fontsize{10}{12}\\selectfont
   \\makebox[\\textwidth]{\\DocumentDate\\hfill\\textbf{\\ShortTitle}}\\par

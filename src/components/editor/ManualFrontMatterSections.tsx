@@ -16,6 +16,7 @@ import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { DatePicker } from '@/components/ui/date-picker';
 import type { DocumentData } from '@/types/document';
+import { CuiRegistryFields } from './CuiRegistryFields';
 
 const selectClass = 'min-h-11 w-full rounded-md border border-input bg-background px-3 py-2 text-sm';
 const grid = 'sl3-field-grid';
@@ -149,7 +150,12 @@ export function ManualFrontMatterSection({ section }: { section: ManualFinding['
         <option value="unclassified">Unclassified</option><option value="cui">CUI</option>
         {!['unclassified', 'cui'].includes(d.classLevel ?? 'unclassified') && <option value={d.classLevel}>Review inherited marking: {d.classLevel}</option>}
       </select>{fieldErrors('classLevel', 'manual-marking')}</div>
-      {d.classLevel === 'cui' && <div className={grid}>{common('cuiControlledBy', 'Controlled by')}{common('cuiCategory', 'CUI categories')}{common('cuiDissemination', 'Dissemination controls')}{common('pocEmail', 'CUI contact (phone or email)')}</div>}
+      {d.classLevel === 'cui' && <div className={grid}>
+        {common('cuiControlledBy', 'Controlled by')}
+        <CuiRegistryFields categoryId="manual-cuiCategory" controlId="manual-cuiDissemination" values={d} onChange={store.setField}
+          errors={{ cuiCategory: errorsFor('cuiCategory').join(' '), cuiDissemination: errorsFor('cuiDissemination').join(' ') }} />
+        {common('pocEmail', 'CUI contact (phone or email)')}
+      </div>}
       <div className="space-y-2"><Label htmlFor="manual-distribution">Distribution statement</Label><select id="manual-distribution" {...fieldProps('cuiDistStatement', 'manual-distribution')} className={selectClass} value={d.cuiDistStatement ?? ''} onChange={(e) => store.setField('cuiDistStatement', e.target.value)}>
         <option value="">Choose statement</option>{['A', 'B', 'C', 'D', 'E', 'F'].map((v) => <option key={v}>{v}</option>)}
       </select>{fieldErrors('cuiDistStatement', 'manual-distribution')}</div>

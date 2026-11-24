@@ -44,9 +44,13 @@ describe('publication Word output', () => {
     expect(visible).toContain('END ITEM CONTINUATION');
     expect(visible).toContain('DESTRUCTION NOTICE');
     expect(visible).toContain('government rights');
+    expect(visible).toContain('Distribution/Dissemination Control: FEDCON');
     for (let i = 1; i <= 3; i++) {
-      expect(await result.zip.file(`word/header${i}.xml`)!.async('string')).toContain('CUI//FEDCON');
-      expect(await result.zip.file(`word/footer${i}.xml`)!.async('string')).toContain('CUI//FEDCON');
+      for (const part of ['header', 'footer']) {
+        const furniture = await result.zip.file(`word/${part}${i}.xml`)!.async('string');
+        expect(furniture).toContain('>CUI<');
+        expect(furniture).not.toContain('FEDCON');
+      }
     }
     expect(await result.zip.file('word/footer1.xml')!.async('string')).not.toContain('PAGE');
     expect(await result.zip.file('word/footer2.xml')!.async('string')).toContain('T-');

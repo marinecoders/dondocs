@@ -96,7 +96,7 @@ export function additionalProofreadFindings(source: ProofreadSource): ProofreadF
       { chapter: config.uiMode === 'joint' ? 7 : 10, query: 'signature' }, 'required');
   }
   // Custom marking mode renders a banner only, not a CUI designation block.
-  if (data.classLevel === 'cui' && deriveOverallClassLevel(data.classLevel, source.paragraphs) === 'cui') {
+  if (deriveOverallClassLevel(data.classLevel, source.paragraphs) === 'cui') {
     for (const [field, label] of [['cuiControlledBy', 'Controlled by'], ['cuiCategory', 'CUI category'], ['pocEmail', 'POC email']] as const) {
       if (unfilled(data[field])) add(`cui:${field}`, `${label} is empty`,
         'Complete this field in the CUI designation block before delivery. This check assesses field completeness only.',

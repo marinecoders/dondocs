@@ -24,6 +24,7 @@ import { detectBatchPII } from '@/services/pii/batchScan';
 import type { ClassificationInfo } from '@/services/pdf/mergeEnclosures';
 import type { ClassificationLevel } from './domainClassification';
 import { assertEnclosureMarkingPolicy, cuiTransmittalIssue, inspectEnclosureMarkings } from './enclosureMarkings';
+import { normalizeCuiRegistryMarkings } from './cuiRegistryMarkings';
 
 export type ExportTarget = 'pdf' | 'docx' | 'tex';
 const preparedBrand = Symbol('prepared-export');
@@ -172,6 +173,12 @@ export function prepareExport(input: {
       const transmittalIssue = cuiTransmittalIssue(snapshot.formData, portions, snapshot.enclosures, snapshot.docType);
       if (transmittalIssue) return error(transmittalIssue);
       const level = deriveOverallClassLevel(snapshot.formData.classLevel, portions);
+      if (level === 'cui') snapshot.formData = normalizeCuiRegistryMarkings(snapshot.formData);
+      for (const [index, enclosure] of snapshot.enclosures.entries()) {
+        if (enclosure.marking?.classLevel !== 'cui') continue;
+        try { enclosure.marking = normalizeCuiRegistryMarkings(enclosure.marking); }
+        catch (cause) { return error(`Enclosure (${index + 1}): ${(cause as Error).message}`); }
+      }
       const enclosureIssues = inspectEnclosureMarkings({ ...snapshot.formData, classLevel: level }, snapshot.enclosures);
       if (enclosureIssues.length) {
         notices.push(...enclosureIssues.map(issue => `Enclosure ${issue.index + 1}: ${issue.message}`));

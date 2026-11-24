@@ -6,6 +6,7 @@ import type { ClassificationInfo } from '@/services/pdf/mergeEnclosures';
 import type { ClassificationLevel } from './domainClassification';
 import type { PolicyResolution } from './exportDeploymentPolicy';
 import { resolveAppendedEndorsements } from './appendedEndorsement';
+import { inspectCuiRegistryMarkings } from './cuiRegistryMarkings';
 
 /** Missing means inherit; an explicit unclassified value never inherits. */
 export const enclosureMarkingSchema = z.object({
@@ -72,8 +73,12 @@ export function inspectEnclosureMarkings(data: Partial<DocumentData>, enclosures
     if (level === 'cui' && coverLevel !== 'cui' && (controls(marking.cuiCategory).size || controls(marking.cuiDissemination).size)) return [{ index, kind: 'controls' as const,
       message: 'Review the enclosure CUI categories and dissemination controls against the classified or custom cover. A higher classification level alone does not resolve these controls.' }];
     if (level === 'cui' && coverLevel === 'cui') {
-      const missing = [...controls(marking.cuiCategory)].some(value => !controls(cover.cuiCategory).has(value))
-        || [...controls(marking.cuiDissemination)].some(value => !controls(cover.cuiDissemination).has(value));
+      const declared = inspectCuiRegistryMarkings(marking);
+      const overall = inspectCuiRegistryMarkings(cover);
+      const coverCategories = new Set(overall.categories ?? controls(cover.cuiCategory));
+      const coverControls = new Set(overall.controls ?? controls(cover.cuiDissemination));
+      const missing = [...(declared.categories ?? controls(marking.cuiCategory))].some(value => !coverCategories.has(value))
+        || [...(declared.controls ?? controls(marking.cuiDissemination))].some(value => !coverControls.has(value));
       if (missing) return [{ index, kind: 'controls' as const,
         message: 'The cover does not list all declared enclosure CUI categories or dissemination controls. Review the required rollup; category names are not ranked automatically.' }];
     }
