@@ -24,11 +24,12 @@ it('authenticates the deadline inside the encrypted payload and rejects at the e
   expect(() => parseSharedSession(decrypted)).toThrow('expired');
   vi.spyOn(Date, 'now').mockReturnValue(original.expiresAt + 1);
   expect(() => parseSharedSession(decrypted)).toThrow('expired');
-  const bytes = atob(encrypted.replace(/-/g, '+').replace(/_/g, '/'));
+  const [version, body] = encrypted.split('.');
+  const bytes = atob(body.replace(/-/g, '+').replace(/_/g, '/'));
   const tampered = Uint8Array.from(bytes, char => char.charCodeAt(0));
   tampered[30] ^= 1;
   const encoded = btoa(String.fromCharCode(...tampered)).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
-  await expect(decryptSharePayload(encoded, 'synthetic-password')).rejects.toThrow('Wrong password or invalid');
+  await expect(decryptSharePayload(`${version}.${encoded}`, 'synthetic-password')).rejects.toThrow('Wrong password or invalid');
 });
 
 it.each([undefined, null, '2026-11-13', true, NaN, Infinity, -1, 0, 1.5, 8_640_000_000_000_001])('rejects malformed expiry %s rather than stripping it', expiresAt => {

@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.259] — 2026-11-23
+
+### Fixed
+
+- Version key derivation for new password-protected shares while preserving the ability to open supported earlier shares.
+
 ## [1.3.258] — 2026-11-23
 
 ### Added
