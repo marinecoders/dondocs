@@ -18,7 +18,7 @@ const nativeWordDirectory = process.env.DONDOCS_NATIVE_WORD_REVIEW_DIR;
 const nativeWordVersion = process.env.DONDOCS_NATIVE_WORD_REVIEW_VERSION;
 const digest = (bytes: Uint8Array) => createHash('sha256').update(bytes).digest('hex');
 
-async function awaitNativeWordReturn(original: Buffer) {
+async function awaitNativeWordReturn(original: Buffer, edits?: string) {
   if (!nativeWordVersion?.trim()) throw new Error('Set DONDOCS_NATIVE_WORD_REVIEW_VERSION to the tested Word version.');
   const root = resolve(nativeWordDirectory!);
   await mkdir(root, { recursive: true });
@@ -26,7 +26,7 @@ async function awaitNativeWordReturn(original: Buffer) {
   const issuedPath = join(directory, 'issued.docx');
   const returnedPath = join(directory, 'returned.docx');
   await writeFile(issuedPath, original, { flag: 'wx' });
-  console.log(`Open ${issuedPath} in Microsoft Word. Save and reopen a copy, then move the closed file to ${returnedPath}.`);
+  console.log(`Open ${issuedPath} in Microsoft Word. ${edits ? `${edits} ` : ''}Save and reopen a copy, then move the closed file to ${returnedPath}.`);
   let returned: Buffer | undefined;
   await expect.poll(async () => {
     try {
@@ -41,6 +41,7 @@ async function awaitNativeWordReturn(original: Buffer) {
   return returned!;
 }
 const body = 'Review this old word and keep the suffix.';
+const proofreadBody = 'The ZQK contact is testing-address@example.test.';
 test.use({ serviceWorkers: 'block', actionTimeout: 15_000 });
 test.setTimeout(240_000);
 async function actions(page: Page, name: string) {
@@ -53,7 +54,7 @@ async function download(page: Page, action: () => Promise<unknown>) {
   const pending = page.waitForEvent('download', { timeout: 120_000 });await action();const result = await pending;
   expect(await result.failure()).toBeNull();return readFile((await result.path())!);
 }
-async function reviewerChanges(bytes: Uint8Array) {
+async function reviewerChanges(bytes: Uint8Array, editProofreadParagraph = false) {
   const zip = await JSZip.loadAsync(bytes), xml = new DOMParser().parseFromString(await zip.file('word/document.xml')!.async('string'), 'application/xml');
   const marker = Array.from(xml.getElementsByTagNameNS(W, 'bookmarkStart')).find(element => element.getAttributeNS(W, 'name') === 'DDReview_0');
   if (!marker?.parentNode || marker.parentNode.nodeType !== 1) throw new Error('The actual export has no direct review bookmark.');
@@ -67,6 +68,11 @@ async function reviewerChanges(bytes: Uint8Array) {
   const insertion = make('ins', '71');insertion.setAttributeNS(W, 'w:author', 'Synthetic Reviewer');insertion.appendChild(run('reviewed'));
   const next = text.parentNode.nextSibling;
   for (const element of [make('commentRangeStart', '72'), deletion, make('commentRangeEnd', '72'), insertion, run(after)]) paragraph.insertBefore(element, next);
+  if (editProofreadParagraph) {
+    const proofread = Array.from(xml.getElementsByTagNameNS(W, 't')).find(element => element.textContent?.includes(proofreadBody));
+    if (!proofread) throw new Error('The proofread paragraph is missing from the issued copy.');
+    proofread.textContent += ' Additional reviewer context.';
+  }
   zip.file('word/document.xml', new XMLSerializer().serializeToString(xml));
   // An editor can move a custom XML part and retarget its relationship.
   const issuedPart = 'customXml/dondocs-word-review.xml';
@@ -105,6 +111,101 @@ async function reviewerChanges(bytes: Uint8Array) {
   zip.file('[Content_Types].xml', new XMLSerializer().serializeToString(types));
   return zip.generateAsync({ type: 'nodebuffer', compression: 'DEFLATE' });
 }
+
+async function expectProofreadComment(bytes: Uint8Array) {
+  const zip = await JSZip.loadAsync(bytes);
+  const parser = new DOMParser();
+  const definitions = parser.parseFromString(await zip.file('word/comments.xml')!.async('string'), 'application/xml');
+  const items = Array.from(definitions.getElementsByTagNameNS(W, 'comment'));
+  expect(items).toHaveLength(1);
+  expect(items[0].getAttributeNS(W, 'author')).toBe('DonDocs Proofread');
+  expect(items[0].textContent).toContain('possible sensitive information');
+  expect(items[0].textContent).toContain('Spell out the abbreviation');
+  expect(items[0].textContent).not.toContain('testing-address@example.test');
+  expect(items[0].textContent).not.toContain('ZQK');
+  const documentXml = await zip.file('word/document.xml')!.async('string');
+  expect(documentXml).not.toContain('DonDocsProofread0');
+  const document = parser.parseFromString(documentXml, 'application/xml');
+  for (const kind of ['commentRangeStart', 'commentRangeEnd']) {
+    const markers = Array.from(document.getElementsByTagNameNS(W, kind));
+    expect(markers).toHaveLength(1);
+    expect(markers[0].parentNode?.textContent).toContain(proofreadBody);
+    expect(markers[0].getAttributeNS(W, 'id')).toBe(items[0].getAttributeNS(W, 'id'));
+  }
+  expect(Array.from(document.getElementsByTagNameNS(W, 'commentReference')).map(node => node.getAttributeNS(W, 'id')))
+    .toEqual([items[0].getAttributeNS(W, 'id')]);
+  return zip;
+}
+
+test('opts in to anchored Proofread comments in ordinary and issued Word downloads', async ({ page }, info) => {
+  const native = Boolean(nativeWordDirectory);
+  if (native) test.setTimeout(780_000);
+  await page.addInitScript(() => localStorage.setItem('browser-test-visitor', 'returning'));
+  await page.goto('/');
+  const source = { documentMode: 'custom', documentCategory: 'correspondence', docType: 'naval_letter',
+    formData: { subject: 'SYNTHETIC WORD PROOFREAD', from: 'Training Office', to: 'Training Officer', date: '16 Nov 26', sigLast: 'EXAMPLE', classLevel: 'unclassified' },
+    paragraphs: [{ id: 'word-return-body', text: body, level: 0 }, { id: 'word-proofread-body', text: proofreadBody, level: 0 }],
+    references: [], enclosures: [], copyTos: [], distributions: [] };
+  await page.getByLabel('Import draft file').setInputFiles({ name: 'proofread-source.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(source)) });
+  await page.getByRole('button', { name: 'Open as new document', exact: true }).click();
+  const word = async (name: string) => download(page, async () => {
+    await page.getByRole('button', { name: 'Download', exact: true }).click();
+    await page.getByRole('menuitem', { name, exact: true }).click();
+    await page.getByRole('button', { name: 'Download Anyway', exact: true }).click();
+  });
+  const plain = await JSZip.loadAsync(await word('Download Word (.docx)'));
+  const plainComments = await plain.file('word/comments.xml')?.async('string');
+  expect(plainComments ?? '').not.toMatch(/<w:comment\b/);
+  expect(await plain.file('word/document.xml')!.async('string')).not.toContain('commentRangeStart');
+  const ordinary = await word('Word with Proofread comments');
+  await expectProofreadComment(ordinary);
+  await writeFile(info.outputPath('proofread-ordinary.docx'), ordinary);
+
+  let modal = await reviews(page);
+  await modal.getByLabel('Review name', { exact: true }).fill('Proofread baseline');
+  await modal.getByRole('button', { name: 'Start review from current draft', exact: true }).click();
+  await expect(modal.getByText('Review baseline saved. Later source edits will not change this copy.', { exact: true })).toBeVisible();
+  await closeReviewRounds(modal);
+  await replaceParagraphText(page.getByRole('textbox', { name: 'Paragraph 2', exact: true }), 'New working draft text.');
+  modal = await reviews(page);
+  const option = modal.getByRole('checkbox', { name: 'Include Proofread comments on body paragraphs', exact: true });
+  await expect(option).not.toBeChecked();
+  await option.check();
+  const issued = await download(page, async () => {
+    await modal.getByRole('button', { name: 'Download Word review copy', exact: true }).click();
+    await modal.getByRole('button', { name: 'Approve privacy for Word review', exact: true }).click();
+  });
+  const issuedZip = await expectProofreadComment(issued);
+  expect(issuedZip.file('customXml/dondocs-word-review.xml')).not.toBeNull();
+  expect(await issuedZip.file('word/document.xml')!.async('string')).toContain('DDReview_1');
+  await writeFile(info.outputPath('proofread-issued.docx'), issued);
+
+  const returned = native
+    ? await awaitNativeWordReturn(issued, 'Edit “contact” to “authorized liaison” without tracking in paragraph 2. Add the posted comment “Please check this exact word.” and track the replacement of “old” with “reviewed” in paragraph 1.')
+    : await reviewerChanges(issued, true);
+  if (native) {
+    const metadata = await nativeWordReturnMetadata(returned);
+    await info.attach('microsoft-word-proofread-return', { body: JSON.stringify({
+      ...metadata, operatorReportedVersion: nativeWordVersion, testHostPlatform: process.platform,
+      issuedSha256: digest(issued), returnedSha256: digest(returned),
+    }, null, 2), contentType: 'application/json' });
+  }
+  await writeFile(info.outputPath('proofread-returned.docx'), returned);
+  await modal.getByLabel('Import feedback return', { exact: true }).setInputFiles({ name: 'proofread-returned.docx', mimeType: TYPE, buffer: returned });
+  await expect(modal.getByText(/Word source: proofread-returned.docx/)).toBeVisible({ timeout: 30_000 });
+  await modal.getByText('Returned suggested replacements (2)', { exact: true }).click();
+  const replacements = modal.getByRole('region', { name: 'Returned suggested replacements', exact: true });
+  await expect(replacements).toContainText('reviewed');
+  await expect(replacements).toContainText(native ? 'authorized liaison' : 'Additional reviewer context.');
+  await modal.getByRole('button', { name: 'Import reviewed feedback', exact: true }).click();
+  await expect(modal.getByText(/^Feedback imported\./)).toBeVisible({ timeout: 30_000 });
+  await closeReviewRounds(modal);
+  const draft = JSON.parse((await download(page, () => actions(page, 'Export draft (.json)'))).toString('utf8'));
+  expect(draft.reviewComments.threads).toHaveLength(1);
+  expect(draft.reviewComments.threads[0].messages[0].text).toContain('Please check this exact word.');
+  expect(draft.paragraphs[1].text).toBe('New working draft text.');
+});
+
 for (const theme of ['light', 'dark', 'classic']) {
   test(`issued Word return preserves newer work and native review history in ${theme}`, async ({ page, context }, info) => {
     const native = Boolean(nativeWordDirectory) && theme === 'light';

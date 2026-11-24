@@ -1,6 +1,7 @@
 import { getExportDeploymentPolicy } from '@/config/classification';
 import { readWordDocument, copyWordImport, type WordImport } from '@/services/docx/import/readWord';
 import { readWordReviewIdentity, type WordReviewIdentity } from '@/services/docx/review/identity';
+import { issuedProofreadCommentDigest } from '@/services/docx/review/proofreadComments';
 import { captureDocumentTarget, isCurrentDocumentTarget, type DocumentTarget } from '@/stores/documentsStore';
 import { assertRetainedTextPolicy } from './retainedDocumentTextPolicy';
 import { matchWordReviewHandoff, type MatchedWordReviewParagraph } from './wordReviewBaseline';
@@ -52,13 +53,25 @@ async function proposals(round: ReviewRound, mapped: readonly MatchedWordReviewP
   }
   return result;
 }
-async function comments(round: ReviewRound, imported: WordImport, mapped: readonly MatchedWordReviewParagraph[], key: string, createdAt: number): Promise<ReviewComments | undefined> {
+async function comments(round: ReviewRound, imported: WordImport, mapped: readonly MatchedWordReviewParagraph[], key: string,
+  createdAt: number, issuedProofreadComments?: readonly string[],
+): Promise<ReviewComments | undefined> {
   const bySource = new Map(mapped.map(item => [item.sourceIndex, item]));
   const adapted = { ...imported, blocks: imported.blocks.map(block => {
     const binding = bySource.get(block.sourceIndex);
     return binding && !block.paragraph.figure && !block.paragraph.bodyTable
       ? { ...block, paragraph: { ...block.paragraph, id: binding.paragraphId }, nativeTextOffset: binding.plainPrefixLength } : block;
   }) };
+  if (issuedProofreadComments?.length) {
+    const issued = new Set(issuedProofreadComments);
+    const isIssued = await Promise.all(imported.comments.map(async comment => {
+      const whole = await issuedProofreadCommentDigest(comment);
+      if (whole && issued.has(whole)) return true;
+      const legacy = await issuedProofreadCommentDigest(comment, 'legacy');
+      return !!legacy && issued.has(legacy);
+    }));
+    adapted.comments = imported.comments.filter((_, index) => !isIssued[index]);
+  }
   const converted = nativeWordComments(adapted, round.baseline.session);
   const threads = structuredClone(round.baseline.session.reviewComments?.threads ?? []);
   for (const [index, thread] of (converted?.threads ?? []).entries()) {
@@ -80,7 +93,8 @@ export async function buildWordReviewReturn(round: ReviewRound, identity: WordRe
   const receipt = round.wordHandoffs!.find(item => item.id === identity.locator.handoffId)!;
   const key = `${receipt.id}:${imported.source.sha256}`, createdAt = receipt.createdAt;
   if (mapped.filter(item => item.expected !== item.proposed).length > 100) throw new Error('A Word return supports up to 100 paragraph text proposals. Split this review before importing.');
-  const suggestions = await proposals(round, mapped, key, createdAt), discussions = await comments(round, imported, mapped, key, createdAt);
+  const suggestions = await proposals(round, mapped, key, createdAt);
+  const discussions = await comments(round, imported, mapped, key, createdAt, receipt.issuedProofreadComments);
   signal?.throwIfAborted();
   return createCheckedReviewReturn(round, { id: `return_${await stableUuid([key, 'return'])}`, createdAt, comments: discussions, proposals: suggestions }, policy);
 }

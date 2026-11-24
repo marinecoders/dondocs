@@ -794,6 +794,10 @@ function App() {
     useUIStore.getState().setValidationVisible(true);
     requestExport('docx', undefined, 'word-enclosures');
   }, [requestExport]);
+  const handleDownloadDocxProofread = useCallback(() => {
+    useUIStore.getState().setValidationVisible(true);
+    requestExport('docx', undefined, 'word-proofread');
+  }, [requestExport]);
   const handleRetryDownload = useCallback(() => { retryExport(); }, [retryExport]);
 
   const currentPreviewUrl = documentCategory === 'forms'
@@ -1250,6 +1254,7 @@ function App() {
               onDownloadTex={handleDownloadTex}
               onDownloadDocx={handleDownloadDocx}
               onDownloadDocxEnclosures={handleDownloadDocxEnclosures}
+              onDownloadDocxProofread={handleDownloadDocxProofread}
               onDownloadFlatTex={handleDownloadFlatTex}
               onRefreshPreview={documentCategory === 'forms' ? () => { setFormError(null); setRenderedForm(null); setFormRefresh((n) => n + 1); } : compilePdf}
               isCompiling={previewBusy}

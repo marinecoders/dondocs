@@ -7,6 +7,7 @@ import type { ExportGate } from '@/lib/exportController';
 import { copyExportReview } from '@/lib/preparedExport';
 import { reviewRoundStatus, type ReviewRound } from '@/lib/reviewRounds';
 import { useDocumentsStore } from '@/stores/documentsStore';
+import { supportsWordProofread } from '@/lib/correspondenceProofreadChecks';
 
 export interface WordReviewExportOptions { gate: ExportGate; renderer: CorrespondenceRendererPorts }
 interface Props extends WordReviewExportOptions {
@@ -19,10 +20,13 @@ export function WordReviewControls({ rounds, disabled, onSaved, onBusyChange, ga
   const documentId = useDocumentsStore(state => state.currentId);
   const available = rounds.filter(round => round.ownerDocumentId === documentId && reviewRoundStatus(round) === 'active');
   const [selectedId, setSelectedId] = useState(''), [error, setError] = useState('');
+  const [proofreadRoundId, setProofreadRoundId] = useState<string>();
   const [owner] = useState(() => createWordReviewExport({ gate, renderer, onSaved }));
   const state = useSyncExternalStore(owner.controller.subscribe, owner.controller.getState, owner.controller.getState);
   const held = state.phase === 'preparing' || state.phase === 'executing' || state.phase === 'review';
   const selected = available.find(round => round.id === selectedId) ?? available[0];
+  const canIncludeProofread = selected && supportsWordProofread(selected.baseline.session);
+  const includeProofread = !!canIncludeProofread && proofreadRoundId === selected?.id;
   const review = state.phase === 'review' ? copyExportReview(state.job) : null;
   useEffect(() => { onBusyChange(held);return () => onBusyChange(false); }, [held, onBusyChange]);
   useEffect(() => { owner.activate();return () => owner.dispose(); }, [owner]);
@@ -32,13 +36,20 @@ export function WordReviewControls({ rounds, disabled, onSaved, onBusyChange, ga
     <p className="text-xs text-muted-foreground">Word layout changes are excluded. Paragraph moves, splits, joins, field, table, image and header/footer content changes require manual review. Reviewer names and dates are unverified.</p>
     <Label className="block space-y-1">Saved Word review baseline
       <select aria-label="Saved Word review baseline" className="block w-full min-w-0 rounded border bg-background p-2 text-sm" disabled={disabled || held || !available.length}
-        value={selected?.id ?? ''} onChange={event => setSelectedId(event.target.value)}>
+        value={selected?.id ?? ''} onChange={event => { setSelectedId(event.target.value); setProofreadRoundId(undefined); }}>
         {!available.length && <option value="">Create an owned active review baseline first</option>}
         {available.map(round => <option key={round.id} value={round.id}>{round.label} · {new Date(round.createdAt).toLocaleString()}</option>)}
       </select>
     </Label>
+    {canIncludeProofread && (
+      <label className="flex items-start gap-2 text-sm">
+        <input type="checkbox" className="mt-1" checked={includeProofread} disabled={disabled || held}
+          onChange={event => setProofreadRoundId(event.target.checked ? selected?.id : undefined)} />
+        Include Proofread comments on body paragraphs
+      </label>
+    )}
     <div className="flex flex-wrap gap-2"><Button variant="outline" className="h-auto min-h-9 max-w-full whitespace-normal text-left" disabled={disabled || held || !selected} onClick={() => {
-      setError('');try { if (!owner.request(selected!)) setError('Another export is running or awaiting review. Finish or cancel it, then retry.'); }
+      setError('');try { if (!owner.request(selected!, includeProofread)) setError('Another export is running or awaiting review. Finish or cancel it, then retry.'); }
       catch (cause) { setError(cause instanceof Error ? cause.message : 'The Word review could not be prepared.'); }
     }}>Download Word review copy</Button>
     {held && <Button variant="ghost" className="h-auto min-h-9 max-w-full whitespace-normal text-left" onClick={() => owner.controller.cancel()}>Cancel Word review export</Button>}</div>

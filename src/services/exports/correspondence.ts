@@ -5,6 +5,7 @@ import { usesDlaLetterhead } from '@/lib/dlaLetterhead';
 import { resolveLetterheadMode } from '@/lib/letterheadMode';
 import { DOC_TYPE_CONFIG } from '@/types/document';
 import { appendWordEnclosurePages, renderWordEnclosurePages } from '@/services/docx/enclosurePages';
+import { addWordProofreadComments, planWordProofreadComments } from '@/services/docx/review/proofreadComments';
 import type { LatexCompileProfile } from '@/services/latex/renderDocument';
 import { renderTaggedCorrespondence } from '@/services/pdf/accessibility/render';
 import { resolveSignature } from '@/lib/signatureAssets';
@@ -86,7 +87,8 @@ export async function renderPreparedCorrespondence(ready: ReadyExportJob, ports:
       const dlaLetterhead = usesDlaLetterhead(document.docType, data);
       const mediaFiles = await prepareDocxImages(document, async id => read(id).data);
       checkCancellation(signal);
-      const blob = await convertDocx(generateFlatLatex(document, resolvedLevel), {
+      const annotations = ready.job.wordProofreadComments ? planWordProofreadComments(document) : undefined;
+      const blob = await convertDocx(generateFlatLatex(document, resolvedLevel, 'docx', annotations?.bookmarks), {
         mediaFiles,
         bodyTables: document.docType === 'coordination_page' ? [coordinationTable(data)]
           : document.paragraphs.flatMap(paragraph => paragraph.bodyTable ? [paragraph.bodyTable] : []),
@@ -102,7 +104,8 @@ export async function renderPreparedCorrespondence(ready: ReadyExportJob, ports:
         startingPageNumber: pageStartNumber(document.docType, data.startingPageNumber),
       }, onDocxProgress ? phase => observeProgress(onDocxProgress, phase) : undefined);
       checkCancellation(signal);
-      return createExportArtifact(ready, enclosurePages.length ? await appendWordEnclosurePages(blob, enclosurePages, signal) : blob);
+      const annotated = annotations ? await addWordProofreadComments(blob, annotations.notes, signal) : blob;
+      return createExportArtifact(ready, enclosurePages.length ? await appendWordEnclosurePages(annotated, enclosurePages, signal) : annotated);
     });
   }
   if (target === 'tex') {

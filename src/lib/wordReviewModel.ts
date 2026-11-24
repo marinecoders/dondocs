@@ -11,6 +11,7 @@ const paragraph = z.object({ kind: z.literal('paragraph'), sourceIndex: index, p
 export const wordReviewHandoffSchema = z.object({
   version: z.literal(1), id: z.string().uuid(), createdAt: z.number().int().nonnegative().max(8_640_000_000_000_000),
   docxSha256: digest, staticDigest: digest, blocks: z.array(z.discriminatedUnion('kind', [opaque, paragraph])).min(1).max(1_000),
+  issuedProofreadComments: z.array(digest).max(100).optional(),
 }).strict().superRefine((value, context) => {
   if (value.blocks.some((block, position) => position > 0 && block.sourceIndex < value.blocks[position - 1].sourceIndex)) context.addIssue({ code: 'custom', message: 'Word review bindings are out of source order.' });
   const paragraphs = value.blocks.filter(block => block.kind === 'paragraph');

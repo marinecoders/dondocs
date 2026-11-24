@@ -104,7 +104,7 @@ export function usePreparedExports({ isReady, gate, compile, waitForReady, setPr
   const state = useSyncExternalStore(controller.subscribe, controller.getState, controller.getState);
   useEffect(() => { owner.activate();return () => { owner.deactivate();controller.cancel(); }; }, [controller, owner]);
   const review = useMemo(() => state.phase === 'review' ? copyExportReview(state.job) : null, [state]);
-  const request = useCallback((target: ExportTarget, texMode?: 'configuration' | 'flat', purpose?: 'signing' | 'tagged' | 'word-enclosures' | 'print') => {
+  const request = useCallback((target: ExportTarget, texMode?: 'configuration' | 'flat', purpose?: 'signing' | 'tagged' | 'word-enclosures' | 'print' | 'word-proofread') => {
     try {
       const captured = captureCurrentDocumentRevision();
       const session = copyCapturedSession(captured);
@@ -117,7 +117,16 @@ export function usePreparedExports({ isReady, gate, compile, waitForReady, setPr
       const id = [...crypto.getRandomValues(new Uint32Array(4))].map(part => part.toString(16)).join('-');
       const previous = owner.getDeliveryIntent();
       owner.setDeliveryIntent((purpose === 'signing' || purpose === 'print') && target === 'pdf' ? { id, purpose } : null);
-      const accepted = controller.request({ id, captured, target, texMode, ...(purpose === 'word-enclosures' ? { wordEnclosurePages: true } : {}), ...(purpose === 'tagged' ? { pdfAccessibility: 'tagged' as const } : {}), filename: purpose === 'word-enclosures' ? filename.replace(/\.docx$/i, '-with-enclosures.docx') : target === 'tex' && texMode === 'flat' ? 'correspondence-flat.tex' : purpose === 'tagged' ? filename.replace(/\.pdf$/i, '-tagged.pdf') : filename });
+      const accepted = controller.request({
+        id, captured, target, texMode,
+        ...(purpose === 'word-enclosures' ? { wordEnclosurePages: true } : {}),
+        ...(purpose === 'word-proofread' ? { wordProofreadComments: true } : {}),
+        ...(purpose === 'tagged' ? { pdfAccessibility: 'tagged' as const } : {}),
+        filename: purpose === 'word-enclosures' ? filename.replace(/\.docx$/i, '-with-enclosures.docx')
+          : purpose === 'word-proofread' ? filename.replace(/\.docx$/i, '-proofread.docx')
+            : target === 'tex' && texMode === 'flat' ? 'correspondence-flat.tex'
+              : purpose === 'tagged' ? filename.replace(/\.pdf$/i, '-tagged.pdf') : filename,
+      });
       if (!accepted) owner.setDeliveryIntent(previous);
       return accepted;
     } catch (error) {
