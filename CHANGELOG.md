@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.270] — 2026-11-23
+
+### Fixed
+
+- Capture the current draft for printing and cancel delivery when the revision or print tab changes.
+
 ## [1.3.269] — 2026-11-23
 
 ### Fixed

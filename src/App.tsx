@@ -57,6 +57,7 @@ import { PIIWarningModal } from '@/components/modals/PIIWarningModal';
 import { ActionPackageWorkspace } from '@/components/ActionPackageWorkspace';
 import { PackageWorkingCopyReturn } from '@/components/PackageWorkingCopyReturn';
 import { usePreparedExports } from '@/hooks/usePreparedExports';
+import { usePrintCurrentDocument } from '@/hooks/usePrintCurrentDocument';
 import { createExportGate } from '@/lib/exportController';
 import { ExportMarkingReviewModal } from '@/components/modals/ExportMarkingReviewModal';
 import { ParagraphStructureModal } from '@/components/modals/ParagraphStructureModal';
@@ -235,6 +236,7 @@ function App() {
   const [exportGate] = useState(createExportGate);
   const preparedExports = usePreparedExports({ isReady, gate: exportGate, compile, waitForReady, setProgress: setDownloadProgress });
   const { request: requestExport, retry: retryExport } = preparedExports;
+  const printCurrentDocument = usePrintCurrentDocument({ compile, waitForReady });
   const compileTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const formCompileTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const isResettingRef = useRef(false);
@@ -845,22 +847,10 @@ function App() {
         return;
       }
 
-      // Ctrl/Cmd + P - Print (trigger browser print on the PDF)
+      // Ctrl/Cmd + P - Print the revision captured by this gesture.
       if (isMod && e.key === 'p') {
         e.preventDefault();
-        if (previewHasHints) {
-          requestExport('pdf', undefined, 'print');
-        } else if (currentPreviewUrl) {
-          // Print the active document's clean preview, including NAVMC forms.
-          const printWindow = window.open(currentPreviewUrl, '_blank');
-          if (printWindow) {
-            // { once: true } so the listener auto-removes after firing,
-            // otherwise each popup window stays pinned by the closure.
-            printWindow.addEventListener('load', () => {
-              printWindow.print();
-            }, { once: true });
-          }
-        }
+        if (!e.repeat) printCurrentDocument();
         return;
       }
 
@@ -914,9 +904,7 @@ function App() {
     workspaceReady,
     updating,
     handleDownloadPdf,
-    currentPreviewUrl,
-    previewHasHints,
-    requestExport,
+    printCurrentDocument,
     setTemplateLoaderOpen,
     setReferenceLibraryOpen,
     setFindReplaceOpen,
