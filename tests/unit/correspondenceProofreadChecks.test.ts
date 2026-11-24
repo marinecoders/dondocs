@@ -60,8 +60,8 @@ describe('additional correspondence proofreading', () => {
       enclosures: [{ title: 'Local enclosure' }], paragraphs: [{ level: 0, text: 'See enclosures (1), (5) and (6).' }] }));
     expect(findings.map(f => f.title)).toEqual(['Check enclosure (6)']);
   });
-  it('ignores an inactive formal enclosure list in a compliant business letter', () => {
-    expect(additionalProofreadFindings(draft({ docType: 'business_letter', enclosures: [{ title: '' }],
+  it('ignores an inactive formal enclosure list in compliant executive correspondence', () => {
+    expect(additionalProofreadFindings(draft({ docType: 'executive_correspondence', enclosures: [{ title: '' }],
       paragraphs: [{ level: 0, text: 'enclosure (99)' }] }))).toEqual([]);
   });
   it('presents multiline To as an advisory instead of treating every wrapped line as an addressee', () => {

@@ -114,6 +114,7 @@ function SortableViaItem({ id, index, value, onChange, onRemove, onLookup, canRe
 export function AddressingSection({ config }: AddressingSectionProps) {
   const { formData, setField, documentMode } = useDocumentStore();
   const docType = useDocumentStore((s) => s.docType);
+  const isBusinessLetter = docType === 'business_letter';
   const validationVisible = useUIStore((s) => s.validationVisible);
   const [ssicModalOpen, setSSICModalOpen] = useState(false);
   // Unit-directory lookup target: 'to' | a Via row index | null (closed). One
@@ -137,7 +138,7 @@ export function AddressingSection({ config }: AddressingSectionProps) {
   const directive = isDirective(docType);
   const isCompliantMode = documentMode === 'compliant';
   const requiresSalutation = isCompliantMode && config.compliance.requiresSalutation;
-  const dateFormat = isCompliantMode ? config.compliance.dateFormat : 'military';
+  const dateFormat = isCompliantMode || isBusinessLetter ? config.compliance.dateFormat : 'military';
   const isSSICOptional = isCompliantMode && config.optionalSSIC;
 
   // Endorsements (same_page / new_page) require a position-in-chain
@@ -232,7 +233,7 @@ export function AddressingSection({ config }: AddressingSectionProps) {
           <AccordionContent>
             <div className="editor-field-groups pt-2">
               <p className="text-xs text-muted-foreground -mt-1">{directive ? "Issuing authority, date and subject." : "From, To, Via, Subject, and identifying symbols."}</p>
-              {/* Date Only - for business letters (no SSIC/Serial) */}
+              {/* Formats that use a standalone date field */}
               {(config.dateOnly || directive) && (
                 <div className="space-y-2" data-preview-input-category={config.dateOnly ? 'addressing' : undefined}>
                   <Label htmlFor="date">Date</Label>
@@ -302,7 +303,7 @@ export function AddressingSection({ config }: AddressingSectionProps) {
               </div>
 
               {/* In Reply Refer To */}
-              <div className={`space-y-2 ${!config.ssic ? 'opacity-50 pointer-events-none select-none' : ''}`}>
+              {!isBusinessLetter && <div className={`space-y-2 ${!config.ssic ? 'opacity-50 pointer-events-none select-none' : ''}`}>
                 <div className="flex items-center gap-2">
                   <Checkbox
                     id="inReplyTo"
@@ -313,7 +314,7 @@ export function AddressingSection({ config }: AddressingSectionProps) {
                     In reply refer to
                   </Label>
                 </div>
-              </div>
+              </div>}
               </>
             )}
 
@@ -543,7 +544,7 @@ export function AddressingSection({ config }: AddressingSectionProps) {
             </div>
 
             {/* Continuation page subject - only show for doc types with subject */}
-            {!directive && !config?.skipSubject && (
+            {!directive && !config?.skipSubject && (!isBusinessLetter || !isCompliantMode) && (
               <div className="flex items-center space-x-2 pt-1">
                 <Checkbox
                   id="showSubjectOnContinuation"

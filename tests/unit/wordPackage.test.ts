@@ -348,7 +348,7 @@ it('omits retained inactive figure originals from clean Word delivery', async ()
 
 it.each(['attached', 'missing'] as const)('omits %s inactive enclosure sidecars without blocking or disclosing them', async kind => {
   const original = await pdf();
-  const { record } = await fixture({ documentMode: 'compliant', docType: 'business_letter', enclosures: [{ title: 'Inactive retained annex',
+  const { record } = await fixture({ documentMode: 'compliant', docType: 'executive_correspondence', enclosures: [{ title: 'Inactive retained annex',
     ...(kind === 'attached' ? { file: { name: 'SSN 123-45-6789.pdf', size: original.byteLength, data: original } } : {}) }] });
   const before = structuredClone(record), prepared = await prepareWordPackage(record, record.currentRevisionId, policy);
   expect(prepared.privacy.found).toBe(false);acknowledgeWordPackage(prepared);

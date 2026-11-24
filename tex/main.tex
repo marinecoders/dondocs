@@ -768,9 +768,6 @@
 \newcommand{\AttentionLine}{}
 \newcommand{\setAttentionLine}[1]{\renewcommand{\AttentionLine}{#1}}
 
-% Business letter enclosures (mentioned in body, listed after signature)
-\newcommand{\BusinessEnclosures}{}
-\newcommand{\setBusinessEnclosures}[1]{\renewcommand{\BusinessEnclosures}{#1}}
 
 
 %-----------------------------------------------------------------------------
@@ -1874,6 +1871,9 @@
 % "Copy to:" block is the last thing on the sheet, below the endorsement.
 
 \printAppendedEndorsement
+\providecommand{\printClosingNotations}{}
+\printClosingNotations
+
 
 
 %=============================================================================

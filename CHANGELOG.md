@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.252] — 2026-11-23
+
+### Fixed
+
+- Render sender identifiers, continuation headings, and conditional closing notations in supported outputs.
+
 ## [1.3.251] — 2026-11-23
 
 ### Fixed

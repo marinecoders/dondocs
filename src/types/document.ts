@@ -415,6 +415,8 @@ export interface DocumentData {
 
   // Continuation subject on page 2+
   showSubjectOnContinuation: boolean;
+  businessEnclosuresCountOnly?: boolean;
+  businessSeparateMailing?: string;
   /** Ch 9 lets a same-page endorsement omit the subject when the whole page is
    *  photocopied. Omitting is the norm, so this is opt-in. */
   includeEndorsementSubject: boolean;
@@ -476,7 +478,7 @@ export interface DocTypeConfig {
   compliance: {
     numberedParagraphs: boolean;     // false = no numbered paragraphs (business letters)
     allowReferences: boolean;        // false = no formal references section (business letters)
-    allowEnclosures: boolean;        // false = no formal enclosures section (business letters)
+    allowEnclosures: boolean;        // false = no formal enclosures section
     requiresSalutation: boolean;     // true = needs "Dear Mr./Ms.:" (business letters)
     requiresComplimentaryClose: boolean; // true = needs "Sincerely," (business letters)
     dualSignature: boolean;          // true = two signature blocks (MOA/MOU/Joint)
@@ -495,11 +497,11 @@ const DEFAULT_COMPLIANCE = {
   dateFormat: 'military' as const,
 };
 
-// Business letter compliance (Ch 11) - NO numbered paragraphs, NO formal refs/enclosures
+// Business letter compliance (Ch 11) - no numbered paragraphs or formal reference block
 const BUSINESS_COMPLIANCE = {
   numberedParagraphs: false,
   allowReferences: false,  // Mentioned in body only
-  allowEnclosures: false,  // Mentioned in body only
+  allowEnclosures: false,
   requiresSalutation: true,
   requiresComplimentaryClose: true,
   dualSignature: false,
@@ -567,11 +569,11 @@ export const DOC_TYPE_CONFIG: Record<string, DocTypeConfig> = {
     compliance: DEFAULT_COMPLIANCE,
   },
   business_letter: {
-    letterhead: true, ssic: false, fromTo: false, via: false, memoHeader: false, signature: 'full', uiMode: 'business',
-    dateOnly: true, recipientAddress: true,
+    letterhead: true, ssic: true, fromTo: false, via: false, memoHeader: false, signature: 'full', uiMode: 'business',
+    recipientAddress: true,
     subjectPrefix: 'SUBJECT: ',
     regulations: { fontSize: '12pt', fontSizeOptions: ['10pt', '11pt', '12pt'], fontFamily: 'times', ref: 'Ch 11' },
-    compliance: BUSINESS_COMPLIANCE,
+    compliance: { ...BUSINESS_COMPLIANCE, allowEnclosures: true }, // Closing notation (Ch 11 ¶10)
   },
   multiple_address_letter: {
     letterhead: true, ssic: true, fromTo: true, via: true, memoHeader: false, signature: 'abbrev', uiMode: 'standard',

@@ -113,6 +113,8 @@ function active(source: DocumentFieldSource, path: FieldPath, projection: FieldP
   if (key === 'preparedBy' && isStaffPaper(source.docType)) return source.docType !== 'coordination_page';
   if (key === 'subject' && source.docType === 'coordination_page') return source.formData.coordinationLayout === 'hqmc';
   if (usesDlaLetterhead(source.docType, source.formData) && ['department', 'sealType'].includes(key)) return false;
+  if (key === 'businessEnclosuresCountOnly' || key === 'businessSeparateMailing') return source.docType === 'business_letter';
+  if (source.docType === 'business_letter' && ['inReplyTo', 'inReplyToText'].includes(key)) return false;
   if (key === 'letterheadStandard') return hasDlaStationery(source.docType, source.formData);
   if (key === 'stationerySize') return source.docType === 'executive_correspondence';
   if (key === 'cuiTransmittalNote') return source.formData.classLevel === 'cui'

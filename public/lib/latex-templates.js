@@ -785,9 +785,6 @@ const LATEX_TEMPLATES = {
 \\newcommand{\\AttentionLine}{}
 \\newcommand{\\setAttentionLine}[1]{\\renewcommand{\\AttentionLine}{#1}}
 
-% Business letter enclosures (mentioned in body, listed after signature)
-\\newcommand{\\BusinessEnclosures}{}
-\\newcommand{\\setBusinessEnclosures}[1]{\\renewcommand{\\BusinessEnclosures}{#1}}
 
 
 %-----------------------------------------------------------------------------
@@ -1891,6 +1888,9 @@ const LATEX_TEMPLATES = {
 % "Copy to:" block is the last thing on the sheet, below the endorsement.
 
 \\printAppendedEndorsement
+\\providecommand{\\printClosingNotations}{}
+\\printClosingNotations
+
 
 
 %=============================================================================
@@ -2087,7 +2087,7 @@ const LATEX_TEMPLATES = {
 %   - Date format: Month spelled out (January 5, 2015)
 %   - Has salutation (Dear Mr./Ms.) and complimentary close (Sincerely,)
 %   - Paragraphs NOT numbered, indented 4 spaces (0.5")
-%   - References/Enclosures mentioned in body only, not formal lines
+%   - References in the body, enclosure notations after the signature
 %   - Inside address 2-8 lines below date
 %
 %=============================================================================
@@ -2099,14 +2099,16 @@ const LATEX_TEMPLATES = {
 % SECNAV Ch 11: ID symbols in upper LEFT corner, blocked one below the other
 % Date format: Month spelled out, day in numerals, comma, full year
 
-\\newcommand{\\printDateAndTitle}{%
+\\newcommand{\\printBusinessIdentification}{%
     \\noindent
-    \\begin{tabular}[t]{@{}l@{}}
-        \\DocumentSSIC\\\\
-        \\optionalField{\\DocumentSerial}%
-        \\BusinessDate% Use civilian date format (January 5, 2015)
-    \\end{tabular}
-    \\par\\vspace{12pt}%
+    \\begin{tabular}[t]{@{}p{\\textwidth}@{}}%
+        \\optionalLine{\\DocumentSSIC}%
+        \\optionalLine{\\DocumentSerial}%
+        \\BusinessDate%
+    \\end{tabular}%
+}
+\\newcommand{\\printDateAndTitle}{%
+    \\printBusinessIdentification\\par\\vspace{12pt}%
 }
 
 
@@ -2223,31 +2225,44 @@ const LATEX_TEMPLATES = {
 
 
 %=============================================================================
-%                         ENCLOSURE LINE
+%                         CLOSING NOTATIONS
 %=============================================================================
-% SECNAV Ch 11, Para 11-13:
-%   - Position: 2nd line below signature block, flush left
-%   - Format with descriptions: "Enclosures: 1. GPO Style Manual"
-%   - Format without descriptions: "Enclosures (2)"
+% SECNAV M-5216.5 Ch 11, ¶¶10–12 and Figure 11-3
+\\renewcommand{\\printEnclosureList}{}% Business enclosures belong after the signature.
+\\providecommand{\\BusinessEnclosureLabel}{Enclosures}
+\\providecommand{\\BusinessSeparateMailing}{}
+\\newcounter{businessEnclosure}
 
-\\newcommand{\\printBusinessEnclosures}{%
-    \\ifNotEmpty{\\BusinessEnclosures}{%
-        \\par\\vspace{24pt}%
-        \\noindent Enclosures: \\BusinessEnclosures
-    }%
-}
-
-
-%=============================================================================
-%                         COPY TO LINE
-%=============================================================================
-% SECNAV Ch 11, Para 11-15:
-%   - Position: Left margin, 2nd line below enclosure (or signature if no encl)
-
-\\newcommand{\\printBusinessCopyTo}{%
-    \\ifNotEmpty{\\CopyToList}{%
-        \\par\\vspace{24pt}%
-        \\noindent Copy to: \\CopyToList
+\\newcommand{\\printClosingNotations}{%
+    \\ifnum\\value{enclmax}>0
+        \\ifdefined\\BusinessEnclosureCountOnly
+            \\par\\vspace{12pt}\\noindent Enclosures (\\arabic{enclmax})\\par
+        \\else
+            \\dondocsBeginList{\\BusinessEnclosureLabel:\\hspace{2\\fontdimen2\\font}}%
+            \\setcounter{businessEnclosure}{0}%
+            \\loop\\ifnum\\value{businessEnclosure}<\\value{enclmax}%
+                \\stepcounter{businessEnclosure}%
+                \\ifnum\\value{enclmax}=1
+                    \\ifhyperlinks
+                        \\dondocsEntry{}{\\hyperlink{enclosure1}{\\csname encl@title@1\\endcsname}}%
+                    \\else
+                        \\dondocsEntry{}{\\csname encl@title@1\\endcsname}%
+                    \\fi
+                \\else
+                    \\ifhyperlinks
+                        \\dondocsEntry{\\hyperlink{enclosure\\arabic{businessEnclosure}}{\\textcolor{blue}{\\arabic{businessEnclosure}.}}}{\\csname encl@title@\\arabic{businessEnclosure}\\endcsname}%
+                    \\else
+                        \\dondocsEntry{\\arabic{businessEnclosure}.}{\\csname encl@title@\\arabic{businessEnclosure}\\endcsname}%
+                    \\fi
+                \\fi
+            \\repeat
+            \\dondocsEndList
+        \\fi
+    \\fi
+    \\ifdefempty{\\BusinessSeparateMailing}{}{%
+        \\dondocsBeginList{Separate Mailing:\\hspace{2\\fontdimen2\\font}}%
+        \\dondocsEntry{}{\\BusinessSeparateMailing}%
+        \\dondocsEndList
     }%
 }
 
@@ -2267,15 +2282,31 @@ const LATEX_TEMPLATES = {
     \\renewcommand{\\footrulewidth}{0pt}%
 }
 
-% Executive formats label it SUBJECT:. Set at load, before the height
-% of the repeated line is measured.
+% Follow the left-margin direction in ¶¶1 and 14. Figure 11-3's
+% right-hand example conflicts with that written instruction.
 \\setContinuationLabel{SUBJECT:}
+\\renewcommand{\\dondocsReserveContHead}{%
+    \\sbox\\dondocsContBox{%
+        \\parbox{\\textwidth}{%
+            \\vspace*{24pt}%
+            \\applyDocumentFontSize
+            \\printBusinessIdentification\\par
+            \\printContinuationSubject
+        }%
+    }%
+    \\setlength{\\dondocsContExtra}{%
+        \\dimexpr\\ht\\dondocsContBox+\\dp\\dondocsContBox-\\headheight\\relax}%
+    \\ifdim\\dondocsContExtra>0pt
+        \\addtolength{\\headheight}{\\dondocsContExtra}%
+        \\addtolength{\\textheight}{-\\dondocsContExtra}%
+    \\fi
+}
 
 \\fancypagestyle{documentpage}{%
     \\fancyhf{}%
     \\fancyhead[C]{\\placeClassificationMarkings}%
-    \\fancyhead[L]{\\printContinuationSubject}%
-    \\fancyfoot[C]{\\smartPageNumber}% Page number centered
+    \\fancyhead[L]{\\usebox{\\dondocsContBox}}%
+    \\fancyfoot[C]{\\smartPageNumber}%
     \\renewcommand{\\headrulewidth}{0pt}%
     \\renewcommand{\\footrulewidth}{0pt}%
 }

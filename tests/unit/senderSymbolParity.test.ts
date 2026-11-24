@@ -47,15 +47,13 @@ describe('sender symbol parity across document types', () => {
     expect(generateFlatLatex(store(docType))).toContain(COMPOSED);
   });
 
-  it('a business letter prints no symbols block in either format', () => {
-    // It addresses a company, not a DON activity, so there is nothing to omit
-    // — this pins that "absent" is the intended state rather than a missed fix.
-    const pdf = JSON.stringify(generateAllLatexFiles(store('business_letter')));
-    const docx = generateFlatLatex(store('business_letter'));
-    for (const out of [pdf, docx]) {
-      expect(out).not.toContain('271');
-      expect(out).not.toContain(COMPOSED);
-    }
+  it('prints supplied symbols in business letters and omits them in executive correspondence', () => {
+    const business = store('business_letter');
+    expect(JSON.stringify(generateAllLatexFiles(business))).toContain(COMPOSED);
+    expect(generateFlatLatex(business)).toContain(COMPOSED);
+    const executive = store('executive_correspondence');
+    expect(JSON.stringify(generateAllLatexFiles(executive))).not.toContain(COMPOSED);
+    expect(generateFlatLatex(executive)).not.toContain(COMPOSED);
   });
 
   it('the junior side of a dual-command block gets the Ser prefix too', () => {

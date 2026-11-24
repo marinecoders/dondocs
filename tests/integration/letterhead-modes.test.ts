@@ -74,7 +74,7 @@ describe.skipIf(!available('pdflatex') || !available('pandoc'))('letterhead mode
 
   it('preserves a first body table on preprinted stationery instead of treating DEPARTMENT as a header', async () => {
     const store = buildBaseline('business_letter');
-    Object.assign(store.formData, { letterheadMode: 'preprinted', date: '', ssic: '', serial: '', to: '', subject: '' });
+    Object.assign(store.formData, { letterheadMode: 'preprinted', date: '', ssic: '', serial: '', officeCode: '', to: '', subject: '' });
     store.paragraphs = [{ id: 'body-table', level: 0, text: '', bodyTable: {
       rows: [['DEPARTMENT', 'Officer', 'Status'], ['Operations', 'Training', 'Pending']],
       headerRows: 1, columnWidths: [20, 30, 50],

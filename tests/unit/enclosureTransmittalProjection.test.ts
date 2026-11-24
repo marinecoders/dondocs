@@ -11,7 +11,7 @@ const policy = resolveExportDeploymentPolicy({ hostname: 'example.test', environ
 }, runtime: { status: 'absent' } });
 
 it('refuses a companion transmittal request on formats or levels that cannot print it', () => {
-  const input = { docType: 'business_letter', subject: 'Synthetic',
+  const input = { docType: 'executive_correspondence', subject: 'Synthetic',
     classification: { level: 'cui', cui: { transmittalNote: true } }, enclosures: [{ title: 'Synthetic appendix' }] };
   expect(validateLetter(input).join(' ')).toMatch(/requires classification.level cui and a document type with formal enclosures/);
   expect(validateLetter({ ...input, docType: 'naval_letter', classification: { ...input.classification, level: 'unclassified' } }).join(' '))
@@ -21,7 +21,7 @@ it('refuses a companion transmittal request on formats or levels that cannot pri
 it.each(['compliant', 'custom'] as const)('uses the transmittal note only with active enclosures in %s output', documentMode => {
   const original = createBlankSession();
   const captured = captureDocumentRevision({ documentId: 'source-synthetic', epoch: 1, editSequence: 0, capturedAt: 42 }, {
-    ...original, documentMode, docType: 'business_letter', endItems: [], publicationTables: {},
+    ...original, documentMode, docType: 'executive_correspondence', endItems: [], publicationTables: {},
     formData: { ...original.formData, classLevel: 'cui', cuiTransmittalNote: true },
     paragraphs: [{ text: 'Synthetic public letter body.', level: 0 }],
     enclosures: [{ title: 'Retained controlled appendix', marking: { classLevel: 'cui' } }],

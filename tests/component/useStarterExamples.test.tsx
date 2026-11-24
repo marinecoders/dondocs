@@ -118,13 +118,15 @@ describe('starter example lifecycle', () => {
     expect(useUIStore.getState().starterExampleEdits).toEqual({});
   });
 
-  it('treats the business letter date as Addressing and preserves only its required hints', () => {
+  it('treats the business letter date as an identifying symbol', () => {
     useDocumentStore.getState().setDocType('business_letter');
     const { result } = mount();
     act(() => useDocumentStore.getState().setField('date', '23 November 2026'));
-    expect(result.current.hiddenSections).toEqual(['addressing']);
+    expect(result.current.hiddenSections).toEqual(['senderSymbols']);
     const hints = getPreviewHints(useDocumentStore.getState(), undefined, result.current.hiddenSections);
-    expect(hints.subject).toBeUndefined();
+    expect(hints.ssic).toBeDefined();
+    expect(hints.serial).toBeUndefined();
+    expect(hints.subject).toBeDefined();
     expect(hints.date).toBeUndefined();
     expect(hints.to).toBeDefined();
     expect(hints.salutation).toBeDefined();
@@ -133,7 +135,7 @@ describe('starter example lifecycle', () => {
     expect(hints.copyToFirst).toBeDefined();
   });
 
-  it('does not treat a carried sender code as a signature edit when switching formats', () => {
+  it('keeps the business letter signature hints when its sender code changes', () => {
     const { result } = mount();
     act(() => useDocumentStore.getState().setField('officeCode', 'S-3'));
     expect(result.current.hiddenSections).toEqual(['senderSymbols']);
@@ -141,7 +143,8 @@ describe('starter example lifecycle', () => {
     const hints = () => getPreviewHints(useDocumentStore.getState(), undefined, result.current.hiddenSections);
     expect(hints().sigFirst).toBeDefined();
     act(() => useDocumentStore.getState().setField('officeCode', 'ADMIN'));
-    expect(hints().sigFirst).toBeUndefined();
+    expect(result.current.hiddenSections).toEqual(['senderSymbols']);
+    expect(hints().sigFirst).toBeDefined();
     expect(hints().sigLast).toBeDefined();
   });
 

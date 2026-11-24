@@ -50,6 +50,12 @@ Correspondence formats with bottom signatures use keep-together and widow contro
 
 Word keep rules end before copy/distribution blocks. Action/information memoranda and technical publications use their own signing layouts. Supported correspondence embeds one uploaded PNG signature image in Word, preserving its aspect ratio within 1.5 by 0.5 inches. Dual-signer documents require explicit junior or senior assignment and leave the other party unsigned; information memoranda place the image beside the FROM sender. These two placements are Word-only. This is a visual signature image; PDF signing fields and other signing layouts have the [documented Word limitations](OUTPUT_LIMITS.md#word-output).
 
+## Business letters
+
+The opening and continuation pages place the SSIC, originator’s code or combined code and serial, and spelled-out date at the left margin. This follows the written directions in Chapter 11 ¶¶1 and 14, where Figures 11-2 and 11-3 depict different placement. Compliant letters center the page number on pages 2 and later.
+
+In **Enclosures**, list the enclosed material by title or choose **List the enclosure count only**. A single described enclosure has no number. Enter a short description in **Separate mailing** when material is sent apart from the letter. The enclosure and mailing notations appear below the signature and above Copy to. [SECNAV M-5216.5, Chapter 11](https://www.secnav.navy.mil/doni/SECNAV%20Manuals1/5216.5%20%20CH-1.pdf)
+
 ## Business-letter figures
 
 In a Custom business letter, choose **Figure** from a paragraph's block menu, enter its caption and upload a PNG or JPEG. PDF and Word retain the image, graphic portion marking and numbered caption. Existing figures remain part of the letter when switching modes. Word fits each image within 6.5 by 5 inches while preserving its aspect ratio and embeds the bytes and caption as alternative text. Missing or unreadable images stop Word export rather than producing an incomplete file. See [technical publications](TECHNICAL_PUBLICATIONS.md) for figures in publication exports.

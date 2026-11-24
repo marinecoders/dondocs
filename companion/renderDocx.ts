@@ -1,6 +1,7 @@
 import { formatLetterheadStyles } from '@/services/docx/letterheadStyling';
 import { resolveLetterheadMode, supportsLetterheadModes } from '@/lib/letterheadMode';
 import { DOC_TYPE_CONFIG } from '@/types/document';
+import { businessLetterContinuation } from '@/services/latex/businessLetter';
 import { formatParagraphIndents } from '@/services/docx/paragraphIndents';
 import { formatPageFurniture, getClassificationMarking } from '@/services/docx/pageFurniture';
 import { deriveOverallClassLevel } from '@/lib/overallClassification';
@@ -146,8 +147,12 @@ export async function renderDocx(
     const formatted = await (stock.small ? formatSmallStationery(indented, stock, tables) : formatBodyTables(indented, tables));
     const marking = getClassificationMarking(deriveOverallClassLevel(store.formData.classLevel, store.paragraphs), store.formData.customClassification);
     // Wire headers last: their section references must precede page geometry.
-    return marking ? formatPageFurniture(formatted, {
-      marking, continuationSubject: '', wantsPageNumbers: false, startPage: 1,
+    const businessIdentification = businessLetterContinuation(store.docType, store.formData);
+    const pageNumbering = store.docType === 'business_letter' ? store.formData.pageNumbering : undefined;
+    const wantsPageNumbers = Boolean(pageNumbering && pageNumbering !== 'none');
+    return marking || businessIdentification.length || wantsPageNumbers ? formatPageFurniture(formatted, {
+      marking, continuationSubject: '', businessIdentification, wantsPageNumbers, pageNumbering,
+      numberFirstPage: pageNumbering === 'xofy', startPage: 1,
       fontSizePt: parseInt(store.formData.fontSize || '12pt', 10) || 12,
     }) : formatted;
   } finally {
