@@ -93,13 +93,13 @@ it("previews without writes, then updates repeated linked references atomically 
 });
 
 it("adjusts following occurrence ranges when a label grows and preserves uppercase citation spelling", async () => {
-  const f = await fixture("😀 Use reference (A), then reference (b), then reference (a0).", 27);
+  const f = await fixture("😀 Use reference (A), then reference (b), then reference (aa).", 27);
   const record = await linkAll(f.record), order = Array.from({ length: 27 }, (_, index) => index);
   [order[0], order[26]] = [order[26], order[0]];
   const changed = await applyPackageCitationReorder(await preparePackageCitationReorder(record, { kind: "references", memberId: f.native.id, order }, policy));
   const member = getPackageRevision(changed).members.find(value => value.kind === "native")!;
   if (member.kind !== "native") throw new Error("Expected native");
-  expect(member.session.paragraphs[0].text).toBe("😀 Use reference (A0), then reference (b), then reference (a).");
+  expect(member.session.paragraphs[0].text).toBe("😀 Use reference (AA), then reference (b), then reference (a).");
   const resolved = await resolvePackageCitations(getPackageRevision(changed));
   expect(resolved.links.every(value => value.state === "current")).toBe(true);
   expect(resolved.links[1].link.source.start).toBe(getPackageRevision(record).citations!.links[1].source.start + 1);

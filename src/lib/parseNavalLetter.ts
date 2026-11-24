@@ -12,6 +12,7 @@
  */
 
 import type { PortionMarking } from '@/types/document';
+import { referenceLetterAt, referenceLetterIndex } from './referenceLetters';
 
 export interface ParsedLetter {
   distributions?: string[];
@@ -26,8 +27,9 @@ export interface ParsedLetter {
   to?: string;
   via?: string;
   subject?: string;
-  /** Reference titles in order; the letter (a),(b)… is re-assigned by the store. */
+  /** Reference titles in order, with source labels when they differ from (a), (b), and so on. */
   references: string[];
+  referenceLabels?: string[];
   /** Enclosure titles in order; numbering is positional in the store. */
   enclosures: string[];
   /** "Copy to" recipients, one per entry. */
@@ -122,6 +124,40 @@ function splitLabeledItems(raw: string): string[] {
     .map((s) => s.replace(/\s+/g, ' ').trim())
     .filter(Boolean);
   return items;
+}
+
+/** Read continued reference lists without treating an arbitrary title acronym
+ * in parentheses as a list marker. Confirm the next ordinal before splitting. */
+function splitReferenceItems(raw: string): Pick<ParsedLetter, 'references' | 'referenceLabels'> {
+  const markers = /(?:^|\s)\(([a-z]{1,12}|a\d+)\)(?=\s)/gi;
+  const first = markers.exec(raw);
+  if (!first || first.index !== 0) return { references: splitLabeledItems(raw) };
+  let ordinal = referenceLetterIndex(first[1]);
+  if (ordinal === undefined) return { references: splitLabeledItems(raw) };
+  const references: string[] = [], labels: string[] = [];
+  let start = markers.lastIndex, label = first[1].toLowerCase();
+  let continued = ordinal > 0;
+  const capture = (end: number) => {
+    const title = raw.slice(start, end).replace(/\s+/g, ' ').trim();
+    if (title) {
+      references.push(title);
+      labels.push(label);
+    }
+  };
+  for (const marker of raw.matchAll(markers)) {
+    if (referenceLetterIndex(marker[1]) !== ordinal + 1) continue;
+    capture(marker.index);
+    label = marker[1].toLowerCase();
+    start = marker.index + marker[0].length;
+    ordinal++;
+    continued ||= ordinal >= 26;
+  }
+  if (!continued) return { references: splitLabeledItems(raw) };
+  capture(raw.length);
+  return {
+    references,
+    ...(labels.some((value, index) => value !== referenceLetterAt(index)) ? { referenceLabels: labels } : {}),
+  };
 }
 
 // Initials + SURNAME, e.g. "R. L. SMITH" or "P. W. McNALLY" (prefix surnames
@@ -229,7 +265,7 @@ export function parseNavalLetter(rawText: string): ParsedLetter {
       const vias = splitLabeledItems(fields.via.join(' '));
       result.via = vias.length ? vias.join('\n') : undefined;
     }
-    if (fields.ref) result.references = splitLabeledItems(fields.ref.join(' '));
+    if (fields.ref) Object.assign(result, splitReferenceItems(fields.ref.filter(Boolean).join(' ')));
     if (fields.encl) result.enclosures = splitLabeledItems(fields.encl.join(' '));
   }
 

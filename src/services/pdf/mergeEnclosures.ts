@@ -917,8 +917,7 @@ function parseContentStreamForReferences(bytes: Uint8Array, pageIdx: number, url
   // The pattern "reference (a)" could be split across multiple text operations
   // So we look for single letter patterns like "a", "b", etc. in blue near "reference" text
   for (const textOp of allTextOps) {
-    // Check for single lowercase letter (reference letter)
-    const letterMatch = textOp.text.match(/^([a-z])$/i);
+    const letterMatch = textOp.text.match(/^([a-z]+|a\d+)$/i);
     if (letterMatch) {
       const letter = letterMatch[1].toLowerCase();
       const url = urlMap.get(letter);
@@ -947,7 +946,7 @@ function parseContentStreamForReferences(bytes: Uint8Array, pageIdx: number, url
     }
 
     // Also check for full "reference (x)" patterns in case they're in one string
-    const refMatch = textOp.text.match(/reference\s*\(([a-z])\)/i);
+    const refMatch = textOp.text.match(/reference\s*\(([a-z]+|a\d+)\)/i);
     if (refMatch) {
       const letter = refMatch[1].toLowerCase();
       const url = urlMap.get(letter);

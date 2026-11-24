@@ -10,6 +10,8 @@ import { detectImportFormat, isDocxFile } from '@/lib/importFormat';
 import { openSessionAsNew, type TransitionOutcome } from '@/stores/documentsStore';
 import type { DocumentData } from '@/types/document';
 import { freshParagraphs } from './paragraphIdentity';
+import { isEndorsement } from './endorsement';
+import { referenceLetterIndex } from './referenceLetters';
 
 export { isDocxFile, isLegacyDocFile, detectImportFormat, type ImportFormat } from '@/lib/importFormat';
 
@@ -106,6 +108,10 @@ export function parsedLetterSession(
   if (parsed.to) formData.to = parsed.to;
   if (parsed.via) formData.via = parsed.via;
   if (parsed.subject) formData.subject = parsed.subject;
+  const firstReference = parsed.referenceLabels?.[0];
+  if (isEndorsement(docType) && firstReference && referenceLetterIndex(firstReference) !== undefined) {
+    formData.startingReferenceLetter = firstReference;
+  }
   if (parsed.signature) {
     formData.sigFirst = parsed.signature.first;
     formData.sigMiddle = parsed.signature.middle;
@@ -122,7 +128,7 @@ export function parsedLetterSession(
   }
   session.formData = { ...session.formData, ...formData };
   Object.assign(session, {
-    references: parsed.references.map((title, index) => ({ letter: referenceLetterAt(index), title })),
+    references: parsed.references.map((title, index) => ({ letter: parsed.referenceLabels?.[index] ?? referenceLetterAt(index), title })),
     enclosures: parsed.enclosures.map((title) => ({ title })),
     paragraphs: freshParagraphs(parsed.paragraphs.map((p) => ({
       text: p.text,

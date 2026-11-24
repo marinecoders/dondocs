@@ -3,7 +3,8 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 // Keep the actual parser and detectors; only file extraction needs a stand-in.
 vi.mock('@/lib/pdfText', () => ({ extractPdfText: vi.fn() }));
 
-import { parseLetterText, parseLetterFile, hasParsedContent } from '@/lib/importLetter';
+import { parseLetterText, parseLetterFile, hasParsedContent, parsedLetterSession } from '@/lib/importLetter';
+import { generateAllLatexFiles } from '@/services/latex/generator';
 import { extractPdfText } from '@/lib/pdfText';
 import { WORD_NS, wordImportFixture, wordParagraph } from '../_helpers/wordImportFixture';
 import { installWordXmlDom } from '../_helpers/wordXmlDom';
@@ -53,6 +54,20 @@ describe('shared letter-text import pipeline', () => {
     expect(hasParsedContent(result.parsed)).toBe(true);
     expect(extractPdfText).not.toHaveBeenCalled();
   });
+
+  it.each([['naval_letter', 'aa'], ['new_page_endorsement', 'aa'], ['new_page_endorsement', 'a0']])(
+    'preserves imported continuation labels in a %s, including %s',
+    (docType, continued) => {
+      const source = parseLetterText(`From: Example sender\nTo: Example recipient\nSubj: TRAINING\nRef:\n(z) First source\n(${continued}) Second source\n\n1. See reference (${continued}).`);
+      const session = parsedLetterSession(source.parsed, docType);
+      expect(session.references).toEqual([{ letter: 'z', title: 'First source' }, { letter: continued, title: 'Second source' }]);
+      expect(session.paragraphs[0].text).toBe(`See reference (${continued}).`);
+      if (docType === 'new_page_endorsement') expect(session.formData.startingReferenceLetter).toBe('z');
+      const files = generateAllLatexFiles(session).texFiles;
+      expect(files['references.tex']).toContain(`\\lastrefitem{${continued}}{Second source}`);
+      expect(files['body.tex']).toContain(`\\reflink{${continued}}`);
+    },
+  );
 
   it.each(['', ' \r\n\t ', 'Some text without recognizable letter structure.'])('does not import unrecognized input: %j', (text) => {
     expect(hasParsedContent(parseLetterText(text).parsed)).toBe(false);

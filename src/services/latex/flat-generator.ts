@@ -165,8 +165,7 @@ function convertRichText(text: string): string {
   result = result.replace(/[Ee]ncl\s*\((\d+)\)/g, '\\enclref{$1}');
 
   // Reference cross-links: "Reference (a)", "ref (a)" → \reflink{a}
-  result = result.replace(/[Rr]eference\s*\(([a-zA-Z])\)/g, '\\reflink{$1}');
-  result = result.replace(/[Rr]ef\s*\(([a-zA-Z])\)/g, '\\reflink{$1}');
+  result = result.replace(/\bref(?:erence)?\s*\(([a-z]+|a\d+)\)/gi, (_match, label: string) => `\\reflink{${label.toLowerCase()}}`);
 
   return result;
 }

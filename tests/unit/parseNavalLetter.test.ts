@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { parseNavalLetter } from '@/lib/parseNavalLetter';
+import { referenceLetterAt } from '@/lib/referenceLetters';
 
 // A complete, well-formed naval letter as pdftotext would render it: the
 // identification block, the header, a two-level paragraph tree, and the
@@ -284,4 +285,12 @@ describe('parseNavalLetter — resilience', () => {
     const p = parseNavalLetter('From: A\n\n1. Reference 5216 in the body.');
     expect(p.ssic).toBeUndefined();
   });
+});
+
+
+it('reads a text-layer reference list through (aa) and (ab) and preserves title parentheses', () => {
+  const titles = Array.from({ length: 28 }, (_, index) => `Training reference ${index + 1} (NAVY)`);
+  const list = titles.map((title, index) => `(${referenceLetterAt(index)}) ${title}`).join('\n     ');
+  expect(parseNavalLetter(`From: Training office\nTo: Training command\nSubj: EXAMPLE\nRef: ${list}\n\n1. See reference (aa).`).references).toEqual(titles);
+  expect(parseNavalLetter(`From: Training office\nTo: Training command\nSubj: EXAMPLE\nRef: ${list.replace('(aa)', '(a0)').replace('(ab)', '(a1)')}\n\n1. See reference (a0).`).references).toEqual(titles);
 });

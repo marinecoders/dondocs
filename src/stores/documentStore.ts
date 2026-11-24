@@ -26,7 +26,7 @@ import { debug } from '@/lib/debug';
 import { STORAGE_KEYS} from '@/lib/constants';
 import { compressedParse, compressedStringify } from '@/lib/compressedStorage';
 import { referenceStartIndex } from '@/lib/endorsement';
-import { referenceLetterAt, reLetterReferences } from '@/lib/referenceLetters';
+import { referenceLetterAt, referenceLetterIndex, reLetterReferences } from '@/lib/referenceLetters';
 import { canTrackReferenceCitations, planReferenceChange, type ReferenceChange } from '@/lib/referenceCitations';
 import { showAppAlert } from './alertStore';
 import { canonicalizeUnitAddress } from '@/lib/unitAddress';
@@ -203,10 +203,12 @@ export interface DocumentState {
   getSnapshot: () => DocumentSnapshot;
 }
 
-// `offset` shifts the sequence so an endorsement can continue the basic
-// letter's lettering (Ch 9 ¶3) — it is 0 for every non-endorsement.
-const getNextReferenceLetter = (refs: Reference[], offset = 0): string =>
-  referenceLetterAt(refs.length + offset);
+// A text import can start partway through the sequence. Extend the authored
+// labels without colliding with any existing ordinal, including legacy labels.
+function getNextReferenceLetter(refs: Reference[], offset = 0): string {
+  const next = refs.reduce((index, ref) => Math.max(index, (referenceLetterIndex(ref.letter) ?? -1) + 1), refs.length + offset);
+  return referenceLetterAt(next) || referenceLetterAt(refs.length + offset);
+}
 
 function safeReferencePatch(plan: ReferenceChange, state: DocumentState): Partial<DocumentState> | null {
   if (plan.blockers.length || plan.advisories.length) {

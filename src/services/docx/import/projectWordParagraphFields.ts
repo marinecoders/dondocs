@@ -1,4 +1,4 @@
-import { referenceLetterAt } from '@/lib/referenceLetters';
+import { referenceLetterIndex } from '@/lib/referenceLetters';
 import type { WordBlock } from './readWord';
 import type { WordHeaderFields } from './projectWordBody';
 
@@ -11,10 +11,10 @@ const bodyStart = (block: WordBlock) => plain(block) && (block.numbered || /^\s*
 /** A second printed item inside one value needs a deliberate review instead
  * of silently turning the rest of the list into one reference title. */
 export function wordListItem(value: string, index: number, references: boolean): string | null {
-  const expected = references ? referenceLetterAt(index) : String(index + 1);
-  const match = new RegExp(`^\\(${expected}\\)\\s+([\\s\\S]+)$`, 'i').exec(value);
-  if (!match || /\s+\([a-z\d]+\)\s+/i.test(match[1])) return null;
-  return match[1].replace(/\s+/g, ' ').trim() || null;
+  const match = /^\(([a-z0-9]+)\)\s+([\s\S]+)$/i.exec(value);
+  if (!match || (references ? referenceLetterIndex(match[1]) !== index : match[1] !== String(index + 1))
+      || /\s+\([a-z\d]+\)\s+/i.test(match[2])) return null;
+  return match[2].replace(/\s+/g, ' ').trim() || null;
 }
 
 /** Whole source blocks are claimed together. A partial/ambiguous field never

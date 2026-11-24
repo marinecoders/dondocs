@@ -20,6 +20,12 @@ describe('safe table-cell wrapping', () => {
     expect(bodyTableText('Enclosure (12)')).toContain('\\dondocsTableAtomic{\\enclref{12}}');
     expect(bodyTableText('{{NAME}}')).toContain('\\fcolorbox');
   });
+  it('recognizes continued and legacy reference labels inside table-cell links', () => {
+    const value = bodyTableText('Reference (AA), Ref (a0), and preference (ab)');
+    expect(value).toContain('\\dondocsTableAtomic{\\reflink{aa}}');
+    expect(value).toContain('\\dondocsTableAtomic{\\reflink{a0}}');
+    expect(value).not.toContain('\\reflink{ab}');
+  });
   it('preserves an I-Type hyperlink target while allowing only its visible label to wrap', () => {
     const value = publicationReferenceText('[Long identifier](https://example.test/synthetic_identifier)', [], false, (text, protectedTokens) => bodyTableText(text, [], 0, protectedTokens), bodyTableLiteral);
     expect(value).toContain('\\dondocsExternalLink{https://example.test/synthetic_identifier}');
