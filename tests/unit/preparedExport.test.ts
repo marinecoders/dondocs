@@ -130,6 +130,45 @@ it('reviews actual manual items while retaining replaced item data only in the d
   expect(copyExportReview(actual.job).privacy.findings).toEqual(expect.arrayContaining([expect.objectContaining({ type: 'SSN', value: '123-45-6789' })]));
 });
 
+it.each(['pdf', 'docx', 'tex'] as const)('gates legacy CUI values before %s output and normalizes a reviewed copy', target => {
+  const legacy = request(snapshot({ formData: { classLevel: 'cui', cuiCategory: 'Privacy', cuiDissemination: 'NOFRN' } }));
+  expect(prepareExport({ ...legacy, target })).toMatchObject({
+    status: 'error',
+    issues: [expect.stringMatching(/Review CUI categories.*Review CUI dissemination controls/)],
+  });
+  expect(copyCapturedDocument(legacy.captured).document.formData).toMatchObject({ cuiCategory: 'Privacy', cuiDissemination: 'NOFRN' });
+
+  const reviewed = request(snapshot({ formData: { classLevel: 'cui', cuiCategory: 'general privacy', cuiDissemination: 'fedcon' } }));
+  const result = prepareExport({ ...reviewed, target });
+  if (result.status !== 'ready') throw new Error(JSON.stringify(result));
+  expect(copyPreparedDocument(result.job).document.formData).toMatchObject({ cuiCategory: 'PRVCY', cuiDissemination: 'FEDCON' });
+  expect(copyCapturedDocument(reviewed.captured).document.formData).toMatchObject({ cuiCategory: 'general privacy', cuiDissemination: 'fedcon' });
+});
+
+it('validates resolved placeholders and reports the enclosure with an invalid marking', () => {
+  const input = request(snapshot({ formData: { classLevel: 'cui', cuiDissemination: '{{CONTROL}}' } }));
+  expect(prepareExport({ ...input, placeholders: { CONTROL: 'NOFRN' } })).toMatchObject({
+    status: 'error',
+    issues: [expect.stringContaining('Review CUI dissemination controls')],
+  });
+  expect(prepareExport({ ...input, placeholders: { CONTROL: 'FEDCON' } })).toMatchObject({ status: 'ready' });
+
+  const invalidEnclosure = request(snapshot({
+    formData: { classLevel: 'cui', cuiCategory: 'PRVCY' },
+    enclosures: [{ title: 'Supporting letter', marking: { classLevel: 'cui', cuiCategory: 'Privacy' } }],
+  }));
+  expect(prepareExport(invalidEnclosure)).toMatchObject({
+    status: 'error',
+    issues: [expect.stringContaining('Enclosure (1): Review CUI categories')],
+  });
+});
+
+it('does not gate unclassified output on inactive legacy CUI fields', () => {
+  expect(prepareExport(request(snapshot({
+    formData: { classLevel: 'unclassified', cuiCategory: 'Privacy', cuiDissemination: 'NOFRN' },
+  })))).toMatchObject({ status: 'ready' });
+});
+
 it.each(['pdf', 'docx', 'tex'] as const)('rejects an incomplete authored endorsement before %s export', target => {
   const data = snapshot({ formData: { appendEndorsement: true, endorsementBody: 'I acknowledge the directions.' } });
   expect(prepareExport({ ...request(data), target })).toMatchObject({

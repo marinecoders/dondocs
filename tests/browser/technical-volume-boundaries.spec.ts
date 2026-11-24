@@ -18,7 +18,7 @@ for (const frontMatter of [false, true]) {
     Object.assign(source.formData, {
       subject: 'VolumeTitle'.repeat(25), shortTitle: 'SHORTTITLE'.repeat(20),
       controllingOffice: 'ControllingOffice'.repeat(15),
-      ...(frontMatter ? { classLevel: 'cui', cuiControlledBy: 'ControlledBy'.repeat(20), cuiCategory: 'PRVCY', cuiDissemination: 'Dissemination'.repeat(20), pocEmail: 'a'.repeat(60) + '@training.mil' } : {}),
+      ...(frontMatter ? { classLevel: 'cui', cuiControlledBy: 'ControlledBy'.repeat(20), cuiCategory: 'PRVCY', cuiDissemination: 'REL TO USA, AUS, CAN, GBR, NZL, FVEY', pocEmail: 'a'.repeat(60) + '@training.mil' } : {}),
     });
     source.paragraphs.find(paragraph => paragraph.bodyTable)!.bodyTable = { rows: [['ID', 'Detail'], ['012345678901234567', 'Retained adjacent table cell.']], headerRows: 1, columnWidths: [5, 95], fontSize: 10 };
     await page.addInitScript(() => {
@@ -30,6 +30,11 @@ for (const frontMatter of [false, true]) {
     await page.getByLabel('Import draft file').setInputFiles({ name: 'volume-boundaries.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify({ ...source, documentCategory: 'correspondence' })) });
     await page.getByRole('button', { name: 'Open as new document', exact: true }).click();
     await expect(page.getByLabel('Volume title', { exact: true })).toHaveValue(source.formData.subject!);
+    const preview = page.getByRole('button', { name: 'Preview', exact: true });
+    const mobilePreview = await preview.getAttribute('aria-haspopup') === 'dialog';
+    await preview.click();
+    await expect(page.locator('[data-pdf-layer="active"] canvas').first()).toBeVisible({ timeout: 90_000 });
+    if (mobilePreview) await page.getByRole('button', { name: 'Close preview', exact: true }).click();
     const bytes = await signingPdfDownload(page, info.project.name, async () => {
       await page.getByRole('button', { name: 'Download', exact: true }).click();
       await page.getByRole('menuitem', { name: /^Download PDF/ }).click();

@@ -8,6 +8,9 @@
  */
 import { publicationExportErrors, isTechnicalPublication } from '../src/lib/publicationPreflight';
 import { loadFigureFiles } from '../src/services/latex/figureAssets';
+import { normalizeCuiRegistryMarkings } from '../src/lib/cuiRegistryMarkings';
+import { correspondencePortions } from '../src/lib/renderedDocument';
+import { deriveOverallClassLevel } from '../src/lib/overallClassification';
 import { assemblePublicationPdf } from './publicationPdf';
 import { attachment } from './publicationInput';
 import { ImageInputError, inspectRasterImage, supportsCorrespondenceSignatureImage } from '../src/services/docx/imageAssets';
@@ -37,6 +40,9 @@ export async function renderPdf(
   { signal }: { signal?: AbortSignal } = {},
 ): Promise<Uint8Array> {
   const store = toStore(input, defaults);
+  if (deriveOverallClassLevel(store.formData.classLevel, correspondencePortions(store)) === 'cui') {
+    store.formData = normalizeCuiRegistryMarkings(store.formData);
+  }
   if (store.formData.signatureType === 'image' && !supportsCorrespondenceSignatureImage(store.docType)) {
     throw new ImageInputError('Uploaded images on dual-signer documents and information memoranda require Word output. PDF output cannot place this image.');
   }

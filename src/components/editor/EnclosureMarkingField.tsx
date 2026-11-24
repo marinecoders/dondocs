@@ -7,6 +7,7 @@ import { CLASSIFICATION_LEVELS } from '@/lib/overallClassification';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { CuiRegistryFields } from './CuiRegistryFields';
 
 export function EnclosureMarkingField({ index, marking, onChange }: {
   index: number; marking?: EnclosureMarking; onChange: (marking: EnclosureMarking | undefined) => void;
@@ -37,12 +38,8 @@ export function EnclosureMarkingField({ index, marking, onChange }: {
         onChange={event => update({ customClassification: event.target.value })} />
     </div>}
     {marking?.classLevel === 'cui' && <div className="grid gap-2 sm:grid-cols-2">
-      <div className="space-y-1"><Label className="text-xs" htmlFor={`${id}-category`}>CUI categories</Label>
-        <Input id={`${id}-category`} value={marking.cuiCategory ?? ''} maxLength={240}
-          onChange={event => update({ cuiCategory: event.target.value })} /></div>
-      <div className="space-y-1"><Label className="text-xs" htmlFor={`${id}-controls`}>Dissemination controls</Label>
-        <Input id={`${id}-controls`} value={marking.cuiDissemination ?? ''} maxLength={240}
-          onChange={event => update({ cuiDissemination: event.target.value })} /></div>
+      <CuiRegistryFields categoryId={`${id}-category`} controlId={`${id}-controls`} values={marking}
+        onChange={(field, value) => update({ [field]: value })} suggestions={false} />
     </div>}
     <p className="text-xs text-muted-foreground">Inspect the original pages before choosing. This labels the assembled copy; the original PDF and its existing markings stay unchanged.</p>
     {marking?.classLevel === 'cui' && <p className="text-xs text-muted-foreground">Categories and controls are compared with the cover. Use Custom banner when the original requires a complete category or control banner.</p>}

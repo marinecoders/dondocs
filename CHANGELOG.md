@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.257] — 2026-11-23
+
+### Fixed
+
+- Validate supported markings against their registry and show required controls when portions require them.
+
 ## [1.3.256] — 2026-11-23
 
 ### Fixed

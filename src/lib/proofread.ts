@@ -12,6 +12,8 @@ import { detectDocumentTextPII, getPIITypeLabel } from '@/services/pii/detector'
 import { proofreadFieldControl, proofreadOutputFields } from './proofreadOutputFields';
 import { cuiTransmittalIssue, inspectEnclosureMarkings } from './enclosureMarkings';
 import { deriveOverallClassLevel } from './overallClassification';
+import { correspondencePortions } from './renderedDocument';
+import { inspectCuiRegistryMarkings } from './cuiRegistryMarkings';
 
 export type ProofreadSource = Pick<DocumentSnapshot, 'documentCategory' | 'documentMode' | 'docType' | 'formData' | 'paragraphs' | 'references' | 'enclosures' | 'copyTos' | 'distributions'>
   & Partial<Pick<DocumentSnapshot, 'endItems' | 'publicationTables'>>;
@@ -104,14 +106,31 @@ export function collectProofreadFindings(
   const config = documentOutputConfig(source.docType, source.documentMode);
   const sections = getEditorSections(config, source.docType);
   const has = (id: string) => sections.some(section => section.id === id);
-  const transmittalIssue = cuiTransmittalIssue(source.formData, source.paragraphs, source.enclosures, source.docType);
+  const portions = correspondencePortions(source);
+  const transmittalIssue = cuiTransmittalIssue(source.formData, portions, source.enclosures, source.docType);
   if (has('enclosures') && transmittalIssue) findings.push({ id: 'enclosure-marking:transmittal', group: 'markings', severity: 'warning',
     title: 'Review the transmittal note', message: transmittalIssue, target: { sectionId: 'enclosures', field: 'cuiTransmittalNote' } });
-  if (has('enclosures')) for (const issue of inspectEnclosureMarkings({ ...source.formData,
-    classLevel: deriveOverallClassLevel(source.formData.classLevel, source.paragraphs) }, source.enclosures)) {
-    findings.push({ id: `enclosure-marking:${issue.index}:${issue.kind}`, group: 'markings', severity: 'warning',
-      title: `Review enclosure (${issue.index + 1}) marking`, message: issue.message,
-      target: { sectionId: 'enclosures', field: `enclosure-marking-${issue.index}` } });
+  const overallLevel = deriveOverallClassLevel(source.formData.classLevel, portions);
+  if (has('enclosures')) {
+    for (const issue of inspectEnclosureMarkings({ ...source.formData, classLevel: overallLevel }, source.enclosures)) {
+      findings.push({ id: `enclosure-marking:${issue.index}:${issue.kind}`, group: 'markings', severity: 'warning',
+        title: `Review enclosure (${issue.index + 1}) marking`, message: issue.message,
+        target: { sectionId: 'enclosures', field: `enclosure-marking-${issue.index}` } });
+    }
+    for (const [index, enclosure] of source.enclosures.entries()) if (enclosure.marking?.classLevel === 'cui') {
+      for (const issue of inspectCuiRegistryMarkings(enclosure.marking).issues) findings.push({
+        id: `enclosure-registry:${index}:${issue.field}`, group: 'markings', severity: 'error',
+        title: `Verify enclosure (${index + 1}) CUI markings`, message: issue.message,
+        target: { sectionId: 'enclosures', field: `enclosure-marking-${index}-${issue.field === 'cuiCategory' ? 'category' : 'controls'}` },
+      });
+    }
+  }
+  if (overallLevel === 'cui') for (const issue of inspectCuiRegistryMarkings(source.formData).issues) {
+    const sectionId = textSection(['formData', issue.field], source.docType, has);
+    if (sectionId) findings.push({
+      id: `cui-registry:${issue.field}`, group: 'markings', severity: 'error', title: 'Verify CUI markings',
+      message: issue.message, target: { sectionId, field: sectionId === 'manual-notices' ? `manual-${issue.field}` : issue.field },
+    });
   }
   for (const section of sections) {
     for (const finding of formattingFindings({ ...source, documentCategory: 'correspondence' }, section.id)) findings.push({

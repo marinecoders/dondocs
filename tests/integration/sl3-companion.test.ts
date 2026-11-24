@@ -264,7 +264,7 @@ describe("SL-3 production export", () => {
         ).toBeGreaterThanOrEqual(2);
       if (level === "cui") {
         expect(pages[0]).toContain("Distribution/Dissemination Control: NOFORN");
-        for (const page of pages) expect(page).toContain("CUI//NOFORN");
+        for (const page of pages) expect(page).not.toContain("CUI//NOFORN");
       }
       expect(pages[0]).toContain("DESTRUCTION NOTICE");
       expect(pages.join(" ")).not.toContain("??");

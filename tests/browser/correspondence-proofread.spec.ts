@@ -174,3 +174,27 @@ test('checks enclosure ranges and semicolon lists and exposes ambiguous clauses 
     await expect(editor).toHaveText(text);
   }
 });
+
+test('opens CUI designation controls when a body portion determines the overall marking', async ({ page }) => {
+  await page.route('**/classification.config.json*', route => route.fulfill({ json: { maxLevel: 'cui', allowedLevels: ['unclassified', 'cui'] } }));
+  await page.addInitScript(() => {
+    localStorage.setItem('browser-test-visitor', 'returning');
+    localStorage.setItem('dondocs_ui', JSON.stringify({ version: 1, state: { editorLayout: 'focused', previewVisible: false } }));
+  });
+  await page.goto('/');
+  const fixture = { documentCategory: 'correspondence', documentMode: 'compliant', docType: 'naval_letter', formType: 'navmc_10274',
+    formData: { subject: 'SYNTHETIC TRAINING', classLevel: 'unclassified', cuiCategory: 'UNKNOWNTRAINING' },
+    paragraphs: [{ text: 'Fictional training example.', level: 0, portionMarking: 'CUI' }], references: [], enclosures: [], copyTos: [], distributions: [] };
+  await page.getByLabel('Import draft file').setInputFiles({ name: 'training-marking.json', mimeType: 'application/json', buffer: Buffer.from(JSON.stringify(fixture)) });
+  await page.getByRole('button', { name: 'Open as new document', exact: true }).click();
+  await page.getByRole('button', { name: /^Proofread:/ }).click();
+  const dialog = page.getByRole('dialog', { name: 'Proofread', exact: true });
+  await dialog.getByRole('listitem').filter({ hasText: 'Verify CUI markings' }).getByRole('button', { name: 'Go to Classification' }).click();
+  const category = page.getByLabel('CUI categories');
+  await expect(category).toBeFocused();
+  await expect(category).toHaveValue('UNKNOWNTRAINING');
+  await expect(page.getByText('A paragraph marking makes the overall document CUI.')).toBeVisible();
+  await category.fill('PRVCY');
+  await page.getByRole('button', { name: /^Proofread:/ }).click();
+  await expect(dialog.getByText('Verify CUI markings', { exact: true })).toHaveCount(0);
+});

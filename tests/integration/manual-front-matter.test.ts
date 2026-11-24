@@ -120,7 +120,7 @@ it('renders populated controlled notices, volumes, rights and clause without col
   Object.assign(packet.formData.manualFrontMatter!, { maintenanceLevel: 'FIELD MAINTENANCE', volume: '1', volumes: '2', subtitle: 'OPERATING INSTRUCTIONS', volumeNotice: 'This volume is incomplete without volume 2.', copyrightCredit: '© 2026 Example Publisher. Fictional equipment guide.', governmentRights: 'Fictional test license: the Government may publish, reproduce and distribute this guide.', dfarClause: '252.227-7013' });
   const bytes = await render(packet); const pages = await inspect(bytes);
   expect(pages).toHaveLength(3);
-  for (const page of pages) { expect(page.text).toContain('CUI//NOFORN'); expect(page.text).toContain('VOLUME 1 OF 2'); }
+  for (const page of pages) { expect(page.items.filter(item => item.str === 'CUI')).toHaveLength(2); expect(page.text).toContain('VOLUME 1 OF 2'); }
   for (const notice of ['DESTRUCTION NOTICE', 'SUPERSEDURE NOTICE', 'DISTRIBUTION STATEMENT D', 'export is restricted', 'Government may publish, reproduce and distribute']) expect(pages[0].text).toContain(notice);
   expect(pages[0].text).toContain('POC: 202-555-0100');
   expect(pages[0].text).toContain('Controlled by: United States Marine Corps');
@@ -128,8 +128,8 @@ it('renders populated controlled notices, volumes, rights and clause without col
   const layout = await pdfTextLayout(bytes);
   // pdfTeX composes the copyright glyph from an overprinted circle and c.
   expect(layout.collisions.filter(pair => new Set([pair.first.text, pair.second.text]).size !== 2 || ![pair.first.text, pair.second.text].every(text => ['©', 'c'].includes(text)))).toEqual([]);
-  const coverBanner = pages[0].items.find(item => item.str === 'CUI//NOFORN')!;
-  const authBanner = pages[2].items.find(item => item.str === 'CUI//NOFORN')!;
+  const coverBanner = pages[0].items.find(item => item.str === 'CUI')!;
+  const authBanner = pages[2].items.find(item => item.str === 'CUI')!;
   expect(coverBanner.transform[0]).toBeCloseTo(24, 0); expect(authBanner.transform[0]).toBeCloseTo(14, 0);
 });
 
@@ -150,10 +150,10 @@ it('blocks incomplete fields and incompatible release data before rendering', as
   await expect(render(packet)).rejects.toThrow('Public release conflicts');
 });
 
-it('refuses a control banner wider than the page', async () => {
+it('rejects malformed CUI designation controls before rendering', async () => {
   const packet = manualPacket();
   Object.assign(packet.formData, { classLevel: 'cui', cuiControlledBy: 'Test office', cuiCategory: 'CTI', pocEmail: '202-555-0100', cuiDistStatement: 'D', distReason: 'Controlled Technical Information', distDate: '2026-10-01', cuiDissemination: 'NOFORN '.repeat(18) });
-  await expect(render(packet)).rejects.toThrow('Control banner exceeds page width');
+  await expect(render(packet)).rejects.toThrow('Review CUI dissemination controls');
 });
 
 it('wraps unbroken equipment identifiers within their columns on the cover and T-2', async () => {
@@ -221,7 +221,7 @@ it.each(Object.keys(MANUAL_TYPES) as Array<keyof typeof MANUAL_TYPES>)('fits a f
   const layout = await pdfTextLayout(bytes);
   expect(layout.collisions.filter(pair => ![pair.first.text, pair.second.text].every(text => ['©', 'c'].includes(text)))).toEqual([]);
   for (const box of layout.boxes) {
-    if (box.text === 'CUI//NOFORN' && box.bottom < 100) expect(Math.abs(box.bottom - 36)).toBeLessThan(0.5);
+    if (box.text === 'CUI' && box.bottom < 100) expect(Math.abs(box.bottom - 36)).toBeLessThan(0.5);
     expect(box.left, box.text).toBeGreaterThanOrEqual(35.5);
     expect(box.right, box.text).toBeLessThanOrEqual(576.5);
     expect(box.bottom, box.text).toBeGreaterThanOrEqual(35.5);
