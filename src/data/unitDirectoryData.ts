@@ -19,14 +19,8 @@ import type { UnitInfo, UnitCategory } from './unitDirectory';
 import { parseUnitAddress } from '@/lib/unitAddress';
 
 interface UnitsJsonShape {
-  units: Array<{
-    name: string;
-    abbrev?: string;
-    parentUnit?: string;
-    mcc?: string;
+  units: Array<Pick<UnitInfo, 'name' | 'abbrev' | 'parentUnit' | 'mcc' | 'ruc' | 'uic' | 'formerNames' | 'type' | 'service'> & {
     address?: string;
-    type?: string;
-    service?: string;
   }>;
   source: string;
   version: string;
@@ -146,6 +140,9 @@ export function loadUnitDirectory(): Promise<UnitDirectoryDatabase> {
         abbrev: unit.abbrev,
         parentUnit: unit.parentUnit,
         mcc: unit.mcc,
+        ruc: unit.ruc,
+        uic: unit.uic,
+        formerNames: unit.formerNames,
         address: unit.address || '',
         type: unit.type,
         service: unit.service,

@@ -7,7 +7,10 @@ import { SSICLookupModal } from '@/components/modals/SSICLookupModal';
 import { loadUnitDirectory } from '@/data/unitDirectory';
 import { loadSsicCategories } from '@/data/ssicCodes';
 
-vi.mock('@/data/unitDirectory', () => ({ loadUnitDirectory: vi.fn(), formatUnitAddress: () => '' }));
+vi.mock('@/data/unitDirectory', async importOriginal => ({
+  ...await importOriginal<typeof import('@/data/unitDirectory')>(),
+  loadUnitDirectory: vi.fn(),
+}));
 vi.mock('@/data/ssicCodes', () => ({ loadSsicCategories: vi.fn() }));
 
 describe('lookup recovery', () => {

@@ -8,7 +8,7 @@ Generated with `npm run docs:inventory` from registries, bundled datasets and fi
 | Built-in forms | 2 |
 | Content templates | 24 |
 | References | 135 |
-| Units | 3,140 |
+| Units | 3,145 |
 | Office codes | 74 |
 | SSIC codes | 2,240 |
 
