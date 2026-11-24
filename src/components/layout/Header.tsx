@@ -56,6 +56,7 @@ import { subscribeSigningCapture } from '@/lib/signingCaptureEvents';
 
 const SigningWorkspace = lazy(() => import('@/components/modals/SigningWorkspace'));
 const AmhsMessageDialog = lazy(() => import('@/components/modals/AmhsMessageDialog'));
+const FormalNavalEmailDialog = lazy(() => import('@/components/modals/FormalNavalEmailDialog'));
 
 interface HeaderProps {
   wordReviewExport?: WordReviewExportOptions;
@@ -110,6 +111,7 @@ export function Header({
   const hasEnclosures = useDocumentStore(state => state.enclosures.length > 0 && isOutputFieldActive(state, ['enclosures', 0]));
   const [taggedPdfOpen, setTaggedPdfOpen] = useState(false);
   const [amhsOpen, setAmhsOpen] = useState<boolean>();
+  const [formalEmailOpen, setFormalEmailOpen] = useState<boolean>();
   // One selector per field so Zustand only re-renders on that field's change,
   // not on every store update (this header is ~40 buttons + dropdowns). Setters
   // are stable, so selecting them is free. Same for the document + history stores.
@@ -493,11 +495,13 @@ export function Header({
               <DropdownMenuItem onClick={() => useUIStore.getState().setProofreadOpen(true)}><FileText className="h-4 w-4" />Proofread current draft</DropdownMenuItem>
               <DropdownMenuItem onClick={() => setDocumentGuideOpen(true)}><Compass className="h-4 w-4" />Document type guide</DropdownMenuItem>
               <DropdownMenuItem onSelect={() => setAmhsOpen(true)}><FileText className="h-4 w-4" />Draft an AMHS message…</DropdownMenuItem>
+              <DropdownMenuItem onSelect={() => setFormalEmailOpen(true)}><FileText className="h-4 w-4" />Draft a formal email…</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
       </div>
       {signingOpen && <Suspense fallback={<p role="status">Opening signing workspace…</p>}><SigningWorkspace open initialRecordId={capturedSigningId} onOpenChange={setSigningOpen} /></Suspense>}
       {amhsOpen !== undefined && <Suspense fallback={<p role="status">Opening message draft…</p>}><AmhsMessageDialog open={amhsOpen} onOpenChange={setAmhsOpen} /></Suspense>}
+      {formalEmailOpen !== undefined && <Suspense fallback={<p role="status">Opening email draft…</p>}><FormalNavalEmailDialog open={formalEmailOpen} onOpenChange={setFormalEmailOpen} /></Suspense>}
       <Dialog open={formattingOpen} onOpenChange={setFormattingOpen}>
         <DialogContent className="sm:max-w-md max-h-[85dvh] overflow-y-auto">
           <DialogHeader><DialogTitle>Document formatting</DialogTitle><DialogDescription>Formatting for this correspondence. Changes are applied to the current draft.</DialogDescription></DialogHeader>

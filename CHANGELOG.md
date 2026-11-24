@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.261] — 2026-11-23
+
+### Added
+
+- Add a formal email drafting workflow with the required identifying fields and plain-text output.
+
 ## [1.3.260] — 2026-11-23
 
 ### Added
