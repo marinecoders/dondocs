@@ -100,12 +100,15 @@ function hasPrintableAnnotations(pdf: PDFDocument, needsAppearances: boolean | u
   return printable;
 }
 
-async function checkRenderedFormFields(page: PDFPageProxy, needsAppearances: boolean | undefined, widgetType: number): Promise<void> {
+async function checkRenderedFormFields(page: PDFPageProxy, needsAppearances: boolean | undefined, widgetType: number, generatedHybridForm = false): Promise<void> {
   for (const annotation of await page.getAnnotations({ intent: 'print' })) {
     if (annotation.annotationType !== widgetType) continue;
     const rectangle: unknown = annotation.rect;
     if (Array.isArray(rectangle) && (rectangle[0] === rectangle[2] || rectangle[1] === rectangle[3])) continue;
     const value: unknown = annotation.fieldValue ?? annotation.defaultFieldValue;
+    // The official DD 368 has no appearance stream for its unchecked decision boxes.
+    // In a freshly rendered maintained form this state intentionally paints nothing.
+    if (generatedHybridForm && annotation.checkBox && value === 'Off' && !annotation.hasAppearance) continue;
     const valued = typeof value === 'string' ? value.length > 0 : Array.isArray(value) ? value.length > 0 : value != null;
     if (valued && (needsAppearances !== false || !annotation.hasAppearance)) throw new Error(FORM_APPEARANCE_ERROR);
   }
@@ -256,7 +259,7 @@ export async function loadAssemblyPdf(data: Uint8Array | ArrayBuffer, signal?: A
       controller.signal.throwIfAborted();
       const page = await documentPdf.getPage(number);
       try {
-        await checkRenderedFormFields(page, needsAppearances ?? savedAppearanceFlag, pdfjs.AnnotationType.WIDGET);
+        await checkRenderedFormFields(page, needsAppearances ?? savedAppearanceFlag, pdfjs.AnnotationType.WIDGET, options.generatedHybridForm);
         controller.signal.throwIfAborted();
         const base = page.getViewport({ scale: 1 });
         if (![base.width, base.height].every(value => Number.isFinite(value) && value > 0 && value <= 14_400)) throw new Error('This PDF has unsupported page dimensions.');
