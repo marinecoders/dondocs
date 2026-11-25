@@ -1,15 +1,11 @@
+import type { PackageTemplateQuestion } from './packageTemplateProgram';
+import { equals, question, letter, worksheetSession, native, program, headerLinks, type NativeBlueprint } from './packageRecipeMembers';
 import type { OfficialFormMembership } from './packageOfficialForms';
-import type { SerializedSession } from '@/stores/documentStore';
-import type { PackageBindingTarget } from './packageBindingTargets';
-import { listPackageBindingFields } from './packageBindingTargets';
-import type { NativePackageMember } from './actionPackages';
 import { ADMINISTRATIVE_REQUEST_BODY } from './administrativeRequest';
 import { administrativeRequestWorksheet } from './administrativeRequestWorksheet';
-import { evidenceSubmissionWorksheet, trainingActivityWorksheet, trainingCostWorksheet, trainingParticipationWorksheet, type MaintainedWorksheet } from './maintainedPackageWorksheets';
+import { evidenceSubmissionWorksheet, trainingActivityWorksheet, trainingCostWorksheet, trainingParticipationWorksheet } from './maintainedPackageWorksheets';
 import type { PackageTemplateV2 } from './packageTemplateSchema';
-import type { PackageTemplateCondition, PackageTemplateProgram, PackageTemplateQuestion } from './packageTemplateProgram';
 import { validatePackageTemplate } from './packageTemplateLibrary';
-import { uint8ArrayToBase64 } from './encoding';
 
 interface ActionListing {
   build: () => Promise<MaintainedRecipe>;
@@ -23,46 +19,6 @@ const actions = [
 ] as const satisfies readonly ActionListing[];
 export const maintainedPackageActions: ReadonlyArray<ActionListing & { id: MaintainedPackageActionId }> = actions;
 export type MaintainedPackageActionId = typeof actions[number]['id'];
-type NativeBlueprint = Extract<PackageTemplateV2['members'][number], { kind: 'native' }>;
-const equals = (questionId: string, value: string | boolean): PackageTemplateCondition => ({ op: 'equals', questionId, value });
-const question = (id: string, label: string, kind: PackageTemplateQuestion['kind'] = 'text', extra: Partial<PackageTemplateQuestion> = {}): PackageTemplateQuestion => ({ id, label, kind, required: true, ...extra });
-
-function blankSession(): SerializedSession {
-  return { documentMode: 'compliant', documentCategory: 'correspondence', docType: 'standard_letter', formType: 'navmc_10274', timestamp: 0,
-    formData: {}, paragraphs: [], references: [], enclosures: [], copyTos: [], distributions: [], endItems: [], publicationTables: {} };
-}
-function letter(body: string): SerializedSession {
-  return { ...blankSession(), formData: { docType: 'standard_letter', fontFamily: 'times', fontSize: '12pt', pageNumbering: 'simple', classLevel: 'unclassified',
-    from: '', to: '', subject: '', date: '', ssic: '', serial: '', via: '', sigFirst: '', sigMiddle: '', sigLast: '', signatureType: 'none' },
-  paragraphs: [{ id: 'starter-body', text: body, level: 0 }] };
-}
-function worksheetSession(value: MaintainedWorksheet): SerializedSession {
-  return { ...blankSession(), documentCategory: 'forms', formType: value.definition.formId,
-    genericForm: { definition: value.definition, answers: {}, rows: {}, answerRevision: 0 } };
-}
-async function native(key: string, label: string, session: SerializedSession, links: Readonly<Record<string, string>>, options: {
-  worksheet?: MaintainedWorksheet; when?: PackageTemplateCondition; repeatGroupId?: string; main?: boolean;
-} = {}): Promise<NativeBlueprint> {
-  const draft = { ...session, kind: 'dondocs-draft', version: 2, documentKind: session.genericForm ? 'configured-form' : 'correspondence' };
-  const fieldView: NativePackageMember = { id: 'starter', revisionId: 'starter', kind: 'native', label, role: options.main || !session.genericForm ? 'basic-letter' : 'supporting-document',
-    required: true, session, draft: { id: 'starter-draft', name: 'starter.json', type: 'application/json', size: 1, sha256: '0'.repeat(64) } };
-  const qualified = await listPackageBindingFields(fieldView);
-  const declared: NonNullable<NativeBlueprint['links']> = [];
-  for (const [field, questionId] of Object.entries(links)) {
-    const target: PackageBindingTarget | undefined = qualified.find(item => item.target.kind === 'configured-form' ? item.target.fieldId === field
-      : item.target.kind === 'correspondence' && item.target.field === field)?.target;
-    if (!target) throw new Error(`The maintained starter cannot qualify ${label}: ${field}.`);
-    declared.push({ questionId, target, format: target.kind === 'correspondence' && target.field === 'subject' ? 'uppercase' : 'field' });
-  }
-  return { key, kind: 'native', label, required: true, role: fieldView.role, draft,
-    pages: options.worksheet ? { 'page1.pdf': { name: 'page1.pdf', type: 'application/pdf', data: uint8ArrayToBase64(options.worksheet.bytes) } } : {},
-    links: declared, ...(options.when ? { when: options.when } : {}), ...(options.repeatGroupId ? { repeatGroupId: options.repeatGroupId } : {}) };
-}
-const headerLinks = { from: 'requester', to: 'recipient', subject: 'subject', date: 'date', ssic: 'ssic' };
-function program(questions: PackageTemplateQuestion[], extra: Partial<PackageTemplateProgram> = {}): PackageTemplateProgram {
-  return { revision: '1', questions, participantGroups: [], requirements: [], ...extra };
-}
-
 async function administrative(): Promise<PackageTemplateV2> {
   const sheet = await administrativeRequestWorksheet();
   return { kind: 'dondocs-package-template', version: 2, id: 'dondocs_administrative_request', name: 'Administrative request', createdAt: 0,
@@ -112,7 +68,7 @@ async function evidence(): Promise<PackageTemplateV2> {
       { key: 'supporting-record', kind: 'attachment', label: 'Original supporting PDF', role: 'supporting-document', required: true }],
   };
 }
-type MaintainedRecipe = Omit<PackageTemplateV2, 'members'> & {
+export type MaintainedRecipe = Omit<PackageTemplateV2, 'members'> & {
   members: Array<PackageTemplateV2['members'][number] | (OfficialFormMembership & { kind: 'official-form' })>;
 };
 
