@@ -765,6 +765,11 @@ function PackageDialog({
         {record && formMember && formMember.kind === 'native' && <Suspense fallback={<p role="status">Opening form editor…</p>}>
           <PackageFormEditor key={record.id + '/' + formMember.id} record={record} member={formMember} ports={ports} exportGate={exportGate}
             onSave={next => { setRecords(all => all.map(item => item.id === next.id ? next : item)); setRevisionId(next.currentRevisionId); }}
+            onSharedDetails={() => {
+              openMemberEditor();
+              navigate('overview');
+              requestAnimationFrame(() => focusPackageDestination(dialogRoot.current, 'data-package-panel', 'information'));
+            }}
             onNavigate={openMemberEditor} />
         </Suspense>}
         <div className="package-workspace-appbar">

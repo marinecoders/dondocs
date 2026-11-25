@@ -33,9 +33,10 @@ type Props = Pick<ComponentProps<typeof PackageDocumentPreview>, 'ports' | 'expo
   member: NativePackageMember;
   onSave(next: ActionPackage): void;
   onNavigate(memberId?: string): void;
+  onSharedDetails(): void;
 };
 
-export default function PackageFormEditor({ record, member, onSave, onNavigate, ports, exportGate }: Props) {
+export default function PackageFormEditor({ record, member, onSave, onNavigate, onSharedDetails, ports, exportGate }: Props) {
   const editor = usePackageFormEditor(record, member, onSave);
   const titleId = useId();
   const [mobilePreview, setMobilePreview] = useState(false);
@@ -49,15 +50,17 @@ export default function PackageFormEditor({ record, member, onSave, onNavigate, 
   const [expanded, setExpanded] = useState(() => (readFormLocation(position + '/sections') || 'marine').split(','));
   const switching = useRef(false);
   const [leaving, setLeaving] = useState(false);
-  async function navigate(id?: string) {
+  async function navigate(action: () => void) {
     if (switching.current) return;
     switching.current = true;
     setLeaving(true);
-    if (await editor.flush()) onNavigate(id);
+    if (await editor.flush()) action();
     switching.current = false;
     setLeaving(false);
   }
   const revision = record.revisions.find(item => item.id === record.currentRevisionId)!;
+  const factIds = new Set(revision.bindings?.items.filter(link => link.memberId === member.id).map(link => link.factId));
+  const sharedLabels = revision.information?.facts.filter(fact => factIds.has(fact.id)).map(fact => fact.label) ?? [];
   const values = editor.values;
   const form = member.session.genericForm;
   const instance = form && values.kind === 'configured' ? { ...form, answers: values.answers, rows: values.rows } : undefined;
@@ -70,10 +73,10 @@ export default function PackageFormEditor({ record, member, onSave, onNavigate, 
   const rowGroup = groups.find(([key]) => 'rows/' + key === selected?.id);
   const issues = instance ? validateAnswers(instance.definition, instance.answers, instance.rows, false) : [];
   const selectClass = 'block min-w-0 max-w-full rounded-md border bg-background px-2 py-1.5 text-sm';
-  return <Dialog open onOpenChange={open => { if (!open) void navigate(); }}>
+  return <Dialog open onOpenChange={open => { if (!open) void navigate(() => onNavigate()); }}>
     <DialogContent fullscreen showCloseButton={false} aria-labelledby={titleId} className="flex flex-col gap-0">
       <header className="flex flex-wrap items-center gap-x-4 gap-y-2 border-b px-4 py-3">
-        <Button size="sm" variant="ghost" disabled={leaving} onClick={() => void navigate()}><ArrowLeft />Back to package</Button>
+        <Button size="sm" variant="ghost" disabled={leaving} onClick={() => void navigate(() => onNavigate())}><ArrowLeft />Back to package</Button>
         <div className="min-w-0"><DialogTitle id={titleId}>{record.name}</DialogTitle><DialogDescription>Package form editor</DialogDescription></div>
         <span className="ml-auto text-sm text-muted-foreground" role="status">{({ opening: 'Opening form…', saved: 'Saved to package', saving: 'Saving…', pending: 'Editing draft', error: 'Save needs attention' })[editor.phase]}</span>
         <Button size="sm" variant="outline" className="lg:hidden" onClick={() => setMobilePreview(!mobilePreview)}>{mobilePreview ? 'Show fields' : 'Show preview'}</Button>
@@ -90,10 +93,15 @@ export default function PackageFormEditor({ record, member, onSave, onNavigate, 
       <main className="grid min-h-0 flex-1 content-start gap-6 overflow-auto p-4 lg:grid-cols-[minmax(20rem,2fr)_minmax(0,3fr)] lg:content-stretch lg:overflow-hidden">
         <div className={(mobilePreview ? "hidden lg:block " : "") + "min-w-0 space-y-4 lg:overflow-y-auto lg:px-1"}>
           <label className="block space-y-1 text-sm font-medium">Package form
-            <select className={selectClass} value={member.id} disabled={leaving} onChange={event => void navigate(event.target.value)}>
+            <select className={selectClass} value={member.id} disabled={leaving} onChange={event => { const id = event.target.value; void navigate(() => onNavigate(id)); }}>
               {revision.members.map((m, i) => isEditableOfficialForm(m) && !record.workingCopies?.some(copy => copy.memberId === m.id && copy.revisionId === revision.id) && <option key={m.id} value={m.id}>{i + 1}. {m.label}</option>)}
             </select>
           </label>
+          <div className="text-sm">
+            {sharedLabels.length > 0 && <p className="text-muted-foreground">Shared values: {sharedLabels.join(' · ')}</p>}
+            <Button size="sm" variant="link" className="h-auto px-0" disabled={leaving}
+              onClick={() => void navigate(onSharedDetails)}>Open shared package details</Button>
+          </div>
           <fieldset disabled={!editor.ready || leaving} className="min-w-0 space-y-4">
             {instance && <>
               <label className="block space-y-1 text-sm font-medium">Form section<select className={selectClass} value={selected?.id ?? ''} onChange={event => {

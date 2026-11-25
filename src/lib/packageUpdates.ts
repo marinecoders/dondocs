@@ -23,7 +23,7 @@ export interface PackageUpdatePreview {
   bindingId: string;
   memberId: string;
   label: string;
-  state: 'update' | 'unchanged' | 'override' | 'conflict' | 'unavailable' | 'detach';
+  state: 'update' | 'unchanged' | 'override' | 'conflict' | 'unavailable' | 'detach' | 'signed-original';
   before?: PackageBindingValue;
   after?: string | boolean;
   choices?: readonly PackageUpdateChoice[];

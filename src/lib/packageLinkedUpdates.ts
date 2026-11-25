@@ -71,6 +71,17 @@ export async function captureLinkedPackageChanges(
     const result = await resolvePackageFieldBinding(revision, binding);
     const preview = { bindingId: binding.id, memberId: binding.memberId, label: result.label,
       ...(result.field ? { before: result.field.value } : {}), ...(result.desiredValue !== undefined ? { after: result.desiredValue } : {}) };
+    const member = revision.members.find(item => item.id === binding.memberId);
+    if (prior && previousFact && nextFact && sameReviewStoredValue(prior, binding) && member?.kind === 'original' && member.signedOriginal && member.officialFormId
+      && (binding.target.kind === 'page11' && member.officialFormId === 'navmc_118_11'
+        || binding.target.kind === 'configured-form' && member.officialFormId === binding.target.formId)) {
+      kept.push(prior);
+      if (choice) issues.push(`${member.label} is signed. Keep the signed original or detach its link.`);
+      const label = binding.target.kind === 'page11' ? binding.target.field : binding.target.fieldId;
+      changes.push({ bindingId: binding.id, memberId: member.id, label, state: 'signed-original', choices: ['detach'],
+        message: 'The signed PDF keeps its original contents. Detach this field link after review, or prepare a new unsigned form if the correction must appear on it.' });
+      continue;
+    }
     if (!affected) {
       kept.push(binding);
       changes.push({ ...preview, state: result.state === 'override' ? 'override' : 'unchanged', message: result.message });

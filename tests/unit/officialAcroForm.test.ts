@@ -78,3 +78,48 @@ it.each([
   const resource = transferred.resources.get('assets/' + original.original.id)!;
   expect(Buffer.compare(Buffer.from(resource.data), signed)).toBe(0);
 }, 30000);
+
+it('updates the remaining linked form and preserves an already signed official member through transfer', async () => {
+  const { captureOriginalPackageMember, readPackageAsset } = await import('@/lib/actionPackageAssets');
+  const { preparePackageUpdate, applyPreparedPackageUpdate } = await import('@/lib/packageUpdates');
+  const { linkOfficialFormDetail } = await import('@/lib/officialFormFieldLinks');
+  const { resolveExportDeploymentPolicy } = await import('@/lib/exportDeploymentPolicy');
+  const classification = await import('@/config/classification');
+  const policy = resolveExportDeploymentPolicy({ hostname: 'localhost', environment: null, runtime: { status: 'absent' } });
+  const directory = 'public/templates/NAVMC10132 - Unit Punishment Book';
+  const original = await readFile(directory + '/original.pdf');
+  const signed = new Uint8Array(Buffer.concat([original, await readFile('tests/fixtures/official-form-signing/upb.increment')]));
+  vi.spyOn(classification, 'getExportDeploymentPolicy').mockResolvedValue(policy);
+  vi.spyOn(classification, 'getExportDeploymentPolicySync').mockReturnValue(policy);
+  vi.stubGlobal('fetch', async (url: string) => {
+    const file = decodeURIComponent(url).split('/').at(-1);
+    if (file !== 'form.json' && file !== 'original.pdf') throw new Error('Unexpected URL');
+    return new Response(new Uint8Array(await readFile(directory + '/' + file)));
+  });
+  try {
+    const a = await createOfficialFormMember('navmc10132', 'basic-letter');
+    const b = await createOfficialFormMember('navmc10132', 'enclosure');
+    const record = await reviseActionPackage(await createActionPackage('Signed field links'), [a, b]);
+    const items = await linkOfficialFormDetail([a, b], 'name', 'name', []);
+    await expect(linkOfficialFormDetail([b], 'name', 'other-person', items)).rejects.toThrow('different link');
+    const facts = (value: string) => ({ version: 1 as const, participants: [],
+      facts: [{ id: 'name', kind: 'text' as const, label: 'Name', value, source: { kind: 'entered' as const } }] });
+    const linked = (await applyPreparedPackageUpdate(await preparePackageUpdate(record, facts('Sample, Pat'), { version: 1, items }, {}, policy), policy, true)).record;
+    const current = getPackageRevision(linked);
+    const signedMember = { ...await captureOriginalPackageMember({ name: 'signed.pdf', data: signed.buffer }, a.role, true), id: a.id };
+    if (signedMember.kind !== 'original') throw new Error('Expected the retained signed 10132.');
+    const captured = await reviseActionPackage(linked, [signedMember, current.members[1]]);
+    const preview = await preparePackageUpdate(captured, facts('Updated, Lee'), current.bindings, {}, policy);
+    expect(preview.ready).toBe(true);
+    expect(preview.changes.map(change => [change.memberId, change.state])).toEqual([[a.id, 'signed-original'], [b.id, 'update']]);
+    const updated = (await applyPreparedPackageUpdate(preview, policy, true)).record;
+    expect(updated.revisions.slice(0, -1)).toEqual(captured.revisions);
+    const [frozen, editable] = getPackageRevision(updated).members;
+    expect(frozen).toEqual(signedMember);
+    expect(editable).toMatchObject({ session: { genericForm: { answers: { '18_accused_full_name': 'Updated, Lee' } } } });
+    expect(Buffer.compare(Buffer.from(await readPackageAsset(signedMember.original)), signed)).toBe(0);
+    const portable = await parsePortableActionPackage(await buildPortableActionPackage(updated));
+    expect(getPackageRevision(portable.record).members[0]).toEqual(signedMember);
+    expect(Buffer.compare(Buffer.from(portable.resources.get('assets/' + signedMember.original.id)!.data), signed)).toBe(0);
+  } finally { vi.restoreAllMocks(); vi.unstubAllGlobals(); }
+}, 45_000);
