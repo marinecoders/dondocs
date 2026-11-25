@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.302] — 2026-11-25
+
+### Added
+
+- Review shared field changes by document, with overwrites and conflicts expanded.
+
 ## [1.3.301] — 2026-11-25
 
 ### Added

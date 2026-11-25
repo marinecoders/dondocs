@@ -3,7 +3,7 @@ import { Button } from './ui/button';
 import { PackageChangeImpactSummary } from './PackageChangeImpactSummary';
 import { ArrowLeft } from 'lucide-react';
 import type { PreparedConditionalPackage } from '@/lib/packageConditional';
-import type { PackageUpdateChoice, PackageUpdateChoices } from '@/lib/packageUpdates';
+import type { PackageUpdateChoice, PackageUpdateChoices, PackageUpdatePreview } from '@/lib/packageUpdates';
 
 export type IntakeMemberChoice = 'keep' | 'remove' | 'restore';
 export type IntakeAnswerChoice = 'keep-current' | 'use-intake';
@@ -14,6 +14,10 @@ const fieldChoiceLabels: Record<PackageUpdateChoice, string> = { 'apply-package'
 const allFieldChoices = Object.keys(fieldChoiceLabels) as PackageUpdateChoice[];
 function display(value: unknown): string {
   return value === undefined || value === null ? 'Unanswered' : value === '' ? 'Empty text' : typeof value === 'boolean' ? value ? 'Yes' : 'No' : String(value);
+}
+function needsFieldReview(change: PackageUpdatePreview): boolean {
+  return change.state === 'conflict' || change.state === 'unavailable' ||
+    change.state === 'update' && change.before !== undefined && change.before !== '' && change.before !== change.after;
 }
 interface Props {
   onBack?(): void;
@@ -50,6 +54,28 @@ export function PackageIntakePreview({ preview, fresh, disabled, reviewed, membe
   const findings = useMemo(() => [...new Set(preview.reviews.flatMap(review => [
     ...review.notices, ...review.privacy.findings.map(finding => `${finding.type}: ${finding.field}: ${finding.value}`),
   ]))], [preview]);
+  // Keep actionable decisions on the first page, even for large forms.
+  const ordered = directApply ? [...fields.filter(needsFieldReview), ...fields.filter(change => !needsFieldReview(change))] : fields;
+  const visibleFields = ordered.slice(0, fieldCount);
+  const documentNames = new Map(preview.changes.map(change => [change.memberId, change.label]));
+  const groups = new Map<string, { change: typeof fields[number]; index: number }[]>();
+  if (directApply) visibleFields.forEach((change, index) => {
+    const group = groups.get(change.memberId);
+    if (group) group.push({ change, index });
+    else groups.set(change.memberId, [{ change, index }]);
+  });
+  const renderField = (change: typeof fields[number], index: number) => <article key={change.bindingId} className="min-w-0 space-y-2 border-t pt-2 text-sm">
+        <p className="break-words font-medium">{change.label}</p>{(!directApply || change.state === 'conflict' || change.state === 'unavailable') && <p>{change.message}</p>}
+        <div className="grid min-w-0 gap-2 sm:grid-cols-2">
+          <p className="whitespace-pre-wrap break-words">Current document: {display(change.before)}</p>
+          <p className="whitespace-pre-wrap break-words">Planned value: {display(change.after)}</p>
+        </div>
+        <label hidden={directApply && !showOptions && !needsFieldReview(change) && !fieldChoices[change.bindingId]} className="block">Field decision<select aria-label={`Field decision ${change.label} · Link ${index + 1}`} className={inputClass} disabled={disabled}
+          value={fieldChoices[change.bindingId] ?? ''} onChange={event => onFieldChoice(change.bindingId, event.target.value ? event.target.value as PackageUpdateChoices[string] : undefined)}>
+          <option value="">Keep planned behavior</option>
+          {(change.choices ?? allFieldChoices).map(choice => <option key={choice} value={choice}>{fieldChoiceLabels[choice]}</option>)}
+        </select></label>
+      </article>;
   return <section ref={result} tabIndex={-1} aria-label="Action changes preview" className="min-w-0 space-y-4 rounded border p-3 outline-none">
     {onBack && <Button variant="ghost" className="h-auto p-0 text-sm" disabled={disabled} onClick={onBack}><ArrowLeft aria-hidden="true" className="size-4" />Back to details</Button>}
     <div className="space-y-1">
@@ -92,18 +118,14 @@ export function PackageIntakePreview({ preview, fresh, disabled, reviewed, membe
     </section>}
     {availableFields.length > 0 && <section aria-label="Linked field changes" className="space-y-3">
       <div className="flex items-center justify-between gap-4">{(!directApply || fields.length > 0) && <h5 className="text-sm font-medium">{directApply ? 'Field changes' : 'Linked fields'} ({fields.length})</h5>}{directApply && <Button variant="link" className="h-auto p-0 text-xs" aria-expanded={showOptions} onClick={() => setShowOptions(value => !value)}>Field options</Button>}</div>
-      {fields.slice(0, fieldCount).map((change, index) => <article key={change.bindingId} className="min-w-0 space-y-2 border-t pt-2 text-sm">
-        <p className="break-words font-medium">{change.label}</p>{(!directApply || change.state === 'conflict' || change.state === 'unavailable') && <p>{change.message}</p>}
-        <div className="grid min-w-0 gap-2 sm:grid-cols-2">
-          <p className="whitespace-pre-wrap break-words">Current document: {display(change.before)}</p>
-          <p className="whitespace-pre-wrap break-words">Planned value: {display(change.after)}</p>
-        </div>
-        <label hidden={directApply && !showOptions && change.state !== 'conflict' && change.state !== 'unavailable' && !fieldChoices[change.bindingId]} className="block">Field decision<select aria-label={`Field decision ${change.label} · Link ${index + 1}`} className={inputClass} disabled={disabled}
-          value={fieldChoices[change.bindingId] ?? ''} onChange={event => onFieldChoice(change.bindingId, event.target.value ? event.target.value as PackageUpdateChoices[string] : undefined)}>
-          <option value="">Keep planned behavior</option>
-          {(change.choices ?? allFieldChoices).map(choice => <option key={choice} value={choice}>{fieldChoiceLabels[choice]}</option>)}
-        </select></label>
-      </article>)}
+      {directApply ? Array.from(groups, ([id, group]) => {
+        const label = group[0].change.memberLabel ?? documentNames.get(id) ?? 'Document';
+        const needsAttention = group.some(({ change }) => needsFieldReview(change));
+        return <details key={id} open={needsAttention || showOptions} className="border-t pt-2">
+          <summary className="cursor-pointer text-sm font-medium">{label} · {group.length} {group.length === 1 ? 'field' : 'fields'}</summary>
+          <div className="mt-2 space-y-2">{group.map(({ change, index }) => renderField(change, index))}</div>
+        </details>;
+      }) : visibleFields.map(renderField)}
       {fields.length > fieldCount && <Button className={buttonClass} variant="outline" disabled={disabled} onClick={() => setFieldCount(value => value + 25)}>Show more linked fields</Button>}
     </section>}
     {preview.issues.length > 0 && <div className="space-y-2"><ul className="list-disc space-y-1 pl-5 text-sm">{preview.issues.slice(0, issueCount).map((issue, index) => <li key={index} className="whitespace-pre-wrap break-words">{issue}</li>)}</ul>

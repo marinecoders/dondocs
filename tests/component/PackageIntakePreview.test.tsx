@@ -42,3 +42,29 @@ it('names decisions for their human owner while retaining exact keys and requiri
   expect(screen.getByRole('button', { name: 'Apply action changes' })).toBeDisabled();
   expect(onApply).not.toHaveBeenCalled();
 });
+
+it('collapses routine fills and exposes overwrites on separate copies of a form', () => {
+  const fields = ['first', 'second'].map((memberId, index) => ({ memberId, bindingId: memberId, memberLabel: 'Request',
+    state: 'update' as const, label: 'Recipient', before: index ? 'Earlier entry' : '', after: 'Updated entry', message: 'Shared value changed.' }));
+  const preview: PreparedConditionalPackage = { packageName: 'Custom', ready: true, changed: true, reviews: [], issues: [], changes: [], answerChanges: [], fieldChanges: fields };
+  render(<PackageIntakePreview directApply preview={preview} fresh disabled={false} reviewed={false} memberChoices={{}} answerChoices={{}} fieldChoices={{}}
+    onMemberChoice={vi.fn()} onAnswerChoice={vi.fn()} onFieldChoice={vi.fn()} onReviewed={vi.fn()} onApply={vi.fn()} />);
+  const groups = screen.getAllByText('Request · 1 field').map(summary => summary.closest('details'));
+  expect(groups).toHaveLength(2);
+  expect(groups[0]).toHaveAttribute('open');
+  expect(groups[1]).not.toHaveAttribute('open');
+  expect(screen.getByText('Current document: Earlier entry')).toBeVisible();
+});
+
+it('shows a late conflict before paginating routine fields', () => {
+  const routine = Array.from({ length: 25 }, (_, i) => ({
+    bindingId: 'fill-' + i, memberId: 'letter', memberLabel: 'Letter', label: 'Field ' + i,
+    state: 'update' as const, before: '', after: 'Example', message: 'Fill field',
+  }));
+  const preview: PreparedConditionalPackage = { packageName: 'Training', ready: false, changed: true, changes: [], reviews: [], issues: [], answerChanges: [],
+    fieldChanges: [...routine, { bindingId: 'conflict', memberId: 'form', memberLabel: 'Form', label: 'Recipient', state: 'conflict', before: 'Local', after: 'New', message: 'Resolve the recipient.' }] };
+  render(<PackageIntakePreview directApply preview={preview} fresh disabled={false} reviewed={false} memberChoices={{}} answerChoices={{}} fieldChoices={{}}
+    onMemberChoice={vi.fn()} onAnswerChoice={vi.fn()} onFieldChoice={vi.fn()} onReviewed={vi.fn()} onApply={vi.fn()} />);
+  expect(screen.getByRole('combobox', { name: /Field decision Recipient/ })).toBeVisible();
+  expect(screen.getByRole('button', { name: 'Show more linked fields' })).toBeVisible();
+});

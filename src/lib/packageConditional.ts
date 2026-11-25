@@ -461,8 +461,10 @@ async function prepareConditionalPackageContext(input: ConditionalPackageInput, 
       return person ? { ...change, label: `${person} · ${change.label}` } : change;
     });
     const qualifiedFields = earlyFields.map(change => {
-      const person = participantContext(template, answers, state.instances.find(instance => instance.memberId === change.memberId)?.participantId, state.appliedAnswers);
-      return person ? { ...change, label: `${person} · ${change.label}` } : change;
+      const instance = state.instances.find(item => item.memberId === change.memberId);
+      const person = participantContext(template, answers, instance?.participantId, state.appliedAnswers);
+      const memberLabel = current?.members.find(item => item.id === change.memberId)?.label ?? instance?.label;
+      return { ...change, memberLabel, label: person ? `${person} · ${change.label}` : change.label };
     });
     const prepared = freeze({ packageName: name, ready: false, changed: true, changes: own(qualifiedChanges), answerChanges: own(reconciled.changes), fieldChanges: own(qualifiedFields), issues: [...issues], reviews: own(reviews) });
     plans.set(prepared, { before, attachments: [], policy: policyKey }); return prepared;
@@ -689,7 +691,9 @@ async function prepareConditionalPackageContext(input: ConditionalPackageInput, 
       change.message = `Move from document ${oldIndex + 1} to ${newIndex + 1}; preserve captured content and local edits.`;
   }
   const fieldChanges = [...new Map([...planned.changes, ...inactiveFields].map(change => [change.bindingId, change])).values()];
+  const memberLabels = new Map([...(current?.members ?? []), ...planned.revision.members].map(member => [member.id, member.label]));
   for (const change of fieldChanges) {
+    change.memberLabel = memberLabels.get(change.memberId);
     const instance = state.instances.find(instance => instance.memberId === change.memberId);
     const person = participantContext(template, answers, instance?.participantId, current?.templateState?.appliedAnswers);
     if (person) change.label = `${person} · ${change.label}`;
