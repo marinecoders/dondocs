@@ -117,7 +117,7 @@ it('accepts a real delivery ZIP through the file chooser and recovers its indepe
   const record = await fixture(), member = getPackageRevision(record).members[0];
   const prepared = await preparePackageDelivery(record, record.currentRevisionId, { label: 'Received selected delivery', purpose: 'recipient', memberIds: [member.id] }, publicPolicy);
   const bundle = await buildPackageDeliveryBundle(prepared, publicPolicy, true), dialog = await open(record), user = userEvent.setup();
-  await startNewPackage(dialog, user); await user.click(within(dialog).getByText('Blank package, saved templates and imports', { exact: true }));
+  await startNewPackage(dialog, user); await user.click(within(dialog).getByText('Saved templates and imports', { selector: 'summary' }));
   const input = within(dialog).getByLabelText('Import editable package', { exact: true });
   expect(input.getAttribute('accept')).toContain('.zip');
   await user.upload(input, new File([bundle.bytes.slice().buffer as ArrayBuffer], 'received-delivery.zip', { type: 'application/zip' }));

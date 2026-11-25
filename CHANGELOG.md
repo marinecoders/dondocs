@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.300] — 2026-11-25
+
+### Added
+
+- Start a custom package from the package library, add a new letter and arrange it with original files.
+
 ## [1.3.299] — 2026-11-25
 
 ### Added

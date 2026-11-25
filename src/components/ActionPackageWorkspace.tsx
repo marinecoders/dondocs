@@ -578,7 +578,7 @@ function PackageDialog({
     setLibraryOpen(false);
     setCreating(false);
     setDestination(undefined);
-    if (value.id !== selectedId) { setActiveMemberId(null); setWorkspaceSection("overview"); }
+    if (value.id !== selectedId) { setRole("basic-letter"); setActiveMemberId(null); setWorkspaceSection("overview"); }
     setOpenedReview(null);
     setCitationReorder(null);
     setSelectedId(value.id);
@@ -665,6 +665,15 @@ function PackageDialog({
       setActiveMemberId(added.id);
       setWorkspaceSection('documents');
     }
+  }
+  async function addBlankDocument(type: 'naval_letter' | 'coordination_page', label: string, memberRole: PackageMember['role']) {
+    if (!revision) return;
+    const session = createBlankSession(undefined, type);
+    const captured = captureDocumentRevision({
+      documentId: crypto.randomUUID(), epoch: 0, editSequence: 0, capturedAt: session.timestamp,
+    }, prepareSessionState(session));
+    const member = await capturePackageMember(captured, label, memberRole);
+    await modify([...revision.members, member]);
   }
   async function prepareCitationReorder(value: CitationReorderOperation) {
     if (!record) return;
@@ -911,14 +920,8 @@ function PackageDialog({
                 {pendingPackageEdits && <div className="mb-6 flex flex-wrap items-center justify-between gap-4 rounded-md bg-muted px-4 py-3 text-sm" role="status"><span>Apply or discard your edits before preparing files.</span><Button variant="link" size="sm" onClick={continueEditing}>Continue editing</Button></div>}
                 <div ref={overviewRef} role="region" aria-label="Package overview" tabIndex={-1} hidden={workspaceSection !== 'overview'} className="package-workspace-page space-y-7 outline-none">
                   {record && revision && <PackageNextActions record={readRecord!} revision={revision} disabled={busy || pendingPackageEdits} reviewBaseline={!!openedReview} onNavigate={followDestination} onPrepare={() => void run(() => review('assemble'))} />}
-                  {(creating || revision?.templateState) && <Suspense fallback={<p>Loading action intake…</p>}>
-          <PackageIntakePanel workspace destination={destination} resume={creating ? actionToResume : undefined} record={record} revision={revision ?? undefined} editable={editable} disabled={!loaded || typedDirty || informationDirty || starterDirty || requirementsDirty || consistencyDirty || workDirty || signingDirty || assemblyDirty || evidenceDirty || scanDirty || templateDirty || upgradeDirty || rosterDirty}
-            busy={busy} run={run} onApply={update} onStartWithDocuments={value => { update(value); setWorkspaceSection("documents"); }} onDirtyChange={setIntakeDirty} onRecoveryChange={setIntakeRecoverable} onNewActionChange={setCreatingAction}
-            signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted} />
-        </Suspense>}
-                  <div hidden={!creating || creatingAction} className="space-y-7">
-                    <details><summary className="cursor-pointer text-sm font-medium">Blank package, saved templates and imports</summary><div className="mt-5 space-y-5"><fieldset disabled={!loaded || busy || pendingPackageEdits} className="min-w-0 scroll-mt-4 space-y-4">
-          <legend className="mb-2 text-sm font-medium">Blank packages, templates and imports</legend>
+                  {creating && !creatingAction && <fieldset disabled={!loaded || busy || pendingPackageEdits} className="min-w-0 space-y-3">
+          <legend className="text-sm font-medium">Custom package</legend>
           <div className="flex flex-wrap items-end gap-2">
             <label className="min-w-0 flex-1 text-sm">
               Package name
@@ -935,16 +938,25 @@ function PackageDialog({
             </label>
             <Button
               disabled={!loaded || !validName}
-              onClick={() =>
-                void run(async () =>
-                  update(
-                    await createActionPackage(name, operation.current?.signal),
-                  ),
-                )
-              }
+              onClick={() => void run(async () => {
+                update(await createActionPackage(name, operation.current?.signal));
+                setWorkspaceSection('documents');
+              })}
             >
               Create package
             </Button>
+          </div>
+                    </fieldset>}
+                  {(creating || revision?.templateState) && <Suspense fallback={<p>Loading action intake…</p>}>
+          <PackageIntakePanel workspace destination={destination} resume={creating ? actionToResume : undefined} record={record} revision={revision ?? undefined} editable={editable} disabled={!loaded || typedDirty || informationDirty || starterDirty || requirementsDirty || consistencyDirty || workDirty || signingDirty || assemblyDirty || evidenceDirty || scanDirty || templateDirty || upgradeDirty || rosterDirty}
+            busy={busy} run={run} onApply={update} onStartWithDocuments={value => { update(value); setWorkspaceSection("documents"); }} onDirtyChange={setIntakeDirty} onRecoveryChange={setIntakeRecoverable} onNewActionChange={setCreatingAction}
+            signal={() => operation.current?.signal} isCurrent={() => active.current && !operation.current?.signal.aborted} />
+        </Suspense>}
+                  <div hidden={!creating || creatingAction} className="space-y-7">
+
+                    <details><summary className="cursor-pointer text-sm font-medium">Saved templates and imports</summary><div className="mt-5 space-y-5"><fieldset disabled={!loaded || busy || pendingPackageEdits} className="min-w-0 space-y-4">
+          <legend className="sr-only">Saved templates and imports</legend>
+          <div className="flex flex-wrap items-end gap-2">
             <label className="cursor-pointer rounded border p-2 text-sm">
               Import editable package
               <input
@@ -1168,7 +1180,7 @@ function PackageDialog({
                     {workspaceSection === 'documents' && record && revision?.templateState && !library &&
                       <PackageBlankPdfs key={revision.id} record={record} revisionId={revision.id} />}
                     <div ref={documentsRef} tabIndex={-1} className="min-w-0 scroll-mt-4 space-y-4">
-              <details hidden={!editable}><summary className="cursor-pointer text-sm font-medium">Add documents</summary><div className="mt-4">{editable && (
+              <details key={record.id} hidden={!editable} open={!revision.templateState || undefined}><summary className="cursor-pointer text-sm font-medium">Add documents</summary><div className="mt-4">{editable && (
                 <div className="space-y-2 rounded border p-3">
                   <label className="block text-sm">
                     New member role
@@ -1186,6 +1198,9 @@ function PackageDialog({
                     </select>
                   </label>
                   <div className="flex flex-wrap gap-2">
+                    <Button variant="outline" onClick={() => void run(() => addBlankDocument('naval_letter', 'Naval letter', role))}>
+                      Add letter
+                    </Button>
                     <Button
                       variant="outline"
                       onClick={() =>
@@ -1202,14 +1217,7 @@ function PackageDialog({
                     >
                       Capture current document
                     </Button>
-                    <Button variant="outline" onClick={() => void run(async () => {
-                      const session = createBlankSession(undefined, 'coordination_page');
-                      const captured = captureDocumentRevision({
-                        documentId: crypto.randomUUID(), epoch: 0, editSequence: 0, capturedAt: session.timestamp,
-                      }, prepareSessionState(session));
-                      const member = await capturePackageMember(captured, 'Coordination page', 'coordination-sheet');
-                      await modify([...revision.members, member]);
-                    })}>
+                    <Button variant="outline" onClick={() => void run(() => addBlankDocument('coordination_page', 'Coordination page', 'coordination-sheet'))}>
                       Add coordination page
                     </Button>
                     {packageOfficialForms.map(form => <Button key={form.id} variant="outline" onClick={() => void run(async () => {

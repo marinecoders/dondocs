@@ -135,7 +135,6 @@ test('two Unit Punishment Books retain independent answers, previews and recover
   const workspace = await openPackageWorkspace(page);
   await newBlankPackage(workspace, 'Two form test');
   await packageSection(workspace, 'Documents');
-  await workspace.getByText('Add documents', { exact: true }).click();
   const add = workspace.getByRole('button', { name: 'Add Unit Punishment Book' });
   await add.click();
   await expect(workspace).toHaveAttribute('aria-busy', 'false', { timeout: 30_000 });
@@ -204,7 +203,6 @@ test('Page 11 edits appear in the printable preview and survive returning to the
   const workspace = await openPackageWorkspace(page);
   await newBlankPackage(workspace, 'Page 11 editing');
   await packageSection(workspace, 'Documents');
-  await workspace.getByText('Add documents', { exact: true }).click();
   await workspace.getByRole('button', { name: 'Add Page 11', exact: true }).click();
   await workspace.getByRole('button', { name: 'Edit form' }).click();
   const editor = page.getByRole('dialog', { name: 'Page 11 editing' });
@@ -224,7 +222,6 @@ test('reviews a saved Unit Punishment Book signature location before pairing', a
   const workspace = await openPackageWorkspace(page);
   await newBlankPackage(workspace, 'Official signature test');
   await packageSection(workspace, 'Documents');
-  await workspace.getByText('Add documents', { exact: true }).click();
   await workspace.getByRole('button', { name: 'Add Unit Punishment Book' }).click();
   await expect(workspace).toHaveAttribute('aria-busy', 'false', { timeout: 30_000 });
   await workspace.getByRole('button', { name: 'Edit form', exact: true }).click();
