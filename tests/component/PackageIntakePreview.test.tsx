@@ -45,7 +45,7 @@ it('names decisions for their human owner while retaining exact keys and requiri
 
 it('collapses routine fills and exposes overwrites on separate copies of a form', () => {
   const fields = ['first', 'second'].map((memberId, index) => ({ memberId, bindingId: memberId, memberLabel: 'Request',
-    state: 'update' as const, label: 'Recipient', before: index ? 'Earlier entry' : '', after: 'Updated entry', message: 'Shared value changed.' }));
+    state: 'update' as const, label: 'Recipient', before: index ? 'Earlier entry' : null, after: 'Updated entry', message: 'Shared value changed.' }));
   const preview: PreparedConditionalPackage = { packageName: 'Custom', ready: true, changed: true, reviews: [], issues: [], changes: [], answerChanges: [], fieldChanges: fields };
   render(<PackageIntakePreview directApply preview={preview} fresh disabled={false} reviewed={false} memberChoices={{}} answerChoices={{}} fieldChoices={{}}
     onMemberChoice={vi.fn()} onAnswerChoice={vi.fn()} onFieldChoice={vi.fn()} onReviewed={vi.fn()} onApply={vi.fn()} />);

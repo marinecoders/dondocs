@@ -17,7 +17,7 @@ function display(value: unknown): string {
 }
 function needsFieldReview(change: PackageUpdatePreview): boolean {
   return change.state === 'conflict' || change.state === 'unavailable' ||
-    change.state === 'update' && change.before !== undefined && change.before !== '' && change.before !== change.after;
+    change.state === 'update' && change.before != null && change.before !== '' && change.before !== change.after;
 }
 interface Props {
   onBack?(): void;
