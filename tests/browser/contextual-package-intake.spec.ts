@@ -55,18 +55,15 @@ async function portable(page: Page, dialog: Locator) {
 async function finishPrintedName(page: Page, dialog: Locator, label: string, lastName: string) {
   await packageSection(dialog, 'Documents', true);
   const card = dialog.locator('li[id^="package-member-"]').filter({ has: page.getByRole('heading', { name: new RegExp(`^\\d+\\. ${label}$`) }) });
+  const previousRevision = await selectedPackageRevision(dialog);
   await card.getByRole('button', { name: 'Edit document', exact: true }).click();
-  await expect(dialog).toBeHidden();
+  await expect(page.getByRole('button', { name: 'Back to package', exact: true })).toBeVisible();
   await page.getByLabel('Document section', { exact: true }).selectOption('signature');
   await page.getByRole('textbox', { name: 'Last Name', exact: true }).fill(lastName);
-  await page.getByRole('button', { name: 'Return to package', exact: true }).click();
-  const reopened = await openPackageWorkspace(page);
-  await expandPackageTools(reopened);
-  const previousRevision = await selectedPackageRevision(reopened);
-  await reopened.getByRole('button', { name: 'Save working copy as new revision', exact: true }).click();
-  await expect(reopened).not.toHaveAttribute('data-revision-id', previousRevision);
-  await expect(reopened).toHaveAttribute('aria-busy', 'false');
-  return reopened;
+  await page.getByRole('button', { name: 'Back to package', exact: true }).click();
+  await expect(dialog).not.toHaveAttribute('data-revision-id', previousRevision);
+  await expect(dialog).toHaveAttribute('aria-busy', 'false');
+  return dialog;
 }
 async function output(page: Page, dialog: Locator, info: TestInfo, name: string) {
   await preparePackageExport(dialog, 'pdf');

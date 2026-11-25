@@ -7,6 +7,12 @@ Releases before 1.2.0 predate this file and are recorded only as git tags.
 
 ## [Unreleased]
 
+## [1.3.298] — 2026-11-25
+
+### Added
+
+- Edit and preview correspondence inside a package, switch between documents, and recover unsaved edits after a failed write.
+
 ## [1.3.297] — 2026-11-25
 
 ### Added

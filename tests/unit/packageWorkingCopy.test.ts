@@ -29,6 +29,20 @@ it('saves captured content once and keeps the same editable document attached to
   expect(useDocumentsStore.getState().currentId).toBe(documentId);
   expect(Object.keys(useDocumentsStore.getState().docs)).toEqual([documentId]);
 });
+it('keeps a copy for an unchanged member across revisions and retires it if that member changes', async () => {
+  const { record, member } = await fixture();
+  const originalCopy = useDocumentsStore.getState().currentId;
+  const second = { ...member, id: 'another-letter' };
+  const both = await reviseActionPackage(record, [member, second]);
+  const editingSecond = await editPackageMember(both, second);
+  useDocumentStore.getState().setField('subject', 'Second letter');
+  const saved = await savePackageWorkingCopy(editingSecond, second);
+  await editPackageMember(saved, member);
+  expect(useDocumentsStore.getState().currentId).toBe(originalCopy);
+  const changed = await reviseActionPackage(saved, getPackageRevision(saved).members.map(item =>
+    item.id === member.id ? { ...item, label: 'Changed member' } : item));
+  expect(changed.workingCopies?.find(copy => copy.documentId === originalCopy)?.revisionId).toBe(saved.currentRevisionId);
+});
 it.each(['edit', 'switch'] as const)('rejects a late save after the active document changes by %s', async mode => {
   const { record, member } = await fixture(), capture = assets.capturePackageMember;
   let release!: () => void; const held = new Promise<void>(resolve => { release = resolve; });

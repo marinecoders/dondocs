@@ -1,7 +1,6 @@
 import { useEffect, useId, useRef, useState, type ComponentProps } from 'react';
 import { ArrowLeft } from 'lucide-react';
 import type { ActionPackage, NativePackageMember } from '@/lib/actionPackages';
-import { isEditableOfficialForm } from '@/lib/packageFormEditing';
 import { readFormLocation, rememberFormLocation } from '@/lib/packageFormLocation';
 import { validateAnswers } from '@/services/forms/model';
 import { FormSectionFields } from './editor/GenericFormSection';
@@ -32,11 +31,12 @@ type Props = Pick<ComponentProps<typeof PackageDocumentPreview>, 'ports' | 'expo
   record: ActionPackage;
   member: NativePackageMember;
   onSave(next: ActionPackage): void;
-  onNavigate(memberId?: string): void;
+  onNavigate(memberId?: string): void | Promise<void>;
   onSharedDetails(): void;
+  navigationError?: string;
 };
 
-export default function PackageFormEditor({ record, member, onSave, onNavigate, onSharedDetails, ports, exportGate }: Props) {
+export default function PackageFormEditor({ record, member, onSave, onNavigate, onSharedDetails, ports, exportGate, navigationError }: Props) {
   const editor = usePackageFormEditor(record, member, onSave);
   const titleId = useId();
   const [mobilePreview, setMobilePreview] = useState(false);
@@ -50,13 +50,16 @@ export default function PackageFormEditor({ record, member, onSave, onNavigate, 
   const [expanded, setExpanded] = useState(() => (readFormLocation(position + '/sections') || 'marine').split(','));
   const switching = useRef(false);
   const [leaving, setLeaving] = useState(false);
-  async function navigate(action: () => void) {
+  async function navigate(action: () => void | Promise<void>) {
     if (switching.current) return;
     switching.current = true;
     setLeaving(true);
-    if (await editor.flush()) action();
-    switching.current = false;
-    setLeaving(false);
+    try {
+      if (await editor.flush()) await action();
+    } finally {
+      switching.current = false;
+      setLeaving(false);
+    }
   }
   const revision = record.revisions.find(item => item.id === record.currentRevisionId)!;
   const factIds = new Set(revision.bindings?.items.filter(link => link.memberId === member.id).map(link => link.factId));
@@ -82,6 +85,7 @@ export default function PackageFormEditor({ record, member, onSave, onNavigate, 
         <Button size="sm" variant="outline" className="lg:hidden" onClick={() => setMobilePreview(!mobilePreview)}>{mobilePreview ? 'Show fields' : 'Show preview'}</Button>
         <Button size="sm" disabled={leaving || editor.phase !== 'pending'} onClick={() => void editor.flush()}>Save changes</Button>
       </header>
+      {navigationError && <p role="alert" className="border-b px-4 py-2 text-sm text-destructive">{navigationError}</p>}
       {editor.error && <div role="alert" className="flex flex-wrap items-center gap-3 border-b bg-muted px-4 py-2 text-sm">
         {editor.error}
         {editor.canDiscardRecovery && <Button size="sm" variant="outline" onClick={async () => {
@@ -92,9 +96,9 @@ export default function PackageFormEditor({ record, member, onSave, onNavigate, 
       </div>}
       <main className="grid min-h-0 flex-1 content-start gap-6 overflow-auto p-4 lg:grid-cols-[minmax(20rem,2fr)_minmax(0,3fr)] lg:content-stretch lg:overflow-hidden">
         <div className={(mobilePreview ? "hidden lg:block " : "") + "min-w-0 space-y-4 lg:overflow-y-auto lg:px-1"}>
-          <label className="block space-y-1 text-sm font-medium">Package form
+          <label className="block space-y-1 text-sm font-medium">{revision.members.some(m => m.kind !== 'native' || m.session.documentCategory !== 'forms') ? 'Package document' : 'Package form'}
             <select className={selectClass} value={member.id} disabled={leaving} onChange={event => { const id = event.target.value; void navigate(() => onNavigate(id)); }}>
-              {revision.members.map((m, i) => isEditableOfficialForm(m) && !record.workingCopies?.some(copy => copy.memberId === m.id && copy.revisionId === revision.id) && <option key={m.id} value={m.id}>{i + 1}. {m.label}</option>)}
+              {revision.members.map((m, i) => <option key={m.id} value={m.id}>{i + 1}. {m.label}</option>)}
             </select>
           </label>
           <div className="text-sm">

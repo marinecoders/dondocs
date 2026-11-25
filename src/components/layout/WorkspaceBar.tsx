@@ -6,7 +6,7 @@ import { useUIStore } from '@/stores/uiStore';
 import { useEditorOutlineStore } from '@/stores/editorOutlineStore';
 import { useEditorSections } from './editorSections';
 
-export function WorkspaceBar({ activeSection }: { activeSection: string }) {
+export function WorkspaceBar({ activeSection, inPackage = false }: { activeSection: string; inPackage?: boolean }) {
   const { sections } = useEditorSections();
   const layout = useUIStore((s) => s.editorLayout);
   const mobile = useUIStore((s) => s.isMobile);
@@ -14,7 +14,7 @@ export function WorkspaceBar({ activeSection }: { activeSection: string }) {
   const pendingJump = useRef<string | null>(null);
   const active = sections.find((section) => section.id === activeSection);
   return <div className="workspace-contents flex shrink-0 items-center gap-2 px-4 sm:px-5 pt-3 pb-2">
-    {sections.length === 0 ? <span className="text-xs text-muted-foreground">Form sections</span> : showOutline && !mobile ? <span className="truncate text-xs text-muted-foreground">{active?.label}</span> : layout === 'focused' ? <div className="relative inline-flex min-w-0 max-w-[70%]">
+    {sections.length === 0 ? <span className="text-xs text-muted-foreground">Form sections</span> : showOutline && !mobile && !inPackage ? <span className="truncate text-xs text-muted-foreground">{active?.label}</span> : layout === 'focused' ? <div className="relative inline-flex min-w-0 max-w-[70%]">
       {/* Native for the platform picker on phones, drawn to match the correspondence-type picker. */}
       <select aria-label="Document section" value={activeSection}
         onChange={(event) => useEditorOutlineStore.getState().jump(event.target.value)}
@@ -45,7 +45,7 @@ export function WorkspaceBar({ activeSection }: { activeSection: string }) {
           <DropdownMenuRadioItem value="scroll" className="min-h-14"><span><span className="block">Full document</span><span className="block text-xs text-muted-foreground">Scroll through every section</span></span></DropdownMenuRadioItem>
           <DropdownMenuRadioItem value="focused" className="min-h-14"><span><span className="block">One section</span><span className="block text-xs text-muted-foreground">Edit only the section you choose</span></span></DropdownMenuRadioItem>
         </DropdownMenuRadioGroup>
-        {!mobile && <><DropdownMenuSeparator /><DropdownMenuCheckboxItem checked={showOutline} className="min-h-11" onCheckedChange={(checked) => {
+        {!mobile && !inPackage && <><DropdownMenuSeparator /><DropdownMenuCheckboxItem checked={showOutline} className="min-h-11" onCheckedChange={(checked) => {
           const ui = useUIStore.getState();
           if (checked && ui.sidebarCollapsed) ui.toggleSidebar();
           if (ui.sidebarOutlineVisible !== checked) ui.toggleSidebarOutline();

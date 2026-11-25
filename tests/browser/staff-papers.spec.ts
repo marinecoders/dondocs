@@ -42,7 +42,7 @@ test('adds a native coordination sheet directly to a package', async ({ page }) 
   await dialog.getByText('Document details', { exact: true }).click();
   await expect(dialog.getByLabel('Role for Coordination page', { exact: true })).toHaveValue('coordination-sheet');
   await dialog.getByRole('button', { name: 'Edit document', exact: true }).click();
-  await expect(page.getByRole('button', { name: 'Correspondence type: Coordination Page', exact: true })).toBeVisible();
+  await expect(page.getByRole('combobox', { name: 'Package document', exact: true })).toBeVisible();
   await page.getByRole('button', { name: 'Add coordinating office', exact: true }).click();
   await page.getByLabel('Office', { exact: true }).fill('Operations');
   await expect(page.getByLabel('Office', { exact: true })).toHaveValue('Operations');

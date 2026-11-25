@@ -17,16 +17,16 @@ import { EditorSectionContext } from './EditorSectionContext';
 import { FormattingCheck } from '@/components/editor/FormattingCheck';
 import { MechanicalCorrections } from '@/components/editor/MechanicalCorrections';
 
-export function FormPanel() {
+export function FormPanel({ inPackage = false }: { inPackage?: boolean }) {
   const documentId = useDocumentsStore((s) => s.currentId);
   const category = useDocumentStore((s) => s.documentCategory);
   const type = useDocumentStore((s) => category === 'forms' ? s.formType : s.docType);
-  return <FocusedEditor key={`${documentId ?? 'new'}:${category}:${type}`} documentId={documentId} />;
+  return <FocusedEditor key={`${documentId ?? 'new'}:${category}:${type}`} documentId={documentId} inPackage={inPackage} />;
 }
 
-function FocusedEditor({ documentId }: { documentId: string | null }) {
+function FocusedEditor({ documentId, inPackage }: { documentId: string | null; inPackage: boolean }) {
   const { sections, config, isFormsMode, formType } = useEditorSections();
-  const pageScroll = usePageScrollLayout();
+  const pageScroll = usePageScrollLayout() && !inPackage;
   const scrollMode = useUIStore((s) => s.editorLayout === 'scroll');
   const previousMode = useRef(scrollMode);
   const initialPlacement = useRef(true);
@@ -157,7 +157,7 @@ function FocusedEditor({ documentId }: { documentId: string | null }) {
   }, [pendingJump, documentId, jumpTo]);
 
   return <div data-editor-kind={isFormsMode ? 'forms' : 'correspondence'} className="workspace-editor flex h-full min-w-0 flex-col overflow-hidden bg-background">
-    <WorkspaceBar activeSection={active} />
+    <WorkspaceBar activeSection={active} inPackage={inPackage} />
     <div ref={scrollWrapRef} className="workspace-editor-scroll flex-1 min-h-0 overflow-hidden">
       <ScrollArea className="h-full">
         <div className="workspace-fields mx-auto w-full max-w-[760px] px-4 sm:px-5 pt-4 pb-12">
