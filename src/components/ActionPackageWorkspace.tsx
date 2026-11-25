@@ -239,7 +239,7 @@ function PackageDialog({
     [selectedId, setSelectedId] = useState(""),
     [revisionId, setRevisionId] = useState("");
   const [name, setName] = useState(""),
-    [role, setRole] = useState<PackageMember["role"]>("basic-letter"),
+    [requestedRole, setRole] = useState<PackageMember["role"]>(),
     [signed, setSigned] = useState(false);
   const [busy, setBusy] = useState(false),
     [error, setError] = useState(""),
@@ -336,6 +336,8 @@ function PackageDialog({
   const editable =
     !!record && !record.reviewRounds?.some(round => round.ownerPackageId === undefined) && !openedReview && revision?.id === record.currentRevisionId && !record.archived;
   const selectedMember = revision?.members.find(member => member.id === activeMemberId) ?? revision?.members[0];
+  const hasMain = revision?.members.some(member => member.role === 'basic-letter') || !!revision?.templateState?.primaryMemberKey;
+  const role = requestedRole && !(hasMain && requestedRole === 'basic-letter') ? requestedRole : hasMain ? 'supporting-document' : 'basic-letter';
   const editorMember = editable && revision?.members.find(m => formLocation === record.id + '/' + m.id);
   const nativeEditorMember = editorMember && editorMember.kind === 'native' ? editorMember : undefined;
   const copy = nativeEditorMember && record?.workingCopies?.find(item =>
@@ -599,7 +601,7 @@ function PackageDialog({
     setLibraryOpen(false);
     setCreating(false);
     setDestination(undefined);
-    if (value.id !== selectedId) { setRole("basic-letter"); setActiveMemberId(null); setWorkspaceSection("overview"); }
+    if (value.id !== selectedId) { setRole(undefined); setSigned(false); setActiveMemberId(null); setWorkspaceSection("overview"); }
     setOpenedReview(null);
     setCitationReorder(null);
     setSelectedId(value.id);
@@ -681,8 +683,10 @@ function PackageDialog({
   async function modify(members: PackageMember[]) {
     if (!record) return;
     const added = members.find(member => !revision?.members.some(previous => previous.id === member.id));
-    update(await reviseActionPackage(record, members, operation.current?.signal));
+    const ordered = added?.role === 'basic-letter' ? [added, ...members.filter(item => item.id !== added.id)] : members;
+    update(await reviseActionPackage(record, ordered, operation.current?.signal));
     if (added) {
+      setSigned(false);
       setActiveMemberId(added.id);
       setWorkspaceSection('documents');
     }
@@ -1201,7 +1205,7 @@ function PackageDialog({
                     {workspaceSection === 'documents' && record && revision?.templateState && !library &&
                       <PackageBlankPdfs key={revision.id} record={record} revisionId={revision.id} />}
                     <div ref={documentsRef} tabIndex={-1} className="min-w-0 scroll-mt-4 space-y-4">
-              <details key={record.id} hidden={!editable} open={!revision.templateState || undefined}><summary className="cursor-pointer text-sm font-medium">Add documents</summary><div className="mt-4">{editable && (
+              <details data-add-package-document key={record.id + revision.members.length} hidden={!editable} open={!revision.members.length && !revision.templateState || undefined}><summary className="cursor-pointer text-sm font-medium">Add documents</summary><div className="mt-4">{editable && (
                 <div className="space-y-2 rounded border p-3">
                   <label className="block text-sm">
                     New member role
@@ -1210,10 +1214,10 @@ function PackageDialog({
                       className="ml-2 rounded border bg-background p-2"
                       value={role}
                       onChange={(event) =>
-                        setRole(event.target.value as typeof role)
+                        setRole(event.target.value as PackageMember["role"])
                       }
                     >
-                      {packageRoles.map((role) => (
+                      {packageRoles.filter(value => !hasMain || value !== "basic-letter").map((role) => (
                         <option key={role} value={role}>{packageRoleLabels[role]}</option>
                       ))}
                     </select>
@@ -1415,6 +1419,7 @@ function PackageDialog({
                               Role
                               <select
                                 aria-label={`Role for ${member.label}`}
+                                disabled={!!revision.templateState && index === 0 && member.role === 'basic-letter'}
                                 className="ml-1 rounded border bg-background p-1"
                                 value={member.role}
                                 onChange={(event) =>
@@ -1429,11 +1434,20 @@ function PackageDialog({
                                   )
                                 }
                               >
-                                {packageRoles.filter(role => member.kind !== "attachment" || !["basic-letter", "endorsement"].includes(role)).map((role) => (
+                                {packageRoles.filter(role => (role !== "basic-letter" || member.role === role || index === 0 && !hasMain) && (member.kind !== "attachment" || !["basic-letter", "endorsement"].includes(role))).map((role) => (
                                   <option key={role} value={role}>{packageRoleLabels[role]}</option>
                                 ))}
                               </select>
                             </label>
+                            {!revision.templateState && member.role !== 'basic-letter' && member.kind !== 'attachment' && <details>
+                              <summary className="cursor-pointer text-sm">Make main document</summary>
+                              <p className="my-2 text-sm">Move {member.label} to the start. Any current main document will become a supporting document.</p>
+                              <Button size="sm" variant="outline" onClick={() => void run(() => modify([
+                                packageMemberSchema.parse({ ...member, role: 'basic-letter', endorsementLink: undefined }),
+                                ...revision.members.filter(item => item.id !== member.id).map(item => item.role === 'basic-letter'
+                                  ? packageMemberSchema.parse({ ...item, role: 'supporting-document' }) : item),
+                              ]))}>Confirm main document</Button>
+                            </details>}
                             <Button
                               size="sm"
                               variant="outline"

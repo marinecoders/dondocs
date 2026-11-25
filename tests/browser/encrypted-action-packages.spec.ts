@@ -1,4 +1,4 @@
-import { expectSelectedPackageMemberKind, openPackagePreparation, importPackage, packageSection, choosePackage, preparePackageExport, packageHeading } from './_helpers/packageWorkspace';
+import { openAddDocuments, expectSelectedPackageMemberKind, openPackagePreparation, importPackage, packageSection, choosePackage, preparePackageExport, packageHeading } from './_helpers/packageWorkspace';
 import { expect, test, type Page } from '@playwright/test';
 import { capturePackageDocument } from '../_helpers/capturePackageDocument';
 import { PDFDocument } from 'pdf-lib';
@@ -69,6 +69,7 @@ test('encrypted package link and file preserve reviewed content across fresh bro
   pdf.setSubject(randomBytes(24_000).toString('hex'));
   const original = Buffer.from(await pdf.save());
   await packageSection(modal, 'Documents', true);
+  await openAddDocuments(modal);
   await modal.getByLabel('New member role', { exact: true }).selectOption('enclosure');
   await modal.getByRole('checkbox', { name: 'Uploaded original is signed (preserve unchanged)', exact: true }).check();
   await packageSection(modal, 'Documents', true);

@@ -1,4 +1,4 @@
-import { openPackagePreparation, importPackage, packageSection, packageVersion, choosePackageById, preparePackageExport, packageTool, packageHeading } from './_helpers/packageWorkspace';
+import { openAddDocuments, openPackagePreparation, importPackage, packageSection, packageVersion, choosePackageById, preparePackageExport, packageTool, packageHeading } from './_helpers/packageWorkspace';
 import { test, expect, type Page, type BrowserContext } from "@playwright/test";
 import { capturePackageDocument } from "../_helpers/capturePackageDocument";
 import { PDFDocument, StandardFonts } from "pdf-lib";
@@ -73,10 +73,12 @@ for (const theme of ["light", "dark", "classic"]) {
     await capturePackageDocument(modal);
     await expect((await packageHeading(modal, `1. ${subject}`))).toBeVisible();
   await packageSection(modal, 'Documents', true);
+    await openAddDocuments(modal);
     await modal.getByLabel("New member role", { exact: true }).selectOption("enclosure");
     const signed = await originalPdf("SYNTHETIC SIGNED SECOND ORIGINAL - PRESERVE BYTES");
     const originals = [await originalPdf("SYNTHETIC FIRST ENCLOSURE"), signed, await originalPdf("SYNTHETIC THIRD ENCLOSURE")];
     for (let index = 0; index < originals.length; index++) {
+      await openAddDocuments(modal);
       await modal.getByRole("checkbox", { name: "Uploaded original is signed (preserve unchanged)", exact: true }).setChecked(index === 1);
   await packageSection(modal, 'Documents', true);
       await modal.getByLabel("Add original PDF", { exact: true }).setInputFiles({ name: `training-${index + 1}.pdf`, mimeType: "application/pdf", buffer: originals[index] });

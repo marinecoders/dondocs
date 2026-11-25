@@ -1,4 +1,4 @@
-import { openPackageWorkspace, newPackage, importPackage, packageSection, expandPackageTools, selectedPackageRevision, choosePackage, preparePackageExport, packageTool, packageHeading } from './_helpers/packageWorkspace';
+import { openAddDocuments, openPackageWorkspace, newPackage, importPackage, packageSection, expandPackageTools, selectedPackageRevision, choosePackage, preparePackageExport, packageTool, packageHeading } from './_helpers/packageWorkspace';
 import { expect, test, type Locator, type Page } from '@playwright/test';
 import { capturePackageDocument } from '../_helpers/capturePackageDocument';
 import { readFile } from 'node:fs/promises';
@@ -63,6 +63,7 @@ for (const theme of ['light', 'dark', 'classic']) {
     await capturePackageDocument(dialog);
     await expect(dialog.getByRole('heading', { name: /WORD PACKAGE FIXTURE/ })).toBeVisible();
   await packageSection(dialog, 'Documents', true);
+    await openAddDocuments(dialog);
     await dialog.getByLabel('New member role', { exact: true }).selectOption('enclosure');
     await dialog.getByRole('checkbox', { name: /Uploaded original is signed/ }).check();
   await packageSection(dialog, 'Documents', true);
@@ -184,6 +185,7 @@ test('Word delivery blocks disallowed original PDF text and displays original PD
   await capturePackageDocument(dialog);
   await expect((await packageHeading(dialog, '1. WORD ORIGINAL REVIEW'))).toBeVisible();
   await packageSection(dialog, 'Documents', true);
+  await openAddDocuments(dialog);
   await dialog.getByLabel('New member role', { exact: true }).selectOption('supporting-document');
   async function addOriginal(text: string) {
     const pdf = await PDFDocument.create();pdf.addPage().drawText(text);

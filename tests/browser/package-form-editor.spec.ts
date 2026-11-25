@@ -1,7 +1,7 @@
 import { getDocument } from 'pdfjs-dist/legacy/build/pdf.mjs';
 import { expect, test, type BrowserContext, type Page, type Locator } from '@playwright/test';
 import { capturePackageDocument } from '../_helpers/capturePackageDocument';
-import { newBlankPackage, openPackageWorkspace, packageSection } from './_helpers/packageWorkspace';
+import { openAddDocuments, newBlankPackage, openPackageWorkspace, packageSection } from './_helpers/packageWorkspace';
 
 test.use({ serviceWorkers: 'block' });
 test.setTimeout(150_000);
@@ -136,9 +136,11 @@ test('two Unit Punishment Books retain independent answers, previews and recover
   await newBlankPackage(workspace, 'Two form test');
   await packageSection(workspace, 'Documents');
   const add = workspace.getByRole('button', { name: 'Add Unit Punishment Book' });
+  await openAddDocuments(workspace);
   await add.click();
   await expect(workspace).toHaveAttribute('aria-busy', 'false', { timeout: 30_000 });
   await expect(workspace.getByRole('button', { name: 'Edit form', exact: true })).toBeEnabled();
+  await openAddDocuments(workspace);
   await add.click();
   await expect(workspace).toHaveAttribute('aria-busy', 'false', { timeout: 30_000 });
   await expect(workspace.locator('li[id^="package-member-"]')).toHaveCount(2);

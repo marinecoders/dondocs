@@ -238,3 +238,8 @@ export async function expectSelectedPackageMemberKind(dialog: Locator, kind: str
     await expect(navigation.locator('button[aria-current="true"]')).toContainText(kind);
   }
 }
+
+export async function openAddDocuments(workspace: Locator) {
+  const closed = workspace.locator('details[data-add-package-document]:not([open]) > summary');
+  if (await closed.isVisible()) await closed.click();
+}

@@ -1,4 +1,4 @@
-import { openPackagePreparation, packageSection, expandPackageTools, preparePackageExport, packageTool, packageHeading, openPackageWorkspace, choosePackage } from './_helpers/packageWorkspace';
+import { openAddDocuments, openPackagePreparation, packageSection, expandPackageTools, preparePackageExport, packageTool, packageHeading, openPackageWorkspace, choosePackage } from './_helpers/packageWorkspace';
 import { expect, test, type Page } from '@playwright/test';
 import { capturePackageDocument } from '../_helpers/capturePackageDocument';
 import { PDFDocument, StandardFonts } from 'pdf-lib';
@@ -38,6 +38,7 @@ for (const theme of ['light', 'dark']) {
     pdfPage.drawText('FRESH TRAINING ENCLOSURE', { x: 40, y: 730, font: await pdf.embedFont(StandardFonts.Helvetica), size: 12 });
     const fresh = Buffer.from(await pdf.save());
   await packageSection(dialog, 'Documents', true);
+    await openAddDocuments(dialog);
     await dialog.getByLabel('New member role', { exact: true }).selectOption('enclosure');
   await packageSection(dialog, 'Documents', true);
     await dialog.getByLabel('Add original PDF', { exact: true }).setInputFiles({ name: 'support.pdf', mimeType: 'application/pdf', buffer: fresh });
