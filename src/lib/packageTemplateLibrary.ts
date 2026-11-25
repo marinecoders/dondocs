@@ -24,7 +24,7 @@ export const MAX_TEMPLATE_ACTION_BYTES = 64 * 1024 * 1024;
 export const MAX_PACKAGE_TEMPLATE_LIBRARY_BYTES = 40 * 1024 * 1024;
 import { packageTemplateSchema, packageTemplateV1Schema, packageTemplatePageSchema as pageSchema,
   type PackageTemplate, type PackageTemplateV1, type PackageTemplateV2, type PackageTemplateMember, type RequiredNativeFile } from './packageTemplateSchema';
-import { listPackageBindingFields, packageBindingTargetKey } from './packageBindingTargets';
+import { listSessionFields, packageBindingTargetKey } from './packageBindingTargets';
 import { formatPackageFactForField } from './packageFieldBindings';
 import type { PackageFact } from './packageInformation';
 export { packageTemplateSchema } from './packageTemplateSchema';
@@ -105,9 +105,8 @@ function assertNoTemplatePlaceholders(value: unknown, volume = false): void {
 async function qualifyConditionalMember(template: Extract<PackageTemplate, { version: 2 }>, member: Extract<PackageTemplateMember, { kind: 'native' }>, session: SerializedSession): Promise<void> {
   for (const key of ['sigFirst', 'sigMiddle', 'sigLast'] as const) if (session.formData[key]?.trim())
     throw new Error('Version 2 starters leave printed signature names for the native document editor.');
-  if (!('links' in member)) return;
-  const fields = new Map((await listPackageBindingFields({ kind: 'native', id: 'template', revisionId: 'template', label: member.label,
-    role: member.role, required: member.required, session, draft: { id: 'draft', name: 'starter.json', type: 'application/json', size: 1, sha256: '0'.repeat(64) } }))
+  if (!('links' in member) || !member.links?.length) return;
+  const fields = new Map((await listSessionFields(session))
     .map(field => [packageBindingTargetKey(field.target), field]));
   for (const link of member.links ?? []) {
     const field = fields.get(packageBindingTargetKey(link.target));
