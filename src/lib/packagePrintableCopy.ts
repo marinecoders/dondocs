@@ -7,7 +7,7 @@ import { inspectPackageOriginal } from './packageOriginalPdf';
 import { loadAssemblyPdf } from '@/services/pdf/assemblyPdf';
 
 export function needsOfficialPrintableCopy(member: Extract<PackageMember, { kind: 'original' }>) {
-  return !member.printableCopy && !!member.officialFormId && officialEdition(member.officialFormId)?.format === 'xfa';
+  return !member.printableCopy && !!member.officialFormId && ['xfa', 'hybrid'].includes(officialEdition(member.officialFormId)?.format ?? '');
 }
 
 // Cache successful checks by content only. An aborted or failed render can be retried.

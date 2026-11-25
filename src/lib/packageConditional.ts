@@ -602,9 +602,9 @@ async function prepareConditionalPackageContext(input: ConditionalPackageInput, 
         delete member.endorsementLink;
       } else {
         if (!/\.pdf$/i.test(file.name)) throw new Error('Action evidence slots currently accept PDF originals.');
-        signal?.throwIfAborted(); await validatePackageOriginalPdf(file.data);
+        signal?.throwIfAborted(); const officialFormId = await validatePackageOriginalPdf(file.data);
         reviews.push(await reviewPackageOriginal(file.data, file.name, policy));
-        member = { ...identity, kind: 'original', signedOriginal: file.signedOriginal, original: await stage(attachments, file.name, 'application/pdf', file.data) };
+        member = { ...identity, kind: 'original', signedOriginal: file.signedOriginal, ...(file.signedOriginal && officialFormId && { officialFormId }), original: await stage(attachments, file.name, 'application/pdf', file.data) };
       }
     } else member = await nativeMember(blueprint, instance, template, answers, information, state, attachments, bindings);
     instance.generatedDigest = await memberDigest(member); instance.suppressed = false; clean.set(member.id, true); selectedMembers.push(member);

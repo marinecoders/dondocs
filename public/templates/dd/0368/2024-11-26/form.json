@@ -1,0 +1,976 @@
+{
+  "schemaVersion": 2,
+  "formId": "dd0368",
+  "label": "DD Form 368 – Request for Conditional Release",
+  "directory": "dd/0368/2024-11-26",
+  "definitionRevision": "2011-08.upd20241126",
+  "nativePdfEdition": "2011-08.upd20241126",
+  "templateRevision": "52b10f59aa001aacae6b23f7c9aa57d5dd205b68dac04df9542fb810686e024c",
+  "pages": [
+    {
+      "file": "original.pdf",
+      "width": 612,
+      "height": 792,
+      "sha256": "52b10f59aa001aacae6b23f7c9aa57d5dd205b68dac04df9542fb810686e024c"
+    },
+    {
+      "file": "original.pdf",
+      "width": 612,
+      "height": 792,
+      "sha256": "52b10f59aa001aacae6b23f7c9aa57d5dd205b68dac04df9542fb810686e024c"
+    }
+  ],
+  "fields": {
+    "member_name": {
+      "kind": "text",
+      "label": "Member name (last, first, middle initial)",
+      "sourceIds": [
+        "form1[0].#subform[0].TextField2[0]"
+      ],
+      "requiredAt": "export"
+    },
+    "pay_grade": {
+      "kind": "text",
+      "label": "Pay grade",
+      "sourceIds": [
+        "form1[0].#subform[0].TextField2[1]"
+      ]
+    },
+    "edipi": {
+      "kind": "text",
+      "label": "Member EDIPI",
+      "sourceIds": [
+        "form1[0].#subform[0].TextField2[2]"
+      ]
+    },
+    "service_component": {
+      "kind": "text",
+      "label": "Service component",
+      "sourceIds": [
+        "form1[0].#subform[0].TextField2[3]"
+      ]
+    },
+    "unit": {
+      "kind": "text",
+      "label": "Current unit or command",
+      "sourceIds": [
+        "form1[0].#subform[0].TextField2[4]"
+      ]
+    },
+    "member_street": {
+      "kind": "text",
+      "label": "Member street",
+      "sourceIds": [
+        "form1[0].#subform[0].#subform[1].TextField2[5]"
+      ]
+    },
+    "member_city": {
+      "kind": "text",
+      "label": "Member city",
+      "sourceIds": [
+        "form1[0].#subform[0].#subform[1].TextField2[6]"
+      ]
+    },
+    "member_state": {
+      "kind": "text",
+      "label": "Member state",
+      "sourceIds": [
+        "form1[0].#subform[0].#subform[1].TextField2[7]"
+      ]
+    },
+    "member_zip": {
+      "kind": "text",
+      "label": "Member zip",
+      "sourceIds": [
+        "form1[0].#subform[0].#subform[1].TextField2[8]"
+      ]
+    },
+    "recruiting_street": {
+      "kind": "text",
+      "label": "Recruiting street",
+      "sourceIds": [
+        "form1[0].#subform[0].TextField2[9]"
+      ]
+    },
+    "recruiting_city": {
+      "kind": "text",
+      "label": "Recruiting city",
+      "sourceIds": [
+        "form1[0].#subform[0].TextField2[10]"
+      ]
+    },
+    "recruiting_state": {
+      "kind": "text",
+      "label": "Recruiting state",
+      "sourceIds": [
+        "form1[0].#subform[0].TextField2[11]"
+      ]
+    },
+    "recruiting_zip": {
+      "kind": "text",
+      "label": "Recruiting zip",
+      "sourceIds": [
+        "form1[0].#subform[0].TextField2[12]"
+      ]
+    },
+    "officer_current_component": {
+      "kind": "text",
+      "label": "Officer current component",
+      "sourceIds": [
+        "form1[0].#subform[0].TextField2[13]"
+      ]
+    },
+    "officer_requested_component": {
+      "kind": "text",
+      "label": "Officer requested component",
+      "sourceIds": [
+        "form1[0].#subform[0].TextField2[14]"
+      ]
+    },
+    "member_signature": {
+      "kind": "signature",
+      "label": "Member signature",
+      "sourceIds": [
+        "form1[0].#subform[0].member[0]"
+      ]
+    },
+    "member_date": {
+      "kind": "text",
+      "label": "Member date",
+      "sourceIds": [
+        "form1[0].#subform[0].signedDate[0]"
+      ]
+    },
+    "target_component": {
+      "kind": "text",
+      "label": "Requested service or component",
+      "sourceIds": [
+        "form1[0].#subform[0].TextField2[15]"
+      ]
+    },
+    "recruiter_name": {
+      "kind": "text",
+      "label": "Recruiter name",
+      "sourceIds": [
+        "form1[0].#subform[0].#subform[2].TextField2[16]"
+      ]
+    },
+    "recruiter_title": {
+      "kind": "text",
+      "label": "Recruiter title",
+      "sourceIds": [
+        "form1[0].#subform[0].#subform[2].TextField2[17]"
+      ]
+    },
+    "recruiter_signature": {
+      "kind": "signature",
+      "label": "Recruiter signature",
+      "sourceIds": [
+        "form1[0].#subform[0].recruiter[0]"
+      ]
+    },
+    "recruiter_date": {
+      "kind": "text",
+      "label": "Recruiter date",
+      "sourceIds": [
+        "form1[0].#subform[0].signedDate2[0]"
+      ]
+    },
+    "approved": {
+      "kind": "boolean",
+      "label": "Conditional release approved",
+      "sourceIds": [
+        "form1[0].#subform[0].a5[0]"
+      ]
+    },
+    "valid_until": {
+      "kind": "text",
+      "label": "Release valid until",
+      "sourceIds": [
+        "form1[0].#subform[0].TextField2[18]"
+      ]
+    },
+    "disapproved": {
+      "kind": "boolean",
+      "label": "Conditional release disapproved",
+      "sourceIds": [
+        "form1[0].#subform[0].b5[0]"
+      ]
+    },
+    "authority_name": {
+      "kind": "text",
+      "label": "Authority name",
+      "sourceIds": [
+        "form1[0].#subform[0].TextField2[19]"
+      ]
+    },
+    "authority_title": {
+      "kind": "text",
+      "label": "Authority title",
+      "sourceIds": [
+        "form1[0].#subform[0].TextField2[20]"
+      ]
+    },
+    "authority_phone": {
+      "kind": "text",
+      "label": "Authority phone",
+      "sourceIds": [
+        "form1[0].#subform[0].TextField2[21]"
+      ]
+    },
+    "authority_street": {
+      "kind": "text",
+      "label": "Authority street",
+      "sourceIds": [
+        "form1[0].#subform[0].#subform[3].TextField2[22]"
+      ]
+    },
+    "authority_city": {
+      "kind": "text",
+      "label": "Authority city",
+      "sourceIds": [
+        "form1[0].#subform[0].#subform[3].TextField2[23]"
+      ]
+    },
+    "authority_state": {
+      "kind": "text",
+      "label": "Authority state",
+      "sourceIds": [
+        "form1[0].#subform[0].#subform[3].TextField2[24]"
+      ]
+    },
+    "authority_zip": {
+      "kind": "text",
+      "label": "Authority zip",
+      "sourceIds": [
+        "form1[0].#subform[0].#subform[3].TextField2[25]"
+      ]
+    },
+    "authority_signature": {
+      "kind": "signature",
+      "label": "Authority signature",
+      "sourceIds": [
+        "form1[0].#subform[0].ao[0]"
+      ]
+    },
+    "authority_date": {
+      "kind": "text",
+      "label": "Authority date",
+      "sourceIds": [
+        "form1[0].#subform[0].signedDate3[0]"
+      ]
+    },
+    "oath_component": {
+      "kind": "text",
+      "label": "Service or component administering the oath",
+      "sourceIds": [
+        "form1[0].#subform[0].TextField2[26]"
+      ]
+    },
+    "certifier_name": {
+      "kind": "text",
+      "label": "Certifier name",
+      "sourceIds": [
+        "form1[0].#subform[0].TextField2[27]"
+      ]
+    },
+    "certifier_title": {
+      "kind": "text",
+      "label": "Certifier title",
+      "sourceIds": [
+        "form1[0].#subform[0].TextField2[28]"
+      ]
+    },
+    "certifier_unit": {
+      "kind": "text",
+      "label": "Certifier unit",
+      "sourceIds": [
+        "form1[0].#subform[0].TextField2[29]"
+      ]
+    },
+    "certifier_phone": {
+      "kind": "text",
+      "label": "Certifier phone",
+      "sourceIds": [
+        "form1[0].#subform[0].TextField2[30]"
+      ]
+    },
+    "certifier_street": {
+      "kind": "text",
+      "label": "Certifier street",
+      "sourceIds": [
+        "form1[0].#subform[0].#subform[4].TextField2[31]"
+      ]
+    },
+    "certifier_city": {
+      "kind": "text",
+      "label": "Certifier city",
+      "sourceIds": [
+        "form1[0].#subform[0].#subform[4].TextField2[32]"
+      ]
+    },
+    "certifier_state": {
+      "kind": "text",
+      "label": "Certifier state",
+      "sourceIds": [
+        "form1[0].#subform[0].#subform[4].TextField2[33]"
+      ]
+    },
+    "certifier_zip": {
+      "kind": "text",
+      "label": "Certifier zip",
+      "sourceIds": [
+        "form1[0].#subform[0].#subform[4].TextField2[34]"
+      ]
+    },
+    "certifier_signature": {
+      "kind": "signature",
+      "label": "Certifier signature",
+      "sourceIds": [
+        "form1[0].#subform[0].SignatureField1[0]"
+      ]
+    },
+    "certifier_date": {
+      "kind": "text",
+      "label": "Certifier date",
+      "sourceIds": [
+        "form1[0].#subform[0].signedDate4[0]"
+      ]
+    },
+    "remarks": {
+      "kind": "text",
+      "label": "Remarks",
+      "sourceIds": [
+        "form1[0].#subform[5].TextField2[35]"
+      ],
+      "multiline": true
+    }
+  },
+  "sections": [
+    {
+      "id": "request",
+      "title": "I. Request for release",
+      "fields": [
+        "member_name",
+        "pay_grade",
+        "edipi",
+        "service_component",
+        "unit",
+        "member_street",
+        "member_city",
+        "member_state",
+        "member_zip",
+        "recruiting_street",
+        "recruiting_city",
+        "recruiting_state",
+        "recruiting_zip",
+        "officer_current_component",
+        "officer_requested_component",
+        "member_signature",
+        "member_date",
+        "target_component",
+        "recruiter_name",
+        "recruiter_title",
+        "recruiter_signature",
+        "recruiter_date"
+      ]
+    },
+    {
+      "id": "decision",
+      "title": "II. Approval or disapproval",
+      "fields": [
+        "approved",
+        "valid_until",
+        "disapproved",
+        "authority_name",
+        "authority_title",
+        "authority_phone",
+        "authority_street",
+        "authority_city",
+        "authority_state",
+        "authority_zip",
+        "authority_signature",
+        "authority_date"
+      ]
+    },
+    {
+      "id": "notification",
+      "title": "III. Notification of enlistment or appointment",
+      "fields": [
+        "oath_component",
+        "certifier_name",
+        "certifier_title",
+        "certifier_unit",
+        "certifier_phone",
+        "certifier_street",
+        "certifier_city",
+        "certifier_state",
+        "certifier_zip",
+        "certifier_signature",
+        "certifier_date"
+      ]
+    },
+    {
+      "id": "remarks",
+      "title": "IV. Remarks",
+      "fields": [
+        "remarks"
+      ]
+    }
+  ],
+  "placements": [
+    {
+      "fieldId": "member_name",
+      "page": 1,
+      "box": {
+        "left": 20.835,
+        "top": 693.382,
+        "width": 210.33,
+        "height": 17.324
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "pay_grade",
+      "page": 1,
+      "box": {
+        "left": 236.835,
+        "top": 693.382,
+        "width": 66.33,
+        "height": 17.324
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "edipi",
+      "page": 1,
+      "box": {
+        "left": 308.835,
+        "top": 693.382,
+        "width": 138.33,
+        "height": 17.324
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "service_component",
+      "page": 1,
+      "box": {
+        "left": 452.835,
+        "top": 693.382,
+        "width": 138.33,
+        "height": 17.324
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "unit",
+      "page": 1,
+      "box": {
+        "left": 20.835,
+        "top": 654.101,
+        "width": 102.33,
+        "height": 14.043
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "member_street",
+      "page": 1,
+      "box": {
+        "left": 128.835,
+        "top": 651.622,
+        "width": 174.33,
+        "height": 11.564
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "member_city",
+      "page": 1,
+      "box": {
+        "left": 308.835,
+        "top": 651.622,
+        "width": 138.33,
+        "height": 11.564
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "member_state",
+      "page": 1,
+      "box": {
+        "left": 452.835,
+        "top": 651.622,
+        "width": 55.53,
+        "height": 11.564
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "member_zip",
+      "page": 1,
+      "box": {
+        "left": 514.035,
+        "top": 651.622,
+        "width": 77.13,
+        "height": 11.564
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "recruiting_street",
+      "page": 1,
+      "box": {
+        "left": 20.835,
+        "top": 615.622,
+        "width": 282.33,
+        "height": 11.564
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "recruiting_city",
+      "page": 1,
+      "box": {
+        "left": 308.835,
+        "top": 615.622,
+        "width": 138.33,
+        "height": 11.564
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "recruiting_state",
+      "page": 1,
+      "box": {
+        "left": 452.835,
+        "top": 615.622,
+        "width": 55.53,
+        "height": 11.564
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "recruiting_zip",
+      "page": 1,
+      "box": {
+        "left": 514.035,
+        "top": 615.622,
+        "width": 77.13,
+        "height": 11.564
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "officer_current_component",
+      "page": 1,
+      "box": {
+        "left": 276.9,
+        "top": 555.862,
+        "width": 107.244,
+        "height": 11.564
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "officer_requested_component",
+      "page": 1,
+      "box": {
+        "left": 221.519,
+        "top": 541.462,
+        "width": 109.977,
+        "height": 11.564
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "member_signature",
+      "page": 1,
+      "box": {
+        "left": 20.835,
+        "top": 475.222,
+        "width": 487.53,
+        "height": 24.524
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "member_date",
+      "page": 1,
+      "box": {
+        "left": 514.035,
+        "top": 475.222,
+        "width": 77.13,
+        "height": 24.524
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "target_component",
+      "page": 1,
+      "box": {
+        "left": 249.208,
+        "top": 434.902,
+        "width": 134.936,
+        "height": 11.564
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "recruiter_name",
+      "page": 1,
+      "box": {
+        "left": 20.835,
+        "top": 411.862,
+        "width": 282.33,
+        "height": 11.564
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "recruiter_title",
+      "page": 1,
+      "box": {
+        "left": 20.835,
+        "top": 388.822,
+        "width": 282.33,
+        "height": 11.564
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "recruiter_signature",
+      "page": 1,
+      "box": {
+        "left": 308.835,
+        "top": 411.862,
+        "width": 199.53,
+        "height": 34.604
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "recruiter_date",
+      "page": 1,
+      "box": {
+        "left": 514.035,
+        "top": 411.862,
+        "width": 77.13,
+        "height": 34.604
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "approved",
+      "page": 1,
+      "box": {
+        "left": 20.835,
+        "top": 344.18,
+        "width": 13.0,
+        "height": 13.0
+      },
+      "appearance": "mark",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "valid_until",
+      "page": 1,
+      "box": {
+        "left": 409.808,
+        "top": 347.062,
+        "width": 172.235,
+        "height": 18.764
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "disapproved",
+      "page": 1,
+      "box": {
+        "left": 20.835,
+        "top": 322.58,
+        "width": 13.0,
+        "height": 13.0
+      },
+      "appearance": "mark",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "authority_name",
+      "page": 1,
+      "box": {
+        "left": 20.835,
+        "top": 282.262,
+        "width": 282.33,
+        "height": 11.564
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "authority_title",
+      "page": 1,
+      "box": {
+        "left": 308.835,
+        "top": 282.262,
+        "width": 282.33,
+        "height": 11.564
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "authority_phone",
+      "page": 1,
+      "box": {
+        "left": 20.835,
+        "top": 248.741,
+        "width": 102.33,
+        "height": 14.043
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "authority_street",
+      "page": 1,
+      "box": {
+        "left": 128.835,
+        "top": 246.262,
+        "width": 174.33,
+        "height": 11.564
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "authority_city",
+      "page": 1,
+      "box": {
+        "left": 308.835,
+        "top": 246.262,
+        "width": 138.33,
+        "height": 11.564
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "authority_state",
+      "page": 1,
+      "box": {
+        "left": 452.835,
+        "top": 246.262,
+        "width": 55.53,
+        "height": 11.564
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "authority_zip",
+      "page": 1,
+      "box": {
+        "left": 514.035,
+        "top": 246.262,
+        "width": 77.13,
+        "height": 11.564
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "authority_signature",
+      "page": 1,
+      "box": {
+        "left": 20.835,
+        "top": 223.222,
+        "width": 487.53,
+        "height": 24.524
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "authority_date",
+      "page": 1,
+      "box": {
+        "left": 514.035,
+        "top": 223.222,
+        "width": 77.13,
+        "height": 24.524
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "oath_component",
+      "page": 1,
+      "box": {
+        "left": 293.511,
+        "top": 181.462,
+        "width": 264.214,
+        "height": 11.564
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "certifier_name",
+      "page": 1,
+      "box": {
+        "left": 20.835,
+        "top": 121.342,
+        "width": 210.33,
+        "height": 11.564
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "certifier_title",
+      "page": 1,
+      "box": {
+        "left": 236.835,
+        "top": 121.342,
+        "width": 210.33,
+        "height": 11.564
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "certifier_unit",
+      "page": 1,
+      "box": {
+        "left": 452.835,
+        "top": 121.342,
+        "width": 138.33,
+        "height": 11.564
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "certifier_phone",
+      "page": 1,
+      "box": {
+        "left": 20.835,
+        "top": 87.821,
+        "width": 102.33,
+        "height": 14.043
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "certifier_street",
+      "page": 1,
+      "box": {
+        "left": 128.835,
+        "top": 85.342,
+        "width": 174.33,
+        "height": 11.564
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "certifier_city",
+      "page": 1,
+      "box": {
+        "left": 308.835,
+        "top": 85.342,
+        "width": 138.33,
+        "height": 11.564
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "certifier_state",
+      "page": 1,
+      "box": {
+        "left": 452.835,
+        "top": 85.342,
+        "width": 55.53,
+        "height": 11.564
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "certifier_zip",
+      "page": 1,
+      "box": {
+        "left": 514.035,
+        "top": 85.342,
+        "width": 77.13,
+        "height": 11.564
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "certifier_signature",
+      "page": 1,
+      "box": {
+        "left": 20.835,
+        "top": 62.302,
+        "width": 487.53,
+        "height": 24.524
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "certifier_date",
+      "page": 1,
+      "box": {
+        "left": 514.035,
+        "top": 62.302,
+        "width": 77.13,
+        "height": 24.524
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    },
+    {
+      "fieldId": "remarks",
+      "page": 2,
+      "box": {
+        "left": 20.835,
+        "top": 756.742,
+        "width": 570.33,
+        "height": 258.524
+      },
+      "appearance": "text",
+      "overflow": "shrink"
+    }
+  ],
+  "rowGroups": {}
+}

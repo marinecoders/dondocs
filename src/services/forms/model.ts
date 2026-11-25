@@ -1,4 +1,4 @@
-import { officialEdition } from './nativeCatalog';
+import { hasNativeWidgets, officialEdition } from './nativeCatalog';
 import { z } from 'zod';
 import { assertFormConfig, type FormConfig, type FormValues, type FormRows } from '@/types/formConfig';
 
@@ -67,7 +67,7 @@ export function compileFormDefinition(input: unknown): FormDefinition {
   if (!Object.keys(d.fields).length && !Object.keys(d.rowGroups).length) fail('fields', 'form has no answers');
   if (d.nativePdfEdition) {
     const profile = officialEdition(d.formId, d.nativePdfEdition);
-    if (!profile || profile.format !== 'acroform' || d.directory !== profile.directory || d.templateRevision !== profile.sha256
+    if (!profile || !hasNativeWidgets(profile.format) || d.directory !== profile.directory || d.templateRevision !== profile.sha256
       || d.pages.length !== profile.pageSizes.length || d.pages.some((p, index) => p.file !== profile.file || p.sha256 !== profile.sha256
         || p.width !== profile.pageSizes[index][0] || p.height !== profile.pageSizes[index][1])) fail('nativePdfEdition', 'unrecognized official PDF edition');
   } else if (new Set(d.pages.map(p => p.file)).size !== d.pages.length) fail('pages', 'duplicate page filename');
@@ -190,6 +190,9 @@ export function validateAnswers(d: FormDefinition, answers: Answers, rows: Answe
     }
   };
   check(d.fields, answers, '');
+  if (d.formId === 'dd0368' && d.nativePdfEdition && answers.approved === true && answers.disapproved === true) {
+    error('disapproved', 'conflicting-decision', 'Choose either approval or disapproval in Section II.');
+  }
   for (const key of Object.keys(rows)) {
     if (!Object.hasOwn(d.rowGroups, key)) error(key, 'unknown-group', 'Unknown row group');
   }

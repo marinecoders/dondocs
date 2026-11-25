@@ -211,7 +211,7 @@ function checkImages(pdf: PDFDocument): void {
  * Render that encrypted case, or printable upload annotations, to a separate,
  * bounded visual derivative. Vector copies retain page content and geometry.
  */
-export async function loadAssemblyPdf(data: Uint8Array | ArrayBuffer, signal?: AbortSignal, options: { forcePageImages?: boolean; onPageImage?: (image: { bytes: Uint8Array; width: number; height: number }) => void | Promise<void> } = {}): Promise<{ pdf: PDFDocument; pageImages: boolean; imageCopyReason?: PdfImageCopyReason }> {
+export async function loadAssemblyPdf(data: Uint8Array | ArrayBuffer, signal?: AbortSignal, options: { generatedHybridForm?: boolean; forcePageImages?: boolean; onPageImage?: (image: { bytes: Uint8Array; width: number; height: number }) => void | Promise<void> } = {}): Promise<{ pdf: PDFDocument; pageImages: boolean; imageCopyReason?: PdfImageCopyReason }> {
   signal?.throwIfAborted();
   const source = bytesOf(data);
   const pdf = await PDFDocument.load(source, { ignoreEncryption: true });
@@ -241,7 +241,8 @@ export async function loadAssemblyPdf(data: Uint8Array | ArrayBuffer, signal?: A
     const documentPdf = await task.promise;
     controller.signal.throwIfAborted();
     const metadata = await documentPdf.getMetadata();
-    if ('IsXFAPresent' in metadata.info && metadata.info.IsXFAPresent) throw new Error(XFA_ERROR);
+    // Only the configured-form writer passes this for freshly generated, hash-pinned hybrid forms.
+    if ('IsXFAPresent' in metadata.info && metadata.info.IsXFAPresent && !options.generatedHybridForm) throw new Error(XFA_ERROR);
     controller.signal.throwIfAborted();
     if (documentPdf.numPages < 1 || documentPdf.numPages > PROTECTED_PDF_LIMITS.pages) throw new Error('PDF image copies support 1–50 pages. Split this PDF and try again.');
     // pdf-lib cannot inspect an encrypted object stream. The vendored PDF.js

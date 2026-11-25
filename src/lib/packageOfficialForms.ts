@@ -1,6 +1,6 @@
 import { FORM_TYPE_LABELS, formTypeLabel } from '@/types/document';
 import { createBlankSession, prepareSessionState } from '@/stores/documentStore';
-import { identifyOfficialOriginal, officialEdition, nativeSigningFormId, officialFormChoices } from '@/services/forms/nativeCatalog';
+import { hasNativeWidgets, identifyOfficialOriginal, officialEdition, nativeSigningFormId, officialFormChoices } from '@/services/forms/nativeCatalog';
 import { loadDefinition } from '@/services/forms/packages';
 import { captureExportFormTemplates } from '@/services/exports/formTemplates';
 import { captureDocumentRevision } from './capturedDocument';
@@ -20,7 +20,7 @@ async function officialFormStarter(formId: string, catalogLabel?: string) {
   const label = edition?.label ?? (builtin ? formTypeLabel(formId) : catalogLabel);
   if (!label) throw new Error('This form is unavailable.');
   const session = createBlankSession(formId);
-  if (edition?.format === 'acroform' || !builtin && !edition) {
+  if (edition && hasNativeWidgets(edition.format) || !builtin && !edition) {
     const definition = edition ? await loadDefinition(edition.directory) : await (await import('@/services/formRegistry')).configForFormType(formId);
     if (!definition || definition.formId !== formId || edition && definition.nativePdfEdition !== edition.edition)
       throw new Error('The form definition does not match the selected edition.');

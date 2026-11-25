@@ -45,6 +45,10 @@ export function officialFormCompletionIssues(member: PackageMember, rule?: FormC
         add(group.label, key ? fieldTarget(key) : undefined);
       }
     }
+    for (const name of rule?.uncheckedPdfFields ?? []) {
+      const match = Object.entries(definition.fields).find(([, field]) => field.sourceIds?.includes(name));
+      if (match?.[1].kind !== 'boolean' || answers[match[0]] === true) add('Leave this field unchecked: ' + (match?.[1].label ?? name) + '.');
+    }
     for (const issue of validateAnswers(definition, answers, rows)) if (issue.severity === 'error') add(issue.message, fieldTarget(issue.path));
   } else if (member.kind !== 'native' && (rule?.blankSha256 === member.original.sha256 ||
       editions.some(edition => edition.sha256 === member.original.sha256))) {

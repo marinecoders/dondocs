@@ -26,6 +26,23 @@
       "category": "Legal & Discipline",
       "keywords": ["UPB", "NJP", "nonjudicial punishment"],
       "pages": ["original.pdf"]
+    },
+    {
+      "id": "dd0368",
+      "name": "DD Form 368 – Request for Conditional Release",
+      "directory": "dd/0368/2024-11-26",
+      "definitionRevision": "2011-08.upd20241126",
+      "status": "published",
+      "config": true,
+      "category": "Personnel",
+      "keywords": [
+        "conditional release",
+        "DD 368",
+        "transfer"
+      ],
+      "pages": [
+        "original.pdf"
+      ]
     }
   ]
 }

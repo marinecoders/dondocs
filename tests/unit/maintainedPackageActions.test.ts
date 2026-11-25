@@ -1,13 +1,17 @@
 import 'fake-indexeddb/auto';
-import { expect, it } from 'vitest';
+import { readFile } from 'node:fs/promises';
+import { afterEach, expect, it, vi } from 'vitest';
 import { maintainedPackageAction, maintainedPackageActions } from '@/lib/maintainedPackageActions';
 import { listActionPackages } from '@/lib/actionPackages';
 import { idbGetAllAttachments } from '@/lib/documentsDb';
 
-it('qualifies three clean maintained actions without installing case records or assets', async () => {
+afterEach(() => vi.unstubAllGlobals());
+
+it('qualifies clean maintained actions without installing case records or assets', async () => {
+  vi.stubGlobal('fetch', async (url: string) => new Response(new Uint8Array(await readFile('public' + new URL(url, 'https://test.invalid').pathname))));
   const records = await listActionPackages(), assets = await idbGetAllAttachments();
   const templates = await Promise.all(maintainedPackageActions.map(action => maintainedPackageAction(action.id)));
-  expect(templates).toHaveLength(3);
+  expect(templates).toHaveLength(maintainedPackageActions.length);
   for (const template of templates) {
     expect(template.version).toBe(2); expect(template.program.questions.length).toBeGreaterThan(0);
     expect(JSON.stringify(template)).not.toContain('{{');

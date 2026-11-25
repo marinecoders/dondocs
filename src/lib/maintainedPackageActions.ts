@@ -13,6 +13,9 @@ interface ActionListing {
 }
 
 const actions = [
+  { id: 'conditional-release', build: async () => (await import('./recipes/conditionalRelease')).conditionalRelease(),
+    name: 'Conditional release', startLabel: 'Start conditional release', startWithDocuments: true, kind: 'Letter-led',
+    description: 'Prepare an active-duty Marine transfer request for MMSR-2 with DD Form 368, a naval letter and a command endorsement. Keep the decision and final return with the request.' },
   { id: 'administrative-request', build: administrative, name: 'Administrative request', description: 'A forwarding letter and request worksheet, with supporting evidence when needed.', kind: 'Letter-led' },
   { id: 'training-participation', build: training, name: 'Training participation', description: 'Participant worksheets with attendance details and optional cost estimates.', kind: 'Forms-led' },
   { id: 'evidence-submission', build: evidence, name: 'Evidence submission', description: 'A transmittal letter, submission index and original supporting PDF.', kind: 'Mixed evidence' },

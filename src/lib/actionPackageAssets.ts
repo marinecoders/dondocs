@@ -7,8 +7,11 @@ import {
   retainPackageMemberTemplates,
   validatePackageMemberTemplates,
 } from "./actionPackageTemplates";
-import { validatePackageOriginalPdf } from './packageOriginalPdf';
-export { validatePackageOriginalPdf } from './packageOriginalPdf';
+import { validatePackageOriginalPdf as validateOriginal } from './packageOriginalPdf';
+export async function validatePackageOriginalPdf(data: ArrayBuffer) {
+  await validateOriginal(data);
+  return identifyOfficialOriginal(data);
+}
 import type { CapturedDocument } from "./capturedDocument";
 import { copyCapturedDocument } from "./capturedDocument";
 import { buildDraftFileFromSnapshot } from "./draftFile";
@@ -191,8 +194,7 @@ export async function captureOriginalPackageMember(
     throw new Error(
       "Original package members currently support PDF files. Add other editable formats through their native DonDocs draft.",
     );
-  await validatePackageOriginalPdf(file.data);
-  const officialFormId = signedOriginal ? await identifyOfficialOriginal(file.data) : undefined;
+  const officialFormId = await validatePackageOriginalPdf(file.data);
   return {
     id: newPackageId("member"),
     revisionId: newPackageId("member-revision"),
@@ -201,7 +203,7 @@ export async function captureOriginalPackageMember(
     role,
     required: true,
     signedOriginal,
-    ...(officialFormId && { officialFormId }),
+    ...(signedOriginal && officialFormId && { officialFormId }),
     original: await retainPackageAsset(file.name, "application/pdf", file.data),
   };
 }
