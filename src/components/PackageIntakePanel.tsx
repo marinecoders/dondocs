@@ -1,3 +1,4 @@
+import { PackagePdfCompatibility } from './PackagePdfCompatibility';
 import { matchesPackageDestination, type PackageDestinationRequest } from '@/lib/packageDestinations';
 import { PackageRevisionPicker } from './PackageRevisionPicker';
 import { packageRevisionSources } from '@/lib/packageRevisionSources';
@@ -362,6 +363,7 @@ export function PackageIntakePanel({ destination, record, revision, editable, di
               });
             }} /></label>
           {selected && <><p className="break-words">Selected: {selected.name}</p>
+            {'data' in selected && <PackagePdfCompatibility source={selected.data} />}
             {'signedOriginal' in selected && <label className="flex items-start gap-2"><input type="checkbox" disabled={locked} checked={selected.signedOriginal} onChange={event => {
               invalidate(); setAttachments(previous => ({ ...previous, [slot.key]: { ...selected, signedOriginal: event.target.checked } }));
             }} />I mark this original as signed; its signature has not been verified.</label>}

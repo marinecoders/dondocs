@@ -102,7 +102,9 @@ export async function preparePackageDelivery(input: ActionPackage, revisionId: s
       signal.throwIfAborted();
       const asset: PackageAsset = { id: newPackageId('delivery-file'), name, type: 'application/pdf', size: bytes.byteLength, sha256: await portableResourceDigest(bytes) };
       if (taggedNativePdfs && selectedMember.kind === 'native') taggedAssetIds.push(asset.id);
-      members.push({ id: selectedMember.id, revisionId: newPackageId('member-revision'), label: selectedMember.label, role: selectedMember.role, required: selectedMember.required, kind: 'original', signedOriginal, ...(selectedMember.kind === 'original' && selectedMember.officialFormId && { officialFormId: selectedMember.officialFormId }), original: asset }); addAsset({ asset, bytes });
+      const printableCopy = selection.purpose === 'editable' && selectedMember.kind === 'original' ? selectedMember.printableCopy : undefined;
+      if (printableCopy) addAsset({ asset: printableCopy.asset, bytes: await readPackageAsset(printableCopy.asset) });
+      members.push({ ...(printableCopy && { printableCopy }), id: selectedMember.id, revisionId: newPackageId('member-revision'), label: selectedMember.label, role: selectedMember.role, required: selectedMember.required, kind: 'original', signedOriginal, ...(selectedMember.kind === 'original' && selectedMember.officialFormId && { officialFormId: selectedMember.officialFormId }), original: asset }); addAsset({ asset, bytes });
     }
   }
   const revision = { id: newPackageId('revision'), createdAt: Date.now(), members, outputs: [] };

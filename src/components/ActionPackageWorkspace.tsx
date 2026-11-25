@@ -1,3 +1,5 @@
+import { PackagePrintableCopyField } from './PackagePrintableCopyField';
+import { setPackagePrintableCopy } from '@/lib/packagePrintableCopy';
 import { packageEndorsementRoutes } from '@/lib/packageEndorsements';
 import { bindUnsignedFormPdf, checkPackageFormReturn, signingMemberKey } from '@/lib/packageFormReturn';
 import { officialEdition } from '@/services/forms/nativeCatalog';
@@ -1333,7 +1335,10 @@ function PackageDialog({
                             onClick={() => void openMemberSigning(member)}>{signingAction}</Button>}
                         </div>}
                       </header>
-{editable && member.kind === 'original' && revision.requirements?.items.some(rule =>
+                      {member.kind === 'original' && selectedMember?.id === member.id && workspaceSection === 'documents' && <PackagePrintableCopyField
+                        key={member.revisionId} member={member} editable={editable} disabled={busy || pendingPackageEdits}
+                        onChange={file => void run(async () => update(await setPackagePrintableCopy(record, member, file, operation.current?.signal)))} />}
+                      {editable && member.kind === 'original' && revision.requirements?.items.some(rule =>
                         rule.kind === 'document' && rule.memberId === member.id && rule.completion?.reviewedScan) &&
                         <label className="flex items-center gap-2 text-sm"><input type="checkbox" disabled={busy || pendingPackageEdits}
                           checked={member.signatureReviewSha256 === member.original.sha256} onChange={event => {

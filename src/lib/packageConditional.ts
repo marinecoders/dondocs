@@ -590,6 +590,7 @@ async function prepareConditionalPackageContext(input: ConditionalPackageInput, 
         const { verifyRevisionForEvidence } = await import('./packageRequirements');
         await verifyRevisionForEvidence(source, rules, { signal, readAsset: async () => bytes });
         reviews.push(await reviewPackageOriginal(bytes, source.original.name, policy));
+        if (source.printableCopy) reviews.push(await reviewPackageOriginal(await readPackageAsset(source.printableCopy.asset), source.printableCopy.asset.name, policy));
         member = { ...source, ...identity };
         delete member.endorsementLink;
       } else {

@@ -48,7 +48,7 @@ export function packageMemberInputs(member: PackageMember) {
         templates: Object.entries(member.templates ?? {}).sort(([a], [b]) => a.localeCompare(b)).map(([file, value]) => [file, asset(value)]) }) };
 }
 export function packageMemberContent(member: PackageMember) {
-  return member.kind !== 'native' ? { kind: member.kind, sha256: member.original.sha256 }
+  return member.kind !== 'native' ? { kind: member.kind, sha256: member.original.sha256, ...(member.kind === 'original' && member.printableCopy && { printableSha256: member.printableCopy.asset.sha256 }) }
     : { kind: member.kind, sha256: member.draft.sha256, templates: Object.entries(member.templates ?? {}).sort(([a], [b]) => a.localeCompare(b)).map(([file, asset]) => [file, asset.sha256]) };
 }
 export function packageAssemblyInputs(revision: PackageRevision) {

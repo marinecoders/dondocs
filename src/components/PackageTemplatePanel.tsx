@@ -1,3 +1,4 @@
+import { PackagePdfCompatibility } from './PackagePdfCompatibility';
 import { useEffect, useRef, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import type { ActionPackage } from '@/lib/actionPackages';
@@ -153,7 +154,7 @@ export function PackageTemplatePanel({ record, revisionId, busy, run, signal, is
         {fileSlots.map(slot => <div key={slot.key} className="space-y-1 rounded border p-2 text-sm">
           <label className="block">{slot.label} ({slot.required ? 'required PDF' : 'optional PDF'})<input type="file" aria-label={`Fresh PDF for ${slot.label}`} accept=".pdf,application/pdf" className="mt-1 block max-w-full"
             onChange={event => { const file = event.target.files?.[0]; event.target.value = ''; if (file) uploadFile(slot.key, file); }} /></label>
-          {attachments[slot.key] && <><p>{attachments[slot.key].name}</p>{!slot.native && <label className="flex items-start gap-2"><input type="checkbox" checked={attachments[slot.key].signedOriginal}
+          {attachments[slot.key] && <><p>{attachments[slot.key].name}</p>{!slot.native && <PackagePdfCompatibility source={attachments[slot.key].data} />}{!slot.native && <label className="flex items-start gap-2"><input type="checkbox" checked={attachments[slot.key].signedOriginal}
             onChange={event => { const checked = event.target.checked; setAttachments(before => ({ ...before, [slot.key]: { ...before[slot.key], signedOriginal: checked } })); setCreationReviewed(false); }} />This uploaded PDF is a signed original.</label>}
             <Button variant="ghost" onClick={() => { setAttachments(before => Object.fromEntries(Object.entries(before).filter(([key]) => key !== slot.key))); setCreationReviewed(false); }}>Remove uploaded PDF</Button></>}
         </div>)}

@@ -92,6 +92,10 @@ const originalSchema = z
     ...common,
     kind: z.literal("original"),
     original: packageAssetSchema,
+    printableCopy: z.object({
+      sourceSha256: digest,
+      asset: packageAssetSchema.extend({ type: z.literal('application/pdf') }),
+    }).strict().optional(),
     signedOriginal: z.boolean(),
     signatureReviewSha256: z.string().regex(/^[a-f0-9]{64}$/).optional(),
     officialFormId: z.string().max(100).optional(),
@@ -108,7 +112,11 @@ export const packageMemberSchema = z.discriminatedUnion("kind", [
   nativeSchema,
   originalSchema,
   attachmentSchema,
-]);
+]).superRefine((member, ctx) => {
+  if (member.kind === 'original' && member.printableCopy &&
+      (member.printableCopy.sourceSha256 !== member.original.sha256 || member.printableCopy.asset.sha256 === member.original.sha256))
+    ctx.addIssue({ code: 'custom', message: 'The printable copy must be a separate PDF linked to this exact original.' });
+});
 export type PackageMember = z.infer<typeof packageMemberSchema>;
 export type NativePackageMember = Extract<PackageMember, { kind: "native" }>;
 const boundarySchema = z
@@ -574,7 +582,7 @@ export function packageAssets(record: ActionPackage): PackageAsset[] {
   return [...record.revisions, ...(record.reviewRounds ?? []).map(round => round.baseline)].flatMap((revision) => [
     ...revision.members.flatMap((member) =>
       member.kind !== "native"
-        ? [member.original]
+        ? [member.original, ...(member.kind === 'original' && member.printableCopy ? [member.printableCopy.asset] : [])]
         : [member.draft, ...Object.values(member.templates ?? {})],
     ),
     ...revision.outputs.map((output) => output.asset),

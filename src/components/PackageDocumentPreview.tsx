@@ -17,7 +17,10 @@ type Ports = CorrespondenceRendererPorts & { waitForReady(timeoutMs: number): Pr
 export function PackageDocumentPreview({ packageId, revisionId, positionId, formPreview, member, active, ports, exportGate }: {
   packageId: string; revisionId: string; positionId?: string; formPreview?: PackageFormValues; member: PackageMember; active: boolean; ports: Ports; exportGate: ExportGate;
 }) {
-  const owner = `${packageId}:${revisionId}:${member.id}:${member.revisionId}`;
+  const copy = member.kind === 'original' ? member.printableCopy?.asset : undefined;
+  const [showOriginalOf, setShowOriginalOf] = useState('');
+  const printable = copy && showOriginalOf !== member.revisionId ? copy : undefined;
+  const owner = `${packageId}:${revisionId}:${member.id}:${member.revisionId}:${printable?.sha256 ?? 'original'}`;
   const [result, setResult] = useState<{ owner: string; slow?: boolean; url?: string; image?: boolean; text?: string; error?: string }>();
   const [attempt, setAttempt] = useState(0);
   const latestPorts = useRef(ports);
@@ -44,7 +47,7 @@ export function PackageDocumentPreview({ packageId, revisionId, positionId, form
         finally { release(); }
         type = 'application/pdf';
       } else {
-        bytes = await readPackageAsset(member.original);
+        bytes = await readPackageAsset(printable ?? member.original);
         controller.signal.throwIfAborted();
         type = member.original.type;
         if (member.kind === 'original') await reviewPackageOriginal(bytes, member.label, policy);
@@ -64,9 +67,13 @@ export function PackageDocumentPreview({ packageId, revisionId, positionId, form
       setResult({ owner, url, image: type.startsWith('image/') });
     }).catch(cause => { if (current && !controller.signal.aborted) setResult({ owner, error: cause instanceof Error && cause.message.trim() ? cause.message : 'The document preview could not be prepared.' }); }).finally(() => window.clearTimeout(timer));
     return () => { current = false; window.clearTimeout(timer); controller.abort(); if (url) URL.revokeObjectURL(url); setResult(value => value?.owner === owner ? undefined : value); };
-  }, [active, member, owner, attempt, exportGate, formPreview]);
+  }, [active, member, printable, owner, attempt, exportGate, formPreview]);
   const shown = result?.owner === owner ? result : undefined;
   return <section aria-label={`Preview of ${member.label}`} className="min-w-0">
+    {active && copy && <label className="mb-2 block text-sm">Preview file <select className="rounded border bg-background px-2 py-1"
+      value={printable ? 'print' : 'original'} onChange={event => setShowOriginalOf(event.target.value === 'original' ? member.revisionId : '')}>
+      <option value="print">Printable copy · {copy.name}</option><option value="original">Original · {member.kind === 'original' && member.original.name}</option>
+    </select></label>}
     {/* Keep document controls in place when the asynchronous preview arrives. */}
     {active && <div className="h-[68dvh] min-h-80 overflow-hidden rounded-md border">
       {shown?.error ? <div className="h-full space-y-3 overflow-auto bg-muted p-5"><p role="alert" className="break-words text-sm">{shown.error}</p><Button variant="outline" size="sm" onClick={() => setAttempt(value => value + 1)}>Retry preview</Button></div>

@@ -38,7 +38,7 @@ export async function packageInputFingerprint(revision: PackageRevision): Promis
       required: member.required,
       kind: member.kind,
       resources: member.kind !== "native"
-        ? [["original", member.original.sha256]]
+        ? [["original", member.original.sha256], ...(member.kind === 'original' && member.printableCopy ? [["printable", member.printableCopy.asset.sha256]] : [])]
         : [["draft", member.draft.sha256], ...Object.entries(member.templates ?? {})
           .sort(([a], [b]) => a < b ? -1 : a > b ? 1 : 0)
           .map(([name, asset]) => [name, asset.sha256])],
