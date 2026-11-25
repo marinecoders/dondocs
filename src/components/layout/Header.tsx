@@ -113,6 +113,7 @@ export function Header({
   updateAvailable = false,
 }: HeaderProps) {
   const hasEnclosures = useDocumentStore(state => state.enclosures.length > 0 && isOutputFieldActive(state, ['enclosures', 0]));
+  const officialForm = useFormStore(state => !!state.officialPdfEdition) && isFormsMode;
   const canExportWordProofread = useDocumentStore(supportsWordProofread);
   const [taggedPdfOpen, setTaggedPdfOpen] = useState(false);
   const [amhsOpen, setAmhsOpen] = useState<boolean>();
@@ -362,7 +363,7 @@ export function Header({
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuItem onClick={() => { setCapturedSigningId(undefined);setSigningOpen(true); }}>Signing workspace</DropdownMenuItem>
-              {onPrepareSigning && <DropdownMenuItem disabled={isPdfGenerating || !capabilityAvailable(output.pdf)} onClick={onPrepareSigning}>Prepare current draft for signing</DropdownMenuItem>}
+              {onPrepareSigning && <DropdownMenuItem disabled={isPdfGenerating || !capabilityAvailable(output.pdf)} onClick={onPrepareSigning}>{officialForm ? 'Prepare printable copy for signing' : 'Prepare current draft for signing'}</DropdownMenuItem>}
               <DropdownMenuItem
                 onClick={handleDownloadPdf}
                 disabled={isPdfGenerating || !capabilityAvailable(output.pdf)}

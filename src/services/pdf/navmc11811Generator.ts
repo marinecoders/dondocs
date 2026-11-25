@@ -1,5 +1,7 @@
 import { saveGeneratedPdf } from './generatedPdfMetadata';
-import { loadTemplatePage } from './loadTemplatePage';
+import { loadTemplatePage, readRetainedTemplatePage } from './loadTemplatePage';
+import { portableResourceDigest } from '@/lib/portableResources';
+import { PAGE11_PRINTABLE_SHA256 } from '@/services/forms/officialPdfProfiles';
 import { resolveFormSignatures } from '@/lib/signatureAssets';
 import { PDFDocument, PDFName, rgb } from 'pdf-lib';
 import { wrapTextForForm } from './textWrap';
@@ -310,9 +312,11 @@ async function appendSignatureBlocks(
  */
 export async function generateNavmc11811Pdf(
   data: Navmc11811Data,
-  templatePdfBytes: ArrayBuffer | Uint8Array
+  templatePdfBytes: ArrayBuffer | Uint8Array,
+  options?: { officialEdition: true; rejectOverflow?: boolean },
 ): Promise<Uint8Array> {
   data = await resolveFormSignatures(data);
+  if (options?.rejectOverflow) await assertNavmc11811Fits(data, options.officialEdition);
   // Load the template PDF
   const pdfDoc = await PDFDocument.load(templatePdfBytes);
   const page = pdfDoc.getPage(0);
@@ -341,6 +345,8 @@ export async function generateNavmc11811Pdf(
   }
 
   // Fill in left remarks area (with placeholder highlighting)
+  const hasRight = !!data.remarksTextRight;
+  const dateOnRight = options?.officialEdition && hasRight && !data.remarksText;
   let leftEndY = FIELDS.remarks.y;
   if (data.remarksText) {
     const lines = wrapText(data.remarksText, FIELDS.remarks.maxWidth, font, FONT_SIZE);
@@ -351,18 +357,16 @@ export async function generateNavmc11811Pdf(
       y -= FIELDS.remarks.lineHeight;
     }
 
-    // Add date at the end of the entry (2 lines below last text)
-    if (data.entryDate) {
-      y -= FIELDS.remarks.lineHeight; // Extra space
-      drawTextWithHighlights(page, data.entryDate, FIELDS.remarks.x, y, font, FONT_SIZE);
-      y -= FIELDS.remarks.lineHeight;
-    }
     leftEndY = y;
+  }
+  if (data.entryDate && !dateOnRight && (data.remarksText || options?.officialEdition)) {
+    if (data.remarksText) leftEndY -= FIELDS.remarks.lineHeight;
+    drawTextWithHighlights(page, data.entryDate, FIELDS.remarks.x, leftEndY, font, FONT_SIZE);
+    leftEndY -= FIELDS.remarks.lineHeight;
   }
 
   // Fill in right remarks area (continuation) (with placeholder highlighting)
   let rightEndY = FIELDS.remarksRight.y;
-  const hasRight = !!data.remarksTextRight;
   if (data.remarksTextRight) {
     const lines = wrapText(data.remarksTextRight, FIELDS.remarksRight.maxWidth, font, FONT_SIZE);
     let y = FIELDS.remarksRight.y;
@@ -372,6 +376,11 @@ export async function generateNavmc11811Pdf(
       y -= FIELDS.remarksRight.lineHeight;
     }
     rightEndY = y;
+  }
+  if (data.entryDate && dateOnRight) {
+    rightEndY -= FIELDS.remarksRight.lineHeight;
+    drawTextWithHighlights(page, data.entryDate, FIELDS.remarksRight.x, rightEndY, font, FONT_SIZE);
+    rightEndY -= FIELDS.remarksRight.lineHeight;
   }
 
   // Close the entry with its signature blocks — in the column the entry ends in
@@ -432,7 +441,7 @@ function measurementFont(): Promise<PDFFont> {
  * columns are a single physical page — there is no continuation sheet; a
  * longer entry continues in the right column or on a second Page 11).
  */
-export async function computeNavmc11811Fit(data: Navmc11811Data): Promise<Navmc11811Fit> {
+export async function computeNavmc11811Fit(data: Navmc11811Data, officialEdition = false): Promise<Navmc11811Fit> {
   const font = await measurementFont();
   assertInstalledFontText(font, data.remarksText ?? '');
   assertInstalledFontText(font, data.remarksTextRight ?? '');
@@ -447,11 +456,11 @@ export async function computeNavmc11811Fit(data: Navmc11811Data): Promise<Navmc1
   const leftPrinted = Math.min(leftLines, FIELDS.remarks.maxLines);
   const rightPrinted = Math.min(rightLines, FIELDS.remarksRight.maxLines);
 
-  // Close-out placement mirrors the generator: the date follows the left
-  // column's text (2 lines: gap + date); the signature blocks land in the
-  // right column when it has text, else the left.
-  const dateLines = data.remarksText && data.entryDate ? 2 : 0;
+  // The entry date uses one line plus a gap when it follows remarks.
   const sigInRight = !!data.remarksTextRight;
+  const dateOnRight = officialEdition && sigInRight && !data.remarksText;
+  const leftDateLines = data.entryDate && !dateOnRight ? (data.remarksText ? 2 : Number(officialEdition)) : 0;
+  const rightDateLines = data.entryDate && dateOnRight ? 2 : 0;
   const sigLines = signatureBlockLineCount(
     data.signatureBlocks ?? [],
     font,
@@ -459,8 +468,8 @@ export async function computeNavmc11811Fit(data: Navmc11811Data): Promise<Navmc1
     (sigInRight ? FIELDS.remarksRight : FIELDS.remarks).maxWidth
   );
 
-  const leftUsed = leftPrinted + dateLines + (sigInRight ? 0 : sigLines);
-  const rightUsed = rightPrinted + (sigInRight ? sigLines : 0);
+  const leftUsed = leftPrinted + leftDateLines + (sigInRight ? 0 : sigLines);
+  const rightUsed = rightPrinted + rightDateLines + (sigInRight ? sigLines : 0);
 
   return {
     left: {
@@ -478,9 +487,24 @@ export async function computeNavmc11811Fit(data: Navmc11811Data): Promise<Navmc1
   };
 }
 
+export async function assertNavmc11811Fits(data: Navmc11811Data, officialEdition = false): Promise<void> {
+  const fit = await computeNavmc11811Fit(data, officialEdition);
+  if (Object.values(fit).some(column => column.truncated > 0 || column.spillover > 0)) {
+    throw new Error('Shorten the remarks or continue on another Page 11 before downloading.');
+  }
+}
+
 /**
  * Load the NAVMC 118(11) template from the public folder
  */
-export async function loadNavmc11811Template(): Promise<ArrayBuffer> {
-  return loadTemplatePage(`${import.meta.env.BASE_URL}templates/NAVMC11811 - Administrative Remarks/page1.pdf`);
+export async function loadNavmc11811Template(officialEdition = false): Promise<ArrayBuffer> {
+  if (officialEdition) {
+    const retained = await readRetainedTemplatePage(PAGE11_PRINTABLE_SHA256);
+    if (retained) return retained;
+  }
+  const page = await loadTemplatePage(`${import.meta.env.BASE_URL}templates/NAVMC11811 - Administrative Remarks/page1.pdf`);
+  if (officialEdition && await portableResourceDigest(page) !== PAGE11_PRINTABLE_SHA256) {
+    throw new Error('The printable Page 11 template does not match the official edition.');
+  }
+  return page;
 }

@@ -44,12 +44,12 @@ export async function prepareBatchRow(values: Readonly<Record<string, string>>, 
 /** Recovery renders the same approved row; it never repeats substitution or review. */
 export async function renderPreparedBatchRow(ready: ReadyExportJob, ports: CorrespondenceRendererPorts & {
   waitForReady(timeoutMs: number): Promise<boolean>;
-}, signal: AbortSignal) {
+}, signal: AbortSignal, mode: 'editable' | 'printable' = 'editable') {
   for (let attempt = 0; ; attempt++) {
     if (signal.aborted) throw new Error('Export cancelled.');
     try {
       if (ready.job.kind === 'configured-form') return await renderPreparedConfiguredForm(ready, signal);
-      return ready.job.kind === 'builtin-form' ? await renderPreparedBuiltinForm(ready, signal)
+      return ready.job.kind === 'builtin-form' ? await renderPreparedBuiltinForm(ready, signal, mode)
         : await renderPreparedCorrespondence(ready, ports, signal);
     } catch (error) {
       if (signal.aborted || !(error instanceof Error) || error.message !== 'ENGINE_RESET_NEEDED' || attempt >= 2) throw error;

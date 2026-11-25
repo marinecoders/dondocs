@@ -76,7 +76,7 @@ function active(source: DocumentFieldSource, path: FieldPath, projection: FieldP
     if (root === 'docType' || root === 'formType' || root === 'documentCategory') return true;
     if (source.genericForm) return root === 'genericForm';
     if (root !== 'forms') return false;
-    return path.length < 2 || path[1] === 'includeCoverPage' || path[1] === (source.formType === 'navmc_118_11' ? 'navmc11811' : 'navmc10274');
+    return path.length < 2 || path[1] === 'officialPdfEdition' || path[1] === 'includeCoverPage' || path[1] === (source.formType === 'navmc_118_11' ? 'navmc11811' : 'navmc10274');
   }
   if (root === 'forms' || root === 'genericForm') return false;
   const config = owns(DOC_TYPE_CONFIG, source.docType) ? DOC_TYPE_CONFIG[source.docType] : undefined;

@@ -1,3 +1,4 @@
+import { loadOfficialPdfSource, officialPdfProfile } from '@/services/forms/officialPdfProfiles';
 import { loadPackagePage } from '@/services/forms/packages';
 import { copyCapturedDocument, type CapturedDocument } from '@/lib/capturedDocument';
 import { captureFormExportTemplates } from '@/lib/formExportTemplates';
@@ -14,9 +15,14 @@ export async function captureExportFormTemplates(captured: CapturedDocument) {
     for (const page of definition.pages) pages[page.file] = new Uint8Array(await loadPackagePage(definition, page.file));
     return captureFormExportTemplates(content.kind, definition.formId, pages, JSON.stringify(definition));
   }
-  if (content.document.formType === 'navmc_10274') {
-    const pages = await loadNavmc10274Templates();
-    return captureFormExportTemplates(content.kind, content.document.formType, Object.fromEntries(Object.entries(pages).map(([name, bytes]) => [name, new Uint8Array(bytes)])));
-  }
-  return captureFormExportTemplates(content.kind, content.document.formType, { page1: new Uint8Array(await loadNavmc11811Template()) });
+  const { formType, forms } = content.document;
+  const edition = forms.officialPdfEdition;
+  const profile = edition ? officialPdfProfile(formType, edition) : undefined;
+  const [printable, original] = await Promise.all([
+    formType === 'navmc_10274' ? loadNavmc10274Templates() : loadNavmc11811Template(!!profile).then(page1 => ({ page1 })),
+    profile ? loadOfficialPdfSource(profile) : undefined,
+  ]);
+  const pages = Object.fromEntries(Object.entries(printable).map(([name, bytes]) => [name, new Uint8Array(bytes)]));
+  if (original) pages.official = new Uint8Array(original);
+  return captureFormExportTemplates(content.kind, formType, pages);
 }

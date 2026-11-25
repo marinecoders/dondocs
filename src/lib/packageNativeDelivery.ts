@@ -29,7 +29,7 @@ export async function renderPackageRecipientMember(member: NativePackageMember, 
   const ready = prepared.status === 'ready' ? prepared.job : acknowledgePreparedExport(prepared.job);
   if (ready.job.kind === 'correspondence' && !await ports.waitForReady(30_000)) throw new Error('The PDF engine is still starting. Prepare this delivery again when it is ready.');
   const artifact = ready.job.kind === 'configured-form' ? await renderPreparedConfiguredForm(ready, signal)
-    : ready.job.kind === 'builtin-form' ? await renderPreparedBuiltinForm(ready, signal) : await renderPreparedCorrespondence(ready, { ...ports, assets }, signal);
+    : ready.job.kind === 'builtin-form' ? await renderPreparedBuiltinForm(ready, signal, 'printable') : await renderPreparedCorrespondence(ready, { ...ports, assets }, signal);
   if (artifact.completeness !== 'complete') throw new Error(artifact.issues.map(issue => issue.message).join(' '));
   signal.throwIfAborted();
   return { bytes: await artifact.blob.arrayBuffer(), layoutReview: review?.layoutReview ? review : undefined };

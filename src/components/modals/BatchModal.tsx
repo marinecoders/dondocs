@@ -367,7 +367,7 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
     const deliver = context.deliver;
     return runPreparedBatchRow(values, context, {
       resolvePolicy: retry => getExportDeploymentPolicy(undefined, retry || context.retryPolicy === true), captureResources: captureExportFormTemplates,
-      render: (ready, signal) => renderPreparedBatchRow(ready, { compile, waitForReady, convertDocx: async () => { throw new Error('Batch output is PDF only.'); } }, signal),
+      render: (ready, signal) => renderPreparedBatchRow(ready, { compile, waitForReady, convertDocx: async () => { throw new Error('Batch output is PDF only.'); } }, signal, context.preview ? 'printable' : 'editable'),
       retainForRetry: !!deliver,
       deliver: deliver ? async artifact => { await deliver(new Uint8Array(await artifact.blob.arrayBuffer())); } : undefined,
       onActiveChange: rowActive => useBatchStore.setState({ rowActive }),
@@ -390,7 +390,10 @@ export function BatchModal({ compile, isEngineReady, waitForReady }: BatchModalP
     setPreviewingRow(row.id);
     setPreviewError(null);
     try {
-      const pdf = row.outputId ? await getBatchOutput(row.outputId) : await generatePdfForRow(row.values, { source: structuredClone(useBatchStore.getState().source ?? getSerializedSession()), batchId: `preview-${row.id}-${Date.now()}`, preview: true, retryPolicy: true, rowId: row.id, filename: batchRowFilename(row, detectedPlaceholders), capturedAt: Date.now() });
+      const previewSource = useBatchStore.getState().source ?? getSerializedSession();
+      // The browser PDF viewer cannot display the saved official XFA output.
+      const useSavedPdf = row.outputId && !previewSource.forms?.officialPdfEdition;
+      const pdf = useSavedPdf ? await getBatchOutput(row.outputId!) : await generatePdfForRow(row.values, { source: structuredClone(previewSource), batchId: `preview-${row.id}-${Date.now()}`, preview: true, retryPolicy: true, rowId: row.id, filename: row.filename ?? batchRowFilename(row, detectedPlaceholders), capturedAt: Date.now() });
       if (!pdf) throw new Error('The saved result is unavailable. Keep your downloaded copy.');
       if (generation !== previewRequest.current || !useUIStore.getState().batchModalOpen || JSON.stringify(useBatchStore.getState().rows.find(candidate => candidate.id === row.id)?.values) !== rowValues) return;
       const blob = new Blob([new Uint8Array(pdf)], { type: 'application/pdf' });

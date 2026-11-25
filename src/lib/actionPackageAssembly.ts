@@ -663,7 +663,7 @@ async function renderMemberBytes(memberInput: MemberInput, revisionId: string, p
             ready.job.kind === "configured-form"
               ? await renderPreparedConfiguredForm(ready, signal)
               : ready.job.kind === "builtin-form"
-                ? await renderPreparedBuiltinForm(ready, signal)
+                ? await renderPreparedBuiltinForm(ready, signal, 'printable')
                 : await renderPreparedCorrespondence(ready, renderPorts, signal);
         } catch (cause) {
           if (

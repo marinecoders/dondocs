@@ -1,4 +1,5 @@
 import { captureDocumentRevision } from '@/lib/capturedDocument';
+import { officialPdfForms } from '@/services/forms/officialPdfProfiles';
 import { createBlankSession, prepareSessionState } from '@/stores/documentStore';
 import type { PackageSearchScope } from './PackageSearchPanel';
 import { configuredApprovalOrigin } from '@/lib/packageApprovalOrigin';
@@ -1085,6 +1086,14 @@ function PackageDialog({
                     })}>
                       Add coordination page
                     </Button>
+                    {officialPdfForms.map(form => <Button key={form.id} variant="outline" onClick={() => void run(async () => {
+                      const session = createBlankSession(form.id);
+                      const captured = captureDocumentRevision({
+                        documentId: crypto.randomUUID(), epoch: 0, editSequence: 0, capturedAt: session.timestamp,
+                      }, prepareSessionState(session));
+                      const member = await capturePackageMember(captured, form.label, role);
+                      await modify([...revision.members, member]);
+                    })}>Add {form.label}</Button>)}
                     <label className="cursor-pointer rounded border p-2 text-sm">
                       Add original PDF
                       <input

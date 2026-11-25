@@ -61,7 +61,7 @@ const COMMON_FORM_VARS = ['NAME', 'DATE'];
 
 
 export function Form11811Section() {
-  const { navmc11811, setNavmc11811Field } = useFormStore();
+  const { navmc11811, setNavmc11811Field, officialPdfEdition } = useFormStore();
   const [openingRebuttal, setOpeningRebuttal] = useState(false);
   const startRebuttal = async () => {
     const scope = captureDocumentScope();
@@ -146,7 +146,7 @@ export function Form11811Section() {
   useEffect(() => {
     let cancelled = false;
     const t = setTimeout(() => {
-      computeNavmc11811Fit(navmc11811).then(
+      computeNavmc11811Fit(navmc11811, !!officialPdfEdition).then(
         (f) => !cancelled && setFit(f),
         () => !cancelled && setFit(null)
       );
@@ -155,7 +155,7 @@ export function Form11811Section() {
       cancelled = true;
       clearTimeout(t);
     };
-  }, [navmc11811]);
+  }, [navmc11811, officialPdfEdition]);
   const overflowMessages: string[] = [];
   if (fit) {
     if (fit.left.truncated > 0)
@@ -172,7 +172,9 @@ export function Form11811Section() {
       );
     if (fit.right.spillover > 0 && fit.right.truncated === 0)
       overflowMessages.push(
-        'The signature blocks run past the bottom of the right column — shorten the entry.'
+        officialPdfEdition
+          ? 'The entry date or signature blocks run past the bottom of the right column — shorten the entry.'
+          : 'The signature blocks run past the bottom of the right column — shorten the entry.'
       );
   }
 
@@ -399,11 +401,11 @@ export function Form11811Section() {
                           Use profile
                         </Button>
                       </div>
-                      <SignatureStylePicker
+                      {!officialPdfEdition && <SignatureStylePicker
                         block={block}
                         index={index}
                         onChange={(patch) => setSignatureBlock(index, patch)}
-                      />
+                      />}
                     </div>
                   </SortableSignatureItem>
                 ))}

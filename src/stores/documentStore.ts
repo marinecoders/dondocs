@@ -9,6 +9,7 @@ import { projectSharedSession, serializeDocumentSnapshot } from '@/lib/documentS
 import { manualFrontMatterSchema } from '@/data/techpub/manualFrontMatter';
 import { sl4Schema } from '@/data/techpub/sl4';
 import { sl3Schema } from '@/data/techpub/sl3';
+import { officialPdfProfile } from '@/services/forms/officialPdfProfiles';
 import { type FormInstance } from '@/services/forms/model';
 import { withoutTableFootnote } from '@/lib/tableFootnotes';
 import { create } from 'zustand';
@@ -1160,7 +1161,9 @@ export function createBlankSession(formType?: FormType, docType = 'naval_letter'
     paragraphs: category === 'forms' || docType === 'coordination_page' ? [] : freshParagraphs(DEFAULT_PARAGRAPHS),
     copyTos: [],
     distributions: [], endItems: [], publicationTables: {}, timestamp: Date.now(),
-    ...(category === 'forms' ? { forms: prepareFormSession(formType!) } : {}),
+    ...(formType ? { forms: prepareFormSession(formType, {
+      includeCoverPage: false, officialPdfEdition: officialPdfProfile(formType)?.edition,
+    }) } : {}),
   };
 }
 
